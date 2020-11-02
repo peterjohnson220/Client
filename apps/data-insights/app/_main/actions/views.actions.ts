@@ -1,6 +1,8 @@
 import { Action } from '@ngrx/store';
 
-import { Workbook, SaveReportOrderData, DashboardView } from '../models';
+import { Workbook } from 'libs/features/reports/models';
+
+import { SaveReportOrderData, DashboardView } from '../models';
 
 export const REFRESH_TABLEAU_REPORTS = '[Data Insights / Views] Refresh Tableau Reports';
 export const REFRESH_TABLEAU_REPORTS_SUCCESS = '[Data Insights / Views] Refresh Tableau Reports Success';

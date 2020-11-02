@@ -9,7 +9,7 @@ export interface TilePreviewList extends TilePreviewBase {
   MainButtonUrl: string;
   ShowColumnHeadings: boolean;
   DetailData: any;
-  IsMarketingTile: boolean;
+  MarketingEnabled: boolean;
 }
 
 export function generateTilePreviewListFromTile(tile: Tile): TilePreviewList {
@@ -30,7 +30,7 @@ export function generateTilePreviewListFromTile(tile: Tile): TilePreviewList {
     ShowColumnHeadings: ShowColumnHeadings,
     DetailData: detailData,
     PreviewType: tile.PreviewType,
-    IsMarketingTile: tile.MarketingEnabled
+    MarketingEnabled: tile.MarketingEnabled
   };
 }
 

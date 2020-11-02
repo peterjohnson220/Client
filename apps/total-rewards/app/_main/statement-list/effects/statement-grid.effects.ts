@@ -9,10 +9,10 @@ import { TotalRewardsApiService } from 'libs/data/payfactors-api/total-rewards';
 import { StatementListResponse } from 'libs/models/payfactors-api/total-rewards/response';
 import { GridTypeEnum } from 'libs/models/common';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
+import { StatementListViewModel } from 'libs/features/total-rewards/total-rewards-statement/models';
 
 import * as fromStatementGridActions from '../actions/statement-grid.actions';
 import * as fromTotalRewardsReducer from '../reducers';
-import { StatementListViewModel } from '../../../shared/models';
 
 @Injectable()
 export class StatementGridEffects {

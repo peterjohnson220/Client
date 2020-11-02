@@ -3,8 +3,7 @@ import { Component, Input, ChangeDetectionStrategy, ViewChild, OnDestroy } from 
 import cloneDeep from 'lodash/cloneDeep';
 
 import { InputDebounceComponent } from 'libs/forms/components/input-debounce';
-
-import { Workbook, View } from '../../models';
+import { View, Workbook } from 'libs/features/reports/models';
 
 @Component({
   selector: 'pf-workbook-views',

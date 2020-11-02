@@ -1,6 +1,6 @@
 <pf-data-grid [reorderable]="true"
               [pageViewId]="pageViewId"
-              [title]="company.Name"
+              [title]="company.Id === null ? userContext.CompanyName : company.Name"
               [selectionField]="'CompanyEmployee_ID'"
               [filterPanelTemplates]="filterTemplates"
               [inboundFilters]="filters"

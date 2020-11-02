@@ -3,3 +3,11 @@ export interface SystemUserGroupsResponse {
   GroupName: string;
   DisplayName: string;
 }
+
+export function generateMockSystemUserGroupsResponse(): SystemUserGroupsResponse {
+  return {
+    SystemUserGroupsId: 1,
+    GroupName: 'MockGroup',
+    DisplayName: 'MockGroup'
+  };
+}

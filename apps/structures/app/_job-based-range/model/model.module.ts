@@ -25,6 +25,7 @@ import { ModelPageComponent } from './model.page';
 import { ModelRoutingModule } from './model-routing.module';
 import { SharedModule } from '../shared/shared.module';
 import { StructuresSearchFilterMappingDataObj, StructuresJobSearchUserFilterType } from '../shared/data';
+import { CompareJobBasedRangeChartComponent } from './containers/compare-job-based-range-chart/compare-job-based-range-chart.component';
 
 @NgModule({
   imports: [
@@ -63,7 +64,8 @@ import { StructuresSearchFilterMappingDataObj, StructuresJobSearchUserFilterType
     ModelPageComponent,
     AddJobsModalWrapperComponent,
     PublishModelModalComponent,
-    JobBasedRangeChartComponent
+    JobBasedRangeChartComponent,
+    CompareJobBasedRangeChartComponent
   ],
   providers: [
     WindowRef,

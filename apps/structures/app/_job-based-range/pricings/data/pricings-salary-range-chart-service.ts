@@ -121,7 +121,8 @@ export class PricingsSalaryRangeChartService {
         series: {
           events: {
             legendItemClick: function (event) {
-              if (event.target.userOptions.name === PricingsSalaryRangeChartService.getFormattedSeriesName(PricingsSalaryRangeChartSeries.SalaryRangeQuartileFirst)) {
+              const formattedChartSeriesName = PricingsSalaryRangeChartService.getFormattedSeriesName(PricingsSalaryRangeChartSeries.SalaryRangeQuartileFirst);
+              if (event.target.userOptions.name === formattedChartSeriesName) {
                 if (event.target.chart.yAxis[0].series[PricingsSalaryRangeChartSeries.SalaryRangeQuartileFirst].visible) {
                   event.target.chart.yAxis[0].series[PricingsSalaryRangeChartSeries.SalaryRangeQuartileFirst].hide();
                   event.target.chart.yAxis[0].series[PricingsSalaryRangeChartSeries.SalaryRangeQuartileSecond].hide();
@@ -159,7 +160,7 @@ export class PricingsSalaryRangeChartService {
           animation: false,
           color: rangeDistributionTypeId !== RangeDistributionTypeIds.Quartile ? 'rgb(174,210,238)' : 'transparent',
           enableMouseTracking: false,
-          pointWidth: 60,
+          pointWidth: 61,
           stacking: 'normal',
           borderRadius: 0,
           showInLegend: rangeDistributionTypeId === RangeDistributionTypeIds.MinMidMax
@@ -170,7 +171,7 @@ export class PricingsSalaryRangeChartService {
           animation: false,
           color: 'rgb(210,230,246)',
           enableMouseTracking: false,
-          pointWidth: 60,
+          pointWidth: 61,
           stacking: 'normal',
           borderRadius: 0,
           showInLegend: rangeDistributionTypeId === RangeDistributionTypeIds.Tertile
@@ -181,7 +182,7 @@ export class PricingsSalaryRangeChartService {
           animation: false,
           color: 'rgb(210,230,246)',
           enableMouseTracking: false,
-          pointWidth: 60,
+          pointWidth: 61,
           stacking: 'normal',
           borderRadius: 0,
           showInLegend: rangeDistributionTypeId === RangeDistributionTypeIds.Quintile
@@ -192,7 +193,7 @@ export class PricingsSalaryRangeChartService {
           animation: false,
           color: 'rgb(174,210,238)',
           enableMouseTracking: false,
-          pointWidth: 60,
+          pointWidth: 61,
           stacking: 'normal',
           borderRadius: 0,
           showInLegend: rangeDistributionTypeId === RangeDistributionTypeIds.Quartile
@@ -203,7 +204,7 @@ export class PricingsSalaryRangeChartService {
           animation: false,
           color: 'rgb(210,230,246)',
           enableMouseTracking: false,
-          pointWidth: 60,
+          pointWidth: 61,
           stacking: 'normal',
           borderRadius: 0,
           showInLegend: false
@@ -214,7 +215,7 @@ export class PricingsSalaryRangeChartService {
           animation: false,
           color: 'rgb(174,210,238)',
           enableMouseTracking: false,
-          pointWidth: 60,
+          pointWidth: 61,
           stacking: 'normal',
           borderRadius: 0,
           showInLegend: false
@@ -225,7 +226,7 @@ export class PricingsSalaryRangeChartService {
           animation: false,
           color: 'rgb(210,230,246)',
           enableMouseTracking: false,
-          pointWidth: 60,
+          pointWidth: 61,
           stacking: 'normal',
           borderRadius: 0,
           showInLegend: false

@@ -12,7 +12,7 @@ import {PayfactorsApiService} from 'libs/data/payfactors-api/payfactors-api.serv
 import {toggleStateAnimation} from '../../animations/toggle-animations';
 import {BaseBulkAddUsersTogglePanelComponent} from '../base-bulk-add-users-toggle-panel';
 import * as fromBulkAddUsersReducer from '../../reducers';
-import {PanelState} from '../base-toggle-panel';
+import {PanelState} from '../base-toggle-panel.directive';
 import * as fromUserBulkAddActions from '../../actions/user-bulk-add.action';
 import {BaseUrlLocation} from '../../../../../../../libs/models/payfactors-api/common/base-url-location.enum';
 

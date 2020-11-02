@@ -1,5 +1,8 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
-import { ReportType, SearchResult } from '../../models';
+
+import { ReportType } from 'libs/features/reports/models';
+
+import { SearchResult } from '../../models';
 
 @Component({
   selector: 'pf-search-workbook-result',

@@ -1,8 +1,7 @@
 import { Action } from '@ngrx/store';
 
 import { SharedUserPermission } from 'libs/models/payfactors-api/reports/request';
-
-import { UserDataView, SharedDataViewUser } from '../models';
+import { UserDataView, SharedDataViewUser } from 'libs/features/formula-editor';
 
 export const GET_USER_DATA_VIEW = '[Data Insights / Data View] Get User Data View';
 export const GET_USER_DATA_VIEW_SUCCESS = '[Data Insights / Data View] Get User Data View Success';

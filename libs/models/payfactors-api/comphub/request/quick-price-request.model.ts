@@ -1,5 +1,10 @@
 import { PagingOptions } from '../../search/request';
 
+export interface QuickPriceBaseRequest {
+  CompanyPaymarketId?: number;
+  CountryCode: string;
+}
+
 export interface QuickPriceRequest extends QuickPriceBaseRequest {
   JobTitleShort: string;
   PagingOptions: PagingOptions;
@@ -13,9 +18,4 @@ export interface QuickPriceJobDataRequest extends QuickPriceBaseRequest {
 export interface SortOption {
   Field: string;
   Dir: string;
-}
-
-export interface QuickPriceBaseRequest {
-  CompanyPaymarketId?: number;
-  CountryCode: string;
 }

@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Data Insights - Report View Page Component should match snapshot 1`] = `
+<pf-report-view-page
+  reportTitle={[Function String]}
+  route={[Function Object]}
+  viewName={[Function String]}
+  viewType="0"
+  workbookId={[Function String]}
+  workbookName={[Function String]}
+>
+  <pf-page-with-title-bar>
+    
+    Salary Structures
+    
+    <pf-report-view />
+  </pf-page-with-title-bar>
+</pf-report-view-page>
+`;

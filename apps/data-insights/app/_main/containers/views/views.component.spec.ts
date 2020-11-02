@@ -7,11 +7,12 @@ import * as fromRootState from 'libs/state/state';
 import { generateDefaultAsyncStateObj } from 'libs/models';
 import { ReportOrderType } from 'libs/constants';
 import { SettingsService } from 'libs/state/app-context/services';
+import { generateMockView, generateMockWorkbook } from 'libs/features/reports/models';
 
 import * as fromViewsActions from '../../actions/views.actions';
 import * as fromDataInsightsMainReducer from '../../reducers';
 import { ViewsComponent } from './views.component';
-import { generateMockView, generateMockWorkbook, SaveReportOrderData, DashboardView } from '../../models';
+import { SaveReportOrderData, DashboardView } from '../../models';
 
 describe('Data Insights - Views Component', () => {
   let instance: ViewsComponent;

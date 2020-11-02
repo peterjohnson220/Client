@@ -1,11 +1,7 @@
 <button *ngIf="!mapped && ((applyingMapping && selectedMapping) || (!applyingMapping))"
-        class="btn btn-sm btn-outline-primary"
-        [ngClass]="{
-                'btn-outline-primary': !selectedMapping || applyingMappingError,
-                'btn-primary': selectedMapping && !applyingMappingError
-               }"
+        class="associate"
         (click)="handleApplyMappingClicked()">
-
+  <fa-icon icon="exchange"></fa-icon>
   <span *ngIf="(!applyingMapping && !applyingMappingError) || (applyingMappingError && !selectedMapping)">
     Match
   </span>

@@ -4,11 +4,11 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Store, StoreModule, combineReducers } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
+import { generateMockWorkbook } from 'libs/features/reports/models';
 
 import * as fromDataInsightsMainReducer from '../../../reducers';
 import * as fromDashboardsActions from '../../../actions/dashboards.actions';
 import { WorkbookCardComponent } from './workbook-card.component';
-import { generateMockWorkbook } from '../../../models';
 
 describe('Data Insights - Workbook Card Component', () => {
   let instance: WorkbookCardComponent;

@@ -41,7 +41,8 @@
     <pf-typeahead #typeaheadComponent
       [apiEndpoint]="buildApiEndpoint()"
       [apiResponsePropertyForTypeahead]="'Value'"
-      [ngModel]="roleDataRestriction.DataValue"
+      [isJobsUdfOrJobFamily]="isJobsUdfOrJobFamily()"
+      [ngModel]="dataValue"
       (valueChanged)="roleDataRestrictionChanged.emit({property: 'DataValue', value: $event})"
       [automationClassName]="'txt-restrictionTypeahead'"
     ></pf-typeahead>

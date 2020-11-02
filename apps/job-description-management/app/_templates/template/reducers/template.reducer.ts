@@ -21,6 +21,7 @@ export interface State {
   errorMessage: string;
   saveError: SaveError;
   assigningError: string;
+  discardDraft: boolean;
 }
 
 const initialState: State = {
@@ -36,7 +37,8 @@ const initialState: State = {
   summary: null,
   loadingSummary: false,
   errorMessage: '',
-  assigningError: ''
+  assigningError: '',
+  discardDraft: false
 };
 
 export function reducer(state = initialState, action: fromTemplateActions.TemplateActions): State {
@@ -98,7 +100,8 @@ export function reducer(state = initialState, action: fromTemplateActions.Templa
         ...state,
         loading: true,
         error: false,
-        saveError: null
+        saveError: null,
+        discardDraft: false
       };
     case fromTemplateActions.LOAD_TEMPLATE_SUCCESS:
       return {
@@ -198,6 +201,11 @@ export function reducer(state = initialState, action: fromTemplateActions.Templa
     }
     case fromTemplateActions.CLEAN_TEMPLATE_STATE:
       return initialState;
+    case fromTemplateActions.DISCARD_TEMPLATE_DRAFT:
+      return {
+        ...state,
+        discardDraft: true
+      };
     default:
       return state;
   }
@@ -216,3 +224,4 @@ export const getTemplateErrorMessage = (state: State) => state.errorMessage;
 export const getTemplateSaveError = (state: State) => state.saveError;
 export const getTemplateAssigningError = (state: State) => state.assigningError;
 export const getLoadingSummary = (state: State) => state.loadingSummary;
+export const getTemplateDiscardDraft =  (state: State) => state.discardDraft;

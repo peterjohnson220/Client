@@ -6,10 +6,11 @@ import { Store, select } from '@ngrx/store';
 import { SettingsService } from 'libs/state/app-context/services';
 import { CompanySettingsEnum, AsyncStateObj } from 'libs/models';
 import { Permissions } from 'libs/constants';
+import { Entity } from 'libs/features/formula-editor';
 
 import * as fromSharedMainReducer from '../../../_shared/reducers';
 import * as fromBaseDataViewModalActions from '../../../_shared/actions/base-data-view-modal.actions';
-import { Entity } from '../../../_shared/models';
+
 
 import * as fromDashboardsActions from '../../actions/dashboards.actions';
 import * as fromDataInsightsMainReducer from '../../reducers';

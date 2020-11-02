@@ -1,0 +1,17 @@
+<div class="text-center">
+  <h3 class="d-inline-block mw-100">
+    <pf-string-editor
+      [maxCharacters]="30"
+      [value]="controlData.Title.Override"
+      [placeholder]="controlData.Title.Default"
+      [showIcon]="'onHover'"
+      [inEditMode]="getIsEditMode()"
+      (valueChange)="handleTitleChanged($event)"
+    >
+    </pf-string-editor>
+  </h3>
+  <h4 *ngIf="getIsEditMode()">{{getEditValue()}}</h4>
+  <h4 *ngIf="!getIsEditMode()" [ngClass]="getIsPreviewMode() ? 'preview-mode-animation' : '' ">
+    {{getSumOfCalculationControls()}}
+  </h4>
+</div>

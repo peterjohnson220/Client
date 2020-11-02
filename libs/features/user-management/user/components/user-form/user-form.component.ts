@@ -1,16 +1,16 @@
-  import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
 import {BehaviorSubject, forkJoin, Observable} from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 
-import { PfValidators, PfEmailValidators, PfEmailTakenValidator, ValidationRules } from 'libs/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
+import { PfValidators, PfEmailValidators, PfEmailTakenValidator, PfPasswordValidators } from 'libs/forms';
 import { GenericMenuItem, SubsidiaryInfo, UserAssignedRole } from 'libs/models';
 import { UserManagementDto } from 'libs/models/payfactors-api/user';
 import { UserApiService } from 'libs/data/payfactors-api';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Field } from '../../../../../../apps/data-insights/app/_data-view/models';
-import { PfPasswordValidators } from 'libs/forms/validators/pf-password-validators';
+import { Field } from 'libs/features/formula-editor';
 
 @Component({
   selector: 'pf-user-form',
@@ -183,7 +183,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
     if (this.user.LastLogin) {
       return null;
     } else {
-      return this.f.password.value;
+      return this.f?.password?.value;
     }
   }
 

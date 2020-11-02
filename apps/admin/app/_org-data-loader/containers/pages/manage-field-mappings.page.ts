@@ -32,7 +32,8 @@ import {
 import { OrgDataLoaderConfigurationSaveRequest } from 'libs/models/data-loads/request';
 import { ConfigSetting } from 'libs/models/security';
 import { SftpUserModel } from 'libs/models/Sftp';
-import { ConfigSettingsSelectorFactory, SettingsService } from 'libs/state/app-context/services';
+import { ConfigSettingsSelectorFactory} from 'libs/state/app-context/services';
+import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
 
 import * as fromOrgDataAutoloaderReducer from '../../reducers';
 import * as fromOrgDataFieldMappingsActions from '../../actions/org-data-field-mappings.actions';
@@ -54,6 +55,8 @@ import { ACCEPTED_FILE_EXTENSIONS } from '../../constants/public-key-filename-co
 })
 export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
   @ViewChild('companySelector') companySelector: CompanySelectorComponent;
+
+  benefitsLoaderFeatureFlag: RealTimeFlag = { key: FeatureFlags.BenefitsLoaderConfiguration, value: false };
   env = environment;
   payfactorsPaymarketDataFields: string[];
   payfactorsJobDataFields: string[];
@@ -86,6 +89,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
   isStructuresLoadEnabled: boolean;
   isStructureMappingsLoadEnabled: boolean;
   isEmployeesFullReplace: boolean;
+  isBenefitsFullReplace: boolean;
   isStructureMappingsFullReplace: boolean;
   isSubsidiariesLoadEnabled: boolean;
   isBenefitsLoadEnabled: boolean;
@@ -104,7 +108,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
   emailRecipientsModalOpen$: Observable<boolean>;
   private configurationGroups$: Observable<ConfigurationGroup[]>;
   selectedConfigGroup: ConfigurationGroup;
-  private unsubscribe$ = new Subject();
+  private unsubscribe$ = new Subject<void>();
   loadType = LoadTypes.Sftp;
   primaryCompositeDataLoadType = CompositeDataLoadTypes.OrgData;
   sftpUserName$: Observable<string>;
@@ -120,6 +124,8 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
   private emailRecipients: EmailRecipientModel[];
   private sftpUserNameIsValid: boolean;
   private selectedCompanySetting$: Observable<CompanySetting[]>;
+  public hasBenefitsAccess = false;
+  selectedCompanyBenefits$: Observable<boolean>;
 
   private toastOptions: NotificationSettings = {
     animation: {
@@ -183,6 +189,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
     private configSettingsSelectorFactory: ConfigSettingsSelectorFactory,
     private companySettingsApiService: CompanySettingsApiService,
     private cdr: ChangeDetectorRef,
+    private featureFlagService: AbstractFeatureFlagService
   ) {
     this.payfactorsPaymarketDataFields = ORG_DATA_PF_PAYMARKET_FIELDS;
     this.payfactorsJobDataFields = ORG_DATA_PF_JOB_FIELDS;
@@ -202,6 +209,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
 
     this.companies$ = this.store.select(fromCompanyReducer.getCompanies);
     this.selectedCompany$ = this.store.select(fromCompanyReducer.getSelectedCompany);
+    this.selectedCompanyBenefits$ = this.store.select(fromCompanyReducer.companyHasBenefits);
     this.companyMappings$ = this.store.select(fromOrgDataAutoloaderReducer.getFieldMappings);
     this.companyMappingsLoading$ = this.store.select(fromOrgDataAutoloaderReducer.getLoadingFieldMappings);
     this.emailRecipients$ = this.store.select(fromOrgDataAutoloaderReducer.getEmailRecipients);
@@ -234,6 +242,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
     this.isStructuresLoadEnabled = false;
     this.isStructureMappingsLoadEnabled = false;
     this.isEmployeesFullReplace = true;
+    this.isBenefitsFullReplace = true;
     this.isStructureMappingsFullReplace = true;
     this.isSubsidiariesLoadEnabled = false;
     this.isBenefitsLoadEnabled = false;
@@ -242,6 +251,8 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
       clientFileName: true,
       selectFile: true
     };
+
+    this.featureFlagService.bindEnabled(this.benefitsLoaderFeatureFlag, this.unsubscribe$);
 
     this.loaderSettingsLoading$.pipe(
       takeUntil(this.unsubscribe$)
@@ -266,11 +277,19 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
     ).subscribe(f => {
       this.selectedCompany = f;
       if (f) {
+        this.store.dispatch(new fromCompanySelectorActions.CompanyHasBenefits());
         this.companySelector.isDisabled = true;
         this.getSelectedCompanySetting();
         this.CompanySelected();
         this.cdr.detectChanges();
       }
+    });
+
+    this.selectedCompanyBenefits$.pipe(
+      filter(uc => !!uc),
+      takeUntil(this.unsubscribe$)
+    ).subscribe(f => {
+      this.hasBenefitsAccess = f;
     });
 
     this.companies$.pipe(
@@ -302,6 +321,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
         this.isStructuresLoadEnabled = resp.isStructuresLoadEnabled;
         this.isStructureMappingsLoadEnabled = resp.isStructureMappingsLoadEnabled;
         this.isEmployeesFullReplace = resp.isEmployeesFullReplace;
+        this.isBenefitsFullReplace = resp.isBenefitsFullReplace;
         this.isStructureMappingsFullReplace = resp.isStructureMappingsFullReplace;
         this.isSubsidiariesLoadEnabled = resp.isSubsidiariesLoadEnabled;
         this.isBenefitsLoadEnabled = resp.isBenefitsLoadEnabled;
@@ -383,7 +403,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromCompanySelectorActions.GetCompanies());
   }
   ngOnDestroy(): void {
-    this.unsubscribe$.next(true);
+    this.unsubscribe$.next();
   }
 
   onPaymarketMappingComplete($event: LoaderEntityStatus) {
@@ -424,6 +444,8 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
     if (this.benefitMappingComplete) {
       this.addOrReplaceMappings('Benefits', $event.mappings);
     }
+
+    this.isBenefitsFullReplace = $event.isFullReplace;
   }
 
   onStructureMappingMappingComplete($event: LoaderEntityStatus) {
@@ -553,6 +575,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
     newLoaderSettings.isBenefitsLoadEnabled = this.isBenefitsLoadEnabled;
     newLoaderSettings.isStructureMappingsLoadEnabled = this.isStructureMappingsLoadEnabled;
     newLoaderSettings.isEmployeesFullReplace = this.isEmployeesFullReplace;
+    newLoaderSettings.isBenefitsFullReplace = this.isBenefitsFullReplace
     newLoaderSettings.isStructureMappingsFullReplace = this.isStructureMappingsFullReplace;
     newLoaderSettings.fileFormat = LoaderFileFormat.CSV;
 
@@ -623,7 +646,9 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
       || !this.structureMappingComplete
       || !this.structureMappingMappingComplete
       || !this.employeeMappingComplete
-      || !this.subsidiariesMappingComplete);
+      || !this.subsidiariesMappingComplete
+      || ((this.hasBenefitsAccess && this.benefitsLoaderFeatureFlag.value) && !this.benefitMappingComplete)
+    );
 
     const part2 = this.delimiter === '';
     const part3 = this.emailRecipients.length === 0;

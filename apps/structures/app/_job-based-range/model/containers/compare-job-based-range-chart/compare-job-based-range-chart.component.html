@@ -1,0 +1,7 @@
+<highcharts-chart [ngClass]="groupFieldSelected ? 'rangeChartWithGroup' : 'rangeChart'"
+                  [Highcharts]="Highcharts"
+                  [constructorType]="chartConstructor"
+                  [options]="chartOptions"
+                  [(update)]="updateFlag"
+                  (chartInstance)="rangeChartCallback($event)"
+></highcharts-chart>

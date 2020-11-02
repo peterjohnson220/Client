@@ -154,7 +154,7 @@ export class SsoConfigModalComponent implements OnInit, OnDestroy {
   metadataFileChange(e) {
     this.metadataFile = e.target.files[0];
     const fileReader = new FileReader();
-    fileReader.onload =  (e) => {
+    fileReader.onload =  () => {
       this.xmlMetadata = fileReader.result.toString();
     };
     fileReader.readAsText(this.metadataFile);
@@ -163,7 +163,7 @@ export class SsoConfigModalComponent implements OnInit, OnDestroy {
   certificateFileChange(e) {
     this.certificateFile = e.target.files[0];
     const fileReader = new FileReader();
-    fileReader.onload =  (e) => {
+    fileReader.onload =  () => {
       this.xmlCertificate = fileReader.result.toString();
     };
     fileReader.readAsText(this.certificateFile);

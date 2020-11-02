@@ -3,7 +3,7 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { Store } from '@ngrx/store';
 
-import { JobDescriptionInfoHeaderBase } from '../job-description-info-header-base';
+import { JobDescriptionInfoHeaderBaseDirective } from '../job-description-info-header-base.directive';
 import { JobDescriptionAppliesToItem } from 'libs/features/job-description-management/models';
 import * as fromJobDescriptionAppliesToReducers from 'libs/features/job-description-management/reducers';
 
@@ -12,7 +12,7 @@ import * as fromJobDescriptionAppliesToReducers from 'libs/features/job-descript
   templateUrl: './job-description-info-header-with-logo.component.html',
   styleUrls: ['./job-description-info-header-with-logo.component.scss']
 })
-export class JobDescriptionInfoHeaderWithLogoComponent extends JobDescriptionInfoHeaderBase implements OnInit, OnDestroy {
+export class JobDescriptionInfoHeaderWithLogoComponent extends JobDescriptionInfoHeaderBaseDirective implements OnInit, OnDestroy {
   appliesToItemsSubscription: Subscription;
   jobDescriptionAppliesToItems: JobDescriptionAppliesToItem[];
   publicBaseUrl: string;

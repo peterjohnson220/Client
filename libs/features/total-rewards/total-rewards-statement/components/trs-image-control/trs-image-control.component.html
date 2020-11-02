@@ -1,0 +1,29 @@
+<div class="col-12 px-0" [ngClass]="{'edit-mode': mode === statementModeEnum.Edit, 'show-image': controlData.FileUrl}">
+  <div class="trs-image d-flex justify-content-center align-middle">
+    <div *ngIf="!controlData.FileUrl && mode === statementModeEnum.Edit; else showImage" class="w-100">
+      <fa-icon class="image-icon fa-2x" [icon]="'image'" aria-hidden="true"></fa-icon>
+      <kendo-upload
+        [autoUpload]="true"
+        [multiple]="false"
+        [showFileList]="true"
+        [saveUrl]="saveUrl"
+        [restrictions]="uploadRestrictions"
+        (success)="uploadImageSuccess($event)"
+        (error)="uploadImageError($event)"
+        (select)="selectEventHandler($event)">
+        <ng-template kendoUploadFileTemplate let-files let-state="state">
+          <p *ngIf="files[0].validationErrors" class="mb-0 mx-auto font-italic">{{getFileValidation(files[0])}}</p>
+        </ng-template>
+        <kendo-upload-messages select="Select Image" [invalidMaxFileSize]="invalidMaxFileSize" [invalidFileExtension]="invalidFileExtension"></kendo-upload-messages>
+      </kendo-upload>
+      <p *ngIf="!!selectedFiles && !selectedFiles[0]?.validationErrors?.length" class="help-text text-muted font-italic position-absolute">Or drag and drop</p>
+      <p *ngIf="isServerError" class="server-error help-text text-danger font-italic position-absolute">An error occurred</p>
+    </div>
+    <ng-template #showImage>
+      <img *ngIf="!!controlData?.FileUrl" #image [src]="controlData.FileUrl" alt="{{controlData.FileName}}" class="mh-100 mw-100 align-items-center">
+      <a *ngIf="mode === statementModeEnum.Edit" (click)="deleteImage()" href="javascript:void(0)" class="remove-image d-block text-danger position-absolute" title="Remove Image">
+        <fa-icon class="fas fa-trash-alt fa-sm" [icon]="'trash-alt'" aria-hidden="true"></fa-icon>
+      </a>
+    </ng-template>
+  </div>
+</div>

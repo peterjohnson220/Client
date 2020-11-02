@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
 
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Store } from '@ngrx/store';
-import { map, switchMap, catchError, mergeMap } from 'rxjs/operators';
+import { select, Store } from '@ngrx/store';
+import { map, switchMap, catchError, mergeMap, withLatestFrom } from 'rxjs/operators';
 
 import { CompanyEmployeeApiService, CompanyJobApiService } from 'libs/data/payfactors-api/company';
 import {
   PayMarketApiService, CountryApiService, CurrencyApiService, LoaderFieldMappingsApiService,
-  EntityKeysValidationApiService
+  EntityKeysValidationApiService, TotalRewardsApiService
 } from 'libs/data/payfactors-api';
 import { ODataQuery } from 'libs/models/common';
 import * as fromRootState from 'libs/state/state';
@@ -272,6 +272,48 @@ export class EmployeeManagementEffects {
       })
     );
 
+  @Effect()
+  getTotalRewardsStatement$ = this.actions$
+    .pipe(
+      ofType(fromEmployeeManagementActions.GET_TOTAL_REWARDS_STATEMENT),
+      withLatestFrom(this.store.pipe(select(fromEmployeeManagementReducer.getTotalRewardsStatementId)),
+        (action, statementId) => ({action, statementId})),
+      switchMap((data) => {
+        return this.totalRewardsApiService.getStatementFromId(data.statementId.obj).pipe(
+          map((response) => {
+            return new fromEmployeeManagementActions.GetTotalRewardsStatementSuccess(response);
+          }),
+          catchError(() => of(new fromEmployeeManagementActions.GetTotalRewardsStatementError()))
+        );
+      })
+    );
+
+  @Effect()
+  getEmployeeRewardsData$ = this.actions$.pipe(
+    ofType(fromEmployeeManagementActions.GET_EMPLOYEE_TOTAL_REWARDS_DATA),
+    switchMap((action: fromEmployeeManagementActions.GetEmployeeTotalRewardsData) => {
+      return this.companyEmployeeApiService.getBenefits(action.payload).pipe(
+        map((response) => {
+          return new fromEmployeeManagementActions.GetEmployeeTotalRewardsDataSuccess(response);
+        }),
+        catchError(() => of(new fromEmployeeManagementActions.GetEmployeeTotalRewardsDataError()))
+      );
+    })
+  );
+
+  @Effect()
+  getTotalRewardsStatementId$ = this.actions$.pipe(
+    ofType(fromEmployeeManagementActions.GET_TOTAL_REWARDS_STATEMENT_ID),
+    switchMap((action: fromEmployeeManagementActions.GetTotalRewardsStatementId) => {
+      return this.totalRewardsApiService.getStatementIdByCompanyEmployeeId(action.payload.companyEmployeeId).pipe(
+        map((response) => {
+          return new fromEmployeeManagementActions.GetTotalRewardsStatementIdSuccess({ statementId: response });
+        }),
+        catchError(() => of(new fromEmployeeManagementActions.GetTotalRewardsStatementIdError()))
+      );
+    })
+  );
+
   constructor(
     private actions$: Actions,
     private rootStore: Store<fromRootState.State>,
@@ -282,6 +324,7 @@ export class EmployeeManagementEffects {
     private currencyApiService: CurrencyApiService,
     private companyEmployeeApiService: CompanyEmployeeApiService,
     private loaderFieldMappingsApiService: LoaderFieldMappingsApiService,
-    private entityKeysValidationApiService: EntityKeysValidationApiService
+    private entityKeysValidationApiService: EntityKeysValidationApiService,
+    private totalRewardsApiService: TotalRewardsApiService
   ) {}
 }
