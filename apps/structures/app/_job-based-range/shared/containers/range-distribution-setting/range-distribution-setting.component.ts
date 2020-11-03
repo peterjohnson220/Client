@@ -315,8 +315,10 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
       this.controlPointsAsyncObj = cp;
       this.controlPoints = cp.obj;
 
-      if (this.metadata.ControlPoint !== null) {
-        selectedCategory = this.controlPoints.find(c => c.FieldName === this.metadata.ControlPoint).Category;
+      const currentControlPoint = this.metadata.ControlPoint === null ? this.metadata.PayType + 'MRP' : this.metadata.ControlPoint;
+
+      if (currentControlPoint !== null) {
+        selectedCategory = this.controlPoints.find(c => c.FieldName === currentControlPoint).Category;
       }
       selectedCategory = selectedCategory ?? 'Base';
 
