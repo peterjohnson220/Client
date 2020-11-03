@@ -11,7 +11,6 @@ import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
 import * as pfDataGridActions from 'libs/features/pf-data-grid/actions';
 import { PermissionCheckEnum, Permissions } from 'libs/constants';
 import { PermissionService } from 'libs/core/services';
-import { DataViewFilter } from 'libs/models/payfactors-api/reports/request';
 
 import * as fromSharedJobBasedRangeReducer from '../../shared/reducers';
 import * as fromModelSettingsModalActions from '../../shared/actions/model-settings-modal.actions';
@@ -19,6 +18,7 @@ import { AddJobsModalWrapperComponent } from '../containers/add-jobs-modal';
 import { StructuresPagesService, UrlService } from '../../shared/services';
 import { Workflow } from '../../shared/constants/workflow';
 import * as fromSharedActions from '../../shared/actions/shared.actions';
+import * as fromCompareJobRangesActions from '../../model/actions';
 
 @Component({
   selector: 'pf-model-page',
@@ -39,7 +39,6 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
   pageViewId: string;
   pageViewIdSubscription: Subscription;
   _Permissions = null;
-  compareModelFilters: DataViewFilter[];
   comparingFlag: boolean;
   comparingSub: Subscription;
   metadataSub: Subscription;
@@ -97,26 +96,10 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
     this.AddJobsModalComponent.onMessage(setContextMessage);
   }
 
-  handleCompareModelClicked(currentRangeGroupId) {
-    this.compareModelFilters = [
-      {
-        EntitySourceName: 'CompanyStructures_RangeGroup',
-        SourceName: 'CompanyStructuresRangeGroup_ID',
-        Operator: '=',
-        Values: [currentRangeGroupId]
-      },
-      {
-        EntitySourceName: 'CompanyJobs',
-        SourceName: 'JobStatus',
-        Operator: '=',
-        Values: [1]
-      }
-    ];
-
-    this.sharedStore.dispatch(new fromSharedActions.GetDataByRangeGroupId({
-      pageViewId: this.pageViewId,
-      filters: this.compareModelFilters
-    }));
+  handleCompareModelClicked() {
+    this.store.dispatch(new pfDataGridActions.ResetGridScrolled(this.pageViewId));
+    this.store.dispatch(new pfDataGridActions.LoadData(this.pageViewId));
+    this.sharedStore.dispatch(new fromCompareJobRangesActions.GetDataForCompare(this.pageViewId));
   }
 
   // Lifecycle
