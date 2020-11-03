@@ -118,3 +118,8 @@ export const getCompanyUdf = createSelector(
   selectPageState,
   (state: fromPageReducer.State) => state.companyUdfs
 );
+
+export const getVisibleFieldsCount = createSelector(
+  selectPageState,
+  (state: fromPageReducer.State) => state.visibleFieldsCount
+);

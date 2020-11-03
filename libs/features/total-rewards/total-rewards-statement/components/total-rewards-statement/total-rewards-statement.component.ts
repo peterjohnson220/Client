@@ -30,6 +30,7 @@ export class TotalRewardsStatementComponent {
   @Input() employeeRewardsData: EmployeeRewardsData;
   @Input() pageBreakAfter: boolean;
   @Input() companyUdfs: CompensationField[];
+  @Input() visibleFieldsCount: number;
 
   // Common Outputs
   @Output() onControlTitleChange: EventEmitter<UpdateTitleRequest> = new EventEmitter();

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Observable, of } from 'rxjs';
-import { catchError, switchMap, map, withLatestFrom, mapTo, concatMap, debounceTime } from 'rxjs/operators';
+import { catchError, switchMap, map, withLatestFrom, mapTo, concatMap, debounceTime, mergeMap } from 'rxjs/operators';
 import { Store, Action, select } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 
@@ -27,7 +27,12 @@ export class StatementEditPageEffects {
       ofType(fromStatementEditActions.LOAD_STATEMENT),
       switchMap((action: fromStatementEditActions.LoadStatement) =>
         this.totalRewardsApiService.getStatementFromId(action.payload).pipe(
-          map((response: Statement) => new fromStatementEditActions.LoadStatementSuccess(response)),
+          mergeMap((response: Statement) => {
+            const actions = [];
+            actions.push(new fromStatementEditActions.LoadStatementSuccess(response));
+            actions.push(new fromStatementEditActions.GetCompanyUDF());
+            return actions;
+          }),
           catchError(error => of(new fromStatementEditActions.LoadStatementError(error)))
         ))
     );

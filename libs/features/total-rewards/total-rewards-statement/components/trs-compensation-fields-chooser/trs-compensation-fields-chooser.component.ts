@@ -14,6 +14,7 @@ import { CompensationField, CompensationFieldGroup } from '../../models';
 })
 export class TrsCompensationFieldsChooserComponent implements OnChanges {
   @Input() fields: CompensationField[];
+  @Input() maxVisibleFieldsReached: boolean;
   @Output() fieldClicked: EventEmitter<CompensationField> = new EventEmitter();
 
   @ViewChild('addFieldPopover', { static: true }) public fieldPopover: any;

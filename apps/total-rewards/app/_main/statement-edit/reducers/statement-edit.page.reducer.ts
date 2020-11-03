@@ -23,6 +23,7 @@ export interface State {
   employeeData: AsyncStateObj<EmployeeRewardsData>;
   assignedEmployees: AsyncStateObj<GenericNameValue<number>[]>;
   companyUdfs: AsyncStateObj<CompensationField[]>;
+  visibleFieldsCount: number;
 }
 
 export const initialState: State = {
@@ -38,6 +39,7 @@ export const initialState: State = {
   employeeData: generateDefaultAsyncStateObj<EmployeeRewardsData>(null),
   assignedEmployees: generateDefaultAsyncStateObj<GenericNameValue<number>[]>([]),
   companyUdfs: generateDefaultAsyncStateObj([]),
+  visibleFieldsCount: 0
 };
 
 export function reducer(state = initialState, action: fromEditStatementActions.StatementEditPageActions): State {
@@ -104,10 +106,20 @@ export function reducer(state = initialState, action: fromEditStatementActions.S
       const {Page, Section, Column, Control} = TotalRewardsStatementService.getCurrentControlIndex(state.statement.obj, action.payload.ControlId);
       const localState = cloneDeep(state);
       const compFields = localState.statement.obj.Pages[Page].Sections[Section].Columns[Column].Controls[Control].DataFields;
-      for (let i = 0; i < compFields.length; i++) {
-        if (compFields[i].Id === action.payload.DataFieldId) {
-          localState.statement.obj.Pages[Page].Sections[Section].Columns[Column].Controls[Control].DataFields[i].IsVisible = action.payload.IsVisible;
+      if (!action.payload.Type) {
+        for (let i = 0; i < compFields.length; i++) {
+          if (compFields[i].Id === action.payload.DataFieldId) {
+            localState.statement.obj.Pages[Page].Sections[Section].Columns[Column].Controls[Control].DataFields[i].IsVisible = action.payload.IsVisible;
+            ++localState.visibleFieldsCount;
+          }
         }
+      }
+      if (action.payload.Type) {
+        const newField = localState.companyUdfs.obj.find(udf => udf.Id === action.payload.DataFieldId);
+        newField.IsVisible = true;
+
+        localState.statement.obj.Pages[Page].Sections[Section].Columns[Column].Controls[Control].DataFields.push(newField);
+        ++localState.visibleFieldsCount;
       }
       return localState;
     }
@@ -121,6 +133,13 @@ export function reducer(state = initialState, action: fromEditStatementActions.S
 
           // Removes override name so DefaultName displays if added back to the control.
           localState.statement.obj.Pages[Page].Sections[Section].Columns[Column].Controls[Control].DataFields[i].Name.Override = null;
+          if (compFields[i].Type) {
+            const updatedField = localState.companyUdfs.obj.find(udf => udf.Id === action.payload.DataFieldId);
+            updatedField.IsVisible = false;
+            updatedField.Name.Override = null;
+            localState.statement.obj.Pages[Page].Sections[Section].Columns[Column].Controls[Control].DataFields.splice(i, 1);
+          }
+          --localState.visibleFieldsCount ;
         }
       }
       return localState;
@@ -260,12 +279,22 @@ export function reducer(state = initialState, action: fromEditStatementActions.S
     }
     case fromEditStatementActions.GET_COMPANY_UDF_SUCCESS: {
       const companyUdfClone: AsyncStateObj<CompensationField[]> = cloneDeep(state.companyUdfs);
+      const statementClone = cloneDeep(state.statement.obj);
+      const onlyUdfs = true;
       companyUdfClone.loading = false;
       companyUdfClone.obj = action.payload;
 
+      const visibleUdfControls = TotalRewardsStatementService.getVisibleCalculationFields(statementClone, onlyUdfs);
+      const visibleFieldsCount = TotalRewardsStatementService.getVisibleCalculationFields(statementClone).length;
+
+      if (visibleUdfControls.length) {
+        companyUdfClone.obj = companyUdfClone.obj.map(companyUdf => visibleUdfControls.find(x => x.DatabaseField === companyUdf.DatabaseField) || companyUdf);
+      }
+
       return {
         ...state,
-        companyUdfs: companyUdfClone
+        companyUdfs: companyUdfClone,
+        visibleFieldsCount: visibleFieldsCount
       };
     }
 

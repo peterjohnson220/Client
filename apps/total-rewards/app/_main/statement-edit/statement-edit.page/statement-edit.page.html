@@ -82,6 +82,7 @@
           [loadingData]="(employeeRewardsDataAsync$ | async)?.loading"
           [employeeRewardsData]="(employeeRewardsDataAsync$ | async)?.obj"
           [companyUdfs]="(companyUdfAsync$ | async)?.obj"
+          [visibleFieldsCount]="visibleFieldsCount$ | async"
           (onControlTitleChange)="handleOnControlTitleChange($event)"
           (onCalculationControlCompFieldTitleChange)="handleOnCalculationControlCompFieldTitleChange($event)"
           (onCalculationControlSummaryTitleChange)="handleOnCalculationControlSummaryTitleChange($event)"
