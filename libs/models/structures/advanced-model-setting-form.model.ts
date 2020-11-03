@@ -3,7 +3,7 @@ import { MissingMarketDataTypeSetting } from 'libs/models/structures/ranges/miss
 import { MissingMarketDataTypes } from 'libs/constants/structures/missing-market-data-type';
 
 
-export interface AdvancedSetting {
+export interface AdvancedModelSettingForm {
   Rounding: RoundingSettingsDataObj;
   PreventMidsBelowCurrent: boolean;
   PreventMidsFromIncreasingMoreThanPercent: PercentageSetting;
@@ -11,7 +11,7 @@ export interface AdvancedSetting {
   MissingMarketDataType: MissingMarketDataTypeSetting;
 }
 
-export function generateMockRangeAdvancedSetting(): AdvancedSetting {
+export function generateMockRangeAdvancedSetting(): AdvancedModelSettingForm {
   return {
     Rounding: generateMockRoundingSettingsDataObj(),
     PreventMidsBelowCurrent: false,

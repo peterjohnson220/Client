@@ -8,7 +8,7 @@ import {
 } from 'libs/models/payfactors-api/structures';
 import { CompositeFieldResponse } from 'libs/models/payfactors-api/composite-field/composite-field-response.model';
 import { CurrencyDto } from 'libs/models/common';
-import { RoundingSettingsDataObj, RangeGroupMetadata, AdvancedSetting } from 'libs/models/structures';
+import { RoundingSettingsDataObj, RangeGroupMetadata, AdvancedModelSettingForm } from 'libs/models/structures';
 import { AdvancedSettingRequest } from 'libs/models/payfactors-api/structures/request/advanced-setting-request.model';
 import * as fromStructuresModels from 'libs/models/structures';
 
@@ -40,7 +40,7 @@ export class PayfactorsApiModelMapper {
     };
   }
 
-  static mapRangeAdvancedSetting(advancedSetting: AdvancedSettingResponse): AdvancedSetting {
+  static mapRangeAdvancedSetting(advancedSetting: AdvancedSettingResponse): AdvancedModelSettingForm {
     return {
       Rounding: this.mapRoundingSetttings(advancedSetting),
       PreventMidsBelowCurrent: advancedSetting.PreventMidsBelowCurrent,
@@ -183,7 +183,7 @@ export class PayfactorsApiModelMapper {
     };
   }
 
-  static mapAdvancedSettingModalFormToAdvancedSettingRequest(advancedSetting: AdvancedSetting, structureHasPublished): AdvancedSettingRequest {
+  static mapAdvancedSettingModalFormToAdvancedSettingRequest(advancedSetting: AdvancedModelSettingForm, structureHasPublished): AdvancedSettingRequest {
     let missingMarketDataType = advancedSetting.MissingMarketDataType;
     let preventMidsFromIncreasingMoreThanPercent = advancedSetting.PreventMidsFromIncreasingMoreThanPercent;
     if (structureHasPublished.obj <= 0) {

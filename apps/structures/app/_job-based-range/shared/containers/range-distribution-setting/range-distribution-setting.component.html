@@ -1,16 +1,18 @@
-<div class="form-group" *ngIf="(enableJobRangeTypes$ | async)" [formGroup]="rangeDistributionSettingForm">
-  <label for="rangeType">Range Type</label>
-  <div>
-    <ng-container *ngFor="let type of metadata.RangeDistributionTypes">
-      <label  for="rangeType_{{type.Type}}" class="radio-inline mr-3 d-none">
-        <input type="radio" id="rangeType_{{type.Type}}"
-               [value]='type.Id'
-               formControlName="RangeDistributionTypeId"
-               (change)="handleRangeTypeChange(type)">
-        {{type.Type}}
-      </label>
-    </ng-container>
-    <label id="rangeType" class="font-weight-bold mr-3">{{activeRangeTypeTab}}</label>
+<div class="form-group" [formGroup]="rangeDistributionSettingForm">
+  <div *ngIf="(enableJobRangeTypes$ | async)">
+    <label for="rangeType">Range Type</label>
+    <div>
+      <ng-container *ngFor="let type of metadata.RangeDistributionTypes">
+        <label  for="rangeType_{{type.Type}}" class="radio-inline mr-3 d-none">
+          <input type="radio" id="rangeType_{{type.Type}}"
+                 [value]='type.Id'
+                 formControlName="RangeDistributionTypeId"
+                 (change)="handleRangeTypeChange(type)">
+          {{type.Type}}
+        </label>
+      </ng-container>
+      <label id="rangeType" class="font-weight-bold mr-3">{{activeRangeTypeTab}}</label>
+    </div>
   </div>
   <div class="rounding-group">
     <div class="form-group row mb-5">

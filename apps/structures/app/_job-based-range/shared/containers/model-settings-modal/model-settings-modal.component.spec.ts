@@ -20,6 +20,7 @@ import { ModelSettingsModalComponent } from './model-settings-modal.component';
 import { UrlService } from '../../services';
 import { RangeDistributionSettingComponent } from '../range-distribution-setting';
 import { PageViewIds } from '../../constants/page-view-ids';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 describe('Job Based Ranges - Model Settings Modal', () => {
   let instance: ModelSettingsModalComponent;
@@ -107,6 +108,28 @@ describe('Job Based Ranges - Model Settings Modal', () => {
       RangeDistributionSetting: generateMockRangeDistributionSetting(),
       RangeAdvancedSetting: generateMockRangeAdvancedSetting()
     };
+
+    instance.rdSettingComponent.enablePercentilesAndRangeSpreads = true;
+
+    instance.rdSettingComponent.rangeDistributionSettingForm =  new FormGroup({
+      'CompanyStructuresRangeGroupId': new FormControl(this.rangeGroupId),
+      'RangeDistributionTypeId': new FormControl({value: instance.metadata.RangeDistributionTypeId, disabled: true}, [Validators.required]),
+      'PayType': new FormControl(instance.metadata.PayType, [Validators.required]),
+      'ControlPoint': new FormControl({ value: instance.metadata.ControlPoint, disabled: true }, [Validators.required]),
+      'Minimum': new FormControl({ value: instance.metadata.SpreadMin, disabled: !instance.rdSettingComponent.enablePercentilesAndRangeSpreads }, [Validators.required]),
+      'Maximum': new FormControl({ value: instance.metadata.SpreadMax, disabled: !instance.rdSettingComponent.enablePercentilesAndRangeSpreads }, [Validators.required]),
+      'FirstTertile': new FormControl({ value: null, disabled: !instance.rdSettingComponent.enablePercentilesAndRangeSpreads }),
+      'SecondTertile': new FormControl({ value: null, disabled: !instance.rdSettingComponent.enablePercentilesAndRangeSpreads }),
+      'FirstQuartile': new FormControl({ value: null, disabled: !instance.rdSettingComponent.enablePercentilesAndRangeSpreads }),
+      'SecondQuartile': new FormControl({ value: null, disabled: !instance.rdSettingComponent.enablePercentilesAndRangeSpreads }),
+      'FirstQuintile': new FormControl({ value: null, disabled: !instance.rdSettingComponent.enablePercentilesAndRangeSpreads }),
+      'SecondQuintile': new FormControl({ value: null, disabled: !instance.rdSettingComponent.enablePercentilesAndRangeSpreads }),
+      'ThirdQuintile': new FormControl({ value: null, disabled: !instance.rdSettingComponent.enablePercentilesAndRangeSpreads }),
+      'FourthQuintile': new FormControl({ value: null, disabled: !instance.rdSettingComponent.enablePercentilesAndRangeSpreads }),
+      'MinPercentile': new FormControl({ value: null, disabled: !instance.rdSettingComponent.enablePercentilesAndRangeSpreads }),
+      'MaxPercentile': new FormControl({ value: null, disabled: !instance.rdSettingComponent.enablePercentilesAndRangeSpreads }),
+      'ControlPoint_Formula': new FormControl({ value: null })
+    });
 
     instance.ngOnInit();
   });

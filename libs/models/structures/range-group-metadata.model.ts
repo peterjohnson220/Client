@@ -1,5 +1,5 @@
 import { RangeDistributionType, RangeDistributionSetting } from '../payfactors-api';
-import { AdvancedSetting } from './advanced-setting.model';
+import { AdvancedModelSettingForm } from './advanced-model-setting-form.model';
 
 export interface RangeGroupMetadata {
   Paymarket: string;
@@ -17,5 +17,5 @@ export interface RangeGroupMetadata {
   RangeDistributionTypeId: number;
   RangeDistributionTypes: RangeDistributionType[];
   RangeDistributionSetting: RangeDistributionSetting;
-  RangeAdvancedSetting: AdvancedSetting;
+  RangeAdvancedSetting: AdvancedModelSettingForm;
 }
