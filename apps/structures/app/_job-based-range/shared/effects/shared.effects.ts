@@ -243,84 +243,17 @@ export class SharedEffects {
     );
 
   @Effect()
-  getData: Observable<Action> = this.actions$
-    .pipe(
-      ofType(fromSharedActions.GET_DATA_BY_RANGE_GROUP_ID),
-      mergeMap((action: fromSharedActions.GetDataByRangeGroupId) =>
-        of(action).pipe(
-          withLatestFrom(
-            this.store.pipe(select(fromPfDataGridReducer.getBaseEntity, action.payload.pageViewId)),
-            this.store.pipe(select(fromPfDataGridReducer.getFields, action.payload.pageViewId)),
-            this.store.pipe(select(fromPfDataGridReducer.getPagingOptions, action.payload.pageViewId)),
-            this.store.pipe(select(fromPfDataGridReducer.getSortDescriptor, action.payload.pageViewId)),
-            this.store.pipe(select(fromSharedReducer.getCurrentRangeGroup)),
-            this.store.pipe(select(fromSharedReducer.getMetadata)),
-            this.store.pipe(select(fromSharedReducer.getRoundingSettings)),
-            (a: fromSharedActions.GetDataByRangeGroupId, baseEntity, fields, pagingOptions, sortDescriptor, currentRangeGroup, metadata, roundingSettings) =>
-              ({ a, baseEntity, fields, pagingOptions, sortDescriptor, currentRangeGroup, metadata, roundingSettings }))
-        )
-      ),
-      switchMap((data) => {
-        return this.dataViewApiService.getData(DataGridToDataViewsHelper.buildDataViewDataRequest(
-          data.baseEntity.Id,
-          data.fields,
-          data.a.payload.filters,
-          data.pagingOptions,
-          data.sortDescriptor,
-          false,
-          false,
-        )).pipe(
-          mergeMap((res) => {
-            const actions = [];
-
-            if (data.currentRangeGroup.obj.Currency !== data.metadata.Currency || data.currentRangeGroup.obj.Rate !== data.metadata.Rate) {
-              actions.push(new fromSharedActions.ConvertCurrencyAndRate({
-                OldCurrency: data.currentRangeGroup.obj.Currency,
-                NewCurrency: data.metadata.Currency,
-                OldRate: data.currentRangeGroup.obj.Rate,
-                NewRate: data.metadata.Rate,
-                Rounding: data.roundingSettings,
-                RangeDistributionTypeId: data.metadata.RangeDistributionTypeId,
-                JobRangeData: res
-              }));
-            } else {
-              actions.push(new fromSharedActions.GetDataByRangeGroupIdSuccess(res));
-            }
-            return actions;
-          }),
-          catchError((err) => of(new fromSharedActions.GetDataByRangeGroupIdError(err)))
-        );
-      })
-    );
-
-
-  @Effect()
-  convertJobRangeData: Observable<Action> = this.actions$
-    .pipe(
-      ofType(fromSharedActions.CONVERT_CURRENCY_AND_RATE),
-      switchMap((action: fromSharedActions.ConvertCurrencyAndRate) => {
-        return this.structureModelingApiService.convertCurrencyAndRate(action.payload)
-          .pipe(
-            map((res) => {
-              return new fromSharedActions.ConvertCurrencyAndRateSuccess(res);
-            }),
-            catchError((err) => of(new fromSharedActions.ConvertCurrencyAndRateError(err)))
-          );
-      })
-    );
-
-  @Effect()
   modelHasPublishedStructure: Observable<Action> = this.actions$
     .pipe(
       ofType(fromSharedActions.GET_STRUCTURE_HAS_PUBLISHED_FOR_TYPE),
       switchMap((action: fromSharedActions.GetStructureHasPublishedForType) => {
-          return this.structureModelingApiService.getStructureHasPublishedForType(action.payload)
-            .pipe(
-              map((res) => {
-                return new fromSharedActions.GetStructureHasPublishedForTypeSuccess(res);
-              }),
-              catchError((err) => of(new fromSharedActions.GetStructureHasPublishedForTypeError(err)))
-            );
+        return this.structureModelingApiService.getStructureHasPublishedForType(action.payload)
+          .pipe(
+            map((res) => {
+              return new fromSharedActions.GetStructureHasPublishedForTypeSuccess(res);
+            }),
+            catchError((err) => of(new fromSharedActions.GetStructureHasPublishedForTypeError(err)))
+          );
       })
     );
 
