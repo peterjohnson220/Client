@@ -13,10 +13,11 @@ import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig, GridConfi
 import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
+import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
+import { PfThemeType } from 'libs/features/pf-data-grid/enums/pf-theme-type.enum';
 
 import * as fromJobsPageReducer from '../../../../reducers';
 import { PageViewIds } from '../../../../constants/';
-import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
 
 
 @Component({
@@ -51,6 +52,7 @@ export class EmployeesGridComponent implements AfterViewInit, OnDestroy, OnChang
   actionBarConfig: ActionBarConfig;
   gridConfig: GridConfig;
   hasInfiniteScrollFeatureFlagEnabled: boolean;
+  pfThemeType = PfThemeType;
 
   constructor(
     private store: Store<fromPfGridReducer.State>,

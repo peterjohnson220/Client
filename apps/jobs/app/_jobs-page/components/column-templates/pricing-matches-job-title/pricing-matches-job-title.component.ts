@@ -18,6 +18,12 @@ import { ApiServiceType } from 'libs/features/notes-manager/constants/api-servic
 
 import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
+import {UpsertPeerDataCutEntityConfigurationModel} from 'libs/features/upsert-peer-data-cut/models';
+import {
+  UpsertPeerDataCutEntities,
+  UpsertPeerDataCutParentEntities
+} from 'libs/features/upsert-peer-data-cut/constants';
+import * as fromUpsertPeerActions from 'libs/features/upsert-peer-data-cut/actions';
 
 import { PageViewIds } from '../../../constants';
 import * as fromJobsPageActions from '../../../actions';
@@ -42,7 +48,7 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
   permissions = Permissions;
 
   notesApiServiceType: ApiServiceType;
-  pricingMatchIdForNotes: number;
+  pricingMatchIdForGridRefresh: number;
 
   jobsSelectedRow$: Observable<any>;
 
@@ -69,6 +75,15 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
   public isOverflow = false;
 
   canModifyPricings: boolean;
+  hasPeerPermission: boolean;
+
+  upsertPeerDataSubscription: Subscription;
+  upsertPeerDataCutEntityConfiguration: UpsertPeerDataCutEntityConfigurationModel = {
+    BaseEntity: UpsertPeerDataCutEntities.PricingMatches,
+    BaseEntityId: null,
+    ParentEntity: UpsertPeerDataCutParentEntities.Pricings,
+    ParentEntityId: null
+  };
 
   @HostListener('window:resize') windowResize() {
     this.ngAfterViewChecked();
@@ -84,6 +99,7 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
     this.jobsSelectedRow$ = this.store.select(fromPfDataGridReducer.getSelectedRow, PageViewIds.Jobs);
 
     this.canModifyPricings = this.permissionService.CheckPermission([Permissions.MODIFY_PRICINGS], PermissionCheckEnum.Single);
+    this.hasPeerPermission = this.permissionService.CheckPermission([Permissions.PEER], PermissionCheckEnum.Single);
 
     const pricingMatchPageViewId = `${PageViewIds.PricingMatches}_${this.pricingInfo.CompanyJobs_Pricings_CompanyJobPricing_ID}`;
     this.pricingMatchesDataSuscription = this.store.select(fromPfDataGridReducer.getData, pricingMatchPageViewId).subscribe(data => {
@@ -122,6 +138,25 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
         const statusFieldFilter: any = fields.find(f => f.SourceName === 'JobStatus').FilterValue;
         this.isActiveJob = statusFieldFilter === 'true' || statusFieldFilter === true;
       });
+
+    this.upsertPeerDataSubscription = this.actionsSubject
+      .pipe(ofType(fromUpsertPeerActions.UPSERT_DATA_CUT_SUCCESS))
+      .subscribe(data => {
+        if (data['payload']['BaseEntityId'] === this.dataRow['CompanyJobs_PricingsMatches_CompanyJobPricingMatch_ID']) {
+          const request: UpdatePricingMatchRequest = {
+            MatchId: this.dataRow['CompanyJobs_PricingsMatches_CompanyJobPricingMatch_ID'],
+            MatchWeight: null,
+            MatchAdjustment: null,
+            SurveyDataId: null,
+            ExchangeDataCutId: data['payload']['UserJobMatchId'],
+            PricingUpdateStrategy: PricingUpdateStrategy.ParentLinkedSlotted
+          };
+          const pricingId = this.dataRow['CompanyJobs_PricingsMatches_CompanyJobPricing_ID'];
+          const matchesGridPageViewId = `${PageViewIds.PricingMatches}_${pricingId}`;
+
+          this.store.dispatch(new fromJobsPageActions.UpdatingPricingMatch(request, pricingId, matchesGridPageViewId));
+        }
+      });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -141,6 +176,7 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
     this.updateGridDataRowSubscription.unsubscribe();
     this.pricingMatchesDataSuscription.unsubscribe();
     this.isActiveJobSubscription.unsubscribe();
+    this.upsertPeerDataSubscription.unsubscribe();
   }
 
 
@@ -162,12 +198,21 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
     ));
   }
 
+  handleMatchClick() {
+    if (this.dataRow['CompanyJobs_PricingsMatches_Survey_Data_ID']) {
+      this.reScopeSurveyData();
+    } else if (this.dataRow['ExchangeDataCut_FilterGUID']) {
+      this.upsertPeerDataCut();
+    }
+  }
+
   updatePricingMatch() {
     const request: UpdatePricingMatchRequest = {
       MatchId: this.dataRow.CompanyJobs_PricingsMatches_CompanyJobPricingMatch_ID,
       MatchWeight: this.weight,
       MatchAdjustment: this.adjustment,
       SurveyDataId: null,
+      ExchangeDataCutId: null,
       PricingUpdateStrategy: PricingUpdateStrategy.Parent
     };
     const pricingId = this.dataRow.CompanyJobs_PricingsMatches_CompanyJobPricing_ID;
@@ -195,7 +240,7 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
   }
 
   reloadPricingMatches() {
-    if (this.pricingMatchIdForNotes) {
+    if (this.pricingMatchIdForGridRefresh) {
       const pricingId = this.dataRow.CompanyJobs_PricingsMatches_CompanyJobPricing_ID;
       this.store.dispatch(new fromPfDataGridActions.LoadData(`${PageViewIds.PricingMatches}_${pricingId}`));
     }
@@ -204,12 +249,31 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
 
   openNotesManager() {
     this.notesApiServiceType = ApiServiceType.PricingMatch;
-    this.pricingMatchIdForNotes = this.dataRow.CompanyJobs_PricingsMatches_CompanyJobPricingMatch_ID;
+    this.pricingMatchIdForGridRefresh = this.dataRow.CompanyJobs_PricingsMatches_CompanyJobPricingMatch_ID;
   }
 
   closeNotesManager() {
-    this.pricingMatchIdForNotes = null;
+    this.pricingMatchIdForGridRefresh = null;
     this.notesApiServiceType = null;
   }
 
+  upsertPeerDataCut() {
+    if (this.dataRow['ExchangeDataCut_FilterGUID'] &&
+      !this.pricingInfo['CompanyPayMarkets_Linked_PayMarket_Name'] &&
+      this.canModifyPricings && this.hasPeerPermission) {
+      this.upsertPeerDataCutEntityConfiguration = {
+        ...this.upsertPeerDataCutEntityConfiguration,
+        BaseEntityId: this.dataRow['CompanyJobs_PricingsMatches_CompanyJobPricingMatch_ID'],
+        ParentEntityId: this.dataRow['CompanyJobs_PricingsMatches_CompanyJobPricing_ID']
+      };
+    }
+  }
+
+  closeUpsertPeerCutModal() {
+    this.upsertPeerDataCutEntityConfiguration = {
+      ...this.upsertPeerDataCutEntityConfiguration,
+      BaseEntityId: null,
+      ParentEntityId: null
+    };
+  }
 }

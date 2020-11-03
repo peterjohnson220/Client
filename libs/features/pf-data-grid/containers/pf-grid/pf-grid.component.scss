@@ -154,6 +154,120 @@ html .k-grid tr:hover {
   cursor: default !important;
 }
 
+.k-grid.job-details-next-gen-base {
+  height: auto;
+
+  .k-grid-header {
+    th {
+      background-color: $theme-header !important;
+      color: white;
+    }
+  }
+
+  .k-grid-header .k-header > .k-link > .k-icon {
+    order: 1;
+    color: white;
+    margin: 0;
+  }
+}
+
+.k-grid.tertiary-grid-theme {
+  @extend .k-grid.job-details-next-gen-base;
+
+  table {
+    background-color: $sub-grid-accent-color;
+    margin: 0 0 1% 0;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-left: solid 1px $theme-grid-line-color;
+    border-bottom: solid 1px $theme-grid-line-color;
+    border-right: solid 1px $theme-grid-line-color;
+  }
+
+  td:first-child {
+    border-left: none !important;
+  }
+
+  td {
+    border-bottom: none !important;
+  }
+}
+
+.k-grid.pricing-details-theme {
+  @extend .k-grid.job-details-next-gen-base;
+
+  // must use !important to override dynamic css in pf-grid
+  .k-grid-table > tbody > tr > .pf-grid-checkbox + td {
+    border-left: none !important;
+  }
+
+  .k-hierarchy-cell{
+    border: none;
+  }
+
+  .k-grid-header {
+    .pf-grid-checkbox{
+      border: none;
+    }
+
+    .pf-grid-checkbox + th {
+      border: none !important;
+    }
+
+    tr:first-child{
+      th {
+        border-color: $theme-grid-line-color !important;
+        border-width: 2px !important;
+        vertical-align: bottom !important;
+        padding-bottom: 5px;
+      }
+    }
+
+    tr:last-child{
+      th {
+        border-color: $theme-grid-line-color !important;
+        border-width: 2px !important;
+        vertical-align: bottom !important;
+        padding-top: 0;
+        padding-bottom: 5px;
+      }
+    }
+
+  }
+
+  tbody > tr:last-child > td {
+    border-bottom: solid 1px $theme-grid-line-color;
+  }
+}
+
+.k-grid.job-details-theme {
+  @extend .k-grid.job-details-next-gen-base;
+
+  .k-grid-header {
+    th:first-child{
+      border-top-left-radius: 5px;
+    }
+    th {
+      border-color: white;
+      padding-top: 5px;
+      padding-bottom: 5px;
+    }
+  }
+
+  .k-grid-table {
+    border-bottom-left-radius: 5px;
+    border-left: solid 1px $theme-grid-line-color;
+    border-bottom: solid 1px $theme-grid-line-color;
+
+    // if the user gets to the last record of the infinite, round the bottom left corner
+    tr:last-child{
+      td:first-child{
+        border-bottom-left-radius: 5px;
+      }
+    }
+  }
+}
+
 .k-grid.next-gen {
   height: auto;
 

@@ -10,7 +10,7 @@ import { SurveyJobMatchUpdate } from 'libs/models/payfactors-api';
 import { WindowCommunicationService } from 'libs/core/services';
 import * as fromSearchPageActions from 'libs/features/search/actions/search-page.actions';
 import * as fromSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
-import { SearchFilterMappingDataObj } from 'libs/features/search/models';
+import * as fromSearchReducer from 'libs/features/search/reducers';
 
 import * as fromContextActions from '../../survey-search/actions/context.actions';
 import * as fromMultiMatchPageActions from '../actions/multi-match-page.actions';
@@ -27,9 +27,13 @@ export class MultiMatchEffects {
   getProjectSearchContext$ = this.actions$
     .pipe(
       ofType(fromMultiMatchPageActions.GET_PROJECT_SEARCH_CONTEXT),
-      map((action: fromMultiMatchPageActions.GetProjectSearchContext) => action.payload),
-      switchMap((projectContext) => {
-        return this.surveySearchApiService.getProjectSearchContext(projectContext.ProjectId)
+      withLatestFrom(
+        this.store.select(fromSearchReducer.getSearchFilterMappingData),
+        (action: fromMultiMatchPageActions.GetProjectSearchContext, searchFilterMappingDataObj ) =>
+          ({ action, searchFilterMappingDataObj })
+      ),
+      switchMap((data) => {
+        return this.surveySearchApiService.getProjectSearchContext(data.action.payload.ProjectId)
           .pipe(
             mergeMap(response => {
                 const actions = [];
@@ -39,14 +43,14 @@ export class MultiMatchEffects {
                   PaymarketId: response.PaymarketId,
                   ProjectId: response.ProjectId,
                   Rate: response.Rate,
-                  RestrictToCountryCode: projectContext.RestrictToCountryCode
+                  RestrictToCountryCode: data.action.payload.RestrictToCountryCode
                 };
                 actions.push(new fromContextActions.SetProjectSearchContext(searchContext));
                 actions.push(new fromSurveySearchFiltersActions.GetDefaultScopesFilter());
-                if (projectContext.RestrictToCountryCode) {
+                if (data.action.payload.RestrictToCountryCode) {
                   actions.push(new fromSearchFiltersActions.AddFilters([
                     SurveySearchFiltersHelper.buildLockedCountryCodeFilter(searchContext.CountryCode,
-                      this.searchFilterMappingDataObj)
+                      data.searchFilterMappingDataObj)
                   ]));
                 }
                 return actions;
@@ -113,7 +117,6 @@ export class MultiMatchEffects {
       private actions$: Actions,
       private surveySearchApiService: SurveySearchApiService,
       private store: Store<fromMultiMatchReducer.State>,
-      private windowCommunicationService: WindowCommunicationService,
-      private searchFilterMappingDataObj: SearchFilterMappingDataObj
+      private windowCommunicationService: WindowCommunicationService
   ) {}
 }

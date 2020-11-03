@@ -1,12 +1,16 @@
 import { Injectable } from '@angular/core';
 
+import { Store } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { mergeMap } from 'rxjs/operators';
+import { filter, mergeMap, withLatestFrom } from 'rxjs/operators';
 
 import * as fromSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
 import * as fromSearchResultsActions from 'libs/features/search/actions/search-results.actions';
 import * as fromPayMarketActions from 'libs/features/add-jobs/actions/paymarkets.actions';
 import * as fromJobSearchResultsActions from 'libs/features/add-jobs/actions/search-results.actions';
+import * as fromSearchReducer from 'libs/features/search/reducers';
+import { SearchFeatureIds } from 'libs/features/search/enums/search-feature-ids';
+
 
 @Injectable()
 export class SearchFiltersEffects {
@@ -15,6 +19,10 @@ export class SearchFiltersEffects {
   resetAllFilters = this.actions$
     .pipe(
       ofType(fromSearchFiltersActions.RESET_ALL_FILTERS),
+      withLatestFrom(
+        this.store.select(fromSearchReducer.getSearchFeatureId),
+        (action: fromSearchFiltersActions.ResetAllFilters, searchFeatureId) => ({ action, searchFeatureId })),
+      filter((data) => data.searchFeatureId === SearchFeatureIds.AddJobs),
       mergeMap(() =>
         [
           new fromSearchResultsActions.GetResults({keepFilteredOutOptions: false}),
@@ -25,7 +33,8 @@ export class SearchFiltersEffects {
     ));
 
   constructor(
-    private actions$: Actions
+    private actions$: Actions,
+    private store: Store<any>
   ) {
   }
 }

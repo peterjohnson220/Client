@@ -180,6 +180,21 @@ export const getSearchResultsError = createSelector(
 );
 
 // Search Page
+export const getSearchFeatureId = createSelector(
+  selectSearchPageState,
+  fromSearchPageReducer.getSearchFeatureId
+);
+
+export const getSearchFilterMappingData = createSelector(
+  selectSearchPageState,
+  fromSearchPageReducer.getSearchFilterMappingData
+);
+
+export const getUserFilterTypeData = createSelector(
+  selectSearchPageState,
+  fromSearchPageReducer.getUserFilterTypeData
+);
+
 export const getSearchingFilter = createSelector(
   selectSearchPageState,
   fromSearchPageReducer.getSearchingFilter

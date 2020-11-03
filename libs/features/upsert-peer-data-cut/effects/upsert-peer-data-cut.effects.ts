@@ -13,7 +13,6 @@ import { ExchangeExplorerContextService } from 'libs/features/peer/exchange-expl
 import { UiPersistenceSettingsApiService } from 'libs/data/payfactors-api/settings';
 import { FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models/common';
 
-
 import * as fromUpsertPeerDataCutActions from '../actions';
 
 @Injectable()
@@ -32,8 +31,7 @@ export class UpsertPeerDataCutEffects {
       return this.exchangeDataCutsApiService.upsertDataCutNew({
         DataCutGuid: latest.action.DataCutGuid,
         CompanyJobId: latest.action.CompanyJobId,
-        UserSessionId: latest.action.UserSessionId,
-        UserJobMatchId: latest.action.UserJobMatchId,
+        EntityConfiguration: latest.action.EntityConfiguration,
         ZoomLevel: latest.action.ZoomLevel,
         IsPayMarketOverride: latest.action.IsPayMarketOverride,
         CompanyPayMarketId: latest.paymarket.CompanyPayMarketId,
@@ -41,7 +39,8 @@ export class UpsertPeerDataCutEffects {
         PayMarketName: latest.paymarket.PayMarket,
         Companies: latest.companies
       }).pipe(
-        map((payload) => new fromUpsertPeerDataCutActions.UpsertDataCutSuccess({UserJobMatchId: payload.Key, IsUpdate: payload.Value})),
+        map((payload) => new fromUpsertPeerDataCutActions.UpsertDataCutSuccess({UserJobMatchId: payload.Key,
+          IsUpdate: payload.Value, BaseEntityId: latest.action.EntityConfiguration.BaseEntityId})),
         catchError(() => of(new fromUpsertPeerDataCutActions.UpsertDataCutError()))
       );
     })

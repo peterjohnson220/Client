@@ -69,9 +69,7 @@ import { AddJobsPageComponent } from './containers/pages/add-jobs';
     AddJobsPageComponent
   ],
   providers: [
-    SavedFiltersHelper,
-    {provide: SearchFilterMappingDataObj, useValue: SearchFilterMappingData},
-    {provide: UserFilterTypeData, useValue: JobSearchUserFilterType}
+    SavedFiltersHelper
   ]
 })
 export class PfAddJobsModule {

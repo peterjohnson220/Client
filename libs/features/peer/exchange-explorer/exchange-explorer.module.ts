@@ -68,9 +68,7 @@ const declarations = [
     PfFormsModule
   ],
   providers: [
-    ExchangeExplorerContextService,
-    { provide: SearchFilterMappingDataObj, useValue: {} },
-    { provide: UserFilterTypeData, useValue: '' }
+    ExchangeExplorerContextService
   ],
   declarations: declarations,
   exports: declarations

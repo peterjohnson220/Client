@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit, OnDestroy, Input } from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit, OnDestroy, Input, OnChanges, SimpleChanges, ChangeDetectionStrategy} from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';

@@ -10,6 +10,7 @@ export const SET_CHILD_FILTER = '[Search/Child Filter] Set Child Filter';
 export const REMOVE_FILTER_VALUE = '[Search/Child Filter] Remove Value';
 export const TOGGLE_MULTI_SELECT_OPTION = '[Search/Child Filter] Toggle Multi Select Option';
 export const CLEAR_CHILD_FILTER = '[Search/Child Filter] Clear';
+export const RESET = '[Search/Child Filter] Reset';
 
 export class ApplySelections implements Action {
   readonly type = APPLY_SELECTIONS;
@@ -59,6 +60,10 @@ export class ToggleMultiSelectOption implements Action {
   constructor(public payload: any) {}
 }
 
+export class Reset implements Action {
+  readonly type = RESET;
+}
+
 export type Actions
   = SetChildFilter
   | SetChildFilterOptions
@@ -67,4 +72,5 @@ export type Actions
   | SetSearchValue
   | RemoveFilterValue
   | ApplySelections
-  | ClearChildFilter;
+  | ClearChildFilter
+  | Reset;

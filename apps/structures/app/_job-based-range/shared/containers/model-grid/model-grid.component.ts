@@ -27,6 +27,7 @@ import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services';
 import * as fromReducer from 'libs/features/pf-data-grid/reducers';
 import { PermissionService } from 'libs/core/services';
 import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
+import { PfThemeType } from 'libs/features/pf-data-grid/enums/pf-theme-type.enum';
 
 import { PageViewIds } from '../../constants/page-view-ids';
 import * as fromPublishModelModalActions from '../../actions/publish-model-modal.actions';
@@ -77,6 +78,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   removingRangeSuccessSubscription = new Subscription;
   rangeIdToRemove: number;
 
+  pfThemeType = PfThemeType;
   metaData$: Observable<RangeGroupMetadata>;
   metaDataSub: Subscription;
   rangeOverrides$: Observable<CompanyStructureRangeOverride[]>;

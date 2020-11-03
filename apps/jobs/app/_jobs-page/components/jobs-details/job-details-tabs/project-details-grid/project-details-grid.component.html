@@ -6,8 +6,11 @@
   [defaultSort]="defaultSort"
   [noRecordsFound]="'This job has not been added to any projects.'"
   [headerClassName]="'jobs-page-sub-grid-header'"
+  [pageTheme]="pfThemeType.JobDetails"
+  [borders]="false"
   [actionBarConfig]="actionBarConfig"
   [gridConfig]="gridConfig"
+  [hasHeaderDividers]="true"
   [pageable]="!gridConfig.EnableInfiniteScroll">
 </pf-data-grid>
 

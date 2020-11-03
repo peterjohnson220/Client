@@ -14,8 +14,11 @@ import { PfCommonUIModule } from 'libs/ui/common';
 import { PfExchangeExplorerModule, GuidelinesBadgeModule } from 'libs/features/peer';
 
 import { reducers } from './reducers';
-import { UpsertPeerDataCutComponent } from './components/upsert-peer-data-cut';
+import { UpsertPeerDataCutComponent } from './upsert-peer-data-cut';
 import { UpsertPeerDataCutEffects, RequestPeerAccessEffects } from './effects';
+import { UpsertPeerDataModalComponent } from './containers/modals/upsert-peer-data-modal';
+import {PfFormsModule} from '../../forms';
+import {DojGuidelinesService} from '../peer/guidelines-badge/services/doj-guidelines.service';
 
 @NgModule({
   imports: [
@@ -33,13 +36,14 @@ import { UpsertPeerDataCutEffects, RequestPeerAccessEffects } from './effects';
     PfCommonModule,
     PfCommonUIModule,
     PfExchangeExplorerModule,
+    PfFormsModule,
     GuidelinesBadgeModule
   ],
   declarations: [
-    UpsertPeerDataCutComponent
+    UpsertPeerDataCutComponent, UpsertPeerDataModalComponent
   ],
-  providers: [WindowCommunicationService],
-  exports: [UpsertPeerDataCutComponent]
+  providers: [WindowCommunicationService, DojGuidelinesService],
+  exports: [UpsertPeerDataCutComponent, UpsertPeerDataModalComponent]
 })
 export class UpsertPeerDataCutModule {
   constructor() {}

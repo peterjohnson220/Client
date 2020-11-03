@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Action, Store } from '@ngrx/store';
 
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { switchMap, withLatestFrom, mergeMap, catchError, map } from 'rxjs/operators';
+import { switchMap, withLatestFrom, mergeMap, catchError, map, filter } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
 import * as fromSearchResultsActions from 'libs/features/search/actions/search-results.actions';
@@ -16,6 +16,7 @@ import * as fromSearchReducer from 'libs/features/search/reducers';
 import * as fromAddJobsReducer from 'libs/features/add-jobs/reducers';
 import * as fromAddJobsSearchResultsActions from 'libs/features/add-jobs/actions/search-results.actions';
 import * as fromInfiniteScrollActions from 'libs/features/infinite-scroll/actions/infinite-scroll.actions';
+import { SearchFeatureIds } from 'libs/features/search/enums/search-feature-ids';
 
 @Injectable()
 export class SearchResultsEffects {
@@ -71,9 +72,12 @@ export class SearchResultsEffects {
         this.store.select(fromSearchReducer.getParentFilters),
         this.store.select(fromSearchReducer.getResultsPagingOptions),
         this.store.select(fromAddJobsReducer.getContext),
-        (action: fromSearchResultsActions.GetResults, filters, pagingOptions, context) =>
-          ({ action, filters, pagingOptions, context })
+        this.store.select(fromSearchReducer.getSearchFilterMappingData),
+        this.store.select(fromSearchReducer.getSearchFeatureId),
+        (action: fromSearchResultsActions.GetResults, filters, pagingOptions, context, searchFilterMappingDataObj, searchFeatureId) =>
+          ({ action, filters, pagingOptions, context, searchFilterMappingDataObj, searchFeatureId })
       ),
+      filter((data) => data.searchFeatureId === SearchFeatureIds.AddJobs),
       switchMap(data => {
         const searchRequest: JobSearchRequest = {
           SearchFields: this.payfactorsSearchApiHelper.getTextFiltersWithValuesAsSearchFields(data.filters),
@@ -88,7 +92,7 @@ export class SearchResultsEffects {
           .pipe(
             mergeMap((searchResponse: JobSearchResponse) => {
               const actions = [];
-              const filters = this.payfactorsSearchApiModelMapper.mapSearchFiltersToFilters(searchResponse.SearchFilters);
+              const filters = this.payfactorsSearchApiModelMapper.mapSearchFiltersToFilters(searchResponse.SearchFilters, data.searchFilterMappingDataObj);
 
               if (searchRequest.PagingOptions.From > 0) {
                 actions.push(new fromSearchResultsActions.GetMoreResultsSuccess());

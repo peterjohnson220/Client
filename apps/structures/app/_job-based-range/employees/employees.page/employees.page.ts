@@ -10,7 +10,7 @@ import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 import { Permissions } from 'libs/constants';
 import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
 import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
-import { PagingOptions } from 'libs/models/payfactors-api/search/request';
+import { PfThemeType } from 'libs/features/pf-data-grid/enums/pf-theme-type.enum';
 
 import * as fromSharedJobBasedRangeReducer from '../../shared/reducers';
 import * as fromModelSettingsModalActions from '../../shared/actions/model-settings-modal.actions';
@@ -43,10 +43,10 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
   _Permissions = null;
   modelPageViewId: string;
   modelPageViewIdSubscription: Subscription;
+  pfThemeType = PfThemeType;
 
   gridConfig: GridConfig;
   hasInfiniteScrollFeatureFlagEnabled: boolean;
-  defaultPagingOptions: PagingOptions;
   filterTemplates = {};
 
   constructor(
@@ -85,10 +85,6 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
       CaptureGridScroll: true,
       EnableInfiniteScroll: this.hasInfiniteScrollFeatureFlagEnabled,
       ScrollToTop: this.hasInfiniteScrollFeatureFlagEnabled
-    };
-    this.defaultPagingOptions = {
-      From: 0,
-      Count: 50
     };
   }
 
