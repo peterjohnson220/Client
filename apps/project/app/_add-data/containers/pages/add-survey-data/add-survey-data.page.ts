@@ -8,6 +8,7 @@ import * as fromSearchReducer from 'libs/features/search/reducers';
 import { SearchBaseDirective } from 'libs/features/search/containers/search-base';
 import * as fromSearchResultsActions from 'libs/features/search/actions/search-results.actions';
 import * as fromSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
+import { SearchFeatureIds } from 'libs/features/search/enums/search-feature-ids';
 import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
 
 import * as fromAddSurveyDataPageActions from '../../../actions/add-survey-data-page.actions';
@@ -18,7 +19,7 @@ import * as fromSurveySearchReducer from 'libs/features/survey-search/reducers';
 import * as fromContextActions from 'libs/features/survey-search/actions/context.actions';
 import { disableDatacutsDragging } from 'libs/features/survey-search/helpers';
 import * as fromSurveySearchResultsActions from 'libs/features/survey-search/actions/survey-search-results.actions';
-import { getSearchFilters } from 'libs/features/survey-search/data';
+import { getSearchFilters, SurveySearchFilterMappingDataObj, SurveySearchUserFilterType } from 'libs/features/survey-search/data';
 
 @Component({
   selector: 'pf-add-survey-data-page',
@@ -38,7 +39,7 @@ export class AddSurveyDataPageComponent extends SearchBaseDirective {
     private dragulaService: DragulaService,
     private featureFlagService: AbstractFeatureFlagService
   ) {
-    super(store);
+    super(store, SurveySearchFilterMappingDataObj, SearchFeatureIds.AddSurveyData, SurveySearchUserFilterType);
     this.matchMode = this.featureFlagService.enabled(FeatureFlags.SurveySearchLightningMode, false);
     this.selectedCuts$ = this.store.select(fromSurveySearchReducer.getSelectedDataCuts);
     this.addingData$ = this.store.select(fromAddDataReducer.getAddingData);

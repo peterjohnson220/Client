@@ -36,6 +36,10 @@
   position: absolute;
 }
 
+.hide-horizontal-scrollbar {
+  overflow-x: hidden;
+}
+
 .split-view-container {
   overflow: hidden;
   position: relative;

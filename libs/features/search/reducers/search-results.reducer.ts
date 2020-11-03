@@ -1,6 +1,7 @@
 import * as fromSearchResultsActions from '../actions/search-results.actions';
 
 import { ResultsPagingOptions } from '../models';
+import * as fromSearchPageActions from '../actions/search-page.actions';
 
 export interface State {
   loadingMoreResults: boolean;
@@ -64,6 +65,9 @@ export function reducer(state = initialState, action: fromSearchResultsActions.A
         ...state,
         totalResultsOnServer: 0
       };
+    }
+    case fromSearchResultsActions.RESET: {
+      return initialState;
     }
     default: {
       return state;

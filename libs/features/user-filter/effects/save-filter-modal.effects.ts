@@ -12,7 +12,6 @@ import { UserFilterApiService } from 'libs/data/payfactors-api';
 import * as fromSaveFilterModalActions from '../actions/save-filter-modal.actions';
 import * as fromUserFilterActions from '../actions/user-filter.actions';
 import * as fromUserFilterReducer from '../reducers';
-import { UserFilterTypeData } from '../models';
 
 @Injectable()
 export class SaveFilterModalEffects {
@@ -50,15 +49,19 @@ export class SaveFilterModalEffects {
   updateSavedFilterMetaInfo$ = this.actions$
   .pipe(
     ofType(fromSaveFilterModalActions.UPDATE_META_INFO),
-    switchMap((action: fromSaveFilterModalActions.UpdateMetaInfo) => {
-      const savedFilter = action.payload.savedFilter;
+    withLatestFrom(
+      this.store.select(fromSearchReducer.getUserFilterTypeData),
+      (action: fromSaveFilterModalActions.UpdateMetaInfo, userFilterTypeData) =>
+        ({ action, userFilterTypeData })),
+    switchMap((data) => {
+      const savedFilter = data.action.payload.savedFilter;
       return this.userFilterApiService.upsert({
         SavedFilter: {
           Name: savedFilter.Name,
           Id: savedFilter.Id,
-          MetaInfo: action.payload.metaInfo
+          MetaInfo: data.action.payload.metaInfo
         },
-        Type: this.userFilterTypeData.Type
+        Type: data.userFilterTypeData.Type
       })
       .pipe(
         map(() => {
@@ -88,7 +91,6 @@ export class SaveFilterModalEffects {
   constructor(
     private actions$: Actions,
     private store: Store<fromUserFilterReducer.State>,
-    private userFilterApiService: UserFilterApiService,
-    private userFilterTypeData: UserFilterTypeData
+    private userFilterApiService: UserFilterApiService
   ) { }
 }

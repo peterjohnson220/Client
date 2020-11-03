@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { catchError, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
+import { catchError, filter, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
 import { Action, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 
@@ -12,11 +12,9 @@ import * as fromSearchReducer from 'libs/features/search/reducers';
 
 import { TotalRewardsEmployeeSearchResponse } from 'libs/models/payfactors-api/total-rewards/response/employee-search-response.model';
 import { PayfactorsSearchApiHelper, PayfactorsSearchApiModelMapper } from 'libs/features/search/helpers';
-import {
-  TotalRewardsAssignmentApiService,
-  TotalRewardsSearchApiService
-} from 'libs/data/payfactors-api/total-rewards';
+import { TotalRewardsAssignmentApiService, TotalRewardsSearchApiService } from 'libs/data/payfactors-api/total-rewards';
 import { ScrollIdConstants } from 'libs/features/infinite-scroll/models';
+import { SearchFeatureIds } from 'libs/features/search/enums/search-feature-ids';
 
 import * as fromEmployeeSearchResultsActions from '../actions/employee-search-results.actions';
 
@@ -35,8 +33,12 @@ export class EmployeeSearchResultsEffects {
         withLatestFrom(
           this.store.select(fromSearchReducer.getResultsPagingOptions),
           this.store.select(fromSearchReducer.getParentFilters),
-          (action: fromSearchResultsActions.GetResults, pagingOptions, filters) => ({action, pagingOptions, filters})
+          this.store.select(fromSearchReducer.getSearchFilterMappingData),
+          this.store.select(fromSearchReducer.getSearchFeatureId),
+          (action: fromSearchResultsActions.GetResults, pagingOptions, filters, searchFilterMappingDataObj, searchFeatureId) =>
+            ({action, pagingOptions, filters, searchFilterMappingDataObj, searchFeatureId})
         ),
+        filter((data) => data.searchFeatureId === SearchFeatureIds.StatementAssignment),
         switchMap((data) => {
           const searchRequest = {
             FilterOptions: {
@@ -52,7 +54,7 @@ export class EmployeeSearchResultsEffects {
             mergeMap((response: TotalRewardsEmployeeSearchResponse) => {
               const actions = [];
               const searchFilters = this.payfactorsSearchApiHelper.sliceSearchFiltersOptions(response.SearchFilters, searchRequest.Filters, 5);
-              const filters = this.payfactorsSearchApiModelMapper.mapSearchFiltersToFilters(searchFilters);
+              const filters = this.payfactorsSearchApiModelMapper.mapSearchFiltersToFilters(searchFilters, data.searchFilterMappingDataObj);
               if (searchRequest.PagingOptions.From > 0) {
                 actions.push(new fromSearchResultsActions.GetMoreResultsSuccess());
                 actions.push(new fromEmployeeSearchResultsActions.AddEmployeeResults(response.EmployeeResults));

@@ -11,6 +11,7 @@ import {
 import { BaseExchangeDataSearchRequest } from 'libs/models/payfactors-api/peer/exchange-data-search/request';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
+import {UpsertPeerDataCutEntityConfigurationModel} from '../../../features/upsert-peer-data-cut/models';
 
 @Injectable({
   providedIn: 'root',
@@ -25,8 +26,8 @@ export class ExchangeDataCutsApiService {
   }
 
   getDataCutValidationInfo(payload: any): Observable<DataCutValidationInfo[]> {
-    return this.payfactorsApiService.get<DataCutValidationInfo[]>(`${this.endpoint}/GetDataCutValidationInfo`,
-      { params: { companyJobId: payload.CompanyJobId, userSessionId: payload.UserSessionId } });
+    return this.payfactorsApiService.post<DataCutValidationInfo[]>(`${this.endpoint}/GetDataCutValidationInfo`,
+      { CompanyJobId: payload.CompanyJobId, EntityConfiguration: payload.EntityConfiguration } );
   }
 
   exportExchangeDataCutsNew(payload: ExchangeDataCutsExportRequest): Observable<any> {
@@ -35,11 +36,11 @@ export class ExchangeDataCutsApiService {
 
   validateCutEmployeeSimilarityNew(searchFilter: BaseExchangeDataSearchRequest,
                                 companyJobId: number,
-                                userSessionId: number,
+                                entityConfiguration: UpsertPeerDataCutEntityConfigurationModel,
                                 dataCutGuid: string): Observable<boolean> {
     return this.payfactorsApiService.post(`${this.endpoint}/ValidateCutEmployeeSimilarityNew`,
       {
-        CompanyJobId: companyJobId, UserSessionId: userSessionId,
+        CompanyJobId: companyJobId, EntityConfiguration: entityConfiguration,
         CurrentFilters: searchFilter, DataCutGuid: dataCutGuid
       }, (success: boolean) => success);
   }

@@ -73,10 +73,8 @@ import { reducers } from './reducers';
   providers: [
     WindowRef,
     WindowCommunicationService,
-    { provide: SearchFilterMappingDataObj, useValue: StructuresSearchFilterMappingDataObj },
     { provide: UserFilterPopoverConfig, useValue: AddJobsUserFilterPopoverConfig },
-    { provide: AddJobsConfig, useValue: JobBasedRangeAddJobsConfig },
-    { provide: UserFilterTypeData, useValue: StructuresJobSearchUserFilterType }
+    { provide: AddJobsConfig, useValue: JobBasedRangeAddJobsConfig }
   ]
 })
 export class ModelModule {

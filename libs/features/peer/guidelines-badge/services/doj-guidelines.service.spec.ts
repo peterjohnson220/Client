@@ -15,6 +15,8 @@ import { SettingsService } from 'libs/state/app-context/services';
 
 import { DojGuidelinesService } from './doj-guidelines.service';
 import * as fromDataCutValidationReducer from '../reducers';
+import {UpsertPeerDataCutEntityConfigurationModel} from '../../../upsert-peer-data-cut/models';
+import {UpsertPeerDataCutEntities, UpsertPeerDataCutParentEntities} from '../../../upsert-peer-data-cut/constants';
 
 jest.mock('mapbox-gl/dist/mapbox-gl', () => ({
   LngLatBounds: () => ({})
@@ -118,7 +120,14 @@ describe('Legacy Content - Peer - DOJ Guidelines Service', () => {
 
     service.dataCutValidationInfo = dataValidationInfo;
 
-    service.validateDataCut(companies, 13, 13950);
+    const mockEntityConfig: UpsertPeerDataCutEntityConfigurationModel = {
+      ParentEntity: UpsertPeerDataCutParentEntities.Projects,
+      ParentEntityId: 13950,
+      BaseEntity: UpsertPeerDataCutEntities.ProjectJobs,
+      BaseEntityId: null
+    };
+
+    service.validateDataCut(companies, 13, mockEntityConfig);
 
     expect(service.companyValidationPass).toBe(true);
   });

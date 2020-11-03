@@ -6,21 +6,23 @@
   [enableSelection]="true"
   [columnTemplates]="columnTemplates"
   [expandedRowTemplate]="pricingMatchesGrid"
-  [actionBarConfig]="actionBarConfig"  
+  [actionBarConfig]="actionBarConfig"
   [inboundFilters]="filters"
   [defaultSort]="defaultSort"
   [customSortOptions]="customSortOptions"
   [preserveSelectionsOnGetConfig]="true"
   [applyUserDefaultCompensationFields]="true"
   [headerClassName]="'jobs-page-sub-grid-header'"
-  [applyUserDefaultCompensationFields]="true"
+  [pageTheme]="pfThemeType.PricingDetails"
   [gridConfig]="gridConfig"
+  [hasHeaderDividers]="true"
+  [hasColDividers]="true"
   [pageable]="!gridConfig.EnableInfiniteScroll"
   [noRecordsFound]="'There are no results for the filter criteria you have selected.'">
 </pf-data-grid>
 
 <ng-template #pricingMatchesGrid let-dataRow="dataRow">
-  <pf-pricing-matches-grid 
+  <pf-pricing-matches-grid
     [pricingInfo]="dataRow"
     (reScopeSurveyDataEmitter)="openReScopeSurveyDataModal($event)">
   </pf-pricing-matches-grid>
@@ -83,7 +85,7 @@
 
 <ng-template #payMarketFilter>
   <kendo-dropdownlist
-    [attr.data-qa-id]="'ddm-operator-' + payMarketField.SourceName"  
+    [attr.data-qa-id]="'ddm-operator-' + payMarketField.SourceName"
     [(ngModel)]="selectedPayMarket"
     [textField]="'Value'"
     [valueField]="'Id'"
@@ -91,7 +93,7 @@
     [data]="filteredPayMarketOptions"
     (valueChange)="handlePayMarketFilterChanged($event)"
     [filterable]="true"
-    (filterChange)="handlePayMarketDropDownFilterChanged($event)"    
+    (filterChange)="handlePayMarketDropDownFilterChanged($event)"
     style="width: 250px"
     class="k-dropdown-white form-control">
   </kendo-dropdownlist>
@@ -101,7 +103,7 @@
   <div class="d-flex">
     <label class="my-auto pr-3">Priced:</label>
     <kendo-dropdownlist
-      [attr.data-qa-id]="'ddm-operator-' + pricedField.SourceName"  
+      [attr.data-qa-id]="'ddm-operator-' + pricedField.SourceName"
       [(ngModel)]="pricedFilterValue"
       [textField]="'display'"
       [valueField]="'value'"
@@ -109,7 +111,7 @@
       (valueChange)="handlePricedFilterChanged($event)"
       style="width: 75px"
       class="k-dropdown-white form-control">
-    </kendo-dropdownlist>   
+    </kendo-dropdownlist>
   </div>
 </ng-template>
 
@@ -138,11 +140,11 @@
       <span class="pl-2">Recalculating Pricings</span>
     </div>
   </div>
+</ng-template>
+
 
 <pf-re-scope-survey-data
   [modalConfiguration]="reScopeSurveyDataConfiguration"
   (reScopeSubmitted)="reScopeSurveyDataCut($event)"
   (cancelChanges)="showReScopeSurveyDataModal.next(false);">
 </pf-re-scope-survey-data>
-
-

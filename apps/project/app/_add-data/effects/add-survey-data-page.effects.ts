@@ -10,7 +10,6 @@ import { WindowCommunicationService } from 'libs/core/services';
 import { AddSurveyDataCutMatchResponse } from 'libs/models/payfactors-api';
 import * as fromSearchFiltersActionsShared from 'libs/features/search/actions/search-filters.actions';
 import * as fromSearchPageActionsShared from 'libs/features/search/actions/search-page.actions';
-import { SearchFilterMappingDataObj } from 'libs/features/search/models';
 
 import * as fromAddSurveyDataPageActions from '../actions/add-survey-data-page.actions';
 import * as fromContextActions from 'libs/features/survey-search/actions/context.actions';
@@ -19,6 +18,7 @@ import * as fromSurveySearchResultsActions from 'libs/features/survey-search/act
 import { DataCutDetails, JobContext, ProjectSearchContext } from 'libs/features/survey-search/models';
 import * as fromSurveySearchReducer from 'libs/features/survey-search/reducers';
 import { PayfactorsSurveySearchApiModelMapper, SurveySearchFiltersHelper } from 'libs/features/survey-search/helpers';
+import * as fromSearchReducer from 'libs/features/search/reducers';
 
 @Injectable()
 export class AddSurveyDataPageEffects {
@@ -27,9 +27,11 @@ export class AddSurveyDataPageEffects {
   setJobContext$ = this.actions$
     .pipe(
       ofType(fromContextActions.SET_JOB_CONTEXT),
-      withLatestFrom(this.store.select(fromSurveySearchReducer.getProjectSearchContext),
+      withLatestFrom(
+        this.store.select(fromSurveySearchReducer.getProjectSearchContext),
+        this.store.select(fromSearchReducer.getSearchFilterMappingData),
         (action: fromContextActions.SetJobContext,
-         projectSearchContext: ProjectSearchContext) => ({action, projectSearchContext})),
+         projectSearchContext: ProjectSearchContext, searchFilterMappingDataObj) => ({action, projectSearchContext, searchFilterMappingDataObj})),
       mergeMap(context => {
         const actions = [];
         actions.push(new fromSearchFiltersActionsShared.SetDefaultValue(
@@ -39,7 +41,7 @@ export class AddSurveyDataPageEffects {
         if (context.projectSearchContext.RestrictToCountryCode) {
           actions.push(new fromSearchFiltersActionsShared.AddFilters([
             SurveySearchFiltersHelper.buildLockedCountryCodeFilter(context.projectSearchContext.CountryCode,
-              this.searchFilterMappingDataObj)
+              context.searchFilterMappingDataObj)
           ]));
         }
         return actions;
@@ -105,7 +107,6 @@ export class AddSurveyDataPageEffects {
       private actions$: Actions,
       private surveySearchApiService: SurveySearchApiService,
       private store: Store<fromSurveySearchReducer.State>,
-      private windowCommunicationService: WindowCommunicationService,
-      private searchFilterMappingDataObj: SearchFilterMappingDataObj
+      private windowCommunicationService: WindowCommunicationService
   ) {}
 }
