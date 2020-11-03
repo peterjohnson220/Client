@@ -20,6 +20,7 @@ import {
 } from '../models';
 import { getUserFilteredFields } from '../components';
 import { SelectAllStatus } from '../reducers/pf-data-grid.reducer';
+import { PfThemeType } from '../enums/pf-theme-type.enum';
 
 @Component({
   selector: 'pf-data-grid',
@@ -80,7 +81,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() borders = true;
   @Input() pageable = true;
   @Input() autoFitColumnsToHeader = false;
-  @Input() pageTheme: 'default' | 'next-gen' = 'default';
+  @Input() pageTheme = PfThemeType.Default;
   @Input() customSortOptions: (sortDescriptor: SortDescriptor[]) => SortDescriptor[] = null;
   @Input() syncScrollWithSplit = false;
   @Input() gridConfig: GridConfig;
@@ -90,6 +91,8 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() showSplitViewToggle = false;
   @Input() showSortControls = true;
   @Input() linkGroups = [];
+  @Input() hasHeaderDividers = false;
+  @Input() hasColDividers = false;
   @ViewChild('splitViewContainer', { static: false }) splitViewContainer: ElementRef;
 
   splitViewEmitter = new EventEmitter<string>();

@@ -84,6 +84,9 @@ export function reducer(state = initialState, action: fromChildFilterActions.Act
         parentOptionValue: ''
       };
     }
+    case fromChildFilterActions.RESET: {
+      return initialState;
+    }
     default: {
       return state;
     }

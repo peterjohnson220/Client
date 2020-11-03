@@ -1,45 +1,46 @@
 import {
   Component,
-  OnInit,
+  EventEmitter,
   Input,
-  SimpleChanges,
+  NgZone,
   OnChanges,
-  ViewEncapsulation,
+  OnDestroy,
+  OnInit,
+  Output,
+  SimpleChanges,
   TemplateRef,
   ViewChild,
-  OnDestroy,
-  NgZone,
-  EventEmitter,
-  Output
+  ViewEncapsulation
 } from '@angular/core';
 
 import { Observable, Subscription } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 
-import { Store, ActionsSubject } from '@ngrx/store';
+import { ActionsSubject, Store } from '@ngrx/store';
 import { ofType } from '@ngrx/effects';
-import { SortDescriptor, orderBy } from '@progress/kendo-data-query';
+import { orderBy, SortDescriptor } from '@progress/kendo-data-query';
 import {
+  ColumnComponent,
+  ColumnReorderEvent,
+  ColumnResizeArgs,
+  ContentScrollEvent,
+  GridComponent,
   GridDataResult,
   PageChangeEvent,
-  RowClassArgs,
-  GridComponent,
-  ColumnReorderEvent,
-  ColumnComponent,
-  ContentScrollEvent,
-  ColumnResizeArgs
+  RowClassArgs
 } from '@progress/kendo-angular-grid';
 
 import cloneDeep from 'lodash/cloneDeep';
 
 
-import { ViewField, PagingOptions, DataViewType, DataViewFieldDataType } from 'libs/models/payfactors-api';
+import { DataViewFieldDataType, DataViewType, PagingOptions, ViewField } from 'libs/models/payfactors-api';
 
 import * as fromReducer from '../../reducers';
 import * as fromActions from '../../actions';
 import { DataGridState, SelectAllStatus } from '../../reducers/pf-data-grid.reducer';
-import { GridRowActionsConfig, PositionType, GridConfig, ColumnResize } from '../../models';
+import { ColumnResize, GridConfig, GridRowActionsConfig, PositionType } from '../../models';
 import { MappedFieldNamePipe } from '../../pipes';
+import { PfThemeType } from '../../enums/pf-theme-type.enum';
 
 @Component({
   selector: 'pf-grid',
@@ -72,12 +73,14 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   @Input() useColumnGroups = true;
   @Input() autoFitColumnsToHeader = false;
   @Input() pageable = true;
-  @Input() theme: 'default' | 'next-gen' = 'default';
+  @Input() theme = PfThemeType.Default;
   @Input() customSortOptions: (previousSortDescriptor: SortDescriptor[], currentSortDescriptor: SortDescriptor[]) => SortDescriptor[] = null;
   @Input() modifiedKey: string = null;
   @Input() resetWidthForSplitView = false;
   @Input() allowMultipleSort = false;
   @Input() showSortControls = true;
+  @Input() hasHeaderDividers = false;
+  @Input() hasColDividers = false;
   @Output() scrolled = new EventEmitter<ContentScrollEvent>();
 
   gridState$: Observable<DataGridState>;
@@ -128,11 +131,10 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   loadingMoreDataSubscription: Subscription;
   hasMoreDataOnServer: boolean;
   hasMoreDataOnServerSubscription: Subscription;
-
   lastUpdateFieldsDateSubscription: Subscription;
-
   filtersUpdatedCountSubscription: Subscription;
   resetGridScrolledSubscription: Subscription;
+  groupTracker: {group: string, dataElementId: number } [] = [];
 
 
   readonly MIN_SPLIT_VIEW_COL_WIDTH = 100;
@@ -325,6 +327,32 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
+  // TODO: this should be implemented as pipes for both header and column dividers
+  getBorderClass(col: any) {
+    const idFound = this.groupTracker.find(x => x.dataElementId === col.DataElementId);
+
+    // the asyncDataFields$ loops thru this method every time it is updated. This check prevents the css from being overwritten by ''.
+    if (idFound !== undefined) {
+      return 'border-left';
+    }
+
+    const newGroup = this.groupTracker.find(x => x.group === col.Group);
+    if (newGroup === undefined) {
+      this.groupTracker.push({group: col.Group, dataElementId: col.DataElementId});
+      return 'border-left';
+    } else {
+      return '';
+    }
+  }
+
+  getGroupHeaderDividers(col: any) {
+    return this.hasHeaderDividers ? this.getBorderClass(col) : '';
+  }
+
+  getGroupColDividers(col: any) {
+    return this.hasColDividers ? this.getBorderClass(col) : '';
+  }
+
   getColWidth(col: any) {
     let colWidth = col.Width;
 
@@ -440,8 +468,10 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
       return '';
     } else if (col.TextAlign) {
       return `text-${col.TextAlign}`;
-    } else if (col.DataType === DataViewFieldDataType.Int || col.DataType === DataViewFieldDataType.Float) {
+    } else if (col.DataType === DataViewFieldDataType.Float) {
       return 'text-right';
+    } else if (col.DataType === DataViewFieldDataType.Int) {
+      return 'text-center';
     } else {
       return 'text-left';
     }

@@ -5,7 +5,9 @@ import { Subscription } from 'rxjs';
 
 import { Permissions } from 'libs/constants';
 import { JobDescriptionSummary } from 'libs/models';
+
 import { PfValidators } from '../../validators';
+import { PfThemeType } from '../../../features/pf-data-grid/enums/pf-theme-type.enum';
 
 @Component({
   selector: 'pf-job-description-summary-editor',
@@ -21,6 +23,7 @@ export class JobDescriptionSummaryEditorComponent implements OnInit, OnDestroy, 
   @Input() rows = 9;
   @Input() jobDescriptionSummary: JobDescriptionSummary;
   @Input() isJdmEnabled = true;
+  @Input() theme = PfThemeType.Default;
 
   @Output() jobDescriptionChanged: EventEmitter<string> = new EventEmitter<string>();
 
@@ -55,6 +58,10 @@ export class JobDescriptionSummaryEditorComponent implements OnInit, OnDestroy, 
       if (changes['jobDescriptionSummary'].currentValue) {
         this.jobDescriptionForm.patchValue({ JobDescription: changes['jobDescriptionSummary'].currentValue.JobSummary });
       }
+    }
+
+    if (changes['theme']) {
+      this.theme = changes['theme'].currentValue;
     }
   }
 

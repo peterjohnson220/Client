@@ -1,6 +1,8 @@
 <div [ngClass]="{'card': layout === 'card'}">
-  <div [ngClass]="{'card-header': layout === 'card', 'pb-3': layout === 'simple'}">
-    <ng-container *ngTemplateOutlet="jobDescriptionHeader"></ng-container>
+  <div [ngClass]="[theme].join(' ')">
+    <div [ngClass]="{'card-header': layout === 'card', 'pb-3': layout === 'simple'}">
+      <ng-container *ngTemplateOutlet="jobDescriptionHeader"></ng-container>
+    </div>
   </div>
   <div [ngClass]="{'card-block': layout === 'card'}">
     <ng-container *ngTemplateOutlet="jobDescriptionTextBox"></ng-container>
@@ -22,14 +24,14 @@
         title="Export to Word"
         (click)="exportJobDescription('docx')"
         [attr.data-qa-id]="'btn-jobs-page-export-jd-word'">
-        <fa-icon fa-icon [icon]="['fal', 'file-word']" [size]="actionIconSize"></fa-icon>
+        <fa-icon fa-icon [icon]="['fal', 'file-word']" [size]="actionIconSize" [ngClass]="theme"></fa-icon>
       </div>
       <div
         class="export-btn export-pdf"
         title="Export to PDF"
         (click)="exportJobDescription('pdf')"
         [attr.data-qa-id]="'btn-jobs-page-export-jd-pdf'">
-        <fa-icon fa-icon [icon]="['fal', 'file-pdf']" [size]="actionIconSize"></fa-icon>
+        <fa-icon fa-icon [icon]="['fal', 'file-pdf']" [size]="actionIconSize" [ngClass]="theme"></fa-icon>
       </div>
     </div>
   </div>
@@ -42,12 +44,12 @@
       data-qa-id="txt-jobs-page-job-description"
       class="form-control"
       [attr.rows]="rows"
-      formControlName="JobDescription"                
+      formControlName="JobDescription"
       [readonly]="!(jobDescriptionSummary | editableJobDescription : isJdmEnabled)"
       [placeholder]="'There is no Job Description loaded for this Job.'"
       [pfValidatable]="true">
-    </textarea>              
-  </form>  
+    </textarea>
+  </form>
 </ng-template>
 
 <form

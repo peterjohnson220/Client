@@ -3,9 +3,9 @@ import { Injectable } from '@angular/core';
 import { Action, Store } from '@ngrx/store';
 import { Actions } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { catchError, mergeMap, switchMap, withLatestFrom, map } from 'rxjs/operators';
+import { catchError, filter, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
 
-import { SearchResponse, PricingMatchesRequest, PricingMatchesResponse } from 'libs/models/payfactors-api';
+import { PricingMatchesRequest, PricingMatchesResponse, SearchResponse } from 'libs/models/payfactors-api';
 import { PayfactorsSearchApiHelper, PayfactorsSearchApiModelMapper } from 'libs/features/search/helpers';
 import { SurveySearchApiService } from 'libs/data/payfactors-api/search';
 import { ScrollIdConstants } from 'libs/features/infinite-scroll/models';
@@ -13,9 +13,14 @@ import * as fromInfiniteScrollActions from 'libs/features/infinite-scroll/action
 import * as fromSearchResultsActions from 'libs/features/search/actions/search-results.actions';
 import * as fromSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
 import * as fromSearchReducer from 'libs/features/search/reducers';
+import { SearchFeatureIds } from 'libs/features/search/enums/search-feature-ids';
 
 import * as fromSurveySearchResultsActions from '../actions/survey-search-results.actions';
-import { PayfactorsSurveySearchApiHelper, createPricingMatchesRequest, PayfactorsSurveySearchApiModelMapper } from '../helpers';
+import {
+  createPricingMatchesRequest,
+  PayfactorsSurveySearchApiHelper,
+  PayfactorsSurveySearchApiModelMapper
+} from '../helpers';
 import * as fromSurveySearchReducer from '../reducers';
 
 @Injectable()
@@ -29,11 +34,16 @@ export class SurveySearchEffectsService {
         this.store.select(fromSearchReducer.getResultsPagingOptions),
         this.store.select(fromSurveySearchReducer.getPricingMatchDataSearchContext),
         this.store.select(fromSurveySearchReducer.getSelectedDataCuts),
-        (action: fromSearchResultsActions.GetResults, filters, pagingOptions, searchContext, selectedDataCuts) =>
-          ({ action, filters, pagingOptions, searchContext, selectedDataCuts })
+        this.store.select(fromSearchReducer.getSearchFilterMappingData),
+        this.store.select(fromSearchReducer.getSearchFeatureId),
+        (action: fromSearchResultsActions.GetResults, filters, pagingOptions, searchContext, selectedDataCuts, searchFilterMappingDataObj, searchFeatureId) =>
+          ({ action, filters, pagingOptions, searchContext, selectedDataCuts, searchFilterMappingDataObj, searchFeatureId })
       ),
-
+      filter((data) => data.searchFeatureId === SearchFeatureIds.MultiMatch || data.searchFeatureId === SearchFeatureIds.AddSurveyData),
       switchMap(l => {
+        if (!l.searchContext) {
+          return;
+        }
         const searchRequest = this.payfactorsSurveySearchApiHelper.buildSurveySearchRequest({
           Filters: l.filters,
           PagingOptions: l.pagingOptions,
@@ -52,7 +62,7 @@ export class SurveySearchEffectsService {
                 ));
               } else {
                 // Map filters and add currency code to base50th display name
-                const filters = this.payfactorsSearchApiModelMapper.mapSearchFiltersToFilters(searchResponse.SearchFilters);
+                const filters = this.payfactorsSearchApiModelMapper.mapSearchFiltersToFilters(searchResponse.SearchFilters, l.searchFilterMappingDataObj);
                 const base50thFilter = filters.find(f => f.Id === 'base50th');
                 base50thFilter.DisplayName += ` ${l.searchContext.CurrencyCode}`;
 

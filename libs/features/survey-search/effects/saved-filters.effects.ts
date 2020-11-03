@@ -10,8 +10,8 @@ import * as fromSearchResultsActions from 'libs/features/search/actions/search-r
 import * as fromSaveFilterModalActions from 'libs/features/user-filter/actions/save-filter-modal.actions';
 import * as fromUserFilterPopoverActions from 'libs/features/user-filter/actions/user-filter-popover.actions';
 import { PayfactorsSearchApiModelMapper } from 'libs/features/search/helpers';
-import { UserFilterTypeData } from 'libs/features/user-filter/models';
 import * as fromUserFilterReducer from 'libs/features/user-filter/reducers';
+import * as fromSearchReducer from 'libs/features/search/reducers';
 
 import * as fromSurveySearchReducer from '../reducers';
 import { SavedFilterHelper } from '../helpers';
@@ -23,12 +23,18 @@ export class SavedFiltersEffects {
   initSavedFilters$ = this.actions$
     .pipe(
       ofType(fromUserFilterActions.INIT),
-      switchMap(() => {
-        return this.userFilterApiService.getAll({ Type: this.userFilterTypeData.Type })
+      withLatestFrom(
+        this.store.select(fromSearchReducer.getSearchFilterMappingData),
+        this.store.select(fromSearchReducer.getUserFilterTypeData),
+        (action: fromUserFilterActions.Init, searchFilterMappingDataObj, userFilterTypeData ) =>
+          ({ action, searchFilterMappingDataObj, userFilterTypeData })
+      ),
+      switchMap((data) => {
+        return this.userFilterApiService.getAll({ Type: data.userFilterTypeData.Type })
           .pipe(
             mergeMap(response => [
                new fromUserFilterActions.GetSuccess(
-                 this.payfactorsSearchApiModelMapper.mapSearchSavedFilterResponseToSavedFilter(response)),
+                 this.payfactorsSearchApiModelMapper.mapSearchSavedFilterResponseToSavedFilter(response, data.searchFilterMappingDataObj)),
                new fromUserFilterActions.ApplyDefault()
             ])
           );
@@ -158,7 +164,6 @@ export class SavedFiltersEffects {
     private userFilterApiService: UserFilterApiService,
     private payfactorsSearchApiModelMapper: PayfactorsSearchApiModelMapper,
     private store: Store<fromSurveySearchReducer.State>,
-    private userFilterTypeData: UserFilterTypeData,
     private savedFilterHelper: SavedFilterHelper
   ) { }
 }

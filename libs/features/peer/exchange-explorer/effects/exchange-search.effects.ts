@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
-import { catchError, map, mergeMap, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import { catchError, filter, map, mergeMap, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
 import { ExchangeDataSearchApiService } from 'libs/data/payfactors-api/search/peer';
@@ -11,6 +11,9 @@ import { PayfactorsSearchApiHelper, PayfactorsSearchApiModelMapper } from 'libs/
 import { ExchangeMapResponse } from 'libs/models/peer';
 import { ExchangeDataSearchRequest, SearchExchangeAggregationsRequest } from 'libs/models/payfactors-api/peer/exchange-data-search/request';
 import { OperatorEnum } from 'libs/constants';
+import { SearchFilter } from 'libs/models/payfactors-api/search/response';
+import { MultiSelectFilter } from 'libs/features/search/models';
+import { SearchFeatureIds } from 'libs/features/search/enums/search-feature-ids';
 
 import * as fromSearchReducer from 'libs/features/search/reducers';
 import * as fromExchangeExplorerReducer from '../reducers';
@@ -22,8 +25,6 @@ import * as fromMapActions from '../actions/map.actions';
 import { ExchangeExplorerContextService } from '../services';
 import * as fromInfiniteScrollActions from '../../../infinite-scroll/actions/infinite-scroll.actions';
 import { ScrollIdConstants } from '../../../infinite-scroll/models';
-import { SearchFilter } from '../../../../models/payfactors-api/search/response';
-import { MultiSelectFilter } from '../../../search/models';
 
 @Injectable()
 export class ExchangeSearchEffects {
@@ -43,10 +44,11 @@ export class ExchangeSearchEffects {
         this.store.pipe(select(fromSearchReducer.getSearchingChildFilter)),
         this.store.pipe(select(fromSearchReducer.getSingledFilter)),
         this.store.pipe(select(fromSearchReducer.getChildFilter)),
-        (action: any, searchingFilter, searchingChildFilter, singledFilter, childFilter) =>
-          ({action, searchingFilter, searchingChildFilter, singledFilter, childFilter})
-
+        this.store.pipe(select(fromSearchReducer.getSearchFeatureId)),
+        (action: any, searchingFilter, searchingChildFilter, singledFilter, childFilter, searchFeatureId) =>
+          ({action, searchingFilter, searchingChildFilter, singledFilter, childFilter, searchFeatureId})
       ),
+      filter((data) => data.searchFeatureId === SearchFeatureIds.ExchangeExplorer),
       mergeMap( payload => {
         const actions = [];
 
@@ -175,11 +177,13 @@ export class ExchangeSearchEffects {
   searchExchangeData(subscribedAction: string): Observable <Action> {
     return this.actions$.pipe(
       ofType(subscribedAction),
-      tap(action => this.store.dispatch(new fromMapActions.LoadPeerMapData())),
       withLatestFrom(
+        this.store.select(fromSearchReducer.getSearchFeatureId),
         this.exchangeExplorerContextService.selectFilterContext(),
-        (action, filterContext) => ({action, filterContext})
+        (action, searchFeatureId, filterContext) => ({action, searchFeatureId, filterContext})
       ),
+      filter((data) => data.searchFeatureId === SearchFeatureIds.ExchangeExplorer),
+      tap(() => this.store.dispatch(new fromMapActions.LoadPeerMapData())),
       switchMap((data: any) => {
           const exchangeRequest: ExchangeDataSearchRequest = {
             ...data.filterContext

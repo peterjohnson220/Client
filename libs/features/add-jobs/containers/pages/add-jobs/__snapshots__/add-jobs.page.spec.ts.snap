@@ -16,6 +16,8 @@ exports[`Project - Add Jobs - Jobs Page should not display GUI features related 
   pageShown$={[Function Observable]}
   route={[Function Object]}
   router={[Function Object]}
+  searchFeatureId={[Function String]}
+  searchFilterMappingDataObj={[Function Object]}
   searchingChildFilters$={[Function Store]}
   searchingFilter$={[Function Store]}
   selectedJobIdsSubscription={[Function Subscriber]}
@@ -24,6 +26,7 @@ exports[`Project - Add Jobs - Jobs Page should not display GUI features related 
   settingsService={[Function SettingsService]}
   store={[Function Store]}
   userContext={[Function Observable]}
+  userFilterTypeData={[Function Object]}
 >
   <pf-search-layout>
     
