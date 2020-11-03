@@ -52,6 +52,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   waitingForFormulaValidationSub: Subscription;
   formulaValidatingSub: Subscription;
   formulaValidSub: Subscription;
+  formulaSavingErrorSub: Subscription;
   formulaFieldSub: Subscription;
 
   controlPointsAsyncObj: AsyncStateObj<ControlPoint[]>;
@@ -72,6 +73,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   waitingForFormulaValidation = false;
   formulaValidating = false;
   formulaValid = false;
+  formulaSavingError = false;
   formulaField = null;
   structuresAdvancedModelingFeatureFlag: RealTimeFlag = { key: FeatureFlags.StructuresAdvancedModeling, value: false };
   unsubscribe$ = new Subject<void>();
@@ -95,6 +97,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
       .subscribe(fwfv => this.waitingForFormulaValidation = fwfv);
     this.formulaValidatingSub = this.store.pipe(select(fromJobBasedRangeReducer.getFormulaValidating)).subscribe(fv => this.formulaValidating = fv);
     this.formulaValidSub = this.store.pipe(select(fromJobBasedRangeReducer.getFormulaValid)).subscribe(fv => this.formulaValid = fv);
+    this.formulaSavingErrorSub = this.store.pipe(select(fromJobBasedRangeReducer.getFormulaSavingError)).subscribe(fse => this.formulaSavingError = fse);
     this.formulaFieldSub = this.store.pipe(select(fromJobBasedRangeReducer.getFormulaField)).subscribe(ff => this.formulaField = ff);
     this.enableJobRangeTypes$ = this.settingService.selectCompanySetting<boolean>(
       CompanySettingsEnum.EnableJobRangeStructureRangeTypes
@@ -203,7 +206,8 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
 
   handleModalSubmitAttempt() {
     this.attemptedSubmit = true;
-    if (this.waitingForFormulaValidation || this.formulaValidating || this.formulaField != null && !this.formulaValid) {
+    if (this.formulaSavingError || this.waitingForFormulaValidation || this.formulaValidating
+      || this.formulaField != null && !this.formulaValid) {
       this.activeTab = 'modelTab';
       return false;
     }
@@ -373,6 +377,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
     this.waitingForFormulaValidationSub.unsubscribe();
     this.formulaValidatingSub.unsubscribe();
     this.formulaValidSub.unsubscribe();
+    this.formulaSavingErrorSub.unsubscribe();
     this.formulaFieldSub.unsubscribe();
     this.unsubscribe$.next();
   }
