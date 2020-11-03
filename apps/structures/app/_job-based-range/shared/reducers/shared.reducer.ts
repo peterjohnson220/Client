@@ -16,7 +16,6 @@ export interface State {
   removingRange: AsyncStateObj<boolean>;
   rangeOverrides: CompanyStructureRangeOverride[];
   currentRangeGroup: AsyncStateObj<any>;
-  gettingData: AsyncStateObj<any>;
   comparingModels: boolean;
   compareEnabled: boolean;
 }
@@ -40,7 +39,6 @@ const initialState: State = {
   removingRange: generateDefaultAsyncStateObj<boolean>(false),
   rangeOverrides: [],
   currentRangeGroup: generateDefaultAsyncStateObj<any>(null),
-  gettingData: generateDefaultAsyncStateObj<any>(null),
   comparingModels: false,
   compareEnabled: false,
 };
@@ -159,40 +157,6 @@ export function reducer(state = initialState, action: fromSharedActions.SharedAc
         currentRangeGroup: currentRangeGroupClone
       };
     }
-    case fromSharedActions.GET_DATA_BY_RANGE_GROUP_ID: {
-      const gettingDataClone = cloneDeep(state.gettingData);
-
-      gettingDataClone.loading = true;
-      gettingDataClone.obj = null;
-      gettingDataClone.loadingError = false;
-
-      return {
-        ...state,
-        gettingData: gettingDataClone
-      };
-    }
-    case fromSharedActions.GET_DATA_BY_RANGE_GROUP_ID_SUCCESS: {
-      const gettingDataClone = cloneDeep(state.gettingData);
-
-      gettingDataClone.loading = false;
-      gettingDataClone.obj = action.payload;
-
-      return {
-        ...state,
-        gettingData: gettingDataClone
-      };
-    }
-    case fromSharedActions.GET_DATA_BY_RANGE_GROUP_ID_ERROR: {
-      const gettingDataClone = cloneDeep(state.gettingData);
-
-      gettingDataClone.loading = false;
-      gettingDataClone.loadingError = true;
-
-      return {
-        ...state,
-        gettingData: gettingDataClone
-      };
-    }
     case fromSharedActions.COMPARING_MODELS: {
       return{
         ...state,
@@ -217,39 +181,6 @@ export function reducer(state = initialState, action: fromSharedActions.SharedAc
         compareEnabled: false
       };
     }
-    case fromSharedActions.CONVERT_CURRENCY_AND_RATE: {
-      const convertJobRangeDataClone = cloneDeep(state.gettingData);
-
-      convertJobRangeDataClone.loading = true;
-      convertJobRangeDataClone.obj = null;
-      convertJobRangeDataClone.loadingError = false;
-
-      return {
-        ...state,
-        gettingData: convertJobRangeDataClone
-      };
-    }
-    case fromSharedActions.CONVERT_CURRENCY_AND_RATE_SUCCESS: {
-      const convertJobRangeDataClone = cloneDeep(state.gettingData);
-
-      convertJobRangeDataClone.loading = false;
-      convertJobRangeDataClone.obj = action.payload;
-
-      return {
-        ...state,
-        gettingData: convertJobRangeDataClone
-      };
-    }
-    case fromSharedActions.CONVERT_CURRENCY_AND_RATE_ERROR: {
-      const convertJobRangeDataClone = cloneDeep(state.gettingData);
-
-      convertJobRangeDataClone.loading = false;
-      convertJobRangeDataClone.loadingError = true;
-      return {
-        ...state,
-        gettingData: convertJobRangeDataClone
-      };
-    }
     default:
       return state;
   }
@@ -260,7 +191,6 @@ export const getRoundingSettings = (state: State) => state.roundingSettings;
 export const getRemovingRange = (state: State) => state.removingRange;
 export const getRangeOverrides = (state: State) => state.rangeOverrides;
 export const getCurrentRangeGroup = (state: State) => state.currentRangeGroup;
-export const getData = (state: State) => state.gettingData;
 export const getComparingModels = (state: State) => state.comparingModels;
 export const getCompareEnabled = (state: State) => state.compareEnabled;
 
