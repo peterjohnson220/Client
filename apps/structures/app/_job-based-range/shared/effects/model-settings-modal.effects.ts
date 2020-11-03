@@ -119,15 +119,17 @@ export class ModelSettingsModalEffects {
         this.store.pipe(select(fromPfDataGridReducer.getGridConfig)),
         this.store.pipe(select(fromPfDataGridReducer.getData)),
         this.store.pipe(select(fromPfDataGridReducer.getPagingOptions)),
-        (action, metadata: RangeGroupMetadata, gridConfig: GridConfig, gridData: GridDataResult, pagingOptions: PagingOptions) => {
-          return { action, metadata, gridConfig, gridData, pagingOptions };
+        this.store.pipe(select(fromSharedReducer.getStructureHasPublished)),
+        (action, metadata: RangeGroupMetadata, gridConfig: GridConfig, gridData: GridDataResult, pagingOptions: PagingOptions, structureHasPublished) => {
+          return { action, metadata, gridConfig, gridData, pagingOptions, structureHasPublished };
         }
       ),
       switchMap((data) => {
         return this.structureModelingApiService.saveModelSettings(
           PayfactorsApiModelMapper.mapModelSettingsModalFormToSaveSettingsRequest(
             data.action.payload.rangeGroupId, data.action.payload.formValue, data.action.payload.rounding,
-            PayfactorsApiModelMapper.mapAdvancedSettingModalFormToAdvancedSettingRequest(data.action.payload.formValue.RangeAdvancedSetting))
+            PayfactorsApiModelMapper.mapAdvancedSettingModalFormToAdvancedSettingRequest(data.action.payload.formValue.RangeAdvancedSetting,
+              data.structureHasPublished))
         ).pipe(
           mergeMap((r) => {
               const actions = [];

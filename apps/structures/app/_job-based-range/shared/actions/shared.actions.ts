@@ -4,7 +4,11 @@ import { RoundingTypes } from 'libs/constants/structures/rounding-type';
 import { CompanyStructureRangeOverride, RoundingSettingsDataObj } from 'libs/models/structures';
 import { DataViewFilter } from 'libs/models/payfactors-api/reports/request';
 import { RangeGroupMetadata } from 'libs/models/structures';
-import { ConvertCurrencyAndRateRequestModel, CurrentRangeGroupRequestModel } from 'libs/models/payfactors-api/structures/request';
+import {
+  ConvertCurrencyAndRateRequestModel,
+  CurrentRangeGroupRequestModel,
+  StructureHasPublishedForTypeRequestModel
+} from 'libs/models/payfactors-api/structures/request';
 
 export const SET_METADATA = '[Structures - Job Based Range - Shared] Set Metadata';
 export const RECALCULATE_RANGES_WITHOUT_MID = '[Structures - Job Based Range - Shared] Recalculate Ranges Without Mid';
@@ -36,7 +40,9 @@ export const DISABLE_COMPARE_FLAG = '[Structures - Job Based Range - Shared] Dis
 export const CONVERT_CURRENCY_AND_RATE = '[Structures - Job Based Range - Shared] Convert Currency And Rate';
 export const CONVERT_CURRENCY_AND_RATE_SUCCESS = '[Structures - Job Based Range - Shared] Convert Currency And Rate Success';
 export const CONVERT_CURRENCY_AND_RATE_ERROR = '[Structures - Job Based Range - Shared] Convert Currency And Rate Error';
-
+export const GET_STRUCTURE_HAS_PUBLISHED_FOR_TYPE = '[Structures - Job Based Range - Shared] Get Structure Has Published For Type';
+export const GET_STRUCTURE_HAS_PUBLISHED_FOR_TYPE_SUCCESS = '[Structures - Job Based Range - Shared] Get Structure Has Published For Type Success';
+export const GET_STRUCTURE_HAS_PUBLISHED_FOR_TYPE_ERROR = '[Structures - Job Based Range - Shared] Get Structure Has Published For Type Error';
 
 export class SetMetadata implements Action {
   readonly type = SET_METADATA;
@@ -217,6 +223,24 @@ export class ConvertCurrencyAndRateError implements Action {
   constructor(public payload: any) {}
 }
 
+export class GetStructureHasPublishedForType implements Action {
+  readonly type = GET_STRUCTURE_HAS_PUBLISHED_FOR_TYPE;
+
+  constructor(public payload: StructureHasPublishedForTypeRequestModel) {}
+}
+
+export class GetStructureHasPublishedForTypeSuccess implements Action {
+  readonly type = GET_STRUCTURE_HAS_PUBLISHED_FOR_TYPE_SUCCESS;
+
+  constructor(public payload: any) {}
+}
+
+export class GetStructureHasPublishedForTypeError implements Action {
+  readonly type = GET_STRUCTURE_HAS_PUBLISHED_FOR_TYPE_ERROR;
+
+  constructor(public payload: any) {}
+}
+
 export type SharedActions
   = SetMetadata
   | RecalculateRangesWithoutMid
@@ -248,4 +272,7 @@ export type SharedActions
   | DisableCompareFlag
   | ConvertCurrencyAndRate
   | ConvertCurrencyAndRateSuccess
-  | ConvertCurrencyAndRateError;
+  | ConvertCurrencyAndRateError
+  | GetStructureHasPublishedForType
+  | GetStructureHasPublishedForTypeSuccess
+  | GetStructureHasPublishedForTypeError;

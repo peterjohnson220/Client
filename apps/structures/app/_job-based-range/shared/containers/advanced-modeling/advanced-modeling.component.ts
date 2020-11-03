@@ -24,7 +24,10 @@ export class AdvancedModelingComponent implements OnInit, OnDestroy {
   metaData$: Observable<RangeGroupMetadata>;
   metadataSub: Subscription;
   metadata: RangeGroupMetadata;
+  disableAdvancedSetting: boolean;
+  hasPublishedSub: Subscription;
 
+  private formPreventMidsFromIncreasingMoreThanPercent = 'RangeAdvancedSetting.PreventMidsFromIncreasingMoreThanPercent';
   private formPreventMidsFromIncreasingMoreThanPercentEnabled = 'RangeAdvancedSetting.PreventMidsFromIncreasingMoreThanPercent.Enabled';
   private formPreventMidsFromIncreasingMoreThanPercentPercentage = 'RangeAdvancedSetting.PreventMidsFromIncreasingMoreThanPercent.Percentage';
   private formMissingMarketDataTypeType = 'RangeAdvancedSetting.MissingMarketDataType.Type';
@@ -32,6 +35,13 @@ export class AdvancedModelingComponent implements OnInit, OnDestroy {
 
   constructor(public store: Store<fromJobBasedRangeReducer.State>) {
     this.metaData$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getMetadata));
+    this.hasPublishedSub = this.store.select(fromSharedJobBasedRangeReducer.getStructureHasPublished).subscribe( hp => {
+      if (hp.obj > 0) {
+        this.disableAdvancedSetting = false;
+      } else {
+        this.disableAdvancedSetting = true;
+      }
+    });
   }
 
   getMissingMarketDataTypeValue(value: string): number {
@@ -74,6 +84,10 @@ export class AdvancedModelingComponent implements OnInit, OnDestroy {
     }
   }
 
+  disableFormControls() {
+    this.advancedSettingForm.get(this.formPreventMidsFromIncreasingMoreThanPercent).disable();
+  }
+
   private setValidators(controlName: string, min: number, max: number) {
     this.advancedSettingForm.get(controlName).enable();
     this.advancedSettingForm.get(controlName).setValidators([Validators.required, Validators.min(min), Validators.max(max)]);
@@ -103,9 +117,14 @@ export class AdvancedModelingComponent implements OnInit, OnDestroy {
     } else {
       this.clearValidators(this.formMissingMarketDataTypePercentage);
     }
+
+    if (this.disableAdvancedSetting) {
+      this.disableFormControls();
+    }
   }
 
   ngOnDestroy(): void {
     this.metadataSub.unsubscribe();
+    this.hasPublishedSub.unsubscribe();
   }
 }

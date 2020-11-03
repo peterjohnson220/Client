@@ -309,6 +309,21 @@ export class SharedEffects {
       })
     );
 
+  @Effect()
+  modelHasPublishedStructure: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromSharedActions.GET_STRUCTURE_HAS_PUBLISHED_FOR_TYPE),
+      switchMap((action: fromSharedActions.GetStructureHasPublishedForType) => {
+          return this.structureModelingApiService.getStructureHasPublishedForType(action.payload)
+            .pipe(
+              map((res) => {
+                return new fromSharedActions.GetStructureHasPublishedForTypeSuccess(res);
+              }),
+              catchError((err) => of(new fromSharedActions.GetStructureHasPublishedForTypeError(err)))
+            );
+      })
+    );
+
   constructor(
     private actions$: Actions,
     private store: Store<fromSharedReducer.State>,

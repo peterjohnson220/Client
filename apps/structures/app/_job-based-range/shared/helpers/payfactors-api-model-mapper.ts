@@ -10,9 +10,9 @@ import { CompositeFieldResponse } from 'libs/models/payfactors-api/composite-fie
 import { CurrencyDto } from 'libs/models/common';
 import { RoundingSettingsDataObj, RangeGroupMetadata, AdvancedSetting } from 'libs/models/structures';
 import { AdvancedSettingRequest } from 'libs/models/payfactors-api/structures/request/advanced-setting-request.model';
+import * as fromStructuresModels from 'libs/models/structures';
 
 import { ControlPoint, Currency } from '../models';
-
 
 export class PayfactorsApiModelMapper {
 
@@ -183,13 +183,19 @@ export class PayfactorsApiModelMapper {
     };
   }
 
-  static mapAdvancedSettingModalFormToAdvancedSettingRequest(advancedSetting: AdvancedSetting): AdvancedSettingRequest {
+  static mapAdvancedSettingModalFormToAdvancedSettingRequest(advancedSetting: AdvancedSetting, structureHasPublished): AdvancedSettingRequest {
+    let missingMarketDataType = advancedSetting.MissingMarketDataType;
+    let preventMidsFromIncreasingMoreThanPercent = advancedSetting.PreventMidsFromIncreasingMoreThanPercent;
+    if (structureHasPublished.obj <= 0) {
+      missingMarketDataType = fromStructuresModels.generateMockMissingMarketDataTypeSetting();
+      preventMidsFromIncreasingMoreThanPercent = fromStructuresModels.generateMockPercentageSetting();
+    }
     return {
       Rounding: advancedSetting.Rounding != null ? this.mapRoundingSettingsModalFormToRoundRangesRequest(advancedSetting.Rounding) : null,
       PreventMidsBelowCurrent: advancedSetting.PreventMidsBelowCurrent,
-      PreventMidsFromIncreasingMoreThanPercent: advancedSetting.PreventMidsFromIncreasingMoreThanPercent,
+      PreventMidsFromIncreasingMoreThanPercent: preventMidsFromIncreasingMoreThanPercent,
       PreventMidsFromIncreasingWithinPercentOfNextLevel: advancedSetting.PreventMidsFromIncreasingWithinPercentOfNextLevel,
-      MissingMarketDataType: advancedSetting.MissingMarketDataType
+      MissingMarketDataType: missingMarketDataType
     };
   }
 
