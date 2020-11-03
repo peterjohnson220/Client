@@ -21,6 +21,7 @@ import { AddJobsModalWrapperComponent } from '../containers/add-jobs-modal';
 import { StructuresPagesService, UrlService } from '../../shared/services';
 import { Workflow } from '../../shared/constants/workflow';
 import * as fromSharedActions from '../../shared/actions/shared.actions';
+import * as fromCompareJobRangesActions from '../../model/actions';
 
 @Component({
   selector: 'pf-model-page',
@@ -99,26 +100,10 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
     this.AddJobsModalComponent.onMessage(setContextMessage);
   }
 
-  handleCompareModelClicked(currentRangeGroupId) {
-    this.compareModelFilters = [
-      {
-        EntitySourceName: 'CompanyStructures_RangeGroup',
-        SourceName: 'CompanyStructuresRangeGroup_ID',
-        Operator: '=',
-        Values: [currentRangeGroupId]
-      },
-      {
-        EntitySourceName: 'CompanyJobs',
-        SourceName: 'JobStatus',
-        Operator: '=',
-        Values: [1]
-      }
-    ];
-
-    this.sharedStore.dispatch(new fromSharedActions.GetDataByRangeGroupId({
-      pageViewId: this.pageViewId,
-      filters: this.compareModelFilters
-    }));
+  handleCompareModelClicked() {
+    this.store.dispatch(new pfDataGridActions.ResetGridScrolled(this.pageViewId));
+    this.store.dispatch(new pfDataGridActions.LoadData(this.pageViewId));
+    this.sharedStore.dispatch(new fromCompareJobRangesActions.GetDataForCompare(this.pageViewId));
   }
 
   // Lifecycle

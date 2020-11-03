@@ -115,11 +115,6 @@ export const getCompareEnabled = createSelector(
   fromSharedReducer.getCompareEnabled
 );
 
-export const getData = createSelector(
-  selectSharedState,
-  fromSharedReducer.getData
-);
-
 export const getStructureHasPublished = createSelector(
   selectSharedState,
   fromSharedReducer.getStructureHasPublished
