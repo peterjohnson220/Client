@@ -124,16 +124,16 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   gridConfigSubscription: Subscription;
   gridConfig: GridConfig;
 
+  modifiedKeys: any[];
   modifiedKeysSubscription: Subscription;
+
+  loadingMoreData: boolean;
   loadingMoreDataSubscription: Subscription;
+  hasMoreDataOnServer: boolean;
   hasMoreDataOnServerSubscription: Subscription;
   lastUpdateFieldsDateSubscription: Subscription;
   filtersUpdatedCountSubscription: Subscription;
-
-  modifiedKeys: any[];
-  hasMoreDataOnServer: boolean;
-  loadingMoreData: boolean;
-
+  resetGridScrolledSubscription: Subscription;
   groupTracker: {group: string, dataElementId: number } [] = [];
 
 
@@ -167,6 +167,14 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
             data: orderBy(this.data.data, this.sortDescriptor),
             total: this.data.total
           };
+        }
+      });
+
+    this.resetGridScrolledSubscription = this.actionsSubject
+      .pipe(ofType(fromActions.RESET_GRID_SCROLLED))
+      .subscribe((action: fromActions.ResetGridScrolled) => {
+        if (action.pageViewId === this.pageViewId) {
+          this.scrollToTop();
         }
       });
 
@@ -252,6 +260,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
     this.hasMoreDataOnServerSubscription.unsubscribe();
     this.lastUpdateFieldsDateSubscription.unsubscribe();
     this.filtersUpdatedCountSubscription.unsubscribe();
+    this.resetGridScrolledSubscription.unsubscribe();
   }
 
   ngOnChanges(changes: SimpleChanges) {
