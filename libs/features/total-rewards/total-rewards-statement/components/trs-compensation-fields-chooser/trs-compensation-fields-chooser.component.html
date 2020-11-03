@@ -31,7 +31,7 @@
   </div>
 </ng-template>
 
-<button title="Add Field"
+<button [title]="maxVisibleFieldsReached ? 'Statements are limited to 20 fields. Remove a field to add more.' :  'Add Field'"
         type="button"
         id="add-field-popover-btn"
         class="btn btn-sm btn-outline-primary add-button"
@@ -40,6 +40,7 @@
         popoverTitle="Add Field"
         [ngbPopover]="popContent"
         (hidden)="onHidden()"
+        [disabled]="maxVisibleFieldsReached"
         [autoClose]="'outside'">
   <fa-icon class="fa-sm" icon="plus"></fa-icon> Add Field
 </button>

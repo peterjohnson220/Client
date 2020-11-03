@@ -1,11 +1,18 @@
 @import 'libs/styles/ngbootstrap-popover-overrides';
 
-.add-button {
+button {
   border: none;
   color: inherit;
   opacity: .6;
   &:hover {
     color: white;
+  }
+}
+
+button[disabled] {
+  color: #666;
+  &:hover {
+    color: #666;
   }
 }
 

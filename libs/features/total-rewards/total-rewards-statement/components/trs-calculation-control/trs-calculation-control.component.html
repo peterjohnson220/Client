@@ -61,7 +61,10 @@
   </table>
 
   <ng-container *ngIf="inEditMode && (selectableFields?.length > 0)">
-    <pf-trs-compensation-fields-chooser [fields]="selectableFields" (fieldClicked)="addField($event)"></pf-trs-compensation-fields-chooser>
+    <pf-trs-compensation-fields-chooser [fields]="selectableFields"
+                                        [maxVisibleFieldsReached]="maxVisibleFieldsReached"
+                                        (fieldClicked)="addField($event)">
+    </pf-trs-compensation-fields-chooser>
   </ng-container>
 
 </div>

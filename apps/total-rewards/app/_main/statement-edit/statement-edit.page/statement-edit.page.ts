@@ -33,6 +33,7 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
   assignedEmployeesAsync$: Observable<AsyncStateObj<GenericNameValue<number>[]>>;
   employeeRewardsDataAsync$: Observable<AsyncStateObj<EmployeeRewardsData>>;
   companyUdfAsync$: Observable<AsyncStateObj<CompensationField[]>>;
+  visibleFieldsCount$: Observable<number>;
 
   isSettingsPanelOpen$: Observable<boolean>;
   settingsSaving$: Observable<boolean>;
@@ -65,6 +66,7 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
     this.statementSavingError$ = this.store.pipe(select(fromTotalRewardsStatementEditReducer.selectStatementSavingError));
     this.mode$ = this.store.pipe(select(fromTotalRewardsStatementEditReducer.selectStatementMode));
     this.companyUdfAsync$ = this.store.pipe(select(fromTotalRewardsStatementEditReducer.getCompanyUdf));
+    this.visibleFieldsCount$ = this.store.pipe(select(fromTotalRewardsStatementEditReducer.getVisibleFieldsCount));
 
     // SETTINGS
     this.isSettingsPanelOpen$ = this.store.pipe(select(fromTotalRewardsStatementEditReducer.selectIsSettingsPanelOpen));
@@ -80,7 +82,6 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
     this.urlParamSubscription = this.route.params.subscribe(params => {
       this.statementId = params['id'];
       this.store.dispatch(new fromEditStatementPageActions.LoadStatement(this.statementId));
-      this.store.dispatch(new fromEditStatementPageActions.GetCompanyUDF());
     });
     this.statementSubscription = this.statement$.subscribe(s => {
       if (s) {

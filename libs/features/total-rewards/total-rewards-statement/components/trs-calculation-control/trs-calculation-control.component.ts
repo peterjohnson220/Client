@@ -27,6 +27,7 @@ export class TrsCalculationControlComponent implements OnChanges {
   @Input() employeeRewardsData: EmployeeRewardsData;
   @Input() mode: models.StatementModeEnum;
   @Input() companyUdfs: CompensationField[];
+  @Input() visibleFieldsCount: number;
 
   @Output() onTitleChange: EventEmitter<models.UpdateTitleRequest> = new EventEmitter();
   @Output() onCompFieldTitleChange: EventEmitter<models.UpdateFieldOverrideNameRequest> = new EventEmitter();
@@ -36,12 +37,15 @@ export class TrsCalculationControlComponent implements OnChanges {
 
   compensationValuePlaceholder = '$---,---';
   selectableFields: CompensationField[];
+  maxVisibleFieldsReached = false;
+  private readonly MAX_VISIBLE_FIELDS = 20;
 
   constructor(public currencyPipe: CurrencyPipe) { }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes?.companyUdfs?.currentValue?.length) {
       this.selectableFields = this.buildSelectableFieldsList();
+      this.maxVisibleFieldsReached = this.visibleFieldsCount === this.MAX_VISIBLE_FIELDS;
     }
   }
 
@@ -62,10 +66,10 @@ export class TrsCalculationControlComponent implements OnChanges {
   }
 
   addField(event: any) {
-    const fieldToAdd = this.removedFields.find(f => f.Name.Default === event.Name.Default);
+    const fieldToAdd = this.selectableFields.find(f => f.Name.Default === event.Name.Default);
     if (fieldToAdd) {
       this.onCompFieldAdded.emit({
-        ControlId: this.controlData.Id, DataFieldId: fieldToAdd.Id, IsVisible: true
+        ControlId: this.controlData.Id, DataFieldId: fieldToAdd.Id, IsVisible: true, Type: fieldToAdd.Type
       });
     }
   }
