@@ -17,10 +17,15 @@ export class MrpFormatterService {
   mrpDisplayOverrides: any[] = [];
 
   generateDisplayOverrides(pricingInfo: any, mrpFields: string[]): any[] {
-    const objKeys = Object.keys(pricingInfo);
-    const mrpKeys = mrpFields.filter(mrp => objKeys.find(key => key.includes(mrp)));
+    const pricingInfoKeys = Object.keys(pricingInfo);
+    const mrpKeys = mrpFields.filter(mrp => pricingInfoKeys.find(key => {
+      const category = key.match(this.categoryRgx);
+      if (category !== null && category[2] + 'MRP' === mrp) {
+        return mrp;
+      }
+    }));
 
-    mrpKeys.forEach(mrp => this.mrpDisplayOverrides[mrp] = this.formatMrp(objKeys.find(key => key.includes(mrp)), pricingInfo).MRP);
+    mrpKeys.forEach(mrp => this.mrpDisplayOverrides[mrp] = this.formatMrp(pricingInfoKeys.find(key => key.includes(mrp)), pricingInfo).MRP);
     return this.mrpDisplayOverrides;
   }
 
