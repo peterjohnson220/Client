@@ -51,7 +51,7 @@
         </div>
       </div>
 
-      <ng-container  *ngIf="(paymarkets$ |async).length">
+      <ng-container *ngIf="(paymarkets$ |async).length">
         <div [style.display]="(addPayMarketFormOpen$ | async) ? 'none' : 'block'">
           <div class="row">
           <div class="col-lg-12 col-xl-9">
