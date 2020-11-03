@@ -1,8 +1,8 @@
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
-import {AsyncStateObjHelper} from '../../../../../../libs/core/helpers';
+import {AsyncStateObjHelper} from 'libs/core/helpers';
+import {Template, Statement} from 'libs/features/total-rewards/total-rewards-statement/models';
 
 import * as fromTemplateSelectorActions from '../actions/template-selector.actions';
-import {Template, Statement} from '../../../shared/models';
 
 
 export interface State {

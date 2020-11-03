@@ -1,5 +1,5 @@
 @import 'colors';
-@import 'app-colors';
+@import 'total-rewards/app-colors';
 @import 'total-rewards/statement-settings';
 @import 'total-rewards/statement-layout-variables';
 @import 'total-rewards/rich-text-editor';
@@ -286,9 +286,11 @@ pf-effective-date {
     .k-input {
       transform: translateX(-3rem);
     }
+
     .field-wrapper {
       transform: translateX(4rem);
     }
+
     .field-wrapper.empty-date {
       opacity: 0;
     }
@@ -351,13 +353,13 @@ pf-statement-assignment-page {
     margin-left: .1in;
     margin-right: .1in;
   }
-  
+
   * {
     transition: none !important; // don't capture incomplete transitions
   }
-  
+
   html {
-    font-size: #{$print-base-font-size + 'px'}; // bump up base font size so all rem based font-sizes are increased 
+    font-size: #{$print-base-font-size + 'px'}; // bump up base font size so all rem based font-sizes are increased
   }
 
   .container {

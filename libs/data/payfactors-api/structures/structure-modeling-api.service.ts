@@ -16,7 +16,7 @@ import {
   DuplicateModelResponse,
   DuplicateModelRequest,
   RevertRangeChangesRequest,
-  RevertRangeResponse
+  RevertRangeResponse, CurrentRangeGroupResponseModel, CurrentRangeGroupRequestModel, ConvertCurrencyAndRateRequestModel
 } from 'libs/models/payfactors-api';
 import { CompanyStructureRange, CompanyStructureRangeOverride } from 'libs/models/structures';
 
@@ -77,5 +77,15 @@ export class StructureModelingApiService {
 
   revertRangeChanges(request: RevertRangeChangesRequest): Observable<RevertRangeResponse> {
     return this.payfactorsApiService.post<RevertRangeResponse>(`${this.endpoint}/RevertRangeChanges`, request);
+  }
+
+  getCurrentRangeGroup(request: CurrentRangeGroupRequestModel): Observable<CurrentRangeGroupResponseModel> {
+    return this.payfactorsApiService.get<CurrentRangeGroupResponseModel>(`${this.endpoint}/GetCurrentStructureRangeGroup`, {
+      params: request
+    });
+  }
+
+  convertCurrencyAndRate(request: ConvertCurrencyAndRateRequestModel): Observable<any[]> {
+    return this.payfactorsApiService.post<any[]>(`${this.endpoint}/ConvertCurrencyAndRate`, request);
   }
 }

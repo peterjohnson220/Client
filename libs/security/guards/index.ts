@@ -8,3 +8,4 @@ export * from './load-user.guard';
 export * from './load-company.guard';
 export * from './tabular-report-builder.guard';
 export * from './pf-services-admin-only.guard';
+export * from './url-parameter-validation.guard';

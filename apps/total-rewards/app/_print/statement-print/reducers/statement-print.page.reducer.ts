@@ -2,9 +2,9 @@ import cloneDeep from 'lodash/cloneDeep';
 
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models';
 import { AsyncStateObjHelper } from 'libs/core/helpers';
+import { StatementForPrint } from 'libs/features/total-rewards/total-rewards-statement/models';
 
 import * as fromActions from '../actions/statement-print.page.actions';
-import { StatementForPrint } from '../../../shared/models';
 
 export interface State {
   pdfId: string;

@@ -5,7 +5,6 @@ import * as fromRoot from 'libs/state/state';
 
 import * as fromDataInsightsPageReducer from './data-insights-page.reducer';
 import * as fromDashboardsReducer from './dashboards.reducer';
-import * as fromReportViewReducer from './reports-view-page.reducer';
 import * as fromViewsReducer from './views.reducer';
 import * as fromDataViewReducer from './data-view.reducer';
 
@@ -13,7 +12,6 @@ import * as fromDataViewReducer from './data-view.reducer';
 export interface DataInsightsMainState {
   dataInsightsPage: fromDataInsightsPageReducer.State;
   dashboards: fromDashboardsReducer.State;
-  reportViewPage: fromReportViewReducer.State;
   views: fromViewsReducer.State;
   dataView: fromDataViewReducer.State;
 }
@@ -27,7 +25,6 @@ export interface State extends fromRoot.State {
 export const reducers = {
   dataInsightsPage: fromDataInsightsPageReducer.reducer,
   dashboards: fromDashboardsReducer.reducer,
-  reportViewPage: fromReportViewReducer.reducer,
   views: fromViewsReducer.reducer,
   dataView: fromDataViewReducer.reducer
 };
@@ -46,11 +43,6 @@ export const selectDashboardsState = createSelector(
   (state: DataInsightsMainState) => state.dashboards
 );
 
-export const selectReportViewPageState = createSelector(
-  selectFeatureAreaState,
-  (state: DataInsightsMainState) => state.reportViewPage
-);
-
 export const selectViewsState = createSelector(
   selectFeatureAreaState,
   (state: DataInsightsMainState) => state.views
@@ -65,12 +57,6 @@ export const selectDataViewState = createSelector(
 export const getStandardWorkbooksAsync = createSelector(
   selectDataInsightsPageState,
   fromDataInsightsPageReducer.getStandardWorkbooksAsync
-);
-
-// Report View Page
-export const getWorkbookViewUrl = createSelector(
-  selectReportViewPageState,
-  fromReportViewReducer.getWorkbookViewUrlAsync
 );
 
 // Dashboards

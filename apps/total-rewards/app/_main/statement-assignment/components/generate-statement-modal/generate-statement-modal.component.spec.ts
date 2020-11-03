@@ -1,11 +1,16 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { of } from 'rxjs';
+
 import { GenerateStatementModalComponent } from './generate-statement-modal.component';
 
 describe('GenerateStatementModalComponent', () => {
   let component: GenerateStatementModalComponent;
   let fixture: ComponentFixture<GenerateStatementModalComponent>;
+  const emailTemplateComponent: any = {
+    init: jest.fn()
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -17,6 +22,8 @@ describe('GenerateStatementModalComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(GenerateStatementModalComponent);
     component = fixture.componentInstance;
+    component.isOpen$ = of(false);
+    component.emailTemplateComponent = emailTemplateComponent;
     fixture.detectChanges();
   });
 

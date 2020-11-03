@@ -7,10 +7,11 @@ import { DragulaService } from 'ng2-dragula';
 import { AsyncStateObj } from 'libs/models/state';
 import { SettingsService } from 'libs/state/app-context/services';
 import { FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models/common';
+import { ReportType, Workbook } from 'libs/features/reports/models';
 
 import * as fromDashboardsActions from '../../actions/dashboards.actions';
 import * as fromDataInsightsMainReducer from '../../reducers';
-import { Workbook, SaveWorkbookTagObj, ReportType, DashboardView } from '../../models';
+import { SaveWorkbookTagObj, DashboardView } from '../../models';
 import { TagWorkbookModalComponent } from '../../components/tag-workbook-modal';
 import { DashboardsHeaderHelper } from '../../helpers';
 

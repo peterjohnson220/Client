@@ -8,8 +8,8 @@ import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfCommonModule } from 'libs/core';
+import { TotalRewardsStatementModule } from 'libs/features/total-rewards/total-rewards-statement';
 
-import { SharedModule } from '../../shared';
 import { StatementPrintRoutingModule } from './statement-print-routing.module';
 import { StatementPrintPageComponent } from './statement-print.page';
 import { reducers } from './reducers';
@@ -28,7 +28,7 @@ import { StatementPrintPageEffects } from './effects/statement-print.page.effect
     // Payfactors
     PfCommonModule,
     PfCommonUIModule,
-    SharedModule,
+    TotalRewardsStatementModule,
 
     // Routing
     StatementPrintRoutingModule

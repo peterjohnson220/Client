@@ -1,0 +1,45 @@
+<ng-template #popContent>
+  <div class="popover-body-container">
+    <p>
+      <pf-input-debounce id="column-search-box"
+                         (valueChanged)="(filter = $event)"
+                         [placeholderText]="'Search for a Column...'">
+      </pf-input-debounce>
+    </p>
+    <div class="popover-body-content">
+      <div class="list-group">
+        <h5 *ngIf="!(unsavedColumns | filterArrayByName: filter : 'ColumnDisplayName').length">
+          No Columns
+        </h5>
+        <ng-container *ngFor="let col of unsavedColumns | filterArrayByName: filter : 'ColumnDisplayName'">
+          <div class="px-2 py-1">
+            <input type="checkbox"
+                   [attr.data-qa-id]="'chk-' + col.ColumnDatabaseName + '-' + col.ListAreaColumnId"
+                   [(ngModel)]="col.Visible"
+                   [disabled]="col.Required">
+            <span class="pl-2">
+              {{col.ColumnDisplayName}}
+            </span>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+  <div class="popover-body-footer d-flex">
+    <div class="p-2 ml-auto">
+      <button (click)="saveButtonClicked()" class="btn btn-primary">Save</button>
+    </div>
+  </div>
+</ng-template>
+<button title="Choose Columns"
+        type="button"
+        id="column-popover-btn"
+        class="btn btn-secondary"
+        placement="bottom-right"
+        #columnPopover="ngbPopover"
+        popoverTitle="Choose Columns"
+        [ngbPopover]="popContent"
+        (hidden)="onHidden()"
+        [autoClose]="'outside'">
+  <fa-icon icon="table"></fa-icon>
+</button>

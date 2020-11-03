@@ -15,6 +15,7 @@ export class PayfactorsApiModelMapper {
         CreateDate: tr.CreateDate,
         EditDate: tr.EditDate,
         Summary: tr.Summary,
+        Site: tr.Site,
         LastEditedBy: tr.LastEditedBy,
         ThumbnailUrl: tr.Thumbnail
       };

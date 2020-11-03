@@ -58,7 +58,7 @@ export class JobsHierarchyEffects {
                       From: NotificationSource.GenericNotificationMessage,
                       Level: NotificationLevel.Success,
                       NotificationId: '',
-                      Payload: { Title: 'Hierarchy', Message: `${response.HierarchyName} has been Saved` },
+                      Payload: { Title: 'Hierarchy', Message: `${response.HierarchyName} has been ${response.Created ? 'Saved' : 'Updated'}` },
                       Type: NotificationType.Event
                     }),
                     new fromJobsHierarchyActions.SaveJobLevelHierarchySuccess(),
@@ -90,9 +90,10 @@ export class JobsHierarchyEffects {
           ofType(fromJobsHierarchyActions.GET_JOB_LEVEL_HIERARCHY),
           switchMap((action: fromJobsHierarchyActions.GetJobLevelHierarchy) =>
             this.jobLevelHierarchyApiService.getJobLevelHierachy(action.payload.hierarchyId).pipe(
-              map((result: JobLevelHierarchyDetail) => {
-                return new fromJobsHierarchyActions.GetJobLevelHierarchySuccess(result);
-              }),
+              mergeMap((result: JobLevelHierarchyDetail) => [
+                new fromJobsHierarchyActions.GetJobLevelHierarchySuccess(result),
+                new fromJobsHierarchyActions.GetAvailableJobLevels({ selectedJobFamilies: result.JobFamilies, hierarchyId: result.HierarchyId })
+              ]),
               catchError(error => of(new fromJobsHierarchyActions.GetJobLevelHierarchyError(error)))
             )
           )

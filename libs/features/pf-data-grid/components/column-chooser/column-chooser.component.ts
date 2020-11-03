@@ -22,6 +22,7 @@ export class ColumnChooserComponent implements OnChanges {
   @Input() reorderable: boolean;
   @Input() submitButtonText = 'Save';
   @Input() showSelectAllColumns: boolean;
+  @Input() selectAllEnabled: boolean;
 
   @Output() saveColumns = new EventEmitter();
 

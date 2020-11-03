@@ -36,6 +36,7 @@ export class PricingHistoryGridComponent implements AfterViewInit, OnInit, OnDes
 
   @ViewChild('pricingActionsColumn') pricingActionsColumn: ElementRef;
   @ViewChild('payMarketFilter') payMarketFilter: ElementRef;
+  @ViewChild('auditUserColumn') auditUserColumn: ElementRef;
 
   inboundFiltersToApply = ['CompanyJob_ID', 'PayMarket', 'Status'];
   pageViewId = PageViewIds.PricingHistory;
@@ -138,7 +139,9 @@ export class PricingHistoryGridComponent implements AfterViewInit, OnInit, OnDes
       }
     };
     this.colTemplates = {
-      'CompanyJobPricing_ID': { Template: this.pricingActionsColumn }
+      'CompanyJobPricing_ID': { Template: this.pricingActionsColumn },
+      'Create_User': { Template: this.auditUserColumn },
+      'Edit_User': { Template: this.auditUserColumn }
     };
   }
 

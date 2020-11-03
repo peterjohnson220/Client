@@ -4,14 +4,14 @@ import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
 import * as fromBulkAddUsersReducer from '../reducers';
-import { BaseTogglePanel } from './base-toggle-panel';
+import { BaseTogglePanelDirective } from './base-toggle-panel.directive';
 import { LoaderState } from '../reducers/user-bulk-add.reducer';
 
 @Component({
     selector: 'pf-base-bulk-add-users-toggle-panel',
     template: ``
 })
-export class BaseBulkAddUsersTogglePanelComponent extends BaseTogglePanel implements OnInit, OnDestroy {
+export class BaseBulkAddUsersTogglePanelComponent extends BaseTogglePanelDirective implements OnInit, OnDestroy {
   loaderState$: Observable<LoaderState>;
   loaderStateSubscription: Subscription;
   @Input() loaderStepComplete = false;

@@ -32,6 +32,7 @@ export class StructureGridComponent implements AfterViewInit, OnDestroy {
   @ViewChild('comparatioColumn') comparatioColumn: ElementRef;
   @ViewChild('currencyColumn') currencyColumn: ElementRef;
   @ViewChild('payMarketFilter') payMarketFilter: ElementRef;
+  @ViewChild('percentage') percentageColumn: ElementRef;
 
   pageViewId = PageViewIds.Structures;
   rangeTypeIds = RangeType;
@@ -99,7 +100,8 @@ export class StructureGridComponent implements AfterViewInit, OnDestroy {
       'Structure_Search': { Template: this.nameColumn },
       'Mid': {Template: this.midColumn},
       'AvgEEComparatio': {Template: this.comparatioColumn},
-      [PfDataGridColType.currency]: { Template: this.currencyColumn }
+      [PfDataGridColType.currency]: { Template: this.currencyColumn },
+      [PfDataGridColType.percentage]: { Template: this.percentageColumn }
     };
   }
   ngOnDestroy() {

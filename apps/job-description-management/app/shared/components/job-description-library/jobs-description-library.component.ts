@@ -100,7 +100,7 @@ export class JobDescriptionLibraryComponent implements OnChanges {
       PageNumber: this.pageNumber,
       JobTitle: this.jobTitleSearch,
       JobDescriptionId: null,
-      Sources: this.selectedSources.join(','),
+      Sources: JSON.stringify(this.selectedSources),
       SourceSortDirection: this.sourceSortDirection
     };
 

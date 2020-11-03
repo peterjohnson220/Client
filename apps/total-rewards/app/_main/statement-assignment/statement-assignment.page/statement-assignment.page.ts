@@ -2,27 +2,28 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import cloneDeep from 'lodash/cloneDeep';
 
-import { Observable, Subscription, BehaviorSubject } from 'rxjs';
-import { distinctUntilChanged, debounceTime } from 'rxjs/operators';
-import { Store, select } from '@ngrx/store';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { select, Store } from '@ngrx/store';
 import { FilterDescriptor, State } from '@progress/kendo-data-query';
 
-import { TotalRewardAssignedEmployee } from 'libs/models/payfactors-api/total-rewards';
+import { StatementEmailTemplate, TotalRewardAssignedEmployee } from 'libs/models/payfactors-api/total-rewards';
 import * as fromAppNotificationsMainReducer from 'libs/features/app-notifications/reducers';
 import { AppNotification } from 'libs/features/app-notifications/models';
 import { AsyncStateObj } from 'libs/models/state';
-import { GridTypeEnum } from 'libs/models/common';
+import { GridTypeEnum, ListAreaColumn } from 'libs/models/common';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
+import { Statement } from 'libs/features/total-rewards/total-rewards-statement/models';
+import { TotalRewardsAssignmentService } from 'libs/features/total-rewards/total-rewards-statement/services/total-rewards-assignment.service';
+import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services';
 
 import * as fromPageReducer from '../reducers';
 import * as fromPageActions from '../actions/statement-assignment.page.actions';
 import * as fromAssignedEmployeesGridActions from '../actions/assigned-employees-grid.actions';
 import * as fromAssignmentsModalActions from '../actions/statement-assignment-modal.actions';
+import * as fromGenerateStatementModalActions from '../actions/generate-statement-modal.actions';
 import { StatementAssignmentModalComponent } from '../containers/statement-assignment-modal';
-import { Statement } from '../../../shared/models';
-import { TotalRewardsAssignmentService } from '../../../shared/services/total-rewards-assignment.service';
-import { StatementAssignmentConfig } from '../models';
-
+import { DeliveryOption, StatementAssignmentConfig } from '../models';
 
 @Component({
   selector: 'pf-statement-assignment-page',
@@ -42,6 +43,7 @@ export class StatementAssignmentPageComponent implements OnDestroy, OnInit {
   getNotification$: Observable<AppNotification<any>[]>;
   isExportingAssignedEmployees$: Observable<boolean>;
   exportEventId$: Observable<AsyncStateObj<string>>;
+  statementEmailTemplate$: Observable<StatementEmailTemplate>;
 
   assignedEmployeesSelectedCompanyEmployeeIds$: Observable<number[]>;
 
@@ -56,9 +58,13 @@ export class StatementAssignmentPageComponent implements OnDestroy, OnInit {
   assignedEmployeesLoading$: Observable<boolean>;
   assignedEmployeesTotal$: Observable<number>;
   assignedEmployeesTotalOrSelectedCount$: Observable<number>;
-  assignedEmployeesListAreaColumns$: Observable<any[]>;
+  assignedEmployeesListAreaColumns$: Observable<ListAreaColumn[]>;
+
+  savingGridColumns$: Observable<boolean>;
+  savingGridColumnsError$: Observable<boolean>;
 
   employeeSearchTerm$: Observable<string>;
+  electronicDeliveryFeatureFlagEnabled: boolean;
 
   statement: Statement;
   assignedEmployeesGridState = TotalRewardsAssignmentService.defaultAssignedEmployeesGridState;
@@ -81,8 +87,10 @@ export class StatementAssignmentPageComponent implements OnDestroy, OnInit {
     private store: Store<fromPageReducer.State>,
     private route: ActivatedRoute, private router: Router,
     private appNotificationStore: Store<fromAppNotificationsMainReducer.State>,
+    private featureFlagService: AbstractFeatureFlagService
   ) {
     this.filters$ = this.filterChangeSubject.asObservable();
+    this.electronicDeliveryFeatureFlagEnabled = this.featureFlagService.enabled(FeatureFlags.TotalRewardsElectronicDelivery, false);
   }
 
   private setSearchContext() {
@@ -111,6 +119,7 @@ export class StatementAssignmentPageComponent implements OnDestroy, OnInit {
     this.sendingGenerateRequestError$ = this.store.pipe(select(fromPageReducer.getSendingGenerateStatementRequestError));
     this.getIsFiltersPanelOpen$ = this.store.pipe(select(fromPageReducer.getIsFiltersPanelOpen));
     this.getNotification$ = this.appNotificationStore.pipe(select(fromAppNotificationsMainReducer.getNotifications));
+    this.statementEmailTemplate$ = this.store.pipe(select(fromPageReducer.getStatementEmailTemplate));
 
     // Unassign Modal
     this.isUnassignEmployeesModalOpen$ = this.store.pipe(select(fromPageReducer.getIsUnassignEmployeesModalOpen));
@@ -126,14 +135,21 @@ export class StatementAssignmentPageComponent implements OnDestroy, OnInit {
     this.assignedEmployeesLoading$ = this.store.pipe(select(fromPageReducer.getAssignedEmployeesLoading));
     this.assignedEmployeesTotal$ = this.store.pipe(select(fromPageReducer.getAssignedEmployeesTotal));
     this.assignedEmployeesTotalOrSelectedCount$ = this.store.pipe(select(fromPageReducer.getAssignedEmployeesTotalOrSelectedCount));
-    this.assignedEmployeesListAreaColumns$ = this.store.pipe(select(fromPageReducer.getListAreaColumns));
+    this.assignedEmployeesListAreaColumns$ = this.store.pipe(select(fromPageReducer.getGridColumns));
 
     // exports
     this.exportEventId$ = this.store.pipe(select(fromPageReducer.getExportEventAsync));
 
+    // Column Chooser
+    this.savingGridColumns$ = this.store.pipe(select(fromPageReducer.getSavingGridColumns));
+    this.savingGridColumnsError$ = this.store.pipe(select(fromPageReducer.getSavingGridColumnsError));
+
     // subscriptions
     this.routeParamSubscription$ = this.route.params.subscribe(params => {
       this.store.dispatch(new fromPageActions.LoadStatement({ statementId: params['id'] }));
+      if (this.electronicDeliveryFeatureFlagEnabled) {
+        this.store.dispatch(new fromGenerateStatementModalActions.GetStatementEmailTemplate({ statementId: params['id'] }));
+      }
     });
     this.statementSubscription$ = this.statement$.subscribe(s => this.statement = s);
     this.filterChangeSubscription = this.filterChangeSubject.pipe(
@@ -148,8 +164,7 @@ export class StatementAssignmentPageComponent implements OnDestroy, OnInit {
       this.assignedEmployeesGridState = cloneDeep(this.assignedEmployeesGridState);
       this.assignedEmployeesGridState.filter.filters = filters;
       this.assignedEmployeesGridState.skip = 0;
-      this.store.dispatch(new fromGridActions.UpdateGrid(GridTypeEnum.TotalRewardsAssignedEmployees, cloneDeep(this.assignedEmployeesGridState)));
-      this.store.dispatch(new fromAssignedEmployeesGridActions.LoadAssignedEmployees(this.assignedEmployeesGridState));
+      this.refreshGrid();
     });
     this.unassignEmployeesSuccessSubscription = this.unassignEmployeesSuccess$.subscribe(u => {
       if (u) {
@@ -205,8 +220,11 @@ export class StatementAssignmentPageComponent implements OnDestroy, OnInit {
     this.store.dispatch(new fromPageActions.CloseGenerateStatementModal());
   }
 
-  handleGenerateStatementsClick() {
-    this.store.dispatch(new fromPageActions.GenerateStatements());
+  handleGenerateStatementsClick(deliveryOption: DeliveryOption) {
+    this.store.dispatch(new fromPageActions.GenerateStatements({ method: deliveryOption.Method, emailTemplate: deliveryOption.EmailTemplate }));
+    if (deliveryOption.SaveEmailTemplate && deliveryOption.EmailTemplate) {
+      this.store.dispatch(new fromGenerateStatementModalActions.SaveStatementEmailTemplate(deliveryOption.EmailTemplate));
+    }
   }
 
   handleAssignEmployeesClick() {
@@ -218,8 +236,7 @@ export class StatementAssignmentPageComponent implements OnDestroy, OnInit {
     const currentFilter = cloneDeep(this.assignedEmployeesGridState.filter);
     this.assignedEmployeesGridState = cloneDeep($event);
     this.assignedEmployeesGridState.filter = currentFilter;
-    this.store.dispatch(new fromGridActions.UpdateGrid(GridTypeEnum.TotalRewardsAssignedEmployees, this.assignedEmployeesGridState));
-    this.store.dispatch(new fromAssignedEmployeesGridActions.LoadAssignedEmployees(this.assignedEmployeesGridState));
+    this.refreshGrid();
   }
 
   // filter handler methods
@@ -279,5 +296,14 @@ export class StatementAssignmentPageComponent implements OnDestroy, OnInit {
 
   handleExportClicked() {
     this.store.dispatch(new fromPageActions.ExportAssignedEmployees());
+  }
+
+  handleSaveGridColumns(columns: ListAreaColumn[]): void {
+    this.store.dispatch(new fromPageActions.SaveGridColumns(columns));
+  }
+
+  private refreshGrid() {
+    this.store.dispatch(new fromGridActions.UpdateGrid(GridTypeEnum.TotalRewardsAssignedEmployees, this.assignedEmployeesGridState));
+    this.store.dispatch(new fromAssignedEmployeesGridActions.LoadAssignedEmployees(this.assignedEmployeesGridState));
   }
 }

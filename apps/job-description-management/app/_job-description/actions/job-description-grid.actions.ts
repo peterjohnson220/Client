@@ -62,7 +62,7 @@ export class LoadListAreaColumnsSuccess implements Action {
 export class SaveListAreaColumns implements Action {
   readonly type = SAVE_LIST_AREA_COLUMNS;
 
-  constructor(public payload: SaveListAreaColumnsRequest) {}
+  constructor(public payload: ListAreaColumn[]) {}
 }
 
 export class SaveListAreaColumnsError implements Action {

@@ -1,0 +1,12 @@
+<ng-container *ngIf="(workbookViewUrl$ | async) as workbookViewUrlAsync">
+  <pf-async-container
+    [loading]="workbookViewUrlAsync.loading || vizLoading"
+    [loadingError]="workbookViewUrlAsync.loadingError"
+    [loadingErrorMessage]="'Error loading this workbook'"
+    [opacityLevel]="1"
+    [hideReloadButton]="true">
+    <div id="vizContainer" [ngClass]="{'fit-viz-container': shouldFitToContainer}">
+
+    </div>
+  </pf-async-container>
+</ng-container>

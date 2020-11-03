@@ -10,11 +10,11 @@ import { TooltipDirective } from '@progress/kendo-angular-tooltip';
 
 import { GridTypeEnum } from 'libs/models/common';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
+import { StatementListViewModel } from 'libs/features/total-rewards/total-rewards-statement/models';
 
 import * as fromTotalRewardsReducer from './../../reducers';
 import * as fromTotalRewardsStatementGridActions from '../../actions/statement-grid.actions';
 import * as fromStatementGridActions from '../../actions/statement-grid.actions';
-import { StatementListViewModel } from '../../../../shared/models';
 import { statementsGridFields } from '../../models';
 
 @Component({

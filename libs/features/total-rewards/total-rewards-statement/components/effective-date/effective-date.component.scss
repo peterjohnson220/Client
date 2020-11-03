@@ -1,0 +1,16 @@
+@import 'total-rewards/statement-layout-variables';
+
+.effective-date {
+  z-index: 5; // the trs-page overlaps part of this component via a negative margin, so keep this clickable by being the top element
+
+  label, .static-date {
+    font-size: .9rem;
+  }
+}
+
+
+@media print {
+  .static-date {
+    width: 12.4em; // match the width of the kendo date picker in edit mode
+  }
+}

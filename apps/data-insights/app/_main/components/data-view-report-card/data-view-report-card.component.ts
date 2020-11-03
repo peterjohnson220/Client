@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Workbook } from '../../models';
+
+import { Workbook } from 'libs/features/reports/models';
 
 @Component({
   selector: 'pf-data-view-report-card',

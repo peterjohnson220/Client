@@ -14,7 +14,7 @@ Sentry.init({
 });
 
 @Injectable()
-export class SentryService implements OnDestroy{
+export class SentryService implements OnDestroy {
   userContext: UserContext;
   userContextSubscription: Subscription;
 

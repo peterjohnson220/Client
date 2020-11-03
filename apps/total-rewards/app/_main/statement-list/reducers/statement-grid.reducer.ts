@@ -2,8 +2,8 @@ import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
 import { createGridReducer } from 'libs/core/reducers/grid.reducer';
 import { GridTypeEnum } from 'libs/models/common';
+import { StatementListViewModel } from 'libs/features/total-rewards/total-rewards-statement/models';
 
-import { StatementListViewModel } from '../../../shared/models';
 import * as fromStatementGridActions from '../actions/statement-grid.actions';
 
 export interface State extends EntityState<StatementListViewModel> {

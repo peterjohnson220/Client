@@ -2,11 +2,8 @@ import cloneDeep from 'lodash/cloneDeep';
 import orderBy from 'lodash/orderBy';
 
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
-
-import * as fromDataViewFieldsActions from '../actions/fields.actions';
-import { Field, FieldType, DataViewAccessLevel } from '../models';
-import { FieldsHelper } from '../helpers';
-import { Suggestion } from '../../_data-view/models';
+import * as fromDataViewFieldsActions from 'libs/features/formula-editor/actions/fields.actions';
+import { Field, FieldType, DataViewAccessLevel, Suggestion, FieldsHelper } from 'libs/features/formula-editor';
 
 export interface State {
   reportFieldsAsync: AsyncStateObj<Field[]>;
@@ -24,7 +21,7 @@ const initialState: State = {
 
 export function reducer(state = initialState, action: fromDataViewFieldsActions.Actions): State {
   switch (action.type) {
-    case fromDataViewFieldsActions.GET_REPORT_FIELDS: {
+    case fromDataViewFieldsActions.GET_AVAILABLE_REPORT_FIELDS: {
       const asyncStateObjClone = cloneDeep(state.reportFieldsAsync);
 
       asyncStateObjClone.loading = true;
@@ -35,7 +32,7 @@ export function reducer(state = initialState, action: fromDataViewFieldsActions.
         reportFieldsAsync: asyncStateObjClone
       };
     }
-    case fromDataViewFieldsActions.GET_REPORT_FIELDS_SUCCESS: {
+    case fromDataViewFieldsActions.GET_AVAILABLE_REPORT_FIELDS_SUCCESS: {
       const asyncStateObjClone = cloneDeep(state.reportFieldsAsync);
       asyncStateObjClone.loading = false;
       asyncStateObjClone.obj = action.payload;
@@ -45,7 +42,7 @@ export function reducer(state = initialState, action: fromDataViewFieldsActions.
         reportFieldsAsync: asyncStateObjClone
       };
     }
-    case fromDataViewFieldsActions.GET_REPORT_FIELDS_ERROR: {
+    case fromDataViewFieldsActions.GET_AVAILABLE_REPORT_FIELDS_ERROR: {
       const asyncStateObjClone = cloneDeep(state.reportFieldsAsync);
 
       asyncStateObjClone.loading = false;

@@ -1,0 +1,17 @@
+<ng-container *ngIf="!!workbook">
+  <div class="preview d-flex justify-content-center align-items-center flex-grow-1"
+    (mouseenter)="handleMouseOverWorkbookContainer()"
+    (mouseleave)="handleMouseLeaveWorkbookContainer()">
+    <span [attr.data-qa-id]="'clk-openWorkbook'" (click)="handleWorkbookClick()" >
+        <img class="img-fluid" [src]="workbook.Thumbnail" />
+
+        <div class="d-flex img-overlay" [ngClass]="displayOverlay ? 'displayed' : ''">
+          <div class="d-flex justify-content-center align-items-center workbook-description">
+            {{workbook.WorkbookDescription}}
+          </div>
+        </div>
+      </span>
+  </div>
+</ng-container>
+
+

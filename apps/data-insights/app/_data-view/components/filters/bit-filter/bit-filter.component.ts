@@ -1,6 +1,6 @@
 import { Component, Input, EventEmitter, Output, OnInit } from '@angular/core';
 
-import { FilterOperator, IsTrueFalse } from '../../../models';
+import { FilterOperator, IsTrueFalse } from 'libs/features/formula-editor';
 
 @Component({
   selector: 'pf-bit-filter',
