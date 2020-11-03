@@ -15,7 +15,6 @@
   <table class="data-cuts-table">
     <thead>
     <tr>
-      <th></th>
       <th>Scope</th>
       <th class="text-center">Country</th>
       <th *ngIf="dataSource !== surveySearchResultDataSources.Payfactors" class="text-center">Weight</th>
@@ -63,7 +62,6 @@
             (click)="toggleDataCutSelection(dataCut)"
             [class.selected]="dataCut.IsSelected"
             [class.draggable]="dataCut.IsSelected && cutsDraggable">
-          <td><input type="checkbox" [ngModel]="dataCut.IsSelected" /></td>
           <td class="scope-cell">
             {{dataCut?.Title}}
           </td>
@@ -84,7 +82,6 @@
       </ng-container>
       <ng-container *ngSwitchCase="surveySearchResultDataSources.Payfactors">
         <tr (click)="togglePayfactorsSelection()" [class.selected]="job.IsSelected" [class.draggable]="job.IsSelected && cutsDraggable">
-          <td><input type="checkbox" [ngModel]="job.IsSelected" /></td>
           <td class="scope-cell">National</td>
           <td class="text-center">{{job.CountryCode}}</td>
           <td class="text-center">{{job.Base50th}}</td>

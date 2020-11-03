@@ -30,6 +30,6 @@ export function generateMockJobToPrice(): JobToPrice {
     TotalDataCuts: 1,
     PaymarketId: 1,
     JobMatchCuts: [],
-    LinkedPaymarketId: null
+    LinkedPaymarketId: null,
   };
 }

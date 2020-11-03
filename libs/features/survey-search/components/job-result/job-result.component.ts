@@ -116,7 +116,10 @@ export class JobResultComponent implements OnInit, OnDestroy {
       TCC50th: dataCut.TCC50th,
       Base50th: dataCut.Base50th,
       ServerInfo: dataCut.ServerInfo,
-      CutFilterId: dataCut.Id
+      CutFilterId: dataCut.Id,
+      WeightingType: dataCut.Weight,
+      Orgs: dataCut.Orgs,
+      Incs: dataCut.Incs,
     });
   }
 
@@ -128,7 +131,10 @@ export class JobResultComponent implements OnInit, OnDestroy {
       Job: this.job,
       Base50th: this.job.Base50th,
       TCC50th: this.job.TCC50th,
-      CutFilterId: this.job.Code + this.job.CountryCode
+      CutFilterId: this.job.Code + this.job.CountryCode,
+      WeightingType: '',
+      Orgs: 0,
+      Incs: 0,
     });
   }
 

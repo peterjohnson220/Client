@@ -150,9 +150,12 @@ exports[`Project - MultiMatch - JobToPrice Component should display data cuts wh
       >
         <thead>
           <tr>
+            
+            
             <th>
               Title
             </th>
+            
             <th
               class="text-center"
             >
@@ -169,11 +172,30 @@ exports[`Project - MultiMatch - JobToPrice Component should display data cuts wh
         <tbody>
           
           <tr>
+            
+            
             <td
               class="scope-cell"
             >
-               Janitor/Custodian (JB122) - Payfactors 
+              <div>
+                <span
+                  class="job-title"
+                >
+                  Janitor/Custodian 
+                </span>
+                <span
+                  class="job-code"
+                >
+                  (JB122) 
+                </span>
+              </div>
+              <div
+                class="paymarket"
+              >
+                 Payfactors 
+              </div>
             </td>
+            
             <td
               class="text-center"
             >
@@ -192,9 +214,7 @@ exports[`Project - MultiMatch - JobToPrice Component should display data cuts wh
                 disabled=""
                 title="You cannot delete the last match from a pricing"
               >
-                <fa-icon
-                  size="lg"
-                />
+                <fa-icon />
               </button>
             </td>
           </tr>
@@ -451,9 +471,12 @@ exports[`Project - MultiMatch - JobToPrice Component should display with 2 decim
       >
         <thead>
           <tr>
+            
+            
             <th>
               Title
             </th>
+            
             <th
               class="text-center"
             >
@@ -470,11 +493,30 @@ exports[`Project - MultiMatch - JobToPrice Component should display with 2 decim
         <tbody>
           
           <tr>
+            
+            
             <td
               class="scope-cell"
             >
-               Janitor/Custodian (JB122) - Payfactors 
+              <div>
+                <span
+                  class="job-title"
+                >
+                  Janitor/Custodian 
+                </span>
+                <span
+                  class="job-code"
+                >
+                  (JB122) 
+                </span>
+              </div>
+              <div
+                class="paymarket"
+              >
+                 Payfactors 
+              </div>
             </td>
+            
             <td
               class="text-center"
             >
@@ -493,9 +535,7 @@ exports[`Project - MultiMatch - JobToPrice Component should display with 2 decim
                 disabled=""
                 title="You cannot delete the last match from a pricing"
               >
-                <fa-icon
-                  size="lg"
-                />
+                <fa-icon />
               </button>
             </td>
           </tr>
@@ -658,9 +698,12 @@ exports[`Project - MultiMatch - JobToPrice Component should show data cuts when 
       >
         <thead>
           <tr>
+            
+            
             <th>
               Title
             </th>
+            
             <th
               class="text-center"
             >
@@ -869,9 +912,12 @@ exports[`Project - MultiMatch - JobToPrice Component should show new job match c
       >
         <thead>
           <tr>
+            
+            
             <th>
               Title
             </th>
+            
             <th
               class="text-center"
             >
@@ -890,11 +936,30 @@ exports[`Project - MultiMatch - JobToPrice Component should show new job match c
           <tr
             class="highlight"
           >
+            
+            
             <td
               class="scope-cell"
             >
-               Janitor/Custodian (JB122) - Payfactors 
+              <div>
+                <span
+                  class="job-title"
+                >
+                  Janitor/Custodian 
+                </span>
+                <span
+                  class="job-code"
+                >
+                  (JB122) 
+                </span>
+              </div>
+              <div
+                class="paymarket"
+              >
+                 Payfactors 
+              </div>
             </td>
+            
             <td
               class="text-center"
             >
@@ -913,9 +978,7 @@ exports[`Project - MultiMatch - JobToPrice Component should show new job match c
                 disabled=""
                 title="You cannot delete the last match from a pricing"
               >
-                <fa-icon
-                  size="lg"
-                />
+                <fa-icon />
               </button>
             </td>
           </tr>
