@@ -132,7 +132,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   lastUpdateFieldsDateSubscription: Subscription;
 
   filtersUpdatedCountSubscription: Subscription;
-
+  resetGridScrolledSubscription: Subscription;
 
 
   readonly MIN_SPLIT_VIEW_COL_WIDTH = 100;
@@ -165,6 +165,14 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
             data: orderBy(this.data.data, this.sortDescriptor),
             total: this.data.total
           };
+        }
+      });
+
+    this.resetGridScrolledSubscription = this.actionsSubject
+      .pipe(ofType(fromActions.RESET_GRID_SCROLLED))
+      .subscribe((action: fromActions.ResetGridScrolled) => {
+        if (action.pageViewId === this.pageViewId) {
+          this.scrollToTop();
         }
       });
 
@@ -250,6 +258,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
     this.hasMoreDataOnServerSubscription.unsubscribe();
     this.lastUpdateFieldsDateSubscription.unsubscribe();
     this.filtersUpdatedCountSubscription.unsubscribe();
+    this.resetGridScrolledSubscription.unsubscribe();
   }
 
   ngOnChanges(changes: SimpleChanges) {
