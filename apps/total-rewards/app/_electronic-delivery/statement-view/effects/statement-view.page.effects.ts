@@ -9,6 +9,7 @@ import { TotalRewardsApiService } from 'libs/data/payfactors-api/total-rewards';
 import { CompanyEmployeeApiService } from 'libs/data/payfactors-api/company';
 import { Statement } from 'libs/features/total-rewards/total-rewards-statement/models';
 import { EmployeeRewardsDataService } from 'libs/features/total-rewards/total-rewards-statement/services/employee-rewards-data.service';
+import { EmployeeRewardsDataRequest } from 'libs/models/payfactors-api/total-rewards/request';
 
 import * as fromPageActions from '../actions/statement-view.page.actions';
 
@@ -30,7 +31,11 @@ export class StatementViewPageEffects {
     .pipe(
       ofType(fromPageActions.GET_EMPLOYEE_REWARDS_DATA),
       switchMap((action: fromPageActions.GetEmployeeRewardsData) => {
-        return this.companyEmployeeApiService.getBenefits(action.payload.companyEmployeeId)
+        const request: EmployeeRewardsDataRequest = {
+          CompanyEmployeeId: action.payload.companyEmployeeId,
+          StatementId: action.payload.statementId
+        };
+        return this.companyEmployeeApiService.getBenefits(request)
           .pipe(
             map((response) => {
               return new fromPageActions.GetEmployeeRewardsDataSuccess(EmployeeRewardsDataService.mapEmployeeRewardsDataDateFields(response));

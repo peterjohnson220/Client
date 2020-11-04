@@ -14,6 +14,7 @@ import { EmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards';
 import * as models from '../../models';
 import { TotalRewardsStatementService } from '../../services/total-rewards-statement.service';
 import { CompensationField, SelectableFieldsGroup } from '../../models';
+import { TrsConstants } from '../../constants/trs-constants';
 
 @Component({
   selector: 'pf-trs-calculation-control',
@@ -86,10 +87,16 @@ export class TrsCalculationControlComponent implements OnChanges {
     this.onUpdateSummaryTitleChange.emit({ControlId: this.controlData.Id, Title: summaryTitle});
   }
 
-  getEmployerContributionValue(field: string) {
+  getEmployerContributionValue(field: models.CompensationField) {
     if (this.employeeRewardsData && (this.mode !== models.StatementModeEnum.Edit)) {
-      if (this.employeeRewardsData[field] || this.employeeRewardsData[field] === 0) {
-        return this.currencyPipe.transform(this.employeeRewardsData[field], this.employeeRewardsData?.Currency, 'symbol-narrow', '1.0');
+      if (!field.Type && this.employeeRewardsData[field.DatabaseField] || this.employeeRewardsData[field.DatabaseField] === 0) {
+        return this.currencyPipe.transform(this.employeeRewardsData[field.DatabaseField], this.employeeRewardsData?.Currency, 'symbol-narrow', '1.0');
+      }
+      if (field.Type) {
+        const fieldValue = this.employeeRewardsData.IsMockData
+          ? TrsConstants.UDF_DEFAULT_VALUE
+          : this.employeeRewardsData[field.Type][field.DatabaseField];
+        return this.currencyPipe.transform(fieldValue, this.employeeRewardsData?.Currency, 'symbol-narrow', '1.0');
       }
     }
     return this.compensationValuePlaceholder;
@@ -106,8 +113,12 @@ export class TrsCalculationControlComponent implements OnChanges {
 
   displayFieldInTable(compField: models.CompensationField): boolean {
     if (compField.IsVisible) {
-      if (this.inEditMode) {
+      if (this.inEditMode || (compField.Type && this.employeeRewardsData.IsMockData)) {
         return true;
+      }
+      if (compField.Type) {
+        return this.employeeRewardsData[compField.Type][compField.DatabaseField] !== null &&
+        this.employeeRewardsData[compField.Type][compField.DatabaseField] > 0;
       }
       return this.employeeRewardsData[compField.DatabaseField] !== null && this.employeeRewardsData[compField.DatabaseField] > 0;
     }

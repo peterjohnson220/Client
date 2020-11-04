@@ -260,7 +260,10 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
   handleViewTotalRewardsStatementClicked(employeeId: number): void {
     this.store.dispatch(new fromEmployeeManagementActions.OpenTotalRewardsStatement());
     this.store.dispatch(new fromEmployeeManagementActions.GetTotalRewardsStatement());
-    this.store.dispatch(new fromEmployeeManagementActions.GetEmployeeTotalRewardsData(employeeId));
+    this.store.dispatch(new fromEmployeeManagementActions.GetEmployeeTotalRewardsData({
+      companyEmployeeId: employeeId,
+      statementId: this.totalRewardsStatementId
+    }));
   }
 
   handleDismissTotalRewardsModal(): void {

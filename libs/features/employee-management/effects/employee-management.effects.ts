@@ -12,6 +12,7 @@ import {
 } from 'libs/data/payfactors-api';
 import { ODataQuery } from 'libs/models/common';
 import * as fromRootState from 'libs/state/state';
+import { EmployeeRewardsDataRequest } from 'libs/models/payfactors-api/total-rewards/request';
 
 import * as fromEmployeeManagementReducer from '../reducers';
 import * as fromEmployeeManagementActions from '../actions';
@@ -293,7 +294,11 @@ export class EmployeeManagementEffects {
   getEmployeeRewardsData$ = this.actions$.pipe(
     ofType(fromEmployeeManagementActions.GET_EMPLOYEE_TOTAL_REWARDS_DATA),
     switchMap((action: fromEmployeeManagementActions.GetEmployeeTotalRewardsData) => {
-      return this.companyEmployeeApiService.getBenefits(action.payload).pipe(
+      const request: EmployeeRewardsDataRequest = {
+        CompanyEmployeeId: action.payload.companyEmployeeId,
+        StatementId: action.payload.statementId
+      };
+      return this.companyEmployeeApiService.getBenefits(request).pipe(
         map((response) => {
           return new fromEmployeeManagementActions.GetEmployeeTotalRewardsDataSuccess(EmployeeRewardsDataService.mapEmployeeRewardsDataDateFields(response));
         }),
