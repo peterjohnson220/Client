@@ -1,4 +1,4 @@
-<div *ngFor="let employeeRewardsData of (statement$ | async)?.EmployeeRewardsData; let i = index;">
+<div *ngFor="let employeeRewardsData of (statement$ | async)?.EmployeeRewardsData; let i = index;" class="statement-wrapper mx-auto">
   <pf-total-rewards-statement
     [statement]="(statement$ | async)"
     [employeeRewardsData]="employeeRewardsData"

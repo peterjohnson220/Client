@@ -1,5 +1,11 @@
 @import 'total-rewards/app-colors';
 
+$line-graphic-thickness: 4px;
+
+.trs-title {
+  padding: 0 15px; // match bootstrap with a px here, variable width is set directly in markup  
+}
+
 h3.employee {
   margin-top: 0.35rem;
   margin-left: -.25rem;;
@@ -17,6 +23,89 @@ h3.employee {
       color: $trs-placeholder-font-color;
       background-color: $trs-canvas-background-color;
       padding: .3rem;
+    }
+  }
+}
+
+.graphics {
+  display: none; // keep graphics hidden/off by default 
+}
+
+// when bg graphics are on add styling and dimension to the .graphic elements, show line graphics, and re-style the title h2
+.background-graphics {
+  .graphics {
+    display: initial;
+  }
+  h2 {
+    font-weight: 800;
+    font-size: 3.2rem;
+    color: white;
+    text-align: left;
+  }
+  ::ng-deep pf-string-editor { 
+    .edit-icon {
+      margin-right: 2rem; // keep the pencil a bit more inside the right edge for better aesthetics in this context 
+    }
+    input::placeholder {
+      color: #ccc;
+    }
+  }
+  .outer.graphic {
+    background-color: $trs-default-styled-overlap-graphic-color;
+    margin-left: -4rem;
+    padding: 2rem 0 0 2rem;
+    transform: skew(10deg); // skew the outer graphic to get an angled container look
+    .inner.graphic {
+      height: 11.5rem; // set height so background doesn't collapse to a single line when editing
+      background-color: $trs-default-styled-background-graphic-color;
+      transform: skew(-10deg); // undo the parent's skew
+      padding: 0 3rem 0 6rem;
+      margin-right: -6rem; // overflow the skewed container so graphic consumes all horizontal space in the column
+    }
+  }
+  .overlap.graphic {
+    background-color: $trs-default-styled-overlap-graphic-color;
+    position: absolute;
+    z-index: 5;
+    width: 15.4rem;
+    height: 280px;
+    transform: skew(-18deg);
+    left: -13.5rem;
+  }
+  .line.graphic {
+    background-color: $trs-default-styled-line-graphic-color;
+    position: absolute;
+    z-index: 5;
+    // PDF gen is currently at a different scale than the canvas, so use a % based x position to keep consistency in the variable container widths
+    &.top-vertical {
+      left: 80%;
+      height: 22px;
+      width: $line-graphic-thickness;
+    }
+    &.top-horizontal {
+      left: calc(80% - 134px);
+      height: $line-graphic-thickness;
+      width: 134px;
+      top: 18px;
+    }
+    &.circle {
+      height: 8px;
+      width: 8px;
+      border-radius: 8px;
+    }
+    &.top.circle {
+      left: calc(80% - 138px);
+      top: 16px;
+    }
+    &.bottom-horizontal {
+      left: -30px;
+      height: $line-graphic-thickness;
+      width: 66.67%;
+      margin-top: 6px;
+    }
+    &.bottom.circle {
+      left: calc(66% - 30px);
+      bottom: 6px;
     }
   }
 }
