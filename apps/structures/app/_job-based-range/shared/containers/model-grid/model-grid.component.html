@@ -14,7 +14,8 @@
     [reorderable]="reorderable"
     [modifiedKey]="modifiedKey"
     [gridConfig]="gridConfig"
-    [compactGridMinHeight]="compactGridMinHeight">
+    [compactGridMinHeight]="compactGridMinHeight"
+    [fieldsToShowFilterValueOnly]="fieldsToShowValueOnly">
   </pf-data-grid>
 </ng-container>
 
@@ -48,7 +49,8 @@
     [modifiedKey]="modifiedKey"
     [allowMultipleSort]="allowMultipleSort"
     [gridConfig]="gridConfig"
-    [pageable]="!gridConfig.EnableInfiniteScroll">
+    [pageable]="!gridConfig.EnableInfiniteScroll"
+  [fieldsToShowFilterValueOnly]="fieldsToShowValueOnly">
   </pf-data-grid>
 </ng-template>
 
@@ -163,7 +165,7 @@
   <div pfEllipsisActive class="ellipsis-overflowing-text-wrap no-formatting-info-circle-wrapper" *ngIf="dataRow[fieldName]; else noValue">
     <div>{{dataRow[fieldName]}}</div>
     <div class="no-formatting-info-circle" *ngIf="modifiedKey !== null && modifiedKeys != null && modifiedKeys.includes(dataRow[modifiedKey])">
-      <fa-icon [icon]="['fas','info-circle']" placement="left" [ngbTooltip]="getRangeOverrideTooltip(dataRow[modifiedKey])" container="body"></fa-icon>
+      <fa-icon [icon]="['fas','info-circle']" placement="left" [ngbTooltip]="dataRow['CompanyStructures_Ranges_Overrides_OverrideMessage']" container="body"></fa-icon>
     </div>
   </div>
 </ng-template>
@@ -189,6 +191,19 @@
 
 <ng-template #midReadOnly let-mid="mid">
   {{mid | rangeValue: (metaData$ | async)?.Rate }}
+</ng-template>
+
+<ng-template #overrideFilter>
+  <div>
+    <label>Override Message:</label>
+    <kendo-dropdownlist
+      [(ngModel)]="selectedOverrideMessage"
+      [data]="distinctOverrideMessages"
+      (valueChange)="handleOverrideMessageFilterChanged($event)"
+      [attr.data-qa-id]="'ddm-operator-model-grid' + overrideField.SourceName"
+      class="k-dropdown-white form-control">
+    </kendo-dropdownlist>
+  </div>
 </ng-template>
 
 <pf-model-settings-modal

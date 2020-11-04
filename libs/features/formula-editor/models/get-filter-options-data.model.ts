@@ -3,4 +3,7 @@ export interface GetFilterOptionsData {
   Query: string;
   EntitySourceName: string;
   SourceName: string;
+  BaseEntitySourceName: string;
+  DisablePagingAndSorting: boolean;
+  ApplyDefaultFilters: boolean;
 }

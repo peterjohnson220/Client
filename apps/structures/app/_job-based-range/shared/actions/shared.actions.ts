@@ -36,6 +36,9 @@ export const DISABLE_COMPARE_FLAG = '[Structures - Job Based Range - Shared] Dis
 export const CONVERT_CURRENCY_AND_RATE = '[Structures - Job Based Range - Shared] Convert Currency And Rate';
 export const CONVERT_CURRENCY_AND_RATE_SUCCESS = '[Structures - Job Based Range - Shared] Convert Currency And Rate Success';
 export const CONVERT_CURRENCY_AND_RATE_ERROR = '[Structures - Job Based Range - Shared] Convert Currency And Rate Error';
+export const GET_DISTINCT_OVERRIDE_MESSAGES = '[Structures - Job Based Range - Shared] Get Distinct Override Messages';
+export const GET_DISTINCT_OVERRIDE_MESSAGES_SUCCESS = '[Structures - Job Based Range - Shared] Get Distinct Override Messages Success';
+export const GET_DISTINCT_OVERRIDE_MESSAGES_ERROR = '[Structures - Job Based Range - Shared] Get Distinct Override Messages Error';
 export const GET_STRUCTURE_HAS_PUBLISHED_FOR_TYPE = '[Structures - Job Based Range - Shared] Get Structure Has Published For Type';
 export const GET_STRUCTURE_HAS_PUBLISHED_FOR_TYPE_SUCCESS = '[Structures - Job Based Range - Shared] Get Structure Has Published For Type Success';
 export const GET_STRUCTURE_HAS_PUBLISHED_FOR_TYPE_ERROR = '[Structures - Job Based Range - Shared] Get Structure Has Published For Type Error';
@@ -219,6 +222,24 @@ export class GetStructureHasPublishedForTypeError implements Action {
   constructor(public payload: any) {}
 }
 
+export class GetDistinctOverrideMessages implements Action {
+  readonly type = GET_DISTINCT_OVERRIDE_MESSAGES;
+
+  constructor() {}
+}
+
+export class GetDistinctOverrideMessagesSuccess implements Action {
+  readonly type = GET_DISTINCT_OVERRIDE_MESSAGES_SUCCESS;
+
+  constructor(public payload: any) {}
+}
+
+export class GetDistinctOverrideMessagesError implements Action {
+  readonly type = GET_DISTINCT_OVERRIDE_MESSAGES_ERROR;
+
+  constructor(public payload: any) {}
+}
+
 export type SharedActions
   = SetMetadata
   | RecalculateRangesWithoutMid
@@ -250,5 +271,8 @@ export type SharedActions
   | ConvertCurrencyAndRateError
   | GetStructureHasPublishedForType
   | GetStructureHasPublishedForTypeSuccess
-  | GetStructureHasPublishedForTypeError;
+  | GetStructureHasPublishedForTypeError
+  | GetDistinctOverrideMessages
+  | GetDistinctOverrideMessagesSuccess
+  | GetDistinctOverrideMessagesError;
 
