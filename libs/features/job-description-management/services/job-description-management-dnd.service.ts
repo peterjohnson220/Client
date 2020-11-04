@@ -25,7 +25,9 @@ export class JobDescriptionManagementDnDService {
         return source === target;
       },
       moves: function (el, container, handle) {
-        return typeof handle.className === 'string' ? handle.className.includes('dnd-control-data-reorder-handle') : false;
+        return handle.parentElement.classList.contains('svg-inline--fa')
+        || handle.parentElement.classList.contains('dnd-control-data-reorder-handle')
+        || handle.classList.contains('dnd-control-data-reorder-handle');
       }
     });
 
