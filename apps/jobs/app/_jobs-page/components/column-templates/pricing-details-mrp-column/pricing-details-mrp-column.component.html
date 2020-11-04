@@ -1,18 +1,16 @@
 <div pfEllipsisActive class="ellipsis-overflowing-text">
   <span *ngIf="!mrpModel.Category.includes('Pct'); else pctValue" [innerHTML]="dataRow[mrpModel.DataPrefix + mrpModel.Category + 'MRP'] | comp: dataRow[mrpModel.DataPrefix + 'Rate'] | emptyPlaceholder"></span>
-  <small *ngIf="dataRow[mrpModel.DataPrefix + mrpModel.Category + 'MRP'] != null; else mrpOverrideTemplate">
-    <em class="text-muted">
+  <small *ngIf="dataRow[mrpModel.DataPrefix + mrpModel.Category + 'MRP'] != null">
+    <em class="text-muted" *ngIf="dataRow[mrpModel.DataPrefix + mrpModel.Category + mrpModel.DataSuffix] != null; else mrpOverrideTemplate">
       ({{dataRow[mrpModel.DataPrefix + mrpModel.Category + mrpModel.DataSuffix] || 50}}{{mrpModel.PercentileSuffix}})
     </em>
   </small>
 </div>
 
 <ng-template #mrpOverrideTemplate>
-  <small *ngIf="mrpOverride !== ''">
-    <em class="text-muted">
-      ({{mrpOverride}})
-    </em>
-  </small>
+  <em class="text-muted">
+    ({{mrpOverride || '50th'}})
+  </em>
 </ng-template>
 
 <ng-template #pctValue>
