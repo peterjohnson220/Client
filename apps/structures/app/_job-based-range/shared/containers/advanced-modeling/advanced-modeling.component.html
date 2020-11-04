@@ -6,7 +6,8 @@
                id="PreventMidsBelowCurrent"
                value="true"
                formControlName="PreventMidsBelowCurrent"
-               class="control-margin">
+               class="control-margin"
+               [attr.disabled]="disableAdvancedSetting ? 'disabled' : null">
         Do not allow modeled midpoint to go below current midpoint
       </label>
     </div>

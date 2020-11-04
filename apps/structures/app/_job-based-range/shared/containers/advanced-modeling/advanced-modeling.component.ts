@@ -27,7 +27,6 @@ export class AdvancedModelingComponent implements OnInit, OnDestroy {
   disableAdvancedSetting: boolean;
   hasPublishedSub: Subscription;
 
-  private formPreventMidsFromIncreasingMoreThanPercent = 'RangeAdvancedSetting.PreventMidsFromIncreasingMoreThanPercent';
   private formPreventMidsFromIncreasingMoreThanPercentEnabled = 'RangeAdvancedSetting.PreventMidsFromIncreasingMoreThanPercent.Enabled';
   private formPreventMidsFromIncreasingMoreThanPercentPercentage = 'RangeAdvancedSetting.PreventMidsFromIncreasingMoreThanPercent.Percentage';
   private formMissingMarketDataTypeType = 'RangeAdvancedSetting.MissingMarketDataType.Type';
@@ -84,10 +83,6 @@ export class AdvancedModelingComponent implements OnInit, OnDestroy {
     }
   }
 
-  disableFormControls() {
-    this.advancedSettingForm.get(this.formPreventMidsFromIncreasingMoreThanPercent).disable();
-  }
-
   private setValidators(controlName: string, min: number, max: number) {
     this.advancedSettingForm.get(controlName).enable();
     this.advancedSettingForm.get(controlName).setValidators([Validators.required, Validators.min(min), Validators.max(max)]);
@@ -116,10 +111,6 @@ export class AdvancedModelingComponent implements OnInit, OnDestroy {
       this.setValidators(this.formMissingMarketDataTypePercentage, 0, 100);
     } else {
       this.clearValidators(this.formMissingMarketDataTypePercentage);
-    }
-
-    if (this.disableAdvancedSetting) {
-      this.disableFormControls();
     }
   }
 
