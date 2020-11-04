@@ -27,6 +27,8 @@ import { PagesHelper } from '../helpers/pages.helper';
 @Injectable()
 export class SharedEffects {
 
+
+
   @Effect()
   recalculateRangesWithoutMid$: Observable<Action> = this.actions$
     .pipe(
@@ -105,7 +107,8 @@ export class SharedEffects {
               mergeMap((response) =>
                 [
                   new fromSharedActions.GetOverriddenRangesSuccess(response),
-                  new fromPfDataGridActions.UpdateModifiedKeys(action.payload.pageViewId, response.map(o => o.CompanyStructuresRangesId))
+                  new fromPfDataGridActions.UpdateModifiedKeys(action.payload.pageViewId, response.map(o => o.CompanyStructuresRangesId)),
+                  new fromSharedActions.GetDistinctOverrideMessages()
                 ]),
               catchError(error => of(new fromSharedActions.GetOverriddenRangesError(error)))
             )
@@ -120,6 +123,24 @@ export class SharedEffects {
         return new fromSharedActions.UpdateOverrides({ rangeId: action.payload.modifiedKey, overrideToUpdate: action.payload.override, removeOverride: false });
       })
     );
+
+  @Effect()
+  getDistinctOverrideMessages$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromSharedActions.GET_DISTINCT_OVERRIDE_MESSAGES),
+      switchMap((action: fromSharedActions.GetDistinctOverrideMessages) => {
+        return this.dataViewApiService.getFilterOptions({ EntitySourceName: 'CompanyStructures_Ranges_Overrides', SourceName: 'OverrideMessage',
+          BaseEntityId: null, Query: null, BaseEntitySourceName: 'CompanyStructures_RangeGroup',
+          DisablePagingAndSorting: true, ApplyDefaultFilters: false  })
+          .pipe(
+            map((response) => {
+                return new fromSharedActions.GetDistinctOverrideMessagesSuccess(response);
+              }),
+            catchError((err) => of(new fromSharedActions.GetDistinctOverrideMessagesError(err)))
+          );
+      })
+    );
+
 
   @Effect()
   revertingChangesRange$: Observable<Action> = this.actions$

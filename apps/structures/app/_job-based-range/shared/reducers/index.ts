@@ -83,6 +83,10 @@ export const getRoundingSettings = createSelector(
 
 export const getRemovingRange = createSelector(selectSharedState, fromSharedReducer.getRemovingRange);
 
+export const getDistinctOverrideMessages = createSelector(
+  selectSharedState, fromSharedReducer.getDistinctOverrideMessages
+);
+
 // Model Settings Modal
 export const getModelSettingsModalOpen = createSelector(
   selectModelSettingsModalState, fromModelSettingsModalReducer.getModalOpen

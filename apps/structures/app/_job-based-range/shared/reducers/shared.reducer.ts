@@ -18,6 +18,7 @@ export interface State {
   currentRangeGroup: AsyncStateObj<any>;
   comparingModels: boolean;
   compareEnabled: boolean;
+  overrideMessages: string[];
   structureHasPublished: AsyncStateObj<number>;
 }
 
@@ -42,7 +43,8 @@ const initialState: State = {
   currentRangeGroup: generateDefaultAsyncStateObj<any>(null),
   comparingModels: false,
   compareEnabled: false,
-  structureHasPublished: generateDefaultAsyncStateObj<number>(null)
+  structureHasPublished: generateDefaultAsyncStateObj<number>(null),
+  overrideMessages: []
 };
 
 export function reducer(state = initialState, action: fromSharedActions.SharedActions): State {
@@ -183,6 +185,12 @@ export function reducer(state = initialState, action: fromSharedActions.SharedAc
         compareEnabled: false
       };
     }
+    case fromSharedActions.GET_DISTINCT_OVERRIDE_MESSAGES_SUCCESS: {
+      return {
+        ...state,
+        overrideMessages: action.payload
+      };
+    }
     case fromSharedActions.GET_STRUCTURE_HAS_PUBLISHED_FOR_TYPE: {
       const gettingHasPublishedStructureClone = cloneDeep(state.structureHasPublished);
 
@@ -229,6 +237,7 @@ export const getRangeOverrides = (state: State) => state.rangeOverrides;
 export const getCurrentRangeGroup = (state: State) => state.currentRangeGroup;
 export const getComparingModels = (state: State) => state.comparingModels;
 export const getCompareEnabled = (state: State) => state.compareEnabled;
+export const getDistinctOverrideMessages  = (state: State) => state.overrideMessages;
 export const getStructureHasPublished = (state: State) => state.structureHasPublished;
 
 export const addRoundingSetting = (name: string, setting: RoundingSetting, settings: RoundingSettingsDataObj) => {

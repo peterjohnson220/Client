@@ -11,7 +11,7 @@ import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
 import * as pfDataGridActions from 'libs/features/pf-data-grid/actions';
 import { PermissionCheckEnum, Permissions } from 'libs/constants';
 import { PermissionService } from 'libs/core/services';
-import { DataViewEntity, DataViewFilter } from 'libs/models/payfactors-api/reports/request';
+import { DataViewEntity, DataViewFilter, DataViewFilterOptionsRequest } from 'libs/models/payfactors-api/reports/request';
 import * as fromFormulaFieldActions from 'libs/features/formula-editor/actions/formula-field.actions';
 import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
 
@@ -21,6 +21,7 @@ import { AddJobsModalWrapperComponent } from '../containers/add-jobs-modal';
 import { StructuresPagesService, UrlService } from '../../shared/services';
 import { Workflow } from '../../shared/constants/workflow';
 import * as fromSharedActions from '../../shared/actions/shared.actions';
+import * as fromSharedJobBasedRangeActions from '../../shared/actions/shared.actions';
 import * as fromCompareJobRangesActions from '../../model/actions';
 
 @Component({
@@ -131,6 +132,8 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       }
     });
+
+    this.store.dispatch(new fromSharedJobBasedRangeActions.GetDistinctOverrideMessages());
   }
 
   ngAfterViewInit(): void {

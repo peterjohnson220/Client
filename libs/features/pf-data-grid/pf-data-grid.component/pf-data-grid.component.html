@@ -64,7 +64,8 @@
                 [lockedPillText]="lockedPillText"
                 [fields]="userFilteredFields"
                 (clearFilter)="clearFilter($event, true)"
-                (clearAllFilters)="clearAllFilters()">
+                (clearAllFilters)="clearAllFilters()"
+                [fieldsToShowFilterValueOnly]="fieldsToShowFilterValueOnly">
               </pf-data-grid-filter-pills>
             </div>
             <div class="ml-auto my-auto" *ngIf="actionBarConfig.ShowFilterChooser && !gridActionsTemplate">

@@ -3,4 +3,7 @@ export interface DataViewFilterOptionsRequest {
   EntitySourceName: string;
   SourceName: string;
   Query: string;
+  BaseEntitySourceName: string;
+  DisablePagingAndSorting: boolean;
+  ApplyDefaultFilters: boolean;
 }
