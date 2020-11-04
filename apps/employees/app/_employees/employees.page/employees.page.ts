@@ -29,7 +29,6 @@ import { AsyncStateObj } from 'libs/models/state';
 import * as fromEmployeesReducer from '../reducers';
 import * as fromEmployeesPageActions from '../actions/employees-page.actions';
 import { EmployeesPageViewId } from '../models';
-import { StatementDownloadComponent } from 'libs/features/total-rewards/total-rewards-statement/components/statement-download';
 
 @Component({
   selector: 'pf-employees-page',
@@ -44,7 +43,6 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
   @ViewChild('rateBasedSalaryColumn') rateBasedSalaryColumn: ElementRef;
   @ViewChild('gridRowActionsTemplate') gridRowActionsTemplate: ElementRef;
   @ViewChild(PfSecuredResourceDirective) pfSecuredResourceDirective: PfSecuredResourceDirective;
-  @ViewChild(StatementDownloadComponent) statementDownload: StatementDownloadComponent;
   permissions = Permissions;
   pricingJobs$: Observable<boolean>;
   pricingJobsError$: Observable<boolean>;
@@ -286,7 +284,10 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
   }
 
   public downloadStatement(): void {
-    this.statementDownload.downloadPdf();
+    this.store.dispatch(
+      new fromEmployeesPageActions.GenerateStatement(
+        { statementId: this.totalRewardsStatement.StatementId, companyEmployeeIds: [this.selectedCompanyEmployeeId] }
+        ));
   }
 
   private handlePricingJobsStatusChanged(value: boolean): void {
