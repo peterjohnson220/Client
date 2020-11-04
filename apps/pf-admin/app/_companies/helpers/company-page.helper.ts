@@ -104,13 +104,6 @@ export class CompanyPageHelper {
   static buildDefaultCustomCompanySettings(): CustomCompanySetting[] {
     return [
       {
-        Key: CompanySettingsEnum.EnablePricingReview,
-        Value: false,
-        DisplayName: CustomCompanySettingsDisplayEnum.EnablePricingReview,
-        Index: 16,
-        Type: CompanySettingsListType.Custom
-      },
-      {
         Key: CompanySettingsEnum.ParticipateInPeerDataExchange,
         Value: true,
         DisplayName: CustomCompanySettingsDisplayEnum.ParticipateInPeerDataExchange,
@@ -153,17 +146,24 @@ export class CompanyPageHelper {
         Type: CompanySettingsListType.Custom
       },
       {
-        Key: CompanySettingsEnum.EnableLiveChat,
-        Value: false,
-        DisplayName: CustomCompanySettingsDisplayEnum.HideSecondarySurveyDataFields,
-        Index: 19,
-        Type: CompanySettingsListType.Custom
-      },
-      {
         Key: CompanySettingsEnum.EnableIntervalAgingFactor,
         Value: false,
         DisplayName: CustomCompanySettingsDisplayEnum.EnableIntervalAgingFactor,
         Index: 15,
+        Type: CompanySettingsListType.Custom
+      },
+      {
+        Key: CompanySettingsEnum.EnablePricingReview,
+        Value: false,
+        DisplayName: CustomCompanySettingsDisplayEnum.EnablePricingReview,
+        Index: 16,
+        Type: CompanySettingsListType.Custom
+      },
+      {
+        Key: CompanySettingsEnum.EnableLiveChat,
+        Value: false,
+        DisplayName: CustomCompanySettingsDisplayEnum.EnableLiveChat,
+        Index: 19,
         Type: CompanySettingsListType.Custom
       }
   ];

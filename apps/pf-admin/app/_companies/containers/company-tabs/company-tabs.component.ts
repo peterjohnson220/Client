@@ -45,7 +45,6 @@ export class CompanyTabsComponent implements OnInit, OnChanges, OnDestroy {
   loadingCompanySettingsError$: Observable<boolean>;
 
   combinedCompanySettingsSubscription: Subscription;
-
   companySettings$: Observable<CompanySetting[]>;
   companySettings: any[];
 
@@ -98,6 +97,7 @@ export class CompanyTabsComponent implements OnInit, OnChanges, OnDestroy {
     this.enableJobPricingLimiter$ = this.store.select(fromPfAdminMainReducer.getEnableJobPricingLimiter);
 
     this.customCompanySettings$ = new Subject<CustomCompanySetting[]>();
+    this.combineLatestSettings();
   }
 
   isUserAdmin(): boolean {
@@ -121,20 +121,6 @@ export class CompanyTabsComponent implements OnInit, OnChanges, OnDestroy {
         this.isPayfactorsServices = (uc.CompanySystemUserGroupsGroupName.toLowerCase() === payfactorsServicesGroupName.toLowerCase());
       }
     });
-
-    this.combinedCompanySettingsSubscription = combineLatest([this.companySettings$, this.customCompanySettings$]).subscribe(([settings, customSettings]) => {
-        if (settings && settings.length > 0) {
-          this.companySettings = settings.filter(setting => {
-            if (this.isConfigurableSetting(setting)) {
-              return setting;
-            }
-          });
-
-          this.combineSettings(customSettings);
-
-          this.maxProjectCountSetting = settings.find(setting => setting.Key === CompanySettingsEnum.MaxProjectJobCount);
-        }
-      });
 
     this.companyTabsContextSubscription = combineLatest(
       this.loadingCompanySettingsSuccess$,
@@ -219,6 +205,22 @@ export class CompanyTabsComponent implements OnInit, OnChanges, OnDestroy {
   combineSettings(customSettings) {
     customSettings.forEach(customSetting => {
       this.companySettings.splice(customSetting.Index, 0, customSetting);
+    });
+  }
+
+  private combineLatestSettings() {
+    this.combinedCompanySettingsSubscription = combineLatest([this.companySettings$, this.customCompanySettings$]).subscribe(([settings, customSettings]) => {
+      if (settings && settings.length > 0) {
+        this.companySettings = settings.filter(setting => {
+          if (this.isConfigurableSetting(setting)) {
+            return setting;
+          }
+        });
+
+        this.combineSettings(customSettings);
+
+        this.maxProjectCountSetting = settings.find(setting => setting.Key === CompanySettingsEnum.MaxProjectJobCount);
+      }
     });
   }
 
