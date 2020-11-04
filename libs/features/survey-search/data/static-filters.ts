@@ -20,7 +20,7 @@ export function getSearchFilters(matchModeEnabled: boolean): TextFilter[] {
       Type: FilterType.Text,
       Order: 2,
       CssClassName: 'job-description',
-      SearchType: matchModeEnabled ? SearchType.Match : null
+      SearchType: matchModeEnabled ? SearchType.MatchPhrase : null
     },
     {
       Id: 'scope',
