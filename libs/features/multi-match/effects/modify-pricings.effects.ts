@@ -11,7 +11,6 @@ import { getSearchFilters } from '../../survey-search/data';
 import { PayfactorsApiModelMapper } from '../helpers';
 import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
 
-import { SearchFilterMappingDataObj } from '../../search/models';
 import { SurveySearchFiltersHelper } from '../../survey-search/helpers';
 
 import * as fromModifyPricingsActions from '../actions/modify-pricings.actions';
@@ -31,7 +30,6 @@ export class ModifyPricingsEffects {
     private store: Store<fromMultiMatchReducer.State>,
     private jobsApiService: JobsApiService,
     private pricingApiService: PricingApiService,
-private searchFilterMappingDataObj: SearchFilterMappingDataObj,
     private featureFlagService: AbstractFeatureFlagService
   ) {}
 
