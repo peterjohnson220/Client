@@ -1,8 +1,11 @@
 <pf-total-rewards-statement-view *ngIf="(tokenStatus$ | async)?.obj === tokenStatus.Valid && (employeeData$ | async);else verification"
-  [loading]="(tokenStatus$ | async)?.loading"
-  [loadingError]="(tokenStatus$ | async)?.loadingError"
-  [employeeRewardsData]="employeeData$ | async"
-  [statement]="statement$ | async">
+    (downloadClicked)="startStatementDownload()"
+    [loading]="(tokenStatus$ | async)?.loading"
+    [loadingError]="(tokenStatus$ | async)?.loadingError"
+    [employeeRewardsData]="employeeData$ | async"
+    [generatingPdf]="downloadingPdf$ | async"
+    [disableExport]="(downloadingPdf$ | async) || !notificationConnected"
+    [statement]="statement$ | async">
 </pf-total-rewards-statement-view>
 
 <ng-template #verification>

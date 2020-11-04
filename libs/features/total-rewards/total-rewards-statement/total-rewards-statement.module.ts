@@ -20,7 +20,7 @@ import { PfFormsModule } from 'libs/forms';
 
 import {
   StringEditorComponent, TotalRewardsStatementComponent, StatementDownloadComponent,
-  FieldGroupComponent, TrsCompensationFieldsChooserComponent
+  FieldGroupComponent, TrsCompensationFieldsChooserComponent, StatementViewComponent
 } from './components';
 import { TrsTitleControlComponent } from './components/trs-title-control/trs-title-control.component';
 import { TrsImageControlComponent } from './components/trs-image-control/trs-image-control.component';
@@ -73,7 +73,8 @@ import { ModeClassifierDirective } from './directives/pf-mode-classifier-directi
     ModeClassifierDirective,
     StatementDownloadComponent,
     FieldGroupComponent,
-    TrsCompensationFieldsChooserComponent
+    TrsCompensationFieldsChooserComponent,
+    StatementViewComponent
   ],
   exports: [
     StringEditorComponent,
@@ -82,7 +83,8 @@ import { ModeClassifierDirective } from './directives/pf-mode-classifier-directi
     FooterBarComponent,
     NoRecordsFoundCallToActionComponent,
     ModeClassifierDirective,
-    StatementDownloadComponent
+    StatementDownloadComponent,
+    StatementViewComponent
   ],
   providers: [
     CurrencyPipe

@@ -11,8 +11,10 @@
               class="btn btn-secondary"
               [attr.data-qa-id]="'btn-downloadPdf'"
               (click)="downloadStatement()"
+              [disabled]="disableExport"
               ngbTooltip="Export">
-        <fa-icon [icon]="'download'" aria-hidden="true"></fa-icon>
+        <fa-icon *ngIf="!generatingPdf" [icon]="'download'" aria-hidden="true"></fa-icon>
+        <fa-icon *ngIf="generatingPdf" [icon]="'circle-notch'" spin="true"></fa-icon>
       </button>
     </ng-container>
     <ng-container page-content>
@@ -50,15 +52,17 @@
               employeeRewardsData.EmployeeId
             }}
           </div>
-          <div>Effective Date: {{currentdate}}</div>
+          <div>Effective Date: {{currentDate}}</div>
         </div>
       </div>
       <button type="button"
               class="mobile-btn btn btn-primary"
               [attr.data-qa-id]="'btn-mobile-downloadPdf'"
+              [disabled]="disableExport"
               (click)="downloadStatement()"
               ngbTooltip="Export">
-        View Statement
+        <span *ngIf="!generatingPdf">View Statement</span>
+        <span *ngIf="generatingPdf">Downloading...</span>
       </button>
     </div>
   </div>
