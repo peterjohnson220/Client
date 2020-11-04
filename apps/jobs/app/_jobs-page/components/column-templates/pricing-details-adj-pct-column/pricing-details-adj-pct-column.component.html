@@ -5,12 +5,13 @@
         <kendo-numerictextbox
           class="form-control-sm right px-1 input-height-auto"
           [(ngModel)]="adjPct"
+          [title]="(adjPct > 999 || adjPct < -999 ? adjPct : '')"
           [disabled]="!!(dataRow.CompanyPayMarkets_Linked_PayMarket_Name | modifyPricingError : isActiveJob)"
           [spinners]="false"
           [decimals]="'0'"
           [format]="'#'"
-          [min]="-100"
-          [max]="99999"
+          [min]="-999999999999"
+          [max]="999999999999"
           [autoCorrect]="true"
           [placeholder]="0"
           (change)="updatePricingMatch()">
