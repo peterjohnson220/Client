@@ -30,7 +30,7 @@ import { RangeValuePipe } from './pipes';
 import { reducers } from './reducers';
 import { StructuresPagesService, UrlService } from './services';
 import * as fromFaIcons from './fa-icons';
-import { AdvancedModelingComponent } from './containers/advanced-modeling';
+import { AdvancedModelSettingComponent } from './containers/advanced-model-setting';
 import { StructuresFormulaEditorComponent } from './containers/structures-formula-editor/structures-formula-editor.component';
 
 @NgModule({
@@ -73,7 +73,7 @@ import { StructuresFormulaEditorComponent } from './containers/structures-formul
   declarations: [
     ModelGridComponent,
     RangeRoundingComponent,
-    AdvancedModelingComponent,
+    AdvancedModelSettingComponent,
     GridContextComponent,
     ModelSettingsModalComponent,
     ModelSettingsBtnComponent,

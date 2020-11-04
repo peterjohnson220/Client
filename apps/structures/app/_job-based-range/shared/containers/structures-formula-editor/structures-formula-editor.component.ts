@@ -85,7 +85,6 @@ export class StructuresFormulaEditorComponent implements ControlValueAccessor, O
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-
     if (!!changes && !!changes.metadata) {
       const metadata = changes.metadata.currentValue;
       const setting = metadata?.RangeDistributionSetting;
@@ -202,7 +201,7 @@ export class StructuresFormulaEditorComponent implements ControlValueAccessor, O
     };
   }
 
-  handleFormulaNameChange(value) {
+  handleFormulaNameChange() {
     if (!!this.formulaFieldObj.Formula && this.isValidFormula) {
       this.store.dispatch(new fromFormulaFieldActions.SaveFormulaField({ formula: this.getFormulaField(), baseEntityId: this.baseEntity?.Id }));
     }
