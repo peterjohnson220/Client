@@ -21,6 +21,7 @@ import { UrlService } from '../../services';
 import { RangeDistributionSettingComponent } from '../range-distribution-setting';
 import { PageViewIds } from '../../constants/page-view-ids';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AdvancedModelSettingComponent } from '../advanced-model-setting';
 
 describe('Job Based Ranges - Model Settings Modal', () => {
   let instance: ModelSettingsModalComponent;
@@ -41,9 +42,10 @@ describe('Job Based Ranges - Model Settings Modal', () => {
       ],
       declarations: [
         ModelSettingsModalComponent,
-        RangeDistributionSettingComponent
+        RangeDistributionSettingComponent,
+        AdvancedModelSettingComponent
       ],
-      schemas: [ NO_ERRORS_SCHEMA ],
+      schemas: [NO_ERRORS_SCHEMA],
       providers: [
         {
           provide: NgbModal,
@@ -51,7 +53,7 @@ describe('Job Based Ranges - Model Settings Modal', () => {
         },
         {
           provide: UrlService,
-          useValue: { isInWorkflow: jest.fn()}
+          useValue: { isInWorkflow: jest.fn() }
         },
         {
           provide: AbstractFeatureFlagService,
@@ -63,8 +65,9 @@ describe('Job Based Ranges - Model Settings Modal', () => {
 
     fixture = TestBed.createComponent(ModelSettingsModalComponent);
     instance = fixture.componentInstance;
-    instance.rdSettingComponent =
-      TestBed.createComponent(RangeDistributionSettingComponent).componentInstance;
+    instance.rangeDistributionSettingComponent = TestBed.createComponent(RangeDistributionSettingComponent).componentInstance;
+    instance.advancedModelSettingComponent = TestBed.createComponent(AdvancedModelSettingComponent).componentInstance;
+
     store = TestBed.inject(Store);
     ngbModal = TestBed.inject(NgbModal);
     urlService = TestBed.inject(UrlService);
@@ -109,26 +112,47 @@ describe('Job Based Ranges - Model Settings Modal', () => {
       RangeAdvancedSetting: generateMockRangeAdvancedSetting()
     };
 
-    instance.rdSettingComponent.enablePercentilesAndRangeSpreads = true;
-
-    instance.rdSettingComponent.rangeDistributionSettingForm =  new FormGroup({
+    instance.rangeDistributionSettingComponent.enablePercentilesAndRangeSpreads = true;
+    instance.rangeDistributionSettingComponent.rangeDistributionSettingForm = new FormGroup({
       'CompanyStructuresRangeGroupId': new FormControl(this.rangeGroupId),
-      'RangeDistributionTypeId': new FormControl({value: instance.metadata.RangeDistributionTypeId, disabled: true}, [Validators.required]),
+      'RangeDistributionTypeId': new FormControl({ value: instance.metadata.RangeDistributionTypeId, disabled: true }, [Validators.required]),
       'PayType': new FormControl(instance.metadata.PayType, [Validators.required]),
       'ControlPoint': new FormControl({ value: instance.metadata.ControlPoint, disabled: true }, [Validators.required]),
-      'Minimum': new FormControl({ value: instance.metadata.SpreadMin, disabled: !instance.rdSettingComponent.enablePercentilesAndRangeSpreads }, [Validators.required]),
-      'Maximum': new FormControl({ value: instance.metadata.SpreadMax, disabled: !instance.rdSettingComponent.enablePercentilesAndRangeSpreads }, [Validators.required]),
-      'FirstTertile': new FormControl({ value: null, disabled: !instance.rdSettingComponent.enablePercentilesAndRangeSpreads }),
-      'SecondTertile': new FormControl({ value: null, disabled: !instance.rdSettingComponent.enablePercentilesAndRangeSpreads }),
-      'FirstQuartile': new FormControl({ value: null, disabled: !instance.rdSettingComponent.enablePercentilesAndRangeSpreads }),
-      'SecondQuartile': new FormControl({ value: null, disabled: !instance.rdSettingComponent.enablePercentilesAndRangeSpreads }),
-      'FirstQuintile': new FormControl({ value: null, disabled: !instance.rdSettingComponent.enablePercentilesAndRangeSpreads }),
-      'SecondQuintile': new FormControl({ value: null, disabled: !instance.rdSettingComponent.enablePercentilesAndRangeSpreads }),
-      'ThirdQuintile': new FormControl({ value: null, disabled: !instance.rdSettingComponent.enablePercentilesAndRangeSpreads }),
-      'FourthQuintile': new FormControl({ value: null, disabled: !instance.rdSettingComponent.enablePercentilesAndRangeSpreads }),
-      'MinPercentile': new FormControl({ value: null, disabled: !instance.rdSettingComponent.enablePercentilesAndRangeSpreads }),
-      'MaxPercentile': new FormControl({ value: null, disabled: !instance.rdSettingComponent.enablePercentilesAndRangeSpreads }),
+      'Minimum': new FormControl({
+        value: instance.metadata.SpreadMin,
+        disabled: !instance.rangeDistributionSettingComponent.enablePercentilesAndRangeSpreads
+      }, [Validators.required]),
+      'Maximum': new FormControl({
+        value: instance.metadata.SpreadMax,
+        disabled: !instance.rangeDistributionSettingComponent.enablePercentilesAndRangeSpreads
+      }, [Validators.required]),
+      'FirstTertile': new FormControl({ value: null, disabled: !instance.rangeDistributionSettingComponent.enablePercentilesAndRangeSpreads }),
+      'SecondTertile': new FormControl({ value: null, disabled: !instance.rangeDistributionSettingComponent.enablePercentilesAndRangeSpreads }),
+      'FirstQuartile': new FormControl({ value: null, disabled: !instance.rangeDistributionSettingComponent.enablePercentilesAndRangeSpreads }),
+      'SecondQuartile': new FormControl({ value: null, disabled: !instance.rangeDistributionSettingComponent.enablePercentilesAndRangeSpreads }),
+      'FirstQuintile': new FormControl({ value: null, disabled: !instance.rangeDistributionSettingComponent.enablePercentilesAndRangeSpreads }),
+      'SecondQuintile': new FormControl({ value: null, disabled: !instance.rangeDistributionSettingComponent.enablePercentilesAndRangeSpreads }),
+      'ThirdQuintile': new FormControl({ value: null, disabled: !instance.rangeDistributionSettingComponent.enablePercentilesAndRangeSpreads }),
+      'FourthQuintile': new FormControl({ value: null, disabled: !instance.rangeDistributionSettingComponent.enablePercentilesAndRangeSpreads }),
+      'MinPercentile': new FormControl({ value: null, disabled: !instance.rangeDistributionSettingComponent.enablePercentilesAndRangeSpreads }),
+      'MaxPercentile': new FormControl({ value: null, disabled: !instance.rangeDistributionSettingComponent.enablePercentilesAndRangeSpreads }),
       'ControlPoint_Formula': new FormControl({ value: null })
+    });
+
+    instance.advancedModelSettingComponent.advancedModelSettingForm = new FormGroup({
+      'PreventMidsBelowCurrent': new FormControl(instance.metadata.RangeAdvancedSetting.PreventMidsBelowCurrent),
+      'PreventMidsFromIncreasingMoreThanPercent': new FormGroup({
+        'Enabled': new FormControl(instance.metadata.RangeAdvancedSetting.PreventMidsFromIncreasingMoreThanPercent.Enabled),
+        'Percentage': new FormControl(instance.metadata.RangeAdvancedSetting.PreventMidsFromIncreasingMoreThanPercent.Percentage)
+      }),
+      'PreventMidsFromIncreasingWithinPercentOfNextLevel': new FormGroup({
+        'Enabled': new FormControl(instance.metadata.RangeAdvancedSetting.PreventMidsFromIncreasingWithinPercentOfNextLevel.Enabled),
+        'Percentage': new FormControl(instance.metadata.RangeAdvancedSetting.PreventMidsFromIncreasingWithinPercentOfNextLevel.Percentage)
+      }),
+      'MissingMarketDataType': new FormGroup({
+        'Type': new FormControl(String(instance.metadata.RangeAdvancedSetting.MissingMarketDataType.Type)),
+        'Percentage': new FormControl(instance.metadata.RangeAdvancedSetting.MissingMarketDataType.Percentage)
+      })
     });
 
     instance.ngOnInit();
@@ -149,7 +173,7 @@ describe('Job Based Ranges - Model Settings Modal', () => {
 
   it('should dispatch GetStructureNameSuggestions when structure name changed', () => {
     spyOn(instance.store, 'dispatch');
-    const expectedAction = new fromModelSettingsModalActions.GetStructureNameSuggestions({filter: 'test'});
+    const expectedAction = new fromModelSettingsModalActions.GetStructureNameSuggestions({ filter: 'test' });
     instance.handleStructureNameChanged('test');
 
 
@@ -230,7 +254,6 @@ describe('Job Based Ranges - Model Settings Modal', () => {
   });
 
   it('should subscribe to appropriate subscriptions on init as well', () => {
-
     expect(instance.controlPointsAsyncObjSub).not.toBe(undefined);
     expect(instance.currenciesAsyncObjSub).not.toBe(undefined);
     expect(instance.metadataSub).not.toBe(undefined);
