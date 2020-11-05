@@ -13,6 +13,7 @@ import { JobDescriptionViewConstants } from 'libs/features/job-description-manag
 import * as fromViewListActions from '../actions/views-list.actions';
 import * as fromViewEditActions from '../../view-edit/actions/view-edit.actions';
 import { ViewsListPageComponent } from './views-list.page';
+import { generateMockTemplateListItem, generateMockJobDescriptionViewListGridItem } from 'libs/models';
 
 describe('Job Description Management - Settings - Views List Page', () => {
   let instance: ViewsListPageComponent;
@@ -20,6 +21,7 @@ describe('Job Description Management - Settings - Views List Page', () => {
   let store: Store<any>;
   let router: Router;
   let route: ActivatedRoute;
+  let routeIdParam: number;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -34,7 +36,7 @@ describe('Job Description Management - Settings - Views List Page', () => {
         },
         {
           provide: ActivatedRoute,
-          useValue: new ActivatedRouteStub()
+          useValue: { snapshot: { params: { templateId : '1' } } }
         },
         FilterArrayByName
       ],
@@ -45,13 +47,16 @@ describe('Job Description Management - Settings - Views List Page', () => {
     instance = fixture.componentInstance;
 
     instance.gridView = {
-      data: [],
-      total: 0
+      data: [generateMockJobDescriptionViewListGridItem(1)],
+      total: 1
     };
+
+    instance.templateData = [generateMockTemplateListItem(1)];
 
     store = TestBed.inject(Store);
     router = TestBed.inject(Router);
     route = TestBed.inject(ActivatedRoute);
+    routeIdParam = route.snapshot.params.templateId;
   });
 
   it('should dispatch an action to the store to load the views upon init', () => {
@@ -142,4 +147,13 @@ describe('Job Description Management - Settings - Views List Page', () => {
 
     expect(instance.deleteViewConfirmationModal.open).toHaveBeenCalledWith(viewToDelete);
   });
+
+  it('should filter view grid according to template id in the router parameters', () => {
+    instance.gridView.data[0].Templates.push(generateMockTemplateListItem(1));
+    instance.gridView.data[0].Templates.push(generateMockTemplateListItem(2));
+
+    const viewData = instance.filterViewsByTemplateId(Number(routeIdParam));
+    expect(viewData[0].ViewName).toBe(`Test View Name ${routeIdParam}`);
+  });
+
 });

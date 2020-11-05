@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
 
 import { FilterableName } from 'libs/core/interfaces';
-import { ViewListGridItem } from '../../shared/models/view-list-grid-item';
+import { JobDescriptionViewListGridItem } from 'libs/models';
 
 export const LOAD_JOB_DESCRIPTION_VIEWS = '[Job Description Management / Views List] Load Views';
 export const LOAD_JOB_DESCRIPTION_VIEWS_SUCCESS = '[Job Description Management / Views List] Load Views Success';
@@ -32,7 +32,7 @@ export class LoadJobDescriptionSettingsViews implements Action {
 export class LoadJobDescriptionViewsSettingsSuccess implements Action {
   readonly type = LOAD_JOB_DESCRIPTION_SETTINGS_VIEWS_SUCCESS;
 
-  constructor(public payload: ViewListGridItem[]) {}
+  constructor(public payload: JobDescriptionViewListGridItem[]) {}
 }
 
 export class LoadJobDescriptionViewsSettingsError implements Action {
