@@ -43,7 +43,7 @@ export class TrsCalculationControlComponent implements OnChanges {
   constructor(public currencyPipe: CurrencyPipe) { }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes?.companyUdfs?.currentValue?.length) {
+    if (changes?.companyUdfs?.currentValue?.length || changes?.controlData?.currentValue?.DataFields?.length) {
       this.selectableFields = this.buildSelectableFieldsList();
       this.maxVisibleFieldsReached = this.visibleFieldsCount === this.MAX_VISIBLE_FIELDS;
     }
@@ -127,8 +127,8 @@ export class TrsCalculationControlComponent implements OnChanges {
   }
 
   private filterSelectableFields(fieldsLength: number, group: string): models.CompensationField[] {
+    let filteredFieldsList: CompensationField[] = [];
     if (fieldsLength) {
-      let filteredFieldsList: CompensationField[];
       switch (group) {
         case SelectableFieldsGroup.BenefitFields:
           filteredFieldsList = cloneDeep(this.controlData.DataFields).filter(f => f.IsVisible === false);
@@ -143,9 +143,9 @@ export class TrsCalculationControlComponent implements OnChanges {
           filteredFieldsList.forEach(f => { f.Group = group; f.DisplayName = f.Name.Override ?? f.Name.Default; });
           break;
         default:
-        return [];
+          return [];
       }
-      return filteredFieldsList;
     }
+    return filteredFieldsList;
   }
 }
