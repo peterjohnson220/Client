@@ -56,21 +56,39 @@ export class AdvancedModelSettingComponent implements OnInit, OnDestroy, Control
   }
 
   buildForm() {
-    this.advancedModelSettingForm = new FormGroup({
-      'PreventMidsBelowCurrent': new FormControl(this.metadata.RangeAdvancedSetting.PreventMidsBelowCurrent),
-      'PreventMidsFromIncreasingMoreThanPercent': new FormGroup({
-        'Enabled': new FormControl(this.metadata.RangeAdvancedSetting.PreventMidsFromIncreasingMoreThanPercent.Enabled),
-        'Percentage': new FormControl(this.metadata.RangeAdvancedSetting.PreventMidsFromIncreasingMoreThanPercent.Percentage)
-      }),
-      'PreventMidsFromIncreasingWithinPercentOfNextLevel': new FormGroup({
-        'Enabled': new FormControl(this.metadata.RangeAdvancedSetting.PreventMidsFromIncreasingWithinPercentOfNextLevel.Enabled),
-        'Percentage': new FormControl(this.metadata.RangeAdvancedSetting.PreventMidsFromIncreasingWithinPercentOfNextLevel.Percentage)
-      }),
-      'MissingMarketDataType': new FormGroup({
-        'Type': new FormControl(String(this.metadata.RangeAdvancedSetting.MissingMarketDataType.Type)),
-        'Percentage': new FormControl(this.metadata.RangeAdvancedSetting.MissingMarketDataType.Percentage)
-      })
-    });
+    if (this.metadata.RangeAdvancedSetting !== null) {
+      this.advancedModelSettingForm = new FormGroup({
+        'PreventMidsBelowCurrent': new FormControl(this.metadata.RangeAdvancedSetting.PreventMidsBelowCurrent),
+        'PreventMidsFromIncreasingMoreThanPercent': new FormGroup({
+          'Enabled': new FormControl(this.metadata.RangeAdvancedSetting.PreventMidsFromIncreasingMoreThanPercent.Enabled),
+          'Percentage': new FormControl(this.metadata.RangeAdvancedSetting.PreventMidsFromIncreasingMoreThanPercent.Percentage)
+        }),
+        'PreventMidsFromIncreasingWithinPercentOfNextLevel': new FormGroup({
+          'Enabled': new FormControl(this.metadata.RangeAdvancedSetting.PreventMidsFromIncreasingWithinPercentOfNextLevel.Enabled),
+          'Percentage': new FormControl(this.metadata.RangeAdvancedSetting.PreventMidsFromIncreasingWithinPercentOfNextLevel.Percentage)
+        }),
+        'MissingMarketDataType': new FormGroup({
+          'Type': new FormControl(String(this.metadata.RangeAdvancedSetting.MissingMarketDataType.Type)),
+          'Percentage': new FormControl(this.metadata.RangeAdvancedSetting.MissingMarketDataType.Percentage)
+        })
+      });
+    } else {
+      this.advancedModelSettingForm  = new FormGroup({
+        'PreventMidsBelowCurrent': new FormControl(false),
+        'PreventMidsFromIncreasingMoreThanPercent': new FormGroup({
+          'Enabled': new FormControl(false),
+          'Percentage': new FormControl(null)
+        }),
+        'PreventMidsFromIncreasingWithinPercentOfNextLevel': new FormGroup({
+          'Enabled': new FormControl(false),
+          'Percentage': new FormControl(null)
+        }),
+        'MissingMarketDataType': new FormGroup({
+          'Type': new FormControl(MissingMarketDataTypes.LeaveValuesBlank),
+          'Percentage': new FormControl(null)
+        })
+      });
+    }
   }
 
   get value(): AdvancedModelSettingForm {

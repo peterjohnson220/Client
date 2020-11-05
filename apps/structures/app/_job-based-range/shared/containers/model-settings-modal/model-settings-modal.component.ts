@@ -20,6 +20,7 @@ import { UrlService } from '../../services';
 import { Workflow } from '../../constants/workflow';
 import { RangeDistributionSettingComponent } from '../range-distribution-setting';
 import { ModelSettingsModalConstants } from '../../constants/model-settings-modal-constants';
+import { AdvancedModelSettingComponent } from '../advanced-model-setting';
 
 @Component({
   selector: 'pf-model-settings-modal',
@@ -29,7 +30,8 @@ import { ModelSettingsModalConstants } from '../../constants/model-settings-moda
 export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   @Input() rangeGroupId: number;
   @Input() pageViewId: string;
-  @ViewChild(RangeDistributionSettingComponent, { static: false }) public rdSettingComponent: RangeDistributionSettingComponent;
+  @ViewChild(RangeDistributionSettingComponent, { static: false }) public rangeDistributionSettingComponent: RangeDistributionSettingComponent;
+  @ViewChild(AdvancedModelSettingComponent, { static: false }) public advancedModelSettingComponent: AdvancedModelSettingComponent;
 
   modalOpen$: Observable<boolean>;
   metaData$: Observable<RangeGroupMetadata>;
@@ -179,10 +181,9 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
       return false;
     }
 
-
     this.modelSetting = this.modelSettingsForm.getRawValue();
-    this.updateRangeTypeSetting();
-
+    this.updateRangeDistributionSetting();
+    this.updateAdvancedModelingSetting();
 
     if (!this.modelSettingsForm.valid) {
       if (!this.modelSettingsForm.controls['RangeAdvancedSetting'].valid) {
@@ -193,8 +194,8 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
     }
   }
 
-  updateRangeTypeSetting() {
-    const setting = this.rdSettingComponent.rangeDistributionSettingForm.getRawValue();
+  updateRangeDistributionSetting() {
+    const setting = this.rangeDistributionSettingComponent.rangeDistributionSettingForm.getRawValue();
     if (!!setting) {
       // Prevent the hidden controls from failing validation
       this.modelSettingsForm.controls['SpreadMin'].setValue(setting.Minimum);
@@ -225,6 +226,13 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
       if (!setting.ControlPoint_Formula?.Formula) {
         this.modelSetting.RangeDistributionSetting.ControlPoint_Formula = null;
       }
+    }
+  }
+
+  updateAdvancedModelingSetting() {
+    const setting = this.advancedModelSettingComponent.advancedModelSettingForm.getRawValue();
+    if (!!setting) {
+      this.modelSetting.RangeAdvancedSetting = setting;
     }
   }
 
