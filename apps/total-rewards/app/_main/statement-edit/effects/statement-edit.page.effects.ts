@@ -6,7 +6,7 @@ import { Store, Action, select } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 
 import { TotalRewardsApiService, TotalRewardsSearchApiService } from 'libs/data/payfactors-api/total-rewards';
-import { TotalRewardsEmployeeSearchResponse } from 'libs/models/payfactors-api/total-rewards';
+import { EmployeeRewardsDataRequest, TotalRewardsEmployeeSearchResponse } from 'libs/models/payfactors-api/total-rewards';
 import { CompanyEmployeeApiService } from 'libs/data/payfactors-api/company';
 import { PfConstants } from 'libs/models/common';
 import { TotalRewardsAssignmentService } from 'libs/features/total-rewards/total-rewards-statement/services/total-rewards-assignment.service';
@@ -153,7 +153,11 @@ export class StatementEditPageEffects {
     .pipe(
       ofType(fromStatementEditActions.GET_EMPLOYEE_REWARDS_DATA),
       switchMap((action: fromStatementEditActions.GetEmployeeRewardsData) => {
-        return this.companyEmployeeApiService.getBenefits(action.payload.companyEmployeeId)
+        const request: EmployeeRewardsDataRequest = {
+          CompanyEmployeeId: action.payload.companyEmployeeId,
+          StatementId: action.payload.statementId
+        };
+        return this.companyEmployeeApiService.getBenefits(request)
           .pipe(
             map((response) => {
               return new fromStatementEditActions.GetEmployeeRewardsDataSuccess(EmployeeRewardsDataService.mapEmployeeRewardsDataDateFields(response));

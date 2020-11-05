@@ -1,3 +1,5 @@
+import { GenericKeyValue } from 'libs/models/common';
+
 export interface EmployeeRewardsData {
   CompanyName: string;
   EmployeeId: string;
@@ -33,6 +35,9 @@ export interface EmployeeRewardsData {
   EmployeeOtherAllowances: number;
   CurrentYear: number;
   Currency: string;
+  IsMockData?: boolean;
+  EmployeesUdf?: GenericKeyValue<string, number>;
+  JobsUdf?: GenericKeyValue<string, number>;
 }
 
 export function generateMockEmployeeRewardsData(): EmployeeRewardsData {
@@ -70,6 +75,7 @@ export function generateMockEmployeeRewardsData(): EmployeeRewardsData {
     EmployeePTO: 5700,
     EmployeeOtherAllowances: 500,
     CurrentYear: new Date().getFullYear(),
-    Currency: 'USD'
+    Currency: 'USD',
+    IsMockData: true
   };
 }

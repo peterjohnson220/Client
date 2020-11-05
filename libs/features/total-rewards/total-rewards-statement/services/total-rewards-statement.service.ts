@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 
 import { EmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards';
 
-import { Statement, CalculationControl, CompensationField, UpdateFieldVisibilityRequest, TotalRewardsControlEnum } from '../models';
+import { Statement, CalculationControl, CompensationField, TotalRewardsControlEnum } from '../models';
 import { CurrentControlIndexResponse } from '../models/current-control-index-response';
+import { TrsConstants } from '../constants/trs-constants';
 
 @Injectable()
 export class TotalRewardsStatementService {
@@ -60,7 +61,17 @@ export class TotalRewardsStatementService {
 
   static sumCalculationControl(control: CalculationControl, employeeRewardsData: EmployeeRewardsData): number {
     let sum = 0;
-    control.DataFields.forEach(df => sum += (df.IsVisible) ? employeeRewardsData[df.DatabaseField] : 0);
+    const visibleFields = control.DataFields.filter(f => f.IsVisible);
+    visibleFields.forEach(df => {
+      if (!!df.Type) {
+        const fieldValue = employeeRewardsData.IsMockData
+          ? TrsConstants.UDF_DEFAULT_VALUE
+          : employeeRewardsData[df.Type][df.DatabaseField] > 0 ? employeeRewardsData[df.Type][df.DatabaseField] : 0;
+        sum += fieldValue;
+      } else {
+        sum += employeeRewardsData[df.DatabaseField];
+      }
+    });
     return sum;
   }
 

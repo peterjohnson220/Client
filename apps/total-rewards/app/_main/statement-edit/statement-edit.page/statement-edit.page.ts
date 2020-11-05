@@ -224,6 +224,6 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
       this.store.dispatch(new fromEditStatementPageActions.ResetEmployeeRewardsData());
       return;
     }
-    this.store.dispatch(new fromEditStatementPageActions.GetEmployeeRewardsData({ companyEmployeeId: employeeId }));
+    this.store.dispatch(new fromEditStatementPageActions.GetEmployeeRewardsData({ companyEmployeeId: employeeId, statementId: this.statementId }));
   }
 }

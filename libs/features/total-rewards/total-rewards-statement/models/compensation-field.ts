@@ -15,3 +15,8 @@ export interface CompensationFieldGroup {
   Fields: CompensationField[];
   FilteredFields: CompensationField[];
 }
+
+export enum CompensationFieldType {
+  EmployeesUdf = 'EmployeesUdf',
+  JobsUdf = 'JobsUdf'
+}

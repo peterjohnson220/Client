@@ -34,7 +34,7 @@
               (valueChange)="onCompFieldNameChange(listItem, $event)"></pf-string-editor>
           </td>
           <td class="contribution-field text-right" [ngClass]="inPreviewMode ? 'preview-mode-animation' : '' ">
-            {{getEmployerContributionValue(listItem.DatabaseField)}}
+            {{getEmployerContributionValue(listItem)}}
           </td>
           <td *ngIf="inEditMode">
             <button type="button" class="remove-btn btn btn-sm btn-outline-danger" (click)="removeField(listItem)">
