@@ -15,4 +15,5 @@ export class FeatureFlags {
   static readonly PricingMatchNotesTab = 'pricing-match-notes-tab';
   static readonly LoadAndExportsFilesCards = 'dm-load-export-files-card';
   static readonly SurveySearchLightningMode = 'survey-search-lightning-mode';
+  static readonly CustomizeScopeInMultimatchModal = 'customize-scope-in-multimatch-modal'
 }
