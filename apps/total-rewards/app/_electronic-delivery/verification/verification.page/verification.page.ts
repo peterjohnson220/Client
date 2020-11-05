@@ -120,7 +120,6 @@ export class VerificationPageComponent implements OnInit, OnDestroy {
     });
 
     connection.on(HubMethodName.ReceiveNotification, (notification: AppNotification<any>) => {
-      console.log(notification);
       if (notification.Level === NotificationLevel.Success) {
         const successPayload = notification.Payload as SuccessStatusPayLoad;
         if (!!successPayload?.ExportedViewLink) {
