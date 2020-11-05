@@ -123,9 +123,11 @@ export function reducer(state = initialState, action: fromSharedActions.SharedAc
     case fromSharedActions.UPDATE_OVERRIDES: {
       const updatedRangeOverrides = updateOverrides(action.payload.rangeId, cloneDeep(state.rangeOverrides),
         action.payload.overrideToUpdate, action.payload.removeOverride);
+      const overrideMessages = updateOverrideFiltersIfNeeded(cloneDeep(state.overrideMessages));
       return {
         ...state,
-        rangeOverrides: updatedRangeOverrides
+        rangeOverrides: updatedRangeOverrides,
+        overrideMessages: overrideMessages
       };
     }
     case fromSharedActions.GET_CURRENT_RANGE_GROUP: {
@@ -264,6 +266,14 @@ function updateOverrides(rangeId: number, overrides: CompanyStructureRangeOverri
     overrides.push(overrideToUpdate);
   }
   return overrides;
+}
+
+function updateOverrideFiltersIfNeeded(overrideMessages: string[]) {
+  const genericOverrideMessage = 'One or more fields in this range have been manually changed.';
+  if (!overrideMessages.includes(genericOverrideMessage)) {
+    overrideMessages.push(genericOverrideMessage);
+  }
+  return overrideMessages;
 }
 
 function setRangeDistributionType(metadata: RangeGroupMetadata, state) {

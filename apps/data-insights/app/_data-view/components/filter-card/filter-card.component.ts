@@ -92,7 +92,8 @@ export class FilterCardComponent implements OnInit {
       Query: query,
       BaseEntitySourceName: null,
       DisablePagingAndSorting: false,
-      ApplyDefaultFilters: true
+      ApplyDefaultFilters: true,
+      OptionalFilters: null
     };
   }
 }

@@ -18,6 +18,7 @@ import { DataViewApiService } from 'libs/data/payfactors-api/reports';
 import * as fromRangeFieldActions from 'libs/features/structures/range-editor/actions/range-field-edit.actions';
 import { GridConfig } from 'libs/features/pf-data-grid/models';
 import { PagingOptions } from 'libs/models/payfactors-api/search/request';
+import { DataViewFieldDataType } from 'libs/models/payfactors-api/reports/request';
 
 import * as fromSharedActions from '../actions/shared.actions';
 import { PayfactorsApiModelMapper } from '../helpers/payfactors-api-model-mapper';
@@ -108,7 +109,7 @@ export class SharedEffects {
                 [
                   new fromSharedActions.GetOverriddenRangesSuccess(response),
                   new fromPfDataGridActions.UpdateModifiedKeys(action.payload.pageViewId, response.map(o => o.CompanyStructuresRangesId)),
-                  new fromSharedActions.GetDistinctOverrideMessages()
+                  new fromSharedActions.GetDistinctOverrideMessages(action.payload.rangeGroupId)
                 ]),
               catchError(error => of(new fromSharedActions.GetOverriddenRangesError(error)))
             )
@@ -131,7 +132,9 @@ export class SharedEffects {
       switchMap((action: fromSharedActions.GetDistinctOverrideMessages) => {
         return this.dataViewApiService.getFilterOptions({ EntitySourceName: 'CompanyStructures_Ranges_Overrides', SourceName: 'OverrideMessage',
           BaseEntityId: null, Query: null, BaseEntitySourceName: 'CompanyStructures_RangeGroup',
-          DisablePagingAndSorting: true, ApplyDefaultFilters: false  })
+          DisablePagingAndSorting: true, ApplyDefaultFilters: false,
+          OptionalFilters: [{ SourceName: 'CompanyStructuresRangeGroup_ID', EntitySourceName: 'CompanyStructures_RangeGroup',
+          DataType: DataViewFieldDataType.Int, Operator: '=', Values: [action.rangeGroupId] }]  })
           .pipe(
             map((response) => {
                 return new fromSharedActions.GetDistinctOverrideMessagesSuccess(response);

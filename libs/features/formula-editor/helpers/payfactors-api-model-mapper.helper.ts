@@ -182,7 +182,8 @@ export class PayfactorsApiModelMapper {
       Query: data.Query,
       BaseEntitySourceName: data.BaseEntitySourceName,
       DisablePagingAndSorting: data.DisablePagingAndSorting,
-      ApplyDefaultFilters: data.ApplyDefaultFilters
+      ApplyDefaultFilters: data.ApplyDefaultFilters,
+      OptionalFilters: data.OptionalFilters
     };
   }
 

@@ -77,7 +77,8 @@ describe('Data Insights - Filters Comopnent', () => {
       SourceName: 'Job_Title',
       BaseEntitySourceName: null,
       DisablePagingAndSorting: false,
-      ApplyDefaultFilters: true
+      ApplyDefaultFilters: true,
+      OptionalFilters: null
     };
     const expectedAction = new fromFiltersActions.GetFilterOptions(data);
 
