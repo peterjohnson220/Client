@@ -70,7 +70,7 @@ export const ORG_DATA_PF_SUBSIDIARIES_MAPPING_FIELDS = [
 
 export const ORG_DATA_PF_BENEFITS_MAPPING_FIELDS = [
   'Employee_ID',
-  'Benefit Type',
+  'Benefit_Type',
   'Employer_Value',
   'CompanyEmployee_Value'
 ];
