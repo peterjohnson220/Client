@@ -26,7 +26,7 @@ export class ControlDataAttributeRendererComponent {
 
   displayValueByKey(selection: any) {
     for (const choice of this.attribute.Choices) {
-      if (choice.value === selection) {
+      if (choice.value.trim() === selection.trim()) {
         return choice.display;
       }
     }
