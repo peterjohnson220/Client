@@ -71,9 +71,9 @@
   <!--DropDown-->
   <select *ngIf="attribute.Type === 'Dropdown'" class="form-control"
           (change)="handleDataChangesDetected(dataRow.Id, attribute.Name, $event.target.value)"
-          [ngModel]="dataRow[attribute.Name]">
+          [ngModel]="(dataRow[attribute.Name]).trim()">
     <option></option>
-    <option *ngFor="let choice of attribute.Choices" [value]="choice.value">{{choice.display}}</option>
+    <option *ngFor="let choice of attribute.Choices" [value]="choice.value.trim()">{{choice.display}}</option>
   </select>
 
   <!--Textbox-->
