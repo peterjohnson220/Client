@@ -51,6 +51,10 @@ export class FormulaEditorComponent implements OnInit, AfterViewInit, OnChanges 
       && changes.disabled.currentValue !== changes.disabled.previousValue) {
       this.codeMirror.setOption('readOnly', this.disabled);
     }
+
+    if (!!this.codeMirror && !!changes && !!changes.initialFormula) {
+      this.initEditorData(this.initialFormula);
+    }
   }
 
   initCodemirror(): void {

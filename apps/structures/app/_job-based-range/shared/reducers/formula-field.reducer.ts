@@ -14,6 +14,7 @@ export interface State {
   formulaDataType: FieldDataType;
   formulaViewCount: AsyncStateObj<number>;
   formulaField: Field;
+  resetFormula: boolean;
 }
 
 const initialState: State = {
@@ -26,7 +27,8 @@ const initialState: State = {
   savingErrorMessage: '',
   formulaDataType: null,
   formulaViewCount: generateDefaultAsyncStateObj<number>(0),
-  formulaField: null
+  formulaField: null,
+  resetFormula: false
 };
 
 export function reducer(state = initialState, action: fromFormulaFieldActions.Actions): State {
@@ -34,7 +36,8 @@ export function reducer(state = initialState, action: fromFormulaFieldActions.Ac
     case fromFormulaFieldActions.WAIT_FOR_FORMULA_VALIDATION: {
       return {
         ...state,
-        waitingForValidation: true
+        waitingForValidation: true,
+        resetFormula: false
       };
     }
     case fromFormulaFieldActions.VALIDATE_FORMULA: {
@@ -94,6 +97,22 @@ export function reducer(state = initialState, action: fromFormulaFieldActions.Ac
         savingErrorMessage: ''
       };
     }
+    case fromFormulaFieldActions.RESET_FORMULA: {
+      return {
+        ...state,
+        waitingForValidation: false,
+        validating: false,
+        formulaValid: false,
+        saving: false,
+        savingSuccess: false,
+        savingError: false,
+        savingErrorMessage: '',
+        formulaDataType: null,
+        formulaViewCount: generateDefaultAsyncStateObj<number>(0),
+        formulaField: null,
+        resetFormula: true
+      };
+    }
     default: {
       return state;
     }
@@ -109,3 +128,4 @@ export const getSavingError = (state: State) => state.savingError;
 export const getSavingErrorMessage = (state: State) => state.savingErrorMessage;
 export const getFormulaDataType = (state: State) => state.formulaDataType;
 export const getFormulaField = (state: State) => state.formulaField;
+export const getResetFormula = (state: State) => state.resetFormula;

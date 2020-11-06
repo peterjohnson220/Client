@@ -9,6 +9,7 @@ import { CompanySettingsEnum } from 'libs/models/company';
 import { RangeGroupMetadata, RangeDistributionSettingForm } from 'libs/models/structures';
 import { SettingsService } from 'libs/state/app-context/services';
 import { RangeDistributionSetting } from 'libs/models/payfactors-api';
+import * as fromFormulaFieldActions from 'libs/features/formula-editor/actions/formula-field.actions';
 
 import * as fromJobBasedRangeReducer from '../../reducers';
 import { ControlPoint } from '../../models';
@@ -55,7 +56,6 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
   payTypeTooltip: string;
   enablePercentilesAndRangeSpreads: boolean;
 
-
   constructor(
     public store: Store<fromJobBasedRangeReducer.State>,
     private settingService: SettingsService
@@ -88,9 +88,9 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
 
     this.rangeDistributionSettingForm = new FormGroup({
       'CompanyStructuresRangeGroupId': new FormControl(this.rangeGroupId),
-      'RangeDistributionTypeId': new FormControl({value: this.metadata.RangeDistributionTypeId, disabled: true}, [Validators.required]),
+      'RangeDistributionTypeId': new FormControl({ value: this.metadata.RangeDistributionTypeId, disabled: true }, [Validators.required]),
       'PayType': new FormControl(this.metadata.PayType, [Validators.required]),
-      'ControlPoint': new FormControl({ value: this.metadata.ControlPoint, disabled: true }, [Validators.required]),
+      'ControlPoint': new FormControl({ value: this.metadata.ControlPoint, disabled: true }),
       'Minimum': new FormControl({ value: this.metadata.SpreadMin, disabled: !this.enablePercentilesAndRangeSpreads }, [Validators.required]),
       'Maximum': new FormControl({ value: this.metadata.SpreadMax, disabled: !this.enablePercentilesAndRangeSpreads }, [Validators.required]),
       'FirstTertile': new FormControl({ value: null, disabled: !this.enablePercentilesAndRangeSpreads }),
@@ -220,6 +220,7 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
     } else {
       this.formControls.ControlPoint_Formula.patchValue(null);
       this.setValidation('ControlPoint_Formula', 'ControlPoint');
+      this.store.dispatch(new fromFormulaFieldActions.ResetFormula());
     }
   }
 
@@ -304,7 +305,6 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
         this.onTouched();
       })
     );
-
   }
 
   ngOnChanges(changes: SimpleChanges): void {
