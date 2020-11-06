@@ -112,11 +112,21 @@ export class LoaderDashboardPageEffects {
         }),
       switchMap(obj => {
         return this.integrationApiService.RedropExportedSourceFile(obj.action.payload, obj.userContext).pipe(
-          map(() => {
-            return new fromLoaderDashboardPageActions.RedropExportedSourceFileSuccess();
-          }),
-          catchError(e => of(new fromLoaderDashboardPageActions.RedropExportedSourceFileError()))
+          map(() => new fromLoaderDashboardPageActions.RedropExportedSourceFileSuccess()),
+          catchError((e) => of(new fromLoaderDashboardPageActions.RedropExportedSourceFileError()))
         );
+      })
+    );
+
+  @Effect()
+  redropExportedSourceFileSuccess$: Observable<Action> = this.actions$
+    .pipe(
+      ofType<fromLoaderDashboardPageActions.RedropExportedSourceFileSuccess>(fromLoaderDashboardPageActions.REDROP_EXPORTED_SOURCE_FILE_SUCCESS),
+      switchMap(() => {
+        return [
+          new fromLoaderDashboardPageActions.DismissRedropConfirmationModal(),
+          new fromLoaderDashboardPageActions.UpdateGridSearchPayload([])
+        ];
       })
     );
 

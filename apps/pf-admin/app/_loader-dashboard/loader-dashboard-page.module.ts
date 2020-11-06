@@ -27,7 +27,8 @@ import { LoaderDashboardPageComponent } from './loader-dashboard.page';
 import { faIcons } from './fa-icons';
 import { GetErrorMessagePipe } from './pipes';
 
-import {CompositeSummaryDownloadEffects} from '../../../dashboard/app/_main/effects';
+import { CompositeSummaryDownloadEffects } from '../../../dashboard/app/_main/effects';
+import { RedropConfirmationModalComponent } from './components/redrop-confirmation-modal';
 
 @NgModule({
   imports: [
@@ -67,7 +68,8 @@ import {CompositeSummaryDownloadEffects} from '../../../dashboard/app/_main/effe
     LoaderDashboardGridComponent,
     LoaderDashboardGridDetailComponent,
     LoaderDashboardFileGridComponent,
-    LoaderDashboardFileGridDetailComponent
+    LoaderDashboardFileGridDetailComponent,
+    RedropConfirmationModalComponent
   ]
 })
 export class LoaderDashboardPageModule {
