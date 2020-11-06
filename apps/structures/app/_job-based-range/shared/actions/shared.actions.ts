@@ -225,7 +225,7 @@ export class GetStructureHasPublishedForTypeError implements Action {
 export class GetDistinctOverrideMessages implements Action {
   readonly type = GET_DISTINCT_OVERRIDE_MESSAGES;
 
-  constructor() {}
+  constructor(public rangeGroupId: any) {}
 }
 
 export class GetDistinctOverrideMessagesSuccess implements Action {

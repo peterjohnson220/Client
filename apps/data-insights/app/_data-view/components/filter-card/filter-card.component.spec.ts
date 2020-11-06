@@ -63,7 +63,8 @@ describe('Data Insights - Filter Card Component', () => {
       Query: query,
       BaseEntitySourceName: null,
       DisablePagingAndSorting: false,
-      ApplyDefaultFilters: true
+      ApplyDefaultFilters: true,
+      OptionalFilters: null
     };
 
     instance.handleMultiSelectFilterChanged(query);

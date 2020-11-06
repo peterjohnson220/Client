@@ -1,3 +1,5 @@
+import { DataViewFilter } from '../../../models/payfactors-api/reports/request';
+
 export interface GetFilterOptionsData {
   FilterIndex: number;
   Query: string;
@@ -6,4 +8,5 @@ export interface GetFilterOptionsData {
   BaseEntitySourceName: string;
   DisablePagingAndSorting: boolean;
   ApplyDefaultFilters: boolean;
+  OptionalFilters: DataViewFilter[];
 }

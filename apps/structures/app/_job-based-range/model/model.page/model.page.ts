@@ -133,7 +133,7 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     });
 
-    this.store.dispatch(new fromSharedJobBasedRangeActions.GetDistinctOverrideMessages());
+    this.store.dispatch(new fromSharedJobBasedRangeActions.GetDistinctOverrideMessages(this.rangeGroupId));
   }
 
   ngAfterViewInit(): void {
