@@ -9,10 +9,11 @@ import { takeUntil } from 'rxjs/operators';
 
 import { AsyncStateObj } from 'libs/models/state';
 import { CompositeDataLoadViewResponse } from 'libs/models/admin/loader-dashboard/response';
+import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
 
 // TODO Separate this from the dashboard
 import * as fromCompositeSummaryDownloadActions from '../../../../../dashboard/app/_main/actions/composite-summary-download.actions';
-
+import * as fromLoaderDashboardPageActions from '../../actions/loader-dashboard-page.actions';
 import * as fromLoaderDashboardPageReducer from '../../reducers';
 import { FileType } from 'libs/models/dashboard';
 
@@ -24,7 +25,11 @@ import { FileType } from 'libs/models/dashboard';
 })
 export class LoaderDashboardGridComponent implements OnInit, OnDestroy {
   gridDataObj$: Observable<AsyncStateObj<CompositeDataLoadViewResponse[]>>;
+  isRedropInProgress$: Observable<AsyncStateObj<boolean>>;
   private unsubscribe$ = new Subject<boolean>();
+  private unsubscribeRedropsFlag$ = new Subject<void>();
+
+  loaderDashboardRedropsFeatureFlag: RealTimeFlag = { key: FeatureFlags.LoaderDashboardRedrops, value: false };
 
   gridView: GridDataResult;
   sort: SortDescriptor[] = [{
@@ -34,13 +39,14 @@ export class LoaderDashboardGridComponent implements OnInit, OnDestroy {
   gridData: CompositeDataLoadViewResponse[] = [];
   skip = 0;
   pageSize = 10;
-  pageSizes = [
-    { text: '10', value: 10},
-    { text: '20', value: 20},
-    { text: '50', value: 50}
-  ];
+  pageSizes = [10, 20, 30];
 
-  constructor(private store: Store<fromLoaderDashboardPageReducer.State>) { }
+  constructor(
+    private store: Store<fromLoaderDashboardPageReducer.State>,
+    private featureFlagService: AbstractFeatureFlagService
+  ) {
+    this.featureFlagService.bindEnabled(this.loaderDashboardRedropsFeatureFlag, this.unsubscribeRedropsFlag$);
+  }
 
   ngOnInit() {
     this.gridDataObj$ = this.store.select(fromLoaderDashboardPageReducer.getCompositeLoadsObj);
@@ -52,11 +58,13 @@ export class LoaderDashboardGridComponent implements OnInit, OnDestroy {
         this.refreshGridDataResult();
       }
     });
+    this.isRedropInProgress$ = this.store.select(fromLoaderDashboardPageReducer.getRedropExportedSourceFile);
   }
 
   ngOnDestroy() {
     this.unsubscribe$.next(true);
     this.unsubscribe$.unsubscribe();
+    this.unsubscribeRedropsFlag$.next();
   }
 
   rowCallback(context: RowClassArgs): string {
@@ -96,6 +104,10 @@ export class LoaderDashboardGridComponent implements OnInit, OnDestroy {
 
   downloadExportedSourceFile(externalId: string) {
     this.store.dispatch(new fromCompositeSummaryDownloadActions.CompositeSummaryDownload({ Id: externalId, FileType: FileType.ExportedSourceFile }));
+  }
+
+  redropExportedSourceFile(compositeDataLoadId: number) {
+    this.store.dispatch(new fromLoaderDashboardPageActions.RedropExportedSourceFile(compositeDataLoadId));
   }
 
   showIfLoadHasSummaries(dataItem: CompositeDataLoadViewResponse, index: number): boolean {

@@ -14,6 +14,9 @@ export const GET_FILE_PACKAGE_GRID_DATA_SUCCESS = '[Loaders Dashboard] Get File 
 export const GET_FILE_PACKAGE_GRID_DATA_ERROR = '[Loaders Dashboard] Get File Package Grid Data Error';
 export const TOGGLE_SHOW_HIDE_TEST_COMPANIES = '[Loaders Dashboard] Toggle Show Hide Test Companies';
 export const UPDATE_GRID_SEARCH_PAYLOAD = '[Loaders Dashboard] Update Grid Search Payload';
+export const REDROP_EXPORTED_SOURCE_FILE = '[Loaders Dashboard] Redrop Exported Source File';
+export const REDROP_EXPORTED_SOURCE_FILE_SUCCESS = '[Loaders Dashboard] Redrop Exported Source File Success';
+export const REDROP_EXPORTED_SOURCE_FILE_ERROR = '[Loaders Dashboard] Redrop Exported Source File Error';
 
 export class Init implements Action {
   readonly type = INIT;
@@ -69,6 +72,20 @@ export class UpdateGridSearchPayload implements Action {
   constructor(public payload: { key: string, value: any }[]) {}
 }
 
+export class RedropExportedSourceFile implements Action {
+  readonly type = REDROP_EXPORTED_SOURCE_FILE;
+
+  constructor(public payload: number) {}
+}
+
+export class RedropExportedSourceFileSuccess implements Action {
+  readonly type = REDROP_EXPORTED_SOURCE_FILE_SUCCESS;
+}
+
+export class RedropExportedSourceFileError implements Action {
+  readonly type = REDROP_EXPORTED_SOURCE_FILE_ERROR;
+}
+
 export type Actions
   = Init
   | GetAllGridData
@@ -79,4 +96,7 @@ export type Actions
   | GetFilePackageGridDataSuccess
   | GetFilePackageGridDataError
   | ToggleShowHideTestCompanies
-  | UpdateGridSearchPayload;
+  | UpdateGridSearchPayload
+  | RedropExportedSourceFile
+  | RedropExportedSourceFileSuccess
+  | RedropExportedSourceFileError;
