@@ -17,6 +17,8 @@ export const UPDATE_GRID_SEARCH_PAYLOAD = '[Loaders Dashboard] Update Grid Searc
 export const REDROP_EXPORTED_SOURCE_FILE = '[Loaders Dashboard] Redrop Exported Source File';
 export const REDROP_EXPORTED_SOURCE_FILE_SUCCESS = '[Loaders Dashboard] Redrop Exported Source File Success';
 export const REDROP_EXPORTED_SOURCE_FILE_ERROR = '[Loaders Dashboard] Redrop Exported Source File Error';
+export const OPEN_REDROP_CONFIRMATION_MODAL = '[Loaders Dashboard] Open Redrop Confirmation Modal';
+export const DISMISS_REDROP_CONFIRMATION_MODAL = '[Loaders Dashboard] Dismiss Redrop Confirmation Modal';
 
 export class Init implements Action {
   readonly type = INIT;
@@ -86,6 +88,14 @@ export class RedropExportedSourceFileError implements Action {
   readonly type = REDROP_EXPORTED_SOURCE_FILE_ERROR;
 }
 
+export class OpenRedropConfirmationModal implements Action {
+  readonly type = OPEN_REDROP_CONFIRMATION_MODAL;
+}
+
+export class DismissRedropConfirmationModal implements Action {
+  readonly type = DISMISS_REDROP_CONFIRMATION_MODAL;
+}
+
 export type Actions
   = Init
   | GetAllGridData
@@ -99,4 +109,6 @@ export type Actions
   | UpdateGridSearchPayload
   | RedropExportedSourceFile
   | RedropExportedSourceFileSuccess
-  | RedropExportedSourceFileError;
+  | RedropExportedSourceFileError
+  | OpenRedropConfirmationModal
+  | DismissRedropConfirmationModal;
