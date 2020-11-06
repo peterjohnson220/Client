@@ -1,11 +1,8 @@
 import { AfterViewInit, Component, ElementRef, Input, OnDestroy, ViewChild } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-
 import { Subscription } from 'rxjs';
-
 import { SortDescriptor } from '@progress/kendo-data-query';
-
 import cloneDeep from 'lodash/cloneDeep';
 
 import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
@@ -15,6 +12,7 @@ import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
 import { RangeType } from 'libs/features/employee-management/models';
 import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
+import { PfThemeType } from 'libs/features/pf-data-grid/enums/pf-theme-type.enum';
 
 import { PageViewIds } from '../../../../constants';
 import * as fromJobsPageReducer from '../../../../reducers';
@@ -37,6 +35,7 @@ export class StructureGridComponent implements AfterViewInit, OnDestroy {
   pageViewId = PageViewIds.Structures;
   rangeTypeIds = RangeType;
   colTemplates = {};
+  pfThemeType = PfThemeType;
   defaultSort: SortDescriptor[] = [{
     dir: 'asc',
     field: 'vw_CompanyJobsStructureInfo_Structure_Search'

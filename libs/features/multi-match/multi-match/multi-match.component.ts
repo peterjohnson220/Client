@@ -9,19 +9,22 @@ import { DragulaService } from 'ng2-dragula';
 import * as fromSearchReducer from 'libs/features/search/reducers';
 import { SearchBaseDirective } from 'libs/features/search/containers/search-base';
 import * as fromSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
+import { SearchFeatureIds } from 'libs/features/search/enums/search-feature-ids';
+
+import { enableDatacutsDragging } from '../../survey-search/helpers';
+import * as fromSurveySearchResultsActions from '../../survey-search/actions/survey-search-results.actions';
+import { staticFilters, SurveySearchFilterMappingDataObj, SurveySearchUserFilterType } from '../../survey-search/data';
 
 import * as fromMultiMatchPageActions from '../actions/multi-match-page.actions';
 import * as fromJobsToPriceActions from '../actions/jobs-to-price.actions';
 import * as fromModifyPricingsActions from '../actions/modify-pricings.actions';
-
 import * as fromMultiMatchReducer from '../reducers';
 import { JobToPrice } from '../models';
-
-import { enableDatacutsDragging } from '../../survey-search/helpers';
-import * as fromSurveySearchResultsActions from '../../survey-search/actions/survey-search-results.actions';
-import { staticFilters } from '../../survey-search/data';
-
 import { LEGACY_PROJECTS, MODIFY_PRICINGS } from '../constants';
+import * as fromChildFilterActions from '../../search/actions/child-filter.actions';
+import * as fromSingledActions from '../../search/actions/singled-filter.actions';
+import * as fromSearchResultsActions from '../../search/actions/search-results.actions';
+import * as fromSearchPageActions from '../../search/actions/search-page.actions';
 
 @Component({
   selector: 'pf-multi-match-component',
@@ -56,7 +59,7 @@ export class MultiMatchComponent extends SearchBaseDirective implements OnInit, 
     private dragulaService: DragulaService,
     private actionsSubject: ActionsSubject
   ) {
-    super(store);
+    super(store, SurveySearchFilterMappingDataObj, SearchFeatureIds.MultiMatch, SurveySearchUserFilterType);
     this.hasErrorSubscription = this.store.select(fromMultiMatchReducer.getHasError).subscribe(v => this.hasError = v);
     this.isSavedSubscription = this.store.select(fromMultiMatchReducer.getIsSaving)
       .subscribe(v => {
@@ -65,6 +68,7 @@ export class MultiMatchComponent extends SearchBaseDirective implements OnInit, 
         if (!this.hasError) {
           this.afterSaveChanges.emit(true);
           this.showMultiMatchModal.next(false);
+          super.resetActions();
         }
       }
       if (!!v) {
@@ -102,6 +106,12 @@ export class MultiMatchComponent extends SearchBaseDirective implements OnInit, 
   onResetApp() {
     this.store.dispatch(new fromSurveySearchResultsActions.ClearDataCutSelections());
     this.store.dispatch(new fromJobsToPriceActions.ClearAllJobs());
+
+    this.store.dispatch(new fromSingledActions.Reset());
+    this.store.dispatch(new fromChildFilterActions.Reset());
+    this.store.dispatch(new fromSearchResultsActions.Reset());
+    this.store.dispatch(new fromSearchPageActions.Reset());
+    this.store.dispatch(new fromSearchFiltersActions.Reset());
   }
 
   onSetContext(payload: any) {
@@ -124,9 +134,9 @@ export class MultiMatchComponent extends SearchBaseDirective implements OnInit, 
   }
 
   handleCancelClicked() {
+    super.resetActions();
     switch (this.featureImplementation) {
       case MODIFY_PRICINGS:
-        super.resetActions();
         this.showMultiMatchModal.next(false);
         this.hasError = false;
         this.onResetApp();

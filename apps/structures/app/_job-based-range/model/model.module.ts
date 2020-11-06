@@ -1,7 +1,7 @@
 import { NgModule} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NumericTextBoxModule } from '@progress/kendo-angular-inputs';
@@ -20,12 +20,13 @@ import { SearchFilterMappingDataObj } from 'libs/features/search/models';
 
 import { AddJobsModalWrapperComponent, JobBasedRangeChartComponent, PublishModelModalComponent } from './containers';
 import { AddJobsUserFilterPopoverConfig, JobBasedRangeAddJobsConfig } from './data';
-import { AddJobsModalEffects, SearchPageEffects, SearchResultsEffects, SingledFilterEffects } from './effects';
+import { AddJobsModalEffects, CompareJobRangesEffects, SearchPageEffects, SearchResultsEffects, SingledFilterEffects } from './effects';
 import { ModelPageComponent } from './model.page';
 import { ModelRoutingModule } from './model-routing.module';
 import { SharedModule } from '../shared/shared.module';
 import { StructuresSearchFilterMappingDataObj, StructuresJobSearchUserFilterType } from '../shared/data';
 import { CompareJobBasedRangeChartComponent } from './containers/compare-job-based-range-chart/compare-job-based-range-chart.component';
+import { reducers } from './reducers';
 
 @NgModule({
   imports: [
@@ -35,11 +36,13 @@ import { CompareJobBasedRangeChartComponent } from './containers/compare-job-bas
     ReactiveFormsModule,
 
     // 3rd Party
+    StoreModule.forFeature('model_jobRange', reducers),
     EffectsModule.forFeature([
       AddJobsModalEffects,
       SearchPageEffects,
       SearchResultsEffects,
-      SingledFilterEffects
+      SingledFilterEffects,
+      CompareJobRangesEffects
     ]),
     PerfectScrollbarModule,
     DropDownsModule,
@@ -70,10 +73,8 @@ import { CompareJobBasedRangeChartComponent } from './containers/compare-job-bas
   providers: [
     WindowRef,
     WindowCommunicationService,
-    { provide: SearchFilterMappingDataObj, useValue: StructuresSearchFilterMappingDataObj },
     { provide: UserFilterPopoverConfig, useValue: AddJobsUserFilterPopoverConfig },
-    { provide: AddJobsConfig, useValue: JobBasedRangeAddJobsConfig },
-    { provide: UserFilterTypeData, useValue: StructuresJobSearchUserFilterType }
+    { provide: AddJobsConfig, useValue: JobBasedRangeAddJobsConfig }
   ]
 })
 export class ModelModule {

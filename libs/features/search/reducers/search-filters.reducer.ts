@@ -286,6 +286,9 @@ export function reducer(state = initialState, action: fromSearchFiltersActions.A
         filters: filtersCopy
       };
     }
+    case fromSearchFiltersActions.RESET: {
+      return initialState;
+    }
     default: {
       return state;
     }

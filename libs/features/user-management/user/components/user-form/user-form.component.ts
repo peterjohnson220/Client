@@ -1,12 +1,12 @@
-  import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
 import {BehaviorSubject, forkJoin, Observable} from 'rxjs';
 import { filter, take } from 'rxjs/operators';
-import { ISubscription } from 'rxjs/Subscription';
+
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { PfValidators, PfEmailValidators, PfEmailTakenValidator } from 'libs/forms';
+import { PfValidators, PfEmailValidators, PfEmailTakenValidator, PfPasswordValidators } from 'libs/forms';
 import { GenericMenuItem, SubsidiaryInfo, UserAssignedRole } from 'libs/models';
 import { UserManagementDto } from 'libs/models/payfactors-api/user';
 import { UserApiService } from 'libs/data/payfactors-api';
@@ -27,8 +27,6 @@ export class UserFormComponent implements OnInit, OnDestroy {
 
   readonly DEFAULT_USER_ROLE = 2;
   readonly DEFAULT_STATUS = true;
-
-  private passwordValidatorSubscription: ISubscription;
 
   showUserRoleModal = new BehaviorSubject<boolean>(false);
   showUserRoleModal$ = this.showUserRoleModal.asObservable();
@@ -56,6 +54,8 @@ export class UserFormComponent implements OnInit, OnDestroy {
   companySubsidiaries: GenericMenuItem[] = [];
   selectedValues: string[] = [];
 
+  passwordValidationRules: any[];
+  passwordFocused = false;
   private _showPassword = false;
   get showPassword(): boolean {
     return this._showPassword;
@@ -106,26 +106,10 @@ export class UserFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.passwordValidatorSubscription = this.userForm.valueChanges.distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)).subscribe( _ => {
-      if (!this.showPassword || (this.f.password.value === '' && this.f.status.value.toString() === 'false' && this.showPassword)) {
-        this.f.password.setValidators(null);
-      } else {
-        this.f.password.setValidators([
-          Validators.compose([
-            PfValidators.required,
-            Validators.minLength(this.MIN_PASSWORD_LENGTH),
-            Validators.maxLength(this.MAX_PASSWORD_LENGTH)
-          ])
-        ]);
-      }
-      this.f.password.updateValueAndValidity();
-    });
-
     this.setupUserAndSubsidiaries();
   }
 
   ngOnDestroy() {
-    this.passwordValidatorSubscription.unsubscribe();
   }
 
   populateForm(user: UserManagementDto) {
@@ -143,13 +127,14 @@ export class UserFormComponent implements OnInit, OnDestroy {
 
   setPasswordValidator(value: boolean) {
     if (value && this.f.status.value.toString() === 'true') {
-      this.f.password.setValidators([
-        Validators.compose([
-          PfValidators.required,
-          Validators.minLength(this.MIN_PASSWORD_LENGTH),
-          Validators.maxLength(this.MAX_PASSWORD_LENGTH)
-        ])
-      ]);
+      // Dynamically create password validators
+      this.passwordValidationRules = PfPasswordValidators.getPasswordValidationRules(this.MIN_PASSWORD_LENGTH);
+      const passwordValidators = [PfValidators.required];
+      for (const validationRule of this.passwordValidationRules) {
+          passwordValidators.push(validationRule.Validator ? validationRule.Validator(validationRule)
+        : Validators.pattern(new RegExp(validationRule.Rule)));
+      }
+      this.f.password.setValidators(passwordValidators);
     } else {
       this.f.password.setValidators(null);
     }
@@ -164,19 +149,14 @@ export class UserFormComponent implements OnInit, OnDestroy {
   onSave() {
     this.userForm.markAllAsTouched();
 
-    let empty = false;
-    if (this.f.password.value === '' && this.showPassword && this.f.status.value.toString() === 'false') {
-      empty = true;
-    }
-
     if (this.userForm.valid) {
-      const userToSave = this.generateUserToSave(empty);
+      const userToSave = this.generateUserToSave();
       this.saveUser.emit(userToSave);
     }
   }
 
-  generateUserToSave(empty: boolean) {
-    const password = empty ? this.generateRandomPassword() : this.getPassword();
+  generateUserToSave() {
+    const password = this.getPassword();
 
     return {
       ...this.user,
@@ -190,7 +170,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
       SsoId: this.f.ssoId.value,
       RoleId: this.f.userRole.value,
       Password: password,
-      SendWelcomeEmail: password ? this.f.sendWelcomeEmail.value : false,
+      SendWelcomeEmail: this.f.sendWelcomeEmail.value,
       UserSubsidiaryIds: this.selectedValues
     };
   }
@@ -199,7 +179,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
     if (this.user.LastLogin) {
       return null;
     } else {
-      return this.showPassword ? this.f.password.value : this.generateRandomPassword();
+      return this.f?.password?.value;
     }
   }
 
@@ -278,4 +258,15 @@ export class UserFormComponent implements OnInit, OnDestroy {
   trackByFn(index: any, field: Field) {
     return field.DataElementId;
   }
+
+  validatePassword() {
+    for (const validationRule of this.passwordValidationRules) {
+      validationRule.IsSatisfied = new RegExp(validationRule.Rule).test(this.f.password.value);
+    }
+  }
+
+  setPasswordFocus() {
+    this.passwordFocused = true;
+  }
+
 }

@@ -16,6 +16,7 @@ import * as fromSearchResultsActions from 'libs/features/search/actions/search-r
 import * as fromSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
 import * as fromChildSearchFilterActions from 'libs/features/search/actions/child-filter.actions';
 import * as fromSearchPageActions from 'libs/features/search/actions/search-page.actions';
+import { SearchFeatureIds } from 'libs/features/search/enums/search-feature-ids';
 
 import * as fromExchangeExplorerReducer from '../../reducers';
 import * as fromExchangeExplorerContextInfoActions from '../../actions/exchange-explorer-context-info.actions';
@@ -57,7 +58,7 @@ export class ExchangeExplorerComponent extends SearchBaseDirective {
     protected store: Store<fromSearchReducer.State>,
     private settingsService: SettingsService
   ) {
-    super(store);
+    super(store, null, SearchFeatureIds.ExchangeExplorer, null);
 
     this.pageShown$ = this.store.pipe(select(fromSearchReducer.getPageShown));
     this.selectionsCount$ = this.store.pipe(select(fromSearchReducer.getOverallFilterSelectionsCount));

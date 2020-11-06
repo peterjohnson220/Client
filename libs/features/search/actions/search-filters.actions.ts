@@ -20,6 +20,7 @@ export const UPDATE_RANGE_FILTER = '[Search/Search Filters] Update Range';
 export const SHOW_MORE = '[Search/Search Filters] Show More';
 export const SHOW_LESS = '[Search/Search Filters] Show Less';
 export const ADD_FILTER_OPTIONS = '[Search/Search Filters] Add Filter Options';
+export const RESET = '[Search/Search Filters] Reset';
 
 export class AddFilters implements Action {
   readonly type = ADD_FILTERS;
@@ -135,6 +136,10 @@ export class AddFilterOptions implements Action {
   }) {}
 }
 
+export class Reset implements Action {
+  readonly type = RESET;
+}
+
 export type Actions
   = RemoveFilters
   | ApplySavedFilters
@@ -153,5 +158,6 @@ export type Actions
   | ClearFilters
   | ShowMore
   | ShowLess
-  | AddFilterOptions;
+  | AddFilterOptions
+| Reset;
 

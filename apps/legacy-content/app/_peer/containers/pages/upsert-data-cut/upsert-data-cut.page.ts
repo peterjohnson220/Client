@@ -4,10 +4,14 @@ import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 
 import * as fromSurveySearchResultsActions from 'libs/features/survey-search/actions/survey-search-results.actions';
-import * as fromLibsExchangeExplorerContextInfoActions from 'libs/features/peer/exchange-explorer/actions/exchange-explorer-context-info.actions';
 import * as fromLibsExchangeExplorerActions from 'libs/features/peer/exchange-explorer/actions/exchange-explorer.actions';
 import * as fromUpsertDataCutActions from 'libs/features/upsert-peer-data-cut/actions/upsert-peer-data-cut.actions';
 import * as fromUpsertPeerDataReducer from 'libs/features/upsert-peer-data-cut/reducers';
+import {UpsertPeerDataCutEntityConfigurationModel} from 'libs/features/upsert-peer-data-cut/models';
+import {
+  UpsertPeerDataCutEntities,
+  UpsertPeerDataCutParentEntities
+} from 'libs/features/upsert-peer-data-cut/constants/upsert-peer-data-cut-entities.constants';
 
 @Component({
   selector: 'pf-upsert-data-cut-page',
@@ -21,6 +25,13 @@ export class UpsertDataCutPageComponent implements OnInit {
   isPayMarketOverride: boolean;
   cutGuid: string;
   userJobMatchId: number;
+
+  upsertEntityConfiguration: UpsertPeerDataCutEntityConfigurationModel = {
+    BaseEntity: UpsertPeerDataCutEntities.ProjectJobs,
+    ParentEntity: UpsertPeerDataCutParentEntities.Projects,
+    BaseEntityId: undefined,
+    ParentEntityId: undefined
+  };
 
   constructor(private store: Store<fromUpsertPeerDataReducer.State>, private route: ActivatedRoute) {}
 
@@ -69,6 +80,12 @@ export class UpsertDataCutPageComponent implements OnInit {
     this.isPayMarketOverride = queryParamMap.get('isPayMarketOverride') === 'true';
     this.cutGuid = queryParamMap.get('dataCutGuid') || null;
     this.userJobMatchId = +queryParamMap.get('userJobMatchId') || 0;
+
+    this.upsertEntityConfiguration = {
+      ...this.upsertEntityConfiguration,
+      BaseEntityId: this.userJobMatchId,
+      ParentEntityId: this.userSessionId
+    };
   }
 }
 

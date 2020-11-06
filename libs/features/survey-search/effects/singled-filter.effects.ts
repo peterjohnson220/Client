@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Actions, Effect } from '@ngrx/effects';
 import { Store} from '@ngrx/store';
-import { catchError, map, switchMap, withLatestFrom } from 'rxjs/operators';
+import { catchError, filter, map, switchMap, withLatestFrom } from 'rxjs/operators';
 
 import { MultiSelectFilter } from 'libs/features/search/models';
 import { ScrollIdConstants } from 'libs/features/infinite-scroll/models';
@@ -10,6 +10,7 @@ import { SurveySearchApiService } from 'libs/data/payfactors-api/search';
 import { SearchFilter, SearchSurveyAggregationsRequest } from 'libs/models/payfactors-api';
 import { PayfactorsSearchApiModelMapper, PayfactorsSearchApiHelper } from 'libs/features/search/helpers';
 import { InfiniteScrollEffectsService } from 'libs/features/infinite-scroll/services';
+import { SearchFeatureIds } from 'libs/features/search/enums/search-feature-ids';
 import * as fromSingledFilterActions from 'libs/features/search/actions/singled-filter.actions';
 import * as fromSearchReducer from 'libs/features/search/reducers';
 
@@ -27,9 +28,11 @@ export class SingledFilterEffects {
         this.store.select(fromSearchReducer.getParentFilters),
         this.store.select(fromSurveySearchReducer.getPricingMatchDataSearchContext),
         this.store.select(fromSearchReducer.getSingledFilterSearchValue),
-        (infiniteScrollActionContext, singledFilter, filters, context, searchValue) => (
-          { infiniteScrollActionContext, singledFilter, filters, context, searchValue}
+        this.store.select(fromSearchReducer.getSearchFeatureId),
+        (infiniteScrollActionContext, singledFilter, filters, context, searchValue, searchFeatureId) => (
+          { infiniteScrollActionContext, singledFilter, filters, context, searchValue, searchFeatureId}
         )),
+      filter((data) => data.searchFeatureId === SearchFeatureIds.MultiMatch || data.searchFeatureId === SearchFeatureIds.AddSurveyData),
       switchMap(data => {
         const request: SearchSurveyAggregationsRequest = {
           SearchFields: this.payfactorsSearchApiHelper.getTextFiltersWithValuesAsSearchFields(data.filters),

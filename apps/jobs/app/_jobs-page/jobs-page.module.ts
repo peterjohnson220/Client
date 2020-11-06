@@ -26,7 +26,8 @@ import {
   NotesManagerModule,
   MultiMatchModule,
   PricingMatchModule,
-  ReScopeSurveyDataModule
+  ReScopeSurveyDataModule,
+  UpsertPeerDataCutModule
 } from 'libs/features';
 
 import { JobsPageComponent } from './jobs.page/jobs.page';
@@ -56,7 +57,7 @@ import {
   JobTitleCodePipe,
   ModifyPricingMatchError,
   ModifyPricingError,
-  IsSurveyCut,
+  CanModifyMatch,
   GetMatchScope
 } from './pipes';
 
@@ -99,7 +100,8 @@ import {
     NotesManagerModule,
     MultiMatchModule,
     PricingMatchModule,
-    ReScopeSurveyDataModule
+    ReScopeSurveyDataModule,
+    UpsertPeerDataCutModule
   ],
   declarations: [
     // Pages
@@ -130,7 +132,7 @@ import {
     ModifyPricingError,
     ModifyPricingMatchError,
     PricingDetailsAdjPctColumnComponent,
-    IsSurveyCut,
+    CanModifyMatch,
     GetMatchScope
   ]
 })

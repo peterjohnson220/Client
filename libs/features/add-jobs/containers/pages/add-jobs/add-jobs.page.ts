@@ -1,10 +1,10 @@
-import { Component, OnInit, OnDestroy, Optional } from '@angular/core';
+import { Component, OnDestroy, OnInit, Optional } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 
 import { Observable, Subscription } from 'rxjs';
 
-import { SystemUserGroupNames, Permissions } from 'libs/constants';
+import { Permissions, SystemUserGroupNames } from 'libs/constants';
 import * as fromCompanySettingsActions from 'libs/state/app-context/actions/company-settings.actions';
 import * as fromSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
 import * as fromRootState from 'libs/state/state';
@@ -13,12 +13,12 @@ import * as fromSearchReducer from 'libs/features/search/reducers';
 import { SearchBaseDirective } from 'libs/features/search/containers/search-base';
 import { UserContext } from 'libs/models/security';
 import { CompanySettingsEnum } from 'libs/models/company';
-import { AddJobsConfig, staticFilters } from 'libs/features/add-jobs/data';
+import { AddJobsConfig, SearchFilterMappingData, staticFilters, JobSearchUserFilterType } from 'libs/features/add-jobs/data';
 import * as fromPaymarketActions from 'libs/features/add-jobs/actions/paymarkets.actions';
 import * as fromAddJobsReducer from 'libs/features/add-jobs/reducers';
 import * as fromAddJobsPageActions from 'libs/features/add-jobs/actions/add-jobs-page.actions';
 import * as fromAddJobsSearchResultsActions from 'libs/features/add-jobs/actions/search-results.actions';
-
+import { SearchFeatureIds } from 'libs/features/search/enums/search-feature-ids';
 
 import { ADD_JOBS_CONFIG_DEFAULT_TRUE } from '../../../constants';
 
@@ -60,7 +60,7 @@ export class AddJobsPageComponent extends SearchBaseDirective implements OnInit,
     private settingsService: SettingsService,
     @Optional() private injectedAddJobsConfig: AddJobsConfig
   ) {
-    super(store);
+    super(store, SearchFilterMappingData, SearchFeatureIds.AddJobs, JobSearchUserFilterType);
     this.addJobsConfig = injectedAddJobsConfig || ADD_JOBS_CONFIG_DEFAULT_TRUE;
     this.searchingFilter$ = this.store.select(fromSearchReducer.getSearchingFilter);
     this.numberOfSearchResults$ = this.store.select(fromSearchReducer.getNumberOfResultsOnServer);

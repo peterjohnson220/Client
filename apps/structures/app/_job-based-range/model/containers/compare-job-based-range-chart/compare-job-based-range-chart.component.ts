@@ -23,6 +23,7 @@ import { RangeDistributionDataPointTypeIds } from '../../../shared/constants/ran
 import { RangeDistributionTypeIds } from '../../../shared/constants/range-distribution-type-ids';
 import { SalaryRangeSeries } from '../../../shared/models/salary-range-series.model';
 import { DataPointSeries } from '../../../shared/models/data-point-series.model';
+import * as fromCompareJobBasedRangesReducer from '../../reducers';
 
 @Component({
   selector: 'pf-compare-job-based-range-chart',
@@ -80,7 +81,6 @@ export class CompareJobBasedRangeChartComponent implements OnInit, OnDestroy {
   constructor(
     public store: Store<any>,
     public pfGridStore: Store<fromPfGridReducer.State>,
-    public shareStore: Store<fromSharedJobBasedRangeReducer.State>,
     private structuresPagesService: StructuresPagesService
   ) {
     this.currentRangeGroupSub = this.store.select(fromSharedJobBasedRangeReducer.getCurrentRangeGroup).subscribe( rg => {
@@ -123,8 +123,8 @@ export class CompareJobBasedRangeChartComponent implements OnInit, OnDestroy {
       if (data && this.rate && this.currency) {
         this.jobRangeData = data;
 
-        this.shareStore.select(fromSharedJobBasedRangeReducer.getData).pipe(take(1)).subscribe( compareData => {
-          if (compareData.obj) {
+        this.store.select(fromCompareJobBasedRangesReducer.getDataForCompare).pipe(take(1)).subscribe( compareData => {
+          if (compareData) {
             this.processChartData();
           }
         });
@@ -135,9 +135,9 @@ export class CompareJobBasedRangeChartComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.compareDataSub = this.shareStore.select(fromSharedJobBasedRangeReducer.getData).subscribe( data => {
-      if (data.obj && this.rate && this.currency) {
-        this.compareData = data.obj;
+    this.compareDataSub = this.store.select(fromCompareJobBasedRangesReducer.getDataForCompare).subscribe( data => {
+      if (data && this.rate && this.currency) {
+        this.compareData = data;
         this.processChartData();
       }
     });

@@ -10,18 +10,17 @@ import {JobsApiService, PricingApiService} from 'libs/data/payfactors-api/index'
 import { staticFilters } from '../../survey-search/data';
 import { PayfactorsApiModelMapper } from '../helpers';
 
-import { SearchFilterMappingDataObj } from '../../search/models';
 import { SurveySearchFiltersHelper } from '../../survey-search/helpers';
 
 import * as fromModifyPricingsActions from '../actions/modify-pricings.actions';
 import * as fromContextActions from '../../survey-search/actions/context.actions';
 import * as fromSearchFiltersActions from '../../search/actions/search-filters.actions';
+import * as fromSearchReducer from '../../search/reducers';
 import * as fromJobsToPriceActions from '../actions/jobs-to-price.actions';
 import * as fromSurveySearchFiltersActions from '../../survey-search/actions/survey-search-filters.actions';
 import * as fromMultiMatchReducer from '../reducers';
 
 import {SurveySearchResultDataSources} from '../../../constants';
-import * as fromMultiMatchPageActions from '../actions/multi-match-page.actions';
 
 @Injectable()
 export class ModifyPricingsEffects {
@@ -29,21 +28,24 @@ export class ModifyPricingsEffects {
     private action$: Actions,
     private store: Store<fromMultiMatchReducer.State>,
     private jobsApiService: JobsApiService,
-    private pricingApiService: PricingApiService,
-private searchFilterMappingDataObj: SearchFilterMappingDataObj
+    private pricingApiService: PricingApiService
   ) {}
 
   @Effect()
   modifyPricings$: Observable<Action> = this.action$.pipe(
     ofType(fromModifyPricingsActions.GET_PRICINGS_TO_MODIFY),
-    switchMap((action: any) => {
-      return this.jobsApiService.getPricingsToModify(action.payload.Pricings).pipe(
+    withLatestFrom(
+      this.store.select(fromSearchReducer.getSearchFilterMappingData),
+      (action, searchFilterMappingDataObj) => ({action, searchFilterMappingDataObj})
+    ),
+    switchMap((data: any) => {
+      return this.jobsApiService.getPricingsToModify(data.action.payload.Pricings).pipe(
         mergeMap(response => {
           const actions = [];
           actions.push(new fromContextActions.SetModifyPricingsSearchContext(response.Context));
-          if (action.payload.RestrictSearchToPayMarketCountry) {
+          if (data.action.payload.RestrictSearchToPayMarketCountry) {
             actions.push(new fromSearchFiltersActions.AddFilters([
-              SurveySearchFiltersHelper.buildLockedCountryCodeFilter(response.Context.CountryCode, this.searchFilterMappingDataObj)
+              SurveySearchFiltersHelper.buildLockedCountryCodeFilter(response.Context.CountryCode, data.searchFilterMappingDataObj)
             ]));
           }
           actions.push(new fromSurveySearchFiltersActions.GetDefaultScopesFilter());

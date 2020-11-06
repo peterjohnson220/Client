@@ -24,70 +24,41 @@
       <ngb-tab title="Settings">
         <ng-template ngbTabContent>
           <div class="pt-2">
-            <div class="checkbox">
-              <label>
-                <input type="checkbox" [(ngModel)]="customCompanySettings.EnablePricingReview" /> Enable Pricing Review
-              </label>
-            </div>
-            <div class="checkbox">
-              <label>
-                <input type="checkbox" [(ngModel)]="customCompanySettings.ParticipateInPeerDataExchange" /> Agreed to Normative Research
-              </label>
-            </div>
-            <div class="checkbox">
-              <label>
-                <input type="checkbox" [(ngModel)]="customCompanySettings.EnableLibraryForRoutedJobDescriptions" /> Enable Library for Routed Job Descriptions
-              </label>
-            </div>
-            <div class="checkbox">
-              <label>
-                <input type="checkbox" [(ngModel)]="customCompanySettings.EnableEmployeeAcknowledgement" /> Enable Employee Acknowledgement of Job Descriptions
-              </label>
-            </div>
-            <div class="checkbox">
-              <label>
-                <input type="checkbox" [(ngModel)]="customCompanySettings.EnableWorkflowEmployeeResults" /> Enable Employee Results in Workflow Setup
-              </label>
-            </div>
-            <div class="checkbox">
-              <label>
-                <input type="checkbox" [(ngModel)]="customCompanySettings.RestrictWorkflowToCompanyEmployeesOnly" /> Restrict Workflow to Company Employees Only
-              </label>
-            </div>
-            <div class="checkbox">
-              <label>
-                <input type="checkbox" [(ngModel)]="customCompanySettings.EnableLiveChat" /> Enable Live Chat
-              </label>
-            </div>
-            <div class="checkbox">
-              <label>
-                <input type="checkbox" [(ngModel)]="customCompanySettings.HideSecondarySurveyDataFields" /> Hide <a href="#"
-                  (click)="handleSurveyFieldsClicked()">Secondary Survey Fields</a>
-              </label>
-            </div>
-            <div class="checkbox">
-              <label>
-                <input type="checkbox" [(ngModel)]="customCompanySettings.EnableIntervalAgingFactor" /> Effective Dated Aging
-              </label>
-            </div>
             <pf-async-container [loading]="loadingCompanySettings$ | async"
               [loadingError]="loadingCompanySettingsError$ | async" [loadingErrorMessage]="'Error.'"
               [hideReloadButton]="true">
               <ng-container *ngIf="(companySettings$ | async)?.length">
-                <ng-container *ngFor="let companySetting of (companySettings$ | async)">
-                    <div class="checkbox" *ngIf="isConfigurableSetting(companySetting)">
+                <ng-container *ngFor="let setting of companySettings">
+                  <div *ngIf="setting.Type === customListType; then customSettingsBlock else settingsBlock"></div>
+                  <ng-template #customSettingsBlock>
+                    <div class="checkbox">
                       <label>
-                        <input type="checkbox" (change)="toggleCompanySetting(companySetting)" [disabled]="companySetting.Disabled" [checked]="companySetting.Value === 'true'">
-                        {{companySetting.DisplayName}}
+                        <div *ngIf="setting.Key !== 'HideSecondarySurveyDataFields'; then customSetting else surveyDataSetting"></div>
+                        <ng-template #customSetting>
+                          <input type="checkbox" [(ngModel)]="setting.Value" /> {{setting.DisplayName}}
+                        </ng-template>
+                        <ng-template #surveyDataSetting>
+                          <input type="checkbox" [(ngModel)]="setting.Value" /> 
+                          <a href="#" (click)="handleSurveyFieldsClicked()"> {{setting.DisplayName}}</a>
+                        </ng-template>
                       </label>
                     </div>
-                    <div *ngIf="displayJobPricingLimiter(companySetting)" class="checkbox">
-                      <label >Job Pricing Limit: {{jobPricingLimitUsed}} /
-                        <input type="number" class="input-type-number p-0" [ngModel]="companySetting.Value" [disabled]="!enableJobPricingLimiter" (change)="checkMaxProjectJobCount($event, companySetting.Key)">
-                        <p *ngIf="showJobPricingLimitError" class="alert-danger">Job Pricing Limit must be numeric and above the current number of priced jobs</p>
+                  </ng-template>
+                  <ng-template #settingsBlock>
+                    <div class="checkbox">
+                      <label>
+                        <input type="checkbox" (change)="toggleCompanySetting(setting)" [disabled]="setting.Disabled" [checked]="setting.Value === 'true'">
+                        {{setting.DisplayName}}
                       </label>
-                    </div>
+                    </div>   
+                  </ng-template>
                 </ng-container>
+                <div *ngIf="maxProjectCountSetting?.Visible && enableJobPricingLimiter" class="checkbox">
+                    <label >Job Pricing Limit: {{jobPricingLimitUsed}} /
+                      <input type="number" class="input-type-number p-0" [ngModel]="maxProjectCountSetting.Value" [disabled]="!enableJobPricingLimiter" (change)="checkMaxProjectJobCount($event, maxProjectCountSetting.Key)">
+                      <p *ngIf="showJobPricingLimitError" class="alert-danger">Job Pricing Limit must be numeric and above the current number of priced jobs</p>
+                    </label>
+                </div>
               </ng-container>
             </pf-async-container>
           </div>

@@ -9,6 +9,7 @@ export const SET_SEARCH_VALUE = '[Search/Singled Filter] Set Search Value';
 export const SET_SINGLED_FILTER = '[Search/Singled Filter] Set Singled Filter';
 export const REMOVE_FILTER_VALUE = '[Search/Singled Filter] Remove Value';
 export const TOGGLE_MULTI_SELECT_OPTION = '[Search/Singled Filter] Toggle Multi Select Option';
+export const RESET = '[Search/Singled Filter] Reset';
 
 export class ApplySelections implements Action {
   readonly type = APPLY_SELECTIONS;
@@ -57,6 +58,10 @@ export class ToggleMultiSelectOption implements Action {
   constructor(public payload: any) {}
 }
 
+export class Reset implements Action {
+  readonly type = RESET;
+}
+
 export type Actions
   = SetSingledFilter
   | SetSingledFilterOptions
@@ -64,4 +69,5 @@ export type Actions
   | ClearSelections
   | SetSearchValue
   | RemoveFilterValue
-  | ApplySelections;
+  | ApplySelections
+  | Reset;

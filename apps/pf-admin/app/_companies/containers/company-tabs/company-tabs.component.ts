@@ -1,7 +1,7 @@
-import { Component, OnInit, ViewChild, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, OnDestroy, SimpleChanges, OnChanges } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import { Observable, Subscription, combineLatest } from 'rxjs';
+import { Observable, Subscription, combineLatest, Subject } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 
 import { environment } from 'environments/environment';
@@ -10,12 +10,13 @@ import { UserContext } from 'libs/models/security';
 import { CompanyTilesResponse, CompanyDataSetsReponse, ListCompositeFields } from 'libs/models/payfactors-api';
 import { CompanySetting, CompanySettingsEnum } from 'libs/models/company';
 import { CompanyClientTypeConstants, SystemUserGroupNames, TileNames } from 'libs/constants';
+import * as fromRootState from 'libs/state/state';
 
 import * as fromPfAdminMainReducer from '../../reducers';
 import * as fromCompanyPageActions from '../../actions/company-page.actions';
 import { SecondarySurveyFieldsModalComponent } from '../../components';
-import { CustomCompanySettings, CompanyTabsContext } from '../../models';
-import * as fromRootState from 'libs/state/state';
+import { CompanyTabsContext, CustomCompanySetting } from '../../models';
+import { CompanySettingsListType } from '../../constants/settings-constants';
 
 
 @Component({
@@ -23,8 +24,8 @@ import * as fromRootState from 'libs/state/state';
   templateUrl: './company-tabs.component.html',
   styleUrls: [ './company-tabs.component.scss' ]
 })
-export class CompanyTabsComponent implements OnInit, OnDestroy {
-  @Input() customCompanySettings: CustomCompanySettings;
+export class CompanyTabsComponent implements OnInit, OnChanges, OnDestroy {
+  @Input() customCompanySettings: CustomCompanySetting[];
   @Input() companyId: number;
   @Input() clientType: string;
   @Input() groupName: string;
@@ -42,7 +43,13 @@ export class CompanyTabsComponent implements OnInit, OnDestroy {
   loadingCompanySettings$: Observable<boolean>;
   loadingCompanySettingsSuccess$: Observable<boolean>;
   loadingCompanySettingsError$: Observable<boolean>;
+
+  combinedCompanySettingsSubscription: Subscription;
   companySettings$: Observable<CompanySetting[]>;
+  companySettings: any[];
+
+  customCompanySettingsSubscription: Subscription;
+  customCompanySettings$: Subject<CustomCompanySetting[]>;
 
   loadingCompanyDataSets$: Observable<boolean>;
   loadingCompanyDataSetsError$: Observable<boolean>;
@@ -62,9 +69,11 @@ export class CompanyTabsComponent implements OnInit, OnDestroy {
   enableJobPricingLimiter: boolean;
 
   jobPricingLimitUsed = 0;
+  maxProjectCountSetting: CompanySetting;
   showJobPricingLimitError = false;
   env = environment;
   isPayfactorsServices: boolean;
+  customListType = CompanySettingsListType.Custom;
 
   constructor(private store: Store<fromPfAdminMainReducer.State>) {
     this.userContext$ = this.store.select(fromRootState.getUserContext);
@@ -86,6 +95,9 @@ export class CompanyTabsComponent implements OnInit, OnDestroy {
     this.companyDataSetsEnabled$ = this.store.select(fromPfAdminMainReducer.getCompanyDataSetsEnabled);
     this.jobPricingLimitInfo$ = this.store.select(fromPfAdminMainReducer.getJobPricingLimitInfo);
     this.enableJobPricingLimiter$ = this.store.select(fromPfAdminMainReducer.getEnableJobPricingLimiter);
+
+    this.customCompanySettings$ = new Subject<CustomCompanySetting[]>();
+    this.combineLatestSettings();
   }
 
   isUserAdmin(): boolean {
@@ -134,7 +146,14 @@ export class CompanyTabsComponent implements OnInit, OnDestroy {
     });
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes && changes.customCompanySettings.currentValue !== undefined) {
+      this.customCompanySettings$.next(changes.customCompanySettings.currentValue);
+    }
+  }
+
   ngOnDestroy() {
+    this.combinedCompanySettingsSubscription.unsubscribe();
     this.companyTabsContextSubscription.unsubscribe();
     this.jobPricingLimitInfoSubscription.unsubscribe();
     this.userContextSubscription.unsubscribe();
@@ -183,9 +202,26 @@ export class CompanyTabsComponent implements OnInit, OnDestroy {
     return (setting.DataType !== 'int') && (setting.Visible) && (setting.Key !== CompanySettingsEnum.MaxProjectJobCount);
   }
 
-  displayJobPricingLimiter(setting: CompanySetting): boolean {
-    const value: boolean = setting.Key === CompanySettingsEnum.MaxProjectJobCount && this.enableJobPricingLimiter;
-    return value;
+  combineSettings(customSettings) {
+    customSettings.forEach(customSetting => {
+      this.companySettings.splice(customSetting.Index, 0, customSetting);
+    });
+  }
+
+  private combineLatestSettings() {
+    this.combinedCompanySettingsSubscription = combineLatest([this.companySettings$, this.customCompanySettings$]).subscribe(([settings, customSettings]) => {
+      if (settings && settings.length > 0) {
+        this.companySettings = settings.filter(setting => {
+          if (this.isConfigurableSetting(setting)) {
+            return setting;
+          }
+        });
+
+        this.combineSettings(customSettings);
+
+        this.maxProjectCountSetting = settings.find(setting => setting.Key === CompanySettingsEnum.MaxProjectJobCount);
+      }
+    });
   }
 
   private handleCompanyTabsContextLoaded(companyTabsContext: CompanyTabsContext) {

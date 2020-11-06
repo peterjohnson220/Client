@@ -157,20 +157,24 @@ exports[`Job Management Feature - Job Form Should display form 1`] = `
       <pf-job-description-summary-editor>
         <div>
           <div
-            class="pb-3"
+            class="default"
           >
-            
             <div
-              class="d-flex"
+              class="pb-3"
             >
-              <div>
-                <b
-                  class="align-middle"
-                >
-                  Job Description
-                </b>
-              </div>
               
+              <div
+                class="d-flex"
+              >
+                <div>
+                  <b
+                    class="align-middle"
+                  >
+                    Job Description
+                  </b>
+                </div>
+                
+              </div>
             </div>
           </div>
           <div>

@@ -1,0 +1,12 @@
+:host ::ng-deep .upsert-peer-data-modal > .modal-dialog {
+  width: 65vw;
+  max-width: 65vw;
+}
+
+:host ::ng-deep .upsert-peer-data-modal > .modal-dialog > .modal-content > .modal-body {
+  padding: 0.5rem;
+}
+
+.upsert-peer-modal-content-container {
+  height: 80vh;
+}

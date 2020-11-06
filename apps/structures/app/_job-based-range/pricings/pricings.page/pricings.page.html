@@ -13,15 +13,14 @@
   [actionBarConfig]="actionBarConfig"
   [borders]="false"
   [contentClassNamesOverrides]="'py-3 px-4'"
-  [pageTheme]="'next-gen'"
+  [pageTheme]="pfThemeType.NextGen"
   [autoFitColumnsToHeader]="true"
   [reorderable]="true"
   [syncScrollWithSplit]="true"
   [saveSort]="true"
   [showSplitViewToggle]="true"
   [gridConfig]="gridConfig"
-  [pageable]="!gridConfig.EnableInfiniteScroll"
-  [pagingOptions]="defaultPagingOptions">
+  [pageable]="!gridConfig.EnableInfiniteScroll">
 </pf-data-grid>
 
 <ng-template #jobTitleCode let-dataRow="dataRow" let-fieldName="fieldName">

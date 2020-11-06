@@ -33,7 +33,7 @@ export class DataCutValidationEffects {
         ({ action, filters })),
     switchMap((data) => {
       return this.exchangeDataCutsApiService.validateCutEmployeeSimilarityNew(data.filters,
-        data.action.companyJobId, data.action.userSessionId, data.action.dataCutGuid).pipe(
+        data.action.companyJobId, data.action.entityConfiguration, data.action.dataCutGuid).pipe(
         map((response: boolean) => new fromDataCutValidationActions.ValidateDataCutEmployeesSuccess(response)),
         catchError(() => of(new fromDataCutValidationActions.ValidateDataCutEmployeesError))
       );
