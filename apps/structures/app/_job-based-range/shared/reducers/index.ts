@@ -209,3 +209,8 @@ export const getFormulaField = createSelector(
   selectFormulaFieldState,
   fromFormulaFieldReducer.getFormulaField
 );
+
+export const getResetFormula = createSelector(
+  selectFormulaFieldState,
+  fromFormulaFieldReducer.getResetFormula
+);

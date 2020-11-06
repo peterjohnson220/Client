@@ -11,7 +11,7 @@ import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
 import * as pfDataGridActions from 'libs/features/pf-data-grid/actions';
 import { PermissionCheckEnum, Permissions } from 'libs/constants';
 import { PermissionService } from 'libs/core/services';
-import { DataViewEntity, DataViewFilter, DataViewFilterOptionsRequest } from 'libs/models/payfactors-api/reports/request';
+import { DataViewEntity } from 'libs/models/payfactors-api/reports/request';
 import * as fromFormulaFieldActions from 'libs/features/formula-editor/actions/formula-field.actions';
 import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
 
@@ -43,7 +43,6 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
   pageViewId: string;
   pageViewIdSubscription: Subscription;
   _Permissions = null;
-  compareModelFilters: DataViewFilter[];
   comparingFlag: boolean;
   comparingSub: Subscription;
   metadataSub: Subscription;
