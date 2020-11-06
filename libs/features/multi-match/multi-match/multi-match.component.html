@@ -1,28 +1,30 @@
 <ng-container [ngSwitch]="display">
-  <ng-container *ngSwitchCase="'component'" [ngTemplateOutlet]="multiMatchContent"></ng-container>
-  <ng-container *ngSwitchCase="'modal'">
-    <pf-modal-form
-      [size]="'xl'"
-      [modalId]="'au-modal-multi-match'"
-      [isOpen$]="showMultiMatchModal$"
-      [showFooter]="true"
-      [title]="'Price Jobs'"
-      [primaryButtonText]="'Save'"
-      [windowClass]="'multi-match-modal'"
-      (onDismiss)="handleCancelClicked()"
-      (onSubmit)="handleSaveClicked()"
-      [showSpinner]="true"
-      [submitEnabled]="!(savingChanges$ | async)"
-      [primaryButtonTextSubmitting]="'Saving'"
-      [submitting]="saveChangesStarted"
-    >
-      <ng-container basic-content>
-        <div class="multi-match-modal-body-container">
-          <ng-container [ngTemplateOutlet]="multiMatchContent"></ng-container>
-        </div>
-      </ng-container>
-    </pf-modal-form>
-  </ng-container>
+  <div *ngIf="!(refiningPeerCut$ | async); else refineScopeMap" class="flex-column-container">
+    <ng-container *ngSwitchCase="'component'" [ngTemplateOutlet]="multiMatchContent"></ng-container>
+    <ng-container *ngSwitchCase="'modal'">
+      <pf-modal-form
+        [size]="'xl'"
+        [modalId]="'au-modal-multi-match'"
+        [isOpen$]="showMultiMatchModal$"
+        [showFooter]="true"
+        [title]="'Price Jobs'"
+        [primaryButtonText]="'Save'"
+        [windowClass]="'multi-match-modal'"
+        (onDismiss)="handleCancelClicked()"
+        (onSubmit)="handleSaveClicked()"
+        [showSpinner]="true"
+        [submitEnabled]="!(savingChanges$ | async)"
+        [primaryButtonTextSubmitting]="'Saving'"
+        [submitting]="saveChangesStarted"
+      >
+        <ng-container basic-content>
+          <div class="multi-match-modal-body-container">
+            <ng-container [ngTemplateOutlet]="multiMatchContent"></ng-container>
+          </div>
+        </ng-container>
+      </pf-modal-form>
+    </ng-container>
+  </div>
 </ng-container>
 
 <ng-template #savingChanges>
@@ -82,8 +84,18 @@
   <pf-survey-search-results
     [cutsDraggable]="true"
     [implementation]="display"
+    [refineInPeerEnabled]="customizeScopeInMultimatchModalFlag.value"
+    [refineInPeerReady]="true"
   ></pf-survey-search-results>
   <pf-jobs-to-price-container
     [featureImplementation]="featureImplementation"
   ></pf-jobs-to-price-container>
+</ng-template>
+
+<ng-template #refineScopeMap>
+  <pf-upsert-peer-data-cut
+    [entityConfiguration]="entityConfiguration"
+    [companyJobId]="companyId"
+    [companyPayMarketId]="companyPayMarketId"
+  ></pf-upsert-peer-data-cut>
 </ng-template>

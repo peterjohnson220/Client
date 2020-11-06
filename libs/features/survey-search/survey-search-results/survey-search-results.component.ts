@@ -22,8 +22,8 @@ export class SurveySearchResultsComponent implements OnInit {
   @Input() cutsDraggable: boolean;
   @Input() implementation: string;
   @Input() refineInPeerEnabled = false;
+  @Input() refineInPeerReady = false;
 
-  refineInPeerReady = false;
   refineInPeerByJobTitle = false;
 
   // Observables
@@ -44,9 +44,6 @@ export class SurveySearchResultsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.contextSub = this.pricingMatchDataSearchContext$.subscribe(c => {
-      this.refineInPeerReady = false;
-    });
     this.legacyIframeImplementation = this.implementation === 'component';
   }
 
@@ -108,5 +105,4 @@ export class SurveySearchResultsComponent implements OnInit {
       this.store.dispatch(new fromSurveySearchResultsActions.RefineExchangeJobResult(payload));
     }
   }
-
 }

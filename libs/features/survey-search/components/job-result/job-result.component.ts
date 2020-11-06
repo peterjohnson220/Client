@@ -1,12 +1,13 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { MatchesDetailsRequestJobTypes, PricingMatchesDetailsRequest } from 'libs/models/payfactors-api';
 import * as fromSearchReducer from 'libs/features/search/reducers';
 import { SurveySearchResultDataSources } from 'libs/constants';
 import { annualDisplay, compRate } from 'libs/core/pipes';
+import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
 
 import { DataCut, DataCutDetails, JobResult, MatchesDetailsTooltipData } from '../../models';
 import { hasMoreDataCuts } from '../../helpers';
@@ -30,6 +31,8 @@ export class JobResultComponent implements OnInit, OnDestroy {
   @Output() matchesMouseLeave: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() refineInPeerClicked: EventEmitter<JobResult> = new EventEmitter<JobResult>();
 
+  customizeScopeInMultimatchModalFlag: RealTimeFlag = { key: FeatureFlags.CustomizeScopeInMultimatchModal, value: false };
+
   // Observables
   loadingResults$: Observable<boolean>;
   selectedCuts$: Observable<DataCutDetails[]>;
@@ -38,25 +41,28 @@ export class JobResultComponent implements OnInit, OnDestroy {
   private loadingResultsSub: Subscription;
 
   toggleDataCutsLabel: string;
-  toggleRefineInPeerLabel = 'Refine';
   showDataCuts: boolean;
   showJobDetail: boolean;
   matchesMouseLeaveTimer: number;
   surveySearchResultDataSources = SurveySearchResultDataSources;
   annualDisplay: annualDisplay = annualDisplay.full;
 
+  unsubscribe$ = new Subject<void>();
+
   private readonly showCutsLabel: string = 'Show Cuts';
   private readonly hideCutsLabel: string = 'Hide Cuts';
   private readonly matchesMouseLeaveTimeout: number = 100;
 
   constructor(
-    private store: Store<fromSurveySearchReducer.State>
+    private store: Store<fromSurveySearchReducer.State>, private featureFlagService: AbstractFeatureFlagService
   ) {
     // This is not ideal. "Dumb" components should not know about the store. However we need to track these
     // components in the NgFor so they do not get re-initialized if they show up in subsequent searches. Currently this
     // is the only way to know about a search so we can reset some things.
     this.loadingResults$ = this.store.select(fromSearchReducer.getLoadingResults);
     this.selectedCuts$ = this.store.select(fromSurveySearchReducer.getSelectedDataCuts);
+
+    this.featureFlagService.bindEnabled(this.customizeScopeInMultimatchModalFlag, this.unsubscribe$);
   }
 
   get compRate(): compRate {
@@ -130,6 +136,10 @@ export class JobResultComponent implements OnInit, OnDestroy {
       TCC50th: this.job.TCC50th,
       CutFilterId: this.job.Code + this.job.CountryCode
     });
+  }
+
+  handleRefineInPeerClicked(){
+    this.toggleRefineInPeerDisplay();
   }
 
   // TODO: Create a story to further refactor the multi match display, break dependence on if legacy iFrame do X vs Y

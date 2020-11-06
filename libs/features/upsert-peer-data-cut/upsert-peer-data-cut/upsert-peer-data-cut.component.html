@@ -7,7 +7,7 @@
     *ngIf="displayMap"
     #exchangeExplorerComponent
     [companyPayMarketId]="companyPayMarketId"
-    [shouldShowPayMarketBoundsFilter]="hasAcceptedPeerTerms$ | async"
+    [shouldShowPayMarketBoundsFilter]="(hasAcceptedPeerTerms$ | async) && !refining"
     [shouldShowExcludeIndirectJobMatchesFilter]="hasAcceptedPeerTerms$ | async"
     [shouldShowExchangeScopeSelector]="hasAcceptedPeerTerms$ | async">
 
