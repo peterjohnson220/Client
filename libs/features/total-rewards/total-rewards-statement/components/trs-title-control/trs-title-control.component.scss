@@ -41,6 +41,7 @@ h3.employee {
     font-size: 3.2rem;
     color: white;
     text-align: left;
+    width: 100%; // prevent internet explorer from keeping all content on the top line and clipping
   }
   ::ng-deep pf-string-editor { 
     .edit-icon {
@@ -61,6 +62,8 @@ h3.employee {
       transform: skew(-10deg); // undo the parent's skew
       padding: 0 3rem 0 6rem;
       margin-right: -6rem; // overflow the skewed container so graphic consumes all horizontal space in the column
+      justify-content: space-around; // doesn't look like internet explorer can vertically center inner content without this and the rule below 
+      align-items: center;
     }
   }
   .overlap.graphic {
