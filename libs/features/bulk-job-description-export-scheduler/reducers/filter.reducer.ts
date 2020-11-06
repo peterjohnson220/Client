@@ -1,17 +1,17 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
-import { JobDescriptionViewModel } from 'libs/models/jdm/job-description-view.model';
 
 // Import all exports from our feature's actions
-import * as fromJdmViewActions from '../actions/view.actions';
+import { JdmListFilter } from 'libs/models/user-profile';
 
+import * as fromJdmFilterActions from '../actions/filter.actions';
 // Define our feature state
-export interface State extends EntityState<JobDescriptionViewModel> {
+export interface State extends EntityState<JdmListFilter> {
   loading: boolean;
   loadingError: boolean;
 }
 
-export const adapter: EntityAdapter<JobDescriptionViewModel> = createEntityAdapter<JobDescriptionViewModel>({
-  selectId: (jobDescriptionViewModel: JobDescriptionViewModel) => jobDescriptionViewModel.Id
+export const adapter: EntityAdapter<JdmListFilter> = createEntityAdapter<JdmListFilter>({
+  selectId: (userFilter: JdmListFilter) => userFilter.Id
 });
 
 // Define our initial state
@@ -24,25 +24,25 @@ const initialState: State = adapter.getInitialState({
 // Reducer function
 export function reducer(
   state = initialState,
-  action: fromJdmViewActions.Actions
+  action: fromJdmFilterActions.BulkExportJobsSchedulerFilterActions
 ): State {
   switch (action.type) {
-    case fromJdmViewActions.LOADING_VIEWS: {
+    case fromJdmFilterActions.LOADING_FILTERS: {
       return {
         ...state,
         loading: true,
       };
     }
-    case fromJdmViewActions.LOADING_VIEWS_ERROR: {
+    case fromJdmFilterActions.LOADING_FILTERS_ERROR: {
       return {
         ...state,
         loading: false,
         loadingError: true
       };
     }
-    case  fromJdmViewActions.LOADING_VIEWS_SUCCESS: {
+    case  fromJdmFilterActions.LOADING_FILTERS_SUCCESS: {
       return {
-        ...adapter.setAll(action.payload.views, state),
+        ...adapter.setAll(action.payload.userFilters, state),
         loading: false
       };
     }

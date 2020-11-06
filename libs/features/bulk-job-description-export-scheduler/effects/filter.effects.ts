@@ -9,15 +9,15 @@ import { UserProfileApiService } from 'libs/data/payfactors-api/user';
 import { GetUserFilterListResponse } from 'libs/models/payfactors-api/user-filter/response/get-user-filter-list-response.model';
 import { PayfactorsApiModelMapper } from 'libs/features/job-description-management/helpers';
 
-import * as fromJdmFilterActions from '../actions/filter.actions';
+import * as fromFilterActions from '../actions/filter.actions';
 
 @Injectable()
-export class JdmFiltersEffects {
+export class BulkJobsExportScheduleFiltersEffects {
 
   @Effect()
   loadFilters$: Observable<Action> = this.actions$
     .pipe(
-      ofType(fromJdmFilterActions.LOADING_FILTERS),
+      ofType(fromFilterActions.LOADING_FILTERS),
       switchMap(() =>
         this.userProfileApiService.getUserFilterList().pipe(
           map((response: GetUserFilterListResponse[]) => {
@@ -29,9 +29,9 @@ export class JdmFiltersEffects {
               };
             });
 
-            return new fromJdmFilterActions.LoadingFiltersSuccess({ userFilters: newResponse });
+            return new fromFilterActions.LoadingFiltersSuccess({ userFilters: newResponse });
           }),
-          catchError(error => of(new fromJdmFilterActions.LoadingFiltersError(error)))
+          catchError(error => of(new fromFilterActions.LoadingFiltersError(error)))
         )
       )
     );

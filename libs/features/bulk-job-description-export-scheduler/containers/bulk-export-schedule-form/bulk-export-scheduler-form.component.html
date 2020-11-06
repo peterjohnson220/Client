@@ -1,5 +1,3 @@
-
-<p class="font-weight-bold">Create File to Export</p>
 <div class="form-container">
   <table>
     <tr>
@@ -132,34 +130,3 @@
     <p>Save Schedule failed. Please enter a valid schedule.</p>
   </div>
 </div>
-<br>
-<br>
-<p class="font-weight-bold">Saved Schedules</p>
-<div class="form-container">
-  <table class="saved-schedules">
-    <ng-container *ngFor="let existingSchedule of schedules">
-      <tr>
-        <td (click)="onScheduleClick(existingSchedule.FileName)" class="schedule-name">{{existingSchedule.FileName}}</td>
-        <td>
-          <div (click)="removeSchedule(existingSchedule.FileName)">
-            <fa-icon icon="trash" class="remove-schedule"></fa-icon>
-          </div>
-        </td>
-      </tr>
-      <tr id="{{existingSchedule.FileName}}" *ngIf="clickedSchedule === existingSchedule.FileName">
-        <td colspan="2" class="indent schedule-info">
-          <p *ngIf="existingSchedule.Frequency === 'One-time'">Sent on {{existingSchedule.Create_Date | date:'shortDate'}}</p>
-          <p *ngIf="existingSchedule.Frequency === 'Weekly'">Sent Weekly every {{daysOfWeekAsString(existingSchedule.DayOfWeek)}}</p>
-          <p *ngIf="existingSchedule.Frequency === 'Monthly'">Sent the {{occurrenceAsString(existingSchedule.Occurrence)}} {{daysOfWeekAsString(existingSchedule.DayOfWeek)}} of every {{existingSchedule.MonthlyOccurrence}} month(s)</p>
-          <p>Using {{getViewName(existingSchedule.ViewId)}} view</p>
-          <p *ngIf="existingSchedule.Filter === 'All'">All Jobs</p>
-          <p *ngIf="existingSchedule.Filter !== 'All'">Using {{existingSchedule.Filter}} filter</p>
-          <p *ngIf="existingSchedule.IncludeDelimiters">Including Delimiters</p>
-          <p *ngIf="existingSchedule.IncludeFormatting">Including Formatting</p>
-          <p *ngIf="existingSchedule.Format">Using {{existingSchedule.Format}} file format <span *ngIf="existingSchedule.Format === 'csv'">with {{existingSchedule.FormatSeparatorType || 'comma'}} separator</span></p>
-        </td>
-      </tr>
-    </ng-container>
-  </table>
-</div>
-

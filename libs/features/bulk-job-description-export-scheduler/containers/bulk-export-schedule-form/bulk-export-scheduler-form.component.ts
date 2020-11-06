@@ -1,12 +1,12 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 
-import { BulkExportSchedule } from 'libs/models/jdm';
+import { BulkExportSchedule, JobDescriptionViewModel } from 'libs/models/jdm';
 import { JdmListFilter } from 'libs/models/user-profile/index';
+
 import * as fromJdmAdminReducer from '../../reducers/index';
 import * as fromJdmBulkExportScheduleActions from '../../actions/bulk-export-schedule.actions';
-import { JobDescriptionViewModel } from 'libs/models/jdm/job-description-view.model';
 
 @Component({
   selector: 'pf-bulk-export-scheduler-form',
@@ -25,17 +25,29 @@ export class BulkExportSchedulerFormComponent implements OnInit, OnDestroy {
   addingSchedule$: Observable<boolean>;
   addingScheduleError$: Observable<boolean>;
   addScheduleErrorSubscription: Subscription;
-  removingSchedule$: Observable<boolean>;
+
+  private unsubscribe$ = new Subject();
 
   weekday: string[] = [ 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday' ];
   occurence: string[] = [ 'First', 'Second', 'Third', 'Fourth' ];
 
   constructor(private store: Store<fromJdmAdminReducer.State>) {
-    this.setDefaultPageValues();
-
     this.addingSchedule$ = this.store.select(fromJdmAdminReducer.getBulkExportScheduleAdding);
     this.addingScheduleError$ = this.store.select(fromJdmAdminReducer.getBulkExportScheduleAddingError);
-    this.removingSchedule$ = this.store.select(fromJdmAdminReducer.getBulkExportScheduleRemoving);
+  }
+
+  // Lifecycle
+  ngOnInit() {
+    this.setDefaultPageValues();
+    this.addScheduleErrorSubscription = this.addingScheduleError$.subscribe(error => {
+      if (error) {
+        alert('There was an error saving the schedule.');
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    this.addScheduleErrorSubscription.unsubscribe();
   }
 
   onDayOfWeekChange(event) {
@@ -103,30 +115,6 @@ export class BulkExportSchedulerFormComponent implements OnInit, OnDestroy {
     this.schedule.CronExpression += '*';
   }
 
-  removeSchedule(fileName) {
-    this.store.dispatch(new fromJdmBulkExportScheduleActions.RemovingSchedule(fileName));
-  }
-
-  daysOfWeekAsString(dayNumbers) {
-    const days = dayNumbers.split(',');
-    let daysString = '';
-    days.sort();
-
-    for (const day of days) {
-      daysString += this.weekday[ day - 1 ] + ', ';
-    }
-
-    return daysString.slice(0, -2);
-  }
-
-  occurrenceAsString(occurrence) {
-    return this.occurence[ occurrence - 1 ];
-  }
-
-  onScheduleClick(identifier) {
-    this.clickedSchedule = this.clickedSchedule !== identifier ? identifier : '';
-  }
-
   isValidSchedule() {
     if (!this.schedule.FileName || this.fileNameExists(this.schedule.FileName)) {
       return false;
@@ -153,16 +141,6 @@ export class BulkExportSchedulerFormComponent implements OnInit, OnDestroy {
     return this.schedules.some(x => x.FileName === filename);
   }
 
-  getViewName(viewId) {
-    for (const view of this.views) {
-      if (view.Id === viewId) {
-        return view.Name;
-      }
-    }
-
-    return '';
-  }
-
   setDefaultPageValues() {
     this.schedule.DayOfWeek = '';
     this.schedule.Frequency = 'One-time';
@@ -172,18 +150,5 @@ export class BulkExportSchedulerFormComponent implements OnInit, OnDestroy {
 
     this.daysOfWeekSelected = [];
     this.validSchedule = true;
-  }
-
-  // Lifecycle
-  ngOnInit() {
-    this.addScheduleErrorSubscription = this.addingScheduleError$.subscribe(error => {
-      if (error) {
-        alert('There was an error saving the schedule.');
-      }
-    });
-  }
-
-  ngOnDestroy() {
-    this.addScheduleErrorSubscription.unsubscribe();
   }
 }

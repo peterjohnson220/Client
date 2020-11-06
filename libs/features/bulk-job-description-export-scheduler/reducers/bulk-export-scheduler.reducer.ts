@@ -1,8 +1,9 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
-// Import all exports from our feature's actions
-import * as fromJdmBulkExportScheduleActions from '../actions/bulk-export-schedule.actions';
 import { BulkExportSchedule } from 'libs/models/jdm';
+
+// Import all exports from our feature's actions
+import * as fromBulkExportScheduleActions from '../actions/bulk-export-schedule.actions';
 
 // Define our feature state
 export interface State extends EntityState<BulkExportSchedule> {
@@ -32,62 +33,61 @@ const initialState: State = adapter.getInitialState({
 // Reducer function
 export function reducer(
   state = initialState,
-  action: fromJdmBulkExportScheduleActions.Actions
-): State {
+  action: fromBulkExportScheduleActions.BulkExportJobsSchedulerActions): State {
   switch (action.type) {
-    case fromJdmBulkExportScheduleActions.ADDING_SCHEDULE: {
+    case fromBulkExportScheduleActions.ADDING_SCHEDULE: {
       return {
         ...state,
         adding: true,
       };
     }
-    case fromJdmBulkExportScheduleActions.ADDING_SCHEDULE_ERROR: {
+    case fromBulkExportScheduleActions.ADDING_SCHEDULE_ERROR: {
       return {
         ...state,
         adding: false,
         addingError: true
       };
     }
-    case  fromJdmBulkExportScheduleActions.ADDING_SCHEDULE_SUCCESS: {
+    case  fromBulkExportScheduleActions.ADDING_SCHEDULE_SUCCESS: {
       return {
         ...state,
         adding: false
       };
     }
-    case fromJdmBulkExportScheduleActions.LOADING_SCHEDULE: {
+    case fromBulkExportScheduleActions.LOADING_SCHEDULE: {
       return {
         ...state,
         loading: true,
         loadingError: false
       };
     }
-    case fromJdmBulkExportScheduleActions.LOADING_SCHEDULE_SUCCESS: {
+    case fromBulkExportScheduleActions.LOADING_SCHEDULE_SUCCESS: {
       return {
         ...adapter.setAll(action.payload, state),
         loading: false
       };
     }
-    case fromJdmBulkExportScheduleActions.LOADING_SCHEDULE_ERROR: {
+    case fromBulkExportScheduleActions.LOADING_SCHEDULE_ERROR: {
       return {
         ...state,
         loading: false,
         loadingError: true
       };
     }
-    case fromJdmBulkExportScheduleActions.REMOVING_SCHEDULE: {
+    case fromBulkExportScheduleActions.REMOVING_SCHEDULE: {
       return {
         ...state,
         removing: true,
         removingError: false
       };
     }
-    case fromJdmBulkExportScheduleActions.REMOVING_SCHEDULE_SUCCESS: {
+    case fromBulkExportScheduleActions.REMOVING_SCHEDULE_SUCCESS: {
       return {
         ...state,
         removing: false
       };
     }
-    case fromJdmBulkExportScheduleActions.REMOVING_SCHEDULE_ERROR: {
+    case fromBulkExportScheduleActions.REMOVING_SCHEDULE_ERROR: {
       return {
         ...state,
         removing: false,

@@ -15,7 +15,7 @@
         (onContinueIntegrationSetupClicked)="continueSetup($event)"
       ></pf-hris-integration-panel>
     </div>
-    <div class="col-sm-12 col-md-6">
+    <div class="col-sm-12 col-md-6" *ngIf="!jdmOutboundIntegrationFlag.value">
       <pf-hris-integration-panel
         [pfSecuredResource]="permissions.HRIS_OUTBOUND_INTEGRATION"
         [transferMethodType]="outboundjdm"
@@ -25,6 +25,13 @@
         (onTransferScheduleButtonClick)="goToTransferSchedulePage($event)"
         (onEntitySelectionButtonClick)="goToEntitySelectionPage($event)"
         (onContinueIntegrationSetupClicked)="continueSetup($event)"
+      ></pf-hris-integration-panel>
+    </div>
+    <div class="col-sm-12 col-md-6" *ngIf="jdmOutboundIntegrationFlag.value">
+      <pf-hris-integration-panel
+        [pfSecuredResource]="permissions.HRIS_OUTBOUND_INTEGRATION"
+        [transferMethodType]="outboundjdm"
+        (onCreateNewIntegrationClicked)="createNewIntegration($event)"
       ></pf-hris-integration-panel>
     </div>
   </div>

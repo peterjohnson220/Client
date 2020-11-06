@@ -1,9 +1,9 @@
 import { Action } from '@ngrx/store';
 import { JdmListFilter } from 'libs/models/user-profile';
 
-export const LOADING_FILTERS  = '[Jdm Admin/Bulk Export Schedule] Loading Filters';
-export const LOADING_FILTERS_SUCCESS  = '[Jdm Admin/Bulk Export Schedule] Loading Filters Success';
-export const LOADING_FILTERS_ERROR  = '[Jdm Admin/Bulk Export Schedule] Loading Filters Error';
+export const LOADING_FILTERS  = '[Bulk Jobs Export Scheduler Feature / Filter] Loading Filters';
+export const LOADING_FILTERS_SUCCESS  = '[Bulk Jobs Export Scheduler Feature / Filter] Loading Filters Success';
+export const LOADING_FILTERS_ERROR  = '[Bulk Jobs Export Scheduler Feature / Filter] Loading Filters Error';
 
 export class LoadingFilters implements Action {
   readonly type = LOADING_FILTERS;
@@ -24,7 +24,7 @@ export class LoadingFiltersError implements Action {
   }
 }
 
-export type Actions
+export type BulkExportJobsSchedulerFilterActions
   = LoadingFilters
   | LoadingFiltersSuccess
   | LoadingFiltersError;
