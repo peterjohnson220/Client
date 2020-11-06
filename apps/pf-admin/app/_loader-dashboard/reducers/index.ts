@@ -2,7 +2,6 @@ import { createSelector, createFeatureSelector } from '@ngrx/store';
 
 // Import root app reducer
 import * as fromRoot from 'libs/state/state';
-
 import * as fromLoaderDashboardPageReducer from './loader-dashboard-page.reducer';
 
 // Feature area state
@@ -53,4 +52,8 @@ export const getFilePackagesResult = createSelector(
 export const getRedropExportedSourceFile = createSelector(
   selectLoaderDashboardPageState,
   fromLoaderDashboardPageReducer.getRedropExportedSourceFile
+);
+export const getRedropConfirmationModalOpen = createSelector(
+  selectLoaderDashboardPageState,
+  fromLoaderDashboardPageReducer.getRedropConfirmationModalOpen
 );

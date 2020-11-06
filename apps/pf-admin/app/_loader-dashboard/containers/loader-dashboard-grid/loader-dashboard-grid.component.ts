@@ -41,6 +41,8 @@ export class LoaderDashboardGridComponent implements OnInit, OnDestroy {
   pageSize = 10;
   pageSizes = [10, 20, 30];
 
+  selectedCompositeDataLoadId: number;
+
   constructor(
     private store: Store<fromLoaderDashboardPageReducer.State>,
     private featureFlagService: AbstractFeatureFlagService
@@ -106,8 +108,9 @@ export class LoaderDashboardGridComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromCompositeSummaryDownloadActions.CompositeSummaryDownload({ Id: externalId, FileType: FileType.ExportedSourceFile }));
   }
 
-  redropExportedSourceFile(compositeDataLoadId: number) {
-    this.store.dispatch(new fromLoaderDashboardPageActions.RedropExportedSourceFile(compositeDataLoadId));
+  openRedropConfirmationModal(compositeDataLoadId: number): void {
+    this.selectedCompositeDataLoadId = compositeDataLoadId;
+    this.store.dispatch(new fromLoaderDashboardPageActions.OpenRedropConfirmationModal());
   }
 
   showIfLoadHasSummaries(dataItem: CompositeDataLoadViewResponse, index: number): boolean {
