@@ -63,7 +63,7 @@ export class LayoutWrapperComponent implements OnInit, OnDestroy {
     this.gettingHeaderDropdownNavigationLinksError$ = layoutStore.select(fromLayoutReducer.getGettingHeaderDropdownNavigationLinksError);
     this.headerDropdownNavigationLinks$ = layoutStore.select(fromLayoutReducer.getHeaderDropdownNavigationLinks);
 
-    this.leftSidebarToggleChangedSubject.pipe(debounceTime(400), distinctUntilChanged()).subscribe(value => {
+    this.leftSidebarToggleChangedSubject.subscribe(value => {
         this.leftSidebarToggle = value;
         this.updateUserVoicePosition(value);
       });
