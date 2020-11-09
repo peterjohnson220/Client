@@ -1,9 +1,9 @@
 <div class="col-12 px-0" [ngClass]="{'edit-mode': mode === statementModeEnum.Edit, 'show-image': controlData.FileUrl}">
-  <div class="trs-image d-flex justify-content-center align-middle"
+  <div class="trs-image"
        [ngClass]="{
-        'justify-content-center' : !horizontalAlignment || horizontalAlignment === 'center',
-        'justify-content-start': horizontalAlignment === 'left',
-        'justify-content-end': horizontalAlignment === 'right'
+        'text-center' : !horizontalAlignment || horizontalAlignment === 'center',
+        'text-left': horizontalAlignment === 'left',
+        'text-right': horizontalAlignment === 'right'
        }">
     <div *ngIf="!controlData.FileUrl && mode === statementModeEnum.Edit; else showImage" class="w-100">
       <fa-icon class="image-icon fa-2x" [icon]="'image'" aria-hidden="true"></fa-icon>
