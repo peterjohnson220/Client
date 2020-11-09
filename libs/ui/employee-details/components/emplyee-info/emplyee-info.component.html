@@ -1,0 +1,34 @@
+<div class="wrapper">
+  <p><b>Pay Information</b></p>
+  <hr/>
+  <div class="d-flex flex-column" [ngStyle]="{'width' : gridWidthPercent + '%'}">
+    <div class="d-flex justify-content-between">
+      <div class="d-flex flex-column cell-padding">
+        <span>Base Salary:</span>
+        <input [value]="employeeInfo.Base_Salary" [disabled]="true" />
+      </div>
+      <div class="d-flex flex-column cell-padding">
+        <span>Bonus:</span>
+        <input [value]="employeeInfo.Bonus" [disabled]="true" />
+      </div>
+      <div class="d-flex flex-column cell-padding">
+        <span>Total Cash Comp:</span>
+        <input [value]="employeeInfo.Total_Cash_Comp" [disabled]="true" />
+      </div>
+    </div>
+    <div class="d-flex justify-content-between">
+      <div class="d-flex flex-column cell-padding">
+        <span>Total Direct Comp:</span>
+        <input [value]="employeeInfo.Total_Direct_Comp" [disabled]="true" />
+      </div>
+      <div class="d-flex flex-column cell-padding">
+        <span>STI:</span>
+        <input [value]="employeeInfo.STI" [disabled]="true" />
+      </div>
+      <div class="d-flex flex-column cell-padding">
+        <span>LTI:</span>
+        <input [value]="employeeInfo.LTI" [disabled]="true" />
+      </div>
+    </div>
+  </div>
+</div>
