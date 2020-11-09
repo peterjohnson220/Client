@@ -42,6 +42,7 @@ export class DataManagementLandingPageComponent implements OnInit, OnDestroy {
 
   connectionNeedsAuthentication: boolean;
   loadAndExportsFilesCardFlag: RealTimeFlag = { key: FeatureFlags.LoadAndExportsFilesCards, value: false };
+  jdmOutboundIntegrationFlag: RealTimeFlag = { key: FeatureFlags.JdmOutboundIntgration, value: false };
 
 
   constructor(private store: Store<fromDataManagementMainReducer.State>, private router: Router, private featureFlagService: AbstractFeatureFlagService) {
@@ -53,6 +54,7 @@ export class DataManagementLandingPageComponent implements OnInit, OnDestroy {
     this.transferScheduleSummaryError$ = this.store.select(fromDataManagementMainReducer.getTransferScheduleSummaryError);
 
     this.featureFlagService.bindEnabled(this.loadAndExportsFilesCardFlag, this.unsubscribe$);
+    this.featureFlagService.bindEnabled(this.jdmOutboundIntegrationFlag, this.unsubscribe$);
 
     this.connectionSummary$.pipe(filter(cs => !!cs),
     takeUntil(this.unsubscribe$)).subscribe(cs => {
@@ -128,7 +130,11 @@ export class DataManagementLandingPageComponent implements OnInit, OnDestroy {
         break;
       }
       case TransferMethodTypes.HRIS_OUTBOUND_JDM_INTEGRATION: {
-        this.router.navigate(['transfer-data/outbound/vendor']);
+        if (this.jdmOutboundIntegrationFlag.value) {
+          this.router.navigate(['transfer-data/outbound/bulk-jobs-export-scheduler']);
+        } else {
+          this.router.navigate(['transfer-data/outbound/vendor']);
+        }
         break;
       }
       default:

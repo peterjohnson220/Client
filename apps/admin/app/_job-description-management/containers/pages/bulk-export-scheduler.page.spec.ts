@@ -6,10 +6,8 @@ import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
 
-import * as fromJdmReducer from '../../reducers';
-import * as fromFilterActions from '../../actions/filter.actions';
-import * as fromViewActions from '../../actions/view.actions';
-import * as fromBulkExportScheduleActions from '../../actions/bulk-export-schedule.actions';
+import * as bulkExportJobsSchedulerActions from 'libs/features/bulk-job-description-export-scheduler/actions';
+import * as fromJdmAdminReducer from 'libs/features/bulk-job-description-export-scheduler/reducers';
 import { BulkExportSchedulerPageComponent } from './bulk-export-scheduler.page';
 
 
@@ -24,7 +22,7 @@ describe('Admin - Bulk Export Scheduler Page', () => {
       imports: [
         StoreModule.forRoot({
           ...fromRootState.reducers,
-          jdmAdmin: combineReducers(fromJdmReducer.reducers)
+          jdmAdmin: combineReducers(fromJdmAdminReducer.reducers)
         })
       ],
       providers: [
@@ -49,26 +47,26 @@ describe('Admin - Bulk Export Scheduler Page', () => {
   });
 
   it('should dispatch a load views action on init', () => {
-    spyOn(fromViewActions, 'LoadingViews');
+    spyOn(bulkExportJobsSchedulerActions, 'LoadingViews');
 
     fixture.detectChanges();
 
-    expect(fromViewActions.LoadingViews).toHaveBeenCalled();
+    expect(bulkExportJobsSchedulerActions.LoadingViews).toHaveBeenCalled();
   });
 
   it('should dispatch a load filters action on init', () => {
-    spyOn(fromFilterActions, 'LoadingFilters');
+    spyOn(bulkExportJobsSchedulerActions, 'LoadingFilters');
 
     fixture.detectChanges();
 
-    expect(fromFilterActions.LoadingFilters).toHaveBeenCalled();
+    expect(bulkExportJobsSchedulerActions.LoadingFilters).toHaveBeenCalled();
   });
 
   it('should dispatch a load schedules action on init', () => {
-    spyOn(fromBulkExportScheduleActions, 'LoadingSchedules');
+    spyOn(bulkExportJobsSchedulerActions, 'LoadingSchedules');
 
     fixture.detectChanges();
 
-    expect(fromBulkExportScheduleActions.LoadingSchedules).toHaveBeenCalled();
+    expect(bulkExportJobsSchedulerActions.LoadingSchedules).toHaveBeenCalled();
   });
 });

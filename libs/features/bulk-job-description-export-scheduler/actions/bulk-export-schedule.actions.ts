@@ -1,15 +1,15 @@
 import { Action } from '@ngrx/store';
 import { BulkExportSchedule } from 'libs/models/jdm';
 
-export const ADDING_SCHEDULE  = '[Jdm Admin/Bulk Export Schedule] Adding Schedule';
-export const ADDING_SCHEDULE_SUCCESS  = '[Jdm Admin/Bulk Export Schedule] Adding Schedule Success';
-export const ADDING_SCHEDULE_ERROR  = '[Jdm Admin/Bulk Export Schedule] Adding Schedule Error';
-export const LOADING_SCHEDULE  = '[Jdm Admin/Bulk Export Schedule] Loading Schedule';
-export const LOADING_SCHEDULE_SUCCESS  = '[Jdm Admin/Bulk Export Schedule] Loading Schedule Success';
-export const LOADING_SCHEDULE_ERROR  = '[Jdm Admin/Bulk Export Schedule] Loading Schedule Error';
-export const REMOVING_SCHEDULE  = '[Jdm Admin/Bulk Export Schedule] Removing Schedule';
-export const REMOVING_SCHEDULE_SUCCESS  = '[Jdm Admin/Bulk Export Schedule] Removing Schedule Success';
-export const REMOVING_SCHEDULE_ERROR  = '[Jdm Admin/Bulk Export Schedule] Removing Schedule Error';
+export const ADDING_SCHEDULE  = '[Bulk Jobs Export Scheduler Feature / Schedule] Adding Schedule';
+export const ADDING_SCHEDULE_SUCCESS  = '[Bulk Jobs Export Scheduler Feature / Schedule] Adding Schedule Success';
+export const ADDING_SCHEDULE_ERROR  = '[Bulk Jobs Export Scheduler Feature / Schedule] Adding Schedule Error';
+export const LOADING_SCHEDULE  = '[Bulk Jobs Export Scheduler Feature / Schedule] Loading Schedule';
+export const LOADING_SCHEDULE_SUCCESS  = '[Bulk Jobs Export Scheduler Feature / Schedule] Loading Schedule Success';
+export const LOADING_SCHEDULE_ERROR  = '[Bulk Jobs Export Scheduler Feature / Schedule] Loading Schedule Error';
+export const REMOVING_SCHEDULE  = '[Bulk Jobs Export Scheduler Feature / Schedule] Removing Schedule';
+export const REMOVING_SCHEDULE_SUCCESS  = '[Bulk Jobs Export Scheduler Feature / Schedule] Removing Schedule Success';
+export const REMOVING_SCHEDULE_ERROR  = '[Bulk Jobs Export Scheduler Feature / Schedule] Removing Schedule Error';
 
 export class AddingSchedule implements Action {
   readonly type = ADDING_SCHEDULE;
@@ -65,7 +65,7 @@ export class RemovingScheduleError implements Action {
   constructor(public payload: any = null) {}
 }
 
-export type Actions
+export type BulkExportJobsSchedulerActions
   = AddingSchedule
   | AddingScheduleSuccess
   | AddingScheduleError

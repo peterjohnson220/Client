@@ -9,11 +9,12 @@ import * as fromRootState from 'libs/state/state';
 import { PfCommonModule } from 'libs/core';
 import { generateMockBulkExportSchedule } from 'libs/models/jdm';
 
-import { BulkExportSchedulerFormComponent } from './bulk-export-scheduler-form.component';
-import * as fromJdmReducer from '../../reducers';
+import * as fromBulkExportScheduleReducer from '../../reducers';
 import * as fromBulkExportScheduleActions from '../../actions/bulk-export-schedule.actions';
 
-describe('Bulk Export Schedule Form', () => {
+import { BulkExportSchedulerFormComponent } from './bulk-export-scheduler-form.component';
+
+describe('Bulk Job Description Export Scheduler Feature - Bulk Export Schedule Form', () => {
   let fixture: ComponentFixture<BulkExportSchedulerFormComponent>;
   let instance: BulkExportSchedulerFormComponent;
   let store: Store<fromRootState.State>;
@@ -24,7 +25,7 @@ describe('Bulk Export Schedule Form', () => {
       imports: [
         StoreModule.forRoot({
           ...fromRootState.reducers,
-          jdmAdmin: combineReducers(fromJdmReducer.reducers)
+          feature_bulk_jobs_export_scheduler: combineReducers(fromBulkExportScheduleReducer.reducers)
         }),
         FormsModule,
         PfCommonModule
@@ -85,20 +86,6 @@ describe('Bulk Export Schedule Form', () => {
     expect(instance.schedule.Occurrence).toBe('');
     expect(instance.schedule.MonthlyOccurrence).toBe('1');
     expect(instance.daysOfWeekSelected).toEqual([]);
-  });
-
-  it('should call RemovingSchedule with a filename when removeSchedule is called', () => {
-    const fileName = 'Test.xlsx';
-
-    spyOn(fromBulkExportScheduleActions, 'RemovingSchedule');
-
-    fixture.detectChanges();
-
-    instance.removeSchedule(fileName);
-
-    fixture.detectChanges();
-
-    expect(fromBulkExportScheduleActions.RemovingSchedule).toHaveBeenCalledWith(fileName);
   });
 
   it('should return true if a fileName exists when fileNameExists is called', () => {
