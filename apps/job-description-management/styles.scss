@@ -233,3 +233,5 @@ pf-workflow-config {
 .ql-editor, .ql-editor-output {
   word-break: break-word;
 }
+
+_:-ms-fullscreen, :root .ql-editor, .ql-editor-output { word-break: break-all; }
