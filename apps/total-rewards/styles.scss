@@ -350,16 +350,11 @@ pf-statement-assignment-page {
 }
 
 @media print {
-  @page {
-    size: letter portrait;
-  }
-
   * {
     transition: none !important; // don't capture incomplete transitions
   }
 
   html {
-    font-size: #{$print-base-font-size + 'px'}; // bump up base font size so all rem based font-sizes are increased
     -webkit-print-color-adjust: exact; // maintain print/PDF background colors in styled template title graphics
   }
 
@@ -367,12 +362,20 @@ pf-statement-assignment-page {
     background-color: white; // override dark blue to white so there's no contrast if html shows as content
   }
 
-  .container {
-    max-width: 100% !important;
-    min-width: 100% !important;
+  // override bootstrap _print below, so print styling remains consistent with screen page size, min-widths, and anchors
+  @page {
+    size: 8.5in 11in;
+  }
+
+  .container { 
+    min-width: 0 !important;
+  }
+
+  body {
+    min-width: 0 !important;
   }
 
   a:not(.btn) {
-    text-decoration: none; // prevent bootstrap from adding underline anchors
+    text-decoration: none;
   }
 }
