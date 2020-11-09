@@ -24,7 +24,6 @@ import { RangeGroupType } from 'libs/constants/structures/range-group-type';
 import { PermissionCheckEnum, Permissions } from 'libs/constants';
 import { AsyncStateObj } from 'libs/models/state';
 import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
-import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services';
 import * as fromReducer from 'libs/features/pf-data-grid/reducers';
 import { PermissionService } from 'libs/core/services';
 import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
@@ -111,7 +110,6 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   rangeOverrides: CompanyStructureRangeOverride[];
 
   gridConfig: GridConfig;
-  hasInfiniteScrollFeatureFlagEnabled: boolean;
   currentRangeGroup: any;
   currentRangeGroupId: number;
   currentRangeGroupName: any;
@@ -129,8 +127,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     public store: Store<fromJobBasedRangeReducer.State>,
     private actionsSubject: ActionsSubject,
     private permissionService: PermissionService,
-    private structuresPagesService: StructuresPagesService,
-    private featureFlagService: AbstractFeatureFlagService
+    private structuresPagesService: StructuresPagesService
   ) {
     this.metaData$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getMetadata));
     this.roundingSettings$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getRoundingSettings));
@@ -154,12 +151,11 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
 
     this.invalidMidPointRanges = [];
     this.modifiedKeys = [];
-    this.hasInfiniteScrollFeatureFlagEnabled = this.featureFlagService.enabled(FeatureFlags.PfDataGridInfiniteScroll, false);
     this.gridConfig = {
       PersistColumnWidth: false,
       CaptureGridScroll: true,
-      EnableInfiniteScroll: this.hasInfiniteScrollFeatureFlagEnabled,
-      ScrollToTop: this.hasInfiniteScrollFeatureFlagEnabled
+      EnableInfiniteScroll: true,
+      ScrollToTop: true
     };
     this.defaultPagingOptions = {
       From: 0,
