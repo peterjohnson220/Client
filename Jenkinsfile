@@ -175,8 +175,12 @@ pipeline {
         script {
           nodejs(nodeVersion) {
             // Sometimes jest cache causes Unit Test issue.
-            sh 'test -d /tmp/jest_rt && echo "Clearing jest cache..."'
-            sh 'test -d /tmp/jest_rt && rm -rf /tmp/jest_rt/*'
+            sh """
+              if [ -d /tmp/jest_rt ]; then
+                echo "Clearing jest cache..."
+                rm -rf /tmp/jest_rt/*
+              fi
+            """
 
             sh 'npm run test-report'
           }
