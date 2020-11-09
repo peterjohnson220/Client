@@ -9,7 +9,6 @@ import { SortDescriptor } from '@progress/kendo-data-query';
 
 import { Permissions } from 'libs/constants';
 import { ActionBarConfig, ColumnChooserType, getDefaultActionBarConfig, GridConfig, PfDataGridFilter } from 'libs/features/pf-data-grid/models';
-import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
 
 import { EmployeeHistoryPageViewId } from '../models';
 
@@ -39,15 +38,12 @@ export class EmployeeHistoryPageComponent implements OnInit, OnDestroy, AfterVie
   showEmployeeHistoryModal$ = this.showEmployeeHistoryModal.asObservable();
   routeSubscription: Subscription;
   historyDate: Date;
-  hasInfiniteScrollFeatureFlagEnabled: boolean;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private intlService: IntlService,
-    private featureFlagService: AbstractFeatureFlagService
+    private intlService: IntlService
   ) {
-    this.hasInfiniteScrollFeatureFlagEnabled = this.featureFlagService.enabled(FeatureFlags.PfDataGridInfiniteScroll, false);
     this.actionBarConfig = {
       ...getDefaultActionBarConfig(),
       ShowColumnChooser: true,
@@ -59,8 +55,8 @@ export class EmployeeHistoryPageComponent implements OnInit, OnDestroy, AfterVie
     };
     this.gridConfig = {
       PersistColumnWidth: true,
-      EnableInfiniteScroll: this.hasInfiniteScrollFeatureFlagEnabled,
-      ScrollToTop: this.hasInfiniteScrollFeatureFlagEnabled,
+      EnableInfiniteScroll: true,
+      ScrollToTop: true,
       SelectAllPanelItemName: 'employees'
     };
 

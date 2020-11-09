@@ -21,7 +21,6 @@ import {
   GridRowActionsConfig
 } from 'libs/features/pf-data-grid/models';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
-import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
 import { Statement, StatementModeEnum } from 'libs/features/total-rewards/total-rewards-statement/models';
 import { EmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards/response';
 import { AsyncStateObj } from 'libs/models/state';
@@ -82,7 +81,6 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
   gridConfig: GridConfig;
   gridRowActionsConfig: GridRowActionsConfig = getDefaultGridRowActionsConfig();
   hasDropdownOptions: boolean;
-  hasInfiniteScrollFeatureFlagEnabled: boolean;
   totalRewardsStatementMode = StatementModeEnum.Print;
   totalRewardsStatement: Statement;
   employeeRewardsData: EmployeeRewardsData;
@@ -94,7 +92,6 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
     private pfGridStore: Store<fromPfGridReducer.State>,
     private modalService: NgbModal,
     private router: Router,
-    private featureFlagService: AbstractFeatureFlagService
   ) {
     this.pricingJobs$ = this.store.pipe(select(fromEmployeesReducer.getPricingJobs));
     this.pricingJobsError$ = this.store.pipe(select(fromEmployeesReducer.getPricingsJobsError));
@@ -102,7 +99,6 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
     this.totalRewardsStatement$ = this.store.pipe(select(fromEmployeeManagementReducers.getTotalRewardsStatement));
     this.employeeRewardsData$ = this.store.pipe(select(fromEmployeeManagementReducers.getEmployeeTotalRewardsData));
     this.totalRewardsStatementId$ = this.store.pipe(select(fromEmployeeManagementReducers.getTotalRewardsStatementId));
-    this.hasInfiniteScrollFeatureFlagEnabled = this.featureFlagService.enabled(FeatureFlags.PfDataGridInfiniteScroll, false);
 
     this.actionBarConfig = {
       ...getDefaultActionBarConfig(),
@@ -115,8 +111,8 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
     };
     this.gridConfig = {
       PersistColumnWidth: true,
-      EnableInfiniteScroll: this.hasInfiniteScrollFeatureFlagEnabled,
-      ScrollToTop: this.hasInfiniteScrollFeatureFlagEnabled,
+      EnableInfiniteScroll: true,
+      ScrollToTop: true,
       SelectAllPanelItemName: 'employees'
     };
   }

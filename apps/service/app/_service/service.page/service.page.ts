@@ -12,7 +12,6 @@ import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromRootState from 'libs/state/state';
 import { AsyncStateObj } from 'libs/models/state';
 import { UserContext } from 'libs/models/security';
-import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
 
 import { ServicePageConfig, SupportTeamUser } from '../models';
 
@@ -53,14 +52,11 @@ export class ServicePageComponent implements AfterViewInit, OnInit, OnDestroy {
   selectedTicketTypeFilterValue: string;
   avatarUrl: string;
   userId: number;
-  hasInfiniteScrollFeatureFlagEnabled: boolean;
 
   constructor(
     private store: Store<fromServicePageReducer.State>,
-    private userContextStore: Store<fromRootState.State>,
-    private featureFlagService: AbstractFeatureFlagService
+    private userContextStore: Store<fromRootState.State>
   ) {
-    this.hasInfiniteScrollFeatureFlagEnabled = this.featureFlagService.enabled(FeatureFlags.PfDataGridInfiniteScroll, false);
     this.actionBarConfig = {
       ...getDefaultActionBarConfig(),
       ShowActionBar: true,
@@ -69,8 +65,8 @@ export class ServicePageComponent implements AfterViewInit, OnInit, OnDestroy {
     };
     this.gridConfig = {
       PersistColumnWidth: false,
-      EnableInfiniteScroll: this.hasInfiniteScrollFeatureFlagEnabled,
-      ScrollToTop: this.hasInfiniteScrollFeatureFlagEnabled
+      EnableInfiniteScroll: true,
+      ScrollToTop: true
     };
     this.ticketTypes$ = this.store.pipe(select(fromServicePageReducer.getTicketTypeNames));
     this.supportTeam$ = this.store.pipe(select(fromServicePageReducer.getSupportTeam));
