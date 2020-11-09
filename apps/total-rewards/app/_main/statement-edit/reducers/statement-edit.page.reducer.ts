@@ -135,8 +135,10 @@ export function reducer(state = initialState, action: fromEditStatementActions.S
           localState.statement.obj.Pages[Page].Sections[Section].Columns[Column].Controls[Control].DataFields[i].Name.Override = null;
           if (compFields[i].Type) {
             const updatedField = localState.companyUdfs.obj.find(udf => udf.Id === action.payload.DataFieldId);
-            updatedField.IsVisible = false;
-            updatedField.Name.Override = null;
+            if (!!updatedField) {
+              updatedField.IsVisible = false;
+              updatedField.Name.Override = null;
+            }
             localState.statement.obj.Pages[Page].Sections[Section].Columns[Column].Controls[Control].DataFields.splice(i, 1);
           }
           --localState.visibleFieldsCount ;
@@ -288,7 +290,7 @@ export function reducer(state = initialState, action: fromEditStatementActions.S
       const visibleFieldsCount = TotalRewardsStatementService.getVisibleCalculationFields(statementClone).length;
 
       if (visibleUdfControls.length) {
-        companyUdfClone.obj = companyUdfClone.obj.map(companyUdf => visibleUdfControls.find(x => x.DatabaseField === companyUdf.DatabaseField) || companyUdf);
+        companyUdfClone.obj = companyUdfClone.obj.map(companyUdf => visibleUdfControls.find(x => x.Id === companyUdf.Id) || companyUdf);
       }
 
       return {
