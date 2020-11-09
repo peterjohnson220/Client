@@ -13,12 +13,14 @@
           [value]="searchValue"
           (valueChanged)="handleSearchValueChanged($event)">
         </pf-input-debounce>
-        <kendo-combobox class="pl-3"           
+        <kendo-combobox class="pl-3"
           [data]="templateData"
           [placeholder]="'Select Template'"
           [textField]="'TemplateName'"
           [valueField]="'TemplateId'"
-          (valueChange)="handleTemplateChanged($event)">
+          (valueChange)="handleTemplateChanged($event)"
+          [(ngModel)]="selectedTemplate"
+        >
         </kendo-combobox>
       </div>
       <button (click)="openUpsertViewModal(true, '', $event)" class="btn btn-primary align-self-center">Create View</button>
@@ -26,9 +28,9 @@
   <div class="card-body">
     <ng-container *ngIf="(viewsListAsyncObj$ | async) as viewsAsync">
       <pf-async-container [loading]="viewsAsync.loading" [loadingError]="viewsAsync.loadingError">
-          <kendo-grid 
-            [data]="gridView" 
-            [selectable]="true" 
+          <kendo-grid
+            [data]="gridView"
+            [selectable]="true"
             [sortable]="{
               allowUnsort: true,
               mode: 'single'

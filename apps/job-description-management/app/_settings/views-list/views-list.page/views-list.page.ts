@@ -16,7 +16,8 @@ import * as fromViewsListActions from '../actions/views-list.actions';
 import * as fromUpsertViewModalActions from '../actions/upsert-view-modal.actions';
 import * as fromViewsListReducer from '../reducers';
 import { JdmSettingsHelper } from '../../shared/helpers';
-import { ViewListGridItem } from '../../shared/models/view-list-grid-item';
+import { JobDescriptionViewListGridItem } from 'libs/models';
+
 
 @Component({
   selector: 'pf-views-list-page',
@@ -26,9 +27,9 @@ import { ViewListGridItem } from '../../shared/models/view-list-grid-item';
 export class ViewsListPageComponent implements OnDestroy, OnInit {
   @ViewChild(SimpleYesNoModalComponent, { static: true }) public deleteViewConfirmationModal: SimpleYesNoModalComponent;
 
-  viewsListAsyncObj$: Observable<AsyncStateObj<ViewListGridItem[]>>;
+  viewsListAsyncObj$: Observable<AsyncStateObj<JobDescriptionViewListGridItem[]>>;
   viewsListAsyncObjSubscription: Subscription;
-  viewsListAsyncObj: AsyncStateObj<ViewListGridItem[]>;
+  viewsListAsyncObj: AsyncStateObj<JobDescriptionViewListGridItem[]>;
 
   addView = true;
   deleteViewModalOptions: SimpleYesNoModalOptions = {
@@ -42,13 +43,15 @@ export class ViewsListPageComponent implements OnDestroy, OnInit {
   isSystemView = JdmSettingsHelper.isSystemView;
 
   gridView: GridDataResult;
-  gridData: ViewListGridItem[] = [];
+  gridData: JobDescriptionViewListGridItem[] = [];
   sort: SortDescriptor[] = [{
     field: 'ViewName',
     dir: 'desc'
   }];
   searchValue: string;
   templateData = [];
+  templateId: any;
+  selectedTemplate: any;
 
   constructor(
     public arrayFilter: FilterArrayByName,
@@ -68,8 +71,11 @@ export class ViewsListPageComponent implements OnDestroy, OnInit {
       this.refreshGridDataResult();
 
       this.templateData = viewsList.obj.map(v => v.Templates).reduce((acc, item) => [...acc, ...item], []);
-    });
 
+      this.templateId = Number(this.route.snapshot.queryParamMap.get('templateId'));
+      this.selectedTemplate = this.templateData.find(p => p.TemplateId === this.templateId);
+      this.gridView.data = this.selectedTemplate?.TemplateId ? this.filterViewsByTemplateId(this.selectedTemplate.TemplateId) : this.gridData;
+    });
   }
 
   ngOnDestroy(): void {

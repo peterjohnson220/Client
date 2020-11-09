@@ -1,15 +1,15 @@
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 import { AsyncStateObjHelper } from 'libs/core/helpers';
-import { ViewListGridItem } from '../../shared/models/view-list-grid-item';
 
 import * as fromViewsListActions from '../actions/views-list.actions';
+import { JobDescriptionViewListGridItem } from 'libs/models';
 
 export interface State {
-  viewsAsyncObj: AsyncStateObj<ViewListGridItem[]>;
+  viewsAsyncObj: AsyncStateObj<JobDescriptionViewListGridItem[]>;
 }
 
 export const initialState: State = {
-  viewsAsyncObj: generateDefaultAsyncStateObj<ViewListGridItem[]>([])
+  viewsAsyncObj: generateDefaultAsyncStateObj<JobDescriptionViewListGridItem[]>([])
 };
 
 export function reducer(state = initialState, action: fromViewsListActions.Actions): State {
