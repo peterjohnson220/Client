@@ -21,6 +21,7 @@ export class LeftSidebarComponent implements OnInit, OnDestroy {
 
   @Input() enableCoreJdmInClient = false;
   @Input() leftSidebarToggle = false;
+
   clientAppRoot = '/' + environment.hostPath + '/';
   ngAppRoot = environment.ngAppRoot;
   leftSidebarNavigationLinks$: Observable<SidebarLink[]>;
@@ -80,5 +81,9 @@ export class LeftSidebarComponent implements OnInit, OnDestroy {
     if (window.location.pathname.indexOf('client/dashboard/resources') > -1 && link.Url.indexOf('client/dashboard/resources') > -1) {
       return true;
     }
+  }
+
+  toggle() {
+    this.leftSidebarToggle = !this.leftSidebarToggle;
   }
 }
