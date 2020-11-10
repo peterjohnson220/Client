@@ -187,6 +187,12 @@ export class ModelSettingsModalEffects {
                 }
 
                 actions.push(new fromModelSettingsModalActions.SaveModelSettingsSuccess());
+                actions.push(new fromSharedActions.GetStructureHasPublishedForType({
+                  RangeGroupId: r.RangeGroup.CompanyStructuresRangeGroupId,
+                  PaymarketId: r.RangeGroup.CompanyPayMarketId,
+                  DistributionTypeId: r.RangeGroup.RangeDistributionSetting.RangeDistributionTypeId,
+                  PayType: r.RangeGroup.PayType
+                }));
               }
 
               this.urlService.removeAllWorkflows();

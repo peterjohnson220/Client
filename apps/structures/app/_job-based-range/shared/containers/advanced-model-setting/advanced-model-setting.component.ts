@@ -12,7 +12,6 @@ import { AdvancedModelingHelper } from '../../helpers/advanced-modeling.helper';
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
 
 
-
 @Component({
   selector: 'pf-advanced-model-setting',
   templateUrl: './advanced-model-setting.component.html',
@@ -49,7 +48,7 @@ export class AdvancedModelSettingComponent implements OnInit, OnDestroy, Control
     this.hasPublishedSub = this.store.select(fromSharedJobBasedRangeReducer.getStructureHasPublished).subscribe( hp => {
       if (hp.obj > 0) {
         this.disableAdvancedSetting = false;
-      } else {
+      } else if(hp.loading !== true) {
         this.disableAdvancedSetting = true;
       }
     });
