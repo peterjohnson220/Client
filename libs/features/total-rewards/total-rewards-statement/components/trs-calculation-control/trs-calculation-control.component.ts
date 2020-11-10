@@ -112,17 +112,11 @@ export class TrsCalculationControlComponent implements OnChanges {
   }
 
   displayFieldInTable(compField: models.CompensationField): boolean {
-    if (compField.IsVisible) {
-      if (this.inEditMode || (compField.Type && this.employeeRewardsData.IsMockData)) {
-        return true;
-      }
-      if (compField.Type) {
-        return this.employeeRewardsData[compField.Type][compField.DatabaseField] !== null &&
-        this.employeeRewardsData[compField.Type][compField.DatabaseField] > 0;
-      }
-      return this.employeeRewardsData[compField.DatabaseField] !== null && this.employeeRewardsData[compField.DatabaseField] > 0;
+    if (compField.Type) {
+      return this.isUdfFieldVisible(compField);
+    } else {
+      return this.isBenefitsFieldVisible(compField);
     }
-    return false;
   }
 
   private buildSelectableFieldsList(): models.CompensationField[] {
@@ -158,5 +152,22 @@ export class TrsCalculationControlComponent implements OnChanges {
       }
     }
     return filteredFieldsList;
+  }
+
+  private isUdfFieldVisible(field: models.CompensationField): boolean {
+    if (this.inEditMode) {
+      return true;
+    }
+    if (this.employeeRewardsData.IsMockData) {
+      return field.IsVisible;
+    }
+    return field.IsVisible && this.employeeRewardsData[field.Type][field.DatabaseField] > 0;
+  }
+
+  private isBenefitsFieldVisible(field: models.CompensationField): boolean {
+    if (this.inEditMode) {
+      return field.IsVisible;
+    }
+    return field.IsVisible && this.employeeRewardsData[field.DatabaseField] > 0;
   }
 }

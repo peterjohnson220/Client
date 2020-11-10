@@ -30,7 +30,7 @@ export class TotalRewardsStatementService {
     }
   }
 
-  static getVisibleCalculationFields (statement: Statement, onlyUdfs?: boolean): CompensationField[] {
+  static getVisibleCalculationFields (statement: Statement): CompensationField[] {
     const dataFieldsList: CompensationField[] = [];
     for (let p = 0; p < statement.Pages.length; p++) {
       const page = statement.Pages[p];
@@ -41,22 +41,71 @@ export class TotalRewardsStatementService {
           for (let cc = 0; cc < column.Controls.length; cc++) {
             if (column.Controls[cc].ControlType === TotalRewardsControlEnum.Calculation) {
               const calcControl = column.Controls[cc] as CalculationControl;
-              if (onlyUdfs) {
-                const companyUdfFilteredList = calcControl.DataFields.filter(x => x.Type !== null);
-                companyUdfFilteredList.forEach(udf => {
-                  dataFieldsList.push(udf);
-                });
-              } else {
-                calcControl.DataFields.forEach(udf => {
-                  dataFieldsList.push(udf);
-                });
-              }
+              calcControl.DataFields.forEach(field => {
+                if (field.IsVisible) {
+                  dataFieldsList.push(field);
+                }
+              });
             }
           }
         }
       }
     }
     return dataFieldsList;
+  }
+
+  static getStatementUdfFields(statement: Statement): CompensationField[] {
+    const udfFields: CompensationField[] = [];
+    for (let p = 0; p < statement.Pages.length; p++) {
+      const page = statement.Pages[p];
+      for (let s = 0; s < page.Sections.length; s++) {
+        const section = page.Sections[s];
+        for (let c = 0; c < section.Columns.length; c++) {
+          const column = section.Columns[c];
+          for (let cc = 0; cc < column.Controls.length; cc++) {
+            if (column.Controls[cc].ControlType === TotalRewardsControlEnum.Calculation) {
+              const calcControl = column.Controls[cc] as CalculationControl;
+              calcControl.DataFields.forEach((field, fieldIndex) => {
+                if (field.Type) {
+                  udfFields.push({
+                      ...field,
+                      FieldIndex: fieldIndex,
+                      ControlIndex: {
+                        Page : p,
+                        Section : s,
+                        Column : c,
+                        Control : cc
+                      }
+                    });
+                  }
+              });
+            }
+          }
+        }
+      }
+    }
+    return udfFields;
+  }
+
+  static syncUdfFields(statement: Statement, statementUdfFields: CompensationField[], companyUdfs: CompensationField[]): void {
+    if (!statementUdfFields?.length) {
+      return;
+    }
+    statementUdfFields.forEach(field => {
+      const control = statement
+        .Pages[field.ControlIndex.Page]
+        .Sections[field.ControlIndex.Section]
+        .Columns[field.ControlIndex.Column]
+        .Controls[field.ControlIndex.Control] as CalculationControl;
+      const controlUdfField = control.DataFields[field.FieldIndex];
+      const companyUdfField = companyUdfs.find(f => f.Id === controlUdfField.Id);
+      if (companyUdfField) {
+        companyUdfField.IsVisible = true;
+        controlUdfField.Name.Default = companyUdfField.Name.Default;
+      } else {
+        controlUdfField.IsVisible = false;
+      }
+    });
   }
 
   static sumCalculationControl(control: CalculationControl, employeeRewardsData: EmployeeRewardsData): number {
