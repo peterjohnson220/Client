@@ -1,7 +1,7 @@
 import { FormulaFieldModalObj, generateFormulaFieldModalObj } from 'libs/models/formula-editor';
 
 
-export interface RangeDistributionSetting {
+export interface RangeDistributionSettingResponse {
   CompanyStructuresRangeGroupId: number;
   RangeDistributionTypeId: number;
   CompanyId: number;
@@ -18,7 +18,7 @@ export interface RangeDistributionSetting {
   ControlPoint_Formula?: FormulaFieldModalObj;
 }
 
-export function generateMockRangeDistributionSetting(): RangeDistributionSetting {
+export function generateMockRangeDistributionSettingResponse(): RangeDistributionSettingResponse {
   return  {
     CompanyStructuresRangeGroupId: 0,
     RangeDistributionTypeId: 0,

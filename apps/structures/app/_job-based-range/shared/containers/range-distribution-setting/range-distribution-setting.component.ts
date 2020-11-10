@@ -8,7 +8,6 @@ import { AsyncStateObj } from 'libs/models/state';
 import { CompanySettingsEnum } from 'libs/models/company';
 import { RangeGroupMetadata, RangeDistributionSettingForm } from 'libs/models/structures';
 import { SettingsService } from 'libs/state/app-context/services';
-import { RangeDistributionSetting } from 'libs/models/payfactors-api';
 import * as fromFormulaFieldActions from 'libs/features/formula-editor/actions/formula-field.actions';
 
 import * as fromJobBasedRangeReducer from '../../reducers';
@@ -46,7 +45,6 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
   controlPointCategory: ControlPoint[];
   controlPointMidpoint: ControlPoint[];
   controlPointRanges: ControlPoint[];
-  rangeDistributionSetting: RangeDistributionSetting;
   showMinSpread: boolean;
   showMaxSpread: boolean;
   showMidFormula: boolean;
@@ -314,7 +312,7 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
       let currentControlPoint: string = null;
 
       this.controlPointsAsyncObj = cp;
-      this.controlPoints = cp.obj;
+      this.parseControlPoints(cp.obj);
 
       if (this.metadata.ControlPoint === null && this.metadata.PayType === null) {
         currentControlPoint = 'BaseMRP';
@@ -343,17 +341,30 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
           t.RangeDisplayName === ctrlPt.RangeDisplayName)) === i;
       });
     }
+  }
 
-    if (!!changes && !!changes.metadata) {
-      this.rangeDistributionSetting = changes.metadata.currentValue.RangeDistributionSetting;
-    }
+  private parseControlPoints(controlPoints: any): void {
+    const arr = new Array();
+    controlPoints.forEach(function (cp) {
+      const fieldName = cp.Category === 'Bonus Target Amt'
+        ? cp.FieldName.replace('BonusTarget', 'BonusTargetAmt')
+        : cp.FieldName;
+      arr.push({
+        Category: cp.Category.split(' ').join(''),
+        Display: cp.Display,
+        FieldName: fieldName,
+        RangeDisplayName: cp.RangeDisplayName,
+        PayTypeDisplay: cp.Category
+      });
+    });
+    this.controlPoints = arr;
   }
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(s => s.unsubscribe());
   }
 
-  mapToRangeDistributionSettingForm(value: RangeDistributionSetting): RangeDistributionSettingForm {
+  mapToRangeDistributionSettingForm(value: RangeDistributionSettingForm): RangeDistributionSettingForm {
     return {
       PayType: this.metadata.PayType,
       ControlPoint: this.metadata.ControlPoint,
@@ -362,6 +373,7 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
       FirstTertile: value.FirstTertile,
       SecondTertile: value.SecondTertile,
       RangeDistributionTypeId: value.RangeDistributionTypeId,
+      CompanyId: value.CompanyId,
       CompanyStructuresRangeGroupId: this.rangeGroupId,
       FirstQuartile: value.FirstQuartile,
       SecondQuartile: value.SecondQuartile,

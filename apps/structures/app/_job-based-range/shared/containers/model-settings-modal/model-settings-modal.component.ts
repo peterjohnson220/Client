@@ -135,14 +135,9 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
       'StructureName': new FormControl(this.metadata.StructureName, [Validators.required, Validators.maxLength(50)]),
       'ModelName': new FormControl(!this.metadata.IsCurrent || this.isNewModel ? this.metadata.ModelName : '', [Validators.required, Validators.maxLength(50)]),
       'PayMarket': new FormControl(this.metadata.Paymarket, [Validators.required]),
-      'PayType': new FormControl(this.metadata.PayType, [Validators.required]),
-      'ControlPoint': new FormControl(this.metadata.ControlPoint, [Validators.required]),
-      'SpreadMin': new FormControl(this.metadata.SpreadMin),
-      'SpreadMax': new FormControl(this.metadata.SpreadMax),
       'Rate': new FormControl(this.metadata.Rate || 'Annual', [Validators.required]),
       'Currency': new FormControl(this.metadata.Currency || 'USD', [Validators.required]),
       'RangeDistributionSetting': new FormControl(this.metadata.RangeDistributionSetting),
-      'RangeDistributionTypeId': new FormControl(this.metadata.RangeDistributionTypeId),
       'RangeAdvancedSetting': new FormControl(this.metadata.RangeAdvancedSetting)
     });
     // set active tab to model
@@ -151,7 +146,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
 
   // Events
   handleModalSubmit() {
-    if (this.modelSettingsForm.valid) {
+    if (this.modelSettingsForm.valid && !this.formulaSavingError) {
       if (this.metadata.PayType !== this.modelSetting.PayType) {
         this.store.dispatch(new fromSharedJobBasedRangeActions.GetStructureHasPublishedForType({
           RangeGroupId: this.rangeGroupId,
@@ -197,35 +192,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   updateRangeDistributionSetting() {
     const setting = this.rangeDistributionSettingComponent.rangeDistributionSettingForm.getRawValue();
     if (!!setting) {
-      // Prevent the hidden controls from failing validation
-      this.modelSettingsForm.controls['SpreadMin'].setValue(setting.Minimum);
-      this.modelSettingsForm.controls['SpreadMax'].setValue(setting.Maximum);
-
-      if (!!setting.ControlPoint) {
-        this.modelSettingsForm.controls['ControlPoint'].setValue(setting.ControlPoint);
-        this.setRequired('ControlPoint');
-        if (!!this.modelSetting.RangeDistributionSetting && this.modelSetting.RangeDistributionSetting.ControlPoint_Formula != null) {
-          this.modelSetting.RangeDistributionSetting.ControlPoint_Formula = null;
-        }
-      }
-
-      if (!!setting.ControlPoint_Formula?.Formula) {
-        if (!this.modelSetting.RangeDistributionSetting.ControlPoint_Formula.IsPublic) {
-          this.modelSetting.RangeDistributionSetting.ControlPoint_Formula.IsPublic = true;
-        }
-        this.modelSettingsForm.controls['ControlPoint'].setValue(null);
-        this.clearRequiredValidator('ControlPoint');
-      }
-
-      this.modelSettingsForm.controls['RangeDistributionTypeId'].setValue(setting.RangeDistributionTypeId);
-      this.modelSettingsForm.controls['PayType'].setValue(setting.PayType);
-
-      this.modelSetting = this.modelSettingsForm.getRawValue();
       this.modelSetting.RangeDistributionSetting = setting;
-
-      if (!setting.ControlPoint_Formula?.Formula) {
-        this.modelSetting.RangeDistributionSetting.ControlPoint_Formula = null;
-      }
     }
   }
 
@@ -234,17 +201,6 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
     if (!!setting) {
       this.modelSetting.RangeAdvancedSetting = setting;
     }
-  }
-
-  setRequired(controlName: string) {
-    this.modelSettingsForm.get(controlName).setValidators([Validators.required]);
-    this.modelSettingsForm.get(controlName).updateValueAndValidity();
-  }
-
-  clearRequiredValidator(controlName: string) {
-    this.modelSettingsForm.get(controlName).reset();
-    this.modelSettingsForm.get(controlName).clearValidators();
-    this.modelSettingsForm.get(controlName).updateValueAndValidity();
   }
 
   handleModalDismiss() {
