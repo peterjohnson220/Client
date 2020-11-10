@@ -42,6 +42,8 @@ export class LoaderDashboardGridComponent implements OnInit, OnDestroy {
   pageSizes = [10, 20, 30];
 
   selectedCompositeDataLoadId: number;
+  selectedClientName: string;
+  selectedClientId: number;
 
   constructor(
     private store: Store<fromLoaderDashboardPageReducer.State>,
@@ -108,8 +110,10 @@ export class LoaderDashboardGridComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromCompositeSummaryDownloadActions.CompositeSummaryDownload({ Id: externalId, FileType: FileType.ExportedSourceFile }));
   }
 
-  openRedropConfirmationModal(compositeDataLoadId: number): void {
+  openRedropConfirmationModal(compositeDataLoadId: number, clientName: string, clientId: number): void {
     this.selectedCompositeDataLoadId = compositeDataLoadId;
+    this.selectedClientName = clientName;
+    this.selectedClientId = clientId;
     this.store.dispatch(new fromLoaderDashboardPageActions.OpenRedropConfirmationModal());
   }
 

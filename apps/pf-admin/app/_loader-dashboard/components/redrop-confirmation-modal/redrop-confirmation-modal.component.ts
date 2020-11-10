@@ -14,6 +14,8 @@ import { AsyncStateObj } from 'libs/models/state';
 })
 export class RedropConfirmationModalComponent {
   @Input() selectedCompositeDataLoadId: number;
+  @Input() selectedClientName: string;
+  @Input() selectedClientId: number;
   modalOpen$: Observable<boolean>;
   isRedropInProgress$: Observable<AsyncStateObj<boolean>>;
 

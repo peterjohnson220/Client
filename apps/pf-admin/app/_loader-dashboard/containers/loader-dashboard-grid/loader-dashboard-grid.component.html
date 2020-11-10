@@ -52,7 +52,7 @@
           <div *ngIf="dataItem.compositeLoaderType == 'Organizational Data' && loaderDashboardRedropsFeatureFlag.value" class="ml-2">
             <button class="btn btn-secondary"
                     [disabled]="(isRedropInProgress$ | async).loading"
-                    (click)="openRedropConfirmationModal(dataItem.compositeDataLoadId)"
+                    (click)="openRedropConfirmationModal(dataItem.compositeDataLoadId, dataItem.company_Name, dataItem.company_ID)"
                     title="Re-Drop Files">
               <fa-icon icon="repeat"></fa-icon>
             </button>
@@ -90,5 +90,9 @@
       <pf-loader-dashboard-grid-detail [dataItem]="dataItem.entityLoadSummaries"></pf-loader-dashboard-grid-detail>
     </ng-template>
   </kendo-grid>
-  <pf-redrop-confirmation-modal [selectedCompositeDataLoadId]="selectedCompositeDataLoadId"></pf-redrop-confirmation-modal>
+  <pf-redrop-confirmation-modal
+    [selectedCompositeDataLoadId]="selectedCompositeDataLoadId"
+    [selectedClientName]="selectedClientName"
+    [selectedClientId]="selectedClientId"
+  ></pf-redrop-confirmation-modal>
 </div>
