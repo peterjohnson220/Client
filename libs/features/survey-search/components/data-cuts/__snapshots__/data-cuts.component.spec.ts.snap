@@ -25,6 +25,7 @@ exports[`Project - Survey Search - Data Cuts should display Scope, Country and W
       <thead>
         <tr>
           
+          <th />
           <th>
             Scope
           </th>
@@ -68,6 +69,11 @@ exports[`Project - Survey Search - Data Cuts should display Scope, Country and W
         
         <tr>
           
+          <td>
+            <input
+              type="checkbox"
+            />
+          </td>
           <td
             class="scope-cell"
           >
@@ -162,6 +168,7 @@ exports[`Project - Survey Search - Data Cuts should display singular drag cuts m
       <thead>
         <tr>
           
+          <th />
           <th>
             Scope
           </th>
@@ -207,6 +214,11 @@ exports[`Project - Survey Search - Data Cuts should display singular drag cuts m
           class="selected"
         >
           
+          <td>
+            <input
+              type="checkbox"
+            />
+          </td>
           <td
             class="scope-cell"
           >
@@ -299,6 +311,7 @@ exports[`Project - Survey Search - Data Cuts should handle empty currency fields
       <thead>
         <tr>
           
+          <th />
           <th>
             Scope
           </th>
@@ -342,6 +355,11 @@ exports[`Project - Survey Search - Data Cuts should handle empty currency fields
         
         <tr>
           
+          <td>
+            <input
+              type="checkbox"
+            />
+          </td>
           <td
             class="scope-cell"
           >
@@ -709,6 +727,7 @@ exports[`Project - Survey Search - Data Cuts should not have a draggable class i
       <thead>
         <tr>
           
+          <th />
           <th>
             Scope
           </th>
@@ -754,6 +773,11 @@ exports[`Project - Survey Search - Data Cuts should not have a draggable class i
           class="selected"
         >
           
+          <td>
+            <input
+              type="checkbox"
+            />
+          </td>
           <td
             class="scope-cell"
           >
@@ -848,6 +872,7 @@ exports[`Project - Survey Search - Data Cuts should pluralize drag cuts message 
       <thead>
         <tr>
           
+          <th />
           <th>
             Scope
           </th>
@@ -893,6 +918,11 @@ exports[`Project - Survey Search - Data Cuts should pluralize drag cuts message 
           class="selected"
         >
           
+          <td>
+            <input
+              type="checkbox"
+            />
+          </td>
           <td
             class="scope-cell"
           >
@@ -1016,6 +1046,7 @@ exports[`Project - Survey Search - Data Cuts should show selected if the data cu
       <thead>
         <tr>
           
+          <th />
           <th>
             Scope
           </th>
@@ -1061,6 +1092,11 @@ exports[`Project - Survey Search - Data Cuts should show selected if the data cu
           class="selected"
         >
           
+          <td>
+            <input
+              type="checkbox"
+            />
+          </td>
           <td
             class="scope-cell"
           >
