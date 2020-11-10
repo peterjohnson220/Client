@@ -12,8 +12,12 @@ export class ExportJobDescriptionModalComponent {
   @Output() export = new EventEmitter();
   @ViewChild('exportJobDescriptionModal', { static: true }) public exportJobDescriptionModal: any;
 
-  selectedView: string;
+  view: string;
   exportType: string;
+
+  get selectedView(): any {
+    return this.jobDescriptionViews && this.jobDescriptionViews.length > 0 ? this.jobDescriptionViews[0] : this.view;
+  }
 
   constructor(
     private modalService: NgbModal
@@ -29,11 +33,11 @@ export class ExportJobDescriptionModalComponent {
   }
 
   exportClicked(): void {
-    this.export.emit({selectedView: this.selectedView, exportType: this.exportType});
+    this.export.emit({selectedView: this.view, exportType: this.exportType});
     this.close();
   }
 
   handleViewChanged(view: string): void {
-    this.selectedView = view;
+    this.view = view;
   }
 }
