@@ -75,9 +75,9 @@
               <div class="paymarket"> {{dataCut.Source}} </div>
             </td>
             <td *ngIf="featureImplementation == modifyPricingsImplementation" class="text-nowrap">
-              <span *ngIf="dataCut.WeightingType=='I'">Inc ({{dataCut.Incs}})</span>
-              <span *ngIf="dataCut.WeightingType=='O'">Orgs ({{dataCut.Orgs}})</span>
-              <span *ngIf="dataCut.WeightingType!='O' && dataCut.WeightingType!='I'">{{dataCut.WeightingType}}</span>
+              <span *ngIf="dataCut.WeightingType=='I'">Incs ({{dataCut?.Incs || '-'}})</span>
+              <span *ngIf="dataCut.WeightingType=='O'">Orgs ({{dataCut?.Orgs || '-'}})</span>
+              <span *ngIf="dataCut.WeightingType!='O' && dataCut.WeightingType!='I'">{{dataCut?.WeightingType || '-'}}</span>
             </td>
             <td class="text-center">{{dataCut.Base50 ? formatCurrency(dataCut.Base50) : "-"}}</td>
             <td class="text-center">{{dataCut.TCC50 ? formatCurrency(dataCut.TCC50) : "-"}}</td>
