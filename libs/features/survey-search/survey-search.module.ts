@@ -57,9 +57,7 @@ const components = [
   providers: [
     SurveySearchEffectsService,
     PayfactorsSurveySearchApiHelper,
-    SavedFilterHelper,
-    { provide: SearchFilterMappingDataObj, useValue: SurveySearchFilterMappingDataObj },
-    { provide: UserFilterTypeData, useValue: SurveySearchUserFilterType }
+    SavedFilterHelper
   ]
 })
 export class SurveySearchModule {

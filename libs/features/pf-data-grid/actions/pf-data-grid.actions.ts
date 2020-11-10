@@ -73,6 +73,7 @@ export const UPDATE_MODIFIED_KEYS = '[PfDataGrid] Update Modified Keys';
 export const UPDATE_MODIFIED_KEY = '[PfDataGrid] Update Modified Key';
 export const DELETE_MODIFIED_KEY = '[PfDataGrid] Delete Modified Key';
 export const CAPTURE_GRID_SCROLLED = '[PfDataGrid] Capture Grid Scrolled';
+export const RESET_GRID_SCROLLED = '[PfDataGrid] Reset Grid Scrolled';
 
 export class LoadViewConfig implements Action {
   readonly type = LOAD_VIEW_CONFIG;
@@ -414,6 +415,12 @@ export class CaptureGridScrolled implements Action {
   constructor(public pageViewId: string, public payload: ContentScrollEvent) {}
 }
 
+export class ResetGridScrolled implements Action {
+  readonly type = RESET_GRID_SCROLLED;
+
+  constructor(public pageViewId: string) {}
+}
+
 export type DataGridActions =
   | LoadViewConfig
   | LoadViewConfigSuccess
@@ -480,4 +487,5 @@ export type DataGridActions =
   | UpdateModifiedKeys
   | UpdateModifiedKey
   | DeleteModifiedKey
-  | CaptureGridScrolled;
+  | CaptureGridScrolled
+  | ResetGridScrolled;

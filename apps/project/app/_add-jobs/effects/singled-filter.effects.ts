@@ -2,15 +2,16 @@ import { Injectable } from '@angular/core';
 
 import { Effect } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { catchError, map, switchMap, withLatestFrom } from 'rxjs/operators';
+import { catchError, map, switchMap, withLatestFrom, filter } from 'rxjs/operators';
 
 import { ScrollIdConstants } from 'libs/features/infinite-scroll/models';
 import { JobSearchApiService } from 'libs/data/payfactors-api/search';
 import { PayfactorsSearchApiModelMapper, PayfactorsSearchApiHelper } from 'libs/features/search/helpers';
-import { InfiniteScrollActionContext, InfiniteScrollEffectsService} from 'libs/features/infinite-scroll/services';
+import { InfiniteScrollEffectsService } from 'libs/features/infinite-scroll/services';
 import { SearchFilter, JobSearchContext } from 'libs/models/payfactors-api';
 import { MultiSelectFilter } from 'libs/features/search/models';
 import { JobSearchAggregationRequest } from 'libs/models/payfactors-api';
+import { SearchFeatureIds } from 'libs/features/search/enums/search-feature-ids';
 import * as fromSingledFilterActions from 'libs/features/search/actions/singled-filter.actions';
 import * as fromSearchReducer from 'libs/features/search/reducers';
 import * as fromAddJobsReducer from 'libs/features/add-jobs/reducers';
@@ -25,9 +26,11 @@ export class SingledFilterEffects {
         this.store.select(fromSearchReducer.getParentFilters),
         this.store.select(fromAddJobsReducer.getContext),
         this.store.select(fromSearchReducer.getSingledFilterSearchValue),
-        (infiniteScrollActionContext, singledFilter, filters, context, searchValue) => (
-          { infiniteScrollActionContext, singledFilter, filters, context, searchValue }
+        this.store.select(fromSearchReducer.getSearchFeatureId),
+        (infiniteScrollActionContext, singledFilter, filters, context, searchValue, searchFeatureId) => (
+          { infiniteScrollActionContext, singledFilter, filters, context, searchValue, searchFeatureId }
         )),
+      filter((data) => data.searchFeatureId === SearchFeatureIds.AddJobs),
       switchMap(data => {
         const request: JobSearchAggregationRequest = {
           SearchFields: this.payfactorsSearchApiHelper.getTextFiltersWithValuesAsSearchFields(data.filters),

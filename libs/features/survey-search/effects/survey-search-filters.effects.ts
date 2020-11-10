@@ -9,6 +9,7 @@ import * as fromUserFilterActions from 'libs/features/user-filter/actions/user-f
 import {SurveySearchApiService} from 'libs/data/payfactors-api/search';
 import {PayfactorsSearchApiModelMapper} from 'libs/features/search/helpers';
 import {MultiSelectFilter} from 'libs/features/search/models';
+import * as fromSearchReducer from 'libs/features/search/reducers';
 
 import * as fromSurveySearchFiltersActions from '../actions/survey-search-filters.actions';
 import * as fromSurveySearchResultsActions from '../actions/survey-search-results.actions';
@@ -21,8 +22,10 @@ export class SurveySearchFiltersEffects {
   getDefaultSurveyScopesFilter$ = this.actions$
     .pipe(
       ofType(fromSurveySearchFiltersActions.GET_DEFAULT_SURVEY_SCOPES_FILTER),
-      withLatestFrom(this.store.select(fromSurveySearchReducer.getPricingMatchDataSearchContext),
-        (action, context) => ({context})),
+      withLatestFrom(
+        this.store.select(fromSurveySearchReducer.getPricingMatchDataSearchContext),
+        this.store.select(fromSearchReducer.getSearchFilterMappingData),
+        (action, context, searchFilterMappingDataObj) => ({context, searchFilterMappingDataObj})),
       switchMap((obj) => {
         const paymarketId = obj.context.PaymarketId;
           return this.surveySearchApiService.getDefaultSurveyScopesFilter(paymarketId)
@@ -30,7 +33,7 @@ export class SurveySearchFiltersEffects {
               mergeMap(response => [
                 new fromSurveySearchFiltersActions.GetDefaultScopesFilterSuccess(),
                 new fromSearchFiltersActions.AddFilterAndSelectAllOptions(
-                  <MultiSelectFilter>this.payfactorsSearchApiModelMapper.mapSearchFilterToFilter(response))
+                  <MultiSelectFilter>this.payfactorsSearchApiModelMapper.mapSearchFilterToFilter(response, obj.searchFilterMappingDataObj))
               ])
             );
         }

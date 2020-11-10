@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { catchError, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
+import { catchError, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
 
 import * as fromUserFilterActions from 'libs/features/user-filter/actions/user-filter.actions';
 import * as fromSearchResultsActions from 'libs/features/search/actions/search-results.actions';
@@ -12,9 +12,8 @@ import * as fromUserFilterPopoverActions from 'libs/features/user-filter/actions
 import * as fromUserFilterReducer from 'libs/features/user-filter/reducers';
 import { PayfactorsSearchApiModelMapper } from 'libs/features/search/helpers';
 import { UserFilterApiService } from 'libs/data/payfactors-api';
-import { UserFilterTypeData } from 'libs/features/user-filter/models';
 import { SavedFiltersHelper } from 'libs/features/add-jobs/helpers';
-
+import * as fromSearchReducer from 'libs/features/search/reducers';
 
 @Injectable()
 export class JobSearchUserFilterEffects {
@@ -23,12 +22,16 @@ export class JobSearchUserFilterEffects {
   initJobSearchUserFilter$ = this.actions$
   .pipe(
     ofType(fromUserFilterActions.INIT),
-    switchMap(() => {
-      return this.userFilterApiService.getAll({ Type: this.userFilterTypeData.Type })
+    withLatestFrom(
+      this.store.select(fromSearchReducer.getSearchFilterMappingData),
+      this.store.select(fromSearchReducer.getUserFilterTypeData),
+      (action, searchFilterMappingDataObj, userFilterTypeData) => ({ action, searchFilterMappingDataObj, userFilterTypeData })),
+    switchMap((data) => {
+      return this.userFilterApiService.getAll({ Type: data.userFilterTypeData.Type })
         .pipe(
           mergeMap(response => [
               new fromUserFilterActions.GetSuccess(
-                this.payfactorsSearchApiModelMapper.mapSearchSavedFilterResponseToSavedFilter(response)),
+                this.payfactorsSearchApiModelMapper.mapSearchSavedFilterResponseToSavedFilter(response, data.searchFilterMappingDataObj)),
               new fromSearchPageActions.ShowPage(),
               new fromUserFilterActions.ApplyDefault()
           ]),
@@ -81,12 +84,13 @@ export class JobSearchUserFilterEffects {
     ofType(fromSaveFilterModalActions.SAVE),
     withLatestFrom(
       this.store.select(fromUserFilterReducer.getSavedFilters),
-      (action: fromSaveFilterModalActions.Save, savedFilters) => ({ action, savedFilters})
+      this.store.select(fromSearchReducer.getUserFilterTypeData),
+      (action: fromSaveFilterModalActions.Save, savedFilters, userFilterTypeData) => ({ action, savedFilters, userFilterTypeData})
     ),
     mergeMap((data) => {
       const actions = [];
       const modalData = data.action.payload;
-      const upsertRequest = this.savedFiltersHelper.buildUpsertRequest(modalData);
+      const upsertRequest = this.savedFiltersHelper.buildUpsertRequest(modalData, data.userFilterTypeData);
       const isDefaultFilter = this.savedFiltersHelper.isDefaultFilter(modalData.SavedFilter);
       let currentDefault = null;
       if (modalData.SetAsDefault && !isDefaultFilter) {
@@ -140,7 +144,6 @@ export class JobSearchUserFilterEffects {
     private store: Store<fromUserFilterReducer.State>,
     private userFilterApiService: UserFilterApiService,
     private payfactorsSearchApiModelMapper: PayfactorsSearchApiModelMapper,
-    private userFilterTypeData: UserFilterTypeData,
     private savedFiltersHelper: SavedFiltersHelper
   ) { }
 }

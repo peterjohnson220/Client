@@ -1,11 +1,8 @@
 import { Component, ViewChild, AfterViewInit, ElementRef, Input, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-
 import { Subscription } from 'rxjs';
-
 import { SortDescriptor } from '@progress/kendo-data-query';
-
 import cloneDeep from 'lodash/cloneDeep';
 
 import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig, GridConfig } from 'libs/features/pf-data-grid/models';
@@ -13,6 +10,7 @@ import { ViewField } from 'libs/models/payfactors-api/reports/request';
 import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
+import { PfThemeType } from 'libs/features/pf-data-grid/enums/pf-theme-type.enum';
 
 import * as fromJobsPageReducer from '../../../../reducers';
 import { PageViewIds } from '../../../../constants';
@@ -31,6 +29,7 @@ export class ProjectDetailsGridComponent implements AfterViewInit, OnDestroy, On
   pageViewId = PageViewIds.Projects;
 
   colTemplates = {};
+  pfThemeType = PfThemeType;
 
   defaultSort: SortDescriptor[] = [{
     dir: 'asc',

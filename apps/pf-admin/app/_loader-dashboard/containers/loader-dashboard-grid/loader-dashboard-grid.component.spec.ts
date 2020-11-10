@@ -12,6 +12,13 @@ import { LoaderDashboardGridComponent } from './loader-dashboard-grid.component'
 import { GetErrorMessagePipe } from '../../pipes';
 import * as fromLoaderDashboardPageReducer from '../../reducers';
 import { FileType } from 'libs/models/dashboard';
+import { AbstractFeatureFlagService, FeatureFlagContext } from 'libs/core/services/feature-flags';
+
+class MockAbstractFeatureFlagService {
+  bindEnabled(key: string, defaultValue?: boolean, context?: FeatureFlagContext) {
+    jest.fn();
+  }
+}
 
 describe('LoaderDashboardGridComponent', () => {
   let component: LoaderDashboardGridComponent;
@@ -26,6 +33,12 @@ describe('LoaderDashboardGridComponent', () => {
           loaderdashboard_main: combineReducers(fromLoaderDashboardPageReducer.reducers)
         }),
         GridModule
+      ],
+      providers: [
+        {
+          provide: AbstractFeatureFlagService,
+          useClass: MockAbstractFeatureFlagService
+        }
       ],
       declarations: [
         LoaderDashboardGridComponent,

@@ -1,6 +1,7 @@
 import { Action } from '@ngrx/store';
 
 import { DataCutValidationInfo } from 'libs/models/peer';
+import {UpsertPeerDataCutEntityConfigurationModel} from '../../upsert-peer-data-cut/models';
 
 export const LOAD_DATA_CUT_VALIDATION = '[Legacy Content/Data Cut Validation] Load Data Cut Validation';
 export const LOAD_DATA_CUT_VALIDATION_SUCCESS = '[Legacy Content/Data Cut Validation] Load Data Cut Validation Success';
@@ -27,7 +28,7 @@ export class LoadDataCutValidationError implements Action {
 
 export class ValidateDataCutEmployees implements Action {
   readonly type = VALIDATE_DATA_CUT_EMPLOYEES;
-  constructor(public companyJobId: number, public userSessionId: number, public dataCutGuid: string) { }
+  constructor(public companyJobId: number, public entityConfiguration: UpsertPeerDataCutEntityConfigurationModel, public dataCutGuid: string) { }
 }
 
 export class ValidateDataCutEmployeesSuccess implements Action {

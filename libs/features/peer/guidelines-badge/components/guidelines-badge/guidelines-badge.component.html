@@ -7,56 +7,59 @@
 </ng-template>
 
 <ng-template #popContent>
+  <div class="popover-body-container">
+    <div class="popover-body">
+      <div class="guideline-container">
 
-  <div class="guideline-container">
+        <div class="guideline">
 
-    <div class="guideline">
-
-      <div class="guideline-status" [class.passing]="guidelinesService.hasMinimumCompanies">
-        <ng-container *ngTemplateOutlet="statusIndicator;context:{passing: guidelinesService.hasMinimumCompanies }"></ng-container>
-        At Least 5 Companies
-      </div>
-
-      <small class="guideline-description text-muted">The results should not contain less than 5 companies</small>
-
-      <small *ngIf="!guidelinesService.hasMinimumCompanies" class="guideline-fail-detail">
-        <div class="d-flex justify-content-between">
-          <span>Companies:</span>
-          <span>{{guidelinesService.numberOfCompanies}}</span>
-        </div>
-      </small>
-
-    </div>
-
-    <div class="guideline">
-
-      <div class="guideline-status" [class.passing]="guidelinesService.hasNoDominatingData">
-        <ng-container *ngTemplateOutlet="statusIndicator;context:{passing: guidelinesService.hasNoHardDominatingData, warning: !guidelinesService.hasNoDominatingData }"></ng-container>
-        Data Dominance
-      </div>
-
-      <small class="guideline-description text-muted">{{dataDominanceMessage}}</small>
-
-      <small *ngIf="!guidelinesService.hasNoDominatingData" class="guideline-fail-detail">
-
-        <div *ngFor="let c of guidelinesService.dominatingCompanies">
-          <div class="d-flex justify-content-between">
-            <span>{{c.Company}}</span>
-            <span>{{c.Percentage}}%</span>
+          <div class="guideline-status" [class.passing]="guidelinesService.hasMinimumCompanies">
+            <ng-container *ngTemplateOutlet="statusIndicator;context:{passing: guidelinesService.hasMinimumCompanies }"></ng-container>
+            At Least 5 Companies
           </div>
+
+          <small class="guideline-description text-muted">The results should not contain less than 5 companies</small>
+
+          <small *ngIf="!guidelinesService.hasMinimumCompanies" class="guideline-fail-detail">
+            <div class="d-flex justify-content-between">
+              <span>Companies:</span>
+              <span>{{guidelinesService.numberOfCompanies}}</span>
+            </div>
+          </small>
+
         </div>
 
-      </small>
-    </div>
+        <div class="guideline">
 
-    <div *ngIf="IncludeSimilarityCheck" class="guideline">
+          <div class="guideline-status" [class.passing]="guidelinesService.hasNoDominatingData">
+            <ng-container *ngTemplateOutlet="statusIndicator;context:{passing: guidelinesService.hasNoHardDominatingData, warning: !guidelinesService.hasNoDominatingData }"></ng-container>
+            Data Dominance
+          </div>
 
-      <div class="guideline-status" [class.passing]="guidelinesService.validDataCut">
-        <ng-container *ngTemplateOutlet="statusIndicator;context:{ passing: guidelinesService.validDataCut }"></ng-container>
-        Similarity Check
+          <small class="guideline-description text-muted">{{dataDominanceMessage}}</small>
+
+          <small *ngIf="!guidelinesService.hasNoDominatingData" class="guideline-fail-detail">
+
+            <div *ngFor="let c of guidelinesService.dominatingCompanies">
+              <div class="d-flex justify-content-between">
+                <span>{{c.Company}}</span>
+                <span>{{c.Percentage}}%</span>
+              </div>
+            </div>
+
+          </small>
+        </div>
+
+        <div *ngIf="IncludeSimilarityCheck" class="guideline">
+
+          <div class="guideline-status" [class.passing]="guidelinesService.validDataCut">
+            <ng-container *ngTemplateOutlet="statusIndicator;context:{ passing: guidelinesService.validDataCut }"></ng-container>
+            Similarity Check
+          </div>
+
+          <small class="guideline-description text-muted">The results should not contain Companies or Employees that are too similar to an existing Peer cut. Please refine your filters.</small>
+        </div>
       </div>
-
-      <small class="guideline-description text-muted">The results should not contain Companies or Employees that are too similar to an existing Peer cut. Please refine your filters.</small>
     </div>
   </div>
 </ng-template>

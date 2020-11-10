@@ -6,9 +6,12 @@
   [inboundFilters]="filters"
   [defaultSort]="defaultSort"
   [headerClassName]="'jobs-page-sub-grid-header'"
+  [pageTheme]="pfThemeType.JobDetails"
+  [borders]="false"
   [noRecordsFound]="'There are no employees in this Job.'"
   [gridConfig]="gridConfig"
   [pageable]="!gridConfig.EnableInfiniteScroll"
+  [hasHeaderDividers]="true"
   [fieldsExcludedFromExport] = fieldsExcludedFromExport>
 </pf-data-grid>
 

@@ -1,6 +1,6 @@
 import {
   Component, Input, ViewChild, ElementRef, AfterViewInit, OnChanges, SimpleChanges, OnInit,
-  TemplateRef, Output, EventEmitter
+  Output, EventEmitter
 } from '@angular/core';
 
 import { SortDescriptor } from '@progress/kendo-data-query';
@@ -10,6 +10,7 @@ import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
 import { PagingOptions } from 'libs/models/payfactors-api';
 import { PermissionCheckEnum, Permissions } from 'libs/constants/permissions';
 import { PermissionService } from 'libs/core/services';
+import { PfThemeType } from 'libs/features/pf-data-grid/enums/pf-theme-type.enum';
 
 import { PageViewIds } from '../../../../constants';
 
@@ -31,6 +32,8 @@ export class PricingMatchesGridComponent implements OnInit, AfterViewInit, OnCha
   colTemplates = {};
 
   pageViewId = PageViewIds.PricingMatches;
+
+  pfThemeType = PfThemeType;
 
   rate: string;
   filter: PfDataGridFilter = {

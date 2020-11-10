@@ -8,10 +8,11 @@ import { ofType } from '@ngrx/effects';
 import { JobDescriptionSummaryEditorComponent } from 'libs/forms';
 import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
 import { JobDescriptionSummary, AsyncStateObj } from 'libs/models';
+import * as fromJobManagementActions from 'libs/features/job-management/actions';
+import { PfThemeType } from 'libs/features/pf-data-grid/enums/pf-theme-type.enum';
 
 import * as fromJobsPageReducer from '../../../../reducers';
 import * as fromJobDescriptionActions from '../../../../actions';
-import * as fromJobManagementActions from 'libs/features/job-management/actions';
 
 @Component({
   selector: 'pf-job-description',
@@ -34,6 +35,7 @@ export class JobDescriptionComponent implements OnInit, OnDestroy, OnChanges {
 
   jobDescriptionSummaryAsyncObjSubscription: Subscription;
   jobDescriptionSummaryAsyncObj: AsyncStateObj<JobDescriptionSummary>;
+  pfThemeType = PfThemeType;
 
   constructor(
     private store: Store<fromJobsPageReducer.State>,

@@ -4,6 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { RouteTrackingService } from 'libs/core/services';
 
+import { PfThemeType } from '../../../../features/pf-data-grid/enums/pf-theme-type.enum';
+
 @Component({
   selector: 'pf-page-with-title-bar',
   templateUrl: './page-with-title-bar.component.html',
@@ -16,7 +18,7 @@ export class PageWithTitleBarComponent {
   @Input() goBackToPreviousRoute: boolean;
   @Input() absoluteUrl: string;
   @Input() contentNoPadding: boolean;
-  @Input() theme: 'default' | 'next-gen' = 'default';
+  @Input() theme = PfThemeType.Default;
 
   // Application will be reloaded when the goBackUsingBrowserHistory
   // is used to navigate back to the previous view

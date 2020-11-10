@@ -48,7 +48,6 @@ import { reducers } from './shared/reducers';
   providers: [
     PayfactorsApiService,
     WindowCommunicationService,
-    { provide: SearchFilterMappingDataObj, useValue: {} },
     { provide: ErrorHandler, useClass: SentryErrorHandler },
     SentryService
   ]

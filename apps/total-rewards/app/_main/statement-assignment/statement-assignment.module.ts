@@ -13,7 +13,6 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
 import { PfSearchModule } from 'libs/features/search';
-import { SearchFilterMappingDataObj } from 'libs/features/search/models';
 import { UserFilterTypeData } from 'libs/features/user-filter/models';
 import { WindowCommunicationService } from 'libs/core/services';
 import { ListAreaService } from 'libs/core/services/list-area.service';
@@ -83,8 +82,6 @@ import {
     StatementEmailTemplateComponent
   ],
   providers: [
-    { provide: SearchFilterMappingDataObj, useValue: SearchFilterMappingData },
-    { provide: UserFilterTypeData, useValue: EmployeeSearchUserFilterType},
     WindowCommunicationService,
     ListAreaService
   ]

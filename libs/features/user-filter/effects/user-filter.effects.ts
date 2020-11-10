@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
 
 import { Effect, Actions, ofType } from '@ngrx/effects';
+import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
-import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
+import { catchError, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
 
 import { UserFilterApiService } from 'libs/data/payfactors-api';
 import { PayfactorsSearchApiModelMapper } from 'libs/features/search/helpers';
+import * as fromSearchReducer from 'libs/features/search/reducers';
 
 import * as fromUserFilterActions from '../actions/user-filter.actions';
-import { UserFilterTypeData } from '../models';
+import * as fromUserFilterReducer from '../reducers';
 
 @Injectable()
 export class UserFilterEffects {
@@ -17,12 +19,18 @@ export class UserFilterEffects {
   getAll$ = this.actions$
   .pipe(
     ofType(fromUserFilterActions.GET_ALL),
-    switchMap((action: fromUserFilterActions.GetAll) => {
-      return this.userFilterApiService.getAll({ Type: this.userFilterTypeData.Type })
+    withLatestFrom(
+      this.store.select(fromSearchReducer.getSearchFilterMappingData),
+      this.store.select(fromSearchReducer.getUserFilterTypeData),
+      (action: fromUserFilterActions.GetAll, searchFilterMappingDataObj, userFilterTypeData ) =>
+        ({ action, searchFilterMappingDataObj, userFilterTypeData })
+    ),
+    switchMap((data) => {
+      return this.userFilterApiService.getAll({ Type: data.userFilterTypeData.Type })
         .pipe(
           mergeMap(response => [
             new fromUserFilterActions.GetSuccess(
-              this.payfactorsSearchApiModelMapper.mapSearchSavedFilterResponseToSavedFilter(response))
+              this.payfactorsSearchApiModelMapper.mapSearchSavedFilterResponseToSavedFilter(response, data.searchFilterMappingDataObj))
           ])
         );
     })
@@ -53,17 +61,20 @@ export class UserFilterEffects {
   delete$ = this.actions$
   .pipe(
     ofType(fromUserFilterActions.DELETE),
-    switchMap((action: fromUserFilterActions.Delete) => {
+    withLatestFrom(
+      this.store.select(fromSearchReducer.getUserFilterTypeData),
+      (action: fromUserFilterActions.Delete, userFilterTypeData) => ({ action, userFilterTypeData })),
+    switchMap((data) => {
       const request = {
-        Type: this.userFilterTypeData.Type,
+        Type: data.userFilterTypeData.Type,
         SavedFilter: {
-          Id: action.payload.savedFilterId,
+          Id: data.action.payload.savedFilterId,
         }
       };
       return this.userFilterApiService.remove(request)
       .pipe(
         map(() => {
-          return new fromUserFilterActions.DeleteSuccess({ deletedFilterId: action.payload.savedFilterId });
+          return new fromUserFilterActions.DeleteSuccess({ deletedFilterId: data.action.payload.savedFilterId });
         })
       );
     })
@@ -73,6 +84,6 @@ export class UserFilterEffects {
     private actions$: Actions,
     private userFilterApiService: UserFilterApiService,
     private payfactorsSearchApiModelMapper: PayfactorsSearchApiModelMapper,
-    private userFilterTypeData: UserFilterTypeData
+    private store: Store<fromUserFilterReducer.State>
   ) { }
 }

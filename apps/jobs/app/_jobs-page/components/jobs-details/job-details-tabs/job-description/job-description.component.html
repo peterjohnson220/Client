@@ -8,11 +8,12 @@
         [layout]="'card'"
         [rows]="12"
         [jobDescriptionSummary]="jobDescriptionSummary"
-        (jobDescriptionChanged)="jobDescriptionChanged($event)">
+        (jobDescriptionChanged)="jobDescriptionChanged($event)"
+        [theme]="pfThemeType.JobDetails">
       </pf-job-description-summary-editor>
     </div>
     <div class="d-flex">
-      <div class="text-danger">       
+      <div class="text-danger">
         <div *ngIf="jobDescriptionSummaryAsyncObj?.loadingError">
           We encountered an error while loading your the job description for your job
         </div>
