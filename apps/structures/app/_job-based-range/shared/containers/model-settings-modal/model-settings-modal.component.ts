@@ -147,14 +147,6 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   // Events
   handleModalSubmit() {
     if (this.modelSettingsForm.valid && !this.formulaSavingError) {
-      if (this.metadata.PayType !== this.modelSetting.PayType) {
-        this.store.dispatch(new fromSharedJobBasedRangeActions.GetStructureHasPublishedForType({
-          RangeGroupId: this.rangeGroupId,
-          PaymarketId: this.metadata.PaymarketId,
-          DistributionTypeId: this.metadata.RangeDistributionTypeId,
-          PayType: this.modelSetting.PayType
-        }));
-      }
       this.store.dispatch(new fromModelSettingsModalActions.SaveModelSettings(
         {
           rangeGroupId: this.rangeGroupId,
