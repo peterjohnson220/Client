@@ -20,7 +20,8 @@ import { PfFormsModule } from 'libs/forms';
 
 import {
   StringEditorComponent, TotalRewardsStatementComponent, StatementDownloadComponent,
-  FieldGroupComponent, TrsCompensationFieldsChooserComponent, StatementViewComponent
+  FieldGroupComponent, TrsCompensationFieldsChooserComponent, StatementViewComponent,
+  TrsEmployeeControlComponent
 } from './components';
 import { TrsTitleControlComponent } from './components/trs-title-control/trs-title-control.component';
 import { TrsImageControlComponent } from './components/trs-image-control/trs-image-control.component';
@@ -74,7 +75,8 @@ import { ModeClassifierDirective } from './directives/pf-mode-classifier-directi
     StatementDownloadComponent,
     FieldGroupComponent,
     TrsCompensationFieldsChooserComponent,
-    StatementViewComponent
+    StatementViewComponent,
+    TrsEmployeeControlComponent
   ],
   exports: [
     StringEditorComponent,

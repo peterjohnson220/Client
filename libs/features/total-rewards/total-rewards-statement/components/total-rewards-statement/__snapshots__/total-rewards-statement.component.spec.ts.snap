@@ -31,7 +31,7 @@ exports[`TotalRewardsStatementComponent should render a mock statement derived f
     </div>
     
     <div
-      class="pb-4 trs-page mt-n4"
+      class="pb-4 trs-page"
     >
       
       <section
@@ -52,11 +52,8 @@ exports[`TotalRewardsStatementComponent should render a mock statement derived f
             >
               
               
-              <div>
-                <pf-trs-image-control
-                  class="p-1"
-                />
-              </div>
+              <pf-trs-image-control />
+              
               
               
               
@@ -81,11 +78,8 @@ exports[`TotalRewardsStatementComponent should render a mock statement derived f
               
               
               
-              <div>
-                <pf-trs-title-control
-                  class="p-1"
-                />
-              </div>
+              <pf-trs-title-control />
+              
               
             </div>
           </div>
@@ -108,11 +102,10 @@ exports[`TotalRewardsStatementComponent should render a mock statement derived f
               class="col-12 control-type-1"
             >
               
-              <div>
-                <pf-trs-rich-text-control
-                  class="p-1"
-                />
-              </div>
+              <pf-trs-rich-text-control
+                class="p-1"
+              />
+              
               
               
               
@@ -126,11 +119,10 @@ exports[`TotalRewardsStatementComponent should render a mock statement derived f
               
               
               
-              <div>
-                <pf-trs-chart-control
-                  class="p-1"
-                />
-              </div>
+              <pf-trs-chart-control
+                class="p-1"
+              />
+              
               
               
             </div>
@@ -138,11 +130,10 @@ exports[`TotalRewardsStatementComponent should render a mock statement derived f
               class="col-12 control-type-1"
             >
               
-              <div>
-                <pf-trs-rich-text-control
-                  class="p-1"
-                />
-              </div>
+              <pf-trs-rich-text-control
+                class="p-1"
+              />
+              
               
               
               
@@ -166,22 +157,8 @@ exports[`TotalRewardsStatementComponent should render a mock statement derived f
               
               
               
-              <div>
-                <pf-trs-calculation-control />
-              </div>
+              <pf-trs-calculation-control />
               
-              
-              
-            </div>
-            <div
-              class="col-12 control-type-3"
-            >
-              
-              
-              
-              <div>
-                <pf-trs-calculation-control />
-              </div>
               
               
               
@@ -192,9 +169,8 @@ exports[`TotalRewardsStatementComponent should render a mock statement derived f
               
               
               
-              <div>
-                <pf-trs-calculation-control />
-              </div>
+              <pf-trs-calculation-control />
+              
               
               
               
@@ -205,9 +181,20 @@ exports[`TotalRewardsStatementComponent should render a mock statement derived f
               
               
               
-              <div>
-                <pf-trs-calculation-control />
-              </div>
+              <pf-trs-calculation-control />
+              
+              
+              
+              
+            </div>
+            <div
+              class="col-12 control-type-3"
+            >
+              
+              
+              
+              <pf-trs-calculation-control />
+              
               
               
               
@@ -221,11 +208,10 @@ exports[`TotalRewardsStatementComponent should render a mock statement derived f
               
               
               
-              <div>
-                <pf-trs-summary-control
-                  class="p-1"
-                />
-              </div>
+              <pf-trs-summary-control
+                class="p-1"
+              />
+              
             </div>
           </div>
         </div>
