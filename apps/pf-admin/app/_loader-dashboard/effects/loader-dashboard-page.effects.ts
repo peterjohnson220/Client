@@ -123,7 +123,10 @@ export class LoaderDashboardPageEffects {
     .pipe(
       ofType<fromLoaderDashboardPageActions.RedropExportedSourceFileSuccess>(fromLoaderDashboardPageActions.REDROP_EXPORTED_SOURCE_FILE_SUCCESS),
       switchMap(() => {
-        return [new fromLoaderDashboardPageActions.DismissRedropConfirmationModal()];
+        return [
+          new fromLoaderDashboardPageActions.DismissRedropConfirmationModal(),
+          new fromLoaderDashboardPageActions.UpdateGridSearchPayload([])
+        ];
       })
     );
 
