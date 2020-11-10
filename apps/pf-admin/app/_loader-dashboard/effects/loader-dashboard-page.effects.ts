@@ -7,7 +7,7 @@ import {catchError, map, switchMap, withLatestFrom} from 'rxjs/operators';
 
 import * as fromRootState from 'libs/state/state';
 import { IntegrationApiService } from 'libs/data/payfactors-api/integration';
-import {CompanyFilePackagesResponse, CompositeDataLoadViewResponse} from 'libs/models/admin/loader-dashboard/response';
+import { CompanyFilePackagesResponse, CompositeDataLoadViewResponse, PagedResponse } from 'libs/models/';
 
 import * as fromLoaderDashboardPageActions from '../actions/loader-dashboard-page.actions';
 import {LoaderDashboardModelMappers} from '../helpers';
@@ -47,8 +47,8 @@ export class LoaderDashboardPageEffects {
       const searchPayload = LoaderDashboardModelMappers.mapGridSearchPayloadToSearchCriteria(obj.action.payload);
       return this.integrationApiService.SearchCompositeDataLoads(obj.userContext, searchPayload,
         obj.action.payload.Company_ID).pipe(
-          map((r: CompositeDataLoadViewResponse[]) => {
-            return new fromLoaderDashboardPageActions.GetCompositeLoadGridDataSuccess(r);
+          map((r: PagedResponse<CompositeDataLoadViewResponse>) => {
+            return new fromLoaderDashboardPageActions.GetCompositeLoadGridDataSuccess(r.results);
           }),
           catchError(e => of(new fromLoaderDashboardPageActions.GetCompositeLoadGridDataError()))
         );

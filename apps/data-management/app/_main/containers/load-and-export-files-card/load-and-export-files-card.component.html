@@ -11,6 +11,7 @@
       <div class="row px-3">
         <div class="col-8">
           <h4 class="load-type-title">Org Data</h4>
+          <a href="#" class="" *ngIf="latestOrgDataLoad$ | async as latestOrgDataLoad" (click)="openOrgDataLoadModal($event)">Last Load {{latestOrgDataLoad.processingStartTime | date:'MM/dd/yyyy'}}</a>
         </div>
         <div class="col-4 text-right">
           <div class="d-flex justify-content-end">
@@ -43,4 +44,8 @@
       </div>
     </div>
   </div>
+  <pf-latest-org-data-load-modal
+    [latestOrgDataLoad]="latestOrgDataLoad$ | async"
+    [latestOrgDataLoadModalOpen$]="latestOrgDataLoadModalOpen$">
+  </pf-latest-org-data-load-modal>
 </div>

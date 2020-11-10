@@ -1,0 +1,38 @@
+<pf-modal-form
+  size="xl"
+  title="Last Load Details"
+  [isOpen$]="latestOrgDataLoadModalOpen$"
+  (onDismiss)="handleModalDismissed()"
+  [showDismiss]="true"
+  [showFooter]="true"
+  [showSubmit]="false"
+  secondaryButtonText="Close"
+>
+  <ng-container basic-content>
+    <div class="container">
+      <div class="row mb-2">
+        <div class="col font-weight-bold">Last Processed: {{ latestOrgDataLoad?.processingStartTime | date:'MMMM dd, yyyy hh:mm aa':'EST' }} EST</div>
+      </div>
+      <div class="row mb-2">
+        <div class="col">
+          <kendo-grid
+            [data]="latestOrgDataLoad?.entityLoadSummaries">
+            <kendo-grid-column field="entity" title="Entity"></kendo-grid-column>
+            <!-- todo: see if width 100 is what we really want here -->
+            <kendo-grid-column field="totalRecordCount" title="Total Rows" width="140"></kendo-grid-column>
+            <kendo-grid-column field="insertCount" title="Inserted" width="140"></kendo-grid-column>
+            <kendo-grid-column field="updateCount" title="Updated" width="140"></kendo-grid-column>
+            <kendo-grid-column field="deleteCount" title="Deleted" width="140"></kendo-grid-column>
+            <kendo-grid-column field="validUnchangedCount" title="Valid Unchanged" width="140"></kendo-grid-column>
+            <kendo-grid-column field="invalidCount" title="Invalid" width="140"></kendo-grid-column>
+          </kendo-grid>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <a class="ml-3 mb-0 h5" href="#" *ngIf="latestOrgDataLoad?.validationErrorOutputUri" (click)="downloadInvalidRecordsFile($event)">Download invalid records</a>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</pf-modal-form>
