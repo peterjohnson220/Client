@@ -4,11 +4,12 @@ import {
   RoundRangesRequest,
   RecalculateRangesWithoutMidRequest,
   RevertRangeChangesRequest,
-  AdvancedSettingResponse
+  AdvancedSettingResponse,
+  RangeDistributionSettingResponse
 } from 'libs/models/payfactors-api/structures';
 import { CompositeFieldResponse } from 'libs/models/payfactors-api/composite-field/composite-field-response.model';
 import { CurrencyDto } from 'libs/models/common';
-import { RoundingSettingsDataObj, RangeGroupMetadata, AdvancedModelSettingForm } from 'libs/models/structures';
+import { RoundingSettingsDataObj, RangeGroupMetadata, AdvancedModelSettingForm, RangeDistributionSettingForm } from 'libs/models/structures';
 import { AdvancedSettingRequest } from 'libs/models/payfactors-api/structures/request/advanced-setting-request.model';
 import * as fromStructuresModels from 'libs/models/structures';
 
@@ -35,8 +36,32 @@ export class PayfactorsApiModelMapper {
       IsCurrent: srgr.IsCurrent,
       RangeDistributionTypeId: srgr.RangeDistributionTypeId ?? 1,
       RangeDistributionTypes: srgr.RangeDistributionTypes,
-      RangeDistributionSetting: srgr.RangeDistributionSetting,
+      RangeDistributionSetting: srgr.RangeDistributionSetting != null ? this.mapRangeDistributionSetting(srgr.RangeDistributionSetting) : null,
       RangeAdvancedSetting: srgr.RangeAdvancedSetting != null ? this.mapRangeAdvancedSetting(srgr.RangeAdvancedSetting) : null
+    };
+  }
+
+
+  static mapRangeDistributionSetting(rangeDistributionSetting: RangeDistributionSettingResponse): RangeDistributionSettingForm {
+    return {
+      CompanyStructuresRangeGroupId: rangeDistributionSetting.CompanyStructuresRangeGroupId,
+      CompanyId: rangeDistributionSetting.CompanyId,
+      RangeDistributionTypeId: rangeDistributionSetting.RangeDistributionTypeId,
+      FirstTertile: rangeDistributionSetting.FirstTertile,
+      SecondTertile: rangeDistributionSetting.SecondTertile,
+      FirstQuartile: rangeDistributionSetting.FirstQuartile,
+      SecondQuartile: rangeDistributionSetting.SecondQuartile,
+      FirstQuintile: rangeDistributionSetting.FirstQuintile,
+      SecondQuintile: rangeDistributionSetting.SecondQuintile,
+      ThirdQuintile: rangeDistributionSetting.ThirdQuintile,
+      FourthQuintile: rangeDistributionSetting.FourthQuintile,
+      Minimum: null,
+      Maximum: null,
+      PayType: null,
+      ControlPoint: null,
+      MinPercentile: rangeDistributionSetting.MinPercentile,
+      MaxPercentile: rangeDistributionSetting.MaxPercentile,
+      ControlPoint_Formula: rangeDistributionSetting.ControlPoint_Formula,
     };
   }
 
@@ -105,18 +130,8 @@ export class PayfactorsApiModelMapper {
         FieldName: cf.FieldName,
         Display: cf.AppDisplayName,
         Category: cf.Category,
-        RangeDisplayName: cf.DisplayName
-      };
-    });
-  }
-
-  static mapAdvancedSettingResponseToAdvancedSetting(cfr: CompositeFieldResponse[]): ControlPoint[] {
-    return cfr.map(cf => {
-      return {
-        FieldName: cf.FieldName,
-        Display: cf.AppDisplayName,
-        Category: cf.Category,
-        RangeDisplayName: cf.DisplayName
+        RangeDisplayName: cf.DisplayName,
+        PayTypeDisplay: cf.AppDisplayName
       };
     });
   }
@@ -135,25 +150,25 @@ export class PayfactorsApiModelMapper {
   /// OUT
   ///
   static mapModelSettingsModalFormToSaveSettingsRequest(
-    rangeGroupId: number, formValue: RangeGroupMetadata,
-    rounding: RoundingSettingsDataObj, advancedSetting: AdvancedSettingRequest): SaveModelSettingsRequest {
+    rangeGroupId: number, formValue: any, rounding: RoundingSettingsDataObj, advancedSetting: AdvancedSettingRequest,
+    rangeDistributionSetting: RangeDistributionSettingForm): SaveModelSettingsRequest {
 
     // TODO remove this as soon as Rounding will be part of AdvancedSetting
     advancedSetting.Rounding = this.mapRoundingSettingsModalFormToRoundRangesRequest(rounding);
 
     return {
       RangeGroupId: rangeGroupId,
-      PayType: formValue.PayType,
-      ControlPoint: formValue.ControlPoint,
+      PayType: rangeDistributionSetting.PayType,
+      ControlPoint: rangeDistributionSetting.ControlPoint,
       CurrencyCode: formValue.Currency,
       ModelName: formValue.ModelName,
-      RangeSpreadMin: formValue.SpreadMin,
-      RangeSpreadMax: formValue.SpreadMax,
+      RangeSpreadMin: rangeDistributionSetting.Minimum,
+      RangeSpreadMax: rangeDistributionSetting.Maximum,
       Rate: formValue.Rate,
       StructureName: formValue.StructureName,
       Rounding: this.mapRoundingSettingsModalFormToRoundRangesRequest(rounding),
       AdvancedSetting: advancedSetting,
-      RangeDistributionTypeId: formValue.RangeDistributionTypeId ?? 1,
+      RangeDistributionTypeId: rangeDistributionSetting.RangeDistributionTypeId ?? 1,
       RangeDistributionSetting: formValue.RangeDistributionSetting
     };
   }

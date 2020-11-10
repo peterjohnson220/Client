@@ -3,4 +3,5 @@ export interface ControlPoint {
   Display: string;
   Category: string;
   RangeDisplayName: string;
+  PayTypeDisplay: string;
 }

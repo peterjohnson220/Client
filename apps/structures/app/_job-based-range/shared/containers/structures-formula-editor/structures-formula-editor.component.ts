@@ -124,8 +124,8 @@ export class StructuresFormulaEditorComponent implements ControlValueAccessor, O
       }),
 
       this.resetFormula$.subscribe(rf => {
-        if (!!rf && rf) {
-          this.resetFormula = rf;
+        this.resetFormula = rf;
+        if (rf === true) {
           this.formulaFieldObj = this.getDefaultFormulaField();
           this.formula = String(this.formulaFieldObj.Formula);
         }
@@ -174,6 +174,7 @@ export class StructuresFormulaEditorComponent implements ControlValueAccessor, O
         [Validators.required, PfValidators.minLengthTrimWhitespace(1), Validators.maxLength(this.maxFieldNameLength)]),
       'IsPublic': new FormControl({ value: this.formulaFieldObj.IsPublic })
     });
+    (setTimeout(_ => this.structuresFormulaForm.updateValueAndValidity()));
   }
 
   getFormulaField(): FormulaFieldModalObj {

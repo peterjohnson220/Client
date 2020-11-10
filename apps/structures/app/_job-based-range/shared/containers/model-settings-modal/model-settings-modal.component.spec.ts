@@ -7,12 +7,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as fromRootState from 'libs/state/state';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 import { AbstractFeatureFlagService, PfCommonModule } from 'libs/core';
-import {
-  generateMockRangeDistributionSetting,
-  generateMockStructureRangeDistributionTypes
-} from 'libs/models/payfactors-api';
+import { generateMockStructureRangeDistributionTypes } from 'libs/models/payfactors-api';
 import { SettingsService } from 'libs/state/app-context/services';
-import { generateMockRangeAdvancedSetting } from 'libs/models/structures';
+import { generateMockRangeAdvancedSetting, generateMockRangeDistributionSettingForm } from 'libs/models/structures';
 
 import * as fromJobBasedRangeReducer from '../../../shared/reducers';
 import * as fromModelSettingsModalActions from '../../../shared/actions/model-settings-modal.actions';
@@ -89,7 +86,7 @@ describe('Job Based Ranges - Model Settings Modal', () => {
       IsCurrent: false,
       RangeDistributionTypeId: 1,
       RangeDistributionTypes: generateMockStructureRangeDistributionTypes(),
-      RangeDistributionSetting: generateMockRangeDistributionSetting(),
+      RangeDistributionSetting: generateMockRangeDistributionSettingForm(),
       RangeAdvancedSetting: generateMockRangeAdvancedSetting()
     };
 
@@ -108,7 +105,7 @@ describe('Job Based Ranges - Model Settings Modal', () => {
       StructureName: 'testStruc',
       RangeDistributionTypeId: 1,
       RangeDistributionTypes: generateMockStructureRangeDistributionTypes(),
-      RangeDistributionSetting: generateMockRangeDistributionSetting(),
+      RangeDistributionSetting: generateMockRangeDistributionSettingForm(),
       RangeAdvancedSetting: generateMockRangeAdvancedSetting()
     };
 
@@ -228,7 +225,7 @@ describe('Job Based Ranges - Model Settings Modal', () => {
       IsCurrent: false,
       RangeDistributionTypeId: 1,
       RangeDistributionTypes: generateMockStructureRangeDistributionTypes(),
-      RangeDistributionSetting: generateMockRangeDistributionSetting(),
+      RangeDistributionSetting: generateMockRangeDistributionSettingForm(),
       RangeAdvancedSetting: generateMockRangeAdvancedSetting()
     };
 
