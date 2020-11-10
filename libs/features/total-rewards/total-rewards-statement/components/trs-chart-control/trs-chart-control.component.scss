@@ -31,9 +31,3 @@ $chart-height: 250px;
     }
   }
 }
-
-@media print {
-  .trs-chart kendo-chart {
-    height: #{($print-base-font-size / 13) * $chart-height}; // increase height proportionate to larger print base font size
-  }
-}
