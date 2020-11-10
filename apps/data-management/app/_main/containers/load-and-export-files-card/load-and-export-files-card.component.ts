@@ -8,6 +8,7 @@ import { PermissionService } from 'libs/core';
 import { CompanySettingsEnum, CompositeDataLoadViewResponse } from 'libs/models';
 import { SettingsService } from 'libs/state/app-context/services';
 import { Permissions, PermissionCheckEnum } from 'libs/constants';
+import * as fromJobDescriptionsExportActions from 'libs/features/job-description-management/actions/job-description-export.actions';
 import * as fromOrgDataNavigationLinkActions from 'libs/features/navigation-links/actions/org-data-navigation-link.actions';
 import * as fromAppNotificationsMainReducer from 'libs/features/app-notifications/reducers';
 import * as fromAppNotificationsActions from 'libs/features/app-notifications/actions/app-notifications.actions';
@@ -29,6 +30,7 @@ export class LoadAndExportFilesCardComponent implements OnInit, OnDestroy {
   canImportOrgData: boolean;
   canExportOrgData: boolean;
   canExportPricingData: boolean;
+  canExportJobDescription: boolean;
 
   latestOrgDataLoad$: Observable<CompositeDataLoadViewResponse>;
   latestOrgDataLoadModalOpen$: Observable<boolean>;
@@ -52,9 +54,10 @@ export class LoadAndExportFilesCardComponent implements OnInit, OnDestroy {
       .CheckPermission([Permissions.CAN_DOWNLOAD_ORGANIZATIONAL_DATA], PermissionCheckEnum.Single);
     this.canExportPricingData = this.permissionService
       .CheckPermission([Permissions.CAN_DOWNLOAD_PRICING_DATA], PermissionCheckEnum.Single);
-
     this.latestOrgDataLoad$ = this.store.select(fromDataManagementMainReducer.getLatestOrgDataLoad);
     this.latestOrgDataLoadModalOpen$ = this.store.select(fromDataManagementMainReducer.getLatestOrgDataLoadModalOpen);
+    this.canExportJobDescription = this.permissionService
+      .CheckPermission([Permissions.CAN_DOWNLOAD_JOB_DESCRIPTION_DATA], PermissionCheckEnum.Single);
   }
 
   ngOnDestroy() {
@@ -62,7 +65,8 @@ export class LoadAndExportFilesCardComponent implements OnInit, OnDestroy {
   }
 
   canView() {
-    return this.canImportOrgData || this.canExportOrgData || this.canExportPricingData;
+    return this.canImportOrgData || this.canExportOrgData
+      || this.canExportPricingData || this.canExportJobDescription;
   }
 
   handleOrgDataExportClick($event) {
@@ -89,5 +93,10 @@ export class LoadAndExportFilesCardComponent implements OnInit, OnDestroy {
   openOrgDataLoadModal($event) {
     $event.preventDefault();
     this.store.dispatch(new fromLoadersDataActions.OpenLatestOrgDataLoadModal());
+  }
+
+  handleJobDescriptionExportClick($event) {
+    this.notificationStore.dispatch(new fromJobDescriptionsExportActions.InitiateJobDescriptionExport());
+    $event.preventDefault();
   }
 }

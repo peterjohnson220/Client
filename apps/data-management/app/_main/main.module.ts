@@ -98,6 +98,7 @@ import { MainRoutingModule } from './main-routing.module';
 import { reducers } from './reducers';
 import { GetSupportedSchedulesPipe, OrgDataEntityTypeToDisplayName } from './pipes';
 import { HrisAuthenticationGuard } from './guards';
+import { JobDescriptionExportEffects } from 'libs/features/job-description-management/effects/job-description-export.effects';
 
 @NgModule({
   imports: [
@@ -129,7 +130,8 @@ import { HrisAuthenticationGuard } from './guards';
       EntitySelectionEffects,
       ProviderListEffects,
       ConverterSettingsEffects,
-      LoadersDataEffects
+      LoadersDataEffects,
+      JobDescriptionExportEffects
     ]),
     FontAwesomeModule,
     NgbDropdownModule,

@@ -4,6 +4,7 @@ export class Permissions {
   public static CAN_DOWNLOAD_PRICING_DATA = 'Can Download Pricing Data';
   public static CAN_EDIT_JOB_DESCRIPTION = 'Can Edit Job Description';
   public static CAN_DELETE_JOB_DESCRIPTION = 'Can Delete Job Description';
+  public static CAN_DOWNLOAD_JOB_DESCRIPTION_DATA = 'Download Job Description Data';
   public static WORKFLOW_USER_MANAGEMENT = 'Workflow User Management';
   public static JOB_DESCRIPTIONS = 'Job Descriptions';
   public static CAN_VIEW_JOB_DESCRIPTION = 'Can View Job Description';
