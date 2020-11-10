@@ -281,20 +281,19 @@ export function reducer(state = initialState, action: fromEditStatementActions.S
     }
     case fromEditStatementActions.GET_COMPANY_UDF_SUCCESS: {
       const companyUdfClone: AsyncStateObj<CompensationField[]> = cloneDeep(state.companyUdfs);
-      const statementClone = cloneDeep(state.statement.obj);
-      const onlyUdfs = true;
+      const statementClone: AsyncStateObj<Statement> = cloneDeep(state.statement);
       companyUdfClone.loading = false;
-      companyUdfClone.obj = action.payload;
 
-      const visibleUdfControls = TotalRewardsStatementService.getVisibleCalculationFields(statementClone, onlyUdfs);
-      const visibleFieldsCount = TotalRewardsStatementService.getVisibleCalculationFields(statementClone).length;
+      const allUdfFields: CompensationField[] = cloneDeep(action.payload);
+      const statementUdfFields = TotalRewardsStatementService.getStatementUdfFields(statementClone.obj);
+      TotalRewardsStatementService.syncUdfFields(statementClone.obj, statementUdfFields, allUdfFields);
+      const visibleFieldsCount = TotalRewardsStatementService.getVisibleCalculationFields(statementClone.obj).length;
 
-      if (visibleUdfControls.length) {
-        companyUdfClone.obj = companyUdfClone.obj.map(companyUdf => visibleUdfControls.find(x => x.Id === companyUdf.Id) || companyUdf);
-      }
+      companyUdfClone.obj = allUdfFields;
 
       return {
         ...state,
+        statement: statementClone,
         companyUdfs: companyUdfClone,
         visibleFieldsCount: visibleFieldsCount
       };
