@@ -50,7 +50,7 @@ import {
   PricingDetailsAdjPctColumnComponent
 } from './components';
 import { reducers } from './reducers';
-import { JobsPageEffects, JobDescriptionEffects, JobPeerMatchesEffects } from './effects';
+import { JobsPageEffects, JobDescriptionEffects, JobPeerMatchesEffects, ModifyPricingsEffects } from './effects';
 import {
   ShowingActiveJobs,
   PricingMatchTypePipe,
@@ -77,6 +77,7 @@ import {
     StoreModule.forFeature('jobsPageMain', reducers),
     EffectsModule.forFeature([
       JobsPageEffects,
+      ModifyPricingsEffects,
       JobDescriptionEffects,
       JobPeerMatchesEffects
     ]),

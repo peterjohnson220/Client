@@ -5,11 +5,11 @@ import { UpdatePricingRequest } from 'libs/models/payfactors-api';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { isEmpty } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 
 import { PageViewIds } from '../../../constants';
-import * as fromJobsPageActions from '../../../actions';
-import * as fromJobsPageReducer from '../../../reducers';
+import * as fromModifyPricingsActions from '../../../actions';
+import * as fromModifyPricingsReducer from '../../../reducers';
 
 import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
 
@@ -29,7 +29,7 @@ export class PricingDetailsAdjPctColumnComponent implements OnInit, OnChanges, O
   isActiveJob = true;
   isActiveJobSubscription: Subscription;
 
-  constructor(private store: Store<fromJobsPageReducer.State>, public permissionService: PermissionService) { }
+  constructor(private store: Store<fromModifyPricingsReducer.State>, public permissionService: PermissionService) { }
 
   ngOnInit(): void {
     this.canModifyPricings = this.permissionService.CheckPermission([Permissions.MODIFY_PRICINGS], PermissionCheckEnum.Single);
@@ -62,11 +62,10 @@ export class PricingDetailsAdjPctColumnComponent implements OnInit, OnChanges, O
 
     const request: UpdatePricingRequest = {
       PricingId: pricingId,
-      CompositeAdjsPct: this.adjPct,
-      UpdateRelatedPricings: false
+      CompositeAdjsPct: this.adjPct
     };
 
-    this.store.dispatch(new fromJobsPageActions.UpdatingPricing(request, PageViewIds.PayMarkets));
+    this.store.dispatch(new fromModifyPricingsActions.UpdatingPricing(request, PageViewIds.PayMarkets));
 
   }
 
