@@ -2,7 +2,7 @@ import cloneDeep from 'lodash/cloneDeep';
 
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 
-import * as fromUserSettingsPageActions from '../actions/user-settings-page.actions';
+import * as fromDashboardPreferencesPageActions from '../actions/dashboard-preferences.actions';
 import { SaveDashboardPreferencesApiResponse, UserTile } from '../models';
 
 // Define our feature state
@@ -20,9 +20,9 @@ const initialState: State = {
 };
 
 // Reducer function
-export function reducer(state = initialState, action: fromUserSettingsPageActions.Actions): State {
+export function reducer(state = initialState, action: fromDashboardPreferencesPageActions.Actions): State {
   switch (action.type) {
-    case fromUserSettingsPageActions.GET_USER_TILES: {
+    case fromDashboardPreferencesPageActions.GET_USER_TILES: {
       const userTilesAsyncClone = cloneDeep(state.userTilesAsync);
       userTilesAsyncClone.loading = true;
 
@@ -31,7 +31,7 @@ export function reducer(state = initialState, action: fromUserSettingsPageAction
         userTilesAsync: userTilesAsyncClone
       };
     }
-    case fromUserSettingsPageActions.GET_USER_TILES_SUCCESS: {
+    case fromDashboardPreferencesPageActions.GET_USER_TILES_SUCCESS: {
       const userTilesAsyncClone = cloneDeep(state.userTilesAsync);
       userTilesAsyncClone.obj = action.payload;
       userTilesAsyncClone.loading = false;
@@ -42,7 +42,7 @@ export function reducer(state = initialState, action: fromUserSettingsPageAction
         userTilesAsyncUnchanged: userTilesAsyncClone
       };
     }
-    case fromUserSettingsPageActions.GET_USER_TILES_ERROR: {
+    case fromDashboardPreferencesPageActions.GET_USER_TILES_ERROR: {
       const userTilesAsyncClone = cloneDeep(state.userTilesAsync);
       userTilesAsyncClone.loading = false;
       userTilesAsyncClone.loadingError = true;
@@ -51,7 +51,7 @@ export function reducer(state = initialState, action: fromUserSettingsPageAction
         ...state
       };
     }
-    case fromUserSettingsPageActions.TOGGLE_USER_TILE: {
+    case fromDashboardPreferencesPageActions.TOGGLE_USER_TILE: {
       const selectedUserTile = action.payload;
       const userTilesAsyncClone = cloneDeep(state.userTilesAsync);
       const userTile = userTilesAsyncClone.obj.find((t: UserTile) => t.UserTileId === selectedUserTile.UserTileId);
@@ -66,12 +66,12 @@ export function reducer(state = initialState, action: fromUserSettingsPageAction
         saveDashboardPreferencesResponse: ''
       };
     }
-    case fromUserSettingsPageActions.SAVE_DASHBOARD_PREFERENCES: {
+    case fromDashboardPreferencesPageActions.SAVE_DASHBOARD_PREFERENCES: {
       return {
         ...state
       };
     }
-    case fromUserSettingsPageActions.SAVE_DASHBOARD_PREFERENCES_SUCCESS: {
+    case fromDashboardPreferencesPageActions.SAVE_DASHBOARD_PREFERENCES_SUCCESS: {
       const userTilesAsyncClone = cloneDeep(state.userTilesAsync);
       userTilesAsyncClone.obj.forEach(ut => {
         ut.Dirty = false;
@@ -83,13 +83,13 @@ export function reducer(state = initialState, action: fromUserSettingsPageAction
         saveDashboardPreferencesResponse: SaveDashboardPreferencesApiResponse.Success,
       };
     }
-    case fromUserSettingsPageActions.SAVE_DASHBOARD_PREFERENCES_ERROR: {
+    case fromDashboardPreferencesPageActions.SAVE_DASHBOARD_PREFERENCES_ERROR: {
       return {
         ...state,
         saveDashboardPreferencesResponse: SaveDashboardPreferencesApiResponse.Error
       };
     }
-    case fromUserSettingsPageActions.CANCEL_DASHBOARD_PREFERENCES_CHANGES: {
+    case fromDashboardPreferencesPageActions.CANCEL_DASHBOARD_PREFERENCES_CHANGES: {
       return {
         ...state,
         userTilesAsync: state.userTilesAsyncUnchanged

@@ -1,1 +1,1 @@
-export * from './user-settings-page.effects';
+export * from './dashboard-preferences.effects';
