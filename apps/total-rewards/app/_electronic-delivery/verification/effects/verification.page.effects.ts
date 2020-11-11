@@ -46,7 +46,9 @@ export class VerificationPageEffects {
               response.EmployeeData.EmployeeDOB = new Date(response.EmployeeData.EmployeeDOB);
             }
             if (response.Statement) {
-              response.Statement.EffectiveDate = new Date();
+              response.Statement.EffectiveDate = !!response.Statement.EffectiveDate ?
+                new Date(response.Statement.EffectiveDate) :
+                new Date();
             }
             return new fromPageActions.ValidateTokenSuccess(response);
           }),
