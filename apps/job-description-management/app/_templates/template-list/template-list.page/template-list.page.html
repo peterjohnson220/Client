@@ -1,10 +1,10 @@
-<pf-page-with-title-bar>
+<pf-page-with-title-bar [returnUrl]="'/job-descriptions'">
   <ng-container page-title>
     Template Management
   </ng-container>
 
   <ng-container page-actions>
-    <label routerLink="/job-descriptions" class="btn btn-secondary">Job Descriptions</label>
+    <label [pfSecuredResource]="[permissions.CAN_MANAGE_JOB_DESCRIPTION_SETTINGS]" routerLink="/settings" class="btn btn-secondary">Settings</label>
     <label (click)="showAddTemplateModal()" class="btn btn-primary management-action-btn" type="submit">New Template</label>
   </ng-container>
 
