@@ -58,8 +58,9 @@ export class DataCutsComponent implements OnDestroy {
       JobId: dataCut.ServerInfo.SurveyDataId.toString(),
       JobType: MatchesDetailsRequestJobTypes.SurveyData
     };
+    const pageX = this.legacyIframeImplementation ? this.cutsDraggable ? window.document.body.offsetWidth / 2 - 400 : event.offsetX : event.pageX;
     const data: MatchesDetailsTooltipData = {
-      TargetX: this.legacyIframeImplementation ?  window.document.body.offsetWidth / 2 - 400 : event.pageX + 10,
+      TargetX: pageX,
       TargetY: event.clientY,
       Request: request
     };
