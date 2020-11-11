@@ -20,7 +20,7 @@ exports[`TotalRewardsStatementComponent should render a mock statement derived f
   statementModeEnum={[Function Object]}
 >
   <div
-    class="container statement medium-font-size default-font-family"
+    class="container statement position-relative medium-font-size default-font-family"
   >
     <pf-async-container />
     
