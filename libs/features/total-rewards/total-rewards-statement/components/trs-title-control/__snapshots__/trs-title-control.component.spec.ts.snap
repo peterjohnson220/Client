@@ -31,14 +31,14 @@ exports[`TrsTitleControlComponent should add a \`background-graphics\` class to 
     />
     <div
       aria-hidden="true"
-      class="outer graphic w-100"
+      class="outer graphic"
     >
       <div
         aria-hidden="true"
-        class="inner graphic d-flex"
+        class="inner graphic"
       >
         <h2
-          class="my-auto trs-statement-title d-inline-block mw-100"
+          class="trs-statement-title d-inline-block mw-100 mh-100"
         >
           <pf-string-editor />
         </h2>
@@ -87,14 +87,14 @@ exports[`TrsTitleControlComponent should set the innerTitleWidth as the width of
     />
     <div
       aria-hidden="true"
-      class="outer graphic w-100"
+      class="outer graphic"
     >
       <div
         aria-hidden="true"
-        class="inner graphic d-flex"
+        class="inner graphic"
       >
         <h2
-          class="my-auto trs-statement-title d-inline-block mw-100"
+          class="trs-statement-title d-inline-block mw-100 mh-100"
         >
           <pf-string-editor />
         </h2>
@@ -143,14 +143,14 @@ exports[`TrsTitleControlComponent should show in edit mode 1`] = `
     />
     <div
       aria-hidden="true"
-      class="outer graphic w-100"
+      class="outer graphic"
     >
       <div
         aria-hidden="true"
-        class="inner graphic d-flex"
+        class="inner graphic"
       >
         <h2
-          class="my-auto trs-statement-title d-inline-block mw-100"
+          class="trs-statement-title d-inline-block mw-100 mh-100"
         >
           <pf-string-editor />
         </h2>
@@ -199,14 +199,14 @@ exports[`TrsTitleControlComponent should show when in preview mode 1`] = `
     />
     <div
       aria-hidden="true"
-      class="outer graphic w-100"
+      class="outer graphic"
     >
       <div
         aria-hidden="true"
-        class="inner graphic d-flex"
+        class="inner graphic"
       >
         <h2
-          class="my-auto trs-statement-title d-inline-block mw-100"
+          class="trs-statement-title d-inline-block mw-100 mh-100"
         >
           <pf-string-editor />
         </h2>
