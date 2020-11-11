@@ -52,11 +52,13 @@ h3.employee {
     }
   }
   .outer.graphic {
+    width: 100%;
     background-color: $trs-default-styled-overlap-graphic-color;
     margin-left: -4rem;
     padding: 2rem 0 0 2rem;
     transform: skew(10deg); // skew the outer graphic to get an angled container look
     .inner.graphic {
+      display: flex;
       height: 11.5rem; // set height so background doesn't collapse to a single line when editing
       background-color: $trs-default-styled-background-graphic-color;
       transform: skew(-10deg); // undo the parent's skew
