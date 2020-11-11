@@ -59,7 +59,7 @@ export class DataCutsComponent implements OnDestroy {
       JobType: MatchesDetailsRequestJobTypes.SurveyData
     };
     const data: MatchesDetailsTooltipData = {
-      TargetX: this.legacyIframeImplementation ? event.offsetX : event.pageX + 10,
+      TargetX: this.legacyIframeImplementation ?  window.document.body.offsetWidth / 2 - 400 : event.pageX + 10,
       TargetY: event.clientY,
       Request: request
     };
