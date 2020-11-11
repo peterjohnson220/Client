@@ -1,4 +1,4 @@
-<div *ngIf="statement" class="container statement" [ngClass]="fontSizeCssClass + ' ' + fontFamilyCssClass">
+<div *ngIf="statement" class="container statement position-relative" [ngClass]="fontSizeCssClass + ' ' + fontFamilyCssClass">
   <pf-async-container [loading]="loadingData"></pf-async-container>
   <!-- TODO: the effective date should probably be changed over to a control like all the others vs. hardcoded at the top (my bad!) -->
   <div *ngIf="statement?.TemplateName?.toLowerCase() !== 'styled'" class="d-flex justify-content-end">
