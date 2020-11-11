@@ -9,4 +9,5 @@ export interface UserNotificationDisplay {
   ButtonText: string;
   IconName: IconName;
   IconPrefix: IconPrefix;
+  OpenLinkInNewTab: boolean;
 }

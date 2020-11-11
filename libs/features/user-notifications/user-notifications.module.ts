@@ -15,6 +15,7 @@ import { UserNotificationDisplayComponent } from './containers/user-notification
 import { UserNotificationListEffects } from './effects';
 import { UserNotificationHostDirective } from './directives';
 import * as fromFaIcons from './fa-icons';
+import { RoutedJobDescriptionNotificationComponent } from './containers/categories/routed-job-description/routed-job-description-notification.component';
 
 @NgModule({
   imports: [
@@ -35,7 +36,8 @@ import * as fromFaIcons from './fa-icons';
     UserNotificationListComponent,
     UserNotificationContainerComponent,
     UserTicketNotificationComponent,
-    UserNotificationDisplayComponent
+    UserNotificationDisplayComponent,
+    RoutedJobDescriptionNotificationComponent
   ],
   exports: [
     UserNotificationListComponent

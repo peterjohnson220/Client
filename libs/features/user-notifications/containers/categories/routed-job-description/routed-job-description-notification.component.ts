@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { IconPrefix, IconName } from '@fortawesome/fontawesome-svg-core';
 
@@ -6,38 +6,42 @@ import { UserNotificationBaseComponent } from '../../user-notification-base/user
 import { UserNotificationDisplay } from '../../../models';
 
 @Component({
-  selector: 'pf-user-ticket-notification',
+  selector: 'pf-routed-job-description-notification',
   templateUrl: '../user-notification-template.html'
 })
-export class UserTicketNotificationComponent extends UserNotificationBaseComponent {
+export class RoutedJobDescriptionNotificationComponent extends UserNotificationBaseComponent implements OnInit {
 
-  NotificationTitle = 'Ticket Status Updated';
-  ButtonText = 'View Ticket';
+  NotificationTitle = 'Job Description for Review';
+  ButtonText = 'Review Job Description';
   IconPrefix: IconPrefix = 'far';
-  IconName: IconName = 'question-square';
+  IconName: IconName = 'file-alt';
 
   buildUserNotificationDisplay(): UserNotificationDisplay {
+    const parsedMetaData = this.parseMetaData();
     return {
       Title: this.NotificationTitle,
-      Message: this.parseMetaData(),
-      ButtonText: this.ButtonText,
+      Message: parsedMetaData.Message,
+      ButtonText : this.ButtonText,
       IsRead: this.UserNotification.IsRead,
       CreateDate: this.UserNotification.CreateDate,
-      BaseUrl: this.UserNotification.BaseUrl,
+      BaseUrl: parsedMetaData.Url,
       IconPrefix: this.IconPrefix,
       IconName: this.IconName,
-      OpenLinkInNewTab: false
+      OpenLinkInNewTab: true
     };
   }
 
-  parseMetaData(): string {
+  parseMetaData(): any {
     if (!!this.UserNotification?.MetaData) {
       const json = JSON.parse(this.UserNotification.MetaData);
-      const ticketTitle = json['TicketTitle'];
-      const ticketStatus = json['UserTicketState'];
+      const jobTitle = json['JobTitle'];
+      const url = json['Url'];
 
-      return `Your ticket for <i>${ticketTitle}</i> is now <i>${ticketStatus}</i>`;
+      return {
+        Message: `A job description for ${jobTitle} is available for review`,
+        Url: url
+      };
     }
-   return;
   }
+
 }

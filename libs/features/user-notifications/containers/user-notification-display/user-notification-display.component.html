@@ -28,7 +28,8 @@
 
   <!--  notification button -->
   <div class="align-self-center m-3">
-    <a href="{{UserNotificationDisplay.BaseUrl}}" class="btn btn-secondary">{{UserNotificationDisplay.ButtonText}}</a>
+    <a *ngIf="UserNotificationDisplay.OpenLinkInNewTab" href="{{UserNotificationDisplay.BaseUrl}}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">{{UserNotificationDisplay.ButtonText}}</a>
+    <a *ngIf="!UserNotificationDisplay.OpenLinkInNewTab" href="{{UserNotificationDisplay.BaseUrl}}" class="btn btn-secondary">{{UserNotificationDisplay.ButtonText}}</a>
   </div>
 
 </div>
