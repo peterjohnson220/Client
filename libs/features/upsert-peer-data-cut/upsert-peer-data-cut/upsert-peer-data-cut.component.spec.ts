@@ -9,17 +9,19 @@ import spyOn = jest.spyOn;
 import * as fromRootState from 'libs/state/state';
 import * as fromLibsPeerExchangeExplorerReducers from 'libs/features/peer/exchange-explorer/reducers';
 import * as fromLibsExchangeExplorerFilterContextActions from 'libs/features/peer/exchange-explorer/actions/exchange-filter-context.actions';
+import * as fromDataCutValidationReducer from 'libs/features/peer/guidelines-badge/reducers';
+import * as fromSurveySearchReducer from 'libs/features/survey-search/reducers';
 import { generateMockExchangeMapResponse, generateMockExchangeStatCompanyMakeup } from 'libs/models/peer';
 import { SettingsService } from 'libs/state/app-context/services';
 import { DojGuidelinesService } from 'libs/features/peer/guidelines-badge/services/doj-guidelines.service';
+import { ExchangeExplorerComponent } from 'libs/features/peer/exchange-explorer/containers/exchange-explorer';
 
-import { UpsertPeerDataCutComponent } from './upsert-peer-data-cut.component';
 import * as fromUpsertPeerDataCutActions from '../actions/upsert-peer-data-cut.actions';
 import * as fromUpsertPeerDataCutReducer from '../reducers';
 import * as fromRequestPeerAccessActions from '../actions/request-peer-access.actions';
+import { UpsertPeerDataCutComponent } from './upsert-peer-data-cut.component';
 import { UpsertPeerDataCutEntities, UpsertPeerDataCutParentEntities } from '../constants';
 import { UpsertPeerDataCutEntityConfigurationModel } from '../models';
-import { ExchangeExplorerComponent } from '../../peer/exchange-explorer/containers/exchange-explorer';
 
 
 class DojGuidelinesStub {
@@ -46,6 +48,9 @@ class ExchangeExplorerStubComponent {
   onMessage(event: MessageEvent) {
     return;
   }
+  onResetApp() {
+    return;
+  }
 }
 
 jest.mock('mapbox-gl/dist/mapbox-gl', () => ({
@@ -68,7 +73,9 @@ describe('Libs - Upsert Peer Data Cut', () => {
         StoreModule.forRoot({
           ...fromRootState.reducers,
           feature_peer_exchangeExplorer: combineReducers(fromLibsPeerExchangeExplorerReducers.reducers),
-          peer_upsertDataCut: combineReducers(fromUpsertPeerDataCutReducer.reducers)
+          peer_upsertDataCut: combineReducers(fromUpsertPeerDataCutReducer.reducers),
+          feature_surveySearch: combineReducers(fromSurveySearchReducer.reducers),
+          dataCutValidation: combineReducers(fromDataCutValidationReducer.reducers)
         })
       ],
       providers: [
@@ -90,7 +97,7 @@ describe('Libs - Upsert Peer Data Cut', () => {
     route = TestBed.inject(ActivatedRoute);
     // TODO: Resolve type mismatch here and use .inject
     guidelinesService = TestBed.get(DojGuidelinesService);
-    // exchangeStub = TestBed.inject(ExchangeExplorerComponent);
+    // exchangeExplorerStub = TestBed.inject(ExchangeExplorerComponent);
 
     spyOn(store, 'dispatch');
 
@@ -103,7 +110,7 @@ describe('Libs - Upsert Peer Data Cut', () => {
 
     instance.displayInClassicAspIframe = false;
 
-    // instance.exchangeExplorer = exchangeStub;
+    // instance.exchangeExplorer = exchangeExplorerStub;
     // exchangeExplorer = instance.exchangeExplorer;
 
     instance.companyPayMarketId = 1;

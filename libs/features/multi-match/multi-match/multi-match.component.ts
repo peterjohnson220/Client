@@ -23,15 +23,13 @@ import * as fromJobsToPriceActions from '../actions/jobs-to-price.actions';
 import * as fromModifyPricingsActions from '../actions/modify-pricings.actions';
 import * as fromMultiMatchReducer from '../reducers';
 import { JobToPrice } from '../models';
+import { ProjectContext } from '../../survey-search/models';
 import { LEGACY_PROJECTS, MODIFY_PRICINGS } from '../constants';
-import * as fromSurveySearchReducer from "../../survey-search/reducers";
+import * as fromSurveySearchReducer from '../../survey-search/reducers';
 import * as fromChildFilterActions from '../../search/actions/child-filter.actions';
 import * as fromSingledActions from '../../search/actions/singled-filter.actions';
 import * as fromSearchResultsActions from '../../search/actions/search-results.actions';
 import * as fromSearchPageActions from '../../search/actions/search-page.actions';
-import { ProjectContext } from "../../survey-search/models";
-import * as fromDataCutValidationActions from "../../peer/actions/data-cut-validation.actions";
-
 
 @Component({
   selector: 'pf-multi-match-component',
@@ -135,7 +133,7 @@ export class MultiMatchComponent extends SearchBaseDirective implements OnInit, 
     });
 
     this.projectContextSubscription = this.projectContext$.subscribe((context) => {
-      if(context) {
+      if (context) {
         this.projectContext = context;
         this.companyJobId = 0;
         this.companyPayMarketId = this.projectContext?.SearchContext?.PayMarketId;
@@ -143,15 +141,14 @@ export class MultiMatchComponent extends SearchBaseDirective implements OnInit, 
           ...this.entityConfiguration,
           BaseEntityId: 0,
           ParentEntityId: this.projectContext?.ProjectId
-        }
+        };
       }
     });
 
     this.refiningPeerCutSubscription = this.refiningPeerCut$.subscribe((refining) => {
-      if(refining == false && this.initialContext) {
+      if (!refining && this.initialContext) {
         this.setContext();
-      }
-      else {
+      } else {
         this.onResetApp();
       }
     });
@@ -169,7 +166,7 @@ export class MultiMatchComponent extends SearchBaseDirective implements OnInit, 
   }
 
   onSetContext(payload: any) {
-    if(!this.initialContext){
+    if (!this.initialContext) {
       this.initialContext = payload;
     }
 

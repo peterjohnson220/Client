@@ -25,18 +25,21 @@ export class ExchangeDataSearchApiService {
     payload: ComphubExchangeExplorerContextRequest |
     { companyJobId?: number, companyPayMarketId?: number } |
     { exchangeId: number } |
-    { lockedExchangeJobId: number, companyPayMarketId: number }):
+    { lockedExchangeJobId: number, companyPayMarketId?: number }):
     Observable<ExchangeExplorerContextInfo> {
     const request: ComphubExchangeExplorerContextRequest = payload as ComphubExchangeExplorerContextRequest;
     if (request && request.ExchangeJobId) {
       return this.payfactorsApiService.post(`${this.endpoint}/GetExchangeExplorerContextInfo`, request);
     }
-
-    const lockedExchangeJobPayload = payload as {lockedExchangeJobId: number, companyPayMarketId: number};
+    const lockedExchangeJobPayload = payload as {lockedExchangeJobId: number, companyPayMarketId?: number};
     const hasLockedExchangeJob = !!lockedExchangeJobPayload && !!lockedExchangeJobPayload.lockedExchangeJobId;
+    const lockedJobPayload = {
+      lockedExchangeJobId: lockedExchangeJobPayload.lockedExchangeJobId,
+      companyPayMarketId: !!lockedExchangeJobPayload.companyPayMarketId ? lockedExchangeJobPayload.companyPayMarketId : 0
+    };
     const action = hasLockedExchangeJob ? 'GetExchangeExplorerContextInfoForLockedExchangeJob' : 'GetExchangeExplorerContextInfo';
     return this.payfactorsApiService.get(`${this.endpoint}/${action}`, {
-      params: payload
+      params: hasLockedExchangeJob ? lockedJobPayload : payload
     });
   }
 
