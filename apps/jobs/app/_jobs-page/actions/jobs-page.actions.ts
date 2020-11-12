@@ -1,17 +1,11 @@
 import { Action } from '@ngrx/store';
 
-import {
-  CreateProjectRequest,
-  ChangeJobStatusRequest,
-  DeletePricingRequest,
-  UpdatePricingMatchRequest,
-  UpdatePricingRequest
-} from 'libs/models/payfactors-api';
+import { CreateProjectRequest, ChangeJobStatusRequest } from 'libs/models/payfactors-api';
 
 export const SET_JOBS_PAGE_ID = '[Jobs Page] Set Jobs PageID';
 // TODO: Removed HANDLE_API_ERROR and replace it with AsyncStateObj
 export const HANDLE_API_ERROR = '[Jobs Page] Handle API Error';
-export const RESET_ERRORS_FOR_MODALS = '[Jobs Page] Reset Errors for Modals';
+export const RESET_JOBS_PAGE_MODALS = '[Jobs Page] Reset Jobs Page Modals';
 export const CREATING_PROJECT = '[Jobs Page] Creating Project';
 export const CREATING_PROJECT_SUCCESS = '[Jobs Page] Creating Project Success';
 export const CREATING_PROJECT_ERROR = '[Jobs Page] Creating Project Error';
@@ -21,21 +15,6 @@ export const CHANGING_JOB_STATUS_ERROR = '[Jobs Page] Changing Job Status Error'
 export const DELETING_JOB = '[Jobs Page] Deleting Job';
 export const DELETING_JOB_SUCCESS = '[Jobs Page] Deleting Job Success';
 export const DELETING_JOB_ERROR = '[Jobs Page] Deleting Job Error';
-export const DELETING_PRICING = '[Jobs Page] Deleting Pricing';
-export const DELETING_PRICING_SUCCESS = '[Jobs Page] Deleting Pricing Success';
-export const DELETING_PRICING_ERROR = '[Jobs Page] Deleting Pricing Error';
-export const UPDATING_PRICING = '[Jobs Page] Updating Pricing';
-export const UPDATING_PRICING_SUCCESS = '[Jobs Page] Updating Pricing Success';
-export const UPDATING_PRICING_ERROR = '[Jobs Page] Updating Pricing Error';
-export const DELETING_PRICING_MATCH = '[Jobs Page] Deleting Pricing Match';
-export const DELETING_PRICING_MATCH_SUCCESS = '[Jobs Page] Deleting Pricing Match Success';
-export const DELETING_PRICING_MATCH_ERROR = '[Jobs Page] Deleting Pricing Match Error';
-export const UPDATING_PRICING_MATCH = '[Jobs Page] Updating Pricing Match';
-export const UPDATING_PRICING_MATCH_SUCCESS = '[Jobs Page] Updating Pricing Match Success';
-export const UPDATING_PRICING_MATCH_ERROR = '[Jobs Page] Updating Pricing Match Error';
-export const RECALCULATING_RELATED_PRICINGS = '[Jobs Page] Recalculating Related Pricings';
-export const RECALCULATING_RELATED_PRICINGS_SUCCESS = '[Jobs Page] Recalculating Related Pricings Success';
-export const RECALCULATING_RELATED_PRICINGS_ERROR = '[Jobs Page] Recalculating Related Pricings Error';
 export const LOAD_COMPANY_PAYMARKETS = '[Jobs Page] Load Company PayMarket';
 export const LOAD_COMPANY_PAYMARKETS_SUCCESS = '[Jobs Page] Load Company PayMarket Success';
 export const LOAD_STRUCTURE_GRADES = '[Jobs Page] Load Structure Grades';
@@ -59,11 +38,6 @@ export class HandleApiError implements Action {
   constructor(public payload: string) { }
 }
 
-export class ShowCreateProjectModal implements Action {
-  readonly type = RESET_ERRORS_FOR_MODALS;
-  constructor() { }
-}
-
 export class CreatingProject implements Action {
   readonly type = CREATING_PROJECT;
   constructor(public payload: CreateProjectRequest) { }
@@ -79,8 +53,8 @@ export class CreatingProjectError implements Action {
   constructor(public error: any) { }
 }
 
-export class ResetErrorsForModals implements Action {
-  readonly type = RESET_ERRORS_FOR_MODALS;
+export class ResetJobsPageModals implements Action {
+  readonly type = RESET_JOBS_PAGE_MODALS;
   constructor() { }
 }
 
@@ -111,81 +85,6 @@ export class DeletingJobSuccess implements Action {
 
 export class DeletingJobError implements Action {
   readonly type = DELETING_JOB_ERROR;
-  constructor(public error: any) { }
-}
-
-export class DeletingPricing implements Action {
-  readonly type = DELETING_PRICING;
-  constructor(public payload: DeletePricingRequest) { }
-}
-
-export class DeletingPricingSuccess implements Action {
-  readonly type = DELETING_PRICING_SUCCESS;
-  constructor() { }
-}
-
-export class DeletingPricingError implements Action {
-  readonly type = DELETING_PRICING_ERROR;
-  constructor(public error: any) { }
-}
-
-export class UpdatingPricing implements Action {
-  readonly type = UPDATING_PRICING;
-  constructor(public request: UpdatePricingRequest, public payfactorsGridPageViewId: string) { }
-}
-
-export class UpdatingPricingSuccess implements Action {
-  readonly type = UPDATING_PRICING_SUCCESS;
-  constructor() { }
-}
-
-export class UpdatingPricingError implements Action {
-  readonly type = UPDATING_PRICING_ERROR;
-  constructor(public error: any) { }
-}
-
-export class DeletingPricingMatch implements Action {
-  readonly type = DELETING_PRICING_MATCH;
-  constructor(public pricingMatchId: number) { }
-}
-
-export class DeletingPricingMatchSuccess implements Action {
-  readonly type = DELETING_PRICING_MATCH_SUCCESS;
-  constructor() { }
-}
-
-export class DeletingPricingMatchError implements Action {
-  readonly type = DELETING_PRICING_MATCH_ERROR;
-  constructor(public error: any) { }
-}
-
-export class UpdatingPricingMatch implements Action {
-  readonly type = UPDATING_PRICING_MATCH;
-  constructor(public request: UpdatePricingMatchRequest, public pricingId: number, public matchesGridPageViewId: string) { }
-}
-
-export class UpdatingPricingMatchSuccess implements Action {
-  readonly type = UPDATING_PRICING_MATCH_SUCCESS;
-  constructor() { }
-}
-
-export class UpdatingPricingMatchError implements Action {
-  readonly type = UPDATING_PRICING_MATCH_ERROR;
-  constructor(public error: any) { }
-}
-
-export class RecalculatingRelatedPricings implements Action {
-  readonly type = RECALCULATING_RELATED_PRICINGS;
-  constructor(public pricingId: number) { }
-}
-
-export class RecalculatingRelatedPricingsSuccess implements Action {
-  readonly type = RECALCULATING_RELATED_PRICINGS_SUCCESS;
-  constructor() { }
-}
-
-export class RecalculatingRelatedPricingsError implements Action {
-  readonly type = RECALCULATING_RELATED_PRICINGS_ERROR;
   constructor(public error: any) { }
 }
 
@@ -251,32 +150,16 @@ export class ToggleJobsPageError implements Action {
 export type JobsPageActions
   = SetJobsPageId
   | HandleApiError
-  | ShowCreateProjectModal
   | CreatingProject
   | CreatingProjectSuccess
   | CreatingProjectError
-  | ResetErrorsForModals
+  | ResetJobsPageModals
   | ChangingJobStatus
   | ChangingJobStatusSuccess
   | ChangingJobStatusError
   | DeletingJob
   | DeletingJobSuccess
   | DeletingJobError
-  | DeletingPricing
-  | DeletingPricingSuccess
-  | DeletingPricingError
-  | UpdatingPricing
-  | UpdatingPricingSuccess
-  | UpdatingPricingError
-  | DeletingPricingMatch
-  | DeletingPricingMatchSuccess
-  | DeletingPricingMatchError
-  | UpdatingPricingMatch
-  | UpdatingPricingMatchSuccess
-  | UpdatingPricingMatchError
-  | RecalculatingRelatedPricings
-  | RecalculatingRelatedPricingsSuccess
-  | RecalculatingRelatedPricingsError
   | LoadCompanyPayMarkets
   | LoadCompanyPayMarketsSuccess
   | LoadStructureGrades
