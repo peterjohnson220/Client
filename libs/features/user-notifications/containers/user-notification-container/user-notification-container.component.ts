@@ -1,9 +1,10 @@
 import { Component, ComponentFactory, ComponentFactoryResolver, Input, OnInit, ViewChild } from '@angular/core';
 
-import { UserNotification } from '../../models';
-import { UserNotificationHostDirective } from '../../directives';
 import { UserTicketNotificationComponent } from '../categories/user-ticket/user-ticket-notification.component';
 import { UserNotificationBaseComponent } from '../user-notification-base/user-notification-base.component';
+import { RoutedJobDescriptionNotificationComponent } from '../categories/routed-job-description/routed-job-description-notification.component';
+import { UserNotification } from '../../models';
+import { UserNotificationHostDirective } from '../../directives';
 import { UserNotificationConstants } from '../../constants';
 
 @Component({
@@ -27,6 +28,10 @@ export class UserNotificationContainerComponent  implements OnInit {
     switch (this.UserNotification.LookupKey) {
       case UserNotificationConstants.USER_TICKET_LOOKUP_KEY:
         componentFactory = this.componentFactoryResolver.resolveComponentFactory(UserTicketNotificationComponent);
+        break;
+
+      case UserNotificationConstants.ROUTED_JOB_DESCRIPTION_LOOKUP_KEY:
+        componentFactory = this.componentFactoryResolver.resolveComponentFactory(RoutedJobDescriptionNotificationComponent);
         break;
 
       default:
