@@ -9,8 +9,8 @@ export class AdvancedModelingHelper {
       case 'UseRegressionCalculation': {
         return MissingMarketDataTypes.UseRegressionCalculation;
       }
-      case 'IncreaseCurrentByPercent': {
-        return MissingMarketDataTypes.IncreaseCurrentByPercent;
+      case 'IncreaseMidpointByPercent': {
+        return MissingMarketDataTypes.IncreaseMidpointByPercent;
       }
       case 'DecreasePercentFromNextLevel': {
         return MissingMarketDataTypes.DecreasePercentFromNextLevel;

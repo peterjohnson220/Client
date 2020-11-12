@@ -7,7 +7,7 @@ export interface MissingMarketDataTypeSetting {
 
 export function generateMockMissingMarketDataTypeSetting(): MissingMarketDataTypeSetting {
   return {
-      Type: MissingMarketDataTypes.LeaveValuesBlank,
-      Percentage: 0
-    };
+    Type: MissingMarketDataTypes.LeaveValuesBlank,
+    Percentage: 0
+  };
 }

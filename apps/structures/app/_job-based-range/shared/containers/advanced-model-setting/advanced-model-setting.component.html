@@ -19,17 +19,17 @@
              (change)="handlePreventMidsFromIncreasingMoreThanPercentChanged($event)">
       Do not allow midpoint to increase more than
     </label>
-    <kendo-numerictextbox  class="form-control ie-fix input-percentage-field"
-                           formControlName="Percentage"
-                           [ngClass]="{ 'is-invalid': preventMidsFromIncreasingMoreThanPercentEnabled.value && !preventMidsFromIncreasingMoreThanPercentPercentage.valid
-                            && (attemptedSubmit || preventMidsFromIncreasingMoreThanPercentPercentage.touched) }"
-                           [format]="'n'"
-                           [spinners]="false"
-                           [decimals]="1"
-                           [min]="0.1"
-                           [max]="100"
-                           [step]="0.1"
-                           [autoCorrect]="true">
+    <kendo-numerictextbox class="form-control ie-fix input-percentage-field"
+                          formControlName="Percentage"
+                          [ngClass]="{ 'is-invalid': preventMidsFromIncreasingMoreThanPercentEnabled.value && !preventMidsFromIncreasingMoreThanPercentPercentage.valid
+                           && (attemptedSubmit || preventMidsFromIncreasingMoreThanPercentPercentage.touched) }"
+                          [format]="'n'"
+                          [spinners]="false"
+                          [decimals]="1"
+                          [min]="0.1"
+                          [max]="100"
+                          [step]="0.1"
+                          [autoCorrect]="true">
     </kendo-numerictextbox> %
     <div class="text-danger"
          *ngIf="preventMidsFromIncreasingMoreThanPercentEnabled.value
@@ -64,31 +64,97 @@
       </label>
     </div>
     <div class="form-group">
-      <label for="IncreaseCurrentByPercent">
+      <label for="IncreaseMidpointByPercent">
         <input type="radio"
-               id="IncreaseCurrentByPercent"
+               id="IncreaseMidpointByPercent"
                class="control-margin"
-               [value]="getMissingMarketDataTypeValue('IncreaseCurrentByPercent')"
+               [value]="getMissingMarketDataTypeValue('IncreaseMidpointByPercent')"
                [formControlName]="'Type'"
                (change)="handleRadioButtonChanged($event)"
                [attr.disabled]="disableAdvancedSetting ? 'disabled' : null">
-        Increase midpoint by
+        Increase midpoint by&#160;
       </label>
-      <kendo-numerictextbox  class="form-control ie-fix input-percentage-field"
-                             formControlName="Percentage"
-                             [ngClass]="{ 'is-invalid': attemptedSubmit && !missingMarketDataTypePercentage.valid && missingMarketDataTypeType.value === missingMarketDataTypesIncreaseCurrentByPercent }"
-                             [format]="'n'"
-                             [spinners]="false"
-                             [decimals]="2"
-                             [min]="0"
-                             [max]="100"
-                             [autoCorrect]="true"
-                             [attr.disabled]="disableAdvancedSetting ? 'disabled' : null">
+      <kendo-numerictextbox class="form-control ie-fix input-percentage-field"
+                            formControlName="IncreaseMidpointByPercentage"
+                            [ngClass]="{ 'is-invalid': attemptedSubmit
+                             && !missingMarketDataTypeIncreaseMidpointByPercentage.valid
+                             && missingMarketDataTypeType.value === missingMarketDataTypesIncreaseMidpointByPercent }"
+                            [format]="'n'"
+                            [spinners]="false"
+                            [decimals]="2"
+                            [min]="0"
+                            [max]="100"
+                            [autoCorrect]="true"
+                            [attr.disabled]="disableAdvancedSetting ? 'disabled' : null">
       </kendo-numerictextbox> %
       <div class="text-danger"
-           *ngIf="missingMarketDataTypeType.value === missingMarketDataTypesIncreaseCurrentByPercent
-                  && !missingMarketDataTypePercentage.valid
-                  && (attemptedSubmit || missingMarketDataTypePercentage.touched)">
+           *ngIf="missingMarketDataTypeType.value === missingMarketDataTypesIncreaseMidpointByPercent
+                  && !missingMarketDataTypeIncreaseMidpointByPercentage.valid
+                  && (attemptedSubmit || missingMarketDataTypeIncreaseMidpointByPercentage.touched)">
+        Range allowed is 0 to 100
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="DecreasePercentFromNextLevel">
+        <input type="radio"
+               id="DecreasePercentFromNextLevel"
+               class="control-margin"
+               [value]="getMissingMarketDataTypeValue('DecreasePercentFromNextLevel')"
+               [formControlName]="'Type'"
+               (change)="handleRadioButtonChanged($event)"
+               [attr.disabled]="disableAdvancedSetting ? 'disabled' : null">
+        Decrease midpoint by
+      </label>
+      <kendo-numerictextbox class="form-control ie-fix input-percentage-field"
+                            formControlName="DecreasePercentFromNextLevelPercentage"
+                            [ngClass]="{ 'is-invalid': attemptedSubmit
+                             && !missingMarketDataTypeDecreasePercentFromNextLevelPercentage.valid
+                             && missingMarketDataTypeType.value === missingMarketDataTypesDecreasePercentFromNextLevel }"
+                            [format]="'n'"
+                            [spinners]="false"
+                            [decimals]="2"
+                            [min]="0"
+                            [max]="100"
+                            [autoCorrect]="true"
+                            [attr.disabled]="disableAdvancedSetting ? 'disabled' : null">
+      </kendo-numerictextbox> %
+      from the next level's midpoint
+      <div class="text-danger"
+           *ngIf="missingMarketDataTypeType.value === missingMarketDataTypesDecreasePercentFromNextLevel
+                  && !missingMarketDataTypeDecreasePercentFromNextLevelPercentage.valid
+                  && (attemptedSubmit || missingMarketDataTypeDecreasePercentFromNextLevelPercentage.touched)">
+        Range allowed is 0 to 100
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="IncreasePercentFromPreviousLevel">
+        <input type="radio"
+               id="IncreasePercentFromPreviousLevel"
+               class="control-margin"
+               [value]="getMissingMarketDataTypeValue('IncreasePercentFromPreviousLevel')"
+               [formControlName]="'Type'"
+               (change)="handleRadioButtonChanged($event)"
+               [attr.disabled]="disableAdvancedSetting ? 'disabled' : null">
+        Increase midpoint by&#160;
+      </label>
+      <kendo-numerictextbox class="form-control ie-fix input-percentage-field"
+                            formControlName="IncreasePercentFromPreviousLevelPercentage"
+                            [ngClass]="{ 'is-invalid': attemptedSubmit
+                             && !missingMarketDataTypeIncreasePercentFromPreviousLevelPercentage.valid
+                             && missingMarketDataTypeType.value === missingMarketDataTypesIncreasePercentFromPreviousLevel }"
+                            [format]="'n'"
+                            [spinners]="false"
+                            [decimals]="2"
+                            [min]="0"
+                            [max]="100"
+                            [autoCorrect]="true"
+                            [attr.disabled]="disableAdvancedSetting ? 'disabled' : null">
+      </kendo-numerictextbox> %
+      from the previous level's midpoint
+      <div class="text-danger"
+           *ngIf="missingMarketDataTypeType.value === missingMarketDataTypesIncreasePercentFromPreviousLevel
+                  && !missingMarketDataTypeIncreasePercentFromPreviousLevelPercentage.valid
+                  && (attemptedSubmit || missingMarketDataTypeIncreasePercentFromPreviousLevelPercentage.touched)">
         Range allowed is 0 to 100
       </div>
     </div>

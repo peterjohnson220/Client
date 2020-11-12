@@ -42,13 +42,16 @@ export class AdvancedModelSettingComponent implements OnInit, OnDestroy, Control
   private formPreventMidsFromIncreasingMoreThanPercentEnabled = 'PreventMidsFromIncreasingMoreThanPercent.Enabled';
   private formPreventMidsFromIncreasingMoreThanPercentPercentage = 'PreventMidsFromIncreasingMoreThanPercent.Percentage';
   private formMissingMarketDataTypeType = 'MissingMarketDataType.Type';
-  private formMissingMarketDataTypePercentage = 'MissingMarketDataType.Percentage';
+  private formMissingMarketDataTypeIncreaseMidpointByPercentage = 'MissingMarketDataType.IncreaseMidpointByPercentage';
+  private formMissingMarketDataTypeDecreasePercentFromNextLevelPercentage = 'MissingMarketDataType.DecreasePercentFromNextLevelPercentage';
+  private formMissingMarketDataTypeIncreasePercentFromPreviousLevelPercentage = 'MissingMarketDataType.IncreasePercentFromPreviousLevelPercentage';
+
 
   constructor(public store: Store<fromJobBasedRangeReducer.State>) {
-    this.hasPublishedSub = this.store.select(fromSharedJobBasedRangeReducer.getStructureHasPublished).subscribe( hp => {
+    this.hasPublishedSub = this.store.select(fromSharedJobBasedRangeReducer.getStructureHasPublished).subscribe(hp => {
       if (hp.obj > 0) {
         this.disableAdvancedSetting = false;
-      } else if(hp.loading !== true) {
+      } else if (hp.loading !== true) {
         this.disableAdvancedSetting = true;
       }
     });
@@ -56,6 +59,21 @@ export class AdvancedModelSettingComponent implements OnInit, OnDestroy, Control
 
   buildForm() {
     if (this.metadata.RangeAdvancedSetting !== null) {
+      const increaseMidpointByPercentage =
+        this.metadata.RangeAdvancedSetting.MissingMarketDataType.Type === MissingMarketDataTypes.IncreaseMidpointByPercent
+          ? this.metadata.RangeAdvancedSetting.MissingMarketDataType.IncreaseMidpointByPercentage
+          : null;
+
+      const decreasePercentFromNextLevelPercentage =
+        this.metadata.RangeAdvancedSetting.MissingMarketDataType.Type === MissingMarketDataTypes.DecreasePercentFromNextLevel
+          ? this.metadata.RangeAdvancedSetting.MissingMarketDataType.DecreasePercentFromNextLevelPercentage
+          : null;
+
+      const increasePercentFromPreviousLevelPercentage =
+        this.metadata.RangeAdvancedSetting.MissingMarketDataType.Type === MissingMarketDataTypes.IncreasePercentFromPreviousLevel
+          ? this.metadata.RangeAdvancedSetting.MissingMarketDataType.IncreasePercentFromPreviousLevelPercentage
+          : null;
+
       this.advancedModelSettingForm = new FormGroup({
         'PreventMidsBelowCurrent': new FormControl(this.metadata.RangeAdvancedSetting.PreventMidsBelowCurrent),
         'PreventMidsFromIncreasingMoreThanPercent': new FormGroup({
@@ -68,11 +86,13 @@ export class AdvancedModelSettingComponent implements OnInit, OnDestroy, Control
         }),
         'MissingMarketDataType': new FormGroup({
           'Type': new FormControl(String(this.metadata.RangeAdvancedSetting.MissingMarketDataType.Type)),
-          'Percentage': new FormControl(this.metadata.RangeAdvancedSetting.MissingMarketDataType.Percentage)
+          'IncreaseMidpointByPercentage': new FormControl(increaseMidpointByPercentage),
+          'DecreasePercentFromNextLevelPercentage': new FormControl(decreasePercentFromNextLevelPercentage),
+          'IncreasePercentFromPreviousLevelPercentage': new FormControl(increasePercentFromPreviousLevelPercentage),
         })
       });
     } else {
-      this.advancedModelSettingForm  = new FormGroup({
+      this.advancedModelSettingForm = new FormGroup({
         'PreventMidsBelowCurrent': new FormControl(false),
         'PreventMidsFromIncreasingMoreThanPercent': new FormGroup({
           'Enabled': new FormControl(false),
@@ -84,7 +104,9 @@ export class AdvancedModelSettingComponent implements OnInit, OnDestroy, Control
         }),
         'MissingMarketDataType': new FormGroup({
           'Type': new FormControl(MissingMarketDataTypes.LeaveValuesBlank),
-          'Percentage': new FormControl(null)
+          'IncreaseMidpointByPercentage': new FormControl(null),
+          'DecreasePercentFromNextLevelPercentage': new FormControl(null),
+          'IncreasePercentFromPreviousLevelPercentage': new FormControl(null)
         })
       });
     }
@@ -120,12 +142,28 @@ export class AdvancedModelSettingComponent implements OnInit, OnDestroy, Control
     return this.advancedModelSettingForm.get(this.formMissingMarketDataTypeType);
   }
 
-  get missingMarketDataTypePercentage() {
-    return this.advancedModelSettingForm.get(this.formMissingMarketDataTypePercentage);
+  get missingMarketDataTypeIncreaseMidpointByPercentage() {
+    return this.advancedModelSettingForm.get(this.formMissingMarketDataTypeIncreaseMidpointByPercentage);
   }
 
-  get missingMarketDataTypesIncreaseCurrentByPercent() {
-    return MissingMarketDataTypes.IncreaseCurrentByPercent;
+  get missingMarketDataTypeDecreasePercentFromNextLevelPercentage() {
+    return this.advancedModelSettingForm.get(this.formMissingMarketDataTypeDecreasePercentFromNextLevelPercentage);
+  }
+
+  get missingMarketDataTypeIncreasePercentFromPreviousLevelPercentage() {
+    return this.advancedModelSettingForm.get(this.formMissingMarketDataTypeIncreasePercentFromPreviousLevelPercentage);
+  }
+
+  get missingMarketDataTypesIncreaseMidpointByPercent() {
+    return MissingMarketDataTypes.IncreaseMidpointByPercent;
+  }
+
+  get missingMarketDataTypesDecreasePercentFromNextLevel() {
+    return MissingMarketDataTypes.DecreasePercentFromNextLevel;
+  }
+
+  get missingMarketDataTypesIncreasePercentFromPreviousLevel() {
+    return MissingMarketDataTypes.IncreasePercentFromPreviousLevel;
   }
 
   handlePreventMidsFromIncreasingMoreThanPercentChanged(event: any) {
@@ -137,10 +175,16 @@ export class AdvancedModelSettingComponent implements OnInit, OnDestroy, Control
   }
 
   handleRadioButtonChanged(event: any) {
-    if (event.target.id === 'IncreaseCurrentByPercent') {
-      this.setValidators(this.formMissingMarketDataTypePercentage, 0, 100);
-    } else {
-      this.clearValidators(this.formMissingMarketDataTypePercentage);
+    this.clearValidators(this.formMissingMarketDataTypeIncreaseMidpointByPercentage);
+    this.clearValidators(this.formMissingMarketDataTypeDecreasePercentFromNextLevelPercentage);
+    this.clearValidators(this.formMissingMarketDataTypeIncreasePercentFromPreviousLevelPercentage);
+
+    if (event.target.id === 'IncreaseMidpointByPercent') {
+      this.setValidators(this.formMissingMarketDataTypeIncreaseMidpointByPercentage, 0, 100);
+    } else if (event.target.id === 'DecreasePercentFromNextLevel') {
+      this.setValidators(this.formMissingMarketDataTypeDecreasePercentFromNextLevelPercentage, 0, 100);
+    } else if (event.target.id === 'IncreasePercentFromPreviousLevel') {
+      this.setValidators(this.formMissingMarketDataTypeIncreasePercentFromPreviousLevelPercentage, 0, 100);
     }
   }
 
@@ -206,10 +250,16 @@ export class AdvancedModelSettingComponent implements OnInit, OnDestroy, Control
       this.clearValidators(this.formPreventMidsFromIncreasingMoreThanPercentPercentage);
     }
 
-    if (+this.missingMarketDataTypeType.value === MissingMarketDataTypes.IncreaseCurrentByPercent) {
-      this.setValidators(this.formMissingMarketDataTypePercentage, 0, 100);
-    } else {
-      this.clearValidators(this.formMissingMarketDataTypePercentage);
+    this.clearValidators(this.formMissingMarketDataTypeIncreaseMidpointByPercentage);
+    this.clearValidators(this.formMissingMarketDataTypeDecreasePercentFromNextLevelPercentage);
+    this.clearValidators(this.formMissingMarketDataTypeIncreasePercentFromPreviousLevelPercentage);
+
+    if (+this.missingMarketDataTypeType.value === MissingMarketDataTypes.IncreaseMidpointByPercent) {
+      this.setValidators(this.formMissingMarketDataTypeIncreaseMidpointByPercentage, 0, 100);
+    } else if (+this.missingMarketDataTypeType.value === MissingMarketDataTypes.DecreasePercentFromNextLevel) {
+      this.setValidators(this.formMissingMarketDataTypeDecreasePercentFromNextLevelPercentage, 0, 100);
+    } else if (+this.missingMarketDataTypeType.value === MissingMarketDataTypes.IncreasePercentFromPreviousLevel) {
+      this.setValidators(this.formMissingMarketDataTypeIncreasePercentFromPreviousLevelPercentage, 0, 100);
     }
 
     if (this.disableAdvancedSetting) {

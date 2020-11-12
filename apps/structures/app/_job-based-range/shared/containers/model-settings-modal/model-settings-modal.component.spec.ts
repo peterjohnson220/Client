@@ -10,6 +10,7 @@ import { AbstractFeatureFlagService, PfCommonModule } from 'libs/core';
 import { generateMockStructureRangeDistributionTypes } from 'libs/models/payfactors-api';
 import { SettingsService } from 'libs/state/app-context/services';
 import { generateMockRangeAdvancedSetting, generateMockRangeDistributionSettingForm } from 'libs/models/structures';
+import { MissingMarketDataTypes } from 'libs/constants/structures/missing-market-data-type';
 
 import * as fromJobBasedRangeReducer from '../../../shared/reducers';
 import * as fromModelSettingsModalActions from '../../../shared/actions/model-settings-modal.actions';
@@ -136,6 +137,21 @@ describe('Job Based Ranges - Model Settings Modal', () => {
       'ControlPoint_Formula': new FormControl({ value: null })
     });
 
+    const increaseMidpointByPercentage =
+      instance.metadata.RangeAdvancedSetting.MissingMarketDataType.Type === MissingMarketDataTypes.IncreaseMidpointByPercent
+        ? instance.metadata.RangeAdvancedSetting.MissingMarketDataType.IncreaseMidpointByPercentage
+        : null;
+
+    const decreasePercentFromNextLevelPercentage =
+      instance.metadata.RangeAdvancedSetting.MissingMarketDataType.Type === MissingMarketDataTypes.DecreasePercentFromNextLevel
+        ? instance.metadata.RangeAdvancedSetting.MissingMarketDataType.DecreasePercentFromNextLevelPercentage
+        : null;
+
+    const increasePercentFromPreviousLevelPercentage =
+      instance.metadata.RangeAdvancedSetting.MissingMarketDataType.Type === MissingMarketDataTypes.IncreasePercentFromPreviousLevel
+        ? instance.metadata.RangeAdvancedSetting.MissingMarketDataType.IncreasePercentFromPreviousLevelPercentage
+        : null;
+
     instance.advancedModelSettingComponent.advancedModelSettingForm = new FormGroup({
       'PreventMidsBelowCurrent': new FormControl(instance.metadata.RangeAdvancedSetting.PreventMidsBelowCurrent),
       'PreventMidsFromIncreasingMoreThanPercent': new FormGroup({
@@ -148,7 +164,9 @@ describe('Job Based Ranges - Model Settings Modal', () => {
       }),
       'MissingMarketDataType': new FormGroup({
         'Type': new FormControl(String(instance.metadata.RangeAdvancedSetting.MissingMarketDataType.Type)),
-        'Percentage': new FormControl(instance.metadata.RangeAdvancedSetting.MissingMarketDataType.Percentage)
+        'IncreaseMidpointByPercentage': new FormControl(increaseMidpointByPercentage),
+        'DecreasePercentFromNextLevelPercentage': new FormControl(decreasePercentFromNextLevelPercentage),
+        'IncreasePercentFromPreviousLevelPercentage': new FormControl(increasePercentFromPreviousLevelPercentage),
       })
     });
 
