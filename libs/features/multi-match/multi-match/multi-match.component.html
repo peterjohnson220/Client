@@ -1,30 +1,28 @@
 <ng-container [ngSwitch]="display">
-  <div *ngIf="!(refiningPeerCut$ | async); else refineScopeMap" class="flex-column-container">
-    <ng-container *ngSwitchCase="'component'" [ngTemplateOutlet]="multiMatchContent"></ng-container>
-    <ng-container *ngSwitchCase="'modal'">
-      <pf-modal-form
-        [size]="'xl'"
-        [modalId]="'au-modal-multi-match'"
-        [isOpen$]="showMultiMatchModal$"
-        [showFooter]="true"
-        [title]="'Price Jobs'"
-        [primaryButtonText]="'Save'"
-        [windowClass]="'multi-match-modal'"
-        (onDismiss)="handleCancelClicked()"
-        (onSubmit)="handleSaveClicked()"
-        [showSpinner]="true"
-        [submitEnabled]="!(savingChanges$ | async)"
-        [primaryButtonTextSubmitting]="'Saving'"
-        [submitting]="saveChangesStarted"
-      >
-        <ng-container basic-content>
-          <div class="multi-match-modal-body-container">
-            <ng-container [ngTemplateOutlet]="multiMatchContent"></ng-container>
-          </div>
-        </ng-container>
-      </pf-modal-form>
-    </ng-container>
-  </div>
+  <ng-container *ngSwitchCase="'component'" [ngTemplateOutlet]="multiMatchContent"></ng-container>
+  <ng-container *ngSwitchCase="'modal'">
+    <pf-modal-form
+      [size]="'xl'"
+      [modalId]="'au-modal-multi-match'"
+      [isOpen$]="showMultiMatchModal$"
+      [showFooter]="true"
+      [title]="'Price Jobs'"
+      [primaryButtonText]="'Save'"
+      [windowClass]="'multi-match-modal'"
+      (onDismiss)="handleCancelClicked()"
+      (onSubmit)="handleSaveClicked()"
+      [showSpinner]="true"
+      [submitEnabled]="!(savingChanges$ | async)"
+      [primaryButtonTextSubmitting]="'Saving'"
+      [submitting]="saveChangesStarted"
+    >
+      <ng-container basic-content>
+        <div class="multi-match-modal-body-container">
+          <ng-container [ngTemplateOutlet]="multiMatchContent"></ng-container>
+        </div>
+      </ng-container>
+    </pf-modal-form>
+  </ng-container>
 </ng-container>
 
 <ng-template #savingChanges>
@@ -39,7 +37,8 @@
     Select one or multiple cuts from your search results by clicking anywhere in the cut.
     Drag and drop in the company job in the right hand panel to add those cuts to that job. Once you have added your cuts, click Save to create the pricing.
   </div>
-  <div class="multi-match-content">
+<!--  TODO: Come up with a better way to handle refining here, doesn't really make sense here [JP]-->
+  <div *ngIf="!(refiningPeerCut$ | async); else refineScopeMap" class="multi-match-content">
     <pf-search-layout [resultsCount]="numberOfResults$ | async">
       <ng-container sidebar>
         <pf-search-filters
@@ -89,7 +88,7 @@
     [cutsDraggable]="true"
     [implementation]="display"
     [refineInPeerEnabled]="customizeScopeInMultimatchModalFlag.value"
-    [refineInPeerReady]="true"
+    [refineInPeerReadyDefault]="true"
   ></pf-survey-search-results>
   <pf-jobs-to-price-container
     [featureImplementation]="featureImplementation"
@@ -99,7 +98,7 @@
 <ng-template #refineScopeMap>
   <pf-upsert-peer-data-cut
     [entityConfiguration]="entityConfiguration"
-    [companyJobId]="companyId"
+    [companyJobId]="-1"
     [companyPayMarketId]="companyPayMarketId"
   ></pf-upsert-peer-data-cut>
 </ng-template>

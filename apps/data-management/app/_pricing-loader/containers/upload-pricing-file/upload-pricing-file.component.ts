@@ -6,10 +6,10 @@ import { Observable, Subject, Subscription } from 'rxjs';
 import { FileUploadComponent } from 'libs/features/org-data-loader/components';
 import { LoaderSettingKeyName } from 'libs/models/data-loads';
 import { AsyncStateObj } from 'libs/models/state';
+import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
 
 import * as fromPricingLoaderMainReducer from '../../reducers';
 import * as fromUploadPricingFileActions from '../../actions/upload-pricing-file.actions';
-import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from '../../../../../../libs/core/services/feature-flags';
 
 @Component({
   selector: 'pf-upload-pricing-file',

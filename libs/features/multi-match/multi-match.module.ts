@@ -12,7 +12,7 @@ import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
 import { PfSearchModule } from 'libs/features/search';
 import { SurveySearchModule } from 'libs/features/survey-search';
-import { UpsertPeerDataCutModule } from "libs/features/upsert-peer-data-cut";
+import { UpsertPeerDataCutModule } from 'libs/features/upsert-peer-data-cut';
 
 import * as fromFaIcons from './fa-icons';
 import {JobToPriceComponent} from './components';

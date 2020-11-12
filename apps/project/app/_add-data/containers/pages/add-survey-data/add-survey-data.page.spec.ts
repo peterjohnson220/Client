@@ -28,7 +28,7 @@ describe('Project - Add Data - Surveys Page', () => {
         }),
         DragulaModule.forRoot()
       ],
-      providers:[
+      providers: [
         {
           provide: AbstractFeatureFlagService,
           useValue: { enabled: jest.fn(), bindEnabled: jest.fn() }

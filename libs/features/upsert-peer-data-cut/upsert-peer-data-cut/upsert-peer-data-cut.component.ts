@@ -16,21 +16,14 @@ import * as fromLibsPeerExchangeExplorerReducers from 'libs/features/peer/exchan
 import * as fromLibsExchangeExplorerFilterContextActions from 'libs/features/peer/exchange-explorer/actions/exchange-filter-context.actions';
 import * as fromDataCutValidationActions from 'libs/features/peer/actions/data-cut-validation.actions';
 import * as fromDataCutValidationReducer from 'libs/features/peer/guidelines-badge/reducers';
+import * as fromSurveySearchReducer from 'libs/features/survey-search/reducers';
 import * as fromExchangeExplorerActions from 'libs/features/peer/exchange-explorer/actions/exchange-explorer.actions';
+import * as fromSurveySearchResultsActions from 'libs/features/survey-search/actions/survey-search-results.actions';
 
 import * as fromUpsertDataCutActions from '../actions/upsert-peer-data-cut.actions';
 import * as fromRequestPeerAccessActions from '../actions/request-peer-access.actions';
 import * as fromUpsertPeerDataReducers from '../reducers';
-import {UpsertPeerDataCutEntityConfigurationModel} from '../models';
-import * as fromSurveySearchResultsActions from '../../survey-search/actions/survey-search-results.actions';
-import * as fromLibsExchangeExplorerActions from "../../peer/exchange-explorer/actions/exchange-explorer.actions";
-import * as fromSurveySearchReducer from "../../survey-search/reducers";
-import * as fromJobsToPriceActions from "../../multi-match/actions/jobs-to-price.actions";
-import * as fromSingledActions from "../../search/actions/singled-filter.actions";
-import * as fromChildFilterActions from "../../search/actions/child-filter.actions";
-import * as fromSearchResultsActions from "../../search/actions/search-results.actions";
-import * as fromSearchPageActions from "../../search/actions/search-page.actions";
-import * as fromSearchFiltersActions from "../../search/actions/search-filters.actions";
+import { UpsertPeerDataCutEntityConfigurationModel } from '../models';
 
 @Component({
   selector: 'pf-upsert-peer-data-cut',
@@ -88,7 +81,6 @@ export class UpsertPeerDataCutComponent implements OnInit, OnDestroy, OnChanges 
 
   constructor(
     private store: Store<fromUpsertPeerDataReducers.State>,
-    private mapStore: Store<fromLibsPeerExchangeExplorerReducers.State>,
     private guidelinesService: DojGuidelinesService,
     private settingsService: SettingsService,
     private cdRef: ChangeDetectorRef
@@ -142,15 +134,19 @@ export class UpsertPeerDataCutComponent implements OnInit, OnDestroy, OnChanges 
 
   upsert() {
     if (this.displayMap) {
-      this.store.dispatch(new fromUpsertDataCutActions.UpsertDataCut({
-        DataCutGuid: this.cutGuid,
-        CompanyJobId: this.companyJobId,
-        CompanyPayMarketId: this.companyPayMarketId,
-        IsPayMarketOverride: this.isPayMarketOverride,
-        EntityConfiguration: this.entityConfiguration,
-        ZoomLevel: this.map ? this.map.getZoomLevel() : 0,
-        BaseEntityId: this.entityConfiguration.BaseEntityId
-      }));
+      if (!this.refining) {
+        this.store.dispatch(new fromUpsertDataCutActions.UpsertDataCut({
+          DataCutGuid: this.cutGuid,
+          CompanyJobId: this.companyJobId,
+          CompanyPayMarketId: this.companyPayMarketId,
+          IsPayMarketOverride: this.isPayMarketOverride,
+          EntityConfiguration: this.entityConfiguration,
+          ZoomLevel: this.map ? this.map.getZoomLevel() : 0,
+          BaseEntityId: this.entityConfiguration.BaseEntityId
+        }));
+      } else {
+        // TODO: If refining, add to the 'shopping cart'
+      }
 
       this.displayMap = false;
       this.store.dispatch(new fromExchangeExplorerActions.ResetExchangeExplorerState());
@@ -164,7 +160,7 @@ export class UpsertPeerDataCutComponent implements OnInit, OnDestroy, OnChanges 
   }
 
   cancel(sendEmit = true) {
-    this.onResetApp();
+    this.exchangeExplorer.onResetApp();
     this.store.dispatch(new fromUpsertDataCutActions.CancelUpsertDataCut);
     this.displayMap = false;
     this.store.dispatch(new fromExchangeExplorerActions.ResetExchangeExplorerState());
@@ -230,14 +226,6 @@ export class UpsertPeerDataCutComponent implements OnInit, OnDestroy, OnChanges 
     ));
   }
 
-  onResetApp() {
-    this.store.dispatch(new fromSingledActions.Reset());
-    this.store.dispatch(new fromChildFilterActions.Reset());
-    this.store.dispatch(new fromSearchResultsActions.Reset());
-    this.store.dispatch(new fromSearchPageActions.Reset());
-    this.store.dispatch(new fromSearchFiltersActions.Reset());
-  }
-
   showMap() {
     this.displayMap = true;
     this.cdRef.detectChanges();
@@ -284,11 +272,9 @@ export class UpsertPeerDataCutComponent implements OnInit, OnDestroy, OnChanges 
 
     this.refiningPeerCutSubscription = this.refiningPeerCut$.subscribe((refining) => {
       this.refining = refining;
-      if(refining) {
-        this.store.dispatch(new fromLibsExchangeExplorerActions.RefineExchangeJob({
-          lockedExchangeJobId: this.refiningJobId,
-          companyPayMarketId: this.companyPayMarketId
-        }));
+      if (refining) {
+        this.showMap();
+        this.setContext({lockedExchangeJobId: this.refiningJobId});
       }
     });
   }

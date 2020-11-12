@@ -144,7 +144,7 @@ export class JobResultComponent implements OnInit, OnDestroy {
     });
   }
 
-  handleRefineInPeerClicked(){
+  handleRefineInPeerClicked() {
     this.toggleRefineInPeerDisplay();
   }
 

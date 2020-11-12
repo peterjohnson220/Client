@@ -155,7 +155,7 @@ export function reducer(state = initialState, action: fromSurveySearchResultsAct
     }
     case fromSurveySearchResultsActions.REFINE_EXCHANGE_JOB_RESULT: {
       let exchangeJobId = 0;
-      if(action.payload as {lockedExchangeJobId: number} !== undefined) {
+      if (action.payload as {lockedExchangeJobId: number} !== undefined) {
         exchangeJobId = (action.payload as {lockedExchangeJobId: number}).lockedExchangeJobId;
       }
       return {

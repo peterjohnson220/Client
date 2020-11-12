@@ -10,16 +10,15 @@ import * as fromSearchResultsActions from 'libs/features/search/actions/search-r
 import * as fromSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
 import { SearchFeatureIds } from 'libs/features/search/enums/search-feature-ids';
 import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
-
-import * as fromAddSurveyDataPageActions from '../../../actions/add-survey-data-page.actions';
-import * as fromAddDataReducer from '../../../reducers';
-
 import { DataCutDetails } from 'libs/features/survey-search/models';
 import * as fromSurveySearchReducer from 'libs/features/survey-search/reducers';
 import * as fromContextActions from 'libs/features/survey-search/actions/context.actions';
 import { disableDatacutsDragging } from 'libs/features/survey-search/helpers';
 import * as fromSurveySearchResultsActions from 'libs/features/survey-search/actions/survey-search-results.actions';
 import { getSearchFilters, SurveySearchFilterMappingDataObj, SurveySearchUserFilterType } from 'libs/features/survey-search/data';
+
+import * as fromAddSurveyDataPageActions from '../../../actions/add-survey-data-page.actions';
+import * as fromAddDataReducer from '../../../reducers';
 
 @Component({
   selector: 'pf-add-survey-data-page',
@@ -44,7 +43,6 @@ export class AddSurveyDataPageComponent extends SearchBaseDirective {
     this.selectedCuts$ = this.store.select(fromSurveySearchReducer.getSelectedDataCuts);
     this.addingData$ = this.store.select(fromAddDataReducer.getAddingData);
     this.pageShown$ = this.store.select(fromSearchReducer.getPageShown);
-    this.addingData$ = this.store.select(fromAddDataReducer.getAddingData);
     this.excludeFromParticipation = false;
     disableDatacutsDragging(dragulaService);
   }
