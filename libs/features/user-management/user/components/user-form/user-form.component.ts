@@ -266,8 +266,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
   validatePassword() {
     for (const validationRule of this.passwordValidationRules) {
       if (validationRule.Name === 'Contains Username') {
-        // case insesitive comparison
-        validationRule.IsSatisfied = new RegExp(validationRule.Rule).test(this.f.password.value.toLowerCase());
+        validationRule.IsSatisfied = !this.f.password.value.toLowerCase().includes(validationRule.Rule);
       } else {
         validationRule.IsSatisfied = new RegExp(validationRule.Rule).test(this.f.password.value);
       }
