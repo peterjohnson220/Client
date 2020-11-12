@@ -171,7 +171,10 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
 
     this.modelSetting = this.modelSettingsForm.getRawValue();
     this.updateRangeDistributionSetting();
-    this.updateAdvancedModelingSetting();
+
+    if (this.structuresAdvancedModelingFeatureFlag.value) {
+      this.updateAdvancedModelingSetting();
+    }
 
     if (!this.modelSettingsForm.valid) {
       if (!this.modelSettingsForm.controls['RangeAdvancedSetting'].valid) {
