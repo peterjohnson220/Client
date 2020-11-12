@@ -35,6 +35,7 @@ export const SET_FILTER_PANEL_DISPLAY = '[PfDataGrid] Set Filter Panel Display';
 export const UPDATE_SELECTED_RECORD_ID = '[PfDataGrid] Update Selected Record Id';
 export const EXPAND_ROW = '[PfDataGrid] Expand Row';
 export const COLLAPSE_ROW = '[PfDataGrid] Collapse Row';
+export const COLLAPSE_ALL_ROWS = '[PfDataGrid] Collapse All Rows';
 export const CLEAR_LOADING = '[PfDataGrid] Clear Loading';
 export const DO_NOTHING = '[PfDataGrid] Do Nothing';
 export const HANDLE_API_ERROR = '[PfDataGrid] Handle API Error';
@@ -229,6 +230,11 @@ export class ExpandRow implements Action {
 export class CollapseRow implements Action {
   readonly type = COLLAPSE_ROW;
   constructor(public pageViewId: string, public rowIndex: number) { }
+}
+
+export class CollapseAllRows implements Action {
+  readonly type = COLLAPSE_ALL_ROWS;
+  constructor(public pageViewId: string) { }
 }
 
 export class ClearLoading implements Action {
@@ -487,5 +493,6 @@ export type DataGridActions =
   | UpdateModifiedKeys
   | UpdateModifiedKey
   | DeleteModifiedKey
+  | ResetGridScrolled
   | CaptureGridScrolled
-  | ResetGridScrolled;
+  | CollapseAllRows;
