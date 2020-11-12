@@ -146,7 +146,9 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
 
   // Events
   handleModalSubmit() {
-    if (this.modelSettingsForm.valid && !this.formulaSavingError) {
+    if (this.modelSettingsForm.valid
+      && !this.formulaSavingError && !this.waitingForFormulaValidation && !this.formulaValidating
+      && (this.formulaField === null || this.formulaField != null && this.formulaValid)) {
       this.store.dispatch(new fromModelSettingsModalActions.SaveModelSettings(
         {
           rangeGroupId: this.rangeGroupId,
