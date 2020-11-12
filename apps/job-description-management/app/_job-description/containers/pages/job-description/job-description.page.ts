@@ -114,6 +114,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   saveThrottle: Subject<any>;
   jobDescriptionViewsAsyncSubscription: Subscription;
   editingSubscription: Subscription;
+  publishingSubscription: Subscription;
   completedStepSubscription: Subscription;
   controlTypesSubscription: Subscription;
   requireSSOLoginSubscription: Subscription;
@@ -217,6 +218,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.editingSubscription.unsubscribe();
     this.completedStepSubscription.unsubscribe();
     this.requireSSOLoginSubscription.unsubscribe();
+    this.publishingSubscription.unsubscribe();
   }
 
   appliesToFormCompleted(selected: any) {
@@ -589,7 +591,30 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     );
 
     this.jobDescriptionViewsAsyncSubscription = this.jobDescriptionViewsAsync$.subscribe(asyncObj => this.jobDescriptionViews = asyncObj.obj);
-    this.editingSubscription = this.editingJobDescription$.subscribe(value => this.editing = value);
+    this.editingSubscription = this.editingJobDescription$.subscribe(value => {
+      this.editing = value;
+      this.enableAllContentForEdititing();
+      });
+
+    this.publishingSubscription = this.jobDescriptionPublishing$.subscribe(asyncObj => {
+      if (asyncObj) {
+        this.editing = false;
+      }
+    });
+  }
+
+  private enableAllContentForEdititing() {
+    if (this.editing) {
+      this.jobDescription.Sections.forEach(section => {
+        section.ShowSubheading = true;
+
+        section.Controls.forEach(control => {
+          if (control.AdditionalProperties) {
+            control.AdditionalProperties.ShowControlName = true;
+          }
+        });
+      });
+    }
   }
 
   private initSsoSubscriptions() {
@@ -669,6 +694,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
       return;
     }
     this.jobDescription = cloneDeep(jobDescription);
+    this.enableAllContentForEdititing();
     if (jobDescription.JobDescriptionTitle === null || jobDescription.JobDescriptionTitle.length === 0) {
       const jobTitleFieldName = jobDescription.JobInformationFields.find(infoField => infoField.FieldName === 'JobTitle');
       this.jobDescriptionDisplayName = !!jobTitleFieldName ? jobTitleFieldName.FieldValue : this.jobDescription.Name;
