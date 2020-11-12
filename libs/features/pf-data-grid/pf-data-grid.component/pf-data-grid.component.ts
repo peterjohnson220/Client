@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, TemplateRef, EventEmitter, SimpleChanges, OnChanges, OnDestroy, ElementRef, ViewChild } from '@angular/core';
 
 import { Observable, Subscription } from 'rxjs';
-
 import { Store } from '@ngrx/store';
 import { SortDescriptor } from '@progress/kendo-data-query';
 
@@ -21,6 +20,7 @@ import {
 import { getUserFilteredFields } from '../components';
 import { SelectAllStatus } from '../reducers/pf-data-grid.reducer';
 import { PfThemeType } from '../enums/pf-theme-type.enum';
+import { PfGridComponent } from '../containers';
 
 @Component({
   selector: 'pf-data-grid',
