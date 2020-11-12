@@ -7,7 +7,7 @@ import { Observable, of, timer } from 'rxjs';
 import { catchError, debounce, filter, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 
-import { RangeGroupMetadata } from 'libs/models/structures';
+import { generateMockRangeAdvancedSetting, RangeGroupMetadata } from 'libs/models/structures';
 import { CurrencyApiService } from 'libs/data/payfactors-api/currency';
 import { CompositeFieldApiService } from 'libs/data/payfactors-api/composite-field';
 import { StructureModelingApiService, StructuresApiService } from 'libs/data/payfactors-api/structures';
@@ -125,8 +125,13 @@ export class ModelSettingsModalEffects {
         }
       ),
       switchMap((data) => {
-        const advancedSetting = PayfactorsApiModelMapper.mapAdvancedSettingModalFormToAdvancedSettingRequest(data.action.payload.formValue.RangeAdvancedSetting,
-          data.structureHasPublished);
+        let advancedSetting;
+        if (data.action.payload.formValue.RangeAdvancedSetting != null) {
+          advancedSetting = PayfactorsApiModelMapper.mapAdvancedSettingModalFormToAdvancedSettingRequest(data.action.payload.formValue.RangeAdvancedSetting,
+            data.structureHasPublished);
+        } else {
+          advancedSetting = generateMockRangeAdvancedSetting();
+        }
 
         return this.structureModelingApiService.saveModelSettings(
           PayfactorsApiModelMapper.mapModelSettingsModalFormToSaveSettingsRequest(data.action.payload.rangeGroupId, data.action.payload.formValue,
