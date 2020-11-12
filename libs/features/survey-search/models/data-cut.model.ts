@@ -26,6 +26,9 @@ export interface DataCutDetails {
   TCC50th?: number;
   ServerInfo?: ServerInfo;
   CutFilterId?: string;
+  Incs: number;
+  Orgs: number;
+  WeightingType: string;
 }
 
 interface ServerInfo {

@@ -1,9 +1,9 @@
 :host ::ng-deep .results{
-  width: 72.5% !important;
+  width: 50% !important;
 }
 
 :host ::ng-deep .actions-container{
-  width: 72.5% !important;
+  width: 50% !important;
 }
 
 :host ::ng-deep .multi-match-modal > .modal-dialog {
@@ -20,5 +20,5 @@
 }
 
 .multi-match-content {
-  height: 100%;
+  height: calc(100% - 50px);
 }
