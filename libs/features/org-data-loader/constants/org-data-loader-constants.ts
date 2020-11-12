@@ -70,7 +70,7 @@ export const ORG_DATA_PF_SUBSIDIARIES_MAPPING_FIELDS = [
 
 export const ORG_DATA_PF_BENEFITS_MAPPING_FIELDS = [
   'Employee_ID',
-  'Benefit Type',
+  'Benefit_Type',
   'Employer_Value',
   'CompanyEmployee_Value'
 ];
@@ -119,7 +119,9 @@ export const ORG_DATA_PF_EMPLOYEE_FIELDS = [
   'DateOfEntry_PF',
   'STIElig',
   'LTIElig',
-  'Subsidiary_Code'
+  'Subsidiary_Code',
+  'Structure_Code',
+  'Grade_Code'
 ];
 
 export const DATE_FORMATS: DateFormatItem[] = [
