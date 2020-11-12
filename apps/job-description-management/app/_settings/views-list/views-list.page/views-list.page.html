@@ -45,12 +45,12 @@
             </kendo-grid-column>
             <kendo-grid-column field="Templates" title="Templates">
               <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
-                <a>{{dataItem.Templates.length > 0 ? dataItem.Templates.length : "-"}}</a>
+                <a (click)="openTemplatesModal(dataItem, $event)">{{dataItem.Templates.length > 0 ? dataItem.Templates.length : "-"}}</a>
               </ng-template>
             </kendo-grid-column>
             <kendo-grid-column field="ExportSchedules" title="Bulk Export">
               <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
-                <a>{{dataItem.ExportSchedules.length > 0 ? dataItem.ExportSchedules.length : "-"}}</a>
+                <a (click)="openExportSchedulesModal(dataItem, $event)">{{dataItem.ExportSchedules.length > 0 ? dataItem.ExportSchedules.length : "-"}}</a>
               </ng-template>
             </kendo-grid-column>
             <kendo-grid-column [width]="80">
@@ -74,3 +74,5 @@
 
 <pf-simple-yes-no-modal [opts]="deleteViewModalOptions" (actionConfirmed)="handleViewDeleteConfirmed($event)"></pf-simple-yes-no-modal>
 <pf-upsert-view-modal [addView]="addView"></pf-upsert-view-modal>
+<pf-export-schedules-modal></pf-export-schedules-modal>
+<pf-templates-modal></pf-templates-modal>
