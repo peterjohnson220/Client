@@ -2,13 +2,14 @@ import { Component, OnDestroy, OnInit, Input, forwardRef, OnChanges, SimpleChang
 import { FormControl, FormGroup, Validators, NG_VALUE_ACCESSOR, NG_VALIDATORS, ControlValueAccessor } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 
 import { AsyncStateObj } from 'libs/models/state';
 import { CompanySettingsEnum } from 'libs/models/company';
 import { RangeGroupMetadata, RangeDistributionSettingForm } from 'libs/models/structures';
 import { SettingsService } from 'libs/state/app-context/services';
 import * as fromFormulaFieldActions from 'libs/features/formula-editor/actions/formula-field.actions';
+import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
 
 import * as fromJobBasedRangeReducer from '../../reducers';
 import { ControlPoint } from '../../models';
@@ -53,10 +54,14 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
   fieldsDisabledTooltip: string;
   payTypeTooltip: string;
   enablePercentilesAndRangeSpreads: boolean;
+  structuresAdvancedModelingFeatureFlag: RealTimeFlag = { key: FeatureFlags.StructuresAdvancedModeling, value: false };
+  unsubscribe$ = new Subject<void>();
+
 
   constructor(
     public store: Store<fromJobBasedRangeReducer.State>,
-    private settingService: SettingsService
+    private settingService: SettingsService,
+    private featureFlagService: AbstractFeatureFlagService
   ) {
     this.enableJobRangeTypes$ = this.settingService.selectCompanySetting<boolean>(
       CompanySettingsEnum.EnableJobRangeStructureRangeTypes
@@ -65,6 +70,7 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
     this.maxSpreadTooltip = ModelSettingsModalConstants.MAX_SPREAD_TOOL_TIP;
     this.fieldsDisabledTooltip = ModelSettingsModalConstants.FIELDS_DISABLED_TOOL_TIP;
     this.payTypeTooltip = ModelSettingsModalConstants.PAYTYPE_TOOL_TIP;
+    this.featureFlagService.bindEnabled(this.structuresAdvancedModelingFeatureFlag, this.unsubscribe$);
   }
 
   get value(): RangeDistributionSettingForm {
@@ -362,6 +368,7 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(s => s.unsubscribe());
+    this.unsubscribe$.next();
   }
 
   mapToRangeDistributionSettingForm(value: RangeDistributionSettingForm): RangeDistributionSettingForm {
