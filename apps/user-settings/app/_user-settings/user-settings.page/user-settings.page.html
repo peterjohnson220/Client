@@ -1,28 +1,17 @@
-<pf-page-with-title-bar  [contentNoPadding]="true">
+<pf-page-with-title-bar>
   <ng-container page-title>User Settings</ng-container>
+
   <ng-container page-content>
-    <div class="d-flex flex-column pl-3 h-100">
-      <ng-container *ngIf="(hasDashboardPreferences$ | async)">
-        <div class="flex-grow-1">
-        <pf-dashboard-preferences
-        [userTiles]="(userTiles$ | async).obj"
-        (toggleUserTile)="toggleUserTile($event)">
-        </pf-dashboard-preferences>
-        </div>
+    <ul ngbNav class="nav-tabs" [activeId]="activeId">
+      <ng-container *ngFor="let tab of tabs">
+        <li *ngIf="tab.IsVisible" [ngbNavItem]="tab.Path">
+          <a ngbNavLink [routerLink]="[tab.Path]" routerLinkActive="active">
+            {{ tab.Title }}
+          </a>
+        </li>
       </ng-container>
-      <div class="d-flex flex-row-reverse mr-3 mb-3">
-        <pf-action-button
-          (saveClicked)="handleSaveClicked()"
-          (cancelClicked)="handleCancelClicked()"
-          [saveButtonQaId]="'btn-user-settings-save-changes-btn'"
-          [cancelButtonQaId]="'btn-user-role-cancel-btn'"
-          [saveButtonDisabled]="!(getDashboardPreferencesHasPendingChanges$ | async)"
-          [cancelButtonDisabled]="!(getDashboardPreferencesHasPendingChanges$ | async)"
-        ></pf-action-button>
-        <div *ngIf="saveDashboardPreferencesResponse$ | async" class="pr-2 pt-1" [ngClass]="{'text-danger': (saveDashboardPreferencesResponse$ | async) !== 'Success'}">
-          <h5>{{saveDashboardPreferencesResponse$ | async}}</h5>
-        </div>
-      </div>
-    </div>
+    </ul>
+    <router-outlet></router-outlet>
   </ng-container>
+
 </pf-page-with-title-bar>

@@ -1,0 +1,9 @@
+@import 'libs/styles/ngbootstrap-tabset-overrides';
+
+::ng-deep {
+  @include pf-tabset;
+
+  .nav-tabs .nav-link.active {
+    border-bottom: 2px solid #0088CC !important;
+  }
+}

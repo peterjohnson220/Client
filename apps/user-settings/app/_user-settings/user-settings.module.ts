@@ -5,17 +5,21 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 
-import { DashboardPreferencesComponent } from './components';
+import {
+  MyProfileComponent,
+  DashboardPreferencesComponent
+} from './containers';
 
 import * as fromFaIcons from './fa-icons';
 import { reducers } from './reducers';
 
-import { UserSettingsPageEffects } from './effects';
+import { DashboardPreferencesEffects } from './effects';
 import { UserSettingsPageComponent } from './user-settings.page';
 import { UserSettingsRoutingModule } from './user-settings-routing.module';
 
@@ -30,23 +34,23 @@ import { UserSettingsRoutingModule } from './user-settings-routing.module';
     // 3rd party
     StoreModule.forFeature('userSettings_main', reducers),
     EffectsModule.forFeature([
-      UserSettingsPageEffects
+      DashboardPreferencesEffects
     ]),
     FontAwesomeModule,
     NgbPopoverModule,
+    NgbModule,
 
     // Payfactors
     PfCommonModule,
     PfCommonUIModule,
-    PfFormsModule,
-
-
+    PfFormsModule
   ],
   declarations: [
     // Pages
     UserSettingsPageComponent,
 
-    // Components
+    // Containers
+    MyProfileComponent,
     DashboardPreferencesComponent
   ]
 })
