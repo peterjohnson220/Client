@@ -120,6 +120,21 @@ describe('TrsTitleControlComponent', () => {
   it('should add a `background-graphics` class to the container when graphics are enabled', () => {
     // arrange
     component.controlData = generateMockTitleControl();
+    component.graphicsColors = ['green', 'orange'];
+    component.mode = StatementModeEnum.Edit;
+    component.backgroundGraphicsEnabled = true;
+
+    // act
+    fixture.detectChanges();
+
+    // assert
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should add graphicsColors as background colors to graphical elements', () => {
+    // arrange
+    component.controlData = generateMockTitleControl();
+    component.graphicsColors = ['#1f2f3d', '#0883be', '#ffb300', '#dc1e34'];
     component.mode = StatementModeEnum.Edit;
     component.backgroundGraphicsEnabled = true;
 

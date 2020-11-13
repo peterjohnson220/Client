@@ -10,7 +10,14 @@
   </div>
   <div *ngFor="let page of statement.Pages; trackBy: trackByFn" class="pb-4 trs-page">
     <section *ngFor="let section of page.Sections; trackBy: trackByFn" class="row vertical-divider trs-section">
-      <div *ngFor="let column of section.Columns; trackBy: trackByFn" [ngClass]="'col-' + column?.Layout?.Width" class="trs-column" [style.border-right-color]="statement.Settings.DividerColor">
+      <div 
+        *ngFor="let column of section.Columns; trackBy: trackByFn" 
+        [ngClass]="'col-' + column?.Layout?.Width" 
+        class="trs-column" 
+        pfStatementGraphicsDirective
+        [colors]="statement.Settings.Colors" 
+        [colorRank]="statement.Settings.DividerColor" 
+        [styleAttrToColor]="'borderRightColor'">
         <div *ngIf="(mode === statementModeEnum.Edit) || employeeRewardsData" class="row columnRow">
           <div *ngFor="let control of column.Controls; trackBy: trackByFn" [ngClass]="'col-' + control?.Layout?.Width + ' control-type-' + control.ControlType">
 
@@ -37,6 +44,7 @@
               [employeeRewardsData]="employeeRewardsData"
               [companyUdfs]="companyUdfs"
               [visibleFieldsCount]="visibleFieldsCount"
+              [graphicsColors]="statement.Settings.Colors"
               (onTitleChange)="handleOnControlTitleChange($event)"
               (onCompFieldTitleChange)="handleOnCalculationControlCompFieldTitleChange($event)"
               (onUpdateSummaryTitleChange)="handleOnCalculationControlSummaryTitleChange($event)"
@@ -48,7 +56,7 @@
               [mode]="mode"
               [employeeRewardsData]="employeeRewardsData"
               [calculationControls]="visibleCalculationControls"
-              [chartColors]="statement.Settings.ChartColors"
+              [chartColors]="statement.Settings.Colors"
               (onTitleChange)="handleOnControlTitleChange($event)"
               (settingsClick)="handleChartControlSettingsClick()"
               (chartRender)="handleChartRender()"
@@ -59,6 +67,7 @@
               [mode]="mode"
               [employeeRewardsData]="employeeRewardsData"
               [backgroundGraphicsEnabled]="control.EnableBackgroundGraphics"
+              [graphicsColors]="statement.Settings.Colors"
               [showEmployee]="control.ShowEmployee"
               [titleInnerWidth]="control.TitleInnerWidth"
               (titleChange)="handleOnControlTitleChange($event)"
@@ -69,13 +78,15 @@
               [controlData]="control"
               [employeeRewardsData]="employeeRewardsData"
               [calculationControls]="visibleCalculationControls"
+              [graphicsColors]="statement.Settings.Colors"
               (onTitleChange)="handleOnControlTitleChange($event)"
               class="p-1"></pf-trs-summary-control>
 
             <pf-trs-employee-control *ngIf="control.ControlType === controlType.Employee"
               [mode]="mode"
               [controlData]="control"
-              [employeeRewardsData]="employeeRewardsData">
+              [employeeRewardsData]="employeeRewardsData"
+              [graphicsColors]="statement.Settings.Colors">
             </pf-trs-employee-control>
 
           </div>

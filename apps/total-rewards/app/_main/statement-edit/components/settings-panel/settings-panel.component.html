@@ -51,20 +51,19 @@
             </a>
           </div>
         </div>
-        <h3 *ngIf="showFontFamilyMenu" class="my-4">Charts</h3>
-        <h4 class="mb-3">Chart Colors</h4>
+        <h4 class="my-4">Colors</h4>
         <div class="d-flex mb-4">
-          <div *ngFor="let chartColor of chartColors; let i = index;" class="color-picker-container mr-4">
+          <div *ngFor="let color of colors; let i = index;" class="color-picker-container mr-4">
             <input
-              [colorPicker]="chartColor"
+              [colorPicker]="color"
               [cpOKButton]="true"
-              (colorPickerSelect)="onChartColorChange($event, i)"
+              (colorPickerSelect)="onColorChange($event, i)"
               [cpPosition]="'left'"
-              [style.background]="chartColor"
-              [style.caretColor]="chartColor"
+              [style.background]="color"
+              [style.caretColor]="color"
               class="d-block w-100"
               [attr.tabindex]="isOpen ? 0 : -1" />
-            <label title="{{ chartColor }}" class="w-100">{{ chartColor }}</label>
+            <label title="{{ color }}" class="w-100">{{ color }}</label>
           </div>
         </div>
       </div>

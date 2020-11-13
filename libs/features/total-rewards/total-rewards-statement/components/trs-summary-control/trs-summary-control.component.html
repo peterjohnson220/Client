@@ -1,13 +1,12 @@
 <div class="text-center">
-  <h3 class="d-inline-block mw-100">
+  <h3 class="d-inline-block mw-100" pfStatementGraphicsDirective [colors]="graphicsColors" [colorRank]="controlData.SummaryTextColor" [styleAttrToColor]="'color'">
     <pf-string-editor
       [maxCharacters]="30"
       [value]="controlData.Title.Override"
       [placeholder]="controlData.Title.Default"
       [showIcon]="'onHover'"
       [inEditMode]="getIsEditMode()"
-      (valueChange)="handleTitleChanged($event)"
-    >
+      (valueChange)="handleTitleChanged($event)">
     </pf-string-editor>
   </h3>
   <h4 *ngIf="getIsEditMode()">{{getEditValue()}}</h4>

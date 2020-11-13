@@ -40,7 +40,7 @@ exports[`TotalRewardsStatementComponent should render a mock statement derived f
         
         <div
           class="trs-column col-3"
-          style="border-right-color: #dc1e34;"
+          pfstatementgraphicsdirective=""
         >
           
           <div
@@ -63,7 +63,7 @@ exports[`TotalRewardsStatementComponent should render a mock statement derived f
         </div>
         <div
           class="trs-column col-9"
-          style="border-right-color: #dc1e34;"
+          pfstatementgraphicsdirective=""
         >
           
           <div
@@ -91,7 +91,7 @@ exports[`TotalRewardsStatementComponent should render a mock statement derived f
         
         <div
           class="trs-column col-6"
-          style="border-right-color: #dc1e34;"
+          pfstatementgraphicsdirective=""
         >
           
           <div
@@ -144,7 +144,7 @@ exports[`TotalRewardsStatementComponent should render a mock statement derived f
         </div>
         <div
           class="trs-column col-6"
-          style="border-right-color: #dc1e34;"
+          pfstatementgraphicsdirective=""
         >
           
           <div

@@ -12,6 +12,7 @@ exports[`TrsSummaryControlComponent should display in edit mode 1`] = `
   >
     <h3
       class="d-inline-block mw-100"
+      pfstatementgraphicsdirective=""
     >
       <pf-string-editor />
     </h3>
@@ -36,6 +37,7 @@ exports[`TrsSummaryControlComponent should display in preview mode 1`] = `
   >
     <h3
       class="d-inline-block mw-100"
+      pfstatementgraphicsdirective=""
     >
       <pf-string-editor />
     </h3>
@@ -64,6 +66,7 @@ exports[`TrsSummaryControlComponent should display in preview mode w/ data 1`] =
   >
     <h3
       class="d-inline-block mw-100"
+      pfstatementgraphicsdirective=""
     >
       <pf-string-editor />
     </h3>

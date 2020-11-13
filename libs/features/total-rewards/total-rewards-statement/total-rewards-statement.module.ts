@@ -32,8 +32,8 @@ import { TrsRichTextControlComponent } from './components/trs-rich-text-control/
 import { CompensationFieldPipe } from './pipes/compensation-field-pipe';
 import { EffectiveDateComponent } from './components/effective-date/effective-date.component';
 import { FooterBarComponent } from './components/footer-bar/footer-bar.component';
-import { NoRecordsFoundCallToActionComponent } from './components/no-records-found-call-to-action/no-records-found-call-to-action.component';
 import { ModeClassifierDirective } from './directives/pf-mode-classifier-directive';
+import { StatementGraphicsDirective } from './directives/pf-statement-graphics-directive';
 
 @NgModule({
   imports: [
@@ -70,8 +70,8 @@ import { ModeClassifierDirective } from './directives/pf-mode-classifier-directi
     CompensationFieldPipe,
     EffectiveDateComponent,
     FooterBarComponent,
-    NoRecordsFoundCallToActionComponent,
     ModeClassifierDirective,
+    StatementGraphicsDirective,
     StatementDownloadComponent,
     FieldGroupComponent,
     TrsCompensationFieldsChooserComponent,
@@ -83,8 +83,8 @@ import { ModeClassifierDirective } from './directives/pf-mode-classifier-directi
     TotalRewardsStatementComponent,
     CompensationFieldPipe,
     FooterBarComponent,
-    NoRecordsFoundCallToActionComponent,
     ModeClassifierDirective,
+    StatementGraphicsDirective,
     StatementDownloadComponent,
     StatementViewComponent
   ],
