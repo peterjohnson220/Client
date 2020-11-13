@@ -2,7 +2,8 @@
 
   <ng-container *ngIf="!(jobDescriptionViewsAsync$ | async)?.loading
       && !(editingJobDescription$ | async)
-      && jobDescription.JobDescriptionStatus !== 'In Review'">
+      && jobDescription.PublicView !== 'In Review'
+      && !jobDescription.PublicView">
     <kendo-dropdownlist class="viewNamesDropdownList"
       [(ngModel)]="viewName"
       [data]="jobDescriptionViews"
