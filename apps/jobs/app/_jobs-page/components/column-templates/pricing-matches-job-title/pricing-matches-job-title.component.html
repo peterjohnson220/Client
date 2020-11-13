@@ -58,7 +58,7 @@
       [jobTitleClass]="'pf-brand-secondary-color'">
     </pf-job-title-code>
   </div>
-  <div [pfSecuredResource]="permissions.MODIFY_MATCH_NOTES" class="notes-link-container" *ngIf="!pricingInfo.CompanyPayMarkets_Linked_PayMarket_Name">
+  <div class="notes-link-container" *ngIf="!pricingInfo.CompanyPayMarkets_Linked_PayMarket_Name">
     <em>
       <small>
         <a class="add-notes-link"(click)="openNotesManager()">
@@ -190,6 +190,7 @@
 
 <pf-notes-manager
   [entityId]="pricingMatchIdForGridRefresh"
+  [isEditable]="canModifyPricings"
   [apiServiceIndicator]="notesApiServiceType"
   [notesHeader]="matchNotesHeader"
   [placeholderText]="'Please add any notes you would like to attach to this match.'"

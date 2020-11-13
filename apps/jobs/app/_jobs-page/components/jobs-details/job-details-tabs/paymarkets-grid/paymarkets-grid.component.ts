@@ -20,6 +20,9 @@ import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromPricingDetailsActions from 'libs/features/pricing-details/actions';
 import { ApiServiceType } from 'libs/features/notes-manager/constants/api-service-type-constants';
 import { PfThemeType } from 'libs/features/pf-data-grid/enums/pf-theme-type.enum';
+import { UpsertPeerDataCutModalConfiguration } from 'libs/features/upsert-peer-data-cut/models/upsert-peer-data-cut-modal-configuration';
+import { PermissionCheckEnum, Permissions } from 'libs/constants';
+import { PermissionService } from 'libs/core/services';
 
 import * as fromModifyPricingsActions from '../../../../actions';
 import * as fromModifyPricingsReducer from '../../../../reducers';
@@ -44,6 +47,8 @@ export class PaymarketsGridComponent implements OnInit, AfterViewInit, OnDestroy
   @ViewChild('currencyColumn') currencyColumn: ElementRef;
   @ViewChild('matchInfoColumn') matchInfoColumn: ElementRef;
   @ViewChild('genericMrpColumn') genericMrpColumn: ElementRef;
+
+  canModifyPricings: boolean;
 
   pageViewId = PageViewIds.PayMarkets;
   apiServiceType = ApiServiceType;
@@ -110,9 +115,11 @@ export class PaymarketsGridComponent implements OnInit, AfterViewInit, OnDestroy
 
   constructor(private store: Store<fromModifyPricingsReducer.State>,
     private actionsSubject: ActionsSubject,
-    private featureFlagService: AbstractFeatureFlagService) { }
+    private featureFlagService: AbstractFeatureFlagService,
+    private permissionService: PermissionService) { }
 
   ngOnInit(): void {
+    this.canModifyPricings = this.permissionService.CheckPermission([Permissions.MODIFY_PRICINGS], PermissionCheckEnum.Single);
     this.jobTitleCodePipe = new JobTitleCodePipe();
 
     this.hasInfiniteScrollFeatureFlagEnabled = this.featureFlagService.enabled(FeatureFlags.PfDataGridInfiniteScroll, false);
