@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, TemplateRef } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { PfThemeType } from '../../../features/pf-data-grid/enums/pf-theme-type.enum';
 import { EmployeeDetails } from '../models/employee-details.model';
 
@@ -12,10 +12,17 @@ export class EmployeeDetailsComponent implements OnInit {
   @Input() employeeDetails: EmployeeDetails;
   @Input() theme = PfThemeType.Default;
   @Input() optionalCloseButton: TemplateRef<any>;
-  @Input() gridWidthPercent = 100;
+
+  @ViewChild('toggleLink') toggleLink: ElementRef;
+  isShowingMore = false;
 
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  toggle() {
+    this.toggleLink.nativeElement.blur();
+    this.isShowingMore = !this.isShowingMore;
   }
 }

@@ -10,7 +10,6 @@ import { EmployeeDetails } from '../../models/employee-details.model';
 export class EmplyeeInfoComponent implements OnInit {
 
   @Input() employeeInfo: EmployeeDetails;
-  @Input() gridWidthPercent = 100;
 
   constructor() { }
 

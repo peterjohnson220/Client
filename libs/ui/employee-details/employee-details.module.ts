@@ -1,9 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
+
+import { PfCommonModule } from '../../core';
 import { EmployeeDetailsComponent } from './employee-details/employee-details.component';
 import { EmplyeeInfoComponent } from './components/emplyee-info/emplyee-info.component';
-import { PfCommonModule } from '../../core';
+
 
 
 
@@ -11,17 +14,20 @@ import { PfCommonModule } from '../../core';
   declarations: [
     // Feature
     EmployeeDetailsComponent,
+
+    // Components
     EmplyeeInfoComponent
   ],
   exports: [
-    EmployeeDetailsComponent
+    EmployeeDetailsComponent,
   ],
   imports: [
     // Angular
     CommonModule,
 
     // Payfactors
-    PfCommonModule
+    PfCommonModule,
+    PerfectScrollbarModule
   ]
 })
 export class EmployeeDetailsModule {
