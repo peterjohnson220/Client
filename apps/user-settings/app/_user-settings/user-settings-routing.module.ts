@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { DashboardPreferencesComponent, MyProfileComponent } from './containers';
+import { DashboardPreferencesComponent, MyProfileComponent, PersonalProjectSettingsComponent } from './containers';
 import { UserSettingsPageComponent } from './user-settings.page';
 
 const routes: Routes = [
@@ -11,7 +11,8 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'my-profile', pathMatch: 'full' },
       { path: 'my-profile', component: MyProfileComponent },
-      { path: 'dashboard-preferences', component: DashboardPreferencesComponent }
+      { path: 'dashboard-preferences', component: DashboardPreferencesComponent },
+      { path: 'personal-project-settings', component: PersonalProjectSettingsComponent }
     ]
   }
 ];

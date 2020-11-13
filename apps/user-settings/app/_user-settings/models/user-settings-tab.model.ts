@@ -6,5 +6,6 @@ export interface Tab {
 
 export enum TabName {
   MyProfile = 'My Profile',
-  DashboardPreferences = 'Dashboard Preferences'
+  DashboardPreferences = 'Dashboard Preferences',
+  PersonalProjectSettings = 'Personal Project Settings'
 }

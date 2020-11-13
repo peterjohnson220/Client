@@ -13,7 +13,11 @@ import { PfCommonUIModule } from 'libs/ui/common';
 
 import {
   MyProfileComponent,
-  DashboardPreferencesComponent
+  DashboardPreferencesComponent,
+  PersonalProjectSettingsComponent,
+  AutoShareComponent,
+  PayMarketDefaultSettingsComponent,
+  ProjectTemplatesComponent
 } from './containers';
 
 import * as fromFaIcons from './fa-icons';
@@ -51,7 +55,11 @@ import { UserSettingsRoutingModule } from './user-settings-routing.module';
 
     // Containers
     MyProfileComponent,
-    DashboardPreferencesComponent
+    DashboardPreferencesComponent,
+    PersonalProjectSettingsComponent,
+    AutoShareComponent,
+    PayMarketDefaultSettingsComponent,
+    ProjectTemplatesComponent
   ]
 })
 export class UserSettingsModule {
