@@ -25,6 +25,7 @@ export class UserSettingsPageComponent implements OnInit, OnDestroy {
 
   tabs: Tab[] = [
     { Title: TabName.MyProfile, Path: '/my-profile', IsVisible: true },
+    { Title: TabName.PersonalProjectSettings, Path: '/personal-project-settings', IsVisible: true },
     { Title: TabName.DashboardPreferences, Path: '/dashboard-preferences', IsVisible: true }
   ];
 
