@@ -82,10 +82,11 @@ export class PfPasswordValidators {
 
     // No username is allowed
     if (userName) {
+      const userNameRegex = `^((?!${userName}).)*$`;
       rules.push({
         Name: 'Contains Username',
         Message: 'Cannot contain username',
-        Rule: userName,
+        Rule: userNameRegex,
         IsSatisfied: false,
       });
     }
