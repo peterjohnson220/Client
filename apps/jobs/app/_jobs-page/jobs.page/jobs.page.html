@@ -123,7 +123,7 @@
     [pfSecuredResource]="[permissions.EMPLOYEES_ADD_EDIT_DELETE, permissions.NEW_PROJECT]">
   </div>
   <button
-    [disabled]="!(jobStatusField | showingActiveJobs) || (updatingPricingMatch$ | async).saving
+    [disabled]="!(jobStatusField | showingActiveJobs) || (updatingPricingMatch$ | async).saving || (updatingPricing$ | async).saving
       || !(selectedJobIds.length || selectedPricingIds.length || selectedUnpricedPaymarkets.length)"
     [pfSecuredResource]="permissions.NEW_PROJECT"
     [attr.data-qa-id]="'btn-jobs-page-create-project'"
@@ -140,7 +140,8 @@
   </button>
   <button
     [pfSecuredResource]="permissions.MODIFY_PRICINGS"
-    [disabled]="!(jobStatusField | showingActiveJobs) || !selectedPricings.length || (updatingPricingMatch$ | async).saving"
+    [disabled]="!(jobStatusField | showingActiveJobs) || !selectedPricings.length 
+      || (updatingPricingMatch$ | async).saving || (updatingPricing$ | async).saving"
     [attr.data-qa-id]="'btn-jobs-page-modify-pricings'"
     (click)="modifyPricings()"
     type="button"

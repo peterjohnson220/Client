@@ -41,7 +41,10 @@ describe('Project - Survey Search - Search Results', () => {
     const surveyDataCut: DataCutDetails = {
         DataSource: SurveySearchResultDataSources.Payfactors,
         CountryCode: 'USA',
-        SurveyJobCode: '1234'
+        SurveyJobCode: '1234',
+        Incs: 0,
+        WeightingType: 'I',
+        Orgs: 0
     };
     const toggleSurveyDataCut = new fromSurveySearchResultsActions.ToggleDataCutSelection(surveyDataCut);
 

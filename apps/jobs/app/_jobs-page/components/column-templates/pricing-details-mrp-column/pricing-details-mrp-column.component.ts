@@ -1,5 +1,8 @@
 import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 
+import { MrpFormatterService } from 'libs/core/services/mrp-formatter.service';
+import { MrpModel } from 'libs/models/common/mrp.model';
+
 @Component({
   selector: 'pf-pricing-details-mrp-column',
   templateUrl: './pricing-details-mrp-column.component.html'
@@ -8,33 +11,25 @@ import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 export class PricingDetailsMrpColumnComponent implements OnChanges {
   @Input() dataRow: any;
   @Input() fieldName: string;
-  category: string;
-  percentileSuffix = 'th';
-  constructor() {}
+  @Input() mrpDisplayOverrides: any;
+
+  mrpModel: MrpModel;
+  mrpOverride = null;
+
+  constructor(private mrpFormatterService: MrpFormatterService) {}
 
   ngOnChanges(changes: SimpleChanges) {
+
+    if (changes['mrpDisplayOverrides'] && changes['fieldName']) {
+      this.mrpOverride = changes['mrpDisplayOverrides']
+        .currentValue[
+          Object.keys(changes['mrpDisplayOverrides'].currentValue)
+            .find(key => changes['fieldName'].currentValue.includes(key))
+        ];
+    }
+
     if (changes['fieldName']) {
-      this.category = changes['fieldName'].currentValue.split('CompanyJobs_Pricings_')[1].split('MRP')[0];
-
-      const percentile = this.dataRow[`CompanyJobs_Pricings_${this.category}_Reference_Point`];
-
-      if (percentile) {
-        const percentileString = percentile.toString();
-        switch (percentileString.slice(percentileString.length - 1)) {
-          case '1':
-            this.percentileSuffix = 'st';
-            break;
-          case '2':
-            this.percentileSuffix = 'nd';
-            break;
-          case '3':
-            this.percentileSuffix = 'rd';
-            break;
-          default:
-            this.percentileSuffix = 'th';
-            break;
-        }
-      }
+      this.mrpModel = this.mrpFormatterService.formatMrp(changes['fieldName'].currentValue, this.dataRow);
     }
   }
 }

@@ -138,7 +138,12 @@ function mapDataCutToMatchCut(jobCuts: DataCutDetails[]): JobMatchCut[] {
       TCC50: Number(jobCut.TCC50th),
       SurveyJobCode: jobCut.SurveyJobCode,
       PeerCutId: getPeerCutId(jobCut),
-      CutFilterId: jobCut.CutFilterId
+      CutFilterId: jobCut.CutFilterId,
+      MatchWeight: 1,
+      MatchAdjustment: 0,
+      Incs: jobCut.Incs,
+      Orgs: jobCut.Orgs,
+      WeightingType: jobCut.WeightingType
     };
   });
 }

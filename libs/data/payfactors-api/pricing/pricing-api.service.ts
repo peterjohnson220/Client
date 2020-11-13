@@ -14,10 +14,6 @@ export class PricingApiService {
 
   constructor(private payfactorsApiService: PayfactorsApiService) { }
 
-  recalculateRelatedPricings(pricingIds: number[]): Observable<any> {
-    return this.payfactorsApiService.post(`${this.endpoint}/RecalculateRelatedPricings`, {pricingIds: pricingIds});
-  }
-
   updatePricing(updatePricingRequest: UpdatePricingRequest): Observable<any> {
     return this.payfactorsApiService.post(`${this.endpoint}/UpdatePricing`, updatePricingRequest);
   }

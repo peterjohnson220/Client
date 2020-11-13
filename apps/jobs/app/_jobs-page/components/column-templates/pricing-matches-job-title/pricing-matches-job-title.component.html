@@ -14,8 +14,9 @@
         [spinners]="false"
         [format]="'n2'"
         [decimals]="'2'"
-        [min]="-99999"
-        [max]="99999"
+        [min]="-999999999999"
+        [max]="999999999999"
+        [title]="(weight > 999 || weight < -999 ? weight : '')"
         [autoCorrect]="true"
         (change)="updatePricingMatch()">
       </kendo-numerictextbox>
@@ -28,8 +29,9 @@
         [spinners]="false"
         [format]="'n2'"
         [decimals]="'2'"
-        [min]="-99999"
-        [max]="99999"
+        [min]="-999999999999"
+        [max]="999999999999"
+        [title]="(adjustment > 999 || adjustment < -999 ? adjustment : '')"
         [autoCorrect]="true"
         (change)="updatePricingMatch()">
       </kendo-numerictextbox>

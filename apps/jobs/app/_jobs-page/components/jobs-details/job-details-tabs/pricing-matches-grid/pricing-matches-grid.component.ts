@@ -11,6 +11,7 @@ import { PagingOptions } from 'libs/models/payfactors-api';
 import { PermissionCheckEnum, Permissions } from 'libs/constants/permissions';
 import { PermissionService } from 'libs/core/services';
 import { PfThemeType } from 'libs/features/pf-data-grid/enums/pf-theme-type.enum';
+import { MrpFormatterService } from 'libs/core/services/mrp-formatter.service';
 
 import { PageViewIds } from '../../../../constants';
 
@@ -28,12 +29,18 @@ export class PricingMatchesGridComponent implements OnInit, AfterViewInit, OnCha
   @ViewChild('agingColumn') agingColumn: ElementRef;
   @ViewChild('currencyColumn') currencyColumn: ElementRef;
   @ViewChild('pricingInfoColumn') pricingInfoColumn: ElementRef;
+  @ViewChild('genericMrpColumn') genericMrpColumn: ElementRef;
 
   colTemplates = {};
 
   pageViewId = PageViewIds.PricingMatches;
 
   pfThemeType = PfThemeType;
+  mrpDisplayOverrides: any[] = [];
+  mrpFields = ['AllowMRP', 'BaseMRP', 'BonusMRP', 'BonusPctMRP', 'BonusTargetMRP', 'BonusTargetPctMRP', 'FixedMRP', 'LTIPMRP', 'LTIPPctMRP', 'RemunMRP',
+    'SalesIncentiveActualMRP', 'SalesIncentiveActualPctMRP', 'SalesIncentiveTargetMRP', 'SalesIncentiveTargetPctMRP',
+    'TargetLTIPMRP', 'TargetTDCMRP', 'TCCMRP', 'TCCPlusAllowMRP', 'TCCPlusAllowNoCarMRP', 'TCCTargetMRP', 'TCCTargetPlusAllowMRP',
+    'TCCTargetPlusAllowNoCarMRP', 'TDCMRP', 'TGPMRP'];
 
   rate: string;
   filter: PfDataGridFilter = {
@@ -57,7 +64,7 @@ export class PricingMatchesGridComponent implements OnInit, AfterViewInit, OnCha
   actionBarConfig: ActionBarConfig;
 
   hasModifyPricingPemission: boolean;
-  constructor(private permissionService: PermissionService) {
+  constructor(private permissionService: PermissionService, private mrpFormatterService: MrpFormatterService) {
     this.hasModifyPricingPemission = this.permissionService.CheckPermission([Permissions.MODIFY_PRICINGS],
       PermissionCheckEnum.Single);
   }
@@ -71,6 +78,8 @@ export class PricingMatchesGridComponent implements OnInit, AfterViewInit, OnCha
 
   ngOnChanges(changes: SimpleChanges): void {
     if (!!changes.pricingInfo) {
+      this.mrpDisplayOverrides = this.mrpFormatterService.generateDisplayOverrides(changes.pricingInfo.currentValue, this.mrpFields);
+
       const newFilterValue = changes.pricingInfo.currentValue.CompanyJobs_Pricings_CompanyJobPricing_ID;
       if (newFilterValue && newFilterValue !== this.filter.Value) {
         this.filter.Value = newFilterValue;
@@ -86,5 +95,9 @@ export class PricingMatchesGridComponent implements OnInit, AfterViewInit, OnCha
       [PfDataGridColType.currency]: { Template: this.currencyColumn },
       [PfDataGridColType.pricingInfo]: { Template: this.pricingInfoColumn }
     };
+
+    this.mrpFields.forEach(mrp => {
+      this.colTemplates[mrp] = { Template: this.genericMrpColumn };
+    });
   }
 }
