@@ -71,7 +71,7 @@
     <div>
       <button
         [attr.data-qa-id]="'btn-jobs-page-pricing-match-delete-' + dataRow.CompanyJobs_PricingsMatches_CompanyJobPricingMatch_ID"
-        [disabled]="!!(pricingInfo | modifyPricingMatchError : isActiveJob: pricingMatchesCount)"
+        [disabled]="!!(pricingInfo | modifyPricingMatchError : isActiveJob)"
         [title]="pricingInfo | modifyPricingMatchError : isActiveJob: pricingMatchesCount"
         type="button"
         (click)="openDeletePricingMatchModal()"
@@ -163,7 +163,8 @@
     </div>
     <br>
     <div>
-      You are about to permanently delete the match
+      <div *ngIf="pricingMatchesCount!=1">
+        <span > You are about to permanently delete the match </span>
       <b>
         <pf-job-title-code
           [jobTitle]="dataRow.vw_PricingMatchesJobTitlesMerged_Job_Title"
@@ -178,6 +179,16 @@
         </pf-job-title-code>
       </b>
       in the <b>{{pricingInfo.CompanyPayMarkets_PayMarket}}</b> Pay Market.
+      </div>
+      <div *ngIf="pricingMatchesCount==1">
+          <div *ngIf="previousPricingEffectiveDate">
+            You are about to delete pricing effective <b>{{pricingInfo.CompanyJobs_Pricings_Effective_Date | date: 'MM/dd/yyyy'}}</b>.
+            The pricing from effective date <b>{{previousPricingEffectiveDate | date: 'MM/dd/yyyy'}}</b> will now become the most recent pricing. Do you want to continue?
+          </div>
+        <div *ngIf="!previousPricingEffectiveDate">
+          You are about to delete pricing effective <b>{{pricingInfo.CompanyJobs_Pricings_Effective_Date | date: 'MM/dd/yyyy'}}</b>. There will no longer be a pricing associated with this job and pay market. Do you want to continue?
+        </div>
+      </div>
       <br><br>
       This action cannot be undone. Would you like to continue?
     </div>

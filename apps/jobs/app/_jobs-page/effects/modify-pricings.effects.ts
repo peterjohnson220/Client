@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
 
-import { catchError, mergeMap, switchMap, withLatestFrom, concatMap, groupBy } from 'rxjs/operators';
+import {catchError, mergeMap, switchMap, withLatestFrom, concatMap, groupBy, map} from 'rxjs/operators';
 import { Observable, of, forkJoin } from 'rxjs';
 
 import { SortDescriptor } from '@progress/kendo-data-query';
@@ -149,6 +149,39 @@ export class ModifyPricingsEffects {
     )
   );
 
+  @Effect()
+  getPreviousPricingEffectiveDate$: Observable<Action> = this.actions$.pipe(
+    ofType(fromModifyPricingsActions.GET_PREVIOUS_PRICING_EFFECTIVE_DATE),
+    switchMap((action: any) => {
+      return this.pricingApiService.getPreviousPricingEffectiveDate(action.payload).pipe(
+        map(response => new fromModifyPricingsActions.GetPreviousPricingEffectiveDateSuccess(response === null ? false : response )),
+        catchError(error => {
+          const msg = 'We encountered an error while loading your company data';
+          return of(new fromModifyPricingsActions.DeletingPricingMatchError(msg));
+        })
+      );
+    })
+  );
+
+  @Effect()
+  deleteMatchAndPricing$: Observable<Action> = this.actions$.pipe(
+    ofType(fromModifyPricingsActions.DELETE_PRICING_AND_MATCH),
+    switchMap((action: any) => {
+      return this.pricingApiService.deleteMatchAndPricing(action.payload).pipe(
+        mergeMap(response => {
+          const  actions = [];
+          actions.push(new fromPfDataGridActions.LoadData(PageViewIds.PayMarkets));
+          actions.push(new fromPfDataGridActions.CollapseAllRows(PageViewIds.PayMarkets));
+          actions.push(new fromModifyPricingsActions.DeletingPricingMatchSuccess());
+          return actions;
+        }),
+        catchError(error => {
+          const msg = 'We encountered an error while loading your company data';
+          return of(new fromModifyPricingsActions.DeletingPricingError(msg));
+        })
+      );
+    })
+  );
 
   //#region UpdatePricingMatch HelperFunctions
 

@@ -85,6 +85,9 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
     ParentEntityId: null
   };
 
+  previousPricingEffectiveDate: any = null;
+  previousPricingEffectiveDateSubscription: Subscription;
+
   @HostListener('window:resize') windowResize() {
     this.ngAfterViewChecked();
   }
@@ -156,6 +159,15 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
           this.store.dispatch(new fromModifyPricingsActions.UpdatingPricingMatch(request, pricingId, matchesGridPageViewId));
         }
       });
+
+    this.previousPricingEffectiveDateSubscription = this.store.select(fromModifyPricingsReducer.getPreviousPricingEffectiveDate)
+      .subscribe(v => {
+      if (v !== null) {
+        this.previousPricingEffectiveDate = !v ? null : v;
+        this.showDeletePricingMatchModal.next(true);
+        this.store.dispatch(new fromModifyPricingsActions.ResetModifyPricingsModals());
+  }
+    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -176,6 +188,7 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
     this.pricingMatchesDataSuscription.unsubscribe();
     this.isActiveJobSubscription.unsubscribe();
     this.upsertPeerDataSubscription.unsubscribe();
+    this.previousPricingEffectiveDateSubscription.unsubscribe();
   }
 
 
@@ -187,14 +200,29 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
   }
 
   openDeletePricingMatchModal() {
+    if (this.pricingMatchesCount !== 1 || this.previousPricingEffectiveDate !==  null) {
     this.showDeletePricingMatchModal.next(true);
     this.store.dispatch(new fromModifyPricingsActions.ResetModifyPricingsModals());
+    } else {
+      this.getPreviousPricingEffectiveDate();
+  }
   }
 
   deletePricingMatch(datarow: any) {
-    this.store.dispatch(new fromModifyPricingsActions.DeletingPricingMatch(
+    if (this.pricingMatchesCount !== 1) {
+      this.store.dispatch(new fromModifyPricingsActions.DeletingPricingMatch(
       datarow.CompanyJobs_PricingsMatches_CompanyJobPricingMatch_ID
     ));
+    } else {
+      this.store.dispatch(new fromModifyPricingsActions.DeletePricingAndMatch(
+        datarow.CompanyJobs_PricingsMatches_CompanyJobPricingMatch_ID
+      ));
+  }
+
+  }
+  getPreviousPricingEffectiveDate() {
+    const matchId = this.dataRow.CompanyJobs_PricingsMatches_CompanyJobPricingMatch_ID;
+    this.store.dispatch(new fromModifyPricingsActions.GetPreviousPricingEffectiveDate(matchId));
   }
 
   handleMatchClick() {

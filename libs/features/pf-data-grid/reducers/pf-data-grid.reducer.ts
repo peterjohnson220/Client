@@ -617,6 +617,17 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           }
         }
       };
+    case fromPfGridActions.COLLAPSE_ALL_ROWS:
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            expandedRows: []
+          }
+        }
+      };
     case fromPfGridActions.CLEAR_LOADING:
       return {
         ...state,
