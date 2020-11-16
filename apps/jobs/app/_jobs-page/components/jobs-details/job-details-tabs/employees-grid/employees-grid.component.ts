@@ -15,6 +15,8 @@ import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
 import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
 import { PfThemeType } from 'libs/features/pf-data-grid/enums/pf-theme-type.enum';
+import { PfDataGridComponent } from 'libs/features/pf-data-grid/pf-data-grid.component/pf-data-grid.component';
+import * as fromActions from 'libs/features/pf-data-grid/actions';
 
 import * as fromJobsPageReducer from '../../../../reducers';
 import { PageViewIds } from '../../../../constants/';
@@ -52,12 +54,14 @@ export class EmployeesGridComponent implements AfterViewInit, OnDestroy, OnChang
   actionBarConfig: ActionBarConfig;
   gridConfig: GridConfig;
   hasInfiniteScrollFeatureFlagEnabled: boolean;
+  hasEmployeeDetailsFlagEnabled: boolean;
   pfThemeType = PfThemeType;
 
   constructor(
     private store: Store<fromPfGridReducer.State>,
     private featureFlagService: AbstractFeatureFlagService
   ) {
+    this.hasEmployeeDetailsFlagEnabled = this.featureFlagService.enabled(FeatureFlags.EmployeeDetails, false);
     this.hasInfiniteScrollFeatureFlagEnabled = this.featureFlagService.enabled(FeatureFlags.PfDataGridInfiniteScroll, false);
     this.companyPayMarketsSubscription = store.select(fromJobsPageReducer.getCompanyPayMarkets)
       .subscribe(o => {
@@ -110,6 +114,10 @@ export class EmployeesGridComponent implements AfterViewInit, OnDestroy, OnChang
   ngOnDestroy() {
     this.gridFieldSubscription.unsubscribe();
     this.companyPayMarketsSubscription.unsubscribe();
+  }
+
+  closeExpandedRow(Id: string, IdValue: number) {
+    this.store.dispatch(new fromActions.CollapseRowById(this.pageViewId, Id, IdValue));
   }
 
   handlePayMarketFilterChanged(value: any) {

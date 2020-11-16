@@ -1,0 +1,113 @@
+<div class="card m-3">
+  <div [ngClass]="[theme].join(' ')">
+    <div class="card-header">
+      <ng-container *ngTemplateOutlet="employeeDetailsHeader"></ng-container>
+    </div>
+  </div>
+  <div class="card-block">
+    <ng-container *ngTemplateOutlet="employeeDetailsBody"></ng-container>
+  </div>
+</div>
+
+<ng-template #employeeDetailsHeader>
+  <div class="d-flex justify-content-between">
+    <div>
+      <b class="align-middle">Employee Details</b>
+    </div>
+    <!--potentially place export icon here, if X does not exist (product must decide)-->
+    <ng-container [ngTemplateOutlet]="optionalCloseButton"></ng-container>
+  </div>
+</ng-template>
+
+<ng-template #employeeDetailsBody>
+  <div class="d-flex">
+    <div class="w-50 text-center">
+      <h3>chart placeholder</h3>
+    </div>
+    <div class="w-50 d-flex flex-column">
+      <div class="w-100 text-center">
+        <!--potentially place export icon on summary header if X exists (product must decide)-->
+        <h3>Summary Placeholder</h3>
+      </div>
+      <pf-emplyee-info
+        [employeeInfo]="employeeDetails"
+      >
+      </pf-emplyee-info>
+        <div class="d-flex flex-column">
+          <div *ngIf="isShowingMore" class="px-3 pb-2">
+            <div class="d-flex justify-content-between">
+              <div class="d-flex flex-column py-1">
+                <span>Bonus Percentage:</span>
+                <input [value]="employeeDetails.Bonus_Percent" [disabled]="true" />
+              </div>
+              <div class="d-flex flex-column py-1">
+                <span>Bonus Target Percentage:</span>
+                <input [value]="employeeDetails.Bonus_Target_Percent" [disabled]="true" />
+              </div>
+              <div class="d-flex flex-column py-1">
+                <span>Bonus Target:</span>
+                <input [value]="employeeDetails.Bonus_Target" [disabled]="true" />
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-between">
+              <div class="d-flex flex-column py-1">
+                <span>Full Time Employee:</span>
+                <input [value]="employeeDetails.Full_Time_Employee" [disabled]="true" />
+              </div>
+              <div class="d-flex flex-column py-1">
+                <span>Allowances:</span>
+                <input [value]="employeeDetails.Allowances" [disabled]="true" />
+              </div>
+              <div class="d-flex flex-column py-1">
+                <span>Target TCC:</span>
+                <input [value]="employeeDetails.Target_TCC" [disabled]="true" />
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-between">
+              <div class="d-flex flex-column py-1">
+                <span>Target LTI:</span>
+                <input [value]="employeeDetails.Target_LTI" [disabled]="true" />
+              </div>
+              <div class="d-flex flex-column py-1">
+                <span>Total Fixed Pay:</span>
+                <input [value]="employeeDetails.Total_Fixed_Pay" [disabled]="true" />
+              </div>
+              <div class="d-flex flex-column py-1">
+                <span>Target TDC:</span>
+                <input [value]="employeeDetails.Target_TDC" [disabled]="true" />
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-between">
+              <div class="d-flex flex-column py-1">
+                <span>Total Guaranteed Pay:</span>
+                <input [value]="employeeDetails.Total_Guaranteed_Pay" [disabled]="true" />
+              </div>
+              <div class="d-flex flex-column py-1">
+                <span>STI Eligibility:</span>
+                <input [value]="employeeDetails.STI_Eligibility" [disabled]="true" />
+              </div>
+              <div class="d-flex flex-column py-1">
+                <span>LTI Eligibility:</span>
+                <input [value]="employeeDetails.LTI_Eligibility" [disabled]="true" />
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-between">
+              <div class="d-flex flex-column py-1">
+                <span>Total Remuneration:</span>
+                <input [value]="employeeDetails.Total_Remuneration" [disabled]="true" />
+              </div>
+            </div>
+          </div>
+      </div>
+      <div class="w-100">
+        <a #toggleLink class="pr-3 pb-2 float-right" style="color: blue;" (click)="toggle()" [innerText]="isShowingMore ? 'Show Less' : 'Show More'"></a>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+

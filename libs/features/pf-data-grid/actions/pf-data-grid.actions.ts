@@ -36,6 +36,7 @@ export const UPDATE_SELECTED_RECORD_ID = '[PfDataGrid] Update Selected Record Id
 export const EXPAND_ROW = '[PfDataGrid] Expand Row';
 export const COLLAPSE_ROW = '[PfDataGrid] Collapse Row';
 export const COLLAPSE_ALL_ROWS = '[PfDataGrid] Collapse All Rows';
+export const COLLAPSE_ROW_BY_ID = '[PfDataGrid] Collapse Row By Id';
 export const CLEAR_LOADING = '[PfDataGrid] Clear Loading';
 export const DO_NOTHING = '[PfDataGrid] Do Nothing';
 export const HANDLE_API_ERROR = '[PfDataGrid] Handle API Error';
@@ -232,9 +233,15 @@ export class CollapseRow implements Action {
   constructor(public pageViewId: string, public rowIndex: number) { }
 }
 
+
 export class CollapseAllRows implements Action {
   readonly type = COLLAPSE_ALL_ROWS;
   constructor(public pageViewId: string) { }
+}
+
+export class CollapseRowById implements Action {
+  readonly type = COLLAPSE_ROW_BY_ID;
+  constructor(public pageViewId, public Id: string, public IdValue: number) { }
 }
 
 export class ClearLoading implements Action {
@@ -459,6 +466,7 @@ export type DataGridActions =
   | UpdateSelectedRecordId
   | ExpandRow
   | CollapseRow
+  | CollapseRowById
   | ClearLoading
   | HandleApiError
   | LoadSavedViews

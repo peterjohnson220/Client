@@ -134,13 +134,13 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   lastUpdateFieldsDateSubscription: Subscription;
   filtersUpdatedCountSubscription: Subscription;
   resetGridScrolledSubscription: Subscription;
+  closeExpandedRowSubscription: Subscription;
   groupTracker: {group: string, dataElementId: number } [] = [];
 
 
   readonly MIN_SPLIT_VIEW_COL_WIDTH = 100;
 
   @ViewChild(GridComponent) grid: GridComponent;
-
 
   constructor(
     private store: Store<fromReducer.State>,
@@ -149,7 +149,6 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
     private actionsSubject: ActionsSubject) { }
 
   ngOnInit() {
-
     this.updateGridDataRowSubscription = this.actionsSubject
       .pipe(ofType(fromActions.UPDATE_GRID_DATA_ROW))
       .subscribe((action: fromActions.UpdateGridDataRow) => {
@@ -175,6 +174,20 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
       .subscribe((action: fromActions.ResetGridScrolled) => {
         if (action.pageViewId === this.pageViewId) {
           this.scrollToTop();
+        }
+      });
+
+    this.closeExpandedRowSubscription = this.actionsSubject
+      .pipe(ofType(fromActions.COLLAPSE_ROW_BY_ID))
+      .subscribe((action: fromActions.CollapseRowById) => {
+
+        // ensure this is being used by the intended grid.
+        if (this.pageViewId === action.pageViewId) {
+          const expandedRow = this.data.data.find(x => x[action.Id] === action.IdValue);
+          const expandedRowIndex = this.data.data.indexOf(expandedRow);
+
+          this.store.dispatch(new fromActions.CollapseRow(this.pageViewId, expandedRowIndex));
+          this.grid.collapseRow(expandedRowIndex);
         }
       });
 
@@ -245,6 +258,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnDestroy() {
+    this.closeExpandedRowSubscription.unsubscribe();
     this.expandedRowsSubscription.unsubscribe();
     this.updateGridDataRowSubscription.unsubscribe();
     this.dataSubscription.unsubscribe();
