@@ -69,6 +69,7 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
   jobDescriptionViews: string[];
   identity: UserContext;
   inWorkflow: boolean;
+  isPublicContext: boolean;
   isFirstRecipient: boolean;
   undoQueueAvailable: boolean;
   containsFLSA: boolean;
@@ -119,6 +120,7 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
       if (this.inWorkflow) {
         this.sharedStore.dispatch(new fromCompanyLogoActions.LoadCompanyLogo(userContext.CompanyId));
       }
+      this.isPublicContext = !!userContext.IsPublic;
       this.isFirstRecipient = !!userContext.WorkflowStepInfo && !!userContext.WorkflowStepInfo.IsFirstRecipient;
     });
     this.jobDescriptionSubscription = this.jobDescriptionAsync$.subscribe(asyncStateObj => {
