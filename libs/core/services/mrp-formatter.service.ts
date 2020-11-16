@@ -29,14 +29,23 @@ export class MrpFormatterService {
     return this.mrpDisplayOverrides;
   }
 
+  generateRateOverride(pricingInfo: any): string {
+    const rateKey = Object.keys(pricingInfo).find(key => key.includes('Rate'));
+    return pricingInfo[rateKey];
+  }
+
+  getRegexResult(regex: string, fieldName: string): RegExpMatchArray {
+    return fieldName.match(regex);
+  }
+
   formatMrp(fieldName: string, dataRow: any): MrpModel {
-    const category = fieldName.match(this.categoryRgx);
+    const category = this.getRegexResult(this.categoryRgx, fieldName);
 
     if (category === null) {
       return null;
     }
 
-    const prefix = fieldName.match(this.dataPrefixRgx);
+    const prefix = this.getRegexResult(this.dataPrefixRgx, fieldName);
     const percentile = dataRow[`${prefix[0]}${this.delimiter}${category[2]}${this.dataSuffix}`];
 
     if (percentile) {
