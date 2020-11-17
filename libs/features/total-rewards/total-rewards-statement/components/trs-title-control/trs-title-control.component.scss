@@ -3,16 +3,16 @@
 $line-graphic-thickness: 4px;
 
 .trs-title {
-  padding: 0 15px; // match bootstrap with a px here, variable width is set directly in markup  
+  padding: 0 15px; // match bootstrap with a px here, variable width is set directly in markup
 }
 
 h3.employee {
   margin-top: 0.35rem;
-  margin-left: -.25rem;;
+  margin-left: -.25rem;
   font-size: 1.3rem;
   overflow: hidden;
   white-space: nowrap;
-  .employee-name, .employee-id { 
+  .employee-name, .employee-id {
     transition: background-color .3s ease-in-out, color .3s ease-in-out, padding .05s ease-in-out;
   }
 }
