@@ -38,6 +38,7 @@ import {
 } from './effects';
 import { UserSettingsPageComponent } from './user-settings.page';
 import { UserSettingsRoutingModule } from './user-settings-routing.module';
+import { PfUserSettingsModule } from '../../../../libs/features/user-settings';
 
 @NgModule({
   imports: [
@@ -68,7 +69,8 @@ import { UserSettingsRoutingModule } from './user-settings-routing.module';
     // Payfactors
     PfCommonModule,
     PfCommonUIModule,
-    PfFormsModule
+    PfFormsModule,
+    PfUserSettingsModule
   ],
   declarations: [
     // Pages
