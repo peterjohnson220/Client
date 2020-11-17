@@ -11,9 +11,13 @@ export class GraphHelper {
     }
   }
 
-  static getCompareChartHeight(dataLength: number): number {
+  static getCompareChartHeight(dataLength: number, useAlignmentOffset: boolean): number {
     const defaultOffset = 56;
     const rowHeight = 60;
-    return (rowHeight * dataLength) + defaultOffset;
+    let scrollOffset = 0;
+    if (useAlignmentOffset) {
+      scrollOffset = 15;
+    }
+    return (rowHeight * dataLength) + (defaultOffset + scrollOffset);
   }
 }

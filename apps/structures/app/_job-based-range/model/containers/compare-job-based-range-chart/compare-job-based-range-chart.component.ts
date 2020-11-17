@@ -258,6 +258,7 @@ export class CompareJobBasedRangeChartComponent implements OnInit, OnDestroy {
     this.chartMin = undefined;
     this.chartMax = undefined;
     let dataCount = this.jobRangeData.data.length;
+    let alignmentOffset = true;
 
     if (dataCount === 1) {
       this.singleDataRowFlag = true;
@@ -268,6 +269,7 @@ export class CompareJobBasedRangeChartComponent implements OnInit, OnDestroy {
 
     for (let i = 0; i < dataCount; i++) {
       let currentRow = this.nullDataObject;
+      const dataRowCount = i + 1;
       if (this.singleDataRowFlag && i === 0) {
         currentRow = this.jobRangeData.data[i];
       } else if (this.singleDataRowFlag && i === 1) {
@@ -276,9 +278,12 @@ export class CompareJobBasedRangeChartComponent implements OnInit, OnDestroy {
         currentRow = this.jobRangeData.data[i];
       }
 
-      let compareRow = {};
+      let compareRow = null;
       if (this.compareData) {
         compareRow = this.compareData.filter(x => x.CompanyJobs_Job_Code === currentRow.CompanyJobs_Job_Code)[0];
+      }
+      if (dataRowCount === dataCount && (compareRow === null || compareRow === undefined)) {
+        alignmentOffset = false;
       }
       this.hasCurrentStructure = currentRow.CompanyStructures_RangeGroup_CurrentStructureMidPoint === null;
       this.compareHasCurrentStructure = false;
@@ -394,7 +399,7 @@ export class CompareJobBasedRangeChartComponent implements OnInit, OnDestroy {
     }
 
     // we need this hidden salary range => will prevent from messing up when we hide salary range from the legend
-    this.chartInstance.setSize(null, GraphHelper.getCompareChartHeight(dataCount));
+    this.chartInstance.setSize(null, GraphHelper.getCompareChartHeight(dataCount, alignmentOffset));
   }
 
   private determineChartMin(currentRow) {
