@@ -1,11 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ImgFallbackModule } from 'ngx-img-fallback';
+import { UploadsModule } from '@progress/kendo-angular-upload';
 
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
@@ -17,13 +20,14 @@ import {
   PersonalProjectSettingsComponent,
   AutoShareComponent,
   PayMarketDefaultSettingsComponent,
-  ProjectTemplatesComponent
+  ProjectTemplatesComponent,
+  UserProfileComponent
 } from './containers';
 
 import * as fromFaIcons from './fa-icons';
 import { reducers } from './reducers';
 
-import { DashboardPreferencesEffects } from './effects';
+import { DashboardPreferencesEffects, UserProfileEffects } from './effects';
 import { UserSettingsPageComponent } from './user-settings.page';
 import { UserSettingsRoutingModule } from './user-settings-routing.module';
 
@@ -31,6 +35,8 @@ import { UserSettingsRoutingModule } from './user-settings-routing.module';
   imports: [
     // Angular
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
 
     // Routing
     UserSettingsRoutingModule,
@@ -38,11 +44,14 @@ import { UserSettingsRoutingModule } from './user-settings-routing.module';
     // 3rd party
     StoreModule.forFeature('userSettings_main', reducers),
     EffectsModule.forFeature([
-      DashboardPreferencesEffects
+      DashboardPreferencesEffects,
+      UserProfileEffects
     ]),
     FontAwesomeModule,
     NgbPopoverModule,
     NgbModule,
+    ImgFallbackModule,
+    UploadsModule,
 
     // Payfactors
     PfCommonModule,
@@ -59,7 +68,8 @@ import { UserSettingsRoutingModule } from './user-settings-routing.module';
     PersonalProjectSettingsComponent,
     AutoShareComponent,
     PayMarketDefaultSettingsComponent,
-    ProjectTemplatesComponent
+    ProjectTemplatesComponent,
+    UserProfileComponent
   ]
 })
 export class UserSettingsModule {

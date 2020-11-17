@@ -1,0 +1,17 @@
+@import 'user-settings-styles';
+
+.profile-picture-container {
+  width: 125px;
+  height: 125px;
+}
+
+.form-control[readonly]:focus {
+  box-shadow: none;
+  border-color: #ced4da;
+  cursor: default;
+  align-items: center;
+}
+
+.text-align-center {
+  text-align: center;
+}
