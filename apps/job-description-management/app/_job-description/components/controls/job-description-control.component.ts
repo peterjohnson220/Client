@@ -82,6 +82,12 @@ export class JobDescriptionControlComponent implements OnInit, OnChanges, OnDest
     }
   }
 
+  get showControl() {
+    if (this.jobDescriptionControl && this.jobDescriptionControl.AdditionalProperties) {
+      return this.jobDescriptionControl.AdditionalProperties.ShowControl;
+    }
+  }
+
   toggleBody() {
     this.hideBody = !this.hideBody;
   }

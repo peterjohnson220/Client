@@ -611,6 +611,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
         section.Controls.forEach(control => {
           if (control.AdditionalProperties) {
             control.AdditionalProperties.ShowControlName = true;
+            control.AdditionalProperties.ShowControl = true;
           }
         });
       });
