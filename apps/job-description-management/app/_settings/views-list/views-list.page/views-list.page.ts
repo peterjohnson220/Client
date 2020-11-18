@@ -17,6 +17,7 @@ import * as fromUpsertViewModalActions from '../actions/upsert-view-modal.action
 import * as fromViewsListReducer from '../reducers';
 import { JdmSettingsHelper } from '../../shared/helpers';
 import { JobDescriptionViewListGridItem } from 'libs/models';
+import { ExportSchedulesModalComponent, TemplatesModalComponent } from '../containers';
 
 
 @Component({
@@ -26,6 +27,8 @@ import { JobDescriptionViewListGridItem } from 'libs/models';
 })
 export class ViewsListPageComponent implements OnDestroy, OnInit {
   @ViewChild(SimpleYesNoModalComponent, { static: true }) public deleteViewConfirmationModal: SimpleYesNoModalComponent;
+  @ViewChild(ExportSchedulesModalComponent, { static: true }) public exportSchedulesModal: ExportSchedulesModalComponent;
+  @ViewChild(TemplatesModalComponent, { static: true }) public templatesModal: TemplatesModalComponent;
 
   viewsListAsyncObj$: Observable<AsyncStateObj<JobDescriptionViewListGridItem[]>>;
   viewsListAsyncObjSubscription: Subscription;
@@ -129,6 +132,20 @@ export class ViewsListPageComponent implements OnDestroy, OnInit {
       this.store.dispatch(new fromUpsertViewModalActions.SetEditingViewName({ editingViewName: viewName }));
     }
     this.store.dispatch(new fromUpsertViewModalActions.OpenUpsertViewModal());
+  }
+
+  openExportSchedulesModal(dataItem: JobDescriptionViewListGridItem, event: MouseEvent) {
+    if (dataItem.ExportSchedules.length > 0) {
+      event.stopPropagation();
+      this.exportSchedulesModal.open(dataItem);
+    }
+  }
+
+  openTemplatesModal(dataItem: JobDescriptionViewListGridItem, event: MouseEvent) {
+    if (dataItem.Templates.length > 0) {
+      event.stopPropagation();
+      this.templatesModal.open(dataItem);
+    }
   }
 
   gridSelectionChange(selection) {

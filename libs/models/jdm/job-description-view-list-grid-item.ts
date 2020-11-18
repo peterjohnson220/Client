@@ -1,4 +1,5 @@
-import { BulkExportSchedule, TemplateListItem } from 'libs/models';
+import { BulkExportSchedule, generateMockBulkExportSchedule } from './bulk-export-schedule.model';
+import { TemplateListItem } from './template-list-item.model';
 
 export interface JobDescriptionViewListGridItem {
     ViewName: string;
@@ -10,6 +11,6 @@ export function generateMockJobDescriptionViewListGridItem(mockNumber: number = 
   return {
     ViewName: `Test View Name ${mockNumber}`,
     Templates: [],
-    ExportSchedules: []
+    ExportSchedules: [generateMockBulkExportSchedule(), generateMockBulkExportSchedule('One-time'), generateMockBulkExportSchedule('Monthly')]
   };
 }
