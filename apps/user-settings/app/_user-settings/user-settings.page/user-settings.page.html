@@ -5,7 +5,7 @@
     <ul ngbNav class="nav-tabs" [activeId]="activeId">
       <ng-container *ngFor="let tab of tabs">
         <li *ngIf="tab.IsVisible" [ngbNavItem]="tab.Path">
-          <a ngbNavLink [routerLink]="[tab.Path]" routerLinkActive="active">
+          <a ngbNavLink [routerLink]="[tab.Path]" routerLinkActive="active" class="tab-title">
             {{ tab.Title }}
           </a>
         </li>

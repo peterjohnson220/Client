@@ -7,3 +7,11 @@
     border-bottom: 2px solid #0088CC !important;
   }
 }
+
+.tab-title {
+  color: #000000;
+
+  &:active, &:hover {
+    color: #000000;
+  }
+}
