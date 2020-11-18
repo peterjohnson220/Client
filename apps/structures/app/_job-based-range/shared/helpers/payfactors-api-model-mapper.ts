@@ -4,6 +4,7 @@ import {
   RecalculateRangesWithoutMidRequest,
   RevertRangeChangesRequest,
   RoundRangesRequest,
+  RangeDistributionSettingRequest,
   SaveModelSettingsRequest,
   StructureRangeGroupResponse
 } from 'libs/models/payfactors-api/structures';
@@ -12,11 +13,15 @@ import { CurrencyDto } from 'libs/models/common';
 import {
   AdvancedModelSettingForm,
   RangeDistributionSettingForm,
+  CalculationTypeDisplay,
   RangeGroupMetadata,
   RoundingSettingsDataObj
 } from 'libs/models/structures';
 import { AdvancedSettingRequest } from 'libs/models/payfactors-api/structures/request/advanced-setting-request.model';
 import { MissingMarketDataTypes } from 'libs/constants/structures/missing-market-data-type';
+import { CalculationType } from 'libs/constants/structures/calculation-type';
+import { FormulaFieldModalObj } from 'libs/models/formula-editor';
+
 
 import { ControlPoint, Currency } from '../models';
 
@@ -52,22 +57,44 @@ export class PayfactorsApiModelMapper {
       CompanyStructuresRangeGroupId: rangeDistributionSetting.CompanyStructuresRangeGroupId,
       CompanyId: rangeDistributionSetting.CompanyId,
       RangeDistributionTypeId: rangeDistributionSetting.RangeDistributionTypeId,
-      FirstTertile: rangeDistributionSetting.FirstTertile,
-      SecondTertile: rangeDistributionSetting.SecondTertile,
-      FirstQuartile: rangeDistributionSetting.FirstQuartile,
-      SecondQuartile: rangeDistributionSetting.SecondQuartile,
-      FirstQuintile: rangeDistributionSetting.FirstQuintile,
-      SecondQuintile: rangeDistributionSetting.SecondQuintile,
-      ThirdQuintile: rangeDistributionSetting.ThirdQuintile,
-      FourthQuintile: rangeDistributionSetting.FourthQuintile,
-      Minimum: null,
-      Maximum: null,
+      FirstTertile_Percentile: rangeDistributionSetting.FirstTertile,
+      SecondTertile_Percentile: rangeDistributionSetting.SecondTertile,
+      FirstQuartile_Percentile: rangeDistributionSetting.FirstQuartile,
+      SecondQuartile_Percentile: rangeDistributionSetting.SecondQuartile,
+      FirstQuintile_Percentile: rangeDistributionSetting.FirstQuintile,
+      SecondQuintile_Percentile: rangeDistributionSetting.SecondQuintile,
+      ThirdQuintile_Percentile: rangeDistributionSetting.ThirdQuintile,
+      FourthQuintile_Percentile: rangeDistributionSetting.FourthQuintile,
+      Min_Spread: null,
+      Max_Spread: null,
       PayType: null,
-      ControlPoint: null,
-      MinPercentile: rangeDistributionSetting.MinPercentile,
-      MaxPercentile: rangeDistributionSetting.MaxPercentile,
-      ControlPoint_Formula: rangeDistributionSetting.ControlPoint_Formula,
+      Mid_Percentile: null,
+      Min_Percentile: rangeDistributionSetting.MinPercentile,
+      Max_Percentile: rangeDistributionSetting.MaxPercentile,
+      Mid_Formula: rangeDistributionSetting.ControlPoint_Formula,
+      Min_Formula: rangeDistributionSetting.Min_Formula,
+      Max_Formula: rangeDistributionSetting.Max_Formula,
+      FirstTertile_Formula: rangeDistributionSetting.FirstTertile_Formula,
+      SecondTertile_Formula: rangeDistributionSetting.SecondTertile_Formula,
+      FirstQuartile_Formula: rangeDistributionSetting.FirstQuartile_Formula,
+      SecondQuartile_Formula: rangeDistributionSetting.SecondQuartile_Formula,
+      FirstQuintile_Formula: rangeDistributionSetting.FirstQuintile_Formula,
+      SecondQuintile_Formula: rangeDistributionSetting.SecondQuintile_Formula,
+      ThirdQuintile_Formula: rangeDistributionSetting.ThirdQuintile_Formula,
+      FourthQuintile_Formula: rangeDistributionSetting.FourthQuintile_Formula,
+      MinCalculationType: this.determineCalculationType(rangeDistributionSetting.MinPercentile, rangeDistributionSetting.Min_Formula),
+      MaxCalculationType: this.determineCalculationType(rangeDistributionSetting.MaxPercentile, rangeDistributionSetting.Max_Formula)
     };
+  }
+
+  private static determineCalculationType(percentile: string, formula: FormulaFieldModalObj): CalculationTypeDisplay {
+    if (!!formula) {
+      return { TypeDisplay: 'Calculate', Type: CalculationType.Formula };
+    } else if (!!percentile) {
+      return { TypeDisplay: 'Enter Percentile Amount', Type: CalculationType.Percentile };
+    } else {
+      return { TypeDisplay: 'Enter Range Spread', Type: CalculationType.Spread };
+    }
   }
 
   static mapRangeAdvancedSetting(advancedSetting: AdvancedSettingResponse): AdvancedModelSettingForm {
@@ -168,6 +195,8 @@ export class PayfactorsApiModelMapper {
     });
   }
 
+
+
   ///
   /// OUT
   ///
@@ -181,17 +210,46 @@ export class PayfactorsApiModelMapper {
     return {
       RangeGroupId: rangeGroupId,
       PayType: rangeDistributionSetting.PayType,
-      ControlPoint: rangeDistributionSetting.ControlPoint,
+      ControlPoint: rangeDistributionSetting.Mid_Percentile,
       CurrencyCode: formValue.Currency,
       ModelName: formValue.ModelName,
-      RangeSpreadMin: rangeDistributionSetting.Minimum,
-      RangeSpreadMax: rangeDistributionSetting.Maximum,
+      RangeSpreadMin: rangeDistributionSetting.Min_Spread,
+      RangeSpreadMax: rangeDistributionSetting.Max_Spread,
       Rate: formValue.Rate,
       StructureName: formValue.StructureName,
       Rounding: this.mapRoundingSettingsModalFormToRoundRangesRequest(rounding),
       AdvancedSetting: advancedSetting,
       RangeDistributionTypeId: rangeDistributionSetting.RangeDistributionTypeId ?? 1,
-      RangeDistributionSetting: formValue.RangeDistributionSetting
+      RangeDistributionSetting: this.mapRangeDistributionSettingRequest(formValue.RangeDistributionSetting)
+    };
+  }
+
+  static mapRangeDistributionSettingRequest(rangeDistributionSetting: RangeDistributionSettingForm): RangeDistributionSettingRequest {
+    return {
+      CompanyStructuresRangeGroupId: rangeDistributionSetting.CompanyStructuresRangeGroupId,
+      RangeDistributionTypeId: rangeDistributionSetting.RangeDistributionTypeId,
+      CompanyId: rangeDistributionSetting.CompanyId,
+      FirstTertile: rangeDistributionSetting.FirstTertile_Percentile,
+      SecondTertile: rangeDistributionSetting.SecondTertile_Percentile,
+      FirstQuartile: rangeDistributionSetting.FirstQuartile_Percentile,
+      SecondQuartile: rangeDistributionSetting.SecondQuartile_Percentile,
+      FirstQuintile: rangeDistributionSetting.FirstQuintile_Percentile,
+      SecondQuintile: rangeDistributionSetting.SecondQuintile_Percentile,
+      ThirdQuintile: rangeDistributionSetting.ThirdQuintile_Percentile,
+      FourthQuintile: rangeDistributionSetting.FourthQuintile_Percentile,
+      MinPercentile: rangeDistributionSetting.Min_Percentile,
+      MaxPercentile: rangeDistributionSetting.Max_Percentile,
+      ControlPoint_Formula: rangeDistributionSetting.Mid_Formula,
+      Min_Formula: rangeDistributionSetting.Min_Formula,
+      Max_Formula: rangeDistributionSetting.Max_Formula,
+      FirstTertile_Formula: rangeDistributionSetting.FirstTertile_Formula,
+      SecondTertile_Formula: rangeDistributionSetting.SecondTertile_Formula,
+      FirstQuartile_Formula: rangeDistributionSetting.FirstQuartile_Formula,
+      SecondQuartile_Formula: rangeDistributionSetting.SecondQuartile_Formula,
+      FirstQuintile_Formula: rangeDistributionSetting.FirstQuintile_Formula,
+      SecondQuintile_Formula: rangeDistributionSetting.SecondQuintile_Formula,
+      ThirdQuintile_Formula: rangeDistributionSetting.ThirdQuintile_Formula,
+      FourthQuintile_Formula: rangeDistributionSetting.FourthQuintile_Formula
     };
   }
 

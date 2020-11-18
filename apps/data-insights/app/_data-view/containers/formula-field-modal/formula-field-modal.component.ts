@@ -115,7 +115,7 @@ export class FormulaFieldModalComponent implements OnInit, OnDestroy, OnChanges 
   close(): void {
     this.modalService.dismissAll();
     this.formulaChanged.next(null);
-    this.store.dispatch(new fromFormulaFieldActions.ResetModal());
+    this.store.dispatch(new fromFormulaFieldActions.ResetModal({ formulaFieldId: ''}));
   }
 
   duplicate(): void {
@@ -138,7 +138,7 @@ export class FormulaFieldModalComponent implements OnInit, OnDestroy, OnChanges 
       DataType: this.dataType,
       IsPublic: this.formulaFieldForm.value.isPublic
     };
-    this.store.dispatch(new fromFormulaFieldActions.SaveFormulaField({ formula: formulaInfo, baseEntityId: this.baseEntityId }));
+    this.store.dispatch(new fromFormulaFieldActions.SaveFormulaField({ formula: formulaInfo, baseEntityId: this.baseEntityId, formulaFieldId: '' }));
   }
 
   handleFormulaChanged(value: string): void {
@@ -211,7 +211,7 @@ export class FormulaFieldModalComponent implements OnInit, OnDestroy, OnChanges 
     this.showErrorMessages = false;
     this.formula = value;
     if (this.formula.length !== 0) {
-      this.store.dispatch(new fromFormulaFieldActions.ValidateFormula({ formula: value, baseEntityId: this.baseEntityId }));
+      this.store.dispatch(new fromFormulaFieldActions.ValidateFormula({ formula: value, baseEntityId: this.baseEntityId, formulaFieldId: '' }));
       this.isWaitingForValidation = false;
     } else {
       this.isWaitingForValidation = true;

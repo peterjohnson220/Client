@@ -47,11 +47,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   modalOpenSub: Subscription;
   modelNameExistsFailureSub: Subscription;
   roundingSettingsSub: Subscription;
-  waitingForFormulaValidationSub: Subscription;
-  formulaValidatingSub: Subscription;
-  formulaValidSub: Subscription;
-  formulaSavingErrorSub: Subscription;
-  formulaFieldSub: Subscription;
+  allFormulasSub: Subscription;
 
   controlPointsAsyncObj: AsyncStateObj<ControlPoint[]>;
   currenciesAsyncObj: AsyncStateObj<Currency[]>;
@@ -67,11 +63,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   modelSetting: RangeGroupMetadata;
   minSpreadTooltip: string;
   maxSpreadTooltip: string;
-  waitingForFormulaValidation = false;
-  formulaValidating = false;
-  formulaValid = false;
-  formulaSavingError = false;
-  formulaField = null;
+  allFormulas = null;
   structuresAdvancedModelingFeatureFlag: RealTimeFlag = { key: FeatureFlags.StructuresAdvancedModeling, value: false };
   unsubscribe$ = new Subject<void>();
 
@@ -90,15 +82,10 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
     this.structureNameSuggestionsAsyncObj$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getStructureNameSuggestionsAsyncObj));
     this.savingModelSettingsAsyncObj$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getSavingModelSettingsAsyncObj));
     this.modelNameExistsFailure$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getModelNameExistsFailure));
-    this.waitingForFormulaValidationSub = this.store.pipe(select(fromJobBasedRangeReducer.getFormulaWaitingForValidation))
-      .subscribe(fwfv => this.waitingForFormulaValidation = fwfv);
-    this.formulaValidatingSub = this.store.pipe(select(fromJobBasedRangeReducer.getFormulaValidating)).subscribe(fv => this.formulaValidating = fv);
-    this.formulaValidSub = this.store.pipe(select(fromJobBasedRangeReducer.getFormulaValid)).subscribe(fv => this.formulaValid = fv);
-    this.formulaSavingErrorSub = this.store.pipe(select(fromJobBasedRangeReducer.getFormulaSavingError)).subscribe(fse => this.formulaSavingError = fse);
-    this.formulaFieldSub = this.store.pipe(select(fromJobBasedRangeReducer.getFormulaField)).subscribe(ff => this.formulaField = ff);
     this.minSpreadTooltip = ModelSettingsModalConstants.MIN_SPREAD_TOOL_TIP;
     this.maxSpreadTooltip = ModelSettingsModalConstants.MAX_SPREAD_TOOL_TIP;
     this.featureFlagService.bindEnabled(this.structuresAdvancedModelingFeatureFlag, this.unsubscribe$);
+    this.allFormulasSub = this.store.pipe(select(fromJobBasedRangeReducer.getAllFields)).subscribe(af => this.allFormulas = af);
   }
 
   get formControls() {
@@ -145,9 +132,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
 
   // Events
   handleModalSubmit() {
-    if (this.modelSettingsForm.valid
-      && !this.formulaSavingError && !this.waitingForFormulaValidation && !this.formulaValidating
-      && (this.formulaField === null || this.formulaField != null && this.formulaValid)) {
+    if (this.modelSettingsForm.valid && !this.formulasInvalidForSubmission()) {
       this.store.dispatch(new fromModelSettingsModalActions.SaveModelSettings(
         {
           rangeGroupId: this.rangeGroupId,
@@ -160,11 +145,32 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
     }
   }
 
+  formulasInvalidForSubmission(): boolean {
+    // this.formulaSavingError || this.waitingForFormulaValidation || this.formulaValidating
+    // || this.formulaField != null && !this.formulaValid)
+    // check min
+    if (!!this.allFormulas.Min && (this.allFormulas.Min.savingError || this.allFormulas.Min.waitingForValidation || this.allFormulas.Min.validating
+      || (this.allFormulas.Min.formulaField != null && !this.allFormulas.Min.formulaValid))) {
+      return true;
+    }
+    // check mid
+    if (!!this.allFormulas.Mid && (this.allFormulas.Mid.savingError || this.allFormulas.Mid.waitingForValidation || this.allFormulas.Mid.validating
+      || (this.allFormulas.Mid.formulaField != null && !this.allFormulas.Mid.formulaValid))) {
+      return true;
+    }
+    // check max
+    if (!!this.allFormulas.Max && (this.allFormulas.Max.savingError || this.allFormulas.Max.waitingForValidation || this.allFormulas.Max.validating
+      || (this.allFormulas.Max.formulaField != null && !this.allFormulas.Max.formulaValid))) {
+      return true;
+    }
+    // if we made it to here, they are valid
+    return false;
+  }
+
   handleModalSubmitAttempt() {
     this.attemptedSubmit = true;
 
-    if (this.formulaSavingError || this.waitingForFormulaValidation || this.formulaValidating
-      || this.formulaField != null && !this.formulaValid) {
+    if (this.formulasInvalidForSubmission()) {
       this.activeTab = 'modelTab';
       return false;
     }
@@ -276,12 +282,8 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
     this.modalOpenSub.unsubscribe();
     this.modelNameExistsFailureSub.unsubscribe();
     this.roundingSettingsSub.unsubscribe();
-    this.waitingForFormulaValidationSub.unsubscribe();
-    this.formulaValidatingSub.unsubscribe();
-    this.formulaValidSub.unsubscribe();
-    this.formulaSavingErrorSub.unsubscribe();
-    this.formulaFieldSub.unsubscribe();
     this.unsubscribe$.next();
+    this.allFormulasSub.unsubscribe();
   }
 
   private reset() {

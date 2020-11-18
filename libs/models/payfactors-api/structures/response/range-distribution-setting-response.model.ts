@@ -16,6 +16,17 @@ export interface RangeDistributionSettingResponse {
   MinPercentile: string;
   MaxPercentile: string;
   ControlPoint_Formula?: FormulaFieldModalObj;
+  Min_Formula?: FormulaFieldModalObj;
+  Max_Formula?: FormulaFieldModalObj;
+  FirstTertile_Formula?: FormulaFieldModalObj;
+  SecondTertile_Formula?: FormulaFieldModalObj;
+  FirstQuartile_Formula?: FormulaFieldModalObj;
+  SecondQuartile_Formula?: FormulaFieldModalObj;
+  FirstQuintile_Formula?: FormulaFieldModalObj;
+  SecondQuintile_Formula?: FormulaFieldModalObj;
+  ThirdQuintile_Formula?: FormulaFieldModalObj;
+  FourthQuintile_Formula?: FormulaFieldModalObj;
+
 }
 
 export function generateMockRangeDistributionSettingResponse(): RangeDistributionSettingResponse {
@@ -33,6 +44,16 @@ export function generateMockRangeDistributionSettingResponse(): RangeDistributio
     FourthQuintile: '',
     MinPercentile: '',
     MaxPercentile: '',
-    ControlPoint_Formula: generateFormulaFieldModalObj()
+    ControlPoint_Formula: generateFormulaFieldModalObj(),
+    Min_Formula: generateFormulaFieldModalObj(),
+    Max_Formula: generateFormulaFieldModalObj(),
+    FirstTertile_Formula: generateFormulaFieldModalObj(),
+    SecondTertile_Formula: generateFormulaFieldModalObj(),
+    FirstQuartile_Formula: generateFormulaFieldModalObj(),
+    SecondQuartile_Formula: generateFormulaFieldModalObj(),
+    FirstQuintile_Formula: generateFormulaFieldModalObj(),
+    SecondQuintile_Formula: generateFormulaFieldModalObj(),
+    ThirdQuintile_Formula: generateFormulaFieldModalObj(),
+    FourthQuintile_Formula: generateFormulaFieldModalObj()
   };
 }
