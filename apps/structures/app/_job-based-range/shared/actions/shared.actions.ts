@@ -6,7 +6,8 @@ import { DataViewFilter } from 'libs/models/payfactors-api/reports/request';
 import { RangeGroupMetadata } from 'libs/models/structures';
 import {
   ConvertCurrencyAndRateRequestModel,
-  CurrentRangeGroupRequestModel, StructureHasPublishedForTypeRequestModel,
+  CurrentRangeGroupRequestModel,
+  GetStructureHasSettingsRequestModel,
 } from 'libs/models/payfactors-api/structures/request';
 
 export const SET_METADATA = '[Structures - Job Based Range - Shared] Set Metadata';
@@ -39,9 +40,10 @@ export const CONVERT_CURRENCY_AND_RATE_ERROR = '[Structures - Job Based Range - 
 export const GET_DISTINCT_OVERRIDE_MESSAGES = '[Structures - Job Based Range - Shared] Get Distinct Override Messages';
 export const GET_DISTINCT_OVERRIDE_MESSAGES_SUCCESS = '[Structures - Job Based Range - Shared] Get Distinct Override Messages Success';
 export const GET_DISTINCT_OVERRIDE_MESSAGES_ERROR = '[Structures - Job Based Range - Shared] Get Distinct Override Messages Error';
-export const GET_STRUCTURE_HAS_PUBLISHED_FOR_TYPE = '[Structures - Job Based Range - Shared] Get Structure Has Published For Type';
-export const GET_STRUCTURE_HAS_PUBLISHED_FOR_TYPE_SUCCESS = '[Structures - Job Based Range - Shared] Get Structure Has Published For Type Success';
-export const GET_STRUCTURE_HAS_PUBLISHED_FOR_TYPE_ERROR = '[Structures - Job Based Range - Shared] Get Structure Has Published For Type Error';
+export const GET_STRUCTURE_HAS_SETTINGS = '[Structures - Job Based Range - Shared] Get Structure Has Settings';
+export const GET_STRUCTURE_HAS_SETTINGS_SUCCESS = '[Structures - Job Based Range - Shared] Get Structure Has Settings Success';
+export const GET_STRUCTURE_HAS_SETTINGS_ERROR = '[Structures - Job Based Range - Shared] Get Structure Has Settings Error';
+
 
 export class SetMetadata implements Action {
   readonly type = SET_METADATA;
@@ -204,20 +206,20 @@ export class ConvertCurrencyAndRateError implements Action {
   constructor(public payload: any) {}
 }
 
-export class GetStructureHasPublishedForType implements Action {
-  readonly type = GET_STRUCTURE_HAS_PUBLISHED_FOR_TYPE;
+export class GetStructureHasSettings implements Action {
+  readonly type = GET_STRUCTURE_HAS_SETTINGS;
 
-  constructor(public payload: StructureHasPublishedForTypeRequestModel) {}
+  constructor(public payload: GetStructureHasSettingsRequestModel) {}
 }
 
-export class GetStructureHasPublishedForTypeSuccess implements Action {
-  readonly type = GET_STRUCTURE_HAS_PUBLISHED_FOR_TYPE_SUCCESS;
+export class GetStructureHasSettingsSuccess implements Action {
+  readonly type = GET_STRUCTURE_HAS_SETTINGS_SUCCESS;
 
   constructor(public payload: any) {}
 }
 
-export class GetStructureHasPublishedForTypeError implements Action {
-  readonly type = GET_STRUCTURE_HAS_PUBLISHED_FOR_TYPE_ERROR;
+export class GetStructureHasSettingsError implements Action {
+  readonly type = GET_STRUCTURE_HAS_SETTINGS_ERROR;
 
   constructor(public payload: any) {}
 }
@@ -269,9 +271,9 @@ export type SharedActions
   | ConvertCurrencyAndRate
   | ConvertCurrencyAndRateSuccess
   | ConvertCurrencyAndRateError
-  | GetStructureHasPublishedForType
-  | GetStructureHasPublishedForTypeSuccess
-  | GetStructureHasPublishedForTypeError
+  | GetStructureHasSettings
+  | GetStructureHasSettingsSuccess
+  | GetStructureHasSettingsError
   | GetDistinctOverrideMessages
   | GetDistinctOverrideMessagesSuccess
   | GetDistinctOverrideMessagesError;

@@ -19,7 +19,7 @@ export interface State {
   comparingModels: boolean;
   compareEnabled: boolean;
   overrideMessages: string[];
-  structureHasPublished: AsyncStateObj<number>;
+  structureHasSettings: AsyncStateObj<any>;
 }
 
 const initialState: State = {
@@ -43,7 +43,7 @@ const initialState: State = {
   currentRangeGroup: generateDefaultAsyncStateObj<any>(null),
   comparingModels: false,
   compareEnabled: false,
-  structureHasPublished: generateDefaultAsyncStateObj<number>(null),
+  structureHasSettings: generateDefaultAsyncStateObj<any>(null),
   overrideMessages: []
 };
 
@@ -193,38 +193,38 @@ export function reducer(state = initialState, action: fromSharedActions.SharedAc
         overrideMessages: action.payload
       };
     }
-    case fromSharedActions.GET_STRUCTURE_HAS_PUBLISHED_FOR_TYPE: {
-      const gettingHasPublishedStructureClone = cloneDeep(state.structureHasPublished);
+    case fromSharedActions.GET_STRUCTURE_HAS_SETTINGS: {
+      const structureHasSettings = cloneDeep(state.structureHasSettings);
 
-      gettingHasPublishedStructureClone.loading = true;
-      gettingHasPublishedStructureClone.obj = null;
-      gettingHasPublishedStructureClone.loadingError = false;
+      structureHasSettings.loading = true;
+      structureHasSettings.obj = null;
+      structureHasSettings.loadingError = false;
 
       return {
         ...state,
-        structureHasPublished: gettingHasPublishedStructureClone
+        structureHasSettings: structureHasSettings
       };
     }
-    case fromSharedActions.GET_STRUCTURE_HAS_PUBLISHED_FOR_TYPE_SUCCESS: {
-      const gettingHasPublishedStructureClone = cloneDeep(state.structureHasPublished);
+    case fromSharedActions.GET_STRUCTURE_HAS_SETTINGS_SUCCESS: {
+      const structureHasSettings = cloneDeep(state.structureHasSettings);
 
-      gettingHasPublishedStructureClone.loading = false;
-      gettingHasPublishedStructureClone.obj = action.payload;
+      structureHasSettings.loading = false;
+      structureHasSettings.obj = action.payload;
 
       return {
         ...state,
-        structureHasPublished: gettingHasPublishedStructureClone
+        structureHasSettings: structureHasSettings
       };
     }
-    case fromSharedActions.GET_STRUCTURE_HAS_PUBLISHED_FOR_TYPE_ERROR: {
-      const gettingHasPublishedStructureClone = cloneDeep(state.structureHasPublished);
+    case fromSharedActions.GET_STRUCTURE_HAS_SETTINGS_ERROR: {
+      const structureHasSettings = cloneDeep(state.structureHasSettings);
 
-      gettingHasPublishedStructureClone.loading = false;
-      gettingHasPublishedStructureClone.loadingError = true;
+      structureHasSettings.loading = false;
+      structureHasSettings.loadingError = true;
 
       return {
         ...state,
-        structureHasPublished: gettingHasPublishedStructureClone
+        structureHasSettings: structureHasSettings
       };
     }
     default:
@@ -240,7 +240,7 @@ export const getCurrentRangeGroup = (state: State) => state.currentRangeGroup;
 export const getComparingModels = (state: State) => state.comparingModels;
 export const getCompareEnabled = (state: State) => state.compareEnabled;
 export const getDistinctOverrideMessages  = (state: State) => state.overrideMessages;
-export const getStructureHasPublished = (state: State) => state.structureHasPublished;
+export const getStructureHasSettings = (state: State) => state.structureHasSettings;
 
 export const addRoundingSetting = (name: string, setting: RoundingSetting, settings: RoundingSettingsDataObj) => {
   return settings[name] = setting;
