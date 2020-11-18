@@ -44,10 +44,9 @@ export class ConfirmPasswordComponent implements OnInit {
       this.numberOfRequiredUppercaseCharacters,
       this.numberOfRequiredLowercaseCharacters,
       this.numberOfRequiredSpecialCharacters,
-      this.numberOfRequiredNumericCharacters,
-      this.allowUsername?.split('@')[0].toLowerCase());
+      this.numberOfRequiredNumericCharacters);
 
-       // No username allowed
+    // No username allowed
     if (this.allowUsername) {
       const username = this.allowUsername.split('@')[0].toLowerCase();
       rules.push({
@@ -95,7 +94,12 @@ export class ConfirmPasswordComponent implements OnInit {
   passwordValidator() {
     const currentPasswordControl = this.changePasswordForm.get('password');
     for (const validationRule of this.validationRules) {
-      validationRule.IsSatisfied = new RegExp(validationRule.Rule).test(currentPasswordControl.value);
+      if (validationRule.Name === 'Contains Username') {
+        const username = this.allowUsername.split('@')[0].toLowerCase();
+        validationRule.IsSatisfied = !currentPasswordControl.value.toLowerCase().includes(username);
+      } else {
+        validationRule.IsSatisfied = new RegExp(validationRule.Rule).test(currentPasswordControl.value);
+      }
     }
   }
 

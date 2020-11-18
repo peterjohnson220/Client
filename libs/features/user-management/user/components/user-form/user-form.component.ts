@@ -1,12 +1,12 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { FormGroup, Validators, FormBuilder, FormControl, AbstractControl } from '@angular/forms';
 
 import {BehaviorSubject, forkJoin, Observable} from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { PfValidators, PfEmailValidators, PfEmailTakenValidator, PfPasswordValidators } from 'libs/forms';
+import { PfValidators, PfEmailValidators, PfEmailTakenValidator, PfPasswordValidators, ValidationRules } from 'libs/forms';
 import { GenericMenuItem, SubsidiaryInfo, UserAssignedRole } from 'libs/models';
 import { UserManagementDto } from 'libs/models/payfactors-api/user';
 import { UserApiService } from 'libs/data/payfactors-api';
@@ -133,6 +133,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
   setPasswordValidator(value: boolean) {
     if (value && this.f.status.value.toString() === 'true') {
       this.updatePasswordRules();
+
       const passwordValidators = [PfValidators.required];
       for (const validationRule of this.passwordValidationRules) {
           passwordValidators.push(validationRule.Validator ? validationRule.Validator(validationRule)
@@ -265,13 +266,15 @@ export class UserFormComponent implements OnInit, OnDestroy {
 
   validatePassword() {
     for (const validationRule of this.passwordValidationRules) {
-      if (validationRule.Name === 'Contains Username') {
-        // case insesitive comparison
-        validationRule.IsSatisfied = new RegExp(validationRule.Rule).test(this.f.password.value.toLowerCase());
+      if (validationRule.Name === 'Contains Username' && this.f.emailAddress?.value) {
+        const username = this.f.emailAddress?.value.split('@')[0].toLowerCase();
+        validationRule.IsSatisfied = !this.f.password.value.toLowerCase().includes(username);
       } else {
         validationRule.IsSatisfied = new RegExp(validationRule.Rule).test(this.f.password.value);
       }
     }
+
+    this.f.password.updateValueAndValidity();
   }
 
   updatePasswordRules() {
@@ -282,10 +285,33 @@ export class UserFormComponent implements OnInit, OnDestroy {
     this.PASSWORD_UPPER_CASE_CHARS,
     this.PASSWORD_LOWER_CASE_CHARS,
     this.PASSWORD_SPECIAL_CHARS,
-    this.PASSWORD_NUMERIC_CHARS,
-    this.userForm.controls['emailAddress']?.value?.split('@')[0].toLowerCase());
+    this.PASSWORD_NUMERIC_CHARS);
+
+    // No username allowed
+    const passwordUsernameValidationRule = PfPasswordValidators.getPasswordUsernameValidationRule(this.f.password, this.f.emailAddress);
+    this.passwordValidationRules.push(passwordUsernameValidationRule);
 
     this.validatePassword();
+  }
+
+  private getPasswordUsernameRule(passwordControl: AbstractControl, usernameControl: AbstractControl): any {
+    return {
+      Name: 'Contains Username',
+      Message: 'Cannot contain username',
+      IsSatisfied: false,
+      Validator: (vr: ValidationRules) => {
+        return () => {
+          const username = usernameControl?.value.split('@')[0].toLowerCase();
+          const password = passwordControl?.value;
+          if (password && username && password.toLowerCase().includes(username)) {
+            vr.IsSatisfied = false;
+            return { passwordContainsUsername: true };
+          }
+          vr.IsSatisfied = true;
+          return null;
+        };
+      }
+    };
   }
 
   setPasswordFocus() {
