@@ -316,6 +316,11 @@ exports[`Admin - Company Admin - User Component Should display form 1`] = `
         >
           
         </div>
+        <div
+          class="text-danger small"
+        >
+          
+        </div>
         <button
           class="btn btn-link"
           type="button"

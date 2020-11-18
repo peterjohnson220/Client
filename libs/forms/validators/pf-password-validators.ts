@@ -1,3 +1,5 @@
+import { AbstractControl } from '@angular/forms';
+import { ValidationRules } from '..';
 
 export class PfPasswordValidators {
 
@@ -11,8 +13,7 @@ export class PfPasswordValidators {
     numberOfRequiredUppercaseCharacters = 1,
     numberOfRequiredLowercaseCharacters = 1,
     numberOfRequiredSpecialCharacters = 1,
-    numberOfRequiredNumericCharacters = 1,
-    userName): any[] {
+    numberOfRequiredNumericCharacters = 1): any[] {
     const rules = [];
 
     // Min total character required
@@ -80,17 +81,27 @@ export class PfPasswordValidators {
       });
     }
 
-    // No username is allowed
-    if (userName) {
-      const userNameRegex = `^((?!${userName}).)*$`;
-      rules.push({
-        Name: 'Contains Username',
-        Message: 'Cannot contain username',
-        Rule: userNameRegex,
-        IsSatisfied: false,
-      });
-    }
     return rules;
+  }
+
+  static getPasswordUsernameValidationRule(passwordControl: AbstractControl, usernameControl: AbstractControl): any {
+    return {
+      Name: 'Contains Username',
+      Message: 'Cannot contain username',
+      IsSatisfied: false,
+      Validator: (vr: ValidationRules) => {
+        return () => {
+          const username = usernameControl?.value.split('@')[0].toLowerCase();
+          const password = passwordControl?.value;
+          if (password && username && password.toLowerCase().includes(username)) {
+            vr.IsSatisfied = false;
+            return { passwordContainsUsername: true };
+          }
+          vr.IsSatisfied = true;
+          return null;
+        };
+      }
+    };
   }
 
 }
