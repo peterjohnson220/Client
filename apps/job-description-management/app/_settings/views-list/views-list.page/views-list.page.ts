@@ -10,13 +10,13 @@ import { AsyncStateObj } from 'libs/models/state';
 import { SimpleYesNoModalComponent } from 'libs/ui/common';
 import { SimpleYesNoModalOptions } from 'libs/models/common';
 import { FilterArrayByName } from 'libs/core/pipes';
+import { JobDescriptionViewListGridItem, TemplateListItem } from 'libs/models';
 
 import * as fromViewEditActions from '../../view-edit/actions/view-edit.actions';
 import * as fromViewsListActions from '../actions/views-list.actions';
 import * as fromUpsertViewModalActions from '../actions/upsert-view-modal.actions';
 import * as fromViewsListReducer from '../reducers';
 import { JdmSettingsHelper } from '../../shared/helpers';
-import { JobDescriptionViewListGridItem } from 'libs/models';
 import { ExportSchedulesModalComponent, TemplatesModalComponent } from '../containers';
 
 
@@ -52,7 +52,7 @@ export class ViewsListPageComponent implements OnDestroy, OnInit {
     dir: 'desc'
   }];
   searchValue: string;
-  templateData = [];
+  templates: TemplateListItem[] = [];
   templateId: any;
   selectedTemplate: any;
 
@@ -73,16 +73,29 @@ export class ViewsListPageComponent implements OnDestroy, OnInit {
       this.applySort();
       this.refreshGridDataResult();
 
-      this.templateData = viewsList.obj.map(v => v.Templates).reduce((acc, item) => [...acc, ...item], []);
+      this.templates = this.buildTemplateList(viewsList.obj);
 
       this.templateId = Number(this.route.snapshot.queryParamMap.get('templateId'));
-      this.selectedTemplate = this.templateData.find(p => p.TemplateId === this.templateId);
+      this.selectedTemplate = this.templates.find(p => p.TemplateId === this.templateId);
       this.gridView.data = this.selectedTemplate?.TemplateId ? this.filterViewsByTemplateId(this.selectedTemplate.TemplateId) : this.gridData;
     });
   }
 
   ngOnDestroy(): void {
     this.viewsListAsyncObjSubscription.unsubscribe();
+  }
+
+  buildTemplateList(viewsList: JobDescriptionViewListGridItem[]) {
+    const flattenedTemplateList = viewsList.map(v => v.Templates).reduce((acc, item) => [...acc, ...item], []);
+
+    const uniqueTemplates = flattenedTemplateList.reduce((acc, item) => {
+      if (!acc.find(template => template.TemplateId === item.TemplateId)) {
+        acc.push(item);
+      }
+      return acc;
+    }, []);
+
+    return uniqueTemplates;
   }
 
   handleSearchValueChanged(value: string) {

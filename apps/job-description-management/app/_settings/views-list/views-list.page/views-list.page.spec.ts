@@ -51,7 +51,7 @@ describe('Job Description Management - Settings - Views List Page', () => {
       total: 1
     };
 
-    instance.templateData = [generateMockTemplateListItem(1)];
+    instance.templates = [generateMockTemplateListItem(1)];
 
     store = TestBed.inject(Store);
     router = TestBed.inject(Router);
@@ -156,4 +156,10 @@ describe('Job Description Management - Settings - Views List Page', () => {
     expect(viewData[0].ViewName).toBe(`Test View Name ${routeIdParam}`);
   });
 
+  it('should build template list of unique template ids when buildTemplateList() is called', () => {
+    const viewsList = [generateMockJobDescriptionViewListGridItem(1), generateMockJobDescriptionViewListGridItem(2)];
+    const templates = instance.buildTemplateList(viewsList);
+
+    expect(templates.length).toEqual(1);
+  });
 });
