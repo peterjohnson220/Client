@@ -65,11 +65,10 @@ export function reducer(state = initialState, action: fromCompareJobRangeActions
         ...state,
         converting: true,
         convertingError: false,
-        compareData: null
       };
     case fromCompareJobRangeActions.APPEND_CONVERT_CURRENCY_AND_RATE_SUCCESS:
       let convertedDataClone = cloneDeep(state.compareData);
-      convertedDataClone = compareDataClone.concat(action.payload);
+      convertedDataClone = convertedDataClone.concat(action.payload);
 
       return {
         ...state,
