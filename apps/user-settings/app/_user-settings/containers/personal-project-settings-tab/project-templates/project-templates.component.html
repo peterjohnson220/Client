@@ -3,9 +3,15 @@
     <span class="title">Project Templates</span>
   </div>
 
-  <div class="card-body d-flex flex-column pl-4">
-    <div class="d-flex flex-column pl-2 pt-2">
-    </div>
+  <div class="d-flex flex-row flex-wrap ml-3 mt-3 position-relative">
+    <pf-async-container class="company-job-mapping-container"
+                        [loadingError]="(projectTemplates$ | async)?.loadingError"
+                        [loading]="(projectTemplates$ | async)?.loading">
+      <div class="badge mb-3 badge-pill" *ngFor="let item of (projectTemplates$ | async).obj; trackBy: trackByFn;">
+        <span>{{item.TemplateName}}</span>
+        <fa-icon icon="times" class="delete-btn pl-2" (click)="handleDeleteClicked(item)"></fa-icon>
+      </div>
+    </pf-async-container>
   </div>
 
   <div class="d-flex flex-row-reverse mr-3 mb-3">
@@ -17,3 +23,17 @@
     </pf-action-button>
   </div>
 </div>
+<pf-modal-form
+  [size]="'md'"
+  [title]="'Delete Template'"
+  [primaryButtonText]="'Delete'"
+  [primaryButtonClass]="'btn-danger'"
+  [modalId]="'au-modal-user-settings-delete-template'"
+  [isOpen$]=" showDeleteTemplateModal$"
+  (onSubmit)="handleDeleteConfirmed()"
+  (onDismiss)="handleModalDismissed()">
+  <ng-container basic-content>
+    <p>Are you sure you want to delete the template "<strong>{{selectedTemplate?.TemplateName}}</strong>"?</p>
+  </ng-container>
+
+</pf-modal-form>

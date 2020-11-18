@@ -27,7 +27,7 @@ import {
 import * as fromFaIcons from './fa-icons';
 import { reducers } from './reducers';
 
-import { DashboardPreferencesEffects, UserProfileEffects } from './effects';
+import { DashboardPreferencesEffects, UserProfileEffects, ProjectTemplateEffects } from './effects';
 import { UserSettingsPageComponent } from './user-settings.page';
 import { UserSettingsRoutingModule } from './user-settings-routing.module';
 
@@ -45,7 +45,8 @@ import { UserSettingsRoutingModule } from './user-settings-routing.module';
     StoreModule.forFeature('userSettings_main', reducers),
     EffectsModule.forFeature([
       DashboardPreferencesEffects,
-      UserProfileEffects
+      UserProfileEffects,
+      ProjectTemplateEffects
     ]),
     FontAwesomeModule,
     NgbPopoverModule,
