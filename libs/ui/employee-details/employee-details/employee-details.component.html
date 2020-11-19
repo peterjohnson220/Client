@@ -28,9 +28,13 @@
       </pf-compensation-charts>
     </div>
     <div class="w-50 d-flex flex-column">
-      <div class="w-100 text-center">
+      <div class="w-100">
         <!--potentially place export icon on summary header if X exists (product must decide)-->
-        <h3>Summary Placeholder</h3>
+        <div class="p-3">
+          <p class="mb-1"><b>Summary</b></p>
+          <hr class="mb-2 mt-0 border-top border-dark" />
+          <p class="m-0">{{summaryText}}</p>
+        </div>
       </div>
       <pf-emplyee-info
         [employeeInfo]="employeeDetails"

@@ -20,4 +20,9 @@ export interface EmployeeDetails {
   Total_Remuneration: number;
   Currency_Code: string;
   Rate: string;
+  Employee_Id: string;
+  Date_Of_Hire: string;
+  First_Name: string;
+  Last_Name: string;
+  BaseMRP: number;
 }

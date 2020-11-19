@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { ChartsModule } from '@progress/kendo-angular-charts';
 import 'hammerjs';
+import { MomentModule } from 'ngx-moment';
 
 import { PfCommonModule } from '../../core';
 import { EmployeeDetailsComponent } from './employee-details/employee-details.component';
@@ -30,6 +31,7 @@ import { EmployeeInfoChartDisplayComponent } from './components/employee-info-ch
 
     // 3rd Party
     ChartsModule,
+    MomentModule,
 
     // Payfactors
     PfCommonModule,
