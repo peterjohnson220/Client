@@ -5,11 +5,13 @@ import * as fromRoot from 'libs/state/state';
 
 import * as fromDashboardPreferencesReducer from './dashboard-preferences.reducer';
 import * as fromUserProfileReducer from './user-profile.reducer';
+import * as fromProjectTemplateReducer from './project-templates.reducer';
 
 // Feature area state
 export interface UserSettingsMainState {
   dashboardPreferences: fromDashboardPreferencesReducer.State;
   userProfile: fromUserProfileReducer.State;
+  projectTemplates: fromProjectTemplateReducer.State;
 }
 
 // Extend root state with feature area state
@@ -20,7 +22,8 @@ export interface State extends fromRoot.State {
 // Feature area reducers
 export const reducers = {
   dashboardPreferences: fromDashboardPreferencesReducer.reducer,
-  userProfile: fromUserProfileReducer.reducer
+  userProfile: fromUserProfileReducer.reducer,
+  projectTemplates: fromProjectTemplateReducer.reducer,
 };
 
 // Select Feature Area
@@ -35,6 +38,10 @@ export const selectUserProfileState = createSelector(selectFeatureAreaState,
   (state: UserSettingsMainState) => state.userProfile
 );
 
+export const selectProjectTemplatesState = createSelector(selectFeatureAreaState,
+  (state: UserSettingsMainState) => state.projectTemplates
+);
+
 // Dashboard Preferences
 export const getUserTilesAsync = createSelector(selectDashboardPreferencesState, fromDashboardPreferencesReducer.getUserTilesAsync);
 export const getDashboardPreferencesHasPendingChanges = createSelector(
@@ -47,3 +54,6 @@ export const getSavedDashboardPreferencesResponse = createSelector(
 // My Profile
 export const getUserProfile = createSelector(selectUserProfileState, fromUserProfileReducer.getUserProfile);
 export const getCloudFilesPublicBaseUrl = createSelector(selectUserProfileState, fromUserProfileReducer.getCloudFilesPublicBaseUrl);
+
+// Project Templates
+export const getProjectTemplatesAsync = createSelector(selectProjectTemplatesState, fromProjectTemplateReducer.getProjectTemplatesAsync);

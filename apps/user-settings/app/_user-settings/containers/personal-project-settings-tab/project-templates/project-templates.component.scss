@@ -1,3 +1,5 @@
+@import 'colors';
+
 .card {
   width: 80%;
   margin: 0 0 2rem 0;
@@ -7,4 +9,23 @@
 .title {
   font-size: 16px;
   font-weight: 500;
+}
+
+.badge{
+  font-size: 1rem;
+  background: $data-grid-filter-pills-background-color;
+  color: $data-grid-filter-pills-color;
+  margin-right: 1rem;
+  font-weight: normal;
+  padding: .45rem .75rem;
+  overflow-y: hidden;
+}
+
+.pills-container {
+  position: relative;
+  white-space: nowrap;
+}
+
+.delete-btn {
+  cursor: pointer;
 }

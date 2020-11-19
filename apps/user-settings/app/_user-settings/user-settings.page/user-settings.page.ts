@@ -12,6 +12,7 @@ import { CompanySettingsEnum, UserContext, UserProfile } from 'libs/models';
 import * as fromUserSettingsReducer from '../reducers';
 import * as fromDashboardPreferencesActions from '../actions/dashboard-preferences.actions';
 import * as fromUserProfileActions from '../actions/user-profile.actions';
+import * as fromProjectTemplateActions from '../actions/project-template.actions';
 import { Tab, TabName } from '../models';
 
 @Component({
@@ -62,6 +63,7 @@ export class UserSettingsPageComponent implements OnInit, OnDestroy {
       }
     });
     this.userContextSubscription = this.userContext$.subscribe(uc => this.setUserProfile(uc));
+    this.store.dispatch(new fromProjectTemplateActions.GetProjectTemplates());
   }
 
   ngOnDestroy() {
