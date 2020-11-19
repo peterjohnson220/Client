@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+
 import { UserTile } from '../models';
 
 export const GET_USER_TILES  = '[User Settings / User Settings Page] Get User Tiles';

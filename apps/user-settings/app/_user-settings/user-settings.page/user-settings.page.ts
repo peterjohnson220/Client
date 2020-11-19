@@ -1,15 +1,17 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
+import * as fromRootState from 'libs/state/state';
 import { SettingsService } from 'libs/state/app-context/services';
-import { CompanySettingsEnum } from 'libs/models';
+import { CompanySettingsEnum, UserContext, UserProfile } from 'libs/models';
 
 import * as fromUserSettingsReducer from '../reducers';
 import * as fromDashboardPreferencesActions from '../actions/dashboard-preferences.actions';
+import * as fromUserProfileActions from '../actions/user-profile.actions';
 import { Tab, TabName } from '../models';
 
 @Component({
@@ -18,10 +20,12 @@ import { Tab, TabName } from '../models';
   styleUrls: ['./user-settings.page.scss']
 })
 export class UserSettingsPageComponent implements OnInit, OnDestroy {
+  userContext$: Observable<UserContext>;
   hasDashboardPreferences$: Observable<boolean>;
 
   hasDashboardPreferencesSub: Subscription;
   navigationEndSubscription: Subscription;
+  userContextSubscription: Subscription;
 
   tabs: Tab[] = [
     { Title: TabName.MyProfile, Path: '/my-profile', IsVisible: true },
@@ -32,10 +36,12 @@ export class UserSettingsPageComponent implements OnInit, OnDestroy {
   activeId = '/my-profile';
 
   constructor(
+    private rootStore: Store<fromRootState.State>,
     public store: Store<fromUserSettingsReducer.State>,
     private settingsService: SettingsService,
     public router: Router
   ) {
+    this.userContext$ = this.rootStore.pipe(select(fromRootState.getUserContext));
     this.hasDashboardPreferences$ = this.settingsService.selectCompanySetting<boolean>(
       CompanySettingsEnum.DashboardPreferences
     );
@@ -55,11 +61,13 @@ export class UserSettingsPageComponent implements OnInit, OnDestroy {
         this.hideDashboardPreferencesTab();
       }
     });
+    this.userContextSubscription = this.userContext$.subscribe(uc => this.setUserProfile(uc));
   }
 
   ngOnDestroy() {
     this.navigationEndSubscription.unsubscribe();
     this.hasDashboardPreferencesSub.unsubscribe();
+    this.userContextSubscription.unsubscribe();
   }
 
   private hideDashboardPreferencesTab(): void {
@@ -67,5 +75,22 @@ export class UserSettingsPageComponent implements OnInit, OnDestroy {
     if (dashboardPreferencesTab) {
       dashboardPreferencesTab.IsVisible = false;
     }
+  }
+
+  private setUserProfile(userContext: UserContext): void {
+    if (!userContext) {
+      return;
+    }
+    const cloudFilesPublicBaseUrl = userContext.ConfigSettings.find(c => c.Name === 'CloudFiles_PublicBaseUrl')?.Value;
+    const userProfile: UserProfile = {
+      UserId: userContext.UserId,
+      FirstName: userContext.FirstName,
+      LastName: userContext.LastName,
+      EmailAddress: userContext.EmailAddress,
+      Title: userContext.Title,
+      UserPicture: userContext.UserPicture
+    };
+
+    this.store.dispatch(new fromUserProfileActions.SetUserProfile({ userProfile, cloudFilesPublicBaseUrl }));
   }
 }
