@@ -8,3 +8,4 @@ export * from './authentication-status';
 export * from './integration-complete-modal';
 export * from './data-converter-forms';
 export * from './date-format-dropdown';
+export * from './latest-org-data-load-modal/latest-org-data-load-modal.component';

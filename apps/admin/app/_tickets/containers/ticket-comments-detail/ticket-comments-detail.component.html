@@ -43,12 +43,13 @@
             <span>{{comment.Content}}</span>
             <ul>
               <li *ngFor="let attachment of comment.AttachmentNames">
-                {{attachment}}
+                {{attachment.DisplayName}}
+                <span class="comment-date text-muted"> Time: {{attachment.CreateDate | date:'shortTime'}}</span>
               </li>
             </ul>
           </div>
           <div class="comment-date text-muted">
-            Date: {{comment.CreateDateWithoutTime | date:'shortDate'}}
+            Date: {{comment.CreateDate | date:'shortDate'}} Time: {{comment.CreateDate | date:'shortTime'}}
           </div>
         </ng-container>
 

@@ -1,18 +1,26 @@
 import {
-  SaveModelSettingsRequest,
-  StructureRangeGroupResponse,
-  RoundRangesRequest,
+  AdvancedSettingResponse,
+  RangeDistributionSettingResponse,
   RecalculateRangesWithoutMidRequest,
   RevertRangeChangesRequest,
-  AdvancedSettingResponse
+  RoundRangesRequest,
+  SaveModelSettingsRequest,
+  StructureRangeGroupResponse
 } from 'libs/models/payfactors-api/structures';
 import { CompositeFieldResponse } from 'libs/models/payfactors-api/composite-field/composite-field-response.model';
 import { CurrencyDto } from 'libs/models/common';
-import { RoundingSettingsDataObj, RangeGroupMetadata, AdvancedSetting } from 'libs/models/structures';
+import * as fromStructuresModels from 'libs/models/structures';
+import {
+  AdvancedModelSettingForm,
+  generateMissingMarketDataTypeSettingForm,
+  RangeDistributionSettingForm,
+  RangeGroupMetadata,
+  RoundingSettingsDataObj
+} from 'libs/models/structures';
 import { AdvancedSettingRequest } from 'libs/models/payfactors-api/structures/request/advanced-setting-request.model';
+import { MissingMarketDataTypes } from 'libs/constants/structures/missing-market-data-type';
 
 import { ControlPoint, Currency } from '../models';
-
 
 export class PayfactorsApiModelMapper {
 
@@ -35,18 +43,59 @@ export class PayfactorsApiModelMapper {
       IsCurrent: srgr.IsCurrent,
       RangeDistributionTypeId: srgr.RangeDistributionTypeId ?? 1,
       RangeDistributionTypes: srgr.RangeDistributionTypes,
-      RangeDistributionSetting: srgr.RangeDistributionSetting,
+      RangeDistributionSetting: srgr.RangeDistributionSetting != null ? this.mapRangeDistributionSetting(srgr.RangeDistributionSetting) : null,
       RangeAdvancedSetting: srgr.RangeAdvancedSetting != null ? this.mapRangeAdvancedSetting(srgr.RangeAdvancedSetting) : null
     };
   }
 
-  static mapRangeAdvancedSetting(advancedSetting: AdvancedSettingResponse): AdvancedSetting {
+
+  static mapRangeDistributionSetting(rangeDistributionSetting: RangeDistributionSettingResponse): RangeDistributionSettingForm {
+    return {
+      CompanyStructuresRangeGroupId: rangeDistributionSetting.CompanyStructuresRangeGroupId,
+      CompanyId: rangeDistributionSetting.CompanyId,
+      RangeDistributionTypeId: rangeDistributionSetting.RangeDistributionTypeId,
+      FirstTertile: rangeDistributionSetting.FirstTertile,
+      SecondTertile: rangeDistributionSetting.SecondTertile,
+      FirstQuartile: rangeDistributionSetting.FirstQuartile,
+      SecondQuartile: rangeDistributionSetting.SecondQuartile,
+      FirstQuintile: rangeDistributionSetting.FirstQuintile,
+      SecondQuintile: rangeDistributionSetting.SecondQuintile,
+      ThirdQuintile: rangeDistributionSetting.ThirdQuintile,
+      FourthQuintile: rangeDistributionSetting.FourthQuintile,
+      Minimum: null,
+      Maximum: null,
+      PayType: null,
+      ControlPoint: null,
+      MinPercentile: rangeDistributionSetting.MinPercentile,
+      MaxPercentile: rangeDistributionSetting.MaxPercentile,
+      ControlPoint_Formula: rangeDistributionSetting.ControlPoint_Formula,
+    };
+  }
+
+  static mapRangeAdvancedSetting(advancedSetting: AdvancedSettingResponse): AdvancedModelSettingForm {
+    let increaseMidpointByPercentage = null;
+    let decreasePercentFromNextLevelPercentage = null;
+    let increasePercentFromPreviousLevelPercentage = null;
+
+    if (advancedSetting.MissingMarketDataType.Type === MissingMarketDataTypes.IncreaseMidpointByPercent) {
+      increaseMidpointByPercentage = advancedSetting.MissingMarketDataType.Percentage;
+    } else if (advancedSetting.MissingMarketDataType.Type === MissingMarketDataTypes.DecreasePercentFromNextLevel) {
+      decreasePercentFromNextLevelPercentage = advancedSetting.MissingMarketDataType.Percentage;
+    } else if (advancedSetting.MissingMarketDataType.Type === MissingMarketDataTypes.IncreasePercentFromPreviousLevel) {
+      increasePercentFromPreviousLevelPercentage = advancedSetting.MissingMarketDataType.Percentage;
+    }
+
     return {
       Rounding: this.mapRoundingSetttings(advancedSetting),
       PreventMidsBelowCurrent: advancedSetting.PreventMidsBelowCurrent,
       PreventMidsFromIncreasingMoreThanPercent: advancedSetting.PreventMidsFromIncreasingMoreThanPercent,
       PreventMidsFromIncreasingWithinPercentOfNextLevel: advancedSetting.PreventMidsFromIncreasingWithinPercentOfNextLevel,
-      MissingMarketDataType: advancedSetting.MissingMarketDataType
+      MissingMarketDataType: {
+        Type: advancedSetting.MissingMarketDataType.Type,
+        IncreaseMidpointByPercentage: increaseMidpointByPercentage,
+        DecreasePercentFromNextLevelPercentage: decreasePercentFromNextLevelPercentage,
+        IncreasePercentFromPreviousLevelPercentage: increasePercentFromPreviousLevelPercentage
+      }
     };
   }
 
@@ -105,18 +154,8 @@ export class PayfactorsApiModelMapper {
         FieldName: cf.FieldName,
         Display: cf.AppDisplayName,
         Category: cf.Category,
-        RangeDisplayName: cf.DisplayName
-      };
-    });
-  }
-
-  static mapAdvancedSettingResponseToAdvancedSetting(cfr: CompositeFieldResponse[]): ControlPoint[] {
-    return cfr.map(cf => {
-      return {
-        FieldName: cf.FieldName,
-        Display: cf.AppDisplayName,
-        Category: cf.Category,
-        RangeDisplayName: cf.DisplayName
+        RangeDisplayName: cf.DisplayName,
+        PayTypeDisplay: cf.AppDisplayName
       };
     });
   }
@@ -135,25 +174,25 @@ export class PayfactorsApiModelMapper {
   /// OUT
   ///
   static mapModelSettingsModalFormToSaveSettingsRequest(
-    rangeGroupId: number, formValue: RangeGroupMetadata,
-    rounding: RoundingSettingsDataObj, advancedSetting: AdvancedSettingRequest): SaveModelSettingsRequest {
+    rangeGroupId: number, formValue: any, rounding: RoundingSettingsDataObj, advancedSetting: AdvancedSettingRequest,
+    rangeDistributionSetting: RangeDistributionSettingForm): SaveModelSettingsRequest {
 
     // TODO remove this as soon as Rounding will be part of AdvancedSetting
     advancedSetting.Rounding = this.mapRoundingSettingsModalFormToRoundRangesRequest(rounding);
 
     return {
       RangeGroupId: rangeGroupId,
-      PayType: formValue.PayType,
-      ControlPoint: formValue.ControlPoint,
+      PayType: rangeDistributionSetting.PayType,
+      ControlPoint: rangeDistributionSetting.ControlPoint,
       CurrencyCode: formValue.Currency,
       ModelName: formValue.ModelName,
-      RangeSpreadMin: formValue.SpreadMin,
-      RangeSpreadMax: formValue.SpreadMax,
+      RangeSpreadMin: rangeDistributionSetting.Minimum,
+      RangeSpreadMax: rangeDistributionSetting.Maximum,
       Rate: formValue.Rate,
       StructureName: formValue.StructureName,
       Rounding: this.mapRoundingSettingsModalFormToRoundRangesRequest(rounding),
       AdvancedSetting: advancedSetting,
-      RangeDistributionTypeId: formValue.RangeDistributionTypeId ?? 1,
+      RangeDistributionTypeId: rangeDistributionSetting.RangeDistributionTypeId ?? 1,
       RangeDistributionSetting: formValue.RangeDistributionSetting
     };
   }
@@ -183,13 +222,32 @@ export class PayfactorsApiModelMapper {
     };
   }
 
-  static mapAdvancedSettingModalFormToAdvancedSettingRequest(advancedSetting: AdvancedSetting): AdvancedSettingRequest {
+  static mapAdvancedSettingModalFormToAdvancedSettingRequest(advancedSetting: AdvancedModelSettingForm, structureHasPublished): AdvancedSettingRequest {
+    let missingMarketDataType = advancedSetting.MissingMarketDataType;
+    let preventMidsFromIncreasingMoreThanPercent = advancedSetting.PreventMidsFromIncreasingMoreThanPercent;
+    let missingMarketDataTypePercentage = null;
+    if (structureHasPublished.obj <= 0) {
+      missingMarketDataType = generateMissingMarketDataTypeSettingForm();
+      preventMidsFromIncreasingMoreThanPercent = fromStructuresModels.generateMockPercentageSetting();
+    }
+
+    if (missingMarketDataType.Type === MissingMarketDataTypes.IncreaseMidpointByPercent) {
+      missingMarketDataTypePercentage = missingMarketDataType.IncreaseMidpointByPercentage;
+    } else if (missingMarketDataType.Type === MissingMarketDataTypes.DecreasePercentFromNextLevel) {
+      missingMarketDataTypePercentage = missingMarketDataType.DecreasePercentFromNextLevelPercentage;
+    } else if (missingMarketDataType.Type === MissingMarketDataTypes.IncreasePercentFromPreviousLevel) {
+      missingMarketDataTypePercentage = missingMarketDataType.IncreasePercentFromPreviousLevelPercentage;
+    }
+
     return {
       Rounding: advancedSetting.Rounding != null ? this.mapRoundingSettingsModalFormToRoundRangesRequest(advancedSetting.Rounding) : null,
       PreventMidsBelowCurrent: advancedSetting.PreventMidsBelowCurrent,
-      PreventMidsFromIncreasingMoreThanPercent: advancedSetting.PreventMidsFromIncreasingMoreThanPercent,
+      PreventMidsFromIncreasingMoreThanPercent: preventMidsFromIncreasingMoreThanPercent,
       PreventMidsFromIncreasingWithinPercentOfNextLevel: advancedSetting.PreventMidsFromIncreasingWithinPercentOfNextLevel,
-      MissingMarketDataType: advancedSetting.MissingMarketDataType
+      MissingMarketDataType: {
+        Type: missingMarketDataType.Type,
+        Percentage: missingMarketDataTypePercentage
+      }
     };
   }
 

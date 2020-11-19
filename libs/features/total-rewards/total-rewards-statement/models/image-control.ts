@@ -4,6 +4,7 @@ import { TotalRewardsControlEnum } from './total-rewards-control-enum';
 export interface ImageControl extends BaseControl {
   FileName: string;
   FileUrl: string;
+  HorizontalAlignment: string;
 }
 
 export function generateMockImageControl(): ImageControl {
@@ -14,6 +15,7 @@ export function generateMockImageControl(): ImageControl {
     ControlType: TotalRewardsControlEnum.Image,
     Layout: { Width: 12 },
     FileName: '',
-    FileUrl: ''
+    FileUrl: '',
+    HorizontalAlignment: ''
   };
 }

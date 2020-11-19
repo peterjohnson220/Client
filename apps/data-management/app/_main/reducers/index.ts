@@ -19,6 +19,7 @@ import * as fromEntitySelectionReducer from './entity-selection.reducer';
 import * as fromOutboundJdmReducer from './outbound-jdm.reducer';
 import * as fromProviderListReducer from './provider-list.reducer';
 import * as fromConverterSettingsReducer from './converter-settings.reducer';
+import * as fromLoadersDataReducer from './loaders-data.reducer';
 
 
 export interface DataManagementMainState {
@@ -36,6 +37,7 @@ export interface DataManagementMainState {
   outboundJdm: fromOutboundJdmReducer.State;
   providerList: fromProviderListReducer.State;
   converterSettings: fromConverterSettingsReducer.State;
+  loadersData: fromLoadersDataReducer.State;
 }
 
 export interface State extends fromRoot.State {
@@ -57,6 +59,7 @@ export const reducers = {
   outboundJdm: fromOutboundJdmReducer.reducer,
   providerList: fromProviderListReducer.reducer,
   converterSettings: fromConverterSettingsReducer.reducer,
+  loadersData: fromLoadersDataReducer.reducer,
 };
 
 // Select Feature Area
@@ -121,6 +124,11 @@ export const selectProviderListState = createSelector(
 export const selectConverterSettingsState = createSelector(
   selectFeatureAreaState,
   (state: DataManagementMainState) => state.converterSettings
+);
+
+export const selectLoadersDataState = createSelector(
+  selectFeatureAreaState,
+  (state: DataManagementMainState) => state.loadersData
 );
 
 // Transfer Data Page
@@ -379,3 +387,7 @@ export const getJdmConnectionSummaryObj = createSelector(selectOutboundJdmState,
 export const getOutboundTransferSummaryWidget = createSelector(getOutboundTransferSummaryObj, getOutboundJdmViews, (s1, s2) => {
   return { summary: s1, views: s2 };
 });
+
+// loaders data
+export const getLatestOrgDataLoad = createSelector(selectLoadersDataState, fromLoadersDataReducer.getLatestOrgDataLoad);
+export const getLatestOrgDataLoadModalOpen = createSelector(selectLoadersDataState, fromLoadersDataReducer.getLatestOrgDataLoadModalOpen);

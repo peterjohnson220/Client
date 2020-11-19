@@ -1,16 +1,16 @@
 import { Component, HostListener, Input, OnInit, ViewChild } from '@angular/core';
 
-import {Store} from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
 import * as fromSearchReducer from 'libs/features/search/reducers';
-import {SurveySearchResultDataSources} from 'libs/constants';
+import { SurveySearchResultDataSources } from 'libs/constants';
 
+import { DataCutDetails, JobResult, MatchesDetailsTooltipData, PricingMatchDataSearchContext } from '../models';
+import { TooltipContainerComponent } from '../containers/tooltip-container';
+import { hasMoreDataCuts } from '../helpers';
 import * as fromSurveySearchResultsActions from '../actions/survey-search-results.actions';
-import {DataCutDetails, JobResult, MatchesDetailsTooltipData, PricingMatchDataSearchContext} from '../models';
-import {TooltipContainerComponent} from '../containers/tooltip-container';
 import * as fromSurveySearchReducer from '../reducers';
-import {hasMoreDataCuts} from '../helpers';
 
 @Component({
   selector: 'pf-survey-search-results',
@@ -22,10 +22,10 @@ export class SurveySearchResultsComponent implements OnInit {
   @Input() cutsDraggable: boolean;
   @Input() implementation: string;
   @Input() refineInPeerEnabled = false;
+  @Input() refineInPeerReadyDefault = false;
 
-  refineInPeerReady = false;
   refineInPeerByJobTitle = false;
-
+  refineInPeerReady = false;
   // Observables
   jobResults$: Observable<JobResult[]>;
   loadingResults$: Observable<boolean>;
@@ -45,7 +45,7 @@ export class SurveySearchResultsComponent implements OnInit {
 
   ngOnInit() {
     this.contextSub = this.pricingMatchDataSearchContext$.subscribe(c => {
-      this.refineInPeerReady = false;
+      this.refineInPeerReady = this.refineInPeerReadyDefault;
     });
     this.legacyIframeImplementation = this.implementation === 'component';
   }
@@ -108,5 +108,4 @@ export class SurveySearchResultsComponent implements OnInit {
       this.store.dispatch(new fromSurveySearchResultsActions.RefineExchangeJobResult(payload));
     }
   }
-
 }

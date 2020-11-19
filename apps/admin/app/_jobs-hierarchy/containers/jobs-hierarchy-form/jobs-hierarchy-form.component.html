@@ -82,8 +82,31 @@
     <div class="col-5">
       <div class="row pt-2">
         <button class="btn btn-primary" (click)="submit()">Save</button>
+        <button class="btn btn-danger delete-job-level-hierarchy-button" *ngIf="(selectedHierarchy$ | async).HierarchyId > 0" (click)="handleDeleteJobLevelHierarchy()">Delete</button>
       </div>
     </div>
   </form>
 </ng-container>
 
+<pf-modal-form
+  [size]="'md'"
+  [title]="'Delete a Job Hierarchy'"
+  [modalId]="'au-modal-model-grid-remove-job-hierarchy'"
+  [isOpen$]="modalOpen$"
+  [submitting]="(deletingJobLevelHierarchyAsyncObj$ | async)?.saving"
+  [primaryButtonText]="'Delete'"
+  [primaryButtonClass]="'btn-danger'"
+  [primaryButtonTextSubmitting]="'Deleting'"
+  (onSubmit)="deleteJobHierarchy()"
+  (onDismiss)="handleDismiss()">
+
+  <ng-container basic-content>
+    <div class="remove-job-hierarchy">This job hierarchy will be permanently deleted, do you wish to continue?</div>
+  </ng-container>
+
+  <ng-container footer-left>
+    <div *ngIf="(deletingJobLevelHierarchyAsyncObj$ | async)?.savingError" class="invalid-feedback d-block">
+      Error deleting job level hierarchy
+    </div>
+  </ng-container>
+</pf-modal-form>

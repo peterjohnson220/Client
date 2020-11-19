@@ -151,12 +151,12 @@ export class ExchangeSearchEffects {
       ) => ({payload: action.payload, filterContext, filters})
     ),
     switchMap(data => {
-      const filter = data.filters.find(f => f.BackingField === data.payload.backingField);
+      const searchFilter = data.filters.find(f => f.BackingField === data.payload.backingField);
       const request: SearchExchangeAggregationsRequest = {
         ...data.filterContext,
         SearchField: data.payload.backingField,
         TextQuery: '',
-        PagingOptions: {From: 0, Count: filter.AggregateCount}
+        PagingOptions: {From: 0, Count: searchFilter.AggregateCount}
       };
 
       return this.exchangeDataSearchApiService.searchExchangeAggregations(request).pipe(

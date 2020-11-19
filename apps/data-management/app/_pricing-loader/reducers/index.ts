@@ -51,6 +51,7 @@ export const getWorksheetNames = createSelector(selectUploadPricingFileState, fr
 export const getFileUploadSettings = createSelector(selectUploadPricingFileState, fromUploadPricingFileReducer.getFileUploadSettings);
 export const getPricingsSheetName = createSelector(selectUploadPricingFileState, fromUploadPricingFileReducer.getPricingsSheetName);
 export const getPricingNotesSheetName = createSelector(selectUploadPricingFileState, fromUploadPricingFileReducer.getPricingNotesSheetName);
+export const getPricingMatchNotesSheetName = createSelector(selectUploadPricingFileState, fromUploadPricingFileReducer.getPricingMatchNotesSheetName);
 export const getValidationOnly = createSelector(selectUploadPricingFileState, fromUploadPricingFileReducer.getValidationOnly);
 
 // Default Settings

@@ -13,6 +13,7 @@ import { FontSize, FontFamily } from 'libs/features/total-rewards/total-rewards-
 
 import * as fromTotalRewardsStatementEditReducer from '../reducers';
 import * as fromEditStatementPageActions from '../actions';
+import { CompensationField } from 'libs/features/total-rewards/total-rewards-statement/models';
 
 @Component({
   selector: 'pf-statement-edit.page',
@@ -31,6 +32,8 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
   mode$: Observable<models.StatementModeEnum>;
   assignedEmployeesAsync$: Observable<AsyncStateObj<GenericNameValue<number>[]>>;
   employeeRewardsDataAsync$: Observable<AsyncStateObj<EmployeeRewardsData>>;
+  companyUdfAsync$: Observable<AsyncStateObj<CompensationField[]>>;
+  visibleFieldsCount$: Observable<number>;
 
   isSettingsPanelOpen$: Observable<boolean>;
   settingsSaving$: Observable<boolean>;
@@ -62,6 +65,8 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
     this.statementSavingSuccess$ = this.store.pipe(select(fromTotalRewardsStatementEditReducer.selectStatementSavingSuccess));
     this.statementSavingError$ = this.store.pipe(select(fromTotalRewardsStatementEditReducer.selectStatementSavingError));
     this.mode$ = this.store.pipe(select(fromTotalRewardsStatementEditReducer.selectStatementMode));
+    this.companyUdfAsync$ = this.store.pipe(select(fromTotalRewardsStatementEditReducer.getCompanyUdf));
+    this.visibleFieldsCount$ = this.store.pipe(select(fromTotalRewardsStatementEditReducer.getVisibleFieldsCount));
 
     // SETTINGS
     this.isSettingsPanelOpen$ = this.store.pipe(select(fromTotalRewardsStatementEditReducer.selectIsSettingsPanelOpen));
@@ -219,6 +224,6 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
       this.store.dispatch(new fromEditStatementPageActions.ResetEmployeeRewardsData());
       return;
     }
-    this.store.dispatch(new fromEditStatementPageActions.GetEmployeeRewardsData({ companyEmployeeId: employeeId }));
+    this.store.dispatch(new fromEditStatementPageActions.GetEmployeeRewardsData({ companyEmployeeId: employeeId, statementId: this.statementId }));
   }
 }

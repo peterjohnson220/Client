@@ -4,8 +4,9 @@ import { Observable, Subscription } from 'rxjs';
 
 import { Statement } from 'libs/features/total-rewards/total-rewards-statement/models';
 import { StatementEmailTemplate } from 'libs/models/payfactors-api/total-rewards';
+import { DeliveryMethod } from 'libs/features/total-rewards/total-rewards-statement/models/delivery-method';
 
-import { DeliveryMethod, DeliveryOption } from '../../models';
+import { DeliveryOption } from '../../models';
 import { StatementEmailTemplateComponent } from '../statement-email-template';
 
 @Component({

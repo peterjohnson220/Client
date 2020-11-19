@@ -16,7 +16,6 @@ import {
 import { AsyncStateObj, UserContext } from 'libs/models';
 import { GetPricingsToModifyRequest } from 'libs/features/multi-match/models';
 import { ChangeJobStatusRequest, CreateProjectRequest, MatchedSurveyJob, ViewField } from 'libs/models/payfactors-api';
-import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
 import { SurveySearchFilterMappingDataObj, SurveySearchUserFilterType } from 'libs/features/survey-search/data';
 import { SearchFeatureIds } from 'libs/features/search/enums/search-feature-ids';
 import * as fromRootState from 'libs/state/state';
@@ -136,8 +135,6 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   multiMatchImplementation = MODIFY_PRICINGS;
 
   gridConfig: GridConfig;
-  hasInfiniteScrollFeatureFlagEnabled: boolean;
-
 
   @ViewChild('gridRowActionsTemplate') gridRowActionsTemplate: ElementRef;
   @ViewChild('jobTitleColumn') jobTitleColumn: ElementRef;
@@ -156,14 +153,12 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     private store: Store<fromJobsPageReducer.State>,
     private actionsSubject: ActionsSubject,
-    private companyJobApiService: CompanyJobApiService,
-    private featureFlagService: AbstractFeatureFlagService
+    private companyJobApiService: CompanyJobApiService
   ) {
-    this.hasInfiniteScrollFeatureFlagEnabled = this.featureFlagService.enabled(FeatureFlags.PfDataGridInfiniteScroll, false);
     this.gridConfig = {
       PersistColumnWidth: true,
-      EnableInfiniteScroll: this.hasInfiniteScrollFeatureFlagEnabled,
-      ScrollToTop: this.hasInfiniteScrollFeatureFlagEnabled,
+      EnableInfiniteScroll: true,
+      ScrollToTop: true,
       SelectAllPanelItemName: 'jobs'
     };
   }

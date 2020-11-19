@@ -40,7 +40,7 @@ gulp.task('purgecss', () => {
         /^col/,
         /^control-type/,
         /-font-size$/,
-        /-font-size$/,
+        /-font-family$/,
         /^text/,
         /action-item/,
         /-clear-item$/,

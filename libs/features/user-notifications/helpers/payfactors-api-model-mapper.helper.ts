@@ -9,15 +9,15 @@ export class PayfactorsApiModelMapper {
       UserId: e.UserId,
       NotificationId: e.NotificationId,
       NotificationCategoryId: e.NotificationCategoryId,
+      LookupKey: e.LookupKey,
       NotificationLevel: e.NotificationLevel,
-      Title: e.Title,
-      Message: e.Message,
       BaseUrl: e.BaseUrl,
       EnableHtml: e.EnableHtml,
       IsRead: e.IsRead,
       IsSeen: e.IsSeen,
       ShowBadge: e.ShowBadge,
-      CreateDate: e.CreateDate
+      CreateDate: e.CreateDate,
+      MetaData : e.MetaData
     };
   });
 }

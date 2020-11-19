@@ -10,3 +10,5 @@ export * from './revert-range-changes-request.model';
 export * from './advanced-setting-request.model';
 export * from './current-range-group-request.model';
 export * from './convert-currency-and-rate-request.model';
+export * from './structure-has-published-for-type-request.model';
+export * from './range-distribution-setting-request.model';

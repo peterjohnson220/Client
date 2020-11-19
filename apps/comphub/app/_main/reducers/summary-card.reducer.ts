@@ -6,6 +6,7 @@ export interface State {
   loadingSalaryTrend: boolean;
   loadingSalaryTrendError: boolean;
   sharePricingSummaryModalOpen: boolean;
+  sendingQuickPriceShareEmail: boolean;
   sharePricingSummaryError: boolean;
   sharePricingSummaryConflict: boolean;
   creatingProject: boolean;
@@ -34,7 +35,8 @@ const initialState: State = {
   maxPaymarketMinimumWage: null,
   recalculating: false,
   recalculatingError: false,
-  showJobPricedHistorySummary: false
+  showJobPricedHistorySummary: false,
+  sendingQuickPriceShareEmail: false
 };
 
 // Reducer function
@@ -71,26 +73,30 @@ export function reducer(state = initialState, action: fromSummaryCardActions.Act
     case fromSummaryCardActions.CLOSE_SHARE_MODAL: {
       return {
         ...state,
-        sharePricingSummaryModalOpen: false
+        sharePricingSummaryModalOpen: false,
+        sendingQuickPriceShareEmail: false
       };
     }
     case fromSummaryCardActions.SHARE_PRICING_SUMMARY: {
       return {
         ...state,
         sharePricingSummaryError: false,
-        sharePricingSummaryConflict: false
+        sharePricingSummaryConflict: false,
+        sendingQuickPriceShareEmail: true
       };
     }
     case fromSummaryCardActions.SHARE_PRICING_SUMMARY_ERROR: {
       return {
         ...state,
-        sharePricingSummaryError: true
+        sharePricingSummaryError: true,
+        sendingQuickPriceShareEmail: false
       };
     }
     case fromSummaryCardActions.SHARE_PRICING_SUMMARY_CONFLICT: {
       return {
         ...state,
-        sharePricingSummaryConflict: true
+        sharePricingSummaryConflict: true,
+        sendingQuickPriceShareEmail: false
       };
     }
     case fromSummaryCardActions.CREATE_PROJECT: {
@@ -194,3 +200,4 @@ export const getMaxPaymarketMinimumWage = (state: State) => state.maxPaymarketMi
 export const getRecalculatingJobData = (state: State) => state.recalculating;
 export const getRecalculatingJobDataError = (state: State) => state.recalculatingError;
 export const getShowJobPricedHistorySummary = (state: State) => state.showJobPricedHistorySummary;
+export const getSendingQuickPriceShareEmail = (state: State) => state.sendingQuickPriceShareEmail;

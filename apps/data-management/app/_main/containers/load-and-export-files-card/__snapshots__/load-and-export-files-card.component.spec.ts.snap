@@ -5,11 +5,14 @@ exports[`Data Management - Main - Load And Export File Card has access should sh
   canExportOrgData={[Function Observable]}
   canExportPricingData={[Function Observable]}
   canImportOrgData="false"
+  latestOrgDataLoad$={[Function Store]}
+  latestOrgDataLoadModalOpen$={[Function Store]}
   manualImportOrgDataSubscription={[Function Subscriber]}
   notificationStore={[Function Store]}
   permissionService={[Function Object]}
   router={[Function Object]}
   settingsService={[Function Object]}
+  store={[Function Store]}
 >
   <div
     class="card mb-3 shadow-sm"
@@ -43,6 +46,7 @@ exports[`Data Management - Main - Load And Export File Card has access should sh
             >
               Org Data
             </h4>
+            
           </div>
           <div
             class="col-4 text-right"
@@ -103,6 +107,7 @@ exports[`Data Management - Main - Load And Export File Card has access should sh
         </div>
       </div>
     </div>
+    <pf-latest-org-data-load-modal />
   </div>
 </pf-load-and-export-files-card>
 `;
@@ -112,11 +117,14 @@ exports[`Data Management - Main - Load And Export File Card has access should sh
   canExportOrgData={[Function Observable]}
   canExportPricingData={[Function Observable]}
   canImportOrgData="false"
+  latestOrgDataLoad$={[Function Store]}
+  latestOrgDataLoadModalOpen$={[Function Store]}
   manualImportOrgDataSubscription={[Function Subscriber]}
   notificationStore={[Function Store]}
   permissionService={[Function Object]}
   router={[Function Object]}
   settingsService={[Function Object]}
+  store={[Function Store]}
 >
   <div
     class="card mb-3 shadow-sm"
@@ -150,6 +158,7 @@ exports[`Data Management - Main - Load And Export File Card has access should sh
             >
               Org Data
             </h4>
+            
           </div>
           <div
             class="col-4 text-right"
@@ -210,6 +219,7 @@ exports[`Data Management - Main - Load And Export File Card has access should sh
         </div>
       </div>
     </div>
+    <pf-latest-org-data-load-modal />
   </div>
 </pf-load-and-export-files-card>
 `;
@@ -219,11 +229,14 @@ exports[`Data Management - Main - Load And Export File Card no access should not
   canExportOrgData={[Function Observable]}
   canExportPricingData={[Function Observable]}
   canImportOrgData="false"
+  latestOrgDataLoad$={[Function Store]}
+  latestOrgDataLoadModalOpen$={[Function Store]}
   manualImportOrgDataSubscription={[Function Subscriber]}
   notificationStore={[Function Store]}
   permissionService={[Function Object]}
   router={[Function Object]}
   settingsService={[Function Object]}
+  store={[Function Store]}
 >
   <div
     class="card mb-3 shadow-sm"
@@ -257,6 +270,7 @@ exports[`Data Management - Main - Load And Export File Card no access should not
             >
               Org Data
             </h4>
+            
           </div>
           <div
             class="col-4 text-right"
@@ -317,6 +331,7 @@ exports[`Data Management - Main - Load And Export File Card no access should not
         </div>
       </div>
     </div>
+    <pf-latest-org-data-load-modal />
   </div>
 </pf-load-and-export-files-card>
 `;

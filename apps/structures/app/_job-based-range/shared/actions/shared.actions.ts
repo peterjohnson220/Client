@@ -4,7 +4,10 @@ import { RoundingTypes } from 'libs/constants/structures/rounding-type';
 import { CompanyStructureRangeOverride, RoundingSettingsDataObj } from 'libs/models/structures';
 import { DataViewFilter } from 'libs/models/payfactors-api/reports/request';
 import { RangeGroupMetadata } from 'libs/models/structures';
-import { CurrentRangeGroupRequestModel } from 'libs/models/payfactors-api/structures/request';
+import {
+  ConvertCurrencyAndRateRequestModel,
+  CurrentRangeGroupRequestModel, StructureHasPublishedForTypeRequestModel,
+} from 'libs/models/payfactors-api/structures/request';
 
 export const SET_METADATA = '[Structures - Job Based Range - Shared] Set Metadata';
 export const RECALCULATE_RANGES_WITHOUT_MID = '[Structures - Job Based Range - Shared] Recalculate Ranges Without Mid';
@@ -30,6 +33,15 @@ export const COMPARING_MODELS = '[Structures - Job Based Range - Shared] Compari
 export const END_COMPARING_MODELS = '[Structures - Job Based Range - Shared] End Comparing Models';
 export const ENABLE_COMPARE_FLAG = '[Structures - Job Based Range - Shared] Enable Compare Flag';
 export const DISABLE_COMPARE_FLAG = '[Structures - Job Based Range - Shared] Disable Compare Flag';
+export const CONVERT_CURRENCY_AND_RATE = '[Structures - Job Based Range - Shared] Convert Currency And Rate';
+export const CONVERT_CURRENCY_AND_RATE_SUCCESS = '[Structures - Job Based Range - Shared] Convert Currency And Rate Success';
+export const CONVERT_CURRENCY_AND_RATE_ERROR = '[Structures - Job Based Range - Shared] Convert Currency And Rate Error';
+export const GET_DISTINCT_OVERRIDE_MESSAGES = '[Structures - Job Based Range - Shared] Get Distinct Override Messages';
+export const GET_DISTINCT_OVERRIDE_MESSAGES_SUCCESS = '[Structures - Job Based Range - Shared] Get Distinct Override Messages Success';
+export const GET_DISTINCT_OVERRIDE_MESSAGES_ERROR = '[Structures - Job Based Range - Shared] Get Distinct Override Messages Error';
+export const GET_STRUCTURE_HAS_PUBLISHED_FOR_TYPE = '[Structures - Job Based Range - Shared] Get Structure Has Published For Type';
+export const GET_STRUCTURE_HAS_PUBLISHED_FOR_TYPE_SUCCESS = '[Structures - Job Based Range - Shared] Get Structure Has Published For Type Success';
+export const GET_STRUCTURE_HAS_PUBLISHED_FOR_TYPE_ERROR = '[Structures - Job Based Range - Shared] Get Structure Has Published For Type Error';
 
 export class SetMetadata implements Action {
   readonly type = SET_METADATA;
@@ -174,6 +186,60 @@ export class DisableCompareFlag implements Action {
   readonly type = DISABLE_COMPARE_FLAG;
 }
 
+export class ConvertCurrencyAndRate implements Action {
+  readonly type = CONVERT_CURRENCY_AND_RATE;
+
+  constructor(public payload: ConvertCurrencyAndRateRequestModel) {}
+}
+
+export class ConvertCurrencyAndRateSuccess implements Action {
+  readonly type = CONVERT_CURRENCY_AND_RATE_SUCCESS;
+
+  constructor(public payload: any) {}
+}
+
+export class ConvertCurrencyAndRateError implements Action {
+  readonly type = CONVERT_CURRENCY_AND_RATE_ERROR;
+
+  constructor(public payload: any) {}
+}
+
+export class GetStructureHasPublishedForType implements Action {
+  readonly type = GET_STRUCTURE_HAS_PUBLISHED_FOR_TYPE;
+
+  constructor(public payload: StructureHasPublishedForTypeRequestModel) {}
+}
+
+export class GetStructureHasPublishedForTypeSuccess implements Action {
+  readonly type = GET_STRUCTURE_HAS_PUBLISHED_FOR_TYPE_SUCCESS;
+
+  constructor(public payload: any) {}
+}
+
+export class GetStructureHasPublishedForTypeError implements Action {
+  readonly type = GET_STRUCTURE_HAS_PUBLISHED_FOR_TYPE_ERROR;
+
+  constructor(public payload: any) {}
+}
+
+export class GetDistinctOverrideMessages implements Action {
+  readonly type = GET_DISTINCT_OVERRIDE_MESSAGES;
+
+  constructor(public rangeGroupId: any) {}
+}
+
+export class GetDistinctOverrideMessagesSuccess implements Action {
+  readonly type = GET_DISTINCT_OVERRIDE_MESSAGES_SUCCESS;
+
+  constructor(public payload: any) {}
+}
+
+export class GetDistinctOverrideMessagesError implements Action {
+  readonly type = GET_DISTINCT_OVERRIDE_MESSAGES_ERROR;
+
+  constructor(public payload: any) {}
+}
+
 export type SharedActions
   = SetMetadata
   | RecalculateRangesWithoutMid
@@ -199,4 +265,14 @@ export type SharedActions
   | ComparingModels
   | EndComparingModels
   | EnableCompareFlag
-  | DisableCompareFlag;
+  | DisableCompareFlag
+  | ConvertCurrencyAndRate
+  | ConvertCurrencyAndRateSuccess
+  | ConvertCurrencyAndRateError
+  | GetStructureHasPublishedForType
+  | GetStructureHasPublishedForTypeSuccess
+  | GetStructureHasPublishedForTypeError
+  | GetDistinctOverrideMessages
+  | GetDistinctOverrideMessagesSuccess
+  | GetDistinctOverrideMessagesError;
+

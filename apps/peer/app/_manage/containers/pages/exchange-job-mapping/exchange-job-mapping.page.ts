@@ -121,7 +121,7 @@ export class ExchangeJobMappingPageComponent implements OnInit, OnDestroy {
     }
 
     toggleGrid(showCompanyJobs: boolean) {
-      if(this.showCompanyJobs != showCompanyJobs) {
+      if (this.showCompanyJobs !== showCompanyJobs) {
         this.showCompanyJobs = !this.showCompanyJobs;
       }
     }

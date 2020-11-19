@@ -183,7 +183,7 @@ export class UpdateSelectionField implements Action {
 
 export class UpdateInboundFilters implements Action {
   readonly type = UPDATE_INBOUND_FILTERS;
-  constructor(public pageViewId: string, public payload: PfDataGridFilter[]) { }
+  constructor(public pageViewId: string, public payload: PfDataGridFilter[], public resetFilters = true) { }
 }
 
 export class UpdateFilter implements Action {

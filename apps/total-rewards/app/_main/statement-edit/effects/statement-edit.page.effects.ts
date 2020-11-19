@@ -1,17 +1,18 @@
 import { Injectable } from '@angular/core';
 
 import { Observable, of } from 'rxjs';
-import { catchError, switchMap, map, withLatestFrom, mapTo, concatMap, debounceTime } from 'rxjs/operators';
+import { catchError, switchMap, map, withLatestFrom, mapTo, concatMap, debounceTime, mergeMap } from 'rxjs/operators';
 import { Store, Action, select } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 
 import { TotalRewardsApiService, TotalRewardsSearchApiService } from 'libs/data/payfactors-api/total-rewards';
-import { TotalRewardsEmployeeSearchResponse } from 'libs/models/payfactors-api/total-rewards';
+import { EmployeeRewardsDataRequest, TotalRewardsEmployeeSearchResponse } from 'libs/models/payfactors-api/total-rewards';
 import { CompanyEmployeeApiService } from 'libs/data/payfactors-api/company';
 import { PfConstants } from 'libs/models/common';
 import { TotalRewardsAssignmentService } from 'libs/features/total-rewards/total-rewards-statement/services/total-rewards-assignment.service';
 import { Statement, Settings } from 'libs/features/total-rewards/total-rewards-statement/models';
 import { SaveSettingsRequest } from 'libs/features/total-rewards/total-rewards-statement/models/request-models';
+import { EmployeeRewardsDataService } from 'libs/features/total-rewards/total-rewards-statement/services/employee-rewards-data.service';
 
 import * as fromTotalRewardsReducer from '../reducers';
 import * as fromStatementEditActions from '../actions';
@@ -26,7 +27,12 @@ export class StatementEditPageEffects {
       ofType(fromStatementEditActions.LOAD_STATEMENT),
       switchMap((action: fromStatementEditActions.LoadStatement) =>
         this.totalRewardsApiService.getStatementFromId(action.payload).pipe(
-          map((response: Statement) => new fromStatementEditActions.LoadStatementSuccess(response)),
+          mergeMap((response: Statement) => {
+            const actions = [];
+            actions.push(new fromStatementEditActions.LoadStatementSuccess(response));
+            actions.push(new fromStatementEditActions.GetCompanyUDF());
+            return actions;
+          }),
           catchError(error => of(new fromStatementEditActions.LoadStatementError(error)))
         ))
     );
@@ -147,19 +153,30 @@ export class StatementEditPageEffects {
     .pipe(
       ofType(fromStatementEditActions.GET_EMPLOYEE_REWARDS_DATA),
       switchMap((action: fromStatementEditActions.GetEmployeeRewardsData) => {
-        return this.companyEmployeeApiService.getBenefits(action.payload.companyEmployeeId)
+        const request: EmployeeRewardsDataRequest = {
+          CompanyEmployeeId: action.payload.companyEmployeeId,
+          StatementId: action.payload.statementId
+        };
+        return this.companyEmployeeApiService.getBenefits(request)
           .pipe(
             map((response) => {
-              if (response.EmployeeDOH) {
-                response.EmployeeDOH = new Date(response.EmployeeDOH);
-              }
-              if (response.EmployeeDOB) {
-                response.EmployeeDOB = new Date(response.EmployeeDOB);
-              }
-              return new fromStatementEditActions.GetEmployeeRewardsDataSuccess(response);
+              return new fromStatementEditActions.GetEmployeeRewardsDataSuccess(EmployeeRewardsDataService.mapEmployeeRewardsDataDateFields(response));
             }),
             catchError(() => of(new fromStatementEditActions.GetEmployeeRewardsDataError()))
           );
+      })
+    );
+
+  @Effect()
+  getCompanyUdf$ = this.actions$
+    .pipe(
+      ofType(fromStatementEditActions.GET_COMPANY_UDF),
+      switchMap((action: fromStatementEditActions.GetCompanyUDF) => {
+        return this.totalRewardsApiService.getCompanyUdfs()
+          .pipe(
+            map((response) => new fromStatementEditActions.GetCompanyUDFSuccess(response)),
+            catchError(() => of(new fromStatementEditActions.GetCompanyUDFError()))
+        );
       })
     );
 

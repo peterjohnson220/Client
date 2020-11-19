@@ -1,0 +1,16 @@
+<div class="d-flex flex-row header" (click)="toggleShowFields()">
+  <div class="icon" [attr.data-qa-id]="'cnt-showFields'" title="Show Fields">
+    <fa-icon [ngClass]="!showFields ? '' : 'hidden'" icon="caret-right"></fa-icon>
+    <fa-icon [ngClass]="showFields ? '' : 'hidden'" icon="caret-down"></fa-icon>
+  </div>
+  <h6 class="title">{{group?.DisplayName}}</h6>
+</div>
+<div *ngIf="!!group?.FilteredFields && showFields" class="d-flex flex-column fields">
+  <ng-container *ngFor="let field of group.FilteredFields; trackBy: trackByFn">
+    <div class="field d-flex"
+      [attr.data-qa-id]="'cnt-select-field'"
+      (click)="handleFieldClicked(field)">
+      <div class="title">{{field.DisplayName}}</div>
+    </div>
+  </ng-container>
+</div>

@@ -34,10 +34,10 @@
         (exported)="handleExported($event)">
       </pf-bulk-export-popover>
       <span class="column-popover">
-          <pf-column-selector-popover
-            [listAreaColumns]="listAreaColumns$ | async"
-            [canRestrictJobDescriptionFromPublicView]="canRestrictJobDescriptionFromPublicView">
-          </pf-column-selector-popover>
+        <pf-list-area-column-chooser *ngIf="!!filteredListAreaColumns?.length"
+          [listAreaColumns]="filteredListAreaColumns"
+          (saveColumns)="saveListAreaColumns($event)">
+        </pf-list-area-column-chooser>
       </span>
     </ng-container>
 

@@ -18,6 +18,8 @@ export interface State {
   currentRangeGroup: AsyncStateObj<any>;
   comparingModels: boolean;
   compareEnabled: boolean;
+  overrideMessages: string[];
+  structureHasPublished: AsyncStateObj<number>;
 }
 
 const initialState: State = {
@@ -41,6 +43,8 @@ const initialState: State = {
   currentRangeGroup: generateDefaultAsyncStateObj<any>(null),
   comparingModels: false,
   compareEnabled: false,
+  structureHasPublished: generateDefaultAsyncStateObj<number>(null),
+  overrideMessages: []
 };
 
 export function reducer(state = initialState, action: fromSharedActions.SharedActions): State {
@@ -119,9 +123,11 @@ export function reducer(state = initialState, action: fromSharedActions.SharedAc
     case fromSharedActions.UPDATE_OVERRIDES: {
       const updatedRangeOverrides = updateOverrides(action.payload.rangeId, cloneDeep(state.rangeOverrides),
         action.payload.overrideToUpdate, action.payload.removeOverride);
+      const overrideMessages = updateOverrideFiltersIfNeeded(cloneDeep(state.overrideMessages));
       return {
         ...state,
-        rangeOverrides: updatedRangeOverrides
+        rangeOverrides: updatedRangeOverrides,
+        overrideMessages: overrideMessages
       };
     }
     case fromSharedActions.GET_CURRENT_RANGE_GROUP: {
@@ -181,6 +187,46 @@ export function reducer(state = initialState, action: fromSharedActions.SharedAc
         compareEnabled: false
       };
     }
+    case fromSharedActions.GET_DISTINCT_OVERRIDE_MESSAGES_SUCCESS: {
+      return {
+        ...state,
+        overrideMessages: action.payload
+      };
+    }
+    case fromSharedActions.GET_STRUCTURE_HAS_PUBLISHED_FOR_TYPE: {
+      const gettingHasPublishedStructureClone = cloneDeep(state.structureHasPublished);
+
+      gettingHasPublishedStructureClone.loading = true;
+      gettingHasPublishedStructureClone.obj = null;
+      gettingHasPublishedStructureClone.loadingError = false;
+
+      return {
+        ...state,
+        structureHasPublished: gettingHasPublishedStructureClone
+      };
+    }
+    case fromSharedActions.GET_STRUCTURE_HAS_PUBLISHED_FOR_TYPE_SUCCESS: {
+      const gettingHasPublishedStructureClone = cloneDeep(state.structureHasPublished);
+
+      gettingHasPublishedStructureClone.loading = false;
+      gettingHasPublishedStructureClone.obj = action.payload;
+
+      return {
+        ...state,
+        structureHasPublished: gettingHasPublishedStructureClone
+      };
+    }
+    case fromSharedActions.GET_STRUCTURE_HAS_PUBLISHED_FOR_TYPE_ERROR: {
+      const gettingHasPublishedStructureClone = cloneDeep(state.structureHasPublished);
+
+      gettingHasPublishedStructureClone.loading = false;
+      gettingHasPublishedStructureClone.loadingError = true;
+
+      return {
+        ...state,
+        structureHasPublished: gettingHasPublishedStructureClone
+      };
+    }
     default:
       return state;
   }
@@ -193,6 +239,8 @@ export const getRangeOverrides = (state: State) => state.rangeOverrides;
 export const getCurrentRangeGroup = (state: State) => state.currentRangeGroup;
 export const getComparingModels = (state: State) => state.comparingModels;
 export const getCompareEnabled = (state: State) => state.compareEnabled;
+export const getDistinctOverrideMessages  = (state: State) => state.overrideMessages;
+export const getStructureHasPublished = (state: State) => state.structureHasPublished;
 
 export const addRoundingSetting = (name: string, setting: RoundingSetting, settings: RoundingSettingsDataObj) => {
   return settings[name] = setting;
@@ -218,6 +266,14 @@ function updateOverrides(rangeId: number, overrides: CompanyStructureRangeOverri
     overrides.push(overrideToUpdate);
   }
   return overrides;
+}
+
+function updateOverrideFiltersIfNeeded(overrideMessages: string[]) {
+  const genericOverrideMessage = 'One or more fields in this range have been manually changed.';
+  if (!overrideMessages.includes(genericOverrideMessage)) {
+    overrideMessages.push(genericOverrideMessage);
+  }
+  return overrideMessages;
 }
 
 function setRangeDistributionType(metadata: RangeGroupMetadata, state) {
