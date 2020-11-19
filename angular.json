@@ -62,8 +62,10 @@
             "staging": {
               "budgets": [
                 {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "15kb"
+                  "type": "initial",
+                  "baseline": "2.02mb",
+                  "maximumWarning": "200kb",
+                  "maximumError": "400kb"
                 }
               ],
               "optimization": true,
@@ -87,6 +89,14 @@
               ]
             },
             "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "baseline": "2.02mb",
+                  "maximumWarning": "200kb",
+                  "maximumError": "400kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -267,8 +277,10 @@
             "staging": {
               "budgets": [
                 {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "15kb"
+                  "type": "initial",
+                  "baseline": "2.53mb",
+                  "maximumWarning": "200kb",
+                  "maximumError": "400kb"
                 }
               ],
               "optimization": true,
@@ -292,6 +304,14 @@
               ]
             },
             "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "baseline": "2.53mb",
+                  "maximumWarning": "200kb",
+                  "maximumError": "400kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -482,8 +502,10 @@
             "staging": {
               "budgets": [
                 {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "15kb"
+                  "type": "initial",
+                  "baseline": "2.17mb",
+                  "maximumWarning": "200kb",
+                  "maximumError": "400kb"
                 }
               ],
               "optimization": true,
@@ -507,6 +529,14 @@
               ]
             },
             "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "baseline": "2.17mb",
+                  "maximumWarning": "200kb",
+                  "maximumError": "400kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -701,8 +731,10 @@
             "staging": {
               "budgets": [
                 {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "15kb"
+                  "type": "initial",
+                  "baseline": "2.50mb",
+                  "maximumWarning": "200kb",
+                  "maximumError": "400kb"
                 }
               ],
               "optimization": true,
@@ -726,6 +758,14 @@
               ]
             },
             "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "baseline": "2.50mb",
+                  "maximumWarning": "200kb",
+                  "maximumError": "400kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -920,8 +960,10 @@
             "staging": {
               "budgets": [
                 {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "15kb"
+                  "type": "initial",
+                  "baseline": "2.29mb",
+                  "maximumWarning": "200kb",
+                  "maximumError": "400kb"
                 }
               ],
               "optimization": true,
@@ -945,6 +987,14 @@
               ]
             },
             "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "baseline": "2.29mb",
+                  "maximumWarning": "200kb",
+                  "maximumError": "400kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -1137,8 +1187,10 @@
             "staging": {
               "budgets": [
                 {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "15kb"
+                  "type": "initial",
+                  "baseline": "1.77mb",
+                  "maximumWarning": "200kb",
+                  "maximumError": "400kb"
                 }
               ],
               "optimization": true,
@@ -1162,6 +1214,14 @@
               ]
             },
             "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "baseline": "1.77mb",
+                  "maximumWarning": "200kb",
+                  "maximumError": "400kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -1350,8 +1410,10 @@
             "staging": {
               "budgets": [
                 {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "15kb"
+                  "type": "initial",
+                  "baseline": "2.38mb",
+                  "maximumWarning": "200kb",
+                  "maximumError": "400kb"
                 }
               ],
               "optimization": true,
@@ -1375,6 +1437,14 @@
               ]
             },
             "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "baseline": "2.38mb",
+                  "maximumWarning": "200kb",
+                  "maximumError": "400kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -1565,8 +1635,10 @@
             "staging": {
               "budgets": [
                 {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "15kb"
+                  "type": "initial",
+                  "baseline": "2.21mb",
+                  "maximumWarning": "200kb",
+                  "maximumError": "400kb"
                 }
               ],
               "optimization": true,
@@ -1590,6 +1662,14 @@
               ]
             },
             "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "baseline": "2.21mb",
+                  "maximumWarning": "200kb",
+                  "maximumError": "400kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -2047,6 +2127,14 @@
           },
           "configurations": {
             "staging": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "baseline": "2.41mb",
+                  "maximumWarning": "200kb",
+                  "maximumError": "400kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -2068,6 +2156,14 @@
               ]
             },
             "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "baseline": "2.41mb",
+                  "maximumWarning": "200kb",
+                  "maximumError": "400kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -2260,8 +2356,10 @@
             "staging": {
               "budgets": [
                 {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "15kb"
+                  "type": "initial",
+                  "baseline": "2.99mb",
+                  "maximumWarning": "200kb",
+                  "maximumError": "400kb"
                 }
               ],
               "optimization": true,
@@ -2285,6 +2383,14 @@
               ]
             },
             "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "baseline": "2.99mb",
+                  "maximumWarning": "200kb",
+                  "maximumError": "400kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -2473,8 +2579,10 @@
             "staging": {
               "budgets": [
                 {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "15kb"
+                  "type": "initial",
+                  "baseline": "2.49mb",
+                  "maximumWarning": "200kb",
+                  "maximumError": "400kb"
                 }
               ],
               "optimization": true,
@@ -2498,6 +2606,14 @@
               ]
             },
             "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "baseline": "2.49mb",
+                  "maximumWarning": "200kb",
+                  "maximumError": "400kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -2688,8 +2804,10 @@
             "staging": {
               "budgets": [
                 {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "15kb"
+                  "type": "initial",
+                  "baseline": "2.58mb",
+                  "maximumWarning": "200kb",
+                  "maximumError": "400kb"
                 }
               ],
               "optimization": true,
@@ -2713,6 +2831,14 @@
               ]
             },
             "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "baseline": "2.58mb",
+                  "maximumWarning": "200kb",
+                  "maximumError": "400kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -2902,8 +3028,10 @@
             "staging": {
               "budgets": [
                 {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "15kb"
+                  "type": "initial",
+                  "baseline": "3.85mb",
+                  "maximumWarning": "200kb",
+                  "maximumError": "400kb"
                 }
               ],
               "optimization": true,
@@ -2927,6 +3055,14 @@
               ]
             },
             "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "baseline": "3.85mb",
+                  "maximumWarning": "200kb",
+                  "maximumError": "400kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -3116,8 +3252,10 @@
             "staging": {
               "budgets": [
                 {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "15kb"
+                  "type": "initial",
+                  "baseline": "2.55mb",
+                  "maximumWarning": "200kb",
+                  "maximumError": "400kb"
                 }
               ],
               "optimization": true,
@@ -3141,6 +3279,14 @@
               ]
             },
             "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "baseline": "2.55mb",
+                  "maximumWarning": "200kb",
+                  "maximumError": "400kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -3329,8 +3475,10 @@
             "staging": {
               "budgets": [
                 {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "15kb"
+                  "type": "initial",
+                  "baseline": "2.44mb",
+                  "maximumWarning": "200kb",
+                  "maximumError": "400kb"
                 }
               ],
               "optimization": true,
@@ -3354,6 +3502,14 @@
               ]
             },
             "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "baseline": "2.44mb",
+                  "maximumWarning": "200kb",
+                  "maximumError": "400kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -3542,8 +3698,10 @@
             "staging": {
               "budgets": [
                 {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "15kb"
+                  "type": "initial",
+                  "baseline": "2.09mb",
+                  "maximumWarning": "200kb",
+                  "maximumError": "400kb"
                 }
               ],
               "optimization": true,
@@ -3567,6 +3725,14 @@
               ]
             },
             "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "baseline": "2.09mb",
+                  "maximumWarning": "200kb",
+                  "maximumError": "400kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -3755,8 +3921,10 @@
             "staging": {
               "budgets": [
                 {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "15kb"
+                  "type": "initial",
+                  "baseline": "2.37mb",
+                  "maximumWarning": "200kb",
+                  "maximumError": "400kb"
                 }
               ],
               "optimization": true,
@@ -3780,6 +3948,14 @@
               ]
             },
             "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "baseline": "2.37mb",
+                  "maximumWarning": "200kb",
+                  "maximumError": "400kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -3965,8 +4141,10 @@
             "staging": {
               "budgets": [
                 {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "15kb"
+                  "type": "initial",
+                  "baseline": "2.22mb",
+                  "maximumWarning": "200kb",
+                  "maximumError": "400kb"
                 }
               ],
               "optimization": true,
@@ -3990,6 +4168,14 @@
               ]
             },
             "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "baseline": "2.22mb",
+                  "maximumWarning": "200kb",
+                  "maximumError": "400kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -4178,8 +4364,10 @@
             "staging": {
               "budgets": [
                 {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "15kb"
+                  "type": "initial",
+                  "baseline": "2.33mb",
+                  "maximumWarning": "200kb",
+                  "maximumError": "400kb"
                 }
               ],
               "optimization": true,
@@ -4203,6 +4391,14 @@
               ]
             },
             "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "baseline": "2.33mb",
+                  "maximumWarning": "200kb",
+                  "maximumError": "400kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -4389,8 +4585,10 @@
             "staging": {
               "budgets": [
                 {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "15kb"
+                  "type": "initial",
+                  "baseline": "2.04mb",
+                  "maximumWarning": "200kb",
+                  "maximumError": "400kb"
                 }
               ],
               "optimization": true,
@@ -4414,6 +4612,14 @@
               ]
             },
             "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "baseline": "2.04mb",
+                  "maximumWarning": "200kb",
+                  "maximumError": "400kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -4602,8 +4808,10 @@
             "staging": {
               "budgets": [
                 {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "15kb"
+                  "type": "initial",
+                  "baseline": "2.35mb",
+                  "maximumWarning": "200kb",
+                  "maximumError": "400kb"
                 }
               ],
               "optimization": true,
@@ -4627,6 +4835,14 @@
               ]
             },
             "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "baseline": "2.35mb",
+                  "maximumWarning": "200kb",
+                  "maximumError": "400kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -4815,8 +5031,10 @@
             "staging": {
               "budgets": [
                 {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "15kb"
+                  "type": "initial",
+                  "baseline": "2.05mb",
+                  "maximumWarning": "200kb",
+                  "maximumError": "400kb"
                 }
               ],
               "optimization": true,
@@ -4836,6 +5054,14 @@
               ]
             },
             "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "baseline": "2.05mb",
+                  "maximumWarning": "200kb",
+                  "maximumError": "400kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -5022,6 +5248,14 @@
           },
           "configurations": {
             "staging": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "baseline": "5.66mb",
+                  "maximumWarning": "200kb",
+                  "maximumError": "400kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -5039,6 +5273,14 @@
               ]
             },
             "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "baseline": "5.66mb",
+                  "maximumWarning": "200kb",
+                  "maximumError": "400kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,

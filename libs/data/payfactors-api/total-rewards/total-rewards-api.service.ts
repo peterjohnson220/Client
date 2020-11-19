@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { StatementListSearchRequest } from 'libs/models/payfactors-api/total-rewards/request';
 import { StatementEmailTemplate, StatementListResponse } from 'libs/models/payfactors-api/total-rewards/response';
 import { SaveSettingsRequest } from 'libs/features/total-rewards/total-rewards-statement/models/request-models';
-import { Settings, Statement, StatementForPrint } from 'libs/features/total-rewards/total-rewards-statement/models/';
+import { CompensationField, Settings, Statement, StatementForPrint } from 'libs/features/total-rewards/total-rewards-statement/models/';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 
@@ -74,5 +74,9 @@ export class TotalRewardsApiService {
 
   getStatementIdByCompanyEmployeeId(companyEmployeeId: number): Observable<string> {
     return this.payfactorsApiService.get<any>(`${this.endpoint}/GetStatementIdByCompanyEmployeeId?companyEmployeeId=${companyEmployeeId}`);
+  }
+
+  getCompanyUdfs(): Observable<CompensationField[]> {
+    return this.payfactorsApiService.get<CompensationField[]>(`${this.endpoint}/GetCompanyUdfs`);
   }
 }

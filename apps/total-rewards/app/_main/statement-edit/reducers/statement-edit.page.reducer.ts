@@ -4,7 +4,7 @@ import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 import { GenericNameValue } from 'libs/models/common';
 import { AsyncStateObjHelper } from 'libs/core/helpers';
 import { EmployeeRewardsData, generateMockEmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards/response';
-import { ImageControl, Statement, StatementModeEnum } from 'libs/features/total-rewards/total-rewards-statement/models';
+import { CompensationField, ImageControl, Statement, StatementModeEnum } from 'libs/features/total-rewards/total-rewards-statement/models';
 import { TotalRewardsStatementService } from 'libs/features/total-rewards/total-rewards-statement/services/total-rewards-statement.service';
 
 import * as fromEditStatementActions from '../actions';
@@ -22,6 +22,8 @@ export interface State {
   settingsSaveError: boolean;
   employeeData: AsyncStateObj<EmployeeRewardsData>;
   assignedEmployees: AsyncStateObj<GenericNameValue<number>[]>;
+  companyUdfs: AsyncStateObj<CompensationField[]>;
+  visibleFieldsCount: number;
 }
 
 export const initialState: State = {
@@ -36,6 +38,8 @@ export const initialState: State = {
   settingsSaveError: false,
   employeeData: generateDefaultAsyncStateObj<EmployeeRewardsData>(null),
   assignedEmployees: generateDefaultAsyncStateObj<GenericNameValue<number>[]>([]),
+  companyUdfs: generateDefaultAsyncStateObj([]),
+  visibleFieldsCount: 0
 };
 
 export function reducer(state = initialState, action: fromEditStatementActions.StatementEditPageActions): State {
@@ -102,10 +106,20 @@ export function reducer(state = initialState, action: fromEditStatementActions.S
       const {Page, Section, Column, Control} = TotalRewardsStatementService.getCurrentControlIndex(state.statement.obj, action.payload.ControlId);
       const localState = cloneDeep(state);
       const compFields = localState.statement.obj.Pages[Page].Sections[Section].Columns[Column].Controls[Control].DataFields;
-      for (let i = 0; i < compFields.length; i++) {
-        if (compFields[i].Id === action.payload.DataFieldId) {
-          localState.statement.obj.Pages[Page].Sections[Section].Columns[Column].Controls[Control].DataFields[i].IsVisible = action.payload.IsVisible;
+      if (!action.payload.Type) {
+        for (let i = 0; i < compFields.length; i++) {
+          if (compFields[i].Id === action.payload.DataFieldId) {
+            localState.statement.obj.Pages[Page].Sections[Section].Columns[Column].Controls[Control].DataFields[i].IsVisible = action.payload.IsVisible;
+            ++localState.visibleFieldsCount;
+          }
         }
+      }
+      if (action.payload.Type) {
+        const newField = localState.companyUdfs.obj.find(udf => udf.Id === action.payload.DataFieldId);
+        newField.IsVisible = true;
+
+        localState.statement.obj.Pages[Page].Sections[Section].Columns[Column].Controls[Control].DataFields.push(newField);
+        ++localState.visibleFieldsCount;
       }
       return localState;
     }
@@ -119,6 +133,15 @@ export function reducer(state = initialState, action: fromEditStatementActions.S
 
           // Removes override name so DefaultName displays if added back to the control.
           localState.statement.obj.Pages[Page].Sections[Section].Columns[Column].Controls[Control].DataFields[i].Name.Override = null;
+          if (compFields[i].Type) {
+            const updatedField = localState.companyUdfs.obj.find(udf => udf.Id === action.payload.DataFieldId);
+            if (!!updatedField) {
+              updatedField.IsVisible = false;
+              updatedField.Name.Override = null;
+            }
+            localState.statement.obj.Pages[Page].Sections[Section].Columns[Column].Controls[Control].DataFields.splice(i, 1);
+          }
+          --localState.visibleFieldsCount ;
         }
       }
       return localState;
@@ -244,6 +267,46 @@ export function reducer(state = initialState, action: fromEditStatementActions.S
       return {
         ...state,
         employeeData: employeeDataAsyncClone
+      };
+    }
+    case fromEditStatementActions.GET_COMPANY_UDF: {
+      const companyUdfClone: AsyncStateObj<CompensationField[]> = cloneDeep(state.companyUdfs);
+      companyUdfClone.loading = true;
+      companyUdfClone.loadingError = false;
+
+      return {
+        ...state,
+        companyUdfs: companyUdfClone
+      };
+    }
+    case fromEditStatementActions.GET_COMPANY_UDF_SUCCESS: {
+      const companyUdfClone: AsyncStateObj<CompensationField[]> = cloneDeep(state.companyUdfs);
+      const statementClone: AsyncStateObj<Statement> = cloneDeep(state.statement);
+      companyUdfClone.loading = false;
+
+      const allUdfFields: CompensationField[] = cloneDeep(action.payload);
+      const statementUdfFields = TotalRewardsStatementService.getStatementUdfFields(statementClone.obj);
+      TotalRewardsStatementService.syncUdfFields(statementClone.obj, statementUdfFields, allUdfFields);
+      const visibleFieldsCount = TotalRewardsStatementService.getVisibleCalculationFields(statementClone.obj).length;
+
+      companyUdfClone.obj = allUdfFields;
+
+      return {
+        ...state,
+        statement: statementClone,
+        companyUdfs: companyUdfClone,
+        visibleFieldsCount: visibleFieldsCount
+      };
+    }
+
+    case fromEditStatementActions.GET_COMPANY_UDF_ERROR: {
+      const companyUdfClone: AsyncStateObj<CompensationField[]> = cloneDeep(state.companyUdfs);
+      companyUdfClone.loading = false;
+      companyUdfClone.loadingError = true;
+
+      return {
+        ...state,
+        companyUdfs: companyUdfClone
       };
     }
     default: {

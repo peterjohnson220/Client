@@ -11,6 +11,7 @@ import { faFileImage } from '@fortawesome/pro-solid-svg-icons/faFileImage';
 import { faFile } from '@fortawesome/pro-solid-svg-icons/faFile';
 import { faChevronDoubleRight } from '@fortawesome/pro-solid-svg-icons/faChevronDoubleRight';
 import { faChevronDoubleLeft } from '@fortawesome/pro-solid-svg-icons/faChevronDoubleLeft';
+import { faExclamationTriangle } from '@fortawesome/pro-solid-svg-icons/faExclamationTriangle';
 
 // Regular
 import { faCalculator } from '@fortawesome/pro-regular-svg-icons/faCalculator';
@@ -20,4 +21,4 @@ import { faPaperclip } from '@fortawesome/pro-regular-svg-icons/faPaperclip';
 export const faIcons = [
   faCircle, faUpload, faCaretRight, faCaretDown, faExchangeAlt, faInfoCircle,
   faFileWord, faFilePdf, faFileExcel, faFileImage, faFile, faChevronDoubleRight, faChevronDoubleLeft,
-  faCalculator, faPaperclip ];
+  faCalculator, faPaperclip, faExclamationTriangle];

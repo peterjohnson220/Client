@@ -34,7 +34,11 @@ export class JobLevelHierarchyApiService {
     return this.payfactorsApiService.get(`${this.endpoint}/GetJobLevelHierarchies`);
   }
 
-  getJobLevelHierachy(hierarchyId: number): Observable<JobLevelHierarchyDetail> {
+  getJobLevelHierarchy(hierarchyId: number): Observable<JobLevelHierarchyDetail> {
     return this.payfactorsApiService.get(`${this.endpoint}/GetJobLevelHierarchy`, { params: { hierarchyId: hierarchyId } });
+  }
+
+  deleteJobLevelHierarchy(hierarchyId: number): Observable<boolean> {
+    return this.payfactorsApiService.delete(`${this.endpoint}/DeleteJobLevelHierarchy?hierarchyId=${hierarchyId}`);
   }
 }

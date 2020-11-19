@@ -10,7 +10,6 @@ import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig, GridConfi
 import { DeletePricingRequest } from 'libs/models/payfactors-api/pricings/request';
 import { Permissions } from 'libs/constants';
 import { ViewField } from 'libs/models/payfactors-api/reports/request';
-import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
 import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromPricingDetailsActions from 'libs/features/pricing-details/actions';
@@ -18,8 +17,8 @@ import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 import { PfThemeType } from 'libs/features/pf-data-grid/enums/pf-theme-type.enum';
 import { AsyncStateObj } from 'libs/models';
 
-import * as fromJobsPageActions from '../../../../actions';
-import * as fromJobsPageReducer from '../../../../reducers';
+import * as fromModifyPricingsActions from '../../../../actions';
+import * as fromModifyPricingsReducer from '../../../../reducers';
 import { PageViewIds } from '../../../../constants';
 
 
@@ -72,26 +71,23 @@ export class PricingHistoryGridComponent implements AfterViewInit, OnInit, OnDes
 
   getPricingDetailsSuccessSubscription: Subscription;
   getDeletingPricingSuccessSubscription: Subscription;
-  hasInfiniteScrollFeatureFlagEnabled: boolean;
   noRecordsMessage: string;
 
   pfThemeType = PfThemeType;
 
   constructor(
-    private store: Store<fromJobsPageReducer.State>,
-    private actionsSubject: ActionsSubject,
-    private featureFlagService: AbstractFeatureFlagService
+    private store: Store<fromModifyPricingsReducer.State>,
+    private actionsSubject: ActionsSubject
   ) {
-    this.hasInfiniteScrollFeatureFlagEnabled = this.featureFlagService.enabled(FeatureFlags.PfDataGridInfiniteScroll, false);
     this.gridConfig = {
       PersistColumnWidth: false,
-      EnableInfiniteScroll: this.hasInfiniteScrollFeatureFlagEnabled,
-      ScrollToTop: this.hasInfiniteScrollFeatureFlagEnabled
+      EnableInfiniteScroll: true,
+      ScrollToTop: true
     };
   }
 
   ngOnInit(): void {
-    this.companyPayMarketsSubscription = this.store.select(fromJobsPageReducer.getCompanyPayMarkets)
+    this.companyPayMarketsSubscription = this.store.select(fromModifyPricingsReducer.getCompanyPayMarkets)
       .subscribe(o => {
         this.filteredPayMarketOptions = o;
         this.payMarketOptions = o;
@@ -117,9 +113,9 @@ export class PricingHistoryGridComponent implements AfterViewInit, OnInit, OnDes
         this.store.dispatch(new fromPfDataGridActions.LoadData(PageViewIds.PricingHistory));
       });
 
-    this.deletingPricing$ = this.store.select(fromJobsPageReducer.getDeletingPricing);
+    this.deletingPricing$ = this.store.select(fromModifyPricingsReducer.getDeletingPricing);
     this.getDeletingPricingSuccessSubscription = this.actionsSubject
-      .pipe(ofType(fromJobsPageActions.DELETING_PRICING_SUCCESS))
+      .pipe(ofType(fromModifyPricingsActions.DELETING_PRICING_SUCCESS))
       .subscribe(data => {
         this.showDeletePricing.next(false);
       });
@@ -165,12 +161,12 @@ export class PricingHistoryGridComponent implements AfterViewInit, OnInit, OnDes
       CompanyJobId: event['CompanyJobs_Pricings_CompanyJob_ID'],
       CompanyPayMarketId: event['CompanyJobs_Pricings_CompanyPayMarket_ID']
     };
-    this.store.dispatch(new fromJobsPageActions.ResetErrorsForModals());
+    this.store.dispatch(new fromModifyPricingsActions.ResetModifyPricingsModals());
     this.showDeletePricing.next(true);
   }
 
   deletePricing() {
-    this.store.dispatch(new fromJobsPageActions.DeletingPricing(this.deletePricingRequest));
+    this.store.dispatch(new fromModifyPricingsActions.DeletingPricing(this.deletePricingRequest));
   }
 
   ngOnDestroy() {

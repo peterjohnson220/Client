@@ -2,13 +2,14 @@ import { Component, OnDestroy, OnInit, Input, forwardRef, OnChanges, SimpleChang
 import { FormControl, FormGroup, Validators, NG_VALUE_ACCESSOR, NG_VALIDATORS, ControlValueAccessor } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 
 import { AsyncStateObj } from 'libs/models/state';
 import { CompanySettingsEnum } from 'libs/models/company';
 import { RangeGroupMetadata, RangeDistributionSettingForm } from 'libs/models/structures';
 import { SettingsService } from 'libs/state/app-context/services';
-import { RangeDistributionSetting } from 'libs/models/payfactors-api';
+import * as fromFormulaFieldActions from 'libs/features/formula-editor/actions/formula-field.actions';
+import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
 
 import * as fromJobBasedRangeReducer from '../../reducers';
 import { ControlPoint } from '../../models';
@@ -45,7 +46,6 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
   controlPointCategory: ControlPoint[];
   controlPointMidpoint: ControlPoint[];
   controlPointRanges: ControlPoint[];
-  rangeDistributionSetting: RangeDistributionSetting;
   showMinSpread: boolean;
   showMaxSpread: boolean;
   showMidFormula: boolean;
@@ -54,11 +54,14 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
   fieldsDisabledTooltip: string;
   payTypeTooltip: string;
   enablePercentilesAndRangeSpreads: boolean;
+  structuresAdvancedModelingFeatureFlag: RealTimeFlag = { key: FeatureFlags.StructuresAdvancedModeling, value: false };
+  unsubscribe$ = new Subject<void>();
 
 
   constructor(
     public store: Store<fromJobBasedRangeReducer.State>,
-    private settingService: SettingsService
+    private settingService: SettingsService,
+    private featureFlagService: AbstractFeatureFlagService
   ) {
     this.enableJobRangeTypes$ = this.settingService.selectCompanySetting<boolean>(
       CompanySettingsEnum.EnableJobRangeStructureRangeTypes
@@ -67,6 +70,7 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
     this.maxSpreadTooltip = ModelSettingsModalConstants.MAX_SPREAD_TOOL_TIP;
     this.fieldsDisabledTooltip = ModelSettingsModalConstants.FIELDS_DISABLED_TOOL_TIP;
     this.payTypeTooltip = ModelSettingsModalConstants.PAYTYPE_TOOL_TIP;
+    this.featureFlagService.bindEnabled(this.structuresAdvancedModelingFeatureFlag, this.unsubscribe$);
   }
 
   get value(): RangeDistributionSettingForm {
@@ -88,9 +92,9 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
 
     this.rangeDistributionSettingForm = new FormGroup({
       'CompanyStructuresRangeGroupId': new FormControl(this.rangeGroupId),
-      'RangeDistributionTypeId': new FormControl({value: this.metadata.RangeDistributionTypeId, disabled: true}, [Validators.required]),
+      'RangeDistributionTypeId': new FormControl({ value: this.metadata.RangeDistributionTypeId, disabled: true }, [Validators.required]),
       'PayType': new FormControl(this.metadata.PayType, [Validators.required]),
-      'ControlPoint': new FormControl({ value: this.metadata.ControlPoint, disabled: true }, [Validators.required]),
+      'ControlPoint': new FormControl({ value: this.metadata.ControlPoint, disabled: true }),
       'Minimum': new FormControl({ value: this.metadata.SpreadMin, disabled: !this.enablePercentilesAndRangeSpreads }, [Validators.required]),
       'Maximum': new FormControl({ value: this.metadata.SpreadMax, disabled: !this.enablePercentilesAndRangeSpreads }, [Validators.required]),
       'FirstTertile': new FormControl({ value: null, disabled: !this.enablePercentilesAndRangeSpreads }),
@@ -220,6 +224,7 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
     } else {
       this.formControls.ControlPoint_Formula.patchValue(null);
       this.setValidation('ControlPoint_Formula', 'ControlPoint');
+      this.store.dispatch(new fromFormulaFieldActions.ResetFormula());
     }
   }
 
@@ -304,19 +309,27 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
         this.onTouched();
       })
     );
-
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (!!changes && !!changes.controlPointsAsyncObj) {
       const cp = changes.controlPointsAsyncObj.currentValue;
       let selectedCategory: string = null;
+      let currentControlPoint: string = null;
 
       this.controlPointsAsyncObj = cp;
-      this.controlPoints = cp.obj;
+      this.parseControlPoints(cp.obj);
 
-      if (this.metadata.ControlPoint !== null) {
-        selectedCategory = this.controlPoints.find(c => c.FieldName === this.metadata.ControlPoint).Category;
+      if (this.metadata.ControlPoint === null && this.metadata.PayType === null) {
+        currentControlPoint = 'BaseMRP';
+      } else if (this.metadata.ControlPoint === null && this.metadata.PayType !== null) {
+        currentControlPoint = this.metadata.PayType + 'MRP';
+      } else {
+        currentControlPoint = this.metadata.ControlPoint;
+      }
+
+      if (currentControlPoint !== null) {
+        selectedCategory = this.controlPoints.find(c => c.FieldName === currentControlPoint).Category;
       }
       selectedCategory = selectedCategory ?? 'Base';
 
@@ -334,17 +347,31 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
           t.RangeDisplayName === ctrlPt.RangeDisplayName)) === i;
       });
     }
+  }
 
-    if (!!changes && !!changes.metadata) {
-      this.rangeDistributionSetting = changes.metadata.currentValue.RangeDistributionSetting;
-    }
+  private parseControlPoints(controlPoints: any): void {
+    const arr = new Array();
+    controlPoints.forEach(function (cp) {
+      const fieldName = cp.Category === 'Bonus Target Amt'
+        ? cp.FieldName.replace('BonusTarget', 'BonusTargetAmt')
+        : cp.FieldName;
+      arr.push({
+        Category: cp.Category.split(' ').join(''),
+        Display: cp.Display,
+        FieldName: fieldName,
+        RangeDisplayName: cp.RangeDisplayName,
+        PayTypeDisplay: cp.Category
+      });
+    });
+    this.controlPoints = arr;
   }
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(s => s.unsubscribe());
+    this.unsubscribe$.next();
   }
 
-  mapToRangeDistributionSettingForm(value: RangeDistributionSetting): RangeDistributionSettingForm {
+  mapToRangeDistributionSettingForm(value: RangeDistributionSettingForm): RangeDistributionSettingForm {
     return {
       PayType: this.metadata.PayType,
       ControlPoint: this.metadata.ControlPoint,
@@ -353,6 +380,7 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
       FirstTertile: value.FirstTertile,
       SecondTertile: value.SecondTertile,
       RangeDistributionTypeId: value.RangeDistributionTypeId,
+      CompanyId: value.CompanyId,
       CompanyStructuresRangeGroupId: this.rangeGroupId,
       FirstQuartile: value.FirstQuartile,
       SecondQuartile: value.SecondQuartile,

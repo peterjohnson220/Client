@@ -1,4 +1,8 @@
 @import 'total-rewards/statement-layout-variables';
+@font-face {
+  font-family: "DejaVu Sans";
+  src: url("~assets/fonts/DejaVuSans.ttf");
+}
 
 $chart-height: 250px;
 
@@ -25,11 +29,5 @@ $chart-height: 250px;
       opacity: 0;
       pointer-events: none;
     }
-  }
-}
-
-@media print {
-  .trs-chart kendo-chart {
-    height: #{($print-base-font-size / 13) * $chart-height}; // increase height proportionate to larger print base font size
   }
 }

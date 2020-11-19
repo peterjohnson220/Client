@@ -51,18 +51,18 @@ export class CompareJobRangesEffects {
         )
       ),
       switchMap((data) => {
-        const compareFilters = CompareJobRangesHelper.createDataFiltersForCompareRanges(data.currentRangeGroup.obj.CompanyStructuresRangeGroupId);
-        const pagingOptions: PagingOptions = {
-          From: data.pagingOptions.From,
-          Count: data.pagingOptions.Count
-        };
-        if (data.a.type.includes('Get Data For Compare')) {
-          pagingOptions.From = 0;
-          pagingOptions.Count = data.pagingOptions.Count;
-        }
         if (!data.comparingFlag) {
           return of(new fromCompareJobRangesActions.NoOperationAction());
         } else {
+          const compareFilters = CompareJobRangesHelper.createDataFiltersForCompareRanges(data.currentRangeGroup.obj.CompanyStructuresRangeGroupId);
+          const pagingOptions: PagingOptions = {
+            From: data.pagingOptions.From,
+            Count: data.pagingOptions.Count
+          };
+          if (data.a.type.includes('Get Data For Compare')) {
+            pagingOptions.From = 0;
+            pagingOptions.Count = data.pagingOptions.Count;
+          }
           return this.dataViewApiService.getData(DataGridToDataViewsHelper.buildDataViewDataRequest(
             data.baseEntity.Id,
             data.fields,

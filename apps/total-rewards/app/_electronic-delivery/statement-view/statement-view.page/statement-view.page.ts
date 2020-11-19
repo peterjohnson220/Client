@@ -42,7 +42,7 @@ export class StatementViewPageComponent implements OnDestroy, OnInit {
       this.statementId = params['statement_id'];
       this.employeeId = params['employee_id'];
 
-      this.store.dispatch(new fromPageActions.GetEmployeeRewardsData({ companyEmployeeId: this.employeeId }));
+      this.store.dispatch(new fromPageActions.GetEmployeeRewardsData({ companyEmployeeId: this.employeeId, statementId: this.statementId }));
       this.store.dispatch(new fromPageActions.LoadStatement(this.statementId));
     });
   }

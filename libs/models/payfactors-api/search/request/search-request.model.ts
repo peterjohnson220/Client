@@ -1,8 +1,10 @@
 import { SearchFilter } from '../response';
+import { SearchType } from 'libs/features/search/models';
 
 export interface SearchField {
   Name: string;
   Value: any;
+  SearchType?: SearchType;
 }
 
 export interface PagingOptions {

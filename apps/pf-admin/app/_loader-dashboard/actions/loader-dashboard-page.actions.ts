@@ -14,6 +14,11 @@ export const GET_FILE_PACKAGE_GRID_DATA_SUCCESS = '[Loaders Dashboard] Get File 
 export const GET_FILE_PACKAGE_GRID_DATA_ERROR = '[Loaders Dashboard] Get File Package Grid Data Error';
 export const TOGGLE_SHOW_HIDE_TEST_COMPANIES = '[Loaders Dashboard] Toggle Show Hide Test Companies';
 export const UPDATE_GRID_SEARCH_PAYLOAD = '[Loaders Dashboard] Update Grid Search Payload';
+export const REDROP_EXPORTED_SOURCE_FILE = '[Loaders Dashboard] Redrop Exported Source File';
+export const REDROP_EXPORTED_SOURCE_FILE_SUCCESS = '[Loaders Dashboard] Redrop Exported Source File Success';
+export const REDROP_EXPORTED_SOURCE_FILE_ERROR = '[Loaders Dashboard] Redrop Exported Source File Error';
+export const OPEN_REDROP_CONFIRMATION_MODAL = '[Loaders Dashboard] Open Redrop Confirmation Modal';
+export const DISMISS_REDROP_CONFIRMATION_MODAL = '[Loaders Dashboard] Dismiss Redrop Confirmation Modal';
 
 export class Init implements Action {
   readonly type = INIT;
@@ -69,6 +74,28 @@ export class UpdateGridSearchPayload implements Action {
   constructor(public payload: { key: string, value: any }[]) {}
 }
 
+export class RedropExportedSourceFile implements Action {
+  readonly type = REDROP_EXPORTED_SOURCE_FILE;
+
+  constructor(public payload: number) {}
+}
+
+export class RedropExportedSourceFileSuccess implements Action {
+  readonly type = REDROP_EXPORTED_SOURCE_FILE_SUCCESS;
+}
+
+export class RedropExportedSourceFileError implements Action {
+  readonly type = REDROP_EXPORTED_SOURCE_FILE_ERROR;
+}
+
+export class OpenRedropConfirmationModal implements Action {
+  readonly type = OPEN_REDROP_CONFIRMATION_MODAL;
+}
+
+export class DismissRedropConfirmationModal implements Action {
+  readonly type = DISMISS_REDROP_CONFIRMATION_MODAL;
+}
+
 export type Actions
   = Init
   | GetAllGridData
@@ -79,4 +106,9 @@ export type Actions
   | GetFilePackageGridDataSuccess
   | GetFilePackageGridDataError
   | ToggleShowHideTestCompanies
-  | UpdateGridSearchPayload;
+  | UpdateGridSearchPayload
+  | RedropExportedSourceFile
+  | RedropExportedSourceFileSuccess
+  | RedropExportedSourceFileError
+  | OpenRedropConfirmationModal
+  | DismissRedropConfirmationModal;

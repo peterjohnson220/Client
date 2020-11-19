@@ -122,17 +122,20 @@ export class ServicePageEffects {
           ({ action, fields, selectedTicketStates })
       ),
       mergeMap(data => {
+        const actions = [];
         const inboundFilters = PayfactorsApiModelMapper.buildInboundFiltersByTicketListMode(
           data.action.payload.listType, data.action.payload.userId);
         if (data.selectedTicketStates && data.selectedTicketStates.length) {
           inboundFilters.push(TicketStateHelper.buildTicketStateInboundFilter(data.selectedTicketStates));
+        } else {
+          const ticketStateField: ViewField = cloneDeep(data.fields.find((f: ViewField) => f.SourceName === 'UserTicket_State'));
+          actions.push(new fromPfDataGridActions.ClearFilter(ServicePageConfig.ServicePageViewId, ticketStateField, true));
         }
         const createdByField: ViewField = cloneDeep(data.fields.find((f: ViewField) => f.SourceName === 'FullName'));
         createdByField.IsFilterable = data.action.payload.listType === TicketListMode.AllCompanyTickets;
-        return [
-          new fromPfDataGridActions.UpdateFilter(ServicePageConfig.ServicePageViewId, createdByField),
-          new fromPfDataGridActions.UpdateInboundFilters(ServicePageConfig.ServicePageViewId, inboundFilters)
-        ];
+        actions.push(new fromPfDataGridActions.UpdateFilter(ServicePageConfig.ServicePageViewId, createdByField));
+        actions.push(new fromPfDataGridActions.UpdateInboundFilters(ServicePageConfig.ServicePageViewId, inboundFilters, data.action.payload.resetFilter));
+        return actions;
       })
     );
 

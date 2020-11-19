@@ -100,6 +100,7 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
   public ssoTokenId: string;
   public ssoAgentId: string;
   public requireSSOLogin$: Observable<boolean>;
+  public filteredListAreaColumns: ListAreaColumn[];
 
   private templateListItems$: Observable<TemplateListItem[]>;
   private enableJdmTemplatesInClient$: Observable<boolean>;
@@ -394,6 +395,10 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromJobDescriptionGridActions.LoadJobDescriptionGrid(this.getQueryListStateRequest()));
   }
 
+  saveListAreaColumns(columns: ListAreaColumn[]): void {
+    this.store.dispatch(new fromJobDescriptionGridActions.SaveListAreaColumns(columns));
+  }
+
   private initFilterThrottle() {
     const filterThrottle$ = this.filterThrottle.pipe(debounceTime(400));
 
@@ -473,9 +478,18 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromJobDescriptionGridActions.LoadJobDescriptionGrid(this.getQueryListStateRequest()));
   }
 
+  private setFilteredListAreaColumns(listAreaColumns: ListAreaColumn[]): void {
+    this.filteredListAreaColumns = listAreaColumns.filter(c =>
+      (c.ColumnDatabaseName !== 'PublicView') ||
+      (c.ColumnDatabaseName === 'PublicView' && this.canRestrictJobDescriptionFromPublicView));
+  }
+
   private createSubscriptions() {
     this.listAreaColumnsSubscription = this.listAreaColumns$.subscribe(lac => {
       this.displayedListAreaColumnNames = lac.map(l => l.ColumnDatabaseName);
+      if (!!lac?.length) {
+        this.setFilteredListAreaColumns(lac);
+      }
     });
 
     this.savingListAreaColumnsSuccessSubscription = this.savingListAreaColumnsSuccess$.subscribe((isSuccess) => {

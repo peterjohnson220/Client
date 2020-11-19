@@ -23,6 +23,9 @@ export type StatementEditPageActions =
   controlActions.UpdateRichTextControlContent |
   controlActions.SaveImageControlImage |
   controlActions.RemoveImageControlImage |
+  controlActions.GetCompanyUDF |
+  controlActions.GetCompanyUDFSuccess |
+  controlActions.GetCompanyUDFError |
 
   settingsActions.OpenSettingsPanel |
   settingsActions.CloseSettingsPanel |

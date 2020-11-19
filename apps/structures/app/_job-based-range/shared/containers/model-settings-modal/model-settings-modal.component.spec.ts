@@ -7,12 +7,10 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as fromRootState from 'libs/state/state';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 import { AbstractFeatureFlagService, PfCommonModule } from 'libs/core';
-import {
-  generateMockRangeDistributionSetting,
-  generateMockStructureRangeDistributionTypes
-} from 'libs/models/payfactors-api';
+import { generateMockStructureRangeDistributionTypes } from 'libs/models/payfactors-api';
 import { SettingsService } from 'libs/state/app-context/services';
-import { generateMockRangeAdvancedSetting } from 'libs/models/structures';
+import { generateMockRangeAdvancedSetting, generateMockRangeDistributionSettingForm } from 'libs/models/structures';
+import { MissingMarketDataTypes } from 'libs/constants/structures/missing-market-data-type';
 
 import * as fromJobBasedRangeReducer from '../../../shared/reducers';
 import * as fromModelSettingsModalActions from '../../../shared/actions/model-settings-modal.actions';
@@ -20,6 +18,8 @@ import { ModelSettingsModalComponent } from './model-settings-modal.component';
 import { UrlService } from '../../services';
 import { RangeDistributionSettingComponent } from '../range-distribution-setting';
 import { PageViewIds } from '../../constants/page-view-ids';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AdvancedModelSettingComponent } from '../advanced-model-setting';
 
 describe('Job Based Ranges - Model Settings Modal', () => {
   let instance: ModelSettingsModalComponent;
@@ -40,9 +40,10 @@ describe('Job Based Ranges - Model Settings Modal', () => {
       ],
       declarations: [
         ModelSettingsModalComponent,
-        RangeDistributionSettingComponent
+        RangeDistributionSettingComponent,
+        AdvancedModelSettingComponent
       ],
-      schemas: [ NO_ERRORS_SCHEMA ],
+      schemas: [NO_ERRORS_SCHEMA],
       providers: [
         {
           provide: NgbModal,
@@ -50,7 +51,7 @@ describe('Job Based Ranges - Model Settings Modal', () => {
         },
         {
           provide: UrlService,
-          useValue: { isInWorkflow: jest.fn()}
+          useValue: { isInWorkflow: jest.fn() }
         },
         {
           provide: AbstractFeatureFlagService,
@@ -62,8 +63,9 @@ describe('Job Based Ranges - Model Settings Modal', () => {
 
     fixture = TestBed.createComponent(ModelSettingsModalComponent);
     instance = fixture.componentInstance;
-    instance.rdSettingComponent =
-      TestBed.createComponent(RangeDistributionSettingComponent).componentInstance;
+    instance.rangeDistributionSettingComponent = TestBed.createComponent(RangeDistributionSettingComponent).componentInstance;
+    instance.advancedModelSettingComponent = TestBed.createComponent(AdvancedModelSettingComponent).componentInstance;
+
     store = TestBed.inject(Store);
     ngbModal = TestBed.inject(NgbModal);
     urlService = TestBed.inject(UrlService);
@@ -85,7 +87,7 @@ describe('Job Based Ranges - Model Settings Modal', () => {
       IsCurrent: false,
       RangeDistributionTypeId: 1,
       RangeDistributionTypes: generateMockStructureRangeDistributionTypes(),
-      RangeDistributionSetting: generateMockRangeDistributionSetting(),
+      RangeDistributionSetting: generateMockRangeDistributionSettingForm(),
       RangeAdvancedSetting: generateMockRangeAdvancedSetting()
     };
 
@@ -104,9 +106,69 @@ describe('Job Based Ranges - Model Settings Modal', () => {
       StructureName: 'testStruc',
       RangeDistributionTypeId: 1,
       RangeDistributionTypes: generateMockStructureRangeDistributionTypes(),
-      RangeDistributionSetting: generateMockRangeDistributionSetting(),
+      RangeDistributionSetting: generateMockRangeDistributionSettingForm(),
       RangeAdvancedSetting: generateMockRangeAdvancedSetting()
     };
+
+    instance.rangeDistributionSettingComponent.enablePercentilesAndRangeSpreads = true;
+    instance.rangeDistributionSettingComponent.rangeDistributionSettingForm = new FormGroup({
+      'CompanyStructuresRangeGroupId': new FormControl(this.rangeGroupId),
+      'RangeDistributionTypeId': new FormControl({ value: instance.metadata.RangeDistributionTypeId, disabled: true }, [Validators.required]),
+      'PayType': new FormControl(instance.metadata.PayType, [Validators.required]),
+      'ControlPoint': new FormControl({ value: instance.metadata.ControlPoint, disabled: true }, [Validators.required]),
+      'Minimum': new FormControl({
+        value: instance.metadata.SpreadMin,
+        disabled: !instance.rangeDistributionSettingComponent.enablePercentilesAndRangeSpreads
+      }, [Validators.required]),
+      'Maximum': new FormControl({
+        value: instance.metadata.SpreadMax,
+        disabled: !instance.rangeDistributionSettingComponent.enablePercentilesAndRangeSpreads
+      }, [Validators.required]),
+      'FirstTertile': new FormControl({ value: null, disabled: !instance.rangeDistributionSettingComponent.enablePercentilesAndRangeSpreads }),
+      'SecondTertile': new FormControl({ value: null, disabled: !instance.rangeDistributionSettingComponent.enablePercentilesAndRangeSpreads }),
+      'FirstQuartile': new FormControl({ value: null, disabled: !instance.rangeDistributionSettingComponent.enablePercentilesAndRangeSpreads }),
+      'SecondQuartile': new FormControl({ value: null, disabled: !instance.rangeDistributionSettingComponent.enablePercentilesAndRangeSpreads }),
+      'FirstQuintile': new FormControl({ value: null, disabled: !instance.rangeDistributionSettingComponent.enablePercentilesAndRangeSpreads }),
+      'SecondQuintile': new FormControl({ value: null, disabled: !instance.rangeDistributionSettingComponent.enablePercentilesAndRangeSpreads }),
+      'ThirdQuintile': new FormControl({ value: null, disabled: !instance.rangeDistributionSettingComponent.enablePercentilesAndRangeSpreads }),
+      'FourthQuintile': new FormControl({ value: null, disabled: !instance.rangeDistributionSettingComponent.enablePercentilesAndRangeSpreads }),
+      'MinPercentile': new FormControl({ value: null, disabled: !instance.rangeDistributionSettingComponent.enablePercentilesAndRangeSpreads }),
+      'MaxPercentile': new FormControl({ value: null, disabled: !instance.rangeDistributionSettingComponent.enablePercentilesAndRangeSpreads }),
+      'ControlPoint_Formula': new FormControl({ value: null })
+    });
+
+    const increaseMidpointByPercentage =
+      instance.metadata.RangeAdvancedSetting.MissingMarketDataType.Type === MissingMarketDataTypes.IncreaseMidpointByPercent
+        ? instance.metadata.RangeAdvancedSetting.MissingMarketDataType.IncreaseMidpointByPercentage
+        : null;
+
+    const decreasePercentFromNextLevelPercentage =
+      instance.metadata.RangeAdvancedSetting.MissingMarketDataType.Type === MissingMarketDataTypes.DecreasePercentFromNextLevel
+        ? instance.metadata.RangeAdvancedSetting.MissingMarketDataType.DecreasePercentFromNextLevelPercentage
+        : null;
+
+    const increasePercentFromPreviousLevelPercentage =
+      instance.metadata.RangeAdvancedSetting.MissingMarketDataType.Type === MissingMarketDataTypes.IncreasePercentFromPreviousLevel
+        ? instance.metadata.RangeAdvancedSetting.MissingMarketDataType.IncreasePercentFromPreviousLevelPercentage
+        : null;
+
+    instance.advancedModelSettingComponent.advancedModelSettingForm = new FormGroup({
+      'PreventMidsBelowCurrent': new FormControl(instance.metadata.RangeAdvancedSetting.PreventMidsBelowCurrent),
+      'PreventMidsFromIncreasingMoreThanPercent': new FormGroup({
+        'Enabled': new FormControl(instance.metadata.RangeAdvancedSetting.PreventMidsFromIncreasingMoreThanPercent.Enabled),
+        'Percentage': new FormControl(instance.metadata.RangeAdvancedSetting.PreventMidsFromIncreasingMoreThanPercent.Percentage)
+      }),
+      'PreventMidsFromIncreasingWithinPercentOfNextLevel': new FormGroup({
+        'Enabled': new FormControl(instance.metadata.RangeAdvancedSetting.PreventMidsFromIncreasingWithinPercentOfNextLevel.Enabled),
+        'Percentage': new FormControl(instance.metadata.RangeAdvancedSetting.PreventMidsFromIncreasingWithinPercentOfNextLevel.Percentage)
+      }),
+      'MissingMarketDataType': new FormGroup({
+        'Type': new FormControl(String(instance.metadata.RangeAdvancedSetting.MissingMarketDataType.Type)),
+        'IncreaseMidpointByPercentage': new FormControl(increaseMidpointByPercentage),
+        'DecreasePercentFromNextLevelPercentage': new FormControl(decreasePercentFromNextLevelPercentage),
+        'IncreasePercentFromPreviousLevelPercentage': new FormControl(increasePercentFromPreviousLevelPercentage),
+      })
+    });
 
     instance.ngOnInit();
   });
@@ -126,7 +188,7 @@ describe('Job Based Ranges - Model Settings Modal', () => {
 
   it('should dispatch GetStructureNameSuggestions when structure name changed', () => {
     spyOn(instance.store, 'dispatch');
-    const expectedAction = new fromModelSettingsModalActions.GetStructureNameSuggestions({filter: 'test'});
+    const expectedAction = new fromModelSettingsModalActions.GetStructureNameSuggestions({ filter: 'test' });
     instance.handleStructureNameChanged('test');
 
 
@@ -156,6 +218,7 @@ describe('Job Based Ranges - Model Settings Modal', () => {
   it('should set attemptedSubmit to true (but leave the activeTab alone) if form is valid', () => {
     instance.buildForm();
     instance.activeTab = '';
+    instance.formulaValid = true;
     instance.handleModalSubmitAttempt();
 
     expect(instance.attemptedSubmit).toEqual(true);
@@ -180,7 +243,7 @@ describe('Job Based Ranges - Model Settings Modal', () => {
       IsCurrent: false,
       RangeDistributionTypeId: 1,
       RangeDistributionTypes: generateMockStructureRangeDistributionTypes(),
-      RangeDistributionSetting: generateMockRangeDistributionSetting(),
+      RangeDistributionSetting: generateMockRangeDistributionSettingForm(),
       RangeAdvancedSetting: generateMockRangeAdvancedSetting()
     };
 
@@ -206,7 +269,6 @@ describe('Job Based Ranges - Model Settings Modal', () => {
   });
 
   it('should subscribe to appropriate subscriptions on init as well', () => {
-
     expect(instance.controlPointsAsyncObjSub).not.toBe(undefined);
     expect(instance.currenciesAsyncObjSub).not.toBe(undefined);
     expect(instance.metadataSub).not.toBe(undefined);

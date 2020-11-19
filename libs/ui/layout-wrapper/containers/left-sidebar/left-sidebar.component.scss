@@ -42,7 +42,12 @@
   color: #fff;
 }
 
-.left-sidebar-nav li a:hover .tile-icon {
+.left-sidebar-nav li:hover {
+  box-shadow: inset 5px 0 0 0 #FFB300;
+}
+
+.left-sidebar-nav li a:hover .tile-icon,
+.left-sidebar-footer:hover fa-icon{
   color: #fff;
 }
 
@@ -60,6 +65,11 @@
   z-index: 1;
   color: $left-sidebar-text-color;
   background-color: #283B4A;
+}
+
+.left-sidebar-footer:hover {
+  text-decoration: none;
+  cursor: pointer;
 }
 
 .left-sidebar-footer > div {
@@ -86,14 +96,15 @@
 }
 
 .highlight-icon {
-  background-color: $pf-brand-primary-color;
+  background-color: #283B4A;
+  box-shadow: inset 5px 0 0 0 #FFB300;
 }
 
 .left-sidebar-nav .highlight-icon a {
-  color: #fff;
+  color: #FFB300;
 }
 
 .left-sidebar-nav .highlight-icon a .tile-icon {
-  color: #fff;
+  color: #FFB300;
 }
 

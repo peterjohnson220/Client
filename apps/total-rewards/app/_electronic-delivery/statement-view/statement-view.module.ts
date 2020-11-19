@@ -4,18 +4,17 @@ import { CommonModule } from '@angular/common';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { PDFExportModule } from '@progress/kendo-angular-pdf-export';
-
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfCommonModule } from 'libs/core';
 import { TotalRewardsStatementModule } from 'libs/features/total-rewards';
+import * as fromFaIcons from 'libs/features/total-rewards/total-rewards-statement/fa-icons';
 
 import { reducers } from './reducers';
 import { StatementViewRoutingModule } from './statement-view-routing.module';
 import { StatementViewPageComponent } from './statement-view.page';
 import { StatementViewPageEffects } from './effects/statement-view.page.effects';
-import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
   imports: [
@@ -32,7 +31,6 @@ import { SharedModule } from '../../shared/shared.module';
     PfCommonModule,
     PfCommonUIModule,
     TotalRewardsStatementModule,
-    SharedModule,
 
     // Routing
     StatementViewRoutingModule
@@ -42,5 +40,7 @@ import { SharedModule } from '../../shared/shared.module';
   ]
 })
 export class StatementViewModule {
-  constructor() {}
+  constructor(library: FaIconLibrary) {
+    library.addIcons(...fromFaIcons.faIcons);
+  }
 }

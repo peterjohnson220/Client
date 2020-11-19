@@ -1,7 +1,10 @@
-<ul class="left-sidebar-nav pt-2 pl-0 m-0 mb-4" (click)="leftSidebarToggle"
+<ul class="left-sidebar-nav pt-2 pl-0 m-0 mb-4"
     [ngClass]="{'left-sidebar-nav-open': leftSidebarToggle, 'left-sidebar-nav-close': !leftSidebarToggle}">
   <ng-container *ngFor="let sidebarLink of leftSidebarNavigationLinks$ | async">
-    <li class="py-2 pl-3 pr-0" [ngClass]="{'highlight-icon': checkSidebarLinkAgainstURL(sidebarLink)}">
+    <li class="py-2 pl-3 pr-0"
+        [ngClass]="{'highlight-icon': checkSidebarLinkAgainstURL(sidebarLink)}"
+        [title]="leftSidebarToggle ? '' : sidebarLink.DisplayName"
+        placement="right">
       <div>
         <a [href]="getSidebarHref(sidebarLink)">
           <fa-icon *ngIf="!!sidebarLink.FaIconClass" [icon]="sidebarLink.FaIconClass" class="tile-icon"></fa-icon>
@@ -11,7 +14,7 @@
     </li>
   </ng-container>
 </ul>
-<div class="left-sidebar-footer" [ngClass]="{'left-sidebar-footer-open': leftSidebarToggle, 'left-sidebar-footer-close': !leftSidebarToggle}">
+<div class="left-sidebar-footer" (click)="toggle()" [ngClass]="{'left-sidebar-footer-open': leftSidebarToggle, 'left-sidebar-footer-close': !leftSidebarToggle}">
 
   <div [ngClass]="{'left-sidebar-icon-open': leftSidebarToggle, 'left-sidebar-icon-close': !leftSidebarToggle}">
 

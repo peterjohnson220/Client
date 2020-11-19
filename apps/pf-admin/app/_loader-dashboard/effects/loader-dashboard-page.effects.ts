@@ -7,7 +7,7 @@ import {catchError, map, switchMap, withLatestFrom} from 'rxjs/operators';
 
 import * as fromRootState from 'libs/state/state';
 import { IntegrationApiService } from 'libs/data/payfactors-api/integration';
-import {CompanyFilePackagesResponse, CompositeDataLoadViewResponse} from 'libs/models/admin/loader-dashboard/response';
+import { CompanyFilePackagesResponse, CompositeDataLoadViewResponse, PagedResponse } from 'libs/models/';
 
 import * as fromLoaderDashboardPageActions from '../actions/loader-dashboard-page.actions';
 import {LoaderDashboardModelMappers} from '../helpers';
@@ -47,8 +47,8 @@ export class LoaderDashboardPageEffects {
       const searchPayload = LoaderDashboardModelMappers.mapGridSearchPayloadToSearchCriteria(obj.action.payload);
       return this.integrationApiService.SearchCompositeDataLoads(obj.userContext, searchPayload,
         obj.action.payload.Company_ID).pipe(
-          map((r: CompositeDataLoadViewResponse[]) => {
-            return new fromLoaderDashboardPageActions.GetCompositeLoadGridDataSuccess(r);
+          map((r: PagedResponse<CompositeDataLoadViewResponse>) => {
+            return new fromLoaderDashboardPageActions.GetCompositeLoadGridDataSuccess(r.results);
           }),
           catchError(e => of(new fromLoaderDashboardPageActions.GetCompositeLoadGridDataError()))
         );
@@ -98,6 +98,35 @@ export class LoaderDashboardPageEffects {
         }),
       switchMap((obj) => {
         return [new fromLoaderDashboardPageActions.GetAllGridData(obj.searchPayload)];
+      })
+    );
+
+  @Effect()
+  redropExportedSourceFile$: Observable<Action> = this.actions$
+    .pipe(
+      ofType<fromLoaderDashboardPageActions.RedropExportedSourceFile>(fromLoaderDashboardPageActions.REDROP_EXPORTED_SOURCE_FILE),
+      withLatestFrom(
+        this.store.pipe(select(fromRootState.getUserContext)),
+        (action, userContext) => {
+          return { action, userContext };
+        }),
+      switchMap(obj => {
+        return this.integrationApiService.RedropExportedSourceFile(obj.action.payload, obj.userContext).pipe(
+          map(() => new fromLoaderDashboardPageActions.RedropExportedSourceFileSuccess()),
+          catchError((e) => of(new fromLoaderDashboardPageActions.RedropExportedSourceFileError()))
+        );
+      })
+    );
+
+  @Effect()
+  redropExportedSourceFileSuccess$: Observable<Action> = this.actions$
+    .pipe(
+      ofType<fromLoaderDashboardPageActions.RedropExportedSourceFileSuccess>(fromLoaderDashboardPageActions.REDROP_EXPORTED_SOURCE_FILE_SUCCESS),
+      switchMap(() => {
+        return [
+          new fromLoaderDashboardPageActions.DismissRedropConfirmationModal(),
+          new fromLoaderDashboardPageActions.UpdateGridSearchPayload([])
+        ];
       })
     );
 

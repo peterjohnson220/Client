@@ -15,7 +15,7 @@
   <table class="data-cuts-table">
     <thead>
     <tr>
-      <th></th>
+      <th *ngIf="!cutsDraggable"></th>
       <th>Scope</th>
       <th class="text-center">Country</th>
       <th *ngIf="dataSource !== surveySearchResultDataSources.Payfactors" class="text-center">Weight</th>
@@ -35,7 +35,7 @@
             (click)="toggleDataCutSelection(dataCut)"
             [class.selected]="dataCut.IsSelected"
             [class.draggable]="dataCut.IsSelected && cutsDraggable">
-            <td><input type="checkbox" [ngModel]="dataCut.IsSelected" /> </td>
+            <td *ngIf="!cutsDraggable"><input type="checkbox" [ngModel]="dataCut.IsSelected" /> </td>
             <td class="scope-cell">
               {{dataCut.Title}}
             </td>
@@ -59,11 +59,15 @@
           </tr>
       </ng-container>
       <ng-container *ngSwitchCase="surveySearchResultDataSources.Peer">
+        <tr *ngIf="customizeScopeInMultimatchModalFlag.value" (click)="toggleRefineInPeerDisplay()">
+          <td></td>
+          <td colspan="8" class="link">Customize Your Scope for this Peer Job!</td>
+        </tr>
         <tr *ngFor="let dataCut of dataCuts; trackBy: trackById"
             (click)="toggleDataCutSelection(dataCut)"
             [class.selected]="dataCut.IsSelected"
             [class.draggable]="dataCut.IsSelected && cutsDraggable">
-          <td><input type="checkbox" [ngModel]="dataCut.IsSelected" /></td>
+          <td *ngIf="!cutsDraggable"><input type="checkbox" [ngModel]="dataCut.IsSelected" /> </td>
           <td class="scope-cell">
             {{dataCut?.Title}}
           </td>
@@ -84,7 +88,7 @@
       </ng-container>
       <ng-container *ngSwitchCase="surveySearchResultDataSources.Payfactors">
         <tr (click)="togglePayfactorsSelection()" [class.selected]="job.IsSelected" [class.draggable]="job.IsSelected && cutsDraggable">
-          <td><input type="checkbox" [ngModel]="job.IsSelected" /></td>
+          <td *ngIf="!cutsDraggable"><input type="checkbox" [ngModel]="job.IsSelected" /> </td>
           <td class="scope-cell">National</td>
           <td class="text-center">{{job.CountryCode}}</td>
           <td class="text-center">{{job.Base50th}}</td>

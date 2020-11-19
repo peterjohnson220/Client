@@ -27,7 +27,7 @@ export class LoadStatementError implements Action {
 
 export class GetEmployeeRewardsData implements Action {
   readonly type = GET_EMPLOYEE_REWARDS_DATA;
-  constructor(public payload: { companyEmployeeId: number }) {}
+  constructor(public payload: { companyEmployeeId: number, statementId: string }) {}
 }
 
 export class GetEmployeeRewardsDataSuccess implements Action {

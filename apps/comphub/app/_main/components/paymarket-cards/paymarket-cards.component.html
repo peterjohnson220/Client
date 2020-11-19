@@ -1,6 +1,8 @@
-<div class="paymarket-card-container" [perfectScrollbar]="psConfig">
+<div class="paymarket-card-container"
+     [perfectScrollbar]="psConfig"
+     (psXReachEnd)="loadMore()">
 
-  <div *ngFor="let paymarket of paymarkets; trackBy: trackById"
+  <div *ngFor="let paymarket of filteredPayMarkets; trackBy: trackById"
        class="paymarket-card"
        [class.selected]="selectedPaymarketId === paymarket.CompanyPayMarketId"
        [attr.data-qa-id]="'cnt-paymarket-card'"

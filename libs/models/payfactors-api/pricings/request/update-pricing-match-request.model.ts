@@ -1,4 +1,3 @@
-import { PricingUpdateStrategy } from './pricing-update-strategy.enum';
 
 export interface UpdatePricingMatchRequest {
   MatchId: number;
@@ -6,5 +5,4 @@ export interface UpdatePricingMatchRequest {
   MatchAdjustment: number;
   SurveyDataId: number;
   ExchangeDataCutId: number;
-  PricingUpdateStrategy: PricingUpdateStrategy;
 }

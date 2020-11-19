@@ -23,3 +23,4 @@ export * from './audit-record';
 export * from './settings';
 export * from './template';
 export * from './template-preview';
+export * from './selectable-fields-group.enum';

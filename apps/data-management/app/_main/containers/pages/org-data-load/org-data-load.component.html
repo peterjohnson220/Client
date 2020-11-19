@@ -75,7 +75,7 @@
                                   [selectedDelimiter]="selectedDelimiter"
                                   [selectedMapping]="selectedMapping"
                                   [mappingOptions]="mappingOptions"
-                                  (onMappingChange)="AddAndSetSelectedMapping($event)"
+                                  (onMappingChange)="selectedConfigChange($event)"
                                   (onDelimiterChange)="onDelimiterChange($event)">
                 </pf-entity-upload>
               </div>
@@ -84,7 +84,7 @@
                    class="px-5">
                 <pf-file-mapping [entities]="loadOptions"
                                  [selectedCompany]="selectedCompany"
-                                 [companySettings]="companySettings"
+                                 [existingCompanyLoaderSettings]="companySettings"
                                  [loaderConfigurationGroupId]="selectedMapping?.LoaderConfigurationGroupId"
                                  (mappingComplete)="onMappingComplete($event)">
                 </pf-file-mapping>
@@ -136,7 +136,7 @@
       <pf-email-recipients-modal class="float-right m-2"
                                  *ngIf="selectedCompany && stepIndex === stepEnum.FieldMapping"
                                  [companyId]="selectedCompany.CompanyId"
-                                 [loaderConfigurationGroupId]="loaderConfigGroup ? loaderConfigGroup.LoaderConfigurationGroupId : undefined"
+                                 [loaderConfigurationGroupId]="configGroupId"
                                  [loadType]="loadType"
                                  [primaryCompositeDataLoadType]="primaryCompositeDataLoadType"
                                  [savingError$]="emailRecipientsSavingError$"

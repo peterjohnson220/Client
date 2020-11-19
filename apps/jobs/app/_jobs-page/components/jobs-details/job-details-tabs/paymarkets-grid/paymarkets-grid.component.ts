@@ -9,26 +9,21 @@ import cloneDeep from 'lodash/cloneDeep';
 
 import { ActionBarConfig, getDefaultActionBarConfig, GridConfig, PfDataGridFilter } from 'libs/features/pf-data-grid/models';
 import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
-import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
 import { ReScopeSurveyDataModalConfiguration } from 'libs/features/re-scope-survey-data/models';
-import { PricingUpdateStrategy, UpdatePricingMatchRequest, ViewField } from 'libs/models/payfactors-api';
+import { UpdatePricingMatchRequest, ViewField } from 'libs/models/payfactors-api';
 import * as fromReScopeActions from 'libs/features/re-scope-survey-data/actions';
 import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
-import * as fromUpsertPeerActions from 'libs/features/upsert-peer-data-cut/actions';
 
 import * as fromPricingDetailsActions from 'libs/features/pricing-details/actions';
 import { ApiServiceType } from 'libs/features/notes-manager/constants/api-service-type-constants';
 import { PfThemeType } from 'libs/features/pf-data-grid/enums/pf-theme-type.enum';
-import { UpsertPeerDataCutModalConfiguration } from 'libs/features/upsert-peer-data-cut/models/upsert-peer-data-cut-modal-configuration';
 
-import * as fromJobsPageActions from '../../../../actions';
-import * as fromJobsPageReducer from '../../../../reducers';
+import * as fromModifyPricingsActions from '../../../../actions';
+import * as fromModifyPricingsReducer from '../../../../reducers';
 import { PageViewIds } from '../../../../constants';
 import { JobTitleCodePipe } from '../../../../pipes';
-
-
 
 @Component({
   selector: 'pf-paymarkets-grid',
@@ -98,7 +93,6 @@ export class PaymarketsGridComponent implements OnInit, AfterViewInit, OnDestroy
   selectedJobRowSubscription: Subscription;
 
   jobTitleCodePipe: JobTitleCodePipe;
-  hasInfiniteScrollFeatureFlagEnabled: boolean;
 
   // This is needed to refresh the matches grid after updating the scopes
   selectedPricingId: number;
@@ -112,17 +106,14 @@ export class PaymarketsGridComponent implements OnInit, AfterViewInit, OnDestroy
   pricingIdForNotes: number;
   payMarketForNotes: string;
 
-  constructor(private store: Store<fromJobsPageReducer.State>,
-    private actionsSubject: ActionsSubject,
-    private featureFlagService: AbstractFeatureFlagService) { }
+  constructor(private store: Store<fromModifyPricingsReducer.State>,
+    private actionsSubject: ActionsSubject
+  ) { }
 
   ngOnInit(): void {
     this.jobTitleCodePipe = new JobTitleCodePipe();
-
-    this.hasInfiniteScrollFeatureFlagEnabled = this.featureFlagService.enabled(FeatureFlags.PfDataGridInfiniteScroll, false);
-
     this.recalculatingPricingInfo$ = this.store
-      .select(fromJobsPageReducer.getRecalculatingPricingInfo)
+      .select(fromModifyPricingsReducer.getRecalculatingPricingInfo)
       .pipe(switchMap(ev => of(ev)))
       .pipe(debounce(ev => ev ? timer(2000) : EMPTY));
 
@@ -130,7 +121,7 @@ export class PaymarketsGridComponent implements OnInit, AfterViewInit, OnDestroy
       this.selectedJobRow = row;
     });
 
-    this.companyPayMarketsSubscription = this.store.select(fromJobsPageReducer.getCompanyPayMarkets)
+    this.companyPayMarketsSubscription = this.store.select(fromModifyPricingsReducer.getCompanyPayMarkets)
       .subscribe(o => {
         this.filteredPayMarketOptions = o;
         this.payMarketOptions = o;
@@ -165,8 +156,8 @@ export class PaymarketsGridComponent implements OnInit, AfterViewInit, OnDestroy
     };
     this.gridConfig = {
       PersistColumnWidth: false,
-      EnableInfiniteScroll: this.hasInfiniteScrollFeatureFlagEnabled,
-      ScrollToTop: this.hasInfiniteScrollFeatureFlagEnabled,
+      EnableInfiniteScroll: true,
+      ScrollToTop: true,
       SelectAllPanelItemName: 'pricings'
     };
 
@@ -288,12 +279,11 @@ export class PaymarketsGridComponent implements OnInit, AfterViewInit, OnDestroy
       MatchAdjustment: null,
       SurveyDataId: surveyDataId,
       ExchangeDataCutId: null,
-      PricingUpdateStrategy: PricingUpdateStrategy.ParentLinkedSlotted
     };
     const pricingId = this.selectedPricingId;
     const matchesGridPageViewId = `${PageViewIds.PricingMatches}_${pricingId}`;
 
-    this.store.dispatch(new fromJobsPageActions.UpdatingPricingMatch(request, pricingId, matchesGridPageViewId));
+    this.store.dispatch(new fromModifyPricingsActions.UpdatingPricingMatch(request, pricingId, matchesGridPageViewId));
     this.showReScopeSurveyDataModal.next(false);
   }
 

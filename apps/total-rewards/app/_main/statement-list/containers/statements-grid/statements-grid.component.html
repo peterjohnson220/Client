@@ -72,6 +72,13 @@
             <ng-container *ngSwitchCase="field.DataType === 'date'">
               {{dataItem[field.FieldName] | date: 'MM/dd/yyyy'}}
             </ng-container>
+
+            <ng-container *ngSwitchCase="field.FieldName === 'Employees'">
+              <a href="javascript:void(0);" (click)="navigateToStatementAssign(dataItem?.Id)">
+                {{dataItem[field.FieldName]}}
+              </a>
+            </ng-container>
+
             <ng-template ngSwitchDefault>
               {{dataItem[field.FieldName]}}
             </ng-template>
