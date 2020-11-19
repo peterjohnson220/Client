@@ -1,10 +1,13 @@
 <pf-async-container [loading]="(notes$ | async)?.loading" [smartLoadingMask]="false">
   <form id="notes-manager-form" [formGroup]="noteForm" class="h-100 overflow-hidden">
     <div class="d-flex flex-column h-100 overflow-hidden">
-      <div class="d-flex">
+      <div class="d-flex flex-shrink-0">
         <ng-container [ngTemplateOutlet]="notesHeader"></ng-container>
       </div>
-      <div  *ngIf="isEditable" class="pr-3 py-3" style="display: flex">
+      <div *ngIf="!isEditable && (notes$ | async)?.obj.length === 0 && !(notes$ | async)?.loading">
+        There are no notes for this match.
+      </div>
+      <div  *ngIf="isEditable" class="pr-3 py-3 flex-shrink-0" style="display: flex;">
         <div style="height: 45px; width: 45px;" class="mr-4"></div>
         <div class="d-flex flex-column w-100">
           <textarea
@@ -24,7 +27,7 @@
           </div>
         </div>
       </div>
-      
+
       <div class="overflow-hidden">
         <div class="text-danger" *ngIf="(notes$ | async)?.loadingError">
           <strong>
