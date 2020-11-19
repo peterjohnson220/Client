@@ -77,6 +77,16 @@ export const getSelectedDataCuts = createSelector(
   fromSurveySearchResultsReducer.getSelectedDataCuts
 );
 
+export const getRefining = createSelector(
+  selectSearchResultsState,
+  fromSurveySearchResultsReducer.getRefining
+);
+
+export const getRefiningJobId = createSelector(
+  selectSearchResultsState,
+  fromSurveySearchResultsReducer.getJobId
+);
+
 // Tooltip Container Selectors
 export const getLoadingMatchesDetails = createSelector(
   selectTooltipContainerState,

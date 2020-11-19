@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
-import { switchMap, map,  catchError } from 'rxjs/operators';
+import { switchMap, map, catchError, tap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
 import { TotalRewardsEDeliveryApiService } from 'libs/data/payfactors-api/total-rewards';
-import { TokenStatusResponse, TokenValidationResponse } from 'libs/models/payfactors-api/total-rewards/response';
+import { TokenStatusResponse, DeliveryResponse, StatementDownloadResponse } from 'libs/models/payfactors-api/total-rewards/response';
 
 import * as fromPageActions from '../actions/verification.page.actions';
 
@@ -35,10 +35,10 @@ export class VerificationPageEffects {
     this.actions$.pipe(
       ofType(fromPageActions.VALIDATE_TOKEN),
       switchMap((action: fromPageActions.ValidateToken) =>
-        this.totalRewardsApiService.validateToken({
+        this.totalRewardsApiService.deliverData({
           Token: action.payload
         }).pipe(
-          map((response: TokenValidationResponse) => {
+          map((response: DeliveryResponse) => {
             if (response.EmployeeData?.EmployeeDOH) {
               response.EmployeeData.EmployeeDOH = new Date(response.EmployeeData.EmployeeDOH);
             }
@@ -46,12 +46,40 @@ export class VerificationPageEffects {
               response.EmployeeData.EmployeeDOB = new Date(response.EmployeeData.EmployeeDOB);
             }
             if (response.Statement) {
-              response.Statement.EffectiveDate = new Date();
+              response.Statement.EffectiveDate = !!response.Statement.EffectiveDate ?
+                new Date(response.Statement.EffectiveDate) :
+                new Date();
             }
             return new fromPageActions.ValidateTokenSuccess(response);
           }),
           catchError(error => of(new fromPageActions.ValidateTokenError()))
         ))
+    );
+
+  @Effect()
+  getStatementDownload$: Observable<Action> =
+    this.actions$.pipe(
+      ofType(fromPageActions.START_DOWNLOAD_PDF),
+      switchMap((action: fromPageActions.StartDownloadPdf) =>
+        this.totalRewardsApiService.getStatementDownload().pipe(
+          map((response: StatementDownloadResponse) => {
+            if (!!response.FileDownloadLink) {
+              return new fromPageActions.DownloadPdfSuccess(response.FileDownloadLink);
+            } else {
+              return new fromPageActions.StartDownloadPdfSuccess();
+            }
+          }),
+          catchError(error => of(new fromPageActions.ValidateTokenError()))
+        ))
+    );
+
+  @Effect({dispatch: false})
+  downloadStatementSuccess$: Observable<Action> =
+    this.actions$.pipe(
+      ofType(fromPageActions.DOWNLOAD_PDF_SUCCESS),
+      tap((action: fromPageActions.DownloadPdfSuccess) => {
+        window.location.href = action.payload;
+      })
     );
 
   constructor(

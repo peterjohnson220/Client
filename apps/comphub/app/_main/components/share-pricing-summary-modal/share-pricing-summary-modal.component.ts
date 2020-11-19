@@ -11,9 +11,10 @@ import { PfValidators } from 'libs/forms';
 })
 export class SharePricingSummaryModalComponent implements OnInit {
   @Input() isOpen$: Observable<boolean>;
+  @Input() isSendingEmail: boolean;
   @Input() sharingConflict: boolean;
   @Input() sharingError: boolean;
-  @Output() sendClick = new EventEmitter<{ emailAddress: string }>();
+  @Output() sendClick = new EventEmitter<{ emailAddress: string, note: string }>();
   @Output() cancelClick = new EventEmitter();
 
   sharePricingSummaryForm: FormGroup;
@@ -27,13 +28,17 @@ export class SharePricingSummaryModalComponent implements OnInit {
 
   createForm() {
     this.sharePricingSummaryForm = this.fb.group({
-      'emailAddress': ['', [PfValidators.required, Validators.email]]
+      'emailAddress': ['', [PfValidators.required, Validators.email]],
+      'note': ['']
     });
   }
 
   handleSendClicked() {
     this.showErrorMessages = true;
-    this.sendClick.emit(this.sharePricingSummaryForm.value.emailAddress);
+    this.sendClick.emit({
+      emailAddress: this.sharePricingSummaryForm.value.emailAddress,
+      note: this.sharePricingSummaryForm.value.note
+    });
   }
 
   handleCancelClicked() {

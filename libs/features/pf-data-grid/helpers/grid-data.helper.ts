@@ -8,7 +8,7 @@ export class GridDataHelper {
   static getLoadDataAction(pageViewId: string, gridData: GridDataResult, gridConfig: GridConfig, pagingOptions: PagingOptions) {
     if (gridData != null && gridConfig != null && pagingOptions != null && gridConfig.EnableInfiniteScroll) {
       let totalPages = Math.floor(gridData.data.length / pagingOptions.Count);
-      if (gridData.data.length % pagingOptions.Count !== 0) {
+      if (totalPages === 0 || gridData.data.length % pagingOptions.Count !== 0) {
         totalPages++;
       }
       return new fromActions.ReloadData(pageViewId, totalPages * pagingOptions.Count);

@@ -15,7 +15,7 @@
         (onContinueIntegrationSetupClicked)="continueSetup($event)"
       ></pf-hris-integration-panel>
     </div>
-    <div class="col-sm-12 col-md-6">
+    <div class="col-sm-12 col-md-6" *ngIf="!jdmOutboundIntegrationFlag.value">
       <pf-hris-integration-panel
         [pfSecuredResource]="permissions.HRIS_OUTBOUND_INTEGRATION"
         [transferMethodType]="outboundjdm"
@@ -27,8 +27,15 @@
         (onContinueIntegrationSetupClicked)="continueSetup($event)"
       ></pf-hris-integration-panel>
     </div>
+    <div class="col-sm-12 col-md-6" *ngIf="jdmOutboundIntegrationFlag.value">
+      <pf-hris-integration-panel
+        [pfSecuredResource]="permissions.HRIS_OUTBOUND_INTEGRATION"
+        [transferMethodType]="outboundjdm"
+        (onCreateNewIntegrationClicked)="createNewIntegration($event)"
+      ></pf-hris-integration-panel>
+    </div>
   </div>
-  <div class="row" *ngIf="false">
+  <div class="row" *ngIf="loadAndExportsFilesCardFlag.value">
     <div class="col=sm-12 col-md-6">
       <pf-load-and-export-files-card></pf-load-and-export-files-card>
     </div>

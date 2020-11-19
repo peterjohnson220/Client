@@ -1,1 +1,1 @@
-export * from 'app-notifications.actions';
+export * from './app-notifications.actions';

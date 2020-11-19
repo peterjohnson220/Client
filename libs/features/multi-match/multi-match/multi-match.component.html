@@ -30,10 +30,15 @@
 </ng-template>
 
 <ng-template #multiMatchContent>
-  <div class="multi-match-content">
-    <div *ngIf="hasError" class="alert alert-danger">
-      Something went wrong. Please try again later.
-    </div>
+  <div *ngIf="hasError && display=='modal'" class="alert alert-danger">
+    Something went wrong. Please try again later.
+  </div>
+  <div *ngIf="!hasError && display=='modal'" class="alert alert-info">
+    Select one or multiple cuts from your search results by clicking anywhere in the cut.
+    Drag and drop in the company job in the right hand panel to add those cuts to that job. Once you have added your cuts, click Save to create the pricing.
+  </div>
+<!--  TODO: Come up with a better way to handle refining here, doesn't really make sense here [JP]-->
+  <div *ngIf="!(refiningPeerCut$ | async); else refineScopeMap" class="multi-match-content">
     <pf-search-layout [resultsCount]="numberOfResults$ | async">
       <ng-container sidebar>
         <pf-search-filters
@@ -82,8 +87,18 @@
   <pf-survey-search-results
     [cutsDraggable]="true"
     [implementation]="display"
+    [refineInPeerEnabled]="customizeScopeInMultimatchModalFlag.value"
+    [refineInPeerReadyDefault]="true"
   ></pf-survey-search-results>
   <pf-jobs-to-price-container
     [featureImplementation]="featureImplementation"
   ></pf-jobs-to-price-container>
+</ng-template>
+
+<ng-template #refineScopeMap>
+  <pf-upsert-peer-data-cut
+    [entityConfiguration]="entityConfiguration"
+    [companyJobId]="-1"
+    [companyPayMarketId]="companyPayMarketId"
+  ></pf-upsert-peer-data-cut>
 </ng-template>

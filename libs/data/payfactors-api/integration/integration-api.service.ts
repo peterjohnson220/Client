@@ -6,7 +6,7 @@ import { DBEntityType } from 'apps/data-management/app/_main/models/db-entitytyp
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
-import { FileType, UserContext } from 'libs/models';
+import { FileType, PagedResponse, UserContext } from 'libs/models';
 
 import { CompositeSummaryDownloadRequest } from '../../../models/dashboard';
 import {CompositeDataLoadSearchCriteria, CompositeDataLoadViewResponse} from '../../../models/admin/loader-dashboard';
@@ -28,7 +28,7 @@ export class IntegrationApiService {
   ) { }
 
   SearchCompositeDataLoads(userContext: UserContext, payload: CompositeDataLoadSearchCriteria,
-                           companyId?: number): Observable<CompositeDataLoadViewResponse[]> {
+                           companyId?: number): Observable<PagedResponse<CompositeDataLoadViewResponse>> {
     const host = this.getAPIBase(userContext);
     let apiURL = '';
     if (!companyId) {
@@ -144,6 +144,27 @@ export class IntegrationApiService {
         };
 
         return this.fileApiService.downloadFile(downloadUrl, request.Id, options);
+      }),
+    );
+  }
+
+  RedropExportedSourceFile(compositeDataLoadId: number, userContext: UserContext) {
+    const host = this.getAPIBase(userContext);
+    const apiURL = `${host}/company/${userContext.CompanyId}/ExportedSourceFile/Redrop`;
+
+    // use fetchAuthToken as a stop-gap until we have a better auth system
+    return this.fetchAuthToken().pipe(
+      switchMap(token => {
+        const headers = new HttpHeaders({
+          Authorization: `Bearer ${token}`,
+        });
+
+        const options: any = {
+          headers,
+        };
+
+        return this.http.post(apiURL, compositeDataLoadId, options).pipe(
+          map((response: any) => response));
       }),
     );
   }

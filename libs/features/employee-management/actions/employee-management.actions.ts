@@ -292,7 +292,7 @@ export class GetTotalRewardsStatementError implements Action {
 
 export class GetEmployeeTotalRewardsData implements Action {
   readonly type = GET_EMPLOYEE_TOTAL_REWARDS_DATA;
-  constructor(public payload: number) {}
+  constructor(public payload: { companyEmployeeId: number, statementId: string }) {}
 }
 
 export class GetEmployeeTotalRewardsDataSuccess implements Action {

@@ -3,4 +3,6 @@ export interface GridSearchPayload {
   StartDate?: number;
   EndDate?: number;
   ExcludeTestCompanies: boolean;
+  Page?: number;
+  PageSize?: number;
 }

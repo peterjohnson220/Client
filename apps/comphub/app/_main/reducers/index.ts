@@ -363,6 +363,11 @@ export const getSharePricingSummaryConflict = createSelector(
   fromSummaryCardReducer.getSharePricingSummaryConflict
 );
 
+export const getSendingQuickPriceShareEmail = createSelector(
+  selectSummaryCardState,
+  fromSummaryCardReducer.getSendingQuickPriceShareEmail
+);
+
 export const getCreatingProject = createSelector(
   selectSummaryCardState,
   fromSummaryCardReducer.getCreatingProject

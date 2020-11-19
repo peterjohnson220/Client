@@ -56,3 +56,14 @@ export const getLockedUntil = createSelector(
   selectPageState,
   fromPageReducer.getLockedUntil
 );
+
+export const getNotificationsToken = createSelector(
+  selectPageState,
+  fromPageReducer.getNotificationsToken
+);
+
+export const getDownloadingPdf = createSelector(
+  selectPageState,
+  fromPageReducer.getDownloadingPdf
+);
+

@@ -2,14 +2,18 @@
 
 exports[`Project - Survey Search - Data Cuts should display Scope, Country and Weight 1`] = `
 <pf-data-cuts
+  customizeScopeInMultimatchModalFlag={[Function Object]}
   dataCutSelected={[Function EventEmitter]}
   dataCuts={[Function Array]}
+  featureFlagService={[Function Object]}
   job={[Function Object]}
   matchesMouseEnter={[Function EventEmitter]}
   matchesMouseLeave={[Function EventEmitter]}
   matchesMouseLeaveTimeout={[Function Number]}
   payFactorsCutSelected={[Function EventEmitter]}
+  refineInPeerClicked={[Function EventEmitter]}
   surveySearchResultDataSources={[Function Object]}
+  unsubscribe$={[Function Subject]}
 >
   <div
     class="data-cuts-container"
@@ -24,6 +28,7 @@ exports[`Project - Survey Search - Data Cuts should display Scope, Country and W
     >
       <thead>
         <tr>
+          
           <th />
           <th>
             Scope
@@ -67,6 +72,7 @@ exports[`Project - Survey Search - Data Cuts should display Scope, Country and W
         
         
         <tr>
+          
           <td>
             <input
               type="checkbox"
@@ -141,16 +147,20 @@ exports[`Project - Survey Search - Data Cuts should display Scope, Country and W
 
 exports[`Project - Survey Search - Data Cuts should display singular drag cuts message if single cut selected 1`] = `
 <pf-data-cuts
+  customizeScopeInMultimatchModalFlag={[Function Object]}
   cutsDraggable="false"
   dataCutSelected={[Function EventEmitter]}
   dataCuts={[Function Array]}
+  featureFlagService={[Function Object]}
   job={[Function Object]}
   matchesMouseEnter={[Function EventEmitter]}
   matchesMouseLeave={[Function EventEmitter]}
   matchesMouseLeaveTimeout={[Function Number]}
   numberCutsSelected={[Function Number]}
   payFactorsCutSelected={[Function EventEmitter]}
+  refineInPeerClicked={[Function EventEmitter]}
   surveySearchResultDataSources={[Function Object]}
+  unsubscribe$={[Function Subject]}
 >
   <div
     class="data-cuts-container"
@@ -165,6 +175,7 @@ exports[`Project - Survey Search - Data Cuts should display singular drag cuts m
     >
       <thead>
         <tr>
+          
           <th />
           <th>
             Scope
@@ -210,6 +221,7 @@ exports[`Project - Survey Search - Data Cuts should display singular drag cuts m
         <tr
           class="selected"
         >
+          
           <td>
             <input
               type="checkbox"
@@ -284,14 +296,18 @@ exports[`Project - Survey Search - Data Cuts should display singular drag cuts m
 
 exports[`Project - Survey Search - Data Cuts should handle empty currency fields 1`] = `
 <pf-data-cuts
+  customizeScopeInMultimatchModalFlag={[Function Object]}
   dataCutSelected={[Function EventEmitter]}
   dataCuts={[Function Array]}
+  featureFlagService={[Function Object]}
   job={[Function Object]}
   matchesMouseEnter={[Function EventEmitter]}
   matchesMouseLeave={[Function EventEmitter]}
   matchesMouseLeaveTimeout={[Function Number]}
   payFactorsCutSelected={[Function EventEmitter]}
+  refineInPeerClicked={[Function EventEmitter]}
   surveySearchResultDataSources={[Function Object]}
+  unsubscribe$={[Function Subject]}
 >
   <div
     class="data-cuts-container"
@@ -306,6 +322,7 @@ exports[`Project - Survey Search - Data Cuts should handle empty currency fields
     >
       <thead>
         <tr>
+          
           <th />
           <th>
             Scope
@@ -349,6 +366,7 @@ exports[`Project - Survey Search - Data Cuts should handle empty currency fields
         
         
         <tr>
+          
           <td>
             <input
               type="checkbox"
@@ -423,15 +441,19 @@ exports[`Project - Survey Search - Data Cuts should handle empty currency fields
 
 exports[`Project - Survey Search - Data Cuts should have a draggable class if cuts draggable and cut is selected 1`] = `
 <pf-data-cuts
+  customizeScopeInMultimatchModalFlag={[Function Object]}
   cutsDraggable={[Function Boolean]}
   dataCutSelected={[Function EventEmitter]}
   dataCuts={[Function Array]}
+  featureFlagService={[Function Object]}
   job={[Function Object]}
   matchesMouseEnter={[Function EventEmitter]}
   matchesMouseLeave={[Function EventEmitter]}
   matchesMouseLeaveTimeout={[Function Number]}
   payFactorsCutSelected={[Function EventEmitter]}
+  refineInPeerClicked={[Function EventEmitter]}
   surveySearchResultDataSources={[Function Object]}
+  unsubscribe$={[Function Subject]}
 >
   <div
     class="data-cuts-container"
@@ -446,7 +468,7 @@ exports[`Project - Survey Search - Data Cuts should have a draggable class if cu
     >
       <thead>
         <tr>
-          <th />
+          
           <th>
             Scope
           </th>
@@ -491,11 +513,7 @@ exports[`Project - Survey Search - Data Cuts should have a draggable class if cu
         <tr
           class="selected draggable"
         >
-          <td>
-            <input
-              type="checkbox"
-            />
-          </td>
+          
           <td
             class="scope-cell"
           >
@@ -565,15 +583,19 @@ exports[`Project - Survey Search - Data Cuts should have a draggable class if cu
 
 exports[`Project - Survey Search - Data Cuts should not have a draggable class if cuts draggable and cut is not selected 1`] = `
 <pf-data-cuts
+  customizeScopeInMultimatchModalFlag={[Function Object]}
   cutsDraggable={[Function Boolean]}
   dataCutSelected={[Function EventEmitter]}
   dataCuts={[Function Array]}
+  featureFlagService={[Function Object]}
   job={[Function Object]}
   matchesMouseEnter={[Function EventEmitter]}
   matchesMouseLeave={[Function EventEmitter]}
   matchesMouseLeaveTimeout={[Function Number]}
   payFactorsCutSelected={[Function EventEmitter]}
+  refineInPeerClicked={[Function EventEmitter]}
   surveySearchResultDataSources={[Function Object]}
+  unsubscribe$={[Function Subject]}
 >
   <div
     class="data-cuts-container"
@@ -588,7 +610,7 @@ exports[`Project - Survey Search - Data Cuts should not have a draggable class i
     >
       <thead>
         <tr>
-          <th />
+          
           <th>
             Scope
           </th>
@@ -631,11 +653,7 @@ exports[`Project - Survey Search - Data Cuts should not have a draggable class i
         
         
         <tr>
-          <td>
-            <input
-              type="checkbox"
-            />
-          </td>
+          
           <td
             class="scope-cell"
           >
@@ -705,15 +723,19 @@ exports[`Project - Survey Search - Data Cuts should not have a draggable class i
 
 exports[`Project - Survey Search - Data Cuts should not have a draggable class if cuts not draggable and cut is selected 1`] = `
 <pf-data-cuts
+  customizeScopeInMultimatchModalFlag={[Function Object]}
   cutsDraggable="false"
   dataCutSelected={[Function EventEmitter]}
   dataCuts={[Function Array]}
+  featureFlagService={[Function Object]}
   job={[Function Object]}
   matchesMouseEnter={[Function EventEmitter]}
   matchesMouseLeave={[Function EventEmitter]}
   matchesMouseLeaveTimeout={[Function Number]}
   payFactorsCutSelected={[Function EventEmitter]}
+  refineInPeerClicked={[Function EventEmitter]}
   surveySearchResultDataSources={[Function Object]}
+  unsubscribe$={[Function Subject]}
 >
   <div
     class="data-cuts-container"
@@ -728,6 +750,7 @@ exports[`Project - Survey Search - Data Cuts should not have a draggable class i
     >
       <thead>
         <tr>
+          
           <th />
           <th>
             Scope
@@ -773,6 +796,7 @@ exports[`Project - Survey Search - Data Cuts should not have a draggable class i
         <tr
           class="selected"
         >
+          
           <td>
             <input
               type="checkbox"
@@ -847,16 +871,20 @@ exports[`Project - Survey Search - Data Cuts should not have a draggable class i
 
 exports[`Project - Survey Search - Data Cuts should pluralize drag cuts message if multiple data cuts selected 1`] = `
 <pf-data-cuts
+  customizeScopeInMultimatchModalFlag={[Function Object]}
   cutsDraggable="false"
   dataCutSelected={[Function EventEmitter]}
   dataCuts={[Function Array]}
+  featureFlagService={[Function Object]}
   job={[Function Object]}
   matchesMouseEnter={[Function EventEmitter]}
   matchesMouseLeave={[Function EventEmitter]}
   matchesMouseLeaveTimeout={[Function Number]}
   numberCutsSelected={[Function Number]}
   payFactorsCutSelected={[Function EventEmitter]}
+  refineInPeerClicked={[Function EventEmitter]}
   surveySearchResultDataSources={[Function Object]}
+  unsubscribe$={[Function Subject]}
 >
   <div
     class="data-cuts-container"
@@ -871,6 +899,7 @@ exports[`Project - Survey Search - Data Cuts should pluralize drag cuts message 
     >
       <thead>
         <tr>
+          
           <th />
           <th>
             Scope
@@ -916,6 +945,7 @@ exports[`Project - Survey Search - Data Cuts should pluralize drag cuts message 
         <tr
           class="selected"
         >
+          
           <td>
             <input
               type="checkbox"
@@ -993,14 +1023,18 @@ exports[`Project - Survey Search - Data Cuts should pluralize drag cuts message 
 exports[`Project - Survey Search - Data Cuts should show a message when there is no data cuts 1`] = `
 <pf-data-cuts
   currencyCode=""
+  customizeScopeInMultimatchModalFlag={[Function Object]}
   dataCutSelected={[Function EventEmitter]}
   dataCuts={[Function Array]}
+  featureFlagService={[Function Object]}
   job={[Function Object]}
   matchesMouseEnter={[Function EventEmitter]}
   matchesMouseLeave={[Function EventEmitter]}
   matchesMouseLeaveTimeout={[Function Number]}
   payFactorsCutSelected={[Function EventEmitter]}
+  refineInPeerClicked={[Function EventEmitter]}
   surveySearchResultDataSources={[Function Object]}
+  unsubscribe$={[Function Subject]}
 >
   <div
     class="data-cuts-container"
@@ -1021,14 +1055,18 @@ exports[`Project - Survey Search - Data Cuts should show a message when there is
 
 exports[`Project - Survey Search - Data Cuts should show selected if the data cut has been selected 1`] = `
 <pf-data-cuts
+  customizeScopeInMultimatchModalFlag={[Function Object]}
   dataCutSelected={[Function EventEmitter]}
   dataCuts={[Function Array]}
+  featureFlagService={[Function Object]}
   job={[Function Object]}
   matchesMouseEnter={[Function EventEmitter]}
   matchesMouseLeave={[Function EventEmitter]}
   matchesMouseLeaveTimeout={[Function Number]}
   payFactorsCutSelected={[Function EventEmitter]}
+  refineInPeerClicked={[Function EventEmitter]}
   surveySearchResultDataSources={[Function Object]}
+  unsubscribe$={[Function Subject]}
 >
   <div
     class="data-cuts-container"
@@ -1043,6 +1081,7 @@ exports[`Project - Survey Search - Data Cuts should show selected if the data cu
     >
       <thead>
         <tr>
+          
           <th />
           <th>
             Scope
@@ -1088,6 +1127,7 @@ exports[`Project - Survey Search - Data Cuts should show selected if the data cu
         <tr
           class="selected"
         >
+          
           <td>
             <input
               type="checkbox"

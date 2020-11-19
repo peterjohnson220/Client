@@ -92,6 +92,13 @@ export const getPricingNotesSheetName = (state: State) => {
   const setting = state.fileUploadSettings.find(x => x.KeyName === LoaderSettingKeyName.PricingNotesSheetName);
   return setting.KeyValue;
 };
+export const getPricingMatchNotesSheetName = (state: State) => {
+  if (!state.fileUploadSettings) {
+    return null;
+  }
+  const setting = state.fileUploadSettings.find(x => x.KeyName === LoaderSettingKeyName.PricingMatchNotesSheetName);
+  return setting.KeyValue;
+};
 export const getValidationOnly = (state: State) => {
   if (!state.fileUploadSettings) {
     return false;

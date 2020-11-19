@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, Input, forwardRef, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnDestroy, OnInit, Input, forwardRef, OnChanges, SimpleChanges, AfterViewInit } from '@angular/core';
 import { FormControl, FormGroup, Validators, NG_VALUE_ACCESSOR, NG_VALIDATORS, ControlValueAccessor } from '@angular/forms';
 
 import { Store, select } from '@ngrx/store';
@@ -35,7 +35,7 @@ import { PagesHelper } from '../../helpers/pages.helper';
     }
   ]
 })
-export class StructuresFormulaEditorComponent implements ControlValueAccessor, OnInit, OnDestroy, OnChanges {
+export class StructuresFormulaEditorComponent implements ControlValueAccessor, OnInit, AfterViewInit, OnDestroy, OnChanges {
   @Input() metadata: RangeGroupMetadata;
   @Input() attemptedSubmit: boolean;
 
@@ -53,6 +53,9 @@ export class StructuresFormulaEditorComponent implements ControlValueAccessor, O
   baseEntity: DataViewEntity;
   formulaFieldObj: FormulaFieldModalObj;
   formulaChanged: Subject<string> = new Subject<string>();
+  pageLoaded = false;
+  resetFormula = false;
+  formula: string;
 
   formulaFieldSuggestions$: Observable<Suggestion[]>;
   validating$: Observable<boolean>;
@@ -62,6 +65,7 @@ export class StructuresFormulaEditorComponent implements ControlValueAccessor, O
   saveFormulaFieldSuccess$: Observable<boolean>;
   saveFormulaFieldError$: Observable<boolean>;
   savingErrorMessage$: Observable<string>;
+  resetFormula$: Observable<boolean>;
 
   subscriptions: Subscription[] = [];
 
@@ -81,10 +85,10 @@ export class StructuresFormulaEditorComponent implements ControlValueAccessor, O
     this.savingErrorMessage$ = this.store.pipe(select(fromJobBasedRangeReducer.getFormulaSavingErrorMessage));
     this.saveFormulaFieldError$ = this.store.pipe(select(fromJobBasedRangeReducer.getFormulaSavingError));
     this.saveFormulaFieldSuccess$ = this.store.pipe(select(fromJobBasedRangeReducer.getFormulaSavingSuccess));
+    this.resetFormula$ = this.store.pipe(select(fromJobBasedRangeReducer.getResetFormula));
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-
     if (!!changes && !!changes.metadata) {
       const metadata = changes.metadata.currentValue;
       const setting = metadata?.RangeDistributionSetting;
@@ -94,6 +98,7 @@ export class StructuresFormulaEditorComponent implements ControlValueAccessor, O
       } else {
         this.formulaFieldObj = this.getDefaultFormulaField();
       }
+      this.formula = this.formulaFieldObj.Formula;
     }
   }
 
@@ -110,9 +115,25 @@ export class StructuresFormulaEditorComponent implements ControlValueAccessor, O
         this.onTouched();
       }),
 
+      this.savedFormulaField$.subscribe(f => {
+        if (!!f) {
+          this.formulaFieldObj = cloneDeep(this.mapFormulaFieldObject(f));
+          this.formula = String(this.formulaFieldObj.Formula);
+          this.structuresFormulaForm.controls['FormulaId'].setValue(f.FormulaId);
+        }
+      }),
+
+      this.resetFormula$.subscribe(rf => {
+        this.resetFormula = rf;
+        if (rf === true) {
+          this.formulaFieldObj = this.getDefaultFormulaField();
+          this.formula = String(this.formulaFieldObj.Formula);
+        }
+      }),
+
       this.baseEntity$.subscribe(e => {
         this.baseEntity = e;
-        if (!!this.baseEntity && !!this.formulaFieldObj.Formula) {
+        if (!!this.baseEntity && !!this.formulaFieldObj.Formula && !this.resetFormula) {
           this.store.dispatch(new fromFormulaFieldActions.ValidateFormula({ formula: this.formulaFieldObj.Formula, baseEntityId: this.baseEntity?.Id }));
         }
       }),
@@ -123,24 +144,21 @@ export class StructuresFormulaEditorComponent implements ControlValueAccessor, O
 
       this.formulaValid$.subscribe(result => {
         this.isValidFormula = result;
-        if (this.isValidFormula && this.structuresFormulaForm.controls['FieldName'].valid) {
+        if (!this.resetFormula && this.isValidFormula && this.structuresFormulaForm.controls['FieldName'].valid) {
           this.structuresFormulaForm.controls['Formula'].setValue(this.formulaFieldObj.Formula);
           this.store.dispatch(new fromFormulaFieldActions.SaveFormulaField({ formula: this.getFormulaField(), baseEntityId: this.baseEntity?.Id }));
         }
       }),
 
       this.formulaChanged.pipe(debounceTime(this.VALIDATE_DEBOUNCE_TIME))
-        .subscribe((value) => this.handleFormulaChangedAfterDebounceTime(value))
+        .subscribe((value) => this.handleFormulaChangedAfterDebounceTime(value)),
+
+      this.saveFormulaFieldSuccess$.subscribe(s => this.successfulFormulaSave = s)
     );
+  }
 
-    this.saveFormulaFieldSuccess$.subscribe(s => this.successfulFormulaSave = s);
-
-    this.savedFormulaField$.subscribe(f => {
-      if (!!f) {
-        this.formulaFieldObj = cloneDeep(this.mapFormulaFieldObject(f));
-        this.structuresFormulaForm.controls['FormulaId'].setValue(f.FormulaId);
-      }
-    });
+  ngAfterViewInit() {
+    this.pageLoaded = true;
   }
 
   ngOnDestroy(): void {
@@ -151,11 +169,12 @@ export class StructuresFormulaEditorComponent implements ControlValueAccessor, O
   buildForm() {
     this.structuresFormulaForm = new FormGroup({
       'FormulaId': new FormControl(this.formulaFieldObj.FormulaId, [Validators.required]),
-      'Formula': new FormControl({ value: this.formulaFieldObj.Formula }, [Validators.required]),
+      'Formula': new FormControl({ value: this.formulaFieldObj.Formula }),
       'FieldName': new FormControl({ value: this.formulaFieldObj.FieldName, disabled: false },
         [Validators.required, PfValidators.minLengthTrimWhitespace(1), Validators.maxLength(this.maxFieldNameLength)]),
       'IsPublic': new FormControl({ value: this.formulaFieldObj.IsPublic })
     });
+    (setTimeout(_ => this.structuresFormulaForm.updateValueAndValidity()));
   }
 
   getFormulaField(): FormulaFieldModalObj {
@@ -175,7 +194,7 @@ export class StructuresFormulaEditorComponent implements ControlValueAccessor, O
     return this.formulaFieldObj = {
       FormulaId: null,
       FieldName: null,
-      Formula: null,
+      Formula: '',
       IsEditable: true,
       DuplicateAllowed: false,
       IsPublic: true,
@@ -197,7 +216,7 @@ export class StructuresFormulaEditorComponent implements ControlValueAccessor, O
     };
   }
 
-  handleFormulaNameChange(value) {
+  handleFormulaNameChange() {
     if (!!this.formulaFieldObj.Formula && this.isValidFormula) {
       this.store.dispatch(new fromFormulaFieldActions.SaveFormulaField({ formula: this.getFormulaField(), baseEntityId: this.baseEntity?.Id }));
     }
@@ -206,7 +225,6 @@ export class StructuresFormulaEditorComponent implements ControlValueAccessor, O
   handlePublicChange() {
     this.formulaFieldObj.IsPublic = !this.formulaFieldObj.IsPublic;
     this.structuresFormulaForm.controls['IsPublic'].setValue(this.formulaFieldObj.IsPublic);
-
     if (this.isValid()) {
       this.store.dispatch(new fromFormulaFieldActions.SaveFormulaField({ formula: this.getFormulaField(), baseEntityId: this.baseEntity?.Id }));
     }
@@ -215,6 +233,7 @@ export class StructuresFormulaEditorComponent implements ControlValueAccessor, O
   handleFormulaChanged(value: string): void {
     this.isWaitingForValidation = true;
     this.formulaChanged.next(value);
+    this.store.dispatch(new fromFormulaFieldActions.WaitForFormulaValidation());
   }
 
   private handleFormulaChangedAfterDebounceTime(value: string): void {
@@ -231,7 +250,11 @@ export class StructuresFormulaEditorComponent implements ControlValueAccessor, O
   }
 
   isValid(): boolean {
-    return this.structuresFormulaForm.valid && !!this.formulaFieldObj.Formula && this.isValidFormula && !!this.formulaFieldObj?.FormulaId;
+    if (this.pageLoaded) {
+      return this.structuresFormulaForm.valid && !!this.formulaFieldObj.Formula && this.isValidFormula && !!this.formulaFieldObj?.FormulaId;
+    } else {
+      return false;
+    }
   }
 
   get value(): FormulaFieldModalObj {
@@ -256,8 +279,13 @@ export class StructuresFormulaEditorComponent implements ControlValueAccessor, O
     }
   }
 
+  // communicate the inner form validation to the parent form
   validate(_: FormControl) {
-    return this.isValid() ? null : { Formula: { valid: false } };
+    if (this.pageLoaded) {
+      return this.isValid() ? null : { Formula: { valid: false } };
+    } else {
+      return false;
+    }
   }
 
   registerOnChange(fn: any): void {

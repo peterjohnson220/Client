@@ -221,6 +221,9 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
   }
 
   bindEmployeeDataHtml(): SafeHtml {
+    if (!this.htmlContent) {
+      return '';
+    }
     const $ = cheerio.load('<div class=\'ql-editor\'>' + this.htmlContent + '</div>');
     const spans = $('.ql-editor span').toArray();
     for (const span of spans) {
@@ -230,11 +233,6 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
       }
     }
     return this.sanitizer.bypassSecurityTrustHtml($.html());
-  }
-
-  getDataFieldPlaceholderText(dataFieldKey: string): string {
-    const dataField = this.controlData.DataFields.find(df => df.Key === dataFieldKey);
-    return dataField.Value;
   }
 
   getFormattedDataFieldValue(dataFieldKey: string): string {

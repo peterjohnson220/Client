@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { StoreModule } from '@ngrx/store';
 import { NgbTabsetModule, NgbTooltipModule, NgbPopoverModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
@@ -30,49 +30,50 @@ import { RangeValuePipe } from './pipes';
 import { reducers } from './reducers';
 import { StructuresPagesService, UrlService } from './services';
 import * as fromFaIcons from './fa-icons';
-import { AdvancedModelingComponent } from './containers/advanced-modeling';
+import { AdvancedModelSettingComponent } from './containers/advanced-model-setting';
 import { StructuresFormulaEditorComponent } from './containers/structures-formula-editor/structures-formula-editor.component';
 
 @NgModule({
-  imports: [
-    // Angular
-    CommonModule,
-    RouterModule,
+    imports: [
+        // Angular
+        CommonModule,
+        RouterModule,
 
-    // 3rd Party
-    StoreModule.forFeature('structures_jobBasedRange_shared', reducers),
-    EffectsModule.forFeature([
-      ModelSettingsModalEffects,
-      PublishModelModalEffects,
-      SharedEffects,
-      DuplicateModelModalEffects,
-      FieldsEffects,
-      FormulaFieldEffects
-    ]),
-    FontAwesomeModule,
-    NgbTabsetModule,
-    AutoCompleteModule,
-    ComboBoxModule,
-    NgbTooltipModule,
-    NgbPopoverModule,
-    NgbDropdownModule,
-    CodemirrorModule,
-    SwitchModule,
+        // 3rd Party
+        StoreModule.forFeature('structures_jobBasedRange_shared', reducers),
+        EffectsModule.forFeature([
+            ModelSettingsModalEffects,
+            PublishModelModalEffects,
+            SharedEffects,
+            DuplicateModelModalEffects,
+            FieldsEffects,
+            FormulaFieldEffects
+        ]),
+        FontAwesomeModule,
+        NgbTabsetModule,
+        AutoCompleteModule,
+        ComboBoxModule,
+        NgbTooltipModule,
+        NgbPopoverModule,
+        NgbDropdownModule,
+        CodemirrorModule,
+        SwitchModule,
 
-    // Payfactors
-    PfDataGridModule,
-    PfFormsModule,
-    NumericTextBoxModule,
-    DropDownListModule,
-    ReactiveFormsModule,
-    RangeEditorModule,
-    PfCommonUIModule,
-    FormulaEditorModule
-  ],
+        // Payfactors
+        PfDataGridModule,
+        PfFormsModule,
+        NumericTextBoxModule,
+        DropDownListModule,
+        ReactiveFormsModule,
+        RangeEditorModule,
+        PfCommonUIModule,
+        FormulaEditorModule,
+        FormsModule
+    ],
   declarations: [
     ModelGridComponent,
     RangeRoundingComponent,
-    AdvancedModelingComponent,
+    AdvancedModelSettingComponent,
     GridContextComponent,
     ModelSettingsModalComponent,
     ModelSettingsBtnComponent,

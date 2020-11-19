@@ -15,11 +15,13 @@ import {
 } from '../../models';
 import * as fromSurveySearchReducer from '../../reducers';
 import * as fromSurveySearchResultsActions from '../../actions/survey-search-results.actions';
+import { AbstractFeatureFlagService } from 'libs/core/services/feature-flags';
 
 describe('Project - Survey Search - Job Result', () => {
   let instance: JobResultComponent;
   let fixture: ComponentFixture<JobResultComponent>;
   let store: Store<fromSurveySearchReducer.State>;
+  let abstractFeatureFlagService: AbstractFeatureFlagService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -31,13 +33,20 @@ describe('Project - Survey Search - Job Result', () => {
         PfCommonModule
       ],
       declarations: [ JobResultComponent ],
-      schemas: [ NO_ERRORS_SCHEMA ]
+      schemas: [ NO_ERRORS_SCHEMA ],
+      providers: [
+        {
+          provide: AbstractFeatureFlagService,
+          useValue: { enabled: jest.fn(), bindEnabled: jest.fn() }
+        }
+      ]
     });
 
     store = TestBed.inject(Store);
 
     fixture = TestBed.createComponent(JobResultComponent);
     instance = fixture.componentInstance;
+    abstractFeatureFlagService = TestBed.inject(AbstractFeatureFlagService);
 
     // Set up
     instance.job = generateMockSurveyJobResult();

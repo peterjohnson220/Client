@@ -1,4 +1,5 @@
 import { Page } from './page';
+import { Settings } from './settings';
 
 export interface Template {
   id: string;
@@ -6,4 +7,5 @@ export interface Template {
   description: string;
   thumbnailUrl: string;
   Pages: Page[];
+  Settings: Settings;
 }

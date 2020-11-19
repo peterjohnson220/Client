@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 
-import { FileRestrictions, SelectEvent, SuccessEvent } from '@progress/kendo-angular-upload';
+import { FileInfo, FileRestrictions, SelectEvent, SuccessEvent } from '@progress/kendo-angular-upload';
 import { Store } from '@ngrx/store';
 
 import { UserTicketFile } from 'libs/models/payfactors-api/service/response';
@@ -26,6 +26,7 @@ export class TicketAttachmentsComponent implements OnChanges {
   uploadedFilesData: UploadedFile[] = [];
   errorMessage = '';
   uploadError = false;
+  sameFileErrorMessage = '';
   attachmentFileType = AttachmentFileType;
   uploadRestrictions: FileRestrictions = {
     allowedExtensions: Files.VALID_FILE_EXTENSIONS,
@@ -42,9 +43,9 @@ export class TicketAttachmentsComponent implements OnChanges {
   }
 
   onFileSelect(e: SelectEvent) {
-    if (e.files.length > this.fileUploadMax - this.attachments.length) {
-      this.uploadError = true;
-      this.errorMessage = 'The maximum number of files is ' + this.fileUploadMax + '.';
+    this.uploadError = false;
+    this.validateSelectedFiles(e.files);
+    if (this.uploadError) {
       e.preventDefault();
     }
   }
@@ -59,5 +60,22 @@ export class TicketAttachmentsComponent implements OnChanges {
     this.errorMessage = '';
     this.uploadedFilesData = [];
     this.uploadSaveUrl = `${ServicePageConfig.AddAttachmentUrl}/${this.ticketId}`;
+  }
+
+  private validateSelectedFiles(files: FileInfo[]): void {
+    const hasMatchingFileNames = files.find(f1 => this.attachments.some(f2 => f1.name === f2.DisplayName));
+
+    if (hasMatchingFileNames) {
+      this.uploadError = true;
+      this.errorMessage = '';
+      this.sameFileErrorMessage = 'Upload contains file(s) with existing names. Please rename your file(s) and try again.';
+      return;
+    }
+
+    if (files.length > this.fileUploadMax - this.attachments.length) {
+      this.uploadError = true;
+      this.sameFileErrorMessage = '';
+      this.errorMessage = 'The maximum number of files is ' + this.fileUploadMax + '.';
+    }
   }
 }

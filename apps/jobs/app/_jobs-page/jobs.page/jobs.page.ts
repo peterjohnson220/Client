@@ -16,7 +16,6 @@ import {
 import { AsyncStateObj, UserContext } from 'libs/models';
 import { GetPricingsToModifyRequest } from 'libs/features/multi-match/models';
 import { ChangeJobStatusRequest, CreateProjectRequest, MatchedSurveyJob, ViewField } from 'libs/models/payfactors-api';
-import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
 import { SurveySearchFilterMappingDataObj, SurveySearchUserFilterType } from 'libs/features/survey-search/data';
 import { SearchFeatureIds } from 'libs/features/search/enums/search-feature-ids';
 import * as fromRootState from 'libs/state/state';
@@ -119,6 +118,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   matchJobId: number;
 
   updatingPricingMatch$: Observable<AsyncStateObj<boolean>>;
+  updatingPricing$: Observable<AsyncStateObj<boolean>>;
 
   showModifyingPricings = new BehaviorSubject<boolean>(false);
   showModifyingPricings$ = this.showModifyingPricings.asObservable();
@@ -135,8 +135,6 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   multiMatchImplementation = MODIFY_PRICINGS;
 
   gridConfig: GridConfig;
-  hasInfiniteScrollFeatureFlagEnabled: boolean;
-
 
   @ViewChild('gridRowActionsTemplate') gridRowActionsTemplate: ElementRef;
   @ViewChild('jobTitleColumn') jobTitleColumn: ElementRef;
@@ -155,14 +153,12 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     private store: Store<fromJobsPageReducer.State>,
     private actionsSubject: ActionsSubject,
-    private companyJobApiService: CompanyJobApiService,
-    private featureFlagService: AbstractFeatureFlagService
+    private companyJobApiService: CompanyJobApiService
   ) {
-    this.hasInfiniteScrollFeatureFlagEnabled = this.featureFlagService.enabled(FeatureFlags.PfDataGridInfiniteScroll, false);
     this.gridConfig = {
       PersistColumnWidth: true,
-      EnableInfiniteScroll: this.hasInfiniteScrollFeatureFlagEnabled,
-      ScrollToTop: this.hasInfiniteScrollFeatureFlagEnabled,
+      EnableInfiniteScroll: true,
+      ScrollToTop: true,
       SelectAllPanelItemName: 'jobs'
     };
   }
@@ -175,6 +171,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.deletingJob$ = this.store.select(fromJobsPageReducer.getDeletingJob);
     this.navigatingToOldPage$ = this.store.select(fromJobsPageReducer.getNavigatingToOldPage);
     this.updatingPricingMatch$ = this.store.select(fromJobsPageReducer.getUpdatingPricingMatch);
+    this.updatingPricing$ = this.store.select(fromJobsPageReducer.getUpdatingPricing);
     this.pricingsToModify$ = this.store.select(fromModifyPricingsReducer.getPricingsToModify);
 
     this.companyPayMarketsSubscription = this.store.select(fromJobsPageReducer.getCompanyPayMarkets)
@@ -323,8 +320,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   openCreateProjectModal() {
     this.showCreateProjectModal.next(true);
-    this.store.dispatch(new fromJobsPageActions.ShowCreateProjectModal());
-    this.store.dispatch(new fromJobsPageActions.ResetErrorsForModals());
+    this.store.dispatch(new fromJobsPageActions.ResetJobsPageModals());
 
   }
 
@@ -338,7 +334,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
       }))
     };
     this.store.dispatch(new fromJobsPageActions.CreatingProject(payload));
-    this.store.dispatch(new fromJobsPageActions.ResetErrorsForModals());
+    this.store.dispatch(new fromJobsPageActions.ResetJobsPageModals());
   }
 
   openJobStatusModal() {
@@ -346,7 +342,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.companyJobApiService.getCompanyJobDescriptionInformation(this.selectedJobIds).subscribe(jds => {
       this.jobDescriptionsInReview = jds;
       this.showJobStatusModal.next(true);
-      this.store.dispatch(new fromJobsPageActions.ResetErrorsForModals());
+      this.store.dispatch(new fromJobsPageActions.ResetJobsPageModals());
     });
   }
 
@@ -363,7 +359,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.jobIdToDelete = jobId;
     this.jobNameToDelete = jobName;
     this.showDeleteJobModal.next(true);
-    this.store.dispatch(new fromJobsPageActions.ResetErrorsForModals());
+    this.store.dispatch(new fromJobsPageActions.ResetJobsPageModals());
   }
 
   deleteJob() {

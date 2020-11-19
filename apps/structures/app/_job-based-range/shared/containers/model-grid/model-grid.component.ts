@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 
+import cloneDeep from 'lodash/cloneDeep';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { ActionsSubject, select, Store } from '@ngrx/store';
 import { SortDescriptor } from '@progress/kendo-data-query';
@@ -17,13 +18,12 @@ import {
 } from 'libs/features/pf-data-grid/models';
 import { PagingOptions } from 'libs/models/payfactors-api/search/request';
 import { CompanyStructureRangeOverride, RoundingSettingsDataObj, RangeGroupMetadata } from 'libs/models/structures';
-import { DataViewFilter } from 'libs/models/payfactors-api/reports/request';
+import { DataViewFilter, ViewField } from 'libs/models/payfactors-api/reports/request';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 import { RangeGroupType } from 'libs/constants/structures/range-group-type';
 import { PermissionCheckEnum, Permissions } from 'libs/constants';
 import { AsyncStateObj } from 'libs/models/state';
 import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
-import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services';
 import * as fromReducer from 'libs/features/pf-data-grid/reducers';
 import { PermissionService } from 'libs/core/services';
 import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
@@ -55,6 +55,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   @ViewChild('percentage', { static: true }) percentageColumn: ElementRef;
   @ViewChild('gridGlobalActions', { static: true }) gridGlobalActionsTemplate: ElementRef;
   @ViewChild('gridRowActionsTemplate') gridRowActionsTemplate: ElementRef;
+  @ViewChild('overrideFilter') overrideFilter: ElementRef;
   @Input() singleRecordView: boolean;
   @Input() splitViewTemplate: TemplateRef<any>;
   @Input() inboundFilters: PfDataGridFilter[];
@@ -97,6 +98,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   singleRecordActionBarConfig: ActionBarConfig;
   fullGridActionBarConfig: ActionBarConfig;
   gridRowActionsConfig: GridRowActionsConfig = getDefaultGridRowActionsConfig();
+  fieldsToShowValueOnly: string[] = ['OverrideMessage'];
   invalidMidPointRanges: number[];
   hasAddEditDeleteStructurePermission: boolean;
   hasCreateEditStructureModelPermission: boolean;
@@ -108,24 +110,29 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   rangeOverrides: CompanyStructureRangeOverride[];
 
   gridConfig: GridConfig;
-  hasInfiniteScrollFeatureFlagEnabled: boolean;
   currentRangeGroup: any;
   currentRangeGroupId: number;
   currentRangeGroupName: any;
   compareFlag: boolean;
   currentRangeGroup$: Observable<AsyncStateObj<any>>;
   currentRangeGroupSub: Subscription;
+  selectedOverrideMessage: any;
+  overrideField: ViewField;
+  gridFieldSubscription: Subscription;
+  distinctOverrideMessages$: Observable<string[]>;
+  distinctOverrideMessagesSub: Subscription;
+  distinctOverrideMessages: string[];
 
   constructor(
     public store: Store<fromJobBasedRangeReducer.State>,
     private actionsSubject: ActionsSubject,
     private permissionService: PermissionService,
-    private structuresPagesService: StructuresPagesService,
-    private featureFlagService: AbstractFeatureFlagService
+    private structuresPagesService: StructuresPagesService
   ) {
     this.metaData$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getMetadata));
     this.roundingSettings$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getRoundingSettings));
     this.rangeOverrides$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getRangeOverrides));
+    this.distinctOverrideMessages$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getDistinctOverrideMessages));
     this.singleRecordActionBarConfig = {
       ...getDefaultActionBarConfig(),
       ShowActionBar: false
@@ -144,12 +151,11 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
 
     this.invalidMidPointRanges = [];
     this.modifiedKeys = [];
-    this.hasInfiniteScrollFeatureFlagEnabled = this.featureFlagService.enabled(FeatureFlags.PfDataGridInfiniteScroll, false);
     this.gridConfig = {
       PersistColumnWidth: false,
       CaptureGridScroll: true,
-      EnableInfiniteScroll: this.hasInfiniteScrollFeatureFlagEnabled,
-      ScrollToTop: this.hasInfiniteScrollFeatureFlagEnabled
+      EnableInfiniteScroll: true,
+      ScrollToTop: true
     };
     this.defaultPagingOptions = {
       From: 0,
@@ -168,31 +174,6 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     } else {
       return false;
     }
-  }
-
-  getRangeOverrideTooltip(rangeId: number): string {
-    // grab the override record
-    if (this.rangeOverrides) {
-      const currentOverride = this.rangeOverrides.find(o => o.CompanyStructuresRangesId === rangeId);
-      if (!!currentOverride && !this.isManualOverride(currentOverride)) {
-        if (currentOverride.UsePublishedRange) {
-          return 'No market data exists for this job so the published range was used.';
-        }
-        if (currentOverride.MidForcedToCurrent) {
-          return 'Modeled midpoint was calculated below the published job midpoint so the published job range info was used.';
-        }
-        if (currentOverride.MidForcedToCurrentPercent) {
-          return 'Calculated midpoint exceeded ' + this.metaData.RangeAdvancedSetting.PreventMidsFromIncreasingMoreThanPercent.Percentage +
-            '%, midpoint was calculated at ' + this.metaData.RangeAdvancedSetting.PreventMidsFromIncreasingMoreThanPercent.Percentage + '%.';
-        }
-        if (currentOverride.IncreaseCurrentByPercent) {
-          return 'No market data exists for this job so range was increased by ' + this.metaData.RangeAdvancedSetting.MissingMarketDataType.Percentage +
-            '% from published range.';
-        }
-      }
-    }
-    // fallback to the normal message
-    return 'One or more fields in this range have been manually changed.';
   }
 
   initPermissions() {
@@ -283,6 +264,22 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     }
   }
 
+  handleOverrideMessageFilterChanged(value: any) {
+    const field = cloneDeep(this.overrideField);
+    field.FilterValue = value;
+    field.FilterOperator = '=';
+    this.updateField(field);
+  }
+
+
+  updateField(field) {
+    if (field.FilterValue) {
+      this.store.dispatch(new fromPfDataGridActions.UpdateFilter(this.pageViewId, field));
+    } else {
+      this.store.dispatch(new fromPfDataGridActions.ClearFilter(this.pageViewId, field));
+    }
+  }
+
   isManualOverride(dto: CompanyStructureRangeOverride): boolean {
     return dto.Max || dto.Min || dto.Mid || dto.FirstTertile || dto.SecondTertile || dto.FirstQuartile || dto.SecondQuartile || dto.FirstQuintile
     || dto.SecondQuintile || dto.ThirdQuintile || dto.FourthQuintile;
@@ -309,6 +306,11 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
 
     };
 
+    this.filterTemplates = {
+      'OverrideMessage': { Template: this.overrideFilter }
+    };
+
+
     this.fullGridActionBarConfig = {
       ...this.fullGridActionBarConfig,
       GlobalActionsTemplate: this.gridGlobalActionsTemplate
@@ -327,6 +329,8 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     this.modelPageViewIdSubscription = this.structuresPagesService.modelPageViewId.subscribe(pv => this.modelPageViewId = pv);
     this.roundingSettingsSub = this.roundingSettings$.subscribe(rs => this.roundingSettings = rs);
     this.metaDataSub = this.metaData$.subscribe(md => this.metaData = md);
+    this.distinctOverrideMessagesSub =
+        this.distinctOverrideMessages$.subscribe(dom => this.distinctOverrideMessages = dom.filter(function (el) { return el != null; } ));
     this.rangeOverridesSub = this.rangeOverrides$.subscribe(ro => this.rangeOverrides = ro);
     this.removingRange$ = this.store.select(fromSharedJobBasedRangeReducer.getRemovingRange);
     this.selectedRecordId$ = this.store.select(fromPfDataGridReducer.getSelectedRecordId, this.modelPageViewId);
@@ -346,6 +350,14 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
         this.currentRangeGroupName = this.currentRangeGroup.RangeGroupName;
       }
     });
+    this.gridFieldSubscription = this.store.select(fromPfDataGridReducer.getFields, this.modelPageViewId).subscribe(fields => {
+      if (fields) {
+        this.overrideField = fields.find(f => f.SourceName === 'OverrideMessage');
+
+        this.selectedOverrideMessage = this.overrideField.FilterValue;
+      }
+    });
+
 
     window.addEventListener('scroll', this.scroll, true);
   }
@@ -358,5 +370,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     this.rangeOverridesSub.unsubscribe();
     this.modifiedKeysSubscription.unsubscribe();
     this.currentRangeGroupSub.unsubscribe();
+    this.gridFieldSubscription.unsubscribe();
+    this.distinctOverrideMessagesSub.unsubscribe();
   }
 }

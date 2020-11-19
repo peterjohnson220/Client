@@ -20,6 +20,7 @@ export interface ILoadSettings {
   isBenefitsLoadEnabled: boolean;
   isBenefitsFullReplace: boolean;
   fileFormat: string;
+  validateOnly: boolean;
 }
 export class LoaderSettings implements ILoadSettings {
   isActive: boolean;

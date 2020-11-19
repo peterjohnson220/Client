@@ -339,7 +339,6 @@ export class TemplatePageComponent implements OnInit, OnDestroy, AfterViewInit {
   handleControlAdditionalPropertiesChangesDetected(eventArgs: any) {
     this.store.dispatch(new fromTemplateActions.UpdateControlAdditionalProperties({
       templateControl: eventArgs.control, additionalProperties: eventArgs.additionalProperties}));
-      this.saveTemplate();
   }
 
   handleControlDataRowAdded(addDataRowObj: any) {

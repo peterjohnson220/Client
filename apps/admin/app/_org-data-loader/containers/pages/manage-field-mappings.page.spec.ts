@@ -19,7 +19,7 @@ import * as fromOrgDataLoaderReducer from '../../reducers';
 import * as fromOrgDataFieldMappingsActions from '../../actions/org-data-field-mappings.actions';
 import { ManageFieldMappingsPageComponent } from './manage-field-mappings.page';
 import { LoaderType } from '../../constants';
-import { AbstractFeatureFlagService, FeatureFlagContext } from '../../../../../../libs/core/services/feature-flags';
+import { AbstractFeatureFlagService, FeatureFlagContext } from 'libs/core/services/feature-flags';
 
 describe('ManageFieldMapperPageComponent', () => {
   let component: ManageFieldMappingsPageComponent;

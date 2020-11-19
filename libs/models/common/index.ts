@@ -25,3 +25,4 @@ export * from './country-currency-dto.model';
 export * from './save-error';
 export * from './currency.model';
 export * from './select-all-status.enum';
+export * from './paged-response.model';

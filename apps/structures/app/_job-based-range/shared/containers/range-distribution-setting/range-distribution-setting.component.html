@@ -1,16 +1,18 @@
-<div class="form-group" *ngIf="(enableJobRangeTypes$ | async)" [formGroup]="rangeDistributionSettingForm">
-  <label for="rangeType">Range Type</label>
-  <div>
-    <ng-container *ngFor="let type of metadata.RangeDistributionTypes">
-      <label  for="rangeType_{{type.Type}}" class="radio-inline mr-3 d-none">
-        <input type="radio" id="rangeType_{{type.Type}}"
-               [value]='type.Id'
-               formControlName="RangeDistributionTypeId"
-               (change)="handleRangeTypeChange(type)">
-        {{type.Type}}
-      </label>
-    </ng-container>
-    <label id="rangeType" class="font-weight-bold mr-3">{{activeRangeTypeTab}}</label>
+<div class="form-group" [formGroup]="rangeDistributionSettingForm">
+  <div *ngIf="(enableJobRangeTypes$ | async)">
+    <label for="rangeType">Range Type</label>
+    <div>
+      <ng-container *ngFor="let type of metadata.RangeDistributionTypes">
+        <label  for="rangeType_{{type.Type}}" class="radio-inline mr-3 d-none">
+          <input type="radio" id="rangeType_{{type.Type}}"
+                 [value]='type.Id'
+                 formControlName="RangeDistributionTypeId"
+                 (change)="handleRangeTypeChange(type)">
+          {{type.Type}}
+        </label>
+      </ng-container>
+      <label id="rangeType" class="font-weight-bold mr-3">{{activeRangeTypeTab}}</label>
+    </div>
   </div>
   <div class="rounding-group">
     <div class="form-group row mb-5">
@@ -20,7 +22,7 @@
           [ngClass]="{ 'is-invalid': attemptedSubmit && formControls.PayType.invalid }"
           [loading]="controlPointsAsyncObj.loading"
           [data]="controlPointCategory"
-          [textField]="'Category'"
+          [textField]="'PayTypeDisplay'"
           [valueField]="'Category'"
           [clearButton]="false"
           [valuePrimitive]="true"
@@ -201,6 +203,15 @@
           [metadata]="metadata"
           [attemptedSubmit]="attemptedSubmit">
         </pf-structures-formula-editor>
+      </div>
+      <div class="fa-icon-wrapper" *ngIf="structuresAdvancedModelingFeatureFlag.value">
+        <fa-icon placement="top" [hidden]="enablePercentilesAndRangeSpreads" [ngbTooltip]="fieldsDisabledTooltip" icon="info-circle" aria-hidden="true"></fa-icon>
+      </div>
+      <div class="inline-link-wrapper" *ngIf="structuresAdvancedModelingFeatureFlag.value">
+        <a href="javascript:void(0)" tabindex="-1" (click)="this.handleMidToggle()">
+          <ng-container *ngIf="showMidFormula">Enter Percentile</ng-container>
+          <ng-container *ngIf="!showMidFormula">Calculate</ng-container>
+        </a>
       </div>
       <div class="col-3"></div>
       <div class="col-3"></div>

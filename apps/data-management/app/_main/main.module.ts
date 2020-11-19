@@ -13,9 +13,10 @@ import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { LayoutModule } from '@progress/kendo-angular-layout';
 import { UploadModule } from '@progress/kendo-angular-upload';
 import { SwitchModule } from '@progress/kendo-angular-inputs';
+import { GridModule } from '@progress/kendo-angular-grid';
 
 import { PfCommonModule } from 'libs/core';
-import { PfNavigationLinksModule } from 'libs/features';
+import { PfBulkExportSchedulerModule, PfNavigationLinksModule } from 'libs/features';
 import { PfCompanySelectorModule } from 'libs/features/company/company-selector/company-selector.module';
 import { PfEmailRecipientsModule } from 'libs/features/loader-email-reipients';
 import { PfFieldMapperModule } from 'libs/features/org-data-loader';
@@ -32,7 +33,8 @@ import {
   ProviderListComponent,
   IntegrationCompleteModalComponent,
   DateFormatDropDownComponent,
-  DateConverterFormComponent
+  DateConverterFormComponent,
+  LatestOrgDataLoadModalComponent
 } from './components';
 import {
   CustomEmployeeIdentifierComponent,
@@ -72,7 +74,8 @@ import {
   OutboundProviderSelectionPageComponent,
   OutboundTransferSchedulePageComponent,
   OutboundTransferScheduleSummaryComponent,
-  LoadAndExportFilesCardComponent
+  LoadAndExportFilesCardComponent,
+  OutboundBulkJobsExportSchedulerPageComponent
 } from './containers';
 import {
   CustomFieldsEffect,
@@ -87,7 +90,8 @@ import {
   TransferDataPageEffects,
   TransferScheduleEffects,
   ProviderListEffects,
-  ConverterSettingsEffects
+  ConverterSettingsEffects,
+  LoadersDataEffects
 } from './effects';
 import * as fromFaIcons from './fa-icons';
 import { MainRoutingModule } from './main-routing.module';
@@ -124,7 +128,8 @@ import { HrisAuthenticationGuard } from './guards';
       EntityIdentifiersEffects,
       EntitySelectionEffects,
       ProviderListEffects,
-      ConverterSettingsEffects
+      ConverterSettingsEffects,
+      LoadersDataEffects
     ]),
     FontAwesomeModule,
     NgbDropdownModule,
@@ -134,6 +139,7 @@ import { HrisAuthenticationGuard } from './guards';
     UploadModule,
     LayoutModule,
     SwitchModule,
+    GridModule,
 
     // Payfactors
     PfCommonModule,
@@ -142,7 +148,8 @@ import { HrisAuthenticationGuard } from './guards';
     PfCompanySelectorModule,
     PfFieldMapperModule,
     PfEmailRecipientsModule,
-    PfNavigationLinksModule
+    PfNavigationLinksModule,
+    PfBulkExportSchedulerModule
   ],
   declarations: [
     // Pipes
@@ -163,6 +170,7 @@ import { HrisAuthenticationGuard } from './guards';
     ResetIntegrationPageComponent,
     TransferDataPageComponent,
     TransferSchedulePageComponent,
+    OutboundBulkJobsExportSchedulerPageComponent,
 
     // Components
     AuthenticationStatusComponent,
@@ -217,6 +225,7 @@ import { HrisAuthenticationGuard } from './guards';
     DataConverterModalComponent,
     DateFormatDropDownComponent,
     LoadAndExportFilesCardComponent,
+    LatestOrgDataLoadModalComponent,
   ],
   providers: [
     // Guards

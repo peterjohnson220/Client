@@ -1,8 +1,8 @@
 import { State } from '@progress/kendo-data-query/';
 
 import { StatementEmailTemplate } from 'libs/models/payfactors-api/total-rewards';
+import { DeliveryMethod } from 'libs/features/total-rewards/total-rewards-statement/models/delivery-method';
 
-import { DeliveryMethod } from './delivery-methods.model';
 
 export interface GenerateStatementsRequest {
   StatementId: string;

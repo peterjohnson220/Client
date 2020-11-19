@@ -1,20 +1,21 @@
+import { GenericKeyValue } from 'libs/models/common';
+
 export interface EmployeeRewardsData {
   CompanyName: string;
   EmployeeId: string;
+  EmployeeJobTitle: string;
   EmployeeFirstName: string;
   EmployeeLastName: string;
   EmployeeCity: string;
   EmployeeCountry: string;
   EmployeeJobCode: string;
   EmployeeDepartment: string;
-  EmployeeDepartmentCode: string;
   EmployeeDOB: Date;
   EmployeeDOH: Date;
   EmployeeEmailAddress: string;
   EmployeeStatus: string;
   EmployeeFLSAStatus: string;
   EmployeeFTE: number;
-  EmployeeLocation: string;
   EmployeeManagerEmployeeId: string;
   EmployeeState: string;
   EmployeeBase: number;
@@ -34,26 +35,28 @@ export interface EmployeeRewardsData {
   EmployeeOtherAllowances: number;
   CurrentYear: number;
   Currency: string;
+  IsMockData?: boolean;
+  EmployeesUdf?: GenericKeyValue<string, number>;
+  JobsUdf?: GenericKeyValue<string, number>;
 }
 
 export function generateMockEmployeeRewardsData(): EmployeeRewardsData {
   return {
-    CompanyName: 'Rotherham Refurbs Ltd.',
+    CompanyName: 'Your Company',
     EmployeeId: '12345',
+    EmployeeJobTitle: 'Product Manager',
     EmployeeFirstName: 'John',
     EmployeeLastName: 'Smith',
     EmployeeCity: 'Scranton',
     EmployeeCountry: 'United States',
     EmployeeJobCode: 'ACC456',
     EmployeeDepartment: 'Accounting',
-    EmployeeDepartmentCode: 'ACC',
     EmployeeDOB: new Date('04/03/80'),
     EmployeeDOH: new Date('08/12/19'),
     EmployeeEmailAddress: 'john.smith@company.com',
     EmployeeStatus: 'Full-Time',
     EmployeeFLSAStatus: 'Exempt',
     EmployeeFTE: 1,
-    EmployeeLocation: 'Scranton',
     EmployeeManagerEmployeeId: 'ACC123',
     EmployeeState: 'MA',
     EmployeeBase: 150000,
@@ -72,6 +75,7 @@ export function generateMockEmployeeRewardsData(): EmployeeRewardsData {
     EmployeePTO: 5700,
     EmployeeOtherAllowances: 500,
     CurrentYear: new Date().getFullYear(),
-    Currency: 'USD'
+    Currency: 'USD',
+    IsMockData: true
   };
 }

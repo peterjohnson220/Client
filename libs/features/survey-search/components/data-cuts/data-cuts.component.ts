@@ -1,7 +1,9 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
+import { Subject } from 'rxjs';
 
 import { MatchesDetailsRequestJobTypes, PricingMatchesDetailsRequest } from 'libs/models/payfactors-api';
 import { SurveySearchResultDataSources } from 'libs/constants';
+import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
 
 import { JobResult, MatchesDetailsTooltipData, DataCut } from '../../models';
 
@@ -22,13 +24,19 @@ export class DataCutsComponent implements OnDestroy {
   @Output() payFactorsCutSelected: EventEmitter<any> = new EventEmitter();
   @Output() matchesMouseEnter: EventEmitter<MatchesDetailsTooltipData> = new EventEmitter<MatchesDetailsTooltipData>();
   @Output() matchesMouseLeave: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() refineInPeerClicked: EventEmitter<any> = new EventEmitter<any>();
+
+  customizeScopeInMultimatchModalFlag: RealTimeFlag = { key: FeatureFlags.CustomizeScopeInMultimatchModal, value: false };
+  unsubscribe$ = new Subject<void>();
 
   isMatchesHovered: boolean;
   surveySearchResultDataSources = SurveySearchResultDataSources;
   private matchesMouseLeaveTimer: number;
   private readonly matchesMouseLeaveTimeout: number = 100;
 
-  constructor() {}
+  constructor(private featureFlagService: AbstractFeatureFlagService) {
+    this.featureFlagService.bindEnabled(this.customizeScopeInMultimatchModalFlag, this.unsubscribe$);
+  }
 
   ngOnDestroy(): void {
     if (!!this.matchesMouseLeaveTimer) {
@@ -52,14 +60,19 @@ export class DataCutsComponent implements OnDestroy {
     this.dataCutSelected.emit(dataCut);
   }
 
+  toggleRefineInPeerDisplay(): void {
+    this.refineInPeerClicked.emit();
+  }
+
   handleMatchesMouseEnter(event: MouseEvent, dataCut: DataCut): void {
     this.isMatchesHovered = true;
     const request: PricingMatchesDetailsRequest = {
       JobId: dataCut.ServerInfo.SurveyDataId.toString(),
       JobType: MatchesDetailsRequestJobTypes.SurveyData
     };
+    const pageX = this.legacyIframeImplementation ? this.cutsDraggable ? window.document.body.offsetWidth / 2 - 400 : event.offsetX : event.pageX;
     const data: MatchesDetailsTooltipData = {
-      TargetX: this.legacyIframeImplementation ? event.offsetX : event.pageX + 10,
+      TargetX: pageX,
       TargetY: event.clientY,
       Request: request
     };
@@ -74,5 +87,4 @@ export class DataCutsComponent implements OnDestroy {
       }
     }, this.matchesMouseLeaveTimeout);
   }
-
 }
