@@ -133,6 +133,9 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
             userDefinedField.Key,
             new FormControl('', PfValidators.maxLengthTrimWhitespace(this.DEFAULT_MAX_LENGTH)));
         }
+        if(!!this.employee){
+          this.updateUDFFields();
+        }
       }
     });
     this.gradeCodesSubscription = this.gradeCodes$.subscribe(gradeCodesAsync => {
