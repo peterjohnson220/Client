@@ -30,10 +30,10 @@ export function getDefaultEntityChoice(): EntityChoice {
     File: null,
     isSelectedTab: false,
     templateReferenceConstants: null,
-    payfactorsDataFields: null,
+    payfactorsDataFields: [],
     loaderEnabled: false,
     columnNames: null,
-    customFields: { Employees: null, Jobs: null },
+    customFields: { Employees: [], Jobs: [] },
     isFullReplace: null,
     dateFormat: null,
     isLoadingFinish: true,
@@ -100,6 +100,7 @@ export function getEntityChoicesForOrgLoader(shouldShowBenefits: boolean): Entit
       FileBeginsWith: 'benefits',
       templateReferenceConstants: LoaderType.Benefits,
       dbName: 'Benefits',
+      isFullReplace: false,
       isEnabled: shouldShowBenefits
     }
   ];

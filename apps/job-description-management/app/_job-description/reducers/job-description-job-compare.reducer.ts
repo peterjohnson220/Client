@@ -66,6 +66,9 @@ export function reducer(state = initialState, action: fromJobDescriptionJobCompa
       };
     }
 
+    case fromJobDescriptionJobCompareActions.RESET_JOB_DESCRIPTION_JOB_COMPARE_STATE: {
+      return initialState;
+    }
 
     case fromJobDescriptionJobCompareActions.LOAD_SOURCE_JOB_DESCRIPTION: {
       const sourceJobDescriptionAsyncClone = cloneDeep(state.sourceJobDescriptionAsync);

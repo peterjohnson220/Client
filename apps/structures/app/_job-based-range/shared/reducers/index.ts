@@ -83,6 +83,10 @@ export const getRoundingSettings = createSelector(
 
 export const getRemovingRange = createSelector(selectSharedState, fromSharedReducer.getRemovingRange);
 
+export const getDistinctOverrideMessages = createSelector(
+  selectSharedState, fromSharedReducer.getDistinctOverrideMessages
+);
+
 // Model Settings Modal
 export const getModelSettingsModalOpen = createSelector(
   selectModelSettingsModalState, fromModelSettingsModalReducer.getModalOpen
@@ -113,6 +117,11 @@ export const getComparingModels = createSelector(
 export const getCompareEnabled = createSelector(
   selectSharedState,
   fromSharedReducer.getCompareEnabled
+);
+
+export const getStructureHasPublished = createSelector(
+  selectSharedState,
+  fromSharedReducer.getStructureHasPublished
 );
 
 export const getStructureNameSuggestionsAsyncObj = createSelector(
@@ -160,6 +169,11 @@ export const getFormulaFieldSuggestions = createSelector(
 );
 
 // Formula Field Modal
+export const getFormulaWaitingForValidation = createSelector(
+  selectFormulaFieldState,
+  fromFormulaFieldReducer.getWaitingForValidation
+);
+
 export const getFormulaValidating = createSelector(
   selectFormulaFieldState,
   fromFormulaFieldReducer.getValidating
@@ -194,4 +208,9 @@ export const getFormulaDataType = createSelector(
 export const getFormulaField = createSelector(
   selectFormulaFieldState,
   fromFormulaFieldReducer.getFormulaField
+);
+
+export const getResetFormula = createSelector(
+  selectFormulaFieldState,
+  fromFormulaFieldReducer.getResetFormula
 );

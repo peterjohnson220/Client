@@ -7,15 +7,16 @@ import { DragulaModule } from 'ng2-dragula';
 
 import * as fromRootState from 'libs/state/state';
 import * as fromSearchPageActions from 'libs/features/search/actions/search-page.actions';
+import { AbstractFeatureFlagService } from 'libs/core/services/feature-flags';
 
 import * as fromAddDataReducer from '../../../reducers';
 import { AddSurveyDataPageComponent } from './add-survey-data.page';
-
 
 describe('Project - Add Data - Surveys Page', () => {
   let fixture: ComponentFixture<AddSurveyDataPageComponent>;
   let instance: AddSurveyDataPageComponent;
   let store: Store<fromAddDataReducer.State>;
+  let abstractFeatureFlagService: AbstractFeatureFlagService;
 
   // Configure Testing Module for before each test
   beforeEach(() => {
@@ -26,6 +27,12 @@ describe('Project - Add Data - Surveys Page', () => {
           project_addData: combineReducers(fromAddDataReducer.reducers),
         }),
         DragulaModule.forRoot()
+      ],
+      providers: [
+        {
+          provide: AbstractFeatureFlagService,
+          useValue: { enabled: jest.fn(), bindEnabled: jest.fn() }
+        }
       ],
       declarations: [
         AddSurveyDataPageComponent
@@ -38,6 +45,7 @@ describe('Project - Add Data - Surveys Page', () => {
 
     fixture = TestBed.createComponent(AddSurveyDataPageComponent);
     instance = fixture.componentInstance;
+    abstractFeatureFlagService = TestBed.inject(AbstractFeatureFlagService);
   });
 
   it('should dispatch a close survey search action, when handling cancel clicked', () => {

@@ -7,10 +7,8 @@ import { JdmListFilter } from 'libs/models/user-profile';
 import { BulkExportSchedule } from 'libs/models/jdm';
 import { JobDescriptionViewModel } from 'libs/models/jdm/job-description-view.model';
 
-import * as fromJdmViewActions from '../../actions/view.actions';
-import * as fromJdmFilterActions from '../../actions/filter.actions';
-import * as fromJdmBulkExportScheduleActions from '../../actions/bulk-export-schedule.actions';
-import * as fromJdmAdminReducer from '../../reducers';
+import * as bulkExportJobsSchedulerActions from 'libs/features/bulk-job-description-export-scheduler/actions';
+import * as fromJdmAdminReducer from 'libs/features/bulk-job-description-export-scheduler/reducers';
 import { environment } from 'environments/environment';
 
 @Component({
@@ -33,8 +31,8 @@ export class BulkExportSchedulerPageComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.store.dispatch(new fromJdmViewActions.LoadingViews());
-    this.store.dispatch(new fromJdmFilterActions.LoadingFilters());
-    this.store.dispatch(new fromJdmBulkExportScheduleActions.LoadingSchedules());
+    this.store.dispatch(new bulkExportJobsSchedulerActions.LoadingViews());
+    this.store.dispatch(new bulkExportJobsSchedulerActions.LoadingFilters());
+    this.store.dispatch(new bulkExportJobsSchedulerActions.LoadingSchedules());
   }
 }

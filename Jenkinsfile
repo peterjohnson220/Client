@@ -16,6 +16,7 @@ slackTitle = 'Build'
 
 suffix = ""
 verDetails = ""
+numOfApps = "0"
 
 isPublishable = true
 isAutoDeployBranch = false
@@ -94,7 +95,7 @@ pipeline {
               octoVerSuffix = '-NM'
               env.buildConfig = '--configuration=staging'
 
-			} else if (env.BRANCH_NAME == 'Enterprise/develop') {
+			      } else if (env.BRANCH_NAME == 'Enterprise/develop') {
               isAutoDeployBranch = true
               suffix = '-Enterprise'
               octoChannel = 'Enterprise'
@@ -153,6 +154,7 @@ pipeline {
               echo "slackCh: ${slackCh}"
             }
 
+            numOfApps = sh(returnStdout: true, script: 'ls -l apps | grep -c ^d').trim()
             sh 'npm ci'
           }
         }
@@ -172,6 +174,14 @@ pipeline {
       steps {
         script {
           nodejs(nodeVersion) {
+            // Sometimes jest cache causes Unit Test issue.
+            sh """
+              if [ -d /tmp/jest_rt ]; then
+                echo "Clearing jest cache..."
+                rm -rf /tmp/jest_rt/*
+              fi
+            """
+
             sh 'npm run test-report'
           }
         }
@@ -214,8 +224,16 @@ pipeline {
               timerCnt=0
               alerted=false
 
+              currBuildDesc = currentBuild.description
+
               while (buildRunning == true) {
                 sh 'sleep 30'
+                
+                buildLogRaw = currentBuild.rawBuild.getLog(100000)
+                buildCnt = buildLogRaw.count { it.contains("build complete")}
+                // Need to subtract 'build complete' from the commandline.
+                currentBuild.description = currBuildDesc + "\n${buildCnt-1}/${numOfApps} apps built"
+
                 timerCnt++
 
                 // If build takes longer than 30 min, alert once.

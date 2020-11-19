@@ -25,6 +25,7 @@ import * as fromSharedModelSettingsActions from '../../shared/actions/model-sett
 import { UrlService } from '../../shared/services';
 import { Workflow } from '../../shared/constants/workflow';
 import { PagesHelper } from '../../shared/helpers/pages.helper';
+import * as fromJobBasedRangeReducer from '../../shared/reducers';
 
 @Injectable()
 export class AddJobsModalEffects {
@@ -50,11 +51,13 @@ export class AddJobsModalEffects {
         this.store.pipe(select(fromPfDataGridReducer.getGridConfig)),
         this.store.pipe(select(fromPfDataGridReducer.getData)),
         this.store.pipe(select(fromPfDataGridReducer.getPagingOptions)),
+        this.store.pipe(select(fromJobBasedRangeReducer.getFormulaValid)),
         (action: fromAddJobsPageActions.AddSelectedJobs,
-         contextStructureRangeGroupId, payMarkets, selectedJobIds, selectedJobCodes, metadata, roundingSettings, gridConfig, gridData, pagingOptions) =>
+         contextStructureRangeGroupId, payMarkets, selectedJobIds, selectedJobCodes, metadata, roundingSettings, gridConfig, gridData, pagingOptions,
+         formulaValid) =>
           ({
             action, contextStructureRangeGroupId, payMarkets, selectedJobIds, selectedJobCodes, metadata, roundingSettings, gridConfig, gridData,
-            pagingOptions
+            pagingOptions, formulaValid
           })),
       switchMap((data) => {
           const companyJobIds = data.selectedJobIds.map(j => Number(j));
@@ -85,9 +88,10 @@ export class AddJobsModalEffects {
         this.store.pipe(select(fromPfDataGridReducer.getGridConfig)),
         this.store.pipe(select(fromPfDataGridReducer.getData)),
         this.store.pipe(select(fromPfDataGridReducer.getPagingOptions)),
+        this.store.pipe(select(fromJobBasedRangeReducer.getFormulaValid)),
         (action: fromAddJobsPageActions.AddAllJobs, filters, numberResults, contextStructureRangeGroupId, metadata, roundingSettings, gridConfig, gridData,
-         pagingOptions) =>
-          ({ action, filters, numberResults, contextStructureRangeGroupId, metadata, roundingSettings, gridConfig, gridData, pagingOptions })
+         pagingOptions, formulaValid) =>
+          ({ action, filters, numberResults, contextStructureRangeGroupId, metadata, roundingSettings, gridConfig, gridData, pagingOptions, formulaValid })
       ),
       switchMap((data) => {
           const searchRequest: JobSearchRequestStructuresRangeGroup = {
@@ -125,7 +129,7 @@ export class AddJobsModalEffects {
 
     if (this.urlService.isInWorkflow(Workflow.NewJobBasedRange)) {
       actions.push(new fromSharedModelSettingsActions.OpenModal());
-    } else if (this.hasRequiredSettingsForRecalculation(data.metadata)) {
+    } else if (this.hasRequiredSettingsForRecalculation(data.metadata, data.formulaValid)) {
       actions.push(new fromSharedActions.RecalculateRangesWithoutMid({
         rangeGroupId: data.contextStructureRangeGroupId,
         rounding: data.roundingSettings
@@ -138,8 +142,8 @@ export class AddJobsModalEffects {
     return actions;
   }
 
-  private hasRequiredSettingsForRecalculation(metaData: RangeGroupMetadata) {
-    return !!(metaData.ControlPoint && metaData.Currency && metaData.Rate &&
+  private hasRequiredSettingsForRecalculation(metaData: RangeGroupMetadata, formulaValid: boolean) {
+    return !!((metaData.ControlPoint || formulaValid) && metaData.Currency && metaData.Rate &&
       (metaData.SpreadMin || metaData.RangeDistributionSetting.MinPercentile) && (metaData.SpreadMax || metaData.RangeDistributionSetting.MaxPercentile));
   }
 

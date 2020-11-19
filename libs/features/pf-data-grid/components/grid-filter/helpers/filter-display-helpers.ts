@@ -2,13 +2,16 @@ import { DatePipe } from '@angular/common';
 
 import { DataViewFieldDataType, ViewField } from 'libs/models/payfactors-api';
 
-import { FilterOperatorOptions, isValueRequired } from './filter-operator-options-helpers';
+import { FilterOperator, FilterOperatorOptions, isValueRequired } from './filter-operator-options-helpers';
 
-
-export function getHumanizedFilter(field: ViewField) {
+export function getHumanizedFilter(field: ViewField, fieldsToShowValueOnly: string[] = []) {
   const operatorDisplay = getOperatorDisplay(field.FilterOperator, field.DataType);
   const valueDisplay = getValueDisplay(field.FilterValue, field.DataType);
-  return `${field.DisplayName} ${operatorDisplay} ${valueDisplay}`;
+  if (fieldsToShowValueOnly?.includes(field.SourceName)) {
+    return valueDisplay;
+  } else {
+    return `${field.DisplayName} ${operatorDisplay} ${valueDisplay}`;
+  }
 }
 
 export function getOperatorDisplay(operator: string, dataType: DataViewFieldDataType) {

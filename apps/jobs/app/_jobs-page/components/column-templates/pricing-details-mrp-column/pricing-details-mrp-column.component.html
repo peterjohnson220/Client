@@ -1,5 +1,5 @@
 <div pfEllipsisActive class="ellipsis-overflowing-text">
-  <span *ngIf="!mrpModel.Category.includes('Pct'); else pctValue" [innerHTML]="dataRow[mrpModel.DataPrefix + mrpModel.Category + 'MRP'] | comp: dataRow[mrpModel.DataPrefix + 'Rate'] | emptyPlaceholder"></span>
+  <span *ngIf="!mrpModel.Category.includes('Pct'); else pctValue" [innerHTML]="dataRow[mrpModel.DataPrefix + mrpModel.Category + 'MRP'] | comp: rateOverride !== '' ? rateOverride : dataRow[mrpModel.DataPrefix + 'Rate'] | emptyPlaceholder"></span>
   <small *ngIf="dataRow[mrpModel.DataPrefix + mrpModel.Category + 'MRP'] != null">
     <em class="text-muted" *ngIf="dataRow[mrpModel.DataPrefix + mrpModel.Category + mrpModel.DataSuffix] != null; else mrpOverrideTemplate">
       ({{dataRow[mrpModel.DataPrefix + mrpModel.Category + mrpModel.DataSuffix] || 50}}{{mrpModel.PercentileSuffix}})
@@ -14,5 +14,5 @@
 </ng-template>
 
 <ng-template #pctValue>
-  <span [innerHTML]="dataRow[mrpModel.DataPrefix + mrpModel.Category + 'MRP'] | comp: dataRow[mrpModel.DataPrefix + 'Rate'] : 'full'| emptyPlaceholder"></span>
+  <span [innerHTML]="dataRow[mrpModel.DataPrefix + mrpModel.Category + 'MRP'] | comp: rateOverride !== '' ? rateOverride : dataRow[mrpModel.DataPrefix + 'Rate'] : 'full'| emptyPlaceholder"></span>
 </ng-template>

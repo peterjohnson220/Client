@@ -17,6 +17,7 @@ export const GET_EXCHANGE_DATA_RESULTS_SUCCESS = '[Project/Survey Search] Get Ex
 export const GET_EXCHANGE_DATA_RESULTS_ERROR = '[Project/Survey Search] Get Exchange Data Results Error';
 export const UPDATE_RESULTS_MATCHES_COUNT = '[Project/Survey Search] Update Results Matches Count';
 export const REFINE_EXCHANGE_JOB_RESULT = '[Project/Survey Search] Refine Exchange Job Result';
+export const REFINE_EXCHANGE_JOB_RESULT_COMPLETE = '[Project/Survey Search] Refine Exchange Job Result Complete';
 
 export class ReplaceJobResults implements Action {
   readonly type = REPLACE_JOB_RESULTS;
@@ -94,6 +95,12 @@ export class RefineExchangeJobResult implements Action {
   constructor(public payload: {lockedExchangeJobId: number}|{exchangeId: number, exchangeJobTitle: string}) { }
 }
 
+export class RefineExchangeJobResultComplete implements Action {
+  readonly type = REFINE_EXCHANGE_JOB_RESULT_COMPLETE;
+
+  constructor() { }
+}
+
 export type Actions
   = AddJobResults
   | ReplaceJobResults
@@ -107,4 +114,5 @@ export type Actions
   | GetExchangeDataResultsSuccess
   | GetExchangeDataResultsError
   | UpdateResultsMatchesCount
-  | RefineExchangeJobResult;
+  | RefineExchangeJobResult
+  | RefineExchangeJobResultComplete;

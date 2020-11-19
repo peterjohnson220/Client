@@ -22,6 +22,7 @@ import * as fromExchangeExplorerReducer from '../../reducers';
 import * as fromExchangeExplorerContextInfoActions from '../../actions/exchange-explorer-context-info.actions';
 import * as fromExchangeFilterContextActions from '../../actions/exchange-filter-context.actions';
 import * as fromExchangeExplorerDataCutsActions from '../../actions/exchange-data-cut.actions';
+import * as fromLibsExchangeExplorerActions from '../../actions/exchange-explorer.actions';
 
 @Component({
   selector: 'pf-exchange-explorer',
@@ -123,6 +124,10 @@ export class ExchangeExplorerComponent extends SearchBaseDirective {
   }
 
   onSetContext(payload: any) {
+    if (!!payload.lockedExchangeJobId) {
+      this.store.dispatch(new fromLibsExchangeExplorerActions.RefineExchangeJob(payload));
+      return;
+    }
     if (!!payload.cutGuid && payload.cutGuid !== '') {
       const systemFilterRequest = {exchangeDataCutGuid: payload.cutGuid, companyJobId: payload.companyJobId};
       this.cutGuid = payload.cutGuid;

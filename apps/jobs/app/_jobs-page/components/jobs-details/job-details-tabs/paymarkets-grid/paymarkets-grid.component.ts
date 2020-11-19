@@ -9,7 +9,6 @@ import cloneDeep from 'lodash/cloneDeep';
 
 import { ActionBarConfig, getDefaultActionBarConfig, GridConfig, PfDataGridFilter } from 'libs/features/pf-data-grid/models';
 import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
-import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
 import { ReScopeSurveyDataModalConfiguration } from 'libs/features/re-scope-survey-data/models';
 import { UpdatePricingMatchRequest, ViewField } from 'libs/models/payfactors-api';
 import * as fromReScopeActions from 'libs/features/re-scope-survey-data/actions';
@@ -99,7 +98,6 @@ export class PaymarketsGridComponent implements OnInit, AfterViewInit, OnDestroy
   selectedJobRowSubscription: Subscription;
 
   jobTitleCodePipe: JobTitleCodePipe;
-  hasInfiniteScrollFeatureFlagEnabled: boolean;
 
   // This is needed to refresh the matches grid after updating the scopes
   selectedPricingId: number;
@@ -115,15 +113,11 @@ export class PaymarketsGridComponent implements OnInit, AfterViewInit, OnDestroy
 
   constructor(private store: Store<fromModifyPricingsReducer.State>,
     private actionsSubject: ActionsSubject,
-    private featureFlagService: AbstractFeatureFlagService,
     private permissionService: PermissionService) { }
 
   ngOnInit(): void {
     this.canModifyPricings = this.permissionService.CheckPermission([Permissions.MODIFY_PRICINGS], PermissionCheckEnum.Single);
     this.jobTitleCodePipe = new JobTitleCodePipe();
-
-    this.hasInfiniteScrollFeatureFlagEnabled = this.featureFlagService.enabled(FeatureFlags.PfDataGridInfiniteScroll, false);
-
     this.recalculatingPricingInfo$ = this.store
       .select(fromModifyPricingsReducer.getRecalculatingPricingInfo)
       .pipe(switchMap(ev => of(ev)))
@@ -168,8 +162,8 @@ export class PaymarketsGridComponent implements OnInit, AfterViewInit, OnDestroy
     };
     this.gridConfig = {
       PersistColumnWidth: false,
-      EnableInfiniteScroll: this.hasInfiniteScrollFeatureFlagEnabled,
-      ScrollToTop: this.hasInfiniteScrollFeatureFlagEnabled,
+      EnableInfiniteScroll: true,
+      ScrollToTop: true,
       SelectAllPanelItemName: 'pricings'
     };
 

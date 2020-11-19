@@ -11,3 +11,4 @@ export * from './jwt-querystring-auth-interceptor.service';
 export * from './sentry-error-handler.service';
 export * from './sentry.service';
 export * from './feature-flags';
+export * from './unauthorized-http-interceptor.service';

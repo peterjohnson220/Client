@@ -4,6 +4,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
+import { AbstractFeatureFlagService } from 'libs/core/services/feature-flags';
 
 import { DataCutsComponent } from './data-cuts.component';
 import { generateMockDataCut, generateMockSurveyJobResult, DataCut } from '../../models';
@@ -13,6 +14,7 @@ describe('Project - Survey Search - Data Cuts', () => {
   let instance: DataCutsComponent;
   let fixture: ComponentFixture<DataCutsComponent>;
   let store: Store<fromSurveySearchReducer.State>;
+  let abstractFeatureFlagService: AbstractFeatureFlagService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -23,7 +25,13 @@ describe('Project - Survey Search - Data Cuts', () => {
         })
       ],
       declarations: [ DataCutsComponent ],
-      schemas: [ NO_ERRORS_SCHEMA ]
+      schemas: [ NO_ERRORS_SCHEMA ],
+      providers: [
+        {
+          provide: AbstractFeatureFlagService,
+          useValue: { enabled: jest.fn(), bindEnabled: jest.fn() }
+        }
+      ]
     });
   });
 
@@ -32,6 +40,7 @@ describe('Project - Survey Search - Data Cuts', () => {
 
     fixture = TestBed.createComponent(DataCutsComponent);
     instance = fixture.componentInstance;
+    abstractFeatureFlagService = TestBed.inject(AbstractFeatureFlagService);
 
     // Set up
     instance.job = generateMockSurveyJobResult();

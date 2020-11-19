@@ -12,7 +12,7 @@
       <tr class="notification-row"
           *ngFor="let notification of (userNotificationsAsyncObj$ | async)?.obj; let i = index"
           (click)="openNotification(notification)">
-        <pf-user-notification [UserNotification]="notification" ></pf-user-notification>
+        <pf-user-notification-container [UserNotification]="notification"></pf-user-notification-container>
       </tr>
     </tbody>
   </table>

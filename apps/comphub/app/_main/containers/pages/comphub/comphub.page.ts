@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
@@ -124,6 +124,7 @@ export class ComphubPageComponent implements OnInit, OnDestroy {
     this.workflowContextSub.unsubscribe();
     this.userContextSub.unsubscribe();
     this.historyGridInitializedSubscription.unsubscribe();
+    this.showJobHistorySummarySubscription.unsubscribe();
   }
 
   trackById(index: number, card: AccordionCard) {

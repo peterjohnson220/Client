@@ -12,6 +12,7 @@ export class PricingDetailsMrpColumnComponent implements OnChanges {
   @Input() dataRow: any;
   @Input() fieldName: string;
   @Input() mrpDisplayOverrides: any;
+  @Input() rateOverride = '';
 
   mrpModel: MrpModel;
   mrpOverride = null;
@@ -19,7 +20,6 @@ export class PricingDetailsMrpColumnComponent implements OnChanges {
   constructor(private mrpFormatterService: MrpFormatterService) {}
 
   ngOnChanges(changes: SimpleChanges) {
-
     if (changes['mrpDisplayOverrides'] && changes['fieldName']) {
       this.mrpOverride = changes['mrpDisplayOverrides']
         .currentValue[

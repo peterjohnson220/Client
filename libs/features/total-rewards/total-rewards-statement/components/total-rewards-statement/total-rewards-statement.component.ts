@@ -4,6 +4,7 @@ import { EmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards';
 
 import {
   CalculationControl,
+  CompensationField,
   DeleteImageRequest,
   SaveImageRequest,
   Statement,
@@ -28,6 +29,8 @@ export class TotalRewardsStatementComponent {
   @Input() mode: StatementModeEnum;
   @Input() employeeRewardsData: EmployeeRewardsData;
   @Input() pageBreakAfter: boolean;
+  @Input() companyUdfs: CompensationField[];
+  @Input() visibleFieldsCount: number;
 
   // Common Outputs
   @Output() onControlTitleChange: EventEmitter<UpdateTitleRequest> = new EventEmitter();
@@ -54,6 +57,7 @@ export class TotalRewardsStatementComponent {
   @Output() onEffectiveDateChange: EventEmitter<Date> = new EventEmitter<Date>();
 
   controlType = TotalRewardsControlEnum;
+  statementModeEnum = StatementModeEnum;
 
   // check statement.Settings.FontSize and return small-font-size | medium-font-size | large-font-size | ''
   get fontSizeCssClass(): string {

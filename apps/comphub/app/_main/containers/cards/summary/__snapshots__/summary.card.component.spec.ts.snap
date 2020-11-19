@@ -31,6 +31,7 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
   selectedRate={[Function String]}
   selectedRate$={[Function Store]}
   selectedRateSubscription={[Function Subscriber]}
+  sendingQuickPriceShareEmail$={[Function Store]}
   sharePricingSummaryConflict$={[Function Store]}
   sharePricingSummaryError$={[Function Store]}
   sharePricingSummaryModalOpen$={[Function Store]}
@@ -1086,6 +1087,7 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
   selectedRate={[Function String]}
   selectedRate$={[Function Store]}
   selectedRateSubscription={[Function Subscriber]}
+  sendingQuickPriceShareEmail$={[Function Store]}
   sharePricingSummaryConflict$={[Function Store]}
   sharePricingSummaryError$={[Function Store]}
   sharePricingSummaryModalOpen$={[Function Store]}
@@ -2141,6 +2143,7 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
   selectedRate={[Function String]}
   selectedRate$={[Function Store]}
   selectedRateSubscription={[Function Subscriber]}
+  sendingQuickPriceShareEmail$={[Function Store]}
   sharePricingSummaryConflict$={[Function Store]}
   sharePricingSummaryError$={[Function Store]}
   sharePricingSummaryModalOpen$={[Function Store]}
@@ -3196,6 +3199,7 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
   selectedRate={[Function String]}
   selectedRate$={[Function Store]}
   selectedRateSubscription={[Function Subscriber]}
+  sendingQuickPriceShareEmail$={[Function Store]}
   sharePricingSummaryConflict$={[Function Store]}
   sharePricingSummaryError$={[Function Store]}
   sharePricingSummaryModalOpen$={[Function Store]}
@@ -4251,6 +4255,7 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
   selectedRate={[Function String]}
   selectedRate$={[Function Store]}
   selectedRateSubscription={[Function Subscriber]}
+  sendingQuickPriceShareEmail$={[Function Store]}
   sharePricingSummaryConflict$={[Function Store]}
   sharePricingSummaryError$={[Function Store]}
   sharePricingSummaryModalOpen$={[Function Store]}
@@ -5306,6 +5311,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
   selectedRate={[Function String]}
   selectedRate$={[Function Store]}
   selectedRateSubscription={[Function Subscriber]}
+  sendingQuickPriceShareEmail$={[Function Store]}
   sharePricingSummaryConflict$={[Function Store]}
   sharePricingSummaryError$={[Function Store]}
   sharePricingSummaryModalOpen$={[Function Store]}
@@ -6361,6 +6367,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
   selectedRate={[Function String]}
   selectedRate$={[Function Store]}
   selectedRateSubscription={[Function Subscriber]}
+  sendingQuickPriceShareEmail$={[Function Store]}
   sharePricingSummaryConflict$={[Function Store]}
   sharePricingSummaryError$={[Function Store]}
   sharePricingSummaryModalOpen$={[Function Store]}
@@ -7416,6 +7423,7 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
   selectedRate={[Function String]}
   selectedRate$={[Function Store]}
   selectedRateSubscription={[Function Subscriber]}
+  sendingQuickPriceShareEmail$={[Function Store]}
   sharePricingSummaryConflict$={[Function Store]}
   sharePricingSummaryError$={[Function Store]}
   sharePricingSummaryModalOpen$={[Function Store]}
