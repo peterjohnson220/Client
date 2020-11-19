@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, FormControl } from '@angular/forms';
 
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
 import { PfValidators } from 'libs/forms/validators';
@@ -26,10 +26,7 @@ export class JobsHierarchyFormComponent implements OnInit, OnDestroy {
   groupingTypes = [HierarchyGroupingTypes.JOB_FAMILY_JOB_LEVEL, HierarchyGroupingTypes.JOB_FAMILY, HierarchyGroupingTypes.JOB_LEVEL];
   defaultGroupingType: HierarchyGroupingTypes.JOB_FAMILY_JOB_LEVEL;
   jobLevelHierarchyForm: FormGroup;
-  selectedJobLevel: string;
-  selectedJobLevelInHierarchy: string;
   jobLevelsInHierarchy: string[] = [];
-  jobLevelsMasterList: string[] = [];
   jobLevels: string[] = [];
   jobFamilies: string[] = [];
   selectedHierarchy: JobLevelHierarchyDetail = {} as JobLevelHierarchyDetail;
@@ -45,6 +42,9 @@ export class JobsHierarchyFormComponent implements OnInit, OnDestroy {
   jobLevelsSub: Subscription;
   selectedHierarchySub: Subscription;
   shouldResetHierarchyFormSub: Subscription;
+
+  modalOpen$: Observable<boolean>;
+  deletingJobLevelHierarchyAsyncObj$: Observable<AsyncStateObj<null>>;
 
   get f() {
     return this.jobLevelHierarchyForm.controls;
@@ -67,11 +67,12 @@ export class JobsHierarchyFormComponent implements OnInit, OnDestroy {
     private store: Store<fromJobsHierarchyReducer.State>,
     private jobLevelHierarchyDndService: JobLevelHierarchyDndService,
   ) {
-
     this.jobFamilies$ = this.store.select(fromJobsHierarchyReducer.getJobFamilies);
     this.jobLevels$ = this.store.select(fromJobsHierarchyReducer.getJobLevels);
     this.selectedHierarchy$ = this.store.select(fromJobsHierarchyReducer.getSelectedHierarchy);
     this.shouldResetHierarchyForm$ = this.store.select(fromJobsHierarchyReducer.getResetHierarchyForm);
+    this.modalOpen$ = this.store.pipe(select(fromJobsHierarchyReducer.getDeleteJobLevelHierarchyModalOpen));
+    this.deletingJobLevelHierarchyAsyncObj$ = this.store.pipe(select(fromJobsHierarchyReducer.getDeletingJobLevelHierarchyAsyncObj));
     this.buildForm();
   }
 
@@ -276,4 +277,19 @@ export class JobsHierarchyFormComponent implements OnInit, OnDestroy {
     return jobLevelHierarchy;
   }
 
+  handleDeleteJobLevelHierarchy() {
+    this.store.dispatch(new fromJobsHierarchyActions.OpenModal());
+  }
+
+  handleDismiss() {
+    this.store.dispatch(new fromJobsHierarchyActions.CloseModal());
+  }
+
+  deleteJobHierarchy() {
+    if (this.selectedHierarchy.HierarchyId > 0) {
+      this.store.dispatch(new fromJobsHierarchyActions.DeleteJobLevelHierarchy({
+        hierarchyId: this.selectedHierarchy.HierarchyId
+      }));
+    }
+  }
 }

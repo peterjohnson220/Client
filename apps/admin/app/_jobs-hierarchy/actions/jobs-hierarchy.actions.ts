@@ -18,22 +18,28 @@ export const GET_JOB_LEVEL_HIERARCHY = '[Admin/Jobs Hierarchy] Get Job Level Hie
 export const GET_JOB_LEVEL_HIERARCHY_SUCCESS = '[Admin/Jobs Hierarchy] Get Job Level Hierarchy Success';
 export const GET_JOB_LEVEL_HIERARCHY_ERROR = '[Admin/Jobs Hierarchy] Get Job Level Hierarchy Error';
 
-export const SAVE_JOB_LEVEL_HIERARCY = '[Admin/Jobs Hierarchy] Save Company Job Level Hierarchy';
-export const SAVE_JOB_LEVEL_HIERARCY_SUCCESS = '[Admin/Jobs Hierarchy] Save Company Job Level Hierarchy Success';
-export const SAVE_JOB_LEVEL_HIERARCY_ERROR = '[Admin/Jobs Hierarchy] Save Company Job Level Hierarchy Error';
+export const SAVE_JOB_LEVEL_HIERARCHY = '[Admin/Jobs Hierarchy] Save Company Job Level Hierarchy';
+export const SAVE_JOB_LEVEL_HIERARCHY_SUCCESS = '[Admin/Jobs Hierarchy] Save Company Job Level Hierarchy Success';
+export const SAVE_JOB_LEVEL_HIERARCHY_ERROR = '[Admin/Jobs Hierarchy] Save Company Job Level Hierarchy Error';
 
-export const RESET_JOB_LEVEL_HIERARCY_FORM = '[Admin/Jobs Hierarchy] Reset Company Job Level Hierarchy Form';
-export const RESET_JOB_LEVEL_HIERARCY_FORM_SUCCESS = '[Admin/Jobs Hierarchy] Reset Company Job Level Hierarchy Form Success';
+export const RESET_JOB_LEVEL_HIERARCHY_FORM = '[Admin/Jobs Hierarchy] Reset Company Job Level Hierarchy Form';
+export const RESET_JOB_LEVEL_HIERARCHY_FORM_SUCCESS = '[Admin/Jobs Hierarchy] Reset Company Job Level Hierarchy Form Success';
 
+export const OPEN_MODAL = '[Admin/Jobs Hierarchy] Open Modal';
+export const CLOSE_MODAL = '[Admin/Jobs Hierarchy] Close Modal';
+
+export const DELETE_JOB_LEVEL_HIERARCHY = '[Admin/Jobs Hierarchy] Delete Job Level Hierarchy';
+export const DELETE_JOB_LEVEL_HIERARCHY_SUCCESS = '[Admin/Jobs Hierarchy] Delete Job Level Hierarchy Success';
+export const DELETE_JOB_LEVEL_HIERARCHY_ERROR = '[Admin/Jobs Hierarchy] Delete Job Level Hierarchy Error';
 
 export class ResetJobLevelHierarchyForm implements Action {
-  readonly type = RESET_JOB_LEVEL_HIERARCY_FORM;
+  readonly type = RESET_JOB_LEVEL_HIERARCHY_FORM;
 
   constructor() {}
 }
 
 export class ResetJobLevelHierarchyFormSuccess implements Action {
-  readonly type = RESET_JOB_LEVEL_HIERARCY_FORM_SUCCESS;
+  readonly type = RESET_JOB_LEVEL_HIERARCHY_FORM_SUCCESS;
 
   constructor() {}
 }
@@ -75,19 +81,19 @@ export class GetJobLevelHierarchyError implements Action {
 }
 
 export class SaveJobLevelHierarchy implements Action {
-  readonly type = SAVE_JOB_LEVEL_HIERARCY;
+  readonly type = SAVE_JOB_LEVEL_HIERARCHY;
 
   constructor(public payload: { jobLevelHierarchy: JobLevelHierarchyDetail }) {}
 }
 
 export class SaveJobLevelHierarchySuccess implements Action {
-  readonly type = SAVE_JOB_LEVEL_HIERARCY_SUCCESS;
+  readonly type = SAVE_JOB_LEVEL_HIERARCHY_SUCCESS;
 
   constructor() {}
 }
 
 export class SaveJobLevelHierarchyError implements Action {
-  readonly type = SAVE_JOB_LEVEL_HIERARCY_ERROR;
+  readonly type = SAVE_JOB_LEVEL_HIERARCHY_ERROR;
 
   constructor(public error: any) {}
 }
@@ -128,6 +134,32 @@ export class GetJobFamiliesError implements Action {
   constructor(public payload: any) {}
 }
 
+export class OpenModal implements Action {
+  readonly type = OPEN_MODAL;
+}
+
+export class CloseModal implements Action {
+  readonly type = CLOSE_MODAL;
+}
+
+export class DeleteJobLevelHierarchy implements Action {
+  readonly type = DELETE_JOB_LEVEL_HIERARCHY;
+
+  constructor(public payload: any) {}
+}
+
+export class DeleteJobLevelHierarchySuccess implements Action {
+  readonly type = DELETE_JOB_LEVEL_HIERARCHY_SUCCESS;
+
+  constructor() {}
+}
+
+export class DeleteJobLevelHierarchyError implements Action {
+  readonly type = DELETE_JOB_LEVEL_HIERARCHY_ERROR;
+
+  constructor(public payload: any) {}
+}
+
 export type Actions
   = GetJobFamilies
   | GetJobFamiliesSuccess
@@ -145,4 +177,9 @@ export type Actions
   | GetJobLevelHierarchySuccess
   | GetJobLevelHierarchyError
   | ResetJobLevelHierarchyFormSuccess
-  | ResetJobLevelHierarchyForm;
+  | ResetJobLevelHierarchyForm
+  | OpenModal
+  | CloseModal
+  | DeleteJobLevelHierarchy
+  | DeleteJobLevelHierarchySuccess
+  | DeleteJobLevelHierarchyError;

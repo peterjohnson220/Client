@@ -1,3 +1,4 @@
+@import 'colors';
 @import 'kendo-grid';
 @import 'common/common-variables';
 
@@ -22,4 +23,12 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+a {
+  padding-left: 10px;
+  color: $link-color;
+}
+a:hover {
+  text-decoration: underline;
 }

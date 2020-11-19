@@ -8,7 +8,6 @@ import { NgbModal, NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
 import * as fromRootState from 'libs/state/state';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 import { PfCommonModule } from 'libs/core';
-import { AbstractFeatureFlagService } from 'libs/core/services/feature-flags';
 
 import * as fromEmployeesReducer from '../reducers';
 import * as fromEmployeesPageActions from '../actions/employees-page.actions';
@@ -43,10 +42,6 @@ describe('Employees - Employees Page', () => {
         {
           provide: Router,
           useValue: { navigate: jest.fn() },
-        },
-        {
-          provide: AbstractFeatureFlagService,
-          useValue: { enabled: jest.fn() }
         }
       ]
     });

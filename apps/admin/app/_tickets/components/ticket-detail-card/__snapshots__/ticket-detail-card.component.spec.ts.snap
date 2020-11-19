@@ -21,7 +21,11 @@ exports[`Admin - Tickets - Ticket Detail Card Should display details about a tic
         >
            MockOpenedByUser
         </a>
-         - Jan 1, 1990 
+        <span
+          class="text-muted"
+        >
+           - Date: 1/1/90 Time: 12:00 AM 
+        </span>
       </div>
       <div>
         <fa-icon />

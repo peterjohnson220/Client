@@ -1,7 +1,9 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
+import { Subject } from 'rxjs';
 
 import { MatchesDetailsRequestJobTypes, PricingMatchesDetailsRequest } from 'libs/models/payfactors-api';
 import { SurveySearchResultDataSources } from 'libs/constants';
+import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
 
 import { JobResult, MatchesDetailsTooltipData, DataCut } from '../../models';
 
@@ -22,13 +24,19 @@ export class DataCutsComponent implements OnDestroy {
   @Output() payFactorsCutSelected: EventEmitter<any> = new EventEmitter();
   @Output() matchesMouseEnter: EventEmitter<MatchesDetailsTooltipData> = new EventEmitter<MatchesDetailsTooltipData>();
   @Output() matchesMouseLeave: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() refineInPeerClicked: EventEmitter<any> = new EventEmitter<any>();
+
+  customizeScopeInMultimatchModalFlag: RealTimeFlag = { key: FeatureFlags.CustomizeScopeInMultimatchModal, value: false };
+  unsubscribe$ = new Subject<void>();
 
   isMatchesHovered: boolean;
   surveySearchResultDataSources = SurveySearchResultDataSources;
   private matchesMouseLeaveTimer: number;
   private readonly matchesMouseLeaveTimeout: number = 100;
 
-  constructor() {}
+  constructor(private featureFlagService: AbstractFeatureFlagService) {
+    this.featureFlagService.bindEnabled(this.customizeScopeInMultimatchModalFlag, this.unsubscribe$);
+  }
 
   ngOnDestroy(): void {
     if (!!this.matchesMouseLeaveTimer) {
@@ -50,6 +58,10 @@ export class DataCutsComponent implements OnDestroy {
 
   togglePeerCutSelection(dataCut: DataCut): void {
     this.dataCutSelected.emit(dataCut);
+  }
+
+  toggleRefineInPeerDisplay(): void {
+    this.refineInPeerClicked.emit();
   }
 
   handleMatchesMouseEnter(event: MouseEvent, dataCut: DataCut): void {
@@ -75,5 +87,4 @@ export class DataCutsComponent implements OnDestroy {
       }
     }, this.matchesMouseLeaveTimeout);
   }
-
 }

@@ -49,7 +49,7 @@
             |
           </div>
           <div class="link au-lnk-refine-job-in-peer" (click)="toggleRefineInPeerDisplay()">
-            {{toggleRefineInPeerLabel}}
+            {{this.customizeScopeInMultimatchModalFlag.value ? 'Customize Your Scope' : 'Refine'}}
           </div>
         </ng-container>
       </div>
@@ -120,7 +120,8 @@
                     (dataCutSelected)="handleDataCutSelected($event)"
                     (payFactorsCutSelected)="handlePayfactorsCutSelected()"
                     (matchesMouseEnter)="handleDataCutMatchesMouseEnter($event)"
-                    (matchesMouseLeave)="handleMatchesMouseLeave()">
+                    (matchesMouseLeave)="handleMatchesMouseLeave()"
+                    (refineInPeerClicked)="handleRefineInPeerClicked()">
       </pf-data-cuts>
       <span *ngIf="hasMoreDataCuts && !job.LoadingMoreDataCuts" class="link" (click)="handleLoadDataCuts()">Load More</span>
     </ng-container>

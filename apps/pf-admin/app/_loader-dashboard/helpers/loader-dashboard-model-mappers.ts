@@ -7,7 +7,9 @@ export class LoaderDashboardModelMappers {
     return {
       StartDate: x.StartDate,
       EndDate: x.EndDate,
-      ExcludeTestCompanies: x.ExcludeTestCompanies
+      ExcludeTestCompanies: x.ExcludeTestCompanies,
+      Page: x.Page,
+      PageSize: x.Page,
     };
   }
 }

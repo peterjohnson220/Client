@@ -2,17 +2,17 @@
     <div class="form-group row">
         <div class="input-group">
           <input type="text" class="form-control" [placeholder]="'Formula Name'" [value]="formulaFieldObj.FieldName" [maxlength]="maxFieldNameLength"
-            (change)="handleFormulaNameChange($event)" [ngClass]="{ 'is-invalid': attemptedSubmit && formControls.FieldName.invalid }"
+            (change)="handleFormulaNameChange()" [ngClass]="{ 'is-invalid': attemptedSubmit && formControls.FieldName.invalid }"
             [pfValidatable]="true" ngbAutoFocus formControlName="FieldName" name="FormulaName"/>
           <div class="input-group-append" *ngIf="formulaFieldObj.IsPublic">
               <span class="input-group-text">
-                  <input type="reset" formControlName="IsPublic" [ngbTooltip]="publicFormulaContent" [value]="true" class="hidden" (click)="handlePublicChange($event)"/>
+                  <input type="reset" formControlName="IsPublic" [ngbTooltip]="publicFormulaContent" [value]="true" class="hidden" (click)="handlePublicChange()"/>
                 <fa-icon [ngbTooltip]="publicFormulaContent" icon="globe" aria-hidden="true"></fa-icon>
               </span>
           </div>
           <div class="input-group-append" *ngIf="!formulaFieldObj.IsPublic">
               <span class="input-group-text">
-                  <input type="reset" formControlName="IsPublic" [ngbTooltip]="privateFormulaContent" [value]="false" class="hidden" (click)="handlePublicChange($event)"/>
+                  <input type="reset" formControlName="IsPublic" [ngbTooltip]="privateFormulaContent" [value]="false" class="hidden" (click)="handlePublicChange()"/>
                   <fa-icon [ngbTooltip]="privateFormulaContent" icon="eye" aria-hidden="true" ></fa-icon>
               </span>
           </div>
@@ -30,7 +30,7 @@
       </div>
       <div class="input-group">
         <pf-formula-editor
-        [initialFormula]="formulaFieldObj.Formula"
+        [initialFormula]="formula"
         [fieldSuggestions]="fieldSuggestions"
         [functionSuggestions]="functionSuggestions"
         [validating]="validating"

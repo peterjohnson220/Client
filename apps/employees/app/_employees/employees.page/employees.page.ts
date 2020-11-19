@@ -21,7 +21,6 @@ import {
   GridRowActionsConfig
 } from 'libs/features/pf-data-grid/models';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
-import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
 import { Statement, StatementModeEnum } from 'libs/features/total-rewards/total-rewards-statement/models';
 import { EmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards/response';
 import { AsyncStateObj } from 'libs/models/state';
@@ -29,7 +28,6 @@ import { AsyncStateObj } from 'libs/models/state';
 import * as fromEmployeesReducer from '../reducers';
 import * as fromEmployeesPageActions from '../actions/employees-page.actions';
 import { EmployeesPageViewId } from '../models';
-import { StatementDownloadComponent } from 'libs/features/total-rewards/total-rewards-statement/components/statement-download';
 
 @Component({
   selector: 'pf-employees-page',
@@ -44,7 +42,6 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
   @ViewChild('rateBasedSalaryColumn') rateBasedSalaryColumn: ElementRef;
   @ViewChild('gridRowActionsTemplate') gridRowActionsTemplate: ElementRef;
   @ViewChild(PfSecuredResourceDirective) pfSecuredResourceDirective: PfSecuredResourceDirective;
-  @ViewChild(StatementDownloadComponent) statementDownload: StatementDownloadComponent;
   permissions = Permissions;
   pricingJobs$: Observable<boolean>;
   pricingJobsError$: Observable<boolean>;
@@ -84,7 +81,6 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
   gridConfig: GridConfig;
   gridRowActionsConfig: GridRowActionsConfig = getDefaultGridRowActionsConfig();
   hasDropdownOptions: boolean;
-  hasInfiniteScrollFeatureFlagEnabled: boolean;
   totalRewardsStatementMode = StatementModeEnum.Print;
   totalRewardsStatement: Statement;
   employeeRewardsData: EmployeeRewardsData;
@@ -96,7 +92,6 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
     private pfGridStore: Store<fromPfGridReducer.State>,
     private modalService: NgbModal,
     private router: Router,
-    private featureFlagService: AbstractFeatureFlagService
   ) {
     this.pricingJobs$ = this.store.pipe(select(fromEmployeesReducer.getPricingJobs));
     this.pricingJobsError$ = this.store.pipe(select(fromEmployeesReducer.getPricingsJobsError));
@@ -104,7 +99,6 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
     this.totalRewardsStatement$ = this.store.pipe(select(fromEmployeeManagementReducers.getTotalRewardsStatement));
     this.employeeRewardsData$ = this.store.pipe(select(fromEmployeeManagementReducers.getEmployeeTotalRewardsData));
     this.totalRewardsStatementId$ = this.store.pipe(select(fromEmployeeManagementReducers.getTotalRewardsStatementId));
-    this.hasInfiniteScrollFeatureFlagEnabled = this.featureFlagService.enabled(FeatureFlags.PfDataGridInfiniteScroll, false);
 
     this.actionBarConfig = {
       ...getDefaultActionBarConfig(),
@@ -117,8 +111,8 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
     };
     this.gridConfig = {
       PersistColumnWidth: true,
-      EnableInfiniteScroll: this.hasInfiniteScrollFeatureFlagEnabled,
-      ScrollToTop: this.hasInfiniteScrollFeatureFlagEnabled,
+      EnableInfiniteScroll: true,
+      ScrollToTop: true,
       SelectAllPanelItemName: 'employees'
     };
   }
@@ -260,7 +254,10 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
   handleViewTotalRewardsStatementClicked(employeeId: number): void {
     this.store.dispatch(new fromEmployeeManagementActions.OpenTotalRewardsStatement());
     this.store.dispatch(new fromEmployeeManagementActions.GetTotalRewardsStatement());
-    this.store.dispatch(new fromEmployeeManagementActions.GetEmployeeTotalRewardsData(employeeId));
+    this.store.dispatch(new fromEmployeeManagementActions.GetEmployeeTotalRewardsData({
+      companyEmployeeId: employeeId,
+      statementId: this.totalRewardsStatementId
+    }));
   }
 
   handleDismissTotalRewardsModal(): void {
@@ -286,7 +283,10 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
   }
 
   public downloadStatement(): void {
-    this.statementDownload.downloadPdf();
+    this.store.dispatch(
+      new fromEmployeesPageActions.GenerateStatement(
+        { statementId: this.totalRewardsStatement.StatementId, companyEmployeeIds: [this.selectedCompanyEmployeeId] }
+        ));
   }
 
   private handlePricingJobsStatusChanged(value: boolean): void {

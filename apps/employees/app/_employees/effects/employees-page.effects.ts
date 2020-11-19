@@ -4,12 +4,15 @@ import { Effect, Actions, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { switchMap, catchError, map, tap, mergeMap } from 'rxjs/operators';
 
-import { ProjectApiService, CompanyEmployeeApiService } from 'libs/data/payfactors-api';
+import { ProjectApiService, CompanyEmployeeApiService, TotalRewardsPdfGenerationService } from 'libs/data/payfactors-api';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromEmployeeManagementActions from 'libs/features/employee-management/actions';
+import { TrsConstants } from 'libs/features/total-rewards/total-rewards-statement/constants/trs-constants';
+import { DeliveryMethod } from 'libs/features/total-rewards/total-rewards-statement/models/delivery-method';
 
 import * as fromEmployeesPageActions from '../actions/employees-page.actions';
 import { EmployeesPageViewId } from '../models';
+
 
 @Injectable()
 export class EmployeesPageEffects {
@@ -63,9 +66,32 @@ export class EmployeesPageEffects {
       )
     );
 
+  @Effect()
+  generateStatement$ = this.actions$
+    .pipe(
+      ofType(fromEmployeesPageActions.GENERATE_STATEMENT),
+      map((data: any) => ({
+        StatementId: data.payload.statementId,
+        CompanyEmployeeIds: data.payload.companyEmployeeIds,
+        GenerateByQuery: data.payload.companyEmployeeIds,
+        WaitForPdfGenerationSelector: TrsConstants.READY_FOR_PDF_GENERATION_SELECTOR,
+        Method: DeliveryMethod.PDFExport,
+        EmailTemplate: null
+      })),
+      switchMap(request =>
+        this.totalRewardsPdfGenerationService.generateStatements(request).pipe(
+          mergeMap((response) => [
+            new fromEmployeesPageActions.GenerateStatementSuccess()
+          ]),
+          catchError(error => of(new fromEmployeesPageActions.GenerateStatementError(error)))
+        )
+      )
+    );
+
   constructor(
     private actions$: Actions,
     private projectsApiService: ProjectApiService,
-    private companyEmployeesApiService: CompanyEmployeeApiService
+    private companyEmployeesApiService: CompanyEmployeeApiService,
+    private totalRewardsPdfGenerationService: TotalRewardsPdfGenerationService,
   ) {}
 }

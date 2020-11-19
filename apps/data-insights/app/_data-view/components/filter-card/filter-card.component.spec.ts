@@ -60,7 +60,11 @@ describe('Data Insights - Filter Card Component', () => {
       FilterIndex: 1,
       EntitySourceName: 'CompanyJobs',
       SourceName: 'Job_Title',
-      Query: query
+      Query: query,
+      BaseEntitySourceName: null,
+      DisablePagingAndSorting: false,
+      ApplyDefaultFilters: true,
+      OptionalFilters: null
     };
 
     instance.handleMultiSelectFilterChanged(query);

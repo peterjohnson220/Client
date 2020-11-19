@@ -7,10 +7,8 @@ import { delay } from 'rxjs/operators';
 
 import { AsyncStateObj } from 'libs/models/state';
 import { RoundingSettingsDataObj, RangeGroupMetadata } from 'libs/models/structures';
-import { CompanySettingsEnum } from 'libs/models';
 import { SettingsService } from 'libs/state/app-context/services';
 import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
-import { MissingMarketDataTypes } from 'libs/constants/structures/missing-market-data-type';
 
 import * as fromMetadataActions from '../../../shared/actions/shared.actions';
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
@@ -21,6 +19,7 @@ import { UrlService } from '../../services';
 import { Workflow } from '../../constants/workflow';
 import { RangeDistributionSettingComponent } from '../range-distribution-setting';
 import { ModelSettingsModalConstants } from '../../constants/model-settings-modal-constants';
+import { AdvancedModelSettingComponent } from '../advanced-model-setting';
 
 @Component({
   selector: 'pf-model-settings-modal',
@@ -30,7 +29,8 @@ import { ModelSettingsModalConstants } from '../../constants/model-settings-moda
 export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   @Input() rangeGroupId: number;
   @Input() pageViewId: string;
-  @ViewChild(RangeDistributionSettingComponent, { static: false }) public rdSettingComponent: RangeDistributionSettingComponent;
+  @ViewChild(RangeDistributionSettingComponent, { static: false }) public rangeDistributionSettingComponent: RangeDistributionSettingComponent;
+  @ViewChild(AdvancedModelSettingComponent, { static: false }) public advancedModelSettingComponent: AdvancedModelSettingComponent;
 
   modalOpen$: Observable<boolean>;
   metaData$: Observable<RangeGroupMetadata>;
@@ -41,14 +41,17 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   modelNameExistsFailure$: Observable<boolean>;
   roundingSettings$: Observable<RoundingSettingsDataObj>;
 
-  enableJobRangeTypes$: Observable<boolean>;
   controlPointsAsyncObjSub: Subscription;
   currenciesAsyncObjSub: Subscription;
   metadataSub: Subscription;
   modalOpenSub: Subscription;
   modelNameExistsFailureSub: Subscription;
   roundingSettingsSub: Subscription;
-  enableJobRangeTypesSub: Subscription;
+  waitingForFormulaValidationSub: Subscription;
+  formulaValidatingSub: Subscription;
+  formulaValidSub: Subscription;
+  formulaSavingErrorSub: Subscription;
+  formulaFieldSub: Subscription;
 
   controlPointsAsyncObj: AsyncStateObj<ControlPoint[]>;
   currenciesAsyncObj: AsyncStateObj<Currency[]>;
@@ -61,10 +64,14 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   isNewModel: boolean;
   roundingSettings: RoundingSettingsDataObj;
   activeTab: string;
-  enableJobRangeTypes: boolean;
   modelSetting: RangeGroupMetadata;
   minSpreadTooltip: string;
   maxSpreadTooltip: string;
+  waitingForFormulaValidation = false;
+  formulaValidating = false;
+  formulaValid = false;
+  formulaSavingError = false;
+  formulaField = null;
   structuresAdvancedModelingFeatureFlag: RealTimeFlag = { key: FeatureFlags.StructuresAdvancedModeling, value: false };
   unsubscribe$ = new Subject<void>();
 
@@ -83,9 +90,12 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
     this.structureNameSuggestionsAsyncObj$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getStructureNameSuggestionsAsyncObj));
     this.savingModelSettingsAsyncObj$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getSavingModelSettingsAsyncObj));
     this.modelNameExistsFailure$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getModelNameExistsFailure));
-    this.enableJobRangeTypes$ = this.settingService.selectCompanySetting<boolean>(
-      CompanySettingsEnum.EnableJobRangeStructureRangeTypes
-    );
+    this.waitingForFormulaValidationSub = this.store.pipe(select(fromJobBasedRangeReducer.getFormulaWaitingForValidation))
+      .subscribe(fwfv => this.waitingForFormulaValidation = fwfv);
+    this.formulaValidatingSub = this.store.pipe(select(fromJobBasedRangeReducer.getFormulaValidating)).subscribe(fv => this.formulaValidating = fv);
+    this.formulaValidSub = this.store.pipe(select(fromJobBasedRangeReducer.getFormulaValid)).subscribe(fv => this.formulaValid = fv);
+    this.formulaSavingErrorSub = this.store.pipe(select(fromJobBasedRangeReducer.getFormulaSavingError)).subscribe(fse => this.formulaSavingError = fse);
+    this.formulaFieldSub = this.store.pipe(select(fromJobBasedRangeReducer.getFormulaField)).subscribe(ff => this.formulaField = ff);
     this.minSpreadTooltip = ModelSettingsModalConstants.MIN_SPREAD_TOOL_TIP;
     this.maxSpreadTooltip = ModelSettingsModalConstants.MAX_SPREAD_TOOL_TIP;
     this.featureFlagService.bindEnabled(this.structuresAdvancedModelingFeatureFlag, this.unsubscribe$);
@@ -120,54 +130,14 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   }
 
   buildForm() {
-    let advancedSettingForGroup;
-    if (this.metadata.RangeAdvancedSetting !== null) {
-      advancedSettingForGroup = new FormGroup({
-        'PreventMidsBelowCurrent': new FormControl(this.metadata.RangeAdvancedSetting.PreventMidsBelowCurrent),
-        'PreventMidsFromIncreasingMoreThanPercent': new FormGroup({
-          'Enabled': new FormControl(this.metadata.RangeAdvancedSetting.PreventMidsFromIncreasingMoreThanPercent.Enabled),
-          'Percentage': new FormControl(this.metadata.RangeAdvancedSetting.PreventMidsFromIncreasingMoreThanPercent.Percentage)
-        }),
-        'PreventMidsFromIncreasingWithinPercentOfNextLevel': new FormGroup({
-          'Enabled': new FormControl(this.metadata.RangeAdvancedSetting.PreventMidsFromIncreasingWithinPercentOfNextLevel.Enabled),
-          'Percentage': new FormControl(this.metadata.RangeAdvancedSetting.PreventMidsFromIncreasingWithinPercentOfNextLevel.Percentage)
-        }),
-        'MissingMarketDataType': new FormGroup({
-          'Type': new FormControl(String(this.metadata.RangeAdvancedSetting.MissingMarketDataType.Type)),
-          'Percentage': new FormControl(this.metadata.RangeAdvancedSetting.MissingMarketDataType.Percentage)
-        })
-      });
-    } else {
-      advancedSettingForGroup = new FormGroup({
-        'PreventMidsBelowCurrent': new FormControl(false),
-        'PreventMidsFromIncreasingMoreThanPercent': new FormGroup({
-          'Enabled': new FormControl(false),
-          'Percentage': new FormControl(null)
-        }),
-        'PreventMidsFromIncreasingWithinPercentOfNextLevel': new FormGroup({
-          'Enabled': new FormControl(false),
-          'Percentage': new FormControl(null)
-        }),
-        'MissingMarketDataType': new FormGroup({
-          'Type': new FormControl(String(MissingMarketDataTypes.LeaveValuesBlank)),
-          'Percentage': new FormControl(null)
-        })
-      });
-    }
-
     this.modelSettingsForm = new FormGroup({
       'StructureName': new FormControl(this.metadata.StructureName, [Validators.required, Validators.maxLength(50)]),
       'ModelName': new FormControl(!this.metadata.IsCurrent || this.isNewModel ? this.metadata.ModelName : '', [Validators.required, Validators.maxLength(50)]),
       'PayMarket': new FormControl(this.metadata.Paymarket, [Validators.required]),
-      'PayType': new FormControl(this.metadata.PayType, [Validators.required]),
-      'ControlPoint': new FormControl(this.metadata.ControlPoint, [Validators.required]),
-      'SpreadMin': new FormControl(this.metadata.SpreadMin, [this.enableJobRangeTypes ? Validators.nullValidator : Validators.required]),
-      'SpreadMax': new FormControl(this.metadata.SpreadMax, [this.enableJobRangeTypes ? Validators.nullValidator : Validators.required]),
       'Rate': new FormControl(this.metadata.Rate || 'Annual', [Validators.required]),
       'Currency': new FormControl(this.metadata.Currency || 'USD', [Validators.required]),
       'RangeDistributionSetting': new FormControl(this.metadata.RangeDistributionSetting),
-      'RangeDistributionTypeId': new FormControl(this.metadata.RangeDistributionTypeId),
-      'RangeAdvancedSetting': advancedSettingForGroup
+      'RangeAdvancedSetting': new FormControl(this.metadata.RangeAdvancedSetting)
     });
     // set active tab to model
     this.activeTab = 'modelTab';
@@ -175,7 +145,9 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
 
   // Events
   handleModalSubmit() {
-    if (this.modelSettingsForm.valid) {
+    if (this.modelSettingsForm.valid
+      && !this.formulaSavingError && !this.waitingForFormulaValidation && !this.formulaValidating
+      && (this.formulaField === null || this.formulaField != null && this.formulaValid)) {
       this.store.dispatch(new fromModelSettingsModalActions.SaveModelSettings(
         {
           rangeGroupId: this.rangeGroupId,
@@ -190,25 +162,22 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
 
   handleModalSubmitAttempt() {
     this.attemptedSubmit = true;
+
+    if (this.formulaSavingError || this.waitingForFormulaValidation || this.formulaValidating
+      || this.formulaField != null && !this.formulaValid) {
+      this.activeTab = 'modelTab';
+      return false;
+    }
+
     this.modelSetting = this.modelSettingsForm.getRawValue();
-    if (this.enableJobRangeTypes) {
-      // Set value for control point, range spread min and max, pay type
-      this.updateRangeTypeSetting();
-    } else {
-      // For structures with no range types PayType is the same as ControlPoint with no MRP postfix
-      const payType = this.modelSettingsForm.controls['ControlPoint'].value !== null
-        ? this.modelSettingsForm.controls['ControlPoint'].value.replace('MRP', '')
-        : null;
-      this.modelSettingsForm.controls['PayType'].setValue(payType);
-      this.modelSetting = this.modelSettingsForm.getRawValue();
+    this.updateRangeDistributionSetting();
+
+    if (this.structuresAdvancedModelingFeatureFlag.value) {
+      this.updateAdvancedModelingSetting();
     }
 
     if (!this.modelSettingsForm.valid) {
-      if (this.modelSettingsForm.get('RangeAdvancedSetting.PreventMidsFromIncreasingMoreThanPercent.Enabled').value
-        && !this.modelSettingsForm.get('RangeAdvancedSetting.PreventMidsFromIncreasingMoreThanPercent.Percentage').valid
-        || +this.modelSettingsForm.get('RangeAdvancedSetting.MissingMarketDataType.Type').value === MissingMarketDataTypes.IncreaseCurrentByPercent
-        && !this.modelSettingsForm.get('RangeAdvancedSetting.MissingMarketDataType.Percentage').valid
-      ) {
+      if (!this.modelSettingsForm.controls['RangeAdvancedSetting'].valid) {
         this.activeTab = 'advancedModelingTab';
       } else {
         this.activeTab = 'modelTab';
@@ -216,50 +185,18 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
     }
   }
 
-  updateRangeTypeSetting() {
-    const setting = this.rdSettingComponent.rangeDistributionSettingForm.getRawValue();
+  updateRangeDistributionSetting() {
+    const setting = this.rangeDistributionSettingComponent.rangeDistributionSettingForm.getRawValue();
     if (!!setting) {
-      // Prevent the hidden controls from failing validation
-      this.modelSettingsForm.controls['SpreadMin'].setValue(setting.Minimum);
-      this.modelSettingsForm.controls['SpreadMax'].setValue(setting.Maximum);
-
-      if (!!setting.ControlPoint) {
-        this.modelSettingsForm.controls['ControlPoint'].setValue(setting.ControlPoint);
-        this.setRequired('ControlPoint');
-        if (!!this.modelSetting.RangeDistributionSetting) {
-          this.modelSetting.RangeDistributionSetting.ControlPoint_Formula = null;
-        }
-      }
-
-      if (!!setting.ControlPoint_Formula?.Formula) {
-        if (!this.modelSetting.RangeDistributionSetting.ControlPoint_Formula.IsPublic) {
-          this.modelSetting.RangeDistributionSetting.ControlPoint_Formula.IsPublic = true;
-        }
-        this.modelSettingsForm.controls['ControlPoint'].setValue(null);
-        this.clearRequiredValidator('ControlPoint');
-      }
-
-      this.modelSettingsForm.controls['RangeDistributionTypeId'].setValue(setting.RangeDistributionTypeId);
-      this.modelSettingsForm.controls['PayType'].setValue(setting.PayType);
-
-      this.modelSetting = this.modelSettingsForm.getRawValue();
       this.modelSetting.RangeDistributionSetting = setting;
-
-      if (!setting.ControlPoint_Formula?.Formula) {
-        this.modelSetting.RangeDistributionSetting.ControlPoint_Formula = null;
-      }
     }
   }
 
-  setRequired(controlName: string) {
-    this.modelSettingsForm.get(controlName).setValidators([Validators.required]);
-    this.modelSettingsForm.get(controlName).updateValueAndValidity();
-  }
-
-  clearRequiredValidator(controlName: string) {
-    this.modelSettingsForm.get(controlName).reset();
-    this.modelSettingsForm.get(controlName).clearValidators();
-    this.modelSettingsForm.get(controlName).updateValueAndValidity();
+  updateAdvancedModelingSetting() {
+    const setting = this.advancedModelSettingComponent.advancedModelSettingForm.getRawValue();
+    if (!!setting) {
+      this.modelSetting.RangeAdvancedSetting = setting;
+    }
   }
 
   handleModalDismiss() {
@@ -267,17 +204,6 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromModelSettingsModalActions.CloseModal());
     this.clearModelNameExistsFailure();
     this.reset();
-  }
-
-  handleControlPointFilterChange(value: string) {
-    this.controlPoints = this.controlPointsAsyncObj.obj.filter((ctrlPt, i, arr) => {
-      return arr.indexOf(arr.find(t => t.Category === ctrlPt.Category && t.RangeDisplayName === 'MRP' &&
-        (t.Display.toLowerCase().startsWith(value.toLowerCase()) || t.Display.toLowerCase().includes(value.toLowerCase())))) === i;
-    });
-  }
-
-  handleControlPointSelectionChange() {
-    this.controlPoints = this.controlPoints;
   }
 
   handleCurrencyFilterChange(value: string) {
@@ -341,7 +267,6 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
     });
     this.modelNameExistsFailureSub = this.modelNameExistsFailure$.subscribe(mef => this.modelNameExistsFailure = mef);
     this.roundingSettingsSub = this.roundingSettings$.subscribe(rs => this.roundingSettings = rs);
-    this.enableJobRangeTypesSub = this.enableJobRangeTypes$.subscribe(c => this.enableJobRangeTypes = c);
   }
 
   private unsubscribe() {
@@ -351,7 +276,11 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
     this.modalOpenSub.unsubscribe();
     this.modelNameExistsFailureSub.unsubscribe();
     this.roundingSettingsSub.unsubscribe();
-    this.enableJobRangeTypesSub.unsubscribe();
+    this.waitingForFormulaValidationSub.unsubscribe();
+    this.formulaValidatingSub.unsubscribe();
+    this.formulaValidSub.unsubscribe();
+    this.formulaSavingErrorSub.unsubscribe();
+    this.formulaFieldSub.unsubscribe();
     this.unsubscribe$.next();
   }
 

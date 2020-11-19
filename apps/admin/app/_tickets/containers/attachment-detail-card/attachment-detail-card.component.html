@@ -17,7 +17,7 @@
              *ngFor="let attachment of uploadedAttachments.concat(ticketAttachments); let lastFile = last;">
           <div class="col col-12">
             <div class="row">
-              <div class="col-8">
+              <div class="col-6">
                 <a class="pf-link-text {{attachment.FileState | getUploadProgressCssClass}}"
                    href="/odata/CloudFiles.DownloadUserTicketAttachment?AttachmentId={{attachment.AttachmentId}}&TicketID={{ticketId}}"
                    title="{{attachment.DisplayName}}">
@@ -28,8 +28,11 @@
                     {{attachment.DisplayName}}
                   </h5>
                 </a>
+                <div class="text-muted">
+                  Date: {{attachment.CreateDate | date:'shortDate'}} Time: {{attachment.CreateDate | date:'shortTime'}}
+                </div>
               </div>
-              <div class="col-4 text-right actions-cell">
+              <div class="col-6 text-right actions-cell">
                 <a href="/odata/CloudFiles.DownloadUserTicketAttachment?AttachmentId={{attachment.AttachmentId}}&TicketID={{ticketId}}"
                    title="download">
                   <fa-icon icon="download"

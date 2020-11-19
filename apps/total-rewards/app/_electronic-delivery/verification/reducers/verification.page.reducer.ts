@@ -14,6 +14,9 @@ export interface State {
   isValidating: boolean;
   resent: boolean;
   lockedUntil: Date;
+  notificationsToken: string;
+  downloadingPdf: boolean;
+  downloadPdfError: boolean;
 }
 
 export const initialState: State = {
@@ -22,7 +25,10 @@ export const initialState: State = {
   tokenStatus: generateDefaultAsyncStateObj<TokenStatus>(null),
   isValidating: false,
   resent: false,
-  lockedUntil: null
+  lockedUntil: null,
+  notificationsToken: null,
+  downloadingPdf: false,
+  downloadPdfError: false
 };
 
 export function reducer(state = initialState, action: fromActions.VerificationPageActions): State {
@@ -68,7 +74,30 @@ export function reducer(state = initialState, action: fromActions.VerificationPa
         statement: action.payload.Statement,
         employeeData: action.payload.EmployeeData,
         isValidating: false,
-        lockedUntil: action.payload.LockedUntil
+        lockedUntil: action.payload.LockedUntil,
+        notificationsToken: action.payload.NotificationsToken
+      };
+    }
+    case fromActions.START_DOWNLOAD_PDF: {
+      return {
+        ...state,
+        downloadingPdf: true,
+        downloadPdfError: false
+      };
+    }
+    case fromActions.DOWNLOAD_PDF_ERROR:
+    case fromActions.START_DOWNLOAD_PDF_ERROR: {
+      return {
+        ...state,
+        downloadingPdf: false,
+        downloadPdfError: true
+      };
+    }
+    case fromActions.DOWNLOAD_PDF_SUCCESS: {
+      return {
+        ...state,
+        downloadingPdf: false,
+        downloadPdfError: false
       };
     }
     case fromActions.VALIDATE_TOKEN_ERROR: {
@@ -89,3 +118,6 @@ export const getTokenStatusAsync = (state: State) => state.tokenStatus;
 export const getIsValidating = (state: State) => state.isValidating;
 export const getResent = (state: State) => state.resent;
 export const getLockedUntil = (state: State) => state.lockedUntil;
+export const getNotificationsToken = (state: State) => state.notificationsToken;
+export const getDownloadingPdf = (state: State) => state.downloadingPdf;
+export const getDownloadPdfError = (state: State) => state.downloadPdfError;

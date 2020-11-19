@@ -2,18 +2,13 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-import { StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import {PfCommonUIModule} from 'libs/ui/common/index';
-import { PfJobDescriptionManagementModule } from 'libs/features/job-description-management';
+import { PfBulkExportSchedulerModule } from 'libs/features/bulk-job-description-export-scheduler';
 
-import {BulkExportSchedulerFormComponent} from './containers/bulk-export-schedule-form';
 import {BulkExportSchedulerPageComponent} from './containers/pages';
 import { JdmBulkExportSchedulerRoutingModule } from './bulk-export-scheduler-routing.module';
-import { reducers } from './reducers';
-import { JdmBulkExportScheduleEffects, JdmFiltersEffects, JdmViewEffects } from './effects';
 
 @NgModule({
   imports: [
@@ -21,22 +16,15 @@ import { JdmBulkExportScheduleEffects, JdmFiltersEffects, JdmViewEffects } from 
     CommonModule,
     FormsModule,
 
-    // 3rd Party
-    StoreModule.forFeature('jdmAdmin', reducers),
-    EffectsModule.forFeature([JdmViewEffects, JdmFiltersEffects, JdmBulkExportScheduleEffects]),
-
     // Routing
     JdmBulkExportSchedulerRoutingModule,
 
     // Payfactors
     PfCommonUIModule,
-    PfJobDescriptionManagementModule,
+    PfBulkExportSchedulerModule,
     FontAwesomeModule
   ],
   declarations: [
-    // Components
-    BulkExportSchedulerFormComponent,
-
     // Pages
     BulkExportSchedulerPageComponent
   ]

@@ -2,8 +2,9 @@ import { NgModule } from '@angular/core';
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 
+import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ChartModule } from '@progress/kendo-angular-charts';
 import 'hammerjs';
@@ -14,8 +15,13 @@ import { DatePickerModule } from '@progress/kendo-angular-dateinputs';
 import { PDFExportModule } from '@progress/kendo-angular-pdf-export';
 
 import { PfCommonUIModule } from 'libs/ui/common';
+import { PfCommonModule } from 'libs/core';
+import { PfFormsModule } from 'libs/forms';
 
-import { StringEditorComponent, TotalRewardsStatementComponent, StatementDownloadComponent } from './components';
+import {
+  StringEditorComponent, TotalRewardsStatementComponent, StatementDownloadComponent,
+  FieldGroupComponent, TrsCompensationFieldsChooserComponent, StatementViewComponent
+} from './components';
 import { TrsTitleControlComponent } from './components/trs-title-control/trs-title-control.component';
 import { TrsImageControlComponent } from './components/trs-image-control/trs-image-control.component';
 import { TrsCalculationControlComponent } from './components/trs-calculation-control/trs-calculation-control.component';
@@ -44,9 +50,12 @@ import { ModeClassifierDirective } from './directives/pf-mode-classifier-directi
     NgbTooltipModule,
     DatePickerModule,
     PDFExportModule,
+    NgbModule,
 
     // Payfactors
     PfCommonUIModule,
+    PfCommonModule,
+    PfFormsModule
   ],
   declarations: [
     StringEditorComponent,
@@ -62,7 +71,10 @@ import { ModeClassifierDirective } from './directives/pf-mode-classifier-directi
     FooterBarComponent,
     NoRecordsFoundCallToActionComponent,
     ModeClassifierDirective,
-    StatementDownloadComponent
+    StatementDownloadComponent,
+    FieldGroupComponent,
+    TrsCompensationFieldsChooserComponent,
+    StatementViewComponent
   ],
   exports: [
     StringEditorComponent,
@@ -71,7 +83,8 @@ import { ModeClassifierDirective } from './directives/pf-mode-classifier-directi
     FooterBarComponent,
     NoRecordsFoundCallToActionComponent,
     ModeClassifierDirective,
-    StatementDownloadComponent
+    StatementDownloadComponent,
+    StatementViewComponent
   ],
   providers: [
     CurrencyPipe

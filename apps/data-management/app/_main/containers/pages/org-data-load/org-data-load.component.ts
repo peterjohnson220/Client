@@ -94,7 +94,6 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   selectedDelimiter = this.defaultDelimiter;
   userContext: UserContext;
   loaderSetting: ILoadSettings;
-  loaderConfigGroup: ConfigurationGroup;
   isValidateOnly: boolean;
   emailRecipients: EmailRecipientModel[] = [];
   loadType = LoadTypes.Manual;
@@ -137,6 +136,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   private isActive: boolean;
   private isCompanyOnAutoloader: boolean;
   private loaderSaveCoordination: LoaderSaveCoordination;
+  configGroupId = undefined;
   showFieldMapperTooltip = false;
 
   private completedMappings = [];
@@ -197,7 +197,6 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
         this.mainStore.dispatch(new fromOrganizationalDataActions.GetConfigGroups(f.CompanyId, this.loadType, this.primaryCompositeDataLoadType));
 
         // reset any checked loads
-        this.AddAndSetSelectedMapping(this.configGroupSeed);
         this.getPayfactorCustomFields(this.selectedCompany.CompanyId);
       }
     });
@@ -253,6 +252,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     });
 
 
+
     const organizationalDataTemplateSubscription = this.organizationalDataTemplateLink$.pipe(
       filter(uc => !!uc),
       take(1),
@@ -262,15 +262,22 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       filter(configGroups => !!configGroups && !!this.selectedCompany),
       takeUntil(this.unsubscribe$)
     ).subscribe(f => {
+
       if (f.length > 0) {
-        this.getSettings(f[0]);
-        this.loaderConfigGroup = f[0];
+        this.AddAndSetSelectedConfig(f[0]);
+        this.mainStore.dispatch(
+          new fromLoaderSettingsActions.LoadingLoaderSettings(this.selectedCompany.CompanyId, this.selectedMapping.LoaderConfigurationGroupId)
+        );
+        this.configGroupId = f[0].LoaderConfigurationGroupId;
+      } else {
+        this.AddAndSetSelectedConfig(this.configGroupSeed);
+        this.SetDefaultValuesForNullConfig();
       }
 
       this.mainStore.dispatch(new fromEmailRecipientsActions.LoadEmailRecipients({
         companyId: this.selectedCompany.CompanyId,
         loaderType: 'Organizational Data',
-        loaderConfigurationGroupId: this.loaderConfigGroup ? this.loaderConfigGroup.LoaderConfigurationGroupId : undefined
+        loaderConfigurationGroupId: this.configGroupId
       }));
     });
 
@@ -322,7 +329,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       filter(configurationGroup => !!configurationGroup),
       takeUntil(this.unsubscribe$)
     ).subscribe(configurationGroup => {
-      this.AddAndSetSelectedMapping(configurationGroup);
+      this.AddAndSetSelectedConfig(configurationGroup);
     });
 
     const companySettingSubscription = this.companySettings$.pipe(
@@ -345,8 +352,6 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
         const benefitsLoaderFeatureFlagEnabled = this.featureFlagService.enabled(FeatureFlags.BenefitsLoaderConfiguration, false);
         this.benefitsEnabled = f && benefitsLoaderFeatureFlagEnabled;
         this.loadOptions = getEntityChoicesForOrgLoader(this.benefitsEnabled);
-
-
       });
 
     const companiesSubscription = this.companies$.pipe(
@@ -458,7 +463,18 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     this.mainStore.dispatch(new fromCustomFieldsActions.GetCustomEmployeeFields(companyId));
   }
 
-  public AddAndSetSelectedMapping(configGroup: ConfigurationGroup) {
+  private SetDefaultValuesForNullConfig() {
+    this.selectedDelimiter = this.defaultDelimiter;
+    this.getEntityChoice(LoaderType.Employees).dateFormat = null;
+    this.getEntityChoice(LoaderType.Employees).isFullReplace = false;
+    this.getEntityChoice(LoaderType.StructureMapping).isFullReplace = false;
+    this.getEntityChoice(LoaderType.Benefits).isFullReplace = false;
+
+    this.selectedMapping = this.mappingOptions.find(f => f.LoaderConfigurationGroupId === this.configGroupSeed.LoaderConfigurationGroupId);
+
+  }
+
+  public AddAndSetSelectedConfig(configGroup: ConfigurationGroup) {
     if (!configGroup) { return; }
 
     const existing = this.mappingOptions.find(f => f.LoaderConfigurationGroupId === configGroup.LoaderConfigurationGroupId);
@@ -469,42 +485,34 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     } else {
       this.selectedMapping = existing;
     }
+  }
 
-    if (this.selectedMapping.LoaderConfigurationGroupId <= 0) {
-      this.selectedDelimiter = this.defaultDelimiter;
-      this.getEntityChoice(LoaderType.Employees).dateFormat = null;
-      this.getEntityChoice(LoaderType.Employees).isFullReplace = null;
-      this.getEntityChoice(LoaderType.StructureMapping).isFullReplace = null;
-      this.getEntityChoice(LoaderType.Benefits).isFullReplace = null;
+
+  selectedConfigChange($event: ConfigurationGroup) {
+
+    if ($event.LoaderConfigurationGroupId <= 0) {
+      this.SetDefaultValuesForNullConfig();
     } else {
-      if (this.existingLoaderSettings && this.existingLoaderSettings.find(setting => setting.KeyName === LoaderSettingsKeys.Delimiter)) {
-        this.selectedDelimiter = this.existingLoaderSettings.find(setting => setting.KeyName === LoaderSettingsKeys.Delimiter).KeyValue;
-        const existingDateFormatSetting = this.existingLoaderSettings.find(setting => setting.KeyName === LoaderSettingsKeys.DateFormat);
-        const existingIsEmpFullReplaceSetting =
-          this.existingLoaderSettings.find(setting => setting.KeyName === LoaderSettingsKeys.IsEmployeesFullReplace);
-        const existingIsStructureMappingFullReplaceSetting =
-          this.existingLoaderSettings.find(setting => setting.KeyName === LoaderSettingsKeys.IsStructureMappingsFullReplace);
-        const existingIsBenefitFullReplaceSetting =
-          this.existingLoaderSettings.find(setting => setting.KeyName === LoaderSettingsKeys.IsBenefitsFullReplace);
-        this.getEntityChoice(LoaderType.Employees).dateFormat = existingDateFormatSetting ? existingDateFormatSetting.KeyValue : null;
-        this.getEntityChoice(LoaderType.Employees).isFullReplace = existingIsEmpFullReplaceSetting ? existingIsEmpFullReplaceSetting.KeyValue === 'true' : null;
-        this.getEntityChoice(LoaderType.Benefits).isFullReplace =
+      this.selectedDelimiter = this.existingLoaderSettings.find(setting => setting.KeyName === LoaderSettingsKeys.Delimiter).KeyValue;
+      const existingDateFormatSetting = this.existingLoaderSettings.find(setting => setting.KeyName === LoaderSettingsKeys.DateFormat);
+      const existingIsEmpFullReplaceSetting =
+        this.existingLoaderSettings.find(setting => setting.KeyName === LoaderSettingsKeys.IsEmployeesFullReplace);
+      const existingIsStructureMappingFullReplaceSetting =
+        this.existingLoaderSettings.find(setting => setting.KeyName === LoaderSettingsKeys.IsStructureMappingsFullReplace);
+      const existingIsBenefitFullReplaceSetting =
+        this.existingLoaderSettings.find(setting => setting.KeyName === LoaderSettingsKeys.IsBenefitsFullReplace);
+      this.getEntityChoice(LoaderType.Employees).dateFormat = existingDateFormatSetting ? existingDateFormatSetting.KeyValue : null;
+      this.getEntityChoice(LoaderType.Employees).isFullReplace = existingIsEmpFullReplaceSetting ? existingIsEmpFullReplaceSetting.KeyValue === 'true' : null;
+      this.getEntityChoice(LoaderType.Benefits).isFullReplace =
           existingIsBenefitFullReplaceSetting ? existingIsBenefitFullReplaceSetting.KeyValue === 'true' : false;
-        this.getEntityChoice(LoaderType.StructureMapping).isFullReplace =
-          existingIsStructureMappingFullReplaceSetting ? existingIsStructureMappingFullReplaceSetting.KeyValue === 'true' : null;
-      }
-    }
-  }
+      this.getEntityChoice(LoaderType.StructureMapping).isFullReplace =
+        existingIsStructureMappingFullReplaceSetting ? existingIsStructureMappingFullReplaceSetting.KeyValue === 'true' : null;
 
-  private getSettings(newValue: ConfigurationGroup) {
-    this.AddAndSetSelectedMapping(newValue);
-    if (this.selectedMapping.LoaderConfigurationGroupId > 0) {
-      this.mainStore.dispatch(
-        new fromLoaderSettingsActions.LoadingLoaderSettings(this.selectedCompany.CompanyId, this.selectedMapping.LoaderConfigurationGroupId)
-      );
+      this.selectedMapping = this.mappingOptions.find(f => f.LoaderConfigurationGroupId === this.configGroupId);
     }
-  }
 
+
+  }
   goBack() {
 
     this.clearSelections();
@@ -554,13 +562,6 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
         this.uploadComponent.ClearAllErrorMessages();
       }
 
-
-      if (this.loaderConfigGroup) {
-        this.selectedMapping = this.mappingOptions.find(f => f.LoaderConfigurationGroupId === this.loaderConfigGroup.LoaderConfigurationGroupId);
-      } else {
-        this.selectedMapping = this.mappingOptions.find(f => f.LoaderConfigurationGroupId === this.configGroupSeed.LoaderConfigurationGroupId);
-      }
-      this.selectedDelimiter = this.loaderSetting !== null && this.loaderSetting !== undefined ? this.loaderSetting.delimiter : this.defaultDelimiter;
     }
   }
 

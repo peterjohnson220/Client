@@ -1,3 +1,5 @@
+@import 'colors';
+@import 'total-rewards/app-colors';
 @import 'total-rewards/statement-layout-variables';
 
 .trs-rich-text-control {
@@ -182,11 +184,5 @@
   .ql-snow .ql-picker.ql-font .ql-picker-item[data-value=Verdana]::before {
     content: 'Verdana';
     font-family: 'Verdana', sans-serif;
-  }
-}
-
-@media print {
-  .trs-rich-text-control, .trs-rich-text-control .ql-editor {
-    height: #{(($print-base-font-size / 13) * $rich-text-height) + $print-base-font-size}; // account for the enlarged print font from 13 -> 17
   }
 }

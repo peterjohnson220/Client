@@ -15,6 +15,9 @@ export class TrsTitleControlComponent {
   @Input() controlData: TitleControl;
   @Input() mode: StatementModeEnum;
   @Input() employeeRewardsData: EmployeeRewardsData;
+  @Input() backgroundGraphicsEnabled;
+  @Input() showEmployee;
+  @Input() titleInnerWidth = '100%';
 
   @Output() titleChange: EventEmitter<UpdateTitleRequest> = new EventEmitter();
 

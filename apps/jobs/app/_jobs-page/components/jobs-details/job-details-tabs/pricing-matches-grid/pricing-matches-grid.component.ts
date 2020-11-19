@@ -37,6 +37,7 @@ export class PricingMatchesGridComponent implements OnInit, AfterViewInit, OnCha
 
   pfThemeType = PfThemeType;
   mrpDisplayOverrides: any[] = [];
+  rateOverride = '';
   mrpFields = ['AllowMRP', 'BaseMRP', 'BonusMRP', 'BonusPctMRP', 'BonusTargetMRP', 'BonusTargetPctMRP', 'FixedMRP', 'LTIPMRP', 'LTIPPctMRP', 'RemunMRP',
     'SalesIncentiveActualMRP', 'SalesIncentiveActualPctMRP', 'SalesIncentiveTargetMRP', 'SalesIncentiveTargetPctMRP',
     'TargetLTIPMRP', 'TargetTDCMRP', 'TCCMRP', 'TCCPlusAllowMRP', 'TCCPlusAllowNoCarMRP', 'TCCTargetMRP', 'TCCTargetPlusAllowMRP',
@@ -79,6 +80,7 @@ export class PricingMatchesGridComponent implements OnInit, AfterViewInit, OnCha
   ngOnChanges(changes: SimpleChanges): void {
     if (!!changes.pricingInfo) {
       this.mrpDisplayOverrides = this.mrpFormatterService.generateDisplayOverrides(changes.pricingInfo.currentValue, this.mrpFields);
+      this.rateOverride = this.mrpFormatterService.generateRateOverride(changes.pricingInfo.currentValue);
 
       const newFilterValue = changes.pricingInfo.currentValue.CompanyJobs_Pricings_CompanyJobPricing_ID;
       if (newFilterValue && newFilterValue !== this.filter.Value) {

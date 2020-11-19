@@ -15,12 +15,10 @@ import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
 import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
 import { PfThemeType } from 'libs/features/pf-data-grid/enums/pf-theme-type.enum';
-import { PfDataGridComponent } from 'libs/features/pf-data-grid/pf-data-grid.component/pf-data-grid.component';
 import * as fromActions from 'libs/features/pf-data-grid/actions';
 
 import * as fromJobsPageReducer from '../../../../reducers';
 import { PageViewIds } from '../../../../constants/';
-
 
 @Component({
   selector: 'pf-employees-grid',
@@ -53,7 +51,6 @@ export class EmployeesGridComponent implements AfterViewInit, OnDestroy, OnChang
   selectedPayMarket: any;
   actionBarConfig: ActionBarConfig;
   gridConfig: GridConfig;
-  hasInfiniteScrollFeatureFlagEnabled: boolean;
   hasEmployeeDetailsFlagEnabled: boolean;
   pfThemeType = PfThemeType;
 
@@ -62,7 +59,6 @@ export class EmployeesGridComponent implements AfterViewInit, OnDestroy, OnChang
     private featureFlagService: AbstractFeatureFlagService
   ) {
     this.hasEmployeeDetailsFlagEnabled = this.featureFlagService.enabled(FeatureFlags.EmployeeDetails, false);
-    this.hasInfiniteScrollFeatureFlagEnabled = this.featureFlagService.enabled(FeatureFlags.PfDataGridInfiniteScroll, false);
     this.companyPayMarketsSubscription = store.select(fromJobsPageReducer.getCompanyPayMarkets)
       .subscribe(o => {
         this.filteredPayMarketOptions = o;
@@ -84,8 +80,8 @@ export class EmployeesGridComponent implements AfterViewInit, OnDestroy, OnChang
     };
     this.gridConfig = {
       PersistColumnWidth: false,
-      EnableInfiniteScroll: this.hasInfiniteScrollFeatureFlagEnabled,
-      ScrollToTop: this.hasInfiniteScrollFeatureFlagEnabled
+      EnableInfiniteScroll: true,
+      ScrollToTop: true
     };
   }
 

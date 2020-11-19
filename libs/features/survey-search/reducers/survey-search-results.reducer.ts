@@ -9,11 +9,15 @@ import { applyMatchesToJobResults } from '../helpers';
 export interface State {
   results: JobResult[];
   selectedDataCuts: DataCutDetails[];
+  jobId: number;
+  refining: boolean;
 }
 
 const initialState: State = {
   results: [],
-  selectedDataCuts: []
+  selectedDataCuts: [],
+  jobId: null,
+  refining: false
 };
 
 // Reducer function
@@ -149,6 +153,23 @@ export function reducer(state = initialState, action: fromSurveySearchResultsAct
         results: applyMatchesToJobResults(resultsCopy, action.payload)
       };
     }
+    case fromSurveySearchResultsActions.REFINE_EXCHANGE_JOB_RESULT: {
+      let exchangeJobId = 0;
+      if (action.payload as {lockedExchangeJobId: number} !== undefined) {
+        exchangeJobId = (action.payload as {lockedExchangeJobId: number}).lockedExchangeJobId;
+      }
+      return {
+        ...state,
+        jobId: exchangeJobId,
+        refining: true
+      };
+    }
+    case fromSurveySearchResultsActions.REFINE_EXCHANGE_JOB_RESULT_COMPLETE: {
+      return {
+        ...state,
+        refining: false
+      };
+    }
     default: {
       return state;
     }
@@ -158,6 +179,8 @@ export function reducer(state = initialState, action: fromSurveySearchResultsAct
 // Selector functions
 export const getResults = (state: State) => state.results;
 export const getSelectedDataCuts = (state: State) => state.selectedDataCuts;
+export const getJobId = (state: State) => state.jobId;
+export const getRefining = (state: State) => state.refining;
 
 function getMatchingDataCut(dataCut: DataCutDetails, selectedDataCuts: DataCutDetails[]) {
   let matchingDataCut = filter =>

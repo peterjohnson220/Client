@@ -4,11 +4,17 @@ import { EmployeeRewardsData } from './employee-rewards-data';
 export interface TokenStatusResponse {
   Status: TokenStatus;
   LockedUntil?: Date;
+  NotificationsToken: string;
 }
 
-export interface TokenValidationResponse extends TokenStatusResponse {
+export interface DeliveryResponse extends TokenStatusResponse {
   Statement?: Statement;
   EmployeeData?: EmployeeRewardsData;
+}
+
+export interface StatementDownloadResponse {
+  FileDownloadLink?: string;
+  NotificationId: string;
 }
 
 export enum TokenStatus {

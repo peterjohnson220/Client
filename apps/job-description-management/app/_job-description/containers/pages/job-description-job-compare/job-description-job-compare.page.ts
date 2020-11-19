@@ -328,6 +328,7 @@ export class JobDescriptionJobComparePageComponent implements OnInit, OnDestroy 
   }
 
   ngOnDestroy(): void {
+    this.store.dispatch(new fromJobDescriptionJobCompareActions.ResetJobDescriptionJobCompareState());
     if (this.appendToControlDataAttributeValueSubscription) {
       this.appendToControlDataAttributeValueSubscription.unsubscribe();
     }

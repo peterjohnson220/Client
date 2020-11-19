@@ -9,7 +9,6 @@ import { ActionBarConfig, ColumnChooserType, getDefaultActionBarConfig, GridConf
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 import { Permissions } from 'libs/constants';
 import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
-import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
 import { PfThemeType } from 'libs/features/pf-data-grid/enums/pf-theme-type.enum';
 
 import * as fromSharedJobBasedRangeReducer from '../../shared/reducers';
@@ -45,13 +44,11 @@ export class PricingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   pfThemeType = PfThemeType;
 
   gridConfig: GridConfig;
-  hasInfiniteScrollFeatureFlagEnabled: boolean;
 
   constructor(
     private store: Store<fromSharedJobBasedRangeReducer.State>,
     private route: ActivatedRoute,
     private structuresPagesService: StructuresPagesService,
-    private featureFlagService: AbstractFeatureFlagService
   ) {
     this.metaData$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getMetadata));
     this.rangeGroupId = this.route.parent.snapshot.params.id;
@@ -71,12 +68,11 @@ export class PricingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this._Permissions = Permissions;
     this.modelPageViewIdSubscription = this.structuresPagesService.modelPageViewId.subscribe(pv => this.modelPageViewId = pv);
-    this.hasInfiniteScrollFeatureFlagEnabled = this.featureFlagService.enabled(FeatureFlags.PfDataGridInfiniteScroll, false);
     this.gridConfig = {
       PersistColumnWidth: false,
       CaptureGridScroll: true,
-      EnableInfiniteScroll: this.hasInfiniteScrollFeatureFlagEnabled,
-      ScrollToTop: this.hasInfiniteScrollFeatureFlagEnabled
+      EnableInfiniteScroll: true,
+      ScrollToTop: true
     };
   }
 

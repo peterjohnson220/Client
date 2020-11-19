@@ -1,11 +1,11 @@
-import { TicketCommentLevel } from 'libs/models/payfactors-api/service/response';
+import { TicketCommentLevel, UserTicketFile } from 'libs/models/payfactors-api/service/response';
 import { Comment } from 'libs/features/comment-box/models';
 
 export interface TicketComment extends Comment {
   TicketId: number;
   UserEmail?: string;
   Level?: TicketCommentLevel;
-  AttachmentNames?: string[];
+  AttachmentNames?: UserTicketFile[];
   CreateDateWithoutTime?: Date;
 }
 

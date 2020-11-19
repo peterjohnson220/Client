@@ -7,4 +7,5 @@ export * from './ranges';
 export * from './company-structure-range-override.model';
 export * from './range-distribution-setting-form.model';
 export * from './range-group-metadata.model';
-export * from './advanced-setting.model';
+export * from './advanced-model-setting-form.model';
+export * from './missing-market-data-type-setting-form.model';

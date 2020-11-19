@@ -13,6 +13,7 @@ export class DataManagementHomePageComponent implements OnInit, OnDestroy {
   private eventsSubscription: Subscription;
   fullPage = false;
   fullerPage = false;
+  allowBackButton = false;
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute) {}
 
@@ -25,6 +26,7 @@ export class DataManagementHomePageComponent implements OnInit, OnDestroy {
       const x = route.data;
       this.fullPage = x && x.FullPage === true;
       this.fullerPage = x && x.FullerPage === true;
+      this.allowBackButton = x && x.AllowBackButton === true;
     });
     this.eventsSubscription = this.router.events.pipe(
       filter(event => event instanceof NavigationEnd),
@@ -40,6 +42,7 @@ export class DataManagementHomePageComponent implements OnInit, OnDestroy {
     ).subscribe(data => {
         this.fullPage = data && data.FullPage === true;
         this.fullerPage = data && data.FullerPage === true;
+        this.allowBackButton = data && data.AllowBackButton === true;
     });
   }
 
@@ -54,5 +57,9 @@ export class DataManagementHomePageComponent implements OnInit, OnDestroy {
       'container-fluid flexible-width p-0 full-page': !this.fullerPage && this.fullPage,
       'container my-5 data-management-page': !this.fullerPage && !this.fullPage,
     };
+  }
+
+  getReturnUrl() {
+    return this.allowBackButton ? '/' : '';
   }
 }

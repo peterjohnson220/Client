@@ -1,0 +1,47 @@
+<ng-template #popContent>
+  <div class="popover-body-container">
+    <p>
+      <pf-input-debounce id="field-search-box"
+                         [delay]="200"
+                         [(ngModel)]="searchTerm"
+                         (valueChanged)="handleFilterChange($event)"
+                         [placeholderText]="'Search for a field...'">
+      </pf-input-debounce>
+    </p>
+    <div class="popover-body-content">
+      <div class="list-group">
+        <h5 *ngIf="!(selectableFields | filterArrayByName: searchTerm : 'DisplayName').length">
+          No fields
+        </h5>
+
+        <div class="fields-group-container" *ngIf="!!groups">
+          <div class="groups">
+            <div *ngFor="let group of groups; trackBy: trackByFn">
+              <pf-field-group *ngIf="group.FilteredFields.length > 0"
+                [group]="group"
+                [showFieldsOverride]="searchTerm?.length > 0"
+                (fieldClicked)="handleFieldClicked($event)">
+              </pf-field-group>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<button [title]="maxVisibleFieldsReached ? 'Statements are limited to 20 fields. Remove a field to add more.' :  'Add Field'"
+        type="button"
+        id="add-field-popover-btn"
+        class="btn btn-sm btn-outline-primary add-button"
+        placement="left right"
+        #addFieldPopover="ngbPopover"
+        popoverTitle="Add Field"
+        [ngbPopover]="popContent"
+        (hidden)="onHidden()"
+        [disabled]="maxVisibleFieldsReached"
+        [autoClose]="'outside'"
+        [container]="'body'">
+  <fa-icon class="fa-sm" icon="plus"></fa-icon> Add Field
+</button>
