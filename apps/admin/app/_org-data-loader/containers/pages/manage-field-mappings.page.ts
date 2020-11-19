@@ -575,7 +575,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
     newLoaderSettings.isBenefitsLoadEnabled = this.isBenefitsLoadEnabled;
     newLoaderSettings.isStructureMappingsLoadEnabled = this.isStructureMappingsLoadEnabled;
     newLoaderSettings.isEmployeesFullReplace = this.isEmployeesFullReplace;
-    newLoaderSettings.isBenefitsFullReplace = this.isBenefitsFullReplace
+    newLoaderSettings.isBenefitsFullReplace = this.isBenefitsFullReplace;
     newLoaderSettings.isStructureMappingsFullReplace = this.isStructureMappingsFullReplace;
     newLoaderSettings.fileFormat = LoaderFileFormat.CSV;
 

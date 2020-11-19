@@ -30,7 +30,27 @@ describe('Comphub - Main - Share Pricing Summary Modal Component', () => {
 
     instance.handleSendClicked();
 
-    expect(instance.sendClick.emit).toHaveBeenCalledWith(expectedEmailAddress);
+    expect(instance.sendClick.emit).toHaveBeenCalledWith({
+      emailAddress: expectedEmailAddress,
+      note: ''
+    });
+  });
+
+  it('should emit sendClick with the correct email address and note when send button clicked', () => {
+    spyOn(instance.sendClick, 'emit');
+    const expectedEmailAddress = 'test@payfactors.com';
+    const expectedNote = 'Adding note test';
+    instance.sharePricingSummaryForm.patchValue({
+      emailAddress: expectedEmailAddress,
+      note: expectedNote
+    });
+
+    instance.handleSendClicked();
+
+    expect(instance.sendClick.emit).toHaveBeenCalledWith({
+      emailAddress: expectedEmailAddress,
+      note: expectedNote
+    });
   });
 
   it('should emit cancelClick when cancel button clicked', () => {

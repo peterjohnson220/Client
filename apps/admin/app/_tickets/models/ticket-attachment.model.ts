@@ -5,6 +5,7 @@ export interface TicketAttachment {
     ExtensionType: string;
     ExtensionCssClass: string;
     FileState?: number;
+    CreateDate?: Date;
 }
 
 export function generateMockTicketAttachment(attachmentId: number, extensionType: string): TicketAttachment {

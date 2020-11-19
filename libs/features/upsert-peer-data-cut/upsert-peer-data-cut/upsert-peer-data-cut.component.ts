@@ -16,12 +16,14 @@ import * as fromLibsPeerExchangeExplorerReducers from 'libs/features/peer/exchan
 import * as fromLibsExchangeExplorerFilterContextActions from 'libs/features/peer/exchange-explorer/actions/exchange-filter-context.actions';
 import * as fromDataCutValidationActions from 'libs/features/peer/actions/data-cut-validation.actions';
 import * as fromDataCutValidationReducer from 'libs/features/peer/guidelines-badge/reducers';
+import * as fromSurveySearchReducer from 'libs/features/survey-search/reducers';
 import * as fromExchangeExplorerActions from 'libs/features/peer/exchange-explorer/actions/exchange-explorer.actions';
+import * as fromSurveySearchResultsActions from 'libs/features/survey-search/actions/survey-search-results.actions';
 
 import * as fromUpsertDataCutActions from '../actions/upsert-peer-data-cut.actions';
 import * as fromRequestPeerAccessActions from '../actions/request-peer-access.actions';
 import * as fromUpsertPeerDataReducers from '../reducers';
-import {UpsertPeerDataCutEntityConfigurationModel} from '../models';
+import { UpsertPeerDataCutEntityConfigurationModel } from '../models';
 
 @Component({
   selector: 'pf-upsert-peer-data-cut',
@@ -53,15 +55,21 @@ export class UpsertPeerDataCutComponent implements OnInit, OnDestroy, OnChanges 
   isEmployeeCheckLoading$: Observable<boolean>;
   weightingType$: Observable<string>;
   persistedWeightingTypeForDataCuts$: Observable<string>;
+  refiningPeerCut$: Observable<boolean>;
+  refiningJobId$: Observable<number>;
 
   untaggedIncumbentCount: number;
   displayMap = false;
+  refining: boolean;
+  refiningJobId: number;
 
   // Subscriptions
   peerMapCompaniesSubscription: Subscription;
   weightingTypeSubscription: Subscription;
   persistedWeightingTypeForDataCutsSubscription: Subscription;
   untaggedIncumbentCountSubscription: Subscription;
+  refiningPeerCutSubscription: Subscription;
+  refiningJobIdSubscription: Subscription;
 
   requestPeerAccessMessage = `Thank you for your interest in Peer. Peer allows you to market price with unmatched
   granularity and specificity right from within the Payfactors suite. Simply click "Request Access" and someone
@@ -73,7 +81,6 @@ export class UpsertPeerDataCutComponent implements OnInit, OnDestroy, OnChanges 
 
   constructor(
     private store: Store<fromUpsertPeerDataReducers.State>,
-    private mapStore: Store<fromLibsPeerExchangeExplorerReducers.State>,
     private guidelinesService: DojGuidelinesService,
     private settingsService: SettingsService,
     private cdRef: ChangeDetectorRef
@@ -89,6 +96,8 @@ export class UpsertPeerDataCutComponent implements OnInit, OnDestroy, OnChanges 
     this.includeUntaggedIncumbents$ = this.store.pipe(select(fromLibsPeerExchangeExplorerReducers.getFilterContextIncludeUntaggedIncumbents));
     this.untaggedIncumbentCount$ = this.store.pipe(select(fromLibsPeerExchangeExplorerReducers.getPeerMapUntaggedIncumbentCount));
     this.weightingType$ = this.store.pipe(select(fromLibsPeerExchangeExplorerReducers.getWeightingType));
+    this.refiningPeerCut$ = this.store.select(fromSurveySearchReducer.getRefining);
+    this.refiningJobId$ = this.store.select(fromSurveySearchReducer.getRefiningJobId);
 
     this.hasRequestedPeerAccess$ = this.settingsService.selectUiPersistenceSetting<boolean>(
       FeatureAreaConstants.Project, UiPersistenceSettingConstants.PeerAccessRequested
@@ -125,18 +134,23 @@ export class UpsertPeerDataCutComponent implements OnInit, OnDestroy, OnChanges 
 
   upsert() {
     if (this.displayMap) {
-      this.store.dispatch(new fromUpsertDataCutActions.UpsertDataCut({
-        DataCutGuid: this.cutGuid,
-        CompanyJobId: this.companyJobId,
-        CompanyPayMarketId: this.companyPayMarketId,
-        IsPayMarketOverride: this.isPayMarketOverride,
-        EntityConfiguration: this.entityConfiguration,
-        ZoomLevel: this.map ? this.map.getZoomLevel() : 0,
-        BaseEntityId: this.entityConfiguration.BaseEntityId
-      }));
+      if (!this.refining) {
+        this.store.dispatch(new fromUpsertDataCutActions.UpsertDataCut({
+          DataCutGuid: this.cutGuid,
+          CompanyJobId: this.companyJobId,
+          CompanyPayMarketId: this.companyPayMarketId,
+          IsPayMarketOverride: this.isPayMarketOverride,
+          EntityConfiguration: this.entityConfiguration,
+          ZoomLevel: this.map ? this.map.getZoomLevel() : 0,
+          BaseEntityId: this.entityConfiguration.BaseEntityId
+        }));
+      } else {
+        // TODO: If refining, add to the 'shopping cart'
+      }
 
       this.displayMap = false;
       this.store.dispatch(new fromExchangeExplorerActions.ResetExchangeExplorerState());
+      this.store.dispatch(new fromSurveySearchResultsActions.RefineExchangeJobResultComplete());
       this.guidelinesService.clearMapCompanies();
     }
   }
@@ -146,9 +160,11 @@ export class UpsertPeerDataCutComponent implements OnInit, OnDestroy, OnChanges 
   }
 
   cancel(sendEmit = true) {
+    this.exchangeExplorer.onResetApp();
     this.store.dispatch(new fromUpsertDataCutActions.CancelUpsertDataCut);
     this.displayMap = false;
     this.store.dispatch(new fromExchangeExplorerActions.ResetExchangeExplorerState());
+    this.store.dispatch(new fromSurveySearchResultsActions.RefineExchangeJobResultComplete());
     this.guidelinesService.clearMapCompanies();
 
     if (sendEmit) {
@@ -177,10 +193,12 @@ export class UpsertPeerDataCutComponent implements OnInit, OnDestroy, OnChanges 
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['entityConfiguration'] && changes['entityConfiguration'].currentValue &&
-      changes['entityConfiguration'].currentValue['BaseEntityId']) {
+      changes['entityConfiguration'].currentValue['BaseEntityId'] != null) {
       this.showMap();
       const contextData = {
         companyJobId: this.companyJobId,
+        companyPayMarketId: this.companyPayMarketId,
+        userSessionId: this.entityConfiguration.ParentEntityId,
         entityConfiguration: this.entityConfiguration,
         cutGuid: this.cutGuid
       };
@@ -245,6 +263,18 @@ export class UpsertPeerDataCutComponent implements OnInit, OnDestroy, OnChanges 
     this.untaggedIncumbentCountSubscription = this.untaggedIncumbentCount$.subscribe( untaggedIncumbentCount => {
       if (this.displayMap) {
         this.untaggedIncumbentCount = untaggedIncumbentCount;
+      }
+    });
+
+    this.refiningJobIdSubscription = this.refiningJobId$.subscribe((jobId) => {
+      this.refiningJobId = jobId;
+    });
+
+    this.refiningPeerCutSubscription = this.refiningPeerCut$.subscribe((refining) => {
+      this.refining = refining;
+      if (refining) {
+        this.showMap();
+        this.setContext({lockedExchangeJobId: this.refiningJobId});
       }
     });
   }

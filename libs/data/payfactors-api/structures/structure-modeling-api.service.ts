@@ -16,7 +16,11 @@ import {
   DuplicateModelResponse,
   DuplicateModelRequest,
   RevertRangeChangesRequest,
-  RevertRangeResponse, CurrentRangeGroupResponseModel, CurrentRangeGroupRequestModel, ConvertCurrencyAndRateRequestModel
+  RevertRangeResponse,
+  CurrentRangeGroupResponseModel,
+  CurrentRangeGroupRequestModel,
+  ConvertCurrencyAndRateRequestModel,
+  StructureHasPublishedForTypeRequestModel
 } from 'libs/models/payfactors-api';
 import { CompanyStructureRange, CompanyStructureRangeOverride } from 'libs/models/structures';
 
@@ -87,5 +91,11 @@ export class StructureModelingApiService {
 
   convertCurrencyAndRate(request: ConvertCurrencyAndRateRequestModel): Observable<any[]> {
     return this.payfactorsApiService.post<any[]>(`${this.endpoint}/ConvertCurrencyAndRate`, request);
+  }
+
+  getStructureHasPublishedForType(request: StructureHasPublishedForTypeRequestModel): Observable<number> {
+    return this.payfactorsApiService.get<number>(`${this.endpoint}/StructureHasPublishedForType`, {
+      params: request
+    });
   }
 }

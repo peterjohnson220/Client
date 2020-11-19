@@ -17,11 +17,13 @@ exports[`TotalRewardsStatementComponent should render a mock statement derived f
   onRichTextControlContentChange={[Function EventEmitter]}
   onSaveImage={[Function EventEmitter]}
   statement={[Function Object]}
+  statementModeEnum={[Function Object]}
 >
   <div
-    class="container statement mb-4 rounded medium-font-size default-font-family"
+    class="container statement position-relative medium-font-size default-font-family"
   >
     <pf-async-container />
+    
     <div
       class="d-flex justify-content-end"
     >
@@ -38,7 +40,9 @@ exports[`TotalRewardsStatementComponent should render a mock statement derived f
         
         <div
           class="trs-column col-3"
+          style="border-right-color: #dc1e34;"
         >
+          
           <div
             class="row columnRow"
           >
@@ -62,7 +66,9 @@ exports[`TotalRewardsStatementComponent should render a mock statement derived f
         </div>
         <div
           class="trs-column col-9"
+          style="border-right-color: #dc1e34;"
         >
+          
           <div
             class="row columnRow"
           >
@@ -91,7 +97,9 @@ exports[`TotalRewardsStatementComponent should render a mock statement derived f
         
         <div
           class="trs-column col-6"
+          style="border-right-color: #dc1e34;"
         >
+          
           <div
             class="row columnRow"
           >
@@ -145,7 +153,9 @@ exports[`TotalRewardsStatementComponent should render a mock statement derived f
         </div>
         <div
           class="trs-column col-6"
+          style="border-right-color: #dc1e34;"
         >
+          
           <div
             class="row columnRow"
           >

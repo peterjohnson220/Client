@@ -4,16 +4,18 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
+import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
+import { TotalRewardsStatementModule } from 'libs/features/total-rewards/total-rewards-statement';
+import * as fromFaIcons from 'libs/features/total-rewards/total-rewards-statement/fa-icons';
 
 import { VerificationRoutingModule } from './verification-routing.module';
 import { VerificationPageComponent } from './verification.page';
 import { reducers } from '../verification/reducers';
 import { VerificationPageEffects } from './effects/verification.page.effects';
-import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
   imports: [
@@ -21,6 +23,7 @@ import { SharedModule } from '../../shared/shared.module';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    FontAwesomeModule,
 
     // 3rd Party
     StoreModule.forFeature('totalRewards_verification', reducers),
@@ -29,7 +32,7 @@ import { SharedModule } from '../../shared/shared.module';
     PfCommonUIModule,
     PfCommonModule,
     PfFormsModule,
-    SharedModule,
+    TotalRewardsStatementModule,
 
     // Routing
     VerificationRoutingModule
@@ -39,6 +42,8 @@ import { SharedModule } from '../../shared/shared.module';
   ]
 })
 export class VerificationModule {
-  constructor() {}
+  constructor(library: FaIconLibrary) {
+    library.addIcons(...fromFaIcons.faIcons);
+  }
 }
 

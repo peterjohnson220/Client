@@ -11,3 +11,4 @@ export * from './outbound-jdm.effects';
 export * from './provider-list.effect';
 export * from './on-demand-sync.effects';
 export * from './converter-settings.effects';
+export * from './loaders-data.effects';

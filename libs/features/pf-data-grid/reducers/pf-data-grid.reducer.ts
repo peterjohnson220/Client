@@ -464,6 +464,14 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
     This action resets all filters prior to applying inbound filters to clear global text box search elements on tab switch/grid change
      */
     case fromPfGridActions.UPDATE_INBOUND_FILTERS:
+      let filterFields = null;
+
+      if (action.resetFilters) {
+        filterFields = applyInboundFilters(resetAllFilters(state, action.pageViewId), action.payload);
+      } else {
+        filterFields = applyInboundFilters(cloneDeep(getFields(state, action.pageViewId)), action.payload);
+      }
+
       return {
         ...state,
         grids: {
@@ -471,7 +479,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
             inboundFilters: action.payload,
-            fields: applyInboundFilters(resetAllFilters(state, action.pageViewId), action.payload),
+            fields: filterFields,
             expandedRows: []
           }
         }
@@ -1213,6 +1221,7 @@ export function applyInboundFilters(fields: ViewField[], inboundFilters: PfDataG
       if (fieldToUpdate) {
         fieldToUpdate.FilterOperator = filter.Operator;
         fieldToUpdate.FilterValue = filter.Value;
+        fieldToUpdate.FilterValues = filter.Values;
         fieldToUpdate.ExcludeFieldInFilterSave = filter.ExcludeFromFilterSave;
       }
     });

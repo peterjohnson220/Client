@@ -3,8 +3,9 @@ import { Action } from '@ngrx/store';
 import { DataViewField } from 'libs/models/payfactors-api';
 import { FormulaFieldModalObj } from 'libs/models/formula-editor';
 
-import { FieldDataType, Field } from '../models';
+import { Field, FieldDataType } from '../models';
 
+export const WAIT_FOR_FORMULA_VALIDATION = '[Data Insights / Formula Field Modal] Wait For Formula Validation';
 export const VALIDATE_FORMULA = '[Data Insights / Formula Field Modal] Validate Formula';
 export const VALIDATE_FORMULA_SUCCESS = '[Data Insights / Formula Field Modal] Validate Formula Success';
 export const VALIDATE_FORMULA_ERROR = '[Data Insights / Formula Field Modal] Validate Formula Error';
@@ -19,6 +20,13 @@ export const GET_FORMULA_FIELD_VIEW_COUNT_ERROR = '[Data Insights / Formula Fiel
 export const DELETE_FORMULA_FIELD = '[Data Insights / Formula Field Modal] Delete Formula Field';
 export const DELETE_FORMULA_FIELD_SUCCESS = '[Data Insights / Formula Field Modal] Delete Formula Field Success';
 export const DELETE_FORMULA_FIELD_ERROR = '[Data Insights / Formula Field Modal] Delete Formula Field Error';
+export const RESET_FORMULA = '[Data Insights / Formula Field Modal] Reset Formula';
+
+export class WaitForFormulaValidation implements Action {
+  readonly type = WAIT_FOR_FORMULA_VALIDATION;
+
+  constructor() {}
+}
 
 export class ValidateFormula implements Action {
   readonly type = VALIDATE_FORMULA;
@@ -86,6 +94,12 @@ export class DeleteFormulaFieldError implements Action {
   constructor() {}
 }
 
+export class ResetFormula implements Action {
+  readonly type = RESET_FORMULA;
+
+  constructor() {}
+}
+
 export class GetFormulaFieldViewCount implements Action {
   readonly type = GET_FORMULA_FIELD_VIEW_COUNT;
 
@@ -105,7 +119,8 @@ export class GetFormulaFieldViewCountError implements Action {
 }
 
 export type Actions
-  = ValidateFormula
+  = WaitForFormulaValidation
+  | ValidateFormula
   | ValidateFormulaSuccess
   | ValidateFormulaError
   | SaveFormulaField
@@ -116,6 +131,7 @@ export type Actions
   | DeleteFormulaField
   | DeleteFormulaFieldSuccess
   | DeleteFormulaFieldError
+  | ResetFormula
   | GetFormulaFieldViewCount
   | GetFormulaFieldViewCountSuccess
   | GetFormulaFieldViewCountError;

@@ -10,7 +10,6 @@ import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig, GridConfi
 import { DeletePricingRequest } from 'libs/models/payfactors-api/pricings/request';
 import { Permissions } from 'libs/constants';
 import { ViewField } from 'libs/models/payfactors-api/reports/request';
-import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
 import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromPricingDetailsActions from 'libs/features/pricing-details/actions';
@@ -72,21 +71,18 @@ export class PricingHistoryGridComponent implements AfterViewInit, OnInit, OnDes
 
   getPricingDetailsSuccessSubscription: Subscription;
   getDeletingPricingSuccessSubscription: Subscription;
-  hasInfiniteScrollFeatureFlagEnabled: boolean;
   noRecordsMessage: string;
 
   pfThemeType = PfThemeType;
 
   constructor(
     private store: Store<fromModifyPricingsReducer.State>,
-    private actionsSubject: ActionsSubject,
-    private featureFlagService: AbstractFeatureFlagService
+    private actionsSubject: ActionsSubject
   ) {
-    this.hasInfiniteScrollFeatureFlagEnabled = this.featureFlagService.enabled(FeatureFlags.PfDataGridInfiniteScroll, false);
     this.gridConfig = {
       PersistColumnWidth: false,
-      EnableInfiniteScroll: this.hasInfiniteScrollFeatureFlagEnabled,
-      ScrollToTop: this.hasInfiniteScrollFeatureFlagEnabled
+      EnableInfiniteScroll: true,
+      ScrollToTop: true
     };
   }
 

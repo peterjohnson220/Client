@@ -5,11 +5,13 @@ import { generateMockEmployeeRewardsData } from 'libs/models/payfactors-api/tota
 
 import {
   generateMockStatement,
-  generateMockStatementWithSingleControl,
   generateMockStatementWithSingleCalculationControl,
-  generateMockStatementWithSingleCalculationControlAndNoVisibleFields
+  generateMockStatementWithSingleCalculationControlAndNoVisibleFields,
+  generateMockStatementWithSingleControl,
+  generateMockSettings,
+  StatementModeEnum,
+  TotalRewardsControlEnum,
 } from '../../models';
-import { TotalRewardsControlEnum } from '../../models';
 import { TotalRewardsStatementComponent } from './total-rewards-statement.component';
 
 describe('TotalRewardsStatementComponent', () => {
@@ -97,6 +99,7 @@ describe('TotalRewardsStatementComponent', () => {
   it('should render a rich text control', () => {
     // arrange
     component.statement = generateMockStatementWithSingleControl(TotalRewardsControlEnum.RichTextEditor, null);
+    component.mode = StatementModeEnum.Edit;
 
     // act
     fixture.detectChanges();
@@ -109,6 +112,7 @@ describe('TotalRewardsStatementComponent', () => {
   it('should render an image control', () => {
     // arrange
     component.statement = generateMockStatementWithSingleControl(TotalRewardsControlEnum.Image, null);
+    component.mode = StatementModeEnum.Edit;
 
     // act
     fixture.detectChanges();
@@ -134,6 +138,7 @@ describe('TotalRewardsStatementComponent', () => {
   it('should render a chart control', () => {
     // arrange
     component.statement = generateMockStatementWithSingleControl(TotalRewardsControlEnum.Chart, null);
+    component.mode = StatementModeEnum.Edit;
 
     // act
     fixture.detectChanges();
@@ -146,6 +151,7 @@ describe('TotalRewardsStatementComponent', () => {
   it('should render a title control', () => {
     // arrange
     component.statement = generateMockStatementWithSingleControl(TotalRewardsControlEnum.Title, null);
+    component.mode = StatementModeEnum.Edit;
 
     // act
     fixture.detectChanges();
@@ -158,6 +164,7 @@ describe('TotalRewardsStatementComponent', () => {
   it('should render a summary control', () => {
     // arrange
     component.statement = generateMockStatementWithSingleControl(TotalRewardsControlEnum.CalculationSummary, null);
+    component.mode = StatementModeEnum.Edit;
 
     // act
     fixture.detectChanges();
@@ -194,5 +201,19 @@ describe('TotalRewardsStatementComponent', () => {
     // assert
     const calculationControls = fixture.nativeElement.querySelectorAll('pf-trs-calculation-control');
     expect(calculationControls.length).toBe(0);
+  });
+
+  it('should apply the divider color from settings to each column', () => {
+    // arrange
+    component.statement = generateMockStatementWithSingleCalculationControlAndNoVisibleFields();
+    component.statement.Settings = { ...generateMockSettings(), DividerColor: 'orange' };
+    component.employeeRewardsData = generateMockEmployeeRewardsData();
+
+    // act
+    fixture.detectChanges();
+
+    // assert
+    const columns = fixture.nativeElement.querySelectorAll('.trs-column');
+    columns.forEach(column => expect(column.style.borderRightColor).toBe('orange'));
   });
 });

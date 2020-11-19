@@ -2,10 +2,12 @@
 
 exports[`TrsCalculationControlComponent should display contribution values and total when in preview mode 1`] = `
 <pf-trs-calculation-control
+  MAX_VISIBLE_FIELDS={[Function Number]}
   compensationValuePlaceholder={[Function String]}
   controlData={[Function Object]}
   currencyPipe={[Function Object]}
   employeeRewardsData={[Function Object]}
+  maxVisibleFieldsReached="false"
   mode={[Function Number]}
   onCompFieldAdded={[Function EventEmitter]}
   onCompFieldRemoved={[Function EventEmitter]}
@@ -185,9 +187,11 @@ exports[`TrsCalculationControlComponent should display contribution values and t
 
 exports[`TrsCalculationControlComponent should display the Add Field button if a field has been removed 1`] = `
 <pf-trs-calculation-control
+  MAX_VISIBLE_FIELDS={[Function Number]}
   compensationValuePlaceholder={[Function String]}
   controlData={[Function Object]}
   currencyPipe={[Function Object]}
+  maxVisibleFieldsReached="false"
   mode="0"
   onCompFieldAdded={[Function EventEmitter]}
   onCompFieldRemoved={[Function EventEmitter]}
@@ -331,45 +335,18 @@ exports[`TrsCalculationControlComponent should display the Add Field button if a
       </tbody>
     </table>
     
-    
-    <div
-      class="d-inline-block"
-      ngbdropdown=""
-    >
-      <button
-        class="btn btn-sm btn-outline-primary add-button"
-        ngbdropdowntoggle=""
-        title="Add Field"
-      >
-        <fa-icon
-          class="fa-sm"
-        />
-      </button>
-      <div
-        class="w-auto"
-        ngbdropdownmenu=""
-      >
-        
-        <div>
-          <a
-            class="add-comp-field-item"
-            ngbdropdownitem=""
-          >
-            
-          </a>
-        </div>
-      </div>
-    </div>
   </div>
 </pf-trs-calculation-control>
 `;
 
 exports[`TrsCalculationControlComponent should exclude fields in preview mode if employee data is 0 for a given field 1`] = `
 <pf-trs-calculation-control
+  MAX_VISIBLE_FIELDS={[Function Number]}
   compensationValuePlaceholder={[Function String]}
   controlData={[Function Object]}
   currencyPipe={[Function Object]}
   employeeRewardsData={[Function Object]}
+  maxVisibleFieldsReached="false"
   mode={[Function Number]}
   onCompFieldAdded={[Function EventEmitter]}
   onCompFieldRemoved={[Function EventEmitter]}
@@ -527,10 +504,12 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
 
 exports[`TrsCalculationControlComponent should exclude fields in preview mode if employee data is null for a given field 1`] = `
 <pf-trs-calculation-control
+  MAX_VISIBLE_FIELDS={[Function Number]}
   compensationValuePlaceholder={[Function String]}
   controlData={[Function Object]}
   currencyPipe={[Function Object]}
   employeeRewardsData={[Function Object]}
+  maxVisibleFieldsReached="false"
   mode={[Function Number]}
   onCompFieldAdded={[Function EventEmitter]}
   onCompFieldRemoved={[Function EventEmitter]}
@@ -688,9 +667,11 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
 
 exports[`TrsCalculationControlComponent should render the supplied Summary 1`] = `
 <pf-trs-calculation-control
+  MAX_VISIBLE_FIELDS={[Function Number]}
   compensationValuePlaceholder={[Function String]}
   controlData={[Function Object]}
   currencyPipe={[Function Object]}
+  maxVisibleFieldsReached="false"
   mode="0"
   onCompFieldAdded={[Function EventEmitter]}
   onCompFieldRemoved={[Function EventEmitter]}
@@ -834,10 +815,12 @@ exports[`TrsCalculationControlComponent should render the supplied Summary 1`] =
 
 exports[`TrsCalculationControlComponent should render the supplied data fields 1`] = `
 <pf-trs-calculation-control
+  MAX_VISIBLE_FIELDS={[Function Number]}
   compensationValuePlaceholder={[Function String]}
   controlData={[Function Object]}
   currencyPipe={[Function Object]}
   employeeRewardsData={[Function Object]}
+  maxVisibleFieldsReached="false"
   mode="0"
   onCompFieldAdded={[Function EventEmitter]}
   onCompFieldRemoved={[Function EventEmitter]}
@@ -1167,10 +1150,12 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
 
 exports[`TrsCalculationControlComponent should render the supplied title 1`] = `
 <pf-trs-calculation-control
+  MAX_VISIBLE_FIELDS={[Function Number]}
   compensationValuePlaceholder={[Function String]}
   controlData={[Function Object]}
   currencyPipe={[Function Object]}
   employeeRewardsData={[Function Object]}
+  maxVisibleFieldsReached="false"
   mode={[Function Number]}
   onCompFieldAdded={[Function EventEmitter]}
   onCompFieldRemoved={[Function EventEmitter]}

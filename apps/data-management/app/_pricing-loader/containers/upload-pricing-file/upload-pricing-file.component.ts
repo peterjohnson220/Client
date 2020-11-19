@@ -1,11 +1,12 @@
 import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 
 import { FileUploadComponent } from 'libs/features/org-data-loader/components';
 import { LoaderSettingKeyName } from 'libs/models/data-loads';
 import { AsyncStateObj } from 'libs/models/state';
+import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
 
 import * as fromPricingLoaderMainReducer from '../../reducers';
 import * as fromUploadPricingFileActions from '../../actions/upload-pricing-file.actions';
@@ -24,11 +25,13 @@ export class UploadPricingFileComponent implements OnChanges, OnInit, OnDestroy 
   worksheetNames$: Observable<AsyncStateObj<string[]>>;
   pricingsSheetName$: Observable<string>;
   notesSheetName$: Observable<string>;
+  matchNotesSheetName$: Observable<string>;
   validationOnly$: Observable<boolean>;
 
   worksheetNamesSubscription: Subscription;
   pricingsSheetNameSubscription: Subscription;
   notesSheetNameSubscription: Subscription;
+  matchNotesSheetNameSubscription: Subscription;
   validationOnlySubscription: Subscription;
 
   readonly validFileExtensions = ['.xlsx'];
@@ -36,16 +39,23 @@ export class UploadPricingFileComponent implements OnChanges, OnInit, OnDestroy 
   selectedFile: File;
   pricingsSheetName: string;
   notesSheetName: string;
+  matchNotesSheetName: string;
   duplicateSheetNamesError: boolean;
   validationOnly: boolean;
 
+  pricingMatchNoteFeatureFlag: RealTimeFlag = {key: FeatureFlags.PricingMatchNotesTab, value: false};
+  unsubscribe$ = new Subject<void>();
+
   constructor(
-    private store: Store<fromPricingLoaderMainReducer.State>
+    private store: Store<fromPricingLoaderMainReducer.State>,
+    private featureFlagService: AbstractFeatureFlagService
   ) {
     this.worksheetNames$ = this.store.select(fromPricingLoaderMainReducer.getWorksheetNames);
     this.pricingsSheetName$ = this.store.select(fromPricingLoaderMainReducer.getPricingsSheetName);
     this.notesSheetName$ = this.store.select(fromPricingLoaderMainReducer.getPricingNotesSheetName);
+    this.matchNotesSheetName$ = this.store.select(fromPricingLoaderMainReducer.getPricingMatchNotesSheetName);
     this.validationOnly$ = this.store.select(fromPricingLoaderMainReducer.getValidationOnly);
+    this.featureFlagService.bindEnabled(this.pricingMatchNoteFeatureFlag, this.unsubscribe$);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -60,6 +70,7 @@ export class UploadPricingFileComponent implements OnChanges, OnInit, OnDestroy 
     });
     this.pricingsSheetNameSubscription = this.pricingsSheetName$.subscribe(value => this.pricingsSheetName = value);
     this.notesSheetNameSubscription = this.notesSheetName$.subscribe(value => this.notesSheetName = value);
+    this.matchNotesSheetNameSubscription = this.matchNotesSheetName$.subscribe(value => this.matchNotesSheetName = value);
     this.validationOnlySubscription = this.validationOnly$.subscribe(value => this.validationOnly = value);
   }
 
@@ -67,7 +78,9 @@ export class UploadPricingFileComponent implements OnChanges, OnInit, OnDestroy 
     this.worksheetNamesSubscription.unsubscribe();
     this.pricingsSheetNameSubscription.unsubscribe();
     this.notesSheetNameSubscription.unsubscribe();
+    this.matchNotesSheetNameSubscription.unsubscribe();
     this.validationOnlySubscription.unsubscribe();
+    this.unsubscribe$.next();
   }
 
   handleOnFileDropped(event: File): void {
@@ -97,6 +110,13 @@ export class UploadPricingFileComponent implements OnChanges, OnInit, OnDestroy 
     }));
   }
 
+  updateMatchNotesSheetName(value: string): void {
+    this.store.dispatch(new fromUploadPricingFileActions.UpdateLoaderSetting({
+      keyName: LoaderSettingKeyName.PricingMatchNotesSheetName,
+      keyValue: value
+    }));
+  }
+
   updateValidationOnly(): void {
     this.store.dispatch(new fromUploadPricingFileActions.UpdateLoaderSetting({
       keyName: LoaderSettingKeyName.ValidateOnly,
@@ -110,11 +130,20 @@ export class UploadPricingFileComponent implements OnChanges, OnInit, OnDestroy 
 
   public get processDisabled(): boolean {
     return !this.companyId || this.editing || !this.selectedFile ||
-      (!this.pricingsSheetName && !this.notesSheetName) ||
-      this.duplicateNameError;
+      (!this.pricingsSheetName && !this.notesSheetName && !this.matchNotesSheetName) ||
+      this.duplicatePricingAndNotesNameError || this.duplicatePricingAndMatchNotesNameError || this.duplicateNotesAndMatchNotesNameError;
   }
 
-  public get duplicateNameError(): boolean {
-    return !!this.pricingsSheetName?.length && !!this.notesSheetName?.length && (this.pricingsSheetName === this.notesSheetName);
+  public get duplicatePricingAndNotesNameError(): boolean {
+    return !!this.pricingsSheetName?.length && !!this.notesSheetName?.length &&
+      this.pricingsSheetName === this.notesSheetName;
+  }
+  public get duplicatePricingAndMatchNotesNameError(): boolean {
+    return !!this.pricingsSheetName?.length && !!this.matchNotesSheetName?.length &&
+      this.pricingsSheetName === this.matchNotesSheetName;
+  }
+  public get duplicateNotesAndMatchNotesNameError(): boolean {
+    return !!this.notesSheetName?.length && !!this.matchNotesSheetName?.length &&
+      this.notesSheetName === this.matchNotesSheetName;
   }
 }

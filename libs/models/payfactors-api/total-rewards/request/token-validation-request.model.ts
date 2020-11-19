@@ -1,3 +1,3 @@
-export interface TokenValidationRequest {
+export interface DeliveryToken {
   Token: string;
 }

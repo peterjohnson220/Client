@@ -15,6 +15,7 @@ import {
   InboundProvidersPageComponent,
   OrgDataLoadComponent,
   OutboundAuthenticationPageComponent,
+  OutboundBulkJobsExportSchedulerPageComponent,
   OutboundFieldMappingPageComponent,
   OutboundJdmViewSelectionPageComponent,
   OutboundProviderSelectionPageComponent,
@@ -109,6 +110,11 @@ const routes: Routes = [
               {
                 path: 'jdm-view-selection',
                 component: OutboundJdmViewSelectionPageComponent
+              },
+              {
+                path: 'bulk-jobs-export-scheduler',
+                component: OutboundBulkJobsExportSchedulerPageComponent,
+                data: { AllowBackButton: true }
               },
             ]
           }

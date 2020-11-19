@@ -1,42 +1,171 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`TrsTitleControlComponent should add a \`background-graphics\` class to the container when graphics are enabled 1`] = `
+<pf-trs-title-control
+  backgroundGraphicsEnabled={[Function Boolean]}
+  controlData={[Function Object]}
+  mode="0"
+  modeEnum={[Function Object]}
+  titleChange={[Function EventEmitter]}
+  titleInnerWidth={[Function String]}
+>
+  <div
+    class="trs-title h-100 position-relative text-center edit-mode background-graphics"
+    style="width: 100%;"
+  >
+    <div
+      aria-hidden="true"
+      class="overlap graphic"
+    />
+    <div
+      aria-hidden="true"
+      class="line graphic top-vertical"
+    />
+    <div
+      aria-hidden="true"
+      class="line graphic top-horizontal"
+    />
+    <div
+      aria-hidden="true"
+      class="line graphic circle top"
+    />
+    <div
+      aria-hidden="true"
+      class="outer graphic"
+    >
+      <div
+        aria-hidden="true"
+        class="inner graphic"
+      >
+        <h2
+          class="trs-statement-title d-inline-block mw-100 mh-100"
+        >
+          <pf-string-editor />
+        </h2>
+      </div>
+    </div>
+    <div
+      aria-hidden="true"
+      class="line graphic bottom-horizontal position-relative"
+    />
+    <div
+      aria-hidden="true"
+      class="line graphic circle bottom position-relative"
+    />
+    
+  </div>
+</pf-trs-title-control>
+`;
+
+exports[`TrsTitleControlComponent should set the innerTitleWidth as the width of the container 1`] = `
+<pf-trs-title-control
+  controlData={[Function Object]}
+  mode="0"
+  modeEnum={[Function Object]}
+  titleChange={[Function EventEmitter]}
+  titleInnerWidth={[Function String]}
+>
+  <div
+    class="trs-title h-100 position-relative text-center edit-mode"
+    style="width: 66.67%;"
+  >
+    <div
+      aria-hidden="true"
+      class="overlap graphic"
+    />
+    <div
+      aria-hidden="true"
+      class="line graphic top-vertical"
+    />
+    <div
+      aria-hidden="true"
+      class="line graphic top-horizontal"
+    />
+    <div
+      aria-hidden="true"
+      class="line graphic circle top"
+    />
+    <div
+      aria-hidden="true"
+      class="outer graphic"
+    >
+      <div
+        aria-hidden="true"
+        class="inner graphic"
+      >
+        <h2
+          class="trs-statement-title d-inline-block mw-100 mh-100"
+        >
+          <pf-string-editor />
+        </h2>
+      </div>
+    </div>
+    <div
+      aria-hidden="true"
+      class="line graphic bottom-horizontal position-relative"
+    />
+    <div
+      aria-hidden="true"
+      class="line graphic circle bottom position-relative"
+    />
+    
+  </div>
+</pf-trs-title-control>
+`;
+
 exports[`TrsTitleControlComponent should show in edit mode 1`] = `
 <pf-trs-title-control
   controlData={[Function Object]}
   mode="0"
   modeEnum={[Function Object]}
   titleChange={[Function EventEmitter]}
+  titleInnerWidth={[Function String]}
 >
   <div
-    class="col-8 h-100 position-relative text-center edit-mode"
+    class="trs-title h-100 position-relative text-center edit-mode"
+    style="width: 100%;"
   >
-    <h2
-      class="my-auto trs-statement-title d-inline-block mw-100"
+    <div
+      aria-hidden="true"
+      class="overlap graphic"
+    />
+    <div
+      aria-hidden="true"
+      class="line graphic top-vertical"
+    />
+    <div
+      aria-hidden="true"
+      class="line graphic top-horizontal"
+    />
+    <div
+      aria-hidden="true"
+      class="line graphic circle top"
+    />
+    <div
+      aria-hidden="true"
+      class="outer graphic"
     >
-      <pf-string-editor />
-    </h2>
-    <h3
-      class="employee font-weight-normal p-1"
-    >
-      <span
-        class="employee-name"
+      <div
+        aria-hidden="true"
+        class="inner graphic"
       >
-        Employee Name
-      </span>
-      
-      <span>
-         (
-        <span
-          class="employee-id"
+        <h2
+          class="trs-statement-title d-inline-block mw-100 mh-100"
         >
-          Employee Id
-        </span>
-        ) 
-      </span>
-    </h3>
-  </div><div
-    class="col-4"
-  />
+          <pf-string-editor />
+        </h2>
+      </div>
+    </div>
+    <div
+      aria-hidden="true"
+      class="line graphic bottom-horizontal position-relative"
+    />
+    <div
+      aria-hidden="true"
+      class="line graphic circle bottom position-relative"
+    />
+    
+  </div>
 </pf-trs-title-control>
 `;
 
@@ -46,27 +175,52 @@ exports[`TrsTitleControlComponent should show when in preview mode 1`] = `
   mode={[Function Number]}
   modeEnum={[Function Object]}
   titleChange={[Function EventEmitter]}
+  titleInnerWidth={[Function String]}
 >
   <div
-    class="col-8 h-100 position-relative text-center"
+    class="trs-title h-100 position-relative text-center"
+    style="width: 100%;"
   >
-    <h2
-      class="my-auto trs-statement-title d-inline-block mw-100"
+    <div
+      aria-hidden="true"
+      class="overlap graphic"
+    />
+    <div
+      aria-hidden="true"
+      class="line graphic top-vertical"
+    />
+    <div
+      aria-hidden="true"
+      class="line graphic top-horizontal"
+    />
+    <div
+      aria-hidden="true"
+      class="line graphic circle top"
+    />
+    <div
+      aria-hidden="true"
+      class="outer graphic"
     >
-      <pf-string-editor />
-    </h2>
-    <h3
-      class="employee font-weight-normal p-1"
-    >
-      <span
-        class="employee-name"
+      <div
+        aria-hidden="true"
+        class="inner graphic"
       >
-        
-      </span>
-      
-    </h3>
-  </div><div
-    class="col-4"
-  />
+        <h2
+          class="trs-statement-title d-inline-block mw-100 mh-100"
+        >
+          <pf-string-editor />
+        </h2>
+      </div>
+    </div>
+    <div
+      aria-hidden="true"
+      class="line graphic bottom-horizontal position-relative"
+    />
+    <div
+      aria-hidden="true"
+      class="line graphic circle bottom position-relative"
+    />
+    
+  </div>
 </pf-trs-title-control>
 `;

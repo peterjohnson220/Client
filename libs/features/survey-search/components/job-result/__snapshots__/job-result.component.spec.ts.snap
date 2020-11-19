@@ -3,7 +3,9 @@
 exports[`Project - Survey Search - Job Result should not show Load More link when there are no more data cuts results 1`] = `
 <pf-job-result
   annualDisplay={[Function String]}
+  customizeScopeInMultimatchModalFlag={[Function Object]}
   cutSelected={[Function EventEmitter]}
+  featureFlagService={[Function Object]}
   hideCutsLabel={[Function String]}
   job={[Function Object]}
   loadDataCuts={[Function EventEmitter]}
@@ -19,7 +21,7 @@ exports[`Project - Survey Search - Job Result should not show Load More link whe
   store={[Function Store]}
   surveySearchResultDataSources={[Function Object]}
   toggleDataCutsLabel={[Function String]}
-  toggleRefineInPeerLabel={[Function String]}
+  unsubscribe$={[Function Subject]}
 >
   <div
     class="result job-result-row"
@@ -105,7 +107,9 @@ exports[`Project - Survey Search - Job Result should not show Load More link whe
 exports[`Project - Survey Search - Job Result should show Load More link when there are more data cuts from server 1`] = `
 <pf-job-result
   annualDisplay={[Function String]}
+  customizeScopeInMultimatchModalFlag={[Function Object]}
   cutSelected={[Function EventEmitter]}
+  featureFlagService={[Function Object]}
   hideCutsLabel={[Function String]}
   job={[Function Object]}
   loadDataCuts={[Function EventEmitter]}
@@ -121,7 +125,7 @@ exports[`Project - Survey Search - Job Result should show Load More link when th
   store={[Function Store]}
   surveySearchResultDataSources={[Function Object]}
   toggleDataCutsLabel={[Function String]}
-  toggleRefineInPeerLabel={[Function String]}
+  unsubscribe$={[Function Subject]}
 >
   <div
     class="result job-result-row"
@@ -212,7 +216,9 @@ exports[`Project - Survey Search - Job Result should show Load More link when th
 exports[`Project - Survey Search - Job Result should show error state if issue loading data cuts 1`] = `
 <pf-job-result
   annualDisplay={[Function String]}
+  customizeScopeInMultimatchModalFlag={[Function Object]}
   cutSelected={[Function EventEmitter]}
+  featureFlagService={[Function Object]}
   hideCutsLabel={[Function String]}
   job={[Function Object]}
   loadDataCuts={[Function EventEmitter]}
@@ -228,7 +234,7 @@ exports[`Project - Survey Search - Job Result should show error state if issue l
   store={[Function Store]}
   surveySearchResultDataSources={[Function Object]}
   toggleDataCutsLabel={[Function String]}
-  toggleRefineInPeerLabel={[Function String]}
+  unsubscribe$={[Function Subject]}
 >
   <div
     class="result job-result-row"

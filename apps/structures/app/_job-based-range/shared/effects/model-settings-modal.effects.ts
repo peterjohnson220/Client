@@ -7,7 +7,7 @@ import { Observable, of, timer } from 'rxjs';
 import { catchError, debounce, filter, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 
-import { RangeGroupMetadata } from 'libs/models/structures';
+import { generateMockRangeAdvancedSetting, RangeGroupMetadata } from 'libs/models/structures';
 import { CurrencyApiService } from 'libs/data/payfactors-api/currency';
 import { CompositeFieldApiService } from 'libs/data/payfactors-api/composite-field';
 import { StructureModelingApiService, StructuresApiService } from 'libs/data/payfactors-api/structures';
@@ -52,7 +52,7 @@ export class ModelSettingsModalEffects {
       })
     );
 
-  @Effect({dispatch: false})
+  @Effect({ dispatch: false })
   cancel$ = this.actions$
     .pipe(
       ofType(fromModelSettingsModalActions.CANCEL),
@@ -119,15 +119,23 @@ export class ModelSettingsModalEffects {
         this.store.pipe(select(fromPfDataGridReducer.getGridConfig)),
         this.store.pipe(select(fromPfDataGridReducer.getData)),
         this.store.pipe(select(fromPfDataGridReducer.getPagingOptions)),
-        (action, metadata: RangeGroupMetadata, gridConfig: GridConfig, gridData: GridDataResult, pagingOptions: PagingOptions) => {
-          return { action, metadata, gridConfig, gridData, pagingOptions };
+        this.store.pipe(select(fromSharedReducer.getStructureHasPublished)),
+        (action, metadata: RangeGroupMetadata, gridConfig: GridConfig, gridData: GridDataResult, pagingOptions: PagingOptions, structureHasPublished) => {
+          return { action, metadata, gridConfig, gridData, pagingOptions, structureHasPublished };
         }
       ),
       switchMap((data) => {
+        let advancedSetting;
+        if (data.action.payload.formValue.RangeAdvancedSetting != null) {
+          advancedSetting = PayfactorsApiModelMapper.mapAdvancedSettingModalFormToAdvancedSettingRequest(data.action.payload.formValue.RangeAdvancedSetting,
+            data.structureHasPublished);
+        } else {
+          advancedSetting = generateMockRangeAdvancedSetting();
+        }
+
         return this.structureModelingApiService.saveModelSettings(
-          PayfactorsApiModelMapper.mapModelSettingsModalFormToSaveSettingsRequest(
-            data.action.payload.rangeGroupId, data.action.payload.formValue, data.action.payload.rounding,
-            PayfactorsApiModelMapper.mapAdvancedSettingModalFormToAdvancedSettingRequest(data.action.payload.formValue.RangeAdvancedSetting))
+          PayfactorsApiModelMapper.mapModelSettingsModalFormToSaveSettingsRequest(data.action.payload.rangeGroupId, data.action.payload.formValue,
+            data.action.payload.rounding, advancedSetting, data.action.payload.formValue.RangeDistributionSetting)
         ).pipe(
           mergeMap((r) => {
               const actions = [];
@@ -146,11 +154,11 @@ export class ModelSettingsModalEffects {
                     From: NotificationSource.GenericNotificationMessage,
                     Level: NotificationLevel.Success,
                     NotificationId: '',
-                    Payload: { Title: 'Model Created', Message: `Created, ${r.RangeGroup.RangeGroupName}`},
+                    Payload: { Title: 'Model Created', Message: `Created, ${r.RangeGroup.RangeGroupName}` },
                     Type: NotificationType.Event
                   }));
                   actions.push(new fromSharedActions.GetOverriddenRanges(
-                    { pageViewId: modelPageViewId, rangeGroupId: r.RangeGroup.CompanyStructuresRangeGroupId}));
+                    { pageViewId: modelPageViewId, rangeGroupId: r.RangeGroup.CompanyStructuresRangeGroupId }));
                   actions.push(new fromSharedActions.GetCurrentRangeGroup({
                     RangeGroupId: r.RangeGroup.CompanyStructuresRangeGroupId,
                     PaymarketId: r.RangeGroup.CompanyPayMarketId,
@@ -163,7 +171,7 @@ export class ModelSettingsModalEffects {
                   actions.push(new fromModelSettingsModalActions.CloseModal());
                   actions.push(GridDataHelper.getLoadDataAction(modelPageViewId, data.gridData, data.gridConfig, data.pagingOptions));
                   actions.push(new fromSharedActions.GetOverriddenRanges(
-                    { pageViewId: modelPageViewId, rangeGroupId: r.RangeGroup.CompanyStructuresRangeGroupId}));
+                    { pageViewId: modelPageViewId, rangeGroupId: r.RangeGroup.CompanyStructuresRangeGroupId }));
                   actions.push(new fromSharedActions.GetCurrentRangeGroup({
                     RangeGroupId: r.RangeGroup.CompanyStructuresRangeGroupId,
                     PaymarketId: r.RangeGroup.CompanyPayMarketId,
@@ -184,6 +192,12 @@ export class ModelSettingsModalEffects {
                 }
 
                 actions.push(new fromModelSettingsModalActions.SaveModelSettingsSuccess());
+                actions.push(new fromSharedActions.GetStructureHasPublishedForType({
+                  RangeGroupId: r.RangeGroup.CompanyStructuresRangeGroupId,
+                  PaymarketId: r.RangeGroup.CompanyPayMarketId,
+                  DistributionTypeId: r.RangeGroup.RangeDistributionSetting.RangeDistributionTypeId,
+                  PayType: r.RangeGroup.PayType
+                }));
               }
 
               this.urlService.removeAllWorkflows();

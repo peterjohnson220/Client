@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { Observable } from 'rxjs';
 import { Store, select } from '@ngrx/store';
-import { FileRestrictions, RemoveEvent, SelectEvent, SuccessEvent, UploadComponent, UploadEvent } from '@progress/kendo-angular-upload';
+import { FileInfo, FileRestrictions, RemoveEvent, SelectEvent, SuccessEvent, UploadComponent, UploadEvent } from '@progress/kendo-angular-upload';
 
 import * as fromRootState from 'libs/state/state';
 import { PfValidators } from 'libs/forms/validators';
@@ -35,6 +35,7 @@ export class CreateTicketModalComponent {
   uploadRemoveUrl = ServicePageConfig.UploadRemoveUrl;
   uploadedFilesData: UploadedFile[] = [];
   errorMessage = '';
+  sameFileErrorMessage = '';
   uploadError = false;
   selectedTicketType: TicketType;
 
@@ -127,9 +128,9 @@ export class CreateTicketModalComponent {
   }
 
   onFileSelect(e: SelectEvent) {
-    if (e.files.length > this.fileUploadMax - this.uploadedFilesData.length) {
-      this.uploadError = true;
-      this.errorMessage = 'The maximum number of files is ' + this.fileUploadMax + '.';
+    this.uploadError = false;
+    this.validateSelectedFiles(e.files);
+    if (this.uploadError) {
       e.preventDefault();
     }
   }
@@ -154,5 +155,22 @@ export class CreateTicketModalComponent {
     userTicket.UserTicketType = this.selectedTicketType.TicketTypeName;
     userTicket.FileType = this.selectedTicketType.TicketSubTypeName;
     return userTicket;
+  }
+
+  private validateSelectedFiles(files: FileInfo[]): void {
+    const hasMatchingFileNames = files.find(f1 => this.uploadedFilesData.some(f2 => f1.name === f2.DisplayName));
+
+    if (hasMatchingFileNames) {
+      this.uploadError = true;
+      this.errorMessage = '';
+      this.sameFileErrorMessage = 'Upload contains file(s) with existing names. Please rename your file(s) and try again.';
+      return;
+    }
+
+    if (files.length > this.fileUploadMax - this.uploadedFilesData.length) {
+      this.uploadError = true;
+      this.sameFileErrorMessage = '';
+      this.errorMessage = 'The maximum number of files is ' + this.fileUploadMax + '.';
+    }
   }
 }

@@ -1,31 +1,21 @@
-@import "total-rewards/app-colors";
+@import 'total-rewards/app-colors';
 
 .statement {
-  position: relative;
   background: white;
-  .row.vertical-divider > .trs-column:first-child {
-    border-right: 2px solid $trs-canvas-background-color;
+  overflow: hidden;
+  max-width: none !important;
+  width: 8.5in !important;
+  height: 11in !important;
+  // add column dividers via a right border - color comes from statement settings and is set in html - but exclude full width columns/col-12 since there's nothing to separate 
+  .row.vertical-divider > .trs-column:first-child:not(.col-12) {
+    border-right-width: 2px;
+    border-right-style: solid;
   }
-  // hide the middle divider for the top row
+  // negate the middle divider for the top row that was added in the rule above
   .row.vertical-divider:first-child > .trs-column:first-child {
-    border-width: 0;
+    border-right-width: 0;
   }
   .control-type-5 {
     align-self: center;
-  }
-}
-
-// set just for screen since applying for print media blows away page breaks 
-@media screen {
-  .statement {
-    width: 8.5in;
-    max-height: 11in;
-  }
-}
-
-@media print {
-  .page-break	{
-    display: block;
-    page-break-before: always;
   }
 }

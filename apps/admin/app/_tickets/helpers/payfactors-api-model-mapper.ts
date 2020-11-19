@@ -158,7 +158,8 @@ export class PayfactorsApiModelMapper {
         FileName: utf.FileName,
         ExtensionType: getFileExtensionType(utf.DisplayName),
         ExtensionCssClass: getFileExtensionCssClass(getFileExtensionType(utf.DisplayName.toLowerCase())),
-        FileState: fileState
+        FileState: fileState,
+        CreateDate: utf.CreateDate
       };
     });
   }
@@ -196,8 +197,8 @@ export class PayfactorsApiModelMapper {
           FullName: 'System Generated',
           Content: `${clientName} uploaded the following files:`,
           Level: TicketCommentLevel.System,
-          AttachmentNames: createDateGroup.items.map((f: UserTicketFile) => f.DisplayName),
           CreateDate: latestCreateDate,
+          AttachmentNames: createDateGroup.items,
           CreateDateWithoutTime: createDateGroup.value
         };
         notes.push(note);

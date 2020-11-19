@@ -1,7 +1,8 @@
-import { FormulaFieldModalObj } from 'libs/models/formula-editor';
+import { FormulaFieldModalObj, generateFormulaFieldModalObj } from 'libs/models/formula-editor';
 
 export interface RangeDistributionSettingForm {
     CompanyStructuresRangeGroupId: number;
+    CompanyId: number;
     RangeDistributionTypeId: number;
     FirstTertile: string;
     SecondTertile: string;
@@ -18,4 +19,27 @@ export interface RangeDistributionSettingForm {
     MinPercentile: string;
     MaxPercentile: string;
     ControlPoint_Formula: FormulaFieldModalObj;
+}
+
+export function generateMockRangeDistributionSettingForm(): RangeDistributionSettingForm {
+  return  {
+    CompanyStructuresRangeGroupId: 0,
+    CompanyId: 0,
+    RangeDistributionTypeId: 0,
+    FirstTertile: '',
+    SecondTertile: '',
+    FirstQuartile: '',
+    SecondQuartile: '',
+    FirstQuintile: '',
+    SecondQuintile: '',
+    ThirdQuintile: '',
+    FourthQuintile: '',
+    Minimum: 0,
+    Maximum: 0,
+    PayType: '',
+    ControlPoint: '',
+    MinPercentile: '',
+    MaxPercentile: '',
+    ControlPoint_Formula: generateFormulaFieldModalObj()
+  };
 }

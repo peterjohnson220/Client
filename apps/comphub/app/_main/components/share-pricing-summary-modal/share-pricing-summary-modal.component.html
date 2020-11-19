@@ -9,11 +9,12 @@
   [formGroup]="sharePricingSummaryForm"
   [isOpen$]="isOpen$"
   [attr.data-qa-id]="'cnt-share-summary-form'"
+  [submitting]="isSendingEmail"
   (onDismiss)="handleCancelClicked()"
   (onSubmit)="handleSendClicked()">
 
   <ng-container form-content>
-    <div class="content-container mt-2">
+    <div class="content-container mt-2 d-flex flex-column">
       <div class="d-flex flex-row">
         <label class="form-title">To </label>
         <input type="text" class="form-control ml-2"
@@ -28,6 +29,14 @@
         <span class="text-danger" [attr.data-qa-id]="'lbl-share-email-validation-error'" *ngIf="sharingConflict">Please enter valid email address from your company</span>
         <span class="text-danger" [attr.data-qa-id]="'lbl-share-email-error'"*ngIf="sharingError">Error sending email</span>
       </ng-container>
+      <div class="note-container">
+        <textarea class="form-control text-area-no-resize"
+                  rows="3"
+                  formControlName="note"
+                  attr.data-qa-id="txt-share-pdf-note"
+                  placeholder="Add Note...">
+        </textarea>
+      </div>
     </div>
   </ng-container>
 

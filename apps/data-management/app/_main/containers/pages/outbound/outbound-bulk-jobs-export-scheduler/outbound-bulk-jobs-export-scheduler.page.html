@@ -1,0 +1,19 @@
+<pf-async-container [loading]="(loadingBulkExportSchedules$ |async) && (loadingJdmViews$ |async) && (loadingJdmFilters$ |async)"
+                    [loadingError]="(loadingBulkExportSchedulesError$ |async) && (loadingJdmViewsError$ |async) && (loadingJdmFiltersError$ |async)"
+                    [loadingErrorMessage]="'Error loading bulk jobs export scheduler page'">
+  <div class="my-4 mx-3">
+    <h4>Create JDM Outbound Report</h4>
+    <div class="mb-3">
+      <pf-bulk-export-scheduler-form [views]="views$ | async"
+                                     [filters]="filters$ | async"
+                                     [schedules]="schedules$ | async">
+      </pf-bulk-export-scheduler-form>
+    </div>
+    <h4 *ngIf="(schedules$ | async)?.length > 0">Saved Schedules</h4>
+    <div class="mx-5">
+      <pf-bulk-export-schedules-list [views]="views$ | async"
+                                     [schedules]="schedules$ | async">
+      </pf-bulk-export-schedules-list>
+    </div>
+  </div>
+</pf-async-container>

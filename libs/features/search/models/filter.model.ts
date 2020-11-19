@@ -9,6 +9,13 @@ export enum FilterType {
   FilterableMulti = 'FilterableMulti'
 }
 
+export enum SearchType {
+  Exact = 'Exact',
+  Wild = 'Wild',
+  Match = 'Match',
+  MatchPhrase = 'MatchPhrase'
+}
+
 export interface Filter {
   Id: string;
   BackingField: string;
@@ -29,6 +36,7 @@ export interface TextFilter extends Filter {
   Value: string;
   DefaultValue?: any;
   Type: FilterType.Text;
+  SearchType?: SearchType;
 }
 
 export interface MultiSelectFilter extends Filter {

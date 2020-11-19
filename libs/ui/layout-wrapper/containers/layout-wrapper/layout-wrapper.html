@@ -14,8 +14,7 @@
     <div class="left-sidebar"
          [class.left-sidebar-center-content-scroll]="centerContentScroll"
          [class.d-none]="(userContext$ | async)?.IsPublic || (userContext$ | async)?.WorkflowStepInfo"
-         (mouseenter)="leftSidebarToggleChanged(true)"
-         (mouseleave)="leftSidebarToggleChanged(false)">
+    >
       <pf-layout-wrapper-left-sidebar [leftSidebarToggle]="leftSidebarToggle" [enableCoreJdmInClient]="enableCoreJdmInClient"></pf-layout-wrapper-left-sidebar>
     </div>
     <div class="center-content"

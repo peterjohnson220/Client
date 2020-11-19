@@ -6,7 +6,6 @@ import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontaweso
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 
 import { PfCommonModule } from 'libs/core';
-import { PfCommonUIModule } from 'libs/ui/common';
 
 import { FormulaEditorComponent } from './components';
 import * as fromFaIcons from './fa-icons';
@@ -26,8 +25,7 @@ import * as fromFaIcons from './fa-icons';
     CodemirrorModule,
 
     // Payfactors
-    PfCommonModule,
-    PfCommonUIModule
+    PfCommonModule
   ],
   exports: [
     FormulaEditorComponent

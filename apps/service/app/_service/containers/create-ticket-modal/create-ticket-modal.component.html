@@ -100,7 +100,13 @@
               </kendo-upload>
               <ng-container *ngIf="uploadError">
                 <div *ngIf="uploadError" class="custom-control invalid-feedback">
-                  {{ errorMessage }}
+                  <ng-container *ngIf="!!sameFileErrorMessage">
+                    <fa-icon icon="exclamation-triangle" class="mr-2"></fa-icon>
+                    {{ sameFileErrorMessage }}
+                  </ng-container>
+                  <ng-container *ngIf="!!errorMessage">
+                    {{ errorMessage }}
+                  </ng-container>
                 </div>
               </ng-container>
             </div>

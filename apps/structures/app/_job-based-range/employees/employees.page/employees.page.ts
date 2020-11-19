@@ -9,8 +9,8 @@ import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig, GridConfi
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 import { Permissions } from 'libs/constants';
 import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
-import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
 import { PfThemeType } from 'libs/features/pf-data-grid/enums/pf-theme-type.enum';
+import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 
 import * as fromSharedJobBasedRangeReducer from '../../shared/reducers';
 import * as fromModelSettingsModalActions from '../../shared/actions/model-settings-modal.actions';
@@ -44,16 +44,16 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
   modelPageViewId: string;
   modelPageViewIdSubscription: Subscription;
   pfThemeType = PfThemeType;
+  groupFieldSelected = false;
+  selectedFieldsSubscription: Subscription;
 
   gridConfig: GridConfig;
-  hasInfiniteScrollFeatureFlagEnabled: boolean;
   filterTemplates = {};
 
   constructor(
     public store: Store<fromSharedJobBasedRangeReducer.State>,
     public route: ActivatedRoute,
     private structuresPagesService: StructuresPagesService,
-    private featureFlagService: AbstractFeatureFlagService
   ) {
     this.metaData$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getMetadata));
     this.metadataSubscription = this.metaData$.subscribe(md => {
@@ -79,13 +79,19 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
 
     this._Permissions = Permissions;
     this.modelPageViewIdSubscription = this.structuresPagesService.modelPageViewId.subscribe(pv => this.modelPageViewId = pv);
-    this.hasInfiniteScrollFeatureFlagEnabled = this.featureFlagService.enabled(FeatureFlags.PfDataGridInfiniteScroll, false);
     this.gridConfig = {
       PersistColumnWidth: false,
       CaptureGridScroll: true,
-      EnableInfiniteScroll: this.hasInfiniteScrollFeatureFlagEnabled,
-      ScrollToTop: this.hasInfiniteScrollFeatureFlagEnabled
+      EnableInfiniteScroll: true,
+      ScrollToTop: true
     };
+
+    this.selectedFieldsSubscription = this.store.select(fromPfGridReducer.getFields, this.modelPageViewId).subscribe(fields => {
+      if (fields) {
+        const anyGroupField = fields.find(f => f.Group && f.IsSelected);
+        this.groupFieldSelected = !!anyGroupField;
+      }
+    });
   }
 
   // Events
@@ -126,5 +132,6 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
     this.store.dispatch(new fromPfDataGridActions.Reset());
     this.modelPageViewIdSubscription.unsubscribe();
     this.metadataSubscription.unsubscribe();
+    this.selectedFieldsSubscription.unsubscribe();
   }
 }

@@ -202,7 +202,7 @@ describe('OrgDataLoadComponent', () => {
       LoadType: LoadTypes.Manual,
       PrimaryCompositeDataLoadType: CompositeDataLoadTypes.OrgData
     };
-    instance.AddAndSetSelectedMapping(configGroup);
+    instance.AddAndSetSelectedConfig(configGroup);
     expect(instance.selectedMapping.LoaderConfigurationGroupId).toEqual(configGroup.LoaderConfigurationGroupId);
   });
 

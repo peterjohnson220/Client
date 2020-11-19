@@ -1,9 +1,5 @@
 import { StatementEmailTemplate } from 'libs/models/payfactors-api/total-rewards';
-
-export enum DeliveryMethod {
-  Email = 'Email',
-  PDFExport = 'PDF'
-}
+import { DeliveryMethod } from 'libs/features/total-rewards/total-rewards-statement/models/delivery-method';
 
 export interface DeliveryOption {
   Method: DeliveryMethod;

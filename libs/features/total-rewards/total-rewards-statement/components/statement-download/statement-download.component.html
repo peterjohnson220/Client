@@ -5,6 +5,7 @@
                     [creator]="'Payfactors'"
                     forcePageBreak=".page-break">
     <pf-total-rewards-statement
+      *ngIf="!!statement && !!employeeRewardsData"
       [statement]="statement"
       [employeeRewardsData]="employeeRewardsData"
       [mode]="printMode"

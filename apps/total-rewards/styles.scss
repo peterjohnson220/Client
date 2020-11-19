@@ -5,6 +5,8 @@
 @import 'total-rewards/rich-text-editor';
 @import 'common/common-variables';
 
+@import url('https://fonts.googleapis.com/css?family=Barlow:ital,wght@0,400;0,500;0,700;0,800;1,400;1,500&display=swap');
+
 .left-sidebar {
   z-index: 1040;
 }
@@ -348,26 +350,32 @@ pf-statement-assignment-page {
 }
 
 @media print {
-  @page {
-    size: letter portrait;
-    margin-left: .1in;
-    margin-right: .1in;
-  }
-
   * {
     transition: none !important; // don't capture incomplete transitions
   }
 
   html {
-    font-size: #{$print-base-font-size + 'px'}; // bump up base font size so all rem based font-sizes are increased
+    -webkit-print-color-adjust: exact; // maintain print/PDF background colors in styled template title graphics
   }
 
-  .container {
-    max-width: 100% !important;
-    min-width: 100% !important;
+  html, body {
+    background-color: white; // override dark blue to white so there's no contrast if html shows as content
+  }
+
+  // override bootstrap _print below, so print styling remains consistent with screen page size, min-widths, and anchors
+  @page {
+    size: 8.5in 11in;
+  }
+
+  .container { 
+    min-width: 0 !important;
+  }
+
+  body {
+    min-width: 0 !important;
   }
 
   a:not(.btn) {
-    text-decoration: none; // prevent bootstrap override from adding underline anchors
+    text-decoration: none;
   }
 }

@@ -1,0 +1,44 @@
+@import 'common/common-variables';
+
+.header {
+  padding: 0.25rem 0;
+  cursor: pointer;
+
+  .title {
+    margin-top: 0.4rem;
+  }
+
+  .icon {
+    position: relative;
+    margin-top: 0.25rem;
+    margin-right: 0.5rem;
+    padding-right: 0.5rem;
+    font-size: 13px;
+    fa-icon {
+      position: absolute;
+      top: 0;
+      left: 0;
+      visibility: visible;
+
+      &.hidden {
+        visibility: hidden;
+      }
+    }
+  }
+
+}
+
+.field {
+  padding: 0rem 1rem 0.5rem 1.125rem;
+
+  .title {
+    margin-top: 0.2rem;
+    font-size: 13px;
+  }
+
+  &:hover {
+    background-color: #eaeaea;
+    cursor: pointer;
+  }
+
+}

@@ -74,7 +74,11 @@ describe('Data Insights - Filters Comopnent', () => {
       FilterIndex: 2,
       Query: 'Acc',
       EntitySourceName: 'CompanyJobs',
-      SourceName: 'Job_Title'
+      SourceName: 'Job_Title',
+      BaseEntitySourceName: null,
+      DisablePagingAndSorting: false,
+      ApplyDefaultFilters: true,
+      OptionalFilters: null
     };
     const expectedAction = new fromFiltersActions.GetFilterOptions(data);
 
