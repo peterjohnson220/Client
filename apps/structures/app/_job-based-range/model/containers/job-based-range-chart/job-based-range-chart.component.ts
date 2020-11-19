@@ -273,10 +273,12 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
       ? currentRow.CompanyStructures_RangeGroup_MarketReferencePointValue
       : null;
 
+    const isMidFormula = !!this.metaData.RangeDistributionSetting?.ControlPoint_Formula?.FormulaId;
+
     this.mrpSeriesData.push({
       y: value,
       jobTitle: currentRow.CompanyJobs_Job_Title,
-      mrp: this.formatMRP(value, currentRow.CompanyStructures_RangeGroup_MrpPercentile)
+      mrp: this.formatMRP(value, currentRow.CompanyStructures_RangeGroup_MrpPercentile, isMidFormula)
     });
   }
 
@@ -288,8 +290,14 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
     return `Average ${this.controlPointDisplay}: ${StructuresHighchartsService.formatCurrency(salary, this.chartLocale, this.currency, this.rate, true)}`;
   }
 
-  private formatMRP(mrp: number, percentile: number) {
-    return `MRP: ${StructuresHighchartsService.formatCurrency(mrp, this.chartLocale, this.currency, this.rate, true)} (Base ${percentile}th)`;
+  private formatMRP(mrp: number, percentile: number, isMidFormula: boolean) {
+    let formattedPercentile = '';
+    if (isMidFormula) {
+      formattedPercentile = `(${percentile})`;
+    } else {
+      formattedPercentile = `(Base ${percentile}th)`;
+    }
+    return `MRP: ${StructuresHighchartsService.formatCurrency(mrp, this.chartLocale, this.currency, this.rate, true)} ${formattedPercentile}`;
   }
 
   private formatDelta(min: boolean, delta: number) {
