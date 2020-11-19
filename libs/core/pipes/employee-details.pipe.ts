@@ -19,8 +19,8 @@ export class EmployeeDetailsPipe implements PipeTransform {
         Number(EmployeeDataRow['CompanyEmployees_Bonus']).toLocaleString('en', this.currencyOptions),
       Total_Cash_Comp: EmployeeDataRow['CompanyEmployees_TotalCashCompensation'] === null ? '--' :
         Number(EmployeeDataRow['CompanyEmployees_TotalCashCompensation']).toLocaleString('en', this.currencyOptions),
-      Total_Direct_Comp: EmployeeDataRow['CompanyEmployees_TDC'] === null ? '--' :
-        Number(EmployeeDataRow['CompanyEmployees_TDC']).toLocaleString('en', this.currencyOptions),
+      Total_Direct_Comp: EmployeeDataRow['CompanyEmployees_TotalDirectCompensation'] === null ? '--' :
+        Number(EmployeeDataRow['CompanyEmployees_TotalDirectCompensation']).toLocaleString('en', this.currencyOptions),
       STI: EmployeeDataRow['CompanyEmployees_STI'] === null ? '--' :
         Number(EmployeeDataRow['CompanyEmployees_STI']).toLocaleString('en', this.currencyOptions),
       LTI: EmployeeDataRow['CompanyEmployees_LTI'] === null ? '--' :
