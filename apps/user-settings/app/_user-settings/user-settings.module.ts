@@ -9,6 +9,8 @@ import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ImgFallbackModule } from 'ngx-img-fallback';
 import { UploadsModule } from '@progress/kendo-angular-upload';
+import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
+import { GridModule } from '@progress/kendo-angular-grid';
 
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
@@ -20,6 +22,7 @@ import {
   PersonalProjectSettingsComponent,
   AutoShareComponent,
   PayMarketDefaultSettingsComponent,
+  PayMarketCutComponent,
   ProjectTemplatesComponent,
   UserProfileComponent
 } from './containers';
@@ -27,7 +30,12 @@ import {
 import * as fromFaIcons from './fa-icons';
 import { reducers } from './reducers';
 
-import { DashboardPreferencesEffects, UserProfileEffects, ProjectTemplateEffects } from './effects';
+import {
+  DashboardPreferencesEffects,
+  UserProfileEffects,
+  ProjectTemplateEffects,
+  PayMarketDefaultSettingsEffects
+} from './effects';
 import { UserSettingsPageComponent } from './user-settings.page';
 import { UserSettingsRoutingModule } from './user-settings-routing.module';
 
@@ -46,13 +54,16 @@ import { UserSettingsRoutingModule } from './user-settings-routing.module';
     EffectsModule.forFeature([
       DashboardPreferencesEffects,
       UserProfileEffects,
-      ProjectTemplateEffects
+      ProjectTemplateEffects,
+      PayMarketDefaultSettingsEffects
     ]),
     FontAwesomeModule,
     NgbPopoverModule,
     NgbModule,
     ImgFallbackModule,
     UploadsModule,
+    DropDownsModule,
+    GridModule,
 
     // Payfactors
     PfCommonModule,
@@ -69,6 +80,7 @@ import { UserSettingsRoutingModule } from './user-settings-routing.module';
     PersonalProjectSettingsComponent,
     AutoShareComponent,
     PayMarketDefaultSettingsComponent,
+    PayMarketCutComponent,
     ProjectTemplatesComponent,
     UserProfileComponent
   ]

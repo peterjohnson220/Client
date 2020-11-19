@@ -21,3 +21,12 @@ pf-user-profile {
     display: none;
   }
 }
+
+pf-pay-market-cut {
+  .k-grid.transparent-row-hover tr:hover {
+    background: transparent;
+  }
+  .k-grid .k-alt {
+    background: transparent;
+  }
+}
