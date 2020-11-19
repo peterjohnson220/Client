@@ -27,8 +27,6 @@ export class NotesManagerContentComponent implements OnInit, OnDestroy {
   @Input() placeholderText: string;
   @Input() notesHeader: TemplateRef<any>;
 
-  notes$: Observable<AsyncStateObj<NotesBase[]>>;
-
   addNoteSubscription: Subscription;
   userContextSubscription: Subscription;
 
@@ -39,6 +37,8 @@ export class NotesManagerContentComponent implements OnInit, OnDestroy {
   readonly DEFAULT_MAX_LENGTH = 8000;
 
   deleteNoteOperation: NoteOperation = NoteOperation.Delete;
+
+  notes$: Observable<AsyncStateObj<NotesBase[]>>;
 
   avatarUrl = environment.avatarSource;
   defaultUserImage = Images.DEFAULT_USER;
@@ -51,6 +51,7 @@ export class NotesManagerContentComponent implements OnInit, OnDestroy {
     private actionsSubject: ActionsSubject) { }
 
   ngOnInit(): void {
+
     this.notes$ = this.store.select(fromNotesManagerReducer.getNotes);
 
     this.userContextSubscription = this.store.select(fromRootReducer.getUserContext).subscribe(userContext => {
