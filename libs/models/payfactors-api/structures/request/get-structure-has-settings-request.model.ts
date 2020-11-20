@@ -1,6 +1,4 @@
-
-
-export interface StructureHasPublishedForTypeRequestModel {
+export interface GetStructureHasSettingsRequestModel {
   RangeGroupId: number;
   PaymarketId: number;
   DistributionTypeId: number;

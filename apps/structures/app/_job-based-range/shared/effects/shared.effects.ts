@@ -28,8 +28,6 @@ import { PagesHelper } from '../helpers/pages.helper';
 @Injectable()
 export class SharedEffects {
 
-
-
   @Effect()
   recalculateRangesWithoutMid$: Observable<Action> = this.actions$
     .pipe(
@@ -130,15 +128,19 @@ export class SharedEffects {
     .pipe(
       ofType(fromSharedActions.GET_DISTINCT_OVERRIDE_MESSAGES),
       switchMap((action: fromSharedActions.GetDistinctOverrideMessages) => {
-        return this.dataViewApiService.getFilterOptions({ EntitySourceName: 'CompanyStructures_Ranges_Overrides', SourceName: 'OverrideMessage',
+        return this.dataViewApiService.getFilterOptions({
+          EntitySourceName: 'CompanyStructures_Ranges_Overrides', SourceName: 'OverrideMessage',
           BaseEntityId: null, Query: null, BaseEntitySourceName: 'CompanyStructures_RangeGroup',
           DisablePagingAndSorting: true, ApplyDefaultFilters: false,
-          OptionalFilters: [{ SourceName: 'CompanyStructuresRangeGroup_ID', EntitySourceName: 'CompanyStructures_RangeGroup',
-          DataType: DataViewFieldDataType.Int, Operator: '=', Values: [action.rangeGroupId] }]  })
+          OptionalFilters: [{
+            SourceName: 'CompanyStructuresRangeGroup_ID', EntitySourceName: 'CompanyStructures_RangeGroup',
+            DataType: DataViewFieldDataType.Int, Operator: '=', Values: [action.rangeGroupId]
+          }]
+        })
           .pipe(
             map((response) => {
-                return new fromSharedActions.GetDistinctOverrideMessagesSuccess(response);
-              }),
+              return new fromSharedActions.GetDistinctOverrideMessagesSuccess(response);
+            }),
             catchError((err) => of(new fromSharedActions.GetDistinctOverrideMessagesError(err)))
           );
       })
@@ -267,16 +269,16 @@ export class SharedEffects {
     );
 
   @Effect()
-  modelHasPublishedStructure: Observable<Action> = this.actions$
+  structureHasSettings: Observable<Action> = this.actions$
     .pipe(
-      ofType(fromSharedActions.GET_STRUCTURE_HAS_PUBLISHED_FOR_TYPE),
-      switchMap((action: fromSharedActions.GetStructureHasPublishedForType) => {
-        return this.structureModelingApiService.getStructureHasPublishedForType(action.payload)
+      ofType(fromSharedActions.GET_STRUCTURE_HAS_SETTINGS),
+      switchMap((action: fromSharedActions.GetStructureHasSettings) => {
+        return this.structureModelingApiService.getStructureHasSettings(action.payload)
           .pipe(
             map((res) => {
-              return new fromSharedActions.GetStructureHasPublishedForTypeSuccess(res);
+              return new fromSharedActions.GetStructureHasSettingsSuccess(res);
             }),
-            catchError((err) => of(new fromSharedActions.GetStructureHasPublishedForTypeError(err)))
+            catchError((err) => of(new fromSharedActions.GetStructureHasSettingsError(err)))
           );
       })
     );

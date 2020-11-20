@@ -119,9 +119,9 @@ export const getCompareEnabled = createSelector(
   fromSharedReducer.getCompareEnabled
 );
 
-export const getStructureHasPublished = createSelector(
+export const getStructureHasSettings = createSelector(
   selectSharedState,
-  fromSharedReducer.getStructureHasPublished
+  fromSharedReducer.getStructureHasSettings
 );
 
 export const getStructureNameSuggestionsAsyncObj = createSelector(

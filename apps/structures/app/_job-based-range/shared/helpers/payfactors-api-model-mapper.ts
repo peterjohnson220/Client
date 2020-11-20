@@ -9,10 +9,8 @@ import {
 } from 'libs/models/payfactors-api/structures';
 import { CompositeFieldResponse } from 'libs/models/payfactors-api/composite-field/composite-field-response.model';
 import { CurrencyDto } from 'libs/models/common';
-import * as fromStructuresModels from 'libs/models/structures';
 import {
   AdvancedModelSettingForm,
-  generateMissingMarketDataTypeSettingForm,
   RangeDistributionSettingForm,
   RangeGroupMetadata,
   RoundingSettingsDataObj
@@ -222,30 +220,23 @@ export class PayfactorsApiModelMapper {
     };
   }
 
-  static mapAdvancedSettingModalFormToAdvancedSettingRequest(advancedSetting: AdvancedModelSettingForm, structureHasPublished): AdvancedSettingRequest {
-    let missingMarketDataType = advancedSetting.MissingMarketDataType;
-    let preventMidsFromIncreasingMoreThanPercent = advancedSetting.PreventMidsFromIncreasingMoreThanPercent;
+  static mapAdvancedSettingModalFormToAdvancedSettingRequest(advancedSetting: AdvancedModelSettingForm): AdvancedSettingRequest {
     let missingMarketDataTypePercentage = null;
-    if (structureHasPublished.obj <= 0) {
-      missingMarketDataType = generateMissingMarketDataTypeSettingForm();
-      preventMidsFromIncreasingMoreThanPercent = fromStructuresModels.generateMockPercentageSetting();
-    }
-
-    if (missingMarketDataType.Type === MissingMarketDataTypes.IncreaseMidpointByPercent) {
-      missingMarketDataTypePercentage = missingMarketDataType.IncreaseMidpointByPercentage;
-    } else if (missingMarketDataType.Type === MissingMarketDataTypes.DecreasePercentFromNextLevel) {
-      missingMarketDataTypePercentage = missingMarketDataType.DecreasePercentFromNextLevelPercentage;
-    } else if (missingMarketDataType.Type === MissingMarketDataTypes.IncreasePercentFromPreviousLevel) {
-      missingMarketDataTypePercentage = missingMarketDataType.IncreasePercentFromPreviousLevelPercentage;
+    if (advancedSetting.MissingMarketDataType.Type === MissingMarketDataTypes.IncreaseMidpointByPercent) {
+      missingMarketDataTypePercentage = advancedSetting.MissingMarketDataType.IncreaseMidpointByPercentage;
+    } else if (advancedSetting.MissingMarketDataType.Type === MissingMarketDataTypes.DecreasePercentFromNextLevel) {
+      missingMarketDataTypePercentage = advancedSetting.MissingMarketDataType.DecreasePercentFromNextLevelPercentage;
+    } else if (advancedSetting.MissingMarketDataType.Type === MissingMarketDataTypes.IncreasePercentFromPreviousLevel) {
+      missingMarketDataTypePercentage = advancedSetting.MissingMarketDataType.IncreasePercentFromPreviousLevelPercentage;
     }
 
     return {
       Rounding: advancedSetting.Rounding != null ? this.mapRoundingSettingsModalFormToRoundRangesRequest(advancedSetting.Rounding) : null,
       PreventMidsBelowCurrent: advancedSetting.PreventMidsBelowCurrent,
-      PreventMidsFromIncreasingMoreThanPercent: preventMidsFromIncreasingMoreThanPercent,
+      PreventMidsFromIncreasingMoreThanPercent: advancedSetting.PreventMidsFromIncreasingMoreThanPercent,
       PreventMidsFromIncreasingWithinPercentOfNextLevel: advancedSetting.PreventMidsFromIncreasingWithinPercentOfNextLevel,
       MissingMarketDataType: {
-        Type: missingMarketDataType.Type,
+        Type: advancedSetting.MissingMarketDataType.Type,
         Percentage: missingMarketDataTypePercentage
       }
     };

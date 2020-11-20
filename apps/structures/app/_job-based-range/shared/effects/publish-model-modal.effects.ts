@@ -52,13 +52,6 @@ export class PublishModelModalEffects {
               };
               actions.push(new fromSharedActions.SetMetadata(updatedMetaData));
 
-              actions.push(new fromSharedActions.GetStructureHasPublishedForType({
-                RangeGroupId: data.action.payload.rangeGroupId,
-                PaymarketId: data.metadata.PaymarketId,
-                DistributionTypeId: data.metadata.RangeDistributionTypeId,
-                PayType: data.metadata.PayType
-              }));
-
               actions.push(new fromNotificationActions.AddNotification({
                 EnableHtml: true,
                 From: NotificationSource.GenericNotificationMessage,
