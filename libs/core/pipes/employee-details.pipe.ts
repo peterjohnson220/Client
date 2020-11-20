@@ -13,45 +13,38 @@ export class EmployeeDetailsPipe implements PipeTransform {
 
   transform(EmployeeDataRow: any): EmployeeDetails {
     return {
-      Base_Salary: EmployeeDataRow['CompanyEmployees_Base'] === null ? '--' :
-        Number(EmployeeDataRow['CompanyEmployees_Base']).toLocaleString('en', this.currencyOptions),
-      Bonus: EmployeeDataRow['CompanyEmployees_Bonus'] === null ? '--' :
-        Number(EmployeeDataRow['CompanyEmployees_Bonus']).toLocaleString('en', this.currencyOptions),
-      Total_Cash_Comp: EmployeeDataRow['CompanyEmployees_TotalCashCompensation'] === null ? '--' :
-        Number(EmployeeDataRow['CompanyEmployees_TotalCashCompensation']).toLocaleString('en', this.currencyOptions),
-      Total_Direct_Comp: EmployeeDataRow['CompanyEmployees_TotalDirectCompensation'] === null ? '--' :
-        Number(EmployeeDataRow['CompanyEmployees_TotalDirectCompensation']).toLocaleString('en', this.currencyOptions),
-      STI: EmployeeDataRow['CompanyEmployees_STI'] === null ? '--' :
-        Number(EmployeeDataRow['CompanyEmployees_STI']).toLocaleString('en', this.currencyOptions),
-      LTI: EmployeeDataRow['CompanyEmployees_LTI'] === null ? '--' :
-        Number(EmployeeDataRow['CompanyEmployees_LTI']).toLocaleString('en', this.currencyOptions),
-      Bonus_Percent: EmployeeDataRow['CompanyEmployees_BonusPct'] === null ? '--' :
-        Number(EmployeeDataRow['CompanyEmployees_BonusPct']).toLocaleString('en', this.currencyOptions),
-      Bonus_Target_Percent: EmployeeDataRow['CompanyEmployees_BonusTargetPct'] === null ? '--' :
-        Number(EmployeeDataRow['CompanyEmployees_BonusTargetPct']).toLocaleString('en', this.currencyOptions),
-      Bonus_Target: EmployeeDataRow['CompanyEmployees_Bonus_Target'] === null ? '--' :
-        Number(EmployeeDataRow['CompanyEmployees_Bonus_Target']).toLocaleString('en', this.currencyOptions),
-      Full_Time_Employee: EmployeeDataRow['CompanyEmployees_FTE'] === null ? '--' :
-        Number(EmployeeDataRow['CompanyEmployees_FTE']).toLocaleString('en', this.currencyOptions),
-      Allowances: EmployeeDataRow['CompanyEmployees_Allow'] === null ? '--' :
-        Number(EmployeeDataRow['CompanyEmployees_Allow']).toLocaleString('en', this.currencyOptions),
-      Target_TCC: EmployeeDataRow['CompanyEmployees_TargetTCC'] === null ? '--' :
-        Number(EmployeeDataRow['CompanyEmployees_TargetTCC']).toLocaleString('en', this.currencyOptions),
-      Target_LTI: EmployeeDataRow['CompanyEmployees_TargetLTIP'] === null ? '--' :
-        Number(EmployeeDataRow['CompanyEmployees_TargetLTIP']).toLocaleString('en', this.currencyOptions),
-      Total_Fixed_Pay: EmployeeDataRow['CompanyEmployees_Fixed'] === null ? '--' :
-        Number(EmployeeDataRow['CompanyEmployees_Fixed']).toLocaleString('en', this.currencyOptions),
-      Target_TDC: EmployeeDataRow['CompanyEmployees_TargetTDC'] === null ? '--' :
-        Number(EmployeeDataRow['CompanyEmployees_TargetTDC']).toLocaleString('en', this.currencyOptions),
-      Total_Guaranteed_Pay: EmployeeDataRow['CompanyEmployees_TGP'] === null ? '--' :
-        Number(EmployeeDataRow['CompanyEmployees_TGP']).toLocaleString('en', this.currencyOptions),
-      STI_Eligibility: EmployeeDataRow['CompanyEmployees_STIElig'] === null ? '--' :
-        Number(EmployeeDataRow['CompanyEmployees_STIElig']) === 1 ? 'Yes' : 'No',
-      LTI_Eligibility: EmployeeDataRow['CompanyEmployees_LTIElig'] === null ? '--' :
-        Number(EmployeeDataRow['CompanyEmployees_LTIElig']) === 1 ? 'Yes' : 'No',
-      Total_Remuneration: EmployeeDataRow['CompanyEmployees_Remun'] === null ? '--' :
-        Number(EmployeeDataRow['CompanyEmployees_Remun']).toLocaleString('en', this.currencyOptions)
+      Base_Salary: this.currencyConverter(EmployeeDataRow['CompanyEmployees_Base']),
+      Bonus: this.currencyConverter(EmployeeDataRow['CompanyEmployees_Bonus']),
+      Total_Cash_Comp: this.currencyConverter(EmployeeDataRow['CompanyEmployees_TotalCashCompensation']),
+      Total_Direct_Comp: this.currencyConverter(EmployeeDataRow['CompanyEmployees_TotalDirectCompensation']),
+      STI: this.currencyConverter(EmployeeDataRow['CompanyEmployees_STI']),
+      LTI: this.currencyConverter(EmployeeDataRow['CompanyEmployees_LTI']),
+      Bonus_Percent: this.nullChecker(EmployeeDataRow['CompanyEmployees_BonusPct']),
+      Bonus_Target_Percent: this.nullChecker(EmployeeDataRow['CompanyEmployees_BonusTargetPct']),
+      Bonus_Target: this.currencyConverter(EmployeeDataRow['CompanyEmployees_Bonus_Target']),
+      Full_Time_Employee: this.bitConverter(EmployeeDataRow['CompanyEmployees_FTE']),
+      Allowances: this.nullChecker(EmployeeDataRow['CompanyEmployees_Allow']),
+      Target_TCC: this.currencyConverter(EmployeeDataRow['CompanyEmployees_TargetTCC']),
+      Target_LTI: this.currencyConverter(EmployeeDataRow['CompanyEmployees_TargetLTIP']),
+      Total_Fixed_Pay: this.currencyConverter(EmployeeDataRow['CompanyEmployees_Fixed']),
+      Target_TDC: this.currencyConverter(EmployeeDataRow['CompanyEmployees_TargetTDC']),
+      Total_Guaranteed_Pay: this.currencyConverter(EmployeeDataRow['CompanyEmployees_TGP']),
+      STI_Eligibility: this.bitConverter(EmployeeDataRow['CompanyEmployees_STIElig']),
+      LTI_Eligibility:  this.bitConverter(EmployeeDataRow['CompanyEmployees_LTIElig']),
+      Total_Remuneration: this.currencyConverter(EmployeeDataRow['CompanyEmployees_Remun'])
     };
+  }
+
+  bitConverter(value: string): string {
+    return value === null ? '--' : Number(value) === 1 ? 'Yes' : 'No';
+  }
+
+  currencyConverter(value: string): string {
+    return value === null ? '--' : Number(value).toLocaleString('en', this.currencyOptions);
+  }
+
+  nullChecker(value: string): string {
+    return value === null ? '--' : value;
   }
 
 }
