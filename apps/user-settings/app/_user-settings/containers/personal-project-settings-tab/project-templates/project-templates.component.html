@@ -1,6 +1,13 @@
 <div class="card d-flex flex-column flex-grow-1">
   <div class="card-header">
-    <span class="title">Project Templates</span>
+    <span class="title">Project Templates
+      <fa-icon class="pl-2"
+              icon="info-circle"
+              [ngbPopover]="projectTemplateInfo"
+              container="body"
+              triggers="mouseenter:mouseleave"
+              placement="right">
+    </fa-icon></span>
   </div>
 
   <div class="d-flex flex-row flex-wrap ml-3 mt-3 position-relative">
@@ -10,6 +17,9 @@
       <div class="badge mb-3 badge-pill" *ngFor="let item of (projectTemplates$ | async).obj; trackBy: trackByFn;">
         <span>{{item.TemplateName}}</span>
         <fa-icon icon="times" class="delete-btn pl-2" (click)="handleDeleteClicked(item)"></fa-icon>
+      </div>
+      <div class="no-templates-message" *ngIf="!(projectTemplates$ | async).obj?.length && !(projectTemplates$ | async).loading">
+        No project templates have been created.
       </div>
     </pf-async-container>
   </div>
@@ -37,3 +47,8 @@
   </ng-container>
 
 </pf-modal-form>
+<ng-template #projectTemplateInfo>
+  <div class="pop-content">
+    <p>Creating different project templates allows you to quickly change what data is presented in a project export.</p>
+  </div>
+</ng-template>
