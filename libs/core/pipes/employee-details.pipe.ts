@@ -46,9 +46,9 @@ export class EmployeeDetailsPipe implements PipeTransform {
       Total_Guaranteed_Pay: EmployeeDataRow['CompanyEmployees_TGP'] === null ? '--' :
         Number(EmployeeDataRow['CompanyEmployees_TGP']).toLocaleString('en', this.currencyOptions),
       STI_Eligibility: EmployeeDataRow['CompanyEmployees_STIElig'] === null ? '--' :
-        Number(EmployeeDataRow['CompanyEmployees_STIElig']).toLocaleString('en', this.currencyOptions),
+        Number(EmployeeDataRow['CompanyEmployees_STIElig']) === 1 ? 'Yes' : 'No',
       LTI_Eligibility: EmployeeDataRow['CompanyEmployees_LTIElig'] === null ? '--' :
-        Number(EmployeeDataRow['CompanyEmployees_LTIElig']).toLocaleString('en', this.currencyOptions),
+        Number(EmployeeDataRow['CompanyEmployees_LTIElig']) === 1 ? 'Yes' : 'No',
       Total_Remuneration: EmployeeDataRow['CompanyEmployees_Remun'] === null ? '--' :
         Number(EmployeeDataRow['CompanyEmployees_Remun']).toLocaleString('en', this.currencyOptions)
     };
