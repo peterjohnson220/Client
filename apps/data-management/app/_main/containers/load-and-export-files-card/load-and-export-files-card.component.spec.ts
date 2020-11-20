@@ -11,6 +11,7 @@ import * as fromRootState from 'libs/state/state';
 import * as fromOrgDataNavigationLinkActions from 'libs/features/navigation-links/actions/org-data-navigation-link.actions';
 import * as fromAppNotificationsMainReducer from 'libs/features/app-notifications/reducers';
 import * as fromAppNotificationsActions from 'libs/features/app-notifications/actions/app-notifications.actions';
+import * as fromJobDescriptionsExportActions from 'libs/features/job-description-management/actions/job-description-export.actions';
 import { NotificationLevel, NotificationSource, NotificationType } from 'libs/features/app-notifications/models';
 
 
@@ -106,5 +107,15 @@ describe('Data Management - Main - Load And Export File Card', () => {
     instance.handlePricingDataExportClick({preventDefault: jest.fn()});
 
     expect(router.navigate).toHaveBeenCalledWith(['/pricing-loader/pricing-loaders-download']);
+  });
+
+  it('should dispatch an action when export job description export button is clicked', () => {
+    const expectedJobDescriptionExportAction = new fromJobDescriptionsExportActions.InitiateJobDescriptionExport();
+
+    spyOn(store, 'dispatch');
+
+    instance.handleJobDescriptionExportClick({preventDefault: jest.fn()});
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectedJobDescriptionExportAction);
   });
 });

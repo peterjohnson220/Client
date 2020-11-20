@@ -2,6 +2,7 @@
 
 exports[`Data Management - Main - Load And Export File Card has access should show export button 1`] = `
 <pf-load-and-export-files-card
+  canExportJobDescription={[Function Observable]}
   canExportOrgData={[Function Observable]}
   canExportPricingData={[Function Observable]}
   canImportOrgData="false"
@@ -84,6 +85,42 @@ exports[`Data Management - Main - Load And Export File Card has access should sh
               class="load-type-title"
             >
               Pricing Data
+            </h4>
+          </div>
+          <div
+            class="col-4 text-right"
+          >
+            <div
+              class="d-flex justify-content-end"
+            >
+              <div
+                class="p-2"
+              >
+                <a
+                  class="btn btn-outline-primary px-3"
+                  href="#"
+                >
+                  Export
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div>
+        
+        <hr />
+        <div
+          class="row px-3"
+        >
+          <div
+            class="col-8"
+          >
+            <h4
+              class="load-type-title"
+            >
+              Job Description Data
             </h4>
           </div>
           <div
@@ -114,6 +151,7 @@ exports[`Data Management - Main - Load And Export File Card has access should sh
 
 exports[`Data Management - Main - Load And Export File Card has access should show import button 1`] = `
 <pf-load-and-export-files-card
+  canExportJobDescription={[Function Observable]}
   canExportOrgData={[Function Observable]}
   canExportPricingData={[Function Observable]}
   canImportOrgData="false"
@@ -218,6 +256,42 @@ exports[`Data Management - Main - Load And Export File Card has access should sh
           </div>
         </div>
       </div>
+      
+      <div>
+        
+        <hr />
+        <div
+          class="row px-3"
+        >
+          <div
+            class="col-8"
+          >
+            <h4
+              class="load-type-title"
+            >
+              Job Description Data
+            </h4>
+          </div>
+          <div
+            class="col-4 text-right"
+          >
+            <div
+              class="d-flex justify-content-end"
+            >
+              <div
+                class="p-2"
+              >
+                <a
+                  class="btn btn-outline-primary px-3"
+                  href="#"
+                >
+                  Export
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <pf-latest-org-data-load-modal />
   </div>
@@ -226,6 +300,7 @@ exports[`Data Management - Main - Load And Export File Card has access should sh
 
 exports[`Data Management - Main - Load And Export File Card no access should not show anything 1`] = `
 <pf-load-and-export-files-card
+  canExportJobDescription={[Function Observable]}
   canExportOrgData={[Function Observable]}
   canExportPricingData={[Function Observable]}
   canImportOrgData="false"
@@ -308,6 +383,42 @@ exports[`Data Management - Main - Load And Export File Card no access should not
               class="load-type-title"
             >
               Pricing Data
+            </h4>
+          </div>
+          <div
+            class="col-4 text-right"
+          >
+            <div
+              class="d-flex justify-content-end"
+            >
+              <div
+                class="p-2"
+              >
+                <a
+                  class="btn btn-outline-primary px-3"
+                  href="#"
+                >
+                  Export
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div>
+        
+        <hr />
+        <div
+          class="row px-3"
+        >
+          <div
+            class="col-8"
+          >
+            <h4
+              class="load-type-title"
+            >
+              Job Description Data
             </h4>
           </div>
           <div
