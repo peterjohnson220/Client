@@ -16,6 +16,7 @@ import { NumericTextBoxModule } from '@progress/kendo-angular-inputs';
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
+import { ProjectTemplateManagementModule } from 'libs/features/project-template-management';
 
 import {
   MyProfileComponent,
@@ -42,6 +43,7 @@ import {
 import { UserSettingsPageComponent } from './user-settings.page';
 import { UserSettingsRoutingModule } from './user-settings-routing.module';
 import { PfUserSettingsModule } from '../../../../libs/features/user-settings';
+
 
 @NgModule({
   imports: [
@@ -75,7 +77,8 @@ import { PfUserSettingsModule } from '../../../../libs/features/user-settings';
     PfCommonModule,
     PfCommonUIModule,
     PfFormsModule,
-    PfUserSettingsModule
+    PfUserSettingsModule,
+    ProjectTemplateManagementModule
   ],
   declarations: [
     // Pages
