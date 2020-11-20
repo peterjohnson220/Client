@@ -72,7 +72,7 @@
       <button
         [attr.data-qa-id]="'btn-jobs-page-pricing-match-delete-' + dataRow.CompanyJobs_PricingsMatches_CompanyJobPricingMatch_ID"
         [disabled]="!!(pricingInfo | modifyPricingMatchError : isActiveJob)"
-        [title]="pricingInfo | modifyPricingMatchError : isActiveJob: pricingMatchesCount"
+        [title]="pricingInfo | modifyPricingMatchError : isActiveJob"
         type="button"
         (click)="openDeletePricingMatchModal()"
         class="btn btn-secondary pf-icon-btn-transparent">
