@@ -2,11 +2,8 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 
-import { of } from 'rxjs';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
-import { PermissionService } from 'libs/core';
-import { SettingsService } from 'libs/state/app-context/services';
 import * as fromRootState from 'libs/state/state';
 import * as fromOrgDataNavigationLinkActions from 'libs/features/navigation-links/actions/org-data-navigation-link.actions';
 import * as fromAppNotificationsMainReducer from 'libs/features/app-notifications/reducers';
@@ -14,14 +11,13 @@ import * as fromAppNotificationsActions from 'libs/features/app-notifications/ac
 import * as fromJobDescriptionsExportActions from 'libs/features/job-description-management/actions/job-description-export.actions';
 import { NotificationLevel, NotificationSource, NotificationType } from 'libs/features/app-notifications/models';
 
-
+import * as fromLoadAndExportFilesCardActions from '../../actions/load-and-export-files-card.actions';
 import { LoadAndExportFilesCardComponent } from './load-and-export-files-card.component';
 
 describe('Data Management - Main - Load And Export File Card', () => {
   let instance: LoadAndExportFilesCardComponent;
   let fixture: ComponentFixture<LoadAndExportFilesCardComponent>;
   let store: Store<fromAppNotificationsMainReducer.State>;
-  let router: Router;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -31,20 +27,6 @@ describe('Data Management - Main - Load And Export File Card', () => {
           feature_appnotifications: combineReducers(fromAppNotificationsMainReducer.reducers),
         })
       ],
-      providers: [
-        {
-          provide: SettingsService,
-          useValue: { selectCompanySetting: () => of(true)}
-        },
-        {
-          provide: PermissionService,
-          useValue: { CheckPermission: () => of(true)}
-        },
-        {
-          provide: Router,
-          useValue: { navigate: jest.fn() },
-        }
-      ],
       declarations: [ LoadAndExportFilesCardComponent ],
       schemas: [ NO_ERRORS_SCHEMA ]
     });
@@ -53,7 +35,6 @@ describe('Data Management - Main - Load And Export File Card', () => {
     instance = fixture.componentInstance;
 
     store = TestBed.inject(Store);
-    router = TestBed.inject(Router);
   });
 
   it('no access should not show anything', () => {
@@ -99,14 +80,6 @@ describe('Data Management - Main - Load And Export File Card', () => {
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedOrgDataNavigationAction);
     expect(store.dispatch).toHaveBeenCalledWith(expectedAppNotificationAction);
-  });
-
-  it('should tell the Router to navigate to the pricing loader download page', () => {
-    spyOn(router, 'navigate');
-
-    instance.handlePricingDataExportClick({preventDefault: jest.fn()});
-
-    expect(router.navigate).toHaveBeenCalledWith(['/pricing-loader/pricing-loaders-download']);
   });
 
   it('should dispatch an action when export job description export button is clicked', () => {
