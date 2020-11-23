@@ -41,6 +41,9 @@
             <kendo-grid-column field="ViewName" title="View Name">
               <ng-template kendoGridCellTemplate let-dataItem>
                 {{dataItem.ViewName}}
+                <fa-icon *ngIf="dataItem.ViewName === 'Export'"
+                  icon="exclamation-circle"  placement="right" ngbTooltip="Previously Export Settings in Templates">
+                </fa-icon>
             </ng-template>
             </kendo-grid-column>
             <kendo-grid-column field="Templates" title="Templates">
