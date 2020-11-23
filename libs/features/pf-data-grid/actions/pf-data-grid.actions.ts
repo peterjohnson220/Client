@@ -25,6 +25,7 @@ export const UPDATE_SORT_DESCRIPTOR_NO_DATA_RETRIEVAL = '[PfDataGrid] Update Sor
 export const UPDATE_SAVE_SORT = '[PfDataGrid] Update Save Sort';
 export const UPDATE_APPLY_DEFAULT_FILTERS = '[PfDataGrid] Update Apply Default Filters';
 export const UPDATE_APPLY_USER_DEFAULT_COMPENSATION_FIELDS = '[PfDataGrid] Update Apply User Default Compensation Fields';
+export const UPDATE_USE_REPORTING_DB = '[PfDataGrid] Update useReportingDB';
 export const UPDATE_INBOUND_FILTERS = '[PfDataGrid] Update Inbound Filters';
 export const UPDATE_FILTER = '[PfDataGrid] Update Filter';
 export const CLEAR_FILTER = '[PfDataGrid] Clear Filter';
@@ -135,6 +136,11 @@ export class UpdateApplyDefaultFilters implements Action {
 
 export class UpdateApplyUserDefaultCompensationFields implements Action {
   readonly type = UPDATE_APPLY_USER_DEFAULT_COMPENSATION_FIELDS;
+  constructor(public pageViewId: string, public value: boolean) {}
+}
+
+export class UpdateUseReportingDB implements Action {
+  readonly type = UPDATE_USE_REPORTING_DB;
   constructor(public pageViewId: string, public value: boolean) {}
 }
 
@@ -446,6 +452,7 @@ export type DataGridActions =
   | UpdatePreserveSelectionsOnGetConfig
   | UpdateApplyDefaultFilters
   | UpdateApplyUserDefaultCompensationFields
+  | UpdateUseReportingDB
   | LoadData
   | LoadDataSuccess
   | ReloadData

@@ -24,8 +24,15 @@ export class DataGridToDataViewsHelper {
   }
 
   static buildDataViewDataRequest(
-    baseEntityId: number, fields: ViewField[], filters: DataViewFilter[],
-    pagingOptions: PagingOptions, sortDescriptor: SortDescriptor[], withCount: boolean, applyDefaultFilters: boolean, linkGroups = null) {
+    baseEntityId: number,
+    fields: ViewField[],
+    filters: DataViewFilter[],
+    pagingOptions: PagingOptions,
+    sortDescriptor: SortDescriptor[],
+    withCount: boolean,
+    applyDefaultFilters: boolean,
+    useReportingDB = false,
+    linkGroups = null) {
 
     return {
       BaseEntityId: baseEntityId,
@@ -34,6 +41,7 @@ export class DataGridToDataViewsHelper {
       PagingOptions: pagingOptions,
       WithCount: withCount,
       ApplyDefaultFilters: applyDefaultFilters,
+      UseReporting: !!useReportingDB,
       LinkGroups: linkGroups
     };
   }
