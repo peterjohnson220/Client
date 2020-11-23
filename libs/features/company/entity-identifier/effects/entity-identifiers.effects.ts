@@ -11,7 +11,6 @@ import * as fromRootState from 'libs/state/state';
 import * as fromEntityIdentifierActions from '../actions/entity-identifier.actions';
 import { DBEntityType, FieldNames } from '../models';
 import { EntityIdentifierViewModel, EntityIdentifierViewModelOptions } from '../models/entity-identifiers-view.model';
-import * as fromReducers from '../reducers';
 
 @Injectable()
 export class EntityIdentifiersEffects {
@@ -19,17 +18,16 @@ export class EntityIdentifiersEffects {
     @Effect()
     getEmployeeIdentifiers$: Observable<Action> = this.actions$.pipe(
         ofType(fromEntityIdentifierActions.GET_EMPLOYEE_IDENTIFIERS),
-        map((action: fromEntityIdentifierActions.GetEmployeeIdentifiers) => action.companyId),
+        map((action: fromEntityIdentifierActions.GetEmployeeIdentifiers) => action),
         withLatestFrom(
             this.store.pipe(select(fromRootState.getUserContext)),
-            this.store.pipe(select(fromReducers.getCustomEmployeeField)),
-            (companyId, userContext, customFields) => {
-                return { companyId, userContext, customFields};
+            (action, userContext) => {
+                return { action, userContext };
             }),
         switchMap(obj => {
-            return this.integrationApiService.GetEntityIdentifiers(obj.companyId, DBEntityType.CompanyEmployees, obj.userContext).pipe(
+            return this.integrationApiService.GetEntityIdentifiers(obj.action.companyId, DBEntityType.CompanyEmployees, obj.userContext).pipe(
                 map((r) => {
-                    const viewMappedResponse = this.mapToViewModel(r, obj.customFields);
+                    const viewMappedResponse = this.mapToViewModel(r, obj.action.customEmployeeFields);
                     return new fromEntityIdentifierActions.GetEmployeeIdentifiersSuccess(viewMappedResponse);
                 }),
                 catchError(e => of(new fromEntityIdentifierActions.GetEmployeeIdentifiersFailed()))
@@ -43,15 +41,14 @@ export class EntityIdentifiersEffects {
         map((action: fromEntityIdentifierActions.PutEmployeeIdentifiers) => action),
         withLatestFrom(
             this.store.pipe(select(fromRootState.getUserContext)),
-          this.store.pipe(select(fromReducers.getCustomEmployeeField)),
-            (action, userContext, customFields) => {
-                return { action, userContext, customFields };
+            (action, userContext) => {
+                return { action, userContext };
             }),
         switchMap(obj => {
             return this.integrationApiService.PutEntityIdentifiers(obj.action.companyId, DBEntityType.CompanyEmployees, obj.userContext, obj.action.keyFields)
                 .pipe(
                     map((r) => {
-                        const viewMappedResponse = this.mapToViewModel(r, obj.customFields);
+                        const viewMappedResponse = this.mapToViewModel(r, obj.action.customEmployeeFields);
                         return new fromEntityIdentifierActions.PutEmployeeIdentifiersSuccess(viewMappedResponse);
                     }),
                     catchError(e => of(new fromEntityIdentifierActions.PutEmployeeIdentifiersFailed()))
@@ -65,10 +62,10 @@ export class EntityIdentifiersEffects {
         const fieldOptions = EntityIdentifierViewModelOptions();
 
         if (customFields.length > 0 && customFields.find(field => field.Key === 'UdfChar1Name')) {
-          const udf1 = customFields.find(field => field.Key === 'UdfChar1Name');
-          const udfFieldOption = fieldOptions.find(field => field.DbColumn === FieldNames.UDF_CHAR_1);
-          udfFieldOption.Field = udf1.Value;
-          udfFieldOption.isDisabled = false;
+            const udf1 = customFields.find(field => field.Key === 'UdfChar1Name');
+            const udfFieldOption = fieldOptions.find(field => field.DbColumn === FieldNames.UDF_CHAR_1);
+            udfFieldOption.Field = udf1.Value;
+            udfFieldOption.isDisabled = false;
         }
 
         if (!fields || fields.length === 0) {
@@ -76,11 +73,11 @@ export class EntityIdentifiersEffects {
         }
 
         fields.forEach(f => {
-          const fieldOption = fieldOptions.find(a => a.DbColumn === f);
+            const fieldOption = fieldOptions.find(a => a.DbColumn === f);
 
-          if (fieldOption) {
-            fieldOption.isChecked = true;
-          }
+            if (fieldOption) {
+                fieldOption.isChecked = true;
+            }
         });
 
         return fieldOptions;

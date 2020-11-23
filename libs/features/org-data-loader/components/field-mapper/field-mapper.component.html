@@ -9,7 +9,8 @@
     <div class="row mt-3"
          *ngIf="loaderType === templateReferenceConstants.LoaderType.Employees 
           || loaderType === templateReferenceConstants.LoaderType.StructureMapping 
-          || loaderType === templateReferenceConstants.LoaderType.Benefits">
+          || loaderType === templateReferenceConstants.LoaderType.Benefits
+          || loaderType === templateReferenceConstants.LoaderType.EmployeeTags">
       <div *ngIf="loaderType === templateReferenceConstants.LoaderType.Employees"
            class="col-md-4 d-flex">
         <label class="text-nowrap mr-4"

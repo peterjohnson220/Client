@@ -82,7 +82,7 @@ describe('OrgDataLoadComponent', () => {
 
   it('should not increment step on btn click with invalid info for step 2', () => {
     instance.stepIndex = 2;
-    instance.loadOptions = getEntityChoicesForOrgLoader(true);
+    instance.loadOptions = getEntityChoicesForOrgLoader();
     const ret = instance.areStepsValid();
     expect(ret).toBe(false);
     instance.nextBtnClick();
@@ -91,7 +91,7 @@ describe('OrgDataLoadComponent', () => {
 
   it('should not increment step on btn click with invalid delimiter info for step 3', () => {
     instance.stepIndex = 3;
-    instance.loadOptions = getEntityChoicesForOrgLoader(true);
+    instance.loadOptions = getEntityChoicesForOrgLoader();
     instance.selectedDelimiter = null;
     const ret = instance.areStepsValid();
     expect(ret).toBe(false);
@@ -102,7 +102,7 @@ describe('OrgDataLoadComponent', () => {
 
   it('should increment step on btn click with valid info for step 2', () => {
     instance.stepIndex = 2;
-    instance.loadOptions = getEntityChoicesForOrgLoader(true);
+    instance.loadOptions = getEntityChoicesForOrgLoader();
     instance.loadOptions[1].isChecked = true;
     // @ts-ignore
     instance.tooltip = { open: jest.fn() };
@@ -152,7 +152,7 @@ describe('OrgDataLoadComponent', () => {
 
   it('should step back when clicking button', () => {
     instance.userContext = generateMockUserContext();
-    instance.loadOptions = getEntityChoicesForOrgLoader(true);
+    instance.loadOptions = getEntityChoicesForOrgLoader();
 
     instance.stepIndex = 2;
     instance.goBack();

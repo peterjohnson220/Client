@@ -1,20 +1,19 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
+import * as fromCustomFieldsReducer from 'libs/features/company/custom-fields/reducers/custom-fields.reducer';
+import * as fromEntityIdentifierReducer from 'libs/features/company/entity-identifier/reducers/entity-identifiers.reducer';
 import * as fromEmailRecipientsReducer from 'libs/features/loader-email-reipients/state/reducers/email-recipients.reducer';
 import * as fromLoaderSettingsReducer from 'libs/features/org-data-loader/state/reducers/loader-settings.reducer';
 // Import root app reducer
 import * as fromRoot from 'libs/state/state';
 
 import { SelectorHelper } from '../helpers';
-
 import * as fromTransferDataPageReducer from './transfer-data-page.reducer';
 import * as fromOrganizationalDataPageReducer from './organizational-data-page.reducer';
 import * as fromFieldMappingReducer from './field-mapping.reducer';
 import * as fromOrgDataFieldMappingsReducer from './organizational-data-field-mapping.reducer';
-import * as fromCustomFieldsReducer from './custom-fields.reducer';
 import * as fromTransferScheduleReducer from './transfer-schedule.reducer';
 import * as fromHrisConnectionReducer from './hris-connection.reducer';
-import * as fromEntityIdentifierReducer from './entity-identifiers.reducer';
 import * as fromEntitySelectionReducer from './entity-selection.reducer';
 import * as fromOutboundJdmReducer from './outbound-jdm.reducer';
 import * as fromProviderListReducer from './provider-list.reducer';
@@ -22,7 +21,6 @@ import * as fromConverterSettingsReducer from './converter-settings.reducer';
 import * as fromLoadersDataReducer from './loaders-data.reducer';
 import * as fromLoadAndExportFilesCardReducer from './load-and-export-files-card.reducer';
 import { create } from 'domain';
-
 
 export interface DataManagementMainState {
   transferDataPage: fromTransferDataPageReducer.State;
@@ -272,13 +270,14 @@ export const getCustomJobField =
   createSelector(selectOrgDataCustomFieldsState, fromCustomFieldsReducer.GetCustomJobFields
   );
 export const getCustomJobFieldError =
-  createSelector(selectOrgDataCustomFieldsState, fromCustomFieldsReducer.GetCustomJobFieldsError
+  createSelector(selectOrgDataCustomFieldsState, fromCustomFieldsReducer.GetCustomFieldsError
   );
 export const getCustomEmployeeField =
-  createSelector(selectOrgDataCustomFieldsState, fromCustomFieldsReducer.GetCustomEmployeeField
+  createSelector(selectOrgDataCustomFieldsState, fromCustomFieldsReducer.GetCustomEmployeeFields
   );
-export const getCustomEmployeeFieldError =
-  createSelector(selectOrgDataCustomFieldsState, fromCustomFieldsReducer.GetCustomEmployeeFieldError
+
+export const getTagCategories =
+  createSelector(selectOrgDataCustomFieldsState, fromCustomFieldsReducer.GetTagCategories
   );
 
 // Notification

@@ -14,15 +14,15 @@ import * as fromAppNotificationsMainReducer from 'libs/features/app-notification
 import * as fromCompanySelectorActions from 'libs/features/company/company-selector/actions';
 import { CompanySelectorItem } from 'libs/features/company/company-selector/models';
 import * as fromCompanyReducer from 'libs/features/company/company-selector/reducers';
+import * as fromCustomFieldsActions from 'libs/features/company/custom-fields/actions';
+import * as fromEntityIdentifierActions from 'libs/features/company/entity-identifier/actions/entity-identifier.actions';
+import { FieldNames } from 'libs/features/company/entity-identifier/models/constants';
+import { EntityIdentifierViewModel } from 'libs/features/company/entity-identifier/models/entity-identifiers-view.model';
 import { UserContext } from 'libs/models';
 import * as fromRootState from 'libs/state/state';
 
 import { EmployeeKeyStep } from './employee-key-step.enum';
 import * as fromDataManagementMainReducer from '../../../reducers';
-import * as fromEntityIdentifierActions from '../../../actions/entity-identifier.actions';
-import * as fromCustomFieldsActions from '../../../actions/custom-fields.actions';
-import { FieldNames } from '../../../models/constants';
-import { EntityIdentifierViewModel } from '../../../models/entity-identifiers-view.model';
 
 @Component({
   selector: 'pf-custom-employee-identifier',
@@ -51,6 +51,7 @@ export class CustomEmployeeIdentifierComponent implements OnDestroy, OnInit {
   employeeFields: EntityIdentifierViewModel[] = [];
   employeeFieldsCopy: EntityIdentifierViewModel[] = [];
   customFields$: Observable<any>;
+  employeefields: any[];
 
   initValues() {
     this.step = this.stepEnum.Company;
@@ -124,7 +125,8 @@ export class CustomEmployeeIdentifierComponent implements OnDestroy, OnInit {
       filter(uc => !!uc),
       takeUntil(this.unsubscribe$)
     ).subscribe(f => {
-      this.mainStore.dispatch(new fromEntityIdentifierActions.GetEmployeeIdentifiers(this.selectedCompany.CompanyId));
+      this.employeefields = f;
+      this.mainStore.dispatch(new fromEntityIdentifierActions.GetEmployeeIdentifiers(this.selectedCompany.CompanyId, this.employeefields));
     });
 
     const userSubscription = this.mainStore.select(fromRootState.getUserContext).pipe(
@@ -172,7 +174,7 @@ export class CustomEmployeeIdentifierComponent implements OnDestroy, OnInit {
     }
 
     const selectedFields = this.employeeFields.filter(f => f.isChecked).map(f => f.DbColumn);
-    this.mainStore.dispatch(new fromEntityIdentifierActions.PutEmployeeIdentifiers(this.selectedCompany.CompanyId, selectedFields));
+    this.mainStore.dispatch(new fromEntityIdentifierActions.PutEmployeeIdentifiers(this.selectedCompany.CompanyId, selectedFields, this.employeefields));
   }
 
   areStepsValid(): boolean {

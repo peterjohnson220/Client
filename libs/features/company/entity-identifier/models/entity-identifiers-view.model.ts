@@ -1,4 +1,4 @@
-import { FieldNames } from './';
+import { FieldNames } from './constants';
 
 export interface EntityIdentifierViewModel {
     Field: string;
@@ -13,7 +13,7 @@ export function EntityIdentifierViewModelOptions(): EntityIdentifierViewModel[] 
         { Field: FieldNames.DEPARTMENT, DbColumn: FieldNames.DEPARTMENT, isChecked: false, isDisabled: false },
         { Field: FieldNames.MANAGER_EMPLOYEE_ID, DbColumn: FieldNames.MANAGER_EMPLOYEE_ID, isChecked: false, isDisabled: false },
         { Field: FieldNames.JOB_CODE, DbColumn: FieldNames.JOB_CODE, isChecked: false, isDisabled: false },
-        { Field: FieldNames.UDF_CHAR_1, DbColumn: FieldNames.UDF_CHAR_1, isChecked: false, isDisabled: true}
+        { Field: FieldNames.UDF_CHAR_1, DbColumn: FieldNames.UDF_CHAR_1, isChecked: false, isDisabled: true }
     ];
 }
 
