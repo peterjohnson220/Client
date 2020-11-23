@@ -18,6 +18,7 @@ import { GridModule } from '@progress/kendo-angular-grid';
 import { PfCommonModule } from 'libs/core';
 import { PfBulkExportSchedulerModule, PfNavigationLinksModule } from 'libs/features';
 import { PfCompanySelectorModule } from 'libs/features/company/company-selector/company-selector.module';
+import { JobDescriptionExportEffects } from 'libs/features/job-description-management/effects/job-description-export.effects';
 import { PfEmailRecipientsModule } from 'libs/features/loader-email-reipients';
 import { PfFieldMapperModule } from 'libs/features/org-data-loader';
 import { PfFormsModule } from 'libs/forms';
@@ -91,14 +92,14 @@ import {
   TransferScheduleEffects,
   ProviderListEffects,
   ConverterSettingsEffects,
-  LoadersDataEffects
+  LoadersDataEffects,
+  LoadAndExportFilesCardEffects
 } from './effects';
 import * as fromFaIcons from './fa-icons';
 import { MainRoutingModule } from './main-routing.module';
 import { reducers } from './reducers';
 import { GetSupportedSchedulesPipe, OrgDataEntityTypeToDisplayName } from './pipes';
 import { HrisAuthenticationGuard } from './guards';
-import { JobDescriptionExportEffects } from 'libs/features/job-description-management/effects/job-description-export.effects';
 
 @NgModule({
   imports: [
@@ -131,7 +132,8 @@ import { JobDescriptionExportEffects } from 'libs/features/job-description-manag
       ProviderListEffects,
       ConverterSettingsEffects,
       LoadersDataEffects,
-      JobDescriptionExportEffects
+      JobDescriptionExportEffects,
+      LoadAndExportFilesCardEffects
     ]),
     FontAwesomeModule,
     NgbDropdownModule,

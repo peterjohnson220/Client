@@ -20,6 +20,8 @@ import * as fromOutboundJdmReducer from './outbound-jdm.reducer';
 import * as fromProviderListReducer from './provider-list.reducer';
 import * as fromConverterSettingsReducer from './converter-settings.reducer';
 import * as fromLoadersDataReducer from './loaders-data.reducer';
+import * as fromLoadAndExportFilesCardReducer from './load-and-export-files-card.reducer';
+import { create } from 'domain';
 
 
 export interface DataManagementMainState {
@@ -38,6 +40,7 @@ export interface DataManagementMainState {
   providerList: fromProviderListReducer.State;
   converterSettings: fromConverterSettingsReducer.State;
   loadersData: fromLoadersDataReducer.State;
+  loadAndExportFilesCard: fromLoadAndExportFilesCardReducer.LoadAndExportFilesCardState;
 }
 
 export interface State extends fromRoot.State {
@@ -60,6 +63,7 @@ export const reducers = {
   providerList: fromProviderListReducer.reducer,
   converterSettings: fromConverterSettingsReducer.reducer,
   loadersData: fromLoadersDataReducer.reducer,
+  loadAndExportFilesCard: fromLoadAndExportFilesCardReducer.reducer
 };
 
 // Select Feature Area
@@ -131,8 +135,12 @@ export const selectLoadersDataState = createSelector(
   (state: DataManagementMainState) => state.loadersData
 );
 
-// Transfer Data Page
+export const selectLoadAndExportFilesCardState = createSelector(
+  selectFeatureAreaState,
+  (state: DataManagementMainState) => state.loadAndExportFilesCard
+);
 
+// Transfer Data Page
 export const getWorkflowStep = createSelector(
   selectTransferDataPageState,
   fromTransferDataPageReducer.getWorkflowStep
@@ -391,3 +399,11 @@ export const getOutboundTransferSummaryWidget = createSelector(getOutboundTransf
 // loaders data
 export const getLatestOrgDataLoad = createSelector(selectLoadersDataState, fromLoadersDataReducer.getLatestOrgDataLoad);
 export const getLatestOrgDataLoadModalOpen = createSelector(selectLoadersDataState, fromLoadersDataReducer.getLatestOrgDataLoadModalOpen);
+
+// load and export files card
+export const getLoadAndExportFilesCardState = createSelector(
+  selectLoadAndExportFilesCardState,
+  fromLoadAndExportFilesCardReducer.getLoadAndExportFilesCardState);
+export const getLoadAndExportFilesCardStateLoading = createSelector(
+  selectLoadAndExportFilesCardState,
+  fromLoadAndExportFilesCardReducer.getLoadAndExportFilesCardStateLoading);
