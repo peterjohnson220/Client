@@ -25,55 +25,55 @@ export const RESET_FORMULA = '[Data Insights / Formula Field Modal] Reset Formul
 export class WaitForFormulaValidation implements Action {
   readonly type = WAIT_FOR_FORMULA_VALIDATION;
 
-  constructor() {}
+  constructor(public payload: { formulaFieldId: string }) {}
 }
 
 export class ValidateFormula implements Action {
   readonly type = VALIDATE_FORMULA;
 
-  constructor(public payload: { formula: string, baseEntityId: number }) {}
+  constructor(public payload: { formula: string, baseEntityId: number, formulaFieldId: string }) {}
 }
 
 export class ValidateFormulaSuccess implements Action {
   readonly type = VALIDATE_FORMULA_SUCCESS;
 
-  constructor(public payload: { result: boolean, dataType: FieldDataType }) {}
+  constructor(public payload: { result: boolean, dataType: FieldDataType, formulaFieldId: string }) {}
 }
 
 export class ValidateFormulaError implements Action {
   readonly type = VALIDATE_FORMULA_ERROR;
 
-  constructor() {}
+  constructor(public payload: { formulaFieldId: string }) {}
 }
 
 export class SaveFormulaField implements Action {
   readonly type = SAVE_FORMULA_FIELD;
 
-  constructor(public payload: { formula: FormulaFieldModalObj, baseEntityId: number }) {}
+  constructor(public payload: { formula: FormulaFieldModalObj, baseEntityId: number, formulaFieldId: string }) {}
 }
 
 export class CreateFormulaFieldSuccess implements Action {
   readonly type = CREATE_FORMULA_FIELD_SUCCESS;
 
-  constructor(public payload: DataViewField) {}
+  constructor(public payload: { dataViewField: DataViewField, formulaFieldId: string }) {}
 }
 
 export class UpdateFormulaFieldSuccess implements Action {
   readonly type = UPDATE_FORMULA_FIELD_SUCCESS;
 
-  constructor(public payload: DataViewField) {}
+  constructor(public payload:  { dataViewField: DataViewField, formulaFieldId: string }) {}
 }
 
 export class SaveFormulaFieldError implements Action {
   readonly type = SAVE_FORMULA_FIELD_ERROR;
 
-  constructor(public payload: { message: string }) {}
+  constructor(public payload: { message: string, formulaFieldId: string }) {}
 }
 
 export class ResetModal implements Action {
   readonly type = RESET_MODAL;
 
-  constructor() {}
+  constructor(public payload: { formulaFieldId: string }) {}
 }
 
 export class DeleteFormulaField implements Action {
@@ -97,7 +97,7 @@ export class DeleteFormulaFieldError implements Action {
 export class ResetFormula implements Action {
   readonly type = RESET_FORMULA;
 
-  constructor() {}
+  constructor(public payload: { formulaFieldId: string }) {}
 }
 
 export class GetFormulaFieldViewCount implements Action {

@@ -273,7 +273,7 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
       ? currentRow.CompanyStructures_RangeGroup_MarketReferencePointValue
       : null;
 
-    const isMidFormula = !!this.metaData.RangeDistributionSetting?.ControlPoint_Formula?.FormulaId;
+    const isMidFormula = !!this.metaData.RangeDistributionSetting?.Mid_Formula?.FormulaId;
 
     this.mrpSeriesData.push({
       y: value,

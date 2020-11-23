@@ -26,9 +26,10 @@ export class FormulaFieldEffects {
           .pipe(
             map((response: ValidateFormulaResponse) => new fromFormulaFieldActions.ValidateFormulaSuccess({
               result: response.IsValid,
-              dataType: PayfactorsApiModelMapper.mapDataViewFieldDataTypeToFieldDataType(response.DataType)
+              dataType: PayfactorsApiModelMapper.mapDataViewFieldDataTypeToFieldDataType(response.DataType),
+              formulaFieldId: ''
             })),
-            catchError(() => of(new fromFormulaFieldActions.ValidateFormulaError()))
+            catchError(() => of(new fromFormulaFieldActions.ValidateFormulaError({formulaFieldId: ''})))
           );
       })
     );
@@ -50,14 +51,14 @@ export class FormulaFieldEffects {
           .pipe(
             map((response) => {
               return action.payload.formula.FormulaId
-                ? new fromFormulaFieldActions.UpdateFormulaFieldSuccess(response)
-                : new fromFormulaFieldActions.CreateFormulaFieldSuccess(response);
+                ? new fromFormulaFieldActions.UpdateFormulaFieldSuccess({ dataViewField: response, formulaFieldId: '' })
+                : new fromFormulaFieldActions.CreateFormulaFieldSuccess({ dataViewField: response, formulaFieldId: '' });
             }),
             catchError(response => {
               const message: string = response.status === 409
                 ? 'Formula name in use. Please choose a unique formula name.'
                 : 'Error Saving Formula.';
-              return of(new fromFormulaFieldActions.SaveFormulaFieldError({ message }));
+              return of(new fromFormulaFieldActions.SaveFormulaFieldError({ formulaFieldId: '', message: message }));
             })
           );
       })

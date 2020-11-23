@@ -8,7 +8,7 @@ import cloneDeep from 'lodash/cloneDeep';
 
 import { PfValidators } from 'libs/forms';
 import { RangeGroupMetadata } from 'libs/models/structures';
-import { DataViewAccessLevel, DataViewEntity } from 'libs/models/payfactors-api';
+import { DataViewAccessLevel, DataViewEntity, GetAvailableFieldsByTableRequest, AvailableTableFields } from 'libs/models/payfactors-api';
 import { FormulaFieldModalObj } from 'libs/models/formula-editor';
 import { Suggestion, functionSuggestionList, Field, FieldDataType } from 'libs/features/formula-editor';
 import * as fromFormulaFieldActions from 'libs/features/formula-editor/actions/formula-field.actions';
@@ -38,6 +38,8 @@ import { PagesHelper } from '../../helpers/pages.helper';
 export class StructuresFormulaEditorComponent implements ControlValueAccessor, OnInit, AfterViewInit, OnDestroy, OnChanges {
   @Input() metadata: RangeGroupMetadata;
   @Input() attemptedSubmit: boolean;
+  @Input() includeRangeFields: boolean;
+  @Input() formulaFieldId: string;
 
   readonly maxFieldNameLength = 255;
   readonly VALIDATE_DEBOUNCE_TIME = 2000;
@@ -78,14 +80,7 @@ export class StructuresFormulaEditorComponent implements ControlValueAccessor, O
   }
 
   constructor(public store: Store<fromJobBasedRangeReducer.State>) {
-    this.formulaFieldSuggestions$ = this.store.pipe(select(fromJobBasedRangeReducer.getFormulaFieldSuggestions));
-    this.validating$ = this.store.pipe(select(fromJobBasedRangeReducer.getFormulaValidating));
-    this.formulaValid$ = this.store.pipe(select(fromJobBasedRangeReducer.getFormulaValid));
-    this.savedFormulaField$ = this.store.pipe(select(fromJobBasedRangeReducer.getFormulaField));
-    this.savingErrorMessage$ = this.store.pipe(select(fromJobBasedRangeReducer.getFormulaSavingErrorMessage));
-    this.saveFormulaFieldError$ = this.store.pipe(select(fromJobBasedRangeReducer.getFormulaSavingError));
-    this.saveFormulaFieldSuccess$ = this.store.pipe(select(fromJobBasedRangeReducer.getFormulaSavingSuccess));
-    this.resetFormula$ = this.store.pipe(select(fromJobBasedRangeReducer.getResetFormula));
+
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -93,20 +88,27 @@ export class StructuresFormulaEditorComponent implements ControlValueAccessor, O
       const metadata = changes.metadata.currentValue;
       const setting = metadata?.RangeDistributionSetting;
 
-      if (!!setting && !!setting.ControlPoint_Formula) {
-        this.formulaFieldObj = cloneDeep(setting.ControlPoint_Formula);
-      } else {
-        this.formulaFieldObj = this.getDefaultFormulaField();
-      }
+
+      this.formulaFieldObj = this.getFormulaFieldObject(setting);
       this.formula = this.formulaFieldObj.Formula;
     }
   }
 
   ngOnInit(): void {
+    this.formulaFieldSuggestions$ = this.store.select(fromJobBasedRangeReducer.getFormulaFieldSuggestions, this.formulaFieldId);
+    this.validating$ = this.store.select(fromJobBasedRangeReducer.getFormulaValidating, this.formulaFieldId);
+    this.formulaValid$ = this.store.select(fromJobBasedRangeReducer.getFormulaValid, this.formulaFieldId);
+    this.savedFormulaField$ = this.store.select(fromJobBasedRangeReducer.getFormulaField, this.formulaFieldId);
+    this.savingErrorMessage$ = this.store.select(fromJobBasedRangeReducer.getFormulaSavingErrorMessage, this.formulaFieldId);
+    this.saveFormulaFieldError$ = this.store.select(fromJobBasedRangeReducer.getFormulaSavingError, this.formulaFieldId);
+    this.saveFormulaFieldSuccess$ = this.store.select(fromJobBasedRangeReducer.getFormulaSavingSuccess, this.formulaFieldId);
+    this.resetFormula$ = this.store.select(fromJobBasedRangeReducer.getResetFormula, this.formulaFieldId);
+
     this.buildForm();
 
     const modelPageViewId = PagesHelper.getModelPageViewIdByRangeDistributionType(this.metadata?.RangeDistributionTypeId);
-    this.store.dispatch(new fromFieldActions.GetAvailableReportFieldsByPageViewId({ pageViewId: modelPageViewId }));
+    this.store.dispatch(new fromFieldActions.GetAvailableFieldsByTable({ request: this.buildAvailableFieldsByTableRequest(modelPageViewId),
+       fieldId: this.formulaFieldId }));
     this.baseEntity$ = this.store.pipe(select(fromPfDataGridReducer.getBaseEntity, modelPageViewId));
 
     this.subscriptions.push(
@@ -134,7 +136,8 @@ export class StructuresFormulaEditorComponent implements ControlValueAccessor, O
       this.baseEntity$.subscribe(e => {
         this.baseEntity = e;
         if (!!this.baseEntity && !!this.formulaFieldObj.Formula && !this.resetFormula) {
-          this.store.dispatch(new fromFormulaFieldActions.ValidateFormula({ formula: this.formulaFieldObj.Formula, baseEntityId: this.baseEntity?.Id }));
+          this.store.dispatch(new fromFormulaFieldActions.ValidateFormula({ formula: this.formulaFieldObj.Formula, baseEntityId: this.baseEntity?.Id,
+            formulaFieldId: this.formulaFieldId }));
         }
       }),
 
@@ -146,7 +149,8 @@ export class StructuresFormulaEditorComponent implements ControlValueAccessor, O
         this.isValidFormula = result;
         if (!this.resetFormula && this.isValidFormula && this.structuresFormulaForm.controls['FieldName'].valid) {
           this.structuresFormulaForm.controls['Formula'].setValue(this.formulaFieldObj.Formula);
-          this.store.dispatch(new fromFormulaFieldActions.SaveFormulaField({ formula: this.getFormulaField(), baseEntityId: this.baseEntity?.Id }));
+          this.store.dispatch(new fromFormulaFieldActions.SaveFormulaField({ formula: this.getFormulaField(), baseEntityId: this.baseEntity?.Id,
+            formulaFieldId: this.formulaFieldId }));
         }
       }),
 
@@ -216,9 +220,20 @@ export class StructuresFormulaEditorComponent implements ControlValueAccessor, O
     };
   }
 
+  buildAvailableFieldsByTableRequest(pageViewId): GetAvailableFieldsByTableRequest {
+    const tables: AvailableTableFields[] = [];
+    // always add pricings
+    tables.push({ TableName: 'CompanyJobs_Pricings', IncludedDataTypes: [] });
+    if (this.includeRangeFields) {
+      tables.push({ TableName: 'CompanyStructures_Ranges', IncludedDataTypes: ['Float']});
+    }
+    return { PageViewId: pageViewId, Tables: tables };
+  }
+
   handleFormulaNameChange() {
     if (!!this.formulaFieldObj.Formula && this.isValidFormula) {
-      this.store.dispatch(new fromFormulaFieldActions.SaveFormulaField({ formula: this.getFormulaField(), baseEntityId: this.baseEntity?.Id }));
+      this.store.dispatch(new fromFormulaFieldActions.SaveFormulaField({ formula: this.getFormulaField(), baseEntityId: this.baseEntity?.Id,
+        formulaFieldId: this.formulaFieldId }));
     }
   }
 
@@ -226,14 +241,15 @@ export class StructuresFormulaEditorComponent implements ControlValueAccessor, O
     this.formulaFieldObj.IsPublic = !this.formulaFieldObj.IsPublic;
     this.structuresFormulaForm.controls['IsPublic'].setValue(this.formulaFieldObj.IsPublic);
     if (this.isValid()) {
-      this.store.dispatch(new fromFormulaFieldActions.SaveFormulaField({ formula: this.getFormulaField(), baseEntityId: this.baseEntity?.Id }));
+      this.store.dispatch(new fromFormulaFieldActions.SaveFormulaField({ formula: this.getFormulaField(), baseEntityId: this.baseEntity?.Id,
+        formulaFieldId: this.formulaFieldId }));
     }
   }
 
   handleFormulaChanged(value: string): void {
     this.isWaitingForValidation = true;
     this.formulaChanged.next(value);
-    this.store.dispatch(new fromFormulaFieldActions.WaitForFormulaValidation());
+    this.store.dispatch(new fromFormulaFieldActions.WaitForFormulaValidation({ formulaFieldId: this.formulaFieldId }));
   }
 
   private handleFormulaChangedAfterDebounceTime(value: string): void {
@@ -242,10 +258,90 @@ export class StructuresFormulaEditorComponent implements ControlValueAccessor, O
     }
     this.formulaFieldObj.Formula = value;
     if (this.formulaFieldObj.Formula.length !== 0) {
-      this.store.dispatch(new fromFormulaFieldActions.ValidateFormula({ formula: value, baseEntityId: this.baseEntity?.Id }));
+      this.store.dispatch(new fromFormulaFieldActions.ValidateFormula({ formula: value, baseEntityId: this.baseEntity?.Id,
+        formulaFieldId: this.formulaFieldId }));
       this.isWaitingForValidation = false;
     } else {
       this.isWaitingForValidation = true;
+    }
+  }
+
+  private getFormulaFieldObject(setting: any): FormulaFieldModalObj {
+    let formulaObject = null;
+    switch (this.formulaFieldId) {
+      case 'Min': {
+        if (!!setting && !!setting.Min_Formula) {
+          formulaObject = cloneDeep(setting.Min_Formula);
+        }
+        break;
+      }
+      case 'Mid': {
+        if (!!setting && !!setting.Mid_Formula) {
+          formulaObject = cloneDeep(setting.Mid_Formula);
+        }
+        break;
+      }
+      case 'Max': {
+        if (!!setting && !!setting.Max_Formula) {
+          formulaObject = cloneDeep(setting.Max_Formula);
+        }
+        break;
+      }
+      case 'FirstTertile': {
+        if (!!setting && !!setting.FirstTertile_Formula) {
+          formulaObject = cloneDeep(setting.FirstTertile_Formula);
+        }
+        break;
+      }
+      case 'SecondTertile': {
+        if (!!setting && !!setting.SecondTertile_Formula) {
+          formulaObject = cloneDeep(setting.SecondTertile_Formula);
+        }
+        break;
+      }
+      case 'FirstQuartile': {
+        if (!!setting && !!setting.FirstQuartile_Formula) {
+          formulaObject = cloneDeep(setting.FirstQuartile_Formula);
+        }
+        break;
+      }
+      case 'SecondQuartile': {
+        if (!!setting && !!setting.SecondQuartile_Formula) {
+          formulaObject = cloneDeep(setting.SecondQuartile_Formula);
+        }
+        break;
+      }
+      case 'FirstQuintile': {
+        if (!!setting && !!setting.FirstQuintile_Formula) {
+          formulaObject = cloneDeep(setting.FirstQuintile_Formula);
+        }
+        break;
+      }
+      case 'SecondQuintile': {
+        if (!!setting && !!setting.SecondQuintile_Formula) {
+          formulaObject = cloneDeep(setting.SecondQuintile_Formula);
+        }
+        break;
+      }
+      case 'ThirdQuintile': {
+        if (!!setting && !!setting.ThirdQuintile_Formula) {
+          formulaObject = cloneDeep(setting.ThirdQuintile_Formula);
+        }
+        break;
+      }
+      case 'FourthQuintile': {
+        if (!!setting && !!setting.FourthQuintile_Formula) {
+          formulaObject = cloneDeep(setting.FourthQuintile_Formula);
+        }
+        break;
+      }
+
+    }
+
+    if (!!formulaObject) {
+      return formulaObject;
+    } else {
+      return this.getDefaultFormulaField();
     }
   }
 

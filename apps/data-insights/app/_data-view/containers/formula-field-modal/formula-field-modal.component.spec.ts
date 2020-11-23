@@ -77,7 +77,7 @@ describe('Data Insights - Data View - Formula Field Modal Component', () => {
       IsPublic: isPublic,
       DataType: instance.dataType
     };
-    const expectedAction = new fromFormulaFieldActions.SaveFormulaField({ formula, baseEntityId: instance.baseEntityId });
+    const expectedAction = new fromFormulaFieldActions.SaveFormulaField({ formula, baseEntityId: instance.baseEntityId, formulaFieldId: '' });
 
     instance.handleSaveClicked();
 
@@ -98,7 +98,7 @@ describe('Data Insights - Data View - Formula Field Modal Component', () => {
     spyOn(store, 'dispatch');
     const formula = '';
     instance.baseEntityId = 1;
-    const action = new fromFormulaFieldActions.ValidateFormula({ formula, baseEntityId: instance.baseEntityId });
+    const action = new fromFormulaFieldActions.ValidateFormula({ formula, baseEntityId: instance.baseEntityId, formulaFieldId: '' });
 
     instance.handleFormulaChanged(formula);
 
