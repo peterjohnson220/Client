@@ -173,7 +173,7 @@ export class MultiMatchComponent extends SearchBaseDirective implements OnInit, 
     this.store.dispatch(new fromSearchFiltersActions.AddFilters(getSearchFilters(this.matchMode)));
     this.store.dispatch(new fromMultiMatchPageActions.SetProjectContext(this.initialContext));
     this.store.dispatch(new fromMultiMatchPageActions.GetProjectSearchContext(this.initialContext));
-    this.store.dispatch(new fromJobsToPriceActions.GetJobsToPrice(this.initialContext));
+    this.store.dispatch(new fromJobsToPriceActions.GetJobsToPrice(payload));
   }
 
   setContext() {
