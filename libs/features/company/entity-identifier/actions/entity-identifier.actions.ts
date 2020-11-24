@@ -13,7 +13,7 @@ export const PUT_EMPLOYEE_IDENTIFIERS_FAILED = '[Data Management/Entity Identifi
 
 export class GetEmployeeIdentifiers implements Action {
     readonly type = GET_EMPLOYEE_IDENTIFIERS;
-    constructor(public companyId: number) { }
+    constructor(public companyId: number, public customEmployeeFields: any[]) { }
 }
 
 export class GetEmployeeIdentifiersSuccess implements Action {
@@ -28,7 +28,7 @@ export class GetEmployeeIdentifiersFailed implements Action {
 
 export class PutEmployeeIdentifiers implements Action {
     readonly type = PUT_EMPLOYEE_IDENTIFIERS;
-    constructor(public companyId: number, public keyFields: string[]) { }
+    constructor(public companyId: number, public keyFields: string[], public customEmployeeFields: any[]) { }
 }
 
 export class PutEmployeeIdentifiersFailed implements Action {

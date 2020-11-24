@@ -1,15 +1,17 @@
 import * as fromCustomFieldsActions from '../actions/custom-fields.actions';
 
 export interface State {
-  customJobFields: any ;
+  customJobFields: any;
   customEmployeeFields: any;
   customFieldsError: boolean;
+  tagCategories: any;
 }
 
 export const initialState: State = {
   customJobFields: null,
   customEmployeeFields: null,
-  customFieldsError: false
+  customFieldsError: false,
+  tagCategories: null,
 };
 
 export function reducer(state = initialState, action: fromCustomFieldsActions.Actions): State {
@@ -56,6 +58,27 @@ export function reducer(state = initialState, action: fromCustomFieldsActions.Ac
         customFieldsError: true
       };
     }
+    case fromCustomFieldsActions.GET_TAGCATEGORIES: {
+      return {
+        ...state,
+        tagCategories: null,
+        customFieldsError: false
+      };
+    }
+    case fromCustomFieldsActions.GET_TAGCATEGORIES_SUCCESS: {
+      return {
+        ...state,
+        tagCategories: action.payload,
+        customFieldsError: false
+      };
+    }
+    case fromCustomFieldsActions.GET_TAGCATEGORIES_ERROR: {
+      return {
+        ...state,
+        tagCategories: null,
+        customFieldsError: true
+      };
+    }
 
     default:
       return state;
@@ -63,6 +86,6 @@ export function reducer(state = initialState, action: fromCustomFieldsActions.Ac
 }
 
 export const GetCustomJobFields = (state: State) => state.customJobFields;
-export const GetCustomJobFieldsError = (state: State) => state.customFieldsError;
-export const GetCustomEmployeeField = (state: State) => state.customEmployeeFields;
-export const GetCustomEmployeeFieldError = (state: State) => state.customFieldsError;
+export const GetCustomEmployeeFields = (state: State) => state.customEmployeeFields;
+export const GetTagCategories = (state: State) => state.tagCategories;
+export const GetCustomFieldsError = (state: State) => state.customFieldsError;

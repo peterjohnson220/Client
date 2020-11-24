@@ -6,32 +6,30 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
-import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
+import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { LayoutModule } from '@progress/kendo-angular-layout';
 import { FileSelectModule, UploadModule } from '@progress/kendo-angular-upload';
-import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
+import { PfCompanySelectorModule } from 'libs/features/company/company-selector/company-selector.module';
+import { PfCustomFieldsModule } from 'libs/features/company/custom-fields/custom-fields.module';
+import { PfEntityIdentifierModule } from 'libs/features/company/entity-identifier/entity-identifier.module';
+import { PfEmailRecipientsModule } from 'libs/features/loader-email-reipients';
+import { PfFieldMapperModule } from 'libs/features/org-data-loader';
 import { LoaderSettingsEffects } from 'libs/features/org-data-loader/state/effects/loader-settings.effects';
 import { PfFormsModule } from 'libs/forms';
 import { ConfigSettingsSelectorFactory } from 'libs/state/app-context/services';
 import { PfCommonUIModule } from 'libs/ui/common';
-import { PfFieldMapperModule } from 'libs/features/org-data-loader';
-import { PfEmailRecipientsModule } from 'libs/features/loader-email-reipients';
-import { PfCompanySelectorModule } from 'libs/features/company/company-selector/company-selector.module';
 
 import * as fromFaIcons from './fa-icons';
 import { OrgDataLoaderRoutingModule } from './org-data-loader-routing.module';
 import { ManageFieldMappingsPageComponent } from './containers/pages';
 import { reducers } from './reducers';
 import {
-  CompanySelectorEffects,
-  OrgDataFieldMappingsEffects,
-  LoaderConfigurationGroupsEffects,
-  OrgDataConfigurationEffects, SftpUserEffects
+    CompanySelectorEffects, LoaderConfigurationGroupsEffects, OrgDataConfigurationEffects, OrgDataFieldMappingsEffects, SftpUserEffects
 } from './effects';
 import { PublicKeyAuthComponent, SftpAccountStatusComponent } from './containers';
-
 
 @NgModule({
   imports: [
@@ -67,7 +65,9 @@ import { PublicKeyAuthComponent, SftpAccountStatusComponent } from './containers
     PfFormsModule,
     PfFieldMapperModule,
     PfEmailRecipientsModule,
-    PfCompanySelectorModule
+    PfCompanySelectorModule,
+    PfEntityIdentifierModule,
+    PfCustomFieldsModule
   ],
   providers: [
     ConfigSettingsSelectorFactory

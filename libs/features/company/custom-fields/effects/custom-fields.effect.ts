@@ -1,14 +1,14 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import {Actions, Effect, ofType} from '@ngrx/effects';
-import {Observable, of} from 'rxjs';
-import {Action} from '@ngrx/store';
-import {catchError, map, switchMap} from 'rxjs/operators';
+import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Action } from '@ngrx/store';
+import { Observable, of } from 'rxjs';
+import { catchError, map, switchMap } from 'rxjs/operators';
 
-import {LoaderFieldMappingsApiService} from 'libs/data/payfactors-api/data-loads/index';
+import { TagApiService } from 'libs/data/payfactors-api';
+import { LoaderFieldMappingsApiService } from 'libs/data/payfactors-api/data-loads/index';
 
 import * as fromCustomFieldsActions from '../actions/custom-fields.actions';
-
 
 @Injectable()
 export class CustomFieldsEffect {
@@ -39,8 +39,23 @@ export class CustomFieldsEffect {
       )
     );
 
+  @Effect()
+  getEmployeeTags$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromCustomFieldsActions.GET_TAGCATEGORIES),
+      switchMap((action: fromCustomFieldsActions.GetTagCategories) =>
+        this.tagApi.getEmployeeTagCategories().pipe(
+          map((employeeFields: any) => {
+            return new fromCustomFieldsActions.GetTagCategoriesSuccess(employeeFields);
+          }),
+          catchError(error => of(new fromCustomFieldsActions.GetTagCategoriesError()))
+        )
+      )
+    );
+
   constructor(
     private actions$: Actions,
-    private loaderFieldMappingsApiService: LoaderFieldMappingsApiService
-  ) {}
+    private loaderFieldMappingsApiService: LoaderFieldMappingsApiService,
+    private tagApi: TagApiService
+  ) { }
 }

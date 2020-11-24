@@ -8,16 +8,18 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { NgbAlertModule, NgbTabsetModule, NgbTooltipModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbAlertModule, NgbDropdownModule, NgbTabsetModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
+import { GridModule } from '@progress/kendo-angular-grid';
+import { SwitchModule } from '@progress/kendo-angular-inputs';
 import { LayoutModule } from '@progress/kendo-angular-layout';
 import { UploadModule } from '@progress/kendo-angular-upload';
-import { SwitchModule } from '@progress/kendo-angular-inputs';
-import { GridModule } from '@progress/kendo-angular-grid';
 
 import { PfCommonModule } from 'libs/core';
 import { PfBulkExportSchedulerModule, PfNavigationLinksModule } from 'libs/features';
 import { PfCompanySelectorModule } from 'libs/features/company/company-selector/company-selector.module';
+import { PfCustomFieldsModule } from 'libs/features/company/custom-fields/custom-fields.module';
+import { PfEntityIdentifierModule } from 'libs/features/company/entity-identifier/entity-identifier.module';
 import { JobDescriptionExportEffects } from 'libs/features/job-description-management/effects/job-description-export.effects';
 import { PfEmailRecipientsModule } from 'libs/features/loader-email-reipients';
 import { PfFieldMapperModule } from 'libs/features/org-data-loader';
@@ -25,75 +27,27 @@ import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 
 import {
-  AuthenticationStatusComponent,
-  DefaultPaymarketConfirmationModalComponent,
-  EntityPickerComponent,
-  EntityUploadComponent,
-  FileMappingComponent,
-  PfCheckboxComponent,
-  ProviderListComponent,
-  IntegrationCompleteModalComponent,
-  DateFormatDropDownComponent,
-  DateConverterFormComponent,
-  LatestOrgDataLoadModalComponent
+    AuthenticationStatusComponent, DateConverterFormComponent, DateFormatDropDownComponent, DefaultPaymarketConfirmationModalComponent,
+    EntityPickerComponent, EntityUploadComponent, FileMappingComponent, IntegrationCompleteModalComponent, LatestOrgDataLoadModalComponent,
+    PfCheckboxComponent, ProviderListComponent
 } from './components';
 import {
-  CustomEmployeeIdentifierComponent,
-  DataConverterModalComponent,
-  DataManagementHomePageComponent,
-  DataManagementLandingPageComponent,
-  EntityMappingComponent,
-  EntityFieldSelectionComponent,
-  FieldMappingPageComponent,
-  FieldMappingCardComponent,
-  FieldSelectionCardComponent,
-  HrisAuthenticationCardComponent,
-  HrisIntegrationPanelComponent,
-  HrisIntegrationSidebarComponent,
-  HrisIntegrationStatusComponent,
-  HrisReAuthenticationModalComponent,
-  OrgDataLoadComponent,
-  PfTestAuthenticationComponent,
-  PublicApiAuthenticationComponent,
-  ProviderCardComponent,
-  ResetIntegrationPageComponent,
-  TransferDataPageComponent,
-  TransferMethodDropdownComponent,
-  TransferScheduleCardComponent,
-  TransferScheduleCronComponent,
-  TransferSchedulePageComponent,
-  TransferScheduleSummaryComponent,
-  WorkdayAuthenticationComponent,
-  WorkdayMockAuthenticationComponent,
-  WorkdayRestAuthenticationComponent,
-  InboundEntitySelectionPageComponent,
-  InboundAuthenticationPageComponent,
-  InboundProvidersPageComponent,
-  OutboundAuthenticationPageComponent,
-  OutboundFieldMappingPageComponent,
-  OutboundJdmViewSelectionPageComponent,
-  OutboundProviderSelectionPageComponent,
-  OutboundTransferSchedulePageComponent,
-  OutboundTransferScheduleSummaryComponent,
-  LoadAndExportFilesCardComponent,
-  OutboundBulkJobsExportSchedulerPageComponent
+    CustomEmployeeIdentifierComponent, DataConverterModalComponent, DataManagementHomePageComponent, DataManagementLandingPageComponent,
+    EntityFieldSelectionComponent, EntityMappingComponent, FieldMappingCardComponent, FieldMappingPageComponent,
+    FieldSelectionCardComponent, HrisAuthenticationCardComponent, HrisIntegrationPanelComponent, HrisIntegrationSidebarComponent,
+    HrisIntegrationStatusComponent, HrisReAuthenticationModalComponent, InboundAuthenticationPageComponent,
+    InboundEntitySelectionPageComponent, InboundProvidersPageComponent, LoadAndExportFilesCardComponent, OrgDataLoadComponent,
+    OutboundAuthenticationPageComponent, OutboundBulkJobsExportSchedulerPageComponent, OutboundFieldMappingPageComponent,
+    OutboundJdmViewSelectionPageComponent, OutboundProviderSelectionPageComponent, OutboundTransferSchedulePageComponent,
+    OutboundTransferScheduleSummaryComponent, PfTestAuthenticationComponent, ProviderCardComponent, PublicApiAuthenticationComponent,
+    ResetIntegrationPageComponent, TransferDataPageComponent, TransferMethodDropdownComponent, TransferScheduleCardComponent,
+    TransferScheduleCronComponent, TransferSchedulePageComponent, TransferScheduleSummaryComponent, WorkdayAuthenticationComponent,
+    WorkdayMockAuthenticationComponent, WorkdayRestAuthenticationComponent
 } from './containers';
 import {
-  CustomFieldsEffect,
-  EntityIdentifiersEffects,
-  EntitySelectionEffects,
-  FieldMappingEffects,
-  HrisConnectionEffects,
-  OnDemandSyncEffects,
-  OrganizationalDataPageEffects,
-  OrgDataFieldMappingsEffects,
-  OutboundJdmEffects,
-  TransferDataPageEffects,
-  TransferScheduleEffects,
-  ProviderListEffects,
-  ConverterSettingsEffects,
-  LoadersDataEffects,
-  LoadAndExportFilesCardEffects
+    ConverterSettingsEffects, EntitySelectionEffects, FieldMappingEffects, HrisConnectionEffects, LoadAndExportFilesCardEffects,
+    LoadersDataEffects, OnDemandSyncEffects, OrganizationalDataPageEffects, OrgDataFieldMappingsEffects, OutboundJdmEffects,
+    ProviderListEffects, TransferDataPageEffects, TransferScheduleEffects
 } from './effects';
 import * as fromFaIcons from './fa-icons';
 import { MainRoutingModule } from './main-routing.module';
@@ -116,8 +70,6 @@ import { HrisAuthenticationGuard } from './guards';
     DragulaModule.forRoot(),
     StoreModule.forFeature('data_management', reducers),
     EffectsModule.forFeature([
-      CustomFieldsEffect,
-      EntityIdentifiersEffects,
       EntitySelectionEffects,
       FieldMappingEffects,
       HrisConnectionEffects,
@@ -127,8 +79,6 @@ import { HrisAuthenticationGuard } from './guards';
       OutboundJdmEffects,
       TransferDataPageEffects,
       TransferScheduleEffects,
-      EntityIdentifiersEffects,
-      EntitySelectionEffects,
       ProviderListEffects,
       ConverterSettingsEffects,
       LoadersDataEffects,
@@ -153,7 +103,9 @@ import { HrisAuthenticationGuard } from './guards';
     PfFieldMapperModule,
     PfEmailRecipientsModule,
     PfNavigationLinksModule,
-    PfBulkExportSchedulerModule
+    PfBulkExportSchedulerModule,
+    PfEntityIdentifierModule,
+    PfCustomFieldsModule
   ],
   declarations: [
     // Pipes
