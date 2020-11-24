@@ -8,7 +8,7 @@
     <thead>
       <tr class="trs-calculation-row w-100">
         <th class="text-left font-weight-normal" scope="col">
-          <h4 class="primary-control-heading mb-1">
+          <h4 class="primary-control-heading mb-1 secondary" pfStatementGraphicsDirective [colors]="graphicsColors" [colorRank]="controlData.SummaryTextColor" [styleAttrToColor]="'color'">
             <pf-string-editor
               [value]="controlData.Title.Override"
               [placeholder]="controlData.Title.Default"

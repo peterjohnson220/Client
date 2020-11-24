@@ -41,7 +41,8 @@ exports[`TrsCalculationControlComponent should display contribution values and t
             scope="col"
           >
             <h4
-              class="primary-control-heading mb-1"
+              class="primary-control-heading mb-1 secondary"
+              pfstatementgraphicsdirective=""
             >
               <pf-string-editor>
                 
@@ -225,7 +226,8 @@ exports[`TrsCalculationControlComponent should display the Add Field button if a
             scope="col"
           >
             <h4
-              class="primary-control-heading mb-1"
+              class="primary-control-heading mb-1 secondary"
+              pfstatementgraphicsdirective=""
             >
               <pf-string-editor>
                 
@@ -380,7 +382,8 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
             scope="col"
           >
             <h4
-              class="primary-control-heading mb-1"
+              class="primary-control-heading mb-1 secondary"
+              pfstatementgraphicsdirective=""
             >
               <pf-string-editor>
                 
@@ -543,7 +546,8 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
             scope="col"
           >
             <h4
-              class="primary-control-heading mb-1"
+              class="primary-control-heading mb-1 secondary"
+              pfstatementgraphicsdirective=""
             >
               <pf-string-editor>
                 
@@ -705,7 +709,8 @@ exports[`TrsCalculationControlComponent should render the supplied Summary 1`] =
             scope="col"
           >
             <h4
-              class="primary-control-heading mb-1"
+              class="primary-control-heading mb-1 secondary"
+              pfstatementgraphicsdirective=""
             >
               <pf-string-editor>
                 
@@ -854,7 +859,8 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
             scope="col"
           >
             <h4
-              class="primary-control-heading mb-1"
+              class="primary-control-heading mb-1 secondary"
+              pfstatementgraphicsdirective=""
             >
               <pf-string-editor>
                 
@@ -1189,7 +1195,8 @@ exports[`TrsCalculationControlComponent should render the supplied title 1`] = `
             scope="col"
           >
             <h4
-              class="primary-control-heading mb-1"
+              class="primary-control-heading mb-1 secondary"
+              pfstatementgraphicsdirective=""
             >
               <pf-string-editor>
                 
