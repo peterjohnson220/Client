@@ -7,7 +7,6 @@ export interface AsyncStateObj<T> {
   savingError: boolean;
   savingErrorResponse: any;
   obj: T;
-  previousPricingEffectiveDate: any;
 }
 
 export function generateDefaultAsyncStateObj<T>(defaultObjValue: T): AsyncStateObj<T> {
@@ -19,7 +18,6 @@ export function generateDefaultAsyncStateObj<T>(defaultObjValue: T): AsyncStateO
     savingSuccess: false,
     savingError: false,
     savingErrorResponse: null,
-    obj: defaultObjValue,
-    previousPricingEffectiveDate: null
+    obj: defaultObjValue
   };
 }

@@ -24,10 +24,7 @@ export function reducer(state = initialState, action: fromModifyPricingsActions.
       curState = AsyncStateObjHelper.resetErrors(curState, 'updatingPricing');
       curState = AsyncStateObjHelper.resetErrors(curState, 'deletingPricingMatch');
       curState = AsyncStateObjHelper.resetErrors(curState, 'updatingPricingMatch');
-      return {
-        ...curState,
-        deletingPricingMatch: {...curState.deletingPricingMatch, previousPricingEffectiveDate: null}
-      };
+      return curState;
     }
     case fromModifyPricingsActions.DELETING_PRICING: {
       return AsyncStateObjHelper.saving(state, 'deletingPricing');
@@ -64,12 +61,6 @@ export function reducer(state = initialState, action: fromModifyPricingsActions.
     }
     case fromModifyPricingsActions.UPDATING_PRICING_MATCH_ERROR: {
       return AsyncStateObjHelper.savingError(state, 'updatingPricingMatch', action.error);
-    }
-    case fromModifyPricingsActions.GET_PREVIOUS_PRICING_EFFECTIVE_DATE_SUCCESS: {
-      return {
-        ...state,
-        deletingPricingMatch: {...state.deletingPricingMatch, previousPricingEffectiveDate: action.payload}
-      };
     }
     default: {
       return state;
