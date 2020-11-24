@@ -3,7 +3,7 @@ import {
   HostListener, ChangeDetectorRef, OnDestroy, SimpleChanges, OnChanges, EventEmitter, Output
 } from '@angular/core';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import {filter, map} from 'rxjs/operators';
 
 import { ActionsSubject, Store } from '@ngrx/store';
 import { ofType } from '@ngrx/effects';
@@ -15,6 +15,7 @@ import { PermissionService } from 'libs/core';
 import { AsyncStateObj } from 'libs/models';
 import { Permissions, PermissionCheckEnum } from 'libs/constants';
 import { ApiServiceType } from 'libs/features/notes-manager/constants/api-service-type-constants';
+import { PricingApiService} from 'libs/data/payfactors-api';
 
 import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
@@ -86,7 +87,6 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
   };
 
   previousPricingEffectiveDate: any = null;
-  previousPricingEffectiveDateSubscription: Subscription;
 
   @HostListener('window:resize') windowResize() {
     this.ngAfterViewChecked();
@@ -96,7 +96,8 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
     public permissionService: PermissionService,
     private store: Store<fromModifyPricingsReducer.State>,
     private actionsSubject: ActionsSubject,
-    private cdRef: ChangeDetectorRef) { }
+    private cdRef: ChangeDetectorRef,
+    private pricingApiService: PricingApiService) { }
 
   ngOnInit() {
     this.jobsSelectedRow$ = this.store.select(fromPfDataGridReducer.getSelectedRow, PageViewIds.Jobs);
@@ -159,15 +160,6 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
           this.store.dispatch(new fromModifyPricingsActions.UpdatingPricingMatch(request, pricingId, matchesGridPageViewId));
         }
       });
-
-    this.previousPricingEffectiveDateSubscription = this.store.select(fromModifyPricingsReducer.getPreviousPricingEffectiveDate)
-      .subscribe(v => {
-      if (v !== null) {
-        this.previousPricingEffectiveDate = !v ? null : v;
-        this.showDeletePricingMatchModal.next(true);
-        this.store.dispatch(new fromModifyPricingsActions.ResetModifyPricingsModals());
-  }
-    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -188,7 +180,6 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
     this.pricingMatchesDataSuscription.unsubscribe();
     this.isActiveJobSubscription.unsubscribe();
     this.upsertPeerDataSubscription.unsubscribe();
-    this.previousPricingEffectiveDateSubscription.unsubscribe();
   }
 
 
@@ -200,12 +191,13 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
   }
 
   openDeletePricingMatchModal() {
+
     if (this.pricingMatchesCount !== 1 || this.previousPricingEffectiveDate !==  null) {
-    this.showDeletePricingMatchModal.next(true);
-    this.store.dispatch(new fromModifyPricingsActions.ResetModifyPricingsModals());
+      this.showDeletePricingMatchModal.next(true);
+      this.store.dispatch(new fromModifyPricingsActions.ResetModifyPricingsModals());
     } else {
       this.getPreviousPricingEffectiveDate();
-  }
+    }
   }
 
   deletePricingMatch(datarow: any) {
@@ -222,6 +214,11 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
   }
   getPreviousPricingEffectiveDate() {
     const matchId = this.dataRow.CompanyJobs_PricingsMatches_CompanyJobPricingMatch_ID;
+    this.pricingApiService.getPreviousPricingEffectiveDate(matchId).subscribe(response => {
+        this.previousPricingEffectiveDate = response;
+        this.showDeletePricingMatchModal.next(true);
+        this.store.dispatch(new fromModifyPricingsActions.ResetModifyPricingsModals());
+      });
     this.store.dispatch(new fromModifyPricingsActions.GetPreviousPricingEffectiveDate(matchId));
   }
 
