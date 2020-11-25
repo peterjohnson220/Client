@@ -122,7 +122,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   NextBtnToolTips: string[] = [
     'You must choose a company',
     'Please select at least one entity to load data for.',
-    'Please choose a file for each entity type and select a delimiter',
+    'Please choose a file for each entity type and select a delimiter and date format (if applicable)',
     'Please fully map each field and select the date format if applicable'
   ];
 
@@ -136,7 +136,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   private isEmployeeTagsLoadEnabled: boolean;
   mappings: MappingModel[];
   private isStructureMappingsFullReplace: boolean;
-  private dateFormat: string;
+  dateFormat: string;
   private isEmployeesFullReplace: boolean;
   private isEmployeeTagsFullReplace: boolean;
   private isBenefitsFullReplace: boolean;
@@ -234,7 +234,6 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       this.isCompanyOnAutoloader = resp.isCompanyOnAutoloader;
 
       this.selectedDelimiter = resp.delimiter;
-      this.dateFormat = resp.dateFormat;
       this.isEmployeesLoadEnabled = resp.isEmployeesLoadEnabled;
       this.isEmployeeTagsLoadEnabled = resp.isEmployeeTagsLoadEnabled;
       this.isJobsLoadEnabled = resp.isJobsLoadEnabled;
@@ -247,7 +246,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       this.isStructureMappingsFullReplace = resp.isStructureMappingsFullReplace;
       this.isValidateOnly = resp.validateOnly;
 
-      this.getEntityChoice(LoaderType.Employees).dateFormat = resp.dateFormat;
+      this.dateFormat = resp.dateFormat;
       this.getEntityChoice(LoaderType.Employees).isFullReplace = resp.isEmployeesFullReplace;
       this.getEntityChoice(LoaderType.StructureMapping).isFullReplace = resp.isStructureMappingsFullReplace;
 
@@ -502,7 +501,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
 
   private SetDefaultValuesForNullConfig() {
     this.selectedDelimiter = this.defaultDelimiter;
-    this.getEntityChoice(LoaderType.Employees).dateFormat = null;
+    this.dateFormat = null;
     this.getEntityChoice(LoaderType.Employees).isFullReplace = false;
     this.getEntityChoice(LoaderType.StructureMapping).isFullReplace = false;
     this.getEntityChoice(LoaderType.Benefits).isFullReplace = false;
@@ -541,7 +540,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
         this.existingLoaderSettings.find(setting => setting.KeyName === LoaderSettingsKeys.IsStructureMappingsFullReplace);
       const existingIsBenefitFullReplaceSetting =
         this.existingLoaderSettings.find(setting => setting.KeyName === LoaderSettingsKeys.IsBenefitsFullReplace);
-      this.getEntityChoice(LoaderType.Employees).dateFormat = existingDateFormatSetting ? existingDateFormatSetting.KeyValue : null;
+      this.dateFormat = existingDateFormatSetting ? existingDateFormatSetting.KeyValue : null;
       this.getEntityChoice(LoaderType.Employees).isFullReplace = existingIsEmpFullReplaceSetting ? existingIsEmpFullReplaceSetting.KeyValue === 'true' : null;
       this.getEntityChoice(LoaderType.Benefits).isFullReplace =
         existingIsBenefitFullReplaceSetting ? existingIsBenefitFullReplaceSetting.KeyValue === 'true' : false;
@@ -575,6 +574,10 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
 
   onDelimiterChange($event: string) {
     this.selectedDelimiter = $event;
+  }
+
+  onDateChange($event: string) {
+    this.dateFormat = $event;
   }
 
   clearSelections() {
@@ -643,6 +646,9 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
 
     if (this.stepIndex === OrgUploadStep.Files && this.hasUploadedFiles() && this.selectedDelimiter && this.selectedDelimiter.length > 0
       && !this.gettingColumnNames) {
+      if (this.selectedEntityWithDate() && this.dateFormat == null) {
+        return false;
+      }
       return true;
     }
 
@@ -651,6 +657,11 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     }
 
     return false;
+  }
+
+  selectedEntityWithDate() {
+    return (this.loadOptions.find(f => f.templateReferenceConstants === LoaderType.Employees).isChecked
+      || this.loadOptions.find(f => f.templateReferenceConstants === LoaderType.EmployeeTags).isChecked);
   }
 
   nextBtnClick() {
