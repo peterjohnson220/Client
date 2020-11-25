@@ -73,5 +73,4 @@ export const getUpdatingPricing = (state: State) => state.updatingPricing;
 export const getDeletingPricingMatch = (state: State) => state.deletingPricingMatch;
 export const getUpdatingPricingMatch = (state: State) => state.updatingPricingMatch;
 export const getRecalculatingPricingInfo = (state: State) => (state.updatingPricingMatch.saving || state.updatingPricing.saving);
-export const getPreviousPricingEffectiveDate = (state: State) => state.deletingPricingMatch.previousPricingEffectiveDate;
 

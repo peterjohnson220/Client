@@ -150,20 +150,6 @@ export class ModifyPricingsEffects {
   );
 
   @Effect()
-  getPreviousPricingEffectiveDate$: Observable<Action> = this.actions$.pipe(
-    ofType(fromModifyPricingsActions.GET_PREVIOUS_PRICING_EFFECTIVE_DATE),
-    switchMap((action: any) => {
-      return this.pricingApiService.getPreviousPricingEffectiveDate(action.payload).pipe(
-        map(response => new fromModifyPricingsActions.GetPreviousPricingEffectiveDateSuccess(response === null ? false : response )),
-        catchError(error => {
-          const msg = 'We encountered an error while loading your company data';
-          return of(new fromModifyPricingsActions.DeletingPricingMatchError(msg));
-        })
-      );
-    })
-  );
-
-  @Effect()
   deleteMatchAndPricing$: Observable<Action> = this.actions$.pipe(
     ofType(fromModifyPricingsActions.DELETE_PRICING_AND_MATCH),
     switchMap((action: any) => {
