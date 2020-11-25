@@ -219,7 +219,6 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
         this.showDeletePricingMatchModal.next(true);
         this.store.dispatch(new fromModifyPricingsActions.ResetModifyPricingsModals());
       });
-    this.store.dispatch(new fromModifyPricingsActions.GetPreviousPricingEffectiveDate(matchId));
   }
 
   handleMatchClick() {
