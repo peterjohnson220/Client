@@ -1,0 +1,7 @@
+:host ::ng-deep .k-panelbar > .k-item > .k-link {
+  box-shadow: none !important;
+}
+
+:host ::ng-deep .k-panelbar > .k-item > .k-header {
+  cursor: pointer;
+}

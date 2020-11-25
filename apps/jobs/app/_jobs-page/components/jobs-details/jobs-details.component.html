@@ -15,43 +15,52 @@
   <ngb-tabset [destroyOnHide]="false" (tabChange)="tabChange($event)">    
     <ngb-tab [title]="'Pricing Details'" [id]="pageViewIds.PayMarkets">
       <ng-template ngbTabContent>
-        <div *ngIf="tabStatusOpened[pageViewIds.PayMarkets] === true" class="full-height">
+        <div *ngIf="tabStatusOpened[pageViewIds.PayMarkets] === true" class="position-absolute full-size tab-top-offset">
           <pf-paymarkets-grid [filters]="jobDetailsFilters"></pf-paymarkets-grid>
         </div>
       </ng-template>
     </ngb-tab>
     <ngb-tab [title]="'Job Description'" [id]="'JobDescriptionTab'">
       <ng-template ngbTabContent>
-        <div *ngIf="tabStatusOpened['JobDescriptionTab'] === true" class="full-height">
+        <div *ngIf="tabStatusOpened['JobDescriptionTab'] === true" class="position-absolute full-size tab-top-offset">
           <pf-job-description [filters]="jobDetailsFilters"></pf-job-description>
         </div>
       </ng-template>
     </ngb-tab>
     <ngb-tab [title]="'Employees'" [id]="pageViewIds.Employees">
       <ng-template ngbTabContent>
-        <div *ngIf="tabStatusOpened[pageViewIds.Employees] === true" class="full-height">
+        <div *ngIf="tabStatusOpened[pageViewIds.Employees] === true" class="position-absolute full-size tab-top-offset">
           <pf-employees-grid [filters]="jobDetailsFilters"></pf-employees-grid>
         </div>
       </ng-template>
     </ngb-tab>
     <ngb-tab [title]="'Structures'" [id]="pageViewIds.Structures">
       <ng-template ngbTabContent>
-        <div *ngIf="tabStatusOpened[pageViewIds.Structures] === true" class="full-height">
+        <div *ngIf="tabStatusOpened[pageViewIds.Structures] === true" class="position-absolute full-size tab-top-offset">
           <pf-structure-grid [filters]="jobDetailsFilters"></pf-structure-grid>
         </div>
       </ng-template>
     </ngb-tab>
     <ngb-tab [title]="'Projects'" [id]="pageViewIds.Projects">
       <ng-template ngbTabContent>
-        <div *ngIf="tabStatusOpened[pageViewIds.Projects]  === true" class="full-height">
+        <div *ngIf="tabStatusOpened[pageViewIds.Projects]  === true" class="position-absolute full-size tab-top-offset">
           <pf-project-details-grid [filters]="jobDetailsFilters"></pf-project-details-grid>
         </div>
       </ng-template>
     </ngb-tab>
     <ngb-tab [title]="'History'" [id]="pageViewIds.PricingHistory">
-      <ng-template ngbTabContent>
-        <div *ngIf="tabStatusOpened[pageViewIds.PricingHistory]  === true" class="full-height">
-          <pf-pricing-history-grid [filters]="jobDetailsFilters"></pf-pricing-history-grid>
+      <ng-template ngbTabContent>        
+        <div *ngIf="tabStatusOpened[pageViewIds.PricingHistory]  === true" class="position-absolute full-size tab-top-offset">
+          <div class="d-flex flex-column h-100">
+            <div *ngIf="pricingHistoryChartFeatureFlag.value">
+              <pf-pricings-history-chart [jobId]="jobId"></pf-pricings-history-chart>
+            </div>            
+            <div class="position-relative h-100 w-100">
+              <div class="position-absolute full-size">
+                <pf-pricing-history-grid [filters]="jobDetailsFilters"></pf-pricing-history-grid>  
+              </div>
+            </div>
+          </div>
         </div>
       </ng-template>
     </ngb-tab>

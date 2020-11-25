@@ -1,4 +1,4 @@
-import { async, fakeAsync, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
@@ -15,7 +15,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 describe('UserRoleUserTabComponent', () => {
   let fixture, component;
   let store: Store<fromUserRoleViewReducer.State>;
-  beforeEach(fakeAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         ScrollingModule,
@@ -35,7 +35,7 @@ describe('UserRoleUserTabComponent', () => {
     fixture = TestBed.createComponent(UserRoleUsersTabComponent);
     component = fixture.componentInstance;
     component.currentRole = getMockUserAssignedRoleWithPermissions();
-  }));
+  });
 
   it('Page load', () => {
     fixture.detectChanges();

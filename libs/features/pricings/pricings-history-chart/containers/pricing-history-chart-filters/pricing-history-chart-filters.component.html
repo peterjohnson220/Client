@@ -1,0 +1,61 @@
+<div class="mb-3">Select up to five pay markets to compare</div>
+<form id="job-management-standard-fields-form" [formGroup]="pricingHistoryChartForm" autocomplete="nope">  
+  <div formArrayName="PayMarkets">
+    <div *ngFor="let pm of payMarkets.controls; index as idx" class="form-group">
+      <kendo-dropdownlist
+        [attr.data-qa-id]="'ddm-pricing-history-chart-pm-' + idx"
+        class="k-dropdown-white form-control form-control-sm"
+        [formControlName]="idx"
+        textField="Name"
+        valueField="Id"
+        [defaultItem]="{Name:'Select Pay Market...', Id: null}"
+        [valuePrimitive]="false"
+        [data]="filteredPayMarketOptions"
+        [pfValidatable]="true"
+        [filterable]="true"
+        (filterChange)="updatePayMarketOptions($event)"
+      >
+        <ng-template kendoDropDownListValueTemplate let-dataItem>
+          <span *ngIf="dataItem">            
+            <span [ngClass]="{'font-weight-bold': dataItem.Id}">{{ dataItem.Name }}</span>
+            <i *ngIf="dataItem.IsDefault">&nbsp;(default)</i>
+          </span>
+        </ng-template>  
+        <ng-template kendoDropDownListItemTemplate let-dataItem>
+          <span>{{ dataItem.Name }}</span>
+          <i *ngIf="dataItem.IsDefault">&nbsp;(default)</i>
+        </ng-template>
+      </kendo-dropdownlist>
+    </div>
+  </div> 
+  <div class="d-flex">
+    <div class="d-flex pr-3">
+      <div class="pr-3 my-auto">Start:</div>
+      <kendo-datepicker
+        [attr.data-qa-id]="'date-pricing-history-chart-pm-start-date'"
+        formControlName="StartDate"
+        class="form-control form-control-sm"        
+        [navigation]="false"
+        [bottomView]="'year'"
+        (valueChange)="resetDateRangeToFirstOfMonth()">
+      </kendo-datepicker>
+    </div>
+    <div class="d-flex pl-3">
+      <div class="pr-3 my-auto">End:</div>
+      <kendo-datepicker
+        [attr.data-qa-id]="'date-pricing-history-chart-pm-end-date'"
+        formControlName="EndDate"
+        class="form-control form-control-sm"        
+        [navigation]="false"
+        [bottomView]="'year'"
+        (valueChange)="resetDateRangeToFirstOfMonth()">
+      </kendo-datepicker>
+    </div>
+  </div>
+</form>
+<div *ngIf="pricingHistoryChartForm.errors && pricingHistoryChartForm.errors.dateRageError" class="text-danger">
+  Start Date must be earlier than the End Date.
+</div>
+<div *ngIf="(pricedPayMarkets$ | async)?.loadingError" class="text-danger mt-3">
+  There was an error loading your pricing information.
+</div>

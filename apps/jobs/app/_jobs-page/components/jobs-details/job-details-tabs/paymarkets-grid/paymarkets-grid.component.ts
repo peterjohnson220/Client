@@ -16,10 +16,9 @@ import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 
-import * as fromPricingDetailsActions from 'libs/features/pricing-details/actions';
+import * as fromPricingDetailsActions from 'libs/features/pricings/pricing-details/actions';
 import { ApiServiceType } from 'libs/features/notes-manager/constants/api-service-type-constants';
 import { PfThemeType } from 'libs/features/pf-data-grid/enums/pf-theme-type.enum';
-import { UpsertPeerDataCutModalConfiguration } from 'libs/features/upsert-peer-data-cut/models/upsert-peer-data-cut-modal-configuration';
 import { PermissionCheckEnum, Permissions } from 'libs/constants';
 import { PermissionService } from 'libs/core/services';
 
