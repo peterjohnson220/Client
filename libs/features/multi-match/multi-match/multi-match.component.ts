@@ -14,7 +14,7 @@ import { SearchFeatureIds } from 'libs/features/search/enums/search-feature-ids'
 import {UpsertPeerDataCutEntityConfigurationModel} from 'libs/features/upsert-peer-data-cut/models';
 import { UpsertPeerDataCutEntities, UpsertPeerDataCutParentEntities } from 'libs/features/upsert-peer-data-cut/constants';
 
-import { enableDatacutsDragging } from '../../survey-search/helpers';
+import { cleanupDatacutsDragging, enableDatacutsDragging } from '../../survey-search/helpers';
 import * as fromSurveySearchResultsActions from '../../survey-search/actions/survey-search-results.actions';
 import { getSearchFilters, SurveySearchFilterMappingDataObj, SurveySearchUserFilterType } from '../../survey-search/data';
 
@@ -219,6 +219,7 @@ export class MultiMatchComponent extends SearchBaseDirective implements OnInit, 
     this.pricingsToModifySubscription.unsubscribe();
     this.isSavedSubscription.unsubscribe();
     this.hasErrorSubscription.unsubscribe();
+    cleanupDatacutsDragging(this.dragulaService);
   }
 
   private jobHasChangesToSave(job: JobToPrice): boolean {
