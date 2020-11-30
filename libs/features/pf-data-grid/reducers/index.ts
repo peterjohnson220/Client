@@ -55,6 +55,7 @@ export const getPreserveSelectionsOnGetConfig = createSelector(selectPfDataGridS
 export const getData = createSelector(selectPfDataGridState, fromPfDataGridReducer.getData);
 export const getApplyDefaultFilters = createSelector(selectPfDataGridState, fromPfDataGridReducer.getApplyDefaultFilters);
 export const getApplyUserDefaultCompensationFields = createSelector(selectPfDataGridState, fromPfDataGridReducer.getApplyUserDefaultCompensationFields);
+export const getUseReportingDB = createSelector(selectPfDataGridState, fromPfDataGridReducer.getUseReportingDB);
 export const getInboundFilters = createSelector(selectPfDataGridState, fromPfDataGridReducer.getInboundFilters);
 export const getFilterPanelDisplay = createSelector(selectPfDataGridState, fromPfDataGridReducer.getFilterPanelDisplay);
 export const getSelectedRecordId = createSelector(selectPfDataGridState, fromPfDataGridReducer.getSelectedRecordId);

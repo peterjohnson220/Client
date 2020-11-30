@@ -29,6 +29,7 @@ export interface DataGridState {
   pagingOptions: PagingOptions;
   applyDefaultFilters: boolean;
   applyUserDefaultCompensationFields: boolean;
+  useReportingDB: boolean;
   defaultSortDescriptor: SortDescriptor[];
   sortDescriptor: SortDescriptor[];
   saveSort: boolean;
@@ -135,6 +136,9 @@ export const getApplyDefaultFilters = (state: DataGridStoreState, pageViewId: st
 };
 export const getApplyUserDefaultCompensationFields = (state: DataGridStoreState, pageViewId: string) => {
   return state.grids[pageViewId] ? state.grids[pageViewId].applyUserDefaultCompensationFields : null;
+};
+export const getUseReportingDB = (state: DataGridStoreState, pageViewId: string) => {
+  return state.grids[pageViewId] ? state.grids[pageViewId].useReportingDB : null;
 };
 export const getInboundFilters = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].inboundFilters : [];
 export const getFilterPanelDisplay = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].filterPanelOpen;
@@ -457,6 +461,17 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
             applyUserDefaultCompensationFields: action.value,
+          },
+        }
+      };
+    case fromPfGridActions.UPDATE_USE_REPORTING_DB:
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            useReportingDB: action.value,
           },
         }
       };

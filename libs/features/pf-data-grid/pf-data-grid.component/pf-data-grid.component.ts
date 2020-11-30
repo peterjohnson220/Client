@@ -63,6 +63,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() backgroundColor: string;
   @Input() applyDefaultFilters: boolean;
   @Input() applyUserDefaultCompensationFields: boolean;
+  @Input() useReportingDB: boolean;
   @Input() allowSort = true;
   @Input() saveSort = false;
   @Input() preserveSelectionsOnGetConfig = false;
@@ -94,6 +95,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() hasHeaderDividers = false;
   @Input() hasColDividers = false;
   @Input() fieldsToShowFilterValueOnly: string[] = [];
+
   @ViewChild('splitViewContainer', { static: false }) splitViewContainer: ElementRef;
 
   splitViewEmitter = new EventEmitter<string>();
@@ -215,6 +217,11 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
     if (changes['applyUserDefaultCompensationFields']) {
       this.store.dispatch(new fromActions.UpdateApplyUserDefaultCompensationFields(this.pageViewId,
         changes['applyUserDefaultCompensationFields'].currentValue));
+    }
+
+    if (changes['useReportingDB']) {
+      this.store.dispatch(new fromActions.UpdateUseReportingDB(this.pageViewId,
+        changes['useReportingDB'].currentValue));
     }
 
     if (changes['pageViewId']) {
