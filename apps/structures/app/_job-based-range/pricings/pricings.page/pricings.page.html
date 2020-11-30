@@ -64,7 +64,21 @@
 
 <ng-template #aboveGridTemplate>
   <div class="mb-3">
-    <pf-grid-context [enableReturnBtn]="true" [metadata]="metaData$ | async"></pf-grid-context>
+    <pf-grid-context
+      [enableReturnBtn]="true"
+      [metadata]="metaData$ | async">
+
+      <button right-of-return-button-content
+              [pfSecuredResource]="_Permissions.MODIFY_PRICINGS"
+              [attr.data-qa-id]="'btn-structures-pricings-page-modify-pricings'"
+              (click)="modifyPricings()"
+              type="button"
+              class="btn btn-secondary">
+        <fa-icon [icon]="['fal', 'file-invoice-dollar']"></fa-icon>
+        Price Job
+      </button>
+
+    </pf-grid-context>
     <pf-model-grid
       [inboundFilters]="[filter]"
       [rangeGroupId]="rangeGroupId"
@@ -74,3 +88,11 @@
     </pf-model-grid>
   </div>
 </ng-template>
+
+
+
+<pf-multi-match-component
+  (afterSaveChanges) = "matchModalSaved()"
+  [display]="'modal'"
+  [featureImplementation]="multiMatchImplementation"
+></pf-multi-match-component>
