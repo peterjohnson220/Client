@@ -10,12 +10,12 @@
   </kendo-grid>
 
   <kendo-grid [data]="payMarketCuts" class="mt-3" height="200">
-    <kendo-grid-column field="Weight" title="Weight" [headerStyle]="gridHeaderStyle" width="100">
+    <kendo-grid-column field="Weight" title="Weight" [headerStyle]="gridHeaderStyle" width="115">
       <ng-template kendoGridCellTemplate let-dataItem>
         <ng-container [ngTemplateOutlet]="cutValueTemplate" [ngTemplateOutletContext]="{dataItem: dataItem, propertyName: 'Weight'}"></ng-container>
       </ng-template>
     </kendo-grid-column>
-    <kendo-grid-column field="Adjustment" title="Adjustment" [headerStyle]="gridHeaderStyle" width="100">
+    <kendo-grid-column field="Adjustment" title="Adjustment" [headerStyle]="gridHeaderStyle" width="115">
       <ng-template kendoGridCellTemplate let-dataItem>
         <ng-container [ngTemplateOutlet]="cutValueTemplate" [ngTemplateOutletContext]="{dataItem: dataItem, propertyName: 'Adjustment'}"></ng-container>
       </ng-template>
@@ -24,7 +24,7 @@
   </kendo-grid>
 
   <div class="d-flex mb-3 mt-3">
-    <button class="btn reset-btn" (click)="resetToDefault()" [disabled]="!payMarket || !isEditingCutValue">
+    <button class="btn reset-btn" (click)="resetToDefault()" [disabled]="!payMarket">
       <span>Reset to default</span>
     </button>
     <div class="d-flex flex-grow-1 justify-content-end">
@@ -41,13 +41,11 @@
 </div>
 
 <ng-template #cutValueTemplate let-dataItem="dataItem" let-propertyName="propertyName">
-  <div class="k-numerictextbox w-100">
-    <span class="k-numeric-wrap">
-      <input type="number"
-             [(ngModel)]="dataItem[propertyName]"
-             class="k-input"
-             (change)="handlePayMarketCutValueChange()"
-             (keydown)="handlePayMarketCutValueChange()">
-    </span>
-  </div>
+  <kendo-numerictextbox
+    class="numeric-input"
+    [(ngModel)]="dataItem[propertyName]"
+    [format]="'n2'"
+    [decimals]="'2'"
+    (valueChange)="handlePayMarketCutValueChange()">
+  </kendo-numerictextbox>
 </ng-template>

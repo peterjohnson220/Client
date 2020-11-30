@@ -86,4 +86,24 @@ describe('User Settings - Pay Market Cut Component', () => {
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
+  it('should create default weights correctly based on cuts count', () => {
+    const payMarketCuts: PayMarketCut[] = [
+      {...PayMarketCutHelper.generateMockPayMarketCut(), DisplayOrder: 0, Weight: 75, Adjustment: 10},
+      {...PayMarketCutHelper.generateMockPayMarketCut(), DisplayOrder: 1, Weight: 65, Adjustment: 0},
+      {...PayMarketCutHelper.generateMockPayMarketCut(), DisplayOrder: 2, Weight: 5, Adjustment: 0},
+      {...PayMarketCutHelper.generateMockPayMarketCut(), DisplayOrder: 3, Weight: 5, Adjustment: 0}
+    ];
+
+    instance.payMarketCuts$ = of(generateDefaultAsyncStateObj<PayMarketCut[]>(payMarketCuts));
+    instance.ngOnInit();
+    fixture.detectChanges();
+
+    expect(instance.defaultMarketCuts[0].Weight).toEqual(80);
+    expect(instance.defaultMarketCuts[1].Weight).toEqual(10);
+    expect(instance.defaultMarketCuts[2].Weight).toEqual(10);
+    expect(instance.defaultMarketCuts[3].Weight).toEqual(0);
+
+    expect(instance.defaultMarketCuts[0].Adjustment).toEqual(0);
+  });
+
 });
