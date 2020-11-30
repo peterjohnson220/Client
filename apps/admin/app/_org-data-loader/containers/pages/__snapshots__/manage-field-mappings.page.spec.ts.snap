@@ -28,6 +28,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
   employeeMappingComplete={[Function Boolean]}
   employeeTagsLoaderFeatureFlag={[Function Object]}
   employeeTagsMappingComplete={[Function Boolean]}
+  entityKeyValidatorService={[Function EntityKeyValidationService]}
   env={[Function Object]}
   existingCompanyLoaderSettings={[Function Array]}
   featureFlagService={[Function MockAbstractFeatureFlagService]}
@@ -285,6 +286,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
   employeeMappingComplete="false"
   employeeTagsLoaderFeatureFlag={[Function Object]}
   employeeTagsMappingComplete={[Function Boolean]}
+  entityKeyValidatorService={[Function EntityKeyValidationService]}
   env={[Function Object]}
   existingCompanyLoaderSettings={[Function Array]}
   featureFlagService={[Function MockAbstractFeatureFlagService]}
@@ -542,6 +544,7 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
   employeeMappingComplete={[Function Boolean]}
   employeeTagsLoaderFeatureFlag={[Function Object]}
   employeeTagsMappingComplete={[Function Boolean]}
+  entityKeyValidatorService={[Function EntityKeyValidationService]}
   env={[Function Object]}
   existingCompanyLoaderSettings={[Function Array]}
   featureFlagService={[Function MockAbstractFeatureFlagService]}
@@ -799,6 +802,7 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
   employeeMappingComplete={[Function Boolean]}
   employeeTagsLoaderFeatureFlag={[Function Object]}
   employeeTagsMappingComplete={[Function Boolean]}
+  entityKeyValidatorService={[Function EntityKeyValidationService]}
   env={[Function Object]}
   existingCompanyLoaderSettings={[Function Array]}
   featureFlagService={[Function MockAbstractFeatureFlagService]}
@@ -923,6 +927,7 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
   employeeMappingComplete={[Function Boolean]}
   employeeTagsLoaderFeatureFlag={[Function Object]}
   employeeTagsMappingComplete={[Function Boolean]}
+  entityKeyValidatorService={[Function EntityKeyValidationService]}
   env={[Function Object]}
   existingCompanyLoaderSettings={[Function Array]}
   featureFlagService={[Function MockAbstractFeatureFlagService]}

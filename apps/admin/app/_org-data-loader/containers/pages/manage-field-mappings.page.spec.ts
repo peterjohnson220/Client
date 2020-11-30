@@ -14,6 +14,7 @@ import { GenerateMockEmailRecipient, MappingModel } from 'libs/models/data-loads
 import { ConfigSettingsSelectorFactory } from 'libs/state/app-context/services';
 import * as fromRootState from 'libs/state/state';
 import { CompanySettingsApiService } from 'libs/data/payfactors-api';
+import { EntityKeyValidationService } from 'libs/core/services';
 
 import * as fromOrgDataLoaderReducer from '../../reducers';
 import * as fromOrgDataFieldMappingsActions from '../../actions/org-data-field-mappings.actions';
@@ -94,7 +95,8 @@ describe('ManageFieldMapperPageComponent', () => {
         {
           provide: AbstractFeatureFlagService,
           useClass: MockAbstractFeatureFlagService
-        }
+        },
+        EntityKeyValidationService
       ],
       schemas: [NO_ERRORS_SCHEMA]
     })
@@ -399,6 +401,7 @@ describe('ManageFieldMapperPageComponent', () => {
         mappings: [{InternalField: 'Base', ClientField: 'Salary', DisplayValue: 'Base > Salary', IsDataElementName: false}],
       };
       component.mappings = [];
+      component.employeeEntityKeys = [];
       component.onEmployeeMappingComplete(evt);
 
       fixture.detectChanges();
@@ -420,6 +423,7 @@ describe('ManageFieldMapperPageComponent', () => {
       };
       component.mappings = [{ LoaderType: 'Employees',
         Mappings: [{InternalField: 'Base', ClientField: 'Salary', DisplayValue: 'Base > Salary', IsDataElementName: false}] }];
+      component.employeeEntityKeys = [];
       component.onEmployeeMappingComplete(evt);
 
       fixture.detectChanges();

@@ -14,7 +14,11 @@ import { FeatureFlags, RealTimeFlag } from 'libs/core';
 import { AbstractFeatureFlagService } from 'libs/core/services/feature-flags';
 import * as fromAppNotificationsActions from 'libs/features/app-notifications/actions/app-notifications.actions';
 import {
-    AppNotification, NotificationLevel, NotificationPayload, NotificationSource, NotificationType
+  AppNotification,
+  NotificationLevel,
+  NotificationPayload,
+  NotificationSource,
+  NotificationType
 } from 'libs/features/app-notifications/models';
 import * as fromAppNotificationsMainReducer from 'libs/features/app-notifications/reducers';
 import * as fromCompanySelectorActions from 'libs/features/company/company-selector/actions';
@@ -36,6 +40,8 @@ import { ConfigurationGroup, EmailRecipientModel, LoaderSaveCoordination, Loader
 import { UserContext } from 'libs/models/security';
 import * as fromRootState from 'libs/state/state';
 import { LoadingProgressBarModel } from 'libs/ui/common/loading/models';
+import { EntityKeyValidationService } from 'libs/core/services';
+import { EntityIdentifierViewModel } from 'libs/features/company/entity-identifier/models';
 
 import * as fromDataManagementMainReducer from '../../../reducers';
 import * as fromOrganizationalDataActions from '../../../actions/organizational-data-page.action';
@@ -164,10 +170,13 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     title: 'Uploading Files...'
   };
 
+  private entityKeyValidationMessage: string;
+  employeeEntityKeys: EntityIdentifierViewModel[];
   constructor(private mainStore: Store<fromDataManagementMainReducer.State>,
     private notificationStore: Store<fromAppNotificationsMainReducer.State>,
     private cdr: ChangeDetectorRef,
-    private featureFlagService: AbstractFeatureFlagService) {
+    private featureFlagService: AbstractFeatureFlagService,
+    private entityKeyValidatorService: EntityKeyValidationService) {
 
     this.userContext$ = this.mainStore.select(fromRootState.getUserContext);
     this.companies$ = this.mainStore.select(fromCompanyReducer.getCompanies);
@@ -313,7 +322,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       filter(uc => !!uc),
       takeUntil(this.unsubscribe$)).subscribe(employeetags => {
 
-        var empTags = this.loadOptions.find(l => l.templateReferenceConstants === LoaderType.EmployeeTags).customFields.EmployeeTags;
+        const empTags = this.loadOptions.find(l => l.templateReferenceConstants === LoaderType.EmployeeTags).customFields.EmployeeTags;
         this.loadOptions.find(l => l.templateReferenceConstants === LoaderType.EmployeeTags).customFields.EmployeeTags = empTags.concat(employeetags);
       });
 
@@ -321,11 +330,12 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       filter(uc => !!uc),
       takeUntil(this.unsubscribe$)
     ).subscribe(r => {
-      const selected = r.filter(a => a.isChecked && a.Field != 'Employee_ID');
+      const selected = r.filter(a => a.isChecked && a.Field !== 'Employee_ID');
+      this.employeeEntityKeys = selected;
 
       if (selected && selected.length >= 0) {
-        var empTags = this.loadOptions.find(l => l.templateReferenceConstants === LoaderType.EmployeeTags).customFields.EmployeeTags;
-        this.loadOptions.find(l => l.templateReferenceConstants === LoaderType.EmployeeTags).customFields.EmployeeTags = empTags.concat(selected.map(a => a.Field))
+        const empTags = this.loadOptions.find(l => l.templateReferenceConstants === LoaderType.EmployeeTags).customFields.EmployeeTags;
+        this.loadOptions.find(l => l.templateReferenceConstants === LoaderType.EmployeeTags).customFields.EmployeeTags = empTags.concat(selected.map(a => a.Field));
       }
     });
 
@@ -809,7 +819,19 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   private addOrReplaceCompletedEntities($event: LoaderEntityStatus) {
     this.completedMappings = this.completedMappings.filter(f => f !== $event.loaderType);
     if ($event.complete) {
-      this.completedMappings.push($event.loaderType);
+      if ([LoaderType.Employees, LoaderType.EmployeeTags].includes($event.loaderType)) {
+        const validationResult = this.entityKeyValidatorService.hasCompleteEntityKeyMappings($event.mappings, this.employeeEntityKeys);
+
+        if (validationResult.IsValid) {
+          this.completedMappings.push($event.loaderType);
+          this.entityKeyValidationMessage = '';
+        } else {
+          this.entityKeyValidationMessage = validationResult.MissingKeyFieldsMessage;
+        }
+      } else {
+        this.completedMappings.push($event.loaderType);
+      }
+
     }
   }
 
@@ -880,8 +902,12 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   getFieldMapperTooltip() {
     if (this.emailRecipients.length <= 0) {
       return 'Please enter an email recipient to receive the results of this load.';
+    } else if (this.showFieldMapperTooltip) {
+      return this.NextBtnToolTips[this.stepIndex - 1];
+    } else if (this.entityKeyValidationMessage?.length > 0) {
+      return this.entityKeyValidationMessage;
     }
 
-    return this.showFieldMapperTooltip ? this.NextBtnToolTips[this.stepIndex - 1] : '';
+    return '';
   }
 }
