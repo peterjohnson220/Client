@@ -14,29 +14,32 @@ import { PricingsRoutingModule } from './pricings-routing.module';
 import { SharedModule } from '../shared/shared.module';
 import { PricingsSalaryRangeChartComponent } from './containers';
 
+import { MultiMatchModule } from 'libs/features/multi-match';
+
 
 @NgModule({
-  imports: [
-    // Angular
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
+    imports: [
+        // Angular
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
 
-    // 3rd Party
-    HighchartsChartModule,
+        // 3rd Party
+        HighchartsChartModule,
 
-    // Payfactors
-    PfFormsModule,
-    PfDataGridModule,
-    PfCommonModule,
-    PfCommonUIModule,
+        // Payfactors
+        PfFormsModule,
+        PfDataGridModule,
+        PfCommonModule,
+        PfCommonUIModule,
 
-    // Routing
-    PricingsRoutingModule,
+        // Routing
+        PricingsRoutingModule,
 
-    // Shared
-    SharedModule
-  ],
+        // Shared
+        SharedModule,
+        MultiMatchModule
+    ],
   declarations: [
     PricingsSalaryRangeChartComponent,
     PricingsPageComponent
