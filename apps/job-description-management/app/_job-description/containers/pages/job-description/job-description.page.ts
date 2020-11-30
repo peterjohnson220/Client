@@ -391,7 +391,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   }
 
   handleExportAsPDFClicked(): void {
-    this.export('pdf', 'Default');
+    this.export('pdf', '');
   }
 
   handleExportClickedFromActions(data: { exportType: string, viewName: string }): void {
