@@ -5,7 +5,7 @@
   <div class="card-body">
     <form [formGroup]="userProfileForm">
       <div class="d-flex">
-        <div class="d-flex flex-column">
+        <div class="d-flex flex-column" [style.width.px]="125">
           <div class="d-flex flex-column profile-picture-container">
             <img class="avatar rounded-circle"
                  src="{{(cloudFilesPublicBaseUrl$ | async)}}/avatars/{{userPicture}}"
