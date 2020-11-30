@@ -28,7 +28,6 @@ import * as fromSharedActions from '../../shared/actions/shared.actions';
 import * as fromDuplicateModelModalActions from '../../shared/actions/duplicate-model-modal.actions';
 
 
-
 @Component({
   selector: 'pf-pricings-page',
   templateUrl: './pricings.page.html',
@@ -58,7 +57,8 @@ export class PricingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   jobRangeGroupData: any;
   jobDataSubscription: Subscription;
   metadata: RangeGroupMetadata;
-
+  groupFieldSelected = false;
+  selectedFieldsSubscription: Subscription;
 
   gridConfig: GridConfig;
   multiMatchImplementation = MODIFY_PRICINGS;
@@ -104,6 +104,13 @@ export class PricingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
       EnableInfiniteScroll: true,
       ScrollToTop: true
     };
+
+    this.selectedFieldsSubscription = this.store.select(fromPfGridReducer.getFields, this.modelPageViewId).subscribe(fields => {
+      if (fields) {
+        const anyGroupField = fields.find(f => f.Group && f.IsSelected);
+        this.groupFieldSelected = !!anyGroupField;
+      }
+    });
   }
 
   // Events
@@ -146,6 +153,7 @@ export class PricingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.companySettingsSubscription.unsubscribe();
     this.jobDataSubscription.unsubscribe();
     this.metadataSub.unsubscribe();
+    this.selectedFieldsSubscription.unsubscribe();
   }
 
   modifyPricings() {
