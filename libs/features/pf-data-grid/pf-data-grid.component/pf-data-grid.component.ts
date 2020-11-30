@@ -95,7 +95,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() hasHeaderDividers = false;
   @Input() hasColDividers = false;
   @Input() fieldsToShowFilterValueOnly: string[] = [];
-
+  @Input() enableRowFade = false;
   @ViewChild('splitViewContainer', { static: false }) splitViewContainer: ElementRef;
 
   splitViewEmitter = new EventEmitter<string>();

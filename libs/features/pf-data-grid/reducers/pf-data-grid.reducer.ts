@@ -3,6 +3,7 @@ import orderBy from 'lodash/orderBy';
 import uniq from 'lodash/uniq';
 import uniqBy from 'lodash/uniqBy';
 import isNumber from 'lodash/isNumber';
+import concat from 'lodash/concat';
 
 import { ContentScrollEvent, GridDataResult } from '@progress/kendo-angular-grid';
 import { groupBy, GroupResult, SortDescriptor } from '@progress/kendo-data-query';
@@ -61,6 +62,7 @@ export interface DataGridState {
   lastUpdateFieldsDate: Date;
   visibleKeys: number[];
   unexpectedError: boolean;
+  fadeInKeys: any[];
 }
 
 export interface DataGridStoreState {
@@ -180,6 +182,7 @@ export const getLoadingMoreData = (state: DataGridStoreState, pageViewId: string
 export const getLastUpdateFieldsDate = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].lastUpdateFieldsDate;
 export const getVisibleKeys = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].visibleKeys;
 export const getUnexpectedError = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].unexpectedError;
+export const getFadeInKeys = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].fadeInKeys : null;
 
 export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGridActions): DataGridStoreState {
   switch (action.type) {
@@ -1137,6 +1140,40 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
             gridScrolledContent: action.payload
+          }
+        }
+      };
+    case fromPfGridActions.ADD_FADE_IN_KEYS:
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            fadeInKeys: uniq(concat(state.grids[action.pageViewId].fadeInKeys, action.payload))
+          }
+        }
+      };
+
+    case fromPfGridActions.DELETE_FADE_IN_KEYS:
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            fadeInKeys: state.grids[action.pageViewId].fadeInKeys.filter((key => !action.payload.includes(key)))
+          }
+        }
+      };
+    case fromPfGridActions.SET_FADE_IN_KEYS:
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            fadeInKeys: action.payload
           }
         }
       };

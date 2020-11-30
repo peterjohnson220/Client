@@ -77,6 +77,10 @@ export const UPDATE_MODIFIED_KEY = '[PfDataGrid] Update Modified Key';
 export const DELETE_MODIFIED_KEY = '[PfDataGrid] Delete Modified Key';
 export const CAPTURE_GRID_SCROLLED = '[PfDataGrid] Capture Grid Scrolled';
 export const RESET_GRID_SCROLLED = '[PfDataGrid] Reset Grid Scrolled';
+export const ADD_FADE_IN_KEYS = '[PfDataGrid] Add Attention Grab Keys';
+export const DELETE_FADE_IN_KEYS = '[PfDataGrid] Delete Attention Grab Keys';
+export const SET_FADE_IN_KEYS = '[PfDataGrid] Set Attention Grab Keys';
+export const LOAD_DATA_AND_ADD_FADE_IN_KEYS = '[PfDataGrid] Load Data and Add Attention Grab Keys';
 
 export class LoadViewConfig implements Action {
   readonly type = LOAD_VIEW_CONFIG;
@@ -416,17 +420,17 @@ export class UpdateGridConfig implements Action {
 
 export class UpdateModifiedKeys implements Action {
   readonly type = UPDATE_MODIFIED_KEYS;
-  constructor(public pageViewId: string, public payload: number[]) {}
+  constructor(public pageViewId: string, public payload: any[]) {}
 }
 
 export class UpdateModifiedKey implements Action {
   readonly type = UPDATE_MODIFIED_KEY;
-  constructor(public pageViewId: string, public payload: number) {}
+  constructor(public pageViewId: string, public payload: any) {}
 }
 
 export class DeleteModifiedKey implements Action {
   readonly type = DELETE_MODIFIED_KEY;
-  constructor(public pageViewId: string, public payload: number) {}
+  constructor(public pageViewId: string, public payload: any) {}
 }
 
 export class CaptureGridScrolled implements Action {
@@ -438,6 +442,29 @@ export class ResetGridScrolled implements Action {
   readonly type = RESET_GRID_SCROLLED;
 
   constructor(public pageViewId: string) {}
+}
+
+export class AddFadeInKeys implements Action {
+  readonly type = ADD_FADE_IN_KEYS;
+
+  constructor(public pageViewId: string, public payload: any[]) {}
+}
+
+export class DeleteFadeInKeys implements Action {
+  readonly type = DELETE_FADE_IN_KEYS;
+
+  constructor(public pageViewId: string, public payload: any[]) {}
+}
+
+export class SetFadeInKeys implements Action {
+  readonly type = SET_FADE_IN_KEYS;
+
+  constructor(public pageViewId: string, public payload: any[]) {}
+}
+
+export class LoadDataAndAddFadeInKeys implements Action {
+  readonly type = LOAD_DATA_AND_ADD_FADE_IN_KEYS;
+  constructor(public pageViewId: string, public payload: any) {}
 }
 
 export type DataGridActions =
@@ -510,4 +537,8 @@ export type DataGridActions =
   | DeleteModifiedKey
   | ResetGridScrolled
   | CaptureGridScrolled
-  | CollapseAllRows;
+  | CollapseAllRows
+  | AddFadeInKeys
+  | DeleteFadeInKeys
+  | SetFadeInKeys
+  | LoadDataAndAddFadeInKeys;

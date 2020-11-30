@@ -20,7 +20,7 @@ export const UPDATING_PRICING_MATCH = '[Modify Pricings] Updating Pricing Match'
 export const UPDATING_PRICING_MATCH_SUCCESS = '[Modify Pricings] Updating Pricing Match Success';
 export const UPDATING_PRICING_MATCH_ERROR = '[Modify Pricings] Updating Pricing Match Error';
 export const REFRESH_LINKED_PRICINGS = '[Modify Pricings] Refresh Linked Pricings';
-export const DELETE_PRICING_AND_MATCH = '[Jobs Page] Deleting Pricing And Match';
+export const DELETE_PRICING_AND_MATCH = '[Modify Pricings] Deleting Pricing And Match';
 
 export class ResetModifyPricingsModals implements Action {
   readonly type = RESET_MODIFY_PRICINGS_MODALS;
@@ -59,7 +59,7 @@ export class UpdatingPricingError implements Action {
 
 export class DeletingPricingMatch implements Action {
   readonly type = DELETING_PRICING_MATCH;
-  constructor(public pricingMatchId: number) { }
+  constructor(public payload: any) { }
 }
 
 export class DeletingPricingMatchSuccess implements Action {

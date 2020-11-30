@@ -200,15 +200,16 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
     }
   }
 
-  deletePricingMatch(datarow: any) {
+  deletePricingMatch(pricingMatch: any) {
+    const jobPayMarketMetaData = `${this.pricingInfo['CompanyJobs_CompanyJob_ID']}_${this.pricingInfo['CompanyPayMarkets_CompanyPayMarket_ID']}`;
+    const request = {
+      MatchId: pricingMatch['CompanyJobs_PricingsMatches_CompanyJobPricingMatch_ID'],
+      JobPayMarketMetaData: jobPayMarketMetaData
+    };
     if (this.pricingMatchesCount !== 1) {
-      this.store.dispatch(new fromModifyPricingsActions.DeletingPricingMatch(
-      datarow.CompanyJobs_PricingsMatches_CompanyJobPricingMatch_ID
-    ));
+      this.store.dispatch(new fromModifyPricingsActions.DeletingPricingMatch(request));
     } else {
-      this.store.dispatch(new fromModifyPricingsActions.DeletePricingAndMatch(
-        datarow.CompanyJobs_PricingsMatches_CompanyJobPricingMatch_ID
-      ));
+      this.store.dispatch(new fromModifyPricingsActions.DeletePricingAndMatch(request));
   }
 
   }

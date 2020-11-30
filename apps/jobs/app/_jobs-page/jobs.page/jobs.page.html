@@ -140,7 +140,7 @@
   </button>
   <button
     [pfSecuredResource]="permissions.MODIFY_PRICINGS"
-    [disabled]="!(jobStatusField | showingActiveJobs) || !selectedPricings.length 
+    [disabled]="!(jobStatusField | showingActiveJobs) || !selectedPricings.length
       || (updatingPricingMatch$ | async).saving || (updatingPricing$ | async).saving"
     [attr.data-qa-id]="'btn-jobs-page-modify-pricings'"
     (click)="modifyPricings()"
@@ -362,7 +362,6 @@
 </pf-job-management>
 
 <pf-multi-match-component
-  (afterSaveChanges) = "matchModalSaved()"
   [display]="'modal'"
   [featureImplementation]="multiMatchImplementation"
 ></pf-multi-match-component>
