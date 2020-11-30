@@ -7,12 +7,13 @@ export class StatementGraphicsDirective implements OnChanges {
   @Input() colors: string[];
   @Input() colorRank: TotalRewardsColorEnum;
   @Input() styleAttrToColor: 'backgroundColor' | 'color' | 'borderRightColor' = 'backgroundColor';
+  @Input() enabled = true;
 
   constructor(public elementRef: ElementRef) { }
 
   ngOnChanges() {
-    // bail out if we don't have colors
-    if (!this.colors?.length || this.colorRank === TotalRewardsColorEnum.Undefined) {
+    // bail out if we don't have colors or if we're explicitly opting out
+    if (!this.colors?.length || this.colorRank === TotalRewardsColorEnum.Undefined || !this.enabled) {
       return;
     }
 
