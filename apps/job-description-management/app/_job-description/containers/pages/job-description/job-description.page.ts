@@ -593,8 +593,10 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.jobDescriptionViewsAsyncSubscription = this.jobDescriptionViewsAsync$.subscribe(asyncObj => this.jobDescriptionViews = asyncObj.obj);
     this.editingSubscription = this.editingJobDescription$.subscribe(value => {
       this.editing = value;
-      this.enableAllContentForEdititing();
-      });
+      if (this.editing) {
+        this.enableAllContent();
+      }
+    });
 
     this.publishingSubscription = this.jobDescriptionPublishing$.subscribe(asyncObj => {
       if (asyncObj) {
@@ -603,19 +605,17 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     });
   }
 
-  private enableAllContentForEdititing() {
-    if (this.editing) {
-      this.jobDescription.Sections.forEach(section => {
-        section.ShowSubheading = true;
+  private enableAllContent() {
+    this.jobDescription.Sections.forEach(section => {
+      section.ShowSubheading = true;
 
-        section.Controls.forEach(control => {
-          if (control.AdditionalProperties) {
-            control.AdditionalProperties.ShowControlName = true;
-            control.AdditionalProperties.ShowControl = true;
-          }
-        });
+      section.Controls.forEach(control => {
+        if (control.AdditionalProperties) {
+          control.AdditionalProperties.ShowControlName = true;
+          control.AdditionalProperties.ShowControl = true;
+        }
       });
-    }
+    });
   }
 
   private initSsoSubscriptions() {
@@ -695,7 +695,11 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
       return;
     }
     this.jobDescription = cloneDeep(jobDescription);
-    this.enableAllContentForEdititing();
+
+    if (this.editing || jobDescription.JobDescriptionStatus === 'In Review') {
+      this.enableAllContent();
+    }
+
     if (jobDescription.JobDescriptionTitle === null || jobDescription.JobDescriptionTitle.length === 0) {
       const jobTitleFieldName = jobDescription.JobInformationFields.find(infoField => infoField.FieldName === 'JobTitle');
       this.jobDescriptionDisplayName = !!jobTitleFieldName ? jobTitleFieldName.FieldValue : this.jobDescription.Name;
