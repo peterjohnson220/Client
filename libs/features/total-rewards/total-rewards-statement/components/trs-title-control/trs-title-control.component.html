@@ -6,8 +6,8 @@
   <div class="line graphic top-vertical" pfStatementGraphicsDirective [colors]="graphicsColors" [colorRank]="color.Tertiary" aria-hidden="true"></div>
   <div class="line graphic top-horizontal" pfStatementGraphicsDirective [colors]="graphicsColors" [colorRank]="color.Tertiary" aria-hidden="true"></div>
   <div class="line graphic circle top" pfStatementGraphicsDirective [colors]="graphicsColors" [colorRank]="color.Tertiary" aria-hidden="true"></div>
-  <div class="outer graphic secondary" pfStatementGraphicsDirective [colors]="graphicsColors" [colorRank]="color.Secondary" aria-hidden="true">
-    <div class="inner graphic" aria-hidden="true" pfStatementGraphicsDirective [colors]="graphicsColors" [colorRank]="color.Primary">
+  <div class="outer graphic" pfStatementGraphicsDirective [colors]="graphicsColors" [colorRank]="color.Secondary" [styleAttrToColor]="'background-color'" [enabled]="backgroundGraphicsEnabled" aria-hidden="true">
+    <div class="inner graphic" aria-hidden="true" pfStatementGraphicsDirective [colors]="graphicsColors" [colorRank]="color.Primary" [styleAttrToColor]="'background-color'" [enabled]="backgroundGraphicsEnabled">
       <h2 class="trs-statement-title d-inline-block mw-100 mh-100">
         <pf-string-editor
           [placeholder]="controlData.Title.Default"
