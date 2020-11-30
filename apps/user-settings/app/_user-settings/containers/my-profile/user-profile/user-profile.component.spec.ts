@@ -4,6 +4,7 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
+import { SelectEvent } from '@progress/kendo-angular-upload';
 
 import * as fromRootState from 'libs/state/state';
 import { generateDefaultAsyncStateObj } from 'libs/models/state';
@@ -81,5 +82,42 @@ describe('User Settings - User Profile Component', () => {
     instance.handleSaveClicked();
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
+
+  it('should update userPictureErrorMessage to invalid file type message when selecting an invalid file type photo', () => {
+    const selectEvent = new SelectEvent([{
+      extension: '.gif',
+      name: 'test.gif',
+      validationErrors: ['invalidFileExtension']
+    }]);
+
+    instance.handleFileSelect(selectEvent);
+
+    expect(instance.userPictureErrorMessage).toEqual(instance.invalidFileExtensionMessage);
+  });
+
+  it('should update userPictureErrorMessage to invalid file size message when selecting an invalid file size ', () => {
+    const selectEvent = new SelectEvent([{
+      extension: '.png',
+      name: 'test.png',
+      validationErrors: ['invalidMaxFileSize']
+    }]);
+
+    instance.handleFileSelect(selectEvent);
+
+    expect(instance.userPictureErrorMessage).toEqual(instance.invalidFileSizeMessage);
+  });
+
+  it('should clear userPictureErrorMessage when selecting an valid file', () => {
+    const selectEvent = new SelectEvent([{
+      extension: '.png',
+      name: 'test.png',
+      validationErrors: []
+    }]);
+
+    instance.userPictureErrorMessage = instance.invalidFileExtensionMessage;
+    instance.handleFileSelect(selectEvent);
+
+    expect(instance.userPictureErrorMessage).toEqual('');
   });
 });

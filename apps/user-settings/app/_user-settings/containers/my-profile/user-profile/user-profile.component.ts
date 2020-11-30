@@ -32,6 +32,8 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   userPictureErrorMessage: string;
 
   readonly defaultUserPicture = 'default_user.png';
+  readonly invalidFileExtensionMessage = 'File type not valid. File must be type jpg, jpeg, or png.';
+  readonly invalidFileSizeMessage = 'File is over the size limit of 10Mb.';
   readonly nameMaxLength = 50;
   readonly titleMaxLength = 255;
   uploadRestrictions: FileRestrictions = {
@@ -87,7 +89,8 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   handleFileSelect(event: SelectEvent): void {
     const selectedFile = event?.files?.length ? event.files[0] : null;
     if (selectedFile) {
-      this.userPictureErrorMessage = selectedFile.validationErrors?.length ? 'Invalid file' : '';
+      const validationError = selectedFile.validationErrors?.length ? selectedFile.validationErrors[0] : '';
+      this.userPictureErrorMessage = this.getInvalidUploadMessage(validationError);
     }
   }
 
@@ -125,6 +128,16 @@ export class UserProfileComponent implements OnInit, OnDestroy {
       this.userProfileForm.markAsPristine();
       this.userProfileForm.markAsUntouched();
     }
+  }
+
+  private getInvalidUploadMessage(errorMessage: string): string {
+    if (errorMessage === 'invalidFileExtension') {
+      return this.invalidFileExtensionMessage;
+    }
+    if (errorMessage === 'invalidMaxFileSize') {
+      return this.invalidFileSizeMessage;
+    }
+    return '';
   }
 
 }
