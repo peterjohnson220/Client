@@ -5,29 +5,29 @@
     <div class="d-flex justify-content-between">
       <div class="d-flex flex-column py-1">
         <span>Base Salary:</span>
-        <input [value]="employeeInfo.Base_Salary" [disabled]="true" />
+        <input [value]="employeeInfo.Base_Salary | comp: employeeInfo.Rate | emptyPlaceholder" [disabled]="true" />
       </div>
       <div class="d-flex flex-column py-1">
         <span>Bonus:</span>
-        <input [value]="employeeInfo.Bonus" [disabled]="true" />
+        <input [value]="employeeInfo.Bonus | comp: employeeInfo.Rate | emptyPlaceholder" [disabled]="true" />
       </div>
       <div class="d-flex flex-column py-1">
         <span>Total Cash Comp:</span>
-        <input [value]="employeeInfo.Total_Cash_Comp" [disabled]="true" />
+        <input [value]="employeeInfo.Total_Cash_Comp | comp: employeeInfo.Rate | emptyPlaceholder" [disabled]="true" />
       </div>
     </div>
     <div class="d-flex justify-content-between">
       <div class="d-flex flex-column py-1">
         <span>Total Direct Comp:</span>
-        <input [value]="employeeInfo.Total_Direct_Comp" [disabled]="true" />
+        <input [value]="employeeInfo.Total_Direct_Comp | comp: employeeInfo.Rate | emptyPlaceholder" [disabled]="true" />
       </div>
       <div class="d-flex flex-column py-1">
         <span>STI:</span>
-        <input [value]="employeeInfo.STI" [disabled]="true" />
+        <input [value]="employeeInfo.STI | comp: employeeInfo.Rate | emptyPlaceholder" [disabled]="true" />
       </div>
       <div class="d-flex flex-column py-1">
         <span>LTIP:</span>
-        <input [value]="employeeInfo.LTI" [disabled]="true" />
+        <input [value]="employeeInfo.LTI | comp: employeeInfo.Rate | emptyPlaceholder" [disabled]="true" />
       </div>
     </div>
   </div>
