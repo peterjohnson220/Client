@@ -28,7 +28,12 @@ export class EmployeeDetailsPipe implements PipeTransform {
       LTI_Eligibility:  EmployeeDataRow['CompanyEmployees_LTIElig'],
       Total_Remuneration: EmployeeDataRow['CompanyEmployees_Remun'],
       Currency_Code: EmployeeDataRow['CompanyEmployees_Currency_Code'],
-      Rate: EmployeeDataRow['CompanyEmployees_Rate']
+      Rate: EmployeeDataRow['CompanyEmployees_Rate'],
+      Employee_Id: EmployeeDataRow['CompanyEmployees_Employee_ID'],
+      First_Name: EmployeeDataRow['CompanyEmployees_First_Name'],
+      Last_Name: EmployeeDataRow['CompanyEmployees_Last_Name'],
+      Date_Of_Hire: EmployeeDataRow['CompanyEmployees_DOH'],
+      BaseMRP: EmployeeDataRow['CompanyEmployees_TotalCashCompensationMarketIndex'],
     };
   }
 }
