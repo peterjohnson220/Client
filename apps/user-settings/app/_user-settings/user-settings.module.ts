@@ -11,6 +11,7 @@ import { ImgFallbackModule } from 'ngx-img-fallback';
 import { UploadsModule } from '@progress/kendo-angular-upload';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { GridModule } from '@progress/kendo-angular-grid';
+import { NumericTextBoxModule } from '@progress/kendo-angular-inputs';
 
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
@@ -64,6 +65,7 @@ import { UserSettingsRoutingModule } from './user-settings-routing.module';
     UploadsModule,
     DropDownsModule,
     GridModule,
+    NumericTextBoxModule,
 
     // Payfactors
     PfCommonModule,

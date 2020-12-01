@@ -30,6 +30,9 @@ export class PayMarketCutComponent implements OnChanges, OnInit, OnDestroy {
   isEditingCutValue: boolean;
   payMarketCuts: PayMarketCut[];
   defaultMarketCuts: PayMarketCut[];
+  defaultSecondWeight = 0;
+  defaultTopWeight = 100;
+  defaultAdjustment = 0;
 
   constructor(
     private store: Store<fromUserSettingsReducer.State>
@@ -50,7 +53,8 @@ export class PayMarketCutComponent implements OnChanges, OnInit, OnDestroy {
     this.payMarketCutsSubscription = this.payMarketCuts$.subscribe(asyncObj => {
       if (asyncObj?.obj) {
         this.payMarketCuts = cloneDeep(asyncObj.obj);
-        this.defaultMarketCuts = cloneDeep(asyncObj.obj);
+        this.isEditingCutValue = false;
+        this.buildDefaultPayMarketCuts();
       }
     });
   }
@@ -65,6 +69,7 @@ export class PayMarketCutComponent implements OnChanges, OnInit, OnDestroy {
 
   resetToDefault(): void {
     this.payMarketCuts = this.defaultMarketCuts;
+    this.isEditingCutValue = true;
   }
 
   handleSaveClicked(): void {
@@ -73,5 +78,55 @@ export class PayMarketCutComponent implements OnChanges, OnInit, OnDestroy {
       dataCuts: this.payMarketCuts
     }));
     this.isEditingCutValue = false;
+  }
+
+  private buildDefaultPayMarketCuts(): void {
+    if (!this.payMarketCuts?.length) {
+      return;
+    }
+    const payMarketCutsClone: PayMarketCut[] = cloneDeep(this.payMarketCuts);
+    const maxDisplayIndex = payMarketCutsClone.length - 1;
+    this.buildDefaultWeights(payMarketCutsClone.length);
+    this.defaultMarketCuts = payMarketCutsClone.map((cut) => {
+      cut.Weight = cut.DisplayOrder === 0
+        ? this.defaultTopWeight
+        : cut.DisplayOrder < maxDisplayIndex ? this.defaultSecondWeight : 0;
+      cut.Adjustment = 0;
+      return cut;
+    });
+  }
+
+  /* This function is migrated from usersettings ASP page with the comment below:
+    [GL] This function will reset any user entered values for weight/adj back to the default of the pay market (based on scope)
+    These values come from the table valued function GetMDCutRows and each default value is based on the number of MD cuts returned for the
+    pay market (scope/industry/size/geo)*/
+  private buildDefaultWeights(cutsCount: number): void {
+    switch (cutsCount) {
+      case 6: {
+        this.defaultTopWeight = 80;
+        this.defaultSecondWeight = 5;
+        break;
+      }
+      case 5: {
+        this.defaultTopWeight = 85;
+        this.defaultSecondWeight = 5;
+        break;
+      }
+      case 4: {
+        this.defaultTopWeight = 80;
+        this.defaultSecondWeight = 10;
+        break;
+      }
+      case 3: {
+        this.defaultTopWeight = 90;
+        this.defaultSecondWeight = 10;
+        break;
+      }
+      default: {
+        this.defaultTopWeight = 100;
+        this.defaultSecondWeight = 0;
+        break;
+      }
+    }
   }
 }
