@@ -12,7 +12,8 @@
       (onDismiss)="handleCancelClicked()"
       (onSubmit)="handleSaveClicked()"
       [showSpinner]="true"
-      [submitEnabled]="!(savingChanges$ | async)"
+      [submitButtonTitle] = "(!changesToSave || (savingChanges$ | async)) ? 'Drag and drop data cuts into your jobs to update pricings.' : ''"
+      [submitEnabled]="!(savingChanges$ | async) && changesToSave"
       [primaryButtonTextSubmitting]="'Saving'"
       [submitting]="saveChangesStarted"
     >
@@ -69,7 +70,7 @@
       </ng-container>
 
       <ng-container action-buttons *ngIf="display !== 'modal'">
-        <button [disabled]="!changesToSave || (savingChanges$ | async)" (click)="handleSaveClicked()" class="btn btn-sm legacy-primary-btn mr-3">
+        <button [title]="(!changesToSave || (savingChanges$ | async))?'Drag and drop data cuts into your jobs to update pricings.':null" [disabled]="!changesToSave || (savingChanges$ | async)" (click)="handleSaveClicked()" class="btn btn-sm legacy-primary-btn mr-3">
           <ng-container *ngIf="!(savingChanges$ | async); else savingChanges">
             Save
           </ng-container>

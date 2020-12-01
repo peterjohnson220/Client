@@ -41,6 +41,7 @@ export class PfModalFormComponent implements OnInit, OnDestroy {
   @Input() showSpinner = true;
   @Input() alwaysEnabledSubmit: boolean;
   @Input() flipPrimarySecondaryBtns: boolean;
+  @Input() submitButtonTitle = '';
   @Output() onSubmit = new EventEmitter();
   @Output() onSubmitAttempt = new EventEmitter();
   @Output() onDismiss = new EventEmitter();

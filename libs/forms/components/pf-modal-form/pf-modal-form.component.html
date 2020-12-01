@@ -31,6 +31,7 @@
         *ngIf="showSubmit"
         type="button"
         class="btn"
+        [title] = "submitButtonTitle"
         [ngClass]="primaryButtonClass"
         [class.order-1]="flipPrimarySecondaryBtns"
         [disabled]="submitDisabled"
