@@ -11,23 +11,7 @@
           || loaderType === templateReferenceConstants.LoaderType.StructureMapping 
           || loaderType === templateReferenceConstants.LoaderType.Benefits
           || loaderType === templateReferenceConstants.LoaderType.EmployeeTags">
-      <div *ngIf="loaderType === templateReferenceConstants.LoaderType.Employees"
-           class="col-md-4 d-flex">
-        <label class="text-nowrap mr-4"
-               for="dateFormat">Date Format: </label>
-        <kendo-combobox class="form-control flex-fill"
-                        id="dateFormat"
-                        [(ngModel)]="dateFormat"
-                        [data]="dateFormatsFilteredData"
-                        textField="text"
-                        valueField="value"
-                        [valuePrimitive]="true"
-                        [filterable]="true"
-                        (filterChange)="filterChange($event)"
-                        (selectionChange)="selectionChange($event)">
-        </kendo-combobox>
-        <span class="text-danger ml-2">*</span>
-      </div>
+
       <div class="col-md-4">
         <div class="d-inline-block mr-2">
           <input type="radio"
@@ -60,7 +44,7 @@
                       [autoUpload]="true"
                       [restrictions]="fileRestrictions"
                       [multiple]="false"
-                      [disabled]="(!delimiter || delimiter == '') || (loaderType === 'Employees' && (!dateFormat || dateFormat === ''))"
+                      [disabled]="(!delimiter || delimiter == '')"
                       (success)="successEventHandler($event)"
                       (upload)="uploadEventHandler($event)"
                       (remove)="removeEventHandler()">

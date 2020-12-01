@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 import { FileRestrictions } from '@progress/kendo-angular-upload';
 
 import {
-    BONUS_TARGET_COLUMN_NAME, BONUS_TARGET_DISPLAY_NAME, DATE_FORMATS, LoaderType, ORG_DATA_CLIENTFIELDS_INDEX_RESET, ORG_DATA_REMOVE_URL,
+    BONUS_TARGET_COLUMN_NAME, BONUS_TARGET_DISPLAY_NAME, LoaderType, ORG_DATA_CLIENTFIELDS_INDEX_RESET, ORG_DATA_REMOVE_URL,
     ORG_DATA_UPLOAD_URL
 } from 'libs/features/org-data-loader/constants';
 import {
@@ -32,8 +32,7 @@ export class FieldMapperComponent implements OnInit, OnChanges {
   mappedFields: string[];
   selectedMapping: string;
   payfactorsDataFieldsForReset: string[];
-  dateFormats: Array<{ text: string, value: string }> = DATE_FORMATS;
-  dateFormatsFilteredData: Array<{ text: string, value: string }>;
+
   templateReferenceConstants = {
     LoaderType,
   };
@@ -43,7 +42,6 @@ export class FieldMapperComponent implements OnInit, OnChanges {
   @Input() fieldMappingsLoading: boolean;
   @Input() payfactorsDataFields: string[];
   @Input() loaderType: LoaderType;
-  @Input() dateFormat: string;
   @Input() delimiter: string;
   @Input() isFullReplace: boolean;
   @Input() loadEnabled: boolean;
@@ -61,7 +59,7 @@ export class FieldMapperComponent implements OnInit, OnChanges {
     };
     this.mappedFields = [];
     this.clientFields = [];
-    this.dateFormatsFilteredData = this.dateFormats.slice();
+
   }
 
   ngOnInit() {
@@ -158,20 +156,6 @@ export class FieldMapperComponent implements OnInit, OnChanges {
     this.fireCompleteEvent();
   }
 
-  selectionChange(dateFormat: DateFormatItem) {
-    if (dateFormat) {
-      this.dateFormat = dateFormat.value;
-      this.fireCompleteEvent();
-    } else {
-      this.dateFormat = null;
-      this.fireCompleteEvent();
-    }
-  }
-
-  filterChange(filter: string) {
-    this.dateFormatsFilteredData = this.dateFormats.filter((s) => s.value.indexOf(filter) !== -1);
-  }
-
   // Private Methods
 
   private addMapping(pfField, clientField) {
@@ -215,7 +199,7 @@ export class FieldMapperComponent implements OnInit, OnChanges {
     this.fireCompleteEvent();
   }
 
-  private fireCompleteEvent() {
+  public fireCompleteEvent() {
     let payload: LoaderEntityStatus = {
       complete: this.clientFields.length === 0,
       loaderType: this.loaderType,
@@ -235,13 +219,6 @@ export class FieldMapperComponent implements OnInit, OnChanges {
 
     switch (this.loaderType) {
       case LoaderType.Employees:
-        payload = {
-          ...payload,
-          complete: isString(this.dateFormat) && !isEmpty(this.dateFormat) && payload.complete,
-          dateFormat: this.dateFormat,
-          isFullReplace: this.isFullReplace,
-        };
-        break;
       case LoaderType.EmployeeTags:
       case LoaderType.StructureMapping:
       case LoaderType.Benefits:
