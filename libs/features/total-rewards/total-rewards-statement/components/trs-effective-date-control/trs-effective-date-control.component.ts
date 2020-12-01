@@ -3,17 +3,18 @@ import { Component, OnInit, ChangeDetectionStrategy, Input, Output, EventEmitter
 import { Subject, Subscription } from 'rxjs';
 import { distinctUntilChanged, debounceTime } from 'rxjs/operators';
 
-import { StatementModeEnum } from '../../models';
+import { BaseControl, StatementModeEnum } from '../../models';
 
 @Component({
-  selector: 'pf-effective-date',
-  templateUrl: './effective-date.component.html',
-  styleUrls: ['./effective-date.component.scss'],
+  selector: 'pf-trs-effective-date-control',
+  templateUrl: './trs-effective-date-control.component.html',
+  styleUrls: ['./trs-effective-date-control.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class EffectiveDateComponent implements OnInit {
+export class TrsEffectiveDateControlComponent implements OnInit {
 
   @Input() mode: StatementModeEnum;
+  @Input() controlData: BaseControl;
   @Input() effectiveDate: Date;
 
   @Output() onDateChange = new EventEmitter<Date>();

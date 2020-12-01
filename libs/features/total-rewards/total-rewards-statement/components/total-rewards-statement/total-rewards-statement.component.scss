@@ -6,14 +6,19 @@
   max-width: none !important;
   width: 8.5in !important;
   height: 11in !important;
-  // add dividers via a right border - default below, with potential custom colors from statement settings 
+  // add dividers via a right border - default below, with potential custom colors from statement settings
   .trs-column {
     border-right-color: $trs-canvas-background-color;
   }
-  // exclude full width columns/col-12 since there's nothing to separate
-  .row.vertical-divider > .trs-column:first-child:not(.col-12) {
+  // TODO: Remove dependency on CSS Pseudo-classes to show vertical divider.
+  // add border to first child under vertical divider
+  .row.vertical-divider > .trs-column:first-child {
     border-right-width: 2px;
     border-right-style: solid;
+  }
+  // hide all non .col-6 dividers (only show dividers if col-6)
+  .row.vertical-divider > .trs-column:first-child:not(.col-6) {
+    border-right-width: 0;
   }
   // negate the middle divider for the top row that was added in the rule above
   .row.vertical-divider:first-child > .trs-column:first-child {

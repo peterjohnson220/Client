@@ -1,9 +1,9 @@
-<div class="trs-calculation container py-2" [ngClass]="inEditMode ? 'edit-mode' : inPreviewMode ? 'preview-mode' : ''">
+<div class="trs-calculation container py-2" pfModeClassifierDirective [mode]="mode">
   <table class="table table-borderless table-sm mb-0 w-100">
     <colgroup>
       <col class="field-column">
       <col class="contribution-column">
-      <col class="button-column">
+      <col *ngIf="inEditMode" class="button-column" >
     </colgroup>
     <thead>
       <tr class="trs-calculation-row w-100">
@@ -18,7 +18,7 @@
           </h4>
         </th>
         <th class="text-right pb-3" scope="col" class="secondary-header align-middle text-right font-weight-normal">Contribution</th>
-        <th scope="col"></th>
+        <th *ngIf="inEditMode" scope="col"></th>
       </tr>
     </thead>
     <tbody>
@@ -55,7 +55,7 @@
         <td class="contribution-field summary text-right" [ngClass]="inPreviewMode ? 'preview-mode-animation' : '' ">
           {{getSummaryValue()}}
         </td>
-        <td></td>
+        <td *ngIf="inEditMode"></td>
       </tr>
     </tbody>
   </table>

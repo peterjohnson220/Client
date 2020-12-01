@@ -16,7 +16,8 @@ exports[`TrsCalculationControlComponent should display contribution values and t
   onUpdateSummaryTitleChange={[Function EventEmitter]}
 >
   <div
-    class="trs-calculation container py-2 preview-mode"
+    class="trs-calculation container py-2"
+    pfmodeclassifierdirective=""
   >
     <table
       class="table table-borderless table-sm mb-0 w-100"
@@ -28,9 +29,7 @@ exports[`TrsCalculationControlComponent should display contribution values and t
         <col
           class="contribution-column"
         />
-        <col
-          class="button-column"
-        />
+        
       </colgroup>
       <thead>
         <tr
@@ -63,9 +62,7 @@ exports[`TrsCalculationControlComponent should display contribution values and t
           >
             Contribution
           </th>
-          <th
-            scope="col"
-          />
+          
         </tr>
       </thead>
       <tbody>
@@ -177,7 +174,7 @@ exports[`TrsCalculationControlComponent should display contribution values and t
           >
              165000 
           </td>
-          <td />
+          
         </tr>
       </tbody>
     </table>
@@ -201,7 +198,8 @@ exports[`TrsCalculationControlComponent should display the Add Field button if a
   onUpdateSummaryTitleChange={[Function EventEmitter]}
 >
   <div
-    class="trs-calculation container py-2 edit-mode"
+    class="trs-calculation container py-2"
+    pfmodeclassifierdirective=""
   >
     <table
       class="table table-borderless table-sm mb-0 w-100"
@@ -213,6 +211,7 @@ exports[`TrsCalculationControlComponent should display the Add Field button if a
         <col
           class="contribution-column"
         />
+        
         <col
           class="button-column"
         />
@@ -272,6 +271,7 @@ exports[`TrsCalculationControlComponent should display the Add Field button if a
           >
             Contribution
           </th>
+          
           <th
             scope="col"
           />
@@ -332,6 +332,7 @@ exports[`TrsCalculationControlComponent should display the Add Field button if a
           >
              $---,--- 
           </td>
+          
           <td />
         </tr>
       </tbody>
@@ -357,7 +358,8 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
   onUpdateSummaryTitleChange={[Function EventEmitter]}
 >
   <div
-    class="trs-calculation container py-2 preview-mode"
+    class="trs-calculation container py-2"
+    pfmodeclassifierdirective=""
   >
     <table
       class="table table-borderless table-sm mb-0 w-100"
@@ -369,9 +371,7 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
         <col
           class="contribution-column"
         />
-        <col
-          class="button-column"
-        />
+        
       </colgroup>
       <thead>
         <tr
@@ -404,9 +404,7 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
           >
             Contribution
           </th>
-          <th
-            scope="col"
-          />
+          
         </tr>
       </thead>
       <tbody>
@@ -496,7 +494,7 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
           >
              160000 
           </td>
-          <td />
+          
         </tr>
       </tbody>
     </table>
@@ -521,7 +519,8 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
   onUpdateSummaryTitleChange={[Function EventEmitter]}
 >
   <div
-    class="trs-calculation container py-2 preview-mode"
+    class="trs-calculation container py-2"
+    pfmodeclassifierdirective=""
   >
     <table
       class="table table-borderless table-sm mb-0 w-100"
@@ -533,9 +532,7 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
         <col
           class="contribution-column"
         />
-        <col
-          class="button-column"
-        />
+        
       </colgroup>
       <thead>
         <tr
@@ -568,9 +565,7 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
           >
             Contribution
           </th>
-          <th
-            scope="col"
-          />
+          
         </tr>
       </thead>
       <tbody>
@@ -660,7 +655,7 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
           >
              160000 
           </td>
-          <td />
+          
         </tr>
       </tbody>
     </table>
@@ -684,7 +679,8 @@ exports[`TrsCalculationControlComponent should render the supplied Summary 1`] =
   onUpdateSummaryTitleChange={[Function EventEmitter]}
 >
   <div
-    class="trs-calculation container py-2 edit-mode"
+    class="trs-calculation container py-2"
+    pfmodeclassifierdirective=""
   >
     <table
       class="table table-borderless table-sm mb-0 w-100"
@@ -696,6 +692,7 @@ exports[`TrsCalculationControlComponent should render the supplied Summary 1`] =
         <col
           class="contribution-column"
         />
+        
         <col
           class="button-column"
         />
@@ -755,6 +752,7 @@ exports[`TrsCalculationControlComponent should render the supplied Summary 1`] =
           >
             Contribution
           </th>
+          
           <th
             scope="col"
           />
@@ -809,6 +807,7 @@ exports[`TrsCalculationControlComponent should render the supplied Summary 1`] =
           >
              $---,--- 
           </td>
+          
           <td />
         </tr>
       </tbody>
@@ -834,7 +833,8 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
   onUpdateSummaryTitleChange={[Function EventEmitter]}
 >
   <div
-    class="trs-calculation container py-2 edit-mode"
+    class="trs-calculation container py-2"
+    pfmodeclassifierdirective=""
   >
     <table
       class="table table-borderless table-sm mb-0 w-100"
@@ -846,6 +846,7 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
         <col
           class="contribution-column"
         />
+        
         <col
           class="button-column"
         />
@@ -905,6 +906,7 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
           >
             Contribution
           </th>
+          
           <th
             scope="col"
           />
@@ -1145,6 +1147,7 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
           >
              $---,--- 
           </td>
+          
           <td />
         </tr>
       </tbody>
@@ -1170,7 +1173,8 @@ exports[`TrsCalculationControlComponent should render the supplied title 1`] = `
   onUpdateSummaryTitleChange={[Function EventEmitter]}
 >
   <div
-    class="trs-calculation container py-2 preview-mode"
+    class="trs-calculation container py-2"
+    pfmodeclassifierdirective=""
   >
     <table
       class="table table-borderless table-sm mb-0 w-100"
@@ -1182,9 +1186,7 @@ exports[`TrsCalculationControlComponent should render the supplied title 1`] = `
         <col
           class="contribution-column"
         />
-        <col
-          class="button-column"
-        />
+        
       </colgroup>
       <thead>
         <tr
@@ -1217,9 +1219,7 @@ exports[`TrsCalculationControlComponent should render the supplied title 1`] = `
           >
             Contribution
           </th>
-          <th
-            scope="col"
-          />
+          
         </tr>
       </thead>
       <tbody>
@@ -1253,7 +1253,7 @@ exports[`TrsCalculationControlComponent should render the supplied title 1`] = `
           >
              0 
           </td>
-          <td />
+          
         </tr>
       </tbody>
     </table>

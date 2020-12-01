@@ -1,11 +1,10 @@
 @import 'colors';
-@import 'total-rewards/app-colors';
-@import 'total-rewards/statement-settings';
-@import 'total-rewards/statement-layout-variables';
-@import 'total-rewards/rich-text-editor';
 @import 'common/common-variables';
 
-@import url('https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,300;0,400;0,500;0,700;0,800;1,300;1,400;1,500&display=swap');
+@import 'total-rewards/app-colors';
+@import 'total-rewards/statement';
+@import 'total-rewards/statement-settings';
+@import 'total-rewards/statement-layout-variables';
 
 .left-sidebar {
   z-index: 1040;
@@ -117,29 +116,6 @@ pf-statement-edit.page {
   }
 }
 
-pf-total-rewards-statement {
-  // disable mouse interaction for the chart so the legend cannot be clicked
-  .trs-chart .k-widget svg {
-    pointer-events: none;
-  }
-
-  // when we have a group of calculation controls together, hide all but the first secondary header, ie Contribution column header
-  .control-type-3 ~ .control-type-3 .secondary-header {
-    display: none;
-  }
-
-  .trs-statement-title {
-    pf-string-editor {
-      .editable {
-        .edit-icon {
-          position: absolute !important;
-          right: -5px;
-        }
-      }
-    }
-  }
-}
-
 pf-settings-panel {
   button.cp-ok-button-class {
     width: 100%;
@@ -154,147 +130,6 @@ pf-settings-panel {
     outline: none;
     &:hover {
       opacity: 1;
-    }
-  }
-}
-
-pf-trs-calculation-control {
-  .edit-mode {
-    .trs-calculation-row {
-      &:hover {
-        .edit-icon {
-          visibility: visible;
-        }
-      }
-    }
-  }
-}
-
-pf-trs-image-control {
-  &>div {
-    border: 2px dashed transparent;
-  }
-  .edit-mode {
-    border: 2px dashed $trs-canvas-background-color;
-    border-radius: 5px;
-  }
-  .edit-mode.show-image {
-    border: 2px dashed transparent;
-    transition: border .6s ease-in-out;
-    &:hover{
-      border: 2px dashed rgba($link-color, .5);
-    }
-  }
-
-  // Custom CSS to adjust Kendo Upload component
-  .trs-image {
-    svg {
-      position: absolute;
-      z-index: 5;
-      left: 50%;
-      transform: translateX(-50%);
-    }
-    .help-text {
-      font-size: .9rem;
-      bottom: -13px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 90px;
-      display: inline-block;
-    }
-    .k-widget {
-      height: inherit;
-      max-height: 80px;
-      border: none;
-      .k-header {
-        border: none;
-      }
-      .k-dropzone {
-        padding-top: 4px;
-        height: 80px;
-
-        .k-button.k-upload-button {
-          margin-left: auto;
-          margin-right: auto;
-        }
-      }
-      .k-upload-files {
-        position: relative;
-        padding: 0;
-        border: none;
-        top: -20px;
-        font-size: 1rem;
-        color: $color-danger;
-      }
-      .k-file {
-        padding: 0;
-        border: none;
-      }
-      .k-file-extension-wrapper, .k-file-size, .k-file-invalid-extension-wrapper, .k-file-name {
-        display: none;
-      }
-      .k-upload-status {
-        padding: 0;
-        margin: 0;
-        font-size: 0;
-      }
-      .k-file-name-size-wrapper {
-        margin: 0;
-      }
-    }
-  }
-}
-
-pf-effective-date {
-  .k-state-disabled {
-    opacity: 1; // kendo wants this to be .65 but keep at 1 so it doesn't look faded in preview/print
-  }
-  .k-picker-wrap {
-    height: 22px;
-    width: 130px;
-    .k-input {
-      height: 22px;
-      text-align: center;
-      font-size: .9rem;
-      line-height: .9rem;
-      padding: .25rem 0 .35rem 0;
-      transition: transform .3s ease-in-out;
-    }
-  }
-
-  .k-icon.k-i-calendar::before {
-    opacity: .8;
-    transition: opacity .3s ease-in-out;
-  }
-
-  .k-icon.k-i-calendar:hover {
-    &::before {
-      opacity: 1;
-    }
-  }
-
-  .field-wrapper {
-    transition: opacity .15s ease-in-out, transform .3s ease-in-out;
-  }
-
-  .preview-mode, .print-mode {
-    .k-picker-wrap, .k-dateinput-wrap {
-      border-color: transparent;
-      background-color: transparent; // in preview this element gets pushed into the gutter, so make it transparent
-    }
-    .k-select {
-      display: none;
-    }
-    .k-input {
-      transform: translateX(-3rem);
-    }
-
-    .field-wrapper {
-      transform: translateX(4rem);
-    }
-
-    .field-wrapper.empty-date {
-      opacity: 0;
     }
   }
 }
@@ -346,36 +181,5 @@ pf-statement-assignment-page {
 .total-rewards-statements-grid, .total-rewards-assigned-employees-grid {
   .k-grid-header th>.k-link>.k-icon {
     display: none;
-  }
-}
-
-@media print {
-  * {
-    transition: none !important; // don't capture incomplete transitions
-  }
-
-  html {
-    -webkit-print-color-adjust: exact; // maintain print/PDF background colors in styled template title graphics
-  }
-
-  html, body {
-    background-color: white; // override dark blue to white so there's no contrast if html shows as content
-  }
-
-  // override bootstrap _print below, so print styling remains consistent with screen page size, min-widths, and anchors
-  @page {
-    size: 8.5in 11in;
-  }
-
-  .container {
-    min-width: 0 !important;
-  }
-
-  body {
-    min-width: 0 !important;
-  }
-
-  a:not(.btn) {
-    text-decoration: none;
   }
 }
