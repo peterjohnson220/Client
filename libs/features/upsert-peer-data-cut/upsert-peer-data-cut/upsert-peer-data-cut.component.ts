@@ -16,9 +16,8 @@ import * as fromLibsPeerExchangeExplorerReducers from 'libs/features/peer/exchan
 import * as fromLibsExchangeExplorerFilterContextActions from 'libs/features/peer/exchange-explorer/actions/exchange-filter-context.actions';
 import * as fromDataCutValidationActions from 'libs/features/peer/actions/data-cut-validation.actions';
 import * as fromDataCutValidationReducer from 'libs/features/peer/guidelines-badge/reducers';
-import * as fromSurveySearchReducer from 'libs/features/survey-search/reducers';
 import * as fromExchangeExplorerActions from 'libs/features/peer/exchange-explorer/actions/exchange-explorer.actions';
-import * as fromSurveySearchResultsActions from 'libs/features/survey-search/actions/survey-search-results.actions';
+import { TempExchangeDataCutDetails } from 'libs/models/payfactors-api/peer/exchange-data-search/request';
 
 import * as fromUpsertDataCutActions from '../actions/upsert-peer-data-cut.actions';
 import * as fromRequestPeerAccessActions from '../actions/request-peer-access.actions';
@@ -38,6 +37,7 @@ export class UpsertPeerDataCutComponent implements OnInit, OnDestroy, OnChanges 
   @Input() displayInClassicAspIframe: boolean;
   @Input() entityConfiguration: UpsertPeerDataCutEntityConfigurationModel;
   @Output() cancelChanges = new EventEmitter();
+  @Output() refinedDataCutDetails = new EventEmitter<TempExchangeDataCutDetails>();
 
   @ViewChild(ExchangeExplorerMapComponent, {static: true}) map: ExchangeExplorerMapComponent;
   @ViewChild(ExchangeExplorerComponent) exchangeExplorer: ExchangeExplorerComponent;
@@ -55,21 +55,18 @@ export class UpsertPeerDataCutComponent implements OnInit, OnDestroy, OnChanges 
   isEmployeeCheckLoading$: Observable<boolean>;
   weightingType$: Observable<string>;
   persistedWeightingTypeForDataCuts$: Observable<string>;
-  refiningPeerCut$: Observable<boolean>;
-  refiningJobId$: Observable<number>;
+  loadedDataCutDetails$: Observable<TempExchangeDataCutDetails>;
 
   untaggedIncumbentCount: number;
   displayMap = false;
   refining: boolean;
-  refiningJobId: number;
 
   // Subscriptions
   peerMapCompaniesSubscription: Subscription;
   weightingTypeSubscription: Subscription;
   persistedWeightingTypeForDataCutsSubscription: Subscription;
   untaggedIncumbentCountSubscription: Subscription;
-  refiningPeerCutSubscription: Subscription;
-  refiningJobIdSubscription: Subscription;
+  loadedDataCutDetailsSubscription: Subscription;
 
   requestPeerAccessMessage = `Thank you for your interest in Peer. Peer allows you to market price with unmatched
   granularity and specificity right from within the Payfactors suite. Simply click "Request Access" and someone
@@ -89,6 +86,7 @@ export class UpsertPeerDataCutComponent implements OnInit, OnDestroy, OnChanges 
     this.upsertingDataCutError$ = this.store.pipe(select(fromUpsertPeerDataReducers.getUpsertDataCutAddingDataCutError));
     this.upsertDataCutPageInViewInIframe$ = this.store.pipe(select(fromUpsertPeerDataReducers.getUpsertDataCutInIframe));
     this.requestingPeerAccess$ = this.store.pipe(select(fromUpsertPeerDataReducers.getRequestingPeerAccess));
+    this.loadedDataCutDetails$ = this.store.select(fromUpsertPeerDataReducers.getLoadedDataCutDetails);
     this.employeesValid$ = this.store.pipe(select(fromDataCutValidationReducer.getEmployeeCheckPassed));
     this.isEmployeeCheckLoading$ = this.store.pipe(select(fromDataCutValidationReducer.getIsEmployeeSimilarityLoading));
 
@@ -96,8 +94,6 @@ export class UpsertPeerDataCutComponent implements OnInit, OnDestroy, OnChanges 
     this.includeUntaggedIncumbents$ = this.store.pipe(select(fromLibsPeerExchangeExplorerReducers.getFilterContextIncludeUntaggedIncumbents));
     this.untaggedIncumbentCount$ = this.store.pipe(select(fromLibsPeerExchangeExplorerReducers.getPeerMapUntaggedIncumbentCount));
     this.weightingType$ = this.store.pipe(select(fromLibsPeerExchangeExplorerReducers.getWeightingType));
-    this.refiningPeerCut$ = this.store.select(fromSurveySearchReducer.getRefining);
-    this.refiningJobId$ = this.store.select(fromSurveySearchReducer.getRefiningJobId);
 
     this.hasRequestedPeerAccess$ = this.settingsService.selectUiPersistenceSetting<boolean>(
       FeatureAreaConstants.Project, UiPersistenceSettingConstants.PeerAccessRequested
@@ -144,14 +140,10 @@ export class UpsertPeerDataCutComponent implements OnInit, OnDestroy, OnChanges 
           ZoomLevel: this.map ? this.map.getZoomLevel() : 0,
           BaseEntityId: this.entityConfiguration.BaseEntityId
         }));
+        this.reset();
       } else {
-        // TODO: If refining, add to the 'shopping cart'
+        this.store.dispatch(new fromUpsertDataCutActions.GetRefinedExchangeDataCutDetails());
       }
-
-      this.displayMap = false;
-      this.store.dispatch(new fromExchangeExplorerActions.ResetExchangeExplorerState());
-      this.store.dispatch(new fromSurveySearchResultsActions.RefineExchangeJobResultComplete());
-      this.guidelinesService.clearMapCompanies();
     }
   }
 
@@ -162,14 +154,18 @@ export class UpsertPeerDataCutComponent implements OnInit, OnDestroy, OnChanges 
   cancel(sendEmit = true) {
     this.exchangeExplorer.onResetApp();
     this.store.dispatch(new fromUpsertDataCutActions.CancelUpsertDataCut);
-    this.displayMap = false;
-    this.store.dispatch(new fromExchangeExplorerActions.ResetExchangeExplorerState());
-    this.store.dispatch(new fromSurveySearchResultsActions.RefineExchangeJobResultComplete());
-    this.guidelinesService.clearMapCompanies();
+    this.reset();
 
     if (sendEmit) {
       this.cancelChanges.emit();
     }
+  }
+
+  reset(): void {
+    this.displayMap = false;
+    this.refining = false;
+    this.store.dispatch(new fromExchangeExplorerActions.ResetExchangeExplorerState());
+    this.guidelinesService.clearMapCompanies();
   }
 
   // Lifecycle events
@@ -218,12 +214,18 @@ export class UpsertPeerDataCutComponent implements OnInit, OnDestroy, OnChanges 
       }
     } as MessageEvent;
     this.exchangeExplorer.onMessage(setContextMessage);
-    this.store.dispatch(new fromDataCutValidationActions.LoadDataCutValidation(
-      {
-        CompanyJobId: this.companyJobId,
-        EntityConfiguration: this.entityConfiguration
-      }
-    ));
+
+
+    // TODO: Validation in upcoming item [JP]
+    if (!this.refining) {
+
+      this.store.dispatch(new fromDataCutValidationActions.LoadDataCutValidation(
+        {
+          CompanyJobId: this.companyJobId,
+          EntityConfiguration: this.entityConfiguration
+        }
+      ));
+    }
   }
 
   showMap() {
@@ -235,6 +237,7 @@ export class UpsertPeerDataCutComponent implements OnInit, OnDestroy, OnChanges 
     this.peerMapCompaniesSubscription.unsubscribe();
     this.weightingTypeSubscription.unsubscribe();
     this.persistedWeightingTypeForDataCutsSubscription.unsubscribe();
+    this.loadedDataCutDetailsSubscription.unsubscribe();
   }
 
   setSubscriptions(): void {
@@ -266,17 +269,18 @@ export class UpsertPeerDataCutComponent implements OnInit, OnDestroy, OnChanges 
       }
     });
 
-    this.refiningJobIdSubscription = this.refiningJobId$.subscribe((jobId) => {
-      this.refiningJobId = jobId;
-    });
-
-    this.refiningPeerCutSubscription = this.refiningPeerCut$.subscribe((refining) => {
-      this.refining = refining;
-      if (refining) {
-        this.showMap();
-        this.setContext({lockedExchangeJobId: this.refiningJobId});
+    this.loadedDataCutDetailsSubscription = this.loadedDataCutDetails$.subscribe(loadedDataCutDetails => {
+      if (!!loadedDataCutDetails) {
+        this.refinedDataCutDetails.emit(loadedDataCutDetails);
+        this.reset();
       }
     });
+  }
+
+  refineExchangeJob(exchangeJobId: number): void {
+    this.refining = true;
+    this.showMap();
+    this.setContext({refineExchangeJobId: exchangeJobId});
   }
 
   get untaggedIncumbentMessage(): string {

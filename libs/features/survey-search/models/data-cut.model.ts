@@ -1,6 +1,7 @@
 import { SurveySearchResultDataSources } from 'libs/constants';
 
 import { JobResult } from './';
+import { BaseExchangeDataSearchRequest } from '../../../models/payfactors-api/peer/exchange-data-search/request';
 
 export interface DataCut {
   Id: string;
@@ -14,6 +15,12 @@ export interface DataCut {
   Matches: number;
   IsSelected: boolean;
   ServerInfo: ServerInfo;
+}
+
+export interface ExchangeJobDataCut {
+  ExchangeJobId: number;
+  DataCut: DataCut;
+  ExchangeDataSearchRequest: BaseExchangeDataSearchRequest;
 }
 
 export interface DataCutDetails {
@@ -32,6 +39,7 @@ export interface DataCutDetails {
 }
 
 interface ServerInfo {
+  CustomPeerCutId?: string;
   DailyNatAvgId?: number;
   DailyScopeAvgId?: number;
   SurveyDataId?: number;

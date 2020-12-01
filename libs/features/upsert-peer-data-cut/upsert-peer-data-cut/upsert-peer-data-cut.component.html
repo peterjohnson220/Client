@@ -9,7 +9,10 @@
     [companyPayMarketId]="companyPayMarketId"
     [shouldShowPayMarketBoundsFilter]="(hasAcceptedPeerTerms$ | async) && !refining"
     [shouldShowExcludeIndirectJobMatchesFilter]="hasAcceptedPeerTerms$ | async"
-    [shouldShowExchangeScopeSelector]="hasAcceptedPeerTerms$ | async">
+    [shouldShowExchangeScopeSelector]="hasAcceptedPeerTerms$ | async"
+    [jobSelectorRequiresPayMarket]="!refining"
+    [exchangeScopeSelectorRequiresPayMarket]="!refining"
+  >
 
     <ng-container map-footer>
 

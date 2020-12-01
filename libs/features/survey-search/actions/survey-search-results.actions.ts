@@ -2,7 +2,7 @@ import { Action } from '@ngrx/store';
 
 import { PricingMatchesResponse } from 'libs/models/payfactors-api/survey-search';
 
-import { JobResult, DataCutDetails } from '../models';
+import { JobResult, DataCutDetails, ExchangeJobDataCut } from '../models';
 
 export const REPLACE_JOB_RESULTS = '[Project/Survey Search] Replace Job Results';
 export const ADD_JOB_RESULTS = '[Project/Survey Search] Add Job Results';
@@ -18,6 +18,8 @@ export const GET_EXCHANGE_DATA_RESULTS_ERROR = '[Project/Survey Search] Get Exch
 export const UPDATE_RESULTS_MATCHES_COUNT = '[Project/Survey Search] Update Results Matches Count';
 export const REFINE_EXCHANGE_JOB_RESULT = '[Project/Survey Search] Refine Exchange Job Result';
 export const REFINE_EXCHANGE_JOB_RESULT_COMPLETE = '[Project/Survey Search] Refine Exchange Job Result Complete';
+export const ADD_REFINED_EXCHANGE_DATA_CUT = '[Project/Survey Search] Add Refined Exchange Data Cut';
+export const REMOVE_REFINED_EXCHANGE_DATA_CUT = '[Project/Survey Search] Remove Refined Exchange Data Cut';
 
 export class ReplaceJobResults implements Action {
   readonly type = REPLACE_JOB_RESULTS;
@@ -68,7 +70,7 @@ export class GetSurveyDataResultsError implements Action {
 export class GetExchangeDataResults implements Action {
   readonly type = GET_EXCHANGE_DATA_RESULTS;
 
-  constructor(public payload: JobResult) {}
+  constructor(public payload: { exchangeJobId: number }) {}
 }
 
 export class GetExchangeDataResultsSuccess implements Action {
@@ -101,6 +103,20 @@ export class RefineExchangeJobResultComplete implements Action {
   constructor() { }
 }
 
+export class AddRefinedExchangeDataCut implements Action {
+  readonly type = ADD_REFINED_EXCHANGE_DATA_CUT;
+
+  constructor(public payload: ExchangeJobDataCut ) {
+  }
+}
+
+export class RemoveRefinedExchangeDataCut implements Action {
+  readonly type = REMOVE_REFINED_EXCHANGE_DATA_CUT;
+
+  constructor(public payload: {ExchangeJobId: number, Id: string}) {
+  }
+}
+
 export type Actions
   = AddJobResults
   | ReplaceJobResults
@@ -115,4 +131,6 @@ export type Actions
   | GetExchangeDataResultsError
   | UpdateResultsMatchesCount
   | RefineExchangeJobResult
-  | RefineExchangeJobResultComplete;
+  | RefineExchangeJobResultComplete
+  | AddRefinedExchangeDataCut
+  | RemoveRefinedExchangeDataCut;

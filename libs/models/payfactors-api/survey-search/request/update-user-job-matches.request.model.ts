@@ -1,4 +1,4 @@
-import { JobDataCut, PeerCut } from './add-data-cut-request.model';
+import { JobDataCut, PeerCut, TempPeerCut } from './add-data-cut-request.model';
 
 export interface UpdateUserJobMatchesRequest {
   ProjectId: number;
@@ -11,4 +11,5 @@ export interface SurveyJobMatchUpdate {
   MatchesToDelete: number[];
   DataCutMatchesToAdd: JobDataCut[];
   PeerCutMatchesToAdd: PeerCut[];
+  TempPeerCutMatchesToAdd: TempPeerCut[];
 }

@@ -8,9 +8,7 @@ import * as fromUserFilterActions from 'libs/features/user-filter/actions/user-f
 import * as fromSaveFilterModalActions from 'libs/features/user-filter/actions/save-filter-modal.actions';
 import * as fromUserFilterPopoverActions from 'libs/features/user-filter/actions/user-filter-popover.actions';
 import * as fromSearchPageActions from 'libs/features/search/actions/search-page.actions';
-import * as fromSearchResultsActions from 'libs/features/search/actions/search-results.actions';
-import * as fromSingledActions from 'libs/features/search/actions/singled-filter.actions';
-import * as fromChildFilterActions from 'libs/features/search/actions/child-filter.actions';
+import * as fromSearchFeatureActions from 'libs/features/search/actions/search-feature.actions';
 import * as fromSearchReducer from 'libs/features/search/reducers';
 import { SearchFeatureIds } from 'libs/features/search/enums/search-feature-ids';
 import { UserFilterTypeData } from 'libs/features/user-filter/models';
@@ -46,12 +44,22 @@ export abstract class SearchBaseDirective {
       case 'Set Context':
         // Always reset the app before setting the context (on open)
         this.resetApp();
-        this.store.dispatch(new fromSearchPageActions.SetSearchFilterMappingData(this.searchFilterMappingDataObj));
+
         this.store.dispatch(new fromSearchPageActions.SetSearchFeatureId(this.searchFeatureId));
+        this.store.dispatch(new fromSearchPageActions.SetSearchFilterMappingData(this.searchFilterMappingDataObj));
         this.store.dispatch(new fromSearchPageActions.SetUserFilterTypeData(this.userFilterTypeData));
         this.onSetContext(event.data.payfactorsMessage.payload);
         break;
     }
+  }
+
+  resetActions() {
+    this.store.dispatch(new fromSaveFilterModalActions.CloseSaveModal());
+    this.store.dispatch(new fromSearchFiltersActions.RemoveFilters());
+    this.store.dispatch(new fromUserFilterActions.Reset());
+    this.store.dispatch(new fromUserFilterPopoverActions.ClosePopover());
+
+    this.store.dispatch(new fromSearchFeatureActions.ResetSearchFeatureId(this.searchFeatureId));
   }
 
   handleCancelClicked() {
@@ -64,18 +72,6 @@ export abstract class SearchBaseDirective {
     this.onResetApp();
   }
 
-  resetActions() {
-    this.store.dispatch(new fromSaveFilterModalActions.CloseSaveModal());
-    this.store.dispatch(new fromSearchFiltersActions.RemoveFilters());
-    this.store.dispatch(new fromUserFilterActions.Reset());
-    this.store.dispatch(new fromUserFilterPopoverActions.ClosePopover());
-
-    this.store.dispatch(new fromSingledActions.Reset());
-    this.store.dispatch(new fromChildFilterActions.Reset());
-    this.store.dispatch(new fromSearchResultsActions.Reset());
-    this.store.dispatch(new fromSearchPageActions.Reset());
-    this.store.dispatch(new fromSearchFiltersActions.Reset());
-  }
   onResetApp?(): void;
   onSetContext?(payload: any): void;
 }

@@ -77,6 +77,11 @@ export const getSelectedDataCuts = createSelector(
   fromSurveySearchResultsReducer.getSelectedDataCuts
 );
 
+export const getTempExchangeJobDataCutFilterContextDictionary = createSelector(
+  selectSearchResultsState,
+  fromSurveySearchResultsReducer.getTempExchangeJobDataCutFilterContextDictionary
+);
+
 export const getRefining = createSelector(
   selectSearchResultsState,
   fromSurveySearchResultsReducer.getRefining

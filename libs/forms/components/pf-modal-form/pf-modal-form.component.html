@@ -25,7 +25,7 @@
     <div>
       <ng-content select="[footer-left]"></ng-content>
     </div>
-    <div class="flex-grow-1 d-flex justify-content-end space-out-children">
+    <div class="flex-grow-1 d-flex justify-content-end space-out-children" [ngClass]="{'invisible': !showFooterActions}">
       <ng-content select="[button-container-left]"></ng-content>
       <button
         *ngIf="showSubmit"

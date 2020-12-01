@@ -1045,7 +1045,11 @@ exports[`Project - Survey Search - Data Cuts should show a message when there is
     <div
       class="no-data-cuts-message"
     >
-       No data cuts available. Please adjust your filters. 
+       No data cuts available. 
+      
+      
+      
+       Please adjust your filters. 
     </div>
     
     

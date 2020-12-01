@@ -19,6 +19,7 @@ import { PayfactorsSurveySearchApiModelMapper, SurveySearchFiltersHelper } from 
 import { JobToPrice } from '../models';
 import * as fromMultiMatchReducer from '../reducers';
 import * as fromSurveySearchReducer from '../../survey-search/reducers';
+import { BaseExchangeDataSearchRequest } from '../../../models/payfactors-api/peer/exchange-data-search/request';
 
 @Injectable()
 export class MultiMatchEffects {
@@ -70,8 +71,9 @@ export class MultiMatchEffects {
         this.store.select(fromMultiMatchReducer.getJobsToPrice),
         this.store.select(fromMultiMatchReducer.getMultimatchProjectContext),
         this.store.select(fromSurveySearchReducer.getProjectSearchContext),
-        (action, jobsToPrice, projectContext, projectSearchContext ) =>
-          ({ jobsToPrice, projectContext, projectSearchContext })
+        this.store.select(fromSurveySearchReducer.getTempExchangeJobDataCutFilterContextDictionary),
+        (action, jobsToPrice, projectContext, projectSearchContext, tempPeerDataCutFilterContextDictionary ) =>
+          ({ jobsToPrice, projectContext, projectSearchContext, tempPeerDataCutFilterContextDictionary })
       ),
       switchMap((contextAndJobs) => {
           const jobsWithUpdates = contextAndJobs.jobsToPrice.filter(j => (!!j.DataCutsToAdd && j.DataCutsToAdd.length)
@@ -79,7 +81,7 @@ export class MultiMatchEffects {
           return this.surveySearchApiService.updateUserJobMatches({
             ProjectId: contextAndJobs.projectContext.ProjectId,
             CompanyPayMarketId: contextAndJobs.projectSearchContext.PaymarketId,
-            SurveyJobMatchUpdates: this.buildMatchUpdates(jobsWithUpdates)
+            SurveyJobMatchUpdates: this.buildMatchUpdates(jobsWithUpdates, contextAndJobs.tempPeerDataCutFilterContextDictionary)
           })
             .pipe(
               mergeMap(() => [
@@ -102,13 +104,17 @@ export class MultiMatchEffects {
       })
     );
 
-  private buildMatchUpdates(jobsToPrice: JobToPrice[]): SurveyJobMatchUpdate[] {
+  private buildMatchUpdates(jobsToPrice: JobToPrice[], tempPeerDataCutFilterContextDictionary: {[key: string]: BaseExchangeDataSearchRequest}): SurveyJobMatchUpdate[] {
     return jobsToPrice.map(job => {
       return {
         UserJobListTempId: job.Id,
         MatchesToDelete: job.DeletedJobMatchCutIds,
         DataCutMatchesToAdd: PayfactorsSurveySearchApiModelMapper.mapDataCutDetailsToJobDataCuts(job.DataCutsToAdd),
-        PeerCutMatchesToAdd: PayfactorsSurveySearchApiModelMapper.mapDataCutDetailsToPeerCuts(job.DataCutsToAdd)
+        PeerCutMatchesToAdd: PayfactorsSurveySearchApiModelMapper.mapDataCutDetailsToPeerCuts(job.DataCutsToAdd),
+        TempPeerCutMatchesToAdd: PayfactorsSurveySearchApiModelMapper.mapDataCutDetailsToTempPeerDataCuts(
+          job.DataCutsToAdd,
+          tempPeerDataCutFilterContextDictionary
+        )
       };
     });
   }
