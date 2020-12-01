@@ -159,7 +159,7 @@ export class DojGuidelinesService implements OnDestroy {
     }
 
     // we've passed on company now lets check the employees
-    if (this.companyValidationPass) {
+    if (this.companyValidationPass && entityConfiguration) {
       const action = new fromDataCutValidationActions.ValidateDataCutEmployees(companyJobId, entityConfiguration, guid);
       this.store.dispatch(action);
     }

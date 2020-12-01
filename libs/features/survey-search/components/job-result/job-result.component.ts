@@ -83,10 +83,12 @@ export class JobResultComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.toggleDataCutsLabel = this.showDataCuts ? this.hideCutsLabel : this.showCutsLabel;
-    this.loadingResultsSub = this.loadingResults$.subscribe(() => {
-      this.showDataCuts = false;
-      this.showJobDetail = false;
-      this.toggleDataCutsLabel = this.showCutsLabel;
+    this.loadingResultsSub = this.loadingResults$.subscribe((loading) => {
+      if (!loading) {
+        this.showDataCuts = false;
+        this.showJobDetail = false;
+        this.toggleDataCutsLabel = this.showCutsLabel;
+      }
     });
   }
 
@@ -112,6 +114,8 @@ export class JobResultComponent implements OnInit, OnDestroy {
 
   toggleRefineInPeerDisplay(): void {
     this.refineInPeerClicked.emit(this.job);
+    this.showDataCuts = true;
+    this.toggleDataCutsLabel = this.hideCutsLabel;
   }
 
   handleDataCutSelected(dataCut: DataCut) {

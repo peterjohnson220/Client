@@ -5,11 +5,13 @@ import {
   JobDataCut,
   PeerCut,
   SurveyJob,
-  SurveyJobDataCutResponse
+  SurveyJobDataCutResponse,
+  TempPeerCut
 } from 'libs/models/payfactors-api';
 import { generateGuid } from 'libs/core/functions';
 
 import { DataCut, DataCutDetails, JobContext, JobResult, PeerJobInfo, ProjectSearchContext } from '../models';
+import { BaseExchangeDataSearchRequest, TempExchangeJobDataCutResponse } from 'libs/models/payfactors-api/peer';
 
 export class PayfactorsSurveySearchApiModelMapper {
 
@@ -110,6 +112,24 @@ export class PayfactorsSurveySearchApiModelMapper {
     });
   }
 
+  static mapCustomExchangeJobDataCutToDataCut(tempExchangeJobDataCut: TempExchangeJobDataCutResponse): DataCut {
+    return {
+      Id: generateGuid(),
+      Title: tempExchangeJobDataCut.Title,
+      Country: tempExchangeJobDataCut.Country,
+      Weight: tempExchangeJobDataCut.Weight,
+      Base50th: tempExchangeJobDataCut.Base50,
+      TCC50th: tempExchangeJobDataCut.Tcc50,
+      Incs: tempExchangeJobDataCut.Incs,
+      Orgs: tempExchangeJobDataCut.Orgs,
+      Matches: null,
+      ServerInfo: {
+        CustomPeerCutId: tempExchangeJobDataCut.TempExchangeJobDataCutId
+      },
+      IsSelected: true
+    };
+  }
+
 
   ///
   /// OUT
@@ -136,7 +156,7 @@ export class PayfactorsSurveySearchApiModelMapper {
       return [];
     }
     return dataCutDetails
-    .filter((dcd: DataCutDetails) => dcd.DataSource === SurveySearchResultDataSources.Peer)
+    .filter((dcd: DataCutDetails) => dcd.DataSource === SurveySearchResultDataSources.Peer && !dcd.ServerInfo.CustomPeerCutId)
       .map((dcd: DataCutDetails) => {
         return {
           ExchangeId: dcd.Job.PeerJobInfo.ExchangeId,
@@ -145,6 +165,27 @@ export class PayfactorsSurveySearchApiModelMapper {
           DailyScopeAvgId: dcd.ServerInfo.DailyScopeAvgId
         };
       });
+  }
+
+  static mapDataCutDetailsToTempPeerDataCuts(
+    dataCutDetails: DataCutDetails[],
+    tempPeerDataCutFilterContextDictionary: {[key: string]: BaseExchangeDataSearchRequest}
+    ): TempPeerCut[] {
+    if (!dataCutDetails) {
+      return [];
+    }
+
+    return dataCutDetails.filter((dcd: DataCutDetails) =>
+      dcd.DataSource === SurveySearchResultDataSources.Peer && !!dcd.ServerInfo.CustomPeerCutId &&
+      !!tempPeerDataCutFilterContextDictionary[dcd.ServerInfo.CustomPeerCutId]
+    ).map((dcd: DataCutDetails) => {
+      const exchangeDataSearchRequest = tempPeerDataCutFilterContextDictionary[dcd.ServerInfo.CustomPeerCutId];
+      return {
+        Id: dcd.ServerInfo.CustomPeerCutId,
+        ExchangeJobId: dcd.Job.PeerJobInfo.ExchangeJobId,
+        ExchangeDataSearchRequest: exchangeDataSearchRequest
+      };
+    });
   }
 
   ///

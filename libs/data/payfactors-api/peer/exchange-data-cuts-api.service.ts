@@ -9,9 +9,10 @@ import {
   GenericKeyValue
 } from 'libs/models';
 import { BaseExchangeDataSearchRequest } from 'libs/models/payfactors-api/peer/exchange-data-search/request';
+import { TempExchangeJobDataCutRequest, TempExchangeJobDataCutResponse } from 'libs/models/payfactors-api/peer/exchange-data-cuts';
+import { UpsertPeerDataCutEntityConfigurationModel } from 'libs/features/upsert-peer-data-cut/models';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
-import {UpsertPeerDataCutEntityConfigurationModel} from '../../../features/upsert-peer-data-cut/models';
 
 @Injectable({
   providedIn: 'root',
@@ -23,6 +24,10 @@ export class ExchangeDataCutsApiService {
 
   upsertDataCutNew(upsertDataCutRequest: UpsertDataCutRequest): Observable<GenericKeyValue<number, boolean>> {
     return this.payfactorsApiService.post<GenericKeyValue<number, boolean>>(`${this.endpoint}/UpsertDataCutNew`, upsertDataCutRequest);
+  }
+
+  getTempExchangeJobDataCut(tempExchangeJobDataCutRequest: TempExchangeJobDataCutRequest): Observable<TempExchangeJobDataCutResponse> {
+    return this.payfactorsApiService.post<TempExchangeJobDataCutResponse>(`${this.endpoint}/GetTempExchangeJobDataCut`, tempExchangeJobDataCutRequest);
   }
 
   getDataCutValidationInfo(payload: any): Observable<DataCutValidationInfo[]> {

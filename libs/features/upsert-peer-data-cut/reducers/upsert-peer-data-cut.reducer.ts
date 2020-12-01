@@ -1,9 +1,14 @@
+import { TempExchangeDataCutDetails } from 'libs/models/payfactors-api/peer/exchange-data-search/request';
+
 import * as fromUpsertActions from '../actions';
 
 export interface State {
   upsertingDataCut: boolean;
   upsertingDataCutError: boolean;
   pageInViewInIframe: boolean;
+  loadedDataCutDetails: TempExchangeDataCutDetails;
+  loadingDataCutDetails: boolean;
+  loadingDataCutDetailsError: boolean;
 }
 
 // Initial State
@@ -11,6 +16,9 @@ export const initialState: State = {
   upsertingDataCut: false,
   upsertingDataCutError: false,
   pageInViewInIframe: false,
+  loadedDataCutDetails: null,
+  loadingDataCutDetails: false,
+  loadingDataCutDetailsError: false
 };
 
 // Reducer
@@ -53,6 +61,22 @@ export function reducer(
         pageInViewInIframe: true
       };
     }
+    case fromUpsertActions.GET_REFINED_EXCHANGE_DATA_CUT_DETAILS: {
+      return {
+        ...state,
+        loadingDataCutDetails: true,
+        loadingDataCutDetailsError: false
+      };
+    }
+    case fromUpsertActions.GET_REFINED_EXCHANGE_DATA_CUT_DETAILS_SUCCESS: {
+      const exchangeDataCutDetails = action.payload;
+      return {
+        ...state,
+        loadedDataCutDetails: exchangeDataCutDetails,
+        loadingDataCutDetails: false,
+        loadingDataCutDetailsError: false
+      };
+    }
     default: {
       return state;
     }
@@ -63,3 +87,4 @@ export function reducer(
 export const getUpsertingDataCut = (state: State) => state.upsertingDataCut;
 export const getUpsertingDataCutError = (state: State) => state.upsertingDataCutError;
 export const getPageInViewInIframe = (state: State) => state.pageInViewInIframe;
+export const getLoadedDataCutDetails = (state: State) => state.loadedDataCutDetails;
