@@ -30,3 +30,12 @@ pf-pay-market-cut {
     background: transparent;
   }
 }
+
+pf-change-password {
+  .confirm-password-container {
+    width: 100% !important;
+  }
+  .label{
+    font-weight: normal !important;
+  }
+}

@@ -119,4 +119,11 @@ export class UserApiService {
     });
   }
 
+  changePassword(currentPassword: string, newPassword: string) {
+    return this.payfactorsApiService.post(`${this.endpoint}/Default.ChangePassword`, {
+      CurrentPassword: currentPassword,
+      NewPassword: newPassword
+    });
+
+  }
 }

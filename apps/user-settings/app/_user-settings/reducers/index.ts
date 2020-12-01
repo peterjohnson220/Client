@@ -7,6 +7,7 @@ import * as fromDashboardPreferencesReducer from './dashboard-preferences.reduce
 import * as fromUserProfileReducer from './user-profile.reducer';
 import * as fromProjectTemplateReducer from './project-templates.reducer';
 import * as fromPayMarketDefaultSettingsReducer from './paymarket-default-settings.reducer';
+import * as fromChangePasswordReducer from './change-password.reducer';
 
 // Feature area state
 export interface UserSettingsMainState {
@@ -14,6 +15,7 @@ export interface UserSettingsMainState {
   userProfile: fromUserProfileReducer.State;
   projectTemplates: fromProjectTemplateReducer.State;
   payMarketDefaultSettings: fromPayMarketDefaultSettingsReducer.State;
+  changePassword: fromChangePasswordReducer.State;
 }
 
 // Extend root state with feature area state
@@ -26,7 +28,8 @@ export const reducers = {
   dashboardPreferences: fromDashboardPreferencesReducer.reducer,
   userProfile: fromUserProfileReducer.reducer,
   projectTemplates: fromProjectTemplateReducer.reducer,
-  payMarketDefaultSettings: fromPayMarketDefaultSettingsReducer.reducer
+  payMarketDefaultSettings: fromPayMarketDefaultSettingsReducer.reducer,
+  changePassword: fromChangePasswordReducer.reducer
 };
 
 // Select Feature Area
@@ -48,6 +51,10 @@ export const selectProjectTemplatesState = createSelector(selectFeatureAreaState
 export const selectPayMarketDefaultSettingsState = createSelector(selectFeatureAreaState,
   (state: UserSettingsMainState) => state.payMarketDefaultSettings);
 
+export const selectChangePasswordState = createSelector(selectFeatureAreaState,
+  (state: UserSettingsMainState) => state.changePassword
+);
+
 // Dashboard Preferences
 export const getUserTilesAsync = createSelector(selectDashboardPreferencesState, fromDashboardPreferencesReducer.getUserTilesAsync);
 export const getDashboardPreferencesHasPendingChanges = createSelector(
@@ -67,3 +74,9 @@ export const getProjectTemplatesAsync = createSelector(selectProjectTemplatesSta
 // PayMarket Default Settings
 export const getAccessiblePayMarkets = createSelector(selectPayMarketDefaultSettingsState, fromPayMarketDefaultSettingsReducer.getAccessiblePayMarkets);
 export const getPayMarketCuts = createSelector(selectPayMarketDefaultSettingsState, fromPayMarketDefaultSettingsReducer.getPayMarketCuts);
+
+// Change Password
+export const getChangingPassword = createSelector(selectChangePasswordState, fromChangePasswordReducer.getChangingPassword);
+export const getChangePasswordSuccess = createSelector(selectChangePasswordState, fromChangePasswordReducer.getChangePasswordSuccess);
+export const getChangePasswordError = createSelector(selectChangePasswordState, fromChangePasswordReducer.getChangePasswordError);
+export const getPasswordMinimumLength = createSelector(selectChangePasswordState, fromChangePasswordReducer.getPasswordMinimumLength);
