@@ -106,4 +106,17 @@ describe('User Settings - Pay Market Cut Component', () => {
     expect(instance.defaultMarketCuts[0].Adjustment).toEqual(0);
   });
 
+  it('should only set isEditingCutValue to true when value is entered to keep Save button disabled', () => {
+    instance.handlePayMarketCutValueChange(null);
+
+    expect(instance.isEditingCutValue).toEqual(false);
+  });
+
+  it('should set Weight/Adj value to 0 when user remove value and navigate away', () => {
+    const payMarketCut = {...PayMarketCutHelper.generateMockPayMarketCut(), Weight: null };
+    instance.onBlur(payMarketCut);
+
+    expect(payMarketCut.Weight).toEqual(0);
+  });
+
 });
