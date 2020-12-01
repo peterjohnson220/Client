@@ -1,22 +1,35 @@
-import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
+import {
+  AfterContentChecked,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Output,
+  SimpleChanges,
+  TemplateRef,
+  ViewChild
+} from '@angular/core';
 
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
 import { ActionsSubject, Store } from '@ngrx/store';
 import { ofType } from '@ngrx/effects';
-
-import { AsyncStateObj, NotesBase } from 'libs/models';
 
 import * as fromNotesManagerReducer from '../reducers';
 import * as fromNotesManagerActions from '../actions';
 import { NotesManagerContentComponent } from '../containers';
 import { ApiServiceType } from '../constants/api-service-type-constants';
+import { AsyncStateObj } from '../../../models/state';
+import { NotesBase } from '../../../models/notes';
 
 @Component({
   selector: 'pf-notes-manager',
   templateUrl: './notes-manager.component.html',
   styleUrls: ['./notes-manager.component.scss']
 })
-export class NotesManagerComponent implements OnInit, OnChanges, OnDestroy {
+export class NotesManagerComponent implements OnInit, OnChanges, OnDestroy, AfterContentChecked {
   @Input() entityId: number;
   @Input() display: 'component' | 'modal' = 'modal';
   @Input() isEditable = true;
@@ -34,14 +47,21 @@ export class NotesManagerComponent implements OnInit, OnChanges, OnDestroy {
   showNotesManager$ = this.showNotesManager.asObservable();
 
   saveNotesSuccessSubscritpion: Subscription;
+  notesSubscription: Subscription;
 
   notes$: Observable<AsyncStateObj<NotesBase[]>>;
 
-  constructor(private store: Store<fromNotesManagerReducer.State>, private actionsSubject: ActionsSubject) { }
+  constructor(private store: Store<fromNotesManagerReducer.State>, private actionsSubject: ActionsSubject, private cdr: ChangeDetectorRef) { }
+
+  ngAfterContentChecked() {
+    // This block of code prevents ExpressionChangedAfterItHasBeenCheckedError
+    this.notesSubscription = this.store.select(fromNotesManagerReducer.getNotes).subscribe(data => {
+      this.notes$ = of(data);
+      this.cdr.detectChanges(); // calls change detection for this component and ALL of its children
+    });
+  }
 
   ngOnInit() {
-    this.notes$ = this.store.select(fromNotesManagerReducer.getNotes);
-
     this.saveNotesSuccessSubscritpion = this.actionsSubject
       .pipe(ofType(fromNotesManagerActions.SAVE_NOTES_SUCCESS))
       .subscribe(data => {
@@ -66,6 +86,7 @@ export class NotesManagerComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnDestroy() {
     this.saveNotesSuccessSubscritpion?.unsubscribe();
+    this.notesSubscription.unsubscribe();
   }
 
   onCancelChanges() {
