@@ -119,9 +119,7 @@ exports[`TotalRewardsStatementComponent should render a mock statement derived f
               
               
               
-              <pf-trs-chart-control
-                class="p-1"
-              />
+              <pf-trs-chart-control />
               
               
               
@@ -208,9 +206,7 @@ exports[`TotalRewardsStatementComponent should render a mock statement derived f
               
               
               
-              <pf-trs-summary-control
-                class="p-1"
-              />
+              <pf-trs-summary-control />
               
             </div>
           </div>

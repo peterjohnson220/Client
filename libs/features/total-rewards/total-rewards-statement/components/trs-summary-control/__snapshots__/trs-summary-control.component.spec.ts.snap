@@ -8,7 +8,7 @@ exports[`TrsSummaryControlComponent should display in edit mode 1`] = `
   onTitleChange={[Function EventEmitter]}
 >
   <div
-    class="text-center"
+    class="text-center mt-3"
   >
     <h3
       class="d-inline-block mw-100"
@@ -17,7 +17,9 @@ exports[`TrsSummaryControlComponent should display in edit mode 1`] = `
       <pf-string-editor />
     </h3>
     
-    <h4>
+    <h4
+      class="position-relative"
+    >
       $---,---
     </h4>
     
@@ -33,7 +35,7 @@ exports[`TrsSummaryControlComponent should display in preview mode 1`] = `
   onTitleChange={[Function EventEmitter]}
 >
   <div
-    class="text-center"
+    class="text-center mt-3"
   >
     <h3
       class="d-inline-block mw-100"
@@ -44,7 +46,7 @@ exports[`TrsSummaryControlComponent should display in preview mode 1`] = `
     
     
     <h4
-      class="preview-mode-animation"
+      class="position-relative preview-mode-animation"
     >
        $0 
     </h4>
@@ -62,7 +64,7 @@ exports[`TrsSummaryControlComponent should display in preview mode w/ data 1`] =
   onTitleChange={[Function EventEmitter]}
 >
   <div
-    class="text-center"
+    class="text-center mt-3"
   >
     <h3
       class="d-inline-block mw-100"
@@ -73,7 +75,7 @@ exports[`TrsSummaryControlComponent should display in preview mode w/ data 1`] =
     
     
     <h4
-      class="preview-mode-animation"
+      class="position-relative preview-mode-animation"
     >
        $165000 
     </h4>
