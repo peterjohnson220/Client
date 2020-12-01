@@ -102,6 +102,14 @@ pipeline {
               env.octoEnv = 'Enterprise'
               octoVerSuffix = '-EP'
               env.buildConfig = '--configuration=staging'
+              
+            } else if (env.BRANCH_NAME == 'Defiant/develop') {
+              isAutoDeployBranch = true
+              suffix = '-Defiant'
+              octoChannel = 'Defiant'
+              env.octoEnv = 'Defiant'
+              octoVerSuffix = '-DF'
+              env.buildConfig = '--configuration=staging'
 
             } else {
               isPublishable = false
