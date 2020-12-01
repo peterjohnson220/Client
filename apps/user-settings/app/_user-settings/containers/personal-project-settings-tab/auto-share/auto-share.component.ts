@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+
+import * as fromAutoShareReducer from 'libs/features/user-settings/reducers/auto-share.reducer';
+import * as fromAutoShareActions from 'libs/features/user-settings/actions/auto-share.actions';
 
 @Component({
   selector: 'pf-auto-share',
@@ -7,12 +11,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AutoShareComponent implements OnInit {
 
-  constructor() { }
+  constructor(private store: Store<fromAutoShareReducer.State>) { }
 
   ngOnInit(): void {
   }
 
   handleAddClicked() {
-    alert('Auto Share add button clicked');
+    this.store.dispatch(new fromAutoShareActions.OpenAutoShareModal());
   }
 }

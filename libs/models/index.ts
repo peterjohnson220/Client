@@ -23,3 +23,4 @@ export * from './list';
 export * from './survey';
 export * from './job-level-hierarchy';
 export * from './notes';
+export * from './user-settings';
