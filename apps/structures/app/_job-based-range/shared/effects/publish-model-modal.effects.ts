@@ -11,9 +11,11 @@ import { StructureRangeGroupApiService } from 'libs/data/payfactors-api/structur
 import { NotificationLevel, NotificationSource, NotificationType } from 'libs/features/app-notifications/models';
 import * as fromNotificationActions from 'libs/features/app-notifications/actions/app-notifications.actions';
 import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
-import { GridConfig } from 'libs/features/pf-data-grid/models';
+import { GridConfig, PfDataGridFilter } from 'libs/features/pf-data-grid/models';
 import { PagingOptions } from 'libs/models/payfactors-api/search/request';
 import { GridDataHelper } from 'libs/features/pf-data-grid/helpers';
+import * as fromActions from 'libs/features/pf-data-grid/actions';
+import { ViewField } from 'libs/models/payfactors-api/reports/request';
 
 import * as fromPublishModelModalActions from '../actions/publish-model-modal.actions';
 import * as fromSharedActions from '../actions/shared.actions';
@@ -32,8 +34,11 @@ export class PublishModelModalEffects {
         this.store.pipe(select(fromPfDataGridReducer.getGridConfig)),
         this.store.pipe(select(fromPfDataGridReducer.getData)),
         this.store.pipe(select(fromPfDataGridReducer.getPagingOptions)),
-        (action, metadata: RangeGroupMetadata, gridConfig: GridConfig, gridData: GridDataResult, pagingOptions: PagingOptions) => {
-          return { action, metadata, gridConfig, gridData, pagingOptions };
+        this.store.pipe(select(fromPfDataGridReducer.getFields)),
+        this.store.pipe(select(fromPfDataGridReducer.getSplitViewFilters)),
+        (action, metadata: RangeGroupMetadata, gridConfig: GridConfig, gridData: GridDataResult, pagingOptions: PagingOptions, fields: ViewField[],
+         splitViewFilters: PfDataGridFilter[]) => {
+          return { action, metadata, gridConfig, gridData, pagingOptions, fields, splitViewFilters };
         }
       ),
       switchMap((data) => {
@@ -60,6 +65,20 @@ export class PublishModelModalEffects {
                 Payload: { Message: 'Published as current structure successfully' },
                 Type: NotificationType.Event
               }));
+
+
+              actions.push(new fromSharedActions.GetOverriddenRanges({
+                pageViewId: modelPageViewId,
+                rangeGroupId: data.action.payload.rangeGroupId
+              }));
+
+              // We need to clear filter for OverrideMessage if it was applied
+              if (data.splitViewFilters.find(f => f.SourceName === 'OverrideMessage')) {
+                const overrideMessageField = data.fields.find(f => f.SourceName === 'OverrideMessage');
+                if (overrideMessageField != null) {
+                  actions.push(new fromActions.ClearFilter(modelPageViewId, overrideMessageField));
+                }
+              }
 
               return actions;
             }
