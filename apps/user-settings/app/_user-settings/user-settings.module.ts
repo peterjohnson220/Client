@@ -24,7 +24,8 @@ import {
   PayMarketDefaultSettingsComponent,
   PayMarketCutComponent,
   ProjectTemplatesComponent,
-  UserProfileComponent
+  UserProfileComponent,
+  ChangePasswordComponent
 } from './containers';
 
 import * as fromFaIcons from './fa-icons';
@@ -34,7 +35,8 @@ import {
   DashboardPreferencesEffects,
   UserProfileEffects,
   ProjectTemplateEffects,
-  PayMarketDefaultSettingsEffects
+  PayMarketDefaultSettingsEffects,
+  ChangePasswordEffects
 } from './effects';
 import { UserSettingsPageComponent } from './user-settings.page';
 import { UserSettingsRoutingModule } from './user-settings-routing.module';
@@ -55,7 +57,8 @@ import { UserSettingsRoutingModule } from './user-settings-routing.module';
       DashboardPreferencesEffects,
       UserProfileEffects,
       ProjectTemplateEffects,
-      PayMarketDefaultSettingsEffects
+      PayMarketDefaultSettingsEffects,
+      ChangePasswordEffects
     ]),
     FontAwesomeModule,
     NgbPopoverModule,
@@ -82,6 +85,7 @@ import { UserSettingsRoutingModule } from './user-settings-routing.module';
     PayMarketDefaultSettingsComponent,
     PayMarketCutComponent,
     ProjectTemplatesComponent,
+    ChangePasswordComponent,
     UserProfileComponent
   ]
 })

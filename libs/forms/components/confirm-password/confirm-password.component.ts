@@ -18,6 +18,7 @@ export class ConfirmPasswordComponent implements OnInit {
   @Input() numberOfRequiredNumericCharacters: number;
   @Input() numberOfRequiredSpecialCharacters: number;
   @Input() allowUsername: string;
+  @Input() displayMode = 'login';
 
   @Output() onIsValid = new EventEmitter<string>();
   @Output() onInvalidPassword = new EventEmitter<ValidationRules[]>();
