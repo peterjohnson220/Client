@@ -44,7 +44,8 @@ export function reducer(state = initialState, action: fromModifyPricingsActions.
     case fromModifyPricingsActions.UPDATING_PRICING_ERROR: {
       return AsyncStateObjHelper.savingError(state, 'updatingPricing', action.error);
     }
-    case fromModifyPricingsActions.DELETING_PRICING_MATCH: {
+    case fromModifyPricingsActions.DELETING_PRICING_MATCH:
+    case fromModifyPricingsActions.DELETE_PRICING_AND_MATCH: {
       return AsyncStateObjHelper.saving(state, 'deletingPricingMatch');
     }
     case fromModifyPricingsActions.DELETING_PRICING_MATCH_SUCCESS: {

@@ -33,5 +33,12 @@ export class PricingApiService {
   getReScopeSurveyDataContext(pricingMatchId: number) {
     return this.payfactorsApiService.get(`${this.endpoint}/GetReScopeSurveyDataContext?pricingMatchId=${pricingMatchId}`);
   }
+  deleteMatchAndPricing(pricingMatchId: number) {
+    return this.payfactorsApiService.delete(`${this.endpoint}/DeleteMatchAndPricing?pricingMatchId=${pricingMatchId}`);
+  }
+
+  getPreviousPricingEffectiveDate(pricingMatchId: number) {
+    return this.payfactorsApiService.get(`${this.endpoint}/GetPreviousPricingEffectiveDate?pricingMatchId=${pricingMatchId}`);
+  }
 
 }
