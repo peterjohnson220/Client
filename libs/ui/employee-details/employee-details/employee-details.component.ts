@@ -55,7 +55,7 @@ export class EmployeeDetailsComponent implements OnInit, OnChanges {
         this.isEmptyValue(employeeDetails.First_Name) ? employeeDetails.Employee_Id : employeeDetails.First_Name
       } has a base ${
         employeeDetails.Rate === rateEnum.Hourly ? 'hourly ' : ''
-      }salary of ${employeeDetails.Base_Salary} (${employeeDetails.Currency_Code})`;
+      }salary of ${Math.round(employeeDetails.Base_Salary).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} (${employeeDetails.Currency_Code})`;
 
       this.summaryText = this.isEmptyValue(employeeDetails.BaseMRP) ?
         this.summaryText +  `, this job has no Base MRP.` : this.summaryText +  `, which represents ${

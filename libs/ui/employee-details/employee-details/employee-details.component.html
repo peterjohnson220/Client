@@ -60,7 +60,7 @@
             <div class="d-flex justify-content-between">
               <div class="d-flex flex-column py-1">
                 <span>Full Time Employee:</span>
-                <input [value]="employeeDetails.Full_Time_Employee >= 1 ? 'Yes' : 'No'" [disabled]="true" />
+                <input [value]="employeeDetails.Full_Time_Employee >= 1 || employeeDetails.Full_Time_Employee === null ? 'Yes' : 'No'" [disabled]="true" />
               </div>
               <div class="d-flex flex-column py-1">
                 <span>Allowances:</span>
