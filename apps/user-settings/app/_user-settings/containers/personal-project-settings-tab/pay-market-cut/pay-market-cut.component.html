@@ -46,6 +46,7 @@
     [(ngModel)]="dataItem[propertyName]"
     [format]="'n2'"
     [decimals]="'2'"
-    (valueChange)="handlePayMarketCutValueChange()">
+    (valueChange)="handlePayMarketCutValueChange($event)"
+    (blur)="onBlur(dataItem)">
   </kendo-numerictextbox>
 </ng-template>

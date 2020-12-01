@@ -51,7 +51,7 @@ export class PayMarketCutComponent implements OnChanges, OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.payMarketCutsSubscription = this.payMarketCuts$.subscribe(asyncObj => {
-      if (asyncObj?.obj) {
+      if (!asyncObj?.loading && !asyncObj?.saving && asyncObj?.obj) {
         this.payMarketCuts = cloneDeep(asyncObj.obj);
         this.isEditingCutValue = false;
         this.buildDefaultPayMarketCuts();
@@ -63,8 +63,17 @@ export class PayMarketCutComponent implements OnChanges, OnInit, OnDestroy {
     this.payMarketCutsSubscription.unsubscribe();
   }
 
-  handlePayMarketCutValueChange(): void {
-    this.isEditingCutValue = true;
+  handlePayMarketCutValueChange(value: number): void {
+    this.isEditingCutValue = !!value;
+  }
+
+  onBlur(payMarketCut: PayMarketCut): void {
+    if (!payMarketCut.Weight) {
+      payMarketCut.Weight = 0;
+    }
+    if (!payMarketCut.Adjustment) {
+      payMarketCut.Adjustment = 0;
+    }
   }
 
   resetToDefault(): void {
