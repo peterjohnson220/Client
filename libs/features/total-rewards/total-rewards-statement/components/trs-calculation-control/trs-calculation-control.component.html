@@ -8,7 +8,7 @@
     <thead>
       <tr class="trs-calculation-row w-100">
         <th class="text-left font-weight-normal" scope="col">
-          <h4 class="primary-control-heading mb-1 secondary" pfStatementGraphicsDirective [colors]="graphicsColors" [colorRank]="controlData.SummaryTextColor" [styleAttrToColor]="'color'">
+          <h4 class="primary-control-heading mb-1">
             <pf-string-editor
               [value]="controlData.Title.Override"
               [placeholder]="controlData.Title.Default"
@@ -44,7 +44,7 @@
         </ng-template>
       </tr>
       <tr class="trs-calculation-row w-100">
-        <td class="summary text-left">
+        <td class="summary text-left" pfStatementGraphicsDirective [colors]="graphicsColors" [colorRank]="controlData.SummaryTextColor" [styleAttrToColor]="'color'">
           <pf-string-editor
             [value]="controlData.Summary.Override"
             [placeholder]="controlData.Summary.Default"
