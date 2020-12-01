@@ -33,7 +33,7 @@ export class EmployeeDetailsPipe implements PipeTransform {
       First_Name: EmployeeDataRow['CompanyEmployees_First_Name'],
       Last_Name: EmployeeDataRow['CompanyEmployees_Last_Name'],
       Date_Of_Hire: EmployeeDataRow['CompanyEmployees_DOH'],
-      BaseMRP: EmployeeDataRow['CompanyEmployees_TotalCashCompensationMarketIndex'],
+      BaseMRP: EmployeeDataRow['CompanyEmployees_BaseSalaryMarketIndex'],
     };
   }
 }
