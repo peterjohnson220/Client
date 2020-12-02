@@ -6,7 +6,7 @@ import { Observable, Subscription } from 'rxjs';
 
 import { ConfirmPasswordComponent } from 'libs/forms/components/confirm-password';
 import { UserContext } from 'libs/models/security';
-import { CompanySetting, LegacyCompanySettingDto } from 'libs/models/company';
+import { LegacyCompanySettingDto } from 'libs/models/company';
 import * as fromRootState from 'libs/state/state';
 
 import * as fromChangePasswordActions from '../../../actions/change-password.actions';
@@ -20,6 +20,7 @@ import * as fromUserSettingsReducer from '../../../reducers';
 export class ChangePasswordComponent implements OnInit, OnDestroy {
 
   submitEnabled: boolean;
+  matchingPasswords: boolean;
   currentPassword: string;
   password: string;
   emailAddress: string;
@@ -39,6 +40,7 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
 
   constructor(public store: Store<fromUserSettingsReducer.State>, private route: ActivatedRoute) {
     this.submitEnabled = false;
+    this.matchingPasswords = false;
     this.submitting$ = this.store.select(fromUserSettingsReducer.getChangingPassword);
     this.resetSuccess$ = this.store.select(fromUserSettingsReducer.getChangePasswordSuccess);
     this.resetError$ = this.store.select(fromUserSettingsReducer.getChangePasswordError);
@@ -73,14 +75,22 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
     } else {
       this.submitEnabled = false;
     }
+
+    if (this.password !== this.currentPassword) {
+      this.matchingPasswords = false;
+    }
   }
 
   passwordInvalid() {
     this.submitEnabled = false;
+    this.matchingPasswords = false;
   }
 
   changePassword() {
-    if (this.password !== undefined) {
+    if (this.password === this.currentPassword) {
+      this.submitEnabled = false;
+      this.matchingPasswords = true;
+    } else if (this.password !== undefined) {
       this.submitEnabled = false;
       this.store.dispatch(new fromChangePasswordActions.ChangePassword({CurrentPassword: this.currentPassword, NewPassword: this.password}));
     }
