@@ -4,7 +4,8 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { AsyncStateObj } from 'libs/models/state';
-import { ProjectTemplate } from 'libs/models/payfactors-api/project/response';
+import { ProjectTemplate } from 'libs/models';
+import * as fromProjectTemplateManagementActions from 'libs/features/project-template-management/actions/project-template-management.actions';
 
 import * as fromUserSettingsReducer from '../../../reducers';
 import * as fromProjectTemplateActions from '../../../actions/project-template.actions';
@@ -29,7 +30,7 @@ export class ProjectTemplatesComponent implements OnInit {
   }
 
   handleAddClicked() {
-    alert('Project Templates add button clicked');
+    this.store.dispatch(new fromProjectTemplateManagementActions.CreateNewTemplate());
   }
 
   handleDeleteClicked(template: ProjectTemplate) {

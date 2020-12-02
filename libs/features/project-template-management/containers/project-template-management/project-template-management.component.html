@@ -1,0 +1,113 @@
+<pf-modal-form
+  [modalId]="'au-modal-project-template-management'"
+  [isOpen$]="showTemplateForm$"
+  [size]="'xl'"
+  [submitting]="saving$ | async"
+  [showFooter]="!(templateFieldsAsync$ | async)?.loading"
+  [centered]="false"
+  [allowDismiss]="true"
+  [primaryButtonText]="'Save'"
+  [primaryButtonTextSubmitting]="'Saving'"
+  [title]="'Project Fields'"
+  [formGroup]="projectTemplateForm"
+  (onDismiss)="onCancelChanges()"
+  (onSubmit)="onSubmit()">
+  <ng-container form-content>
+    <div class="container" [style.max-height]="'600px'" [style.overflow]="'auto'">
+      <pf-async-container
+        [loading]="(templateFieldsAsync$ | async)?.loading || (saving$ | async)"
+        [loadingError]="(templateFieldsAsync$ | async)?.loadingError"
+        [loadingErrorMessage]="'Error Loading Template'">
+        <form id="template-form" [formGroup]="projectTemplateForm" autocomplete="nope">
+          <input type="hidden" formControlName="CompositeFieldIds" />
+          <div class="form-group">
+            <label class="col-form-label">Template Name <span class="text-danger">*</span></label>
+            <div class="d-flex">
+              <input data-qa-id="txt-template-form-template-name" type="text" class="form-control col-6"
+                     formControlName="TemplateName"
+                     (change)="clearErrorMessage()"
+                     [maxlength]="50"
+                     [ngClass]="{ 'is-invalid': (!f.TemplateName.valid && f.TemplateName.touched)}">
+              <span *ngIf="f.TemplateName.errors?.required" class="invalid-feedback col-6">Template Name is required</span>
+              <span class="text-danger col-6" *ngIf="!!errorMessage">
+                {{errorMessage}}
+              </span>
+            </div>
+          </div>
+          <ul ngbNav #nav="ngbNav" class="nav-tabs"
+              [destroyOnHide]="false"
+              [activeId]="activeTab">
+            <li [ngbNavItem]="tab" *ngFor="let tab of modalTabs">
+              <a ngbNavLink class="tab-title">
+                {{ tab }}
+              </a>
+              <ng-template ngbNavContent>
+                <ng-container *ngIf="!!templateConfiguration && templateConfiguration[tab]">
+                  <ngb-accordion #accordion class="w-100" #acc="ngbAccordion" [activeIds]="activeAccordionIds">
+                    <ngb-panel *ngFor="let category of getKeys(templateConfiguration[tab]);trackBy: trackByCategory" [id]="tab + '_' + category">
+                      <ng-template ngbPanelHeader>
+                        <div class="group-header w-100 d-flex align-items-center justify-content-between" (click)="acc.toggle(tab + '_' + category)">
+                          <h5>{{category}}</h5>
+                          <fa-icon icon="caret-down" *ngIf="acc.isExpanded(tab + '_' + category)"></fa-icon>
+                          <fa-icon icon="caret-right" *ngIf="!acc.isExpanded(tab + '_' + category)"></fa-icon>
+                        </div>
+                      </ng-template>
+                      <ng-template ngbPanelContent>
+                        <div class="d-flex flex-wrap">
+                          <div pfEllipsisActive class="col-4 ellipsis-overflowing-text-wrap composite-field"
+                               *ngFor="let field of templateConfiguration[tab][category]?.Fields; trackBy: trackByField">
+                            <label [class.no-payfactors-data]="!field.PayfactorsDataExists">
+                              <input type="checkbox"
+                                     [value]="field.ListCompositeFieldId"
+                                     [checked]="field.Checked"
+                                     (change)="handleSelectionChanged(field)"/>
+                              {{field.DisplayName}}
+                            </label>
+                            <kendo-numerictextbox
+                              [formControlName]="getMrpControl(field)"
+                              (valueChange)="updateMrpValues()"
+                              *ngIf="field.DisplayName === 'MRP'"
+                              class="mrp-input h-100 ml-2"
+                              [autoCorrect]="true"
+                              [min]="1"
+                              [max]="99"
+                              [format]="'n0'">
+                            </kendo-numerictextbox>
+                        </div>
+                        </div>
+                      </ng-template>
+                    </ngb-panel>
+                  </ngb-accordion>
+                </ng-container>
+              </ng-template>
+            </li>
+          </ul>
+        </form>
+      </pf-async-container>
+      <div class="d-flex">
+        <div class="d-flex selection-area mr-4 mt-5">
+          <div [ngbNavOutlet]="nav" class="w-100"></div>
+        </div>
+        <div class="d-flex current-fields mr-4 mt-5">
+          <ngb-accordion class="w-100" type="info" activeIds="currentFields">
+            <ngb-panel id="currentFields" cardClass="current-fields-panel">
+              <ng-template ngbPanelHeader>
+                <div class="w-100 d-flex align-items-center">
+                  <h5>Current Fields</h5>
+                </div>
+              </ng-template>
+              <ng-template ngbPanelContent>
+                <pf-project-template-fields></pf-project-template-fields>
+              </ng-template>
+            </ngb-panel>
+          </ngb-accordion>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  <ng-container button-container-left>
+    <span class="text-muted w-100">
+     Bolded categories are only available for 3rd party survey data and not reportable for Peer or Payfactors Market Data.
+    </span>
+  </ng-container>
+</pf-modal-form>

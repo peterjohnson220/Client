@@ -6,7 +6,8 @@ import { of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 
 import { ProjectTemplatesApiService } from 'libs/data/payfactors-api/index';
-import { ProjectTemplate } from 'libs/models/payfactors-api/project/response';
+import { ProjectTemplate } from 'libs/models';
+import * as fromProjectTemplateManagementActions from 'libs/features/project-template-management/actions/project-template-management.actions';
 
 import * as fromProjectTemplateActions from '../actions/project-template.actions';
 import * as fromUserSettingsReducer from '../reducers';
@@ -37,6 +38,15 @@ export class ProjectTemplateEffects {
             map(() =>  new fromProjectTemplateActions.DeleteProjectTemplateSuccess(action.payload)),
             catchError(() => of(new fromProjectTemplateActions.DeleteProjectTemplateError()))
           );
+      })
+    );
+
+  @Effect()
+  saveProjectTemplateFieldsSuccess$ = this.actions$
+    .pipe(
+      ofType(fromProjectTemplateManagementActions.SAVE_PROJECT_TEMPLATE_FIELDS_SUCCESS),
+      map((action: fromProjectTemplateManagementActions.SaveProjectTemplateFieldsSuccess) => {
+        return new fromProjectTemplateActions.GetProjectTemplates();
       })
     );
 

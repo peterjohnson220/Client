@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { ProjectTemplate } from 'libs/models/payfactors-api/project/response';
+import { ProjectTemplate } from 'libs/models';
 
 export const GET_PROJECT_TEMPLATES  = '[User Settings / User Settings Page] Get Project Templates';
 export const GET_PROJECT_TEMPLATES_SUCCESS  = '[User Settings / User Settings Page] Get Project Templates Success';

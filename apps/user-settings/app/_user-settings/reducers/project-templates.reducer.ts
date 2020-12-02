@@ -1,7 +1,7 @@
 import cloneDeep from 'lodash/cloneDeep';
 
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
-import { ProjectTemplate } from 'libs/models/payfactors-api/project/response';
+import { ProjectTemplate } from 'libs/models';
 
 import * as fromProjectTemplateActions from '../actions/project-template.actions';
 
