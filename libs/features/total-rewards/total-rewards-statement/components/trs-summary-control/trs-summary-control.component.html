@@ -11,12 +11,13 @@
         (valueChange)="handleTitleChanged($event)">
       </pf-string-editor>
     </h3>
-    <h4 *ngIf="isEditMode" class="position-relative">{{ editValue }}</h4>
+    <h4 *ngIf="isEditMode" class="position-relative">    
+      <pf-compensation-value-placeholder></pf-compensation-value-placeholder>
+    </h4>
     <h4 *ngIf="!isEditMode" class="position-relative" [ngClass]=" isPreviewMode ? 'preview-mode-animation' : '' ">
       {{ sumOfCalculationControls }}
     </h4>
   </div>
-
   <!-- Tabular View -->
   <ng-template #tabularView>
     <table class="table table-borderless table-sm m-0 w-100">
@@ -43,7 +44,9 @@
             </h3>
           </td>
           <td class="value-column" [ngClass]="isPreviewMode ? 'preview-mode-animation' : '' ">
-            <h4 *ngIf="isEditMode">{{ editValue }}</h4>
+            <h4 *ngIf="isEditMode">    
+              <pf-compensation-value-placeholder></pf-compensation-value-placeholder>
+            </h4>
             <h4 *ngIf="!isEditMode">{{ sumOfCalculationControls }}</h4>
           </td>
         </tr>
