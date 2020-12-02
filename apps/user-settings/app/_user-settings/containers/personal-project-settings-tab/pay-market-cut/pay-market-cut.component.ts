@@ -74,6 +74,7 @@ export class PayMarketCutComponent implements OnChanges, OnInit, OnDestroy {
     if (!payMarketCut.Adjustment) {
       payMarketCut.Adjustment = 0;
     }
+    this.isEditingCutValue = true;
   }
 
   resetToDefault(): void {
