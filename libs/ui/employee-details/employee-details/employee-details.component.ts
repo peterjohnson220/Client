@@ -41,7 +41,7 @@ export class EmployeeDetailsComponent implements OnInit, OnChanges {
       }
 
       this.summaryText = this.isEmptyValue(employeeDetails.First_Name) && this.isEmptyValue(employeeDetails.Last_Name) ?
-        employeeDetails.Employee_Id : employeeDetails.First_Name + ' ' + employeeDetails.Last_Name;
+        employeeDetails.Employee_Id : (employeeDetails.First_Name + ' ' + employeeDetails.Last_Name).trim();
 
       this.summaryText = this.summaryText + ` is a ${
         this.isEmptyValue(employeeDetails.Full_Time_Employee) || employeeDetails.Full_Time_Employee === 1 ? 'full' : 'part'
@@ -52,7 +52,8 @@ export class EmployeeDetailsComponent implements OnInit, OnChanges {
 
       this.summaryText = this.summaryText +
         ` ${
-        this.isEmptyValue(employeeDetails.First_Name) ? employeeDetails.Employee_Id : employeeDetails.First_Name
+        this.isEmptyValue(employeeDetails.First_Name) && this.isEmptyValue(employeeDetails.Last_Name) ?
+          employeeDetails.Employee_Id : employeeDetails.First_Name || employeeDetails.Last_Name
       } has a base ${
         employeeDetails.Rate === rateEnum.Hourly ? 'hourly ' : ''
       }salary of ${Math.round(employeeDetails.Base_Salary).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} (${employeeDetails.Currency_Code})`;
