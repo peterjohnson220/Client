@@ -417,13 +417,13 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
   private parseControlPoints(controlPoints: any): void {
     const arr = new Array();
     controlPoints.forEach(function (cp) {
-      const fieldName = cp.Category === 'Bonus Target Amt'
-        ? cp.FieldName.replace('BonusTarget', 'BonusTargetAmt')
-        : cp.FieldName;
+      const category = cp.Category === 'Bonus Target Amt'
+        ? cp.Category.replace('Bonus Target Amt', 'Bonus Target')
+        : cp.Category;
       arr.push({
-        Category: cp.Category.split(' ').join(''),
+        Category: category.split(' ').join(''),
         Display: cp.Display,
-        FieldName: fieldName,
+        FieldName: cp.FieldName,
         RangeDisplayName: cp.RangeDisplayName,
         PayTypeDisplay: cp.Category
       });
