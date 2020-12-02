@@ -211,22 +211,28 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
         }
       };
     case fromPfGridActions.LOAD_VIEW_CONFIG_SUCCESS:
-      const currSplitViewFilters = action.payload && action.payload.Fields ?
-        action.payload.Fields.filter(f => f.IsFilterable && f.FilterValue !== null && f.FilterOperator)
+      let payload = cloneDeep(action.payload);
+      if( payload && payload.Fields ){
+        payload.Fields.forEach( v => {
+          v.DisplayName = !!v.Group? v.DisplayName.replace(`${v.Group} `,""): v.DisplayName;
+        });
+      }
+      const currSplitViewFilters = payload && payload.Fields ?
+        payload.Fields.filter(f => f.IsFilterable && f.FilterValue !== null && f.FilterOperator)
           .map(f => buildExternalFilter(f.FilterValue, f.FilterOperator, f.SourceName)) : [];
-      const sorts = findSortDescriptor(action.payload.Fields);
+      const sorts = findSortDescriptor(payload.Fields);
       return {
         ...state,
         grids: {
           ...state.grids,
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
-            fields: updateFieldsWithFilters(action.payload.Fields, state.grids[action.pageViewId].inboundFilters),
-            groupedFields: buildGroupedFields(resetFilters(action.payload.Fields)),
-            baseEntity: action.payload.Entity,
+            fields: updateFieldsWithFilters(payload.Fields, state.grids[action.pageViewId].inboundFilters),
+            groupedFields: buildGroupedFields(resetFilters(payload.Fields)),
+            baseEntity: payload.Entity,
             loading: false,
             splitViewFilters: currSplitViewFilters,
-            exportViewId: action.payload.ExportViewId,
+            exportViewId: payload.ExportViewId,
             sortDescriptor: sorts.length ? sorts : state.grids[action.pageViewId].defaultSortDescriptor
           }
         }
