@@ -1,22 +1,21 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EffectiveDateComponent } from './effective-date.component';
-import { StatementModeEnum } from '../../models';
+import { TrsEffectiveDateControlComponent } from './trs-effective-date-control.component';
 
 describe('EffectiveDateComponent', () => {
-  let component: EffectiveDateComponent;
-  let fixture: ComponentFixture<EffectiveDateComponent>;
+  let component: TrsEffectiveDateControlComponent;
+  let fixture: ComponentFixture<TrsEffectiveDateControlComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [EffectiveDateComponent],
+      declarations: [TrsEffectiveDateControlComponent],
       schemas: [NO_ERRORS_SCHEMA]
     });
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EffectiveDateComponent);
+    fixture = TestBed.createComponent(TrsEffectiveDateControlComponent);
     component = fixture.componentInstance;
   });
 
