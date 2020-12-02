@@ -175,8 +175,7 @@ export class StructuresFormulaEditorComponent implements ControlValueAccessor, O
       'FormulaId': new FormControl(this.formulaFieldObj.FormulaId, [Validators.required]),
       'Formula': new FormControl({ value: this.formulaFieldObj.Formula }),
       'FieldName': new FormControl({ value: this.formulaFieldObj.FieldName, disabled: false },
-        [Validators.required, PfValidators.minLengthTrimWhitespace(1), Validators.maxLength(this.maxFieldNameLength)]),
-      'IsPublic': new FormControl({ value: this.formulaFieldObj.IsPublic })
+        [Validators.required, PfValidators.minLengthTrimWhitespace(1), Validators.maxLength(this.maxFieldNameLength)])
     });
     (setTimeout(_ => this.structuresFormulaForm.updateValueAndValidity()));
   }
@@ -188,7 +187,7 @@ export class StructuresFormulaEditorComponent implements ControlValueAccessor, O
       Formula: this.formulaFieldObj.Formula,
       IsEditable: true,
       DuplicateAllowed: false,
-      IsPublic: this.formulaFieldObj.IsPublic,
+      IsPublic: true,
       AccessLevel: DataViewAccessLevel.Owner,
       DataType: FieldDataType.Float
     };
@@ -232,15 +231,6 @@ export class StructuresFormulaEditorComponent implements ControlValueAccessor, O
 
   handleFormulaNameChange() {
     if (!!this.formulaFieldObj.Formula && this.isValidFormula) {
-      this.store.dispatch(new fromFormulaFieldActions.SaveFormulaField({ formula: this.getFormulaField(), baseEntityId: this.baseEntity?.Id,
-        formulaFieldId: this.formulaFieldId }));
-    }
-  }
-
-  handlePublicChange() {
-    this.formulaFieldObj.IsPublic = !this.formulaFieldObj.IsPublic;
-    this.structuresFormulaForm.controls['IsPublic'].setValue(this.formulaFieldObj.IsPublic);
-    if (this.isValid()) {
       this.store.dispatch(new fromFormulaFieldActions.SaveFormulaField({ formula: this.getFormulaField(), baseEntityId: this.baseEntity?.Id,
         formulaFieldId: this.formulaFieldId }));
     }
@@ -335,7 +325,6 @@ export class StructuresFormulaEditorComponent implements ControlValueAccessor, O
         }
         break;
       }
-
     }
 
     if (!!formulaObject) {
