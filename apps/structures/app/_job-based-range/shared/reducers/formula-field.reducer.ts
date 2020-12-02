@@ -25,20 +25,6 @@ const INITIAL_STATE: State = {
   fields: {}
 };
 
-const DEFAULT_FORMULA_FIELD_STATE: FormulaFieldState = {
-  waitingForValidation: false,
-  validating: false,
-  formulaValid: false,
-  saving: false,
-  savingSuccess: false,
-  savingError: false,
-  savingErrorMessage: '',
-  formulaDataType: null,
-  formulaViewCount: generateDefaultAsyncStateObj<number>(0),
-  formulaField: null,
-  resetFormula: false
-};
-
 export function reducer(state = INITIAL_STATE, action: fromFormulaFieldActions.Actions): State {
   switch (action.type) {
     case fromFormulaFieldActions.WAIT_FOR_FORMULA_VALIDATION: {
@@ -159,7 +145,18 @@ export function reducer(state = INITIAL_STATE, action: fromFormulaFieldActions.A
         fields: {
           ...state.fields,
           [action.payload.formulaFieldId]: {
-            ...DEFAULT_FORMULA_FIELD_STATE
+            ...state.fields[action.payload.formulaFieldId],
+            waitingForValidation: false,
+            validating: false,
+            formulaValid: false,
+            saving: false,
+            savingSuccess: false,
+            savingError: false,
+            savingErrorMessage: '',
+            formulaDataType: null,
+            formulaViewCount: generateDefaultAsyncStateObj<number>(0),
+            formulaField: null,
+            resetFormula: true
           }
         }
       };
