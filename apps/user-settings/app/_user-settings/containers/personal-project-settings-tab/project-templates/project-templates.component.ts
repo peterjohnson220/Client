@@ -38,6 +38,10 @@ export class ProjectTemplatesComponent implements OnInit {
     this.showDeleteTemplateModal.next(true);
   }
 
+  handleEditItemClicked(template: ProjectTemplate) {
+    this.store.dispatch(new fromProjectTemplateManagementActions.EditTemplate(template.ProjectTemplateId));
+  }
+
   handleModalDismissed(): void {
     this.selectedTemplate = null;
     this.showDeleteTemplateModal.next(false);

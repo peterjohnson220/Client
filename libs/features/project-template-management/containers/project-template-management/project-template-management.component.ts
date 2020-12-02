@@ -1,11 +1,10 @@
 import { Component, OnInit, Output, EventEmitter, OnDestroy, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { NgbAccordion } from '@ng-bootstrap/ng-bootstrap';
 
-import * as fromRootState from 'libs/state/state';
 import { AsyncStateObj } from 'libs/models/state';
 import { CompositeField, ProjectTemplateFields, ReferencePoints } from 'libs/models';
 import { PfValidators } from 'libs/forms/validators';
@@ -44,9 +43,8 @@ export class ProjectTemplateManagementComponent implements OnInit, OnDestroy {
   get f() { return this.projectTemplateForm.controls; }
 
   constructor(
-    private rootStore: Store<fromRootState.State>,
-    private store: Store<fromProjectTemplateManagementReducer.State>,
-    private formBuilder: FormBuilder
+    public store: Store<fromProjectTemplateManagementReducer.State>,
+    public formBuilder: FormBuilder
   ) {
     this.showTemplateForm$ = this.store.select(fromProjectTemplateManagementReducer.getShowProjectTemplateForm);
     this.saving$ = this.store.select(fromProjectTemplateManagementReducer.getSaving);
@@ -61,8 +59,7 @@ export class ProjectTemplateManagementComponent implements OnInit, OnDestroy {
         if (fields.obj.TemplateFields?.length) {
           this.configureTabs(fields.obj);
         }
-        this.configureReferencePoints(fields.obj);
-        this.setHiddenComposites();
+        this.updateFormFields(fields.obj);
       }
     });
     this.errorMessageSubscription = this.errorMessage$.subscribe(message => {
@@ -100,6 +97,7 @@ export class ProjectTemplateManagementComponent implements OnInit, OnDestroy {
 
   handleSelectionChanged(field: CompositeField): void {
     this.store.dispatch(new fromProjectTemplateManagementActions.ToggleFieldSelected(field));
+    this.projectTemplateForm.markAsTouched();
   }
 
   clearErrorMessage(): void {
@@ -124,7 +122,7 @@ export class ProjectTemplateManagementComponent implements OnInit, OnDestroy {
       projectTemplate.TCCRefPt,
       projectTemplate.BonusRefPt,
       projectTemplate.TCCTargetRefPt,
-      projectTemplate.LTIPRefPt  ,
+      projectTemplate.LTIPRefPt,
       projectTemplate.TDCRefPt,
       projectTemplate.AllowRefPt,
       projectTemplate.FixedRefPt,
@@ -148,13 +146,11 @@ export class ProjectTemplateManagementComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromProjectTemplateManagementActions.UpdateReferencePoints(referencePoints));
   }
 
-  private configureTabs(template: ProjectTemplateFields) {
+  configureTabs(template: ProjectTemplateFields) {
     const allAccordionIds = [];
     this.templateConfiguration = this.templateConfiguration || {};
     template.TemplateFields.forEach(t => {
-      if (!this.templateConfiguration[t.ModalTab]) {
-        this.templateConfiguration[t.ModalTab] = {};
-      }
+      this.templateConfiguration[t.ModalTab] = this.templateConfiguration[t.ModalTab] || {};
       this.templateConfiguration[t.ModalTab][t.Category] = t;
       allAccordionIds.push(`${t.ModalTab}_${t.Category}`);
     });
@@ -180,12 +176,7 @@ export class ProjectTemplateManagementComponent implements OnInit, OnDestroy {
     return selectedCompositeFieldIds;
   }
 
-  private setHiddenComposites() {
-    const compositeIds = this.getCheckedCompositeFieldIds();
-    this.projectTemplateForm.controls.CompositeFieldIds.setValue(compositeIds.join());
-  }
-
-  private configureReferencePoints(template: ProjectTemplateFields) {
+  private updateFormFields(template: ProjectTemplateFields) {
     this.projectTemplateForm.patchValue({
       BaseRefPt: this.getReferencePoint(template, ReferencePoints.BaseReferencePoint),
       TCCRefPt: this.getReferencePoint(template, ReferencePoints.TCCReferencePoint),
@@ -212,6 +203,12 @@ export class ProjectTemplateManagementComponent implements OnInit, OnDestroy {
       SalesIncentiveActualRefPt: this.getReferencePoint(template, ReferencePoints.SalesIncentiveActualReferencePoint),
       SalesIncentiveTargetRefPt: this.getReferencePoint(template, ReferencePoints.SalesIncentiveTargetReferencePoint)
     });
+    if (!this.projectTemplateForm.controls.TemplateName.dirty) {
+      // don't overwrite template name if it's been updated
+      this.projectTemplateForm.controls.TemplateName.setValue(template?.TemplateName);
+    }
+    const compositeIds = this.getCheckedCompositeFieldIds();
+    this.projectTemplateForm.controls.CompositeFieldIds.setValue(compositeIds.join());
   }
 
   private getReferencePoint(template: ProjectTemplateFields, referencePointIndex: number) {

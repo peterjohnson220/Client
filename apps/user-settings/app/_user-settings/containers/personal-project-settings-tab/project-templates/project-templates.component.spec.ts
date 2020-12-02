@@ -3,6 +3,9 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
+import { ProjectTemplate } from 'libs/models/projects/project-templates';
+import * as fromProjectTemplateManagementActions from 'libs/features/project-template-management/actions/project-template-management.actions';
+
 import { ProjectTemplatesComponent } from './project-templates.component';
 import * as fromUserSettingsReducer from '../../../reducers';
 import * as fromProjectTemplateActions from '../../../actions/project-template.actions';
@@ -50,5 +53,28 @@ describe('ProjectTemplatesComponent', () => {
     instance.handleDeleteConfirmed();
 
     expect(instance.store.dispatch).not.toHaveBeenCalledWith(expectedAction);
+  });
+
+  it('should dispatch edit item when item clicked', () => {
+    spyOn(instance.store, 'dispatch');
+    const item: ProjectTemplate = {
+      TemplateName: 'Test Template',
+      ProjectTemplateId: 1
+    };
+    const expectedAction = new fromProjectTemplateManagementActions.EditTemplate(1);
+
+    instance.handleEditItemClicked(item);
+
+    expect(instance.store.dispatch).toHaveBeenCalledWith(expectedAction);
+  })
+
+  it('should dispatch open add when add button clicked', () => {
+    spyOn(instance.store, 'dispatch');
+
+    const expectedAction = new fromProjectTemplateManagementActions.CreateNewTemplate();
+
+    instance.handleAddClicked();
+
+    expect(instance.store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 });

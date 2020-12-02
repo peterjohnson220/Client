@@ -15,7 +15,7 @@
                         [loadingError]="(projectTemplates$ | async)?.loadingError"
                         [loading]="(projectTemplates$ | async)?.loading">
       <div class="badge mb-3 badge-pill" *ngFor="let item of (projectTemplates$ | async).obj; trackBy: trackByFn;">
-        <span>{{item.TemplateName}}</span>
+        <span class="template-badge" (click)="handleEditItemClicked(item)">{{item.TemplateName}}</span>
         <fa-icon icon="times" class="delete-btn pl-2" (click)="handleDeleteClicked(item)"></fa-icon>
       </div>
       <div class="no-templates-message" *ngIf="!(projectTemplates$ | async).obj?.length && !(projectTemplates$ | async).loading">

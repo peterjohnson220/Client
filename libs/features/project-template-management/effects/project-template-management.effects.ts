@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
 
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Store } from '@ngrx/store';
-import { map, switchMap, catchError, mergeMap } from 'rxjs/operators';
+import { select, Store } from '@ngrx/store';
+import { map, switchMap, catchError, mergeMap, withLatestFrom } from 'rxjs/operators';
 
 import { ProjectTemplatesApiService } from 'libs/data/payfactors-api';
 
@@ -26,6 +26,18 @@ export class ProjectTemplateManagementEffects {
     );
 
   @Effect()
+  editProjectTemplate$ = this.actions$
+    .pipe(
+      ofType(fromProjectTemplateActions.EDIT_TEMPLATE),
+      mergeMap((action: fromProjectTemplateActions.EditTemplate) => {
+        return [
+          new fromProjectTemplateActions.ShowProjectTemplateForm(true),
+          new fromProjectTemplateActions.GetProjectTemplateFields(action.payload)
+        ];
+      })
+    );
+
+  @Effect()
   getProjectTemplateFields$ = this.actions$
     .pipe(
       ofType(fromProjectTemplateActions.GET_PROJECT_TEMPLATE_FIELDS),
@@ -42,8 +54,13 @@ export class ProjectTemplateManagementEffects {
   saveProjectTemplate$ = this.actions$
     .pipe(
       ofType(fromProjectTemplateActions.SAVE_PROJECT_TEMPLATE_FIELDS),
-      switchMap((action: fromProjectTemplateActions.SaveProjectTemplateFields) => {
-        return this.projectTemplateApiService.saveProjectTemplate(action.payload, null)
+      withLatestFrom(
+        this.store.pipe(select(fromProjectTemplateManagementReducer.getProjectTemplateId)),
+        (action: fromProjectTemplateActions.SaveProjectTemplateFields, projectTemplateId) =>
+          ({ action, projectTemplateId })
+      ),
+      switchMap((data) => {
+        return this.projectTemplateApiService.saveProjectTemplate(data.action.payload, data.projectTemplateId)
           .pipe(
             map((response) => new fromProjectTemplateActions.SaveProjectTemplateFieldsSuccess()),
             catchError((response) => {

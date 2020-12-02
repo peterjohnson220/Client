@@ -123,3 +123,4 @@ export const getShowProjectTemplateForm = (state: State) => state.showTemplateFo
 export const getSavingProjectTemplate = (state: State) => state.saving;
 export const getErrorMessage = (state: State) => state.errorMessage;
 export const getTemplateFieldsAsync = (state: State) => state.templateFields;
+export const getProjectTemplateId = (state: State) => state.projectTemplateId;

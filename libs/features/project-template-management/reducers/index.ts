@@ -34,3 +34,4 @@ export const getShowProjectTemplateForm = createSelector(selectProjectTemplateSt
 export const getSaving = createSelector(selectProjectTemplateState, fromProjectTemplateManagementReducer.getSavingProjectTemplate);
 export const getErrorMessage = createSelector(selectProjectTemplateState, fromProjectTemplateManagementReducer.getErrorMessage);
 export const getTemplateFieldsAsync = createSelector(selectProjectTemplateState, fromProjectTemplateManagementReducer.getTemplateFieldsAsync);
+export const getProjectTemplateId = createSelector(selectProjectTemplateState, fromProjectTemplateManagementReducer.getProjectTemplateId);
