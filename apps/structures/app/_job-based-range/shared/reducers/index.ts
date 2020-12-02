@@ -124,6 +124,11 @@ export const getStructureHasSettings = createSelector(
   fromSharedReducer.getStructureHasSettings
 );
 
+export const getCompanyExchanges = createSelector(
+  selectSharedState,
+  fromSharedReducer.getCompanyExchanges
+);
+
 export const getStructureNameSuggestionsAsyncObj = createSelector(
   selectModelSettingsModalState, fromModelSettingsModalReducer.getStructureNameSuggestionsAsyncObj
 );

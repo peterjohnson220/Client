@@ -43,6 +43,9 @@ export const GET_DISTINCT_OVERRIDE_MESSAGES_ERROR = '[Structures - Job Based Ran
 export const GET_STRUCTURE_HAS_SETTINGS = '[Structures - Job Based Range - Shared] Get Structure Has Settings';
 export const GET_STRUCTURE_HAS_SETTINGS_SUCCESS = '[Structures - Job Based Range - Shared] Get Structure Has Settings Success';
 export const GET_STRUCTURE_HAS_SETTINGS_ERROR = '[Structures - Job Based Range - Shared] Get Structure Has Settings Error';
+export const GET_COMPANY_EXCHANGES = '[Structures - Job Based Range - Shared] Get Company Exchanges';
+export const GET_COMPANY_EXCHANGES_SUCCESS = '[Structures - Job Based Range - Shared] Get Company Exchanges Success';
+export const GET_COMPANY_EXCHANGES_ERROR = '[Structures - Job Based Range - Shared] Get Company Exchanges Error';
 
 
 export class SetMetadata implements Action {
@@ -242,6 +245,24 @@ export class GetDistinctOverrideMessagesError implements Action {
   constructor(public payload: any) {}
 }
 
+export class GetCompanyExchanges implements Action {
+  readonly type = GET_COMPANY_EXCHANGES;
+
+  constructor(public payload: number) {}
+}
+
+export class GetCompanyExchangesSuccess implements Action {
+  readonly type = GET_COMPANY_EXCHANGES_SUCCESS;
+
+  constructor(public payload: any) {}
+}
+
+export class GetCompanyExchangesError implements Action {
+  readonly type = GET_COMPANY_EXCHANGES_ERROR;
+
+  constructor(public payload: any) {}
+}
+
 export type SharedActions
   = SetMetadata
   | RecalculateRangesWithoutMid
@@ -276,5 +297,8 @@ export type SharedActions
   | GetStructureHasSettingsError
   | GetDistinctOverrideMessages
   | GetDistinctOverrideMessagesSuccess
-  | GetDistinctOverrideMessagesError;
+  | GetDistinctOverrideMessagesError
+  | GetCompanyExchanges
+  | GetCompanyExchangesSuccess
+  | GetCompanyExchangesError;
 

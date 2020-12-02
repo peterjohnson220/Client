@@ -19,6 +19,7 @@ import * as fromRangeFieldActions from 'libs/features/structures/range-editor/ac
 import { GridConfig } from 'libs/features/pf-data-grid/models';
 import { PagingOptions } from 'libs/models/payfactors-api/search/request';
 import { DataViewFieldDataType } from 'libs/models/payfactors-api/reports/request';
+import { ExchangeApiService } from 'libs/data/payfactors-api/peer';
 
 import * as fromSharedActions from '../actions/shared.actions';
 import { PayfactorsApiModelMapper } from '../helpers/payfactors-api-model-mapper';
@@ -283,11 +284,27 @@ export class SharedEffects {
       })
     );
 
+  @Effect()
+  getCompanyExchanges: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromSharedActions.GET_COMPANY_EXCHANGES),
+      switchMap((action: fromSharedActions.GetCompanyExchanges) => {
+        return this.exchangeApiService.getExchangeDictionaryForCompany(action.payload)
+          .pipe(
+            map((res) => {
+              return new fromSharedActions.GetCompanyExchangesSuccess(res);
+            }),
+            catchError((err) => of(new fromSharedActions.GetCompanyExchangesError(err)))
+          );
+      })
+    );
+
   constructor(
     private actions$: Actions,
     private store: Store<fromSharedReducer.State>,
     private structureModelingApiService: StructureModelingApiService,
-    private dataViewApiService: DataViewApiService
+    private dataViewApiService: DataViewApiService,
+    private exchangeApiService: ExchangeApiService
   ) {
   }
 }

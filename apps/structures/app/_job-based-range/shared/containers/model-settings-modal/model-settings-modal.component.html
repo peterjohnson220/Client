@@ -75,6 +75,18 @@
                     Please provide a currency.
                   </div>
                 </div>
+              <div class="form-group" *ngIf="hasAcceptedPeerTerms">
+                <label for="PeerExchange">Peer Exchange</label>
+                <kendo-dropdownlist id="PeerExchange" class="form-control k-dropdown-white"
+                                    formControlName="PeerExchange"
+                                    [data]="exchangeNames"
+                                    [valuePrimitive]="true"
+                                    (selectionChange)="handlePeerExchangeSelectionChange($event)">
+                </kendo-dropdownlist>
+                <div class="invalid-feedback">
+                  Please provide a Peer Exchange.
+                </div>
+              </div>
             </div>
 
           </ng-template>

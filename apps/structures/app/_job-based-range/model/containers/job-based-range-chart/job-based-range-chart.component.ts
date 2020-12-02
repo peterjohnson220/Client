@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 
 import * as Highcharts from 'highcharts';
 import { Store } from '@ngrx/store';
@@ -9,6 +9,8 @@ import { take } from 'rxjs/operators';
 
 import { RangeGroupMetadata } from 'libs/models/structures';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
+import { CompanySettingsEnum } from 'libs/models/company';
+import { SettingsService } from 'libs/state/app-context/services';
 
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
 import { StructuresHighchartsService, StructuresPagesService } from '../../../shared/services';
@@ -36,6 +38,7 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
   averageSeriesData: any;
   outlierSeriesData: any;
   mrpSeriesData: any;
+  exchangeSeriesData: any;
   chartLocale: string; // en-US
   chartInstance: Highcharts.Chart;
   dataSubscription: Subscription;
@@ -56,12 +59,18 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
   initialY: number;
   gridScrolledSub: Subscription;
   groupFieldSelected = false;
+  hasAcceptedPeerTermsSub: Subscription;
+  hasAcceptedPeerTerms: boolean;
 
   constructor(
     public store: Store<any>,
     public pfGridStore: Store<fromPfGridReducer.State>,
+    private settingsService: SettingsService,
     private structuresPagesService: StructuresPagesService
   ) {
+    this.hasAcceptedPeerTermsSub = this.settingsService.selectCompanySetting<boolean>(
+      CompanySettingsEnum.PeerTermsAndConditionsAccepted
+    ).subscribe(x => this.hasAcceptedPeerTerms = x);
     this.metadataSubscription = this.store.select(fromSharedJobBasedRangeReducer.getMetadata).subscribe(md => {
       if (md) {
         this.metaData = md;
@@ -74,7 +83,8 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
         this.rangeDistributionTypeId = md.RangeDistributionTypeId;
         this.clearData();
         this.chartOptions =
-          JobRangeModelChartService.getRangeOptions(this.chartLocale, this.currency, this.controlPointDisplay, this.rate, this.rangeDistributionTypeId);
+          JobRangeModelChartService.getRangeOptions(this.chartLocale, this.currency, this.controlPointDisplay, this.rate, this.rangeDistributionTypeId,
+            this.hasAcceptedPeerTerms);
       }
     });
 
@@ -283,6 +293,15 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
     });
   }
 
+  private addPeer50th(currentRow) {
+    this.exchangeSeriesData.push({
+      y: currentRow.CompanyStructures_RangeGroup_Peer50,
+      jobTitle: currentRow.CompanyJobs_Job_Title,
+      peer50: StructuresHighchartsService.formatDataPoint('Peer 50th', currentRow.CompanyStructures_RangeGroup_Peer50, this.chartLocale,
+        this.metaData.Currency, this.metaData.Rate)
+    });
+  }
+
   private formatOutlierCount(min: boolean, count: number) {
     return `${count} ${count > 1 ? 'employees' : 'employee'} ${min ? 'below min' : 'above max'}`;
   }
@@ -356,6 +375,7 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
     this.averageSeriesData = [];
     this.outlierSeriesData = [];
     this.mrpSeriesData = [];
+    this.exchangeSeriesData = [];
     this.chartMin = undefined;
     this.chartMax = undefined;
     for (let i = 0; i < this.jobRangeData.data.length; i++) {
@@ -394,6 +414,9 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
 
       // add mrp point
       this.addMRPPoint(currentRow);
+
+      this.addPeer50th(currentRow);
+
     }
     // set the min/max
     this.chartInstance.yAxis[0].setExtremes(this.chartMin, this.chartMax, false);
@@ -408,6 +431,8 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
     this.chartInstance.series[JobRangeModelChartSeries.Average].setData(this.averageSeriesData, false);
     this.chartInstance.series[JobRangeModelChartSeries.EmployeeOutliers].setData(this.outlierSeriesData, true);
     this.chartInstance.series[JobRangeModelChartSeries.MRP].setData(this.mrpSeriesData, false);
+
+    this.chartInstance.series[JobRangeModelChartSeries.Peer50].setData(this.exchangeSeriesData, false);
 
     // Tertile - Quartile - Quintile: salary range + data points
     if (this.rangeDistributionTypeId === RangeDistributionTypeIds.Tertile) {
@@ -450,5 +475,6 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
     this.filterPanelSub.unsubscribe();
     this.gridScrolledSub.unsubscribe();
     this.selectedFieldsSubscription.unsubscribe();
+    this.hasAcceptedPeerTermsSub.unsubscribe();
   }
 }

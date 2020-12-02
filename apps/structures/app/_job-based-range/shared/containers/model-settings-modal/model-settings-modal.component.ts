@@ -9,6 +9,8 @@ import { AsyncStateObj } from 'libs/models/state';
 import { RoundingSettingsDataObj, RangeGroupMetadata } from 'libs/models/structures';
 import { SettingsService } from 'libs/state/app-context/services';
 import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
+import { GenericKeyValue } from 'libs/models/common';
+import { CompanySettingsEnum } from 'libs/models/company';
 
 import * as fromMetadataActions from '../../../shared/actions/shared.actions';
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
@@ -66,11 +68,19 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   allFormulas = null;
   structuresAdvancedModelingFeatureFlag: RealTimeFlag = { key: FeatureFlags.StructuresAdvancedModeling, value: false };
   unsubscribe$ = new Subject<void>();
+  exchanges: any;
+  exchangeSub: Subscription;
+  exchangeNames: string[];
+  selectedExchangeDict: GenericKeyValue<number, string>[];
+  selectedExchange: string;
+  selectedExchangeId: number;
+  hasAcceptedPeerTermsSub: Subscription;
+  hasAcceptedPeerTerms: boolean;
 
   constructor(
     public store: Store<fromJobBasedRangeReducer.State>,
     public urlService: UrlService,
-    private settingService: SettingsService,
+    private settingsService: SettingsService,
     private featureFlagService: AbstractFeatureFlagService
   ) {
     this.metaData$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getMetadata));
@@ -86,6 +96,21 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
     this.maxSpreadTooltip = ModelSettingsModalConstants.MAX_SPREAD_TOOL_TIP;
     this.featureFlagService.bindEnabled(this.structuresAdvancedModelingFeatureFlag, this.unsubscribe$);
     this.allFormulasSub = this.store.pipe(select(fromJobBasedRangeReducer.getAllFields)).subscribe(af => this.allFormulas = af);
+    this.exchangeSub = this.store.pipe(select(fromSharedJobBasedRangeReducer.getCompanyExchanges)).subscribe(exs => {
+      this.exchanges = exs.obj;
+      if (this.exchanges) {
+        const values = Object.values(this.exchanges);
+        const names = [];
+        values.forEach(function(item: GenericKeyValue<number, string>) {
+          names.push(item.Value);
+        });
+        this.exchangeNames = names;
+        this.updateSelectedPeerExchangeName(this.metadata.ExchangeId);
+      }
+    });
+    this.hasAcceptedPeerTermsSub = this.settingsService.selectCompanySetting<boolean>(
+      CompanySettingsEnum.PeerTermsAndConditionsAccepted
+    ).subscribe(x => this.hasAcceptedPeerTerms = x);
   }
 
   get formControls() {
@@ -123,6 +148,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
       'PayMarket': new FormControl(this.metadata.Paymarket, [Validators.required]),
       'Rate': new FormControl(this.metadata.Rate || 'Annual', [Validators.required]),
       'Currency': new FormControl(this.metadata.Currency || 'USD', [Validators.required]),
+      'PeerExchange': new FormControl(this.selectedExchange || 'Global Network', [Validators.required]),
       'RangeDistributionSetting': new FormControl(this.metadata.RangeDistributionSetting),
       'RangeAdvancedSetting': new FormControl(this.metadata.RangeAdvancedSetting)
     });
@@ -177,6 +203,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
 
     this.modelSetting = this.modelSettingsForm.getRawValue();
     this.updateRangeDistributionSetting();
+    this.updateSelectedPeerExchangeId();
 
     if (this.structuresAdvancedModelingFeatureFlag.value) {
       this.updateAdvancedModelingSetting();
@@ -232,6 +259,29 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromMetadataActions.UpdateRoundingPoints({ RoundingPoint: roundingPoint }));
   }
 
+  handlePeerExchangeSelectionChange(value: string) {
+    if (value !== null) {
+      const selectedExchange = this.exchanges.filter(x => x.Value === value);
+      this.selectedExchangeId = selectedExchange[0].Key;
+      this.updateSelectedPeerExchangeName(this.selectedExchangeId);
+    }
+  }
+
+  updateSelectedPeerExchangeId() {
+    if (this.selectedExchangeId === null || this.selectedExchangeId === undefined) {
+      this.modelSetting.ExchangeId = null;
+    } else {
+      this.modelSetting.ExchangeId = this.selectedExchangeId;
+    }
+  }
+
+  updateSelectedPeerExchangeName(exchangeId: number) {
+    if (exchangeId) {
+      this.selectedExchangeDict = this.exchanges.filter(x => x.Key === exchangeId);
+      this.selectedExchange = this.selectedExchangeDict.length > 0 ? this.selectedExchangeDict[0].Value : null;
+    }
+  }
+
   clearModelNameExistsFailure() {
     if (this.modelNameExistsFailure) {
       this.store.dispatch(new fromModelSettingsModalActions.ClearModelNameExistsFailure());
@@ -284,6 +334,8 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
     this.roundingSettingsSub.unsubscribe();
     this.unsubscribe$.next();
     this.allFormulasSub.unsubscribe();
+    this.exchangeSub.unsubscribe();
+    this.hasAcceptedPeerTermsSub.unsubscribe();
   }
 
   private reset() {

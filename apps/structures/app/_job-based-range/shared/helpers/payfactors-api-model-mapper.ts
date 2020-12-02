@@ -45,6 +45,7 @@ export class PayfactorsApiModelMapper {
       SpreadMax: srgr.RangeSpreadMax,
       IsCurrent: srgr.IsCurrent,
       RangeDistributionTypeId: srgr.RangeDistributionTypeId ?? 1,
+      ExchangeId: srgr.ExchangeId,
       RangeDistributionTypes: srgr.RangeDistributionTypes,
       RangeDistributionSetting: srgr.RangeDistributionSetting != null ? this.mapRangeDistributionSetting(srgr.RangeDistributionSetting) : null,
       RangeAdvancedSetting: srgr.RangeAdvancedSetting != null ? this.mapRangeAdvancedSetting(srgr.RangeAdvancedSetting) : null
@@ -217,6 +218,7 @@ export class PayfactorsApiModelMapper {
       RangeSpreadMax: rangeDistributionSetting.Max_Spread,
       Rate: formValue.Rate,
       StructureName: formValue.StructureName,
+      ExchangeId: formValue.ExchangeId,
       Rounding: this.mapRoundingSettingsModalFormToRoundRangesRequest(rounding),
       AdvancedSetting: advancedSetting,
       RangeDistributionTypeId: rangeDistributionSetting.RangeDistributionTypeId ?? 1,
