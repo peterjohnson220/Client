@@ -3,7 +3,7 @@ import { RoundingSettingsDataObj, RoundingSetting, CompanyStructureRangeOverride
 
 import cloneDeep from 'lodash/cloneDeep';
 
-import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models';
+import { AsyncStateObj, generateDefaultAsyncStateObj, GenericKeyValue } from 'libs/models';
 import { RangeGroupMetadata } from 'libs/models/structures';
 import { AsyncStateObjHelper } from 'libs/core';
 
@@ -20,6 +20,7 @@ export interface State {
   compareEnabled: boolean;
   overrideMessages: string[];
   structureHasSettings: AsyncStateObj<any>;
+  gettingExchanges: AsyncStateObj<GenericKeyValue<number, string>[]>;
 }
 
 const initialState: State = {
@@ -44,7 +45,8 @@ const initialState: State = {
   comparingModels: false,
   compareEnabled: false,
   structureHasSettings: generateDefaultAsyncStateObj<any>(null),
-  overrideMessages: []
+  overrideMessages: [],
+  gettingExchanges: generateDefaultAsyncStateObj<GenericKeyValue<number, string>[]>(null)
 };
 
 export function reducer(state = initialState, action: fromSharedActions.SharedActions): State {
@@ -227,6 +229,39 @@ export function reducer(state = initialState, action: fromSharedActions.SharedAc
         structureHasSettings: structureHasSettings
       };
     }
+    case fromSharedActions.GET_COMPANY_EXCHANGES: {
+      const gettingExchangesClone = cloneDeep(state.gettingExchanges);
+
+      gettingExchangesClone.loading = true;
+      gettingExchangesClone.loadingError = false;
+
+      return {
+        ...state,
+        gettingExchanges: gettingExchangesClone
+      };
+    }
+    case fromSharedActions.GET_COMPANY_EXCHANGES_SUCCESS: {
+      const gettingExchangesClone = cloneDeep(state.gettingExchanges);
+
+      gettingExchangesClone.loading = false;
+      gettingExchangesClone.obj = action.payload;
+
+      return {
+        ...state,
+        gettingExchanges: gettingExchangesClone
+      };
+    }
+    case fromSharedActions.GET_COMPANY_EXCHANGES_ERROR: {
+      const gettingExchangesClone = cloneDeep(state.gettingExchanges);
+
+      gettingExchangesClone.loading = false;
+      gettingExchangesClone.loadingError = true;
+
+      return {
+        ...state,
+        gettingExchanges: gettingExchangesClone
+      };
+    }
     default:
       return state;
   }
@@ -241,6 +276,7 @@ export const getComparingModels = (state: State) => state.comparingModels;
 export const getCompareEnabled = (state: State) => state.compareEnabled;
 export const getDistinctOverrideMessages  = (state: State) => state.overrideMessages;
 export const getStructureHasSettings = (state: State) => state.structureHasSettings;
+export const getCompanyExchanges = (state: State) => state.gettingExchanges;
 
 export const addRoundingSetting = (name: string, setting: RoundingSetting, settings: RoundingSettingsDataObj) => {
   return settings[name] = setting;

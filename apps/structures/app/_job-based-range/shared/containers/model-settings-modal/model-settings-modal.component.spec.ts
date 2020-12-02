@@ -86,6 +86,7 @@ describe('Job Based Ranges - Model Settings Modal', () => {
       SpreadMax: 10,
       IsCurrent: false,
       RangeDistributionTypeId: 1,
+      ExchangeId: null,
       RangeDistributionTypes: generateMockStructureRangeDistributionTypes(),
       RangeDistributionSetting: generateMockRangeDistributionSettingForm(),
       RangeAdvancedSetting: generateMockRangeAdvancedSetting()
@@ -105,6 +106,7 @@ describe('Job Based Ranges - Model Settings Modal', () => {
       SpreadMin: 10,
       StructureName: 'testStruc',
       RangeDistributionTypeId: 1,
+      ExchangeId: null,
       RangeDistributionTypes: generateMockStructureRangeDistributionTypes(),
       RangeDistributionSetting: generateMockRangeDistributionSettingForm(),
       RangeAdvancedSetting: generateMockRangeAdvancedSetting()
@@ -242,6 +244,7 @@ describe('Job Based Ranges - Model Settings Modal', () => {
       SpreadMax: 10,
       IsCurrent: false,
       RangeDistributionTypeId: 1,
+      ExchangeId: null,
       RangeDistributionTypes: generateMockStructureRangeDistributionTypes(),
       RangeDistributionSetting: generateMockRangeDistributionSettingForm(),
       RangeAdvancedSetting: generateMockRangeAdvancedSetting()

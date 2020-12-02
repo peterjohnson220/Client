@@ -18,5 +18,6 @@ export enum JobRangeModelChartSeries {
   RangeQuintileFourth = 16,
   Average = 17,
   EmployeeOutliers = 18,
-  MRP = 19
+  MRP = 19,
+  Peer50 = 20,
 }

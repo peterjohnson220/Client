@@ -1,25 +1,31 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { ActivatedRoute, ActivatedRouteSnapshot, CanActivate, Router } from '@angular/router';
 
-import { Store } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
+import { select, Store } from '@ngrx/store';
+import { Observable, of, Subscription } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 
 import { StructureRangeGroupApiService } from 'libs/data/payfactors-api/structures';
+import * as fromRootState from 'libs/state/state';
 
 import * as fromMetadataActions from '../actions/shared.actions';
 import * as fromJobBasedRangeReducer from '../reducers';
 import { PayfactorsApiModelMapper } from '../helpers/payfactors-api-model-mapper';
 
 @Injectable()
-export class RangeGroupExistsGuard implements CanActivate {
+export class RangeGroupExistsGuard implements CanActivate, OnDestroy {
+  userContextSubscription: Subscription;
+  companyId: number;
 
   constructor(
     private store: Store<fromJobBasedRangeReducer.State>,
     private structureRangeGroupApiService: StructureRangeGroupApiService,
     private router: Router,
     private route: ActivatedRoute
-  ) { }
+  ) {
+    this.userContextSubscription = this.store.pipe(select(fromRootState.getUserContext))
+      .subscribe(context => this.companyId = context.CompanyId);
+  }
 
   rangeGroupExists(rangeGroupId: number): Observable<boolean> {
     return this.structureRangeGroupApiService.getCompanyStructureRangeGroup(rangeGroupId).pipe(
@@ -27,6 +33,7 @@ export class RangeGroupExistsGuard implements CanActivate {
         if (response) {
           const metadata = PayfactorsApiModelMapper.mapStructuresRangeGroupResponseToRangeGroupMetadata(response);
           this.store.dispatch(new fromMetadataActions.SetMetadata(metadata));
+          this.store.dispatch(new fromMetadataActions.GetCompanyExchanges(this.companyId));
           return true;
         } else {
           this.router.navigate(['/not-found'], { relativeTo: this.route });
@@ -42,5 +49,9 @@ export class RangeGroupExistsGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot) {
     return this.rangeGroupExists(route.params.id);
+  }
+
+  ngOnDestroy(): void {
+    this.userContextSubscription.unsubscribe();
   }
 }
