@@ -79,4 +79,3 @@ export const getPayMarketCuts = createSelector(selectPayMarketDefaultSettingsSta
 export const getChangingPassword = createSelector(selectChangePasswordState, fromChangePasswordReducer.getChangingPassword);
 export const getChangePasswordSuccess = createSelector(selectChangePasswordState, fromChangePasswordReducer.getChangePasswordSuccess);
 export const getChangePasswordError = createSelector(selectChangePasswordState, fromChangePasswordReducer.getChangePasswordError);
-export const getPasswordMinimumLength = createSelector(selectChangePasswordState, fromChangePasswordReducer.getPasswordMinimumLength);

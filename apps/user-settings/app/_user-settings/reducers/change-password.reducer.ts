@@ -4,14 +4,12 @@ export interface State {
   changingPassword: boolean;
   changePasswordSuccess: boolean;
   changePasswordError: boolean;
-  minimumLength: number;
 }
 
 export const initialState: State = {
   changingPassword: false,
   changePasswordSuccess: false,
-  changePasswordError: false,
-  minimumLength: 8
+  changePasswordError: false
 };
 
 export function reducer(state = initialState, action: fromChangePasswordActions.Actions): State {
@@ -48,4 +46,3 @@ export function reducer(state = initialState, action: fromChangePasswordActions.
 export const getChangingPassword = (state: State) => state.changingPassword;
 export const getChangePasswordSuccess = (state: State) => state.changePasswordSuccess;
 export const getChangePasswordError = (state: State) => state.changePasswordError;
-export const getPasswordMinimumLength = (state: State) => state.minimumLength;
