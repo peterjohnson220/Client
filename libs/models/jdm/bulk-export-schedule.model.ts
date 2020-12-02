@@ -13,6 +13,8 @@ export class BulkExportSchedule {
   MonthlyOccurrence: string;
   CronExpression: string;
   Create_Date: Date;
+  ExportCount: number;
+  PrevRunDate: Date;
 }
 
 export function generateMockBulkExportSchedule(): BulkExportSchedule {
@@ -30,6 +32,8 @@ export function generateMockBulkExportSchedule(): BulkExportSchedule {
     Occurrence: null,
     MonthlyOccurrence: null,
     CronExpression: null,
-    Create_Date: null
+    Create_Date: null,
+    ExportCount: 0,
+    PrevRunDate: null
   };
 }
