@@ -156,7 +156,7 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
     };
 
     if (!!this.metadata.RangeDistributionTypeId) {
-      this.setFormValidators(this.metadata.RangeDistributionTypeId);
+      this.setFormValidators(this.metadata.RangeDistributionTypeId, true);
     }
 
     if (!!this.metadata.ControlPoint || !!this.metadata.RangeDistributionSetting?.Mid_Formula) {
@@ -195,7 +195,7 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
   handlePayTypeSelectionChange(value: ControlPoint) {
     if (!!value) {
       if (!this.showMidFormula) {
-        // Set MRP vaue of the selected pay type
+        // Set MRP value of the selected pay type
         this.rangeDistributionSettingForm.controls['Mid_Percentile'].setValue(value.FieldName);
       }
 
@@ -205,7 +205,7 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
 
       // Reset range values and set validators based on range distribution type id
       this.resetFormValidators();
-      this.setFormValidators(this.rangeDistributionSettingForm.controls['RangeDistributionTypeId'].value);
+      this.setFormValidators(this.rangeDistributionSettingForm.controls['RangeDistributionTypeId'].value, false);
       this.enablePercentilesAndRangeSpreadFields();
     }
   }
@@ -221,10 +221,10 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
   handleRangeTypeChange(event) {
     this.activeRangeTypeTab = event.Type;
     this.resetFormValidators();
-    this.setFormValidators(event.Id);
+    this.setFormValidators(event.Id, false);
   }
 
-  setFormValidators(id) {
+  setFormValidators(id, initialLoad) {
     switch (id) {
       case 2: {
         this.setRequiredValidator('Tertile');
@@ -239,7 +239,11 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
         break;
       }
     }
-    this.loadControlState();
+    if (initialLoad) {
+      this.loadControlState();
+    } else {
+      this.reloadControlState();
+    }
   }
 
   handleRangeFieldToggle($event: any, fieldPrefix: string) {
@@ -326,6 +330,40 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
     }
   }
 
+  reloadControlState() {
+
+    switch (this.currentCalcTypes['Min']) {
+      case CalculationType.Spread:
+        this.setValidation(['Min_Percentile', 'Min_Formula'], 'Min_Spread');
+        break;
+      case CalculationType.Percentile:
+        this.setValidation(['Min_Spread', 'Min_Formula'], 'Min_Percentile');
+        break;
+      case CalculationType.Formula:
+        this.setValidation(['Min_Percentile', 'Min_Spread'], 'Min_Formula');
+        break;
+    }
+
+    switch (this.currentCalcTypes['Max']) {
+      case CalculationType.Spread:
+        this.setValidation(['Max_Percentile', 'Max_Formula'], 'Max_Spread');
+        break;
+      case CalculationType.Percentile:
+        this.setValidation(['Max_Spread', 'Max_Formula'], 'Max_Percentile');
+        break;
+      case CalculationType.Formula:
+        this.setValidation(['Max_Percentile', 'Max_Spread'], 'Max_Formula');
+        break;
+    }
+
+    if (this.showMidFormula) {
+      this.setValidation(['Mid_Percentile'], 'Mid_Formula');
+    } else {
+      this.setValidation(['Mid_Formula'], 'Mid_Percentile');
+    }
+
+  }
+
   setValidation(notRequired: string[], required: string) {
     notRequired.forEach(notRequiredString => this.clearRequiredValidator(notRequiredString));
     this.setRequired(required);
@@ -334,8 +372,7 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
   resetFormValidators() {
     for (const controlName in this.rangeDistributionSettingForm.controls) {
       if (controlName.includes('Tertile') || controlName.includes('Quartile') || controlName.includes('Quintile')
-        || controlName === 'Min_Spread' || controlName === 'Max_Spread' || controlName === 'Min_Percentile' || controlName === 'Max_Percentile'
-        || controlName === 'Min_Formula' || controlName === 'Max_Formula') {
+        || controlName === 'Min_Spread' || controlName === 'Max_Spread' || controlName === 'Min_Percentile' || controlName === 'Max_Percentile') {
         this.rangeDistributionSettingForm.get(controlName).reset();
         this.rangeDistributionSettingForm.get(controlName).clearValidators();
         this.rangeDistributionSettingForm.get(controlName).updateValueAndValidity();
