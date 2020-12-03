@@ -536,10 +536,6 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  jobsPageToggle() {
-    this.store.dispatch(new fromJobsPageActions.ToggleJobsPage());
-  }
-
   openSurveyParticipationModal(matchCount: number, jobId: number, event) {
     if (matchCount > 0) {
       this.matchJobId = jobId;

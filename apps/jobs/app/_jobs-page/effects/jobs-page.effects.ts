@@ -174,31 +174,6 @@ export class JobsPageEffects {
   );
 
   @Effect()
-  toggleJobsPage$: Observable<Action> = this.actions$.pipe(
-    ofType(fromJobsPageActions.TOGGLE_JOBS_PAGE),
-    switchMap((action: fromJobsPageActions.ToggleJobsPage) => {
-      return this.uiPersistenceSettingsApiService.putUiPersistenceSetting({
-        FeatureArea: FeatureAreaConstants.Jobs,
-        SettingName: UiPersistenceSettingConstants.JobsPagePreference,
-        SettingValue: 'Legacy'
-      }).pipe(
-        mergeMap(response => {
-          const me = this;
-          window.addEventListener('onunload', function () {
-            me.store.dispatch(new fromJobsPageActions.ToggleJobsPageSuccess());
-          });
-          window.location.href = `/marketdata/jobs.asp`;
-          return [];
-        }),
-        catchError(error => {
-          return this.handleError('Error saving Jobs page preference. Please contact Payfactors Support for assistance',
-            'Error', new fromJobsPageActions.ToggleJobsPageError());
-        })
-      );
-    })
-  );
-
-  @Effect()
   getRunningExport$: Observable<Action> = this.actions$.pipe(
     ofType(fromJobsPageActions.GET_RUNNING_EXPORT),
     switchMap((action: fromJobsPageActions.GetRunningExport) => {
