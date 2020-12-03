@@ -6,9 +6,11 @@ import { select, Store } from '@ngrx/store';
 import { map, switchMap, catchError, mergeMap, withLatestFrom } from 'rxjs/operators';
 
 import { ProjectTemplatesApiService } from 'libs/data/payfactors-api';
+import * as fromRootState from 'libs/state/state';
 
 import * as fromProjectTemplateManagementReducer from '../reducers';
 import * as fromProjectTemplateActions from '../actions';
+import { ProjectTemplateHelper } from '../helpers';
 
 @Injectable()
 export class ProjectTemplateManagementEffects {
@@ -41,10 +43,19 @@ export class ProjectTemplateManagementEffects {
   getProjectTemplateFields$ = this.actions$
     .pipe(
       ofType(fromProjectTemplateActions.GET_PROJECT_TEMPLATE_FIELDS),
-      switchMap((action: fromProjectTemplateActions.GetProjectTemplateFields) => {
-        return this.projectTemplateApiService.getProjectTemplateFields(action.payload)
+      withLatestFrom(
+        this.userContextStore.pipe(select(fromRootState.getUserContext)),
+        (action: fromProjectTemplateActions.GetProjectTemplateFields, userContext) =>
+          ({ action, userContext })
+      ),
+      switchMap((data) => {
+        return this.projectTemplateApiService.getProjectTemplateFields(data.action.payload)
           .pipe(
-            map((response) => new fromProjectTemplateActions.GetProjectTemplateFieldsSuccess(response)),
+            map((response) =>
+              new fromProjectTemplateActions
+                .GetProjectTemplateFieldsSuccess(
+                  ProjectTemplateHelper.setTemplateFieldsCompanyName(response, data.userContext.CompanyName)
+                )),
             catchError(() => of(new fromProjectTemplateActions.GetProjectTemplateFieldsError()))
           );
       })
@@ -85,6 +96,7 @@ export class ProjectTemplateManagementEffects {
   constructor(
     private actions$: Actions,
     private store: Store<fromProjectTemplateManagementReducer.State>,
+    private userContextStore: Store<fromRootState.State>,
     private projectTemplateApiService: ProjectTemplatesApiService
   ) {}
 }
