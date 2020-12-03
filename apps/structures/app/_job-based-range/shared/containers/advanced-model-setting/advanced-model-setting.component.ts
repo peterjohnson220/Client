@@ -2,10 +2,11 @@ import { Component, forwardRef, Input, OnChanges, OnDestroy, OnInit, SimpleChang
 import { ControlValueAccessor, FormControl, FormGroup, NG_VALIDATORS, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 
 import { AdvancedModelSettingForm, RangeGroupMetadata } from 'libs/models/structures';
 import { MissingMarketDataTypes } from 'libs/constants/structures/missing-market-data-type';
+import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
 
 import * as fromJobBasedRangeReducer from '../../reducers';
 import { AdvancedModelingHelper } from '../../helpers/advanced-modeling.helper';
@@ -40,6 +41,9 @@ export class AdvancedModelSettingComponent implements OnInit, OnChanges, OnDestr
   disableSettingBasedOnPublishedStructure = true;
   disableSettingBasedOnHierarchy = true;
   structureHasSettings: Subscription;
+  structuresAdvancedModelingRegressionCalculationFeatureFlag:
+    RealTimeFlag = { key: FeatureFlags.StructuresAdvancedModelingRegressionCalculation, value: false };
+  unsubscribe$ = new Subject<void>();
 
   private formPreventMidsFromIncreasingMoreThanPercentEnabled = 'PreventMidsFromIncreasingMoreThanPercent.Enabled';
   private formPreventMidsFromIncreasingMoreThanPercentPercentage = 'PreventMidsFromIncreasingMoreThanPercent.Percentage';
@@ -49,13 +53,15 @@ export class AdvancedModelSettingComponent implements OnInit, OnChanges, OnDestr
   private formMissingMarketDataTypeIncreasePercentFromPreviousLevelPercentage = 'MissingMarketDataType.IncreasePercentFromPreviousLevelPercentage';
 
 
-  constructor(public store: Store<fromJobBasedRangeReducer.State>) {
+  constructor(public store: Store<fromJobBasedRangeReducer.State>,
+              private featureFlagService: AbstractFeatureFlagService) {
     this.structureHasSettings = this.store.select(fromSharedJobBasedRangeReducer.getStructureHasSettings).subscribe(hs => {
       if (hs.obj != null) {
         this.disableSettingBasedOnPublishedStructure = hs.obj.HasPublishedForType < 1;
         this.disableSettingBasedOnHierarchy = !hs.obj.HasHierarchyJobs;
       }
     });
+    this.featureFlagService.bindEnabled(this.structuresAdvancedModelingRegressionCalculationFeatureFlag, this.unsubscribe$);
   }
 
   buildForm() {
@@ -278,5 +284,6 @@ export class AdvancedModelSettingComponent implements OnInit, OnChanges, OnDestr
   ngOnDestroy(): void {
     this.subscriptions.forEach(s => s.unsubscribe());
     this.structureHasSettings.unsubscribe();
+    this.unsubscribe$.next();
   }
 }

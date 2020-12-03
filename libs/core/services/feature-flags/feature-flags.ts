@@ -18,4 +18,5 @@ export class FeatureFlags {
   static readonly SurveySearchLightningMode = 'survey-search-lightning-mode';
   static readonly CustomizeScopeInMultimatchModal = 'customize-scope-in-multimatch-modal';
   static readonly JdmOutboundIntgration = 'dm-jdm-outbound-integration';
+  static readonly StructuresAdvancedModelingRegressionCalculation = 'structures-advanced-modeling-regression-calculation';
 }
