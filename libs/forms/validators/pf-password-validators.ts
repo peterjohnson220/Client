@@ -1,3 +1,5 @@
+import { AbstractControl } from '@angular/forms';
+import { ValidationRules } from '..';
 
 export class PfPasswordValidators {
 
@@ -80,6 +82,26 @@ export class PfPasswordValidators {
     }
 
     return rules;
+  }
+
+  static getPasswordUsernameValidationRule(passwordControl: AbstractControl, usernameControl: AbstractControl): any {
+    return {
+      Name: 'Contains Username',
+      Message: 'Cannot contain username',
+      IsSatisfied: false,
+      Validator: (vr: ValidationRules) => {
+        return () => {
+          const username = usernameControl?.value.split('@')[0].toLowerCase();
+          const password = passwordControl?.value;
+          if (password && username && password.toLowerCase().includes(username)) {
+            vr.IsSatisfied = false;
+            return { passwordContainsUsername: true };
+          }
+          vr.IsSatisfied = true;
+          return null;
+        };
+      }
+    };
   }
 
 }

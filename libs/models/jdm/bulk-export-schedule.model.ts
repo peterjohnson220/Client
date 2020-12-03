@@ -17,7 +17,7 @@ export class BulkExportSchedule {
   PrevRunDate: Date;
 }
 
-export function generateMockBulkExportSchedule(): BulkExportSchedule {
+export function generateMockBulkExportSchedule(frequency: string = 'Weekly'): BulkExportSchedule {
   return {
     Id: 1,
     FileName: 'Mock',
@@ -27,7 +27,7 @@ export function generateMockBulkExportSchedule(): BulkExportSchedule {
     IncludeFormatting: false,
     Format: 'csv',
     FormatSeparatorType: 'pipe',
-    Frequency: 'Weekly',
+    Frequency: frequency,
     DayOfWeek: '2,4,6',
     Occurrence: null,
     MonthlyOccurrence: null,

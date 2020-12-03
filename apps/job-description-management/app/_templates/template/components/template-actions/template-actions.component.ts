@@ -20,9 +20,7 @@ export class TemplateActionsComponent {
     @Output() editClick = new EventEmitter();
     @Output() assignClick = new EventEmitter();
     @Output() copyClick = new EventEmitter();
-    @Output() exportSettingsClick = new EventEmitter();
-    @Output() completeExportSettingsClick = new EventEmitter();
-    @Output() cancelExportSettingsClick = new EventEmitter();
+    @Output() viewSettingsClick = new EventEmitter();
 
     constructor() { }
 

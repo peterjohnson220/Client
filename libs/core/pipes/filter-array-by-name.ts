@@ -1,15 +1,14 @@
 import { PipeTransform, Pipe } from '@angular/core';
-import { FilterableName } from '../interfaces/FilterableName';
 
 /*
- * Filter an array of FilterableName's by the filter string
+ * Filter an array by the filter string
  * *
  * Usage:
- *   value | filterArrayByName:filter
+ *   value | filterArrayByName : filter : property
 */
 @Pipe({ name: 'filterArrayByName' })
 export class FilterArrayByName implements PipeTransform {
-  transform(items: FilterableName[], filter: string, property: string = null): any[] {
+  transform(items: any[], filter: string, property: string = null): any[] {
     if (!items) { return []; }
     if (!filter) { return items; }
 

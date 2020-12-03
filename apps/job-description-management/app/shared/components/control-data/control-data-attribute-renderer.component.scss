@@ -27,3 +27,10 @@
 :host /deep/ .ql-editor  {
   min-height: inherit;
 }
+
+.rendered-text
+{
+  word-break: break-word;
+}
+
+_:-ms-fullscreen, :root .rendered-text { word-break: break-all; }

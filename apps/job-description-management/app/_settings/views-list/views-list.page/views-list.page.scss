@@ -1,7 +1,50 @@
 .card-body {
-  overflow-y: scroll;
+  padding: 0;
 }
 
 .card-header {
   min-height: 52px;
+}
+
+.search-container {
+  display: flex;
+}
+
+kendo-combobox {
+  width: 300px;
+}
+
+.k-grid a {
+  padding: 10px;
+  color: #1872ae;
+  text-decoration: none;
+}
+.k-grid a:hover {
+  text-decoration: underline;
+}
+:host ::ng-deep .k-widget.k-grid{
+  height: 100%;
+}
+
+:host ::ng-deep .k-grid tbody td{
+  border-left-width: 0;
+  border-top: 1px solid #eceeef;
+}
+
+:host ::ng-deep .k-grid tbody tr:hover{
+  background-color: rgba(0,0,0,.075);
+  cursor: pointer;
+}
+
+:host ::ng-deep .k-grid th {
+  border-left-width: 0px;
+}
+
+:host ::ng-deep .k-grid .k-alt{
+  background: none;
+}
+
+:host ::ng-deep .k-grid-header-wrap{
+  font-weight:bold;
+  background: #FFFFFF;
 }

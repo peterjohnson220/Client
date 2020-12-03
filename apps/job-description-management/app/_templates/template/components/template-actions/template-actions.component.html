@@ -1,40 +1,30 @@
 <div class="d-flex justify-content-between">
-    <ng-template [ngIf]="!editingTemplateSettings">
-        <label *ngIf="template.TemplateStatus === 'Draft'" [disabled]="templatePublishing" (click)="publishTemplateClick.emit()" class="btn btn-success ml-2">
-          <span *ngIf="!templatePublishing"><fa-icon icon="check-circle" aria-hidden="true"></fa-icon></span>
-          <span *ngIf="templatePublishing"><fa-icon icon="spinner" aria-hidden="true"></fa-icon></span> Publish
-        </label>
+    <button *ngIf="template.TemplateStatus === 'Draft'" [disabled]="templatePublishing" (click)="publishTemplateClick.emit()" class="btn btn-success ml-2">
+      <span *ngIf="!templatePublishing"><fa-icon icon="check-circle" aria-hidden="true"></fa-icon></span>
+      <span *ngIf="templatePublishing"><fa-icon icon="spinner" aria-hidden="true"></fa-icon></span> Publish
+    </button>
 
-        <label *ngIf="template.TemplateStatus === 'Draft'" [disabled]="templatePublishing" (click)="discardDraftClick.emit()" class="btn btn-secondary ml-2">
-          <fa-icon icon="trash-alt" aria-hidden="true"></fa-icon> Discard Draft          
-        </label>
+    <button *ngIf="template.TemplateStatus === 'Draft'" [disabled]="templatePublishing" (click)="discardDraftClick.emit()" class="btn btn-secondary ml-2">
+      <fa-icon icon="trash-alt" aria-hidden="true"></fa-icon> Discard Draft
+    </button>
 
-        <label *ngIf="template.TemplateStatus === 'Draft' || editingTemplate" class="btn btn-secondary ml-2" [disabled]="templatePublishing" (click)="addSectionClick.emit()">
-          <fa-icon icon="plus" aria-hidden="true"></fa-icon> Add Section          
-        </label>
+    <button *ngIf="template.TemplateStatus === 'Draft' || editingTemplate" class="btn btn-secondary ml-2" [disabled]="templatePublishing" (click)="addSectionClick.emit()">
+      <fa-icon icon="plus" aria-hidden="true"></fa-icon> Add Section
+    </button>
 
-        <label *ngIf="!editingTemplate" class="btn btn-secondary ml-2" [disabled]="templatePublishing" (click)="editClick.emit()">
-          <fa-icon icon="pencil-alt" aria-hidden="true"></fa-icon> Edit
-        </label>
+    <button *ngIf="!editingTemplate" class="btn btn-secondary ml-2" [disabled]="templatePublishing" (click)="editClick.emit()">
+      <fa-icon icon="pencil-alt" aria-hidden="true"></fa-icon> Edit
+    </button>
 
-        <label *ngIf="template.TemplateStatus === 'Published'" (click)="assignClick.emit()" [disabled]="templatePublishing" class="btn btn-secondary ml-2">
-          <fa-icon icon="list-alt" aria-hidden="true"></fa-icon> Assign
-        </label>
+    <button *ngIf="template.TemplateStatus === 'Published'" (click)="assignClick.emit()" [disabled]="templatePublishing" class="btn btn-secondary ml-2">
+      <fa-icon icon="list-alt" aria-hidden="true"></fa-icon> Assign
+    </button>
 
-        <label class="btn btn-secondary ml-2" (click)="copyClick.emit()" [disabled]="templatePublishing">
-          <fa-icon icon="copy" aria-hidden="true"></fa-icon> Copy
-        </label>
+    <button class="btn btn-secondary ml-2" (click)="copyClick.emit()" [disabled]="templatePublishing">
+      <fa-icon icon="copy" aria-hidden="true"></fa-icon> Copy
+    </button>
 
-        <label class="btn btn-secondary ml-2" (click)="exportSettingsClick.emit()" [disabled]="templatePublishing">
-          <fa-icon icon="cog" aria-hidden="true"></fa-icon> Export Settings
-        </label>
-    </ng-template>
-    <ng-template [ngIf]="editingTemplateSettings">
-      <label class="btn btn-secondary ml-2" (click)="cancelExportSettingsClick.emit()" [disabled]="templatePublishing">
-        <fa-icon icon="times" aria-hidden="true"></fa-icon> Cancel
-      </label>
-      <label class="btn btn-primary ml-2" (click)="completeExportSettingsClick.emit()" [disabled]="templatePublishing">
-        <fa-icon icon="check"></fa-icon> Done
-      </label>
-    </ng-template>
+    <button class="btn btn-secondary ml-2" (click)="viewSettingsClick.emit()" [disabled]="templatePublishing">
+      <fa-icon icon="cog" aria-hidden="true"></fa-icon> View Settings
+    </button>
 </div>

@@ -8,3 +8,4 @@ export * from './job-description-control.model';
 export * from './job-description-section.model';
 export * from './job-information-field.model';
 export * from './template';
+export * from './job-description-view-list-grid-item';
