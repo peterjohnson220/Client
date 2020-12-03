@@ -5,7 +5,7 @@ import { switchMap, map, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import { DataViewApiService } from 'libs/data/payfactors-api';
-import { PayfactorsApiModelMapper } from 'libs/features/formula-editor';
+import { FormulaType, PayfactorsApiModelMapper } from 'libs/features/formula-editor';
 import { ValidateFormulaResponse, ValidateFormulaRequest, UpsertFormulaFieldRequest, DeleteUserFormulaRequest } from 'libs/models/payfactors-api/reports';
 import * as fromFormulaFieldActions from 'libs/features/formula-editor/actions/formula-field.actions';
 
@@ -29,7 +29,7 @@ export class FormulaFieldEffects {
               dataType: PayfactorsApiModelMapper.mapDataViewFieldDataTypeToFieldDataType(response.DataType),
               formulaFieldId: ''
             })),
-            catchError(() => of(new fromFormulaFieldActions.ValidateFormulaError({formulaFieldId: ''})))
+            catchError(() => of(new fromFormulaFieldActions.ValidateFormulaError({ formulaFieldId: '' })))
           );
       })
     );
@@ -46,6 +46,7 @@ export class FormulaFieldEffects {
           BaseEntityId: action.payload.baseEntityId,
           DataType: action.payload.formula.DataType,
           IsPublic: action.payload.formula.IsPublic,
+          FormulaTypeId: FormulaType.DataInsights
         };
         return this.dataViewApiService.upsertFormulaField(request)
           .pipe(

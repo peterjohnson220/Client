@@ -52,6 +52,7 @@ export class FormulaFieldEffects {
             BaseEntityId: action.payload.baseEntityId,
             DataType: action.payload.formula.DataType,
             IsPublic: action.payload.formula.IsPublic ?? true,
+            FormulaTypeId: action.payload.formulaTypeId
           };
           return this.dataViewApiService.upsertFormulaField(request)
             .pipe(
