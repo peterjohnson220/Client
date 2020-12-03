@@ -1,3 +1,5 @@
+import { DataCutValidationInfo } from 'libs/models/peer';
+
 export interface TempExchangeJobDataCutResponse {
   TempExchangeJobDataCutId: string;
   ExchangeJobId: number;
@@ -8,4 +10,5 @@ export interface TempExchangeJobDataCutResponse {
   Tcc50?: number;
   Incs?: number;
   Orgs?: number;
+  DataCutValidationInfo: DataCutValidationInfo;
 }

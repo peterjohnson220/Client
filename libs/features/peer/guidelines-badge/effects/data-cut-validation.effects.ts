@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Action } from '@ngrx/store';
+import { Action, Store } from '@ngrx/store';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { map, switchMap, catchError, withLatestFrom } from 'rxjs/operators';
@@ -9,6 +9,8 @@ import { ExchangeDataCutsApiService } from 'libs/data/payfactors-api/peer';
 import { DataCutValidationInfo } from 'libs/models/peer';
 import { ExchangeExplorerContextService } from 'libs/features/peer/exchange-explorer/services';
 import * as fromDataCutValidationActions from 'libs/features/peer/actions/data-cut-validation.actions';
+
+import * as fromDataCutValidationReducer from '../reducers';
 
 @Injectable()
 export class DataCutValidationEffects {
@@ -29,12 +31,22 @@ export class DataCutValidationEffects {
     ofType(fromDataCutValidationActions.VALIDATE_DATA_CUT_EMPLOYEES),
     withLatestFrom(
       this.exchangeExplorerContextService.selectFilterContext(),
-      (action: fromDataCutValidationActions.ValidateDataCutEmployees, filters) =>
-        ({ action, filters })),
-    switchMap((data) => {
-      return this.exchangeDataCutsApiService.validateCutEmployeeSimilarityNew(data.filters,
-        data.action.companyJobId, data.action.entityConfiguration, data.action.dataCutGuid).pipe(
-        map((response: boolean) => new fromDataCutValidationActions.ValidateDataCutEmployeesSuccess(response)),
+      (action: fromDataCutValidationActions.ValidateDataCutEmployees, filters) => ({ payload: action.payload, filters})),
+    switchMap((data: any) => {
+      let response: Observable<boolean>;
+      if (!!data.payload.entityConfiguration) {
+        const companyJobValidationPayload = data.payload;
+        response = this.exchangeDataCutsApiService.validateCutEmployeeSimilarity(
+          data.filters,
+          companyJobValidationPayload.companyJobId,
+          companyJobValidationPayload.entityConfiguration,
+          companyJobValidationPayload.dataCutGuid);
+      } else {
+        const tempDataCutValidationPayload = data.payload;
+        response = this.exchangeDataCutsApiService.validateTempCutEmployeeSimilarity(
+          data.filters, tempDataCutValidationPayload.existingDataCutGuids, tempDataCutValidationPayload.tempExchangeJobDataCutFilterContexts);
+      }
+      return response.pipe(map((success: boolean) => new fromDataCutValidationActions.ValidateDataCutEmployeesSuccess(success)),
         catchError(() => of(new fromDataCutValidationActions.ValidateDataCutEmployeesError))
       );
     })
@@ -42,6 +54,7 @@ export class DataCutValidationEffects {
 
   constructor(
     private actions$: Actions,
+    private store: Store<fromDataCutValidationReducer.State>,
     private exchangeDataCutsApiService: ExchangeDataCutsApiService,
     private exchangeExplorerContextService: ExchangeExplorerContextService
   ) { }

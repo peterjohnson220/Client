@@ -1,6 +1,6 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
-import { DataCutValidationInfo } from 'libs/models/peer';
+import { DataCutValidationInfo, TEMP_PEER_DATA_CUT_PREFIX } from 'libs/models/peer';
 
 import * as fromDataCutValidationActions from '../../actions/data-cut-validation.actions';
 
@@ -30,17 +30,17 @@ export const initialState: State = adapter.getInitialState({
 // Reducer
 export function reducer(state = initialState, action: fromDataCutValidationActions.Actions): State {
   switch (action.type) {
-    case fromDataCutValidationActions.LOAD_DATA_CUT_VALIDATION: {
+    case fromDataCutValidationActions.LOAD_DATA_CUT_VALIDATION:
+    case fromDataCutValidationActions.LOAD_TEMP_DATA_CUT_VALIDATION: {
       return {
-        ...adapter.removeAll(state),
+        ...adapter.removeMany(e => !e.DataCutGuid.startsWith(TEMP_PEER_DATA_CUT_PREFIX), state),
         loading: true,
         loadingError: false
       };
     }
     case fromDataCutValidationActions.LOAD_DATA_CUT_VALIDATION_SUCCESS: {
-      const info: DataCutValidationInfo[] = action.payload;
       return {
-        ...adapter.setAll(info, state),
+        ...adapter.addMany(action.payload, state),
         loading: false,
         loadingError: false
       };
@@ -73,6 +73,16 @@ export function reducer(state = initialState, action: fromDataCutValidationActio
         validatingEmployeeSimilarityError: true,
         validatingEmployeeSimilarity: false,
         employeeSimilarityPassed: false
+      };
+    }
+    case fromDataCutValidationActions.ADD_TEMP_DATA_CUT_VALIDATION: {
+      const tempPeerDataCutGuid = TEMP_PEER_DATA_CUT_PREFIX + action.payload.DataCutGuid;
+      const dataCutValidationInfo: DataCutValidationInfo = {
+        ...action.payload,
+        DataCutGuid: tempPeerDataCutGuid
+      };
+      return {
+        ...adapter.addOne(dataCutValidationInfo, state)
       };
     }
     default: {

@@ -36,11 +36,10 @@
     Something went wrong. Please try again later.
   </div>
   <div *ngIf="!hasError && display=='modal'" class="alert alert-info">
-    {{(refiningPeerCut$ | async) ?
-    'Filter the data to create a custom cut. Once the data is filtered, click "Add" to make this custom cut available ' +
-    'to drag-and-drop to the company jobs.' :
-    'Select one or more data cuts. Drag and drop the selected cuts onto a Company Job to the right. ' +
-    'Once complete, click "Save" to create the pricing.'}}
+    <ng-container *ngIf="!(refiningPeerCut$ | async); else infoAlertRefining">
+      Select one or more data cuts. Drag and drop the selected cuts onto a Company Job to the right. Once complete,
+      click <strong>Save</strong> to create the pricing.
+    </ng-container>
   </div>
   <div class="multi-match-content">
     <pf-search-layout [resultsCount]="numberOfResults$ | async" [ngClass]="{'d-none': (refiningPeerCut$ | async)}">
@@ -86,6 +85,7 @@
     </pf-search-layout>
     <pf-upsert-peer-data-cut
       [ngClass]="{'d-none': !(refiningPeerCut$ | async)}"
+      (loadRefiningValidation)="handleLoadRefiningValidationDetails()"
       (refinedDataCutDetails)="handleExchangeDataCutRefined($event)"
       (cancelChanges)="handleRefineCancelled()"></pf-upsert-peer-data-cut>
   </div>
@@ -101,4 +101,9 @@
   <pf-jobs-to-price-container
     [featureImplementation]="featureImplementation"
   ></pf-jobs-to-price-container>
+</ng-template>
+
+<ng-template #infoAlertRefining>
+  Filter the data to create a custom cut. Once the data is filtered, click <strong>Add</strong>
+  to make this custom cut available to drag-and-drop to the company jobs.
 </ng-template>
