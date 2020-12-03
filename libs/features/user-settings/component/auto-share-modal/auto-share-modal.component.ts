@@ -1,4 +1,5 @@
 import cloneDeep from 'lodash/cloneDeep';
+import isEqual from 'lodash/isEqual';
 
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { select, Store } from '@ngrx/store';
@@ -75,7 +76,7 @@ export class AutoShareModalComponent implements OnInit, OnDestroy {
 
   handleOnSubmit() {
     const selectedUserIds = this.shareableUsers.filter(u => u.IsSelected === true).map(x => x.UserId);
-    if (selectedUserIds.length) {
+    if (!isEqual(this.shareableUsers, this.originalShareableUsers)) {
       this.store.dispatch(new fromAutoShareActions.SaveAutoShareUsers(selectedUserIds));
     }
     this.handleModalDismissed();
