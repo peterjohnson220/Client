@@ -14,6 +14,7 @@ export const SAVE_PROJECT_TEMPLATE_FIELDS_ERROR = '[ProjectTemplateManagement] S
 export const CREATE_NEW_TEMPLATE = '[ProjectTemplateManagement] Create New Template';
 export const TOGGLE_FIELD_SELECTED = '[ProjectTemplateManagement] Toggle Field Selected';
 export const UPDATE_REFERENCE_POINTS = '[ProjectTemplateManagement] Update Reference Points';
+export const EDIT_TEMPLATE = '[ProjectTemplateManagement] Edit Template';
 
 export class ShowProjectTemplateForm implements Action {
   readonly type = SHOW_PROJECT_TEMPLATE_FORM;
@@ -65,6 +66,11 @@ export class UpdateReferencePoints implements Action {
   constructor(public payload: number[]) { }
 }
 
+export class EditTemplate implements Action {
+  readonly type = EDIT_TEMPLATE;
+  constructor(public payload: number) { }
+}
+
 export type Actions
   = ShowProjectTemplateForm
   | GetProjectTemplateFields
@@ -74,4 +80,5 @@ export type Actions
   | SaveProjectTemplateFields
   | SaveProjectTemplateFieldsSuccess
   | SaveProjectTemplateFieldsError
-  | UpdateReferencePoints;
+  | UpdateReferencePoints
+  | EditTemplate;
