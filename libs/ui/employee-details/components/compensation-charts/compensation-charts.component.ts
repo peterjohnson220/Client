@@ -52,6 +52,10 @@ export class CompensationChartsComponent implements OnInit, OnChanges {
       // if tcc or tdc is available, do not show the other values as tcc/tdc encompasses bonus, sti, and ltip
       const calculatedValue = Math.round((compensationValue - baseSalary) * 100) / 100;
 
+      if (calculatedValue <= 0) {
+        return;
+      }
+
       chartData.push({ category: 'Other',
         value: calculatedValue,
         colorField: '#a6a6a6'});

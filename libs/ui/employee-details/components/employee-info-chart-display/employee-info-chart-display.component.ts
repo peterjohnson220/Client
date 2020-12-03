@@ -24,7 +24,7 @@ export class EmployeeInfoChartDisplayComponent implements OnInit, OnChanges {
     if (changes['chartData']) {
       this.isEmptyChart = true;
       changes['chartData'].currentValue.forEach(item => {
-        if (item.value !== 0) {
+        if (item.value !== 0 && item.value != null) {
           this.isEmptyChart = false;
         }
       });
