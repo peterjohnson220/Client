@@ -76,16 +76,14 @@ export class JobDescriptionControlComponent implements OnInit, OnChanges, OnDest
       }, 0);
   }
 
+  // if AdditionalProperties.ShowControlName is explicitly set to false, do not show control name
   get showControlName() {
-    if (this.jobDescriptionControl && this.jobDescriptionControl.AdditionalProperties) {
-      return this.jobDescriptionControl.AdditionalProperties.ShowControlName;
-    }
+    return this.jobDescriptionControl?.AdditionalProperties?.ShowControlName === false ? false : true;
   }
 
+  // if AdditionalProperties.ShowControl is explicitly set to false, do not show control
   get showControl() {
-    if (this.jobDescriptionControl && this.jobDescriptionControl.AdditionalProperties) {
-      return this.jobDescriptionControl.AdditionalProperties.ShowControl;
-    }
+    return this.jobDescriptionControl?.AdditionalProperties?.ShowControl === false ? false : true;
   }
 
   toggleBody() {
