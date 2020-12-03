@@ -249,12 +249,14 @@ describe('FieldMapperComponent', () => {
       const loaderType = LoaderType.Employees;
       const mappings = ['some field'];
       component.clientFields = [];
+      component.dateFormat = dateFormat;
       component.loaderType = loaderType;
       component.mappedFields = mappings;
       component.isFullReplace = true;
       const next = jest.fn();
       const expectedPayload: LoaderEntityStatus = {
         complete: true,
+        dateFormat,
         isFullReplace,
         loadEnabled: true,
         loaderType,
@@ -279,11 +281,13 @@ describe('FieldMapperComponent', () => {
       const isFullReplace = false;
       const loaderType = LoaderType.Employees;
       component.clientFields = ['some field'];
+      component.dateFormat = dateFormat;
       component.loaderType = loaderType;
       component.isFullReplace = true;
       const next = jest.fn();
       const expectedPayload: LoaderEntityStatus = {
         complete: false,
+        dateFormat,
         isFullReplace,
         loadEnabled: true,
         loaderType,
@@ -384,7 +388,7 @@ describe('FieldMapperComponent', () => {
       fixture.detectChanges();
 
       // act
-      component.fireCompleteEvent();
+      component.selectionChange(null);
 
       // assert
       expect(next).toBeCalledTimes(1);
@@ -411,7 +415,7 @@ describe('FieldMapperComponent', () => {
       fixture.detectChanges();
 
       // act
-      component.fireCompleteEvent();
+      component.selectionChange(null);
 
       // assert
       expect(next).toBeCalledTimes(1);
