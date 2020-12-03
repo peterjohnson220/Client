@@ -24,9 +24,9 @@ import * as fromCompanyReducer from 'libs/features/company/company-selector/redu
 import * as fromCustomFieldsActions from 'libs/features/company/custom-fields/actions/custom-fields.actions';
 import * as fromEntityIdentifierActions from 'libs/features/company/entity-identifier/actions/entity-identifier.actions';
 import * as fromEmailRecipientsActions from 'libs/features/loader-email-reipients/state/actions/email-recipients.actions';
-import { DATE_FORMATS, LoaderFileFormat, ORG_DATA_PF_EMPLOYEE_TAG_FIELDS } from 'libs/features/org-data-loader/constants';
+import { LoaderFileFormat, ORG_DATA_PF_EMPLOYEE_TAG_FIELDS } from 'libs/features/org-data-loader/constants';
 import { LoaderSettings, OrgDataLoadHelper } from 'libs/features/org-data-loader/helpers';
-import { DateFormatItem, LoaderEntityStatus, VisibleLoaderOptionModel } from 'libs/features/org-data-loader/models';
+import { LoaderEntityStatus, VisibleLoaderOptionModel } from 'libs/features/org-data-loader/models';
 import * as fromLoaderSettingsActions from 'libs/features/org-data-loader/state/actions/loader-settings.actions';
 import { CompanySetting, CompanySettingsEnum } from 'libs/models';
 import {
@@ -60,9 +60,6 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
 
   benefitsLoaderFeatureFlag: RealTimeFlag = { key: FeatureFlags.BenefitsLoaderConfiguration, value: false };
   employeeTagsLoaderFeatureFlag: RealTimeFlag = { key: FeatureFlags.EmployeeTagsLoaderConfiguration, value: false };
-
-  dateFormats: Array<{ text: string, value: string }> = DATE_FORMATS;
-  dateFormatsFilteredData: Array<{ text: string, value: string }>;
 
   env = environment;
   payfactorsPaymarketDataFields: string[];
@@ -206,7 +203,6 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
     private cdr: ChangeDetectorRef,
     private featureFlagService: AbstractFeatureFlagService
   ) {
-    this.dateFormatsFilteredData = this.dateFormats.slice();
     this.payfactorsPaymarketDataFields = ORG_DATA_PF_PAYMARKET_FIELDS;
     this.payfactorsJobDataFields = ORG_DATA_PF_JOB_FIELDS;
     this.payfactorsStructureDataFields = ORG_DATA_PF_STRUCTURE_FIELDS;
@@ -473,18 +469,6 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
     this.unsubscribe$.next();
   }
 
-  selectionChange(dateFormat: DateFormatItem) {
-    if (dateFormat) {
-      this.dateFormat = dateFormat.value;
-    } else {
-      this.dateFormat = null;
-    }
-  }
-
-  filterChange(filter: string) {
-    this.dateFormatsFilteredData = this.dateFormats.filter((s) => s.value.indexOf(filter) !== -1);
-  }
-
   onPaymarketMappingComplete($event: LoaderEntityStatus) {
     this.paymarketMappingComplete = $event.complete;
     this.isPaymarketsLoadEnabled = $event.loadEnabled;
@@ -541,6 +525,9 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
     this.isEmployeesLoadEnabled = $event.loadEnabled;
     if (this.employeeMappingComplete) {
       this.addOrReplaceMappings('Employees', $event.mappings);
+    }
+    if ($event.dateFormat) {
+      this.dateFormat = $event.dateFormat;
     }
     this.isEmployeesFullReplace = $event.isFullReplace;
   }
@@ -737,9 +724,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
     const part5 = this.sftpUserNameIsValid === false;
     const part6 = !this.isPublicKeyAuthInfoComplete();
     const part7 = (this.savingConfiguration || this.loaderSettingsLoading || this.fieldMappingsLoading);
-    const part8 = (!this.dateFormat || this.dateFormat === null);
 
-
-    return part1 || part2 || part3 || part4 || part5 || part6 || part7 || part8;
+    return part1 || part2 || part3 || part4 || part5 || part6 || part7;
   }
 }

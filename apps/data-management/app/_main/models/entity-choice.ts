@@ -16,6 +16,7 @@ export interface EntityChoice {
   customFields: EntityCustomFieldsModel;
   dbName?: string;
   isFullReplace: boolean;
+  dateFormat: string;
   isLoadingFinish: boolean;
   isEnabled: boolean;
 }
@@ -34,6 +35,7 @@ export function getDefaultEntityChoice(): EntityChoice {
     columnNames: null,
     customFields: { Employees: [], Jobs: [], EmployeeTags: [] },
     isFullReplace: null,
+    dateFormat: null,
     isLoadingFinish: true,
     dbName: null,
     isEnabled: true

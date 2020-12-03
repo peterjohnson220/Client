@@ -15,8 +15,6 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
   configurationGroups$={[Function Store]}
   customEmployeeFields$={[Function Store]}
   customJobsfields$={[Function Store]}
-  dateFormats={[Function Array]}
-  dateFormatsFilteredData={[Function Array]}
   delimiter=""
   emailRecipients={[Function Array]}
   emailRecipients$={[Function Store]}
@@ -175,22 +173,6 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
                 type="text"
               />
             </div>
-            <label
-              class="col-sm-1 col-form-label"
-              for="dateFormat"
-            >
-              Date Format
-            </label>
-            <div
-              class="col-sm-3"
-            >
-              <kendo-combobox
-                class="form-control flex-fill"
-                id="dateFormat"
-                textfield="text"
-                valuefield="value"
-              />
-            </div>
           </div>
         </div>
         
@@ -273,8 +255,6 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
   configurationGroups$={[Function Store]}
   customEmployeeFields$={[Function Store]}
   customJobsfields$={[Function Store]}
-  dateFormats={[Function Array]}
-  dateFormatsFilteredData={[Function Array]}
   delimiter={[Function String]}
   emailRecipients={[Function Array]}
   emailRecipients$={[Function Store]}
@@ -433,22 +413,6 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
                 type="text"
               />
             </div>
-            <label
-              class="col-sm-1 col-form-label"
-              for="dateFormat"
-            >
-              Date Format
-            </label>
-            <div
-              class="col-sm-3"
-            >
-              <kendo-combobox
-                class="form-control flex-fill"
-                id="dateFormat"
-                textfield="text"
-                valuefield="value"
-              />
-            </div>
           </div>
         </div>
         
@@ -531,8 +495,6 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
   configurationGroups$={[Function Store]}
   customEmployeeFields$={[Function Store]}
   customJobsfields$={[Function Store]}
-  dateFormats={[Function Array]}
-  dateFormatsFilteredData={[Function Array]}
   delimiter={[Function String]}
   emailRecipients={[Function Array]}
   emailRecipients$={[Function Observable]}
@@ -691,22 +653,6 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
                 type="text"
               />
             </div>
-            <label
-              class="col-sm-1 col-form-label"
-              for="dateFormat"
-            >
-              Date Format
-            </label>
-            <div
-              class="col-sm-3"
-            >
-              <kendo-combobox
-                class="form-control flex-fill"
-                id="dateFormat"
-                textfield="text"
-                valuefield="value"
-              />
-            </div>
           </div>
         </div>
         
@@ -789,8 +735,6 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
   configurationGroups$={[Function Store]}
   customEmployeeFields$={[Function Store]}
   customJobsfields$={[Function Store]}
-  dateFormats={[Function Array]}
-  dateFormatsFilteredData={[Function Array]}
   delimiter={[Function String]}
   emailRecipients={[Function Array]}
   emailRecipients$={[Function Store]}
@@ -914,8 +858,6 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
   configurationGroups$={[Function Store]}
   customEmployeeFields$={[Function Store]}
   customJobsfields$={[Function Store]}
-  dateFormats={[Function Array]}
-  dateFormatsFilteredData={[Function Array]}
   delimiter={[Function String]}
   emailRecipients={[Function Array]}
   emailRecipients$={[Function Store]}
@@ -1072,22 +1014,6 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
                 class="form-control"
                 id="delimiter"
                 type="text"
-              />
-            </div>
-            <label
-              class="col-sm-1 col-form-label"
-              for="dateFormat"
-            >
-              Date Format
-            </label>
-            <div
-              class="col-sm-3"
-            >
-              <kendo-combobox
-                class="form-control flex-fill"
-                id="dateFormat"
-                textfield="text"
-                valuefield="value"
               />
             </div>
           </div>
