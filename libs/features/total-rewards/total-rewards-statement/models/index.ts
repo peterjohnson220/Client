@@ -5,6 +5,7 @@ export * from './calculation-summary-control';
 export * from './chart-control';
 export * from './column';
 export * from './compensation-field';
+export * from './effective-date-control';
 export * from './employee-control';
 export * from './image-control';
 export * from './label-with-override';

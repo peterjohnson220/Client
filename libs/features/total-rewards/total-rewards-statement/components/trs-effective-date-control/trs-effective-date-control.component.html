@@ -1,5 +1,11 @@
 <div class="effective-date col-12" pfModeClassifierDirective [mode]="mode">
-  <div class="field-wrapper d-flex align-items-center" [ngClass]="{'empty-date': !effectiveDate}" >
+  <div 
+    class="field-wrapper d-flex align-items-center" 
+    [ngClass]="{'empty-date': !effectiveDate}" 
+    pfStatementGraphicsDirective 
+    [colors]="graphicsColors" 
+    [colorRank]="controlData.SummaryTextColor" 
+    [styleAttrToColor]="'color'">
     <label class="mr-2 mb-0">Information Effective:</label>
     <kendo-datepicker
       *ngIf="mode !== statementModeEnum.Print"

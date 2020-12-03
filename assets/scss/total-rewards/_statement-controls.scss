@@ -187,7 +187,6 @@ pf-trs-effective-date-control {
         font-weight: 300;
         font-size: 1.4rem;
         font-style: italic;
-        color: $trs-default-styled-overlap-graphic-color !important;
         text-transform: uppercase !important;
       }
 
@@ -201,7 +200,7 @@ pf-trs-effective-date-control {
 
       // Kendo
       .k-datepicker{
-       width: auto !important;
+        width: auto !important;
       }
 
       .k-picker-wrap {
@@ -209,13 +208,16 @@ pf-trs-effective-date-control {
           font-weight: 300;
           font-style: italic;
           font-size: 1.4rem;
-          color: $trs-default-styled-overlap-graphic-color !important;
           text-transform: uppercase;
         }
       }
+
+      kendo-datepicker, .k-picker-wrap, kendo-dateinput, .k-dateinput-wrap, .k-dateinput-wrap input {
+        color: inherit; // allow accent colors to cascade over
+      }
     }
 
-    .preview-mode, {
+    .preview-mode {
       .k-input {
         transform: translateX(-2rem);
       }
