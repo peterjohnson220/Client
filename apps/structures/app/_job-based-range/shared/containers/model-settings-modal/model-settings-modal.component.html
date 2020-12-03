@@ -40,7 +40,8 @@
                     [controlPointsAsyncObj]="controlPointsAsyncObj"
                     [metadata]="metadata"
                     [rangeGroupId]="rangeGroupId"
-                    [attemptedSubmit]="attemptedSubmit">
+                    [attemptedSubmit]="attemptedSubmit"
+                    (payTypeSelectionChange)="handlePayTypeSelectionChange($event)">
                   </pf-range-distribution-setting>
                 </div>
                 <div class="form-group">
@@ -81,6 +82,7 @@
                                     formControlName="PeerExchange"
                                     [data]="exchangeNames"
                                     [valuePrimitive]="true"
+                                    [disabled]="peerDropDownDisabled"
                                     (selectionChange)="handlePeerExchangeSelectionChange($event)">
                 </kendo-dropdownlist>
                 <div class="invalid-feedback">

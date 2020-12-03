@@ -69,6 +69,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   structuresAdvancedModelingFeatureFlag: RealTimeFlag = { key: FeatureFlags.StructuresAdvancedModeling, value: false };
   unsubscribe$ = new Subject<void>();
   exchanges: any;
+  exchanges$: Observable<AsyncStateObj<GenericKeyValue<number, string>[]>>;
   exchangeSub: Subscription;
   exchangeNames: string[];
   selectedExchangeDict: GenericKeyValue<number, string>[];
@@ -76,6 +77,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   selectedExchangeId: number;
   hasAcceptedPeerTermsSub: Subscription;
   hasAcceptedPeerTerms: boolean;
+  peerDropDownDisabled: boolean;
 
   constructor(
     public store: Store<fromJobBasedRangeReducer.State>,
@@ -96,18 +98,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
     this.maxSpreadTooltip = ModelSettingsModalConstants.MAX_SPREAD_TOOL_TIP;
     this.featureFlagService.bindEnabled(this.structuresAdvancedModelingFeatureFlag, this.unsubscribe$);
     this.allFormulasSub = this.store.pipe(select(fromJobBasedRangeReducer.getAllFields)).subscribe(af => this.allFormulas = af);
-    this.exchangeSub = this.store.pipe(select(fromSharedJobBasedRangeReducer.getCompanyExchanges)).subscribe(exs => {
-      this.exchanges = exs.obj;
-      if (this.exchanges) {
-        const values = Object.values(this.exchanges);
-        const names = [];
-        values.forEach(function(item: GenericKeyValue<number, string>) {
-          names.push(item.Value);
-        });
-        this.exchangeNames = names;
-        this.updateSelectedPeerExchangeName(this.metadata.ExchangeId);
-      }
-    });
+    this.exchanges$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getCompanyExchanges));
     this.hasAcceptedPeerTermsSub = this.settingsService.selectCompanySetting<boolean>(
       CompanySettingsEnum.PeerTermsAndConditionsAccepted
     ).subscribe(x => this.hasAcceptedPeerTerms = x);
@@ -288,6 +279,14 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
     }
   }
 
+  handlePayTypeSelectionChange(value: ControlPoint) {
+    if ( value.PayTypeDisplay === 'TCC' || value.PayTypeDisplay === 'Base') {
+      this.peerDropDownDisabled = false;
+    } else {
+      this.peerDropDownDisabled = true;
+    }
+  }
+
   // Lifecycle
   ngOnInit(): void {
     this.store.dispatch(new fromModelSettingsModalActions.GetCurrencies());
@@ -315,6 +314,22 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
     });
 
     this.metadataSub = this.metaData$.subscribe(md => this.metadata = md);
+
+    this.exchangeSub = this.exchanges$.subscribe(exs => {
+      this.exchanges = exs.obj;
+      if (this.exchanges) {
+        const values = Object.values(this.exchanges);
+        const names = [];
+        values.forEach(function(item: GenericKeyValue<number, string>) {
+          names.push(item.Value);
+        });
+        this.exchangeNames = names;
+        if (this.metadata.ExchangeId !== undefined) {
+          this.updateSelectedPeerExchangeName(this.metadata.ExchangeId);
+        }
+      }
+    });
+
     this.modalOpenSub = this.modalOpen$.subscribe(mo => {
       if (mo) {
         this.buildForm();
