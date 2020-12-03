@@ -54,9 +54,11 @@
                       </ng-template>
                       <ng-template ngbPanelContent>
                         <div class="d-flex flex-wrap">
-                          <div pfEllipsisActive class="col-4 ellipsis-overflowing-text-wrap composite-field"
+                          <div class="col-4 d-flex"
                                *ngFor="let field of templateConfiguration[tab][category]?.Fields; trackBy: trackByField">
-                            <label [class.no-payfactors-data]="!field.PayfactorsDataExists">
+                            <label pfEllipsisActive
+                                   [class.no-payfactors-data]="!field.PayfactorsDataExists"
+                                   class="ellipsis-overflowing-text-wrap mb-2">
                               <input type="checkbox"
                                      [value]="field.ListCompositeFieldId"
                                      [checked]="field.Checked"
@@ -73,7 +75,7 @@
                               [max]="99"
                               [format]="'n0'">
                             </kendo-numerictextbox>
-                        </div>
+                          </div>
                         </div>
                       </ng-template>
                     </ngb-panel>
