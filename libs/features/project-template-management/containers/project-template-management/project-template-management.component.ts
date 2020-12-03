@@ -76,6 +76,7 @@ export class ProjectTemplateManagementComponent implements OnInit, OnDestroy {
     this.resetForm();
     this.store.dispatch(new fromProjectTemplateManagementActions.ShowProjectTemplateForm(false));
     this.activeAccordionIds = [];
+    this.activeTab = null;
   }
 
   onSubmit() {
