@@ -13,6 +13,7 @@ import { JobDescriptionViewConstants } from 'libs/features/job-description-manag
 import * as fromViewListActions from '../actions/views-list.actions';
 import * as fromViewEditActions from '../../view-edit/actions/view-edit.actions';
 import { ViewsListPageComponent } from './views-list.page';
+import { generateMockTemplateListItem, generateMockJobDescriptionViewListGridItem } from 'libs/models';
 
 describe('Job Description Management - Settings - Views List Page', () => {
   let instance: ViewsListPageComponent;
@@ -20,6 +21,7 @@ describe('Job Description Management - Settings - Views List Page', () => {
   let store: Store<any>;
   let router: Router;
   let route: ActivatedRoute;
+  let routeIdParam: number;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -34,8 +36,9 @@ describe('Job Description Management - Settings - Views List Page', () => {
         },
         {
           provide: ActivatedRoute,
-          useValue: new ActivatedRouteStub()
-        }
+          useValue: { snapshot: { params: { templateId : '1' } } }
+        },
+        FilterArrayByName
       ],
       schemas: [ NO_ERRORS_SCHEMA ]
     });
@@ -43,14 +46,22 @@ describe('Job Description Management - Settings - Views List Page', () => {
     fixture = TestBed.createComponent(ViewsListPageComponent);
     instance = fixture.componentInstance;
 
+    instance.gridView = {
+      data: [generateMockJobDescriptionViewListGridItem(1)],
+      total: 1
+    };
+
+    instance.templates = [generateMockTemplateListItem(1)];
+
     store = TestBed.inject(Store);
     router = TestBed.inject(Router);
     route = TestBed.inject(ActivatedRoute);
+    routeIdParam = route.snapshot.params.templateId;
   });
 
   it('should dispatch an action to the store to load the views upon init', () => {
     spyOn(store, 'dispatch');
-    const expectedAction = new fromViewListActions.LoadJobDescriptionViews();
+    const expectedAction = new fromViewListActions.LoadJobDescriptionSettingsViews();
 
     // Init
     fixture.detectChanges();
@@ -58,18 +69,25 @@ describe('Job Description Management - Settings - Views List Page', () => {
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
-  it('should track the views by their name', () => {
-    expect(instance.viewsTrackByFn(0, 'MyView')).toBe('MyView');
+  it('should filterViewsByTemplateId when handleTemplateChanged', () => {
+    spyOn(instance, 'filterViewsByTemplateId');
+
+    const event = { TemplateId: 'mockId' };
+    instance.handleTemplateChanged(event);
+
+    expect(instance.filterViewsByTemplateId).toHaveBeenCalled();
   });
 
   it('should return true when the view is a "System View"', () => {
     expect(instance.isSystemView(JobDescriptionViewConstants.SYSTEM_VIEWS[0])).toBe(true);
   });
 
-  it('should set the views filter when handling the search value changing', () => {
-    instance.handleSearchValueChanged('New Value');
+  it('should filter by ViewName when search value changes', () => {
+    spyOn(instance.arrayFilter, 'transform');
 
-    expect(instance.viewsFilter).toBe('New Value');
+    instance.handleSearchValueChanged('Not a blank string');
+
+    expect(instance.arrayFilter.transform).toHaveBeenCalled();
   });
 
   it('should dispatch an action to the store to delete the view with the name, when handling a delete confirmation', () => {
@@ -128,5 +146,20 @@ describe('Job Description Management - Settings - Views List Page', () => {
     instance.handleDeleteViewClicked(viewToDelete, mouseEvent);
 
     expect(instance.deleteViewConfirmationModal.open).toHaveBeenCalledWith(viewToDelete);
+  });
+
+  it('should filter view grid according to template id in the router parameters', () => {
+    instance.gridView.data[0].Templates.push(generateMockTemplateListItem(1));
+    instance.gridView.data[0].Templates.push(generateMockTemplateListItem(2));
+
+    const viewData = instance.filterViewsByTemplateId(Number(routeIdParam));
+    expect(viewData[0].ViewName).toBe(`Test View Name ${routeIdParam}`);
+  });
+
+  it('should build template list of unique template ids when buildTemplateList() is called', () => {
+    const viewsList = [generateMockJobDescriptionViewListGridItem(1), generateMockJobDescriptionViewListGridItem(2)];
+    const templates = instance.buildTemplateList(viewsList);
+
+    expect(templates.length).toEqual(1);
   });
 });

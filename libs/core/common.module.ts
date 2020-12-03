@@ -43,7 +43,8 @@ const declarations = [
 
 const providers = [
   DragulaHelperService,
-  DecimalPipe
+  DecimalPipe,
+  FilterArrayByName
 ];
 
 @NgModule({

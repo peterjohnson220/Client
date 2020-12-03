@@ -46,7 +46,7 @@ export class ConfirmPasswordComponent implements OnInit {
       this.numberOfRequiredSpecialCharacters,
       this.numberOfRequiredNumericCharacters);
 
-       // No username allowed
+    // No username allowed
     if (this.allowUsername) {
       const username = this.allowUsername.split('@')[0].toLowerCase();
       rules.push({
@@ -95,9 +95,11 @@ export class ConfirmPasswordComponent implements OnInit {
     const currentPasswordControl = this.changePasswordForm.get('password');
     for (const validationRule of this.validationRules) {
       if (validationRule.Name === 'Contains Username') {
-        continue; // ignore the Rule property as we are using a ValidatorFn on the object
+        const username = this.allowUsername.split('@')[0].toLowerCase();
+        validationRule.IsSatisfied = !currentPasswordControl.value.toLowerCase().includes(username);
+      } else {
+        validationRule.IsSatisfied = new RegExp(validationRule.Rule).test(currentPasswordControl.value);
       }
-      validationRule.IsSatisfied = new RegExp(validationRule.Rule).test(currentPasswordControl.value);
     }
   }
 

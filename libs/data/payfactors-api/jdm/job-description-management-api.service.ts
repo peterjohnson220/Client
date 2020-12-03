@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
-import { JobDescriptionViewModel, ValidateStepResultItem } from '../../../models/jdm';
+import { JobDescriptionViewModel, ValidateStepResultItem, JobDescriptionViewListGridItem } from '../../../models/jdm';
 import { ControlLabelResponse } from '../../../models/payfactors-api/job-description-management/response';
 import {
   JobDescriptionValidationRequest
@@ -13,6 +13,7 @@ import { LibrarySearchRequest, JobDescriptionLibraryResult, JobDescriptionLibrar
 import { UpdateViewsRequest } from '../../../models/payfactors-api/job-description-management/request';
 import { JobDescriptionViewApi } from '../../../models/payfactors-api/job-description-management/shared';
 import { ControlType } from 'libs/models';
+
 
 @Injectable({
   providedIn: 'root',
@@ -42,6 +43,10 @@ export class JobDescriptionManagementApiService {
 
   getViews(): Observable<JobDescriptionViewModel[]> {
     return this.payfactorsApiService.get<JobDescriptionViewModel[]>(`${this.endpoint}.GetViews`);
+  }
+
+  getSettingsViews(): Observable<JobDescriptionViewListGridItem[]> {
+    return this.payfactorsApiService.get<JobDescriptionViewListGridItem[]>(`${this.endpoint}.GetSettingsViews`);
   }
 
   validate(jobDescriptionValidationRequest: JobDescriptionValidationRequest): Observable<ValidateStepResultItem> {
