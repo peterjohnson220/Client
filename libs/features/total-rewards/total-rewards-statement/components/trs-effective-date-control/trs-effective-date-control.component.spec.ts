@@ -25,6 +25,7 @@ describe('EffectiveDateComponent', () => {
 
   it('should show an `empty-date` class when no effective date is present', () => {
     // arrange
+    component.controlData = {} as any;
     component.effectiveDate = null;
 
     // act
@@ -36,6 +37,7 @@ describe('EffectiveDateComponent', () => {
 
   it('should not show an `empty-date` class when an effective date is present', () => {
     // arrange
+    component.controlData = {} as any;
     component.effectiveDate = new Date('5/21/2020');
 
     // act
