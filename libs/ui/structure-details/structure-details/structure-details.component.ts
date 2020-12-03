@@ -22,13 +22,14 @@ export class StructureDetailsComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['structureDetails']) {
+      this.summaryText = '';
       const structureDetails = changes['structureDetails'].currentValue;
 
       const effectiveDate = moment(structureDetails.EffectiveDate).format('MM/DD/YYYY');
-      this.summaryText = this.summaryText + `The structure ${structureDetails.StructureName} was created in ${structureDetails.CurrencyCode} based on an `;
-      this.summaryText = this.summaryText + `${structureDetails.Rate.toLowerCase()} rate and is effective ${effectiveDate}. `;
-      this.summaryText = this.summaryText + `This structure is in the ${structureDetails.PayMarket} pay market `;
-      this.summaryText = this.summaryText + `with market data based on the ${structureDetails.ControlPoint}.`;
+      this.summaryText = `The structure ${structureDetails.StructureName} was created in ${structureDetails.CurrencyCode} based on an
+      ${structureDetails.Rate.toLowerCase()} rate and is effective ${effectiveDate}.
+      This structure is in the ${structureDetails.PayMarket} pay market
+      with market data based on the ${structureDetails.ControlPoint}.`;
     }
   }
 
