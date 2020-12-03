@@ -13,16 +13,22 @@
         <div *ngIf="(mode === statementModeEnum.Edit) || employeeRewardsData" class="row columnRow">
           <div *ngFor="let control of column.Controls; trackBy: trackByFn" [ngClass]="'col-' + control?.Layout?.Width + ' control-type-' + control.ControlType">
 
-            <pf-trs-rich-text-control *ngIf="control.ControlType === controlType.RichTextEditor"
+            <pf-trs-rich-text-control
+              *ngIf="control.ControlType === controlType.RichTextEditor"
               [controlData]="control"
               [mode]="mode"
+              [activeEditorId]="activeEditorId"
               [employeeRewardsData]="employeeRewardsData"
+              [height]="control.Height"
+              [showTitle]="control.ShowTitle"
               (onTitleChange)="handleOnControlTitleChange($event)"
               (onContentChange)="handleOnRichTextControlContentChange($event)"
+              (onRTEFocusChange)="handleOnRTEFocusChange($event)"
               class="p-1">
             </pf-trs-rich-text-control>
 
-            <pf-trs-image-control *ngIf="control.ControlType === controlType.Image"
+            <pf-trs-image-control
+              *ngIf="control.ControlType === controlType.Image"
               [controlData]="control"
               [statementId]="statement.StatementId"
               [mode]="mode"
@@ -46,7 +52,8 @@
               (onCompFieldAdded)="handleOnCalculationControlCompFieldAdded($event)">
             </pf-trs-calculation-control>
 
-            <pf-trs-chart-control *ngIf="control.ControlType === controlType.Chart"
+            <pf-trs-chart-control
+              *ngIf="control.ControlType === controlType.Chart"
               [controlData]="control"
               [mode]="mode"
               [employeeRewardsData]="employeeRewardsData"
@@ -60,7 +67,8 @@
               (chartRender)="handleChartRender()">
             </pf-trs-chart-control>
 
-            <pf-trs-title-control *ngIf="control.ControlType === controlType.Title"
+            <pf-trs-title-control
+              *ngIf="control.ControlType === controlType.Title"
               [controlData]="control"
               [mode]="mode"
               [employeeRewardsData]="employeeRewardsData"
@@ -71,7 +79,8 @@
               (titleChange)="handleOnControlTitleChange($event)">
             </pf-trs-title-control>
 
-            <pf-trs-summary-control *ngIf="control.ControlType === controlType.CalculationSummary"
+            <pf-trs-summary-control
+              *ngIf="control.ControlType === controlType.CalculationSummary"
               [mode]="mode"
               [controlData]="control"
               [employeeRewardsData]="employeeRewardsData"
@@ -80,14 +89,16 @@
               (onTitleChange)="handleOnControlTitleChange($event)">
             </pf-trs-summary-control>
 
-            <pf-trs-employee-control *ngIf="control.ControlType === controlType.Employee"
+            <pf-trs-employee-control
+              *ngIf="control.ControlType === controlType.Employee"
               [mode]="mode"
               [controlData]="control"
               [employeeRewardsData]="employeeRewardsData"
               [graphicsColors]="statement.Settings.Colors">
             </pf-trs-employee-control>
 
-            <pf-trs-effective-date-control *ngIf="control.ControlType === controlType.EffectiveDate"
+            <pf-trs-effective-date-control
+              *ngIf="control.ControlType === controlType.EffectiveDate"
               [mode]="mode"
               [controlData]="control"
               [effectiveDate]="statement.EffectiveDate"

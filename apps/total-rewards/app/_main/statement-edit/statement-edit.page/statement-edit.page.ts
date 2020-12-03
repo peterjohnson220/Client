@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { select, Store } from '@ngrx/store';
@@ -9,11 +9,13 @@ import { AsyncStateObj } from 'libs/models/state';
 import { EmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards';
 import { GenericNameValue } from 'libs/models/common';
 import * as models from 'libs/features/total-rewards/total-rewards-statement/models';
-import { FontSize, FontFamily } from 'libs/features/total-rewards/total-rewards-statement/types';
+import { CompensationField, TotalRewardsControlEnum } from 'libs/features/total-rewards/total-rewards-statement/models';
+import { FontFamily, FontSize } from 'libs/features/total-rewards/total-rewards-statement/types';
+import { TotalRewardsStatementService } from 'libs/features/total-rewards/total-rewards-statement/services/total-rewards-statement.service';
 
 import * as fromTotalRewardsStatementEditReducer from '../reducers';
 import * as fromEditStatementPageActions from '../actions';
-import { CompensationField } from 'libs/features/total-rewards/total-rewards-statement/models';
+import { StatementModeEnum } from 'libs/features/total-rewards/total-rewards-statement/models';
 
 @Component({
   selector: 'pf-statement-edit.page',
@@ -34,6 +36,7 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
   employeeRewardsDataAsync$: Observable<AsyncStateObj<EmployeeRewardsData>>;
   companyUdfAsync$: Observable<AsyncStateObj<CompensationField[]>>;
   visibleFieldsCount$: Observable<number>;
+  activeRichTextEditorId$: Observable<string>;
 
   isSettingsPanelOpen$: Observable<boolean>;
   settingsSaving$: Observable<boolean>;
@@ -49,6 +52,8 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
   employeeRewardsData: EmployeeRewardsData;
   mode: models.StatementModeEnum;
   modeEnum = models.StatementModeEnum;
+  toolbarWhitelist = ['ql-editor', 'ql-toolbar', 'ql-formats', 'ql-size', 'ql-bold', 'ql-list', 'ql-italic', 'ql-picker-label', 'ql-underline'];
+  lastClickEventElement: HTMLElement;
 
   constructor(
     private route: ActivatedRoute,
@@ -67,6 +72,7 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
     this.mode$ = this.store.pipe(select(fromTotalRewardsStatementEditReducer.selectStatementMode));
     this.companyUdfAsync$ = this.store.pipe(select(fromTotalRewardsStatementEditReducer.getCompanyUdf));
     this.visibleFieldsCount$ = this.store.pipe(select(fromTotalRewardsStatementEditReducer.getVisibleFieldsCount));
+    this.activeRichTextEditorId$ = this.store.pipe(select(fromTotalRewardsStatementEditReducer.getActiveRichTextEditorId));
 
     // SETTINGS
     this.isSettingsPanelOpen$ = this.store.pipe(select(fromTotalRewardsStatementEditReducer.selectIsSettingsPanelOpen));
@@ -124,6 +130,7 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
   toggleStatementEditMode() {
     if (this.mode === models.StatementModeEnum.Edit) {
       this.store.dispatch(new fromEditStatementPageActions.ToggleStatementEditMode(models.StatementModeEnum.Preview));
+      this.store.dispatch(new fromEditStatementPageActions.UpdateActiveRichTextEditorId(null));
     } else {
       this.store.dispatch(new fromEditStatementPageActions.ToggleStatementEditMode(models.StatementModeEnum.Edit));
     }
@@ -136,10 +143,6 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
 
   handleBackToStatementsClick() {
     this.router.navigate(['']);
-  }
-
-  handleCreateStatementClick() {
-    this.router.navigate(['']).then();
   }
 
   // CONTROL METHODS //
@@ -168,6 +171,19 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
   // RICH TEXT
   handleOnRichTextControlContentChange(request: models.UpdateStringPropertyRequest) {
     this.store.dispatch(new fromEditStatementPageActions.UpdateRichTextControlContent(request));
+  }
+
+  handleRTEFocusChange(event) {
+    this.store.dispatch(new fromEditStatementPageActions.UpdateActiveRichTextEditorId(event));
+  }
+
+  getRichTextIds() {
+    const ids = [];
+    const funcToCallWithControl = (control: models.BaseControl): void => {
+      if (control.ControlType === TotalRewardsControlEnum.RichTextEditor) { ids.push(control.Id); }
+    };
+    TotalRewardsStatementService.applyFuncToEachControl(this.statement, funcToCallWithControl);
+    return ids;
   }
 
   // CHART
@@ -225,5 +241,43 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
       return;
     }
     this.store.dispatch(new fromEditStatementPageActions.GetEmployeeRewardsData({ companyEmployeeId: employeeId, statementId: this.statementId }));
+  }
+
+
+  @HostListener('document:mousedown', ['$event'])
+  public onMouseDownEvent(event: MouseEvent) {
+    // Get the F outta here if in print mode
+    if (this.mode !== StatementModeEnum.Edit) { return; }
+
+    const targetElement = event.target as HTMLElement;
+
+    // bail out if we can't tell where the click originates from
+    if (!targetElement) { return; }
+
+    // bail out if the clicked dom node is classed whitelisted
+    if (this.toolbarWhitelist && this.toolbarWhitelist.some(w => targetElement?.classList?.value?.indexOf(w) >= 0)) {
+      return;
+    }
+
+    this.lastClickEventElement = targetElement;
+  }
+
+  @HostListener('document:mouseup', ['$event'])
+  public onMouseUpEvent(event: MouseEvent) {
+    // Get the F outta here if in print mode
+    if (this.mode !== StatementModeEnum.Edit) { return; }
+
+    const targetElement = event.target as HTMLElement;
+
+    if (this.toolbarWhitelist && this.toolbarWhitelist.some(w => targetElement?.classList?.value?.indexOf(w) >= 0)) {
+      return;
+    }
+
+    if (targetElement !== this.lastClickEventElement) {
+      return;
+    }
+
+    this.lastClickEventElement = null;
+    this.store.dispatch(new fromEditStatementPageActions.UpdateActiveRichTextEditorId(null));
   }
 }

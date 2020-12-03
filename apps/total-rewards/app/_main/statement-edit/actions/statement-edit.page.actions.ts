@@ -26,6 +26,7 @@ export type StatementEditPageActions =
   controlActions.GetCompanyUDF |
   controlActions.GetCompanyUDFSuccess |
   controlActions.GetCompanyUDFError |
+  controlActions.UpdateActiveRichTextEditorId |
 
   settingsActions.OpenSettingsPanel |
   settingsActions.CloseSettingsPanel |
