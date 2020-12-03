@@ -1,4 +1,4 @@
-import { Component, forwardRef, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, forwardRef, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { ControlValueAccessor, FormControl, FormGroup, NG_VALIDATORS, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
@@ -38,6 +38,7 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
   @Input() metadata: RangeGroupMetadata;
   @Input() controlPointsAsyncObj: AsyncStateObj<ControlPoint[]>;
   @Input() rangeGroupId: number;
+  @Output() payTypeSelectionChange = new EventEmitter();
 
   enableJobRangeTypes$: Observable<boolean>;
   subscriptions: Subscription[] = [];
@@ -207,6 +208,7 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
       this.resetFormValidators();
       this.setFormValidators(this.rangeDistributionSettingForm.controls['RangeDistributionTypeId'].value, false);
       this.enablePercentilesAndRangeSpreadFields();
+      this.payTypeSelectionChange.emit(value);
     }
   }
 
