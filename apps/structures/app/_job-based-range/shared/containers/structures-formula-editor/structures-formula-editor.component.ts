@@ -1,16 +1,16 @@
-import { Component, OnDestroy, OnInit, Input, forwardRef, OnChanges, SimpleChanges, AfterViewInit } from '@angular/core';
-import { FormControl, FormGroup, Validators, NG_VALUE_ACCESSOR, NG_VALIDATORS, ControlValueAccessor } from '@angular/forms';
+import { AfterViewInit, Component, forwardRef, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { ControlValueAccessor, FormControl, FormGroup, NG_VALIDATORS, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
 
-import { Store, select } from '@ngrx/store';
-import { Observable, Subscription, Subject } from 'rxjs';
+import { select, Store } from '@ngrx/store';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import cloneDeep from 'lodash/cloneDeep';
 
 import { PfValidators } from 'libs/forms';
 import { RangeGroupMetadata } from 'libs/models/structures';
-import { DataViewAccessLevel, DataViewEntity, GetAvailableFieldsByTableRequest, AvailableTableFields } from 'libs/models/payfactors-api';
+import { AvailableTableFields, DataViewAccessLevel, DataViewEntity, GetAvailableFieldsByTableRequest } from 'libs/models/payfactors-api';
 import { FormulaFieldModalObj } from 'libs/models/formula-editor';
-import { Suggestion, functionSuggestionList, Field, FieldDataType } from 'libs/features/formula-editor';
+import { Field, FieldDataType, FormulaType, functionSuggestionList, Suggestion } from 'libs/features/formula-editor';
 import * as fromFormulaFieldActions from 'libs/features/formula-editor/actions/formula-field.actions';
 import * as fromFieldActions from 'libs/features/formula-editor/actions/fields.actions';
 import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
@@ -107,8 +107,10 @@ export class StructuresFormulaEditorComponent implements ControlValueAccessor, O
     this.buildForm();
 
     const modelPageViewId = PagesHelper.getModelPageViewIdByRangeDistributionType(this.metadata?.RangeDistributionTypeId);
-    this.store.dispatch(new fromFieldActions.GetAvailableFieldsByTable({ request: this.buildAvailableFieldsByTableRequest(modelPageViewId),
-       fieldId: this.formulaFieldId }));
+    this.store.dispatch(new fromFieldActions.GetAvailableFieldsByTable({
+      request: this.buildAvailableFieldsByTableRequest(modelPageViewId),
+      fieldId: this.formulaFieldId
+    }));
     this.baseEntity$ = this.store.pipe(select(fromPfDataGridReducer.getBaseEntity, modelPageViewId));
 
     this.subscriptions.push(
@@ -136,8 +138,10 @@ export class StructuresFormulaEditorComponent implements ControlValueAccessor, O
       this.baseEntity$.subscribe(e => {
         this.baseEntity = e;
         if (!!this.baseEntity && !!this.formulaFieldObj.Formula && !this.resetFormula) {
-          this.store.dispatch(new fromFormulaFieldActions.ValidateFormula({ formula: this.formulaFieldObj.Formula, baseEntityId: this.baseEntity?.Id,
-            formulaFieldId: this.formulaFieldId }));
+          this.store.dispatch(new fromFormulaFieldActions.ValidateFormula({
+            formula: this.formulaFieldObj.Formula, baseEntityId: this.baseEntity?.Id,
+            formulaFieldId: this.formulaFieldId
+          }));
         }
       }),
 
@@ -149,8 +153,10 @@ export class StructuresFormulaEditorComponent implements ControlValueAccessor, O
         this.isValidFormula = result;
         if (!this.resetFormula && this.isValidFormula && this.structuresFormulaForm.controls['FieldName'].valid) {
           this.structuresFormulaForm.controls['Formula'].setValue(this.formulaFieldObj.Formula);
-          this.store.dispatch(new fromFormulaFieldActions.SaveFormulaField({ formula: this.getFormulaField(), baseEntityId: this.baseEntity?.Id,
-            formulaFieldId: this.formulaFieldId }));
+          this.store.dispatch(new fromFormulaFieldActions.SaveFormulaField({
+            formula: this.getFormulaField(), baseEntityId: this.baseEntity?.Id,
+            formulaFieldId: this.formulaFieldId, formulaTypeId: FormulaType.Structures
+          }));
         }
       }),
 
@@ -224,15 +230,17 @@ export class StructuresFormulaEditorComponent implements ControlValueAccessor, O
     // always add pricings
     tables.push({ TableName: 'CompanyJobs_Pricings', IncludedDataTypes: [] });
     if (this.includeRangeFields) {
-      tables.push({ TableName: 'CompanyStructures_Ranges', IncludedDataTypes: ['Float']});
+      tables.push({ TableName: 'CompanyStructures_Ranges', IncludedDataTypes: ['Float'] });
     }
     return { PageViewId: pageViewId, Tables: tables };
   }
 
   handleFormulaNameChange() {
     if (!!this.formulaFieldObj.Formula && this.isValidFormula) {
-      this.store.dispatch(new fromFormulaFieldActions.SaveFormulaField({ formula: this.getFormulaField(), baseEntityId: this.baseEntity?.Id,
-        formulaFieldId: this.formulaFieldId }));
+      this.store.dispatch(new fromFormulaFieldActions.SaveFormulaField({
+        formula: this.getFormulaField(), baseEntityId: this.baseEntity?.Id,
+        formulaFieldId: this.formulaFieldId, formulaTypeId: FormulaType.Structures
+      }));
     }
   }
 
@@ -248,8 +256,10 @@ export class StructuresFormulaEditorComponent implements ControlValueAccessor, O
     }
     this.formulaFieldObj.Formula = value;
     if (this.formulaFieldObj.Formula.length !== 0) {
-      this.store.dispatch(new fromFormulaFieldActions.ValidateFormula({ formula: value, baseEntityId: this.baseEntity?.Id,
-        formulaFieldId: this.formulaFieldId }));
+      this.store.dispatch(new fromFormulaFieldActions.ValidateFormula({
+        formula: value, baseEntityId: this.baseEntity?.Id,
+        formulaFieldId: this.formulaFieldId
+      }));
       this.isWaitingForValidation = false;
     } else {
       this.isWaitingForValidation = true;

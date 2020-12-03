@@ -3,7 +3,7 @@ import { Action } from '@ngrx/store';
 import { DataViewField } from 'libs/models/payfactors-api';
 import { FormulaFieldModalObj } from 'libs/models/formula-editor';
 
-import { Field, FieldDataType } from '../models';
+import { Field, FieldDataType, FormulaType } from '../models';
 
 export const WAIT_FOR_FORMULA_VALIDATION = '[Data Insights / Formula Field Modal] Wait For Formula Validation';
 export const VALIDATE_FORMULA = '[Data Insights / Formula Field Modal] Validate Formula';
@@ -49,7 +49,7 @@ export class ValidateFormulaError implements Action {
 export class SaveFormulaField implements Action {
   readonly type = SAVE_FORMULA_FIELD;
 
-  constructor(public payload: { formula: FormulaFieldModalObj, baseEntityId: number, formulaFieldId: string }) {}
+  constructor(public payload: { formula: FormulaFieldModalObj, baseEntityId: number, formulaFieldId: string, formulaTypeId: FormulaType }) {}
 }
 
 export class CreateFormulaFieldSuccess implements Action {

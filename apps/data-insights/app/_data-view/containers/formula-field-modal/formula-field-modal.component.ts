@@ -1,19 +1,13 @@
-import { Component, ViewChild, OnInit, Input, OnDestroy, SimpleChanges, OnChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { Store, select } from '@ngrx/store';
-import { Observable, Subscription, Subject } from 'rxjs';
+import { select, Store } from '@ngrx/store';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { debounceTime } from 'rxjs/operators';
 
 import { PfValidators } from 'libs/forms/validators';
-import {
-  FormulaEditorComponent,
-  FieldDataType,
-  DataViewAccessLevel,
-  Suggestion,
-  functionSuggestionList
-} from 'libs/features/formula-editor';
+import { DataViewAccessLevel, FieldDataType, FormulaEditorComponent, FormulaType, functionSuggestionList, Suggestion } from 'libs/features/formula-editor';
 import * as fromFormulaFieldActions from 'libs/features/formula-editor/actions/formula-field.actions';
 import { FormulaFieldModalObj } from 'libs/models/formula-editor';
 
@@ -94,7 +88,7 @@ export class FormulaFieldModalComponent implements OnInit, OnDestroy, OnChanges 
     this.formulaChangedSubscription = this.formulaChanged
       .pipe(
         debounceTime(this.VALIDATE_DEBOUNCE_TIME))
-          .subscribe((value) => this.handleFormulaChangedAfterDebounceTime(value));
+      .subscribe((value) => this.handleFormulaChangedAfterDebounceTime(value));
     this.createForm();
   }
 
@@ -115,7 +109,7 @@ export class FormulaFieldModalComponent implements OnInit, OnDestroy, OnChanges 
   close(): void {
     this.modalService.dismissAll();
     this.formulaChanged.next(null);
-    this.store.dispatch(new fromFormulaFieldActions.ResetModal({ formulaFieldId: ''}));
+    this.store.dispatch(new fromFormulaFieldActions.ResetModal({ formulaFieldId: '' }));
   }
 
   duplicate(): void {
@@ -138,7 +132,10 @@ export class FormulaFieldModalComponent implements OnInit, OnDestroy, OnChanges 
       DataType: this.dataType,
       IsPublic: this.formulaFieldForm.value.isPublic
     };
-    this.store.dispatch(new fromFormulaFieldActions.SaveFormulaField({ formula: formulaInfo, baseEntityId: this.baseEntityId, formulaFieldId: '' }));
+    this.store.dispatch(new fromFormulaFieldActions.SaveFormulaField({
+      formula: formulaInfo, baseEntityId: this.baseEntityId, formulaFieldId: '',
+      formulaTypeId: FormulaType.DataInsights
+    }));
   }
 
   handleFormulaChanged(value: string): void {
@@ -217,6 +214,4 @@ export class FormulaFieldModalComponent implements OnInit, OnDestroy, OnChanges 
       this.isWaitingForValidation = true;
     }
   }
-
 }
-
