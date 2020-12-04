@@ -10,6 +10,7 @@ import { AppNotification } from 'libs/features/app-notifications/models';
 import { CompanySettingsEnum } from 'libs/models/company';
 import { SettingsService } from 'libs/state/app-context/services';
 import { UserDataView, DataViewAccessLevel, SharedDataViewUser, Filter } from 'libs/features/formula-editor';
+import { CsvFileDelimiter, ExportFileExtension } from 'libs/models/payfactors-api';
 
 import * as fromDataViewMainReducer from '../../reducers';
 import * as fromDataViewActions from '../../actions/data-view.actions';
@@ -160,8 +161,8 @@ export class DataViewPageComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromDataViewActions.DeleteUserReport());
   }
 
-  handleExportClicked(): void {
-    this.store.dispatch(new fromDataViewActions.ExportUserReport());
+  handleExportClicked(data: { fileExtension: ExportFileExtension, csvFileDelimiter: CsvFileDelimiter }): void {
+    this.store.dispatch(new fromDataViewActions.ExportUserReport(data));
   }
 
   handleShareClicked(): void {
