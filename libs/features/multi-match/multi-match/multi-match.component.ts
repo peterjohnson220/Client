@@ -17,6 +17,7 @@ import { ExchangeJobDataCut } from 'libs/features/survey-search/models';
 import * as fromSearchFeatureActions from 'libs/features/search/actions/search-feature.actions';
 import * as fromSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
 import * as fromSurveySearchResultsActions from 'libs/features/survey-search/actions/survey-search-results.actions';
+import * as fromDataCutValidationActions from 'libs/features/peer/actions/data-cut-validation.actions';
 import * as fromSurveySearchReducer from 'libs/features/survey-search/reducers';
 import * as fromSearchReducer from 'libs/features/search/reducers';
 
@@ -168,9 +169,15 @@ export class MultiMatchComponent extends SearchBaseDirective implements OnInit, 
       DataCut: PayfactorsSurveySearchApiModelMapper.mapCustomExchangeJobDataCutToDataCut(dataCut),
       ExchangeDataSearchRequest: tempExchangeDataCutDetails.ExchangeDataSearchRequest
     };
+
     this.store.dispatch(new fromSurveySearchResultsActions.GetExchangeDataResults({exchangeJobId: dataCut.ExchangeJobId}));
     this.store.dispatch(new fromSurveySearchResultsActions.AddRefinedExchangeDataCut(refinedCut));
+    this.store.dispatch(new fromDataCutValidationActions.AddTempDataCutValidation(dataCut.DataCutValidationInfo));
     this.store.dispatch(new fromSurveySearchResultsActions.RefineExchangeJobResultComplete());
+  }
+
+  handleLoadRefiningValidationDetails(): void {
+    this.store.dispatch(new fromDataCutValidationActions.LoadTempDataCutValidation({hasProjectContext: this.featureImplementation !== MODIFY_PRICINGS}));
   }
 
   handleRefineCancelled(): void {

@@ -35,18 +35,39 @@ export class ExchangeDataCutsApiService {
       { CompanyJobId: payload.CompanyJobId, EntityConfiguration: payload.EntityConfiguration } );
   }
 
+  getProjectMultiMatchDataCutValidationInfo(payload: { ProjectId: number, CompanyJobIds: number[]}): Observable<DataCutValidationInfo[]> {
+    return this.payfactorsApiService.post<DataCutValidationInfo[]>(`${this.endpoint}/GetProjectMultiMatchDataCutValidationInfo`, payload);
+  }
+
+  getPricingMultiMatchDataCutValidationInfo(payload: { JobPricingIds: number[], CompanyJobIds: number[] }): Observable<DataCutValidationInfo[]> {
+    return this.payfactorsApiService.post<DataCutValidationInfo[]>(`${this.endpoint}/GetPricingMultiMatchDataCutValidationInfo`, payload);
+  }
+
   exportExchangeDataCutsNew(payload: ExchangeDataCutsExportRequest): Observable<any> {
     return this.payfactorsApiService.post(`${this.endpoint}/ExportExchangeDataCutsNew`, payload);
   }
 
-  validateCutEmployeeSimilarityNew(searchFilter: BaseExchangeDataSearchRequest,
+  validateCutEmployeeSimilarity(searchFilter: BaseExchangeDataSearchRequest,
                                 companyJobId: number,
                                 entityConfiguration: UpsertPeerDataCutEntityConfigurationModel,
                                 dataCutGuid: string): Observable<boolean> {
-    return this.payfactorsApiService.post(`${this.endpoint}/ValidateCutEmployeeSimilarityNew`,
+    return this.payfactorsApiService.post(`${this.endpoint}/ValidateCutEmployeeSimilarity`,
       {
         CompanyJobId: companyJobId, EntityConfiguration: entityConfiguration,
         CurrentFilters: searchFilter, DataCutGuid: dataCutGuid
+      }, (success: boolean) => success);
+  }
+
+  validateTempCutEmployeeSimilarity(
+    searchFilter: BaseExchangeDataSearchRequest,
+    existingDataCutGuids: string[],
+    tempExchangeDataSearchRequests: BaseExchangeDataSearchRequest[]
+  ): Observable<boolean> {
+    return this.payfactorsApiService.post(`${this.endpoint}/ValidateTempCutEmployeeSimilarity`,
+      {
+        CurrentFilters: searchFilter,
+        ExistingDataCutGuids: existingDataCutGuids,
+        TempExchangeDataSearchRequests: tempExchangeDataSearchRequests
       }, (success: boolean) => success);
   }
   getDataCutFilter(filterGuid: string) {
