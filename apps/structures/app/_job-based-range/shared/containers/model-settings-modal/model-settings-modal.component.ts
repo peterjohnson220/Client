@@ -259,11 +259,18 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   }
 
   updateSelectedPeerExchangeId() {
-    if (this.selectedExchangeId === null || this.selectedExchangeId === undefined) {
+    if ((this.selectedExchangeId === null || this.selectedExchangeId === undefined) && this.hasAcceptedPeerTerms) {
+      this.modelSetting.ExchangeId = this.assignDefaultSelectedExchangeId();
+    } else if (this.selectedExchangeId === null || this.selectedExchangeId === undefined) {
       this.modelSetting.ExchangeId = null;
     } else {
       this.modelSetting.ExchangeId = this.selectedExchangeId;
     }
+  }
+
+  assignDefaultSelectedExchangeId() {
+    this.handlePeerExchangeSelectionChange('Global Network');
+    return this.selectedExchangeId;
   }
 
   updateSelectedPeerExchangeName(exchangeId: number) {
@@ -325,6 +332,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
         });
         this.exchangeNames = names;
         if (this.metadata.ExchangeId !== undefined) {
+          this.selectedExchangeId = this.metadata.ExchangeId;
           this.updateSelectedPeerExchangeName(this.metadata.ExchangeId);
         }
       }
