@@ -60,8 +60,8 @@
       </ng-container>
       <ng-container *ngSwitchCase="surveySearchResultDataSources.Peer">
         <tr *ngIf="customizeScopeInMultimatchModalFlag.value" (click)="toggleRefineInPeerDisplay()">
-          <td></td>
           <td colspan="8" class="link">Customize Your Scope for this Peer Job!</td>
+          <td></td>
         </tr>
         <tr *ngFor="let dataCut of dataCuts; trackBy: trackById"
             (click)="toggleDataCutSelection(dataCut)"
