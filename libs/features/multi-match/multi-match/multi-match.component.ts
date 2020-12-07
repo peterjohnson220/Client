@@ -126,6 +126,9 @@ export class MultiMatchComponent extends SearchBaseDirective implements OnInit, 
   }
 
   onSetContext(payload: any) {
+    if (!!this.upsertPeerDataCutComponent) {
+      this.upsertPeerDataCutComponent.resetExchangeExplorer();
+    }
     this.store.dispatch(new fromSearchFiltersActions.AddFilters(getSearchFilters(this.matchMode)));
     this.store.dispatch(new fromMultiMatchPageActions.SetProjectContext(payload));
     this.store.dispatch(new fromMultiMatchPageActions.GetProjectSearchContext(payload));
@@ -135,7 +138,7 @@ export class MultiMatchComponent extends SearchBaseDirective implements OnInit, 
   onResetApp() {
     this.store.dispatch(new fromSurveySearchResultsActions.ClearDataCutSelections());
     this.store.dispatch(new fromJobsToPriceActions.ClearAllJobs());
-    this.handleRefineCancelled();
+    this.store.dispatch(new fromSurveySearchResultsActions.RefineExchangeJobResultComplete());
   }
 
   handleSaveClicked() {

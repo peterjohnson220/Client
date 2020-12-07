@@ -173,7 +173,8 @@ export function reducer(state = initialState, action: fromSurveySearchResultsAct
     case fromSurveySearchResultsActions.REFINE_EXCHANGE_JOB_RESULT_COMPLETE: {
       return {
         ...state,
-        refining: false
+        refining: false,
+        jobId: null
       };
     }
     case fromSurveySearchResultsActions.ADD_REFINED_EXCHANGE_DATA_CUT: {
