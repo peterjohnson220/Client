@@ -19,7 +19,11 @@ export class EmployeeDetailsComponent implements OnInit, OnChanges {
 
   @ViewChild('toggleLink') toggleLink: ElementRef;
   isShowingMore = false;
-  summaryText = '';
+  displayDetails: EmployeeDetails;
+  formattedSalary = '';
+  formattedBaseMrp: number;
+  yearsOfService: number;
+  hourlyRate = rateEnum.Hourly;
 
   constructor() { }
 
@@ -28,46 +32,20 @@ export class EmployeeDetailsComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['employeeDetails']) {
-      let yearsOfService;
-      this.summaryText = '';
 
-      const employeeDetails = changes['employeeDetails'].currentValue;
+      this.displayDetails = changes['employeeDetails'].currentValue;
+      this.formattedSalary = Math.round(changes['employeeDetails'].currentValue.Base_Salary).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
 
-      // moment calculation
-      if (!this.isEmptyValue(employeeDetails.Date_Of_Hire)) {
+      if (this.displayDetails.Date_Of_Hire !== null) {
         const currDate = moment(new Date());
-        const momentHireDate = moment(employeeDetails.Date_Of_Hire);
-        yearsOfService = Math.floor(currDate.diff(momentHireDate, 'years', true) * 2) / 2;
+        const momentHireDate = moment(this.displayDetails.Date_Of_Hire);
+        this.yearsOfService = Math.floor(currDate.diff(momentHireDate, 'years', true) * 2) / 2;
       }
 
-      this.summaryText = this.isEmptyValue(employeeDetails.First_Name) && this.isEmptyValue(employeeDetails.Last_Name) ?
-        employeeDetails.Employee_Id : (employeeDetails.First_Name + ' ' + employeeDetails.Last_Name).trim();
-
-      this.summaryText = this.summaryText + ` is a ${
-        this.isEmptyValue(employeeDetails.Full_Time_Employee) || employeeDetails.Full_Time_Employee === 1 ? 'full' : 'part'
-      } time employee`;
-
-      this.summaryText = this.isEmptyValue(employeeDetails.Date_Of_Hire) ?
-        this.summaryText + `.` : this.summaryText + ` who has been with the company for ${yearsOfService} years. `;
-
-      this.summaryText = this.summaryText +
-        ` ${
-        this.isEmptyValue(employeeDetails.First_Name) && this.isEmptyValue(employeeDetails.Last_Name) ?
-          employeeDetails.Employee_Id : employeeDetails.First_Name || employeeDetails.Last_Name
-      } has a base ${
-        employeeDetails.Rate === rateEnum.Hourly ? 'hourly ' : ''
-      }salary of ${Math.round(employeeDetails.Base_Salary).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} (${employeeDetails.Currency_Code})`;
-
-      this.summaryText = this.isEmptyValue(employeeDetails.BaseMRP) ?
-        this.summaryText +  `, this job has no Base MRP.` : this.summaryText +  `, which represents ${
-        Math.round(employeeDetails.BaseMRP * 10) / 10
-      }% of the base MRP.`;
-
+      if (this.displayDetails.BaseMRP !== null) {
+        this.formattedBaseMrp = Math.round(this.displayDetails.BaseMRP * 10) / 10;
+      }
     }
-  }
-
-  isEmptyValue(value: number | string): boolean {
-    return value === null || value === '';
   }
 
   toggle() {
