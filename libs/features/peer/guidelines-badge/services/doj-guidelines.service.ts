@@ -135,7 +135,7 @@ export class DojGuidelinesService implements OnDestroy {
     this.previousMapCompanies = [];
   }
 
-  validateCompanySimilarity(mapCompanies: any, cutGuid: string = null) {
+  validateCompanySimilarity(mapCompanies: ExchangeStatCompanyMakeup[], cutGuid: string = null) {
     if (!this.hasMinimumCompanies || !this.hasNoHardDominatingData) { return; }
 
     const validationInfo = this.dataCutValidationInfo;
@@ -170,7 +170,7 @@ export class DojGuidelinesService implements OnDestroy {
     }
   }
 
-  validateTempDataCut(mapCompanies: any) {
+  validateTempDataCut(mapCompanies: ExchangeStatCompanyMakeup[]) {
     this.validateCompanySimilarity(mapCompanies);
 
     if (this.companyValidationPass) {
@@ -193,7 +193,7 @@ export class DojGuidelinesService implements OnDestroy {
     }
   }
 
-  validateDataCut(mapCompanies: any, companyJobId: number, entityConfiguration: UpsertPeerDataCutEntityConfigurationModel, cutGuid: string = null) {
+  validateDataCut(mapCompanies: ExchangeStatCompanyMakeup[], companyJobId: number, entityConfiguration: UpsertPeerDataCutEntityConfigurationModel, cutGuid: string = null) {
     this.validateCompanySimilarity(mapCompanies, cutGuid);
 
     // we've passed on company now lets check the employees
