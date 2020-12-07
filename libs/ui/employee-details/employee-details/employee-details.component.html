@@ -33,7 +33,11 @@
         <div class="p-3">
           <p class="mb-1"><b>Summary</b></p>
           <hr class="mb-2 mt-0 border-top border-dark" />
-          <p class="m-0">{{summaryText}}</p>
+          <p class="m-0">{{displayDetails.First_Name | formatName: employeeDetails.Last_Name: employeeDetails.Employee_Id: true}}
+            is a {{displayDetails.Full_Time_Employee === null || displayDetails.Full_Time_Employee === 1 ? 'full' : 'part'}} time employee{{displayDetails.Date_Of_Hire === null ? '.' : ' who has been with the company for ' + this.yearsOfService + ' years.'}}
+            {{displayDetails.First_Name | formatName: employeeDetails.Last_Name: employeeDetails.Employee_Id}} has a base
+            {{displayDetails.Rate === this.hourlyRate ? 'hourly' : ''}} salary of {{formattedSalary}} ({{displayDetails.Currency_Code}}),
+            {{displayDetails.BaseMRP === null ? 'this job has no Base MRP.' : 'which represents ' + formattedBaseMrp + '% of the base MRP.'}}</p>
         </div>
       </div>
       <pf-emplyee-info

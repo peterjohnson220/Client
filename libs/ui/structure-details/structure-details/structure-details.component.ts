@@ -16,20 +16,14 @@ export class StructureDetailsComponent implements OnChanges {
   @Input() theme = PfThemeType.Default;
   @Input() optionalCloseButton: TemplateRef<any>;
 
-  summaryText = '';
-
+  displayDetails: StructureDetails;
+  effectiveDate: string;
   constructor() { }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['structureDetails']) {
-      this.summaryText = '';
-      const structureDetails = changes['structureDetails'].currentValue;
-
-      const effectiveDate = moment(structureDetails.EffectiveDate).format('MM/DD/YYYY');
-      this.summaryText = `The structure ${structureDetails.StructureName} was created in ${structureDetails.CurrencyCode} based on an
-      ${structureDetails.Rate.toLowerCase()} rate and is effective ${effectiveDate}.
-      This structure is in the ${structureDetails.PayMarket} pay market
-      with market data based on the ${structureDetails.ControlPoint}.`;
+      this.displayDetails = changes['structureDetails'].currentValue;
+      this.effectiveDate = moment(this.structureDetails.EffectiveDate).format('MM/DD/YYYY');
     }
   }
 
