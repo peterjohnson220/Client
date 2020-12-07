@@ -19,6 +19,7 @@ exports[`Libs - Upsert Peer Data Cut should disable the add/updated button when 
   includeUntaggedIncumbents$={[Function Store]}
   isEmployeeCheckLoading$={[Function Store]}
   isPayMarketOverride="false"
+  loadRefiningValidation={[Function EventEmitter]}
   loadedDataCutDetails$={[Function Store]}
   loadedDataCutDetailsSubscription={[Function Subscriber]}
   map="undefined"
@@ -65,6 +66,7 @@ exports[`Libs - Upsert Peer Data Cut should display the upsert data cut page wit
   includeUntaggedIncumbents$={[Function Store]}
   isEmployeeCheckLoading$={[Function Store]}
   isPayMarketOverride="false"
+  loadRefiningValidation={[Function EventEmitter]}
   loadedDataCutDetails$={[Function Store]}
   loadedDataCutDetailsSubscription={[Function Subscriber]}
   map="undefined"
@@ -113,6 +115,7 @@ exports[`Libs - Upsert Peer Data Cut should display the upsert data cut page wit
   includeUntaggedIncumbents$={[Function Store]}
   isEmployeeCheckLoading$={[Function Store]}
   isPayMarketOverride="false"
+  loadRefiningValidation={[Function EventEmitter]}
   loadedDataCutDetails$={[Function Store]}
   loadedDataCutDetailsSubscription={[Function Subscriber]}
   map="undefined"
@@ -161,6 +164,7 @@ exports[`Libs - Upsert Peer Data Cut should display untagged incumbents filter w
   includeUntaggedIncumbents$={[Function Observable]}
   isEmployeeCheckLoading$={[Function Store]}
   isPayMarketOverride="false"
+  loadRefiningValidation={[Function EventEmitter]}
   loadedDataCutDetails$={[Function Store]}
   loadedDataCutDetailsSubscription={[Function Subscriber]}
   map="undefined"
@@ -207,6 +211,7 @@ exports[`Libs - Upsert Peer Data Cut should enable the add button when passesGui
   includeUntaggedIncumbents$={[Function Store]}
   isEmployeeCheckLoading$={[Function Store]}
   isPayMarketOverride="false"
+  loadRefiningValidation={[Function EventEmitter]}
   loadedDataCutDetails$={[Function Store]}
   loadedDataCutDetailsSubscription={[Function Subscriber]}
   map="undefined"
@@ -253,6 +258,7 @@ exports[`Libs - Upsert Peer Data Cut should enable the update button when passes
   includeUntaggedIncumbents$={[Function Store]}
   isEmployeeCheckLoading$={[Function Store]}
   isPayMarketOverride="false"
+  loadRefiningValidation={[Function EventEmitter]}
   loadedDataCutDetails$={[Function Store]}
   loadedDataCutDetailsSubscription={[Function Subscriber]}
   map="undefined"
@@ -299,6 +305,7 @@ exports[`Libs - Upsert Peer Data Cut should show 'Request Access' button and mes
   includeUntaggedIncumbents$={[Function Store]}
   isEmployeeCheckLoading$={[Function Store]}
   isPayMarketOverride="false"
+  loadRefiningValidation={[Function EventEmitter]}
   loadedDataCutDetails$={[Function Store]}
   loadedDataCutDetailsSubscription={[Function Subscriber]}
   map="undefined"
@@ -346,6 +353,7 @@ exports[`Libs - Upsert Peer Data Cut should show disabled 'Access Requested' but
   includeUntaggedIncumbents$={[Function Store]}
   isEmployeeCheckLoading$={[Function Store]}
   isPayMarketOverride="false"
+  loadRefiningValidation={[Function EventEmitter]}
   loadedDataCutDetails$={[Function Store]}
   loadedDataCutDetailsSubscription={[Function Subscriber]}
   map="undefined"
@@ -393,6 +401,7 @@ exports[`Libs - Upsert Peer Data Cut should show disabled 'Requesting Access' bu
   includeUntaggedIncumbents$={[Function Store]}
   isEmployeeCheckLoading$={[Function Store]}
   isPayMarketOverride="false"
+  loadRefiningValidation={[Function EventEmitter]}
   loadedDataCutDetails$={[Function Store]}
   loadedDataCutDetailsSubscription={[Function Subscriber]}
   map="undefined"

@@ -38,6 +38,7 @@ export class UpsertPeerDataCutComponent implements OnInit, OnDestroy, OnChanges 
   @Input() entityConfiguration: UpsertPeerDataCutEntityConfigurationModel;
   @Output() cancelChanges = new EventEmitter();
   @Output() refinedDataCutDetails = new EventEmitter<TempExchangeDataCutDetails>();
+  @Output() loadRefiningValidation = new EventEmitter();
 
   @ViewChild(ExchangeExplorerMapComponent, {static: true}) map: ExchangeExplorerMapComponent;
   @ViewChild(ExchangeExplorerComponent) exchangeExplorer: ExchangeExplorerComponent;
@@ -161,6 +162,13 @@ export class UpsertPeerDataCutComponent implements OnInit, OnDestroy, OnChanges 
     }
   }
 
+  resetExchangeExplorer() {
+    this.reset();
+    if (!!this.exchangeExplorer) {
+      this.exchangeExplorer.resetApp();
+    }
+  }
+
   reset(): void {
     this.displayMap = false;
     this.refining = false;
@@ -215,8 +223,6 @@ export class UpsertPeerDataCutComponent implements OnInit, OnDestroy, OnChanges 
     } as MessageEvent;
     this.exchangeExplorer.onMessage(setContextMessage);
 
-
-    // TODO: Validation in upcoming item [JP]
     if (!this.refining) {
 
       this.store.dispatch(new fromDataCutValidationActions.LoadDataCutValidation(
@@ -225,6 +231,8 @@ export class UpsertPeerDataCutComponent implements OnInit, OnDestroy, OnChanges 
           EntityConfiguration: this.entityConfiguration
         }
       ));
+    } else {
+      this.loadRefiningValidation.emit();
     }
   }
 
@@ -242,9 +250,16 @@ export class UpsertPeerDataCutComponent implements OnInit, OnDestroy, OnChanges 
 
   setSubscriptions(): void {
     this.peerMapCompaniesSubscription = this.peerMapCompanies$.subscribe(pms => {
-      if (this.displayMap) {
-        this.guidelinesService.validateDataCut(pms, this.companyJobId, this.entityConfiguration, this.cutGuid);
+      if (!this.displayMap) {
+        return;
       }
+
+      if (!this.refining) {
+        this.guidelinesService.validateDataCut(pms, this.companyJobId, this.entityConfiguration, this.cutGuid);
+      } else {
+        this.guidelinesService.validateTempDataCut(pms);
+      }
+
     });
     this.weightingTypeSubscription = this.weightingType$.subscribe(wts => {
       if (this.displayMap) {
@@ -279,7 +294,7 @@ export class UpsertPeerDataCutComponent implements OnInit, OnDestroy, OnChanges 
 
   refineExchangeJob(exchangeJobId: number): void {
     this.refining = true;
-    this.showMap();
+    this.showMap(); // TODO: Do this after setting context? [JP]
     this.setContext({refineExchangeJobId: exchangeJobId});
   }
 
