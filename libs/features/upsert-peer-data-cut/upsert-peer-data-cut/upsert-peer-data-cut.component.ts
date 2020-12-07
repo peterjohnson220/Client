@@ -162,6 +162,13 @@ export class UpsertPeerDataCutComponent implements OnInit, OnDestroy, OnChanges 
     }
   }
 
+  resetExchangeExplorer() {
+    this.reset();
+    if (!!this.exchangeExplorer) {
+      this.exchangeExplorer.resetApp();
+    }
+  }
+
   reset(): void {
     this.displayMap = false;
     this.refining = false;
