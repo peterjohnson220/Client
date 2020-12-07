@@ -118,6 +118,7 @@ export class MultiMatchComponent extends SearchBaseDirective implements OnInit, 
       if (!refining) {
         this.store.dispatch(new fromSearchFeatureActions.SetSearchFeatureId(SearchFeatureIds.MultiMatch));
       } else {
+        this.store.dispatch(new fromSearchFeatureActions.ResetSearchFeatureId(SearchFeatureIds.ExchangeExplorer));
         this.store.dispatch(new fromSearchFeatureActions.SetSearchFeatureId(SearchFeatureIds.ExchangeExplorer));
         this.upsertPeerDataCutComponent.refineExchangeJob(this.refiningExchangeJobId);
       }
@@ -134,6 +135,7 @@ export class MultiMatchComponent extends SearchBaseDirective implements OnInit, 
   onResetApp() {
     this.store.dispatch(new fromSurveySearchResultsActions.ClearDataCutSelections());
     this.store.dispatch(new fromJobsToPriceActions.ClearAllJobs());
+    this.handleRefineCancelled();
   }
 
   handleSaveClicked() {
@@ -149,14 +151,14 @@ export class MultiMatchComponent extends SearchBaseDirective implements OnInit, 
   }
 
   handleCancelClicked() {
-    super.resetActions();
     switch (this.featureImplementation) {
       case MODIFY_PRICINGS:
         this.showMultiMatchModal.next(false);
         this.hasError = false;
-        this.onResetApp();
+        super.resetApp();
         break;
       default:
+        super.resetApp();
         super.handleCancelClicked();
         break;
     }
