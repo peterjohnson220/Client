@@ -67,7 +67,7 @@ export abstract class SearchBaseDirective {
     this.store.dispatch(new fromSearchPageActions.Cancel());
   }
 
-  private resetApp() {
+  resetApp() {
     this.resetActions();
     this.onResetApp();
   }
