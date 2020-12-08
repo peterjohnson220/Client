@@ -24,6 +24,7 @@ export class JobDescriptionControlComponent implements OnInit, OnChanges, OnDest
   @Input() controlTypesLoaded: boolean;
   @Input() isCompare: boolean;
   @Input() saveThrottle: Subject<any>;
+  @Input() jobDescriptionStatus: string;
   @Output() dataChangesDetected = new EventEmitter();
   @Output() bulkDataChangesDetected = new EventEmitter();
   @Output() additionalPropertiesChangesDetected = new EventEmitter();
@@ -78,7 +79,11 @@ export class JobDescriptionControlComponent implements OnInit, OnChanges, OnDest
 
   // if AdditionalProperties.ShowControlName is explicitly set to false, do not show control name
   get showControlName() {
-    return this.jobDescriptionControl?.AdditionalProperties?.ShowControlName === false ? false : true;
+    if (this.jobDescriptionStatus === 'Published') {
+      return this.jobDescriptionControl?.AdditionalProperties?.ShowControlNameView === false ? false : true;
+    } else {
+      return this.jobDescriptionControl?.AdditionalProperties?.ShowControlName === false ? false : true;
+    }
   }
 
   // if AdditionalProperties.ShowControl is explicitly set to false, do not show control
