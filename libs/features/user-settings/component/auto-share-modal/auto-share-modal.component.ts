@@ -37,6 +37,7 @@ export class AutoShareModalComponent implements OnInit, OnDestroy {
   shareableUsers: AutoShareUser[];
   originalShareableUsers: AutoShareUser[];
   filteredShareableUsers: AutoShareUser[];
+  submitEnabled: boolean;
 
   constructor(
     private rootStore: Store<fromRootState.State>,
@@ -61,6 +62,7 @@ export class AutoShareModalComponent implements OnInit, OnDestroy {
       if (showModal) {
         this.searchValue = '';
         this.filteredShareableUsers = this.shareableUsers;
+        this.submitEnabled = false;
       }
     });
   }
@@ -92,6 +94,7 @@ export class AutoShareModalComponent implements OnInit, OnDestroy {
   handleToggleSelectedUser(user: AutoShareUser) {
     const match = this.shareableUsers.find(u => u.UserId === user.UserId);
     match.IsSelected = user.IsSelected;
+    this.submitEnabled = true;
   }
 
   handleSearchValueChanged(value: string) {
@@ -105,8 +108,7 @@ export class AutoShareModalComponent implements OnInit, OnDestroy {
 
   private applySearchFilterList(): void {
     if (!!this.searchValue && !!this.searchValue.length) {
-      this.filteredShareableUsers = this.shareableUsers.filter(su =>
-        su.FirstName.toLowerCase().includes(this.searchValue) || su.LastName.toLowerCase().includes(this.searchValue));
+      this.filteredShareableUsers = this.shareableUsers.filter(su => su.FullName.toLowerCase().includes(this.searchValue));
     } else {
       this.filteredShareableUsers = this.shareableUsers;
     }
