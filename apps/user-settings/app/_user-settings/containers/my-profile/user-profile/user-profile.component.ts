@@ -95,7 +95,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   }
 
   handleFileUploadSuccess(event: SuccessEvent): void {
-    this.userPicture = event.files?.length > 0 ? event.files[0].name : '';
+    this.userPicture = event?.response?.body?.value ? event.response.body.value : '';
   }
 
   handleFileUploadError(event: ErrorEvent): void {
