@@ -84,3 +84,4 @@ export const getLoadingMoreData = createSelector(selectPfDataGridState, fromPfDa
 export const getLastUpdateFieldsDate = createSelector(selectPfDataGridState, fromPfDataGridReducer.getLastUpdateFieldsDate);
 export const getVisibleKeys = createSelector(selectPfDataGridState, fromPfDataGridReducer.getVisibleKeys);
 export const getUnexpectedError = createSelector(selectPfDataGridState, fromPfDataGridReducer.getUnexpectedError);
+export const getFadeInKeys = createSelector(selectPfDataGridState, fromPfDataGridReducer.getFadeInKeys);

@@ -15,7 +15,6 @@ import * as fromJobsPageActions from '../../actions';
 
 
 import { PageViewIds } from '../../constants';
-import { AppNotification, NotificationType } from 'libs/features';
 
 @Component({
   selector: 'pf-jobs-details',
