@@ -88,6 +88,7 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
     this.maxSpreadTooltip = ModelSettingsModalConstants.MAX_SPREAD_TOOL_TIP;
     this.fieldsDisabledTooltip = ModelSettingsModalConstants.FIELDS_DISABLED_TOOL_TIP;
     this.payTypeTooltip = ModelSettingsModalConstants.PAYTYPE_TOOL_TIP;
+
     this.featureFlagService.bindEnabled(this.structuresAdvancedModelingFeatureFlag, this.unsubscribe$);
     this.calculationTypes = [
       { Type: CalculationType.Formula, TypeDisplay: 'Calculate' },
@@ -108,10 +109,6 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
 
   get formControls() {
     return this.rangeDistributionSettingForm.controls;
-  }
-
-  get currentCalculationTypes() {
-    return this.currentCalcTypes;
   }
 
   buildForm() {

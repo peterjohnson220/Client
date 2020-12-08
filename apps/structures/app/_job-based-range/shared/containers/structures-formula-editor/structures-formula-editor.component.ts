@@ -17,6 +17,7 @@ import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
 
 import * as fromJobBasedRangeReducer from '../../reducers';
 import { PagesHelper } from '../../helpers/pages.helper';
+import { ModelSettingsModalConstants } from '../../constants/model-settings-modal-constants';
 
 @Component({
   selector: 'pf-structures-formula-editor',
@@ -58,6 +59,8 @@ export class StructuresFormulaEditorComponent implements ControlValueAccessor, O
   pageLoaded = false;
   resetFormula = false;
   formula: string;
+  formulaTooltip: string;
+
 
   formulaFieldSuggestions$: Observable<Suggestion[]>;
   validating$: Observable<boolean>;
@@ -80,7 +83,7 @@ export class StructuresFormulaEditorComponent implements ControlValueAccessor, O
   }
 
   constructor(public store: Store<fromJobBasedRangeReducer.State>) {
-
+    this.formulaTooltip = ModelSettingsModalConstants.FORMULA_TOOL_TIP;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -251,9 +254,6 @@ export class StructuresFormulaEditorComponent implements ControlValueAccessor, O
   }
 
   private handleFormulaChangedAfterDebounceTime(value: string): void {
-    if (!value) {
-      return;
-    }
     this.formulaFieldObj.Formula = value;
     if (this.formulaFieldObj.Formula.length !== 0) {
       this.store.dispatch(new fromFormulaFieldActions.ValidateFormula({
