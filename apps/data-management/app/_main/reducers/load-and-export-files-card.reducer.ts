@@ -3,7 +3,6 @@ import * as fromLoadAndExportFilesCardActions from '../actions/load-and-export-f
 
 export interface LoadAndExportFilesCardState {
   loading: boolean;
-  canImportOrgData: boolean;
   canExportOrgData: boolean;
   canExportPricingData: boolean;
   canExportJobDescription: boolean;
@@ -12,7 +11,6 @@ export interface LoadAndExportFilesCardState {
 
 export const initialState: LoadAndExportFilesCardState = {
   loading: false,
-  canImportOrgData: false,
   canExportOrgData: false,
   canExportPricingData: false,
   canExportJobDescription: false,
@@ -29,7 +27,12 @@ export function reducer(state = initialState, action: fromLoadAndExportFilesCard
     }
     case fromLoadAndExportFilesCardActions.INIT_LOAD_AND_EXPORT_FILES_CARD_SUCCESS: {
       return {
-        ...state = action.payload
+        ...state,
+        canExportOrgData: action.payload.canExportOrgData,
+        canExportPricingData: action.payload.canExportPricingData,
+        canExportJobDescription: action.payload.canExportJobDescription,
+        canScheduleBulkExports: action.payload.canScheduleBulkExports,
+        loading: false
       };
     }
     default: {

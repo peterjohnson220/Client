@@ -4,11 +4,12 @@ import { Store } from '@ngrx/store';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 
-import { CompositeDataLoadViewResponse } from 'libs/models';
+import { CompositeDataLoadViewResponse, CompanySettingsEnum} from 'libs/models';
 import * as fromJobDescriptionsExportActions from 'libs/features/job-description-management/actions/job-description-export.actions';
 import * as fromOrgDataNavigationLinkActions from 'libs/features/navigation-links/actions/org-data-navigation-link.actions';
 import * as fromAppNotificationsMainReducer from 'libs/features/app-notifications/reducers';
 import * as fromAppNotificationsActions from 'libs/features/app-notifications/actions/app-notifications.actions';
+import { SettingsService } from 'libs/state/app-context/services';
 import { NotificationLevel, NotificationSource, NotificationType } from 'libs/features/app-notifications/models';
 
 import * as fromDataManagementMainReducer from '../../reducers';
@@ -35,13 +36,18 @@ export class LoadAndExportFilesCardComponent implements OnInit, OnDestroy {
   latestOrgDataLoadModalOpen$: Observable<boolean>;
 
 
-  constructor(private store: Store<fromDataManagementMainReducer.State>, private notificationStore: Store<fromAppNotificationsMainReducer.State>) {
+  constructor(private store: Store<fromDataManagementMainReducer.State>,
+    private notificationStore: Store<fromAppNotificationsMainReducer.State>,
+    private settingsService: SettingsService) {
     this.latestOrgDataLoad$ = this.store.select(fromDataManagementMainReducer.getLatestOrgDataLoad);
     this.latestOrgDataLoadModalOpen$ = this.store.select(fromDataManagementMainReducer.getLatestOrgDataLoadModalOpen);
+    this.settingsService
+      .selectCompanySetting<string>(CompanySettingsEnum.ManualOrgDataLoadLink, 'string')
+      .pipe(takeUntil(this.unsubscribe$), filter(v => !!v))
+      .subscribe(setting => this.canImportOrgData = (setting === 'true'));
     this.store.select(fromDataManagementMainReducer.getLoadAndExportFilesCardState)
       .pipe(takeUntil(this.unsubscribe$), filter(v => !!v))
       .subscribe(v => {
-        this.canImportOrgData = v.canImportOrgData;
         this.canExportOrgData = v.canExportOrgData;
         this.canExportPricingData = v.canExportPricingData;
         this.canExportJobDescription = v.canExportJobDescription;
