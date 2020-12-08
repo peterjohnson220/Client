@@ -3,4 +3,5 @@ export class ModelSettingsModalConstants {
   public static MAX_SPREAD_TOOL_TIP = 'The maximum range spread calculation is (min value) * (1 + (min range spread + max range spread))';
   public static FIELDS_DISABLED_TOOL_TIP = 'Please select a pay type to enable';
   public static PAYTYPE_TOOL_TIP = 'Please select a pay type to enable and populate remaining selections';
+  public static FORMULA_TOOL_TIP = 'Use [ to find and insert existing fields in your formula. Use $ to view formula syntax.';
 }
