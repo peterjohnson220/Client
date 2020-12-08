@@ -29,7 +29,13 @@ export function reducer(state = initialState, action: fromLoadAndExportFilesCard
     }
     case fromLoadAndExportFilesCardActions.INIT_LOAD_AND_EXPORT_FILES_CARD_SUCCESS: {
       return {
-        ...state = action.payload
+        ...state,
+        canImportOrgData: action.payload.canImportOrgData,
+        canExportOrgData: action.payload.canExportOrgData,
+        canExportPricingData: action.payload.canExportPricingData,
+        canExportJobDescription: action.payload.canExportJobDescription,
+        canScheduleBulkExports: action.payload.canScheduleBulkExports,
+        loading: false
       };
     }
     default: {
