@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { SharedUserPermission } from 'libs/models/payfactors-api/reports/request';
+import { CsvFileDelimiter, ExportFileExtension, SharedUserPermission } from 'libs/models/payfactors-api/reports/request';
 import { UserDataView, SharedDataViewUser } from 'libs/features/formula-editor';
 
 export const GET_USER_DATA_VIEW = '[Data Insights / Data View] Get User Data View';
@@ -69,7 +69,7 @@ export class DeleteUserReportSuccess implements Action {
 export class ExportUserReport implements Action {
   readonly type = EXPORT_USER_REPORT;
 
-  constructor() {}
+  constructor(public payload: { fileExtension: ExportFileExtension, csvFileDelimiter: CsvFileDelimiter }) {}
 }
 
 export class ExportUserReportSuccess implements Action {
