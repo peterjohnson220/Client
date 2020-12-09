@@ -133,7 +133,7 @@
 
 <ng-template #eeCount let-dataRow="dataRow" let-fieldName="fieldName">
   <ng-container *ngIf="dataRow.CompanyStructures_RangeGroup_NumEmployees as numEmployees; else noValue">
-    <a class="temp-link-color-override" routerLinkActive="disabled" routerLink="/{{rangeGroupId}}/employees/{{dataRow.CompanyStructures_Ranges_CompanyStructuresRanges_ID}}">
+    <a class="temp-link-color-override" routerLinkActive="disabled" routerLink="/job/{{rangeGroupId}}/employees/{{dataRow.CompanyStructures_Ranges_CompanyStructuresRanges_ID}}">
       {{ numEmployees }}
     </a>
   </ng-container>
@@ -141,7 +141,7 @@
 
 <ng-template #mrpValue let-dataRow="dataRow" let-fieldName="fieldName">
   <ng-container *ngIf="dataRow.CompanyStructures_RangeGroup_MarketReferencePointValue as mrpValue; else noValue">
-    <a class="temp-link-color-override" routerLinkActive="disabled" routerLink="/{{rangeGroupId}}/pricings/{{dataRow.CompanyStructures_Ranges_CompanyStructuresRanges_ID}}">
+    <a class="temp-link-color-override" routerLinkActive="disabled" routerLink="/job/{{rangeGroupId}}/pricings/{{dataRow.CompanyStructures_Ranges_CompanyStructuresRanges_ID}}">
       {{ mrpValue | rangeValue: (metaData$ | async)?.Rate }}
     </a>
   </ng-container>
