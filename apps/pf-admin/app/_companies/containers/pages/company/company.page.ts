@@ -164,6 +164,7 @@ export class CompanyPageComponent implements OnInit, OnDestroy {
     companyFormData = Object.assign({},
       companyFormData,
       this.customCompanySettingsObj);
+
     if (!this.isEditMode) {
       this.store.dispatch(new fromCompanyPageActions.CreateCompany(companyFormData));
     } else {

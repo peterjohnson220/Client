@@ -114,6 +114,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   saveThrottle: Subject<any>;
   jobDescriptionViewsAsyncSubscription: Subscription;
   editingSubscription: Subscription;
+  publishingSubscription: Subscription;
   completedStepSubscription: Subscription;
   controlTypesSubscription: Subscription;
   requireSSOLoginSubscription: Subscription;
@@ -217,6 +218,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.editingSubscription.unsubscribe();
     this.completedStepSubscription.unsubscribe();
     this.requireSSOLoginSubscription.unsubscribe();
+    this.publishingSubscription.unsubscribe();
   }
 
   appliesToFormCompleted(selected: any) {
@@ -389,7 +391,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   }
 
   handleExportAsPDFClicked(): void {
-    this.export('pdf', 'Default');
+    this.export('pdf', '');
   }
 
   handleExportClickedFromActions(data: { exportType: string, viewName: string }): void {
@@ -481,7 +483,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     );
     this.routerParamsSubscription = urlParams.subscribe(params => {
       this.jobDescriptionId = params['id'];
-      this.viewName = params.queryParams['viewName'];
+      this.viewName = params.queryParams['viewName'] ?? 'Default' ;
       this.revisionNumber = params['versionNumber'];
       this.tokenId = params.queryParams['jwt'];
       this.ssoTokenId = params.queryParams['tokenid'];
@@ -589,7 +591,31 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     );
 
     this.jobDescriptionViewsAsyncSubscription = this.jobDescriptionViewsAsync$.subscribe(asyncObj => this.jobDescriptionViews = asyncObj.obj);
-    this.editingSubscription = this.editingJobDescription$.subscribe(value => this.editing = value);
+    this.editingSubscription = this.editingJobDescription$.subscribe(value => {
+      this.editing = value;
+      if (this.editing) {
+        this.enableAllContent();
+      }
+    });
+
+    this.publishingSubscription = this.jobDescriptionPublishing$.subscribe(asyncObj => {
+      if (asyncObj) {
+        this.editing = false;
+      }
+    });
+  }
+
+  private enableAllContent() {
+    this.jobDescription.Sections.forEach(section => {
+      section.ShowSubheading = true;
+
+      section.Controls.forEach(control => {
+        if (control.AdditionalProperties) {
+          control.AdditionalProperties.ShowControlName = true;
+          control.AdditionalProperties.ShowControl = true;
+        }
+      });
+    });
   }
 
   private initSsoSubscriptions() {
@@ -669,6 +695,11 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
       return;
     }
     this.jobDescription = cloneDeep(jobDescription);
+
+    if (this.editing || jobDescription.JobDescriptionStatus === 'In Review') {
+      this.enableAllContent();
+    }
+
     if (jobDescription.JobDescriptionTitle === null || jobDescription.JobDescriptionTitle.length === 0) {
       const jobTitleFieldName = jobDescription.JobInformationFields.find(infoField => infoField.FieldName === 'JobTitle');
       this.jobDescriptionDisplayName = !!jobTitleFieldName ? jobTitleFieldName.FieldValue : this.jobDescription.Name;
