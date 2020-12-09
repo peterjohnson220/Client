@@ -8,7 +8,7 @@ import { TrsSummaryControlComponent } from './trs-summary-control.component';
 import {
   generateMockCalculationControl,
   LabelWithOverride,
-  StatementModeEnum
+  StatementModeEnum, TotalRewardsColorEnum, TotalRewardsControlEnum
 } from '../../models';
 
 describe('TrsSummaryControlComponent', () => {
@@ -66,6 +66,35 @@ describe('TrsSummaryControlComponent', () => {
     component.mode = StatementModeEnum.Preview;
     component.calculationControls = [generateMockCalculationControl()];
     component.employeeRewardsData = generateMockEmployeeRewardsData();
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should display tabular mode properly in all modes', () => {
+    component.controlData = {
+      Title: { Default: 'Your Total Rewards Value', Override: '' } as LabelWithOverride
+    } as any;
+    component.mode = StatementModeEnum.Edit;
+    component.calculationControls = [generateMockCalculationControl()];
+    component.employeeRewardsData = generateMockEmployeeRewardsData();
+    component.controlData = {
+      Id: '106',
+      $type: 'TotalRewardsCalculationSummaryControlDto',
+      Title: { Default: 'Your Total Rewards Statement', Override: ''},
+      ControlType: TotalRewardsControlEnum.CalculationSummary,
+      Layout: { Width: 12 },
+      SummaryTextColor: TotalRewardsColorEnum.Secondary,
+      IsTabularView: true
+    };
+
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+
+    component.mode = StatementModeEnum.Preview;
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+
+    component.mode = StatementModeEnum.Print;
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });

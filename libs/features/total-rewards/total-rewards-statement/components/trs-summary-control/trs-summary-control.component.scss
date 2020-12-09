@@ -1,2 +1,17 @@
 @import 'colors';
 @import 'total-rewards/control-common';
+
+table {
+  table-layout: fixed;
+  .value-column {
+    width: 25%;
+    text-align: right;
+  }
+}
+
+.edit-mode {
+  .value-column {
+    width: 35%;
+    padding-right: 10%;
+  }
+}

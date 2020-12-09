@@ -1,6 +1,7 @@
 import { BaseControl } from './base-control';
-import { TotalRewardsColorEnum } from '../models/settings';
+import { TotalRewardsColorEnum } from './settings';
 
 export interface CalculationSummaryControl extends BaseControl {
   SummaryTextColor: TotalRewardsColorEnum;
+  IsTabularView: boolean;
 }

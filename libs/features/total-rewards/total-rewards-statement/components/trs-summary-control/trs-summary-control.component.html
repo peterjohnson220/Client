@@ -1,17 +1,53 @@
+<div class="summary-control px-3 mt-3" pfModeClassifierDirective [mode]="mode">
+  <!-- Standard View -->
+  <div class="text-center" *ngIf="!controlData.IsTabularView; else tabularView">
+    <h3 class="d-inline-block mw-100" pfStatementGraphicsDirective [colors]="graphicsColors" [colorRank]="controlData.SummaryTextColor" [styleAttrToColor]="'color'">
+      <pf-string-editor
+        [maxCharacters]="30"
+        [value]="controlData.Title.Override"
+        [placeholder]="controlData.Title.Default"
+        [showIcon]="'onHover'"
+        [inEditMode]="isEditMode"
+        (valueChange)="handleTitleChanged($event)">
+      </pf-string-editor>
+    </h3>
+    <h4 *ngIf="isEditMode" class="position-relative">{{ editValue }}</h4>
+    <h4 *ngIf="!isEditMode" class="position-relative" [ngClass]=" isPreviewMode ? 'preview-mode-animation' : '' ">
+      {{ sumOfCalculationControls }}
+    </h4>
+  </div>
 
-<div class="text-center mt-3">
-  <h3 class="d-inline-block mw-100" pfStatementGraphicsDirective [colors]="graphicsColors" [colorRank]="controlData.SummaryTextColor" [styleAttrToColor]="'color'">
-    <pf-string-editor
-      [maxCharacters]="30"
-      [value]="controlData.Title.Override"
-      [placeholder]="controlData.Title.Default"
-      [showIcon]="'onHover'"
-      [inEditMode]="getIsEditMode()"
-      (valueChange)="handleTitleChanged($event)">
-    </pf-string-editor>
-  </h3>
-  <h4 *ngIf="getIsEditMode()" class="position-relative">{{getEditValue()}}</h4>
-  <h4 *ngIf="!getIsEditMode()" class="position-relative" [ngClass]="getIsPreviewMode() ? 'preview-mode-animation' : '' ">
-    {{getSumOfCalculationControls()}}
-  </h4>
+  <!-- Tabular View -->
+  <ng-template #tabularView>
+    <table class="table table-borderless table-sm m-0 w-100">
+      <colgroup>
+        <col class="title-column">
+        <col class="value-column">
+      </colgroup>
+      <tbody>
+        <tr>
+          <td class="title-column">
+            <h3 class="d-inline-block mw-100"
+                pfStatementGraphicsDirective
+                [colors]="graphicsColors"
+                [colorRank]="controlData.SummaryTextColor"
+                [styleAttrToColor]="'color'">
+              <pf-string-editor
+                [maxCharacters]="30"
+                [value]="controlData.Title.Override"
+                [placeholder]="controlData.Title.Default"
+                [showIcon]="'onHover'"
+                [inEditMode]="isEditMode"
+                (valueChange)="handleTitleChanged($event)">
+              </pf-string-editor>
+            </h3>
+          </td>
+          <td class="value-column" [ngClass]="isPreviewMode ? 'preview-mode-animation' : '' ">
+            <h4 *ngIf="isEditMode">{{ editValue }}</h4>
+            <h4 *ngIf="!isEditMode">{{ sumOfCalculationControls }}</h4>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </ng-template>
 </div>
