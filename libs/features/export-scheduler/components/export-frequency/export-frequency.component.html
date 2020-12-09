@@ -1,0 +1,53 @@
+<div class="form-group row pl-4">
+  <label class="labels col-form-label">Select Frequency <span class="text-danger">*</span></label>
+  <div class="dropdowns">
+    <label>
+      <input type="radio" [(ngModel)]="frequencySelected" name="frequency" [value]="exportFrequencyType.OneTime" (change)="onFrequencyChange()">
+      <span class="pl-2">One-time</span>
+    </label>
+    <label class="ml-5">
+      <input type="radio" [(ngModel)]="frequencySelected" name="frequency" [value]="exportFrequencyType.Weekly" (change)="onFrequencyChange()">
+      <span class="pl-2">Weekly</span>
+    </label>
+    <label class="ml-5">
+      <input type="radio" [(ngModel)]="frequencySelected" name="frequency" [value]="exportFrequencyType.Monthly" (change)="onFrequencyChange()">
+      <span class="pl-2">Monthly</span>
+    </label>
+    <div *ngIf="frequencySelected === exportFrequencyType.OneTime">
+      <span>The export will be sent to your sFTP site upon save</span>
+    </div>
+
+    <div *ngIf="frequencySelected === exportFrequencyType.Weekly" class="mb-2 mt-4" >
+      <ng-container *ngFor="let day of daysOfWeek; trackBy: trackByFn">
+        <input type="checkbox"
+               (change)="onDayOfWeekChange()"
+               [(ngModel)]="day.IsSelected"
+               [id]="'weekly' + day.Name"
+               [value]="day.Value">
+        <label [for]="'weekly' + day.Name" class="weekly-checkbox">{{day.Name}}</label>
+      </ng-container>
+    </div>
+    <div *ngIf="frequencySelected === exportFrequencyType.Monthly" class="mb-2 mt-4">
+      <kendo-dropdownlist
+        data-qa-id="ddl-tabular-form-reports-monthly-occurrence"
+        class="w-25 mr-2 k-dropdown-white"
+        [(ngModel)]="selectedMonthlyFrequency.Occurrence"
+        [data]="monthlyOccurrence">
+      </kendo-dropdownlist>
+
+      <kendo-dropdownlist
+        data-qa-id="ddl-tabular-form-reports-monthly-day-of-week"
+        class="w-25 mr-2 k-dropdown-white"
+        (valueChange)="handleMonthlyDayOfWeekChange()"
+        [(ngModel)]="selectedMonthlyFrequency.DayOfWeek"
+        [textField]="'Name'"
+        [valueField]="'Value'"
+        [data]="daysOfWeek">
+      </kendo-dropdownlist>
+      <span>of each month</span>
+    </div>
+    <small *ngIf="frequencySelected === exportFrequencyType.Weekly || frequencySelected === exportFrequencyType.Monthly" class="text-muted mt-2">
+      Files are sent between 12:00 AM and 6:00 AM EST on the day selected
+    </small>
+  </div>
+</div>

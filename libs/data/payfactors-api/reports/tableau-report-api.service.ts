@@ -83,4 +83,8 @@ export class TableauReportApiService {
   getCompanyViews(): Observable<TableauReportViewsResponse[]> {
     return this.payfactorsApiService.get(`${this.endpoint}/GetCompanyViews`);
   }
+
+  getReportBuilderViews(): Observable<TableauReportResponse[]> {
+    return this.payfactorsApiService.get(`${this.endpoint}/GetReportBuilderViews`);
+  }
 }

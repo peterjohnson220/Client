@@ -1,0 +1,43 @@
+<pf-page-with-title-bar [absoluteUrl]="env.companyAdminUrl + '/navigation'">
+  <ng-container page-title>
+    Schedule Tabular Report Export
+  </ng-container>
+
+  <ng-container page-content>
+    <div class="d-flex mt-3">
+      <div class="div-container pl-3 pt-3">
+        <h4>Create Tabular Report Export</h4>
+        <div class=" form-container d-flex flex-column pt-4 pl-2">
+          <div class="form-group row pl-4">
+            <label class="labels col-form-label">Select Report to Export <span class="text-danger">*</span></label>
+            <div class="dropdowns">
+              <kendo-combobox class="form-control"
+                              data-qa-id="ddl-tabular-reports"
+                              placeholder="Select"
+                              [(ngModel)]="selectedReport"
+                              [data]="(tabularReportsAsync$ | async)?.obj"
+                              [loading]="(tabularReportsAsync$ | async)?.loading"
+                              [textField]="'WorkbookName'"
+                              [valueField]="'WorkbookId'"
+                              [filterable]="true"
+                              [kendoDropDownFilter]="filterSettings"
+                              [ngClass]="{ 'is-invalid': false }">
+              </kendo-combobox>
+            </div>
+          </div>
+          <pf-export-format #exportFormat></pf-export-format>
+          <pf-export-frequency #exportFrequency></pf-export-frequency>
+      </div>
+      <div class="form-footer d-flex justify-content-between">
+        <div class="flex-grow-1 d-flex justify-content-end space-out-children">
+          <button [disabled]="disabled" class="btn btn-primary">Schedule</button>
+        </div>
+      </div>
+    </div>
+      <div class="div-container ml-3 pl-3 pt-3">
+        <h4>Saved Schedules</h4>
+        <div class="pt-4 pl-2"></div>
+      </div>
+    </div>
+  </ng-container>
+</pf-page-with-title-bar>
