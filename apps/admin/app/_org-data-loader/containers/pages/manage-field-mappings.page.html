@@ -48,6 +48,21 @@
                      class="form-control"
                      [(ngModel)]="delimiter">
             </div>
+            <label for="dateFormat"
+                   class="col-sm-1 col-form-label">Date Format:</label>
+            <div class="col-sm-3">
+              <kendo-combobox class="form-control flex-fill"
+                              id="dateFormat"
+                              [(ngModel)]="dateFormat"
+                              [data]="dateFormatsFilteredData"
+                              textField="text"
+                              valueField="value"
+                              [valuePrimitive]="true"
+                              [filterable]="true"
+                              (filterChange)="filterChange($event)"
+                              (selectionChange)="selectionChange($event)">
+              </kendo-combobox>
+            </div>
           </div>
         </div>
         <kendo-tabstrip [keepTabContent]="true"
@@ -112,7 +127,6 @@
                                [loaderType]="templateReferenceConstants.LoaderType.Employees"
                                [delimiter]="delimiter"
                                [filenamePattern]="orgDataFilenamePatternSet?.EmployeesFilenamePattern"
-                               [dateFormat]="dateFormat"
                                [fieldMappings$]="companyMappings$"
                                [fieldMappingsLoading]="companyMappingsLoading$ | async"
                                [isFullReplace]="isEmployeesFullReplace"
@@ -128,7 +142,6 @@
                                [loaderType]="templateReferenceConstants.LoaderType.EmployeeTags"
                                [delimiter]="delimiter"
                                [filenamePattern]="orgDataFilenamePatternSet?.EmployeeTagsFilenamePattern"
-                               [dateFormat]="dateFormat"
                                [fieldMappings$]="companyMappings$"
                                [fieldMappingsLoading]="companyMappingsLoading$ | async"
                                [isFullReplace]="isEmployeeTagsFullReplace"
