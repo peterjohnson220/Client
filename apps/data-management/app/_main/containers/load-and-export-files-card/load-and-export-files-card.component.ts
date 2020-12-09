@@ -12,6 +12,7 @@ import * as fromAppNotificationsActions from 'libs/features/app-notifications/ac
 import { NotificationLevel, NotificationSource, NotificationType } from 'libs/features/app-notifications/models';
 
 import * as fromDataManagementMainReducer from '../../reducers';
+import * as fromLoadAndExportFilesCardActions from '../../actions/load-and-export-files-card.actions';
 import * as fromLoadersDataActions from '../../actions/loaders-data.actions';
 
 @Component({
@@ -50,6 +51,7 @@ export class LoadAndExportFilesCardComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.store.dispatch(new fromLoadAndExportFilesCardActions.InitLoadAndExportFilesCard());
     this.store.dispatch(new fromLoadersDataActions.GetLatestOrgDataLoad());
   }
 
