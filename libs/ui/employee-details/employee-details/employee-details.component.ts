@@ -34,11 +34,11 @@ export class EmployeeDetailsComponent implements OnInit, OnChanges {
     if (changes['employeeDetails']) {
 
       this.displayDetails = changes['employeeDetails'].currentValue;
-      this.formattedSalary = Math.round(changes['employeeDetails'].currentValue.Base_Salary).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+      this.formattedSalary = Math.round(changes['employeeDetails'].currentValue.BaseSalary).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
 
-      if (this.displayDetails.Date_Of_Hire !== null) {
+      if (this.displayDetails.DateOfHire !== null) {
         const currDate = moment(new Date());
-        const momentHireDate = moment(this.displayDetails.Date_Of_Hire);
+        const momentHireDate = moment(this.displayDetails.DateOfHire);
         this.yearsOfService = Math.floor(currDate.diff(momentHireDate, 'years', true) * 2) / 2;
       }
 
