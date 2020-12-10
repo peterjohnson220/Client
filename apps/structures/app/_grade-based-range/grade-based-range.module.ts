@@ -1,24 +1,21 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { PfCommonModule } from 'libs/core';
-import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
+import { PfFormsModule } from 'libs/forms';
 
-import { RangeGroupExistsGuard } from '../shared/guards';
-import { JobBasedRangeRoutingModule } from './job-based-range-routing.module';
+import { GradeBasedRangeRoutingModule } from './grade-based-range-routing.module';
+import { GradeBasedRangeGroupGuard, RangeGroupExistsGuard } from '../shared/guards';
 
 @NgModule({
   imports: [
     // Angular
     CommonModule,
 
-    // 3rd Party
-
     // Routing
-    JobBasedRangeRoutingModule,
+    GradeBasedRangeRoutingModule,
 
     // PF
     PfCommonModule,
@@ -27,9 +24,8 @@ import { JobBasedRangeRoutingModule } from './job-based-range-routing.module';
     FontAwesomeModule
   ],
   providers: [
-    RangeGroupExistsGuard
+    RangeGroupExistsGuard,
+    GradeBasedRangeGroupGuard
   ]
 })
-export class JobBasedRangeModule {
-  constructor() { }
-}
+export class GradeBasedRangeModule { }
