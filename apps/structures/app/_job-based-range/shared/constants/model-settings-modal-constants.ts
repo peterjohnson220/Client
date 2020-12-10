@@ -4,4 +4,6 @@ export class ModelSettingsModalConstants {
   public static FIELDS_DISABLED_TOOL_TIP = 'Please select a pay type to enable';
   public static PAYTYPE_TOOL_TIP = 'Please select a pay type to enable and populate remaining selections';
   public static FORMULA_TOOL_TIP = 'Use [ to find and insert existing fields in your formula. Use $ to view formula syntax.';
+  public static PEER_EXCHANGE_TOOL_TIP =
+    'Select the Peer Exchange to be able to view Peer data and how it compares to your structures. National data will be used.';
 }
