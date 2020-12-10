@@ -14,6 +14,27 @@
     .button-column {
       width: 10%;
     }
+    &.consolidated {
+      tr.trs-calculation-row {
+        line-height: 1; // shrink row heights in consolidated mode
+      }
+      td.summary {
+        border-top: 0; // hide the border above the total
+      }
+      td.contribution-field.summary > span {
+        vertical-align: -2px; // push the number/value up to line up with the field
+      }
+      .last-before-summary {
+        padding-bottom: 1rem; // increase whitespace around the total
+      }
+    }
+  }
+  .faux-title {
+    font-weight: bold;
+    font-style: italic;
+    font-size: 1.3rem;
+    height: 3.5rem;
+    vertical-align: top;
   }
 }
 

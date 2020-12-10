@@ -3,7 +3,7 @@
 exports[`TrsCalculationControlComponent should display contribution values and total when in preview mode 1`] = `
 <pf-trs-calculation-control
   MAX_VISIBLE_FIELDS={[Function Number]}
-  compensationValuePlaceholder={[Function String]}
+  consolidated={[Function Number]}
   controlData={[Function Object]}
   currencyPipe={[Function Object]}
   employeeRewardsData={[Function Object]}
@@ -16,7 +16,7 @@ exports[`TrsCalculationControlComponent should display contribution values and t
   onUpdateSummaryTitleChange={[Function EventEmitter]}
 >
   <div
-    class="trs-calculation container py-2"
+    class="trs-calculation py-2 px-3"
     pfmodeclassifierdirective=""
   >
     <table
@@ -36,9 +36,10 @@ exports[`TrsCalculationControlComponent should display contribution values and t
           class="trs-calculation-row w-100"
         >
           <th
-            class="text-left font-weight-normal"
+            class="font-weight-normal"
             scope="col"
           >
+            
             <h4
               class="primary-control-heading mb-1"
             >
@@ -59,7 +60,10 @@ exports[`TrsCalculationControlComponent should display contribution values and t
             class="secondary-header align-middle text-right font-weight-normal"
             scope="col"
           >
-            Contribution
+            
+            <span>
+              Contribution
+            </span>
           </th>
           
         </tr>
@@ -70,9 +74,7 @@ exports[`TrsCalculationControlComponent should display contribution values and t
           class="trs-calculation-row w-100"
         >
           
-          <td
-            class="text-left"
-          >
+          <td>
             <pf-string-editor>
               
               <span
@@ -88,7 +90,10 @@ exports[`TrsCalculationControlComponent should display contribution values and t
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-             150000 
+            
+            <span>
+              150000
+            </span>
           </td>
           
           
@@ -98,9 +103,7 @@ exports[`TrsCalculationControlComponent should display contribution values and t
           class="trs-calculation-row w-100"
         >
           
-          <td
-            class="text-left"
-          >
+          <td>
             <pf-string-editor>
               
               <span
@@ -116,7 +119,10 @@ exports[`TrsCalculationControlComponent should display contribution values and t
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-             10000 
+            
+            <span>
+              10000
+            </span>
           </td>
           
           
@@ -127,7 +133,7 @@ exports[`TrsCalculationControlComponent should display contribution values and t
         >
           
           <td
-            class="text-left last-before-summary"
+            class="last-before-summary"
           >
             <pf-string-editor>
               
@@ -144,7 +150,10 @@ exports[`TrsCalculationControlComponent should display contribution values and t
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-             5000 
+            
+            <span>
+              5000
+            </span>
           </td>
           
           
@@ -154,7 +163,7 @@ exports[`TrsCalculationControlComponent should display contribution values and t
           class="trs-calculation-row w-100"
         >
           <td
-            class="summary text-left"
+            class="summary"
             pfstatementgraphicsdirective=""
           >
             <pf-string-editor>
@@ -172,171 +181,16 @@ exports[`TrsCalculationControlComponent should display contribution values and t
           <td
             class="contribution-field summary text-right preview-mode-animation"
           >
-             165000 
+            
+            <span>
+              165000
+            </span>
           </td>
           
         </tr>
       </tbody>
     </table>
     
-  </div>
-</pf-trs-calculation-control>
-`;
-
-exports[`TrsCalculationControlComponent should display the Add Field button if a field has been removed 1`] = `
-<pf-trs-calculation-control
-  MAX_VISIBLE_FIELDS={[Function Number]}
-  compensationValuePlaceholder={[Function String]}
-  controlData={[Function Object]}
-  currencyPipe={[Function Object]}
-  maxVisibleFieldsReached="false"
-  mode="0"
-  onCompFieldAdded={[Function EventEmitter]}
-  onCompFieldRemoved={[Function EventEmitter]}
-  onCompFieldTitleChange={[Function EventEmitter]}
-  onTitleChange={[Function EventEmitter]}
-  onUpdateSummaryTitleChange={[Function EventEmitter]}
->
-  <div
-    class="trs-calculation container py-2"
-    pfmodeclassifierdirective=""
-  >
-    <table
-      class="table table-borderless table-sm mb-0 w-100"
-    >
-      <colgroup>
-        <col
-          class="field-column"
-        />
-        <col
-          class="contribution-column"
-        />
-        
-        <col
-          class="button-column"
-        />
-      </colgroup>
-      <thead>
-        <tr
-          class="trs-calculation-row w-100"
-        >
-          <th
-            class="text-left font-weight-normal"
-            scope="col"
-          >
-            <h4
-              class="primary-control-heading mb-1"
-            >
-              <pf-string-editor>
-                
-                <span
-                  class="wrapper w-100 d-inline-block"
-                >
-                  <input
-                    class="input-text w-100 offScreen"
-                    maxlength="30"
-                    minlength="1"
-                    placeholder=""
-                    tabindex="-1"
-                    type="text"
-                  />
-                  
-                  <a
-                    class="editable d-flex show-icon-on-hover"
-                    href="javascript:void(0)"
-                  >
-                    <span
-                      class="edit-text d-inline-block mw-100"
-                    >
-                      
-                    </span>
-                    <span
-                      class="edit-icon position-relative"
-                    >
-                      <fa-icon
-                        aria-hidden="true"
-                        class="fa-xs ml-2"
-                      />
-                    </span>
-                  </a>
-                </span>
-                
-              </pf-string-editor>
-            </h4>
-          </th>
-          <th
-            class="secondary-header align-middle text-right font-weight-normal"
-            scope="col"
-          >
-            Contribution
-          </th>
-          
-          <th
-            scope="col"
-          />
-        </tr>
-      </thead>
-      <tbody>
-        
-        <tr
-          class="trs-calculation-row w-100"
-        >
-          
-          
-        </tr>
-        <tr
-          class="trs-calculation-row w-100"
-        >
-          <td
-            class="summary text-left"
-            pfstatementgraphicsdirective=""
-          >
-            <pf-string-editor>
-              
-              <span
-                class="wrapper w-100 d-inline-block"
-              >
-                <input
-                  class="input-text w-100 offScreen"
-                  maxlength="30"
-                  minlength="1"
-                  placeholder="test summary"
-                  tabindex="-1"
-                  type="text"
-                />
-                
-                <a
-                  class="editable d-flex show-icon-on-hover"
-                  href="javascript:void(0)"
-                >
-                  <span
-                    class="edit-text d-inline-block mw-100"
-                  >
-                    test summary
-                  </span>
-                  <span
-                    class="edit-icon position-relative"
-                  >
-                    <fa-icon
-                      aria-hidden="true"
-                      class="fa-xs ml-2"
-                    />
-                  </span>
-                </a>
-              </span>
-              
-            </pf-string-editor>
-          </td>
-          <td
-            class="contribution-field summary text-right"
-          >
-             $---,--- 
-          </td>
-          
-          <td />
-        </tr>
-      </tbody>
-    </table>
     
   </div>
 </pf-trs-calculation-control>
@@ -345,7 +199,7 @@ exports[`TrsCalculationControlComponent should display the Add Field button if a
 exports[`TrsCalculationControlComponent should exclude fields in preview mode if employee data is 0 for a given field 1`] = `
 <pf-trs-calculation-control
   MAX_VISIBLE_FIELDS={[Function Number]}
-  compensationValuePlaceholder={[Function String]}
+  consolidated={[Function Number]}
   controlData={[Function Object]}
   currencyPipe={[Function Object]}
   employeeRewardsData={[Function Object]}
@@ -358,7 +212,7 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
   onUpdateSummaryTitleChange={[Function EventEmitter]}
 >
   <div
-    class="trs-calculation container py-2"
+    class="trs-calculation py-2 px-3"
     pfmodeclassifierdirective=""
   >
     <table
@@ -378,9 +232,10 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
           class="trs-calculation-row w-100"
         >
           <th
-            class="text-left font-weight-normal"
+            class="font-weight-normal"
             scope="col"
           >
+            
             <h4
               class="primary-control-heading mb-1"
             >
@@ -401,7 +256,10 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
             class="secondary-header align-middle text-right font-weight-normal"
             scope="col"
           >
-            Contribution
+            
+            <span>
+              Contribution
+            </span>
           </th>
           
         </tr>
@@ -412,9 +270,7 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
           class="trs-calculation-row w-100"
         >
           
-          <td
-            class="text-left"
-          >
+          <td>
             <pf-string-editor>
               
               <span
@@ -430,7 +286,10 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-             150000 
+            
+            <span>
+              150000
+            </span>
           </td>
           
           
@@ -440,9 +299,7 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
           class="trs-calculation-row w-100"
         >
           
-          <td
-            class="text-left"
-          >
+          <td>
             <pf-string-editor>
               
               <span
@@ -458,7 +315,10 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-             10000 
+            
+            <span>
+              10000
+            </span>
           </td>
           
           
@@ -474,7 +334,7 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
           class="trs-calculation-row w-100"
         >
           <td
-            class="summary text-left"
+            class="summary"
             pfstatementgraphicsdirective=""
           >
             <pf-string-editor>
@@ -492,12 +352,16 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
           <td
             class="contribution-field summary text-right preview-mode-animation"
           >
-             160000 
+            
+            <span>
+              160000
+            </span>
           </td>
           
         </tr>
       </tbody>
     </table>
+    
     
   </div>
 </pf-trs-calculation-control>
@@ -506,7 +370,7 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
 exports[`TrsCalculationControlComponent should exclude fields in preview mode if employee data is null for a given field 1`] = `
 <pf-trs-calculation-control
   MAX_VISIBLE_FIELDS={[Function Number]}
-  compensationValuePlaceholder={[Function String]}
+  consolidated={[Function Number]}
   controlData={[Function Object]}
   currencyPipe={[Function Object]}
   employeeRewardsData={[Function Object]}
@@ -519,7 +383,7 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
   onUpdateSummaryTitleChange={[Function EventEmitter]}
 >
   <div
-    class="trs-calculation container py-2"
+    class="trs-calculation py-2 px-3"
     pfmodeclassifierdirective=""
   >
     <table
@@ -539,9 +403,10 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
           class="trs-calculation-row w-100"
         >
           <th
-            class="text-left font-weight-normal"
+            class="font-weight-normal"
             scope="col"
           >
+            
             <h4
               class="primary-control-heading mb-1"
             >
@@ -562,7 +427,10 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
             class="secondary-header align-middle text-right font-weight-normal"
             scope="col"
           >
-            Contribution
+            
+            <span>
+              Contribution
+            </span>
           </th>
           
         </tr>
@@ -573,9 +441,7 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
           class="trs-calculation-row w-100"
         >
           
-          <td
-            class="text-left"
-          >
+          <td>
             <pf-string-editor>
               
               <span
@@ -591,7 +457,10 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-             150000 
+            
+            <span>
+              150000
+            </span>
           </td>
           
           
@@ -601,9 +470,7 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
           class="trs-calculation-row w-100"
         >
           
-          <td
-            class="text-left"
-          >
+          <td>
             <pf-string-editor>
               
               <span
@@ -619,7 +486,10 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-             10000 
+            
+            <span>
+              10000
+            </span>
           </td>
           
           
@@ -635,7 +505,7 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
           class="trs-calculation-row w-100"
         >
           <td
-            class="summary text-left"
+            class="summary"
             pfstatementgraphicsdirective=""
           >
             <pf-string-editor>
@@ -653,12 +523,220 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
           <td
             class="contribution-field summary text-right preview-mode-animation"
           >
-             160000 
+            
+            <span>
+              160000
+            </span>
           </td>
           
         </tr>
       </tbody>
     </table>
+    
+    
+  </div>
+</pf-trs-calculation-control>
+`;
+
+exports[`TrsCalculationControlComponent should hide all content in the table head when ShowTitle is false 1`] = `
+<pf-trs-calculation-control
+  MAX_VISIBLE_FIELDS={[Function Number]}
+  consolidated={[Function Number]}
+  controlData={[Function Object]}
+  currencyPipe={[Function Object]}
+  employeeRewardsData={[Function Object]}
+  maxVisibleFieldsReached="false"
+  mode={[Function Number]}
+  onCompFieldAdded={[Function EventEmitter]}
+  onCompFieldRemoved={[Function EventEmitter]}
+  onCompFieldTitleChange={[Function EventEmitter]}
+  onTitleChange={[Function EventEmitter]}
+  onUpdateSummaryTitleChange={[Function EventEmitter]}
+>
+  <div
+    class="trs-calculation py-2 px-3"
+    pfmodeclassifierdirective=""
+  >
+    <table
+      class="table table-borderless table-sm mb-0 w-100"
+    >
+      <colgroup>
+        <col
+          class="field-column"
+        />
+        <col
+          class="contribution-column"
+        />
+        
+      </colgroup>
+      <thead>
+        <tr
+          class="trs-calculation-row w-100"
+        >
+          <th
+            class="font-weight-normal"
+            scope="col"
+          >
+            
+          </th>
+          <th
+            class="secondary-header align-middle text-right font-weight-normal"
+            scope="col"
+          >
+            
+          </th>
+          
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr
+          class="trs-calculation-row w-100"
+        >
+          
+          
+        </tr>
+        <tr
+          class="trs-calculation-row w-100 faux-title"
+        >
+          <td
+            class="summary"
+            pfstatementgraphicsdirective=""
+          >
+            <pf-string-editor>
+              
+              <span
+                class="wrapper w-100 d-inline-block"
+              >
+                <span>
+                  
+                </span>
+              </span>
+              
+            </pf-string-editor>
+          </td>
+          <td
+            class="contribution-field summary text-right preview-mode-animation"
+          >
+            
+            <pf-compensation-value-placeholder />
+          </td>
+          
+        </tr>
+      </tbody>
+    </table>
+    
+    
+  </div>
+</pf-trs-calculation-control>
+`;
+
+exports[`TrsCalculationControlComponent should render additional content in the table head when ShowTitle is true 1`] = `
+<pf-trs-calculation-control
+  MAX_VISIBLE_FIELDS={[Function Number]}
+  consolidated={[Function Number]}
+  controlData={[Function Object]}
+  currencyPipe={[Function Object]}
+  employeeRewardsData={[Function Object]}
+  maxVisibleFieldsReached="false"
+  mode={[Function Number]}
+  onCompFieldAdded={[Function EventEmitter]}
+  onCompFieldRemoved={[Function EventEmitter]}
+  onCompFieldTitleChange={[Function EventEmitter]}
+  onTitleChange={[Function EventEmitter]}
+  onUpdateSummaryTitleChange={[Function EventEmitter]}
+>
+  <div
+    class="trs-calculation py-2 px-3"
+    pfmodeclassifierdirective=""
+  >
+    <table
+      class="table table-borderless table-sm mb-0 w-100"
+    >
+      <colgroup>
+        <col
+          class="field-column"
+        />
+        <col
+          class="contribution-column"
+        />
+        
+      </colgroup>
+      <thead>
+        <tr
+          class="trs-calculation-row w-100"
+        >
+          <th
+            class="font-weight-normal"
+            scope="col"
+          >
+            
+            <h4
+              class="primary-control-heading mb-1"
+            >
+              <pf-string-editor>
+                
+                <span
+                  class="wrapper w-100 d-inline-block"
+                >
+                  <span>
+                    test title
+                  </span>
+                </span>
+                
+              </pf-string-editor>
+            </h4>
+          </th>
+          <th
+            class="secondary-header align-middle text-right font-weight-normal"
+            scope="col"
+          >
+            
+            <span>
+              Contribution
+            </span>
+          </th>
+          
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr
+          class="trs-calculation-row w-100"
+        >
+          
+          
+        </tr>
+        <tr
+          class="trs-calculation-row w-100"
+        >
+          <td
+            class="summary"
+            pfstatementgraphicsdirective=""
+          >
+            <pf-string-editor>
+              
+              <span
+                class="wrapper w-100 d-inline-block"
+              >
+                <span>
+                  
+                </span>
+              </span>
+              
+            </pf-string-editor>
+          </td>
+          <td
+            class="contribution-field summary text-right preview-mode-animation"
+          >
+            
+            <pf-compensation-value-placeholder />
+          </td>
+          
+        </tr>
+      </tbody>
+    </table>
+    
     
   </div>
 </pf-trs-calculation-control>
@@ -667,7 +745,7 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
 exports[`TrsCalculationControlComponent should render the supplied Summary 1`] = `
 <pf-trs-calculation-control
   MAX_VISIBLE_FIELDS={[Function Number]}
-  compensationValuePlaceholder={[Function String]}
+  consolidated={[Function Number]}
   controlData={[Function Object]}
   currencyPipe={[Function Object]}
   maxVisibleFieldsReached="false"
@@ -679,7 +757,7 @@ exports[`TrsCalculationControlComponent should render the supplied Summary 1`] =
   onUpdateSummaryTitleChange={[Function EventEmitter]}
 >
   <div
-    class="trs-calculation container py-2"
+    class="trs-calculation py-2 px-3"
     pfmodeclassifierdirective=""
   >
     <table
@@ -702,54 +780,16 @@ exports[`TrsCalculationControlComponent should render the supplied Summary 1`] =
           class="trs-calculation-row w-100"
         >
           <th
-            class="text-left font-weight-normal"
+            class="font-weight-normal"
             scope="col"
           >
-            <h4
-              class="primary-control-heading mb-1"
-            >
-              <pf-string-editor>
-                
-                <span
-                  class="wrapper w-100 d-inline-block"
-                >
-                  <input
-                    class="input-text w-100 offScreen"
-                    maxlength="30"
-                    minlength="1"
-                    placeholder=""
-                    tabindex="-1"
-                    type="text"
-                  />
-                  
-                  <a
-                    class="editable d-flex show-icon-on-hover"
-                    href="javascript:void(0)"
-                  >
-                    <span
-                      class="edit-text d-inline-block mw-100"
-                    >
-                      
-                    </span>
-                    <span
-                      class="edit-icon position-relative"
-                    >
-                      <fa-icon
-                        aria-hidden="true"
-                        class="fa-xs ml-2"
-                      />
-                    </span>
-                  </a>
-                </span>
-                
-              </pf-string-editor>
-            </h4>
+            
           </th>
           <th
             class="secondary-header align-middle text-right font-weight-normal"
             scope="col"
           >
-            Contribution
+            
           </th>
           
           <th
@@ -760,10 +800,10 @@ exports[`TrsCalculationControlComponent should render the supplied Summary 1`] =
       <tbody>
         
         <tr
-          class="trs-calculation-row w-100"
+          class="trs-calculation-row w-100 faux-title"
         >
           <td
-            class="summary text-left"
+            class="summary"
             pfstatementgraphicsdirective=""
           >
             <pf-string-editor>
@@ -805,13 +845,15 @@ exports[`TrsCalculationControlComponent should render the supplied Summary 1`] =
           <td
             class="contribution-field summary text-right"
           >
-             $---,--- 
+            
+            <pf-compensation-value-placeholder />
           </td>
           
           <td />
         </tr>
       </tbody>
     </table>
+    
     
   </div>
 </pf-trs-calculation-control>
@@ -820,7 +862,7 @@ exports[`TrsCalculationControlComponent should render the supplied Summary 1`] =
 exports[`TrsCalculationControlComponent should render the supplied data fields 1`] = `
 <pf-trs-calculation-control
   MAX_VISIBLE_FIELDS={[Function Number]}
-  compensationValuePlaceholder={[Function String]}
+  consolidated={[Function Number]}
   controlData={[Function Object]}
   currencyPipe={[Function Object]}
   employeeRewardsData={[Function Object]}
@@ -833,7 +875,7 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
   onUpdateSummaryTitleChange={[Function EventEmitter]}
 >
   <div
-    class="trs-calculation container py-2"
+    class="trs-calculation py-2 px-3"
     pfmodeclassifierdirective=""
   >
     <table
@@ -856,54 +898,16 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
           class="trs-calculation-row w-100"
         >
           <th
-            class="text-left font-weight-normal"
+            class="font-weight-normal"
             scope="col"
           >
-            <h4
-              class="primary-control-heading mb-1"
-            >
-              <pf-string-editor>
-                
-                <span
-                  class="wrapper w-100 d-inline-block"
-                >
-                  <input
-                    class="input-text w-100 offScreen"
-                    maxlength="30"
-                    minlength="1"
-                    placeholder=""
-                    tabindex="-1"
-                    type="text"
-                  />
-                  
-                  <a
-                    class="editable d-flex show-icon-on-hover"
-                    href="javascript:void(0)"
-                  >
-                    <span
-                      class="edit-text d-inline-block mw-100"
-                    >
-                      
-                    </span>
-                    <span
-                      class="edit-icon position-relative"
-                    >
-                      <fa-icon
-                        aria-hidden="true"
-                        class="fa-xs ml-2"
-                      />
-                    </span>
-                  </a>
-                </span>
-                
-              </pf-string-editor>
-            </h4>
+            
           </th>
           <th
             class="secondary-header align-middle text-right font-weight-normal"
             scope="col"
           >
-            Contribution
+            
           </th>
           
           <th
@@ -917,9 +921,7 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
           class="trs-calculation-row w-100"
         >
           
-          <td
-            class="text-left"
-          >
+          <td>
             <pf-string-editor>
               
               <span
@@ -959,7 +961,8 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
           <td
             class="contribution-field text-right"
           >
-             $---,--- 
+            
+            <pf-compensation-value-placeholder />
           </td>
           
           <td>
@@ -979,9 +982,7 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
           class="trs-calculation-row w-100"
         >
           
-          <td
-            class="text-left"
-          >
+          <td>
             <pf-string-editor>
               
               <span
@@ -1021,7 +1022,8 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
           <td
             class="contribution-field text-right"
           >
-             $---,--- 
+            
+            <pf-compensation-value-placeholder />
           </td>
           
           <td>
@@ -1042,7 +1044,7 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
         >
           
           <td
-            class="text-left last-before-summary"
+            class="last-before-summary"
           >
             <pf-string-editor>
               
@@ -1083,7 +1085,8 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
           <td
             class="contribution-field text-right"
           >
-             $---,--- 
+            
+            <pf-compensation-value-placeholder />
           </td>
           
           <td>
@@ -1100,10 +1103,10 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
           
         </tr>
         <tr
-          class="trs-calculation-row w-100"
+          class="trs-calculation-row w-100 faux-title"
         >
           <td
-            class="summary text-left"
+            class="summary"
             pfstatementgraphicsdirective=""
           >
             <pf-string-editor>
@@ -1145,7 +1148,8 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
           <td
             class="contribution-field summary text-right"
           >
-             $---,--- 
+            
+            <pf-compensation-value-placeholder />
           </td>
           
           <td />
@@ -1153,110 +1157,6 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
       </tbody>
     </table>
     
-  </div>
-</pf-trs-calculation-control>
-`;
-
-exports[`TrsCalculationControlComponent should render the supplied title 1`] = `
-<pf-trs-calculation-control
-  MAX_VISIBLE_FIELDS={[Function Number]}
-  compensationValuePlaceholder={[Function String]}
-  controlData={[Function Object]}
-  currencyPipe={[Function Object]}
-  employeeRewardsData={[Function Object]}
-  maxVisibleFieldsReached="false"
-  mode={[Function Number]}
-  onCompFieldAdded={[Function EventEmitter]}
-  onCompFieldRemoved={[Function EventEmitter]}
-  onCompFieldTitleChange={[Function EventEmitter]}
-  onTitleChange={[Function EventEmitter]}
-  onUpdateSummaryTitleChange={[Function EventEmitter]}
->
-  <div
-    class="trs-calculation container py-2"
-    pfmodeclassifierdirective=""
-  >
-    <table
-      class="table table-borderless table-sm mb-0 w-100"
-    >
-      <colgroup>
-        <col
-          class="field-column"
-        />
-        <col
-          class="contribution-column"
-        />
-        
-      </colgroup>
-      <thead>
-        <tr
-          class="trs-calculation-row w-100"
-        >
-          <th
-            class="text-left font-weight-normal"
-            scope="col"
-          >
-            <h4
-              class="primary-control-heading mb-1"
-            >
-              <pf-string-editor>
-                
-                <span
-                  class="wrapper w-100 d-inline-block"
-                >
-                  <span>
-                    test title
-                  </span>
-                </span>
-                
-              </pf-string-editor>
-            </h4>
-          </th>
-          <th
-            class="secondary-header align-middle text-right font-weight-normal"
-            scope="col"
-          >
-            Contribution
-          </th>
-          
-        </tr>
-      </thead>
-      <tbody>
-        
-        <tr
-          class="trs-calculation-row w-100"
-        >
-          
-          
-        </tr>
-        <tr
-          class="trs-calculation-row w-100"
-        >
-          <td
-            class="summary text-left"
-            pfstatementgraphicsdirective=""
-          >
-            <pf-string-editor>
-              
-              <span
-                class="wrapper w-100 d-inline-block"
-              >
-                <span>
-                  
-                </span>
-              </span>
-              
-            </pf-string-editor>
-          </td>
-          <td
-            class="contribution-field summary text-right preview-mode-animation"
-          >
-             0 
-          </td>
-          
-        </tr>
-      </tbody>
-    </table>
     
   </div>
 </pf-trs-calculation-control>

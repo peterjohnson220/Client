@@ -14,6 +14,7 @@ import { EmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards';
 import * as models from '../../models';
 import { TotalRewardsStatementService } from '../../services/total-rewards-statement.service';
 import { CompensationField, SelectableFieldsGroup } from '../../models';
+import { FieldLayout } from '../../models/settings';
 import { TrsConstants } from '../../constants/trs-constants';
 
 @Component({
@@ -37,9 +38,9 @@ export class TrsCalculationControlComponent implements OnChanges {
   @Output() onCompFieldRemoved: EventEmitter<models.UpdateFieldVisibilityRequest> = new EventEmitter();
   @Output() onCompFieldAdded: EventEmitter<models.UpdateFieldVisibilityRequest> = new EventEmitter();
 
-  compensationValuePlaceholder = '$---,---';
   selectableFields: CompensationField[];
   maxVisibleFieldsReached = false;
+  consolidated = FieldLayout.Consolidated;
   private readonly MAX_VISIBLE_FIELDS = 20;
 
   constructor(public currencyPipe: CurrencyPipe) { }
@@ -100,7 +101,8 @@ export class TrsCalculationControlComponent implements OnChanges {
         return this.currencyPipe.transform(fieldValue, this.employeeRewardsData?.Currency, 'symbol-narrow', '1.0');
       }
     }
-    return this.compensationValuePlaceholder;
+
+    return '';
   }
 
   getSummaryValue() {
@@ -109,7 +111,7 @@ export class TrsCalculationControlComponent implements OnChanges {
       return this.currencyPipe.transform(sum, this.employeeRewardsData?.Currency, 'symbol-narrow', '1.0');
     }
 
-    return this.compensationValuePlaceholder;
+    return '';
   }
 
   displayFieldInTable(compField: models.CompensationField): boolean {

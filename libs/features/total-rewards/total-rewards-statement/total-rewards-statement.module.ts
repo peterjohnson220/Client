@@ -34,6 +34,7 @@ import { TrsEffectiveDateControlComponent } from './components/trs-effective-dat
 import { FooterBarComponent } from './components/footer-bar/footer-bar.component';
 import { ModeClassifierDirective } from './directives/pf-mode-classifier-directive';
 import { StatementGraphicsDirective } from './directives/pf-statement-graphics-directive';
+import { CompensationValuePlaceholderComponent } from './components/compensation-value-placeholder/compensation-value-placeholder.component';
 
 @NgModule({
   imports: [
@@ -76,7 +77,8 @@ import { StatementGraphicsDirective } from './directives/pf-statement-graphics-d
     FieldGroupComponent,
     TrsCompensationFieldsChooserComponent,
     StatementViewComponent,
-    TrsEmployeeControlComponent
+    TrsEmployeeControlComponent,
+    CompensationValuePlaceholderComponent
   ],
   exports: [
     StringEditorComponent,

@@ -84,14 +84,35 @@ describe('TrsCalculationControlComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should render the supplied title', () => {
+  it('should render additional content in the table head when ShowTitle is true', () => {
     component.mode = StatementModeEnum.Preview;
-    component.employeeRewardsData = {
-      EmployeeBase: 65000
-    } as any;
+    component.employeeRewardsData = { EmployeeBase: 65000 } as any;
     component.controlData = {
       Title: { Default: 'test title' } as LabelWithOverride,
       Summary: {} as LabelWithOverride,
+      ShowTitle: true,
+      DataFields: [
+        {
+          Id: '123',
+          DatabaseField: 'EmployeeBase',
+          Name: {} as LabelWithOverride,
+          IsVisible: false
+        }
+      ] as CompensationField[]
+    } as CalculationControl;
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should hide all content in the table head when ShowTitle is false', () => {
+    component.mode = StatementModeEnum.Preview;
+    component.employeeRewardsData = { EmployeeBase: 65000 } as any;
+    component.controlData = {
+      Title: { Default: 'test title' } as LabelWithOverride,
+      Summary: {} as LabelWithOverride,
+      ShowTitle: false,
       DataFields: [
         {
           Id: '123',
@@ -113,26 +134,6 @@ describe('TrsCalculationControlComponent', () => {
       Title: { Default: '' } as LabelWithOverride,
       Summary: { Default: 'test summary'} as LabelWithOverride,
       DataFields: []
-    } as any;
-
-    fixture.detectChanges();
-
-    expect(fixture).toMatchSnapshot();
-  });
-
-  it('should display the Add Field button if a field has been removed', () => {
-    component.mode = StatementModeEnum.Edit;
-    component.controlData = {
-      Title: { Default: '' } as LabelWithOverride,
-      Summary: { Default: 'test summary'} as LabelWithOverride,
-      DataFields: [
-        {
-          FieldInDatabase: 'first',
-          Placeholder: 'First',
-          Name: '',
-          IsVisible: false
-        }
-      ]
     } as any;
 
     fixture.detectChanges();
