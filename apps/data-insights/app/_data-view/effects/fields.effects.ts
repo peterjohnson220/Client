@@ -27,8 +27,7 @@ export class FieldsEffects {
       return this.dataViewApiService.getUserDataViewFields(action.payload.dataViewId)
       .pipe(
         mergeMap((response) => [
-            new fromFieldsActions.GetAvailableReportFieldsSuccess(
-              PayfactorsApiModelMapper.mapDataViewFieldsToFields(response))
+            new fromFieldsActions.GetAvailableReportFieldsSuccess(PayfactorsApiModelMapper.mapDataViewFieldsToFields(response))
           ]
         ),
         catchError(() => of(new fromFieldsActions.GetAvailableReportFieldsError()))
@@ -118,7 +117,7 @@ export class FieldsEffects {
     .pipe(
       ofType(fromFormulaFieldModalActions.CREATE_FORMULA_FIELD_SUCCESS),
       map((action: fromFormulaFieldModalActions.CreateFormulaFieldSuccess) => {
-        const field: Field = PayfactorsApiModelMapper.mapDataViewFieldToField(action.payload);
+        const field: Field = PayfactorsApiModelMapper.mapDataViewFieldToField(action.payload.dataViewField);
         return new fromFieldsActions.AddNewFormulaField(field);
       })
     );
@@ -143,7 +142,7 @@ export class FieldsEffects {
       ),
       mergeMap((data) => {
         const actions = [];
-        const field: Field = PayfactorsApiModelMapper.mapDataViewFieldToField(data.action.payload);
+        const field: Field = PayfactorsApiModelMapper.mapDataViewFieldToField(data.action.payload.dataViewField);
         const existingField = FieldsHelper.findField(data.selectedFields, field);
         if (!!existingField && existingField.DataType !== field.DataType) {
           if (FieldsHelper.fieldExistsInFilters(data.activeFilters, existingField)) {

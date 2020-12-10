@@ -1,0 +1,17 @@
+.effective-date {
+  padding-top: .5rem;
+
+  .field-wrapper {
+    transition: opacity .15s ease-in-out, transform .3s ease-in-out;
+  }
+
+  .static-date {
+    padding: 0.3rem;
+  }
+}
+
+.preview-mode, .print-mode {
+  .field-wrapper.empty-date {
+    opacity: 0;
+  }
+}

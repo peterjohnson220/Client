@@ -1,1 +1,41 @@
 /* You can add global styles to this file, and also import other style files */
+@import 'colors';
+
+pf-user-profile {
+  .k-widget {
+    border: none;
+    background: none;
+  }
+
+  .k-button.k-upload-button {
+    color: #292b2c;
+    background-color: $pf-secondary-background;
+    border-color: #ccc;
+    &:hover {
+      background-color: $pf-secondary-background-hover;
+    }
+    width: 100%;
+  }
+
+  kendo-upload-status-total {
+    display: none;
+  }
+}
+
+pf-pay-market-cut {
+  .k-grid.transparent-row-hover tr:hover {
+    background: transparent;
+  }
+  .k-grid .k-alt {
+    background: transparent;
+  }
+}
+
+pf-change-password {
+  .confirm-password-container {
+    width: 100% !important;
+  }
+  .label{
+    font-weight: normal !important;
+  }
+}

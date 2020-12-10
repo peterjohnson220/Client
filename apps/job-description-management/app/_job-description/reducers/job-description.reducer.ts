@@ -456,7 +456,9 @@ export function reducer(state = initialState, action: fromJobDescriptionActions.
       return {
         ...state,
         loadingPage: action.payload,
-        loadingPageError: false
+        loadingPageError: false,
+        editing: false
+
       };
     }
     case fromJobDescriptionActions.LOADING_PAGE_ERROR: {

@@ -65,14 +65,14 @@ export interface CompanySetting {
   DataType: string;
 }
 
-export function generateMockCompanySetting(): CompanySetting {
-  return {
+export function generateMockCompanySetting(): CompanySetting[] {
+  return [{
     Key: CompanySettingsEnum.PeerTermsAndConditionsRequested,
     DisplayName: 'Mock Company Setting',
     Value: 'true',
     Visible: true,
     DataType: 'string'
-  };
+  }];
 }
 
 export function generateMockCompanyFormData(): CompanyFormData {

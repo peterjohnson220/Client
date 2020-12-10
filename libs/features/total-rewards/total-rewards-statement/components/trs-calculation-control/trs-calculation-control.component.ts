@@ -29,6 +29,7 @@ export class TrsCalculationControlComponent implements OnChanges {
   @Input() mode: models.StatementModeEnum;
   @Input() companyUdfs: CompensationField[];
   @Input() visibleFieldsCount: number;
+  @Input() graphicsColors: string[];
 
   @Output() onTitleChange: EventEmitter<models.UpdateTitleRequest> = new EventEmitter();
   @Output() onCompFieldTitleChange: EventEmitter<models.UpdateFieldOverrideNameRequest> = new EventEmitter();

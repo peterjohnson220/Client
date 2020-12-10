@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { PayfactorsApiService } from '../payfactors-api.service';
 import { UserManagementDto } from 'libs/models/payfactors-api/user';
 import { UserResponse, ShareUserResponse } from 'libs/models/payfactors-api/user/response';
-import { UserAssignedRole, HomePageLink } from 'libs/models';
+import { UserAssignedRole, HomePageLink, AutoShareUser } from 'libs/models';
 
 @Injectable({
   providedIn: 'root',
@@ -93,6 +93,18 @@ export class UserApiService {
     });
   }
 
+  getAutoSharedUsers(userId: number): Observable<ShareUserResponse[]> {
+    return this.payfactorsApiService.get<ShareUserResponse[]>(`${this.endpoint}(${userId})/Default.GetAutoSharedUsers`);
+  }
+
+  removeAutoSharedUser(userIdToDelete: number) {
+    return this.payfactorsApiService.post<number>(`${this.endpoint}/Default.RemoveAutoSharedUser`, { UserIdToDelete: userIdToDelete });
+  }
+
+  saveAutoShareUsers(selectedUserIds: number[]) {
+    return this.payfactorsApiService.post<number[]>(`${this.endpoint}/Default.SaveAutoShareUsers`, { SelectedUserIds: selectedUserIds });
+  }
+
   getShareableUsersByTile(userId: number, companyId: number, tileName: string): Observable<ShareUserResponse[]> {
     return this.payfactorsApiService.get<ShareUserResponse[]>(`${this.endpoint}(${userId})/Default.GetShareableUsersByTile`, {
       params: {
@@ -119,4 +131,11 @@ export class UserApiService {
     });
   }
 
+  changePassword(currentPassword: string, newPassword: string) {
+    return this.payfactorsApiService.post(`${this.endpoint}/Default.ChangePassword`, {
+      CurrentPassword: currentPassword,
+      NewPassword: newPassword
+    });
+
+  }
 }

@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
+import { UserProfile } from 'libs/models/user-profile';
+
 import { PayfactorsApiService } from '../payfactors-api.service';
 import {
   AddUserFilterRequest,
@@ -38,5 +40,9 @@ export class UserProfileApiService {
 
   saveListAreaColumns(request: SaveListAreaColumnsRequest): Observable<number> {
     return this.payfactorsApiService.post<number>(`${this.endpoint}.SaveListAreaColumns`, request);
+  }
+
+  saveUserProfile(request: UserProfile): Observable<boolean> {
+    return this.payfactorsApiService.post<boolean>(`${this.endpoint}.SaveUserProfile`, { UserProfile: request });
   }
 }

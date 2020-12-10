@@ -33,7 +33,7 @@ export function getDefaultEntityChoice(): EntityChoice {
     payfactorsDataFields: [],
     loaderEnabled: false,
     columnNames: null,
-    customFields: { Employees: [], Jobs: [] },
+    customFields: { Employees: [], Jobs: [], EmployeeTags: [] },
     isFullReplace: null,
     dateFormat: null,
     isLoadingFinish: true,
@@ -42,7 +42,7 @@ export function getDefaultEntityChoice(): EntityChoice {
   };
 }
 
-export function getEntityChoicesForOrgLoader(shouldShowBenefits: boolean): EntityChoice[] {
+export function getEntityChoicesForOrgLoader(): EntityChoice[] {
   return [
     {
       ...getDefaultEntityChoice(),
@@ -101,13 +101,23 @@ export function getEntityChoicesForOrgLoader(shouldShowBenefits: boolean): Entit
       templateReferenceConstants: LoaderType.Benefits,
       dbName: 'Benefits',
       isFullReplace: false,
-      isEnabled: shouldShowBenefits
-    }
+      isEnabled: false
+    },
+    {
+      ...getDefaultEntityChoice(),
+      DisplayText: 'Employee Tags',
+      ToolTip: `Fields within this entity capture tag information for employee data`,
+      FileBeginsWith: 'employeetags',
+      templateReferenceConstants: LoaderType.EmployeeTags,
+      dbName: 'EmployeeTags',
+      isFullReplace: false,
+      isEnabled: false
+    },
   ];
 }
 
 export function getMockEntityChoiceList(): EntityChoice[] {
-  const mock = getEntityChoicesForOrgLoader(true);
+  const mock = getEntityChoicesForOrgLoader();
   mock[0].isChecked = true;
   mock[4].isChecked = true;
   return mock;

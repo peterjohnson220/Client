@@ -22,7 +22,6 @@ export * from './list-state.model';
 export * from './save-error.model';
 export * from './smart-list-hierarchy.model';
 export * from './source-detail.model';
-export * from './template-list-item.model';
 export * from './workflow-step.model';
 export * from './workflow-template.model';
 export * from './workflow-user.model';

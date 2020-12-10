@@ -1,0 +1,23 @@
+.user-row {
+  padding: 0 2.5rem;
+  cursor: pointer;
+}
+
+.user-image {
+  width: 40px;
+  height: 40px;
+}
+
+.green {
+  color: #5CB85C;
+  &:hover {
+    color: #4b9c4b;
+  }
+}
+
+.gray {
+  color: #A4A6B0;
+  &:hover {
+    color: #5B5C65;
+  }
+}

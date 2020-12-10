@@ -29,6 +29,7 @@ export interface Field {
   AccessLevel: DataViewAccessLevel;
   Is?: Is;
   KendoGridConfig?: KendoGridConfig;
+  FormulaTypeId?: FormulaType;
 }
 
 interface Is {
@@ -116,6 +117,11 @@ export enum FieldType {
   Formula = 'Formula'
 }
 
+export enum FormulaType {
+  DataInsights = 1,
+  Structures = 2
+}
+
 export function generateMockField(): Field {
   return {
     DataElementId: 1,
@@ -137,7 +143,8 @@ export function generateMockField(): Field {
       Numeric: false,
       Date: false,
       Formula: false
-    }
+    },
+    FormulaTypeId: FormulaType.DataInsights
   };
 }
 

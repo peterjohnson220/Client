@@ -66,6 +66,7 @@ describe('Job Based Ranges - Rounding Settings', () => {
       SpreadMax: 10,
       IsCurrent: false,
       RangeDistributionTypeId: 1,
+      ExchangeId: null,
       RangeDistributionTypes: generateMockStructureRangeDistributionTypes(),
       RangeDistributionSetting: generateMockRangeDistributionSettingForm(),
       RangeAdvancedSetting: generateMockRangeAdvancedSetting()

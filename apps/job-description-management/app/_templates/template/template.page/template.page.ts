@@ -258,15 +258,6 @@ export class TemplatePageComponent implements OnInit, OnDestroy, AfterViewInit {
     this.saveTemplate();
   }
 
-  handleCancelExportSettings() {
-    this.editingTemplateSettings = false;
-  }
-
-  handleDoneWithExportSettings() {
-    this.editingTemplateSettings = false;
-    this.store.dispatch(new fromTemplateActions.SaveSettings(this.templateSettings));
-  }
-
   handleEditSectionComplete(templateSection: TemplateSection) {
     this.store.dispatch(new fromTemplateActions.EditSection({templateSection: templateSection}));
     this.saveTemplate();
@@ -292,8 +283,7 @@ export class TemplatePageComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   handleExportSettingsClick() {
-    this.store.dispatch(new fromTemplateActions.LoadSettings({templateId: this.template.TemplateId}));
-    this.editingTemplateSettings = true;
+    this.router.navigate(['settings/job-description-views'], { queryParams: { templateId: this.template.TemplateId } });
   }
 
   handlePublishTemplateConfirmed() {

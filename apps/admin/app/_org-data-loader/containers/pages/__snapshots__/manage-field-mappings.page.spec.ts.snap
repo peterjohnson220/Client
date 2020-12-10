@@ -13,13 +13,18 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
   companySettingsApiService={[Function MockCompanySettingsApiService]}
   configSettingsSelectorFactory={[Function MockConfigSettingsSelectorFactory]}
   configurationGroups$={[Function Store]}
+  customEmployeeFields$={[Function Store]}
+  customJobsfields$={[Function Store]}
   delimiter=""
   emailRecipients={[Function Array]}
   emailRecipients$={[Function Store]}
   emailRecipientsModalOpen$={[Function Store]}
   emailRecipientsRemovingError$={[Function Store]}
   emailRecipientsSavingError$={[Function Store]}
+  employeeIdentifiers$={[Function Store]}
   employeeMappingComplete={[Function Boolean]}
+  employeeTagsLoaderFeatureFlag={[Function Object]}
+  employeeTagsMappingComplete={[Function Boolean]}
   env={[Function Object]}
   existingCompanyLoaderSettings={[Function Array]}
   featureFlagService={[Function MockAbstractFeatureFlagService]}
@@ -28,6 +33,8 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
   isActive={[Function Boolean]}
   isBenefitsFullReplace={[Function Boolean]}
   isBenefitsLoadEnabled="false"
+  isEmployeeTagsFullReplace={[Function Boolean]}
+  isEmployeeTagsLoadEnabled="false"
   isEmployeesFullReplace={[Function Boolean]}
   isEmployeesLoadEnabled="false"
   isJobsLoadEnabled="false"
@@ -47,6 +54,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
   orgDataFilenamePatternSet$={[Function Store]}
   payfactorsBenefitsDataFields={[Function Array]}
   payfactorsEmployeeDataFields={[Function Array]}
+  payfactorsEmployeeTagsDataFields={[Function Array]}
   payfactorsJobDataFields={[Function Array]}
   payfactorsPaymarketDataFields={[Function Array]}
   payfactorsStructureDataFields={[Function Array]}
@@ -76,6 +84,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
   structureMappingComplete={[Function Boolean]}
   structureMappingMappingComplete={[Function Boolean]}
   subsidiariesMappingComplete={[Function Boolean]}
+  tagCategories$={[Function Store]}
   templateReferenceConstants={[Function Object]}
   toastOptions={[Function Object]}
   unsubscribe$={[Function Subject]}
@@ -193,6 +202,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
           >
             
           </kendo-tabstrip-tab>
+          
           <kendo-tabstrip-tab
             title="Subsidiaries"
           >
@@ -243,13 +253,18 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
   companySettingsApiService={[Function MockCompanySettingsApiService]}
   configSettingsSelectorFactory={[Function MockConfigSettingsSelectorFactory]}
   configurationGroups$={[Function Store]}
+  customEmployeeFields$={[Function Store]}
+  customJobsfields$={[Function Store]}
   delimiter={[Function String]}
   emailRecipients={[Function Array]}
   emailRecipients$={[Function Store]}
   emailRecipientsModalOpen$={[Function Store]}
   emailRecipientsRemovingError$={[Function Store]}
   emailRecipientsSavingError$={[Function Store]}
+  employeeIdentifiers$={[Function Store]}
   employeeMappingComplete="false"
+  employeeTagsLoaderFeatureFlag={[Function Object]}
+  employeeTagsMappingComplete={[Function Boolean]}
   env={[Function Object]}
   existingCompanyLoaderSettings={[Function Array]}
   featureFlagService={[Function MockAbstractFeatureFlagService]}
@@ -258,6 +273,8 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
   isActive={[Function Boolean]}
   isBenefitsFullReplace={[Function Boolean]}
   isBenefitsLoadEnabled="false"
+  isEmployeeTagsFullReplace={[Function Boolean]}
+  isEmployeeTagsLoadEnabled="false"
   isEmployeesFullReplace={[Function Boolean]}
   isEmployeesLoadEnabled="false"
   isJobsLoadEnabled="false"
@@ -277,6 +294,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
   orgDataFilenamePatternSet$={[Function Store]}
   payfactorsBenefitsDataFields={[Function Array]}
   payfactorsEmployeeDataFields={[Function Array]}
+  payfactorsEmployeeTagsDataFields={[Function Array]}
   payfactorsJobDataFields={[Function Array]}
   payfactorsPaymarketDataFields={[Function Array]}
   payfactorsStructureDataFields={[Function Array]}
@@ -306,6 +324,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
   structureMappingComplete={[Function Boolean]}
   structureMappingMappingComplete={[Function Boolean]}
   subsidiariesMappingComplete={[Function Boolean]}
+  tagCategories$={[Function Store]}
   templateReferenceConstants={[Function Object]}
   toastOptions={[Function Object]}
   unsubscribe$={[Function Subject]}
@@ -423,6 +442,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
           >
             
           </kendo-tabstrip-tab>
+          
           <kendo-tabstrip-tab
             title="Subsidiaries"
           >
@@ -473,13 +493,18 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
   companySettingsApiService={[Function MockCompanySettingsApiService]}
   configSettingsSelectorFactory={[Function MockConfigSettingsSelectorFactory]}
   configurationGroups$={[Function Store]}
+  customEmployeeFields$={[Function Store]}
+  customJobsfields$={[Function Store]}
   delimiter={[Function String]}
   emailRecipients={[Function Array]}
   emailRecipients$={[Function Observable]}
   emailRecipientsModalOpen$={[Function Store]}
   emailRecipientsRemovingError$={[Function Store]}
   emailRecipientsSavingError$={[Function Store]}
+  employeeIdentifiers$={[Function Store]}
   employeeMappingComplete={[Function Boolean]}
+  employeeTagsLoaderFeatureFlag={[Function Object]}
+  employeeTagsMappingComplete={[Function Boolean]}
   env={[Function Object]}
   existingCompanyLoaderSettings={[Function Array]}
   featureFlagService={[Function MockAbstractFeatureFlagService]}
@@ -488,6 +513,8 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
   isActive={[Function Boolean]}
   isBenefitsFullReplace={[Function Boolean]}
   isBenefitsLoadEnabled="false"
+  isEmployeeTagsFullReplace={[Function Boolean]}
+  isEmployeeTagsLoadEnabled="false"
   isEmployeesFullReplace={[Function Boolean]}
   isEmployeesLoadEnabled="false"
   isJobsLoadEnabled="false"
@@ -507,6 +534,7 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
   orgDataFilenamePatternSet$={[Function Store]}
   payfactorsBenefitsDataFields={[Function Array]}
   payfactorsEmployeeDataFields={[Function Array]}
+  payfactorsEmployeeTagsDataFields={[Function Array]}
   payfactorsJobDataFields={[Function Array]}
   payfactorsPaymarketDataFields={[Function Array]}
   payfactorsStructureDataFields={[Function Array]}
@@ -536,6 +564,7 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
   structureMappingComplete={[Function Boolean]}
   structureMappingMappingComplete={[Function Boolean]}
   subsidiariesMappingComplete={[Function Boolean]}
+  tagCategories$={[Function Store]}
   templateReferenceConstants={[Function Object]}
   toastOptions={[Function Object]}
   unsubscribe$={[Function Subject]}
@@ -653,6 +682,7 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
           >
             
           </kendo-tabstrip-tab>
+          
           <kendo-tabstrip-tab
             title="Subsidiaries"
           >
@@ -703,13 +733,18 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
   companySettingsApiService={[Function MockCompanySettingsApiService]}
   configSettingsSelectorFactory={[Function MockConfigSettingsSelectorFactory]}
   configurationGroups$={[Function Store]}
+  customEmployeeFields$={[Function Store]}
+  customJobsfields$={[Function Store]}
   delimiter={[Function String]}
   emailRecipients={[Function Array]}
   emailRecipients$={[Function Store]}
   emailRecipientsModalOpen$={[Function Store]}
   emailRecipientsRemovingError$={[Function Store]}
   emailRecipientsSavingError$={[Function Store]}
+  employeeIdentifiers$={[Function Store]}
   employeeMappingComplete={[Function Boolean]}
+  employeeTagsLoaderFeatureFlag={[Function Object]}
+  employeeTagsMappingComplete={[Function Boolean]}
   env={[Function Object]}
   existingCompanyLoaderSettings={[Function Array]}
   featureFlagService={[Function MockAbstractFeatureFlagService]}
@@ -718,6 +753,8 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
   isActive={[Function Boolean]}
   isBenefitsFullReplace={[Function Boolean]}
   isBenefitsLoadEnabled="false"
+  isEmployeeTagsFullReplace={[Function Boolean]}
+  isEmployeeTagsLoadEnabled="false"
   isEmployeesFullReplace={[Function Boolean]}
   isEmployeesLoadEnabled="false"
   isJobsLoadEnabled="false"
@@ -737,6 +774,7 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
   orgDataFilenamePatternSet$={[Function Store]}
   payfactorsBenefitsDataFields={[Function Array]}
   payfactorsEmployeeDataFields={[Function Array]}
+  payfactorsEmployeeTagsDataFields={[Function Array]}
   payfactorsJobDataFields={[Function Array]}
   payfactorsPaymarketDataFields={[Function Array]}
   payfactorsStructureDataFields={[Function Array]}
@@ -766,6 +804,7 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
   structureMappingComplete={[Function Boolean]}
   structureMappingMappingComplete={[Function Boolean]}
   subsidiariesMappingComplete={[Function Boolean]}
+  tagCategories$={[Function Store]}
   templateReferenceConstants={[Function Object]}
   toastOptions={[Function Object]}
   unsubscribe$={[Function Subject]}
@@ -817,13 +856,18 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
   companySettingsApiService={[Function MockCompanySettingsApiService]}
   configSettingsSelectorFactory={[Function MockConfigSettingsSelectorFactory]}
   configurationGroups$={[Function Store]}
+  customEmployeeFields$={[Function Store]}
+  customJobsfields$={[Function Store]}
   delimiter={[Function String]}
   emailRecipients={[Function Array]}
   emailRecipients$={[Function Store]}
   emailRecipientsModalOpen$={[Function Store]}
   emailRecipientsRemovingError$={[Function Store]}
   emailRecipientsSavingError$={[Function Store]}
+  employeeIdentifiers$={[Function Store]}
   employeeMappingComplete={[Function Boolean]}
+  employeeTagsLoaderFeatureFlag={[Function Object]}
+  employeeTagsMappingComplete={[Function Boolean]}
   env={[Function Object]}
   existingCompanyLoaderSettings={[Function Array]}
   featureFlagService={[Function MockAbstractFeatureFlagService]}
@@ -832,6 +876,8 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
   isActive={[Function Boolean]}
   isBenefitsFullReplace={[Function Boolean]}
   isBenefitsLoadEnabled="false"
+  isEmployeeTagsFullReplace={[Function Boolean]}
+  isEmployeeTagsLoadEnabled="false"
   isEmployeesFullReplace={[Function Boolean]}
   isEmployeesLoadEnabled="false"
   isJobsLoadEnabled="false"
@@ -851,6 +897,7 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
   orgDataFilenamePatternSet$={[Function Store]}
   payfactorsBenefitsDataFields={[Function Array]}
   payfactorsEmployeeDataFields={[Function Array]}
+  payfactorsEmployeeTagsDataFields={[Function Array]}
   payfactorsJobDataFields={[Function Array]}
   payfactorsPaymarketDataFields={[Function Array]}
   payfactorsStructureDataFields={[Function Array]}
@@ -880,6 +927,7 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
   structureMappingComplete={[Function Boolean]}
   structureMappingMappingComplete={[Function Boolean]}
   subsidiariesMappingComplete={[Function Boolean]}
+  tagCategories$={[Function Store]}
   templateReferenceConstants={[Function Object]}
   toastOptions={[Function Object]}
   unsubscribe$={[Function Subject]}
@@ -997,6 +1045,7 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
           >
             
           </kendo-tabstrip-tab>
+          
           <kendo-tabstrip-tab
             title="Subsidiaries"
           >

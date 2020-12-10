@@ -44,6 +44,11 @@ export const getUpsertDataCutInIframe = createSelector(
   fromUpsertDataCutReducer.getPageInViewInIframe
 );
 
+export const getLoadedDataCutDetails = createSelector(
+  selectUpsertDataCutState,
+  fromUpsertDataCutReducer.getLoadedDataCutDetails
+);
+
 // Request Peer Access
 export const getRequestingPeerAccess = createSelector(
   selectRequestPeerAccessState,

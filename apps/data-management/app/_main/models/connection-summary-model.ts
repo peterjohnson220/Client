@@ -19,6 +19,7 @@ export interface FullReplaceModes {
   employeesFullReplace: boolean;
   structureMappingsFullReplace: boolean;
   benefitsFullReplace: boolean;
+  employeeTagsFullReplace: boolean;
 }
 
 export function generateMockExistingConnectionSummary(): ConnectionSummary {
@@ -35,7 +36,8 @@ export function generateMockExistingConnectionSummary(): ConnectionSummary {
     fullReplaceModes: {
       employeesFullReplace: true,
       structureMappingsFullReplace: true,
-      benefitsFullReplace: true
+      benefitsFullReplace: true,
+      employeeTagsFullReplace: true
     }
   };
 }
@@ -53,7 +55,8 @@ export function generateMockNewConnectionSummary(): ConnectionSummary {
     fullReplaceModes: {
       employeesFullReplace: true,
       structureMappingsFullReplace: true,
-      benefitsFullReplace: true
+      benefitsFullReplace: true,
+      employeeTagsFullReplace: true
     }
   };
 }

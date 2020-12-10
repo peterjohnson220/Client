@@ -5,7 +5,7 @@
     </ng-container>
 
 	<ng-container page-actions *ngIf="(template$ | async)">
-		<pf-template-actions 
+		<pf-template-actions
             [template]="template$ | async"
             [editingTemplate]="(editingTemplate$ | async)"
             [editingTemplateSettings]="editingTemplateSettings"
@@ -16,24 +16,22 @@
             (addSectionClick)="showAddSectionModal($event)"
             (assignClick)="showAssignModal($event)"
             (copyClick)="showCopyConfirmModal($event)"
-            (exportSettingsClick)="handleExportSettingsClick($event)"
-            (completeExportSettingsClick)="handleDoneWithExportSettings($event)"
-            (cancelExportSettingsClick)="handleCancelExportSettings($event)">
+            (viewSettingsClick)="handleExportSettingsClick($event)">
 		</pf-template-actions>
 	</ng-container>
 
     <ng-container page-content>
-        <pf-async-container 
-            [smartLoadingMask]="false" 
-            [loading]="(templateLoading$ | async) || (templateCopying$ | async)" 
-            [loadingError]="(templateError$ | async)" 
+        <pf-async-container
+            [smartLoadingMask]="false"
+            [loading]="(templateLoading$ | async) || (templateCopying$ | async)"
+            [loadingError]="(templateError$ | async)"
             [loadingErrorMessage]="(templateErrorMessge$ | async)"
             [hideReloadButton]="true">
         <div class="row pf-inner-page-content">
             <div class="column-scroll-container col-10">
                 <div class="scroll-y column-scroll-inner">
                     <pf-async-container [loading]="(templatePublishing$ | async)"></pf-async-container>
-                    <pf-template-job-information-section 
+                    <pf-template-job-information-section
                         [editing]="(editingTemplate$ | async) && !editingTemplateSettings"
                         [availableJobInformationFields]="availableJobInformationFields$ | async"
                         [availableJobInformationFieldsLoading]="availableJobInformationFieldsLoading$ | async"
@@ -70,9 +68,9 @@
                             </pf-template-section>
                         </div>
                     </div>
-                    <pf-async-container 
-                        [loading]="(templateSettingsLoading$ | async) || (templateSettingsSaving$ | async)" 
-                        [loadingError]="(templateSettingsLoadingError$ | async) || (templateSettingsSavingError$ | async)" 
+                    <pf-async-container
+                        [loading]="(templateSettingsLoading$ | async) || (templateSettingsSaving$ | async)"
+                        [loadingError]="(templateSettingsLoadingError$ | async) || (templateSettingsSavingError$ | async)"
                         [loadingErrorMessage] = "(templateSettingsLoadingErrorMessage$ | async) || (templateSettingsSavingError$ | async)?.ErrorMessage"
                         [hideReloadButton]="true">
                     </pf-async-container>
@@ -93,7 +91,7 @@
                         </button>
                     </div>
 
-                    <pf-control-container 
+                    <pf-control-container
                         [containerName]="'System Content Controls'"
                         [controlTypes]="systemControlTypes"
                         [readOnly]="!(editingTemplate$ | async) || editingTemplateSettings">
@@ -121,22 +119,22 @@
 <pf-assign-template-to-job-modal></pf-assign-template-to-job-modal>
 <pf-copy-template-modal (copyTemplateComplete)="handleCopyTemplateComplete($event)"></pf-copy-template-modal>
 
-<pf-simple-yes-no-modal 
-	#discardDraftModal 
-	[opts]="discardDraftModalOptions" 
+<pf-simple-yes-no-modal
+	#discardDraftModal
+	[opts]="discardDraftModalOptions"
 	(actionConfirmed)="handleDiscardDraftConfirmed($event)">
 </pf-simple-yes-no-modal>
 
-<pf-conflict-error-modal 
-	#conflictErrorModal 
-	[errorMessage]="(templateSaveError$ | async)?.ErrorMessage" 
-	[goBackLink]="(templateSaveError$ | async)?.GoBackLink" 	
+<pf-conflict-error-modal
+	#conflictErrorModal
+	[errorMessage]="(templateSaveError$ | async)?.ErrorMessage"
+	[goBackLink]="(templateSaveError$ | async)?.GoBackLink"
 	(onClose)="handleConflictOrSaveErrorModalClosed()">
 </pf-conflict-error-modal>
 
-<pf-save-error-modal 
-	#saveErrorModal 
-	[errorMessage]="(templateSaveError$ | async)?.ErrorMessage" 
-	[goBackLink]="(templateSaveError$ | async)?.GoBackLink" 
+<pf-save-error-modal
+	#saveErrorModal
+	[errorMessage]="(templateSaveError$ | async)?.ErrorMessage"
+	[goBackLink]="(templateSaveError$ | async)?.GoBackLink"
 	(onClose)="handleConflictOrSaveErrorModalClosed()">
 </pf-save-error-modal>

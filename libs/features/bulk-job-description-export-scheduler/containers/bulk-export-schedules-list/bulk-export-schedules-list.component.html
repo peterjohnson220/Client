@@ -3,19 +3,34 @@
     <div class="col col-sm-6" (click)="onScheduleClick(existingSchedule.FileName)" class="schedule-name">
       {{existingSchedule.FileName}}
     </div>
-    <div class="col col-sm-6" (click)="removeSchedule(existingSchedule.FileName)">
+    <div class="col col-sm-6" (click)="openModal(existingSchedule.FileName)">
       <fa-icon icon="trash" class="remove-schedule"></fa-icon>
     </div>
     <div class="col col-12" id="{{existingSchedule.FileName}}" *ngIf="clickedSchedule === existingSchedule.FileName">
-      <p *ngIf="existingSchedule.Frequency === 'One-time'">Sent on {{existingSchedule.Create_Date | date:'shortDate'}}</p>
-      <p *ngIf="existingSchedule.Frequency === 'Weekly'">Sent Weekly every {{daysOfWeekAsString(existingSchedule.DayOfWeek)}}</p>
-      <p *ngIf="existingSchedule.Frequency === 'Monthly'">Sent the {{occurrenceAsString(existingSchedule.Occurrence)}} {{daysOfWeekAsString(existingSchedule.DayOfWeek)}} of every {{existingSchedule.MonthlyOccurrence}} month(s)</p>
+      <p *ngIf="existingSchedule.ExportCount && existingSchedule.PrevRunDate">{{existingSchedule.ExportCount}} published job descriptions created on {{existingSchedule.PrevRunDate | date:'shortDate'}}</p>
       <p>Using {{getViewName(existingSchedule.ViewId)}} view</p>
       <p *ngIf="existingSchedule.Filter === 'All'">All Jobs</p>
       <p *ngIf="existingSchedule.Filter !== 'All'">Using {{existingSchedule.Filter}} filter</p>
       <p *ngIf="existingSchedule.IncludeDelimiters">Including Delimiters</p>
       <p *ngIf="existingSchedule.IncludeFormatting">Including Formatting</p>
       <p *ngIf="existingSchedule.Format">Using {{existingSchedule.Format}} file format <span *ngIf="existingSchedule.Format === 'csv'">with {{existingSchedule.FormatSeparatorType || 'comma'}} separator</span></p>
+      <p *ngIf="existingSchedule.Frequency === 'One-time'">Sent on {{existingSchedule.Create_Date | date:'shortDate'}}</p>
+      <p *ngIf="existingSchedule.Frequency === 'Weekly'">Sent Weekly every {{daysOfWeekAsString(existingSchedule.DayOfWeek)}}</p>
+      <p *ngIf="existingSchedule.Frequency === 'Monthly'">Sent the {{occurrenceAsString(existingSchedule.Occurrence)}} {{daysOfWeekAsString(existingSchedule.DayOfWeek)}} of every {{existingSchedule.MonthlyOccurrence}} month(s)</p>
     </div>
   </div>
 </div>
+
+<pf-modal-form size="md"
+               title="Confirmation"
+               [showFooter]="true"
+               [showSubmit]="true"
+               modalId="au-modal-data-converter"
+               [isOpen$]="showBulkScheduleDeleteModal$"
+               (onDismiss)="closeBulkScheduleDeleteModal()"
+               (onSubmit)="removeSchedule(filename)">
+               
+               <ng-container basic-content>
+                 Are you sure you want to delete the schedule {{filename}}?
+               </ng-container>
+</pf-modal-form>

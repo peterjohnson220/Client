@@ -1,6 +1,7 @@
-import { generateMockExchangeDataSearchResponse, ExchangeDataSearchResponse } from '../../exchange-data-search/response';
-import { generateMockGeoCoordinates, GeoCoordinates } from '../../../../peer';
-import { generateMockSearchSavedFilterResponse, SearchSavedFilterResponse } from '../../../user-filter/response';
+import { generateMockGeoCoordinates, GeoCoordinates } from 'libs/models/peer';
+import { generateMockSearchSavedFilterResponse, SearchSavedFilterResponse } from 'libs/models/payfactors-api/user-filter';
+
+import { generateMockExchangeDataSearchResponse, ExchangeDataSearchResponse } from '../../exchange-data-search';
 
 export interface ExchangeExplorerScopeResponseContext {
   ExchangeDataSearchResponse: ExchangeDataSearchResponse;

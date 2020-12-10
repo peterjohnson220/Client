@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 
-import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import {
-  LegacyCompanySettingsEffects, UserContextEffects, UiPersistenceSettingsEffects, UserAssignedRoleEffects,
-  CompanyContextEffects, CompanySettingsEffects
+    CompanyContextEffects, CompanySettingsEffects, LegacyCompanySettingsEffects, UiPersistenceSettingsEffects, UserAssignedRoleEffects,
+    UserContextEffects
 } from './app-context/effects';
-import { reducers, metaReducers } from './state';
+import { metaReducers, reducers } from './state';
 import { environment } from '../../environments/environment';
 import { SettingsService } from './app-context/services';
 
@@ -34,4 +34,4 @@ import { SettingsService } from './app-context/services';
   ],
   providers: [SettingsService]
 })
-export class PfStateModule {}
+export class PfStateModule { }

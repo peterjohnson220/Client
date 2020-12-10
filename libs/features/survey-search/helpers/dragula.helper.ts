@@ -28,3 +28,7 @@ export function enableDatacutsDragging(dragulaService: DragulaService) {
     copyItem: (item: DataCut) => ({ ...item })
   });
 }
+
+export function cleanupDatacutsDragging(dragulaService: DragulaService) {
+  dragulaService.destroy('data-cuts-bag');
+}

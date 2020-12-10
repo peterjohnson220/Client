@@ -105,10 +105,10 @@ export class MarketingSettingsComponent implements OnInit, OnDestroy {
   }
 
   handleSaveClicked() {
-    this.marketingForm.markAllAsTouched();
     if (!this.marketingForm.valid) {
       return;
     }
+    this.marketingForm.markAsPristine();
 
     const formData = new FormData();
     formData.append('videoUrl', this.marketingVideoUrlControl.value);

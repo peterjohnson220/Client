@@ -10,7 +10,7 @@ import * as fromRootState from 'libs/state/state';
 import { BrowserDetectionService } from 'libs/core';
 import { generateMockCompanyFormData, generateMockCompanySetting } from 'libs/models';
 import { generateMockCompanyIndustriesResponse, generateMockSystemUserGroupsResponse } from 'libs/models/payfactors-api';
-import { generateMockCustomCompanySetting } from '../../../models';
+import { generateMockCustomCompanySetting, generateMockCustomCompanySettingsWithDefaults } from '../../../models';
 import { CompanyPageComponent } from './company.page';
 import { CompanyFormComponent } from '../../company-form';
 
@@ -63,9 +63,7 @@ describe('CompanyPageComponent', () => {
   });
 
   it('should reduce settings to CustomCompanySettings on handleSaveClicked', () => {
-    // TODO: Add unit tests - https://payfactors.atlassian.net/browse/FORT-585
-
-    /*let companyFormComponent: CompanyFormComponent;
+    let companyFormComponent: CompanyFormComponent;
     let companyFormComponentFixture: ComponentFixture<CompanyFormComponent>;
     companyFormComponentFixture = TestBed.createComponent(CompanyFormComponent);
     companyFormComponent = companyFormComponentFixture.componentInstance;
@@ -89,13 +87,17 @@ describe('CompanyPageComponent', () => {
 
     component.companyForm = companyFormComponentFixture.componentInstance;
 
-    const mockCompanySetting = generateMockCompanySetting();
+    const mockCompanySetting: any = generateMockCompanySetting();
     const mockCustomCompanySetting = generateMockCustomCompanySetting();
-    const settings = [mockCompanySetting, mockCustomCompanySetting];
+    const settings = mockCompanySetting.concat(mockCustomCompanySetting);
+
+    const isStandardSettingInList = settings.filter(s => s.Type === undefined).length > 0;
+    expect(isStandardSettingInList).toBeTruthy();
 
     component.handleSaveClicked(settings);
 
-    expect(component.customCompanySettingsObj).toBeDefined();*/
+    const mockCustomSettingsWithDefaults = generateMockCustomCompanySettingsWithDefaults();
+    expect(component.customCompanySettingsObj).toEqual(mockCustomSettingsWithDefaults);
   });
 
 });

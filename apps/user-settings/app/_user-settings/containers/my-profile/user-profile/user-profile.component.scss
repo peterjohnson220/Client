@@ -1,0 +1,23 @@
+@import 'user-settings-styles';
+
+.profile-picture-container {
+  width: 125px;
+  height: 125px;
+}
+
+.form-control[readonly]:focus {
+  box-shadow: none;
+  border-color: #ced4da;
+  cursor: default;
+  align-items: center;
+}
+
+.text-align-center {
+  text-align: center;
+}
+
+.card {
+  width: 80%;
+  margin: 2rem 0 0 0;
+  border-radius: .25rem .25rem 0 0;
+}

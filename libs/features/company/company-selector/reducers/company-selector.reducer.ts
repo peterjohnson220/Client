@@ -16,7 +16,7 @@ export const initialState: State = {
   hasLoadingCompaniesError: false,
   companies: null,
   selectedCompany: null,
-  companyHasBenefits: false
+  companyHasBenefits: null
 };
 
 export function reducer(state = initialState, action: fromCompanySelectorActions.Actions): State {
@@ -27,7 +27,7 @@ export function reducer(state = initialState, action: fromCompanySelectorActions
         isLoadingCompanies: true,
         hasLoadingCompaniesError: false,
         selectedCompany: null,
-        companyHasBenefits: false
+        companyHasBenefits: null
       };
     }
     case fromCompanySelectorActions.GET_COMPANIES_SUCCESS: {
@@ -35,8 +35,7 @@ export function reducer(state = initialState, action: fromCompanySelectorActions
         ...state,
         isLoadingCompanies: false,
         hasLoadingCompaniesError: false,
-        companies: action.payload,
-        companyHasBenefits: false
+        companies: action.payload
       };
     }
     case fromCompanySelectorActions.GET_COMPANIES_ERROR: {
@@ -51,8 +50,7 @@ export function reducer(state = initialState, action: fromCompanySelectorActions
     case fromCompanySelectorActions.SET_SELECTED_COMPANY: {
       return {
         ...state,
-        selectedCompany: action.payload,
-        companyHasBenefits: false
+        selectedCompany: action.payload
       };
 
     }
@@ -60,6 +58,12 @@ export function reducer(state = initialState, action: fromCompanySelectorActions
       return {
         ...state,
         companyHasBenefits: action.companyHasBenefits
+      };
+    }
+    case fromCompanySelectorActions.COMPANY_HAS_BENEFITS: {
+      return {
+        ...state,
+        companyHasBenefits: null
       };
     }
     default:

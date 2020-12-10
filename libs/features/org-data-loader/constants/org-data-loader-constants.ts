@@ -164,3 +164,5 @@ export const DATE_FORMATS: DateFormatItem[] = [
 
 export const BONUS_TARGET_COLUMN_NAME = 'Bonus_Target';
 export const BONUS_TARGET_DISPLAY_NAME = 'Bonus_TargetValues';
+
+export const ORG_DATA_PF_EMPLOYEE_TAG_FIELDS = ['EffectiveDate'];

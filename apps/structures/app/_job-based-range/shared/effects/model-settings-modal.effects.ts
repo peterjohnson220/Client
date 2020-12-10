@@ -119,16 +119,14 @@ export class ModelSettingsModalEffects {
         this.store.pipe(select(fromPfDataGridReducer.getGridConfig)),
         this.store.pipe(select(fromPfDataGridReducer.getData)),
         this.store.pipe(select(fromPfDataGridReducer.getPagingOptions)),
-        this.store.pipe(select(fromSharedReducer.getStructureHasPublished)),
-        (action, metadata: RangeGroupMetadata, gridConfig: GridConfig, gridData: GridDataResult, pagingOptions: PagingOptions, structureHasPublished) => {
-          return { action, metadata, gridConfig, gridData, pagingOptions, structureHasPublished };
+        (action, metadata: RangeGroupMetadata, gridConfig: GridConfig, gridData: GridDataResult, pagingOptions: PagingOptions) => {
+          return { action, metadata, gridConfig, gridData, pagingOptions };
         }
       ),
       switchMap((data) => {
         let advancedSetting;
         if (data.action.payload.formValue.RangeAdvancedSetting != null) {
-          advancedSetting = PayfactorsApiModelMapper.mapAdvancedSettingModalFormToAdvancedSettingRequest(data.action.payload.formValue.RangeAdvancedSetting,
-            data.structureHasPublished);
+          advancedSetting = PayfactorsApiModelMapper.mapAdvancedSettingModalFormToAdvancedSettingRequest(data.action.payload.formValue.RangeAdvancedSetting);
         } else {
           advancedSetting = generateMockRangeAdvancedSetting();
         }
@@ -192,12 +190,6 @@ export class ModelSettingsModalEffects {
                 }
 
                 actions.push(new fromModelSettingsModalActions.SaveModelSettingsSuccess());
-                actions.push(new fromSharedActions.GetStructureHasPublishedForType({
-                  RangeGroupId: r.RangeGroup.CompanyStructuresRangeGroupId,
-                  PaymarketId: r.RangeGroup.CompanyPayMarketId,
-                  DistributionTypeId: r.RangeGroup.RangeDistributionSetting.RangeDistributionTypeId,
-                  PayType: r.RangeGroup.PayType
-                }));
               }
 
               this.urlService.removeAllWorkflows();

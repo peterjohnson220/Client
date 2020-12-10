@@ -16,6 +16,7 @@ export class JobDescriptionSectionComponent {
   @Input() controlTypesLoaded = false;
   @Input() isCompare = false;
   @Input() saveThrottle: Subject<any>;
+  @Input() jobDescriptionStatus: string;
   @Output() controlDataChangesDetected = new EventEmitter();
   @Output() controlBulkDataChangesDetected = new EventEmitter();
   @Output() controlAdditionalPropertiesChangesDetected = new EventEmitter();

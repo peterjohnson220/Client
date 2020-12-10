@@ -3,7 +3,7 @@ import orderBy from 'lodash/orderBy';
 
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 import * as fromDataViewFieldsActions from 'libs/features/formula-editor/actions/fields.actions';
-import { Field, FieldType, DataViewAccessLevel, Suggestion, FieldsHelper } from 'libs/features/formula-editor';
+import { DataViewAccessLevel, Field, FieldsHelper, FieldType, FormulaType, Suggestion } from 'libs/features/formula-editor';
 
 export interface State {
   reportFieldsAsync: AsyncStateObj<Field[]>;
@@ -215,7 +215,8 @@ export const getUnselectedFields = (state: State) => {
 };
 export const getUserFormulas = (state: State) => {
   if (state.reportFieldsAsync.obj) {
-    const formulaFields = state.reportFieldsAsync.obj.filter((f: Field) => f.FieldType === FieldType.Formula && f.IsEditable === true);
+    const formulaFields = state.reportFieldsAsync.obj.filter((f: Field) => f.FieldType === FieldType.Formula && f.IsEditable === true
+      && f.FormulaTypeId === FormulaType.DataInsights);
     return orderBy(formulaFields, [(x: Field) => x.FormulaName.toLowerCase()], 'asc');
   }
 };

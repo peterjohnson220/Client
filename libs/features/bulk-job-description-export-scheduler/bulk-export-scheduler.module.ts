@@ -6,6 +6,8 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
+import { PfFormsModule } from 'libs/forms';
+
 import { BulkExportSchedulerFormComponent, BulkExportSchedulesListComponent } from './containers';
 import { BulkJobsExportScheduleEffects, BulkJobsExportScheduleFiltersEffects, BulkJobsExportScheduleViewEffects } from './effects';
 import * as fromFaIcons from './fa-icons';
@@ -27,7 +29,8 @@ import { reducers } from './reducers';
     ]),
 
     // Payfactors
-    FontAwesomeModule
+    FontAwesomeModule,
+    PfFormsModule
   ],
   declarations: [
     // Components

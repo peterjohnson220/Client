@@ -1,6 +1,7 @@
 import { Action } from '@ngrx/store';
 
 import { Filter, MultiSelectOption } from '../models';
+import { State } from '../reducers/singled-filter.reducer';
 
 export const APPLY_SELECTIONS = '[Search/Singled Filter] Apply Selections';
 export const CLEAR_SELECTIONS = '[Search/Singled Filter] Clear Selections';
@@ -10,6 +11,7 @@ export const SET_SINGLED_FILTER = '[Search/Singled Filter] Set Singled Filter';
 export const REMOVE_FILTER_VALUE = '[Search/Singled Filter] Remove Value';
 export const TOGGLE_MULTI_SELECT_OPTION = '[Search/Singled Filter] Toggle Multi Select Option';
 export const RESET = '[Search/Singled Filter] Reset';
+export const SET = '[Search/Singled Filter] Set';
 
 export class ApplySelections implements Action {
   readonly type = APPLY_SELECTIONS;
@@ -62,6 +64,12 @@ export class Reset implements Action {
   readonly type = RESET;
 }
 
+export class Set implements Action {
+  readonly type = SET;
+
+  constructor(public payload: State) { }
+}
+
 export type Actions
   = SetSingledFilter
   | SetSingledFilterOptions
@@ -70,4 +78,5 @@ export type Actions
   | SetSearchValue
   | RemoveFilterValue
   | ApplySelections
-  | Reset;
+  | Reset
+  | Set;

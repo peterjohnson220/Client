@@ -31,7 +31,7 @@ import { PfServicesRep, UserTicketState, UserTicketTabItem, UserTicketType } fro
 })
 export class TicketListComponent  implements OnInit, OnDestroy {
   gridView: GridDataResult = { data: [], total: 0 };
-  defaultDateRange = { start: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000), end: new Date() };
+  defaultDateRange = { start: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000), end: new Date() };
   sortable: SortSettings = {
     allowUnsort: false,
     mode: 'single'
