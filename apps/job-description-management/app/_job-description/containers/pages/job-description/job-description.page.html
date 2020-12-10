@@ -89,6 +89,7 @@
                                             [section]="section"
                                             [controlTypesLoaded]="!(controlTypesAsync$ | async)?.loading"
                                             [readOnly]="!(hasCanEditJobDescriptionPermission) || !(editingJobDescription$ | async)"
+                                            [jobDescriptionStatus]="jobDescription.JobDescriptionStatus"
                                             (controlDataChangesDetected)="handleControlDataChanges($event)"
                                             (controlBulkDataChangesDetected)="handleBulkControlDataChanges($event)"
                                             (controlAdditionalPropertiesChangesDetected)="handleControlAdditionalPropertiesChangesDetected($event)"
