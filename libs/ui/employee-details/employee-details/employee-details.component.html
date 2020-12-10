@@ -33,10 +33,10 @@
         <div class="p-3">
           <p class="mb-1"><b>Summary</b></p>
           <hr class="mb-2 mt-0 border-top border-dark" />
-          <p class="m-0">{{displayDetails.First_Name | formatName: employeeDetails.Last_Name: employeeDetails.Employee_Id: true}}
-            is a {{displayDetails.Full_Time_Employee === null || displayDetails.Full_Time_Employee === 1 ? 'full' : 'part'}} time employee{{displayDetails.Date_Of_Hire === null ? '.' : ' who has been with the company for ' + this.yearsOfService + ' years.'}}
-            {{displayDetails.First_Name | formatName: employeeDetails.Last_Name: employeeDetails.Employee_Id}} has a base
-            {{displayDetails.Rate === this.hourlyRate ? 'hourly' : ''}} salary of {{formattedSalary}} ({{displayDetails.Currency_Code}}),
+          <p class="m-0">{{displayDetails.FirstName | formatName: employeeDetails.LastName: employeeDetails.EmployeeId: true}}
+            is a {{displayDetails.FullTimeEmployee === null || displayDetails.FullTimeEmployee === 1 ? 'full' : 'part'}} time employee{{displayDetails.DateOfHire === null ? '.' : ' who has been with the company for ' + this.yearsOfService + ' years.'}}
+            {{displayDetails.FirstName | formatName: employeeDetails.LastName: employeeDetails.EmployeeId}} has a base
+            {{displayDetails.Rate === this.hourlyRate ? 'hourly' : ''}} salary of {{formattedSalary}} ({{displayDetails.CurrencyCode}}),
             {{displayDetails.BaseMRP === null ? 'this job has no Base MRP.' : 'which represents ' + formattedBaseMrp + '% of the base MRP.'}}</p>
         </div>
       </div>
@@ -49,22 +49,22 @@
             <div class="d-flex justify-content-between">
               <div class="d-flex flex-column py-1">
                 <span>Bonus Percentage:</span>
-                <input [value]="employeeDetails.Bonus_Percent | emptyPlaceholder" [disabled]="true" />
+                <input [value]="employeeDetails.BonusPercent | emptyPlaceholder" [disabled]="true" />
               </div>
               <div class="d-flex flex-column py-1">
                 <span>Bonus Target Percentage:</span>
-                <input [value]="employeeDetails.Bonus_Target_Percent | emptyPlaceholder" [disabled]="true" />
+                <input [value]="employeeDetails.BonusTargetPercent | emptyPlaceholder" [disabled]="true" />
               </div>
               <div class="d-flex flex-column py-1">
                 <span>Bonus Target:</span>
-                <input [value]="employeeDetails.Bonus_Target | comp: employeeDetails.Rate | emptyPlaceholder" [disabled]="true" />
+                <input [value]="employeeDetails.BonusTarget | comp: employeeDetails.Rate | emptyPlaceholder" [disabled]="true" />
               </div>
             </div>
 
             <div class="d-flex justify-content-between">
               <div class="d-flex flex-column py-1">
                 <span>Full Time Employee:</span>
-                <input [value]="employeeDetails.Full_Time_Employee >= 1 || employeeDetails.Full_Time_Employee === null ? 'Yes' : 'No'" [disabled]="true" />
+                <input [value]="employeeDetails.FullTimeEmployee >= 1 || employeeDetails.FullTimeEmployee === null ? 'Yes' : 'No'" [disabled]="true" />
               </div>
               <div class="d-flex flex-column py-1">
                 <span>Allowances:</span>
@@ -72,29 +72,29 @@
               </div>
               <div class="d-flex flex-column py-1">
                 <span>Target TCC:</span>
-                <input [value]="employeeDetails.Target_TCC | comp: employeeDetails.Rate | emptyPlaceholder" [disabled]="true" />
+                <input [value]="employeeDetails.TargetTCC | comp: employeeDetails.Rate | emptyPlaceholder" [disabled]="true" />
               </div>
             </div>
 
             <div class="d-flex justify-content-between">
               <div class="d-flex flex-column py-1">
                 <span>Target LTIP:</span>
-                <input [value]="employeeDetails.Target_LTI | comp: employeeDetails.Rate | emptyPlaceholder" [disabled]="true" />
+                <input [value]="employeeDetails.TargetLTI | comp: employeeDetails.Rate | emptyPlaceholder" [disabled]="true" />
               </div>
               <div class="d-flex flex-column py-1">
                 <span>Fixed Pay:</span>
-                <input [value]="employeeDetails.Total_Fixed_Pay | comp: employeeDetails.Rate | emptyPlaceholder" [disabled]="true" />
+                <input [value]="employeeDetails.TotalFixedPay | comp: employeeDetails.Rate | emptyPlaceholder" [disabled]="true" />
               </div>
               <div class="d-flex flex-column py-1">
                 <span>Target TDC:</span>
-                <input [value]="employeeDetails.Target_TDC | comp: employeeDetails.Rate | emptyPlaceholder" [disabled]="true" />
+                <input [value]="employeeDetails.TargetTDC | comp: employeeDetails.Rate | emptyPlaceholder" [disabled]="true" />
               </div>
             </div>
 
             <div class="d-flex justify-content-between">
               <div class="d-flex flex-column py-1">
                 <span>Total Guaranteed Pay:</span>
-                <input [value]="employeeDetails.Total_Guaranteed_Pay | comp: employeeDetails.Rate | emptyPlaceholder" [disabled]="true" />
+                <input [value]="employeeDetails.TotalGuaranteedPay | comp: employeeDetails.Rate | emptyPlaceholder" [disabled]="true" />
               </div>
               <div class="d-flex flex-column py-1">
                 <span>STI Eligibility:</span>
@@ -109,7 +109,7 @@
             <div class="d-flex justify-content-between">
               <div class="d-flex flex-column py-1">
                 <span>Remuneration:</span>
-                <input [value]="employeeDetails.Total_Remuneration | comp: employeeDetails.Rate | emptyPlaceholder" [disabled]="true" />
+                <input [value]="employeeDetails.TotalRemuneration | comp: employeeDetails.Rate | emptyPlaceholder" [disabled]="true" />
               </div>
             </div>
           </div>

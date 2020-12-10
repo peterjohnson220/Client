@@ -30,12 +30,12 @@ export class CompensationChartsComponent implements OnInit, OnChanges {
       const newEmployeeDetails = changes['employeeDetails'].currentValue;
 
       // Total Cash Compensation
-      this.populateChart(this.tccChart, newEmployeeDetails.Base_Salary, newEmployeeDetails.Bonus,
-        newEmployeeDetails.STI, newEmployeeDetails.Total_Cash_Comp, newEmployeeDetails.LTI);
+      this.populateChart(this.tccChart, newEmployeeDetails.BaseSalary, newEmployeeDetails.Bonus,
+        newEmployeeDetails.STI, newEmployeeDetails.TCC_Override, newEmployeeDetails.LTI);
 
       // Total Direct Compensation
-      this.populateChart(this.tdcChart, newEmployeeDetails.Base_Salary, newEmployeeDetails.Bonus, newEmployeeDetails.STI,
-        newEmployeeDetails.Total_Direct_Comp, newEmployeeDetails.LTI, true);
+      this.populateChart(this.tdcChart, newEmployeeDetails.BaseSalary, newEmployeeDetails.Bonus, newEmployeeDetails.STI,
+        newEmployeeDetails.TDC_Override, newEmployeeDetails.LTI, true);
 
       this.currencyCode = changes['employeeDetails'].currentValue.Currency_Code;
     }
@@ -64,16 +64,16 @@ export class CompensationChartsComponent implements OnInit, OnChanges {
     }
 
     chartData.push({ category: 'Bonus',
-      value: bonus,
+      value: bonus === null ? 0 : bonus,
       colorField: '#bc4444'});
 
     chartData.push({ category: 'STI',
-      value: sti,
+      value: sti === null ? 0 : sti,
       colorField: '#7151e4'});
 
     if (isTdcChart) {
       chartData.push({ category: 'LTIP',
-        value: lti,
+        value: lti === null ? 0 : lti,
         colorField: '#6cb420'});
     }
   }
