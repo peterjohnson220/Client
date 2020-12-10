@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 
 import { DataViewExportResponse } from 'libs/models/payfactors-api/reports/response';
 import { UserNotificationResponse } from 'libs/models/payfactors-api/notifications';
+import { NotificationPreferenceDto } from 'libs/models/notifications/notification-preference-dto.model';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 
@@ -35,6 +36,10 @@ export class NotificationsApiService {
     return this.payfactorsApiService.get(`${this.endpoint}/GetUserNotificationUnseenBadgeCount`);
   }
 
+  getUserNotificationPreferences(): Observable<NotificationPreferenceDto[]> {
+    return this.payfactorsApiService.get(`${this.endpoint}/GetUserNotificationPreferences`);
+  }
+
   markNotificationAsRead(userNotificationId: number): Observable<boolean> {
     return this.payfactorsApiService.post(`${this.endpoint}/MarkNotificationAsRead/${userNotificationId}`, {}, () => true);
   }
@@ -45,5 +50,9 @@ export class NotificationsApiService {
 
   markAllNotificationsAsSeen(): Observable<boolean> {
     return this.payfactorsApiService.post(`${this.endpoint}/MarkAllNotificationsAsSeen`, {}, () => true);
+  }
+
+  updateNotificationPreferences(notificationPreferences: NotificationPreferenceDto[]) {
+    return this.payfactorsApiService.post(`${this.endpoint}/UpdateNotificationPreferences`, notificationPreferences, () => true);
   }
 }
