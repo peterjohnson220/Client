@@ -16,6 +16,7 @@ import * as fromTransferDataPageActions from '../../../actions/transfer-data-pag
 import * as fromHrisConnectionActions from '../../../actions/hris-connection.actions';
 import * as fromOutboundJdmActions from '../../../actions/outbound-jdm.actions';
 import * as fromTransferScheduleActions from '../../../actions/transfer-schedule.actions';
+import * as fromLoadAndExportFilesCardActions from '../../../actions/load-and-export-files-card.actions';
 import { ConnectionSummary } from '../../../models';
 import { TransferDataWorkflowStep } from '../../../data';
 import * as fromDataManagementMainReducer from '../../../reducers';
@@ -69,6 +70,7 @@ export class DataManagementLandingPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.store.dispatch(new fromLoadAndExportFilesCardActions.InitLoadAndExportFilesCard());
     this.store.dispatch(new fromHrisConnectionActions.GetHrisConnectionSummary());
     this.store.dispatch(new fromOutboundJdmActions.LoadConnectionSummary());
     this.store.dispatch(new fromTransferScheduleActions.GetTransferSummary());
