@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Effect, Actions, ofType } from '@ngrx/effects';
-import { switchMap, mergeMap, catchError } from 'rxjs/operators';
+import { switchMap, mergeMap, catchError, groupBy } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import { DataViewApiService } from 'libs/data/payfactors-api';
@@ -15,20 +15,23 @@ export class FieldsEffects {
 
   @Effect()
   getReportFields$ = this.action$
-  .pipe(
-    ofType(fromFieldsActions.GET_AVAILABLE_REPORT_FIELDS_BY_PAGE_VIEW_ID),
-    switchMap((action: fromFieldsActions.GetAvailableReportFieldsByPageViewId) => {
-      return this.dataViewApiService.getAvailableDataViewPricingFields(action.payload.pageViewId)
-      .pipe(
-        mergeMap((response) => [
-            new fromFieldsActions.GetAvailableReportFieldsSuccess(
-              PayfactorsApiModelMapper.mapDataViewFieldsToFields(response))
-          ]
-        ),
-        catchError(() => of(new fromFieldsActions.GetAvailableReportFieldsError()))
-      );
-    })
-  );
+    .pipe(
+      ofType(fromFieldsActions.GET_AVAILABLE_FIELDS_BY_TABLE),
+      groupBy((action: fromFieldsActions.GetAvailableFieldsByTable) => action.payload.fieldId),
+      mergeMap(fieldIdGroup => fieldIdGroup.pipe(
+        switchMap((action: fromFieldsActions.GetAvailableFieldsByTable) => {
+          return this.dataViewApiService.getAvailableFieldsByTable(action.payload.request)
+            .pipe(
+              mergeMap((response) => [
+                  new fromFieldsActions.GetAvailableFieldsByTableSuccess({
+                    fields: PayfactorsApiModelMapper.mapDataViewFieldsToFields(response), fieldId: action.payload.fieldId})
+                ]
+              ),
+              catchError(() => of(new fromFieldsActions.GetAvailableFieldsByTableError({ fieldId: action.payload.fieldId})))
+            );
+        })
+      ))
+    );
 
   constructor(
     private action$: Actions,

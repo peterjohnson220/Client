@@ -1,9 +1,10 @@
 import cloneDeep from 'lodash/cloneDeep';
 
 import { SurveySearchResultDataSources } from 'libs/constants';
+import { BaseExchangeDataSearchRequest } from 'libs/models/payfactors-api/peer/exchange-data-search/request';
 
 import * as fromSurveySearchResultsActions from '../actions/survey-search-results.actions';
-import { DataCutDetails, JobResult } from '../models';
+import { DataCut, DataCutDetails, JobResult } from '../models';
 import { applyMatchesToJobResults } from '../helpers';
 
 export interface State {
@@ -11,13 +12,16 @@ export interface State {
   selectedDataCuts: DataCutDetails[];
   jobId: number;
   refining: boolean;
+  // TODO: Not sure this belongs here. [JP]
+  tempExchangeJobDataCutFilterContextDictionary: {[key: string]: BaseExchangeDataSearchRequest};
 }
 
 const initialState: State = {
   results: [],
   selectedDataCuts: [],
   jobId: null,
-  refining: false
+  refining: false,
+  tempExchangeJobDataCutFilterContextDictionary: {}
 };
 
 // Reducer function
@@ -112,10 +116,10 @@ export function reducer(state = initialState, action: fromSurveySearchResultsAct
       };
     }
     case fromSurveySearchResultsActions.GET_EXCHANGE_DATA_RESULTS: {
-      const id = action.payload.PeerJobInfo.ExchangeJobId;
+      const id = action.payload.exchangeJobId;
       const resultsCopy = cloneDeep(state.results);
       const job = resultsCopy.find(r => r.PeerJobInfo.ExchangeJobId === id);
-      job.LoadingDataCuts = !job.DataCuts.length;
+      job.LoadingDataCuts = !job.DataCuts?.length;
       job.LoadingDataCutsError = false;
       return {
         ...state,
@@ -126,10 +130,12 @@ export function reducer(state = initialState, action: fromSurveySearchResultsAct
       const id = action.payload.ExchangeJobId;
       const resultsCopy = cloneDeep(state.results);
       const job = resultsCopy.find(r => r.PeerJobInfo.ExchangeJobId === id);
-      const dataCuts = action.payload.DataCuts;
+      const newDataCuts = action.payload.DataCuts;
+      const existingDataCuts = !!job.DataCuts?.length ? job.DataCuts : [];
+      const tempDataCuts = existingDataCuts.filter((dc: DataCut) => !!dc.ServerInfo?.CustomPeerCutId);
 
       job.LoadingDataCuts = false;
-      job.DataCuts = job.DataCuts.concat(dataCuts);
+      job.DataCuts = tempDataCuts.concat(newDataCuts);
       return {
         ...state,
         results: resultsCopy
@@ -167,7 +173,55 @@ export function reducer(state = initialState, action: fromSurveySearchResultsAct
     case fromSurveySearchResultsActions.REFINE_EXCHANGE_JOB_RESULT_COMPLETE: {
       return {
         ...state,
-        refining: false
+        refining: false,
+        jobId: null
+      };
+    }
+    case fromSurveySearchResultsActions.ADD_REFINED_EXCHANGE_DATA_CUT: {
+      const id = action.payload.ExchangeJobId;
+      const resultsCopy = cloneDeep(state.results);
+      const tempDataCutDictionaryCopy = cloneDeep(state.tempExchangeJobDataCutFilterContextDictionary);
+      const job = resultsCopy.find(r => r.PeerJobInfo.ExchangeJobId === id);
+      const dataCut = action.payload.DataCut;
+      const dataCuts = [dataCut];
+      const tempPeerDataCutId = dataCut.ServerInfo.CustomPeerCutId;
+
+      tempDataCutDictionaryCopy[tempPeerDataCutId] = action.payload.ExchangeDataSearchRequest;
+
+      job.DataCuts = !!job.DataCuts?.length ? dataCuts.concat(job.DataCuts) : dataCuts;
+
+      const dataCutDetails: DataCutDetails[] = [{
+        DataSource: job.DataSource,
+        Job: job,
+        TCC50th: dataCut.TCC50th,
+        Base50th: dataCut.Base50th,
+        ServerInfo: dataCut.ServerInfo,
+        CutFilterId: dataCut.Id,
+        WeightingType: dataCut.Weight,
+        Orgs: dataCut.Orgs,
+        Incs: dataCut.Incs,
+      }];
+      let selectedDataCuts = cloneDeep(state.selectedDataCuts);
+      selectedDataCuts = !!selectedDataCuts?.length ? selectedDataCuts.concat(dataCutDetails) : dataCutDetails;
+
+      return {
+        ...state,
+        selectedDataCuts: selectedDataCuts,
+        results: resultsCopy,
+        tempExchangeJobDataCutFilterContextDictionary: tempDataCutDictionaryCopy
+      };
+    }
+    case fromSurveySearchResultsActions.REMOVE_REFINED_EXCHANGE_DATA_CUT: {
+      const payload = action.payload;
+      const resultsCopy = cloneDeep(state.results);
+      let selectedDataCuts = cloneDeep(state.selectedDataCuts);
+      selectedDataCuts = selectedDataCuts.filter(dc => dc.ServerInfo.CustomPeerCutId !== payload.Id);
+      const job = resultsCopy.find(r => r.PeerJobInfo.ExchangeJobId === payload.ExchangeJobId);
+      job.DataCuts = job.DataCuts.filter(dc => dc.ServerInfo.CustomPeerCutId !== payload.Id);
+      return {
+        ...state,
+        results: resultsCopy,
+        selectedDataCuts: selectedDataCuts
       };
     }
     default: {
@@ -181,6 +235,7 @@ export const getResults = (state: State) => state.results;
 export const getSelectedDataCuts = (state: State) => state.selectedDataCuts;
 export const getJobId = (state: State) => state.jobId;
 export const getRefining = (state: State) => state.refining;
+export const getTempExchangeJobDataCutFilterContextDictionary = (state: State) => state?.tempExchangeJobDataCutFilterContextDictionary ?? {};
 
 function getMatchingDataCut(dataCut: DataCutDetails, selectedDataCuts: DataCutDetails[]) {
   let matchingDataCut = filter =>
@@ -196,7 +251,8 @@ function getMatchingDataCut(dataCut: DataCutDetails, selectedDataCuts: DataCutDe
     matchingDataCut = filter =>
       filter.DataSource === SurveySearchResultDataSources.Peer &&
       ((!!dataCut.ServerInfo.DailyNatAvgId && filter.ServerInfo.DailyNatAvgId === dataCut.ServerInfo.DailyNatAvgId)
-      || (!!dataCut.ServerInfo.DailyScopeAvgId && filter.ServerInfo.DailyScopeAvgId === dataCut.ServerInfo.DailyScopeAvgId));
+      || (!!dataCut.ServerInfo.DailyScopeAvgId && filter.ServerInfo.DailyScopeAvgId === dataCut.ServerInfo.DailyScopeAvgId)
+      || (!!dataCut.ServerInfo.CustomPeerCutId && filter.ServerInfo.CustomPeerCutId === dataCut.ServerInfo.CustomPeerCutId));
   }
   return selectedDataCuts.find(matchingDataCut);
 }
@@ -212,7 +268,8 @@ function setSelectedPropertyInSearchResults(dataCut: DataCutDetails, resultsCopy
     const peerJob = resultsCopy.find(job => job.PeerJobInfo.Id === dataCut.Job.PeerJobInfo.Id);
     const exchangeJobDataCut = peerJob.DataCuts.find(dc =>
       (!!dataCut.ServerInfo.DailyScopeAvgId && dc.ServerInfo.DailyScopeAvgId === dataCut.ServerInfo.DailyScopeAvgId)
-      || (!!dataCut.ServerInfo.DailyNatAvgId && dc.ServerInfo.DailyNatAvgId === dataCut.ServerInfo.DailyNatAvgId));
+      || (!!dataCut.ServerInfo.DailyNatAvgId && dc.ServerInfo.DailyNatAvgId === dataCut.ServerInfo.DailyNatAvgId)
+      || (!!dataCut.ServerInfo.CustomPeerCutId && dc.ServerInfo.CustomPeerCutId === dataCut.ServerInfo.CustomPeerCutId));
     exchangeJobDataCut.IsSelected = isSelected;
   } else {
     const surveyJob = resultsCopy.find(job => job.Id === dataCut.SurveyJobId);

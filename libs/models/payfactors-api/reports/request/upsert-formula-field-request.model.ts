@@ -1,3 +1,5 @@
+import { FormulaType } from 'libs/features/formula-editor/models';
+
 export interface UpsertFormulaFieldRequest {
   Name: string;
   Formula: string;
@@ -5,4 +7,5 @@ export interface UpsertFormulaFieldRequest {
   BaseEntityId: number;
   DataType: string;
   IsPublic: boolean;
+  FormulaTypeId: FormulaType;
 }

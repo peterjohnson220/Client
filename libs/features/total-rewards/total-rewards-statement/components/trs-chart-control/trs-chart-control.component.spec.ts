@@ -44,36 +44,6 @@ describe('TrsChartControlComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should set a `preview-mode` class when in preview mode', () => {
-    // arrange
-    component.controlData = { Title: { Default: 'test title' } } as any;
-    component.mode = StatementModeEnum.Preview;
-    component.calculationControls = [];
-
-    // act
-    fixture.detectChanges();
-
-    // assert
-    expect(fixture.nativeElement.querySelector('.trs-chart.preview-mode')).toBeTruthy();
-    expect(fixture.nativeElement.querySelector('.trs-chart.edit-mode')).toBeFalsy();
-    expect(fixture.nativeElement.querySelector('.trs-chart.print-mode')).toBeFalsy();
-  });
-
-  it('should set an `edit-mode` class when in edit mode', () => {
-    // arrange
-    component.controlData = { Title: { Default: 'test title' } } as any;
-    component.mode = StatementModeEnum.Edit;
-    component.calculationControls = [];
-
-    // act
-    fixture.detectChanges();
-
-    // assert
-    expect(fixture.nativeElement.querySelector('.trs-chart.edit-mode')).toBeTruthy();
-    expect(fixture.nativeElement.querySelector('.trs-chart.preview-mode')).toBeFalsy();
-    expect(fixture.nativeElement.querySelector('.trs-chart.print-mode')).toBeFalsy();
-  });
-
   it('should calc `getChartPreviewData` as an empty array when no calculation controls exist', () => {
     // arrange
     component.calculationControls = [];
@@ -241,5 +211,68 @@ describe('TrsChartControlComponent', () => {
     expect(isNaN(chartEditData[0].value)).toBeFalsy();
     expect(chartEditData[0].value).toBeTruthy();
     expect(chartEditData[0].value.toString().indexOf('.')).toBe(-1);
+  });
+
+  it('should add a `hidden-title` class when the `showTitle` input is set to false', () => {
+    // arrange
+    component.showTitle = false;
+
+    // act
+    fixture.detectChanges();
+
+    // assert
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should omit the `hidden-title` class when `showTitle` input is set to true', () => {
+    // arrange
+    component.controlData = { Title: 'test title' } as any;
+    component.showTitle = true;
+
+    // act
+    fixture.detectChanges();
+
+    // assert
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should set the `height` input on the kendo-chart element', () => {
+    // arrange
+    component.controlData = { Title: 'test title' } as any;
+    component.height = '400px';
+
+    // act
+    fixture.detectChanges();
+
+    // assert
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should omit the chart series labels from the dom when `showChartSeriesLabels` is false', () => {
+    // arrange
+    const cashCalcControl = { Title: { Default: 'Default Cash', Override: 'Override' }, ControlType: TotalRewardsControlEnum.Calculation };
+    component.calculationControls = [cashCalcControl as any];
+    component.controlData = { Title: 'test title' } as any;
+    component.showChartSeriesLabels = false;
+
+    // act
+    fixture.detectChanges();
+
+    // assert
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should show chart series labels when `showChartSeriesLabels` is true', () => {
+    // arrange
+    const cashCalcControl = { Title: { Default: 'Default Cash', Override: 'Override' }, ControlType: TotalRewardsControlEnum.Calculation };
+    component.calculationControls = [cashCalcControl as any];
+    component.controlData = { Title: 'test title' } as any;
+    component.showChartSeriesLabels = true;
+
+    // act
+    fixture.detectChanges();
+
+    // assert
+    expect(fixture).toMatchSnapshot();
   });
 });

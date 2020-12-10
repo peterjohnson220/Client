@@ -1,3 +1,5 @@
+import { BaseExchangeDataSearchRequest } from '../../peer/exchange-data-search/request';
+
 export interface AddSurveyDataCutRequest {
   ProjectId: number;
   CompanyJobId: number;
@@ -22,6 +24,12 @@ export interface PeerCut {
   ExchangeJobId: number;
   DailyNatAvgId: number;
   DailyScopeAvgId: number;
+}
+
+export interface TempPeerCut {
+  Id: string;
+  ExchangeJobId: number;
+  ExchangeDataSearchRequest: BaseExchangeDataSearchRequest;
 }
 
 export function generateMockPayfactorsCutData(): JobDataCut {

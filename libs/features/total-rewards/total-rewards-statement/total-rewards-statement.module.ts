@@ -20,7 +20,8 @@ import { PfFormsModule } from 'libs/forms';
 
 import {
   StringEditorComponent, TotalRewardsStatementComponent, StatementDownloadComponent,
-  FieldGroupComponent, TrsCompensationFieldsChooserComponent, StatementViewComponent
+  FieldGroupComponent, TrsCompensationFieldsChooserComponent, StatementViewComponent,
+  TrsEmployeeControlComponent
 } from './components';
 import { TrsTitleControlComponent } from './components/trs-title-control/trs-title-control.component';
 import { TrsImageControlComponent } from './components/trs-image-control/trs-image-control.component';
@@ -29,10 +30,10 @@ import { TrsChartControlComponent } from './components/trs-chart-control/trs-cha
 import { TrsSummaryControlComponent } from './components/trs-summary-control/trs-summary-control.component';
 import { TrsRichTextControlComponent } from './components/trs-rich-text-control/trs-rich-text-control.component';
 import { CompensationFieldPipe } from './pipes/compensation-field-pipe';
-import { EffectiveDateComponent } from './components/effective-date/effective-date.component';
+import { TrsEffectiveDateControlComponent } from './components/trs-effective-date-control/trs-effective-date-control.component';
 import { FooterBarComponent } from './components/footer-bar/footer-bar.component';
-import { NoRecordsFoundCallToActionComponent } from './components/no-records-found-call-to-action/no-records-found-call-to-action.component';
 import { ModeClassifierDirective } from './directives/pf-mode-classifier-directive';
+import { StatementGraphicsDirective } from './directives/pf-statement-graphics-directive';
 
 @NgModule({
   imports: [
@@ -67,22 +68,23 @@ import { ModeClassifierDirective } from './directives/pf-mode-classifier-directi
     TrsSummaryControlComponent,
     TrsRichTextControlComponent,
     CompensationFieldPipe,
-    EffectiveDateComponent,
+    TrsEffectiveDateControlComponent,
     FooterBarComponent,
-    NoRecordsFoundCallToActionComponent,
     ModeClassifierDirective,
+    StatementGraphicsDirective,
     StatementDownloadComponent,
     FieldGroupComponent,
     TrsCompensationFieldsChooserComponent,
-    StatementViewComponent
+    StatementViewComponent,
+    TrsEmployeeControlComponent
   ],
   exports: [
     StringEditorComponent,
     TotalRewardsStatementComponent,
     CompensationFieldPipe,
     FooterBarComponent,
-    NoRecordsFoundCallToActionComponent,
     ModeClassifierDirective,
+    StatementGraphicsDirective,
     StatementDownloadComponent,
     StatementViewComponent
   ],

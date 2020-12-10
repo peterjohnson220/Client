@@ -12,7 +12,5 @@ export * from './workday-credentialspackage-model';
 export * from './publicapi-credentialspackage-model';
 export * from './file-upload-data.model';
 export * from './connection-summary-model';
-export * from './constants';
-export * from './db-entitytype.enum';
 export * from './jdm-view.model';
 export * from './converters';

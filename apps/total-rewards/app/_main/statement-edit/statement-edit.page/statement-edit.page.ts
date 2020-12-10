@@ -192,8 +192,8 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
     this.store.dispatch(new fromEditStatementPageActions.UpdateSettingsFontFamily(fontFamily));
   }
 
-  handleSettingsChartColorChange(request: models.UpdateSettingsChartColorRequest) {
-    this.store.dispatch(new fromEditStatementPageActions.UpdateSettingsChartColor(request));
+  handleSettingsColorChange(request: models.UpdateSettingsColorRequest) {
+    this.store.dispatch(new fromEditStatementPageActions.UpdateSettingsColor(request));
   }
 
   handleResetSettings() {

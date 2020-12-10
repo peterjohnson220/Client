@@ -16,6 +16,7 @@ import * as fromTransferDataPageActions from '../../../actions/transfer-data-pag
 import * as fromHrisConnectionActions from '../../../actions/hris-connection.actions';
 import * as fromOutboundJdmActions from '../../../actions/outbound-jdm.actions';
 import * as fromTransferScheduleActions from '../../../actions/transfer-schedule.actions';
+import * as fromLoadAndExportFilesCardActions from '../../../actions/load-and-export-files-card.actions';
 import { ConnectionSummary } from '../../../models';
 import { TransferDataWorkflowStep } from '../../../data';
 import * as fromDataManagementMainReducer from '../../../reducers';
@@ -39,6 +40,7 @@ export class DataManagementLandingPageComponent implements OnInit, OnDestroy {
   transferScheduleSummaryError$: Observable<boolean>;
   loading$: Observable<boolean>;
   loadingError$: Observable<boolean>;
+  loadAndExportFilesCardLoading$: Observable<boolean>;
 
   connectionNeedsAuthentication: boolean;
   loadAndExportsFilesCardFlag: RealTimeFlag = { key: FeatureFlags.LoadAndExportsFilesCards, value: false };
@@ -52,6 +54,7 @@ export class DataManagementLandingPageComponent implements OnInit, OnDestroy {
     this.loadingError$ = this.store.select(fromDataManagementMainReducer.getHrisConnectionLoadingError);
     this.transferScheduleSummaryLoading$ = this.store.select(fromDataManagementMainReducer.getTransferScheduleSummaryLoading);
     this.transferScheduleSummaryError$ = this.store.select(fromDataManagementMainReducer.getTransferScheduleSummaryError);
+    this.loadAndExportFilesCardLoading$ = this.store.select(fromDataManagementMainReducer.getLoadAndExportFilesCardStateLoading);
 
     this.featureFlagService.bindEnabled(this.loadAndExportsFilesCardFlag, this.unsubscribe$);
     this.featureFlagService.bindEnabled(this.jdmOutboundIntegrationFlag, this.unsubscribe$);
@@ -70,6 +73,7 @@ export class DataManagementLandingPageComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromHrisConnectionActions.GetHrisConnectionSummary());
     this.store.dispatch(new fromOutboundJdmActions.LoadConnectionSummary());
     this.store.dispatch(new fromTransferScheduleActions.GetTransferSummary());
+    this.store.dispatch(new fromLoadAndExportFilesCardActions.InitLoadAndExportFilesCard());
   }
 
   ngOnDestroy(): void {

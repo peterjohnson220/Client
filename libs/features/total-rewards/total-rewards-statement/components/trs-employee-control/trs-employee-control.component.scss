@@ -1,0 +1,17 @@
+@import 'total-rewards/app-colors';
+
+.trs-employee-control-container {
+  h2 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    max-height: 75px;
+    overflow: hidden;
+  }
+
+  h3 {
+    font-size: 1.5rem;
+    font-weight: 300;
+    overflow: hidden;
+    max-height: 25px;
+  }
+}

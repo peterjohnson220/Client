@@ -57,6 +57,9 @@ export class JobRangeModelChartService {
       case JobRangeModelChartSeries.MRP: {
         return 'MRP';
       }
+      case JobRangeModelChartSeries.Peer50: {
+        return 'Peer 50th';
+      }
       default: {
         // should never happen, but in case someone adds a value later and forgets.
         return '';
@@ -65,7 +68,7 @@ export class JobRangeModelChartService {
     }
   }
 
-  static getRangeOptions(locale, currencyCode, controlPointDisplay, rate, rangeDistributionTypeId) {
+  static getRangeOptions(locale, currencyCode, controlPointDisplay, rate, rangeDistributionTypeId, hasPeerSetting) {
     return {
       chart: {
         inverted: true,
@@ -91,7 +94,7 @@ export class JobRangeModelChartService {
         align: 'right',
         verticalAlign: 'top',
         floating: false,
-        y: 18,
+        y: 13,
         borderWidth: 1
       },
       tooltip: {
@@ -524,7 +527,28 @@ export class JobRangeModelChartService {
               '<div style="color: white">{point.mrp}</div>',
             footerFormat: '</div>'
           }
-        }
+        },
+        {
+          name: JobRangeModelChartService.getFormattedSeriesName(JobRangeModelChartSeries.Peer50, controlPointDisplay),
+          type: 'scatter',
+          marker: {
+            symbol: 'vline',
+            lineWidth: 2,
+            lineColor: '#008000',
+            radius: 20
+          },
+          enableMouseTracking: true,
+          tooltip: {
+            backgroundColor: '#000000',
+            useHTML: true,
+            padding: 0,
+            headerFormat: '<div style="display: inline-block; background-color: black">',
+            pointFormat: '<div style="color: white; font-weight: bold">{point.jobTitle}</div>' +
+              '<div style="color: white">{point.peer50}</div>',
+            footerFormat: '</div>'
+          },
+          showInLegend: hasPeerSetting
+        },
       ]
     };
   }

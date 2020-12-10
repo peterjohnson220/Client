@@ -33,8 +33,10 @@ export class ExchangeExplorerComponent extends SearchBaseDirective {
   @Input() companyPayMarketId: number;
   @Input() shouldShowPayMarketBoundsFilter = true;
   @Input() shouldShowExcludeIndirectJobMatchesFilter = true;
+  @Input() shouldShowExchangeJobSelector = true;
   @Input() shouldShowExchangeScopeSelector = true;
   @Input() jobSelectorRequiresPayMarket = true;
+  @Input() exchangeScopeSelectorRequiresPayMarket = true;
   @Input() exchangeJobSelectorStatic = false;
 
   // Observables
@@ -90,6 +92,10 @@ export class ExchangeExplorerComponent extends SearchBaseDirective {
     this.store.dispatch(new fromSearchResultsActions.ClearResults());
   }
 
+  reset() {
+    super.resetApp();
+  }
+
   handleExchangeJobSelected(payload: {exchangeJobId: number, similarExchangeJobIds: number[]}): void {
     // We want to refresh the paymarket context if the exchange job is changed.
     if (!!this.companyJobId && !!this.companyPayMarketId) {
@@ -124,8 +130,8 @@ export class ExchangeExplorerComponent extends SearchBaseDirective {
   }
 
   onSetContext(payload: any) {
-    if (!!payload.lockedExchangeJobId) {
-      this.store.dispatch(new fromLibsExchangeExplorerActions.RefineExchangeJob(payload));
+    if (!!payload.refineExchangeJobId) {
+      this.store.dispatch(new fromLibsExchangeExplorerActions.RefineExchangeJob({lockedExchangeJobId: payload.refineExchangeJobId}));
       return;
     }
     if (!!payload.cutGuid && payload.cutGuid !== '') {

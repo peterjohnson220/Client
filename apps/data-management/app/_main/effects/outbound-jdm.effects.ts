@@ -83,7 +83,7 @@ export class OutboundJdmEffects {
       switchMap(existingSummary => {
         const summary = {
           ...existingSummary.obj,
-          connectionID: 12345,
+          connectionID: -12345,
           canEditMappings: true,
           statuses: ['Authenticated']
         };

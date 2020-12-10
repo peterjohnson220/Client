@@ -35,7 +35,7 @@ export type StatementEditPageActions =
   settingsActions.SaveSettingsError |
   settingsActions.UpdateSettingsFontSize |
   settingsActions.UpdateSettingsFontFamily |
-  settingsActions.UpdateSettingsChartColor |
+  settingsActions.UpdateSettingsColor |
   settingsActions.ResetSettings |
 
   previewActions.SearchAssignedEmployees |

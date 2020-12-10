@@ -1,0 +1,31 @@
+<pf-modal-form
+  [size]="'md'"
+  [title]="'Share Pricing Projects'"
+  [isOpen$]="showAutoShareModal$"
+  [primaryButtonText]="!autoShareUsersSelected ?  'Save' : 'Share (' + autoShareUsersSelected + ')'"
+  (onSubmit)="handleOnSubmit()"
+  (onDismiss)="handleModalDismissed()">
+
+  <ng-container basic-content>
+    <div class="pt-4 px-4">
+      <pf-input-debounce class="w-100"
+                         [value]="searchValue"
+                         [attr.data-qa-id]="'txt-searchAutoShareUser'"
+                         [delay]="200"
+                         [placeholderText]="'Search for a user'"
+                         (valueChanged)="handleSearchValueChanged($event)">
+      </pf-input-debounce>
+    </div>
+    <hr>
+    <div perfectScrollbar class="users">
+      <div *ngFor="let user of filteredShareableUsers; trackBy: trackByFn;" class="shareable-users">
+        <pf-shareable-user
+          [user]="user"
+          [avatarUrl]="avatarUrl"
+          (toggleSelectedUser)="handleToggleSelectedUser($event)"
+        ></pf-shareable-user>
+      </div>
+    </div>
+  </ng-container>
+</pf-modal-form>
+

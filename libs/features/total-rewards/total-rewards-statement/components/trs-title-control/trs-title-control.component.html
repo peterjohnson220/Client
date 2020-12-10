@@ -2,12 +2,12 @@
   class="trs-title h-100 position-relative text-center" 
   [ngClass]="{'edit-mode': mode === modeEnum.Edit, 'background-graphics': backgroundGraphicsEnabled}"
   [style.width]="titleInnerWidth">
-  <div class="overlap graphic" aria-hidden="true"></div>
-  <div class="line graphic top-vertical" aria-hidden="true"></div>
-  <div class="line graphic top-horizontal" aria-hidden="true"></div>
-  <div class="line graphic circle top" aria-hidden="true"></div>
-  <div class="outer graphic" aria-hidden="true">
-    <div class="inner graphic" aria-hidden="true">
+  <div class="overlap graphic" pfStatementGraphicsDirective [colors]="graphicsColors" [colorRank]="color.Secondary" aria-hidden="true"></div>
+  <div class="line graphic top-vertical" pfStatementGraphicsDirective [colors]="graphicsColors" [colorRank]="color.Tertiary" aria-hidden="true"></div>
+  <div class="line graphic top-horizontal" pfStatementGraphicsDirective [colors]="graphicsColors" [colorRank]="color.Tertiary" aria-hidden="true"></div>
+  <div class="line graphic circle top" pfStatementGraphicsDirective [colors]="graphicsColors" [colorRank]="color.Tertiary" aria-hidden="true"></div>
+  <div class="outer graphic" pfStatementGraphicsDirective [colors]="graphicsColors" [colorRank]="color.Secondary" [styleAttrToColor]="'background-color'" [enabled]="backgroundGraphicsEnabled" aria-hidden="true">
+    <div class="inner graphic" aria-hidden="true" pfStatementGraphicsDirective [colors]="graphicsColors" [colorRank]="color.Primary" [styleAttrToColor]="'background-color'" [enabled]="backgroundGraphicsEnabled">
       <h2 class="trs-statement-title d-inline-block mw-100 mh-100">
         <pf-string-editor
           [placeholder]="controlData.Title.Default"
@@ -20,8 +20,8 @@
       </h2>
     </div>
   </div>
-  <div class="line graphic bottom-horizontal position-relative" aria-hidden="true"></div>
-  <div class="line graphic circle bottom position-relative" aria-hidden="true"></div>
+  <div class="line graphic bottom-horizontal" pfStatementGraphicsDirective [colors]="graphicsColors" [colorRank]="color.Tertiary" aria-hidden="true"></div>
+  <div class="line graphic circle bottom" pfStatementGraphicsDirective [colors]="graphicsColors" [colorRank]="color.Tertiary" aria-hidden="true"></div>
   <h3 *ngIf="showEmployee" class="employee font-weight-normal p-1">
     <span class="employee-name">{{ employeeName }}</span>
     <span *ngIf="employeeId">

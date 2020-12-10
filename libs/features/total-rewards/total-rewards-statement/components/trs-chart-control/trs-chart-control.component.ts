@@ -17,6 +17,9 @@ export class TrsChartControlComponent implements OnChanges {
 
   @Input() controlData: ChartControl;
   @Input() chartColors: string[];
+  @Input() showChartSeriesLabels: boolean;
+  @Input() showTitle: boolean;
+  @Input() height: string;
   @Input() employeeRewardsData: EmployeeRewardsData;
   @Input() calculationControls: CalculationControl[];
   @Input() mode: StatementModeEnum;

@@ -2,17 +2,13 @@
 
 exports[`Data Management - Main - Load And Export File Card has access should show export button 1`] = `
 <pf-load-and-export-files-card
-  canExportOrgData={[Function Observable]}
-  canExportPricingData={[Function Observable]}
+  canExportOrgData={[Function Boolean]}
   canImportOrgData="false"
   latestOrgDataLoad$={[Function Store]}
   latestOrgDataLoadModalOpen$={[Function Store]}
-  manualImportOrgDataSubscription={[Function Subscriber]}
   notificationStore={[Function Store]}
-  permissionService={[Function Object]}
-  router={[Function Object]}
-  settingsService={[Function Object]}
   store={[Function Store]}
+  unsubscribe$={[Function Subject]}
 >
   <div
     class="card mb-3 shadow-sm"
@@ -71,41 +67,7 @@ exports[`Data Management - Main - Load And Export File Card has access should sh
         </div>
       </div>
       
-      <div>
-        
-        <hr />
-        <div
-          class="row px-3"
-        >
-          <div
-            class="col-8"
-          >
-            <h4
-              class="load-type-title"
-            >
-              Pricing Data
-            </h4>
-          </div>
-          <div
-            class="col-4 text-right"
-          >
-            <div
-              class="d-flex justify-content-end"
-            >
-              <div
-                class="p-2"
-              >
-                <a
-                  class="btn btn-outline-primary px-3"
-                  href="#"
-                >
-                  Export
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      
     </div>
     <pf-latest-org-data-load-modal />
   </div>
@@ -114,17 +76,12 @@ exports[`Data Management - Main - Load And Export File Card has access should sh
 
 exports[`Data Management - Main - Load And Export File Card has access should show import button 1`] = `
 <pf-load-and-export-files-card
-  canExportOrgData={[Function Observable]}
-  canExportPricingData={[Function Observable]}
-  canImportOrgData="false"
+  canImportOrgData={[Function Boolean]}
   latestOrgDataLoad$={[Function Store]}
   latestOrgDataLoadModalOpen$={[Function Store]}
-  manualImportOrgDataSubscription={[Function Subscriber]}
   notificationStore={[Function Store]}
-  permissionService={[Function Object]}
-  router={[Function Object]}
-  settingsService={[Function Object]}
   store={[Function Store]}
+  unsubscribe$={[Function Subject]}
 >
   <div
     class="card mb-3 shadow-sm"
@@ -167,57 +124,43 @@ exports[`Data Management - Main - Load And Export File Card has access should sh
               class="d-flex justify-content-end"
             >
               
-              <div
-                class="p-2"
-              >
-                <a
-                  class="btn btn-outline-primary px-3"
-                  href="/odata/Company/GetOrganizationalData"
-                >
-                  Export
-                </a>
-              </div>
               
+              <div
+                class="p-2 d-inline-block"
+                ngbdropdown=""
+                placement="bottom-right"
+              >
+                <button
+                  class="btn btn-outline-primary px-3"
+                  id="orgDataImportBtnGroup"
+                  ngbdropdowntoggle=""
+                >
+                  <span
+                    class="mr-1"
+                  >
+                    Import
+                  </span>
+                </button>
+                <div
+                  aria-labelledby="orgDataImportBtnGroup"
+                  class="dropdown-menu text-right"
+                  ngbdropdownmenu=""
+                >
+                  
+                  <a
+                    class="dropdown-item"
+                    ngbdropdownitem=""
+                  >
+                    Import Once
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
       
-      <div>
-        
-        <hr />
-        <div
-          class="row px-3"
-        >
-          <div
-            class="col-8"
-          >
-            <h4
-              class="load-type-title"
-            >
-              Pricing Data
-            </h4>
-          </div>
-          <div
-            class="col-4 text-right"
-          >
-            <div
-              class="d-flex justify-content-end"
-            >
-              <div
-                class="p-2"
-              >
-                <a
-                  class="btn btn-outline-primary px-3"
-                  href="#"
-                >
-                  Export
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      
     </div>
     <pf-latest-org-data-load-modal />
   </div>
@@ -226,112 +169,14 @@ exports[`Data Management - Main - Load And Export File Card has access should sh
 
 exports[`Data Management - Main - Load And Export File Card no access should not show anything 1`] = `
 <pf-load-and-export-files-card
-  canExportOrgData={[Function Observable]}
-  canExportPricingData={[Function Observable]}
+  canExportOrgData="false"
   canImportOrgData="false"
   latestOrgDataLoad$={[Function Store]}
   latestOrgDataLoadModalOpen$={[Function Store]}
-  manualImportOrgDataSubscription={[Function Subscriber]}
   notificationStore={[Function Store]}
-  permissionService={[Function Object]}
-  router={[Function Object]}
-  settingsService={[Function Object]}
   store={[Function Store]}
+  unsubscribe$={[Function Subject]}
 >
-  <div
-    class="card mb-3 shadow-sm"
-  >
-    <div
-      class="card-body"
-    >
-      <div
-        class="row pb-3"
-      >
-        <div
-          class="col d-flex justify-content-between"
-        >
-          <h4
-            class="card-title d-inline-block flex-grow-1"
-          >
-             Load and Export Files 
-          </h4>
-        </div>
-      </div>
-      
-      <div>
-        <div
-          class="row px-3"
-        >
-          <div
-            class="col-8"
-          >
-            <h4
-              class="load-type-title"
-            >
-              Org Data
-            </h4>
-            
-          </div>
-          <div
-            class="col-4 text-right"
-          >
-            <div
-              class="d-flex justify-content-end"
-            >
-              
-              <div
-                class="p-2"
-              >
-                <a
-                  class="btn btn-outline-primary px-3"
-                  href="/odata/Company/GetOrganizationalData"
-                >
-                  Export
-                </a>
-              </div>
-              
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <div>
-        
-        <hr />
-        <div
-          class="row px-3"
-        >
-          <div
-            class="col-8"
-          >
-            <h4
-              class="load-type-title"
-            >
-              Pricing Data
-            </h4>
-          </div>
-          <div
-            class="col-4 text-right"
-          >
-            <div
-              class="d-flex justify-content-end"
-            >
-              <div
-                class="p-2"
-              >
-                <a
-                  class="btn btn-outline-primary px-3"
-                  href="#"
-                >
-                  Export
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <pf-latest-org-data-load-modal />
-  </div>
+  
 </pf-load-and-export-files-card>
 `;
