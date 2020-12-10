@@ -145,7 +145,7 @@ export class ModelSettingsModalEffects {
                 actions.push(new fromModelSettingsModalActions.ClearModelNameExistsFailure());
 
                 if (data.metadata.IsCurrent) {
-                  this.router.navigate([r.RangeGroup.CompanyStructuresRangeGroupId]);
+                  this.router.navigate(['job/' + r.RangeGroup.CompanyStructuresRangeGroupId]);
                   actions.push(new fromModelSettingsModalActions.CloseModal());
                   actions.push(new fromNotificationActions.AddNotification({
                     EnableHtml: true,
