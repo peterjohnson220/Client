@@ -22,7 +22,8 @@ export const selectUpsertPeerDataState =
 export const selectDataCutValidationState =
   createSelector(selectUpsertPeerDataState, (state: DataCutValidationState) => state.dataCutValidation);
 export const {
-  selectAll: getDataCutValidationInfo
+  selectAll: getDataCutValidationInfo,
+  selectIds: getDataCutValidationIds
 } = fromDataCutValidationReducer.adapter.getSelectors(selectDataCutValidationState);
 
 export const getEmployeeCheckPassed = createSelector(selectDataCutValidationState,

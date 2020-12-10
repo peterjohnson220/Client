@@ -22,7 +22,7 @@ SearchResultsComponent } from './containers';
 import { reducers } from './reducers';
 import { PayfactorsSearchApiHelper, PayfactorsSearchApiModelMapper } from './helpers';
 import { SearchFiltersEffects, SearchPageEffects } from './effects';
-import { SearchEffectsService } from './services';
+import { SearchEffectsService, SearchFeaturePersistenceService } from './services';
 import { PfInfiniteScrollModule } from '../infinite-scroll';
 import { PfEntityDescriptionModule } from '../entity-description/entity-description.module';
 
@@ -61,7 +61,8 @@ const declarations = [
   providers: [
     PayfactorsSearchApiHelper,
     PayfactorsSearchApiModelMapper,
-    SearchEffectsService
+    SearchEffectsService,
+    SearchFeaturePersistenceService
   ],
   declarations: [
     declarations,

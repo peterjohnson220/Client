@@ -11,18 +11,19 @@ import {
 } from 'libs/models/peer';
 import * as fromRootState from 'libs/state/state';
 import * as fromExchangeExplorerReducers from 'libs/features/peer/exchange-explorer/reducers';
+import * as fromLibsSurveySearchReducers from 'libs/features/survey-search/reducers';
 import { SettingsService } from 'libs/state/app-context/services';
 
 import { DojGuidelinesService } from './doj-guidelines.service';
 import * as fromDataCutValidationReducer from '../reducers';
-import {UpsertPeerDataCutEntityConfigurationModel} from '../../../upsert-peer-data-cut/models';
-import {UpsertPeerDataCutEntities, UpsertPeerDataCutParentEntities} from '../../../upsert-peer-data-cut/constants';
+import { UpsertPeerDataCutEntityConfigurationModel } from '../../../upsert-peer-data-cut/models';
+import { UpsertPeerDataCutEntities, UpsertPeerDataCutParentEntities } from '../../../upsert-peer-data-cut/constants';
 
 jest.mock('mapbox-gl/dist/mapbox-gl', () => ({
   LngLatBounds: () => ({})
 }));
 
-describe('Legacy Content - Peer - DOJ Guidelines Service', () => {
+describe('Features - Peer - DOJ Guidelines Service', () => {
   let service: DojGuidelinesService;
   let store: Store<fromRootState.State>;
   let activatedRoute: ActivatedRoute;
@@ -33,8 +34,10 @@ describe('Legacy Content - Peer - DOJ Guidelines Service', () => {
       imports: [
         StoreModule.forRoot({
           ...fromRootState.reducers,
+          dataCutValidation: combineReducers(fromDataCutValidationReducer.reducers),
           feature_peer_exchangeExplorer: combineReducers(fromExchangeExplorerReducers.reducers),
-          legacy_upsertPeerData: combineReducers(fromDataCutValidationReducer.reducers)
+          legacy_upsertPeerData: combineReducers(fromDataCutValidationReducer.reducers),
+          feature_surveySearch: combineReducers(fromLibsSurveySearchReducers.reducers)
         })
       ],
       providers: [

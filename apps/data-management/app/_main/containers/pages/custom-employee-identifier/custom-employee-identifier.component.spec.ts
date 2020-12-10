@@ -5,11 +5,11 @@ import { Store } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { MockSelectedCompany } from 'libs/features/company/company-selector/models/';
+import * as fromEntityIdentifierActions from 'libs/features/company/entity-identifier/actions/entity-identifier.actions';
+import { MockEntityIdentifierViewModelOptions } from 'libs/features/company/entity-identifier/models/entity-identifiers-view.model';
 
-import * as fromEntityIdentifierActions from '../../../actions/entity-identifier.actions';
 import { CustomEmployeeIdentifierComponent } from './custom-employee-identifier.component';
 import { EmployeeKeyStep } from './employee-key-step.enum';
-import { MockEntityIdentifierViewModelOptions } from '../../../models/entity-identifiers-view.model';
 
 describe('CustomEmployeeIdentifierComponent', () => {
   let fixture: ComponentFixture<CustomEmployeeIdentifierComponent>;
@@ -57,7 +57,7 @@ describe('CustomEmployeeIdentifierComponent', () => {
     instance.employeeFields = MockEntityIdentifierViewModelOptions();
     instance.selectedCompany = mockCompany;
     instance.submitChanges();
-    const action = new fromEntityIdentifierActions.PutEmployeeIdentifiers(13, instance.employeeFields.filter(f => f.isChecked).map(f => f.Field));
+    const action = new fromEntityIdentifierActions.PutEmployeeIdentifiers(13, instance.employeeFields.filter(f => f.isChecked).map(f => f.Field), undefined);
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 

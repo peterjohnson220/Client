@@ -135,7 +135,7 @@ describe('InboundEntitySelectionPageComponent', () => {
     // arrange
     spyOn(store, 'dispatch');
     const selectedEntities = [generateMockEntityTypeModel()];
-    const providerSupportedEntities = getEntityChoicesForOrgLoader(true);
+    const providerSupportedEntities = getEntityChoicesForOrgLoader();
 
     // act
     component.ngOnInit();

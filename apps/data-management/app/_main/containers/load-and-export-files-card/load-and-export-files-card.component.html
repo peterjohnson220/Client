@@ -37,7 +37,26 @@
         <div class="col-4 text-right">
           <div class="d-flex justify-content-end">
             <div class="p-2">
-              <a class="btn btn-outline-primary px-3" (click)="handlePricingDataExportClick($event)" [href]="'#'">Export</a>
+              <a class="btn btn-outline-primary px-3" [routerLink]="['/pricing-loader/pricing-loaders-download']">Export</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="canExportJobDescription || canScheduleBulkExports">
+      <hr *ngIf="canImportOrgData || canExportOrgData || canExportPricingData"/>
+      <div class="row px-3">
+        <div class="col-8">
+          <h4 class="load-type-title">Job Description Data</h4>
+        </div>
+        <div class="col-4 text-right">
+          <div class="d-flex justify-content-end">
+            <div ngbDropdown placement="bottom-right" class="p-2 d-inline-block">
+              <button class="btn btn-outline-primary px-3" id="orgJobDescriptionExportBtnGroup" ngbDropdownToggle><span class="mr-1">Export</span></button>
+              <div ngbDropdownMenu aria-labelledby="orgJobDescriptionExportBtnGroup" class="dropdown-menu text-right">
+                <a *ngIf="canExportJobDescription" ngbDropdownItem class="dropdown-item" (click)="handleJobDescriptionExportClick($event)" [href]="'#'">Export All</a>
+                <a *ngIf="canScheduleBulkExports" ngbDropdownItem class="dropdown-item" [href]="'/client/admin/job-description-management/bulk-export-scheduler'">Schedule Bulk Export</a>
+              </div>
             </div>
           </div>
         </div>

@@ -59,6 +59,21 @@ export class TotalRewardsStatementComponent {
   controlType = TotalRewardsControlEnum;
   statementModeEnum = StatementModeEnum;
 
+  get cssClasses(): string {
+    return  this.templateSpecificCss + ' ' + this.fontSizeCssClass + ' ' + this.fontFamilyCssClass;
+  }
+
+  get templateSpecificCss(): string {
+    switch (this.statement.TemplateName.toLowerCase()) {
+      case 'simple':
+        return 'pf-simple-template';
+      case 'styled':
+        return 'pf-styled-template';
+      default:
+        return '';
+    }
+  }
+
   // check statement.Settings.FontSize and return small-font-size | medium-font-size | large-font-size | ''
   get fontSizeCssClass(): string {
     if (this.statement && this.statement.Settings && this.statement.Settings.FontSize) {

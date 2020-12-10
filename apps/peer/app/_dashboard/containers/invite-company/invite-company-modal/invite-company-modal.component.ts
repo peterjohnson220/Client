@@ -86,8 +86,6 @@ export class InviteCompanyModalComponent implements OnInit, OnDestroy {
       ExchangeRequestTypeEnum.ReferPayfactorsCompany,
       exchangeRequestModel
     ));
-    // Clear existing form
-    this.requestCompanyForm.removeControl(this.currentChildForm);
   }
 
   handleModalDismissed(): void {

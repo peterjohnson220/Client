@@ -67,3 +67,7 @@ export const getBulkExportScheduleRemoving = createSelector(selectBulkExportSche
 export const getBulkExportScheduleRemovingError = createSelector(
   selectBulkExportScheduleState, fromBulkExportSchedulerReducer.getRemovingError
 );
+
+export const getBulkScheduleDeleteModalOpen = createSelector(
+  selectBulkExportScheduleState, fromBulkExportSchedulerReducer.getBulkScheduleDeleteModalOpen
+);

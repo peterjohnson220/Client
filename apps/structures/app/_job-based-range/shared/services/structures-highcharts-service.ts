@@ -55,6 +55,18 @@ export class StructuresHighchartsService {
       StructuresHighchartsService.formatDataPoint(dataPointType, value, chartLocale, md.Currency, md.Rate) : null;
   }
 
+
+  static formatMrpTooltip(mrp: number, percentile: number, isMidFormula: boolean,
+                          payType: string, locale: string, currency: string, rate: string) {
+    let formattedPercentile = '';
+    if (isMidFormula) {
+      formattedPercentile = `(${percentile})`;
+    } else {
+      formattedPercentile = `(${payType} ${percentile}th)`;
+    }
+    return `MRP: ${StructuresHighchartsService.formatCurrency(mrp, locale, currency, rate, true)} ${formattedPercentile}`;
+  }
+
   static formatDataPointDelta(hasCurrentStructure, chartLocale, md: RangeGroupMetadata, dataPoint, currentDataPoint) {
     return md.IsCurrent === false && !hasCurrentStructure
       ? StructuresHighchartsService.formatDeltaInDataPointForExistingStruct(dataPoint, currentDataPoint, chartLocale, md.Currency, md.Rate)

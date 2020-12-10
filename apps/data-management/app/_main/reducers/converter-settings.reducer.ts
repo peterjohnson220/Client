@@ -45,6 +45,15 @@ export function reducer(state = initialState, action: fromConverterSettingsActio
       };
     }
     case fromConverterSettingsActions.ADD_CONVERTER_SETTING: {
+      // This is a hack for outbound sales demo purposes
+      // remove this when we no longer have the outbound saled-demo code
+      // don't do this...
+      if (action.payload.connectionId === -12345) {
+        return {
+          ...state
+        };
+      }
+
       if (action.payload.converterSetting) {
         return {
           ...state,
@@ -74,6 +83,15 @@ export function reducer(state = initialState, action: fromConverterSettingsActio
       };
     }
     case fromConverterSettingsActions.REMOVE_CONVERTER_SETTING: {
+            // This is a hack for outbound sales demo purposes
+      // remove this when we no longer have the outbound saled-demo code
+      // don't do this...
+      if (action.payload.connectionId === -12345) {
+        return {
+          ...state
+        };
+      }
+
       const currentConverterSetting = cloneDeep(state.converterSettings);
       const removedConverterSetting = currentConverterSetting.splice(
         currentConverterSetting.findIndex(setting => setting.connection_ID ===  action.payload.connectionId &&

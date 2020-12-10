@@ -17,6 +17,17 @@
   }
 }
 
+.trs-calculation.print-mode, .trs-calculation.preview-mode {
+   table {
+      .field-column {
+        width: 75%;
+      }
+      .button-column {
+        width: 0;
+      }
+    }
+}
+
 .table-sm td {
   padding-top: 0;
   padding-bottom: 0;

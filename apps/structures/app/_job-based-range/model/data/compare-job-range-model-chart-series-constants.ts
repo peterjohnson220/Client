@@ -36,7 +36,9 @@ export enum CompareJobRangeModelChartSeries {
   RangeQuintileFourth = 34,
   CompareRangeQuintileFourth = 35,
   SalaryRangeMinMidMaxHidden = 36,
-  CompareSalaryRangeMinMidMaxHidden = 37
+  CompareSalaryRangeMinMidMaxHidden = 37,
+  Peer50 = 38,
+  ComparePeer50 = 39
 }
 
 export enum  CompareMinMidMaxJobRangeModelChartSeries {
@@ -48,6 +50,8 @@ export enum  CompareMinMidMaxJobRangeModelChartSeries {
   CompareAverage = 5,
   EmployeeOutliers = 6,
   CompareEmployeeOutliers = 7,
+  Peer50 = 8,
+  ComparePeer50 = 9
 }
 
 export enum CompareTertileJobRangeModelChartSeries {
@@ -67,6 +71,8 @@ export enum CompareTertileJobRangeModelChartSeries {
   CompareAverage = 13,
   EmployeeOutliers = 14,
   CompareEmployeeOutliers = 15,
+  Peer50 = 16,
+  ComparePeer50 = 17
 }
 
 export enum CompareQuartileJobRangeModelChartSeries {
@@ -91,7 +97,9 @@ export enum CompareQuartileJobRangeModelChartSeries {
   RangeQuartileFirst = 18,
   CompareRangeQuartileFirst = 19,
   RangeQuartileSecond = 20,
-  CompareRangeQuartileSecond = 21
+  CompareRangeQuartileSecond = 21,
+  Peer50 = 22,
+  ComparePeer50 = 23
 }
 
 export enum CompareQuintileJobRangeModelChartSeries {
@@ -114,5 +122,7 @@ export enum CompareQuintileJobRangeModelChartSeries {
   RangeQuintileThird = 16,
   CompareRangeQuintileThird = 17,
   RangeQuintileFourth = 18,
-  CompareRangeQuintileFourth = 19
+  CompareRangeQuintileFourth = 19,
+  Peer50 = 20,
+  ComparePeer50 = 21
 }

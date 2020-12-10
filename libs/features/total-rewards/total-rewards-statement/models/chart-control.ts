@@ -3,6 +3,9 @@ import { TotalRewardsControlEnum } from './total-rewards-control-enum';
 
 export interface ChartControl extends BaseControl {
   DataFields: [];
+  Height: string; // css units, eg 350px, 100%, 10rem, etc
+  ShowTitle: boolean;
+  ShowChartSeriesLabels: boolean;
 }
 
 export function generateMockChartControl(): ChartControl {
@@ -12,6 +15,9 @@ export function generateMockChartControl(): ChartControl {
     Title: { Default: 'DefaultTitle', Override: '' },
     ControlType: TotalRewardsControlEnum.Chart,
     Layout: { Width: 12 },
-    DataFields: null
+    DataFields: null,
+    Height: '250px',
+    ShowTitle: true,
+    ShowChartSeriesLabels: true
   };
 }

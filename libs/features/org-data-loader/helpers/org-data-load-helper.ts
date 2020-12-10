@@ -19,6 +19,8 @@ export interface ILoadSettings {
   isStructureMappingsFullReplace: boolean;
   isBenefitsLoadEnabled: boolean;
   isBenefitsFullReplace: boolean;
+  isEmployeeTagsLoadEnabled: boolean;
+  isEmployeeTagsFullReplace: boolean;
   fileFormat: string;
   validateOnly: boolean;
 }
@@ -37,6 +39,8 @@ export class LoaderSettings implements ILoadSettings {
   isSubsidiariesLoadEnabled: boolean;
   isBenefitsLoadEnabled: boolean;
   isBenefitsFullReplace: boolean;
+  isEmployeeTagsLoadEnabled: boolean;
+  isEmployeeTagsFullReplace: boolean;
   fileFormat: string;
   validateOnly: boolean;
 }
@@ -75,6 +79,11 @@ export class OrgDataLoadHelper {
       false,
       this.stringSettingToBooleanTransform
     );
+    loadSettings.isEmployeeTagsLoadEnabled = this.getLoaderSettingValueIfSet<boolean>(response,
+      LoaderSettingsKeys.IsEmployeeTagsLoadEnabled,
+      false,
+      this.stringSettingToBooleanTransform
+    );
     loadSettings.isJobsLoadEnabled = this.getLoaderSettingValueIfSet<boolean>(response,
       LoaderSettingsKeys.IsJobsLoadEnabled,
       false,
@@ -97,6 +106,11 @@ export class OrgDataLoadHelper {
     );
     loadSettings.isEmployeesFullReplace = this.getLoaderSettingValueIfSet<boolean>(response,
       LoaderSettingsKeys.IsEmployeesFullReplace,
+      true,
+      this.stringSettingToBooleanTransform
+    );
+    loadSettings.isEmployeeTagsFullReplace = this.getLoaderSettingValueIfSet<boolean>(response,
+      LoaderSettingsKeys.IsEmployeeTagsFullReplace,
       true,
       this.stringSettingToBooleanTransform
     );
@@ -205,6 +219,16 @@ export class OrgDataLoadHelper {
       this.getSettingIfChanged(
         LoaderSettingsKeys.IsBenefitsFullReplace,
         this.booleanSettingToStringTransform(newLoaderSettings.isBenefitsFullReplace),
+        existingLoaderSettings
+      ),
+      this.getSettingIfChanged(
+        LoaderSettingsKeys.IsEmployeeTagsLoadEnabled,
+        this.booleanSettingToStringTransform(newLoaderSettings.isEmployeeTagsLoadEnabled),
+        existingLoaderSettings
+      ),
+      this.getSettingIfChanged(
+        LoaderSettingsKeys.IsEmployeeTagsFullReplace,
+        this.booleanSettingToStringTransform(newLoaderSettings.isEmployeeTagsFullReplace),
         existingLoaderSettings
       ),
     ].filter(setting => isObject(setting));

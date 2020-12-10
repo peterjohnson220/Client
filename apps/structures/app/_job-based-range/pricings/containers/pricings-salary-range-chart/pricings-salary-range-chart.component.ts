@@ -219,17 +219,16 @@ export class PricingsSalaryRangeChartComponent implements OnInit, OnDestroy {
   }
 
   private addMRPPoint(xCoordinate) {
+    const isMidFormula = !!this.metaData.RangeDistributionSetting?.Mid_Formula?.FormulaId;
+
     this.mrpSeriesData.push({
       x: xCoordinate,
       y: this.jobRangeData.CompanyStructures_RangeGroup_MarketReferencePointValue,
       jobTitle: this.jobRangeData.CompanyJobs_Job_Title,
-      mrp: this.formatMRP(this.jobRangeData.CompanyStructures_RangeGroup_MarketReferencePointValue,
-        this.jobRangeData.CompanyStructures_RangeGroup_MrpPercentile)
+      mrp: StructuresHighchartsService.formatMrpTooltip(this.jobRangeData.CompanyStructures_RangeGroup_MarketReferencePointValue,
+        this.jobRangeData.CompanyStructures_RangeGroup_MrpPercentile, isMidFormula, !!this.metaData?.PayType ? this.metaData.PayType : 'Base',
+        this.chartLocale, this.currency, this.rate)
     });
-  }
-
-  private formatMRP(mrp: number, percentile: number) {
-    return `MRP: ${StructuresHighchartsService.formatCurrency(mrp, this.chartLocale, this.currency, this.rate, true)} (Base ${percentile}th)`;
   }
 
   private updateChartLabels() {

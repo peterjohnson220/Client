@@ -1,0 +1,46 @@
+@import 'libs/styles/ngbootstrap-tabset-overrides';
+
+::ng-deep {
+  @include pf-tabset;
+
+  .nav-tabs .nav-link.active {
+    border-bottom: 2px solid #0088CC !important;
+  }
+
+  .bg-info.card-header {
+    background-color: #5BC0DE !important;
+    color: white;
+  }
+  .current-fields-panel {
+    border: 1px solid rgba(52,150,180,0.62) !important;
+  }
+}
+
+.tab-title {
+  color: #000000;
+
+  &:active, &:hover {
+    color: #000000;
+  }
+}
+
+.group-header {
+  cursor: pointer;
+}
+
+.selection-area {
+  width: 60%;
+}
+
+.current-fields {
+  width: 40%;
+}
+
+.no-payfactors-data {
+  font-weight: bold;
+}
+
+.mrp-input {
+  width: 65px;
+}
+

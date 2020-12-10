@@ -1,4 +1,4 @@
-export interface UpdateSettingsChartColorRequest {
+export interface UpdateSettingsColorRequest {
   ColorIndex: number;
   Color: string;
 }

@@ -1,6 +1,6 @@
 import { ExchangeDataSearchFilterContext, generateMockExchangeDataSearchFilterContext } from 'libs/models/peer';
 import { ExchangeExplorerScopeResponseContext,
-         generateMockExchangeExplorerScopeResponseContext } from 'libs/models/payfactors-api/peer/exchange-data-filter/response';
+         generateMockExchangeExplorerScopeResponseContext } from './exchange-explorer-scope-response-context.model';
 
 export interface ExchangeExplorerScopeResponse {
   FilterContext: ExchangeDataSearchFilterContext;

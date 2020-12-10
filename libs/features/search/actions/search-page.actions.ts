@@ -4,6 +4,7 @@ import { UserFilterTypeData } from 'libs/features/user-filter/models';
 
 import { SearchFilterMappingDataObj } from '../models';
 import { SearchFeatureIds } from '../enums/search-feature-ids';
+import { State } from '../reducers/search-page.reducer';
 
 export const SET_SEARCH_FILTER_MAPPING_DATA = '[Search/Search Page] Set Search Filter Mapping Data';
 export const SET_SEARCH_FEATURE_ID = '[Search/Search Page] Set Search Feature Id';
@@ -17,6 +18,7 @@ export const HIDE_PAGE = '[Search/Search Page] Hide Page';
 export const SHOW_PAGE = '[Search/Search Page] Show Page';
 export const CANCEL = '[Search/Search Page] Cancel';
 export const RESET = '[Search/Search Page] Reset';
+export const SET = '[Search/Search Page] Set';
 
 export class SetSearchFeatureId implements Action {
   readonly type = SET_SEARCH_FEATURE_ID;
@@ -88,6 +90,12 @@ export class Reset implements Action {
   readonly type = RESET;
 }
 
+export class Set implements Action {
+  readonly type = SET;
+
+  constructor(public payload: State) { }
+}
+
 export type Actions
   = SetSearchFeatureId
   | SetSearchFilterMappingData
@@ -99,4 +107,5 @@ export type Actions
   | HideChildFilterSearch
   | HidePage
   | ShowPage
-  | Reset;
+  | Reset
+  | Set;
