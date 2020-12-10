@@ -8,20 +8,27 @@ exports[`TrsSummaryControlComponent should display in edit mode 1`] = `
   onTitleChange={[Function EventEmitter]}
 >
   <div
-    class="text-center mt-3"
+    class="summary-control px-3 mt-3"
+    pfmodeclassifierdirective=""
   >
-    <h3
-      class="d-inline-block mw-100"
-      pfstatementgraphicsdirective=""
-    >
-      <pf-string-editor />
-    </h3>
     
-    <h4
-      class="position-relative"
+    <div
+      class="text-center"
     >
-      $---,---
-    </h4>
+      <h3
+        class="d-inline-block mw-100"
+        pfstatementgraphicsdirective=""
+      >
+        <pf-string-editor />
+      </h3>
+      
+      <h4
+        class="position-relative"
+      >
+        $---,---
+      </h4>
+      
+    </div>
     
   </div>
 </pf-trs-summary-control>
@@ -35,21 +42,28 @@ exports[`TrsSummaryControlComponent should display in preview mode 1`] = `
   onTitleChange={[Function EventEmitter]}
 >
   <div
-    class="text-center mt-3"
+    class="summary-control px-3 mt-3"
+    pfmodeclassifierdirective=""
   >
-    <h3
-      class="d-inline-block mw-100"
-      pfstatementgraphicsdirective=""
-    >
-      <pf-string-editor />
-    </h3>
     
-    
-    <h4
-      class="position-relative preview-mode-animation"
+    <div
+      class="text-center"
     >
-       $0 
-    </h4>
+      <h3
+        class="d-inline-block mw-100"
+        pfstatementgraphicsdirective=""
+      >
+        <pf-string-editor />
+      </h3>
+      
+      
+      <h4
+        class="position-relative preview-mode-animation"
+      >
+         $0 
+      </h4>
+    </div>
+    
   </div>
 </pf-trs-summary-control>
 `;
@@ -64,21 +78,190 @@ exports[`TrsSummaryControlComponent should display in preview mode w/ data 1`] =
   onTitleChange={[Function EventEmitter]}
 >
   <div
-    class="text-center mt-3"
+    class="summary-control px-3 mt-3"
+    pfmodeclassifierdirective=""
   >
-    <h3
-      class="d-inline-block mw-100"
-      pfstatementgraphicsdirective=""
-    >
-      <pf-string-editor />
-    </h3>
     
-    
-    <h4
-      class="position-relative preview-mode-animation"
+    <div
+      class="text-center"
     >
-       $165000 
-    </h4>
+      <h3
+        class="d-inline-block mw-100"
+        pfstatementgraphicsdirective=""
+      >
+        <pf-string-editor />
+      </h3>
+      
+      
+      <h4
+        class="position-relative preview-mode-animation"
+      >
+         $165000 
+      </h4>
+    </div>
+    
+  </div>
+</pf-trs-summary-control>
+`;
+
+exports[`TrsSummaryControlComponent should display tabular mode properly in all modes 1`] = `
+<pf-trs-summary-control
+  calculationControls={[Function Array]}
+  controlData={[Function Object]}
+  currencyPipe={[Function Object]}
+  employeeRewardsData={[Function Object]}
+  mode="0"
+  onTitleChange={[Function EventEmitter]}
+>
+  <div
+    class="summary-control px-3 mt-3"
+    pfmodeclassifierdirective=""
+  >
+    
+    <table
+      class="table table-borderless table-sm m-0 w-100"
+    >
+      <colgroup>
+        <col
+          class="title-column"
+        />
+        <col
+          class="value-column"
+        />
+      </colgroup>
+      <tbody>
+        <tr>
+          <td
+            class="title-column"
+          >
+            <h3
+              class="d-inline-block mw-100"
+              pfstatementgraphicsdirective=""
+            >
+              <pf-string-editor />
+            </h3>
+          </td>
+          <td
+            class="value-column"
+          >
+            
+            <h4>
+              $---,---
+            </h4>
+            
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    
+  </div>
+</pf-trs-summary-control>
+`;
+
+exports[`TrsSummaryControlComponent should display tabular mode properly in all modes 2`] = `
+<pf-trs-summary-control
+  calculationControls={[Function Array]}
+  controlData={[Function Object]}
+  currencyPipe={[Function Object]}
+  employeeRewardsData={[Function Object]}
+  mode={[Function Number]}
+  onTitleChange={[Function EventEmitter]}
+>
+  <div
+    class="summary-control px-3 mt-3"
+    pfmodeclassifierdirective=""
+  >
+    
+    <table
+      class="table table-borderless table-sm m-0 w-100"
+    >
+      <colgroup>
+        <col
+          class="title-column"
+        />
+        <col
+          class="value-column"
+        />
+      </colgroup>
+      <tbody>
+        <tr>
+          <td
+            class="title-column"
+          >
+            <h3
+              class="d-inline-block mw-100"
+              pfstatementgraphicsdirective=""
+            >
+              <pf-string-editor />
+            </h3>
+          </td>
+          <td
+            class="value-column"
+          >
+            
+            <h4>
+              $---,---
+            </h4>
+            
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    
+  </div>
+</pf-trs-summary-control>
+`;
+
+exports[`TrsSummaryControlComponent should display tabular mode properly in all modes 3`] = `
+<pf-trs-summary-control
+  calculationControls={[Function Array]}
+  controlData={[Function Object]}
+  currencyPipe={[Function Object]}
+  employeeRewardsData={[Function Object]}
+  mode={[Function Number]}
+  onTitleChange={[Function EventEmitter]}
+>
+  <div
+    class="summary-control px-3 mt-3"
+    pfmodeclassifierdirective=""
+  >
+    
+    <table
+      class="table table-borderless table-sm m-0 w-100"
+    >
+      <colgroup>
+        <col
+          class="title-column"
+        />
+        <col
+          class="value-column"
+        />
+      </colgroup>
+      <tbody>
+        <tr>
+          <td
+            class="title-column"
+          >
+            <h3
+              class="d-inline-block mw-100"
+              pfstatementgraphicsdirective=""
+            >
+              <pf-string-editor />
+            </h3>
+          </td>
+          <td
+            class="value-column"
+          >
+            
+            <h4>
+              $---,---
+            </h4>
+            
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    
   </div>
 </pf-trs-summary-control>
 `;
