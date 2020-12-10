@@ -60,18 +60,18 @@
         <td class="contribution-field summary text-right" [ngClass]="inPreviewMode ? 'preview-mode-animation' : '' ">
           <span *ngIf="getSummaryValue(); else compensationValuePlaceholder">{{ getSummaryValue() }}</span>
         </td>
-        <td *ngIf="inEditMode"></td>
+        <td *ngIf="inEditMode">
+          <pf-trs-compensation-fields-chooser 
+            *ngIf="(selectableFields?.length > 0)"
+            [fields]="selectableFields"
+            [maxVisibleFieldsReached]="maxVisibleFieldsReached"
+            (fieldClicked)="addField($event)">
+          </pf-trs-compensation-fields-chooser>
+        </td>
       </tr>
     </tbody>
   </table>
-
-  <ng-container *ngIf="inEditMode && (selectableFields?.length > 0)">
-    <pf-trs-compensation-fields-chooser [fields]="selectableFields"
-                                        [maxVisibleFieldsReached]="maxVisibleFieldsReached"
-                                        (fieldClicked)="addField($event)">
-    </pf-trs-compensation-fields-chooser>
-  </ng-container>
-
+  
   <ng-template #compensationValuePlaceholder>
     <pf-compensation-value-placeholder></pf-compensation-value-placeholder>
   </ng-template>
