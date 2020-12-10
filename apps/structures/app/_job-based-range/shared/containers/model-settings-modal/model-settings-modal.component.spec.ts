@@ -86,6 +86,7 @@ describe('Job Based Ranges - Model Settings Modal', () => {
       SpreadMax: 10,
       IsCurrent: false,
       RangeDistributionTypeId: 1,
+      ExchangeId: null,
       RangeDistributionTypes: generateMockStructureRangeDistributionTypes(),
       RangeDistributionSetting: generateMockRangeDistributionSettingForm(),
       RangeAdvancedSetting: generateMockRangeAdvancedSetting()
@@ -105,6 +106,7 @@ describe('Job Based Ranges - Model Settings Modal', () => {
       SpreadMin: 10,
       StructureName: 'testStruc',
       RangeDistributionTypeId: 1,
+      ExchangeId: null,
       RangeDistributionTypes: generateMockStructureRangeDistributionTypes(),
       RangeDistributionSetting: generateMockRangeDistributionSettingForm(),
       RangeAdvancedSetting: generateMockRangeAdvancedSetting()
@@ -218,7 +220,7 @@ describe('Job Based Ranges - Model Settings Modal', () => {
   it('should set attemptedSubmit to true (but leave the activeTab alone) if form is valid', () => {
     instance.buildForm();
     instance.activeTab = '';
-    instance.formulaValid = true;
+    instance.allFormulas = {};
     instance.handleModalSubmitAttempt();
 
     expect(instance.attemptedSubmit).toEqual(true);
@@ -242,6 +244,7 @@ describe('Job Based Ranges - Model Settings Modal', () => {
       SpreadMax: 10,
       IsCurrent: false,
       RangeDistributionTypeId: 1,
+      ExchangeId: null,
       RangeDistributionTypes: generateMockStructureRangeDistributionTypes(),
       RangeDistributionSetting: generateMockRangeDistributionSettingForm(),
       RangeAdvancedSetting: generateMockRangeAdvancedSetting()
@@ -250,6 +253,7 @@ describe('Job Based Ranges - Model Settings Modal', () => {
     instance.buildForm();
 
     instance.activeTab = '';
+    instance.allFormulas = {};
 
     instance.handleModalSubmitAttempt();
 
@@ -281,7 +285,7 @@ describe('Job Based Ranges - Model Settings Modal', () => {
     spyOn(instance.store, 'dispatch');
 
     instance.ngOnInit();
-
+    instance.allFormulas = {};
     instance.rangeGroupId = 1;
     instance.pageViewId = PageViewIds.ModelMinMidMax;
     instance.roundingSettings = {};

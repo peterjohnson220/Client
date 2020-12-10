@@ -302,10 +302,12 @@ export class PayfactorsApiModelMapper {
     isStructureMappingsLoadEnabled: summary.selectedEntities.includes(OrgDataEntityType.StructureMapping),
     isSubsidiariesLoadEnabled: summary.selectedEntities.includes(OrgDataEntityType.Subsidiaries),
     isBenefitsLoadEnabled: summary.selectedEntities.includes(OrgDataEntityType.Benefits),
+    isEmployeeTagsLoadEnabled: summary.selectedEntities.includes(OrgDataEntityType.EmployeeTags),
     fileFormat: LoaderFileFormat.JSON,
     isEmployeesFullReplace: summary.fullReplaceModes.employeesFullReplace,
     isStructureMappingsFullReplace: summary.fullReplaceModes.structureMappingsFullReplace,
     isBenefitsFullReplace: summary.fullReplaceModes.benefitsFullReplace,
+    isEmployeeTagsFullReplace: summary.fullReplaceModes.employeeTagsFullReplace,
     validateOnly: summary.validationMode
   })
 

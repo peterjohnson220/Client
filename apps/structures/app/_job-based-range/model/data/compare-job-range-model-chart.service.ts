@@ -113,13 +113,19 @@ export class CompareJobRangeModelChartService {
       case CompareJobRangeModelChartSeries.CompareSalaryRangeMinMidMaxHidden: {
         return '';
       }
+      case CompareJobRangeModelChartSeries.Peer50: {
+        return 'Peer 50th';
+      }
+      case CompareJobRangeModelChartSeries.ComparePeer50: {
+        return currentRangeGroupName + ' Peer 50th';
+      }
       default: {
         return '';
       }
     }
   }
 
-  static getMinMidMaxChartOptions(locale, currencyCode, controlPointDisplay, rate, rangeDistributionTypeId, currentRangeGroupName) {
+  static getMinMidMaxChartOptions(locale, currencyCode, controlPointDisplay, rate, rangeDistributionTypeId, currentRangeGroupName, hasAcceptedPeerTerms) {
     return {
       chart: {
         inverted: true,
@@ -350,12 +356,56 @@ export class CompareJobRangeModelChartService {
               '<div style="color: white">{point.delta}</div>',
             footerFormat: '</div>'
           }
-        }
+        },
+        {
+          name: CompareJobRangeModelChartService.getFormattedSeriesName(CompareJobRangeModelChartSeries.Peer50, controlPointDisplay),
+          type: 'scatter',
+          marker: {
+            symbol: 'vline',
+            lineWidth: 2,
+            lineColor: '#008000',
+            radius: 10
+          },
+          enableMouseTracking: true,
+          tooltip: {
+            backgroundColor: '#000000',
+            useHTML: true,
+            padding: 0,
+            headerFormat: '<div style="display: inline-block; background-color: black">',
+            pointFormat: '<div style="color: white; font-weight: bold">{point.jobTitle}</div>' +
+              '<div style="color: white">{point.peer50}</div>',
+            footerFormat: '</div>'
+          },
+          showInLegend: hasAcceptedPeerTerms
+        },
+        {
+          name: CompareJobRangeModelChartService.getFormattedSeriesName(CompareJobRangeModelChartSeries.ComparePeer50, controlPointDisplay,
+            currentRangeGroupName),
+          type: 'scatter',
+          linkedTo: ':previous',
+          marker: {
+            symbol: 'vline',
+            lineWidth: 2,
+            lineColor: '#008000',
+            radius: 10
+          },
+          enableMouseTracking: true,
+          tooltip: {
+            backgroundColor: '#000000',
+            useHTML: true,
+            padding: 0,
+            headerFormat: '<div style="display: inline-block; background-color: black">',
+            pointFormat: '<div style="color: white; font-weight: bold">{point.jobTitle}</div>' +
+              '<div style="color: white">{point.peer50}</div>',
+            footerFormat: '</div>'
+          },
+          showInLegend: false
+        },
       ]
     };
   }
 
-  static getTertileChartOptions(locale, currencyCode, controlPointDisplay, rate, rangeDistributionTypeId, currentRangeGroupName) {
+  static getTertileChartOptions(locale, currencyCode, controlPointDisplay, rate, rangeDistributionTypeId, currentRangeGroupName, hasAcceptedPeerTerms) {
     return {
       chart: {
         inverted: true,
@@ -730,13 +780,57 @@ export class CompareJobRangeModelChartService {
               '<div style="color: white">{point.countString}<br />{point.avgSalary}</div>' +
               '<div style="color: white">{point.delta}</div>',
             footerFormat: '</div>'
-          }
+          },
+        },
+        {
+          name: CompareJobRangeModelChartService.getFormattedSeriesName(CompareJobRangeModelChartSeries.Peer50, controlPointDisplay),
+          type: 'scatter',
+          marker: {
+            symbol: 'vline',
+            lineWidth: 2,
+            lineColor: '#008000',
+            radius: 10
+          },
+          enableMouseTracking: true,
+          tooltip: {
+            backgroundColor: '#000000',
+            useHTML: true,
+            padding: 0,
+            headerFormat: '<div style="display: inline-block; background-color: black">',
+            pointFormat: '<div style="color: white; font-weight: bold">{point.jobTitle}</div>' +
+              '<div style="color: white">{point.peer50}</div>',
+            footerFormat: '</div>'
+          },
+          showInLegend: hasAcceptedPeerTerms
+        },
+        {
+          name: CompareJobRangeModelChartService.getFormattedSeriesName(CompareJobRangeModelChartSeries.ComparePeer50, controlPointDisplay,
+            currentRangeGroupName),
+          type: 'scatter',
+          linkedTo: ':previous',
+          marker: {
+            symbol: 'vline',
+            lineWidth: 2,
+            lineColor: '#008000',
+            radius: 10
+          },
+          enableMouseTracking: true,
+          tooltip: {
+            backgroundColor: '#000000',
+            useHTML: true,
+            padding: 0,
+            headerFormat: '<div style="display: inline-block; background-color: black">',
+            pointFormat: '<div style="color: white; font-weight: bold">{point.jobTitle}</div>' +
+              '<div style="color: white">{point.peer50}</div>',
+            footerFormat: '</div>'
+          },
+          showInLegend: false
         },
       ]
     };
   }
 
-  static  getQuartileChartOptions(locale, currencyCode, controlPointDisplay, rate, rangeDistributionTypeId, currentRangeGroupName) {
+  static  getQuartileChartOptions(locale, currencyCode, controlPointDisplay, rate, rangeDistributionTypeId, currentRangeGroupName, hasAcceptedPeerTerms) {
     return {
       chart: {
         inverted: true,
@@ -1218,12 +1312,56 @@ export class CompareJobRangeModelChartService {
             footerFormat: '</div>'
           },
           showInLegend: false
-        }
+        },
+        {
+          name: CompareJobRangeModelChartService.getFormattedSeriesName(CompareJobRangeModelChartSeries.Peer50, controlPointDisplay),
+          type: 'scatter',
+          marker: {
+            symbol: 'vline',
+            lineWidth: 2,
+            lineColor: '#008000',
+            radius: 10
+          },
+          enableMouseTracking: true,
+          tooltip: {
+            backgroundColor: '#000000',
+            useHTML: true,
+            padding: 0,
+            headerFormat: '<div style="display: inline-block; background-color: black">',
+            pointFormat: '<div style="color: white; font-weight: bold">{point.jobTitle}</div>' +
+              '<div style="color: white">{point.peer50}</div>',
+            footerFormat: '</div>'
+          },
+          showInLegend: hasAcceptedPeerTerms
+        },
+        {
+          name: CompareJobRangeModelChartService.getFormattedSeriesName(CompareJobRangeModelChartSeries.ComparePeer50, controlPointDisplay,
+            currentRangeGroupName),
+          type: 'scatter',
+          linkedTo: ':previous',
+          marker: {
+            symbol: 'vline',
+            lineWidth: 2,
+            lineColor: '#008000',
+            radius: 10
+          },
+          enableMouseTracking: true,
+          tooltip: {
+            backgroundColor: '#000000',
+            useHTML: true,
+            padding: 0,
+            headerFormat: '<div style="display: inline-block; background-color: black">',
+            pointFormat: '<div style="color: white; font-weight: bold">{point.jobTitle}</div>' +
+              '<div style="color: white">{point.peer50}</div>',
+            footerFormat: '</div>'
+          },
+          showInLegend: false
+        },
       ]
     };
   }
 
-  static getQuintileChartOptions(locale, currencyCode, controlPointDisplay, rate, rangeDistributionTypeId, currentRangeGroupName) {
+  static getQuintileChartOptions(locale, currencyCode, controlPointDisplay, rate, rangeDistributionTypeId, currentRangeGroupName, hasAcceptedPeerTerms) {
     return {
       chart: {
         inverted: true,
@@ -1694,7 +1832,50 @@ export class CompareJobRangeModelChartService {
           },
           showInLegend: false
         },
-
+        {
+          name: CompareJobRangeModelChartService.getFormattedSeriesName(CompareJobRangeModelChartSeries.Peer50, controlPointDisplay),
+          type: 'scatter',
+          marker: {
+            symbol: 'vline',
+            lineWidth: 2,
+            lineColor: '#008000',
+            radius: 10
+          },
+          enableMouseTracking: true,
+          tooltip: {
+            backgroundColor: '#000000',
+            useHTML: true,
+            padding: 0,
+            headerFormat: '<div style="display: inline-block; background-color: black">',
+            pointFormat: '<div style="color: white; font-weight: bold">{point.jobTitle}</div>' +
+              '<div style="color: white">{point.peer50}</div>',
+            footerFormat: '</div>'
+          },
+          showInLegend: hasAcceptedPeerTerms
+        },
+        {
+          name: CompareJobRangeModelChartService.getFormattedSeriesName(CompareJobRangeModelChartSeries.ComparePeer50, controlPointDisplay,
+            currentRangeGroupName),
+          type: 'scatter',
+          linkedTo: ':previous',
+          marker: {
+            symbol: 'vline',
+            lineWidth: 2,
+            lineColor: '#008000',
+            radius: 10
+          },
+          enableMouseTracking: true,
+          tooltip: {
+            backgroundColor: '#000000',
+            useHTML: true,
+            padding: 0,
+            headerFormat: '<div style="display: inline-block; background-color: black">',
+            pointFormat: '<div style="color: white; font-weight: bold">{point.jobTitle}</div>' +
+              '<div style="color: white">{point.peer50}</div>',
+            footerFormat: '</div>'
+          },
+          showInLegend: false
+        },
       ]
     };
   }

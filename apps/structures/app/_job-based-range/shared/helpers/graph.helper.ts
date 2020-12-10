@@ -4,16 +4,24 @@ export class GraphHelper {
     const multiLineHeaderOffset = 46;
     const defaultSingleRecordHeight = 120;
     const rowHeight = 60;
+    const singleDataPointOffset = 10;
     if (data.length > 1) {
       return (rowHeight * data.length) + (multiLineHeader ? (multiLineHeaderOffset + defaultOffset) : defaultOffset);
+    } else if (data.length === 1) {
+      return (multiLineHeader ? (multiLineHeaderOffset + defaultSingleRecordHeight + singleDataPointOffset)
+        : defaultSingleRecordHeight + singleDataPointOffset);
     } else {
       return (multiLineHeader ? (multiLineHeaderOffset + defaultSingleRecordHeight) : defaultSingleRecordHeight);
     }
   }
 
-  static getCompareChartHeight(dataLength: number): number {
+  static getCompareChartHeight(dataLength: number, useAlignmentOffset: boolean): number {
     const defaultOffset = 56;
     const rowHeight = 60;
-    return (rowHeight * dataLength) + defaultOffset;
+    let scrollOffset = 0;
+    if (useAlignmentOffset) {
+      scrollOffset = 15;
+    }
+    return (rowHeight * dataLength) + (defaultOffset + scrollOffset);
   }
 }

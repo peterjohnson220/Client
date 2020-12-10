@@ -1,4 +1,6 @@
 import { Component, Input} from '@angular/core';
+import { Observable } from 'rxjs';
+
 import { Store } from '@ngrx/store';
 
 import { BulkExportSchedule, JobDescriptionViewModel } from 'libs/models/jdm';
@@ -18,12 +20,16 @@ export class BulkExportSchedulesListComponent {
   clickedSchedule: string;
   weekday: string[] = [ 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday' ];
   occurence: string[] = [ 'First', 'Second', 'Third', 'Fourth' ];
+  showBulkScheduleDeleteModal$: Observable<boolean>;
+  filename: string;
 
   constructor(private store: Store<fromJdmAdminReducer.State>) {
+    this.showBulkScheduleDeleteModal$ = this.store.select(fromJdmAdminReducer.getBulkScheduleDeleteModalOpen);
   }
 
   removeSchedule(fileName) {
     this.store.dispatch(new fromJdmBulkExportScheduleActions.RemovingSchedule(fileName));
+    this.store.dispatch(new fromJdmBulkExportScheduleActions.CloseScheduleModal);
   }
 
   onScheduleClick(identifier) {
@@ -54,5 +60,14 @@ export class BulkExportSchedulesListComponent {
     }
 
     return '';
+  }
+
+  closeBulkScheduleDeleteModal() {
+    this.store.dispatch(new fromJdmBulkExportScheduleActions.CloseScheduleModal);
+  }
+
+  openModal(filename) {
+    this.filename = filename;
+    this.store.dispatch(new fromJdmBulkExportScheduleActions.OpenScheduleModal);
   }
 }

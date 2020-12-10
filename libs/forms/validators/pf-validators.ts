@@ -8,7 +8,7 @@ interface ValidationResult {
 
 export class PfValidators {
   static required(control: FormControl): ValidationResult {
-    return !control.value || control.value.trim() === '' ? { 'required': true } : null;
+    return !control.value || control.value.toString().trim() === '' ? { 'required': true } : null;
   }
 
   static richTextRequired(control: FormControl): ValidationResult {

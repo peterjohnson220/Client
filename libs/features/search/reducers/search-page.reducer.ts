@@ -88,6 +88,9 @@ export function reducer(state = initialState, action: fromSearchPageActions.Acti
     case fromSearchPageActions.RESET: {
       return initialState;
     }
+    case fromSearchPageActions.SET: {
+      return action.payload;
+    }
     default: {
       return state;
     }

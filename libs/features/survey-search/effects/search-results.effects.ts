@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { catchError, map, mergeMap, withLatestFrom } from 'rxjs/operators';
-import { of } from 'rxjs/index';
+import { of } from 'rxjs';
 
 import { SurveySearchApiService } from 'libs/data/payfactors-api/search';
 import { PagingOptions } from 'libs/models/payfactors-api';
@@ -74,7 +74,7 @@ export class SearchResultsEffects {
         (action: fromSurveySearchResultsActions.GetExchangeDataResults, filters, pricingMatchDataSearchContext, selectedDataCuts) =>
           ({ action, filters, pricingMatchDataSearchContext, selectedDataCuts })),
       mergeMap((data) => {
-          const exchangeJobId = data.action.payload.PeerJobInfo.ExchangeJobId;
+          const exchangeJobId = data.action.payload.exchangeJobId;
           const currencyCode = data.pricingMatchDataSearchContext.CurrencyCode;
           const countryCode = data.pricingMatchDataSearchContext.CountryCode;
           const rate = data.pricingMatchDataSearchContext.Rate;
@@ -92,8 +92,7 @@ export class SearchResultsEffects {
             .pipe(
               map(response => new fromSurveySearchResultsActions.GetExchangeDataResultsSuccess({
                 ExchangeJobId: exchangeJobId,
-                DataCuts: PayfactorsSurveySearchApiModelMapper
-                  .mapExchangeJobDataCutResponseToDataCut(response.DataCuts, data.selectedDataCuts)
+                DataCuts: PayfactorsSurveySearchApiModelMapper.mapExchangeJobDataCutResponseToDataCut(response.DataCuts, data.selectedDataCuts)
               })),
               catchError(() => of(new fromSurveySearchResultsActions.GetExchangeDataResultsError({ exchangeJobId })))
             );

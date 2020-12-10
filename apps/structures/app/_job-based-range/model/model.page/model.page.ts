@@ -123,10 +123,11 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
     this.baseEntitySub = this.store.pipe(select(fromPfDataGridReducer.getBaseEntity, this.pageViewId)).subscribe(be => {
       if (be) {
         this.baseEntity = be;
-        if (!!this.metadata.RangeDistributionSetting && !!this.metadata.RangeDistributionSetting.ControlPoint_Formula) {
+        if (!!this.metadata.RangeDistributionSetting && !!this.metadata.RangeDistributionSetting.Mid_Formula) {
           this.store.dispatch(new fromFormulaFieldActions.ValidateFormula({
-            formula: this.metadata.RangeDistributionSetting.ControlPoint_Formula.Formula,
-            baseEntityId: this.baseEntity.Id
+            formula: this.metadata.RangeDistributionSetting.Mid_Formula.Formula,
+            baseEntityId: this.baseEntity.Id,
+            formulaFieldId: 'Mid'
           }));
         }
       }
@@ -152,12 +153,6 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
     this.store.dispatch(new fromSharedActions.GetCurrentRangeGroup({
       RangeGroupId: this.rangeGroupId,
       PaymarketId: this.metadata.PaymarketId,
-      PayType: this.metadata.PayType
-    }));
-    this.store.dispatch(new fromSharedActions.GetStructureHasPublishedForType({
-      RangeGroupId: this.rangeGroupId,
-      PaymarketId: this.metadata.PaymarketId,
-      DistributionTypeId: this.metadata.RangeDistributionTypeId,
       PayType: this.metadata.PayType
     }));
   }

@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { DBEntityType } from 'apps/data-management/app/_main/models/db-entitytype.enum';
 
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
+import { DBEntityType } from 'libs/features/company/entity-identifier/models/db-entitytype.enum';
 import { FileType, PagedResponse, UserContext } from 'libs/models';
 
 import { CompositeSummaryDownloadRequest } from '../../../models/dashboard';
-import {CompositeDataLoadSearchCriteria, CompositeDataLoadViewResponse} from '../../../models/admin/loader-dashboard';
+import { CompositeDataLoadSearchCriteria, CompositeDataLoadViewResponse } from '../../../models/admin/loader-dashboard';
 import { FileApiService } from '../file';
 import { PayfactorsApiService } from '../payfactors-api.service';
 
@@ -28,7 +28,7 @@ export class IntegrationApiService {
   ) { }
 
   SearchCompositeDataLoads(userContext: UserContext, payload: CompositeDataLoadSearchCriteria,
-                           companyId?: number): Observable<PagedResponse<CompositeDataLoadViewResponse>> {
+    companyId?: number): Observable<PagedResponse<CompositeDataLoadViewResponse>> {
     const host = this.getAPIBase(userContext);
     let apiURL = '';
     if (!companyId) {

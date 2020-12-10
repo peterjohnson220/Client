@@ -1,2 +1,6 @@
 @import 'colors';
 @import 'total-rewards/control-common';
+
+h4 {
+  z-index: 5; // over other controls in the Styled since the summary overlaps the top of the chart in this context 
+}

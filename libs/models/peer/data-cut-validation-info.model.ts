@@ -1,3 +1,4 @@
+export const TEMP_PEER_DATA_CUT_PREFIX = 'TEMP_PEER_';
 export interface DataCutValidationInfo {
   DataCutGuid: string;
   CompanyIds: number[];

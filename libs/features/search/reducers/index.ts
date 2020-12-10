@@ -10,6 +10,7 @@ import * as fromSearchResultsReducer from './search-results.reducer';
 import * as fromSearchPageReducer from './search-page.reducer';
 import * as fromChildFilterReducer from './child-filter.reducer';
 import {getParentOptionValue} from './child-filter.reducer';
+import { SearchFeatureIds } from '../enums/search-feature-ids';
 
 // Feature area state
 export interface SearchFeatureState {
@@ -154,7 +155,7 @@ export const getChildFilterSelectionCount = createSelector(
 );
 
 // Search Results
-export const getLoadingResults = createSelector(
+export const getAmbiguousLoadingResults = createSelector(
   selectSearchResultsState,
   fromSearchResultsReducer.getLoadingResults
 );
@@ -183,6 +184,13 @@ export const getSearchResultsError = createSelector(
 export const getSearchFeatureId = createSelector(
   selectSearchPageState,
   fromSearchPageReducer.getSearchFeatureId
+);
+
+export const getLoadingResults = createSelector(
+  getAmbiguousLoadingResults,
+  getSearchFeatureId,
+  (loading, searchFeatureId, props?: {searchFeatureIds: SearchFeatureIds[]}) =>
+    !!loading && !!searchFeatureId && (!props || props.searchFeatureIds.indexOf(searchFeatureId) > -1 )
 );
 
 export const getSearchFilterMappingData = createSelector(

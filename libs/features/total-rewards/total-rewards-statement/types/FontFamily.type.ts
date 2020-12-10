@@ -1,1 +1,1 @@
-export type FontFamily = 'Default' | 'Arial' | 'Georgia' | 'Helvetica' | 'Times New Roman';
+export type FontFamily = 'Default' | 'Arial' | 'Georgia' | 'Helvetica' | 'Times New Roman' | 'Barlow';

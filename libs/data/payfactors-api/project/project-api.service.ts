@@ -2,11 +2,14 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
+import { PayMarketCut } from 'libs/models/paymarket';
+
 import { PayfactorsApiService } from '../payfactors-api.service';
 import {
   AddProjectJobsRequest,
   AddProjectJobsResponse,
-  CreateNewProjectJobRequest
+  CreateNewProjectJobRequest,
+  SavePayMarketsCutsRequest
 } from '../../../models/payfactors-api';
 
 @Injectable({
@@ -32,5 +35,15 @@ export class ProjectApiService {
       {
         CompanyEmployeeIds: companyEmployeeIds
       });
+  }
+
+  getPayMarketCuts(companyPayMarketId: number): Observable<PayMarketCut[]> {
+    return this.payfactorsApiService.get<PayMarketCut[]>(`${this.endpoint}/GetPayMarketCuts`,
+      { params: { companyPayMarketId } }
+    );
+  }
+
+  savePayMarketsCuts(request: SavePayMarketsCutsRequest): Observable<any> {
+    return this.payfactorsApiService.post(`${this.endpoint}/Default.SaveMDCutWeights`, request);
   }
 }
