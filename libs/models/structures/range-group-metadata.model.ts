@@ -16,6 +16,7 @@ export interface RangeGroupMetadata {
   SpreadMax: number;
   IsCurrent: boolean;
   RangeDistributionTypeId: number;
+  ExchangeId: number;
   RangeDistributionTypes: RangeDistributionType[];
   RangeDistributionSetting: RangeDistributionSettingForm;
   RangeAdvancedSetting: AdvancedModelSettingForm;

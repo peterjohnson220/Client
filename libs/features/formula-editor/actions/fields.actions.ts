@@ -1,8 +1,11 @@
 import { Action } from '@ngrx/store';
 
 import { Field } from '../models';
+import { GetAvailableFieldsByTableRequest } from '../../../models/payfactors-api/reports/request';
 
-export const GET_AVAILABLE_REPORT_FIELDS_BY_PAGE_VIEW_ID = '[Data Insights / Data View Fields] Get Available Report Fields By PageViewId';
+export const GET_AVAILABLE_FIELDS_BY_TABLE = '[Data Insights / Data View Fields] Get Available Fields By Table';
+export const GET_AVAILABLE_FIELDS_BY_TABLE_SUCCESS = '[Data Insights / Data View Fields] Get Available Fields By Table Success';
+export const GET_AVAILABLE_FIELDS_BY_TABLE_ERROR = '[Data Insights / Data View Fields] Get Available Fields By Table Error';
 export const GET_AVAILABLE_REPORT_FIELDS = '[Data Insights / Data View Fields] Get Available Report Fields';
 export const GET_AVAILABLE_REPORT_FIELDS_SUCCESS = '[Data Insights / Data View Fields] Get Available Report Fields Success';
 export const GET_AVAILABLE_REPORT_FIELDS_ERROR = '[Data Insights / Data View Fields] Get Available Report Fields Error';
@@ -21,10 +24,22 @@ export const REMOVE_FORMULA_FIELD = '[Data Insights / Data View Fields] Remove F
 export const SORT_FIELD = '[Data Insights / Data View Fields] Sort Field';
 export const CLEAR_FORMATING = '[Data Insights / Data View Fields] Clear Formating';
 
-export class GetAvailableReportFieldsByPageViewId implements Action {
-  readonly type = GET_AVAILABLE_REPORT_FIELDS_BY_PAGE_VIEW_ID;
+export class GetAvailableFieldsByTable implements Action {
+  readonly type = GET_AVAILABLE_FIELDS_BY_TABLE;
 
-  constructor(public payload: { pageViewId: string }) {}
+  constructor(public payload: { request: GetAvailableFieldsByTableRequest, fieldId: string }) {}
+}
+
+export class GetAvailableFieldsByTableSuccess implements Action {
+  readonly type = GET_AVAILABLE_FIELDS_BY_TABLE_SUCCESS;
+
+  constructor(public payload: {fields: Field[], fieldId: string}) {}
+}
+
+export class GetAvailableFieldsByTableError implements Action {
+  readonly type = GET_AVAILABLE_FIELDS_BY_TABLE_ERROR;
+
+  constructor(public payload: { fieldId: string}) {}
 }
 
 export class GetAvailableReportFields implements Action {
@@ -130,7 +145,9 @@ export class ClearFormating implements Action {
 }
 
 export type Actions
-  = GetAvailableReportFieldsByPageViewId
+  = GetAvailableFieldsByTable
+  | GetAvailableFieldsByTableSuccess
+  | GetAvailableFieldsByTableError
   | GetAvailableReportFields
   | GetAvailableReportFieldsSuccess
   | GetAvailableReportFieldsError

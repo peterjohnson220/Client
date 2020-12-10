@@ -87,6 +87,9 @@ export function reducer(state = initialState, action: fromChildFilterActions.Act
     case fromChildFilterActions.RESET: {
       return initialState;
     }
+    case fromChildFilterActions.SET: {
+      return action.payload;
+    }
     default: {
       return state;
     }

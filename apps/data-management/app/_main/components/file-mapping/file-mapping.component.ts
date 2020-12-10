@@ -9,7 +9,7 @@ import { filter, takeUntil } from 'rxjs/internal/operators';
 import { CompanySettingsApiService } from 'libs/data/payfactors-api';
 import { CompanySelectorItem } from 'libs/features/company/company-selector/models';
 import {
-    LoaderType, ORG_DATA_PF_BENEFITS_MAPPING_FIELDS, ORG_DATA_PF_EMPLOYEE_FIELDS, ORG_DATA_PF_JOB_FIELDS,
+    LoaderType, ORG_DATA_PF_BENEFITS_MAPPING_FIELDS, ORG_DATA_PF_EMPLOYEE_FIELDS, ORG_DATA_PF_EMPLOYEE_TAG_FIELDS, ORG_DATA_PF_JOB_FIELDS,
     ORG_DATA_PF_JOB_RANGE_STRUCTURE_FIELDS, ORG_DATA_PF_PAYMARKET_FIELDS, ORG_DATA_PF_STRUCTURE_FIELDS,
     ORG_DATA_PF_STRUCTURE_MAPPING_FIELDS, ORG_DATA_PF_SUBSIDIARIES_MAPPING_FIELDS
 } from 'libs/features/org-data-loader/constants';
@@ -39,12 +39,14 @@ export class FileMappingComponent implements OnInit, OnChanges, OnDestroy {
   payfactorsStructureDataFields: string[];
   payfactorsStructureMappingDataFields: string[];
   payfactorsEmployeeDataFields: string[];
+  payfactorsEmployeeTagsDataFields: string[];
   payfactorsSubsidiariesDataFields: string[];
   payfactorsBenefitsDataFields: string[];
   templateReferenceConstants = {
     LoaderType,
   };
   isEmployeesLoadEnabled: boolean;
+  isEmployeeTagsLoadEnabled: boolean;
   isJobsLoadEnabled: boolean;
   isPaymarketsLoadEnabled: boolean;
   isStructuresLoadEnabled: boolean;
@@ -69,7 +71,9 @@ export class FileMappingComponent implements OnInit, OnChanges, OnDestroy {
     this.payfactorsEmployeeDataFields = ORG_DATA_PF_EMPLOYEE_FIELDS;
     this.payfactorsSubsidiariesDataFields = ORG_DATA_PF_SUBSIDIARIES_MAPPING_FIELDS;
     this.payfactorsBenefitsDataFields = ORG_DATA_PF_BENEFITS_MAPPING_FIELDS;
+    this.payfactorsEmployeeTagsDataFields = ORG_DATA_PF_EMPLOYEE_TAG_FIELDS;
     this.isEmployeesLoadEnabled = false;
+    this.isEmployeeTagsLoadEnabled = false;
     this.isJobsLoadEnabled = false;
     this.isPaymarketsLoadEnabled = false;
     this.isStructuresLoadEnabled = false;
@@ -157,6 +161,14 @@ export class FileMappingComponent implements OnInit, OnChanges, OnDestroy {
           }
           e.loaderEnabled = this.isEmployeesLoadEnabled;
           break;
+        case LoaderType.EmployeeTags:
+          e.payfactorsDataFields = cloneDeep(this.payfactorsEmployeeTagsDataFields);
+          if (e.customFields !== null) {
+            e.customFields.EmployeeTags.forEach((em) => {
+              e.payfactorsDataFields.push(em);
+            });
+          }
+          e.loaderEnabled = this.isEmployeeTagsLoadEnabled;
       }
     });
   }

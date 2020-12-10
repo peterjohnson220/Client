@@ -14,15 +14,7 @@ import {
   UserDataViewResponse
 } from 'libs/models/payfactors-api';
 
-import { Filter,
-  GetFilterOptionsData,
-  SharedDataViewUser,
-  Field,
-  FieldDataType,
-  FieldType,
-  UserDataView,
-  FieldCreator,
-  Entity } from '../models';
+import { Entity, Field, FieldCreator, FieldDataType, FieldType, Filter, FormulaType, GetFilterOptionsData, SharedDataViewUser, UserDataView } from '../models';
 import { FilterOperatorHelper } from './filter-operator.helper';
 
 export class PayfactorsApiModelMapper {
@@ -75,7 +67,8 @@ export class PayfactorsApiModelMapper {
       AccessLevel: dataViewField.AccessLevel,
       FieldFormat: FieldCreator.generateFieldFormatProperty(dataViewField),
       Is: FieldCreator.generateIsProperty(dataViewField),
-      KendoGridConfig: FieldCreator.generateKendoGridConfigProperty(dataViewField)
+      KendoGridConfig: FieldCreator.generateKendoGridConfigProperty(dataViewField),
+      FormulaTypeId: dataViewField.FormulaTypeId
     };
   }
 

@@ -300,7 +300,8 @@ export class HrisConnectionEffects {
         const newFullReplaceModes: FullReplaceModes = {
           employeesFullReplace: obj.fullReplaceModes.doFullReplaceEmployees,
           structureMappingsFullReplace: obj.fullReplaceModes.doFullReplaceStructureMappings,
-          benefitsFullReplace: obj.fullReplaceModes.doFullReplaceBenefits
+          benefitsFullReplace: obj.fullReplaceModes.doFullReplaceBenefits,
+          employeeTagsFullReplace: obj.fullReplaceModes.doFullReplaceEmployeeTags
         };
         newConnectionSummary.fullReplaceModes = newFullReplaceModes;
         const loaderSettingsDto = PayfactorsApiModelMapper.getLoaderSettingsDtoForConnection(obj.userContext, newConnectionSummary);
@@ -349,7 +350,8 @@ export class HrisConnectionEffects {
         const newFullReplaceModes: FullReplaceModes = {
           employeesFullReplace: obj.fullReplaceModes.doFullReplaceEmployees,
           structureMappingsFullReplace: obj.fullReplaceModes.doFullReplaceStructureMappings,
-          benefitsFullReplace: obj.fullReplaceModes.doFullReplaceBenefits
+          benefitsFullReplace: obj.fullReplaceModes.doFullReplaceBenefits,
+          employeeTagsFullReplace: obj.fullReplaceModes.doFullReplaceEmployeeTags
         };
         newConnectionSummary.fullReplaceModes = newFullReplaceModes;
         const loaderSettingsDto = PayfactorsApiModelMapper.getLoaderSettingsDtoForConnection(obj.userContext, newConnectionSummary);

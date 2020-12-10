@@ -1,6 +1,7 @@
 import { Action } from '@ngrx/store';
 
 import { Filter, FilterableMultiSelectOption, MultiSelectOption } from '../models';
+import { State } from '../reducers/child-filter.reducer';
 
 export const APPLY_SELECTIONS = '[Search/Child Filter] Apply Selections';
 export const CLEAR_SELECTIONS = '[Search/Child Filter] Clear Selections';
@@ -11,6 +12,7 @@ export const REMOVE_FILTER_VALUE = '[Search/Child Filter] Remove Value';
 export const TOGGLE_MULTI_SELECT_OPTION = '[Search/Child Filter] Toggle Multi Select Option';
 export const CLEAR_CHILD_FILTER = '[Search/Child Filter] Clear';
 export const RESET = '[Search/Child Filter] Reset';
+export const SET = '[Search/Child Filter] Set';
 
 export class ApplySelections implements Action {
   readonly type = APPLY_SELECTIONS;
@@ -64,6 +66,12 @@ export class Reset implements Action {
   readonly type = RESET;
 }
 
+export class Set implements Action {
+  readonly type = SET;
+
+  constructor(public payload: State) { }
+}
+
 export type Actions
   = SetChildFilter
   | SetChildFilterOptions
@@ -73,4 +81,5 @@ export type Actions
   | RemoveFilterValue
   | ApplySelections
   | ClearChildFilter
-  | Reset;
+  | Reset
+  | Set;

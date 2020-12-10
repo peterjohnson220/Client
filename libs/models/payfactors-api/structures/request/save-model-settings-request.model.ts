@@ -12,6 +12,7 @@ export interface SaveModelSettingsRequest {
   RangeSpreadMin: number;
   RangeSpreadMax: number;
   CurrencyCode: string;
+  ExchangeId: number;
   Rounding: RoundRangesRequest;
   AdvancedSetting: AdvancedSettingRequest;
   RangeDistributionTypeId: number;

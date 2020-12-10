@@ -1,0 +1,27 @@
+<ng-container *ngIf="selectedGroups?.length">
+  <div class="d-flex flex-column">
+    <ngb-accordion #fieldsAccordion #currentFieldsAcc="ngbAccordion" [activeIds]="activeAccordionIds">
+      <ngb-panel *ngFor="let group of selectedGroups; trackBy: trackByCategory" [id]="group.Category">
+        <ng-template ngbPanelHeader>
+          <div class="group-header w-100 d-flex align-items-center justify-content-between" (click)="togglePanel(group.Category)">
+            <h5>{{group.Category}}</h5>
+            <fa-icon icon="caret-down" *ngIf="currentFieldsAcc.isExpanded(group.Category)"></fa-icon>
+            <fa-icon icon="caret-right" *ngIf="!currentFieldsAcc.isExpanded(group.Category)"></fa-icon>
+          </div>
+        </ng-template>
+
+        <ng-template ngbPanelContent>
+          <div class="d-flex flex-wrap">
+            <div class="d-flex flex-column">
+              <ng-container *ngFor="let field of group.Fields; trackBy: trackByField">
+                <div *ngIf="field.Checked" pfEllipsisActive class="ellipsis-overflowing-text-wrap">
+                  <label>{{field.DisplayName}} <span *ngIf="field.DisplayName === 'MRP'">({{referencePoints[field.FieldName]}})</span></label>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </ng-template>
+      </ngb-panel>
+    </ngb-accordion>
+  </div>
+</ng-container>

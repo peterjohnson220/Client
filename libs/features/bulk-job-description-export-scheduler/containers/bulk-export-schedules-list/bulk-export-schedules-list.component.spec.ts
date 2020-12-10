@@ -57,4 +57,31 @@ describe('Bulk Job Description Export Scheduler - Bulk Export Schedule Form', ()
     expect(fromBulkExportScheduleActions.RemovingSchedule).toHaveBeenCalledWith(fileName);
   });
 
+  it('should dispatch a OpenScheduleModal action when openModal is called', () => {
+    const action = new fromBulkExportScheduleActions.OpenScheduleModal;
+
+    instance.openModal('testFilename');
+
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+
+  it('should dispatch a CloseScheduleModal action when closeBulkScheduleDeleteModal is called', () => {
+    const action = new fromBulkExportScheduleActions.CloseScheduleModal;
+
+    instance.closeBulkScheduleDeleteModal();
+
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+
+  it('should dispatch an action when finish button is pressed', () => {
+    instance.openModal('testFilename');
+
+    fixture.detectChanges();
+
+    const expectedQueueAction = new fromBulkExportScheduleActions.CloseScheduleModal;
+    const expectedInitAction = new fromBulkExportScheduleActions.OpenScheduleModal;
+
+    expect(store.dispatch).not.toHaveBeenCalledWith(expectedQueueAction);
+    expect(store.dispatch).toHaveBeenCalledWith(expectedInitAction);
+  });
 });

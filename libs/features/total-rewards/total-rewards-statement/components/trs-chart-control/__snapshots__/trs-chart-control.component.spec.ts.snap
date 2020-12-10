@@ -1,17 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TrsChartControlComponent should show the title component and a settings link 1`] = `
+exports[`TrsChartControlComponent should add a \`hidden-title\` class when the \`showTitle\` input is set to false 1`] = `
 <pf-trs-chart-control
-  calculationControls={[Function Array]}
   chartRender={[Function EventEmitter]}
-  controlData={[Function Object]}
   defaultLegendLabels={[Function Object]}
   onTitleChange={[Function EventEmitter]}
   printModeLegendLabels={[Function Object]}
   settingsClick={[Function EventEmitter]}
+  showTitle="false"
 >
   <div
-    class="trs-chart px-3 preview-mode"
+    class="trs-chart px-3 mt-3 hidden-title"
+    pfmodeclassifierdirective=""
   >
     <div
       class="heading"
@@ -19,6 +19,56 @@ exports[`TrsChartControlComponent should show the title component and a settings
       <h4
         class="primary-control-heading mb-1 mr-2 d-inline-block"
       >
+        
+      </h4>
+      
+      <a
+        class="settings position-relative align-top"
+        href="javascript:void(0)"
+        title="Chart Settings"
+      >
+        <fa-icon
+          aria-hidden="true"
+        />
+      </a>
+    </div>
+    <kendo-chart>
+      <kendo-chart-legend />
+      <kendo-chart-series>
+        <kendo-chart-series-item
+          categoryfield="category"
+          field="value"
+          type="donut"
+        >
+          
+        </kendo-chart-series-item>
+      </kendo-chart-series>
+    </kendo-chart>
+  </div>
+</pf-trs-chart-control>
+`;
+
+exports[`TrsChartControlComponent should omit the \`hidden-title\` class when \`showTitle\` input is set to true 1`] = `
+<pf-trs-chart-control
+  chartRender={[Function EventEmitter]}
+  controlData={[Function Object]}
+  defaultLegendLabels={[Function Object]}
+  onTitleChange={[Function EventEmitter]}
+  printModeLegendLabels={[Function Object]}
+  settingsClick={[Function EventEmitter]}
+  showTitle={[Function Boolean]}
+>
+  <div
+    class="trs-chart px-3 mt-3"
+    pfmodeclassifierdirective=""
+  >
+    <div
+      class="heading"
+    >
+      <h4
+        class="primary-control-heading mb-1 mr-2 d-inline-block"
+      >
+        
         <pf-string-editor />
       </h4>
       
@@ -33,19 +83,218 @@ exports[`TrsChartControlComponent should show the title component and a settings
       </a>
     </div>
     <kendo-chart>
-      <kendo-chart-legend
-        position="bottom"
-      />
+      <kendo-chart-legend />
       <kendo-chart-series>
         <kendo-chart-series-item
           categoryfield="category"
           field="value"
           type="donut"
         >
+          
+        </kendo-chart-series-item>
+      </kendo-chart-series>
+    </kendo-chart>
+  </div>
+</pf-trs-chart-control>
+`;
+
+exports[`TrsChartControlComponent should omit the chart series labels from the dom when \`showChartSeriesLabels\` is false 1`] = `
+<pf-trs-chart-control
+  calculationControls={[Function Array]}
+  chartRender={[Function EventEmitter]}
+  controlData={[Function Object]}
+  defaultLegendLabels={[Function Object]}
+  onTitleChange={[Function EventEmitter]}
+  printModeLegendLabels={[Function Object]}
+  settingsClick={[Function EventEmitter]}
+  showChartSeriesLabels="false"
+>
+  <div
+    class="trs-chart px-3 mt-3 hidden-title"
+    pfmodeclassifierdirective=""
+  >
+    <div
+      class="heading"
+    >
+      <h4
+        class="primary-control-heading mb-1 mr-2 d-inline-block"
+      >
+        
+      </h4>
+      
+      <a
+        class="settings position-relative align-top"
+        href="javascript:void(0)"
+        title="Chart Settings"
+      >
+        <fa-icon
+          aria-hidden="true"
+        />
+      </a>
+    </div>
+    <kendo-chart>
+      <kendo-chart-legend />
+      <kendo-chart-series>
+        <kendo-chart-series-item
+          categoryfield="category"
+          field="value"
+          type="donut"
+        >
+          
+        </kendo-chart-series-item>
+      </kendo-chart-series>
+    </kendo-chart>
+  </div>
+</pf-trs-chart-control>
+`;
+
+exports[`TrsChartControlComponent should set the \`height\` input on the kendo-chart element 1`] = `
+<pf-trs-chart-control
+  chartRender={[Function EventEmitter]}
+  controlData={[Function Object]}
+  defaultLegendLabels={[Function Object]}
+  height={[Function String]}
+  onTitleChange={[Function EventEmitter]}
+  printModeLegendLabels={[Function Object]}
+  settingsClick={[Function EventEmitter]}
+>
+  <div
+    class="trs-chart px-3 mt-3 hidden-title"
+    pfmodeclassifierdirective=""
+  >
+    <div
+      class="heading"
+    >
+      <h4
+        class="primary-control-heading mb-1 mr-2 d-inline-block"
+      >
+        
+      </h4>
+      
+      <a
+        class="settings position-relative align-top"
+        href="javascript:void(0)"
+        title="Chart Settings"
+      >
+        <fa-icon
+          aria-hidden="true"
+        />
+      </a>
+    </div>
+    <kendo-chart
+      style="height: 400px;"
+    >
+      <kendo-chart-legend />
+      <kendo-chart-series>
+        <kendo-chart-series-item
+          categoryfield="category"
+          field="value"
+          type="donut"
+        >
+          
+        </kendo-chart-series-item>
+      </kendo-chart-series>
+    </kendo-chart>
+  </div>
+</pf-trs-chart-control>
+`;
+
+exports[`TrsChartControlComponent should show chart series labels when \`showChartSeriesLabels\` is true 1`] = `
+<pf-trs-chart-control
+  calculationControls={[Function Array]}
+  chartRender={[Function EventEmitter]}
+  controlData={[Function Object]}
+  defaultLegendLabels={[Function Object]}
+  onTitleChange={[Function EventEmitter]}
+  printModeLegendLabels={[Function Object]}
+  settingsClick={[Function EventEmitter]}
+  showChartSeriesLabels={[Function Boolean]}
+>
+  <div
+    class="trs-chart px-3 mt-3 hidden-title"
+    pfmodeclassifierdirective=""
+  >
+    <div
+      class="heading"
+    >
+      <h4
+        class="primary-control-heading mb-1 mr-2 d-inline-block"
+      >
+        
+      </h4>
+      
+      <a
+        class="settings position-relative align-top"
+        href="javascript:void(0)"
+        title="Chart Settings"
+      >
+        <fa-icon
+          aria-hidden="true"
+        />
+      </a>
+    </div>
+    <kendo-chart>
+      <kendo-chart-legend />
+      <kendo-chart-series>
+        <kendo-chart-series-item
+          categoryfield="category"
+          field="value"
+          type="donut"
+        >
+          
           <kendo-chart-series-item-labels
             color="#333333"
             position="outsideEnd"
           />
+        </kendo-chart-series-item>
+      </kendo-chart-series>
+    </kendo-chart>
+  </div>
+</pf-trs-chart-control>
+`;
+
+exports[`TrsChartControlComponent should show the title component and a settings link 1`] = `
+<pf-trs-chart-control
+  calculationControls={[Function Array]}
+  chartRender={[Function EventEmitter]}
+  controlData={[Function Object]}
+  defaultLegendLabels={[Function Object]}
+  onTitleChange={[Function EventEmitter]}
+  printModeLegendLabels={[Function Object]}
+  settingsClick={[Function EventEmitter]}
+>
+  <div
+    class="trs-chart px-3 mt-3 hidden-title"
+    pfmodeclassifierdirective=""
+  >
+    <div
+      class="heading"
+    >
+      <h4
+        class="primary-control-heading mb-1 mr-2 d-inline-block"
+      >
+        
+      </h4>
+      
+      <a
+        class="settings position-relative align-top"
+        href="javascript:void(0)"
+        title="Chart Settings"
+      >
+        <fa-icon
+          aria-hidden="true"
+        />
+      </a>
+    </div>
+    <kendo-chart>
+      <kendo-chart-legend />
+      <kendo-chart-series>
+        <kendo-chart-series-item
+          categoryfield="category"
+          field="value"
+          type="donut"
+        >
+          
         </kendo-chart-series-item>
       </kendo-chart-series>
     </kendo-chart>

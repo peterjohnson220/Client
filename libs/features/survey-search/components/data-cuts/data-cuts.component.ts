@@ -56,10 +56,6 @@ export class DataCutsComponent implements OnDestroy {
     this.payFactorsCutSelected.emit();
   }
 
-  togglePeerCutSelection(dataCut: DataCut): void {
-    this.dataCutSelected.emit(dataCut);
-  }
-
   toggleRefineInPeerDisplay(): void {
     this.refineInPeerClicked.emit();
   }

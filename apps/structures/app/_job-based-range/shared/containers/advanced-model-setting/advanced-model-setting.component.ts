@@ -1,15 +1,17 @@
-import { Component, forwardRef, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, forwardRef, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { ControlValueAccessor, FormControl, FormGroup, NG_VALIDATORS, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 
 import { AdvancedModelSettingForm, RangeGroupMetadata } from 'libs/models/structures';
 import { MissingMarketDataTypes } from 'libs/constants/structures/missing-market-data-type';
+import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
 
 import * as fromJobBasedRangeReducer from '../../reducers';
 import { AdvancedModelingHelper } from '../../helpers/advanced-modeling.helper';
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
+import * as fromSharedActions from '../../actions/shared.actions';
 
 
 @Component({
@@ -29,16 +31,20 @@ import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
     }
   ]
 })
-export class AdvancedModelSettingComponent implements OnInit, OnDestroy, ControlValueAccessor {
+export class AdvancedModelSettingComponent implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
   @Input() attemptedSubmit: true;
   @Input() metadata: RangeGroupMetadata;
+  @Input() rangeGroupId: number;
 
   advancedModelSettingForm: FormGroup;
   subscriptions: Subscription[] = [];
-  disableAdvancedSetting: boolean;
-  hasPublishedSub: Subscription;
+  disableSettingBasedOnPublishedStructure = true;
+  disableSettingBasedOnHierarchy = true;
+  structureHasSettings: Subscription;
+  structuresAdvancedModelingRegressionCalculationFeatureFlag:
+    RealTimeFlag = { key: FeatureFlags.StructuresAdvancedModelingRegressionCalculation, value: false };
+  unsubscribe$ = new Subject<void>();
 
-  private formPreventMidsFromIncreasingMoreThanPercent = 'PreventMidsFromIncreasingMoreThanPercent';
   private formPreventMidsFromIncreasingMoreThanPercentEnabled = 'PreventMidsFromIncreasingMoreThanPercent.Enabled';
   private formPreventMidsFromIncreasingMoreThanPercentPercentage = 'PreventMidsFromIncreasingMoreThanPercent.Percentage';
   private formMissingMarketDataTypeType = 'MissingMarketDataType.Type';
@@ -47,14 +53,15 @@ export class AdvancedModelSettingComponent implements OnInit, OnDestroy, Control
   private formMissingMarketDataTypeIncreasePercentFromPreviousLevelPercentage = 'MissingMarketDataType.IncreasePercentFromPreviousLevelPercentage';
 
 
-  constructor(public store: Store<fromJobBasedRangeReducer.State>) {
-    this.hasPublishedSub = this.store.select(fromSharedJobBasedRangeReducer.getStructureHasPublished).subscribe(hp => {
-      if (hp.obj > 0) {
-        this.disableAdvancedSetting = false;
-      } else if (hp.loading !== true) {
-        this.disableAdvancedSetting = true;
+  constructor(public store: Store<fromJobBasedRangeReducer.State>,
+              private featureFlagService: AbstractFeatureFlagService) {
+    this.structureHasSettings = this.store.select(fromSharedJobBasedRangeReducer.getStructureHasSettings).subscribe(hs => {
+      if (hs.obj != null) {
+        this.disableSettingBasedOnPublishedStructure = hs.obj.HasPublishedForType < 1;
+        this.disableSettingBasedOnHierarchy = !hs.obj.HasHierarchyJobs;
       }
     });
+    this.featureFlagService.bindEnabled(this.structuresAdvancedModelingRegressionCalculationFeatureFlag, this.unsubscribe$);
   }
 
   buildForm() {
@@ -85,7 +92,7 @@ export class AdvancedModelSettingComponent implements OnInit, OnDestroy, Control
           'Percentage': new FormControl(this.metadata.RangeAdvancedSetting.PreventMidsFromIncreasingWithinPercentOfNextLevel.Percentage)
         }),
         'MissingMarketDataType': new FormGroup({
-          'Type': new FormControl(String(this.metadata.RangeAdvancedSetting.MissingMarketDataType.Type)),
+          'Type': new FormControl(this.metadata.RangeAdvancedSetting.MissingMarketDataType.Type),
           'IncreaseMidpointByPercentage': new FormControl(increaseMidpointByPercentage),
           'DecreasePercentFromNextLevelPercentage': new FormControl(decreasePercentFromNextLevelPercentage),
           'IncreasePercentFromPreviousLevelPercentage': new FormControl(increasePercentFromPreviousLevelPercentage),
@@ -124,10 +131,6 @@ export class AdvancedModelSettingComponent implements OnInit, OnDestroy, Control
 
   getMissingMarketDataTypeValue(value: string): number {
     return AdvancedModelingHelper.setMissingMarketDataTypeValue(value);
-  }
-
-  disableFormControls() {
-    this.advancedModelSettingForm.get(this.formPreventMidsFromIncreasingMoreThanPercent).disable();
   }
 
   get preventMidsFromIncreasingMoreThanPercentEnabled() {
@@ -186,6 +189,10 @@ export class AdvancedModelSettingComponent implements OnInit, OnDestroy, Control
     } else if (event.target.id === 'IncreasePercentFromPreviousLevel') {
       this.setValidators(this.formMissingMarketDataTypeIncreasePercentFromPreviousLevelPercentage, 0, 100);
     }
+  }
+
+  getToolTipContent() {
+    return 'You must have job hierarchy set up to use this option.  To set up a job hierarchy, go to Company Administration and select Create Job Hierarchy';
   }
 
   mapToAdvancedSettingForm(value: AdvancedModelSettingForm): AdvancedModelSettingForm {
@@ -261,14 +268,22 @@ export class AdvancedModelSettingComponent implements OnInit, OnDestroy, Control
     } else if (+this.missingMarketDataTypeType.value === MissingMarketDataTypes.IncreasePercentFromPreviousLevel) {
       this.setValidators(this.formMissingMarketDataTypeIncreasePercentFromPreviousLevelPercentage, 0, 100);
     }
+  }
 
-    if (this.disableAdvancedSetting) {
-      this.disableFormControls();
+  ngOnChanges(changes: SimpleChanges): void {
+    if (!!changes && !!changes.rangeGroupId) {
+      this.store.dispatch(new fromSharedActions.GetStructureHasSettings({
+        RangeGroupId: this.rangeGroupId,
+        PaymarketId: this.metadata.PaymarketId,
+        DistributionTypeId: this.metadata.RangeDistributionTypeId,
+        PayType: this.metadata.PayType
+      }));
     }
   }
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(s => s.unsubscribe());
-    this.hasPublishedSub.unsubscribe();
+    this.structureHasSettings.unsubscribe();
+    this.unsubscribe$.next();
   }
 }

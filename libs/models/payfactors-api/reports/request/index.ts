@@ -17,3 +17,5 @@ export * from './validate-formula-request.model';
 export * from './upsert-formula-field-request.model';
 export * from './delete-user-formula-request.model';
 export * from './export-grid-request.model';
+export * from './get-available-fields-by-table-request.model';
+

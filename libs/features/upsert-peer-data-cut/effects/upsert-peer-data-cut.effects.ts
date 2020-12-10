@@ -5,6 +5,7 @@ import { Effect, Actions, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { map, catchError, switchMap, withLatestFrom, tap } from 'rxjs/operators';
 
+import * as fromSurveySearchReducer from 'libs/features/survey-search/reducers';
 import * as fromLibsExchangeExplorerReducers from 'libs/features/peer/exchange-explorer/reducers';
 import * as fromLibsPeerExchangeExplorerMapActions from 'libs/features/peer/exchange-explorer/actions/map.actions';
 import { ExchangeScopeApiService, ExchangeDataCutsApiService } from 'libs/data/payfactors-api/peer';
@@ -17,14 +18,15 @@ import * as fromUpsertPeerDataCutActions from '../actions';
 
 @Injectable()
 export class UpsertPeerDataCutEffects {
+
   @Effect()
   upsertDataCut$ = this.actions$.pipe(
     ofType(fromUpsertPeerDataCutActions.UPSERT_DATA_CUT),
     map((action: fromUpsertPeerDataCutActions.UpsertDataCut) => action.payload),
     withLatestFrom(
       this.exchangeExplorerContextService.selectFilterContext(),
-      this.libsExchangeExplorerStore.pipe(select(fromLibsExchangeExplorerReducers.getPeerMapCompaniesFromSummary)),
-      this.libsExchangeExplorerStore.pipe(select(fromLibsExchangeExplorerReducers.getExchangeExplorerPayMarket)),
+      this.store.pipe(select(fromLibsExchangeExplorerReducers.getPeerMapCompaniesFromSummary)),
+      this.store.pipe(select(fromLibsExchangeExplorerReducers.getExchangeExplorerPayMarket)),
       (action, exchangeExplorerFilterContext, companies, paymarket) => ({action, exchangeExplorerFilterContext, companies, paymarket})
     ),
     switchMap((latest) => {
@@ -45,6 +47,33 @@ export class UpsertPeerDataCutEffects {
       );
     })
   );
+
+  @Effect()
+  getTempExchangeJobDataCut$ = this.actions$.pipe(
+    ofType(fromUpsertPeerDataCutActions.GET_REFINED_EXCHANGE_DATA_CUT_DETAILS),
+    withLatestFrom(
+      this.exchangeExplorerContextService.selectFilterContext(),
+      this.store.select(fromSurveySearchReducer.getPricingMatchDataSearchContext),
+      (action, exchangeExplorerFilterContext, pricingMatchDataSearchContext) => ({
+        exchangeExplorerFilterContext, pricingMatchDataSearchContext})
+    ),
+    switchMap((context) => {
+      const tempExchangeJobDataCutRequest = {
+        ExchangeDataSearchRequest: context?.exchangeExplorerFilterContext,
+        CountryCode: context?.pricingMatchDataSearchContext?.CountryCode,
+        CurrencyCode: context?.pricingMatchDataSearchContext?.CurrencyCode,
+        Rate: context?.pricingMatchDataSearchContext?.Rate
+      };
+      return this.exchangeDataCutsApiService.getTempExchangeJobDataCut(tempExchangeJobDataCutRequest).pipe(
+        map((response) => new fromUpsertPeerDataCutActions.GetRefinedExchangeDataCutDetailsSuccess({
+          ExchangeDataSearchRequest: context?.exchangeExplorerFilterContext,
+          TempExchangeJobDataCut: response
+        })),
+        catchError(() => of(new fromUpsertPeerDataCutActions.GetRefinedExchangeDataCutDetailsError()))
+      );
+    })
+  );
+
 
   // // Window Communication
   @Effect({ dispatch: false })
@@ -90,7 +119,7 @@ export class UpsertPeerDataCutEffects {
 
   constructor(
     private actions$: Actions,
-    private libsExchangeExplorerStore: Store<fromLibsExchangeExplorerReducers.State>,
+    private store: Store<fromLibsExchangeExplorerReducers.State>,
     private exchangeExplorerContextService: ExchangeExplorerContextService,
     private exchangeDataCutsApiService: ExchangeDataCutsApiService,
     private exchangeScopeApiService: ExchangeScopeApiService,

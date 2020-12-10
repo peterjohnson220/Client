@@ -10,6 +10,7 @@ import { JobsApiService, PricingApiService } from 'libs/data/payfactors-api/inde
 import { getSearchFilters } from '../../survey-search/data';
 import { PayfactorsApiModelMapper } from '../helpers';
 import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
+import * as fromSurveySearchReducer from 'libs/features/survey-search/reducers';
 
 import { SurveySearchFiltersHelper } from '../../survey-search/helpers';
 
@@ -68,11 +69,12 @@ export class ModifyPricingsEffects {
     ofType(fromModifyPricingsActions.MODIFY_PRICINGS),
     withLatestFrom(
       this.store.select(fromMultiMatchReducer.getJobsToPrice),
-      (action, jobsToPrice) =>
-        ({ jobsToPrice })
+      this.store.select(fromSurveySearchReducer.getTempExchangeJobDataCutFilterContextDictionary),
+      (action, jobsToPrice, tempPeerDataCutFilterContextDictionary) =>
+        ({ jobsToPrice, tempPeerDataCutFilterContextDictionary })
     ),
-    switchMap( (action: any) => {
-      const pricingsWithChanges = action.jobsToPrice.filter(f => (!!f.DataCutsToAdd && f.DataCutsToAdd.length)
+    switchMap( (context: any) => {
+      const pricingsWithChanges = context.jobsToPrice.filter(f => (!!f.DataCutsToAdd && f.DataCutsToAdd.length)
         || (!!f.DeletedJobMatchCutIds && f.DeletedJobMatchCutIds.length));
       const modifyPricingMatchesRequest = pricingsWithChanges.map(s =>  {
           return {
@@ -85,11 +87,19 @@ export class ModifyPricingsEffects {
             PayfactorsCutMatchesToAdded: (s.DataCutsToAdd || [])
               .filter(f => f.DataSource === SurveySearchResultDataSources.Payfactors).map( m => m.SurveyJobCode),
             PeerCutMatchesToAdded: (s.DataCutsToAdd || [])
-              .filter(f => f.DataSource === SurveySearchResultDataSources.Peer).map( m => ({
+              .filter(f => f.DataSource === SurveySearchResultDataSources.Peer && !f.ServerInfo?.CustomPeerCutId).map( m => ({
                   ExchangeId: m.Job?.PeerJobInfo?.ExchangeId,
                   ExchangeJobId: m.Job?.PeerJobInfo?.ExchangeJobId,
                   DailyNatAvgId: m.ServerInfo?.DailyNatAvgId,
                   DailyScopeAvgId: m.ServerInfo?.DailyScopeAvgId
+              })),
+            TempPeerCutMatchesToAdd: (s.DataCutsToAdd || [])
+              .filter(f => f.DataSource === SurveySearchResultDataSources.Peer && !!f?.ServerInfo?.CustomPeerCutId
+              && !!context.tempPeerDataCutFilterContextDictionary
+              && !!context.tempPeerDataCutFilterContextDictionary[f?.ServerInfo?.CustomPeerCutId]).map(m => ({
+                Id: m.ServerInfo.CustomPeerCutId,
+                ExchangeJobId: m.Job?.PeerJobInfo?.ExchangeJobId,
+                ExchangeDataSearchRequest: context.tempPeerDataCutFilterContextDictionary[m.ServerInfo.CustomPeerCutId]
               }))
           };
         });

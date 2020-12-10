@@ -1,13 +1,9 @@
 export interface UserTileDto {
   UserTileId: number;
   TileId?: number;
-  CompanyTileId?: number;
-  UserId?: number;
   UserOrder?: number;
   Enabled?: boolean;
   Disabled?: boolean;
-  CreateDate?: string;
-  CreateUser?: number;
   TileName: string;
   TileDisplayName: string;
   IconClass: string;

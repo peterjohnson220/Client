@@ -12,7 +12,7 @@ export const SAVE_SETTINGS_SUCCESS = '[Total Rewards/Edit Statement] Save Settin
 export const SAVE_SETTINGS_ERROR = '[Total Rewards/Edit Statement] Save Settings Error';
 export const UPDATE_SETTINGS_FONT_SIZE = '[Total Rewards/Edit Statement] Update Settings Font Size';
 export const UPDATE_SETTINGS_FONT_FAMILY = '[Total Rewards/Edit Statement] Update Settings Font Family';
-export const UPDATE_SETTINGS_CHART_COLOR = '[Total Rewards/Edit Statement] Update Settings Chart Color';
+export const UPDATE_SETTINGS_COLOR = '[Total Rewards/Edit Statement] Update Settings Color';
 export const RESET_SETTINGS = '[Total Rewards/Edit Statement] Reset Settings';
 
 export class OpenSettingsPanel implements Action {
@@ -50,9 +50,9 @@ export class UpdateSettingsFontFamily implements Action {
   constructor(public payload: FontFamily) {}
 }
 
-export class UpdateSettingsChartColor implements Action {
-  readonly type = UPDATE_SETTINGS_CHART_COLOR;
-  constructor(public payload: requestModels.UpdateSettingsChartColorRequest) {}
+export class UpdateSettingsColor implements Action {
+  readonly type = UPDATE_SETTINGS_COLOR;
+  constructor(public payload: requestModels.UpdateSettingsColorRequest) {}
 }
 
 export class ResetSettings implements Action {
@@ -68,5 +68,5 @@ export type SettingsActions =
   SaveSettingsError |
   UpdateSettingsFontSize |
   UpdateSettingsFontFamily |
-  UpdateSettingsChartColor |
+  UpdateSettingsColor |
   ResetSettings;

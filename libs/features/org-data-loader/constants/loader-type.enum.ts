@@ -5,5 +5,6 @@ export enum LoaderType {
   Structures = 'Structures',
   StructureMapping = 'StructureMapping',
   Subsidiaries = 'Subsidiaries',
-  Benefits = 'Benefits'
+  Benefits = 'Benefits',
+  EmployeeTags = 'EmployeeTags'
 }

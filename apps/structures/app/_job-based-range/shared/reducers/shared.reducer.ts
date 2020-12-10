@@ -3,7 +3,7 @@ import { RoundingSettingsDataObj, RoundingSetting, CompanyStructureRangeOverride
 
 import cloneDeep from 'lodash/cloneDeep';
 
-import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models';
+import { AsyncStateObj, generateDefaultAsyncStateObj, GenericKeyValue } from 'libs/models';
 import { RangeGroupMetadata } from 'libs/models/structures';
 import { AsyncStateObjHelper } from 'libs/core';
 
@@ -19,7 +19,8 @@ export interface State {
   comparingModels: boolean;
   compareEnabled: boolean;
   overrideMessages: string[];
-  structureHasPublished: AsyncStateObj<number>;
+  structureHasSettings: AsyncStateObj<any>;
+  gettingExchanges: AsyncStateObj<GenericKeyValue<number, string>[]>;
 }
 
 const initialState: State = {
@@ -43,8 +44,9 @@ const initialState: State = {
   currentRangeGroup: generateDefaultAsyncStateObj<any>(null),
   comparingModels: false,
   compareEnabled: false,
-  structureHasPublished: generateDefaultAsyncStateObj<number>(null),
-  overrideMessages: []
+  structureHasSettings: generateDefaultAsyncStateObj<any>(null),
+  overrideMessages: [],
+  gettingExchanges: generateDefaultAsyncStateObj<GenericKeyValue<number, string>[]>(null)
 };
 
 export function reducer(state = initialState, action: fromSharedActions.SharedActions): State {
@@ -193,38 +195,71 @@ export function reducer(state = initialState, action: fromSharedActions.SharedAc
         overrideMessages: action.payload
       };
     }
-    case fromSharedActions.GET_STRUCTURE_HAS_PUBLISHED_FOR_TYPE: {
-      const gettingHasPublishedStructureClone = cloneDeep(state.structureHasPublished);
+    case fromSharedActions.GET_STRUCTURE_HAS_SETTINGS: {
+      const structureHasSettings = cloneDeep(state.structureHasSettings);
 
-      gettingHasPublishedStructureClone.loading = true;
-      gettingHasPublishedStructureClone.obj = null;
-      gettingHasPublishedStructureClone.loadingError = false;
+      structureHasSettings.loading = true;
+      structureHasSettings.obj = null;
+      structureHasSettings.loadingError = false;
 
       return {
         ...state,
-        structureHasPublished: gettingHasPublishedStructureClone
+        structureHasSettings: structureHasSettings
       };
     }
-    case fromSharedActions.GET_STRUCTURE_HAS_PUBLISHED_FOR_TYPE_SUCCESS: {
-      const gettingHasPublishedStructureClone = cloneDeep(state.structureHasPublished);
+    case fromSharedActions.GET_STRUCTURE_HAS_SETTINGS_SUCCESS: {
+      const structureHasSettings = cloneDeep(state.structureHasSettings);
 
-      gettingHasPublishedStructureClone.loading = false;
-      gettingHasPublishedStructureClone.obj = action.payload;
+      structureHasSettings.loading = false;
+      structureHasSettings.obj = action.payload;
 
       return {
         ...state,
-        structureHasPublished: gettingHasPublishedStructureClone
+        structureHasSettings: structureHasSettings
       };
     }
-    case fromSharedActions.GET_STRUCTURE_HAS_PUBLISHED_FOR_TYPE_ERROR: {
-      const gettingHasPublishedStructureClone = cloneDeep(state.structureHasPublished);
+    case fromSharedActions.GET_STRUCTURE_HAS_SETTINGS_ERROR: {
+      const structureHasSettings = cloneDeep(state.structureHasSettings);
 
-      gettingHasPublishedStructureClone.loading = false;
-      gettingHasPublishedStructureClone.loadingError = true;
+      structureHasSettings.loading = false;
+      structureHasSettings.loadingError = true;
 
       return {
         ...state,
-        structureHasPublished: gettingHasPublishedStructureClone
+        structureHasSettings: structureHasSettings
+      };
+    }
+    case fromSharedActions.GET_COMPANY_EXCHANGES: {
+      const gettingExchangesClone = cloneDeep(state.gettingExchanges);
+
+      gettingExchangesClone.loading = true;
+      gettingExchangesClone.loadingError = false;
+
+      return {
+        ...state,
+        gettingExchanges: gettingExchangesClone
+      };
+    }
+    case fromSharedActions.GET_COMPANY_EXCHANGES_SUCCESS: {
+      const gettingExchangesClone = cloneDeep(state.gettingExchanges);
+
+      gettingExchangesClone.loading = false;
+      gettingExchangesClone.obj = action.payload;
+
+      return {
+        ...state,
+        gettingExchanges: gettingExchangesClone
+      };
+    }
+    case fromSharedActions.GET_COMPANY_EXCHANGES_ERROR: {
+      const gettingExchangesClone = cloneDeep(state.gettingExchanges);
+
+      gettingExchangesClone.loading = false;
+      gettingExchangesClone.loadingError = true;
+
+      return {
+        ...state,
+        gettingExchanges: gettingExchangesClone
       };
     }
     default:
@@ -240,7 +275,8 @@ export const getCurrentRangeGroup = (state: State) => state.currentRangeGroup;
 export const getComparingModels = (state: State) => state.comparingModels;
 export const getCompareEnabled = (state: State) => state.compareEnabled;
 export const getDistinctOverrideMessages  = (state: State) => state.overrideMessages;
-export const getStructureHasPublished = (state: State) => state.structureHasPublished;
+export const getStructureHasSettings = (state: State) => state.structureHasSettings;
+export const getCompanyExchanges = (state: State) => state.gettingExchanges;
 
 export const addRoundingSetting = (name: string, setting: RoundingSetting, settings: RoundingSettingsDataObj) => {
   return settings[name] = setting;

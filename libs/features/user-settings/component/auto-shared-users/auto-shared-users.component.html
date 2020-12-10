@@ -1,0 +1,12 @@
+<ng-container *ngIf="(selectedUsers$ | async)?.length; else noSharedUsers">
+  <h5 class="font-weight-bold">Pricing Project Shared With:</h5>
+  <div class="mt-3 d-flex flex-row flex-wrap">
+    <div class="badge mb-3 badge-pill" *ngFor="let user of (selectedUsers$ | async); trackBy: trackByFn;">
+      <span>{{user.FirstName}} {{user.LastName}}</span>
+      <fa-icon icon="times" class="delete-btn pl-2" (click)="removeSharedUser(user.UserId)"></fa-icon>
+    </div>
+  </div>
+</ng-container>
+<ng-template #noSharedUsers>
+  Pricing Projects not auto-shared with any users.
+</ng-template>

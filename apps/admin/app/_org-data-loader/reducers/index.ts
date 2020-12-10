@@ -1,7 +1,9 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
-import * as fromLoaderSettingsReducer from 'libs/features/org-data-loader/state/reducers/loader-settings.reducer';
+import * as fromCustomFieldsReducer from 'libs/features/company/custom-fields/reducers/custom-fields.reducer';
+import * as fromEntityIdentifierReducer from 'libs/features/company/entity-identifier/reducers/entity-identifiers.reducer';
 import * as fromOrgDataEmailRecipientsReducer from 'libs/features/loader-email-reipients/state/reducers/email-recipients.reducer';
+import * as fromLoaderSettingsReducer from 'libs/features/org-data-loader/state/reducers/loader-settings.reducer';
 // Import root app reducer
 import * as fromRoot from 'libs/state/state';
 
@@ -23,6 +25,8 @@ export interface OrgDataLoaderState {
   configurationGroups: fromConfigurationGroupReducer.State;
   sftpUser: fromSftpUserReducer.State;
   orgDataConfiguration: fromOrgDataConfigurationReducer.State;
+  entityIdentifiers: fromEntityIdentifierReducer.State;
+  customFields: fromCustomFieldsReducer.State;
 }
 
 // Extend root state with feature area state
@@ -39,7 +43,9 @@ export const reducers = {
   orgDataFilenamePatternSet: fromOrgDataFilenamePatternsReducer.reducer,
   configurationGroups: fromConfigurationGroupReducer.reducer,
   sftpUser: fromSftpUserReducer.reducer,
-  orgDataConfiguration: fromOrgDataConfigurationReducer.reducer
+  orgDataConfiguration: fromOrgDataConfigurationReducer.reducer,
+  entityIdentifiers: fromEntityIdentifierReducer.reducer,
+  customFields: fromCustomFieldsReducer.reducer
 };
 
 // Select Feature Area
@@ -62,6 +68,10 @@ export const selectSftpUserState =
   createSelector(selectorgDataAutoloaderState, (state: OrgDataLoaderState) => state.sftpUser);
 export const selectOrgDataConfigurationState =
   createSelector(selectorgDataAutoloaderState, (state: OrgDataLoaderState) => state.orgDataConfiguration);
+export const selectEntityIdentifierState =
+  createSelector(selectorgDataAutoloaderState, (state: OrgDataLoaderState) => state.entityIdentifiers);
+export const selectCustomFieldsState =
+  createSelector(selectorgDataAutoloaderState, (state: OrgDataLoaderState) => state.customFields);
 
 export const {
   selectAll: getCompanies
@@ -83,6 +93,12 @@ export const getLoadingFieldMappingsError =
 export const {
   selectAll: getEmailRecipients
 } = fromOrgDataEmailRecipientsReducer.adapter.getSelectors(selectEmailRecipientsState);
+
+export const getEntityIdentifiers = createSelector(selectEntityIdentifierState, fromEntityIdentifierReducer.GetEmployeeIdentifiers);
+export const getCustomJobFields = createSelector(selectCustomFieldsState, fromCustomFieldsReducer.GetCustomJobFields);
+export const getTagCategories = createSelector(selectCustomFieldsState, fromCustomFieldsReducer.GetTagCategories);
+export const getCustomEmployeeFields = createSelector(selectCustomFieldsState, fromCustomFieldsReducer.GetCustomEmployeeFields);
+
 
 export const getLoadingRecipients = createSelector(
   selectEmailRecipientsState,

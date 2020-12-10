@@ -215,9 +215,9 @@ export function reducer(state = initialState, action: fromEditStatementActions.S
       localState.statement.obj.Settings.FontSize = action.payload;
       return localState;
     }
-    case fromEditStatementActions.UPDATE_SETTINGS_CHART_COLOR: {
+    case fromEditStatementActions.UPDATE_SETTINGS_COLOR: {
       const localState: State = cloneDeep(state);
-      localState.statement.obj.Settings.ChartColors[action.payload.ColorIndex] = action.payload.Color;
+      localState.statement.obj.Settings.Colors[action.payload.ColorIndex] = action.payload.Color;
       return localState;
     }
     case fromEditStatementActions.SAVE_IMAGE_CONTROL_IMAGE: {

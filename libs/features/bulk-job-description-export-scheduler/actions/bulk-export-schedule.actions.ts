@@ -10,6 +10,8 @@ export const LOADING_SCHEDULE_ERROR  = '[Bulk Jobs Export Scheduler Feature / Sc
 export const REMOVING_SCHEDULE  = '[Bulk Jobs Export Scheduler Feature / Schedule] Removing Schedule';
 export const REMOVING_SCHEDULE_SUCCESS  = '[Bulk Jobs Export Scheduler Feature / Schedule] Removing Schedule Success';
 export const REMOVING_SCHEDULE_ERROR  = '[Bulk Jobs Export Scheduler Feature / Schedule] Removing Schedule Error';
+export const CLOSE_SCHEDULE_MODAL  = '[Bulk Jobs Export Scheduler Feature / Schedule] Close Schedule Modal';
+export const OPEN_SCHEDULE_MODAL  = '[Bulk Jobs Export Scheduler Feature / Schedule] Open Schedule Modal';
 
 export class AddingSchedule implements Action {
   readonly type = ADDING_SCHEDULE;
@@ -65,6 +67,18 @@ export class RemovingScheduleError implements Action {
   constructor(public payload: any = null) {}
 }
 
+export class CloseScheduleModal implements Action {
+  readonly type = CLOSE_SCHEDULE_MODAL;
+
+  constructor() {}
+}
+
+export class OpenScheduleModal implements Action {
+  readonly type = OPEN_SCHEDULE_MODAL;
+
+  constructor() {}
+}
+
 export type BulkExportJobsSchedulerActions
   = AddingSchedule
   | AddingScheduleSuccess
@@ -74,4 +88,6 @@ export type BulkExportJobsSchedulerActions
   | LoadingSchedulesError
   | RemovingSchedule
   | RemovingScheduleError
-  | RemovingScheduleSuccess;
+  | RemovingScheduleSuccess
+  | CloseScheduleModal
+  | OpenScheduleModal;

@@ -69,7 +69,7 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
   jobDescriptionViews: string[];
   identity: UserContext;
   inWorkflow: boolean;
-  isFilteredView: boolean;
+  isPublicContext: boolean;
   isFirstRecipient: boolean;
   undoQueueAvailable: boolean;
   containsFLSA: boolean;
@@ -120,6 +120,7 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
       if (this.inWorkflow) {
         this.sharedStore.dispatch(new fromCompanyLogoActions.LoadCompanyLogo(userContext.CompanyId));
       }
+      this.isPublicContext = !!userContext.IsPublic;
       this.isFirstRecipient = !!userContext.WorkflowStepInfo && !!userContext.WorkflowStepInfo.IsFirstRecipient;
     });
     this.jobDescriptionSubscription = this.jobDescriptionAsync$.subscribe(asyncStateObj => {
@@ -145,7 +146,6 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
         this.enableLibraryForRoutedJobDescriptions = company.EnableLibraryForRoutedJobDescriptions;
       }
     });
-    this.isFilteredView = this.viewName !== 'Default';
   }
 
   ngOnDestroy(): void {
@@ -168,7 +168,6 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
 
   handleViewChanged(viewName: string): void {
     this.viewName = viewName || 'Default';
-    this.isFilteredView = this.viewName !== 'Default';
 
     if (this.inHistory) {
       this.store.dispatch(new fromJobDescriptionActions.GetJobDescription({

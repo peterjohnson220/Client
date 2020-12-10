@@ -9,7 +9,7 @@
         </button>
       </div>
     </div>
-    <div class="section-description">
+    <div *ngIf="section.ShowSubheading" class="section-description">
       {{section.SubHeading}}
     </div>
   </div>
@@ -21,6 +21,7 @@
         [readOnly]="readOnly"
         [isCompare]="isCompare"
         [saveThrottle]="saveThrottle"
+        [jobDescriptionStatus]="jobDescriptionStatus"
         (dataChangesDetected)="handleControlDataChangesDetected($event)"
         (bulkDataChangesDetected)="handleControlBulkDataChangesDetected($event)"
         (dataRowAdded)="handleControlDataRowAdded($event)"

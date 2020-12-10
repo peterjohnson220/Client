@@ -5,6 +5,7 @@ exports[`Libs - Features - Peer - Exchange Explorer should load the exchange exp
   exchangeExplorerStore={[Function Store]}
   exchangeJobFilterOptions$={[Function Store]}
   exchangeJobSelectorStatic="false"
+  exchangeScopeSelectorRequiresPayMarket={[Function Boolean]}
   excludeIndirectJobMatches$={[Function Store]}
   hasAdditionalJobLevels$={[Function Store]}
   jobSelectorRequiresPayMarket={[Function Boolean]}
@@ -20,6 +21,7 @@ exports[`Libs - Features - Peer - Exchange Explorer should load the exchange exp
   selectedExchangeJobId$={[Function Store]}
   selectionsCount$={[Function Store]}
   settingsService={[Function SettingsService]}
+  shouldShowExchangeJobSelector={[Function Boolean]}
   shouldShowExchangeScopeSelector={[Function Boolean]}
   shouldShowExcludeIndirectJobMatchesFilter={[Function Boolean]}
   shouldShowPayMarketBoundsFilter={[Function Boolean]}
@@ -57,6 +59,7 @@ exports[`Libs - Features - Peer - Exchange Explorer should show a disabled payma
   exchangeExplorerStore={[Function Store]}
   exchangeJobFilterOptions$={[Function Store]}
   exchangeJobSelectorStatic="false"
+  exchangeScopeSelectorRequiresPayMarket={[Function Boolean]}
   excludeIndirectJobMatches$={[Function Store]}
   hasAdditionalJobLevels$={[Function Store]}
   jobSelectorRequiresPayMarket={[Function Boolean]}
@@ -72,6 +75,7 @@ exports[`Libs - Features - Peer - Exchange Explorer should show a disabled payma
   selectedExchangeJobId$={[Function Store]}
   selectionsCount$={[Function Store]}
   settingsService={[Function SettingsService]}
+  shouldShowExchangeJobSelector={[Function Boolean]}
   shouldShowExchangeScopeSelector={[Function Boolean]}
   shouldShowExcludeIndirectJobMatchesFilter={[Function Boolean]}
   shouldShowPayMarketBoundsFilter={[Function Boolean]}
@@ -111,6 +115,7 @@ exports[`Libs - Features - Peer - Exchange Explorer should show pf-child-filter 
   exchangeExplorerStore={[Function Store]}
   exchangeJobFilterOptions$={[Function Store]}
   exchangeJobSelectorStatic="false"
+  exchangeScopeSelectorRequiresPayMarket={[Function Boolean]}
   excludeIndirectJobMatches$={[Function Store]}
   hasAdditionalJobLevels$={[Function Store]}
   jobSelectorRequiresPayMarket={[Function Boolean]}
@@ -126,6 +131,7 @@ exports[`Libs - Features - Peer - Exchange Explorer should show pf-child-filter 
   selectedExchangeJobId$={[Function Store]}
   selectionsCount$={[Function Store]}
   settingsService={[Function SettingsService]}
+  shouldShowExchangeJobSelector={[Function Boolean]}
   shouldShowExchangeScopeSelector={[Function Boolean]}
   shouldShowExcludeIndirectJobMatchesFilter={[Function Boolean]}
   shouldShowPayMarketBoundsFilter={[Function Boolean]}
@@ -168,6 +174,7 @@ exports[`Libs - Features - Peer - Exchange Explorer should show pf-single-filter
   exchangeExplorerStore={[Function Store]}
   exchangeJobFilterOptions$={[Function Store]}
   exchangeJobSelectorStatic="false"
+  exchangeScopeSelectorRequiresPayMarket={[Function Boolean]}
   excludeIndirectJobMatches$={[Function Store]}
   hasAdditionalJobLevels$={[Function Store]}
   jobSelectorRequiresPayMarket={[Function Boolean]}
@@ -183,6 +190,7 @@ exports[`Libs - Features - Peer - Exchange Explorer should show pf-single-filter
   selectedExchangeJobId$={[Function Store]}
   selectionsCount$={[Function Store]}
   settingsService={[Function SettingsService]}
+  shouldShowExchangeJobSelector={[Function Boolean]}
   shouldShowExchangeScopeSelector={[Function Boolean]}
   shouldShowExcludeIndirectJobMatchesFilter={[Function Boolean]}
   shouldShowPayMarketBoundsFilter={[Function Boolean]}
@@ -221,6 +229,7 @@ exports[`Libs - Features - Peer - Exchange Explorer should show the exchange job
   exchangeExplorerStore={[Function Store]}
   exchangeJobFilterOptions$={[Function Observable]}
   exchangeJobSelectorStatic="false"
+  exchangeScopeSelectorRequiresPayMarket={[Function Boolean]}
   excludeIndirectJobMatches$={[Function Store]}
   hasAdditionalJobLevels$={[Function Store]}
   jobSelectorRequiresPayMarket="false"
@@ -236,6 +245,7 @@ exports[`Libs - Features - Peer - Exchange Explorer should show the exchange job
   selectedExchangeJobId$={[Function Store]}
   selectionsCount$={[Function Store]}
   settingsService={[Function SettingsService]}
+  shouldShowExchangeJobSelector={[Function Boolean]}
   shouldShowExchangeScopeSelector={[Function Boolean]}
   shouldShowExcludeIndirectJobMatchesFilter={[Function Boolean]}
   shouldShowPayMarketBoundsFilter={[Function Boolean]}
@@ -274,6 +284,7 @@ exports[`Libs - Features - Peer - Exchange Explorer should show the exchange job
   exchangeExplorerStore={[Function Store]}
   exchangeJobFilterOptions$={[Function Observable]}
   exchangeJobSelectorStatic="false"
+  exchangeScopeSelectorRequiresPayMarket={[Function Boolean]}
   excludeIndirectJobMatches$={[Function Store]}
   hasAdditionalJobLevels$={[Function Store]}
   jobSelectorRequiresPayMarket={[Function Boolean]}
@@ -289,6 +300,7 @@ exports[`Libs - Features - Peer - Exchange Explorer should show the exchange job
   selectedExchangeJobId$={[Function Store]}
   selectionsCount$={[Function Store]}
   settingsService={[Function SettingsService]}
+  shouldShowExchangeJobSelector={[Function Boolean]}
   shouldShowExchangeScopeSelector={[Function Boolean]}
   shouldShowExcludeIndirectJobMatchesFilter={[Function Boolean]}
   shouldShowPayMarketBoundsFilter={[Function Boolean]}
@@ -329,6 +341,7 @@ exports[`Libs - Features - Peer - Exchange Explorer should show the exchange sco
   exchangeExplorerStore={[Function Store]}
   exchangeJobFilterOptions$={[Function Store]}
   exchangeJobSelectorStatic="false"
+  exchangeScopeSelectorRequiresPayMarket={[Function Boolean]}
   excludeIndirectJobMatches$={[Function Store]}
   hasAdditionalJobLevels$={[Function Store]}
   jobSelectorRequiresPayMarket={[Function Boolean]}
@@ -344,6 +357,7 @@ exports[`Libs - Features - Peer - Exchange Explorer should show the exchange sco
   selectedExchangeJobId$={[Function Store]}
   selectionsCount$={[Function Store]}
   settingsService={[Function SettingsService]}
+  shouldShowExchangeJobSelector={[Function Boolean]}
   shouldShowExchangeScopeSelector={[Function Boolean]}
   shouldShowExcludeIndirectJobMatchesFilter={[Function Boolean]}
   shouldShowPayMarketBoundsFilter={[Function Boolean]}
@@ -383,6 +397,7 @@ exports[`Libs - Features - Peer - Exchange Explorer should show the exclude indi
   exchangeExplorerStore={[Function Store]}
   exchangeJobFilterOptions$={[Function Store]}
   exchangeJobSelectorStatic="false"
+  exchangeScopeSelectorRequiresPayMarket={[Function Boolean]}
   excludeIndirectJobMatches$={[Function Store]}
   hasAdditionalJobLevels$={[Function Observable]}
   jobSelectorRequiresPayMarket={[Function Boolean]}
@@ -398,6 +413,7 @@ exports[`Libs - Features - Peer - Exchange Explorer should show the exclude indi
   selectedExchangeJobId$={[Function Store]}
   selectionsCount$={[Function Store]}
   settingsService={[Function SettingsService]}
+  shouldShowExchangeJobSelector={[Function Boolean]}
   shouldShowExchangeScopeSelector={[Function Boolean]}
   shouldShowExcludeIndirectJobMatchesFilter={[Function Boolean]}
   shouldShowPayMarketBoundsFilter={[Function Boolean]}
@@ -436,6 +452,7 @@ exports[`Libs - Features - Peer - Exchange Explorer should show the paymarket bo
   exchangeExplorerStore={[Function Store]}
   exchangeJobFilterOptions$={[Function Store]}
   exchangeJobSelectorStatic="false"
+  exchangeScopeSelectorRequiresPayMarket={[Function Boolean]}
   excludeIndirectJobMatches$={[Function Store]}
   hasAdditionalJobLevels$={[Function Store]}
   jobSelectorRequiresPayMarket={[Function Boolean]}
@@ -451,6 +468,7 @@ exports[`Libs - Features - Peer - Exchange Explorer should show the paymarket bo
   selectedExchangeJobId$={[Function Store]}
   selectionsCount$={[Function Store]}
   settingsService={[Function SettingsService]}
+  shouldShowExchangeJobSelector={[Function Boolean]}
   shouldShowExchangeScopeSelector={[Function Boolean]}
   shouldShowExcludeIndirectJobMatchesFilter={[Function Boolean]}
   shouldShowPayMarketBoundsFilter={[Function Boolean]}

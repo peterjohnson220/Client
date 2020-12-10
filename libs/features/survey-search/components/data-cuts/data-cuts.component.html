@@ -60,8 +60,8 @@
       </ng-container>
       <ng-container *ngSwitchCase="surveySearchResultDataSources.Peer">
         <tr *ngIf="customizeScopeInMultimatchModalFlag.value" (click)="toggleRefineInPeerDisplay()">
-          <td></td>
           <td colspan="8" class="link">Customize Your Scope for this Peer Job!</td>
+          <td></td>
         </tr>
         <tr *ngFor="let dataCut of dataCuts; trackBy: trackById"
             (click)="toggleDataCutSelection(dataCut)"
@@ -109,6 +109,12 @@
 
 <ng-template #noDataCuts>
   <div class="no-data-cuts-message">
-    No data cuts available. Please adjust your filters.
+    No data cuts available.
+    <ng-container *ngIf="job.DataSource === surveySearchResultDataSources.Peer && customizeScopeInMultimatchModalFlag.value">
+      Please adjust your filters or <span class="link" (click)="toggleRefineInPeerDisplay()">Customize Your Scope for this Peer Job!</span>
+    </ng-container>
+    <ng-container *ngIf="job.DataSource !== surveySearchResultDataSources.Peer || !customizeScopeInMultimatchModalFlag.value">
+      Please adjust your filters.
+    </ng-container>
   </div>
 </ng-template>

@@ -1,0 +1,14 @@
+@import 'user-settings-styles';
+
+::ng-deep .popover-body {
+  color: white;
+  background-color: black;
+}
+
+::ng-deep .arrow::after {
+  border-right-color: black !important;
+}
+
+.pop-content {
+  font-size: 12px;
+}

@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
+
 import { GridDataResult } from '@progress/kendo-angular-grid';
 
 import { MappingHelper } from '../../../core/helpers';
-import { AddTagCategoriesRequest,
-         TagInformationRequest,
-         UpsertTagCategoryRequest,
-         SaveTagInformationRequest } from '../../../models/peer/requests';
+import {
+  AddTagCategoriesRequest, SaveTagInformationRequest, TagInformationRequest, UpsertTagCategoryRequest
+} from '../../../models/peer/requests';
 import { TagInformation } from '../../../models/peer';
 import { PayfactorsApiService } from '../payfactors-api.service';
 
@@ -21,10 +21,14 @@ export class TagApiService {
 
   getTagCategories(exchangeId: number, listState: any): Observable<GridDataResult> {
     return this.payfactorsApiService.get<GridDataResult>(`${this.endpoint}/GetTagCategories`, {
-        params: { exchangeId: exchangeId, listState: JSON.stringify(listState) }
-      },
+      params: { exchangeId: exchangeId, listState: JSON.stringify(listState) }
+    },
       MappingHelper.mapListAreaResultToGridDataResult
     );
+  }
+
+  getEmployeeTagCategories() {
+    return this.payfactorsApiService.get<any[]>(`${this.endpoint}/GetAllEmployeeTagCategories`);
   }
 
   validateNewTagCategoryName(tagCategoryName: string): Observable<any> {
