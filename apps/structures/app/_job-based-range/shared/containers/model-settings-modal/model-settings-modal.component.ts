@@ -78,6 +78,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   hasAcceptedPeerTermsSub: Subscription;
   hasAcceptedPeerTerms: boolean;
   peerDropDownDisabled: boolean;
+  peerExchangeToolTipInfo: string;
 
   constructor(
     public store: Store<fromJobBasedRangeReducer.State>,
@@ -96,6 +97,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
     this.modelNameExistsFailure$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getModelNameExistsFailure));
     this.minSpreadTooltip = ModelSettingsModalConstants.MIN_SPREAD_TOOL_TIP;
     this.maxSpreadTooltip = ModelSettingsModalConstants.MAX_SPREAD_TOOL_TIP;
+    this.peerExchangeToolTipInfo = ModelSettingsModalConstants.PEER_EXCHANGE_TOOL_TIP;
     this.featureFlagService.bindEnabled(this.structuresAdvancedModelingFeatureFlag, this.unsubscribe$);
     this.allFormulasSub = this.store.pipe(select(fromJobBasedRangeReducer.getAllFields)).subscribe(af => this.allFormulas = af);
     this.exchanges$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getCompanyExchanges));
