@@ -44,7 +44,7 @@ export class DuplicateModelModalEffects {
               } else {
                 actions.push(new fromDuplicateModelModalActions.ClearModelNameExistsFailure());
 
-                this.router.navigate([response.RangeGroup.CompanyStructuresRangeGroupId]);
+                this.router.navigate(['job/' + response.RangeGroup.CompanyStructuresRangeGroupId]);
                 actions.push(new fromDuplicateModelModalActions.CloseModal());
                 actions.push(new fromNotificationActions.AddNotification({
                   EnableHtml: true,
