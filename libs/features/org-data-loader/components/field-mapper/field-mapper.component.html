@@ -80,7 +80,7 @@
                 class="list-box d-block mx-auto w-50 px-2"
                 [(ngModel)]="selectedPfField">
           <option *ngFor="let field of payfactorsDataFields"
-                  value="{{field}}">{{field}}</option>
+                  value="{{field.FieldName}}">{{field.FieldName}}</option>
         </select>
       </div>
       <div class="col px-0">
@@ -109,7 +109,7 @@
                 class="list-box d-block mx-auto w-auto px-2 mapped-fields"
                 [(ngModel)]="selectedMapping">
           <option *ngFor="let field of mappedFields"
-                  value="{{field}}">{{formatMappingForDisplay(field)}}</option>
+                  value="{{field.DisplayValue}}">{{field.DisplayValue}}</option>
         </select>
       </div>
     </div>

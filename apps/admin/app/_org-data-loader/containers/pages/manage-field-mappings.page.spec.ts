@@ -231,7 +231,7 @@ describe('ManageFieldMapperPageComponent', () => {
       const evt: LoaderEntityStatus = {
         complete: true,
         loaderType: LoaderType.PayMarkets,
-        mappings: ['Paymarket__Paymarket'],
+        mappings: [{InternalField: 'Paymarket', ClientField: 'Paymarket', DisplayValue: 'Paymarket > Paymarket', IsDataElementName: false}],
       };
       component.mappings = [];
       component.onPaymarketMappingComplete(evt);
@@ -240,7 +240,7 @@ describe('ManageFieldMapperPageComponent', () => {
 
       const expectedValue: MappingModel = {
         LoaderType: LoaderType.PayMarkets,
-        Mappings: ['Paymarket__Paymarket']
+        Mappings: [{InternalField: 'Paymarket', ClientField: 'Paymarket', DisplayValue: 'Paymarket > Paymarket', IsDataElementName: false}]
       };
 
       expect(component.mappings).toEqual([expectedValue]);
@@ -251,16 +251,17 @@ describe('ManageFieldMapperPageComponent', () => {
       const evt: LoaderEntityStatus = {
         complete: true,
         loaderType: LoaderType.PayMarkets,
-        mappings: ['Country__Country Code'],
+        mappings: [{InternalField: 'Country', ClientField: 'Country Code', DisplayValue: 'Country > Country Code', IsDataElementName: false}],
       };
-      component.mappings = [{ LoaderType: 'PayMarkets', Mappings: ['Paymarket__Paymarket'] }];
+      component.mappings = [{ LoaderType: 'PayMarkets',
+        Mappings: [{InternalField: 'Paymarket', ClientField: 'Paymarket', DisplayValue: 'Paymarket > Paymarket', IsDataElementName: false}] }];
       component.onPaymarketMappingComplete(evt);
 
       fixture.detectChanges();
 
       const expectedValue: MappingModel = {
         LoaderType: LoaderType.PayMarkets,
-        Mappings: ['Country__Country Code']
+        Mappings: [{InternalField: 'Country', ClientField: 'Country Code', DisplayValue: 'Country > Country Code', IsDataElementName: false}]
       };
 
       expect(component.mappings).toEqual([expectedValue]);
@@ -271,7 +272,7 @@ describe('ManageFieldMapperPageComponent', () => {
       const evt: LoaderEntityStatus = {
         complete: true,
         loaderType: LoaderType.Jobs,
-        mappings: ['Job_Code__Job Code'],
+        mappings: [{InternalField: 'Job_Code', ClientField: 'Job Code', DisplayValue: 'Job_Code > Job Code', IsDataElementName: false}],
       };
       component.mappings = [];
       component.onJobMappingComplete(evt);
@@ -280,7 +281,7 @@ describe('ManageFieldMapperPageComponent', () => {
 
       const expectedValue: MappingModel = {
         LoaderType: LoaderType.Jobs,
-        Mappings: ['Job_Code__Job Code']
+        Mappings: [{InternalField: 'Job_Code', ClientField: 'Job Code', DisplayValue: 'Job_Code > Job Code', IsDataElementName: false}]
       };
 
       expect(component.mappings).toEqual([expectedValue]);
@@ -291,16 +292,17 @@ describe('ManageFieldMapperPageComponent', () => {
       const evt: LoaderEntityStatus = {
         complete: true,
         loaderType: LoaderType.Jobs,
-        mappings: ['Job_Title__Job Title'],
+        mappings: [{InternalField: 'Job_Title', ClientField: 'Job Title', DisplayValue: 'Job_Title > Job Title', IsDataElementName: false}],
       };
-      component.mappings = [{ LoaderType: 'Jobs', Mappings: ['Job_Code__Job Code'] }];
+      component.mappings = [{ LoaderType: 'Jobs',
+        Mappings: [{InternalField: 'Job_Code', ClientField: 'Job Code', DisplayValue: 'Job_Code > Job Code', IsDataElementName: false}] }];
       component.onJobMappingComplete(evt);
 
       fixture.detectChanges();
 
       const expectedValue: MappingModel = {
         LoaderType: 'Jobs',
-        Mappings: ['Job_Title__Job Title']
+        Mappings: [{InternalField: 'Job_Title', ClientField: 'Job Title', DisplayValue: 'Job_Title > Job Title', IsDataElementName: false}]
       };
 
       expect(component.mappings).toEqual([expectedValue]);
@@ -311,7 +313,7 @@ describe('ManageFieldMapperPageComponent', () => {
       const evt: LoaderEntityStatus = {
         complete: true,
         loaderType: LoaderType.Structures,
-        mappings: ['Structure_Code__Structure Code'],
+        mappings: [{InternalField: 'Structure_Code', ClientField: 'Structure Code', DisplayValue: 'Structure_Code > Structure Code', IsDataElementName: false}],
       };
       component.mappings = [];
       component.onStructureMappingComplete(evt);
@@ -320,7 +322,7 @@ describe('ManageFieldMapperPageComponent', () => {
 
       const expectedValue: MappingModel = {
         LoaderType: 'Structures',
-        Mappings: ['Structure_Code__Structure Code']
+        Mappings: [{InternalField: 'Structure_Code', ClientField: 'Structure Code', DisplayValue: 'Structure_Code > Structure Code', IsDataElementName: false}]
       };
 
       expect(component.mappings).toEqual([expectedValue]);
@@ -331,16 +333,18 @@ describe('ManageFieldMapperPageComponent', () => {
       const evt: LoaderEntityStatus = {
         complete: true,
         loaderType: LoaderType.Structures,
-        mappings: ['Grade_Code__Grade Code'],
+        mappings: [{InternalField: 'Grade_Code', ClientField: 'Grade Code', DisplayValue: 'Grade_Code > Grade Code', IsDataElementName: false}],
       };
-      component.mappings = [{ LoaderType: 'Structures', Mappings: ['Structure_Code__Structure Code'] }];
+      component.mappings = [{ LoaderType: 'Structures',
+        Mappings: [{InternalField: 'Structure_Code', ClientField: 'Structure Code',
+        DisplayValue: 'Structure_Code > Structure Code', IsDataElementName: false}] }];
       component.onStructureMappingComplete(evt);
 
       fixture.detectChanges();
 
       const expectedValue: MappingModel = {
         LoaderType: 'Structures',
-        Mappings: ['Grade_Code__Grade Code']
+        Mappings: [{InternalField: 'Grade_Code', ClientField: 'Grade Code', DisplayValue: 'Grade_Code > Grade Code', IsDataElementName: false}]
       };
 
       expect(component.mappings).toEqual([expectedValue]);
@@ -351,7 +355,7 @@ describe('ManageFieldMapperPageComponent', () => {
       const evt: LoaderEntityStatus = {
         complete: true,
         loaderType: LoaderType.StructureMapping,
-        mappings: ['Job_Code__Job Code'],
+        mappings: [{InternalField: 'Job_Code', ClientField: 'Job Code', DisplayValue: 'Job_Code > Job Code', IsDataElementName: false}],
       };
       component.mappings = [];
       component.onStructureMappingMappingComplete(evt);
@@ -360,7 +364,7 @@ describe('ManageFieldMapperPageComponent', () => {
 
       const expectedValue: MappingModel = {
         LoaderType: 'StructureMapping',
-        Mappings: ['Job_Code__Job Code']
+        Mappings: [{InternalField: 'Job_Code', ClientField: 'Job Code', DisplayValue: 'Job_Code > Job Code', IsDataElementName: false}]
       };
 
       expect(component.mappings).toEqual([expectedValue]);
@@ -371,16 +375,17 @@ describe('ManageFieldMapperPageComponent', () => {
       const evt: LoaderEntityStatus = {
         complete: true,
         loaderType: LoaderType.StructureMapping,
-        mappings: ['Structure_Code__Structure Code'],
+        mappings: [{InternalField: 'Structure_Code', ClientField: 'Structure Code', DisplayValue: 'Structure_Code > Structure Code', IsDataElementName: false}],
       };
-      component.mappings = [{ LoaderType: 'StructureMapping', Mappings: ['Job_Code__Job Code'] }];
+      component.mappings = [{ LoaderType: 'StructureMapping',
+        Mappings: [{InternalField: 'Job_Code', ClientField: 'Job Code', DisplayValue: 'Job_Code > Job Code', IsDataElementName: false}] }];
       component.onStructureMappingMappingComplete(evt);
 
       fixture.detectChanges();
 
       const expectedValue: MappingModel = {
         LoaderType: 'StructureMapping',
-        Mappings: ['Structure_Code__Structure Code']
+        Mappings: [{InternalField: 'Structure_Code', ClientField: 'Structure Code', DisplayValue: 'Structure_Code > Structure Code', IsDataElementName: false}]
       };
 
       expect(component.mappings).toEqual([expectedValue]);
@@ -391,7 +396,7 @@ describe('ManageFieldMapperPageComponent', () => {
       const evt: LoaderEntityStatus = {
         complete: true,
         loaderType: LoaderType.Employees,
-        mappings: ['Base__Salary'],
+        mappings: [{InternalField: 'Base', ClientField: 'Salary', DisplayValue: 'Base > Salary', IsDataElementName: false}],
       };
       component.mappings = [];
       component.onEmployeeMappingComplete(evt);
@@ -400,7 +405,7 @@ describe('ManageFieldMapperPageComponent', () => {
 
       const expectedValue: MappingModel = {
         LoaderType: 'Employees',
-        Mappings: ['Base__Salary']
+        Mappings: [{InternalField: 'Base', ClientField: 'Salary', DisplayValue: 'Base > Salary', IsDataElementName: false}]
       };
 
       expect(component.mappings).toEqual([expectedValue]);
@@ -411,16 +416,17 @@ describe('ManageFieldMapperPageComponent', () => {
       const evt: LoaderEntityStatus = {
         complete: true,
         loaderType: LoaderType.Employees,
-        mappings: ['First_Name__First Name'],
+        mappings: [{InternalField: 'First_Name', ClientField: 'First Name', DisplayValue: 'First_Name > First Name', IsDataElementName: false}],
       };
-      component.mappings = [{ LoaderType: 'Employees', Mappings: ['Base__Salary'] }];
+      component.mappings = [{ LoaderType: 'Employees',
+        Mappings: [{InternalField: 'Base', ClientField: 'Salary', DisplayValue: 'Base > Salary', IsDataElementName: false}] }];
       component.onEmployeeMappingComplete(evt);
 
       fixture.detectChanges();
 
       const expectedValue: MappingModel = {
         LoaderType: 'Employees',
-        Mappings: ['First_Name__First Name']
+        Mappings: [{InternalField: 'First_Name', ClientField: 'First Name', DisplayValue: 'First_Name > First Name', IsDataElementName: false}]
       };
 
       expect(component.mappings).toEqual([expectedValue]);

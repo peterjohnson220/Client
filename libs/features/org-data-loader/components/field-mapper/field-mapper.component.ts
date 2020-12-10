@@ -1,10 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 
-import isEmpty from 'lodash/isEmpty';
-import isString from 'lodash/isString';
-
 import { Observable } from 'rxjs';
-
 import { FileRestrictions } from '@progress/kendo-angular-upload';
 
 import {
@@ -12,8 +8,8 @@ import {
     ORG_DATA_UPLOAD_URL
 } from 'libs/features/org-data-loader/constants';
 import {
-    DateFormatItem, EntityFieldMappingDefinitionModel, FilenamePattern, getEntityFieldMappingDefinition, LoaderEntityStatus,
-    VisibleLoaderOptionModel
+  FieldMapping, FilenamePattern, getEntityFieldMappingDefinition, InternalField, LoaderEntityStatus,
+  VisibleLoaderOptionModel
 } from 'libs/features/org-data-loader/models';
 import { LoaderFieldSet } from 'libs/models/data-loads';
 
@@ -29,9 +25,9 @@ export class FieldMapperComponent implements OnInit, OnChanges {
   clientFields;
   selectedPfField: string;
   selectedClientField: string;
-  mappedFields: string[];
+  mappedFields: FieldMapping[];
   selectedMapping: string;
-  payfactorsDataFieldsForReset: string[];
+  payfactorsDataFieldsForReset: InternalField[];
 
   templateReferenceConstants = {
     LoaderType,
@@ -40,7 +36,7 @@ export class FieldMapperComponent implements OnInit, OnChanges {
 
   @Input() fieldMappings$: Observable<LoaderFieldSet[]>;
   @Input() fieldMappingsLoading: boolean;
-  @Input() payfactorsDataFields: string[];
+  @Input() payfactorsDataFields: InternalField[];
   @Input() loaderType: LoaderType;
   @Input() delimiter: string;
   @Input() isFullReplace: boolean;
@@ -141,16 +137,12 @@ export class FieldMapperComponent implements OnInit, OnChanges {
     this.selectedPfField = '';
   }
 
-  formatMappingForDisplay(field: string) {
-    return field.replace('__', ' > ');
-  }
-
   RemoveMapping() {
-    const fields = this.selectedMapping.split('__');
+    const selectedFieldMappingObj = this.mappedFields.find(x => x.DisplayValue === this.selectedMapping);
 
-    this.payfactorsDataFields.push(fields[0]);
-    this.clientFields.push(fields[1]);
-    this.mappedFields = this.mappedFields.filter(x => x !== this.selectedMapping);
+    this.payfactorsDataFields.push({FieldName: selectedFieldMappingObj.InternalField, IsDataElementName: selectedFieldMappingObj.IsDataElementName});
+    this.clientFields.push(selectedFieldMappingObj.ClientField);
+    this.mappedFields = this.mappedFields.filter(x => x !== selectedFieldMappingObj);
 
     this.selectedMapping = '';
     this.fireCompleteEvent();
@@ -159,10 +151,16 @@ export class FieldMapperComponent implements OnInit, OnChanges {
   // Private Methods
 
   private addMapping(pfField, clientField) {
-    const value = pfField + '__' + clientField;
-    this.mappedFields.push(value);
+    const mappingIsDataElement = this.payfactorsDataFields.find(x => x.FieldName === pfField)?.IsDataElementName;
+    const mappedField: FieldMapping = {
+      InternalField: pfField,
+      ClientField: clientField,
+      DisplayValue: pfField + ' > ' + clientField,
+      IsDataElementName: mappingIsDataElement
+    };
+    this.mappedFields.push(mappedField);
 
-    this.payfactorsDataFields = this.payfactorsDataFields.filter(x => x !== pfField);
+    this.payfactorsDataFields = this.payfactorsDataFields.filter(x => x.FieldName !== pfField);
     this.clientFields = this.clientFields.filter(x => x !== clientField);
   }
 
@@ -189,8 +187,8 @@ export class FieldMapperComponent implements OnInit, OnChanges {
   private mapSimilarFields() {
     for (let i = 0; i < this.clientFields.length; i++) {
       for (let j = 0; j < this.payfactorsDataFields.length; j++) {
-        if (this.compareFields(this.payfactorsDataFields[j], this.clientFields[i])) {
-          this.addMapping(this.payfactorsDataFields[j], this.clientFields[i]);
+        if (this.compareFields(this.payfactorsDataFields[j].FieldName, this.clientFields[i])) {
+          this.addMapping(this.payfactorsDataFields[j].FieldName, this.clientFields[i]);
           i = ORG_DATA_CLIENTFIELDS_INDEX_RESET;
           break;
         }

@@ -6,7 +6,7 @@ import isNumber from 'lodash/isNumber';
 import isObject from 'lodash/isObject';
 
 import { Store } from '@ngrx/store';
-import { Observable, Subject } from 'rxjs';
+import { forkJoin, Observable, Subject } from 'rxjs';
 import { filter, take, takeUntil } from 'rxjs/operators';
 
 import { NotificationRef, NotificationService, NotificationSettings } from '@progress/kendo-angular-notification';
@@ -26,7 +26,13 @@ import * as fromEntityIdentifierActions from 'libs/features/company/entity-ident
 import * as fromEmailRecipientsActions from 'libs/features/loader-email-reipients/state/actions/email-recipients.actions';
 import { DATE_FORMATS, LoaderFileFormat, ORG_DATA_PF_EMPLOYEE_TAG_FIELDS } from 'libs/features/org-data-loader/constants';
 import { LoaderSettings, OrgDataLoadHelper } from 'libs/features/org-data-loader/helpers';
-import { DateFormatItem, LoaderEntityStatus, VisibleLoaderOptionModel } from 'libs/features/org-data-loader/models';
+import {
+  DateFormatItem,
+  FieldMapping,
+  InternalField,
+  LoaderEntityStatus,
+  VisibleLoaderOptionModel
+} from 'libs/features/org-data-loader/models';
 import * as fromLoaderSettingsActions from 'libs/features/org-data-loader/state/actions/loader-settings.actions';
 import { CompanySetting, CompanySettingsEnum } from 'libs/models';
 import {
@@ -65,14 +71,14 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
   dateFormatsFilteredData: Array<{ text: string, value: string }>;
 
   env = environment;
-  payfactorsPaymarketDataFields: string[];
-  payfactorsJobDataFields: string[];
-  payfactorsStructureDataFields: string[];
-  payfactorsStructureMappingDataFields: string[];
-  payfactorsEmployeeDataFields: string[];
-  payfactorsEmployeeTagsDataFields: string[];
-  payfactorsSubsidiariesDataFields: string[];
-  payfactorsBenefitsDataFields: string[];
+  payfactorsPaymarketDataFields: InternalField[];
+  payfactorsJobDataFields: InternalField[];
+  payfactorsStructureDataFields: InternalField[];
+  payfactorsStructureMappingDataFields: InternalField[];
+  payfactorsEmployeeDataFields: InternalField[];
+  payfactorsEmployeeTagsDataFields: InternalField[];
+  payfactorsSubsidiariesDataFields: InternalField[];
+  payfactorsBenefitsDataFields: InternalField[];
   paymarketMappingComplete: boolean;
   jobMappingComplete: boolean;
   subsidiariesMappingComplete: boolean;
@@ -207,14 +213,14 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
     private featureFlagService: AbstractFeatureFlagService
   ) {
     this.dateFormatsFilteredData = this.dateFormats.slice();
-    this.payfactorsPaymarketDataFields = ORG_DATA_PF_PAYMARKET_FIELDS;
-    this.payfactorsJobDataFields = ORG_DATA_PF_JOB_FIELDS;
-    this.payfactorsStructureDataFields = ORG_DATA_PF_STRUCTURE_FIELDS;
-    this.payfactorsStructureMappingDataFields = ORG_DATA_PF_STRUCTURE_MAPPING_FIELDS;
-    this.payfactorsEmployeeDataFields = ORG_DATA_PF_EMPLOYEE_FIELDS;
-    this.payfactorsEmployeeTagsDataFields = ORG_DATA_PF_EMPLOYEE_TAG_FIELDS;
-    this.payfactorsSubsidiariesDataFields = ORG_DATA_PF_SUBSIDIARIES_MAPPING_FIELDS;
-    this.payfactorsBenefitsDataFields = ORG_DATA_PF_BENEFITS_MAPPING_FIELDS;
+    this.payfactorsPaymarketDataFields = this.buildInternalFields(ORG_DATA_PF_PAYMARKET_FIELDS, false);
+    this.payfactorsJobDataFields = this.buildInternalFields(ORG_DATA_PF_JOB_FIELDS, false);
+    this.payfactorsStructureDataFields = this.buildInternalFields(ORG_DATA_PF_STRUCTURE_FIELDS, false);
+    this.payfactorsStructureMappingDataFields = this.buildInternalFields(ORG_DATA_PF_STRUCTURE_MAPPING_FIELDS, false);
+    this.payfactorsEmployeeDataFields = this.buildInternalFields(ORG_DATA_PF_EMPLOYEE_FIELDS, false);
+    this.payfactorsEmployeeTagsDataFields = this.buildInternalFields(ORG_DATA_PF_EMPLOYEE_TAG_FIELDS, false);
+    this.payfactorsSubsidiariesDataFields = this.buildInternalFields(ORG_DATA_PF_SUBSIDIARIES_MAPPING_FIELDS, false);
+    this.payfactorsBenefitsDataFields = this.buildInternalFields(ORG_DATA_PF_BENEFITS_MAPPING_FIELDS, false);
 
     this.paymarketMappingComplete = true;
     this.jobMappingComplete = true;
@@ -423,27 +429,18 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
       this.sftpUserNameIsValid = isValid;
     });
 
-    this.employeeIdentifiers$.pipe(
-      filter(r => !!r),
+    const employeeIdentifiersSubscription = this.employeeIdentifiers$.pipe(
+      filter(x => !!x),
+      take(1),
       takeUntil(this.unsubscribe$)
-    ).subscribe(r => {
-      const selected = r.filter(a => a.isChecked);
-
-      if (!selected || selected.length === 0) {
-        const empId = ['Employee_ID'];
-        this.payfactorsEmployeeTagsDataFields.push(...empId);
-      } else {
-        this.payfactorsEmployeeTagsDataFields.push(...selected.map(a => a.Field));
-      }
-    });
+    );
 
     this.customEmployeeFields$.pipe(
       filter(uc => !!uc),
       takeUntil(this.unsubscribe$)
     ).subscribe(res => {
-      res.forEach((udf) => {
-        this.payfactorsEmployeeDataFields.push(udf.Value);
-      });
+      const customEmployeeDisplayNames = res.map(udf => udf.Value);
+      this.payfactorsEmployeeDataFields.push.apply(this.payfactorsEmployeeDataFields, this.buildInternalFields(customEmployeeDisplayNames, false));
 
       this.store.dispatch(new fromEntityIdentifierActions.GetEmployeeIdentifiers(this.selectedCompany.CompanyId, res));
     });
@@ -452,18 +449,41 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
       filter(uc => !!uc),
       takeUntil(this.unsubscribe$)
     ).subscribe(res => {
+      const customJobDisplayNames = res.map(udf => udf.Value);
+      this.payfactorsJobDataFields.push.apply(this.payfactorsJobDataFields, this.buildInternalFields(customJobDisplayNames, false));
       res.forEach((udf) => {
         this.payfactorsJobDataFields.push(udf.Value);
       });
     });
 
-    this.tagCategories$.pipe(
+    const tagCategoriesSubscription = this.tagCategories$.pipe(
       filter(uc => !!uc),
-      takeUntil(this.unsubscribe$))
-      .subscribe(res => {
-        this.payfactorsEmployeeTagsDataFields.push(...res);
-      });
+      take(1),
+      takeUntil(this.unsubscribe$));
 
+    forkJoin({tagCategories: tagCategoriesSubscription, employeeIdentifiers: employeeIdentifiersSubscription})
+      .subscribe(result => {
+        const selected = result.employeeIdentifiers.filter(a => a.isChecked);
+
+        if (!selected || selected.length === 0) {
+          const empIdField: InternalField = {FieldName: 'Employee_ID', IsDataElementName: false};
+          this.payfactorsEmployeeTagsDataFields.push(empIdField);
+        } else {
+          this.payfactorsEmployeeTagsDataFields.push(...selected.map(a => {
+            return {
+              FieldName: a.Field,
+              IsDataElementName: false
+            };
+          }));
+        }
+
+        this.payfactorsEmployeeTagsDataFields.push(...result.tagCategories.map(tagName => {
+          return {
+            FieldName: tagName,
+            IsDataElementName: true
+          };
+        }));
+      });
   } // end constructor
 
   ngOnInit() {
@@ -563,7 +583,8 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
     ).subscribe(setting => {
       const jobRangeStruct = setting.find(s => s.Key === CompanySettingsEnum.EnableJobRangeStructureRangeTypes);
       if (jobRangeStruct.Value === 'true') {
-        this.payfactorsStructureDataFields = this.payfactorsStructureDataFields.concat(ORG_DATA_PF_JOB_RANGE_STRUCTURE_FIELDS);
+        const internalJobRangeStructureFields = this.buildInternalFields(ORG_DATA_PF_JOB_RANGE_STRUCTURE_FIELDS, false);
+        this.payfactorsStructureDataFields = this.payfactorsStructureDataFields.concat(internalJobRangeStructureFields);
       }
     });
   }
@@ -626,7 +647,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
       new fromOrgDataFieldMappingsActions.LoadingFieldMappings(this.selectedCompany.CompanyId, this.selectedConfigGroup.LoaderConfigurationGroupId));
   }
 
-  private addOrReplaceMappings(loaderType: string, mappings: string[]) {
+  private addOrReplaceMappings(loaderType: string, mappings: FieldMapping[]) {
     const mappingsModel: MappingModel = {
       LoaderType: loaderType,
       Mappings: mappings
@@ -741,5 +762,13 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
 
 
     return part1 || part2 || part3 || part4 || part5 || part6 || part7 || part8;
+  }
+
+  private buildInternalFields(fieldNames: string[], areDataElementNames: boolean) {
+    const internalFields: InternalField[] = [];
+    fieldNames.forEach(fieldName => {
+      internalFields.push({FieldName: fieldName, IsDataElementName: areDataElementNames});
+    });
+    return internalFields;
   }
 }

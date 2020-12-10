@@ -1,6 +1,7 @@
 import { environment } from 'environments/environment';
 import { LoaderType } from 'libs/features/org-data-loader/constants';
 import { EntityCustomFieldsModel } from 'libs/features/org-data-loader/models/entity-custom-fields.model';
+import { InternalField } from '../../../../../libs/features/org-data-loader/models';
 
 export interface EntityChoice {
   isChecked: boolean;
@@ -10,7 +11,7 @@ export interface EntityChoice {
   File: File;
   isSelectedTab: boolean;
   templateReferenceConstants: LoaderType;
-  payfactorsDataFields: string[];
+  payfactorsDataFields: InternalField[];
   loaderEnabled: boolean;
   columnNames: string[];
   customFields: EntityCustomFieldsModel;
@@ -32,7 +33,7 @@ export function getDefaultEntityChoice(): EntityChoice {
     payfactorsDataFields: [],
     loaderEnabled: false,
     columnNames: null,
-    customFields: { Employees: [], Jobs: [], EmployeeTags: [] },
+    customFields: { Employees: [], Jobs: [], EmployeeTags: [], EmployeeKeyFields: [] },
     isFullReplace: null,
     isLoadingFinish: true,
     dbName: null,

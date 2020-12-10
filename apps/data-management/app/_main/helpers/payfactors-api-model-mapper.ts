@@ -192,11 +192,24 @@ export class PayfactorsApiModelMapper {
       .map(([entityType, fields]: [string, EntityDataField[]]) => {
         const result = {
           LoaderType: entityType,
-          Mappings: fields.filter(field => !isEmpty(field.AssociatedEntity)).map(field => `${field.FieldName}__${field.FieldName}`),
+          Mappings: fields.filter(field => !isEmpty(field.AssociatedEntity)).map(field => {
+            return {
+              InternalField: field.FieldName,
+              ClientField: field.FieldName,
+              DisplayValue: `${field.FieldName} > ${field.FieldName}`,
+              IsDataElementName: false
+            };
+          }),
         };
 
         if (find(fields, (field: EntityDataField) => field.FieldName === 'PayMarket' && isEmpty(field.AssociatedEntity))) {
-          result.Mappings.push('PayMarket__PayMarket');
+          const paymarketDataFieldMapping = {
+            InternalField: 'PayMarket',
+            ClientField: 'PayMarket',
+            DisplayValue: 'PayMarket > PayMarket',
+            IsDataElementName: false
+          };
+          result.Mappings.push(paymarketDataFieldMapping);
         }
 
         return (result);
