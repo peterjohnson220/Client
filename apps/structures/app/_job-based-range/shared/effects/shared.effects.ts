@@ -288,15 +288,40 @@ export class SharedEffects {
   getCompanyExchanges: Observable<Action> = this.actions$
     .pipe(
       ofType(fromSharedActions.GET_COMPANY_EXCHANGES),
-      switchMap((action: fromSharedActions.GetCompanyExchanges) => {
-        return this.exchangeApiService.getExchangeDictionaryForCompany(action.payload)
-          .pipe(
-            map((res) => {
-              return new fromSharedActions.GetCompanyExchangesSuccess(res);
-            }),
-            catchError((err) => of(new fromSharedActions.GetCompanyExchangesError(err)))
-          );
-      })
+      mergeMap((action: fromSharedActions.GetCompanyExchanges) =>
+          of(action).pipe(
+            withLatestFrom(
+              this.store.pipe(select(fromSharedReducer.getMetadata)),
+              (a: fromSharedActions.GetCompanyExchanges, metadata) =>
+                ({a, metadata}))
+          )
+      ),
+        switchMap((data) => {
+          return this.exchangeApiService.getExchangeDictionaryForCompany(data.a.payload)
+            .pipe(
+              mergeMap((res) => {
+                const actions = [];
+                let exchangeId: number;
+                let exchangeName: string;
+                if (data.metadata.ExchangeId) {
+                  const selectedExchangeDict = res.filter(x => x.Key === data.metadata.ExchangeId);
+                  exchangeName = selectedExchangeDict[0].Value;
+                  exchangeId = data.metadata.ExchangeId;
+                } else {
+                  const defaultExchange = res.filter(x => x.Value === 'Global Network');
+                  exchangeId = defaultExchange[0].Key;
+                  exchangeName = 'Global Network';
+                }
+                actions.push(new fromSharedActions.SetSelectedPeerExchange({
+                  ExchangeId: exchangeId,
+                  ExchangeName: exchangeName
+                }));
+                actions.push(new fromSharedActions.GetCompanyExchangesSuccess(res));
+                return actions;
+              }),
+              catchError((err) => of(new fromSharedActions.GetCompanyExchangesError(err)))
+            );
+        })
     );
 
   constructor(
