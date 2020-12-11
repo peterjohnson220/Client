@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { ChartDataModel } from '../../models/chart-data.model';
 
 @Component({
@@ -6,7 +6,7 @@ import { ChartDataModel } from '../../models/chart-data.model';
   templateUrl: './employee-info-chart-display.component.html',
   styleUrls: ['./employee-info-chart-display.component.scss']
 })
-export class EmployeeInfoChartDisplayComponent implements OnInit, OnChanges {
+export class EmployeeInfoChartDisplayComponent implements OnChanges {
 
   @Input() chartData: ChartDataModel[] = [];
   @Input() currencyCode = 'USD';
@@ -16,9 +16,6 @@ export class EmployeeInfoChartDisplayComponent implements OnInit, OnChanges {
   constructor() { }
 
   isEmptyChart = true;
-
-  ngOnInit(): void {
-  }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['chartData']) {

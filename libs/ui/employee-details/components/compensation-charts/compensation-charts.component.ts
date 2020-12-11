@@ -10,7 +10,7 @@ import { CompPipe } from '../../../../core/pipes';
   templateUrl: './compensation-charts.component.html',
   styleUrls: ['./compensation-charts.component.scss']
 })
-export class CompensationChartsComponent implements OnInit, OnChanges {
+export class CompensationChartsComponent implements OnChanges {
 
   @Input() employeeDetails: EmployeeDetails;
 
@@ -21,9 +21,6 @@ export class CompensationChartsComponent implements OnInit, OnChanges {
   currencyCode: string;
 
   compPipe = new CompPipe(this.decimalPipe);
-
-  ngOnInit(): void {
-  }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['employeeDetails']) {
@@ -37,13 +34,13 @@ export class CompensationChartsComponent implements OnInit, OnChanges {
       this.populateChart(this.tdcChart, newEmployeeDetails.BaseSalary, newEmployeeDetails.Bonus, newEmployeeDetails.STI,
         newEmployeeDetails.TDC_Override, newEmployeeDetails.LTI, true);
 
-      this.currencyCode = changes['employeeDetails'].currentValue.Currency_Code;
+      this.currencyCode = changes['employeeDetails'].currentValue.CurrencyCode;
     }
   }
 
   populateChart(chartData: ChartDataModel[], baseSalary: number, bonus: number, sti: number, compensationValue: number,
                 lti: number, isTdcChart: boolean = false): void {
-
+    
     chartData.push({ category: 'Base Salary',
       value: baseSalary,
       colorField: '#3c89c3'});
