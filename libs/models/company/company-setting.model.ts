@@ -41,7 +41,8 @@ export enum CompanySettingsEnum {
   HideSecondarySurveyDataFields = 'HideSecondarySurveyDataFields',
   EnableIntervalAgingFactor = 'EnableIntervalAgingFactor',
   EnablePricingReview = 'EnablePricingReview',
-  EnableLiveChat = 'EnableLiveChat'
+  EnableLiveChat = 'EnableLiveChat',
+  ExportsSecurity = 'ExportsSecurity'
 }
 
 export enum CustomCompanySettingsDisplayEnum {
