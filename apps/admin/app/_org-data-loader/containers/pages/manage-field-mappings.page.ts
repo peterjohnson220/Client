@@ -110,6 +110,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
   employeeIdentifiers$: Observable<any>;
   customEmployeeFields$: Observable<any>;
   customJobsfields$: Observable<any>;
+  benefitHeaders$: Observable<any>;
   tagCategories$: Observable<string[]>;
   existingCompanyLoaderSettings: LoaderSetting[];
   orgDataFilenamePatternSet$: Observable<OrgDataFilenamePatternSet>;
@@ -234,6 +235,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
     this.customJobsfields$ = this.store.select(fromOrgDataAutoloaderReducer.getCustomJobFields);
     this.customEmployeeFields$ = this.store.select(fromOrgDataAutoloaderReducer.getCustomEmployeeFields);
     this.tagCategories$ = this.store.select(fromOrgDataAutoloaderReducer.getTagCategories);
+    this.benefitHeaders$ = this.store.select(fromOrgDataAutoloaderReducer.getBenefitHeaders);
     this.emailRecipients$ = this.store.select(fromOrgDataAutoloaderReducer.getEmailRecipients);
     this.emailRecipientsSavingError$ = this.store.select(fromOrgDataAutoloaderReducer.getSavingRecipientError);
     this.emailRecipientsRemovingError$ = this.store.select(fromOrgDataAutoloaderReducer.getRemovingRecipientError);
@@ -315,6 +317,10 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
       takeUntil(this.unsubscribe$)
     ).subscribe(f => {
       this.hasBenefitsAccess = f;
+
+      if (f) {
+        this.store.dispatch(new fromCustomFieldsActions.GetBenefitHeaders());
+      }
     });
 
     this.companies$.pipe(
@@ -422,8 +428,15 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
       this.sftpUserNameIsValid = isValid;
     });
 
+    this.benefitHeaders$.pipe(
+      filter(r => !!r),
+      takeUntil(this.unsubscribe$)
+    ).subscribe(r => {
+      this.payfactorsBenefitsDataFields.push.apply(this.payfactorsBenefitsDataFields, this.buildInternalFields(r, true));
+    });
+
     const employeeIdentifiersSubscription = this.employeeIdentifiers$.pipe(
-      filter(x => !!x),
+      filter(r => !!r),
       take(1),
       takeUntil(this.unsubscribe$)
     );
@@ -434,7 +447,6 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
     ).subscribe(res => {
       const customEmployeeDisplayNames = res.map(udf => udf.Value);
       this.payfactorsEmployeeDataFields.push.apply(this.payfactorsEmployeeDataFields, this.buildInternalFields(customEmployeeDisplayNames, false));
-
       this.store.dispatch(new fromEntityIdentifierActions.GetEmployeeIdentifiers(this.selectedCompany.CompanyId, res));
     });
 

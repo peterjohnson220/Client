@@ -98,6 +98,7 @@ export const getEntityIdentifiers = createSelector(selectEntityIdentifierState, 
 export const getCustomJobFields = createSelector(selectCustomFieldsState, fromCustomFieldsReducer.GetCustomJobFields);
 export const getTagCategories = createSelector(selectCustomFieldsState, fromCustomFieldsReducer.GetTagCategories);
 export const getCustomEmployeeFields = createSelector(selectCustomFieldsState, fromCustomFieldsReducer.GetCustomEmployeeFields);
+export const getBenefitHeaders = createSelector(selectCustomFieldsState, fromCustomFieldsReducer.GetBenefitsHeaders);
 
 
 export const getLoadingRecipients = createSelector(

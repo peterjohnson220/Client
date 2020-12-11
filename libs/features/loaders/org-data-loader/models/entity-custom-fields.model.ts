@@ -3,4 +3,5 @@ export interface EntityCustomFieldsModel {
   Employees: any;
   EmployeeTags: any;
   EmployeeKeyFields: any;
+  Benefits: any;
 }

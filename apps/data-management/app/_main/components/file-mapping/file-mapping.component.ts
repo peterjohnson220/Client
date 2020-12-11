@@ -149,7 +149,8 @@ export class FileMappingComponent implements OnInit, OnChanges, OnDestroy {
           e.loaderEnabled = this.isSubsidiariesLoadEnabled;
           break;
         case LoaderType.Benefits:
-          e.payfactorsDataFields = this.payfactorsBenefitsDataFields;
+          e.payfactorsDataFields = cloneDeep(this.payfactorsBenefitsDataFields);
+          e.payfactorsDataFields.push.apply(e.payfactorsDataFields, this.buildInternalFields(this.customFields.Benefits, false));
           e.loaderEnabled = this.isBenefitsLoadEnabled;
           break;
         case LoaderType.Employees:
