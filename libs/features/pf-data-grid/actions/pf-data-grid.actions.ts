@@ -77,9 +77,9 @@ export const UPDATE_MODIFIED_KEY = '[PfDataGrid] Update Modified Key';
 export const DELETE_MODIFIED_KEY = '[PfDataGrid] Delete Modified Key';
 export const CAPTURE_GRID_SCROLLED = '[PfDataGrid] Capture Grid Scrolled';
 export const RESET_GRID_SCROLLED = '[PfDataGrid] Reset Grid Scrolled';
-export const ADD_FADE_IN_KEYS = '[PfDataGrid] Add Attention Grab Keys';
-export const DELETE_FADE_IN_KEYS = '[PfDataGrid] Delete Attention Grab Keys';
-export const SET_FADE_IN_KEYS = '[PfDataGrid] Set Attention Grab Keys';
+export const ADD_FADE_IN_KEYS = '[PfDataGrid] Add Fade In Keys';
+export const DELETE_FADE_IN_KEYS = '[PfDataGrid] Delete Fade In Keys';
+export const SET_FADE_IN_KEYS = '[PfDataGrid] Set Fade In Keys';
 export const LOAD_DATA_AND_ADD_FADE_IN_KEYS = '[PfDataGrid] Load Data and Add Attention Grab Keys';
 
 export class LoadViewConfig implements Action {
