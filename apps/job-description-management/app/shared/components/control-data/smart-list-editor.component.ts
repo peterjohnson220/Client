@@ -97,15 +97,16 @@ export class SmartListEditorComponent implements OnInit, OnChanges, OnDestroy {
             currentData[i][sourcedAttributeName] = currentSourcedValue.replace(this.newDataFromLibraryIdentifierString, '');
             this.rebuildQuillHtmlFromSavedData();
             this.replaceContent = false;
-          } else if (this.rebuildQuillAfterDiscardDraft) {
-            this.rebuildQuillHtmlFromSavedData();
-            this.rebuildQuillAfterDiscardDraft = false;
-          }
+          } 
         }
       } else if (this.replaceContent) {
         this.rebuildQuillHtmlFromSavedData();
         this.focusRTE();
         this.replaceContent = false;
+      } 
+      if (this.rebuildQuillAfterDiscardDraft) {
+        this.rebuildQuillHtmlFromSavedData();
+        this.rebuildQuillAfterDiscardDraft = false;
       }
     }
   }
