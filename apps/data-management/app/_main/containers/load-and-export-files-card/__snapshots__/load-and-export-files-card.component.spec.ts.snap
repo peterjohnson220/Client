@@ -7,6 +7,7 @@ exports[`Data Management - Main - Load And Export File Card has access should sh
   latestOrgDataLoad$={[Function Store]}
   latestOrgDataLoadModalOpen$={[Function Store]}
   notificationStore={[Function Store]}
+  settingsService={[Function Object]}
   store={[Function Store]}
   unsubscribe$={[Function Subject]}
 >
@@ -80,6 +81,7 @@ exports[`Data Management - Main - Load And Export File Card has access should sh
   latestOrgDataLoad$={[Function Store]}
   latestOrgDataLoadModalOpen$={[Function Store]}
   notificationStore={[Function Store]}
+  settingsService={[Function Object]}
   store={[Function Store]}
   unsubscribe$={[Function Subject]}
 >
@@ -174,6 +176,7 @@ exports[`Data Management - Main - Load And Export File Card no access should not
   latestOrgDataLoad$={[Function Store]}
   latestOrgDataLoadModalOpen$={[Function Store]}
   notificationStore={[Function Store]}
+  settingsService={[Function Object]}
   store={[Function Store]}
   unsubscribe$={[Function Subject]}
 >

@@ -70,10 +70,10 @@ export class DataManagementLandingPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.store.dispatch(new fromLoadAndExportFilesCardActions.InitLoadAndExportFilesCard());
     this.store.dispatch(new fromHrisConnectionActions.GetHrisConnectionSummary());
     this.store.dispatch(new fromOutboundJdmActions.LoadConnectionSummary());
     this.store.dispatch(new fromTransferScheduleActions.GetTransferSummary());
-    this.store.dispatch(new fromLoadAndExportFilesCardActions.InitLoadAndExportFilesCard());
   }
 
   ngOnDestroy(): void {
