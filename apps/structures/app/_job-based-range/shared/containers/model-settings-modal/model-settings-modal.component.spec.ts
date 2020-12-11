@@ -172,6 +172,11 @@ describe('Job Based Ranges - Model Settings Modal', () => {
       })
     });
 
+    instance.selectedExchange = {
+      ExchangeId: null,
+      ExchangeName: null,
+    };
+
     instance.ngOnInit();
   });
 
