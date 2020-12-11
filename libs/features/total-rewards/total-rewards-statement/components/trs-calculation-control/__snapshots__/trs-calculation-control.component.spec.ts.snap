@@ -191,7 +191,6 @@ exports[`TrsCalculationControlComponent should display contribution values and t
       </tbody>
     </table>
     
-    
   </div>
 </pf-trs-calculation-control>
 `;
@@ -361,7 +360,6 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
         </tr>
       </tbody>
     </table>
-    
     
   </div>
 </pf-trs-calculation-control>
@@ -533,7 +531,6 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
       </tbody>
     </table>
     
-    
   </div>
 </pf-trs-calculation-control>
 `;
@@ -625,7 +622,6 @@ exports[`TrsCalculationControlComponent should hide all content in the table hea
         </tr>
       </tbody>
     </table>
-    
     
   </div>
 </pf-trs-calculation-control>
@@ -736,7 +732,6 @@ exports[`TrsCalculationControlComponent should render additional content in the 
         </tr>
       </tbody>
     </table>
-    
     
   </div>
 </pf-trs-calculation-control>
@@ -849,11 +844,12 @@ exports[`TrsCalculationControlComponent should render the supplied Summary 1`] =
             <pf-compensation-value-placeholder />
           </td>
           
-          <td />
+          <td>
+            
+          </td>
         </tr>
       </tbody>
     </table>
-    
     
   </div>
 </pf-trs-calculation-control>
@@ -1152,11 +1148,12 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
             <pf-compensation-value-placeholder />
           </td>
           
-          <td />
+          <td>
+            
+          </td>
         </tr>
       </tbody>
     </table>
-    
     
   </div>
 </pf-trs-calculation-control>
