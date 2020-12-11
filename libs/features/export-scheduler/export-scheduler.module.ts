@@ -1,12 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { ExportFrequencyComponent, ExportFormatComponent } from './components';
-import { FormsModule } from '@angular/forms';
+import { ExportFrequencyComponent, ExportFormatComponent, ExportSchedulesComponent } from './components';
+import * as fromFaIcons from './fa-icons';
 
 @NgModule({
   imports: [
@@ -15,16 +17,23 @@ import { FormsModule } from '@angular/forms';
     CommonModule,
     DropDownsModule,
     FontAwesomeModule,
-    FormsModule
+    FormsModule,
+    NgbModule
   ],
   exports: [
     ExportFrequencyComponent,
-    ExportFormatComponent
+    ExportFormatComponent,
+    ExportSchedulesComponent
   ],
   declarations: [
     // components
     ExportFrequencyComponent,
-    ExportFormatComponent
+    ExportFormatComponent,
+    ExportSchedulesComponent
   ]
 })
-export class ExportSchedulerModule { }
+export class ExportSchedulerModule {
+  constructor(library: FaIconLibrary) {
+    library.addIcons(...fromFaIcons.faIcons);
+  }
+}

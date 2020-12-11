@@ -1,27 +1,36 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
+import { Store } from '@ngrx/store';
+import { Observable, Subscription } from 'rxjs';
+import { DropDownFilterSettings } from '@progress/kendo-angular-dropdowns';
+import isNumber from 'lodash/isNumber';
+import toNumber from 'lodash/toNumber';
+
+import { environment } from 'environments/environment';
 import { AsyncStateObj } from 'libs/models/state';
-import { Workbook } from 'libs/features/reports/models';
-import { ExportFrequencyType } from 'libs/features/export-scheduler/models/export-schedule.model';
+import { TabularReportExportSchedule, Workbook } from 'libs/features/reports/models';
 import { ExportFormatComponent, ExportFrequencyComponent } from 'libs/features/export-scheduler/components';
+import { ExportFrequencyType, CronExpressionHelper } from 'libs/features/export-scheduler/helpers';
+import { DataViewAccessLevel } from 'libs/models/payfactors-api/reports';
 
 import * as fromTabularReportExportSchedulerPageReducer from '../../../reducers';
 import * as fromTabularReportExportSchedulerPageActions from '../../../actions/tabular-report-export-scheduler-page.actions';
-import { environment } from 'environments/environment';
-import { DropDownFilterSettings } from '@progress/kendo-angular-dropdowns';
 
 @Component({
   selector: 'pf-tabular-report-export-scheduler-page',
   templateUrl: './tabular-report-export-scheduler-page.component.html',
   styleUrls: ['./tabular-report-export-scheduler-page.component.scss']
 })
-export class TabularReportExportSchedulerPageComponent implements OnInit {
+export class TabularReportExportSchedulerPageComponent implements OnInit, OnDestroy {
   @ViewChild('exportFormat', { static: true }) exportFormat: ExportFormatComponent;
   @ViewChild('exportFrequency', { static: true }) exportFrequency: ExportFrequencyComponent;
 
   tabularReportsAsync$: Observable<AsyncStateObj<Workbook[]>>;
+  savedSchedulesAsync$: Observable<AsyncStateObj<TabularReportExportSchedule[]>>;
+  savingSchedule$: Observable<boolean>;
+  savingScheduleError$: Observable<string>;
+
+  savingScheduleSubscription: Subscription;
 
   selectedReport: Workbook;
   env = environment;
@@ -29,33 +38,58 @@ export class TabularReportExportSchedulerPageComponent implements OnInit {
     caseSensitive: false,
     operator: 'contains'
   };
+  savingSchedule: boolean;
+  dataViewAccessLevels = DataViewAccessLevel;
 
   get disabled() {
-    const isFrequencySelectionValid = this.isFrequencySelectionValid();
-    return !(!!this.selectedReport && !!this.exportFormat.selectedFileExtension && isFrequencySelectionValid);
+    return !this.selectedReport || !this.exportFormat.isValid || !this.exportFrequency.isValid ||
+      this.savingSchedule;
   }
   constructor(
     private store: Store<fromTabularReportExportSchedulerPageReducer.State>
   ) {
     this.tabularReportsAsync$ = this.store.select(fromTabularReportExportSchedulerPageReducer.getTabularReportsAsync);
+    this.savedSchedulesAsync$ = this.store.select(fromTabularReportExportSchedulerPageReducer.getSavedSchedulesAsync);
+    this.savingSchedule$ = this.store.select(fromTabularReportExportSchedulerPageReducer.getSavingSchedule);
+    this.savingScheduleError$ = this.store.select(fromTabularReportExportSchedulerPageReducer.getSavingScheduleError);
   }
 
   ngOnInit(): void {
-    this.store.dispatch(new fromTabularReportExportSchedulerPageActions.GetTabularReports());
+    this.store.dispatch(new fromTabularReportExportSchedulerPageActions.GetSavedSchedules());
+    this.savingScheduleSubscription = this.savingSchedule$.subscribe(value => this.savingSchedule = value);
   }
 
-  private isFrequencySelectionValid(): boolean {
-    if (this.exportFrequency.frequencySelected === ExportFrequencyType.OneTime) {
-      return true;
+  ngOnDestroy(): void {
+    this.savingScheduleSubscription.unsubscribe();
+  }
+
+  handleSaveClicked(): void {
+    const dataViewId = toNumber(this.selectedReport.WorkbookId);
+    const cronExpression = this.exportFrequency.selectedFrequency === ExportFrequencyType.OneTime
+      ? null
+      : CronExpressionHelper.generateCronExpression(this.exportFrequency.selectedFrequency,
+        this.exportFrequency.selectedDaysOfWeek,
+        this.exportFrequency.selectedMonthlyOccurrence);
+    if (!isNumber(dataViewId) || (this.exportFrequency.selectedFrequency !== ExportFrequencyType.OneTime && cronExpression === '')) {
+      this.reset();
+      return;
     }
-    if (this.exportFrequency.frequencySelected === ExportFrequencyType.Weekly) {
-      return !!this.exportFrequency.selectedDaysOfWeek?.length;
-    }
-    if (this.exportFrequency.frequencySelected === ExportFrequencyType.Monthly) {
-      const occurrenceSelected = !!this.exportFrequency.selectedMonthlyFrequency.Occurrence?.length;
-      const dayOfWeekSelected = !!this.exportFrequency.selectedMonthlyFrequency.DayOfWeek.Value?.length;
-      return occurrenceSelected && dayOfWeekSelected;
-    }
+    const schedule: TabularReportExportSchedule = {
+      DataViewId: dataViewId,
+      Format: this.exportFormat.selectedFormat,
+      FormatSeparatorType: this.exportFormat.selectedSeparatorType,
+      Frequency: this.exportFrequency.selectedFrequency,
+      CronExpression: cronExpression
+    };
+
+    this.store.dispatch(new fromTabularReportExportSchedulerPageActions.SaveSchedule(schedule));
+    this.reset();
+  }
+
+  private reset(): void {
+    this.selectedReport = null;
+    this.exportFormat.reset();
+    this.exportFrequency.reset();
   }
 
 }

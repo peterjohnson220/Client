@@ -34,3 +34,18 @@ export const getTabularReportsAsync = createSelector(
   selectTabularReportExportSchedulerPageState,
   fromTabularReportExportSchedulerPageReducer.getTabularReportsAsync
 );
+
+export const getSavedSchedulesAsync = createSelector(
+  selectTabularReportExportSchedulerPageState,
+  fromTabularReportExportSchedulerPageReducer.getSavedSchedulesAsync
+);
+
+export const getSavingSchedule = createSelector(
+  selectTabularReportExportSchedulerPageState,
+  fromTabularReportExportSchedulerPageReducer.getSavingSchedule
+);
+
+export const getSavingScheduleError = createSelector(
+  selectTabularReportExportSchedulerPageState,
+  fromTabularReportExportSchedulerPageReducer.getSavingScheduleError
+);

@@ -5,11 +5,11 @@
 
   <ng-container page-content>
     <div class="d-flex mt-3">
-      <div class="div-container pl-3 pt-3">
+      <div class="div-container p-3">
         <h4>Create Tabular Report Export</h4>
-        <div class=" form-container d-flex flex-column pt-4 pl-2">
-          <div class="form-group row pl-4">
-            <label class="labels col-form-label">Select Report to Export <span class="text-danger">*</span></label>
+        <div class=" form-container d-flex flex-column pt-4">
+          <div class="d-flex flex-wrap mb-3">
+            <label class="labels">Select Report to Export <span class="text-danger">*</span></label>
             <div class="dropdowns">
               <kendo-combobox class="form-control"
                               data-qa-id="ddl-tabular-reports"
@@ -22,6 +22,12 @@
                               [filterable]="true"
                               [kendoDropDownFilter]="filterSettings"
                               [ngClass]="{ 'is-invalid': false }">
+                <ng-template kendoComboBoxItemTemplate let-dataItem>
+                  <div pfEllipsisActive class="flex-fill ellipsis-overflowing-text">
+                    <span>{{ dataItem.WorkbookName }}</span>
+                  </div>
+                  <fa-icon *ngIf="!!dataItem.AccessLevel && dataItem.AccessLevel !== dataViewAccessLevels.Owner" icon="share" class="ml-3" title="Shared Report"></fa-icon>
+                </ng-template>
               </kendo-combobox>
             </div>
           </div>
@@ -30,13 +36,16 @@
       </div>
       <div class="form-footer d-flex justify-content-between">
         <div class="flex-grow-1 d-flex justify-content-end space-out-children">
-          <button [disabled]="disabled" class="btn btn-primary">Schedule</button>
+          <div *ngIf="(savingScheduleError$ | async)?.length > 0" class="mr-3">{{(savingScheduleError$ | async)}}</div>
+          <button [disabled]="disabled" class="btn btn-primary" (click)="handleSaveClicked()">Schedule</button>
         </div>
       </div>
     </div>
-      <div class="div-container ml-3 pl-3 pt-3">
+      <div class="div-container ml-3 p-3">
         <h4>Saved Schedules</h4>
-        <div class="pt-4 pl-2"></div>
+        <div class="pt-4">
+          <pf-export-schedules [schedules]="(savedSchedulesAsync$ | async)?.obj"></pf-export-schedules>
+        </div>
       </div>
     </div>
   </ng-container>
