@@ -1,16 +1,15 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 
 import { Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
+import { filter, takeUntil } from 'rxjs/operators';
 
-import { PermissionService } from 'libs/core';
-import { CompanySettingsEnum, CompositeDataLoadViewResponse } from 'libs/models';
-import { SettingsService } from 'libs/state/app-context/services';
-import { Permissions, PermissionCheckEnum } from 'libs/constants';
+import { CompositeDataLoadViewResponse, CompanySettingsEnum} from 'libs/models';
+import * as fromJobDescriptionsExportActions from 'libs/features/job-description-management/actions/job-description-export.actions';
 import * as fromOrgDataNavigationLinkActions from 'libs/features/navigation-links/actions/org-data-navigation-link.actions';
 import * as fromAppNotificationsMainReducer from 'libs/features/app-notifications/reducers';
 import * as fromAppNotificationsActions from 'libs/features/app-notifications/actions/app-notifications.actions';
+import { SettingsService } from 'libs/state/app-context/services';
 import { NotificationLevel, NotificationSource, NotificationType } from 'libs/features/app-notifications/models';
 
 import * as fromDataManagementMainReducer from '../../reducers';
@@ -23,46 +22,54 @@ import * as fromLoadersDataActions from '../../actions/loaders-data.actions';
 })
 export class LoadAndExportFilesCardComponent implements OnInit, OnDestroy {
 
-  manualImportOrgDataSubscription: Subscription;
-  downloadOrgDataSubscription: Subscription;
+  loadAndExportFilesCardStateSubscription: Subscription;
+
+  unsubscribe$: Subject<boolean> = new Subject<boolean>();
 
   canImportOrgData: boolean;
   canExportOrgData: boolean;
   canExportPricingData: boolean;
+  canExportJobDescription: boolean;
+  canScheduleBulkExports: boolean;
 
   latestOrgDataLoad$: Observable<CompositeDataLoadViewResponse>;
   latestOrgDataLoadModalOpen$: Observable<boolean>;
 
-  constructor(
-    private store: Store<fromDataManagementMainReducer.State>,
-    private settingsService: SettingsService,
-    private permissionService: PermissionService,
-    private notificationStore: Store<fromAppNotificationsMainReducer.State>,
-    private router: Router) {
 
+  constructor(private store: Store<fromDataManagementMainReducer.State>,
+    private notificationStore: Store<fromAppNotificationsMainReducer.State>,
+    private settingsService: SettingsService) {
+    this.latestOrgDataLoad$ = this.store.select(fromDataManagementMainReducer.getLatestOrgDataLoad);
+    this.latestOrgDataLoadModalOpen$ = this.store.select(fromDataManagementMainReducer.getLatestOrgDataLoadModalOpen);
+    this.settingsService
+      .selectCompanySetting<string>(CompanySettingsEnum.ManualOrgDataLoadLink, 'string')
+      .pipe(takeUntil(this.unsubscribe$), filter(v => !!v))
+      .subscribe(setting => this.canImportOrgData = (setting === 'true'));
+    this.store.select(fromDataManagementMainReducer.getLoadAndExportFilesCardState)
+      .pipe(takeUntil(this.unsubscribe$), filter(v => !!v))
+      .subscribe(v => {
+        this.canExportOrgData = v.canExportOrgData;
+        this.canExportPricingData = v.canExportPricingData;
+        this.canExportJobDescription = v.canExportJobDescription;
+        this.canScheduleBulkExports = v.canScheduleBulkExports;
+      });
   }
 
   ngOnInit() {
     this.store.dispatch(new fromLoadersDataActions.GetLatestOrgDataLoad());
-
-    this.manualImportOrgDataSubscription = this.settingsService
-      .selectCompanySetting<string>(CompanySettingsEnum.ManualOrgDataLoadLink, 'string')
-      .subscribe(setting => this.canImportOrgData = (setting === 'true'));
-    this.canExportOrgData = this.permissionService
-      .CheckPermission([Permissions.CAN_DOWNLOAD_ORGANIZATIONAL_DATA], PermissionCheckEnum.Single);
-    this.canExportPricingData = this.permissionService
-      .CheckPermission([Permissions.CAN_DOWNLOAD_PRICING_DATA], PermissionCheckEnum.Single);
-
-    this.latestOrgDataLoad$ = this.store.select(fromDataManagementMainReducer.getLatestOrgDataLoad);
-    this.latestOrgDataLoadModalOpen$ = this.store.select(fromDataManagementMainReducer.getLatestOrgDataLoadModalOpen);
   }
 
   ngOnDestroy() {
-    this.manualImportOrgDataSubscription.unsubscribe();
+    this.unsubscribe$.next(true);
+    this.unsubscribe$.unsubscribe();
   }
 
   canView() {
-    return this.canImportOrgData || this.canExportOrgData || this.canExportPricingData;
+    return this.canImportOrgData
+      || this.canExportOrgData
+      || this.canExportPricingData
+      || this.canExportJobDescription
+      || this.canScheduleBulkExports;
   }
 
   handleOrgDataExportClick($event) {
@@ -81,13 +88,13 @@ export class LoadAndExportFilesCardComponent implements OnInit, OnDestroy {
     $event.preventDefault();
   }
 
-  handlePricingDataExportClick($event) {
-    this.router.navigate(['/pricing-loader/pricing-loaders-download']);
-    $event.preventDefault();
-  }
-
   openOrgDataLoadModal($event) {
     $event.preventDefault();
     this.store.dispatch(new fromLoadersDataActions.OpenLatestOrgDataLoadModal());
+  }
+
+  handleJobDescriptionExportClick($event) {
+    this.notificationStore.dispatch(new fromJobDescriptionsExportActions.InitiateJobDescriptionExport());
+    $event.preventDefault();
   }
 }

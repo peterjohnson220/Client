@@ -1,0 +1,55 @@
+<div class="card d-flex flex-column flex-grow-1">
+  <div class="card-header">
+    <span class="title">Project Templates
+      <fa-icon class="pl-2"
+              icon="info-circle"
+              [ngbPopover]="projectTemplateInfo"
+              container="body"
+              triggers="mouseenter:mouseleave"
+              placement="right">
+    </fa-icon></span>
+  </div>
+
+  <div class="d-flex flex-row flex-wrap ml-3 mt-3 position-relative">
+    <pf-async-container class="company-job-mapping-container"
+                        [loadingError]="(projectTemplates$ | async)?.loadingError"
+                        [loading]="(projectTemplates$ | async)?.loading">
+      <div class="badge mb-3 badge-pill" *ngFor="let item of (projectTemplates$ | async).obj; trackBy: trackByFn;">
+        <span class="template-badge" (click)="handleEditItemClicked(item)">{{item.TemplateName}}</span>
+        <fa-icon icon="times" class="delete-btn pl-2" (click)="handleDeleteClicked(item)"></fa-icon>
+      </div>
+      <div class="no-templates-message" *ngIf="!(projectTemplates$ | async).obj?.length && !(projectTemplates$ | async).loading">
+        No project templates have been created.
+      </div>
+    </pf-async-container>
+  </div>
+
+  <div class="d-flex flex-row-reverse mr-3 mb-3">
+    <pf-action-button
+      saveButtonText="Add"
+      (saveClicked) = "handleAddClicked()"
+      [saveButtonQaId] = "'btn-project-templates-add-btn'"
+      [showCancelButton] = false>
+    </pf-action-button>
+  </div>
+</div>
+<pf-modal-form
+  [size]="'md'"
+  [title]="'Delete Template'"
+  [primaryButtonText]="'Delete'"
+  [primaryButtonClass]="'btn-danger'"
+  [modalId]="'au-modal-user-settings-delete-template'"
+  [isOpen$]=" showDeleteTemplateModal$"
+  (onSubmit)="handleDeleteConfirmed()"
+  (onDismiss)="handleModalDismissed()">
+  <ng-container basic-content>
+    <p>Are you sure you want to delete the template "<strong>{{selectedTemplate?.TemplateName}}</strong>"?</p>
+  </ng-container>
+
+</pf-modal-form>
+<pf-project-template-management></pf-project-template-management>
+<ng-template #projectTemplateInfo>
+  <div class="pop-content">
+    <p>Creating different project templates allows you to quickly change what data is presented in a project export.</p>
+  </div>
+</ng-template>

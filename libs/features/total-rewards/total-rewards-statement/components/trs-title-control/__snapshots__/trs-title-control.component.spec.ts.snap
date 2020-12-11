@@ -3,7 +3,9 @@
 exports[`TrsTitleControlComponent should add a \`background-graphics\` class to the container when graphics are enabled 1`] = `
 <pf-trs-title-control
   backgroundGraphicsEnabled={[Function Boolean]}
+  color={[Function Object]}
   controlData={[Function Object]}
+  graphicsColors={[Function Array]}
   mode="0"
   modeEnum={[Function Object]}
   titleChange={[Function EventEmitter]}
@@ -16,26 +18,32 @@ exports[`TrsTitleControlComponent should add a \`background-graphics\` class to 
     <div
       aria-hidden="true"
       class="overlap graphic"
+      pfstatementgraphicsdirective=""
     />
     <div
       aria-hidden="true"
       class="line graphic top-vertical"
+      pfstatementgraphicsdirective=""
     />
     <div
       aria-hidden="true"
       class="line graphic top-horizontal"
+      pfstatementgraphicsdirective=""
     />
     <div
       aria-hidden="true"
       class="line graphic circle top"
+      pfstatementgraphicsdirective=""
     />
     <div
       aria-hidden="true"
       class="outer graphic"
+      pfstatementgraphicsdirective=""
     >
       <div
         aria-hidden="true"
         class="inner graphic"
+        pfstatementgraphicsdirective=""
       >
         <h2
           class="trs-statement-title d-inline-block mw-100 mh-100"
@@ -46,11 +54,13 @@ exports[`TrsTitleControlComponent should add a \`background-graphics\` class to 
     </div>
     <div
       aria-hidden="true"
-      class="line graphic bottom-horizontal position-relative"
+      class="line graphic bottom-horizontal"
+      pfstatementgraphicsdirective=""
     />
     <div
       aria-hidden="true"
-      class="line graphic circle bottom position-relative"
+      class="line graphic circle bottom"
+      pfstatementgraphicsdirective=""
     />
     
   </div>
@@ -59,6 +69,7 @@ exports[`TrsTitleControlComponent should add a \`background-graphics\` class to 
 
 exports[`TrsTitleControlComponent should set the innerTitleWidth as the width of the container 1`] = `
 <pf-trs-title-control
+  color={[Function Object]}
   controlData={[Function Object]}
   mode="0"
   modeEnum={[Function Object]}
@@ -72,26 +83,32 @@ exports[`TrsTitleControlComponent should set the innerTitleWidth as the width of
     <div
       aria-hidden="true"
       class="overlap graphic"
+      pfstatementgraphicsdirective=""
     />
     <div
       aria-hidden="true"
       class="line graphic top-vertical"
+      pfstatementgraphicsdirective=""
     />
     <div
       aria-hidden="true"
       class="line graphic top-horizontal"
+      pfstatementgraphicsdirective=""
     />
     <div
       aria-hidden="true"
       class="line graphic circle top"
+      pfstatementgraphicsdirective=""
     />
     <div
       aria-hidden="true"
       class="outer graphic"
+      pfstatementgraphicsdirective=""
     >
       <div
         aria-hidden="true"
         class="inner graphic"
+        pfstatementgraphicsdirective=""
       >
         <h2
           class="trs-statement-title d-inline-block mw-100 mh-100"
@@ -102,11 +119,13 @@ exports[`TrsTitleControlComponent should set the innerTitleWidth as the width of
     </div>
     <div
       aria-hidden="true"
-      class="line graphic bottom-horizontal position-relative"
+      class="line graphic bottom-horizontal"
+      pfstatementgraphicsdirective=""
     />
     <div
       aria-hidden="true"
-      class="line graphic circle bottom position-relative"
+      class="line graphic circle bottom"
+      pfstatementgraphicsdirective=""
     />
     
   </div>
@@ -115,6 +134,7 @@ exports[`TrsTitleControlComponent should set the innerTitleWidth as the width of
 
 exports[`TrsTitleControlComponent should show in edit mode 1`] = `
 <pf-trs-title-control
+  color={[Function Object]}
   controlData={[Function Object]}
   mode="0"
   modeEnum={[Function Object]}
@@ -128,26 +148,32 @@ exports[`TrsTitleControlComponent should show in edit mode 1`] = `
     <div
       aria-hidden="true"
       class="overlap graphic"
+      pfstatementgraphicsdirective=""
     />
     <div
       aria-hidden="true"
       class="line graphic top-vertical"
+      pfstatementgraphicsdirective=""
     />
     <div
       aria-hidden="true"
       class="line graphic top-horizontal"
+      pfstatementgraphicsdirective=""
     />
     <div
       aria-hidden="true"
       class="line graphic circle top"
+      pfstatementgraphicsdirective=""
     />
     <div
       aria-hidden="true"
       class="outer graphic"
+      pfstatementgraphicsdirective=""
     >
       <div
         aria-hidden="true"
         class="inner graphic"
+        pfstatementgraphicsdirective=""
       >
         <h2
           class="trs-statement-title d-inline-block mw-100 mh-100"
@@ -158,11 +184,13 @@ exports[`TrsTitleControlComponent should show in edit mode 1`] = `
     </div>
     <div
       aria-hidden="true"
-      class="line graphic bottom-horizontal position-relative"
+      class="line graphic bottom-horizontal"
+      pfstatementgraphicsdirective=""
     />
     <div
       aria-hidden="true"
-      class="line graphic circle bottom position-relative"
+      class="line graphic circle bottom"
+      pfstatementgraphicsdirective=""
     />
     
   </div>
@@ -171,6 +199,7 @@ exports[`TrsTitleControlComponent should show in edit mode 1`] = `
 
 exports[`TrsTitleControlComponent should show when in preview mode 1`] = `
 <pf-trs-title-control
+  color={[Function Object]}
   controlData={[Function Object]}
   mode={[Function Number]}
   modeEnum={[Function Object]}
@@ -184,26 +213,32 @@ exports[`TrsTitleControlComponent should show when in preview mode 1`] = `
     <div
       aria-hidden="true"
       class="overlap graphic"
+      pfstatementgraphicsdirective=""
     />
     <div
       aria-hidden="true"
       class="line graphic top-vertical"
+      pfstatementgraphicsdirective=""
     />
     <div
       aria-hidden="true"
       class="line graphic top-horizontal"
+      pfstatementgraphicsdirective=""
     />
     <div
       aria-hidden="true"
       class="line graphic circle top"
+      pfstatementgraphicsdirective=""
     />
     <div
       aria-hidden="true"
       class="outer graphic"
+      pfstatementgraphicsdirective=""
     >
       <div
         aria-hidden="true"
         class="inner graphic"
+        pfstatementgraphicsdirective=""
       >
         <h2
           class="trs-statement-title d-inline-block mw-100 mh-100"
@@ -214,11 +249,13 @@ exports[`TrsTitleControlComponent should show when in preview mode 1`] = `
     </div>
     <div
       aria-hidden="true"
-      class="line graphic bottom-horizontal position-relative"
+      class="line graphic bottom-horizontal"
+      pfstatementgraphicsdirective=""
     />
     <div
       aria-hidden="true"
-      class="line graphic circle bottom position-relative"
+      class="line graphic circle bottom"
+      pfstatementgraphicsdirective=""
     />
     
   </div>

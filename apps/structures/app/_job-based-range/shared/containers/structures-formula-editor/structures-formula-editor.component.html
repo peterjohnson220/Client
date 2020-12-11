@@ -4,18 +4,6 @@
           <input type="text" class="form-control" [placeholder]="'Formula Name'" [value]="formulaFieldObj.FieldName" [maxlength]="maxFieldNameLength"
             (change)="handleFormulaNameChange()" [ngClass]="{ 'is-invalid': attemptedSubmit && formControls.FieldName.invalid }"
             [pfValidatable]="true" ngbAutoFocus formControlName="FieldName" name="FormulaName"/>
-          <div class="input-group-append" *ngIf="formulaFieldObj.IsPublic">
-              <span class="input-group-text">
-                  <input type="reset" formControlName="IsPublic" [ngbTooltip]="publicFormulaContent" [value]="true" class="hidden" (click)="handlePublicChange()"/>
-                <fa-icon [ngbTooltip]="publicFormulaContent" icon="globe" aria-hidden="true"></fa-icon>
-              </span>
-          </div>
-          <div class="input-group-append" *ngIf="!formulaFieldObj.IsPublic">
-              <span class="input-group-text">
-                  <input type="reset" formControlName="IsPublic" [ngbTooltip]="privateFormulaContent" [value]="false" class="hidden" (click)="handlePublicChange()"/>
-                  <fa-icon [ngbTooltip]="privateFormulaContent" icon="eye" aria-hidden="true" ></fa-icon>
-              </span>
-          </div>
         </div>
         <span *ngIf="attemptedSubmit && (formControls.FieldName.hasError('required') || formControls.FieldName.hasError('minLength'))" class="text-danger">Formula name required.</span>
     </div>
@@ -45,9 +33,3 @@
       </div>
     </div>
 </div>
-<ng-template #publicFormulaContent>
-  This formula is public and will be viewable for any user in your organization.
-</ng-template>
-<ng-template #privateFormulaContent>
-  This formula is private and will only be viewable to you.
-</ng-template>

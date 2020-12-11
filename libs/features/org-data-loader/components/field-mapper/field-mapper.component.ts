@@ -242,6 +242,7 @@ export class FieldMapperComponent implements OnInit, OnChanges {
           isFullReplace: this.isFullReplace,
         };
         break;
+      case LoaderType.EmployeeTags:
       case LoaderType.StructureMapping:
       case LoaderType.Benefits:
         payload = {

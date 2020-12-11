@@ -256,4 +256,8 @@ export class JobDescriptionApiService {
     return this.payfactorsApiService.post(`${this.endpoint}(${jobDescriptionId})/Default.Delete`,
       (response => JSON.parse(response.value)));
   }
+
+  exportJobDescriptions(ignoreMappingFile: boolean) {
+    return this.payfactorsApiService.get(`${this.endpoint}/ExportAllJobDescriptions`, {ignoreMappingFile});
+  }
 }

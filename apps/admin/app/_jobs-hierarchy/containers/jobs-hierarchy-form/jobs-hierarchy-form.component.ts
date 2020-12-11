@@ -23,7 +23,7 @@ import { JobLevelHierarchyDndService } from '../../services';
 export class JobsHierarchyFormComponent implements OnInit, OnDestroy {
   readonly MAX_NAME_LENGTH = 50;
 
-  groupingTypes = [HierarchyGroupingTypes.JOB_FAMILY_JOB_LEVEL, HierarchyGroupingTypes.JOB_FAMILY, HierarchyGroupingTypes.JOB_LEVEL];
+  groupingTypes = [HierarchyGroupingTypes.JOB_FAMILY_JOB_LEVEL, HierarchyGroupingTypes.JOB_LEVEL_JOB_FAMILY];
   defaultGroupingType: HierarchyGroupingTypes.JOB_FAMILY_JOB_LEVEL;
   jobLevelHierarchyForm: FormGroup;
   jobLevelsInHierarchy: string[] = [];

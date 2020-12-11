@@ -2,12 +2,12 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
-import { Store, StoreModule, combineReducers } from '@ngrx/store';
+import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import * as fromRootState from 'libs/state/state';
 import * as fromFormulaFieldActions from 'libs/features/formula-editor/actions/formula-field.actions';
-import { FieldDataType } from 'libs/features/formula-editor';
+import { FieldDataType, FormulaType } from 'libs/features/formula-editor';
 import { FormulaFieldModalObj } from 'libs/models/formula-editor';
 
 import * as fromDataViewMainReducer from '../../reducers';
@@ -29,14 +29,14 @@ describe('Data Insights - Data View - Formula Field Modal Component', () => {
         FormsModule,
         ReactiveFormsModule
       ],
-      declarations: [ FormulaFieldModalComponent ],
+      declarations: [FormulaFieldModalComponent],
       providers: [
         {
           provide: NgbModal,
           useValue: { open: jest.fn(), dismissAll: jest.fn() },
         },
       ],
-      schemas: [ NO_ERRORS_SCHEMA ]
+      schemas: [NO_ERRORS_SCHEMA]
     });
 
     fixture = TestBed.createComponent(FormulaFieldModalComponent);
@@ -66,7 +66,7 @@ describe('Data Insights - Data View - Formula Field Modal Component', () => {
     spyOn(store, 'dispatch');
     const fieldName = 'Compa-Ratio';
     const isPublic = false;
-    instance.formulaFieldForm.patchValue( { fieldName, isPublic });
+    instance.formulaFieldForm.patchValue({ fieldName, isPublic });
     fixture.detectChanges();
     instance.formula = '[Base]/[Mid]';
     instance.dataType = FieldDataType.Float;
@@ -77,7 +77,10 @@ describe('Data Insights - Data View - Formula Field Modal Component', () => {
       IsPublic: isPublic,
       DataType: instance.dataType
     };
-    const expectedAction = new fromFormulaFieldActions.SaveFormulaField({ formula, baseEntityId: instance.baseEntityId });
+    const expectedAction = new fromFormulaFieldActions.SaveFormulaField({
+      formula, baseEntityId: instance.baseEntityId, formulaFieldId: '',
+      formulaTypeId: FormulaType.DataInsights
+    });
 
     instance.handleSaveClicked();
 
@@ -98,7 +101,7 @@ describe('Data Insights - Data View - Formula Field Modal Component', () => {
     spyOn(store, 'dispatch');
     const formula = '';
     instance.baseEntityId = 1;
-    const action = new fromFormulaFieldActions.ValidateFormula({ formula, baseEntityId: instance.baseEntityId });
+    const action = new fromFormulaFieldActions.ValidateFormula({ formula, baseEntityId: instance.baseEntityId, formulaFieldId: '' });
 
     instance.handleFormulaChanged(formula);
 

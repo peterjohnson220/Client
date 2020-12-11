@@ -1,6 +1,7 @@
 import { Action } from '@ngrx/store';
 
 import { Filter, MultiSelectFilter, MultiSelectOption } from '../models';
+import { State } from '../reducers/search-filters.reducer';
 
 export const ADD_FILTERS = '[Search/Search Filters] Add Filters';
 export const ADD_FILTER_AND_SELECT_ALL_OPTIONS = '[Search/Search Filters] Add filter and select all options';
@@ -21,6 +22,7 @@ export const SHOW_MORE = '[Search/Search Filters] Show More';
 export const SHOW_LESS = '[Search/Search Filters] Show Less';
 export const ADD_FILTER_OPTIONS = '[Search/Search Filters] Add Filter Options';
 export const RESET = '[Search/Search Filters] Reset';
+export const SET = '[Search/Search Filters] Set';
 
 export class AddFilters implements Action {
   readonly type = ADD_FILTERS;
@@ -140,6 +142,12 @@ export class Reset implements Action {
   readonly type = RESET;
 }
 
+export class Set implements Action {
+  readonly type = SET;
+
+  constructor(public payload: State) { }
+}
+
 export type Actions
   = RemoveFilters
   | ApplySavedFilters
@@ -159,5 +167,6 @@ export type Actions
   | ShowMore
   | ShowLess
   | AddFilterOptions
-| Reset;
+  | Reset
+  | Set;
 

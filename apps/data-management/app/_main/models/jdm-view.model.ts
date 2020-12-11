@@ -2,13 +2,15 @@ export interface JdmView {
   DisplayText: string;
   Id: number;
   isChecked: boolean;
+  isEnabled: boolean;
 }
 
 export function generateMockJdmView(name: string, id: number): JdmView {
   return {
     DisplayText: name,
     Id: id,
-    isChecked: false
+    isChecked: false,
+    isEnabled: true,
   };
 }
 

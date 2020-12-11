@@ -1,2 +1,2 @@
 export * from './user-settings.page';
-export * from './components';
+export * from './containers';

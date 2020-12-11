@@ -7,7 +7,7 @@ import * as fromSearchReducer from 'libs/features/search/reducers';
 import { SurveySearchResultDataSources } from 'libs/constants';
 
 import { DataCutDetails, JobResult, MatchesDetailsTooltipData, PricingMatchDataSearchContext } from '../models';
-import { TooltipContainerComponent } from '../containers/tooltip-container';
+import { TooltipContainerComponent } from '../containers';
 import { hasMoreDataCuts } from '../helpers';
 import * as fromSurveySearchResultsActions from '../actions/survey-search-results.actions';
 import * as fromSurveySearchReducer from '../reducers';
@@ -79,7 +79,8 @@ export class SurveySearchResultsComponent implements OnInit {
         this.store.dispatch(new fromSurveySearchResultsActions.GetSurveyDataResults(job));
         break;
       case SurveySearchResultDataSources.Peer:
-        this.store.dispatch(new fromSurveySearchResultsActions.GetExchangeDataResults(job));
+        const exchangeJobId = job.PeerJobInfo.ExchangeJobId;
+        this.store.dispatch(new fromSurveySearchResultsActions.GetExchangeDataResults({exchangeJobId}));
         break;
     }
   }

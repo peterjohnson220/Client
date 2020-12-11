@@ -73,7 +73,7 @@ export class StatementEditPageEffects {
       ofType(
         fromStatementEditActions.UPDATE_SETTINGS_FONT_SIZE,
         fromStatementEditActions.UPDATE_SETTINGS_FONT_FAMILY,
-        fromStatementEditActions.UPDATE_SETTINGS_CHART_COLOR
+        fromStatementEditActions.UPDATE_SETTINGS_COLOR
       ),
       mapTo(new SaveSettings())
     );

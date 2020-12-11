@@ -3,10 +3,11 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { switchMap, map, tap, mergeMap, withLatestFrom, catchError } from 'rxjs/operators';
-import { of } from 'rxjs/index';
+import { Observable, of } from 'rxjs/index';
 
-import { SurveySearchApiService } from 'libs/data/payfactors-api';
+import { ExchangeDataCutsApiService, SurveySearchApiService } from 'libs/data/payfactors-api';
 import { SurveyJobMatchUpdate } from 'libs/models/payfactors-api';
+import { BaseExchangeDataSearchRequest } from 'libs/models/payfactors-api/peer/exchange-data-search/request';
 import { WindowCommunicationService } from 'libs/core/services';
 import * as fromSearchPageActions from 'libs/features/search/actions/search-page.actions';
 import * as fromSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
@@ -19,6 +20,9 @@ import { PayfactorsSurveySearchApiModelMapper, SurveySearchFiltersHelper } from 
 import { JobToPrice } from '../models';
 import * as fromMultiMatchReducer from '../reducers';
 import * as fromSurveySearchReducer from '../../survey-search/reducers';
+import * as fromDataCutValidationActions from '../../peer/actions/data-cut-validation.actions';
+import { ProjectSearchContext } from '../../survey-search/models';
+import { DataCutValidationInfo } from '../../../models';
 
 @Injectable()
 export class MultiMatchEffects {
@@ -70,8 +74,9 @@ export class MultiMatchEffects {
         this.store.select(fromMultiMatchReducer.getJobsToPrice),
         this.store.select(fromMultiMatchReducer.getMultimatchProjectContext),
         this.store.select(fromSurveySearchReducer.getProjectSearchContext),
-        (action, jobsToPrice, projectContext, projectSearchContext ) =>
-          ({ jobsToPrice, projectContext, projectSearchContext })
+        this.store.select(fromSurveySearchReducer.getTempExchangeJobDataCutFilterContextDictionary),
+        (action, jobsToPrice, projectContext, projectSearchContext, tempPeerDataCutFilterContextDictionary ) =>
+          ({ jobsToPrice, projectContext, projectSearchContext, tempPeerDataCutFilterContextDictionary })
       ),
       switchMap((contextAndJobs) => {
           const jobsWithUpdates = contextAndJobs.jobsToPrice.filter(j => (!!j.DataCutsToAdd && j.DataCutsToAdd.length)
@@ -79,7 +84,7 @@ export class MultiMatchEffects {
           return this.surveySearchApiService.updateUserJobMatches({
             ProjectId: contextAndJobs.projectContext.ProjectId,
             CompanyPayMarketId: contextAndJobs.projectSearchContext.PaymarketId,
-            SurveyJobMatchUpdates: this.buildMatchUpdates(jobsWithUpdates)
+            SurveyJobMatchUpdates: this.buildMatchUpdates(jobsWithUpdates, contextAndJobs.tempPeerDataCutFilterContextDictionary)
           })
             .pipe(
               mergeMap(() => [
@@ -102,13 +107,51 @@ export class MultiMatchEffects {
       })
     );
 
-  private buildMatchUpdates(jobsToPrice: JobToPrice[]): SurveyJobMatchUpdate[] {
+  @Effect()
+  loadTempDataCutValidation$ = this.actions$
+    .pipe(
+      ofType(fromDataCutValidationActions.LOAD_TEMP_DATA_CUT_VALIDATION),
+      withLatestFrom(
+        this.store.select(fromMultiMatchReducer.getJobsToPrice),
+        this.store.select(fromSurveySearchReducer.getProjectSearchContext),
+        (action: fromDataCutValidationActions.LoadTempDataCutValidation, jobsToPrice, projectContext: ProjectSearchContext) =>
+          ({ actionPayload: action.payload, jobsToPrice, projectContext})
+      ),
+      switchMap((contextAndJobs) => {
+          const jobsToPrice: JobToPrice[] = contextAndJobs.jobsToPrice;
+          const companyJobIds = jobsToPrice.map((job) => job.CompanyJobId);
+          let request$: Observable<DataCutValidationInfo[]>;
+
+          if (contextAndJobs.actionPayload.hasProjectContext) {
+            request$ = this.exchangeDataCutsApiService.getProjectMultiMatchDataCutValidationInfo({
+              ProjectId: contextAndJobs.projectContext.ProjectId,
+              CompanyJobIds: companyJobIds
+            });
+          } else {
+            request$ = this.exchangeDataCutsApiService.getPricingMultiMatchDataCutValidationInfo({
+              JobPricingIds: jobsToPrice.map((job) => job.Id),
+              CompanyJobIds: companyJobIds
+            });
+          }
+          return request$.pipe(
+              map((response) => new fromDataCutValidationActions.LoadDataCutValidationSuccess(response)),
+              catchError(() => of(new fromDataCutValidationActions.LoadDataCutValidationError()))
+            );
+        }
+      )
+    );
+
+  private buildMatchUpdates(jobsToPrice: JobToPrice[], tempPeerDataCutFilterContextDictionary: {[key: string]: BaseExchangeDataSearchRequest}): SurveyJobMatchUpdate[] {
     return jobsToPrice.map(job => {
       return {
         UserJobListTempId: job.Id,
         MatchesToDelete: job.DeletedJobMatchCutIds,
         DataCutMatchesToAdd: PayfactorsSurveySearchApiModelMapper.mapDataCutDetailsToJobDataCuts(job.DataCutsToAdd),
-        PeerCutMatchesToAdd: PayfactorsSurveySearchApiModelMapper.mapDataCutDetailsToPeerCuts(job.DataCutsToAdd)
+        PeerCutMatchesToAdd: PayfactorsSurveySearchApiModelMapper.mapDataCutDetailsToPeerCuts(job.DataCutsToAdd),
+        TempPeerCutMatchesToAdd: PayfactorsSurveySearchApiModelMapper.mapDataCutDetailsToTempPeerDataCuts(
+          job.DataCutsToAdd,
+          tempPeerDataCutFilterContextDictionary
+        )
       };
     });
   }
@@ -116,6 +159,7 @@ export class MultiMatchEffects {
     constructor(
       private actions$: Actions,
       private surveySearchApiService: SurveySearchApiService,
+      private exchangeDataCutsApiService: ExchangeDataCutsApiService,
       private store: Store<fromMultiMatchReducer.State>,
       private windowCommunicationService: WindowCommunicationService
   ) {}

@@ -12,7 +12,6 @@ import {
   AddJobRangesRequest,
   JobSearchRequestStructuresRangeGroup,
   RemoveRangeRequest,
-  OverrideAndSaveRangeFieldRequest,
   DuplicateModelResponse,
   DuplicateModelRequest,
   RevertRangeChangesRequest,
@@ -20,7 +19,7 @@ import {
   CurrentRangeGroupResponseModel,
   CurrentRangeGroupRequestModel,
   ConvertCurrencyAndRateRequestModel,
-  StructureHasPublishedForTypeRequestModel
+  GetStructureHasSettingsRequestModel
 } from 'libs/models/payfactors-api';
 import { CompanyStructureRange, CompanyStructureRangeOverride } from 'libs/models/structures';
 
@@ -47,10 +46,6 @@ export class StructureModelingApiService {
 
   recalculateRangeMinMax(request: RecalcAndSaveRangeMinMaxRequest): Observable<RecalcAndSaveRangeMinMaxResponse> {
     return this.payfactorsApiService.post<RecalcAndSaveRangeMinMaxResponse>(`${this.endpoint}/RecalculateRangeMinMax`, request);
-  }
-
-  overrideRangeField(request: OverrideAndSaveRangeFieldRequest): Observable<boolean> {
-    return this.payfactorsApiService.post<boolean>(`${this.endpoint}/OverrideRangeField`, request);
   }
 
   recalculateRangesWithoutMid(request: RecalculateRangesWithoutMidRequest): Observable<StructureRangeGroupResponse> {
@@ -93,8 +88,8 @@ export class StructureModelingApiService {
     return this.payfactorsApiService.post<any[]>(`${this.endpoint}/ConvertCurrencyAndRate`, request);
   }
 
-  getStructureHasPublishedForType(request: StructureHasPublishedForTypeRequestModel): Observable<number> {
-    return this.payfactorsApiService.get<number>(`${this.endpoint}/StructureHasPublishedForType`, {
+  getStructureHasSettings(request: GetStructureHasSettingsRequestModel): Observable<any> {
+    return this.payfactorsApiService.get<any>(`${this.endpoint}/GetStructureHasSettings`, {
       params: request
     });
   }

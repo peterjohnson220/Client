@@ -1,3 +1,5 @@
+import { FormulaType } from 'libs/features/formula-editor/models';
+
 import { PagingOptions } from '../../search/request';
 import { DataViewAccessLevel } from '../response';
 
@@ -38,6 +40,7 @@ export interface DataViewField extends BasicDataViewField {
   FormulaName?: string;
   IsPublic?: boolean;
   AccessLevel?: DataViewAccessLevel;
+  FormulaTypeId?: FormulaType;
 }
 
 export interface BasicDataViewDataRequest {
