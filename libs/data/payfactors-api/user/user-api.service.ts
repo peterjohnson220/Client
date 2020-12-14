@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { PayfactorsApiService } from '../payfactors-api.service';
 import { UserManagementDto } from 'libs/models/payfactors-api/user';
 import { UserResponse, ShareUserResponse } from 'libs/models/payfactors-api/user/response';
-import { UserAssignedRole, HomePageLink, AutoShareUser } from 'libs/models';
+import { UserAssignedRole, HomePageLink } from 'libs/models';
+
+import { PayfactorsApiService } from '../payfactors-api.service';
+import { UserSubscriptionDto } from '../../../models/payfactors-api/UserSubscriptionDto/user-subscription-dto.model';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +18,6 @@ export class UserApiService {
     private payfactorsApiService: PayfactorsApiService
   ) {}
 
-
   get(userId: number) {
     return this.payfactorsApiService.get<UserResponse>(`${this.endpoint}(${userId})/`);
   }
@@ -26,7 +27,7 @@ export class UserApiService {
   }
 
   emailExists(email: string) {
-      return this.payfactorsApiService.post(`${this.endpoint}/Default.EmailExists`, {emailAddress: email});
+    return this.payfactorsApiService.post(`${this.endpoint}/Default.EmailExists`, {emailAddress: email});
   }
 
   getUserHomePageAuthenticated() {
@@ -69,7 +70,7 @@ export class UserApiService {
   getPfJdmSrAssociates() {
     return this.payfactorsApiService
       .get<UserResponse[]>(`${this.endpoint}/Default.GetPfJDMSeniorAssociates`);
-}
+  }
 
   getPfServiceRepsByCompany(companyId: number) {
     return this.payfactorsApiService
@@ -98,11 +99,11 @@ export class UserApiService {
   }
 
   removeAutoSharedUser(userIdToDelete: number) {
-    return this.payfactorsApiService.post<number>(`${this.endpoint}/Default.RemoveAutoSharedUser`, { UserIdToDelete: userIdToDelete });
+    return this.payfactorsApiService.post<number>(`${this.endpoint}/Default.RemoveAutoSharedUser`, {UserIdToDelete: userIdToDelete});
   }
 
   saveAutoShareUsers(selectedUserIds: number[]) {
-    return this.payfactorsApiService.post<number[]>(`${this.endpoint}/Default.SaveAutoShareUsers`, { SelectedUserIds: selectedUserIds });
+    return this.payfactorsApiService.post<number[]>(`${this.endpoint}/Default.SaveAutoShareUsers`, {SelectedUserIds: selectedUserIds});
   }
 
   getShareableUsersByTile(userId: number, companyId: number, tileName: string): Observable<ShareUserResponse[]> {
@@ -136,6 +137,15 @@ export class UserApiService {
       CurrentPassword: currentPassword,
       NewPassword: newPassword
     });
+  }
 
+  getUserSubscriptions(userId: number): Observable<UserSubscriptionDto[]> {
+    return this.payfactorsApiService.get(`${this.endpoint}(${userId})/Default.GetSubscriptions`);
+  }
+
+  updateUserSubscriptions(userId: number, subscriptions: UserSubscriptionDto[]): Observable<any> {
+    return this.payfactorsApiService.post(`${this.endpoint}(${userId})/Default.UpdateSubscriptions`,
+      {userSubscriptions: subscriptions}
+    );
   }
 }
