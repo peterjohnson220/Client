@@ -16,7 +16,6 @@ import { LoadTypes } from 'libs/constants';
 import { CompositeDataLoadTypes } from 'libs/constants/composite-data-load-types';
 import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
 import { CompanySettingsApiService } from 'libs/data/payfactors-api';
-import { LoaderFieldMappingsApiService } from 'libs/data/payfactors-api/data-loads/index';
 import * as fromCompanySelectorActions from 'libs/features/company/company-selector/actions';
 import { CompanySelectorComponent } from 'libs/features/company/company-selector/components';
 import { CompanySelectorItem } from 'libs/features/company/company-selector/models';
@@ -29,17 +28,11 @@ import {
 } from 'libs/features/org-data-loader/constants';
 import { LoaderSettings, OrgDataLoadHelper } from 'libs/features/org-data-loader/helpers';
 import {
-  DateFormatItem,
-  FieldMapping,
-  InternalField,
-  LoaderEntityStatus,
-  VisibleLoaderOptionModel
+    DateFormatItem, FieldMapping, InternalField, LoaderEntityStatus, VisibleLoaderOptionModel
 } from 'libs/features/org-data-loader/models';
 import * as fromLoaderSettingsActions from 'libs/features/org-data-loader/state/actions/loader-settings.actions';
 import { CompanySetting, CompanySettingsEnum } from 'libs/models';
-import {
-    ConfigurationGroup, EmailRecipientModel, LoaderFieldSet, LoaderSaveCoordination, LoaderSetting, MappingModel
-} from 'libs/models/data-loads';
+import { ConfigurationGroup, EmailRecipientModel, LoaderFieldSet, LoaderSetting, MappingModel } from 'libs/models/data-loads';
 import { OrgDataLoaderConfigurationSaveRequest } from 'libs/models/data-loads/request';
 import { ConfigSetting } from 'libs/models/security';
 import { SftpUserModel } from 'libs/models/Sftp';
@@ -203,11 +196,8 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
     return baseAnimationDuration + 100;
   }
 
-  private loaderSaveCoordination: LoaderSaveCoordination;
-
   constructor(
     private store: Store<fromOrgDataAutoloaderReducer.State>,
-    private orgDataAutoloaderApi: LoaderFieldMappingsApiService,
     private notificationService: NotificationService,
     private configSettingsSelectorFactory: ConfigSettingsSelectorFactory,
     private companySettingsApiService: CompanySettingsApiService,
@@ -220,7 +210,6 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
     this.payfactorsStructureDataFields = this.buildInternalFields(ORG_DATA_PF_STRUCTURE_FIELDS, false);
     this.payfactorsStructureMappingDataFields = this.buildInternalFields(ORG_DATA_PF_STRUCTURE_MAPPING_FIELDS, false);
     this.payfactorsEmployeeDataFields = this.buildInternalFields(ORG_DATA_PF_EMPLOYEE_FIELDS, false);
-    this.payfactorsEmployeeTagsDataFields = this.buildInternalFields(ORG_DATA_PF_EMPLOYEE_TAG_FIELDS, false);
     this.payfactorsSubsidiariesDataFields = this.buildInternalFields(ORG_DATA_PF_SUBSIDIARIES_MAPPING_FIELDS, false);
     this.payfactorsBenefitsDataFields = this.buildInternalFields(ORG_DATA_PF_BENEFITS_MAPPING_FIELDS, false);
 
@@ -370,7 +359,6 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
           // For now we only save one config group per company per loadType, so the array only contains one item
           this.selectedConfigGroup = configGroups[0];
           this.reloadLoaderSettings();
-          this.reloadFieldMappings();
         }
         if (this.selectedCompany) {
           this.store.dispatch(new fromEmailRecipientsActions.LoadEmailRecipients({
@@ -463,15 +451,12 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
       take(1),
       takeUntil(this.unsubscribe$));
 
-    forkJoin({tagCategories: tagCategoriesSubscription, employeeIdentifiers: employeeIdentifiersSubscription})
+    forkJoin({ tagCategories: tagCategoriesSubscription, employeeIdentifiers: employeeIdentifiersSubscription })
       .subscribe(result => {
-        const selected = result.employeeIdentifiers.filter(a => a.isChecked);
+        const selected = result.employeeIdentifiers.filter(a => a.isChecked && a.Field != 'Employee_ID');
 
-        if (!selected || selected.length === 0) {
-          const empIdField: InternalField = {FieldName: 'Employee_ID', IsDataElementName: false};
-          this.payfactorsEmployeeTagsDataFields.push(empIdField);
-        } else {
-          this.payfactorsEmployeeTagsDataFields.push(...selected.map(a => {
+        if (selected && selected.length >= 0) {
+          this.payfactorsEmployeeTagsDataFields = this.payfactorsEmployeeTagsDataFields.concat(selected.map(a => {
             return {
               FieldName: a.Field,
               IsDataElementName: false
@@ -479,12 +464,14 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
           }));
         }
 
-        this.payfactorsEmployeeTagsDataFields.push(...result.tagCategories.map(tagName => {
+        this.payfactorsEmployeeTagsDataFields = this.payfactorsEmployeeTagsDataFields.concat(result.tagCategories.map(tagName => {
           return {
             FieldName: tagName,
             IsDataElementName: true
           };
         }));
+
+        this.reloadFieldMappings();
       });
   } // end constructor
 
@@ -593,9 +580,11 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
 
   CompanySelected() {
 
+    this.payfactorsEmployeeTagsDataFields = this.buildInternalFields(ORG_DATA_PF_EMPLOYEE_TAG_FIELDS, false);
+
     this.store.dispatch(new fromCustomFieldsActions.GetCustomEmployeeFields(this.selectedCompany.CompanyId));
     this.store.dispatch(new fromCustomFieldsActions.GetCustomJobFields(this.selectedCompany.CompanyId));
-    this.store.dispatch(new fromCustomFieldsActions.GetTagCategories);
+    this.store.dispatch(new fromCustomFieldsActions.GetTagCategories(this.selectedCompany.CompanyId));
 
     this.getConfigurationGroups();
 
@@ -769,7 +758,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
   private buildInternalFields(fieldNames: string[], areDataElementNames: boolean) {
     const internalFields: InternalField[] = [];
     fieldNames.forEach(fieldName => {
-      internalFields.push({FieldName: fieldName, IsDataElementName: areDataElementNames});
+      internalFields.push({ FieldName: fieldName, IsDataElementName: areDataElementNames });
     });
     return internalFields;
   }
