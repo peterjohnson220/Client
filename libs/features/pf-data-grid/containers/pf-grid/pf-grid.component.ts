@@ -142,7 +142,6 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   fadeOutKeys: any[] = [];
   fadeInKeySubscription: Subscription;
 
-
   readonly MIN_SPLIT_VIEW_COL_WIDTH = 100;
 
   @ViewChild(GridComponent) grid: GridComponent;
@@ -295,6 +294,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
       }
       this.gridState$ = this.store.select(fromReducer.getGrid, changes['pageViewId'].currentValue);
       this.loading$ = this.store.select(fromReducer.getLoading, changes['pageViewId'].currentValue);
+
       if (this.useColumnGroups) {
         this.dataFields$ = this.store.select(fromReducer.getGroupedFields, changes['pageViewId'].currentValue);
       } else {

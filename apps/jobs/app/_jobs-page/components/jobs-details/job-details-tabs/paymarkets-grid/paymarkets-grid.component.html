@@ -24,8 +24,7 @@
 
 <ng-template #pricingMatchesGrid let-dataRow="dataRow">
   <pf-pricing-matches-grid
-    [pricingInfo]="dataRow"
-    (reScopeSurveyDataEmitter)="openReScopeSurveyDataModal($event)">
+    [pricingInfo]="dataRow">
   </pf-pricing-matches-grid>
 </ng-template>
 
@@ -143,10 +142,3 @@
     </div>
   </div>
 </ng-template>
-
-
-<pf-re-scope-survey-data
-  [modalConfiguration]="reScopeSurveyDataConfiguration"
-  (reScopeSubmitted)="reScopeSurveyDataCut($event)"
-  (cancelChanges)="showReScopeSurveyDataModal.next(false);">
-</pf-re-scope-survey-data>

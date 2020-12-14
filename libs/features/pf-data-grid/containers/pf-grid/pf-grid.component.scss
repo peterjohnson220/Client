@@ -171,6 +171,58 @@ html .k-grid tr:hover {
   }
 }
 
+// Since css is cascading styles (shocker!), we must build out the default style.
+// Child components will inherit the theme of the parent unless it is overwritten by the 'default' theme.
+.k-grid.default {
+  .k-hierarchy-cell{
+    border: none !important;
+  }
+
+  .pf-grid-checkbox{
+    border-left: none !important;
+  }
+
+  .k-grid-table{
+    tr {
+      background-color: white !important;
+    }
+    tr:hover{
+      background-color: $light-hover-background !important;
+    }
+  }
+
+  .k-grid-header {
+    .k-header > .k-link > .k-icon {
+      order: 1;
+      color: #5C5C5C;
+      margin: 0;
+    }
+
+    table{
+      border: none;
+      margin: 0;
+    }
+
+    tr {
+      th.k-header{
+        color: black;
+        background-color: white !important;
+        padding-top: 10px !important;
+        padding-bottom: 10px !important;
+      }
+
+      th.k-header:first-child {
+        border: none;
+      }
+      th.k-header:not(:first-child) {
+        border-style: none none none solid;
+        border-width: 1px !important;
+        border-color: #f6f6f6 !important;
+      }
+    }
+  }
+}
+
 .k-grid.tertiary-grid-theme {
   @extend .k-grid.job-details-next-gen-base;
 
