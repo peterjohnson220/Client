@@ -9,7 +9,7 @@ import * as fromRootState from 'libs/state/state';
 
 import * as fromPaymarketActions from '../../actions/paymarkets.actions';
 
-import * as fromAddJobsReducer from '../../../../../apps/project/app/_add-jobs/reducers';
+import * as fromAddJobsReducer from '../../../../../apps/legacy-content/app/_add-jobs/reducers';
 import { PaymarketsComponent } from './paymarkets.component';
 import { generateMockJobPayMarket } from '../../models';
 

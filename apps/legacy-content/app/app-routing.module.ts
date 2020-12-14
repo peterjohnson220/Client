@@ -25,6 +25,17 @@ export const routes: Routes = [
       { path: 'peer', loadChildren: () => import('apps/legacy-content/app/_peer/peer.module').then(m => m.PeerModule) },
     ]
   },
+  {
+    path: '',
+    component: AppNoWrapperComponent,
+    canActivate: [UserContextGuard],
+    children: [
+      { path: '', redirectTo: 'add-data', pathMatch: 'full' },
+      { path: 'add-data', loadChildren: () => import('apps/legacy-content/app/_add-data/add-data.module').then(m => m.AddDataModule) },
+      { path: 'add-jobs', loadChildren: () => import('apps/legacy-content/app/_add-jobs/add-jobs.module').then(m => m.AddJobsModule) },
+      { path: 'multi-match', loadChildren: () => import('apps/legacy-content/app/_multi-match/multi-match-page.module').then(m => m.MultiMatchPageModule) }
+    ]
+  },
   ...DEFAULT_ROUTES
 ];
 
