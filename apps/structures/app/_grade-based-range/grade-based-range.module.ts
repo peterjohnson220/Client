@@ -7,7 +7,7 @@ import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
 
 import { GradeBasedRangeRoutingModule } from './grade-based-range-routing.module';
-import { GradeBasedRangeGroupGuard, RangeGroupExistsGuard } from '../shared/guards';
+import { RangeGroupExistsGuard } from '../shared/guards';
 
 @NgModule({
   imports: [
@@ -24,8 +24,7 @@ import { GradeBasedRangeGroupGuard, RangeGroupExistsGuard } from '../shared/guar
     FontAwesomeModule
   ],
   providers: [
-    RangeGroupExistsGuard,
-    GradeBasedRangeGroupGuard
+    RangeGroupExistsGuard
   ]
 })
 export class GradeBasedRangeModule { }

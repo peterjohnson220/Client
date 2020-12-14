@@ -39,7 +39,6 @@ export class ModelPageComponent implements AfterViewInit, OnInit, OnDestroy {
   constructor(public store: Store<fromJobBasedRangeReducer.State>,
               private route: ActivatedRoute) {
     this.rangeGroupId = this.route.snapshot.params.id;
-    this.metaData$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getMetadata));
     this.filter = {
       SourceName: 'CompanyStructuresRangeGroup_ID',
       Operator: '=',
@@ -55,9 +54,8 @@ export class ModelPageComponent implements AfterViewInit, OnInit, OnDestroy {
       EnableInfiniteScroll: true,
       ScrollToTop: true
     };
-    this.metadataSub = this.metaData$.pipe(select(fromSharedJobBasedRangeReducer.getMetadata)).subscribe(md => this.metadata = md);
-    this.modelSummaryPageViewId =
-      PagesHelper.getModelSummaryPageViewIdByRangeDistributionType(this.metadata?.RangeDistributionTypeId);
+    this.metaData$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getMetadata));
+    this.metadataSub = this.metaData$.subscribe(md => this.metadata = md);
   }
 
   // Lifecycle
@@ -69,6 +67,8 @@ export class ModelPageComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.modelSummaryPageViewId =
+      PagesHelper.getModelSummaryPageViewIdByRangeDistributionType(this.metadata?.RangeDistributionTypeId);
   }
 
   ngOnDestroy(): void {
