@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { DropDownFilterSettings } from '@progress/kendo-angular-dropdowns';
 
-import { ExportFileExtension, ExportFormat } from 'libs/features/export-scheduler/models/export-schedule.model';
+import { ExportScheduleHelper } from 'libs/features/export-scheduler/models/export-schedule.model';
 import { CsvFileDelimiter } from 'libs/models/payfactors-api/reports/request';
 
 @Component({
@@ -10,22 +9,37 @@ import { CsvFileDelimiter } from 'libs/models/payfactors-api/reports/request';
   styleUrls: ['./export-format.component.scss']
 })
 export class ExportFormatComponent {
+  selectedFormat: string;
+  selectedSeparatorType: string;
 
-  selectedFileExtension: ExportFormat = {
-    Format: ExportFileExtension.Excel,
-    SeparatorType: ''
-  };
-  exportFileExtension = ExportFileExtension;
-  fileExtensions = [ExportFileExtension.Excel, ExportFileExtension.Csv];
+  fileFormats = ExportScheduleHelper.fileFormats;
+  csvFileFormat = ExportScheduleHelper.csvFileFormat;
   csvDelimiters = [CsvFileDelimiter.Comma, CsvFileDelimiter.Pipe, CsvFileDelimiter.Tab];
-  filterSettings: DropDownFilterSettings = {
-    caseSensitive: false,
-    operator: 'contains'
-  };
+
+  constructor() {
+    this.selectedFormat = ExportScheduleHelper.excelFileFormat;
+  }
 
   handleFormatChange(): void {
-    if (this.selectedFileExtension.Format === ExportFileExtension.Csv) {
-      this.selectedFileExtension.SeparatorType = CsvFileDelimiter.Comma
+    if (this.selectedFormat === ExportScheduleHelper.csvFileFormat) {
+      this.selectedSeparatorType = CsvFileDelimiter.Comma;
+    } else {
+      this.selectedSeparatorType = null;
+    }
+  }
+
+  reset() {
+    this.selectedFormat = ExportScheduleHelper.excelFileFormat;
+  }
+
+  get isValid(): boolean {
+    switch (this.selectedFormat) {
+      case ExportScheduleHelper.excelFileFormat:
+        return true;
+      case ExportScheduleHelper.csvFileFormat:
+        return this.selectedSeparatorType?.length > 0;
+      default:
+        return false;
     }
   }
 }

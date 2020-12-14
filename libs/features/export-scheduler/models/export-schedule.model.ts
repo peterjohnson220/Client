@@ -1,55 +1,32 @@
-export interface ExportFormat {
-  Format: string;
-  SeparatorType?: string;
+import { TabularReportExportSchedule } from 'libs/features/reports/models';
+
+import { CronExpressionHelper, ExportFrequencyType } from '../helpers/cron-expression-helper.model';
+
+export class ExportScheduleHelper {
+  static csvFileFormat = 'CSV';
+  static excelFileFormat = 'Excel';
+  static fileFormats: string [] = ['Excel', 'CSV'];
+
+  static mapCronExpressionToTextFormat(schedules: TabularReportExportSchedule[]) {
+    return schedules.map(s => {
+      return {
+        ...s,
+        IsDataViewOwner: s.CreateUser === s.UserDataView.CreateUser,
+        FrequencyTextFormat: this.getFrequencyTextFormat(s.Frequency, s.CronExpression)
+      };
+    });
+  }
+
+  private static getFrequencyTextFormat(frequency: string, cronExpression?: string): string {
+    switch (frequency) {
+      case ExportFrequencyType.OneTime:
+        return ExportFrequencyType.OneTime;
+      case ExportFrequencyType.Weekly:
+        return CronExpressionHelper.getWeeklyFrequencyTextFormat(cronExpression);
+      case ExportFrequencyType.Monthly:
+        return CronExpressionHelper.getMonthlyFrequencyTextFormat(cronExpression);
+      default:
+        return '';
+    }
+  }
 }
-
-export interface ExportDayOfWeek {
-  Name: string;
-  Value: string;
-  IsSelected: boolean;
-}
-
-export interface ExportMonthlyFrequency {
-  Occurrence: string;
-  DayOfWeek: ExportDayOfWeek;
-}
-
-export enum ExportFileExtension {
-  Excel = 'Excel',
-  Csv = 'CSV'
-}
-
-export enum DaysOfWeek {
-  Sunday = 'Sunday',
-  Monday = 'Monday',
-  Tuesday = 'Tuesday',
-  Wednesday = 'Wednesday',
-  Thursday = 'Thursday',
-  Friday = 'Friday',
-  Saturday = 'Saturday'
-}
-
-export enum DaysOfWeekAbbreviations {
-  Sunday = 'SUN',
-  Monday = 'MON',
-  Tuesday = 'TUES',
-  Wednesday = 'WED',
-  Thursday = 'THURS',
-  Friday = 'FRI',
-  Saturday = 'SAT'
-}
-
-export enum ExportFrequencyType {
-  OneTime = 'One-time',
-  Weekly = 'Weekly',
-  Monthly = 'Monthly'
-}
-
-export enum ExportMonthlyOccurrence {
-  First = 'First',
-  Second = 'Second',
-  Third = 'Third',
-  Fourth = 'Fourth'
-}
-
-

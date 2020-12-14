@@ -3,10 +3,15 @@
 }
 
 .dropdowns {
-  width: 415px;
+  width: 380px;
 }
 
 .weekly-checkbox {
-  margin-left: 6px;
   margin-right: 31px;
+}
+
+.day-of-week {
+  input {
+    margin-top: 0.23rem;
+  }
 }

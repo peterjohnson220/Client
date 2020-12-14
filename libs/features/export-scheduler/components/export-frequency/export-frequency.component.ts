@@ -1,12 +1,6 @@
 import { Component } from '@angular/core';
-import {
-  DaysOfWeek, DaysOfWeekAbbreviations,
-  ExportDayOfWeek,
-  ExportFrequencyType, ExportMonthlyFrequency,
-  ExportMonthlyOccurrence
-} from 'libs/features/export-scheduler/models/export-schedule.model';
 
-import { initializeDaysOfWeek } from '../../helpers/model-mapping.helper';
+import { CronExpressionHelper, ExportFrequencyType } from '../../helpers';
 
 @Component({
   selector: 'pf-export-frequency',
@@ -15,44 +9,65 @@ import { initializeDaysOfWeek } from '../../helpers/model-mapping.helper';
 })
 export class ExportFrequencyComponent {
 
-  selectedDaysOfWeek: ExportDayOfWeek[];
-  selectedMonthlyFrequency = this.initializeEmptyMonthlyFrequency();
-  frequencySelected = ExportFrequencyType.OneTime;
+  selectedDaysOfWeek: string[];
+  selectedMonthlyOccurrence: string;
+  selectedFrequency = ExportFrequencyType.OneTime;
+
   exportFrequencyType = ExportFrequencyType;
-  daysOfWeek = initializeDaysOfWeek();
-  monthlyOccurrence = [ExportMonthlyOccurrence.First, ExportMonthlyOccurrence.Second, ExportMonthlyOccurrence.Third, ExportMonthlyOccurrence.Fourth];
+  daysOfWeek: string [];
+  monthlyOccurrence: string [];
+
+  constructor() {
+    this.selectedDaysOfWeek = [];
+    this.daysOfWeek = CronExpressionHelper.daysOfWeek.map(x => x.Name);
+    this.monthlyOccurrence = CronExpressionHelper.weeksOfMonth.map(x => x.Name);
+  }
 
   onFrequencyChange(): void {
-    if (!!this.daysOfWeek.filter(x => x.IsSelected === true).length) {
-      this.daysOfWeek.map(x => x.IsSelected = false);
-    }
-    if (this.selectedDaysOfWeek?.length) {
-      this.selectedDaysOfWeek = [];
-    }
-    if (this.selectedMonthlyFrequency.Occurrence?.length || this.selectedMonthlyFrequency.DayOfWeek.Value?.length) {
-      this.selectedMonthlyFrequency = this.initializeEmptyMonthlyFrequency();
+    this.selectedDaysOfWeek = [];
+    if (this.selectedFrequency === ExportFrequencyType.Monthly) {
+      this.selectedDaysOfWeek = ['Sunday'];
+      this.selectedMonthlyOccurrence = 'First';
     }
   }
 
-  onDayOfWeekChange(): void {
-    if (this.frequencySelected === 'Weekly') {
-      this.selectedDaysOfWeek = this.daysOfWeek.filter(x => x.IsSelected === true);
+  onDayOfWeekChange(day: string): void {
+    const isChecked = this.selectedDaysOfWeek.includes(day);
+    if (isChecked) {
+      this.selectedDaysOfWeek = this.selectedDaysOfWeek.filter(x => x === day);
+    } else {
+      this.selectedDaysOfWeek.push(day);
     }
   }
 
-  handleMonthlyDayOfWeekChange(): void {
-    this.selectedMonthlyFrequency.DayOfWeek = {...this.selectedMonthlyFrequency.DayOfWeek, IsSelected: true};
+  handleMonthlyDayOfWeekChange(day: string): void {
+    this.selectedDaysOfWeek = [day];
   }
 
   trackByFn(index) {
     return index;
   }
 
-  private initializeEmptyMonthlyFrequency(): ExportMonthlyFrequency {
-    return {
-      Occurrence: ExportMonthlyOccurrence.First,
-      DayOfWeek: { Name: DaysOfWeek.Sunday, Value: DaysOfWeekAbbreviations.Sunday, IsSelected: true}
-    };
+  isDaySelected(day: string): boolean {
+    return this.selectedDaysOfWeek && this.selectedDaysOfWeek.includes(day);
+  }
+
+  reset(): void {
+    this.selectedFrequency = ExportFrequencyType.OneTime;
+    this.selectedDaysOfWeek = [];
+  }
+
+  get isValid(): boolean {
+    switch (this.selectedFrequency) {
+      case ExportFrequencyType.OneTime:
+        return true;
+      case ExportFrequencyType.Weekly:
+        return this.selectedDaysOfWeek?.length > 0;
+      case ExportFrequencyType.Monthly:
+        return this.selectedMonthlyOccurrence?.length > 0 && this.selectedDaysOfWeek?.length > 0;
+      default:
+        return false;
+    }
   }
 
 }
