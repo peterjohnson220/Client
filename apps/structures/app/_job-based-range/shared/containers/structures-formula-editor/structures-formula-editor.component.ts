@@ -16,7 +16,7 @@ import * as fromFieldActions from 'libs/features/formula-editor/actions/fields.a
 import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
 
 import * as fromJobBasedRangeReducer from '../../reducers';
-import { PagesHelper } from '../../helpers/pages.helper';
+import { PagesHelper } from '../../../../shared/helpers/pages.helper';
 import { ModelSettingsModalConstants } from '../../constants/model-settings-modal-constants';
 
 @Component({
@@ -109,7 +109,8 @@ export class StructuresFormulaEditorComponent implements ControlValueAccessor, O
 
     this.buildForm();
 
-    const modelPageViewId = PagesHelper.getModelPageViewIdByRangeDistributionType(this.metadata?.RangeDistributionTypeId);
+    const modelPageViewId =
+      PagesHelper.getModelPageViewIdByRangeTypeAndRangeDistributionType(this.metadata?.RangeTypeId, this.metadata?.RangeDistributionTypeId);
     this.store.dispatch(new fromFieldActions.GetAvailableFieldsByTable({
       request: this.buildAvailableFieldsByTableRequest(modelPageViewId),
       fieldId: this.formulaFieldId

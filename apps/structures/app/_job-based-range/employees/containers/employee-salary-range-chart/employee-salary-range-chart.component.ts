@@ -17,7 +17,7 @@ import { DataPointSeries } from '../../../shared/models/data-point-series.model'
 import { RangeDistributionTypeIds } from '../../../shared/constants/range-distribution-type-ids';
 import { SalaryRangeSeries } from '../../../shared/models/salary-range-series.model';
 import { RangeDistributionDataPointTypeIds } from '../../../shared/constants/range-distribution-data-point-type-ids';
-import { PagesHelper } from '../../../shared/helpers/pages.helper';
+import { PagesHelper } from '../../../../shared/helpers/pages.helper';
 
 @Component({
   selector: 'pf-employee-salary-range-chart',

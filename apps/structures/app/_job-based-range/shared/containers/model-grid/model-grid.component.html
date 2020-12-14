@@ -170,10 +170,6 @@
   </div>
 </ng-template>
 
-<ng-template #tipContent>
-  One or more fields in this range have been manually changed.
-</ng-template>
-
 <ng-template #gridGlobalActions>
   <pf-global-actions
     [metadata]="metaData$ | async"
@@ -187,10 +183,6 @@
 
 <ng-template #noValue>
   - -
-</ng-template>
-
-<ng-template #midReadOnly let-mid="mid">
-  {{mid | rangeValue: (metaData$ | async)?.Rate }}
 </ng-template>
 
 <ng-template #overrideFilter>

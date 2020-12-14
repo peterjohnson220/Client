@@ -24,7 +24,7 @@ import * as fromSharedActions from '../../shared/actions/shared.actions';
 import * as fromSharedModelSettingsActions from '../../shared/actions/model-settings-modal.actions';
 import { UrlService } from '../../shared/services';
 import { Workflow } from '../../shared/constants/workflow';
-import { PagesHelper } from '../../shared/helpers/pages.helper';
+import { PagesHelper } from '../../../shared/helpers/pages.helper';
 import * as fromJobBasedRangeReducer from '../../shared/reducers';
 
 @Injectable()
@@ -135,7 +135,8 @@ export class AddJobsModalEffects {
         rounding: data.roundingSettings
       }));
     } else {
-      const modelPageViewId = PagesHelper.getModelPageViewIdByRangeDistributionType(data.metadata.RangeDistributionTypeId);
+      const modelPageViewId =
+        PagesHelper.getModelPageViewIdByRangeTypeAndRangeDistributionType(data.metadata.RangeTypeId, data.metadata.RangeDistributionTypeId);
       actions.push(GridDataHelper.getLoadDataAction(modelPageViewId, data.gridData, data.gridConfig, data.pagingOptions));
     }
 
