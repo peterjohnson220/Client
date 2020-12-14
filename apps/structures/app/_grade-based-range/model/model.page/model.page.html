@@ -1,0 +1,42 @@
+<div>
+  <div class="card">
+    <div class="card-header" (click)="isCollapsed = !isCollapsed" [style.cursor]="'pointer'">
+      <span class="title">Model Summary</span>
+      <fa-icon
+        class="float-right fa-lg fa-arrow-right mr-3 arrow-icon"
+        [icon]="['far', isCollapsed ? 'angle-right' : 'angle-down']">
+      </fa-icon>
+    </div>
+    <div class="card-body collapse" [ngbCollapse]="isCollapsed">
+      <pf-data-grid
+        [pageViewId]="modelSummaryPageViewId"
+        [showTitle]="false"
+        [compactGrid]="true"
+        [showHeaderWhenCompact]="true"
+        [inboundFilters]="[filter]"
+        [contentClassNamesOverrides]="'p-0'"
+        [allowSort]="false"
+        [applyDefaultFilters]="false"
+        [actionBarConfig]="singleRecordActionBarConfig"
+        [reorderable]="false"
+        [gridConfig]="gridConfig"
+        [columnTemplates]="colTemplates"
+        [compactGridMinHeight]="'115px'">
+      </pf-data-grid>
+    </div>
+  </div>
+</div>
+
+<ng-template #rangeValue let-dataRow="dataRow" let-fieldName="fieldName">
+  <ng-container *ngIf="dataRow[fieldName]; else noValue">{{ dataRow[fieldName] | rangeValue: (metaData$ | async)?.Rate }}</ng-container>
+</ng-template>
+
+<ng-template #noFormatting let-dataRow="dataRow" let-fieldName="fieldName">
+  <div pfEllipsisActive class="ellipsis-overflowing-text-wrap" *ngIf="dataRow[fieldName]; else noValue">
+    {{dataRow[fieldName]}}
+  </div>
+</ng-template>
+
+<ng-template #noValue>
+  - -
+</ng-template>

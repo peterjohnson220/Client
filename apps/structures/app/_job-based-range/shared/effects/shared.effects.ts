@@ -24,7 +24,7 @@ import { ExchangeApiService } from 'libs/data/payfactors-api/peer';
 import * as fromSharedActions from '../actions/shared.actions';
 import { PayfactorsApiModelMapper } from '../helpers/payfactors-api-model-mapper';
 import * as fromSharedReducer from '../reducers';
-import { PagesHelper } from '../helpers/pages.helper';
+import { PagesHelper } from '../../../shared/helpers/pages.helper';
 
 @Injectable()
 export class SharedEffects {
@@ -50,7 +50,8 @@ export class SharedEffects {
             .pipe(
               mergeMap(() => {
                 const actions = [];
-                const modelPageViewId = PagesHelper.getModelPageViewIdByRangeDistributionType(data.metadata.RangeDistributionTypeId);
+                const modelPageViewId =
+                  PagesHelper.getModelPageViewIdByRangeTypeAndRangeDistributionType(data.metadata.RangeTypeId, data.metadata.RangeDistributionTypeId);
 
                 actions.push(GridDataHelper.getLoadDataAction(modelPageViewId, data.gridData, data.gridConfig, data.pagingOptions));
 
@@ -83,7 +84,8 @@ export class SharedEffects {
         return this.structureModelingApiService.removeRange(data.action.payload).pipe(
           mergeMap(() => {
             const actions = [];
-            const modelPageViewId = PagesHelper.getModelPageViewIdByRangeDistributionType(data.metadata.RangeDistributionTypeId);
+            const modelPageViewId =
+              PagesHelper.getModelPageViewIdByRangeTypeAndRangeDistributionType(data.metadata.RangeTypeId, data.metadata.RangeDistributionTypeId);
 
             actions.push(new fromSharedActions.RemovingRangeSuccess());
             actions.push(new pfDataGridActions.ClearSelections(modelPageViewId, [data.action.payload]));

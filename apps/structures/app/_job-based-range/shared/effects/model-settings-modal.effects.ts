@@ -7,7 +7,7 @@ import { Observable, of, timer } from 'rxjs';
 import { catchError, debounce, filter, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 
-import { generateMockRangeAdvancedSetting, RangeGroupMetadata } from 'libs/models/structures';
+import { generateMockRangeAdvancedSetting, JobBasedPageViewIds, RangeGroupMetadata } from 'libs/models/structures';
 import { CurrencyApiService } from 'libs/data/payfactors-api/currency';
 import { CompositeFieldApiService } from 'libs/data/payfactors-api/composite-field';
 import { StructureModelingApiService, StructuresApiService } from 'libs/data/payfactors-api/structures';
@@ -23,11 +23,10 @@ import { GridDataHelper } from 'libs/features/pf-data-grid/helpers';
 import * as fromModelSettingsModalActions from '../actions/model-settings-modal.actions';
 import * as fromSharedActions from '../actions/shared.actions';
 import { PayfactorsApiModelMapper } from '../helpers/payfactors-api-model-mapper';
-import { PageViewIds } from '../constants/page-view-ids';
 import * as fromSharedReducer from '../reducers';
 import { UrlService } from '../services';
 import { Workflow } from '../constants/workflow';
-import { PagesHelper } from '../helpers/pages.helper';
+import { PagesHelper } from '../../../shared/helpers/pages.helper';
 
 @Injectable()
 export class ModelSettingsModalEffects {
@@ -47,7 +46,8 @@ export class ModelSettingsModalEffects {
       ),
       filter(() => this.urlService.isInWorkflow(Workflow.NewJobBasedRange)),
       map((data) => {
-        const modelPageViewId = PagesHelper.getModelPageViewIdByRangeDistributionType(data.metadata.RangeDistributionTypeId);
+        const modelPageViewId =
+          PagesHelper.getModelPageViewIdByRangeTypeAndRangeDistributionType(data.metadata.RangeTypeId, data.metadata.RangeDistributionTypeId);
         return GridDataHelper.getLoadDataAction(modelPageViewId, data.gridData, data.gridConfig, data.pagingOptions);
       })
     );
@@ -137,7 +137,9 @@ export class ModelSettingsModalEffects {
         ).pipe(
           mergeMap((r) => {
               const actions = [];
-              const modelPageViewId = PagesHelper.getModelPageViewIdByRangeDistributionType(data.metadata.RangeDistributionTypeId);
+              const modelPageViewId =
+                PagesHelper.getModelPageViewIdByRangeTypeAndRangeDistributionType(data.metadata.RangeTypeId, data.metadata.RangeDistributionTypeId);
+
               // TODO: Move this out into a helper class, too much complexity for here [BC]
               if (!r.ValidationResult.Pass && r.ValidationResult.FailureReason === 'Model Name Exists') {
                 actions.push(new fromModelSettingsModalActions.ModelNameExistsFailure());
@@ -176,16 +178,16 @@ export class ModelSettingsModalEffects {
                     PayType: r.RangeGroup.PayType
                   }));
 
-                  if (data.action.payload.fromPageViewId === PageViewIds.EmployeesMinMidMax) {
-                    actions.push(new fromDataGridActions.LoadData(PageViewIds.EmployeesMinMidMax));
-                  } else if (data.action.payload.fromPageViewId === PageViewIds.EmployeesTertile) {
-                    actions.push(new fromDataGridActions.LoadData(PageViewIds.EmployeesTertile));
-                  } else if (data.action.payload.fromPageViewId === PageViewIds.EmployeesQuartile) {
-                    actions.push(new fromDataGridActions.LoadData(PageViewIds.EmployeesQuartile));
-                  } else if (data.action.payload.fromPageViewId === PageViewIds.EmployeesQuintile) {
-                    actions.push(new fromDataGridActions.LoadData(PageViewIds.EmployeesQuintile));
-                  } else if (data.action.payload.fromPageViewId === PageViewIds.Pricings) {
-                    actions.push(new fromDataGridActions.LoadData(PageViewIds.Pricings));
+                  if (data.action.payload.fromPageViewId === JobBasedPageViewIds.EmployeesMinMidMax) {
+                    actions.push(new fromDataGridActions.LoadData(JobBasedPageViewIds.EmployeesMinMidMax));
+                  } else if (data.action.payload.fromPageViewId === JobBasedPageViewIds.EmployeesTertile) {
+                    actions.push(new fromDataGridActions.LoadData(JobBasedPageViewIds.EmployeesTertile));
+                  } else if (data.action.payload.fromPageViewId === JobBasedPageViewIds.EmployeesQuartile) {
+                    actions.push(new fromDataGridActions.LoadData(JobBasedPageViewIds.EmployeesQuartile));
+                  } else if (data.action.payload.fromPageViewId === JobBasedPageViewIds.EmployeesQuintile) {
+                    actions.push(new fromDataGridActions.LoadData(JobBasedPageViewIds.EmployeesQuintile));
+                  } else if (data.action.payload.fromPageViewId === JobBasedPageViewIds.Pricings) {
+                    actions.push(new fromDataGridActions.LoadData(JobBasedPageViewIds.Pricings));
                   }
                 }
 
