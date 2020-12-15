@@ -94,17 +94,16 @@ export class PricingHistoryChartFiltersComponent implements OnInit, OnDestroy {
 
   updateSelectedPayMarkets() {
     let DefaultPMs = this.filteredPayMarketOptions.filter(v => v.IsDefault);
-    let DefaultPricedPayMarket = null;
-    if (this.filteredPayMarketOptions.length > 0) {    
-      DefaultPricedPayMarket = this.filteredPayMarketOptions[0];
-    } else if(DefaultPMs.length > 0){
-      DefaultPricedPayMarket = DefaultPMs[0];      
-    } 
+    let SelectedPayMarkets = null;
+    if (DefaultPMs.length > 0) {
+      SelectedPayMarkets = DefaultPMs[0];
+    } else if (this.filteredPayMarketOptions.length > 0) {
+      SelectedPayMarkets = this.filteredPayMarketOptions[0];
+    }
 
     this.pricingHistoryChartForm.patchValue({
-      PayMarkets: [DefaultPricedPayMarket, null, null, null, null]
+      PayMarkets: [SelectedPayMarkets, null, null, null, null]
     });
-
   }
 
   updateDateRange() {

@@ -115,13 +115,13 @@ describe('Pricing History Chart Features - Filters', () => {
     expect(c.EndDate.value).toEqual(new Date('11/1/2010'));
   });
 
-  it('Should set default PM selection', () => {
+  it('Should set initial PM selection', () => {
     instance.ngOnInit();
     const c = instance.pricingHistoryChartForm.controls;
 
     instance.payMarketOptions = [
-      { Id: 1111, Name: 'Boston', StartDate: new Date('10/1/2010'), EndDate: new Date('8/1/2015'), IsDefault: true },
-      { Id: 2222, Name: 'Chicago', StartDate: new Date('8/5/2018'), EndDate: new Date('10/1/2018'), IsDefault: false }
+      { Id: 2222, Name: 'Chicago', StartDate: new Date('8/5/2018'), EndDate: new Date('10/1/2018'), IsDefault: false },
+      { Id: 1111, Name: 'Boston', StartDate: new Date('10/1/2010'), EndDate: new Date('8/1/2015'), IsDefault: true }
     ];
 
     instance.updatePayMarketOptions();
