@@ -4,6 +4,7 @@ import orderBy from 'lodash/orderBy';
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 import { Workbook, TabularReportExportSchedule } from 'libs/features/reports/models';
 import { AsyncStateObjHelper } from 'libs/core/helpers';
+import { DataViewAccessLevel } from 'libs/models/payfactors-api';
 
 import * as fromTabularReportExportSchedulerPageActions from '../actions/tabular-report-export-scheduler-page.actions';
 
@@ -37,12 +38,14 @@ export function reducer(state = initialState, action: fromTabularReportExportSch
     case fromTabularReportExportSchedulerPageActions.GET_TABULAR_REPORTS_SUCCESS: {
       const tabularReportsAsyncClone: AsyncStateObj<Workbook[]> = cloneDeep(state.tabularReportsAsync);
       tabularReportsAsyncClone.loading = false;
-      tabularReportsAsyncClone.obj = orderBy(action.payload, ['WorkbookName'], ['asc']);
+      tabularReportsAsyncClone.obj = action.payload.filter(x => x.AccessLevel === DataViewAccessLevel.Owner);
 
       if (state.savedSchedules?.obj?.length > 0) {
         const scheduledReports = state.savedSchedules.obj.map(x => x.DataViewId.toString());
-        tabularReportsAsyncClone.obj = action.payload.filter(x => !scheduledReports.includes(x.WorkbookId));
+        tabularReportsAsyncClone.obj = tabularReportsAsyncClone.obj.filter(x => !scheduledReports.includes(x.WorkbookId));
       }
+
+      tabularReportsAsyncClone.obj = orderBy(tabularReportsAsyncClone.obj, ['WorkbookName'], ['asc']);
 
       return {
         ...state,
