@@ -61,6 +61,7 @@ import {
   GetMatchScope
 } from './pipes';
 import {EmployeeDetailsModule} from 'libs/ui/employee-details';
+import { StructureDetailsModule } from 'libs/ui/structure-details';
 
 @NgModule({
     imports: [
@@ -104,7 +105,8 @@ import {EmployeeDetailsModule} from 'libs/ui/employee-details';
         PricingMatchModule,
         ReScopeSurveyDataModule,
         UpsertPeerDataCutModule,
-        EmployeeDetailsModule
+        EmployeeDetailsModule,
+        StructureDetailsModule
     ],
   declarations: [
     // Pages

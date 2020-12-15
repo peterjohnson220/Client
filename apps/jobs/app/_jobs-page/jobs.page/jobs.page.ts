@@ -137,6 +137,8 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   gridConfig: GridConfig;
 
+  multiMatchSaveChangesSubscription: Subscription;
+
   @ViewChild('gridRowActionsTemplate') gridRowActionsTemplate: ElementRef;
   @ViewChild('jobTitleColumn') jobTitleColumn: ElementRef;
   @ViewChild('jobMatchCount') jobMatchCount: ElementRef;
@@ -270,6 +272,17 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       });
 
+    this.multiMatchSaveChangesSubscription = this.actionsSubject
+      .pipe(ofType(fromModifyPricingsActions.MODIFY_PRICINGS_SUCCESS))
+      .subscribe((action: fromModifyPricingsActions.ModifyPricingSuccess) => {
+        const payMarketGridAttentionGrabKeys = action.payload.map(x => {
+          return `${x.CompanyJobId}_${x.PaymarketId}`;
+        });
+
+        this.store.dispatch(new fromPfDataGridActions.ClearSelections(PageViewIds.PayMarkets));
+        this.store.dispatch(new fromPfDataGridActions.LoadDataAndAddFadeInKeys(PageViewIds.PayMarkets, payMarketGridAttentionGrabKeys));
+      });
+
     this.actionBarConfig = {
       ...getDefaultActionBarConfig(),
       ShowColumnChooser: true,
@@ -378,6 +391,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.changingJobStatusSuccessSubscription.unsubscribe();
     this.deletingJobSuccessSubscription.unsubscribe();
     this.loadViewConfigSuccessSubscription.unsubscribe();
+    this.multiMatchSaveChangesSubscription.unsubscribe();
   }
 
   closeSplitView() {
@@ -479,10 +493,5 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.store.dispatch(new fromSearchFeatureActions.SetSearchFeatureId(SearchFeatureIds.MultiMatch));
     this.store.dispatch(new fromSearchPageActions.SetUserFilterTypeData(SurveySearchUserFilterType));
     this.store.dispatch(new fromModifyPricingsActions.GetPricingsToModify(payload));
-  }
-
-  matchModalSaved() {
-    this.store.dispatch(new fromPfDataGridActions.ClearSelections(PageViewIds.PayMarkets));
-    this.store.dispatch(new fromPfDataGridActions.LoadData(PageViewIds.PayMarkets));
   }
 }

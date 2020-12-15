@@ -6,6 +6,8 @@
   [noRecordsFound] = "'This job has not been added to any Salary Structures.'"
   [defaultSort]="defaultSort"
   [headerClassName]="'jobs-page-sub-grid-header'"
+  [expandedRowTemplate]="hasStructureDetailsFlagEnabled ? structureDetails : undefined"
+  [selectionField]="hasStructureDetailsFlagEnabled ? 'CompanyStructuresRanges_ID' : undefined"
   [pageTheme]="pfThemeType.JobDetails"
   [borders]="false"
   [actionBarConfig]="actionBarConfig"
@@ -15,6 +17,28 @@
   [hasHeaderDividers]="true"
   [gridConfig]="gridConfig">
 </pf-data-grid>
+
+<ng-template #structureDetails let-dataRow="dataRow">
+  <ng-template #closeButton>
+    <div class="close-btn">
+      <fa-icon
+        [icon]="['far', 'times']" title="Close"
+        [attr.data-qa-id]="'btn-structure-details-close'"
+        [fixedWidth]="true"
+        [size]="'lg'"
+        (click)="closeExpandedRow('vw_CompanyJobsStructureInfo_CompanyStructuresRanges_ID', dataRow['vw_CompanyJobsStructureInfo_CompanyStructuresRanges_ID'])"
+      >
+      </fa-icon>
+    </div>
+  </ng-template>
+
+  <pf-structure-details
+  [structureDetails]="dataRow | structureDetails"
+  [theme]="pfThemeType.Default"
+  [optionalCloseButton]="closeButton"
+  >
+  </pf-structure-details>
+</ng-template>
 
 <ng-template #nameColumn let-dataRow="dataRow">
   <div pfEllipsisActive class="ellipsis-overflowing-text">

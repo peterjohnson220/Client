@@ -18,7 +18,8 @@
   [hasHeaderDividers]="true"
   [hasColDividers]="true"
   [pageable]="!gridConfig.EnableInfiniteScroll"
-  [noRecordsFound]="'There are no results for the filter criteria you have selected.'">
+  [noRecordsFound]="'There are no results for the filter criteria you have selected.'"
+  [enableRowFade]="true">
 </pf-data-grid>
 
 <ng-template #pricingMatchesGrid let-dataRow="dataRow">

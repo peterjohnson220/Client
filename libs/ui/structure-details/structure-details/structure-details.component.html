@@ -1,0 +1,48 @@
+<div class="card m-3">
+  <div [ngClass]="[theme].join(' ')">
+    <div class="card-header">
+      <ng-container *ngTemplateOutlet="structureDetailsHeader"></ng-container>
+    </div>
+  </div>
+  <div class="card-block">
+    <ng-container *ngTemplateOutlet="structureDetailsBody"></ng-container>
+  </div>
+</div>
+
+<ng-template #structureDetailsHeader>
+  <div class="d-flex justify-content-between">
+    <div>
+      <b class="align-middle">Structure Details</b>
+    </div>
+    <!--potentially place export icon here, if X does not exist (product must decide)-->
+    <ng-container [ngTemplateOutlet]="optionalCloseButton"></ng-container>
+  </div>
+</ng-template>
+
+<ng-template #structureDetailsBody>
+  <div class="d-flex">
+    <div class="w-50">
+      <div class="w-100 text-center">
+        CHART PLACEHOLDER
+      </div>
+    </div>
+    <div class="w-50 d-flex flex-column">
+      <div class="w-100">
+        <div class="p-3">
+          <p class="mb-1"><b>Summary</b></p>
+          <hr class="mb-2 mt-0 border-top border-dark" />
+          <p class="m-0">The structure {{displayDetails.StructureName}} was created in {{displayDetails.CurrencyCode}}
+            based on an {{displayDetails.Rate.toLowerCase()}} rate and is effective {{effectiveDate}}.
+            This structure is in the {{displayDetails.PayMarket}} pay market
+            with market data based on the {{displayDetails.ControlPoint}}.</p>
+        </div>
+      </div>
+      <div class="w-100 text-center">
+        RANGE DETAILS PLACEHOLDER
+      </div>
+      <div class="w-100 text-center">
+        BUDGETING PLACEHOLDER
+      </div>
+    </div>
+  </div>
+</ng-template>
