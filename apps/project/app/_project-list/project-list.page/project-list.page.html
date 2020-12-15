@@ -1,15 +1,33 @@
-<!--TODO: This is step 1 in setting up the projects re write. This will probably be replaced by a pf-data-grid -->
+<pf-data-grid
+  [pageViewId]="pageViewId"
+  [title]="'Pricing Projects'"
+  [selectionField]="'UserSession_ID'"
+  [gridActionsTemplate]="gridActions"
+  [enableSelection]="true"
+  [gridConfig]="gridConfig"
+  [columnTemplates]="colTemplates"
+  [actionBarConfig]="actionBarConfig"
+  [noRecordsFound]="'No projects available. Please change your search criteria.'"
+  [pageable]="!gridConfig.EnableInfiniteScroll">
+</pf-data-grid>
 
-<pf-page-with-title-bar
 
->
-  <ng-container page-title>
-    Pricing Projects
-  </ng-container>
+<ng-template #gridActions>
+  <button
+    [disabled]="!(selectedRecordIds$ | async)?.length"
+    [attr.data-qa-id]="'btn-jobs-page-clear-selections'"
+    type="button"
+    (click)="clearSelections()"
+    [title]="!(selectedRecordIds$ | async)?.length ? 'No Projects Selected' : ''"
+    class="btn btn-secondary pf-btn-borderless"
+  >
+    <fa-icon [icon]="['far', 'times']" ></fa-icon>
+    Clear Selections<span *ngIf="(selectedRecordIds$ | async)?.length">({{(selectedRecordIds$ | async)?.length}})</span>
+  </button>
+</ng-template>
 
-  <ng-container page-content>
-    <div>
-      This is the new projects list page
-    </div>
-  </ng-container>
-</pf-page-with-title-bar>
+<ng-template #projectStatusColumn let-dataRow="dataRow" let-hover="hover">
+  <div>
+    <span [title]="'Project is ' + dataRow.UserSessions_Completed ? 'Complete' : 'In Progress'" [ngClass]="dataRow.UserSessions_Completed ? 'complete' : 'in-progress'"> <fa-icon [icon]="'circle'"></fa-icon></span>
+  </div>
+</ng-template>
