@@ -14,6 +14,10 @@ export class PricingApiService {
 
   constructor(private payfactorsApiService: PayfactorsApiService) { }
 
+  getPricedPaymarkets(jobId: number): Observable<any> {
+    return this.payfactorsApiService.get(`${this.endpoint}/GetPricedPayMarkets?jobId=${jobId}`);
+  }
+
   updatePricing(updatePricingRequest: UpdatePricingRequest): Observable<any> {
     return this.payfactorsApiService.post(`${this.endpoint}/UpdatePricing`, updatePricingRequest);
   }
@@ -33,6 +37,7 @@ export class PricingApiService {
   getReScopeSurveyDataContext(pricingMatchId: number) {
     return this.payfactorsApiService.get(`${this.endpoint}/GetReScopeSurveyDataContext?pricingMatchId=${pricingMatchId}`);
   }
+
   deleteMatchAndPricing(pricingMatchId: number) {
     return this.payfactorsApiService.delete(`${this.endpoint}/DeleteMatchAndPricing?pricingMatchId=${pricingMatchId}`);
   }

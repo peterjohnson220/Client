@@ -1,0 +1,41 @@
+<pf-async-container [loading]="(pricingInfo$ | async)?.loading" [fullScreenLoadingMask]="true" [smartLoadingMask]="true"></pf-async-container>  
+<pf-modal-form
+  [modalId]="'au-modal-pricing-details'"
+  [title]="'Pricing Details'"
+  [isOpen$]="showModal$"
+  [size]="'lg'"
+  [submitting]="(loading$ | async) || !(newStatus$ | async)"
+  [centered]="false"
+  [showSpinner]="false"
+  [showFooter]="true"
+  [showSubmit]="(pricingInfo$ | async)?.obj?.EnablePricingReview && (pricingInfo$ | async)?.obj?.IsThisMostRecent"
+  [allowDismiss]="!(loading$ | async)"
+  [primaryButtonText]="'Save'"
+  [primaryButtonTextSubmitting]="'Save'"
+  [windowClass]="'modal-xlg'"
+  (onDismiss)="onCancelChanges()"
+  (onSubmit)="savePricing()">
+  
+  <ng-container basic-content>
+    <pf-async-container [loading]="loading$ | async" [showSpinner]="true">
+      <div class="px-3 pb-3">
+        <pf-pricing-info></pf-pricing-info>        
+      </div>
+    </pf-async-container>
+  </ng-container>
+  <ng-container button-container-left>
+    <div class="mr-auto my-auto text-danger pl-3">
+      <strong>
+        <div *ngIf="(savingPricing$ | async)?.loadingError">
+          We encountered a problem while saving your pricing. Please try again or contact your account representative.
+        </div>
+        <div *ngIf="(addToNewProject$ | async)?.loadingError">
+          We encountered a problem creating your project. Please try again or contact your account representative.
+        </div>
+        <div *ngIf="(pricingInfo$ | async)?.loadingError">
+          We encountered a problem loading your pricing information. Please close the popup window and try again.
+        </div>
+      </strong>
+    </div>
+  </ng-container>
+</pf-modal-form>

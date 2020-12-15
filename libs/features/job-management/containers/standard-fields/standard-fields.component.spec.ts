@@ -1,6 +1,6 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
-import { FormControlName, FormsModule } from '@angular/forms';
+import { FormControlName } from '@angular/forms';
 
 
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
@@ -12,7 +12,6 @@ import * as fromActions from '../../actions';
 import * as fromReducer from '../../reducers';
 
 import { StandardFieldsComponent } from './standard-fields.component';
-import { ActivatedRoute } from '@angular/router';
 
 describe('Job Management Feature - Job Form', () => {
   let instance: StandardFieldsComponent;
@@ -33,7 +32,7 @@ describe('Job Management Feature - Job Form', () => {
   };
 
 
-  beforeEach(fakeAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         PfFormsModule,
@@ -52,9 +51,6 @@ describe('Job Management Feature - Job Form', () => {
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
 
-  }));
-
-  beforeEach(() => {
     fixture = TestBed.createComponent(StandardFieldsComponent);
     instance = fixture.componentInstance;
 
@@ -84,7 +80,7 @@ describe('Job Management Feature - Job Form', () => {
     expect(form.valid).toEqual(false);
   });
 
-  it('Form should be valid', fakeAsync(() => {
+  it('Form should be valid', () => {
     const form = instance.jobForm;
     const c = instance.jobForm.controls;
 
@@ -126,6 +122,6 @@ describe('Job Management Feature - Job Form', () => {
     c.JobFamily.setValue('Accounting');
     expect(c.JobFamily.valid).toEqual(true);
 
-  }));
+  });
 
 });

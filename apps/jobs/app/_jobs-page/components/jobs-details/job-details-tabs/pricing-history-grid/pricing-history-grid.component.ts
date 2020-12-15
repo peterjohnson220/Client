@@ -12,7 +12,7 @@ import { Permissions } from 'libs/constants';
 import { ViewField } from 'libs/models/payfactors-api/reports/request';
 import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
-import * as fromPricingDetailsActions from 'libs/features/pricing-details/actions';
+import * as fromPricingDetailsActions from 'libs/features/pricings/pricing-details/actions';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 import { PfThemeType } from 'libs/features/pf-data-grid/enums/pf-theme-type.enum';
 import { AsyncStateObj } from 'libs/models';
@@ -37,6 +37,7 @@ export class PricingHistoryGridComponent implements AfterViewInit, OnInit, OnDes
 
   inboundFiltersToApply = ['CompanyJob_ID', 'PayMarket', 'Status'];
   pageViewId = PageViewIds.PricingHistory;
+  jobId: number;
 
   colTemplates = {};
 
@@ -145,6 +146,8 @@ export class PricingHistoryGridComponent implements AfterViewInit, OnInit, OnDes
     if (changes['filters']) {
       this.filters = cloneDeep(changes['filters'].currentValue)
         .filter(f => this.inboundFiltersToApply.indexOf(f.SourceName) > -1);
+
+      this.jobId = parseInt(this.filters.find(v => v.SourceName === 'CompanyJob_ID').Value, 10);
 
       if (this.filters.find(x => x.SourceName === 'Status')) {
         this.noRecordsMessage = 'There is no pricing history for the filter criteria you have selected.';

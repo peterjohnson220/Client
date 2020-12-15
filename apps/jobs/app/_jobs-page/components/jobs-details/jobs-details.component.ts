@@ -1,10 +1,11 @@
-import { Component, Output, EventEmitter, ViewEncapsulation, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Output, EventEmitter, ViewEncapsulation, Input, OnDestroy, OnInit, SimpleChanges, OnChanges } from '@angular/core';
 
 import { ActionsSubject, Store } from '@ngrx/store';
 import { ofType } from '@ngrx/effects';
 
-import { Subscription, Observable } from 'rxjs';
+import { Subscription, Observable, Subject } from 'rxjs';
 
+import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core';
 import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromMultiMatchActions from 'libs/features/multi-match/actions';
@@ -12,7 +13,6 @@ import * as fromNotificationActions from 'libs/features/app-notifications/action
 import * as fromRootReducer from 'libs/state/state';
 
 import * as fromJobsPageActions from '../../actions';
-
 
 import { PageViewIds } from '../../constants';
 
@@ -22,7 +22,7 @@ import { PageViewIds } from '../../constants';
   styleUrls: ['./jobs-details.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class JobsDetailsComponent implements OnDestroy, OnInit {
+export class JobsDetailsComponent implements OnDestroy, OnInit, OnChanges {
 
   @Input() jobDetailsFilters: PfDataGridFilter[];
 
@@ -47,8 +47,21 @@ export class JobsDetailsComponent implements OnDestroy, OnInit {
   userId: number;
   pageViewIds = PageViewIds;
 
-  constructor(private store: Store<fromPfGridReducer.State>,
-    private actionsSubject: ActionsSubject) {
+  jobId: number;
+
+  pricingHistoryChartFeatureFlag: RealTimeFlag = { key: FeatureFlags.PricingHistoryChart, value: false };
+  unsubscribe$ = new Subject<void>();
+
+  constructor(
+    private store: Store<fromPfGridReducer.State>,
+    private actionsSubject: ActionsSubject,
+    private featureFlagService: AbstractFeatureFlagService
+  ) { }
+
+  ngOnInit() {
+
+    this.featureFlagService.bindEnabled(this.pricingHistoryChartFeatureFlag, this.unsubscribe$);
+
     this.selectedRow$ = this.store.select(fromPfGridReducer.getSelectedRow, PageViewIds.Jobs);
 
     this.viewLoadedPayMarketSubscription = this.store.select(fromPfGridReducer.getLoading, PageViewIds.PayMarkets).subscribe((o) => {
@@ -71,7 +84,7 @@ export class JobsDetailsComponent implements OnDestroy, OnInit {
     });
 
     this.recalculatePricingSubscription = this.actionsSubject.pipe(ofType(fromNotificationActions.ADD_NOTIFICATION))
-      .subscribe((action: fromNotificationActions.AddNotification)  => {
+      .subscribe((action: fromNotificationActions.AddNotification) => {
         if (action.payload.From === 'Recalculate Related Pricing' && action.payload.Payload.Message === 'Success') {
           this.recalculatedRelatedPricingsHandler(action.payload.Payload.RelatedPricingIds);
         }
@@ -86,6 +99,27 @@ export class JobsDetailsComponent implements OnDestroy, OnInit {
       this.tabStatusLoaded[PageViewIds.PricingHistory] = false;
     });
 
+
+    this.activeTab = PageViewIds.PayMarkets;
+    this.tabStatusOpened[this.activeTab] = true;
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['jobDetailsFilters']) {
+      this.jobId = parseInt(this.jobDetailsFilters.find(v => v.SourceName === 'CompanyJob_ID').Value, 10);
+    }
+  }
+
+  ngOnDestroy() {
+    this.viewLoadedPayMarketSubscription.unsubscribe();
+    this.viewLoadedEmployeesSubscription.unsubscribe();
+    this.viewLoadedStructuresSubscription.unsubscribe();
+    this.viewLoadedProjectsSubscription.unsubscribe();
+    this.viewLoadedHistorySubscription.unsubscribe();
+    this.recalculatePricingSubscription.unsubscribe();
+    this.recalculateRelatedPricingsSubscription.unsubscribe();
+    this.userContextSubscription.unsubscribe();
+    this.unsubscribe$.next();
   }
 
   recalculatedRelatedPricingsHandler(pricingIds: number[]) {
@@ -113,20 +147,5 @@ export class JobsDetailsComponent implements OnDestroy, OnInit {
       // Need to have timeout before putting it back to true so UI can react on change and reload the component
       setTimeout(() => this.tabStatusOpened[this.activeTab] = true, 0);
     }
-  }
-
-  ngOnInit() {
-    this.activeTab = PageViewIds.PayMarkets;
-    this.tabStatusOpened[this.activeTab] = true;
-  }
-
-  ngOnDestroy() {
-    this.viewLoadedPayMarketSubscription.unsubscribe();
-    this.viewLoadedEmployeesSubscription.unsubscribe();
-    this.viewLoadedStructuresSubscription.unsubscribe();
-    this.viewLoadedProjectsSubscription.unsubscribe();
-    this.viewLoadedHistorySubscription.unsubscribe();
-    this.recalculatePricingSubscription.unsubscribe();
-    this.recalculateRelatedPricingsSubscription.unsubscribe();
   }
 }

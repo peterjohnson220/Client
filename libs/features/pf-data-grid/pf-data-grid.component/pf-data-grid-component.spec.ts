@@ -1,4 +1,4 @@
-import { fakeAsync, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
@@ -18,7 +18,7 @@ describe('PfDataGridComponent', () => {
   let fixture, component;
   let store: Store<fromReducer.State>;
 
-  beforeEach(fakeAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
@@ -36,7 +36,7 @@ describe('PfDataGridComponent', () => {
     fixture = TestBed.createComponent(PfDataGridComponent);
     component = fixture.componentInstance;
     component.pageViewId = 'HelloWorld';
-  }));
+  });
 
   it('should remove all filters when calling clearAllFilters', () => {
     component.userFilteredFields$ = of([generateMockViewField()]);
