@@ -1,12 +1,12 @@
 import { Action } from '@ngrx/store';
 import { GetPricingsToModifyRequest } from '../models';
 
-export const GET_PRICINGS_TO_MODIFY = '[Jobs Page] Get Pricings to Modify';
-export const GET_PRICINGS_TO_MODIFY_SUCCESS = '[Jobs Page] Get Pricings to Modify Success';
-export const GET_PRICINGS_TO_MODIFY_ERROR = '[Jobs Page] Get Pricings to Modify Error';
-export const MODIFY_PRICINGS = '[Jobs Page] Modify Pricings';
-export const MODIFY_PRICINGS_SUCCESS = '[Jobs Page] Modify Pricings Success';
-export const MODIFY_PRICINGS_ERROR = '[Jobs Page] Modify Pricings Error';
+export const GET_PRICINGS_TO_MODIFY = '[Multi Match] Get Pricings to Modify';
+export const GET_PRICINGS_TO_MODIFY_SUCCESS = '[Multi Match] Get Pricings to Modify Success';
+export const GET_PRICINGS_TO_MODIFY_ERROR = '[Multi Match] Get Pricings to Modify Error';
+export const MODIFY_PRICINGS = '[Multi Match] Modify Pricings';
+export const MODIFY_PRICINGS_SUCCESS = '[Multi Match] Modify Pricings Success';
+export const MODIFY_PRICINGS_ERROR = '[Multi Match] Modify Pricings Error';
 
 export class ModifyPricingsError implements Action {
 readonly type = MODIFY_PRICINGS_ERROR;
@@ -30,7 +30,7 @@ export class GetPricingsToModifySuccess implements Action {
 
 export class ModifyPricingSuccess implements Action {
   readonly type = MODIFY_PRICINGS_SUCCESS;
-  constructor() { }
+  constructor(public payload: any[]) { }
 }
 
 export class GetPricingsToModifyError implements Action {

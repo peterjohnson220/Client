@@ -1,0 +1,14 @@
+<div class="d-flex flex-column">
+  <pf-employee-info-chart-display
+    [chartData]="tccChart"
+    [currencyCode]="currencyCode"
+    [chartTitle]="'Total Cash Compensation'"
+    [rate]="employeeDetails.Rate"
+  ></pf-employee-info-chart-display>
+  <pf-employee-info-chart-display
+    [chartData]="tdcChart"
+    [currencyCode]="currencyCode"
+    [chartTitle]="'Total Direct Compensation'"
+    [rate]="employeeDetails.Rate"
+  ></pf-employee-info-chart-display>
+</div>

@@ -63,7 +63,8 @@ export class PfDataGridEffects {
         fromPfDataGridActions.LOAD_DATA,
         fromPfDataGridActions.UPDATE_PAGING_OPTIONS,
         fromPfDataGridActions.LOAD_MORE_DATA,
-        fromPfDataGridActions.RELOAD_DATA
+        fromPfDataGridActions.RELOAD_DATA,
+        fromPfDataGridActions.LOAD_DATA_AND_ADD_FADE_IN_KEYS
       ),
       groupBy((action: fromPfDataGridActions.LoadData) => action.pageViewId),
       mergeMap(pageViewIdGroup => pageViewIdGroup
@@ -77,9 +78,17 @@ export class PfDataGridEffects {
                 this.store.pipe(select(fromPfDataGridReducer.getPagingOptions, loadDataAction.pageViewId)),
                 this.store.pipe(select(fromPfDataGridReducer.getSortDescriptor, loadDataAction.pageViewId)),
                 this.store.pipe(select(fromPfDataGridReducer.getApplyDefaultFilters, loadDataAction.pageViewId)),
+                this.store.pipe(select(fromPfDataGridReducer.getUseReportingDB, loadDataAction.pageViewId)),
                 this.store.pipe(select(fromPfDataGridReducer.getLinkGroups, loadDataAction.pageViewId)),
-                (action: fromPfDataGridActions.ReloadData, baseEntity, fields, pagingOptions, sortDescriptor, applyDefaultFilters, linkGroups) =>
-                  ({ action, baseEntity, fields, pagingOptions, sortDescriptor, applyDefaultFilters, linkGroups })
+                (action,
+                  baseEntity,
+                  fields,
+                  pagingOptions,
+                  sortDescriptor,
+                  applyDefaultFilters,
+                  useReportingDB,
+                  linkGroups) =>
+                  ({ action, baseEntity, fields, pagingOptions, sortDescriptor, applyDefaultFilters, useReportingDB, linkGroups })
               )
             ),
           ),
@@ -105,16 +114,23 @@ export class PfDataGridEffects {
                   data.sortDescriptor,
                   withCount,
                   data.applyDefaultFilters,
+                  data.useReportingDB,
                   data.linkGroups))
                 .pipe(
-                  map((response: DataViewEntityResponseWithCount) => {
+                  mergeMap((response: DataViewEntityResponseWithCount) => {
+                    const actions = [];
                     if (data.pagingOptions.From > 0 && !withCount) {
-                      return new fromPfDataGridActions.LoadMoreDataSuccess(data.action.pageViewId, response);
+                      actions.push(new fromPfDataGridActions.LoadMoreDataSuccess(data.action.pageViewId, response));
                     } else if (data.action.type.includes('Reload Data')) {
-                      return new fromPfDataGridActions.ReloadDataSuccess(data.action.pageViewId, response);
+                      actions.push(new fromPfDataGridActions.ReloadDataSuccess(data.action.pageViewId, response));
                     } else {
-                      return new fromPfDataGridActions.LoadDataSuccess(data.action.pageViewId, response);
+                      actions.push(new fromPfDataGridActions.LoadDataSuccess(data.action.pageViewId, response));
                     }
+
+                    if (data.action.type.includes('Add Attention Grab Keys')) {
+                      actions.push(new fromPfDataGridActions.AddFadeInKeys(data.action.pageViewId, data.action.payload));
+                    }
+                    return actions;
                   }),
                   catchError(error => {
                     const msg = 'We encountered an error while loading your data';
@@ -374,6 +390,20 @@ export class PfDataGridEffects {
             map((response) => new fromPfDataGridActions.GetExportingStatusSuccess(action.pageViewId, response)),
             catchError(() => of(new fromPfDataGridActions.GetExportingStatusError(action.pageViewId)))
           );
+      })
+    );
+
+  @Effect()
+  handleRowAnimations$ = this.actions$
+    .pipe(
+      ofType(fromPfDataGridActions.ADD_FADE_IN_KEYS,
+        fromPfDataGridActions.SET_FADE_IN_KEYS),
+      mergeMap((action: any) => {
+        setTimeout(() => {
+          this.store.dispatch(new fromPfDataGridActions.DeleteFadeInKeys(action.pageViewId, action.payload));
+        }, 2000);
+
+        return [new fromPfDataGridActions.DoNothing(action.pageViewId)];
       })
     );
 

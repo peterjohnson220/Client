@@ -74,8 +74,9 @@ export class ModifyPricingsEffects {
         ({ jobsToPrice, tempPeerDataCutFilterContextDictionary })
     ),
     switchMap( (context: any) => {
-      const modifyPricingMatchesRequest = context.jobsToPrice.filter(f => (!!f.DataCutsToAdd && f.DataCutsToAdd.length)
-        || (!!f.DeletedJobMatchCutIds && f.DeletedJobMatchCutIds.length)).map(s =>  {
+      const pricingsWithChanges = context.jobsToPrice.filter(f => (!!f.DataCutsToAdd && f.DataCutsToAdd.length)
+        || (!!f.DeletedJobMatchCutIds && f.DeletedJobMatchCutIds.length));
+      const modifyPricingMatchesRequest = pricingsWithChanges.map(s =>  {
           return {
             PricingId: s.Id,
             JobId: s.CompanyJobId,
@@ -103,7 +104,7 @@ export class ModifyPricingsEffects {
           };
         });
       return this.pricingApiService.savePricingMatches(modifyPricingMatchesRequest).pipe(
-        map(() =>  new fromModifyPricingsActions.ModifyPricingSuccess()),
+        map(() =>  new fromModifyPricingsActions.ModifyPricingSuccess(pricingsWithChanges)),
         catchError(error => of(new fromModifyPricingsActions.ModifyPricingsError()))
       );
     })

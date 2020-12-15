@@ -60,7 +60,7 @@ export class ModifyPricingsEffects {
           ) => ({ action, paymarketsGridState })
         ))),
     switchMap((data) =>
-      this.pricingApiService.deletePricingMatch(data.action.pricingMatchId)
+      this.pricingApiService.deletePricingMatch(data.action.payload.MatchId)
         .pipe(
           concatMap((modifiedPricingsIds) => {
             return this.getDataForModifiedPricings(data.paymarketsGridState, modifiedPricingsIds);
@@ -136,7 +136,7 @@ export class ModifyPricingsEffects {
   );
 
   @Effect()
-  RefreshLinkedPricings$: Observable<Action> = this.actions$.pipe(
+  refreshLinkedPricings$: Observable<Action> = this.actions$.pipe(
     ofType(fromModifyPricingsActions.REFRESH_LINKED_PRICINGS),
     withLatestFrom(
       this.store.pipe(select(fromPfDataGridReducer.getGrid, PageViewIds.PayMarkets)),
@@ -153,10 +153,10 @@ export class ModifyPricingsEffects {
   deleteMatchAndPricing$: Observable<Action> = this.actions$.pipe(
     ofType(fromModifyPricingsActions.DELETE_PRICING_AND_MATCH),
     switchMap((action: any) => {
-      return this.pricingApiService.deleteMatchAndPricing(action.payload).pipe(
+      return this.pricingApiService.deleteMatchAndPricing(action.payload.MatchId).pipe(
         mergeMap(response => {
           const  actions = [];
-          actions.push(new fromPfDataGridActions.LoadData(PageViewIds.PayMarkets));
+          actions.push(new fromPfDataGridActions.LoadDataAndAddFadeInKeys(PageViewIds.PayMarkets, [action.payload.JobPayMarketMetaData]));
           actions.push(new fromPfDataGridActions.CollapseAllRows(PageViewIds.PayMarkets));
           actions.push(new fromModifyPricingsActions.DeletingPricingMatchSuccess());
           return actions;
@@ -227,6 +227,12 @@ export class ModifyPricingsEffects {
     if (reloadMatches) {
       actions = actions.concat(this.getActionsToReloadPricingMatches(updatedRowData));
     }
+
+    const gridKeys = updatedRowData.map(x => {
+      return `${x['CompanyJobs_CompanyJob_ID']}_${x['CompanyPayMarkets_CompanyPayMarket_ID']}`;
+    });
+
+    actions.push(new fromPfDataGridActions.AddFadeInKeys(PageViewIds.PayMarkets, gridKeys));
 
     return actions;
   }
