@@ -12,6 +12,7 @@ export class FeatureFlags {
   static readonly BenefitsLoaderConfiguration = 'benefits-loader-configuration';
   static readonly EmployeeTagsLoaderConfiguration = 'employee-tag-loader-configuration';
   static readonly EmployeeDetails = 'employee-details';
+  static readonly StructureDetails = 'structure-details';
   static readonly LoaderDashboardRedrops = 'loader-dashboard-redrops';
   static readonly PricingMatchNotesTab = 'pricing-match-notes-tab';
   static readonly LoadAndExportsFilesCards = 'dm-load-export-files-card';

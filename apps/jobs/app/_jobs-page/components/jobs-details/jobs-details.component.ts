@@ -15,7 +15,6 @@ import * as fromJobsPageActions from '../../actions';
 
 
 import { PageViewIds } from '../../constants';
-import { AppNotification, NotificationType } from 'libs/features';
 
 @Component({
   selector: 'pf-jobs-details',
@@ -73,9 +72,8 @@ export class JobsDetailsComponent implements OnDestroy, OnInit {
 
     this.recalculatePricingSubscription = this.actionsSubject.pipe(ofType(fromNotificationActions.ADD_NOTIFICATION))
       .subscribe((action: fromNotificationActions.AddNotification)  => {
-        if (action.payload.From === 'Recalculate Related Pricing'
-          && action.payload.Payload.Message === this.userId.toString()) {
-          this.recalculatedRelatedPricingsHandler(action.payload.Payload.SecondaryMessage);
+        if (action.payload.From === 'Recalculate Related Pricing' && action.payload.Payload.Message === 'Success') {
+          this.recalculatedRelatedPricingsHandler(action.payload.Payload.RelatedPricingIds);
         }
       });
 
