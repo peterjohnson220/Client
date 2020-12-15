@@ -132,9 +132,7 @@ exports[`TrsCalculationControlComponent should display contribution values and t
           class="trs-calculation-row w-100"
         >
           
-          <td
-            class="last-before-summary"
-          >
+          <td>
             <pf-string-editor>
               
               <span
@@ -1039,9 +1037,7 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
           class="trs-calculation-row w-100"
         >
           
-          <td
-            class="last-before-summary"
-          >
+          <td>
             <pf-string-editor>
               
               <span

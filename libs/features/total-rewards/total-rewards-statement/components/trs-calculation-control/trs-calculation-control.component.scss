@@ -24,11 +24,9 @@
       td.contribution-field.summary > span {
         vertical-align: -2px; // push the number/value up to line up with the field
       }
-      .last-before-summary {
-        padding-bottom: 1rem; // increase whitespace around the total
-      }
     }
   }
+
   .faux-title {
     font-weight: bold;
     font-style: italic;
@@ -39,14 +37,14 @@
 }
 
 .trs-calculation.print-mode, .trs-calculation.preview-mode {
-   table {
-      .field-column {
-        width: 75%;
-      }
-      .button-column {
-        width: 0;
-      }
+  table {
+    .field-column {
+      width: 75%;
     }
+    .button-column {
+      width: 0;
+    }
+  }
 }
 
 .table-sm td {
@@ -55,14 +53,14 @@
 }
 
 .trs-calculation-row {
+  &.field:nth-last-child(2) {
+    height: 2rem; // target the 2nd to last row and increase height for additional separation between this row and the last total row
+  }
   .remove-btn {
     visibility: hidden;
     margin: 0;
     padding: .2rem;
     line-height: 1;
-  }
-  .last-before-summary {
-    padding-bottom: .5rem;
   }
   td.summary {
     font-weight: 500;
@@ -80,11 +78,6 @@
   max-width: 15rem;
   padding: .3rem;
   white-space: nowrap;
-}
-
-.add-comp-field-item:hover {
-  cursor: pointer;
-  color: $link-color !important;
 }
 
 .edit-mode {

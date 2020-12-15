@@ -28,7 +28,7 @@
       <tr *ngFor="let listItem of controlData.DataFields; let i = index " class="trs-calculation-row w-100">
         <ng-template *ngIf="displayFieldInTable(listItem); then includeField;"></ng-template>
         <ng-template #includeField>
-          <td [class.last-before-summary]="controlData.DataFields.length - 1 === i">
+          <td>
             <pf-string-editor
               [value]="listItem.Name.Override"
               [placeholder]="listItem.Name.Default"
