@@ -27,7 +27,7 @@ export class CronExpressionHelper {
   static getWeeklyFrequencyTextFormat(expression: string): string {
     const cronArray = expression.split(' ');
     if (!cronArray || cronArray.length !== 6) {
-      return null;
+      return '';
     }
     let days = cronArray[5].split(',');
     days = days
@@ -36,7 +36,7 @@ export class CronExpressionHelper {
       return dayOfWeek;
     })
     .filter(x => x !== '');
-    return days?.length > 0 ? `Weekly on ${days.join(',')}` : '';
+    return days?.length > 0 ? `Weekly on ${days.join(', ')}` : '';
   }
 
   static getMonthlyFrequencyTextFormat(expression: string): string {
@@ -50,6 +50,9 @@ export class CronExpressionHelper {
     }
     const monthlyOccurrence = this.weeksOfMonth.find(x => x.Value === dayField[1])?.Name ?? '';
     const dayOfWeek = this.daysOfWeek.find(x => x.Value === dayField[0])?.Name ?? '';
+    if (monthlyOccurrence === '' || dayOfWeek === '') {
+      return '';
+    }
     return `${monthlyOccurrence} ${dayOfWeek} of each month`;
   }
 

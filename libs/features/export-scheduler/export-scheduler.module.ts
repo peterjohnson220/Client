@@ -7,6 +7,8 @@ import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
+import { PfCommonUIModule } from 'libs/ui/common';
+
 import { ExportFrequencyComponent, ExportFormatComponent, ExportSchedulesComponent } from './components';
 import * as fromFaIcons from './fa-icons';
 
@@ -18,7 +20,10 @@ import * as fromFaIcons from './fa-icons';
     DropDownsModule,
     FontAwesomeModule,
     FormsModule,
-    NgbModule
+    NgbModule,
+
+    // Payfactors
+    PfCommonUIModule
   ],
   exports: [
     ExportFrequencyComponent,
