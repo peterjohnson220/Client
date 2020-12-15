@@ -26,7 +26,7 @@ import * as fromEmailRecipientsActions from 'libs/features/loader-email-reipient
 import { DEFAULT_DATE_FORMAT, LoaderFileFormat, LoaderSettingsKeys, LoaderType } from 'libs/features/org-data-loader/constants';
 import { LoaderSettings, OrgDataLoadHelper } from 'libs/features/org-data-loader/helpers';
 import { ILoadSettings } from 'libs/features/org-data-loader/helpers/org-data-load-helper';
-import { FileUploadDataRequestModel, LoaderEntityStatus } from 'libs/features/org-data-loader/models';
+import { FieldMapping, FileUploadDataRequestModel, LoaderEntityStatus } from 'libs/features/org-data-loader/models';
 import * as fromLoaderSettingsActions from 'libs/features/org-data-loader/state/actions/loader-settings.actions';
 import * as fromFileUploadReducer from 'libs/features/org-data-loader/state/reducers';
 import { CompanySetting, CompanySettingsEnum } from 'libs/models/company';
@@ -321,9 +321,9 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
 
       if (!selected || selected.length === 0) {
         const empId = ['Employee_ID'];
-        this.loadOptions.find(l => l.templateReferenceConstants === LoaderType.EmployeeTags).customFields.EmployeeTags.push(...empId);
+        this.loadOptions.find(l => l.templateReferenceConstants === LoaderType.EmployeeTags).customFields.EmployeeKeyFields.push(...empId);
       } else {
-        this.loadOptions.find(l => l.templateReferenceConstants === LoaderType.EmployeeTags).customFields.EmployeeTags.push(...selected.map(a => a.Field));
+        this.loadOptions.find(l => l.templateReferenceConstants === LoaderType.EmployeeTags).customFields.EmployeeKeyFields.push(...selected.map(a => a.Field));
       }
     });
 
@@ -808,7 +808,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     }
   }
 
-  private addOrReplaceMappings(loaderType: string, mappings: string[]) {
+  private addOrReplaceMappings(loaderType: string, mappings: FieldMapping[]) {
 
     this.mappings = this.mappings.filter(mapping => mapping.LoaderType !== loaderType);
 
