@@ -16,6 +16,9 @@ import { UserNotificationListEffects } from './effects';
 import { UserNotificationHostDirective } from './directives';
 import * as fromFaIcons from './fa-icons';
 import { RoutedJobDescriptionNotificationComponent } from './containers/categories/routed-job-description/routed-job-description-notification.component';
+import {
+  JobDescriptionReviewCompleteNotificationComponent
+} from './containers/categories/job-description-review-complete/job-description-review-complete-notification.component';
 
 @NgModule({
   imports: [
@@ -37,7 +40,8 @@ import { RoutedJobDescriptionNotificationComponent } from './containers/categori
     UserNotificationContainerComponent,
     UserTicketNotificationComponent,
     UserNotificationDisplayComponent,
-    RoutedJobDescriptionNotificationComponent
+    RoutedJobDescriptionNotificationComponent,
+    JobDescriptionReviewCompleteNotificationComponent
   ],
   exports: [
     UserNotificationListComponent
