@@ -11,7 +11,6 @@ import { AsyncStateObj } from 'libs/models/state';
 import { TabularReportExportSchedule, Workbook } from 'libs/features/reports/models';
 import { ExportFormatComponent, ExportFrequencyComponent } from 'libs/features/export-scheduler/components';
 import { ExportFrequencyType, CronExpressionHelper } from 'libs/features/export-scheduler/helpers';
-import { DataViewAccessLevel } from 'libs/models/payfactors-api/reports';
 
 import * as fromTabularReportExportSchedulerPageReducer from '../../../reducers';
 import * as fromTabularReportExportSchedulerPageActions from '../../../actions/tabular-report-export-scheduler-page.actions';
@@ -39,7 +38,6 @@ export class TabularReportExportSchedulerPageComponent implements OnInit, OnDest
     operator: 'contains'
   };
   savingSchedule: boolean;
-  dataViewAccessLevels = DataViewAccessLevel;
 
   get disabled() {
     return !this.selectedReport || !this.exportFormat.isValid || !this.exportFrequency.isValid ||

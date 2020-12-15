@@ -34,7 +34,7 @@ export class ExportFrequencyComponent {
   onDayOfWeekChange(day: string): void {
     const isChecked = this.selectedDaysOfWeek.includes(day);
     if (isChecked) {
-      this.selectedDaysOfWeek = this.selectedDaysOfWeek.filter(x => x === day);
+      this.selectedDaysOfWeek = this.selectedDaysOfWeek.filter(x => x !== day);
     } else {
       this.selectedDaysOfWeek.push(day);
     }

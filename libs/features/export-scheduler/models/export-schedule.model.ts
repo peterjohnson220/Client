@@ -7,14 +7,19 @@ export class ExportScheduleHelper {
   static excelFileFormat = 'Excel';
   static fileFormats: string [] = ['Excel', 'CSV'];
 
-  static mapCronExpressionToTextFormat(schedules: TabularReportExportSchedule[]) {
-    return schedules.map(s => {
-      return {
-        ...s,
-        IsDataViewOwner: s.CreateUser === s.UserDataView.CreateUser,
-        FrequencyTextFormat: this.getFrequencyTextFormat(s.Frequency, s.CronExpression)
-      };
-    });
+  static mapCronExpressionToTextFormat(schedules: TabularReportExportSchedule[]): TabularReportExportSchedule[] {
+    const filteredSchedules = schedules
+      .map(s => this.setScheduleCustomProperties(s))
+      .filter(x => x.IsDataViewOwner);
+    return filteredSchedules;
+  }
+
+  private static setScheduleCustomProperties(schedule: TabularReportExportSchedule): TabularReportExportSchedule {
+    return {
+      ...schedule,
+      IsDataViewOwner: schedule.CreateUser === schedule.UserDataView.CreateUser,
+      FrequencyTextFormat: this.getFrequencyTextFormat(schedule.Frequency, schedule.CronExpression)
+    };
   }
 
   private static getFrequencyTextFormat(frequency: string, cronExpression?: string): string {
