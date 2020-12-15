@@ -1,4 +1,5 @@
 import cloneDeep from 'lodash/cloneDeep';
+import orderBy from 'lodash/orderBy';
 
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 import { Workbook, TabularReportExportSchedule } from 'libs/features/reports/models';
@@ -36,7 +37,7 @@ export function reducer(state = initialState, action: fromTabularReportExportSch
     case fromTabularReportExportSchedulerPageActions.GET_TABULAR_REPORTS_SUCCESS: {
       const tabularReportsAsyncClone: AsyncStateObj<Workbook[]> = cloneDeep(state.tabularReportsAsync);
       tabularReportsAsyncClone.loading = false;
-      tabularReportsAsyncClone.obj = action.payload;
+      tabularReportsAsyncClone.obj = orderBy(action.payload, ['WorkbookName'], ['asc']);
 
       if (state.savedSchedules?.obj?.length > 0) {
         const scheduledReports = state.savedSchedules.obj.map(x => x.DataViewId.toString());
