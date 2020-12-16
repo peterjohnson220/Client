@@ -74,9 +74,11 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
     this.hasAcceptedPeerTermsSub = this.settingsService.selectCompanySetting<boolean>(
       CompanySettingsEnum.PeerTermsAndConditionsAccepted
     ).subscribe(x => {
-      this.hasAcceptedPeerTerms = x;
-      if (!this.hasAcceptedPeerTerms) {
-        this.selectedPeerExchange = null;
+      if (x !== null) {
+        this.hasAcceptedPeerTerms = x;
+        if (!this.hasAcceptedPeerTerms) {
+          this.selectedPeerExchange = null;
+        }
       }
     });
     this.metadataSubscription = this.store.select(fromSharedJobBasedRangeReducer.getMetadata).subscribe(md => {
