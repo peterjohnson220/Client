@@ -52,7 +52,7 @@
       <ng-template ngbTabContent>        
         <div *ngIf="tabStatusOpened[pageViewIds.PricingHistory]  === true" class="position-absolute full-size tab-top-offset">
           <div class="d-flex flex-column h-100">
-            <div *ngIf="pricingHistoryChartFeatureFlag.value">
+            <div class="position-relative" *ngIf="pricingHistoryChartFeatureFlag.value">
               <pf-pricings-history-chart [jobId]="jobId"></pf-pricings-history-chart>
             </div>            
             <div class="position-relative h-100 w-100">

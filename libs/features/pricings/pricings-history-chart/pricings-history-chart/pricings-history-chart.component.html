@@ -1,21 +1,27 @@
-<div class="mx-3 mt-3">
-  <kendo-panelbar [selectable]="false">
-    <kendo-panelbar-item expanded="true" [title]="null">
-      <ng-template kendoPanelBarItemTitle>
-        <b>Pricing History</b>
-      </ng-template>
-      <ng-template kendoPanelBarContent>
-        <div class="p-3">
-          <div class="d-flex flex-row">
-            <div style="width: 350px;">
-              <pf-pricing-history-chart-filters></pf-pricing-history-chart-filters>
-            </div>
-            <div class="pl-3 flex-grow-1 d-flex">
-              <h2 class="mx-auto my-auto">Pricing Chart Placeholder</h2>
+<pf-async-container *ngIf="(pricedPayMarkets$ | async)?.obj?.length > 0"
+  [loading]="(pricedPayMarkets$ | async)?.loading"
+  [loadingError]="(pricedPayMarkets$ | async)?.loadingError"
+  [loadingErrorMessage]="'There was an error loading your pricing information.'"
+>
+  <div class="mx-3 mt-3">
+    <kendo-panelbar [selectable]="false">
+      <kendo-panelbar-item expanded="true" [title]="null">
+        <ng-template kendoPanelBarItemTitle>
+          <b>Pricing History</b>
+        </ng-template>
+        <ng-template kendoPanelBarContent>
+          <div class="p-3">
+            <div class="d-flex flex-row">
+              <div style="width: 350px;">
+                <pf-pricing-history-chart-filters></pf-pricing-history-chart-filters>
+              </div>
+              <div class="pl-3 flex-grow-1 d-flex">
+                <h2 class="mx-auto my-auto">Pricing Chart Placeholder</h2>
+              </div>
             </div>
           </div>
-        </div>
-      </ng-template>
-    </kendo-panelbar-item>
-  </kendo-panelbar>
-</div>
+        </ng-template>
+      </kendo-panelbar-item>
+    </kendo-panelbar>
+  </div>
+</pf-async-container>
