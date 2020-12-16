@@ -13,6 +13,7 @@ exports[`TotalRewardsStatementComponent should render a mock statement derived f
   onControlTitleChange={[Function EventEmitter]}
   onEffectiveDateChange={[Function EventEmitter]}
   onImageLoaded={[Function EventEmitter]}
+  onRTEFocusChange={[Function EventEmitter]}
   onRemoveImage={[Function EventEmitter]}
   onRichTextControlContentChange={[Function EventEmitter]}
   onSaveImage={[Function EventEmitter]}
