@@ -17,6 +17,9 @@ import { DataGridState } from 'libs/features/pf-data-grid/reducers/pf-data-grid.
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
 
+import * as fromPricingHistoryChartActions from 'libs/features/pricings/pricings-history-chart/actions';
+import * as fromPricingHistoryChartReducer from 'libs/features/pricings/pricings-history-chart/reducers';
+
 import * as fromModifyPricingsActions from '../actions';
 import * as fromModifyPricingsReducer from '../reducers';
 import { PageViewIds } from '../constants';
@@ -41,7 +44,8 @@ export class ModifyPricingsEffects {
         mergeMap(() => [
           new fromModifyPricingsActions.DeletingPricingSuccess(),
           new fromPfDataGridActions.LoadData(PageViewIds.PricingHistory),
-          new fromPfDataGridActions.LoadData(PageViewIds.PayMarkets)
+          new fromPfDataGridActions.LoadData(PageViewIds.PayMarkets),
+          new fromPricingHistoryChartActions.LoadPricedPayMarkets()
         ]),
         catchError(error => of(new fromModifyPricingsActions.DeletingPricingError(error))),
       );

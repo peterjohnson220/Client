@@ -145,10 +145,13 @@ describe('Pricing History Chart Features - Filters', () => {
     instance.updatePayMarketOptions();
     instance.updateSelectedPayMarkets();
 
-    expect(c.PayMarkets.value[0].Id).toEqual(2222);
+    expect(c.PayMarkets.value[0]).toEqual(null);
 
-    expect(c.StartDate.value).toEqual(new Date('8/1/2018'));
-    expect(c.EndDate.value).toEqual(new Date('10/1/2018'));
+    const threeYearsAgo = moment().subtract(3, 'year').startOf('month').toDate();
+    const today = moment().startOf('month').toDate();
+
+    expect(c.StartDate.value).toEqual(threeYearsAgo);
+    expect(c.EndDate.value).toEqual(today);
   });
 
   it('Should set no PM selection if priced PMs', () => {

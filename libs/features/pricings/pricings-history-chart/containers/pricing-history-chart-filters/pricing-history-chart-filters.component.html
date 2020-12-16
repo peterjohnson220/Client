@@ -8,6 +8,7 @@
         [formControlName]="idx"
         textField="Name"
         valueField="Id"
+        [disabled]="idx + 1 > payMarketOptions?.length"
         [defaultItem]="{Name:'Select Pay Market...', Id: null}"
         [valuePrimitive]="false"
         [data]="filteredPayMarketOptions"
@@ -33,6 +34,7 @@
       <div class="pr-3 my-auto">Start:</div>
       <kendo-datepicker
         [attr.data-qa-id]="'date-pricing-history-chart-pm-start-date'"
+        [readOnlyInput]="true"
         formControlName="StartDate"
         class="form-control form-control-sm"        
         [navigation]="false"
@@ -44,6 +46,7 @@
       <div class="pr-3 my-auto">End:</div>
       <kendo-datepicker
         [attr.data-qa-id]="'date-pricing-history-chart-pm-end-date'"
+        [readOnlyInput]="true"
         formControlName="EndDate"
         class="form-control form-control-sm"        
         [navigation]="false"
