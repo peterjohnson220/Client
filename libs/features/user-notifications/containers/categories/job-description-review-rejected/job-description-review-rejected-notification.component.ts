@@ -9,9 +9,9 @@ import { UserNotificationDisplay } from '../../../models';
   selector: 'pf-routed-job-description-notification',
   templateUrl: '../user-notification-template.html'
 })
-export class JobDescriptionReviewCompleteNotificationComponent extends UserNotificationBaseComponent implements OnInit {
+export class JobDescriptionReviewRejectedNotificationComponent extends UserNotificationBaseComponent implements OnInit {
 
-  NotificationTitle = 'Job Description Review Complete';
+  NotificationTitle = 'Job Description Updates Rejected';
   ButtonText = 'Review Job Description';
   IconPrefix: IconPrefix = 'far';
   IconName: IconName = 'file-alt';
@@ -38,7 +38,7 @@ export class JobDescriptionReviewCompleteNotificationComponent extends UserNotif
       const url = json['Url'];
 
       return {
-        Message: `A job description for ${jobTitle} is complete`,
+        Message: `Changes for the job description for ${jobTitle} were rejected`,
         Url: url
       };
     }

@@ -19,6 +19,9 @@ import { RoutedJobDescriptionNotificationComponent } from './containers/categori
 import {
   JobDescriptionReviewCompleteNotificationComponent
 } from './containers/categories/job-description-review-complete/job-description-review-complete-notification.component';
+import {
+  JobDescriptionReviewRejectedNotificationComponent
+} from './containers/categories/job-description-review-rejected/job-description-review-rejected-notification.component';
 
 @NgModule({
   imports: [
@@ -41,7 +44,8 @@ import {
     UserTicketNotificationComponent,
     UserNotificationDisplayComponent,
     RoutedJobDescriptionNotificationComponent,
-    JobDescriptionReviewCompleteNotificationComponent
+    JobDescriptionReviewCompleteNotificationComponent,
+    JobDescriptionReviewRejectedNotificationComponent
   ],
   exports: [
     UserNotificationListComponent
