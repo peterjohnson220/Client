@@ -53,7 +53,7 @@
 }
 
 .trs-calculation-row {
-  &.field:nth-last-child(2) {
+  &:nth-last-child(2) {
     height: 2rem; // target the 2nd to last row and increase height for additional separation between this row and the last total row
   }
   .remove-btn {
@@ -68,18 +68,6 @@
     padding-top: .3rem;
   }
 }
-
-.dropdown-toggle::after{
-  display:none;
-}
-
-.dropdown-menu {
-  min-width: 0;
-  max-width: 15rem;
-  padding: .3rem;
-  white-space: nowrap;
-}
-
 .edit-mode {
   .trs-calculation-row:hover {
     .remove-btn {
