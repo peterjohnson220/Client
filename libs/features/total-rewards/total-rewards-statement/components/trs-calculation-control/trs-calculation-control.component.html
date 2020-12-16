@@ -25,27 +25,24 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let listItem of controlData.DataFields; let i = index " class="trs-calculation-row w-100">
-        <ng-template *ngIf="displayFieldInTable(listItem); then includeField;"></ng-template>
-        <ng-template #includeField>
-          <td>
-            <pf-string-editor
-              [value]="listItem.Name.Override"
-              [placeholder]="listItem.Name.Default"
-              [maxCharacters]="30"
-              [inEditMode]="inEditMode"
-              (valueChange)="onCompFieldNameChange(listItem, $event)">
-            </pf-string-editor>
-          </td>
-          <td class="contribution-field text-right" [ngClass]="inPreviewMode ? 'preview-mode-animation' : '' ">
-            <span *ngIf="getEmployerContributionValue(listItem); else compensationValuePlaceholder">{{ getEmployerContributionValue(listItem) }}</span>
-          </td>
-          <td *ngIf="inEditMode">
-            <button type="button" class="remove-btn btn btn-sm btn-outline-danger" (click)="removeField(listItem)">
-              <fa-icon class="fa-sm" [icon]="'trash-alt'"></fa-icon>
-            </button>
-          </td>
-        </ng-template>
+      <tr *ngFor="let listItem of visibleFields; let i = index;" class="trs-calculation-row w-100">
+        <td>
+          <pf-string-editor
+            [value]="listItem.Name.Override"
+            [placeholder]="listItem.Name.Default"
+            [maxCharacters]="30"
+            [inEditMode]="inEditMode"
+            (valueChange)="onCompFieldNameChange(listItem, $event)">
+          </pf-string-editor>
+        </td>
+        <td class="contribution-field text-right" [ngClass]="inPreviewMode ? 'preview-mode-animation' : '' ">
+          <span *ngIf="getEmployerContributionValue(listItem); else compensationValuePlaceholder">{{ getEmployerContributionValue(listItem) }}</span>
+        </td>
+        <td *ngIf="inEditMode">
+          <button type="button" class="remove-btn btn btn-sm btn-outline-danger" (click)="removeField(listItem)">
+            <fa-icon class="fa-sm" [icon]="'trash-alt'"></fa-icon>
+          </button>
+        </td>
       </tr>
       <tr class="trs-calculation-row w-100" [class.faux-title]="!controlData.ShowTitle">
         <td class="summary" pfStatementGraphicsDirective [colors]="graphicsColors" [colorRank]="controlData.SummaryTextColor" [styleAttrToColor]="'color'">

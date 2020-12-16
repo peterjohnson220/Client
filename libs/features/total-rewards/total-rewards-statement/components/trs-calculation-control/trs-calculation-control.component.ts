@@ -60,8 +60,8 @@ export class TrsCalculationControlComponent implements OnChanges {
     return this.mode === models.StatementModeEnum.Preview;
   }
 
-  get removedFields(): models.CompensationField[] {
-    return this.controlData.DataFields.filter(f => f.IsVisible === false);
+  get visibleFields(): models.CompensationField[] {
+    return this.controlData.DataFields.filter(field => this.displayFieldInTable(field));
   }
 
   removeField(field: models.CompensationField) {

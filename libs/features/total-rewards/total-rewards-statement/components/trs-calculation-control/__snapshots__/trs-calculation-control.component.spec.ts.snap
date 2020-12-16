@@ -73,7 +73,6 @@ exports[`TrsCalculationControlComponent should display contribution values and t
         <tr
           class="trs-calculation-row w-100"
         >
-          
           <td>
             <pf-string-editor>
               
@@ -96,13 +95,10 @@ exports[`TrsCalculationControlComponent should display contribution values and t
             </span>
           </td>
           
-          
-          
         </tr>
         <tr
           class="trs-calculation-row w-100"
         >
-          
           <td>
             <pf-string-editor>
               
@@ -125,13 +121,10 @@ exports[`TrsCalculationControlComponent should display contribution values and t
             </span>
           </td>
           
-          
-          
         </tr>
         <tr
           class="trs-calculation-row w-100"
         >
-          
           <td>
             <pf-string-editor>
               
@@ -153,8 +146,6 @@ exports[`TrsCalculationControlComponent should display contribution values and t
               5000
             </span>
           </td>
-          
-          
           
         </tr>
         <tr
@@ -266,7 +257,6 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
         <tr
           class="trs-calculation-row w-100"
         >
-          
           <td>
             <pf-string-editor>
               
@@ -289,13 +279,10 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
             </span>
           </td>
           
-          
-          
         </tr>
         <tr
           class="trs-calculation-row w-100"
         >
-          
           <td>
             <pf-string-editor>
               
@@ -317,14 +304,6 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
               10000
             </span>
           </td>
-          
-          
-          
-        </tr>
-        <tr
-          class="trs-calculation-row w-100"
-        >
-          
           
         </tr>
         <tr
@@ -436,7 +415,6 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
         <tr
           class="trs-calculation-row w-100"
         >
-          
           <td>
             <pf-string-editor>
               
@@ -459,13 +437,10 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
             </span>
           </td>
           
-          
-          
         </tr>
         <tr
           class="trs-calculation-row w-100"
         >
-          
           <td>
             <pf-string-editor>
               
@@ -487,14 +462,6 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
               10000
             </span>
           </td>
-          
-          
-          
-        </tr>
-        <tr
-          class="trs-calculation-row w-100"
-        >
-          
           
         </tr>
         <tr
@@ -585,12 +552,6 @@ exports[`TrsCalculationControlComponent should hide all content in the table hea
       </thead>
       <tbody>
         
-        <tr
-          class="trs-calculation-row w-100"
-        >
-          
-          
-        </tr>
         <tr
           class="trs-calculation-row w-100 faux-title"
         >
@@ -695,12 +656,6 @@ exports[`TrsCalculationControlComponent should render additional content in the 
       </thead>
       <tbody>
         
-        <tr
-          class="trs-calculation-row w-100"
-        >
-          
-          
-        </tr>
         <tr
           class="trs-calculation-row w-100"
         >
@@ -914,7 +869,6 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
         <tr
           class="trs-calculation-row w-100"
         >
-          
           <td>
             <pf-string-editor>
               
@@ -969,13 +923,10 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
               />
             </button>
           </td>
-          
-          
         </tr>
         <tr
           class="trs-calculation-row w-100"
         >
-          
           <td>
             <pf-string-editor>
               
@@ -1030,13 +981,10 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
               />
             </button>
           </td>
-          
-          
         </tr>
         <tr
           class="trs-calculation-row w-100"
         >
-          
           <td>
             <pf-string-editor>
               
@@ -1091,8 +1039,6 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
               />
             </button>
           </td>
-          
-          
         </tr>
         <tr
           class="trs-calculation-row w-100 faux-title"
