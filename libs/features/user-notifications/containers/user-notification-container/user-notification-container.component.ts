@@ -6,6 +6,9 @@ import { RoutedJobDescriptionNotificationComponent } from '../categories/routed-
 import {
   JobDescriptionReviewCompleteNotificationComponent
 } from '../categories/job-description-review-complete/job-description-review-complete-notification.component';
+import {
+  JobDescriptionReviewRejectedNotificationComponent
+} from '../categories/job-description-review-rejected/job-description-review-rejected-notification.component';
 import { UserNotification } from '../../models';
 import { UserNotificationHostDirective } from '../../directives';
 import { UserNotificationConstants } from '../../constants';
@@ -39,6 +42,10 @@ export class UserNotificationContainerComponent  implements OnInit {
 
       case UserNotificationConstants.JOB_DESCRIPTION_REVIEW_COMPLETE_LOOKUP_KEY:
         componentFactory = this.componentFactoryResolver.resolveComponentFactory(JobDescriptionReviewCompleteNotificationComponent);
+        break;
+
+      case UserNotificationConstants.JOB_DESCRIPTION_REVIEW_REJECTED_LOOKUP_KEY:
+        componentFactory = this.componentFactoryResolver.resolveComponentFactory(JobDescriptionReviewRejectedNotificationComponent);
         break;
 
       default:
