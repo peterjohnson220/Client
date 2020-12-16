@@ -5,11 +5,7 @@ import { CurrencyPipe } from '@angular/common';
 import { generateMockEmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards';
 
 import { TrsSummaryControlComponent } from './trs-summary-control.component';
-import {
-  generateMockCalculationControl,
-  LabelWithOverride,
-  StatementModeEnum, TotalRewardsColorEnum, TotalRewardsControlEnum
-} from '../../models';
+import { generateMockCalculationControl, LabelWithOverride, StatementModeEnum, TotalRewardsColorEnum, TotalRewardsControlEnum } from '../../models';
 
 describe('TrsSummaryControlComponent', () => {
   let component: TrsSummaryControlComponent;
@@ -84,9 +80,55 @@ describe('TrsSummaryControlComponent', () => {
       ControlType: TotalRewardsControlEnum.CalculationSummary,
       Layout: { Width: 12 },
       SummaryTextColor: TotalRewardsColorEnum.Secondary,
-      IsTabularView: true
+      IsTabularView: true,
+      IsItalicized: false
     };
 
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+
+    component.mode = StatementModeEnum.Preview;
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+
+    component.mode = StatementModeEnum.Print;
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should display italicised when enabled in all modes', () => {
+    component.controlData = {
+      Title: { Default: 'Your Total Rewards Value', Override: '' } as LabelWithOverride
+    } as any;
+    component.calculationControls = [generateMockCalculationControl()];
+    component.employeeRewardsData = generateMockEmployeeRewardsData();
+    component.controlData = {
+      Id: '106',
+      $type: 'TotalRewardsCalculationSummaryControlDto',
+      Title: { Default: 'Your Total Rewards Statement', Override: ''},
+      ControlType: TotalRewardsControlEnum.CalculationSummary,
+      Layout: { Width: 12 },
+      SummaryTextColor: TotalRewardsColorEnum.Secondary,
+      IsTabularView: false,
+      IsItalicized: true
+    };
+    // Normal View (non tabular view)
+    component.mode = StatementModeEnum.Edit;
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+
+    component.mode = StatementModeEnum.Preview;
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+
+    component.mode = StatementModeEnum.Print;
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+
+    // Tabular view
+    component.controlData.IsTabularView = true;
+
+    component.mode = StatementModeEnum.Edit;
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
 

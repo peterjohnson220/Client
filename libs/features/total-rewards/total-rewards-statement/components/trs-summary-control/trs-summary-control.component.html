@@ -1,7 +1,12 @@
 <div class="summary-control px-3 mt-3" pfModeClassifierDirective [mode]="mode">
   <!-- Standard View -->
   <div class="text-center" *ngIf="!controlData.IsTabularView; else tabularView">
-    <h3 class="d-inline-block mw-100" pfStatementGraphicsDirective [colors]="graphicsColors" [colorRank]="controlData.SummaryTextColor" [styleAttrToColor]="'color'">
+    <h3 class="d-inline-block mw-100"
+        pfStatementGraphicsDirective
+        [ngClass]="controlData.IsItalicized ? 'font-italic' : ''"
+        [colors]="graphicsColors"
+        [colorRank]="controlData.SummaryTextColor"
+        [styleAttrToColor]="'color'">
       <pf-string-editor
         [maxCharacters]="30"
         [value]="controlData.Title.Override"
@@ -11,7 +16,7 @@
         (valueChange)="handleTitleChanged($event)">
       </pf-string-editor>
     </h3>
-    <h4 *ngIf="isEditMode" class="position-relative">    
+    <h4 *ngIf="isEditMode" class="position-relative">
       <pf-compensation-value-placeholder></pf-compensation-value-placeholder>
     </h4>
     <h4 *ngIf="!isEditMode" class="position-relative" [ngClass]=" isPreviewMode ? 'preview-mode-animation' : '' ">
@@ -30,6 +35,7 @@
           <td class="title-column">
             <h3 class="d-inline-block mw-100"
                 pfStatementGraphicsDirective
+                [ngClass]="controlData.IsItalicized ? 'font-italic' : ''"
                 [colors]="graphicsColors"
                 [colorRank]="controlData.SummaryTextColor"
                 [styleAttrToColor]="'color'">
