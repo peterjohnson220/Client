@@ -483,7 +483,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
       'pf-data-grid-non-clickable-row': this.compactGrid,
       'k-state-selected': this.selectionField && !this.compactGrid && (context.dataItem[this.primaryKey] === this.selectedRecordId),
       'pf-data-grid-modified-row': this.modifiedKey !== null && this.modifiedKeys != null
-        && this.modifiedKeys.includes(context.dataItem[this.primaryKey]),
+        && this.modifiedKeys.includes(context.dataItem[this.modifiedKey]),
       'pf-data-grid-attention-grab-active': this.enableRowFade && shouldFadeIn,
       'pf-data-grid-attention-grab-inactive': this.enableRowFade && !shouldFadeIn && shouldFadeOut
     };
