@@ -1,6 +1,15 @@
 <div class="card d-flex flex-column flex-grow-1">
   <div class="card-header">
-    <span class="title">Pay Market Default Settings</span>
+    <span class="title">
+      Pay Market Default Settings
+      <fa-icon class="pl-2"
+              icon="info-circle"
+              [ngbPopover]="payMarketDefaultInfo"
+              container="body"
+              triggers="mouseenter:mouseleave"
+              placement="right">
+    </fa-icon>
+    </span>
   </div>
 
   <div class="card-body d-flex flex-column pl-4">
@@ -22,3 +31,9 @@
   </div>
 
 </div>
+
+<ng-template #payMarketDefaultInfo>
+  <div class="pop-content">
+    <p>Update your existing pay markets by adjusting the Weight and Adjustment for each available scope as needed.</p>
+  </div>
+</ng-template>
