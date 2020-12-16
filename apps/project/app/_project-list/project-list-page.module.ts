@@ -9,7 +9,8 @@ import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { ProjectListPageComponent } from './project-list.page/project-list.page';
 import { ProjectListPageRoutingModule } from './project-list-page-routing.module';
-
+import {PfDataGridModule} from 'libs/features';
+import * as fromFaIcons from './fa-icons';
 @NgModule({
   imports: [
     // Angular
@@ -25,6 +26,7 @@ import { ProjectListPageRoutingModule } from './project-list-page-routing.module
     ProjectListPageRoutingModule,
 
     // Payfactors
+    PfDataGridModule,
     PfCommonModule,
     PfCommonUIModule,
     PfFormsModule
@@ -36,6 +38,6 @@ import { ProjectListPageRoutingModule } from './project-list-page-routing.module
 })
 export class ProjectListPageModule {
   constructor(library: FaIconLibrary) {
-    // library.addIcons(...fromFaIcons.faIcons)
+     library.addIcons(...fromFaIcons.faIcons);
   }
 }
