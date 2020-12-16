@@ -6,6 +6,7 @@ export interface Provider {
   AuthenticationTypeId: number;
   Active: boolean;
   UsesFieldSelection: boolean;
+  ShowInUI: boolean;
 }
 
 export function generateMockProvider(): Provider {
@@ -16,7 +17,8 @@ export function generateMockProvider(): Provider {
     ImageUrl: 'MockImageUrl',
     AuthenticationTypeId: 1,
     Active: true,
-    UsesFieldSelection: false
+    UsesFieldSelection: false,
+    ShowInUI: true
   };
 }
 
@@ -29,7 +31,8 @@ export function generateMockProviderList(): Provider[] {
       ImageUrl: 'MockImageUrl1',
       AuthenticationTypeId: 1,
       Active: true,
-      UsesFieldSelection: false
+      UsesFieldSelection: false,
+      ShowInUI: true
     },
     {
       ProviderId: 2,
@@ -38,7 +41,8 @@ export function generateMockProviderList(): Provider[] {
       ImageUrl: 'MockImageUrl2',
       AuthenticationTypeId: 1,
       Active: true,
-      UsesFieldSelection: false
+      UsesFieldSelection: false,
+      ShowInUI: true
     },
     {
       ProviderId: 3,
@@ -47,7 +51,8 @@ export function generateMockProviderList(): Provider[] {
       ImageUrl: 'MockImageUrl3',
       AuthenticationTypeId: 2,
       Active: true,
-      UsesFieldSelection: false
+      UsesFieldSelection: false,
+      ShowInUI: true
     }
   ];
 }
@@ -60,7 +65,8 @@ export function generateMockOutboundProvider(): Provider {
     ImageUrl: 'MockImageUrl',
     AuthenticationTypeId: 1,
     Active: true,
-    UsesFieldSelection: false
+    UsesFieldSelection: false,
+    ShowInUI: true
   };
 }
 
@@ -73,7 +79,8 @@ export function generateMockOutboundProviderList(): Provider[] {
       ImageUrl: 'MockImageUrl1',
       AuthenticationTypeId: 1,
       Active: true,
-      UsesFieldSelection: false
+      UsesFieldSelection: false,
+      ShowInUI: true
     },
     {
       ProviderId: 2,
@@ -82,7 +89,8 @@ export function generateMockOutboundProviderList(): Provider[] {
       ImageUrl: 'MockImageUrl2',
       AuthenticationTypeId: 1,
       Active: true,
-      UsesFieldSelection: false
+      UsesFieldSelection: false,
+      ShowInUI: true
     },
     {
       ProviderId: 3,
@@ -91,7 +99,8 @@ export function generateMockOutboundProviderList(): Provider[] {
       ImageUrl: 'MockImageUrl3',
       AuthenticationTypeId: 2,
       Active: true,
-      UsesFieldSelection: false
+      UsesFieldSelection: false,
+      ShowInUI: true
     }
   ];
 }

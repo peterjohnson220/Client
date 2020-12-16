@@ -54,7 +54,8 @@ export class OutboundJdmEffects {
             ProviderCode: 'WDMOCK',
             ProviderId: 54321,
             ProviderName: 'Workday Mock',
-            UsesFieldSelection: false
+            UsesFieldSelection: false,
+            ShowInUI: true
           },
           hasConnection: false,
           canEditConnection: false,
