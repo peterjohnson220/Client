@@ -23,7 +23,9 @@ import * as fromCompanyReducer from 'libs/features/company/company-selector/redu
 import * as fromCustomFieldsActions from 'libs/features/company/custom-fields/actions/';
 import * as fromEntityIdentifierActions from 'libs/features/company/entity-identifier/actions/';
 import * as fromEmailRecipientsActions from 'libs/features/loader-email-reipients/state/actions/email-recipients.actions';
-import { DEFAULT_DATE_FORMAT, LoaderFileFormat, LoaderSettingsKeys, LoaderType } from 'libs/features/org-data-loader/constants';
+import {
+    DEFAULT_DATE_FORMAT, LoaderFileFormat, LoaderSettingsKeys, LoaderType, ORG_DATA_PF_EMPLOYEE_TAG_FIELDS
+} from 'libs/features/org-data-loader/constants';
 import { LoaderSettings, OrgDataLoadHelper } from 'libs/features/org-data-loader/helpers';
 import { ILoadSettings } from 'libs/features/org-data-loader/helpers/org-data-load-helper';
 import { FieldMapping, FileUploadDataRequestModel, LoaderEntityStatus } from 'libs/features/org-data-loader/models';
@@ -310,20 +312,20 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     this.empoyeeTagCategories$.pipe(
       filter(uc => !!uc),
       takeUntil(this.unsubscribe$)).subscribe(employeetags => {
-        this.loadOptions.find(l => l.templateReferenceConstants === LoaderType.EmployeeTags).customFields.EmployeeTags.push(...employeetags);
+
+        var empTags = this.loadOptions.find(l => l.templateReferenceConstants === LoaderType.EmployeeTags).customFields.EmployeeTags;
+        this.loadOptions.find(l => l.templateReferenceConstants === LoaderType.EmployeeTags).customFields.EmployeeTags = empTags.concat(employeetags);
       });
 
     this.employeeIdentifiers$.pipe(
-      filter(r => !!r),
+      filter(uc => !!uc),
       takeUntil(this.unsubscribe$)
     ).subscribe(r => {
-      const selected = r.filter(a => a.isChecked);
+      const selected = r.filter(a => a.isChecked && a.Field != 'Employee_ID');
 
-      if (!selected || selected.length === 0) {
-        const empId = ['Employee_ID'];
-        this.loadOptions.find(l => l.templateReferenceConstants === LoaderType.EmployeeTags).customFields.EmployeeKeyFields.push(...empId);
-      } else {
-        this.loadOptions.find(l => l.templateReferenceConstants === LoaderType.EmployeeTags).customFields.EmployeeKeyFields.push(...selected.map(a => a.Field));
+      if (selected && selected.length >= 0) {
+        var empTags = this.loadOptions.find(l => l.templateReferenceConstants === LoaderType.EmployeeTags).customFields.EmployeeTags;
+        this.loadOptions.find(l => l.templateReferenceConstants === LoaderType.EmployeeTags).customFields.EmployeeTags = empTags.concat(selected.map(a => a.Field))
       }
     });
 
@@ -494,9 +496,12 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   }
 
   getPayfactorCustomFields(companyId) {
+
+    this.loadOptions.find(l => l.templateReferenceConstants === LoaderType.EmployeeTags).customFields.EmployeeTags = ORG_DATA_PF_EMPLOYEE_TAG_FIELDS;
+
     this.mainStore.dispatch(new fromCustomFieldsActions.GetCustomJobFields(companyId));
     this.mainStore.dispatch(new fromCustomFieldsActions.GetCustomEmployeeFields(companyId));
-    this.mainStore.dispatch(new fromCustomFieldsActions.GetTagCategories);
+    this.mainStore.dispatch(new fromCustomFieldsActions.GetTagCategories(companyId));
   }
 
   private SetDefaultValuesForNullConfig() {
