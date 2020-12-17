@@ -1,4 +1,5 @@
 import cloneDeep from 'lodash/cloneDeep';
+import orderBy from 'lodash/orderBy';
 
 import * as fromPricingHistoryChartActions from '../actions/pricing-history-chart.actions';
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models';
@@ -29,7 +30,11 @@ export function reducer(state = initialState, action: fromPricingHistoryChartAct
       return AsyncStateObjHelper.loading(state, 'pricedPayMarkets');
     }
     case fromPricingHistoryChartActions.LOAD_PRICED_PAYMARKETS_SUCCESS: {
-      return AsyncStateObjHelper.loadingSuccess(state, 'pricedPayMarkets', action.payload);
+      const defaultPMs = action.payload.filter(p => p.IsDefault);
+      let sortedPayMarkets = action.payload.filter(p => !p.IsDefault);
+      sortedPayMarkets = orderBy(sortedPayMarkets, 'Name', 'asc');
+      sortedPayMarkets = defaultPMs.concat(sortedPayMarkets);
+      return AsyncStateObjHelper.loadingSuccess(state, 'pricedPayMarkets', sortedPayMarkets);
     }
     case fromPricingHistoryChartActions.LOAD_PRICED_PAYMARKETS_ERROR: {
       return AsyncStateObjHelper.loadingError(state, 'pricedPayMarkets');
