@@ -81,6 +81,7 @@ describe('TrsSummaryControlComponent', () => {
       Layout: { Width: 12 },
       SummaryTextColor: TotalRewardsColorEnum.Secondary,
       IsTabularView: true,
+      IncreaseMarginTop: false,
       IsItalicized: false
     };
 
@@ -110,6 +111,7 @@ describe('TrsSummaryControlComponent', () => {
       Layout: { Width: 12 },
       SummaryTextColor: TotalRewardsColorEnum.Secondary,
       IsTabularView: false,
+      IncreaseMarginTop: false,
       IsItalicized: true
     };
     // Normal View (non tabular view)
