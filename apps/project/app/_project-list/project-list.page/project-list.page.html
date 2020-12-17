@@ -1,10 +1,12 @@
 <pf-data-grid
+  [reorderable]="true"
   [pageViewId]="pageViewId"
   [title]="'Pricing Projects'"
   [selectionField]="'UserSession_ID'"
   [gridActionsTemplate]="gridActions"
   [enableSelection]="true"
   [gridConfig]="gridConfig"
+  [defaultSort]="defaultSort"
   [columnTemplates]="colTemplates"
   [actionBarConfig]="actionBarConfig"
   [noRecordsFound]="'No projects available. Please change your search criteria.'"
@@ -28,6 +30,6 @@
 
 <ng-template #projectStatusColumn let-dataRow="dataRow" let-hover="hover">
   <div>
-    <span [title]="'Project is ' + dataRow.UserSessions_Completed ? 'Complete' : 'In Progress'" [ngClass]="dataRow.UserSessions_Completed ? 'complete' : 'in-progress'"> <fa-icon [icon]="'circle'"></fa-icon></span>
+    <span [title]="dataRow.UserSessions_Completed ? 'Project is Completed' : 'Project is In Progress'" [ngClass]="dataRow.UserSessions_Completed ? 'complete' : 'in-progress'"> <fa-icon [icon]="'circle'"></fa-icon></span>
   </div>
 </ng-template>

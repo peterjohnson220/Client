@@ -1,13 +1,14 @@
 import {AfterViewInit, Component, ElementRef, ViewChild} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
+import {SortDescriptor} from '@progress/kendo-data-query';
 
 import { ActionBarConfig, getDefaultActionBarConfig, GridConfig} from 'libs/features/pf-data-grid/models';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
 
-
 import {PageViewIds} from '../constants';
+
 
 @Component({
   selector: 'pf-project-list-page',
@@ -21,6 +22,10 @@ export class ProjectListPageComponent implements AfterViewInit {
   pageViewId = PageViewIds.Projects;
   gridConfig: GridConfig;
   actionBarConfig: ActionBarConfig;
+  defaultSort: SortDescriptor[] = [{
+    dir: 'desc',
+    field: 'UserSessionMap_Last_Viewed'
+  }];
 
   @ViewChild('projectStatusColumn') projectStatusColumn: ElementRef;
   constructor( private store: Store<fromPfDataGridReducer.State>) {
