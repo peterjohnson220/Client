@@ -23,7 +23,6 @@ import { PageViewIds } from '../../../../constants';
 export class PricingMatchesGridComponent implements OnInit, AfterViewInit, OnChanges {
 
   @Input() pricingInfo: any;
-  @Output() reScopeSurveyDataEmitter = new EventEmitter();
 
   @ViewChild('jobTitleColumn') jobTitleColumn: ElementRef;
   @ViewChild('agingColumn') agingColumn: ElementRef;
@@ -63,6 +62,7 @@ export class PricingMatchesGridComponent implements OnInit, AfterViewInit, OnCha
     Count: 500
   };
   actionBarConfig: ActionBarConfig;
+
 
   hasModifyPricingPemission: boolean;
   constructor(private permissionService: PermissionService, private mrpFormatterService: MrpFormatterService) {

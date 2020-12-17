@@ -1,9 +1,9 @@
 import {
   Component, OnInit, Input, ViewChild, ElementRef, AfterViewChecked,
-  HostListener, ChangeDetectorRef, OnDestroy, SimpleChanges, OnChanges, EventEmitter, Output
+  HostListener, ChangeDetectorRef, OnDestroy, SimpleChanges, OnChanges,
 } from '@angular/core';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-import {filter, map} from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
 
 import { ActionsSubject, Store } from '@ngrx/store';
 import { ofType } from '@ngrx/effects';
@@ -25,6 +25,9 @@ import {
   UpsertPeerDataCutParentEntities
 } from 'libs/features/upsert-peer-data-cut/constants';
 import * as fromUpsertPeerActions from 'libs/features/upsert-peer-data-cut/actions';
+import { ReScopeSurveyDataModalConfiguration } from 'libs/features/re-scope-survey-data/models';
+import * as fromReScopeActions from 'libs/features/re-scope-survey-data/actions';
+import * as fromRescopeReducer from 'libs/features/re-scope-survey-data/reducers';
 
 import { PageViewIds } from '../../../constants';
 import * as fromModifyPricingsActions from '../../../actions';
@@ -40,11 +43,11 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
 
   @Input() dataRow: any;
   @Input() pricingInfo: any;
-  @Output() reScopeSurveyDataEmitter = new EventEmitter();
+  @Input() rowIndex: number;
 
   @ViewChild('jobTitleText') jobTitleText: ElementRef;
   @ViewChild('detailsText') detailsText: ElementRef;
-  @ViewChild('reScopeSurveyDataTemplate') reScopeSurveyDataTemplate: ElementRef<any>;
+  @ViewChild('reScopeSurveyDataTemplate') reScopeSurveyDataTemplate: ElementRef;
 
   permissions = Permissions;
 
@@ -86,7 +89,19 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
     ParentEntityId: null
   };
 
+  reScopeSurveyDataConfiguration: ReScopeSurveyDataModalConfiguration;
+
+
+  // This is needed to refresh the matches grid after updating the scopes
+  selectedPricingId: number;
+  reScopeSurveyDataSubscription: Subscription;
+  matchIdForUpdates: number;
+
   previousPricingEffectiveDate: any = null;
+
+  rescopeSubmissionSubscription: Subscription;
+
+  isSelectedForRescope = false;
 
   @HostListener('window:resize') windowResize() {
     this.ngAfterViewChecked();
@@ -100,6 +115,25 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
     private pricingApiService: PricingApiService) { }
 
   ngOnInit() {
+    this.rescopeSubmissionSubscription = this.actionsSubject.pipe(ofType(fromReScopeActions.RE_SCOPE_SURVEY_SUBMIT))
+      .subscribe((action: fromReScopeActions.ReScopeSurveySubmit) => {
+        if (action.newSurveyDataId && this.isSelectedForRescope) {
+          const request: UpdatePricingMatchRequest = {
+            MatchId: this.matchIdForUpdates,
+            MatchWeight: null,
+            MatchAdjustment: null,
+            SurveyDataId: action.newSurveyDataId,
+            ExchangeDataCutId: null,
+          };
+          const pricingId = this.selectedPricingId;
+          const matchesGridPageViewId = `${PageViewIds.PricingMatches}_${pricingId}`;
+
+          this.store.dispatch(new fromModifyPricingsActions.UpdatingPricingMatch(request, pricingId, matchesGridPageViewId));
+
+          this.isSelectedForRescope = false;
+        }
+      });
+
     this.jobsSelectedRow$ = this.store.select(fromPfDataGridReducer.getSelectedRow, PageViewIds.Jobs);
 
     this.canModifyPricings = this.permissionService.CheckPermission([Permissions.MODIFY_PRICINGS], PermissionCheckEnum.Single);
@@ -160,6 +194,16 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
           this.store.dispatch(new fromModifyPricingsActions.UpdatingPricingMatch(request, pricingId, matchesGridPageViewId));
         }
       });
+
+    this.reScopeSurveyDataConfiguration = {
+      SurveyJobId: undefined,
+      SurveyDataId: undefined,
+      SurveyJobTemplate: undefined,
+      Rate: 'Annual',
+      RowIndex: this.rowIndex,
+      ShowPricingWarning: true,
+      EntityId: undefined
+    };
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -175,13 +219,31 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
   }
 
   ngOnDestroy() {
+    this.rescopeSubmissionSubscription.unsubscribe();
     this.getDeletingPricingMatchSuccessSubscription.unsubscribe();
     this.updateGridDataRowSubscription.unsubscribe();
     this.pricingMatchesDataSuscription.unsubscribe();
     this.isActiveJobSubscription.unsubscribe();
     this.upsertPeerDataSubscription.unsubscribe();
+    this.reScopeSurveyDataSubscription.unsubscribe();
   }
 
+  openReScopeSurveyDataModal(data: any) {
+    this.reScopeSurveyDataConfiguration = {
+      ...this.reScopeSurveyDataConfiguration,
+      SurveyJobId: data.SurveyJobId,
+      SurveyDataId: data.SurveyDataId,
+      SurveyJobTemplate: data.SurveyJobTemplate,
+      Rate: data.Rate,
+      EntityId: data.MatchId
+    };
+
+    this.matchIdForUpdates = data.MatchId;
+    this.selectedPricingId = data.PricingId;
+
+    this.store.dispatch(new fromReScopeActions.GetReScopeSurveyDataContext(data.MatchId, this.rowIndex));
+    this.isSelectedForRescope = true;
+  }
 
   checkOverflow(element) {
     // IE hack because IE calculates offsets differently
@@ -258,7 +320,7 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
         PricingId: this.dataRow['CompanyJobs_PricingsMatches_CompanyJobPricing_ID']
       };
 
-      this.reScopeSurveyDataEmitter.emit(data);
+      this.openReScopeSurveyDataModal(data);
     }
   }
 

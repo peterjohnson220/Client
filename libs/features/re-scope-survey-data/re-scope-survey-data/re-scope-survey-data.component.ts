@@ -5,7 +5,7 @@ import {
 
 import { Store } from '@ngrx/store';
 
-import { Subscription } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 
 import uniq from 'lodash/uniq';
 import cloneDeep from 'lodash/cloneDeep';
@@ -14,6 +14,7 @@ import { SortDescriptor } from '@progress/kendo-data-query';
 
 import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
 import { ActionBarConfig, getDefaultActionBarConfig } from 'libs/features/pf-data-grid/models';
+import * as fromRescopeActions from 'libs/features/re-scope-survey-data/actions';
 import * as fromGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromGridReducer from 'libs/features/pf-data-grid/reducers';
 
@@ -22,6 +23,7 @@ import { ViewField } from 'libs/models/payfactors-api/reports/request';
 import { ReScopeSurveyDataModalConfiguration, ReScopeSurveyDataContext } from '../models';
 import { ReScopeSurveyDataPageViewIds } from '../constants';
 import * as fromReScopeReducer from '../reducers';
+import { PfThemeType } from '../../pf-data-grid/enums/pf-theme-type.enum';
 
 @Component({
   selector: 'pf-re-scope-survey-data',
@@ -31,7 +33,6 @@ import * as fromReScopeReducer from '../reducers';
 
 export class ReScopeSurveyDataComponent implements OnChanges, AfterViewInit, OnDestroy {
   @Input() modalConfiguration: ReScopeSurveyDataModalConfiguration;
-  @Output() reScopeSubmitted = new EventEmitter();
   @Output() cancelChanges = new EventEmitter();
 
   pageViewId = ReScopeSurveyDataPageViewIds.ReScopeSurveyDataResults;
@@ -41,6 +42,10 @@ export class ReScopeSurveyDataComponent implements OnChanges, AfterViewInit, OnD
   selectedSurveyDataId: number;
   reScopeContextSubscription: Subscription;
   reScopeContext: ReScopeSurveyDataContext;
+  pfThemes = PfThemeType;
+
+  showReScopeSurveyDataModal = new BehaviorSubject<boolean>(false);
+  showReScopeSurveyDataModal$ = this.showReScopeSurveyDataModal.asObservable();
 
   actionBarConfig: ActionBarConfig;
 
@@ -63,7 +68,8 @@ export class ReScopeSurveyDataComponent implements OnChanges, AfterViewInit, OnD
     });
 
     this.reScopeContextSubscription = this.store.select(fromReScopeReducer.getReScopeContext).subscribe(c => {
-      if (c) {
+      // Row index check is CRUCIAL. Prevents ExpressionChangedAfterItHasBeenCheckedError because it will only run logic for the currently clicked row.
+      if (c && !c.loading && this.modalConfiguration.RowIndex === c.obj.RowIndex) {
         const currentCountry = this.reScopeContext?.CountryCode;
         this.reScopeContext = c.obj;
 
@@ -81,6 +87,8 @@ export class ReScopeSurveyDataComponent implements OnChanges, AfterViewInit, OnD
             this.reScopeSurveyDataFilters = clonedFilters;
           }
         }
+
+        this.showReScopeSurveyDataModal.next(true);
       }
     });
   }
@@ -139,11 +147,16 @@ export class ReScopeSurveyDataComponent implements OnChanges, AfterViewInit, OnD
     this.selectedSurveyDataIdSubscription.unsubscribe();
   }
 
+  submit() {
+    this.store.dispatch(new fromRescopeActions.ReScopeSurveySubmit(this.selectedSurveyDataId));
+    this.showReScopeSurveyDataModal.next(false);
+  }
+
   resetModal(cancel: boolean) {
     this.store.dispatch(new fromGridActions.UpdateSelectedRecordId(this.pageViewId, null, null));
     this.store.dispatch(new fromGridActions.UpdateSortDescriptorNoDataRetrieval(this.pageViewId, this.defaultSort));
     if (cancel) {
-      this.cancelChanges.emit();
+      this.showReScopeSurveyDataModal.next(false);
     }
   }
 

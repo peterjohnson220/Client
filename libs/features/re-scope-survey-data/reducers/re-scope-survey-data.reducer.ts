@@ -14,11 +14,16 @@ export const initialState: State = {
 
 export function reducer(state = initialState, action: fromReScopeSurveyDataActions.Actions): State {
   switch (action.type) {
+    case fromReScopeSurveyDataActions.GET_RE_SCOPE_SURVEY_DATA_CONTEXT:
+      return AsyncStateObjHelper.loading(state, 'reScopeContext');
     case fromReScopeSurveyDataActions.GET_RE_SCOPE_SURVEY_DATA_CONTEXT_SUCCESS:
       return AsyncStateObjHelper.loadingSuccess(state, 'reScopeContext', action.payload);
+    case fromReScopeSurveyDataActions.RE_SCOPE_SURVEY_DATA_ERROR:
+      return AsyncStateObjHelper.loadingError(state, 'reScopeContext', action.payload);
     default:
       return state;
   }
 }
 
 export const getReScopeContext = (state: State) => state.reScopeContext;
+
