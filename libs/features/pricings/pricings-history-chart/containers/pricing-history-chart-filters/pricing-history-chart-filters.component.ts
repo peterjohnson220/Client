@@ -52,6 +52,16 @@ export class PricingHistoryChartFiltersComponent implements OnInit, OnDestroy {
       EndDate: null
     }, { validator: this.validateDateRange.bind(this) });
 
+    //Order matters don't put this change subscription below the ngrx selectors
+    this.payMarketChangesSubscription = this.f.PayMarkets.valueChanges.subscribe(value => {
+      this.updatePayMarketOptions();
+      this.updateDateRange();
+    });
+
+    this.formChangesSubscription = this.pricingHistoryChartForm.valueChanges.subscribe(value => {
+      this.store.dispatch(new fromPricingHistoryChartActions.UpdateFilters(value));
+    });
+    
     this.updateDateRange();
 
     this.pricedPayMarkets$ = this.store.select(fromPricingHistoryChartReducer.getPricedPayMarkets);
@@ -64,15 +74,7 @@ export class PricingHistoryChartFiltersComponent implements OnInit, OnDestroy {
         this.updateDateRange();
         this.updateSelectedPayMarkets();
       });
-
-    this.formChangesSubscription = this.pricingHistoryChartForm.valueChanges.subscribe(value => {
-      this.store.dispatch(new fromPricingHistoryChartActions.UpdateFilters(value));
-    });
-
-    this.payMarketChangesSubscription = this.f.PayMarkets.valueChanges.subscribe(value => {
-      this.updatePayMarketOptions();
-      this.updateDateRange();
-    });
+   
   }
 
   ngOnDestroy() {
