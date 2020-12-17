@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { TabularReportExportSchedule } from 'libs/features/reports/models';
-
 import { UpsertUserReportTag, SaveWorkbookOrderRequest, SaveReportOrderRequest } from '../../../models/payfactors-api/reports/request';
 import { PayfactorsApiService } from '../payfactors-api.service';
 
@@ -25,13 +23,5 @@ export class UserReportApiService {
 
   saveReportOrder(request: SaveReportOrderRequest): Observable<any> {
     return this.payfactorsApiService.post(`${this.endpoint}/SaveReportOrder`, request);
-  }
-
-  getExportSchedules(): Observable<TabularReportExportSchedule[]> {
-    return this.payfactorsApiService.get<TabularReportExportSchedule[]>(`${this.endpoint}/GetExportSchedules`);
-  }
-
-  saveExportSchedule(request: TabularReportExportSchedule): Observable<any> {
-    return this.payfactorsApiService.post(`${this.endpoint}/SaveExportSchedule`, request);
   }
 }

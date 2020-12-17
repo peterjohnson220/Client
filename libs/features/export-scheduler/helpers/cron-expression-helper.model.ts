@@ -99,9 +99,9 @@ export class CronExpressionHelper {
   }
 
   private static getDefaultCronFields(): string {
-    const sec = '0';
-    const min = '0';
-    const hour = '0';
+    const sec = '*';
+    const min = '*';
+    const hour = '*';
     const dayOfMonth = '?';
     const month = '*';
     return `${sec} ${min} ${hour} ${dayOfMonth} ${month}`;

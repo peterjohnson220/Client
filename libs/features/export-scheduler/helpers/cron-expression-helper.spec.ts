@@ -3,11 +3,11 @@ import { CronExpressionHelper, ExportFrequencyType } from './cron-expression-hel
 describe('Export Scheduler - Cron Expression Helper', () => {
 
   it.each([
-    ['0 0 0 ? *', ''],
-    ['0 0 0 ? * BAD', ''],
-    ['0 0 0 ? * MON,BAD,TUE', 'Weekly on Monday, Tuesday'],
-    ['0 0 0 ? * MON', 'Weekly on Monday'],
-    ['0 0 0 ? * MON,WED,FRI', 'Weekly on Monday, Wednesday, Friday']
+    ['* * * ? *', ''],
+    ['* * * ? * BAD', ''],
+    ['* * * ? * MON,BAD,TUE', 'Weekly on Monday, Tuesday'],
+    ['* * * ? * MON', 'Weekly on Monday'],
+    ['* * * ? * MON,WED,FRI', 'Weekly on Monday, Wednesday, Friday']
   ])
   ('should return the correct text format for weekly frequency', (cronExpression, expectedTextFormat) => {
     const textFormat = CronExpressionHelper.getWeeklyFrequencyTextFormat(cronExpression);
@@ -16,11 +16,11 @@ describe('Export Scheduler - Cron Expression Helper', () => {
   });
 
   it.each([
-    ['0 0 0 ? *', ''],
-    ['0 0 0 ? * BAD', ''],
-    ['0 0 0 ? * BAD#2', ''],
-    ['0 0 0 ? * MON#10', ''],
-    ['0 0 0 ? * MON#2', 'Second Monday of each month']
+    ['* * * ? *', ''],
+    ['* * * ? * BAD', ''],
+    ['* * * ? * BAD#2', ''],
+    ['* * * ? * MON#10', ''],
+    ['* * * ? * MON#2', 'Second Monday of each month']
   ])
   ('should return the correct text format for monthly frequency', (cronExpression, expectedTextFormat) => {
     const textFormat = CronExpressionHelper.getMonthlyFrequencyTextFormat(cronExpression);
@@ -32,13 +32,13 @@ describe('Export Scheduler - Cron Expression Helper', () => {
     [ExportFrequencyType.OneTime, [], null, ''],
     [ExportFrequencyType.Weekly, [], null, ''],
     [ExportFrequencyType.Weekly, ['Fakeday'], null, ''],
-    [ExportFrequencyType.Weekly, ['Monday', 'Wednesday', 'Friday'], null, '0 0 0 ? * MON,WED,FRI'],
+    [ExportFrequencyType.Weekly, ['Monday', 'Wednesday', 'Friday'], null, '* * * ? * MON,WED,FRI'],
     [ExportFrequencyType.Monthly, [], 'Second', ''],
     [ExportFrequencyType.Monthly, ['Monday'], null, ''],
     [ExportFrequencyType.Monthly, ['Monday', 'Tuesday'], 'Second', ''],
     [ExportFrequencyType.Monthly, ['Fakeday'], 'Second', ''],
     [ExportFrequencyType.Monthly, ['Monday'], '10', ''],
-    [ExportFrequencyType.Monthly, ['Monday'], 'Second', '0 0 0 ? * MON#2'],
+    [ExportFrequencyType.Monthly, ['Monday'], 'Second', '* * * ? * MON#2'],
   ])
   ('should generate correct cron expression', (frequency, daysOfWeek, monthlyOccurrence, expectedCronExpression) => {
     const cronExpression = CronExpressionHelper.generateCronExpression(frequency, daysOfWeek, monthlyOccurrence);

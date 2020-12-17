@@ -62,8 +62,8 @@ describe('Company Admin - Tabular Report Export Schedule', () => {
 
   it.each([
     ['Excel', null, ExportFrequencyType.OneTime, null, null, null],
-    ['CSV', 'Comma', ExportFrequencyType.Weekly, ['Monday', 'Friday'], null, '0 0 0 ? * MON,FRI'],
-    ['CSV', 'Pipe', ExportFrequencyType.Monthly, ['Monday'], 'First', '0 0 0 ? * MON#1']
+    ['CSV', 'Comma', ExportFrequencyType.Weekly, ['Monday', 'Friday'], null, '* * * ? * MON,FRI'],
+    ['CSV', 'Pipe', ExportFrequencyType.Monthly, ['Monday'], 'First', '* * * ? * MON#1']
   ])
   ('should dispatch save schedule with correct data',
   (format, separatorType, frequency, daysOfWeek, monthlyOccurrence, cronExpression) => {
