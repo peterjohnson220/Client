@@ -20,10 +20,26 @@ export class JobsHierarchyEffects {
     .pipe(
       ofType(fromJobsHierarchyActions.GET_JOB_FAMILIES),
       switchMap((action: fromJobsHierarchyActions.GetJobFamilies) =>
-        this.companyJobApiService.getJobFamilies().pipe(
+        this.jobLevelHierarchyApiService.getAvailableJobFamilies().pipe(
           map((res: any) => {
             return new fromJobsHierarchyActions.GetJobFamiliesSuccess(res);
           }),
+          catchError(error => of(new fromJobsHierarchyActions.GetJobFamiliesError(error)))
+        )
+      )
+    );
+
+  @Effect()
+  getJobFamiliesForHierarchy$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromJobsHierarchyActions.GET_JOB_FAMILIES_FOR_HIERARCHY),
+      switchMap((action: fromJobsHierarchyActions.GetJobFamiliesForHierarchy) =>
+        this.jobLevelHierarchyApiService.getAvailableJobFamiliesForHierarchy(action.payload.hierarchyId).pipe(
+          mergeMap((res) =>
+            [
+              new fromJobsHierarchyActions.GetJobFamiliesSuccess(res),
+              new fromJobsHierarchyActions.GetJobLevelHierarchy({hierarchyId: action.payload.hierarchyId})
+            ]),
           catchError(error => of(new fromJobsHierarchyActions.GetJobFamiliesError(error)))
         )
       )
