@@ -22,6 +22,14 @@ export class JobLevelHierarchyApiService {
     }
   }
 
+  getAvailableJobFamiliesForHierarchy(hierarchyId: number): Observable<string[]> {
+    return this.payfactorsApiService.get(`${this.endpoint}/GetAvailableJobFamilies?hierarchyId=${hierarchyId}`);
+  }
+
+  getAvailableJobFamilies(): Observable<string[]> {
+    return this.payfactorsApiService.get(`${this.endpoint}/GetAvailableJobFamilies`);
+  }
+
   getJobLevelsForJobFamilies(jobFamilies: string[]): Observable<string[]> {
     return this.payfactorsApiService.post(`${this.endpoint}/GetJobLevelsForJobFamily`, jobFamilies);
   }
