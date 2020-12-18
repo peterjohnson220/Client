@@ -255,7 +255,7 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
     if (!targetElement) { return; }
 
     // bail out if the clicked dom node is classed whitelisted
-    if (this.toolbarWhitelist && this.toolbarWhitelist.some(w => targetElement?.classList?.value?.indexOf(w) >= 0)) {
+    if (this.toolbarWhitelist && this.toolbarWhitelist.some(w => targetElement?.classList.toString().indexOf(w) >= 0)) {
       return;
     }
 
@@ -269,7 +269,7 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
 
     const targetElement = event.target as HTMLElement;
 
-    if (this.toolbarWhitelist && this.toolbarWhitelist.some(w => targetElement?.classList?.value?.indexOf(w) >= 0)) {
+    if (this.toolbarWhitelist && this.toolbarWhitelist.some(w => targetElement?.classList.toString().indexOf(w) >= 0)) {
       return;
     }
 
