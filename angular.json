@@ -63,7 +63,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.02mb",
+                  "baseline": "2.12mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -92,7 +92,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.02mb",
+                  "baseline": "2.12mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -278,7 +278,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.53mb",
+                  "baseline": "2.63mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -307,7 +307,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.53mb",
+                  "baseline": "2.63mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -503,7 +503,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.17mb",
+                  "baseline": "2.27mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -532,7 +532,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.17mb",
+                  "baseline": "2.27mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -732,7 +732,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.50mb",
+                  "baseline": "2.60mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -761,7 +761,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.50mb",
+                  "baseline": "2.60mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -961,7 +961,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.29mb",
+                  "baseline": "2.39mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -990,7 +990,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.29mb",
+                  "baseline": "2.39mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -1188,7 +1188,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "1.77mb",
+                  "baseline": "1.87mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -1217,7 +1217,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "1.77mb",
+                  "baseline": "1.87mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -1413,7 +1413,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.38mb",
+                  "baseline": "2.48mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -1442,7 +1442,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.38mb",
+                  "baseline": "2.48mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -1638,7 +1638,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.21mb",
+                  "baseline": "2.31mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -1667,7 +1667,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.21mb",
+                  "baseline": "2.31mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -2132,7 +2132,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.41mb",
+                  "baseline": "2.51mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -2161,7 +2161,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.41mb",
+                  "baseline": "2.51mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -2359,7 +2359,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.99mb",
+                  "baseline": "3.09mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -2388,7 +2388,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.99mb",
+                  "baseline": "3.09mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -2582,7 +2582,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.49mb",
+                  "baseline": "2.59mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -2611,7 +2611,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.49mb",
+                  "baseline": "2.59mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -2807,7 +2807,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.58mb",
+                  "baseline": "2.68mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -2836,7 +2836,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.58mb",
+                  "baseline": "2.68mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -3031,7 +3031,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "3.85mb",
+                  "baseline": "3.95mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -3060,7 +3060,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "3.85mb",
+                  "baseline": "3.95mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -3255,7 +3255,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.55mb",
+                  "baseline": "2.65mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -3284,7 +3284,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.55mb",
+                  "baseline": "2.65mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -3478,7 +3478,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.44mb",
+                  "baseline": "2.54mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -3507,7 +3507,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.44mb",
+                  "baseline": "2.54mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -3701,7 +3701,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.09mb",
+                  "baseline": "2.19mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -3730,7 +3730,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.09mb",
+                  "baseline": "2.19mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -3924,7 +3924,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.37mb",
+                  "baseline": "2.47mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -3953,7 +3953,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.37mb",
+                  "baseline": "2.47mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -4144,7 +4144,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.22mb",
+                  "baseline": "2.32mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -4173,7 +4173,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.22mb",
+                  "baseline": "2.32mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -4367,7 +4367,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.33mb",
+                  "baseline": "2.43mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -4396,7 +4396,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.33mb",
+                  "baseline": "2.43mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -4588,7 +4588,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.04mb",
+                  "baseline": "2.14mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -4617,7 +4617,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.04mb",
+                  "baseline": "2.14mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -4811,7 +4811,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.35mb",
+                  "baseline": "2.45mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -4840,7 +4840,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.35mb",
+                  "baseline": "2.45mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -5034,7 +5034,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.05mb",
+                  "baseline": "2.15mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -5059,7 +5059,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.05mb",
+                  "baseline": "2.15mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -5253,7 +5253,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "5.66mb",
+                  "baseline": "5.76mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -5278,7 +5278,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "5.66mb",
+                  "baseline": "5.76mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
