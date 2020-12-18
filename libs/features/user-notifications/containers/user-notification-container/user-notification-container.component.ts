@@ -9,6 +9,7 @@ import {
 import {
   JobDescriptionReviewRejectedNotificationComponent
 } from '../categories/job-description-review-rejected/job-description-review-rejected-notification.component';
+import { CompanyResourcesNotificationComponent } from '../categories/company-resources/company-resources-notification.component';
 import { UserNotification } from '../../models';
 import { UserNotificationHostDirective } from '../../directives';
 import { UserNotificationConstants } from '../../constants';
@@ -46,6 +47,10 @@ export class UserNotificationContainerComponent  implements OnInit {
 
       case UserNotificationConstants.JOB_DESCRIPTION_REVIEW_REJECTED_LOOKUP_KEY:
         componentFactory = this.componentFactoryResolver.resolveComponentFactory(JobDescriptionReviewRejectedNotificationComponent);
+        break;
+
+      case UserNotificationConstants.COMPANY_RESOURCES_LOOKUP_KEY:
+        componentFactory = this.componentFactoryResolver.resolveComponentFactory(CompanyResourcesNotificationComponent);
         break;
 
       default:
