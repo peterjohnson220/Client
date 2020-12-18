@@ -4,7 +4,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { catchError, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
 import { of } from 'rxjs';
 
-import { TableauReportApiService, UserReportApiService } from 'libs/data/payfactors-api/reports';
+import { TableauReportApiService, TabularExportSchedulerApiService } from 'libs/data/payfactors-api/reports';
 import { ReportsPayfactorsApiModelMapper } from 'libs/features/reports/helpers';
 import { UserContext } from 'libs/models/security';
 import * as fromRootState from 'libs/state/state';
@@ -41,7 +41,7 @@ export class TabularReportExportSchedulerPageEffects {
     .pipe(
       ofType(fromTabularReportExportSchedulerPageActions.GET_SAVED_SCHEDULES),
       switchMap((action: fromTabularReportExportSchedulerPageActions.GetSavedSchedules) => {
-        return this.userReportApiService.getExportSchedules()
+        return this.tabularExportSchedulerApiService.getExportSchedules()
           .pipe(
             mergeMap((response) => {
               const schedules = ExportScheduleHelper.mapCronExpressionToTextFormat(response);
@@ -60,7 +60,7 @@ export class TabularReportExportSchedulerPageEffects {
     .pipe(
       ofType(fromTabularReportExportSchedulerPageActions.SAVE_SCHEDULE),
       switchMap((action: fromTabularReportExportSchedulerPageActions.SaveSchedule) => {
-        return this.userReportApiService.saveExportSchedule(action.payload)
+        return this.tabularExportSchedulerApiService.saveExportSchedule(action.payload)
           .pipe(
             mergeMap((response) => {
               return [
@@ -77,6 +77,6 @@ export class TabularReportExportSchedulerPageEffects {
     private action$: Actions,
     private store: Store<fromTabularReportExportSchedulerPageReducer.State>,
     private tableauReportApiService: TableauReportApiService,
-    private userReportApiService: UserReportApiService
+    private tabularExportSchedulerApiService: TabularExportSchedulerApiService
   ) { }
 }
