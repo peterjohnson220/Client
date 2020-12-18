@@ -183,9 +183,7 @@
 
         <div class="float-right m-2">
           <div class="d-inline"
-               [ngbTooltip]="(emailRecipients$ | async).length === 0
-                  ? 'Please enter an email recipient to receive the results of this load.'
-                  : !this.isValidExtension(sftpPublicKey) ? 'Invalid Public key File format. Please upload a file in these formats: ' + acceptedFileExtensions.join(', ') : ''">
+               [ngbTooltip]="shouldShowTooltip()">
             <button type="button"
                     class="btn btn-primary m-2"
                     [disabled]="shouldDisableBtn()"

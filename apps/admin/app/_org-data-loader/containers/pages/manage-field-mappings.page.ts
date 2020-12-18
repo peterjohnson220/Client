@@ -37,6 +37,8 @@ import { OrgDataLoaderConfigurationSaveRequest } from 'libs/models/data-loads/re
 import { ConfigSetting } from 'libs/models/security';
 import { SftpUserModel } from 'libs/models/Sftp';
 import { ConfigSettingsSelectorFactory } from 'libs/state/app-context/services';
+import { EntityKeyValidationService } from 'libs/core/services';
+import { EntityIdentifierViewModel } from 'libs/features/company/entity-identifier/models';
 
 import * as fromOrgDataAutoloaderReducer from '../../reducers';
 import * as fromOrgDataFieldMappingsActions from '../../actions/org-data-field-mappings.actions';
@@ -166,6 +168,8 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
   private loaderSettingsLoading: boolean;
   private fieldMappingsLoading: boolean;
   private savingConfiguration: boolean;
+  employeeEntityKeys: EntityIdentifierViewModel[];
+  private entityKeyValidationMessage: string;
 
 
   private get toastSuccessOptions(): NotificationSettings {
@@ -202,6 +206,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
     private configSettingsSelectorFactory: ConfigSettingsSelectorFactory,
     private companySettingsApiService: CompanySettingsApiService,
     private cdr: ChangeDetectorRef,
+    private entityKeyValidatorService: EntityKeyValidationService,
     private featureFlagService: AbstractFeatureFlagService
   ) {
     this.dateFormatsFilteredData = this.dateFormats.slice();
@@ -453,7 +458,8 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
 
     forkJoin({ tagCategories: tagCategoriesSubscription, employeeIdentifiers: employeeIdentifiersSubscription })
       .subscribe(result => {
-        const selected = result.employeeIdentifiers.filter(a => a.isChecked && a.Field != 'Employee_ID');
+        const selected = result.employeeIdentifiers.filter(a => a.isChecked && a.Field !== 'Employee_ID');
+        this.employeeEntityKeys = selected;
 
         if (selected && selected.length >= 0) {
           this.payfactorsEmployeeTagsDataFields = this.payfactorsEmployeeTagsDataFields.concat(selected.map(a => {
@@ -490,8 +496,8 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
     }
   }
 
-  filterChange(filter: string) {
-    this.dateFormatsFilteredData = this.dateFormats.filter((s) => s.value.indexOf(filter) !== -1);
+  filterChange(value: string) {
+    this.dateFormatsFilteredData = this.dateFormats.filter((s) => s.value.indexOf(value) !== -1);
   }
 
   onPaymarketMappingComplete($event: LoaderEntityStatus) {
@@ -506,7 +512,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
     this.jobMappingComplete = $event.complete;
     this.isJobsLoadEnabled = $event.loadEnabled;
     if (this.jobMappingComplete) {
-      this.addOrReplaceMappings('Jobs', $event.mappings);
+      this.addOrReplaceMappings(LoaderType.Jobs, $event.mappings);
     }
   }
 
@@ -514,7 +520,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
     this.subsidiariesMappingComplete = $event.complete;
     this.isSubsidiariesLoadEnabled = $event.loadEnabled;
     if (this.subsidiariesMappingComplete) {
-      this.addOrReplaceMappings('Subsidiaries', $event.mappings);
+      this.addOrReplaceMappings(LoaderType.Subsidiaries, $event.mappings);
     }
   }
 
@@ -522,7 +528,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
     this.structureMappingComplete = $event.complete;
     this.isStructuresLoadEnabled = $event.loadEnabled;
     if (this.structureMappingComplete) {
-      this.addOrReplaceMappings('Structures', $event.mappings);
+      this.addOrReplaceMappings(LoaderType.Structures, $event.mappings);
     }
   }
 
@@ -530,7 +536,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
     this.benefitMappingComplete = $event.complete;
     this.isBenefitsLoadEnabled = $event.loadEnabled;
     if (this.benefitMappingComplete) {
-      this.addOrReplaceMappings('Benefits', $event.mappings);
+      this.addOrReplaceMappings(LoaderType.Benefits, $event.mappings);
     }
 
     this.isBenefitsFullReplace = $event.isFullReplace;
@@ -540,7 +546,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
     this.structureMappingMappingComplete = $event.complete;
     this.isStructureMappingsLoadEnabled = $event.loadEnabled;
     if (this.structureMappingMappingComplete) {
-      this.addOrReplaceMappings('StructureMapping', $event.mappings);
+      this.addOrReplaceMappings(LoaderType.StructureMapping, $event.mappings);
     }
     this.isStructureMappingsFullReplace = $event.isFullReplace;
   }
@@ -549,7 +555,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
     this.employeeMappingComplete = $event.complete;
     this.isEmployeesLoadEnabled = $event.loadEnabled;
     if (this.employeeMappingComplete) {
-      this.addOrReplaceMappings('Employees', $event.mappings);
+      this.validateEntityKeyMappings(LoaderType.Employees, $event.mappings);
     }
     this.isEmployeesFullReplace = $event.isFullReplace;
   }
@@ -558,7 +564,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
     this.employeeTagsMappingComplete = $event.complete;
     this.isEmployeeTagsLoadEnabled = $event.loadEnabled;
     if (this.employeeTagsMappingComplete) {
-      this.addOrReplaceMappings('EmployeeTags', $event.mappings);
+      this.validateEntityKeyMappings(LoaderType.EmployeeTags, $event.mappings);
     }
     this.isEmployeeTagsFullReplace = $event.isFullReplace;
   }
@@ -733,7 +739,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
   }
 
   shouldDisableBtn() {
-    const part1 = (!this.paymarketMappingComplete
+    const mappingsIncomplete = (!this.paymarketMappingComplete
       || !this.jobMappingComplete
       || !this.structureMappingComplete
       || !this.structureMappingMappingComplete
@@ -743,16 +749,40 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
       || (this.employeeTagsLoaderFeatureFlag.value && !this.employeeTagsMappingComplete)
     );
 
-    const part2 = this.delimiter === '';
-    const part3 = this.emailRecipients.length === 0;
-    const part4 = !this.isValidExtension(this.sftpPublicKey);
-    const part5 = this.sftpUserNameIsValid === false;
-    const part6 = !this.isPublicKeyAuthInfoComplete();
-    const part7 = (this.savingConfiguration || this.loaderSettingsLoading || this.fieldMappingsLoading);
-    const part8 = (!this.dateFormat || this.dateFormat === null);
+    const NoDelimiterSelected = this.delimiter === '';
+    const NoEmailRecipientsSelected = this.emailRecipients.length === 0;
+    const InvalidPublicKeyExtension = !this.isValidExtension(this.sftpPublicKey);
+    const InvalidSftpUserName = this.sftpUserNameIsValid === false;
+    const IncompleteSftpInfo = !this.isPublicKeyAuthInfoComplete();
+    const SubscriptionsIncomplete = (this.savingConfiguration || this.loaderSettingsLoading || this.fieldMappingsLoading);
+    const NoDateFormatSelected = (!this.dateFormat || this.dateFormat === null);
+    const EntityKeyValidationFailed = this.entityKeyValidationMessage?.length > 0;
 
 
-    return part1 || part2 || part3 || part4 || part5 || part6 || part7 || part8;
+    return mappingsIncomplete
+      || NoDelimiterSelected
+      || NoEmailRecipientsSelected
+      || InvalidPublicKeyExtension
+      || InvalidSftpUserName
+      || IncompleteSftpInfo
+      || SubscriptionsIncomplete
+      || NoDateFormatSelected
+      || EntityKeyValidationFailed;
+  }
+
+  private validateEntityKeyMappings(loaderType: LoaderType, mappings: FieldMapping[]) {
+    if (mappings.length > 0) {
+      const validationResult = this.entityKeyValidatorService.hasCompleteEntityKeyMappings(mappings, this.employeeEntityKeys);
+
+      if (validationResult.IsValid) {
+        this.addOrReplaceMappings(loaderType, mappings);
+        this.entityKeyValidationMessage = '';
+      } else {
+        this.entityKeyValidationMessage = validationResult.MissingKeyFieldsMessage;
+      }
+    } else {
+      this.addOrReplaceMappings(loaderType, mappings);
+    }
   }
 
   private buildInternalFields(fieldNames: string[], areDataElementNames: boolean) {
@@ -761,5 +791,17 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
       internalFields.push({ FieldName: fieldName, IsDataElementName: areDataElementNames });
     });
     return internalFields;
+  }
+
+  shouldShowTooltip() {
+    if (this.emailRecipients.length === 0) {
+      return 'Please enter an email recipient to receive the results of this load.';
+    } else if (!this.isValidExtension(this.sftpPublicKey)) {
+      return 'Invalid Public key File format. Please upload a file in these formats: ' + this.acceptedFileExtensions.join(', ');
+    } else if (this.entityKeyValidationMessage?.length > 0 ) {
+      return this.entityKeyValidationMessage;
+    }
+
+    return '';
   }
 }
