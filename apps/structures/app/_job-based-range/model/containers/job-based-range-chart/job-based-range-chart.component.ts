@@ -312,7 +312,7 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
   private addPeer50th(currentRow) {
     this.exchangeSeriesData.push({
       y: currentRow.CompanyStructures_RangeGroup_Peer50,
-      jobTitle: currentRow.CompanyJobs_Job_Title,
+      exchangeJobTitle: currentRow.CompanyStructures_RangeGroup_ExchangeJobTitle,
       ExchangeName: this.selectedPeerExchange.ExchangeName,
       Scope: 'National',
       peer50: StructuresHighchartsService.formatDataPoint('Peer 50th', currentRow.CompanyStructures_RangeGroup_Peer50, this.chartLocale,
