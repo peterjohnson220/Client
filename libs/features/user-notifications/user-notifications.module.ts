@@ -21,6 +21,7 @@ import {
   JobDescriptionReviewRejectedNotificationComponent
 } from './containers/categories/job-description-review-rejected/job-description-review-rejected-notification.component';
 import { CompanyResourcesNotificationComponent } from './containers/categories/company-resources/company-resources-notification.component';
+import { CommunityPostsNotificationComponent } from './containers/categories/community-posts/community-posts-notification.component';
 import { UserNotificationListEffects } from './effects';
 import { UserNotificationHostDirective } from './directives';
 import * as fromFaIcons from './fa-icons';
@@ -49,7 +50,8 @@ import * as fromFaIcons from './fa-icons';
     RoutedJobDescriptionNotificationComponent,
     JobDescriptionReviewCompleteNotificationComponent,
     JobDescriptionReviewRejectedNotificationComponent,
-    CompanyResourcesNotificationComponent
+    CompanyResourcesNotificationComponent,
+    CommunityPostsNotificationComponent
   ],
   exports: [
     UserNotificationListComponent

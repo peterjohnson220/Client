@@ -5,4 +5,5 @@ export class UserNotificationConstants {
   static readonly JOB_DESCRIPTION_REVIEW_COMPLETE_LOOKUP_KEY = 'JobDescriptionReviewComplete';
   static readonly JOB_DESCRIPTION_REVIEW_REJECTED_LOOKUP_KEY = 'JobDescriptionReviewRejected';
   static readonly COMPANY_RESOURCES_LOOKUP_KEY = 'CompanyResources';
+  static readonly COMMUNITY_POSTS_LOOKUP_KEY = 'CommunityPosts';
 }
