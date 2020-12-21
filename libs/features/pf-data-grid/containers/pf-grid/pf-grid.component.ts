@@ -402,16 +402,18 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  // TODO: Kendo sorts the grids asc -> desc -> none in that order, rather than dir -> !dir -> none regardless of direction
-  // If the default sort for a grid is to be ordered desc, there would be no way to order that column asc so we have to make the addt'l check
-  // Achieving the 2nd sort direction logic requires additional effort
   onSortChange(newSortDescriptor: SortDescriptor[]): void {
     if (this.gridConfig?.ScrollToTop) {
       this.scrollToTop();
     }
     let descriptorToDispatch = !newSortDescriptor[0].dir ?
-      this.defaultSortDescriptor :
+      cloneDeep(this.defaultSortDescriptor) :
       newSortDescriptor;
+
+    if ( !newSortDescriptor[0].dir && this.defaultSortDescriptor && newSortDescriptor[0].field === this.defaultSortDescriptor[0].field) {
+      descriptorToDispatch[0].dir = this.defaultSortDescriptor[0].dir === 'asc' ? 'desc' : 'asc';
+    }
+
 
     if (this.customSortOptions != null) {
       descriptorToDispatch = this.customSortOptions(this.sortDescriptor, descriptorToDispatch);
