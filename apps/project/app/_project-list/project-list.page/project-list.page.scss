@@ -1,8 +1,17 @@
 @import 'colors';
 
-.in-progress{
+.in-progress {
   color: $pf-brand-secondary-color;
 }
-.complete{
+
+.complete {
   color: $pf-additional-colors-green;
+}
+
+.pinned-to-dashboard {
+  background-color: rgb(254, 179, 22);
+}
+
+.hide-dropdown-arrow::after {
+  display: none !important;
 }
