@@ -52,7 +52,18 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
   employeeRewardsData: EmployeeRewardsData;
   mode: models.StatementModeEnum;
   modeEnum = models.StatementModeEnum;
-  toolbarWhitelist = ['ql-editor', 'ql-toolbar', 'ql-formats', 'ql-size', 'ql-bold', 'ql-list', 'ql-italic', 'ql-picker-label', 'ql-underline'];
+  toolbarWhitelist = [
+    'ql-editor',
+    'ql-toolbar',
+    'ql-formats',
+    'ql-size',
+    'ql-bold',
+    'ql-list',
+    'ql-italic',
+    'ql-picker-label',
+    'ql-underline',
+    'ql-picker-item'
+  ];
   lastClickEventElement: HTMLElement;
 
   constructor(
