@@ -25,7 +25,7 @@ import * as fromSharedActions from '../actions/shared.actions';
 import { PayfactorsApiModelMapper } from '../helpers/payfactors-api-model-mapper';
 import * as fromSharedReducer from '../reducers';
 import { UrlService } from '../services';
-import { Workflow } from '../constants/workflow';
+import { Workflow } from '../../../shared/constants/workflow';
 import { PagesHelper } from '../../../shared/helpers/pages.helper';
 
 @Injectable()

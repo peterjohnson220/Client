@@ -23,7 +23,7 @@ import * as fromSharedReducer from '../../shared/reducers';
 import * as fromSharedActions from '../../shared/actions/shared.actions';
 import * as fromSharedModelSettingsActions from '../../shared/actions/model-settings-modal.actions';
 import { UrlService } from '../../shared/services';
-import { Workflow } from '../../shared/constants/workflow';
+import { Workflow } from '../../../shared/constants/workflow';
 import { PagesHelper } from '../../../shared/helpers/pages.helper';
 import * as fromJobBasedRangeReducer from '../../shared/reducers';
 

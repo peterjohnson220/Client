@@ -14,7 +14,7 @@ import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/cor
 
 import * as fromJobBasedRangeReducer from '../../reducers';
 import { ControlPoint } from '../../models';
-import { ModelSettingsModalConstants } from '../../constants/model-settings-modal-constants';
+import { ModelSettingsModalConstants } from '../../../../shared/constants/model-settings-modal-constants';
 
 @Component({
   selector: 'pf-range-distribution-setting',

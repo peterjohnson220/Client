@@ -13,13 +13,14 @@ import { CompanySettingsEnum } from 'libs/models/company';
 import { SettingsService } from 'libs/state/app-context/services';
 
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
-import { StructuresHighchartsService, StructuresPagesService } from '../../../shared/services';
+import { StructuresPagesService } from '../../../shared/services';
+import { StructuresHighchartsService } from '../../../../shared/services';
 import { JobRangeModelChartService, JobRangeModelChartSeries } from '../../data';
 import { GraphHelper } from '../../../shared/helpers/graph.helper';
-import { RangeDistributionTypeIds } from '../../../shared/constants/range-distribution-type-ids';
+import { RangeDistributionTypeIds } from '../../../../shared/constants/range-distribution-type-ids';
 import { SalaryRangeSeries } from '../../../shared/models/salary-range-series.model';
 import { DataPointSeries } from '../../../shared/models/data-point-series.model';
-import { RangeDistributionDataPointTypeIds } from '../../../shared/constants/range-distribution-data-point-type-ids';
+import { RangeDistributionDataPointTypeIds } from '../../../../shared/constants/range-distribution-data-point-type-ids';
 import { SelectedPeerExchangeModel } from '../../../shared/models';
 
 @Component({
@@ -366,6 +367,7 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
   }
 
   private processChartData() {
+
     this.salaryRangeSeriesDataModel = {
       MinMidMax: [],
       Quartile: {

@@ -8,7 +8,7 @@ import { RangeGroupMetadata } from 'libs/models/structures';
 import { AsyncStateObjHelper } from 'libs/core';
 
 import * as fromSharedActions from '../actions/shared.actions';
-import { RangeDistributionTypeIds } from '../constants/range-distribution-type-ids';
+import { RangeDistributionTypeIds } from '../../../shared/constants/range-distribution-type-ids';
 import { SelectedPeerExchangeModel } from '../models';
 
 export interface State {

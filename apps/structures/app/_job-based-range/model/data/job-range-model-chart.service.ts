@@ -1,6 +1,6 @@
-import { StructuresHighchartsService } from '../../shared/services';
+import { StructuresHighchartsService } from '../../../shared/services';
 import { JobRangeModelChartSeries } from './job-range-model-chart-series-constants';
-import { RangeDistributionTypeIds } from '../../shared/constants/range-distribution-type-ids';
+import { RangeDistributionTypeIds } from '../../../shared/constants/range-distribution-type-ids';
 
 export class JobRangeModelChartService {
 
