@@ -745,7 +745,7 @@ export class CompareJobBasedRangeChartComponent implements OnInit, OnDestroy {
     this.exchangeSeriesData.push({
       x: xCoordinate - this.xCoordinateOffest,
       y: currentRow.CompanyStructures_RangeGroup_Peer50,
-      jobTitle: currentRow.CompanyJobs_Job_Title,
+      exchangeJobTitle: currentRow.CompanyStructures_RangeGroup_ExchangeJobTitle,
       ExchangeName: this.selectedPeerExchange.ExchangeName,
       Scope: 'National',
       peer50: StructuresHighchartsService.formatDataPoint('Peer 50th', currentRow.CompanyStructures_RangeGroup_Peer50, this.chartLocale,
@@ -756,7 +756,7 @@ export class CompareJobBasedRangeChartComponent implements OnInit, OnDestroy {
       this.compareExchangeSeriesData.push({
         x: xCoordinate + this.xCoordinateOffest,
         y: compareRow.CompanyStructures_RangeGroup_Peer50,
-        jobTitle: compareRow.CompanyJobs_Job_Title,
+        exchangeJobTitle: compareRow.CompanyStructures_RangeGroup_ExchangeJobTitle,
         ExchangeName: this.selectedPeerExchange.ExchangeName,
         Scope: 'National',
         peer50: StructuresHighchartsService.formatDataPoint('Peer 50th', compareRow.CompanyStructures_RangeGroup_Peer50, this.chartLocale,
