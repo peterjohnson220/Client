@@ -10,7 +10,7 @@ import {
   AfterViewInit,
   Output,
   ViewChild,
-  SimpleChanges, HostListener
+  SimpleChanges
 } from '@angular/core';
 
 import { AnyFn } from '@ngrx/store/src/selector';
@@ -74,6 +74,7 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
     allowedChars: /^[A-Za-z\sÅÄÖåäö]*$/,
     mentionDenotationChars: ['['],
     showDenotationChar: false,
+    positioningStrategy: 'fixed',
     onOpen: () => { this.onMentionDialogOpen(); },
     source: (searchTerm: string, renderList: AnyFn) => {
       if (searchTerm) {

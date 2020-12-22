@@ -76,47 +76,6 @@
     border-top: 2px dashed transparent;
   }
 
-  // left bracket data field/mention
-  .mention {
-    transition: background-color .3s ease-in-out, color .3s ease-in-out, padding .05s ease-in-out;
-  }
-
-  &.edit-mode {
-    .mention {
-      color: $trs-placeholder-font-color;
-      background-color: $trs-canvas-background-color;
-      padding: .15rem;
-    }
-  }
-  
-  .ql-mention-list-container {
-    z-index: 100;
-    background-color: white;
-    max-height: 140px;
-    width: 200px;
-    overflow-y: auto;
-    border: 1px solid #f0f0f0;
-    box-shadow: 0 2px 12px 0 rgba(30, 30, 30, 0.08);
-  }
-
-  .ql-mention-list {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  .ql-mention-list-item {
-    cursor: pointer;
-    padding: 2px 4px;
-    background-color: #fff;
-    text-align: left;
-    font-size: .9rem;
-
-    &.selected {
-      background-color: #D3E1EB;
-    }
-  }
-
   // quill toolbar custom fonts
   // Arial
   .ql-font-Arial {
@@ -190,5 +149,41 @@
     opacity: .95;
     transform: scaleY(1);
     pointer-events: initial;
+  }
+}
+
+// For left bracket data field/mention
+.mention {
+  transition: background-color .3s ease-in-out, color .3s ease-in-out, padding .05s ease-in-out;
+  color: $trs-placeholder-font-color;
+  background-color: $trs-canvas-background-color;
+  padding: .15rem;
+}
+
+.ql-mention-list-container {
+  z-index: 1000;
+  background-color: white;
+  max-height: 140px;
+  width: 200px;
+  overflow-y: auto;
+  border: 1px solid #f0f0f0;
+  box-shadow: 0 2px 12px 0 rgba(30, 30, 30, 0.08);
+}
+
+.ql-mention-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ql-mention-list-item {
+  cursor: pointer;
+  padding: 2px 4px;
+  background-color: #fff;
+  text-align: left;
+  font-size: .9rem;
+
+  &.selected {
+    background-color: #D3E1EB;
   }
 }
