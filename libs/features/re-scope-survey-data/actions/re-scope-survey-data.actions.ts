@@ -14,12 +14,12 @@ export class ReScopeSurveyDataError implements Action {
 
 export class GetReScopeSurveyDataContext implements Action {
   readonly type = GET_RE_SCOPE_SURVEY_DATA_CONTEXT;
-  constructor(public payload: number, public rowIndex: number) {}
+  constructor(public payload: number) {}
 }
 
 export class GetReScopeSurveyDataContextSuccess implements Action {
   readonly type = GET_RE_SCOPE_SURVEY_DATA_CONTEXT_SUCCESS;
-  constructor(public payload: ReScopeSurveyDataContext, public rowIndex: number) {}
+  constructor(public payload: ReScopeSurveyDataContext) {}
 }
 
 export class ReScopeSurveySubmit implements Action {

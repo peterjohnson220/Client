@@ -33,11 +33,10 @@
   </div>
 </ng-template>
 
-<ng-template #jobTitleColumn let-dataRow="dataRow" let-rowIndex="rowIndex">
+<ng-template #jobTitleColumn let-dataRow="dataRow">
   <pf-pricing-matches-job-title
     [dataRow]="dataRow"
     [pricingInfo]="pricingInfo"
-    [rowIndex]="rowIndex"
   ></pf-pricing-matches-job-title>
 </ng-template>
 
