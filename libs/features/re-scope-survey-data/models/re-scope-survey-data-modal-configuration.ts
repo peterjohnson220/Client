@@ -6,7 +6,6 @@ export interface ReScopeSurveyDataModalConfiguration {
   SurveyDataId: number;
   SurveyJobTemplate: ElementRef;
   Rate: 'Annual' | 'Hourly';
-  RowIndex: number; // used to prevent ExpressionChangedAfterItHasBeenCheckedError by only opening the modal for the currently clicked row
   ShowPricingWarning: boolean;
   EntityId: number; // This could be either the PricingMatchId or the ProjectJobMatchId
 }

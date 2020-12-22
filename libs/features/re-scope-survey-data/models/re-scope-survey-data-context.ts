@@ -4,5 +4,5 @@ export interface ReScopeSurveyDataContext {
   CountryCode: string;
   CurrencyConversionFactor: number;
   DefaultScopes: SurveyScope[];
-  RowIndex: number;
+  DataId: number;
 }

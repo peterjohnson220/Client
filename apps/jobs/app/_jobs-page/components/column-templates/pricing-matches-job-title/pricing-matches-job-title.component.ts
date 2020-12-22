@@ -42,7 +42,6 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
 
   @Input() dataRow: any;
   @Input() pricingInfo: any;
-  @Input() rowIndex: number;
 
   @ViewChild('jobTitleText') jobTitleText: ElementRef;
   @ViewChild('detailsText') detailsText: ElementRef;
@@ -209,7 +208,6 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
       SurveyDataId: undefined,
       SurveyJobTemplate: undefined,
       Rate: 'Annual',
-      RowIndex: this.rowIndex,
       ShowPricingWarning: true,
       EntityId: undefined
     };
@@ -249,7 +247,7 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
     this.matchIdForUpdates = data.MatchId;
     this.selectedPricingId = data.PricingId;
 
-    this.store.dispatch(new fromReScopeActions.GetReScopeSurveyDataContext(data.MatchId, this.rowIndex));
+    this.store.dispatch(new fromReScopeActions.GetReScopeSurveyDataContext(data.MatchId));
     this.isSelectedForRescope = true;
     this.cdRef.detectChanges(); // detect changes for the currently clicked row to avoid ExpressionChangedAfterItHasBeenCheckedError
   }

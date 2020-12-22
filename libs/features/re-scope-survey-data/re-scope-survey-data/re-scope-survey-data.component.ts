@@ -69,7 +69,7 @@ export class ReScopeSurveyDataComponent implements OnChanges, AfterViewInit, OnD
 
     this.reScopeContextSubscription = this.store.select(fromReScopeReducer.getReScopeContext).subscribe(c => {
       // Row index check is CRUCIAL. Prevents ExpressionChangedAfterItHasBeenCheckedError because it will only run logic for the currently clicked row.
-      if (c && this.modalConfiguration && !c.loading && this.modalConfiguration.RowIndex === c.obj.RowIndex) {
+      if (c && this.modalConfiguration && !c.loading && this.modalConfiguration.EntityId === c.obj.DataId) {
         const currentCountry = this.reScopeContext?.CountryCode;
         this.reScopeContext = c.obj;
 
