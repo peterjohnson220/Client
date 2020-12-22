@@ -4,9 +4,9 @@ import { CommonModule } from '@angular/common';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { MomentModule } from 'ngx-moment';
 
 import { PfFormsModule } from 'libs/forms';
+import { PfCommonModule } from 'libs/core';
 
 import { reducers } from './reducers';
 import { UserNotificationListComponent } from './containers';
@@ -29,14 +29,15 @@ import * as fromFaIcons from './fa-icons';
 @NgModule({
   imports: [
     CommonModule,
+
     // Payfactors
     PfFormsModule,
+    PfCommonModule,
 
     // 3rd party
     StoreModule.forFeature('feature_user_notifications', reducers),
     EffectsModule.forFeature([UserNotificationListEffects]),
-    FontAwesomeModule,
-    MomentModule
+    FontAwesomeModule
   ],
   declarations: [
     // Directives:
