@@ -330,12 +330,14 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       filter(uc => !!uc),
       takeUntil(this.unsubscribe$)
     ).subscribe(r => {
-      const selected = r.filter(a => a.isChecked && a.Field !== 'Employee_ID');
+      const selected = r.filter(a => a.isChecked);
       this.employeeEntityKeys = selected;
+      const selectedWithoutEmployeeId = selected.filter( a => a.Field !== 'Employee_ID');
 
-      if (selected && selected.length >= 0) {
+      if (selectedWithoutEmployeeId?.length >= 0) {
         const empTags = this.loadOptions.find(l => l.templateReferenceConstants === LoaderType.EmployeeTags).customFields.EmployeeTags;
-        this.loadOptions.find(l => l.templateReferenceConstants === LoaderType.EmployeeTags).customFields.EmployeeTags = empTags.concat(selected.map(a => a.Field));
+        this.loadOptions.find(l => l.templateReferenceConstants === LoaderType.EmployeeTags)
+          .customFields.EmployeeTags = empTags.concat(selectedWithoutEmployeeId.map(a => a.Field));
       }
     });
 

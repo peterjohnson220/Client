@@ -458,11 +458,12 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
 
     forkJoin({ tagCategories: tagCategoriesSubscription, employeeIdentifiers: employeeIdentifiersSubscription })
       .subscribe(result => {
-        const selected = result.employeeIdentifiers.filter(a => a.isChecked && a.Field !== 'Employee_ID');
+        const selected = result.employeeIdentifiers.filter(a => a.isChecked);
         this.employeeEntityKeys = selected;
+        const selectedWithoutEmployeeId = selected.filter( a => a.Field !== 'Employee_ID');
 
-        if (selected && selected.length >= 0) {
-          this.payfactorsEmployeeTagsDataFields = this.payfactorsEmployeeTagsDataFields.concat(selected.map(a => {
+        if (selectedWithoutEmployeeId?.length >= 0) {
+          this.payfactorsEmployeeTagsDataFields = this.payfactorsEmployeeTagsDataFields.concat(selectedWithoutEmployeeId.map(a => {
             return {
               FieldName: a.Field,
               IsDataElementName: false
