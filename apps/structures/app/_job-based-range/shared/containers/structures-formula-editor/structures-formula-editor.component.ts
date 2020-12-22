@@ -17,7 +17,7 @@ import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
 
 import * as fromJobBasedRangeReducer from '../../reducers';
 import { PagesHelper } from '../../../../shared/helpers/pages.helper';
-import { ModelSettingsModalConstants } from '../../constants/model-settings-modal-constants';
+import { ModelSettingsModalConstants } from '../../../../shared/constants/model-settings-modal-constants';
 
 @Component({
   selector: 'pf-structures-formula-editor',

@@ -10,8 +10,8 @@ import { PfThemeType } from 'libs/features/pf-data-grid/enums/pf-theme-type.enum
 import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
 
 import { PagesHelper } from '../../../shared/helpers/pages.helper';
-import * as fromSharedJobBasedRangeReducer from '../../../_job-based-range/shared/reducers';
-import * as fromJobBasedRangeReducer from '../../../_job-based-range/shared/reducers';
+
+import * as fromSharedStructuresReducer from '../../../shared/reducers';
 
 
 @Component({
@@ -36,7 +36,7 @@ export class ModelPageComponent implements AfterViewInit, OnInit, OnDestroy {
   metadata: RangeGroupMetadata;
   colTemplates = {};
 
-  constructor(public store: Store<fromJobBasedRangeReducer.State>,
+  constructor(public store: Store<fromSharedStructuresReducer.State>,
               private route: ActivatedRoute) {
     this.rangeGroupId = this.route.snapshot.params.id;
     this.filter = {
@@ -54,8 +54,10 @@ export class ModelPageComponent implements AfterViewInit, OnInit, OnDestroy {
       EnableInfiniteScroll: true,
       ScrollToTop: true
     };
-    this.metaData$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getMetadata));
-    this.metadataSub = this.metaData$.subscribe(md => this.metadata = md);
+    this.metaData$ = this.store.pipe(select(fromSharedStructuresReducer.getMetadata));
+    this.metadataSub = this.metaData$.subscribe(md =>
+      this.metadata = md
+    );
   }
 
   // Lifecycle

@@ -18,9 +18,9 @@ import * as fromJobBasedRangeReducer from '../../reducers';
 import * as fromSharedJobBasedRangeActions from '../../../shared/actions/shared.actions';
 import { ControlPoint, Currency, SelectedPeerExchangeModel } from '../../models';
 import { UrlService } from '../../services';
-import { Workflow } from '../../constants/workflow';
+import { Workflow } from '../../../../shared/constants/workflow';
 import { RangeDistributionSettingComponent } from '../range-distribution-setting';
-import { ModelSettingsModalConstants } from '../../constants/model-settings-modal-constants';
+import { ModelSettingsModalConstants } from '../../../../shared/constants/model-settings-modal-constants';
 import { AdvancedModelSettingComponent } from '../advanced-model-setting';
 
 @Component({

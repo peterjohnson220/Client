@@ -11,7 +11,9 @@ import { PfDataGridModule } from 'libs/features/pf-data-grid';
 
 import { ModelRoutingModule } from './model-routing.module';
 import { ModelPageComponent } from './model.page/model.page';
-import { SharedModule } from '../../_job-based-range/shared/shared.module';
+import { SharedModule } from './../../shared/shared.module';
+import { GradeBasedSummaryChartComponent } from './containers/grade-based-summary-chart';
+import { HighchartsChartModule } from 'highcharts-angular';
 
 @NgModule({
   imports: [
@@ -32,9 +34,12 @@ import { SharedModule } from '../../_job-based-range/shared/shared.module';
     // Routing
     ModelRoutingModule,
 
-    SharedModule
+    SharedModule,
+
+    // 3rd party
+    HighchartsChartModule
   ],
-  declarations: [ModelPageComponent],
+  declarations: [ModelPageComponent, GradeBasedSummaryChartComponent],
   providers: [
     WindowRef,
     WindowCommunicationService

@@ -7,9 +7,13 @@ import { RangeDistributionTypeIds } from '../constants/range-distribution-type-i
 
 export class StructuresHighchartsService {
 
-  static initializeHighcharts() {
+  static initializeHighcharts(includeHeatmaps?: boolean) {
     require('highcharts/highcharts-more')(Highcharts);
-    require('../../../../assets/js/highcharts-border-radius')(Highcharts);
+    require('../../../assets/js/highcharts-border-radius')(Highcharts);
+
+    if (includeHeatmaps) {
+      require('highcharts/modules/heatmap')(Highcharts);
+    }
 
     // this is the basic line symbol that is currently used to allow a scatter plot to use lines instead of dots.
     Highcharts.SVGRenderer.prototype.symbols.vline =
