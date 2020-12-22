@@ -1,5 +1,5 @@
 import {
-  AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleChanges,
+  AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleChanges,
   ViewChild
 } from '@angular/core';
 
@@ -58,7 +58,7 @@ export class ReScopeSurveyDataComponent implements OnChanges, AfterViewInit, OnD
   @ViewChild('currencyColumn') currencyColumn: ElementRef;
   @ViewChild('scopeSearchFilter') scopeSearchFilter: ElementRef;
 
-  constructor(private store: Store<fromGridReducer.State>) {
+  constructor(private store: Store<fromGridReducer.State>, private cdRef: ChangeDetectorRef) {
     this.actionBarConfig = {
       ...getDefaultActionBarConfig()
     };
@@ -69,7 +69,7 @@ export class ReScopeSurveyDataComponent implements OnChanges, AfterViewInit, OnD
 
     this.reScopeContextSubscription = this.store.select(fromReScopeReducer.getReScopeContext).subscribe(c => {
       // Row index check is CRUCIAL. Prevents ExpressionChangedAfterItHasBeenCheckedError because it will only run logic for the currently clicked row.
-      if (c && !c.loading && this.modalConfiguration.RowIndex === c.obj.RowIndex) {
+      if (c && this.modalConfiguration && !c.loading && this.modalConfiguration.RowIndex === c.obj.RowIndex) {
         const currentCountry = this.reScopeContext?.CountryCode;
         this.reScopeContext = c.obj;
 
@@ -89,6 +89,7 @@ export class ReScopeSurveyDataComponent implements OnChanges, AfterViewInit, OnD
         }
 
         this.showReScopeSurveyDataModal.next(true);
+        this.cdRef.detectChanges(); // detect changes for the currently clicked row to avoid ExpressionChangedAfterItHasBeenCheckedError
       }
     });
   }
@@ -157,6 +158,7 @@ export class ReScopeSurveyDataComponent implements OnChanges, AfterViewInit, OnD
     this.store.dispatch(new fromGridActions.UpdateSortDescriptorNoDataRetrieval(this.pageViewId, this.defaultSort));
     if (cancel) {
       this.showReScopeSurveyDataModal.next(false);
+      this.store.dispatch(new fromRescopeActions.ReScopeSurveyCancel());
     }
   }
 

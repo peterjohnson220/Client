@@ -27,7 +27,6 @@ import {
 import * as fromUpsertPeerActions from 'libs/features/upsert-peer-data-cut/actions';
 import { ReScopeSurveyDataModalConfiguration } from 'libs/features/re-scope-survey-data/models';
 import * as fromReScopeActions from 'libs/features/re-scope-survey-data/actions';
-import * as fromRescopeReducer from 'libs/features/re-scope-survey-data/reducers';
 
 import { PageViewIds } from '../../../constants';
 import * as fromModifyPricingsActions from '../../../actions';
@@ -94,12 +93,12 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
 
   // This is needed to refresh the matches grid after updating the scopes
   selectedPricingId: number;
-  reScopeSurveyDataSubscription: Subscription;
   matchIdForUpdates: number;
 
   previousPricingEffectiveDate: any = null;
 
   rescopeSubmissionSubscription: Subscription;
+  rescopeCancellationSubscription: Subscription;
 
   isSelectedForRescope = false;
 
@@ -115,6 +114,16 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
     private pricingApiService: PricingApiService) { }
 
   ngOnInit() {
+    // this subscription is required for closing the modal of the currently clicked row. Otherwise, isSelectedForResocpe will be true for multiple rows.
+    // That with throw ExpressionChangedAfterItHasBeenCheckedError. If we don't want this action we would need to pass dataRow and pricingInfo, but this would
+    // couple pricing-matches-job-title to re-scope-survey-data...
+    this.rescopeCancellationSubscription = this.actionsSubject.pipe(ofType(fromReScopeActions.RE_SCOPE_SURVEY_CANCEL))
+      .subscribe(() => {
+        if (this.isSelectedForRescope) {
+          this.isSelectedForRescope = false;
+        }
+      });
+
     this.rescopeSubmissionSubscription = this.actionsSubject.pipe(ofType(fromReScopeActions.RE_SCOPE_SURVEY_SUBMIT))
       .subscribe((action: fromReScopeActions.ReScopeSurveySubmit) => {
         if (action.newSurveyDataId && this.isSelectedForRescope) {
@@ -225,7 +234,6 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
     this.pricingMatchesDataSuscription.unsubscribe();
     this.isActiveJobSubscription.unsubscribe();
     this.upsertPeerDataSubscription.unsubscribe();
-    this.reScopeSurveyDataSubscription.unsubscribe();
   }
 
   openReScopeSurveyDataModal(data: any) {
@@ -243,6 +251,7 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
 
     this.store.dispatch(new fromReScopeActions.GetReScopeSurveyDataContext(data.MatchId, this.rowIndex));
     this.isSelectedForRescope = true;
+    this.cdRef.detectChanges(); // detect changes for the currently clicked row to avoid ExpressionChangedAfterItHasBeenCheckedError
   }
 
   checkOverflow(element) {
