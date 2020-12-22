@@ -1,4 +1,4 @@
-<div class="summary-control px-3 mt-3" pfModeClassifierDirective [mode]="mode">
+<div class="summary-control px-3" [ngClass]="controlData.IncreaseMarginTop ? 'mt-5' : 'mt-3'" pfModeClassifierDirective [mode]="mode">
   <!-- Standard View -->
   <div class="text-center" *ngIf="!controlData.IsTabularView; else tabularView">
     <h3 class="d-inline-block mw-100"

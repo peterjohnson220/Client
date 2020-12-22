@@ -130,7 +130,7 @@ pf-trs-effective-date-control {
 }
 
 // Simple Template styles
-.pf-simple-template{
+.pf-simple-template {
   pf-trs-effective-date-control {
     .effective-date {
       display: flex;
@@ -139,7 +139,6 @@ pf-trs-effective-date-control {
 
       label, .static-date {
         font-size: .9rem;
-        color: #6c757d;
       }
 
       .field-wrapper {
@@ -155,7 +154,6 @@ pf-trs-effective-date-control {
         .k-input {
           font-size: .9rem;
           line-height: .9rem;
-          color: #6c757d;
         }
       }
     }
@@ -168,10 +166,10 @@ pf-trs-effective-date-control {
         width: auto !important;
       }
       .k-input {
-        transform: translateX(-3rem);
+        transform: translateX(-45px);
       }
       .field-wrapper {
-        transform: translateX(5.4rem);
+        transform: translateX(5rem);
       }
     }
   }
@@ -182,34 +180,14 @@ pf-trs-effective-date-control {
   pf-trs-effective-date-control {
     .effective-date {
       padding: 1rem 0 0 1rem;
+      font-family: 'Barlow Condensed', sans-serif;
+      letter-spacing: 1px;
 
-      label, .static-date {
+      label, .static-date, .k-picker-wrap .k-input {
         font-weight: 300;
-        font-size: 1.4rem;
+        font-size: 1.5rem;
         font-style: italic;
-        text-transform: uppercase !important;
-      }
-
-      .field-wrapper {
-        transform: none;
-      }
-
-      .static-date {
-        width: auto !important;
-      }
-
-      // Kendo
-      .k-datepicker{
-        width: auto !important;
-      }
-
-      .k-picker-wrap {
-        .k-input {
-          font-weight: 300;
-          font-style: italic;
-          font-size: 1.4rem;
-          text-transform: uppercase;
-        }
+        text-transform: uppercase;
       }
 
       kendo-datepicker, .k-picker-wrap, kendo-dateinput, .k-dateinput-wrap, .k-dateinput-wrap input {
@@ -219,9 +197,8 @@ pf-trs-effective-date-control {
 
     .preview-mode {
       .k-input {
-        transform: translateX(-2rem);
+        transform: translateX(-35px);
       }
-
     }
   }
 }

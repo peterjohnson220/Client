@@ -10,7 +10,7 @@
         [colors]="statement.Settings.Colors"
         [colorRank]="statement.Settings.DividerColor"
         [styleAttrToColor]="'borderRightColor'">
-        <div *ngIf="(mode === statementModeEnum.Edit) || employeeRewardsData" class="row columnRow">
+        <div *ngIf="(mode === statementModeEnum.Edit) || employeeRewardsData" class="row">
           <div *ngFor="let control of column.Controls; trackBy: trackByFn" [ngClass]="'col-' + control?.Layout?.Width + ' control-type-' + control.ControlType">
 
             <pf-trs-rich-text-control
