@@ -7,7 +7,7 @@ import { FieldMapping } from '../../features/org-data-loader/models';
 export class EntityKeyValidationService {
 
   hasCompleteEntityKeyMappings(entityMappings: FieldMapping[], entityKeys: EntityIdentifierViewModel[]): EntityKeyValidationResult {
-    if (entityMappings.length > 0 || entityKeys.length > 0) {
+    if (entityMappings?.length === 0 || entityKeys?.length === 0) {
       return { IsValid: true};
     }
 
