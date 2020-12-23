@@ -904,10 +904,10 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   getFieldMapperTooltip() {
     if (this.emailRecipients.length <= 0) {
       return 'Please enter an email recipient to receive the results of this load.';
-    } else if (this.showFieldMapperTooltip) {
-      return this.NextBtnToolTips[this.stepIndex - 1];
     } else if (this.entityKeyValidationMessage?.length > 0) {
       return this.entityKeyValidationMessage;
+    } else if (this.showFieldMapperTooltip) {
+      return this.NextBtnToolTips[this.stepIndex - 1];
     }
 
     return '';
