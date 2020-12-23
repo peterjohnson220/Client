@@ -2,6 +2,7 @@
 
 exports[`CompanyJobsGridComponent should show a kendo grid with columns 1`] = `
 <pf-company-jobs-grid
+  activatedRoute={[Function Object]}
   allSubscriptions={[Function Subscription]}
   companyJobsGridData$={[Function Store]}
   companyJobsGridState={[Function Object]}
@@ -15,7 +16,7 @@ exports[`CompanyJobsGridComponent should show a kendo grid with columns 1`] = `
   pageRowIndexToScrollTo="null"
   selectedCompanyJob="null"
   selectedCompanyJob$={[Function Store]}
-  selectedStatusFilterOption="null"
+  selectedStatusFilterOption="undefined"
   statusFilterOptions={[Function Array]}
   store={[Function Store]}
   tooltipDir="undefined"
