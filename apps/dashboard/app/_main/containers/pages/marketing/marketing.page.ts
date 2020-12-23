@@ -67,14 +67,12 @@ export class MarketingPageComponent implements OnInit, OnDestroy {
       case TileNames.TotalRewards:
         this.marketingUrl = this.sanitizer.bypassSecurityTrustResourceUrl(`${this.BASE_URL}/product-trs?email=${this.userEmail}`);
         break;
-      /* TO-DO: Insert Correct URL
       case TileNames.InternationalData:
-        this.marketingUrl = this.sanitizer.bypassSecurityTrustResourceUrl(`${this.BASE_URL}/international-data?email=${this.userEmail}`);
+        this.marketingUrl = this.sanitizer.bypassSecurityTrustResourceUrl(`${this.BASE_URL}/product-international?email=${this.userEmail}`);
         break;
       case TileNames.Structures:
-        this.marketingUrl = this.sanitizer.bypassSecurityTrustResourceUrl(`${this.BASE_URL}/structures?email=${this.userEmail}`);
+        this.marketingUrl = this.sanitizer.bypassSecurityTrustResourceUrl(`${this.BASE_URL}/product-structures?email=${this.userEmail}`);
         break;
-      */
     }
   }
 
