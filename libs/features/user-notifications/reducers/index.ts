@@ -2,11 +2,6 @@ import { createSelector, createFeatureSelector } from '@ngrx/store';
 import * as fromRoot from 'libs/state/state';
 
 import * as fromUserNotificationListReducer from './user-notification-list.reducer';
-import { UserFilterFeatureState } from '../../user-filter/reducers';
-import * as fromUserFilterReducer from '../../user-filter/reducers/user-filter.reducer';
-import * as fromSaveFilterModalReducer from '../../user-filter/reducers/save-filter-modal.reducer';
-import * as fromUserFilterPopoverReducer from '../../user-filter/reducers/user-filter-popover.reducer';
-
 
 export interface UserNotificationListState {
   userNotificationList: fromUserNotificationListReducer.State;
@@ -15,7 +10,6 @@ export interface UserNotificationListState {
 export interface State extends fromRoot.State {
   feature_user_notifications: UserNotificationListState;
 }
-
 
 export const reducers = {
   userNotificationList : fromUserNotificationListReducer.reducer
@@ -29,8 +23,8 @@ export const selectUserNotificationListState = createSelector(
 );
 
 // User Notification List
-export const getUserNotificationsAsyncObj = createSelector(
+export const getUserNotifications = createSelector(
   selectUserNotificationListState,
-  fromUserNotificationListReducer.getUserNotificationsAsyncObj
+  fromUserNotificationListReducer.getUserNotifications
 );
 

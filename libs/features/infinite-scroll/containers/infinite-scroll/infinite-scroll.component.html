@@ -1,6 +1,7 @@
 <div #results
      class="scroll-results"
      infinite-scroll
+     [style.position]="position"
      [scrollWindow]="false"
      [infiniteScrollDistance]="2"
      (scrolled)="onScroll()">
