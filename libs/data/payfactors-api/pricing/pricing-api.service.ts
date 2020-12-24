@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 
-import { UpdatePricingMatchRequest, UpdatePricingRequest } from 'libs/models/payfactors-api/';
+import { GetPricingHistoryRequest, UpdatePricingMatchRequest, UpdatePricingRequest } from 'libs/models/payfactors-api/';
 
 
 @Injectable({
@@ -44,6 +44,10 @@ export class PricingApiService {
 
   getPreviousPricingEffectiveDate(pricingMatchId: number) {
     return this.payfactorsApiService.get(`${this.endpoint}/GetPreviousPricingEffectiveDate?pricingMatchId=${pricingMatchId}`);
+  }
+
+  getPricingHistoryComparison(request: GetPricingHistoryRequest) {
+    return this.payfactorsApiService.post(`${this.endpoint}/GetPricingHistoryComparison`, request);
   }
 
 }

@@ -9,6 +9,7 @@ import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { IntlModule } from '@progress/kendo-angular-intl';
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { MomentModule } from 'ngx-moment';
+import { HighchartsChartModule } from 'highcharts-angular';
 
 import { PfCommonModule } from 'libs/core';
 import { PfCommonUIModule } from 'libs/ui/common';
@@ -18,7 +19,7 @@ import { reducers } from './reducers';
 import { PricingHistoryChartEffects } from './effects';
 
 import { PricingsHistoryChartComponent } from './pricings-history-chart/pricings-history-chart.component';
-import { PricingHistoryChartFiltersComponent } from './containers/pricing-history-chart-filters';
+import { FiltersComponent, ChartComponent } from './containers';
 
 @NgModule({
   imports: [
@@ -37,6 +38,7 @@ import { PricingHistoryChartFiltersComponent } from './containers/pricing-histor
     IntlModule,
     DateInputsModule,
     MomentModule,
+    HighchartsChartModule,
 
     // Payfactors
     PfCommonUIModule,
@@ -46,7 +48,8 @@ import { PricingHistoryChartFiltersComponent } from './containers/pricing-histor
   declarations: [
     // Feature
     PricingsHistoryChartComponent,
-    PricingHistoryChartFiltersComponent,
+    FiltersComponent,
+    ChartComponent,
   ],
   exports: [
     PricingsHistoryChartComponent,

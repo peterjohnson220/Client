@@ -2,6 +2,7 @@
   [loading]="(pricedPayMarkets$ | async)?.loading"
   [loadingError]="(pricedPayMarkets$ | async)?.loadingError"
   [loadingErrorMessage]="'There was an error loading your pricing information.'"
+  [hideReloadButton]="true"
 >
   <div class="mx-3 mt-3">
     <kendo-panelbar [selectable]="false" [keepItemContent]="true">
@@ -12,11 +13,11 @@
         <ng-template kendoPanelBarContent>
           <div class="p-3">
             <div class="d-flex flex-row">
-              <div style="width: 350px;">
-                <pf-pricing-history-chart-filters></pf-pricing-history-chart-filters>
+              <div class="pr-4" style="min-width: 350px;">
+                <pf-filters></pf-filters>
               </div>
-              <div class="pl-3 flex-grow-1 d-flex">
-                <h2 class="mx-auto my-auto">Pricing Chart Placeholder</h2>
+              <div class="w-100">
+                <pf-chart></pf-chart>
               </div>
             </div>
           </div>

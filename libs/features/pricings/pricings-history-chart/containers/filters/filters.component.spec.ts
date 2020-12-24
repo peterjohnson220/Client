@@ -14,11 +14,11 @@ import { PricedPayMarkets } from 'libs/models/payfactors-api';
 import * as fromActions from '../../actions';
 import * as fromReducer from '../../reducers';
 
-import { PricingHistoryChartFiltersComponent } from './pricing-history-chart-filters.component';
+import { FiltersComponent } from './filters.component';
 
 describe('Pricing History Chart Features - Filters', () => {
-  let instance: PricingHistoryChartFiltersComponent;
-  let fixture: ComponentFixture<PricingHistoryChartFiltersComponent>;
+  let instance: FiltersComponent;
+  let fixture: ComponentFixture<FiltersComponent>;
 
 
   let store: MockStore<fromReducer.State>;
@@ -43,12 +43,12 @@ describe('Pricing History Chart Features - Filters', () => {
         }
       ],
       declarations: [
-        PricingHistoryChartFiltersComponent
+        FiltersComponent
       ],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(PricingHistoryChartFiltersComponent);
+    fixture = TestBed.createComponent(FiltersComponent);
     instance = fixture.componentInstance;
 
     store = TestBed.inject(MockStore);
@@ -125,7 +125,7 @@ describe('Pricing History Chart Features - Filters', () => {
     ];
 
     instance.updatePayMarketOptions();
-    instance.updateSelectedPayMarkets();
+    instance.updateSelectedPayMarkets(null);
 
     expect(c.PayMarkets.value[0].Id).toEqual(1111);
 
@@ -143,7 +143,7 @@ describe('Pricing History Chart Features - Filters', () => {
     ];
 
     instance.updatePayMarketOptions();
-    instance.updateSelectedPayMarkets();
+    instance.updateSelectedPayMarkets(null);
 
     expect(c.PayMarkets.value[0]).toEqual(null);
 
@@ -161,7 +161,7 @@ describe('Pricing History Chart Features - Filters', () => {
     instance.payMarketOptions = [];
 
     instance.updatePayMarketOptions();
-    instance.updateSelectedPayMarkets();
+    instance.updateSelectedPayMarkets(null);
 
     expect(c.PayMarkets.value[0]).toEqual(null);
 
@@ -170,6 +170,29 @@ describe('Pricing History Chart Features - Filters', () => {
 
     expect(c.StartDate.value).toEqual(threeYearsAgo);
     expect(c.EndDate.value).toEqual(today);
+  });
+
+  it('Should set no PM selection if default User PMs selections are passed', () => {
+    instance.ngOnInit();
+    const c = instance.pricingHistoryChartForm.controls;
+
+    const userSelectedPM = { Id: 2222, Name: 'Chicago', StartDate: new Date('8/1/2018'), EndDate: new Date('10/1/2018'), IsDefault: false };
+    instance.payMarketOptions = [
+      userSelectedPM,
+      { Id: 1111, Name: 'Boston', StartDate: new Date('10/1/2010'), EndDate: new Date('8/1/2015'), IsDefault: false }
+    ];
+
+    instance.updatePayMarketOptions();
+    instance.updateSelectedPayMarkets({
+      PayMarkets: [userSelectedPM, null, null, null, null],
+      StartDate: null,
+      EndDate: null
+    });
+
+    expect(c.PayMarkets.value[0].Id).toEqual(2222);
+
+    expect(c.StartDate.value).toEqual(new Date('8/1/2018'));
+    expect(c.EndDate.value).toEqual(new Date('10/1/2018'));
   });
 
 });
