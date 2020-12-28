@@ -347,7 +347,6 @@ export class TemplatePageComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   handleEditControlLabelClicked(templateControl: TemplateControl) {
-    this.sharedJdmStore.dispatch(new fromJdmSharedActions.LoadControlTypes());
     const control = this.controlTypes.filter(c => c.Type === templateControl.Type && c.ControlVersion === templateControl.ControlVersion);
     this.labelControlTypeComponent.open(templateControl.Label, (newLabel, additionalProperties) => {
       this.store.dispatch(new fromTemplateActions.UpdateControlLabel({templateControl, newLabel}));
