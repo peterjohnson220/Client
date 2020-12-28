@@ -11,6 +11,7 @@ import { AsyncStateObj } from 'libs/models/state';
 import { TabularReportExportSchedule, Workbook } from 'libs/features/reports/models';
 import { ExportFormatComponent, ExportFrequencyComponent } from 'libs/features/export-scheduler/components';
 import { ExportFrequencyType, CronExpressionHelper } from 'libs/features/export-scheduler/helpers';
+import { ExportScheduleHelper } from 'libs/features/export-scheduler/models';
 
 import * as fromTabularReportExportSchedulerPageReducer from '../../../reducers';
 import * as fromTabularReportExportSchedulerPageActions from '../../../actions/tabular-report-export-scheduler-page.actions';
@@ -75,7 +76,8 @@ export class TabularReportExportSchedulerPageComponent implements OnInit, OnDest
     const schedule: TabularReportExportSchedule = {
       DataViewId: dataViewId,
       Format: this.exportFormat.selectedFormat,
-      FormatSeparatorType: this.exportFormat.selectedSeparatorType,
+      FormatSeparatorType: this.exportFormat.selectedFormat === ExportScheduleHelper.csvFileFormat ?
+        this.exportFormat.selectedSeparatorType : null,
       Frequency: this.exportFrequency.selectedFrequency,
       CronExpression: cronExpression
     };
