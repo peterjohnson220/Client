@@ -132,12 +132,16 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
       'Min_Percentile': new FormControl({ value: null, disabled: !this.enablePercentilesAndRangeSpreads }),
       'Max_Percentile': new FormControl({ value: null, disabled: !this.enablePercentilesAndRangeSpreads }),
       'Mid_Formula': new FormControl({ value: null }),
-      'MinCalculationType': new FormControl({value:  this.calculationTypes.find(ct => ct.Type === CalculationType.Spread),
-        disabled: !this.enablePercentilesAndRangeSpreads}),
-      'MaxCalculationType': new FormControl({value:  this.calculationTypes.find(ct => ct.Type === CalculationType.Spread),
-        disabled: !this.enablePercentilesAndRangeSpreads}),
-      'Min_Formula': new FormControl({value: null, disabled: !this.enablePercentilesAndRangeSpreads}),
-      'Max_Formula': new FormControl({value: null, disabled: !this.enablePercentilesAndRangeSpreads})
+      'MinCalculationType': new FormControl({
+        value: this.calculationTypes.find(ct => ct.Type === CalculationType.Spread),
+        disabled: !this.enablePercentilesAndRangeSpreads
+      }, [Validators.required]),
+      'MaxCalculationType': new FormControl({
+        value: this.calculationTypes.find(ct => ct.Type === CalculationType.Spread),
+        disabled: !this.enablePercentilesAndRangeSpreads
+      }, [Validators.required]),
+      'Min_Formula': new FormControl({ value: null, disabled: !this.enablePercentilesAndRangeSpreads }),
+      'Max_Formula': new FormControl({ value: null, disabled: !this.enablePercentilesAndRangeSpreads })
     });
 
     this.currentCalcTypes = {
@@ -246,31 +250,32 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
   }
 
   handleRangeFieldToggle($event: any, fieldPrefix: string) {
-    this.currentCalcTypes[fieldPrefix] = $event.Type;
-    const spreadField = fieldPrefix + '_Spread';
-    const percentileField = fieldPrefix + '_Percentile';
-    const formulaField = fieldPrefix + '_Formula';
+    if ($event != null) {
+      this.currentCalcTypes[fieldPrefix] = $event.Type;
+      const spreadField = fieldPrefix + '_Spread';
+      const percentileField = fieldPrefix + '_Percentile';
+      const formulaField = fieldPrefix + '_Formula';
 
-
-    switch ($event.Type) {
-      case CalculationType.Spread.valueOf(): {
-        this.formControls[percentileField].patchValue(null);
-        this.formControls[formulaField].patchValue(null);
-        this.setValidation([percentileField, formulaField], spreadField);
-        break;
-      }
-      case CalculationType.Percentile.valueOf(): {
-        this.formControls[spreadField].patchValue(null);
-        this.formControls[formulaField].patchValue(null);
-        this.setValidation([spreadField, formulaField], percentileField);
-        break;
-      }
-      case CalculationType.Formula.valueOf(): {
-        this.formControls[percentileField].patchValue(null);
-        this.formControls[spreadField].patchValue(null);
-        this.setValidation([spreadField, percentileField], formulaField);
-        this.store.dispatch(new fromFormulaFieldActions.ResetFormula({ formulaFieldId: fieldPrefix }));
-        break;
+      switch ($event.Type) {
+        case CalculationType.Spread.valueOf(): {
+          this.formControls[percentileField].patchValue(null);
+          this.formControls[formulaField].patchValue(null);
+          this.setValidation([percentileField, formulaField], spreadField);
+          break;
+        }
+        case CalculationType.Percentile.valueOf(): {
+          this.formControls[spreadField].patchValue(null);
+          this.formControls[formulaField].patchValue(null);
+          this.setValidation([spreadField, formulaField], percentileField);
+          break;
+        }
+        case CalculationType.Formula.valueOf(): {
+          this.formControls[percentileField].patchValue(null);
+          this.formControls[spreadField].patchValue(null);
+          this.setValidation([spreadField, percentileField], formulaField);
+          this.store.dispatch(new fromFormulaFieldActions.ResetFormula({ formulaFieldId: fieldPrefix }));
+          break;
+        }
       }
     }
   }
@@ -283,7 +288,7 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
     } else {
       this.formControls.Mid_Formula.patchValue(null);
       this.setValidation(['Mid_Formula'], 'Mid_Percentile');
-      this.store.dispatch(new fromFormulaFieldActions.ResetFormula({formulaFieldId: 'Mid'}));
+      this.store.dispatch(new fromFormulaFieldActions.ResetFormula({ formulaFieldId: 'Mid' }));
     }
   }
 
@@ -330,7 +335,6 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
   }
 
   reloadControlState() {
-
     switch (this.currentCalcTypes['Min']) {
       case CalculationType.Spread:
         this.setValidation(['Min_Percentile', 'Min_Formula'], 'Min_Spread');
@@ -360,7 +364,6 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
     } else {
       this.setValidation(['Mid_Formula'], 'Mid_Percentile');
     }
-
   }
 
   setValidation(notRequired: string[], required: string) {
