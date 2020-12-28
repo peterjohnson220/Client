@@ -182,6 +182,10 @@ html .k-grid tr:hover {
     border-left: none !important;
   }
 
+  table {
+    border: unset !important;
+  }
+
   .k-grid-table{
     tr {
       background-color: white !important;

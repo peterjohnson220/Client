@@ -24,6 +24,7 @@ import { ReScopeSurveyDataModalConfiguration, ReScopeSurveyDataContext } from '.
 import { ReScopeSurveyDataPageViewIds } from '../constants';
 import * as fromReScopeReducer from '../reducers';
 import { PfThemeType } from '../../pf-data-grid/enums/pf-theme-type.enum';
+import { PagingOptions } from '../../../models/payfactors-api/search/request';
 
 @Component({
   selector: 'pf-re-scope-survey-data',
@@ -43,9 +44,13 @@ export class ReScopeSurveyDataComponent implements OnChanges, AfterViewInit, OnD
   reScopeContextSubscription: Subscription;
   reScopeContext: ReScopeSurveyDataContext;
   pfThemes = PfThemeType;
+  pagingOptions: PagingOptions = { From: 0, Count: 20 };
 
   showReScopeSurveyDataModal = new BehaviorSubject<boolean>(false);
   showReScopeSurveyDataModal$ = this.showReScopeSurveyDataModal.asObservable();
+
+  clearSearch = new BehaviorSubject<boolean>(false);
+  clearSearch$ = this.clearSearch.asObservable();
 
   actionBarConfig: ActionBarConfig;
 
@@ -158,6 +163,7 @@ export class ReScopeSurveyDataComponent implements OnChanges, AfterViewInit, OnD
     this.store.dispatch(new fromGridActions.UpdateSortDescriptorNoDataRetrieval(this.pageViewId, this.defaultSort));
     if (cancel) {
       this.showReScopeSurveyDataModal.next(false);
+      this.clearSearch.next(true);
       this.store.dispatch(new fromRescopeActions.ReScopeSurveyCancel());
     }
   }
