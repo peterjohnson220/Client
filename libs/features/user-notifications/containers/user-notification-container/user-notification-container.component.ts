@@ -14,6 +14,7 @@ import { CommunityPostsNotificationComponent } from '../categories/community-pos
 import { UserNotification } from '../../models';
 import { UserNotificationHostDirective } from '../../directives';
 import { UserNotificationConstants } from '../../constants';
+import { PendingPeerJobMatchesNotificationComponent } from '../categories/pending-peer-job-matches/pending-peer-job-matches-notification.component';
 
 @Component({
   selector: 'pf-user-notification-container',
@@ -56,6 +57,10 @@ export class UserNotificationContainerComponent  implements OnInit {
 
       case UserNotificationConstants.COMMUNITY_POSTS_LOOKUP_KEY:
         componentFactory = this.componentFactoryResolver.resolveComponentFactory(CommunityPostsNotificationComponent);
+        break;
+
+      case UserNotificationConstants.PENDING_PEER_JOB_MATCHES:
+        componentFactory = this.componentFactoryResolver.resolveComponentFactory(PendingPeerJobMatchesNotificationComponent);
         break;
 
       default:
