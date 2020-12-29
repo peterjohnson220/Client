@@ -6,8 +6,9 @@
     [colors]="graphicsColors" 
     [colorRank]="controlData.SummaryTextColor" 
     [styleAttrToColor]="'color'">
-    <label class="mr-2 mb-0">Information Effective:</label>
+    <label class="mb-0">Information Effective:</label>
     <kendo-datepicker
+      class="ml-2"
       *ngIf="mode !== statementModeEnum.Print"
       [disabled]="mode !== statementModeEnum.Edit"
       [value]="effectiveDate"
