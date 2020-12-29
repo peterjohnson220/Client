@@ -24,7 +24,7 @@ export class CommunityPostsNotificationComponent extends UserNotificationBaseCom
       ButtonText: this.ButtonText,
       IsRead: this.UserNotification.IsRead,
       CreateDate: this.UserNotification.CreateDate,
-      BaseUrl: `${parsedMetaData.Url}${parsedMetaData.ReplyId}`,
+      BaseUrl: `${this.UserNotification.BaseUrl}${parsedMetaData.ReplyId}`,
       IconPrefix: this.IconPrefix,
       IconName: this.IconName,
       OpenLinkInNewTab: false
@@ -36,10 +36,10 @@ export class CommunityPostsNotificationComponent extends UserNotificationBaseCom
       const json = JSON.parse(this.UserNotification.MetaData);
       const postBy = json['PostBy'];
       const replyBy = json['ReplyBy'];
-      const postDate = json['PostDate'];
+      const postDate: Date = json['PostDate'];
       const isYourPost = !postBy?.length;
       const postByMessage = !isYourPost ? `${postBy}'s` : 'your';
-      const message = `${replyBy} replied to ${postByMessage} post from ${postDate}`;
+      const message = `${replyBy} replied to ${postByMessage} post from ${postDate.toDateString()}`;
 
       return {
         Message: message,
