@@ -14,21 +14,6 @@ pf-trs-calculation-control {
 }
 
 pf-trs-image-control {
-  &>div {
-    border: 2px dashed transparent;
-  }
-  .edit-mode {
-    border: 2px dashed $trs-canvas-background-color;
-    border-radius: 5px;
-  }
-  .edit-mode.show-image {
-    border: 2px dashed transparent;
-    transition: border .6s ease-in-out;
-    &:hover{
-      border: 2px dashed rgba($link-color, .5);
-    }
-  }
-
   // Custom CSS to adjust Kendo Upload component
   .trs-image {
     svg {
