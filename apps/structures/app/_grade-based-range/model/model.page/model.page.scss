@@ -5,3 +5,14 @@
 .card .title {
   font-weight: bold;
 }
+
+::ng-deep .flex-column-container {
+  height: auto !important;
+}
+
+::ng-deep .compact-grid-container {
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+}
