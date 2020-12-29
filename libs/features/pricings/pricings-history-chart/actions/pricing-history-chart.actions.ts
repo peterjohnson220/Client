@@ -1,10 +1,10 @@
 import { Action } from '@ngrx/store';
-import { PricedPayMarkets, PricingHistoryChartFilters, PayMarketPricingHistory } from 'libs/models/payfactors-api';
+import { PricingHistoryChartFilters, PayMarketPricingHistory } from 'libs/models/payfactors-api';
 
 export const UPDATE_JOB_ID = '[PricingHistoryChart] Update JobId';
-export const LOAD_PRICED_PAYMARKETS = '[PricingHistoryChart] Load Priced Pay Markets';
-export const LOAD_PRICED_PAYMARKETS_SUCCESS = '[PricingHistoryChart] Load Priced Pay Markets Success';
-export const LOAD_PRICED_PAYMARKETS_ERROR = '[PricingHistoryChart] Load Priced Pay Markets Error';
+export const INIT_PRICING_HISTORY_CHART = '[PricingHistoryChart] Init Pricing History Chart';
+export const INIT_PRICING_HISTORY_CHART_SUCCESS = '[PricingHistoryChart] Init Pricing History Chart Success';
+export const INIT_PRICING_HISTORY_CHART_ERROR = '[PricingHistoryChart] Init Pricing History Chart Error';
 export const INIT_USER_DEFAULT_FILTERS = '[PricingHistoryChart] Init User Default Filters';
 export const GET_DATA = '[PricingHistoryChart] Get Data';
 export const GET_DATA_SUCCESS = '[PricingHistoryChart] Get Data Success';
@@ -16,18 +16,18 @@ export class UpdateJobId implements Action {
   constructor(public jobId: number) { }
 }
 
-export class LoadPricedPayMarkets implements Action {
-  readonly type = LOAD_PRICED_PAYMARKETS;
+export class InitPricingHistoryChart implements Action {
+  readonly type = INIT_PRICING_HISTORY_CHART;
   constructor() { }
 }
 
-export class LoadPricedPayMarketsSuccess implements Action {
-  readonly type = LOAD_PRICED_PAYMARKETS_SUCCESS;
-  constructor(public payload: PricedPayMarkets[]) { }
+export class InitPricingHistoryChartSuccess implements Action {
+  readonly type = INIT_PRICING_HISTORY_CHART_SUCCESS;
+  constructor(public payload: any[]) { }
 }
 
-export class LoadPricedPayMarketsError implements Action {
-  readonly type = LOAD_PRICED_PAYMARKETS_ERROR;
+export class InitPricingHistoryChartError implements Action {
+  readonly type = INIT_PRICING_HISTORY_CHART_ERROR;
   constructor(public payload: any) { }
 }
 
@@ -59,9 +59,9 @@ export class UpdateFilters implements Action {
 
 export type Actions
   = UpdateJobId
-  | LoadPricedPayMarkets
-  | LoadPricedPayMarketsSuccess
-  | LoadPricedPayMarketsError  
+  | InitPricingHistoryChart
+  | InitPricingHistoryChartSuccess
+  | InitPricingHistoryChartError  
   | InitUserDefaultFilters
   | GetData
   | GetDataSuccess

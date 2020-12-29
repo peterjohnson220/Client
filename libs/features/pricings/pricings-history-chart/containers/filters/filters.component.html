@@ -14,7 +14,7 @@
         [data]="filteredPayMarketOptions"
         [pfValidatable]="true"
         [filterable]="true"
-        (filterChange)="updatePayMarketOptions($event)"
+        (filterChange)="filterPayMarketOptions($event)"
       >
         <ng-template kendoDropDownListValueTemplate let-dataItem>
           <span *ngIf="dataItem">            
@@ -30,7 +30,7 @@
     </div>
   </div> 
   <div class="d-flex">
-    <div class="d-flex pr-3">
+    <div class="d-flex pr-3 form-group">
       <div class="pr-3 my-auto">Start:</div>
       <kendo-datepicker
         [attr.data-qa-id]="'date-pricing-history-chart-pm-start-date'"
@@ -42,7 +42,7 @@
         (valueChange)="resetDateRangeToFirstOfMonth()">
       </kendo-datepicker>
     </div>
-    <div class="d-flex pl-3">
+    <div class="d-flex pl-3 form-group">
       <div class="pr-3 my-auto">End:</div>
       <kendo-datepicker
         [attr.data-qa-id]="'date-pricing-history-chart-pm-end-date'"
@@ -53,6 +53,34 @@
         [bottomView]="'year'"
         (valueChange)="resetDateRangeToFirstOfMonth()">
       </kendo-datepicker>
+    </div>
+  </div>
+  <div class="d-flex">
+    <div class="pr-3 form-group w-75">
+      <div class="pr-3 my-auto">Currency</div>
+      <kendo-dropdownlist
+        [attr.data-qa-id]="'ddm-pricing-history-chart-currency'"
+        class="k-dropdown-white form-control form-control-sm"
+        formControlName="Currency"
+        textField="Name"
+        valueField="Value"
+        [valuePrimitive]="true"
+        [data]="filteredCurrencies"
+        [filterable]="true"
+        (filterChange)="filterCurrencies($event)">
+      </kendo-dropdownlist>
+    </div>
+    <div class="pl-3 form-group w-25">
+      <div class="pr-3 my-auto">Rate</div>
+      <kendo-dropdownlist
+        [attr.data-qa-id]="'ddm-pricing-history-chart-rate'"
+        class="k-dropdown-white form-control form-control-sm"
+        formControlName="Rate"
+        textField="Name"
+        valueField="Value"
+        [valuePrimitive]="true"
+        [data]="rates">
+      </kendo-dropdownlist>
     </div>
   </div>
 </form>

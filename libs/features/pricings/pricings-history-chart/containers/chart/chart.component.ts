@@ -6,7 +6,7 @@ import { Store } from '@ngrx/store';
 import Highcharts from 'highcharts';
 import moment from 'moment';
 
-import { PayMarketPricingHistory, PricingHistoryChartFilters } from 'libs/models/payfactors-api';
+import { PayMarketPricingHistory } from 'libs/models/payfactors-api';
 import { AsyncStateObj } from 'libs/models';
 import { annualDisplay, CompPipe, compRate } from 'libs/core';
 
@@ -31,6 +31,8 @@ export class ChartComponent implements OnInit, OnDestroy {
 
   chartData$: Observable<AsyncStateObj<PayMarketPricingHistory[]>>;
 
+  rate: string = compRate.annual;
+
   chartCallback: Highcharts.ChartCallbackFunction = (chart) => {
     this.chartRef = chart;
   }
@@ -45,6 +47,11 @@ export class ChartComponent implements OnInit, OnDestroy {
       .subscribe(o => {
         this.updateChartData(o.obj);
       });
+
+    this.getFiltersSubscription = this.store.select(fromPricingHistoryChartReducer.getFilters)
+      .subscribe(o => {
+        this.rate = o.Rate;
+      });
   }
 
   updateChartData(data: PayMarketPricingHistory[]) {
@@ -54,6 +61,7 @@ export class ChartComponent implements OnInit, OnDestroy {
         this.chartRef.series[0].remove(true);
       }
 
+      // Chart Date
       data.forEach(p => {
         const newSeries: any = {
           type: 'line',
@@ -64,15 +72,34 @@ export class ChartComponent implements OnInit, OnDestroy {
         this.chartRef.addSeries(newSeries, true);
       });
 
+      // YAxis labels
+      const compPipe = this.compPipe;
+      const rate = this.rate;
+      this.chartRef.yAxis[0].update(
+        {
+          labels: {
+            formatter: function () {
+              return compPipe.transform(this.value, rate, annualDisplay.truncatedRounded);
+            }
+          }
+        }
+      )
+
+      this.chartRef.tooltip.update(
+        {
+          formatter: function () {
+            return `<b>${this.series.name}</b>
+            <br> <b>Pricing Date - </b>${moment(new Date(this.x)).format('MM/DD/YYYY')}
+            <br> <b>Base MRP - </b>${compPipe.transform(this.y, rate, annualDisplay.truncatedRounded)}`;
+          }
+        }
+      )
+
       this.updateFlag = true;
     }
   }
 
   getChartOptions(): Highcharts.Options {
-
-    const compPipe = this.compPipe;
-    const decimalPipe = this.decimalPipe;
-
     return {
       chart: {
         animation: false,
@@ -83,40 +110,32 @@ export class ChartComponent implements OnInit, OnDestroy {
       credits: {
         enabled: false
       },
-      tooltip: {
-        formatter: function () {
-          return `<b>${this.series.name}</b>
-          <br> <b>Pricing Date - </b>${moment(new Date(this.x)).format('MM/DD/YYYY')}
-          <br> <b>Base MRP - </b>${compPipe.transform(this.y)}`;
-        }
-      },
       yAxis: {
         title: {
           text: 'Base MRP'
         },
-        labels: {
-          formatter: function () {
-            return compPipe.transform(this.value, compRate.annual, annualDisplay.truncatedRounded);
-          }
-        }
       },
       xAxis: {
         type: 'datetime',
         labels: {
           formatter: function () {
             let dateFormatter = '%Y';
-            const startDate = new Date(this.axis.min);
-            const endDate = new Date(this.axis.max);
-            if (moment.duration(moment(endDate).diff(moment(startDate))).asYears() <= 2) {
-              const quarter = Math.ceil((new Date(this.value).getMonth() + 1) / 3);
-              dateFormatter = 'Q' + quarter + ' %Y';
+            let startDate = moment(new Date(this.axis.min));
+            let endDate = moment(new Date(this.axis.max));
+            if (moment.duration(endDate.diff(startDate)).asMonths() <= 4) {
+              dateFormatter = `%b %Y`;
+            }
+            else if (moment.duration(moment(endDate).diff(moment(startDate))).asYears() <= 2) {
+              dateFormatter = `Q${moment.utc(new Date(this.value)).quarter()} %Y`;
             }
             return Highcharts.dateFormat(dateFormatter, this.value);
           },
         },
         tickPositioner: function () {
           let positions = this.tickPositions;
-          if (moment.duration(moment(new Date(this.max)).diff(moment(new Date(this.min)))).asYears() > 2) {
+          let startDate = moment(new Date(this.min));
+          let endDate = moment(new Date(this.max));
+          if (moment.duration(endDate.diff(startDate)).asYears() > 2) {
             positions = [];
 
             const curDate = moment(new Date(this.min)).startOf('year');
@@ -126,7 +145,17 @@ export class ChartComponent implements OnInit, OnDestroy {
               positions.push(curDate.toDate().getTime());
               curDate.add(1, 'y');
             }
+          } else if (moment.duration(endDate.diff(startDate)).asMonths() > 4) {
+            positions = [];
+            const curDate = moment(new Date(this.min)).startOf('month');
+            const endDate = moment(new Date(this.max));
+
+            while (curDate < endDate) {
+              positions.push(curDate.toDate().getTime());
+              curDate.add(3, 'M');
+            }
           }
+
           return positions;
         }
       },

@@ -29,7 +29,7 @@ export class PricingsHistoryChartComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.jobId && changes.jobId.currentValue) {
       this.store.dispatch(new fromPricingHistoryChartActions.UpdateJobId(changes.jobId.currentValue));
-      this.store.dispatch(new fromPricingHistoryChartActions.LoadPricedPayMarkets());
+      this.store.dispatch(new fromPricingHistoryChartActions.InitPricingHistoryChart());
     }
   }
 
