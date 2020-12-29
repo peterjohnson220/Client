@@ -36,7 +36,7 @@ export class CommunityPostsNotificationComponent extends UserNotificationBaseCom
       const json = JSON.parse(this.UserNotification.MetaData);
       const postBy = json['PostBy'];
       const replyBy = json['ReplyBy'];
-      const postDate: Date = json['PostDate'];
+      const postDate: Date = new Date(json['PostDate']);
       const isYourPost = !postBy?.length;
       const postByMessage = !isYourPost ? `${postBy}'s` : 'your';
       const message = `${replyBy} replied to ${postByMessage} post from ${postDate.toDateString()}`;
