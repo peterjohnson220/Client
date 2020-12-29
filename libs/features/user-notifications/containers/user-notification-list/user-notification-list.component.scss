@@ -1,3 +1,7 @@
+pf-infinite-scroll {
+  position: relative;
+}
+
 .page-header {
   color: #495057;
   font-size: 1.2rem;
@@ -27,4 +31,6 @@
 .notification-table{
   border-collapse:separate;
   border-spacing:.5em;
+  max-height: 500px;
+  margin-bottom: 0;
 }

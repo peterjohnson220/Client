@@ -7,15 +7,18 @@
 
   <button *ngIf="DisplayHeader" class="btn btn-secondary" (click)="markAllAsRead()">Mark all as read</button>
 
-  <table class="table mt-3 notification-table" *ngIf="!!(userNotificationsAsyncObj$ | async)?.obj?.length; else noNotifications">
-    <tbody>
-      <tr class="notification-row"
-          *ngFor="let notification of (userNotificationsAsyncObj$ | async)?.obj; let i = index"
-          (click)="openNotification(notification)">
-        <pf-user-notification-container [UserNotification]="notification"></pf-user-notification-container>
-      </tr>
-    </tbody>
-  </table>
+  <pf-infinite-scroll [scrollId]="scrollId" [numberOfCurrentResults]="numberOfCurrentResults" position="relative">
+    <table class="table notification-table" *ngIf="numberOfCurrentResults > 0; else noNotifications">
+        <tbody>
+          <tr class="notification-row"
+              *ngFor="let notification of userNotifications; let i = index; trackBy: trackByUserNotificationId;"
+              (click)="openNotification(notification)">
+            <pf-user-notification-container [UserNotification]="notification"></pf-user-notification-container>
+          </tr>
+        </tbody>
+    </table>
+  </pf-infinite-scroll>
+
 </div>
 <ng-template #noNotifications>
   <p class="no-notifications">No Notifications</p>

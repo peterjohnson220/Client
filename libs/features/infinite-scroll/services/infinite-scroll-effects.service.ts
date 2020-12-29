@@ -6,37 +6,49 @@ import { Actions, ofType } from '@ngrx/effects';
 import { filter, withLatestFrom } from 'rxjs/operators';
 import { of } from 'rxjs';
 
-import { ResultsPagingOptions } from 'libs/features/search/models';
 import { SearchFilter } from 'libs/models/payfactors-api/search/response';
+import { PagingOptions } from 'libs/models/payfactors-api';
 
 import * as fromInfiniteScrollActions from '../actions/infinite-scroll.actions';
 import * as fromInfiniteScrollReducer from '../reducers';
+import { ScrollPagingOptions } from '../models';
 
 
 export class InfiniteScrollActionContext extends Observable<Action> {
   scrollId: string;
   action: fromInfiniteScrollActions.Load|fromInfiniteScrollActions.LoadMore;
-  pagingOptions: ResultsPagingOptions;
+  scrollPagingOptions: ScrollPagingOptions;
 
-  constructor(scrollId: string, action: fromInfiniteScrollActions.Load|fromInfiniteScrollActions.LoadMore, pagingOptions: ResultsPagingOptions) {
+  constructor(scrollId: string, action: fromInfiniteScrollActions.Load|fromInfiniteScrollActions.LoadMore, scrollPagingOptions: ScrollPagingOptions) {
     super();
     this.scrollId = scrollId;
     this.action = action;
-    this.pagingOptions = pagingOptions;
+    this.scrollPagingOptions = scrollPagingOptions;
   }
 
   get isLoadAction(): boolean {
     return this.action.type === fromInfiniteScrollActions.LOAD;
   }
 
-  throwError(): Observable<fromInfiniteScrollActions.LoadError> {
-    return of(new fromInfiniteScrollActions.LoadError({scrollId: this.scrollId}));
+  get pagingOptions(): PagingOptions {
+    const pagingOptions = this.scrollPagingOptions;
+    return {
+      From: pagingOptions.pageSize * (pagingOptions.page - 1),
+      Count: pagingOptions.pageSize
+    };
   }
 
-  scrollSuccessful<TState>(store: Store<TState>, searchFilter: SearchFilter): void {
+  throwError(err?: any): Observable<fromInfiniteScrollActions.LoadError|fromInfiniteScrollActions.LoadMoreError> {
+    const payload = {scrollId: this.scrollId, error: err};
+    const errorAction = this.isLoadAction ? new fromInfiniteScrollActions.LoadError(payload) : new fromInfiniteScrollActions.LoadMoreError(payload);
+    return of(errorAction);
+  }
+  scrollSuccessful<TState, TResult>(store: Store<TState>, response: TResult[]): void;
+  scrollSuccessful<TState>(store: Store<TState>, response: SearchFilter): void;
+  scrollSuccessful<TState>(store: Store<TState>, response: any): void {
     const scrollPayload = {
       scrollId: this.scrollId,
-      lastReturnedCount: searchFilter.Options.length
+      lastReturnedCount: response?.length ?? response.Options.length
     };
     const successAction = this.isLoadAction ?
       new fromInfiniteScrollActions.LoadSuccess(scrollPayload) : new fromInfiniteScrollActions.LoadMoreSuccess(scrollPayload);

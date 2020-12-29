@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { DataViewExportResponse } from 'libs/models/payfactors-api/reports/response';
 import { UserNotificationResponse } from 'libs/models/payfactors-api/notifications';
 import { NotificationPreferenceDto } from 'libs/models/notifications/notification-preference-dto.model';
+import { PagingOptions } from 'libs/models/payfactors-api';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 
@@ -24,8 +25,8 @@ export class NotificationsApiService {
     return this.payfactorsApiService.get(`${this.endpoint}/GetTotalRewardsStatementPdfs`);
   }
 
-  getUserNotifications(): Observable<UserNotificationResponse[]> {
-    return this.payfactorsApiService.get(`${this.endpoint}/GetUserNotifications`);
+  getUserNotifications(pagingOptions: PagingOptions): Observable<UserNotificationResponse[]> {
+    return this.payfactorsApiService.post(`${this.endpoint}/GetUserNotifications`, pagingOptions);
   }
 
   getUserNotificationUnreadCount(): Observable<number> {

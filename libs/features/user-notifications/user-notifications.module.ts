@@ -8,6 +8,7 @@ import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontaweso
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonModule } from 'libs/core';
 
+import { PfInfiniteScrollModule } from '../infinite-scroll';
 import { reducers } from './reducers';
 import { UserNotificationListComponent } from './containers';
 import { UserNotificationContainerComponent } from './containers/user-notification-container/user-notification-container.component';
@@ -34,6 +35,7 @@ import * as fromFaIcons from './fa-icons';
     // Payfactors
     PfFormsModule,
     PfCommonModule,
+    PfInfiniteScrollModule,
 
     // 3rd party
     StoreModule.forFeature('feature_user_notifications', reducers),
