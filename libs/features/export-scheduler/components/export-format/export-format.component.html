@@ -20,6 +20,7 @@
                           style="width: 135px;"
                           data-qa-id="ddl-tabular-form-reports-csv-delimiters"
                           [(ngModel)]="selectedSeparatorType"
+                          (valueChange)="handleSeparatorTypeChange()"
                           [data]="csvDelimiters">
       </kendo-dropdownlist>
     </div>

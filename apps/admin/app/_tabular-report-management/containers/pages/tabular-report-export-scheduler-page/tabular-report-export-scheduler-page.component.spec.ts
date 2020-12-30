@@ -39,7 +39,12 @@ describe('Company Admin - Tabular Report Export Schedule', () => {
       csvDelimiters: [],
       reset: jest.fn(),
       handleFormatChange: jest.fn(),
-      isValid: true
+      isValid: true,
+      changesMade: false,
+      scheduledFormat: '',
+      scheduledFormatSeparatorType: '',
+      handleSeparatorTypeChange: jest.fn(),
+      ngOnChanges: jest.fn()
     };
     instance.exportFrequency = {
       selectedDaysOfWeek: [],
@@ -54,7 +59,16 @@ describe('Company Admin - Tabular Report Export Schedule', () => {
       handleMonthlyDayOfWeekChange: jest.fn(),
       trackByFn: jest.fn(),
       isDaySelected: jest.fn(),
-      isValid: true
+      isValid: true,
+      changesMade: false,
+      frequency: '',
+      schedule: undefined,
+      scheduledFrequencyChanged: undefined,
+      scheduledMonthlyFrequency: undefined,
+      scheduledWeeklyFrequency: undefined,
+      handleMonthlyOccurrenceChange: jest.fn(),
+      populateSelectedScheduledFrequency: jest.fn(),
+      ngOnChanges: jest.fn()
     };
 
     fixture.detectChanges();
@@ -62,8 +76,9 @@ describe('Company Admin - Tabular Report Export Schedule', () => {
 
   it.each([
     ['Excel', null, ExportFrequencyType.OneTime, null, null, null],
-    ['CSV', 'Comma', ExportFrequencyType.Weekly, ['Monday', 'Friday'], null, '* * * ? * MON,FRI'],
-    ['CSV', 'Pipe', ExportFrequencyType.Monthly, ['Monday'], 'First', '* * * ? * MON#1']
+    ['CSV', 'Comma', ExportFrequencyType.Weekly,
+      [{Name: 'Monday', Value: 'MON', Order: 1}, {Name: 'Friday', Value: 'FRI', Order: 5 }], null, '* * * ? * MON,FRI'],
+    ['CSV', 'Pipe', ExportFrequencyType.Monthly, [{Name: 'Monday', Value: 'MON', Order: 1}], 'First', '* * * ? * MON#1']
   ])
   ('should dispatch save schedule with correct data',
   (format, separatorType, frequency, daysOfWeek, monthlyOccurrence, cronExpression) => {

@@ -2,15 +2,15 @@
   <label [style.width.px]="150">Select Frequency <span class="text-danger">*</span></label>
   <div class="dropdowns">
     <label>
-      <input type="radio" [(ngModel)]="selectedFrequency" name="frequency" [value]="exportFrequencyType.OneTime" (change)="onFrequencyChange()">
+      <input type="radio" [(ngModel)]="selectedFrequency" [name]="frequency + schedule?.DataViewId" [value]="exportFrequencyType.OneTime" (change)="onFrequencyChange()">
       <span class="pl-2">One-time</span>
     </label>
     <label class="ml-5">
-      <input type="radio" [(ngModel)]="selectedFrequency" name="frequency" [value]="exportFrequencyType.Weekly" (change)="onFrequencyChange()">
+      <input type="radio" [(ngModel)]="selectedFrequency" [name]="frequency + schedule?.DataViewId" [value]="exportFrequencyType.Weekly" (change)="onFrequencyChange()">
       <span class="pl-2">Weekly</span>
     </label>
     <label class="ml-5">
-      <input type="radio" [(ngModel)]="selectedFrequency" name="frequency" [value]="exportFrequencyType.Monthly" (change)="onFrequencyChange()">
+      <input type="radio" [(ngModel)]="selectedFrequency" [name]="frequency + schedule?.DataViewId" [value]="exportFrequencyType.Monthly" (change)="onFrequencyChange()">
       <span class="pl-2">Monthly</span>
     </label>
     <div *ngIf="selectedFrequency === exportFrequencyType.OneTime">
@@ -23,8 +23,8 @@
           <input type="checkbox"
                  (change)="onDayOfWeekChange(day)"
                  [checked]="isDaySelected(day)"
-                 [value]="day">
-          {{day}}
+                 [value]="day.Name">
+          {{day.Name}}
         </label>
       </div>
     </div>
@@ -32,6 +32,7 @@
       <kendo-dropdownlist
         data-qa-id="ddl-tabular-form-reports-monthly-occurrence"
         class="w-25 mr-2 k-dropdown-white"
+        (valueChange)="handleMonthlyOccurrenceChange()"
         [(ngModel)]="selectedMonthlyOccurrence"
         [data]="monthlyOccurrence">
       </kendo-dropdownlist>
@@ -40,6 +41,8 @@
                           class="w-25 mr-2 k-dropdown-white"
                           (valueChange)="handleMonthlyDayOfWeekChange($event)"
                           [ngModel]="selectedDaysOfWeek ? selectedDaysOfWeek[0] : null"
+                          [textField]="'Name'"
+                          [valueField]="'Value'"
                           [data]="daysOfWeek">
       </kendo-dropdownlist>
       <span>of each month</span>

@@ -14,25 +14,10 @@
         </ng-template>
 
         <ng-template ngbPanelContent>
-          <div class="d-flex flex-wrap flex-column">
-            <div class="d-flex">
-              <label>Last Sent:</label>
-              <span *ngIf="schedule.LastSentDate">{{schedule.LastSentDate | date : 'MM/dd/yyyy'}}</span>
-              <span *ngIf="!schedule.LastSentDate">N/A</span>
-            </div>
-            <div class="d-flex">
-              <label>Select Format:</label>
-              <span>{{schedule.Format}}</span>
-            </div>
-            <div *ngIf="schedule.Format === csvFileFormat">
-              <label>Separator Type:</label>
-              <span>{{schedule.FormatSeparatorType}}</span>
-            </div>
-            <div class="d-flex">
-              <label>Frequency:</label>
-              <span>{{schedule.FrequencyTextFormat}}</span>
-            </div>
-          </div>
+          <pf-export-schedule-details
+            [schedule]="schedule"
+            (deleteClicked)="handleDeleteClicked($event)">
+          </pf-export-schedule-details>
         </ng-template>
       </ngb-panel>
     </ngb-accordion>
@@ -42,3 +27,10 @@
 <ng-template #noSavedSchedulesTemplate>
   <p>No Saved Schedules</p>
 </ng-template>
+
+<pf-export-delete-modal
+  [reportName]="scheduleToDelete?.UserDataView?.Name"
+  [showDeleteModal$]="showDeleteModal$"
+  (cancelClicked)="handleCancelClicked()"
+  (deleteScheduledExport)="handleDeleteScheduledExport()">
+</pf-export-delete-modal>

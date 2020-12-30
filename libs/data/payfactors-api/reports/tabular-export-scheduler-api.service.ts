@@ -21,4 +21,12 @@ export class TabularExportSchedulerApiService {
   saveExportSchedule(request: TabularReportExportSchedule): Observable<any> {
     return this.payfactorsApiService.post(`${this.endpoint}/SaveExportSchedule`, request);
   }
+
+  deleteExportSchedule(dataViewId: number): Observable<any> {
+    return this.payfactorsApiService.post(`${this.endpoint}/DeleteExportSchedule`, {DataViewId: dataViewId});
+  }
+
+  updateExportSchedule(request: TabularReportExportSchedule): Observable<any> {
+    return this.payfactorsApiService.post(`${this.endpoint}/UpdateExportSchedule`, request);
+  }
 }

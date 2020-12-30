@@ -7,6 +7,8 @@ import { EffectsModule } from '@ngrx/effects';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { UploadModule } from '@progress/kendo-angular-upload';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 
 import { PfCommonModule } from 'libs/core';
@@ -16,6 +18,7 @@ import { ExportSchedulerModule } from 'libs/features';
 
 import { TabularReportManagementRoutingModule } from './tabular-report-management-routing.module';
 import { TabularReportExportSchedulerPageComponent } from './containers';
+import { ExportSchedulesComponent, ExportScheduleDetailsComponent, ExportDeleteModalComponent } from './components';
 import { reducers } from './reducers';
 import { TabularReportExportSchedulerPageEffects } from './effects';
 import * as fromFaIcons from './fa-icons';
@@ -36,6 +39,7 @@ import * as fromFaIcons from './fa-icons';
     FontAwesomeModule,
     UploadModule,
     DropDownsModule,
+    NgbModule,
 
     // Routing
     TabularReportManagementRoutingModule,
@@ -49,7 +53,9 @@ import * as fromFaIcons from './fa-icons';
   ],
   declarations: [
     // Components
-
+    ExportSchedulesComponent,
+    ExportScheduleDetailsComponent,
+    ExportDeleteModalComponent,
     // Pages
     TabularReportExportSchedulerPageComponent,
   ]

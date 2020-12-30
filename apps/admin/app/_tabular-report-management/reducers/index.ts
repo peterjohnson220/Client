@@ -7,17 +7,17 @@ import * as fromTabularReportExportSchedulerPageReducer from './tabular-report-e
 
 // Feature area state
 export interface TabularReportManagementMainState {
-  tabulerReportExportSchedulerPage: fromTabularReportExportSchedulerPageReducer.State;
+  tabularReportExportSchedulerPage: fromTabularReportExportSchedulerPageReducer.State;
 }
 
 // Extend root state with feature area state
 export interface State extends fromRoot.State {
-  tabulerReport_main: TabularReportManagementMainState;
+  tabularReportManagement_main: TabularReportManagementMainState;
 }
 
 // Feature area reducers
 export const reducers = {
-  tabulerReportExportSchedulerPage: fromTabularReportExportSchedulerPageReducer.reducer
+  tabularReportExportSchedulerPage: fromTabularReportExportSchedulerPageReducer.reducer
 };
 
 // Select Feature Area
@@ -26,7 +26,7 @@ export const selectFeatureAreaState = createFeatureSelector<TabularReportManagem
 // Feature Selectors
 export const selectTabularReportExportSchedulerPageState = createSelector(
   selectFeatureAreaState,
-  (state: TabularReportManagementMainState) => state.tabulerReportExportSchedulerPage
+  (state: TabularReportManagementMainState) => state.tabularReportExportSchedulerPage
 );
 
 // Tabular Report Export Scheduler Management Page
@@ -48,4 +48,9 @@ export const getSavingSchedule = createSelector(
 export const getSavingScheduleError = createSelector(
   selectTabularReportExportSchedulerPageState,
   fromTabularReportExportSchedulerPageReducer.getSavingScheduleError
+);
+
+export const getShowDeleteModal = createSelector(
+  selectTabularReportExportSchedulerPageState,
+  fromTabularReportExportSchedulerPageReducer.getShowDeleteModal
 );
