@@ -126,10 +126,6 @@ pf-trs-effective-date-control {
         font-size: .9rem;
       }
 
-      .field-wrapper {
-        transition: opacity .15s ease-in-out, transform .3s ease-in-out;
-      }
-
       .static-date {
         padding: 0.3rem;
       }
@@ -144,17 +140,14 @@ pf-trs-effective-date-control {
     }
 
     .preview-mode {
-      label {
-        margin-right: 1.25rem !important;
-      }
       .k-picker-wrap, .k-datepicker {
-        width: auto !important;
+        width: auto;
       }
       .k-input {
-        transform: translateX(-45px);
+        transform: translateX(-38px);
       }
       .field-wrapper {
-        transform: translateX(5rem);
+        transform: translateX(65px);
       }
     }
   }
@@ -182,7 +175,7 @@ pf-trs-effective-date-control {
 
     .preview-mode {
       .k-input {
-        transform: translateX(-35px);
+        transform: translateX(-32px);
       }
     }
   }
