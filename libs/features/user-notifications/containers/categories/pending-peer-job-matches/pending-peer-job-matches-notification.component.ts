@@ -12,8 +12,8 @@ import { UserNotificationDisplay } from '../../../models';
 export class PendingPeerJobMatchesNotificationComponent extends UserNotificationBaseComponent implements OnInit {
   NotificationTitle = 'Review Peer Matches';
   ButtonText = 'Review Matches';
-  IconPrefix: IconPrefix = 'far';
-  IconName: IconName = 'file-alt';
+  IconPrefix: IconPrefix = 'fas';
+  IconName: IconName = 'exchange-alt';
 
   buildUserNotificationDisplay(): UserNotificationDisplay {
     const parsedMetaData = this.parseMetaData();
@@ -30,7 +30,6 @@ export class PendingPeerJobMatchesNotificationComponent extends UserNotification
       IconName: this.IconName,
       OpenLinkInNewTab: false
     };
-
   }
 
   parseMetaData(): any {
@@ -40,8 +39,10 @@ export class PendingPeerJobMatchesNotificationComponent extends UserNotification
       const exchangeId = json['ExchangeId'];
       const pendingMatchCount = json['PendingMatchCount'];
 
+      const matchDynamic = pendingMatchCount > 1 ? 'Matches' : 'Match';
+
       return {
-        Message: `You have ${pendingMatchCount} Peer Matches to review in ${exchangeName}`,
+        Message: `You have ${pendingMatchCount} Peer ${matchDynamic} to review in ${exchangeName}`,
         Url: `${this.UserNotification.BaseUrl}${exchangeId}/manage?status=pending-review`
       };
 
