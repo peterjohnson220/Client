@@ -1,4 +1,4 @@
-import { UserDataView } from 'libs/features';
+import { generateMockUserDataView, UserDataView } from 'libs/features';
 
 export interface TabularReportExportSchedule {
   DataViewId: number;
@@ -11,4 +11,15 @@ export interface TabularReportExportSchedule {
   FrequencyTextFormat?: string;
   CreateUser?: number;
   IsDataViewOwner?: boolean;
+}
+
+export function generateMockTabularReportExportSchedule(): TabularReportExportSchedule {
+  return {
+    DataViewId: 0,
+    Format: 'CSV',
+    FormatSeparatorType: 'Comma',
+    Frequency: 'Weekly',
+    CronExpression: '0 0 0 ? * MON,THU',
+    UserDataView: generateMockUserDataView(),
+  };
 }

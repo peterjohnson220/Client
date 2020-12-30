@@ -5,6 +5,7 @@ import { Observable, Subscription } from 'rxjs';
 import { DropDownFilterSettings } from '@progress/kendo-angular-dropdowns';
 import isNumber from 'lodash/isNumber';
 import toNumber from 'lodash/toNumber';
+import cloneDeep from 'lodash/cloneDeep';
 
 import { environment } from 'environments/environment';
 import { AsyncStateObj } from 'libs/models/state';
@@ -31,6 +32,7 @@ export class TabularReportExportSchedulerPageComponent implements OnInit, OnDest
   savingScheduleError$: Observable<string>;
 
   savingScheduleSubscription: Subscription;
+  savedSchedulesSubscription: Subscription;
 
   selectedReport: Workbook;
   env = environment;
@@ -39,6 +41,7 @@ export class TabularReportExportSchedulerPageComponent implements OnInit, OnDest
     operator: 'contains'
   };
   savingSchedule: boolean;
+  savedSchedules: TabularReportExportSchedule[];
 
   get disabled() {
     return !this.selectedReport || !this.exportFormat.isValid || !this.exportFrequency.isValid ||
@@ -56,10 +59,16 @@ export class TabularReportExportSchedulerPageComponent implements OnInit, OnDest
   ngOnInit(): void {
     this.store.dispatch(new fromTabularReportExportSchedulerPageActions.GetSavedSchedules());
     this.savingScheduleSubscription = this.savingSchedule$.subscribe(value => this.savingSchedule = value);
+    this.savedSchedulesSubscription = this.savedSchedulesAsync$.subscribe(schedules => {
+      if (!!schedules.obj.length) {
+        this.savedSchedules = cloneDeep(schedules.obj);
+      }
+    });
   }
 
   ngOnDestroy(): void {
     this.savingScheduleSubscription.unsubscribe();
+    this.savedSchedulesSubscription.unsubscribe();
   }
 
   handleSaveClicked(): void {

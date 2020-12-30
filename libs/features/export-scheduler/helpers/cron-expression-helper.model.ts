@@ -1,4 +1,7 @@
+import orderBy from 'lodash/orderBy';
+
 import { GenericNameValue } from 'libs/models';
+import { ScheduledMonthlyFrequency } from '../models';
 
 export enum ExportFrequencyType {
   OneTime = 'One-time',
@@ -6,15 +9,21 @@ export enum ExportFrequencyType {
   Monthly = 'Monthly'
 }
 
+export interface DayOfWeek {
+  Name: string;
+  Value: string;
+  Order: number;
+}
+
 export class CronExpressionHelper {
-  static daysOfWeek: GenericNameValue<string>[] = [
-    { Name: 'Sunday', Value: 'SUN' },
-    { Name: 'Monday', Value: 'MON' },
-    { Name: 'Tuesday', Value: 'TUE' },
-    { Name: 'Wednesday', Value: 'WED' },
-    { Name: 'Thursday', Value: 'THU' },
-    { Name: 'Friday', Value: 'FRI' },
-    { Name: 'Saturday', Value: 'SAT' }
+  static daysOfWeek: DayOfWeek[] = [
+    { Name: 'Sunday', Value: 'SUN', Order: 0 },
+    { Name: 'Monday', Value: 'MON', Order: 1 },
+    { Name: 'Tuesday', Value: 'TUE', Order: 2 },
+    { Name: 'Wednesday', Value: 'WED', Order: 3 },
+    { Name: 'Thursday', Value: 'THU', Order: 4 },
+    { Name: 'Friday', Value: 'FRI', Order: 5 },
+    { Name: 'Saturday', Value: 'SAT', Order: 6 }
   ];
 
   static weeksOfMonth: GenericNameValue<string>[] = [
@@ -23,6 +32,41 @@ export class CronExpressionHelper {
     { Name: 'Third', Value: '3' },
     { Name: 'Fourth', Value: '4' }
   ];
+
+  static getWeeklyFrequencyFromCronExpression(expression: string): DayOfWeek[] {
+    const cronArray = expression.split(' ');
+    if (!cronArray || cronArray.length !== 6) {
+      return null;
+    }
+    const scheduledDays = cronArray[5].split(',');
+    const days = scheduledDays
+      .map(d => {
+        return this.daysOfWeek.find(x => x.Value === d) ?? '';
+      })
+      .filter(x => x !== '');
+    return orderBy(days, 'Order', 'asc');
+  }
+
+  static getMonthlyFrequencyFromCronExpression(expression: string): ScheduledMonthlyFrequency {
+    const cronArray = expression.split(' ');
+    if (!cronArray || cronArray.length !== 6) {
+      return null;
+    }
+    const dayField = cronArray[5].split('#');
+    if (!dayField || dayField.length !== 2) {
+      return null;
+    }
+    const monthlyOccurrence = this.weeksOfMonth.find(x => x.Value === dayField[1])?.Name ?? '';
+    const dayOfWeek = this.daysOfWeek.find(x => x.Value === dayField[0]) ?? '';
+    if (monthlyOccurrence === '' || dayOfWeek === '') {
+      return null;
+    }
+
+    return {
+      ScheduledMonthlyOccurrence: monthlyOccurrence,
+      ScheduledDayOfWeek: [dayOfWeek]
+    };
+  }
 
   static getWeeklyFrequencyTextFormat(expression: string): string {
     const cronArray = expression.split(' ');
@@ -56,7 +100,7 @@ export class CronExpressionHelper {
     return `${monthlyOccurrence} ${dayOfWeek} of each month`;
   }
 
-  static generateCronExpression(frequency: string, daysOfWeek: string[], monthlyOccurrence?: string): string {
+  static generateCronExpression(frequency: string, daysOfWeek: DayOfWeek[], monthlyOccurrence?: string): string {
     switch (frequency) {
       case ExportFrequencyType.Weekly:
         return this.generateWeeklyCronExpression(daysOfWeek);
@@ -70,14 +114,13 @@ export class CronExpressionHelper {
     }
   }
 
-  private static generateWeeklyCronExpression(daysOfWeek: string[]): string {
+  private static generateWeeklyCronExpression(daysOfWeek: DayOfWeek[]): string {
     if (!daysOfWeek?.length) {
       return '';
     }
     const defaultFields = this.getDefaultCronFields();
     const cronDaysOfWeek = daysOfWeek.map(x => {
-      const dayOfWeek = this.daysOfWeek.find(d => d.Name === x)?.Value ?? '';
-      return dayOfWeek;
+      return this.daysOfWeek.find(d => d.Name === x.Name)?.Value ?? '';
     }).filter(x => x !== '');
 
     return cronDaysOfWeek?.length > 0
@@ -85,13 +128,13 @@ export class CronExpressionHelper {
       : '';
   }
 
-  private static generateMonthlyCronExpression(monthlyOccurrence: string, dayOfWeek: string): string {
-    if (!monthlyOccurrence?.length || !dayOfWeek?.length) {
+  private static generateMonthlyCronExpression(monthlyOccurrence: string, dayOfWeek: DayOfWeek): string {
+    if (!monthlyOccurrence?.length || !dayOfWeek.Name?.length) {
       return '';
     }
     const defaultFields = this.getDefaultCronFields();
     const cronOccurrence = this.weeksOfMonth.find(x => x.Name === monthlyOccurrence)?.Value ?? '';
-    const cronDayOfWeek = this.daysOfWeek.find(d => d.Name === dayOfWeek)?.Value ?? '';
+    const cronDayOfWeek = this.daysOfWeek.find(d => d.Name === dayOfWeek.Name)?.Value ?? '';
 
     return cronOccurrence !== '' && cronDayOfWeek !== ''
       ? `${defaultFields} ${cronDayOfWeek}#${cronOccurrence}`

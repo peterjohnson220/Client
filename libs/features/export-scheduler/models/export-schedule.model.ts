@@ -1,6 +1,6 @@
 import { TabularReportExportSchedule } from 'libs/features/reports/models';
 
-import { CronExpressionHelper, ExportFrequencyType } from '../helpers/cron-expression-helper.model';
+import { CronExpressionHelper, DayOfWeek, ExportFrequencyType } from '../helpers';
 
 export class ExportScheduleHelper {
   static csvFileFormat = 'CSV';
@@ -22,7 +22,7 @@ export class ExportScheduleHelper {
     };
   }
 
-  private static getFrequencyTextFormat(frequency: string, cronExpression?: string): string {
+  static getFrequencyTextFormat(frequency: string, cronExpression?: string): string {
     switch (frequency) {
       case ExportFrequencyType.OneTime:
         return ExportFrequencyType.OneTime;
@@ -34,4 +34,9 @@ export class ExportScheduleHelper {
         return '';
     }
   }
+}
+
+export interface ScheduledMonthlyFrequency {
+  ScheduledMonthlyOccurrence: string;
+  ScheduledDayOfWeek: DayOfWeek[];
 }

@@ -73,6 +73,38 @@ export class TabularReportExportSchedulerPageEffects {
       })
     );
 
+  @Effect()
+  deleteExportSchedule$ = this.action$
+    .pipe(
+      ofType(fromTabularReportExportSchedulerPageActions.DELETE_EXPORT_SCHEDULE),
+      switchMap((action: fromTabularReportExportSchedulerPageActions.DeleteExportSchedule) => {
+        return this.tabularExportSchedulerApiService.deleteExportSchedule(action.payload)
+          .pipe(
+            map(() => {
+              return new fromTabularReportExportSchedulerPageActions.DeleteExportScheduleSuccess(action.payload);
+            }),
+            catchError(() => of(new fromTabularReportExportSchedulerPageActions.DeleteExportScheduleError()))
+          );
+      })
+    );
+
+  @Effect()
+  updateExportSchedule$ = this.action$
+    .pipe(
+      ofType(fromTabularReportExportSchedulerPageActions.UPDATE_EXPORT_SCHEDULE),
+      switchMap((action: fromTabularReportExportSchedulerPageActions.UpdateExportSchedule) => {
+        return this.tabularExportSchedulerApiService.updateExportSchedule(action.payload)
+          .pipe(
+            mergeMap((response) => {
+              return [
+                new fromTabularReportExportSchedulerPageActions.UpdateExportScheduleSuccess()
+              ];
+            }),
+            catchError(() => of(new fromTabularReportExportSchedulerPageActions.UpdateExportScheduleError()))
+          );
+      })
+    );
+
   constructor(
     private action$: Actions,
     private store: Store<fromTabularReportExportSchedulerPageReducer.State>,

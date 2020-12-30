@@ -2,6 +2,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ExportFrequencyComponent } from './export-frequency.component';
+import { DayOfWeek } from '../../helpers';
 
 describe('Export Scheduler Module - Export Frequency Component', () => {
   let fixture: ComponentFixture<ExportFrequencyComponent>;
@@ -18,18 +19,60 @@ describe('Export Scheduler Module - Export Frequency Component', () => {
   });
 
   it('should add selected day into selectedDaysOfWeek when day checkbox is checked', () => {
-    instance.selectedDaysOfWeek = ['Monday'];
+    instance.selectedDaysOfWeek = [{
+      Name: 'Monday',
+      Value: 'MON',
+      Order: 1
+    }];
 
-    instance.onDayOfWeekChange('Tuesday');
+    const tuesday: DayOfWeek = {
+      Name: 'Tuesday',
+      Value: 'TUES',
+      Order: 2
+    };
 
-    expect(instance.selectedDaysOfWeek).toEqual(['Monday', 'Tuesday']);
+    const expectedResults: DayOfWeek[] = [
+      {
+        Name: 'Monday',
+        Value: 'MON',
+        Order: 1
+      },
+      {
+        Name: 'Tuesday',
+        Value: 'TUES',
+        Order: 2
+      }
+      ];
+
+    instance.onDayOfWeekChange(tuesday);
+
+    expect(instance.selectedDaysOfWeek).toEqual(expectedResults);
   });
 
   it('should remove selected day from selectedDaysOfWeek when day checkbox is unchecked', () => {
-    instance.selectedDaysOfWeek = ['Monday', 'Tuesday'];
+    const selectedDaysOfWeek: DayOfWeek[] = [
+      {
+        Name: 'Monday',
+        Value: 'MON',
+        Order: 1
+      },
+      {
+        Name: 'Tuesday',
+        Value: 'TUES',
+        Order: 2
+      }
+    ];
 
-    instance.onDayOfWeekChange('Tuesday');
+    const expectedResults: DayOfWeek[] = [{
+      Name: 'Monday',
+      Value: 'MON',
+      Order: 1
+    }];
 
-    expect(instance.selectedDaysOfWeek).toEqual(['Monday']);
+    instance.selectedDaysOfWeek = selectedDaysOfWeek;
+
+    instance.onDayOfWeekChange(selectedDaysOfWeek[1]);
+
+    expect(instance.selectedDaysOfWeek).toEqual(expectedResults);
   });
 });

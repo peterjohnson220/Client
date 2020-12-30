@@ -10,16 +10,20 @@ import * as fromTabularReportExportSchedulerPageActions from '../actions/tabular
 
 export interface State {
   tabularReportsAsync: AsyncStateObj<Workbook[]>;
+  originalTabularReportsAsync: AsyncStateObj<Workbook[]>;
   savedSchedules: AsyncStateObj<TabularReportExportSchedule[]>;
   savingSchedule: boolean;
   savingScheduleError: string;
+  showDeleteModal: boolean;
 }
 
 const initialState: State = {
   tabularReportsAsync: generateDefaultAsyncStateObj<Workbook[]>([]),
+  originalTabularReportsAsync: generateDefaultAsyncStateObj<Workbook[]>([]),
   savedSchedules: generateDefaultAsyncStateObj<TabularReportExportSchedule[]>([]),
   savingSchedule: false,
-  savingScheduleError: null
+  savingScheduleError: null,
+  showDeleteModal: false
 };
 
 export function reducer(state = initialState, action: fromTabularReportExportSchedulerPageActions.Actions): State {
@@ -37,8 +41,10 @@ export function reducer(state = initialState, action: fromTabularReportExportSch
     }
     case fromTabularReportExportSchedulerPageActions.GET_TABULAR_REPORTS_SUCCESS: {
       const tabularReportsAsyncClone: AsyncStateObj<Workbook[]> = cloneDeep(state.tabularReportsAsync);
+      const originalTabularReportsAsyncClone: AsyncStateObj<Workbook[]> = cloneDeep(state.originalTabularReportsAsync);
       tabularReportsAsyncClone.loading = false;
       tabularReportsAsyncClone.obj = action.payload.filter(x => x.AccessLevel === DataViewAccessLevel.Owner);
+      originalTabularReportsAsyncClone.obj = tabularReportsAsyncClone.obj;
 
       if (state.savedSchedules?.obj?.length > 0) {
         const scheduledReports = state.savedSchedules.obj.map(x => x.DataViewId.toString());
@@ -49,7 +55,8 @@ export function reducer(state = initialState, action: fromTabularReportExportSch
 
       return {
         ...state,
-        tabularReportsAsync: tabularReportsAsyncClone
+        tabularReportsAsync: tabularReportsAsyncClone,
+        originalTabularReportsAsync: originalTabularReportsAsyncClone
       };
     }
     case fromTabularReportExportSchedulerPageActions.GET_TABULAR_REPORTS_ERROR: {
@@ -91,6 +98,26 @@ export function reducer(state = initialState, action: fromTabularReportExportSch
         savingScheduleError: 'Error saving schedule.'
       };
     }
+    case fromTabularReportExportSchedulerPageActions.SHOW_DELETE_MODAL: {
+      return {
+        ...state,
+        showDeleteModal: action.payload,
+      };
+    }
+    case fromTabularReportExportSchedulerPageActions.DELETE_EXPORT_SCHEDULE_SUCCESS: {
+      const savedSchedulesClones = cloneDeep(state.savedSchedules);
+      const tabularReportsAsyncClone = cloneDeep(state.tabularReportsAsync);
+      const deletedTabularReport = state.originalTabularReportsAsync.obj.find(x => x.WorkbookId === action.payload.toString());
+      savedSchedulesClones.obj = savedSchedulesClones.obj.filter(x => x.DataViewId !== action.payload);
+
+      tabularReportsAsyncClone.obj.push(deletedTabularReport);
+      tabularReportsAsyncClone.obj = orderBy(tabularReportsAsyncClone.obj, ['WorkbookName'], ['asc']);
+      return {
+        ...state,
+        savedSchedules: savedSchedulesClones,
+        tabularReportsAsync: tabularReportsAsyncClone
+      };
+    }
     default:
       return state;
   }
@@ -100,3 +127,4 @@ export const getTabularReportsAsync = (state: State) => state.tabularReportsAsyn
 export const getSavedSchedulesAsync = (state: State) => state.savedSchedules;
 export const getSavingSchedule = (state: State) => state.savingSchedule;
 export const getSavingScheduleError = (state: State) => state.savingScheduleError;
+export const getShowDeleteModal = (state: State) => state.showDeleteModal;

@@ -31,14 +31,18 @@ describe('Export Scheduler - Cron Expression Helper', () => {
   it.each([
     [ExportFrequencyType.OneTime, [], null, ''],
     [ExportFrequencyType.Weekly, [], null, ''],
-    [ExportFrequencyType.Weekly, ['Fakeday'], null, ''],
-    [ExportFrequencyType.Weekly, ['Monday', 'Wednesday', 'Friday'], null, '* * * ? * MON,WED,FRI'],
+    [ExportFrequencyType.Weekly, [{ Name: 'Fakeday', Value: 'FAKE', Order: 10 }], null, ''],
+    [ExportFrequencyType.Weekly, [
+      { Name: 'Monday', Value: 'MON', Order: 1 },
+      { Name: 'Wednesday', Value: 'WED', Order: 3 },
+      { Name: 'Friday', Value: 'FRI', Order: 5 }],
+      null, '* * * ? * MON,WED,FRI'],
     [ExportFrequencyType.Monthly, [], 'Second', ''],
-    [ExportFrequencyType.Monthly, ['Monday'], null, ''],
-    [ExportFrequencyType.Monthly, ['Monday', 'Tuesday'], 'Second', ''],
-    [ExportFrequencyType.Monthly, ['Fakeday'], 'Second', ''],
-    [ExportFrequencyType.Monthly, ['Monday'], '10', ''],
-    [ExportFrequencyType.Monthly, ['Monday'], 'Second', '* * * ? * MON#2'],
+    [ExportFrequencyType.Monthly, [{ Name: 'Monday', Value: 'MON', Order: 1 }], null, ''],
+    [ExportFrequencyType.Monthly, [{ Name: 'Monday', Value: 'MON', Order: 1 }, { Name: 'Tuesday', Value: 'TUE', Order: 2 }], 'Second', ''],
+    [ExportFrequencyType.Monthly, [{ Name: 'Fakeday', Value: 'FAKE', Order: 10 }], 'Second', ''],
+    [ExportFrequencyType.Monthly, [{ Name: 'Monday', Value: 'MON', Order: 1 }], '10', ''],
+    [ExportFrequencyType.Monthly, [{ Name: 'Monday', Value: 'MON', Order: 1 }], 'Second', '* * * ? * MON#2'],
   ])
   ('should generate correct cron expression', (frequency, daysOfWeek, monthlyOccurrence, expectedCronExpression) => {
     const cronExpression = CronExpressionHelper.generateCronExpression(frequency, daysOfWeek, monthlyOccurrence);
