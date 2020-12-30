@@ -7,4 +7,5 @@ export class UserNotificationConstants {
   static readonly COMPANY_RESOURCES_LOOKUP_KEY = 'CompanyResources';
   static readonly COMMUNITY_POSTS_LOOKUP_KEY = 'CommunityPosts';
   static readonly PENDING_PEER_JOB_MATCHES = 'PendingPeerJobMatches';
+  static readonly NEW_PEER_JOBS_LOOKUP_KEY = 'NewPeerJobs';
 }

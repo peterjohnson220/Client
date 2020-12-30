@@ -24,6 +24,7 @@ import {
 import { CompanyResourcesNotificationComponent } from './containers/categories/company-resources/company-resources-notification.component';
 import { CommunityPostsNotificationComponent } from './containers/categories/community-posts/community-posts-notification.component';
 import { PendingPeerJobMatchesNotificationComponent } from './containers/categories/pending-peer-job-matches/pending-peer-job-matches-notification.component';
+import { NewPeerJobsNotificationComponent } from './containers/categories/new-peer-jobs/new-peer-jobs-notification.component';
 import { UserNotificationListEffects } from './effects';
 import { UserNotificationHostDirective } from './directives';
 import * as fromFaIcons from './fa-icons';
@@ -53,6 +54,7 @@ import * as fromFaIcons from './fa-icons';
     UserNotificationDisplayComponent,
     RoutedJobDescriptionNotificationComponent,
     PendingPeerJobMatchesNotificationComponent,
+    NewPeerJobsNotificationComponent,
     JobDescriptionReviewCompleteNotificationComponent,
     JobDescriptionReviewRejectedNotificationComponent,
     CompanyResourcesNotificationComponent,

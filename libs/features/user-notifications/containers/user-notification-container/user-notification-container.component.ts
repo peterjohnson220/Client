@@ -11,6 +11,7 @@ import {
 } from '../categories/job-description-review-rejected/job-description-review-rejected-notification.component';
 import { CompanyResourcesNotificationComponent } from '../categories/company-resources/company-resources-notification.component';
 import { CommunityPostsNotificationComponent } from '../categories/community-posts/community-posts-notification.component';
+import { NewPeerJobsNotificationComponent } from '../categories/new-peer-jobs/new-peer-jobs-notification.component';
 import { UserNotification } from '../../models';
 import { UserNotificationHostDirective } from '../../directives';
 import { UserNotificationConstants } from '../../constants';
@@ -61,6 +62,10 @@ export class UserNotificationContainerComponent  implements OnInit {
 
       case UserNotificationConstants.PENDING_PEER_JOB_MATCHES:
         componentFactory = this.componentFactoryResolver.resolveComponentFactory(PendingPeerJobMatchesNotificationComponent);
+        break;
+
+      case UserNotificationConstants.NEW_PEER_JOBS_LOOKUP_KEY:
+        componentFactory = this.componentFactoryResolver.resolveComponentFactory(NewPeerJobsNotificationComponent);
         break;
 
       default:
