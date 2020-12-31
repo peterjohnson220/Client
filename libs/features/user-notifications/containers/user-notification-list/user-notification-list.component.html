@@ -8,15 +8,15 @@
   <button *ngIf="DisplayHeader" class="btn btn-secondary" (click)="markAllAsRead()">Mark all as read</button>
 
   <pf-infinite-scroll [scrollId]="scrollId" [numberOfCurrentResults]="numberOfCurrentResults" position="relative">
-    <table class="table notification-table d-block" *ngIf="numberOfCurrentResults > 0; else noNotifications" >
-        <tbody>
-          <tr class="notification-row"
+    <div class="notification-table d-block" *ngIf="numberOfCurrentResults > 0; else noNotifications" >
+        <div>
+          <div class="notification-row card"
               *ngFor="let notification of userNotifications; let i = index; trackBy: trackByUserNotificationId;"
               (click)="openNotification(notification)">
             <pf-user-notification-container [UserNotification]="notification"></pf-user-notification-container>
-          </tr>
-        </tbody>
-    </table>
+          </div>
+        </div>
+    </div>
   </pf-infinite-scroll>
 
 </div>

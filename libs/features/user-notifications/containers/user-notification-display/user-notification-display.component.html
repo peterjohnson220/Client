@@ -10,7 +10,7 @@
   </div>
 
   <!-- notification body -->
-  <div class="flex-grow-2 align-self-center m-3">
+  <div class="notification-body align-self-center m-3 ">
     <div class="d-flex flex-column">
       <div>
         {{UserNotificationDisplay.CreateDate | TimeElapsedPipe}}
@@ -27,7 +27,7 @@
   </div>
 
   <!--  notification button -->
-  <div class="align-self-center m-3">
+  <div class="align-self-center m-3 notification-link">
     <a *ngIf="UserNotificationDisplay.OpenLinkInNewTab" href="{{UserNotificationDisplay.BaseUrl}}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">{{UserNotificationDisplay.ButtonText}}</a>
     <a *ngIf="!UserNotificationDisplay.OpenLinkInNewTab" href="{{UserNotificationDisplay.BaseUrl}}" class="btn btn-secondary">{{UserNotificationDisplay.ButtonText}}</a>
   </div>
