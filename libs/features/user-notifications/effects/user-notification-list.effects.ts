@@ -52,7 +52,7 @@ export class UserNotificationListEffects {
       ofType<fromUserNotificationListActions.MarkNotificationRead>(fromUserNotificationListActions.MARK_NOTIFICATION_READ),
       switchMap((action) => {
         return this.notificationApiService.markNotificationAsRead(action.payload.userNotificationId).pipe(
-          mergeMap(response => [new fromUserNotificationListActions.GetUserNotifications(),
+          mergeMap(response => [
             new fromAppNotificationsActions.UpdateUserNotificationUnreadCount(),
             new fromUserNotificationListActions.MarkNotificationReadSuccess()]),
           catchError(() => of(new fromUserNotificationListActions.MarkNotificationReadError()))
