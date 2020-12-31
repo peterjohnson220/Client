@@ -6,8 +6,7 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { LayoutModule } from '@progress/kendo-angular-layout';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { library } from '@fortawesome/fontawesome-svg-core';
+import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import * as fromFaIcons from './fa-icons';
 import { UploadModule } from '@progress/kendo-angular-upload';
 
@@ -63,7 +62,7 @@ import { BaseBulkAddUsersTogglePanelComponent } from './containers/base-bulk-add
 })
 
 export class UserBulkAddModule {
-  constructor() {
-    library.add(...fromFaIcons.faIcons);
-   }
+  constructor(library: FaIconLibrary) {
+    library.addIcons(...fromFaIcons.faIcons);
+  }
 }
