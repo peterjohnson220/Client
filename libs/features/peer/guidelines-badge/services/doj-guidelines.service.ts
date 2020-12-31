@@ -183,7 +183,10 @@ export class DojGuidelinesService implements OnDestroy {
 
         if (dcv.DataCutGuid.startsWith(TEMP_PEER_DATA_CUT_PREFIX)) {
           const tempDataCutGuid = dcv.DataCutGuid.replace(TEMP_PEER_DATA_CUT_PREFIX, '');
-          tempExchangeJobDataCutFilterContexts.push(this.tempExchangeJobDataCutFilterContextDictionary[tempDataCutGuid]);
+          const tempExchangeJobDataCutFilterContext = this.tempExchangeJobDataCutFilterContextDictionary[tempDataCutGuid];
+          if (!!tempExchangeJobDataCutFilterContext) {
+            tempExchangeJobDataCutFilterContexts.push(tempExchangeJobDataCutFilterContext);
+          }
         } else {
           existingDataCutGuids.push(dcv.DataCutGuid);
         }
