@@ -1,8 +1,19 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Output,
+  SimpleChanges
+} from '@angular/core';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Subject } from 'rxjs/Subject';
 
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
-import {OrgDataEntityType} from 'libs/constants/hris-api';
+import { OrgDataEntityType } from 'libs/constants/hris-api';
+import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core';
 
 import { EntityTypeModel } from '../../../models';
 
@@ -12,7 +23,7 @@ import { EntityTypeModel } from '../../../models';
   styleUrls: ['./workdayrest-authentication.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class WorkdayRestAuthenticationComponent implements OnInit, OnChanges {
+export class WorkdayRestAuthenticationComponent implements OnInit, OnChanges, OnDestroy {
   @Input() validated = false;
   @Input() selectedEntities: EntityTypeModel[] = [];
   @Input() waitingForAuthentication = false;
@@ -26,6 +37,7 @@ export class WorkdayRestAuthenticationComponent implements OnInit, OnChanges {
   private paymarketReportUrl = 'paymarketReportUrl';
   private structureReportUrl = 'structureReportUrl';
   private structureMappingReportUrl = 'structureMappingReportUrl';
+  private unsubscribe$ = new Subject<void>();
 
   enabledControls = [
     { FieldName: this.employeeReportUrl, FieldValue: 'Employees' },
@@ -49,12 +61,21 @@ export class WorkdayRestAuthenticationComponent implements OnInit, OnChanges {
   workdayRestForm: FormGroup;
   submitted = false;
 
-  constructor(private formBuilder: FormBuilder) {
+  hrisTestDataBypassFeatureFlag: RealTimeFlag = { key: FeatureFlags.HrisTestDataBypass, value: false };
 
+  constructor(
+    private formBuilder: FormBuilder,
+    private featureFlagService: AbstractFeatureFlagService,
+  ) {
+    this.featureFlagService.bindEnabled(this.hrisTestDataBypassFeatureFlag, this.unsubscribe$);
   }
 
   ngOnInit() {
     this.initForm();
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
   }
 
   onSubmit() {
@@ -91,7 +112,7 @@ export class WorkdayRestAuthenticationComponent implements OnInit, OnChanges {
       if (e) {
         const ctrl = this.workdayRestForm.get(key);
         if (this.selectedEntities.includes(this.controlToEntityTypeMap[key])) {
-          ctrl.setValidators([Validators.required, Validators.pattern(/^https:\/\/([a-z0-9_-]+\.)+(my)?workday.com\//)]);
+          this.addValidators(ctrl);
           this.ctrlVisibility[key] = true;
         } else {
           ctrl.clearValidators();
@@ -110,5 +131,12 @@ export class WorkdayRestAuthenticationComponent implements OnInit, OnChanges {
     if (changes.selectedEntities && changes.selectedEntities.currentValue && !changes.selectedEntities.isFirstChange()) {
       this.refreshControls();
     }
+  }
+
+  private addValidators(ctrl: AbstractControl) {
+    const validatorPattern = this.hrisTestDataBypassFeatureFlag.value ?
+      /^[a-z0-9_\-]+$/i :
+      /^https:\/\/([a-z0-9_-]+\.)+(my)?workday.com\//;
+    ctrl.setValidators([Validators.required, Validators.pattern(validatorPattern)]);
   }
 }
