@@ -140,6 +140,7 @@ export class MultiMatchComponent extends SearchBaseDirective implements OnInit, 
     this.store.dispatch(new fromJobsToPriceActions.ClearAllJobs());
     this.store.dispatch(new fromSurveySearchResultsActions.RefineExchangeJobResultComplete());
     this.store.dispatch(new fromSurveySearchResultsActions.ClearTempDataCutDictionary());
+    this.store.dispatch(new fromDataCutValidationActions.ClearTempDataCutValidation());
   }
 
   handleSaveClicked() {
