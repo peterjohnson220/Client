@@ -1,3 +1,7 @@
+.schedule-details-container {
+  position: relative;
+}
+
 .info-container {
   label {
     font-weight: 500;
@@ -15,4 +19,5 @@
 .actions-container {
   position: absolute;
   right: 1rem;
+  top: 0;
 }

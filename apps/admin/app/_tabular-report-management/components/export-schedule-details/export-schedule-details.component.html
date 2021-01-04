@@ -1,4 +1,4 @@
-<div class="d-flex flex-wrap flex-column">
+<div class="d-flex flex-wrap flex-column schedule-details-container">
   <ng-container *ngIf="dataViewIdClicked !== schedule.DataViewId; else editView">
     <div class="d-flex flex-column info-container">
       <ng-container [ngTemplateOutlet]="lastSentDate" [ngTemplateOutletContext]="{lastSentDate: schedule.LastSentDate}"></ng-container>
