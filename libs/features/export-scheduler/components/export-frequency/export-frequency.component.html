@@ -38,12 +38,13 @@
       </kendo-dropdownlist>
 
       <kendo-dropdownlist data-qa-id="ddl-tabular-form-reports-monthly-day-of-week"
-                          class="w-25 mr-2 k-dropdown-white"
+                          class="mr-2 k-dropdown-white"
                           (valueChange)="handleMonthlyDayOfWeekChange($event)"
                           [ngModel]="selectedDaysOfWeek ? selectedDaysOfWeek[0] : null"
                           [textField]="'Name'"
                           [valueField]="'Value'"
-                          [data]="daysOfWeek">
+                          [data]="daysOfWeek"
+                          style="width: 110px;">
       </kendo-dropdownlist>
       <span>of each month</span>
     </div>

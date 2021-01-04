@@ -1,4 +1,18 @@
-label {
-  font-weight: 500;
-  width: 100px;
+.info-container {
+  label {
+    font-weight: 500;
+    width: 100px;
+  }
+}
+
+.edit-container {
+  label {
+    width: 150px;
+  }
+  margin-top: 2rem;
+}
+
+.actions-container {
+  position: absolute;
+  right: 1rem;
 }
