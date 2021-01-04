@@ -50,7 +50,7 @@ export class JobsHierarchyPageComponent implements OnInit, OnDestroy {
       this.store.dispatch(new fromJobsHierarchyActions.ResetJobLevelHierarchyForm());
       this.store.dispatch(new fromJobsHierarchyActions.GetJobFamilies());
     } else {
-      this.store.dispatch(new fromJobsHierarchyActions.GetJobLevelHierarchy({hierarchyId: item.Id}));
+      this.store.dispatch(new fromJobsHierarchyActions.GetJobFamiliesForHierarchy({hierarchyId: item.Id}));
     }
     this.store.dispatch(new fromJobsHierarchyActions.GetAvailableJobLevels({selectedJobFamilies: [], hierarchyId: item.Id}));
   }

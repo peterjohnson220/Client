@@ -6,6 +6,7 @@ export interface ProviderResponse {
   providerImageUrl: string;
   active: boolean;
   authenticationType_ID: number;
+  showInUI: boolean;
 }
 
 export function generateMockProviderResponse(): ProviderResponse {
@@ -16,7 +17,8 @@ export function generateMockProviderResponse(): ProviderResponse {
     providerCode: 'MockProviderCode',
     providerImageUrl: '',
     active: true,
-    authenticationType_ID: 1
+    authenticationType_ID: 1,
+    showInUI: true
   };
 }
 
@@ -29,7 +31,8 @@ export function generateMockProviderResponseList(): ProviderResponse[] {
       providerCode: 'MockProviderCode0',
       providerImageUrl: '',
       active: true,
-      authenticationType_ID: 1
+      authenticationType_ID: 1,
+      showInUI: true
     },
     {
       provider_ID: 1,
@@ -38,7 +41,8 @@ export function generateMockProviderResponseList(): ProviderResponse[] {
       providerCode: 'MockProviderCode1',
       providerImageUrl: '',
       active: true,
-      authenticationType_ID: 1
+      authenticationType_ID: 1,
+      showInUI: true
     },
     {
       provider_ID: 2,
@@ -47,7 +51,8 @@ export function generateMockProviderResponseList(): ProviderResponse[] {
       providerCode: 'MockProviderCode2',
       providerImageUrl: '',
       active: true,
-      authenticationType_ID: 1
+      authenticationType_ID: 1,
+      showInUI: true
     }
   ];
 }
@@ -61,7 +66,8 @@ export function generateMockOutboundProviderResponseList(): ProviderResponse[] {
       providerCode: 'MockProviderCode0',
       providerImageUrl: 'assets/images/workday-logo.png',
       active: true,
-      authenticationType_ID: 1
+      authenticationType_ID: 1,
+      showInUI: true
     }
   ];
 }

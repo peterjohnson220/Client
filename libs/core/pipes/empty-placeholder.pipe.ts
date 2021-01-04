@@ -8,7 +8,7 @@ export class EmptyPlaceholderPipe implements PipeTransform {
   constructor() { }
 
   transform(value: any, placeholder: string = '- -' ): any {
-    return value === '' || value === null || value === undefined ? placeholder : value;
+    return value === '' || value === null || value === undefined || value === 'NaN' ? placeholder : value;
   }
 
 }

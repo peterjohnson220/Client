@@ -37,7 +37,8 @@ export class PayfactorsApiModelMapper {
       ImageUrl: response.providerImageUrl,
       AuthenticationTypeId: response.authenticationType_ID,
       Active: response.active,
-      UsesFieldSelection: this.mapProviderResponseToFieldSelection(response)
+      UsesFieldSelection: this.mapProviderResponseToFieldSelection(response),
+      ShowInUI: response.showInUI
     };
   }
 
@@ -51,7 +52,8 @@ export class PayfactorsApiModelMapper {
   }
 
   static mapProviderResponsesToProviders(response: ProviderResponse[]): Provider[] {
-    return response.map(p => this.mapProviderResponseToProvider(p));
+    return response.filter((provider) => provider.showInUI)
+      .map(p => this.mapProviderResponseToProvider(p));
   }
 
   static mapAuthenticationTypeResponseToAuthenticationType(response: AuthenticationTypeResponse): AuthenticationType {
