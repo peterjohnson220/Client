@@ -9,6 +9,7 @@ import { GridDataResult, PageChangeEvent, SortSettings } from '@progress/kendo-a
 import { SortDescriptor, State } from '@progress/kendo-data-query';
 import cloneDeep from 'lodash/cloneDeep';
 import orderBy from 'lodash/orderBy';
+import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
 
 import { UserTicketSearchRequest } from 'libs/models/payfactors-api/service/request';
 import { UserContext } from 'libs/models/security';
@@ -91,6 +92,7 @@ export class TicketListComponent  implements OnInit, OnDestroy {
   isDirty = false;
   ticketsTab: number;
   initFilterComplete = false;
+  activeDropdown: NgbDropdown;
 
   constructor(private store: Store<fromTicketReducer.State>,
     private rootStore: Store<fromRootState.State>,
@@ -203,11 +205,13 @@ export class TicketListComponent  implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.store.dispatch(new fromTicketListActions.InitTickets());
+    window.addEventListener('scroll', this.onScroll, true);
   }
 
   ngOnDestroy(): void {
     this.unsubscribe$.next();
     this.unsubscribe$.unsubscribe();
+    window.removeEventListener('scroll', this.onScroll, true);
   }
 
   checkForRefresh() {
@@ -257,5 +261,21 @@ export class TicketListComponent  implements OnInit, OnDestroy {
 
     this.store.dispatch(new fromTicketSharedActions.UserDetailOpen(true));
     this.store.dispatch(new fromTicketSharedActions.GetUserDetail(OpenedUserId, ticketId));
+  }
+
+  setActiveDropdown(dropdown: NgbDropdown): void {
+    if (this.activeDropdown?.isOpen() && this.activeDropdown !== dropdown) {
+      this.activeDropdown.close();
+    }
+    this.activeDropdown = dropdown;
+  }
+
+  onScroll = (event): void => {
+    if (!event || !event.target || event.target.classList.contains('dropdown-menu')) {
+      return;
+    }
+    if (!!this.activeDropdown) {
+      this.activeDropdown.close();
+    }
   }
 }
