@@ -2,21 +2,22 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup } from '@angular/forms';
 
 import { Observable, Subscription } from 'rxjs';
-import { Store } from '@ngrx/store';
+import { ActionsSubject, Store } from '@ngrx/store';
 import moment from 'moment';
 
 import { AsyncStateObj } from 'libs/models';
-import { PricedPayMarkets } from 'libs/models/payfactors-api';
+import { PricedPayMarkets, PricingHistoryChartFilters } from 'libs/models/payfactors-api';
 
 import * as fromPricingHistoryChartActions from '../../actions';
 import * as fromPricingHistoryChartReducer from '../../reducers';
+import { ofType } from '@ngrx/effects';
 
 @Component({
-  selector: 'pf-pricing-history-chart-filters',
-  templateUrl: './pricing-history-chart-filters.component.html',
-  styleUrls: ['./pricing-history-chart-filters.component.scss']
+  selector: 'pf-filters',
+  templateUrl: './filters.component.html',
+  styleUrls: ['./filters.component.scss']
 })
-export class PricingHistoryChartFiltersComponent implements OnInit, OnDestroy {
+export class FiltersComponent implements OnInit, OnDestroy {
 
   pricedPayMarkets$: Observable<AsyncStateObj<PricedPayMarkets[]>>;
   filteredPayMarketOptions: PricedPayMarkets[] = [];
@@ -25,6 +26,7 @@ export class PricingHistoryChartFiltersComponent implements OnInit, OnDestroy {
   pricedPayMarketsSubscription: Subscription;
   formChangesSubscription: Subscription;
   payMarketChangesSubscription: Subscription;
+  initUserDefaultFiltersSubscription: Subscription;
 
   pricingHistoryChartForm: FormGroup;
 
@@ -41,7 +43,8 @@ export class PricingHistoryChartFiltersComponent implements OnInit, OnDestroy {
 
   constructor(
     private formBuilder: FormBuilder,
-    private store: Store<fromPricingHistoryChartReducer.State>
+    private store: Store<fromPricingHistoryChartReducer.State>,
+    private actionsSubject: ActionsSubject,
   ) { }
 
   ngOnInit(): void {
@@ -52,35 +55,39 @@ export class PricingHistoryChartFiltersComponent implements OnInit, OnDestroy {
       EndDate: null
     }, { validator: this.validateDateRange.bind(this) });
 
-    //Order matters don't put this change subscription below the ngrx selectors
+    // Order matters don't put this change subscription below the ngrx selectors
     this.payMarketChangesSubscription = this.f.PayMarkets.valueChanges.subscribe(value => {
       this.updatePayMarketOptions();
       this.updateDateRange();
     });
 
-    this.formChangesSubscription = this.pricingHistoryChartForm.valueChanges.subscribe(value => {
-      this.store.dispatch(new fromPricingHistoryChartActions.UpdateFilters(value));
-    });
-    
-    this.updateDateRange();
-
-    this.pricedPayMarkets$ = this.store.select(fromPricingHistoryChartReducer.getPricedPayMarkets);
-
     this.pricedPayMarketsSubscription = this.store.select(fromPricingHistoryChartReducer.getPricedPayMarkets)
       .subscribe(o => {
         this.filteredPayMarketOptions = o.obj;
         this.payMarketOptions = o.obj;
-        this.pricingHistoryChartForm.reset();
-        this.updateDateRange();
-        this.updateSelectedPayMarkets();
       });
-   
+
+
+    this.initUserDefaultFiltersSubscription = this.actionsSubject.pipe(ofType(fromPricingHistoryChartActions.INIT_USER_DEFAULT_FILTERS))
+      .subscribe((action: fromPricingHistoryChartActions.InitUserDefaultFilters) => {
+        this.updateSelectedPayMarkets(action.payload);
+      });
+
+    this.formChangesSubscription = this.pricingHistoryChartForm.valueChanges.subscribe(value => {
+      this.store.dispatch(new fromPricingHistoryChartActions.UpdateFilters(value));
+    });
+
+    this.updateDateRange();
+
+    this.pricedPayMarkets$ = this.store.select(fromPricingHistoryChartReducer.getPricedPayMarkets);
+
   }
 
   ngOnDestroy() {
     this.formChangesSubscription.unsubscribe();
     this.formChangesSubscription.unsubscribe();
     this.payMarketChangesSubscription.unsubscribe();
+    this.initUserDefaultFiltersSubscription.unsubscribe();
   }
 
   resetDateRangeToFirstOfMonth(): void {
@@ -94,13 +101,22 @@ export class PricingHistoryChartFiltersComponent implements OnInit, OnDestroy {
     return this.f?.StartDate.value > this.f?.EndDate.value ? { dateRageError: true } : null;
   }
 
-  updateSelectedPayMarkets() {
-    let DefaultPMs = this.filteredPayMarketOptions.filter(v => v.IsDefault);
-    if (DefaultPMs.length > 0) {
+  updateSelectedPayMarkets(userDefaultFilters: PricingHistoryChartFilters) {
+
+    this.pricingHistoryChartForm.reset();
+
+    const defaultPMs = this.filteredPayMarketOptions.filter(v => v.IsDefault);
+    if (userDefaultFilters?.PayMarkets?.length > 0) {
       this.pricingHistoryChartForm.patchValue({
-        PayMarkets: [DefaultPMs[0], null, null, null, null]
+        PayMarkets: userDefaultFilters.PayMarkets
       });
-    }   
+    } else if ((defaultPMs.length > 0)) {
+      this.pricingHistoryChartForm.patchValue({
+        PayMarkets: [defaultPMs[0], null, null, null, null]
+      });
+    } else {
+      this.updateDateRange();
+    }
   }
 
   updateDateRange() {

@@ -1,0 +1,14 @@
+<pf-async-container
+  [loading]="(chartData$ | async)?.loading"
+  [loadingError]="(chartData$ | async)?.loadingError"
+  [loadingErrorMessage]="'There was an error loading data for the selected Pay Markets.'"
+  [hideReloadButton]="true"
+>
+  <highcharts-chart class="rangeChart"
+    [Highcharts]="Highcharts"
+    [callbackFunction]="chartCallback"
+    [options]="chartOptions"
+    [(update)]="updateFlag"
+  ></highcharts-chart>
+</pf-async-container>
+

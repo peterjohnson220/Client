@@ -1,1 +1,2 @@
-export * from './pricing-history-chart-filters';
+export * from './chart';
+export * from './filters';

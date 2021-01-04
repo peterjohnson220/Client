@@ -4,18 +4,20 @@ import orderBy from 'lodash/orderBy';
 import * as fromPricingHistoryChartActions from '../actions/pricing-history-chart.actions';
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models';
 import { AsyncStateObjHelper } from 'libs/core';
-import { PricedPayMarkets, PricingHistoryChartFilters } from 'libs/models/payfactors-api';
+import { PricedPayMarkets, PricingHistoryChartFilters, PayMarketPricingHistory } from 'libs/models/payfactors-api';
 
 export interface State {
   jobId: number;
   pricedPayMarkets: AsyncStateObj<PricedPayMarkets[]>;
   filters: PricingHistoryChartFilters;
+  data: AsyncStateObj<PayMarketPricingHistory[]>;
 }
 
 export const initialState: State = {
   jobId: null,
   pricedPayMarkets: generateDefaultAsyncStateObj<PricedPayMarkets[]>([]),
-  filters: null
+  filters: null,
+  data: generateDefaultAsyncStateObj<PayMarketPricingHistory[]>([]),
 };
 
 export function reducer(state = initialState, action: fromPricingHistoryChartActions.Actions): State {
@@ -44,6 +46,15 @@ export function reducer(state = initialState, action: fromPricingHistoryChartAct
         ...state,
         filters: cloneDeep(action.payload)
       };
+    case fromPricingHistoryChartActions.GET_DATA: {
+      return AsyncStateObjHelper.loading(state, 'data');
+    }
+    case fromPricingHistoryChartActions.GET_DATA_SUCCESS: {
+      return AsyncStateObjHelper.loadingSuccess(state, 'data', action.payload);
+    }
+    case fromPricingHistoryChartActions.GET_DATA_ERROR: {
+      return AsyncStateObjHelper.loadingError(state, 'data');
+    }
     default:
       return state;
   }
@@ -53,3 +64,4 @@ export const getState = (state: State) => state;
 export const getJobId = (state: State) => state.jobId;
 export const getPricedPayMarkets = (state: State) => state.pricedPayMarkets;
 export const getFilters = (state: State) => state.filters;
+export const getData = (state: State) => state.data;

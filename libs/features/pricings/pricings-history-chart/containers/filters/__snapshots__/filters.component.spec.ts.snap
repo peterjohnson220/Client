@@ -1,10 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Pricing History Chart Features - Filters Should display form 1`] = `
-<pf-pricing-history-chart-filters
+<pf-filters
+  actionsSubject={[Function ActionsSubject]}
   filteredPayMarketOptions={[Function Array]}
   formBuilder={[Function FormBuilder]}
   formChangesSubscription={[Function Subscriber]}
+  initUserDefaultFiltersSubscription={[Function Subscriber]}
   payMarketChangesSubscription={[Function Subscriber]}
   payMarketOptions={[Function Array]}
   pricedPayMarkets$={[Function Store]}
@@ -123,5 +125,5 @@ exports[`Pricing History Chart Features - Filters Should display form 1`] = `
       </div>
     </div>
   </form>
-</pf-pricing-history-chart-filters>
+</pf-filters>
 `;
