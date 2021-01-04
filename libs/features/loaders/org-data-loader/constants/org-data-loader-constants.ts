@@ -122,7 +122,22 @@ export const ORG_DATA_PF_EMPLOYEE_FIELDS = [
   'LTIElig',
   'Subsidiary_Code',
   'Structure_Code',
-  'Grade_Code'
+  'Grade_Code',
+  'SARNumGranted',
+  'HousingAllowance',
+  'SARPriceatGrant',
+  'TransportationAllowance',
+  'RSUNumGranted',
+  'MealsAllowance',
+  'RSUPriceatGrant',
+  'FlexAllowance',
+  'PerformanceStockNumGranted',
+  'LeaveAllowance',
+  'PerformanceStockPriceatGrant',
+  'PeerOtherAllowance',
+  'CarAllowanceEligibility',
+  'CarAllowanceAmount',
+  'MonthsofBasePay'
 ];
 
 export const DATE_FORMATS: DateFormatItem[] = [
