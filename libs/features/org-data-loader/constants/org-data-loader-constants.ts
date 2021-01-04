@@ -18,7 +18,8 @@ export const ORG_DATA_PF_JOB_FIELDS = [
   'Job_Level',
   'Job_Family',
   'FLSA_Status',
-  'Job_Description'
+  'Job_Description',
+  'JobStatus'
 ];
 
 export const ORG_DATA_PF_STRUCTURE_FIELDS = [
