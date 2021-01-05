@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core
 import { Subscription } from 'rxjs';
 import { DragulaService } from 'ng2-dragula';
 
-import { Workbook } from 'libs/features/reports/models';
+import { Workbook } from 'libs/features/surveys/reports/models';
 
 @Component({
   selector: 'pf-data-view-reports',

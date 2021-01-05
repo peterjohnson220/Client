@@ -13,7 +13,7 @@ import { NgbPopoverModule, NgbTooltipModule, NgbCollapseModule } from '@ng-boots
 import { PfCommonModule, WindowRef } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
-import { PfReportsModule } from 'libs/features/reports/reports.module';
+import { PfReportsModule } from 'libs/features/surveys/reports/reports.module';
 
 import { DataInsightsSharedModule } from '../_shared/shared.module';
 

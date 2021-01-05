@@ -1,0 +1,14 @@
+@import '../../../../../../assets/scss/colors';
+
+.child-selected {
+  background: $selected-item-background-color
+}
+
+.filter-icon {
+  color: $left-sidebar-color;
+  margin-left:2px;
+}
+
+.description-body{
+  margin: 5px;
+}

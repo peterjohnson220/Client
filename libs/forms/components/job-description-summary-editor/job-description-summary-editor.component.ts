@@ -7,7 +7,7 @@ import { Permissions } from 'libs/constants';
 import { JobDescriptionSummary } from 'libs/models';
 
 import { PfValidators } from '../../validators';
-import { PfThemeType } from '../../../features/pf-data-grid/enums/pf-theme-type.enum';
+import { PfThemeType } from '../../../features/grids/pf-data-grid/enums/pf-theme-type.enum';
 
 @Component({
   selector: 'pf-job-description-summary-editor',

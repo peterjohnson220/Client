@@ -1,7 +1,7 @@
 import { environment } from 'environments/environment';
-import { LoaderType } from 'libs/features/org-data-loader/constants';
-import { EntityCustomFieldsModel } from 'libs/features/org-data-loader/models/entity-custom-fields.model';
-import { InternalField } from '../../../../../libs/features/org-data-loader/models';
+import { LoaderType } from 'libs/features/loaders/org-data-loader/constants';
+import { EntityCustomFieldsModel } from 'libs/features/loaders/org-data-loader/models/entity-custom-fields.model';
+import { InternalField } from '../../../../../libs/features/loaders/org-data-loader/models';
 
 export interface EntityChoice {
   isChecked: boolean;

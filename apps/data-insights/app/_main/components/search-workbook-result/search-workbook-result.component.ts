@@ -1,6 +1,6 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 
-import { ReportType } from 'libs/features/reports/models';
+import { ReportType } from 'libs/features/surveys/reports/models';
 
 import { SearchResult } from '../../models';
 

@@ -1,0 +1,8 @@
+@import '../../../../../assets/scss/add-jobs/search-results';
+
+:host ::ng-deep .loading-blanket {
+  position: fixed !important;
+  left: 244px !important;
+  bottom: 30px !important;
+  top: 36px !important;
+}

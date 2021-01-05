@@ -1,0 +1,47 @@
+@import '../../../../../search/search/styles/shared-variables';
+@import '../../../../../search/search/styles/shared-styles';
+//TODO: Create a non legacy version of this modal and apply these styles conditionally
+@import '../../../../../../../assets/scss/legacy/legacy-styles';
+
+.page {
+  height: 100%;
+}
+
+.create-new-job{
+  display: flex;
+  align-items: center;
+  margin-left: .5rem;
+  height: $results-header-height;
+
+  .fa-plus {
+    margin-right: .15rem;
+  }
+}
+
+:host ::ng-deep pf-search-filters .filters{
+  @extend %position-below-results-header
+}
+
+:host ::ng-deep pf-search-results .results {
+  width: 100%;
+}
+
+pf-paymarkets {
+  @extend %position-below-results-header;
+  width: 32.5% !important;
+  right: 0;
+}
+
+:host ::ng-deep .content .actions-container {
+  width: 100%;
+}
+
+.clear-selections{
+  position: absolute;
+  left: 0;
+  margin-left: 1rem;
+}
+
+.error-adding-jobs {
+  font-weight: bold;
+}

@@ -1,0 +1,16 @@
+@import '../../../../../../assets/scss/legacy/legacy-variables';
+
+.save-filter-modal-filters {
+  margin-top: 1rem;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.filter-name{
+  font-weight: $legacy-bold-font-weight;
+  padding: .25rem;
+}
+
+.filter-option {
+  padding: .25rem;
+}

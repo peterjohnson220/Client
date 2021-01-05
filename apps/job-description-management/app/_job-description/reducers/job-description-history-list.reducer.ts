@@ -3,7 +3,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 
 import * as fromJobDescriptionHistoryListActions from '../actions/job-description-history-list.actions';
-import { JobDescriptionHistoryListItem } from 'libs/features/job-description-management';
+import { JobDescriptionHistoryListItem } from 'libs/features/jobs/job-description-management';
 
 export interface State {
   jobDescriptionHistoryListAsync: AsyncStateObj<JobDescriptionHistoryListItem[]>;

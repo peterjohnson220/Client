@@ -5,11 +5,11 @@ import { catchError, concatMap, mergeMap, switchMap, withLatestFrom } from 'rxjs
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 
-import * as fromUserFilterActions from 'libs/features/user-filter/actions/user-filter.actions';
+import * as fromUserFilterActions from 'libs/features/users/user-filter/actions/user-filter.actions';
 import { TotalRewardsAssignmentApiService } from 'libs/data/payfactors-api/total-rewards';
-import * as fromSearchResultsActions from 'libs/features/search/actions/search-results.actions';
-import * as fromSearchReducer from 'libs/features/search/reducers';
-import { PayfactorsSearchApiHelper } from 'libs/features/search/helpers';
+import * as fromSearchResultsActions from 'libs/features/search/search/actions/search-results.actions';
+import * as fromSearchReducer from 'libs/features/search/search/reducers';
+import { PayfactorsSearchApiHelper } from 'libs/features/search/search/helpers';
 
 import * as fromTotalRewardsReducer from '../reducers';
 import * as fromEmployeeSearchResultsActions from '../actions/employee-search-results.actions';

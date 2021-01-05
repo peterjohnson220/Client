@@ -9,12 +9,12 @@ import { ActionBarConfig,
   getDefaultActionBarConfig,
   getDefaultGridRowActionsConfig,
   GridRowActionsConfig
-} from 'libs/features/pf-data-grid/models';
+} from 'libs/features/grids/pf-data-grid/models';
 import { UserContext } from 'libs/models/security';
 import * as fromRootState from 'libs/state/state';
 import { Permissions } from 'libs/constants';
-import * as fromPayMarketManagementReducers from 'libs/features/paymarket-management/reducers';
-import * as fromPayMarketModalActions from 'libs/features/paymarket-management/actions/paymarket-modal.actions';
+import * as fromPayMarketManagementReducers from 'libs/features/paymarkets/paymarket-management/reducers';
+import * as fromPayMarketModalActions from 'libs/features/paymarkets/paymarket-management/actions/paymarket-modal.actions';
 import { PfSecuredResourceDirective } from 'libs/forms/directives';
 
 import * as fromPayMarketsPageActions from '../actions/paymarkets-page.actions';

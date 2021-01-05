@@ -1,4 +1,4 @@
-import { WorkflowTemplate } from 'libs/features/job-description-management/models';
+import { WorkflowTemplate } from 'libs/features/jobs/job-description-management/models';
 
 import * as fromWorkflowDeleteActions from '../actions';
 

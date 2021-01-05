@@ -15,19 +15,19 @@ import {
   GridRowActionsConfig,
   PfDataGridFilter,
   GridConfig
-} from 'libs/features/pf-data-grid/models';
+} from 'libs/features/grids/pf-data-grid/models';
 import { PagingOptions } from 'libs/models/payfactors-api/search/request';
 import { CompanyStructureRangeOverride, RoundingSettingsDataObj, RangeGroupMetadata, JobBasedPageViewIds } from 'libs/models/structures';
 import { DataViewFilter, ViewField } from 'libs/models/payfactors-api/reports/request';
-import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
+import * as fromPfDataGridActions from 'libs/features/grids/pf-data-grid/actions';
 import { RangeGroupType } from 'libs/constants/structures/range-group-type';
 import { PermissionCheckEnum, Permissions } from 'libs/constants';
 import { AsyncStateObj } from 'libs/models/state';
-import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
-import * as fromReducer from 'libs/features/pf-data-grid/reducers';
+import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
+import * as fromReducer from 'libs/features/grids/pf-data-grid/reducers';
 import { PermissionService } from 'libs/core/services';
-import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
-import { PfThemeType } from 'libs/features/pf-data-grid/enums/pf-theme-type.enum';
+import { PfDataGridColType } from 'libs/features/grids/pf-data-grid/enums';
+import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums/pf-theme-type.enum';
 
 import * as fromPublishModelModalActions from '../../actions/publish-model-modal.actions';
 import * as fromDuplicateModelModalActions from '../../actions/duplicate-model-modal.actions';

@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { WorkflowTemplate, WorkflowStep } from 'libs/features/job-description-management/models';
+import { WorkflowTemplate, WorkflowStep } from 'libs/features/jobs/job-description-management/models';
 
 export const BUILD_WORKFLOW_TEMPLATE_SAVE_OBJ = '[Settings/WorkflowTemplateList/Upsert] Update Workflow Template Save Obj';
 export const UPDATE_WORKFLOW_TEMPLATE = '[Settings/WorkflowTemplateList/Upsert] Update Workflow Template';

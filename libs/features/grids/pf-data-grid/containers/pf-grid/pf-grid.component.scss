@@ -1,0 +1,331 @@
+@import 'assets/scss/_colors';
+@import '../../../../../../assets/scss/common/common-variables';
+
+.loading-more-row {
+  padding: 0.6rem 1rem 0.5rem 1rem;
+}
+
+.total-count {
+  font-size: 14px;
+  font-weight: 300;
+}
+
+.infinite-scroll-container {
+  height: calc(100% - 49px);
+}
+
+.pf-data-grid-header {
+  font-weight: bold !important;
+  vertical-align: middle !important;
+  background-color: white !important;
+}
+
+.pf-data-grid-no-header {
+  display: none !important;
+}
+
+.pf-data-grid-clickable-row:hover {
+  cursor: pointer;
+}
+
+.pf-data-grid-non-clickable-row:hover {
+  background: transparent !important;
+}
+
+.pf-data-grid-compact-cell {
+  padding: 0.25rem 0.25rem !important;
+}
+
+.k-grid {
+  border-width: 0;
+
+  // Temporary hack. Scroll mode of none will cause a differing dom structure and classes causing the thead
+  // to inherit its border color differently. Ensuring we have a consistent border-color here [BC]
+  thead {
+    border-color: rgba(0,0,0,0.03)
+  }
+
+  .k-grid-header .k-header > .k-link {
+    display: flex;
+  }
+
+  .k-grid-header .k-header > .k-link > .k-icon {
+    order: 1;
+    color: #5C5C5C;
+  }
+
+  // for IE11 we need to specify min-width for preventing overlapping
+  *::-ms-backdrop, .k-grid-header .k-header > .k-link > .k-icon {
+    min-width: 15px;
+  }
+
+  .k-grid-header .k-header > .k-link > .k-sort-order {
+    order: 2;
+    padding-right: 5px;
+    font-size: 9px;
+    color: #5C5C5C;
+  }
+
+  .k-grid-header .k-header > .k-link > .k-column-title {
+    order: 3;
+  }
+
+  .k-grid-header .k-header.text-center > .k-link {
+    justify-content: center;
+  }
+
+  .k-grid-header .k-header.text-right > .k-link {
+    flex-direction: row-reverse;
+  }
+
+  .k-grid-header .k-header.text-right > .k-link > .k-icon {
+    order: 3;
+  }
+
+  .k-grid-header .k-header.text-right > .k-link > .k-sort-order {
+    order: 2;
+    padding-right: 5px;
+    font-size: 9px;
+    color: #5C5C5C;
+  }
+
+  .k-grid-header .k-header.text-right > .k-link > .k-column-title {
+    order: 1;
+  }
+}
+
+.pf-data-grid-header.no-sort-controls .k-link > .k-icon,
+.pf-data-grid-header.no-sort-controls .k-link > .k-sort-order {
+  display: none !important;
+}
+
+.k-grid .k-hierarchy-cell {
+  width: 0;
+}
+
+.k-grid .k-header.k-hierarchy-cell {
+  border: none;
+}
+
+.k-grid .k-hierarchy-cell .k-icon {
+  display: none;
+}
+
+.k-grid .k-hierarchy-col {
+  width: 0px;
+}
+
+html .k-grid tr:hover {
+  background: transparent;
+}
+
+.k-detail-cell {
+  padding: 0 !important;
+}
+
+.k-drag-clue {
+  background-color: $pf-brand-secondary-color;
+}
+
+.k-header.k-drag-clue {
+  @extend %ellipsis-overflowing-text;
+  display: block;
+  padding-bottom: 30.75px !important
+}
+
+.k-grid-pager .k-pager-input .k-numerictextbox {
+  width: 3em !important;
+  margin: 0 7px !important;
+}
+
+.pf-grid-checkbox {
+  text-overflow: clip !important;
+}
+
+.sort-icon {
+  margin-right: 0.5rem;
+}
+
+.ellipsis-text {
+  @extend %ellipsis-overflowing-text;
+}
+
+.default-cursor {
+  cursor: default !important;
+}
+
+.k-grid.job-details-next-gen-base {
+  height: auto;
+
+  .k-grid-header {
+    th {
+      background-color: $theme-header !important;
+      color: white;
+    }
+  }
+
+  .k-grid-header .k-header > .k-link > .k-icon {
+    order: 1;
+    color: white;
+    margin: 0;
+  }
+}
+
+.k-grid.tertiary-grid-theme {
+  @extend .k-grid.job-details-next-gen-base;
+
+  table {
+    background-color: $sub-grid-accent-color;
+    margin: 0 0 1% 0;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-left: solid 1px $theme-grid-line-color;
+    border-bottom: solid 1px $theme-grid-line-color;
+    border-right: solid 1px $theme-grid-line-color;
+  }
+
+  td:first-child {
+    border-left: none !important;
+  }
+
+  td {
+    border-bottom: none !important;
+  }
+}
+
+.k-grid.pricing-details-theme {
+  @extend .k-grid.job-details-next-gen-base;
+
+  // must use !important to override dynamic css in pf-grid
+  .k-grid-table > tbody > tr > .pf-grid-checkbox + td {
+    border-left: none !important;
+  }
+
+  .k-hierarchy-cell{
+    border: none;
+  }
+
+  .k-grid-header {
+    .pf-grid-checkbox{
+      border: none;
+    }
+
+    .pf-grid-checkbox + th {
+      border: none !important;
+    }
+
+    tr:first-child{
+      th {
+        border-color: $theme-grid-line-color !important;
+        border-width: 2px !important;
+        vertical-align: bottom !important;
+        padding-bottom: 5px;
+      }
+    }
+
+    tr:last-child{
+      th {
+        border-color: $theme-grid-line-color !important;
+        border-width: 2px !important;
+        vertical-align: bottom !important;
+        padding-top: 0;
+        padding-bottom: 5px;
+      }
+    }
+
+  }
+
+  tbody > tr:last-child > td {
+    border-bottom: solid 1px $theme-grid-line-color;
+  }
+}
+
+.k-grid.job-details-theme {
+  @extend .k-grid.job-details-next-gen-base;
+
+  .k-grid-header {
+    th:first-child{
+      border-top-left-radius: 5px;
+    }
+    th {
+      border-color: white;
+      padding-top: 5px;
+      padding-bottom: 5px;
+    }
+    .k-hierarchy-cell + th {
+      border: none !important;
+    }
+  }
+
+  .k-grid-table {
+    border-bottom-left-radius: 5px;
+    border-left: solid 1px $theme-grid-line-color;
+    border-bottom: solid 1px $theme-grid-line-color;
+
+    // if the user gets to the last record of the infinite, round the bottom left corner
+    tr:last-child{
+      td:first-child{
+        border-bottom-left-radius: 5px;
+      }
+    }
+  }
+}
+
+.k-grid.next-gen {
+  height: auto;
+
+  .k-grid-header {
+    padding-right: 0 !important;
+
+    th {
+      text-transform: uppercase;
+      color: #5c5c5c;
+      font-size: 85%;
+      background-color: white !important;
+    }
+  }
+
+  table {
+    border-collapse: separate;
+    border-spacing: 0 0.65rem;
+  }
+
+  tr, .k-alt:not(.k-state-selected) {
+    &:hover {
+      background-color: darken(#F3F3F4, 3%) !important;
+    }
+
+    background-color: #F3F3F4 !important;
+  }
+
+  .k-grid-content {
+    overflow-y: visible;
+  }
+
+  .k-widget.k-grid {
+    height: auto !important;
+    min-height: 100%;
+  }
+
+  tr.pf-data-grid-modified-row,
+  tr.k-alt.pf-data-grid-modified-row {
+    &:hover {
+      background-color: darken(#E2E3E4, 3%) !important;
+    }
+
+    background-color: #E2E3E4 !important;
+  }
+}
+
+// Attention Grab Row Flashes
+tr.pf-data-grid-attention-grab-active,
+tr.k-alt.pf-data-grid-attention-grab-active {
+  background-color: #FFFF80 !important;
+  transition: background-color 1s linear;
+}
+
+tr.pf-data-grid-attention-grab-inactive,
+tr.k-alt.pf-data-grid-attention-grab-inactive {
+  background-color: transparent;
+  transition: background-color 1s linear;
+}

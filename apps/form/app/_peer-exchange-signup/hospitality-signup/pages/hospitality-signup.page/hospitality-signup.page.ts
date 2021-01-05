@@ -9,7 +9,7 @@ import { PfValidators } from 'libs/forms/validators';
 import { FormSubmissionResponse } from 'libs/models/payfactors-api/form';
 import { CompanyBaseInformation } from 'libs/models/company';
 import { AsyncStateObj } from 'libs/models/state';
-import { CaptchaService } from 'libs/features/captcha/services';
+import { CaptchaService } from 'libs/features/infrastructure/captcha/services';
 
 import { ExchangeSignupLookupKey } from '../../../data';
 import * as fromSharedReducer from '../../../../shared/reducers';

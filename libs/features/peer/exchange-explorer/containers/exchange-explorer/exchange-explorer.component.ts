@@ -5,18 +5,18 @@ import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 
 import { PayMarket } from 'libs/models/paymarket';
-import { SearchBaseDirective } from 'libs/features/search/containers/search-base';
+import { SearchBaseDirective } from 'libs/features/search/search/containers/search-base';
 import { ExchangeMapSummary } from 'libs/models/peer';
 import { ExchangeJobExchangeDetail } from 'libs/features/peer/models';
 import { SettingsService } from 'libs/state/app-context/services';
 import { FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models/common';
 import { ComphubExchangeExplorerContextRequest } from 'libs/models/peer/requests/comphub-exchange-explorer-context-request.model';
-import * as fromSearchReducer from 'libs/features/search/reducers';
-import * as fromSearchResultsActions from 'libs/features/search/actions/search-results.actions';
-import * as fromSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
-import * as fromChildSearchFilterActions from 'libs/features/search/actions/child-filter.actions';
-import * as fromSearchPageActions from 'libs/features/search/actions/search-page.actions';
-import { SearchFeatureIds } from 'libs/features/search/enums/search-feature-ids';
+import * as fromSearchReducer from 'libs/features/search/search/reducers';
+import * as fromSearchResultsActions from 'libs/features/search/search/actions/search-results.actions';
+import * as fromSearchFiltersActions from 'libs/features/search/search/actions/search-filters.actions';
+import * as fromChildSearchFilterActions from 'libs/features/search/search/actions/child-filter.actions';
+import * as fromSearchPageActions from 'libs/features/search/search/actions/search-page.actions';
+import { SearchFeatureIds } from 'libs/features/search/search/enums/search-feature-ids';
 
 import * as fromExchangeExplorerReducer from '../../reducers';
 import * as fromExchangeExplorerContextInfoActions from '../../actions/exchange-explorer-context-info.actions';

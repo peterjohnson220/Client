@@ -8,9 +8,9 @@ import { catchError, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators'
 
 import { JobPricedHistorySummaryResponse } from 'libs/models/payfactors-api/comphub';
 import * as fromExchangeExplorerMapActions from 'libs/features/peer/exchange-explorer/actions/map.actions';
-import * as fromSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
+import * as fromSearchFiltersActions from 'libs/features/search/search/actions/search-filters.actions';
 import * as fromExchangeFilterContextActions from 'libs/features/peer/exchange-explorer/actions/exchange-filter-context.actions';
-import { PayfactorsSearchApiModelMapper } from 'libs/features/search/helpers';
+import { PayfactorsSearchApiModelMapper } from 'libs/features/search/search/helpers';
 
 import * as fromComphubMainReducer from '../reducers';
 import * as fromQuickPriceHistoryActions from '../actions/quick-price-history.actions';

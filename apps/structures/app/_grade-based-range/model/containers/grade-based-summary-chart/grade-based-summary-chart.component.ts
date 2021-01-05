@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
 import { RangeGroupMetadata } from 'libs/models/structures';
-import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
+import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 
 import { StructuresHighchartsService } from '../../../../shared/services';
 import { GradeRangeModelChartService } from '../../data/grade-range-model-chart.service';

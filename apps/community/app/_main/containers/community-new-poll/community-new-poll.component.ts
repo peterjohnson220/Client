@@ -7,7 +7,7 @@ import { PfLinkifyService } from '../../services/pf-linkify-service';
 
 import { CommunityPollUpsertRequest } from 'libs/models/community/community-poll-upsert-request.model';
 import { CommunityPollStatusEnum } from 'libs/models/community/community-constants.model';
-import { CommunityPollChoicesComponent } from 'libs/features/community/containers/community-poll-choices/community-poll-choices.component';
+import { CommunityPollChoicesComponent } from 'libs/ui/community-poll-choices/community-poll-choices/community-poll-choices.component';
 
 import * as fromCommunityPostReducer from '../../reducers';
 import * as fromCommunityPostActions from '../../actions/community-post.actions';

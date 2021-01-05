@@ -4,9 +4,9 @@ import { filter, tap, withLatestFrom } from 'rxjs/operators';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
-import * as fromSearchPageActions from 'libs/features/search/actions/search-page.actions';
-import * as fromSearchReducer from 'libs/features/search/reducers';
-import { SearchFeatureIds } from 'libs/features/search/enums/search-feature-ids';
+import * as fromSearchPageActions from 'libs/features/search/search/actions/search-page.actions';
+import * as fromSearchReducer from 'libs/features/search/search/reducers';
+import { SearchFeatureIds } from 'libs/features/search/search/enums/search-feature-ids';
 
 import { UrlService } from '../../shared/services';
 import { Workflow } from '../../../shared/constants/workflow';

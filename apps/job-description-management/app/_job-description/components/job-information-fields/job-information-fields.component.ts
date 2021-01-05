@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs';
 import cloneDeep from 'lodash/cloneDeep';
 
-import { AvailableJobInformationField } from 'libs/features/job-description-management/models/available-job-information-field.model';
+import { AvailableJobInformationField } from 'libs/features/jobs/job-description-management/models/available-job-information-field.model';
 import * as fromJobInformationFieldsReducer from '../../reducers';
 
 @Component({

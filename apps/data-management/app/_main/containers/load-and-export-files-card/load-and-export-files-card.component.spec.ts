@@ -6,11 +6,11 @@ import { of } from 'rxjs';
 
 import * as fromRootState from 'libs/state/state';
 import { SettingsService } from 'libs/state/app-context/services';
-import * as fromOrgDataNavigationLinkActions from 'libs/features/navigation-links/actions/org-data-navigation-link.actions';
-import * as fromAppNotificationsMainReducer from 'libs/features/app-notifications/reducers';
-import * as fromAppNotificationsActions from 'libs/features/app-notifications/actions/app-notifications.actions';
-import * as fromJobDescriptionsExportActions from 'libs/features/job-description-management/actions/job-description-export.actions';
-import { NotificationLevel, NotificationSource, NotificationType } from 'libs/features/app-notifications/models';
+import * as fromOrgDataNavigationLinkActions from 'libs/features/infrastructure/navigation-links/actions/org-data-navigation-link.actions';
+import * as fromAppNotificationsMainReducer from 'libs/features/infrastructure/app-notifications/reducers';
+import * as fromAppNotificationsActions from 'libs/features/infrastructure/app-notifications/actions/app-notifications.actions';
+import * as fromJobDescriptionsExportActions from 'libs/features/jobs/job-description-management/actions/job-description-export.actions';
+import { NotificationLevel, NotificationSource, NotificationType } from 'libs/features/infrastructure/app-notifications/models';
 
 import { LoadAndExportFilesCardComponent } from './load-and-export-files-card.component';
 

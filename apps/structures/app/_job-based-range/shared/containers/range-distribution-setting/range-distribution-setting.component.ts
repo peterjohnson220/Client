@@ -8,7 +8,7 @@ import { AsyncStateObj } from 'libs/models/state';
 import { CompanySettingsEnum } from 'libs/models/company';
 import { CalculationTypeDisplay, RangeDistributionSettingForm, RangeGroupMetadata } from 'libs/models/structures';
 import { SettingsService } from 'libs/state/app-context/services';
-import * as fromFormulaFieldActions from 'libs/features/formula-editor/actions/formula-field.actions';
+import * as fromFormulaFieldActions from 'libs/ui/formula-editor/actions/formula-field.actions';
 import { CalculationType } from 'libs/constants/structures/calculation-type';
 import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
 

@@ -4,7 +4,7 @@ import { SelectionRange } from '@progress/kendo-angular-dateinputs';
 import { IntlService } from '@progress/kendo-angular-intl';
 import { addDays, isEqualDate } from '@progress/kendo-date-math';
 
-import { Field, FilterOperator, Between, IsBefore, IsAfter, Is } from 'libs/features/formula-editor';
+import { Field, FilterOperator, Between, IsBefore, IsAfter, Is } from 'libs/ui/formula-editor';
 
 @Component({
   selector: 'pf-date-range-filter',

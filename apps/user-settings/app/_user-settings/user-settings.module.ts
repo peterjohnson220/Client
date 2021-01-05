@@ -16,8 +16,8 @@ import { NumericTextBoxModule } from '@progress/kendo-angular-inputs';
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
-import { PfUserSettingsModule } from 'libs/features/user-settings';
-import { ProjectTemplateManagementModule } from 'libs/features/project-template-management';
+import { PfUserSettingsModule } from 'libs/features/users/user-settings';
+import { ProjectTemplateManagementModule } from 'libs/features/projects/project-template-management';
 
 import {
   MyProfileComponent,

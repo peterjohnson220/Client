@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
 
 import { WorkbookOrderType } from 'libs/constants';
-import { View, Workbook } from 'libs/features/reports/models';
+import { View, Workbook } from 'libs/features/surveys/reports/models';
 
 import { DashboardView, SaveWorkbookTagObj} from '../models';
 

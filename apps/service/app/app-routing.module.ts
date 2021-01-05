@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { AppWrapperComponent } from 'libs/features/app-root';
+import { AppWrapperComponent } from 'libs/features/infrastructure/app-root';
 import { UserContextGuard, TileEnabledGuard } from 'libs/security';
 import { DEFAULT_ROUTES } from 'libs/ui/common';
 

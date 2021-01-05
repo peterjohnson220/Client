@@ -2,7 +2,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import orderBy from 'lodash/orderBy';
 
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
-import { Workbook, TabularReportExportSchedule } from 'libs/features/reports/models';
+import { Workbook, TabularReportExportSchedule } from 'libs/features/surveys/reports/models';
 import { AsyncStateObjHelper } from 'libs/core/helpers';
 import { DataViewAccessLevel } from 'libs/models/payfactors-api';
 

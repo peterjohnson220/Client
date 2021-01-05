@@ -5,12 +5,12 @@ import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
 import { RangeGroupMetadata } from 'libs/models/structures';
-import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig, GridConfig } from 'libs/features/pf-data-grid/models';
-import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
+import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig, GridConfig } from 'libs/features/grids/pf-data-grid/models';
+import * as fromPfDataGridActions from 'libs/features/grids/pf-data-grid/actions';
 import { Permissions } from 'libs/constants';
-import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
-import { PfThemeType } from 'libs/features/pf-data-grid/enums/pf-theme-type.enum';
-import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
+import { PfDataGridColType } from 'libs/features/grids/pf-data-grid/enums';
+import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums/pf-theme-type.enum';
+import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 
 import * as fromSharedJobBasedRangeReducer from '../../shared/reducers';
 import * as fromModelSettingsModalActions from '../../shared/actions/model-settings-modal.actions';

@@ -11,7 +11,7 @@ import { ExchangeExplorerMapComponent } from 'libs/features/peer/exchange-explor
 import * as fromLibsPeerExchangeExplorerExchangeScopeActions from 'libs/features/peer/exchange-explorer/actions/exchange-scope.actions';
 import * as fromLibsPeerExchangeExplorerActions from 'libs/features/peer/exchange-explorer/actions/exchange-explorer.actions';
 import * as fromLibsExchangeExplorerReducer from 'libs/features/peer/exchange-explorer/reducers';
-import * as fromLibsSearchReducer from 'libs/features/search/reducers';
+import * as fromLibsSearchReducer from 'libs/features/search/search/reducers';
 import * as fromLibsExchangeExplorerReducers from 'libs/features/peer/exchange-explorer/reducers';
 
 import * as fromExchangeScopeActions from '../../../actions/save-exchange-scope.actions';

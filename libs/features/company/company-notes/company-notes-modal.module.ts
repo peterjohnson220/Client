@@ -8,7 +8,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { reducers } from './reducers';
 
 import { CompanyNotesModalComponent } from './containers';
-import { CompanyNotesListComponent } from './components';
+import { CompanyNotesListComponent } from './containers';
 
 import { CompanyNotesEffects } from './effects';
 import { PfCommonUIModule } from '../../../ui/common';

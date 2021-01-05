@@ -6,14 +6,14 @@ import { Observable, Subscription } from 'rxjs';
 import cloneDeep from 'lodash/cloneDeep';
 
 import { RangeGroupMetadata } from 'libs/models/structures';
-import * as fromAddJobsPageActions from 'libs/features/add-jobs/actions/add-jobs-page.actions';
-import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
-import * as pfDataGridActions from 'libs/features/pf-data-grid/actions';
+import * as fromAddJobsPageActions from 'libs/features/jobs/add-jobs/actions/add-jobs-page.actions';
+import { PfDataGridFilter } from 'libs/features/grids/pf-data-grid/models';
+import * as pfDataGridActions from 'libs/features/grids/pf-data-grid/actions';
 import { PermissionCheckEnum, Permissions } from 'libs/constants';
 import { PermissionService } from 'libs/core/services';
 import { DataViewEntity } from 'libs/models/payfactors-api/reports/request';
-import * as fromFormulaFieldActions from 'libs/features/formula-editor/actions/formula-field.actions';
-import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
+import * as fromFormulaFieldActions from 'libs/ui/formula-editor/actions/formula-field.actions';
+import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 
 import * as fromSharedJobBasedRangeReducer from '../../shared/reducers';
 import * as fromModelSettingsModalActions from '../../shared/actions/model-settings-modal.actions';

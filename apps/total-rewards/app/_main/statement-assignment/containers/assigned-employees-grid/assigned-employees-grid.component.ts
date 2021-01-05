@@ -9,7 +9,7 @@ import { TooltipDirective } from '@progress/kendo-angular-tooltip';
 import { Permissions } from 'libs/constants';
 import { GridTypeEnum, ListAreaColumn, SelectAllStatus } from 'libs/models/common';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
-import * as fromEmployeeManagementActions from 'libs/features/employee-management/actions';
+import * as fromEmployeeManagementActions from 'libs/features/employees/employee-management/actions';
 import { TotalRewardAssignedEmployee } from 'libs/models/payfactors-api';
 
 import * as fromAssignedEmployeesGridReducer from '../../reducers';

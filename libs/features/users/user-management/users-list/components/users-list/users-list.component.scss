@@ -1,0 +1,11 @@
+@import "assets/scss/_kendo-grid";
+
+.k-grid a {
+  padding: 10px;
+  color: #1872ae;
+  text-decoration: none;
+}
+
+.table-hover tr:hover {
+  cursor: pointer;
+}

@@ -3,8 +3,8 @@ import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
 import { AsyncStateObj } from 'libs/models/state';
-import { DataViewAccessLevel, Field, UserDataView, Suggestion } from 'libs/features/formula-editor';
-import * as fromFormulaFieldActions from 'libs/features/formula-editor/actions/formula-field.actions';
+import { DataViewAccessLevel, Field, UserDataView, Suggestion } from 'libs/ui/formula-editor';
+import * as fromFormulaFieldActions from 'libs/ui/formula-editor/actions/formula-field.actions';
 import { FormulaFieldModalObj } from 'libs/models/formula-editor';
 
 import * as fromDataViewMainReducer from '../../reducers';

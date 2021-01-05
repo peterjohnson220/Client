@@ -7,9 +7,9 @@ import { NotificationService, NotificationSettings } from '@progress/kendo-angul
 import { of } from 'rxjs';
 
 import { LoaderFieldMappingsApiService } from 'libs/data/payfactors-api/data-loads/index';
-import {CompanySelectorComponent} from 'libs/features/company/company-selector/components';
-import { LoaderEntityStatus } from 'libs/features/org-data-loader/models';
-import * as fromLoaderSettingsActions from 'libs/features/org-data-loader/state/actions/loader-settings.actions';
+import {CompanySelectorComponent} from 'libs/features/company/company-selector/containers';
+import { LoaderEntityStatus } from 'libs/features/loaders/org-data-loader/models';
+import * as fromLoaderSettingsActions from 'libs/features/loaders/org-data-loader/actions/loader-settings.actions';
 import { GenerateMockEmailRecipient, MappingModel } from 'libs/models/data-loads';
 import { ConfigSettingsSelectorFactory } from 'libs/state/app-context/services';
 import * as fromRootState from 'libs/state/state';

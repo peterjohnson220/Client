@@ -5,11 +5,11 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap, withLatestFrom } from 'rxjs/operators';
 
-import { PayfactorsSearchApiHelper } from 'libs/features/search/helpers';
+import { PayfactorsSearchApiHelper } from 'libs/features/search/search/helpers';
 import { PayMarketApiService } from 'libs/data/payfactors-api/paymarket';
 import * as fromLibsPeerExchangeExplorerScopeActions from 'libs/features/peer/exchange-explorer/actions/exchange-scope.actions';
 import * as fromLibsExchangeExplorerReducer from 'libs/features/peer/exchange-explorer/reducers';
-import * as fromSearchReducer from 'libs/features/search/reducers';
+import * as fromSearchReducer from 'libs/features/search/search/reducers';
 
 import * as fromSaveExchangeScopeActions from '../actions/save-exchange-scope.actions';
 

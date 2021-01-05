@@ -1,5 +1,5 @@
 import { PayMarket } from '../../models/paymarket';
-import { DefaultScope, NewlyAddedDefaultScope } from '../../features/paymarket-management/models';
+import { DefaultScope, NewlyAddedDefaultScope } from '../../features/paymarkets/paymarket-management/models';
 import { ExchangeScopes } from '../../models/peer/exchange-scope';
 import { AddPayMarketRequest, UpdatePayMarketRequest } from '../../models/payfactors-api/paymarket/request';
 

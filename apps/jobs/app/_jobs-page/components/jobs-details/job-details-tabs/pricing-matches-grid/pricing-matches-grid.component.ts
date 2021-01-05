@@ -5,12 +5,12 @@ import {
 
 import { SortDescriptor } from '@progress/kendo-data-query';
 
-import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig } from 'libs/features/pf-data-grid/models';
-import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
+import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig } from 'libs/features/grids/pf-data-grid/models';
+import { PfDataGridColType } from 'libs/features/grids/pf-data-grid/enums';
 import { PagingOptions } from 'libs/models/payfactors-api';
 import { PermissionCheckEnum, Permissions } from 'libs/constants/permissions';
 import { PermissionService } from 'libs/core/services';
-import { PfThemeType } from 'libs/features/pf-data-grid/enums/pf-theme-type.enum';
+import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums/pf-theme-type.enum';
 import { MrpFormatterService } from 'libs/core/services/mrp-formatter.service';
 
 import { PageViewIds } from '../../../../constants';

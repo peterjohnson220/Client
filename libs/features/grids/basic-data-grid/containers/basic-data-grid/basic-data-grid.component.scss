@@ -1,0 +1,67 @@
+@import 'assets/scss/_kendo-grid';
+@import '../../../../../../assets/scss/common/common-variables';
+
+.data-view-grid {
+  position: relative;
+  height: 100%;
+}
+
+.text-align-right {
+  text-align: right !important;
+}
+
+.loading-message, .loading-more-row {
+  padding: 0.8rem 1rem 0.5rem 1rem;
+  height: 42px;
+  font-size: 1rem;
+  border-top: 1px solid #eceeef;
+  border-bottom: 1px solid #eceeef;
+  font-weight: 500;
+  width: 100%;
+}
+
+.ellipsis-text {
+  @extend %ellipsis-overflowing-text;
+}
+
+.grid-container {
+  height: 100%;
+}
+
+.grid-container ::ng-deep kendo-grid {
+  max-height: 200px;
+
+  .k-grid-header .k-header > .k-link {
+    display: flex;
+  }
+
+  .k-grid-header .k-header > .k-link > .k-icon {
+    order: 1;
+    color: #5C5C5C;
+    margin-top: 0.3rem;
+  }
+
+  // for IE11 we need to specify min-width for preventing overlapping
+  *::-ms-backdrop, .k-grid-header .k-header > .k-link > .k-icon {
+    min-width: 15px;
+  }
+
+  .k-grid-header .k-header > .k-link > .k-column-title {
+    order: 3;
+  }
+
+  .k-grid-header .k-header.text-align-right > .k-link > .k-column-title {
+    order: 1;
+  }
+
+  .k-grid-header .k-header.text-align-right>.k-link {
+    flex-direction: row-reverse;
+  }
+}
+
+.loading-more-container {
+  position: absolute;
+  bottom: 0;
+  background-color: #ffffff;
+  width: 100%;
+}

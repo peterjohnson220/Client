@@ -6,17 +6,17 @@ import { Observable, Subscription } from 'rxjs';
 
 import * as fromCommunityPostActions from '../../actions/community-post.actions';
 import * as fromCommunityAttachmentActions from '../../actions/community-attachment.actions';
-import * as fromAppNotificationsActions from 'libs/features/app-notifications/actions/app-notifications.actions';
+import * as fromAppNotificationsActions from 'libs/features/infrastructure/app-notifications/actions/app-notifications.actions';
 
 import * as fromCommunityReducer from '../../reducers';
-import * as fromAppNotificationsMainReducer from 'libs/features/app-notifications/reducers';
+import * as fromAppNotificationsMainReducer from 'libs/features/infrastructure/app-notifications/reducers';
 
 import { CommunityPostTypeStatusEnum, CommunitySearchResultTypeEnum } from 'libs/models/community/community-constants.model';
 import { CommunityNewPostComponent } from '../community-new-post/community-new-post.component';
 import { CommunityNewPollComponent } from '../community-new-poll/community-new-poll.component';
 import { CommunityNewJobComponent } from '../community-new-job/community-new-job.component';
 import { CommunityJob, CommunityAttachmentModalState, CommunityAttachment, CommunityPost, CommunityAttachmentUploadStatus } from 'libs/models';
-import { AppNotification } from 'libs/features/app-notifications/models';
+import { AppNotification } from 'libs/features/infrastructure/app-notifications/models';
 import { CommunityConstants } from '../../models';
 
 @Component({

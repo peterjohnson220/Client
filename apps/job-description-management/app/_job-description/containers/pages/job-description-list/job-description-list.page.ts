@@ -18,9 +18,9 @@ import { PermissionCheckEnum, Permissions } from 'libs/constants';
 import { SettingsService } from 'libs/state/app-context/services';
 import { environment } from 'environments/environment';
 import * as fromRootState from 'libs/state/state';
-import * as fromAppNotificationsMainReducer from 'libs/features/app-notifications/reducers';
-import { AppNotification, NotificationLevel, NotificationPayload, NotificationType } from 'libs/features/app-notifications/models';
-import * as fromAppNotificationsActions from 'libs/features/app-notifications/actions/app-notifications.actions';
+import * as fromAppNotificationsMainReducer from 'libs/features/infrastructure/app-notifications/reducers';
+import { AppNotification, NotificationLevel, NotificationPayload, NotificationType } from 'libs/features/infrastructure/app-notifications/models';
+import * as fromAppNotificationsActions from 'libs/features/infrastructure/app-notifications/actions/app-notifications.actions';
 
 import * as fromBulkExportPopoverActions from '../../../actions/bulk-export-popover.actions';
 import * as fromJobDescriptionListActions from '../../../actions/job-description-list.actions';
@@ -30,10 +30,10 @@ import * as fromUserFilterActions from '../../../actions/user-filter.actions';
 import * as fromJobDescriptionReducers from '../../../reducers';
 import { AssignJobsToTemplateModalComponent, JobDescriptionHistoryModalComponent } from '../../../components';
 import { CompanyJobViewListItem } from '../../../models';
-import { AvailableJobInformationField, ControlLabel, JobDescriptionBulkExportPayload } from 'libs/features/job-description-management/models';
-import { JobDescriptionViewConstants } from 'libs/features/job-description-management/constants/job-description-view-constants';
+import { AvailableJobInformationField, ControlLabel, JobDescriptionBulkExportPayload } from 'libs/features/jobs/job-description-management/models';
+import { JobDescriptionViewConstants } from 'libs/features/jobs/job-description-management/constants/job-description-view-constants';
 import { SaveFilterModalComponent } from '../../../components/modals/save-filter';
-import { PayfactorsApiModelMapper } from 'libs/features/job-description-management/helpers';
+import { PayfactorsApiModelMapper } from 'libs/features/jobs/job-description-management/helpers';
 import { AddJobModalComponent } from '../../../components/modals/add-job';
 
 import {
@@ -42,8 +42,8 @@ import {
 import {
   DeleteJobDescriptionModalComponent
 } from '../../../../shared/components/modals/delete-job-description-modal';
-import * as fromTemplateReducer from 'libs/features/job-description-management/reducers';
-import * as fromTemplateActions from 'libs/features/job-description-management/actions/template-list.actions';
+import * as fromTemplateReducer from 'libs/features/jobs/job-description-management/reducers';
+import * as fromTemplateActions from 'libs/features/jobs/job-description-management/actions/template-list.actions';
 import * as fromJobDescriptionActions from '../../../actions/job-description.actions';
 import * as fromHeaderActions from 'libs/ui/layout-wrapper/actions/header.actions';
 

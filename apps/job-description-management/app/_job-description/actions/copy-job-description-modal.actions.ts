@@ -2,7 +2,7 @@ import { Action } from '@ngrx/store';
 
 import { JobDescription } from 'libs/models';
 
-import { JobDescriptionSource } from 'libs/features/job-description-management/models';
+import { JobDescriptionSource } from 'libs/features/jobs/job-description-management/models';
 
 export const GET_JOB_DESCRIPTION_SOURCES = '[job-description-management / Copy Job Description Modal] Get Job Description Sources';
 export const GET_JOB_DESCRIPTION_SOURCES_SUCCESS = '[job-description-management / Copy Job Description Modal] Get Job Description Sources Success';

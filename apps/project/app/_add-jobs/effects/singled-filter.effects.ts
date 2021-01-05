@@ -4,17 +4,17 @@ import { Effect } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { catchError, map, switchMap, withLatestFrom, filter } from 'rxjs/operators';
 
-import { ScrollIdConstants } from 'libs/features/infinite-scroll/models';
+import { ScrollIdConstants } from 'libs/features/search/infinite-scroll/models';
 import { JobSearchApiService } from 'libs/data/payfactors-api/search';
-import { PayfactorsSearchApiModelMapper, PayfactorsSearchApiHelper } from 'libs/features/search/helpers';
-import { InfiniteScrollEffectsService } from 'libs/features/infinite-scroll/services';
+import { PayfactorsSearchApiModelMapper, PayfactorsSearchApiHelper } from 'libs/features/search/search/helpers';
+import { InfiniteScrollEffectsService } from 'libs/features/search/infinite-scroll/services';
 import { SearchFilter, JobSearchContext } from 'libs/models/payfactors-api';
-import { MultiSelectFilter } from 'libs/features/search/models';
+import { MultiSelectFilter } from 'libs/features/search/search/models';
 import { JobSearchAggregationRequest } from 'libs/models/payfactors-api';
-import { SearchFeatureIds } from 'libs/features/search/enums/search-feature-ids';
-import * as fromSingledFilterActions from 'libs/features/search/actions/singled-filter.actions';
-import * as fromSearchReducer from 'libs/features/search/reducers';
-import * as fromAddJobsReducer from 'libs/features/add-jobs/reducers';
+import { SearchFeatureIds } from 'libs/features/search/search/enums/search-feature-ids';
+import * as fromSingledFilterActions from 'libs/features/search/search/actions/singled-filter.actions';
+import * as fromSearchReducer from 'libs/features/search/search/reducers';
+import * as fromAddJobsReducer from 'libs/features/jobs/add-jobs/reducers';
 
 @Injectable()
 export class SingledFilterEffects {

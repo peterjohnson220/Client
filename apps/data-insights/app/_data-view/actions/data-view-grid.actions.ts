@@ -2,7 +2,7 @@ import { Action } from '@ngrx/store';
 
 import { SortDescriptor } from '@progress/kendo-data-query';
 
-import { Field } from 'libs/features/formula-editor';
+import { Field } from 'libs/ui/formula-editor';
 
 export const GET_DATA = '[Data Insights / Data View Grid] Get Data';
 export const GET_DATA_SUCCESS = '[Data Insights / Data View Grid] Get Data Success';

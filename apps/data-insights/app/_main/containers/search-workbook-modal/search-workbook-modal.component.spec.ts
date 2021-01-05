@@ -5,7 +5,7 @@ import { StoreModule, combineReducers, Store } from '@ngrx/store';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import * as fromRootState from 'libs/state/state';
-import { generateMockWorkbook } from 'libs/features/reports/models';
+import { generateMockWorkbook } from 'libs/features/surveys/reports/models';
 
 import * as fromDataInsightsMainReducer from '../../reducers';
 import { SearchWorkbookModalComponent } from './search-workbook-modal.component';

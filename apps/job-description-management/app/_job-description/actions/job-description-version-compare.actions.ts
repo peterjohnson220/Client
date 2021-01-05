@@ -2,7 +2,7 @@ import { Action } from '@ngrx/store';
 
 import { LoadJobDescriptionComparisonRequest } from 'libs/models/payfactors-api/job-description/request';
 
-import { JobDescriptionHistoryListItem } from 'libs/features/job-description-management/models';
+import { JobDescriptionHistoryListItem } from 'libs/features/jobs/job-description-management/models';
 
 export const LOAD_JOB_DESCRIPTION_COMPARISON =
   '[JobDescription/JobDescriptionVersionCompare] Loading Job Description Comparison';

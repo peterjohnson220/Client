@@ -2,7 +2,7 @@ import { Action } from '@ngrx/store';
 
 import { DataCutValidationInfo } from 'libs/models/peer';
 import { BaseExchangeDataSearchRequest } from 'libs/models/payfactors-api';
-import { UpsertPeerDataCutEntityConfigurationModel } from '../../upsert-peer-data-cut/models';
+import { UpsertPeerDataCutEntityConfigurationModel } from '../../pricings/upsert-peer-data-cut/models';
 
 export const LOAD_DATA_CUT_VALIDATION = '[Features/Peer/Data Cut Validation] Load Data Cut Validation';
 export const LOAD_TEMP_DATA_CUT_VALIDATION = '[Features/Peer/Data Cut Validation] Load Temp Data Cut Validation';

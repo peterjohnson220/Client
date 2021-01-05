@@ -7,7 +7,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import orderBy from 'lodash/orderBy';
 
 import { AsyncStateObj } from 'libs/models/state';
-import { ReportType, View, Workbook } from 'libs/features/reports/models';
+import { ReportType, View, Workbook } from 'libs/features/surveys/reports/models';
 
 import * as fromDataInsightsMainReducer from '../../reducers';
 import * as fromDashboardsActions from '../../actions/dashboards.actions';

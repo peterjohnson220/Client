@@ -5,7 +5,7 @@ import { Template } from 'libs/models/jdm/template';
 import * as fromTemplateActions from '../actions';
 import * as section from './template-section.reducer';
 import * as control from './template-control.reducer';
-import { SaveError } from 'libs/features/job-description-management';
+import { SaveError } from 'libs/features/jobs/job-description-management';
 
 export interface State {
   loading: boolean;

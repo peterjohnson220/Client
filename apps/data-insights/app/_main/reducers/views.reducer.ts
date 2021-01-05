@@ -2,7 +2,7 @@ import cloneDeep from 'lodash/cloneDeep';
 
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 import { ReportOrderType } from 'libs/constants';
-import { View, Workbook } from 'libs/features/reports/models';
+import { View, Workbook } from 'libs/features/surveys/reports/models';
 
 import * as fromViewsActions from '../actions/views.actions';
 import { DashboardView } from '../models';

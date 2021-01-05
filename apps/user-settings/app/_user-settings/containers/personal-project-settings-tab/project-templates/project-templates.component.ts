@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 
 import { AsyncStateObj } from 'libs/models/state';
 import { ProjectTemplate } from 'libs/models';
-import * as fromProjectTemplateManagementActions from 'libs/features/project-template-management/actions/project-template-management.actions';
+import * as fromProjectTemplateManagementActions from 'libs/features/projects/project-template-management/actions/project-template-management.actions';
 
 import * as fromUserSettingsReducer from '../../../reducers';
 import * as fromProjectTemplateActions from '../../../actions/project-template.actions';

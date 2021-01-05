@@ -7,16 +7,16 @@ import { Observable, Subscription } from 'rxjs';
 import { PfLinkifyService } from '../../services/pf-linkify-service';
 
 import * as fromCommunityPostReducer from '../../reducers';
-import * as fromAppNotificationsMainReducer from 'libs/features/app-notifications/reducers';
+import * as fromAppNotificationsMainReducer from 'libs/features/infrastructure/app-notifications/reducers';
 
 import * as fromCommunityPostReplyActions from '../../actions/community-post-reply.actions';
 import * as fromCommunityAttachmentActions from '../../actions/community-attachment.actions';
-import * as fromAppNotificationsActions from 'libs/features/app-notifications/actions/app-notifications.actions';
+import * as fromAppNotificationsActions from 'libs/features/infrastructure/app-notifications/actions/app-notifications.actions';
 
 import { CommunityAddReply, CommunityAttachment, CommunityReply, CommunityAttachmentModalState, CommunityAttachmentUploadStatus } from 'libs/models/community';
 import { CommunitySearchResultTypeEnum } from 'libs/models/community/community-constants.model';
 import { CommunityConstants } from '../../models';
-import { AppNotification } from 'libs/features/app-notifications/models';
+import { AppNotification } from 'libs/features/infrastructure/app-notifications/models';
 import { attachmentsReadyForUpload } from '../../helpers/model-mapping.helper';
 
 @Component({

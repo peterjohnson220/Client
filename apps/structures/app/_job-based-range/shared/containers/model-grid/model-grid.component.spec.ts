@@ -6,8 +6,8 @@ import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BehaviorSubject, of } from 'rxjs';
 
 import * as fromRootState from 'libs/state/state';
-import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
-import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
+import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
+import * as fromPfGridActions from 'libs/features/grids/pf-data-grid/actions';
 import { AbstractFeatureFlagService, PermissionService, PfCommonModule } from 'libs/core';
 import { JobBasedPageViewIds } from 'libs/models/structures';
 

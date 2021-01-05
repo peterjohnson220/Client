@@ -24,7 +24,7 @@ import { CommunityJobPostingsPageComponent } from './containers';
 import { MainRoutingModule } from './main-routing.module';
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
-import { PfCommunityModule } from 'libs/features/community/community.module';
+import { PfCommunityModule } from 'libs/ui/community-poll-choices/community.module';
 
 import { CommunityPostsComponent } from './containers/community-posts/community-posts.component';
 import { CommunityStartDiscussionComponent } from './containers/community-start-discussion';

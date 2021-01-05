@@ -4,8 +4,8 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import * as fromPayMarketModalActions from 'libs/features/paymarket-management/actions/paymarket-modal.actions';
-import * as fromPayMarketManagementReducer from 'libs/features/paymarket-management/reducers';
+import * as fromPayMarketModalActions from 'libs/features/paymarkets/paymarket-management/actions/paymarket-modal.actions';
+import * as fromPayMarketManagementReducer from 'libs/features/paymarkets/paymarket-management/reducers';
 
 @Component({
   selector: 'pf-delete-paymarket-modal',

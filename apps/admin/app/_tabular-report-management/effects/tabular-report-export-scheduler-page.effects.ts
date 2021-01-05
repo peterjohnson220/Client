@@ -5,10 +5,10 @@ import { catchError, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/opera
 import { of } from 'rxjs';
 
 import { TableauReportApiService, TabularExportSchedulerApiService } from 'libs/data/payfactors-api/reports';
-import { ReportsPayfactorsApiModelMapper } from 'libs/features/reports/helpers';
+import { ReportsPayfactorsApiModelMapper } from 'libs/features/surveys/reports/helpers';
 import { UserContext } from 'libs/models/security';
 import * as fromRootState from 'libs/state/state';
-import { ExportScheduleHelper } from 'libs/features/export-scheduler/models';
+import { ExportScheduleHelper } from 'libs/features/export-scheduler/export-scheduler/models';
 
 import * as fromTabularReportExportSchedulerPageReducer from '../reducers';
 import * as fromTabularReportExportSchedulerPageActions from '../actions/tabular-report-export-scheduler-page.actions';

@@ -9,7 +9,7 @@ import * as fromDashboardReducer from './dashboard.reducer';
 import * as fromUserVoiceReducer from './user-voice.reducer';
 import * as fromActivityTimelineReducer from './timeline-activity.reducer';
 import * as fromDashboardTCModalReducer from './dashboard-tc-modal.reducer';
-import * as fromMarketingReducer from 'libs/features/marketing-settings/marketing-settings.reducer';
+import * as fromMarketingReducer from 'libs/features/infrastructure/marketing-settings/marketing-settings/reducers/marketing-settings.reducer';
 
 
 // Feature area state

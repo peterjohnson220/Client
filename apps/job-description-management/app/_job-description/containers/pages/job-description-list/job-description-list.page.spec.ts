@@ -31,7 +31,7 @@ import { CompanyJobViewListItem, generateMockCompanyJobViewListItem } from '../.
 import { AssignJobsToTemplateModalComponent, JobDescriptionHistoryModalComponent, SaveFilterModalComponent,
   WorkflowCancelModalComponent } from '../../../components';
 
-import { PayfactorsApiModelMapper } from 'libs/features/job-description-management/helpers';
+import { PayfactorsApiModelMapper } from 'libs/features/jobs/job-description-management/helpers';
 import {
   JobDescriptionAppliesToModalComponent
 } from '../../../../shared/components/modals/job-description-applies-to/job-description-applies-to-modal.component';

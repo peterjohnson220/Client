@@ -8,8 +8,8 @@ import { catchError, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators'
 
 import { RangeGroupMetadata } from 'libs/models/structures';
 import { StructureModelingApiService } from 'libs/data/payfactors-api/structures';
-import { NotificationLevel, NotificationSource, NotificationType } from 'libs/features/app-notifications/models';
-import * as fromNotificationActions from 'libs/features/app-notifications/actions/app-notifications.actions';
+import { NotificationLevel, NotificationSource, NotificationType } from 'libs/features/infrastructure/app-notifications/models';
+import * as fromNotificationActions from 'libs/features/infrastructure/app-notifications/actions/app-notifications.actions';
 import { DuplicateModelRequest } from 'libs/models/payfactors-api/structures/request/duplicate-model-request.model';
 
 import * as fromDuplicateModelModalActions from '../actions/duplicate-model-modal.actions';

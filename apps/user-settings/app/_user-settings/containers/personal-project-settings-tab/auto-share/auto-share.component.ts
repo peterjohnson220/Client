@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import * as fromAutoShareReducer from 'libs/features/user-settings/reducers/auto-share.reducer';
-import * as fromAutoShareActions from 'libs/features/user-settings/actions/auto-share.actions';
+import * as fromAutoShareReducer from 'libs/features/users/user-settings/reducers/auto-share.reducer';
+import * as fromAutoShareActions from 'libs/features/users/user-settings/actions/auto-share.actions';
 
 @Component({
   selector: 'pf-auto-share',

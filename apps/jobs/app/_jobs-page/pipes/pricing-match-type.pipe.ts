@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-import { PricingMatchTypes } from 'libs/features/pricing-match/constants';
+import { PricingMatchTypes } from 'libs/features/pricings/pricing-match/constants';
 
 @Pipe({
   name: 'pricingMatchType',

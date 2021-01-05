@@ -7,24 +7,24 @@ import { Observable, of } from 'rxjs';
 
 import { ExchangeDataSearchApiService } from 'libs/data/payfactors-api/search/peer';
 import { ExchangeDataSearchResponse } from 'libs/models/payfactors-api/peer/exchange-data-search/response';
-import { PayfactorsSearchApiHelper, PayfactorsSearchApiModelMapper } from 'libs/features/search/helpers';
+import { PayfactorsSearchApiHelper, PayfactorsSearchApiModelMapper } from 'libs/features/search/search/helpers';
 import { ExchangeMapResponse } from 'libs/models/peer';
 import { ExchangeDataSearchRequest, SearchExchangeAggregationsRequest } from 'libs/models/payfactors-api/peer/exchange-data-search/request';
 import { OperatorEnum } from 'libs/constants';
 import { SearchFilter } from 'libs/models/payfactors-api/search/response';
-import { MultiSelectFilter } from 'libs/features/search/models';
-import { SearchFeatureIds } from 'libs/features/search/enums/search-feature-ids';
+import { MultiSelectFilter } from 'libs/features/search/search/models';
+import { SearchFeatureIds } from 'libs/features/search/search/enums/search-feature-ids';
 
-import * as fromSearchReducer from 'libs/features/search/reducers';
+import * as fromSearchReducer from 'libs/features/search/search/reducers';
 import * as fromExchangeExplorerReducer from '../reducers';
 import * as fromExchangeSearchResultsActions from '../actions/exchange-search-results.actions';
-import * as fromSearchResultsActions from '../../../search/actions/search-results.actions';
-import * as fromSearchFiltersActions from '../../../search/actions/search-filters.actions';
+import * as fromSearchResultsActions from '../../../search/search/actions/search-results.actions';
+import * as fromSearchFiltersActions from '../../../search/search/actions/search-filters.actions';
 
 import * as fromMapActions from '../actions/map.actions';
 import { ExchangeExplorerContextService } from '../services';
-import * as fromInfiniteScrollActions from '../../../infinite-scroll/actions/infinite-scroll.actions';
-import { ScrollIdConstants } from '../../../infinite-scroll/models';
+import * as fromInfiniteScrollActions from '../../../search/infinite-scroll/actions/infinite-scroll.actions';
+import { ScrollIdConstants } from '../../../search/infinite-scroll/models';
 
 @Injectable()
 export class ExchangeSearchEffects {

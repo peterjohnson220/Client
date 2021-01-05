@@ -4,13 +4,13 @@ import { Effect } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { catchError, map, switchMap, withLatestFrom } from 'rxjs/operators';
 
-import { ScrollIdConstants } from 'libs/features/infinite-scroll/models';
-import { PayfactorsSearchApiModelMapper, PayfactorsSearchApiHelper } from 'libs/features/search/helpers';
-import { InfiniteScrollEffectsService} from 'libs/features/infinite-scroll/services';
+import { ScrollIdConstants } from 'libs/features/search/infinite-scroll/models';
+import { PayfactorsSearchApiModelMapper, PayfactorsSearchApiHelper } from 'libs/features/search/search/helpers';
+import { InfiniteScrollEffectsService} from 'libs/features/search/infinite-scroll/services';
 import { SearchFilter } from 'libs/models/payfactors-api';
-import { MultiSelectFilter } from 'libs/features/search/models';
-import * as fromSingledFilterActions from 'libs/features/search/actions/singled-filter.actions';
-import * as fromSearchReducer from 'libs/features/search/reducers';
+import { MultiSelectFilter } from 'libs/features/search/search/models';
+import * as fromSingledFilterActions from 'libs/features/search/search/actions/singled-filter.actions';
+import * as fromSearchReducer from 'libs/features/search/search/reducers';
 import { TotalRewardsSearchApiService } from 'libs/data/payfactors-api/total-rewards';
 
 import * as fromStatementAssignmentReducer from '../reducers';

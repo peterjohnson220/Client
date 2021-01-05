@@ -7,7 +7,7 @@ import { of } from 'rxjs';
 import { JobDescriptionApiService } from 'libs/data/payfactors-api';
 
 import * as fromCopyJobDescriptionModalActions from '../actions/copy-job-description-modal.actions';
-import { PayfactorsApiModelMapper } from 'libs/features/job-description-management/helpers';
+import { PayfactorsApiModelMapper } from 'libs/features/jobs/job-description-management/helpers';
 
 @Injectable()
 export class CopyJobDescriptionModalEffects {

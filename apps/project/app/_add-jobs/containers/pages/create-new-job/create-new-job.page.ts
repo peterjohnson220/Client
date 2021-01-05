@@ -5,9 +5,9 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
-import * as fromSearchPageActions from 'libs/features/search/actions/search-page.actions';
+import * as fromSearchPageActions from 'libs/features/search/search/actions/search-page.actions';
 import { PfValidators } from 'libs/forms/validators';
-import * as fromPaymarketReducer from 'libs/features/add-jobs/reducers';
+import * as fromPaymarketReducer from 'libs/features/jobs/add-jobs/reducers';
 
 import * as fromCreateNewJobPageActions from '../../../actions/create-new-job-page.actions';
 import * as fromAddJobsReducer from '../../../reducers';

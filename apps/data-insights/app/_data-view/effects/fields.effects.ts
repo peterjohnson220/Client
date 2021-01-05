@@ -8,9 +8,9 @@ import { of } from 'rxjs';
 
 import { DataViewApiService } from 'libs/data/payfactors-api';
 import { PfConstants } from 'libs/models/common';
-import { DataViewAccessLevel, Field, PayfactorsApiModelMapper, FieldsHelper } from 'libs/features/formula-editor';
-import * as fromFieldsActions from 'libs/features/formula-editor/actions/fields.actions';
-import * as fromFormulaFieldModalActions from 'libs/features/formula-editor/actions/formula-field.actions';
+import { DataViewAccessLevel, Field, PayfactorsApiModelMapper, FieldsHelper } from 'libs/ui/formula-editor';
+import * as fromFieldsActions from 'libs/ui/formula-editor/actions/fields.actions';
+import * as fromFormulaFieldModalActions from 'libs/ui/formula-editor/actions/formula-field.actions';
 
 import * as fromDataInsightsMainReducer from '../reducers';
 import * as fromFiltersActions from '../actions/filters.actions';

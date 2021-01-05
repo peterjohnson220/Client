@@ -4,10 +4,10 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import * as fromAppNotificationsReducer from 'libs/features/app-notifications/reducers';
-import * as fromAppNotificationsActions from 'libs/features/app-notifications/actions/app-notifications.actions';
-import * as fromLibsUserNotificationStore from 'libs/features/user-notifications/reducers';
-import * as fromLibsUserNotificationActions from 'libs/features/user-notifications/actions/user-notification-list.actions';
+import * as fromAppNotificationsReducer from 'libs/features/infrastructure/app-notifications/reducers';
+import * as fromAppNotificationsActions from 'libs/features/infrastructure/app-notifications/actions/app-notifications.actions';
+import * as fromLibsUserNotificationStore from 'libs/features/infrastructure/user-notifications/reducers';
+import * as fromLibsUserNotificationActions from 'libs/features/infrastructure/user-notifications/actions/user-notification-list.actions';
 
 @Component({
   selector: 'pf-notification-badge',

@@ -12,7 +12,7 @@ import {
   getDefaultOperatorByDataType,
   GetFilterOptionsData,
   validateFilter
-} from 'libs/features/formula-editor';
+} from 'libs/ui/formula-editor';
 
 import { FilterCardComponent } from './filter-card.component';
 

@@ -8,13 +8,13 @@ import { GridDataResult } from '@progress/kendo-angular-grid';
 
 import { RangeGroupMetadata } from 'libs/models/structures';
 import { StructureRangeGroupApiService } from 'libs/data/payfactors-api/structures';
-import { NotificationLevel, NotificationSource, NotificationType } from 'libs/features/app-notifications/models';
-import * as fromNotificationActions from 'libs/features/app-notifications/actions/app-notifications.actions';
-import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
-import { GridConfig, PfDataGridFilter } from 'libs/features/pf-data-grid/models';
+import { NotificationLevel, NotificationSource, NotificationType } from 'libs/features/infrastructure/app-notifications/models';
+import * as fromNotificationActions from 'libs/features/infrastructure/app-notifications/actions/app-notifications.actions';
+import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
+import { GridConfig, PfDataGridFilter } from 'libs/features/grids/pf-data-grid/models';
 import { PagingOptions } from 'libs/models/payfactors-api/search/request';
-import { GridDataHelper } from 'libs/features/pf-data-grid/helpers';
-import * as fromActions from 'libs/features/pf-data-grid/actions';
+import { GridDataHelper } from 'libs/features/grids/pf-data-grid/helpers';
+import * as fromActions from 'libs/features/grids/pf-data-grid/actions';
 import { ViewField } from 'libs/models/payfactors-api/reports/request';
 
 import * as fromPublishModelModalActions from '../actions/publish-model-modal.actions';

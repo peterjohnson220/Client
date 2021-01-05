@@ -6,7 +6,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { PfCommonUIModule } from 'libs/ui/common';
-import { CaptchaModule } from 'libs/features/captcha';
+import { CaptchaModule } from 'libs/features/infrastructure/captcha';
 
 import { HospitalitySignupPageComponent, HospitalitySignupSuccessPageComponent } from './pages';
 import { HospitalitySignupRoutingModule } from './hospitality-signup-routing.module';

@@ -12,11 +12,11 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
-import { UserManagementModule } from 'libs/features/user-management';
+import { UserManagementModule } from 'libs/features/users/user-management';
 
 import { CompanyAdminRoutingModule } from './company-admin-routing.module';
 import { UserRoleModule, SecuritySettingsModule, NavigationModule, UserBulkAddModule } from './';
-import { PfNavigationLinksModule } from '../../../../libs/features/navigation-links';
+import { PfNavigationLinksModule } from '../../../../libs/features/infrastructure/navigation-links';
 
 
 @NgModule({

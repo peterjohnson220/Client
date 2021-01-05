@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { of, Observable } from 'rxjs';
 import { OrgDataEntityType } from 'libs/constants';
-import {FileUploadHeaderRequestModel} from 'libs/features/org-data-loader/models';
+import {FileUploadHeaderRequestModel} from 'libs/features/loaders/org-data-loader/models';
 import { LoaderFieldSet, FieldMappingsDTO } from 'libs/models/data-loads/index';
 
 

@@ -4,8 +4,8 @@ import { Subscription } from 'rxjs/Subscription';
 import { Store } from '@ngrx/store';
 
 import { JobDescriptionInfoHeaderBaseDirective } from '../job-description-info-header-base.directive';
-import { JobDescriptionAppliesToItem } from 'libs/features/job-description-management/models';
-import * as fromJobDescriptionAppliesToReducers from 'libs/features/job-description-management/reducers';
+import { JobDescriptionAppliesToItem } from 'libs/features/jobs/job-description-management/models';
+import * as fromJobDescriptionAppliesToReducers from 'libs/features/jobs/job-description-management/reducers';
 
 @Component({
   selector: 'pf-job-description-info-header-with-logo',

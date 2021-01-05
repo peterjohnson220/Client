@@ -17,7 +17,7 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 
 import { PfCommonModule } from 'libs/core';
 import { PfCommonUIModule } from 'libs/ui/common';
-import { FormulaEditorModule } from 'libs/features/formula-editor';
+import { FormulaEditorModule } from 'libs/ui/formula-editor';
 
 import {
   AddReportFieldsComponent, ConfigureSidebarComponent, DeleteUserWorkbookModalComponent,

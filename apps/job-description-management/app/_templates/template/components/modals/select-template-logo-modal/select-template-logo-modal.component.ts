@@ -6,9 +6,9 @@ import { Subscription } from 'rxjs/Subscription';
 import { ErrorEvent, UploadEvent } from '@progress/kendo-angular-upload';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
-import * as fromJdmSharedReducer from 'libs/features/job-description-management/reducers';
-import * as fromJdmSharedActions from 'libs/features/job-description-management/actions';
-import { CompanyLogo } from 'libs/features/job-description-management';
+import * as fromJdmSharedReducer from 'libs/features/jobs/job-description-management/reducers';
+import * as fromJdmSharedActions from 'libs/features/jobs/job-description-management/actions';
+import { CompanyLogo } from 'libs/features/jobs/job-description-management';
 
 @Component({
     selector: 'pf-select-template-logo-modal',

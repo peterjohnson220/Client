@@ -3,7 +3,7 @@ import { Component, Input, Output, EventEmitter, SimpleChanges, OnChanges, Chang
 import orderBy from 'lodash/orderBy';
 import { groupBy } from '@progress/kendo-data-query';
 
-import { Field } from 'libs/features/formula-editor';
+import { Field } from 'libs/ui/formula-editor';
 
 @Component({
   selector: 'pf-view-all-fields',

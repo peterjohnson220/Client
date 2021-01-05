@@ -1,6 +1,6 @@
 import * as fromExchangeExplorerContextInfoActions from '../actions/exchange-explorer-context-info.actions';
 
-import { SearchFilterMappingDataObj } from '../../../search/models';
+import { SearchFilterMappingDataObj } from '../../../search/search/models';
 import { ExchangeJobExchangeDetail } from '../../models';
 import { MapGeoData } from '../../../../models/peer';
 import { PayMarket } from '../../../../models/paymarket';

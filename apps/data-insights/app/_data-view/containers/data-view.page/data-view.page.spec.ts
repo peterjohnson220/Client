@@ -7,14 +7,14 @@ import { Store, StoreModule, combineReducers } from '@ngrx/store';
 import { of } from 'rxjs';
 
 import * as fromRootState from 'libs/state/state';
-import * as fromAppNotificationsMainReducer from 'libs/features/app-notifications/reducers';
+import * as fromAppNotificationsMainReducer from 'libs/features/infrastructure/app-notifications/reducers';
 import { SettingsService } from 'libs/state/app-context/services';
 import {
   DataViewAccessLevel,
   generateMockSharedDataViewUser,
   SharedDataViewUser,
   generateMockUserDataView
-} from 'libs/features/formula-editor';
+} from 'libs/ui/formula-editor';
 import { CsvFileDelimiter, ExportFileExtension } from 'libs/models/payfactors-api';
 
 import * as fromDataViewMainReducer from '../../reducers';

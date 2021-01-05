@@ -7,12 +7,12 @@ import { map, catchError, switchMap, withLatestFrom, mergeMap, tap } from 'rxjs/
 import { of } from 'rxjs';
 
 import { DashboardApiService, CompanyJobApiService, ProjectApiService } from 'libs/data/payfactors-api';
-import * as fromSearchPageActions from 'libs/features/search/actions/search-page.actions';
+import * as fromSearchPageActions from 'libs/features/search/search/actions/search-page.actions';
 import { AddProjectJobsResponse } from 'libs/models/payfactors-api/project/response';
 import { WindowCommunicationService } from 'libs/core/services';
-import * as fromPaymarketReducer from 'libs/features/add-jobs/reducers';
-import { PayfactorsAddJobsApiModelMapper } from 'libs/features/add-jobs/helpers';
-import * as fromAddJobsReducer from 'libs/features/add-jobs/reducers';
+import * as fromPaymarketReducer from 'libs/features/jobs/add-jobs/reducers';
+import { PayfactorsAddJobsApiModelMapper } from 'libs/features/jobs/add-jobs/helpers';
+import * as fromAddJobsReducer from 'libs/features/jobs/add-jobs/reducers';
 
 import * as fromCreateNewJobPageActions from '../actions/create-new-job-page.actions';
 

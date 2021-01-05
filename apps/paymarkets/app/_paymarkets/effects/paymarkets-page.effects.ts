@@ -4,8 +4,8 @@ import { of } from 'rxjs';
 import { switchMap, catchError, map, mergeMap } from 'rxjs/operators';
 
 import { PayMarketApiService } from 'libs/data/payfactors-api/index';
-import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
-import * as fromPayMarketModalActions from 'libs/features/paymarket-management/actions/paymarket-modal.actions';
+import * as fromPfDataGridActions from 'libs/features/grids/pf-data-grid/actions';
+import * as fromPayMarketModalActions from 'libs/features/paymarkets/paymarket-management/actions/paymarket-modal.actions';
 
 import * as fromPayMarketsPageActions from '../actions/paymarkets-page.actions';
 import { PayMarketsPageViewId } from '../models';

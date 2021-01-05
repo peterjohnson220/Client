@@ -1,4 +1,4 @@
-import { SearchFilterMappingDataObj } from '../../features/search/models';
+import { SearchFilterMappingDataObj } from '../../features/search/search/models';
 import { ExchangeJobExchangeDetail } from '../../features/peer/models';
 import { generateMockPayMarketContext, PayMarketContext } from './paymarket-context.model';
 import { generateMockSystemFilter, SystemFilter } from './exchange-job-pay-market-filter.model';

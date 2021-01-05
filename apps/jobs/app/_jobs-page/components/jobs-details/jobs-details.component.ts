@@ -5,10 +5,10 @@ import { ofType } from '@ngrx/effects';
 
 import { Subscription, Observable } from 'rxjs';
 
-import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
-import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
-import * as fromMultiMatchActions from 'libs/features/multi-match/actions';
-import * as fromNotificationActions from 'libs/features/app-notifications/actions';
+import { PfDataGridFilter } from 'libs/features/grids/pf-data-grid/models';
+import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
+import * as fromMultiMatchActions from 'libs/features/pricings/multi-match/actions';
+import * as fromNotificationActions from 'libs/features/infrastructure/app-notifications/actions';
 import * as fromRootReducer from 'libs/state/state';
 
 import * as fromJobsPageActions from '../../actions';

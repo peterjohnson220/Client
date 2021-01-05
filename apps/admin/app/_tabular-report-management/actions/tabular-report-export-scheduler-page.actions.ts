@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { Workbook, TabularReportExportSchedule } from 'libs/features/reports/models';
+import { Workbook, TabularReportExportSchedule } from 'libs/features/surveys/reports/models';
 
 export const GET_TABULAR_REPORTS = '[Tabular Report Management/Tabular Report Export Scheduler Page] Get Tabular Reports';
 export const GET_TABULAR_REPORTS_SUCCESS = '[Tabular Report Management/Tabular Report Export Scheduler Page] Get Tabular Reports Success';

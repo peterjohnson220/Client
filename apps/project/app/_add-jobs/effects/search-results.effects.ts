@@ -5,18 +5,18 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { switchMap, withLatestFrom, mergeMap, catchError, map, filter } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
-import * as fromSearchResultsActions from 'libs/features/search/actions/search-results.actions';
-import * as fromSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
+import * as fromSearchResultsActions from 'libs/features/search/search/actions/search-results.actions';
+import * as fromSearchFiltersActions from 'libs/features/search/search/actions/search-filters.actions';
 import { JobSearchApiService } from 'libs/data/payfactors-api/search/jobs';
 import { JobSearchPricingDataResponse, JobSearchRequest, JobSearchResponse, JobSearchContext } from 'libs/models/payfactors-api/job-search';
-import { PayfactorsSearchApiHelper, PayfactorsSearchApiModelMapper } from 'libs/features/search/helpers';
-import { PayfactorsAddJobsApiModelMapper } from 'libs/features/add-jobs/helpers';
-import { ScrollIdConstants } from 'libs/features/infinite-scroll/models';
-import * as fromSearchReducer from 'libs/features/search/reducers';
-import * as fromAddJobsReducer from 'libs/features/add-jobs/reducers';
-import * as fromAddJobsSearchResultsActions from 'libs/features/add-jobs/actions/search-results.actions';
-import * as fromInfiniteScrollActions from 'libs/features/infinite-scroll/actions/infinite-scroll.actions';
-import { SearchFeatureIds } from 'libs/features/search/enums/search-feature-ids';
+import { PayfactorsSearchApiHelper, PayfactorsSearchApiModelMapper } from 'libs/features/search/search/helpers';
+import { PayfactorsAddJobsApiModelMapper } from 'libs/features/jobs/add-jobs/helpers';
+import { ScrollIdConstants } from 'libs/features/search/infinite-scroll/models';
+import * as fromSearchReducer from 'libs/features/search/search/reducers';
+import * as fromAddJobsReducer from 'libs/features/jobs/add-jobs/reducers';
+import * as fromAddJobsSearchResultsActions from 'libs/features/jobs/add-jobs/actions/search-results.actions';
+import * as fromInfiniteScrollActions from 'libs/features/search/infinite-scroll/actions/infinite-scroll.actions';
+import { SearchFeatureIds } from 'libs/features/search/search/enums/search-feature-ids';
 
 @Injectable()
 export class SearchResultsEffects {

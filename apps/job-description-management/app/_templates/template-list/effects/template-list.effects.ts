@@ -8,12 +8,12 @@ import { Observable, of } from 'rxjs';
 import { JobDescriptionTemplateApiService } from 'libs/data/payfactors-api/jdm';
 import { TemplateListItemResponse } from 'libs/models/payfactors-api';
 import { MessageHelper } from 'libs/core';
-import { NotificationLevel, NotificationSource } from 'libs/features/app-notifications/models';
-import * as fromAppNotificationsActions from 'libs/features/app-notifications/actions/app-notifications.actions';
+import { NotificationLevel, NotificationSource } from 'libs/features/infrastructure/app-notifications/models';
+import * as fromAppNotificationsActions from 'libs/features/infrastructure/app-notifications/actions/app-notifications.actions';
 
 
 import * as fromTemplateActions from '../actions/template-list.actions';
-import { PayfactorsApiModelMapper } from 'libs/features/job-description-management/helpers';
+import { PayfactorsApiModelMapper } from 'libs/features/jobs/job-description-management/helpers';
 
 @Injectable()
 export class TemplateListEffects {

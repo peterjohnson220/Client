@@ -10,10 +10,10 @@ import { PfValidators } from 'libs/forms';
 import { RangeGroupMetadata } from 'libs/models/structures';
 import { AvailableTableFields, DataViewAccessLevel, DataViewEntity, GetAvailableFieldsByTableRequest } from 'libs/models/payfactors-api';
 import { FormulaFieldModalObj } from 'libs/models/formula-editor';
-import { Field, FieldDataType, FormulaType, functionSuggestionList, Suggestion } from 'libs/features/formula-editor';
-import * as fromFormulaFieldActions from 'libs/features/formula-editor/actions/formula-field.actions';
-import * as fromFieldActions from 'libs/features/formula-editor/actions/fields.actions';
-import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
+import { Field, FieldDataType, FormulaType, functionSuggestionList, Suggestion } from 'libs/ui/formula-editor';
+import * as fromFormulaFieldActions from 'libs/ui/formula-editor/actions/formula-field.actions';
+import * as fromFieldActions from 'libs/ui/formula-editor/actions/fields.actions';
+import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 
 import * as fromJobBasedRangeReducer from '../../reducers';
 import { PagesHelper } from '../../../../shared/helpers/pages.helper';

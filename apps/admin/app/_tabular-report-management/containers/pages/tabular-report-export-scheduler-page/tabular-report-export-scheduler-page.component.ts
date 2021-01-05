@@ -9,10 +9,10 @@ import cloneDeep from 'lodash/cloneDeep';
 
 import { environment } from 'environments/environment';
 import { AsyncStateObj } from 'libs/models/state';
-import { TabularReportExportSchedule, Workbook } from 'libs/features/reports/models';
-import { ExportFormatComponent, ExportFrequencyComponent } from 'libs/features/export-scheduler/components';
-import { ExportFrequencyType, CronExpressionHelper } from 'libs/features/export-scheduler/helpers';
-import { ExportScheduleHelper } from 'libs/features/export-scheduler/models';
+import { TabularReportExportSchedule, Workbook } from 'libs/features/surveys/reports/models';
+import { ExportFormatComponent, ExportFrequencyComponent } from 'libs/features/export-scheduler/export-scheduler/components';
+import { ExportFrequencyType, CronExpressionHelper } from 'libs/features/export-scheduler/export-scheduler/helpers';
+import { ExportScheduleHelper } from 'libs/features/export-scheduler/export-scheduler/models';
 
 import * as fromTabularReportExportSchedulerPageReducer from '../../../reducers';
 import * as fromTabularReportExportSchedulerPageActions from '../../../actions/tabular-report-export-scheduler-page.actions';

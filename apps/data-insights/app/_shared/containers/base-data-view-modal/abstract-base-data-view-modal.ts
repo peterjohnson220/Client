@@ -7,7 +7,7 @@ import { Store, select } from '@ngrx/store';
 
 import { AsyncStateObj } from 'libs/models/state';
 import { PfValidators } from 'libs/forms/validators';
-import { Entity, BaseDataView } from 'libs/features/formula-editor';
+import { Entity, BaseDataView } from 'libs/ui/formula-editor';
 
 import * as fromSharedMainReducer from '../../reducers';
 
