@@ -126,10 +126,6 @@ pf-trs-effective-date-control {
         font-size: .9rem;
       }
 
-      .static-date {
-        padding: 0.3rem;
-      }
-
       // Kendo
       .k-picker-wrap {
         .k-input {
@@ -164,6 +160,7 @@ pf-trs-effective-date-control {
       label, .static-date, .k-picker-wrap .k-input {
         font-weight: 300;
         font-size: 1.5rem;
+        line-height: .9rem;
         font-style: italic;
         text-transform: uppercase;
       }
