@@ -4,10 +4,10 @@ import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonModule, WindowCommunicationService, WindowRef } from 'libs/core';
-import { PfAddJobsModule } from 'libs/features/add-jobs';
+import { PfAddJobsModule } from 'libs/features/jobs/add-jobs';
 import { PfCommonUIModule } from 'libs/ui/common';
-import { PfSearchModule } from 'libs/features/search';
-import { PfDataGridModule } from 'libs/features/pf-data-grid';
+import { PfSearchModule } from 'libs/features/search/search';
+import { PfDataGridModule } from 'libs/features/grids/pf-data-grid';
 
 import { ModelRoutingModule } from './model-routing.module';
 import { ModelPageComponent } from './model.page/model.page';

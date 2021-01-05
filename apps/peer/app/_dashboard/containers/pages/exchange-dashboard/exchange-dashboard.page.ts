@@ -7,7 +7,7 @@ import { Observable, Subject, Subscription } from 'rxjs';
 import { ExchangeRequestTypeEnum, Exchange, AsyncStateObj } from 'libs/models';
 import * as fromCompanyContextActions from 'libs/state/app-context/actions/company-context.actions';
 import { Permissions } from 'libs/constants';
-import { Workbook } from 'libs/features/reports/models';
+import { Workbook } from 'libs/features/surveys/reports/models';
 import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
 
 import * as fromExchangeDashboardActions from '../../../actions/exchange-dashboard.actions';

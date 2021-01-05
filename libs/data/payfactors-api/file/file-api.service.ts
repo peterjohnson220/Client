@@ -12,7 +12,7 @@ import { Action } from '@ngrx/store';
 import { of } from 'rxjs';
 import { catchError, filter, switchMap } from 'rxjs/operators';
 
-import { FileDownloadError, FileDownloadProgress, FileDownloadSuccess } from 'libs/features/file-download/actions/file-download.actions';
+import { FileDownloadError, FileDownloadProgress, FileDownloadSuccess } from 'libs/features/file-download/file-download/actions/file-download.actions';
 
 @Injectable({
   providedIn: 'root',

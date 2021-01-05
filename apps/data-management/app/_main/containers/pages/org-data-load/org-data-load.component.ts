@@ -12,29 +12,25 @@ import { environment } from 'environments/environment';
 import { CompositeDataLoadTypes, LoadTypes } from 'libs/constants';
 import { FeatureFlags, RealTimeFlag } from 'libs/core';
 import { AbstractFeatureFlagService } from 'libs/core/services/feature-flags';
-import * as fromAppNotificationsActions from 'libs/features/app-notifications/actions/app-notifications.actions';
+import * as fromAppNotificationsActions from 'libs/features/infrastructure/app-notifications/actions/app-notifications.actions';
 import {
-  AppNotification,
-  NotificationLevel,
-  NotificationPayload,
-  NotificationSource,
-  NotificationType
-} from 'libs/features/app-notifications/models';
-import * as fromAppNotificationsMainReducer from 'libs/features/app-notifications/reducers';
+    AppNotification, NotificationLevel, NotificationPayload, NotificationSource, NotificationType
+} from 'libs/features/infrastructure/app-notifications/models';
+import * as fromAppNotificationsMainReducer from 'libs/features/infrastructure/app-notifications/reducers';
 import * as fromCompanySelectorActions from 'libs/features/company/company-selector/actions';
 import { CompanySelectorItem } from 'libs/features/company/company-selector/models';
 import * as fromCompanyReducer from 'libs/features/company/company-selector/reducers';
 import * as fromCustomFieldsActions from 'libs/features/company/custom-fields/actions/';
 import * as fromEntityIdentifierActions from 'libs/features/company/entity-identifier/actions/';
-import * as fromEmailRecipientsActions from 'libs/features/loader-email-reipients/state/actions/email-recipients.actions';
+import * as fromEmailRecipientsActions from 'libs/features/loaders/loader-email-recipients/actions/email-recipients.actions';
 import {
     DEFAULT_DATE_FORMAT, LoaderFileFormat, LoaderSettingsKeys, LoaderType, ORG_DATA_PF_EMPLOYEE_TAG_FIELDS
-} from 'libs/features/org-data-loader/constants';
-import { LoaderSettings, OrgDataLoadHelper } from 'libs/features/org-data-loader/helpers';
-import { ILoadSettings } from 'libs/features/org-data-loader/helpers/org-data-load-helper';
-import { FieldMapping, FileUploadDataRequestModel, LoaderEntityStatus } from 'libs/features/org-data-loader/models';
-import * as fromLoaderSettingsActions from 'libs/features/org-data-loader/state/actions/loader-settings.actions';
-import * as fromFileUploadReducer from 'libs/features/org-data-loader/state/reducers';
+} from 'libs/features/loaders/org-data-loader/constants';
+import { LoaderSettings, OrgDataLoadHelper } from 'libs/features/loaders/org-data-loader/helpers';
+import { ILoadSettings } from 'libs/features/loaders/org-data-loader/helpers/org-data-load-helper';
+import { FieldMapping, FileUploadDataRequestModel, LoaderEntityStatus } from 'libs/features/loaders/org-data-loader/models';
+import * as fromLoaderSettingsActions from 'libs/features/loaders/org-data-loader/actions/loader-settings.actions';
+import * as fromFileUploadReducer from 'libs/features/loaders/org-data-loader/reducers';
 import { CompanySetting, CompanySettingsEnum } from 'libs/models/company';
 import { ConfigurationGroup, EmailRecipientModel, LoaderSaveCoordination, LoaderSetting, MappingModel } from 'libs/models/data-loads';
 import { UserContext } from 'libs/models/security';

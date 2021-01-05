@@ -18,7 +18,7 @@ import { CompanyApiService } from 'libs/data/payfactors-api/company';
 import * as fromJobDescriptionActions from '../actions/job-description.actions';
 import * as fromCopyJobDescriptionActions from '../actions/copy-job-description-modal.actions';
 import * as fromWorkflowActions from '../actions/workflow.actions';
-import { PayfactorsApiModelMapper } from 'libs/features/job-description-management/helpers';
+import { PayfactorsApiModelMapper } from 'libs/features/jobs/job-description-management/helpers';
 import { GetJobDescriptionData } from '../models';
 
 @Injectable()

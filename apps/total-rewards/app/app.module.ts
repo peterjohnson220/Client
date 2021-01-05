@@ -3,7 +3,7 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { PfApiModule } from 'libs/data/payfactors-api';
-import { PfAppRootModule, AppComponent } from 'libs/features/app-root';
+import { PfAppRootModule, AppComponent } from 'libs/features/infrastructure/app-root';
 import { PfSecurityModule } from 'libs/security/security.module';
 import { PfStateModule } from 'libs/state/state.module';
 import { PfCommonUIModule } from 'libs/ui/common/common-ui-module';

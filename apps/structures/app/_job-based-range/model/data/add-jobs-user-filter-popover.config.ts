@@ -1,3 +1,3 @@
-import { UserFilterPopoverConfig } from 'libs/features/user-filter/models';
+import { UserFilterPopoverConfig } from 'libs/features/users/user-filter/models';
 
 export const AddJobsUserFilterPopoverConfig: UserFilterPopoverConfig = { };

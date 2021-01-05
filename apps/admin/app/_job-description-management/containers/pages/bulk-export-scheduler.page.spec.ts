@@ -6,8 +6,8 @@ import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
 
-import * as bulkExportJobsSchedulerActions from 'libs/features/bulk-job-description-export-scheduler/actions';
-import * as fromJdmAdminReducer from 'libs/features/bulk-job-description-export-scheduler/reducers';
+import * as bulkExportJobsSchedulerActions from 'libs/features/jobs/bulk-job-description-export-scheduler/actions';
+import * as fromJdmAdminReducer from 'libs/features/jobs/bulk-job-description-export-scheduler/reducers';
 import { BulkExportSchedulerPageComponent } from './bulk-export-scheduler.page';
 
 

@@ -5,7 +5,7 @@ import { Observable, Subscription } from 'rxjs';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import * as fromMarketingSettingsReducer from '../reducers';
-import * as fromMarketingSettingsActions from 'libs/features/marketing-settings/marketing-settings.actions';
+import * as fromMarketingSettingsActions from 'libs/features/infrastructure/marketing-settings/marketing-settings/actions/marketing-settings.actions';
 
 import { SelectEvent } from '@progress/kendo-angular-upload';
 import { environment } from 'environments/environment';

@@ -6,15 +6,15 @@ import { Observable, Subscription, BehaviorSubject } from 'rxjs';
 import { SortDescriptor } from '@progress/kendo-data-query';
 import cloneDeep from 'lodash/cloneDeep';
 
-import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig, GridConfig } from 'libs/features/pf-data-grid/models';
+import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig, GridConfig } from 'libs/features/grids/pf-data-grid/models';
 import { DeletePricingRequest } from 'libs/models/payfactors-api/pricings/request';
 import { Permissions } from 'libs/constants';
 import { ViewField } from 'libs/models/payfactors-api/reports/request';
-import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
-import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
-import * as fromPricingDetailsActions from 'libs/features/pricing-details/actions';
-import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
-import { PfThemeType } from 'libs/features/pf-data-grid/enums/pf-theme-type.enum';
+import * as fromPfGridActions from 'libs/features/grids/pf-data-grid/actions';
+import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
+import * as fromPricingDetailsActions from 'libs/features/pricings/pricing-details/actions';
+import * as fromPfDataGridActions from 'libs/features/grids/pf-data-grid/actions';
+import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums/pf-theme-type.enum';
 import { AsyncStateObj } from 'libs/models';
 
 import * as fromModifyPricingsActions from '../../../../actions';

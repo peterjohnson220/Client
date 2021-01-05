@@ -7,8 +7,8 @@ import { of } from 'rxjs';
 import isNumber from 'lodash/isNumber';
 
 import { DataViewApiService } from 'libs/data/payfactors-api';
-import { PayfactorsApiModelMapper } from 'libs/features/formula-editor';
-import * as fromFieldActions from 'libs/features/formula-editor/actions/fields.actions';
+import { PayfactorsApiModelMapper } from 'libs/ui/formula-editor';
+import * as fromFieldActions from 'libs/ui/formula-editor/actions/fields.actions';
 
 import * as fromDataViewGridActions from '../actions/data-view-grid.actions';
 import * as fromDataInsightsMainReducer from '../reducers';

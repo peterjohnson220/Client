@@ -5,7 +5,7 @@ import { NgbProgressbarModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstr
 
 import { PfApiModule } from 'libs/data/payfactors-api';
 import { PfStateModule } from 'libs/state/state.module';
-import { PfAppRootModule, AppComponent } from 'libs/features/app-root';
+import { PfAppRootModule, AppComponent } from 'libs/features/infrastructure/app-root';
 import { SentryService, SentryErrorHandler, WindowCommunicationService } from 'libs/core/services';
 
 import { AppRoutingModule } from './app-routing.module';

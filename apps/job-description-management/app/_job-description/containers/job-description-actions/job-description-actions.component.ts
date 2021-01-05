@@ -11,13 +11,13 @@ import { PermissionCheckEnum, Permissions } from 'libs/constants/permissions';
 import { SettingsService } from 'libs/state/app-context/services';
 
 import * as fromJobDescriptionReducers from '../../reducers';
-import * as fromCompanyLogoActions from 'libs/features/job-description-management/actions/company-logo.actions';
+import * as fromCompanyLogoActions from 'libs/features/jobs/job-description-management/actions/company-logo.actions';
 import * as fromJobDescriptionActions from '../../actions/job-description.actions';
 import * as fromJobMatchesActions from '../../actions/job-matches.actions';
 import { EmployeeAcknowledgement } from '../../models';
-import { JobDescriptionExtendedInfo, JobMatchResult } from 'libs/features/job-description-management/models';
+import { JobDescriptionExtendedInfo, JobMatchResult } from 'libs/features/jobs/job-description-management/models';
 import { JobDescriptionHelper } from '../../helpers';
-import * as fromJobDescriptionManagementSharedReducer from 'libs/features/job-description-management/reducers';
+import * as fromJobDescriptionManagementSharedReducer from 'libs/features/jobs/job-description-management/reducers';
 
 @Component({
   selector: 'pf-job-description-actions',

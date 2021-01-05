@@ -28,7 +28,7 @@ import {
   SaveError,
   JobDescriptionManagementService,
   JobDescriptionManagementDnDService,
-  JobDescriptionManagementDndSource } from 'libs/features/job-description-management';
+  JobDescriptionManagementDndSource } from 'libs/features/jobs/job-description-management';
 
 import * as fromTemplateActions from '../actions';
 import * as fromTemplateReducers from '../reducers';
@@ -43,8 +43,8 @@ import {
   UpsertControlModalComponent,
   ConfirmPublishTemplateModalComponent } from '../components';
 
-import * as fromJdmSharedReducer from 'libs/features/job-description-management/reducers';
-import * as fromJdmSharedActions from 'libs/features/job-description-management/actions';
+import * as fromJdmSharedReducer from 'libs/features/jobs/job-description-management/reducers';
+import * as fromJdmSharedActions from 'libs/features/jobs/job-description-management/actions';
 import {
   SaveErrorModalComponent,
   ConflictErrorModalComponent,

@@ -5,11 +5,11 @@ import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
 import { AsyncStateObj } from 'libs/models/state';
-import * as fromAppNotificationsMainReducer from 'libs/features/app-notifications/reducers';
-import { AppNotification } from 'libs/features/app-notifications/models';
+import * as fromAppNotificationsMainReducer from 'libs/features/infrastructure/app-notifications/reducers';
+import { AppNotification } from 'libs/features/infrastructure/app-notifications/models';
 import { CompanySettingsEnum } from 'libs/models/company';
 import { SettingsService } from 'libs/state/app-context/services';
-import { UserDataView, DataViewAccessLevel, SharedDataViewUser, Filter } from 'libs/features/formula-editor';
+import { UserDataView, DataViewAccessLevel, SharedDataViewUser, Filter } from 'libs/ui/formula-editor';
 import { CsvFileDelimiter, ExportFileExtension } from 'libs/models/payfactors-api';
 
 import * as fromDataViewMainReducer from '../../reducers';

@@ -6,8 +6,8 @@ import { combineReducers, StoreModule, Store } from '@ngrx/store';
 import { SortDescriptor } from '@progress/kendo-data-query';
 
 import * as fromRootState from 'libs/state/state';
-import { generateMockField, Field } from 'libs/features/formula-editor';
-import * as fromFieldsActions from 'libs/features/formula-editor/actions/fields.actions';
+import { generateMockField, Field } from 'libs/ui/formula-editor';
+import * as fromFieldsActions from 'libs/ui/formula-editor/actions/fields.actions';
 
 import * as fromDataViewGridActions from '../../actions/data-view-grid.actions';
 import * as fromDataViewMainReducer from '../../reducers';

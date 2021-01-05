@@ -9,9 +9,9 @@ import { SortDescriptor } from '@progress/kendo-data-query';
 
 import { Permissions } from 'libs/constants';
 import { PfSecuredResourceDirective } from 'libs/forms/directives';
-import * as fromEmployeeManagementActions from 'libs/features/employee-management/actions';
-import * as fromEmployeeManagementReducers from 'libs/features/employee-management/reducers';
-import * as fromPfGridActions from 'libs/features/pf-data-grid/actions/pf-data-grid.actions';
+import * as fromEmployeeManagementActions from 'libs/features/employees/employee-management/actions';
+import * as fromEmployeeManagementReducers from 'libs/features/employees/employee-management/reducers';
+import * as fromPfGridActions from 'libs/features/grids/pf-data-grid/actions/pf-data-grid.actions';
 import {
   ActionBarConfig,
   ColumnChooserType,
@@ -19,8 +19,8 @@ import {
   getDefaultGridRowActionsConfig,
   GridConfig,
   GridRowActionsConfig
-} from 'libs/features/pf-data-grid/models';
-import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
+} from 'libs/features/grids/pf-data-grid/models';
+import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import { Statement, StatementModeEnum } from 'libs/features/total-rewards/total-rewards-statement/models';
 import { EmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards/response';
 import { AsyncStateObj } from 'libs/models/state';

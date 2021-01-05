@@ -16,7 +16,7 @@ import { NumericTextBoxModule } from '@progress/kendo-angular-inputs';
 
 import { PfCommonModule } from 'libs/core';
 import { PfCompanySelectorModule } from 'libs/features/company/company-selector/company-selector.module';
-import { PfFieldMapperModule } from 'libs/features/org-data-loader';
+import { PfFieldMapperModule } from 'libs/features/loaders/org-data-loader';
 
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';

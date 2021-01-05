@@ -5,16 +5,16 @@ import { catchError, filter, mergeMap, switchMap, withLatestFrom } from 'rxjs/op
 import { Action, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 
-import * as fromInfiniteScrollActions from 'libs/features/infinite-scroll/actions/infinite-scroll.actions';
-import * as fromSearchResultsActions from 'libs/features/search/actions/search-results.actions';
-import * as fromSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
-import * as fromSearchReducer from 'libs/features/search/reducers';
+import * as fromInfiniteScrollActions from 'libs/features/search/infinite-scroll/actions/infinite-scroll.actions';
+import * as fromSearchResultsActions from 'libs/features/search/search/actions/search-results.actions';
+import * as fromSearchFiltersActions from 'libs/features/search/search/actions/search-filters.actions';
+import * as fromSearchReducer from 'libs/features/search/search/reducers';
 
 import { TotalRewardsEmployeeSearchResponse } from 'libs/models/payfactors-api/total-rewards/response/employee-search-response.model';
-import { PayfactorsSearchApiHelper, PayfactorsSearchApiModelMapper } from 'libs/features/search/helpers';
+import { PayfactorsSearchApiHelper, PayfactorsSearchApiModelMapper } from 'libs/features/search/search/helpers';
 import { TotalRewardsAssignmentApiService, TotalRewardsSearchApiService } from 'libs/data/payfactors-api/total-rewards';
-import { ScrollIdConstants } from 'libs/features/infinite-scroll/models';
-import { SearchFeatureIds } from 'libs/features/search/enums/search-feature-ids';
+import { ScrollIdConstants } from 'libs/features/search/infinite-scroll/models';
+import { SearchFeatureIds } from 'libs/features/search/search/enums/search-feature-ids';
 
 import * as fromEmployeeSearchResultsActions from '../actions/employee-search-results.actions';
 

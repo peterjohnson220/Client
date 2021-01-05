@@ -8,7 +8,7 @@ import * as mapboxgl from 'mapbox-gl';
 import { LngLatBounds } from 'mapbox-gl';
 
 import { ExchangeMapSummary } from 'libs/models/peer';
-import * as fromSearchReducer from 'libs/features/search/reducers';
+import * as fromSearchReducer from 'libs/features/search/search/reducers';
 import * as fromRootReducer from 'libs/state/state';
 import { UserContext } from 'libs/models/security';
 

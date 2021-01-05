@@ -1,5 +1,5 @@
 import { isNullOrUndefined } from 'libs/core/functions/';
-import { FilenamePattern } from 'libs/features/org-data-loader/models';
+import { FilenamePattern } from 'libs/features/loaders/org-data-loader/models';
 import { LoaderSetting } from 'libs/models/data-loads';
 
 import { LoaderSettingsFilenamePatternOverrideKey, OrgDataFilenamePatternSetConvention } from '../constants';

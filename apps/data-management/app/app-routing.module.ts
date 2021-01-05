@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 
 import { RouterModule, Routes } from '@angular/router';
 
-import { AppWrapperComponent } from 'libs/features/app-root';
+import { AppWrapperComponent } from 'libs/features/infrastructure/app-root';
 import { DEFAULT_ROUTES } from 'libs/ui/common';
 
 export const routes: Routes = [

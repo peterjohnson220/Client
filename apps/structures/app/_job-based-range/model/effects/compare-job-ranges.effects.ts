@@ -4,10 +4,10 @@ import { Observable, of } from 'rxjs';
 import { Action, select, Store } from '@ngrx/store';
 import { catchError, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
 
-import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
-import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
+import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
+import * as fromPfDataGridActions from 'libs/features/grids/pf-data-grid/actions';
 import { PagingOptions } from 'libs/models/payfactors-api/search/request';
-import { DataGridToDataViewsHelper } from 'libs/features/pf-data-grid/helpers';
+import { DataGridToDataViewsHelper } from 'libs/features/grids/pf-data-grid/helpers';
 import { DataViewApiService } from 'libs/data/payfactors-api/reports';
 import { StructureModelingApiService } from 'libs/data/payfactors-api/structures';
 

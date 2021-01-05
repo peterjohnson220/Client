@@ -13,9 +13,9 @@ import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontaweso
 import { PfCommonUIModule } from 'libs/ui/common/common-ui-module';
 import { PfFormsModule } from 'libs/forms';
 
-import { PfSearchModule } from '../../search';
-import { SearchFilterMappingDataObj } from '../../search/models';
-import { UserFilterTypeData } from '../../user-filter/models';
+import { PfSearchModule } from '../../search/search';
+import { SearchFilterMappingDataObj } from '../../search/search/models';
+import { UserFilterTypeData } from '../../users/user-filter/models';
 
 import { ExchangeExplorerComponent, ExchangeScopeSelectorComponent, ExchangeExplorerMapComponent } from './containers';
 import { ExcludeIndirectMatchesFilterComponent, PayMarketBoundsFilterComponent, PeerFilterInfoComponent, WeightingTypeDropdownComponent } from './components';

@@ -15,7 +15,7 @@ import { ImgFallbackModule } from 'ngx-img-fallback';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonModule } from 'libs/core';
-import { UserManagementModule } from 'libs/features/user-management';
+import { UserManagementModule } from 'libs/features/users/user-management';
 import { PfCompanyNotesModalModule } from 'libs/features/company/company-notes';
 import * as fromFaIcons from './fa-icons';
 import { CompanySearchPipe } from './pipes';

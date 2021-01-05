@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 
-import { Workbook } from 'libs/features/reports/models';
+import { Workbook } from 'libs/features/surveys/reports/models';
 
 import * as fromDataInsightsMainReducer from '../../../reducers';
 import * as fromDashboardsActions from '../../../actions/dashboards.actions';

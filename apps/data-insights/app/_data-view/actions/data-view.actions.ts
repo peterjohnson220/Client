@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
 
 import { CsvFileDelimiter, ExportFileExtension, SharedUserPermission } from 'libs/models/payfactors-api/reports/request';
-import { UserDataView, SharedDataViewUser } from 'libs/features/formula-editor';
+import { UserDataView, SharedDataViewUser } from 'libs/ui/formula-editor';
 
 export const GET_USER_DATA_VIEW = '[Data Insights / Data View] Get User Data View';
 export const GET_USER_DATA_VIEW_SUCCESS = '[Data Insights / Data View] Get User Data View Success';

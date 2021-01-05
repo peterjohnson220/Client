@@ -14,7 +14,7 @@ import { ImgFallbackModule } from 'ngx-img-fallback';
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
-import { PfJobDescriptionManagementModule } from 'libs/features/job-description-management/job-description-management.module';
+import { PfJobDescriptionManagementModule } from 'libs/features/jobs/job-description-management/job-description-management.module';
 
 import * as fromFaIcons from './fa-icons';
 import {

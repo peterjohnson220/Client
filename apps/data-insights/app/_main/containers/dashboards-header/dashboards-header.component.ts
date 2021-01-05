@@ -6,7 +6,7 @@ import { Store, select } from '@ngrx/store';
 import { SettingsService } from 'libs/state/app-context/services';
 import { CompanySettingsEnum, AsyncStateObj } from 'libs/models';
 import { Permissions } from 'libs/constants';
-import { Entity } from 'libs/features/formula-editor';
+import { Entity } from 'libs/ui/formula-editor';
 
 import * as fromSharedMainReducer from '../../../_shared/reducers';
 import * as fromBaseDataViewModalActions from '../../../_shared/actions/base-data-view-modal.actions';

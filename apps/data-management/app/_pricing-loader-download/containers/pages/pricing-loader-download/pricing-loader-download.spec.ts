@@ -5,7 +5,7 @@ import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {provideMockStore} from '@ngrx/store/testing';
 import {NO_ERRORS_SCHEMA} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
+import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import {PricingLoaderDownloadComponent} from './pricing-loader-download';
 
 

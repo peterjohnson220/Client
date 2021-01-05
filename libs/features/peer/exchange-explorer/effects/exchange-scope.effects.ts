@@ -16,15 +16,15 @@ import {
   ExchangeExplorerScopeResponse,
   ExchangeExplorerScopeResponseContext
 } from 'libs/models/payfactors-api/peer/exchange-data-filter/response';
-import { Filter } from 'libs/features/search/models';
+import { Filter } from 'libs/features/search/search/models';
 import { FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models/common';
-import { PayfactorsSearchApiModelMapper } from 'libs/features/search/helpers';
-import { ScrollIdConstants } from 'libs/features/infinite-scroll/models';
+import { PayfactorsSearchApiModelMapper } from 'libs/features/search/search/helpers';
+import { ScrollIdConstants } from 'libs/features/search/infinite-scroll/models';
 import { SettingsService } from 'libs/state/app-context/services';
-import * as fromInfiniteScrollActions from 'libs/features/infinite-scroll/actions/infinite-scroll.actions';
-import * as fromSearchResultsActions from 'libs/features/search/actions/search-results.actions';
-import * as fromSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
-import * as fromSearchReducer from 'libs/features/search/reducers';
+import * as fromInfiniteScrollActions from 'libs/features/search/infinite-scroll/actions/infinite-scroll.actions';
+import * as fromSearchResultsActions from 'libs/features/search/search/actions/search-results.actions';
+import * as fromSearchFiltersActions from 'libs/features/search/search/actions/search-filters.actions';
+import * as fromSearchReducer from 'libs/features/search/search/reducers';
 
 import { ExchangeExplorerContextService } from '../services';
 import * as fromExchangeScopeActions from '../actions/exchange-scope.actions';

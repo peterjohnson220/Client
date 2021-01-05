@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { switchMap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
-import { FileUploadDataRequestModel, ExcelFileUploadRequest } from 'libs/features/org-data-loader/models';
+import { FileUploadDataRequestModel, ExcelFileUploadRequest } from 'libs/features/loaders/org-data-loader/models';
 
 import { IntegrationApiService } from '../integration-api.service';
 

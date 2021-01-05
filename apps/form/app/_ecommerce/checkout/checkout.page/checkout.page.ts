@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { ECommerceService } from 'libs/features/ecommerce/services';
+import { ECommerceService } from 'libs/features/ecommerce/ecommerce/services';
 import { Subscription, Observable } from 'rxjs';
 
 @Component({

@@ -1,8 +1,8 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import * as fromAutoShareActions from 'libs/features/user-settings/actions/auto-share.actions';
-import * as fromAutoShareReducer from 'libs/features/user-settings/reducers';
+import * as fromAutoShareActions from 'libs/features/users/user-settings/actions/auto-share.actions';
+import * as fromAutoShareReducer from 'libs/features/users/user-settings/reducers';
 import { AutoShareComponent } from './auto-share.component';
 import { Store, StoreModule } from '@ngrx/store';
 

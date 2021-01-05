@@ -6,10 +6,10 @@ import { Observable, Subscription } from 'rxjs';
 
 import { JobDescriptionManagementJobDescriptionState } from '../../reducers';
 
-import * as fromJobDescriptionManagementSharedReducer from 'libs/features/job-description-management/reducers';
+import * as fromJobDescriptionManagementSharedReducer from 'libs/features/jobs/job-description-management/reducers';
 import * as fromWorkflowActions from '../../actions/workflow.actions';
-import * as fromSharedWorkflowActions from 'libs/features/job-description-management/actions/shared-workflow.actions';
-import { WorkflowUser } from 'libs/features/job-description-management/models';
+import * as fromSharedWorkflowActions from 'libs/features/jobs/job-description-management/actions/shared-workflow.actions';
+import { WorkflowUser } from 'libs/features/jobs/job-description-management/models';
 
 
 @Component({

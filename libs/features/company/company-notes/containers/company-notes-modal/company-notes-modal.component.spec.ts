@@ -11,7 +11,7 @@ import { CompanyNote, getDefaultCompanyNote } from 'libs/models/payfactors-api';
 import * as fromCompanyNotesModalReducer from '../../reducers';
 import * as fromCompanyNotesModalActions from '../../actions';
 
-import { CompanyNotesListComponent } from '../../components';
+import { CompanyNotesListComponent } from '../../containers';
 import { CompanyNotesModalComponent } from './company-notes-modal.component';
 
 

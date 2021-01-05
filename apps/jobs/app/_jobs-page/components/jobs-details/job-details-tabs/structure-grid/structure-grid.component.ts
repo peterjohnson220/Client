@@ -5,14 +5,14 @@ import { Subscription } from 'rxjs';
 import { SortDescriptor } from '@progress/kendo-data-query';
 import cloneDeep from 'lodash/cloneDeep';
 
-import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
-import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig, GridConfig } from 'libs/features/pf-data-grid/models';
+import { PfDataGridColType } from 'libs/features/grids/pf-data-grid/enums';
+import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig, GridConfig } from 'libs/features/grids/pf-data-grid/models';
 import { ViewField } from 'libs/models/payfactors-api/reports/request';
-import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
-import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
-import { PfThemeType } from 'libs/features/pf-data-grid/enums/pf-theme-type.enum';
+import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
+import * as fromPfGridActions from 'libs/features/grids/pf-data-grid/actions';
+import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums/pf-theme-type.enum';
 import { RangeType } from 'libs/models/common';
-import * as fromActions from 'libs/features/pf-data-grid/actions';
+import * as fromActions from 'libs/features/grids/pf-data-grid/actions';
 import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
 
 import { PageViewIds } from '../../../../constants';

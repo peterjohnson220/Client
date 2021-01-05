@@ -7,7 +7,7 @@ import { Subscription } from 'rxjs';
 import { getUserLocale } from 'get-user-locale';
 
 import { JobBasedPageViewIds, RangeGroupMetadata } from 'libs/models/structures';
-import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
+import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import { appendOrdinalSuffix } from 'libs/core/functions';
 
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';

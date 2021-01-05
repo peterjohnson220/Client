@@ -9,7 +9,7 @@ import { of } from 'rxjs';
 
 import * as fromRootState from 'libs/state/state';
 import { generateDefaultAsyncStateObj } from 'libs/models';
-import { generateMockEntity, generateMockUserDataView } from 'libs/features/formula-editor';
+import { generateMockEntity, generateMockUserDataView } from 'libs/ui/formula-editor';
 
 import * as fromDataViewMainReducer from '../../reducers';
 import * as fromDataViewActions from '../../actions/data-view.actions';

@@ -3,10 +3,10 @@ import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core
 
 import cloneDeep from 'lodash/cloneDeep';
 
-import { TabularReportExportSchedule } from 'libs/features/reports/models';
-import { ExportScheduleHelper } from 'libs/features/export-scheduler/models';
-import { CronExpressionHelper } from 'libs/features/export-scheduler/helpers';
-import { ExportFormatComponent, ExportFrequencyComponent } from 'libs/features/export-scheduler/components';
+import { ExportScheduleHelper } from 'libs/features/export-scheduler/export-scheduler/models';
+import { CronExpressionHelper } from 'libs/features/export-scheduler/export-scheduler/helpers';
+import { ExportFormatComponent, ExportFrequencyComponent } from 'libs/features/export-scheduler/export-scheduler/components';
+import { TabularReportExportSchedule } from 'libs/features/reports/models/tabular-report-export-schedule.model';
 
 import * as fromTabularReportExportSchedulerPageActions from '../../actions/tabular-report-export-scheduler-page.actions';
 import * as fromTabularReportExportSchedulerPageReducer from '../../reducers';

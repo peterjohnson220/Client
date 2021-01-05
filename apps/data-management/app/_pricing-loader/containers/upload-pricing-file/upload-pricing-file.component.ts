@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, S
 import { Store } from '@ngrx/store';
 import { Observable, Subject, Subscription } from 'rxjs';
 
-import { FileUploadComponent } from 'libs/features/org-data-loader/components';
+import { FileUploadComponent } from 'libs/features/loaders/org-data-loader/containers';
 import { LoaderSettingKeyName } from 'libs/models/data-loads';
 import { AsyncStateObj } from 'libs/models/state';
 import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';

@@ -7,7 +7,7 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 
 import { TableauReportApiService } from 'libs/data/payfactors-api';
 import { TableauReportResponse } from 'libs/models/payfactors-api/reports/response';
-import { ReportsPayfactorsApiModelMapper } from 'libs/features/reports/helpers';
+import { ReportsPayfactorsApiModelMapper } from 'libs/features/surveys/reports/helpers';
 
 import * as fromPeerTrendReportActions from '../actions/peer-trend-report.actions';
 

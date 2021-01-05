@@ -12,8 +12,8 @@ import { JobsApiService, PayMarketApiService, CompanyJobApiService, UiPersistenc
 import { StructuresApiService } from 'libs/data/payfactors-api/structures';
 import { FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models';
 
-import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
-import * as fromJobManagementActions from 'libs/features/job-management/actions';
+import * as fromPfDataGridActions from 'libs/features/grids/pf-data-grid/actions';
+import * as fromJobManagementActions from 'libs/features/jobs/job-management/actions';
 
 import * as fromJobsPageActions from '../actions';
 import * as fromJobsReducer from '../reducers';

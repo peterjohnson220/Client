@@ -1,6 +1,6 @@
-@import 'assets/scss/colors';
-@import 'assets/scss/common/common';
-@import 'data-insights-variables';
+@import 'assets/scss/_colors';
+@import 'assets/scss/common/_common-variables';
+@import 'apps/data-insights/assets/_data-insights-variables';
 
 .standard-report {
   margin: 1rem 0 3rem 0;

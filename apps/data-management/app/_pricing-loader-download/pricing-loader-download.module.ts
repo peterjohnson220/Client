@@ -18,7 +18,7 @@ import { PfCommonModule } from 'libs/core';
 
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
-import { PfDataGridModule } from 'libs/features/pf-data-grid/pf-data-grid.module';
+import { PfDataGridModule } from 'libs/features/grids/pf-data-grid/pf-data-grid.module';
 
 import { PricingLoaderDownloadComponent } from './containers';
 // import {} from './effects';

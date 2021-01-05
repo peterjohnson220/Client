@@ -11,11 +11,11 @@ import { GridDataResult } from '@progress/kendo-angular-grid';
 
 import { PricingApiService, PricingEdmxApiService, DataViewApiService } from 'libs/data/payfactors-api';
 import { ViewField, DataViewFieldDataType } from 'libs/models/payfactors-api';
-import { DataGridToDataViewsHelper } from 'libs/features/pf-data-grid/helpers';
-import { DataGridState } from 'libs/features/pf-data-grid/reducers/pf-data-grid.reducer';
+import { DataGridToDataViewsHelper } from 'libs/features/grids/pf-data-grid/helpers';
+import { DataGridState } from 'libs/features/grids/pf-data-grid/reducers/pf-data-grid.reducer';
 
-import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
-import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
+import * as fromPfDataGridActions from 'libs/features/grids/pf-data-grid/actions';
+import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 
 import * as fromModifyPricingsActions from '../actions';
 import * as fromModifyPricingsReducer from '../reducers';

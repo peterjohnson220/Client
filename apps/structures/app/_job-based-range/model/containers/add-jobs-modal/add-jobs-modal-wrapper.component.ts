@@ -3,15 +3,15 @@ import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { SearchBaseDirective } from 'libs/features/search/containers/search-base';
+import { SearchBaseDirective } from 'libs/features/search/search/containers/search-base';
 import * as fromCompanySettingsActions from 'libs/state/app-context/actions/company-settings.actions';
-import * as fromSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
-import * as fromPaymarketActions from 'libs/features/add-jobs/actions/paymarkets.actions';
-import * as fromAddJobsPageActions from 'libs/features/add-jobs/actions/add-jobs-page.actions';
-import * as fromAddJobsSearchResultsActions from 'libs/features/add-jobs/actions/search-results.actions';
-import * as fromSearchReducer from 'libs/features/search/reducers';
-import * as fromSearchPageActions from 'libs/features/search/actions/search-page.actions';
-import { SearchFeatureIds } from 'libs/features/search/enums/search-feature-ids';
+import * as fromSearchFiltersActions from 'libs/features/search/search/actions/search-filters.actions';
+import * as fromPaymarketActions from 'libs/features/jobs/add-jobs/actions/paymarkets.actions';
+import * as fromAddJobsPageActions from 'libs/features/jobs/add-jobs/actions/add-jobs-page.actions';
+import * as fromAddJobsSearchResultsActions from 'libs/features/jobs/add-jobs/actions/search-results.actions';
+import * as fromSearchReducer from 'libs/features/search/search/reducers';
+import * as fromSearchPageActions from 'libs/features/search/search/actions/search-page.actions';
+import { SearchFeatureIds } from 'libs/features/search/search/enums/search-feature-ids';
 
 import { staticFilters, StructuresSearchFilterMappingDataObj, StructuresJobSearchUserFilterType } from '../../../shared/data';
 

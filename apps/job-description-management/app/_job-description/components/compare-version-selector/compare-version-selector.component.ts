@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 
-import {JobDescriptionHistoryListItem} from 'libs/features/job-description-management/models';
+import {JobDescriptionHistoryListItem} from 'libs/features/jobs/job-description-management/models';
 
 @Component({
   selector: 'pf-compare-version-selector',

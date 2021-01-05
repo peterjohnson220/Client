@@ -13,8 +13,8 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 import { TemplateListItem } from 'libs/models/jdm';
 
-import * as fromTemplateListActions from 'libs/features/job-description-management/actions/template-list.actions';
-import * as fromTemplateListReducer from 'libs/features/job-description-management/reducers';
+import * as fromTemplateListActions from 'libs/features/jobs/job-description-management/actions/template-list.actions';
+import * as fromTemplateListReducer from 'libs/features/jobs/job-description-management/reducers';
 import { CompanyJobViewListItem } from '../../../models';
 import * as fromJobDescriptionListReducer from '../../../reducers';
 import * as fromJobDescriptionListActions from '../../../actions/job-description-list.actions';

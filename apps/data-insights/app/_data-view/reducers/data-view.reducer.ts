@@ -1,7 +1,7 @@
 import cloneDeep from 'lodash/cloneDeep';
 
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
-import { UserDataView, SharedDataViewUser } from 'libs/features/formula-editor';
+import { UserDataView, SharedDataViewUser } from 'libs/ui/formula-editor';
 
 import * as fromDataViewActions from '../actions/data-view.actions';
 

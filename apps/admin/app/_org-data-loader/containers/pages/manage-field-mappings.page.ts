@@ -17,20 +17,20 @@ import { CompositeDataLoadTypes } from 'libs/constants/composite-data-load-types
 import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
 import { CompanySettingsApiService } from 'libs/data/payfactors-api';
 import * as fromCompanySelectorActions from 'libs/features/company/company-selector/actions';
-import { CompanySelectorComponent } from 'libs/features/company/company-selector/components';
+import { CompanySelectorComponent } from 'libs/features/company/company-selector/containers';
 import { CompanySelectorItem } from 'libs/features/company/company-selector/models';
 import * as fromCompanyReducer from 'libs/features/company/company-selector/reducers';
 import * as fromCustomFieldsActions from 'libs/features/company/custom-fields/actions/custom-fields.actions';
 import * as fromEntityIdentifierActions from 'libs/features/company/entity-identifier/actions/entity-identifier.actions';
-import * as fromEmailRecipientsActions from 'libs/features/loader-email-reipients/state/actions/email-recipients.actions';
+import * as fromEmailRecipientsActions from 'libs/features/loaders/loader-email-recipients/actions/email-recipients.actions';
 import {
     DATE_FORMATS, DEFAULT_DATE_FORMAT, LoaderFileFormat, ORG_DATA_PF_EMPLOYEE_TAG_FIELDS
-} from 'libs/features/org-data-loader/constants';
-import { LoaderSettings, OrgDataLoadHelper } from 'libs/features/org-data-loader/helpers';
+} from 'libs/features/loaders/org-data-loader/constants';
+import { LoaderSettings, OrgDataLoadHelper } from 'libs/features/loaders/org-data-loader/helpers';
 import {
     DateFormatItem, FieldMapping, InternalField, LoaderEntityStatus, VisibleLoaderOptionModel
-} from 'libs/features/org-data-loader/models';
-import * as fromLoaderSettingsActions from 'libs/features/org-data-loader/state/actions/loader-settings.actions';
+} from 'libs/features/loaders/org-data-loader/models';
+import * as fromLoaderSettingsActions from 'libs/features/loaders/org-data-loader/actions/loader-settings.actions';
 import { CompanySetting, CompanySettingsEnum } from 'libs/models';
 import { ConfigurationGroup, EmailRecipientModel, LoaderFieldSet, LoaderSetting, MappingModel } from 'libs/models/data-loads';
 import { OrgDataLoaderConfigurationSaveRequest } from 'libs/models/data-loads/request';

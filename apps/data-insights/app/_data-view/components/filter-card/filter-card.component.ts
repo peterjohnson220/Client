@@ -5,7 +5,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import { Field, FieldDataType,
   Filter, FilterOperator, GetFilterOptionsData,
   validateFilter, getDefaultOperatorByDataType,
-  getDefaultSelectedOptions, getDefaultIsValid } from 'libs/features/formula-editor';
+  getDefaultSelectedOptions, getDefaultIsValid } from 'libs/ui/formula-editor';
 
 @Component({
   selector: 'pf-filter-card',

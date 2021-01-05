@@ -8,9 +8,9 @@ import { DragulaService } from 'ng2-dragula';
 import * as fromRootState from 'libs/state/state';
 import { UserContext } from 'libs/models/security';
 
-import * as fromJDMSharedReduder from 'libs/features/job-description-management/reducers';
-import * as fromWorkflowConfigActions from 'libs/features/job-description-management/actions/workflow-config.actions';
-import { AddUserToWorkflowObj, WorkflowStep } from 'libs/features/job-description-management/models';
+import * as fromJDMSharedReduder from 'libs/features/jobs/job-description-management/reducers';
+import * as fromWorkflowConfigActions from 'libs/features/jobs/job-description-management/actions/workflow-config.actions';
+import { AddUserToWorkflowObj, WorkflowStep } from 'libs/features/jobs/job-description-management/models';
 
 @Component({
   selector: 'pf-workflow-config',

@@ -7,8 +7,8 @@ import { UserContext } from 'libs/models/security';
 import { CompanyClientTypeConstants, QuickPriceType, SystemUserGroupNames } from 'libs/constants';
 import { DataViewFilter } from 'libs/models/payfactors-api/reports/request';
 import * as fromRootReducer from 'libs/state/state';
-import * as fromBasicDataGridReducer from 'libs/features/basic-data-grid/reducers';
-import * as fromBasicDataGridActions from 'libs/features/basic-data-grid/actions/basic-data-grid.actions';
+import * as fromBasicDataGridReducer from 'libs/features/grids/basic-data-grid/reducers';
+import * as fromBasicDataGridActions from 'libs/features/grids/basic-data-grid/actions/basic-data-grid.actions';
 
 import * as fromComphubPageActions from '../../../actions/comphub-page.actions';
 import * as fromComphubMainReducer from '../../../reducers';

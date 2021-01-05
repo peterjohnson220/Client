@@ -5,11 +5,11 @@ import { NgbCarouselModule, NgbModalModule, NgbPopoverModule } from '@ng-bootstr
 
 import { PfApiModule } from 'libs/data/payfactors-api';
 import { PfStateModule } from 'libs/state/state.module';
-import { PfAppRootModule, AppComponent } from 'libs/features/app-root';
+import { PfAppRootModule, AppComponent } from 'libs/features/infrastructure/app-root';
 import { PfLayoutWrapperModule } from 'libs/ui/layout-wrapper';
 import { PayfactorsApiService } from 'libs/data/payfactors-api/payfactors-api.service';
 import { SentryService, SentryErrorHandler, WindowCommunicationService } from 'libs/core/services';
-import { SearchFilterMappingDataObj } from 'libs/features/search/models';
+import { SearchFilterMappingDataObj } from 'libs/features/search/search/models';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppWrapperComponent } from './shared/appwrapper/app-wrapper.component';

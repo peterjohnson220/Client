@@ -7,8 +7,8 @@ import { JdmListFilter } from 'libs/models/user-profile';
 import { BulkExportSchedule } from 'libs/models/jdm';
 import { JobDescriptionViewModel } from 'libs/models/jdm/job-description-view.model';
 
-import * as bulkExportJobsSchedulerActions from 'libs/features/bulk-job-description-export-scheduler/actions';
-import * as fromJdmAdminReducer from 'libs/features/bulk-job-description-export-scheduler/reducers';
+import * as bulkExportJobsSchedulerActions from 'libs/features/jobs/bulk-job-description-export-scheduler/actions';
+import * as fromJdmAdminReducer from 'libs/features/jobs/bulk-job-description-export-scheduler/reducers';
 
 
 @Component({

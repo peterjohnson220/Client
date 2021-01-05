@@ -5,7 +5,7 @@ import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import * as fromRootState from 'libs/state/state';
-import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
+import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import { AbstractFeatureFlagService, PfCommonModule } from 'libs/core';
 import { generateMockStructureRangeDistributionTypes } from 'libs/models/payfactors-api';
 import { SettingsService } from 'libs/state/app-context/services';

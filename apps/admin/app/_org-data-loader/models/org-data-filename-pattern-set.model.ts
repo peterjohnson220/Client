@@ -1,4 +1,4 @@
-import { FilenamePattern } from 'libs/features/org-data-loader/models';
+import { FilenamePattern } from 'libs/features/loaders/org-data-loader/models';
 
 export interface OrgDataFilenamePatternSet {
   PayMarketsFilenamePattern: FilenamePattern;

@@ -6,10 +6,10 @@ import { Subscription } from 'rxjs';
 import { ofType } from '@ngrx/effects';
 
 import { JobDescriptionSummaryEditorComponent } from 'libs/forms';
-import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
+import { PfDataGridFilter } from 'libs/features/grids/pf-data-grid/models';
 import { JobDescriptionSummary, AsyncStateObj } from 'libs/models';
-import * as fromJobManagementActions from 'libs/features/job-management/actions';
-import { PfThemeType } from 'libs/features/pf-data-grid/enums/pf-theme-type.enum';
+import * as fromJobManagementActions from 'libs/features/jobs/job-management/actions';
+import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums/pf-theme-type.enum';
 
 import * as fromJobsPageReducer from '../../../../reducers';
 import * as fromJobDescriptionActions from '../../../../actions';

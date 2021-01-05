@@ -11,11 +11,11 @@ import { NumericTextBoxModule, SwitchModule } from '@progress/kendo-angular-inpu
 import { EffectsModule } from '@ngrx/effects';
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 
-import { PfDataGridModule } from 'libs/features/pf-data-grid';
+import { PfDataGridModule } from 'libs/features/grids/pf-data-grid';
 import { PfFormsModule } from 'libs/forms';
 import { RangeEditorModule } from 'libs/features/structures';
 import { PfCommonUIModule } from 'libs/ui/common';
-import { FormulaEditorModule } from 'libs/features/formula-editor';
+import { FormulaEditorModule } from 'libs/ui/formula-editor';
 
 import { GlobalActionsComponent, GridContextComponent, ModelSettingsBtnComponent } from './components';
 import {

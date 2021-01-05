@@ -8,7 +8,7 @@ import { Action } from '@ngrx/store';
 import { JobLevelHierarchy, JobLevelHierarchyDetail } from 'libs/models';
 import { NotificationLevel, NotificationSource, NotificationType } from 'libs/features';
 import { CompanyJobApiService, JobLevelHierarchyApiService } from 'libs/data/payfactors-api/company';
-import * as fromNotificationActions from 'libs/features/app-notifications/actions/app-notifications.actions';
+import * as fromNotificationActions from 'libs/features/infrastructure/app-notifications/actions/app-notifications.actions';
 
 import * as fromJobsHierarchyActions from '../actions/jobs-hierarchy.actions';
 

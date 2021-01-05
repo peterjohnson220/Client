@@ -3,7 +3,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { DragulaModule } from 'ng2-dragula';
 
-import { generateMockWorkbook } from 'libs/features/reports/models';
+import { generateMockWorkbook } from 'libs/features/surveys/reports/models';
 
 import { DataViewReportsComponent } from './data-view-reports.component';
 

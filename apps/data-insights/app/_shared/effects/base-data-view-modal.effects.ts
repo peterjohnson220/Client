@@ -5,7 +5,7 @@ import { switchMap, map, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import { DataViewApiService } from 'libs/data/payfactors-api';
-import { Entity } from 'libs/features/formula-editor';
+import { Entity } from 'libs/ui/formula-editor';
 
 import * as fromDataViewModalActions from '../actions/base-data-view-modal.actions';
 import { PayfactorsApiModelMapper } from '../helpers';

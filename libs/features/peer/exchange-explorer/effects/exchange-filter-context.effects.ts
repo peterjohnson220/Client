@@ -5,7 +5,7 @@ import { Effect, Actions, ofType } from '@ngrx/effects';
 import { withLatestFrom, mergeMap, tap } from 'rxjs/operators';
 
 import { ExchangeScopeItem } from 'libs/models/peer';
-import * as fromLibsFeatureSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
+import * as fromLibsFeatureSearchFiltersActions from 'libs/features/search/search/actions/search-filters.actions';
 
 import * as fromExchangeExplorerReducers from '../reducers';
 import * as fromExchangeFilterContextActions from '../actions/exchange-filter-context.actions';

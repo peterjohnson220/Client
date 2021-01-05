@@ -11,13 +11,13 @@ import { DragulaModule } from 'ng2-dragula';
 
 import { PfCommonModule } from 'libs/core';
 import { PfCommonUIModule } from 'libs/ui/common';
-import { PfJobDescriptionManagementModule } from 'libs/features/job-description-management/job-description-management.module';
+import { PfJobDescriptionManagementModule } from 'libs/features/jobs/job-description-management/job-description-management.module';
 import { JobDescriptionTemplateApiService } from 'libs/data/payfactors-api/jdm';
 import { PfFormsModule } from 'libs/forms';
 
 import * as fromFaIcons from '../fa-icons';
 import { SharedModule } from '../../shared/shared.module';
-import { ErrorGenerationService } from 'libs/features/job-description-management/services';
+import { ErrorGenerationService } from 'libs/features/jobs/job-description-management/services';
 import { TemplatePageComponent } from './template.page';
 import { CompanyJobSearchPipe } from './pipes';
 import {

@@ -12,9 +12,9 @@ import {
     LoaderType, ORG_DATA_PF_BENEFITS_MAPPING_FIELDS, ORG_DATA_PF_EMPLOYEE_FIELDS, ORG_DATA_PF_EMPLOYEE_TAG_FIELDS, ORG_DATA_PF_JOB_FIELDS,
     ORG_DATA_PF_JOB_RANGE_STRUCTURE_FIELDS, ORG_DATA_PF_PAYMARKET_FIELDS, ORG_DATA_PF_STRUCTURE_FIELDS,
     ORG_DATA_PF_STRUCTURE_MAPPING_FIELDS, ORG_DATA_PF_SUBSIDIARIES_MAPPING_FIELDS
-} from 'libs/features/org-data-loader/constants';
-import { ILoadSettings } from 'libs/features/org-data-loader/helpers';
-import { InternalField, LoaderEntityStatus, VisibleLoaderOptionModel } from 'libs/features/org-data-loader/models';
+} from 'libs/features/loaders/org-data-loader/constants';
+import { ILoadSettings } from 'libs/features/loaders/org-data-loader/helpers';
+import { InternalField, LoaderEntityStatus, VisibleLoaderOptionModel } from 'libs/features/loaders/org-data-loader/models';
 import { CompanySetting, CompanySettingsEnum, LoaderFieldSet } from 'libs/models';
 
 import * as fromOrgDataAutoloaderReducer from '../../reducers';

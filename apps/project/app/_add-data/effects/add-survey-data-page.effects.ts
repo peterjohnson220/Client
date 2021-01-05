@@ -8,17 +8,17 @@ import { catchError, mergeMap, switchMap, tap, withLatestFrom } from 'rxjs/opera
 import { SurveySearchApiService } from 'libs/data/payfactors-api';
 import { WindowCommunicationService } from 'libs/core/services';
 import { AddSurveyDataCutMatchResponse } from 'libs/models/payfactors-api';
-import * as fromSearchFiltersActionsShared from 'libs/features/search/actions/search-filters.actions';
-import * as fromSearchPageActionsShared from 'libs/features/search/actions/search-page.actions';
+import * as fromSearchFiltersActionsShared from 'libs/features/search/search/actions/search-filters.actions';
+import * as fromSearchPageActionsShared from 'libs/features/search/search/actions/search-page.actions';
 
 import * as fromAddSurveyDataPageActions from '../actions/add-survey-data-page.actions';
-import * as fromContextActions from 'libs/features/survey-search/actions/context.actions';
-import * as fromSurveySearchFiltersActions from 'libs/features/survey-search/actions/survey-search-filters.actions';
-import * as fromSurveySearchResultsActions from 'libs/features/survey-search/actions/survey-search-results.actions';
-import { DataCutDetails, JobContext, ProjectSearchContext } from 'libs/features/survey-search/models';
-import * as fromSurveySearchReducer from 'libs/features/survey-search/reducers';
-import { PayfactorsSurveySearchApiModelMapper, SurveySearchFiltersHelper } from 'libs/features/survey-search/helpers';
-import * as fromSearchReducer from 'libs/features/search/reducers';
+import * as fromContextActions from 'libs/features/surveys/survey-search/actions/context.actions';
+import * as fromSurveySearchFiltersActions from 'libs/features/surveys/survey-search/actions/survey-search-filters.actions';
+import * as fromSurveySearchResultsActions from 'libs/features/surveys/survey-search/actions/survey-search-results.actions';
+import { DataCutDetails, JobContext, ProjectSearchContext } from 'libs/features/surveys/survey-search/models';
+import * as fromSurveySearchReducer from 'libs/features/surveys/survey-search/reducers';
+import { PayfactorsSurveySearchApiModelMapper, SurveySearchFiltersHelper } from 'libs/features/surveys/survey-search/helpers';
+import * as fromSearchReducer from 'libs/features/search/search/reducers';
 
 @Injectable()
 export class AddSurveyDataPageEffects {

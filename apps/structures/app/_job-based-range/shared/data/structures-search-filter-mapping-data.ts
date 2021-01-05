@@ -1,4 +1,4 @@
-import { FilterType, SearchFilterMappingDataObj } from 'libs/features/search/models';
+import { FilterType, SearchFilterMappingDataObj } from 'libs/features/search/search/models';
 
 export const StructuresSearchFilterMappingDataObj: SearchFilterMappingDataObj = {
   'job_family': {

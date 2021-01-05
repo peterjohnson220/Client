@@ -1,4 +1,4 @@
-import { LoaderType } from 'libs/features/org-data-loader/constants';
+import { LoaderType } from 'libs/features/loaders/org-data-loader/constants';
 
 import { LoaderFieldMapping } from './loader-field-mapping.model';
 

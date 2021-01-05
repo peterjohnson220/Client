@@ -6,7 +6,7 @@ import { Observable, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import escape from 'lodash/escape';
 
-import * as fromSurveySearchResultsActions from 'libs/features/survey-search/actions/survey-search-results.actions';
+import * as fromSurveySearchResultsActions from 'libs/features/surveys/survey-search/actions/survey-search-results.actions';
 import { ExchangeSelectorComponent } from 'libs/features/peer/exchange-selector/exchange-selector.component';
 import { Job, UserContext, ExchangeJobSearch, LatestCompanyJob, GenericKeyValue } from 'libs/models';
 import { WindowCommunicationService } from 'libs/core/services';

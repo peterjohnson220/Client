@@ -6,7 +6,7 @@ import { Subscription } from 'rxjs';
 import { ControlTypeAttribute, ControlType } from 'libs/models';
 
 import { CompanyControlsDndService, SmartListValidationService } from '../../services';
-import { JobDescriptionManagementService } from 'libs/features/job-description-management';
+import { JobDescriptionManagementService } from 'libs/features/jobs/job-description-management';
 import { AttributeNamesAreUnique } from '../../validators';
 
 @Component({

@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { Comment } from 'libs/features/comment-box/models';
+import { Comment } from 'libs/ui/comment-box/models';
 
 export const SET_TICKET_NOTES = '[Service / Ticket Notes] Set Ticket Notes';
 export const ADD_NOTE = '[Service / Ticket Notes] Add Note';

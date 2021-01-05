@@ -3,9 +3,9 @@ import { Component, Input, Output, EventEmitter, ViewChild, OnChanges, ChangeDet
 import { State } from '@progress/kendo-data-query';
 import cloneDeep from 'lodash/cloneDeep';
 
-import { AvailableJobInformationField, ControlLabel, JobDescriptionBulkExportPayload } from 'libs/features/job-description-management/models';
+import { AvailableJobInformationField, ControlLabel, JobDescriptionBulkExportPayload } from 'libs/features/jobs/job-description-management/models';
 
-import { JobDescriptionViewConstants } from 'libs/features/job-description-management/constants/job-description-view-constants';
+import { JobDescriptionViewConstants } from 'libs/features/jobs/job-description-management/constants/job-description-view-constants';
 
 
 @Component({

@@ -10,8 +10,8 @@ import { JobDescriptionApiService } from 'libs/data/payfactors-api/jdm';
 
 import * as fromJobDescriptionManagement from '../reducers';
 import * as fromJobMatchesActions from '../actions/job-matches.actions';
-import { JobMatchResult } from 'libs/features/job-description-management/';
-import { PayfactorsApiModelMapper } from 'libs/features/job-description-management/helpers';
+import { JobMatchResult } from 'libs/features/jobs/job-description-management/';
+import { PayfactorsApiModelMapper } from 'libs/features/jobs/job-description-management/helpers';
 
 @Injectable()
 export class JobMatchesEffects {

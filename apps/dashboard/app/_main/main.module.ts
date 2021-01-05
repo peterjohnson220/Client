@@ -15,7 +15,7 @@ import * as fromFaIcons from './fa-icons';
 // PF
 import { PfCommonModule } from 'libs/core';
 import { PfCommonUIModule } from 'libs/ui/common';
-import { PfFileDownloadModule } from 'libs/features/file-download';
+import { PfFileDownloadModule } from 'libs/features/file-download/file-download';
 import { PfFormsModule } from 'libs/forms/forms.module';
 
 // Effects
@@ -25,7 +25,7 @@ import { DashboardEffects,
   TimelineActivityEffects,
   DashboardTcModalEffects,
   CompositeSummaryDownloadEffects } from './effects';
-  import { MarketingSettingsEffects } from 'libs/features/marketing-settings/marketing-settings.effects';
+  import { MarketingSettingsEffects } from 'libs/features/infrastructure/marketing-settings/marketing-settings/effects/marketing-settings.effects';
 
 // Reducers
 import { reducers } from './reducers';

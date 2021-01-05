@@ -7,11 +7,11 @@ import { mergeMap, withLatestFrom, map, tap, catchError, switchMap } from 'rxjs/
 
 import { WindowCommunicationService } from 'libs/core/services';
 import { ProjectApiService } from 'libs/data/payfactors-api/project';
-import * as fromSearchPageActions from 'libs/features/search/actions/search-page.actions';
-import * as fromUserFilterActions from 'libs/features/user-filter/actions/user-filter.actions';
+import * as fromSearchPageActions from 'libs/features/search/search/actions/search-page.actions';
+import * as fromUserFilterActions from 'libs/features/users/user-filter/actions/user-filter.actions';
 import * as fromCompanySettingsActions from 'libs/state/app-context/actions/company-settings.actions';
-import * as fromAddJobsReducer from 'libs/features/add-jobs/reducers';
-import * as fromAddJobsPageActions from 'libs/features/add-jobs/actions/add-jobs-page.actions';
+import * as fromAddJobsReducer from 'libs/features/jobs/add-jobs/reducers';
+import * as fromAddJobsPageActions from 'libs/features/jobs/add-jobs/actions/add-jobs-page.actions';
 
 @Injectable()
 export class AddJobsPageEffects {

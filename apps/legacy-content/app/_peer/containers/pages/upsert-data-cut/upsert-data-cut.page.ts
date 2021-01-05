@@ -3,15 +3,15 @@ import { ActivatedRoute } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 
-import * as fromSurveySearchResultsActions from 'libs/features/survey-search/actions/survey-search-results.actions';
+import * as fromSurveySearchResultsActions from 'libs/features/surveys/survey-search/actions/survey-search-results.actions';
 import * as fromLibsExchangeExplorerActions from 'libs/features/peer/exchange-explorer/actions/exchange-explorer.actions';
-import * as fromUpsertDataCutActions from 'libs/features/upsert-peer-data-cut/actions/upsert-peer-data-cut.actions';
-import * as fromUpsertPeerDataReducer from 'libs/features/upsert-peer-data-cut/reducers';
-import {UpsertPeerDataCutEntityConfigurationModel} from 'libs/features/upsert-peer-data-cut/models';
+import * as fromUpsertDataCutActions from 'libs/features/pricings/upsert-peer-data-cut/actions/upsert-peer-data-cut.actions';
+import * as fromUpsertPeerDataReducer from 'libs/features/pricings/upsert-peer-data-cut/reducers';
+import {UpsertPeerDataCutEntityConfigurationModel} from 'libs/features/pricings/upsert-peer-data-cut/models';
 import {
   UpsertPeerDataCutEntities,
   UpsertPeerDataCutParentEntities
-} from 'libs/features/upsert-peer-data-cut/constants/upsert-peer-data-cut-entities.constants';
+} from 'libs/features/pricings/upsert-peer-data-cut/constants/upsert-peer-data-cut-entities.constants';
 
 @Component({
   selector: 'pf-upsert-data-cut-page',

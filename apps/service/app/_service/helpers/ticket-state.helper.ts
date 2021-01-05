@@ -1,7 +1,7 @@
 import cloneDeep from 'lodash/cloneDeep';
 
 import { ViewField } from 'libs/models/payfactors-api/reports/request';
-import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
+import { PfDataGridFilter } from 'libs/features/grids/pf-data-grid/models';
 import { GroupedListItem } from 'libs/models/list';
 
 export class TicketStateHelper {

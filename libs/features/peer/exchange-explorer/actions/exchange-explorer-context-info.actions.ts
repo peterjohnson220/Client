@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { SearchFilterMappingDataObj } from '../../../search/models';
+import { SearchFilterMappingDataObj } from '../../../search/search/models';
 import { ExchangeJobExchangeDetail } from '../../models';
 import { MapGeoData } from '../../../../models/peer';
 import { PayMarket } from '../../../../models/paymarket';

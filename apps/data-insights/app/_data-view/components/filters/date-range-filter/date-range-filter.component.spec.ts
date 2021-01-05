@@ -4,7 +4,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { IntlService, CldrIntlService  } from '@progress/kendo-angular-intl';
 import { SelectionRange } from '@progress/kendo-angular-dateinputs';
 
-import { IsBefore, Between } from 'libs/features/formula-editor';
+import { IsBefore, Between } from 'libs/ui/formula-editor';
 
 import { DateRangeFilterComponent } from './date-range-filter.component';
 

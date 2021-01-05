@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
-import { ECommerceModule } from 'libs/features/ecommerce';
+import { ECommerceModule } from 'libs/features/ecommerce/ecommerce';
 
 import { CheckoutRoutingModule } from './checkout-routing.module';
 import { CheckoutPageComponent } from './checkout.page';

@@ -11,11 +11,11 @@ import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonModule } from 'libs/core';
 import { JobDescriptionTemplateApiService } from 'libs/data/payfactors-api';
-import { PfJobDescriptionManagementModule } from 'libs/features/job-description-management';
+import { PfJobDescriptionManagementModule } from 'libs/features/jobs/job-description-management';
 
 import * as fromFaIcons from '../fa-icons';
 import {SharedModule} from '../../shared/shared.module';
-import { ErrorGenerationService } from 'libs/features/job-description-management';
+import { ErrorGenerationService } from 'libs/features/jobs/job-description-management';
 import { reducers } from './reducers';
 import { TemplateListPageComponent } from './template-list.page';
 import { TemplateListEffects } from './effects';

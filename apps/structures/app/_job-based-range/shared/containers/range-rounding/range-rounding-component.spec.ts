@@ -6,7 +6,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { generateMockRangeAdvancedSetting, generateMockRangeDistributionSettingForm } from 'libs/models/structures';
 import * as fromRootState from 'libs/state/state';
-import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
+import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import { PfCommonModule } from 'libs/core';
 import { RoundingTypes } from 'libs/constants/structures/rounding-type';
 import { generateMockRoundingSettingsDataObj } from 'libs/models/structures/ranges';

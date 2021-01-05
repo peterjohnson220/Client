@@ -6,11 +6,11 @@ import { catchError, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/opera
 import { Action, select, Store } from '@ngrx/store';
 
 import { DataViewApiService, StructureModelingApiService } from 'libs/data/payfactors-api';
-import { NotificationLevel, NotificationSource, NotificationType } from 'libs/features/app-notifications/models';
-import { DataGridToDataViewsHelper } from 'libs/features/pf-data-grid/helpers';
-import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
-import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
-import * as fromNotificationActions from 'libs/features/app-notifications/actions/app-notifications.actions';
+import { NotificationLevel, NotificationSource, NotificationType } from 'libs/features/infrastructure/app-notifications/models';
+import { DataGridToDataViewsHelper } from 'libs/features/grids/pf-data-grid/helpers';
+import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
+import * as fromPfDataGridActions from 'libs/features/grids/pf-data-grid/actions';
+import * as fromNotificationActions from 'libs/features/infrastructure/app-notifications/actions/app-notifications.actions';
 import { JobBasedPageViewIds } from 'libs/models/structures';
 
 import { PayfactorsApiModelMapper } from '../helpers';

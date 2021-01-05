@@ -7,7 +7,7 @@ import { Observable, Subscription } from 'rxjs';
 
 import { TemplateControl, TemplateSettings, TemplateSettingsControl, ControlType } from 'libs/models';
 
-import * as fromJdmSharedReducer from 'libs/features/job-description-management/reducers';
+import * as fromJdmSharedReducer from 'libs/features/jobs/job-description-management/reducers';
 import * as fromTemplateReducer from '../../../../_templates/template/reducers';
 
 @Component({

@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { Workbook } from 'libs/features/reports/models';
+import { Workbook } from 'libs/features/surveys/reports/models';
 
 export const LOAD_PEER_TREND_REPORT  = '[Peer Dashboard/Page] Load Peer Trend Report';
 export const LOAD_PEER_TREND_REPORT_SUCCESS  = '[Peer Dashboard/Page] Load Peer Trend Report Success';

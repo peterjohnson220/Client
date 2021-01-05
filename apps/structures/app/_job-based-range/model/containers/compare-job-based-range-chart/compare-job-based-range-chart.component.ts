@@ -6,7 +6,7 @@ import { GridDataResult, ContentScrollEvent } from '@progress/kendo-angular-grid
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
 
-import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
+import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import { RangeGroupMetadata } from 'libs/models/structures';
 import { CompanySettingsEnum } from 'libs/models/company';
 import { SettingsService } from 'libs/state/app-context/services';

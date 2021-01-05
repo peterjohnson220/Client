@@ -6,7 +6,7 @@ import { Observable, Subscription } from 'rxjs';
 import { DragulaService } from 'ng2-dragula';
 import orderBy from 'lodash/orderBy';
 
-import { DATE_FORMATS } from 'libs/features/org-data-loader/constants';
+import { DATE_FORMATS } from 'libs/features/loaders/org-data-loader/constants';
 import { ConverterSettings } from 'libs/models';
 import { ImportDataType } from 'libs/constants';
 

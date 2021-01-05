@@ -1,4 +1,4 @@
-import { JobDescriptionAppliesTo } from 'libs/features/job-description-management/models';
+import { JobDescriptionAppliesTo } from 'libs/features/jobs/job-description-management/models';
 
 export interface GetAppliesToAttributesExistRequest {
   JobDescriptionAppliesTo: JobDescriptionAppliesTo;

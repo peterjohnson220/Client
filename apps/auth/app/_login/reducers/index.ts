@@ -7,7 +7,7 @@ import * as fromRoot from 'libs/state/state';
 import * as fromForgotPasswordReducer from './forgot-password.reducer';
 import * as fromFirstLoginReducer from './first-login-reducer';
 import * as fromResetPasswordReducer from './reset-password.reducer';
-import * as fromMarketingReducer from 'libs/features/marketing-settings/marketing-settings.reducer';
+import * as fromMarketingReducer from 'libs/features/infrastructure/marketing-settings/marketing-settings/reducers/marketing-settings.reducer';
 import * as fromLoginReducer from './login.reducer';
 
 // Feature area state

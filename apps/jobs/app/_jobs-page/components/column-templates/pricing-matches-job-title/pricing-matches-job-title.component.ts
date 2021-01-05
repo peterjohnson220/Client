@@ -14,17 +14,17 @@ import { UpdatePricingMatchRequest, ViewField } from 'libs/models/payfactors-api
 import { PermissionService } from 'libs/core';
 import { AsyncStateObj } from 'libs/models';
 import { Permissions, PermissionCheckEnum } from 'libs/constants';
-import { ApiServiceType } from 'libs/features/notes-manager/constants/api-service-type-constants';
+import { ApiServiceType } from 'libs/features/notes/notes-manager/constants/api-service-type-constants';
 import { PricingApiService} from 'libs/data/payfactors-api';
 
-import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
-import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
-import {UpsertPeerDataCutEntityConfigurationModel} from 'libs/features/upsert-peer-data-cut/models';
+import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
+import * as fromPfDataGridActions from 'libs/features/grids/pf-data-grid/actions';
+import {UpsertPeerDataCutEntityConfigurationModel} from 'libs/features/pricings/upsert-peer-data-cut/models';
 import {
   UpsertPeerDataCutEntities,
   UpsertPeerDataCutParentEntities
-} from 'libs/features/upsert-peer-data-cut/constants';
-import * as fromUpsertPeerActions from 'libs/features/upsert-peer-data-cut/actions';
+} from 'libs/features/pricings/upsert-peer-data-cut/constants';
+import * as fromUpsertPeerActions from 'libs/features/pricings/upsert-peer-data-cut/actions';
 
 import { PageViewIds } from '../../../constants';
 import * as fromModifyPricingsActions from '../../../actions';

@@ -11,7 +11,7 @@ import { UserProfileApiService } from 'libs/data/payfactors-api/user';
 import { JobDescriptionApiService, JobDescriptionManagementApiService } from 'libs/data/payfactors-api/jdm';
 import { CompanyJobViewListItemsResponse } from 'libs/models/payfactors-api/job-description/response';
 import { ListAreaColumnResponse } from 'libs/models/payfactors-api/user-profile/response';
-import { PayfactorsApiModelMapper } from 'libs/features/job-description-management/helpers';
+import { PayfactorsApiModelMapper } from 'libs/features/jobs/job-description-management/helpers';
 import { MappingHelper } from 'libs/core/helpers';
 import { SaveListAreaColumnsRequest } from 'libs/models/payfactors-api/user-profile';
 

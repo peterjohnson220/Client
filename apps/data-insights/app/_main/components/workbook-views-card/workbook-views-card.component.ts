@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 import { DragulaService } from 'ng2-dragula';
 
 import { ReportOrderType } from 'libs/constants';
-import { View, Workbook } from 'libs/features/reports/models';
+import { View, Workbook } from 'libs/features/surveys/reports/models';
 
 import { SaveReportOrderData } from '../../models';
 

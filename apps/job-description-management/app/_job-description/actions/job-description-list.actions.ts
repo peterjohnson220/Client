@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
 
 import { SaveJobDescriptionTemplateIdSucessModel, CompanyJobViewListItem, JobDescriptionDraftDetails } from '../models';
-import { JobDescriptionAppliesTo } from 'libs/features/job-description-management/models';
+import { JobDescriptionAppliesTo } from 'libs/features/jobs/job-description-management/models';
 
 export const CREATE_JOB_DESCRIPTION = '[job-description-management / Job Description List] Create Job Description';
 export const CREATE_JOB_DESCRIPTION_ERROR = '[job-description-management / Job Description List] Create Job Description Error';

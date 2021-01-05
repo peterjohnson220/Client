@@ -1,0 +1,55 @@
+@import '../../../../../../assets/scss/common/common-variables';
+@import '../../styles/shared-styles';
+@import '../../styles/shared-variables';
+
+.results-header{
+  height: $results-header-height;
+  display: flex;
+  align-items: center;
+  padding-right: 1rem;
+  @extend %bottom-box-shadow;
+}
+
+.actions{
+  display: flex;
+  justify-content: flex-end;
+  margin-left: 1rem;
+  width: 190px;
+}
+
+// Popover pill detail
+:host ::ng-deep .popover.pill-detail-popover{
+  min-width: 200px;
+}
+
+:host ::ng-deep .popover.pill-detail-popover .popover-header{
+  font-weight: bold;
+}
+
+:host ::ng-deep .popover.pill-detail-popover .popover-body{
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+// Saved Filters
+:host ::ng-deep .popover.saved-filters-popover{
+  min-width: 300px;
+  max-width: 300px;
+  top: 30px !important;
+  right: 0 !important;
+  left: inherit !important;
+  transform: initial !important;
+}
+
+:host ::ng-deep .popover.saved-filters-popover .popover-header{
+  font-weight: bold;
+}
+
+:host ::ng-deep .popover.saved-filters-popover .popover-body{
+  padding: 0;
+}
+
+:host ::ng-deep .popover.saved-filters-popover .arrow{
+  right: 35px !important;
+  left: inherit !important;
+}
