@@ -94,7 +94,7 @@ export class UpdateExportSchedule implements Action {
 
 export class UpdateExportScheduleSuccess implements Action {
   readonly type = UPDATE_EXPORT_SCHEDULE_SUCCESS;
-  constructor() {}
+  constructor(public payload: TabularReportExportSchedule) {}
 }
 
 export class UpdateExportScheduleError implements Action {

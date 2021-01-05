@@ -97,7 +97,7 @@ export class TabularReportExportSchedulerPageEffects {
           .pipe(
             mergeMap((response) => {
               return [
-                new fromTabularReportExportSchedulerPageActions.UpdateExportScheduleSuccess()
+                new fromTabularReportExportSchedulerPageActions.UpdateExportScheduleSuccess(action.payload)
               ];
             }),
             catchError(() => of(new fromTabularReportExportSchedulerPageActions.UpdateExportScheduleError()))

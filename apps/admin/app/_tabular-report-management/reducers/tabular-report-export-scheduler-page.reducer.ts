@@ -105,17 +105,28 @@ export function reducer(state = initialState, action: fromTabularReportExportSch
       };
     }
     case fromTabularReportExportSchedulerPageActions.DELETE_EXPORT_SCHEDULE_SUCCESS: {
-      const savedSchedulesClones = cloneDeep(state.savedSchedules);
+      const savedSchedulesClone = cloneDeep(state.savedSchedules);
       const tabularReportsAsyncClone = cloneDeep(state.tabularReportsAsync);
       const deletedTabularReport = state.originalTabularReportsAsync.obj.find(x => x.WorkbookId === action.payload.toString());
-      savedSchedulesClones.obj = savedSchedulesClones.obj.filter(x => x.DataViewId !== action.payload);
+      savedSchedulesClone.obj = savedSchedulesClone.obj.filter(x => x.DataViewId !== action.payload);
 
       tabularReportsAsyncClone.obj.push(deletedTabularReport);
       tabularReportsAsyncClone.obj = orderBy(tabularReportsAsyncClone.obj, ['WorkbookName'], ['asc']);
       return {
         ...state,
-        savedSchedules: savedSchedulesClones,
+        savedSchedules: savedSchedulesClone,
         tabularReportsAsync: tabularReportsAsyncClone
+      };
+    }
+    case fromTabularReportExportSchedulerPageActions.UPDATE_EXPORT_SCHEDULE_SUCCESS: {
+      const savedSchedulesClone = cloneDeep(state.savedSchedules);
+      const matchingScheduleIndex = savedSchedulesClone.obj.findIndex(x => x.DataViewId === action.payload.DataViewId);
+      if (matchingScheduleIndex !== -1) {
+        savedSchedulesClone.obj[matchingScheduleIndex] = action.payload;
+      }
+      return {
+        ...state,
+        savedSchedules: savedSchedulesClone
       };
     }
     default:

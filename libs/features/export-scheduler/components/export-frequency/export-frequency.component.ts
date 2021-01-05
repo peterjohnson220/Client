@@ -67,16 +67,16 @@ export class ExportFrequencyComponent implements OnChanges {
 
   handleMonthlyOccurrenceChange(): void {
     if (!!this.schedule) {
-      const monthlyDayOfWeekChanged = !isEqual(this.scheduledMonthlyFrequency.ScheduledDayOfWeek, this.selectedDaysOfWeek);
-      this.changesMade = !isEqual(this.scheduledMonthlyFrequency.ScheduledMonthlyOccurrence, this.selectedMonthlyOccurrence) || monthlyDayOfWeekChanged;
+      const monthlyDayOfWeekChanged = !isEqual(this.scheduledMonthlyFrequency?.ScheduledDayOfWeek, this.selectedDaysOfWeek);
+      this.changesMade = !isEqual(this.scheduledMonthlyFrequency?.ScheduledMonthlyOccurrence, this.selectedMonthlyOccurrence) || monthlyDayOfWeekChanged;
     }
   }
 
   handleMonthlyDayOfWeekChange(day: DayOfWeek): void {
     this.selectedDaysOfWeek = [day];
     if (!!this.schedule) {
-      const monthlyOccurrenceChanged = !isEqual(this.scheduledMonthlyFrequency.ScheduledMonthlyOccurrence, this.selectedMonthlyOccurrence);
-      this.changesMade = !isEqual(this.scheduledMonthlyFrequency.ScheduledDayOfWeek, this.selectedDaysOfWeek) || monthlyOccurrenceChanged;
+      const monthlyOccurrenceChanged = !isEqual(this.scheduledMonthlyFrequency?.ScheduledMonthlyOccurrence, this.selectedMonthlyOccurrence);
+      this.changesMade = !isEqual(this.scheduledMonthlyFrequency?.ScheduledDayOfWeek, this.selectedDaysOfWeek) || monthlyOccurrenceChanged;
     }
   }
 
