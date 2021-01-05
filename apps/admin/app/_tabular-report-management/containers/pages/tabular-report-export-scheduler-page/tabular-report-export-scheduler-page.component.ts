@@ -60,9 +60,7 @@ export class TabularReportExportSchedulerPageComponent implements OnInit, OnDest
     this.store.dispatch(new fromTabularReportExportSchedulerPageActions.GetSavedSchedules());
     this.savingScheduleSubscription = this.savingSchedule$.subscribe(value => this.savingSchedule = value);
     this.savedSchedulesSubscription = this.savedSchedulesAsync$.subscribe(schedules => {
-      if (!!schedules.obj.length) {
-        this.savedSchedules = cloneDeep(schedules.obj);
-      }
+      this.savedSchedules = cloneDeep(schedules.obj);
     });
   }
 
