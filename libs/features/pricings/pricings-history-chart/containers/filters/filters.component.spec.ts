@@ -120,11 +120,11 @@ describe('Pricing History Chart Features - Filters', () => {
     const c = instance.pricingHistoryChartForm.controls;
 
     instance.payMarketOptions = [
-      { Id: 2222, Name: 'Chicago', StartDate: new Date('8/5/2018'), EndDate: new Date('10/1/2018'), IsDefault: false },
-      { Id: 1111, Name: 'Boston', StartDate: new Date('10/1/2010'), EndDate: new Date('8/1/2015'), IsDefault: true }
+      makePayMarket(2222, 'Chicago', 'Annual', 'USD', '8/5/2018', '10/1/2018', false),
+      makePayMarket(1111, 'Boston', 'Annual', 'USD', '10/1/2010', '8/1/2015', true)
     ];
 
-    instance.updatePayMarketOptions();
+    instance.filterPayMarketOptions();
     instance.updateSelectedPayMarkets(null);
 
     expect(c.PayMarkets.value[0].Id).toEqual(1111);
@@ -138,11 +138,11 @@ describe('Pricing History Chart Features - Filters', () => {
     const c = instance.pricingHistoryChartForm.controls;
 
     instance.payMarketOptions = [
-      { Id: 2222, Name: 'Chicago', StartDate: new Date('8/1/2018'), EndDate: new Date('10/1/2018'), IsDefault: false },
-      { Id: 1111, Name: 'Boston', StartDate: new Date('10/1/2010'), EndDate: new Date('8/1/2015'), IsDefault: false }
+      makePayMarket(2222, 'Chicago', 'Annual', 'USD', '8/1/2018', '10/1/2018', false),
+      makePayMarket(1111, 'Boston', 'Annual', 'USD', '10/1/2010', '8/1/2015', false)
     ];
 
-    instance.updatePayMarketOptions();
+    instance.filterPayMarketOptions();
     instance.updateSelectedPayMarkets(null);
 
     expect(c.PayMarkets.value[0]).toEqual(null);
@@ -160,7 +160,7 @@ describe('Pricing History Chart Features - Filters', () => {
 
     instance.payMarketOptions = [];
 
-    instance.updatePayMarketOptions();
+    instance.filterPayMarketOptions();
     instance.updateSelectedPayMarkets(null);
 
     expect(c.PayMarkets.value[0]).toEqual(null);
@@ -176,15 +176,17 @@ describe('Pricing History Chart Features - Filters', () => {
     instance.ngOnInit();
     const c = instance.pricingHistoryChartForm.controls;
 
-    const userSelectedPM = { Id: 2222, Name: 'Chicago', StartDate: new Date('8/1/2018'), EndDate: new Date('10/1/2018'), IsDefault: false };
+    const userSelectedPM = makePayMarket(2222, 'Chicago', 'Annual', 'USD', '8/1/2018', '10/1/2018', false)
     instance.payMarketOptions = [
       userSelectedPM,
-      { Id: 1111, Name: 'Boston', StartDate: new Date('10/1/2010'), EndDate: new Date('8/1/2015'), IsDefault: false }
+      makePayMarket(1111, 'Boston', 'Annual', 'USD', '10/1/2010', '8/1/2015', false)
     ];
 
-    instance.updatePayMarketOptions();
+    instance.filterPayMarketOptions();
     instance.updateSelectedPayMarkets({
       PayMarkets: [userSelectedPM, null, null, null, null],
+      Rate: 'Annual',
+      Currency: 'USD',
       StartDate: null,
       EndDate: null
     });
@@ -196,3 +198,17 @@ describe('Pricing History Chart Features - Filters', () => {
   });
 
 });
+
+export function makePayMarket(id: number, name: string, rate: string, currency: string,
+  startDate: string, endDate: string, isDefault: boolean): PricedPayMarkets {
+
+  return {
+    Id: id,
+    Name: name,
+    Rate: rate,
+    Currency: currency,
+    StartDate: new Date(startDate),
+    EndDate: new Date(endDate),
+    IsDefault: isDefault
+  };
+}

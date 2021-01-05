@@ -2,13 +2,14 @@ import cloneDeep from 'lodash/cloneDeep';
 import orderBy from 'lodash/orderBy';
 
 import * as fromPricingHistoryChartActions from '../actions/pricing-history-chart.actions';
-import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models';
+import { AsyncStateObj, CurrencyDto, generateDefaultAsyncStateObj, KendoTypedDropDownItem, KendoTypedDropDownItemHelper } from 'libs/models';
 import { AsyncStateObjHelper } from 'libs/core';
 import { PricedPayMarkets, PricingHistoryChartFilters, PayMarketPricingHistory } from 'libs/models/payfactors-api';
 
 export interface State {
   jobId: number;
   pricedPayMarkets: AsyncStateObj<PricedPayMarkets[]>;
+  currencies: KendoTypedDropDownItem[];
   filters: PricingHistoryChartFilters;
   data: AsyncStateObj<PayMarketPricingHistory[]>;
 }
@@ -16,6 +17,7 @@ export interface State {
 export const initialState: State = {
   jobId: null,
   pricedPayMarkets: generateDefaultAsyncStateObj<PricedPayMarkets[]>([]),
+  currencies: [],
   filters: null,
   data: generateDefaultAsyncStateObj<PayMarketPricingHistory[]>([]),
 };
@@ -28,17 +30,19 @@ export function reducer(state = initialState, action: fromPricingHistoryChartAct
         jobId: action.jobId
       };
     }
-    case fromPricingHistoryChartActions.LOAD_PRICED_PAYMARKETS: {
+    case fromPricingHistoryChartActions.INIT_PRICING_HISTORY_CHART: {
       return AsyncStateObjHelper.loading(state, 'pricedPayMarkets');
     }
-    case fromPricingHistoryChartActions.LOAD_PRICED_PAYMARKETS_SUCCESS: {
-      const defaultPMs = action.payload.filter(p => p.IsDefault);
-      let sortedPayMarkets = action.payload.filter(p => !p.IsDefault);
-      sortedPayMarkets = orderBy(sortedPayMarkets, 'Name', 'asc');
-      sortedPayMarkets = defaultPMs.concat(sortedPayMarkets);
-      return AsyncStateObjHelper.loadingSuccess(state, 'pricedPayMarkets', sortedPayMarkets);
+    case fromPricingHistoryChartActions.INIT_PRICING_HISTORY_CHART_SUCCESS: {
+      return {
+        ...state,
+        pricedPayMarkets: { ...state.pricedPayMarkets, loading: false, obj: formatPayMarkets(action.payload[0]) },
+        data: { ...state.data, obj: [] },
+        currencies: KendoTypedDropDownItemHelper.mapItemsToDropdownList(
+          action.payload[1],'CurrencyCode', (item => {return `${item.CurrencyCode} - ${item.CurrencyName}`;}))
+      };
     }
-    case fromPricingHistoryChartActions.LOAD_PRICED_PAYMARKETS_ERROR: {
+    case fromPricingHistoryChartActions.INIT_PRICING_HISTORY_CHART_ERROR: {
       return AsyncStateObjHelper.loadingError(state, 'pricedPayMarkets');
     }
     case fromPricingHistoryChartActions.UPDATE_FILTERS:
@@ -63,5 +67,19 @@ export function reducer(state = initialState, action: fromPricingHistoryChartAct
 export const getState = (state: State) => state;
 export const getJobId = (state: State) => state.jobId;
 export const getPricedPayMarkets = (state: State) => state.pricedPayMarkets;
+export const getCurrencies = (state: State) => state.currencies;
 export const getFilters = (state: State) => state.filters;
 export const getData = (state: State) => state.data;
+
+export function formatPayMarkets(pricedPayMarkets: PricedPayMarkets[]) {
+  if (pricedPayMarkets) {
+    const defaultPMs = pricedPayMarkets.filter(p => p.IsDefault);
+    let sortedPayMarkets = pricedPayMarkets.filter(p => !p.IsDefault);
+    sortedPayMarkets = orderBy(sortedPayMarkets, 'Name', 'asc');
+    sortedPayMarkets = defaultPMs.concat(sortedPayMarkets);
+
+    return sortedPayMarkets;
+  }
+
+  return pricedPayMarkets;
+}

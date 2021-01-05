@@ -45,7 +45,7 @@ export class ModifyPricingsEffects {
           new fromModifyPricingsActions.DeletingPricingSuccess(),
           new fromPfDataGridActions.LoadData(PageViewIds.PricingHistory),
           new fromPfDataGridActions.LoadData(PageViewIds.PayMarkets),
-          new fromPricingHistoryChartActions.LoadPricedPayMarkets()
+          new fromPricingHistoryChartActions.InitPricingHistoryChart()
         ]),
         catchError(error => of(new fromModifyPricingsActions.DeletingPricingError(error))),
       );

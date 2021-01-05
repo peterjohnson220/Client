@@ -5,7 +5,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
 import { map, switchMap, catchError, withLatestFrom, mergeMap } from 'rxjs/operators';
 
-import { PricingApiService, UiPersistenceSettingsApiService } from 'libs/data/payfactors-api';
+import { CurrencyApiService, PricingApiService, UiPersistenceSettingsApiService } from 'libs/data/payfactors-api';
 import { GetPricingHistoryRequest, PricingHistoryChartFilters, PayMarketPricingHistory, PricedPayMarkets } from 'libs/models/payfactors-api';
 import { FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models';
 
@@ -20,21 +20,23 @@ export class PricingHistoryChartEffects {
     private actions$: Actions,
     private pricingApiService: PricingApiService,
     private uiPersistenceSettingsApiService: UiPersistenceSettingsApiService,
+    private currencyService: CurrencyApiService,
     private store: Store<fromPricingHistoryChartReducer.State>,
   ) { }
 
   @Effect()
   loadPricedPayMarkets$: Observable<Action> = this.actions$
     .pipe(
-      ofType(fromPricingHistoryChartActions.LOAD_PRICED_PAYMARKETS),
+      ofType(fromPricingHistoryChartActions.INIT_PRICING_HISTORY_CHART),
       withLatestFrom(
         this.store.pipe(select(fromPricingHistoryChartReducer.getJobId)),
-        (action: fromPricingHistoryChartActions.LoadPricedPayMarkets, jobId) =>
+        (action: fromPricingHistoryChartActions.InitPricingHistoryChart, jobId) =>
           ({ action, jobId })
       ),
       switchMap(data =>
         forkJoin([
           this.pricingApiService.getPricedPaymarkets(data.jobId),
+          this.currencyService.getCurrencies(),
           this.uiPersistenceSettingsApiService.getUiPersistenceSetting(
             FeatureAreaConstants.Jobs,
             `${UiPersistenceSettingConstants.JobsPagePricingHistoryComparison}_${data.jobId}`,
@@ -43,14 +45,14 @@ export class PricingHistoryChartEffects {
           .pipe(
             mergeMap((response) => {
               const pricedPayMarkets = response[0];
-              const userDefaultFilters = response[1]['@odata.null'] ? null : JSON.parse(response[1]);
+              const userDefaultFilters = response[2]['@odata.null'] ? null : JSON.parse(response[2]);
               this.validateSelectedPaymarkets(userDefaultFilters, pricedPayMarkets);
               return [
-                new fromPricingHistoryChartActions.LoadPricedPayMarketsSuccess(pricedPayMarkets),
+                new fromPricingHistoryChartActions.InitPricingHistoryChartSuccess(response),
                 new fromPricingHistoryChartActions.InitUserDefaultFilters(userDefaultFilters)
               ]
             }),
-            catchError(() => of(new fromPricingHistoryChartActions.LoadPricedPayMarketsError('There was an error loading your Pay Market and filter data')))
+            catchError(() => of(new fromPricingHistoryChartActions.InitPricingHistoryChartError('There was an error loading your Pay Market and filter data')))
           )
       )     
     ); 
@@ -74,7 +76,7 @@ export class PricingHistoryChartEffects {
       withLatestFrom(
         this.store.pipe(select(fromPricingHistoryChartReducer.getJobId)),
         this.store.pipe(select(fromPricingHistoryChartReducer.getFilters)),
-        (action: fromPricingHistoryChartActions.LoadPricedPayMarkets, jobId, filters) =>
+        (action: fromPricingHistoryChartActions.GetData, jobId, filters) =>
           ({ action, jobId, filters })
       ),
       switchMap(data =>
@@ -97,15 +99,23 @@ export class PricingHistoryChartEffects {
     return {
       JobId: jobId,
       PayMarketIds: filters.PayMarkets.filter(p => !!p).map(p => p.Id),
+      Rate: filters.Rate,
+      Currency: filters.Currency,
       StartDate: filters.StartDate,
       EndDate: filters.EndDate
     }
   }
 
-  private validateSelectedPaymarkets(filters: PricingHistoryChartFilters, pricedPayMarkets: PricedPayMarkets[]) {
-    filters?.PayMarkets?.forEach(pm => {
-      pm = pricedPayMarkets.find(p => p.Id === pm?.Id) ? pm : null;
-    });    
+  private validateSelectedPaymarkets(filters: PricingHistoryChartFilters, pricedPayMarkets: PricedPayMarkets[]): PricingHistoryChartFilters {
+    if(filters?.PayMarkets){
+      filters.PayMarkets.forEach((pm, index) => {
+        const pricedPM = pricedPayMarkets.find(p => p.Id === pm?.Id)
+        filters.PayMarkets[index] = pricedPM ? pricedPM : null;
+      });
+  
+    }
+    
+    return filters;
   }
 
 

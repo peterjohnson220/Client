@@ -3,6 +3,9 @@
 exports[`Pricing History Chart Features - Filters Should display form 1`] = `
 <pf-filters
   actionsSubject={[Function ActionsSubject]}
+  currencies={[Function Array]}
+  currenciesSubscription={[Function Subscriber]}
+  filteredCurrencies={[Function Array]}
   filteredPayMarketOptions={[Function Array]}
   formBuilder={[Function FormBuilder]}
   formChangesSubscription={[Function Subscriber]}
@@ -12,6 +15,7 @@ exports[`Pricing History Chart Features - Filters Should display form 1`] = `
   pricedPayMarkets$={[Function Store]}
   pricedPayMarketsSubscription={[Function Subscriber]}
   pricingHistoryChartForm={[Function FormGroup]}
+  rates={[Function Array]}
   store={[Function MockStore]}
 >
   <div
@@ -96,7 +100,7 @@ exports[`Pricing History Chart Features - Filters Should display form 1`] = `
       class="d-flex"
     >
       <div
-        class="d-flex pr-3"
+        class="d-flex pr-3 form-group"
       >
         <div
           class="pr-3 my-auto"
@@ -110,7 +114,7 @@ exports[`Pricing History Chart Features - Filters Should display form 1`] = `
         />
       </div>
       <div
-        class="d-flex pl-3"
+        class="d-flex pl-3 form-group"
       >
         <div
           class="pr-3 my-auto"
@@ -121,6 +125,42 @@ exports[`Pricing History Chart Features - Filters Should display form 1`] = `
           class="form-control form-control-sm"
           data-qa-id="date-pricing-history-chart-pm-end-date"
           formcontrolname="EndDate"
+        />
+      </div>
+    </div>
+    <div
+      class="d-flex"
+    >
+      <div
+        class="pr-3 form-group w-75"
+      >
+        <div
+          class="pr-3 my-auto"
+        >
+          Currency
+        </div>
+        <kendo-dropdownlist
+          class="k-dropdown-white form-control form-control-sm"
+          data-qa-id="ddm-pricing-history-chart-currency"
+          formcontrolname="Currency"
+          textfield="Name"
+          valuefield="Value"
+        />
+      </div>
+      <div
+        class="pl-3 form-group w-25"
+      >
+        <div
+          class="pr-3 my-auto"
+        >
+          Rate
+        </div>
+        <kendo-dropdownlist
+          class="k-dropdown-white form-control form-control-sm"
+          data-qa-id="ddm-pricing-history-chart-rate"
+          formcontrolname="Rate"
+          textfield="Name"
+          valuefield="Value"
         />
       </div>
     </div>

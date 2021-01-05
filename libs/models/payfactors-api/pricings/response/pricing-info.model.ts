@@ -29,6 +29,8 @@ export interface PricingNote extends NotesBase {
 export interface PricedPayMarkets {
   Id: number;
   Name: string;
+  Rate: string;
+  Currency: string;
   StartDate: Date;
   EndDate: Date;
   IsDefault: boolean;
@@ -36,6 +38,8 @@ export interface PricedPayMarkets {
 
 export interface PricingHistoryChartFilters {
   PayMarkets: PricedPayMarkets[];
+  Currency: string;
+  Rate: string;
   StartDate: Date;
   EndDate: Date;
 }

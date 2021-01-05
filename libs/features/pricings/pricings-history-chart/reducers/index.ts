@@ -33,5 +33,6 @@ export const selectPricingHistoryChartState =
 export const getState = createSelector(selectPricingHistoryChartState, fromPricingHistoryChartReducer.getState);
 export const getJobId = createSelector(selectPricingHistoryChartState, fromPricingHistoryChartReducer.getJobId);
 export const getPricedPayMarkets = createSelector(selectPricingHistoryChartState, fromPricingHistoryChartReducer.getPricedPayMarkets);
+export const getCurrencies = createSelector(selectPricingHistoryChartState, fromPricingHistoryChartReducer.getCurrencies);
 export const getFilters = createSelector(selectPricingHistoryChartState, fromPricingHistoryChartReducer.getFilters);
 export const getData = createSelector(selectPricingHistoryChartState, fromPricingHistoryChartReducer.getData);
