@@ -7,7 +7,8 @@ import { EffectsModule } from '@ngrx/effects';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
-import { PfSearchModule, SurveySearchModule } from 'libs/features';
+import { PfSearchModule } from 'libs/features/search/search';
+import { SurveySearchModule } from 'libs/features/surveys/survey-search';
 
 import { AddSurveyDataPageComponent } from './containers';
 import { AddSurveyDataPageEffects } from './effects';

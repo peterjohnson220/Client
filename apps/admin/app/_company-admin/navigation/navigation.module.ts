@@ -8,9 +8,11 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
-import { AdminNavigationLinksModule, PfNavigationLinksModule } from 'libs/features';
+
 
 import { NavigationPageComponent } from './navigation.page/navigation.page';
+import { PfNavigationLinksModule } from 'libs/features/infrastructure/navigation-links';
+import { AdminNavigationLinksModule } from 'libs/features/infrastructure/admin-navigation-links';
 
 @NgModule({
   imports: [

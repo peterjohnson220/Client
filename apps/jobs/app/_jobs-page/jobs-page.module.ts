@@ -18,17 +18,17 @@ import { EffectsModule } from '@ngrx/effects';
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
-import {
-  PfDataGridModule,
-  JobManagementModule,
-  PricingDetailsModule,
-  RangeEditorModule,
-  NotesManagerModule,
-  MultiMatchModule,
-  PricingMatchModule,
-  ReScopeSurveyDataModule,
-  UpsertPeerDataCutModule
-} from 'libs/features';
+import {EmployeeDetailsModule} from 'libs/ui/employee-details';
+import { StructureDetailsModule } from 'libs/ui/structure-details';
+import { PfDataGridModule } from 'libs/features/grids/pf-data-grid';
+import { MultiMatchModule } from 'libs/features/pricings/multi-match';
+import { UpsertPeerDataCutModule } from 'libs/features/pricings/upsert-peer-data-cut';
+import { ReScopeSurveyDataModule } from 'libs/features/surveys/re-scope-survey-data';
+import { PricingMatchModule } from 'libs/features/pricings/pricing-match';
+import { NotesManagerModule } from 'libs/features/notes/notes-manager';
+import { RangeEditorModule } from 'libs/features/structures/range-editor';
+import { PricingDetailsModule } from 'libs/features/pricings/pricing-details';
+import { JobManagementModule } from 'libs/features/jobs/job-management';
 
 import { JobsPageComponent } from './jobs.page/jobs.page';
 import { JobsPageRoutingModule } from './jobs-page-routing.module';
@@ -60,8 +60,6 @@ import {
   CanModifyMatch,
   GetMatchScope
 } from './pipes';
-import {EmployeeDetailsModule} from 'libs/ui/employee-details';
-import { StructureDetailsModule } from 'libs/ui/structure-details';
 
 @NgModule({
     imports: [

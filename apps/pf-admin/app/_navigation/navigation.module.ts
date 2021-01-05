@@ -1,11 +1,9 @@
 import { NgModule} from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
-
 import { PfCommonUIModule } from 'libs/ui/common';
-import { AdminNavigationLinksModule, PfNavigationLinksModule } from 'libs/features';
+import { PfNavigationLinksModule } from 'libs/features/infrastructure/navigation-links';
+import { AdminNavigationLinksModule } from 'libs/features/infrastructure/admin-navigation-links';
 
 import { NavigationPageComponent } from './containers';
 import { NavigationRoutingModule } from './navigation-routing.module';

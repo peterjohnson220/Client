@@ -16,7 +16,8 @@ import { LayoutModule } from '@progress/kendo-angular-layout';
 import { UploadModule } from '@progress/kendo-angular-upload';
 
 import { EntityKeyValidationService, PfCommonModule } from 'libs/core';
-import { PfBulkExportSchedulerModule, PfNavigationLinksModule } from 'libs/features';
+import { PfBulkExportSchedulerModule } from 'libs/features/jobs/bulk-job-description-export-scheduler';
+import { PfNavigationLinksModule } from 'libs/features/infrastructure/navigation-links';
 import { PfCompanySelectorModule } from 'libs/features/company/company-selector/company-selector.module';
 import { PfCustomFieldsModule } from 'libs/features/company/custom-fields/custom-fields.module';
 import { PfEntityIdentifierModule } from 'libs/features/company/entity-identifier/entity-identifier.module';
