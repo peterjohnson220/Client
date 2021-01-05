@@ -1,22 +1,15 @@
 <div 
-  class="trs-image px-0 position-relative" 
+  class="trs-image d-flex px-0 position-relative" 
   pfModeClassifierDirective 
   [mode]="mode" 
   [ngClass]="{
     'show-image': controlData.FileUrl,
     'mt-3': controlData.IncreaseMarginTop,
-    'text-center': !horizontalAlignment || horizontalAlignment === 'center',
-    'text-left': horizontalAlignment === 'left',
-    'text-right': horizontalAlignment === 'right'
+    'mx-auto justify-content-center': !horizontalAlignment || horizontalAlignment === 'center',
+    'mr-auto justify-content-start': horizontalAlignment === 'left',
+    'ml-auto justify-content-end': horizontalAlignment === 'right'
   }">
-  <div 
-    *ngIf="!controlData.FileUrl && mode === statementModeEnum.Edit; else showImage" 
-    class="upload-wrapper position-relative"
-    [ngClass]="{
-      'mx-auto': !horizontalAlignment || horizontalAlignment === 'center',
-      'mr-auto': horizontalAlignment === 'left',
-      'ml-auto': horizontalAlignment === 'right'
-    }">
+  <div *ngIf="!controlData.FileUrl && mode === statementModeEnum.Edit; else showImage" class="upload-wrapper w-100 position-relative">
     <fa-icon class="image-icon fa-2x" [icon]="'image'" aria-hidden="true"></fa-icon>
     <kendo-upload
       [autoUpload]="true"
@@ -36,7 +29,7 @@
     <p *ngIf="isServerError" class="server-error help-text text-danger text-center font-italic position-absolute">An error occurred</p>
   </div>
   <ng-template #showImage>
-    <img *ngIf="!!controlData?.FileUrl" #image [src]="controlData.FileUrl" alt="{{controlData.FileName}}" class="mh-100 mw-100 align-items-center">
+    <img *ngIf="!!controlData?.FileUrl" #image [src]="controlData.FileUrl" alt="{{controlData.FileName}}" class="mh-100 mw-100 align-self-baseline">
     <a *ngIf="mode === statementModeEnum.Edit" (click)="deleteImage()" href="javascript:void(0)" class="remove-image d-block text-danger position-absolute" title="Remove Image">
       <fa-icon class="fas fa-trash-alt fa-sm" [icon]="'trash-alt'" aria-hidden="true"></fa-icon>
     </a>

@@ -87,7 +87,7 @@ export class TrsImageControlComponent implements AfterViewInit, OnInit {
   }
 
   setHorizontalAlignment(): void {
-    const horizontalAlignment = this.controlData.HorizontalAlignment.toLocaleLowerCase();
+    const horizontalAlignment = this.controlData.HorizontalAlignment?.toLocaleLowerCase();
     if (horizontalAlignment === 'left' || horizontalAlignment === 'right' || horizontalAlignment === 'center') {
       this.horizontalAlignment = horizontalAlignment;
     } else {

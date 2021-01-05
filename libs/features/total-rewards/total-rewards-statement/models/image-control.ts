@@ -4,7 +4,7 @@ import { TotalRewardsControlEnum } from './total-rewards-control-enum';
 export interface ImageControl extends BaseControl {
   FileName: string;
   FileUrl: string;
-  HorizontalAlignment: string;
+  HorizontalAlignment: 'left' | 'center' | 'right';
   IncreaseMarginTop: boolean;
 }
 
@@ -17,7 +17,7 @@ export function generateMockImageControl(): ImageControl {
     Layout: { Width: 12 },
     FileName: '',
     FileUrl: '',
-    HorizontalAlignment: '',
+    HorizontalAlignment: 'center',
     IncreaseMarginTop: false
   };
 }
