@@ -5,12 +5,13 @@ import { Subscription } from 'rxjs';
 import * as Sentry from '@sentry/browser';
 
 import * as fromRootState from '../../state/state';
-import { UserContext } from '../../models/security';
+import { UserContext } from '../../models';
 import { environment } from '../../../environments/environment';
 
 Sentry.init({
   dsn: 'https://91bfb4ae4e6a459ea2bffa1f07738f09@o50409.ingest.sentry.io/5236451',
-  environment: environment.name
+  environment: environment.name,
+  enabled: environment.name !== 'development'
 });
 
 @Injectable()
