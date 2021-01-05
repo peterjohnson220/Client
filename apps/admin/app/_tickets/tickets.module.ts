@@ -20,8 +20,8 @@ import { PfCommonModule } from 'libs/core';
 import { WindowRef } from 'libs/core/services';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
-import { PfCompanyNotesModalModule } from 'libs/features';
 import { PfCommentBoxModule } from 'libs/ui/comment-box';
+import { PfCompanyNotesModalModule } from 'libs/features/company/company-notes';
 
 import { TicketDetailCardComponent } from './components';
 import {

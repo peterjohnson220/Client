@@ -6,7 +6,7 @@ import { Observable, of } from 'rxjs';
 import { Action } from '@ngrx/store';
 
 import { JobLevelHierarchy, JobLevelHierarchyDetail } from 'libs/models';
-import { NotificationLevel, NotificationSource, NotificationType } from 'libs/features';
+import { NotificationLevel, NotificationSource, NotificationType } from 'libs/features/infrastructure/app-notifications/models';
 import { CompanyJobApiService, JobLevelHierarchyApiService } from 'libs/data/payfactors-api/company';
 import * as fromNotificationActions from 'libs/features/infrastructure/app-notifications/actions/app-notifications.actions';
 
