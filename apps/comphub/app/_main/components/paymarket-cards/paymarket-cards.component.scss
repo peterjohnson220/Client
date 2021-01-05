@@ -19,6 +19,11 @@ $light-unselected-grey: #DCE3E6;
     height: 9px;
     top: auto !important;
   }
+
+  .ps > .ps__rail-x,
+  .ps > .ps__rail-y {
+    opacity: 0.6;
+  }
 }
 
 .paymarket-card-container {
