@@ -1,12 +1,12 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 
 import cloneDeep from 'lodash/cloneDeep';
 
-import {SavedFilterType, UserFilterUpsertRequest} from 'libs/models/payfactors-api';
-import {SavedFilter, SaveFilterModalData} from 'libs/features/users/user-filter/models';
-import {PayfactorsSearchApiModelMapper} from 'libs/features/search/search/helpers';
+import { SavedFilterType, UserFilterUpsertRequest } from 'libs/models/payfactors-api';
+import { SavedFilter, SaveFilterModalData } from 'libs/features/users/user-filter/models';
+import { PayfactorsSearchApiModelMapper } from 'libs/features/search/search/helpers';
 
-import {JobContext, PricingMatchDataSearchContext} from '../models';
+import { JobContext, PricingMatchDataSearchContext } from '../models';
 
 @Injectable()
 export class SavedFilterHelper {
@@ -55,8 +55,10 @@ export class SavedFilterHelper {
   }
 
   removePaymarketFromDefaultPayMarkets(payMarketId: number, savedFilter: SavedFilter): any {
-    return { DefaultPayMarkets: savedFilter.MetaInfo.DefaultPayMarkets
-      .filter(dpmid => dpmid.toString() !== payMarketId.toString()) };
+    return {
+      DefaultPayMarkets: savedFilter.MetaInfo.DefaultPayMarkets
+        .filter(dpmid => dpmid.toString() !== payMarketId.toString())
+    };
   }
 
   getPayMarketId(jobContext: JobContext, pricingMatchDataSearchContext: PricingMatchDataSearchContext): number {
@@ -65,7 +67,7 @@ export class SavedFilterHelper {
   }
 
   getDefaultFilter(payMarketId: number, savedFilters: SavedFilter[]): SavedFilter {
-    return savedFilters.find(sf => sf.MetaInfo.DefaultPayMarkets
-      .some(dpmid => dpmid.toString() === payMarketId.toString()));
+    return savedFilters.find(sf => sf.MetaInfo.DefaultPayMarkets != null
+      && sf.MetaInfo.DefaultPayMarkets.some(dpmid => dpmid.toString() === payMarketId.toString()));
   }
 }
