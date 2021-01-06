@@ -17,7 +17,6 @@ import { RangeEditorModule } from 'libs/features/structures';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { FormulaEditorModule } from 'libs/ui/formula-editor';
 
-import { GlobalActionsComponent, GridContextComponent, ModelSettingsBtnComponent } from './components';
 import {
   ModelGridComponent,
   ModelSettingsModalComponent,
@@ -28,10 +27,11 @@ import {
 import { ModelSettingsModalEffects, PublishModelModalEffects, SharedEffects, DuplicateModelModalEffects, FieldsEffects, FormulaFieldEffects } from './effects';
 import { RangeValuePipe } from './pipes';
 import { reducers } from './reducers';
-import { StructuresPagesService, UrlService } from './services';
+import { UrlService } from './services';
 import * as fromFaIcons from './fa-icons';
 import { AdvancedModelSettingComponent } from './containers/advanced-model-setting';
 import { StructuresFormulaEditorComponent } from './containers/structures-formula-editor/structures-formula-editor.component';
+import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
     imports: [
@@ -68,36 +68,32 @@ import { StructuresFormulaEditorComponent } from './containers/structures-formul
         RangeEditorModule,
         PfCommonUIModule,
         FormulaEditorModule,
-        FormsModule
+        FormsModule,
+
+        SharedModule
     ],
   declarations: [
     ModelGridComponent,
     RangeRoundingComponent,
     AdvancedModelSettingComponent,
-    GridContextComponent,
     ModelSettingsModalComponent,
-    ModelSettingsBtnComponent,
     RangeValuePipe,
-    GlobalActionsComponent,
     RangeDistributionSettingComponent,
     DuplicateModelModalComponent,
     StructuresFormulaEditorComponent
   ],
   exports: [
     ModelGridComponent,
-    GridContextComponent,
     ModelSettingsModalComponent,
-    ModelSettingsBtnComponent,
     FontAwesomeModule,
     RangeValuePipe,
     DuplicateModelModalComponent
   ],
   providers: [
     UrlService,
-    StructuresPagesService
   ]
 })
-export class SharedModule {
+export class JobBasedSharedModule {
   constructor(library: FaIconLibrary) {
     library.addIcons(...fromFaIcons.faIcons);
   }

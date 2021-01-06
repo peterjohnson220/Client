@@ -51,11 +51,11 @@ describe('Features - Structures - Midpoint Editor', () => {
     expect(instance.editable).toBe(false);
   });
 
-  it('should not be editable when the rangeGroupType is not Job', () => {
+  it('should be editable when the rangeGroupType is not Job', () => {
     instance.hasCanCreateEditModelStructurePermission = true;
     instance.rangeGroupType = RangeGroupType.Grade;
 
-    expect(instance.editable).toBe(false);
+    expect(instance.editable).toBe(true);
   });
 
   it('should not be editable when it is the current structure but we cant edit current structure ranges', () => {

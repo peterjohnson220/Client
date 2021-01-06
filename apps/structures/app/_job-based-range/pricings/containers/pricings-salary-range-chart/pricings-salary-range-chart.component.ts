@@ -11,7 +11,6 @@ import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import { appendOrdinalSuffix } from 'libs/core/functions';
 
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
-import { StructuresPagesService } from '../../../shared/services';
 import { StructuresHighchartsService } from '../../../../shared/services/structures-highcharts-service';
 import { PricingsSalaryRangeChartSeries, PricingsSalaryRangeChartService } from '../../data';
 import { PricingMatchHelper } from '../../helpers';
@@ -20,6 +19,7 @@ import { SalaryRangeSeries } from '../../../shared/models/salary-range-series.mo
 import { DataPointSeries } from '../../../shared/models/data-point-series.model';
 import { RangeDistributionTypeIds } from '../../../../shared/constants/range-distribution-type-ids';
 import { RangeDistributionDataPointTypeIds } from '../../../../shared/constants/range-distribution-data-point-type-ids';
+import { StructuresPagesService } from '../../../../shared/services';
 
 @Component({
   selector: 'pf-pricings-salary-range-chart',

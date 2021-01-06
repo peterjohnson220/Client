@@ -10,8 +10,7 @@ import { RangeGroupMetadata } from 'libs/models/structures';
 import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
-import { StructuresPagesService } from '../../../shared/services';
-import { StructuresHighchartsService } from '../../../../shared/services';
+import { StructuresHighchartsService, StructuresPagesService } from '../../../../shared/services';
 import { EmployeeRangeChartService, EmployeeSalaryRangeChartSeries } from '../../data';
 import { GraphHelper } from '../../../shared/helpers/graph.helper';
 import { DataPointSeries } from '../../../shared/models/data-point-series.model';

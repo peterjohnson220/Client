@@ -10,5 +10,6 @@ export enum PfDataGridColType {
   pricingInfo = 'pricing-info',
   template = 'template',
   sharedTemplate = 'sharedTemplate',
-  bit = 'bit'
+  bit = 'bit',
+  midpointDiffFieldEditor = 'midpointDiffFieldEditor'
 }
