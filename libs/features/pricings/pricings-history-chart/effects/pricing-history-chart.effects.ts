@@ -122,7 +122,7 @@ export class PricingHistoryChartEffects {
   private getDefaultPMFilters(pricedPayMarkets: PricedPayMarket[], userDefaultFilters: PricingHistoryChartFilters) {
 
     const defaultPMs = pricedPayMarkets.filter(v => v.IsDefault);
-    if (userDefaultFilters?.PayMarkets?.length > 0) {
+    if (userDefaultFilters?.PayMarkets?.filter(p => !!p).length > 0) {
       return userDefaultFilters;
     } else if ((defaultPMs.length > 0)) {
       return {

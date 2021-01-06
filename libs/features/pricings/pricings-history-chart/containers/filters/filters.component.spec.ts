@@ -130,8 +130,8 @@ describe('Pricing History Chart Features - Filters', () => {
       PayMarkets: [userSelectedPM, null, null, null, null],
       Rate: 'Annual',
       Currency: 'USD',
-      StartDate: null,
-      EndDate: null
+      StartDate: new Date('8/1/2018'),
+      EndDate: new Date('10/1/2018')
     });
 
     expect(c.PayMarkets.value[0].Id).toEqual(2222);

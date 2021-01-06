@@ -126,7 +126,6 @@ export class FiltersComponent implements OnInit, OnDestroy {
     }, {emitEvent: false});
     
     this.filterPayMarketOptions();
-    this.updateDateRange(false);
   }
 
   updateDateRange(emitPatchEvent = true) {
