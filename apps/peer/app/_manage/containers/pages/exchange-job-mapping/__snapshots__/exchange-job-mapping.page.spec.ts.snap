@@ -14,6 +14,8 @@ exports[`Peer - Exchange Job Mapping Page should apply a collapse-grid class to 
   featureFlagService={[Function Object]}
   gridPageRowIndexToScrollTo$={[Function Store]}
   peerManageJobsGridToggleFlag={[Function Object]}
+  queryParamSubscription={[Function Subscriber]}
+  queryParams$={[Function Observable]}
   route={[Function Object]}
   selectedCompanyJob$={[Function Store]}
   selectedExchangeJobMapping$={[Function Store]}
@@ -103,6 +105,8 @@ exports[`Peer - Exchange Job Mapping Page should show the correct header message
   featureFlagService={[Function Object]}
   gridPageRowIndexToScrollTo$={[Function Store]}
   peerManageJobsGridToggleFlag={[Function Object]}
+  queryParamSubscription={[Function Subscriber]}
+  queryParams$={[Function Observable]}
   route={[Function Object]}
   selectedCompanyJob$={[Function Store]}
   selectedExchangeJobMapping$={[Function Store]}
@@ -192,6 +196,8 @@ exports[`Peer - Exchange Job Mapping Page should show the correct header message
   featureFlagService={[Function Object]}
   gridPageRowIndexToScrollTo$={[Function Store]}
   peerManageJobsGridToggleFlag={[Function Object]}
+  queryParamSubscription={[Function Subscriber]}
+  queryParams$={[Function Observable]}
   route={[Function Object]}
   selectedCompanyJob$={[Function Store]}
   selectedExchangeJobMapping$={[Function Store]}

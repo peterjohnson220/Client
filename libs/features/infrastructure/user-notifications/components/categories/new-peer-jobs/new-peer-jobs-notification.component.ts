@@ -24,7 +24,7 @@ export class NewPeerJobsNotificationComponent extends UserNotificationBaseCompon
       BaseUrl: `${this.UserNotification.BaseUrl}${parsedMetaData.UrlSuffix}`,
       IconPrefix: this.IconPrefix,
       IconName: this.IconName,
-      OpenLinkInNewTab: true
+      OpenLinkInNewTab: false
     };
   }
 
@@ -36,7 +36,9 @@ export class NewPeerJobsNotificationComponent extends UserNotificationBaseCompon
       const exchangeId = json['ExchangeId'];
       const hasJobTitle = !!exchangeJobTitle?.length;
       const messagePrefix = hasJobTitle ? exchangeJobTitle : 'New Jobs';
-      const queryStringParams = hasJobTitle ? `jobTitle=${exchangeJobTitle}` : 'status=new';
+      const exchangeTabQuery = 'pageView=exchange';
+      let queryStringParams = hasJobTitle ? `jobTitle=${exchangeJobTitle}` : 'status=new';
+      queryStringParams = `${queryStringParams}&${exchangeTabQuery}`;
       const urlSuffix = `${exchangeId}/manage?${queryStringParams}`;
       return {
         Message: `Review and match to new Peer Job${!hasJobTitle ? 's' : ''}`,

@@ -1,8 +1,10 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
+import { ActivatedRoute } from '@angular/router';
 
 import { Store, combineReducers, StoreModule } from '@ngrx/store';
 import { DataStateChangeEvent } from '@progress/kendo-angular-grid';
+import { of } from 'rxjs';
 
 import spyOn = jest.spyOn;
 
@@ -35,6 +37,13 @@ describe('Peer - Exchange Job Mapping Grid', () => {
         {
           provide: ExchangeJobMappingService,
           useValue: { loadExchangeJobMappings: jest.fn() }
+        },
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            queryParams: of({}),
+            snapshot: { queryParamMap: { get: (key) => '' } }
+          }
         }
       ],
       declarations: [

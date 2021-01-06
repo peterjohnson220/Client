@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 import { Store, select } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
@@ -44,8 +45,9 @@ export class ExchangeJobMappingGridComponent implements OnInit, OnDestroy {
   associationData: any;
   pendingStatusData: any;
   exchangeId: number;
+  jobTitleSearch: string;
 
-  constructor(private store: Store<fromPeerManagementReducer.State>) {}
+  constructor(private store: Store<fromPeerManagementReducer.State>, private activatedRoute: ActivatedRoute) {}
 
   onDataStateChange(state: DataStateChangeEvent): void {
     this.store.dispatch(new fromGridActions.UpdateGrid(GridTypeEnum.ExchangeJobMapping, state));
@@ -118,6 +120,20 @@ export class ExchangeJobMappingGridComponent implements OnInit, OnDestroy {
     this.allSubscriptions.add(this.store.pipe(select(companyJobsReducer.getCompanyJobsExchangeId)).subscribe(exchangeId => {
       this.exchangeId = exchangeId;
     }));
+
+    this.allSubscriptions.add(this.activatedRoute.queryParams.subscribe(params => {
+      this.selectedStatusFilterOption = params['status'];
+      this.jobTitleSearch = params['jobTitle'];
+    }));
+
+    if (!!this.selectedStatusFilterOption) {
+      this.store.dispatch(new fromGridActions.UpdateFilter(GridTypeEnum.ExchangeJobMapping, {columnName: 'StatusId', value: this.selectedStatusFilterOption}));
+    }
+
+    if ( !!this.jobTitleSearch) {
+      this.store.dispatch(new fromGridActions.UpdateFilter(GridTypeEnum.ExchangeJobMapping, {columnName: 'ExchangeJobTitle', value: this.jobTitleSearch}));
+      this.store.dispatch(new fromGridActions.UpdateGrid(GridTypeEnum.ExchangeJobMapping, this.exchangeJobMappingGridState));
+    }
 
     this.store.dispatch(new fromExchangeJobMappingGridActions.LoadExchangeJobMappings());
   }
