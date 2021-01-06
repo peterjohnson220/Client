@@ -12,7 +12,8 @@ exports[`TrsTitleControlComponent should add a \`background-graphics\` class to 
   titleInnerWidth={[Function String]}
 >
   <div
-    class="trs-title h-100 position-relative text-center edit-mode background-graphics"
+    class="trs-title h-100 position-relative text-center background-graphics"
+    pfmodeclassifierdirective=""
     style="width: 100%;"
   >
     <div
@@ -77,7 +78,8 @@ exports[`TrsTitleControlComponent should set the innerTitleWidth as the width of
   titleInnerWidth={[Function String]}
 >
   <div
-    class="trs-title h-100 position-relative text-center edit-mode"
+    class="trs-title h-100 position-relative text-center pb-4"
+    pfmodeclassifierdirective=""
     style="width: 66.67%;"
   >
     <div
@@ -142,7 +144,8 @@ exports[`TrsTitleControlComponent should show in edit mode 1`] = `
   titleInnerWidth={[Function String]}
 >
   <div
-    class="trs-title h-100 position-relative text-center edit-mode"
+    class="trs-title h-100 position-relative text-center pb-4"
+    pfmodeclassifierdirective=""
     style="width: 100%;"
   >
     <div
@@ -207,7 +210,8 @@ exports[`TrsTitleControlComponent should show when in preview mode 1`] = `
   titleInnerWidth={[Function String]}
 >
   <div
-    class="trs-title h-100 position-relative text-center"
+    class="trs-title h-100 position-relative text-center pb-4"
+    pfmodeclassifierdirective=""
     style="width: 100%;"
   >
     <div
