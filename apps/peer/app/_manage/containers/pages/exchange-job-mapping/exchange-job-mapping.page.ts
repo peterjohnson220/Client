@@ -50,11 +50,13 @@ export class ExchangeJobMappingPageComponent implements OnInit, OnDestroy {
     selectedExchangeJobMapping$: Observable<ExchangeJobMapping>;
     userContext$: Observable<UserContext>;
     exchangeId$: Observable<number>;
+    queryParams$: Observable<any>;
 
     selectedExchangeJobMappingSubscription: Subscription;
     showCompanyJobsSubscription: Subscription;
     companyJobsSearchTermSubscription: Subscription;
     exchangeIdSubscription: Subscription;
+    queryParamSubscription: Subscription;
     selectedCompanyJob$: Observable<CompanyJob>;
     unsubscribe$ = new Subject<void>();
 
@@ -67,6 +69,9 @@ export class ExchangeJobMappingPageComponent implements OnInit, OnDestroy {
         private featureFlagService: AbstractFeatureFlagService
     ) {
         this.exchangeId$ = this.route.params.pipe(map(p => p.id));
+
+        this.queryParams$ = this.route.queryParams;
+
 
         this.gridPageRowIndexToScrollTo$ = this.store.select(fromPeerManagementReducer.getExchangeJobMappingPageRowIndexToScrollTo);
         this.selectedExchangeJobMapping$ = this.store.select(fromPeerManagementReducer.getSelectedExchangeJobMapping);
@@ -144,6 +149,14 @@ export class ExchangeJobMappingPageComponent implements OnInit, OnDestroy {
           });
         }
 
+      this.queryParamSubscription = this.queryParams$.subscribe(x => {
+        const pageView = x['pageView'];
+
+        if (pageView === 'exchange') {
+          this.showCompanyJobs = false;
+        }
+      });
+
         this.exchangeIdSubscription = this.exchangeId$.subscribe(e => this.exchangeId = e);
 
         this.store.dispatch(new companyJobsActions.SetExchangeId(parseInt(this.route.snapshot.params.id, 10)));
@@ -153,6 +166,7 @@ export class ExchangeJobMappingPageComponent implements OnInit, OnDestroy {
         this.selectedExchangeJobMappingSubscription.unsubscribe();
         this.showCompanyJobsSubscription.unsubscribe();
         this.exchangeIdSubscription.unsubscribe();
+        this.queryParamSubscription.unsubscribe();
         if (this.companyJobsSearchTermSubscription) {
           this.companyJobsSearchTermSubscription.unsubscribe();
         }

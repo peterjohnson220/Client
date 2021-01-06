@@ -42,6 +42,7 @@ describe('Peer - Exchange Job Mapping Page', () => {
           provide: ActivatedRoute,
           useValue: {
             params: of({ id: 1 }),
+            queryParams: of({}),
             snapshot: {
               params: { id: 1 }
             }
