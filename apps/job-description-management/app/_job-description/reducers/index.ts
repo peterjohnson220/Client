@@ -366,6 +366,22 @@ export const getDeletingJobDescriptionError = createSelector(
   fromJobDescriptionReducer.getDeletingJobDescriptionError
 );
 
+export const getDiscardingDraftJobDescription = createSelector(
+  selectJobDescriptionState,
+  fromJobDescriptionReducer.getDiscardingDraftJobDescription
+);
+
+export const getDiscardingDraftJobDescriptionSuccess = createSelector(
+  selectJobDescriptionState,
+  fromJobDescriptionReducer.getDiscardingDraftJobDescriptionSuccess
+);
+
+export const getDiscardingDraftJobDescriptionError = createSelector(
+  selectJobDescriptionState,
+  fromJobDescriptionReducer.getDiscardingDraftJobDescriptionError
+);
+
+
 export const getJobDescriptionExtendedInfoAsync = createSelector(
   selectJobDescriptionState,
   fromJobDescriptionReducer.getJobDescriptionExtendedInfoAsync

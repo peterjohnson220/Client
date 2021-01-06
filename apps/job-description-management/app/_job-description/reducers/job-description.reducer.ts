@@ -27,6 +27,9 @@ export interface State {
   deleting: boolean;
   deletingError: boolean;
   deletingSuccess: boolean;
+  discardingDraft: boolean;
+  discardingDraftError: boolean;
+  discardingDraftSuccess: boolean;
   ssoLoginUrl: string;
   ssoAuthResult: any;
   loadingPage: boolean;
@@ -52,6 +55,9 @@ export const initialState: State = {
   deleting: false,
   deletingError: false,
   deletingSuccess: false,
+  discardingDraft: false,
+  discardingDraftError: false,
+  discardingDraftSuccess: false,
   ssoLoginUrl: null,
   ssoAuthResult: null,
   loadingPage: false,
@@ -421,6 +427,30 @@ export function reducer(state = initialState, action: fromJobDescriptionActions.
         deletingError: true
       };
     }
+    case fromJobDescriptionActions.DISCARD_DRAFT: {
+      return {
+        ...state,
+        discardingDraft: true,
+        discardingDraftSuccess: false,
+        discardingDraftError: false
+      };
+    }
+    case fromJobDescriptionActions.DISCARD_DRAFT_SUCCESS: {
+      return {
+        ...state,
+        discardingDraft: false,
+        discardingDraftSuccess: true,
+        discardingDraftError: false
+      };
+    }
+    case fromJobDescriptionActions.DISCARD_DRAFT_ERROR: {
+      return {
+        ...state,
+        discardingDraft: false,
+        discardingDraftSuccess: false,
+        discardingDraftError: true
+      };
+    }
     case fromJobDescriptionActions.UPDATE_JOB_DESCRIPTION_APPLIES_TO: {
       const asyncStateObjClone: AsyncStateObj<JobDescription> = cloneDeep(state.jobDescriptionAsync);
       asyncStateObjClone.obj.AppliesToField = action.payload.AppliesToField;
@@ -487,6 +517,9 @@ export const getUndoJobDescriptionChangesComplete = (state: State) => state.undo
 export const getDeletingJobDescription = (state: State) => state.deleting;
 export const getDeletingJobDescriptionSuccess = (state: State) => state.deletingSuccess;
 export const getDeletingJobDescriptionError = (state: State) => state.deletingError;
+export const getDiscardingDraftJobDescription = (state: State) => state.discardingDraft;
+export const getDiscardingDraftJobDescriptionSuccess = (state: State) => state.discardingDraftSuccess;
+export const getDiscardingDraftJobDescriptionError = (state: State) => state.discardingDraftError;
 export const getJobDescriptionExtendedInfoAsync = (state: State) => state.GettingJobDescriptionExtendedInfoAsync;
 export const getReplaceJobDescriptionComplete = (state: State) => state.replaceJobDescriptionComplete;
 export const getJobDescriptionSSOLoginUrl = (state: State) => state.ssoLoginUrl;

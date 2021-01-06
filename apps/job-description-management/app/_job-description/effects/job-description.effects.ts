@@ -112,7 +112,7 @@ export class JobDescriptionEffects {
           .pipe(
             concatMap((response) => {
               if (response === '') {
-                return [new fromJobDescriptionActions.DiscardDraftSuccess()];
+                this.router.navigate(['']);
               }
               const jobDescription: JobDescription = JSON.parse(response);
               const requestData: GetJobDescriptionData = {
@@ -123,21 +123,12 @@ export class JobDescriptionEffects {
                 new fromJobDescriptionActions.GetJobDescriptionSuccess({
                 jobDescription,
                 requestData }),
-                new fromJobDescriptionActions.GetJobDescriptionExtendedInfo({
-                jobDescriptionId: jobDescription.JobDescriptionId,
-                revision: jobDescription.JobDescriptionRevision }),
+               new fromJobDescriptionActions.DiscardDraftSuccess()
               ];
             }),
             catchError(() => of(new fromJobDescriptionActions.DiscardDraftError()))
           );
       })
-    );
-
-  @Effect({dispatch: false})
-  discardDraftSuccess$ = this.actions$
-    .pipe(
-      ofType(fromJobDescriptionActions.DISCARD_DRAFT_SUCCESS),
-      tap(() => this.router.navigate(['']))
     );
 
   @Effect()
