@@ -11,6 +11,8 @@
       class="ml-2"
       *ngIf="mode !== statementModeEnum.Print"
       [disabled]="mode !== statementModeEnum.Edit"
+      [format]="'MM/dd/yyyy'" 
+      [formatPlaceholder]="'formatPattern'"
       [value]="effectiveDate"
       (valueChange)="handleValueChanged($event)">
     </kendo-datepicker>
