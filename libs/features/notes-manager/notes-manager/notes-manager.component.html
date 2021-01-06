@@ -1,7 +1,7 @@
 <ng-container [ngSwitch]="display">
   <ng-container *ngSwitchCase="'component'" [ngTemplateOutlet]="notesManagerContent"></ng-container>
   <ng-container *ngSwitchCase="'modal'">
-    <pf-modal-form
+   <pf-modal-form
       [modalId]="'au-modal-notes-manager'"
       [title]="modalTitle"
       [isOpen$]="showNotesManager$"

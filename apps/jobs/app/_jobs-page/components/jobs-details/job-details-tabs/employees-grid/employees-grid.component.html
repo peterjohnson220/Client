@@ -5,6 +5,8 @@
   [columnTemplates]="colTemplates"
   [inboundFilters]="filters"
   [defaultSort]="defaultSort"
+  [selectionField]="hasEmployeeDetailsFlagEnabled ? 'CompanyEmployee_ID' : undefined"
+  [expandedRowTemplate]="hasEmployeeDetailsFlagEnabled ? employeeDetails : undefined"
   [headerClassName]="'jobs-page-sub-grid-header'"
   [pageTheme]="pfThemeType.JobDetails"
   [borders]="false"
@@ -12,8 +14,30 @@
   [gridConfig]="gridConfig"
   [pageable]="!gridConfig.EnableInfiniteScroll"
   [hasHeaderDividers]="true"
+  [useReportingDB]="true"
   [fieldsExcludedFromExport] = fieldsExcludedFromExport>
 </pf-data-grid>
+
+<ng-template #employeeDetails let-dataRow="dataRow">
+  <ng-template #closeButton>
+    <div class="close-btn">
+      <fa-icon
+        [icon]="['far', 'times']" title="Close"
+        [attr.data-qa-id]="'btn-employee-details-close'"
+        [fixedWidth]="true"
+        [size]="'lg'"
+        (click)="closeExpandedRow('CompanyEmployees_CompanyEmployee_ID', dataRow['CompanyEmployees_CompanyEmployee_ID'])">
+      </fa-icon>
+    </div>
+  </ng-template>
+
+  <pf-employee-details
+    [employeeDetails]="dataRow | employeeDetails"
+    [theme]="pfThemeType.Default"
+    [optionalCloseButton]="closeButton"
+  >
+  </pf-employee-details>
+</ng-template>
 
 <ng-template #employeeColumn let-dataRow="dataRow">
   <ng-container *ngIf="dataRow['CompanyEmployees_First_Name'] || dataRow['CompanyEmployees_Last_Name']; else noEmployeeName">

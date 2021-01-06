@@ -20,6 +20,7 @@ export interface State {
   fullReplaceEmployees: boolean;
   fullReplaceStructureMappings: boolean;
   fullReplaceBenefits: boolean;
+  fullReplaceEmployeeTags: boolean;
 }
 
 export const initialState: State = {
@@ -36,7 +37,8 @@ export const initialState: State = {
   openReauthenticationModal: false,
   fullReplaceEmployees: true,
   fullReplaceStructureMappings: true,
-  fullReplaceBenefits: true
+  fullReplaceBenefits: true,
+  fullReplaceEmployeeTags: true
 };
 
 export function reducer(state: State = initialState, action: fromHrisConnectionActions.Actions) {
@@ -226,6 +228,7 @@ export const getFullReplaceModes = (state: State) => {
   return {
     doFullReplaceEmployees: state.fullReplaceEmployees,
     doFullReplaceStructureMappings: state.fullReplaceStructureMappings,
-    doFullReplaceBenefits: state.fullReplaceBenefits
+    doFullReplaceBenefits: state.fullReplaceBenefits,
+    doFullReplaceEmployeeTags: state.fullReplaceEmployeeTags
   };
 };

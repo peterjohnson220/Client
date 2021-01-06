@@ -1,0 +1,107 @@
+<div class="card">
+  <div class="card-header">
+    <span class="title">My Profile</span>
+  </div>
+  <div class="card-body">
+    <form [formGroup]="userProfileForm">
+      <div class="d-flex">
+        <div class="d-flex flex-column" [style.width.px]="125">
+          <div class="d-flex flex-column profile-picture-container">
+            <img class="avatar rounded-circle"
+                 src="{{(cloudFilesPublicBaseUrl$ | async)}}/avatars/{{userPicture}}"
+                 src-fallback="{{(cloudFilesPublicBaseUrl$ | async)}}/avatars/{{defaultUserPicture}}"
+                 width="125"
+                 height="125">
+          </div>
+          <kendo-upload [multiple]="false"
+                        [autoUpload]="true"
+                        saveUrl="/odata/UserProfile.UploadProfilePicture"
+                        [restrictions]="uploadRestrictions"
+                        [showFileList]="false"
+                        (select)="handleFileSelect($event)"
+                        (success)="handleFileUploadSuccess($event)"
+                        (error)="handleFileUploadError($event)"
+                        formControlName="UserPicture"
+                        class="mb-2">
+            <kendo-upload-messages select="Upload Photo"></kendo-upload-messages>
+          </kendo-upload>
+          <span *ngIf="!!userPictureErrorMessage" class="text-danger text-align-center">{{userPictureErrorMessage}}</span>
+        </div>
+        
+        <div class="d-flex flex-column flex-grow-1 ml-4">
+          <div class="row">
+            <div class="form-group col-6">
+              <label for="userSettingsProfileFirstName">First Name*</label>
+              <input id="userSettingsProfileFirstName"
+                     type="text"
+                     class="form-control"
+                     formControlName="FirstName"
+                     maxlength="nameMaxLength"
+                     [pfValidatable]="true">
+              <span *ngIf="formControls.FirstName.errors?.required" class="invalid-feedback">First Name is required</span>
+              <span *ngIf="formControls.FirstName.errors?.maxLengthTrimmed" class="invalid-feedback">
+                First Name cannot be longer than {{nameMaxLength}} characters
+              </span>
+            </div>
+            <div class="form-group col-6">
+              <label for="userSettingsProfileLastName">Last Name*</label>
+              <input id="userSettingsProfileLastName"
+                     type="text"
+                     class="form-control"
+                     formControlName="LastName"
+                     maxlength="nameMaxLength"
+                     [pfValidatable]="true">
+              <span *ngIf="formControls.LastName.errors?.required" class="invalid-feedback">Last Name is required</span>
+              <span *ngIf="formControls.LastName.errors?.maxLengthTrimmed" class="invalid-feedback">
+                Last Name cannot be longer than {{nameMaxLength}} characters
+              </span>
+            </div>
+          </div>
+    
+          <div class="row">
+            <div class="form-group col-6">
+              <label for="userSettingsProfileEmailAddress">Email*</label>
+              <input id="userSettingsProfileEmailAddress"
+                     type="text"
+                     class="form-control"
+                     formControlName="EmailAddress"
+                     [pfValidatable]="true"
+                     readonly>
+              <span *ngIf="formControls.EmailAddress.errors?.required" class="invalid-feedback">Email Address is required</span>
+            </div>
+            <div class="form-group col-6">
+              <label for="userSettingsProfileTitle">Title*</label>
+              <input id="userSettingsProfileTitle"
+                     type="text"
+                     class="form-control"
+                     formControlName="Title"
+                     maxlength="titleMaxLength"
+                     [pfValidatable]="true">
+              <span *ngIf="formControls.Title.errors?.required" class="invalid-feedback">Title is required</span>
+              <span *ngIf="formControls.Title.errors?.maxLengthTrimmed" class="invalid-feedback">
+                Title cannot be longer than {{titleMaxLength}} characters
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+      <div class="d-flex">
+        <div class="ml-auto">
+          <span *ngIf="savingError && !userProfileForm.dirty" class="pr-2 text-danger">Error saving profile</span>
+          <span *ngIf="savingSuccess && !userProfileForm.dirty" class="pr-2">Success</span>
+          <button type="button"
+                  class="btn btn-primary"
+                  data-qa-id="btn-save-user-profile"
+                  [disabled]="submitDisabled"
+                  (click)="handleSaveClicked()">
+            <span *ngIf="saving">
+              <pf-loading-indicator></pf-loading-indicator> Saving
+            </span>
+            <span *ngIf="!saving">Save</span>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

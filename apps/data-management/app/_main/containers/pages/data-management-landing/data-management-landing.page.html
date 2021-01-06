@@ -1,4 +1,4 @@
-<pf-async-container [loading]="(loading$ | async ) && (transferScheduleSummaryLoading$ | async)"
+<pf-async-container [loading]="(loading$ | async ) && (transferScheduleSummaryLoading$ | async) && (loadAndExportFilesCardLoading$ | async)"
                     [loadingError]="(loadingError$ | async) && (transferScheduleSummaryError$ | async)"
                     [loadingErrorMessage]="'Error loading HRIS landing page'">
   <div class="row">

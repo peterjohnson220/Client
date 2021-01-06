@@ -3,16 +3,16 @@
 $line-graphic-thickness: 4px;
 
 .trs-title {
-  padding: 0 15px; // match bootstrap with a px here, variable width is set directly in markup  
+  padding: 0 15px; // match bootstrap with a px here, variable width is set directly in markup
 }
 
 h3.employee {
   margin-top: 0.35rem;
-  margin-left: -.25rem;;
+  margin-left: -.25rem;
   font-size: 1.3rem;
   overflow: hidden;
   white-space: nowrap;
-  .employee-name, .employee-id { 
+  .employee-name, .employee-id {
     transition: background-color .3s ease-in-out, color .3s ease-in-out, padding .05s ease-in-out;
   }
 }
@@ -27,14 +27,10 @@ h3.employee {
   }
 }
 
-.graphics {
-  display: none; // keep graphics hidden/off by default 
-}
-
 // when bg graphics are on add styling and dimension to the .graphic elements, show line graphics, and re-style the title h2
 .background-graphics {
-  .graphics {
-    display: initial;
+  .graphic {
+    transition: background-color 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   }
   h2 {
     font-weight: 800;
@@ -53,14 +49,12 @@ h3.employee {
   }
   .outer.graphic {
     width: 100%;
-    background-color: $trs-default-styled-overlap-graphic-color;
     margin-left: -4rem;
     padding: 2rem 0 0 2rem;
     transform: skew(10deg); // skew the outer graphic to get an angled container look
     .inner.graphic {
       display: flex;
       height: 11.5rem; // set height so background doesn't collapse to a single line when editing
-      background-color: $trs-default-styled-background-graphic-color;
       transform: skew(-10deg); // undo the parent's skew
       padding: 0 3rem 0 6rem;
       margin-right: -6rem; // overflow the skewed container so graphic consumes all horizontal space in the column
@@ -69,7 +63,6 @@ h3.employee {
     }
   }
   .overlap.graphic {
-    background-color: $trs-default-styled-overlap-graphic-color;
     position: absolute;
     z-index: 5;
     width: 15.4rem;
@@ -78,10 +71,8 @@ h3.employee {
     left: -13.5rem;
   }
   .line.graphic {
-    background-color: $trs-default-styled-line-graphic-color;
     position: absolute;
     z-index: 5;
-    // PDF gen is currently at a different scale than the canvas, so use a % based x position to keep consistency in the variable container widths
     &.top-vertical {
       left: 80%;
       height: 22px;
@@ -103,12 +94,14 @@ h3.employee {
       top: 16px;
     }
     &.bottom-horizontal {
+      position: relative;
       left: -30px;
       height: $line-graphic-thickness;
       width: 66.67%;
       margin-top: 6px;
     }
     &.bottom.circle {
+      position: relative;
       left: calc(66% - 30px);
       bottom: 6px;
     }

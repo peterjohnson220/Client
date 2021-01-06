@@ -16,3 +16,6 @@ export * from './validation-error-results.pipe';
 export * from './time-elapsed.pipe';
 export * from './editable-job-description.pipe';
 export * from './rate-currency-conversion.pipe';
+export * from './employee-details.pipe';
+export * from './structure-details.pipe';
+export * from './format-name.pipe';

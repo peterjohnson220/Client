@@ -3,6 +3,7 @@ import orderBy from 'lodash/orderBy';
 import uniq from 'lodash/uniq';
 import uniqBy from 'lodash/uniqBy';
 import isNumber from 'lodash/isNumber';
+import concat from 'lodash/concat';
 
 import { ContentScrollEvent, GridDataResult } from '@progress/kendo-angular-grid';
 import { groupBy, GroupResult, SortDescriptor } from '@progress/kendo-data-query';
@@ -29,6 +30,7 @@ export interface DataGridState {
   pagingOptions: PagingOptions;
   applyDefaultFilters: boolean;
   applyUserDefaultCompensationFields: boolean;
+  useReportingDB: boolean;
   defaultSortDescriptor: SortDescriptor[];
   sortDescriptor: SortDescriptor[];
   saveSort: boolean;
@@ -60,6 +62,7 @@ export interface DataGridState {
   lastUpdateFieldsDate: Date;
   visibleKeys: number[];
   unexpectedError: boolean;
+  fadeInKeys: any[];
 }
 
 export interface DataGridStoreState {
@@ -136,6 +139,9 @@ export const getApplyDefaultFilters = (state: DataGridStoreState, pageViewId: st
 export const getApplyUserDefaultCompensationFields = (state: DataGridStoreState, pageViewId: string) => {
   return state.grids[pageViewId] ? state.grids[pageViewId].applyUserDefaultCompensationFields : null;
 };
+export const getUseReportingDB = (state: DataGridStoreState, pageViewId: string) => {
+  return state.grids[pageViewId] ? state.grids[pageViewId].useReportingDB : null;
+};
 export const getInboundFilters = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].inboundFilters : [];
 export const getFilterPanelDisplay = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].filterPanelOpen;
 export const getSelectedRecordId = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].selectedRecordId : null;
@@ -176,6 +182,7 @@ export const getLoadingMoreData = (state: DataGridStoreState, pageViewId: string
 export const getLastUpdateFieldsDate = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].lastUpdateFieldsDate;
 export const getVisibleKeys = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].visibleKeys;
 export const getUnexpectedError = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].unexpectedError;
+export const getFadeInKeys = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].fadeInKeys : null;
 
 export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGridActions): DataGridStoreState {
   switch (action.type) {
@@ -207,22 +214,28 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
         }
       };
     case fromPfGridActions.LOAD_VIEW_CONFIG_SUCCESS:
-      const currSplitViewFilters = action.payload && action.payload.Fields ?
-        action.payload.Fields.filter(f => f.IsFilterable && f.FilterValue !== null && f.FilterOperator)
+      let payload = cloneDeep(action.payload);
+      if( payload && payload.Fields ){
+        payload.Fields.forEach( v => {
+          v.DisplayName = !!v.Group? v.DisplayName.replace(`${v.Group} `,""): v.DisplayName;
+        });
+      }
+      const currSplitViewFilters = payload && payload.Fields ?
+        payload.Fields.filter(f => f.IsFilterable && f.FilterValue !== null && f.FilterOperator)
           .map(f => buildExternalFilter(f.FilterValue, f.FilterOperator, f.SourceName)) : [];
-      const sorts = findSortDescriptor(action.payload.Fields);
+      const sorts = findSortDescriptor(payload.Fields);
       return {
         ...state,
         grids: {
           ...state.grids,
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
-            fields: updateFieldsWithFilters(action.payload.Fields, state.grids[action.pageViewId].inboundFilters),
-            groupedFields: buildGroupedFields(resetFilters(action.payload.Fields)),
-            baseEntity: action.payload.Entity,
+            fields: updateFieldsWithFilters(payload.Fields, state.grids[action.pageViewId].inboundFilters),
+            groupedFields: buildGroupedFields(resetFilters(payload.Fields)),
+            baseEntity: payload.Entity,
             loading: false,
             splitViewFilters: currSplitViewFilters,
-            exportViewId: action.payload.ExportViewId,
+            exportViewId: payload.ExportViewId,
             sortDescriptor: sorts.length ? sorts : state.grids[action.pageViewId].defaultSortDescriptor
           }
         }
@@ -460,6 +473,17 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           },
         }
       };
+    case fromPfGridActions.UPDATE_USE_REPORTING_DB:
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            useReportingDB: action.value,
+          },
+        }
+      };
     /*
     This action resets all filters prior to applying inbound filters to clear global text box search elements on tab switch/grid change
      */
@@ -622,6 +646,17 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
             expandedRows: [...state.grids[action.pageViewId].expandedRows].filter(r => r !== action.rowIndex)
+          }
+        }
+      };
+    case fromPfGridActions.COLLAPSE_ALL_ROWS:
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            expandedRows: []
           }
         }
       };
@@ -1105,6 +1140,40 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
             gridScrolledContent: action.payload
+          }
+        }
+      };
+    case fromPfGridActions.ADD_FADE_IN_KEYS:
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            fadeInKeys: uniq(concat(state.grids[action.pageViewId].fadeInKeys, action.payload))
+          }
+        }
+      };
+
+    case fromPfGridActions.DELETE_FADE_IN_KEYS:
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            fadeInKeys: state.grids[action.pageViewId].fadeInKeys.filter((key => !action.payload.includes(key)))
+          }
+        }
+      };
+    case fromPfGridActions.SET_FADE_IN_KEYS:
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            fadeInKeys: action.payload
           }
         }
       };

@@ -20,6 +20,6 @@ export class PricingNotesApi extends BaseNotesApiService {
   }
 
   saveNotes(request: SaveNotesRequest) {
-    throw new Error('This api is "read only". Saving is disabled until further notice.');
+    return this.payfactorsApiService.post<any>(`${this.endpoint}/SavePricingNotes?entityId=${request.entityId}`, request.noteRequestList);
   }
 }

@@ -60,50 +60,54 @@ import {
   CanModifyMatch,
   GetMatchScope
 } from './pipes';
+import {EmployeeDetailsModule} from 'libs/ui/employee-details';
+import { StructureDetailsModule } from 'libs/ui/structure-details';
 
 @NgModule({
-  imports: [
-    // Angular
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
+    imports: [
+        // Angular
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
 
-    // 3rd Party
-    LayoutModule,
-    SwitchModule,
-    NgbModule,
-    NgbTooltipModule,
-    NgbTabsetModule,
-    StoreModule.forFeature('jobsPageMain', reducers),
-    EffectsModule.forFeature([
-      JobsPageEffects,
-      ModifyPricingsEffects,
-      JobDescriptionEffects,
-      JobPeerMatchesEffects
-    ]),
-    FontAwesomeModule,
-    TooltipModule,
-    NumericTextBoxModule,
-    DropDownListModule,
+        // 3rd Party
+        LayoutModule,
+        SwitchModule,
+        NgbModule,
+        NgbTooltipModule,
+        NgbTabsetModule,
+        StoreModule.forFeature('jobsPageMain', reducers),
+        EffectsModule.forFeature([
+            JobsPageEffects,
+            ModifyPricingsEffects,
+            JobDescriptionEffects,
+            JobPeerMatchesEffects
+        ]),
+        FontAwesomeModule,
+        TooltipModule,
+        NumericTextBoxModule,
+        DropDownListModule,
 
-    // Routing
-    JobsPageRoutingModule,
+        // Routing
+        JobsPageRoutingModule,
 
-    // Payfactors
-    PfCommonModule,
-    PfCommonUIModule,
-    PfFormsModule,
-    PfDataGridModule,
-    JobManagementModule,
-    MatchesModalModule,
-    PricingDetailsModule,
-    RangeEditorModule,
-    NotesManagerModule,
-    MultiMatchModule,
-    PricingMatchModule,
-    ReScopeSurveyDataModule,
-    UpsertPeerDataCutModule
-  ],
+        // Payfactors
+        PfCommonModule,
+        PfCommonUIModule,
+        PfFormsModule,
+        PfDataGridModule,
+        JobManagementModule,
+        MatchesModalModule,
+        PricingDetailsModule,
+        RangeEditorModule,
+        NotesManagerModule,
+        MultiMatchModule,
+        PricingMatchModule,
+        ReScopeSurveyDataModule,
+        UpsertPeerDataCutModule,
+        EmployeeDetailsModule,
+        StructureDetailsModule
+    ],
   declarations: [
     // Pages
     JobsPageComponent,

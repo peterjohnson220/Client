@@ -40,7 +40,8 @@
                     [controlPointsAsyncObj]="controlPointsAsyncObj"
                     [metadata]="metadata"
                     [rangeGroupId]="rangeGroupId"
-                    [attemptedSubmit]="attemptedSubmit">
+                    [attemptedSubmit]="attemptedSubmit"
+                    (payTypeSelectionChange)="handlePayTypeSelectionChange($event)">
                   </pf-range-distribution-setting>
                 </div>
                 <div class="form-group">
@@ -75,6 +76,19 @@
                     Please provide a currency.
                   </div>
                 </div>
+              <div class="form-group" *ngIf="hasAcceptedPeerTerms">
+                <label for="PeerExchange">Peer Exchange</label>
+                <kendo-dropdownlist id="PeerExchange" class="form-control k-dropdown-white"
+                                    formControlName="PeerExchange"
+                                    [data]="exchangeNames"
+                                    [valuePrimitive]="true"
+                                    [disabled]="peerDropDownDisabled"
+                                    (selectionChange)="handlePeerExchangeSelectionChange($event)">
+                </kendo-dropdownlist>
+                <div class="invalid-feedback">
+                  Please provide a Peer Exchange.
+                </div>
+              </div>
             </div>
 
           </ng-template>
@@ -89,7 +103,8 @@
             <pf-advanced-model-setting
               formControlName="RangeAdvancedSetting"
               [metadata]="metadata"
-              [attemptedSubmit]="attemptedSubmit">
+              [attemptedSubmit]="attemptedSubmit"
+              [rangeGroupId]="rangeGroupId">
             </pf-advanced-model-setting>
           </ng-template>
         </ngb-tab>

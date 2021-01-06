@@ -37,7 +37,8 @@ export class PayfactorsApiModelMapper {
       ImageUrl: response.providerImageUrl,
       AuthenticationTypeId: response.authenticationType_ID,
       Active: response.active,
-      UsesFieldSelection: this.mapProviderResponseToFieldSelection(response)
+      UsesFieldSelection: this.mapProviderResponseToFieldSelection(response),
+      ShowInUI: response.showInUI
     };
   }
 
@@ -51,7 +52,8 @@ export class PayfactorsApiModelMapper {
   }
 
   static mapProviderResponsesToProviders(response: ProviderResponse[]): Provider[] {
-    return response.map(p => this.mapProviderResponseToProvider(p));
+    return response.filter((provider) => provider.showInUI)
+      .map(p => this.mapProviderResponseToProvider(p));
   }
 
   static mapAuthenticationTypeResponseToAuthenticationType(response: AuthenticationTypeResponse): AuthenticationType {
@@ -302,10 +304,12 @@ export class PayfactorsApiModelMapper {
     isStructureMappingsLoadEnabled: summary.selectedEntities.includes(OrgDataEntityType.StructureMapping),
     isSubsidiariesLoadEnabled: summary.selectedEntities.includes(OrgDataEntityType.Subsidiaries),
     isBenefitsLoadEnabled: summary.selectedEntities.includes(OrgDataEntityType.Benefits),
+    isEmployeeTagsLoadEnabled: summary.selectedEntities.includes(OrgDataEntityType.EmployeeTags),
     fileFormat: LoaderFileFormat.JSON,
     isEmployeesFullReplace: summary.fullReplaceModes.employeesFullReplace,
     isStructureMappingsFullReplace: summary.fullReplaceModes.structureMappingsFullReplace,
     isBenefitsFullReplace: summary.fullReplaceModes.benefitsFullReplace,
+    isEmployeeTagsFullReplace: summary.fullReplaceModes.employeeTagsFullReplace,
     validateOnly: summary.validationMode
   })
 

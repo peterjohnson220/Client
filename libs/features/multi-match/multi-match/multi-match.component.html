@@ -6,13 +6,15 @@
       [modalId]="'au-modal-multi-match'"
       [isOpen$]="showMultiMatchModal$"
       [showFooter]="true"
+      [showFooterActions]="!(refiningPeerCut$ | async)"
       [title]="'Price Jobs'"
       [primaryButtonText]="'Save'"
       [windowClass]="'multi-match-modal'"
       (onDismiss)="handleCancelClicked()"
       (onSubmit)="handleSaveClicked()"
       [showSpinner]="true"
-      [submitEnabled]="!(savingChanges$ | async)"
+      [submitButtonTitle] = "(!changesToSave || (savingChanges$ | async)) ? 'Drag and drop data cuts into your jobs to update pricings.' : ''"
+      [submitEnabled]="!(savingChanges$ | async) && changesToSave"
       [primaryButtonTextSubmitting]="'Saving'"
       [submitting]="saveChangesStarted"
     >
@@ -34,12 +36,13 @@
     Something went wrong. Please try again later.
   </div>
   <div *ngIf="!hasError && display=='modal'" class="alert alert-info">
-    Select one or multiple cuts from your search results by clicking anywhere in the cut.
-    Drag and drop in the company job in the right hand panel to add those cuts to that job. Once you have added your cuts, click Save to create the pricing.
+    <ng-container *ngIf="!(refiningPeerCut$ | async); else infoAlertRefining">
+      Select one or more data cuts. Drag and drop the selected cuts onto a Company Job to the right. Once complete,
+      click <strong>Save</strong> to create the pricing.
+    </ng-container>
   </div>
-<!--  TODO: Come up with a better way to handle refining here, doesn't really make sense here [JP]-->
-  <div *ngIf="!(refiningPeerCut$ | async); else refineScopeMap" class="multi-match-content">
-    <pf-search-layout [resultsCount]="numberOfResults$ | async">
+  <div class="multi-match-content">
+    <pf-search-layout [resultsCount]="numberOfResults$ | async" [ngClass]="{'d-none': (refiningPeerCut$ | async)}">
       <ng-container sidebar>
         <pf-search-filters
           [defaultFocusedFilterId]="'jobTitleCode'"
@@ -69,7 +72,7 @@
       </ng-container>
 
       <ng-container action-buttons *ngIf="display !== 'modal'">
-        <button [disabled]="!changesToSave || (savingChanges$ | async)" (click)="handleSaveClicked()" class="btn btn-sm legacy-primary-btn mr-3">
+        <button [title]="(!changesToSave || (savingChanges$ | async))?'Drag and drop data cuts into your jobs to update pricings.':null" [disabled]="!changesToSave || (savingChanges$ | async)" (click)="handleSaveClicked()" class="btn btn-sm legacy-primary-btn mr-3">
           <ng-container *ngIf="!(savingChanges$ | async); else savingChanges">
             Save
           </ng-container>
@@ -80,6 +83,11 @@
         </button>
       </ng-container>
     </pf-search-layout>
+    <pf-upsert-peer-data-cut
+      [ngClass]="{'d-none': !(refiningPeerCut$ | async)}"
+      (loadRefiningValidation)="handleLoadRefiningValidationDetails()"
+      (refinedDataCutDetails)="handleExchangeDataCutRefined($event)"
+      (cancelChanges)="handleRefineCancelled()"></pf-upsert-peer-data-cut>
   </div>
 </ng-template>
 
@@ -95,10 +103,7 @@
   ></pf-jobs-to-price-container>
 </ng-template>
 
-<ng-template #refineScopeMap>
-  <pf-upsert-peer-data-cut
-    [entityConfiguration]="entityConfiguration"
-    [companyJobId]="-1"
-    [companyPayMarketId]="companyPayMarketId"
-  ></pf-upsert-peer-data-cut>
+<ng-template #infoAlertRefining>
+  Filter the data to create a custom cut. Once the data is filtered, click <strong>Add</strong>
+  to make this custom cut available to drag-and-drop to the company jobs.
 </ng-template>

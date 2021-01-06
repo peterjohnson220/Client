@@ -13,6 +13,7 @@ export interface State extends EntityState<BulkExportSchedule> {
   addingError: boolean;
   removing: boolean;
   removingError: boolean;
+  bulkScheduleDeleteModalOpen: boolean;
 }
 
 export const adapter: EntityAdapter<BulkExportSchedule> = createEntityAdapter<BulkExportSchedule>({
@@ -26,7 +27,8 @@ const initialState: State = adapter.getInitialState({
   adding: false,
   addingError: false,
   removing: false,
-  removingError: false
+  removingError: false,
+  bulkScheduleDeleteModalOpen: false
 });
 
 
@@ -94,6 +96,18 @@ export function reducer(
         removingError: true
       };
     }
+    case fromBulkExportScheduleActions.CLOSE_SCHEDULE_MODAL: {
+      return {
+        ...state,
+        bulkScheduleDeleteModalOpen: false
+      };
+    }
+    case fromBulkExportScheduleActions.OPEN_SCHEDULE_MODAL: {
+      return {
+        ...state,
+        bulkScheduleDeleteModalOpen: true
+      };
+    }
     default: {
       return state;
     }
@@ -107,3 +121,5 @@ export const getAdding = (state: State) => state.adding;
 export const getAddingError = (state: State) => state.addingError;
 export const getRemoving = (state: State) => state.loading;
 export const getRemovingError = (state: State) => state.loadingError;
+export const getBulkScheduleDeleteModalOpen = (state: State) => state.bulkScheduleDeleteModalOpen;
+

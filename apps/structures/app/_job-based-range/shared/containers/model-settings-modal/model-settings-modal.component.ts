@@ -9,6 +9,8 @@ import { AsyncStateObj } from 'libs/models/state';
 import { RoundingSettingsDataObj, RangeGroupMetadata } from 'libs/models/structures';
 import { SettingsService } from 'libs/state/app-context/services';
 import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
+import { GenericKeyValue } from 'libs/models/common';
+import { CompanySettingsEnum } from 'libs/models/company';
 
 import * as fromMetadataActions from '../../../shared/actions/shared.actions';
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
@@ -47,11 +49,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   modalOpenSub: Subscription;
   modelNameExistsFailureSub: Subscription;
   roundingSettingsSub: Subscription;
-  waitingForFormulaValidationSub: Subscription;
-  formulaValidatingSub: Subscription;
-  formulaValidSub: Subscription;
-  formulaSavingErrorSub: Subscription;
-  formulaFieldSub: Subscription;
+  allFormulasSub: Subscription;
 
   controlPointsAsyncObj: AsyncStateObj<ControlPoint[]>;
   currenciesAsyncObj: AsyncStateObj<Currency[]>;
@@ -67,18 +65,24 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   modelSetting: RangeGroupMetadata;
   minSpreadTooltip: string;
   maxSpreadTooltip: string;
-  waitingForFormulaValidation = false;
-  formulaValidating = false;
-  formulaValid = false;
-  formulaSavingError = false;
-  formulaField = null;
+  allFormulas = null;
   structuresAdvancedModelingFeatureFlag: RealTimeFlag = { key: FeatureFlags.StructuresAdvancedModeling, value: false };
   unsubscribe$ = new Subject<void>();
+  exchanges: any;
+  exchanges$: Observable<AsyncStateObj<GenericKeyValue<number, string>[]>>;
+  exchangeSub: Subscription;
+  exchangeNames: string[];
+  selectedExchangeDict: GenericKeyValue<number, string>[];
+  selectedExchange: string;
+  selectedExchangeId: number;
+  hasAcceptedPeerTermsSub: Subscription;
+  hasAcceptedPeerTerms: boolean;
+  peerDropDownDisabled: boolean;
 
   constructor(
     public store: Store<fromJobBasedRangeReducer.State>,
     public urlService: UrlService,
-    private settingService: SettingsService,
+    private settingsService: SettingsService,
     private featureFlagService: AbstractFeatureFlagService
   ) {
     this.metaData$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getMetadata));
@@ -90,15 +94,14 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
     this.structureNameSuggestionsAsyncObj$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getStructureNameSuggestionsAsyncObj));
     this.savingModelSettingsAsyncObj$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getSavingModelSettingsAsyncObj));
     this.modelNameExistsFailure$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getModelNameExistsFailure));
-    this.waitingForFormulaValidationSub = this.store.pipe(select(fromJobBasedRangeReducer.getFormulaWaitingForValidation))
-      .subscribe(fwfv => this.waitingForFormulaValidation = fwfv);
-    this.formulaValidatingSub = this.store.pipe(select(fromJobBasedRangeReducer.getFormulaValidating)).subscribe(fv => this.formulaValidating = fv);
-    this.formulaValidSub = this.store.pipe(select(fromJobBasedRangeReducer.getFormulaValid)).subscribe(fv => this.formulaValid = fv);
-    this.formulaSavingErrorSub = this.store.pipe(select(fromJobBasedRangeReducer.getFormulaSavingError)).subscribe(fse => this.formulaSavingError = fse);
-    this.formulaFieldSub = this.store.pipe(select(fromJobBasedRangeReducer.getFormulaField)).subscribe(ff => this.formulaField = ff);
     this.minSpreadTooltip = ModelSettingsModalConstants.MIN_SPREAD_TOOL_TIP;
     this.maxSpreadTooltip = ModelSettingsModalConstants.MAX_SPREAD_TOOL_TIP;
     this.featureFlagService.bindEnabled(this.structuresAdvancedModelingFeatureFlag, this.unsubscribe$);
+    this.allFormulasSub = this.store.pipe(select(fromJobBasedRangeReducer.getAllFields)).subscribe(af => this.allFormulas = af);
+    this.exchanges$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getCompanyExchanges));
+    this.hasAcceptedPeerTermsSub = this.settingsService.selectCompanySetting<boolean>(
+      CompanySettingsEnum.PeerTermsAndConditionsAccepted
+    ).subscribe(x => this.hasAcceptedPeerTerms = x);
   }
 
   get formControls() {
@@ -136,6 +139,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
       'PayMarket': new FormControl(this.metadata.Paymarket, [Validators.required]),
       'Rate': new FormControl(this.metadata.Rate || 'Annual', [Validators.required]),
       'Currency': new FormControl(this.metadata.Currency || 'USD', [Validators.required]),
+      'PeerExchange': new FormControl(this.selectedExchange || 'Global Network', [Validators.required]),
       'RangeDistributionSetting': new FormControl(this.metadata.RangeDistributionSetting),
       'RangeAdvancedSetting': new FormControl(this.metadata.RangeAdvancedSetting)
     });
@@ -145,9 +149,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
 
   // Events
   handleModalSubmit() {
-    if (this.modelSettingsForm.valid
-      && !this.formulaSavingError && !this.waitingForFormulaValidation && !this.formulaValidating
-      && (this.formulaField === null || this.formulaField != null && this.formulaValid)) {
+    if (this.modelSettingsForm.valid && !this.formulasInvalidForSubmission()) {
       this.store.dispatch(new fromModelSettingsModalActions.SaveModelSettings(
         {
           rangeGroupId: this.rangeGroupId,
@@ -160,17 +162,39 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
     }
   }
 
+  formulasInvalidForSubmission(): boolean {
+    // this.formulaSavingError || this.waitingForFormulaValidation || this.formulaValidating
+    // || this.formulaField != null && !this.formulaValid)
+    // check min
+    if (!!this.allFormulas.Min && (this.allFormulas.Min.savingError || this.allFormulas.Min.waitingForValidation || this.allFormulas.Min.validating
+      || (this.allFormulas.Min.formulaField != null && !this.allFormulas.Min.formulaValid))) {
+      return true;
+    }
+    // check mid
+    if (!!this.allFormulas.Mid && (this.allFormulas.Mid.savingError || this.allFormulas.Mid.waitingForValidation || this.allFormulas.Mid.validating
+      || (this.allFormulas.Mid.formulaField != null && !this.allFormulas.Mid.formulaValid))) {
+      return true;
+    }
+    // check max
+    if (!!this.allFormulas.Max && (this.allFormulas.Max.savingError || this.allFormulas.Max.waitingForValidation || this.allFormulas.Max.validating
+      || (this.allFormulas.Max.formulaField != null && !this.allFormulas.Max.formulaValid))) {
+      return true;
+    }
+    // if we made it to here, they are valid
+    return false;
+  }
+
   handleModalSubmitAttempt() {
     this.attemptedSubmit = true;
 
-    if (this.formulaSavingError || this.waitingForFormulaValidation || this.formulaValidating
-      || this.formulaField != null && !this.formulaValid) {
+    if (this.formulasInvalidForSubmission()) {
       this.activeTab = 'modelTab';
       return false;
     }
 
     this.modelSetting = this.modelSettingsForm.getRawValue();
     this.updateRangeDistributionSetting();
+    this.updateSelectedPeerExchangeId();
 
     if (this.structuresAdvancedModelingFeatureFlag.value) {
       this.updateAdvancedModelingSetting();
@@ -226,9 +250,47 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromMetadataActions.UpdateRoundingPoints({ RoundingPoint: roundingPoint }));
   }
 
+  handlePeerExchangeSelectionChange(value: string) {
+    if (value !== null) {
+      const selectedExchange = this.exchanges.filter(x => x.Value === value);
+      this.selectedExchangeId = selectedExchange[0].Key;
+      this.updateSelectedPeerExchangeName(this.selectedExchangeId);
+    }
+  }
+
+  updateSelectedPeerExchangeId() {
+    if ((this.selectedExchangeId === null || this.selectedExchangeId === undefined) && this.hasAcceptedPeerTerms) {
+      this.modelSetting.ExchangeId = this.assignDefaultSelectedExchangeId();
+    } else if (this.selectedExchangeId === null || this.selectedExchangeId === undefined) {
+      this.modelSetting.ExchangeId = null;
+    } else {
+      this.modelSetting.ExchangeId = this.selectedExchangeId;
+    }
+  }
+
+  assignDefaultSelectedExchangeId() {
+    this.handlePeerExchangeSelectionChange('Global Network');
+    return this.selectedExchangeId;
+  }
+
+  updateSelectedPeerExchangeName(exchangeId: number) {
+    if (exchangeId) {
+      this.selectedExchangeDict = this.exchanges.filter(x => x.Key === exchangeId);
+      this.selectedExchange = this.selectedExchangeDict.length > 0 ? this.selectedExchangeDict[0].Value : null;
+    }
+  }
+
   clearModelNameExistsFailure() {
     if (this.modelNameExistsFailure) {
       this.store.dispatch(new fromModelSettingsModalActions.ClearModelNameExistsFailure());
+    }
+  }
+
+  handlePayTypeSelectionChange(value: ControlPoint) {
+    if ( value.PayTypeDisplay === 'TCC' || value.PayTypeDisplay === 'Base') {
+      this.peerDropDownDisabled = false;
+    } else {
+      this.peerDropDownDisabled = true;
     }
   }
 
@@ -259,6 +321,23 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
     });
 
     this.metadataSub = this.metaData$.subscribe(md => this.metadata = md);
+
+    this.exchangeSub = this.exchanges$.subscribe(exs => {
+      this.exchanges = exs.obj;
+      if (this.exchanges) {
+        const values = Object.values(this.exchanges);
+        const names = [];
+        values.forEach(function(item: GenericKeyValue<number, string>) {
+          names.push(item.Value);
+        });
+        this.exchangeNames = names;
+        if (this.metadata.ExchangeId !== undefined) {
+          this.selectedExchangeId = this.metadata.ExchangeId;
+          this.updateSelectedPeerExchangeName(this.metadata.ExchangeId);
+        }
+      }
+    });
+
     this.modalOpenSub = this.modalOpen$.subscribe(mo => {
       if (mo) {
         this.buildForm();
@@ -276,12 +355,10 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
     this.modalOpenSub.unsubscribe();
     this.modelNameExistsFailureSub.unsubscribe();
     this.roundingSettingsSub.unsubscribe();
-    this.waitingForFormulaValidationSub.unsubscribe();
-    this.formulaValidatingSub.unsubscribe();
-    this.formulaValidSub.unsubscribe();
-    this.formulaSavingErrorSub.unsubscribe();
-    this.formulaFieldSub.unsubscribe();
     this.unsubscribe$.next();
+    this.allFormulasSub.unsubscribe();
+    this.exchangeSub.unsubscribe();
+    this.hasAcceptedPeerTermsSub.unsubscribe();
   }
 
   private reset() {

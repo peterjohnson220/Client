@@ -10,14 +10,15 @@ import cloneDeep from 'lodash/cloneDeep';
 
 import { ViewField } from 'libs/models/payfactors-api/reports/request';
 import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig, GridConfig } from 'libs/features/pf-data-grid/models';
+import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
 import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
 import { PfThemeType } from 'libs/features/pf-data-grid/enums/pf-theme-type.enum';
+import * as fromActions from 'libs/features/pf-data-grid/actions';
 
 import * as fromJobsPageReducer from '../../../../reducers';
 import { PageViewIds } from '../../../../constants/';
-
 
 @Component({
   selector: 'pf-employees-grid',
@@ -50,12 +51,15 @@ export class EmployeesGridComponent implements AfterViewInit, OnDestroy, OnChang
   selectedPayMarket: any;
   actionBarConfig: ActionBarConfig;
   gridConfig: GridConfig;
+  hasEmployeeDetailsFlagEnabled: boolean;
   pfThemeType = PfThemeType;
 
   constructor(
-    private store: Store<fromPfGridReducer.State>
+    private store: Store<fromPfGridReducer.State>,
+    private featureFlagService: AbstractFeatureFlagService
   ) {
-    this.companyPayMarketsSubscription = store.select(fromJobsPageReducer.getCompanyPayMarkets)
+    this.hasEmployeeDetailsFlagEnabled = this.featureFlagService.enabled(FeatureFlags.EmployeeDetails, false);
+    this.companyPayMarketsSubscription = this.store.select(fromJobsPageReducer.getCompanyPayMarkets)
       .subscribe(o => {
         this.filteredPayMarketOptions = o;
         this.payMarketOptions = o;
@@ -106,6 +110,10 @@ export class EmployeesGridComponent implements AfterViewInit, OnDestroy, OnChang
   ngOnDestroy() {
     this.gridFieldSubscription.unsubscribe();
     this.companyPayMarketsSubscription.unsubscribe();
+  }
+
+  closeExpandedRow(id: string, idValue: number) {
+    this.store.dispatch(new fromActions.CollapseRowById(this.pageViewId, id, idValue));
   }
 
   handlePayMarketFilterChanged(value: any) {

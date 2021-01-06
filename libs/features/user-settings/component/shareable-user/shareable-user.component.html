@@ -1,0 +1,12 @@
+<div (click)="selectUserToggle(user)" class="d-flex pb-4 user-row">
+  <img class="rounded-circle user-image" [src]="avatarUrl + user.UserPicture" src-fallback="{{ avatarUrl + 'default_user.png' }}" alt="">
+  <div class="w-100 d-flex flex-column pl-4">
+    <span class="font-weight-bold">{{user.FirstName}} {{user.LastName}}</span>
+    <span class="font-weight-lighter">{{user.Title}}</span>
+  </div>
+  <div class="flex-shrink-1">
+    <fa-icon *ngIf="user.IsSelected" class="green"  [icon]="['fal', 'check-circle']" size="2x"></fa-icon>
+    <fa-icon *ngIf="!user.IsSelected" class="gray" [icon]="['fal', 'plus-circle']" size="2x"></fa-icon>
+  </div>
+</div>
+

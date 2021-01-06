@@ -82,6 +82,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   @Input() hasHeaderDividers = false;
   @Input() hasColDividers = false;
   @Output() scrolled = new EventEmitter<ContentScrollEvent>();
+  @Input() enableRowFade = false;
 
   gridState$: Observable<DataGridState>;
   loading$: Observable<boolean>;
@@ -134,13 +135,17 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   lastUpdateFieldsDateSubscription: Subscription;
   filtersUpdatedCountSubscription: Subscription;
   resetGridScrolledSubscription: Subscription;
+  closeExpandedRowSubscription: Subscription;
   groupTracker: {group: string, dataElementId: number } [] = [];
+
+  fadeInKeys: any[] = [];
+  fadeOutKeys: any[] = [];
+  fadeInKeySubscription: Subscription;
 
 
   readonly MIN_SPLIT_VIEW_COL_WIDTH = 100;
 
   @ViewChild(GridComponent) grid: GridComponent;
-
 
   constructor(
     private store: Store<fromReducer.State>,
@@ -149,7 +154,6 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
     private actionsSubject: ActionsSubject) { }
 
   ngOnInit() {
-
     this.updateGridDataRowSubscription = this.actionsSubject
       .pipe(ofType(fromActions.UPDATE_GRID_DATA_ROW))
       .subscribe((action: fromActions.UpdateGridDataRow) => {
@@ -175,6 +179,20 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
       .subscribe((action: fromActions.ResetGridScrolled) => {
         if (action.pageViewId === this.pageViewId) {
           this.scrollToTop();
+        }
+      });
+
+    this.closeExpandedRowSubscription = this.actionsSubject
+      .pipe(ofType(fromActions.COLLAPSE_ROW_BY_ID))
+      .subscribe((action: fromActions.CollapseRowById) => {
+
+        // ensure this is being used by the intended grid.
+        if (this.pageViewId === action.pageViewId) {
+          const expandedRow = this.data.data.find(x => x[action.Id] === action.IdValue);
+          const expandedRowIndex = this.data.data.indexOf(expandedRow);
+
+          this.store.dispatch(new fromActions.CollapseRow(this.pageViewId, expandedRowIndex));
+          this.grid.collapseRow(expandedRowIndex);
         }
       });
 
@@ -242,9 +260,15 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
       });
 
     this.unexpectedError$ = this.store.select(fromReducer.getUnexpectedError, this.pageViewId);
+
+    this.fadeInKeySubscription = this.store.select(fromReducer.getFadeInKeys, this.pageViewId).subscribe(keys => {
+      this.fadeOutKeys = this.fadeInKeys;
+      this.fadeInKeys = keys;
+    });
   }
 
   ngOnDestroy() {
+    this.closeExpandedRowSubscription.unsubscribe();
     this.expandedRowsSubscription.unsubscribe();
     this.updateGridDataRowSubscription.unsubscribe();
     this.dataSubscription.unsubscribe();
@@ -261,6 +285,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
     this.lastUpdateFieldsDateSubscription.unsubscribe();
     this.filtersUpdatedCountSubscription.unsubscribe();
     this.resetGridScrolledSubscription.unsubscribe();
+    this.fadeInKeySubscription.unsubscribe();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -283,7 +308,9 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
       this.totalCount$ = this.store.select(fromReducer.getTotalCount, changes['pageViewId'].currentValue);
       this.selectAllState$ = this.store.select(fromReducer.getSelectAllState, changes['pageViewId'].currentValue);
       this.modifiedKeysSubscription = this.store.select(fromReducer.getModifiedKeys, changes['pageViewId'].currentValue).subscribe(
-        modifiedKeys => this.modifiedKeys = modifiedKeys
+        modifiedKeys => {
+          this.modifiedKeys = modifiedKeys;
+        }
       );
     }
 
@@ -449,13 +476,29 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   getRowClasses = (context: RowClassArgs) => {
-    return {
+    const shouldFadeIn = this.fadeInKeys != null && this.fadeInKeys.includes(context.dataItem[this.primaryKey]);
+    const shouldFadeOut = this.fadeOutKeys != null && this.fadeOutKeys.includes(context.dataItem[this.primaryKey]);
+    const result = {
       'pf-data-grid-clickable-row': this.selectionField,
       'pf-data-grid-non-clickable-row': this.compactGrid,
       'k-state-selected': this.selectionField && !this.compactGrid && (context.dataItem[this.primaryKey] === this.selectedRecordId),
       'pf-data-grid-modified-row': this.modifiedKey !== null && this.modifiedKeys != null
-        && this.modifiedKeys.includes(context.dataItem[this.modifiedKey])
+        && this.modifiedKeys.includes(context.dataItem[this.modifiedKey]),
+      'pf-data-grid-attention-grab-active': this.enableRowFade && shouldFadeIn,
+      'pf-data-grid-attention-grab-inactive': this.enableRowFade && !shouldFadeIn && shouldFadeOut
     };
+
+    // After a row fades out, that row will have the inactive class if there are no changes to the attention grab key collection.
+    // This leads to fade out animations on row hover with our grays, which we don't want to have happen.
+    // This timeout will remove the row key from the collection driving the inactive class so that it fades out once and only once
+    // The duration of this timeout should match the CSS transition property
+    if (shouldFadeOut) {
+      setTimeout(() => {
+        this.fadeOutKeys = this.fadeOutKeys.filter(x => x !== context.dataItem[this.primaryKey]);
+      }, 1000);
+    }
+
+    return result;
   }
 
   getColumnClasses(col: ViewField): string {

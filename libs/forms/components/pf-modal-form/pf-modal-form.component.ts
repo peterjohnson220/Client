@@ -25,6 +25,7 @@ export class PfModalFormComponent implements OnInit, OnDestroy {
   @Input() primaryButtonTextSubmitting = this.primaryButtonText;
   @Input() secondaryButtonText = 'Cancel';
   @Input() showFooter = true;
+  @Input() showFooterActions = true;
   @Input() showHeader = true;
   @Input() showSubmit = true;
   @Input() showDismiss = true;
@@ -41,6 +42,7 @@ export class PfModalFormComponent implements OnInit, OnDestroy {
   @Input() showSpinner = true;
   @Input() alwaysEnabledSubmit: boolean;
   @Input() flipPrimarySecondaryBtns: boolean;
+  @Input() submitButtonTitle = '';
   @Output() onSubmit = new EventEmitter();
   @Output() onSubmitAttempt = new EventEmitter();
   @Output() onDismiss = new EventEmitter();

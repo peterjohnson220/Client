@@ -21,8 +21,8 @@
         </ng-template>
         <kendo-upload-messages select="Select Image" [invalidMaxFileSize]="invalidMaxFileSize" [invalidFileExtension]="invalidFileExtension"></kendo-upload-messages>
       </kendo-upload>
-      <p *ngIf="!!selectedFiles && !selectedFiles[0]?.validationErrors?.length" class="help-text text-muted font-italic position-absolute">Or drag and drop</p>
-      <p *ngIf="isServerError" class="server-error help-text text-danger font-italic position-absolute">An error occurred</p>
+      <p *ngIf="!!selectedFiles && !selectedFiles[0]?.validationErrors?.length" class="help-text w-100 text-muted text-center font-italic position-absolute">Or drag and drop</p>
+      <p *ngIf="isServerError" class="server-error help-text text-danger text-center font-italic position-absolute">An error occurred</p>
     </div>
     <ng-template #showImage>
       <img *ngIf="!!controlData?.FileUrl" #image [src]="controlData.FileUrl" alt="{{controlData.FileName}}" class="mh-100 mw-100 align-items-center">

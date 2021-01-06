@@ -82,6 +82,10 @@
   border-color: #ccc;
 }
 
+.btn-secondary:focus {
+  background-color: #fff;
+}
+
 .badge-info {
   background-color: #5bc0de;
 }
@@ -223,9 +227,8 @@ pf-workflow-config {
   }
 }
 
-.btn:focus {
-  outline: none !important;
-  border: none !important;
-  -webkit-box-shadow: none !important;
-  box-shadow: none !important;
+.ql-editor, .ql-editor-output {
+  word-break: break-word;
 }
+
+_:-ms-fullscreen, :root .ql-editor, .ql-editor-output { word-break: break-all; }

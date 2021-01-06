@@ -1,0 +1,30 @@
+<!--Must specify pixel width AND height, otherwise it will fill div to maintain aspect ratio-->
+<!--Since the chart is a static SVG, legends of different sizes will effect what is shown. Grow/shrink chart accordingly.-->
+<kendo-chart *ngIf="!isEmptyChart" class="ml-5" [ngStyle]="{'height': '200px', 'width': chartData.length > 2 ? '350px' : '285px'}">
+  <!--For numeric values, use bracket syntax with NO quotes-->
+  <kendo-chart-legend *ngIf="chartData.length > 2" position="right" orientation="vertical" [height]=70 [spacing]=19>
+    <kendo-chart-legend-item cursor="default"></kendo-chart-legend-item>
+  </kendo-chart-legend>
+  <kendo-chart-legend *ngIf="chartData.length <= 2" position="right">
+    <kendo-chart-legend-item cursor="default"></kendo-chart-legend-item>
+  </kendo-chart-legend>
+  <kendo-chart-tooltip>
+    <ng-template kendoChartSeriesTooltipTemplate let-value="value" let-category="category">
+      {{category}} - {{value | comp: rate}} ({{currencyCode}})
+    </ng-template>
+  </kendo-chart-tooltip>
+  <kendo-chart-series>
+    <kendo-chart-series-item
+      type="donut"
+      colorField="colorField"
+      [data]="chartData"
+      categoryField="category"
+      field="value"
+      [padding]=0
+      [margin]=0
+      [size]=35
+    >
+    </kendo-chart-series-item>
+  </kendo-chart-series>
+  <kendo-chart-title position="bottom" align="left" [text]="chartTitle"></kendo-chart-title>
+</kendo-chart>

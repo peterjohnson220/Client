@@ -15,7 +15,7 @@ export class ResetInitiallyLoadedExchangeExplorerState implements Action {
 export class RefineExchangeJob implements Action {
   readonly type = REFINE_EXCHANGE_JOB;
 
-  constructor(public payload: {lockedExchangeJobId: number, companyPayMarketId: number}) {
+  constructor(public payload: {lockedExchangeJobId: number, companyPayMarketId?: number}) {
   }
 }
 

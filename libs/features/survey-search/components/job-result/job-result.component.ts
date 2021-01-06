@@ -8,6 +8,7 @@ import * as fromSearchReducer from 'libs/features/search/reducers';
 import { SurveySearchResultDataSources } from 'libs/constants';
 import { annualDisplay, compRate } from 'libs/core/pipes';
 import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
+import { SearchFeatureIds } from 'libs/features/search/enums/search-feature-ids';
 
 import { DataCut, DataCutDetails, JobResult, MatchesDetailsTooltipData } from '../../models';
 import { hasMoreDataCuts } from '../../helpers';
@@ -59,7 +60,9 @@ export class JobResultComponent implements OnInit, OnDestroy {
     // This is not ideal. "Dumb" components should not know about the store. However we need to track these
     // components in the NgFor so they do not get re-initialized if they show up in subsequent searches. Currently this
     // is the only way to know about a search so we can reset some things.
-    this.loadingResults$ = this.store.select(fromSearchReducer.getLoadingResults);
+    this.loadingResults$ = this.store.select(fromSearchReducer.getLoadingResults, {
+      searchFeatureIds: [SearchFeatureIds.MultiMatch, SearchFeatureIds.AddSurveyData]
+    });
     this.selectedCuts$ = this.store.select(fromSurveySearchReducer.getSelectedDataCuts);
 
     this.featureFlagService.bindEnabled(this.customizeScopeInMultimatchModalFlag, this.unsubscribe$);
@@ -112,6 +115,8 @@ export class JobResultComponent implements OnInit, OnDestroy {
 
   toggleRefineInPeerDisplay(): void {
     this.refineInPeerClicked.emit(this.job);
+    this.showDataCuts = true;
+    this.toggleDataCutsLabel = this.hideCutsLabel;
   }
 
   handleDataCutSelected(dataCut: DataCut) {

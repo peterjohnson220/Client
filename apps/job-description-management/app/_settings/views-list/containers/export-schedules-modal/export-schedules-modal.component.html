@@ -1,0 +1,58 @@
+<ng-template #exportSchedulesModal>
+  <div class="modal-header">
+      <div class="d-flex flex-column">
+          <h4 class="modal-title modal-title-space">Bulk Export</h4>
+      </div>
+      <div>
+          <button type="button" class="close close-button" aria-label="Close" (click)="close()">
+              <span aria-hidden="true">&times;</span>
+          </button>
+      </div>
+  </div>
+  <div class="modal-body">
+    <p>
+      <span class="font-weight-bold">{{jobDescriptionViewName}}</span> is associated with the following exports:
+    </p>
+    <ngb-accordion #acc="ngbAccordion" activeIds="scheduled-panel, one-time-panel">
+      <ngb-panel *ngIf="scheduledExports.length > 0" id="scheduled-panel">
+        <ng-template ngbPanelHeader let-opened="opened">
+          <div class="d-flex align-items-center justify-content-between">
+            <h5 class="m-0">Scheduled</h5>
+            <button ngbPanelToggle type="button" class="caret-btn">
+              <fa-icon *ngIf="opened" [icon]="['fas','caret-down']"></fa-icon>
+              <fa-icon *ngIf="!opened" [icon]="['fas','caret-up']"></fa-icon>
+            </button>
+          </div>
+        </ng-template>
+        <ng-template ngbPanelContent>
+          <ul>
+            <li *ngFor="let schedule of scheduledExports">
+              {{schedule.FileName}}
+            </li>
+          </ul>
+        </ng-template>
+      </ngb-panel>
+      <ngb-panel *ngIf="oneTimeExports.length > 0" id="one-time-panel">
+        <ng-template ngbPanelHeader let-opened="opened">
+          <div class="d-flex align-items-center justify-content-between">
+            <h5 class="m-0">One-Time</h5>
+            <button ngbPanelToggle type="button" class="caret-btn">
+              <fa-icon *ngIf="opened" [icon]="['fas','caret-down']"></fa-icon>
+              <fa-icon *ngIf="!opened" [icon]="['fas','caret-up']"></fa-icon>
+            </button>
+          </div>
+        </ng-template>
+        <ng-template ngbPanelContent>
+          <ul>
+            <li *ngFor="let schedule of oneTimeExports">
+              {{schedule.FileName}}
+            </li>
+          </ul>
+        </ng-template>
+      </ngb-panel>
+    </ngb-accordion>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="close()">Close</button>
+  </div>
+</ng-template>

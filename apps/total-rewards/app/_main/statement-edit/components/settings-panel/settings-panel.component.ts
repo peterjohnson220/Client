@@ -3,7 +3,7 @@ import { Component, Input, Output, EventEmitter, HostListener, OnInit, OnDestroy
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
-import { UpdateSettingsChartColorRequest } from 'libs/features/total-rewards/total-rewards-statement/models';
+import { UpdateSettingsColorRequest } from 'libs/features/total-rewards/total-rewards-statement/models';
 import { FontFamily, FontSize } from 'libs/features/total-rewards/total-rewards-statement/types';
 
 import { environment } from 'environments/environment';
@@ -18,30 +18,30 @@ export class SettingsPanelComponent implements OnInit, OnDestroy {
   @Input() isOpen: boolean;
   @Input() fontFamily: FontFamily;
   @Input() fontSize: FontSize;
-  @Input() chartColors: string[];
+  @Input() colors: string[];
   @Input() isSavingError: boolean;
 
   @Output() close = new EventEmitter();
   @Output() fontSizeChange = new EventEmitter<FontSize>();
   @Output() fontFamilyChange = new EventEmitter<FontFamily>();
-  @Output() chartColorChange = new EventEmitter<UpdateSettingsChartColorRequest>();
+  @Output() colorChange = new EventEmitter<UpdateSettingsColorRequest>();
   @Output() resetSettings = new EventEmitter();
 
-  chartColorSubject = new Subject<UpdateSettingsChartColorRequest>();
-  chartColorSubjectSubscription = new Subscription();
+  colorSubject = new Subject<UpdateSettingsColorRequest>();
+  colorSubjectSubscription = new Subscription();
 
   showFontFamilyMenu = environment.enableTrsCustomFontFamilies;
 
   ngOnInit() {
     // debounce chart color changes which can fire rapidly when click + hold, then dragging
-    this.chartColorSubjectSubscription = this.chartColorSubject.pipe(
+    this.colorSubjectSubscription = this.colorSubject.pipe(
       distinctUntilChanged(),
       debounceTime(400)
-    ).subscribe((request: UpdateSettingsChartColorRequest) => this.chartColorChange.emit(request));
+    ).subscribe((request: UpdateSettingsColorRequest) => this.colorChange.emit(request));
   }
 
   ngOnDestroy() {
-    this.chartColorSubjectSubscription.unsubscribe();
+    this.colorSubjectSubscription.unsubscribe();
   }
 
   onCloseClick() {
@@ -56,8 +56,8 @@ export class SettingsPanelComponent implements OnInit, OnDestroy {
     this.fontFamilyChange.emit(fontFamily);
   }
 
-  onChartColorChange(color: string, colorIndex: number) {
-    this.chartColorSubject.next({ Color: color, ColorIndex: colorIndex });
+  onColorChange(color: string, colorIndex: number) {
+    this.colorSubject.next({ Color: color, ColorIndex: colorIndex });
   }
 
   onResetSettings() {

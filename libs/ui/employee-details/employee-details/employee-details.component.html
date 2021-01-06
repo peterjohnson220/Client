@@ -1,0 +1,124 @@
+<div class="card m-3">
+  <div [ngClass]="[theme].join(' ')">
+    <div class="card-header">
+      <ng-container *ngTemplateOutlet="employeeDetailsHeader"></ng-container>
+    </div>
+  </div>
+  <div class="card-block">
+    <ng-container *ngTemplateOutlet="employeeDetailsBody"></ng-container>
+  </div>
+</div>
+
+<ng-template #employeeDetailsHeader>
+  <div class="d-flex justify-content-between">
+    <div>
+      <b class="align-middle">Employee Details</b>
+    </div>
+    <!--potentially place export icon here, if X does not exist (product must decide)-->
+    <ng-container [ngTemplateOutlet]="optionalCloseButton"></ng-container>
+  </div>
+</ng-template>
+
+<ng-template #employeeDetailsBody>
+  <div class="d-flex">
+    <div class="w-50">
+      <pf-compensation-charts
+        [employeeDetails]="employeeDetails"
+      >
+      </pf-compensation-charts>
+    </div>
+    <div class="w-50 d-flex flex-column">
+      <div class="w-100">
+        <!--potentially place export icon on summary header if X exists (product must decide)-->
+        <div class="p-3">
+          <p class="mb-1"><b>Summary</b></p>
+          <hr class="mb-2 mt-0 border-top border-dark" />
+          <p class="m-0">{{displayDetails.FirstName | formatName: employeeDetails.LastName: employeeDetails.EmployeeId: true}}
+            is a {{displayDetails.FullTimeEmployee === null || displayDetails.FullTimeEmployee === 1 ? 'full' : 'part'}} time employee{{displayDetails.DateOfHire === null ? '.' : ' who has been with the company for ' + this.yearsOfService + ' years.'}}
+            {{displayDetails.FirstName | formatName: employeeDetails.LastName: employeeDetails.EmployeeId}} has a base
+            {{displayDetails.Rate === this.hourlyRate ? 'hourly' : ''}} salary of {{formattedSalary}} ({{displayDetails.CurrencyCode}}),
+            {{displayDetails.BaseMRP === null ? 'this job has no Base MRP.' : 'which represents ' + formattedBaseMrp + '% of the base MRP.'}}</p>
+        </div>
+      </div>
+      <pf-emplyee-info
+        [employeeInfo]="employeeDetails"
+      >
+      </pf-emplyee-info>
+        <div class="d-flex flex-column">
+          <div *ngIf="isShowingMore" class="px-3 pb-2">
+            <div class="d-flex justify-content-between">
+              <div class="d-flex flex-column py-1">
+                <span>Bonus Percentage:</span>
+                <input [value]="employeeDetails.BonusPercent | emptyPlaceholder" [disabled]="true" />
+              </div>
+              <div class="d-flex flex-column py-1">
+                <span>Bonus Target Percentage:</span>
+                <input [value]="employeeDetails.BonusTargetPercent | emptyPlaceholder" [disabled]="true" />
+              </div>
+              <div class="d-flex flex-column py-1">
+                <span>Bonus Target:</span>
+                <input [value]="employeeDetails.BonusTarget | comp: employeeDetails.Rate | emptyPlaceholder" [disabled]="true" />
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-between">
+              <div class="d-flex flex-column py-1">
+                <span>Full Time Employee:</span>
+                <input [value]="employeeDetails.FullTimeEmployee >= 1 || employeeDetails.FullTimeEmployee === null ? 'Yes' : 'No'" [disabled]="true" />
+              </div>
+              <div class="d-flex flex-column py-1">
+                <span>Allowances:</span>
+                <input [value]="employeeDetails.Allowances | emptyPlaceholder" [disabled]="true" />
+              </div>
+              <div class="d-flex flex-column py-1">
+                <span>Target TCC:</span>
+                <input [value]="employeeDetails.TargetTCC | comp: employeeDetails.Rate | emptyPlaceholder" [disabled]="true" />
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-between">
+              <div class="d-flex flex-column py-1">
+                <span>Target LTIP:</span>
+                <input [value]="employeeDetails.TargetLTI | comp: employeeDetails.Rate | emptyPlaceholder" [disabled]="true" />
+              </div>
+              <div class="d-flex flex-column py-1">
+                <span>Fixed Pay:</span>
+                <input [value]="employeeDetails.TotalFixedPay | comp: employeeDetails.Rate | emptyPlaceholder" [disabled]="true" />
+              </div>
+              <div class="d-flex flex-column py-1">
+                <span>Target TDC:</span>
+                <input [value]="employeeDetails.TargetTDC | comp: employeeDetails.Rate | emptyPlaceholder" [disabled]="true" />
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-between">
+              <div class="d-flex flex-column py-1">
+                <span>Total Guaranteed Pay:</span>
+                <input [value]="employeeDetails.TotalGuaranteedPay | comp: employeeDetails.Rate | emptyPlaceholder" [disabled]="true" />
+              </div>
+              <div class="d-flex flex-column py-1">
+                <span>STI Eligibility:</span>
+                <input [value]="employeeDetails.STI_Eligibility >= 1 ? 'Yes' : 'No'" [disabled]="true" />
+              </div>
+              <div class="d-flex flex-column py-1">
+                <span>LTI Eligibility:</span>
+                <input [value]="employeeDetails.LTI_Eligibility >= 1 ? 'Yes' : 'No'" [disabled]="true" />
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-between">
+              <div class="d-flex flex-column py-1">
+                <span>Remuneration:</span>
+                <input [value]="employeeDetails.TotalRemuneration | comp: employeeDetails.Rate | emptyPlaceholder" [disabled]="true" />
+              </div>
+            </div>
+          </div>
+      </div>
+      <div class="w-100">
+        <a #toggleLink class="pr-3 pb-2 float-right" style="color: blue;" (click)="toggle()" [innerText]="isShowingMore ? 'Show Less' : 'Show More'"></a>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+

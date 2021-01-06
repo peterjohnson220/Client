@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, TemplateRef, EventEmitter, SimpleChanges, OnChanges, OnDestroy, ElementRef, ViewChild } from '@angular/core';
 
 import { Observable, Subscription } from 'rxjs';
-
 import { Store } from '@ngrx/store';
 import { SortDescriptor } from '@progress/kendo-data-query';
 
@@ -21,6 +20,7 @@ import {
 import { getUserFilteredFields } from '../components';
 import { SelectAllStatus } from '../reducers/pf-data-grid.reducer';
 import { PfThemeType } from '../enums/pf-theme-type.enum';
+import { PfGridComponent } from '../containers';
 
 @Component({
   selector: 'pf-data-grid',
@@ -63,6 +63,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() backgroundColor: string;
   @Input() applyDefaultFilters: boolean;
   @Input() applyUserDefaultCompensationFields: boolean;
+  @Input() useReportingDB: boolean;
   @Input() allowSort = true;
   @Input() saveSort = false;
   @Input() preserveSelectionsOnGetConfig = false;
@@ -94,6 +95,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() hasHeaderDividers = false;
   @Input() hasColDividers = false;
   @Input() fieldsToShowFilterValueOnly: string[] = [];
+  @Input() enableRowFade = false;
   @ViewChild('splitViewContainer', { static: false }) splitViewContainer: ElementRef;
 
   splitViewEmitter = new EventEmitter<string>();
@@ -215,6 +217,11 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
     if (changes['applyUserDefaultCompensationFields']) {
       this.store.dispatch(new fromActions.UpdateApplyUserDefaultCompensationFields(this.pageViewId,
         changes['applyUserDefaultCompensationFields'].currentValue));
+    }
+
+    if (changes['useReportingDB']) {
+      this.store.dispatch(new fromActions.UpdateUseReportingDB(this.pageViewId,
+        changes['useReportingDB'].currentValue));
     }
 
     if (changes['pageViewId']) {

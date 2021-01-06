@@ -100,11 +100,11 @@
       [isOpen]="isSettingsPanelOpen$ | async"
       [fontSize]="(statement$ | async)?.Settings.FontSize"
       [fontFamily]="(statement$ | async)?.Settings.FontFamily"
-      [chartColors]="(statement$ | async)?.Settings.ChartColors"
+      [colors]="(statement$ | async)?.Settings.Colors"
       [isSavingError]="settingsSavingError$ | async"
       (fontSizeChange)="handleSettingsFontSizeChange($event)"
       (fontFamilyChange)="handleSettingsFontFamilyChange($event)"
-      (chartColorChange)="handleSettingsChartColorChange($event)"
+      (colorChange)="handleSettingsColorChange($event)"
       (resetSettings)="handleResetSettings()"
       (close)="handleCloseSettingsClick()"
     ></pf-settings-panel>

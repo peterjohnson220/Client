@@ -13,5 +13,7 @@ export enum LoaderSettingsKeys {
   FileFormat = 'FileFormat',
   ValidateOnly = 'ValidateOnly',
   IsBenefitsLoadEnabled = 'IsBenefitsLoadEnabled',
-  IsBenefitsFullReplace = 'IsBenefitsFullReplace'
+  IsBenefitsFullReplace = 'IsBenefitsFullReplace',
+  IsEmployeeTagsLoadEnabled = 'IsEmployeeTagsLoadEnabled',
+  IsEmployeeTagsFullReplace = 'IsEmployeeTagsFullReplace'
 }

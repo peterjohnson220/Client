@@ -28,12 +28,25 @@ export class ViewsListEffects {
       ));
 
   @Effect()
+  loadJobDescriptionSettingsViews: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromViewsListActions.LOAD_JOB_DESCRIPTION_SETTINGS_VIEWS),
+      switchMap(() =>
+        this.jobDescriptionManagementApiService.getSettingsViews().pipe(
+          map((response) => {
+            return new fromViewsListActions.LoadJobDescriptionViewsSettingsSuccess(response);
+          }),
+          catchError(() => of(new fromViewsListActions.LoadJobDescriptionViewsError()))
+        )
+      ));
+
+  @Effect()
   deleteJobDescriptionView$: Observable<Action> = this.actions$
     .pipe(
       ofType(fromViewsListActions.DELETE_VIEW),
       switchMap((action: fromViewsListActions.DeleteView) =>
         this.jobDescriptionManagementApiService.deleteView(action.payload.viewName).pipe(
-          map(() => new fromViewsListActions.LoadJobDescriptionViews())
+          map(() => new fromViewsListActions.LoadJobDescriptionSettingsViews())
         )
       ));
 

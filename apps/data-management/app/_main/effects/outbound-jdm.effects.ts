@@ -54,7 +54,8 @@ export class OutboundJdmEffects {
             ProviderCode: 'WDMOCK',
             ProviderId: 54321,
             ProviderName: 'Workday Mock',
-            UsesFieldSelection: false
+            UsesFieldSelection: false,
+            ShowInUI: true
           },
           hasConnection: false,
           canEditConnection: false,
@@ -83,7 +84,7 @@ export class OutboundJdmEffects {
       switchMap(existingSummary => {
         const summary = {
           ...existingSummary.obj,
-          connectionID: 12345,
+          connectionID: -12345,
           canEditMappings: true,
           statuses: ['Authenticated']
         };

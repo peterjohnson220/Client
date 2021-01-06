@@ -3,7 +3,7 @@ import {
   HostListener, ChangeDetectorRef, OnDestroy, SimpleChanges, OnChanges, EventEmitter, Output
 } from '@angular/core';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import {filter, map} from 'rxjs/operators';
 
 import { ActionsSubject, Store } from '@ngrx/store';
 import { ofType } from '@ngrx/effects';
@@ -15,6 +15,7 @@ import { PermissionService } from 'libs/core';
 import { AsyncStateObj } from 'libs/models';
 import { Permissions, PermissionCheckEnum } from 'libs/constants';
 import { ApiServiceType } from 'libs/features/notes-manager/constants/api-service-type-constants';
+import { PricingApiService} from 'libs/data/payfactors-api';
 
 import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
@@ -85,6 +86,8 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
     ParentEntityId: null
   };
 
+  previousPricingEffectiveDate: any = null;
+
   @HostListener('window:resize') windowResize() {
     this.ngAfterViewChecked();
   }
@@ -93,7 +96,8 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
     public permissionService: PermissionService,
     private store: Store<fromModifyPricingsReducer.State>,
     private actionsSubject: ActionsSubject,
-    private cdRef: ChangeDetectorRef) { }
+    private cdRef: ChangeDetectorRef,
+    private pricingApiService: PricingApiService) { }
 
   ngOnInit() {
     this.jobsSelectedRow$ = this.store.select(fromPfDataGridReducer.getSelectedRow, PageViewIds.Jobs);
@@ -187,14 +191,35 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
   }
 
   openDeletePricingMatchModal() {
-    this.showDeletePricingMatchModal.next(true);
-    this.store.dispatch(new fromModifyPricingsActions.ResetModifyPricingsModals());
+
+    if (this.pricingMatchesCount !== 1 || this.previousPricingEffectiveDate !==  null) {
+      this.showDeletePricingMatchModal.next(true);
+      this.store.dispatch(new fromModifyPricingsActions.ResetModifyPricingsModals());
+    } else {
+      this.getPreviousPricingEffectiveDate();
+    }
   }
 
-  deletePricingMatch(datarow: any) {
-    this.store.dispatch(new fromModifyPricingsActions.DeletingPricingMatch(
-      datarow.CompanyJobs_PricingsMatches_CompanyJobPricingMatch_ID
-    ));
+  deletePricingMatch(pricingMatch: any) {
+    const jobPayMarketMetaData = `${this.pricingInfo['CompanyJobs_CompanyJob_ID']}_${this.pricingInfo['CompanyPayMarkets_CompanyPayMarket_ID']}`;
+    const request = {
+      MatchId: pricingMatch['CompanyJobs_PricingsMatches_CompanyJobPricingMatch_ID'],
+      JobPayMarketMetaData: jobPayMarketMetaData
+    };
+    if (this.pricingMatchesCount !== 1) {
+      this.store.dispatch(new fromModifyPricingsActions.DeletingPricingMatch(request));
+    } else {
+      this.store.dispatch(new fromModifyPricingsActions.DeletePricingAndMatch(request));
+  }
+
+  }
+  getPreviousPricingEffectiveDate() {
+    const matchId = this.dataRow.CompanyJobs_PricingsMatches_CompanyJobPricingMatch_ID;
+    this.pricingApiService.getPreviousPricingEffectiveDate(matchId).subscribe(response => {
+        this.previousPricingEffectiveDate = response;
+        this.showDeletePricingMatchModal.next(true);
+        this.store.dispatch(new fromModifyPricingsActions.ResetModifyPricingsModals());
+      });
   }
 
   handleMatchClick() {

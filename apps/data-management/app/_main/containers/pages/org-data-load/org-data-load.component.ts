@@ -10,7 +10,7 @@ import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 
 import { environment } from 'environments/environment';
 import { CompositeDataLoadTypes, LoadTypes } from 'libs/constants';
-import { FeatureFlags, PermissionService, RealTimeFlag } from 'libs/core';
+import { FeatureFlags, RealTimeFlag } from 'libs/core';
 import { AbstractFeatureFlagService } from 'libs/core/services/feature-flags';
 import * as fromAppNotificationsActions from 'libs/features/app-notifications/actions/app-notifications.actions';
 import {
@@ -20,6 +20,8 @@ import * as fromAppNotificationsMainReducer from 'libs/features/app-notification
 import * as fromCompanySelectorActions from 'libs/features/company/company-selector/actions';
 import { CompanySelectorItem } from 'libs/features/company/company-selector/models';
 import * as fromCompanyReducer from 'libs/features/company/company-selector/reducers';
+import * as fromCustomFieldsActions from 'libs/features/company/custom-fields/actions/';
+import * as fromEntityIdentifierActions from 'libs/features/company/entity-identifier/actions/';
 import * as fromEmailRecipientsActions from 'libs/features/loader-email-reipients/state/actions/email-recipients.actions';
 import { LoaderFileFormat, LoaderSettingsKeys, LoaderType } from 'libs/features/org-data-loader/constants';
 import { LoaderSettings, OrgDataLoadHelper } from 'libs/features/org-data-loader/helpers';
@@ -35,7 +37,6 @@ import { LoadingProgressBarModel } from 'libs/ui/common/loading/models';
 
 import * as fromDataManagementMainReducer from '../../../reducers';
 import * as fromOrganizationalDataActions from '../../../actions/organizational-data-page.action';
-import * as fromCustomFieldsActions from '../../../actions/custom-fields.actions';
 import * as fromOrgDataFieldMappingsActions from '../../../actions/organizational-data-field-mapping.actions';
 import { EntityUploadComponent } from '../../../components';
 import { EntityChoice, FileUploadDataModel, getEntityChoicesForOrgLoader, OrgUploadStep } from '../../../models';
@@ -57,6 +58,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   userMappings: KeyValue<number, string>[];
 
   benefitsLoaderFeatureFlag: RealTimeFlag = { key: FeatureFlags.BenefitsLoaderConfiguration, value: false };
+  empTagsLoaderFeatureFlag: RealTimeFlag = { key: FeatureFlags.EmployeeTagsLoaderConfiguration, value: false };
   private totalTypesToLoad = 0;
   private unsubscribe$ = new Subject<void>();
   private companies$: Observable<CompanySelectorItem[]>;
@@ -66,6 +68,9 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   private configGroups$: Observable<ConfigurationGroup[]>;
   private customJobFields$: Observable<any>;
   private customEmployeeFields$: Observable<any>;
+  private employeeIdentifiers$: Observable<any>;
+
+  private empoyeeTagCategories$: Observable<any>;
   private fileUploadData$: Observable<any>;
   private fileUploadDataFailed$: Observable<any>;
   private savedConfigurationGroup$: Observable<ConfigurationGroup>;
@@ -128,10 +133,12 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   private isBenefitsLoadEnabled: boolean;
   private isStructureMappingsLoadEnabled: boolean;
   private isEmployeesLoadEnabled: boolean;
+  private isEmployeeTagsLoadEnabled: boolean;
   mappings: MappingModel[];
   private isStructureMappingsFullReplace: boolean;
   private dateFormat: string;
   private isEmployeesFullReplace: boolean;
+  private isEmployeeTagsFullReplace: boolean;
   private isBenefitsFullReplace: boolean;
   private isActive: boolean;
   private isCompanyOnAutoloader: boolean;
@@ -155,12 +162,9 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     title: 'Uploading Files...'
   };
 
-  benefitsEnabled = false;
-
   constructor(private mainStore: Store<fromDataManagementMainReducer.State>,
     private notificationStore: Store<fromAppNotificationsMainReducer.State>,
     private cdr: ChangeDetectorRef,
-    private permissions: PermissionService,
     private featureFlagService: AbstractFeatureFlagService) {
 
     this.userContext$ = this.mainStore.select(fromRootState.getUserContext);
@@ -172,6 +176,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     this.configGroups$ = this.mainStore.select(fromDataManagementMainReducer.getConfigurationGroups);
     this.customJobFields$ = this.mainStore.select(fromDataManagementMainReducer.getCustomJobField);
     this.customEmployeeFields$ = this.mainStore.select(fromDataManagementMainReducer.getCustomEmployeeField);
+    this.empoyeeTagCategories$ = this.mainStore.select(fromDataManagementMainReducer.getTagCategories);
     this.fileUploadData$ = this.mainStore.select(fromDataManagementMainReducer.fileUploadData);
     this.fileUploadDataFailed$ = this.mainStore.select(fromDataManagementMainReducer.fileUploadDataFailed);
     this.isProcessingMapping$ = this.mainStore.select(fromDataManagementMainReducer.isProcessingMapping);
@@ -184,8 +189,11 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     this.createdConfigurationGroup$ = this.mainStore.select(fromDataManagementMainReducer.getCreatedConfigurationGroup);
     this.companySettings$ = this.mainStore.select(fromRootState.getCompanySettings);
     this.companyHasBenefits$ = this.mainStore.select(fromCompanyReducer.companyHasBenefits);
+    this.employeeIdentifiers$ = this.mainStore.select(fromDataManagementMainReducer.getEmployeeIdentifiers);
 
     this.featureFlagService.bindEnabled(this.benefitsLoaderFeatureFlag, this.unsubscribe$);
+    this.featureFlagService.bindEnabled(this.empTagsLoaderFeatureFlag, this.unsubscribe$);
+
 
     this.selectedCompany$.pipe(
       takeUntil(this.unsubscribe$)
@@ -193,6 +201,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       this.selectedCompany = f;
       this.clearSelections();
       if (f) {
+
         this.mainStore.dispatch(new fromCompanySelectorActions.CompanyHasBenefits());
         this.mainStore.dispatch(new fromOrganizationalDataActions.GetConfigGroups(f.CompanyId, this.loadType, this.primaryCompositeDataLoadType));
 
@@ -227,6 +236,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       this.selectedDelimiter = resp.delimiter;
       this.dateFormat = resp.dateFormat;
       this.isEmployeesLoadEnabled = resp.isEmployeesLoadEnabled;
+      this.isEmployeeTagsLoadEnabled = resp.isEmployeeTagsLoadEnabled;
       this.isJobsLoadEnabled = resp.isJobsLoadEnabled;
       this.isPaymarketsLoadEnabled = resp.isPaymarketsLoadEnabled;
       this.isStructuresLoadEnabled = resp.isStructuresLoadEnabled;
@@ -245,13 +255,17 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       // we need a different default for benefitsIsFullReplace here.
       const responseBenefitSetting =
         f.find(setting => setting.KeyName === LoaderSettingsKeys.IsBenefitsFullReplace);
-      const fullReplace = responseBenefitSetting ? responseBenefitSetting.KeyValue === 'true' : false;
+      let fullReplace = responseBenefitSetting ? responseBenefitSetting.KeyValue === 'true' : false;
       this.getEntityChoice(LoaderType.Benefits).isFullReplace = fullReplace;
       this.isBenefitsFullReplace = fullReplace;
 
+      // same for employeeTags
+      const responseEmpTagsSetting =
+        f.find(setting => setting.KeyName === LoaderSettingsKeys.IsEmployeeTagsFullReplace);
+      fullReplace = responseEmpTagsSetting ? responseEmpTagsSetting.KeyValue === 'true' : false;
+      this.getEntityChoice(LoaderType.EmployeeTags).isFullReplace = fullReplace;
+      this.isBenefitsFullReplace = fullReplace;
     });
-
-
 
     const organizationalDataTemplateSubscription = this.organizationalDataTemplateLink$.pipe(
       filter(uc => !!uc),
@@ -291,7 +305,28 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       filter(uc => !!uc),
       takeUntil(this.unsubscribe$)).subscribe(employees => {
         this.loadOptions.find(l => l.templateReferenceConstants === LoaderType.Employees).customFields.Employees = employees;
+        this.mainStore.dispatch(new fromEntityIdentifierActions.GetEmployeeIdentifiers(this.selectedCompany.CompanyId, employees));
       });
+
+    this.empoyeeTagCategories$.pipe(
+      filter(uc => !!uc),
+      takeUntil(this.unsubscribe$)).subscribe(employeetags => {
+        this.loadOptions.find(l => l.templateReferenceConstants === LoaderType.EmployeeTags).customFields.EmployeeTags.push(...employeetags);
+      });
+
+    this.employeeIdentifiers$.pipe(
+      filter(r => !!r),
+      takeUntil(this.unsubscribe$)
+    ).subscribe(r => {
+      const selected = r.filter(a => a.isChecked);
+
+      if (!selected || selected.length === 0) {
+        const empId = ['Employee_ID'];
+        this.loadOptions.find(l => l.templateReferenceConstants === LoaderType.EmployeeTags).customFields.EmployeeTags.push(...empId);
+      } else {
+        this.loadOptions.find(l => l.templateReferenceConstants === LoaderType.EmployeeTags).customFields.EmployeeTags.push(...selected.map(a => a.Field));
+      }
+    });
 
     this.fileUploadData$.pipe(
       filter(uc => !!uc),
@@ -347,11 +382,12 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
 
     this.companyHasBenefits$
       .pipe(
+        filter(f => f !== null),
         takeUntil(this.unsubscribe$)
       ).subscribe(f => {
         const benefitsLoaderFeatureFlagEnabled = this.featureFlagService.enabled(FeatureFlags.BenefitsLoaderConfiguration, false);
-        this.benefitsEnabled = f && benefitsLoaderFeatureFlagEnabled;
-        this.loadOptions = getEntityChoicesForOrgLoader(this.benefitsEnabled);
+
+        this.loadOptions.find(a => a.dbName === 'Benefits').isEnabled = f && benefitsLoaderFeatureFlagEnabled;
       });
 
     const companiesSubscription = this.companies$.pipe(
@@ -461,6 +497,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   getPayfactorCustomFields(companyId) {
     this.mainStore.dispatch(new fromCustomFieldsActions.GetCustomJobFields(companyId));
     this.mainStore.dispatch(new fromCustomFieldsActions.GetCustomEmployeeFields(companyId));
+    this.mainStore.dispatch(new fromCustomFieldsActions.GetTagCategories);
   }
 
   private SetDefaultValuesForNullConfig() {
@@ -469,6 +506,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     this.getEntityChoice(LoaderType.Employees).isFullReplace = false;
     this.getEntityChoice(LoaderType.StructureMapping).isFullReplace = false;
     this.getEntityChoice(LoaderType.Benefits).isFullReplace = false;
+    this.getEntityChoice(LoaderType.EmployeeTags).isFullReplace = false;
 
     this.selectedMapping = this.mappingOptions.find(f => f.LoaderConfigurationGroupId === this.configGroupSeed.LoaderConfigurationGroupId);
 
@@ -497,6 +535,8 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       const existingDateFormatSetting = this.existingLoaderSettings.find(setting => setting.KeyName === LoaderSettingsKeys.DateFormat);
       const existingIsEmpFullReplaceSetting =
         this.existingLoaderSettings.find(setting => setting.KeyName === LoaderSettingsKeys.IsEmployeesFullReplace);
+      const existingIsEmpTagsFullReplaceSetting =
+        this.existingLoaderSettings.find(setting => setting.KeyName === LoaderSettingsKeys.IsEmployeeTagsFullReplace);
       const existingIsStructureMappingFullReplaceSetting =
         this.existingLoaderSettings.find(setting => setting.KeyName === LoaderSettingsKeys.IsStructureMappingsFullReplace);
       const existingIsBenefitFullReplaceSetting =
@@ -504,7 +544,11 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       this.getEntityChoice(LoaderType.Employees).dateFormat = existingDateFormatSetting ? existingDateFormatSetting.KeyValue : null;
       this.getEntityChoice(LoaderType.Employees).isFullReplace = existingIsEmpFullReplaceSetting ? existingIsEmpFullReplaceSetting.KeyValue === 'true' : null;
       this.getEntityChoice(LoaderType.Benefits).isFullReplace =
-          existingIsBenefitFullReplaceSetting ? existingIsBenefitFullReplaceSetting.KeyValue === 'true' : false;
+        existingIsBenefitFullReplaceSetting ? existingIsBenefitFullReplaceSetting.KeyValue === 'true' : false;
+      this.getEntityChoice(LoaderType.EmployeeTags).isFullReplace =
+        existingIsEmpTagsFullReplaceSetting ? existingIsEmpTagsFullReplaceSetting.KeyValue === 'true' : false;
+      this.getEntityChoice(LoaderType.StructureMapping).isFullReplace =
+        existingIsStructureMappingFullReplaceSetting ? existingIsStructureMappingFullReplaceSetting.KeyValue === 'true' : null;
       this.getEntityChoice(LoaderType.StructureMapping).isFullReplace =
         existingIsStructureMappingFullReplaceSetting ? existingIsStructureMappingFullReplaceSetting.KeyValue === 'true' : null;
 
@@ -541,7 +585,9 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       this.mappingOptions = [this.configGroupSeed];
       this.selectedMapping = this.configGroupSeed;
       this.selectedDelimiter = this.defaultDelimiter;
-      this.loadOptions = getEntityChoicesForOrgLoader(this.benefitsEnabled);
+      this.loadOptions = getEntityChoicesForOrgLoader();
+      const empTagsFeatureFlagEnabled = this.featureFlagService.enabled(FeatureFlags.EmployeeTagsLoaderConfiguration, false);
+      this.loadOptions.find(a => a.dbName === 'EmployeeTags').isEnabled = empTagsFeatureFlagEnabled;
     }
 
     if (this.stepIndex <= 2) {
@@ -727,6 +773,12 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
         this.isBenefitsLoadEnabled = isEnabled;
         this.isBenefitsFullReplace = $event.isFullReplace;
         break;
+      case LoaderType.EmployeeTags:
+        this.isEmployeeTagsLoadEnabled = isEnabled;
+        this.isEmployeeTagsFullReplace = $event.isFullReplace;
+        if ($event.dateFormat) {
+          this.dateFormat = $event.dateFormat;
+        }
     }
 
     const shouldShowToolTip = this.completedMappings.length !== this.totalTypesToLoad;
@@ -784,6 +836,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     newLoaderSettings.delimiter = this.selectedDelimiter;
     newLoaderSettings.dateFormat = this.dateFormat;
     newLoaderSettings.isEmployeesLoadEnabled = this.isEmployeesLoadEnabled;
+    newLoaderSettings.isEmployeeTagsLoadEnabled = this.isEmployeeTagsLoadEnabled;
     newLoaderSettings.isJobsLoadEnabled = this.isJobsLoadEnabled;
     newLoaderSettings.isPaymarketsLoadEnabled = this.isPaymarketsLoadEnabled;
     newLoaderSettings.isStructuresLoadEnabled = this.isStructuresLoadEnabled;
@@ -791,6 +844,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     newLoaderSettings.isBenefitsLoadEnabled = this.isBenefitsLoadEnabled;
     newLoaderSettings.isStructureMappingsLoadEnabled = this.isStructureMappingsLoadEnabled;
     newLoaderSettings.isEmployeesFullReplace = this.isEmployeesFullReplace;
+    newLoaderSettings.isEmployeeTagsFullReplace = this.isEmployeeTagsFullReplace;
     newLoaderSettings.isBenefitsFullReplace = this.isBenefitsFullReplace;
     newLoaderSettings.isStructureMappingsFullReplace = this.isStructureMappingsFullReplace;
     newLoaderSettings.fileFormat = LoaderFileFormat.CSV;

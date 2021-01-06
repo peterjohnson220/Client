@@ -4,6 +4,7 @@ export class JobDescriptionSection {
   Id: number;
   Name: string;
   SubHeading: string;
+  ShowSubheading: boolean;
   Controls: JobDescriptionControl[];
   Statuses: string[];
 }

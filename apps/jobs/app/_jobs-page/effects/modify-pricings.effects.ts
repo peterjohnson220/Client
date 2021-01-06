@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
 
-import { catchError, mergeMap, switchMap, withLatestFrom, concatMap, groupBy } from 'rxjs/operators';
+import {catchError, mergeMap, switchMap, withLatestFrom, concatMap, groupBy, map} from 'rxjs/operators';
 import { Observable, of, forkJoin } from 'rxjs';
 
 import { SortDescriptor } from '@progress/kendo-data-query';
@@ -60,7 +60,7 @@ export class ModifyPricingsEffects {
           ) => ({ action, paymarketsGridState })
         ))),
     switchMap((data) =>
-      this.pricingApiService.deletePricingMatch(data.action.pricingMatchId)
+      this.pricingApiService.deletePricingMatch(data.action.payload.MatchId)
         .pipe(
           concatMap((modifiedPricingsIds) => {
             return this.getDataForModifiedPricings(data.paymarketsGridState, modifiedPricingsIds);
@@ -136,7 +136,7 @@ export class ModifyPricingsEffects {
   );
 
   @Effect()
-  RefreshLinkedPricings$: Observable<Action> = this.actions$.pipe(
+  refreshLinkedPricings$: Observable<Action> = this.actions$.pipe(
     ofType(fromModifyPricingsActions.REFRESH_LINKED_PRICINGS),
     withLatestFrom(
       this.store.pipe(select(fromPfDataGridReducer.getGrid, PageViewIds.PayMarkets)),
@@ -149,6 +149,25 @@ export class ModifyPricingsEffects {
     )
   );
 
+  @Effect()
+  deleteMatchAndPricing$: Observable<Action> = this.actions$.pipe(
+    ofType(fromModifyPricingsActions.DELETE_PRICING_AND_MATCH),
+    switchMap((action: any) => {
+      return this.pricingApiService.deleteMatchAndPricing(action.payload.MatchId).pipe(
+        mergeMap(response => {
+          const  actions = [];
+          actions.push(new fromPfDataGridActions.LoadDataAndAddFadeInKeys(PageViewIds.PayMarkets, [action.payload.JobPayMarketMetaData]));
+          actions.push(new fromPfDataGridActions.CollapseAllRows(PageViewIds.PayMarkets));
+          actions.push(new fromModifyPricingsActions.DeletingPricingMatchSuccess());
+          return actions;
+        }),
+        catchError(error => {
+          const msg = 'We encountered an error while loading your company data';
+          return of(new fromModifyPricingsActions.DeletingPricingError(msg));
+        })
+      );
+    })
+  );
 
   //#region UpdatePricingMatch HelperFunctions
 
@@ -208,6 +227,12 @@ export class ModifyPricingsEffects {
     if (reloadMatches) {
       actions = actions.concat(this.getActionsToReloadPricingMatches(updatedRowData));
     }
+
+    const gridKeys = updatedRowData.map(x => {
+      return `${x['CompanyJobs_CompanyJob_ID']}_${x['CompanyPayMarkets_CompanyPayMarket_ID']}`;
+    });
+
+    actions.push(new fromPfDataGridActions.AddFadeInKeys(PageViewIds.PayMarkets, gridKeys));
 
     return actions;
   }

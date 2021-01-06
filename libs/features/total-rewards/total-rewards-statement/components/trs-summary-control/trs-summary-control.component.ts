@@ -18,6 +18,7 @@ export class TrsSummaryControlComponent {
   @Input() controlData: CalculationSummaryControl;
   @Input() calculationControls: CalculationControl[];
   @Input() employeeRewardsData: EmployeeRewardsData;
+  @Input() graphicsColors: string[];
 
   @Output() onTitleChange: EventEmitter<UpdateTitleRequest> = new EventEmitter();
   constructor(public currencyPipe: CurrencyPipe) { }

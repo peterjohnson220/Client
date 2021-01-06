@@ -25,6 +25,7 @@ import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromJobManagementActions from 'libs/features/job-management/actions';
 import * as fromSearchPageActions from 'libs/features/search/actions/search-page.actions';
+import * as fromSearchFeatureActions from 'libs/features/search/actions/search-feature.actions';
 
 import { PageViewIds } from '../constants';
 import { ShowingActiveJobs } from '../pipes';
@@ -135,6 +136,8 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   multiMatchImplementation = MODIFY_PRICINGS;
 
   gridConfig: GridConfig;
+
+  multiMatchSaveChangesSubscription: Subscription;
 
   @ViewChild('gridRowActionsTemplate') gridRowActionsTemplate: ElementRef;
   @ViewChild('jobTitleColumn') jobTitleColumn: ElementRef;
@@ -269,6 +272,17 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       });
 
+    this.multiMatchSaveChangesSubscription = this.actionsSubject
+      .pipe(ofType(fromModifyPricingsActions.MODIFY_PRICINGS_SUCCESS))
+      .subscribe((action: fromModifyPricingsActions.ModifyPricingSuccess) => {
+        const payMarketGridAttentionGrabKeys = action.payload.map(x => {
+          return `${x.CompanyJobId}_${x.PaymarketId}`;
+        });
+
+        this.store.dispatch(new fromPfDataGridActions.ClearSelections(PageViewIds.PayMarkets));
+        this.store.dispatch(new fromPfDataGridActions.LoadDataAndAddFadeInKeys(PageViewIds.PayMarkets, payMarketGridAttentionGrabKeys));
+      });
+
     this.actionBarConfig = {
       ...getDefaultActionBarConfig(),
       ShowColumnChooser: true,
@@ -377,6 +391,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.changingJobStatusSuccessSubscription.unsubscribe();
     this.deletingJobSuccessSubscription.unsubscribe();
     this.loadViewConfigSuccessSubscription.unsubscribe();
+    this.multiMatchSaveChangesSubscription.unsubscribe();
   }
 
   closeSplitView() {
@@ -475,13 +490,8 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     };
 
     this.store.dispatch(new fromSearchPageActions.SetSearchFilterMappingData(SurveySearchFilterMappingDataObj));
-    this.store.dispatch(new fromSearchPageActions.SetSearchFeatureId(SearchFeatureIds.MultiMatch));
+    this.store.dispatch(new fromSearchFeatureActions.SetSearchFeatureId(SearchFeatureIds.MultiMatch));
     this.store.dispatch(new fromSearchPageActions.SetUserFilterTypeData(SurveySearchUserFilterType));
     this.store.dispatch(new fromModifyPricingsActions.GetPricingsToModify(payload));
-  }
-
-  matchModalSaved() {
-    this.store.dispatch(new fromPfDataGridActions.ClearSelections(PageViewIds.PayMarkets));
-    this.store.dispatch(new fromPfDataGridActions.LoadData(PageViewIds.PayMarkets));
   }
 }

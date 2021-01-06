@@ -144,7 +144,7 @@ export class AddJobsModalEffects {
 
   private hasRequiredSettingsForRecalculation(metaData: RangeGroupMetadata, formulaValid: boolean) {
     return !!((metaData.ControlPoint || formulaValid) && metaData.Currency && metaData.Rate &&
-      (metaData.SpreadMin || metaData.RangeDistributionSetting.MinPercentile) && (metaData.SpreadMax || metaData.RangeDistributionSetting.MaxPercentile));
+      (metaData.SpreadMin || metaData.RangeDistributionSetting.Min_Percentile) && (metaData.SpreadMax || metaData.RangeDistributionSetting.Max_Percentile));
   }
 
   constructor(

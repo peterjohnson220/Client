@@ -289,6 +289,9 @@ export function reducer(state = initialState, action: fromSearchFiltersActions.A
     case fromSearchFiltersActions.RESET: {
       return initialState;
     }
+    case fromSearchFiltersActions.SET: {
+      return action.payload;
+    }
     default: {
       return state;
     }

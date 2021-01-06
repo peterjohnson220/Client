@@ -119,9 +119,14 @@ export const getCompareEnabled = createSelector(
   fromSharedReducer.getCompareEnabled
 );
 
-export const getStructureHasPublished = createSelector(
+export const getStructureHasSettings = createSelector(
   selectSharedState,
-  fromSharedReducer.getStructureHasPublished
+  fromSharedReducer.getStructureHasSettings
+);
+
+export const getCompanyExchanges = createSelector(
+  selectSharedState,
+  fromSharedReducer.getCompanyExchanges
 );
 
 export const getStructureNameSuggestionsAsyncObj = createSelector(
@@ -213,4 +218,9 @@ export const getFormulaField = createSelector(
 export const getResetFormula = createSelector(
   selectFormulaFieldState,
   fromFormulaFieldReducer.getResetFormula
+);
+
+export const getAllFields = createSelector(
+  selectFormulaFieldState,
+  fromFormulaFieldReducer.getAllFields
 );

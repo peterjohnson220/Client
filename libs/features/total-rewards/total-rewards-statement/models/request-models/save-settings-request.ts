@@ -4,5 +4,5 @@ export interface SaveSettingsRequest {
   StatementId: string;
   FontSize: FontSize;
   FontFamily: FontFamily;
-  ChartColors: string[];
+  Colors: string[];
 }

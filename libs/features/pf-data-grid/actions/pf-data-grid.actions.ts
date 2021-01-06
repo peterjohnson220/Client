@@ -25,6 +25,7 @@ export const UPDATE_SORT_DESCRIPTOR_NO_DATA_RETRIEVAL = '[PfDataGrid] Update Sor
 export const UPDATE_SAVE_SORT = '[PfDataGrid] Update Save Sort';
 export const UPDATE_APPLY_DEFAULT_FILTERS = '[PfDataGrid] Update Apply Default Filters';
 export const UPDATE_APPLY_USER_DEFAULT_COMPENSATION_FIELDS = '[PfDataGrid] Update Apply User Default Compensation Fields';
+export const UPDATE_USE_REPORTING_DB = '[PfDataGrid] Update useReportingDB';
 export const UPDATE_INBOUND_FILTERS = '[PfDataGrid] Update Inbound Filters';
 export const UPDATE_FILTER = '[PfDataGrid] Update Filter';
 export const CLEAR_FILTER = '[PfDataGrid] Clear Filter';
@@ -35,6 +36,8 @@ export const SET_FILTER_PANEL_DISPLAY = '[PfDataGrid] Set Filter Panel Display';
 export const UPDATE_SELECTED_RECORD_ID = '[PfDataGrid] Update Selected Record Id';
 export const EXPAND_ROW = '[PfDataGrid] Expand Row';
 export const COLLAPSE_ROW = '[PfDataGrid] Collapse Row';
+export const COLLAPSE_ALL_ROWS = '[PfDataGrid] Collapse All Rows';
+export const COLLAPSE_ROW_BY_ID = '[PfDataGrid] Collapse Row By Id';
 export const CLEAR_LOADING = '[PfDataGrid] Clear Loading';
 export const DO_NOTHING = '[PfDataGrid] Do Nothing';
 export const HANDLE_API_ERROR = '[PfDataGrid] Handle API Error';
@@ -74,6 +77,10 @@ export const UPDATE_MODIFIED_KEY = '[PfDataGrid] Update Modified Key';
 export const DELETE_MODIFIED_KEY = '[PfDataGrid] Delete Modified Key';
 export const CAPTURE_GRID_SCROLLED = '[PfDataGrid] Capture Grid Scrolled';
 export const RESET_GRID_SCROLLED = '[PfDataGrid] Reset Grid Scrolled';
+export const ADD_FADE_IN_KEYS = '[PfDataGrid] Add Fade In Keys';
+export const DELETE_FADE_IN_KEYS = '[PfDataGrid] Delete Fade In Keys';
+export const SET_FADE_IN_KEYS = '[PfDataGrid] Set Fade In Keys';
+export const LOAD_DATA_AND_ADD_FADE_IN_KEYS = '[PfDataGrid] Load Data and Add Attention Grab Keys';
 
 export class LoadViewConfig implements Action {
   readonly type = LOAD_VIEW_CONFIG;
@@ -133,6 +140,11 @@ export class UpdateApplyDefaultFilters implements Action {
 
 export class UpdateApplyUserDefaultCompensationFields implements Action {
   readonly type = UPDATE_APPLY_USER_DEFAULT_COMPENSATION_FIELDS;
+  constructor(public pageViewId: string, public value: boolean) {}
+}
+
+export class UpdateUseReportingDB implements Action {
+  readonly type = UPDATE_USE_REPORTING_DB;
   constructor(public pageViewId: string, public value: boolean) {}
 }
 
@@ -229,6 +241,17 @@ export class ExpandRow implements Action {
 export class CollapseRow implements Action {
   readonly type = COLLAPSE_ROW;
   constructor(public pageViewId: string, public rowIndex: number) { }
+}
+
+
+export class CollapseAllRows implements Action {
+  readonly type = COLLAPSE_ALL_ROWS;
+  constructor(public pageViewId: string) { }
+}
+
+export class CollapseRowById implements Action {
+  readonly type = COLLAPSE_ROW_BY_ID;
+  constructor(public pageViewId, public Id: string, public IdValue: number) { }
 }
 
 export class ClearLoading implements Action {
@@ -397,17 +420,17 @@ export class UpdateGridConfig implements Action {
 
 export class UpdateModifiedKeys implements Action {
   readonly type = UPDATE_MODIFIED_KEYS;
-  constructor(public pageViewId: string, public payload: number[]) {}
+  constructor(public pageViewId: string, public payload: any[]) {}
 }
 
 export class UpdateModifiedKey implements Action {
   readonly type = UPDATE_MODIFIED_KEY;
-  constructor(public pageViewId: string, public payload: number) {}
+  constructor(public pageViewId: string, public payload: any) {}
 }
 
 export class DeleteModifiedKey implements Action {
   readonly type = DELETE_MODIFIED_KEY;
-  constructor(public pageViewId: string, public payload: number) {}
+  constructor(public pageViewId: string, public payload: any) {}
 }
 
 export class CaptureGridScrolled implements Action {
@@ -419,6 +442,29 @@ export class ResetGridScrolled implements Action {
   readonly type = RESET_GRID_SCROLLED;
 
   constructor(public pageViewId: string) {}
+}
+
+export class AddFadeInKeys implements Action {
+  readonly type = ADD_FADE_IN_KEYS;
+
+  constructor(public pageViewId: string, public payload: any[]) {}
+}
+
+export class DeleteFadeInKeys implements Action {
+  readonly type = DELETE_FADE_IN_KEYS;
+
+  constructor(public pageViewId: string, public payload: any[]) {}
+}
+
+export class SetFadeInKeys implements Action {
+  readonly type = SET_FADE_IN_KEYS;
+
+  constructor(public pageViewId: string, public payload: any[]) {}
+}
+
+export class LoadDataAndAddFadeInKeys implements Action {
+  readonly type = LOAD_DATA_AND_ADD_FADE_IN_KEYS;
+  constructor(public pageViewId: string, public payload: any) {}
 }
 
 export type DataGridActions =
@@ -433,6 +479,7 @@ export type DataGridActions =
   | UpdatePreserveSelectionsOnGetConfig
   | UpdateApplyDefaultFilters
   | UpdateApplyUserDefaultCompensationFields
+  | UpdateUseReportingDB
   | LoadData
   | LoadDataSuccess
   | ReloadData
@@ -453,6 +500,7 @@ export type DataGridActions =
   | UpdateSelectedRecordId
   | ExpandRow
   | CollapseRow
+  | CollapseRowById
   | ClearLoading
   | HandleApiError
   | LoadSavedViews
@@ -487,5 +535,10 @@ export type DataGridActions =
   | UpdateModifiedKeys
   | UpdateModifiedKey
   | DeleteModifiedKey
+  | ResetGridScrolled
   | CaptureGridScrolled
-  | ResetGridScrolled;
+  | CollapseAllRows
+  | AddFadeInKeys
+  | DeleteFadeInKeys
+  | SetFadeInKeys
+  | LoadDataAndAddFadeInKeys;

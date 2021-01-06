@@ -1,0 +1,52 @@
+<div *ngIf="payMarket" class="d-flex flex-column">
+  <kendo-grid [data]="payMarket ? [payMarket] : []" class="mt-3 transparent-row-hover" height="85" scrollable="none">
+    <kendo-grid-column field="IndustryValue" title="Industry" [headerStyle]="gridHeaderStyle"></kendo-grid-column>
+    <kendo-grid-column field="SizeValue" title="Size" [headerStyle]="gridHeaderStyle">
+      <ng-template kendoGridCellTemplate let-dataItem>
+        {{dataItem.SizeLabel}} {{dataItem.SizeValue}}
+      </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="GeoValue" title="Location" [headerStyle]="gridHeaderStyle"></kendo-grid-column>
+  </kendo-grid>
+
+  <kendo-grid [data]="payMarketCuts" class="mt-3" height="200">
+    <kendo-grid-column field="Weight" title="Weight" [headerStyle]="gridHeaderStyle" width="115">
+      <ng-template kendoGridCellTemplate let-dataItem>
+        <ng-container [ngTemplateOutlet]="cutValueTemplate" [ngTemplateOutletContext]="{dataItem: dataItem, propertyName: 'Weight'}"></ng-container>
+      </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="Adjustment" title="Adjustment" [headerStyle]="gridHeaderStyle" width="115">
+      <ng-template kendoGridCellTemplate let-dataItem>
+        <ng-container [ngTemplateOutlet]="cutValueTemplate" [ngTemplateOutletContext]="{dataItem: dataItem, propertyName: 'Adjustment'}"></ng-container>
+      </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="Scope" title="Scope" [headerStyle]="gridHeaderStyle"></kendo-grid-column>
+  </kendo-grid>
+
+  <div class="d-flex mb-3 mt-3">
+    <button class="btn reset-btn" (click)="resetToDefault()" [disabled]="!payMarket">
+      <span>Reset to default</span>
+    </button>
+    <div class="d-flex flex-grow-1 justify-content-end">
+      <span *ngIf="!isEditingCutValue && (payMarketCuts$ | async)?.savingSuccess" class="pt-2 pr-2">Success</span>
+      <span *ngIf="!isEditingCutValue && (payMarketCuts$ | async)?.savingError" class="pt-2 pr-2 text-danger">Error</span>
+      <pf-action-button
+        (saveClicked)="handleSaveClicked()"
+        [saveButtonQaId]="'btn-pay-market-default-settings-save-btn'"
+        [showCancelButton]=false
+        [saveButtonDisabled]="(payMarketCuts$ | async)?.saving || (!(payMarketCuts$ | async)?.saving && !isEditingCutValue)">
+      </pf-action-button>
+    </div>
+  </div>
+</div>
+
+<ng-template #cutValueTemplate let-dataItem="dataItem" let-propertyName="propertyName">
+  <kendo-numerictextbox
+    class="numeric-input"
+    [(ngModel)]="dataItem[propertyName]"
+    [format]="'n2'"
+    [decimals]="'2'"
+    (valueChange)="handlePayMarketCutValueChange($event)"
+    (blur)="onBlur(dataItem)">
+  </kendo-numerictextbox>
+</ng-template>

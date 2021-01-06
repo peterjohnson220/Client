@@ -18,7 +18,8 @@
   [hasHeaderDividers]="true"
   [hasColDividers]="true"
   [pageable]="!gridConfig.EnableInfiniteScroll"
-  [noRecordsFound]="'There are no results for the filter criteria you have selected.'">
+  [noRecordsFound]="'There are no results for the filter criteria you have selected.'"
+  [enableRowFade]="true">
 </pf-data-grid>
 
 <ng-template #pricingMatchesGrid let-dataRow="dataRow">
@@ -118,7 +119,8 @@
 <pf-notes-manager
   [entityId]="pricingIdForNotes"
   [apiServiceIndicator]="notesApiServiceType"
-  [isEditable]="false"
+  [placeholderText]="'Please enter a pricing note.'"
+  [isEditable]="canModifyPricings"
   [notesHeader]="pricingNotesHeader"
   [modalTitle]="'Pricing Notes - ' + (selectedJobRow | jobTitleCode : 'CompanyJobs' : 'Job_Title' : 'Job_Code')"
   (saveSuccess)="reloadPaymarkets()"

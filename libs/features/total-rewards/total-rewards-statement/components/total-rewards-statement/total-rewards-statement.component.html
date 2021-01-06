@@ -1,87 +1,100 @@
-<div *ngIf="statement" class="container statement position-relative" [ngClass]="fontSizeCssClass + ' ' + fontFamilyCssClass">
+<div *ngIf="statement" class="container statement position-relative" [ngClass]="cssClasses">
   <pf-async-container [loading]="loadingData"></pf-async-container>
-  <!-- TODO: the effective date should probably be changed over to a control like all the others vs. hardcoded at the top (my bad!) -->
-  <div *ngIf="statement?.TemplateName?.toLowerCase() !== 'styled'" class="d-flex justify-content-end">
-    <pf-effective-date
-      [mode]="mode"
-      [effectiveDate]="statement.EffectiveDate"
-      (onDateChange)="handleEffectiveDateChange($event)">
-    </pf-effective-date>
-  </div>
-  <div *ngFor="let page of statement.Pages; trackBy: trackByFn" class="pb-4 trs-page mt-n4">
+  <div *ngFor="let page of statement.Pages; trackBy: trackByFn" class="pb-4 trs-page">
     <section *ngFor="let section of page.Sections; trackBy: trackByFn" class="row vertical-divider trs-section">
-      <div *ngFor="let column of section.Columns; trackBy: trackByFn" [ngClass]="'col-' + column?.Layout?.Width" class="trs-column" [style.border-right-color]="statement.Settings.DividerColor">
+      <div
+        *ngFor="let column of section.Columns; trackBy: trackByFn"
+        [ngClass]="'col-' + column?.Layout?.Width"
+        class="trs-column"
+        pfStatementGraphicsDirective
+        [colors]="statement.Settings.Colors"
+        [colorRank]="statement.Settings.DividerColor"
+        [styleAttrToColor]="'borderRightColor'">
         <div *ngIf="(mode === statementModeEnum.Edit) || employeeRewardsData" class="row columnRow">
           <div *ngFor="let control of column.Controls; trackBy: trackByFn" [ngClass]="'col-' + control?.Layout?.Width + ' control-type-' + control.ControlType">
-            <div *ngIf="control.ControlType === controlType.RichTextEditor">
-              <pf-trs-rich-text-control
-                [controlData]="control"
-                [mode]="mode"
-                [employeeRewardsData]="employeeRewardsData"
-                (onTitleChange)="handleOnControlTitleChange($event)"
-                (onContentChange)="handleOnRichTextControlContentChange($event)"
-                class="p-1"></pf-trs-rich-text-control>
-            </div>
 
-            <div *ngIf="control.ControlType === controlType.Image">
-              <pf-trs-image-control
-                [controlData]="control"
-                [statementId]="statement.StatementId"
-                [mode]="mode"
-                (saveImage)="handleSaveImage($event)"
-                (removeImage)="handleRemoveImage($event)"
-                (imageLoaded)="handleImageLoaded($event)"
-                class="p-1"></pf-trs-image-control>
-            </div>
+            <pf-trs-rich-text-control *ngIf="control.ControlType === controlType.RichTextEditor"
+              [controlData]="control"
+              [mode]="mode"
+              [employeeRewardsData]="employeeRewardsData"
+              (onTitleChange)="handleOnControlTitleChange($event)"
+              (onContentChange)="handleOnRichTextControlContentChange($event)"
+              class="p-1">
+            </pf-trs-rich-text-control>
 
-            <div *ngIf="control.ControlType === controlType.Calculation && visibleCalculationControls.includes(control)">
-              <pf-trs-calculation-control
-                [controlData]="control"
-                [mode]="mode"
-                [employeeRewardsData]="employeeRewardsData"
-                [companyUdfs]="companyUdfs"
-                [visibleFieldsCount]="visibleFieldsCount"
-                (onTitleChange)="handleOnControlTitleChange($event)"
-                (onCompFieldTitleChange)="handleOnCalculationControlCompFieldTitleChange($event)"
-                (onUpdateSummaryTitleChange)="handleOnCalculationControlSummaryTitleChange($event)"
-                (onCompFieldRemoved)="handleOnCalculationControlCompFieldRemoved($event)"
-                (onCompFieldAdded)="handleOnCalculationControlCompFieldAdded($event)"></pf-trs-calculation-control>
-            </div>
+            <pf-trs-image-control *ngIf="control.ControlType === controlType.Image"
+              [controlData]="control"
+              [statementId]="statement.StatementId"
+              [mode]="mode"
+              (saveImage)="handleSaveImage($event)"
+              (removeImage)="handleRemoveImage($event)"
+              (imageLoaded)="handleImageLoaded($event)">
+            </pf-trs-image-control>
 
-            <div *ngIf="control.ControlType === controlType.Chart">
-              <pf-trs-chart-control
-                [controlData]="control"
-                [mode]="mode"
-                [employeeRewardsData]="employeeRewardsData"
-                [calculationControls]="visibleCalculationControls"
-                [chartColors]="statement.Settings.ChartColors"
-                (onTitleChange)="handleOnControlTitleChange($event)"
-                (settingsClick)="handleChartControlSettingsClick()"
-                (chartRender)="handleChartRender($event)"
-                class="p-1"></pf-trs-chart-control>
-            </div>
+            <pf-trs-calculation-control
+              *ngIf="control.ControlType === controlType.Calculation && visibleCalculationControls.includes(control)"
+              [controlData]="control"
+              [mode]="mode"
+              [employeeRewardsData]="employeeRewardsData"
+              [companyUdfs]="companyUdfs"
+              [visibleFieldsCount]="visibleFieldsCount"
+              [graphicsColors]="statement.Settings.Colors"
+              (onTitleChange)="handleOnControlTitleChange($event)"
+              (onCompFieldTitleChange)="handleOnCalculationControlCompFieldTitleChange($event)"
+              (onUpdateSummaryTitleChange)="handleOnCalculationControlSummaryTitleChange($event)"
+              (onCompFieldRemoved)="handleOnCalculationControlCompFieldRemoved($event)"
+              (onCompFieldAdded)="handleOnCalculationControlCompFieldAdded($event)">
+            </pf-trs-calculation-control>
 
-            <div *ngIf="control.ControlType === controlType.Title">
-              <pf-trs-title-control
-                [controlData]="control"
-                [mode]="mode"
-                [employeeRewardsData]="employeeRewardsData"
-                [backgroundGraphicsEnabled]="control.EnableBackgroundGraphics"
-                [showEmployee]="control.ShowEmployee"
-                [titleInnerWidth]="control.TitleInnerWidth"
-                (titleChange)="handleOnControlTitleChange($event)"
-                class="p-1"></pf-trs-title-control>
-            </div>
+            <pf-trs-chart-control *ngIf="control.ControlType === controlType.Chart"
+              [controlData]="control"
+              [mode]="mode"
+              [employeeRewardsData]="employeeRewardsData"
+              [calculationControls]="visibleCalculationControls"
+              [chartColors]="statement.Settings.Colors"
+              [showChartSeriesLabels]="control.ShowChartSeriesLabels"
+              [showTitle]="control.ShowTitle"
+              [height]="control.Height"
+              (onTitleChange)="handleOnControlTitleChange($event)"
+              (settingsClick)="handleChartControlSettingsClick()"
+              (chartRender)="handleChartRender()">
+            </pf-trs-chart-control>
 
-            <div *ngIf="control.ControlType === controlType.CalculationSummary">
-              <pf-trs-summary-control
-                [mode]="mode"
-                [controlData]="control"
-                [employeeRewardsData]="employeeRewardsData"
-                [calculationControls]="visibleCalculationControls"
-                (onTitleChange)="handleOnControlTitleChange($event)"
-                class="p-1"></pf-trs-summary-control>
-            </div>
+            <pf-trs-title-control *ngIf="control.ControlType === controlType.Title"
+              [controlData]="control"
+              [mode]="mode"
+              [employeeRewardsData]="employeeRewardsData"
+              [backgroundGraphicsEnabled]="control.EnableBackgroundGraphics"
+              [graphicsColors]="statement.Settings.Colors"
+              [showEmployee]="control.ShowEmployee"
+              [titleInnerWidth]="control.TitleInnerWidth"
+              (titleChange)="handleOnControlTitleChange($event)">
+            </pf-trs-title-control>
+
+            <pf-trs-summary-control *ngIf="control.ControlType === controlType.CalculationSummary"
+              [mode]="mode"
+              [controlData]="control"
+              [employeeRewardsData]="employeeRewardsData"
+              [calculationControls]="visibleCalculationControls"
+              [graphicsColors]="statement.Settings.Colors"
+              (onTitleChange)="handleOnControlTitleChange($event)">
+            </pf-trs-summary-control>
+
+            <pf-trs-employee-control *ngIf="control.ControlType === controlType.Employee"
+              [mode]="mode"
+              [controlData]="control"
+              [employeeRewardsData]="employeeRewardsData"
+              [graphicsColors]="statement.Settings.Colors">
+            </pf-trs-employee-control>
+
+            <pf-trs-effective-date-control *ngIf="control.ControlType === controlType.EffectiveDate"
+              [mode]="mode"
+              [controlData]="control"
+              [effectiveDate]="statement.EffectiveDate"
+              [graphicsColors]="statement.Settings.Colors"
+              (onDateChange)="handleEffectiveDateChange($event)">
+            </pf-trs-effective-date-control>
+
           </div>
         </div>
       </div>

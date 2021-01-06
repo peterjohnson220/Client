@@ -3,6 +3,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
+import { Permissions } from 'libs/constants';
 import { SimpleYesNoModalComponent } from 'libs/ui/common';
 import { SimpleYesNoModalOptions } from 'libs/models/common';
 import { Template, TemplateListItem } from 'libs/models';
@@ -33,6 +34,7 @@ export class TemplateListPageComponent implements OnInit {
   public templateError$: Observable<boolean>;
   public templateErrorMessage$: Observable<string>;
   public templateDeleteModalOptions: SimpleYesNoModalOptions;
+  public permissions = Permissions;
 
   constructor(private store: Store<fromTemplateListReducers.State>) {
     this.templateListItems$ = this.store.select(fromTemplateListReducers.getTemplatesList);

@@ -252,6 +252,9 @@ html .k-grid tr:hover {
       padding-top: 5px;
       padding-bottom: 5px;
     }
+    .k-hierarchy-cell + th {
+      border: none !important;
+    }
   }
 
   .k-grid-table {
@@ -312,4 +315,17 @@ html .k-grid tr:hover {
 
     background-color: #E2E3E4 !important;
   }
+}
+
+// Attention Grab Row Flashes
+tr.pf-data-grid-attention-grab-active,
+tr.k-alt.pf-data-grid-attention-grab-active {
+  background-color: #FFFF80 !important;
+  transition: background-color 1s linear;
+}
+
+tr.pf-data-grid-attention-grab-inactive,
+tr.k-alt.pf-data-grid-attention-grab-inactive {
+  background-color: transparent;
+  transition: background-color 1s linear;
 }
