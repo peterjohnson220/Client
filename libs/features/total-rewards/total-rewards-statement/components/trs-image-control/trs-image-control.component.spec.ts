@@ -51,4 +51,57 @@ describe('TrsImageControlComponent', () => {
     const error = fixture.debugElement.nativeElement.querySelector('.server-error');
     expect(error.textContent).toEqual('An error occurred');
   });
+
+  it('should hide the img when no file is available', () => {
+    component.controlData =  { ...generateMockImageControl(), FileUrl: null } ;
+    component.mode = StatementModeEnum.Edit;
+
+    fixture.detectChanges();
+
+    const img = fixture.debugElement.nativeElement.querySelector('img');
+    expect(img).toBeFalsy();
+  });
+
+  it('should show the img when a file is available', () => {
+    component.controlData =  { ...generateMockImageControl(), FileUrl: 'path/to/img' } ;
+    component.mode = StatementModeEnum.Edit;
+
+    fixture.detectChanges();
+
+    const img = fixture.debugElement.nativeElement.querySelector('img');
+    expect(img).toBeTruthy();
+  });
+
+  it('should add centering classes to the control when no alignment is specified', () => {
+    component.controlData =  { ...generateMockImageControl(), HorizontalAlignment: undefined } ;
+    component.mode = StatementModeEnum.Edit;
+
+    fixture.detectChanges();
+
+    const controlDiv = fixture.debugElement.nativeElement.querySelector('.trs-image');
+    expect(controlDiv.classList).toContain('mx-auto');
+    expect(controlDiv.classList).toContain('justify-content-center');
+  });
+
+  it('should add left aligning classes to the control when specified', () => {
+    component.controlData =  { ...generateMockImageControl(), HorizontalAlignment: 'left' } ;
+    component.mode = StatementModeEnum.Edit;
+
+    fixture.detectChanges();
+
+    const controlDiv = fixture.debugElement.nativeElement.querySelector('.trs-image');
+    expect(controlDiv.classList).toContain('mr-auto');
+    expect(controlDiv.classList).toContain('justify-content-start');
+  });
+
+  it('should add right aligning classes to the control when specified', () => {
+    component.controlData =  { ...generateMockImageControl(), HorizontalAlignment: 'right' } ;
+    component.mode = StatementModeEnum.Edit;
+
+    fixture.detectChanges();
+
+    const controlDiv = fixture.debugElement.nativeElement.querySelector('.trs-image');
+    expect(controlDiv.classList).toContain('ml-auto');
+    expect(controlDiv.classList).toContain('justify-content-end');
+  });
 });
