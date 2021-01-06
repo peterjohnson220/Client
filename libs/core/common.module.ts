@@ -9,7 +9,7 @@ import {
   CompPipe, DataTypeFilterPipe, FilterArrayByName, GetFileExtensionCssClassPipe, HighlightTextPipe, HumanizeNumberPipe,
   JobDescriptionParserPipe, NewLinePipe, OrderByPipe, StringReplacePipe, StripHtmlPipe, TruncateAfterPipe, WrapSubtextWithTag,
   EmptyPlaceholderPipe, ValidationErrorsPipe, TimeElapsedPipe, EditableJobDescriptionPipe, RateCurrencyConversionPipe,
-  EmployeeDetailsPipe
+  EmployeeDetailsPipe, StructureDetailsPipe, FormatNamePipe
 } from './pipes';
 import { DragulaHelperService } from './services';
 
@@ -38,7 +38,9 @@ const declarations = [
   TimeElapsedPipe,
   EditableJobDescriptionPipe,
   RateCurrencyConversionPipe,
-  EmployeeDetailsPipe
+  EmployeeDetailsPipe,
+  StructureDetailsPipe,
+  FormatNamePipe
 ];
 
 const providers = [
@@ -48,8 +50,12 @@ const providers = [
 ];
 
 @NgModule({
-  declarations: declarations,
-  exports: declarations,
+  declarations: [
+    declarations
+  ],
+  exports: [
+    declarations
+  ],
   imports: [FontAwesomeModule],
   providers: providers
 })

@@ -594,7 +594,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.editingSubscription = this.editingJobDescription$.subscribe(value => {
       this.editing = value;
       if (this.editing) {
-        this.enableAllContent();
+        this.saveJobDescription(true); // put JD in draft state;
       }
     });
 
@@ -611,7 +611,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
 
       section.Controls.forEach(control => {
         if (control.AdditionalProperties) {
-          control.AdditionalProperties.ShowControlName = true;
+          control.AdditionalProperties.ShowControlNameView = true;
           control.AdditionalProperties.ShowControl = true;
         }
       });

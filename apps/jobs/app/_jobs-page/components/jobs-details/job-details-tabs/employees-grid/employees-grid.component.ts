@@ -59,7 +59,7 @@ export class EmployeesGridComponent implements AfterViewInit, OnDestroy, OnChang
     private featureFlagService: AbstractFeatureFlagService
   ) {
     this.hasEmployeeDetailsFlagEnabled = this.featureFlagService.enabled(FeatureFlags.EmployeeDetails, false);
-    this.companyPayMarketsSubscription = store.select(fromJobsPageReducer.getCompanyPayMarkets)
+    this.companyPayMarketsSubscription = this.store.select(fromJobsPageReducer.getCompanyPayMarkets)
       .subscribe(o => {
         this.filteredPayMarketOptions = o;
         this.payMarketOptions = o;
@@ -112,8 +112,8 @@ export class EmployeesGridComponent implements AfterViewInit, OnDestroy, OnChang
     this.companyPayMarketsSubscription.unsubscribe();
   }
 
-  closeExpandedRow(Id: string, IdValue: number) {
-    this.store.dispatch(new fromActions.CollapseRowById(this.pageViewId, Id, IdValue));
+  closeExpandedRow(id: string, idValue: number) {
+    this.store.dispatch(new fromActions.CollapseRowById(this.pageViewId, id, idValue));
   }
 
   handlePayMarketFilterChanged(value: any) {
