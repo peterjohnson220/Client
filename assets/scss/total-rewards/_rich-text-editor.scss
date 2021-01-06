@@ -161,7 +161,7 @@
 }
 
 .ql-mention-list-container {
-  z-index: 1000;
+  z-index: 1040; // over footer bar, which is at 1030
   background-color: white;
   max-height: 140px;
   width: 200px;
