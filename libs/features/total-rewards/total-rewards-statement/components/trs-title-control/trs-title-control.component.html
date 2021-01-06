@@ -1,7 +1,9 @@
 <div 
   class="trs-title h-100 position-relative text-center" 
-  [ngClass]="{'edit-mode': mode === modeEnum.Edit, 'background-graphics': backgroundGraphicsEnabled}"
-  [style.width]="titleInnerWidth">
+  [ngClass]="(backgroundGraphicsEnabled) ? 'background-graphics' : 'pb-4'"
+  [style.width]="titleInnerWidth"
+  pfModeClassifierDirective 
+  [mode]="mode">
   <div class="overlap graphic" pfStatementGraphicsDirective [colors]="graphicsColors" [colorRank]="color.Secondary" aria-hidden="true"></div>
   <div class="line graphic top-vertical" pfStatementGraphicsDirective [colors]="graphicsColors" [colorRank]="color.Tertiary" aria-hidden="true"></div>
   <div class="line graphic top-horizontal" pfStatementGraphicsDirective [colors]="graphicsColors" [colorRank]="color.Tertiary" aria-hidden="true"></div>
