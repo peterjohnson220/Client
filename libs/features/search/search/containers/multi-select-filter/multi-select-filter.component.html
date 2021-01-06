@@ -8,14 +8,14 @@
          [class.locked]="filter.Locked"
          (click)="handleOptionSelected(filter.Id, option)"
          [ngClass]="'au-chk-'+filter.CssClassName">
-      <div class="option-check">
-        <input type="checkbox" [disabled]="optionDisabled(option)" [ngModel]="option.Selected"/> {{option.Name}}
+      <div class="d-flex justify-content-between option-check p-2">
+        <div class="text-truncate mr-2">
+          <input type="checkbox" [disabled]="optionDisabled(option)" [ngModel]="option.Selected"/> {{option.Name}}
+        </div>
+        <div *ngIf="!filter.OptionCountDisabled" class="option-count">
+          {{option.Count}}
+        </div>
       </div>
-
-      <div *ngIf="!filter.OptionCountDisabled" class="option-count">
-        {{option.Count}}
-      </div>
-
     </div>
     <pf-entity-description-popover *ngIf="fieldHasDescription()"
                                    [entityType]="getEntityType()"
@@ -28,12 +28,13 @@
            [class.locked]="filter.Locked"
            (click)="handleOptionSelected(filter.Id, option)"
            [ngClass]="'au-chk-'+filter.CssClassName">
-        <div class="option-check">
-          <input type="checkbox" [disabled]="optionDisabled(option)" [ngModel]="option.Selected"/> {{option.Name}}
-        </div>
-
-        <div *ngIf="!filter.OptionCountDisabled" class="option-count">
-          {{option.Count}}
+        <div class="d-flex justify-content-between option-check p-2">
+          <div class="text-truncate mr-2">
+            <input type="checkbox" [disabled]="optionDisabled(option)" [ngModel]="option.Selected"/> {{option.Name}}
+          </div>
+          <div *ngIf="!filter.OptionCountDisabled" class="option-count">
+            {{option.Count}}
+          </div>
         </div>
       </div>
     </pf-entity-description-popover>
