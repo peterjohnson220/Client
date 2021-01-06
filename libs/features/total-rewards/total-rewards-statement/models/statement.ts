@@ -197,3 +197,16 @@ export function generateMockStatementWithSingleCalculationControlAndNoVisibleFie
 
   return statement;
 }
+
+export function generateMockStatementWithSingleCalculationControlUDFsOnly(): Statement {
+  const statement = generateMockStatementWithSingleCalculationControl();
+  const calcControl = statement.Pages[0].Sections[0].Columns[0].Controls[0] as CalculationControl;
+
+  calcControl.DataFields = [
+    { Id: '1', DatabaseField: 'UDF_1', Name: { Default: 'Employee UDF 1', Override: null }, IsVisible: true, Type: 'EmployeesUdf'},
+    { Id: '2', DatabaseField: 'UDF_2', Name: { Default: 'Employee UDF 2', Override: null }, IsVisible: true,  Type: 'EmployeesUdf'}
+    ];
+  statement.Pages[0].Sections[0].Columns[0].Controls[0] = calcControl;
+
+  return statement;
+}
