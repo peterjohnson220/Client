@@ -9,7 +9,7 @@ import moment from 'moment';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonModule } from 'libs/core';
 import { generateDefaultAsyncStateObj } from 'libs/models';
-import { PricedPayMarkets } from 'libs/models/payfactors-api';
+import { PricedPayMarket } from 'libs/models/payfactors-api';
 
 import * as fromActions from '../../actions';
 import * as fromReducer from '../../reducers';
@@ -25,7 +25,7 @@ describe('Pricing History Chart Features - Filters', () => {
 
   const initialState = {
     jobId: null,
-    pricedPayMarkets: generateDefaultAsyncStateObj<PricedPayMarkets[]>([]),
+    pricedPayMarkets: generateDefaultAsyncStateObj<PricedPayMarket[]>([]),
     filters: null
   };
 
@@ -115,63 +115,6 @@ describe('Pricing History Chart Features - Filters', () => {
     expect(c.EndDate.value).toEqual(new Date('11/1/2010'));
   });
 
-  it('Should set initial PM selection', () => {
-    instance.ngOnInit();
-    const c = instance.pricingHistoryChartForm.controls;
-
-    instance.payMarketOptions = [
-      makePayMarket(2222, 'Chicago', 'Annual', 'USD', '8/5/2018', '10/1/2018', false),
-      makePayMarket(1111, 'Boston', 'Annual', 'USD', '10/1/2010', '8/1/2015', true)
-    ];
-
-    instance.filterPayMarketOptions();
-    instance.updateSelectedPayMarkets(null);
-
-    expect(c.PayMarkets.value[0].Id).toEqual(1111);
-
-    expect(c.StartDate.value).toEqual(new Date('10/1/2010'));
-    expect(c.EndDate.value).toEqual(new Date('8/1/2015'));
-  });
-
-  it('Should set first PM selection if no default PM', () => {
-    instance.ngOnInit();
-    const c = instance.pricingHistoryChartForm.controls;
-
-    instance.payMarketOptions = [
-      makePayMarket(2222, 'Chicago', 'Annual', 'USD', '8/1/2018', '10/1/2018', false),
-      makePayMarket(1111, 'Boston', 'Annual', 'USD', '10/1/2010', '8/1/2015', false)
-    ];
-
-    instance.filterPayMarketOptions();
-    instance.updateSelectedPayMarkets(null);
-
-    expect(c.PayMarkets.value[0]).toEqual(null);
-
-    const threeYearsAgo = moment().subtract(3, 'year').startOf('month').toDate();
-    const today = moment().startOf('month').toDate();
-
-    expect(c.StartDate.value).toEqual(threeYearsAgo);
-    expect(c.EndDate.value).toEqual(today);
-  });
-
-  it('Should set no PM selection if priced PMs', () => {
-    instance.ngOnInit();
-    const c = instance.pricingHistoryChartForm.controls;
-
-    instance.payMarketOptions = [];
-
-    instance.filterPayMarketOptions();
-    instance.updateSelectedPayMarkets(null);
-
-    expect(c.PayMarkets.value[0]).toEqual(null);
-
-    const threeYearsAgo = moment().subtract(3, 'year').startOf('month').toDate();
-    const today = moment().startOf('month').toDate();
-
-    expect(c.StartDate.value).toEqual(threeYearsAgo);
-    expect(c.EndDate.value).toEqual(today);
-  });
-
   it('Should set no PM selection if default User PMs selections are passed', () => {
     instance.ngOnInit();
     const c = instance.pricingHistoryChartForm.controls;
@@ -200,7 +143,7 @@ describe('Pricing History Chart Features - Filters', () => {
 });
 
 export function makePayMarket(id: number, name: string, rate: string, currency: string,
-  startDate: string, endDate: string, isDefault: boolean): PricedPayMarkets {
+  startDate: string, endDate: string, isDefault: boolean): PricedPayMarket {
 
   return {
     Id: id,

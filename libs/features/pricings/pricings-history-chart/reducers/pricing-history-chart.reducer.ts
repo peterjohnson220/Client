@@ -2,13 +2,13 @@ import cloneDeep from 'lodash/cloneDeep';
 import orderBy from 'lodash/orderBy';
 
 import * as fromPricingHistoryChartActions from '../actions/pricing-history-chart.actions';
-import { AsyncStateObj, CurrencyDto, generateDefaultAsyncStateObj, KendoTypedDropDownItem, KendoTypedDropDownItemHelper } from 'libs/models';
+import { AsyncStateObj, generateDefaultAsyncStateObj, KendoTypedDropDownItem, KendoTypedDropDownItemHelper } from 'libs/models';
 import { AsyncStateObjHelper } from 'libs/core';
-import { PricedPayMarkets, PricingHistoryChartFilters, PayMarketPricingHistory } from 'libs/models/payfactors-api';
+import { PricedPayMarket, PricingHistoryChartFilters, PayMarketPricingHistory } from 'libs/models/payfactors-api';
 
 export interface State {
   jobId: number;
-  pricedPayMarkets: AsyncStateObj<PricedPayMarkets[]>;
+  pricedPayMarkets: AsyncStateObj<PricedPayMarket[]>;
   currencies: KendoTypedDropDownItem[];
   filters: PricingHistoryChartFilters;
   data: AsyncStateObj<PayMarketPricingHistory[]>;
@@ -16,7 +16,7 @@ export interface State {
 
 export const initialState: State = {
   jobId: null,
-  pricedPayMarkets: generateDefaultAsyncStateObj<PricedPayMarkets[]>([]),
+  pricedPayMarkets: generateDefaultAsyncStateObj<PricedPayMarket[]>([]),
   currencies: [],
   filters: null,
   data: generateDefaultAsyncStateObj<PayMarketPricingHistory[]>([]),
@@ -45,6 +45,12 @@ export function reducer(state = initialState, action: fromPricingHistoryChartAct
     case fromPricingHistoryChartActions.INIT_PRICING_HISTORY_CHART_ERROR: {
       return AsyncStateObjHelper.loadingError(state, 'pricedPayMarkets');
     }
+    case fromPricingHistoryChartActions.INIT_USER_DEFAULT_FILTERS: {
+      return {
+        ...state,
+        filters: action.payload,
+      };
+    }
     case fromPricingHistoryChartActions.UPDATE_FILTERS:
       return {
         ...state,
@@ -71,7 +77,7 @@ export const getCurrencies = (state: State) => state.currencies;
 export const getFilters = (state: State) => state.filters;
 export const getData = (state: State) => state.data;
 
-export function formatPayMarkets(pricedPayMarkets: PricedPayMarkets[]) {
+export function formatPayMarkets(pricedPayMarkets: PricedPayMarket[]) {
   if (pricedPayMarkets) {
     const defaultPMs = pricedPayMarkets.filter(p => p.IsDefault);
     let sortedPayMarkets = pricedPayMarkets.filter(p => !p.IsDefault);
