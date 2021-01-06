@@ -46,7 +46,6 @@ import * as fromJobDescriptionLibraryActions from 'libs/features/job-description
 import * as fromCompanyLogoActions from 'libs/features/job-description-management/actions/company-logo.actions';
 import * as fromEmployeeAcknowledgementActions from '../../../actions/employee-acknowledgement.actions';
 import * as fromWorkflowActions from '../../../actions/workflow.actions';
-import { JobDescriptionActionsComponent } from '../../job-description-actions';
 import { JobDescriptionManagementDndSource } from 'libs/features/job-description-management/constants';
 import { JobDescriptionDnDService } from '../../../services';
 import { EmployeeAcknowledgementModalComponent, ExportJobDescriptionModalComponent,
@@ -75,7 +74,6 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   @ViewChild(EmployeeAcknowledgementModalComponent, {static: true }) public employeeAcknowledgementModal: EmployeeAcknowledgementModalComponent;
   @ViewChild(ExportJobDescriptionModalComponent, { static: true }) public exportJobDescriptionModalComponent: ExportJobDescriptionModalComponent;
   @ViewChild(FlsaQuestionnaireModalComponent, { static: true }) public flsaQuestionnaireModal: FlsaQuestionnaireModalComponent;
-  @ViewChild(JobDescriptionActionsComponent, { static: true }) public actionsComponent: JobDescriptionActionsComponent;
   @ViewChild(JobDescriptionAppliesToModalComponent) public jobDescriptionAppliesToModalComponent: JobDescriptionAppliesToModalComponent;
   @ViewChild(WorkflowCancelModalComponent) public workflowCancelModal: WorkflowCancelModalComponent;
   @ViewChild(WorkflowSetupModalComponent) public workflowSetupModal: WorkflowSetupModalComponent;
@@ -99,6 +97,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   jobDescriptionViewsAsync$: Observable<AsyncStateObj<string[]>>;
   completedStep$: Observable<boolean>;
   gettingJobDescriptionExtendedInfoSuccess$: Observable<AsyncStateObj<boolean>>;
+  discardingDraftJobDescriptionSuccess$: Observable<boolean>;
 
   loadingPage$: Observable<boolean>;
   loadingPageError$: Observable<boolean>;
@@ -118,6 +117,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   completedStepSubscription: Subscription;
   controlTypesSubscription: Subscription;
   requireSSOLoginSubscription: Subscription;
+  discardingDraftJobDescriptionSuccessSubscription: Subscription;
 
   companyName: string;
   emailAddress: string;
@@ -189,6 +189,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.employeeAcknowledgementErrorMessage$ = this.store.select(fromJobDescriptionReducers.getEmployeeAcknowledgementErrorMessage);
     this.jobDescriptionViewsAsync$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionViewsAsync);
     this.completedStep$ = this.store.select(fromJobDescriptionReducers.getCompletedStep);
+    this.discardingDraftJobDescriptionSuccess$ = this.store.select(fromJobDescriptionReducers.getDiscardingDraftJobDescriptionSuccess);
 
     this.saveThrottle = new Subject();
 
@@ -219,6 +220,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.completedStepSubscription.unsubscribe();
     this.requireSSOLoginSubscription.unsubscribe();
     this.publishingSubscription.unsubscribe();
+    this.discardingDraftJobDescriptionSuccessSubscription.unsubscribe();
   }
 
   appliesToFormCompleted(selected: any) {
@@ -423,7 +425,19 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     }));
     this.showLibrary = false;
     this.showRoutingHistory = false;
-    this.actionsComponent.resetViewName();
+  }
+
+  resetViewName(): void {
+    this.store.dispatch(new fromJobDescriptionActions.GetJobDescription({
+      JobDescriptionId: this.jobDescription.JobDescriptionId,
+      RevisionNumber: this.jobDescription.JobDescriptionRevision,
+      ViewName: this.viewName,
+      InHistory: false
+    }));
+  }
+
+  handleViewSelected(viewName: string): void {
+    this.viewName = viewName;
   }
 
   handleResize(): void {
@@ -649,6 +663,12 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
         this.saveJobDescription();
       } else {
         this.queueSave = true;
+      }
+    });
+
+    this.discardingDraftJobDescriptionSuccessSubscription = this.discardingDraftJobDescriptionSuccess$.subscribe(value => {
+      if (value) {
+        this.resetViewName();
       }
     });
   }
