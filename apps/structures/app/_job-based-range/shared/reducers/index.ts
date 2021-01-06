@@ -100,6 +100,10 @@ export const getControlPointsAsyncObj = createSelector(
   selectModelSettingsModalState, fromModelSettingsModalReducer.getControlPointsAsyncObj
 );
 
+export const getSurveyUdfsAsyncObj = createSelector(
+  selectModelSettingsModalState, fromModelSettingsModalReducer.getSurveyUdfsAsyncObj
+);
+
 export const getRangeOverrides = createSelector(
   selectSharedState, fromSharedReducer.getRangeOverrides
 );

@@ -10,6 +10,9 @@ export const CLOSE_MODAL = '[Structures - Job Based Range - Model Settings] Clos
 export const GET_CURRENCIES = '[Structures - Job Based Range - Model Settings] Get Currencies';
 export const GET_CURRENCIES_SUCCESS = '[Structures - Job Based Range - Model Settings] Get Currencies Success';
 export const GET_CURRENCIES_ERROR = '[Structures - Job Based Range - Model Settings] Get Currencies Error';
+export const GET_SURVEY_UDFS = '[Structures - Job Based Range - Model Settings] Get Survey UDFs';
+export const GET_SURVEY_UDFS_SUCCESS = '[Structures - Job Based Range - Model Settings] Get Survey UDFs Success';
+export const GET_SURVEY_UDFS_ERROR = '[Structures - Job Based Range - Model Settings] Get Survey UDFs Error';
 export const GET_CONTROL_POINTS = '[Structures - Job Based Range - Model Settings] Get Control Points';
 export const GET_CONTROL_POINTS_SUCCESS = '[Structures - Job Based Range - Model Settings] Get Control Points Success';
 export const GET_CONTROL_POINTS_ERROR = '[Structures - Job Based Range - Model Settings] Get Control Points Error';
@@ -43,6 +46,20 @@ export class GetCurrenciesSuccess implements Action {
 
 export class GetCurrenciesError implements Action {
   readonly type = GET_CURRENCIES_ERROR;
+}
+
+export class GetSurveyUdfs implements Action {
+  readonly type = GET_SURVEY_UDFS;
+}
+
+export class GetSurveyUdfsSuccess implements Action {
+  readonly type = GET_SURVEY_UDFS_SUCCESS;
+
+  constructor(public payload: ControlPoint[]) {}
+}
+
+export class GetSurveyUdfsError implements Action {
+  readonly type = GET_SURVEY_UDFS_ERROR;
 }
 
 export class GetControlPoints implements Action {
@@ -118,4 +135,7 @@ export type ModelSettingsModalActions
   | SaveModelSettingsError
   | ModelNameExistsFailure
   | ClearModelNameExistsFailure
-  | Cancel;
+  | Cancel
+  | GetSurveyUdfs
+  | GetSurveyUdfsSuccess
+  | GetSurveyUdfsError;

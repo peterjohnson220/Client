@@ -11,6 +11,7 @@ import { generateMockRangeAdvancedSetting, JobBasedPageViewIds, RangeGroupMetada
 import { CurrencyApiService } from 'libs/data/payfactors-api/currency';
 import { CompositeFieldApiService } from 'libs/data/payfactors-api/composite-field';
 import { StructureModelingApiService, StructuresApiService } from 'libs/data/payfactors-api/structures';
+import { SurveyApiService } from 'libs/data/payfactors-api';
 import { AsyncStateObj } from 'libs/models/state';
 import { NotificationLevel, NotificationSource, NotificationType } from 'libs/features/infrastructure/app-notifications/models';
 import * as fromDataGridActions from 'libs/features/grids/pf-data-grid/actions';
@@ -19,6 +20,9 @@ import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducer
 import { GridConfig } from 'libs/features/grids/pf-data-grid/models';
 import { PagingOptions } from 'libs/models/payfactors-api/search/request';
 import { GridDataHelper } from 'libs/features/grids/pf-data-grid/helpers';
+import * as fromRootState from 'libs/state/state';
+import { UserContext } from 'libs/models';
+
 
 import * as fromModelSettingsModalActions from '../actions/model-settings-modal.actions';
 import * as fromSharedActions from '../actions/shared.actions';
@@ -70,6 +74,25 @@ export class ModelSettingsModalEffects {
               return new fromModelSettingsModalActions.GetCurrenciesSuccess(PayfactorsApiModelMapper.mapCurrencyDtosToCurrency(response));
             }),
             catchError(error => of(new fromModelSettingsModalActions.GetCurrenciesError()))
+          )
+      )
+    );
+
+  @Effect()
+  getSurveyUdfs$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromModelSettingsModalActions.GET_SURVEY_UDFS),
+      withLatestFrom(
+        this.store.pipe(select(fromRootState.getUserContext)),
+        (action, userContext: UserContext) => ({ userContext })
+      ),
+      switchMap((data) =>
+        this.surveyApiService.getUdfData(data.userContext.CompanyId)
+          .pipe(
+            map((response) => {
+              return new fromModelSettingsModalActions.GetSurveyUdfsSuccess(PayfactorsApiModelMapper.mapSurveyUdfsToControlPoints(response.UdfSettings));
+            }),
+            catchError(error => of(new fromModelSettingsModalActions.GetSurveyUdfsError()))
           )
       )
     );
@@ -210,6 +233,7 @@ export class ModelSettingsModalEffects {
     private structuresApiService: StructuresApiService,
     private compositeFieldsApiService: CompositeFieldApiService,
     private structureModelingApiService: StructureModelingApiService,
+    private surveyApiService: SurveyApiService,
     private router: Router,
     private urlService: UrlService,
     private store: Store<fromSharedReducer.State>

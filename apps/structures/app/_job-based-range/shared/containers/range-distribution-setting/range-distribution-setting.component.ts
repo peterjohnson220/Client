@@ -37,6 +37,7 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
   @Input() attemptedSubmit: boolean;
   @Input() metadata: RangeGroupMetadata;
   @Input() controlPointsAsyncObj: AsyncStateObj<ControlPoint[]>;
+  @Input() surveyUdfsAsyncObj: AsyncStateObj<ControlPoint[]>;
   @Input() rangeGroupId: number;
   @Output() payTypeSelectionChange = new EventEmitter();
 
@@ -214,11 +215,12 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
   }
 
   handleControlPointFilterChange(value: string) {
-    this.controlPoints = this.controlPointsAsyncObj.obj.filter(cp => cp.Display.toLowerCase().startsWith(value.toLowerCase()));
+    const cps = this.controlPointsAsyncObj.obj.concat(this.surveyUdfsAsyncObj.obj);
+    this.controlPoints = cps.filter(cp => cp.Display.toLowerCase().startsWith(value.toLowerCase()));
   }
 
   handleControlPointSelectionChange() {
-    this.controlPoints = this.controlPointsAsyncObj.obj;
+    this.controlPoints = this.controlPointsAsyncObj.obj.concat(this.surveyUdfsAsyncObj.obj);
   }
 
   handleRangeTypeChange(event) {
@@ -416,13 +418,16 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (!!changes && !!changes.controlPointsAsyncObj) {
+    if (!!changes && !!changes.controlPointsAsyncObj && !!changes.surveyUdfsAsyncObj) {
       const cp = changes.controlPointsAsyncObj.currentValue;
+      const udfs = changes.surveyUdfsAsyncObj.currentValue;
+
       let selectedCategory: string = null;
       let currentControlPoint: string = null;
 
       this.controlPointsAsyncObj = cp;
-      this.parseControlPoints(cp.obj);
+      this.surveyUdfsAsyncObj = udfs;
+      this.parseControlPoints(cp.obj.concat(udfs.obj));
 
       if (this.metadata.ControlPoint === null && this.metadata.PayType === null) {
         currentControlPoint = 'BaseMRP';

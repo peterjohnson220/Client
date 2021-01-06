@@ -21,6 +21,8 @@ import { AdvancedSettingRequest } from 'libs/models/payfactors-api/structures/re
 import { MissingMarketDataTypes } from 'libs/constants/structures/missing-market-data-type';
 import { CalculationType } from 'libs/constants/structures/calculation-type';
 import { FormulaFieldModalObj } from 'libs/models/formula-editor';
+import { UdfSetting } from 'libs/models/payfactors-api/survey/response/udf-data-response.model';
+
 
 
 import { ControlPoint, Currency } from '../models';
@@ -193,6 +195,18 @@ export class PayfactorsApiModelMapper {
         CurrencyCode: c.CurrencyCode,
         CurrencyName: c.CurrencyName,
         CurrencyDisplay: `${c.CurrencyCode} - ${c.CurrencyName}`
+      };
+    });
+  }
+
+  static mapSurveyUdfsToControlPoints(udfs: UdfSetting[]): ControlPoint[] {
+    return udfs.map(udf => {
+      return {
+        FieldName: udf.SurveyUdf,
+        Display: udf.Value.toString(),
+        Category: udf.PayElementName,
+        RangeDisplayName: udf.Value.toString(),
+        PayTypeDisplay: udf.PayElementName
       };
     });
   }
