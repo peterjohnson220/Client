@@ -92,13 +92,12 @@ pf-statement-edit.page {
         background-color: rgba(187, 187, 187, 0);
       }
     }
-    .statement, .header-row-wrapper, .canvas {
-      transition: opacity .2s ease-in-out, background-color .2s ease-in-out;
-    }
-
-    .page-content, .page-header {
-      transition: background-color .3s ease-in-out;
-    }
+  }
+  .statement, .header-row-wrapper, .canvas {
+    transition: opacity .2s ease-in-out, background-color .2s ease-in-out, margin-top .5s ease-in-out;
+  }
+  .page-content, .page-header {
+    transition: background-color .3s ease-in-out;
   }
   a.settings {
     color: inherit;

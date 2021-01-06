@@ -44,9 +44,6 @@
                 (valueChange)="onStatementNameValueChange($event)"
               ></pf-string-editor>
             </h3>
-            <span *ngIf="(mode === modeEnum.Preview)" class="font-italic flex-grow-1 pt-1">
-              Canvas cannot be edited in preview mode
-            </span>
             <div class="header-row-save-status pb-2 mr-3">
               <div *ngIf="(statementSaving$ | async) || (settingsSaving$ | async)">
                 <label class="d-block mb-0 font-n">Saving</label>
