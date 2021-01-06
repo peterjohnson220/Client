@@ -6,14 +6,14 @@ import { ChartComponent } from './chart.component';
 import { provideMockStore } from '@ngrx/store/testing';
 import { FormControlName } from '@angular/forms';
 import { generateDefaultAsyncStateObj } from '../../../../../models';
-import { PricedPayMarkets } from '../../../../../models/payfactors-api';
+import { PricedPayMarket } from '../../../../../models/payfactors-api';
 
 describe('ChartComponent', () => {
   let fixture: ComponentFixture<ChartComponent>;
 
   const initialState = {
     jobId: null,
-    pricedPayMarkets: generateDefaultAsyncStateObj<PricedPayMarkets[]>([]),
+    pricedPayMarkets: generateDefaultAsyncStateObj<PricedPayMarket[]>([]),
     filters: null
   };
 

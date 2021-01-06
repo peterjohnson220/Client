@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 
 import { AsyncStateObj } from 'libs/models';
-import { PricedPayMarkets } from 'libs/models/payfactors-api';
+import { PricedPayMarket } from 'libs/models/payfactors-api';
 
 import * as fromPricingHistoryChartActions from '../actions';
 import * as fromPricingHistoryChartReducer from '../reducers';
@@ -18,7 +18,7 @@ export class PricingsHistoryChartComponent implements OnInit, OnChanges {
 
   @Input() jobId: number;
 
-  pricedPayMarkets$: Observable<AsyncStateObj<PricedPayMarkets[]>>;
+  pricedPayMarkets$: Observable<AsyncStateObj<PricedPayMarket[]>>;
 
   constructor(private store: Store<fromPricingHistoryChartReducer.State>) { }
 

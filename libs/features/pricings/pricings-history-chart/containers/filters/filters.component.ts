@@ -2,15 +2,14 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup } from '@angular/forms';
 
 import { Observable, Subscription } from 'rxjs';
-import { ActionsSubject, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import moment from 'moment';
 
 import { AsyncStateObj, KendoTypedDropDownItem } from 'libs/models';
-import { PricedPayMarkets, PricingHistoryChartFilters } from 'libs/models/payfactors-api';
+import { PricedPayMarket, PricingHistoryChartFilters } from 'libs/models/payfactors-api';
 
 import * as fromPricingHistoryChartActions from '../../actions';
 import * as fromPricingHistoryChartReducer from '../../reducers';
-import { ofType } from '@ngrx/effects';
 
 @Component({
   selector: 'pf-filters',
@@ -19,10 +18,10 @@ import { ofType } from '@ngrx/effects';
 })
 export class FiltersComponent implements OnInit, OnDestroy {
 
-  pricedPayMarkets$: Observable<AsyncStateObj<PricedPayMarkets[]>>;
+  pricedPayMarkets$: Observable<AsyncStateObj<PricedPayMarket[]>>;
 
-  filteredPayMarketOptions: PricedPayMarkets[] = [];
-  payMarketOptions: PricedPayMarkets[] = [];
+  filteredPayMarketOptions: PricedPayMarket[] = [];
+  payMarketOptions: PricedPayMarket[] = [];
 
   filteredCurrencies: KendoTypedDropDownItem[] = [];
   currencies: KendoTypedDropDownItem[] = [];
@@ -53,8 +52,7 @@ export class FiltersComponent implements OnInit, OnDestroy {
 
   constructor(
     private formBuilder: FormBuilder,
-    private store: Store<fromPricingHistoryChartReducer.State>,
-    private actionsSubject: ActionsSubject,
+    private store: Store<fromPricingHistoryChartReducer.State>
   ) { }
 
   ngOnInit(): void {
@@ -85,17 +83,15 @@ export class FiltersComponent implements OnInit, OnDestroy {
         this.currencies = o;
       });
 
-
-    this.initUserDefaultFiltersSubscription = this.actionsSubject.pipe(ofType(fromPricingHistoryChartActions.INIT_USER_DEFAULT_FILTERS))
-      .subscribe((action: fromPricingHistoryChartActions.InitUserDefaultFilters) => {
-        this.updateSelectedPayMarkets(action.payload);
+    this.initUserDefaultFiltersSubscription = this.store.select(fromPricingHistoryChartReducer.getFilters)
+      .subscribe((filters: PricingHistoryChartFilters) => {
+        this.updateSelectedPayMarkets(filters);
+        this.store.dispatch(new fromPricingHistoryChartActions.GetData());        
       });
 
     this.formChangesSubscription = this.pricingHistoryChartForm.valueChanges.subscribe(value => {
       this.store.dispatch(new fromPricingHistoryChartActions.UpdateFilters(value));
     });
-
-    this.updateDateRange();
 
     this.pricedPayMarkets$ = this.store.select(fromPricingHistoryChartReducer.getPricedPayMarkets);
 
@@ -121,40 +117,31 @@ export class FiltersComponent implements OnInit, OnDestroy {
   }
 
   updateSelectedPayMarkets(userDefaultFilters: PricingHistoryChartFilters) {
-
-    this.pricingHistoryChartForm.reset();
-
-    const defaultPMs = this.filteredPayMarketOptions.filter(v => v.IsDefault);
-    if (userDefaultFilters?.PayMarkets?.length > 0) {
-      this.pricingHistoryChartForm.patchValue({
-        PayMarkets: userDefaultFilters.PayMarkets,
-        Rate: userDefaultFilters.Rate,
-        Currency: userDefaultFilters.Currency
-      });
-    } else if ((defaultPMs.length > 0)) {
-      this.pricingHistoryChartForm.patchValue({
-        PayMarkets: [defaultPMs[0], null, null, null, null],
-        Rate: defaultPMs[0].Rate,
-        Currency: defaultPMs[0].Currency
-      });
-    } else {
-      this.updateDateRange();
-    }
+    this.pricingHistoryChartForm.patchValue({
+      PayMarkets: userDefaultFilters.PayMarkets,
+      Rate: userDefaultFilters.Rate,
+      Currency: userDefaultFilters.Currency,
+      StartDate: moment(userDefaultFilters.StartDate).startOf('month').toDate(),
+      EndDate: moment(userDefaultFilters.EndDate).startOf('month').toDate(),
+    }, {emitEvent: false});
+    
+    this.filterPayMarketOptions();
+    this.updateDateRange(false);
   }
 
-  updateDateRange() {
-    let threeYearsAgo = moment().subtract(3, 'year').startOf('month').toDate();
-    let today = moment().startOf('month').toDate();
+  updateDateRange(emitPatchEvent = true) {
+    let startDate = moment().subtract(3, 'year').startOf('month').toDate();
+    let endDate = moment().startOf('month').toDate();
 
     if (this.selectedPayMarkets.length > 0) {
-      threeYearsAgo = moment.min(this.selectedPayMarkets.map(p => moment(p.StartDate))).toDate();
-      today = moment.max(this.selectedPayMarkets.map(p => moment(p.EndDate))).toDate();
+      startDate = moment.min(this.selectedPayMarkets.map(p => moment(p.StartDate))).toDate();
+      endDate = moment.max(this.selectedPayMarkets.map(p => moment(p.EndDate))).toDate();
     }
 
     this.pricingHistoryChartForm.patchValue({
-      StartDate: threeYearsAgo,
-      EndDate: today,
-    });
+      StartDate: startDate,
+      EndDate: endDate,
+    }, {emitEvent: emitPatchEvent});
   }
 
   filterPayMarketOptions(value = '') {

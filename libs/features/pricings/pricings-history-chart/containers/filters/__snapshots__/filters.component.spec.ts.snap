@@ -2,7 +2,6 @@
 
 exports[`Pricing History Chart Features - Filters Should display form 1`] = `
 <pf-filters
-  actionsSubject={[Function ActionsSubject]}
   currencies={[Function Array]}
   currenciesSubscription={[Function Subscriber]}
   filteredCurrencies={[Function Array]}

@@ -6,7 +6,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonModule } from 'libs/core';
-import { PricedPayMarkets } from 'libs/models/payfactors-api';
+import { PricedPayMarket } from 'libs/models/payfactors-api';
 import { generateDefaultAsyncStateObj } from 'libs/models';
 
 import { PricingsHistoryChartComponent } from './pricings-history-chart.component';
@@ -16,7 +16,7 @@ describe('PricingsHistoryChartComponent', () => {
 
   const initialState = {
     jobId: null,
-    pricedPayMarkets: generateDefaultAsyncStateObj<PricedPayMarkets[]>([]),
+    pricedPayMarkets: generateDefaultAsyncStateObj<PricedPayMarket[]>([]),
     filters: null
   };
 
