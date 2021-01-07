@@ -9,14 +9,17 @@
           [title]="option.Name"
           (click)="onOptionCheck($event, option, filter)"
           [ngClass]="{'child-selected': option.Value.toString() === (childFilterParentOptionValue$ | async) && filter.BackingField === (childFilter$ | async).ParentBackingField}">
-      <div class="option-check">
-        <input type="checkbox" [disabled]="optionDisabled(option)" [ngModel]="option.Selected"
-               [pfIndeterminateDirective]="hasSubAggregationSelections(option)"/> {{option.Name}}
+
+      <div class="d-flex justify-content-between option-check p-2">
+        <div class="text-truncate mr-2">
+          <input type="checkbox" [disabled]="optionDisabled(option)" [ngModel]="option.Selected"
+                 [pfIndeterminateDirective]="hasSubAggregationSelections(option)"/> {{option.Name}}
+        </div>
+        <div *ngIf="!filter.OptionCountDisabled" class="option-count">
+          {{option.Count}}
+        </div>
       </div>
 
-      <div *ngIf="!filter.OptionCountDisabled" class="option-count">
-        {{option.Count}}
-      </div>
       <fa-icon *ngIf="option.SubAggregationCount > 0 && option.SelectionsCount > 0" [icon]="solidFilter"
                class="filter-icon"
                (click)="handleFilterableOptionSelected(filter, option);$event.stopPropagation()"></fa-icon>
@@ -36,14 +39,17 @@
         [class.locked]="filter.Locked"
         (click)="onOptionCheck($event, option, filter)"
         [ngClass]="{'child-selected': option.Value.toString() === (childFilterParentOptionValue$ | async) && filter.BackingField === (childFilter$ | async).ParentBackingField}">
-      <div class="option-check">
-        <input type="checkbox" [disabled]="optionDisabled(option)" [ngModel]="option.Selected"
-               [pfIndeterminateDirective]="option.SubAggregationCount > 0 && option.SelectionsCount > 0"/> {{option.Name}}
+
+      <div class="d-flex justify-content-between option-check p-2">
+        <div class="text-truncate mr-2">
+          <input type="checkbox" [disabled]="optionDisabled(option)" [ngModel]="option.Selected"
+                 [pfIndeterminateDirective]="option.SubAggregationCount > 0 && option.SelectionsCount > 0"/> {{option.Name}}
+        </div>
+        <div *ngIf="!filter.OptionCountDisabled" class="option-count">
+          {{option.Count}}
+        </div>
       </div>
 
-      <div *ngIf="!filter.OptionCountDisabled" class="option-count">
-        {{option.Count}}
-      </div>
       <fa-icon *ngIf="option.SubAggregationCount > 0 && option.SelectionsCount > 0" [icon]="solidFilter"
                class="filter-icon"
                (click)="handleFilterableOptionSelected(filter, option);$event.stopPropagation()"></fa-icon>
