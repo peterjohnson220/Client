@@ -92,10 +92,6 @@ export class ExchangeExplorerComponent extends SearchBaseDirective {
     this.store.dispatch(new fromSearchResultsActions.ClearResults());
   }
 
-  reset() {
-    super.resetApp();
-  }
-
   handleExchangeJobSelected(payload: {exchangeJobId: number, similarExchangeJobIds: number[]}): void {
     // We want to refresh the paymarket context if the exchange job is changed.
     if (!!this.companyJobId && !!this.companyPayMarketId) {

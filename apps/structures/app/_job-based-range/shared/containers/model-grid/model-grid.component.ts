@@ -17,7 +17,7 @@ import {
   GridConfig
 } from 'libs/features/pf-data-grid/models';
 import { PagingOptions } from 'libs/models/payfactors-api/search/request';
-import { CompanyStructureRangeOverride, RoundingSettingsDataObj, RangeGroupMetadata } from 'libs/models/structures';
+import { CompanyStructureRangeOverride, RoundingSettingsDataObj, RangeGroupMetadata, JobBasedPageViewIds } from 'libs/models/structures';
 import { DataViewFilter, ViewField } from 'libs/models/payfactors-api/reports/request';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 import { RangeGroupType } from 'libs/constants/structures/range-group-type';
@@ -29,7 +29,6 @@ import { PermissionService } from 'libs/core/services';
 import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
 import { PfThemeType } from 'libs/features/pf-data-grid/enums/pf-theme-type.enum';
 
-import { PageViewIds } from '../../constants/page-view-ids';
 import * as fromPublishModelModalActions from '../../actions/publish-model-modal.actions';
 import * as fromDuplicateModelModalActions from '../../actions/duplicate-model-modal.actions';
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
@@ -196,11 +195,11 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
 
   updateMidSuccessCallbackFn(store: Store<any>, metaInfo: any) {
     // We should dispatch this action only for Employees/Pricings pages
-    if (metaInfo.pageViewId === PageViewIds.EmployeesMinMidMax
-      || metaInfo.pageViewId === PageViewIds.EmployeesTertile
-      || metaInfo.pageViewId === PageViewIds.EmployeesQuartile
-      || metaInfo.pageViewId === PageViewIds.EmployeesQuintile
-      || metaInfo.pageViewId === PageViewIds.Pricings) {
+    if (metaInfo.pageViewId === JobBasedPageViewIds.EmployeesMinMidMax
+      || metaInfo.pageViewId === JobBasedPageViewIds.EmployeesTertile
+      || metaInfo.pageViewId === JobBasedPageViewIds.EmployeesQuartile
+      || metaInfo.pageViewId === JobBasedPageViewIds.EmployeesQuintile
+      || metaInfo.pageViewId === JobBasedPageViewIds.Pricings) {
       store.dispatch(new fromPfDataGridActions.LoadData(metaInfo.pageViewId));
     }
   }
@@ -271,7 +270,6 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     this.updateField(field);
   }
 
-
   updateField(field) {
     if (field.FilterValue) {
       this.store.dispatch(new fromPfDataGridActions.UpdateFilter(this.pageViewId, field));
@@ -282,7 +280,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
 
   isManualOverride(dto: CompanyStructureRangeOverride): boolean {
     return dto.Max || dto.Min || dto.Mid || dto.FirstTertile || dto.SecondTertile || dto.FirstQuartile || dto.SecondQuartile || dto.FirstQuintile
-    || dto.SecondQuintile || dto.ThirdQuintile || dto.FourthQuintile;
+      || dto.SecondQuintile || dto.ThirdQuintile || dto.FourthQuintile;
   }
 
   handleCompareModelClicked() {
@@ -310,7 +308,6 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
       'OverrideMessage': { Template: this.overrideFilter }
     };
 
-
     this.fullGridActionBarConfig = {
       ...this.fullGridActionBarConfig,
       GlobalActionsTemplate: this.gridGlobalActionsTemplate
@@ -330,7 +327,9 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     this.roundingSettingsSub = this.roundingSettings$.subscribe(rs => this.roundingSettings = rs);
     this.metaDataSub = this.metaData$.subscribe(md => this.metaData = md);
     this.distinctOverrideMessagesSub =
-        this.distinctOverrideMessages$.subscribe(dom => this.distinctOverrideMessages = dom.filter(function (el) { return el != null; } ));
+      this.distinctOverrideMessages$.subscribe(dom => this.distinctOverrideMessages = dom.filter(function (el) {
+        return el != null;
+      }));
     this.rangeOverridesSub = this.rangeOverrides$.subscribe(ro => this.rangeOverrides = ro);
     this.removingRange$ = this.store.select(fromSharedJobBasedRangeReducer.getRemovingRange);
     this.selectedRecordId$ = this.store.select(fromPfDataGridReducer.getSelectedRecordId, this.modelPageViewId);
@@ -353,11 +352,11 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     this.gridFieldSubscription = this.store.select(fromPfDataGridReducer.getFields, this.modelPageViewId).subscribe(fields => {
       if (fields) {
         this.overrideField = fields.find(f => f.SourceName === 'OverrideMessage');
-
-        this.selectedOverrideMessage = this.overrideField.FilterValue;
+        if (this.overrideField != null) {
+          this.selectedOverrideMessage = this.overrideField.FilterValue;
+        }
       }
     });
-
 
     window.addEventListener('scroll', this.scroll, true);
   }

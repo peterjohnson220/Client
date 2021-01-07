@@ -17,6 +17,7 @@ export class GridContextComponent {
   @Input() enableReturnBtn: boolean;
   @Input() currentRangeGroupName: string;
   @Input() compareFlag: boolean;
+  @Input() adjustMetadata = false;
 
   constructor() {}
 

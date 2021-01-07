@@ -25,3 +25,4 @@ export * from './formula-editor';
 export * from './bulk-job-description-export-scheduler';
 export * from './user-settings';
 export * from './pricings';
+export * from './export-scheduler';

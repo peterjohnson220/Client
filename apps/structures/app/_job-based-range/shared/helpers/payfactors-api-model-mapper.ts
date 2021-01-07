@@ -45,6 +45,7 @@ export class PayfactorsApiModelMapper {
       SpreadMax: srgr.RangeSpreadMax,
       IsCurrent: srgr.IsCurrent,
       RangeDistributionTypeId: srgr.RangeDistributionTypeId ?? 1,
+      RangeTypeId: srgr.RangeTypeId,
       ExchangeId: srgr.ExchangeId,
       RangeDistributionTypes: srgr.RangeDistributionTypes,
       RangeDistributionSetting: srgr.RangeDistributionSetting != null ? this.mapRangeDistributionSetting(srgr.RangeDistributionSetting) : null,

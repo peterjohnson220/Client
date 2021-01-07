@@ -15,6 +15,7 @@ export class InfiniteScrollComponent implements OnInit, OnDestroy {
   @ViewChild('results', { static: true }) resultsContainer: ElementRef;
   @Input() numberOfCurrentResults: number;
   @Input() scrollId: string;
+  @Input() position: 'relative'|'absolute' = 'absolute';
 
   // Observables
   loading$: Observable<boolean>;

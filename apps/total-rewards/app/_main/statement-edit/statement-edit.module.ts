@@ -18,6 +18,7 @@ import { StatementEditPageComponent } from './statement-edit.page';
 import { SettingsPanelComponent } from './components';
 import { reducers } from './reducers';
 import { StatementEditPageEffects } from './effects/statement-edit.page.effects';
+import { QuillToolbarComponent } from './components';
 
 @NgModule({
   imports: [
@@ -44,7 +45,8 @@ import { StatementEditPageEffects } from './effects/statement-edit.page.effects'
   ],
   declarations: [
     StatementEditPageComponent,
-    SettingsPanelComponent
+    SettingsPanelComponent,
+    QuillToolbarComponent
   ]
 })
 export class StatementEditModule {

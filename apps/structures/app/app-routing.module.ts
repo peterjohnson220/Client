@@ -15,7 +15,15 @@ export const routes: Routes = [
     component: AppWrapperComponent,
     canActivate: [UserContextGuard],
     children: [
-      { path: '', loadChildren: () => import('apps/structures/app/_job-based-range/job-based-range.module').then(m => m.JobBasedRangeModule) }
+      { path: 'job', loadChildren: () => import('apps/structures/app/_job-based-range/job-based-range.module').then(m => m.JobBasedRangeModule) },
+    ]
+  },
+  {
+    path: '',
+    component: AppWrapperComponent,
+    canActivate: [UserContextGuard],
+    children: [
+      { path: 'grade', loadChildren: () => import('apps/structures/app/_grade-based-range/grade-based-range.module').then(m => m.GradeBasedRangeModule)}
     ]
   },
   { path: '**', component: NotFoundErrorPageComponent }

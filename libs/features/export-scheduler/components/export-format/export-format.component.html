@@ -1,0 +1,28 @@
+<div class="d-flex flex-wrap mb-3">
+  <div class="d-flex">
+    <div [style.width.px]="150">
+      <span>Select Format </span><span class="text-danger">*</span>
+    </div>
+    <div class="file-extension-dropdowns">
+      <kendo-dropdownlist class="k-dropdown-white"
+                          data-qa-id="ddl-tabular-form-reports-file-extension"
+                          style="width: 135px;"
+                          (valueChange)="handleFormatChange()"
+                          [(ngModel)]="selectedFormat"
+                          [data]="fileFormats">
+      </kendo-dropdownlist>
+    </div>
+  </div>
+  <div *ngIf="selectedFormat === csvFileFormat" class="d-flex ml-3">
+    <label class="col-form-label d-inline-block">Separator Type: <span class="text-danger">*</span></label>
+    <div class="ml-2 file-extension-dropdowns">
+      <kendo-dropdownlist class="k-dropdown-white"
+                          style="width: 135px;"
+                          data-qa-id="ddl-tabular-form-reports-csv-delimiters"
+                          [(ngModel)]="selectedSeparatorType"
+                          (valueChange)="handleSeparatorTypeChange()"
+                          [data]="csvDelimiters">
+      </kendo-dropdownlist>
+    </div>
+  </div>
+</div>

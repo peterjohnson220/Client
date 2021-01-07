@@ -17,7 +17,7 @@ import * as fromModelSettingsModalActions from '../../shared/actions/model-setti
 import * as fromDuplicateModelModalActions from '../../shared/actions/duplicate-model-modal.actions';
 import { StructuresPagesService } from '../../shared/services';
 import * as fromSharedActions from '../../shared/actions/shared.actions';
-import { PagesHelper } from '../../shared/helpers/pages.helper';
+import { PagesHelper } from '../../../shared/helpers/pages.helper';
 
 
 @Component({

@@ -129,6 +129,11 @@ export const getCompanyExchanges = createSelector(
   fromSharedReducer.getCompanyExchanges
 );
 
+export const getSelectedPeerExchange = createSelector(
+  selectSharedState,
+  fromSharedReducer.getSelectedPeerExchange
+);
+
 export const getStructureNameSuggestionsAsyncObj = createSelector(
   selectModelSettingsModalState, fromModelSettingsModalReducer.getStructureNameSuggestionsAsyncObj
 );

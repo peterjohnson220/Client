@@ -1,0 +1,17 @@
+<pf-modal-form
+  [title]="'Delete Scheduled Export'"
+  [size]="'md'"
+  secondaryButtonText="No"
+  primaryButtonClass="btn-primary"
+  primaryButtonText="Yes"
+  primaryButtonTextSubmitting="Saving..."
+  [isOpen$]="showDeleteModal$"
+  (onSubmit)="onSubmit()"
+  (onDismiss)="onDismiss()">
+
+  <ng-container basic-content>
+        <p>You are about to delete a scheduled export for <span class="font-weight-bold">{{reportName}}</span>.</p>
+        <p>Are you sure you want to continue?</p>
+  </ng-container>
+
+</pf-modal-form>

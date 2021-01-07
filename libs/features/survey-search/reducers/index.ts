@@ -33,17 +33,17 @@ export const selectFeatureAreaState = createFeatureSelector<SharedState>('featur
 // Feature Selectors
 export const selectSearchResultsState = createSelector(
   selectFeatureAreaState,
-  (state: SharedState) => state.surveySearchResults
+  (state: SharedState) => !!state ? state.surveySearchResults : {}
 );
 
 export const selectTooltipContainerState = createSelector(
   selectFeatureAreaState,
-  (state: SharedState) => state.tooltipContainer
+  (state: SharedState) => !!state ? state.tooltipContainer : {}
 );
 
 export const selectContextState = createSelector(
   selectFeatureAreaState,
-  (state: SharedState) => state.context
+  (state: SharedState) => !!state ? state.context : {}
 );
 
 // Context

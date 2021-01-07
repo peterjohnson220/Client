@@ -1,9 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { DataStateChangeEvent, PageChangeEvent } from '@progress/kendo-angular-grid';
+import { of } from 'rxjs';
 
 import * as fromRootState from 'libs/state/state';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
@@ -13,6 +15,7 @@ import { generateMockCompanyJob } from 'libs/features/peer/job-association/model
 import { CompanyJobsGridComponent } from './company-jobs-grid.component';
 import * as companyJobsActions from '../../actions/company-jobs.actions';
 import * as manageReducers from '../../reducers/';
+
 
 describe('CompanyJobsGridComponent', () => {
   let component: CompanyJobsGridComponent;
@@ -29,7 +32,16 @@ describe('CompanyJobsGridComponent', () => {
         NgbTooltipModule
       ],
       declarations: [ CompanyJobsGridComponent ],
-      schemas: [ NO_ERRORS_SCHEMA ]
+      schemas: [ NO_ERRORS_SCHEMA ],
+      providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            queryParams: of({}),
+            snapshot: { queryParamMap: { get: (key) => '' } }
+          }
+        }
+      ]
     })
     .compileComponents();
 

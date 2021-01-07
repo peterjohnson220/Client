@@ -1,10 +1,10 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
-import { GridDataResult, DataStateChangeEvent, PageChangeEvent } from '@progress/kendo-angular-grid';
+import { GridDataResult, DataStateChangeEvent, PageChangeEvent, FilterService } from '@progress/kendo-angular-grid';
 import { State, CompositeFilterDescriptor, FilterDescriptor } from '@progress/kendo-data-query';
-import { FilterService } from '@progress/kendo-angular-grid';
 import { TooltipDirective } from '@progress/kendo-angular-tooltip';
 import cloneDeep from 'lodash/cloneDeep';
 import isEqual from 'lodash/isEqual';
@@ -23,6 +23,7 @@ import * as companyJobsReducer from '../../reducers';
 })
 
 export class CompanyJobsGridComponent implements OnInit, OnDestroy {
+
   @ViewChild(TooltipDirective, { static: true }) public tooltipDir: TooltipDirective;
 
   companyJobsGridData$: Observable<GridDataResult>;
@@ -48,7 +49,7 @@ export class CompanyJobsGridComponent implements OnInit, OnDestroy {
   // only highlight the selected row if we a) have a job selected, and b) the row's CompanyJob matches the one selected
   public isRowSelected = (e: any) => this.selectedCompanyJob && e.dataItem.CompanyJobId === this.selectedCompanyJob.CompanyJobId;
 
-  constructor(private store: Store<companyJobsReducer.State>) { }
+  constructor(private store: Store<companyJobsReducer.State>, private activatedRoute: ActivatedRoute ) {}
 
   ngOnInit() {
     this.companyJobsGridData$ = this.store.pipe(select(companyJobsReducer.getCompanyJobsData));
@@ -78,6 +79,15 @@ export class CompanyJobsGridComponent implements OnInit, OnDestroy {
     this.allSubscriptions.add(this.store.pipe(select(companyJobsReducer.getCompanyJobsExchangeId)).subscribe(exchangeId => {
       this.exchangeId = exchangeId;
     }));
+
+    this.allSubscriptions.add(this.activatedRoute.queryParams.subscribe(params => {
+      this.selectedStatusFilterOption = this.statusFilterOptions.filter(x => x.StatusId === params['status'])?.map(x => x.StatusId)[0];
+    }));
+
+
+    this.store.dispatch(new fromGridActions.UpdateFilter(GridTypeEnum.PeerManageCompanyJobs,
+      {columnName: 'StatusId', value: this.selectedStatusFilterOption}));
+
 
     this.store.dispatch(new companyJobsActions.LoadCompanyJobs());
   }

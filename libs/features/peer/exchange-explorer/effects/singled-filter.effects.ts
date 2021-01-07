@@ -17,7 +17,6 @@ import * as fromSearchReducer from 'libs/features/search/reducers';
 
 import { ExchangeExplorerContextService } from '../services';
 
-
 @Injectable()
 export class SingledFilterEffects {
 
@@ -40,7 +39,7 @@ export class SingledFilterEffects {
           ...data.filterContext,
           SearchField: data.singledFilter.BackingField,
           TextQuery: data.searchValue,
-          PagingOptions: this.payfactorsSearchApiModelMapper.mapResultsPagingOptionsToPagingOptions(data.infiniteScrollActionContext.pagingOptions)
+          PagingOptions: data.infiniteScrollActionContext.pagingOptions
         };
 
         const subFilters = data.subFilters;

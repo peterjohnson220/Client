@@ -10,14 +10,15 @@ import { RangeGroupMetadata } from 'libs/models/structures';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
-import { StructuresHighchartsService, StructuresPagesService } from '../../../shared/services';
+import { StructuresPagesService } from '../../../shared/services';
+import { StructuresHighchartsService } from '../../../../shared/services';
 import { EmployeeRangeChartService, EmployeeSalaryRangeChartSeries } from '../../data';
 import { GraphHelper } from '../../../shared/helpers/graph.helper';
 import { DataPointSeries } from '../../../shared/models/data-point-series.model';
-import { RangeDistributionTypeIds } from '../../../shared/constants/range-distribution-type-ids';
+import { RangeDistributionTypeIds } from '../../../../shared/constants/range-distribution-type-ids';
 import { SalaryRangeSeries } from '../../../shared/models/salary-range-series.model';
-import { RangeDistributionDataPointTypeIds } from '../../../shared/constants/range-distribution-data-point-type-ids';
-import { PagesHelper } from '../../../shared/helpers/pages.helper';
+import { RangeDistributionDataPointTypeIds } from '../../../../shared/constants/range-distribution-data-point-type-ids';
+import { PagesHelper } from '../../../../shared/helpers/pages.helper';
 
 @Component({
   selector: 'pf-employee-salary-range-chart',

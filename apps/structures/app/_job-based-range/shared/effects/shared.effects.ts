@@ -24,7 +24,7 @@ import { ExchangeApiService } from 'libs/data/payfactors-api/peer';
 import * as fromSharedActions from '../actions/shared.actions';
 import { PayfactorsApiModelMapper } from '../helpers/payfactors-api-model-mapper';
 import * as fromSharedReducer from '../reducers';
-import { PagesHelper } from '../helpers/pages.helper';
+import { PagesHelper } from '../../../shared/helpers/pages.helper';
 
 @Injectable()
 export class SharedEffects {
@@ -50,7 +50,8 @@ export class SharedEffects {
             .pipe(
               mergeMap(() => {
                 const actions = [];
-                const modelPageViewId = PagesHelper.getModelPageViewIdByRangeDistributionType(data.metadata.RangeDistributionTypeId);
+                const modelPageViewId =
+                  PagesHelper.getModelPageViewIdByRangeTypeAndRangeDistributionType(data.metadata.RangeTypeId, data.metadata.RangeDistributionTypeId);
 
                 actions.push(GridDataHelper.getLoadDataAction(modelPageViewId, data.gridData, data.gridConfig, data.pagingOptions));
 
@@ -83,7 +84,8 @@ export class SharedEffects {
         return this.structureModelingApiService.removeRange(data.action.payload).pipe(
           mergeMap(() => {
             const actions = [];
-            const modelPageViewId = PagesHelper.getModelPageViewIdByRangeDistributionType(data.metadata.RangeDistributionTypeId);
+            const modelPageViewId =
+              PagesHelper.getModelPageViewIdByRangeTypeAndRangeDistributionType(data.metadata.RangeTypeId, data.metadata.RangeDistributionTypeId);
 
             actions.push(new fromSharedActions.RemovingRangeSuccess());
             actions.push(new pfDataGridActions.ClearSelections(modelPageViewId, [data.action.payload]));
@@ -288,15 +290,40 @@ export class SharedEffects {
   getCompanyExchanges: Observable<Action> = this.actions$
     .pipe(
       ofType(fromSharedActions.GET_COMPANY_EXCHANGES),
-      switchMap((action: fromSharedActions.GetCompanyExchanges) => {
-        return this.exchangeApiService.getExchangeDictionaryForCompany(action.payload)
-          .pipe(
-            map((res) => {
-              return new fromSharedActions.GetCompanyExchangesSuccess(res);
-            }),
-            catchError((err) => of(new fromSharedActions.GetCompanyExchangesError(err)))
-          );
-      })
+      mergeMap((action: fromSharedActions.GetCompanyExchanges) =>
+          of(action).pipe(
+            withLatestFrom(
+              this.store.pipe(select(fromSharedReducer.getMetadata)),
+              (a: fromSharedActions.GetCompanyExchanges, metadata) =>
+                ({a, metadata}))
+          )
+      ),
+        switchMap((data) => {
+          return this.exchangeApiService.getExchangeDictionaryForCompany(data.a.payload)
+            .pipe(
+              mergeMap((res) => {
+                const actions = [];
+                let exchangeId: number;
+                let exchangeName: string;
+                if (data.metadata.ExchangeId) {
+                  const selectedExchangeDict = res.filter(x => x.Key === data.metadata.ExchangeId);
+                  exchangeName = selectedExchangeDict[0].Value;
+                  exchangeId = data.metadata.ExchangeId;
+                } else {
+                  const defaultExchange = res.filter(x => x.Value === 'Global Network');
+                  exchangeId = defaultExchange[0].Key;
+                  exchangeName = 'Global Network';
+                }
+                actions.push(new fromSharedActions.SetSelectedPeerExchange({
+                  ExchangeId: exchangeId,
+                  ExchangeName: exchangeName
+                }));
+                actions.push(new fromSharedActions.GetCompanyExchangesSuccess(res));
+                return actions;
+              }),
+              catchError((err) => of(new fromSharedActions.GetCompanyExchangesError(err)))
+            );
+        })
     );
 
   constructor(

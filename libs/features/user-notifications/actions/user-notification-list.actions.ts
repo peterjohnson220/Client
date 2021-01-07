@@ -2,8 +2,7 @@ import { Action } from '@ngrx/store';
 import { UserNotification } from '../models';
 
 export const GET_USER_NOTIFICATIONS = '[Notifications / User Notification List] Get User Notifications';
-export const GET_USER_NOTIFICATIONS_SUCCESS = '[Notifications / User Notification List] Get User Notifications Success';
-export const GET_USER_NOTIFICATIONS_ERROR = '[Notifications / User Notification List] Get User Notifications Error';
+export const SET_USER_NOTIFICATIONS = '[Notifications / User Notification List] Set User Notifications';
 export const MARK_NOTIFICATION_READ = '[Notifications / User Notification List] Mark Notification Read';
 export const MARK_NOTIFICATION_READ_SUCCESS = '[Notifications / User Notification List] Mark Notification Read Success';
 export const MARK_NOTIFICATION_READ_ERROR = '[Notifications / User Notification List] Mark Notification Read Error';
@@ -18,14 +17,11 @@ export class GetUserNotifications implements Action {
   readonly type = GET_USER_NOTIFICATIONS;
 }
 
-export class GetUserNotificationsSuccess implements Action {
-  readonly type = GET_USER_NOTIFICATIONS_SUCCESS;
+export class SetUserNotifications implements Action {
+  readonly type = SET_USER_NOTIFICATIONS;
 
-  constructor(public payload: UserNotification[]) {}
-}
-
-export class GetUserNotificationsError implements Action {
-  readonly type = GET_USER_NOTIFICATIONS_ERROR;
+  constructor(public payload: {replaceAll: boolean, newUserNotifications: UserNotification[]}) {
+  }
 }
 
 export class MarkNotificationRead implements Action {
@@ -68,8 +64,7 @@ export class MarkAllNotificationsSeenError implements Action {
 
 export type Actions
   = GetUserNotifications
-  | GetUserNotificationsSuccess
-  | GetUserNotificationsError
+  | SetUserNotifications
   | MarkNotificationRead
   | MarkNotificationReadSuccess
   | MarkNotificationReadError
