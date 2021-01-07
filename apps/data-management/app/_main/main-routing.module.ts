@@ -114,7 +114,7 @@ const routes: Routes = [
               {
                 path: 'bulk-jobs-export-scheduler',
                 component: OutboundBulkJobsExportSchedulerPageComponent,
-                data: { AllowBackButton: true }
+                data: { AllowBackButton: true, FullerPage: true }
               },
             ]
           }

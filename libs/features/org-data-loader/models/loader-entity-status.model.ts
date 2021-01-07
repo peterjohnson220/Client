@@ -1,4 +1,5 @@
 import { LoaderType } from 'libs/features/org-data-loader/constants';
+import { FieldMapping } from './field-mapping.model';
 
 export interface LoaderEntityStatus {
   complete: boolean;
@@ -6,5 +7,5 @@ export interface LoaderEntityStatus {
   isFullReplace?: boolean;
   loadEnabled?: boolean;
   loaderType: LoaderType;
-  mappings?: string[];
+  mappings?: FieldMapping[];
 }

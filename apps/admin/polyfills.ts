@@ -40,6 +40,9 @@ import 'assets/js/new-relic.js';
  * Learn more in https://angular.io/docs/ts/latest/guide/browser-support.html
  */
 
+/** Needed before Polyfills in order to avoid an infinite recursion issue */
+import 'core-js/es7/array';
+
 /** IE10 and IE11 requires the following for NgClass support on SVG elements */
 import 'classlist.js';  // Run `npm install --save classlist.js`.
 

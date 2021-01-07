@@ -9,7 +9,7 @@ import * as fromSearchReducer from 'libs/features/search/reducers';
 import { SearchFeatureIds } from 'libs/features/search/enums/search-feature-ids';
 
 import { UrlService } from '../../shared/services';
-import { Workflow } from '../../shared/constants/workflow';
+import { Workflow } from '../../../shared/constants/workflow';
 
 @Injectable()
 export class SearchPageEffects {

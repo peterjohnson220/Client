@@ -41,41 +41,22 @@ describe('AutoShareModalComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
-  it('should return users that contains search value when search value changed', () => {
+  it.each([
+    ['Linda', ['Linda A', 'Linda B', 'Linda C']],
+    ['Linda B', ['Linda B']],
+    ['Larry', []]
+  ])('should return the expected search results', (searchValue, searchResults) => {
     instance.shareableUsers = [
-      { ...generateMockAutoShareUser() },
-      { ...generateMockAutoShareUser(), FirstName: 'Bob' },
-      { ...generateMockAutoShareUser(), FirstName: 'Bill' },
-      { ...generateMockAutoShareUser(), FirstName: 'Jill' },
-      { ...generateMockAutoShareUser(), FirstName: 'Larry' }
+      { ...generateMockAutoShareUser(), FullName: 'Bob ' },
+      { ...generateMockAutoShareUser(), FullName: 'Linda A' },
+      { ...generateMockAutoShareUser(), FullName: 'Linda B' },
+      { ...generateMockAutoShareUser(), FullName: 'Linda C' },
     ];
 
-    instance.searchValue = 'Larry';
+    instance.handleSearchValueChanged(searchValue);
+    const filteredFullNames = instance.filteredShareableUsers.map(u => u.FullName);
 
-    const expectedFilteredUser = [{...generateMockAutoShareUser(), FirstName: 'Larry'}];
-
-    instance.handleSearchValueChanged(instance.searchValue);
-    fixture.detectChanges();
-
-    expect(instance.filteredShareableUsers).toEqual(expectedFilteredUser);
-  });
-
-  it('should return no users when no matching user name found', () => {
-    instance.shareableUsers = [
-      { ...generateMockAutoShareUser()},
-      { ...generateMockAutoShareUser(), FirstName: 'Bob' },
-      { ...generateMockAutoShareUser(), FirstName: 'Bill' },
-      { ...generateMockAutoShareUser(), FirstName: 'Jill' }
-    ];
-
-    instance.searchValue = 'Larry';
-
-    const expectedFilteredUser = [];
-
-    instance.handleSearchValueChanged(instance.searchValue);
-    fixture.detectChanges();
-
-    expect(instance.filteredShareableUsers).toEqual(expectedFilteredUser);
+    expect(filteredFullNames).toEqual(searchResults);
   });
 
   it('should toggle the isSelected property when handleToggleSelectedUser is called', () => {

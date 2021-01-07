@@ -20,6 +20,7 @@ export interface StructureRangeGroupResponse {
   RangeSpreadMin: number;
   RangeSpreadMax: number;
   RangeDistributionTypeId: number;
+  RangeTypeId: number;
   ExchangeId: number;
   RangeDistributionTypes: RangeDistributionType[];
   RangeDistributionSetting: RangeDistributionSettingResponse;
@@ -45,6 +46,7 @@ export function generateMockCompanyStructureRangeGroup(): StructureRangeGroupRes
     IsCurrent: true,
     EffectiveDate: new Date('1995-12-17T03:24:00'),
     RangeDistributionTypeId: 1,
+    RangeTypeId: 1,
     ExchangeId: 14,
     RangeDistributionTypes: generateMockStructureRangeDistributionTypes(),
     RangeDistributionSetting: generateMockRangeDistributionSettingResponse(),

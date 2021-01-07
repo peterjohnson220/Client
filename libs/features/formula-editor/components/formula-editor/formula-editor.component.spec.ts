@@ -6,12 +6,20 @@ import { FormulaEditorComponent } from './formula-editor.component';
 describe('Data Insights - Data View - Formula Editor', () => {
   let instance: FormulaEditorComponent;
   let fixture: ComponentFixture<FormulaEditorComponent>;
-  const codeMirrorComponent: any = { codeMirror: { on: jest.fn() } };
+  const codeMirrorComponent: any = {
+    codeMirror:
+      {
+        on: jest.fn(),
+        setSize(width: any, height: any): void {
+          jest.fn();
+        }
+      }
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ FormulaEditorComponent ],
-      schemas: [ NO_ERRORS_SCHEMA ]
+      declarations: [FormulaEditorComponent],
+      schemas: [NO_ERRORS_SCHEMA]
     });
 
     fixture = TestBed.createComponent(FormulaEditorComponent);

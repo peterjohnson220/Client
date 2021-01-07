@@ -1,10 +1,11 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { HttpResponse } from '@angular/common/http';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
-import { SelectEvent } from '@progress/kendo-angular-upload';
+import { SelectEvent, SuccessEvent } from '@progress/kendo-angular-upload';
 
 import * as fromRootState from 'libs/state/state';
 import { generateDefaultAsyncStateObj } from 'libs/models/state';
@@ -119,5 +120,14 @@ describe('User Settings - User Profile Component', () => {
     instance.handleFileSelect(selectEvent);
 
     expect(instance.userPictureErrorMessage).toEqual('');
+  });
+
+  it('should use the file name returned from server when uploading profile picture', () => {
+    const response = new HttpResponse({ body: { value: '12345_TestImg.jpg' }});
+    const successEvent = new SuccessEvent([], null, response);
+
+    instance.handleFileUploadSuccess(successEvent);
+
+    expect(instance.userPicture).toEqual('12345_TestImg.jpg');
   });
 });

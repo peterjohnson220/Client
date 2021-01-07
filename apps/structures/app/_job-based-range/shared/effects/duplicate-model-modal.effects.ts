@@ -15,7 +15,7 @@ import { DuplicateModelRequest } from 'libs/models/payfactors-api/structures/req
 import * as fromDuplicateModelModalActions from '../actions/duplicate-model-modal.actions';
 import * as fromSharedReducer from '../reducers';
 import * as fromSharedActions from '../actions/shared.actions';
-import { PagesHelper } from '../helpers/pages.helper';
+import { PagesHelper } from '../../../shared/helpers/pages.helper';
 
 
 @Injectable()
@@ -44,7 +44,7 @@ export class DuplicateModelModalEffects {
               } else {
                 actions.push(new fromDuplicateModelModalActions.ClearModelNameExistsFailure());
 
-                this.router.navigate([response.RangeGroup.CompanyStructuresRangeGroupId]);
+                this.router.navigate(['job/' + response.RangeGroup.CompanyStructuresRangeGroupId]);
                 actions.push(new fromDuplicateModelModalActions.CloseModal());
                 actions.push(new fromNotificationActions.AddNotification({
                   EnableHtml: true,
@@ -58,7 +58,8 @@ export class DuplicateModelModalEffects {
                 actions.push(new fromDuplicateModelModalActions.DuplicateModelSuccess());
 
                 // Get all overridden ranges
-                const modelPageViewId = PagesHelper.getModelPageViewIdByRangeDistributionType(data.metadata.RangeDistributionTypeId);
+                const modelPageViewId =
+                  PagesHelper.getModelPageViewIdByRangeTypeAndRangeDistributionType(data.metadata.RangeTypeId, data.metadata.RangeDistributionTypeId);
                 actions.push(new fromSharedActions.GetOverriddenRanges({
                   pageViewId: modelPageViewId,
                   rangeGroupId: response.RangeGroup.CompanyStructuresRangeGroupId

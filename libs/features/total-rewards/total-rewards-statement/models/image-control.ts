@@ -5,6 +5,7 @@ export interface ImageControl extends BaseControl {
   FileName: string;
   FileUrl: string;
   HorizontalAlignment: string;
+  IncreaseMarginTop: boolean;
 }
 
 export function generateMockImageControl(): ImageControl {
@@ -16,6 +17,7 @@ export function generateMockImageControl(): ImageControl {
     Layout: { Width: 12 },
     FileName: '',
     FileUrl: '',
-    HorizontalAlignment: ''
+    HorizontalAlignment: '',
+    IncreaseMarginTop: false
   };
 }

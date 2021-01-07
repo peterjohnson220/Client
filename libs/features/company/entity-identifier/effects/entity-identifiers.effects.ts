@@ -7,9 +7,10 @@ import { catchError, map, switchMap, withLatestFrom } from 'rxjs/operators';
 
 import { IntegrationApiService } from 'libs/data/payfactors-api/integration';
 import * as fromRootState from 'libs/state/state';
+import { DBEntityType } from 'libs/models/common';
 
 import * as fromEntityIdentifierActions from '../actions/entity-identifier.actions';
-import { DBEntityType, FieldNames } from '../models';
+import { FieldNames } from '../models';
 import { EntityIdentifierViewModel, EntityIdentifierViewModelOptions } from '../models/entity-identifiers-view.model';
 
 @Injectable()

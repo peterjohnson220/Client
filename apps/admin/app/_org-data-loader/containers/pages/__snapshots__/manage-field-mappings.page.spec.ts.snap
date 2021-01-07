@@ -15,6 +15,9 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
   configurationGroups$={[Function Store]}
   customEmployeeFields$={[Function Store]}
   customJobsfields$={[Function Store]}
+  dateFormat={[Function String]}
+  dateFormats={[Function Array]}
+  dateFormatsFilteredData={[Function Array]}
   delimiter=""
   emailRecipients={[Function Array]}
   emailRecipients$={[Function Store]}
@@ -25,6 +28,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
   employeeMappingComplete={[Function Boolean]}
   employeeTagsLoaderFeatureFlag={[Function Object]}
   employeeTagsMappingComplete={[Function Boolean]}
+  entityKeyValidatorService={[Function EntityKeyValidationService]}
   env={[Function Object]}
   existingCompanyLoaderSettings={[Function Array]}
   featureFlagService={[Function MockAbstractFeatureFlagService]}
@@ -50,11 +54,9 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
   loaderSettingsLoading$={[Function Store]}
   mappings={[Function Array]}
   notificationService={[Function MockNotificationService]}
-  orgDataAutoloaderApi="undefined"
   orgDataFilenamePatternSet$={[Function Store]}
   payfactorsBenefitsDataFields={[Function Array]}
   payfactorsEmployeeDataFields={[Function Array]}
-  payfactorsEmployeeTagsDataFields={[Function Array]}
   payfactorsJobDataFields={[Function Array]}
   payfactorsPaymarketDataFields={[Function Array]}
   payfactorsStructureDataFields={[Function Array]}
@@ -171,6 +173,22 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
                 class="form-control"
                 id="delimiter"
                 type="text"
+              />
+            </div>
+            <label
+              class="col-sm-1 col-form-label"
+              for="dateFormat"
+            >
+              Date Format:
+            </label>
+            <div
+              class="col-sm-3"
+            >
+              <kendo-combobox
+                class="form-control flex-fill"
+                id="dateFormat"
+                textfield="text"
+                valuefield="value"
               />
             </div>
           </div>
@@ -255,6 +273,9 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
   configurationGroups$={[Function Store]}
   customEmployeeFields$={[Function Store]}
   customJobsfields$={[Function Store]}
+  dateFormat={[Function String]}
+  dateFormats={[Function Array]}
+  dateFormatsFilteredData={[Function Array]}
   delimiter={[Function String]}
   emailRecipients={[Function Array]}
   emailRecipients$={[Function Store]}
@@ -265,6 +286,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
   employeeMappingComplete="false"
   employeeTagsLoaderFeatureFlag={[Function Object]}
   employeeTagsMappingComplete={[Function Boolean]}
+  entityKeyValidatorService={[Function EntityKeyValidationService]}
   env={[Function Object]}
   existingCompanyLoaderSettings={[Function Array]}
   featureFlagService={[Function MockAbstractFeatureFlagService]}
@@ -290,11 +312,9 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
   loaderSettingsLoading$={[Function Store]}
   mappings={[Function Array]}
   notificationService={[Function MockNotificationService]}
-  orgDataAutoloaderApi="undefined"
   orgDataFilenamePatternSet$={[Function Store]}
   payfactorsBenefitsDataFields={[Function Array]}
   payfactorsEmployeeDataFields={[Function Array]}
-  payfactorsEmployeeTagsDataFields={[Function Array]}
   payfactorsJobDataFields={[Function Array]}
   payfactorsPaymarketDataFields={[Function Array]}
   payfactorsStructureDataFields={[Function Array]}
@@ -411,6 +431,22 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
                 class="form-control"
                 id="delimiter"
                 type="text"
+              />
+            </div>
+            <label
+              class="col-sm-1 col-form-label"
+              for="dateFormat"
+            >
+              Date Format:
+            </label>
+            <div
+              class="col-sm-3"
+            >
+              <kendo-combobox
+                class="form-control flex-fill"
+                id="dateFormat"
+                textfield="text"
+                valuefield="value"
               />
             </div>
           </div>
@@ -495,6 +531,9 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
   configurationGroups$={[Function Store]}
   customEmployeeFields$={[Function Store]}
   customJobsfields$={[Function Store]}
+  dateFormat={[Function String]}
+  dateFormats={[Function Array]}
+  dateFormatsFilteredData={[Function Array]}
   delimiter={[Function String]}
   emailRecipients={[Function Array]}
   emailRecipients$={[Function Observable]}
@@ -505,6 +544,7 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
   employeeMappingComplete={[Function Boolean]}
   employeeTagsLoaderFeatureFlag={[Function Object]}
   employeeTagsMappingComplete={[Function Boolean]}
+  entityKeyValidatorService={[Function EntityKeyValidationService]}
   env={[Function Object]}
   existingCompanyLoaderSettings={[Function Array]}
   featureFlagService={[Function MockAbstractFeatureFlagService]}
@@ -530,11 +570,9 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
   loaderSettingsLoading$={[Function Store]}
   mappings={[Function Array]}
   notificationService={[Function MockNotificationService]}
-  orgDataAutoloaderApi="undefined"
   orgDataFilenamePatternSet$={[Function Store]}
   payfactorsBenefitsDataFields={[Function Array]}
   payfactorsEmployeeDataFields={[Function Array]}
-  payfactorsEmployeeTagsDataFields={[Function Array]}
   payfactorsJobDataFields={[Function Array]}
   payfactorsPaymarketDataFields={[Function Array]}
   payfactorsStructureDataFields={[Function Array]}
@@ -653,6 +691,22 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
                 type="text"
               />
             </div>
+            <label
+              class="col-sm-1 col-form-label"
+              for="dateFormat"
+            >
+              Date Format:
+            </label>
+            <div
+              class="col-sm-3"
+            >
+              <kendo-combobox
+                class="form-control flex-fill"
+                id="dateFormat"
+                textfield="text"
+                valuefield="value"
+              />
+            </div>
           </div>
         </div>
         
@@ -735,6 +789,9 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
   configurationGroups$={[Function Store]}
   customEmployeeFields$={[Function Store]}
   customJobsfields$={[Function Store]}
+  dateFormat={[Function String]}
+  dateFormats={[Function Array]}
+  dateFormatsFilteredData={[Function Array]}
   delimiter={[Function String]}
   emailRecipients={[Function Array]}
   emailRecipients$={[Function Store]}
@@ -745,6 +802,7 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
   employeeMappingComplete={[Function Boolean]}
   employeeTagsLoaderFeatureFlag={[Function Object]}
   employeeTagsMappingComplete={[Function Boolean]}
+  entityKeyValidatorService={[Function EntityKeyValidationService]}
   env={[Function Object]}
   existingCompanyLoaderSettings={[Function Array]}
   featureFlagService={[Function MockAbstractFeatureFlagService]}
@@ -770,11 +828,9 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
   loaderSettingsLoading$={[Function Store]}
   mappings={[Function Array]}
   notificationService={[Function MockNotificationService]}
-  orgDataAutoloaderApi="undefined"
   orgDataFilenamePatternSet$={[Function Store]}
   payfactorsBenefitsDataFields={[Function Array]}
   payfactorsEmployeeDataFields={[Function Array]}
-  payfactorsEmployeeTagsDataFields={[Function Array]}
   payfactorsJobDataFields={[Function Array]}
   payfactorsPaymarketDataFields={[Function Array]}
   payfactorsStructureDataFields={[Function Array]}
@@ -858,6 +914,9 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
   configurationGroups$={[Function Store]}
   customEmployeeFields$={[Function Store]}
   customJobsfields$={[Function Store]}
+  dateFormat={[Function String]}
+  dateFormats={[Function Array]}
+  dateFormatsFilteredData={[Function Array]}
   delimiter={[Function String]}
   emailRecipients={[Function Array]}
   emailRecipients$={[Function Store]}
@@ -868,6 +927,7 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
   employeeMappingComplete={[Function Boolean]}
   employeeTagsLoaderFeatureFlag={[Function Object]}
   employeeTagsMappingComplete={[Function Boolean]}
+  entityKeyValidatorService={[Function EntityKeyValidationService]}
   env={[Function Object]}
   existingCompanyLoaderSettings={[Function Array]}
   featureFlagService={[Function MockAbstractFeatureFlagService]}
@@ -893,11 +953,9 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
   loaderSettingsLoading$={[Function Store]}
   mappings={[Function Array]}
   notificationService={[Function MockNotificationService]}
-  orgDataAutoloaderApi="undefined"
   orgDataFilenamePatternSet$={[Function Store]}
   payfactorsBenefitsDataFields={[Function Array]}
   payfactorsEmployeeDataFields={[Function Array]}
-  payfactorsEmployeeTagsDataFields={[Function Array]}
   payfactorsJobDataFields={[Function Array]}
   payfactorsPaymarketDataFields={[Function Array]}
   payfactorsStructureDataFields={[Function Array]}
@@ -1014,6 +1072,22 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
                 class="form-control"
                 id="delimiter"
                 type="text"
+              />
+            </div>
+            <label
+              class="col-sm-1 col-form-label"
+              for="dateFormat"
+            >
+              Date Format:
+            </label>
+            <div
+              class="col-sm-3"
+            >
+              <kendo-combobox
+                class="form-control flex-fill"
+                id="dateFormat"
+                textfield="text"
+                valuefield="value"
               />
             </div>
           </div>

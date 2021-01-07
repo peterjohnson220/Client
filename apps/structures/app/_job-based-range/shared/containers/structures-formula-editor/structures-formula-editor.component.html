@@ -7,16 +7,13 @@
         </div>
         <span *ngIf="attemptedSubmit && (formControls.FieldName.hasError('required') || formControls.FieldName.hasError('minLength'))" class="text-danger">Formula name required.</span>
     </div>
-    <div class="form-group row">
-      <div class="instructions">
-        Use <b>[</b> to find and insert existing fields in your formula. Use <b>$</b> to view formula syntax.
-      </div>
-    </div>
     <div class="form-group no-margin-bottom row">
-      <div *ngIf="attemptedSubmit && !formulaFieldObj.Formula">
-        <span class="text-danger">Formula required.</span>
-      </div>
       <div class="input-group">
+        <div class="formula-tooltip-wrapper">
+          <div class="fa-icon-wrapper">
+            <fa-icon placement="right" [ngbTooltip]="formulaTooltip" icon="info-circle" aria-hidden="true"></fa-icon>
+          </div>
+        </div>
         <pf-formula-editor
         [initialFormula]="formula"
         [fieldSuggestions]="fieldSuggestions"
@@ -27,6 +24,9 @@
         [isWaitingForValidation]="isWaitingForValidation"
         (formulaChanged)="handleFormulaChanged($event)">
         </pf-formula-editor>
+      </div>
+      <div *ngIf="attemptedSubmit && !formulaFieldObj.Formula" class="formula-required-error">
+        <span class="text-danger">Formula required.</span>
       </div>
       <div *ngIf="(saveFormulaFieldError$ | async)">
         <span class="text-danger">{{(savingErrorMessage$ | async)}}</span>

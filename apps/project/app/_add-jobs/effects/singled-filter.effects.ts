@@ -40,7 +40,7 @@ export class SingledFilterEffects {
           TextQuery: data.searchValue,
           PayMarketId: data.context.PayMarketId,
           Type: JobSearchContext.ProjectJobSearch,
-          PagingOptions: this.payfactorsSearchApiModelMapper.mapResultsPagingOptionsToPagingOptions(data.infiniteScrollActionContext.pagingOptions)
+          PagingOptions: data.infiniteScrollActionContext.pagingOptions
         };
 
         return this.jobSearchApiService.searchJobAggregations(request).pipe(

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Location } from '@angular/common';
 
-import { Workflow } from '../constants/workflow';
+import { Workflow } from '../../../shared/constants/workflow';
 
 @Injectable()
 export class UrlService {
