@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { Permissions } from 'libs/constants';
 import { RangeGroupMetadata } from 'libs/models/structures';
 
-import * as fromSharedJobBasedRangeReducer from '../../reducers';
+import * as fromSharedJobBasedRangeReducer from '../../../_job-based-range/shared/reducers';
 
 @Component({
   selector: 'pf-global-actions',

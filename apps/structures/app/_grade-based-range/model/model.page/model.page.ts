@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { select, Store } from '@ngrx/store';
@@ -9,9 +9,8 @@ import { ActionBarConfig, getDefaultActionBarConfig, GridConfig, PfDataGridFilte
 import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums/pf-theme-type.enum';
 import { PfDataGridColType } from 'libs/features/grids/pf-data-grid/enums';
 
-import { PagesHelper } from '../../../shared/helpers/pages.helper';
-
 import * as fromSharedStructuresReducer from '../../../shared/reducers';
+import { StructuresPagesService } from '../../../shared/services';
 
 
 @Component({
@@ -19,61 +18,41 @@ import * as fromSharedStructuresReducer from '../../../shared/reducers';
   templateUrl: './model.page.html',
   styleUrls: ['./model.page.scss']
 })
-export class ModelPageComponent implements AfterViewInit, OnInit, OnDestroy {
-  @ViewChild('rangeValue') rangeValueColumn: ElementRef;
-  @ViewChild('noFormatting', { static: true }) noFormattingColumn: ElementRef;
+export class ModelPageComponent implements OnInit, OnDestroy {
 
   metaData$: Observable<RangeGroupMetadata>;
-  metadataSub: Subscription;
 
+  pageViewIdSubscription: Subscription;
+  pageSummaryViewIdSubscription: Subscription;
   rangeGroupId: any;
   modelSummaryPageViewId: string;
-  filter: PfDataGridFilter;
-  isCollapsed: boolean;
-  singleRecordActionBarConfig: ActionBarConfig;
+  modelGridPageViewId: string;
+  filters: PfDataGridFilter[];
   pfThemeType = PfThemeType;
-  gridConfig: GridConfig;
   metadata: RangeGroupMetadata;
-  colTemplates = {};
 
-  constructor(public store: Store<fromSharedStructuresReducer.State>,
-              private route: ActivatedRoute) {
+  constructor(
+    public store: Store<fromSharedStructuresReducer.State>,
+    private route: ActivatedRoute,
+    private structuresPagesService: StructuresPagesService
+  ) {
     this.rangeGroupId = this.route.snapshot.params.id;
-    this.filter = {
+    this.filters = [{
       SourceName: 'CompanyStructuresRangeGroup_ID',
       Operator: '=',
       Value: this.route.snapshot.params.id
-    };
-    this.singleRecordActionBarConfig = {
-      ...getDefaultActionBarConfig(),
-      ShowActionBar: false
-    };
-    this.gridConfig = {
-      PersistColumnWidth: false,
-      CaptureGridScroll: true,
-      EnableInfiniteScroll: true,
-      ScrollToTop: true
-    };
+    }];
     this.metaData$ = this.store.pipe(select(fromSharedStructuresReducer.getMetadata));
-    this.metadataSub = this.metaData$.subscribe(md =>
-      this.metadata = md
-    );
-  }
-
-  // Lifecycle
-  ngAfterViewInit() {
-    this.colTemplates = {
-      [PfDataGridColType.rangeValue]: { Template: this.rangeValueColumn },
-      [PfDataGridColType.noFormatting]: { Template: this.noFormattingColumn }
-    };
+    this.pageViewIdSubscription = this.structuresPagesService.modelPageViewId.subscribe(pv => this.modelGridPageViewId = pv);
+    this.pageSummaryViewIdSubscription = this.structuresPagesService.modelSummaryViewId.subscribe(pv => this.modelSummaryPageViewId = pv);
   }
 
   ngOnInit(): void {
-    this.modelSummaryPageViewId =
-      PagesHelper.getModelSummaryPageViewIdByRangeDistributionType(this.metadata?.RangeDistributionTypeId);
+
   }
 
   ngOnDestroy(): void {
-    this.metadataSub.unsubscribe();
+    this.pageViewIdSubscription.unsubscribe();
+    this.pageSummaryViewIdSubscription.unsubscribe();
   }
 }

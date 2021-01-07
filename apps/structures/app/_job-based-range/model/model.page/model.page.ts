@@ -18,11 +18,12 @@ import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducer
 import * as fromSharedJobBasedRangeReducer from '../../shared/reducers';
 import * as fromModelSettingsModalActions from '../../shared/actions/model-settings-modal.actions';
 import { AddJobsModalWrapperComponent } from '../containers/add-jobs-modal';
-import { StructuresPagesService, UrlService } from '../../shared/services';
+import { UrlService } from '../../shared/services';
 import { Workflow } from '../../../shared/constants/workflow';
 import * as fromSharedActions from '../../shared/actions/shared.actions';
 import * as fromSharedJobBasedRangeActions from '../../shared/actions/shared.actions';
 import * as fromCompareJobRangesActions from '../../model/actions';
+import { StructuresPagesService } from '../../../shared/services';
 
 @Component({
   selector: 'pf-model-page',

@@ -15,8 +15,8 @@ import * as fromJobBasedRangeReducer from '../../shared/reducers';
 import * as fromModelSettingsModalActions from '../../shared/actions/model-settings-modal.actions';
 import { EmployeesPageComponent } from './employees.page';
 import { RangeValuePipe } from '../../shared/pipes';
-import { StructuresPagesService } from '../../shared/services';
 import { BehaviorSubject } from 'rxjs';
+import { StructuresPagesService } from '../../../shared/services';
 
 class MockStructuresPagesService {
   modelPageViewId: BehaviorSubject<string>;

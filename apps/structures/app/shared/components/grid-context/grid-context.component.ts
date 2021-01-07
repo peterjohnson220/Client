@@ -3,8 +3,8 @@ import { Store } from '@ngrx/store';
 
 import { RangeGroupMetadata } from 'libs/models/structures';
 
-import * as fromJobBasedRangeReducer from '../../reducers';
-import * as fromJobBasedRangeActions from '../../actions/shared.actions';
+import * as fromJobBasedRangeReducer from '../../../_job-based-range/shared/reducers';
+import * as fromJobBasedRangeActions from '../../../_job-based-range/shared/actions/shared.actions';
 
 @Component({
   selector: 'pf-grid-context',

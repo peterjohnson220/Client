@@ -35,7 +35,7 @@ import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
 import * as fromSharedJobBasedRangeActions from '../../../shared/actions/shared.actions';
 import * as fromModelSettingsModalActions from '../../../shared/actions/model-settings-modal.actions';
 import * as fromJobBasedRangeReducer from '../../reducers';
-import { StructuresPagesService } from '../../services';
+import { StructuresPagesService } from '../../../../shared/services';
 
 
 @Component({

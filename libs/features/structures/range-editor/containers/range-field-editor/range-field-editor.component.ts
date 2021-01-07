@@ -37,7 +37,7 @@ export class RangeFieldEditorComponent implements OnInit, OnDestroy, OnChanges {
   @Input() refreshRowDataViewFilter: DataViewFilter;
 
   // Alignment of the field value in the textbox
-  @Input() textAlign: 'left' | 'right' = 'left';
+  @Input() textAlign: 'left' | 'right' | 'center' = 'left';
 
   // A callback function which will be invoked when the update of the midpoint has succeeded. It will be passed
   // an instance of the store and an optional metainfo object.
@@ -51,6 +51,8 @@ export class RangeFieldEditorComponent implements OnInit, OnDestroy, OnChanges {
 
   // Truncate annual values to one decimal place upon blur. Ex. 65678 would become 65.7
   @Input() truncateAnnualValueDisplay: boolean;
+
+  @Input() noRounding: true | false = false;
 
   // Row information
   @Input() rangeGroupId: number;
@@ -75,22 +77,35 @@ export class RangeFieldEditorComponent implements OnInit, OnDestroy, OnChanges {
   metadataSub: Subscription;
 
   get editable() {
-    return this.isCurrent || this.isJobPage ?  (this.hasCanCreateEditModelStructurePermission &&
-      this.rangeGroupType === RangeGroupType.Job &&
-      ((this.currentStructure && this.canEditCurrentStructureRanges) || !this.currentStructure) &&
+    let isEditable = false;
+    if (this.rangeGroupType === RangeGroupType.Job) {
+      isEditable = this.isCurrent || this.isJobPage ?  (this.hasCanCreateEditModelStructurePermission &&
+        this.rangeGroupType === RangeGroupType.Job &&
+        ((this.currentStructure && this.canEditCurrentStructureRanges) || !this.currentStructure) &&
+        this.hasCanEditPublishedStructureRanges)
+        :
+        (this.hasCanCreateEditModelStructurePermission &&
+          this.rangeGroupType === RangeGroupType.Job &&
+          ((this.currentStructure && this.canEditCurrentStructureRanges) || !this.currentStructure));
+    } else if (this.rangeGroupType === RangeGroupType.Grade) {
+      isEditable = this.isCurrent ? (this.hasCanCreateEditModelStructurePermission &&
+      this.rangeGroupType === RangeGroupType.Grade &&
+        ((this.currentStructure && this.canEditCurrentStructureRanges) || !this.currentStructure) &&
       this.hasCanEditPublishedStructureRanges)
-      :
-      (this.hasCanCreateEditModelStructurePermission &&
-      this.rangeGroupType === RangeGroupType.Job &&
-      ((this.currentStructure && this.canEditCurrentStructureRanges) || !this.currentStructure));
+        :
+        (this.hasCanCreateEditModelStructurePermission &&
+          this.rangeGroupType === RangeGroupType.Grade &&
+          ((this.currentStructure && this.canEditCurrentStructureRanges) || !this.currentStructure));
+    }
+    return isEditable;
   }
 
   get format() {
     let format = 'n0';
 
-    if (this.rate === RateType.Annual && this.truncateAnnualValueDisplay) {
+    if (this.rate === RateType.Annual && this.truncateAnnualValueDisplay && !this.noRounding) {
       format = 'n1';
-    } else if (this.rate === RateType.Hourly) {
+    } else if (this.rate === RateType.Hourly || this.noRounding) {
       format = 'n2';
     }
 

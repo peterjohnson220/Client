@@ -11,7 +11,7 @@ import { HighchartsChartModule } from 'highcharts-angular';
 
 import { EmployeesRoutingModule } from './employees-routing.module';
 import { EmployeesPageComponent } from './employees.page/employees.page';
-import { SharedModule } from '../shared/shared.module';
+import { JobBasedSharedModule } from '../shared/shared.module';
 import { EmployeeSalaryRangeChartComponent } from './containers';
 
 @NgModule({
@@ -34,7 +34,7 @@ import { EmployeeSalaryRangeChartComponent } from './containers';
     EmployeesRoutingModule,
 
     // Shared
-    SharedModule
+    JobBasedSharedModule
   ],
   declarations: [
     EmployeesPageComponent,

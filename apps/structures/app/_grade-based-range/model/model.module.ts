@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonModule, WindowCommunicationService, WindowRef } from 'libs/core';
@@ -11,17 +10,14 @@ import { PfDataGridModule } from 'libs/features/grids/pf-data-grid';
 
 import { ModelRoutingModule } from './model-routing.module';
 import { ModelPageComponent } from './model.page/model.page';
-import { SharedModule } from './../../shared/shared.module';
-import { GradeBasedSummaryChartComponent } from './containers/grade-based-summary-chart';
 import { HighchartsChartModule } from 'highcharts-angular';
+import { GradeBasedSharedModule } from '../shared/shared.module';
+import { JobBasedSharedModule } from '../../_job-based-range/shared/shared.module';
 
 @NgModule({
   imports: [
     // Angular
     CommonModule,
-
-    // 3rd Party
-    NgbCollapseModule,
 
     // PayFactors
     PfFormsModule,
@@ -34,12 +30,13 @@ import { HighchartsChartModule } from 'highcharts-angular';
     // Routing
     ModelRoutingModule,
 
-    SharedModule,
+    GradeBasedSharedModule,
+    JobBasedSharedModule,
 
     // 3rd party
     HighchartsChartModule
   ],
-  declarations: [ModelPageComponent, GradeBasedSummaryChartComponent],
+  declarations: [ModelPageComponent],
   providers: [
     WindowRef,
     WindowCommunicationService

@@ -11,7 +11,7 @@ import { HighchartsChartModule } from 'highcharts-angular';
 
 import { PricingsPageComponent } from './pricings.page/pricings.page';
 import { PricingsRoutingModule } from './pricings-routing.module';
-import { SharedModule } from '../shared/shared.module';
+import { JobBasedSharedModule } from '../shared/shared.module';
 import { PricingsSalaryRangeChartComponent } from './containers';
 
 import { MultiMatchModule } from 'libs/features/pricings/multi-match';
@@ -37,7 +37,7 @@ import { MultiMatchModule } from 'libs/features/pricings/multi-match';
         PricingsRoutingModule,
 
         // Shared
-        SharedModule,
+        JobBasedSharedModule,
         MultiMatchModule
     ],
   declarations: [

@@ -16,7 +16,7 @@ import { ModelGridComponent } from './model-grid.component';
 import { RangeValuePipe } from '../../pipes';
 import * as fromPublishModelModalActions from '../../actions/publish-model-modal.actions';
 import * as fromModelSettingsModalActions from '../../../shared/actions/model-settings-modal.actions';
-import { StructuresPagesService } from '../../services';
+import { StructuresPagesService } from '../../../../shared/services';
 
 class MockStructuresPagesService {
   modelPageViewId: BehaviorSubject<string>;

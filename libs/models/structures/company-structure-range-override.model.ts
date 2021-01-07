@@ -15,4 +15,6 @@ export interface CompanyStructureRangeOverride {
   UsePublishedRange: boolean;
   MidForcedToCurrentPercent: boolean;
   IncreaseCurrentByPercent: boolean;
+  MidDiffPercent: boolean;
+  RangeSpread: boolean;
 }

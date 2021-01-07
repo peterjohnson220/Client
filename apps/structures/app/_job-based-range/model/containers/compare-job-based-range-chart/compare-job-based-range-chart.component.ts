@@ -12,8 +12,7 @@ import { CompanySettingsEnum } from 'libs/models/company';
 import { SettingsService } from 'libs/state/app-context/services';
 
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
-import { StructuresPagesService } from '../../../shared/services';
-import { StructuresHighchartsService } from '../../../../shared/services';
+import { StructuresHighchartsService, StructuresPagesService } from '../../../../shared/services';
 import {
   CompareJobRangeModelChartService,
   CompareMinMidMaxJobRangeModelChartSeries,
