@@ -38,12 +38,14 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   metaData$: Observable<RangeGroupMetadata>;
   currenciesAsyncObj$: Observable<AsyncStateObj<Currency[]>>;
   controlPointsAsyncObj$: Observable<AsyncStateObj<ControlPoint[]>>;
+  surveyUdfsAsyncObj$: Observable<AsyncStateObj<ControlPoint[]>>;
   structureNameSuggestionsAsyncObj$: Observable<AsyncStateObj<string[]>>;
   savingModelSettingsAsyncObj$: Observable<AsyncStateObj<null>>;
   modelNameExistsFailure$: Observable<boolean>;
   roundingSettings$: Observable<RoundingSettingsDataObj>;
 
   controlPointsAsyncObjSub: Subscription;
+  surveyUdfsAsyncObjSub: Subscription;
   currenciesAsyncObjSub: Subscription;
   metadataSub: Subscription;
   modalOpenSub: Subscription;
@@ -52,8 +54,10 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   allFormulasSub: Subscription;
 
   controlPointsAsyncObj: AsyncStateObj<ControlPoint[]>;
+  surveyUdfsAsyncObj: AsyncStateObj<ControlPoint[]>;
   currenciesAsyncObj: AsyncStateObj<Currency[]>;
   controlPoints: ControlPoint[];
+  udfControlPoints: ControlPoint[];
   currencies: Currency[];
   metadata: RangeGroupMetadata;
   modelSettingsForm: FormGroup;
@@ -92,6 +96,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
     this.modalOpen$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getModelSettingsModalOpen), delay(0));
     this.currenciesAsyncObj$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getCurrenciesAsyncObj));
     this.controlPointsAsyncObj$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getControlPointsAsyncObj));
+    this.surveyUdfsAsyncObj$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getSurveyUdfsAsyncObj));
     this.structureNameSuggestionsAsyncObj$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getStructureNameSuggestionsAsyncObj));
     this.savingModelSettingsAsyncObj$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getSavingModelSettingsAsyncObj));
     this.modelNameExistsFailure$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getModelNameExistsFailure));
@@ -297,6 +302,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.store.dispatch(new fromModelSettingsModalActions.GetCurrencies());
     this.store.dispatch(new fromModelSettingsModalActions.GetControlPoints());
+    this.store.dispatch(new fromModelSettingsModalActions.GetSurveyUdfs());
 
     this.subscribe();
     this.buildForm();
@@ -312,6 +318,10 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
       this.controlPoints = cp.obj.filter((ctrlPt, i, arr) => {
         return arr.indexOf(arr.find(t => t.Category === ctrlPt.Category && t.RangeDisplayName === 'MRP')) === i;
       });
+    });
+
+    this.surveyUdfsAsyncObjSub = this.surveyUdfsAsyncObj$.subscribe(udfs => {
+      this.surveyUdfsAsyncObj = udfs;
     });
 
     this.currenciesAsyncObjSub = this.currenciesAsyncObj$.subscribe(c => {
@@ -357,6 +367,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
     this.exchangeSub.unsubscribe();
     this.hasAcceptedPeerTermsSub.unsubscribe();
     this.selectedPeerExchangeSub.unsubscribe();
+    this.surveyUdfsAsyncObjSub.unsubscribe();
   }
 
   private reset() {

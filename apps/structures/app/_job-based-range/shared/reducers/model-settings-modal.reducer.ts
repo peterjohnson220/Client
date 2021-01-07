@@ -9,6 +9,7 @@ export interface State {
   modalOpen: boolean;
   currenciesAsyncObj: AsyncStateObj<Currency[]>;
   controlPointsAsyncObj: AsyncStateObj<ControlPoint[]>;
+  surveyUdfsAsyncObj: AsyncStateObj<ControlPoint[]>;
   structureNameSuggestionsAsyncObj: AsyncStateObj<string[]>;
   savingModelingSettingsAsyncObj: AsyncStateObj<any>;
   modelNameExistsFailure: boolean;
@@ -18,6 +19,7 @@ const initialState: State = {
   modalOpen: false,
   currenciesAsyncObj: generateDefaultAsyncStateObj<Currency[]>([]),
   controlPointsAsyncObj: generateDefaultAsyncStateObj<ControlPoint[]>([]),
+  surveyUdfsAsyncObj: generateDefaultAsyncStateObj<ControlPoint[]>([]),
   structureNameSuggestionsAsyncObj: generateDefaultAsyncStateObj<string[]>([]),
   savingModelingSettingsAsyncObj: generateDefaultAsyncStateObj<any>(null),
   modelNameExistsFailure: false
@@ -41,6 +43,12 @@ export function reducer(state = initialState, action: fromModelSettingsModalActi
       return AsyncStateObjHelper.loadingSuccess(state, 'currenciesAsyncObj', action.payload);
     case fromModelSettingsModalActions.GET_CURRENCIES_ERROR:
       return AsyncStateObjHelper.loadingError(state, 'currenciesAsyncObj');
+    case fromModelSettingsModalActions.GET_SURVEY_UDFS:
+      return AsyncStateObjHelper.loading(state, 'surveyUdfsAsyncObj');
+    case fromModelSettingsModalActions.GET_SURVEY_UDFS_SUCCESS:
+      return AsyncStateObjHelper.loadingSuccess(state, 'surveyUdfsAsyncObj', action.payload);
+    case fromModelSettingsModalActions.GET_SURVEY_UDFS_ERROR:
+      return AsyncStateObjHelper.loadingError(state, 'surveyUdfsAsyncObj');
     case fromModelSettingsModalActions.GET_CONTROL_POINTS:
       return AsyncStateObjHelper.loading(state, 'controlPointsAsyncObj');
     case fromModelSettingsModalActions.GET_CONTROL_POINTS_SUCCESS:
@@ -79,6 +87,7 @@ export function reducer(state = initialState, action: fromModelSettingsModalActi
 
 export const getModalOpen = (state: State) => state.modalOpen;
 export const getCurrenciesAsyncObj = (state: State) => state.currenciesAsyncObj;
+export const getSurveyUdfsAsyncObj = (state: State) => state.surveyUdfsAsyncObj;
 export const getControlPointsAsyncObj = (state: State) => state.controlPointsAsyncObj;
 export const getStructureNameSuggestionsAsyncObj = (state: State) => state.structureNameSuggestionsAsyncObj;
 export const getSavingModelSettingsAsyncObj = (state: State) => state.savingModelingSettingsAsyncObj;
