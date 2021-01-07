@@ -132,7 +132,7 @@ function mapDataCutToMatchCut(jobCuts: DataCutDetails[]): JobMatchCut[] {
   return jobCuts.map(jobCut => {
     return {
       JobTitle: jobCut.Job.Title,
-      JobCode: getJobCode(jobCut),
+      JobCode: jobCut.Job.Code,
       Source: getJobSource(jobCut),
       Base50: Number(jobCut.Base50th),
       TCC50: Number(jobCut.TCC50th),
@@ -146,12 +146,6 @@ function mapDataCutToMatchCut(jobCuts: DataCutDetails[]): JobMatchCut[] {
       WeightingType: jobCut.WeightingType
     };
   });
-}
-
-function getJobCode(jobCut: DataCutDetails): string {
-  return jobCut.DataSource === SurveySearchResultDataSources.Peer
-    ? 'N/A - Peer Exchange'
-    : jobCut.Job.Code;
 }
 
 function getPeerCutId(jobCut: DataCutDetails): string {
