@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
+import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 
 import * as fromRootState from 'libs/state/state';
 import { PfCommonModule } from 'libs/core';
@@ -28,9 +29,10 @@ describe('Admin - Tickets - Ticket List', () => {
       imports: [
         StoreModule.forRoot({
           ...fromRootState.reducers,
-          ticketsAdminMain: combineReducers(fromTicketReducer.reducers),
+          admin_tickets: combineReducers(fromTicketReducer.reducers),
         }),
-        PfCommonModule
+        PfCommonModule,
+        NgbDropdownModule
       ],
       declarations: [TicketListComponent],
       schemas: [NO_ERRORS_SCHEMA],

@@ -18,6 +18,7 @@ export interface UserTicketGridItem {
   HasNotes: boolean;
   HasNewAttachments: boolean;
   UserModifiedDate?: Date;
+  TicketTitle?: string;
 }
 
 export function generateMockUserTicketGridItem(): UserTicketGridItem {
