@@ -9,6 +9,7 @@ import * as fromInfiniteScrollActions from 'libs/features/search/infinite-scroll
 import * as fromSearchResultsActions from 'libs/features/search/search/actions/search-results.actions';
 import * as fromSearchFiltersActions from 'libs/features/search/search/actions/search-filters.actions';
 import * as fromSearchReducer from 'libs/features/search/search/reducers';
+import * as fromStatementAssignmentPageReducer from 'apps/total-rewards/app/_main/statement-assignment/reducers';
 
 import { TotalRewardsEmployeeSearchResponse } from 'libs/models/payfactors-api/total-rewards/response/employee-search-response.model';
 import { PayfactorsSearchApiHelper, PayfactorsSearchApiModelMapper } from 'libs/features/search/search/helpers';
@@ -35,12 +36,14 @@ export class EmployeeSearchResultsEffects {
           this.store.select(fromSearchReducer.getParentFilters),
           this.store.select(fromSearchReducer.getSearchFilterMappingData),
           this.store.select(fromSearchReducer.getSearchFeatureId),
-          (action: fromSearchResultsActions.GetResults, pagingOptions, filters, searchFilterMappingDataObj, searchFeatureId) =>
-            ({action, pagingOptions, filters, searchFilterMappingDataObj, searchFeatureId})
+          this.store.select(fromStatementAssignmentPageReducer.getStatement),
+          (action: fromSearchResultsActions.GetResults, pagingOptions, filters, searchFilterMappingDataObj, searchFeatureId, statement) =>
+            ({action, pagingOptions, filters, searchFilterMappingDataObj, searchFeatureId, statement})
         ),
         filter((data) => data.searchFeatureId === SearchFeatureIds.StatementAssignment),
         switchMap((data) => {
           const searchRequest = {
+            StatementId: data.statement.StatementId,
             FilterOptions: {
               ReturnFilters: true,
               AggregateCount: 10
