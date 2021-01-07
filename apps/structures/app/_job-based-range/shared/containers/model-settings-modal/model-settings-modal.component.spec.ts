@@ -9,7 +9,7 @@ import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 import { AbstractFeatureFlagService, PfCommonModule } from 'libs/core';
 import { generateMockStructureRangeDistributionTypes } from 'libs/models/payfactors-api';
 import { SettingsService } from 'libs/state/app-context/services';
-import { generateMockRangeAdvancedSetting, generateMockRangeDistributionSettingForm } from 'libs/models/structures';
+import { generateMockRangeAdvancedSetting, generateMockRangeDistributionSettingForm, JobBasedPageViewIds } from 'libs/models/structures';
 import { MissingMarketDataTypes } from 'libs/constants/structures/missing-market-data-type';
 
 import * as fromJobBasedRangeReducer from '../../../shared/reducers';
@@ -17,7 +17,6 @@ import * as fromModelSettingsModalActions from '../../../shared/actions/model-se
 import { ModelSettingsModalComponent } from './model-settings-modal.component';
 import { UrlService } from '../../services';
 import { RangeDistributionSettingComponent } from '../range-distribution-setting';
-import { PageViewIds } from '../../constants/page-view-ids';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AdvancedModelSettingComponent } from '../advanced-model-setting';
 
@@ -86,6 +85,7 @@ describe('Job Based Ranges - Model Settings Modal', () => {
       SpreadMax: 10,
       IsCurrent: false,
       RangeDistributionTypeId: 1,
+      RangeTypeId: 2,
       ExchangeId: null,
       RangeDistributionTypes: generateMockStructureRangeDistributionTypes(),
       RangeDistributionSetting: generateMockRangeDistributionSettingForm(),
@@ -106,6 +106,7 @@ describe('Job Based Ranges - Model Settings Modal', () => {
       SpreadMin: 10,
       StructureName: 'testStruc',
       RangeDistributionTypeId: 1,
+      RangeTypeId: 2,
       ExchangeId: null,
       RangeDistributionTypes: generateMockStructureRangeDistributionTypes(),
       RangeDistributionSetting: generateMockRangeDistributionSettingForm(),
@@ -171,6 +172,11 @@ describe('Job Based Ranges - Model Settings Modal', () => {
         'IncreasePercentFromPreviousLevelPercentage': new FormControl(increasePercentFromPreviousLevelPercentage),
       })
     });
+
+    instance.selectedExchange = {
+      ExchangeId: null,
+      ExchangeName: null,
+    };
 
     instance.ngOnInit();
   });
@@ -244,6 +250,7 @@ describe('Job Based Ranges - Model Settings Modal', () => {
       SpreadMax: 10,
       IsCurrent: false,
       RangeDistributionTypeId: 1,
+      RangeTypeId: 2,
       ExchangeId: null,
       RangeDistributionTypes: generateMockStructureRangeDistributionTypes(),
       RangeDistributionSetting: generateMockRangeDistributionSettingForm(),
@@ -287,13 +294,13 @@ describe('Job Based Ranges - Model Settings Modal', () => {
     instance.ngOnInit();
     instance.allFormulas = {};
     instance.rangeGroupId = 1;
-    instance.pageViewId = PageViewIds.ModelMinMidMax;
+    instance.pageViewId = JobBasedPageViewIds.ModelMinMidMax;
     instance.roundingSettings = {};
 
     const expectedAction = new fromModelSettingsModalActions.SaveModelSettings({
       rangeGroupId: instance.rangeGroupId,
       formValue: instance.modelSetting,
-      fromPageViewId: PageViewIds.ModelMinMidMax,
+      fromPageViewId: JobBasedPageViewIds.ModelMinMidMax,
       rounding: instance.roundingSettings
     });
 

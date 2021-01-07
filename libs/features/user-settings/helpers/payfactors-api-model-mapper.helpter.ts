@@ -8,6 +8,7 @@ export class PayfactorsApiModelMapper {
         UserId: user.UserId,
         FirstName: user.FirstName,
         LastName: user.LastName,
+        FullName: `${user.FirstName} ${user.LastName}`,
         UserPicture: user.UserPicture,
         Title: user.Title,
         IsSelected: false

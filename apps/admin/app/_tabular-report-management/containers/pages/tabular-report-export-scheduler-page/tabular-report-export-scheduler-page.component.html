@@ -1,0 +1,51 @@
+<pf-page-with-title-bar [absoluteUrl]="env.companyAdminUrl + '/navigation'">
+  <ng-container page-title>
+    Schedule Tabular Report Export
+  </ng-container>
+
+  <ng-container page-content>
+    <div class="d-flex mt-3">
+      <div class="div-container p-3">
+        <h4>Create Tabular Report Export</h4>
+        <div class=" form-container d-flex flex-column pt-4">
+          <div class="d-flex flex-wrap mb-3">
+            <label class="labels">Select Report to Export <span class="text-danger">*</span></label>
+            <div class="dropdowns">
+              <kendo-combobox class="form-control"
+                              data-qa-id="ddl-tabular-reports"
+                              placeholder="Select"
+                              [(ngModel)]="selectedReport"
+                              [data]="(tabularReportsAsync$ | async)?.obj"
+                              [loading]="(tabularReportsAsync$ | async)?.loading"
+                              [textField]="'WorkbookName'"
+                              [valueField]="'WorkbookId'"
+                              [filterable]="true"
+                              [kendoDropDownFilter]="filterSettings"
+                              [ngClass]="{ 'is-invalid': false }">
+                <ng-template kendoComboBoxItemTemplate let-dataItem>
+                  <div pfEllipsisActive class="flex-fill ellipsis-overflowing-text">
+                    <span>{{ dataItem.WorkbookName }}</span>
+                  </div>
+                </ng-template>
+              </kendo-combobox>
+            </div>
+          </div>
+          <pf-export-format #exportFormat></pf-export-format>
+          <pf-export-frequency #exportFrequency></pf-export-frequency>
+      </div>
+      <div class="form-footer d-flex justify-content-between">
+        <div class="flex-grow-1 d-flex justify-content-end space-out-children">
+          <div *ngIf="(savingScheduleError$ | async)?.length > 0" class="mr-3">{{(savingScheduleError$ | async)}}</div>
+          <button [disabled]="disabled" class="btn btn-primary" (click)="handleSaveClicked()">Schedule</button>
+        </div>
+      </div>
+    </div>
+      <div class="div-container ml-3 p-3">
+        <h4>Saved Schedules</h4>
+        <div class="pt-4">
+          <pf-export-schedules [schedules]="savedSchedules"></pf-export-schedules>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</pf-page-with-title-bar>

@@ -10,6 +10,7 @@ export enum DataViewAccessLevel {
 export interface UserDataView extends BaseDataView {
   UserDataViewId: number;
   AccessLevel: DataViewAccessLevel;
+  CreateUser?: number;
 }
 
 export function generateMockUserDataView(): UserDataView {

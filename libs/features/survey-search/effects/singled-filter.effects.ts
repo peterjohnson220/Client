@@ -16,7 +16,6 @@ import * as fromSearchReducer from 'libs/features/search/reducers';
 
 import * as fromSurveySearchReducer from '../reducers';
 
-
 @Injectable()
 export class SingledFilterEffects {
 
@@ -41,7 +40,7 @@ export class SingledFilterEffects {
           CurrencyCode: data.context.CurrencyCode,
           SearchField: data.singledFilter.BackingField,
           TextQuery: data.searchValue,
-          PagingOptions: this.payfactorsSearchApiModelMapper.mapResultsPagingOptionsToPagingOptions(data.infiniteScrollActionContext.pagingOptions)
+          PagingOptions: data.infiniteScrollActionContext.pagingOptions
         };
 
         return this.surveySearchApiService.searchSurveyAggregations(request).pipe(

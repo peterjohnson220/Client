@@ -1,0 +1,5 @@
+<div id="communication-preferences">
+  <pf-email-preferences></pf-email-preferences>
+  <pf-notification-preferences *ngIf="notificationsFeatureFlagEnabled"></pf-notification-preferences>
+  <pf-marketing-preferences *ngIf="(userContext$ | async)?.RoleName === 'Company Admin'"></pf-marketing-preferences>
+</div>

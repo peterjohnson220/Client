@@ -105,6 +105,8 @@ export const getUiPersistenceSettingsSavingSuccess =
   createSelector(getUiPersistenceSettingsState, fromUiPersistenceSettingsReducer.getSavingSuccess);
 export const getUiPersistenceLastAttemptedSaveSettingName =
   createSelector(getUiPersistenceSettingsState, fromUiPersistenceSettingsReducer.getLastAttemptedSaveSettingName);
+export const getUiPersistenceSettingsSavingError =
+  createSelector(getUiPersistenceSettingsState, fromUiPersistenceSettingsReducer.getSavingError)
 
 /**
  * User Assigned Role Reducers

@@ -3,9 +3,19 @@ import { Component, ComponentFactory, ComponentFactoryResolver, Input, OnInit, V
 import { UserTicketNotificationComponent } from '../categories/user-ticket/user-ticket-notification.component';
 import { UserNotificationBaseComponent } from '../user-notification-base/user-notification-base.component';
 import { RoutedJobDescriptionNotificationComponent } from '../categories/routed-job-description/routed-job-description-notification.component';
+import {
+  JobDescriptionReviewCompleteNotificationComponent
+} from '../categories/job-description-review-complete/job-description-review-complete-notification.component';
+import {
+  JobDescriptionReviewRejectedNotificationComponent
+} from '../categories/job-description-review-rejected/job-description-review-rejected-notification.component';
+import { CompanyResourcesNotificationComponent } from '../categories/company-resources/company-resources-notification.component';
+import { CommunityPostsNotificationComponent } from '../categories/community-posts/community-posts-notification.component';
+import { NewPeerJobsNotificationComponent } from '../categories/new-peer-jobs/new-peer-jobs-notification.component';
 import { UserNotification } from '../../models';
 import { UserNotificationHostDirective } from '../../directives';
 import { UserNotificationConstants } from '../../constants';
+import { PendingPeerJobMatchesNotificationComponent } from '../categories/pending-peer-job-matches/pending-peer-job-matches-notification.component';
 
 @Component({
   selector: 'pf-user-notification-container',
@@ -32,6 +42,30 @@ export class UserNotificationContainerComponent  implements OnInit {
 
       case UserNotificationConstants.ROUTED_JOB_DESCRIPTION_LOOKUP_KEY:
         componentFactory = this.componentFactoryResolver.resolveComponentFactory(RoutedJobDescriptionNotificationComponent);
+        break;
+
+      case UserNotificationConstants.JOB_DESCRIPTION_REVIEW_COMPLETE_LOOKUP_KEY:
+        componentFactory = this.componentFactoryResolver.resolveComponentFactory(JobDescriptionReviewCompleteNotificationComponent);
+        break;
+
+      case UserNotificationConstants.JOB_DESCRIPTION_REVIEW_REJECTED_LOOKUP_KEY:
+        componentFactory = this.componentFactoryResolver.resolveComponentFactory(JobDescriptionReviewRejectedNotificationComponent);
+        break;
+
+      case UserNotificationConstants.COMPANY_RESOURCES_LOOKUP_KEY:
+        componentFactory = this.componentFactoryResolver.resolveComponentFactory(CompanyResourcesNotificationComponent);
+        break;
+
+      case UserNotificationConstants.COMMUNITY_POSTS_LOOKUP_KEY:
+        componentFactory = this.componentFactoryResolver.resolveComponentFactory(CommunityPostsNotificationComponent);
+        break;
+
+      case UserNotificationConstants.PENDING_PEER_JOB_MATCHES:
+        componentFactory = this.componentFactoryResolver.resolveComponentFactory(PendingPeerJobMatchesNotificationComponent);
+        break;
+
+      case UserNotificationConstants.NEW_PEER_JOBS_LOOKUP_KEY:
+        componentFactory = this.componentFactoryResolver.resolveComponentFactory(NewPeerJobsNotificationComponent);
         break;
 
       default:

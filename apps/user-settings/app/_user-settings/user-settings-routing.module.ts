@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { DashboardPreferencesComponent, MyProfileComponent, PersonalProjectSettingsComponent } from './containers';
 import { UserSettingsPageComponent } from './user-settings.page';
+import { CommunicationPreferencesComponent } from './containers/communication-preferences/communication-preferences.component';
 
 const routes: Routes = [
   {
@@ -12,7 +13,8 @@ const routes: Routes = [
       { path: '', redirectTo: 'my-profile', pathMatch: 'full' },
       { path: 'my-profile', component: MyProfileComponent },
       { path: 'dashboard-preferences', component: DashboardPreferencesComponent },
-      { path: 'personal-project-settings', component: PersonalProjectSettingsComponent }
+      { path: 'personal-project-settings', component: PersonalProjectSettingsComponent },
+      { path: 'communication-preferences', component: CommunicationPreferencesComponent }
     ]
   }
 ];

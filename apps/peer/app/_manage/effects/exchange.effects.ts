@@ -7,7 +7,7 @@ import { mergeMap, filter } from 'rxjs/operators';
 
 import * as fromSharedPeerExchangeActions from '../../shared/actions/exchange.actions';
 import * as fromCompanyJobsActions from '../actions/company-jobs.actions';
-
+import * as fromExchangeCompanyJobActions from '../actions/exchange-job-mapping-grid.actions'
 @Injectable()
 export class ExchangeEffects {
   @Effect()
@@ -19,7 +19,8 @@ export class ExchangeEffects {
         new fromCompanyJobsActions.Reset(),
         new fromCompanyJobsActions.SetExchangeId(action.payload.exchange.ExchangeId),
         new fromCompanyJobsActions.UpdateCompanyJobsSearchTerm(''),
-        new fromCompanyJobsActions.LoadCompanyJobs()
+        new fromCompanyJobsActions.LoadCompanyJobs(),
+        new fromExchangeCompanyJobActions.LoadExchangeJobMappings()
       ])
     );
 

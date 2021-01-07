@@ -14,7 +14,7 @@ import {
     ORG_DATA_PF_STRUCTURE_MAPPING_FIELDS, ORG_DATA_PF_SUBSIDIARIES_MAPPING_FIELDS
 } from 'libs/features/org-data-loader/constants';
 import { ILoadSettings } from 'libs/features/org-data-loader/helpers';
-import { LoaderEntityStatus, VisibleLoaderOptionModel } from 'libs/features/org-data-loader/models';
+import { InternalField, LoaderEntityStatus, VisibleLoaderOptionModel } from 'libs/features/org-data-loader/models';
 import { CompanySetting, CompanySettingsEnum, LoaderFieldSet } from 'libs/models';
 
 import * as fromOrgDataAutoloaderReducer from '../../reducers';
@@ -34,14 +34,14 @@ export class FileMappingComponent implements OnInit, OnChanges, OnDestroy {
   @Input() loaderConfigurationGroupId: number;
   @Output() mappingComplete = new EventEmitter();
 
-  payfactorsPaymarketDataFields: string[];
-  payfactorsJobDataFields: string[];
-  payfactorsStructureDataFields: string[];
-  payfactorsStructureMappingDataFields: string[];
-  payfactorsEmployeeDataFields: string[];
-  payfactorsEmployeeTagsDataFields: string[];
-  payfactorsSubsidiariesDataFields: string[];
-  payfactorsBenefitsDataFields: string[];
+  payfactorsPaymarketDataFields: InternalField[];
+  payfactorsJobDataFields: InternalField[];
+  payfactorsStructureDataFields: InternalField[];
+  payfactorsStructureMappingDataFields: InternalField[];
+  payfactorsEmployeeDataFields: InternalField[];
+  payfactorsEmployeeTagsDataFields: InternalField[];
+  payfactorsSubsidiariesDataFields: InternalField[];
+  payfactorsBenefitsDataFields: InternalField[];
   templateReferenceConstants = {
     LoaderType,
   };
@@ -64,14 +64,14 @@ export class FileMappingComponent implements OnInit, OnChanges, OnDestroy {
   constructor(
     private store: Store<fromOrgDataAutoloaderReducer.State>,
     private companySettingsApiService: CompanySettingsApiService) {
-    this.payfactorsPaymarketDataFields = ORG_DATA_PF_PAYMARKET_FIELDS;
-    this.payfactorsJobDataFields = ORG_DATA_PF_JOB_FIELDS;
-    this.payfactorsStructureDataFields = ORG_DATA_PF_STRUCTURE_FIELDS;
-    this.payfactorsStructureMappingDataFields = ORG_DATA_PF_STRUCTURE_MAPPING_FIELDS;
-    this.payfactorsEmployeeDataFields = ORG_DATA_PF_EMPLOYEE_FIELDS;
-    this.payfactorsSubsidiariesDataFields = ORG_DATA_PF_SUBSIDIARIES_MAPPING_FIELDS;
-    this.payfactorsBenefitsDataFields = ORG_DATA_PF_BENEFITS_MAPPING_FIELDS;
-    this.payfactorsEmployeeTagsDataFields = ORG_DATA_PF_EMPLOYEE_TAG_FIELDS;
+    this.payfactorsPaymarketDataFields = this.buildInternalFields(ORG_DATA_PF_PAYMARKET_FIELDS, false);
+    this.payfactorsJobDataFields = this.buildInternalFields(ORG_DATA_PF_JOB_FIELDS, false);
+    this.payfactorsStructureDataFields = this.buildInternalFields(ORG_DATA_PF_STRUCTURE_FIELDS, false);
+    this.payfactorsStructureMappingDataFields = this.buildInternalFields(ORG_DATA_PF_STRUCTURE_MAPPING_FIELDS, false);
+    this.payfactorsEmployeeDataFields = this.buildInternalFields(ORG_DATA_PF_EMPLOYEE_FIELDS, false);
+    this.payfactorsSubsidiariesDataFields = this.buildInternalFields(ORG_DATA_PF_SUBSIDIARIES_MAPPING_FIELDS, false);
+    this.payfactorsBenefitsDataFields = this.buildInternalFields(ORG_DATA_PF_BENEFITS_MAPPING_FIELDS, false);
+    this.payfactorsEmployeeTagsDataFields = this.buildInternalFields(ORG_DATA_PF_EMPLOYEE_TAG_FIELDS, false);
     this.isEmployeesLoadEnabled = false;
     this.isEmployeeTagsLoadEnabled = false;
     this.isJobsLoadEnabled = false;
@@ -104,7 +104,8 @@ export class FileMappingComponent implements OnInit, OnChanges, OnDestroy {
       ).subscribe(setting => {
         const jobRangeStruct = setting.find(s => s.Key === CompanySettingsEnum.EnableJobRangeStructureRangeTypes);
         if (jobRangeStruct.Value === 'true') {
-          this.payfactorsStructureDataFields = this.payfactorsStructureDataFields.concat(ORG_DATA_PF_JOB_RANGE_STRUCTURE_FIELDS);
+          const internalJobRangeStructureFields = this.buildInternalFields(ORG_DATA_PF_JOB_RANGE_STRUCTURE_FIELDS, false);
+          this.payfactorsStructureDataFields = this.payfactorsStructureDataFields.concat(internalJobRangeStructureFields);
           this.updateEntities();
         }
       });
@@ -130,9 +131,8 @@ export class FileMappingComponent implements OnInit, OnChanges, OnDestroy {
         case LoaderType.Jobs:
           e.payfactorsDataFields = cloneDeep(this.payfactorsJobDataFields);
           if (e.customFields !== null) {
-            e.customFields.Jobs.forEach((j) => {
-              e.payfactorsDataFields.push(j.Value);
-            });
+            const customJobDisplayNames = e.customFields.Employees.map(udf => udf.Value);
+            e.payfactorsDataFields.push.apply(e.payfactorsDataFields, this.buildInternalFields(customJobDisplayNames, false));
           }
           e.loaderEnabled = this.isJobsLoadEnabled;
           break;
@@ -155,18 +155,16 @@ export class FileMappingComponent implements OnInit, OnChanges, OnDestroy {
         case LoaderType.Employees:
           e.payfactorsDataFields = cloneDeep(this.payfactorsEmployeeDataFields);
           if (e.customFields !== null) {
-            e.customFields.Employees.forEach((em) => {
-              e.payfactorsDataFields.push(em.Value);
-            });
+            const customEmployeeDisplayNames = e.customFields.Employees.map(udf => udf.Value);
+            e.payfactorsDataFields.push.apply(e.payfactorsDataFields, this.buildInternalFields(customEmployeeDisplayNames, false));
           }
           e.loaderEnabled = this.isEmployeesLoadEnabled;
           break;
         case LoaderType.EmployeeTags:
           e.payfactorsDataFields = cloneDeep(this.payfactorsEmployeeTagsDataFields);
           if (e.customFields !== null) {
-            e.customFields.EmployeeTags.forEach((em) => {
-              e.payfactorsDataFields.push(em);
-            });
+            e.payfactorsDataFields.push.apply(e.payfactorsDataFields, this.buildInternalFields(e.customFields.EmployeeKeyFields, false));
+            e.payfactorsDataFields.push.apply(e.payfactorsDataFields, this.buildInternalFields(e.customFields.EmployeeTags, true));
           }
           e.loaderEnabled = this.isEmployeeTagsLoadEnabled;
       }
@@ -189,5 +187,13 @@ export class FileMappingComponent implements OnInit, OnChanges, OnDestroy {
 
   onMappingComplete($event: LoaderEntityStatus) {
     this.mappingComplete.emit($event);
+  }
+
+  private buildInternalFields(fieldNames: string[], areDataElementNames: boolean) {
+    const internalFields: InternalField[] = [];
+    fieldNames.forEach(fieldName => {
+      internalFields.push({FieldName: fieldName, IsDataElementName: areDataElementNames});
+    });
+    return internalFields;
   }
 }

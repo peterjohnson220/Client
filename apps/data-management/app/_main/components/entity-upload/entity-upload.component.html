@@ -54,4 +54,21 @@
              [disabled]="HasAnyFiles()">
     </div>
   </div>
+  <div class="row"
+       *ngIf="entityWithDateSelected()">
+    <div class="form-group w-100 ">
+      <label for="dateFormat"><strong>Date Format</strong></label>
+      <kendo-combobox class="form-control flex-fill"
+                      id="dateFormat"
+                      [(ngModel)]="dateFormat"
+                      [data]="dateFormatsFilteredData"
+                      textField="text"
+                      valueField="value"
+                      [valuePrimitive]="true"
+                      [filterable]="true"
+                      (filterChange)="filterChange($event)"
+                      (selectionChange)="selectionChange($event)">
+      </kendo-combobox>
+    </div>
+  </div>
 </div>

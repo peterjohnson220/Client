@@ -20,6 +20,7 @@ export const REFINE_EXCHANGE_JOB_RESULT = '[Project/Survey Search] Refine Exchan
 export const REFINE_EXCHANGE_JOB_RESULT_COMPLETE = '[Project/Survey Search] Refine Exchange Job Result Complete';
 export const ADD_REFINED_EXCHANGE_DATA_CUT = '[Project/Survey Search] Add Refined Exchange Data Cut';
 export const REMOVE_REFINED_EXCHANGE_DATA_CUT = '[Project/Survey Search] Remove Refined Exchange Data Cut';
+export const CLEAR_TEMP_DATA_CUT_DICTIONARY = '[Project/Survey Search] Clear Temp Data Cut Dictionary';
 
 export class ReplaceJobResults implements Action {
   readonly type = REPLACE_JOB_RESULTS;
@@ -117,6 +118,10 @@ export class RemoveRefinedExchangeDataCut implements Action {
   }
 }
 
+export class ClearTempDataCutDictionary implements Action {
+  readonly type = CLEAR_TEMP_DATA_CUT_DICTIONARY;
+}
+
 export type Actions
   = AddJobResults
   | ReplaceJobResults
@@ -133,4 +138,5 @@ export type Actions
   | RefineExchangeJobResult
   | RefineExchangeJobResultComplete
   | AddRefinedExchangeDataCut
-  | RemoveRefinedExchangeDataCut;
+  | RemoveRefinedExchangeDataCut
+  | ClearTempDataCutDictionary;

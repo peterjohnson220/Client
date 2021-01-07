@@ -1,5 +1,5 @@
-<div class="col-12 trs-rich-text-control" [ngClass]="{'active': isFocused, 'invalid': !isValid}" pfModeClassifierDirective [mode]="mode">
-  <div class="heading">
+<div class="col-12 trs-rich-text-control" [ngClass]="cssClasses" pfModeClassifierDirective [mode]="mode" [style.height]="height">
+  <div *ngIf="controlData?.ShowTitle; else infoOnly" class="heading">
     <h4 class="primary-control-heading mb-1 d-inline-block">
       <pf-string-editor
         [value]="controlData.Title.Override"
@@ -17,17 +17,19 @@
       </label>
     </div>
   </div>
+  <ng-template #infoOnly>
+    <div *ngIf="mode !== statementModeEnum.Print" kendoTooltip class="tooltip-wrapper">
+      <label
+        *ngIf="controlData?.DataFields?.length"
+        class="info position-absolute info-only"
+        [ngbTooltip]="'This is a rich text area. Use [ to find and insert existing employee or company fields into your text.'" [placement]="'right'">
+        <fa-icon [icon]="['fal', 'info-circle']" aria-hidden="true"></fa-icon>
+      </label>
+    </div>
+  </ng-template>
   <div *ngIf="mode === statementModeEnum.Edit; else rawHtml">
     <a (click)="onClickEditor()">
-      <quill-editor
-        #richText
-        [(ngModel)]="htmlContent"
-        [modules]="quillConfig"
-        [readOnly]="(mode !== statementModeEnum.Edit)"
-        (onEditorCreated)="onEditorCreated($event)"
-        (onContentChanged)="onContentChanged($event)"
-        (onSelectionChanged)="onSelectionChanged($event)">
-      </quill-editor>
+      <div [id]="'quill-editor-' + controlData.Id"></div>
     </a>
   </div>
   <ng-template #rawHtml>

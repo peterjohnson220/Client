@@ -16,7 +16,7 @@
             </pf-view-info>
           </div>
           <div class="actions">
-            <button class="btn btn-secondary"
+            <button class="btn btn-secondary data-view-grid-btn"
                     [disabled]="isReadOnly"
                     [attr.data-qa-id]="'btn-edit'"
                     (click)="handleEditClicked()"
@@ -24,22 +24,17 @@
                     container="body">
               <fa-icon icon="edit"></fa-icon>
             </button>
-            <button class="btn btn-secondary"
+            <button class="btn btn-secondary data-view-grid-btn"
                     [attr.data-qa-id]="'btn-duplicate'"
                     (click)="handleDuplicateClicked()"
                     ngbTooltip="Duplicate"
                     container="body">
               <fa-icon icon="clone"></fa-icon>
             </button>
-            <button class="btn btn-secondary"
-                    [attr.data-qa-id]="'btn-export'"
-                    [disabled]="exportingUserDataReport$ | async"
-                    (click)="handleExportClicked()"
-                    ngbTooltip="Export"
-                    container="body">
-              <fa-icon icon="file-excel"></fa-icon>
-            </button>
-            <button class="btn btn-secondary"
+            <pf-export-popover [exportDisabled]="exportingUserDataReport$ | async"
+                               (exportClicked)=handleExportClicked($event)>
+            </pf-export-popover>
+            <button class="btn btn-secondary data-view-grid-btn"
                     [disabled]="!isOwner"
                     [attr.data-qa-id]="'btn-share'"
                     (click)="handleShareClicked()"
@@ -47,7 +42,7 @@
                     container="body">
               <fa-icon icon="share"></fa-icon>
             </button>
-            <button class="btn btn-secondary"
+            <button class="btn btn-secondary data-view-grid-btn"
                     [disabled]="!isOwner || (exportingUserDataReport$ | async)"
                     [attr.data-qa-id]="'btn-delete'"
                     (click)="handleDeleteClicked()"

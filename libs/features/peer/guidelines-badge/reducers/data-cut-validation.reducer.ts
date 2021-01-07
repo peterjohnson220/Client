@@ -85,6 +85,13 @@ export function reducer(state = initialState, action: fromDataCutValidationActio
         ...adapter.addOne(dataCutValidationInfo, state)
       };
     }
+    case fromDataCutValidationActions.CLEAR_TEMP_DATA_CUT_VALIDATION: {
+      return {
+        ...adapter.removeMany(e => e.DataCutGuid.startsWith(TEMP_PEER_DATA_CUT_PREFIX), state),
+        loading: false,
+        loadingError: false
+      };
+    }
     default: {
       return state;
     }

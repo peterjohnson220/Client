@@ -21,6 +21,7 @@ import { LoaderSettingsEffects } from 'libs/features/org-data-loader/state/effec
 import { PfFormsModule } from 'libs/forms';
 import { ConfigSettingsSelectorFactory } from 'libs/state/app-context/services';
 import { PfCommonUIModule } from 'libs/ui/common';
+import { EntityKeyValidationService } from 'libs/core/services';
 
 import * as fromFaIcons from './fa-icons';
 import { OrgDataLoaderRoutingModule } from './org-data-loader-routing.module';
@@ -70,7 +71,8 @@ import { PublicKeyAuthComponent, SftpAccountStatusComponent } from './containers
     PfCustomFieldsModule
   ],
   providers: [
-    ConfigSettingsSelectorFactory
+    ConfigSettingsSelectorFactory,
+    EntityKeyValidationService
   ],
   declarations: [
     // Components

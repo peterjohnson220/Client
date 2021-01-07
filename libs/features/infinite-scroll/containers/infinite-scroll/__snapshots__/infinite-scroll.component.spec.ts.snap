@@ -11,6 +11,7 @@ exports[`Libs - Infinite Scroll -  should show a message, when loading more resu
   loadingMore$={[Function Store]}
   loadingMoreSub={[Function Subscriber]}
   loadingSub={[Function Subscriber]}
+  position={[Function String]}
   resultsContainer={[Function ElementRef]}
   scrollId={[Function String]}
   spinnerType={[Function String]}
@@ -19,6 +20,7 @@ exports[`Libs - Infinite Scroll -  should show a message, when loading more resu
   <div
     class="scroll-results"
     infinite-scroll=""
+    style="position: absolute;"
   >
     <pf-async-container />
     

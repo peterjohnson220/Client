@@ -20,7 +20,7 @@ import { ViewField } from 'libs/models/payfactors-api/reports/request';
 import * as fromPublishModelModalActions from '../actions/publish-model-modal.actions';
 import * as fromSharedActions from '../actions/shared.actions';
 import * as fromSharedReducer from '../reducers';
-import { PagesHelper } from '../helpers/pages.helper';
+import { PagesHelper } from '../../../shared/helpers/pages.helper';
 
 @Injectable()
 export class PublishModelModalEffects {
@@ -48,7 +48,8 @@ export class PublishModelModalEffects {
               actions.push(new fromPublishModelModalActions.PublishModelSuccess());
               actions.push(new fromPublishModelModalActions.CloseModal());
 
-              const modelPageViewId = PagesHelper.getModelPageViewIdByRangeDistributionType(data.metadata.RangeDistributionTypeId);
+              const modelPageViewId =
+                PagesHelper.getModelPageViewIdByRangeTypeAndRangeDistributionType(data.metadata.RangeTypeId, data.metadata.RangeDistributionTypeId);
               actions.push(GridDataHelper.getLoadDataAction(modelPageViewId, data.gridData, data.gridConfig, data.pagingOptions));
 
               const updatedMetaData = {

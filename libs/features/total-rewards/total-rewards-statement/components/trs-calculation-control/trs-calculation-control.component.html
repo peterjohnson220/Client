@@ -1,70 +1,76 @@
-<div class="trs-calculation container py-2" pfModeClassifierDirective [mode]="mode">
-  <table class="table table-borderless table-sm mb-0 w-100">
+<div class="trs-calculation py-2 px-3" pfModeClassifierDirective [mode]="mode">
+  <table class="table table-borderless table-sm mb-0 w-100" [class.consolidated]="controlData.RowSpacing === consolidated">
     <colgroup>
       <col class="field-column">
       <col class="contribution-column">
-      <col *ngIf="inEditMode" class="button-column" >
+      <col *ngIf="inEditMode" class="button-column">
     </colgroup>
     <thead>
       <tr class="trs-calculation-row w-100">
-        <th class="text-left font-weight-normal" scope="col">
-          <h4 class="primary-control-heading mb-1">
+        <th class="font-weight-normal" scope="col">
+          <h4 *ngIf="controlData.ShowTitle" class="primary-control-heading mb-1">
             <pf-string-editor
               [value]="controlData.Title.Override"
               [placeholder]="controlData.Title.Default"
               [maxCharacters]="30"
               [inEditMode]="inEditMode"
-              (valueChange)="onControlTitleChange($event)"></pf-string-editor>
+              (valueChange)="onControlTitleChange($event)">
+            </pf-string-editor>
           </h4>
         </th>
-        <th class="text-right pb-3" scope="col" class="secondary-header align-middle text-right font-weight-normal">Contribution</th>
+        <th scope="col" class="secondary-header align-middle text-right font-weight-normal">
+          <span *ngIf="controlData.ShowTitle">Contribution</span>
+        </th>
         <th *ngIf="inEditMode" scope="col"></th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let listItem of controlData.DataFields; let i = index " class="trs-calculation-row w-100">
-        <ng-template *ngIf="displayFieldInTable(listItem); then includeField;"></ng-template>
-        <ng-template #includeField>
-          <td class="text-left" [class.last-before-summary]="controlData.DataFields.length - 1 === i">
-            <pf-string-editor
-              [value]="listItem.Name.Override"
-              [placeholder]="listItem.Name.Default"
-              [maxCharacters]="30"
-              [inEditMode]="inEditMode"
-              (valueChange)="onCompFieldNameChange(listItem, $event)"></pf-string-editor>
-          </td>
-          <td class="contribution-field text-right" [ngClass]="inPreviewMode ? 'preview-mode-animation' : '' ">
-            {{getEmployerContributionValue(listItem)}}
-          </td>
-          <td *ngIf="inEditMode">
-            <button type="button" class="remove-btn btn btn-sm btn-outline-danger" (click)="removeField(listItem)">
-              <fa-icon class="fa-sm" [icon]="'trash-alt'"></fa-icon>
-            </button>
-          </td>
-        </ng-template>
+      <tr *ngFor="let listItem of visibleFields; let i = index;" class="trs-calculation-row w-100">
+        <td>
+          <pf-string-editor
+            [value]="listItem.Name.Override"
+            [placeholder]="listItem.Name.Default"
+            [maxCharacters]="30"
+            [inEditMode]="inEditMode"
+            (valueChange)="onCompFieldNameChange(listItem, $event)">
+          </pf-string-editor>
+        </td>
+        <td class="contribution-field text-right" [ngClass]="inPreviewMode ? 'preview-mode-animation' : '' ">
+          <span *ngIf="getEmployerContributionValue(listItem); else compensationValuePlaceholder">{{ getEmployerContributionValue(listItem) }}</span>
+        </td>
+        <td *ngIf="inEditMode">
+          <button type="button" class="remove-btn btn btn-sm btn-outline-danger" (click)="removeField(listItem)">
+            <fa-icon class="fa-sm" [icon]="'trash-alt'"></fa-icon>
+          </button>
+        </td>
       </tr>
-      <tr class="trs-calculation-row w-100">
-        <td class="summary text-left" pfStatementGraphicsDirective [colors]="graphicsColors" [colorRank]="controlData.SummaryTextColor" [styleAttrToColor]="'color'">
+      <tr class="trs-calculation-row w-100" [class.faux-title]="!controlData.ShowTitle">
+        <td class="summary" pfStatementGraphicsDirective [colors]="graphicsColors" [colorRank]="controlData.SummaryTextColor" [styleAttrToColor]="'color'">
           <pf-string-editor
             [value]="controlData.Summary.Override"
             [placeholder]="controlData.Summary.Default"
             [maxCharacters]="30"
             [inEditMode]="inEditMode"
-            (valueChange)="onSummaryTitleChange($event)"></pf-string-editor>
+            (valueChange)="onSummaryTitleChange($event)">
+          </pf-string-editor>
         </td>
         <td class="contribution-field summary text-right" [ngClass]="inPreviewMode ? 'preview-mode-animation' : '' ">
-          {{getSummaryValue()}}
+          <span *ngIf="getSummaryValue(); else compensationValuePlaceholder">{{ getSummaryValue() }}</span>
         </td>
-        <td *ngIf="inEditMode"></td>
+        <td *ngIf="inEditMode">
+          <pf-trs-compensation-fields-chooser 
+            *ngIf="(selectableFields?.length > 0)"
+            [fields]="selectableFields"
+            [maxVisibleFieldsReached]="maxVisibleFieldsReached"
+            (fieldClicked)="addField($event)">
+          </pf-trs-compensation-fields-chooser>
+        </td>
       </tr>
     </tbody>
   </table>
-
-  <ng-container *ngIf="inEditMode && (selectableFields?.length > 0)">
-    <pf-trs-compensation-fields-chooser [fields]="selectableFields"
-                                        [maxVisibleFieldsReached]="maxVisibleFieldsReached"
-                                        (fieldClicked)="addField($event)">
-    </pf-trs-compensation-fields-chooser>
-  </ng-container>
+  
+  <ng-template #compensationValuePlaceholder>
+    <pf-compensation-value-placeholder></pf-compensation-value-placeholder>
+  </ng-template>
 
 </div>
