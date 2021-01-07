@@ -6,6 +6,8 @@ export const GET_JOB_FAMILIES = '[Admin/Jobs Hierarchy] Get Job Families';
 export const GET_JOB_FAMILIES_SUCCESS = '[Admin/Jobs Hierarchy] Get Job Families Success';
 export const GET_JOB_FAMILIES_ERROR = '[Admin/Jobs Hierarchy] Get Job Families Error';
 
+export const GET_JOB_FAMILIES_FOR_HIERARCHY = '[Admin/Jobs Hierarchy] Get Job Families For Hierarchy';
+
 export const GET_AVAILABLE_JOB_LEVELS = '[Admin/Jobs Hierarchy] Get Available Job Levels';
 export const GET_AVAILABLE_JOB_LEVELS_SUCCESS = '[Admin/Jobs Hierarchy] Get Available Job Levels Success';
 export const GET_AVAILABLE_JOB_LEVELS_ERROR = '[Admin/Jobs Hierarchy] Get Available Job Levels Error';
@@ -122,6 +124,12 @@ export class GetJobFamilies implements Action {
   constructor() {}
 }
 
+export class GetJobFamiliesForHierarchy implements Action {
+  readonly type = GET_JOB_FAMILIES_FOR_HIERARCHY;
+
+  constructor(public payload: {hierarchyId: number}) {}
+}
+
 export class GetJobFamiliesSuccess implements Action {
   readonly type = GET_JOB_FAMILIES_SUCCESS;
 
@@ -182,4 +190,5 @@ export type Actions
   | CloseModal
   | DeleteJobLevelHierarchy
   | DeleteJobLevelHierarchySuccess
-  | DeleteJobLevelHierarchyError;
+  | DeleteJobLevelHierarchyError
+  | GetJobFamiliesForHierarchy;

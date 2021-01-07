@@ -12,3 +12,4 @@ export * from './sentry-error-handler.service';
 export * from './sentry.service';
 export * from './feature-flags';
 export * from './unauthorized-http-interceptor.service';
+export * from './entity-key-validation.service';

@@ -12,7 +12,8 @@ import { CompanySettingsEnum } from 'libs/models/company';
 import { SettingsService } from 'libs/state/app-context/services';
 
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
-import { StructuresHighchartsService, StructuresPagesService } from '../../../shared/services';
+import { StructuresPagesService } from '../../../shared/services';
+import { StructuresHighchartsService } from '../../../../shared/services';
 import {
   CompareJobRangeModelChartService,
   CompareMinMidMaxJobRangeModelChartSeries,
@@ -21,11 +22,12 @@ import {
   CompareTertileJobRangeModelChartSeries,
 } from '../../data';
 import { GraphHelper } from '../../../shared/helpers/graph.helper';
-import { RangeDistributionDataPointTypeIds } from '../../../shared/constants/range-distribution-data-point-type-ids';
-import { RangeDistributionTypeIds } from '../../../shared/constants/range-distribution-type-ids';
+import { RangeDistributionDataPointTypeIds } from '../../../../shared/constants/range-distribution-data-point-type-ids';
+import { RangeDistributionTypeIds } from '../../../../shared/constants/range-distribution-type-ids';
 import { SalaryRangeSeries } from '../../../shared/models/salary-range-series.model';
 import { DataPointSeries } from '../../../shared/models/data-point-series.model';
 import * as fromCompareJobBasedRangesReducer from '../../reducers';
+import { SelectedPeerExchangeModel } from '../../../shared/models';
 
 @Component({
   selector: 'pf-compare-job-based-range-chart',
@@ -83,6 +85,8 @@ export class CompareJobBasedRangeChartComponent implements OnInit, OnDestroy {
   selectedFieldsSubscription: Subscription;
   hasAcceptedPeerTermsSub: Subscription;
   hasAcceptedPeerTerms: boolean;
+  selectedPeerExchange: SelectedPeerExchangeModel;
+  selectedPeerExchangeSub: Subscription;
 
   constructor(
     public store: Store<any>,
@@ -96,7 +100,12 @@ export class CompareJobBasedRangeChartComponent implements OnInit, OnDestroy {
 
     this.hasAcceptedPeerTermsSub = this.settingsService.selectCompanySetting<boolean>(
       CompanySettingsEnum.PeerTermsAndConditionsAccepted
-    ).subscribe(x => this.hasAcceptedPeerTerms = x);
+    ).subscribe(x => {
+      this.hasAcceptedPeerTerms = x;
+      if (!this.hasAcceptedPeerTerms) {
+        this.selectedPeerExchange = null;
+      }
+    });
 
     this.metadataSubscription = this.store.select(fromSharedJobBasedRangeReducer.getMetadata).subscribe(md => {
       if (md) {
@@ -158,6 +167,12 @@ export class CompareJobBasedRangeChartComponent implements OnInit, OnDestroy {
         this.selectedFields = fields;
         const anyGroupField = this.selectedFields.find(f => f.Group && f.IsSelected);
         this.groupFieldSelected = !!anyGroupField;
+      }
+    });
+
+    this.selectedPeerExchangeSub = this.store.select(fromSharedJobBasedRangeReducer.getSelectedPeerExchange).subscribe(peerExchange => {
+      if (peerExchange) {
+        this.selectedPeerExchange = peerExchange;
       }
     });
 
@@ -328,7 +343,9 @@ export class CompareJobBasedRangeChartComponent implements OnInit, OnDestroy {
       // add any outliers
       this.processAndAddOutliers(i, currentRow, compareRow);
 
-      this.addPeer50(i, currentRow, compareRow);
+      if (this.hasAcceptedPeerTerms) {
+        this.addPeer50(i, currentRow, compareRow);
+      }
     }
     // set the min/max
     this.chartInstance.yAxis[0].setExtremes(this.chartMin, this.chartMax, false);
@@ -352,8 +369,10 @@ export class CompareJobBasedRangeChartComponent implements OnInit, OnDestroy {
     this.chartInstance.series[this.seriesIndexList.EmployeeOutliers].setData(this.outlierSeriesData, true);
     this.chartInstance.series[this.seriesIndexList.CompareEmployeeOutliers].setData(this.compareOutlierSeriesData, true);
 
-    this.chartInstance.series[this.seriesIndexList.Peer50].setData(this.exchangeSeriesData, false);
-    this.chartInstance.series[this.seriesIndexList.ComparePeer50].setData(this.compareExchangeSeriesData, false);
+    if (this.hasAcceptedPeerTerms) {
+      this.chartInstance.series[this.seriesIndexList.Peer50].setData(this.exchangeSeriesData, false);
+      this.chartInstance.series[this.seriesIndexList.ComparePeer50].setData(this.compareExchangeSeriesData, false);
+    }
 
     // Tertile - Quartile - Quintile: salary range + data points
     if (this.rangeDistributionTypeId === RangeDistributionTypeIds.Tertile) {
@@ -727,7 +746,9 @@ export class CompareJobBasedRangeChartComponent implements OnInit, OnDestroy {
     this.exchangeSeriesData.push({
       x: xCoordinate - this.xCoordinateOffest,
       y: currentRow.CompanyStructures_RangeGroup_Peer50,
-      jobTitle: currentRow.CompanyJobs_Job_Title,
+      exchangeJobTitle: currentRow.CompanyStructures_RangeGroup_ExchangeJobTitle,
+      ExchangeName: this.selectedPeerExchange.ExchangeName,
+      Scope: 'National',
       peer50: StructuresHighchartsService.formatDataPoint('Peer 50th', currentRow.CompanyStructures_RangeGroup_Peer50, this.chartLocale,
         this.metaData.Currency, this.metaData.Rate)
     });
@@ -736,7 +757,9 @@ export class CompareJobBasedRangeChartComponent implements OnInit, OnDestroy {
       this.compareExchangeSeriesData.push({
         x: xCoordinate + this.xCoordinateOffest,
         y: compareRow.CompanyStructures_RangeGroup_Peer50,
-        jobTitle: compareRow.CompanyJobs_Job_Title,
+        exchangeJobTitle: compareRow.CompanyStructures_RangeGroup_ExchangeJobTitle,
+        ExchangeName: this.selectedPeerExchange.ExchangeName,
+        Scope: 'National',
         peer50: StructuresHighchartsService.formatDataPoint('Peer 50th', compareRow.CompanyStructures_RangeGroup_Peer50, this.chartLocale,
           this.metaData.Currency, this.metaData.Rate)
       });
@@ -786,6 +809,7 @@ export class CompareJobBasedRangeChartComponent implements OnInit, OnDestroy {
     this.gridScrolledSub.unsubscribe();
     this.selectedFieldsSubscription.unsubscribe();
     this.hasAcceptedPeerTermsSub.unsubscribe();
+    this.selectedPeerExchangeSub.unsubscribe();
   }
 
 }

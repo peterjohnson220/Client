@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import * as fromRootState from 'libs/state/state';
 import { PfCommonModule } from 'libs/core';
@@ -26,7 +27,8 @@ describe('Bulk Job Description Export Scheduler - Bulk Export Schedule Form', ()
           feature_bulk_jobs_export_scheduler: combineReducers(fromBulkExportScheduleReducer.reducers)
         }),
         FormsModule,
-        PfCommonModule
+        PfCommonModule,
+        NgbModule
       ],
       declarations: [
         BulkExportSchedulesListComponent

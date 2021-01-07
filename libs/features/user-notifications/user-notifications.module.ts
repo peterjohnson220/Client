@@ -6,27 +6,42 @@ import { EffectsModule } from '@ngrx/effects';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { PfFormsModule } from 'libs/forms';
+import { PfCommonModule } from 'libs/core';
 
+import { PfInfiniteScrollModule } from '../infinite-scroll';
 import { reducers } from './reducers';
 import { UserNotificationListComponent } from './containers';
 import { UserNotificationContainerComponent } from './containers/user-notification-container/user-notification-container.component';
 import { UserTicketNotificationComponent } from './containers/categories/user-ticket/user-ticket-notification.component';
 import { UserNotificationDisplayComponent } from './containers/user-notification-display/user-notification-display.component';
+import { RoutedJobDescriptionNotificationComponent } from './containers/categories/routed-job-description/routed-job-description-notification.component';
+import {
+  JobDescriptionReviewCompleteNotificationComponent
+} from './containers/categories/job-description-review-complete/job-description-review-complete-notification.component';
+import {
+  JobDescriptionReviewRejectedNotificationComponent
+} from './containers/categories/job-description-review-rejected/job-description-review-rejected-notification.component';
+import { CompanyResourcesNotificationComponent } from './containers/categories/company-resources/company-resources-notification.component';
+import { CommunityPostsNotificationComponent } from './containers/categories/community-posts/community-posts-notification.component';
+import { PendingPeerJobMatchesNotificationComponent } from './containers/categories/pending-peer-job-matches/pending-peer-job-matches-notification.component';
+import { NewPeerJobsNotificationComponent } from './containers/categories/new-peer-jobs/new-peer-jobs-notification.component';
 import { UserNotificationListEffects } from './effects';
 import { UserNotificationHostDirective } from './directives';
 import * as fromFaIcons from './fa-icons';
-import { RoutedJobDescriptionNotificationComponent } from './containers/categories/routed-job-description/routed-job-description-notification.component';
 
 @NgModule({
   imports: [
     CommonModule,
+
     // Payfactors
     PfFormsModule,
+    PfCommonModule,
+    PfInfiniteScrollModule,
 
     // 3rd party
     StoreModule.forFeature('feature_user_notifications', reducers),
     EffectsModule.forFeature([UserNotificationListEffects]),
-    FontAwesomeModule,
+    FontAwesomeModule
   ],
   declarations: [
     // Directives:
@@ -37,7 +52,13 @@ import { RoutedJobDescriptionNotificationComponent } from './containers/categori
     UserNotificationContainerComponent,
     UserTicketNotificationComponent,
     UserNotificationDisplayComponent,
-    RoutedJobDescriptionNotificationComponent
+    RoutedJobDescriptionNotificationComponent,
+    PendingPeerJobMatchesNotificationComponent,
+    NewPeerJobsNotificationComponent,
+    JobDescriptionReviewCompleteNotificationComponent,
+    JobDescriptionReviewRejectedNotificationComponent,
+    CompanyResourcesNotificationComponent,
+    CommunityPostsNotificationComponent
   ],
   exports: [
     UserNotificationListComponent

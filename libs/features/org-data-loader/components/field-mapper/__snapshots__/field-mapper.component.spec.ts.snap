@@ -3,8 +3,6 @@
 exports[`FieldMapperComponent Filename Pattern should display the filename pattern 1`] = `
 <pf-field-mapper
   clientFields={[Function Array]}
-  dateFormats={[Function Array]}
-  dateFormatsFilteredData={[Function Array]}
   fieldMappings$={[Function Observable]}
   fileRestrictions={[Function Object]}
   filenamePattern={[Function Object]}
@@ -150,8 +148,6 @@ exports[`FieldMapperComponent Filename Pattern should display the filename patte
 exports[`FieldMapperComponent Filename Pattern should read "begin with" if the pattern is start restricted 1`] = `
 <pf-field-mapper
   clientFields={[Function Array]}
-  dateFormats={[Function Array]}
-  dateFormatsFilteredData={[Function Array]}
   fieldMappings$={[Function Observable]}
   fileRestrictions={[Function Object]}
   filenamePattern={[Function Object]}
@@ -297,8 +293,6 @@ exports[`FieldMapperComponent Filename Pattern should read "begin with" if the p
 exports[`FieldMapperComponent Filename Pattern should read "contain" if the pattern is not start restricted 1`] = `
 <pf-field-mapper
   clientFields={[Function Array]}
-  dateFormats={[Function Array]}
-  dateFormatsFilteredData={[Function Array]}
   fieldMappings$={[Function Observable]}
   fileRestrictions={[Function Object]}
   filenamePattern={[Function Object]}
@@ -442,8 +436,6 @@ exports[`FieldMapperComponent Filename Pattern should read "contain" if the patt
 exports[`FieldMapperComponent should disable the Map button when a payfactors field OR client field have not been selected 1`] = `
 <pf-field-mapper
   clientFields={[Function Array]}
-  dateFormats={[Function Array]}
-  dateFormatsFilteredData={[Function Array]}
   fieldMappings$={[Function Observable]}
   fileRestrictions={[Function Object]}
   loaderType={[Function String]}
@@ -570,8 +562,6 @@ exports[`FieldMapperComponent should disable the Map button when a payfactors fi
 exports[`FieldMapperComponent should disable the Remove Mapping button when a mapping has NOT been selected 1`] = `
 <pf-field-mapper
   clientFields={[Function Array]}
-  dateFormats={[Function Array]}
-  dateFormatsFilteredData={[Function Array]}
   fieldMappings$={[Function Observable]}
   fileRestrictions={[Function Object]}
   loaderType={[Function String]}
@@ -697,8 +687,6 @@ exports[`FieldMapperComponent should disable the Remove Mapping button when a ma
 exports[`FieldMapperComponent should enable the Map button when a payfactors field AND client field have been selected 1`] = `
 <pf-field-mapper
   clientFields={[Function Array]}
-  dateFormats={[Function Array]}
-  dateFormatsFilteredData={[Function Array]}
   fieldMappings$={[Function Observable]}
   fileRestrictions={[Function Object]}
   loaderType={[Function String]}
@@ -824,8 +812,6 @@ exports[`FieldMapperComponent should enable the Map button when a payfactors fie
 exports[`FieldMapperComponent should enable the Remove Mapping button when a mapping has been selected 1`] = `
 <pf-field-mapper
   clientFields={[Function Array]}
-  dateFormats={[Function Array]}
-  dateFormatsFilteredData={[Function Array]}
   fieldMappings$={[Function Observable]}
   fileRestrictions={[Function Object]}
   loaderType={[Function String]}
@@ -950,8 +936,6 @@ exports[`FieldMapperComponent should enable the Remove Mapping button when a map
 exports[`FieldMapperComponent should show a add/full replace toggle when the loader type is Employees 1`] = `
 <pf-field-mapper
   clientFields={[Function Array]}
-  dateFormats={[Function Array]}
-  dateFormatsFilteredData={[Function Array]}
   fieldMappings$={[Function Observable]}
   fileRestrictions={[Function Object]}
   loaderType={[Function String]}
@@ -979,28 +963,6 @@ exports[`FieldMapperComponent should show a add/full replace toggle when the loa
     <div
       class="row mt-3"
     >
-      
-      <div
-        class="col-md-4 d-flex"
-      >
-        <label
-          class="text-nowrap mr-4"
-          for="dateFormat"
-        >
-          Date Format: 
-        </label>
-        <kendo-combobox
-          class="form-control flex-fill"
-          id="dateFormat"
-          textfield="text"
-          valuefield="value"
-        />
-        <span
-          class="text-danger ml-2"
-        >
-          *
-        </span>
-      </div>
       <div
         class="col-md-4"
       >
@@ -1138,8 +1100,6 @@ exports[`FieldMapperComponent should show a add/full replace toggle when the loa
 exports[`FieldMapperComponent should show a add/full replace toggle when the loader type is Structure Mappings 1`] = `
 <pf-field-mapper
   clientFields={[Function Array]}
-  dateFormats={[Function Array]}
-  dateFormatsFilteredData={[Function Array]}
   fieldMappings$={[Function Observable]}
   fileRestrictions={[Function Object]}
   loaderType={[Function String]}
@@ -1167,7 +1127,6 @@ exports[`FieldMapperComponent should show a add/full replace toggle when the loa
     <div
       class="row mt-3"
     >
-      
       <div
         class="col-md-4"
       >
@@ -1305,8 +1264,6 @@ exports[`FieldMapperComponent should show a add/full replace toggle when the loa
 exports[`FieldMapperComponent should show a date format selector when the loader type is Employees 1`] = `
 <pf-field-mapper
   clientFields={[Function Array]}
-  dateFormats={[Function Array]}
-  dateFormatsFilteredData={[Function Array]}
   fieldMappings$={[Function Observable]}
   fileRestrictions={[Function Object]}
   loaderType={[Function String]}
@@ -1334,28 +1291,6 @@ exports[`FieldMapperComponent should show a date format selector when the loader
     <div
       class="row mt-3"
     >
-      
-      <div
-        class="col-md-4 d-flex"
-      >
-        <label
-          class="text-nowrap mr-4"
-          for="dateFormat"
-        >
-          Date Format: 
-        </label>
-        <kendo-combobox
-          class="form-control flex-fill"
-          id="dateFormat"
-          textfield="text"
-          valuefield="value"
-        />
-        <span
-          class="text-danger ml-2"
-        >
-          *
-        </span>
-      </div>
       <div
         class="col-md-4"
       >
@@ -1493,8 +1428,6 @@ exports[`FieldMapperComponent should show a date format selector when the loader
 exports[`FieldMapperComponent should show a spinner when the company's mappings are being retrieved 1`] = `
 <pf-field-mapper
   clientFields={[Function Array]}
-  dateFormats={[Function Array]}
-  dateFormatsFilteredData={[Function Array]}
   fieldMappings$={[Function Observable]}
   fieldMappingsLoading={[Function Boolean]}
   fileRestrictions={[Function Object]}

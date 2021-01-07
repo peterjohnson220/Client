@@ -1,5 +1,5 @@
-import { StructuresHighchartsService } from '../../shared/services';
-import { RangeDistributionTypeIds } from '../../shared/constants/range-distribution-type-ids';
+import { StructuresHighchartsService } from '../../../shared/services';
+import { RangeDistributionTypeIds } from '../../../shared/constants/range-distribution-type-ids';
 import {
   CompareJobRangeModelChartSeries,
   CompareQuartileJobRangeModelChartSeries,
@@ -372,7 +372,9 @@ export class CompareJobRangeModelChartService {
             useHTML: true,
             padding: 0,
             headerFormat: '<div style="display: inline-block; background-color: black">',
-            pointFormat: '<div style="color: white; font-weight: bold">{point.jobTitle}</div>' +
+            pointFormat: '<div style="color: white; font-weight: bold">Exchange Job Title: {point.exchangeJobTitle}</div>' +
+              '<div style="color: white">Exchange Name: {point.ExchangeName}</div>' +
+              '<div style="color: white">Scope: {point.Scope}</div>' +
               '<div style="color: white">{point.peer50}</div>',
             footerFormat: '</div>'
           },
@@ -395,7 +397,9 @@ export class CompareJobRangeModelChartService {
             useHTML: true,
             padding: 0,
             headerFormat: '<div style="display: inline-block; background-color: black">',
-            pointFormat: '<div style="color: white; font-weight: bold">{point.jobTitle}</div>' +
+            pointFormat: '<div style="color: white; font-weight: bold">Exchange Job Title: {point.exchangeJobTitle}</div>' +
+              '<div style="color: white">Exchange Name: {point.ExchangeName}</div>' +
+              '<div style="color: white">Scope: {point.Scope}</div>' +
               '<div style="color: white">{point.peer50}</div>',
             footerFormat: '</div>'
           },
@@ -797,7 +801,9 @@ export class CompareJobRangeModelChartService {
             useHTML: true,
             padding: 0,
             headerFormat: '<div style="display: inline-block; background-color: black">',
-            pointFormat: '<div style="color: white; font-weight: bold">{point.jobTitle}</div>' +
+            pointFormat: '<div style="color: white; font-weight: bold">Exchange Job Title: {point.exchangeJobTitle}</div>' +
+              '<div style="color: white">Exchange Name: {point.ExchangeName}</div>' +
+              '<div style="color: white">Scope: {point.Scope}</div>' +
               '<div style="color: white">{point.peer50}</div>',
             footerFormat: '</div>'
           },
@@ -820,7 +826,9 @@ export class CompareJobRangeModelChartService {
             useHTML: true,
             padding: 0,
             headerFormat: '<div style="display: inline-block; background-color: black">',
-            pointFormat: '<div style="color: white; font-weight: bold">{point.jobTitle}</div>' +
+            pointFormat: '<div style="color: white; font-weight: bold">Exchange Job Title: {point.exchangeJobTitle}</div>' +
+              '<div style="color: white">Exchange Name: {point.ExchangeName}</div>' +
+              '<div style="color: white">Scope: {point.Scope}</div>' +
               '<div style="color: white">{point.peer50}</div>',
             footerFormat: '</div>'
           },
@@ -1328,7 +1336,9 @@ export class CompareJobRangeModelChartService {
             useHTML: true,
             padding: 0,
             headerFormat: '<div style="display: inline-block; background-color: black">',
-            pointFormat: '<div style="color: white; font-weight: bold">{point.jobTitle}</div>' +
+            pointFormat: '<div style="color: white; font-weight: bold">Exchange Job Title: {point.exchangeJobTitle}</div>' +
+              '<div style="color: white">Exchange Name: {point.ExchangeName}</div>' +
+              '<div style="color: white">Scope: {point.Scope}</div>' +
               '<div style="color: white">{point.peer50}</div>',
             footerFormat: '</div>'
           },
@@ -1351,7 +1361,9 @@ export class CompareJobRangeModelChartService {
             useHTML: true,
             padding: 0,
             headerFormat: '<div style="display: inline-block; background-color: black">',
-            pointFormat: '<div style="color: white; font-weight: bold">{point.jobTitle}</div>' +
+            pointFormat: '<div style="color: white; font-weight: bold">Exchange Job Title: {point.exchangeJobTitle}</div>' +
+              '<div style="color: white">Exchange Name: {point.ExchangeName}</div>' +
+              '<div style="color: white">Scope: {point.Scope}</div>' +
               '<div style="color: white">{point.peer50}</div>',
             footerFormat: '</div>'
           },
@@ -1847,7 +1859,9 @@ export class CompareJobRangeModelChartService {
             useHTML: true,
             padding: 0,
             headerFormat: '<div style="display: inline-block; background-color: black">',
-            pointFormat: '<div style="color: white; font-weight: bold">{point.jobTitle}</div>' +
+            pointFormat: '<div style="color: white; font-weight: bold">Exchange Job Title: {point.exchangeJobTitle}</div>' +
+              '<div style="color: white">Exchange Name: {point.ExchangeName}</div>' +
+              '<div style="color: white">Scope: {point.Scope}</div>' +
               '<div style="color: white">{point.peer50}</div>',
             footerFormat: '</div>'
           },
@@ -1870,7 +1884,9 @@ export class CompareJobRangeModelChartService {
             useHTML: true,
             padding: 0,
             headerFormat: '<div style="display: inline-block; background-color: black">',
-            pointFormat: '<div style="color: white; font-weight: bold">{point.jobTitle}</div>' +
+            pointFormat: '<div style="color: white; font-weight: bold">Exchange Job Title: {point.exchangeJobTitle}</div>' +
+              '<div style="color: white">Exchange Name: {point.ExchangeName}</div>' +
+              '<div style="color: white">Scope: {point.Scope}</div>' +
               '<div style="color: white">{point.peer50}</div>',
             footerFormat: '</div>'
           },

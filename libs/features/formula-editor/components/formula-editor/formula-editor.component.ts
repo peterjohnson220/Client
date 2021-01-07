@@ -42,6 +42,7 @@ export class FormulaEditorComponent implements OnInit, AfterViewInit, OnChanges 
 
   ngAfterViewInit(): void {
     this.codeMirror = this.codeMirrorComponent.codeMirror;
+    this.codeMirror.setSize('100%', null);
     this.codeMirror.on('beforeChange', (cm, changeObj) => this.checkFormulaLength(changeObj));
     this.codeMirror.on('inputRead', () => this.handleInputRead());
   }
@@ -63,7 +64,7 @@ export class FormulaEditorComponent implements OnInit, AfterViewInit, OnChanges 
       mode: 'spreadsheet',
       inputStyle: 'textarea',
       matchBrackets: true,
-      placeholder: 'Formula',
+      placeholder: 'Use [ to find and insert existing fields in your formula. Use $ to view formula syntax.',
       completeSingle: false,
       lineWrapping: true,
       readOnly: this.disabled,

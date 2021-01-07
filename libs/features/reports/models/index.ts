@@ -3,3 +3,4 @@ export * from './view.model';
 export * from './workbook.model';
 export * from './report-view-types.enum';
 export * from './standard-report-filter.model';
+export * from './tabular-report-export-schedule.model';

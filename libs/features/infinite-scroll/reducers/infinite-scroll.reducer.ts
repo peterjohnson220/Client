@@ -1,10 +1,11 @@
 import { ResultsPagingOptions } from '../../search/models';
 import * as fromInfiniteScrollActions from '../actions';
+import { ScrollPagingOptions } from '../models';
 
 export interface InfiniteScrollState {
   loading: boolean;
   loadingMore: boolean;
-  pagingOptions: ResultsPagingOptions;
+  pagingOptions: ScrollPagingOptions;
   lastReturnedCount: number;
   error: boolean;
 }
@@ -16,7 +17,7 @@ const INITIAL_STATE: State = {
   scrolls: {}
 };
 
-export const DEFAULT_PAGING_OPTIONS: ResultsPagingOptions = {
+export const DEFAULT_PAGING_OPTIONS: ScrollPagingOptions = {
   page: 1,
   pageSize: 30
 };
@@ -39,7 +40,10 @@ export function reducer(state = INITIAL_STATE, action: fromInfiniteScrollActions
           [actionPayload.scrollId]: {
             ...DEFAULT_INFINITE_SCROLL_STATE,
             loading: true,
-            pagingOptions: DEFAULT_PAGING_OPTIONS
+            pagingOptions: {
+              ...DEFAULT_PAGING_OPTIONS,
+              pageSize: action.payload.pageSize ?? DEFAULT_PAGING_OPTIONS.pageSize
+            }
           }
         }
       };

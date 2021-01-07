@@ -1,4 +1,5 @@
 import { AsyncStateObj } from 'libs/models/state';
+import { DataViewAccessLevel } from 'libs/models/payfactors-api';
 
 import { View } from './view.model';
 import { ReportType } from './report-types.enum';
@@ -20,6 +21,7 @@ export interface Workbook {
   DashboardsOrder?: number;
   FavoritesOrder?: number;
   Views?: AsyncStateObj<View[]>;
+  AccessLevel?: DataViewAccessLevel;
 }
 
 export function generateMockWorkbook(): Workbook {

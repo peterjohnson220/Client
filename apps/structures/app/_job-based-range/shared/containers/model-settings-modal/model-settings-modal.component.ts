@@ -12,15 +12,15 @@ import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/cor
 import { GenericKeyValue } from 'libs/models/common';
 import { CompanySettingsEnum } from 'libs/models/company';
 
-import * as fromMetadataActions from '../../../shared/actions/shared.actions';
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
 import * as fromModelSettingsModalActions from '../../../shared/actions/model-settings-modal.actions';
 import * as fromJobBasedRangeReducer from '../../reducers';
-import { ControlPoint, Currency } from '../../models';
+import * as fromSharedJobBasedRangeActions from '../../../shared/actions/shared.actions';
+import { ControlPoint, Currency, SelectedPeerExchangeModel } from '../../models';
 import { UrlService } from '../../services';
-import { Workflow } from '../../constants/workflow';
+import { Workflow } from '../../../../shared/constants/workflow';
 import { RangeDistributionSettingComponent } from '../range-distribution-setting';
-import { ModelSettingsModalConstants } from '../../constants/model-settings-modal-constants';
+import { ModelSettingsModalConstants } from '../../../../shared/constants/model-settings-modal-constants';
 import { AdvancedModelSettingComponent } from '../advanced-model-setting';
 
 @Component({
@@ -72,12 +72,13 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   exchanges$: Observable<AsyncStateObj<GenericKeyValue<number, string>[]>>;
   exchangeSub: Subscription;
   exchangeNames: string[];
-  selectedExchangeDict: GenericKeyValue<number, string>[];
-  selectedExchange: string;
-  selectedExchangeId: number;
+  selectedExchange: SelectedPeerExchangeModel;
   hasAcceptedPeerTermsSub: Subscription;
   hasAcceptedPeerTerms: boolean;
   peerDropDownDisabled: boolean;
+  peerExchangeToolTipInfo: string;
+  selectedPeerExchangeSub: Subscription;
+  selectedPeerExchange$: Observable<SelectedPeerExchangeModel>;
 
   constructor(
     public store: Store<fromJobBasedRangeReducer.State>,
@@ -96,12 +97,14 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
     this.modelNameExistsFailure$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getModelNameExistsFailure));
     this.minSpreadTooltip = ModelSettingsModalConstants.MIN_SPREAD_TOOL_TIP;
     this.maxSpreadTooltip = ModelSettingsModalConstants.MAX_SPREAD_TOOL_TIP;
+    this.peerExchangeToolTipInfo = ModelSettingsModalConstants.PEER_EXCHANGE_TOOL_TIP;
     this.featureFlagService.bindEnabled(this.structuresAdvancedModelingFeatureFlag, this.unsubscribe$);
     this.allFormulasSub = this.store.pipe(select(fromJobBasedRangeReducer.getAllFields)).subscribe(af => this.allFormulas = af);
     this.exchanges$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getCompanyExchanges));
     this.hasAcceptedPeerTermsSub = this.settingsService.selectCompanySetting<boolean>(
       CompanySettingsEnum.PeerTermsAndConditionsAccepted
     ).subscribe(x => this.hasAcceptedPeerTerms = x);
+    this.selectedPeerExchange$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getSelectedPeerExchange));
   }
 
   get formControls() {
@@ -139,7 +142,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
       'PayMarket': new FormControl(this.metadata.Paymarket, [Validators.required]),
       'Rate': new FormControl(this.metadata.Rate || 'Annual', [Validators.required]),
       'Currency': new FormControl(this.metadata.Currency || 'USD', [Validators.required]),
-      'PeerExchange': new FormControl(this.selectedExchange || 'Global Network', [Validators.required]),
+      'PeerExchange': new FormControl(this.selectedExchange?.ExchangeName || 'Global Network', [Validators.required]),
       'RangeDistributionSetting': new FormControl(this.metadata.RangeDistributionSetting),
       'RangeAdvancedSetting': new FormControl(this.metadata.RangeAdvancedSetting)
     });
@@ -158,6 +161,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
           rounding: this.roundingSettings
         })
       );
+      this.store.dispatch(new fromSharedJobBasedRangeActions.SetSelectedPeerExchange(this.selectedExchange));
       this.reset();
     }
   }
@@ -247,37 +251,32 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
 
   handleRateSelectionChange(value: string) {
     const roundingPoint = value.toLowerCase() === 'hourly' ? 2 : 0;
-    this.store.dispatch(new fromMetadataActions.UpdateRoundingPoints({ RoundingPoint: roundingPoint }));
+    this.store.dispatch(new fromSharedJobBasedRangeActions.UpdateRoundingPoints({ RoundingPoint: roundingPoint }));
   }
 
   handlePeerExchangeSelectionChange(value: string) {
     if (value !== null) {
-      const selectedExchange = this.exchanges.filter(x => x.Value === value);
-      this.selectedExchangeId = selectedExchange[0].Key;
-      this.updateSelectedPeerExchangeName(this.selectedExchangeId);
+      const selection = this.exchanges.filter(x => x.Value === value);
+      this.selectedExchange = {
+        ExchangeId: selection[0].Key,
+        ExchangeName: value
+      };
     }
   }
 
   updateSelectedPeerExchangeId() {
-    if ((this.selectedExchangeId === null || this.selectedExchangeId === undefined) && this.hasAcceptedPeerTerms) {
+    if (this.selectedExchange?.ExchangeId === null && this.hasAcceptedPeerTerms) {
       this.modelSetting.ExchangeId = this.assignDefaultSelectedExchangeId();
-    } else if (this.selectedExchangeId === null || this.selectedExchangeId === undefined) {
+    } else if (this.selectedExchange?.ExchangeId === null || !this.hasAcceptedPeerTerms) {
       this.modelSetting.ExchangeId = null;
     } else {
-      this.modelSetting.ExchangeId = this.selectedExchangeId;
+      this.modelSetting.ExchangeId = this.selectedExchange.ExchangeId;
     }
   }
 
   assignDefaultSelectedExchangeId() {
     this.handlePeerExchangeSelectionChange('Global Network');
-    return this.selectedExchangeId;
-  }
-
-  updateSelectedPeerExchangeName(exchangeId: number) {
-    if (exchangeId) {
-      this.selectedExchangeDict = this.exchanges.filter(x => x.Key === exchangeId);
-      this.selectedExchange = this.selectedExchangeDict.length > 0 ? this.selectedExchangeDict[0].Value : null;
-    }
+    return this.selectedExchange.ExchangeId;
   }
 
   clearModelNameExistsFailure() {
@@ -331,12 +330,10 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
           names.push(item.Value);
         });
         this.exchangeNames = names;
-        if (this.metadata.ExchangeId !== undefined) {
-          this.selectedExchangeId = this.metadata.ExchangeId;
-          this.updateSelectedPeerExchangeName(this.metadata.ExchangeId);
-        }
       }
     });
+
+    this.selectedPeerExchangeSub = this.selectedPeerExchange$.subscribe(peerExchange => this.selectedExchange = peerExchange);
 
     this.modalOpenSub = this.modalOpen$.subscribe(mo => {
       if (mo) {
@@ -359,6 +356,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
     this.allFormulasSub.unsubscribe();
     this.exchangeSub.unsubscribe();
     this.hasAcceptedPeerTermsSub.unsubscribe();
+    this.selectedPeerExchangeSub.unsubscribe();
   }
 
   private reset() {

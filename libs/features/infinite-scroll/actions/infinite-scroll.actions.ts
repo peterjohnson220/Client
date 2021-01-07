@@ -11,7 +11,7 @@ export const CLEAR = '[Infinite Scroll] Clear';
 export class Load implements Action {
   readonly type = LOAD;
 
-  constructor(public payload: {scrollId: string}) {}
+  constructor(public payload: {scrollId: string, pageSize?: number}) {}
 }
 
 export class LoadSuccess implements Action {
@@ -23,7 +23,7 @@ export class LoadSuccess implements Action {
 export class LoadError implements Action {
   readonly type = LOAD_ERROR;
 
-  constructor(public payload: {scrollId: string}) {}
+  constructor(public payload: {scrollId: string, error?: string}) {}
 }
 
 export class LoadMore implements Action {
@@ -41,7 +41,7 @@ export class LoadMoreSuccess implements Action {
 export class LoadMoreError implements Action {
   readonly type = LOAD_MORE_ERROR;
 
-  constructor(public payload: {scrollId: string}) {}
+  constructor(public payload: {scrollId: string, error?: string}) {}
 }
 
 export class Clear implements Action {

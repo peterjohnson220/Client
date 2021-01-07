@@ -2,6 +2,7 @@ export interface AutoShareUser {
   UserId: number;
   FirstName: string;
   LastName: string;
+  FullName?: string;
   UserPicture?: string;
   Title?: string;
   IsSelected?: boolean;

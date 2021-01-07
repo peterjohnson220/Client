@@ -61,3 +61,35 @@
     margin-right: 0.5rem;
   }
 }
+
+.custom-radio .custom-control-input:checked ~ .custom-control-label::after {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3E%3Ccircle r='2' fill='%230883BE'/%3E%3C/svg%3E");
+  background-size: 100%;
+  margin-top: 0.1rem;
+}
+
+.custom-radio .custom-control-input ~ .custom-control-label::before {
+  transform: scale(1.1);
+  cursor: pointer;
+  border: #ccc solid 1px;
+  background-color: white;
+  margin-top: 0.1rem;
+}
+
+.custom-control-input:focus ~ .custom-control-label::before {
+  box-shadow: none;
+}
+
+.data-view-grid-btn {
+  margin-left: .75rem;
+  border: 1px solid transparent;
+
+  &:hover {
+    border: 1px solid #CCC;
+  }
+
+  fa-icon {
+    color: #777777;
+    font-size: 1.25rem;
+  }
+}

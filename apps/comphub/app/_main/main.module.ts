@@ -22,7 +22,6 @@ import { PfCommonModule, WindowCommunicationService } from 'libs/core';
 import { WindowRef } from 'libs/core/services';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
-import { JobLimitCounterComponent } from 'libs/features/smallbiz';
 import { GuidelinesBadgeModule } from 'libs/features/peer/guidelines-badge/guidelines-badge.module';
 import { PfExchangeExplorerModule } from 'libs/features/peer/exchange-explorer';
 import { DojGuidelinesService } from 'libs/features/peer/guidelines-badge/services/doj-guidelines.service';
@@ -90,7 +89,6 @@ import { BasicDataGridModule } from 'libs/features/basic-data-grid';
     TrendingJobGroupComponent,
     CardComponent,
     AddPayMarketFormComponent,
-    JobLimitCounterComponent,
     SalaryBarChartComponent,
     SalaryTrendChartComponent,
     SharePricingSummaryModalComponent,

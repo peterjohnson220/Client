@@ -1,19 +1,28 @@
 <pf-async-container [loading]="(loadingBulkExportSchedules$ |async) && (loadingJdmViews$ |async) && (loadingJdmFilters$ |async)"
                     [loadingError]="(loadingBulkExportSchedulesError$ |async) && (loadingJdmViewsError$ |async) && (loadingJdmFiltersError$ |async)"
                     [loadingErrorMessage]="'Error loading bulk jobs export scheduler page'">
-  <div class="my-4 mx-3">
-    <h4>Create JDM Outbound Report</h4>
-    <div class="mb-3">
-      <pf-bulk-export-scheduler-form [views]="views$ | async"
-                                     [filters]="filters$ | async"
-                                     [schedules]="schedules$ | async">
-      </pf-bulk-export-scheduler-form>
+  <div class="row">
+    <div class="col-sm-12 col-md-6">
+      <div class="card mb-3 shadow-sm">
+        <div class="card-body">
+          <h4 class="card-title pb-4">Create JDM Outbound Report</h4>
+          <pf-bulk-export-scheduler-form [views]="views$ | async"
+                                         [filters]="filters$ | async"
+                                         [schedules]="schedules$ | async"
+                                         [exportType]="'hris-outbound'">
+          </pf-bulk-export-scheduler-form>
+        </div>
+      </div>
     </div>
-    <h4 *ngIf="(schedules$ | async)?.length > 0">Saved Schedules</h4>
-    <div class="mx-5">
-      <pf-bulk-export-schedules-list [views]="views$ | async"
-                                     [schedules]="schedules$ | async">
-      </pf-bulk-export-schedules-list>
+    <div class="col-sm-12 col-md-6">
+      <div class="card mb-3 shadow-sm">
+        <div class="card-body">
+          <h4 class="card-title pb-4">Saved Schedules</h4>
+          <pf-bulk-export-schedules-list [views]="views$ | async"
+                                        [schedules]="schedules$ | async">
+          </pf-bulk-export-schedules-list>
+        </div>
+      </div>
     </div>
   </div>
 </pf-async-container>

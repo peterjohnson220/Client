@@ -224,6 +224,12 @@ export function reducer(state = initialState, action: fromSurveySearchResultsAct
         selectedDataCuts: selectedDataCuts
       };
     }
+    case fromSurveySearchResultsActions.CLEAR_TEMP_DATA_CUT_DICTIONARY: {
+      return {
+        ...state,
+        tempExchangeJobDataCutFilterContextDictionary: {}
+      };
+    }
     default: {
       return state;
     }

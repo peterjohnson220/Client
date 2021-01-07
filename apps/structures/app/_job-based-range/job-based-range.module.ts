@@ -7,7 +7,7 @@ import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 
-import { RangeGroupExistsGuard } from './shared/guards';
+import { RangeGroupExistsGuard } from '../shared/guards';
 import { JobBasedRangeRoutingModule } from './job-based-range-routing.module';
 
 @NgModule({

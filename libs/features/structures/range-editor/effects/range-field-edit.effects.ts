@@ -11,10 +11,10 @@ import { DataGridToDataViewsHelper } from 'libs/features/pf-data-grid/helpers';
 import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromNotificationActions from 'libs/features/app-notifications/actions/app-notifications.actions';
+import { JobBasedPageViewIds } from 'libs/models/structures';
 
 import { PayfactorsApiModelMapper } from '../helpers';
 import * as fromRangeFieldActions from '../actions/range-field-edit.actions';
-import { PageViewIds } from '../../../../../apps/structures/app/_job-based-range/shared/constants/page-view-ids';
 
 @Injectable()
 export class RangeFieldEditEffects {
@@ -51,15 +51,15 @@ export class RangeFieldEditEffects {
 
                 // We should dispatch this action only for Model/Employees/Pricings pages
                 // we don't want to dispatch this action on Jobs page
-                if (action.payload.pageViewId === PageViewIds.ModelMinMidMax
-                  || action.payload.pageViewId === PageViewIds.ModelTertile
-                  || action.payload.pageViewId === PageViewIds.ModelQuartile
-                  || action.payload.pageViewId === PageViewIds.ModelQuintile
-                  || action.payload.pageViewId === PageViewIds.EmployeesMinMidMax
-                  || action.payload.pageViewId === PageViewIds.EmployeesTertile
-                  || action.payload.pageViewId === PageViewIds.EmployeesQuartile
-                  || action.payload.pageViewId === PageViewIds.EmployeesQuintile
-                  || action.payload.pageViewId === PageViewIds.Pricings) {
+                if (action.payload.pageViewId === JobBasedPageViewIds.ModelMinMidMax
+                  || action.payload.pageViewId === JobBasedPageViewIds.ModelTertile
+                  || action.payload.pageViewId === JobBasedPageViewIds.ModelQuartile
+                  || action.payload.pageViewId === JobBasedPageViewIds.ModelQuintile
+                  || action.payload.pageViewId === JobBasedPageViewIds.EmployeesMinMidMax
+                  || action.payload.pageViewId === JobBasedPageViewIds.EmployeesTertile
+                  || action.payload.pageViewId === JobBasedPageViewIds.EmployeesQuartile
+                  || action.payload.pageViewId === JobBasedPageViewIds.EmployeesQuintile
+                  || action.payload.pageViewId === JobBasedPageViewIds.Pricings) {
                   actions.push(new fromPfDataGridActions.UpdateModifiedKey(action.payload.pageViewId, action.payload.rangeId));
                 }
 

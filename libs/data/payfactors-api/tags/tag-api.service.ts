@@ -6,7 +6,7 @@ import { GridDataResult } from '@progress/kendo-angular-grid';
 
 import { MappingHelper } from '../../../core/helpers';
 import {
-  AddTagCategoriesRequest, SaveTagInformationRequest, TagInformationRequest, UpsertTagCategoryRequest
+    AddTagCategoriesRequest, SaveTagInformationRequest, TagInformationRequest, UpsertTagCategoryRequest
 } from '../../../models/peer/requests';
 import { TagInformation } from '../../../models/peer';
 import { PayfactorsApiService } from '../payfactors-api.service';
@@ -27,8 +27,9 @@ export class TagApiService {
     );
   }
 
-  getEmployeeTagCategories() {
-    return this.payfactorsApiService.get<any[]>(`${this.endpoint}/GetAllEmployeeTagCategories`);
+  getEmployeeTagCategoriesForCompany(companyId: number) {
+    return this.payfactorsApiService.get<any[]>(`${this.endpoint}/GetEmployeeTagCategoriesForCompany`,
+      { params: { companyId: companyId } });
   }
 
   validateNewTagCategoryName(tagCategoryName: string): Observable<any> {
