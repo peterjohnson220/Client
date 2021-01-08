@@ -7,7 +7,7 @@
 
   <button *ngIf="DisplayHeader" class="btn btn-secondary" (click)="markAllAsRead()">Mark all as read</button>
 
-  <pf-infinite-scroll [scrollId]="scrollId" [numberOfCurrentResults]="numberOfCurrentResults" position="relative">
+  <pf-infinite-scroll [scrollId]="scrollId" [numberOfCurrentResults]="numberOfCurrentResults" [spinnerType]="'SVG'" position="relative">
     <div class="notification-table d-block" *ngIf="numberOfCurrentResults > 0; else noNotifications" >
         <div>
           <div class="notification-row card"

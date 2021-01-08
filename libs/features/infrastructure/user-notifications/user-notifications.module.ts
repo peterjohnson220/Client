@@ -7,6 +7,8 @@ import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontaweso
 
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonModule } from 'libs/core';
+import { PfInfiniteScrollModule } from 'libs/features/search/infinite-scroll';
+
 
 import { reducers } from './reducers';
 import { UserNotificationListComponent } from './containers';
@@ -27,9 +29,10 @@ import { NewPeerJobsNotificationComponent } from './components/categories/new-pe
 import { UserNotificationListEffects } from './effects';
 import { UserNotificationHostDirective } from './directives';
 import * as fromFaIcons from './fa-icons';
-import { PfInfiniteScrollModule } from 'libs/features/search/infinite-scroll';
+import { UserNotificationEventHelperService } from './helpers/user-notification-event-helper-service';
 
 @NgModule({
+  providers:[UserNotificationEventHelperService],
   imports: [
     CommonModule,
 

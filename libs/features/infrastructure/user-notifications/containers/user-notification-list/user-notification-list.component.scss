@@ -34,3 +34,7 @@ pf-infinite-scroll {
   max-height: 500px;
   margin-bottom: 0;
 }
+
+::ng-deep .scroll-results{
+  max-height:500px;
+}
