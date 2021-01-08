@@ -6,7 +6,7 @@
 @import 'total-rewards/statement-settings';
 @import 'total-rewards/statement-layout-variables';
 
-pf-page-with-title-bar .default > div { 
+pf-page-with-title-bar > div.default {
   background-color: $grey; // keep the darker html/body bg from showing through in edit page due to a preview transition
 }
 
