@@ -1,9 +1,9 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 import { CommunityAttachment } from 'libs/models/community/community-attachment.model';
-import { AttachmentFileType } from '../../models/attachment-file-type.model';
+import { AttachmentFileType } from 'libs/models/common';
+import { formatBytes } from 'libs/core/functions';
 import { CommunityConstants } from '../../models/community-constants';
-import { formatBytes } from '../../helpers/model-mapping.helper';
 
 
 @Component({

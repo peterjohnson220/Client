@@ -15,7 +15,7 @@ import { CommunityPostTypeStatusEnum, CommunitySearchResultTypeEnum } from 'libs
 import { CommunityNewPostComponent } from '../community-new-post/community-new-post.component';
 import { CommunityNewPollComponent } from '../community-new-poll/community-new-poll.component';
 import { CommunityNewJobComponent } from '../community-new-job/community-new-job.component';
-import { CommunityJob, CommunityAttachmentModalState, CommunityAttachment, CommunityPost, CommunityAttachmentUploadStatus } from 'libs/models';
+import { CommunityJob, CommunityAttachmentModalState, CommunityAttachment, CommunityPost, KendoUploadStatus } from 'libs/models';
 import { AppNotification } from 'libs/features/infrastructure/app-notifications/models';
 import { CommunityConstants } from '../../models';
 
@@ -120,10 +120,10 @@ export class CommunityStartDiscussionComponent implements OnInit, OnDestroy {
         if (!attachment) {
            return;
         }
-        if (notification.Level === 'Success' && attachment.Status !== CommunityAttachmentUploadStatus.ScanSucceeded) {
+        if (notification.Level === 'Success' && attachment.Status !== KendoUploadStatus.ScanSucceeded) {
           this.store.dispatch(new fromCommunityAttachmentActions.AttachmentScanSuccess(this.attachmentModalId, attachment.Id));
           this.appNotificationStore.dispatch(new fromAppNotificationsActions.DeleteNotification({notificationId: notification.NotificationId}));
-        } else if (notification.Level === 'Error' && attachment.Status !== CommunityAttachmentUploadStatus.ScanFailed) {
+        } else if (notification.Level === 'Error' && attachment.Status !== KendoUploadStatus.ScanFailed) {
           this.store.dispatch(new fromCommunityAttachmentActions.AttachmentScanFailure(this.attachmentModalId, attachment.Id));
           this.appNotificationStore.dispatch(new fromAppNotificationsActions.DeleteNotification({notificationId: notification.NotificationId}));
         }
@@ -168,11 +168,11 @@ export class CommunityStartDiscussionComponent implements OnInit, OnDestroy {
   }
 
   get scannedAttachments() {
-    return this.communityAttachments.filter((x) => x.Status === CommunityAttachmentUploadStatus.ScanSucceeded);
+    return this.communityAttachments.filter((x) => x.Status === KendoUploadStatus.ScanSucceeded);
   }
 
   get scanningAttachments() {
-    return this.communityAttachments.find((x) => x.Status === CommunityAttachmentUploadStatus.ScanInProgress);
+    return this.communityAttachments.find((x) => x.Status === KendoUploadStatus.ScanInProgress);
   }
 
 }

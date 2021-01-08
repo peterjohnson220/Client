@@ -1,7 +1,6 @@
-import { KendoUploadStatus } from '../common';
-import { CommunityAttachmentUploadStatus } from './community-attachment-upload-status';
+import { KendoUploadStatus } from './kendo-upload-status';
 
-export interface CommunityAttachment {
+export interface KendoUpload {
   Id: string;
   Name: string;
   FileType: string;
@@ -10,7 +9,7 @@ export interface CommunityAttachment {
   Status: KendoUploadStatus;
 }
 
-export function generateMockCommunityAttachment(): CommunityAttachment {
+export function generateMockKendoUpload(): KendoUpload {
   return {
     Id: '12345',
     Name: '1234',

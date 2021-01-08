@@ -70,7 +70,7 @@ export class AddingCompanyResourceAndFolderSuccess implements Action {
 export class AddingCompanyResourceError implements Action {
   readonly type = ADDING_COMPANY_RESOURCE_ERROR;
 
-  constructor(public error) {}
+  constructor(public payload) {}
 }
 
 export class DeletingCompanyResource implements Action {
