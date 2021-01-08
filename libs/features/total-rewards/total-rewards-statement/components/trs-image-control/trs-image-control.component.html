@@ -9,7 +9,7 @@
     'mr-auto justify-content-start': horizontalAlignment === 'left',
     'ml-auto justify-content-end': horizontalAlignment === 'right'
   }">
-  <div *ngIf="!controlData.FileUrl && mode === statementModeEnum.Edit; else showImage" class="upload-wrapper w-100 position-relative">
+  <div *ngIf="!controlData.FileUrl && mode === statementModeEnum.Edit; else showImage" class="upload-wrapper w-100 position-relative align-self-baseline">
     <fa-icon class="image-icon fa-2x" [icon]="'image'" aria-hidden="true"></fa-icon>
     <kendo-upload
       [autoUpload]="true"
