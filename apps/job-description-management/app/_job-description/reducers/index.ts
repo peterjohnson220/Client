@@ -316,6 +316,11 @@ export const getPublishingJobDescription = createSelector(
   fromJobDescriptionReducer.getPublishingJobDescription
 );
 
+export const getPublishingJobDescriptionSuccess = createSelector(
+  selectJobDescriptionState,
+  fromJobDescriptionReducer.getPublishingJobDescriptionSuccess
+);
+
 export const getPublishButtonEnabled = createSelector(
   selectJobDescriptionState,
   fromJobDescriptionReducer.getPublishButtonEnabled
