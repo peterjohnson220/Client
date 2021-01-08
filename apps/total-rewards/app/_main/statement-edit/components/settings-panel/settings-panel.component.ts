@@ -3,6 +3,7 @@ import { Component, Input, Output, EventEmitter, HostListener, OnInit, OnDestroy
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
+import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
 import { UpdateSettingsColorRequest } from 'libs/features/total-rewards/total-rewards-statement/models';
 import { FontFamily, FontSize } from 'libs/features/total-rewards/total-rewards-statement/types';
 
@@ -31,6 +32,13 @@ export class SettingsPanelComponent implements OnInit, OnDestroy {
   colorSubjectSubscription = new Subscription();
 
   showFontFamilyMenu = environment.enableTrsCustomFontFamilies;
+
+  totalRewardsEmployeeContributionFeatureFlag: RealTimeFlag = { key: FeatureFlags.TotalRewardsEmployeeContribution, value: false };
+  unsubscribe$ = new Subject<void>();
+
+  constructor(private featureFlagService: AbstractFeatureFlagService) {
+    this.featureFlagService.bindEnabled(this.totalRewardsEmployeeContributionFeatureFlag, this.unsubscribe$);
+  }
 
   ngOnInit() {
     // debounce chart color changes which can fire rapidly when click + hold, then dragging
