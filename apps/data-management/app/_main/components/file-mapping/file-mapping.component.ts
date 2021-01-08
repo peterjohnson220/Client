@@ -131,7 +131,7 @@ export class FileMappingComponent implements OnInit, OnChanges, OnDestroy {
         case LoaderType.Jobs:
           e.payfactorsDataFields = cloneDeep(this.payfactorsJobDataFields);
           if (e.customFields !== null) {
-            const customJobDisplayNames = e.customFields.Employees.map(udf => udf.Value);
+            const customJobDisplayNames = e.customFields.Jobs.map(udf => udf.Value);
             e.payfactorsDataFields.push.apply(e.payfactorsDataFields, this.buildInternalFields(customJobDisplayNames, false));
           }
           e.loaderEnabled = this.isJobsLoadEnabled;
