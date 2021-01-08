@@ -66,6 +66,7 @@ import { StructuresPagesService } from './services';
     FontAwesomeModule,
     RangeValuePipe,
     GridContextComponent,
+    GlobalActionsComponent,
     ModelSettingsBtnComponent
   ],
   providers: [
