@@ -275,10 +275,6 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
     return fields.filter(f => f.FilterValue).length > 0;
   }
 
-  toggleFilterPanel() {
-    this.store.dispatch(new fromActions.ToggleFilterPanel(this.pageViewId));
-  }
-
   closeFilterPanel() {
     this.store.dispatch(new fromActions.SetFilterPanelDisplay(this.pageViewId, false));
   }

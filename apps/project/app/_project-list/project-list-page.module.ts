@@ -8,6 +8,7 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
 import { FaIconLibrary, FontAwesomeModule} from '@fortawesome/angular-fontawesome';
+import {DropDownListModule} from '@progress/kendo-angular-dropdowns';
 
 import { PfDataGridModule } from 'libs/features';
 import { PfCommonUIModule } from 'libs/ui/common';
@@ -23,11 +24,11 @@ import { reducers } from './reducers';
 import { ProjectListPageEffects } from './effects';
 
 @NgModule({
-  imports: [
-    // Angular
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
+    imports: [
+        // Angular
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
 
     // 3rd Party
     StoreModule.forFeature('projectListPageMain', reducers),
@@ -38,6 +39,7 @@ import { ProjectListPageEffects } from './effects';
     FontAwesomeModule,
     NgbModule,
     NgbDropdownModule,
+    DropDownListModule,
 
     // Routing
     ProjectListPageRoutingModule,
@@ -46,8 +48,8 @@ import { ProjectListPageEffects } from './effects';
     PfDataGridModule,
     PfCommonModule,
     PfCommonUIModule,
-    PfFormsModule
-  ],
+    PfFormsModule,
+    ],
   declarations: [
     // Pages
     ProjectListPageComponent
