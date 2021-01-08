@@ -6,6 +6,10 @@
 @import 'total-rewards/statement-settings';
 @import 'total-rewards/statement-layout-variables';
 
+pf-page-with-title-bar .default > div { 
+  background-color: $grey; // keep the darker html/body bg from showing through in edit page due to a preview transition
+}
+
 .left-sidebar {
   z-index: 1040;
 }
@@ -70,7 +74,7 @@ pf-statement-edit.page {
   .preview-mode {
     .page-content, .page-header {
       background-color: rgba(255, 255, 255, 0.2) !important;
-      border-bottom-color: transparent !important;
+      border-bottom-color: transparent;
     }
     .page-header button {
       background-color: rgba(255, 255, 255, 0.5);
@@ -86,15 +90,15 @@ pf-statement-edit.page {
         opacity: 0;
       }
       .statement {
-        margin-top: -90px;
+        transform: translateY(-90px);
       }
       &.canvas {
-        background-color: rgba(187, 187, 187, 0);
+        background-color: transparent;
       }
     }
   }
   .statement, .header-row-wrapper, .canvas {
-    transition: opacity .2s ease-in-out, background-color .2s ease-in-out, margin-top .5s ease-in-out;
+    transition: opacity .2s ease-in-out, background-color .2s ease-in-out, transform .5s ease-in-out;
   }
   .page-content, .page-header {
     transition: background-color .3s ease-in-out;
