@@ -6,6 +6,7 @@ import { PfDataGridModule } from 'libs/features/grids/pf-data-grid';
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
+import { MultiMatchModule } from 'libs/features/pricings/multi-match';
 
 import { HighchartsChartModule } from 'highcharts-angular';
 
@@ -13,8 +14,7 @@ import { PricingsPageComponent } from './pricings.page/pricings.page';
 import { PricingsRoutingModule } from './pricings-routing.module';
 import { JobBasedSharedModule } from '../shared/shared.module';
 import { PricingsSalaryRangeChartComponent } from './containers';
-
-import { MultiMatchModule } from 'libs/features/pricings/multi-match';
+import { SharedModule } from '../../shared/shared.module';
 
 
 @NgModule({
@@ -38,7 +38,8 @@ import { MultiMatchModule } from 'libs/features/pricings/multi-match';
 
         // Shared
         JobBasedSharedModule,
-        MultiMatchModule
+        MultiMatchModule,
+        SharedModule
     ],
   declarations: [
     PricingsSalaryRangeChartComponent,
