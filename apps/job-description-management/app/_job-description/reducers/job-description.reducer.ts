@@ -14,6 +14,7 @@ export interface State {
   editing: boolean;
   saving: boolean;
   publishing: boolean;
+  publishingSuccess: boolean;
   inHistory: boolean;
   publishButtonEnabled: boolean;
   jobDescriptionIsFullscreen: boolean;
@@ -42,6 +43,7 @@ export const initialState: State = {
   editing: false,
   saving: false,
   publishing: false,
+  publishingSuccess: false,
   publishButtonEnabled: true,
   inHistory: false,
   jobDescriptionIsFullscreen: false,
@@ -204,7 +206,8 @@ export function reducer(state = initialState, action: fromJobDescriptionActions.
     case fromJobDescriptionActions.PUBLISH_JOB_DESCRIPTION: {
       return {
         ...state,
-        publishing: true
+        publishing: true,
+        publishingSuccess: false
       };
     }
     case fromJobDescriptionActions.PUBLISH_JOB_DESCRIPTION_SUCCESS: {
@@ -216,6 +219,7 @@ export function reducer(state = initialState, action: fromJobDescriptionActions.
       return {
         ...state,
         publishing: false,
+        publishingSuccess: true,
         editing: false,
         jobDescriptionAsync: asyncStateObjClone,
         jobDescriptionChangeHistory: [],
@@ -508,6 +512,7 @@ export const getEditingJobDescription = (state: State) => state.editing;
 export const getSavingJobDescription = (state: State) => state.saving;
 export const getJobDescriptionChangeHistory = (state: State) => state.jobDescriptionChangeHistory;
 export const getPublishingJobDescription = (state: State) => state.publishing;
+export const getPublishingJobDescriptionSuccess = (state: State) => state.publishingSuccess;
 export const getPublishButtonEnabled = (state: State) => state.publishButtonEnabled;
 export const getInHistory = (state: State) => state.inHistory;
 export const getJobDescriptionExtendedInfo = (state: State) => state.jobDescriptionExtendedInfo;
