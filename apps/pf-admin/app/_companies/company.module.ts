@@ -1,7 +1,6 @@
 import { NgModule} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MomentModule } from 'ngx-moment';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -44,7 +43,6 @@ import { CompanyRoutingModule } from './company-routing.module';
     NgbModalModule,
     FontAwesomeModule,
     ImgFallbackModule,
-    MomentModule,
 
     // Routing
     CompanyRoutingModule,
