@@ -11,33 +11,32 @@ import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { environment } from 'environments/environment';
 import { CompositeDataLoadTypes, LoadTypes } from 'libs/constants';
 import { FeatureFlags, RealTimeFlag } from 'libs/core';
+import { EntityKeyValidationService } from 'libs/core/services';
 import { AbstractFeatureFlagService } from 'libs/core/services/feature-flags';
-import * as fromAppNotificationsActions from 'libs/features/infrastructure/app-notifications/actions/app-notifications.actions';
-import {
-    AppNotification, NotificationLevel, NotificationPayload, NotificationSource, NotificationType
-} from 'libs/features/infrastructure/app-notifications/models';
-import * as fromAppNotificationsMainReducer from 'libs/features/infrastructure/app-notifications/reducers';
 import * as fromCompanySelectorActions from 'libs/features/company/company-selector/actions';
 import { CompanySelectorItem } from 'libs/features/company/company-selector/models';
 import * as fromCompanyReducer from 'libs/features/company/company-selector/reducers';
 import * as fromCustomFieldsActions from 'libs/features/company/custom-fields/actions/';
 import * as fromEntityIdentifierActions from 'libs/features/company/entity-identifier/actions/';
-import * as fromEmailRecipientsActions from 'libs/features/loaders/loader-email-recipients/actions/email-recipients.actions';
+import { EntityIdentifierViewModel, FieldNames } from 'libs/features/company/entity-identifier/models';
+import * as fromAppNotificationsActions from 'libs/features/infrastructure/app-notifications/actions/app-notifications.actions';
 import {
-    DEFAULT_DATE_FORMAT, LoaderFileFormat, LoaderSettingsKeys, LoaderType, ORG_DATA_PF_EMPLOYEE_TAG_FIELDS
-} from 'libs/features/loaders/org-data-loader/constants';
+    AppNotification, NotificationLevel, NotificationPayload, NotificationSource, NotificationType
+} from 'libs/features/infrastructure/app-notifications/models';
+import * as fromAppNotificationsMainReducer from 'libs/features/infrastructure/app-notifications/reducers';
+import * as fromEmailRecipientsActions from 'libs/features/loaders/loader-email-recipients/actions/email-recipients.actions';
+import * as fromLoaderSettingsActions from 'libs/features/loaders/org-data-loader/actions/loader-settings.actions';
+import { DEFAULT_DATE_FORMAT, LoaderFileFormat, LoaderSettingsKeys, LoaderType } from 'libs/features/loaders/org-data-loader/constants';
 import { LoaderSettings, OrgDataLoadHelper } from 'libs/features/loaders/org-data-loader/helpers';
 import { ILoadSettings } from 'libs/features/loaders/org-data-loader/helpers/org-data-load-helper';
 import { FieldMapping, FileUploadDataRequestModel, LoaderEntityStatus } from 'libs/features/loaders/org-data-loader/models';
-import * as fromLoaderSettingsActions from 'libs/features/loaders/org-data-loader/actions/loader-settings.actions';
+import { EntityCustomFieldsModel } from 'libs/features/loaders/org-data-loader/models/entity-custom-fields.model';
 import * as fromFileUploadReducer from 'libs/features/loaders/org-data-loader/reducers';
 import { CompanySetting, CompanySettingsEnum } from 'libs/models/company';
 import { ConfigurationGroup, EmailRecipientModel, LoaderSaveCoordination, LoaderSetting, MappingModel } from 'libs/models/data-loads';
 import { UserContext } from 'libs/models/security';
 import * as fromRootState from 'libs/state/state';
 import { LoadingProgressBarModel } from 'libs/ui/common/loading/models';
-import { EntityKeyValidationService } from 'libs/core/services';
-import { EntityIdentifierViewModel } from 'libs/features/company/entity-identifier/models';
 
 import * as fromDataManagementMainReducer from '../../../reducers';
 import * as fromOrganizationalDataActions from '../../../actions/organizational-data-page.action';
@@ -73,6 +72,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   private customJobFields$: Observable<any>;
   private customEmployeeFields$: Observable<any>;
   private employeeIdentifiers$: Observable<any>;
+  public customFields: EntityCustomFieldsModel;
 
   private empoyeeTagCategories$: Observable<any>;
   private fileUploadData$: Observable<any>;
@@ -304,22 +304,20 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     this.customJobFields$.pipe(
       filter(uc => !!uc),
       takeUntil(this.unsubscribe$)).subscribe(jobs => {
-        this.loadOptions.find(l => l.templateReferenceConstants === LoaderType.Jobs).customFields.Jobs = jobs;
+        this.customFields.Jobs = jobs;
       });
 
     this.customEmployeeFields$.pipe(
       filter(uc => !!uc),
       takeUntil(this.unsubscribe$)).subscribe(employees => {
-        this.loadOptions.find(l => l.templateReferenceConstants === LoaderType.Employees).customFields.Employees = employees;
+        this.customFields.Employees = employees;
         this.mainStore.dispatch(new fromEntityIdentifierActions.GetEmployeeIdentifiers(this.selectedCompany.CompanyId, employees));
       });
 
     this.empoyeeTagCategories$.pipe(
       filter(uc => !!uc),
       takeUntil(this.unsubscribe$)).subscribe(employeetags => {
-
-        const empTags = this.loadOptions.find(l => l.templateReferenceConstants === LoaderType.EmployeeTags).customFields.EmployeeTags;
-        this.loadOptions.find(l => l.templateReferenceConstants === LoaderType.EmployeeTags).customFields.EmployeeTags = empTags.concat(employeetags);
+        this.customFields.EmployeeTags = employeetags;
       });
 
     this.employeeIdentifiers$.pipe(
@@ -328,12 +326,9 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     ).subscribe(r => {
       const selected = r.filter(a => a.isChecked);
       this.employeeEntityKeys = selected;
-      const selectedWithoutEmployeeId = selected.filter( a => a.Field !== 'Employee_ID');
 
-      if (selectedWithoutEmployeeId?.length >= 0) {
-        const empTags = this.loadOptions.find(l => l.templateReferenceConstants === LoaderType.EmployeeTags).customFields.EmployeeTags;
-        this.loadOptions.find(l => l.templateReferenceConstants === LoaderType.EmployeeTags)
-          .customFields.EmployeeTags = empTags.concat(selectedWithoutEmployeeId.map(a => a.Field));
+      if (selected?.length > 0) {
+        this.customFields.EmployeeKeyFields = selected.map(a => a.Field);
       }
     });
 
@@ -504,8 +499,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   }
 
   getPayfactorCustomFields(companyId) {
-
-    this.loadOptions.find(l => l.templateReferenceConstants === LoaderType.EmployeeTags).customFields.EmployeeTags = ORG_DATA_PF_EMPLOYEE_TAG_FIELDS;
+    this.customFields.EmployeeKeyFields = [FieldNames.EMPLOYEE_ID];
 
     this.mainStore.dispatch(new fromCustomFieldsActions.GetCustomJobFields(companyId));
     this.mainStore.dispatch(new fromCustomFieldsActions.GetCustomEmployeeFields(companyId));
@@ -604,6 +598,8 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       this.loadOptions = getEntityChoicesForOrgLoader();
       const empTagsFeatureFlagEnabled = this.featureFlagService.enabled(FeatureFlags.EmployeeTagsLoaderConfiguration, false);
       this.loadOptions.find(a => a.dbName === 'EmployeeTags').isEnabled = empTagsFeatureFlagEnabled;
+      this.customFields = { Employees: [], Jobs: [], EmployeeTags: [], EmployeeKeyFields: [] };
+
     }
 
     if (this.stepIndex <= 2) {

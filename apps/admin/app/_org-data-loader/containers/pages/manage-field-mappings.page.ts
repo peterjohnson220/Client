@@ -14,6 +14,7 @@ import { NotificationRef, NotificationService, NotificationSettings } from '@pro
 import { environment } from 'environments/environment';
 import { LoadTypes } from 'libs/constants';
 import { CompositeDataLoadTypes } from 'libs/constants/composite-data-load-types';
+import { EntityKeyValidationService } from 'libs/core/services';
 import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
 import { CompanySettingsApiService } from 'libs/data/payfactors-api';
 import * as fromCompanySelectorActions from 'libs/features/company/company-selector/actions';
@@ -22,23 +23,20 @@ import { CompanySelectorItem } from 'libs/features/company/company-selector/mode
 import * as fromCompanyReducer from 'libs/features/company/company-selector/reducers';
 import * as fromCustomFieldsActions from 'libs/features/company/custom-fields/actions/custom-fields.actions';
 import * as fromEntityIdentifierActions from 'libs/features/company/entity-identifier/actions/entity-identifier.actions';
+import { EntityIdentifierViewModel, FieldNames } from 'libs/features/company/entity-identifier/models';
 import * as fromEmailRecipientsActions from 'libs/features/loaders/loader-email-recipients/actions/email-recipients.actions';
-import {
-    DATE_FORMATS, DEFAULT_DATE_FORMAT, LoaderFileFormat, ORG_DATA_PF_EMPLOYEE_TAG_FIELDS
-} from 'libs/features/loaders/org-data-loader/constants';
+import * as fromLoaderSettingsActions from 'libs/features/loaders/org-data-loader/actions/loader-settings.actions';
+import { DATE_FORMATS, DEFAULT_DATE_FORMAT, LoaderFileFormat } from 'libs/features/loaders/org-data-loader/constants';
 import { LoaderSettings, OrgDataLoadHelper } from 'libs/features/loaders/org-data-loader/helpers';
 import {
     DateFormatItem, FieldMapping, InternalField, LoaderEntityStatus, VisibleLoaderOptionModel
 } from 'libs/features/loaders/org-data-loader/models';
-import * as fromLoaderSettingsActions from 'libs/features/loaders/org-data-loader/actions/loader-settings.actions';
 import { CompanySetting, CompanySettingsEnum } from 'libs/models';
 import { ConfigurationGroup, EmailRecipientModel, LoaderFieldSet, LoaderSetting, MappingModel } from 'libs/models/data-loads';
 import { OrgDataLoaderConfigurationSaveRequest } from 'libs/models/data-loads/request';
 import { ConfigSetting } from 'libs/models/security';
 import { SftpUserModel } from 'libs/models/Sftp';
 import { ConfigSettingsSelectorFactory } from 'libs/state/app-context/services';
-import { EntityKeyValidationService } from 'libs/core/services';
-import { EntityIdentifierViewModel } from 'libs/features/company/entity-identifier/models';
 
 import * as fromOrgDataAutoloaderReducer from '../../reducers';
 import * as fromOrgDataFieldMappingsActions from '../../actions/org-data-field-mappings.actions';
@@ -460,15 +458,14 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
       .subscribe(result => {
         const selected = result.employeeIdentifiers.filter(a => a.isChecked);
         this.employeeEntityKeys = selected;
-        const selectedWithoutEmployeeId = selected.filter( a => a.Field !== 'Employee_ID');
 
-        if (selectedWithoutEmployeeId?.length >= 0) {
-          this.payfactorsEmployeeTagsDataFields = this.payfactorsEmployeeTagsDataFields.concat(selectedWithoutEmployeeId.map(a => {
+        if (selected?.length > 0) {
+          this.payfactorsEmployeeTagsDataFields = selected.map(a => {
             return {
               FieldName: a.Field,
               IsDataElementName: false
             };
-          }));
+          });
         }
 
         this.payfactorsEmployeeTagsDataFields = this.payfactorsEmployeeTagsDataFields.concat(result.tagCategories.map(tagName => {
@@ -587,8 +584,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
 
   CompanySelected() {
 
-    this.payfactorsEmployeeTagsDataFields = this.buildInternalFields(ORG_DATA_PF_EMPLOYEE_TAG_FIELDS, false);
-
+    this.payfactorsEmployeeTagsDataFields = [{ FieldName: FieldNames.EMPLOYEE_ID, IsDataElementName: false }];
     this.store.dispatch(new fromCustomFieldsActions.GetCustomEmployeeFields(this.selectedCompany.CompanyId));
     this.store.dispatch(new fromCustomFieldsActions.GetCustomJobFields(this.selectedCompany.CompanyId));
     this.store.dispatch(new fromCustomFieldsActions.GetTagCategories(this.selectedCompany.CompanyId));
@@ -799,7 +795,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
       return 'Please enter an email recipient to receive the results of this load.';
     } else if (!this.isValidExtension(this.sftpPublicKey)) {
       return 'Invalid Public key File format. Please upload a file in these formats: ' + this.acceptedFileExtensions.join(', ');
-    } else if (this.entityKeyValidationMessage?.length > 0 ) {
+    } else if (this.entityKeyValidationMessage?.length > 0) {
       return this.entityKeyValidationMessage;
     }
 

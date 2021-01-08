@@ -14,7 +14,6 @@ export interface EntityChoice {
   payfactorsDataFields: InternalField[];
   loaderEnabled: boolean;
   columnNames: string[];
-  customFields: EntityCustomFieldsModel;
   dbName?: string;
   isFullReplace: boolean;
   isLoadingFinish: boolean;
@@ -33,7 +32,6 @@ export function getDefaultEntityChoice(): EntityChoice {
     payfactorsDataFields: [],
     loaderEnabled: false,
     columnNames: null,
-    customFields: { Employees: [], Jobs: [], EmployeeTags: [], EmployeeKeyFields: [] },
     isFullReplace: null,
     isLoadingFinish: true,
     dbName: null,
