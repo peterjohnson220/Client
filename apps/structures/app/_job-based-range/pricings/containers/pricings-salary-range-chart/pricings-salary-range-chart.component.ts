@@ -10,7 +10,7 @@ import { JobBasedPageViewIds, RangeGroupMetadata } from 'libs/models/structures'
 import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import { appendOrdinalSuffix } from 'libs/core/functions';
 
-import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
+import * as fromSharedStructuresReducer from '../../../../shared/reducers';
 import { StructuresHighchartsService } from '../../../../shared/services/structures-highcharts-service';
 import { PricingsSalaryRangeChartSeries, PricingsSalaryRangeChartService } from '../../data';
 import { PricingMatchHelper } from '../../helpers';
@@ -60,7 +60,7 @@ export class PricingsSalaryRangeChartComponent implements OnInit, OnDestroy {
     public store: Store<any>,
     private structuresPagesService: StructuresPagesService
   ) {
-    this.metadataSubscription = this.store.select(fromSharedJobBasedRangeReducer.getMetadata).subscribe(md => {
+    this.metadataSubscription = this.store.select(fromSharedStructuresReducer.getMetadata).subscribe(md => {
       if (md) {
         this.metaData = md;
         this.currency = md.Currency;

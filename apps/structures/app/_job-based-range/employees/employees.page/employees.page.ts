@@ -12,12 +12,13 @@ import { PfDataGridColType } from 'libs/features/grids/pf-data-grid/enums';
 import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums/pf-theme-type.enum';
 import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 
-import * as fromSharedJobBasedRangeReducer from '../../shared/reducers';
+import * as fromSharedStructuresReducer from '../../../shared/reducers';
 import * as fromModelSettingsModalActions from '../../shared/actions/model-settings-modal.actions';
 import * as fromDuplicateModelModalActions from '../../shared/actions/duplicate-model-modal.actions';
 import * as fromSharedActions from '../../shared/actions/shared.actions';
 import { PagesHelper } from '../../../shared/helpers/pages.helper';
 import { StructuresPagesService } from '../../../shared/services';
+import * as fromSharedStructuresActions from '../../../shared/actions/shared.actions';
 
 
 @Component({
@@ -51,11 +52,11 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
   filterTemplates = {};
 
   constructor(
-    public store: Store<fromSharedJobBasedRangeReducer.State>,
+    public store: Store<fromSharedStructuresReducer.State>,
     public route: ActivatedRoute,
     private structuresPagesService: StructuresPagesService,
   ) {
-    this.metaData$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getMetadata));
+    this.metaData$ = this.store.pipe(select(fromSharedStructuresReducer.getMetadata));
     this.metadataSubscription = this.metaData$.subscribe(md => {
       if (md) {
         this.pageViewId = PagesHelper.getEmployeePageViewIdByRangeDistributionType(md.RangeDistributionTypeId);
@@ -122,7 +123,7 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
     };
 
     // Get all overridden ranges
-    this.store.dispatch(new fromSharedActions.GetOverriddenRanges({
+    this.store.dispatch(new fromSharedStructuresActions.GetOverriddenRanges({
       pageViewId: this.modelPageViewId,
       rangeGroupId: this.rangeGroupId
     }));

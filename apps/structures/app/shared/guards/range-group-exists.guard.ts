@@ -2,15 +2,15 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { ActivatedRoute, ActivatedRouteSnapshot, CanActivate, Router } from '@angular/router';
 
 import { select, Store } from '@ngrx/store';
-import { Observable, of, Subject, Subscription } from 'rxjs';
+import { from, Observable, of, Subject, Subscription } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 
 import { StructureRangeGroupApiService } from 'libs/data/payfactors-api/structures';
 import * as fromRootState from 'libs/state/state';
 import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
 
-import * as fromMetadataActions from '../../_job-based-range/shared/actions/shared.actions';
 import * as fromSharedStructuresActions from '../../shared/actions/shared.actions';
+import * as fromSharedStructuresReducer from '../../shared/reducers';
 import * as fromJobBasedRangeReducer from '../../_job-based-range/shared/reducers';
 import { PayfactorsApiModelMapper } from '../../_job-based-range/shared/helpers/payfactors-api-model-mapper';
 
@@ -22,7 +22,7 @@ export class RangeGroupExistsGuard implements CanActivate, OnDestroy {
   unsubscribe$ = new Subject<void>();
 
   constructor(
-    private store: Store<fromJobBasedRangeReducer.State>,
+    private store: Store<fromSharedStructuresReducer.State>,
     private structureRangeGroupApiService: StructureRangeGroupApiService,
     private featureFlagService: AbstractFeatureFlagService,
     private router: Router,
@@ -37,10 +37,8 @@ export class RangeGroupExistsGuard implements CanActivate, OnDestroy {
       map((response) => {
         if (response) {
           const metadata = PayfactorsApiModelMapper.mapStructuresRangeGroupResponseToRangeGroupMetadata(response);
-          this.store.dispatch(new fromMetadataActions.SetMetadata(metadata));
-          // TODO - when we move the JBR code to use the new metadata, get rid of the JBR based SetMetadata call
           this.store.dispatch(new fromSharedStructuresActions.SetMetadata(metadata));
-          this.store.dispatch(new fromMetadataActions.GetCompanyExchanges(this.companyId));
+          this.store.dispatch(new fromSharedStructuresActions.GetCompanyExchanges(this.companyId));
           return true;
         } else {
           this.router.navigate(['/not-found'], { relativeTo: this.route });

@@ -4,12 +4,11 @@ import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BehaviorSubject, of } from 'rxjs';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
-import { JobBasedPageViewIds } from 'libs/models/structures';
+import { GradeBasedPageViewIds } from 'libs/models/structures';
 import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import { AbstractFeatureFlagService, PermissionService, PfCommonModule } from 'libs/core';
 import * as fromRootState from 'libs/state/state';
 
-import * as fromJobBasedRangeReducer from '../../../../_job-based-range/shared/reducers';
 import { StructuresPagesService } from '../../../../shared/services';
 import { ModelGridComponent } from './model-grid.component';
 
@@ -18,7 +17,7 @@ import { ModelGridComponent } from './model-grid.component';
 class MockStructuresPagesService {
   modelPageViewId: BehaviorSubject<string>;
   constructor() {
-    this.modelPageViewId = new BehaviorSubject<string>(JobBasedPageViewIds.ModelMinMidMax);
+    this.modelPageViewId = new BehaviorSubject<string>(GradeBasedPageViewIds.ModelMinMidMax);
   }
 }
 
@@ -26,14 +25,13 @@ describe('ModelGridComponent', () => {
   let instance: ModelGridComponent;
   let fixture: ComponentFixture<ModelGridComponent>;
   let store: Store<any>;
-  let ngbModal: NgbModal
+  let ngbModal: NgbModal;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
           ...fromRootState.reducers,
-          jobBased_main: combineReducers(fromJobBasedRangeReducer.reducers),
           pfDataGrids: combineReducers(fromPfGridReducer.reducers)
         }),
         PfCommonModule,

@@ -25,6 +25,7 @@ import { ModelRoutingModule } from './model-routing.module';
 import { JobBasedSharedModule } from '../shared/shared.module';
 import { CompareJobBasedRangeChartComponent } from './containers/compare-job-based-range-chart/compare-job-based-range-chart.component';
 import { reducers } from './reducers';
+import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
   imports: [
@@ -59,7 +60,8 @@ import { reducers } from './reducers';
     ModelRoutingModule,
 
     // Shared
-    JobBasedSharedModule
+    JobBasedSharedModule,
+    SharedModule
   ],
   declarations: [
     ModelPageComponent,

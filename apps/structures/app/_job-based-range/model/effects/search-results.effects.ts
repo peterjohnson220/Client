@@ -24,6 +24,7 @@ import * as fromInfiniteScrollActions from 'libs/features/search/infinite-scroll
 import { SearchFeatureIds } from 'libs/features/search/search/enums/search-feature-ids';
 
 import * as fromSharedReducer from '../../shared/reducers';
+import * as fromSharedStructuresReducer from '../../../shared/reducers';
 
 @Injectable()
 export class SearchResultsEffects {
@@ -79,7 +80,7 @@ export class SearchResultsEffects {
         this.store.select(fromSearchReducer.getParentFilters),
         this.store.select(fromSearchReducer.getResultsPagingOptions),
         this.store.select(fromAddJobsReducer.getContextStructureRangeGroupId),
-        this.store.select(fromSharedReducer.getMetadata),
+        this.store.select(fromSharedStructuresReducer.getMetadata),
         this.store.select(fromSearchReducer.getSearchFilterMappingData),
         this.store.select(fromSearchReducer.getSearchFeatureId),
         (action: fromSearchResultsActions.GetResults,

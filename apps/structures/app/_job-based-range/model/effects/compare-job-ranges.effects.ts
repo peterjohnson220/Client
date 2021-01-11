@@ -15,6 +15,7 @@ import { CompareJobRangesHelper } from '../helpers';
 import * as fromCompareJobRangesReducer from '../reducers';
 import * as fromCompareJobRangesActions from '../actions';
 import * as fromSharedReducer from '../../shared/reducers';
+import * as fromSharedStructuresReducer from '../../../shared/reducers';
 
 @Injectable()
 export class CompareJobRangesEffects {
@@ -42,8 +43,8 @@ export class CompareJobRangesEffects {
             this.store.pipe(select(fromPfDataGridReducer.getGridConfig)),
             this.store.pipe(select(fromPfDataGridReducer.getData)),
             this.store.pipe(select(fromSharedReducer.getCurrentRangeGroup)),
-            this.store.pipe(select(fromSharedReducer.getMetadata)),
-            this.store.pipe(select(fromSharedReducer.getRoundingSettings)),
+            this.store.pipe(select(fromSharedStructuresReducer.getMetadata)),
+            this.store.pipe(select(fromSharedStructuresReducer.getRoundingSettings)),
             this.store.pipe(select(fromSharedReducer.getComparingModels)),
             (a: fromCompareJobRangesActions.GetDataForCompare, baseEntity, fields, pagingOptions, sortDescriptor, gridConfig, gridData,
              currentRangeGroup, metadata, roundingSettings, comparingFlag) =>

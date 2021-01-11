@@ -19,7 +19,7 @@ import { StructureModelingApiService } from 'libs/data/payfactors-api/structures
 import { JobSearchRequestStructuresRangeGroup } from 'libs/models/payfactors-api';
 import { GridDataHelper } from 'libs/features/grids/pf-data-grid/helpers';
 
-import * as fromSharedReducer from '../../shared/reducers';
+import * as fromSharedStructuresReducer from '../../../shared/reducers';
 import * as fromSharedActions from '../../shared/actions/shared.actions';
 import * as fromSharedModelSettingsActions from '../../shared/actions/model-settings-modal.actions';
 import { UrlService } from '../../shared/services';
@@ -46,8 +46,8 @@ export class AddJobsModalEffects {
         this.store.pipe(select(fromAddJobsReducer.getSelectedPaymarkets)),
         this.store.pipe(select(fromAddJobsReducer.getSelectedJobIds)),
         this.store.pipe(select(fromAddJobsReducer.getSelectedPayfactorsJobCodes)),
-        this.store.pipe(select(fromSharedReducer.getMetadata)),
-        this.store.pipe(select(fromSharedReducer.getRoundingSettings)),
+        this.store.pipe(select(fromSharedStructuresReducer.getMetadata)),
+        this.store.pipe(select(fromSharedStructuresReducer.getRoundingSettings)),
         this.store.pipe(select(fromPfDataGridReducer.getGridConfig)),
         this.store.pipe(select(fromPfDataGridReducer.getData)),
         this.store.pipe(select(fromPfDataGridReducer.getPagingOptions)),
@@ -83,8 +83,8 @@ export class AddJobsModalEffects {
         this.store.pipe(select(fromSearchReducer.getParentFilters)),
         this.store.pipe(select(fromSearchReducer.getNumberOfResultsOnServer)),
         this.store.pipe(select(fromAddJobsReducer.getContextStructureRangeGroupId)),
-        this.store.pipe(select(fromSharedReducer.getMetadata)),
-        this.store.pipe(select(fromSharedReducer.getRoundingSettings)),
+        this.store.pipe(select(fromSharedStructuresReducer.getMetadata)),
+        this.store.pipe(select(fromSharedStructuresReducer.getRoundingSettings)),
         this.store.pipe(select(fromPfDataGridReducer.getGridConfig)),
         this.store.pipe(select(fromPfDataGridReducer.getData)),
         this.store.pipe(select(fromPfDataGridReducer.getPagingOptions)),

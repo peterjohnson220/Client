@@ -12,7 +12,7 @@ import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import { CompanySettingsEnum } from 'libs/models/company';
 import { SettingsService } from 'libs/state/app-context/services';
 
-import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
+import * as fromSharedStructuresReducer from '../../../../shared/reducers';
 import { StructuresHighchartsService, StructuresPagesService } from '../../../../shared/services';
 import { JobRangeModelChartService, JobRangeModelChartSeries } from '../../data';
 import { GraphHelper } from '../../../shared/helpers/graph.helper';
@@ -81,7 +81,7 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
         }
       }
     });
-    this.metadataSubscription = this.store.select(fromSharedJobBasedRangeReducer.getMetadata).subscribe(md => {
+    this.metadataSubscription = this.store.select(fromSharedStructuresReducer.getMetadata).subscribe(md => {
       if (md) {
         this.metaData = md;
         this.isCurrent = md.IsCurrent;
@@ -118,7 +118,7 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.selectedPeerExchangeSub = this.store.select(fromSharedJobBasedRangeReducer.getSelectedPeerExchange).subscribe(peerExchange => {
+    this.selectedPeerExchangeSub = this.store.select(fromSharedStructuresReducer.getSelectedPeerExchange).subscribe(peerExchange => {
       if (peerExchange) {
         this.selectedPeerExchange = peerExchange;
       }

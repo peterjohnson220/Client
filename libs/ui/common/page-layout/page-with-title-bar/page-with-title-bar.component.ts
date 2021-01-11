@@ -19,6 +19,7 @@ export class PageWithTitleBarComponent {
   @Input() absoluteUrl: string;
   @Input() contentNoPadding: boolean;
   @Input() theme = PfThemeType.Default;
+  @Input() flexColumnContainerHeightAuto = false;
 
   // Application will be reloaded when the goBackUsingBrowserHistory
   // is used to navigate back to the previous view

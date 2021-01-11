@@ -13,7 +13,7 @@ import { PermissionCheckEnum, Permissions } from 'libs/constants';
 import { PermissionService } from 'libs/core/services';
 
 import * as fromRangeFieldActions from '../../actions/range-field-edit.actions';
-import * as fromSharedJobBasedRangeReducer from '../../../../../../apps/structures/app/_job-based-range/shared/reducers';
+import * as fromSharedStructuresReducer from '../../../../../../apps/structures/app/shared/reducers';
 
 @Component({
   selector: 'pf-range-field-editor',
@@ -118,7 +118,7 @@ export class RangeFieldEditorComponent implements OnInit, OnDestroy, OnChanges {
 
   constructor(
     private store: Store<any>,
-    public jobBasedRangeStore: Store<fromSharedJobBasedRangeReducer.State>,
+    public jobBasedRangeStore: Store<fromSharedStructuresReducer.State>,
     private settingsService: SettingsService,
     private permissionService: PermissionService
   ) {
@@ -129,7 +129,7 @@ export class RangeFieldEditorComponent implements OnInit, OnDestroy, OnChanges {
     this.hasCanEditPublishedStructureRanges = this.permissionService.CheckPermission([Permissions.STRUCTURES_PUBLISH],
       PermissionCheckEnum.Single);
 
-    this.metadata$ = this.jobBasedRangeStore.pipe(select(fromSharedJobBasedRangeReducer.getMetadata));
+    this.metadata$ = this.jobBasedRangeStore.pipe(select(fromSharedStructuresReducer.getMetadata));
   }
 
   handleFocus() {

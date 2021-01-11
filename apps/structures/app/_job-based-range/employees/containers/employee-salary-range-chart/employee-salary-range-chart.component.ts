@@ -9,7 +9,7 @@ import { GridDataResult } from '@progress/kendo-angular-grid';
 import { RangeGroupMetadata } from 'libs/models/structures';
 import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 
-import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
+import * as fromSharedStructuresReducer from '../../../../shared/reducers';
 import { StructuresHighchartsService, StructuresPagesService } from '../../../../shared/services';
 import { EmployeeRangeChartService, EmployeeSalaryRangeChartSeries } from '../../data';
 import { GraphHelper } from '../../../shared/helpers/graph.helper';
@@ -63,7 +63,7 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
     public store: Store<any>,
     private structuresPagesService: StructuresPagesService
   ) {
-    this.metadataSubscription = this.store.select(fromSharedJobBasedRangeReducer.getMetadata).subscribe(md => {
+    this.metadataSubscription = this.store.select(fromSharedStructuresReducer.getMetadata).subscribe(md => {
       if (md) {
         this.metaData = md;
         this.pageViewId = PagesHelper.getEmployeePageViewIdByRangeDistributionType(this.metaData.RangeDistributionTypeId);

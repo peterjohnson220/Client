@@ -12,7 +12,9 @@ import { CompanySettingsEnum } from 'libs/models/company';
 import { SettingsService } from 'libs/state/app-context/services';
 
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
-import { StructuresHighchartsService, StructuresPagesService } from '../../../../shared/services';
+import * as fromSharedStructuresReducer from '../../../../shared/reducers';
+import { StructuresPagesService } from '../../../../shared/services';
+import { StructuresHighchartsService } from '../../../../shared/services';
 import {
   CompareJobRangeModelChartService,
   CompareMinMidMaxJobRangeModelChartSeries,
@@ -106,7 +108,7 @@ export class CompareJobBasedRangeChartComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.metadataSubscription = this.store.select(fromSharedJobBasedRangeReducer.getMetadata).subscribe(md => {
+    this.metadataSubscription = this.store.select(fromSharedStructuresReducer.getMetadata).subscribe(md => {
       if (md) {
         this.metaData = md;
         this.isCurrent = md.IsCurrent;
@@ -169,7 +171,7 @@ export class CompareJobBasedRangeChartComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.selectedPeerExchangeSub = this.store.select(fromSharedJobBasedRangeReducer.getSelectedPeerExchange).subscribe(peerExchange => {
+    this.selectedPeerExchangeSub = this.store.select(fromSharedStructuresReducer.getSelectedPeerExchange).subscribe(peerExchange => {
       if (peerExchange) {
         this.selectedPeerExchange = peerExchange;
       }

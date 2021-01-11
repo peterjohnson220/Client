@@ -19,9 +19,9 @@ import { SurveySearchFilterMappingDataObj, SurveySearchUserFilterType } from 'li
 import { SearchFeatureIds } from 'libs/features/search/search/enums/search-feature-ids';
 import * as fromModifyPricingsActions from 'libs/features/pricings/multi-match/actions';
 
-import * as fromSharedJobBasedRangeReducer from '../../shared/reducers';
+import * as fromSharedStructuresReducer from '../../../shared/reducers';
 import * as fromModelSettingsModalActions from '../../shared/actions/model-settings-modal.actions';
-import * as fromSharedActions from '../../shared/actions/shared.actions';
+import * as fromSharedStructuresActions from '../../../shared/actions/shared.actions';
 import * as fromDuplicateModelModalActions from '../../shared/actions/duplicate-model-modal.actions';
 import { StructuresPagesService } from '../../../shared/services';
 
@@ -62,11 +62,11 @@ export class PricingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   multiMatchImplementation = MODIFY_PRICINGS;
 
   constructor(
-    private store: Store<fromSharedJobBasedRangeReducer.State>,
+    private store: Store<fromSharedStructuresReducer.State>,
     private route: ActivatedRoute,
     private structuresPagesService: StructuresPagesService,
   ) {
-    this.metaData$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getMetadata));
+    this.metaData$ = this.store.pipe(select(fromSharedStructuresReducer.getMetadata));
     this.rangeGroupId = this.route.parent.snapshot.params.id;
     this.rangeId = parseInt(this.route.snapshot.params.id, 10);
 
@@ -139,7 +139,7 @@ export class PricingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     };
 
     // Get all overridden ranges
-    this.store.dispatch(new fromSharedActions.GetOverriddenRanges({
+    this.store.dispatch(new fromSharedStructuresActions.GetOverriddenRanges({
       pageViewId: this.modelPageViewId,
       rangeGroupId: this.rangeGroupId
     }));
