@@ -104,4 +104,15 @@ describe('TrsImageControlComponent', () => {
     expect(controlDiv.classList).toContain('ml-auto');
     expect(controlDiv.classList).toContain('justify-content-end');
   });
+
+  // work around a chrome bug that didn't recognize a margin we used to have here on PDF pages 2+, so use padding instead
+  it('should add padding to the control when IncreaseMarginTop is true', () => {
+    component.controlData =  { ...generateMockImageControl(), IncreaseMarginTop: true } ;
+    component.mode = StatementModeEnum.Print;
+
+    fixture.detectChanges();
+
+    const controlDiv = fixture.debugElement.nativeElement.querySelector('.trs-image');
+    expect(controlDiv.classList).toContain('pt-3');
+  });
 });
