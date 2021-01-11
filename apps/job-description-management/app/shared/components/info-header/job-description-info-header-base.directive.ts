@@ -55,6 +55,10 @@ export abstract class JobDescriptionInfoHeaderBaseDirective implements OnInit, O
     const jobInfoFields = this.jobInformationFields;
 
     jobInfoFields.forEach((jif, index) => {
+      // FORT-667: the logic will be updtated in the future for all JD statuses to follow View settings
+      if (this.jobDescription['JobDescriptionStatus'] === 'Published' && jif.ShowFieldInView === false) {
+        return;
+      }
       if (jif.FieldName === 'TemplateName'
         && (this.jobDescription
         && !this.jobDescription['WorkflowId']
