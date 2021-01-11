@@ -66,7 +66,7 @@ describe('ProjectTemplatesComponent', () => {
     instance.handleEditItemClicked(item);
 
     expect(instance.store.dispatch).toHaveBeenCalledWith(expectedAction);
-  })
+  });
 
   it('should dispatch open add when add button clicked', () => {
     spyOn(instance.store, 'dispatch');
