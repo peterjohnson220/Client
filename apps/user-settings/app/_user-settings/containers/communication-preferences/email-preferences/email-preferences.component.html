@@ -1,4 +1,4 @@
-<div class="card d-flex flex-column flex-grow-1">
+<div *ngIf="(UserSubscriptions$ |async)?.obj?.length" class="card d-flex flex-column flex-grow-1">
 
   <div class="card-header">
     <span class="title">Email Preferences</span>
