@@ -10,7 +10,8 @@
   [columnTemplates]="colTemplates"
   [actionBarConfig]="actionBarConfig"
   [noRecordsFound]="'No projects available. Please change your search criteria.'"
-  [pageable]="!gridConfig.EnableInfiniteScroll">
+  [pageable]="!gridConfig.EnableInfiniteScroll"
+  [gridRowActionsConfig]="gridRowActionsConfig">
 </pf-data-grid>
 
 
@@ -31,5 +32,35 @@
 <ng-template #projectStatusColumn let-dataRow="dataRow" let-hover="hover">
   <div>
     <span [title]="dataRow.UserSessions_Completed ? 'Project is Completed' : 'Project is In Progress'" [ngClass]="dataRow.UserSessions_Completed ? 'complete' : 'in-progress'"> <fa-icon [icon]="'circle'"></fa-icon></span>
+    &nbsp;{{dataRow.UserSessions_Completed ? 'Complete' : 'In Progress'}}
+  </div>
+</ng-template>
+
+<ng-template #gridRowActionsTemplate let-dataRow="dataRow">
+  <div class="grid-row-actions-container d-flex">
+    <div ngbDropdown container="body" #p="ngbDropdown" class="d-inline-block k-grid-ignore-click pr-2" placement="bottom-right">
+      <button ngbDropdownToggle
+              class="btn btn-secondary hide-dropdown-arrow pf-icon-btn-transparent"
+              [attr.data-qa-id]="'btn-project-list-page-inline-actions-' + dataRow['UserSessionMap_UserSession_ID']"
+      >
+        <fa-icon [icon]="['far', 'ellipsis-h']"></fa-icon>
+      </button>
+      <div ngbDropdownMenu aria-labelledby="project-list-actions-{{dataRow['UserSessionMap_UserSession_ID']}}">
+        <button
+          ngbDropdownItem
+          (click)="copyProject(dataRow['UserSessionMap_UserSession_ID'])">
+          <fa-icon [icon]="['far', 'copy']"></fa-icon> Copy
+        </button>
+      </div>
+    </div>
+    <div>
+      <button class="btn btn-secondary"
+              [attr.data-qa-id]="'btn-pin-to-dashboard-' + dataRow['UserSessionMap_UserSession_ID']"
+              [ngClass]="{'pinned-to-dashboard': dataRow['UserSessionMap_PinOnDashboard']}"
+              (click)="togglePinToDashboard(dataRow['UserSessionMap_UserSession_ID'])"
+      >
+        <fa-icon [icon]="['far', 'thumbtack']"></fa-icon>
+      </button>
+    </div>
   </div>
 </ng-template>
