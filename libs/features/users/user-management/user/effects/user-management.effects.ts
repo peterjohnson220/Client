@@ -3,17 +3,17 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable, forkJoin, of } from 'rxjs';
-import { map, switchMap, catchError } from 'rxjs/operators';
+import { map, switchMap, catchError, tap } from 'rxjs/operators';
 
 import * as fromUserManagementActions from '../actions/user-management.actions';
 
 import { UserApiService, CompanyApiService } from 'libs/data/payfactors-api';
+import { AccountApiService } from 'libs/data/payfactors-api/auth/account-api.service';
 import { RolesApiService } from 'libs/data/payfactors-api/company-admin';
 import { UserResponse } from 'libs/models/payfactors-api/user/response';
 import { SubsidiaryInfo, UserAssignedRole, UserRole } from 'libs/models';
 import { UserManagementDto } from 'libs/models/payfactors-api/user';
-
-import { RouteTrackingService } from '../../../../../core/services';
+import { RouteTrackingService } from 'libs/core/services';
 
 @Injectable()
 export class UserEffects {
@@ -81,6 +81,30 @@ export class UserEffects {
     )
   );
 
+  @Effect()
+  getPasswordResetUrl$: Observable<Action> = this.actions$
+    .pipe(
+    ofType(fromUserManagementActions.GET_PASSWORD_RESET_URL),
+      switchMap((action: fromUserManagementActions.GetPasswordResetUrl) => {
+        return this.accountApiService.getPasswordResetUrl(action.payload)
+          .pipe(
+            map((response) => {
+              return new fromUserManagementActions.GetPasswordResetUrlSuccess(response);
+            }),
+            catchError((error) => of(new fromUserManagementActions.GetPasswordResetUrlError()))
+          );
+      })
+    );
+
+  @Effect({ dispatch: false})
+  getPasswordResetUrlSuccess$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromUserManagementActions.GET_PASSWORD_RESET_URL_SUCCESS),
+      tap((action: fromUserManagementActions.GetPasswordResetUrlSuccess) => {
+        window.open(action.payload, '_blank');
+      })
+    );
+
   materializeUserManagementDto(user: UserResponse, role: UserRole): UserManagementDto {
     return {
         UserId: user.UserId,
@@ -104,6 +128,7 @@ export class UserEffects {
               private rolesApi: RolesApiService,
               private userApiService: UserApiService,
               private companyApiService: CompanyApiService,
+              private accountApiService: AccountApiService,
               private routeTrackingService: RouteTrackingService,
   ) { }
 }
