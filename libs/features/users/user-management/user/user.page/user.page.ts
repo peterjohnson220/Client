@@ -2,11 +2,12 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 import { SubsidiaryInfo, UserAssignedRole, UserContext } from 'libs/models';
 import { UserManagementDto } from 'libs/models/payfactors-api/user';
 import { RouteTrackingService } from 'libs/core';
+import * as fromRootState from 'libs/state/state';
 
 import * as fromUserActions from '../actions/user-management.actions';
 import * as fromUserReducer from '../reducers';
@@ -28,6 +29,10 @@ export class UserPageComponent implements OnInit, OnDestroy {
   userContext$: Observable<UserContext>;
   companySubsidiaryInfo$: Observable<SubsidiaryInfo[]>;
 
+  userSubscription: Subscription;
+
+  isSiteAdmin = false;
+  private readonly siteAdminSystemUserGroupId = 1;
   constructor(
     public router: Router,
     public route: ActivatedRoute,
@@ -39,6 +44,8 @@ export class UserPageComponent implements OnInit, OnDestroy {
     this.apiError$ = this.store.select(fromUserReducer.getUserStateApiError);
 
     this.user$ = this.store.select(fromUserReducer.getUserStateUser);
+    this.userContext$ = store.select(fromRootState.getUserContext);
+
     this.userRoles$ = this.store.select(fromUserReducer.getUserStateRoles);
 
     this.companySubsidiaryInfo$ = this.store.select(fromUserReducer.getCompanySubsidiaryInfo);
@@ -55,10 +62,16 @@ export class UserPageComponent implements OnInit, OnDestroy {
     this.companyId = this.route.snapshot.params.companyId;
     this.store.dispatch(new fromUserActions.LoadRoles(this.companyId));
     this.store.dispatch(new fromUserActions.LoadCompanySubsidiaryInfo({CompanyId: this.companyId}));
+    this.userSubscription = this.userContext$.subscribe(x => {
+      if (!!x) {
+        this.isSiteAdmin = x.AccessLevel === 'Admin' && x.SystemUserGroupsId === this.siteAdminSystemUserGroupId;
+      }
+    });
   }
 
   ngOnDestroy() {
     this.store.dispatch(new fromUserActions.ResetState());
+    this.userSubscription.unsubscribe();
   }
 
   save(user: UserManagementDto) {
@@ -67,6 +80,10 @@ export class UserPageComponent implements OnInit, OnDestroy {
 
   handleCancel() {
     this.routeTrackingService.goBack();
+  }
+
+  handleResetPassword() {
+    this.store.dispatch(new fromUserActions.GetPasswordResetUrl(this.userId));
   }
 
   reloadPage() {
