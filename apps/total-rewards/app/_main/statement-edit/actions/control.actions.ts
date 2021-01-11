@@ -22,6 +22,7 @@ export const REMOVE_IMAGE_CONTROL_IMAGE = '[Total Rewards/Edit Statement] Remove
 export const GET_COMPANY_UDF = '[Total Rewards/Edit Statement] Get Company UDF';
 export const GET_COMPANY_UDF_SUCCESS = '[Total Rewards/Edit Statement] Get Company UDF Success';
 export const GET_COMPANY_UDF_ERROR = '[Total Rewards/Edit Statement] Get Company UDF Error';
+export const UPDATE_ACTIVE_RICH_TEXT_EDITOR_ID = '[Total Rewards/Edit Statement] Update Active Rich Text Editor ID';
 
 export class UpdateStatementName implements Action {
   readonly type = UPDATE_STATEMENT_NAME;
@@ -83,6 +84,11 @@ export class GetCompanyUDFError implements Action {
   constructor() {}
 }
 
+export class UpdateActiveRichTextEditorId implements Action {
+  readonly type = UPDATE_ACTIVE_RICH_TEXT_EDITOR_ID;
+  constructor(public payload: string) {}
+}
+
 export type ControlActions =
   UpdateStatementName |
   UpdateStatementControlTitle |
@@ -96,4 +102,5 @@ export type ControlActions =
   RemoveImageControlImage |
   GetCompanyUDF |
   GetCompanyUDFSuccess |
-  GetCompanyUDFError;
+  GetCompanyUDFError |
+  UpdateActiveRichTextEditorId;

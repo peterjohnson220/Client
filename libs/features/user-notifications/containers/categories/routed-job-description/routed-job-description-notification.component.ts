@@ -10,7 +10,6 @@ import { UserNotificationDisplay } from '../../../models';
   templateUrl: '../user-notification-template.html'
 })
 export class RoutedJobDescriptionNotificationComponent extends UserNotificationBaseComponent implements OnInit {
-
   NotificationTitle = 'Job Description for Review';
   ButtonText = 'Review Job Description';
   IconPrefix: IconPrefix = 'far';

@@ -9,6 +9,7 @@ import * as fromRootState from 'libs/state/state';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
 import { AbstractFeatureFlagService, PfCommonModule } from 'libs/core';
+import { JobBasedPageViewIds } from 'libs/models/structures';
 
 import * as fromJobBasedRangeReducer from '../../shared/reducers';
 import * as fromModelSettingsModalActions from '../../shared/actions/model-settings-modal.actions';
@@ -16,12 +17,11 @@ import { EmployeesPageComponent } from './employees.page';
 import { RangeValuePipe } from '../../shared/pipes';
 import { StructuresPagesService } from '../../shared/services';
 import { BehaviorSubject } from 'rxjs';
-import { PageViewIds } from '../../shared/constants/page-view-ids';
 
 class MockStructuresPagesService {
   modelPageViewId: BehaviorSubject<string>;
   constructor() {
-    this.modelPageViewId = new BehaviorSubject<string>(PageViewIds.ModelMinMidMax);
+    this.modelPageViewId = new BehaviorSubject<string>(JobBasedPageViewIds.ModelMinMidMax);
   }
 }
 
@@ -88,10 +88,4 @@ describe('Job Based Range Employees - Employees Page', () => {
 
     expect(instance.store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
-
-
-
-
-
-
 });

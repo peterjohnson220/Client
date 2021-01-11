@@ -20,4 +20,5 @@ export class UiPersistenceSettingConstants {
   static readonly PeerDefaultCollapsedFilters = 'PeerDefaultCollapsedFilters';
   static readonly CommunityHideAttachmentWarningModal = 'HideAttachmentWarningModal';
   static readonly QuickPriceHistoryNoteDismissed = 'QuickPriceHistoryNoteDismissed';
+  static readonly HideMarketingTiles = 'HideMarketingTiles';
 }

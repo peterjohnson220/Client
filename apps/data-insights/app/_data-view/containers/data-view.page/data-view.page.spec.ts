@@ -15,6 +15,7 @@ import {
   SharedDataViewUser,
   generateMockUserDataView
 } from 'libs/features/formula-editor';
+import { CsvFileDelimiter, ExportFileExtension } from 'libs/models/payfactors-api';
 
 import * as fromDataViewMainReducer from '../../reducers';
 import * as fromDataViewActions from '../../actions/data-view.actions';
@@ -103,10 +104,11 @@ describe('Data Insights - Custom Report View Comopnent', () => {
   });
 
   it('should dispatch ExportUserReport action when handling export clicked', () => {
-    const expectedAction = new fromDataViewActions.ExportUserReport();
+    const data = { fileExtension: ExportFileExtension.Csv, csvFileDelimiter: CsvFileDelimiter.Pipe };
+    const expectedAction = new fromDataViewActions.ExportUserReport(data);
     spyOn(store, 'dispatch');
 
-    instance.handleExportClicked();
+    instance.handleExportClicked(data);
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });

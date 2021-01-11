@@ -1,54 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TrsChartControlComponent should add a \`hidden-title\` class when the \`showTitle\` input is set to false 1`] = `
-<pf-trs-chart-control
-  chartRender={[Function EventEmitter]}
-  defaultLegendLabels={[Function Object]}
-  onTitleChange={[Function EventEmitter]}
-  printModeLegendLabels={[Function Object]}
-  settingsClick={[Function EventEmitter]}
-  showTitle="false"
->
-  <div
-    class="trs-chart px-3 mt-3 hidden-title"
-    pfmodeclassifierdirective=""
-  >
-    <div
-      class="heading"
-    >
-      <h4
-        class="primary-control-heading mb-1 mr-2 d-inline-block"
-      >
-        
-      </h4>
-      
-      <a
-        class="settings position-relative align-top"
-        href="javascript:void(0)"
-        title="Chart Settings"
-      >
-        <fa-icon
-          aria-hidden="true"
-        />
-      </a>
-    </div>
-    <kendo-chart>
-      <kendo-chart-legend />
-      <kendo-chart-series>
-        <kendo-chart-series-item
-          categoryfield="category"
-          field="value"
-          type="donut"
-        >
-          
-        </kendo-chart-series-item>
-      </kendo-chart-series>
-    </kendo-chart>
-  </div>
-</pf-trs-chart-control>
-`;
-
-exports[`TrsChartControlComponent should omit the \`hidden-title\` class when \`showTitle\` input is set to true 1`] = `
+exports[`TrsChartControlComponent should add a \`mt-3\` class when \`showTitle\` input is true 1`] = `
 <pf-trs-chart-control
   chartRender={[Function EventEmitter]}
   controlData={[Function Object]}
@@ -98,6 +50,55 @@ exports[`TrsChartControlComponent should omit the \`hidden-title\` class when \`
 </pf-trs-chart-control>
 `;
 
+exports[`TrsChartControlComponent should add a negative margin/\`mt-n3\` class when \`showTitle\` input is false 1`] = `
+<pf-trs-chart-control
+  chartRender={[Function EventEmitter]}
+  controlData={[Function Object]}
+  defaultLegendLabels={[Function Object]}
+  onTitleChange={[Function EventEmitter]}
+  printModeLegendLabels={[Function Object]}
+  settingsClick={[Function EventEmitter]}
+  showTitle="false"
+>
+  <div
+    class="trs-chart px-3 mt-n3"
+    pfmodeclassifierdirective=""
+  >
+    <div
+      class="heading"
+    >
+      <h4
+        class="primary-control-heading mb-1 mr-2 d-inline-block"
+      >
+        
+      </h4>
+      
+      <a
+        class="settings position-relative align-top"
+        href="javascript:void(0)"
+        title="Chart Settings"
+      >
+        <fa-icon
+          aria-hidden="true"
+        />
+      </a>
+    </div>
+    <kendo-chart>
+      <kendo-chart-legend />
+      <kendo-chart-series>
+        <kendo-chart-series-item
+          categoryfield="category"
+          field="value"
+          type="donut"
+        >
+          
+        </kendo-chart-series-item>
+      </kendo-chart-series>
+    </kendo-chart>
+  </div>
+</pf-trs-chart-control>
+`;
+
 exports[`TrsChartControlComponent should omit the chart series labels from the dom when \`showChartSeriesLabels\` is false 1`] = `
 <pf-trs-chart-control
   calculationControls={[Function Array]}
@@ -110,7 +111,7 @@ exports[`TrsChartControlComponent should omit the chart series labels from the d
   showChartSeriesLabels="false"
 >
   <div
-    class="trs-chart px-3 mt-3 hidden-title"
+    class="trs-chart px-3 mt-n3"
     pfmodeclassifierdirective=""
   >
     <div
@@ -159,7 +160,7 @@ exports[`TrsChartControlComponent should set the \`height\` input on the kendo-c
   settingsClick={[Function EventEmitter]}
 >
   <div
-    class="trs-chart px-3 mt-3 hidden-title"
+    class="trs-chart px-3 mt-n3"
     pfmodeclassifierdirective=""
   >
     <div
@@ -211,7 +212,7 @@ exports[`TrsChartControlComponent should show chart series labels when \`showCha
   showChartSeriesLabels={[Function Boolean]}
 >
   <div
-    class="trs-chart px-3 mt-3 hidden-title"
+    class="trs-chart px-3 mt-n3"
     pfmodeclassifierdirective=""
   >
     <div
@@ -264,7 +265,7 @@ exports[`TrsChartControlComponent should show the title component and a settings
   settingsClick={[Function EventEmitter]}
 >
   <div
-    class="trs-chart px-3 mt-3 hidden-title"
+    class="trs-chart px-3 mt-n3"
     pfmodeclassifierdirective=""
   >
     <div

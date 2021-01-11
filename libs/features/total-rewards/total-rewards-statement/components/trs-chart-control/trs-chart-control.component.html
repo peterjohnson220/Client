@@ -1,4 +1,4 @@
-<div class="trs-chart px-3 mt-3" pfModeClassifierDirective [mode]="mode" [class.hidden-title]="!showTitle">
+<div class="trs-chart px-3" [ngClass]="(showTitle) ? 'mt-3' : 'mt-n3'" pfModeClassifierDirective [mode]="mode">
   <div class="heading">
     <h4 class="primary-control-heading mb-1 mr-2 d-inline-block">
       <pf-string-editor
@@ -17,8 +17,7 @@
   <kendo-chart [transitions]="!inEditMode && !inPrintMode" [seriesColors]="chartColors" [style.height]="height" (legendItemClick)="onLegendItemClick($event)" (render)="onChartRender($event)">
     <kendo-chart-legend 
       [position]="'bottom'" 
-      [labels]="inPrintMode ? printModeLegendLabels : defaultLegendLabels"
-      [offsetY]="(showTitle) ? 0 : -40">
+      [labels]="inPrintMode ? printModeLegendLabels : defaultLegendLabels">
     </kendo-chart-legend>
     <kendo-chart-series>
       <kendo-chart-series-item

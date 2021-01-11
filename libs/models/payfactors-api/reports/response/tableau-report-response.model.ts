@@ -1,4 +1,5 @@
 import { TableauReportViewsResponse } from './tableau-report-views-response.model';
+import { DataViewAccessLevel } from './user-data-view-response.model';
 
 export interface TableauReportResponse {
   ReportType: string;
@@ -16,4 +17,5 @@ export interface TableauReportResponse {
   DashboardsOrder?: number;
   FavoritesOrder?: number;
   Views?: TableauReportViewsResponse[];
+  AccessLevel?: DataViewAccessLevel;
 }

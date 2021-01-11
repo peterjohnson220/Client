@@ -5,6 +5,8 @@ import { FormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 
 import { PfFormsModule } from 'libs/forms';
 
@@ -19,6 +21,7 @@ import { reducers } from './reducers';
     // Angular
     CommonModule,
     FormsModule,
+    NgbModule,
 
     // 3rd Party
     StoreModule.forFeature('feature_bulk_jobs_export_scheduler', reducers),

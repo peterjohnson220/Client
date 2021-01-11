@@ -10,6 +10,8 @@ import { CompanySetting, CompanySettingsEnum } from 'libs/models/company';
 import { CompanySettingsSaveRequest } from 'libs/models/payfactors-api/settings/request';
 import * as fromRootReducer from 'libs/state/state';
 
+import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
+
 import * as fromPasswordSettingsReducer from '../../reducers';
 import * as fromPasswordSettingActions from '../../actions/security-settings.action';
 
@@ -19,12 +21,14 @@ import * as fromPasswordSettingActions from '../../actions/security-settings.act
   styleUrls: ['./security-management-settings.component.scss']
 })
 export class SecurityManagementSettingsComponent implements OnInit, OnDestroy {
+  exportsSecurityFeatureFlag: RealTimeFlag = { key: FeatureFlags.ExportsSecurity, value: false };
   @Output() valueChange: EventEmitter<boolean> = new EventEmitter<boolean>();
   private passwordExpirationEnabled: boolean;
   private passwordHistoryEnabled: boolean;
   private passwordExpirationDays: string;
   private sessionTimeoutMinutes: string;
   private passwordHistoryNumber: string;
+  private exportsSecurity: boolean;
 
   public passwordForm: FormGroup;
   public request: CompanySettingsSaveRequest;
@@ -32,13 +36,16 @@ export class SecurityManagementSettingsComponent implements OnInit, OnDestroy {
   public passwordSettingsLoadingError$: Observable<boolean>;
   private passwordSettings$: Observable<CompanySetting[]>;
   private passwordSettingSubscription: Subscription;
-  private unsubscribe$ = new Subject();
+  private unsubscribe$ = new Subject<void>();
   private defaultDays: string;
   private defaultNum: string;
   private companyId: number;
 
   constructor(private store: Store<fromPasswordSettingsReducer.State>,
-              private formBuilder: FormBuilder) {}
+              private formBuilder: FormBuilder,
+              private featureFlagService: AbstractFeatureFlagService) {
+    this.featureFlagService.bindEnabled(this.exportsSecurityFeatureFlag, this.unsubscribe$);
+  }
 
   ngOnInit() {
     this.store.dispatch(new fromPasswordSettingActions.LoadCompanyAdminPasswordSettings());
@@ -81,7 +88,8 @@ export class SecurityManagementSettingsComponent implements OnInit, OnDestroy {
     this.passwordForm = this.formBuilder.group({
       passwordExpirationDays: new FormControl(this.defaultDays, this.validateExpirationDays.bind(this)),
       passwordHistoryNumber: new FormControl(this.defaultNum, this.validateHistoryNumber.bind(this)),
-      sessionTimeoutMinutes: new FormControl(this.sessionTimeoutMinutes,  this.validateSessionTimeoutMinutesNumber.bind(this))
+      sessionTimeoutMinutes: new FormControl(this.sessionTimeoutMinutes, this.validateSessionTimeoutMinutesNumber.bind(this)),
+      exportsSecurity: new FormControl(this.exportsSecurity)
     });
     this.valueChange.emit(false);
     this.passwordForm.get('passwordExpirationDays').valueChanges
@@ -95,6 +103,11 @@ export class SecurityManagementSettingsComponent implements OnInit, OnDestroy {
         this.valueChange.emit(true);
       });
     this.passwordForm.get('sessionTimeoutMinutes').valueChanges
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(v => {
+        this.valueChange.emit(true);
+      });
+    this.passwordForm.get('exportsSecurity').valueChanges
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(v => {
         this.valueChange.emit(true);
@@ -121,31 +134,36 @@ export class SecurityManagementSettingsComponent implements OnInit, OnDestroy {
     const historyNumber = this.passwordForm.get('passwordHistoryNumber');
     const expirationDays = this.passwordForm.get('passwordExpirationDays');
     const sessionTimeoutMinutes = this.passwordForm.get('sessionTimeoutMinutes');
-    const request: CompanySettingsSaveRequest = { CompanyId: this.companyId, Settings: []};
+    const exportsSecurity = this.passwordForm.get('exportsSecurity');
+
+    const request: CompanySettingsSaveRequest = { CompanyId: this.companyId, Settings: [] };
 
     if (historyNumber.dirty) {
       if (historyNumber.value > 0) {
-        request.Settings.push({Name: 'PasswordHistoryEnabled', Value: 'true'} as GenericNameValueDto);
-        request.Settings.push({Name: 'PasswordHistoryNumber', Value: historyNumber.value} as GenericNameValueDto);
+        request.Settings.push({ Name: 'PasswordHistoryEnabled', Value: 'true' } as GenericNameValueDto);
+        request.Settings.push({ Name: 'PasswordHistoryNumber', Value: historyNumber.value } as GenericNameValueDto);
       } else {
-        request.Settings.push({Name: 'PasswordHistoryEnabled', Value: 'false'} as GenericNameValueDto);
+        request.Settings.push({ Name: 'PasswordHistoryEnabled', Value: 'false' } as GenericNameValueDto);
       }
     }
     if (expirationDays.dirty) {
       if (expirationDays.value > 0) {
-        request.Settings.push({Name: 'PasswordExpirationEnabled', Value: 'true'} as GenericNameValueDto);
-        request.Settings.push({Name: 'PasswordExpirationDays', Value: expirationDays.value} as GenericNameValueDto);
+        request.Settings.push({ Name: 'PasswordExpirationEnabled', Value: 'true' } as GenericNameValueDto);
+        request.Settings.push({ Name: 'PasswordExpirationDays', Value: expirationDays.value } as GenericNameValueDto);
       } else {
-        request.Settings.push({Name: 'PasswordExpirationEnabled', Value: 'false'} as GenericNameValueDto);
+        request.Settings.push({ Name: 'PasswordExpirationEnabled', Value: 'false' } as GenericNameValueDto);
       }
     }
 
     if (sessionTimeoutMinutes.dirty) {
       if (sessionTimeoutMinutes.value > 0) {
-        request.Settings.push({Name: 'SessionTimeoutMinutes', Value: sessionTimeoutMinutes.value} as GenericNameValueDto);
+        request.Settings.push({ Name: 'SessionTimeoutMinutes', Value: sessionTimeoutMinutes.value } as GenericNameValueDto);
       } else {
-        request.Settings.push({Name: 'SessionTimeoutMinutes', Value: '360'} as GenericNameValueDto);
+        request.Settings.push({ Name: 'SessionTimeoutMinutes', Value: '360' } as GenericNameValueDto);
       }
+    }
+    if (exportsSecurity.dirty) {
+      request.Settings.push({ Name: 'ExportsSecurity', Value: exportsSecurity.value === true ? 'true' : 'false' } as GenericNameValueDto);
     }
     return request;
   }
@@ -166,6 +184,9 @@ export class SecurityManagementSettingsComponent implements OnInit, OnDestroy {
         break;
       case CompanySettingsEnum.SessionTimeoutMinutes:
         this.sessionTimeoutMinutes = setting.Value;
+        break;
+      case CompanySettingsEnum.ExportsSecurity:
+        this.exportsSecurity = setting.Value.toLowerCase() === 'true';
         break;
       default:
         break;

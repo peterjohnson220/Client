@@ -123,3 +123,8 @@ export const getVisibleFieldsCount = createSelector(
   selectPageState,
   (state: fromPageReducer.State) => state.visibleFieldsCount
 );
+
+export const getActiveRichTextEditorId = createSelector(
+  selectPageState,
+  (state: fromPageReducer.State) => state.activeRichTextEditorId
+);

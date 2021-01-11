@@ -6,7 +6,8 @@ import { of } from 'rxjs';
 import { LoaderType } from 'libs/features/org-data-loader/constants';
 
 import { FieldMapperComponent } from './field-mapper.component';
-import { LoaderEntityStatus } from '../../models';
+import { FieldMapping, LoaderEntityStatus } from '../../models';
+
 
 describe('FieldMapperComponent', () => {
   let component: FieldMapperComponent;
@@ -126,54 +127,71 @@ describe('FieldMapperComponent', () => {
       component.selectedPfField = 'Job_Code';
       component.selectedClientField = 'Job Code';
       component.clientFields = ['Job Code', 'Job Title'];
-      component.payfactorsDataFields = ['Job_Code', 'Job_Title'];
+      component.payfactorsDataFields = [
+        {FieldName: 'Job_Code', IsDataElementName: false},
+        {FieldName: 'Job_Title', IsDataElementName: false}
+      ];
 
       component.ApplyMapping();
       fixture.detectChanges();
 
-      expect(component.mappedFields).toContain('Job_Code__Job Code');
+      const expectedMapping: FieldMapping = { InternalField: 'Job_Code', ClientField: 'Job Code',
+        DisplayValue: 'Job_Code > Job Code', IsDataElementName: false };
+
+      expect(component.mappedFields).toContainEqual(expectedMapping);
       expect(component.clientFields).not.toContain('Job Code');
-      expect(component.payfactorsDataFields).not.toContain('Job_Code');
+      expect(component.payfactorsDataFields).not.toContainEqual({FieldName: 'Job_Code', IsDataElementName: false});
     });
 
   it('should remove a mapping ' +
     'and add the fields back to the client/payfactors collections where RemoveMapping is called', () => {
-      component.mappedFields = ['Job_Code__Job Code', 'Job_Title__Job Title'];
+      component.mappedFields = [
+        { InternalField: 'Job_Code', ClientField: 'Job Code', DisplayValue: 'Job_Code > Job Code', IsDataElementName: false },
+        { InternalField: 'Job_Title', ClientField: 'Job Title', DisplayValue: 'Job_Title > Job Title', IsDataElementName: false}
+      ];
       component.clientFields = [];
       component.payfactorsDataFields = [];
-      component.selectedMapping = 'Job_Code__Job Code';
+      component.selectedMapping = 'Job_Code > Job Code';
 
       component.RemoveMapping();
       fixture.detectChanges();
 
-      expect(component.mappedFields).not.toContain('Job_Code__Job Code');
+    const expectedMapping: FieldMapping =
+      { InternalField: 'Job_Code', ClientField: 'Job Code', DisplayValue: 'Job_Code > Job Code', IsDataElementName: false };
+
+      expect(component.mappedFields).not.toContainEqual(expectedMapping);
       expect(component.clientFields).toContain('Job Code');
-      expect(component.payfactorsDataFields).toContain('Job_Code');
+      expect(component.payfactorsDataFields).toContainEqual({FieldName: 'Job_Code', IsDataElementName: false});
     });
-
-  it('should format a mapping with a caret for display instead of double underscores', () => {
-    const field = 'Job_Code__Job Code';
-
-    const result = component.formatMappingForDisplay(field);
-
-    expect(result).toBe('Job_Code > Job Code');
-  });
 
   it('should automatically map similar fields on a successful upload', () => {
     const evt = { response: { body: { value: ['Job Code', 'Job Title'] } } };
-    component.payfactorsDataFields = ['Job_Code', 'Job_Title'];
+    component.payfactorsDataFields = [
+      {FieldName: 'Job_Code', IsDataElementName: false},
+      {FieldName: 'Job_Title', IsDataElementName: false}
+    ];
     component.successEventHandler(evt);
 
     fixture.detectChanges();
+    const expectedMappings: FieldMapping[] = [
+      { InternalField: 'Job_Code', ClientField: 'Job Code', DisplayValue: 'Job_Code > Job Code', IsDataElementName: false },
+      { InternalField: 'Job_Title', ClientField: 'Job Title', DisplayValue: 'Job_Title > Job Title', IsDataElementName: false}
+    ];
 
-    expect(component.mappedFields).toContain('Job_Code__Job Code');
-    expect(component.mappedFields).toContain('Job_Title__Job Title');
+    expect(component.mappedFields).toEqual(expectedMappings);
   });
 
   it('should reset the mappings on upload', () => {
-    component.payfactorsDataFieldsForReset = ['Job_Code', 'Job_Title'];
-    component.payfactorsDataFields = ['Job_Title'];
-    component.mappedFields = ['Job_Code__Job Code'];
+    component.payfactorsDataFieldsForReset = [
+      {FieldName: 'Job_Code', IsDataElementName: false},
+      {FieldName: 'Job_Title', IsDataElementName: false}
+    ];
+    component.payfactorsDataFields = [
+      {FieldName: 'Job_Title', IsDataElementName: false}
+    ];
+    component.mappedFields = [
+      {InternalField: 'Job_Code', ClientField: 'Job Code', DisplayValue: 'Job_Code > Job Code', IsDataElementName: false}
+    ];
 
     component.uploadEventHandler({});
 
@@ -183,9 +201,14 @@ describe('FieldMapperComponent', () => {
   });
 
   it('should reset the mappings on removal of a file', () => {
-    component.payfactorsDataFieldsForReset = ['Job_Code', 'Job_Title'];
-    component.payfactorsDataFields = ['Job_Title'];
-    component.mappedFields = ['Job_Code__Job Code'];
+    component.payfactorsDataFieldsForReset = [
+      {FieldName: 'Job_Code', IsDataElementName: false},
+      {FieldName: 'Job_Title', IsDataElementName: false}
+    ];
+    component.payfactorsDataFields = [
+      {FieldName: 'Job_Title', IsDataElementName: false}
+    ];
+    component.mappedFields = [{InternalField: 'Job_Code', ClientField: 'Job Code', DisplayValue: 'Job_Code > Job Code', IsDataElementName: false}];
 
     component.removeEventHandler();
 
@@ -196,9 +219,15 @@ describe('FieldMapperComponent', () => {
 
   it('should populate the mappings box with the company\'s existing mappings on init', () => {
     component.loaderType = LoaderType.Jobs;
-    component.payfactorsDataFields = ['Job_Code', 'Job_Title'];
+    component.payfactorsDataFields = [
+      {FieldName: 'Job_Code', IsDataElementName: false},
+      {FieldName: 'Job_Title', IsDataElementName: false}
+    ];
 
-    const expectedMappings = ['Job_Code__JobCode', 'Job_Title__JobTitle'];
+    const expectedMappings: FieldMapping[] = [
+      {InternalField: 'Job_Code', ClientField: 'JobCode', DisplayValue: 'Job_Code > JobCode', IsDataElementName: false},
+      {InternalField: 'Job_Title', ClientField: 'JobTitle', DisplayValue: 'Job_Title > JobTitle', IsDataElementName: false}
+    ];
     component.ngOnInit();
 
     fixture.detectChanges();
@@ -247,16 +276,16 @@ describe('FieldMapperComponent', () => {
       const dateFormat = 'yyyy-MM-dd';
       const isFullReplace = false;
       const loaderType = LoaderType.Employees;
-      const mappings = ['some field'];
+      const mappings: FieldMapping[] = [
+        {InternalField: 'some field', ClientField: 'some field', DisplayValue: 'Some Field > Some Field', IsDataElementName: false}
+      ];
       component.clientFields = [];
-      component.dateFormat = dateFormat;
       component.loaderType = loaderType;
       component.mappedFields = mappings;
       component.isFullReplace = true;
       const next = jest.fn();
       const expectedPayload: LoaderEntityStatus = {
         complete: true,
-        dateFormat,
         isFullReplace,
         loadEnabled: true,
         loaderType,
@@ -281,13 +310,11 @@ describe('FieldMapperComponent', () => {
       const isFullReplace = false;
       const loaderType = LoaderType.Employees;
       component.clientFields = ['some field'];
-      component.dateFormat = dateFormat;
       component.loaderType = loaderType;
       component.isFullReplace = true;
       const next = jest.fn();
       const expectedPayload: LoaderEntityStatus = {
         complete: false,
-        dateFormat,
         isFullReplace,
         loadEnabled: true,
         loaderType,
@@ -310,7 +337,9 @@ describe('FieldMapperComponent', () => {
       // arrange
       const isFullReplace = false;
       const loaderType = LoaderType.StructureMapping;
-      const mappings = ['some field'];
+      const mappings: FieldMapping[] = [
+        {InternalField: 'some field', ClientField: 'some field', DisplayValue: 'Some Field > Some Field', IsDataElementName: false}
+      ];
       component.clientFields = [];
       component.loaderType = loaderType;
       component.mappedFields = mappings;
@@ -369,7 +398,9 @@ describe('FieldMapperComponent', () => {
     it('should not include settings for entities without settings when mapping is complete', () => {
       // arrange
       const loaderType = LoaderType.Structures;
-      const mappings = ['some field'];
+      const mappings: FieldMapping[] = [
+        {InternalField: 'some field', ClientField: 'some field', DisplayValue: 'Some Field > Some Field', IsDataElementName: false}
+      ];
       component.clientFields = [];
       component.loaderType = loaderType;
       component.mappedFields = mappings;
@@ -388,7 +419,7 @@ describe('FieldMapperComponent', () => {
       fixture.detectChanges();
 
       // act
-      component.selectionChange(null);
+      component.fireCompleteEvent();
 
       // assert
       expect(next).toBeCalledTimes(1);
@@ -415,7 +446,7 @@ describe('FieldMapperComponent', () => {
       fixture.detectChanges();
 
       // act
-      component.selectionChange(null);
+      component.fireCompleteEvent();
 
       // assert
       expect(next).toBeCalledTimes(1);
@@ -424,9 +455,16 @@ describe('FieldMapperComponent', () => {
 
     it('should clear out any existing mappings and add new mappings on refresh', () => {
       component.loaderType = LoaderType.Structures;
-      component.payfactorsDataFields = [];
+      component.payfactorsDataFields = [
+        {FieldName: 'GradeCode', IsDataElementName: false},
+        {FieldName: 'Min', IsDataElementName: false}
+      ];
       component.clientFields = [];
-      component.mappedFields = ['ExistingMapping__ThatWasPreviouslyMapped', 'Another__OldMapping'];
+      component.mappedFields = [
+        {InternalField: 'ExistingMapping', ClientField: 'ThatWasPreviouslyMapped',
+          DisplayValue: 'ExistingMapping > ThatWasPreviouslyMapped', IsDataElementName: false},
+        {InternalField: 'Another', ClientField: 'OldMapping', DisplayValue: 'Another > OldMapping', IsDataElementName: false}
+      ];
 
       component.fieldMappings$ = of([{
         CompanyId: 13,
@@ -444,7 +482,12 @@ describe('FieldMapperComponent', () => {
 
       component.ngOnInit();
 
-      expect(component.mappedFields).toEqual(['GradeCode__Grade', 'Min__Minimum']);
+      const expectedMappings: FieldMapping[] = [
+        { InternalField: 'GradeCode', ClientField: 'Grade', DisplayValue: 'GradeCode > Grade', IsDataElementName: false },
+        { InternalField: 'Min', ClientField: 'Minimum', DisplayValue: 'Min > Minimum', IsDataElementName: false}
+      ];
+
+      expect(component.mappedFields).toEqual(expectedMappings);
     });
   });
 });

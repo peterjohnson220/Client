@@ -44,7 +44,7 @@ export class CustomFieldsEffect {
     .pipe(
       ofType(fromCustomFieldsActions.GET_TAGCATEGORIES),
       switchMap((action: fromCustomFieldsActions.GetTagCategories) =>
-        this.tagApi.getEmployeeTagCategories().pipe(
+        this.tagApi.getEmployeeTagCategoriesForCompany(action.companyId).pipe(
           map((employeeFields: any) => {
             return new fromCustomFieldsActions.GetTagCategoriesSuccess(employeeFields);
           }),

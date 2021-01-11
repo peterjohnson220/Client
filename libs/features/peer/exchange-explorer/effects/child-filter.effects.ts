@@ -38,7 +38,7 @@ export class ChildFilterEffects {
           ...data.filterContext,
           SearchField: data.singledFilter.BackingField,
           TextQuery: data.searchValue,
-          PagingOptions: this.payfactorsSearchApiModelMapper.mapResultsPagingOptionsToPagingOptions(data.infiniteScrollActionContext.pagingOptions)
+          PagingOptions: data.infiniteScrollActionContext.pagingOptions
         };
 
         const parentSearchFilterOption: SearchFilterOption = {

@@ -30,7 +30,8 @@ export class ReportsPayfactorsApiModelMapper {
       DefaultTag: companyName ? `${companyName} Reports` : 'Payfactors Reports',
       DashboardsOrder: response.DashboardsOrder,
       FavoritesOrder: response.FavoritesOrder,
-      Views: views
+      Views: views,
+      AccessLevel: response.AccessLevel
     };
   }
 

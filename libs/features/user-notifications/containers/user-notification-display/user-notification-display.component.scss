@@ -17,4 +17,10 @@
   color: $pf-brand-secondary-color;
 }
 
+.notification-link {
+  white-space: nowrap;
+}
 
+.notification-body{
+  flex: 1;
+}

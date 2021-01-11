@@ -31,7 +31,7 @@ export class EmployeeSearchSingleFilterEffects {
       const request = {
         SearchFields: this.payfactorsSearchApiHelper.getTextFiltersWithValuesAsSearchFields(data.filters),
         Filters: this.payfactorsSearchApiHelper.getSelectedFiltersAsSearchFilters(data.filters),
-        PagingOptions: this.payfactorsSearchApiModelMapper.mapResultsPagingOptionsToPagingOptions(data.infiniteScrollActionContext.pagingOptions),
+        PagingOptions: data.infiniteScrollActionContext.pagingOptions,
         SingleFilterAggregateField: data.singledFilter.BackingField,
         SingleFilterAggregateTextQuery: data.searchValue
       };

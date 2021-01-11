@@ -1,28 +1,33 @@
-import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
-import { AsyncStateObjHelper } from 'libs/core/helpers';
+import cloneDeep from 'lodash/cloneDeep';
 
 import { UserNotification } from '../models';
 import * as fromUserNotificationListActions from '../actions/user-notification-list.actions';
 
 export interface State {
-  userNotificationsAsyncObj: AsyncStateObj<UserNotification[]>;
+  userNotifications: UserNotification[];
 }
 
 export const initialState: State = {
-  userNotificationsAsyncObj: generateDefaultAsyncStateObj<UserNotification[]>([]),
+  userNotifications: []
 };
 
 export function reducer(state = initialState, action: fromUserNotificationListActions.Actions): State {
   switch (action.type) {
-    case fromUserNotificationListActions.GET_USER_NOTIFICATIONS:
-      return AsyncStateObjHelper.loading(state, 'userNotificationsAsyncObj');
-    case fromUserNotificationListActions.GET_USER_NOTIFICATIONS_SUCCESS:
-      return AsyncStateObjHelper.loadingSuccess(state, 'userNotificationsAsyncObj', action.payload);
-    case fromUserNotificationListActions.GET_USER_NOTIFICATIONS_ERROR:
-      return AsyncStateObjHelper.loadingError(state, 'userNotificationsAsyncObj');
+    case fromUserNotificationListActions.SET_USER_NOTIFICATIONS: {
+      const userNotificationsCopy = cloneDeep(state.userNotifications);
+      const serverNotifications = cloneDeep(action.payload.newUserNotifications);
+      const clientNotifications = action.payload.replaceAll ? [] : userNotificationsCopy;
+      const newNotifications = serverNotifications.filter(sn => clientNotifications.findIndex(cn => cn.Id === sn.Id) < 0);
+      const finalNotifications = clientNotifications.concat(newNotifications);
+
+      return {
+        ...state,
+        userNotifications: finalNotifications
+      };
+    }
     default:
       return state;
   }
 }
 
-export const getUserNotificationsAsyncObj = (state: State) => state.userNotificationsAsyncObj;
+export const getUserNotifications = (state: State) => state.userNotifications;

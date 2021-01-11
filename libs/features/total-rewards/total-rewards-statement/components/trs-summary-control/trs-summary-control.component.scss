@@ -1,6 +1,17 @@
 @import 'colors';
 @import 'total-rewards/control-common';
 
-h4 {
-  z-index: 5; // over other controls in the Styled since the summary overlaps the top of the chart in this context 
+table {
+  table-layout: fixed;
+  .value-column {
+    width: 25%;
+    text-align: right;
+  }
+}
+
+.edit-mode {
+  .value-column {
+    width: 35%;
+    padding-right: 10%;
+  }
 }

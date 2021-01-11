@@ -14,7 +14,11 @@ import { FeatureFlags, RealTimeFlag } from 'libs/core';
 import { AbstractFeatureFlagService } from 'libs/core/services/feature-flags';
 import * as fromAppNotificationsActions from 'libs/features/app-notifications/actions/app-notifications.actions';
 import {
-    AppNotification, NotificationLevel, NotificationPayload, NotificationSource, NotificationType
+  AppNotification,
+  NotificationLevel,
+  NotificationPayload,
+  NotificationSource,
+  NotificationType
 } from 'libs/features/app-notifications/models';
 import * as fromAppNotificationsMainReducer from 'libs/features/app-notifications/reducers';
 import * as fromCompanySelectorActions from 'libs/features/company/company-selector/actions';
@@ -23,10 +27,12 @@ import * as fromCompanyReducer from 'libs/features/company/company-selector/redu
 import * as fromCustomFieldsActions from 'libs/features/company/custom-fields/actions/';
 import * as fromEntityIdentifierActions from 'libs/features/company/entity-identifier/actions/';
 import * as fromEmailRecipientsActions from 'libs/features/loader-email-reipients/state/actions/email-recipients.actions';
-import { LoaderFileFormat, LoaderSettingsKeys, LoaderType } from 'libs/features/org-data-loader/constants';
+import {
+    DEFAULT_DATE_FORMAT, LoaderFileFormat, LoaderSettingsKeys, LoaderType, ORG_DATA_PF_EMPLOYEE_TAG_FIELDS
+} from 'libs/features/org-data-loader/constants';
 import { LoaderSettings, OrgDataLoadHelper } from 'libs/features/org-data-loader/helpers';
 import { ILoadSettings } from 'libs/features/org-data-loader/helpers/org-data-load-helper';
-import { FileUploadDataRequestModel, LoaderEntityStatus } from 'libs/features/org-data-loader/models';
+import { FieldMapping, FileUploadDataRequestModel, LoaderEntityStatus } from 'libs/features/org-data-loader/models';
 import * as fromLoaderSettingsActions from 'libs/features/org-data-loader/state/actions/loader-settings.actions';
 import * as fromFileUploadReducer from 'libs/features/org-data-loader/state/reducers';
 import { CompanySetting, CompanySettingsEnum } from 'libs/models/company';
@@ -34,6 +40,8 @@ import { ConfigurationGroup, EmailRecipientModel, LoaderSaveCoordination, Loader
 import { UserContext } from 'libs/models/security';
 import * as fromRootState from 'libs/state/state';
 import { LoadingProgressBarModel } from 'libs/ui/common/loading/models';
+import { EntityKeyValidationService } from 'libs/core/services';
+import { EntityIdentifierViewModel } from 'libs/features/company/entity-identifier/models';
 
 import * as fromDataManagementMainReducer from '../../../reducers';
 import * as fromOrganizationalDataActions from '../../../actions/organizational-data-page.action';
@@ -122,7 +130,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   NextBtnToolTips: string[] = [
     'You must choose a company',
     'Please select at least one entity to load data for.',
-    'Please choose a file for each entity type and select a delimiter',
+    'Please choose a file for each entity type and select a delimiter and date format (if applicable)',
     'Please fully map each field and select the date format if applicable'
   ];
 
@@ -136,7 +144,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   private isEmployeeTagsLoadEnabled: boolean;
   mappings: MappingModel[];
   private isStructureMappingsFullReplace: boolean;
-  private dateFormat: string;
+  dateFormat: string = DEFAULT_DATE_FORMAT;
   private isEmployeesFullReplace: boolean;
   private isEmployeeTagsFullReplace: boolean;
   private isBenefitsFullReplace: boolean;
@@ -162,10 +170,13 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     title: 'Uploading Files...'
   };
 
+  private entityKeyValidationMessage: string;
+  employeeEntityKeys: EntityIdentifierViewModel[];
   constructor(private mainStore: Store<fromDataManagementMainReducer.State>,
     private notificationStore: Store<fromAppNotificationsMainReducer.State>,
     private cdr: ChangeDetectorRef,
-    private featureFlagService: AbstractFeatureFlagService) {
+    private featureFlagService: AbstractFeatureFlagService,
+    private entityKeyValidatorService: EntityKeyValidationService) {
 
     this.userContext$ = this.mainStore.select(fromRootState.getUserContext);
     this.companies$ = this.mainStore.select(fromCompanyReducer.getCompanies);
@@ -234,7 +245,6 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       this.isCompanyOnAutoloader = resp.isCompanyOnAutoloader;
 
       this.selectedDelimiter = resp.delimiter;
-      this.dateFormat = resp.dateFormat;
       this.isEmployeesLoadEnabled = resp.isEmployeesLoadEnabled;
       this.isEmployeeTagsLoadEnabled = resp.isEmployeeTagsLoadEnabled;
       this.isJobsLoadEnabled = resp.isJobsLoadEnabled;
@@ -247,7 +257,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       this.isStructureMappingsFullReplace = resp.isStructureMappingsFullReplace;
       this.isValidateOnly = resp.validateOnly;
 
-      this.getEntityChoice(LoaderType.Employees).dateFormat = resp.dateFormat;
+      this.dateFormat = resp.dateFormat;
       this.getEntityChoice(LoaderType.Employees).isFullReplace = resp.isEmployeesFullReplace;
       this.getEntityChoice(LoaderType.StructureMapping).isFullReplace = resp.isStructureMappingsFullReplace;
 
@@ -311,20 +321,23 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     this.empoyeeTagCategories$.pipe(
       filter(uc => !!uc),
       takeUntil(this.unsubscribe$)).subscribe(employeetags => {
-        this.loadOptions.find(l => l.templateReferenceConstants === LoaderType.EmployeeTags).customFields.EmployeeTags.push(...employeetags);
+
+        const empTags = this.loadOptions.find(l => l.templateReferenceConstants === LoaderType.EmployeeTags).customFields.EmployeeTags;
+        this.loadOptions.find(l => l.templateReferenceConstants === LoaderType.EmployeeTags).customFields.EmployeeTags = empTags.concat(employeetags);
       });
 
     this.employeeIdentifiers$.pipe(
-      filter(r => !!r),
+      filter(uc => !!uc),
       takeUntil(this.unsubscribe$)
     ).subscribe(r => {
       const selected = r.filter(a => a.isChecked);
+      this.employeeEntityKeys = selected;
+      const selectedWithoutEmployeeId = selected.filter( a => a.Field !== 'Employee_ID');
 
-      if (!selected || selected.length === 0) {
-        const empId = ['Employee_ID'];
-        this.loadOptions.find(l => l.templateReferenceConstants === LoaderType.EmployeeTags).customFields.EmployeeTags.push(...empId);
-      } else {
-        this.loadOptions.find(l => l.templateReferenceConstants === LoaderType.EmployeeTags).customFields.EmployeeTags.push(...selected.map(a => a.Field));
+      if (selectedWithoutEmployeeId?.length >= 0) {
+        const empTags = this.loadOptions.find(l => l.templateReferenceConstants === LoaderType.EmployeeTags).customFields.EmployeeTags;
+        this.loadOptions.find(l => l.templateReferenceConstants === LoaderType.EmployeeTags)
+          .customFields.EmployeeTags = empTags.concat(selectedWithoutEmployeeId.map(a => a.Field));
       }
     });
 
@@ -495,14 +508,17 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   }
 
   getPayfactorCustomFields(companyId) {
+
+    this.loadOptions.find(l => l.templateReferenceConstants === LoaderType.EmployeeTags).customFields.EmployeeTags = ORG_DATA_PF_EMPLOYEE_TAG_FIELDS;
+
     this.mainStore.dispatch(new fromCustomFieldsActions.GetCustomJobFields(companyId));
     this.mainStore.dispatch(new fromCustomFieldsActions.GetCustomEmployeeFields(companyId));
-    this.mainStore.dispatch(new fromCustomFieldsActions.GetTagCategories);
+    this.mainStore.dispatch(new fromCustomFieldsActions.GetTagCategories(companyId));
   }
 
   private SetDefaultValuesForNullConfig() {
     this.selectedDelimiter = this.defaultDelimiter;
-    this.getEntityChoice(LoaderType.Employees).dateFormat = null;
+    this.dateFormat = DEFAULT_DATE_FORMAT;
     this.getEntityChoice(LoaderType.Employees).isFullReplace = false;
     this.getEntityChoice(LoaderType.StructureMapping).isFullReplace = false;
     this.getEntityChoice(LoaderType.Benefits).isFullReplace = false;
@@ -541,7 +557,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
         this.existingLoaderSettings.find(setting => setting.KeyName === LoaderSettingsKeys.IsStructureMappingsFullReplace);
       const existingIsBenefitFullReplaceSetting =
         this.existingLoaderSettings.find(setting => setting.KeyName === LoaderSettingsKeys.IsBenefitsFullReplace);
-      this.getEntityChoice(LoaderType.Employees).dateFormat = existingDateFormatSetting ? existingDateFormatSetting.KeyValue : null;
+      this.dateFormat = existingDateFormatSetting ? existingDateFormatSetting.KeyValue : DEFAULT_DATE_FORMAT;
       this.getEntityChoice(LoaderType.Employees).isFullReplace = existingIsEmpFullReplaceSetting ? existingIsEmpFullReplaceSetting.KeyValue === 'true' : null;
       this.getEntityChoice(LoaderType.Benefits).isFullReplace =
         existingIsBenefitFullReplaceSetting ? existingIsBenefitFullReplaceSetting.KeyValue === 'true' : false;
@@ -575,6 +591,10 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
 
   onDelimiterChange($event: string) {
     this.selectedDelimiter = $event;
+  }
+
+  onDateChange($event: string) {
+    this.dateFormat = $event;
   }
 
   clearSelections() {
@@ -643,6 +663,9 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
 
     if (this.stepIndex === OrgUploadStep.Files && this.hasUploadedFiles() && this.selectedDelimiter && this.selectedDelimiter.length > 0
       && !this.gettingColumnNames) {
+      if (this.selectedEntityWithDate() && this.dateFormat == null) {
+        return false;
+      }
       return true;
     }
 
@@ -651,6 +674,11 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     }
 
     return false;
+  }
+
+  selectedEntityWithDate() {
+    return (this.loadOptions.find(f => f.templateReferenceConstants === LoaderType.Employees).isChecked
+      || this.loadOptions.find(f => f.templateReferenceConstants === LoaderType.EmployeeTags).isChecked);
   }
 
   nextBtnClick() {
@@ -793,11 +821,23 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   private addOrReplaceCompletedEntities($event: LoaderEntityStatus) {
     this.completedMappings = this.completedMappings.filter(f => f !== $event.loaderType);
     if ($event.complete) {
-      this.completedMappings.push($event.loaderType);
+      if ([LoaderType.Employees, LoaderType.EmployeeTags].includes($event.loaderType)) {
+        const validationResult = this.entityKeyValidatorService.hasCompleteEntityKeyMappings($event.mappings, this.employeeEntityKeys);
+
+        if (validationResult.IsValid) {
+          this.completedMappings.push($event.loaderType);
+          this.entityKeyValidationMessage = '';
+        } else {
+          this.entityKeyValidationMessage = validationResult.MissingKeyFieldsMessage;
+        }
+      } else {
+        this.completedMappings.push($event.loaderType);
+      }
+
     }
   }
 
-  private addOrReplaceMappings(loaderType: string, mappings: string[]) {
+  private addOrReplaceMappings(loaderType: string, mappings: FieldMapping[]) {
 
     this.mappings = this.mappings.filter(mapping => mapping.LoaderType !== loaderType);
 
@@ -864,8 +904,12 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   getFieldMapperTooltip() {
     if (this.emailRecipients.length <= 0) {
       return 'Please enter an email recipient to receive the results of this load.';
+    } else if (this.entityKeyValidationMessage?.length > 0) {
+      return this.entityKeyValidationMessage;
+    } else if (this.showFieldMapperTooltip) {
+      return this.NextBtnToolTips[this.stepIndex - 1];
     }
 
-    return this.showFieldMapperTooltip ? this.NextBtnToolTips[this.stepIndex - 1] : '';
+    return '';
   }
 }

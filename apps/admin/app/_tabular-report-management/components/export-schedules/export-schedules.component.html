@@ -1,0 +1,36 @@
+<ng-container *ngIf="schedules?.length; else noSavedSchedulesTemplate">
+  <div class="d-flex flex-column">
+    <ngb-accordion #schedulesAccordion #schedulesAcc="ngbAccordion">
+      <ngb-panel *ngFor="let schedule of schedules; trackBy: trackByFn" [id]="'Report' + schedule.DataViewId">
+        <ng-template ngbPanelHeader>
+          <div class="group-header w-100 d-flex align-items-center"
+               (click)="schedulesAcc.toggle('Report' + schedule.DataViewId)">
+            <fa-icon icon="caret-down" *ngIf="schedulesAcc.isExpanded('Report' + schedule.DataViewId)"></fa-icon>
+            <fa-icon icon="caret-right" *ngIf="!schedulesAcc.isExpanded('Report' + schedule.DataViewId)"></fa-icon>
+            <span pfEllipsisActive class="flex-fill ellipsis-overflowing-text report-name">
+              {{schedule.UserDataView.Name}}
+            </span>
+          </div>
+        </ng-template>
+
+        <ng-template ngbPanelContent>
+          <pf-export-schedule-details
+            [schedule]="schedule"
+            (deleteClicked)="handleDeleteClicked($event)">
+          </pf-export-schedule-details>
+        </ng-template>
+      </ngb-panel>
+    </ngb-accordion>
+  </div>
+</ng-container>
+
+<ng-template #noSavedSchedulesTemplate>
+  <p>No Saved Schedules</p>
+</ng-template>
+
+<pf-export-delete-modal
+  [reportName]="scheduleToDelete?.UserDataView?.Name"
+  [showDeleteModal$]="showDeleteModal$"
+  (cancelClicked)="handleCancelClicked()"
+  (deleteScheduledExport)="handleDeleteScheduledExport()">
+</pf-export-delete-modal>

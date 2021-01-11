@@ -1,4 +1,5 @@
 @import 'total-rewards/app-colors';
+@import 'total-rewards/statement-layout-variables';
 
 .trs-employee-control-container {
   h2 {
@@ -13,5 +14,9 @@
     font-weight: 300;
     overflow: hidden;
     max-height: 25px;
+  }
+
+  h2, h3 {
+    transition: color $graphics-color-transition; // gradually change if accent color changed  
   }
 }

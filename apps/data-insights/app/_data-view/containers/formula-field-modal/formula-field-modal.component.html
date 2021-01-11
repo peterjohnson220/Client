@@ -8,7 +8,6 @@
       <h5 id="header-info">Instructions</h5>
       Use <b>[</b> to find and insert existing fields in your formula. Use <b>$</b> to view formula syntax. To view a complete list of all supported formulas with descriptions, <a href="https://resources.payfactors.com/docs/Content/Resources/PDFs/Custom%20Formula%20Field%20Glossary.pdf" target="_blank">click here</a>
     </div>
-
     <form [formGroup]="formulaFieldForm">
       <div class="form-group">
         <label class="field-name-label">Custom Formula Field Name</label>
@@ -43,16 +42,18 @@
       </div>
 
       <div class="form-group">
-        <pf-formula-editor
-          [initialFormula]="modalData?.Formula"
-          [fieldSuggestions]="fieldSuggestions"
-          [functionSuggestions]="functionSuggestions"
-          [validating]="validating"
-          [isValid]="isValidFormula"
-          [disabled]="!isEditable"
-          [isWaitingForValidation]="isWaitingForValidation"
-          (formulaChanged)="handleFormulaChanged($event)">
-        </pf-formula-editor>
+        <div class="position-relative">
+          <pf-formula-editor
+            [initialFormula]="modalData?.Formula"
+            [fieldSuggestions]="fieldSuggestions"
+            [functionSuggestions]="functionSuggestions"
+            [validating]="validating"
+            [isValid]="isValidFormula"
+            [disabled]="!isEditable"
+            [isWaitingForValidation]="isWaitingForValidation"
+            (formulaChanged)="handleFormulaChanged($event)">
+          </pf-formula-editor>
+        </div>
       </div>
     </form>
   </div>

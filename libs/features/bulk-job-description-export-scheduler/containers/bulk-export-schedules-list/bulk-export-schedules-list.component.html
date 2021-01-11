@@ -1,24 +1,43 @@
-<div class="container">
-  <div class="row" *ngFor="let existingSchedule of schedules">
-    <div class="col col-sm-6" (click)="onScheduleClick(existingSchedule.FileName)" class="schedule-name">
-      {{existingSchedule.FileName}}
-    </div>
-    <div class="col col-sm-6" (click)="openModal(existingSchedule.FileName)">
-      <fa-icon icon="trash" class="remove-schedule"></fa-icon>
-    </div>
-    <div class="col col-12" id="{{existingSchedule.FileName}}" *ngIf="clickedSchedule === existingSchedule.FileName">
-      <p *ngIf="existingSchedule.ExportCount && existingSchedule.PrevRunDate">{{existingSchedule.ExportCount}} published job descriptions created on {{existingSchedule.PrevRunDate | date:'shortDate'}}</p>
-      <p>Using {{getViewName(existingSchedule.ViewId)}} view</p>
-      <p *ngIf="existingSchedule.Filter === 'All'">All Jobs</p>
-      <p *ngIf="existingSchedule.Filter !== 'All'">Using {{existingSchedule.Filter}} filter</p>
-      <p *ngIf="existingSchedule.IncludeDelimiters">Including Delimiters</p>
-      <p *ngIf="existingSchedule.IncludeFormatting">Including Formatting</p>
-      <p *ngIf="existingSchedule.Format">Using {{existingSchedule.Format}} file format <span *ngIf="existingSchedule.Format === 'csv'">with {{existingSchedule.FormatSeparatorType || 'comma'}} separator</span></p>
-      <p *ngIf="existingSchedule.Frequency === 'One-time'">Sent on {{existingSchedule.Create_Date | date:'shortDate'}}</p>
-      <p *ngIf="existingSchedule.Frequency === 'Weekly'">Sent Weekly every {{daysOfWeekAsString(existingSchedule.DayOfWeek)}}</p>
-      <p *ngIf="existingSchedule.Frequency === 'Monthly'">Sent the {{occurrenceAsString(existingSchedule.Occurrence)}} {{daysOfWeekAsString(existingSchedule.DayOfWeek)}} of every {{existingSchedule.MonthlyOccurrence}} month(s)</p>
-    </div>
-  </div>
+<div class="d-flex flex-column">
+  <ngb-accordion #savedSchedulesAccordion #savedSchedulesAcc="ngbAccordion">
+    <ngb-panel *ngFor="let existingSchedule of schedules" [id]="'Schedule_' + existingSchedule.FileName">
+      <ng-template ngbPanelHeader>
+        <div class="group-header w-100 d-flex align-items-center"
+             (click)="savedSchedulesAcc.toggle('Schedule_' + existingSchedule.FileName)">
+          <fa-icon icon="caret-down" *ngIf="savedSchedulesAcc.isExpanded('Schedule_' + existingSchedule.FileName)"></fa-icon>
+          <fa-icon icon="caret-right" *ngIf="!savedSchedulesAcc.isExpanded('Schedule_' + existingSchedule.FileName)"></fa-icon>
+          <span pfEllipsisActive class="col font-weight-bold flex-fill ellipsis-overflowing-text report-name">
+            {{existingSchedule.FileName}}
+          </span>
+          <span class="col col-sm-1" (click)="openModal(existingSchedule.FileName)">
+            <fa-icon icon="trash" class="remove-schedule"></fa-icon>
+          </span>
+        </div>
+      </ng-template>
+
+      <ng-template ngbPanelContent>
+        <div class="d-flex  flex-column">
+          <div class="row">
+            <div class="col-sm-12 col-md-3 pr-0 font-weight-bold">Last Sent: </div>
+            <span class="col-sm-12 col-md-4" *ngIf="existingSchedule.PrevRunDate">{{existingSchedule.PrevRunDate | date : 'MM/dd/yyyy'}}</span>
+            <span class="col-sm-12 col-md-4" *ngIf="!existingSchedule.PrevRunDate">N/A</span>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 col-md-3 pr-0 font-weight-bold">Frequency: </div>
+            <span class="col-sm-12 col-md-4" *ngIf="existingSchedule.Frequency === 'One-time'">Sent on {{existingSchedule.Create_Date | date:'shortDate'}}</span>
+            <span class="col-sm-12 col-md-4" *ngIf="existingSchedule.Frequency === 'Weekly'">Sent Weekly every {{daysOfWeekAsString(existingSchedule.DayOfWeek)}}</span>
+            <span class="col-sm-12 col-md-4" *ngIf="existingSchedule.Frequency === 'Monthly'">Sent the {{occurrenceAsString(existingSchedule.Occurrence)}} {{daysOfWeekAsString(existingSchedule.DayOfWeek)}} of every {{existingSchedule.MonthlyOccurrence}} month(s)</span>
+            <span class="col-sm-12 col-md-4" *ngIf="!existingSchedule.Frequency">N/A</span>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 col-md-3 pr-0 font-weight-bold">Jobs Last Sent: </div>
+            <span class="col-sm-12 col-md-4" *ngIf="existingSchedule.ExportCount && existingSchedule.PrevRunDate">{{existingSchedule.ExportCount}}</span>
+            <span class="col-sm-12 col-md-4" *ngIf="!existingSchedule.ExportCount">N/A</span>
+          </div>
+        </div>
+      </ng-template>
+    </ngb-panel>
+  </ngb-accordion>
 </div>
 
 <pf-modal-form size="md"

@@ -6,20 +6,20 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { getUserLocale } from 'get-user-locale';
 
-import { RangeGroupMetadata } from 'libs/models/structures';
+import { JobBasedPageViewIds, RangeGroupMetadata } from 'libs/models/structures';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 import { appendOrdinalSuffix } from 'libs/core/functions';
 
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
-import { StructuresHighchartsService, StructuresPagesService } from '../../../shared/services';
-import { PageViewIds } from '../../../shared/constants/page-view-ids';
+import { StructuresPagesService } from '../../../shared/services';
+import { StructuresHighchartsService } from '../../../../shared/services/structures-highcharts-service';
 import { PricingsSalaryRangeChartSeries, PricingsSalaryRangeChartService } from '../../data';
 import { PricingMatchHelper } from '../../helpers';
 import { GraphHelper } from '../../../shared/helpers/graph.helper';
 import { SalaryRangeSeries } from '../../../shared/models/salary-range-series.model';
 import { DataPointSeries } from '../../../shared/models/data-point-series.model';
-import { RangeDistributionTypeIds } from '../../../shared/constants/range-distribution-type-ids';
-import { RangeDistributionDataPointTypeIds } from '../../../shared/constants/range-distribution-data-point-type-ids';
+import { RangeDistributionTypeIds } from '../../../../shared/constants/range-distribution-type-ids';
+import { RangeDistributionDataPointTypeIds } from '../../../../shared/constants/range-distribution-data-point-type-ids';
 
 @Component({
   selector: 'pf-pricings-salary-range-chart',
@@ -42,7 +42,7 @@ export class PricingsSalaryRangeChartComponent implements OnInit, OnDestroy {
   dataSubscription: Subscription;
   jobDataSubscription: Subscription;
   metadataSubscription: Subscription;
-  pageViewId = PageViewIds.Pricings;
+  pageViewId = JobBasedPageViewIds.Pricings;
   jobRangeViewId: string;
   jobRangeViewIdSubscription: Subscription;
   currency: string;

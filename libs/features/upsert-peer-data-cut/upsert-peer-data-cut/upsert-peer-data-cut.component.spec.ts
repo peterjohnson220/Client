@@ -35,6 +35,10 @@ class DojGuidelinesStub {
     return;
   }
 
+  validateTempDataCut(selections: any) {
+    return;
+  }
+
   clearMapCompanies() {
     return;
   }
@@ -284,7 +288,7 @@ describe('Libs - Upsert Peer Data Cut', () => {
   });
 
   it('should call validateDataCut when map summary changes changes', () => {
-    const payload = generateMockExchangeStatCompanyMakeup();
+    const payload = [generateMockExchangeStatCompanyMakeup()];
     dataCutGuid = null;
     instance.displayMap = true;
     instance.cutGuid = dataCutGuid;
@@ -302,6 +306,19 @@ describe('Libs - Upsert Peer Data Cut', () => {
     fixture.detectChanges();
 
     expect(guidelinesService.validateDataCut).toHaveBeenCalledWith(payload, 2, mockEntityConfig, null);
+  });
+
+  it('should call validateTempDataCut when map summary changes changes', () => {
+    const payload = [generateMockExchangeStatCompanyMakeup()];
+    instance.displayMap = true;
+    instance.peerMapCompanies$ = of(payload);
+    instance.refining = true;
+
+    spyOn(guidelinesService, 'validateTempDataCut');
+
+    fixture.detectChanges();
+
+    expect(guidelinesService.validateTempDataCut).toHaveBeenCalledWith(payload);
   });
 
   it('should disable the add/updated button when passesGuidelines is false', () => {

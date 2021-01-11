@@ -7,11 +7,10 @@ import {
   generateMockStatement,
   generateMockStatementWithSingleCalculationControl,
   generateMockStatementWithSingleCalculationControlAndNoVisibleFields,
+  generateMockStatementWithSingleCalculationControlUDFsOnly,
   generateMockStatementWithSingleControl,
-  generateMockSettings,
   StatementModeEnum,
-  TotalRewardsControlEnum,
-  TotalRewardsColorEnum
+  TotalRewardsControlEnum
 } from '../../models';
 import { TotalRewardsStatementComponent } from './total-rewards-statement.component';
 
@@ -183,6 +182,7 @@ describe('TotalRewardsStatementComponent', () => {
     component.employeeRewardsData.EmployeeBonus = 0;
     component.employeeRewardsData.EmployeeSTI = -456;
     component.employeeRewardsData.EmployeeLTI = null;
+    component.employeeRewardsData.IsMockData = false;
 
     // act
     fixture.detectChanges();
@@ -202,5 +202,18 @@ describe('TotalRewardsStatementComponent', () => {
     // assert
     const calculationControls = fixture.nativeElement.querySelectorAll('pf-trs-calculation-control');
     expect(calculationControls.length).toBe(0);
+  });
+
+  it ('should display control if only UDFs are visible', () => {
+    // arrange
+    component.statement = generateMockStatementWithSingleCalculationControlUDFsOnly();
+    component.employeeRewardsData = generateMockEmployeeRewardsData();
+
+    // act
+    fixture.detectChanges();
+
+    // assert
+    expect(component.visibleCalculationControls.length).toBe(1);
+
   });
 });

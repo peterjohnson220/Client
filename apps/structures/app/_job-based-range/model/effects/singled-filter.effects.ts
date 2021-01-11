@@ -41,7 +41,7 @@ export class SingledFilterEffects {
           SearchField: data.singledFilter.BackingField,
           TextQuery: data.searchValue,
           Type: JobSearchContext.StructuresJobSearch,
-          PagingOptions: this.payfactorsSearchApiModelMapper.mapResultsPagingOptionsToPagingOptions(data.infiniteScrollActionContext.pagingOptions)
+          PagingOptions: data.infiniteScrollActionContext.pagingOptions
         };
         return this.jobSearchApiService.searchStructuresJobAggregations(request).pipe(
 

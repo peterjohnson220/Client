@@ -4,9 +4,10 @@ import { KendoTypedDropDownItem } from 'libs/models/kendo';
 
 import { CompanyEmployee, CompanyJob } from 'libs/models/company';
 import { EntityKeyFieldsResponse } from 'libs/models/payfactors-api/validation';
-
-import { EmployeeValidation, Job, Structure, RangeType } from '../models';
 import { EmployeeModalStructuresResponse } from 'libs/models/payfactors-api';
+import { RangeType } from 'libs/models/common';
+
+import { EmployeeValidation, Job, Structure } from '../models';
 
 export class PayfactorsApiModelMapper {
 

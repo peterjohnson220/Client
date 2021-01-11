@@ -9,11 +9,11 @@ import * as fromRootState from 'libs/state/state';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
 import { AbstractFeatureFlagService, PermissionService, PfCommonModule } from 'libs/core';
+import { JobBasedPageViewIds } from 'libs/models/structures';
 
 import * as fromJobBasedRangeReducer from '../../reducers';
 import { ModelGridComponent } from './model-grid.component';
 import { RangeValuePipe } from '../../pipes';
-import { PageViewIds } from '../../constants/page-view-ids';
 import * as fromPublishModelModalActions from '../../actions/publish-model-modal.actions';
 import * as fromModelSettingsModalActions from '../../../shared/actions/model-settings-modal.actions';
 import { StructuresPagesService } from '../../services';
@@ -21,7 +21,7 @@ import { StructuresPagesService } from '../../services';
 class MockStructuresPagesService {
   modelPageViewId: BehaviorSubject<string>;
   constructor() {
-    this.modelPageViewId = new BehaviorSubject<string>(PageViewIds.ModelMinMidMax);
+    this.modelPageViewId = new BehaviorSubject<string>(JobBasedPageViewIds.ModelMinMidMax);
   }
 }
 
@@ -73,8 +73,8 @@ describe('Job Range Structures - Model page', () => {
 
   it('should dispatch the loadData action when mid is updated from the employees page', () => {
     spyOn(instance.store, 'dispatch');
-    const expectedAction = new fromPfGridActions.LoadData(PageViewIds.EmployeesMinMidMax);
-    const metainfo = { pageViewId: PageViewIds.EmployeesMinMidMax };
+    const expectedAction = new fromPfGridActions.LoadData(JobBasedPageViewIds.EmployeesMinMidMax);
+    const metainfo = { pageViewId: JobBasedPageViewIds.EmployeesMinMidMax };
     instance.updateMidSuccessCallbackFn(instance.store, metainfo);
 
     expect(instance.store.dispatch).toHaveBeenCalledWith(expectedAction);
@@ -82,8 +82,8 @@ describe('Job Range Structures - Model page', () => {
 
   it('should dispatch the loadData action when mid is updated from the pricings page', () => {
     spyOn(instance.store, 'dispatch');
-    const expectedAction = new fromPfGridActions.LoadData(PageViewIds.Pricings);
-    const metainfo = { pageViewId: PageViewIds.Pricings };
+    const expectedAction = new fromPfGridActions.LoadData(JobBasedPageViewIds.Pricings);
+    const metainfo = { pageViewId: JobBasedPageViewIds.Pricings };
     instance.updateMidSuccessCallbackFn(instance.store, metainfo);
 
     expect(instance.store.dispatch).toHaveBeenCalledWith(expectedAction);
@@ -91,8 +91,8 @@ describe('Job Range Structures - Model page', () => {
 
   it('should NOT dispatch the loadData action when mid is updated from the model page', () => {
     spyOn(instance.store, 'dispatch');
-    const expectedAction = new fromPfGridActions.LoadData(PageViewIds.Pricings);
-    const metainfo = { pageViewId: PageViewIds.ModelMinMidMax };
+    const expectedAction = new fromPfGridActions.LoadData(JobBasedPageViewIds.Pricings);
+    const metainfo = { pageViewId: JobBasedPageViewIds.ModelMinMidMax };
     instance.updateMidSuccessCallbackFn(instance.store, metainfo);
 
     expect(instance.store.dispatch).not.toHaveBeenCalledWith(expectedAction);

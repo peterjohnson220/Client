@@ -1,23 +1,24 @@
-import { Injectable, OnDestroy, OnInit } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 
 import { select, Store } from '@ngrx/store';
 import { BehaviorSubject, Subscription } from 'rxjs';
 
+import { JobBasedPageViewIds } from 'libs/models/structures';
+
 import * as fromJobBasedRangeReducer from '../reducers';
 import * as fromSharedJobBasedRangeReducer from '../reducers';
-import { PageViewIds } from '../constants/page-view-ids';
-import { PagesHelper } from '../helpers/pages.helper';
+import { PagesHelper } from '../../../shared/helpers/pages.helper';
 
 @Injectable()
 export class StructuresPagesService implements OnDestroy {
   metadataSubscription: Subscription;
-  modelPageViewId: BehaviorSubject<string> = new BehaviorSubject<string>(PageViewIds.ModelMinMidMax);
+  modelPageViewId: BehaviorSubject<string> = new BehaviorSubject<string>(JobBasedPageViewIds.ModelMinMidMax);
 
   constructor(public store: Store<fromJobBasedRangeReducer.State>) {
     this.metadataSubscription = this.store.pipe(select(fromSharedJobBasedRangeReducer.getMetadata))
       .subscribe(md => {
         if (md) {
-          this.modelPageViewId.next(PagesHelper.getModelPageViewIdByRangeDistributionType(md.RangeDistributionTypeId));
+          this.modelPageViewId.next(PagesHelper.getModelPageViewIdByRangeTypeAndRangeDistributionType(md.RangeTypeId, md.RangeDistributionTypeId));
         }
       });
   }

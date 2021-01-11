@@ -47,6 +47,11 @@ export const routes: Routes = [
         path: 'jobs-hierarchy', loadChildren: () => import('apps/admin/app/_jobs-hierarchy/jobs-hierarchy.module')
           .then(m => m.JobsHierarchyModule)
       },
+      {
+        path: 'tabular-report-management',
+        loadChildren: () => import('apps/admin/app/_tabular-report-management/tabular-report-management.module')
+          .then(m => m.TabularReportManagementModule)
+      },
       { path: 'not-found', redirectTo: '/not-found' },
     ]
   },

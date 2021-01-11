@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { By } from '@angular/platform-browser';
 
 import { generateMockEmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards';
 
@@ -65,7 +66,7 @@ const markupWithDataFieldsAndFormatting = `
   </ul>
   <p>end</p>`;
 
-describe('TrsChartControlComponent', () => {
+describe('TrsRichTextControlComponent', () => {
   let component: TrsRichTextControlComponent;
   let fixture: ComponentFixture<TrsRichTextControlComponent>;
 
@@ -83,7 +84,7 @@ describe('TrsChartControlComponent', () => {
 
   it('should create', () => {
     // arrange
-    component.controlData = { Title: {} } as any;
+    component.controlData = { Title: { Default: 'Title' } } as any;
 
     // act
     fixture.detectChanges();
@@ -111,8 +112,7 @@ describe('TrsChartControlComponent', () => {
     // arrange
     component.controlData = { Title: { Default: 'Title' } } as any;
     component.mode = StatementModeEnum.Preview;
-    const rewardsData = generateMockEmployeeRewardsData();
-    component.employeeRewardsData = rewardsData;
+    component.employeeRewardsData = generateMockEmployeeRewardsData();
     component.htmlContent = markupWithFormatting;
 
     // act
@@ -237,7 +237,7 @@ describe('TrsChartControlComponent', () => {
   it('should not include Quill editor in print mode', () => {
     // arrange
     component.mode = StatementModeEnum.Print;
-    component.controlData = { Title: {} } as any;
+    component.controlData = { Title: { Default: 'Title' } } as any;
 
     // act
     fixture.detectChanges();
@@ -249,24 +249,33 @@ describe('TrsChartControlComponent', () => {
   it('should not include Quill editor in preview mode', () => {
     // arrange
     component.mode = StatementModeEnum.Preview;
-    component.controlData = { Title: {} } as any;
+    component.controlData = { Title: { Default: 'Title' } } as any;
 
     // act
     fixture.detectChanges();
 
     // assert
-    expect(fixture.debugElement.nativeElement.querySelector('quill-editor')).toBeFalsy();
+    expect(fixture.debugElement.nativeElement.querySelector('ql-editor')).toBeFalsy();
   });
 
   it('should include Quill editor in edit mode', () => {
     // arrange
+    const controlId = '123-dfg-456';
+    const toolbar = document.createElement('div');
+    toolbar.setAttribute('id', 'quill-editor-toolbar-' + controlId);
+    document.body.appendChild(toolbar);
+    component.controlData = {
+      Id: controlId,
+      Title: {
+        Default: 'Title'
+      }
+    } as any;
     component.mode = StatementModeEnum.Edit;
-    component.controlData = { Title: {} } as any;
 
     // act
     fixture.detectChanges();
 
     // assert
-    expect(fixture.debugElement.nativeElement.querySelector('quill-editor')).toBeTruthy();
+    expect(fixture.debugElement.queryAll(By.css('.ql-editor'))).toBeTruthy();
   });
 });

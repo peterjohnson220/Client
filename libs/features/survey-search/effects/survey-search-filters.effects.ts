@@ -1,15 +1,16 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import {Actions, Effect, ofType} from '@ngrx/effects';
-import {Store} from '@ngrx/store';
-import {map, mergeMap, switchMap, withLatestFrom} from 'rxjs/operators';
+import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Store } from '@ngrx/store';
+import { filter, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
 
 import * as fromSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
 import * as fromUserFilterActions from 'libs/features/user-filter/actions/user-filter.actions';
-import {SurveySearchApiService} from 'libs/data/payfactors-api/search';
-import {PayfactorsSearchApiModelMapper} from 'libs/features/search/helpers';
-import {MultiSelectFilter} from 'libs/features/search/models';
 import * as fromSearchReducer from 'libs/features/search/reducers';
+import { SurveySearchApiService } from 'libs/data/payfactors-api/search';
+import { PayfactorsSearchApiModelMapper } from 'libs/features/search/helpers';
+import { MultiSelectFilter } from 'libs/features/search/models';
+import { SearchFeatureIds } from 'libs/features/search/enums/search-feature-ids';
 
 import * as fromSurveySearchFiltersActions from '../actions/survey-search-filters.actions';
 import * as fromSurveySearchResultsActions from '../actions/survey-search-results.actions';
@@ -51,6 +52,10 @@ export class SurveySearchFiltersEffects {
   resetAllFilters$ = this.actions$
     .pipe(
       ofType(fromSearchFiltersActions.RESET_ALL_FILTERS),
+      withLatestFrom(
+        this.store.select(fromSearchReducer.getSearchFeatureId),
+        (action: fromSearchFiltersActions.ResetAllFilters, searchFeatureId) => ({ action, searchFeatureId })),
+      filter((data) => data.searchFeatureId === SearchFeatureIds.AddSurveyData || data.searchFeatureId === SearchFeatureIds.MultiMatch),
       map(() => new fromSurveySearchResultsActions.ClearDataCutSelections())
     );
 

@@ -6,7 +6,7 @@ import {
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
-import { CompanySettingsEnum, FeatureAreaConstants, KendoDropDownItem, UiPersistenceSettingConstants } from 'libs/models';
+import { CompanySettingsEnum, ExchangeStatCompanyMakeup, FeatureAreaConstants, KendoDropDownItem, UiPersistenceSettingConstants } from 'libs/models';
 import { SettingsService } from 'libs/state/app-context/services';
 import { ExchangeExplorerComponent } from 'libs/features/peer/exchange-explorer/containers/exchange-explorer';
 import { Weights, WeightType, WeightTypeDisplayLabeled } from 'libs/data/data-sets';
@@ -44,7 +44,7 @@ export class UpsertPeerDataCutComponent implements OnInit, OnDestroy, OnChanges 
   @ViewChild(ExchangeExplorerComponent) exchangeExplorer: ExchangeExplorerComponent;
 
   upsertDataCutPageInViewInIframe$: Observable<boolean>;
-  peerMapCompanies$: Observable<any>;
+  peerMapCompanies$: Observable<ExchangeStatCompanyMakeup[]>;
   employeesValid$: Observable<boolean>;
   upsertingDataCut$: Observable<boolean>;
   upsertingDataCutError$: Observable<boolean>;
@@ -294,7 +294,7 @@ export class UpsertPeerDataCutComponent implements OnInit, OnDestroy, OnChanges 
 
   refineExchangeJob(exchangeJobId: number): void {
     this.refining = true;
-    this.showMap(); // TODO: Do this after setting context? [JP]
+    this.showMap();
     this.setContext({refineExchangeJobId: exchangeJobId});
   }
 

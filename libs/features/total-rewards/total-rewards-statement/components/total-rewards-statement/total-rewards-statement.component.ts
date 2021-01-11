@@ -31,6 +31,7 @@ export class TotalRewardsStatementComponent {
   @Input() pageBreakAfter: boolean;
   @Input() companyUdfs: CompensationField[];
   @Input() visibleFieldsCount: number;
+  @Input() activeEditorId: string;
 
   // Common Outputs
   @Output() onControlTitleChange: EventEmitter<UpdateTitleRequest> = new EventEmitter();
@@ -43,6 +44,7 @@ export class TotalRewardsStatementComponent {
 
   // Rich Text Outputs
   @Output() onRichTextControlContentChange: EventEmitter<UpdateStringPropertyRequest> = new EventEmitter<UpdateStringPropertyRequest>();
+  @Output() onRTEFocusChange: EventEmitter<string> = new EventEmitter();
 
   // Chart Control Outputs
   @Output() onChartControlToggleSettingsPanelClick = new EventEmitter();
@@ -101,14 +103,23 @@ export class TotalRewardsStatementComponent {
         const currentControl = control as CalculationControl;
         if (this.mode === StatementModeEnum.Edit) {
           calcControls.push(control);
-        } else if (currentControl.DataFields.some(f =>
-          f.IsVisible && this.employeeRewardsData[ f.DatabaseField ] !== null && this.employeeRewardsData[ f.DatabaseField ] > 0
-        )) {
+        } else if (this.isControlVisible(currentControl.DataFields)) {
           calcControls.push(control);
         }
       }
     }))));
     return calcControls;
+  }
+
+  isControlVisible(dataFields: CompensationField[]): boolean {
+    return dataFields.some(f => {
+      if (this.employeeRewardsData.IsMockData || !f.IsVisible) {
+        return f.IsVisible;
+      } else {
+        return (f.Type) ? this.employeeRewardsData[f.Type][f.DatabaseField] !== null && this.employeeRewardsData[f.Type][f.DatabaseField] > 0 :
+          this.employeeRewardsData[ f.DatabaseField ] !== null && this.employeeRewardsData[ f.DatabaseField ] > 0;
+      }
+    });
   }
 
   // track which item each ngFor is on, which no longer necessitates destroying/creating all components in state changes and improves perf significantly
@@ -141,6 +152,10 @@ export class TotalRewardsStatementComponent {
   // Rich Text pass through methods
   handleOnRichTextControlContentChange(event) {
     this.onRichTextControlContentChange.emit(event);
+  }
+
+  handleOnRTEFocusChange(event) {
+    this.onRTEFocusChange.emit(event);
   }
 
   // Chart pass through methods

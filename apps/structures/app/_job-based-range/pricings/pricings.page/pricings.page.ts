@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
-import { RangeGroupMetadata } from 'libs/models/structures';
+import { JobBasedPageViewIds, RangeGroupMetadata } from 'libs/models/structures';
 import { ActionBarConfig, ColumnChooserType, getDefaultActionBarConfig, GridConfig, PfDataGridFilter } from 'libs/features/pf-data-grid/models';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 import { Permissions } from 'libs/constants';
@@ -19,10 +19,8 @@ import { SurveySearchFilterMappingDataObj, SurveySearchUserFilterType } from 'li
 import { SearchFeatureIds } from 'libs/features/search/enums/search-feature-ids';
 import * as fromModifyPricingsActions from 'libs/features/multi-match/actions';
 
-
 import * as fromSharedJobBasedRangeReducer from '../../shared/reducers';
 import * as fromModelSettingsModalActions from '../../shared/actions/model-settings-modal.actions';
-import { PageViewIds } from '../../shared/constants/page-view-ids';
 import { StructuresPagesService } from '../../shared/services';
 import * as fromSharedActions from '../../shared/actions/shared.actions';
 import * as fromDuplicateModelModalActions from '../../shared/actions/duplicate-model-modal.actions';
@@ -43,7 +41,7 @@ export class PricingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   metaData$: Observable<RangeGroupMetadata>;
   filter: PfDataGridFilter;
   colTemplates = {};
-  pageViewId = PageViewIds.Pricings;
+  pageViewId = JobBasedPageViewIds.Pricings;
   rangeGroupId: any;
   rangeId: number;
   actionBarConfig: ActionBarConfig;

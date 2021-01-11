@@ -23,19 +23,19 @@ export class TrsSummaryControlComponent {
   @Output() onTitleChange: EventEmitter<UpdateTitleRequest> = new EventEmitter();
   constructor(public currencyPipe: CurrencyPipe) { }
 
-  getIsEditMode(): boolean {
+  get isEditMode(): boolean {
     return this.mode === StatementModeEnum.Edit;
   }
 
-  getIsPreviewMode(): boolean {
+  get isPreviewMode(): boolean {
     return this.mode === StatementModeEnum.Preview;
   }
 
-  getEditValue(): string {
+  get editValue(): string {
     return this.currencyPipe.transform(0, this.employeeRewardsData?.Currency, 'symbol-narrow', '1.0').replace('0', '---,---');
   }
 
-  getSumOfCalculationControls(): string {
+  get sumOfCalculationControls(): string {
     let sum = 0;
     if (this.calculationControls) {
       sum = TotalRewardsStatementService.sumCalculationControls(this.calculationControls, this.employeeRewardsData);

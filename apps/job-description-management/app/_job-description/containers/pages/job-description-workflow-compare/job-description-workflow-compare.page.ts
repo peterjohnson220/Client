@@ -106,12 +106,16 @@ export class JobDescriptionWorkflowComparePageComponent implements OnInit, OnDes
 
       if (result[0] && result[1]) {
         const sourceStepNumber = result[0].StepNumber;
+        const sourceAbsoluteIterationNumber = result[0].AbsoluteIterationNumber;
         const comparisonStepNumber = result[1].StepNumber;
+        const comparisonAbsoluteIterationNumber = result[1].AbsoluteIterationNumber;
 
         this.store.dispatch(new fromJobDescriptionWorkflowCompareActions.LoadingJobDescriptionComparison({
           jobDescriptionId: this.route.snapshot.params.id,
           sourceStepNumber: sourceStepNumber,
-          comparisonStepNumber: comparisonStepNumber}));
+          sourceAbsoluteIterationNumber: sourceAbsoluteIterationNumber,
+          comparisonStepNumber: comparisonStepNumber,
+          comparisonAbsoluteIterationNumber: comparisonAbsoluteIterationNumber}));
       }
     });
   }

@@ -24,12 +24,4 @@
       pointer-events: none;
     }
   }
-
-  &.hidden-title {
-    margin-top: -3.5rem !important; // shift up when the header is hidden to reduce whitespace
-    a.settings {
-      top: 3.5rem; 
-      z-index: 5; // over the chart svg and under the header
-    }
-  }
 }

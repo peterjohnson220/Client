@@ -1,5 +1,6 @@
-import { SearchFilter } from '../response';
 import { SearchType } from 'libs/features/search/models';
+
+import { SearchFilter } from '../response';
 
 export interface SearchField {
   Name: string;

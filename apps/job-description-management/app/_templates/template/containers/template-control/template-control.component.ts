@@ -39,6 +39,7 @@ export class TemplateControlComponent implements OnInit, OnChanges, OnDestroy {
     public controlSetting: TemplateSettingsControl;
     private bodyVisibilityBeforeDrag: boolean;
     private changesSubject: Subject<any>;
+    private bulkChangesSubject: Subject<any>;
 
     private controlTypeSubscription: Subscription;
     rebuildQuillAfterDiscardDraft$: Observable<boolean>;
@@ -46,6 +47,7 @@ export class TemplateControlComponent implements OnInit, OnChanges, OnDestroy {
     constructor(private sharedJdmStore: Store<fromJdmSharedReducer.State>,
                 private templateReducer: Store<fromTemplateReducer.State>) {
         this.changesSubject = new Subject();
+        this.bulkChangesSubject = new Subject();
         this.rebuildQuillAfterDiscardDraft$ = this.templateReducer.select(fromTemplateReducer.getTemplateDiscardDraft);
     }
 
@@ -85,11 +87,15 @@ export class TemplateControlComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     handleDataChangesDetected(dataRowChangeObj: any) {
-      this.changesSubject.next({ control: this.templateControl, change: dataRowChangeObj });
+        this.changesSubject.next({ control: this.templateControl, change: dataRowChangeObj });
     }
 
     handleBulkDataChangesDetected(bulkData: string[]) {
-      this.bulkDataChangesDetected.emit({ control: this.templateControl, attributes: this.controlType.Attributes, bulkData: bulkData });
+        this.bulkChangesSubject.next({
+            control: this.templateControl,
+            attributes: this.controlType.Attributes,
+            bulkData: bulkData
+        });
     }
 
     hideOnExport() {
@@ -127,10 +133,6 @@ export class TemplateControlComponent implements OnInit, OnChanges, OnDestroy {
         }
       });
 
-    }
-
-    ngOnDestroy() {
-      this.controlTypeSubscription.unsubscribe();
     }
 
     ngOnChanges(changes: any): void {
@@ -175,26 +177,18 @@ export class TemplateControlComponent implements OnInit, OnChanges, OnDestroy {
     }
     // Private Methods
     private watchForControlDataChanges() {
-        const RTEWithDataCount = this.getRTEWithDataCount();
+        this.bulkChangesSubject.subscribe(bulkDataChangeObj => this.bulkDataChangesDetected.emit(bulkDataChangeObj));
 
-        const controlDataChanges$ = RTEWithDataCount > 0 ? this.changesSubject.pipe(skip(RTEWithDataCount)) : this.changesSubject;
-
-        controlDataChanges$.pipe(
+        this.changesSubject.pipe(
             debounceTime(500),
             distinctUntilChanged()).subscribe(dataRowChangeObj =>
                 this.dataChangesDetected.emit(dataRowChangeObj)
             );
     }
 
-    private getRTEWithDataCount() {
-        let rteCount = 0;
-
-        this.templateControl.Data.forEach(dataRow => {
-            this.controlType.Attributes.forEach(a => {
-                (a.Type === 'RichText' || a.Type === 'Textarea') && !!dataRow[a.Name] ? rteCount += 1 : rteCount = rteCount;
-            });
-        });
-
-        return rteCount;
+    ngOnDestroy() {
+        this.controlTypeSubscription.unsubscribe();
+        this.bulkChangesSubject.unsubscribe();
+        this.changesSubject.unsubscribe();
     }
 }
