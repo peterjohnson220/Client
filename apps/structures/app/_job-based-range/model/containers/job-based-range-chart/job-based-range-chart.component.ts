@@ -314,7 +314,7 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
     this.exchangeSeriesData.push({
       y: currentRow.CompanyStructures_RangeGroup_Peer50,
       exchangeJobTitle: currentRow.CompanyStructures_RangeGroup_ExchangeJobTitle,
-      ExchangeName: this.selectedPeerExchange.ExchangeName,
+      ExchangeName: this.selectedPeerExchange?.ExchangeName ?? null,
       Scope: 'National',
       peer50: StructuresHighchartsService.formatDataPoint('Peer 50th', currentRow.CompanyStructures_RangeGroup_Peer50, this.chartLocale,
         this.metaData.Currency, this.metaData.Rate)
