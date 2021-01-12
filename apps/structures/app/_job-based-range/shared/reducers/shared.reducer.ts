@@ -8,16 +8,12 @@ import * as fromSharedActions from '../actions/shared.actions';
 export interface State {
   removingRange: AsyncStateObj<boolean>;
   currentRangeGroup: AsyncStateObj<any>;
-  comparingModels: boolean;
-  compareEnabled: boolean;
   structureHasSettings: AsyncStateObj<any>;
 }
 
 const initialState: State = {
   removingRange: generateDefaultAsyncStateObj<boolean>(false),
   currentRangeGroup: generateDefaultAsyncStateObj<any>(null),
-  comparingModels: false,
-  compareEnabled: false,
   structureHasSettings: generateDefaultAsyncStateObj<any>(null)
 };
 
@@ -75,31 +71,6 @@ export function reducer(state = initialState, action: fromSharedActions.SharedAc
         currentRangeGroup: currentRangeGroupClone
       };
     }
-    case fromSharedActions.COMPARING_MODELS: {
-      return{
-        ...state,
-        comparingModels: true
-      };
-    }
-    case fromSharedActions.END_COMPARING_MODELS: {
-      return {
-        ...state,
-        comparingModels: false
-      };
-    }
-    case fromSharedActions.ENABLE_COMPARE_FLAG: {
-        return {
-          ...state,
-          compareEnabled: true
-        };
-    }
-    case fromSharedActions.DISABLE_COMPARE_FLAG: {
-      return {
-        ...state,
-        compareEnabled: false
-      };
-    }
-
     case fromSharedActions.GET_STRUCTURE_HAS_SETTINGS: {
       const structureHasSettings = cloneDeep(state.structureHasSettings);
 
@@ -141,8 +112,6 @@ export function reducer(state = initialState, action: fromSharedActions.SharedAc
 
 export const getRemovingRange = (state: State) => state.removingRange;
 export const getCurrentRangeGroup = (state: State) => state.currentRangeGroup;
-export const getComparingModels = (state: State) => state.comparingModels;
-export const getCompareEnabled = (state: State) => state.compareEnabled;
 export const getStructureHasSettings = (state: State) => state.structureHasSettings;
 
 

@@ -81,7 +81,7 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
       PermissionCheckEnum.Single);
 
     this.pageViewIdSubscription = this.structuresPagesService.modelPageViewId.subscribe(pv => this.pageViewId = pv);
-    this.comparingSub = this.sharedJobBasedStore.select(fromSharedJobBasedRangeReducer.getComparingModels).subscribe(flag => this.comparingFlag = flag);
+    this.comparingSub = this.sharedJobBasedStore.select(fromSharedStructuresReducer.getComparingModels).subscribe(flag => this.comparingFlag = flag);
     this._Permissions = Permissions;
   }
 

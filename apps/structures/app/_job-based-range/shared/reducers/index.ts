@@ -97,15 +97,6 @@ export const getCurrentRangeGroup = createSelector(
   fromSharedReducer.getCurrentRangeGroup
 );
 
-export const getComparingModels = createSelector(
-  selectSharedState,
-  fromSharedReducer.getComparingModels
-);
-
-export const getCompareEnabled = createSelector(
-  selectSharedState,
-  fromSharedReducer.getCompareEnabled
-);
 
 export const getStructureHasSettings = createSelector(
   selectSharedState,

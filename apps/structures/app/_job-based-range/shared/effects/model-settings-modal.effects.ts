@@ -27,7 +27,7 @@ import { UserContext } from 'libs/models';
 import * as fromModelSettingsModalActions from '../actions/model-settings-modal.actions';
 import * as fromSharedActions from '../actions/shared.actions';
 import * as fromSharedStructuresActions from '../../../shared/actions/shared.actions';
-import { PayfactorsApiModelMapper } from '../helpers/payfactors-api-model-mapper';
+import { PayfactorsApiModelMapper } from '../../../shared/helpers/payfactors-api-model-mapper';
 import * as fromSharedReducer from '../reducers';
 import * as fromSharedStructuresReducer from '../../../shared/reducers';
 import { UrlService } from '../services';

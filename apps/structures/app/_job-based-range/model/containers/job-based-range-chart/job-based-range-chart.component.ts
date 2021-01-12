@@ -20,7 +20,7 @@ import { RangeDistributionTypeIds } from '../../../../shared/constants/range-dis
 import { SalaryRangeSeries } from '../../../shared/models/salary-range-series.model';
 import { DataPointSeries } from '../../../shared/models/data-point-series.model';
 import { RangeDistributionDataPointTypeIds } from '../../../../shared/constants/range-distribution-data-point-type-ids';
-import { SelectedPeerExchangeModel } from '../../../shared/models';
+import { SelectedPeerExchangeModel } from '../../../../shared/models';
 
 @Component({
   selector: 'pf-job-based-range-chart',

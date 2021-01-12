@@ -11,8 +11,8 @@ import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/cor
 
 import * as fromSharedStructuresActions from '../../shared/actions/shared.actions';
 import * as fromSharedStructuresReducer from '../../shared/reducers';
-import * as fromJobBasedRangeReducer from '../../_job-based-range/shared/reducers';
-import { PayfactorsApiModelMapper } from '../../_job-based-range/shared/helpers/payfactors-api-model-mapper';
+import { PayfactorsApiModelMapper } from '../helpers/payfactors-api-model-mapper';
+
 
 @Injectable()
 export class RangeGroupExistsGuard implements CanActivate, OnDestroy {

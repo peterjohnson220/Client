@@ -45,7 +45,7 @@ export class CompareJobRangesEffects {
             this.store.pipe(select(fromSharedReducer.getCurrentRangeGroup)),
             this.store.pipe(select(fromSharedStructuresReducer.getMetadata)),
             this.store.pipe(select(fromSharedStructuresReducer.getRoundingSettings)),
-            this.store.pipe(select(fromSharedReducer.getComparingModels)),
+            this.store.pipe(select(fromSharedStructuresReducer.getComparingModels)),
             (a: fromCompareJobRangesActions.GetDataForCompare, baseEntity, fields, pagingOptions, sortDescriptor, gridConfig, gridData,
              currentRangeGroup, metadata, roundingSettings, comparingFlag) =>
               ({ a, baseEntity, fields, pagingOptions, sortDescriptor, gridConfig, gridData, currentRangeGroup, metadata, roundingSettings, comparingFlag }))

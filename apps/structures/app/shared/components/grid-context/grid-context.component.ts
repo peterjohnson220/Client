@@ -1,10 +1,9 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Component, Input } from '@angular/core';
+
 
 import { RangeGroupMetadata } from 'libs/models/structures';
 
-import * as fromJobBasedRangeReducer from '../../../_job-based-range/shared/reducers';
-import * as fromJobBasedRangeActions from '../../../_job-based-range/shared/actions/shared.actions';
+
 
 @Component({
   selector: 'pf-grid-context',
