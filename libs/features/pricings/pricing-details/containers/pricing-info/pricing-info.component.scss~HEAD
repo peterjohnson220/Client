@@ -1,0 +1,39 @@
+table {
+  border-spacing: 0;  
+}
+
+.table-header {
+  font-weight: bold;
+  background-color: #F0F0F0;
+  display: table-row;
+}
+
+.comp-cell {
+  min-width: 55px;
+}
+
+td {
+  border-right: 1px solid #999999;
+  padding: 0.25rem 0.5rem;
+  max-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+.table-row {
+  color: #000000;
+  display: table-row;
+
+  td {
+    padding-bottom: 0.5rem;
+  }  
+}
+
+.noborder {
+  border: 0;
+}
+
+#pricingDetailTable td {
+  white-space: nowrap;
+}

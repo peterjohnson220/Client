@@ -1,37 +1,35 @@
 import { ErrorHandler, NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
-import { NgbProgressbarModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { BrowserModule } from '@angular/platform-browser';
 
 import { PfApiModule } from 'libs/data/payfactors-api';
 import { PfStateModule } from 'libs/state/state.module';
 import { PfAppRootModule, AppComponent } from 'libs/features/infrastructure/app-root';
-import { SentryService, SentryErrorHandler, WindowCommunicationService } from 'libs/core/services';
+import { SentryService, SentryErrorHandler } from 'libs/core/services';
+import { PfLayoutWrapperModule } from 'libs/ui/layout-wrapper';
+import { PfCommonUIModule } from 'libs/ui/common/common-ui-module';
+import { PfSecurityModule } from 'libs/security/security.module';
 
 import { AppRoutingModule } from './app-routing.module';
-import { RouteReuseStrategy } from '@angular/router';
-import { CustomRouteReuseStrategy } from './route-reuse-strategy';
 
 @NgModule({
   imports: [
     // Angular
+    BrowserModule,
     BrowserAnimationsModule,
 
-    // Third Party
-    NgbProgressbarModule,
-    NgbTooltipModule,
-
     // PF Modules
-    PfStateModule,
     PfApiModule,
     PfAppRootModule,
+    PfCommonUIModule,
+    PfLayoutWrapperModule,
+    PfSecurityModule,
+    PfStateModule,
 
     // Routing
     AppRoutingModule
   ],
   providers: [
-    WindowCommunicationService,
-    { provide: RouteReuseStrategy, useClass: CustomRouteReuseStrategy },
     { provide: ErrorHandler, useClass: SentryErrorHandler },
     SentryService
   ],

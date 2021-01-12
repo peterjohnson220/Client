@@ -3,10 +3,11 @@ import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
-import * as fromPricingDetailsActions from '../../actions';
-import * as fromPricingDetailsReducer from '../../reducers';
 import { PricingInfo, PricingInfoDefaultField, CreateProjectRequest } from 'libs/models/payfactors-api';
 import { Permissions } from 'libs/constants';
+
+import * as fromPricingDetailsActions from '../../actions';
+import * as fromPricingDetailsReducer from '../../reducers';
 
 @Component({
   selector: 'pf-pricing-info',

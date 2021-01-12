@@ -1,7 +1,8 @@
-import * as fromPricingDetailsActions from '../actions/pricing-details.actions';
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models';
 import { PricingInfo } from 'libs/models/payfactors-api';
 import { AsyncStateObjHelper } from 'libs/core';
+
+import * as fromPricingDetailsActions from '../actions/pricing-details.actions';
 
 export interface State {
   newStatus: string;

@@ -2,12 +2,14 @@ import { Component, Input, Output, OnChanges, SimpleChanges, EventEmitter, OnDes
 import { Observable, Subscription } from 'rxjs';
 
 import { Store, ActionsSubject } from '@ngrx/store';
+import { ofType } from '@ngrx/effects';
+
+import { PricingInfo } from 'libs/models/payfactors-api';
+import { AsyncStateObj } from 'libs/models';
 
 import * as fromPricingDetailsActions from '../actions';
 import * as fromPricingDetailsReducer from '../reducers';
-import { PricingInfo } from 'libs/models/payfactors-api';
-import { AsyncStateObj } from 'libs/models';
-import { ofType } from '@ngrx/effects';
+
 import { PricingInfoComponent } from '../containers';
 
 @Component({
