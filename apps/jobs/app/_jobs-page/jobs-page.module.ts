@@ -29,6 +29,18 @@ import { NotesManagerModule } from 'libs/features/notes/notes-manager';
 import { RangeEditorModule } from 'libs/features/structures/range-editor';
 import { PricingDetailsModule } from 'libs/features/pricings/pricing-details';
 import { JobManagementModule } from 'libs/features/jobs/job-management';
+import {
+  PfDataGridModule,
+  JobManagementModule,
+  PricingDetailsModule,
+  PricingsHistoryChartModule,
+  RangeEditorModule,
+  NotesManagerModule,
+  MultiMatchModule,
+  PricingMatchModule,
+  ReScopeSurveyDataModule,
+  UpsertPeerDataCutModule
+} from 'libs/features';
 
 import { JobsPageComponent } from './jobs.page/jobs.page';
 import { JobsPageRoutingModule } from './jobs-page-routing.module';
@@ -97,6 +109,7 @@ import {
         JobManagementModule,
         MatchesModalModule,
         PricingDetailsModule,
+        PricingsHistoryChartModule,
         RangeEditorModule,
         NotesManagerModule,
         MultiMatchModule,

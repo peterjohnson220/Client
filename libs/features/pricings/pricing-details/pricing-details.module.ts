@@ -13,13 +13,13 @@ import * as fromFaIcons from './fa-icons';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
+import { PfCommonModule } from 'libs/core';
 
 import { PricingDetailsEffects } from './effects/pricing-details.effects';
 import { reducers } from './reducers';
 
 import { PricingDetailsComponent } from './pricing-details/pricing-details.component';
 import { PricingInfoComponent } from './containers';
-import { PfCommonModule } from 'libs/core';
 
 @NgModule({
   imports: [

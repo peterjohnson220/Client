@@ -7,7 +7,8 @@ export enum compRate {
 export enum annualDisplay {
   truncated = 'truncated',
   full = 'full',
-  rounded = 'rounded'
+  rounded = 'rounded',
+  truncatedRounded = 'truncatedRounded'
 }
 @Pipe({
   name: 'comp'
@@ -25,6 +26,8 @@ export class CompPipe implements PipeTransform {
       return this.decimalPipe.transform(value, '1.1-1');
     } else if (type === annualDisplay.rounded) {
       return this.decimalPipe.transform(value, '1.0-0');
+    } else if (type === annualDisplay.truncatedRounded) {
+      return this.decimalPipe.transform(value / 1000.0, '1.0-0');
     } else {
       return value;
     }

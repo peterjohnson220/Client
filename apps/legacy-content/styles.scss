@@ -1,5 +1,6 @@
 @import 'kendo-variable-overrides.scss';
 @import "~@progress/kendo-theme-bootstrap/scss/all";
+@import '~dragula/dist/dragula.min.css';
 
 @import 'legacy/legacy-styles';
 @import 'peer/peer-colors';
@@ -9,4 +10,29 @@ pf-apply-mapping-button {
   button.associate {
     @include peer-button($match-button-primary);
   }
+}
+
+.matches {
+  color: #006699;
+}
+
+.matches:hover{
+  cursor: pointer;
+}
+
+.tooltip-container {
+  width: 400px;
+  max-width: none;
+  max-height: 300px;
+  margin-left: 0;
+  padding: 5px;
+  border: 1px dotted black;
+  position: fixed;
+  background: white;
+  z-index: 999;
+}
+
+.popover{
+  font-family: $legacy-font-family !important;
+  font-size: $legacy-font-size;
 }
