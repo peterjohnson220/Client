@@ -6,6 +6,7 @@
   [gridActionsTemplate]="gridActions"
   [enableSelection]="true"
   [gridConfig]="gridConfig"
+  [filterPanelTemplates]="filterTemplates"
   [defaultSort]="defaultSort"
   [columnTemplates]="colTemplates"
   [actionBarConfig]="actionBarConfig"
@@ -62,5 +63,35 @@
         <fa-icon [icon]="['far', 'thumbtack']"></fa-icon>
       </button>
     </div>
+  </div>
+</ng-template>
+
+<ng-template #projectStatusFilter>
+  <div>
+    <label>Completed:</label>
+    <kendo-dropdownlist
+    [data]="customBooleanFilterOptions"
+    [filterable]="false"
+    [value]="isCompleted"
+    [attr.data-qu-id]="'completed-status-filter-' + isCompleted === ' ' ? 'null' : isCompleted"
+    (valueChange)="handleCompletedFilterChanged($event)"
+    class="k-dropdown-white form-control"
+    >
+    </kendo-dropdownlist>
+  </div>
+</ng-template>
+
+<ng-template #projectPinnedFilter>
+  <div>
+    <label>Pinned:</label>
+    <kendo-dropdownlist
+      [data]="customBooleanFilterOptions"
+      [filterable]="false"
+      [value]="isPinned"
+      [attr.data-qu-id]="'completed-status-filter-' + isPinned === ' ' ? 'null' : isPinned"
+      (valueChange)="handlePinnedFilterChanged($event)"
+      class="k-dropdown-white form-control"
+    >
+    </kendo-dropdownlist>
   </div>
 </ng-template>

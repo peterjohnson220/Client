@@ -6,7 +6,7 @@
   <ng-container *ngIf="field.CustomFilterStrategy && field.DataType !== dataTypes.Bit; else simpleFilter" >
     <div class="row">
       <div class="col-12">
-        <pf-input-debounce 
+        <pf-input-debounce
           [id]="field.SourceName"
           [attr.data-qa-id]="'txt-value-'+field.SourceName"
           [ngModel]="field.FilterValue"
@@ -62,6 +62,7 @@
           </div>
           <div class="col-6">
             <kendo-datepicker
+              class="w-100"
               [value]="getDateTimeValue()"
               [format]="'MM/dd/yyyy'"
               [disabled]="valueCanBeEmpty()"

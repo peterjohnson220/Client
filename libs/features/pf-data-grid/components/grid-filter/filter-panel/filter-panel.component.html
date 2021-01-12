@@ -22,27 +22,28 @@
   </div>
   <div class="sidebar-content position-absolute px-3" [style.top.px]="allowSaveFilter ? '160' : '60'">
     <div *ngFor="let field of customFilterFields; trackBy: trackByField" class="form-group">
-      <pf-filter-builder 
+      <pf-filter-builder
         [viewField]="field"
         [filterTemplate]="filterTemplates[field.SourceName]"
         (filterChanged)="handleFilterChange($event)">
       </pf-filter-builder>
-    </div>  
+    </div>
     <div class="row">
-      <div *ngFor="let field of bitFields; trackBy: trackByField" class="col-6 form-group">
-        <pf-filter-builder 
+      <div *ngFor="let field of bitFields; trackBy: trackByField"
+           [ngClass]="filterTemplates[field.SourceName].isFullSize ? 'col-12 form-group' : 'col-6 form-group'">
+        <pf-filter-builder
           [viewField]="field"
           [filterTemplate]="filterTemplates[field.SourceName]"
           (filterChanged)="handleFilterChange($event)">
-        </pf-filter-builder>  
-      </div>  
+        </pf-filter-builder>
+      </div>
     </div>
     <div *ngFor="let field of simpleFields; trackBy: trackByField" class="form-group">
-      <pf-filter-builder 
+      <pf-filter-builder
         [viewField]="field"
         [filterTemplate]="filterTemplates[field.SourceName]"
         (filterChanged)="handleFilterChange($event)">
       </pf-filter-builder>
-    </div>  
+    </div>
   </div>
 </div>
