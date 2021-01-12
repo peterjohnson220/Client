@@ -24,8 +24,9 @@ export class EmployeeSearchSingleFilterEffects {
       this.store.select(fromSearchReducer.getSingledFilter),
       this.store.select(fromSearchReducer.getParentFilters),
       this.store.select(fromSearchReducer.getSingledFilterSearchValue),
-      (infiniteScrollActionContext, singledFilter, filters, searchValue) => (
-        {infiniteScrollActionContext, singledFilter, filters, searchValue}
+      this.store.select(fromStatementAssignmentReducer.getStatement),
+      (infiniteScrollActionContext, singledFilter, filters, searchValue, statement) => (
+        {infiniteScrollActionContext, singledFilter, filters, searchValue, statement}
       )),
     switchMap( data => {
       const request = {
@@ -33,7 +34,8 @@ export class EmployeeSearchSingleFilterEffects {
         Filters: this.payfactorsSearchApiHelper.getSelectedFiltersAsSearchFilters(data.filters),
         PagingOptions: data.infiniteScrollActionContext.pagingOptions,
         SingleFilterAggregateField: data.singledFilter.BackingField,
-        SingleFilterAggregateTextQuery: data.searchValue
+        SingleFilterAggregateTextQuery: data.searchValue,
+        StatementId: data.statement.StatementId
       };
 
       return this.totalRewardsSearchApiService.searchEmployeesAggregations(request).pipe(
