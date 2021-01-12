@@ -1,24 +1,24 @@
-<pf-async-container 
-  [loading]="loading" 
+<pf-async-container
+  [loading]="loading"
   [loadingError]="loadingError"
   [loadingErrorMessage]="'Error loading Job Descriptions'">
-  <kendo-grid 
-    rowClick 
-    [data]="gridDataResult" 
-    [pageable]="pageableSettings" 
+  <kendo-grid
+    rowClick
+    [data]="gridDataResult"
+    [pageable]="pageableSettings"
     [pageSize]="gridState.take"
-    [sortable]="true" 
-    [sort]="gridState.sort" 
+    [sortable]="true"
+    [sort]="gridState.sort"
     [skip]="gridState.skip"
-    [selectable]="true" 
-    (pageChange)="pageChanged.emit($event)" 
+    [selectable]="true"
+    (pageChange)="pageChanged.emit($event)"
     (dataStateChange)="dataStateChanged.emit($event)"
-    (sortChange)="sortChanged.emit($event)" 
+    (sortChange)="sortChanged.emit($event)"
     (selectionChange)="handleRowClick($event)">
-    <kendo-grid-column 
-      *ngFor="let listAreaColumn of listAreaColumns" 
+    <kendo-grid-column
+      *ngFor="let listAreaColumn of listAreaColumns"
       [field]="listAreaColumn.ColumnDatabaseName"
-      [title]="listAreaColumn.ColumnDisplayName" 
+      [title]="listAreaColumn.ColumnDisplayName"
       [hidden]="setColumnVisibility(listAreaColumn)"
       [width]="setColumnWidth(listAreaColumn.ColumnDatabaseName)"
       [filterable]="setFilterable(listAreaColumn.ColumnDatabaseName)"
@@ -38,14 +38,14 @@
           <ng-container *ngIf="dataItem.JobDescriptionStatus === 'Published'">
             <ng-container *ngIf="dataItem.PublicView === false; then privateView else publicView"></ng-container>
             <ng-template #privateView>
-              <fa-stack class="fa-lg" id="private-icon-stack" placement="bottom" 
+              <fa-stack class="fa-lg" id="private-icon-stack" placement="bottom"
               ngbTooltip="Show in public view" container="body" (click)="setTemplateView(dataItem)">
                 <fa-icon icon="circle" stackItemSize="2x" id="private-circle"></fa-icon>
                 <fa-icon icon="eye-slash" stackItemSize="1x" id="private-eye"></fa-icon>
               </fa-stack>
             </ng-template>
             <ng-template #publicView>
-              <fa-stack class="fa-lg" id="public-icon-stack" placement="bottom" 
+              <fa-stack class="fa-lg" id="public-icon-stack" placement="bottom"
               ngbTooltip="Hide from public view" container="body" (click)="setTemplateView(dataItem)">
                 <fa-icon icon="circle" stackItemSize="2x" id="public-circle"></fa-icon>
                 <fa-icon icon="eye" stackItemSize="1x" id="public-eye"></fa-icon>
@@ -57,7 +57,7 @@
 
       <ng-container *ngIf="listAreaColumn.ColumnDataType === 'date'">
         <ng-template kendoGridCellTemplate let-dataItem>
-          {{dataItem[listAreaColumn.ColumnDatabaseName] | amDateFormat:'MM/DD/YYYY'}}
+          {{ dataItem[listAreaColumn.ColumnDatabaseName] | pfParseDate | dfnsFormatPure: 'MM/DD/YYYY'}}
         </ng-template>
       </ng-container>
 

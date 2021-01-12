@@ -1,18 +1,18 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { FormatPurePipeModule } from 'ngx-date-fns';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
-import { NgbDropdown, NgbModal, NgbPopoverModule, NgbModule, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdown, NgbModal, NgbPopoverModule, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import cloneDeep from 'lodash/cloneDeep';
 
 import * as fromRootState from 'libs/state/state';
+import { PermissionService } from 'libs/core';
+import { PfCommonModule } from 'libs/core';
 
 import * as fromJobDescriptionReducers from '../../reducers';
 import { JobDescriptionGridComponent } from './job-description-grid.component';
 import { generateMockCompanyJobViewListItem } from '../../models';
-import { MomentModule } from 'ngx-moment';
-import { PermissionService } from 'libs/core';
-import { TruncateAfterPipe } from 'libs/core/pipes';
 
 
 describe('Job Description Management - Job Description - Job Description Grid', () => {
@@ -29,10 +29,11 @@ describe('Job Description Management - Job Description - Job Description Grid', 
           ...fromRootState.reducers,
           jobdescriptonmanagement_jobdescription: combineReducers(fromJobDescriptionReducers.reducers),
         }),
-        MomentModule
+        FormatPurePipeModule,
+        PfCommonModule
       ],
       declarations: [
-        JobDescriptionGridComponent, NgbDropdown,  NgbTooltip, TruncateAfterPipe
+        JobDescriptionGridComponent, NgbDropdown,  NgbTooltip
       ],
       providers: [
         {

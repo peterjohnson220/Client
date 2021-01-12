@@ -1,18 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { MomentModule } from 'ngx-moment';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
-import { Store } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { FormatPurePipeModule } from 'ngx-date-fns';
 import { NgbModalModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { SurveyNote, getDefaultSurveyNote } from 'libs/models/payfactors-api/survey-library/survey-note-model';
+import { PfCommonModule } from 'libs/core';
 
 import * as fromSurveyNotesReducer from '../../reducers';
 import * as fromSurveyNotesActions from '../../actions/survey-notes.actions';
 import { SurveyNotesListComponent } from '../../components';
-import * as fromSurveyActions from '../../actions/survey-actions';
 import { generateMockSurveyGridItem } from '../../models';
 import { SurveyNotesModalComponent } from './survey-notes-modal.component';
 
@@ -30,10 +29,11 @@ describe('SurveyNotesModalComponent', () => {
     beforeEach(() => {
     TestBed.configureTestingModule({
         imports: [
-            MomentModule,
+            FormatPurePipeModule,
             FormsModule,
             ReactiveFormsModule,
             NgbModalModule,
+            PfCommonModule
         ],
         declarations: [
             SurveyNotesModalComponent,

@@ -14,7 +14,7 @@
   <div class="notification-body align-self-center m-3 ">
     <div class="d-flex flex-column">
       <div>
-        {{UserNotificationDisplay.CreateDate | TimeElapsedPipe}}
+        {{ UserNotificationDisplay.CreateDate | pfParseDate | dfnsFormatDistanceToNowPure: { addSuffix: true } }}
       </div>
       <div class="font-weight-bold">
         <h5 style="margin-bottom:0">

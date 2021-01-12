@@ -1,9 +1,13 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
-import { MomentModule } from 'ngx-moment';
+import {
+  FormatPurePipeModule,
+  GetUnixTimePipeModule,
+  FormatDistanceToNowPurePipeModule
+} from 'ngx-date-fns';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ColumnResizingService, FilterMenuModule, GridModule } from '@progress/kendo-angular-grid';
 import { StoreModule } from '@ngrx/store';
@@ -141,7 +145,9 @@ import { SharedModule } from '../shared/shared.module';
     FilterMenuModule,
     SharedModule,
     FontAwesomeModule,
-    MomentModule,
+    FormatPurePipeModule,
+    GetUnixTimePipeModule,
+    FormatDistanceToNowPurePipeModule
   ],
   declarations: [
     // Components
