@@ -9,11 +9,8 @@ import { GridDataResult } from '@progress/kendo-angular-grid';
 import { RangeGroupMetadata } from 'libs/models/structures';
 import { StructureModelingApiService } from 'libs/data/payfactors-api/structures';
 import * as pfDataGridActions from 'libs/features/grids/pf-data-grid/actions';
-import * as fromPfDataGridActions from 'libs/features/grids/pf-data-grid/actions';
-import * as fromNotificationActions from 'libs/features/infrastructure/app-notifications/actions/app-notifications.actions';
-import { NotificationLevel, NotificationSource, NotificationType } from 'libs/features/infrastructure/app-notifications/models';
 import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
-import { DataGridToDataViewsHelper, GridDataHelper } from 'libs/features/grids/pf-data-grid/helpers';
+import { GridDataHelper } from 'libs/features/grids/pf-data-grid/helpers';
 import { DataViewApiService } from 'libs/data/payfactors-api/reports';
 import { GridConfig } from 'libs/features/grids/pf-data-grid/models';
 import { PagingOptions } from 'libs/models/payfactors-api/search/request';
@@ -21,7 +18,7 @@ import { ExchangeApiService } from 'libs/data/payfactors-api/peer';
 
 import * as fromSharedJobBasedRangeActions from '../actions/shared.actions';
 import * as fromSharedStructuresActions from '../../../shared/actions/shared.actions';
-import { PayfactorsApiModelMapper } from '../helpers/payfactors-api-model-mapper';
+import { PayfactorsApiModelMapper } from '../../../shared/helpers/payfactors-api-model-mapper';
 import * as fromSharedJobBasedReducer from '../reducers';
 import * as fromSharedStructuresReducer from '../../../shared/reducers';
 import { PagesHelper } from '../../../shared/helpers/pages.helper';
@@ -109,9 +106,9 @@ export class SharedEffects {
               const actions = [];
 
               if (res) {
-                actions.push(new fromSharedJobBasedRangeActions.EnableCompareFlag());
+                actions.push(new fromSharedStructuresActions.EnableCompareFlag());
               } else {
-                actions.push(new fromSharedJobBasedRangeActions.DisableCompareFlag());
+                actions.push(new fromSharedStructuresActions.DisableCompareFlag());
               }
 
               actions.push(new fromSharedJobBasedRangeActions.GetCurrentRangeGroupSuccess(res));

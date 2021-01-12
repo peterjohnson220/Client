@@ -23,8 +23,6 @@ import { CalculationType } from 'libs/constants/structures/calculation-type';
 import { FormulaFieldModalObj } from 'libs/models/formula-editor';
 import { UdfSetting } from 'libs/models/payfactors-api/survey/response/udf-data-response.model';
 
-
-
 import { ControlPoint, Currency } from '../models';
 
 export class PayfactorsApiModelMapper {

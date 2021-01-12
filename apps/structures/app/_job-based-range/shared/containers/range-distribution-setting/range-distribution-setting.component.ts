@@ -13,7 +13,7 @@ import { CalculationType } from 'libs/constants/structures/calculation-type';
 import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
 
 import * as fromJobBasedRangeReducer from '../../reducers';
-import { ControlPoint } from '../../models';
+import { ControlPoint } from '../../../../shared/models';
 import { ModelSettingsModalConstants } from '../../../../shared/constants/model-settings-modal-constants';
 
 @Component({

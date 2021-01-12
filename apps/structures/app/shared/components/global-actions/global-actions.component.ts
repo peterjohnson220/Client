@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { Permissions } from 'libs/constants';
 import { RangeGroupMetadata } from 'libs/models/structures';
 
-import * as fromSharedJobBasedRangeReducer from '../../../_job-based-range/shared/reducers';
+import * as fromSharedStructuresReducer from '../../reducers/shared.reducer';
 
 @Component({
   selector: 'pf-global-actions',
@@ -25,11 +25,11 @@ export class GlobalActionsComponent {
   compareEnabled$: Observable<boolean>;
 
   constructor(
-    private store: Store<fromSharedJobBasedRangeReducer.State>
+    private store: Store<fromSharedStructuresReducer.State>
   ) {
     this._Permissions = Permissions;
-    this.comparing$ = this.store.select(fromSharedJobBasedRangeReducer.getComparingModels);
-    this.compareEnabled$ = this.store.select(fromSharedJobBasedRangeReducer.getCompareEnabled);
+    this.comparing$ = this.store.select(fromSharedStructuresReducer.getComparingModels);
+    this.compareEnabled$ = this.store.select(fromSharedStructuresReducer.getCompareEnabled);
 
   }
 

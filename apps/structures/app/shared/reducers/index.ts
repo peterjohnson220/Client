@@ -61,3 +61,13 @@ export const getRangeOverrides = createSelector(
 export const getDistinctOverrideMessages = createSelector(
   selectSharedState, fromSharedReducer.getDistinctOverrideMessages
 );
+
+export const getComparingModels = createSelector(
+  selectSharedState,
+  fromSharedReducer.getComparingModels
+);
+
+export const getCompareEnabled = createSelector(
+  selectSharedState,
+  fromSharedReducer.getCompareEnabled
+);

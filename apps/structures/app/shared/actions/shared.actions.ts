@@ -4,7 +4,7 @@ import { CompanyStructureRangeOverride, RangeGroupMetadata, RoundingSettingsData
 import { RoundingTypes } from 'libs/constants/structures/rounding-type';
 import { DataViewFilter } from 'libs/models/payfactors-api';
 
-import { SelectedPeerExchangeModel } from '../../_job-based-range/shared/models';
+import { SelectedPeerExchangeModel } from '../models';
 
 export const SET_METADATA = '[Structures - Shared] Set Metadata';
 export const UPDATE_ROUNDING_TYPE = '[Structures - Shared] Update Rounding Type';
@@ -25,6 +25,10 @@ export const GET_DISTINCT_OVERRIDE_MESSAGES_ERROR = '[Structures - Shared] Get D
 export const REVERTING_RANGE_CHANGES = '[Structures - Shared] Reverting Range Changes';
 export const REVERTING_RANGE_CHANGES_SUCCESS = '[Structures - Shared] Reverting Range Changes Success';
 export const REVERTING_RANGE_CHANGES_ERROR = '[Structures - Shared] Reverting Range Changes Error';
+export const COMPARING_MODELS = '[Structures - Shared] Comparing Models';
+export const END_COMPARING_MODELS = '[Structures - Shared] End Comparing Models';
+export const ENABLE_COMPARE_FLAG = '[Structures - Shared] Enable Compare Flag';
+export const DISABLE_COMPARE_FLAG = '[Structures - Shared] Disable Compare Flag';
 
 export class SetMetadata implements Action {
   readonly type = SET_METADATA;
@@ -148,6 +152,22 @@ export class RevertingRangeChangesError implements Action {
   constructor(public error: any) {}
 }
 
+export class ComparingModels implements Action {
+  readonly type = COMPARING_MODELS;
+}
+
+export class EndComparingModels implements Action {
+  readonly type = END_COMPARING_MODELS;
+}
+
+export class EnableCompareFlag implements Action {
+  readonly type = ENABLE_COMPARE_FLAG;
+}
+
+export class DisableCompareFlag implements Action {
+  readonly type = DISABLE_COMPARE_FLAG;
+}
+
 export type SharedActions
   = SetMetadata
   | UpdateRoundingType
@@ -167,5 +187,9 @@ export type SharedActions
   | UpdateOverrides
   | GetDistinctOverrideMessages
   | GetDistinctOverrideMessagesSuccess
-  | GetDistinctOverrideMessagesError;
+  | GetDistinctOverrideMessagesError
+  | ComparingModels
+  | EndComparingModels
+  | EnableCompareFlag
+  | DisableCompareFlag;
 

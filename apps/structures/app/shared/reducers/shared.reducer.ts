@@ -6,7 +6,7 @@ import { AsyncStateObj, generateDefaultAsyncStateObj, GenericKeyValue } from 'li
 
 import * as fromSharedActions from '../actions/shared.actions';
 import { RangeDistributionTypeIds } from '../constants/range-distribution-type-ids';
-import { SelectedPeerExchangeModel } from '../../_job-based-range/shared/models';
+import { SelectedPeerExchangeModel } from '../models';
 
 export interface State {
   metadata: RangeGroupMetadata;
@@ -15,6 +15,8 @@ export interface State {
   selectedPeerExchange: SelectedPeerExchangeModel;
   rangeOverrides: CompanyStructureRangeOverride[];
   overrideMessages: string[];
+  comparingModels: boolean;
+  compareEnabled: boolean;
 }
 
 const initialState: State = {
@@ -36,7 +38,9 @@ const initialState: State = {
   gettingExchanges: generateDefaultAsyncStateObj<GenericKeyValue<number, string>[]>(null),
   selectedPeerExchange: null,
   rangeOverrides: [],
-  overrideMessages: []
+  overrideMessages: [],
+  comparingModels: false,
+  compareEnabled: false
 };
 
 export function reducer(state = initialState, action: fromSharedActions.SharedActions): State {
@@ -148,6 +152,30 @@ export function reducer(state = initialState, action: fromSharedActions.SharedAc
         selectedPeerExchange: action.payload
       };
     }
+    case fromSharedActions.COMPARING_MODELS: {
+      return{
+        ...state,
+        comparingModels: true
+      };
+    }
+    case fromSharedActions.END_COMPARING_MODELS: {
+      return {
+        ...state,
+        comparingModels: false
+      };
+    }
+    case fromSharedActions.ENABLE_COMPARE_FLAG: {
+      return {
+        ...state,
+        compareEnabled: true
+      };
+    }
+    case fromSharedActions.DISABLE_COMPARE_FLAG: {
+      return {
+        ...state,
+        compareEnabled: false
+      };
+    }
     default:
       return state;
   }
@@ -231,3 +259,5 @@ export const getCompanyExchanges = (state: State) => state.gettingExchanges;
 export const getSelectedPeerExchange = (state: State) => state.selectedPeerExchange;
 export const getRangeOverrides = (state: State) => state.rangeOverrides;
 export const getDistinctOverrideMessages  = (state: State) => state.overrideMessages;
+export const getComparingModels = (state: State) => state.comparingModels;
+export const getCompareEnabled = (state: State) => state.compareEnabled;

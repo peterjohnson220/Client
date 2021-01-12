@@ -3,7 +3,7 @@ import * as fromModelSettingsModalActions from '../actions/model-settings-modal.
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 import { AsyncStateObjHelper } from 'libs/core/helpers';
 
-import { Currency, ControlPoint } from '../models';
+import { Currency, ControlPoint } from '../../../shared/models';
 
 export interface State {
   modalOpen: boolean;

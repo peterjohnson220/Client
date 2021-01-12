@@ -287,7 +287,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
 
   handleCompareModelClicked() {
     this.compareFlag = true;
-    this.store.dispatch(new fromSharedJobBasedRangeActions.ComparingModels());
+    this.store.dispatch(new fromSharedStructuresActions.ComparingModels());
     this.store.dispatch(new fromPfDataGridActions.UpdatePagingOptions(this.pageViewId, this.defaultPagingOptions));
     this.compareModelClicked.emit();
   }

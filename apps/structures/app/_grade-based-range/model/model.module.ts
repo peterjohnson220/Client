@@ -12,6 +12,7 @@ import { ModelRoutingModule } from './model-routing.module';
 import { ModelPageComponent } from './model.page/model.page';
 import { HighchartsChartModule } from 'highcharts-angular';
 import { GradeBasedSharedModule } from '../shared/shared.module';
+import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
   imports: [
@@ -30,6 +31,7 @@ import { GradeBasedSharedModule } from '../shared/shared.module';
     ModelRoutingModule,
 
     GradeBasedSharedModule,
+    SharedModule,
 
     // 3rd party
     HighchartsChartModule

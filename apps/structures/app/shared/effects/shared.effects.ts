@@ -18,8 +18,7 @@ import { DataGridToDataViewsHelper } from 'libs/features/grids/pf-data-grid/help
 
 import * as fromSharedActions from '../actions/shared.actions';
 import * as fromSharedStructuresReducer from '../../shared/reducers';
-import * as fromSharedJobBasedRangeActions from '../../_job-based-range/shared/actions/shared.actions';
-import { PayfactorsApiModelMapper } from '../../_job-based-range/shared/helpers/payfactors-api-model-mapper';
+import { PayfactorsApiModelMapper } from '../helpers/payfactors-api-model-mapper';
 import * as fromSharedStructuresActions from '../actions/shared.actions';
 
 

@@ -17,12 +17,13 @@ import * as fromSharedStructuresReducer from '../../../../shared/reducers';
 import * as fromModelSettingsModalActions from '../../../shared/actions/model-settings-modal.actions';
 import * as fromJobBasedRangeReducer from '../../reducers';
 import * as fromSharedStructuresActions from '../../../../shared/actions/shared.actions';
-import { ControlPoint, Currency, SelectedPeerExchangeModel } from '../../models';
+import { ControlPoint, Currency } from '../../../../shared/models';
 import { UrlService } from '../../services';
 import { Workflow } from '../../../../shared/constants/workflow';
 import { RangeDistributionSettingComponent } from '../range-distribution-setting';
 import { ModelSettingsModalConstants } from '../../../../shared/constants/model-settings-modal-constants';
 import { AdvancedModelSettingComponent } from '../advanced-model-setting';
+import { SelectedPeerExchangeModel } from '../../../../shared/models';
 
 @Component({
   selector: 'pf-model-settings-modal',
