@@ -4,10 +4,12 @@
 .trs-image {
   width: 174px;
   height: 80px;
+  &.show-image img {
+    flex-shrink: 0; // don't allow the img to leak through it's container in IE11
+  }
   &.edit-mode.show-image img {
     border: 2px dashed transparent;
     transition: border .6s ease-in-out;
-    flex-shrink: 0; // don't allow the img to leak through it's container in IE11
     &:hover{
       border: 2px dashed rgba($link-color, .5);
     }
