@@ -16,7 +16,7 @@ export class InfiniteScrollComponent implements OnInit, OnDestroy {
   @Input() numberOfCurrentResults: number;
   @Input() scrollId: string;
   @Input() position: 'relative'|'absolute' = 'absolute';
-
+  @Input() spinnerType = 'GIF';
   // Observables
   loading$: Observable<boolean>;
   loadingMore$: Observable<boolean>;
@@ -30,7 +30,6 @@ export class InfiniteScrollComponent implements OnInit, OnDestroy {
 
   hasAllResults: boolean;
   loadingMore: boolean;
-  spinnerType = 'GIF';
 
   constructor(private store: Store<fromInfiniteScrollReducer.State>) {}
 

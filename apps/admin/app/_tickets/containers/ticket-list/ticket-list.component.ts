@@ -179,7 +179,7 @@ export class TicketListComponent  implements OnInit, OnDestroy {
       this.state.filter.filters.push({field: this.ticketFieldType.SERVICEUSER, value: this.defaultPfServiceRep, operator: 'contains'});
     }
     if (queryParam.keys.length > 0) {
-      KendoGridFilterHelper.updateFilter('Created', null, this.state);
+      KendoGridFilterHelper.updateFilter('Created', null, 'contains', this.state);
       this.state.filter.filters.push({field: this.ticketFieldType.COMPANYIDNAME, value: queryParam.get('company_name'), operator: 'contains'});
     }
 

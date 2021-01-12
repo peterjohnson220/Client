@@ -1,5 +1,6 @@
-import { UserNotificationResponse } from '../../../../models/payfactors-api/notifications/response';
 import { UserNotification } from '../models';
+
+import { UserNotificationResponse } from 'libs/models/payfactors-api/notifications/response';
 
 export class PayfactorsApiModelMapper {
   static mapUserNotificationResponsesUserNotifications(response: UserNotificationResponse[]): UserNotification[] {

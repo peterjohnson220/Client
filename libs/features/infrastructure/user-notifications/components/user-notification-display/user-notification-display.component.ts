@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 
 import { UserNotificationDisplay } from '../../models';
+import { UserNotificationEventHelperService } from '../../helpers/user-notification-event-helper-service';
 
 @Component({
   selector: 'pf-user-notification-display',
@@ -10,9 +11,14 @@ import { UserNotificationDisplay } from '../../models';
 export class UserNotificationDisplayComponent {
 
   @Input() UserNotificationDisplay: UserNotificationDisplay;
-  constructor() { }
+  constructor(private userNotificationEventHelperService: UserNotificationEventHelperService) { }
 
   onClicked() {
     this.UserNotificationDisplay.IsRead = true;
+
+  }
+
+  closePopover() {
+    this.userNotificationEventHelperService.closePopoverEvent();
   }
 }

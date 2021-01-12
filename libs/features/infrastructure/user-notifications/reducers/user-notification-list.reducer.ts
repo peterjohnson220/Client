@@ -25,6 +25,14 @@ export function reducer(state = initialState, action: fromUserNotificationListAc
         userNotifications: finalNotifications
       };
     }
+    case fromUserNotificationListActions.MARK_NOTIFICATION_READ: {
+      const userNotificationsCopy = cloneDeep(state.userNotifications);
+      userNotificationsCopy.find(x => x.Id === action.payload.userNotificationId).IsRead = true;
+      return {
+        ...state,
+        userNotifications: userNotificationsCopy
+      };
+    }
     default:
       return state;
   }
