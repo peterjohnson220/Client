@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 
-import { UpdatePricingMatchRequest, UpdatePricingRequest } from 'libs/models/payfactors-api/';
+import { GetPricingHistoryRequest, UpdatePricingMatchRequest, UpdatePricingRequest } from 'libs/models/payfactors-api/';
 
 
 @Injectable({
@@ -13,6 +13,10 @@ export class PricingApiService {
   private endpoint = 'pricing';
 
   constructor(private payfactorsApiService: PayfactorsApiService) { }
+
+  getPricedPaymarkets(jobId: number): Observable<any> {
+    return this.payfactorsApiService.get(`${this.endpoint}/GetPricedPayMarkets?jobId=${jobId}`);
+  }
 
   updatePricing(updatePricingRequest: UpdatePricingRequest): Observable<any> {
     return this.payfactorsApiService.post(`${this.endpoint}/UpdatePricing`, updatePricingRequest);
@@ -33,12 +37,17 @@ export class PricingApiService {
   getReScopeSurveyDataContext(pricingMatchId: number) {
     return this.payfactorsApiService.get(`${this.endpoint}/GetReScopeSurveyDataContext?pricingMatchId=${pricingMatchId}`);
   }
+
   deleteMatchAndPricing(pricingMatchId: number) {
     return this.payfactorsApiService.delete(`${this.endpoint}/DeleteMatchAndPricing?pricingMatchId=${pricingMatchId}`);
   }
 
   getPreviousPricingEffectiveDate(pricingMatchId: number) {
     return this.payfactorsApiService.get(`${this.endpoint}/GetPreviousPricingEffectiveDate?pricingMatchId=${pricingMatchId}`);
+  }
+
+  getPricingHistoryComparison(request: GetPricingHistoryRequest) {
+    return this.payfactorsApiService.post(`${this.endpoint}/GetPricingHistoryComparison`, request);
   }
 
 }

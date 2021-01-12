@@ -15,7 +15,7 @@ import * as fromAddJobsPageActions from 'libs/features/add-jobs/actions/add-jobs
 import * as fromAddJobsSearchResultsActions from 'libs/features/add-jobs/actions/search-results.actions';
 
 import { AddJobsPageComponent } from './add-jobs.page';
-import * as fromAddJobsReducer from '../../../../../../apps/project/app/_add-jobs/reducers';
+import * as fromAddJobsReducer from '../../../../../../apps/legacy-content/app/_add-jobs/reducers';
 
 describe('Project - Add Jobs - Jobs Page', () => {
   let fixture: ComponentFixture<AddJobsPageComponent>;

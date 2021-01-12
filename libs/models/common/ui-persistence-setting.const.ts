@@ -15,6 +15,7 @@ export class UiPersistenceSettingConstants {
   static readonly ExchangeDataCutsExportWeightingTypeSelection = 'ExchangeDataCutsExportWeightingTypeSelection';
   static readonly PeerAddDataModalWeightingTypeSelection = 'PeerAddDataModalWeightingTypeSelection';
   static readonly JobsPagePreference = 'JobsPagePreference';
+  static readonly JobsPagePricingHistoryComparison = 'JobsPagePricingHistoryComparison';
   static readonly PeerDefaultExchangeScopes = 'PeerDefaultExchangeScopes';
   static readonly ServiceSupportTeamDashboardOpen = 'ServiceSupportTeamDashboardOpen';
   static readonly PeerDefaultCollapsedFilters = 'PeerDefaultCollapsedFilters';

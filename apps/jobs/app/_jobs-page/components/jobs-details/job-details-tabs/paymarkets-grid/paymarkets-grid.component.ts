@@ -16,10 +16,9 @@ import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 
-import * as fromPricingDetailsActions from 'libs/features/pricing-details/actions';
+import * as fromPricingDetailsActions from 'libs/features/pricings/pricing-details/actions';
 import { ApiServiceType } from 'libs/features/notes-manager/constants/api-service-type-constants';
 import { PfThemeType } from 'libs/features/pf-data-grid/enums/pf-theme-type.enum';
-import { UpsertPeerDataCutModalConfiguration } from 'libs/features/upsert-peer-data-cut/models/upsert-peer-data-cut-modal-configuration';
 import { PermissionCheckEnum, Permissions } from 'libs/constants';
 import { PermissionService } from 'libs/core/services';
 
@@ -99,14 +98,6 @@ export class PaymarketsGridComponent implements OnInit, AfterViewInit, OnDestroy
 
   jobTitleCodePipe: JobTitleCodePipe;
 
-  // This is needed to refresh the matches grid after updating the scopes
-  selectedPricingId: number;
-  showReScopeSurveyDataModal = new BehaviorSubject<boolean>(false);
-  showReScopeSurveyDataModal$ = this.showReScopeSurveyDataModal.asObservable();
-  reScopeSurveyDataSubscription: Subscription;
-  reScopeSurveyDataConfiguration: ReScopeSurveyDataModalConfiguration;
-  matchIdForUpdates: number;
-
   notesApiServiceType: ApiServiceType;
   pricingIdForNotes: number;
   payMarketForNotes: string;
@@ -150,12 +141,6 @@ export class PaymarketsGridComponent implements OnInit, AfterViewInit, OnDestroy
         this.store.dispatch(new fromPfDataGridActions.LoadData(PageViewIds.PayMarkets));
       });
 
-    this.reScopeSurveyDataSubscription = this.actionsSubject
-      .pipe(ofType(fromReScopeActions.GET_RE_SCOPE_SURVEY_DATA_CONTEXT_SUCCESS))
-      .subscribe(data => {
-        this.showReScopeSurveyDataModal.next(true);
-      });
-
     this.actionBarConfig = {
       ...getDefaultActionBarConfig(),
       ActionBarClassName: 'ml-0 mr-3 mt-1'
@@ -165,16 +150,6 @@ export class PaymarketsGridComponent implements OnInit, AfterViewInit, OnDestroy
       EnableInfiniteScroll: true,
       ScrollToTop: true,
       SelectAllPanelItemName: 'pricings'
-    };
-
-    this.reScopeSurveyDataConfiguration = {
-      SurveyJobId: undefined,
-      SurveyDataId: undefined,
-      SurveyJobTemplate: undefined,
-      ShowModal$: this.showReScopeSurveyDataModal$,
-      Rate: 'Annual',
-      ShowPricingWarning: true,
-      EntityId: undefined
     };
   }
 
@@ -206,7 +181,6 @@ export class PaymarketsGridComponent implements OnInit, AfterViewInit, OnDestroy
     this.gridFieldSubscription.unsubscribe();
     this.getPricingReviewedSuccessSubscription.unsubscribe();
     this.selectedJobRowSubscription.unsubscribe();
-    this.reScopeSurveyDataSubscription.unsubscribe();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -260,37 +234,6 @@ export class PaymarketsGridComponent implements OnInit, AfterViewInit, OnDestroy
     } else {
       this.store.dispatch(new fromPfGridActions.ClearFilter(this.pageViewId, field));
     }
-  }
-
-  openReScopeSurveyDataModal(event: any) {
-    this.reScopeSurveyDataConfiguration = {
-      ...this.reScopeSurveyDataConfiguration,
-      SurveyJobId: event.SurveyJobId,
-      SurveyDataId: event.SurveyDataId,
-      SurveyJobTemplate: event.SurveyJobTemplate,
-      Rate: event.Rate,
-      EntityId: event.MatchId
-    };
-
-    this.matchIdForUpdates = event.MatchId;
-    this.selectedPricingId = event.PricingId;
-
-    this.store.dispatch(new fromReScopeActions.GetReScopeSurveyDataContext(event.MatchId));
-  }
-
-  reScopeSurveyDataCut(surveyDataId: number) {
-    const request: UpdatePricingMatchRequest = {
-      MatchId: this.matchIdForUpdates,
-      MatchWeight: null,
-      MatchAdjustment: null,
-      SurveyDataId: surveyDataId,
-      ExchangeDataCutId: null,
-    };
-    const pricingId = this.selectedPricingId;
-    const matchesGridPageViewId = `${PageViewIds.PricingMatches}_${pricingId}`;
-
-    this.store.dispatch(new fromModifyPricingsActions.UpdatingPricingMatch(request, pricingId, matchesGridPageViewId));
-    this.showReScopeSurveyDataModal.next(false);
   }
 
   reloadPaymarkets() {

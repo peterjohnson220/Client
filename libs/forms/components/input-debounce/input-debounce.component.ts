@@ -1,7 +1,7 @@
-import { Component, ElementRef, EventEmitter, forwardRef, Input, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, forwardRef, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
-import { merge as observableMerge, fromEvent as observableFromEvent, Subject } from 'rxjs';
+import { merge as observableMerge, fromEvent as observableFromEvent, Subject, Observable, of, Subscription } from 'rxjs';
 import { debounceTime, map } from 'rxjs/operators';
 
 import { PfConstants } from '../../../models/common';
@@ -18,7 +18,7 @@ import { PfConstants } from '../../../models/common';
     }
   ]
 })
-export class InputDebounceComponent implements OnInit, ControlValueAccessor {
+export class InputDebounceComponent implements OnInit, ControlValueAccessor, OnDestroy {
   private inputEvents;
   private eventStream;
   private clearEvent;
@@ -37,8 +37,11 @@ export class InputDebounceComponent implements OnInit, ControlValueAccessor {
   @Input() automationClassName = '';
   @Input() minWidth = 100;
   @Input() value = '';
+  @Input() resetValue$: Observable<boolean> = of(false);
   @Output() valueChanged: EventEmitter<string> = new EventEmitter();
   @Output() clearClicked = new EventEmitter();
+
+  resetValueSubscription: Subscription;
 
   constructor(private elementRef: ElementRef) {
     this.clearEvent = new Subject();
@@ -46,7 +49,17 @@ export class InputDebounceComponent implements OnInit, ControlValueAccessor {
 
   propagateChange = (_: any) => { };
 
+  ngOnDestroy() {
+    this.resetValueSubscription.unsubscribe();
+  }
+
   ngOnInit() {
+    this.resetValueSubscription = this.resetValue$.subscribe(triggered => {
+      if (triggered) {
+        this.clearValue();
+      }
+    });
+
     this.inputEvents = observableFromEvent(this.elementRef.nativeElement, 'input');
 
     this.eventStream = observableMerge(this.inputEvents, this.clearEvent).pipe(
