@@ -1,11 +1,9 @@
 import isObject from 'lodash/isObject';
-
-import {AsyncStateObjHelper} from 'libs/core/helpers';
-import {AsyncStateObj, generateDefaultAsyncStateObj} from 'libs/models/state';
-import {CompanyFilePackagesResponse, CompositeDataLoadViewResponse} from 'libs/models/admin/loader-dashboard/response';
-
+import { AsyncStateObjHelper } from 'libs/core/helpers';
+import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
+import { CompanyFilePackagesResponse, CompositeDataLoadViewResponse } from 'libs/models/admin/loader-dashboard/response';
 import * as fromLoaderDashboardPageActions from '../actions/loader-dashboard-page.actions';
-import {GridSearchPayload} from '../models';
+import { GridSearchPayload, UpdatedArchiveSummaryModel } from '../models';
 
 export interface State {
   GridSearchPayload: GridSearchPayload;
@@ -13,6 +11,9 @@ export interface State {
   FilePackagesObj: AsyncStateObj<CompanyFilePackagesResponse[]>;
   RedropExportedSourceFile: AsyncStateObj<boolean>;
   RedropConfirmationModalOpen: boolean;
+  UpdatedArchiveSummaryObj: AsyncStateObj<UpdatedArchiveSummaryModel>;
+  RedropFileObj: File;
+  IsModifiedRedropInProgress: boolean;
 }
 
 export const initialState: State = {
@@ -20,7 +21,10 @@ export const initialState: State = {
   CompositeLoadsObj: generateDefaultAsyncStateObj<CompositeDataLoadViewResponse[]>([]),
   FilePackagesObj: generateDefaultAsyncStateObj<CompanyFilePackagesResponse[]>([]),
   RedropExportedSourceFile: generateDefaultAsyncStateObj<boolean>(false),
-  RedropConfirmationModalOpen: false
+  RedropConfirmationModalOpen: false,
+  UpdatedArchiveSummaryObj: generateDefaultAsyncStateObj<UpdatedArchiveSummaryModel>({ }),
+  RedropFileObj: null,
+  IsModifiedRedropInProgress: false
 };
 
 export function reducer(state = initialState, action: fromLoaderDashboardPageActions.Actions): State {
@@ -90,6 +94,38 @@ export function reducer(state = initialState, action: fromLoaderDashboardPageAct
         RedropConfirmationModalOpen: false
       };
     }
+    case fromLoaderDashboardPageActions.GET_ARCHIVE_DATA: {
+      const newState = AsyncStateObjHelper.loading(state, 'UpdatedArchiveSummaryObj');
+      return {
+        ...newState,
+        RedropFileObj: action.payload.file
+      };
+    }
+    case fromLoaderDashboardPageActions.GET_ARCHIVE_DATA_SUCCESS: {
+      return AsyncStateObjHelper.loadingSuccess(state, 'UpdatedArchiveSummaryObj', action.payload);
+    }
+    case fromLoaderDashboardPageActions.GET_ARCHIVE_DATA_ERROR: {
+      return AsyncStateObjHelper.loadingError(state, 'UpdatedArchiveSummaryObj', action.errorMessage);
+    }
+    case fromLoaderDashboardPageActions.CLEAR_ARCHIVE_DATA: {
+      return {
+        ...state,
+        UpdatedArchiveSummaryObj: generateDefaultAsyncStateObj<UpdatedArchiveSummaryModel>({ }),
+        RedropFileObj: null
+      };
+    }
+    case fromLoaderDashboardPageActions.REDROP_ARCHIVE: {
+      return {
+        ...state,
+        IsModifiedRedropInProgress: true
+      };
+    }
+    case fromLoaderDashboardPageActions.REDROP_ARCHIVE_SUCCESS: {
+      return {
+        ...state,
+        IsModifiedRedropInProgress: false
+      };
+    }
     default: {
       return state;
     }
@@ -103,3 +139,6 @@ export const getFilePackagesObj = (state: State) => state.FilePackagesObj;
 export const getFilePackagesResult = (state: State) => state.FilePackagesObj.obj;
 export const getRedropExportedSourceFile = (state: State) => state.RedropExportedSourceFile;
 export const getRedropConfirmationModalOpen = (state: State) => state.RedropConfirmationModalOpen;
+export const getUpdatedArchiveSummaryObj = (state: State) => state.UpdatedArchiveSummaryObj;
+export const getRedropFileObj = (state: State) => state.RedropFileObj;
+export const getIsModifiedRedropInProgress = (state: State) => state.IsModifiedRedropInProgress;
