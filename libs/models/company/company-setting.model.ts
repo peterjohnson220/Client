@@ -42,7 +42,8 @@ export enum CompanySettingsEnum {
   EnableIntervalAgingFactor = 'EnableIntervalAgingFactor',
   EnablePricingReview = 'EnablePricingReview',
   EnableLiveChat = 'EnableLiveChat',
-  ExportsSecurity = 'ExportsSecurity'
+  ExportsSecurity = 'ExportsSecurity',
+  FileDownloadSecurityWarning = 'FileDownloadSecurityWarning'
 }
 
 export enum CustomCompanySettingsDisplayEnum {
