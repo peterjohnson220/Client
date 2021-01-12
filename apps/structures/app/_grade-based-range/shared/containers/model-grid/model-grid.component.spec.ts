@@ -11,6 +11,7 @@ import * as fromRootState from 'libs/state/state';
 
 import { StructuresPagesService } from '../../../../shared/services';
 import { ModelGridComponent } from './model-grid.component';
+import { RangeValuePipe } from '../../../../shared/pipes';
 
 
 
@@ -37,7 +38,7 @@ describe('ModelGridComponent', () => {
         PfCommonModule,
         NgbModule
       ],
-      declarations: [ ModelGridComponent ],
+      declarations: [ ModelGridComponent, RangeValuePipe ],
       schemas: [ NO_ERRORS_SCHEMA ],
       providers: [
         {
