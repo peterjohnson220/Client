@@ -39,6 +39,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   @ViewChild('gridGlobalActions', { static: true }) gridGlobalActionsTemplate: ElementRef;
   @ViewChild('gridRowActionsTemplate') gridRowActionsTemplate: ElementRef;
   @ViewChild('percentage', { static: true }) percentageColumn: ElementRef;
+  @ViewChild('rangeValue', { static: true }) rangeValueColumn: ElementRef;
 
   @Input() singleRecordView: boolean;
   @Input() inboundFilters: PfDataGridFilter[];
@@ -195,7 +196,8 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
       [PfDataGridColType.midpointDiffFieldEditor]: { Template: this.diffFieldColumn },
       [PfDataGridColType.noFormatting]: { Template: this.noFormattingColumn },
       [PfDataGridColType.rangeFieldEditor]: { Template: this.rangeFieldColumn },
-      [PfDataGridColType.percentage]: { Template: this.percentageColumn }
+      [PfDataGridColType.percentage]: { Template: this.percentageColumn },
+      [PfDataGridColType.rangeValue]: { Template: this.rangeValueColumn },
     };
 
     this.fullGridActionBarConfig = {
