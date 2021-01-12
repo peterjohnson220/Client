@@ -72,6 +72,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   private customJobFields$: Observable<any>;
   private customEmployeeFields$: Observable<any>;
   private employeeIdentifiers$: Observable<any>;
+  private benefitsHeaders$: Observable<any>;
   public customFields: EntityCustomFieldsModel;
 
   private empoyeeTagCategories$: Observable<any>;
@@ -184,6 +185,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     this.customJobFields$ = this.mainStore.select(fromDataManagementMainReducer.getCustomJobField);
     this.customEmployeeFields$ = this.mainStore.select(fromDataManagementMainReducer.getCustomEmployeeField);
     this.empoyeeTagCategories$ = this.mainStore.select(fromDataManagementMainReducer.getTagCategories);
+    this.benefitsHeaders$ = this.mainStore.select(fromDataManagementMainReducer.getBenefitsHeaders);
     this.fileUploadData$ = this.mainStore.select(fromDataManagementMainReducer.fileUploadData);
     this.fileUploadDataFailed$ = this.mainStore.select(fromDataManagementMainReducer.fileUploadDataFailed);
     this.isProcessingMapping$ = this.mainStore.select(fromDataManagementMainReducer.isProcessingMapping);
@@ -314,6 +316,13 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
         this.mainStore.dispatch(new fromEntityIdentifierActions.GetEmployeeIdentifiers(this.selectedCompany.CompanyId, employees));
       });
 
+    this.benefitsHeaders$.pipe(
+      filter(a => !!a),
+      takeUntil(this.unsubscribe$)
+    ).subscribe(benefits => {
+      this.customFields.Benefits.push(...benefits);
+    });
+
     this.empoyeeTagCategories$.pipe(
       filter(uc => !!uc),
       takeUntil(this.unsubscribe$)).subscribe(employeetags => {
@@ -390,8 +399,13 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
         takeUntil(this.unsubscribe$)
       ).subscribe(f => {
         const benefitsLoaderFeatureFlagEnabled = this.featureFlagService.enabled(FeatureFlags.BenefitsLoaderConfiguration, false);
+        const hasBenefits = f && benefitsLoaderFeatureFlagEnabled;
+        this.loadOptions.find(a => a.dbName === 'Benefits').isEnabled = hasBenefits;
 
-        this.loadOptions.find(a => a.dbName === 'Benefits').isEnabled = f && benefitsLoaderFeatureFlagEnabled;
+        if (hasBenefits) {
+          this.mainStore.dispatch(new fromCustomFieldsActions.GetBenefitHeaders());
+        }
+
       });
 
     const companiesSubscription = this.companies$.pipe(
@@ -598,7 +612,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       this.loadOptions = getEntityChoicesForOrgLoader();
       const empTagsFeatureFlagEnabled = this.featureFlagService.enabled(FeatureFlags.EmployeeTagsLoaderConfiguration, false);
       this.loadOptions.find(a => a.dbName === 'EmployeeTags').isEnabled = empTagsFeatureFlagEnabled;
-      this.customFields = { Employees: [], Jobs: [], EmployeeTags: [], EmployeeKeyFields: [] };
+      this.customFields = { Employees: [], Jobs: [], EmployeeTags: [], EmployeeKeyFields: [], Benefits: [] };
 
     }
 

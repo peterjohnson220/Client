@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 
-import { of, Observable } from 'rxjs';
-import { OrgDataEntityType } from 'libs/constants';
-import {FileUploadHeaderRequestModel} from 'libs/features/loaders/org-data-loader/models';
-import { LoaderFieldSet, FieldMappingsDTO } from 'libs/models/data-loads/index';
+import { Observable, of } from 'rxjs';
 
+import { OrgDataEntityType } from 'libs/constants';
+import { FileUploadHeaderRequestModel } from 'libs/features/loaders/org-data-loader/models';
+import { FieldMappingsDTO, LoaderFieldSet } from 'libs/models/data-loads/index';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 
@@ -16,23 +16,27 @@ export class LoaderFieldMappingsApiService {
 
   constructor(
     private payfactorsApiService: PayfactorsApiService
-  ) {}
+  ) { }
 
   getCustomJobFields(companyId: number) {
     return this.payfactorsApiService.get<any[]>(`${this.endpoint}/GetCustomJobFields`, {
-      params: {companyId: companyId}
+      params: { companyId: companyId }
     });
+  }
+
+  getBenefitsHeaders() {
+    return this.payfactorsApiService.get(`${this.endpoint}/GetBenefitHeaders`);
   }
 
   getCustomEmployeeFields(companyId: number) {
     return this.payfactorsApiService.get<any[]>(`${this.endpoint}/GetCustomEmployeeFields`, {
-      params: {companyId: companyId}
+      params: { companyId: companyId }
     });
   }
 
   getCompanyFieldMappings(companyId: number, loaderConfigurationGroupId?: number) {
     return this.payfactorsApiService.get<LoaderFieldSet[]>(`${this.endpoint}/GetCompanyFieldMappings`, {
-      params: {companyId: companyId, loaderConfigurationGroupId: loaderConfigurationGroupId}
+      params: { companyId: companyId, loaderConfigurationGroupId: loaderConfigurationGroupId }
     });
   }
 
@@ -56,7 +60,7 @@ export class LoaderFieldMappingsApiService {
         break;
       }
       default: {
-        result =  of([]);
+        result = of([]);
         break;
       }
     }

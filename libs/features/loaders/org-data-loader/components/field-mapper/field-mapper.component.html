@@ -77,16 +77,16 @@
       <div class="col px-0">
         <select name="payfactors_fields"
                 size="20"
-                class="list-box d-block mx-auto w-50 px-2"
+                class="list-box form-control d-block mx-auto px-2"
                 [(ngModel)]="selectedPfField">
           <option *ngFor="let field of payfactorsDataFields"
                   value="{{field.FieldName}}">{{field.FieldName}}</option>
         </select>
       </div>
-      <div class="col px-0">
+      <div class="col px-0 ml-3">
         <select name="client_fields"
                 size="20"
-                class="list-box d-block mx-auto w-auto px-2"
+                class="list-box  d-block mx-auto form-control px-2"
                 [(ngModel)]="selectedClientField">
           <option *ngFor="let field of clientFields"
                   value="{{field}}">{{field}}</option>
@@ -106,7 +106,7 @@
       <div class="col px-0">
         <select name="mapped_fields"
                 size="20"
-                class="list-box d-block mx-auto w-auto px-2 mapped-fields"
+                class="list-box d-block mx-auto form-control px-2 mapped-fields"
                 [(ngModel)]="selectedMapping">
           <option *ngFor="let field of mappedFields"
                   value="{{field.DisplayValue}}">{{field.DisplayValue}}</option>
