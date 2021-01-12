@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, OnDestroy, SimpleChanges, ViewChild } from '@angular/core';
 
 import orderBy from 'lodash/orderBy';
 import cloneDeep from 'lodash/cloneDeep';
@@ -9,6 +9,9 @@ import { Observable, Subscription } from 'rxjs';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 
 import { PagingOptions, ViewField } from 'libs/models/payfactors-api';
+import { SettingsService } from 'libs/state/app-context/services';
+import { CompanySettingsEnum } from 'libs/models/company';
+import { FileDownloadSecurityWarningModalComponent } from 'libs/ui/common';
 
 import * as fromReducer from '../../reducers';
 import * as fromActions from '../../actions';
@@ -20,7 +23,8 @@ import { GridDataHelper } from '../../helpers';
   templateUrl: './action-bar.component.html',
   styleUrls: ['./action-bar.component.scss'],
 })
-export class ActionBarComponent implements OnChanges, OnDestroy {
+export class ActionBarComponent implements OnChanges, OnInit, OnDestroy {
+  @ViewChild('fileDownloadSecurityWarningModal', { static: true }) fileDownloadSecurityWarningModal: FileDownloadSecurityWarningModalComponent;
   @Input() actionBarConfig: ActionBarConfig;
   @Input() pageViewId: string;
   @Input() globalFilters: ViewField[];
@@ -38,7 +42,21 @@ export class ActionBarComponent implements OnChanges, OnDestroy {
   gridConfigSubscription: Subscription;
   pagingOptionsSubscription: Subscription;
 
-  constructor(private store: Store<fromReducer.State>) { }
+  enableFileDownloadSecurityWarning$: Observable<boolean>;
+  enableFileDownloadSecurityWarningSub: Subscription;
+  enableFileDownloadSecurityWarning = false;
+
+  constructor(private store: Store<fromReducer.State>, private settingService: SettingsService) {
+    this.enableFileDownloadSecurityWarning$ = this.settingService.selectCompanySetting<boolean>(CompanySettingsEnum.FileDownloadSecurityWarning);
+  }
+
+  ngOnInit() {
+    this.enableFileDownloadSecurityWarningSub = this.enableFileDownloadSecurityWarning$.subscribe(isEnabled => {
+      if (isEnabled) {
+        this.enableFileDownloadSecurityWarning = true;
+      }
+    });
+  }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['pageViewId']) {
@@ -80,7 +98,21 @@ export class ActionBarComponent implements OnChanges, OnDestroy {
     return cloneDeep(field);
   }
 
+  handleSecurityWarningConfirmed(isConfirmed) {
+    if (isConfirmed) {
+      this.exportGrid();
+    }
+  }
+
   handleExportClicked(): void {
+    if (this.enableFileDownloadSecurityWarning) {
+      this.fileDownloadSecurityWarningModal.open();
+    } else {
+      this.exportGrid();
+    }
+  }
+
+  exportGrid(): void {
     this.store.dispatch(new fromActions.ExportGrid(this.pageViewId, this.actionBarConfig.ExportSourceName, this.actionBarConfig.CustomExportType));
   }
 
@@ -98,5 +130,6 @@ export class ActionBarComponent implements OnChanges, OnDestroy {
     this.dataSubscription.unsubscribe();
     this.gridConfigSubscription.unsubscribe();
     this.pagingOptionsSubscription.unsubscribe();
+    this.enableFileDownloadSecurityWarningSub.unsubscribe();
   }
 }
