@@ -32,7 +32,7 @@
     <div class="d-flex h-100">
       <div class="h-100 w-100">
         <div class="d-flex flex-column h-100 content-wrapper"
-          [ngClass]="contentClassNamesOverrides ? contentClassNamesOverrides :
+             [ngClass]="contentClassNamesOverrides ? contentClassNamesOverrides :
                     (displayFilterPanel$ | async) ? 'pl-3 pr-0 pt-2 pb-0' : 'px-3 pt-2 pb-0'">
           <ng-container [ngTemplateOutlet]="aboveGridTemplate"></ng-container>
           <div *ngIf="gridActionsTemplate" class="d-flex mb-2 sub-header">
@@ -78,7 +78,7 @@
 
           <div class="d-flex h-100 full-wrap" [ngClass]="borders ? 'border' : ''">
             <div [ngClass]="isSplitView() ? 'main-grid-split overflow-hidden' : 'main-grid-full'"
-                [style.flex-basis]="isSplitView() ? gridContainerSplitViewWidth : null">
+                 [style.flex-basis]="isSplitView() ? gridContainerSplitViewWidth : null">
               <div [ngClass]="this.flexColumnContainerHeightAuto === true ? 'flex-column-container-auto' : 'flex-column-container'">
                 <div class="d-flex h-100">
                   <div [ngClass]="{'full-size-wrapper': true, 'hide-horizontal-scrollbar': compactGrid}" [style.min-height]="compactGridMinHeight ? compactGridMinHeight : null">

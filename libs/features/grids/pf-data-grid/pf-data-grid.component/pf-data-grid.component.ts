@@ -20,7 +20,6 @@ import {
 import { getUserFilteredFields } from '../components';
 import { SelectAllStatus } from '../reducers/pf-data-grid.reducer';
 import { PfThemeType } from '../enums/pf-theme-type.enum';
-import { PfGridComponent } from '../containers';
 
 @Component({
   selector: 'pf-data-grid',

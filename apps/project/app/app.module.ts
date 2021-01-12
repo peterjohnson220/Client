@@ -5,7 +5,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { PfApiModule } from 'libs/data/payfactors-api';
 import { PfStateModule } from 'libs/state/state.module';
 import { PfAppRootModule, AppComponent } from 'libs/features/infrastructure/app-root';
-import { SentryService, SentryErrorHandler, WindowCommunicationService } from 'libs/core/services';
+import { SentryService, SentryErrorHandler } from 'libs/core/services';
 import { PfLayoutWrapperModule } from 'libs/ui/layout-wrapper';
 import { PfCommonUIModule } from 'libs/ui/common/common-ui-module';
 import { PfSecurityModule } from 'libs/security/security.module';

@@ -1,0 +1,126 @@
+<div *ngIf="pricingInfo?.PricingDetails as details" class="d-flex">  
+  <div>
+    <div class="d-flex">
+      <div class="pr-5 py-1">
+        <span class="pr-3"><b>Created by:</b></span>
+        <span class="">{{details.FirstName}} {{details.LastName}}</span>
+      </div>
+      <div class="pr-5 py-1">
+        <span class="pr-3"><b>Effective:</b></span>
+        <span class="">{{details.EffectiveDate | date: 'MM/dd/yyyy'}}</span>
+      </div>
+      <div class="pr-5 py-1">
+        <span class="pr-3"><b>Rate:</b></span>
+        <span class="">{{details.Rate}}</span>
+      </div>
+      <div class="pr-5 py-1">
+        <span class="pr-3"><b>Currency:</b></span>
+        <span class="">{{details.Currency}}</span>
+      </div>
+      <div class="pr-5 py-1">
+        <span class="pr-3"><b>Aging:</b></span>
+        <span class="">{{details.AgingFactor && details.AgingFactor !== '0' ? details.AgingFactor + '%' : 'N/A'}}</span>
+      </div>
+    </div>
+    <div class="d-flex pt-3" *ngIf="pricingInfo.EnablePricingReview && pricingInfo.IsThisMostRecent">    
+      <div>
+        <span class="pr-3"><b>Status:</b></span>
+        <kendo-dropdownlist [data]="['Reviewed','Not Reviewed']" [valuePrimitive]="true" [ngModel]="status" (valueChange)="onStatusChanged($event)"
+          [attr.data-qa-id]="'ddm-pricing-details-status'" class="k-dropdown-white">
+        </kendo-dropdownlist>
+      </div>
+    </div>
+  </div>
+  <div class="flex-fill"></div>
+  <div class="d-flex">
+    <div>
+      <button
+        type="button"
+        class="btn btn-secondary pf-btn-borderless pl-3"
+        [pfSecuredResource]="permissions.NEW_PROJECT"
+        [attr.data-qa-id]="'btn-pricing-details-create-project'"
+        (click)="addToNewProject(true)">
+        <fa-icon [icon]="['far', 'calculator']"></fa-icon>
+        Create Project
+      </button>
+      <a title="Export to Excel" class="btn btn-secondary pf-btn-borderless pl-3" [attr.data-qa-id]="'btn-pricing-details-export-to-excel'"
+        [href]="'/odata/CompanyJobPricing(' + pricingInfo.PricingID + ')/Default.GetPricingModalExport'">
+        <fa-icon fa-icon [icon]="['fal', 'file-excel']"></fa-icon> Export to Excel
+      </a>
+    </div>
+  </div>
+</div>
+<hr>
+
+<div *ngIf="pricingInfo" class="pr-3 pb-3" style="overflow: auto; max-height: calc(100vh - 360px);">
+  <table id="pricingDetailTable">
+    <tr class="table-header text-center">
+      <td colspan="4"></td>
+      <td *ngFor="let category of pricingInfo.DistinctCategories" [attr.colspan]="getCountWithCategory(pricingInfo.DefaultFields, category)">
+        {{category}}
+      </td>
+    </tr>
+    <tr class="table-header">
+      <td colspan="2"></td>
+      <td>Job Title (Job Code)</td>
+      <td>Pay Market</td>
+      <td *ngFor="let field of pricingInfo.DefaultFields" class="comp-cell text-right">
+        {{field.DisplayName === "MRP" ? replaceMrpWithValue(field.Category) : field.DisplayName}}
+      </td>
+    </tr>
+    <tr class="table-row">
+      <td colspan="2" class="noborder"></td>
+      <td pfEllipsisActive>
+        <span *ngIf="pricingInfo.PricingDetails['JobTitle'] && pricingInfo.PricingDetails['JobCode']">
+          {{pricingInfo.PricingDetails["JobTitle"]}} ({{pricingInfo.PricingDetails["JobCode"]}})
+        </span>
+      </td>
+      <td pfEllipsisActive>{{pricingInfo.PricingDetails["PayMarket"]}}</td>
+      <td *ngFor="let field of pricingInfo.DefaultFields" class="comp-cell text-right">
+        {{pricingInfo.PricingDetails[field.FieldName] | comp: pricingInfo.PricingDetails.Rate : 'full' | emptyPlaceholder}}
+      </td>
+    </tr>
+    <tr>
+      <td id="matches" class="noborder pt-3 pb-2"><b>Matches</b></td>
+    </tr>
+    <tr class="table-header">
+      <td class="text-center">Wtg.</td>
+      <td class="text-center">Adj.</td>
+      <td>Job Title (Job Code)</td>
+      <td>Source</td>
+      <td *ngFor="let field of pricingInfo.DefaultFields" class="comp-cell text-right">
+        {{field.DisplayName === "MRP" ? replaceMrpWithValue(field.Category) : field.DisplayName}}
+      </td>
+    </tr>
+    <tr class="table-row" *ngFor="let cut of pricingInfo.Matches">
+      <td class="text-center comp-cell">{{cut["MatchWeight"] | number: '1.2-2'}}</td>
+      <td class="text-center comp-cell">{{cut["MatchAdjustment"] | number: '1.2-2'}}</td>
+      <td pfEllipsisActive>
+        <span *ngIf="cut['JobTitle'] && cut['JobTitle']">
+          {{cut["JobTitle"]}} ({{cut["JobCode"]}})
+        </span>
+      </td>
+      <td pfEllipsisActive>{{cut["Source"]}}</td>
+      <td *ngFor="let field of pricingInfo.DefaultFields" class="comp-cell text-right">
+        {{cut[field.FieldName] | comp: pricingInfo.PricingDetails.Rate : 'full' | emptyPlaceholder}}
+      </td>
+    </tr>
+  </table>
+
+  <div *ngIf="pricingInfo.Notes.length > 0">
+    <div class="pt-3 pb-2"><b>Notes</b></div>
+    <table>
+      <tr class="table-header text-center">
+        <td id="notesname">Name</td>
+        <td id="notesdate">Date</td>
+        <td id="note">Note</td>
+      </tr>
+      <tr *ngFor="let note of pricingInfo.Notes" class="table-row text-center">
+        <td>{{note.FirstName}} {{note.LastName}}</td>
+        <td>{{note.CreateDate.substring(6,19) | date: 'MM/dd/yyyy'}}</td>
+        <td class="text-left" style="max-width: 850px; white-space: normal !important;">{{note.Note}}</td>
+      </tr>
+    </table>
+  </div>
+
+</div>

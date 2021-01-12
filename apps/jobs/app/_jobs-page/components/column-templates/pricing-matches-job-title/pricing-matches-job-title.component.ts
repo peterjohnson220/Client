@@ -25,8 +25,8 @@ import {
   UpsertPeerDataCutParentEntities
 } from 'libs/features/pricings/upsert-peer-data-cut/constants';
 import * as fromUpsertPeerActions from 'libs/features/pricings/upsert-peer-data-cut/actions';
-import { ReScopeSurveyDataModalConfiguration } from 'libs/features/re-scope-survey-data/models';
-import * as fromReScopeActions from 'libs/features/re-scope-survey-data/actions';
+import { ReScopeSurveyDataModalConfiguration } from 'libs/features/surveys/re-scope-survey-data/models';
+import * as fromReScopeActions from 'libs/features/surveys/re-scope-survey-data/actions';
 
 import { PageViewIds } from '../../../constants';
 import * as fromModifyPricingsActions from '../../../actions';
