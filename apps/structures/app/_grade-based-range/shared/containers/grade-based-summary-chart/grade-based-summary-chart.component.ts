@@ -27,7 +27,6 @@ export class GradeBasedSummaryChartComponent implements OnInit, OnDestroy {
   chartInstance: Highcharts.Chart;
   dataSubscription: Subscription;
   metadataSubscription: Subscription;
-  pageViewIdSubscription: Subscription;
   summaryData: any;
   metaData: RangeGroupMetadata;
   rangeDistributionTypeId: number;
@@ -218,6 +217,5 @@ export class GradeBasedSummaryChartComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.dataSubscription.unsubscribe();
     this.metadataSubscription.unsubscribe();
-    this.pageViewIdSubscription.unsubscribe();
   }
 }

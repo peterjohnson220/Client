@@ -5,9 +5,8 @@ import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
 import { RangeGroupMetadata } from 'libs/models/structures';
-import { ActionBarConfig, getDefaultActionBarConfig, GridConfig, PfDataGridFilter } from 'libs/features/grids/pf-data-grid/models';
+import { PfDataGridFilter } from 'libs/features/grids/pf-data-grid/models';
 import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums/pf-theme-type.enum';
-import { PfDataGridColType } from 'libs/features/grids/pf-data-grid/enums';
 
 import * as fromSharedStructuresReducer from '../../../shared/reducers';
 import { StructuresPagesService } from '../../../shared/services';

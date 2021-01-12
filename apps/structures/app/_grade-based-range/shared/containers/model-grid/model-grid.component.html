@@ -135,6 +135,14 @@
   </ng-container>
 </ng-template>
 
+<ng-template #eeCount let-dataRow="dataRow" let-fieldName="fieldName">
+  <ng-container *ngIf="dataRow.CompanyStructures_RangeGroup_Employees_Per_Grade as numEmployees; else noValue">
+    <a class="temp-link-color-override" routerLinkActive="disabled" routerLink="/grade/{{rangeGroupId}}/employees/{{dataRow.CompanyStructures_Ranges_CompanyStructuresRanges_ID}}">
+      {{ numEmployees }}
+    </a>
+  </ng-container>
+</ng-template>
+
 <ng-template #diffField let-dataRow="dataRow" let-fieldName="fieldName" let-rowIndex="rowIndex">
   <ng-container>
     <pf-range-field-editor

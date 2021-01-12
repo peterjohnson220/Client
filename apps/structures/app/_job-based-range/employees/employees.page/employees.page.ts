@@ -59,7 +59,7 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
     this.metaData$ = this.store.pipe(select(fromSharedStructuresReducer.getMetadata));
     this.metadataSubscription = this.metaData$.subscribe(md => {
       if (md) {
-        this.pageViewId = PagesHelper.getEmployeePageViewIdByRangeDistributionType(md.RangeDistributionTypeId);
+        this.pageViewId = PagesHelper.getEmployeePageViewIdByRangeTypeAndRangeDistributionType(md.RangeTypeId, md.RangeDistributionTypeId);
       }
     });
 
