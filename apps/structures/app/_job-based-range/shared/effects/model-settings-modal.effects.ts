@@ -26,8 +26,10 @@ import { UserContext } from 'libs/models';
 
 import * as fromModelSettingsModalActions from '../actions/model-settings-modal.actions';
 import * as fromSharedActions from '../actions/shared.actions';
+import * as fromSharedStructuresActions from '../../../shared/actions/shared.actions';
 import { PayfactorsApiModelMapper } from '../helpers/payfactors-api-model-mapper';
 import * as fromSharedReducer from '../reducers';
+import * as fromSharedStructuresReducer from '../../../shared/reducers';
 import { UrlService } from '../services';
 import { Workflow } from '../../../shared/constants/workflow';
 import { PagesHelper } from '../../../shared/helpers/pages.helper';
@@ -40,7 +42,7 @@ export class ModelSettingsModalEffects {
     .pipe(
       ofType(fromModelSettingsModalActions.CANCEL),
       withLatestFrom(
-        this.store.pipe(select(fromSharedReducer.getMetadata)),
+        this.store.pipe(select(fromSharedStructuresReducer.getMetadata)),
         this.store.pipe(select(fromPfDataGridReducer.getGridConfig)),
         this.store.pipe(select(fromPfDataGridReducer.getData)),
         this.store.pipe(select(fromPfDataGridReducer.getPagingOptions)),
@@ -138,7 +140,7 @@ export class ModelSettingsModalEffects {
     .pipe(
       ofType<fromModelSettingsModalActions.SaveModelSettings>(fromModelSettingsModalActions.SAVE_MODEL_SETTINGS),
       withLatestFrom(
-        this.store.pipe(select(fromSharedReducer.getMetadata)),
+        this.store.pipe(select(fromSharedStructuresReducer.getMetadata)),
         this.store.pipe(select(fromPfDataGridReducer.getGridConfig)),
         this.store.pipe(select(fromPfDataGridReducer.getData)),
         this.store.pipe(select(fromPfDataGridReducer.getPagingOptions)),
@@ -180,7 +182,7 @@ export class ModelSettingsModalEffects {
                     Payload: { Title: 'Model Created', Message: `Created, ${r.RangeGroup.RangeGroupName}` },
                     Type: NotificationType.Event
                   }));
-                  actions.push(new fromSharedActions.GetOverriddenRanges(
+                  actions.push(new fromSharedStructuresActions.GetOverriddenRanges(
                     { pageViewId: modelPageViewId, rangeGroupId: r.RangeGroup.CompanyStructuresRangeGroupId }));
                   actions.push(new fromSharedActions.GetCurrentRangeGroup({
                     RangeGroupId: r.RangeGroup.CompanyStructuresRangeGroupId,
@@ -188,12 +190,12 @@ export class ModelSettingsModalEffects {
                     PayType: r.RangeGroup.PayType
                   }));
                 } else {
-                  actions.push(new fromSharedActions.SetMetadata(
+                  actions.push(new fromSharedStructuresActions.SetMetadata(
                     PayfactorsApiModelMapper.mapStructuresRangeGroupResponseToRangeGroupMetadata(r.RangeGroup)
                   ));
                   actions.push(new fromModelSettingsModalActions.CloseModal());
                   actions.push(GridDataHelper.getLoadDataAction(modelPageViewId, data.gridData, data.gridConfig, data.pagingOptions));
-                  actions.push(new fromSharedActions.GetOverriddenRanges(
+                  actions.push(new fromSharedStructuresActions.GetOverriddenRanges(
                     { pageViewId: modelPageViewId, rangeGroupId: r.RangeGroup.CompanyStructuresRangeGroupId }));
                   actions.push(new fromSharedActions.GetCurrentRangeGroup({
                     RangeGroupId: r.RangeGroup.CompanyStructuresRangeGroupId,

@@ -13,9 +13,10 @@ import { GenericKeyValue } from 'libs/models/common';
 import { CompanySettingsEnum } from 'libs/models/company';
 
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
+import * as fromSharedStructuresReducer from '../../../../shared/reducers';
 import * as fromModelSettingsModalActions from '../../../shared/actions/model-settings-modal.actions';
 import * as fromJobBasedRangeReducer from '../../reducers';
-import * as fromSharedJobBasedRangeActions from '../../../shared/actions/shared.actions';
+import * as fromSharedStructuresActions from '../../../../shared/actions/shared.actions';
 import { ControlPoint, Currency, SelectedPeerExchangeModel } from '../../models';
 import { UrlService } from '../../services';
 import { Workflow } from '../../../../shared/constants/workflow';
@@ -85,13 +86,13 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   selectedPeerExchange$: Observable<SelectedPeerExchangeModel>;
 
   constructor(
-    public store: Store<fromJobBasedRangeReducer.State>,
+    public store: Store<any>,
     public urlService: UrlService,
     private settingsService: SettingsService,
     private featureFlagService: AbstractFeatureFlagService
   ) {
-    this.metaData$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getMetadata));
-    this.roundingSettings$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getRoundingSettings));
+    this.metaData$ = this.store.pipe(select(fromSharedStructuresReducer.getMetadata));
+    this.roundingSettings$ = this.store.pipe(select(fromSharedStructuresReducer.getRoundingSettings));
     // delay(0) to push this into the next VM turn to avoid expression changed errors
     this.modalOpen$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getModelSettingsModalOpen), delay(0));
     this.currenciesAsyncObj$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getCurrenciesAsyncObj));
@@ -105,11 +106,11 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
     this.peerExchangeToolTipInfo = ModelSettingsModalConstants.PEER_EXCHANGE_TOOL_TIP;
     this.featureFlagService.bindEnabled(this.structuresAdvancedModelingFeatureFlag, this.unsubscribe$);
     this.allFormulasSub = this.store.pipe(select(fromJobBasedRangeReducer.getAllFields)).subscribe(af => this.allFormulas = af);
-    this.exchanges$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getCompanyExchanges));
+    this.exchanges$ = this.store.pipe(select(fromSharedStructuresReducer.getCompanyExchanges));
     this.hasAcceptedPeerTermsSub = this.settingsService.selectCompanySetting<boolean>(
       CompanySettingsEnum.PeerTermsAndConditionsAccepted
     ).subscribe(x => this.hasAcceptedPeerTerms = x);
-    this.selectedPeerExchange$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getSelectedPeerExchange));
+    this.selectedPeerExchange$ = this.store.pipe(select(fromSharedStructuresReducer.getSelectedPeerExchange));
   }
 
   get formControls() {
@@ -166,7 +167,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
           rounding: this.roundingSettings
         })
       );
-      this.store.dispatch(new fromSharedJobBasedRangeActions.SetSelectedPeerExchange(this.selectedExchange));
+      this.store.dispatch(new fromSharedStructuresActions.SetSelectedPeerExchange(this.selectedExchange));
       this.reset();
     }
   }
@@ -256,7 +257,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
 
   handleRateSelectionChange(value: string) {
     const roundingPoint = value.toLowerCase() === 'hourly' ? 2 : 0;
-    this.store.dispatch(new fromSharedJobBasedRangeActions.UpdateRoundingPoints({ RoundingPoint: roundingPoint }));
+    this.store.dispatch(new fromSharedStructuresActions.UpdateRoundingPoints({ RoundingPoint: roundingPoint }));
   }
 
   handlePeerExchangeSelectionChange(value: string) {

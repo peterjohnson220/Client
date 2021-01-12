@@ -23,8 +23,7 @@ import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducer
 
 
 import * as fromSharedStructuresReducer from '../../../../shared/reducers';
-import * as fromSharedJobBasedRangeReducer from '../../../../_job-based-range/shared/reducers';
-import * as fromSharedJobBasedRangeActions from '../../../../_job-based-range/shared/actions/shared.actions';
+import * as fromSharedStructuresActions from '../../../../shared/actions/shared.actions';
 
 
 @Component({
@@ -87,8 +86,8 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     private permissionService: PermissionService,
   ) {
     this.metaData$ = this.store.pipe(select(fromSharedStructuresReducer.getMetadata));
-    this.roundingSettings$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getRoundingSettings));
-    this.rangeOverrides$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getRangeOverrides));
+    this.roundingSettings$ = this.store.pipe(select(fromSharedStructuresReducer.getRoundingSettings));
+    this.rangeOverrides$ = this.store.pipe(select(fromSharedStructuresReducer.getRangeOverrides));
     this.selectedRecordId$ = this.store.select(fromPfDataGridReducer.getSelectedRecordId, this.modelGridPageViewId);
     this.singleRecordActionBarConfig = {
       ...getDefaultActionBarConfig(),
@@ -169,7 +168,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   revertChanges(dataRow: any, rowIndex: number) {
-    this.store.dispatch(new fromSharedJobBasedRangeActions.RevertingRangeChanges({
+    this.store.dispatch(new fromSharedStructuresActions.RevertingRangeChanges({
       pageViewId: this.modelGridPageViewId,
       rangeId: dataRow.CompanyStructures_Ranges_CompanyStructuresRanges_ID,
       rangeGroupId: dataRow.CompanyStructures_RangeGroup_CompanyStructuresRangeGroup_ID,

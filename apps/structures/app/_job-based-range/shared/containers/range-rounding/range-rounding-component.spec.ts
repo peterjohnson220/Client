@@ -14,6 +14,7 @@ import { generateMockStructureRangeDistributionTypes } from 'libs/models/payfact
 
 import * as fromJobBasedRangeReducer from '../../../shared/reducers';
 import * as fromSharedJobBasedRangeActions from '../../../shared/actions/shared.actions';
+import * as fromSharedStructuresActions from '../../../../shared/actions/shared.actions';
 import { RangeRoundingComponent } from './range-rounding.component';
 
 describe('Job Based Ranges - Rounding Settings', () => {
@@ -79,7 +80,7 @@ describe('Job Based Ranges - Rounding Settings', () => {
 
   it('should dispatch UpdateRoundingType on handleTypeChange', () => {
     spyOn(instance.store, 'dispatch');
-    const expectedAction = new fromSharedJobBasedRangeActions.UpdateRoundingType( { RoundingSetting: 'mid', RoundingType: RoundingTypes.Round });
+    const expectedAction = new fromSharedStructuresActions.UpdateRoundingType( { RoundingSetting: 'mid', RoundingType: RoundingTypes.Round });
 
     instance.handleTypeChange('mid', RoundingTypes.Round);
 
@@ -88,7 +89,7 @@ describe('Job Based Ranges - Rounding Settings', () => {
 
   it('should dispatch UpdateRoundingPoint on handlePointChange', () => {
     spyOn(instance.store, 'dispatch');
-    const expectedAction = new fromSharedJobBasedRangeActions.UpdateRoundingPoint( { RoundingSetting: 'mid', RoundingPoint: 0 });
+    const expectedAction = new fromSharedStructuresActions.UpdateRoundingPoint( { RoundingSetting: 'mid', RoundingPoint: 0 });
 
     instance.handlePointChange('mid', 0);
 
@@ -97,9 +98,9 @@ describe('Job Based Ranges - Rounding Settings', () => {
 
   it('should dispatch UpdateRoundingPoint to set 0 for mid, min and max and update defaultSet when rate is annual', () => {
     spyOn(instance.store, 'dispatch');
-    const expectedAction1 = new fromSharedJobBasedRangeActions.UpdateRoundingPoint( { RoundingSetting: 'min', RoundingPoint: 0 });
-    const expectedAction2 = new fromSharedJobBasedRangeActions.UpdateRoundingPoint( { RoundingSetting: 'mid', RoundingPoint: 0 });
-    const expectedAction3 = new fromSharedJobBasedRangeActions.UpdateRoundingPoint( { RoundingSetting: 'max', RoundingPoint: 0 });
+    const expectedAction1 = new fromSharedStructuresActions.UpdateRoundingPoint( { RoundingSetting: 'min', RoundingPoint: 0 });
+    const expectedAction2 = new fromSharedStructuresActions.UpdateRoundingPoint( { RoundingSetting: 'mid', RoundingPoint: 0 });
+    const expectedAction3 = new fromSharedStructuresActions.UpdateRoundingPoint( { RoundingSetting: 'max', RoundingPoint: 0 });
 
     // default set should not run more than once, but for test purposes we can reset it here
     instance.defaultSet = false;
@@ -115,9 +116,9 @@ describe('Job Based Ranges - Rounding Settings', () => {
 
   it('should dispatch UpdateRoundingPoint to set 2 for mid, min and max and update defaultSet when rate is hourly', () => {
     spyOn(instance.store, 'dispatch');
-    const expectedAction1 = new fromSharedJobBasedRangeActions.UpdateRoundingPoint( { RoundingSetting: 'min', RoundingPoint: 2 });
-    const expectedAction2 = new fromSharedJobBasedRangeActions.UpdateRoundingPoint( { RoundingSetting: 'mid', RoundingPoint: 2 });
-    const expectedAction3 = new fromSharedJobBasedRangeActions.UpdateRoundingPoint( { RoundingSetting: 'max', RoundingPoint: 2 });
+    const expectedAction1 = new fromSharedStructuresActions.UpdateRoundingPoint( { RoundingSetting: 'min', RoundingPoint: 2 });
+    const expectedAction2 = new fromSharedStructuresActions.UpdateRoundingPoint( { RoundingSetting: 'mid', RoundingPoint: 2 });
+    const expectedAction3 = new fromSharedStructuresActions.UpdateRoundingPoint( { RoundingSetting: 'max', RoundingPoint: 2 });
 
     // default set should not run more than once, but for test purposes we can reset it here
     instance.defaultSet = false;

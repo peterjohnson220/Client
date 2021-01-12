@@ -12,7 +12,6 @@ import { ModelRoutingModule } from './model-routing.module';
 import { ModelPageComponent } from './model.page/model.page';
 import { HighchartsChartModule } from 'highcharts-angular';
 import { GradeBasedSharedModule } from '../shared/shared.module';
-import { JobBasedSharedModule } from '../../_job-based-range/shared/shared.module';
 
 @NgModule({
   imports: [
@@ -31,7 +30,6 @@ import { JobBasedSharedModule } from '../../_job-based-range/shared/shared.modul
     ModelRoutingModule,
 
     GradeBasedSharedModule,
-    JobBasedSharedModule,
 
     // 3rd party
     HighchartsChartModule

@@ -72,20 +72,8 @@ export const selectFormulaFieldState = createSelector(
   (state: JobBasedRangeSharedState) => state.formulaFields
 );
 
-// Shared
-export const getMetadata = createSelector(
-  selectSharedState, fromSharedReducer.getMetadata
-);
-
-export const getRoundingSettings = createSelector(
-  selectSharedState, fromSharedReducer.getRoundingSettings
-);
-
 export const getRemovingRange = createSelector(selectSharedState, fromSharedReducer.getRemovingRange);
 
-export const getDistinctOverrideMessages = createSelector(
-  selectSharedState, fromSharedReducer.getDistinctOverrideMessages
-);
 
 // Model Settings Modal
 export const getModelSettingsModalOpen = createSelector(
@@ -102,10 +90,6 @@ export const getControlPointsAsyncObj = createSelector(
 
 export const getSurveyUdfsAsyncObj = createSelector(
   selectModelSettingsModalState, fromModelSettingsModalReducer.getSurveyUdfsAsyncObj
-);
-
-export const getRangeOverrides = createSelector(
-  selectSharedState, fromSharedReducer.getRangeOverrides
 );
 
 export const getCurrentRangeGroup = createSelector(
@@ -126,16 +110,6 @@ export const getCompareEnabled = createSelector(
 export const getStructureHasSettings = createSelector(
   selectSharedState,
   fromSharedReducer.getStructureHasSettings
-);
-
-export const getCompanyExchanges = createSelector(
-  selectSharedState,
-  fromSharedReducer.getCompanyExchanges
-);
-
-export const getSelectedPeerExchange = createSelector(
-  selectSharedState,
-  fromSharedReducer.getSelectedPeerExchange
 );
 
 export const getStructureNameSuggestionsAsyncObj = createSelector(

@@ -2,7 +2,8 @@
   [isFullHeader]="showTitle"
   [absoluteUrl]="navigationURL"
   [contentNoPadding]="true"
-  [theme]="pageTheme">
+  [theme]="pageTheme"
+  [flexColumnContainerHeightAuto]="flexColumnContainerHeightAuto">
 
   <ng-container page-title *ngIf="showTitle">
     {{title}}
@@ -78,7 +79,7 @@
           <div class="d-flex h-100 full-wrap" [ngClass]="borders ? 'border' : ''">
             <div [ngClass]="isSplitView() ? 'main-grid-split overflow-hidden' : 'main-grid-full'"
                 [style.flex-basis]="isSplitView() ? gridContainerSplitViewWidth : null">
-              <div class="flex-column-container">
+              <div [ngClass]="this.flexColumnContainerHeightAuto === true ? 'flex-column-container-auto' : 'flex-column-container'">
                 <div class="d-flex h-100">
                   <div [ngClass]="{'full-size-wrapper': true, 'hide-horizontal-scrollbar': compactGrid}" [style.min-height]="compactGridMinHeight ? compactGridMinHeight : null">
                     <div [ngClass]="{'grid-container' : !compactGrid, 'compact-grid-container' : compactGrid && compactGridMinHeight}">

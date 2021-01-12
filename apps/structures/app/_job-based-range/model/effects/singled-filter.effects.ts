@@ -15,7 +15,7 @@ import * as fromSingledFilterActions from 'libs/features/search/search/actions/s
 import * as fromSearchReducer from 'libs/features/search/search/reducers';
 import * as fromAddJobsReducer from 'libs/features/jobs/add-jobs/reducers';
 
-import * as fromSharedReducer from '../../shared/reducers';
+import * as fromSharedStructuresReducer from '../../../shared/reducers';
 
 @Injectable()
 export class SingledFilterEffects {
@@ -27,7 +27,7 @@ export class SingledFilterEffects {
         this.store.select(fromSearchReducer.getParentFilters),
         this.store.select(fromSearchReducer.getSingledFilterSearchValue),
         this.store.select(fromAddJobsReducer.getContextStructureRangeGroupId),
-        this.store.select(fromSharedReducer.getMetadata),
+        this.store.select(fromSharedStructuresReducer.getMetadata),
         this.store.select(fromSearchReducer.getSearchFeatureId),
         (infiniteScrollActionContext, singledFilter, filters, searchValue, contextStructureRangeGroupId: number, metadata, searchFeatureId) => (
           { infiniteScrollActionContext, singledFilter, filters, searchValue, contextStructureRangeGroupId, metadata, searchFeatureId }

@@ -20,6 +20,8 @@ import { ViewField } from 'libs/models/payfactors-api/reports/request';
 import * as fromPublishModelModalActions from '../actions/publish-model-modal.actions';
 import * as fromSharedActions from '../actions/shared.actions';
 import * as fromSharedReducer from '../reducers';
+import * as fromSharedStructuresReducer from '../../../shared/reducers';
+import * as fromSharedStructuresActions from '../../../shared/actions/shared.actions';
 import { PagesHelper } from '../../../shared/helpers/pages.helper';
 
 @Injectable()
@@ -30,7 +32,7 @@ export class PublishModelModalEffects {
     .pipe(
       ofType<fromPublishModelModalActions.PublishModel>(fromPublishModelModalActions.PUBLISH_MODEL),
       withLatestFrom(
-        this.store.pipe(select(fromSharedReducer.getMetadata)),
+        this.store.pipe(select(fromSharedStructuresReducer.getMetadata)),
         this.store.pipe(select(fromPfDataGridReducer.getGridConfig)),
         this.store.pipe(select(fromPfDataGridReducer.getData)),
         this.store.pipe(select(fromPfDataGridReducer.getPagingOptions)),
@@ -56,7 +58,7 @@ export class PublishModelModalEffects {
                 ...data.metadata,
                 IsCurrent: true
               };
-              actions.push(new fromSharedActions.SetMetadata(updatedMetaData));
+              actions.push(new fromSharedStructuresActions.SetMetadata(updatedMetaData));
 
               actions.push(new fromNotificationActions.AddNotification({
                 EnableHtml: true,
@@ -68,7 +70,7 @@ export class PublishModelModalEffects {
               }));
 
 
-              actions.push(new fromSharedActions.GetOverriddenRanges({
+              actions.push(new fromSharedStructuresActions.GetOverriddenRanges({
                 pageViewId: modelPageViewId,
                 rangeGroupId: data.action.payload.rangeGroupId
               }));

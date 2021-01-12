@@ -17,11 +17,10 @@ import { FormulaEditorModule } from 'libs/ui/formula-editor';
 import { PfCommonModule } from 'libs/core';
 
 
-import * as fromFaIcons from '../../_job-based-range/shared/fa-icons';
+import * as fromFaIcons from './fa-icons';
 import { ModelGridComponent } from './containers/model-grid/model-grid.component';
 import { GradeBasedSummaryChartComponent } from './containers/grade-based-summary-chart';
 import { SharedModule } from '../../shared/shared.module';
-import { JobBasedSharedModule } from '../../_job-based-range/shared/shared.module';
 
 @NgModule({
   imports: [
@@ -55,7 +54,6 @@ import { JobBasedSharedModule } from '../../_job-based-range/shared/shared.modul
     FormsModule,
 
     SharedModule,
-    JobBasedSharedModule,
 
   ],
   declarations: [
