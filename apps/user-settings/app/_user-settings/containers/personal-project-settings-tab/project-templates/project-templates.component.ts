@@ -27,6 +27,7 @@ export class ProjectTemplatesComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.store.dispatch(new fromProjectTemplateActions.GetProjectTemplates());
   }
 
   handleAddClicked() {

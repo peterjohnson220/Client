@@ -5,9 +5,11 @@ import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { ErrorEvent, FileRestrictions, SelectEvent, SuccessEvent } from '@progress/kendo-angular-upload';
 
+import * as fromRootState from 'libs/state/state';
 import { PfValidators } from 'libs/forms/validators';
 import { UserProfile } from 'libs/models/user-profile';
 import { AsyncStateObj } from 'libs/models/state';
+import { UserContext } from 'libs/models/security';
 
 import * as fromUserSettingsReducer from '../../../reducers';
 import * as fromUserProfileActions from '../../../actions/user-profile.actions';
@@ -20,7 +22,9 @@ import * as fromUserProfileActions from '../../../actions/user-profile.actions';
 export class UserProfileComponent implements OnInit, OnDestroy {
   cloudFilesPublicBaseUrl$: Observable<string>;
   userProfile$: Observable<AsyncStateObj<UserProfile>>;
+  userContext$: Observable<UserContext>;
 
+  userContextSubscription: Subscription;
   userProfileSubscription: Subscription;
 
   userProfileForm: FormGroup;
@@ -42,15 +46,18 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   };
 
   constructor(
+    private rootStore: Store<fromRootState.State>,
     private store: Store<fromUserSettingsReducer.State>,
     private formBuilder: FormBuilder
   ) {
+    this.userContext$ = this.rootStore.pipe(select(fromRootState.getUserContext));
     this.cloudFilesPublicBaseUrl$ = this.store.pipe(select(fromUserSettingsReducer.getCloudFilesPublicBaseUrl));
     this.userProfile$ = this.store.pipe(select(fromUserSettingsReducer.getUserProfile));
     this.createForm();
   }
 
   ngOnInit(): void {
+    this.userContextSubscription = this.userContext$.subscribe(uc => this.setUserProfile(uc));
     this.userProfileSubscription = this.userProfile$.subscribe((userProfileAsync) => {
       this.saving = userProfileAsync?.saving;
       this.savingError = userProfileAsync?.savingError;
@@ -64,6 +71,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.userContextSubscription.unsubscribe();
     this.userProfileSubscription.unsubscribe();
   }
 
@@ -100,6 +108,23 @@ export class UserProfileComponent implements OnInit, OnDestroy {
 
   handleFileUploadError(event: ErrorEvent): void {
     this.userPictureErrorMessage = 'Error uploading photo';
+  }
+
+  private setUserProfile(userContext: UserContext): void {
+    if (!userContext) {
+      return;
+    }
+    const cloudFilesPublicBaseUrl = userContext.ConfigSettings.find(c => c.Name === 'CloudFiles_PublicBaseUrl')?.Value;
+    const userProfile: UserProfile = {
+      UserId: userContext.UserId,
+      FirstName: userContext.FirstName,
+      LastName: userContext.LastName,
+      EmailAddress: userContext.EmailAddress,
+      Title: userContext.Title,
+      UserPicture: userContext.UserPicture
+    };
+
+    this.store.dispatch(new fromUserProfileActions.SetUserProfile({ userProfile, cloudFilesPublicBaseUrl }));
   }
 
   private createForm(): void {

@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
+import { RouteReuseStrategy } from '@angular/router';
 
 import { PfApiModule } from 'libs/data/payfactors-api';
 import { PfAppRootModule, AppComponent } from 'libs/features/infrastructure/app-root';
@@ -10,6 +11,7 @@ import { PfLayoutWrapperModule } from 'libs/ui/layout-wrapper';
 import { SentryErrorHandler, SentryService } from 'libs/core/services';
 
 import { AppRoutingModule } from './app-routing.module';
+import { UserSettingsRouteReuseStrategy } from './route-reuse-strategy';
 
 @NgModule({
   imports: [
@@ -29,6 +31,7 @@ import { AppRoutingModule } from './app-routing.module';
   ],
   providers: [
     { provide: ErrorHandler, useClass: SentryErrorHandler },
+    { provide: RouteReuseStrategy, useClass: UserSettingsRouteReuseStrategy },
     SentryService
   ],
   bootstrap: [AppComponent]
