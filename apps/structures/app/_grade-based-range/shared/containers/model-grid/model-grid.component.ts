@@ -199,7 +199,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
       [PfDataGridColType.noFormatting]: { Template: this.noFormattingColumn },
       [PfDataGridColType.rangeFieldEditor]: { Template: this.rangeFieldColumn },
       [PfDataGridColType.percentage]: { Template: this.percentageColumn },
-      [PfDataGridColType.rangeValue]: { Template: this.rangeValueColumn },
+      [PfDataGridColType.rangeValue]: { Template: this.rangeValueColumn }
     };
 
     this.fullGridActionBarConfig = {
