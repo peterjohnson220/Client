@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { select, Store } from '@ngrx/store';
@@ -7,6 +7,7 @@ import { Observable, Subscription } from 'rxjs';
 import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums/pf-theme-type.enum';
 import { GradeBasedPageViewIds, RangeGroupMetadata } from 'libs/models/structures';
 import { ActionBarConfig, getDefaultActionBarConfig, GridConfig, PfDataGridFilter } from 'libs/features/grids/pf-data-grid/models';
+import { PfDataGridColType } from 'libs/features/grids/pf-data-grid/enums';
 
 import { PagesHelper } from '../../../shared/helpers/pages.helper';
 import * as fromSharedStructuresReducer from '../../../shared/reducers';
@@ -18,6 +19,8 @@ import { StructuresPagesService } from '../../../shared/services';
   styleUrls: ['./employees.page.scss']
 })
 export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy {
+  @ViewChild('rangeValue', { static: true }) rangeValueColumn: ElementRef;
+
   employeesPageViewId: string;
   dataCutsPageViewId: string;
   modelGridPageViewId: string;
@@ -25,10 +28,12 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
   metaData$: Observable<RangeGroupMetadata>;
   metadataSubscription: Subscription;
   actionBarConfig: ActionBarConfig;
+  singleRecordActionBarConfig: ActionBarConfig;
   gridConfig: GridConfig;
   pfThemeType = PfThemeType;
   rangeGroupId: number;
   rangeId: number;
+  colTemplates = {};
 
   activeTab: string;
   filter: PfDataGridFilter;
@@ -66,6 +71,11 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
       ShowFilterChooser: true
     };
 
+    this.singleRecordActionBarConfig = {
+      ...getDefaultActionBarConfig(),
+      ShowActionBar: false
+    };
+
     this.gridConfig = {
       PersistColumnWidth: false,
       CaptureGridScroll: true,
@@ -99,6 +109,10 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   ngAfterViewInit(): void {
+    this.colTemplates = {
+      ['Mid']: { Template: this.rangeValueColumn },
+      [PfDataGridColType.rangeFieldEditor]: { Template: this.rangeValueColumn }
+    };
   }
 
   ngOnDestroy(): void {

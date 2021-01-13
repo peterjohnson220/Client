@@ -34,19 +34,35 @@
 </ng-template>
 
 <ng-template #subHeaderTemplate>
-  <pf-model-grid
-    [inboundFilters]="[filter]"
-    [rangeGroupId]="rangeGroupId"
-    [singleRecordView]="true"
+  <pf-data-grid
     [pageViewId]="modelGridPageViewId"
-    [compactGridMinHeight]="'115px'">
-  </pf-model-grid>
+    [showTitle]="false"
+    [compactGrid]="true"
+    [showHeaderWhenCompact]="true"
+    [inboundFilters]="[filter]"
+    [contentClassNamesOverrides]="'p-0'"
+    [allowSort]="false"
+    [applyDefaultFilters]="false"
+    [pageTheme]="pfThemeType.NextGen"
+    [gridConfig]="gridConfig"
+    [compactGridMinHeight]="'115px'"
+    [columnTemplates]="colTemplates"
+    [actionBarConfig]="singleRecordActionBarConfig">
+  </pf-data-grid>
 
   <ul class="justify-content-start nav nav-tabs">
     <li class="nav-item"><a href="#" class="nav-link" [ngClass]="{'active': activeTab === 'Employees'}" (click)="onEmployeesClicked()">Employees</a></li>
     <li class="nav-item"><a href="#" class="nav-link" [ngClass]="{'active': activeTab === 'DataCuts'}" (click)="onDataCutsClicked()">Data Cuts</a></li>
   </ul>
   <div style="clear: both"></div>
+</ng-template>
+
+<ng-template #rangeValue let-dataRow="dataRow" let-fieldName="fieldName">
+  <ng-container *ngIf="dataRow[fieldName]; else noValue">{{ dataRow[fieldName] | rangeValue: (metaData$ | async)?.Rate }}</ng-container>
+</ng-template>
+
+<ng-template #noValue>
+  - -
 </ng-template>
 
 <ng-template #graph>
