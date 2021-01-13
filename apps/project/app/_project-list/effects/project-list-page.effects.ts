@@ -69,5 +69,20 @@ export class ProjectListPageEffects {
     })
   );
 
+  @Effect()
+  deleteProjects$: Observable<Action> = this.actions$.pipe(
+    ofType(fromProjectListPageActions.DELETE_PROJECTS),
+    switchMap((action: fromProjectListPageActions.DeleteProjects) => {
+      return this.pricingProjectApiService.deleteProjects(action.payload).pipe(
+        mergeMap(() => {
+          const actions = [];
+          actions.push(new fromProjectListPageActions.DeleteProjectsSuccess());
+          actions.push(new fromPfDataGridActions.LoadData(PageViewIds.Projects));
+          return actions;
+        })
+      );
+    })
+  );
+
 
 }

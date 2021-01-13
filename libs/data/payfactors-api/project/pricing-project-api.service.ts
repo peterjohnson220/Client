@@ -24,5 +24,9 @@ export class PricingProjectApiService {
   copyProject(projectId: any): Observable<any> {
     return this.payfactorsApiService.post(`${this.endpoint}/CopyProject`, projectId);
   }
+
+  deleteProjects(projectIds: any[]) {
+    return this.payfactorsApiService.post(`${this.endpoint}/DeleteProjects`, projectIds);
+  }
 }
 

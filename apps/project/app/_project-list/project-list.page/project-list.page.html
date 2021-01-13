@@ -19,7 +19,7 @@
 <ng-template #gridActions>
   <button
     [disabled]="!(selectedRecordIds$ | async)?.length"
-    [attr.data-qa-id]="'btn-jobs-page-clear-selections'"
+    [attr.data-qa-id]="'btn-projects-page-clear-selections'"
     type="button"
     (click)="clearSelections()"
     [title]="!(selectedRecordIds$ | async)?.length ? 'No Projects Selected' : ''"
@@ -27,6 +27,19 @@
   >
     <fa-icon [icon]="['far', 'times']" ></fa-icon>
     Clear Selections<span *ngIf="(selectedRecordIds$ | async)?.length">({{(selectedRecordIds$ | async)?.length}})</span>
+  </button>
+  <div
+    class="vertical-separator my-2"
+    [pfSecuredResource]="[permissions.PRICING_PROJECTS_DELETE]">
+  </div>
+  <button
+    [disabled]="!(selectedRecordIds$ | async)?.length"
+    [attr.data-qa-id]="'btn-projects-page-delete-projects'"
+    [title]="!(selectedRecordIds$ | async)?.length ? 'No Projects Selected' : ''"
+    (click)="showDeleteProjectModal.next(true)"
+    [pfSecuredResource]="permissions.PRICING_PROJECTS_DELETE"
+    class="btn btn-secondary pf-btn-borderless">
+    <fa-icon [icon]="['far', 'trash-alt']"></fa-icon>Delete
   </button>
 </ng-template>
 
@@ -39,7 +52,8 @@
 
 <ng-template #gridRowActionsTemplate let-dataRow="dataRow">
   <div class="grid-row-actions-container d-flex">
-    <div ngbDropdown container="body" #p="ngbDropdown" class="d-inline-block k-grid-ignore-click pr-2" placement="bottom-right">
+    <div ngbDropdown container="body" #p="ngbDropdown" class="d-inline-block k-grid-ignore-click pr-2" placement="bottom-right"
+         (openChange)="handleSelectedRowAction(dataRow['UserSessionMap_UserSession_ID'], p, $event)">
       <button ngbDropdownToggle
               class="btn btn-secondary hide-dropdown-arrow pf-icon-btn-transparent"
               [attr.data-qa-id]="'btn-project-list-page-inline-actions-' + dataRow['UserSessionMap_UserSession_ID']"
@@ -49,8 +63,13 @@
       <div ngbDropdownMenu aria-labelledby="project-list-actions-{{dataRow['UserSessionMap_UserSession_ID']}}">
         <button
           ngbDropdownItem
-          (click)="copyProject(dataRow['UserSessionMap_UserSession_ID'])">
+          (click)="copyProject()">
           <fa-icon [icon]="['far', 'copy']"></fa-icon> Copy
+        </button>
+        <button [pfSecuredResource]="permissions.PRICING_PROJECTS_DELETE"
+                ngbDropdownItem
+                (click)="showDeleteProjectModal.next(true)">
+          <fa-icon [icon]="['far', 'trash-alt']"></fa-icon> Delete
         </button>
       </div>
     </div>
@@ -95,3 +114,23 @@
     </kendo-dropdownlist>
   </div>
 </ng-template>
+
+<pf-modal-form
+  [size]="'md'"
+  [title]="'Delete Project(s)'"
+  [primaryButtonText]="'Delete'"
+  [primaryButtonClass]="'btn-danger'"
+  [modalId]="'au-modal-employees-page-delete-employee'"
+  [isOpen$]=" showDeleteProjectModal$"
+  (onSubmit)="handleModalSubmit()"
+  [submitEnabled]="acknowledgeDelete"
+  (onDismiss)="handleModalDismissed()">
+  <ng-container basic-content>
+    <p >Are you sure you want to delete the selected project(s)?</p>
+    <hr>
+    <input type="checkbox" [(ngModel)]="acknowledgeDelete"/> I understand that once this pricing project(s) is deleted it cannot be undone.
+    <span style="color: red">*</span>
+
+  </ng-container>
+
+</pf-modal-form>
