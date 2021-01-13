@@ -1,0 +1,53 @@
+<pf-data-grid
+  [title]="(metaData$ | async)?.IsCurrent ? (metaData$ | async)?.StructureName : (metaData$ | async)?.ModelName"
+  [subtitle]="(metaData$ | async)?.IsCurrent ? '' : 'Structure: ' + (metaData$ | async)?.StructureName"
+  [navigationURL]="'/marketdata/structures.asp'"
+  [inboundFilters]="[filter]"
+  [pageViewId]="pageViewId"
+  [gridContainerSplitViewWidth]="'60%'"
+  [applyDefaultFilters]="false"
+  [actionBarConfig]="actionBarConfig"
+  [borders]="false"
+  [contentClassNamesOverrides]="'py-3 px-4'"
+  [pageTheme]="pfThemeType.NextGen"
+  [defaultColumnWidth]="135"
+  [reorderable]="true"
+  [syncScrollWithSplit]="true"
+  [saveSort]="true"
+  [showSplitViewToggle]="true"
+  [gridConfig]="gridConfig"
+  [pageable]="!gridConfig.EnableInfiniteScroll"
+  [gridActionsTemplate]="gridActions"
+  [gridActionsRightTemplate]="gridActionsRightTemplate"
+  [subHeaderTemplate]="subHeaderTemplate"
+  [filterPanelTemplates]="filterTemplates"
+  [splitViewTemplate]="graph"
+  [splitOnSelection]="false">
+</pf-data-grid>
+
+<ng-template #gridActions>
+  <pf-grid-context [enableReturnBtn]="true"></pf-grid-context>
+</ng-template>
+
+<ng-template #gridActionsRightTemplate>
+  <pf-grid-context [enableReturnBtn]="false" [metadata]="metaData$ | async" adjustMetadata="true"></pf-grid-context>
+</ng-template>
+
+<ng-template #subHeaderTemplate>
+  <pf-model-grid
+    [inboundFilters]="[filter]"
+    [rangeGroupId]="rangeGroupId"
+    [singleRecordView]="true"
+    [pageViewId]="modelGridPageViewId"
+    [compactGridMinHeight]="'115px'">
+  </pf-model-grid>
+
+  <ul class="justify-content-start nav nav-tabs">
+    <li class="nav-item"><a href="#" class="nav-link" [ngClass]="{'active': activeTab === 'Employees'}" (click)="onEmployeesClicked()">Employees</a></li>
+    <li class="nav-item"><a href="#" class="nav-link" [ngClass]="{'active': activeTab === 'DataCuts'}" (click)="onDataCutsClicked()">Data Cuts</a></li>
+  </ul>
+  <div style="clear: both"></div>
+</ng-template>
+
+<ng-template #graph>
+</ng-template>

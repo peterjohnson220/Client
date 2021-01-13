@@ -33,6 +33,7 @@ import * as fromSharedStructuresActions from '../../../../shared/actions/shared.
 })
 export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   @ViewChild('mid') midColumn: ElementRef;
+  @ViewChild('eeCount') eeCountColumn: ElementRef;
   @ViewChild('diffField') diffFieldColumn: ElementRef;
   @ViewChild('rangeField') rangeFieldColumn: ElementRef;
   @ViewChild('noFormatting', { static: true }) noFormattingColumn: ElementRef;
@@ -193,6 +194,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   ngAfterViewInit() {
     this.colTemplates = {
       'Mid': { Template: this.midColumn },
+      'Employees_Per_Grade': { Template: this.eeCountColumn },
       [PfDataGridColType.midpointDiffFieldEditor]: { Template: this.diffFieldColumn },
       [PfDataGridColType.noFormatting]: { Template: this.noFormattingColumn },
       [PfDataGridColType.rangeFieldEditor]: { Template: this.rangeFieldColumn },

@@ -66,7 +66,8 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
     this.metadataSubscription = this.store.select(fromSharedStructuresReducer.getMetadata).subscribe(md => {
       if (md) {
         this.metaData = md;
-        this.pageViewId = PagesHelper.getEmployeePageViewIdByRangeDistributionType(this.metaData.RangeDistributionTypeId);
+        this.pageViewId =
+          PagesHelper.getEmployeePageViewIdByRangeTypeAndRangeDistributionType(this.metaData.RangeTypeId, this.metaData.RangeDistributionTypeId);
         this.isCurrent = md.IsCurrent;
         this.rate = md.Rate;
         this.currency = md.Currency;
@@ -394,11 +395,11 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
 
   private clearData(): void {
     if (this.jobRangeGroupData) {
-      this.jobRangeGroupData = {...this.jobRangeGroupData, data: []};
+      this.jobRangeGroupData = { ...this.jobRangeGroupData, data: [] };
     }
 
     if (this.employeeData) {
-      this.employeeData = {...this.employeeData, data: []};
+      this.employeeData = { ...this.employeeData, data: [] };
     }
   }
 
