@@ -7,11 +7,15 @@ exports[`Peer - Exchange Job Mapping Page should apply a collapse-grid class to 
   companyJobsSearchComponent={[Function ElementRef]}
   companySecurityApi={[Function Object]}
   disableGridScollTo="false"
+  enableFileDownloadSecurityWarning="false"
+  enableFileDownloadSecurityWarning$={[Function Observable]}
+  enableFileDownloadSecurityWarningSubscription={[Function Subscriber]}
   exchangeId={[Function Number]}
   exchangeId$={[Function Observable]}
   exchangeIdSubscription={[Function Subscriber]}
   exchangeJobMappingGridService={[Function Object]}
   featureFlagService={[Function Object]}
+  fileDownloadSecurityWarningModal={[Function ElementRef]}
   gridPageRowIndexToScrollTo$={[Function Store]}
   peerManageJobsGridToggleFlag={[Function Object]}
   queryParamSubscription={[Function Subscriber]}
@@ -87,7 +91,7 @@ exports[`Peer - Exchange Job Mapping Page should apply a collapse-grid class to 
       
     </div>
     
-  </pf-page-with-title-bar><pf-request-job-modal /><pf-association-import-modal />
+  </pf-page-with-title-bar><pf-request-job-modal /><pf-association-import-modal /><pf-file-download-security-warning-modal />
 </pf-exchange-job-mapping-page>
 `;
 
@@ -98,11 +102,15 @@ exports[`Peer - Exchange Job Mapping Page should show the correct header message
   companyJobsSearchComponent={[Function ElementRef]}
   companySecurityApi={[Function Object]}
   disableGridScollTo="false"
+  enableFileDownloadSecurityWarning="false"
+  enableFileDownloadSecurityWarning$={[Function Observable]}
+  enableFileDownloadSecurityWarningSubscription={[Function Subscriber]}
   exchangeId={[Function Number]}
   exchangeId$={[Function Observable]}
   exchangeIdSubscription={[Function Subscriber]}
   exchangeJobMappingGridService={[Function Object]}
   featureFlagService={[Function Object]}
+  fileDownloadSecurityWarningModal={[Function ElementRef]}
   gridPageRowIndexToScrollTo$={[Function Store]}
   peerManageJobsGridToggleFlag={[Function Object]}
   queryParamSubscription={[Function Subscriber]}
@@ -178,7 +186,7 @@ exports[`Peer - Exchange Job Mapping Page should show the correct header message
       </div>
     </div>
     
-  </pf-page-with-title-bar><pf-request-job-modal /><pf-association-import-modal />
+  </pf-page-with-title-bar><pf-request-job-modal /><pf-association-import-modal /><pf-file-download-security-warning-modal />
 </pf-exchange-job-mapping-page>
 `;
 
@@ -189,11 +197,15 @@ exports[`Peer - Exchange Job Mapping Page should show the correct header message
   companyJobsSearchComponent={[Function ElementRef]}
   companySecurityApi={[Function Object]}
   disableGridScollTo="false"
+  enableFileDownloadSecurityWarning="false"
+  enableFileDownloadSecurityWarning$={[Function Observable]}
+  enableFileDownloadSecurityWarningSubscription={[Function Subscriber]}
   exchangeId={[Function Number]}
   exchangeId$={[Function Observable]}
   exchangeIdSubscription={[Function Subscriber]}
   exchangeJobMappingGridService={[Function Object]}
   featureFlagService={[Function Object]}
+  fileDownloadSecurityWarningModal={[Function ElementRef]}
   gridPageRowIndexToScrollTo$={[Function Store]}
   peerManageJobsGridToggleFlag={[Function Object]}
   queryParamSubscription={[Function Subscriber]}
@@ -269,6 +281,6 @@ exports[`Peer - Exchange Job Mapping Page should show the correct header message
       
     </div>
     
-  </pf-page-with-title-bar><pf-request-job-modal /><pf-association-import-modal />
+  </pf-page-with-title-bar><pf-request-job-modal /><pf-association-import-modal /><pf-file-download-security-warning-modal />
 </pf-exchange-job-mapping-page>
 `;
