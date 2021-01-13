@@ -49,7 +49,7 @@ export class TrsImageControlComponent implements AfterViewInit, OnInit {
 
   onImageLoaded() {
     this.imageLoaded.emit(this.controlData.Id);
-    this.image.nativeElement.removeEventListener('load');
+    this.image.nativeElement.removeEventListener('load', this.onImageLoaded);
   }
 
   uploadImageSuccess(e: SuccessEvent) {
