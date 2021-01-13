@@ -8,17 +8,23 @@ import * as fromJobsToPriceActions from '../actions/jobs-to-price.actions';
 import { JobToPrice } from '../models';
 import { DataCutDetails } from '../../../surveys/survey-search/models';
 
+export interface EditableTempDataCut {
+  CompanyJobId: number;
+  JobMatchCut: JobMatchCut;
+}
 
 export interface State {
   loadingJobs: boolean;
   loadingJobsError: boolean;
   jobsToPrice: JobToPrice[];
+  tempDataCutBeingEdited: EditableTempDataCut;
 }
 
 const initialState: State = {
   loadingJobs: false,
   jobsToPrice: [],
-  loadingJobsError: false
+  loadingJobsError: false,
+  tempDataCutBeingEdited: null
 };
 
 // Reducer function
@@ -121,7 +127,43 @@ export function reducer(state = initialState, action: fromJobsToPriceActions.Job
         jobsToPrice: jobsToPriceCopy
       };
     }
+    case fromJobsToPriceActions.EDIT_TEMP_DATA_CUT: {
+      const payload = action.payload;
+      return {
+        ...state,
+        tempDataCutBeingEdited: {
+          CompanyJobId: payload.companyJobId,
+          JobMatchCut: payload.jobMatchCut
+        }
+      };
+    }
+    case fromJobsToPriceActions.EDIT_TEMP_DATA_CUT_COMPLETE: {
+      const dataCut = action.payload.DataCut;
+      const jobsToPriceCopy = cloneDeep(state.jobsToPrice);
+      const tempDataCutCopy = cloneDeep(state.tempDataCutBeingEdited);
+      const jobToReplaceCut = jobsToPriceCopy.find(job => job.CompanyJobId === tempDataCutCopy.CompanyJobId);
+      const existingDataCutToAdd = jobToReplaceCut.DataCutsToAdd.find(cut => cut.PeerCutId === tempDataCutCopy.PeerCutId);
+      const dataCutDetails: DataCutDetails = {
+        ...existingDataCutToAdd,
+        TCC50th: dataCut.TCC50th,
+        Base50th: dataCut.Base50th,
+        ServerInfo: dataCut.ServerInfo,
+        CutFilterId: dataCut.Id,
+        WeightingType: dataCut.Weight,
+        Orgs: dataCut.Orgs,
+        Incs: dataCut.Incs
+      };
+      if (!!jobToReplaceCut) {
+        removeJobMatchCut(jobToReplaceCut, tempDataCutCopy.JobMatchCut);
+        addJobCuts(jobToReplaceCut, [dataCutDetails]);
+      }
 
+      return {
+        ...state,
+        jobsToPrice: jobsToPriceCopy,
+        tempDataCutBeingEdited: null
+      };
+    }
     default: {
       return state;
     }
@@ -138,6 +180,7 @@ function mapDataCutToMatchCut(jobCuts: DataCutDetails[]): JobMatchCut[] {
       TCC50: Number(jobCut.TCC50th),
       SurveyJobCode: jobCut.SurveyJobCode,
       PeerCutId: getPeerCutId(jobCut),
+      DataSourceJobId: getDataSourceJobId(jobCut),
       CutFilterId: jobCut.CutFilterId,
       MatchWeight: 1,
       MatchAdjustment: 0,
@@ -149,7 +192,15 @@ function mapDataCutToMatchCut(jobCuts: DataCutDetails[]): JobMatchCut[] {
 }
 
 function getPeerCutId(jobCut: DataCutDetails): string {
-  return jobCut.DataSource === SurveySearchResultDataSources.Peer ? jobCut.Job.PeerJobInfo.Id : null;
+  return jobCut.DataSource === SurveySearchResultDataSources.Peer ? jobCut.ServerInfo.CustomPeerCutId : null;
+}
+function getDataSourceJobId(jobCut: DataCutDetails): number|null {
+  switch (jobCut.DataSource) {
+    case SurveySearchResultDataSources.Peer:
+      return jobCut?.Job?.PeerJobInfo?.ExchangeJobId;
+    default:
+      return null;
+  }
 }
 
 function getJobSource(jobCut: DataCutDetails): string {

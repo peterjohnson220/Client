@@ -92,6 +92,16 @@ export const getRefiningJobId = createSelector(
   fromSurveySearchResultsReducer.getJobId
 );
 
+export const getEditingTempDataCut = createSelector(
+  selectSearchResultsState,
+  fromSurveySearchResultsReducer.getEditingTempDataCut
+);
+
+export const getTempDataCutBeingEdited = createSelector(
+  selectSearchResultsState,
+  fromSurveySearchResultsReducer.getTempDataCutBeingEdited
+);
+
 // Tooltip Container Selectors
 export const getLoadingMatchesDetails = createSelector(
   selectTooltipContainerState,

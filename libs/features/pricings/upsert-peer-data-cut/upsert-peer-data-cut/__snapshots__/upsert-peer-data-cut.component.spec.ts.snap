@@ -10,6 +10,7 @@ exports[`Libs - Upsert Peer Data Cut should disable the add/updated button when 
   cutGuid="null"
   displayInClassicAspIframe="false"
   displayMap="false"
+  editedTempDataCutDetails={[Function EventEmitter]}
   employeesValid$={[Function Store]}
   entityConfiguration={[Function Object]}
   exchangeExplorer="undefined"
@@ -57,6 +58,7 @@ exports[`Libs - Upsert Peer Data Cut should display the upsert data cut page wit
   cutGuid="null"
   displayInClassicAspIframe="false"
   displayMap={[Function Boolean]}
+  editedTempDataCutDetails={[Function EventEmitter]}
   employeesValid$={[Function Store]}
   entityConfiguration={[Function Object]}
   exchangeExplorer="undefined"
@@ -106,6 +108,7 @@ exports[`Libs - Upsert Peer Data Cut should display the upsert data cut page wit
   cutGuid={[Function String]}
   displayInClassicAspIframe="false"
   displayMap={[Function Boolean]}
+  editedTempDataCutDetails={[Function EventEmitter]}
   employeesValid$={[Function Store]}
   entityConfiguration={[Function Object]}
   exchangeExplorer="undefined"
@@ -155,6 +158,7 @@ exports[`Libs - Upsert Peer Data Cut should display untagged incumbents filter w
   cutGuid="null"
   displayInClassicAspIframe="false"
   displayMap="false"
+  editedTempDataCutDetails={[Function EventEmitter]}
   employeesValid$={[Function Store]}
   entityConfiguration={[Function Object]}
   exchangeExplorer="undefined"
@@ -202,6 +206,7 @@ exports[`Libs - Upsert Peer Data Cut should enable the add button when passesGui
   cutGuid="null"
   displayInClassicAspIframe="false"
   displayMap="false"
+  editedTempDataCutDetails={[Function EventEmitter]}
   employeesValid$={[Function Store]}
   entityConfiguration={[Function Object]}
   exchangeExplorer="undefined"
@@ -249,6 +254,7 @@ exports[`Libs - Upsert Peer Data Cut should enable the update button when passes
   cutGuid="null"
   displayInClassicAspIframe="false"
   displayMap="false"
+  editedTempDataCutDetails={[Function EventEmitter]}
   employeesValid$={[Function Store]}
   entityConfiguration={[Function Object]}
   exchangeExplorer="undefined"
@@ -296,6 +302,7 @@ exports[`Libs - Upsert Peer Data Cut should show 'Request Access' button and mes
   cutGuid="null"
   displayInClassicAspIframe="false"
   displayMap="false"
+  editedTempDataCutDetails={[Function EventEmitter]}
   employeesValid$={[Function Store]}
   entityConfiguration={[Function Object]}
   exchangeExplorer="undefined"
@@ -344,6 +351,7 @@ exports[`Libs - Upsert Peer Data Cut should show disabled 'Access Requested' but
   cutGuid="null"
   displayInClassicAspIframe="false"
   displayMap="false"
+  editedTempDataCutDetails={[Function EventEmitter]}
   employeesValid$={[Function Store]}
   entityConfiguration={[Function Object]}
   exchangeExplorer="undefined"
@@ -392,6 +400,7 @@ exports[`Libs - Upsert Peer Data Cut should show disabled 'Requesting Access' bu
   cutGuid="null"
   displayInClassicAspIframe="false"
   displayMap="false"
+  editedTempDataCutDetails={[Function EventEmitter]}
   employeesValid$={[Function Store]}
   entityConfiguration={[Function Object]}
   exchangeExplorer="undefined"

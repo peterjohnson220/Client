@@ -21,6 +21,8 @@ export const REFINE_EXCHANGE_JOB_RESULT_COMPLETE = '[Project/Survey Search] Refi
 export const ADD_REFINED_EXCHANGE_DATA_CUT = '[Project/Survey Search] Add Refined Exchange Data Cut';
 export const REMOVE_REFINED_EXCHANGE_DATA_CUT = '[Project/Survey Search] Remove Refined Exchange Data Cut';
 export const CLEAR_TEMP_DATA_CUT_DICTIONARY = '[Project/Survey Search] Clear Temp Data Cut Dictionary';
+export const EDIT_TEMP_DATA_CUT = '[Project/Survey Search] Edit Temp Data Cut';
+export const EDIT_TEMP_DATA_CUT_COMPLETE = '[Project/Survey Search] Edit Temp Data Cut Complete';
 
 export class ReplaceJobResults implements Action {
   readonly type = REPLACE_JOB_RESULTS;
@@ -122,6 +124,18 @@ export class ClearTempDataCutDictionary implements Action {
   readonly type = CLEAR_TEMP_DATA_CUT_DICTIONARY;
 }
 
+export class EditTempDataCut implements Action {
+  readonly type = EDIT_TEMP_DATA_CUT;
+
+  constructor(public payload: { customPeerCutId: string, exchangeJobId: number }) { }
+}
+
+export class EditTempDataCutComplete implements Action {
+  readonly type = EDIT_TEMP_DATA_CUT_COMPLETE;
+
+  constructor(public payload: ExchangeJobDataCut) { }
+}
+
 export type Actions
   = AddJobResults
   | ReplaceJobResults
@@ -139,4 +153,6 @@ export type Actions
   | RefineExchangeJobResultComplete
   | AddRefinedExchangeDataCut
   | RemoveRefinedExchangeDataCut
-  | ClearTempDataCutDictionary;
+  | ClearTempDataCutDictionary
+  | EditTempDataCut
+  | EditTempDataCutComplete;

@@ -3,6 +3,7 @@
 exports[`Project - MultiMatch - JobToPrice Component should display Title, code and paymarket 1`] = `
 <pf-job-to-price
   cutDeleted={[Function EventEmitter]}
+  editCut={[Function EventEmitter]}
   featureImplementation={[Function String]}
   hideCutsLabel={[Function String]}
   job={[Function Object]}
@@ -75,6 +76,7 @@ exports[`Project - MultiMatch - JobToPrice Component should display Title, code 
 exports[`Project - MultiMatch - JobToPrice Component should display data cuts when data cuts loaded 1`] = `
 <pf-job-to-price
   cutDeleted={[Function EventEmitter]}
+  editCut={[Function EventEmitter]}
   featureImplementation={[Function String]}
   hideCutsLabel={[Function String]}
   job={[Function Object]}
@@ -179,9 +181,9 @@ exports[`Project - MultiMatch - JobToPrice Component should display data cuts wh
             >
               <div>
                 <span
-                  class="job-title"
+                  class="job-title link"
                 >
-                  Janitor/Custodian 
+                   Janitor/Custodian 
                 </span>
                 <span
                   class="job-code"
@@ -229,6 +231,7 @@ exports[`Project - MultiMatch - JobToPrice Component should display data cuts wh
 exports[`Project - MultiMatch - JobToPrice Component should display error message when error found loading data cuts 1`] = `
 <pf-job-to-price
   cutDeleted={[Function EventEmitter]}
+  editCut={[Function EventEmitter]}
   featureImplementation={[Function String]}
   hideCutsLabel={[Function String]}
   job={[Function Object]}
@@ -316,6 +319,7 @@ exports[`Project - MultiMatch - JobToPrice Component should display error messag
 exports[`Project - MultiMatch - JobToPrice Component should display loading message when loading data cuts 1`] = `
 <pf-job-to-price
   cutDeleted={[Function EventEmitter]}
+  editCut={[Function EventEmitter]}
   featureImplementation={[Function String]}
   hideCutsLabel={[Function String]}
   job={[Function Object]}
@@ -395,6 +399,7 @@ exports[`Project - MultiMatch - JobToPrice Component should display loading mess
 exports[`Project - MultiMatch - JobToPrice Component should display with 2 decimal precision if hourly 1`] = `
 <pf-job-to-price
   cutDeleted={[Function EventEmitter]}
+  editCut={[Function EventEmitter]}
   featureImplementation={[Function String]}
   hideCutsLabel={[Function String]}
   job={[Function Object]}
@@ -500,9 +505,9 @@ exports[`Project - MultiMatch - JobToPrice Component should display with 2 decim
             >
               <div>
                 <span
-                  class="job-title"
+                  class="job-title link"
                 >
-                  Janitor/Custodian 
+                   Janitor/Custodian 
                 </span>
                 <span
                   class="job-code"
@@ -550,6 +555,7 @@ exports[`Project - MultiMatch - JobToPrice Component should display with 2 decim
 exports[`Project - MultiMatch - JobToPrice Component should hide data cuts when last data cut removed 1`] = `
 <pf-job-to-price
   cutDeleted={[Function EventEmitter]}
+  editCut={[Function EventEmitter]}
   featureImplementation={[Function String]}
   hideCutsLabel={[Function String]}
   job={[Function Object]}
@@ -623,6 +629,7 @@ exports[`Project - MultiMatch - JobToPrice Component should hide data cuts when 
 exports[`Project - MultiMatch - JobToPrice Component should show data cuts when toggle clicked 1`] = `
 <pf-job-to-price
   cutDeleted={[Function EventEmitter]}
+  editCut={[Function EventEmitter]}
   featureImplementation={[Function String]}
   hideCutsLabel={[Function String]}
   job={[Function Object]}
@@ -730,6 +737,7 @@ exports[`Project - MultiMatch - JobToPrice Component should show data cuts when 
 exports[`Project - MultiMatch - JobToPrice Component should show job detail when toggle clicked 1`] = `
 <pf-job-to-price
   cutDeleted={[Function EventEmitter]}
+  editCut={[Function EventEmitter]}
   featureImplementation={[Function String]}
   hideCutsLabel={[Function String]}
   job={[Function Object]}
@@ -837,6 +845,7 @@ exports[`Project - MultiMatch - JobToPrice Component should show job detail when
 exports[`Project - MultiMatch - JobToPrice Component should show new job match cuts as highlighted 1`] = `
 <pf-job-to-price
   cutDeleted={[Function EventEmitter]}
+  editCut={[Function EventEmitter]}
   featureImplementation={[Function String]}
   hideCutsLabel={[Function String]}
   job={[Function Object]}
@@ -943,9 +952,9 @@ exports[`Project - MultiMatch - JobToPrice Component should show new job match c
             >
               <div>
                 <span
-                  class="job-title"
+                  class="job-title link"
                 >
-                  Janitor/Custodian 
+                   Janitor/Custodian 
                 </span>
                 <span
                   class="job-code"

@@ -4,7 +4,7 @@ import { SurveySearchResultDataSources } from 'libs/constants';
 import { BaseExchangeDataSearchRequest } from 'libs/models/payfactors-api/peer/exchange-data-search/request';
 
 import * as fromSurveySearchResultsActions from '../actions/survey-search-results.actions';
-import { DataCut, DataCutDetails, JobResult } from '../models';
+import { DataCut, DataCutDetails, ExchangeJobDataCut, JobResult } from '../models';
 import { applyMatchesToJobResults } from '../helpers';
 
 export interface State {
@@ -12,8 +12,9 @@ export interface State {
   selectedDataCuts: DataCutDetails[];
   jobId: number;
   refining: boolean;
-  // TODO: Not sure this belongs here. [JP]
   tempExchangeJobDataCutFilterContextDictionary: {[key: string]: BaseExchangeDataSearchRequest};
+  editingTempDataCut: boolean;
+  tempDataCutBeingEdited: ExchangeJobDataCut;
 }
 
 const initialState: State = {
@@ -21,7 +22,9 @@ const initialState: State = {
   selectedDataCuts: [],
   jobId: null,
   refining: false,
-  tempExchangeJobDataCutFilterContextDictionary: {}
+  tempExchangeJobDataCutFilterContextDictionary: {},
+  editingTempDataCut: false,
+  tempDataCutBeingEdited: null
 };
 
 // Reducer function
@@ -227,7 +230,37 @@ export function reducer(state = initialState, action: fromSurveySearchResultsAct
     case fromSurveySearchResultsActions.CLEAR_TEMP_DATA_CUT_DICTIONARY: {
       return {
         ...state,
+        editingTempDataCut: false,
+        tempDataCutBeingEdited: null,
         tempExchangeJobDataCutFilterContextDictionary: {}
+      };
+    }
+    case fromSurveySearchResultsActions.EDIT_TEMP_DATA_CUT: {
+      // const tempDataCut: ExchangeJobDataCut = action.payload;
+      const payload: any = action.payload;
+      const tempDataCutFilterContext = state.tempExchangeJobDataCutFilterContextDictionary[payload.customPeerCutId];
+      return {
+        ...state,
+        editingTempDataCut: true,
+        tempDataCutBeingEdited: {
+          ExchangeJobId: payload.exchangeJobId,
+          DataCut: null,
+          ExchangeDataSearchRequest: tempDataCutFilterContext
+        }
+      };
+    }
+    case fromSurveySearchResultsActions.EDIT_TEMP_DATA_CUT_COMPLETE: {
+      const tempDataCutDictionaryCopy = cloneDeep(state.tempExchangeJobDataCutFilterContextDictionary);
+      const dataCut = action.payload.DataCut;
+      const tempPeerDataCutId = dataCut.ServerInfo.CustomPeerCutId;
+
+      tempDataCutDictionaryCopy[tempPeerDataCutId] = action.payload.ExchangeDataSearchRequest;
+
+      return {
+        ...state,
+        editingTempDataCut: false,
+        tempDataCutBeingEdited: null,
+        tempExchangeJobDataCutFilterContextDictionary: tempDataCutDictionaryCopy
       };
     }
     default: {
@@ -241,6 +274,8 @@ export const getResults = (state: State) => state.results;
 export const getSelectedDataCuts = (state: State) => state.selectedDataCuts;
 export const getJobId = (state: State) => state.jobId;
 export const getRefining = (state: State) => state.refining;
+export const getEditingTempDataCut = (state: State) => state.editingTempDataCut;
+export const getTempDataCutBeingEdited = (state: State) => state.tempDataCutBeingEdited;
 export const getTempExchangeJobDataCutFilterContextDictionary = (state: State) => state?.tempExchangeJobDataCutFilterContextDictionary ?? {};
 
 function getMatchingDataCut(dataCut: DataCutDetails, selectedDataCuts: DataCutDetails[]) {

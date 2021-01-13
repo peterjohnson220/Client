@@ -130,6 +130,15 @@ export class ExchangeExplorerComponent extends SearchBaseDirective {
       this.store.dispatch(new fromLibsExchangeExplorerActions.RefineExchangeJob({lockedExchangeJobId: payload.refineExchangeJobId}));
       return;
     }
+
+    if (!!payload.tempDataCutBeingEdited) {
+      this.store.dispatch(new fromExchangeExplorerDataCutsActions.LoadTempExchangeDataCut({
+        lockedExchangeJobId: payload.tempDataCutBeingEdited.ExchangeJobId,
+        exchangeDataSearchRequest: payload.tempDataCutBeingEdited.ExchangeDataSearchRequest
+      }));
+      return;
+    }
+
     if (!!payload.cutGuid && payload.cutGuid !== '') {
       const systemFilterRequest = {exchangeDataCutGuid: payload.cutGuid, companyJobId: payload.companyJobId};
       this.cutGuid = payload.cutGuid;

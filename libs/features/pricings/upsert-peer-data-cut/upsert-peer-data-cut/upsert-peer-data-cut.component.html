@@ -7,11 +7,11 @@
     *ngIf="displayMap"
     #exchangeExplorerComponent
     [companyPayMarketId]="companyPayMarketId"
-    [shouldShowPayMarketBoundsFilter]="(hasAcceptedPeerTerms$ | async) && !refining"
+    [shouldShowPayMarketBoundsFilter]="(hasAcceptedPeerTerms$ | async) && !refining && !editingTemp"
     [shouldShowExcludeIndirectJobMatchesFilter]="hasAcceptedPeerTerms$ | async"
     [shouldShowExchangeScopeSelector]="hasAcceptedPeerTerms$ | async"
-    [jobSelectorRequiresPayMarket]="!refining"
-    [exchangeScopeSelectorRequiresPayMarket]="!refining"
+    [jobSelectorRequiresPayMarket]="!refining && !editingTemp"
+    [exchangeScopeSelectorRequiresPayMarket]="!refining && !editingTemp"
   >
 
     <ng-container map-footer>

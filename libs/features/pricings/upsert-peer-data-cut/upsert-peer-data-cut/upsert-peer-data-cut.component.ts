@@ -18,6 +18,7 @@ import * as fromDataCutValidationActions from 'libs/features/peer/actions/data-c
 import * as fromDataCutValidationReducer from 'libs/features/peer/guidelines-badge/reducers';
 import * as fromExchangeExplorerActions from 'libs/features/peer/exchange-explorer/actions/exchange-explorer.actions';
 import { TempExchangeDataCutDetails } from 'libs/models/payfactors-api/peer/exchange-data-search/request';
+import { ExchangeJobDataCut } from 'libs/features/surveys/survey-search/models';
 
 import * as fromUpsertDataCutActions from '../actions/upsert-peer-data-cut.actions';
 import * as fromRequestPeerAccessActions from '../actions/request-peer-access.actions';
@@ -38,6 +39,7 @@ export class UpsertPeerDataCutComponent implements OnInit, OnDestroy, OnChanges 
   @Input() entityConfiguration: UpsertPeerDataCutEntityConfigurationModel;
   @Output() cancelChanges = new EventEmitter();
   @Output() refinedDataCutDetails = new EventEmitter<TempExchangeDataCutDetails>();
+  @Output() editedTempDataCutDetails = new EventEmitter<TempExchangeDataCutDetails>();
   @Output() loadRefiningValidation = new EventEmitter();
 
   @ViewChild(ExchangeExplorerMapComponent, {static: true}) map: ExchangeExplorerMapComponent;
@@ -61,6 +63,7 @@ export class UpsertPeerDataCutComponent implements OnInit, OnDestroy, OnChanges 
   untaggedIncumbentCount: number;
   displayMap = false;
   refining: boolean;
+  editingTemp: boolean;
 
   // Subscriptions
   peerMapCompaniesSubscription: Subscription;
@@ -110,7 +113,7 @@ export class UpsertPeerDataCutComponent implements OnInit, OnDestroy, OnChanges 
   }
 
   get primaryButtonText(): string {
-    return this.cutGuid != null ? 'Update' : 'Add';
+    return this.cutGuid != null || this.editingTemp ? 'Update' : 'Add';
   }
 
   get failsGuidelines(): boolean {
@@ -131,7 +134,7 @@ export class UpsertPeerDataCutComponent implements OnInit, OnDestroy, OnChanges 
 
   upsert() {
     if (this.displayMap) {
-      if (!this.refining) {
+      if (!this.refining && !this.editingTemp) {
         this.store.dispatch(new fromUpsertDataCutActions.UpsertDataCut({
           DataCutGuid: this.cutGuid,
           CompanyJobId: this.companyJobId,
@@ -172,6 +175,7 @@ export class UpsertPeerDataCutComponent implements OnInit, OnDestroy, OnChanges 
   reset(): void {
     this.displayMap = false;
     this.refining = false;
+    this.editingTemp = false;
     this.store.dispatch(new fromExchangeExplorerActions.ResetExchangeExplorerState());
     this.guidelinesService.clearMapCompanies();
   }
@@ -223,7 +227,7 @@ export class UpsertPeerDataCutComponent implements OnInit, OnDestroy, OnChanges 
     } as MessageEvent;
     this.exchangeExplorer.onMessage(setContextMessage);
 
-    if (!this.refining) {
+    if (!this.refining && !this.editingTemp) {
 
       this.store.dispatch(new fromDataCutValidationActions.LoadDataCutValidation(
         {
@@ -254,7 +258,7 @@ export class UpsertPeerDataCutComponent implements OnInit, OnDestroy, OnChanges 
         return;
       }
 
-      if (!this.refining) {
+      if (!this.refining && !this.editingTemp) {
         this.guidelinesService.validateDataCut(pms, this.companyJobId, this.entityConfiguration, this.cutGuid);
       } else {
         this.guidelinesService.validateTempDataCut(pms);
@@ -285,10 +289,19 @@ export class UpsertPeerDataCutComponent implements OnInit, OnDestroy, OnChanges 
     });
 
     this.loadedDataCutDetailsSubscription = this.loadedDataCutDetails$.subscribe(loadedDataCutDetails => {
-      if (!!loadedDataCutDetails) {
-        this.refinedDataCutDetails.emit(loadedDataCutDetails);
-        this.reset();
+      if (!loadedDataCutDetails) {
+        return;
       }
+
+      if (this.refining) {
+        this.refinedDataCutDetails.emit(loadedDataCutDetails);
+      }
+
+      if (this.editingTemp) {
+        this.editedTempDataCutDetails.emit(loadedDataCutDetails);
+      }
+
+      this.reset();
     });
   }
 
@@ -296,6 +309,12 @@ export class UpsertPeerDataCutComponent implements OnInit, OnDestroy, OnChanges 
     this.refining = true;
     this.showMap();
     this.setContext({refineExchangeJobId: exchangeJobId});
+  }
+
+  editTempDataCut(tempDataCut: ExchangeJobDataCut) {
+    this.editingTemp = true;
+    this.showMap();
+    this.setContext({tempDataCutBeingEdited: tempDataCut});
   }
 
   get untaggedIncumbentMessage(): string {

@@ -175,5 +175,13 @@ export class JobsToPriceContainerComponent implements OnDestroy {
       matchingComponent.showDataCutsDisplay();
     }
   }
+
+  handleEditCut(jobCutData: { jobCut: JobMatchCut, job: JobToPrice }) {
+    const cut = jobCutData.jobCut;
+    this.store.dispatch(new fromJobsToPriceActions.EditTempDataCut({companyJobId: jobCutData.job.CompanyJobId, jobMatchCut: cut}));
+    this.store.dispatch(new fromSurveySearchResultsActions.EditTempDataCut({
+      customPeerCutId: cut.PeerCutId,
+      exchangeJobId: cut.DataSourceJobId}));
+  }
 }
 

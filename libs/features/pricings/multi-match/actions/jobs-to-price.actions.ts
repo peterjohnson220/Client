@@ -3,7 +3,7 @@ import { Action } from '@ngrx/store';
 import { JobMatchCut } from 'libs/models/payfactors-api';
 
 import { JobToPrice } from '../models';
-import { ProjectContext, DataCutDetails } from '../../../surveys/survey-search/models';
+import { ProjectContext, DataCutDetails, DataCut } from '../../../surveys/survey-search/models';
 
 export const GET_JOBS_TO_PRICE = '[Project Add Data/Jobs to Price] Get Jobs To Price';
 export const GET_JOBS_TO_PRICE_SUCCESS = '[Project Add Data/Jobs to Price] Get Jobs To Price Success';
@@ -15,7 +15,8 @@ export const ADD_DATA_CUTS_TO_JOB_TO_PRICE = '[Project Add Data/Jobs to Price] A
 export const REMOVE_JOB_CUT = '[Project Add Data/Jobs to Price] Remove Job Cut';
 export const CLEAR_ALL_JOBS = '[Project Add Data/Jobs to Price] Remove all Jobs';
 export const GET_PRICING_MATCHES = '[Modify Pricings] Get Pricing Matches';
-
+export const EDIT_TEMP_DATA_CUT = '[Modify Pricings] Edit Temp Data Cut';
+export const EDIT_TEMP_DATA_CUT_COMPLETE = '[Modify Pricings] Edit Temp Data Cut Complete';
 
 export class GetJobsToPrice implements Action {
   readonly type = GET_JOBS_TO_PRICE;
@@ -74,6 +75,18 @@ export class GetPricingMatches implements Action {
   constructor(public pricingId: number, public rate: string) {}
 }
 
+export class EditTempDataCut implements Action {
+  readonly type = EDIT_TEMP_DATA_CUT;
+
+  constructor(public payload: {companyJobId: number, jobMatchCut: JobMatchCut}) {}
+}
+
+export class EditTempDataCutComplete implements Action {
+  readonly type = EDIT_TEMP_DATA_CUT_COMPLETE;
+
+  constructor(public payload: {DataCut: DataCut}) { }
+}
+
 export type JobsToPriceActions
   = GetJobsToPrice
   | GetJobsToPriceSuccess
@@ -84,4 +97,6 @@ export type JobsToPriceActions
   | ClearAllJobs
   | AddNewDataCuts
   | RemoveJobCut
-  | GetPricingMatches;
+  | GetPricingMatches
+  | EditTempDataCut
+  | EditTempDataCutComplete;

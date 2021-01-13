@@ -38,6 +38,16 @@ import * as fromExchangeExplorerMapActions from '../actions/map.actions';
 @Injectable()
 export class ExchangeScopeEffects {
 
+  constructor(
+    private actions$: Actions,
+    private store: Store<fromExchangeExplorerReducers.State>,
+    private exchangeScopeApiService: ExchangeScopeApiService,
+    private exchangeDataFilterApiService: ExchangeDataFilterApiService,
+    private exchangeExplorerContextService: ExchangeExplorerContextService,
+    private payfactorsSearchApiModelMapper: PayfactorsSearchApiModelMapper,
+    private settingsService: SettingsService
+  ) {}
+
   @Effect()
   loadExchangeScopesByJobs: Observable<Action> = this.actions$.pipe(
     ofType(fromExchangeScopeActions.LOAD_EXCHANGE_SCOPES_BY_JOBS)).pipe(
@@ -74,23 +84,20 @@ export class ExchangeScopeEffects {
     map((action: fromExchangeDataCutActions.LoadExchangeDataCut) => action.payload),
     switchMap(payload =>
       this.exchangeDataFilterApiService.getExchangeDataCutFilterContext(payload).pipe(
-        mergeMap((response: ExchangeExplorerDataCutResponse) => {
-          const exchangeExplorerContextInfo: ExchangeExplorerContextInfo = response.ExchangeExplorerContextInfo;
-          const scopeContext: ExchangeExplorerScopeResponse = { ScopeContext: response.ScopeContext,
-            FilterContext: exchangeExplorerContextInfo.FilterContext};
-          return [
-            new fromExchangeExplorerContextInfoActions.LoadContextInfoSuccess({
-              payMarket: exchangeExplorerContextInfo.PayMarketContext.PayMarket,
-              payMarketGeoData: exchangeExplorerContextInfo.PayMarketContext.PayMarketGeoData,
-              exchangeJobFilterOptions: exchangeExplorerContextInfo.AssociatedExchangeJobFilterOptions,
-              searchFilterMappingDataObj: exchangeExplorerContextInfo.SearchFilterMappingData
-            }),
-            new fromExchangeExplorerMapActions.SetPeerMapBounds(exchangeExplorerContextInfo.FilterContext),
-            new fromExchangeFilterContextActions.SetFilterContext(exchangeExplorerContextInfo.FilterContext),
-            new fromExchangeDataCutActions.LoadExchangeDataCutSuccess(scopeContext)
-          ];
-        }),
+        mergeMap((response: ExchangeExplorerDataCutResponse) => ExchangeScopeEffects.getExchangeExplorerDataCutResponseActions(response)),
         catchError(() => of(new fromExchangeDataCutActions.LoadExchangeDataCutError))
+      )
+    )
+  );
+
+  @Effect()
+  loadTempExchangeDataCut: Observable<Action> = this.actions$.pipe(
+    ofType(fromExchangeDataCutActions.LOAD_TEMP_EXCHANGE_DATA_CUT)).pipe(
+    map((action: fromExchangeDataCutActions.LoadTempExchangeDataCut) => action.payload),
+    switchMap((payload: any) =>
+      this.exchangeDataFilterApiService.getTempExchangeDataCutFilterContext(payload).pipe(
+        mergeMap((response: ExchangeExplorerDataCutResponse) => ExchangeScopeEffects.getExchangeExplorerDataCutResponseActions(response)),
+        catchError((error) => of(new fromExchangeDataCutActions.LoadExchangeDataCutError))
       )
     )
   );
@@ -235,13 +242,20 @@ export class ExchangeScopeEffects {
       )
     );
 
-  constructor(
-    private actions$: Actions,
-    private store: Store<fromExchangeExplorerReducers.State>,
-    private exchangeScopeApiService: ExchangeScopeApiService,
-    private exchangeDataFilterApiService: ExchangeDataFilterApiService,
-    private exchangeExplorerContextService: ExchangeExplorerContextService,
-    private payfactorsSearchApiModelMapper: PayfactorsSearchApiModelMapper,
-    private settingsService: SettingsService
-  ) {}
+  private static getExchangeExplorerDataCutResponseActions(response: ExchangeExplorerDataCutResponse): Action[] {
+    const exchangeExplorerContextInfo: ExchangeExplorerContextInfo = response.ExchangeExplorerContextInfo;
+    const scopeContext: ExchangeExplorerScopeResponse = { ScopeContext: response.ScopeContext,
+      FilterContext: exchangeExplorerContextInfo.FilterContext};
+    return [
+      new fromExchangeExplorerContextInfoActions.LoadContextInfoSuccess({
+        payMarket: exchangeExplorerContextInfo.PayMarketContext?.PayMarket,
+        payMarketGeoData: exchangeExplorerContextInfo.PayMarketContext?.PayMarketGeoData,
+        exchangeJobFilterOptions: exchangeExplorerContextInfo.AssociatedExchangeJobFilterOptions,
+        searchFilterMappingDataObj: exchangeExplorerContextInfo.SearchFilterMappingData
+      }),
+      new fromExchangeExplorerMapActions.SetPeerMapBounds(exchangeExplorerContextInfo.FilterContext),
+      new fromExchangeFilterContextActions.SetFilterContext(exchangeExplorerContextInfo.FilterContext),
+      new fromExchangeDataCutActions.LoadExchangeDataCutSuccess(scopeContext)
+    ];
+  }
 }

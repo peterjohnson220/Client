@@ -19,6 +19,8 @@ export class JobToPriceComponent implements OnInit {
   @Output() loadDataCuts: EventEmitter<JobToPrice> = new EventEmitter<JobToPrice>();
   @Output() cutDeleted: EventEmitter<{ jobCut: JobMatchCut, job: JobToPrice }>
     = new EventEmitter<{ jobCut: JobMatchCut, job: JobToPrice }>();
+  @Output() editCut: EventEmitter<{ jobCut: JobMatchCut, job: JobToPrice }>
+    = new EventEmitter<{ jobCut: JobMatchCut, job: JobToPrice }>();
 
   toggleDataCutsLabel: string;
   showDataCuts: boolean;
@@ -74,4 +76,9 @@ export class JobToPriceComponent implements OnInit {
     this.toggleDataCutsLabel = this.showCutsLabel;
   }
 
+  handleDataCutClick(job: JobToPrice, jobMatchCut: JobMatchCut) {
+    if (!!jobMatchCut.PeerCutId) {
+      this.editCut.emit({ jobCut: jobMatchCut, job: job });
+    }
+  }
 }
