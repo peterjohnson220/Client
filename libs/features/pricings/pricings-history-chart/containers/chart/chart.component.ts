@@ -4,7 +4,16 @@ import { DecimalPipe } from '@angular/common';
 import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import Highcharts from 'highcharts';
-import moment from 'moment';
+import {
+  format,
+  Interval,
+  getQuarter,
+  intervalToDuration,
+  setMonth,
+  setDate,
+  addYears,
+  addMonths
+} from 'date-fns';
 
 import { PayMarketPricingHistory } from 'libs/models/payfactors-api';
 import { AsyncStateObj } from 'libs/models';
@@ -83,17 +92,17 @@ export class ChartComponent implements OnInit, OnDestroy {
             }
           }
         }
-      )
+      );
 
       this.chartRef.tooltip.update(
         {
           formatter: function () {
             return `<b>${this.series.name}</b>
-            <br> <b>Pricing Date - </b>${moment(new Date(this.x)).format('MM/DD/YYYY')}
+            <br> <b>Pricing Date - </b>${format(new Date(this.x), 'MM/DD/YYYY')}
             <br> <b>Base MRP - </b>${compPipe.transform(this.y, rate, annualDisplay.truncatedRounded)}`;
           }
         }
-      )
+      );
 
       this.updateFlag = true;
     }
@@ -120,39 +129,49 @@ export class ChartComponent implements OnInit, OnDestroy {
         labels: {
           formatter: function () {
             let dateFormatter = '%Y';
-            let startDate = moment(new Date(this.axis.min));
-            let endDate = moment(new Date(this.axis.max));
-            if (moment.duration(endDate.diff(startDate)).asMonths() <= 4) {
+            const startDate = new Date(this.axis.min);
+            const endDate = new Date(this.axis.max);
+            const fnsInterval: Interval = {
+              start: startDate,
+              end: endDate
+            };
+            const duration = intervalToDuration(fnsInterval);
+            if (duration.months <= 4) {
               dateFormatter = `%b %Y`;
-            }
-            else if (moment.duration(moment(endDate).diff(moment(startDate))).asYears() <= 2) {
-              dateFormatter = `Q${moment.utc(new Date(this.value)).quarter()} %Y`;
+            } else if (duration.years <= 2) {
+              dateFormatter = `Q${getQuarter(new Date(this.value))} %Y`;
             }
             return Highcharts.dateFormat(dateFormatter, this.value);
           },
         },
         tickPositioner: function () {
           let positions = this.tickPositions;
-          let startDate = moment(new Date(this.min));
-          let endDate = moment(new Date(this.max));
-          if (moment.duration(endDate.diff(startDate)).asYears() > 2) {
+          const startDate = new Date(this.min);
+          const endDate = new Date(this.max);
+          const interval: Interval = {
+            start: startDate,
+            end: endDate
+          };
+          const duration = intervalToDuration(interval);
+
+          if (duration.years > 2) {
             positions = [];
 
-            const curDate = moment(new Date(this.min)).startOf('year');
-            const endDate = moment(new Date(this.max));
+            const curDate = setMonth(setDate(new Date(this.min), 1), 1);
+            const durationEnd = new Date(this.max);
 
-            while (curDate < endDate) {
-              positions.push(curDate.toDate().getTime());
-              curDate.add(1, 'y');
+            while (curDate < durationEnd) {
+              positions.push(curDate.getTime());
+              addYears(curDate, 1);
             }
-          } else if (moment.duration(endDate.diff(startDate)).asMonths() > 4) {
+          } else if (duration.months > 4) {
             positions = [];
-            const curDate = moment(new Date(this.min)).startOf('month');
-            const endDate = moment(new Date(this.max));
+            const curDate = setDate(new Date(this.min), 1);
+            const end = new Date(this.max);
 
-            while (curDate < endDate) {
-              positions.push(curDate.toDate().getTime());
-              curDate.add(3, 'M');
+            while (curDate < end) {
+              positions.push(curDate.getTime());
+              addMonths(curDate, 3);
             }
           }
 

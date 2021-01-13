@@ -5,7 +5,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
 import { map, switchMap, catchError, withLatestFrom, mergeMap } from 'rxjs/operators';
 
-import { subYears, toDate, setDate } from 'date-fns';
+import { subYears, setDate } from 'date-fns';
 
 import { CurrencyApiService, PricingApiService, UiPersistenceSettingsApiService } from 'libs/data/payfactors-api';
 import { GetPricingHistoryRequest, PricingHistoryChartFilters, PayMarketPricingHistory, PricedPayMarket } from 'libs/models/payfactors-api';
@@ -130,8 +130,8 @@ export class PricingHistoryChartEffects {
         PayMarkets: [defaultPMs[0], null, null, null, null],
         Rate: defaultPMs[0].Rate,
         Currency: defaultPMs[0].Currency,
-        StartDate: setDate(toDate(defaultPMs[0].StartDate), 1),
-        EndDate: setDate(toDate(defaultPMs[0].EndDate), 1)
+        StartDate: setDate(new Date(defaultPMs[0].StartDate), 1),
+        EndDate: setDate(new Date(defaultPMs[0].EndDate), 1)
       };
     } else {
       return {

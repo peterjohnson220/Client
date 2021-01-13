@@ -4,7 +4,7 @@ import { AbstractControl, FormArray, FormBuilder, FormGroup } from '@angular/for
 import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 
-import { subYears, toDate, setDate, min, max } from 'date-fns';
+import { subYears, setDate, min, max } from 'date-fns';
 
 import { AsyncStateObj, KendoTypedDropDownItem } from 'libs/models';
 import { PricedPayMarket, PricingHistoryChartFilters } from 'libs/models/payfactors-api';
@@ -108,8 +108,8 @@ export class FiltersComponent implements OnInit, OnDestroy {
 
   resetDateRangeToFirstOfMonth(): void {
     this.pricingHistoryChartForm.patchValue({
-      StartDate: setDate(toDate(this.f.StartDate.value), 1),
-      EndDate: setDate(toDate(this.f.EndDate.value), 1)
+      StartDate: setDate(new Date(this.f.StartDate.value), 1),
+      EndDate: setDate(new Date(this.f.EndDate.value), 1)
     });
   }
 
@@ -122,8 +122,8 @@ export class FiltersComponent implements OnInit, OnDestroy {
       PayMarkets: userDefaultFilters.PayMarkets,
       Rate: userDefaultFilters.Rate,
       Currency: userDefaultFilters.Currency,
-      StartDate: setDate(toDate(userDefaultFilters.StartDate), 1),
-      EndDate: setDate(toDate(userDefaultFilters.EndDate), 1)
+      StartDate: setDate(new Date(userDefaultFilters.StartDate), 1),
+      EndDate: setDate(new Date(userDefaultFilters.EndDate), 1)
     }, {emitEvent: false});
 
     this.filterPayMarketOptions();
@@ -134,8 +134,8 @@ export class FiltersComponent implements OnInit, OnDestroy {
     let endDate = setDate(new Date(), 1);
 
     if (this.selectedPayMarkets.length > 0) {
-      startDate = min(this.selectedPayMarkets.map(p => toDate(p.StartDate)));
-      endDate = max(this.selectedPayMarkets.map(p => toDate(p.EndDate)));
+      startDate = min(this.selectedPayMarkets.map(p => new Date(p.StartDate)));
+      endDate = max(this.selectedPayMarkets.map(p => new Date(p.EndDate)));
     }
 
     this.pricingHistoryChartForm.patchValue({
