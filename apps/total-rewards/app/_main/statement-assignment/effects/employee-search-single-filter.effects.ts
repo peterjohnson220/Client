@@ -38,7 +38,7 @@ export class EmployeeSearchSingleFilterEffects {
         StatementId: data.statement.StatementId
       };
 
-      return this.totalRewardsSearchApiService.searchEmployeesAggregations(request).pipe(
+      return this.totalRewardsSearchApiService.searchUnassignedEmployeesAggregations(request).pipe(
         map((response: SearchFilter) => {
           const matchingFilter = <MultiSelectFilter>data.filters.find(f => f.Id === data.singledFilter.Id);
           const currentSelections = matchingFilter.Options.filter(o => o.Selected);
