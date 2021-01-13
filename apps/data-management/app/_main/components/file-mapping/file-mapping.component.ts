@@ -150,7 +150,7 @@ export class FileMappingComponent implements OnInit, OnChanges, OnDestroy {
           break;
         case LoaderType.Benefits:
           e.payfactorsDataFields = cloneDeep(this.payfactorsBenefitsDataFields);
-          e.payfactorsDataFields.push.apply(e.payfactorsDataFields, this.buildInternalFields(this.customFields.Benefits, false));
+          e.payfactorsDataFields.push.apply(e.payfactorsDataFields, this.buildInternalFields(this.customFields.Benefits, true));
           e.loaderEnabled = this.isBenefitsLoadEnabled;
           break;
         case LoaderType.Employees:
