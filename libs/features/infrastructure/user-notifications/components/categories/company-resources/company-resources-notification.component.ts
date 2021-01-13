@@ -18,6 +18,7 @@ export class CompanyResourcesNotificationComponent extends UserNotificationBaseC
 
   buildUserNotificationDisplay(): UserNotificationDisplay {
     return {
+      Id: this.UserNotification.Id,
       Title: this.NotificationTitle,
       Message: this.parseMetaData(),
       ButtonText: this.ButtonText,

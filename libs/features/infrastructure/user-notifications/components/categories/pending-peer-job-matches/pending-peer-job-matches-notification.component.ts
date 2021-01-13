@@ -20,6 +20,7 @@ export class PendingPeerJobMatchesNotificationComponent extends UserNotification
 
 
     return{
+      Id: this.UserNotification.Id,
       Title: this.NotificationTitle,
       Message: parsedMetaData.Message,
       ButtonText: this.ButtonText,

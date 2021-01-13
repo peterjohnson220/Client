@@ -27,7 +27,7 @@ export class SetUserNotifications implements Action {
 export class MarkNotificationRead implements Action {
   readonly type = MARK_NOTIFICATION_READ;
 
-  constructor(public payload: { userNotificationId: number }) {}
+  constructor(public payload: { userNotificationId: number, closePopover: boolean }) {}
 }
 
 export class MarkNotificationReadSuccess implements Action {

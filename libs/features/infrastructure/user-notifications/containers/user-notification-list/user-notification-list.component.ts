@@ -57,7 +57,7 @@ export class UserNotificationListComponent implements OnInit, OnDestroy {
   openNotification(notification: UserNotification): void {
     this.modalNotification = notification;
     if (!notification.IsRead) {
-      this.store.dispatch(new fromUserNotificationListActions.MarkNotificationRead({ userNotificationId: notification.Id }));
+      this.store.dispatch(new fromUserNotificationListActions.MarkNotificationRead({ userNotificationId: notification.Id, closePopover: false }));
     }
   }
 

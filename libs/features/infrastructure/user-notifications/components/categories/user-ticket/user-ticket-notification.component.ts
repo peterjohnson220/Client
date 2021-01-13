@@ -18,6 +18,7 @@ export class UserTicketNotificationComponent extends UserNotificationBaseCompone
 
   buildUserNotificationDisplay(): UserNotificationDisplay {
     return {
+      Id: this.UserNotification.Id,
       Title: this.NotificationTitle,
       Message: this.parseMetaData(),
       ButtonText: this.ButtonText,

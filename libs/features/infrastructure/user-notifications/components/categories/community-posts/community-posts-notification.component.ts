@@ -19,6 +19,7 @@ export class CommunityPostsNotificationComponent extends UserNotificationBaseCom
   buildUserNotificationDisplay(): UserNotificationDisplay {
     const parsedMetaData = this.parseMetaData();
     return {
+      Id: this.UserNotification.Id,
       Title: this.NotificationTitle,
       Message: parsedMetaData.Message,
       ButtonText: this.ButtonText,

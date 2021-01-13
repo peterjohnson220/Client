@@ -16,6 +16,7 @@ export class NewPeerJobsNotificationComponent extends UserNotificationBaseCompon
   buildUserNotificationDisplay(): UserNotificationDisplay {
     const parsedMetaData = this.parseMetaData();
     return {
+      Id: this.UserNotification.Id,
       Title: parsedMetaData.NotificationTitle,
       Message: parsedMetaData.Message,
       ButtonText : parsedMetaData.ButtonText,
