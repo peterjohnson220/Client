@@ -57,6 +57,7 @@
             <input
               [colorPicker]="color"
               [cpOKButton]="true"
+              [cpUseRootViewContainer]="cpUseRootViewContainer"
               (colorPickerSelect)="onColorChange($event, i)"
               [cpPosition]="'top-left'"
               [style.background]="color"
