@@ -5,9 +5,8 @@ import { ActionsSubject, Store } from '@ngrx/store';
 import { ofType } from '@ngrx/effects';
 import { Observable, Subscription } from 'rxjs';
 
-import { environment } from 'environments/environment';
 import { AsyncStateObj, NotesBase, UserContext } from 'libs/models';
-import { Images } from 'libs/constants';
+import { CloudFileLocations, Images } from 'libs/constants';
 import { PfValidators } from 'libs/forms';
 import { isNullOrUndefined } from 'libs/core/functions';
 import * as fromRootReducer from 'libs/state/state';
@@ -40,7 +39,7 @@ export class NotesManagerContentComponent implements OnInit, OnDestroy {
 
   notes$: Observable<AsyncStateObj<NotesBase[]>>;
 
-  avatarUrl = environment.avatarSource;
+  avatarUrl: string;
   defaultUserImage = Images.DEFAULT_USER;
   editModeIndex = -1;
 
@@ -56,6 +55,7 @@ export class NotesManagerContentComponent implements OnInit, OnDestroy {
 
     this.userContextSubscription = this.store.select(fromRootReducer.getUserContext).subscribe(userContext => {
       this.userContext = userContext;
+      this.avatarUrl = userContext.ConfigSettings.find(c => c.Name === 'CloudFiles_PublicBaseUrl')?.Value + CloudFileLocations.UserAvatars;
     });
 
     this.addNoteSubscription = this.actionsSubject

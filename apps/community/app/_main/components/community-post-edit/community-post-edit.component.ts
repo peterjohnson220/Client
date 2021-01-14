@@ -1,7 +1,10 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import { CommunityAttachment, CommunityPost, CommunityTopic, CommunityUpdatePost } from 'libs/models';
+import { CommunityAttachment, CommunityPost, CommunityTopic, CommunityUpdatePost, UserContext } from 'libs/models';
+import { CloudFileLocations } from 'libs/constants';
+import * as fromRootReducer from 'libs/state/state';
+
 
 import * as fromCommunityPostReplyReducer from '../../reducers';
 import * as fromCommunityPostActions from '../../actions/community-post.actions';
@@ -19,7 +22,11 @@ import { CommunityConstants } from '../../models';
 export class CommunityPostEditComponent implements OnInit, OnDestroy {
   @Input() post: CommunityPost;
 
+  communityTopics$: Observable<CommunityTopic[]>;
+  userContext$: Observable<UserContext>;
+
   communityTopicSubscription: Subscription;
+  userContextSub: Subscription;
 
   communityAttachments: CommunityAttachment[];
   communityPostEditForm: FormGroup;
@@ -28,8 +35,8 @@ export class CommunityPostEditComponent implements OnInit, OnDestroy {
   pollsType = CommunityPollTypeEnum.DiscussionPoll;
   selectedTopic: CommunityTopic;
   selectedTopicId: string;
-
-  communityTopics$: Observable<CommunityTopic[]>;
+  avatarUrl: string;
+  companyLogoUrl: string;
 
   get content() { return this.communityPostEditForm.get('content'); }
   get topic() { return this.communityPostEditForm.get('topic'); }
@@ -42,6 +49,7 @@ export class CommunityPostEditComponent implements OnInit, OnDestroy {
       content:   ['', [ Validators.required, Validators.minLength(1), Validators.maxLength(this.editMaxLength)]],
       topic: [null, [ Validators.required ]]
     });
+    this.userContext$ = this.store.select(fromRootReducer.getUserContext);
   }
 
   ngOnInit() {
@@ -50,6 +58,10 @@ export class CommunityPostEditComponent implements OnInit, OnDestroy {
         this.communityTopics = topics;
         this.selectedTopic = topics.find(p => p.Id === this.post.Topic.Id);
       }
+    });
+    this.userContextSub = this.userContext$.subscribe((userContext) => {
+      this.avatarUrl = userContext.ConfigSettings.find(c => c.Name === 'CloudFiles_PublicBaseUrl')?.Value + CloudFileLocations.UserAvatars;
+      this.companyLogoUrl = userContext.ConfigSettings.find(c => c.Name === 'CloudFiles_PublicBaseUrl')?.Value + CloudFileLocations.CompanyLogos;
     });
 
     this.communityAttachments = this.post.Attachments;

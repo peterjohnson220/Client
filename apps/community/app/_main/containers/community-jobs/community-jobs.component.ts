@@ -4,11 +4,14 @@ import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
 
+import { CommunityJob, UserContext } from 'libs/models';
+import { CloudFileLocations } from 'libs/constants';
+import * as fromRootReducer from 'libs/state/state';
+
 import { ScrollDirectionEnum } from '../../models/scroll-direction.enum';
 import * as fromCommunityJobReducer from '../../reducers';
 import * as fromCommunityJobActions from '../../actions/community-job.actions';
 
-import { CommunityJob } from 'libs/models';
 
 
 @Component({
@@ -26,11 +29,15 @@ export class CommunityJobsComponent implements OnInit, OnDestroy {
   loadingCommunityJobsError$: Observable<boolean>;
   loadingMoreCommunityJobs$: Observable<boolean>;
   hasMoreResultsOnServer$: Observable<boolean>;
+  userContext$: Observable<UserContext>;
+
+  userContextSubscription: Subscription;
   hasMoreResultsOnServerSub: Subscription;
   loadingMoreCommunityJobsSub: Subscription;
 
   loadingMoreResults: boolean;
   hasMoreResultsOnServer: boolean;
+  companyLogoUrl: string;
   isNavigationVisible = false;
   scrollTimerId: number;
   scrollerTimeout = 1000;
@@ -45,6 +52,7 @@ export class CommunityJobsComponent implements OnInit, OnDestroy {
       this.loadingMoreCommunityJobs$ = this.store.select(fromCommunityJobReducer.getLoadingMoreResults);
       this.hasMoreResultsOnServer$ = this.store.select(fromCommunityJobReducer.getHasMoreResultsOnServer);
       this.loadingCommunityJobsError$ = this.store.select(fromCommunityJobReducer.getGettingCommunityJobsError);
+      this.userContext$ = this.store.select(fromRootReducer.getUserContext);
    }
 
   ngOnInit() {
@@ -57,6 +65,10 @@ export class CommunityJobsComponent implements OnInit, OnDestroy {
     this.hasMoreResultsOnServerSub = this.hasMoreResultsOnServer$.subscribe(hmr =>
       this.hasMoreResultsOnServer = hmr
     );
+
+    this.userContextSubscription = this.userContext$.subscribe((userContext) => {
+      this.companyLogoUrl = userContext.ConfigSettings.find(c => c.Name === 'CloudFiles_PublicBaseUrl')?.Value + CloudFileLocations.CompanyLogos;
+    });
   }
 
   ngOnDestroy() {
@@ -65,6 +77,9 @@ export class CommunityJobsComponent implements OnInit, OnDestroy {
      }
      if (this.hasMoreResultsOnServerSub) {
        this.hasMoreResultsOnServerSub.unsubscribe();
+     }
+     if (this.userContextSubscription) {
+       this.userContextSubscription.unsubscribe();
      }
   }
 

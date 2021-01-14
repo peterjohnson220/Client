@@ -1,14 +1,17 @@
 import { Component, OnInit, Input, EventEmitter, Output, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import { CommunityPost } from 'libs/models';
+import { Observable, Subscription } from 'rxjs';
+
+import { CloudFileLocations } from 'libs/constants';
+import { CommunityPost, UserContext } from 'libs/models';
+import { CommunityPollTypeEnum } from 'libs/models/community/community-constants.model';
+import * as fromRootReducer from 'libs/state/state';
 
 import * as fromCommunityReducers from '../../reducers';
 import * as fromCommunityPostActions from '../../actions/community-post.actions';
 import * as fromCommunityPostReplyActions from '../../actions/community-post-reply.actions';
 import * as fromCommunityPostAddReplyViewActions from '../../actions/community-post-add-reply-view.actions';
-import { CommunityPollTypeEnum } from 'libs/models/community/community-constants.model';
-import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'pf-community-post',
@@ -27,19 +30,24 @@ export class CommunityPostComponent implements OnInit, OnDestroy {
 
   discardingPostId$: Observable<string>;
   discardingPostReplyProceed$: Observable<boolean>;
+  userContext$: Observable<UserContext>;
 
   discardingPostIdSubscription: Subscription;
   discardingPostReplyProceedSubscription: Subscription;
+  userContextSub: Subscription;
 
   showAddReply = false;
   showReplies = false;
   discardingPostId = null;
+  avatarUrl: string;
+  companyLogoUrl: string;
 
   pollsType = CommunityPollTypeEnum.DiscussionPoll;
 
   constructor(public store: Store<fromCommunityReducers.State>) {
     this.discardingPostId$ = this.store.select(fromCommunityReducers.getDiscardingPostReplyId);
     this.discardingPostReplyProceed$ = this.store.select(fromCommunityReducers.getDiscardingPostReplyProceed);
+    this.userContext$ = this.store.select(fromRootReducer.getUserContext);
   }
 
   ngOnInit() {
@@ -58,11 +66,16 @@ export class CommunityPostComponent implements OnInit, OnDestroy {
         this.showAddReply = false;
       }
     });
+   this.userContextSub = this.userContext$.subscribe((userContext) => {
+      this.avatarUrl = userContext.ConfigSettings.find(c => c.Name === 'CloudFiles_PublicBaseUrl')?.Value + CloudFileLocations.UserAvatars;
+      this.companyLogoUrl = userContext.ConfigSettings.find(c => c.Name === 'CloudFiles_PublicBaseUrl')?.Value + CloudFileLocations.CompanyLogos;
+    });
   }
 
   ngOnDestroy() {
     this.discardingPostIdSubscription.unsubscribe();
     this.discardingPostReplyProceedSubscription.unsubscribe();
+    this.userContextSub.unsubscribe();
   }
 
   hashtagClicked(tagName: string) {
