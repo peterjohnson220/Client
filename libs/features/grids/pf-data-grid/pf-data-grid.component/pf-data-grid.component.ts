@@ -157,7 +157,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
 
     this.splitViewFilters$ = this.store.select(fromReducer.getSplitViewFilters, this.pageViewId);
     this.filterableFields$ = this.store.select(fromReducer.getFilterableFields, this.pageViewId);
-    this.displayFilterPanel$ = this.store.select(fromReducer.getFilterPanelDisplay, this.pageViewId);
+
     this.savedViews$ = this.store.select(fromReducer.getSavedViews, this.pageViewId);
     this.saveViewModalOpen$ = this.store.select(fromReducer.getSaveViewModalOpen, this.pageViewId);
     this.viewIsSaving$ = this.store.select(fromReducer.getViewIsSaving, this.pageViewId);
@@ -186,7 +186,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
       }
     });
 
-    this.getGridScrolledSubscription = this.store.select(fromReducer.getGridScrolledContent, this.pageViewId).subscribe( scrolledContent => {
+    this.getGridScrolledSubscription = this.store.select(fromReducer.getGridScrolledContent, this.pageViewId).subscribe(scrolledContent => {
       if (scrolledContent && this.syncScrollWithSplit) {
         this.splitViewContainer.nativeElement.scrollTop = scrolledContent.scrollTop;
       }
@@ -229,6 +229,8 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
       if (this.actionBarConfig.AllowSaveFilter) {
         this.store.dispatch(new fromActions.LoadSavedViews(changes['pageViewId'].currentValue));
       }
+
+      this.displayFilterPanel$ = this.store.select(fromReducer.getFilterPanelDisplay, changes['pageViewId'].currentValue);
     }
 
     if (changes['linkGroups']) {
