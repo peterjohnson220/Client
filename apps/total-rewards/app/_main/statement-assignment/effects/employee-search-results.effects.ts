@@ -23,12 +23,12 @@ import * as fromEmployeeSearchResultsActions from '../actions/employee-search-re
 export class EmployeeSearchResultsEffects {
 
   @Effect()
-  getResults$ = this.searchEmployees(this.actions$.pipe(ofType(fromSearchResultsActions.GET_RESULTS)));
+  getResults$ = this.searchUnassignedEmployees(this.actions$.pipe(ofType(fromSearchResultsActions.GET_RESULTS)));
 
   @Effect()
-  getMoreResults$ = this.searchEmployees(this.actions$.pipe(ofType(fromSearchResultsActions.GET_MORE_RESULTS)));
+  getMoreResults$ = this.searchUnassignedEmployees(this.actions$.pipe(ofType(fromSearchResultsActions.GET_MORE_RESULTS)));
 
-  searchEmployees(action$: Actions): Observable<Action> {
+  searchUnassignedEmployees(action$: Actions): Observable<Action> {
     return action$
       .pipe(
         withLatestFrom(
@@ -53,7 +53,7 @@ export class EmployeeSearchResultsEffects {
             PagingOptions: this.payfactorsSearchApiModelMapper.mapResultsPagingOptionsToPagingOptions(data.pagingOptions)
           };
 
-          return this.totalRewardsSearchApiService.searchEmployees(searchRequest).pipe(
+          return this.totalRewardsSearchApiService.searchUnassignedEmployees(searchRequest).pipe(
             mergeMap((response: TotalRewardsEmployeeSearchResponse) => {
               const actions = [];
               const searchFilters = this.payfactorsSearchApiHelper.sliceSearchFiltersOptions(response.SearchFilters, searchRequest.Filters, 5);
