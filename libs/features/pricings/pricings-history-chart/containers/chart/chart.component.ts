@@ -6,13 +6,12 @@ import { Store } from '@ngrx/store';
 import Highcharts from 'highcharts';
 import {
   format,
-  Interval,
   getQuarter,
-  intervalToDuration,
   setMonth,
   setDate,
-  addYears,
-  addMonths
+  addMonths,
+  startOfDay,
+  differenceInMonths
 } from 'date-fns';
 
 import { PayMarketPricingHistory } from 'libs/models/payfactors-api';
@@ -98,7 +97,7 @@ export class ChartComponent implements OnInit, OnDestroy {
         {
           formatter: function () {
             return `<b>${this.series.name}</b>
-            <br> <b>Pricing Date: </b>${format(new Date(this.x), 'mm/dd/yyyy')}
+            <br> <b>Pricing Date: </b>${format(new Date(this.x), 'MM/dd/yyyy')}
             <br> <b>Base MRP: </b>${compPipe.transform(this.y, rate)}`;
           }
         }
@@ -109,6 +108,9 @@ export class ChartComponent implements OnInit, OnDestroy {
   }
 
   getChartOptions(): Highcharts.Options {
+
+    const chartCmp = this;
+
     return {
       chart: {
         animation: false,
@@ -129,16 +131,12 @@ export class ChartComponent implements OnInit, OnDestroy {
         labels: {
           formatter: function () {
             let dateFormatter = '%Y';
-            const startDate = new Date(this.axis.min);
-            const endDate = new Date(this.axis.max);
-            const fnsInterval: Interval = {
-              start: startDate,
-              end: endDate
-            };
-            const duration = intervalToDuration(fnsInterval);
-            if (duration.months <= 4) {
+            const startDate = setDate(startOfDay(new Date(this.axis.min)), 1);
+            const endDate = setDate(startOfDay(new Date(this.axis.max)), 1);
+            const differenceMonths = differenceInMonths(endDate, startDate);
+            if (differenceMonths <= 4) {
               dateFormatter = `%b %Y`;
-            } else if (duration.years <= 2) {
+            } else if (differenceMonths <= 24) {
               dateFormatter = `Q${getQuarter(new Date(this.value))} %Y`;
             }
             return Highcharts.dateFormat(dateFormatter, this.value);
@@ -147,34 +145,17 @@ export class ChartComponent implements OnInit, OnDestroy {
         tickPositioner: function () {
           let positions = this.tickPositions;
 
-          if(this.max && this.min){
-            const startDate = new Date(this.min);
-            const endDate = new Date(this.max);
-            const interval: Interval = {
-              start: startDate,
-              end: endDate
-            };
-            const duration = intervalToDuration(interval);
-  
-            if (duration.years > 2) {
-              positions = [];
-  
-              let curDate = setMonth(setDate(new Date(this.min), 1), 1);
-              const durationEnd = new Date(this.max);
-  
-              while (curDate < durationEnd) {
-                positions.push(curDate.getTime());
-                curDate = addYears(curDate, 1);
-              }
-            } else if (duration.months > 4) {
-              positions = [];
-              let curDate = setDate(new Date(this.min), 1);
-              const end = new Date(this.max);
-  
-              while (curDate < end) {
-                positions.push(curDate.getTime());
-                curDate = addMonths(curDate, 3);
-              }
+          if (this.max && this.min && this.max !== this.min) {
+            const startDate = setDate(startOfDay(new Date(this.min)), 1);
+            const endDate = setDate(startOfDay(new Date(this.max)), 1);
+            const differenceMonths = differenceInMonths(endDate, startDate);
+
+            if (differenceMonths > 24) {
+              positions = chartCmp.updateTickPositions(setMonth(startDate, 1), endDate, 12);
+            } else if (differenceMonths > 4) {
+              positions = chartCmp.updateTickPositions(startDate, endDate, 3);
+            } else {
+              positions = chartCmp.updateTickPositions(startDate, endDate, 1);              
             }
           }
 
@@ -195,6 +176,17 @@ export class ChartComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.getDataSubscription.unsubscribe();
     this.getFiltersSubscription.unsubscribe();
+  }
+
+  updateTickPositions(start: Date, end: Date, increment: number) {
+    const positions = [];
+    let curDate = start
+
+    while (curDate <= end) {
+      positions.push(curDate.getTime());
+      curDate = addMonths(curDate, increment);
+    }
+    return positions;
   }
 
 }
