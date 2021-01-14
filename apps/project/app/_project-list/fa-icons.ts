@@ -4,6 +4,7 @@ import { faCircle } from '@fortawesome/pro-regular-svg-icons/faCircle';
 import { faThumbtack } from '@fortawesome/pro-regular-svg-icons/faThumbtack';
 import { faEllipsisH } from '@fortawesome/pro-regular-svg-icons/faEllipsisH';
 import { faCopy } from '@fortawesome/pro-regular-svg-icons/faCopy';
+import {faTrashAlt} from '@fortawesome/pro-regular-svg-icons/faTrashAlt';
 
 export const faIcons = [
   farTimes,
@@ -11,5 +12,6 @@ export const faIcons = [
   faCircle,
   faThumbtack,
   faEllipsisH,
-  faCopy
+  faCopy,
+  faTrashAlt
 ];

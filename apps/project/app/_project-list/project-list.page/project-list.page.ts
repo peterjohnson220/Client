@@ -1,8 +1,9 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
 import {Store} from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import {BehaviorSubject, Observable, Subscription} from 'rxjs';
 import {SortDescriptor} from '@progress/kendo-data-query';
+import {NgbDropdown} from '@ng-bootstrap/ng-bootstrap';
 import cloneDeep from 'lodash/cloneDeep';
 
 import {
@@ -16,6 +17,8 @@ import { ViewField } from 'libs/models/payfactors-api/reports/request';
 
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
+import {Permissions} from 'libs/constants';
+import {PfSecuredResourceDirective} from 'libs/forms/directives';
 
 import {PageViewIds} from '../constants';
 
@@ -28,12 +31,18 @@ import * as fromProjectListPageActions from '../actions';
 })
 
 export class ProjectListPageComponent implements AfterViewInit, OnInit, OnDestroy {
+  acknowledgeDelete = false;
   colTemplates = {};
   filterTemplates = {}; // filter panel requires this even if it is blank... otherwise it gets mad.
   selectedRecordIds$: Observable<any>;
+  selectedRecordIdsSubscription: Subscription;
+  selectedRecordIds: any[];
+  selectedDropdown: NgbDropdown;
   pageViewId = PageViewIds.Projects;
   gridConfig: GridConfig;
   actionBarConfig: ActionBarConfig;
+  permissions = Permissions;
+  selectedProjectId: number;
   defaultSort: SortDescriptor[] = [{
     dir: 'desc',
     field: 'UserSessionMap_Last_Viewed'
@@ -54,9 +63,15 @@ export class ProjectListPageComponent implements AfterViewInit, OnInit, OnDestro
   @ViewChild('projectPinnedFilter') projectPinnedFilter: ElementRef;
   @ViewChild('gridRowActionsTemplate') gridRowActionsTemplate: ElementRef;
   @ViewChild('numJobsColumn') numJobsColumn: ElementRef;
+  @ViewChild(PfSecuredResourceDirective) pfSecuredResourceDirective: PfSecuredResourceDirective;
+  showDeleteProjectModal = new BehaviorSubject<boolean>(false);
+  showDeleteProjectModal$ = this.showDeleteProjectModal.asObservable();
 
   constructor( private store: Store<fromPfDataGridReducer.State>) {
     this.selectedRecordIds$ = this.store.select(fromPfDataGridReducer.getSelectedKeys, this.pageViewId);
+    this.selectedRecordIdsSubscription = this.store.select(fromPfDataGridReducer.getSelectedKeys, this.pageViewId).subscribe(sk => {
+      this.selectedRecordIds = sk || [];
+    });
     this.gridConfig = {
       PersistColumnWidth: true,
       EnableInfiniteScroll: true,
@@ -80,10 +95,6 @@ export class ProjectListPageComponent implements AfterViewInit, OnInit, OnDestro
         this.isPinned = this.isPinnedField.FilterValue === null ? ' ' : this.isPinned;
       }
     });
-  }
-
-  ngOnDestroy() {
-    this.gridfieldSubscription.unsubscribe();
   }
 
   ngAfterViewInit() {
@@ -110,8 +121,8 @@ export class ProjectListPageComponent implements AfterViewInit, OnInit, OnDestro
     this.store.dispatch(new fromProjectListPageActions.TogglePinOnDashboard(projectId));
   }
 
-  copyProject(projectId: number) {
-    this.store.dispatch(new fromProjectListPageActions.CopyProject(projectId));
+  copyProject() {
+    this.store.dispatch(new fromProjectListPageActions.CopyProject(this.selectedProjectId));
   }
 
   handleCompletedFilterChanged(value: any) {
@@ -148,5 +159,32 @@ export class ProjectListPageComponent implements AfterViewInit, OnInit, OnDestro
     }
 
     return value === 'Yes' ? 'true' : 'false';
+  }
+
+  handleSelectedRowAction(projectId: number, dropdown: any, isOpened: boolean) {
+    if (this.selectedDropdown?.isOpen() && this.selectedDropdown !== dropdown) {
+      this.selectedDropdown.close();
+    }
+    this.selectedDropdown = dropdown;
+    this.selectedProjectId = projectId;
+  }
+
+  handleModalDismissed(): void {
+    this.selectedProjectId = null;
+    this.showDeleteProjectModal.next(false);
+  }
+
+  handleModalSubmit(): void {
+    if (this.selectedProjectId) {
+      this.store.dispatch(new fromProjectListPageActions.DeleteProjects([this.selectedProjectId]));
+    } else if (this.selectedRecordIds$) {
+      this.store.dispatch(new fromProjectListPageActions.DeleteProjects(this.selectedRecordIds));
+    }
+    this.showDeleteProjectModal.next(false);
+  }
+
+  ngOnDestroy() {
+    this.selectedRecordIdsSubscription.unsubscribe();
+    this.gridfieldSubscription.unsubscribe();
   }
 }
