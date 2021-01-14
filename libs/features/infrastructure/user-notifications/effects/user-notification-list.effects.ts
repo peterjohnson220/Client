@@ -9,12 +9,13 @@ import { NotificationsApiService } from 'libs/data/payfactors-api';
 import * as fromAppNotificationsActions from 'libs/features/infrastructure/app-notifications/actions/app-notifications.actions';
 import * as fromInfiniteScrollActions from 'libs/features/search/infinite-scroll/actions/infinite-scroll.actions';
 import { PayfactorsApiModelMapper } from 'libs/features/infrastructure/user-notifications/helpers';
+import { ScrollIdConstants } from 'libs/features/search/infinite-scroll/models/scroll-id.constants';
+import { InfiniteScrollActionContext, InfiniteScrollEffectsService } from 'libs/features/search/infinite-scroll/services';
 
 import * as fromUserNotificationListActions from '../actions/user-notification-list.actions';
 import * as fromUserNotificationReducer from '../reducers';
 import { UserNotification } from '../models';
-import { InfiniteScrollActionContext, InfiniteScrollEffectsService } from 'libs/features/search/infinite-scroll/services';
-import { ScrollIdConstants } from 'libs/features/search/infinite-scroll/models/scroll-id.constants';
+import { UserNotificationEventHelperService } from '../helpers/user-notification-event-helper-service';
 
 @Injectable()
 export class UserNotificationListEffects {
@@ -51,10 +52,14 @@ export class UserNotificationListEffects {
     .pipe(
       ofType<fromUserNotificationListActions.MarkNotificationRead>(fromUserNotificationListActions.MARK_NOTIFICATION_READ),
       switchMap((action) => {
+        if (action.payload.closePopover) {
+          this.userNotificationEventHelperService.closePopoverEvent();
+        }
         return this.notificationApiService.markNotificationAsRead(action.payload.userNotificationId).pipe(
           mergeMap(response => [
             new fromAppNotificationsActions.UpdateUserNotificationUnreadCount(),
-            new fromUserNotificationListActions.MarkNotificationReadSuccess()]),
+            new fromUserNotificationListActions.MarkNotificationReadSuccess()
+          ]),
           catchError(() => of(new fromUserNotificationListActions.MarkNotificationReadError()))
         );
       })
@@ -92,6 +97,7 @@ export class UserNotificationListEffects {
     private actions$: Actions,
     private store: Store<fromUserNotificationReducer.State>,
     private notificationApiService: NotificationsApiService,
-    private infiniteScrollEffectsService: InfiniteScrollEffectsService
+    private infiniteScrollEffectsService: InfiniteScrollEffectsService,
+    private userNotificationEventHelperService: UserNotificationEventHelperService
   ) {}
 }

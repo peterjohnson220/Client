@@ -19,6 +19,7 @@ export class JobDescriptionReviewCompleteNotificationComponent extends UserNotif
   buildUserNotificationDisplay(): UserNotificationDisplay {
     const parsedMetaData = this.parseMetaData();
     return {
+      Id: this.UserNotification.Id,
       Title: this.NotificationTitle,
       Message: parsedMetaData.Message,
       ButtonText : this.ButtonText,

@@ -1,6 +1,7 @@
 import { IconPrefix, IconName } from '@fortawesome/fontawesome-svg-core';
 
 export interface UserNotificationDisplay {
+  Id: number;
   Title: string;
   Message: string;
   IsRead: boolean;
