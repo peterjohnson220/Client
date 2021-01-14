@@ -35,7 +35,6 @@ export class ProjectListPageComponent implements AfterViewInit, OnInit, OnDestro
   colTemplates = {};
   filterTemplates = {}; // filter panel requires this even if it is blank... otherwise it gets mad.
   selectedRecordIds$: Observable<any>;
-  selectedRecordIdsSubscription: Subscription;
   selectedRecordIds: any[];
   selectedDropdown: NgbDropdown;
   pageViewId = PageViewIds.Projects;
@@ -57,6 +56,7 @@ export class ProjectListPageComponent implements AfterViewInit, OnInit, OnDestro
   isPinnedField: ViewField;
 
   gridfieldSubscription: Subscription;
+  selectedRecordIdsSubscription: Subscription;
 
   @ViewChild('projectStatusColumn') projectStatusColumn: ElementRef;
   @ViewChild('projectStatusFilter') projectStatusFilter: ElementRef;
@@ -91,10 +91,18 @@ export class ProjectListPageComponent implements AfterViewInit, OnInit, OnDestro
         this.isCompletedField = fields.find(f => f.SourceName === 'Completed');
         this.isPinnedField = fields.find(f => f.SourceName === 'PinOnDashboard');
 
-        this.isCompleted = this.isCompletedField.FilterValue === null ? ' ' : this.isCompleted;
-        this.isPinned = this.isPinnedField.FilterValue === null ? ' ' : this.isPinned;
+        this.isCompleted = this.dbBitValueConverter(this.isCompletedField.FilterValue);
+        this.isPinned = this.dbBitValueConverter(this.isPinnedField.FilterValue);
       }
     });
+  }
+
+  dbBitValueConverter(dbValue: string): string {
+    if (dbValue === null) {
+      return ' ';
+    }
+
+    return dbValue === 'true' ? 'Yes' : 'No';
   }
 
   ngAfterViewInit() {

@@ -30,7 +30,7 @@
     </div>
     <div class="row">
       <div *ngFor="let field of bitFields; trackBy: trackByField"
-           [ngClass]="filterTemplates[field.SourceName].isFullSize ? 'col-12 form-group' : 'col-6 form-group'">
+           [ngClass]="filterTemplates[field.SourceName]?.isFullSize ? 'col-12 form-group' : 'col-6 form-group'">
         <pf-filter-builder
           [viewField]="field"
           [filterTemplate]="filterTemplates[field.SourceName]"
