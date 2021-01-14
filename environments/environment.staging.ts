@@ -1,8 +1,4 @@
 export const environment = {
-  avatarSource: 'https://qa00filestore001.blob.core.windows.net/publicfiles/avatars/',
-  companyLogoSource: 'https://qa00filestore001.blob.core.windows.net/publicfiles/company_logos/',
-  cloudFilesPublicBaseUrl: 'https://qa00filestore001.blob.core.windows.net/publicfiles/',
-  marketingImageSource: 'https://qa00filestore001.blob.core.windows.net/publicfiles/marketing_image/',
   production: true,
   payfactorsApiUrl: '/odata/',
   payfactorsMarketDataUrl: '/marketdata/',
