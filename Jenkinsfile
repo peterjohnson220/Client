@@ -87,20 +87,15 @@ pipeline {
               int subStrLen = branchShortName.length() < 13 ? branchShortName.length() : 13
               verDetails = "-" + branchShortName.substring(0,subStrLen) + "." + env.BUILD_NUMBER
 
-            } else if (env.BRANCH_NAME == 'Normandy/develop') {
+            // Generalized branch condition for team envs. Take this if there is a conflict.
+            } else if (env.BRANCH_NAME ==~ /.*\/develop/) {
               isAutoDeployBranch = true
-              suffix = '-Normandy'
-              octoChannel = 'Normandy'
-              env.octoEnv = 'Normandy'
-              octoVerSuffix = '-NM'
-              env.buildConfig = '--configuration=staging'
 
-			      } else if (env.BRANCH_NAME == 'Enterprise/develop') {
-              isAutoDeployBranch = true
-              suffix = '-Enterprise'
-              octoChannel = 'Enterprise'
-              env.octoEnv = 'Enterprise'
-              octoVerSuffix = '-EP'
+              teamName = env.BRANCH_NAME.split('/')[0]
+              suffix = "-${teamName}"
+              octoChannel = "${teamName}"
+              env.octoEnv = "${teamName}"
+              octoVerSuffix = "-${teamName.substring(0,3).toUpperCase()}"
               env.buildConfig = '--configuration=staging'
 
             } else {
