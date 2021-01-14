@@ -17,7 +17,7 @@
                                 <a href="{{resource.LinkUrl}}" target="_blank">{{resource.ResourceTitle}}</a>
                             </ng-template>
                             <ng-template #fileItem>
-                                <a href="{{formatFileUrl(resource)}}">{{resource.ResourceTitle}}</a>
+                                <a (click)="handleResourceClicked(resource)">{{resource.ResourceTitle}}</a>
                             </ng-template>
                         </div>
                         <div class="icon-container">
@@ -43,7 +43,7 @@
                         <a href="{{orphanResource.LinkUrl}}" target="_blank">{{orphanResource.ResourceTitle}}</a>
                     </ng-template>
                     <ng-template #orphanFileItem>
-                        <a href="{{formatFileUrl(orphanResource)}}">{{orphanResource.ResourceTitle}}</a>
+                        <a (click)="handleResourceClicked(orphanResource)">{{orphanResource.ResourceTitle}}</a>
                     </ng-template>
                 </div>
                 <div class="icon-container">
@@ -54,3 +54,8 @@
         </ul>
     </ng-container>
 </div>
+
+<pf-file-download-security-warning-modal 
+  #fileDownloadSecurityWarningModal
+  (securityWarningConfirmed)="handleSecurityWarningConfirmed($event)">
+</pf-file-download-security-warning-modal>

@@ -121,7 +121,7 @@ export class CompanyResourcesPageComponent implements OnInit, OnDestroy {
         if (!resource) {
            return;
         }
-  
+
         if (notification.Level === 'Success' && resource.Status !== KendoUploadStatus.ScanSucceeded) {
           this.store.dispatch(new fromCompanyResourcesAddResourceActions.CompanyResourceScanSuccess(resource.Id));
           this.appNotificationStore.dispatch(new fromAppNotificationsActions.DeleteNotification({notificationId: notification.NotificationId}));
