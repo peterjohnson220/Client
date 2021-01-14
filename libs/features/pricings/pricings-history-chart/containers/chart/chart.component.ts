@@ -98,8 +98,8 @@ export class ChartComponent implements OnInit, OnDestroy {
         {
           formatter: function () {
             return `<b>${this.series.name}</b>
-            <br> <b>Pricing Date - </b>${format(new Date(this.x), 'MM/DD/YYYY')}
-            <br> <b>Base MRP - </b>${compPipe.transform(this.y, rate, annualDisplay.truncatedRounded)}`;
+            <br> <b>Pricing Date: </b>${format(new Date(this.x), 'mm/dd/yyyy')}
+            <br> <b>Base MRP: </b>${compPipe.transform(this.y, rate)}`;
           }
         }
       );
@@ -146,32 +146,35 @@ export class ChartComponent implements OnInit, OnDestroy {
         },
         tickPositioner: function () {
           let positions = this.tickPositions;
-          const startDate = new Date(this.min);
-          const endDate = new Date(this.max);
-          const interval: Interval = {
-            start: startDate,
-            end: endDate
-          };
-          const duration = intervalToDuration(interval);
 
-          if (duration.years > 2) {
-            positions = [];
-
-            const curDate = setMonth(setDate(new Date(this.min), 1), 1);
-            const durationEnd = new Date(this.max);
-
-            while (curDate < durationEnd) {
-              positions.push(curDate.getTime());
-              addYears(curDate, 1);
-            }
-          } else if (duration.months > 4) {
-            positions = [];
-            const curDate = setDate(new Date(this.min), 1);
-            const end = new Date(this.max);
-
-            while (curDate < end) {
-              positions.push(curDate.getTime());
-              addMonths(curDate, 3);
+          if(this.max && this.min){
+            const startDate = new Date(this.min);
+            const endDate = new Date(this.max);
+            const interval: Interval = {
+              start: startDate,
+              end: endDate
+            };
+            const duration = intervalToDuration(interval);
+  
+            if (duration.years > 2) {
+              positions = [];
+  
+              let curDate = setMonth(setDate(new Date(this.min), 1), 1);
+              const durationEnd = new Date(this.max);
+  
+              while (curDate < durationEnd) {
+                positions.push(curDate.getTime());
+                curDate = addYears(curDate, 1);
+              }
+            } else if (duration.months > 4) {
+              positions = [];
+              let curDate = setDate(new Date(this.min), 1);
+              const end = new Date(this.max);
+  
+              while (curDate < end) {
+                positions.push(curDate.getTime());
+                curDate = addMonths(curDate, 3);
+              }
             }
           }
 
