@@ -6,6 +6,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import { AvailableJobInformationField, ControlLabel, JobDescriptionBulkExportPayload } from 'libs/features/jobs/job-description-management/models';
 
 import { JobDescriptionViewConstants } from 'libs/features/jobs/job-description-management/constants/job-description-view-constants';
+import { FileDownloadSecurityWarningModalComponent } from 'libs/ui/common';
 
 
 @Component({
@@ -17,6 +18,7 @@ import { JobDescriptionViewConstants } from 'libs/features/jobs/job-description-
 
 export class BulkExportPopoverComponent implements OnChanges {
   @ViewChild('p', { static: true }) public p: any;
+  @ViewChild('fileDownloadSecurityWarningModal', { static: true }) public fileDownloadSecurityWarningModal: FileDownloadSecurityWarningModalComponent;
 
   public selectedControlLabels: ControlLabel[] = [];
   public selectedControlLabelsAsString: string;
@@ -31,9 +33,9 @@ export class BulkExportPopoverComponent implements OnChanges {
   public includeHtmlFormatting = false;
   public jobDescriptionBulkExportPayload: JobDescriptionBulkExportPayload;
 
-
   @Input() controlLabels: ControlLabel[];
   @Input() controlLabelsLoading: boolean;
+  @Input() enableFileDownloadSecurityWarning: boolean;
   @Input() listFilterValue: string;
   @Input() gridState: State;
   @Input() noPublishedJobDescriptions: boolean;
@@ -46,11 +48,18 @@ export class BulkExportPopoverComponent implements OnChanges {
   @Output() viewSelectionChanged = new EventEmitter();
   @Output() exported = new EventEmitter();
 
+  handleExport() {
+    if (this.enableFileDownloadSecurityWarning) {
+      this.fileDownloadSecurityWarningModal.open();
+    } else {
+      this.export();
+    }
 
+    this.p.close();
+  }
 
   export() {
     this.exportLogic();
-    this.p.close();
   }
 
   exportLogic() {
@@ -104,6 +113,12 @@ export class BulkExportPopoverComponent implements OnChanges {
       this.viewNameString = '';
     }
     this.viewSelectionChanged.emit(this.viewNameString);
+  }
+
+  handleSecurityWarningConfirmed(isConfirmed) {
+    if (isConfirmed) {
+      this.export();
+    }
   }
 
   isUserDefinedViewsAvailable() {

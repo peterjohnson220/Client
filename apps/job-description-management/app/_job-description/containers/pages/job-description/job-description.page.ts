@@ -99,6 +99,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   jobDescriptionViewsAsync$: Observable<AsyncStateObj<string[]>>;
   completedStep$: Observable<boolean>;
   gettingJobDescriptionExtendedInfoSuccess$: Observable<AsyncStateObj<boolean>>;
+  enableFileDownloadSecurityWarning$: Observable<boolean>;
 
   loadingPage$: Observable<boolean>;
   loadingPageError$: Observable<boolean>;
@@ -118,11 +119,13 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   completedStepSubscription: Subscription;
   controlTypesSubscription: Subscription;
   requireSSOLoginSubscription: Subscription;
+  enableFileDownloadSecurityWarningSub: Subscription;
 
   companyName: string;
   emailAddress: string;
   companyLogoPath: string;
   jobDescription: JobDescription;
+  enableFileDownloadSecurityWarning: boolean;
   enableLibraryForRoutedJobDescriptions: boolean;
   hasCanEditJobDescriptionPermission: boolean;
   identityInWorkflow: boolean;
@@ -169,6 +172,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.enablePublicViewsInClient$ = this.settingsService.selectCompanySetting<boolean>(
       CompanySettingsEnum.JDMCoreUseClient
     );
+    this.enableFileDownloadSecurityWarning$ = this.settingsService.selectCompanySetting<boolean>(CompanySettingsEnum.FileDownloadSecurityWarning);
 
     this.requireSSOLogin$ = this.settingsService.selectCompanySetting<boolean>(
       CompanySettingsEnum.JDMExternalWorkflowsRequireSSOLogin
@@ -219,6 +223,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.completedStepSubscription.unsubscribe();
     this.requireSSOLoginSubscription.unsubscribe();
     this.publishingSubscription.unsubscribe();
+    this.enableFileDownloadSecurityWarningSub.unsubscribe();
   }
 
   appliesToFormCompleted(selected: any) {
@@ -548,6 +553,12 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.userAssignedRolesSubscription = this.userAssignedRoles$.subscribe( userRoles => {
       if (userRoles) {
         this.isCompanyAdmin = userRoles.some( x => x.RoleName === 'Company Admin' && x.Assigned);
+      }
+    });
+
+    this.enableFileDownloadSecurityWarningSub = this.enableFileDownloadSecurityWarning$.subscribe(isEnabled => {
+      if (isEnabled) {
+        this.enableFileDownloadSecurityWarning = true;
       }
     });
 
