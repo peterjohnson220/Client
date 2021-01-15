@@ -52,14 +52,13 @@
 
 <ng-template #gridRowActionsTemplate let-dataRow="dataRow">
   <div class="grid-row-actions-container d-flex">
-    <div ngbDropdown container="body" #p="ngbDropdown" class="d-inline-block k-grid-ignore-click pr-2" placement="bottom-right"
+    <div ngbDropdown container="body" #p="ngbDropdown" class="d-inline-block k-grid-ignore-click pr-3 pt-1" placement="bottom-right"
          (openChange)="handleSelectedRowAction(dataRow['UserSessionMap_UserSession_ID'], p, $event)">
-      <button ngbDropdownToggle
-              class="btn btn-secondary hide-dropdown-arrow pf-icon-btn-transparent"
-              [attr.data-qa-id]="'btn-project-list-page-inline-actions-' + dataRow['UserSessionMap_UserSession_ID']"
-      >
-        <fa-icon [icon]="['far', 'ellipsis-h']"></fa-icon>
-      </button>
+      <fa-icon
+        ngbDropdownToggle
+        class="hide-dropdown-arrow pf-icon-btn-transparent gray-text"
+        [attr.data-qa-id]="'btn-project-list-page-inline-actions-' + dataRow['UserSessionMap_UserSession_ID']"
+        [icon]="['fas', 'ellipsis-h']"></fa-icon>
       <div ngbDropdownMenu aria-labelledby="project-list-actions-{{dataRow['UserSessionMap_UserSession_ID']}}">
         <button
           ngbDropdownItem
