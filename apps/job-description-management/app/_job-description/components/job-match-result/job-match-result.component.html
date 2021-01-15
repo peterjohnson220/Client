@@ -1,6 +1,6 @@
 <div class="d-flex justify-content-between">
   <div class="job-info-container">
-    <h5>{{jobMatchResult.Name}} <small class="text-muted">({{jobMatchResult.Code}})</small></h5>
+    <h5>{{jobMatchResult.JobTitle}} <small class="text-muted">({{jobMatchResult.JobCode}})</small></h5>
 
     <ng-container *ngIf="jobMatchResult.IsSurvey; else payfactorsLabel">
       <div class="text-muted">{{jobMatchResult.SurveyPublisher}}</div>
@@ -15,17 +15,17 @@
     </ng-template>
   </div>
 
-  <div class="signal-container d-flex justify-content-between" [attr.title]="jobMatchResult.MatchStrength"
-    [class.strength-2]="jobMatchResult.MatchStrength > 30 && jobMatchResult.MatchStrength < 50"
-    [class.strength-3]="jobMatchResult.MatchStrength > 50 && jobMatchResult.MatchStrength < 70"
-    [class.strength-4]="jobMatchResult.MatchStrength > 70">
+  <div class="signal-container d-flex justify-content-between" [attr.title]="jobMatchResult.WeightedScore"
+    [class.strength-2]="jobMatchResult.WeightedScore > 30 && jobMatchResult.WeightedScore < 50"
+    [class.strength-3]="jobMatchResult.WeightedScore > 50 && jobMatchResult.WeightedScore < 70"
+    [class.strength-4]="jobMatchResult.WeightedScore > 70">
     <span><fa-icon icon="square" class="solid-square" aria-hidden="true"></fa-icon></span>
-    <span *ngIf="jobMatchResult.MatchStrength > 30"><fa-icon icon="square" class="solid-square" aria-hidden="true"></fa-icon></span>
-    <span *ngIf="jobMatchResult.MatchStrength < 30"><fa-icon [icon]="['far', 'square']" class="outline-square"></fa-icon></span>
-    <span *ngIf="jobMatchResult.MatchStrength > 50"><fa-icon icon="square" class="solid-square" aria-hidden="true"></fa-icon></span>
-    <span *ngIf="jobMatchResult.MatchStrength < 50"><fa-icon [icon]="['far', 'square']" class="outline-square"></fa-icon></span>
-    <span *ngIf="jobMatchResult.MatchStrength > 70"><fa-icon icon="square" class="solid-square" aria-hidden="true"></fa-icon></span>
-    <span *ngIf="jobMatchResult.MatchStrength < 70"><fa-icon [icon]="['far', 'square']" class="outline-square"></fa-icon></span>
+    <span *ngIf="jobMatchResult.WeightedScore > 30"><fa-icon icon="square" class="solid-square" aria-hidden="true"></fa-icon></span>
+    <span *ngIf="jobMatchResult.WeightedScore < 30"><fa-icon [icon]="['far', 'square']" class="outline-square"></fa-icon></span>
+    <span *ngIf="jobMatchResult.WeightedScore > 50"><fa-icon icon="square" class="solid-square" aria-hidden="true"></fa-icon></span>
+    <span *ngIf="jobMatchResult.WeightedScore < 50"><fa-icon [icon]="['far', 'square']" class="outline-square"></fa-icon></span>
+    <span *ngIf="jobMatchResult.WeightedScore > 70"><fa-icon icon="square" class="solid-square" aria-hidden="true"></fa-icon></span>
+    <span *ngIf="jobMatchResult.WeightedScore < 70"><fa-icon [icon]="['far', 'square']" class="outline-square"></fa-icon></span>
   </div>
 </div>
 <div class="job-description-container">
