@@ -67,6 +67,8 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
   public canRestrictJobDescriptionFromPublicView: boolean;
   public customListAreaColumns: ListAreaColumn[] = [];
   public displayedListAreaColumnNames: string[];
+  public enableFileDownloadSecurityWarning$: Observable<boolean>;
+  public enableFileDownloadSecurityWarning = false;
   public filterThrottle: Subject<any>;
   public gridDataResult$: Observable<GridDataResult>;
   public gridLoading$: Observable<boolean>;
@@ -107,6 +109,7 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
   private bulkExportError$: Observable<boolean>;
   private bulkExportErrorSubscription: Subscription;
   private enablePublicViewsInClient$: Observable<boolean>;
+  private enableFileDownloadSecurityWarningSub: Subscription;
   private gridStateSubscription: Subscription;
   private listAreaColumnsSubscription: Subscription;
   private routerParmsSubscription: Subscription;
@@ -166,14 +169,9 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
     this.deleteJobDescriptionSuccess$ = this.store.select(fromJobDescriptionReducers.getDeletingJobDescriptionSuccess);
     this.templateListItems$ = this.store.select(fromTemplateReducer.getTemplateList);
 
-    this.requireSSOLogin$ = this.settingsService.selectCompanySetting<boolean>(
-      CompanySettingsEnum.JDMExternalWorkflowsRequireSSOLogin
-    );
-
-    this.enableJdmTemplatesInClient$ = this.settingsService.selectCompanySetting<boolean>(
-      CompanySettingsEnum.JDMTemplatesUseClient
-    );
-
+    this.requireSSOLogin$ = this.settingsService.selectCompanySetting<boolean>(CompanySettingsEnum.JDMExternalWorkflowsRequireSSOLogin);
+    this.enableJdmTemplatesInClient$ = this.settingsService.selectCompanySetting<boolean>(CompanySettingsEnum.JDMTemplatesUseClient);
+    this.enableFileDownloadSecurityWarning$ = this.settingsService.selectCompanySetting<boolean>(CompanySettingsEnum.FileDownloadSecurityWarning);
 
     this.filterThrottle = new Subject();
 
@@ -437,6 +435,12 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
       this.initPostAuthCheckSubscriptions();
 
     });
+
+    this.enableFileDownloadSecurityWarningSub = this.enableFileDownloadSecurityWarning$.subscribe(isEnabled => {
+      if (isEnabled) {
+        this.enableFileDownloadSecurityWarning = true;
+      }
+    });
   }
 
   private initAuthSubscriptions() {
@@ -556,5 +560,6 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
     this.deleteJobDescriptionSuccessSubscription.unsubscribe();
     this.enabledJdmTemplatesInClientSubscription.unsubscribe();
     this.requireSSOLoginSubscription?.unsubscribe();
+    this.enableFileDownloadSecurityWarningSub.unsubscribe();
   }
 }

@@ -1,4 +1,5 @@
 import { Component, ViewChild, Input, Output, EventEmitter } from '@angular/core';
+import { FileDownloadSecurityWarningModalComponent } from 'libs/ui/common';
 
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -9,8 +10,10 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class ExportJobDescriptionModalComponent {
   @Input() jobDescriptionViews: string[];
+  @Input() enableFileDownloadSecurityWarning: boolean;
   @Output() export = new EventEmitter();
   @ViewChild('exportJobDescriptionModal', { static: true }) public exportJobDescriptionModal: any;
+  @ViewChild('fileDownloadSecurityWarningModal', { static: true }) public fileDownloadSecurityWarningModal: FileDownloadSecurityWarningModalComponent;
 
   view: string;
   exportType: string;
@@ -39,5 +42,19 @@ export class ExportJobDescriptionModalComponent {
 
   handleViewChanged(view: string): void {
     this.view = view;
+  }
+
+  handleExportClicked(): void {
+    if (this.enableFileDownloadSecurityWarning) {
+      this.fileDownloadSecurityWarningModal.open();
+    } else {
+      this.exportClicked();
+    }
+  }
+
+  handleSecurityWarningConfirmed(isConfirmed) {
+    if (isConfirmed) {
+      this.exportClicked();
+    }
   }
 }
