@@ -9,7 +9,6 @@ import { TotalRewardsStatementService } from 'libs/features/total-rewards/total-
 
 import * as fromEditStatementActions from '../actions';
 
-
 export interface State {
   statement: AsyncStateObj<Statement>;
   cloningFromTemplate: boolean;
@@ -244,6 +243,11 @@ export function reducer(state = initialState, action: fromEditStatementActions.S
       const control: ImageControl = localState.statement.obj.Pages[Page].Sections[Section].Columns[Column].Controls[Control] as ImageControl;
       control.FileName = '';
       control.FileUrl = '';
+      return localState;
+    }
+    case fromEditStatementActions.SELECT_IMAGE_CONTROL_IMAGE: {
+      const localState: State = cloneDeep(state);
+      localState.statement.saving = true;
       return localState;
     }
     case fromEditStatementActions.UPDATE_EFFECTIVE_DATE: {
