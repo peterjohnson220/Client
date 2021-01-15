@@ -189,7 +189,7 @@ export class SharedEffects {
         return this.dataViewApiService.getData(DataGridToDataViewsHelper.buildDataViewDataRequest(
           data.baseEntity.Id,
           data.fields,
-          [...DataGridToDataViewsHelper.mapFieldsToFiltersUseValuesProperty(data.fields), data.a.payload.refreshRowDataViewFilter],
+          [...DataGridToDataViewsHelper.mapFieldsToFilters(data.fields), data.a.payload.refreshRowDataViewFilter],
           { From: 0, Count: 1 },
           data.sortDescriptor,
           false,

@@ -205,7 +205,7 @@ export class UpdateFilter implements Action {
 
 export class ClearFilter implements Action {
   readonly type = CLEAR_FILTER;
-  constructor(public pageViewId: string, public field: ViewField, public resetOperator = false) { }
+  constructor(public pageViewId: string, public field: ViewField, public resetOperator = false, public filterValue: string = null) { }
 }
 
 export class ClearAllNonGlobalFilters implements Action {

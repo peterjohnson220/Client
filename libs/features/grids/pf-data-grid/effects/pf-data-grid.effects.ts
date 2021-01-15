@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 
 import { Observable, of } from 'rxjs';
 import { map, switchMap, catchError, withLatestFrom, mergeMap, groupBy, debounceTime, concatMap } from 'rxjs/operators';
-
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, Store, select } from '@ngrx/store';
 
@@ -109,7 +108,7 @@ export class PfDataGridEffects {
                 .getDataWithCount(DataGridToDataViewsHelper.buildDataViewDataRequest(
                   data.baseEntity.Id,
                   data.fields,
-                  DataGridToDataViewsHelper.mapFieldsToFiltersUseValuesProperty(data.fields),
+                  DataGridToDataViewsHelper.mapFieldsToFilters(data.fields),
                   pagingOptions,
                   data.sortDescriptor,
                   withCount,
@@ -213,9 +212,7 @@ export class PfDataGridEffects {
           data.action.viewType,
           data.gridConfig))
           .pipe(
-            map((response: any) => {
-              return new fromPfDataGridActions.SaveViewSuccess(data.action.pageViewId, response, data.action.viewType);
-            }),
+            map((response: DataViewConfig) => new fromPfDataGridActions.SaveViewSuccess(data.action.pageViewId, response, data.action.viewType)),
             catchError(error => {
               const msg = 'We encountered an error while loading your data';
               return of(new fromPfDataGridActions.HandleApiError(data.action.pageViewId, msg));
@@ -271,9 +268,7 @@ export class PfDataGridEffects {
       mergeMap(pageViewIdGroup => pageViewIdGroup.pipe(
         switchMap((action: fromPfDataGridActions.LoadSavedViews) =>
           this.dataViewApiService.getViewsByUser(PfDataGridEffects.parsePageViewId(action.pageViewId)).pipe(
-            map((response: DataViewConfig[]) => {
-              return new fromPfDataGridActions.LoadSavedViewsSuccess(action.pageViewId, response);
-            }),
+            map((response: DataViewConfig[]) => new fromPfDataGridActions.LoadSavedViewsSuccess(action.pageViewId, response)),
             catchError(error => {
               const msg = 'We encountered an error while loading your data';
               return of(new fromPfDataGridActions.HandleApiError(action.pageViewId, msg));
@@ -362,7 +357,7 @@ export class PfDataGridEffects {
         const selectedFields = DataGridToDataViewsHelper.mapFieldsToDataViewFields(selectableFields, data.sortDescriptor);
         const filters = DataGridToDataViewsHelper.getFiltersForExportView(data.fields, data.selectionField, data.selectedKeys);
         const dataView: DataView = {
-          EntityId: data.baseEntity.Id,
+          BaseEntityId: data.baseEntity.Id,
           PageViewId: data.action.pageViewId,
           Elements: selectedFields,
           Filters: filters

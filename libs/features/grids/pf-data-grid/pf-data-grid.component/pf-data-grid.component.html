@@ -145,7 +145,7 @@
           [filterTemplates]="filterPanelTemplates"
           (close)="closeFilterPanel()"
           (filterChanged)="handleFilterChanged($event)"
-          (filterCleared)="clearFilter($event)"
+          (filterCleared)="clearFilter({ field: $event, value: null} )"
           (saveFilterClicked)="saveFilterClicked()">
         </pf-filter-panel>
       </div>

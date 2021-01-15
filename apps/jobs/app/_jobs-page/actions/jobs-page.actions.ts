@@ -1,6 +1,7 @@
 import { Action } from '@ngrx/store';
 
 import { CreateProjectRequest, ChangeJobStatusRequest } from 'libs/models/payfactors-api';
+import { PayMarket } from 'libs/models/paymarket';
 
 export const SET_JOBS_PAGE_ID = '[Jobs Page] Set Jobs PageID';
 // TODO: Removed HANDLE_API_ERROR and replace it with AsyncStateObj
@@ -94,7 +95,7 @@ export class LoadCompanyPayMarkets implements Action {
 }
 export class LoadCompanyPayMarketsSuccess implements Action {
   readonly type = LOAD_COMPANY_PAYMARKETS_SUCCESS;
-  constructor(public payload: any) { }
+  constructor(public payload: PayMarket[]) { }
 }
 
 export class LoadStructureGrades implements Action {

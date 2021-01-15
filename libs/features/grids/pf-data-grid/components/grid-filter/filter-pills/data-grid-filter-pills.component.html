@@ -3,10 +3,16 @@
     <div *ngIf="lockedPillText" class="badge badge-pill">
       {{ lockedPillText }}
     </div>
-    <div class="badge badge-pill" *ngFor="let field of fields" (click)="pillClicked(field)">
-      {{ getPillDisplay(field) }}
-      <fa-icon icon="times" aria-hidden="true"></fa-icon>
-    </div>
+    <ng-container *ngFor="let field of fields">
+      <ng-container *ngIf="field.FilterValues?.length">
+        <ng-container
+          *ngFor="let filterValue of field.FilterValues"
+          [ngTemplateOutlet]="filterPill"
+          [ngTemplateOutletContext]="{field: field, filterValue: filterValue}">
+        </ng-container>
+      </ng-container>
+    </ng-container>
+    
   </div>
   <div *ngIf="fields.length > 0">
     <button (click)="clearFilters()" class="btn btn-link py-0 pr-0">
@@ -14,3 +20,10 @@
     </button>
   </div>
 </div>
+
+<ng-template #filterPill let-field="field" let-filterValue="filterValue">
+  <div class="badge badge-pill" (click)="pillClicked(field, filterValue)">
+    {{ getPillDisplay(field, filterValue) }}
+    <fa-icon icon="times" aria-hidden="true"></fa-icon>
+  </div>
+</ng-template>

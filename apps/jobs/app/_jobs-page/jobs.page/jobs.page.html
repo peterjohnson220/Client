@@ -182,18 +182,15 @@
 <ng-template #payMarketFilter>
   <div>
     <label>Pay Market:</label>
-    <kendo-dropdownlist
-      [(ngModel)]="selectedPayMarket"
-      [textField]="'Value'"
-      [valueField]="'Id'"
-      [defaultItem]="{Value:'All Pay Markets', Id: null}"
-      [data]="filteredPayMarketOptions"
-      (valueChange)="handlePayMarketFilterChanged($event)"
-      [filterable]="true"
-      (filterChange)="handlePayMarketDropdownFilter($event)"
+    <pf-treeview
       [attr.data-qa-id]="'ddm-operator-jobs-page' + payMarketField.SourceName"
-      class="k-dropdown-white form-control">
-    </kendo-dropdownlist>
+      [data]="payMarketOptions"
+      [placeholder]="'All Pay Markets'"
+      [filterable]="true"
+      [checkedKeys]="selectedPayMarkets"
+      [anchorWidth]="406"
+      (applyClicked)="handlePayMarketFilterChanged($event)">
+    </pf-treeview>
   </div>
 </ng-template>
 
@@ -220,7 +217,7 @@
     *ngIf="field"
     style="width:80px;"
     [title]="field.FilterPlaceholder"
-    [checked]="field.FilterValue"
+    [checked]="!!field.FilterValues ? field.FilterValues[0] === 'true' : false"
     [onLabel]="'Active'"
     [offLabel]="'Inactive'"
     (valueChange)="handleJobStatusFilterChanged(field, $event)"

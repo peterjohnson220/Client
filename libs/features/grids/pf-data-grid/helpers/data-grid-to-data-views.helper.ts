@@ -1,6 +1,8 @@
 import { SortDescriptor } from '@progress/kendo-data-query';
 
-import { DataView, DataViewField, DataViewFieldType, DataViewFilter, DataViewType, ViewField } from 'libs/models/payfactors-api/reports/request';
+import {
+  DataView, DataViewField, DataViewFieldType, DataViewFilter, DataViewType, ViewField
+} from 'libs/models/payfactors-api/reports/request';
 
 import { isValueRequired } from '../components/grid-filter/helpers';
 import { PagingOptions } from '../../../../models/payfactors-api/search/request';
@@ -12,14 +14,15 @@ export class DataGridToDataViewsHelper {
                        gridConfig: GridConfig): DataView {
     const selectedFields = this.mapFieldsToDataViewFields(fields, sortDescriptor, gridConfig);
     // TODO: Change the way we save filters. This assumes we never save GlobalFilters and we never save filters for Named Views
-    const filterFields = fields.filter(f => !f.IsGlobalFilter && f.FilterValue !== null && name !== null && !f.ExcludeFieldInFilterSave);
+    const filterFields = fields
+      .filter(f => !f.IsGlobalFilter && f.FilterValues !== null && name !== null && !f.ExcludeFieldInFilterSave);
     return {
       PageViewId: pageViewId,
-      EntityId: baseEntityId,
+      BaseEntityId: baseEntityId,
       Name: name,
       Type: type,
       Elements: selectedFields,
-      Filters: this.mapFieldsToFiltersUseValueProperty(filterFields)
+      Filters: this.mapFieldsToFilters(filterFields)
     };
   }
 
@@ -50,7 +53,7 @@ export class DataGridToDataViewsHelper {
     return fields.map(f => ({
       DataElementId: f.DataElementId,
       Operator: f.FilterOperator,
-      Value: f.FilterValue
+      Values: f.FilterValues
     }));
   }
 
@@ -82,27 +85,14 @@ export class DataGridToDataViewsHelper {
       : [];
   }
 
-  static mapFieldsToFiltersUseValuesProperty(fields: ViewField[]): DataViewFilter[] {
+  static mapFieldsToFilters(fields: ViewField[]): DataViewFilter[] {
     return fields
-      .filter(field => (field.FilterValue !== null || !!field.FilterValues) || !isValueRequired(field))
+      .filter(field => (!!field.FilterValues) || !isValueRequired(field))
       .map(field => <DataViewFilter>{
         EntitySourceName: field.EntitySourceName,
         SourceName: field.SourceName,
         Operator: field.FilterOperator,
-        Values: field.FilterValues ? field.FilterValues : [field.FilterValue],
-        DataType: field.DataType,
-        FilterType: field.CustomFilterStrategy
-      });
-  }
-
-  static mapFieldsToFiltersUseValueProperty(fields: ViewField[]): DataViewFilter[] {
-    return fields
-      .filter(field => field.FilterValue !== null || !isValueRequired(field))
-      .map(field => <DataViewFilter>{
-        EntitySourceName: field.EntitySourceName,
-        SourceName: field.SourceName,
-        Operator: field.FilterOperator,
-        Value: field.FilterValue,
+        Values: field.FilterValues,
         DataType: field.DataType,
         FilterType: field.CustomFilterStrategy,
         DataElementId: field.DataElementId
@@ -110,7 +100,7 @@ export class DataGridToDataViewsHelper {
   }
 
   static getFiltersForExportView(fields: ViewField[], selectionField: string, selectedKeys: number[]): DataViewFilter[] {
-    const filters = this.mapFieldsToFiltersUseValueProperty(fields);
+    const filters = this.mapFieldsToFilters(fields);
     if (!!selectedKeys && !!selectedKeys.length) {
       const field: ViewField = fields.find(f => f.SourceName === selectionField);
       for (const selectedKey of selectedKeys) {
@@ -119,7 +109,7 @@ export class DataGridToDataViewsHelper {
           EntitySourceName: field.EntitySourceName,
           SourceName: field.SourceName,
           Operator: '=',
-          Value: selectedKey.toString()
+          Values: [selectedKey.toString()]
         };
         filters.push(selectedKeysFilter);
       }

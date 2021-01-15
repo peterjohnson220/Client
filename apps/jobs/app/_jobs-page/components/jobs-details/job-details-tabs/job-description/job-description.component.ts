@@ -57,10 +57,12 @@ export class JobDescriptionComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['filters']) {
+    if (changes['filters']?.currentValue) {
       this.jobDescriptionSummary = null;
-      const companyJobIdFilter = changes['filters'].currentValue.find(i => i.SourceName === 'CompanyJob_ID').Value;
-      this.store.dispatch(new fromJobDescriptionActions.LoadJobDescription((<any>companyJobIdFilter) as number));
+      const companyJobIdFilter: PfDataGridFilter = this.filters.find(i => i.SourceName === 'CompanyJob_ID');
+      if (companyJobIdFilter?.Values?.length > 0) {
+        this.store.dispatch(new fromJobDescriptionActions.LoadJobDescription((<any>companyJobIdFilter.Values[0]) as number));
+      }
     }
   }
 

@@ -11,9 +11,9 @@ import { Permissions } from 'libs/constants';
 import { CompanyJobApiService } from 'libs/data/payfactors-api/company';
 import { MODIFY_PRICINGS } from 'libs/features/pricings/multi-match/constants';
 import {
-  ActionBarConfig, getDefaultActionBarConfig, getDefaultGridRowActionsConfig, GridRowActionsConfig, GridConfig
+  ActionBarConfig, getDefaultActionBarConfig, getDefaultGridRowActionsConfig, GridRowActionsConfig, GridConfig, PfDataGridFilter
 } from 'libs/features/grids/pf-data-grid/models';
-import { AsyncStateObj, UserContext } from 'libs/models';
+import { AsyncStateObj, GroupedListItem, UserContext } from 'libs/models';
 import { GetPricingsToModifyRequest } from 'libs/features/pricings/multi-match/models';
 import { ChangeJobStatusRequest, CreateProjectRequest, MatchedSurveyJob, ViewField } from 'libs/models/payfactors-api';
 import { SurveySearchFilterMappingDataObj, SurveySearchUserFilterType } from 'libs/features/surveys/survey-search/data';
@@ -45,8 +45,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   readonly showingActiveJobsPipe = new ShowingActiveJobs();
 
   pageViewId = PageViewIds.Jobs;
-  filteredPayMarketOptions: any;
-  payMarketOptions: any;
+  payMarketOptions: GroupedListItem[];
   structureGradeNameOptions: any;
   filteredStructureGradeNameOptions: any;
   selectedJobIds: number[] = [];
@@ -57,7 +56,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   jobStatusField: ViewField;
   payMarketField: ViewField;
   structureGradeSearchField: ViewField;
-  selectedPayMarket: any;
+  selectedPayMarkets: string[];
   selectedStructureGrade: any;
 
   selectedKeysSubscription: Subscription;
@@ -82,10 +81,10 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   peerJobId: number;
   target: string;
 
-  filters = [{
+  filters: PfDataGridFilter[] = [{
     SourceName: 'JobStatus',
     Operator: '=',
-    Value: 'true'
+    Values: ['true']
   }];
 
   defaultSort: SortDescriptor[] = [{
@@ -178,10 +177,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.pricingsToModify$ = this.store.select(fromModifyPricingsReducer.getPricingsToModify);
 
     this.companyPayMarketsSubscription = this.store.select(fromJobsPageReducer.getCompanyPayMarkets)
-      .subscribe(o => {
-        this.filteredPayMarketOptions = o;
-        this.payMarketOptions = o;
-      });
+      .subscribe(o => this.payMarketOptions = o);
 
     this.structureGradeNameSubscription = this.store.select(fromJobsPageReducer.getStructureGradeNames).subscribe(sgn => {
       this.structureGradeNameOptions = sgn.obj;
@@ -228,10 +224,9 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
         this.jobStatusField = fields.find(f => f.SourceName === 'JobStatus');
         this.payMarketField = fields.find(f => f.SourceName === 'PayMarket');
         this.structureGradeSearchField = fields.find(f => f.SourceName === 'Grade_Name');
-        this.selectedStructureGrade = this.structureGradeSearchField?.FilterValue !== null ?
-          { Value: this.structureGradeSearchField?.FilterValue, Id: this.structureGradeSearchField?.FilterValue } : null;
-        this.selectedPayMarket = this.payMarketField.FilterValue !== null ?
-          { Value: this.payMarketField.FilterValue, Id: this.payMarketField.FilterValue } : null;
+        this.selectedStructureGrade = this.structureGradeSearchField?.FilterValues?.length > 0 ?
+          { Value: this.structureGradeSearchField.FilterValues[0], Id: this.structureGradeSearchField.FilterValues[0] } : null;
+        this.selectedPayMarkets = this.payMarketField.FilterValues == null ? [] : this.payMarketField.FilterValues;
       }
     });
 
@@ -398,16 +393,16 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.store.dispatch(new fromPfDataGridActions.UpdateSelectedRecordId(this.pageViewId, null, null));
   }
 
-  handlePayMarketFilterChanged(value: any) {
-    const field = cloneDeep(this.payMarketField);
-    field.FilterValue = value.Id;
-    field.FilterOperator = '=';
+  handlePayMarketFilterChanged(payMarkets: string[]) {
+    const field: ViewField = cloneDeep(this.payMarketField);
+    field.FilterValues = payMarkets?.length > 0 ? payMarkets : null;
+    field.FilterOperator = 'in';
     this.updateField(field);
   }
 
   handleGradeFilterChanged(value: any) {
-    const field = cloneDeep(this.structureGradeSearchField);
-    field.FilterValue = value.Id;
+    const field: ViewField = cloneDeep(this.structureGradeSearchField);
+    field.FilterValues = !!value?.Id ? [value.Id] : null;
     field.FilterOperator = '=';
     this.updateField(field);
   }
@@ -415,20 +410,16 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   handleJobStatusFilterChanged(field: ViewField, value: any) {
     const newField = { ...field };
     newField.FilterOperator = '=';
-    newField.FilterValue = value;
+    newField.FilterValues = [value.toString()];
     this.store.dispatch(new fromPfDataGridActions.UpdateFilter(this.pageViewId, newField));
   }
 
-  updateField(field) {
-    if (field.FilterValue) {
+  updateField(field: ViewField) {
+    if (field?.FilterValues?.length > 0) {
       this.store.dispatch(new fromPfDataGridActions.UpdateFilter(this.pageViewId, field));
     } else {
       this.store.dispatch(new fromPfDataGridActions.ClearFilter(this.pageViewId, field));
     }
-  }
-
-  handlePayMarketDropdownFilter(value) {
-    this.filteredPayMarketOptions = this.payMarketOptions.filter((s) => s.Id.toLowerCase().indexOf(value.toLowerCase()) !== -1);
   }
 
   handleStructureGradeNameDropdownFilter(value: string) {

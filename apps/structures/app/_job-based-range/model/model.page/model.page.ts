@@ -68,12 +68,12 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
       {
         SourceName: 'CompanyStructuresRangeGroup_ID',
         Operator: '=',
-        Value: this.rangeGroupId
+        Values: [this.rangeGroupId]
       },
       {
         SourceName: 'JobStatus',
         Operator: '=',
-        Value: '1'
+        Values: ['1']
       }
     ];
 
@@ -116,7 +116,7 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
       this.rangeGroupId = params['id'];
       // This object must be being attached to the state at a later time since its being marked readonly and needs to be copied
       this.filters = cloneDeep(this.filters);
-      this.filters.find(f => f.SourceName === 'CompanyStructuresRangeGroup_ID').Value = this.rangeGroupId;
+      this.filters.find(f => f.SourceName === 'CompanyStructuresRangeGroup_ID').Values = [this.rangeGroupId];
     });
     this.metadataSub = this.metaData$.subscribe(md => {
       if (md) {
