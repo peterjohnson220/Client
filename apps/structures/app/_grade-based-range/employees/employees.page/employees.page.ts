@@ -7,6 +7,7 @@ import { Observable, Subscription } from 'rxjs';
 import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums/pf-theme-type.enum';
 import { GradeBasedPageViewIds, RangeGroupMetadata } from 'libs/models/structures';
 import { ActionBarConfig, getDefaultActionBarConfig, GridConfig, PfDataGridFilter } from 'libs/features/grids/pf-data-grid/models';
+import * as fromActions from 'libs/features/grids/pf-data-grid/actions';
 import { PfDataGridColType } from 'libs/features/grids/pf-data-grid/enums';
 
 import { PagesHelper } from '../../../shared/helpers/pages.helper';
@@ -92,14 +93,16 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
 
   onDataCutsClicked() {
     // TODO this is Employees implementation - we need to change this in the future
-    this.filter = {
-      SourceName: 'CompanyStructuresRanges_ID',
-      Operator: '=',
-      Value: this.route.snapshot.params.id
-    };
+
+    // Close filter
+    this.store.dispatch(new fromActions.SetFilterPanelDisplay(this.pageViewId, false));
 
     this.activeTab = 'DataCuts';
     this.pageViewId = this.dataCutsPageViewId;
+
+    // Update inbound filters
+    this.store.dispatch(new fromActions.UpdateInboundFilters(this.pageViewId, [this.filter]));
+
     return false;
   }
 
