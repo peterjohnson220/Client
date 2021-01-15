@@ -18,6 +18,7 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PfCommonModule } from 'libs/core';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { FormulaEditorModule } from 'libs/ui/formula-editor';
+import {ExportSchedulerModule} from 'libs/features/export-scheduler/export-scheduler';
 
 import {
   AddReportFieldsComponent, ConfigureSidebarComponent, DeleteUserWorkbookModalComponent,
@@ -28,12 +29,12 @@ import {
 import {
   FormulaFieldModalComponent, DataViewGridComponent, DataViewPageComponent, FieldsComponent, FiltersComponent,
   NumericFieldFormattingModalComponent, FormulasComponent, EditDataViewModalComponent, DuplicateDataViewModalComponent,
-  DateFieldFormattingModalComponent
+  DateFieldFormattingModalComponent, ScheduleExportModalComponent
 } from './containers';
 import * as fromFaIcons from './fa-icons';
 import { reducers } from './reducers';
 import {
-  FormulaFieldEffects, DataViewEffects, DataViewGridEffects, FiltersEffects, FieldsEffects
+  FormulaFieldEffects, DataViewEffects, DataViewGridEffects, FiltersEffects, FieldsEffects, ScheduleExportModalEffects
 } from './effects';
 import { DataViewRoutingModule } from './data-view-routing.module';
 import { DataInsightsSharedModule } from '../_shared/shared.module';
@@ -52,7 +53,8 @@ import { DataInsightsSharedModule } from '../_shared/shared.module';
       DataViewEffects,
       DataViewGridEffects,
       FiltersEffects,
-      FieldsEffects
+      FieldsEffects,
+      ScheduleExportModalEffects
     ]),
     FontAwesomeModule,
     DropDownsModule,
@@ -77,7 +79,8 @@ import { DataInsightsSharedModule } from '../_shared/shared.module';
 
     // Data Insights
     DataInsightsSharedModule,
-    FormulaEditorModule
+    FormulaEditorModule,
+    ExportSchedulerModule
   ],
 
   declarations: [
@@ -89,7 +92,7 @@ import { DataInsightsSharedModule } from '../_shared/shared.module';
     AddReportFieldsComponent, ConfigureSidebarComponent, DeleteUserWorkbookModalComponent,
     FieldGroupComponent, FilterCardComponent, BitFilterComponent, DateRangeFilterComponent, MultiSelectFilterComponent,
     NumericFilterComponent, TextFilterComponent, ReportFieldComponent, ShareReportModalComponent,
-    ViewAllFieldsComponent, FormulaCardComponent, DeleteUserFormulaModalComponent, ViewInfoComponent, ExportPopoverComponent
+    ViewAllFieldsComponent, FormulaCardComponent, DeleteUserFormulaModalComponent, ViewInfoComponent, ExportPopoverComponent, ScheduleExportModalComponent
   ]
 })
 export class DataViewModule {

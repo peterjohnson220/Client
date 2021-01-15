@@ -1,0 +1,36 @@
+<div #scheduleDataViewModal>
+
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-title">Schedule Report</h4>
+    <button type="button" [attr.data-qa-id]="'btn-close'" class="close" aria-label="Close" (click)="close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <div class="alert-bg" *ngIf="currentSchedule">
+      <div class="alert-txt"> This report is already scheduled for export. </div>
+    </div>
+    <div class="form-container d-flex flex-column pt-4">
+    <pf-export-format
+      [scheduledFormat]="currentSchedule?.Format"
+      [scheduledFormatSeparatorType]="currentSchedule?.FormatSeparatorType">
+    </pf-export-format>
+    <pf-export-frequency
+      [schedule]="currentSchedule"
+    ></pf-export-frequency>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" ngbAutofocus class="btn btn-secondary" (click)="close()">Cancel</button>
+    <div *ngIf="currentSchedule; else scheduleNotExists">
+      <button class="btn btn-danger" (click)="handleDeleteClicked()">Delete</button>
+      <button class="btn btn-primary" (click)="handleUpdateClicked();close();" [disabled]="disabled">Update</button>
+    </div>
+    <ng-template #scheduleNotExists>
+      <button class="btn btn-primary" (click)="handleSaveClicked();close();" [disabled]="disabled">Schedule</button>
+    </ng-template>
+  </div>
+
+</div>

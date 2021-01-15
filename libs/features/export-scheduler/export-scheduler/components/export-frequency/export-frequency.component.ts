@@ -108,7 +108,7 @@ export class ExportFrequencyComponent implements OnChanges {
   }
 
   populateSelectedScheduledFrequency(): void {
-    switch (this.schedule.Frequency) {
+    switch (this.schedule?.Frequency) {
       case ExportFrequencyType.Weekly:
         this.selectedFrequency = ExportFrequencyType.Weekly;
         this.scheduledWeeklyFrequency = CronExpressionHelper.getWeeklyFrequencyFromCronExpression(this.schedule.CronExpression);

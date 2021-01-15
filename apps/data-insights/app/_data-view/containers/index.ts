@@ -8,3 +8,4 @@ export * from './data-view.page';
 export * from './edit-data-view-modal';
 export * from './duplicate-data-view-modal';
 export * from './date-field-formatting-modal';
+export * from './schedule-export-modal';
