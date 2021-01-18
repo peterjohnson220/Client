@@ -86,13 +86,15 @@
 
 <ng-template #projectStatusFilter>
   <div>
-    <label>Completed:</label>
+    <label>Status:</label>
     <kendo-dropdownlist
-    [data]="customBooleanFilterOptions"
+    [data]="statusFilterOptions"
+    [textField]="'display'"
+    [valueField]="'value'"
     [filterable]="false"
-    [value]="isCompleted"
-    [attr.data-qu-id]="'completed-status-filter-' + isCompleted === ' ' ? 'null' : isCompleted"
-    (valueChange)="handleCompletedFilterChanged($event)"
+    [(ngModel)]="status"
+    [attr.data-qa-id]="'completed-status-filter'"
+    (valueChange)="handleStatusFilterChanged()"
     class="k-dropdown-white form-control"
     >
     </kendo-dropdownlist>
@@ -103,11 +105,13 @@
   <div>
     <label>Pinned:</label>
     <kendo-dropdownlist
-      [data]="customBooleanFilterOptions"
+      [data]="pinnedFilterOptions"
+      [textField]="'display'"
+      [valueField]="'value'"
       [filterable]="false"
-      [value]="isPinned"
-      [attr.data-qu-id]="'completed-status-filter-' + isPinned === ' ' ? 'null' : isPinned"
-      (valueChange)="handlePinnedFilterChanged($event)"
+      [(ngModel)]="isPinned"
+      [attr.data-qa-id]="'pinned-filter'"
+      (valueChange)="handlePinnedFilterChanged()"
       class="k-dropdown-white form-control"
     >
     </kendo-dropdownlist>
