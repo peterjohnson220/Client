@@ -178,11 +178,13 @@ export class ProjectListPageComponent implements AfterViewInit, OnInit, OnDestro
   }
 
   handleModalDismissed(): void {
+    this.acknowledgeDelete = false;
     this.selectedProjectId = null;
     this.showDeleteProjectModal.next(false);
   }
 
   handleModalSubmit(): void {
+    this.acknowledgeDelete = false;
     if (this.selectedProjectId) {
       this.store.dispatch(new fromProjectListPageActions.DeleteProjects([this.selectedProjectId]));
     } else if (this.selectedRecordIds$) {
