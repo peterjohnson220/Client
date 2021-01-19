@@ -241,6 +241,10 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
     this.store.dispatch(new fromEditStatementPageActions.UpdateSettingsColor(request));
   }
 
+  handleDisplaySettingChange(displaySettingKey: string) {
+    this.store.dispatch(new fromEditStatementPageActions.ToggleDisplaySetting({ displaySettingKey }));
+  }
+
   handleResetSettings() {
     this.store.dispatch(new fromEditStatementPageActions.ResetSettings());
   }

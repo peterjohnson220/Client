@@ -13,6 +13,7 @@ export const SAVE_SETTINGS_ERROR = '[Total Rewards/Edit Statement] Save Settings
 export const UPDATE_SETTINGS_FONT_SIZE = '[Total Rewards/Edit Statement] Update Settings Font Size';
 export const UPDATE_SETTINGS_FONT_FAMILY = '[Total Rewards/Edit Statement] Update Settings Font Family';
 export const UPDATE_SETTINGS_COLOR = '[Total Rewards/Edit Statement] Update Settings Color';
+export const TOGGLE_DISPLAY_SETTING = '[Total Rewards/Edit Statement] Toggle Display Setting';
 export const RESET_SETTINGS = '[Total Rewards/Edit Statement] Reset Settings';
 
 export class OpenSettingsPanel implements Action {
@@ -55,6 +56,11 @@ export class UpdateSettingsColor implements Action {
   constructor(public payload: requestModels.UpdateSettingsColorRequest) {}
 }
 
+export class ToggleDisplaySetting implements Action {
+  readonly type = TOGGLE_DISPLAY_SETTING;
+  constructor(public payload: { displaySettingKey: string }) {}
+}
+
 export class ResetSettings implements Action {
   readonly type = RESET_SETTINGS;
 }
@@ -69,4 +75,5 @@ export type SettingsActions =
   UpdateSettingsFontSize |
   UpdateSettingsFontFamily |
   UpdateSettingsColor |
+  ToggleDisplaySetting |
   ResetSettings;

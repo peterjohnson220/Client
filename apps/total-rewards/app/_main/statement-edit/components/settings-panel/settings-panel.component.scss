@@ -62,4 +62,7 @@ aside.settings-panel {
   a.reset-settings {
     transition: color .25s ease-out;
   }
+  .info {
+    color: $link-color;
+  }
 }

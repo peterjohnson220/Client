@@ -6,7 +6,7 @@ import { EffectsModule } from '@ngrx/effects';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ColorPickerModule } from 'ngx-color-picker';
-import { NgbDropdownModule, NgbButtonsModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownModule, NgbButtonsModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { ComboBoxModule } from '@progress/kendo-angular-dropdowns';
 
 import { PfCommonModule } from 'libs/core';
@@ -32,6 +32,7 @@ import { QuillToolbarComponent } from './components';
     FontAwesomeModule,
     NgbButtonsModule,
     NgbDropdownModule,
+    NgbTooltipModule,
     ColorPickerModule,
 
     // Payfactors

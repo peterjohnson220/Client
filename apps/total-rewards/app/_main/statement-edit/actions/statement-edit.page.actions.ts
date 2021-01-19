@@ -38,6 +38,7 @@ export type StatementEditPageActions =
   settingsActions.UpdateSettingsFontSize |
   settingsActions.UpdateSettingsFontFamily |
   settingsActions.UpdateSettingsColor |
+  settingsActions.ToggleDisplaySetting |
   settingsActions.ResetSettings |
 
   previewActions.SearchAssignedEmployees |

@@ -16,7 +16,7 @@ exports[`TrsCalculationControlComponent should display contribution values and t
   onUpdateSummaryTitleChange={[Function EventEmitter]}
 >
   <div
-    class="trs-calculation py-2 px-3"
+    class="trs-calculation py-2 px-1"
     pfmodeclassifierdirective=""
   >
     <table
@@ -200,7 +200,7 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
   onUpdateSummaryTitleChange={[Function EventEmitter]}
 >
   <div
-    class="trs-calculation py-2 px-3"
+    class="trs-calculation py-2 px-1"
     pfmodeclassifierdirective=""
   >
     <table
@@ -358,7 +358,7 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
   onUpdateSummaryTitleChange={[Function EventEmitter]}
 >
   <div
-    class="trs-calculation py-2 px-3"
+    class="trs-calculation py-2 px-1"
     pfmodeclassifierdirective=""
   >
     <table
@@ -516,7 +516,7 @@ exports[`TrsCalculationControlComponent should hide all content in the table hea
   onUpdateSummaryTitleChange={[Function EventEmitter]}
 >
   <div
-    class="trs-calculation py-2 px-3"
+    class="trs-calculation py-2 px-1"
     pfmodeclassifierdirective=""
   >
     <table
@@ -575,7 +575,9 @@ exports[`TrsCalculationControlComponent should hide all content in the table hea
             class="contribution-field summary text-right preview-mode-animation"
           >
             
-            <pf-compensation-value-placeholder />
+            <span>
+              0
+            </span>
           </td>
           
         </tr>
@@ -602,7 +604,7 @@ exports[`TrsCalculationControlComponent should render additional content in the 
   onUpdateSummaryTitleChange={[Function EventEmitter]}
 >
   <div
-    class="trs-calculation py-2 px-3"
+    class="trs-calculation py-2 px-1"
     pfmodeclassifierdirective=""
   >
     <table
@@ -679,7 +681,9 @@ exports[`TrsCalculationControlComponent should render additional content in the 
             class="contribution-field summary text-right preview-mode-animation"
           >
             
-            <pf-compensation-value-placeholder />
+            <span>
+              0
+            </span>
           </td>
           
         </tr>
@@ -705,7 +709,7 @@ exports[`TrsCalculationControlComponent should render the supplied Summary 1`] =
   onUpdateSummaryTitleChange={[Function EventEmitter]}
 >
   <div
-    class="trs-calculation py-2 px-3"
+    class="trs-calculation py-2 px-1"
     pfmodeclassifierdirective=""
   >
     <table
@@ -824,7 +828,7 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
   onUpdateSummaryTitleChange={[Function EventEmitter]}
 >
   <div
-    class="trs-calculation py-2 px-3"
+    class="trs-calculation py-2 px-1"
     pfmodeclassifierdirective=""
   >
     <table
