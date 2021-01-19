@@ -48,9 +48,30 @@ export class ProjectListPageComponent implements AfterViewInit, OnInit, OnDestro
   }];
   gridRowActionsConfig: GridRowActionsConfig = getDefaultGridRowActionsConfig();
 
-  isCompleted = ' ';
-  isPinned = ' ';
-  customBooleanFilterOptions: string[] = [' ' , 'Yes', 'No'];
+  pinnedFilterOptions = [{
+    display: '',
+    value: null
+  }, {
+    display: 'Yes',
+    value: 'true'
+  }, {
+    display: 'No',
+    value: 'false'
+  }];
+
+  statusFilterOptions = [{
+    display: '',
+    value: null
+  }, {
+    display: 'Complete',
+    value: 'Complete'
+  }, {
+    display: 'In Progress',
+    value: 'In Progress'
+  }];
+
+  status = this.statusFilterOptions[0];
+  isPinned = this.pinnedFilterOptions[0];
 
   isCompletedField: ViewField;
   isPinnedField: ViewField;
@@ -91,18 +112,18 @@ export class ProjectListPageComponent implements AfterViewInit, OnInit, OnDestro
         this.isCompletedField = fields.find(f => f.SourceName === 'Completed');
         this.isPinnedField = fields.find(f => f.SourceName === 'PinOnDashboard');
 
-        this.isCompleted = this.dbBitValueConverter(this.isCompletedField.FilterValue);
-        this.isPinned = this.dbBitValueConverter(this.isPinnedField.FilterValue);
+        this.status = this.dbValueConverter(this.isCompletedField.FilterValue, this.statusFilterOptions);
+        this.isPinned = this.dbValueConverter(this.isPinnedField.FilterValue, this.pinnedFilterOptions);
       }
     });
   }
 
-  dbBitValueConverter(dbValue: string): string {
+  dbValueConverter(dbValue: string, customFilterOptions: {display: string, value: string}[]): {display: string, value: string} {
     if (dbValue === null) {
-      return ' ';
+      return customFilterOptions[0];
     }
 
-    return dbValue === 'true' ? 'Yes' : 'No';
+    return dbValue === 'true' || dbValue === 'Complete' ? customFilterOptions[1] : customFilterOptions[2];
   }
 
   ngAfterViewInit() {
@@ -111,7 +132,7 @@ export class ProjectListPageComponent implements AfterViewInit, OnInit, OnDestro
     };
 
     this.filterTemplates = {
-      'Completed': {Template: this.projectStatusFilter, isFullSize: true},
+      'Completed': {Template: this.projectStatusFilter},
       'PinOnDashboard': {Template: this.projectPinnedFilter, isFullSize: true}
     };
 
@@ -133,21 +154,17 @@ export class ProjectListPageComponent implements AfterViewInit, OnInit, OnDestro
     this.store.dispatch(new fromProjectListPageActions.CopyProject(this.selectedProjectId));
   }
 
-  handleCompletedFilterChanged(value: any) {
-    this.isCompleted = value;
-
+  handleStatusFilterChanged() {
     const field: ViewField = cloneDeep(this.isCompletedField);
-    field.FilterValue = this.filterValueConverter(value);
+    field.FilterValue = this.status.value;
     field.FilterOperator = '=';
 
     this.updateField(field);
   }
 
-  handlePinnedFilterChanged(value: any) {
-    this.isPinned = value;
-
+  handlePinnedFilterChanged() {
     const field: ViewField = cloneDeep(this.isPinnedField);
-    field.FilterValue = this.filterValueConverter(value);
+    field.FilterValue = this.isPinned.value;
     field.FilterOperator = '=';
 
     this.updateField(field);
@@ -159,14 +176,6 @@ export class ProjectListPageComponent implements AfterViewInit, OnInit, OnDestro
     } else {
       this.store.dispatch(new fromPfDataGridActions.ClearFilter(this.pageViewId, field));
     }
-  }
-
-  filterValueConverter(value: string): string {
-    if (value === ' ') {
-      return null;
-    }
-
-    return value === 'Yes' ? 'true' : 'false';
   }
 
   handleSelectedRowAction(projectId: number, dropdown: any, isOpened: boolean) {
