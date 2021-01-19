@@ -61,7 +61,8 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   singleRecordActionBarConfig: ActionBarConfig;
   gridConfig: GridConfig;
   colTemplates = {};
-  isCollapsed: boolean;
+  isSummaryCollapsed: boolean;
+  isRangeChartCollapsed: boolean;
   defaultSort: SortDescriptor[];
   defaultPagingOptions: PagingOptions;
   fullGridActionBarConfig: ActionBarConfig;

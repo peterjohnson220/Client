@@ -1,5 +1,6 @@
 export interface DataPointSeries {
   Mid: any[];
+  Job: any[];
   TertileFirst: any[];
   TertileSecond: any[];
   QuartileFirst: any[];

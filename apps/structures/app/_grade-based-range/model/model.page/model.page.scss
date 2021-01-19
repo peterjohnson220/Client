@@ -2,6 +2,7 @@
   margin: 50px;
 }
 
+
 .card .title {
   font-weight: bold;
 }
@@ -11,4 +12,11 @@
   right: 0;
   left: 0;
   bottom: 0;
+}
+
+::ng-deep .grid-container {
+  top: unset !important;
+  right: unset !important;
+  left: unset !important;
+  bottom: unset !important;
 }

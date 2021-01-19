@@ -9,7 +9,7 @@ import { PfSearchModule } from 'libs/features/search/search';
 import { PfDataGridModule } from 'libs/features/grids/pf-data-grid';
 
 import { ModelRoutingModule } from './model-routing.module';
-import { ModelPageComponent } from './model.page/model.page';
+import { ModelPageComponent } from './model.page';
 import { HighchartsChartModule } from 'highcharts-angular';
 import { GradeBasedSharedModule } from '../shared/shared.module';
 import { SharedModule } from '../../shared/shared.module';

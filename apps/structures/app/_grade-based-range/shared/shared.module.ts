@@ -8,6 +8,8 @@ import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 import { NumericTextBoxModule, SwitchModule } from '@progress/kendo-angular-inputs';
 import { HighchartsChartModule } from 'highcharts-angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
 
 import { PfFormsModule } from 'libs/forms';
 import { RangeEditorModule } from 'libs/features/structures/range-editor';
@@ -16,11 +18,16 @@ import { PfDataGridModule } from 'libs/features/grids/pf-data-grid';
 import { FormulaEditorModule } from 'libs/ui/formula-editor';
 import { PfCommonModule } from 'libs/core';
 
-
 import * as fromFaIcons from './fa-icons';
 import { ModelGridComponent } from './containers/model-grid/model-grid.component';
 import { GradeBasedSummaryChartComponent } from './containers/grade-based-summary-chart';
 import { SharedModule } from '../../shared/shared.module';
+import { GradeBasedVerticalRangeChartComponent } from './containers/grade-based-vertical-range-chart';
+import { reducers } from './reducers';
+
+import {
+  SharedEffects
+} from './effects';
 
 @NgModule({
   imports: [
@@ -29,6 +36,10 @@ import { SharedModule } from '../../shared/shared.module';
     RouterModule,
 
     // 3rd party
+    StoreModule.forFeature('structures_gradeBasedRange_shared', reducers),
+    EffectsModule.forFeature([
+      SharedEffects
+    ]),
     NgbCollapseModule,
     FontAwesomeModule,
     NgbTabsetModule,
@@ -58,11 +69,13 @@ import { SharedModule } from '../../shared/shared.module';
   ],
   declarations: [
     ModelGridComponent,
-    GradeBasedSummaryChartComponent
+    GradeBasedSummaryChartComponent,
+    GradeBasedVerticalRangeChartComponent
   ],
   exports: [
     ModelGridComponent,
-    GradeBasedSummaryChartComponent
+    GradeBasedSummaryChartComponent,
+    GradeBasedVerticalRangeChartComponent
   ],
   providers: []
 })

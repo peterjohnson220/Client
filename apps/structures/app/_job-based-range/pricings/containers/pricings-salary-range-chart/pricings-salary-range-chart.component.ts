@@ -15,8 +15,8 @@ import { StructuresHighchartsService } from '../../../../shared/services/structu
 import { PricingsSalaryRangeChartSeries, PricingsSalaryRangeChartService } from '../../data';
 import { PricingMatchHelper } from '../../helpers';
 import { GraphHelper } from '../../../shared/helpers/graph.helper';
-import { SalaryRangeSeries } from '../../../shared/models/salary-range-series.model';
-import { DataPointSeries } from '../../../shared/models/data-point-series.model';
+import { SalaryRangeSeries } from '../../../../shared/models/salary-range-series.model';
+import { DataPointSeries } from '../../../../shared/models/data-point-series.model';
 import { RangeDistributionTypeIds } from '../../../../shared/constants/range-distribution-type-ids';
 import { RangeDistributionDataPointTypeIds } from '../../../../shared/constants/range-distribution-data-point-type-ids';
 import { StructuresPagesService } from '../../../../shared/services';
@@ -264,6 +264,7 @@ export class PricingsSalaryRangeChartComponent implements OnInit, OnDestroy {
 
       this.dataPointSeriesDataModel = {
         Mid: [],
+        Job: [],
         TertileFirst: [],
         TertileSecond: [],
         QuartileFirst: [],

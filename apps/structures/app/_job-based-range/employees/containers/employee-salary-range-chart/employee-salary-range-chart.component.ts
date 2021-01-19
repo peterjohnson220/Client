@@ -13,9 +13,9 @@ import * as fromSharedStructuresReducer from '../../../../shared/reducers';
 import { StructuresHighchartsService, StructuresPagesService } from '../../../../shared/services';
 import { EmployeeRangeChartService, EmployeeSalaryRangeChartSeries } from '../../data';
 import { GraphHelper } from '../../../shared/helpers/graph.helper';
-import { DataPointSeries } from '../../../shared/models/data-point-series.model';
+import { DataPointSeries } from '../../../../shared/models/data-point-series.model';
 import { RangeDistributionTypeIds } from '../../../../shared/constants/range-distribution-type-ids';
-import { SalaryRangeSeries } from '../../../shared/models/salary-range-series.model';
+import { SalaryRangeSeries } from '../../../../shared/models/salary-range-series.model';
 import { RangeDistributionDataPointTypeIds } from '../../../../shared/constants/range-distribution-data-point-type-ids';
 import { PagesHelper } from '../../../../shared/helpers/pages.helper';
 
@@ -296,6 +296,7 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
 
       this.dataPointSeriesDataModel = {
         Mid: [],
+        Job: [],
         TertileFirst: [],
         TertileSecond: [],
         QuartileFirst: [],
