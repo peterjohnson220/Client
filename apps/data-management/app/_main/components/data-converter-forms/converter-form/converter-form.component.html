@@ -1,0 +1,29 @@
+<div class="p-3 mb-3">
+  <p class="pb-2">Enter the values that will get converted for {{fieldName}}</p>
+  <div class="container border">
+    <div class="row border-bottom">
+      <div class="col-8 col-sm-8 font-weight-bold border-right py-2">What I'll send</div>
+      <div class="col-4 col-sm-4 font-weight-bold  py-2">Expected</div>    
+    </div>
+    <form #translateDataForm="ngForm">
+      <div *ngFor="let value of fieldValues">
+        <div class="row border">
+          <div class="col-8 col-sm-8 p-2">
+            <input type="text" 
+                  class="form-control mb-1" 
+                  [(ngModel)]=value.ClientValues
+                  name="{{value.PayfactorsName}}"
+                  placeholder="Enter provided values here (separate multiple values with a comma)" required>
+          </div>
+          <div class="col-4 col-sm-4 p-2 border-left">
+            <div class="d-inline-flex p-2">{{value.PayfactorsName}}</div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-primary px-3 float-right" (click)="saveClick()" [disabled]="!translateDataForm.valid">Save</button>
+  <button class="btn btn-outline-primary px-3 float-right" (click)="cancelClick()">Cancel</button>
+</div>
