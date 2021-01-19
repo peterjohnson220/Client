@@ -5,12 +5,14 @@ import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
 import { AsyncStateObj } from 'libs/models/state';
-import * as fromAppNotificationsMainReducer from 'libs/features/infrastructure/app-notifications/reducers';
+import { PermissionCheckEnum, Permissions } from 'libs/constants';
 import { AppNotification } from 'libs/features/infrastructure/app-notifications/models';
 import { CompanySettingsEnum } from 'libs/models/company';
 import { SettingsService } from 'libs/state/app-context/services';
 import { UserDataView, DataViewAccessLevel, SharedDataViewUser, Filter } from 'libs/ui/formula-editor';
 import { CsvFileDelimiter, ExportFileExtension } from 'libs/models/payfactors-api';
+import { AbstractFeatureFlagService, FeatureFlags, PermissionService } from 'libs/core/services';
+import * as fromAppNotificationsMainReducer from 'libs/features/infrastructure/app-notifications/reducers';
 
 import * as fromDataViewMainReducer from '../../reducers';
 import * as fromDataViewActions from '../../actions/data-view.actions';
@@ -22,6 +24,7 @@ import {
 } from '../../components';
 import { EditDataViewModalComponent } from '../edit-data-view-modal';
 import { DuplicateDataViewModalComponent } from '../duplicate-data-view-modal';
+import { ScheduleExportModalComponent } from '../schedule-export-modal';
 
 @Component({
   selector: 'pf-data-view-page',
@@ -33,6 +36,7 @@ export class DataViewPageComponent implements OnInit, OnDestroy {
   @ViewChild('duplicateDataViewModal') public duplicateDataViewModal: DuplicateDataViewModalComponent;
   @ViewChild('deleteWorkbookModal') public deleteUserWorkbookModalComponent: DeleteUserWorkbookModalComponent;
   @ViewChild('shareReportModal') public shareReportModalComponent: ShareReportModalComponent;
+  @ViewChild('scheduleExportModal') public scheduleExportModal: ScheduleExportModalComponent;
   @ViewChild(ConfigureSidebarComponent) public configureSidebar: ConfigureSidebarComponent;
 
   userDataView$: Observable<AsyncStateObj<UserDataView>>;
@@ -58,12 +62,16 @@ export class DataViewPageComponent implements OnInit, OnDestroy {
   dataViewAccessLevel: DataViewAccessLevel;
   shareableUsersLoaded: boolean;
   sharedUserPermissionsLoaded: boolean;
+  scheduleTabularReportingExportFeatureFlagEnabled: boolean;
+  hasScheduleTabularReportingExportPermission: boolean;
 
   constructor(
     private store: Store<fromDataViewMainReducer.State>,
     private appNotificationStore: Store<fromAppNotificationsMainReducer.State>,
     private settingService: SettingsService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private featureFlagService: AbstractFeatureFlagService,
+    private permissionService: PermissionService
   ) {
     this.userDataView$ = this.store.pipe(select(fromDataViewMainReducer.getUserDataViewAsync));
     this.exportingUserDataReport$ = this.store.pipe(select(fromDataViewMainReducer.getExportingUserReport));
@@ -76,6 +84,9 @@ export class DataViewPageComponent implements OnInit, OnDestroy {
     this.formulaBuilderEnabled$ = this.settingService.selectCompanySetting<boolean>(
       CompanySettingsEnum.DataInsightsFormulaBuilder
     );
+    this.scheduleTabularReportingExportFeatureFlagEnabled = this.featureFlagService.enabled(FeatureFlags.ScheduleTabularReportingExport, false);
+    this.hasScheduleTabularReportingExportPermission = this.permissionService.CheckPermission([Permissions.SCHEDULE_TABULAR_REPORT_EXPORT],
+      PermissionCheckEnum.Single);
   }
 
   ngOnInit(): void {
@@ -144,6 +155,11 @@ export class DataViewPageComponent implements OnInit, OnDestroy {
       return;
     }
     this.editDataViewModal.open();
+  }
+
+  handleScheduleClicked(): void {
+    const activeModal = this.scheduleExportModal.open();
+    activeModal.componentInstance.userDataView = this.userDataView;
   }
 
   handleDuplicateClicked(): void {

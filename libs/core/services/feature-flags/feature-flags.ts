@@ -24,4 +24,6 @@ export class FeatureFlags {
   static readonly StructuresAdvancedModelingRegressionCalculation = 'structures-advanced-modeling-regression-calculation';
   static readonly StructuresGradeBasedRangeLandingPage = 'structures-client-grade-based-range-group';
   static readonly ExportsSecurity = 'exports-security';
+  static readonly ScheduleTabularReportingExport = 'schedule-tabular-reporting-export';
+
 }
