@@ -8,7 +8,7 @@ import { generateMockPayFactorsJobResult, JobResult } from 'libs/features/add-jo
 import * as fromSearchResultsActions from 'libs/features/add-jobs/actions/search-results.actions';
 
 import { SearchResultsComponent } from './search-results.component';
-import * as fromAddJobsReducer from '../../../../../apps/project/app/_add-jobs/reducers';
+import * as fromAddJobsReducer from '../../../../../apps/legacy-content/app/_add-jobs/reducers';
 
 describe('Project - Add Jobs - Search Results', () => {
   let fixture: ComponentFixture<SearchResultsComponent>;

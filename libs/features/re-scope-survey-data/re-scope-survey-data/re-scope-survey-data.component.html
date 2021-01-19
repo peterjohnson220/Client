@@ -2,12 +2,12 @@
   [modalId]="'au-modal-re-scope-survey-data'"
   [title]="'Change Scope'"
   [size]="'xl'"
-  [isOpen$]="modalConfiguration.ShowModal$"
+  [isOpen$]="showReScopeSurveyDataModal$"
   [primaryButtonText]="'Save'"
   [windowClass]="'re-scope-survey-data-modal-container'"
   [submitEnabled]="selectedSurveyDataId > 0"
   (onDismiss)="resetModal(true)"
-  (onSubmit)="reScopeSubmitted.emit(selectedSurveyDataId);"
+  (onSubmit)="submit()"
   (onModalOpen)="resetModal(false)"
 >
   <ng-container basic-content>
@@ -36,6 +36,8 @@
             [defaultSort]="defaultSort"
             [titleActionsTemplate]="modalConfiguration.SurveyJobTemplate"
             [columnTemplates]="columnTemplates"
+            [pagingOptions]="pagingOptions"
+            [pageable]="true"
             [enableResize]="false">
           </pf-data-grid>
         </div>
@@ -58,6 +60,7 @@
                        [hideClearBtn]="false"
                        [minWidth]="275"
                        [delay]="400"
+                       [resetValue$]="clearSearch$"
                        [(ngModel)]="getClonedField(field).FilterValue"
                        (valueChanged)="handleScopeSearch(field, $event)"
                        [id]="'txt-' + field.SourceName">

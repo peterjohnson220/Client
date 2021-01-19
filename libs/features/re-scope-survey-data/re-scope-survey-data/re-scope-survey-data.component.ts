@@ -1,11 +1,11 @@
 import {
-  AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleChanges,
+  AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleChanges,
   ViewChild
 } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 
-import { Subscription } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 
 import uniq from 'lodash/uniq';
 import cloneDeep from 'lodash/cloneDeep';
@@ -14,6 +14,7 @@ import { SortDescriptor } from '@progress/kendo-data-query';
 
 import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
 import { ActionBarConfig, getDefaultActionBarConfig } from 'libs/features/pf-data-grid/models';
+import * as fromRescopeActions from 'libs/features/re-scope-survey-data/actions';
 import * as fromGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromGridReducer from 'libs/features/pf-data-grid/reducers';
 
@@ -22,6 +23,8 @@ import { ViewField } from 'libs/models/payfactors-api/reports/request';
 import { ReScopeSurveyDataModalConfiguration, ReScopeSurveyDataContext } from '../models';
 import { ReScopeSurveyDataPageViewIds } from '../constants';
 import * as fromReScopeReducer from '../reducers';
+import { PfThemeType } from '../../pf-data-grid/enums/pf-theme-type.enum';
+import { PagingOptions } from '../../../models/payfactors-api/search/request';
 
 @Component({
   selector: 'pf-re-scope-survey-data',
@@ -31,7 +34,6 @@ import * as fromReScopeReducer from '../reducers';
 
 export class ReScopeSurveyDataComponent implements OnChanges, AfterViewInit, OnDestroy {
   @Input() modalConfiguration: ReScopeSurveyDataModalConfiguration;
-  @Output() reScopeSubmitted = new EventEmitter();
   @Output() cancelChanges = new EventEmitter();
 
   pageViewId = ReScopeSurveyDataPageViewIds.ReScopeSurveyDataResults;
@@ -41,6 +43,14 @@ export class ReScopeSurveyDataComponent implements OnChanges, AfterViewInit, OnD
   selectedSurveyDataId: number;
   reScopeContextSubscription: Subscription;
   reScopeContext: ReScopeSurveyDataContext;
+  pfThemes = PfThemeType;
+  pagingOptions: PagingOptions = { From: 0, Count: 20 };
+
+  showReScopeSurveyDataModal = new BehaviorSubject<boolean>(false);
+  showReScopeSurveyDataModal$ = this.showReScopeSurveyDataModal.asObservable();
+
+  clearSearch = new BehaviorSubject<boolean>(false);
+  clearSearch$ = this.clearSearch.asObservable();
 
   actionBarConfig: ActionBarConfig;
 
@@ -53,7 +63,7 @@ export class ReScopeSurveyDataComponent implements OnChanges, AfterViewInit, OnD
   @ViewChild('currencyColumn') currencyColumn: ElementRef;
   @ViewChild('scopeSearchFilter') scopeSearchFilter: ElementRef;
 
-  constructor(private store: Store<fromGridReducer.State>) {
+  constructor(private store: Store<fromGridReducer.State>, private cdRef: ChangeDetectorRef) {
     this.actionBarConfig = {
       ...getDefaultActionBarConfig()
     };
@@ -63,7 +73,8 @@ export class ReScopeSurveyDataComponent implements OnChanges, AfterViewInit, OnD
     });
 
     this.reScopeContextSubscription = this.store.select(fromReScopeReducer.getReScopeContext).subscribe(c => {
-      if (c) {
+      // Row index check is CRUCIAL. Prevents ExpressionChangedAfterItHasBeenCheckedError because it will only run logic for the currently clicked row.
+      if (c && this.modalConfiguration && !c.loading && this.modalConfiguration.EntityId === c.obj.DataId) {
         const currentCountry = this.reScopeContext?.CountryCode;
         this.reScopeContext = c.obj;
 
@@ -81,6 +92,9 @@ export class ReScopeSurveyDataComponent implements OnChanges, AfterViewInit, OnD
             this.reScopeSurveyDataFilters = clonedFilters;
           }
         }
+
+        this.showReScopeSurveyDataModal.next(true);
+        this.cdRef.detectChanges(); // detect changes for the currently clicked row to avoid ExpressionChangedAfterItHasBeenCheckedError
       }
     });
   }
@@ -139,11 +153,18 @@ export class ReScopeSurveyDataComponent implements OnChanges, AfterViewInit, OnD
     this.selectedSurveyDataIdSubscription.unsubscribe();
   }
 
+  submit() {
+    this.store.dispatch(new fromRescopeActions.ReScopeSurveySubmit(this.selectedSurveyDataId));
+    this.showReScopeSurveyDataModal.next(false);
+  }
+
   resetModal(cancel: boolean) {
     this.store.dispatch(new fromGridActions.UpdateSelectedRecordId(this.pageViewId, null, null));
     this.store.dispatch(new fromGridActions.UpdateSortDescriptorNoDataRetrieval(this.pageViewId, this.defaultSort));
     if (cancel) {
-      this.cancelChanges.emit();
+      this.showReScopeSurveyDataModal.next(false);
+      this.clearSearch.next(true);
+      this.store.dispatch(new fromRescopeActions.ReScopeSurveyCancel());
     }
   }
 
