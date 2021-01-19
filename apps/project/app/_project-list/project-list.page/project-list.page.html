@@ -42,6 +42,15 @@
     class="btn btn-secondary pf-btn-borderless">
     <fa-icon [icon]="['far', 'trash-alt']"></fa-icon>Delete
   </button>
+  <button #shareBtn
+    class="btn btn-secondary pf-btn-borderless"
+    [attr.data-qa-id]="'btn-project-page-share'"
+    [disabled]="!(selectedRecordIds$ | async)?.length"
+    (click)="openShareModal()"
+  >
+    <fa-icon [icon]="['fal', 'share-square']"></fa-icon>
+    Share
+  </button>
 </ng-template>
 
 <ng-template #projectStatusColumn let-dataRow="dataRow" let-hover="hover">
@@ -70,6 +79,13 @@
                 ngbDropdownItem
                 (click)="showDeleteProjectModal.next(true)">
           <fa-icon [icon]="['far', 'trash-alt']"></fa-icon> Delete
+        </button>
+        <button
+          ngbDropdownItem
+          (click)="openShareFromActions(dataRow['UserSessionMap_UserSession_ID'])"
+        >
+          <fa-icon [icon]="['fal', 'share-square']"></fa-icon>
+          Share
         </button>
       </div>
     </div>
@@ -144,3 +160,7 @@
   </ng-container>
 
 </pf-modal-form>
+
+<pf-auto-share-modal
+  [modalOperation]="autoShareOperation"
+></pf-auto-share-modal>

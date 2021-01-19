@@ -216,10 +216,10 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
         }
       };
     case fromPfGridActions.LOAD_VIEW_CONFIG_SUCCESS:
-      let payload = cloneDeep(action.payload);
-      if( payload && payload.Fields ){
+      const payload = cloneDeep(action.payload);
+      if ( payload && payload.Fields ) {
         payload.Fields.forEach( v => {
-          v.DisplayName = !!v.Group? v.DisplayName.replace(`${v.Group} `,""): v.DisplayName;
+          v.DisplayName = !!v.Group ? v.DisplayName.replace(`${v.Group} `, '') : v.DisplayName;
         });
       }
       const currSplitViewFilters = payload && payload.Fields ?

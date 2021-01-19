@@ -20,7 +20,10 @@
     <hr>
     <div perfectScrollbar class="users">
       <p class="pl-4" *ngIf="searchValue?.length > 0 && filteredShareableUsers?.length === 0">
-        No results
+        No results.
+      </p>
+      <p class="pl-4" *ngIf="originalShareableUsers?.length === 0">
+        No users to share with.
       </p>
       <div *ngFor="let user of filteredShareableUsers; trackBy: trackByFn;" class="shareable-users">
         <pf-shareable-user
@@ -28,6 +31,22 @@
           [avatarUrl]="avatarUrl"
           (toggleSelectedUser)="handleToggleSelectedUser($event)">
         </pf-shareable-user>
+      </div>
+    </div>
+    <div *ngIf="modalOperation === autoShareOperation.BulkProjectShare">
+      <hr class="mt-0">
+      <div class="d-flex flex-column w-100 px-4 pb-5">
+        <span>Message to shared users</span>
+        <form id="custom-email-form" [formGroup]="emailForm" class="mt-3">
+        <textarea
+          #customEmailMessage
+          class="custom-email-message form-control w-100"
+          formControlName="CustomEmailMessage"
+          [attr.data-qa-id]="'txt-custom-email-message'"
+          [attr.rows]="5"
+        >
+        </textarea>
+        </form>
       </div>
     </div>
   </ng-container>
