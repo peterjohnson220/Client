@@ -28,15 +28,15 @@
 </pf-data-grid>
 
 <ng-template #aboveGridTemplate>
-  <div class="card">
-    <div class="card-header" (click)="isCollapsed = !isCollapsed" [style.cursor]="'pointer'">
+  <div class="card grade-summary-container">
+    <div class="card-header" (click)="isSummaryCollapsed = !isSummaryCollapsed" [style.cursor]="'pointer'">
       <span class="title">Model Summary</span>
       <fa-icon
         class="float-right fa-lg fa-arrow-right mr-3 arrow-icon"
-        [icon]="['far', isCollapsed ? 'angle-right' : 'angle-down']">
+        [icon]="['far', isSummaryCollapsed ? 'angle-right' : 'angle-down']">
       </fa-icon>
     </div>
-    <div class="card-body collapse" [ngbCollapse]="isCollapsed">
+    <div class="card-body collapse" [ngbCollapse]="isSummaryCollapsed">
       <pf-data-grid
         [pageViewId]="modelSummaryPageViewId"
         [showTitle]="false"
@@ -55,6 +55,18 @@
       </pf-data-grid>
 
       <pf-grade-based-summary-chart></pf-grade-based-summary-chart>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header" (click)="isRangeChartCollapsed = !isRangeChartCollapsed" [style.cursor]="'pointer'">
+      <span class="title">Ranges</span>
+      <fa-icon
+        class="float-right fa-lg fa-arrow-right mr-3 arrow-icon"
+        [icon]="['far', isRangeChartCollapsed ? 'angle-right' : 'angle-down']">
+      </fa-icon>
+    </div>
+    <div class="card-body collapse" [ngbCollapse]="isRangeChartCollapsed">
+      <pf-grade-based-vertical-range-chart></pf-grade-based-vertical-range-chart>
     </div>
   </div>
 </ng-template>

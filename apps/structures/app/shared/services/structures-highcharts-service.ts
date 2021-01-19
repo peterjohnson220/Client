@@ -104,6 +104,14 @@ export class StructuresHighchartsService {
     return null;
   }
 
+  static getJobDataPoint(xCoordinate, jobData) {
+    return {
+      x: xCoordinate,
+      y: jobData.mrp,
+      jobTitle: jobData.jobTitle
+    };
+  }
+
   static getDataPoint(xCoordinate, dataPointTypeId, jobRangeData, hasCurrentStructure, chartLocale, metaData) {
     let dataPointValue;
     let dataPointCurrentValue;
