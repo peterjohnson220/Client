@@ -86,9 +86,9 @@
         </pf-async-container>
       </ng-container>
       <ng-container *ngIf="resourceForm.controls['resourceName'].valid && resourceForm.controls['urlName'].pristine && resourceForm.controls['kendoUpload'].pristine && isFormSubmitted">
-        <label class="alert alert-danger">Please provide a URL or file for this resource.</label>
+        <label class="alert alert-danger">Please provide a URL or valid file for this resource.</label>
       </ng-container>
-      <ng-container *ngIf="unsafeUrlFound">
+      <ng-container *ngIf="unsafeUrlFound && isFormSubmitted">
         <label class="alert alert-danger">{{addingCompanyResourceErrorMsg}}</label>
       </ng-container>
     </ng-container>

@@ -96,13 +96,15 @@ export class ResourceModalComponent implements OnInit, OnDestroy {
         this.fileToUpload.Status = KendoUploadStatus.InvalidExtension;
 
         if (this.uploadedFiles.length > 0) {
-          // TODO: Clean up orphaned cloud resource 
+          // TODO: Clean up orphaned cloud resource
           // this.store.dispatch(new fromCompanyResourcesAddResourceActions.DiscardCompanyResource(this.uploadedFiles[0].CloudFileName));
           this.uploadedFiles.splice(0);
         }
 
         this.uploadedFiles.push(this.fileToUpload);
       }
+
+      this.isFileSelected = true;
     });
   }
 
@@ -115,13 +117,12 @@ export class ResourceModalComponent implements OnInit, OnDestroy {
     this.fileToUpload.Status = KendoUploadStatus.UploadInProgress;
 
     if (this.uploadedFiles.length > 0) {
-      // TODO: Clean up orphaned cloud resource 
+      // TODO: Clean up orphaned cloud resource
       // this.store.dispatch(new fromCompanyResourcesAddResourceActions.DiscardCompanyResource(this.uploadedFiles[0].CloudFileName));
       this.uploadedFiles.splice(0);
     }
 
     this.uploadedFiles.push(this.fileToUpload);
-
     this.companyResourceUploadState.Resources = this.uploadedFiles;
     this.store.dispatch(new fromCompanyResourcesAddResourceActions.SaveCompanyResourcesUploadState(this.companyResourceUploadState));
     this.isFileSelected = true;
@@ -206,12 +207,14 @@ export class ResourceModalComponent implements OnInit, OnDestroy {
   }
 
   onFormSubmit() {
-    if ((this.resourceForm.controls['resourceName'].valid && this.resourceForm.controls['urlName'].valid && !this.isFileSelected) || 
-    (this.resourceForm.controls['resourceName'].valid && this.uploadedFiles.every(f => f.Status === KendoUploadStatus.ScanSucceeded))) {      
+    const scansComplete = this.uploadedFiles.length > 0 && this.uploadedFiles.every(f => f.Status === KendoUploadStatus.ScanSucceeded);
+
+    if ((this.resourceForm.controls['resourceName'].valid && this.resourceForm.controls['urlName'].valid && !this.isFileSelected) ||
+        (this.resourceForm.controls['resourceName'].valid && scansComplete && this.isFileSelected)) {
       this.store.dispatch(new fromCompanyResourcesActions.AddingCompanyResource(this.createResource()));
-    } else {
-      this.isFormSubmitted = true;
     }
+
+    this.isFormSubmitted = true;
   }
 
   validateName(control: FormControl) {
@@ -232,11 +235,11 @@ export class ResourceModalComponent implements OnInit, OnDestroy {
     const isUrl: boolean = /^(http[s]?:\/\/){0,1}(www\.){0,1}[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,5}[\.]{0,1}/.test(url) && url.trim().indexOf(' ') === -1;
 
     if (isUrl) {
-      this.unsafeUrlFound = false;      
-      return null
+      this.unsafeUrlFound = false;
+      return null;
     }
 
-    return {isInvalidUrl: true}
+    return { isInvalidUrl: true };
   }
 
   private createForm() {
@@ -245,17 +248,6 @@ export class ResourceModalComponent implements OnInit, OnDestroy {
       'folderName': [undefined, {validators: [Validators.maxLength(50), this.validateName]}],
       'urlName': [undefined, {validators: [this.validateUrl.bind(this)], updateOn: 'blur'}],
       'kendoUpload': [undefined]
-    }, {
-      validator: (formControl) => {
-        const urlName = formControl.controls['urlName'];
-        const kendoUpload = formControl.controls['kendoUpload'];
-
-        if (urlName !== undefined && kendoUpload !== undefined) {
-          if ( !((urlName.value && urlName.value.length > 0) || (kendoUpload.value && kendoUpload.value.length )) ) {
-            return {invalidUrlOrFile: true};
-          }
-        }
-      }
     });
   }
 
@@ -288,7 +280,7 @@ export class ResourceModalComponent implements OnInit, OnDestroy {
         this.addingCompanyResourceErrorMsg = response;
         this.unsafeUrlFound = true;
       }
-    })
+    });
   }
 
   private createResource() {
