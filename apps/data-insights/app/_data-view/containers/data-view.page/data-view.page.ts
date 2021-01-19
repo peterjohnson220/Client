@@ -85,7 +85,7 @@ export class DataViewPageComponent implements OnInit, OnDestroy {
       CompanySettingsEnum.DataInsightsFormulaBuilder
     );
     this.scheduleTabularReportingExportFeatureFlagEnabled = this.featureFlagService.enabled(FeatureFlags.ScheduleTabularReportingExport, false);
-    this.hasScheduleTabularReportingExportPermission = this.permissionService.CheckPermission([Permissions.SCHEDULE_TABULAR_REPORT_EXPORT],
+    this.hasScheduleTabularReportingExportPermission = this.permissionService.CheckPermission([Permissions.SCHEDULE_TABULAR_REPORT_EXPORT_DATA_INSIGHT],
       PermissionCheckEnum.Single);
   }
 
