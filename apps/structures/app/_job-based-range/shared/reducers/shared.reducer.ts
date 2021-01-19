@@ -8,7 +8,8 @@ import { RangeGroupMetadata } from 'libs/models/structures';
 import { AsyncStateObjHelper } from 'libs/core';
 
 import * as fromSharedActions from '../actions/shared.actions';
-import { RangeDistributionTypeIds } from '../constants/range-distribution-type-ids';
+import { RangeDistributionTypeIds } from '../../../shared/constants/range-distribution-type-ids';
+import { SelectedPeerExchangeModel } from '../models';
 
 export interface State {
   metadata: RangeGroupMetadata;
@@ -21,6 +22,7 @@ export interface State {
   overrideMessages: string[];
   structureHasSettings: AsyncStateObj<any>;
   gettingExchanges: AsyncStateObj<GenericKeyValue<number, string>[]>;
+  selectedPeerExchange: SelectedPeerExchangeModel;
 }
 
 const initialState: State = {
@@ -46,7 +48,8 @@ const initialState: State = {
   compareEnabled: false,
   structureHasSettings: generateDefaultAsyncStateObj<any>(null),
   overrideMessages: [],
-  gettingExchanges: generateDefaultAsyncStateObj<GenericKeyValue<number, string>[]>(null)
+  gettingExchanges: generateDefaultAsyncStateObj<GenericKeyValue<number, string>[]>(null),
+  selectedPeerExchange: null
 };
 
 export function reducer(state = initialState, action: fromSharedActions.SharedActions): State {
@@ -262,6 +265,12 @@ export function reducer(state = initialState, action: fromSharedActions.SharedAc
         gettingExchanges: gettingExchangesClone
       };
     }
+    case fromSharedActions.SET_SELECTED_PEER_EXCHANGE: {
+      return {
+        ...state,
+        selectedPeerExchange: action.payload
+      };
+    }
     default:
       return state;
   }
@@ -277,6 +286,7 @@ export const getCompareEnabled = (state: State) => state.compareEnabled;
 export const getDistinctOverrideMessages  = (state: State) => state.overrideMessages;
 export const getStructureHasSettings = (state: State) => state.structureHasSettings;
 export const getCompanyExchanges = (state: State) => state.gettingExchanges;
+export const getSelectedPeerExchange = (state: State) => state.selectedPeerExchange;
 
 export const addRoundingSetting = (name: string, setting: RoundingSetting, settings: RoundingSettingsDataObj) => {
   return settings[name] = setting;

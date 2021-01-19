@@ -18,3 +18,17 @@
 .no-margin-bottom {
   margin-bottom: 0;
 }
+
+.formula-tooltip-wrapper {
+  position: absolute;
+  top: 0;
+  right: -205px;
+}
+
+.formula-tooltip-wrapper .fa-icon-wrapper {
+  width: 200px;
+}
+
+.formula-required-error {
+  margin-top: -35px;
+}

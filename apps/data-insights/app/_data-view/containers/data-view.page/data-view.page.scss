@@ -1,6 +1,7 @@
 @import 'colors';
 @import 'data-insights-variables';
 @import 'common/common-variables';
+@import 'data-insights-styles';
 
 ::ng-deep {
   .page-header {
@@ -32,21 +33,8 @@
 .actions {
   min-width: 185px;
   margin: 0.5rem 1rem 0.5rem 0.5rem;
-
-  .btn {
-    margin-left: .75rem;
-    border: 1px solid transparent;
-
-    &:hover {
-      border: 1px solid #CCC;
-    }
-
-    fa-icon {
-      color: #777777;
-      font-size: 1.25rem;
-    }
-  }
 }
+
 .view-info {
   margin-left: .5rem;
   margin-top: .5rem;

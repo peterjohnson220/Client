@@ -23,7 +23,7 @@ import {
   AddReportFieldsComponent, ConfigureSidebarComponent, DeleteUserWorkbookModalComponent,
   FieldGroupComponent, FilterCardComponent, BitFilterComponent, DateRangeFilterComponent, MultiSelectFilterComponent,
   NumericFilterComponent, TextFilterComponent, ReportFieldComponent, ShareReportModalComponent,
-  ViewAllFieldsComponent, FormulaCardComponent, DeleteUserFormulaModalComponent, ViewInfoComponent
+  ViewAllFieldsComponent, FormulaCardComponent, DeleteUserFormulaModalComponent, ViewInfoComponent, ExportPopoverComponent
 } from './components';
 import {
   FormulaFieldModalComponent, DataViewGridComponent, DataViewPageComponent, FieldsComponent, FiltersComponent,
@@ -89,7 +89,7 @@ import { DataInsightsSharedModule } from '../_shared/shared.module';
     AddReportFieldsComponent, ConfigureSidebarComponent, DeleteUserWorkbookModalComponent,
     FieldGroupComponent, FilterCardComponent, BitFilterComponent, DateRangeFilterComponent, MultiSelectFilterComponent,
     NumericFilterComponent, TextFilterComponent, ReportFieldComponent, ShareReportModalComponent,
-    ViewAllFieldsComponent, FormulaCardComponent, DeleteUserFormulaModalComponent, ViewInfoComponent
+    ViewAllFieldsComponent, FormulaCardComponent, DeleteUserFormulaModalComponent, ViewInfoComponent, ExportPopoverComponent
   ]
 })
 export class DataViewModule {

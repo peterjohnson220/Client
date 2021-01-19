@@ -14,7 +14,7 @@
     </div>
   </div>
 
-  <div *ngIf="metadata">
+  <div *ngIf="metadata" [ngClass]="{ 'return-button': adjustMetadata }">
     <span class="text-muted mt-2">{{ metadata.Paymarket }}, {{ metadata.Rate }}, {{ metadata.Currency }}</span>
   </div>
 </div>

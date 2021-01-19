@@ -1,7 +1,7 @@
 <div (click)="selectUserToggle(user)" class="d-flex pb-4 user-row">
   <img class="rounded-circle user-image" [src]="avatarUrl + user.UserPicture" src-fallback="{{ avatarUrl + 'default_user.png' }}" alt="">
   <div class="w-100 d-flex flex-column pl-4">
-    <span class="font-weight-bold">{{user.FirstName}} {{user.LastName}}</span>
+    <span class="font-weight-bold">{{user.FullName}}</span>
     <span class="font-weight-lighter">{{user.Title}}</span>
   </div>
   <div class="flex-shrink-1">

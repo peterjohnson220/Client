@@ -76,6 +76,13 @@
             </span>
           </div>
         </div>
+        <ng-container *ngFor="let editorId of getRichTextIds()">
+          <pf-quill-toolbar
+            *ngIf="mode === modeEnum.Edit"
+            [toolbarId]="'quill-editor-toolbar-' + editorId" [isToolbarActive]="editorId === (activeRichTextEditorId$ | async)">
+          </pf-quill-toolbar>
+        </ng-container>
+
         <pf-total-rewards-statement
           [statement]="statement"
           [mode]="mode"
@@ -83,6 +90,7 @@
           [employeeRewardsData]="(employeeRewardsDataAsync$ | async)?.obj"
           [companyUdfs]="(companyUdfAsync$ | async)?.obj"
           [visibleFieldsCount]="visibleFieldsCount$ | async"
+          [activeEditorId]="activeRichTextEditorId$ | async"
           (onControlTitleChange)="handleOnControlTitleChange($event)"
           (onCalculationControlCompFieldTitleChange)="handleOnCalculationControlCompFieldTitleChange($event)"
           (onCalculationControlSummaryTitleChange)="handleOnCalculationControlSummaryTitleChange($event)"
@@ -93,6 +101,7 @@
           (onSaveImage)="handleSaveImage($event)"
           (onRemoveImage)="handleRemoveImage($event)"
           (onEffectiveDateChange)="handleEffectiveDateChange($event)"
+          (onRTEFocusChange)="handleRTEFocusChange($event)"
         ></pf-total-rewards-statement>
       </div>
     </pf-async-container>

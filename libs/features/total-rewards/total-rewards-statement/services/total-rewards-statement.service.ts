@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { EmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards';
 
-import { Statement, CalculationControl, CompensationField, TotalRewardsControlEnum } from '../models';
+import { Statement, CalculationControl, CompensationField, TotalRewardsControlEnum, BaseControl } from '../models';
 import { CurrentControlIndexResponse } from '../models/current-control-index-response';
 import { TrsConstants } from '../constants/trs-constants';
 
@@ -130,5 +130,19 @@ export class TotalRewardsStatementService {
       sum += TotalRewardsStatementService.sumCalculationControl(calculationControl, employeeRewardsData);
     });
     return sum;
+  }
+
+  static applyFuncToEachControl(statement: Statement, functionToCallWithControl: any): void {
+    statement?.Pages?.forEach(
+      p => p.Sections?.forEach(
+        s => s.Columns?.forEach(
+          c => c.Controls?.forEach(
+            cc => {
+              functionToCallWithControl(cc);
+            }
+          )
+        )
+      )
+    );
   }
 }

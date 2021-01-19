@@ -9,6 +9,7 @@ import {
   CurrentRangeGroupRequestModel,
   GetStructureHasSettingsRequestModel,
 } from 'libs/models/payfactors-api/structures/request';
+import { SelectedPeerExchangeModel } from '../models';
 
 export const SET_METADATA = '[Structures - Job Based Range - Shared] Set Metadata';
 export const RECALCULATE_RANGES_WITHOUT_MID = '[Structures - Job Based Range - Shared] Recalculate Ranges Without Mid';
@@ -46,6 +47,7 @@ export const GET_STRUCTURE_HAS_SETTINGS_ERROR = '[Structures - Job Based Range -
 export const GET_COMPANY_EXCHANGES = '[Structures - Job Based Range - Shared] Get Company Exchanges';
 export const GET_COMPANY_EXCHANGES_SUCCESS = '[Structures - Job Based Range - Shared] Get Company Exchanges Success';
 export const GET_COMPANY_EXCHANGES_ERROR = '[Structures - Job Based Range - Shared] Get Company Exchanges Error';
+export const SET_SELECTED_PEER_EXCHANGE = '[Structures - Job Based Range - Shared] Set Selected Peer Exchange';
 
 
 export class SetMetadata implements Action {
@@ -263,6 +265,12 @@ export class GetCompanyExchangesError implements Action {
   constructor(public payload: any) {}
 }
 
+export class SetSelectedPeerExchange implements Action {
+  readonly type = SET_SELECTED_PEER_EXCHANGE;
+
+  constructor(public payload: SelectedPeerExchangeModel) {}
+}
+
 export type SharedActions
   = SetMetadata
   | RecalculateRangesWithoutMid
@@ -300,5 +308,6 @@ export type SharedActions
   | GetDistinctOverrideMessagesError
   | GetCompanyExchanges
   | GetCompanyExchangesSuccess
-  | GetCompanyExchangesError;
+  | GetCompanyExchangesError
+  | SetSelectedPeerExchange;
 

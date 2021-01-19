@@ -20,7 +20,9 @@ export class JobDescriptionWorkflowCompareEffects {
         this.jobDescriptionApiService.getWorkflowCompare(
           action.payload.jobDescriptionId,
           action.payload.sourceStepNumber,
-          action.payload.comparisonStepNumber).pipe(
+          action.payload.sourceAbsoluteIterationNumber,
+          action.payload.comparisonStepNumber,
+          action.payload.comparisonAbsoluteIterationNumber).pipe(
           map((response) => {
             return new fromJobDescriptionWorkflowCompareActions.LoadJobDescriptionComparisonSuccess(response);
           }),

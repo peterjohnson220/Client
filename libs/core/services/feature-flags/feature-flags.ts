@@ -13,6 +13,7 @@ export class FeatureFlags {
   static readonly EmployeeTagsLoaderConfiguration = 'employee-tag-loader-configuration';
   static readonly EmployeeDetails = 'employee-details';
   static readonly StructureDetails = 'structure-details';
+  static readonly PricingHistoryChart = 'pricing-history-chart';
   static readonly LoaderDashboardRedrops = 'loader-dashboard-redrops';
   static readonly PricingMatchNotesTab = 'pricing-match-notes-tab';
   static readonly LoadAndExportsFilesCards = 'dm-load-export-files-card';
@@ -20,4 +21,6 @@ export class FeatureFlags {
   static readonly CustomizeScopeInMultimatchModal = 'customize-scope-in-multimatch-modal';
   static readonly JdmOutboundIntgration = 'dm-jdm-outbound-integration';
   static readonly StructuresAdvancedModelingRegressionCalculation = 'structures-advanced-modeling-regression-calculation';
+  static readonly StructuresGradeBasedRangeLandingPage = 'structures-client-grade-based-range-group';
+  static readonly ExportsSecurity = 'exports-security';
 }

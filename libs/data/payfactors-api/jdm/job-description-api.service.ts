@@ -183,11 +183,14 @@ export class JobDescriptionApiService {
     }, (response) => JSON.parse(response.value));
   }
 
-  getWorkflowCompare(jobDescriptionId: number, sourceStepNumber: number, comparisonStepNumber: number) {
+  getWorkflowCompare(jobDescriptionId: number, sourceStepNumber: number, sourceAbsoluteIterationNumber: string,
+                     comparisonStepNumber: number, comparisonAbsoluteIterationNumber: string) {
     return this.payfactorsApiService.get(`${this.endpoint}(${jobDescriptionId})/Default.GetWorkflowCompare`, {
       params: {
         sourceStepNumber,
-        comparisonStepNumber
+        sourceAbsoluteIterationNumber,
+        comparisonStepNumber,
+        comparisonAbsoluteIterationNumber
       }
     }, (response) => JSON.parse(response.value));
   }

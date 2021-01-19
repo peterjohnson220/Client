@@ -8,6 +8,7 @@ import { GridModule } from '@progress/kendo-angular-grid';
 import { LayoutModule } from '@progress/kendo-angular-layout';
 
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 import * as fromFaIcons from './fa-icons';
 
@@ -33,6 +34,7 @@ import { SecurityManagementSettingsComponent, SaveSecuritySettingsModalComponent
     GridModule,
     LayoutModule,
     FontAwesomeModule,
+    NgbTooltipModule,
 
     // Payfactors
     PfCommonUIModule,

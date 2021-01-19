@@ -65,6 +65,7 @@ export class Permissions {
   public static HRIS_INBOUND_INTEGRATION = 'HRIS Inbound Integration';
   public static HRIS_OUTBOUND_INTEGRATION = 'HRIS Outbound Integration';
   public static CREATE_JOB_HIERARCHY = 'Create Job Hierarchy';
+  public static SCHEDULE_TABULAR_REPORT_EXPORT = 'Schedule Tabular Report Export';
 
   // DKG: Note there are two similar Org Loader permissions for different tiles, one for Company-Admin and one for Data-Management
   public static DATAMANAGEMENT_ORG_DATA_LOAD = 'Load Organizational Data';

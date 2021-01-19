@@ -12,6 +12,7 @@ export const ADD_TEMP_DATA_CUT_VALIDATION = '[Features/Peer/Data Cut Validation]
 export const VALIDATE_DATA_CUT_EMPLOYEES = '[Features/Peer/Data Cut Validation] Validate Data Cut Employees';
 export const VALIDATE_DATA_CUT_EMPLOYEES_SUCCESS = '[Features/Peer/Data Cut Validation] Validate Data Cut Employees Success';
 export const VALIDATE_DATA_CUT_EMPLOYEES_ERROR = '[Features/Peer/Data Cut Validation] Validate Data Cut Error';
+export const CLEAR_TEMP_DATA_CUT_VALIDATION = '[Features/Peer/Data Cut Validation] Clear Temp Data Cut Validation';
 
 export class LoadDataCutValidation implements Action {
   readonly type = LOAD_DATA_CUT_VALIDATION;
@@ -58,6 +59,10 @@ export class AddTempDataCutValidation implements Action {
   constructor(public payload: DataCutValidationInfo) { }
 }
 
+export class ClearTempDataCutValidation implements Action {
+  readonly type = CLEAR_TEMP_DATA_CUT_VALIDATION;
+}
+
 export type Actions
   = LoadDataCutValidation
   | LoadTempDataCutValidation
@@ -66,4 +71,5 @@ export type Actions
   | ValidateDataCutEmployees
   | ValidateDataCutEmployeesSuccess
   | ValidateDataCutEmployeesError
-  | AddTempDataCutValidation;
+  | AddTempDataCutValidation
+  | ClearTempDataCutValidation;

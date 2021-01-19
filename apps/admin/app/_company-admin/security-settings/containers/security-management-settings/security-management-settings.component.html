@@ -67,6 +67,18 @@
         </div>
       </div>
     </div>
+    <div class="row form-group" *ngIf="exportsSecurityFeatureFlag.value">
+      <div class="col-sm-6">
+        Remove formulas from Excel/CSV exports
+        <fa-icon icon="exclamation-circle"  placement="right" ngbTooltip="Exported Excel and CSV data fields beginning with the following characters will have a space inserted to nullify formulas: '=', '-', '+', '@' ">
+        </fa-icon>
+      </div>
+      <div class="col-sm-6">
+        <div class="input-group">
+          <input type="checkbox" formControlName="exportsSecurity" />
+        </div>
+      </div>
+    </div>
   </form>
 </pf-async-container>
 

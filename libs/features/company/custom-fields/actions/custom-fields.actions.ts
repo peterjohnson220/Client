@@ -37,6 +37,7 @@ export class GetCustomEmployeeFieldsSuccess implements Action {
 
 export class GetTagCategories implements Action {
   readonly type = GET_TAGCATEGORIES;
+  constructor(public companyId: any) { }
 }
 
 export class GetTagCategoriesError implements Action {

@@ -9,7 +9,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { CompositeDataLoadTypes, LoadTypes } from 'libs/constants';
-import { AbstractFeatureFlagService, FeatureFlagContext, PermissionService } from 'libs/core';
+import { AbstractFeatureFlagService, EntityKeyValidationService, FeatureFlagContext, PermissionService } from 'libs/core';
 import * as fromCompanyReducer from 'libs/features/company/company-selector/reducers';
 import { CompanySettingsEnum, ConfigurationGroup, generateMockUserContext } from 'libs/models';
 
@@ -47,7 +47,8 @@ describe('OrgDataLoadComponent', () => {
         {
           provide: AbstractFeatureFlagService,
           useClass: MockAbstractFeatureFlagService
-        }
+        },
+        EntityKeyValidationService
       ],
       schemas: [NO_ERRORS_SCHEMA]
     });

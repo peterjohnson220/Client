@@ -74,9 +74,11 @@
                                   [entities]="loadOptions"
                                   [selectedDelimiter]="selectedDelimiter"
                                   [selectedMapping]="selectedMapping"
+                                  [dateFormat]="dateFormat"
                                   [mappingOptions]="mappingOptions"
                                   (onMappingChange)="selectedConfigChange($event)"
-                                  (onDelimiterChange)="onDelimiterChange($event)">
+                                  (onDelimiterChange)="onDelimiterChange($event)"
+                                  (onDateChange)="onDateChange($event)">
                 </pf-entity-upload>
               </div>
 

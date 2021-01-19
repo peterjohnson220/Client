@@ -1,0 +1,24 @@
+<div [id]="toolbarId" class="rte-toolbar" [ngClass]="{'active-toolbar': isToolbarActive}">
+  <span class="ql-formats">
+    <select class="ql-size">
+      <option value="small"></option>
+      <!-- Note a missing, thus falsy value, is used to reset to default -->
+      <option selected></option>
+      <option value="large"></option>
+    </select>
+  </span>
+  <span class="ql-formats">
+    <button class="ql-bold"></button>
+    <button class="ql-italic"></button>
+    <button class="ql-underline"></button>
+  </span>
+  <span class="ql-formats">
+    <select class="ql-color"></select>
+  </span>
+  <span class="ql-formats">
+    <select class="ql-align"></select>
+  </span>
+  <span class="ql-formats">
+    <button class="ql-list" value="bullet"></button>
+  </span>
+</div>

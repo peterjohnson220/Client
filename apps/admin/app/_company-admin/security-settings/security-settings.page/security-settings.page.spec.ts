@@ -8,8 +8,10 @@ import * as fromRootState from 'libs/state/state';
 import * as fromPasswordSettingsReducer from '../reducers';
 import { SecuritySettingsPageComponent } from './security-settings.page';
 import { SecurityManagementSettingsComponent } from '../containers';
+import { AbstractFeatureFlagService } from 'libs/core/services/feature-flags';
 
 describe('SecuritySettingsComponent', () => {
+  let abstractFeatureFlagService: AbstractFeatureFlagService;
   let component: SecuritySettingsPageComponent;
   let fixture: ComponentFixture<SecuritySettingsPageComponent>;
   let childComponent: SecurityManagementSettingsComponent;
@@ -19,7 +21,10 @@ describe('SecuritySettingsComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ SecuritySettingsPageComponent, SecurityManagementSettingsComponent ],
-      providers: [ FormBuilder ],
+      providers: [ FormBuilder, {
+        provide: AbstractFeatureFlagService,
+        useValue: { enabled: jest.fn(), bindEnabled: jest.fn() }
+      } ],
       schemas: [ NO_ERRORS_SCHEMA ],
       imports: [
         StoreModule.forRoot({
@@ -29,6 +34,8 @@ describe('SecuritySettingsComponent', () => {
       ]
     })
     .compileComponents();
+
+    abstractFeatureFlagService = TestBed.inject(AbstractFeatureFlagService);
   }));
 
   beforeEach(() => {

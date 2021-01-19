@@ -12,6 +12,7 @@ import { UserContext } from 'libs/models/security';
 import * as fromRootState from 'libs/state/state';
 import { PayfactorsApiModelMapper } from 'libs/features/formula-editor';
 import * as fromFieldsActions from 'libs/features/formula-editor/actions/fields.actions';
+import { DataViewType, ExportDataViewRequest } from 'libs/models/payfactors-api';
 
 import * as fromDataViewActions from '../actions/data-view.actions';
 import * as fromDataViewGridActions from '../actions/data-view-grid.actions';
@@ -92,7 +93,14 @@ export class DataViewEffects {
           ({ action, userDataView })
       ),
       switchMap((data) => {
-        return this.dataViewApiService.exportUserDataView(data.userDataView.obj.UserDataViewId)
+        const request: ExportDataViewRequest = {
+          DataViewId: data.userDataView.obj.UserDataViewId,
+          Type: DataViewType.dataInsights,
+          Source: 'Data Insights',
+          ExportFileExtension: data.action.payload.fileExtension,
+          CsvFileDelimiter: data.action.payload.csvFileDelimiter
+        };
+        return this.dataViewApiService.exportUserDataView(request)
           .pipe(
             map((response) => new fromDataViewActions.ExportUserReportSuccess(response)),
             catchError(() => of(new fromDataViewActions.ExportUserReportError()))

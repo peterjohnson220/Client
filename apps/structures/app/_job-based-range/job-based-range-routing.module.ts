@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { RangeGroupExistsGuard } from './shared/guards';
+import { RangeGroupExistsGuard } from '../shared/guards';
 
 const routes: Routes = [
   { path: 'not-found', redirectTo: '/not-found' },

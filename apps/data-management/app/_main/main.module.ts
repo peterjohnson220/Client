@@ -15,7 +15,7 @@ import { SwitchModule } from '@progress/kendo-angular-inputs';
 import { LayoutModule } from '@progress/kendo-angular-layout';
 import { UploadModule } from '@progress/kendo-angular-upload';
 
-import { PfCommonModule } from 'libs/core';
+import { EntityKeyValidationService, PfCommonModule } from 'libs/core';
 import { PfBulkExportSchedulerModule, PfNavigationLinksModule } from 'libs/features';
 import { PfCompanySelectorModule } from 'libs/features/company/company-selector/company-selector.module';
 import { PfCustomFieldsModule } from 'libs/features/company/custom-fields/custom-fields.module';
@@ -185,7 +185,8 @@ import { HrisAuthenticationGuard } from './guards';
   ],
   providers: [
     // Guards
-    HrisAuthenticationGuard
+    HrisAuthenticationGuard,
+    EntityKeyValidationService
   ]
 })
 export class MainModule {

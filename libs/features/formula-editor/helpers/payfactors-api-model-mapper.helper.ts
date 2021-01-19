@@ -14,7 +14,7 @@ import {
   UserDataViewResponse
 } from 'libs/models/payfactors-api';
 
-import { Entity, Field, FieldCreator, FieldDataType, FieldType, Filter, FormulaType, GetFilterOptionsData, SharedDataViewUser, UserDataView } from '../models';
+import { Entity, Field, FieldCreator, FieldDataType, FieldType, Filter, GetFilterOptionsData, SharedDataViewUser, UserDataView } from '../models';
 import { FilterOperatorHelper } from './filter-operator.helper';
 
 export class PayfactorsApiModelMapper {

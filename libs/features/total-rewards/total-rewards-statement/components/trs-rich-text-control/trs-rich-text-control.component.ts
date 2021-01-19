@@ -7,15 +7,17 @@ import {
   OnChanges,
   OnDestroy,
   OnInit,
+  AfterViewInit,
   Output,
   ViewChild,
-  HostListener
+  SimpleChanges
 } from '@angular/core';
 
 import { AnyFn } from '@ngrx/store/src/selector';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import 'quill-mention';
+import QuillType from 'quill';
 
 import { EmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards';
 
@@ -40,66 +42,52 @@ Quill.register(font, true);
   styleUrls: ['./trs-rich-text-control.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy {
+export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit {
   @ViewChild('richText', { static: false }) richText: any;
 
   @Input() controlData: RichTextControl;
   @Input() mode: StatementModeEnum;
   @Input() employeeRewardsData: EmployeeRewardsData;
+  @Input() height: string;
+  @Input() showTitle = true;
+  @Input() activeEditorId: string;
 
   @Output() onTitleChange: EventEmitter<UpdateTitleRequest> = new EventEmitter();
   @Output() onContentChange: EventEmitter<UpdateStringPropertyRequest> = new EventEmitter();
+  @Output() onRTEFocusChange: EventEmitter<string> = new EventEmitter();
 
-  isFocused = false;
   isValid = true;
   htmlContent: string;
   title: string;
   statementModeEnum = StatementModeEnum;
-  editorPlaceholderText = 'Insert text here ...';
+  toolbarId: string;
 
-  quillApi: any;
   quillMentionContainer: HTMLElement;
+  quillEditor: QuillType;
 
   onContentChangedSubject = new Subject();
   onContentChangedSubscription = new Subscription();
 
-  lastMouseDownElement: HTMLElement;
-
   showFontFamilyMenu = environment.enableTrsCustomFontFamilies;
 
-  quillConfig = {
-    toolbar: {
-      container: this.quillToolbarContainer,
-    },
-    mention: {
-      allowedChars: /^[A-Za-z\sÅÄÖåäö]*$/,
-      mentionDenotationChars: ['['],
-      showDenotationChar: false,
-      onOpen: () => { this.onMentionDialogOpen(); },
-      source: (searchTerm: string, renderList: AnyFn) => {
-        if (searchTerm) {
-          const matches = this.dataFields.filter(df => df.value.toLowerCase().includes(searchTerm.toLowerCase()));
-          renderList(matches, searchTerm);
-        } else {
-          renderList(this.dataFields, searchTerm);
-        }
-      },
-    },
-    // clear out tab key bindings with an empty handler, and quill mention will later add to that allowing the tab key to select a datafield
-    keyboard: {
-      bindings: {
-        'tab': {
-          key: 9,
-          handler: function(range, context) {
-            return true;
-          }
-        }
+  mentionConfig = {
+    allowedChars: /^[A-Za-z\sÅÄÖåäö]*$/,
+    mentionDenotationChars: ['['],
+    showDenotationChar: false,
+    positioningStrategy: 'fixed',
+    onOpen: () => { this.onMentionDialogOpen(); },
+    source: (searchTerm: string, renderList: AnyFn) => {
+      if (searchTerm) {
+        const matches = this.dataFields.filter(df => df.value.toLowerCase().includes(searchTerm.toLowerCase()));
+        renderList(matches, searchTerm);
+      } else {
+        renderList(this.dataFields, searchTerm);
       }
-    }
+    },
   };
 
   get richTextNode(): HTMLElement {
-    return this.richText?.elementRef?.nativeElement;
+    return this.quillEditor?.container;
   }
 
   // quill mention requires options with a lower case `value`
@@ -124,17 +112,46 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
     return (this.showFontFamilyMenu) ? allOptions : allOptions.slice(1);
   }
 
+  get cssClasses(): any[] {
+    const classes = [this.formatCssDefaultTitle()];
+    if (this.isFocused) {
+      classes.push('active');
+    }
+    if (!this.isValid) {
+      classes.push('invalid');
+    }
+    return classes;
+  }
+
+  get isFocused(): boolean {
+    return this.controlData.Id === this.activeEditorId;
+  }
+
   constructor(private changeDetectorRef: ChangeDetectorRef, private sanitizer: DomSanitizer) { }
 
   ngOnInit() {
     this.title = this.controlData.Title.Default;
     this.htmlContent = this.controlData.Content;
+    this.toolbarId = '#quill-editor-toolbar-' + this.controlData.Id;
     this.setupContentChangedSubscription();
+    this.createStyleSheet();
   }
 
-  ngOnChanges() {
+  ngAfterViewInit() {
+    if (this.mode === this.statementModeEnum.Edit) {
+      this.createQuillEditor();
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
     // Get the F outta here if in print mode
     if (this.mode === StatementModeEnum.Print) { return; }
+
+    if (changes.mode?.currentValue === this.statementModeEnum.Edit && changes.mode?.previousValue === this.statementModeEnum.Preview) {
+      setTimeout(() => {
+        this.createQuillEditor();
+      }, 0);
+    }
 
     this.isValid = !this.isContentHeightGreaterThanContainerHeight();
   }
@@ -149,9 +166,34 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
     this.onTitleChange.emit({ControlId: this.controlData.Id, Title: newTitle});
   }
 
-  onEditorCreated(quill: any) {
+  createQuillEditor() {
+    this.quillEditor = new Quill('#quill-editor-' + this.controlData.Id, {
+      theme: 'snow',
+      modules: {
+        toolbar: {
+          container: this.toolbarId,
+        },
+        mention: this.mentionConfig,
+        // clear out tab key bindings with an empty handler, and quill mention will later add to that allowing the tab key to select a datafield
+        keyboard: {
+          bindings: {
+            'tab': {
+              key: 9,
+              handler: function(range, context) {
+                return true;
+              }
+            }
+          }
+        }
+      }
+    });
+
+    // Set default
+    const initialContent = this.quillEditor.clipboard.convert(this.controlData.Content);
+    this.quillEditor.setContents(initialContent, 'silent');
+
     // add a matcher that strips out html formatting on paste: https://github.com/quilljs/quill/issues/1184#issuecomment-384935594
-    quill.clipboard.addMatcher(Node.ELEMENT_NODE, (node, delta) => {
+    this.quillEditor.clipboard.addMatcher(Node.ELEMENT_NODE, (node, delta) => {
       const ops = [];
       delta.ops.forEach(op => {
         if ((op.insert && typeof op.insert === 'string') || op.insert.mention) {
@@ -163,28 +205,40 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
     });
 
     // get a handle to quill and the quill mention container that holds the data fields
-    this.quillApi = quill;
-    this.quillMentionContainer = quill.getModule('mention').mentionContainer;
+    this.quillMentionContainer = this.quillEditor.getModule('mention').mentionContainer;
 
+    // check if content exceeds editor height
     if (this.mode !== StatementModeEnum.Print) {
       this.isValid = !this.isContentHeightGreaterThanContainerHeight();
     }
-  }
 
-  onContentChanged(quillContentChange: any) {
-    // Get the F outta here if in print mode
-    if (this.mode === StatementModeEnum.Print) { return; }
+    // Add text change function to editor
+    this.quillEditor.on('text-change', (delta, oldContents, source) => {
+      // Get the F outta here if in print mode
+      if (this.mode === StatementModeEnum.Print) { return; }
 
-    this.isValid = !this.isContentHeightGreaterThanContainerHeight();
+      this.isValid = !this.isContentHeightGreaterThanContainerHeight();
 
-    if (quillContentChange.source === 'user' && this.isValid) {
-      this.onContentChangedSubject.next({ ControlId: this.controlData.Id, value: this.htmlContent });
-    }
+      if (source === 'user' && this.isValid) {
+        this.htmlContent = this.quillEditor?.root.innerHTML;
+        this.onContentChangedSubject.next({ ControlId: this.controlData.Id, value: this.htmlContent });
+      }
+    });
+
+    // Add selection change function to editor
+    this.quillEditor.on('selection-change', (range, oldRange, source) => {
+      // Get the F outta here if in print mode
+      if (this.mode === StatementModeEnum.Print) { return; }
+
+      if (oldRange === null) {
+        this.onRTEFocusChange.emit(this.controlData.Id);
+      }
+    });
   }
 
   isContentHeightGreaterThanContainerHeight(): boolean {
 
-    if (!this.richTextNode) { return false; } // dom isn't ready yet.
+    if (!this.quillEditor) { return false; } // dom isn't ready yet.
 
     // get dom node references to the container around the quill content and the content nodes (p tags)
     const container = this.richTextNode.querySelector('.ql-editor') as HTMLElement;
@@ -199,19 +253,10 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
     return totalContentHeightInPixels > container.offsetHeight;
   }
 
-  onSelectionChanged(quillSelectionChange: any) {
-    // Get the F outta here if in print mode
-    if (this.mode === StatementModeEnum.Print) { return; }
-
-    if (quillSelectionChange.oldRange === null) {
-      this.isFocused = true;
-    }
-  }
-
   onClickEditor() {
     // most of the time this is redundant and called after onSelectionChanged, but useful for svg clicks which don't null out `oldRange`
     if (!this.isFocused) {
-      this.isFocused = true;
+      this.onRTEFocusChange.emit(this.controlData.Id);
     }
   }
 
@@ -258,28 +303,24 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
     return '';
   }
 
-  @HostListener('document:mousedown', ['$event'])
-  onDocumentMouseDown(event: MouseEvent): void {
-    // Get the F outta here if in print mode
-    if (this.mode === StatementModeEnum.Print) { return; }
-
-    // focus the editor if the mousedown target is the quill editor
-    if (this.richTextNode?.contains(event.target as HTMLElement)) {
-      this.isFocused = true;
-    }
-    this.lastMouseDownElement = event.target as HTMLElement;
+  formatCssDefaultTitle(): string {
+    return 'rte-' + this.controlData.Id; // Title?.Default?.toLowerCase().split(/[\s:,]/).join('');
   }
 
-  @HostListener('document:mouseup', ['$event'])
-  onDocumentMouseUp(event: MouseEvent): void {
-    // Get the F outta here if in print mode
-    if (this.mode === StatementModeEnum.Print) { return; }
+  createStyleSheet() {
+    // Create the <style> tag
+    const style = document.createElement('style');
 
-    // bail if the mousedown target is the quill editor, since clicking + dragging + releasing outside should maintain focus
-    if (this.richTextNode?.contains(this.lastMouseDownElement)) {
-      return;
-    }
-    this.isFocused = false;
+    // WebKit hack :(
+    style.appendChild(document.createTextNode(''));
+
+    // Add the <style> element to the page
+    document.head.appendChild(style);
+
+    const sheet = style.sheet as CSSStyleSheet;
+
+    // Set quill editor height
+    sheet.insertRule('.trs-rich-text-control.' + this.formatCssDefaultTitle() + ' .ql-editor { height: ' + this.height + ' }', 0);
   }
 
   setupContentChangedSubscription(): void {

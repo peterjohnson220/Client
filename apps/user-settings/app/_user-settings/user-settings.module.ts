@@ -16,6 +16,7 @@ import { NumericTextBoxModule } from '@progress/kendo-angular-inputs';
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
+import { PfUserSettingsModule } from 'libs/features/user-settings';
 import { ProjectTemplateManagementModule } from 'libs/features/project-template-management';
 
 import {
@@ -27,7 +28,7 @@ import {
   PayMarketCutComponent,
   ProjectTemplatesComponent,
   UserProfileComponent,
-  ChangePasswordComponent
+  ChangePasswordComponent,
 } from './containers';
 
 import * as fromFaIcons from './fa-icons';
@@ -38,12 +39,16 @@ import {
   UserProfileEffects,
   ProjectTemplateEffects,
   PayMarketDefaultSettingsEffects,
-  ChangePasswordEffects
+  ChangePasswordEffects,
+  EmailPreferencesEffects,
+  NotificationPreferencesEffects
 } from './effects';
 import { UserSettingsPageComponent } from './user-settings.page';
 import { UserSettingsRoutingModule } from './user-settings-routing.module';
-import { PfUserSettingsModule } from '../../../../libs/features/user-settings';
-
+import { EmailPreferencesComponent } from './containers/communication-preferences/email-preferences/email-preferences.component';
+import { NotificationPreferencesComponent } from './containers/communication-preferences/notification-preferences/notification-preferences.component';
+import { MarketingPreferencesComponent } from './containers/communication-preferences/marketing-preferences/marketing-preferences.component';
+import { CommunicationPreferencesComponent } from './containers/communication-preferences/communication-preferences.component';
 
 @NgModule({
   imports: [
@@ -62,7 +67,9 @@ import { PfUserSettingsModule } from '../../../../libs/features/user-settings';
       UserProfileEffects,
       ProjectTemplateEffects,
       PayMarketDefaultSettingsEffects,
-      ChangePasswordEffects
+      ChangePasswordEffects,
+      EmailPreferencesEffects,
+      NotificationPreferencesEffects
     ]),
     FontAwesomeModule,
     NgbPopoverModule,
@@ -93,7 +100,11 @@ import { PfUserSettingsModule } from '../../../../libs/features/user-settings';
     PayMarketCutComponent,
     ProjectTemplatesComponent,
     ChangePasswordComponent,
-    UserProfileComponent
+    UserProfileComponent,
+    CommunicationPreferencesComponent,
+    EmailPreferencesComponent,
+    NotificationPreferencesComponent,
+    MarketingPreferencesComponent
   ]
 })
 export class UserSettingsModule {

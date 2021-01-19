@@ -1,31 +1,47 @@
 import { Injectable } from '@angular/core';
 
 import { of } from 'rxjs';
+import { Store } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { switchMap, map, catchError, mergeMap } from 'rxjs/operators';
 
 import { NotificationsApiService } from 'libs/data/payfactors-api';
 import * as fromAppNotificationsActions from 'libs/features/app-notifications/actions/app-notifications.actions';
+import * as fromInfiniteScrollActions from 'libs/features/infinite-scroll/actions/infinite-scroll.actions';
 import { PayfactorsApiModelMapper } from 'libs/features/user-notifications/helpers';
 
 import * as fromUserNotificationListActions from '../actions/user-notification-list.actions';
+import * as fromUserNotificationReducer from '../reducers';
 import { UserNotification } from '../models';
+import { InfiniteScrollActionContext, InfiniteScrollEffectsService } from '../../infinite-scroll/services';
+import { ScrollIdConstants } from '../../infinite-scroll/models';
 
 @Injectable()
 export class UserNotificationListEffects {
 
   @Effect()
-  getUserNotifications$ = this.actions$
+  getUserNotifications$ = this.actions$.pipe(
+    ofType<fromUserNotificationListActions.GetUserNotifications>(fromUserNotificationListActions.GET_USER_NOTIFICATIONS),
+    map(() => new fromInfiniteScrollActions.Load({scrollId: ScrollIdConstants.USER_NOTIFICATIONS, pageSize: 10}))
+  );
+
+  @Effect()
+  infiniteScrollUserNotifications$ = this.infiniteScrollEffectsService.infiniteScrollActions$(ScrollIdConstants.USER_NOTIFICATIONS)
     .pipe(
-      ofType(fromUserNotificationListActions.GET_USER_NOTIFICATIONS),
-      switchMap(() => {
-        return this.notificationApiService.getUserNotifications()
+      switchMap((infiniteScrollActionContext: InfiniteScrollActionContext) => {
+        return this.notificationApiService.getUserNotifications(infiniteScrollActionContext.pagingOptions)
           .pipe(
             map((response) => {
               const userNotifications: UserNotification[] = PayfactorsApiModelMapper.mapUserNotificationResponsesUserNotifications(response);
-              return new fromUserNotificationListActions.GetUserNotificationsSuccess(userNotifications);
+
+              infiniteScrollActionContext.scrollSuccessful(this.store, userNotifications);
+
+              return new fromUserNotificationListActions.SetUserNotifications({
+                replaceAll: infiniteScrollActionContext.isLoadAction,
+                newUserNotifications: userNotifications
+              });
             }),
-            catchError(() => of(new fromUserNotificationListActions.GetUserNotificationsError()))
+            catchError((error) => infiniteScrollActionContext.throwError(error))
           );
       })
     );
@@ -36,7 +52,7 @@ export class UserNotificationListEffects {
       ofType<fromUserNotificationListActions.MarkNotificationRead>(fromUserNotificationListActions.MARK_NOTIFICATION_READ),
       switchMap((action) => {
         return this.notificationApiService.markNotificationAsRead(action.payload.userNotificationId).pipe(
-          mergeMap(response => [new fromUserNotificationListActions.GetUserNotifications(),
+          mergeMap(response => [
             new fromAppNotificationsActions.UpdateUserNotificationUnreadCount(),
             new fromUserNotificationListActions.MarkNotificationReadSuccess()]),
           catchError(() => of(new fromUserNotificationListActions.MarkNotificationReadError()))
@@ -74,6 +90,8 @@ export class UserNotificationListEffects {
 
   constructor(
     private actions$: Actions,
-    private notificationApiService: NotificationsApiService
+    private store: Store<fromUserNotificationReducer.State>,
+    private notificationApiService: NotificationsApiService,
+    private infiniteScrollEffectsService: InfiniteScrollEffectsService
   ) {}
 }

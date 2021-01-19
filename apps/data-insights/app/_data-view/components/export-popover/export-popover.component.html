@@ -1,0 +1,72 @@
+<ng-template #exportPopoverContent>
+  <div class="d-flex flex-column popover-container">
+    <div class="d-flex flex-column radio-btn-container">
+      <div class="custom-radio mb-3">
+        <input type="radio" name="select-export-file-extension"
+               class="custom-control-input"
+               id="excelFileExtension"
+               value="{{fileExtensions.Xlsx}}"
+               [(ngModel)]="selectedExportFileExtension" />
+        <label class="custom-control-label" for="excelFileExtension">Excel</label>
+      </div>
+      <div class="custom-radio">
+        <input type="radio" name="select-export-file-extension"
+               class="custom-control-input"
+               id="csvFileExtension"
+               value="{{fileExtensions.Csv}}"
+               [(ngModel)]="selectedExportFileExtension" />
+        <label class="custom-control-label" for="csvFileExtension">CSV</label>
+      </div>
+      <ng-container *ngIf="selectedExportFileExtension === fileExtensions.Csv">
+        <div class="d-flex flex-column radio-btn-container">
+          <div class="custom-radio mb-3">
+            <input type="radio" name="select-csv-file-delimiter"
+                   class="custom-control-input"
+                   id="commaDelimiter"
+                   value="{{delimiters.Comma}}"
+                   [(ngModel)]="selectedCsvFileDelimiter" />
+            <label class="custom-control-label" for="commaDelimiter">Comma</label>
+          </div>
+          <div class="custom-radio mb-3">
+            <input type="radio" name="select-csv-file-delimiter"
+                   class="custom-control-input"
+                   id="tabDelimiter"
+                   value="{{delimiters.Tab}}"
+                   [(ngModel)]="selectedCsvFileDelimiter" />
+            <label class="custom-control-label" for="tabDelimiter">Tab</label>
+          </div>
+          <div class="custom-radio mb-3">
+            <input type="radio" name="select-csv-file-delimiter"
+                   class="custom-control-input"
+                   id="pipeDelimiter"
+                   value="{{delimiters.Pipe}}"
+                   [(ngModel)]="selectedCsvFileDelimiter" />
+            <label class="custom-control-label" for="pipeDelimiter">Pipe</label>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+
+    <div class="d-flex justify-content-end pb-3">
+      <button class="btn btn-primary"
+              (click)="handleExportClicked()">
+        Export
+      </button>
+    </div>
+  </div>
+</ng-template>
+
+<button class="btn btn-secondary data-view-grid-btn"
+        placement="bottom-right"
+        popoverTitle=""
+        #exportPopover="ngbPopover"
+        ngbTooltip="Export"
+        container="body"
+        [popoverTitle]="'Select a Format to Export'"
+        [attr.data-qa-id]="'btn-export'"
+        [disabled]="exportDisabled"
+        [ngbPopover]="exportPopoverContent"
+        (shown)="handleExportPopoverShown()"
+        [autoClose]="'outside'">
+  <fa-icon icon="download"></fa-icon>
+</button>

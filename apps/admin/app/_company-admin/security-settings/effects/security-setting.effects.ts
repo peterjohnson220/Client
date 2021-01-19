@@ -76,6 +76,6 @@ export class SecuritySettingEffects {
     if (!response || !response.length) {
       return [];
     }
-    return response.filter(item => item.Key.indexOf('Password') > -1 || item.Key.indexOf('Session') > -1);
+    return response.filter(item => item.Key.indexOf('Password') > -1 || item.Key.indexOf('Session') > -1 || item.Key.indexOf('ExportsSecurity') > -1);
   }
 }

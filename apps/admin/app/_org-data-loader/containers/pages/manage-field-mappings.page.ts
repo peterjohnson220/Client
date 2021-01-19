@@ -6,7 +6,7 @@ import isNumber from 'lodash/isNumber';
 import isObject from 'lodash/isObject';
 
 import { Store } from '@ngrx/store';
-import { Observable, Subject } from 'rxjs';
+import { forkJoin, Observable, Subject } from 'rxjs';
 import { filter, take, takeUntil } from 'rxjs/operators';
 
 import { NotificationRef, NotificationService, NotificationSettings } from '@progress/kendo-angular-notification';
@@ -16,7 +16,6 @@ import { LoadTypes } from 'libs/constants';
 import { CompositeDataLoadTypes } from 'libs/constants/composite-data-load-types';
 import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
 import { CompanySettingsApiService } from 'libs/data/payfactors-api';
-import { LoaderFieldMappingsApiService } from 'libs/data/payfactors-api/data-loads/index';
 import * as fromCompanySelectorActions from 'libs/features/company/company-selector/actions';
 import { CompanySelectorComponent } from 'libs/features/company/company-selector/components';
 import { CompanySelectorItem } from 'libs/features/company/company-selector/models';
@@ -24,18 +23,22 @@ import * as fromCompanyReducer from 'libs/features/company/company-selector/redu
 import * as fromCustomFieldsActions from 'libs/features/company/custom-fields/actions/custom-fields.actions';
 import * as fromEntityIdentifierActions from 'libs/features/company/entity-identifier/actions/entity-identifier.actions';
 import * as fromEmailRecipientsActions from 'libs/features/loader-email-reipients/state/actions/email-recipients.actions';
-import { LoaderFileFormat, ORG_DATA_PF_EMPLOYEE_TAG_FIELDS } from 'libs/features/org-data-loader/constants';
+import {
+    DATE_FORMATS, DEFAULT_DATE_FORMAT, LoaderFileFormat, ORG_DATA_PF_EMPLOYEE_TAG_FIELDS
+} from 'libs/features/org-data-loader/constants';
 import { LoaderSettings, OrgDataLoadHelper } from 'libs/features/org-data-loader/helpers';
-import { LoaderEntityStatus, VisibleLoaderOptionModel } from 'libs/features/org-data-loader/models';
+import {
+    DateFormatItem, FieldMapping, InternalField, LoaderEntityStatus, VisibleLoaderOptionModel
+} from 'libs/features/org-data-loader/models';
 import * as fromLoaderSettingsActions from 'libs/features/org-data-loader/state/actions/loader-settings.actions';
 import { CompanySetting, CompanySettingsEnum } from 'libs/models';
-import {
-    ConfigurationGroup, EmailRecipientModel, LoaderFieldSet, LoaderSaveCoordination, LoaderSetting, MappingModel
-} from 'libs/models/data-loads';
+import { ConfigurationGroup, EmailRecipientModel, LoaderFieldSet, LoaderSetting, MappingModel } from 'libs/models/data-loads';
 import { OrgDataLoaderConfigurationSaveRequest } from 'libs/models/data-loads/request';
 import { ConfigSetting } from 'libs/models/security';
 import { SftpUserModel } from 'libs/models/Sftp';
 import { ConfigSettingsSelectorFactory } from 'libs/state/app-context/services';
+import { EntityKeyValidationService } from 'libs/core/services';
+import { EntityIdentifierViewModel } from 'libs/features/company/entity-identifier/models';
 
 import * as fromOrgDataAutoloaderReducer from '../../reducers';
 import * as fromOrgDataFieldMappingsActions from '../../actions/org-data-field-mappings.actions';
@@ -61,15 +64,18 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
   benefitsLoaderFeatureFlag: RealTimeFlag = { key: FeatureFlags.BenefitsLoaderConfiguration, value: false };
   employeeTagsLoaderFeatureFlag: RealTimeFlag = { key: FeatureFlags.EmployeeTagsLoaderConfiguration, value: false };
 
+  dateFormats: Array<{ text: string, value: string }> = DATE_FORMATS;
+  dateFormatsFilteredData: Array<{ text: string, value: string }>;
+
   env = environment;
-  payfactorsPaymarketDataFields: string[];
-  payfactorsJobDataFields: string[];
-  payfactorsStructureDataFields: string[];
-  payfactorsStructureMappingDataFields: string[];
-  payfactorsEmployeeDataFields: string[];
-  payfactorsEmployeeTagsDataFields: string[];
-  payfactorsSubsidiariesDataFields: string[];
-  payfactorsBenefitsDataFields: string[];
+  payfactorsPaymarketDataFields: InternalField[];
+  payfactorsJobDataFields: InternalField[];
+  payfactorsStructureDataFields: InternalField[];
+  payfactorsStructureMappingDataFields: InternalField[];
+  payfactorsEmployeeDataFields: InternalField[];
+  payfactorsEmployeeTagsDataFields: InternalField[];
+  payfactorsSubsidiariesDataFields: InternalField[];
+  payfactorsBenefitsDataFields: InternalField[];
   paymarketMappingComplete: boolean;
   jobMappingComplete: boolean;
   subsidiariesMappingComplete: boolean;
@@ -88,7 +94,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
   isActive: boolean;
   isCompanyOnAutoloader: boolean;
   delimiter: string;
-  dateFormat: string;
+  dateFormat: string = DEFAULT_DATE_FORMAT;
   isEmployeesLoadEnabled: boolean;
   isEmployeeTagsLoadEnabled: boolean;
   isJobsLoadEnabled: boolean;
@@ -162,6 +168,8 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
   private loaderSettingsLoading: boolean;
   private fieldMappingsLoading: boolean;
   private savingConfiguration: boolean;
+  employeeEntityKeys: EntityIdentifierViewModel[];
+  private entityKeyValidationMessage: string;
 
 
   private get toastSuccessOptions(): NotificationSettings {
@@ -192,25 +200,23 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
     return baseAnimationDuration + 100;
   }
 
-  private loaderSaveCoordination: LoaderSaveCoordination;
-
   constructor(
     private store: Store<fromOrgDataAutoloaderReducer.State>,
-    private orgDataAutoloaderApi: LoaderFieldMappingsApiService,
     private notificationService: NotificationService,
     private configSettingsSelectorFactory: ConfigSettingsSelectorFactory,
     private companySettingsApiService: CompanySettingsApiService,
     private cdr: ChangeDetectorRef,
+    private entityKeyValidatorService: EntityKeyValidationService,
     private featureFlagService: AbstractFeatureFlagService
   ) {
-    this.payfactorsPaymarketDataFields = ORG_DATA_PF_PAYMARKET_FIELDS;
-    this.payfactorsJobDataFields = ORG_DATA_PF_JOB_FIELDS;
-    this.payfactorsStructureDataFields = ORG_DATA_PF_STRUCTURE_FIELDS;
-    this.payfactorsStructureMappingDataFields = ORG_DATA_PF_STRUCTURE_MAPPING_FIELDS;
-    this.payfactorsEmployeeDataFields = ORG_DATA_PF_EMPLOYEE_FIELDS;
-    this.payfactorsEmployeeTagsDataFields = ORG_DATA_PF_EMPLOYEE_TAG_FIELDS;
-    this.payfactorsSubsidiariesDataFields = ORG_DATA_PF_SUBSIDIARIES_MAPPING_FIELDS;
-    this.payfactorsBenefitsDataFields = ORG_DATA_PF_BENEFITS_MAPPING_FIELDS;
+    this.dateFormatsFilteredData = this.dateFormats.slice();
+    this.payfactorsPaymarketDataFields = this.buildInternalFields(ORG_DATA_PF_PAYMARKET_FIELDS, false);
+    this.payfactorsJobDataFields = this.buildInternalFields(ORG_DATA_PF_JOB_FIELDS, false);
+    this.payfactorsStructureDataFields = this.buildInternalFields(ORG_DATA_PF_STRUCTURE_FIELDS, false);
+    this.payfactorsStructureMappingDataFields = this.buildInternalFields(ORG_DATA_PF_STRUCTURE_MAPPING_FIELDS, false);
+    this.payfactorsEmployeeDataFields = this.buildInternalFields(ORG_DATA_PF_EMPLOYEE_FIELDS, false);
+    this.payfactorsSubsidiariesDataFields = this.buildInternalFields(ORG_DATA_PF_SUBSIDIARIES_MAPPING_FIELDS, false);
+    this.payfactorsBenefitsDataFields = this.buildInternalFields(ORG_DATA_PF_BENEFITS_MAPPING_FIELDS, false);
 
     this.paymarketMappingComplete = true;
     this.jobMappingComplete = true;
@@ -358,7 +364,6 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
           // For now we only save one config group per company per loadType, so the array only contains one item
           this.selectedConfigGroup = configGroups[0];
           this.reloadLoaderSettings();
-          this.reloadFieldMappings();
         }
         if (this.selectedCompany) {
           this.store.dispatch(new fromEmailRecipientsActions.LoadEmailRecipients({
@@ -419,27 +424,18 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
       this.sftpUserNameIsValid = isValid;
     });
 
-    this.employeeIdentifiers$.pipe(
-      filter(r => !!r),
+    const employeeIdentifiersSubscription = this.employeeIdentifiers$.pipe(
+      filter(x => !!x),
+      take(1),
       takeUntil(this.unsubscribe$)
-    ).subscribe(r => {
-      const selected = r.filter(a => a.isChecked);
-
-      if (!selected || selected.length === 0) {
-        const empId = ['Employee_ID'];
-        this.payfactorsEmployeeTagsDataFields.push(...empId);
-      } else {
-        this.payfactorsEmployeeTagsDataFields.push(...selected.map(a => a.Field));
-      }
-    });
+    );
 
     this.customEmployeeFields$.pipe(
       filter(uc => !!uc),
       takeUntil(this.unsubscribe$)
     ).subscribe(res => {
-      res.forEach((udf) => {
-        this.payfactorsEmployeeDataFields.push(udf.Value);
-      });
+      const customEmployeeDisplayNames = res.map(udf => udf.Value);
+      this.payfactorsEmployeeDataFields.push.apply(this.payfactorsEmployeeDataFields, this.buildInternalFields(customEmployeeDisplayNames, false));
 
       this.store.dispatch(new fromEntityIdentifierActions.GetEmployeeIdentifiers(this.selectedCompany.CompanyId, res));
     });
@@ -448,18 +444,42 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
       filter(uc => !!uc),
       takeUntil(this.unsubscribe$)
     ).subscribe(res => {
+      const customJobDisplayNames = res.map(udf => udf.Value);
+      this.payfactorsJobDataFields.push.apply(this.payfactorsJobDataFields, this.buildInternalFields(customJobDisplayNames, false));
       res.forEach((udf) => {
         this.payfactorsJobDataFields.push(udf.Value);
       });
     });
 
-    this.tagCategories$.pipe(
+    const tagCategoriesSubscription = this.tagCategories$.pipe(
       filter(uc => !!uc),
-      takeUntil(this.unsubscribe$))
-      .subscribe(res => {
-        this.payfactorsEmployeeTagsDataFields.push(...res);
-      });
+      take(1),
+      takeUntil(this.unsubscribe$));
 
+    forkJoin({ tagCategories: tagCategoriesSubscription, employeeIdentifiers: employeeIdentifiersSubscription })
+      .subscribe(result => {
+        const selected = result.employeeIdentifiers.filter(a => a.isChecked);
+        this.employeeEntityKeys = selected;
+        const selectedWithoutEmployeeId = selected.filter( a => a.Field !== 'Employee_ID');
+
+        if (selectedWithoutEmployeeId?.length >= 0) {
+          this.payfactorsEmployeeTagsDataFields = this.payfactorsEmployeeTagsDataFields.concat(selectedWithoutEmployeeId.map(a => {
+            return {
+              FieldName: a.Field,
+              IsDataElementName: false
+            };
+          }));
+        }
+
+        this.payfactorsEmployeeTagsDataFields = this.payfactorsEmployeeTagsDataFields.concat(result.tagCategories.map(tagName => {
+          return {
+            FieldName: tagName,
+            IsDataElementName: true
+          };
+        }));
+
+        this.reloadFieldMappings();
+      });
   } // end constructor
 
   ngOnInit() {
@@ -467,6 +487,18 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy(): void {
     this.unsubscribe$.next();
+  }
+
+  selectionChange(dateFormat: DateFormatItem) {
+    if (dateFormat) {
+      this.dateFormat = dateFormat.value;
+    } else {
+      this.dateFormat = null;
+    }
+  }
+
+  filterChange(value: string) {
+    this.dateFormatsFilteredData = this.dateFormats.filter((s) => s.value.indexOf(value) !== -1);
   }
 
   onPaymarketMappingComplete($event: LoaderEntityStatus) {
@@ -481,7 +513,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
     this.jobMappingComplete = $event.complete;
     this.isJobsLoadEnabled = $event.loadEnabled;
     if (this.jobMappingComplete) {
-      this.addOrReplaceMappings('Jobs', $event.mappings);
+      this.addOrReplaceMappings(LoaderType.Jobs, $event.mappings);
     }
   }
 
@@ -489,7 +521,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
     this.subsidiariesMappingComplete = $event.complete;
     this.isSubsidiariesLoadEnabled = $event.loadEnabled;
     if (this.subsidiariesMappingComplete) {
-      this.addOrReplaceMappings('Subsidiaries', $event.mappings);
+      this.addOrReplaceMappings(LoaderType.Subsidiaries, $event.mappings);
     }
   }
 
@@ -497,7 +529,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
     this.structureMappingComplete = $event.complete;
     this.isStructuresLoadEnabled = $event.loadEnabled;
     if (this.structureMappingComplete) {
-      this.addOrReplaceMappings('Structures', $event.mappings);
+      this.addOrReplaceMappings(LoaderType.Structures, $event.mappings);
     }
   }
 
@@ -505,7 +537,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
     this.benefitMappingComplete = $event.complete;
     this.isBenefitsLoadEnabled = $event.loadEnabled;
     if (this.benefitMappingComplete) {
-      this.addOrReplaceMappings('Benefits', $event.mappings);
+      this.addOrReplaceMappings(LoaderType.Benefits, $event.mappings);
     }
 
     this.isBenefitsFullReplace = $event.isFullReplace;
@@ -515,7 +547,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
     this.structureMappingMappingComplete = $event.complete;
     this.isStructureMappingsLoadEnabled = $event.loadEnabled;
     if (this.structureMappingMappingComplete) {
-      this.addOrReplaceMappings('StructureMapping', $event.mappings);
+      this.addOrReplaceMappings(LoaderType.StructureMapping, $event.mappings);
     }
     this.isStructureMappingsFullReplace = $event.isFullReplace;
   }
@@ -524,10 +556,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
     this.employeeMappingComplete = $event.complete;
     this.isEmployeesLoadEnabled = $event.loadEnabled;
     if (this.employeeMappingComplete) {
-      this.addOrReplaceMappings('Employees', $event.mappings);
-    }
-    if ($event.dateFormat) {
-      this.dateFormat = $event.dateFormat;
+      this.validateEntityKeyMappings(LoaderType.Employees, $event.mappings);
     }
     this.isEmployeesFullReplace = $event.isFullReplace;
   }
@@ -536,7 +565,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
     this.employeeTagsMappingComplete = $event.complete;
     this.isEmployeeTagsLoadEnabled = $event.loadEnabled;
     if (this.employeeTagsMappingComplete) {
-      this.addOrReplaceMappings('EmployeeTags', $event.mappings);
+      this.validateEntityKeyMappings(LoaderType.EmployeeTags, $event.mappings);
     }
     this.isEmployeeTagsFullReplace = $event.isFullReplace;
   }
@@ -550,16 +579,19 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
     ).subscribe(setting => {
       const jobRangeStruct = setting.find(s => s.Key === CompanySettingsEnum.EnableJobRangeStructureRangeTypes);
       if (jobRangeStruct.Value === 'true') {
-        this.payfactorsStructureDataFields = this.payfactorsStructureDataFields.concat(ORG_DATA_PF_JOB_RANGE_STRUCTURE_FIELDS);
+        const internalJobRangeStructureFields = this.buildInternalFields(ORG_DATA_PF_JOB_RANGE_STRUCTURE_FIELDS, false);
+        this.payfactorsStructureDataFields = this.payfactorsStructureDataFields.concat(internalJobRangeStructureFields);
       }
     });
   }
 
   CompanySelected() {
 
+    this.payfactorsEmployeeTagsDataFields = this.buildInternalFields(ORG_DATA_PF_EMPLOYEE_TAG_FIELDS, false);
+
     this.store.dispatch(new fromCustomFieldsActions.GetCustomEmployeeFields(this.selectedCompany.CompanyId));
     this.store.dispatch(new fromCustomFieldsActions.GetCustomJobFields(this.selectedCompany.CompanyId));
-    this.store.dispatch(new fromCustomFieldsActions.GetTagCategories);
+    this.store.dispatch(new fromCustomFieldsActions.GetTagCategories(this.selectedCompany.CompanyId));
 
     this.getConfigurationGroups();
 
@@ -613,7 +645,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
       new fromOrgDataFieldMappingsActions.LoadingFieldMappings(this.selectedCompany.CompanyId, this.selectedConfigGroup.LoaderConfigurationGroupId));
   }
 
-  private addOrReplaceMappings(loaderType: string, mappings: string[]) {
+  private addOrReplaceMappings(loaderType: string, mappings: FieldMapping[]) {
     const mappingsModel: MappingModel = {
       LoaderType: loaderType,
       Mappings: mappings
@@ -708,7 +740,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
   }
 
   shouldDisableBtn() {
-    const part1 = (!this.paymarketMappingComplete
+    const mappingsIncomplete = (!this.paymarketMappingComplete
       || !this.jobMappingComplete
       || !this.structureMappingComplete
       || !this.structureMappingMappingComplete
@@ -718,13 +750,59 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
       || (this.employeeTagsLoaderFeatureFlag.value && !this.employeeTagsMappingComplete)
     );
 
-    const part2 = this.delimiter === '';
-    const part3 = this.emailRecipients.length === 0;
-    const part4 = !this.isValidExtension(this.sftpPublicKey);
-    const part5 = this.sftpUserNameIsValid === false;
-    const part6 = !this.isPublicKeyAuthInfoComplete();
-    const part7 = (this.savingConfiguration || this.loaderSettingsLoading || this.fieldMappingsLoading);
+    const NoDelimiterSelected = this.delimiter === '';
+    const NoEmailRecipientsSelected = this.emailRecipients.length === 0;
+    const InvalidPublicKeyExtension = !this.isValidExtension(this.sftpPublicKey);
+    const InvalidSftpUserName = this.sftpUserNameIsValid === false;
+    const IncompleteSftpInfo = !this.isPublicKeyAuthInfoComplete();
+    const SubscriptionsIncomplete = (this.savingConfiguration || this.loaderSettingsLoading || this.fieldMappingsLoading);
+    const NoDateFormatSelected = (!this.dateFormat || this.dateFormat === null);
+    const EntityKeyValidationFailed = this.entityKeyValidationMessage?.length > 0;
 
-    return part1 || part2 || part3 || part4 || part5 || part6 || part7;
+
+    return mappingsIncomplete
+      || NoDelimiterSelected
+      || NoEmailRecipientsSelected
+      || InvalidPublicKeyExtension
+      || InvalidSftpUserName
+      || IncompleteSftpInfo
+      || SubscriptionsIncomplete
+      || NoDateFormatSelected
+      || EntityKeyValidationFailed;
+  }
+
+  private validateEntityKeyMappings(loaderType: LoaderType, mappings: FieldMapping[]) {
+    if (mappings.length > 0) {
+      const validationResult = this.entityKeyValidatorService.hasCompleteEntityKeyMappings(mappings, this.employeeEntityKeys);
+
+      if (validationResult.IsValid) {
+        this.addOrReplaceMappings(loaderType, mappings);
+        this.entityKeyValidationMessage = '';
+      } else {
+        this.entityKeyValidationMessage = validationResult.MissingKeyFieldsMessage;
+      }
+    } else {
+      this.addOrReplaceMappings(loaderType, mappings);
+    }
+  }
+
+  private buildInternalFields(fieldNames: string[], areDataElementNames: boolean) {
+    const internalFields: InternalField[] = [];
+    fieldNames.forEach(fieldName => {
+      internalFields.push({ FieldName: fieldName, IsDataElementName: areDataElementNames });
+    });
+    return internalFields;
+  }
+
+  shouldShowTooltip() {
+    if (this.emailRecipients.length === 0) {
+      return 'Please enter an email recipient to receive the results of this load.';
+    } else if (!this.isValidExtension(this.sftpPublicKey)) {
+      return 'Invalid Public key File format. Please upload a file in these formats: ' + this.acceptedFileExtensions.join(', ');
+    } else if (this.entityKeyValidationMessage?.length > 0 ) {
+      return this.entityKeyValidationMessage;
+    }
+
+    return '';
   }
 }

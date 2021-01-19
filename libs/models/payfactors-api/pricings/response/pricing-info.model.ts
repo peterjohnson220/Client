@@ -26,6 +26,24 @@ export interface PricingNote extends NotesBase {
   CompanyPayMarketId:  number;
 }
 
+export interface PricedPayMarket {
+  Id: number;
+  Name: string;
+  Rate: string;
+  Currency: string;
+  StartDate: Date;
+  EndDate: Date;
+  IsDefault: boolean;
+}
+
+export interface PricingHistoryChartFilters {
+  PayMarkets: PricedPayMarket[];
+  Currency: string;
+  Rate: string;
+  StartDate: Date;
+  EndDate: Date;
+}
+
 export interface PricingDetails {
   FirstName: string;
   LastName: string;

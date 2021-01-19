@@ -15,6 +15,8 @@ import * as fromSearchReducer from 'libs/features/search/reducers';
 
 import * as fromSurveySearchReducer from '../reducers';
 import { SavedFilterHelper } from '../helpers';
+import { PricingMatchDataSearchContext } from '../models';
+import { SavedFilter } from '../../user-filter/models';
 
 @Injectable()
 export class SavedFiltersEffects {
@@ -52,10 +54,9 @@ export class SavedFiltersEffects {
           ({action, jobContext, pricingMatchDataSearchContext})),
       mergeMap(data => {
         const actions = [];
-        const savedFilters = data.action.payload;
-        const payMarketId = data.pricingMatchDataSearchContext.PaymarketId;
-        const defaultFilterForThisPayMarket = this.savedFilterHelper.getDefaultFilter(payMarketId, savedFilters);
+        const defaultFilterForThisPayMarket = this.getDefaultFilterForThisPayMarket(data.pricingMatchDataSearchContext, data.action.payload);
         const defaultFilterId = defaultFilterForThisPayMarket ? defaultFilterForThisPayMarket.Id : '';
+
         actions.push(new fromUserFilterActions.SetDefault(defaultFilterId));
         return actions;
       })
@@ -119,8 +120,7 @@ export class SavedFiltersEffects {
           ({ action, jobContext, pricingMatchDataSearchContext, savedFilters })),
       mergeMap(data => {
         const actions = [];
-        const payMarketId = data.pricingMatchDataSearchContext.PaymarketId;
-        const defaultFilterForThisPayMarket = this.savedFilterHelper.getDefaultFilter(payMarketId, data.savedFilters);
+        const defaultFilterForThisPayMarket = this.getDefaultFilterForThisPayMarket(data.pricingMatchDataSearchContext, data.savedFilters);
         const defaultFilterId = defaultFilterForThisPayMarket ? defaultFilterForThisPayMarket.Id : '';
         actions.push(new fromUserFilterActions.SetDefault(defaultFilterId));
 
@@ -158,6 +158,13 @@ export class SavedFiltersEffects {
         return actions;
       })
     );
+
+  private getDefaultFilterForThisPayMarket(pricingMatchDataSearchContext: PricingMatchDataSearchContext, savedFilters: any): SavedFilter {
+    if (pricingMatchDataSearchContext != null) {
+      const payMarketId = pricingMatchDataSearchContext.PaymarketId;
+      return this.savedFilterHelper.getDefaultFilter(payMarketId, savedFilters);
+    }
+  }
 
   constructor(
     private actions$: Actions,

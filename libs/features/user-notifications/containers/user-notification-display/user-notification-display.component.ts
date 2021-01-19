@@ -11,4 +11,8 @@ export class UserNotificationDisplayComponent {
 
   @Input() UserNotificationDisplay: UserNotificationDisplay;
   constructor() { }
+
+  onClicked() {
+    this.UserNotificationDisplay.IsRead = true;
+  }
 }

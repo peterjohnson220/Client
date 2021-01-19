@@ -3,6 +3,7 @@
   [title]="'Share Pricing Projects'"
   [isOpen$]="showAutoShareModal$"
   [primaryButtonText]="!autoShareUsersSelected ?  'Save' : 'Share (' + autoShareUsersSelected + ')'"
+  [submitEnabled]="submitEnabled"
   (onSubmit)="handleOnSubmit()"
   (onDismiss)="handleModalDismissed()">
 
@@ -18,12 +19,15 @@
     </div>
     <hr>
     <div perfectScrollbar class="users">
+      <p class="pl-4" *ngIf="searchValue?.length > 0 && filteredShareableUsers?.length === 0">
+        No results
+      </p>
       <div *ngFor="let user of filteredShareableUsers; trackBy: trackByFn;" class="shareable-users">
         <pf-shareable-user
           [user]="user"
           [avatarUrl]="avatarUrl"
-          (toggleSelectedUser)="handleToggleSelectedUser($event)"
-        ></pf-shareable-user>
+          (toggleSelectedUser)="handleToggleSelectedUser($event)">
+        </pf-shareable-user>
       </div>
     </div>
   </ng-container>

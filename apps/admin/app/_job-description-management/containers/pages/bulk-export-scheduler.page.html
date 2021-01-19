@@ -4,18 +4,28 @@
   </ng-container>
 
   <ng-container page-content>
-    <h4>Create File to Export</h4>
-    <div class="mb-3">
-      <pf-bulk-export-scheduler-form [views]="views$ | async"
-                                     [filters]="filters$ | async"
-                                     [schedules]="schedules$ | async">
-      </pf-bulk-export-scheduler-form>
-    </div>
-    <h4>Saved Schedules</h4>
-    <div class="mx-3 px-5">
-      <pf-bulk-export-schedules-list [views]="views$ | async"
-                                     [schedules]="schedules$ | async">
-      </pf-bulk-export-schedules-list>
+    <div class="row m-0">
+      <div class="inner-content col w-100">
+        <div class="row">
+          <div class="col-sm-12 col-md-6">
+            <div class="card mb-3 shadow-sm">
+              <div class="card-body">
+                <h4 class="card-title pb-4">Create File to Export</h4>
+                <pf-bulk-export-scheduler-form [views]="views$ | async"
+                                               [filters]="filters$ | async"
+                                               [schedules]="schedules$ | async">
+                </pf-bulk-export-scheduler-form>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-6">
+            <h4>Saved Schedules</h4>
+            <pf-bulk-export-schedules-list [views]="views$ | async"
+                                           [schedules]="schedules$ | async">
+            </pf-bulk-export-schedules-list>
+          </div>
+        </div>
+      </div>
     </div>
   </ng-container>
 </pf-page-with-title-bar>

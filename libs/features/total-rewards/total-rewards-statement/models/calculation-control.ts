@@ -1,7 +1,7 @@
 import { BaseControl } from './base-control';
 import { CompensationField } from './compensation-field';
 import { LabelWithOverride } from './label-with-override';
-import { TotalRewardsColorEnum } from './settings';
+import { TotalRewardsColorEnum, FieldLayout } from './settings';
 import { TotalRewardsControlEnum } from './total-rewards-control-enum';
 
 export interface CalculationControl extends BaseControl {
@@ -9,6 +9,8 @@ export interface CalculationControl extends BaseControl {
   DataFields: CompensationField[];
   Summary: LabelWithOverride;
   SummaryTextColor: TotalRewardsColorEnum;
+  ShowTitle: boolean;
+  RowSpacing: FieldLayout;
 }
 
 export function generateMockCalculationControl(): CalculationControl {
@@ -25,6 +27,8 @@ export function generateMockCalculationControl(): CalculationControl {
       { Id: '3', DatabaseField: 'EmployeeSTI', Name: {Default: 'Short Term Incentive', Override: ''}, IsVisible: true}
     ],
     Summary: {Default: '', Override: ''},
-    SummaryTextColor: TotalRewardsColorEnum.Undefined
+    SummaryTextColor: TotalRewardsColorEnum.Undefined,
+    ShowTitle: true,
+    RowSpacing: FieldLayout.Normal
   };
 }

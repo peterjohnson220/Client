@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { Observable, Subject, Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { BulkExportSchedule, JobDescriptionViewModel } from 'libs/models/jdm';
@@ -17,6 +17,7 @@ export class BulkExportSchedulerFormComponent implements OnInit, OnDestroy {
   @Input() views: JobDescriptionViewModel[];
   @Input() filters: JdmListFilter[];
   @Input() schedules: BulkExportSchedule[];
+  @Input() exportType: '';
 
   schedule: BulkExportSchedule = new BulkExportSchedule();
   daysOfWeekSelected: string[];
@@ -25,8 +26,6 @@ export class BulkExportSchedulerFormComponent implements OnInit, OnDestroy {
   addingSchedule$: Observable<boolean>;
   addingScheduleError$: Observable<boolean>;
   addScheduleErrorSubscription: Subscription;
-
-  private unsubscribe$ = new Subject();
 
   weekday: string[] = [ 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday' ];
   occurence: string[] = [ 'First', 'Second', 'Third', 'Fourth' ];
@@ -71,7 +70,7 @@ export class BulkExportSchedulerFormComponent implements OnInit, OnDestroy {
   }
 
   onScheduleFormatChange() {
-    if (this.schedule.Format === 'xlsx') {
+    if (this.schedule.Format === 'xlsx' || this.schedule.Format === 'json') {
       this.schedule.FormatSeparatorType = null;
     } else {
       this.schedule.FormatSeparatorType = 'comma';
@@ -146,7 +145,7 @@ export class BulkExportSchedulerFormComponent implements OnInit, OnDestroy {
     this.schedule.Frequency = 'One-time';
     this.schedule.IncludeDelimiters = false;
     this.schedule.IncludeFormatting = false;
-    this.schedule.Format = 'xlsx';
+    this.schedule.Format = !this.exportType ? 'xlsx' : 'json';
 
     this.daysOfWeekSelected = [];
     this.validSchedule = true;

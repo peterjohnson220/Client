@@ -358,7 +358,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
 
   handleEditClicked(): void {
     this.showRoutingHistory = false;
-
+    this.saveJobDescription(true); // put JD in draft state;
   }
 
   handlePriceJobClicked(): void {
@@ -611,12 +611,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     );
 
     this.jobDescriptionViewsAsyncSubscription = this.jobDescriptionViewsAsync$.subscribe(asyncObj => this.jobDescriptionViews = asyncObj.obj);
-    this.editingSubscription = this.editingJobDescription$.subscribe(value => {
-      this.editing = value;
-      if (this.editing) {
-        this.saveJobDescription(true); // put JD in draft state;
-      }
-    });
+    this.editingSubscription = this.editingJobDescription$.subscribe(value => this.editing = value);
 
     this.publishingSubscription = this.jobDescriptionPublishing$.subscribe(asyncObj => {
       if (asyncObj) {

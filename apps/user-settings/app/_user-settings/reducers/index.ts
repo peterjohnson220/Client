@@ -8,6 +8,8 @@ import * as fromUserProfileReducer from './user-profile.reducer';
 import * as fromProjectTemplateReducer from './project-templates.reducer';
 import * as fromPayMarketDefaultSettingsReducer from './paymarket-default-settings.reducer';
 import * as fromChangePasswordReducer from './change-password.reducer';
+import * as fromEmailPreferencesReducer from './email-preferences.reducer';
+import * as fromNotificationPreferencesReducer from './notification-preferences.reducer';
 
 // Feature area state
 export interface UserSettingsMainState {
@@ -16,6 +18,8 @@ export interface UserSettingsMainState {
   projectTemplates: fromProjectTemplateReducer.State;
   payMarketDefaultSettings: fromPayMarketDefaultSettingsReducer.State;
   changePassword: fromChangePasswordReducer.State;
+  emailPreferences: fromEmailPreferencesReducer.State;
+  notificationPreferences: fromNotificationPreferencesReducer.State;
 }
 
 // Extend root state with feature area state
@@ -29,7 +33,9 @@ export const reducers = {
   userProfile: fromUserProfileReducer.reducer,
   projectTemplates: fromProjectTemplateReducer.reducer,
   payMarketDefaultSettings: fromPayMarketDefaultSettingsReducer.reducer,
-  changePassword: fromChangePasswordReducer.reducer
+  changePassword: fromChangePasswordReducer.reducer,
+  emailPreferences: fromEmailPreferencesReducer.reducer,
+  notificationPreferences: fromNotificationPreferencesReducer.reducer
 };
 
 // Select Feature Area
@@ -52,7 +58,14 @@ export const selectPayMarketDefaultSettingsState = createSelector(selectFeatureA
   (state: UserSettingsMainState) => state.payMarketDefaultSettings);
 
 export const selectChangePasswordState = createSelector(selectFeatureAreaState,
-  (state: UserSettingsMainState) => state.changePassword
+  (state: UserSettingsMainState) => state.changePassword);
+
+export const selectEmailPreferencesState = createSelector(selectFeatureAreaState,
+  (state: UserSettingsMainState) => state.emailPreferences
+);
+
+export const selectNotificationPreferencesState = createSelector(selectFeatureAreaState,
+  (state: UserSettingsMainState) => state.notificationPreferences
 );
 
 // Dashboard Preferences
@@ -79,3 +92,17 @@ export const getPayMarketCuts = createSelector(selectPayMarketDefaultSettingsSta
 export const getChangingPassword = createSelector(selectChangePasswordState, fromChangePasswordReducer.getChangingPassword);
 export const getChangePasswordSuccess = createSelector(selectChangePasswordState, fromChangePasswordReducer.getChangePasswordSuccess);
 export const getChangePasswordError = createSelector(selectChangePasswordState, fromChangePasswordReducer.getChangePasswordError);
+// Email Preferences
+export const getUserSubscriptions = createSelector(selectEmailPreferencesState, fromEmailPreferencesReducer.getUserSubscriptions);
+export const getUserSubscriptionsHasPendingChanges = createSelector(
+  selectEmailPreferencesState, fromEmailPreferencesReducer.getUserSubscriptionsHasPendingChanges);
+export const getUpdateEmailPreferencesApiResponse = createSelector(
+  selectEmailPreferencesState, fromEmailPreferencesReducer.getUpdateEmailPreferencesApiResponse);
+// Notification Preferences
+export const getNotificationPreferences = createSelector(selectNotificationPreferencesState, fromNotificationPreferencesReducer.getNotificationPreferences);
+export const getUpdatingNotificationPreferences = createSelector(
+  selectNotificationPreferencesState, fromNotificationPreferencesReducer.getUpdatingNotificationPreferences);
+export const getNotificationPreferencesHasPendingChanges =  createSelector(
+  selectNotificationPreferencesState, fromNotificationPreferencesReducer.getNotificationPreferencesHasPendingChanges);
+export const getUpdateNotificationPreferencesApiResponse = createSelector(
+  selectNotificationPreferencesState, fromNotificationPreferencesReducer.getUpdateNotificationPreferencesApiResponse);

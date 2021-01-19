@@ -1,0 +1,62 @@
+<div class="d-flex flex-wrap flex-column">
+  <div class="d-flex">
+    <label>Last Sent:</label>
+    <span *ngIf="schedule.LastSentDate">{{schedule.LastSentDate | date : 'MM/dd/yyyy'}}</span>
+    <span *ngIf="!schedule.LastSentDate">N/A</span>
+    <div class="ml-auto">
+      <button *ngIf="dataViewIdClicked !== schedule.DataViewId" class="btn btn-secondary mr-2"
+              [attr.data-qa-id]="'btn-edit'"
+              (click)="handleEditClicked(schedule.DataViewId)"
+              ngbTooltip="Edit"
+              container="body">
+        <fa-icon icon="edit"></fa-icon>
+      </button>
+      <button *ngIf="dataViewIdClicked === schedule.DataViewId" class="btn btn-primary mr-2"
+              [attr.data-qa-id]="'btn-cancel'"
+              (click)="handleCancelClicked()"
+              ngbTooltip="Cancel"
+              container="body">
+        Cancel
+      </button>
+      <button *ngIf="dataViewIdClicked === schedule.DataViewId" class="btn btn-primary mr-2"
+              [attr.data-qa-id]="'btn-save'"
+              (click)="handleSaveClicked()"
+              [disabled]="!changesMade"
+              ngbTooltip="Save"
+              container="body">
+        <fa-icon icon="check-circle"></fa-icon>
+        Save
+      </button>
+      <button class="btn btn-secondary"
+              [attr.data-qa-id]="'btn-delete'"
+              (click)="handleDeleteClicked(schedule)"
+              ngbTooltip="Delete"
+              container="body">
+        <fa-icon icon="trash-alt"></fa-icon>
+      </button>
+    </div>
+  </div>
+  <div *ngIf="dataViewIdClicked !== schedule.DataViewId; else editView">
+    <div class="d-flex">
+      <label>Select Format:</label>
+      <span>{{schedule.Format}}</span>
+    </div>
+    <div *ngIf="schedule.Format === csvFileFormat">
+      <label>Separator Type:</label>
+      <span>{{schedule.FormatSeparatorType}}</span>
+    </div>
+    <div class="d-flex">
+      <label>Frequency:</label>
+      <span>{{schedule.FrequencyTextFormat}}</span>
+    </div>
+  </div>
+  <ng-template #editView>
+    <pf-export-format
+      [scheduledFormat]="schedule.Format"
+      [scheduledFormatSeparatorType]="schedule.FormatSeparatorType">
+    </pf-export-format>
+    <pf-export-frequency
+      [schedule]="schedule">
+    </pf-export-frequency>
+  </ng-template>
+</div>

@@ -10,8 +10,8 @@ import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig, GridConfi
 import { ViewField } from 'libs/models/payfactors-api/reports/request';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
-import { RangeType } from 'libs/features/employee-management/models';
 import { PfThemeType } from 'libs/features/pf-data-grid/enums/pf-theme-type.enum';
+import { RangeType } from 'libs/models/common';
 import * as fromActions from 'libs/features/pf-data-grid/actions';
 import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
 

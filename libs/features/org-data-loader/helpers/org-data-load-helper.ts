@@ -2,7 +2,7 @@ import isObject from 'lodash/isObject';
 
 import { LoaderSetting } from 'libs/models/data-loads';
 
-import { LoaderFileFormat, LoaderSettingsKeys } from '../constants/';
+import { DEFAULT_DATE_FORMAT, LoaderFileFormat, LoaderSettingsKeys } from '../constants/';
 
 export interface ILoadSettings {
   isActive: boolean;
@@ -73,7 +73,7 @@ export class OrgDataLoadHelper {
       this.stringSettingToBooleanTransform
     );
     loadSettings.delimiter = this.getLoaderSettingValueIfSet<string>(response, LoaderSettingsKeys.Delimiter, null, this.noopStringTransform);
-    loadSettings.dateFormat = this.getLoaderSettingValueIfSet<string>(response, LoaderSettingsKeys.DateFormat, null, this.noopStringTransform);
+    loadSettings.dateFormat = this.getLoaderSettingValueIfSet<string>(response, LoaderSettingsKeys.DateFormat, DEFAULT_DATE_FORMAT, this.noopStringTransform);
     loadSettings.isEmployeesLoadEnabled = this.getLoaderSettingValueIfSet<boolean>(response,
       LoaderSettingsKeys.IsEmployeesLoadEnabled,
       false,

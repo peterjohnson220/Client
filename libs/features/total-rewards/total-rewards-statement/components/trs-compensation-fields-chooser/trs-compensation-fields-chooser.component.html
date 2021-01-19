@@ -34,7 +34,7 @@
 <button [title]="maxVisibleFieldsReached ? 'Statements are limited to 20 fields. Remove a field to add more.' :  'Add Field'"
         type="button"
         id="add-field-popover-btn"
-        class="btn btn-sm btn-outline-primary add-button"
+        class="btn btn-sm btn-outline-primary add-button align-middle"
         placement="left right"
         #addFieldPopover="ngbPopover"
         popoverTitle="Add Field"
@@ -43,5 +43,5 @@
         [disabled]="maxVisibleFieldsReached"
         [autoClose]="'outside'"
         [container]="'body'">
-  <fa-icon class="fa-sm" icon="plus"></fa-icon> Add Field
+  <fa-icon icon="plus" class="position-relative"></fa-icon>
 </button>

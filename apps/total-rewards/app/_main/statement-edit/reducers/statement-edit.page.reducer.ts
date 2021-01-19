@@ -24,6 +24,7 @@ export interface State {
   assignedEmployees: AsyncStateObj<GenericNameValue<number>[]>;
   companyUdfs: AsyncStateObj<CompensationField[]>;
   visibleFieldsCount: number;
+  activeRichTextEditorId: string;
 }
 
 export const initialState: State = {
@@ -39,7 +40,8 @@ export const initialState: State = {
   employeeData: generateDefaultAsyncStateObj<EmployeeRewardsData>(null),
   assignedEmployees: generateDefaultAsyncStateObj<GenericNameValue<number>[]>([]),
   companyUdfs: generateDefaultAsyncStateObj([]),
-  visibleFieldsCount: 0
+  visibleFieldsCount: 0,
+  activeRichTextEditorId: null
 };
 
 export function reducer(state = initialState, action: fromEditStatementActions.StatementEditPageActions): State {
@@ -298,7 +300,6 @@ export function reducer(state = initialState, action: fromEditStatementActions.S
         visibleFieldsCount: visibleFieldsCount
       };
     }
-
     case fromEditStatementActions.GET_COMPANY_UDF_ERROR: {
       const companyUdfClone: AsyncStateObj<CompensationField[]> = cloneDeep(state.companyUdfs);
       companyUdfClone.loading = false;
@@ -307,6 +308,12 @@ export function reducer(state = initialState, action: fromEditStatementActions.S
       return {
         ...state,
         companyUdfs: companyUdfClone
+      };
+    }
+    case fromEditStatementActions.UPDATE_ACTIVE_RICH_TEXT_EDITOR_ID: {
+      return {
+        ...state,
+        activeRichTextEditorId: action.payload
       };
     }
     default: {

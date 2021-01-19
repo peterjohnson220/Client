@@ -22,7 +22,12 @@ import {
   ValidateFormulaResponse,
   ValidateFormulaRequest,
   UpsertFormulaFieldRequest,
-  DeleteUserFormulaRequest, DataViewConfig, ExportGridRequest, BasicDataViewDataRequest, GetAvailableFieldsByTableRequest
+  DeleteUserFormulaRequest,
+  DataViewConfig,
+  ExportGridRequest,
+  BasicDataViewDataRequest,
+  GetAvailableFieldsByTableRequest,
+  ExportDataViewRequest
 } from 'libs/models/payfactors-api';
 import { PayfactorsApiService } from '../payfactors-api.service';
 
@@ -58,8 +63,8 @@ export class DataViewApiService {
     return this.payfactorsApiService.get(`${this.endpoint}/GetUserDataViewInfo`, { params: { dataViewId: dataViewId } });
   }
 
-  exportUserDataView(dataViewId: number): Observable<any> {
-    return this.payfactorsApiService.post(`${this.endpoint}/ExportDataView`, { DataViewId: dataViewId });
+  exportUserDataView(request: ExportDataViewRequest): Observable<any> {
+    return this.payfactorsApiService.post(`${this.endpoint}/ExportDataView`, request);
   }
 
   getExportingDataView(dataViewId: number): Observable<any> {

@@ -213,18 +213,7 @@ describe('TrsChartControlComponent', () => {
     expect(chartEditData[0].value.toString().indexOf('.')).toBe(-1);
   });
 
-  it('should add a `hidden-title` class when the `showTitle` input is set to false', () => {
-    // arrange
-    component.showTitle = false;
-
-    // act
-    fixture.detectChanges();
-
-    // assert
-    expect(fixture).toMatchSnapshot();
-  });
-
-  it('should omit the `hidden-title` class when `showTitle` input is set to true', () => {
+  it('should add a `mt-3` class when `showTitle` input is true', () => {
     // arrange
     component.controlData = { Title: 'test title' } as any;
     component.showTitle = true;
@@ -236,6 +225,17 @@ describe('TrsChartControlComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
+  it('should add a negative margin/`mt-n3` class when `showTitle` input is false', () => {
+    // arrange
+    component.controlData = { Title: 'test title' } as any;
+    component.showTitle = false;
+
+    // act
+    fixture.detectChanges();
+
+    // assert
+    expect(fixture).toMatchSnapshot();
+  });
   it('should set the `height` input on the kendo-chart element', () => {
     // arrange
     component.controlData = { Title: 'test title' } as any;

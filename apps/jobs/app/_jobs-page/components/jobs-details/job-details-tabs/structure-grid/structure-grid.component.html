@@ -43,7 +43,7 @@
 <ng-template #nameColumn let-dataRow="dataRow">
   <div pfEllipsisActive class="ellipsis-overflowing-text">
     <ng-container *ngIf="dataRow.vw_CompanyJobsStructureInfo_RangeTypeId === rangeTypeIds.Job">
-      <a class="pf-link-hover" [href]="'/client/structures/' + dataRow['vw_CompanyJobsStructureInfo_CompanyStructuresRangeGroup_ID']">
+      <a class="pf-link-hover" [href]="'/client/structures/job/' + dataRow['vw_CompanyJobsStructureInfo_CompanyStructuresRangeGroup_ID']">
         {{dataRow['vw_CompanyJobsStructureInfo_Structure_Name']}} <small> ({{dataRow['vw_CompanyJobsStructureInfo_Structure_Code']}})</small>
       </a>
     </ng-container>

@@ -13,6 +13,8 @@ import * as fromUserSettingsReducer from '../reducers';
 import * as fromDashboardPreferencesActions from '../actions/dashboard-preferences.actions';
 import * as fromUserProfileActions from '../actions/user-profile.actions';
 import * as fromProjectTemplateActions from '../actions/project-template.actions';
+import * as fromEmailPreferencesActions from '../actions/email-preferences.actions';
+import * as fromNotificationPreferenceActions from '../actions/notification-preferences.actions';
 import { Tab, TabName } from '../models';
 
 @Component({
@@ -30,6 +32,7 @@ export class UserSettingsPageComponent implements OnInit, OnDestroy {
 
   tabs: Tab[] = [
     { Title: TabName.MyProfile, Path: '/my-profile', IsVisible: true },
+    { Title: TabName.CommunicationPreferences, Path: '/communication-preferences', IsVisible: true },
     { Title: TabName.PersonalProjectSettings, Path: '/personal-project-settings', IsVisible: true },
     { Title: TabName.DashboardPreferences, Path: '/dashboard-preferences', IsVisible: true }
   ];
@@ -64,6 +67,8 @@ export class UserSettingsPageComponent implements OnInit, OnDestroy {
     });
     this.userContextSubscription = this.userContext$.subscribe(uc => this.setUserProfile(uc));
     this.store.dispatch(new fromProjectTemplateActions.GetProjectTemplates());
+    this.store.dispatch(new fromEmailPreferencesActions.GetUserSubscriptions());
+    this.store.dispatch(new fromNotificationPreferenceActions.GetNotificationPreferences());
   }
 
   ngOnDestroy() {
