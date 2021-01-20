@@ -33,9 +33,9 @@ export class FilterPanelComponent implements OnChanges {
       // TODO: Make this more customizable to allow different filter section configurations
       // This logic is repeated in the Filter-Builder panel and in getUserFilteredFields()
       const newFields: ViewField[] = changes['fields'].currentValue;
-      this.customFilterFields = newFields.filter(f => f.CustomFilterStrategy && f.DataType !== DataViewFieldDataType.Bit);
-      this.bitFields = newFields.filter(f => f.DataType === DataViewFieldDataType.Bit);
-      this.simpleFields = newFields.filter(f => f.DataType !== DataViewFieldDataType.Bit && !f.CustomFilterStrategy);
+      this.customFilterFields = newFields.filter(f => f.CustomFilterStrategy && f.DataType !== DataViewFieldDataType.Bit && f.IsSelected);
+      this.bitFields = newFields.filter(f => f.DataType === DataViewFieldDataType.Bit && f.IsSelected);
+      this.simpleFields = newFields.filter(f => f.DataType !== DataViewFieldDataType.Bit && !f.CustomFilterStrategy && f.IsSelected);
     }
   }
 
