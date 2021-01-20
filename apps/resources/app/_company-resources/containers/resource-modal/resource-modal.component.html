@@ -1,7 +1,7 @@
 <form [formGroup]="resourceForm" (ngSubmit)="onFormSubmit()">
   <div class="modal-header">
     <h4 class="modal-title">Add Resource</h4>
-    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <button type="button" class="close" aria-label="Close" (click)="handleCancelClicked()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -94,7 +94,7 @@
     </ng-container>
   </div>
   <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" (click)="activeModal.close()">Cancel</button>
+      <button type="button" class="btn btn-secondary" (click)="handleCancelClicked()">Cancel</button>
       <button type="submit" class="btn btn-primary">Save</button>
   </div>
 </form>

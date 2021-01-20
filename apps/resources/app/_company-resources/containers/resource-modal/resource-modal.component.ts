@@ -242,6 +242,18 @@ export class ResourceModalComponent implements OnInit, OnDestroy {
     return { isInvalidUrl: true };
   }
 
+  handleCancelClicked() {
+    this.companyResourceUploadState = {
+      Resources: [],
+      IsModalOpen: false
+    };
+    this.store.dispatch(new fromCompanyResourcesAddResourceActions.SaveCompanyResourcesUploadState(this.companyResourceUploadState));
+    this.activeModal.close();
+
+    // TODO: Clean up orphaned cloud resource
+    // this.store.dispatch(new fromCompanyResourcesAddResourceActions.DiscardCompanyResource(this.uploadedFiles[0].CloudFileName));
+  }
+
   private createForm() {
     this.resourceForm = this.formBuilder.group({
       'resourceName': [undefined, {validators: [Validators.required, Validators.maxLength(100), this.validateName]}],
