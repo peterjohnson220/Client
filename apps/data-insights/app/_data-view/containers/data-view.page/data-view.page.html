@@ -21,7 +21,11 @@
                     (click)="handleScheduleClicked()"
                     ngbTooltip="Schedule Export"
                     container="body"
-                    *ngIf="scheduleTabularReportingExportFeatureFlagEnabled && hasScheduleTabularReportingExportPermission">
+                    *ngIf="
+                      scheduleTabularReportingExportFeatureFlagEnabled &&
+                      hasScheduleTabularReportingExportPermission &&
+                      isOwner
+                    ">
               <fa-icon icon="calendar-star"></fa-icon>
             </button>
             <button class="btn btn-secondary data-view-grid-btn"
