@@ -218,7 +218,9 @@ export class MultiMatchComponent extends SearchBaseDirective implements OnInit, 
   }
 
   handleRefineCancelled(): void {
-    this.store.dispatch(new fromSurveySearchResultsActions.GetExchangeDataResults({exchangeJobId: this.refiningExchangeJobId}));
+    if (!!this.refiningExchangeJobId) {
+      this.store.dispatch(new fromSurveySearchResultsActions.GetExchangeDataResults({exchangeJobId: this.refiningExchangeJobId}));
+    }
     this.store.dispatch(new fromSurveySearchResultsActions.RefineExchangeJobResultComplete());
   }
 
