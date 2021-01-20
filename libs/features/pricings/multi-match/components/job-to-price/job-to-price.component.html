@@ -71,7 +71,8 @@
             <td *ngIf="featureImplementation == modifyPricingsImplementation">{{dataCut.MatchWeight}}</td>
             <td *ngIf="featureImplementation == modifyPricingsImplementation">{{dataCut.MatchAdjustment}}</td>
             <td class="scope-cell">
-              <div><span class="job-title">{{dataCut.JobTitle}} </span><span class="job-code">({{dataCut.JobCode}}) </span> </div>
+              <div><span class="job-title link" (click)="handleDataCutClick(job, dataCut)">
+                {{dataCut.JobTitle}} </span><span class="job-code">({{dataCut.JobCode}}) </span> </div>
               <div class="paymarket"> {{dataCut.Source}} </div>
             </td>
             <td *ngIf="featureImplementation == modifyPricingsImplementation" class="text-nowrap">

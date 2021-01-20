@@ -2,8 +2,8 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } 
 
 import { ActionsSubject, Store } from '@ngrx/store';
 import { ofType } from '@ngrx/effects';
-import { skip, takeUntil } from 'rxjs/operators';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { skip, takeUntil, take } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
 import { DragulaService } from 'ng2-dragula';
 
 import { SearchBaseDirective } from 'libs/features/search/search/containers/search-base';
@@ -27,6 +27,7 @@ import * as fromModifyPricingsActions from '../actions/modify-pricings.actions';
 import * as fromMultiMatchReducer from '../reducers';
 import { JobToPrice } from '../models';
 import { LEGACY_PROJECTS, MODIFY_PRICINGS } from '../constants';
+import { map } from 'rxjs/internal/operators';
 
 @Component({
   selector: 'pf-multi-match-component',
@@ -59,6 +60,7 @@ export class MultiMatchComponent extends SearchBaseDirective implements OnInit, 
   searchError$: Observable<boolean>;
   refiningPeerCut$: Observable<boolean>;
   refiningExchangeJobId$: Observable<number>;
+  editingTempDataCut$: Observable<boolean>;
 
   constructor(
     store: Store<fromSearchReducer.State>,
@@ -100,6 +102,7 @@ export class MultiMatchComponent extends SearchBaseDirective implements OnInit, 
     this.searchError$ = this.store.select(fromSearchReducer.getSearchResultsError);
     this.refiningPeerCut$ = this.store.select(fromSurveySearchReducer.getRefining);
     this.refiningExchangeJobId$ = this.store.select(fromSurveySearchReducer.getRefiningJobId);
+    this.editingTempDataCut$ = this.store.select(fromSurveySearchReducer.getEditingTempDataCut);
     this.actionsSubject
       .pipe(ofType(fromModifyPricingsActions.GET_PRICINGS_TO_MODIFY_SUCCESS), takeUntil(this.unsubscribe$))
       .subscribe(p => {
@@ -114,14 +117,29 @@ export class MultiMatchComponent extends SearchBaseDirective implements OnInit, 
       this.changesToSave = jobsToPrice.some(job => this.jobHasChangesToSave(job));
     });
     this.refiningExchangeJobId$.pipe(takeUntil(this.unsubscribe$)).subscribe((exchangeJobId) => this.refiningExchangeJobId = exchangeJobId);
-    this.refiningPeerCut$.pipe(skip(1), takeUntil(this.unsubscribe$)).subscribe((refining) => {
-      if (!refining) {
-        this.store.dispatch(new fromSearchFeatureActions.SetSearchFeatureId(SearchFeatureIds.MultiMatch));
-      } else {
+    combineLatest([this.refiningPeerCut$, this.editingTempDataCut$]).pipe(
+      skip(1),
+      takeUntil(this.unsubscribe$),
+      map((combined) => {
+        return {
+          isRefining: !!combined[0],
+          isEditing: !!combined[1]
+        };
+      })).subscribe((tempDataCutState) => {
+        if (!tempDataCutState.isRefining && !tempDataCutState.isEditing) {
+          this.store.dispatch(new fromSearchFeatureActions.SetSearchFeatureId(SearchFeatureIds.MultiMatch));
+          return;
+        }
+
         this.store.dispatch(new fromSearchFeatureActions.ResetSearchFeatureId(SearchFeatureIds.ExchangeExplorer));
         this.store.dispatch(new fromSearchFeatureActions.SetSearchFeatureId(SearchFeatureIds.ExchangeExplorer));
-        this.upsertPeerDataCutComponent.refineExchangeJob(this.refiningExchangeJobId);
-      }
+        if (tempDataCutState.isRefining) {
+          this.upsertPeerDataCutComponent.refineExchangeJob(this.refiningExchangeJobId);
+        } else {
+          this.store.select(fromSurveySearchReducer.getTempDataCutBeingEdited).pipe(take(1)).subscribe((tempDataCut) => {
+            this.upsertPeerDataCutComponent.editTempDataCut(tempDataCut);
+          });
+        }
     });
   }
 
@@ -181,6 +199,18 @@ export class MultiMatchComponent extends SearchBaseDirective implements OnInit, 
     this.store.dispatch(new fromSurveySearchResultsActions.AddRefinedExchangeDataCut(refinedCut));
     this.store.dispatch(new fromDataCutValidationActions.AddTempDataCutValidation(dataCut.DataCutValidationInfo));
     this.store.dispatch(new fromSurveySearchResultsActions.RefineExchangeJobResultComplete());
+  }
+
+  handleTempDataCutEdited(tempExchangeDataCutDetails: TempExchangeDataCutDetails): void {
+    const dataCut = tempExchangeDataCutDetails.TempExchangeJobDataCut;
+    const exchangeJobDataCut: ExchangeJobDataCut = {
+      ExchangeJobId: dataCut.ExchangeJobId,
+      DataCut: PayfactorsSurveySearchApiModelMapper.mapCustomExchangeJobDataCutToDataCut(dataCut),
+      ExchangeDataSearchRequest: tempExchangeDataCutDetails.ExchangeDataSearchRequest
+    };
+    this.store.dispatch(new fromDataCutValidationActions.AddTempDataCutValidation(dataCut.DataCutValidationInfo));
+    this.store.dispatch(new fromSurveySearchResultsActions.EditTempDataCutComplete(exchangeJobDataCut));
+    this.store.dispatch(new fromJobsToPriceActions.EditTempDataCutComplete({DataCut: exchangeJobDataCut.DataCut}));
   }
 
   handleLoadRefiningValidationDetails(): void {

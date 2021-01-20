@@ -13,7 +13,9 @@
         [rate]="(pricingMatchDataSearchContext$ | async)?.Rate"
         [featureImplementation]="featureImplementation"
         (loadDataCuts)="handleLoadDataCuts($event)"
-        (cutDeleted)="handleCutDeleted($event)" >
+        (cutDeleted)="handleCutDeleted($event)"
+        (editCut)="handleEditCut($event)"
+      >
       </pf-job-to-price>
     </ng-container>
   </pf-async-container>

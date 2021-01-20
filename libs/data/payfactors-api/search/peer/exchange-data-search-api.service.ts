@@ -7,7 +7,7 @@ import { SearchFilter } from 'libs/models/payfactors-api/search/response';
 import {
   ExchangeDataSearchRequest,
   SearchExchangeAggregationsRequest,
-  ExchangeDataSearchResponse
+  ExchangeDataSearchResponse, BaseExchangeDataSearchRequest
 } from 'libs/models/payfactors-api/peer/exchange-data-search';
 import { ComphubExchangeExplorerContextRequest } from 'libs/models/peer/requests/comphub-exchange-explorer-context-request.model';
 
@@ -24,22 +24,26 @@ export class ExchangeDataSearchApiService {
   getExchangeExplorerContextInfo(
     payload: ComphubExchangeExplorerContextRequest |
     { companyJobId?: number, companyPayMarketId?: number } |
-    { exchangeId: number } |
-    { lockedExchangeJobId: number, companyPayMarketId?: number }):
+    { exchangeId: number }
+    ):
     Observable<ExchangeExplorerContextInfo> {
     const request: ComphubExchangeExplorerContextRequest = payload as ComphubExchangeExplorerContextRequest;
     if (request && request.ExchangeJobId) {
       return this.payfactorsApiService.post(`${this.endpoint}/GetExchangeExplorerContextInfo`, request);
     }
-    const lockedExchangeJobPayload = payload as {lockedExchangeJobId: number, companyPayMarketId?: number};
-    const hasLockedExchangeJob = !!lockedExchangeJobPayload && !!lockedExchangeJobPayload.lockedExchangeJobId;
-    const lockedJobPayload = {
-      lockedExchangeJobId: lockedExchangeJobPayload.lockedExchangeJobId,
-      companyPayMarketId: !!lockedExchangeJobPayload.companyPayMarketId ? lockedExchangeJobPayload.companyPayMarketId : 0
+
+    return this.payfactorsApiService.get(`${this.endpoint}/GetExchangeExplorerContextInfo`, {
+      params: payload
+    });
+  }
+
+  getLockedExchangeExplorerContextInfo(payload: { lockedExchangeJobId: number, companyPayMarketId?: number }): Observable<ExchangeExplorerContextInfo> {
+    const lockedExchangeJobPayload = {
+      lockedExchangeJobId: payload.lockedExchangeJobId,
+      companyPayMarketId: !!payload.companyPayMarketId ? payload.companyPayMarketId : 0
     };
-    const action = hasLockedExchangeJob ? 'GetExchangeExplorerContextInfoForLockedExchangeJob' : 'GetExchangeExplorerContextInfo';
-    return this.payfactorsApiService.get(`${this.endpoint}/${action}`, {
-      params: hasLockedExchangeJob ? lockedJobPayload : payload
+    return this.payfactorsApiService.get(`${this.endpoint}/GetExchangeExplorerContextInfoForLockedExchangeJob`, {
+      params: lockedExchangeJobPayload
     });
   }
 
