@@ -41,7 +41,7 @@ export const selectFeatureAreaState = createFeatureSelector<SearchFeatureState>(
 // Feature Selectors
 export const selectSearchFiltersState = createSelector(
   selectFeatureAreaState,
-  (state: SearchFeatureState) => state.searchFilters
+  (state: SearchFeatureState) => !!state ? state.searchFilters : {}
 );
 
 export const selectSingledFilterState = createSelector(
