@@ -12,6 +12,7 @@ import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { LayoutModule } from '@progress/kendo-angular-layout';
 import { FileSelectModule, UploadModule } from '@progress/kendo-angular-upload';
 
+import { EntityKeyValidationService } from 'libs/core/services';
 import { PfCompanySelectorModule } from 'libs/features/company/company-selector/company-selector.module';
 import { PfCustomFieldsModule } from 'libs/features/company/custom-fields/custom-fields.module';
 import { PfEntityIdentifierModule } from 'libs/features/company/entity-identifier/entity-identifier.module';
@@ -21,7 +22,6 @@ import { LoaderSettingsEffects } from 'libs/features/org-data-loader/state/effec
 import { PfFormsModule } from 'libs/forms';
 import { ConfigSettingsSelectorFactory } from 'libs/state/app-context/services';
 import { PfCommonUIModule } from 'libs/ui/common';
-import { EntityKeyValidationService } from 'libs/core/services';
 
 import * as fromFaIcons from './fa-icons';
 import { OrgDataLoaderRoutingModule } from './org-data-loader-routing.module';
@@ -31,6 +31,7 @@ import {
     CompanySelectorEffects, LoaderConfigurationGroupsEffects, OrgDataConfigurationEffects, OrgDataFieldMappingsEffects, SftpUserEffects
 } from './effects';
 import { PublicKeyAuthComponent, SftpAccountStatusComponent } from './containers';
+import { SftpCredtDeleteModalComponent } from './containers/sftp-cred-delete-modal';
 
 @NgModule({
   imports: [
@@ -78,6 +79,7 @@ import { PublicKeyAuthComponent, SftpAccountStatusComponent } from './containers
     // Components
     SftpAccountStatusComponent,
     PublicKeyAuthComponent,
+    SftpCredtDeleteModalComponent,
 
     // Pages
     ManageFieldMappingsPageComponent

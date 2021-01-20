@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+
 import { PayfactorsApiService } from '../payfactors-api.service';
 import { SftpUserModel } from '../../../models/Sftp';
 
@@ -10,17 +11,23 @@ export class SftpUserApiService {
 
   constructor(
     private payfactorsApiService: PayfactorsApiService
-  ) {}
+  ) { }
 
   getSftpUser(companyId: number) {
     return this.payfactorsApiService.get<SftpUserModel>(`${this.endpoint}/Get`, {
-      params: {companyId: companyId}
+      params: { companyId: companyId }
+    });
+  }
+
+  deleteSftpUser(companyId: number) {
+    return this.payfactorsApiService.delete(`${this.endpoint}/Delete`, {
+      params: { companyId: companyId }
     });
   }
 
   validateUserName(payload: any) {
     return this.payfactorsApiService.get<boolean>(`${this.endpoint}/ValidateUserName`, {
-      params: {username: payload.userName, companyId: payload.companyId}
+      params: { username: payload.userName, companyId: payload.companyId }
     });
   }
 }

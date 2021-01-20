@@ -28,10 +28,19 @@
         <h3>Public Key Authentication <span class="optional">(optional: for clients with passwordless
             authentication)</span></h3>
         <div class="container-fluid">
-          <pf-public-key-auth [SftpUser]="sftpUser"
-                              [CompanyId]="selectedCompany.CompanyId">
-
-          </pf-public-key-auth>
+          <div class="row">
+            <div class="col">
+              <pf-public-key-auth [SftpUser]="sftpUser"
+                                  [CompanyId]="selectedCompany.CompanyId">
+              </pf-public-key-auth>
+            </div>
+            <div class="col"><span (click)="openModal()"
+                    *ngIf="sftpUser">
+                <fa-icon icon="trash-alt"
+                         class="text-danger"></fa-icon> Remove public key authentication
+              </span>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -208,6 +217,8 @@
                                [emailRecipientsModalOpen$]="emailRecipientsModalOpen$"
                                [recipients]="emailRecipients$ | async">
     </pf-email-recipients-modal>
-
+    <pf-sftp-cred-delete-modal *ngIf="selectedCompany"
+                               [companyId]="selectedCompany.CompanyId">
+    </pf-sftp-cred-delete-modal>
   </ng-container>
 </pf-page-with-title-bar>

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Observable, of } from 'rxjs';
 import { Action } from '@ngrx/store';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 
 import { SftpUserApiService } from 'libs/data/payfactors-api/data-loads';
 import { SftpUserModel } from 'libs/models/Sftp';
@@ -28,6 +28,23 @@ export class SftpUserEffects {
     );
 
   @Effect()
+  deleteSftpUser$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromSftpUserActions.DELETE_SFTP_CREDENTIALS),
+      switchMap((action: fromSftpUserActions.DeleteSftpCreds) =>
+        this.sftpUserApiService.deleteSftpUser(action.companyId).pipe(
+          mergeMap(() => {
+            const actions = [];
+            actions.push(new fromSftpUserActions.DeleteSftpCredsSuccess());
+            actions.push(new fromSftpUserActions.GetSftpUserSuccess(null));
+            return actions;
+          }),
+          catchError(error => of(new fromSftpUserActions.DeleteSftpCredsError()))
+        )
+      )
+    );
+
+  @Effect()
   validateUsername$: Observable<Action> = this.actions$
     .pipe(
       ofType(fromSftpUserActions.VALIDATE_USERNAME),
@@ -44,5 +61,5 @@ export class SftpUserEffects {
   constructor(
     private actions$: Actions,
     private sftpUserApiService: SftpUserApiService
-  ) {}
+  ) { }
 }
