@@ -2,7 +2,8 @@ import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { select, Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, Subject } from 'rxjs';
+import { throttleTime } from 'rxjs/operators';
 import cloneDeep from 'lodash/cloneDeep';
 
 import { AsyncStateObj } from 'libs/models/state';
@@ -37,6 +38,7 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
   companyUdfAsync$: Observable<AsyncStateObj<CompensationField[]>>;
   visibleFieldsCount$: Observable<number>;
   activeRichTextEditorId$: Observable<string>;
+  isPageScrolling$: Observable<boolean>;
 
   isSettingsPanelOpen$: Observable<boolean>;
   settingsSaving$: Observable<boolean>;
@@ -65,6 +67,11 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
     'ql-picker-item'
   ];
   lastClickEventElement: HTMLElement;
+
+  mainScrollableNode: HTMLElement;
+  scrollTimer: any;
+  scrollSubject = new Subject();
+  scrollEventHandler = () => { this.scrollSubject.next(); };
 
   constructor(
     private route: ActivatedRoute,
@@ -95,6 +102,9 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
     this.assignedEmployeesAsync$ = this.store.pipe(select(fromTotalRewardsStatementEditReducer.selectAssignedEmployees));
     this.employeeRewardsDataAsync$ = this.store.pipe(select(fromTotalRewardsStatementEditReducer.getEmployeeData));
 
+    // SCROLL
+    this.isPageScrolling$ = this.store.pipe(select(fromTotalRewardsStatementEditReducer.getIsPageScrolling));
+
     // SUBSCRIPTIONS
     this.urlParamSubscription = this.route.params.subscribe(params => {
       this.statementId = params['id'];
@@ -113,12 +123,20 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
         this.store.dispatch(new fromEditStatementPageActions.SearchAssignedEmployees({ statementId: this.statementId, searchTerm: ''}));
       }
     });
+
+    // MISC
+    this.mainScrollableNode = document.querySelector('.page-content');
+    this.mainScrollableNode?.addEventListener('scroll', this.scrollEventHandler, true);
+    this.scrollSubject.pipe(throttleTime(100)).subscribe(() => { this.handlePageScroll(); });
   }
 
   ngOnDestroy(): void {
     this.urlParamSubscription.unsubscribe();
     this.statementSubscription.unsubscribe();
     this.modeSubscription.unsubscribe();
+    this.scrollSubject.unsubscribe();
+    this.mainScrollableNode?.removeEventListener('scroll', this.scrollEventHandler, true);
+
     this.store.dispatch(new fromEditStatementPageActions.ResetStatement());
   }
 
@@ -254,7 +272,7 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
     this.store.dispatch(new fromEditStatementPageActions.GetEmployeeRewardsData({ companyEmployeeId: employeeId, statementId: this.statementId }));
   }
 
-
+  // SCROLL/MOUSE
   @HostListener('document:mousedown', ['$event'])
   public onMouseDownEvent(event: MouseEvent) {
     // Get the F outta here if in print mode
@@ -290,5 +308,12 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
 
     this.lastClickEventElement = null;
     this.store.dispatch(new fromEditStatementPageActions.UpdateActiveRichTextEditorId(null));
+  }
+
+  handlePageScroll() {
+    // user has scrolled, so cancel a potential delayed call to set isScrolling back to false, then set current (true) and future (false) actions
+    clearTimeout(this.scrollTimer);
+    this.store.dispatch(new fromEditStatementPageActions.PageScroll({ isScrolling: true }));
+    this.scrollTimer = setTimeout(() => this.store.dispatch(new fromEditStatementPageActions.PageScroll({ isScrolling: false })), 1000);
   }
 }

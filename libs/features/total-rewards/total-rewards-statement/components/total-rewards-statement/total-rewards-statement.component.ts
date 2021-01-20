@@ -32,6 +32,7 @@ export class TotalRewardsStatementComponent {
   @Input() companyUdfs: CompensationField[];
   @Input() visibleFieldsCount: number;
   @Input() activeEditorId: string;
+  @Input() isPageScrolling: boolean;
 
   // Common Outputs
   @Output() onControlTitleChange: EventEmitter<UpdateTitleRequest> = new EventEmitter();

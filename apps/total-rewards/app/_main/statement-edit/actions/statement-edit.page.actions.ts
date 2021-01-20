@@ -13,6 +13,7 @@ export type StatementEditPageActions =
   statementActions.SaveStatementSuccess |
   statementActions.SaveStatementError |
   statementActions.UpdateEffectiveDate |
+  statementActions.PageScroll |
 
   controlActions.UpdateStatementName |
   controlActions.UpdateStatementControlTitle |
