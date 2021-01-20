@@ -65,7 +65,7 @@ export class ExchangeMapPageComponent implements OnInit, OnDestroy {
       ExchangeId: this.exchangeId,
       ExchangeScopeId: -1,
       ExchangeScopeName: scopeItem.Name,
-      ExchangeScopeDescription: scopeItem.Description,
+      ExchangeScopeDescription: scopeItem.Description ? scopeItem.Description : "",
       IsDefault: scopeItem.IsDefault,
       CompanyPayMarketIdsToDefaultFor: scopeItem.CompanyPayMarketIdsToDefaultFor
     }));
