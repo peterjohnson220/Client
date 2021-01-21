@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { Permissions } from 'libs/constants';
 import { RangeGroupMetadata } from 'libs/models/structures';
 
-import * as fromSharedStructuresReducer from '../../reducers/shared.reducer';
+import * as fromSharedStructuresReducer from '../../../shared/reducers';
 
 @Component({
   selector: 'pf-global-actions',
