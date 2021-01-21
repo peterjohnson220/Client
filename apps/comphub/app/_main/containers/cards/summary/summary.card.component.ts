@@ -17,6 +17,9 @@ import { KendoDropDownItem } from 'libs/models/kendo';
 import { ExchangeExplorerContextService } from 'libs/features/peer/exchange-explorer/services';
 import { ExchangeMapSummary } from 'libs/models/peer';
 import * as fromLibsPeerExchangeExplorerReducers from 'libs/features/peer/exchange-explorer/reducers';
+import { SettingsService } from 'libs/state/app-context/services';
+import { CompanySettingsEnum } from 'libs/models/company';
+import { FileDownloadSecurityWarningModalComponent } from 'libs/ui/common';
 
 import * as fromSummaryCardActions from '../../../actions/summary-card.actions';
 import * as fromDataCardActions from '../../../actions/data-card.actions';
@@ -34,6 +37,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
   @Input() pageId = ComphubPages.Summary;
 
   @ViewChild('pdf', { static: true }) pdf: PDFExportComponent;
+  @ViewChild('fileDownloadSecurityWarningModal', { static: true }) fileDownloadSecurityWarningModal: FileDownloadSecurityWarningModalComponent;
 
   selectedJobData$: Observable<JobData>;
   selectedPaymarket$: Observable<PricingPaymarket>;
@@ -55,6 +59,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
   mapSummary$: Observable<ExchangeMapSummary>;
   calculatingJobData$: Observable<boolean>;
   showJobsHistorySummary$: Observable<boolean>;
+  enableFileDownloadSecurityWarning$: Observable<boolean>;
 
   selectedJobDataSubscription: Subscription;
   selectedPaymarketSubscription: Subscription;
@@ -62,6 +67,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
   filterContextSubscription: Subscription;
   workflowContextSubscription: Subscription;
   showJobHistorySummarySubscription: Subscription;
+  enableFileDownloadSecurityWarningSub: Subscription;
   private userContextSubscription: Subscription;
 
   jobData: JobData;
@@ -82,6 +88,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
   rates: KendoDropDownItem[] = Rates;
   showJobHistorySummary: boolean;
   currencyCode: string;
+  enableFileDownloadSecurityWarning = false;
 
   private mbAccessToken: string;
 
@@ -89,6 +96,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
     private store: Store<fromComphubMainReducer.State>,
     private exchangeExplorerContextService: ExchangeExplorerContextService,
     private exchangeExplorerStore: Store<fromLibsPeerExchangeExplorerReducers.State>,
+    private settingsService: SettingsService,
     public cp: CurrencyPipe
   ) {
     this.selectedJobData$ = this.store.select(fromComphubMainReducer.getSelectedJobData);
@@ -110,6 +118,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
     this.mapSummary$ = this.exchangeExplorerStore.select(fromLibsPeerExchangeExplorerReducers.getPeerMapSummary);
     this.calculatingJobData$ = this.store.select(fromComphubMainReducer.getRecalculatingJobData);
     this.showJobsHistorySummary$ = this.store.select(fromComphubMainReducer.getShowJobPricedHistorySummary);
+    this.enableFileDownloadSecurityWarning$ = this.settingsService.selectCompanySetting<boolean>(CompanySettingsEnum.FileDownloadSecurityWarning);
   }
 
   ngOnInit() {
@@ -131,6 +140,11 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
     this.userContextSubscription = this.userContext$.subscribe(uc => {
       this.mbAccessToken = uc.MapboxAccessToken;
     });
+    this.enableFileDownloadSecurityWarningSub = this.enableFileDownloadSecurityWarning$.subscribe(isEnabled => {
+      if (isEnabled) {
+        this.enableFileDownloadSecurityWarning = true;
+      }
+    });
   }
 
   ngOnDestroy() {
@@ -143,6 +157,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
     }
     this.workflowContextSubscription.unsubscribe();
     this.userContextSubscription.unsubscribe();
+    this.enableFileDownloadSecurityWarningSub.unsubscribe();
   }
 
   getWeightingType(type: string): string {
@@ -165,7 +180,17 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
   }
 
   handleDownloadPdfClicked() {
-    this.pdf.saveAs(this.getPDFFileName());
+    if (this.enableFileDownloadSecurityWarning) {
+      this.fileDownloadSecurityWarningModal.open();
+    } else {
+      this.pdf.saveAs(this.getPDFFileName());
+    }
+  }
+
+  handleSecurityWarningConfirmed(isConfirmed) {
+    if (isConfirmed) {
+      this.pdf.saveAs(this.getPDFFileName());
+    }
   }
 
   handleShareClicked() {
