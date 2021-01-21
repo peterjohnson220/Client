@@ -1,9 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-
 import { RangeGroupMetadata } from 'libs/models/structures';
-
-
 
 @Component({
   selector: 'pf-grid-context',
@@ -16,12 +13,10 @@ export class GridContextComponent {
   @Input() enableReturnBtn: boolean;
   @Input() currentRangeGroupName: string;
   @Input() compareFlag: boolean;
-  @Input() adjustMetadata = false;
 
   constructor() {}
 
   handleEndCompare() {
     window.location.reload();
   }
-
 }

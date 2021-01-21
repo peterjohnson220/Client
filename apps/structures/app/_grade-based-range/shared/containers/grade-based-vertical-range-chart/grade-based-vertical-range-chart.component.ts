@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import * as Highcharts from 'highcharts';
 import { Store } from '@ngrx/store';
@@ -57,13 +57,11 @@ export class GradeBasedVerticalRangeChartComponent implements OnInit, OnDestroy 
   metaData: RangeGroupMetadata;
   rangeDistributionTypeId: number;
   filterPanelSub: Subscription;
-  initialY: number;
   gradeRangeDetails: any;
   rangeGroupId: number;
 
   constructor(
     public store: Store<any>,
-    public pfGridStore: Store<fromPfGridReducer.State>,
     private settingsService: SettingsService,
     private structuresPagesService: StructuresPagesService,
     private route: ActivatedRoute
@@ -267,14 +265,11 @@ export class GradeBasedVerticalRangeChartComponent implements OnInit, OnDestroy 
   }
 
 
-
-
   private clearData(): void {
     if (this.gradeRangeData) {
       this.gradeRangeData = {...this.gradeRangeData, data: []};
     }
   }
-
 
 
   private processChartData() {
@@ -399,7 +394,7 @@ export class GradeBasedVerticalRangeChartComponent implements OnInit, OnDestroy 
   }
 
   private parseJobsData(jobs) {
-      // information comes in like this: jobTitle-DispSeq-MRP-CompanyJobsStructures_ID-IncludeInRegression-GradesId
+    // information comes in like this: jobTitle-DispSeq-MRP-CompanyJobsStructures_ID-IncludeInRegression-GradesId
     this.parsedJobsData = [];
     const rawJobsData = jobs.split('||');
     // we're starting at index 1, because the old method for getting data always returns 0++0++0++0++0++0 as the first job
@@ -435,11 +430,9 @@ export class GradeBasedVerticalRangeChartComponent implements OnInit, OnDestroy 
   ngOnInit(): void {
     StructuresHighchartsService.initializeHighcharts();
     this.filterPanelSub = this.store.select(fromPfGridReducer.getFilterPanelOpen, this.pageViewId).subscribe(filterPanelOpen => {
-      if (filterPanelOpen === false) {
-        setTimeout(() => {
-          this.chartInstance.reflow();
-        }, 0);
-      }
+      setTimeout(() => {
+        this.chartInstance.reflow();
+      }, 0);
     });
     this.store.dispatch(new fromGradeBasedSharedActions.GetGradeRangeDetails(this.rangeGroupId));
   }

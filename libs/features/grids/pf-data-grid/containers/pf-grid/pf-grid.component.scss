@@ -385,3 +385,13 @@ tr.k-alt.pf-data-grid-attention-grab-inactive {
   background-color: transparent;
   transition: background-color 1s linear;
 }
+
+.hide-vertical-scrolling .k-grid {
+  .k-grid-content {
+    overflow-y: hidden;
+  }
+
+  .k-grid-header  {
+    padding: 0 !important;
+  }
+}

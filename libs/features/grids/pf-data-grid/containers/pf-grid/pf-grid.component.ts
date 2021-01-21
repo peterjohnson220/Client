@@ -81,8 +81,10 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   @Input() showSortControls = true;
   @Input() hasHeaderDividers = false;
   @Input() hasColDividers = false;
-  @Output() scrolled = new EventEmitter<ContentScrollEvent>();
   @Input() enableRowFade = false;
+  @Input() hideVerticalScrolling = false;
+  @Output() scrolled = new EventEmitter<ContentScrollEvent>();
+
 
   gridState$: Observable<DataGridState>;
   loading$: Observable<boolean>;

@@ -30,6 +30,18 @@
   display: none !important;
 }
 
-.grade-summary-container {
+.card {
   margin-bottom: 10px !important;
+}
+
+.card.grade-summary-container .card-body {
+  min-height: 290px;
+}
+
+.card.grade-vertical-chart-container .card-body {
+  min-height: 550px;
+}
+
+.card-header {
+  border-bottom: 0;
 }

@@ -3,8 +3,7 @@
     <button *ngIf="enableReturnBtn" routerLink="../../" class="btn btn-secondary mr-1">Return to ranges</button>
     <ng-content select="[right-of-return-button-content]"></ng-content>
 
-
-    <h4 class="mt-2" *ngIf="title">{{title}}</h4>
+    <h4 *ngIf="title">{{title}}</h4>
   </div>
 
   <div *ngIf="currentRangeGroupName && compareFlag" class="alert alert-info rounded my-auto" role="alert">
@@ -14,7 +13,7 @@
     </div>
   </div>
 
-  <div *ngIf="metadata" [ngClass]="{ 'return-button': adjustMetadata }">
+  <div *ngIf="metadata" class="metadata-wrapper">
     <span class="text-muted mt-2">{{ metadata.Paymarket }}, {{ metadata.Rate }}, {{ metadata.Currency }}</span>
   </div>
 </div>

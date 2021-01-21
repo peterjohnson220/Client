@@ -59,6 +59,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   selectedRecordId$: Observable<number>;
 
   singleRecordActionBarConfig: ActionBarConfig;
+  singleGridConfig: GridConfig;
   gridConfig: GridConfig;
   colTemplates = {};
   isSummaryCollapsed: boolean;
@@ -110,7 +111,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     this.gridConfig = {
       PersistColumnWidth: false,
       CaptureGridScroll: true,
-      EnableInfiniteScroll: true,
+      EnableInfiniteScroll: false,
       ScrollToTop: true
     };
     this.defaultSort = [{
