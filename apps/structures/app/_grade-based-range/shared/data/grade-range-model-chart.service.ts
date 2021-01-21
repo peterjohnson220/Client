@@ -411,11 +411,10 @@ export class GradeRangeModelChartService {
             useHTML: true,
             padding: 0,
             headerFormat: '<div style="display: inline-block; background-color: black; color: white">',
-            pointFormat: '<div><b>{point.jobTitle}</b></div><div>' +
-              '<div>{point.dataPoint}</div>' +
-              '<div>{point.currentDataPoint}</div>' +
-              '<div>{point.newDataPoint}</div>' +
-              '<div><span style="font-size: 25px; color: {point.iconColor};">{point.icon}</span>{point.delta}</div>',
+            pointFormat: '<div><b>{point.gradeName}</b></div><div>' +
+              '<div>{point.currentMid}</div>' +
+              '<div>{point.modeledMid}</div>' +
+              '<div>{point.midPointDiff}</div>',
             footerFormat: '</div>'
           }
         },
@@ -635,12 +634,21 @@ export class GradeRangeModelChartService {
         {
           name: GradeRangeModelChartService.getFormattedSeriesName(GradeRangeVerticalModelChartSeries.Jobs, controlPointDisplay),
           type: 'scatter',
-          enableMouseTracking: false,
+          enableMouseTracking: true,
           color: '#000000',
           pointWidth: 42,
           marker: {
             radius: 6,
             symbol: 'circle'
+          },
+          tooltip: {
+            backgroundColor: '#000000',
+            useHTML: true,
+            padding: 0,
+            headerFormat: '<div style="display: inline-block; background-color: black">',
+            pointFormat: '<div style="color: white"><b>{point.jobTitle}</b></div><div>' +
+              '<div style="color: white">{point.dataPoint}</div>',
+            footerFormat: '</div>'
           }
         }
       ]

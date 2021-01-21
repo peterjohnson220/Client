@@ -1,6 +1,7 @@
 import * as Highcharts from 'highcharts';
 import { RateType } from 'libs/data/data-sets';
 import { RangeGroupMetadata } from 'libs/models/structures';
+import { RangeGroupType } from 'libs/constants/structures/range-group-type';
 
 import { RangeDistributionDataPointTypeIds } from '../constants/range-distribution-data-point-type-ids';
 import { RangeDistributionTypeIds } from '../constants/range-distribution-type-ids';
@@ -104,10 +105,11 @@ export class StructuresHighchartsService {
     return null;
   }
 
-  static getJobDataPoint(xCoordinate, jobData) {
+  static getJobDataPoint(xCoordinate, jobData, hasCurrentStructure, locale, metaData) {
     return {
       x: xCoordinate,
       y: jobData.mrp,
+      dataPoint: StructuresHighchartsService.formatDataPoint('Job MRP', jobData.mrp, locale, metaData.Currency, metaData.Rate),
       jobTitle: jobData.jobTitle
     };
   }
@@ -118,6 +120,8 @@ export class StructuresHighchartsService {
     let dataPointTitle;
     let currentDataPointTitle;
     let newDataPointTitle;
+    let gradeName;
+    let currentMid;
 
     if (dataPointTypeId === RangeDistributionDataPointTypeIds.Mid) {
       dataPointValue = jobRangeData.CompanyStructures_Ranges_Mid;
@@ -175,6 +179,13 @@ export class StructuresHighchartsService {
       newDataPointTitle = 'New Top 4th 5th';
     }
 
+    if (metaData.RangeTypeId === RangeGroupType.Grade) {
+      gradeName = jobRangeData.CompanyStructures_Ranges_Grade_Name;
+      currentMid = jobRangeData.CompanyStructures_RangeGroup_GradeBased_Range_CurrentMid;
+    } else {
+      gradeName = null;
+      currentMid = null;
+    }
 
     const delta = StructuresHighchartsService.formatDataPointDelta(hasCurrentStructure, chartLocale, metaData, dataPointValue, dataPointCurrentValue);
     return {
@@ -187,7 +198,11 @@ export class StructuresHighchartsService {
       newDataPoint: StructuresHighchartsService.formatNewDataPoint(hasCurrentStructure, newDataPointTitle, dataPointValue, chartLocale, metaData),
       delta: !!delta ? delta.message : delta,
       icon: !!delta ? delta.icon : delta,
-      iconColor: !!delta ? delta.color : delta
+      iconColor: !!delta ? delta.color : delta,
+      modeledMid: StructuresHighchartsService.formatDataPoint('Modeled Mid', dataPointValue, chartLocale, metaData.Currency, metaData.Rate),
+      gradeName: gradeName ? `Grade Name: ${gradeName}` : null,
+      currentMid: StructuresHighchartsService.formatDataPoint('Current Mid', currentMid, chartLocale, metaData.Currency, metaData.Rate),
+      midPointDiff: StructuresHighchartsService.getPercentDiff('Mid Percent Difference', currentMid, dataPointValue)
     };
   }
 
@@ -327,5 +342,10 @@ export class StructuresHighchartsService {
     }
 
     return comparisonValue;
+  }
+
+  static getPercentDiff(fieldType, value1, value2) {
+    const percentDiff = !!value1 && !!value2 ? 100 * Math.abs((value1 - value2) / ((value1 + value2) / 2)) : null;
+    return percentDiff !== null ? `${fieldType}: ${Math.round(percentDiff)}%` : null;
   }
 }
