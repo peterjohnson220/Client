@@ -133,7 +133,7 @@ export class EditTempDataCut implements Action {
 export class EditTempDataCutComplete implements Action {
   readonly type = EDIT_TEMP_DATA_CUT_COMPLETE;
 
-  constructor(public payload: ExchangeJobDataCut) { }
+  constructor(public payload?: ExchangeJobDataCut) { }
 }
 
 export type Actions

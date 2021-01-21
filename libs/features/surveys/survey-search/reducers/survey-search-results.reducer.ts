@@ -236,7 +236,6 @@ export function reducer(state = initialState, action: fromSurveySearchResultsAct
       };
     }
     case fromSurveySearchResultsActions.EDIT_TEMP_DATA_CUT: {
-      // const tempDataCut: ExchangeJobDataCut = action.payload;
       const payload: any = action.payload;
       const tempDataCutFilterContext = state.tempExchangeJobDataCutFilterContextDictionary[payload.customPeerCutId];
       return {
@@ -250,18 +249,22 @@ export function reducer(state = initialState, action: fromSurveySearchResultsAct
       };
     }
     case fromSurveySearchResultsActions.EDIT_TEMP_DATA_CUT_COMPLETE: {
-      const tempDataCutDictionaryCopy = cloneDeep(state.tempExchangeJobDataCutFilterContextDictionary);
-      const dataCut = action.payload.DataCut;
-      const tempPeerDataCutId = dataCut.ServerInfo.CustomPeerCutId;
-
-      tempDataCutDictionaryCopy[tempPeerDataCutId] = action.payload.ExchangeDataSearchRequest;
-
-      return {
+      const newState = {
         ...state,
         editingTempDataCut: false,
-        tempDataCutBeingEdited: null,
-        tempExchangeJobDataCutFilterContextDictionary: tempDataCutDictionaryCopy
+        tempDataCutBeingEdited: null
       };
+
+      const dataCut = action.payload?.DataCut;
+      if (!!dataCut) {
+        const tempDataCutDictionaryCopy = cloneDeep(state.tempExchangeJobDataCutFilterContextDictionary);
+        const tempPeerDataCutId = dataCut.ServerInfo.CustomPeerCutId;
+
+        tempDataCutDictionaryCopy[tempPeerDataCutId] = action.payload.ExchangeDataSearchRequest;
+        newState.tempExchangeJobDataCutFilterContextDictionary = tempDataCutDictionaryCopy;
+      }
+
+      return newState;
     }
     default: {
       return state;
