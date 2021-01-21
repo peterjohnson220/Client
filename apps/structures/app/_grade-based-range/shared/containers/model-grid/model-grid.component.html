@@ -1,33 +1,33 @@
 <pf-data-grid
-[title]="(metaData$ | async)?.IsCurrent ? (metaData$ | async)?.StructureName : (metaData$ | async)?.ModelName"
-[subtitle]="(metaData$ | async)?.IsCurrent ? '' : 'Structure: ' + (metaData$ | async)?.StructureName"
-[navigationURL]="'/marketdata/structures.asp'"
-[inboundFilters]="inboundFilters"
-[defaultSort]="defaultSort"
-[pageViewId]="modelGridPageViewId"
-[aboveGridTemplate]="aboveGridTemplate"
-[pagingOptions]="defaultPagingOptions"
-[columnTemplates]="colTemplates"
-[noRecordsFound]="'No grades found.'"
-[applyDefaultFilters]="false"
-[actionBarConfig]="fullGridActionBarConfig"
-[pageTheme]="pfThemeType.NextGen"
-[contentClassNamesOverrides]="'py-3 px-4'"
-[borders]="false"
-[reorderable]="reorderable"
-[gridRowActionsConfig] = "(!(selectedRecordId$ | async)) && !this.hideRowActionsGradeGrid() ? gridRowActionsConfig: null"
-[gridActionsTemplate]="gridActions"
-[gridActionsRightTemplate]="gridActionsRightTemplate"
-[saveSort]="saveSort"
-[modifiedKey]="modifiedKey"
-[allowMultipleSort]="allowMultipleSort"
-[gridConfig]="gridConfig"
-[pageable]="!gridConfig.EnableInfiniteScroll"
-[flexColumnContainerHeightAuto]="false"
-[filterPanelTemplates]="filterTemplates">
+  [title]="(metaData$ | async)?.IsCurrent ? (metaData$ | async)?.StructureName : (metaData$ | async)?.ModelName"
+  [subtitle]="(metaData$ | async)?.IsCurrent ? '' : 'Structure: ' + (metaData$ | async)?.StructureName"
+  [navigationURL]="'/marketdata/structures.asp'"
+  [inboundFilters]="inboundFilters"
+  [defaultSort]="defaultSort"
+  [pageViewId]="modelGridPageViewId"
+  [subHeaderTemplate]="subHeaderTemplate"
+  [pagingOptions]="defaultPagingOptions"
+  [columnTemplates]="colTemplates"
+  [noRecordsFound]="'No grades found.'"
+  [applyDefaultFilters]="false"
+  [actionBarConfig]="fullGridActionBarConfig"
+  [pageTheme]="pfThemeType.NextGen"
+  [contentClassNamesOverrides]="'py-3 px-4'"
+  [borders]="false"
+  [reorderable]="reorderable"
+  [gridRowActionsConfig]="(!(selectedRecordId$ | async)) && !this.hideRowActionsGradeGrid() ? gridRowActionsConfig: null"
+  [gridActionsTemplate]="gridActions"
+  [gridActionsRightTemplate]="gridActionsRightTemplate"
+  [saveSort]="saveSort"
+  [modifiedKey]="modifiedKey"
+  [allowMultipleSort]="allowMultipleSort"
+  [gridConfig]="gridConfig"
+  [pageable]="!gridConfig.EnableInfiniteScroll"
+  [flexColumnContainerHeightAuto]="false"
+  [filterPanelTemplates]="filterTemplates">
 </pf-data-grid>
 
-<ng-template #aboveGridTemplate>
+<ng-template #subHeaderTemplate>
   <div class="card grade-summary-container">
     <div class="card-header" (click)="isSummaryCollapsed = !isSummaryCollapsed" [style.cursor]="'pointer'">
       <span class="title">Model Summary</span>
@@ -37,27 +37,30 @@
       </fa-icon>
     </div>
     <div class="card-body collapse" [ngbCollapse]="isSummaryCollapsed">
-      <pf-data-grid
-        [pageViewId]="modelSummaryPageViewId"
-        [showTitle]="false"
-        [compactGrid]="true"
-        [showHeaderWhenCompact]="true"
-        [inboundFilters]="inboundFilters"
-        [contentClassNamesOverrides]="'p-0'"
-        [allowSort]="false"
-        [applyDefaultFilters]="false"
-        [actionBarConfig]="singleRecordActionBarConfig"
-        [reorderable]="false"
-        [gridConfig]="gridConfig"
-        [columnTemplates]="colTemplates"
-        [compactGridMinHeight]="'115px'"
-        [flexColumnContainerHeightAuto]="true">
-      </pf-data-grid>
+      <div class="position-relative">
+        <pf-data-grid
+          [pageViewId]="modelSummaryPageViewId"
+          [showTitle]="false"
+          [showHeaderWhenCompact]="true"
+          [inboundFilters]="inboundFilters"
+          [contentClassNamesOverrides]="'p-0'"
+          [allowSort]="false"
+          [applyDefaultFilters]="false"
+          [actionBarConfig]="singleRecordActionBarConfig"
+          [reorderable]="false"
+          [gridConfig]="singleGridConfig"
+          [columnTemplates]="colTemplates"
+          [compactGridMinHeight]="'105px'"
+          [flexColumnContainerHeightAuto]="true"
+          [pageable]="false"
+          [hideVerticalScrolling]="true">
+        </pf-data-grid>
 
-      <pf-grade-based-summary-chart></pf-grade-based-summary-chart>
+        <pf-grade-based-summary-chart></pf-grade-based-summary-chart>
+      </div>
     </div>
   </div>
-  <div class="card">
+  <div class="card grade-vertical-chart-container">
     <div class="card-header" (click)="isRangeChartCollapsed = !isRangeChartCollapsed" [style.cursor]="'pointer'">
       <span class="title">Ranges</span>
       <fa-icon
@@ -66,7 +69,9 @@
       </fa-icon>
     </div>
     <div class="card-body collapse" [ngbCollapse]="isRangeChartCollapsed">
-      <pf-grade-based-vertical-range-chart></pf-grade-based-vertical-range-chart>
+      <div class="position-relative">
+        <pf-grade-based-vertical-range-chart></pf-grade-based-vertical-range-chart>
+      </div>
     </div>
   </div>
 </ng-template>

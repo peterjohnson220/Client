@@ -31,12 +31,11 @@ export class GradeBasedSummaryChartComponent implements OnInit, OnDestroy {
   metaData: RangeGroupMetadata;
   rangeDistributionTypeId: number;
   modelSummaryPageViewId: string;
+  modelPageViewId: string;
   summaryDataModel: any[];
+  filterPanelSub: Subscription;
 
-  constructor(
-    public store: Store<any>,
-    public pfGridStore: Store<fromPfGridReducer.State>
-  ) {
+  constructor(public store: Store<any>) {
     this.metadataSubscription = this.store.select(fromSharedStructuresReducer.getMetadata).subscribe(md => {
       if (md) {
         this.metaData = md;
@@ -92,7 +91,7 @@ export class GradeBasedSummaryChartComponent implements OnInit, OnDestroy {
     }
   }
 
-  private calculatePercentage (partial) {
+  private calculatePercentage(partial) {
     return (partial / this.summaryData.CompanyStructures_RangeGroup_GradeBased_Summary_NumEmployees) * 100;
   }
 
@@ -197,8 +196,6 @@ export class GradeBasedSummaryChartComponent implements OnInit, OnDestroy {
     }
   }
 
-
-
   ngOnInit(): void {
     this.modelSummaryPageViewId =
       PagesHelper.getModelSummaryPageViewIdByRangeDistributionType(this.metaData?.RangeDistributionTypeId);
@@ -208,14 +205,24 @@ export class GradeBasedSummaryChartComponent implements OnInit, OnDestroy {
         this.processChartData();
       }
     });
+
     StructuresHighchartsService.initializeHighcharts(true);
     setTimeout(() => {
       this.chartInstance.reflow();
     }, 0);
+
+    this.modelPageViewId =
+      PagesHelper.getModelPageViewIdByRangeTypeAndRangeDistributionType(this.metaData?.RangeTypeId, this.metaData?.RangeDistributionTypeId);
+    this.filterPanelSub = this.store.select(fromPfGridReducer.getFilterPanelOpen, this.modelPageViewId).subscribe(filterPanelOpen => {
+      setTimeout(() => {
+        this.chartInstance.reflow();
+      }, 0);
+    });
   }
 
   ngOnDestroy(): void {
     this.dataSubscription.unsubscribe();
     this.metadataSubscription.unsubscribe();
+    this.filterPanelSub.unsubscribe();
   }
 }
