@@ -116,7 +116,14 @@ export class ProjectListPageComponent implements AfterViewInit, OnInit, OnDestro
         this.isPinned = this.dbValueConverter(this.isPinnedField.FilterValue, this.pinnedFilterOptions);
       }
     });
+    window.addEventListener('scroll', this.scroll, true);
   }
+
+  scroll = (): void => {
+    if (!!this.selectedDropdown) {
+      this.selectedDropdown.close();
+    }
+  };
 
   dbValueConverter(dbValue: string, customFilterOptions: {display: string, value: string}[]): {display: string, value: string} {
     if (dbValue === null) {
@@ -178,7 +185,7 @@ export class ProjectListPageComponent implements AfterViewInit, OnInit, OnDestro
     }
   }
 
-  handleSelectedRowAction(projectId: number, dropdown: any, isOpened: boolean) {
+  handleSelectedRowAction(projectId: number, dropdown: any) {
     if (this.selectedDropdown?.isOpen() && this.selectedDropdown !== dropdown) {
       this.selectedDropdown.close();
     }
