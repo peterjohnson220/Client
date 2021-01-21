@@ -14,6 +14,7 @@ import { NotificationRef, NotificationService, NotificationSettings } from '@pro
 import { environment } from 'environments/environment';
 import { LoadTypes } from 'libs/constants';
 import { CompositeDataLoadTypes } from 'libs/constants/composite-data-load-types';
+import { EntityKeyValidationService } from 'libs/core/services';
 import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
 import { CompanySettingsApiService } from 'libs/data/payfactors-api';
 import * as fromCompanySelectorActions from 'libs/features/company/company-selector/actions';
@@ -22,6 +23,7 @@ import { CompanySelectorItem } from 'libs/features/company/company-selector/mode
 import * as fromCompanyReducer from 'libs/features/company/company-selector/reducers';
 import * as fromCustomFieldsActions from 'libs/features/company/custom-fields/actions/custom-fields.actions';
 import * as fromEntityIdentifierActions from 'libs/features/company/entity-identifier/actions/entity-identifier.actions';
+import { EntityIdentifierViewModel } from 'libs/features/company/entity-identifier/models';
 import * as fromEmailRecipientsActions from 'libs/features/loader-email-reipients/state/actions/email-recipients.actions';
 import {
     DATE_FORMATS, DEFAULT_DATE_FORMAT, LoaderFileFormat, ORG_DATA_PF_EMPLOYEE_TAG_FIELDS
@@ -37,8 +39,6 @@ import { OrgDataLoaderConfigurationSaveRequest } from 'libs/models/data-loads/re
 import { ConfigSetting } from 'libs/models/security';
 import { SftpUserModel } from 'libs/models/Sftp';
 import { ConfigSettingsSelectorFactory } from 'libs/state/app-context/services';
-import { EntityKeyValidationService } from 'libs/core/services';
-import { EntityIdentifierViewModel } from 'libs/features/company/entity-identifier/models';
 
 import * as fromOrgDataAutoloaderReducer from '../../reducers';
 import * as fromOrgDataFieldMappingsActions from '../../actions/org-data-field-mappings.actions';
@@ -403,11 +403,16 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
 
     this.sftpUser$.pipe(
       takeUntil(this.unsubscribe$),
-      filter(user => !!user)
     ).subscribe(user => {
-      this.store.dispatch(new fromSftpUserActions.SetSftpUsername(user.UserName));
-      this.publicKeyFileName = user.FileName;
-      this.sftpUser = user;
+
+      if (user) {
+        this.store.dispatch(new fromSftpUserActions.SetSftpUsername(user.UserName));
+        this.publicKeyFileName = user.FileName;
+        this.sftpUser = user;
+      } else {
+        this.sftpUser = null;
+        this.publicKeyFileName = null;
+      }
     });
 
     this.emailRecipients$.pipe(
@@ -460,7 +465,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
       .subscribe(result => {
         const selected = result.employeeIdentifiers.filter(a => a.isChecked);
         this.employeeEntityKeys = selected;
-        const selectedWithoutEmployeeId = selected.filter( a => a.Field !== 'Employee_ID');
+        const selectedWithoutEmployeeId = selected.filter(a => a.Field !== 'Employee_ID');
 
         if (selectedWithoutEmployeeId?.length >= 0) {
           this.payfactorsEmployeeTagsDataFields = this.payfactorsEmployeeTagsDataFields.concat(selectedWithoutEmployeeId.map(a => {
@@ -583,6 +588,10 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
         this.payfactorsStructureDataFields = this.payfactorsStructureDataFields.concat(internalJobRangeStructureFields);
       }
     });
+  }
+
+  public openModal() {
+    this.store.dispatch(new fromOrgDataFieldMappingsActions.DeleteSftpCredsModalOpen(true));
   }
 
   CompanySelected() {
@@ -799,7 +808,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
       return 'Please enter an email recipient to receive the results of this load.';
     } else if (!this.isValidExtension(this.sftpPublicKey)) {
       return 'Invalid Public key File format. Please upload a file in these formats: ' + this.acceptedFileExtensions.join(', ');
-    } else if (this.entityKeyValidationMessage?.length > 0 ) {
+    } else if (this.entityKeyValidationMessage?.length > 0) {
       return this.entityKeyValidationMessage;
     }
 
