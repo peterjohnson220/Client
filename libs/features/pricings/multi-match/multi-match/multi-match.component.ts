@@ -220,8 +220,10 @@ export class MultiMatchComponent extends SearchBaseDirective implements OnInit, 
   handleRefineCancelled(): void {
     if (!!this.refiningExchangeJobId) {
       this.store.dispatch(new fromSurveySearchResultsActions.GetExchangeDataResults({exchangeJobId: this.refiningExchangeJobId}));
+      this.store.dispatch(new fromSurveySearchResultsActions.RefineExchangeJobResultComplete());
+    } else {
+      this.store.dispatch(new fromSurveySearchResultsActions.EditTempDataCutComplete(null));
     }
-    this.store.dispatch(new fromSurveySearchResultsActions.RefineExchangeJobResultComplete());
   }
 
   ngOnDestroy(): void {
