@@ -186,7 +186,7 @@ export class GradeBasedVerticalRangeChartComponent implements OnInit, OnDestroy 
 
     for (let i = 0; i < matchingJobs.length; i++) {
       this.dataPointSeriesDataModel.Job.push(
-        StructuresHighchartsService.getJobDataPoint(xCoordinate, matchingJobs[i])
+        StructuresHighchartsService.getJobDataPoint(xCoordinate, matchingJobs[i], this.hasCurrentStructure, this.chartLocale, this.metaData)
       );
     }
   }
@@ -244,11 +244,10 @@ export class GradeBasedVerticalRangeChartComponent implements OnInit, OnDestroy 
       {
         x: xCoordinate,
         y: currentRow.CompanyStructures_RangeGroup_GradeBased_Range_AverageEEMinOutlier,
-        count: currentRow.CompanyStructures_RangeGroup_GradeBased_Range_CountEEMinOutlier
-        // this part relates to tooltips
-        // countString: this.formatOutlierCount(true, currentRow.CompanyStructures_RangeGroup_CountEEMinOutlier),
-        // avgSalary: this.formatSalary(currentRow.CompanyStructures_RangeGroup_AverageEEMinOutlier),
-        // delta: this.formatDelta(true, currentRow.CompanyStructures_RangeGroup_SumOfDeltaBetweenMinOutliersAndMRP)
+        count: currentRow.CompanyStructures_RangeGroup_GradeBased_Range_CountEEMinOutlier,
+        countString: this.formatOutlierCount(true, currentRow.CompanyStructures_RangeGroup_GradeBased_Range_CountEEMinOutlier),
+        avgSalary: this.formatSalary(currentRow.CompanyStructures_RangeGroup_GradeBased_Range_AverageEEMinOutlier),
+        delta: this.formatDelta(true, currentRow.CompanyStructures_RangeGroup_GradeBased_Range_DeltaBetweenMinOutliersAndMRP)
       });
 
     // Max Outlier
@@ -256,14 +255,25 @@ export class GradeBasedVerticalRangeChartComponent implements OnInit, OnDestroy 
       {
         x: xCoordinate,
         y: currentRow.CompanyStructures_RangeGroup_GradeBased_Range_AverageEEMaxOutlier,
-        count: currentRow.CompanyStructures_RangeGroup_GradeBased_Range_CountEEMaxOutlier
-        // this part relates to tooltips
-        // countString: this.formatOutlierCount(false, currentRow.CompanyStructures_RangeGroup_CountEEMaxOutlier),
-        // avgSalary: this.formatSalary(currentRow.CompanyStructures_RangeGroup_AverageEEMaxOutlier),
-        // delta: this.formatDelta(false, currentRow.CompanyStructures_RangeGroup_SumOfDeltaBetweenMaxOutliersAndMRP)
+        count: currentRow.CompanyStructures_RangeGroup_GradeBased_Range_CountEEMaxOutlier,
+        countString: this.formatOutlierCount(false, currentRow.CompanyStructures_RangeGroup_GradeBased_Range_CountEEMaxOutlier),
+        avgSalary: this.formatSalary(currentRow.CompanyStructures_RangeGroup_GradeBased_Range_AverageEEMaxOutlier),
+        delta: this.formatDelta(false, currentRow.CompanyStructures_RangeGroup_GradeBased_Range_DeltaBetweenMaxOutliersAndMRP)
       });
   }
 
+  private formatSalary(salary: number) {
+    return `Average ${this.controlPointDisplay}: ${StructuresHighchartsService.formatCurrency(salary, this.chartLocale, this.currency, this.rate, true)}`;
+  }
+
+  private formatOutlierCount(min: boolean, count: number) {
+    return `${count} ${count > 1 ? 'employees' : 'employee'} ${min ? 'below min' : 'above max'}`;
+  }
+
+  private formatDelta(min: boolean, delta: number) {
+    return StructuresHighchartsService.formatCurrency(delta, this.chartLocale, this.currency, this.rate, true)
+      + (min ? ' to bring all to minimum' : ' above the maximum');
+  }
 
   private clearData(): void {
     if (this.gradeRangeData) {
