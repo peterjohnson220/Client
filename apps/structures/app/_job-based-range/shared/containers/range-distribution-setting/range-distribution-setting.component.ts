@@ -10,7 +10,6 @@ import { CalculationTypeDisplay, RangeDistributionSettingForm, RangeGroupMetadat
 import { SettingsService } from 'libs/state/app-context/services';
 import * as fromFormulaFieldActions from 'libs/ui/formula-editor/actions/formula-field.actions';
 import { CalculationType } from 'libs/constants/structures/calculation-type';
-import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
 
 import * as fromJobBasedRangeReducer from '../../reducers';
 import { ControlPoint } from '../../../../shared/models';
@@ -65,7 +64,6 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
   fieldsDisabledTooltip: string;
   payTypeTooltip: string;
   enablePercentilesAndRangeSpreads: boolean;
-  structuresAdvancedModelingFeatureFlag: RealTimeFlag = { key: FeatureFlags.StructuresAdvancedModeling, value: false };
   unsubscribe$ = new Subject<void>();
 
   calculationTypes: CalculationTypeDisplay[];
@@ -80,7 +78,6 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
   constructor(
     public store: Store<fromJobBasedRangeReducer.State>,
     private settingService: SettingsService,
-    private featureFlagService: AbstractFeatureFlagService
   ) {
     this.enableJobRangeTypes$ = this.settingService.selectCompanySetting<boolean>(
       CompanySettingsEnum.EnableJobRangeStructureRangeTypes
@@ -90,7 +87,6 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
     this.fieldsDisabledTooltip = ModelSettingsModalConstants.FIELDS_DISABLED_TOOL_TIP;
     this.payTypeTooltip = ModelSettingsModalConstants.PAYTYPE_TOOL_TIP;
 
-    this.featureFlagService.bindEnabled(this.structuresAdvancedModelingFeatureFlag, this.unsubscribe$);
     this.calculationTypes = [
       { Type: CalculationType.Formula, TypeDisplay: 'Calculate' },
       { Type: CalculationType.Spread, TypeDisplay: 'Enter Range Spread' },
