@@ -72,7 +72,6 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   minSpreadTooltip: string;
   maxSpreadTooltip: string;
   allFormulas = null;
-  structuresAdvancedModelingFeatureFlag: RealTimeFlag = { key: FeatureFlags.StructuresAdvancedModeling, value: false };
   unsubscribe$ = new Subject<void>();
   exchanges: any;
   exchanges$: Observable<AsyncStateObj<GenericKeyValue<number, string>[]>>;
@@ -105,7 +104,6 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
     this.minSpreadTooltip = ModelSettingsModalConstants.MIN_SPREAD_TOOL_TIP;
     this.maxSpreadTooltip = ModelSettingsModalConstants.MAX_SPREAD_TOOL_TIP;
     this.peerExchangeToolTipInfo = ModelSettingsModalConstants.PEER_EXCHANGE_TOOL_TIP;
-    this.featureFlagService.bindEnabled(this.structuresAdvancedModelingFeatureFlag, this.unsubscribe$);
     this.allFormulasSub = this.store.pipe(select(fromJobBasedRangeReducer.getAllFields)).subscribe(af => this.allFormulas = af);
     this.exchanges$ = this.store.pipe(select(fromSharedStructuresReducer.getCompanyExchanges));
     this.hasAcceptedPeerTermsSub = this.settingsService.selectCompanySetting<boolean>(
@@ -207,9 +205,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
     this.updateRangeDistributionSetting();
     this.updateSelectedPeerExchangeId();
 
-    if (this.structuresAdvancedModelingFeatureFlag.value) {
-      this.updateAdvancedModelingSetting();
-    }
+    this.updateAdvancedModelingSetting();
 
     if (!this.modelSettingsForm.valid) {
       if (!this.modelSettingsForm.controls['RangeAdvancedSetting'].valid) {
