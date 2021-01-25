@@ -17,26 +17,31 @@ export class UserTicketNotificationComponent extends UserNotificationBaseCompone
   IconName: IconName = 'question-square';
 
   buildUserNotificationDisplay(): UserNotificationDisplay {
+    const parsedMetaData = this.parseMetaData();
     return {
       Title: this.NotificationTitle,
-      Message: this.parseMetaData(),
+      Message: parsedMetaData.Message,
       ButtonText: this.ButtonText,
       IsRead: this.UserNotification.IsRead,
       CreateDate: this.UserNotification.CreateDate,
-      BaseUrl: this.UserNotification.BaseUrl,
+      BaseUrl: this.UserNotification.BaseUrl + (parsedMetaData.TicketId ? '/' + parsedMetaData.TicketId : ''),
       IconPrefix: this.IconPrefix,
       IconName: this.IconName,
       OpenLinkInNewTab: false
     };
   }
 
-  parseMetaData(): string {
+  parseMetaData(): any {
     if (!!this.UserNotification?.MetaData) {
       const json = JSON.parse(this.UserNotification.MetaData);
       const ticketTitle = json['TicketTitle'];
       const ticketStatus = json['UserTicketState'];
+      const ticketId = json['UserTicketId']
 
-      return `Your ticket for <i>${ticketTitle}</i> is now <i>${ticketStatus}</i>`;
+      return {
+        Message: `Your ticket for <i>${ticketTitle}</i> is now <i>${ticketStatus}</i>`,
+        TicketId: ticketId
+      };
     }
    return;
   }

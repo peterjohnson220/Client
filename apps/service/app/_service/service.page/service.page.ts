@@ -1,4 +1,5 @@
 import { Component, AfterViewInit, ViewChild, ElementRef, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 import { Observable, Subscription } from 'rxjs';
 import { select, Store } from '@ngrx/store';
@@ -17,6 +18,7 @@ import { ServicePageConfig, SupportTeamUser } from '../models';
 
 import * as fromServicePageActions from '../actions/service-page.actions';
 import * as fromServicePageReducer from '../reducers';
+import { PayfactorsApiModelMapper } from '../helpers';
 
 @Component({
   selector: 'pf-service-page',
@@ -36,7 +38,9 @@ export class ServicePageComponent implements AfterViewInit, OnInit, OnDestroy {
   fieldsFilterCount$: Observable<number>;
 
   gridFieldSubscription: Subscription;
+  gridDataSubscription: Subscription;
   identitySubscription: Subscription;
+  urlParamsSubscription: Subscription;
 
   defaultSort: SortDescriptor[] = [{
     dir: 'desc',
@@ -52,10 +56,13 @@ export class ServicePageComponent implements AfterViewInit, OnInit, OnDestroy {
   selectedTicketTypeFilterValue: string;
   avatarUrl: string;
   userId: number;
+  ticketId: number;
+  applyInitialSelection: boolean;
 
   constructor(
     private store: Store<fromServicePageReducer.State>,
-    private userContextStore: Store<fromRootState.State>
+    private userContextStore: Store<fromRootState.State>,
+    private route: ActivatedRoute
   ) {
     this.actionBarConfig = {
       ...getDefaultActionBarConfig(),
@@ -80,14 +87,47 @@ export class ServicePageComponent implements AfterViewInit, OnInit, OnDestroy {
       if (fields) {
         this.ticketTypeField = fields.find(f => f.SourceName === 'TicketType_Display');
         this.selectedTicketTypeFilterValue = this.ticketTypeField.FilterValue ?? 'All';
+
+        if (this.applyInitialSelection) {
+          const ticketIdField = fields.find(f => f.SourceName === 'UserTicket_ID');
+
+          if (ticketIdField.FilterValue !== this.ticketId.toString()) {
+            this.store.dispatch(new fromPfDataGridActions.UpdateInboundFilters(ServicePageConfig.ServicePageViewId, [{
+              SourceName: 'UserTicket_ID',
+              Operator: '=',
+              Value: this.ticketId.toString()
+            }]));
+          }
+        }
       }
     });
+
+    this.gridDataSubscription = this.store.select(fromPfDataGridReducer.getData, this.pageViewId).subscribe(data => {
+      if (this.applyInitialSelection && data) {
+        if (data.total === 1) {
+          this.store.dispatch(new fromPfDataGridActions.UpdateSelectedRecordId(ServicePageConfig.ServicePageViewId, this.ticketId, '='));
+          this.applyInitialSelection = false;
+        }
+        if (data.total === 0) { // Filtering on value passed returned no results, stop trying to apply selection
+          this.applyInitialSelection = false;
+        }
+      }
+    });
+
     this.identitySubscription = this.identity$.subscribe(i => {
       if (!!i) {
         this.avatarUrl = i.ConfigSettings.find(c => c.Name === 'CloudFiles_PublicBaseUrl').Value + '/avatars/';
         this.createInboundFilters(i);
       }
     });
+
+    this.urlParamsSubscription = this.route.params.subscribe(params => {
+      if (params['ticketId']) {
+        this.ticketId = +params['ticketId'];
+        this.applyInitialSelection = true;
+      }
+    });
+
     this.store.dispatch(new fromServicePageActions.LoadTicketTypes());
     this.store.dispatch(new fromServicePageActions.GetTicketStates());
     this.store.dispatch(new fromServicePageActions.LoadSupportTeam());
@@ -109,7 +149,9 @@ export class ServicePageComponent implements AfterViewInit, OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.gridFieldSubscription.unsubscribe();
+    this.gridDataSubscription.unsubscribe();
     this.identitySubscription.unsubscribe();
+    this.urlParamsSubscription.unsubscribe();
   }
 
   handleTicketTypeFilterChanged(value: string) {
