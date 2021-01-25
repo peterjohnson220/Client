@@ -60,4 +60,10 @@ export class AccountApiService {
   authenticateSSOParams(tokenId: string, agentId: string): Observable<any> {
     return this.payfactorsApiService.get<any>(`${this.endpoint}/JwtSsoAuthHandler?tokenid=${tokenId}&agentid=${agentId}`);
   }
+
+  getPasswordResetUrl(userId: number): Observable<string> {
+    return this.payfactorsApiService.get<string>(`${this.endpoint}/GetPasswordResetUrl`, {
+      params: { UserId: userId }
+    });
+  }
 }

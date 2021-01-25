@@ -15,6 +15,9 @@ export const LOAD_COMPANY_SUBSIDIARY_INFO = '[UserManagement] Load Company Subsi
 export const LOAD_COMPANY_SUBSIDIARY_INFO_SUCCESS = '[UserManagement] Load Company Subsidiary Info Success';
 export const LOAD_COMPANY_SUBSIDIARY_INFO_ERROR = '[UserManagement] Load Company Subsidiary Info Error';
 export const RESET_STATE = '[UserManagement] Reset State';
+export const GET_PASSWORD_RESET_URL = '[UserManagement] Get Password Reset Url';
+export const GET_PASSWORD_RESET_URL_SUCCESS = '[UserManagement] Get Password Reset Url Success';
+export const GET_PASSWORD_RESET_URL_ERROR = '[UserManagement] Get Password Reset Url Error';
 
 export class LoadRoles implements Action {
     readonly type = LOAD_ROLES;
@@ -76,6 +79,24 @@ export class ResetState implements Action {
   readonly type = RESET_STATE;
 }
 
+export class GetPasswordResetUrl implements Action {
+  readonly type = GET_PASSWORD_RESET_URL;
+
+  constructor(public payload: number) {}
+}
+
+export class GetPasswordResetUrlSuccess implements Action {
+  readonly type = GET_PASSWORD_RESET_URL_SUCCESS;
+
+  constructor(public payload: string) {}
+}
+
+export class GetPasswordResetUrlError implements Action {
+  readonly type = GET_PASSWORD_RESET_URL_ERROR;
+
+  constructor() {}
+}
+
 export type UserManagementActions =
   | LoadRoles
   | LoadRolesSuccess
@@ -88,4 +109,7 @@ export type UserManagementActions =
   | LoadCompanySubsidiaryInfo
   | LoadCompanySubsidiaryInfoSuccess
   | LoadCompanySubsidiaryInfoError
-  | ResetState;
+  | ResetState
+  | GetPasswordResetUrl
+  | GetPasswordResetUrlSuccess
+  | GetPasswordResetUrlError;

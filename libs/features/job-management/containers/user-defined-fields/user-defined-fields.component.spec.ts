@@ -1,11 +1,10 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonModule } from 'libs/core';
 
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
-import { Store } from '@ngrx/store';
 
 import * as fromActions from '../../actions';
 import * as fromReducer from '../../reducers';
@@ -34,7 +33,7 @@ describe('Job Management Feature - Job Form', () => {
   };
 
 
-  beforeEach(fakeAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         PfFormsModule,
@@ -53,9 +52,6 @@ describe('Job Management Feature - Job Form', () => {
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
 
-  }));
-
-  beforeEach(() => {
     fixture = TestBed.createComponent(UserDefinedFieldsComponent);
     instance = fixture.componentInstance;
 
@@ -65,6 +61,7 @@ describe('Job Management Feature - Job Form', () => {
     spyOn(store, 'dispatch');
 
     fixture.detectChanges();
+
   });
 
   it('Should display form', () => {
@@ -79,7 +76,7 @@ describe('Job Management Feature - Job Form', () => {
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
-  it('Form should be valid', fakeAsync(() => {
+  it('Form should be valid', () => {
     const form = instance.udfsForm;
     const c = instance.udfsForm.controls;
 
@@ -99,6 +96,6 @@ describe('Job Management Feature - Job Form', () => {
     c.UDF2.setValue('UDF2 test value');
     expect(c.UDF2.valid).toEqual(true);
 
-  }));
+  });
 
 });
