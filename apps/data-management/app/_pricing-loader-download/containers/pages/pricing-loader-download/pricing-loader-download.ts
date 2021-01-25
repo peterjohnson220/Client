@@ -1,7 +1,6 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
 import { ActivatedRoute } from '@angular/router';
-import cloneDeep from 'lodash/cloneDeep';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subject, Subscription } from 'rxjs';
@@ -13,9 +12,8 @@ import { environment } from 'environments/environment';
 import * as fromRootState from 'libs/state/state';
 import { UserContext } from 'libs/models/security';
 import * as fromPfDataGridActions from 'libs/features/grids/pf-data-grid/actions';
-import { ActionBarConfig, ColumnChooserType, getDefaultActionBarConfig } from 'libs/features/grids/pf-data-grid/models';
+import { ActionBarConfig, getDefaultActionBarConfig, PfDataGridFilter } from 'libs/features/grids/pf-data-grid/models';
 import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
-import { ViewField } from 'libs/models/payfactors-api/reports/request';
 
 import { JOB_PRICING_PAGEVIEW_ID } from '../../../constants';
 
@@ -36,15 +34,15 @@ export class PricingLoaderDownloadComponent implements OnInit, OnDestroy , After
   gridFieldSubscription: Subscription;
   company = { Id: null, Name: null };
   filterTemplates = {};
-  filters = [{
+  filters: PfDataGridFilter[] = [{
     SourceName: 'Linked_CompanyJobPricing_ID',
     Operator: 'isnull',
-    Value: null
+    Values: null
   },
   {
     SourceName: 'CompanyJobPricing_ID',
     Operator: 'notnull',
-    Value: null
+    Values: null
   }
   ];
   defaultSort: SortDescriptor[] = [{
@@ -77,7 +75,7 @@ export class PricingLoaderDownloadComponent implements OnInit, OnDestroy , After
       this.filters.push({
         SourceName: 'Company_ID',
         Operator: '=',
-        Value: this.company.Id
+        Values: [this.company.Id]
       });
     }
     this.actionBarConfig = {

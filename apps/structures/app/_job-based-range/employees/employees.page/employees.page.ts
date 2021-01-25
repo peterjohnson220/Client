@@ -69,7 +69,7 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
     this.filter = {
       SourceName: 'CompanyStructuresRanges_ID',
       Operator: '=',
-      Value: this.route.snapshot.params.id
+      Values: [this.route.snapshot.params.id]
     };
 
     this.actionBarConfig = {

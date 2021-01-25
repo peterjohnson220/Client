@@ -105,8 +105,11 @@ export class JobsDetailsComponent implements OnDestroy, OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['jobDetailsFilters']) {
-      this.jobId = parseInt(this.jobDetailsFilters.find(v => v.SourceName === 'CompanyJob_ID').Value, 10);
+    if (changes['jobDetailsFilters']?.currentValue) {
+      const filter = this.jobDetailsFilters.find(v => v.SourceName === 'CompanyJob_ID');
+      if (filter?.Values?.length > 0) {
+        this.jobId = parseInt(filter.Values[0], 10);
+      }
     }
   }
 

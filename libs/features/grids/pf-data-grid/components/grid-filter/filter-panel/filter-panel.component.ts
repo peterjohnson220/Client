@@ -48,7 +48,7 @@ export class FilterPanelComponent implements OnChanges {
   }
 
   handleFilterChange(field: ViewField) {
-    if (field.FilterValue || this.valueCanBeEmpty(field)) {
+    if (!!field.FilterValues || this.valueCanBeEmpty(field)) {
       this.filterChanged.emit(field);
     } else {
       this.filterCleared.emit(field);

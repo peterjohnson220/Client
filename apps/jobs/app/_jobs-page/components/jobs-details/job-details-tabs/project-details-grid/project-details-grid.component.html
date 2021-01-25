@@ -29,17 +29,13 @@
 </ng-template>
 
 <ng-template #payMarketFilter>
-  <kendo-dropdownlist
-    style="width: 250px"
-    [(ngModel)]="selectedPayMarket"
-    [textField]="'Value'"
-    [valueField]="'Id'"
-    [defaultItem]="{Value:'All Pay Markets', Id: null}"
-    [data]="filteredPayMarketOptions"
-    (valueChange)="handlePayMarketFilterChanged($event)"
-    [filterable]="true"
-    (filterChange)="handleFilter($event)"
+  <pf-treeview
     [attr.data-qa-id]="'ddm-operator-'+payMarketField?.SourceName"
-    class="k-dropdown-white form-control">
-  </kendo-dropdownlist>
+    [data]="payMarketOptions"
+    [placeholder]="'All Pay Markets'"
+    [filterable]="true"
+    [checkedKeys]="selectedPayMarkets"
+    [anchorWidth]="250"
+    (applyClicked)="handlePayMarketValueChanged($event)">
+  </pf-treeview>
 </ng-template>

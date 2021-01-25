@@ -13,7 +13,7 @@ import { DataViewConfig, DataViewEntity, DataViewType, PagingOptions, SimpleData
 
 import * as fromPfGridActions from '../actions';
 import { PfDataGridFilter, GridConfig, ColumnReorder } from '../models';
-import { getDefaultFilterOperator, getHumanizedFilter, getUserFilteredFields } from '../components';
+import { getDefaultFilterOperator, getSimpleDataViewDescription, getUserFilteredFields } from '../components';
 
 export interface DataGridState {
   pageViewId: string;
@@ -165,7 +165,7 @@ export const getFieldsFilterCount = (state: DataGridStoreState, pageViewId: stri
   let filterCount = 0;
   if (!!state.grids[pageViewId] && !!state.grids[pageViewId].fields) {
     state.grids[pageViewId].fields.forEach(f => {
-      if (!!f.FilterValue || !!f.FilterValues) {
+      if (!!f.FilterValues) {
         filterCount++;
       }
     });
@@ -214,15 +214,15 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
         }
       };
     case fromPfGridActions.LOAD_VIEW_CONFIG_SUCCESS:
-      let payload = cloneDeep(action.payload);
-      if( payload && payload.Fields ){
-        payload.Fields.forEach( v => {
-          v.DisplayName = !!v.Group? v.DisplayName.replace(`${v.Group} `,""): v.DisplayName;
+      const payload: DataViewConfig = cloneDeep(action.payload);
+      if (payload && payload.Fields) {
+        payload.Fields.forEach(v => {
+          v.DisplayName = !!v.Group ? v.DisplayName.replace(`${v.Group} `, '') : v.DisplayName;
         });
       }
       const currSplitViewFilters = payload && payload.Fields ?
-        payload.Fields.filter(f => f.IsFilterable && f.FilterValue !== null && f.FilterOperator)
-          .map(f => buildExternalFilter(f.FilterValue, f.FilterOperator, f.SourceName)) : [];
+        payload.Fields.filter(f => isFilter(f))
+          .map(f => buildExternalFilter(f.FilterOperator, f.SourceName, f.FilterValues)) : [];
       const sorts = findSortDescriptor(payload.Fields);
       return {
         ...state,
@@ -509,16 +509,15 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
         }
       };
     case fromPfGridActions.UPDATE_FILTER:
-      const updatedFields = cloneDeep(state.grids[action.pageViewId].fields);
+      const updatedFields: ViewField[] = cloneDeep(state.grids[action.pageViewId].fields);
       const updatedField = updatedFields.find(f => f.DataElementId === action.payload.DataElementId);
 
-      updatedField.FilterValue = action.payload.FilterValue;
       updatedField.FilterValues = action.payload.FilterValues;
       updatedField.FilterOperator = action.payload.FilterOperator;
       updatedField.IsFilterable = action.payload.IsFilterable;
 
-      const splitViewFilters = updatedFields.filter(f => f.IsFilterable && f.FilterValue !== null && f.FilterOperator)
-        .map(f => buildExternalFilter(f.FilterValue, f.FilterOperator, f.SourceName));
+      const splitViewFilters = updatedFields.filter(f => isFilter(f))
+        .map(f => buildExternalFilter(f.FilterOperator, f.SourceName, f.FilterValues));
 
       return {
         ...state,
@@ -539,9 +538,18 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
         clearedFilterField.FilterOperator = getDefaultFilterOperator(clearedFilterField);
       }
 
-      clearedFilterField.FilterValue = null;
-      clearedFilterField.FilterValues = null;
-      const svf = state.grids[action.pageViewId].splitViewFilters.filter(f => f.SourceName !== action.field.SourceName);
+      clearedFilterField.FilterOperator = action.field.FilterOperator;
+      clearedFilterField.FilterValues = !!action.filterValue && clearedFilterField?.FilterValues?.length
+        ? clearedFilterField.FilterValues.filter(option => option !== action.filterValue)
+        : null;
+
+      let clearFilterSplitViewFilters: PfDataGridFilter[] = cloneDeep(state.grids[action.pageViewId].splitViewFilters);
+      if (clearedFilterField.FilterValues === null) {
+        clearFilterSplitViewFilters = state.grids[action.pageViewId].splitViewFilters.filter(f => f.SourceName !== action.field.SourceName);
+      } else {
+        const clearFilterUpdatedFilter = clearFilterSplitViewFilters.find(f => f.SourceName === action.field.SourceName);
+        clearFilterUpdatedFilter.Values = clearedFilterField.FilterValues;
+      }
       return {
         ...state,
         grids: {
@@ -549,7 +557,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
             fields: clearedFilterFields,
-            splitViewFilters: svf
+            splitViewFilters: clearFilterSplitViewFilters
           }
         }
       };
@@ -608,7 +616,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
       let newSelectedRow = null;
 
       if (action.recordId) {
-        newSplitViewFilters.push(buildExternalFilter(action.recordId.toString(), action.operator, curSelectionField));
+        newSplitViewFilters.push(buildExternalFilter(action.operator, curSelectionField, [action.recordId.toString()]));
         newSelectedRow = state.grids[action.pageViewId].data.data.find(r => r[getPrimaryKey(state, action.pageViewId)] === action.recordId);
       }
       return {
@@ -1214,11 +1222,10 @@ export function buildGroupedFields(fields: ViewField[]): any[] {
 }
 
 export function resetFilters(fields: ViewField[]): ViewField[] {
-  return cloneDeep(fields).map(
-    field => {
+  return cloneDeep(fields).map((field: ViewField) => {
       return {
         ...field,
-        FilterValue: null,
+        FilterValues: null,
         FilterOperator: getDefaultFilterOperator(field)
       };
     }
@@ -1232,7 +1239,7 @@ export function resetFiltersForFilterableFields(state: DataGridStoreState, pageV
   const fieldsToReset: ViewField[] = fields.filter(field => filterableFields.findIndex(f => f.DataElementId === field.DataElementId) >= 0);
 
   fieldsToReset.forEach(field => {
-    field.FilterValue = null;
+    field.FilterValues = null;
     field.FilterOperator = getDefaultFilterOperator(field);
   });
   return fields;
@@ -1245,7 +1252,7 @@ function resetAllFilters(state: DataGridStoreState, pageViewId: string): ViewFie
   }
 
   fields.forEach(field => {
-    field.FilterValue = null;
+    field.FilterValues = null;
     field.FilterOperator = getDefaultFilterOperator(field);
   });
   return fields;
@@ -1270,10 +1277,10 @@ function resetOperatorsForEmptyFilters(state: DataGridStoreState, pageViewId: st
 export function updateFieldsWithFilters(fields: ViewField[], inboundFilters: PfDataGridFilter[]): ViewField[] {
 
   let updatedFields = resetFilters(fields);
-  fields.filter(f => f.FilterValue !== null && f.FilterOperator).forEach(filter => {
+  fields.filter(f => f.FilterValues !== null && f.FilterOperator).forEach(filter => {
     const fieldToUpdate = updatedFields.find(field => field.SourceName === filter.SourceName && field.EntitySourceName === filter.EntitySourceName);
     fieldToUpdate.FilterOperator = filter.FilterOperator;
-    fieldToUpdate.FilterValue = filter.FilterValue;
+    fieldToUpdate.FilterValues = filter.FilterValues;
   });
 
   updatedFields = applyInboundFilters(updatedFields, inboundFilters);
@@ -1289,7 +1296,6 @@ export function applyInboundFilters(fields: ViewField[], inboundFilters: PfDataG
       const fieldToUpdate = updatedFields.find(field => field.SourceName === filter.SourceName);
       if (fieldToUpdate) {
         fieldToUpdate.FilterOperator = filter.Operator;
-        fieldToUpdate.FilterValue = filter.Value;
         fieldToUpdate.FilterValues = filter.Values;
         fieldToUpdate.ExcludeFieldInFilterSave = filter.ExcludeFromFilterSave;
       }
@@ -1301,11 +1307,15 @@ export function applyInboundFilters(fields: ViewField[], inboundFilters: PfDataG
   return fields;
 }
 
-export function buildExternalFilter(value: string, operator: string, fieldName: string): PfDataGridFilter {
+export function isFilter(field: ViewField): boolean {
+  return field.IsFilterable && !!field.FilterValues && !!field.FilterOperator;
+}
+
+export function buildExternalFilter(operator: string, fieldName: string, values?: string[]): PfDataGridFilter {
   return {
     SourceName: fieldName,
     Operator: operator,
-    Value: value
+    Values: values
   };
 }
 
@@ -1313,15 +1323,15 @@ export function buildFiltersView(views: DataViewConfig[]): SimpleDataView[] {
   return views.map(view => ({
     Name: view.Name,
     Description: view.Fields
-      .filter(field => field.FilterOperator && field.FilterValue !== null && !field.IsGlobalFilter)
+      .filter(field => field.FilterOperator && field.FilterValues !== null && !field.IsGlobalFilter)
       .map(field => {
         return ({
           ...field,
-          FilterValue: field.FilterValue,
+          FilterValues: field.FilterValues,
           FilterOperator: field.FilterOperator
         });
       })
-      .map(field => getHumanizedFilter(field))
+      .map(field => getSimpleDataViewDescription(field))
       .join(' • ')
   }));
 }

@@ -36,7 +36,6 @@ export class TicketStateHelper {
     return {
       SourceName: 'UserTicket_State',
       Operator: 'in',
-      Value: null,
       Values: selectedStates
     };
   }

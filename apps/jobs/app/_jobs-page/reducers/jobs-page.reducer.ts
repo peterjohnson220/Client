@@ -1,16 +1,17 @@
 import cloneDeep from 'lodash/cloneDeep';
+
 import { arraySortByString, SortDirection } from 'libs/core/functions';
-import * as fromJobsPageActions from '../actions';
-import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models';
+import { AsyncStateObj, generateDefaultAsyncStateObj, GroupedListItem } from 'libs/models';
 import { AsyncStateObjHelper } from 'libs/core';
 
+import * as fromJobsPageActions from '../actions';
 
 export interface State {
   jobsPageId: string;
   creatingProject: AsyncStateObj<boolean>;
   changingJobStatus: AsyncStateObj<boolean>;
   deletingJob: AsyncStateObj<boolean>;
-  companyPayMarkets: any;
+  companyPayMarkets: GroupedListItem[];
   structureGradeNames: any;
   exportOptions: any;
   navigatingToOldPage: AsyncStateObj<boolean>;
@@ -89,8 +90,8 @@ export function reducer(state = initialState, action: fromJobsPageActions.JobsPa
     case fromJobsPageActions.LOAD_COMPANY_PAYMARKETS_SUCCESS: {
       return {
         ...state,
-        companyPayMarkets: action.payload.map(o => ({ Id: o.PayMarket, Value: o.PayMarket }))
-          .sort((a, b) => arraySortByString(a.Id, b.Id, SortDirection.Ascending))
+        companyPayMarkets: action.payload.map(o => ({ Name: o.PayMarket, Value: o.PayMarket }))
+          .sort((a, b) => arraySortByString(a.Name, b.Name, SortDirection.Ascending))
       };
     }
     case fromJobsPageActions.LOAD_STRUCTURE_GRADES_SUCCESS: {

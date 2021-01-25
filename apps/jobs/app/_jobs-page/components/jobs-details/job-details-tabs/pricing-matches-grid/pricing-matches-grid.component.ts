@@ -46,7 +46,7 @@ export class PricingMatchesGridComponent implements OnInit, AfterViewInit, OnCha
   filter: PfDataGridFilter = {
     SourceName: 'CompanyJobPricing_ID',
     Operator: '=',
-    Value: ''
+    Values: ['']
   };
 
   defaultSort: SortDescriptor[] = [{
@@ -83,8 +83,8 @@ export class PricingMatchesGridComponent implements OnInit, AfterViewInit, OnCha
       this.rateOverride = this.mrpFormatterService.generateRateOverride(changes.pricingInfo.currentValue);
 
       const newFilterValue = changes.pricingInfo.currentValue.CompanyJobs_Pricings_CompanyJobPricing_ID;
-      if (newFilterValue && newFilterValue !== this.filter.Value) {
-        this.filter.Value = newFilterValue;
+      if (newFilterValue && !!this.filter?.Values && newFilterValue !== this.filter.Values[0]) {
+        this.filter.Values = [newFilterValue];
         this.rate = changes.pricingInfo.currentValue.CompanyJobs_Pricings_Rate;
       }
     }

@@ -9,9 +9,9 @@
         <pf-input-debounce 
           [id]="field.SourceName"
           [attr.data-qa-id]="'txt-value-'+field.SourceName"
-          [ngModel]="field.FilterValue"
+          [ngModel]="!!field.FilterValues ? field.FilterValues[0] : ''"
           [placeholderText]="field.FilterPlaceholder ? field.FilterPlaceholder : null"
-          (valueChanged)="handleFilterValueChanged($event)"
+          (valueChanged)="handleTextInputValueChanged($event)"
           [delay]="400">
         </pf-input-debounce>
       </div>
@@ -38,8 +38,8 @@
             <pf-input-debounce
               [id]="field.SourceName"
               [attr.data-qa-id]="'txt-value-'+field.SourceName"
-              [ngModel]="field.FilterValue"
-              (valueChanged)="handleFilterValueChanged($event)"
+              [ngModel]="!!field.FilterValues ? field.FilterValues[0] : ''"
+              (valueChanged)="handleTextInputValueChanged($event)"
               [disabled]="valueCanBeEmpty()"
               [delay]="400">
             </pf-input-debounce>
@@ -65,7 +65,7 @@
               [value]="getDateTimeValue()"
               [format]="'MM/dd/yyyy'"
               [disabled]="valueCanBeEmpty()"
-              (valueChange)="handleFilterValueChanged($event)"
+              (valueChange)="handleDatePickerValueChanged($event)"
               [attr.data-qa-id]="'datepicker-value-'+field.SourceName">
             </kendo-datepicker>
           </div>
@@ -132,7 +132,7 @@
           [textField]="'display'"
           [valueField]="'value'"
           [valuePrimitive]="true"
-          [ngModel]="field.FilterValue"
+          [ngModel]="!!field.FilterValues ? field.FilterValues[0] : null"
           (valueChange)="handleFilterValueChanged($event)"
           [attr.data-qa-id]="'ddl-bit-filter-value-'+ field.SourceName"
           class="k-dropdown-white form-control">

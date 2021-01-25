@@ -63,7 +63,7 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
     this.filter = {
       SourceName: 'CompanyStructuresRanges_ID',
       Operator: '=',
-      Value: this.route.snapshot.params.id
+      Values: [this.route.snapshot.params.id]
     };
 
     this.actionBarConfig = {
@@ -96,6 +96,11 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
 
     // Close filter
     this.store.dispatch(new fromActions.SetFilterPanelDisplay(this.pageViewId, false));
+    this.filter = {
+      SourceName: 'CompanyStructuresRanges_ID',
+      Operator: '=',
+      Values: [this.route.snapshot.params.id]
+    };
 
     this.activeTab = 'DataCuts';
     this.pageViewId = this.dataCutsPageViewId;

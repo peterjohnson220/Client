@@ -39,7 +39,7 @@ export class ModelPageComponent implements OnInit, OnDestroy {
     this.filters = [{
       SourceName: 'CompanyStructuresRangeGroup_ID',
       Operator: '=',
-      Value: this.route.snapshot.params.id
+      Values: [this.route.snapshot.params.id]
     }];
     this.metaData$ = this.store.pipe(select(fromSharedStructuresReducer.getMetadata));
     this.pageViewIdSubscription = this.structuresPagesService.modelPageViewId.subscribe(pv => this.modelGridPageViewId = pv);

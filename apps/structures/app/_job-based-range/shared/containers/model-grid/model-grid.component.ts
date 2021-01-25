@@ -266,14 +266,14 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   handleOverrideMessageFilterChanged(value: any) {
-    const field = cloneDeep(this.overrideField);
-    field.FilterValue = value;
+    const field: ViewField = cloneDeep(this.overrideField);
+    field.FilterValues = [value];
     field.FilterOperator = '=';
     this.updateField(field);
   }
 
-  updateField(field) {
-    if (field.FilterValue) {
+  updateField(field: ViewField) {
+    if (!!field.FilterValues) {
       this.store.dispatch(new fromPfDataGridActions.UpdateFilter(this.pageViewId, field));
     } else {
       this.store.dispatch(new fromPfDataGridActions.ClearFilter(this.pageViewId, field));
@@ -354,8 +354,8 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     this.gridFieldSubscription = this.store.select(fromPfDataGridReducer.getFields, this.modelPageViewId).subscribe(fields => {
       if (fields) {
         this.overrideField = fields.find(f => f.SourceName === 'OverrideMessage');
-        if (this.overrideField != null) {
-          this.selectedOverrideMessage = this.overrideField.FilterValue;
+        if (!!this.overrideField?.FilterValues) {
+          this.selectedOverrideMessage = this.overrideField.FilterValues[0];
         }
       }
     });

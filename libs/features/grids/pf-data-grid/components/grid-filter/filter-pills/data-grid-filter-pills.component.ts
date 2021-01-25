@@ -16,17 +16,17 @@ export class PfDataGridFilterPillsComponent {
   @Input() lockedPillText: string;
   @Input() fieldsToShowFilterValueOnly: string[] = [];
 
-  @Output() clearFilter = new EventEmitter();
+  @Output() clearFilter: EventEmitter<{field: ViewField, value: string}> = new EventEmitter();
   @Output() clearAllFilters = new EventEmitter();
 
   constructor() { }
 
-  getPillDisplay(field: ViewField) {
-    return getHumanizedFilter(field, this.fieldsToShowFilterValueOnly);
+  getPillDisplay(field: ViewField, filterValue: string): string {
+    return getHumanizedFilter(field, filterValue, this.fieldsToShowFilterValueOnly);
   }
 
-  pillClicked(field: ViewField) {
-    this.clearFilter.emit(field);
+  pillClicked(field: ViewField, value = null) {
+    this.clearFilter.emit({ field, value });
   }
 
   clearFilters() {

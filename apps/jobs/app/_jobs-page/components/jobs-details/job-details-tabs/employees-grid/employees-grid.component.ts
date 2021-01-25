@@ -16,6 +16,7 @@ import * as fromPfGridActions from 'libs/features/grids/pf-data-grid/actions';
 import { PfDataGridColType } from 'libs/features/grids/pf-data-grid/enums';
 import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums/pf-theme-type.enum';
 import * as fromActions from 'libs/features/grids/pf-data-grid/actions';
+import { GroupedListItem } from 'libs/models/list';
 
 import * as fromJobsPageReducer from '../../../../reducers';
 import { PageViewIds } from '../../../../constants/';
@@ -46,9 +47,8 @@ export class EmployeesGridComponent implements AfterViewInit, OnDestroy, OnChang
   gridFieldSubscription: Subscription;
   companyPayMarketsSubscription: Subscription;
   payMarketField: ViewField;
-  filteredPayMarketOptions: any;
-  payMarketOptions: any;
-  selectedPayMarket: any;
+  payMarketOptions: GroupedListItem[];
+  selectedPayMarkets: string[];
   actionBarConfig: ActionBarConfig;
   gridConfig: GridConfig;
   hasEmployeeDetailsFlagEnabled: boolean;
@@ -61,15 +61,15 @@ export class EmployeesGridComponent implements AfterViewInit, OnDestroy, OnChang
     this.hasEmployeeDetailsFlagEnabled = this.featureFlagService.enabled(FeatureFlags.EmployeeDetails, false);
     this.companyPayMarketsSubscription = this.store.select(fromJobsPageReducer.getCompanyPayMarkets)
       .subscribe(o => {
-        this.filteredPayMarketOptions = o;
-        this.payMarketOptions = o;
+        if (!!o) {
+          this.payMarketOptions = cloneDeep(o);
+        }
       });
 
     this.gridFieldSubscription = this.store.select(fromPfGridReducer.getFields, this.pageViewId).subscribe(fields => {
       if (fields) {
         this.payMarketField = fields.find(f => f.SourceName === 'PayMarket');
-        this.selectedPayMarket = this.payMarketField.FilterValue !== null ?
-          { Value: this.payMarketField.FilterValue, Id: this.payMarketField.FilterValue } : null;
+        this.selectedPayMarkets = this.payMarketField.FilterValues === null ? [] : cloneDeep(this.payMarketField.FilterValues);
       }
     });
     this.actionBarConfig = {
@@ -116,21 +116,18 @@ export class EmployeesGridComponent implements AfterViewInit, OnDestroy, OnChang
     this.store.dispatch(new fromActions.CollapseRowById(this.pageViewId, id, idValue));
   }
 
-  handlePayMarketFilterChanged(value: any) {
-    const field = cloneDeep(this.payMarketField);
-    field.FilterValue = value.Id;
-    field.FilterOperator = '=';
+  handlePayMarketValueChanged(payMarkets: string[]) {
+    const field: ViewField = cloneDeep(this.payMarketField);
+    field.FilterValues = payMarkets?.length > 0 ? payMarkets : null;
+    field.FilterOperator = 'in';
     this.updateField(field);
   }
 
-  updateField(field) {
-    if (field.FilterValue) {
+  updateField(field: ViewField) {
+    if (!!field.FilterValues) {
       this.store.dispatch(new fromPfGridActions.UpdateFilter(this.pageViewId, field));
     } else {
       this.store.dispatch(new fromPfGridActions.ClearFilter(this.pageViewId, field));
     }
-  }
-  handleFilter(value) {
-    this.filteredPayMarketOptions = this.payMarketOptions.filter((s) => s.Id.toLowerCase().indexOf(value.toLowerCase()) !== -1);
   }
 }
