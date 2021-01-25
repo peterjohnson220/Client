@@ -14,7 +14,7 @@ import { DataViewFieldDataType } from 'libs/models/payfactors-api';
 import * as fromNotificationActions from 'libs/features/infrastructure/app-notifications/actions/app-notifications.actions';
 import { NotificationLevel, NotificationSource, NotificationType } from 'libs/features/infrastructure/app-notifications';
 import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
-import { DataGridToDataViewsHelper } from 'libs/features/grids/pf-data-grid/helpers';
+import { DataGridToDataViewsHelper, GridDataHelper } from 'libs/features/grids/pf-data-grid/helpers';
 
 import * as fromSharedActions from '../actions/shared.actions';
 import * as fromSharedStructuresReducer from '../../shared/reducers';
@@ -181,8 +181,10 @@ export class SharedEffects {
             this.store.pipe(select(fromPfDataGridReducer.getPagingOptions, action.payload.pageViewId)),
             this.store.pipe(select(fromPfDataGridReducer.getSortDescriptor, action.payload.pageViewId)),
             this.store.pipe(select(fromPfDataGridReducer.getApplyDefaultFilters, action.payload.pageViewId)),
-            (a: fromSharedActions.RevertingRangeChangesSuccess, baseEntity, fields, pagingOptions, sortDescriptor, applyDefaultFilters) =>
-              ({ a, baseEntity, fields, pagingOptions, sortDescriptor, applyDefaultFilters }))
+            this.store.pipe(select(fromPfDataGridReducer.getData, action.payload.pageViewId)),
+            this.store.pipe(select(fromPfDataGridReducer.getGridConfig, action.payload.pageViewId)),
+            (a: fromSharedActions.RevertingRangeChangesSuccess, baseEntity, fields, pagingOptions, sortDescriptor, applyDefaultFilters, data, gridConfig) =>
+              ({ a, baseEntity, fields, pagingOptions, sortDescriptor, applyDefaultFilters, data, gridConfig }))
         )
       ),
       switchMap((data) => {
@@ -197,8 +199,13 @@ export class SharedEffects {
         )).pipe(
           mergeMap((response) => {
             const actions = [];
+            // if we don't have a response here, its probably because a filter is leaving it out. just reload the whole grid.
+            if (response.length > 0) {
+              actions.push(new fromPfDataGridActions.UpdateRow(data.a.payload.pageViewId, data.a.payload.rowIndex, response[0]));
+            } else {
+              actions.push(GridDataHelper.getLoadDataAction(data.a.payload.pageViewId, data.data, data.gridConfig, data.pagingOptions));
+            }
 
-            actions.push(new fromPfDataGridActions.UpdateRow(data.a.payload.pageViewId, data.a.payload.rowIndex, response[0]));
             actions.push(new fromNotificationActions.AddNotification({
               EnableHtml: true,
               From: NotificationSource.GenericNotificationMessage,
