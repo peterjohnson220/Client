@@ -20,7 +20,8 @@ import {
   SimpleYesNoModalOptions,
   UserAssignedRole,
   JobDescriptionSection,
-  CompanyDto
+  CompanyDto,
+  showSection
 } from 'libs/models';
 import * as fromRootState from 'libs/state/state';
 import { SettingsService } from 'libs/state/app-context/services';
@@ -125,6 +126,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   emailAddress: string;
   companyLogoPath: string;
   jobDescription: JobDescription;
+  visibleSections: JobDescriptionSection[];
   enableLibraryForRoutedJobDescriptions: boolean;
   hasCanEditJobDescriptionPermission: boolean;
   identityInWorkflow: boolean;
@@ -637,6 +639,8 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
         }
       });
     });
+
+    this.visibleSections =  this.jobDescription.Sections;
   }
 
   private initSsoSubscriptions() {
@@ -723,8 +727,10 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     }
     this.jobDescription = cloneDeep(jobDescription);
 
-    if (this.editing || jobDescription.JobDescriptionStatus === 'In Review') {
+    if (jobDescription.JobDescriptionStatus !== 'Published') {
       this.enableAllContent();
+    } else {
+      this.visibleSections =  jobDescription.Sections.filter(x => showSection(x));
     }
 
     if (jobDescription.JobDescriptionTitle === null || jobDescription.JobDescriptionTitle.length === 0) {
