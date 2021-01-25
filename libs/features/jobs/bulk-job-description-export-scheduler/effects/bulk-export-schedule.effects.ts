@@ -78,6 +78,33 @@ export class BulkJobsExportScheduleEffects {
       )
     );
 
+  @Effect()
+  updateSchedule$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromBulkJobsExportScheduleActions.UPDATE_SCHEDULE),
+      map((action: fromBulkJobsExportScheduleActions.UpdateSchedule) => action.payload),
+      switchMap((payload) => {
+        return this.jobDescriptionApiService.updateSchedule(payload).pipe(
+          map(() => {
+            return new fromBulkJobsExportScheduleActions.UpdateScheduleSuccess;
+          }),
+          catchError(error => of(new fromBulkJobsExportScheduleActions.UpdateScheduleError()))
+        );
+      })
+    );
+
+  @Effect()
+  updateScheduleSuccess$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromBulkJobsExportScheduleActions.UPDATE_SCHEDULE_SUCCESS),
+      switchMap(() =>
+        this.jobDescriptionApiService.getSchedules().pipe(
+          map((schedules: BulkExportSchedule[]) => new fromBulkJobsExportScheduleActions.LoadingSchedulesSuccess(schedules)),
+          catchError(error => of(new fromBulkJobsExportScheduleActions.LoadingSchedulesError(error)))
+        )
+      )
+    );
+
   constructor(
     private actions$: Actions,
     private jobDescriptionApiService: JobDescriptionApiService
