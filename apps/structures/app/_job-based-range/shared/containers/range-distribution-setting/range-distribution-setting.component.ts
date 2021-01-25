@@ -414,44 +414,58 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (!!changes && !!changes.controlPointsAsyncObj && !!changes.surveyUdfsAsyncObj) {
-      const cp = changes.controlPointsAsyncObj.currentValue;
-      const udfs = changes.surveyUdfsAsyncObj.currentValue;
+    if (!!changes) {
+      if (!!changes.controlPointsAsyncObj) {
+        const cp = changes.controlPointsAsyncObj.currentValue;
+        if (cp.obj.length > 0) {
+          this.controlPointsAsyncObj = cp;
+          this.parseControlPoints(cp.obj);
 
-      let selectedCategory: string = null;
-      let currentControlPoint: string = null;
-
-      this.controlPointsAsyncObj = cp;
-      this.surveyUdfsAsyncObj = udfs;
-      this.parseControlPoints(cp.obj.concat(udfs.obj));
-
-      if (this.metadata.ControlPoint === null && this.metadata.PayType === null) {
-        currentControlPoint = 'BaseMRP';
-      } else if (this.metadata.ControlPoint === null && this.metadata.PayType !== null) {
-        currentControlPoint = this.metadata.PayType + 'MRP';
-      } else {
-        currentControlPoint = this.metadata.ControlPoint;
+          this.processControlPoints();
+        }
       }
+      if (!!changes.surveyUdfsAsyncObj) {
+        const udfs = changes.surveyUdfsAsyncObj.currentValue;
+        if (this.controlPointsAsyncObj.obj.length > 0 && udfs.obj.length > 0) {
+          this.surveyUdfsAsyncObj = udfs;
+          this.parseControlPoints(this.controlPointsAsyncObj.obj.concat(udfs.obj));
 
-      if (currentControlPoint !== null) {
-        selectedCategory = this.controlPoints.find(c => c.FieldName === currentControlPoint).Category;
+          this.processControlPoints();
+        }
       }
-      selectedCategory = selectedCategory ?? 'Base';
-
-      this.controlPointCategory = this.controlPoints.filter((ctrlPt, i, arr) => {
-        return arr.indexOf(arr.find(t => t.Category === ctrlPt.Category && t.RangeDisplayName === 'MRP')) === i;
-      });
-
-      this.controlPointRanges = this.controlPoints.filter((ctrlPt, i, arr) => {
-        return arr.indexOf(arr.find(t => t.Category === selectedCategory &&
-          t.RangeDisplayName === ctrlPt.RangeDisplayName && t.RangeDisplayName !== 'MRP')) === i;
-      });
-
-      this.controlPointMidpoint = this.controlPoints.filter((ctrlPt, i, arr) => {
-        return arr.indexOf(arr.find(t => t.Category === selectedCategory &&
-          t.RangeDisplayName === ctrlPt.RangeDisplayName)) === i;
-      });
     }
+  }
+
+  private processControlPoints(): void {
+    let currentControlPoint: string = null;
+    let selectedCategory: string = null;
+
+    if (this.metadata.ControlPoint === null && this.metadata.PayType === null) {
+      currentControlPoint = 'BaseMRP';
+    } else if (this.metadata.ControlPoint === null && this.metadata.PayType !== null) {
+      currentControlPoint = this.metadata.PayType + 'MRP';
+    } else {
+      currentControlPoint = this.metadata.ControlPoint;
+    }
+
+    if (currentControlPoint !== null) {
+      selectedCategory = this.controlPoints.find(c => c.FieldName === currentControlPoint).Category;
+    }
+    selectedCategory = selectedCategory ?? 'Base';
+
+    this.controlPointCategory = this.controlPoints.filter((ctrlPt, i, arr) => {
+      return arr.indexOf(arr.find(t => t.Category === ctrlPt.Category && t.RangeDisplayName === 'MRP')) === i;
+    });
+
+    this.controlPointRanges = this.controlPoints.filter((ctrlPt, i, arr) => {
+      return arr.indexOf(arr.find(t => t.Category === selectedCategory &&
+        t.RangeDisplayName === ctrlPt.RangeDisplayName && t.RangeDisplayName !== 'MRP')) === i;
+    });
+
+    this.controlPointMidpoint = this.controlPoints.filter((ctrlPt, i, arr) => {
+      return arr.indexOf(arr.find(t => t.Category === selectedCategory &&
+        t.RangeDisplayName === ctrlPt.RangeDisplayName)) === i;
+    });
   }
 
   private parseControlPoints(controlPoints: any): void {
@@ -522,7 +536,7 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
 
   // communicate the inner form validation to the parent form
   validate(_: FormControl) {
-    return this.rangeDistributionSettingForm.valid ? null : { RangeDistributionSetting: { valid: false } };
+    return this.rangeDistributionSettingForm.valid ? null : {RangeDistributionSetting: {valid: false}};
   }
 
   registerOnChange(fn: any): void {
