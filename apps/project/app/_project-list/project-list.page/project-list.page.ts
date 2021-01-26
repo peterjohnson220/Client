@@ -20,7 +20,7 @@ import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducer
 import {Permissions} from 'libs/constants';
 import {PfSecuredResourceDirective} from 'libs/forms/directives';
 
-import {PageViewIds} from '../constants';
+import {PageViewIds} from '../../shared/constants';
 
 import * as fromProjectListPageActions from '../actions';
 
@@ -84,6 +84,7 @@ export class ProjectListPageComponent implements AfterViewInit, OnInit, OnDestro
   @ViewChild('projectPinnedFilter') projectPinnedFilter: ElementRef;
   @ViewChild('gridRowActionsTemplate') gridRowActionsTemplate: ElementRef;
   @ViewChild('numJobsColumn') numJobsColumn: ElementRef;
+  @ViewChild('projectName') projectName: ElementRef;
   @ViewChild(PfSecuredResourceDirective) pfSecuredResourceDirective: PfSecuredResourceDirective;
   showDeleteProjectModal = new BehaviorSubject<boolean>(false);
   showDeleteProjectModal$ = this.showDeleteProjectModal.asObservable();
@@ -135,7 +136,8 @@ export class ProjectListPageComponent implements AfterViewInit, OnInit, OnDestro
 
   ngAfterViewInit() {
     this.colTemplates = {
-      'Completed': {Template: this.projectStatusColumn}
+      'Completed': {Template: this.projectStatusColumn},
+      'Session_Name': {Template: this.projectName}
     };
 
     this.filterTemplates = {

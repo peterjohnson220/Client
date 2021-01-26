@@ -84,6 +84,12 @@
   </div>
 </ng-template>
 
+<ng-template #projectName let-dataRow="dataRow">
+  <span>
+    <a class="pf-link" href="/client/project/pricing-project/{{dataRow['UserSessionMap_UserSession_ID']}}">{{dataRow['UserSessions_Session_Name']}}</a>
+  </span>
+</ng-template>
+
 <ng-template #projectStatusFilter>
   <div>
     <label>Status:</label>
