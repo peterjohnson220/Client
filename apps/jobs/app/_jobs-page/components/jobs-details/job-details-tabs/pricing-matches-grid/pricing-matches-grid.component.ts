@@ -78,7 +78,7 @@ export class PricingMatchesGridComponent implements OnInit, AfterViewInit, OnCha
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (!!changes.pricingInfo) {
+    if (!!changes?.pricingInfo?.currentValue) {
       this.mrpDisplayOverrides = this.mrpFormatterService.generateDisplayOverrides(changes.pricingInfo.currentValue, this.mrpFields);
       this.rateOverride = this.mrpFormatterService.generateRateOverride(changes.pricingInfo.currentValue);
 
