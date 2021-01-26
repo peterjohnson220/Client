@@ -5,7 +5,6 @@ import { ofType } from '@ngrx/effects';
 
 import { Subscription, Observable, Subject } from 'rxjs';
 
-import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core';
 import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromMultiMatchActions from 'libs/features/multi-match/actions';
@@ -49,18 +48,14 @@ export class JobsDetailsComponent implements OnDestroy, OnInit, OnChanges {
 
   jobId: number;
 
-  pricingHistoryChartFeatureFlag: RealTimeFlag = { key: FeatureFlags.PricingHistoryChart, value: false };
   unsubscribe$ = new Subject<void>();
 
   constructor(
     private store: Store<fromPfGridReducer.State>,
-    private actionsSubject: ActionsSubject,
-    private featureFlagService: AbstractFeatureFlagService
+    private actionsSubject: ActionsSubject
   ) { }
 
   ngOnInit() {
-
-    this.featureFlagService.bindEnabled(this.pricingHistoryChartFeatureFlag, this.unsubscribe$);
 
     this.selectedRow$ = this.store.select(fromPfGridReducer.getSelectedRow, PageViewIds.Jobs);
 
