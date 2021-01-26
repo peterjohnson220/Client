@@ -203,7 +203,9 @@ export class ProjectListPageComponent implements AfterViewInit, OnInit, OnDestro
     this.acknowledgeDelete = false;
     if (this.selectedProjectId) {
       this.store.dispatch(new fromProjectListPageActions.DeleteProjects([this.selectedProjectId]));
-      this.store.dispatch(new fromPfDataGridActions.UpdateSelectedKey(this.pageViewId, this.selectedProjectId));
+      if (this.selectedRecordIds.indexOf(this.selectedProjectId) > -1) {
+        this.store.dispatch(new fromPfDataGridActions.UpdateSelectedKey(this.pageViewId, this.selectedProjectId));
+      }
     } else if (this.selectedRecordIds) {
       this.store.dispatch(new fromProjectListPageActions.DeleteProjects(this.selectedRecordIds));
       this.store.dispatch(new fromPfDataGridActions.ClearSelections(this.pageViewId));
