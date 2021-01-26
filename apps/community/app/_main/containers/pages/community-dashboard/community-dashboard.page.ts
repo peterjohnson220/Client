@@ -1,4 +1,5 @@
 import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { Subscription, Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -6,13 +7,15 @@ import { Store } from '@ngrx/store';
 import { BrowserDetectionService } from 'libs/core/services';
 import { CompanySettingsEnum } from 'libs/models';
 import { SettingsService } from 'libs/state/app-context/services';
+import { FileDownloadSecurityWarningModalComponent } from 'libs/ui/common/file-download-security-warning';
 
-import * as fromRootState from 'libs/state/state';
-import * as fromCommunityPostReducer from '../../../reducers';
+import * as fromCommunityReducers from '../../../reducers';
 import * as  fromCommunityPostActions from '../../../actions/community-post.actions';
+import * as fromCommunityPollResponseActions from '../../../actions/community-poll-response.actions';
 import { CommunityPostsComponent } from '../../community-posts';
 import { CommunityConstants } from '../../../models';
-import { Router } from '@angular/router';
+import * as fromCommunityFileDownloadSecurityWarningActions from '../../../actions/community-file-download-security-warning.actions';
+import { DownloadTypeEnum } from '../../../models/download-type.enum';
 
 declare var InitializeUserVoice: any;
 
@@ -23,6 +26,7 @@ declare var InitializeUserVoice: any;
 })
 export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
   @ViewChild('posts', { static: true }) postsComponent: CommunityPostsComponent;
+  @ViewChild('fileDownloadSecurityWarningModal', { static: true }) fileDownloadSecurityWarningModal: FileDownloadSecurityWarningModalComponent;
 
   readonly POST_ITEM_CLASS = 'post-item';
   readonly COMMUNITY_POSTS_CONTAINER_ID = 'community-posts';
@@ -32,11 +36,19 @@ export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
   loadingPreviousBatchCommunityPosts$: Observable<boolean>;
   getHasPreviousBatchPostsOnServer$: Observable<boolean>;
   getHasNextBatchPostsOnServer$: Observable<boolean>;
+  fileDownloadSecurityWarningModal_Open$: Observable<boolean>;
+  fileDownloadSecurityWarningModal_DownloadId$: Observable<string>;
+  fileDownloadSecurityWarningModal_DownloadType$: Observable<string>;
+  showFileDownloadSecurityWarning$: Observable<boolean>;
 
   loadingNextBatchCommunityPostsSubscription: Subscription;
   loadingPreviousBatchCommunityPostsSubscription: Subscription;
   hasPreviousBatchResultsOnServerSubscription: Subscription;
   hasNextBatchResultsOnServerSubscription: Subscription;
+  fileDownloadSecurityWarningModal_OpenSubscription: Subscription;
+  fileDownloadSecurityWarningModal_DownloadIdSubscription: Subscription;
+  fileDownloadSecurityWarningModal_DownloadTypeSubscription: Subscription;
+  showFileDownloadSecurityWarningSubscription: Subscription;
   hasPreviousBatchOnServer = false;
   hasNextBatchOnServer = false;
   hideTopComponents = false;
@@ -61,17 +73,24 @@ export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
   postsChangedObserver: any;
   targetNode: any;
   observerOptions: any;
+  fileDownloadSecurityWarningModal_DownloadId: string;
+  fileDownloadSecurityWarningModal_DownloadType: string;
+  showFileDownloadSecurityWarning: boolean;
 
-  constructor(public store: Store<fromCommunityPostReducer.State>,
+  constructor(public store: Store<fromCommunityReducers.State>,
               private browserDetectionService: BrowserDetectionService,
               private settingService: SettingsService,
               private router: Router) {
 
-    this.loadingNextBatchCommunityPosts$ = this.store.select(fromCommunityPostReducer.getLoadingNextBatchPosts);
-    this.loadingPreviousBatchCommunityPosts$ = this.store.select(fromCommunityPostReducer.getLoadingPreviousBatchPosts);
-    this.getHasPreviousBatchPostsOnServer$ = this.store.select(fromCommunityPostReducer.getHasPreviousBatchPostsOnServer);
-    this.getHasNextBatchPostsOnServer$ = this.store.select(fromCommunityPostReducer.getHasNextBatchPostsOnServer);
+    this.loadingNextBatchCommunityPosts$ = this.store.select(fromCommunityReducers.getLoadingNextBatchPosts);
+    this.loadingPreviousBatchCommunityPosts$ = this.store.select(fromCommunityReducers.getLoadingPreviousBatchPosts);
+    this.getHasPreviousBatchPostsOnServer$ = this.store.select(fromCommunityReducers.getHasPreviousBatchPostsOnServer);
+    this.getHasNextBatchPostsOnServer$ = this.store.select(fromCommunityReducers.getHasNextBatchPostsOnServer);
     this.disableCommunityAttachments$ = this.settingService.selectCompanySetting<boolean>(CompanySettingsEnum.CommunityDisableAttachments);
+    this.fileDownloadSecurityWarningModal_Open$ = this.store.select(fromCommunityReducers.getCurrentFileDownloadSecurityWarningModalState);
+    this.fileDownloadSecurityWarningModal_DownloadId$ = this.store.select(fromCommunityReducers.getCurrentFileDownloadSecurityWarningDownloadId);
+    this.fileDownloadSecurityWarningModal_DownloadType$ = this.store.select(fromCommunityReducers.getCurrentFileDownloadSecurityWarningDownloadType);
+    this.showFileDownloadSecurityWarning$ = this.settingService.selectCompanySetting<boolean>(CompanySettingsEnum.FileDownloadSecurityWarning);
 
     /* Using this to prevent sticky-top from being applied in Edge/IE due to a visual glitch
      https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/17555420/ */
@@ -258,6 +277,30 @@ export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
       }
     });
 
+    this.fileDownloadSecurityWarningModal_OpenSubscription = this.fileDownloadSecurityWarningModal_Open$.subscribe(isOpen => {
+      if (isOpen === true) {
+        this.fileDownloadSecurityWarningModal.open();
+      }
+    });
+
+    this.fileDownloadSecurityWarningModal_DownloadIdSubscription = this.fileDownloadSecurityWarningModal_DownloadId$.subscribe(downloadId => {
+      if (downloadId) {
+        this.fileDownloadSecurityWarningModal_DownloadId = downloadId;
+      }
+    });
+
+    this.fileDownloadSecurityWarningModal_DownloadTypeSubscription = this.fileDownloadSecurityWarningModal_DownloadType$.subscribe(downloadType => {
+      if (downloadType) {
+        this.fileDownloadSecurityWarningModal_DownloadType = downloadType;
+      }
+    });
+
+    this.showFileDownloadSecurityWarningSubscription = this.showFileDownloadSecurityWarning$.subscribe(value => {
+      if (value != null) {
+        this.showFileDownloadSecurityWarning = value;
+      }
+    });
+
     if (typeof InitializeUserVoice !== 'undefined') {
       InitializeUserVoice();
     }
@@ -279,9 +322,45 @@ export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
     if (this.hasNextBatchResultsOnServerSubscription) {
       this.hasNextBatchResultsOnServerSubscription.unsubscribe();
     }
+
+    if (this.fileDownloadSecurityWarningModal_OpenSubscription) {
+      this.fileDownloadSecurityWarningModal_OpenSubscription.unsubscribe();
+    }
+
+    if (this.fileDownloadSecurityWarningModal_DownloadIdSubscription) {
+      this.fileDownloadSecurityWarningModal_DownloadIdSubscription.unsubscribe();
+    }
+
+    if (this.fileDownloadSecurityWarningModal_DownloadTypeSubscription) {
+      this.fileDownloadSecurityWarningModal_DownloadTypeSubscription.unsubscribe();
+    }
+
+    if (this.showFileDownloadSecurityWarningSubscription) {
+      this.showFileDownloadSecurityWarningSubscription.unsubscribe();
+    }
   }
 
   routeToSearchResults(searchString) {
     this.router.navigate(['/search-results'], { queryParams: { query: searchString } });
+  }
+
+  handleSecurityWarningConfirmed(isConfirmed) {
+    if (isConfirmed) {
+      switch (this.fileDownloadSecurityWarningModal_DownloadType) {
+        case DownloadTypeEnum.CommunityUserPollExport: {
+          this.store.dispatch(new fromCommunityPollResponseActions.ExportingCommunityUserPollResponses(this.fileDownloadSecurityWarningModal_DownloadId));
+          break;
+        }
+        case DownloadTypeEnum.CommunityAttachment: {
+          window.location.href = this.fileDownloadSecurityWarningModal_DownloadId;
+          break;
+        }
+      }
+    }
+    this.store.dispatch(new fromCommunityFileDownloadSecurityWarningActions.CloseCommunityFileDownloadSecurityWarningModal());
+  }
+
+  handleSecurityWarningCancelled() {
+    this.store.dispatch(new fromCommunityFileDownloadSecurityWarningActions.CloseCommunityFileDownloadSecurityWarningModal());
   }
 }

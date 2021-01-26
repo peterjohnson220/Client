@@ -1,22 +1,29 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { take } from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
 
 import { CommunityUserInfo } from 'libs/models/community/community-user-info.model';
+import { SettingsService } from 'libs/state/app-context/services';
+import { CompanySettingsEnum } from 'libs/models/company';
+import { FileDownloadSecurityWarningModalComponent } from 'libs/ui/common';
+import * as fromRootState from 'libs/state/state';
 import { CommunityDeletePost } from '../../models/community-delete-post.model';
+import { DownloadTypeEnum } from '../../models/download-type.enum';
 
 import * as fromCommunityPostReducer from '../../reducers';
 import * as fromCommunityPostActions from '../../actions/community-post.actions';
 import * as fromCommunityPostReplyActions from '../../actions/community-post-reply.actions';
 import * as fromCommunityPollResponseActions from '../../actions/community-poll-response.actions';
-import * as fromRootState from 'libs/state/state';
-import { take } from 'rxjs/operators';
+import * as fromCommunityFileDownloadSecurityWarningActions from '../../actions/community-file-download-security-warning.actions';
 
 @Component({
   selector: 'pf-community-post-header',
   templateUrl: './community-post-header.component.html',
   styleUrls: [ './community-post-header.component.scss' ]
 })
-export class CommunityPostHeaderComponent {
+export class CommunityPostHeaderComponent implements OnInit {
+  @ViewChild('fileDownloadSecurityWarningModal', { static: true }) fileDownloadSecurityWarningModal: FileDownloadSecurityWarningModalComponent;
   @Input() user: CommunityUserInfo;
   @Input() time: any;
   @Input() isInternalOnly: boolean;
@@ -29,8 +36,20 @@ export class CommunityPostHeaderComponent {
   @Input() userPollId: string;
   @Input() hasReplies: boolean;
   @Input() hidePostActions: boolean;
+  enableFileDownloadSecurityWarning$: Observable<boolean>;
+  enableFileDownloadSecurityWarningSub: Subscription;
+  enableFileDownloadSecurityWarning = false;
 
-  constructor(public store: Store<fromCommunityPostReducer.State>) {
+  constructor(public store: Store<fromCommunityPostReducer.State>, private settingService: SettingsService) {
+    this.enableFileDownloadSecurityWarning$ = this.settingService.selectCompanySetting<boolean>(CompanySettingsEnum.FileDownloadSecurityWarning);
+  }
+
+  ngOnInit() {
+    this.enableFileDownloadSecurityWarningSub = this.enableFileDownloadSecurityWarning$.subscribe(isEnabled => {
+      if (isEnabled) {
+        this.enableFileDownloadSecurityWarning = true;
+      }
+    });
   }
 
   get hideUserActionsMenu() {
@@ -81,4 +100,12 @@ export class CommunityPostHeaderComponent {
     }
   }
 
+  handleExportPollResultsClicked() {
+    if (this.enableFileDownloadSecurityWarning) {
+      this.store.dispatch(new fromCommunityFileDownloadSecurityWarningActions.OpenCommunityFileDownloadSecurityWarningModal
+      ({ downloadId: this.userPollId, downloadType: DownloadTypeEnum.CommunityUserPollExport }));
+    } else {
+      this.exportPollResults();
+    }
+  }
 }

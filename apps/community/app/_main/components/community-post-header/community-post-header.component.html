@@ -17,7 +17,7 @@
     </button>
     <button *ngIf="isUserPoll" class="dropdown-item"
             data-qa-id="ddm-communityPostActionsExport"
-            (click)="exportPollResults()">
+            (click)="handleExportPollResultsClicked()">
       <fa-icon icon="file-excel"></fa-icon>
       Export Poll Results
     </button>
@@ -40,4 +40,3 @@
     <span *ngIf="!last" class="community-badge-text"> | </span>
   </span>
 </div>
-
