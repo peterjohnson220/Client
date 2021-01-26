@@ -11,9 +11,7 @@ export class FeatureFlags {
   static readonly PeerDashboard_PeerTrendsReport = 'peer-dashboard_peer-trends-report';
   static readonly BenefitsLoaderConfiguration = 'benefits-loader-configuration';
   static readonly EmployeeTagsLoaderConfiguration = 'employee-tag-loader-configuration';
-  static readonly EmployeeDetails = 'employee-details';
   static readonly StructureDetails = 'structure-details';
-  static readonly PricingHistoryChart = 'pricing-history-chart';
   static readonly LoaderDashboardRedrops = 'loader-dashboard-redrops';
   static readonly PricingMatchNotesTab = 'pricing-match-notes-tab';
   static readonly LoadAndExportsFilesCards = 'dm-load-export-files-card';
