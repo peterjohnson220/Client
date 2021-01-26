@@ -132,7 +132,7 @@ export class TotalRewardsStatementService {
     return sum;
   }
 
-  static applyFuncToEachControl(statement: Statement, functionToCallWithControl: any): void {
+  static applyFuncToEachControl(statement: Statement, functionToCallWithControl: Function): void {
     statement?.Pages?.forEach(
       p => p.Sections?.forEach(
         s => s.Columns?.forEach(
