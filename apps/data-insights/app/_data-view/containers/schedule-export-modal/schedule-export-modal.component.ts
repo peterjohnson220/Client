@@ -101,10 +101,16 @@ export class ScheduleExportModalComponent implements OnInit, OnDestroy {
   }
 
   close(): void {
+    this.exportFormat.reset();
+    this.exportFrequency.reset();
     this.modalService.dismissAll();
   }
 
-  get disabled() {
-    return !this.exportFormat.isValid || !this.exportFrequency.isValid;
+  get saveDisabled(): boolean {
+    return !(this.exportFormat?.isValid && this.exportFrequency?.isValid);
+  }
+
+  get changesMade(): boolean {
+    return (this.exportFormat?.changesMade || this.exportFrequency?.changesMade) && this.exportFrequency?.isValid;
   }
 }
