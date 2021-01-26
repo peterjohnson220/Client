@@ -114,6 +114,22 @@ export class StructuresHighchartsService {
     };
   }
 
+  static getRegressionDataPoint(xCoordinate, jobData, slope, intercept, rate) {
+    const roundDec = rate === 'Annual' ? 0 : 2;
+
+    const regCoordinate = StructuresHighchartsService.roundTo(Math.exp(intercept) * Math.exp(jobData.CompanyStructures_Ranges_DispSeq * slope), roundDec);
+
+    return {
+      x: xCoordinate,
+      y: regCoordinate
+    };
+  }
+
+  static roundTo(num: number, places: number) {
+    const factor = 10 ** places;
+    return Math.round(num * factor) / factor;
+  }
+
   static getDataPoint(xCoordinate, dataPointTypeId, jobRangeData, hasCurrentStructure, chartLocale, metaData) {
     let dataPointValue;
     let dataPointCurrentValue;
