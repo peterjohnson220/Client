@@ -13,6 +13,7 @@ import { UserDataView, DataViewAccessLevel, SharedDataViewUser, Filter } from 'l
 import { CsvFileDelimiter, ExportFileExtension } from 'libs/models/payfactors-api';
 import { AbstractFeatureFlagService, FeatureFlags, PermissionService } from 'libs/core/services';
 import * as fromAppNotificationsMainReducer from 'libs/features/infrastructure/app-notifications/reducers';
+import { FileDownloadSecurityWarningModalComponent } from 'libs/ui/common';
 
 import * as fromDataViewMainReducer from '../../reducers';
 import * as fromDataViewActions from '../../actions/data-view.actions';
@@ -37,6 +38,7 @@ export class DataViewPageComponent implements OnInit, OnDestroy {
   @ViewChild('deleteWorkbookModal') public deleteUserWorkbookModalComponent: DeleteUserWorkbookModalComponent;
   @ViewChild('shareReportModal') public shareReportModalComponent: ShareReportModalComponent;
   @ViewChild('scheduleExportModal') public scheduleExportModal: ScheduleExportModalComponent;
+  @ViewChild('fileDownloadSecurityWarningModal', { static: true }) fileDownloadSecurityWarningModal: FileDownloadSecurityWarningModalComponent;
   @ViewChild(ConfigureSidebarComponent) public configureSidebar: ConfigureSidebarComponent;
 
   userDataView$: Observable<AsyncStateObj<UserDataView>>;
@@ -48,6 +50,7 @@ export class DataViewPageComponent implements OnInit, OnDestroy {
   loadingErrorMessage$: Observable<string>;
   formulaBuilderEnabled$: Observable<boolean>;
   activeFilters$: Observable<Filter[]>;
+  enableFileDownloadSecurityWarning$: Observable<boolean>;
 
   editReportSuccessSubscription: Subscription;
   duplicateReportSuccessSubscription: Subscription;
@@ -56,6 +59,7 @@ export class DataViewPageComponent implements OnInit, OnDestroy {
   getEventIdSubscription: Subscription;
   shareableUsersSubscription: Subscription;
   sharedUserPermissionsLoadedSubscription: Subscription;
+  enableFileDownloadSecurityWarningSub: Subscription;
 
   userDataView: UserDataView;
   eventIdState = null;
@@ -64,6 +68,8 @@ export class DataViewPageComponent implements OnInit, OnDestroy {
   sharedUserPermissionsLoaded: boolean;
   scheduleTabularReportingExportFeatureFlagEnabled: boolean;
   hasScheduleTabularReportingExportPermission: boolean;
+  enableFileDownloadSecurityWarning = false;
+  exportData: any;
 
   constructor(
     private store: Store<fromDataViewMainReducer.State>,
@@ -81,9 +87,8 @@ export class DataViewPageComponent implements OnInit, OnDestroy {
     this.sharedUserPermissions$ = this.store.pipe(select(fromDataViewMainReducer.getSharedUserPermissionsAsync));
     this.loadingErrorMessage$ = this.store.pipe(select(fromDataViewMainReducer.getLoadingErrorMessage));
     this.activeFilters$ = this.store.pipe(select(fromDataViewMainReducer.getActiveFilters));
-    this.formulaBuilderEnabled$ = this.settingService.selectCompanySetting<boolean>(
-      CompanySettingsEnum.DataInsightsFormulaBuilder
-    );
+    this.formulaBuilderEnabled$ = this.settingService.selectCompanySetting<boolean>(CompanySettingsEnum.DataInsightsFormulaBuilder);
+    this.enableFileDownloadSecurityWarning$ = this.settingService.selectCompanySetting<boolean>(CompanySettingsEnum.FileDownloadSecurityWarning);
     this.scheduleTabularReportingExportFeatureFlagEnabled = this.featureFlagService.enabled(FeatureFlags.ScheduleTabularReportingExport, false);
     this.hasScheduleTabularReportingExportPermission = this.permissionService.CheckPermission([Permissions.SCHEDULE_TABULAR_REPORT_EXPORT_DATA_INSIGHT],
       PermissionCheckEnum.Single);
@@ -148,6 +153,11 @@ export class DataViewPageComponent implements OnInit, OnDestroy {
     this.sharedUserPermissionsLoadedSubscription = this.store.pipe(select(fromDataViewMainReducer.getSharedUserPermissionsLoaded)).subscribe(loaded => {
       this.sharedUserPermissionsLoaded = loaded;
     });
+    this.enableFileDownloadSecurityWarningSub = this.enableFileDownloadSecurityWarning$.subscribe(isEnabled => {
+      if (isEnabled) {
+        this.enableFileDownloadSecurityWarning = true;
+      }
+    });
   }
 
   handleEditClicked(): void {
@@ -178,7 +188,13 @@ export class DataViewPageComponent implements OnInit, OnDestroy {
   }
 
   handleExportClicked(data: { fileExtension: ExportFileExtension, csvFileDelimiter: CsvFileDelimiter }): void {
-    this.store.dispatch(new fromDataViewActions.ExportUserReport(data));
+    this.exportData = data;
+
+    if (this.enableFileDownloadSecurityWarning) {
+      this.fileDownloadSecurityWarningModal.open();
+    } else {
+      this.export();
+    }
   }
 
   handleShareClicked(): void {
@@ -199,6 +215,16 @@ export class DataViewPageComponent implements OnInit, OnDestroy {
 
   handleUserRemoved(user: SharedDataViewUser): void {
     this.store.dispatch(new fromDataViewActions.RemoveSharePermission(user));
+  }
+
+  handleSecurityWarningConfirmed(isConfirmed): void {
+    if (isConfirmed) {
+      this.export();
+    }
+  }
+
+  export(): void {
+    this.store.dispatch(new fromDataViewActions.ExportUserReport(this.exportData));
   }
 
   public get isReadOnly(): boolean {

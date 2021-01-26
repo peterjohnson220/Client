@@ -117,7 +117,7 @@ describe('Data Insights - Custom Report View Comopnent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
-  it('should dispatch ExportUserReport action when handling export clicked', () => {
+  it('should dispatch ExportUserReport action when handling export clicked and enableFileDownloadSecurityWarning is false', () => {
     const data = { fileExtension: ExportFileExtension.Csv, csvFileDelimiter: CsvFileDelimiter.Pipe };
     const expectedAction = new fromDataViewActions.ExportUserReport(data);
     spyOn(store, 'dispatch');
