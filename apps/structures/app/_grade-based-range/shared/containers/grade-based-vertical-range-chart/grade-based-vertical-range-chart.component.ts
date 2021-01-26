@@ -338,7 +338,7 @@ export class GradeBasedVerticalRangeChartComponent implements OnInit, OnDestroy 
     // set slope and intercept from the details
     const slope = this.gradeRangeDetails.obj[0]?.Slope;
     const intercept = this.gradeRangeDetails.obj[0]?.Intercept;
-    const rSquared = this.gradeRangeDetails.obj[0]?.Rsquared;
+    const rSquared = this.gradeRangeDetails.obj[0]?.Rsquared === null ? '--' : this.gradeRangeDetails.obj[0]?.Rsquared;
 
     // set initial min/max based on jobs data, since this is outside the main grid data
     this.determineInitialChartMinAndMax();
@@ -349,7 +349,9 @@ export class GradeBasedVerticalRangeChartComponent implements OnInit, OnDestroy 
 
       this.addJobs(i, currentRow);
 
-      this.addRegression(i, currentRow, slope, intercept);
+      if (!!intercept && !!slope) {
+        this.addRegression(i, currentRow, slope, intercept);
+      }
 
       // check for new min
       this.determineChartMin(currentRow);
