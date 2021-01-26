@@ -1,7 +1,7 @@
 
-<ng-container *ngIf="pricingInfo.CompanyJobs_Pricings_CompanyJobPricing_ID">
+<ng-container *ngIf="pricingInfo.CompanyJobs_Pricings_CompanyJobPricing_ID && !!filter.Values">
   <pf-data-grid
-    [pageViewId]="pageViewId + '_' + filter.Value"
+    [pageViewId]="pageViewId + '_' + filter.Values[0]"
     [showTitle]="false"
     [columnTemplates]="colTemplates"
     [customHeaderTemplate]="pricingMatchesHeader"
