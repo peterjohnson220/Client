@@ -21,5 +21,7 @@ export enum GradeRangeVerticalModelChartSeries {
   RangeQuintileThird = 15,
   RangeQuintileFourth = 16,
   EmployeeOutliers = 17,
-  Jobs = 18
+  Jobs = 18,
+  Regression = 19,
+  JobsExcludedFromRegression = 20
 }
