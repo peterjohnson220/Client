@@ -16,7 +16,7 @@ import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducer
 import * as fromProjectListPageActions from '../actions';
 import * as fromProjectListPageReducer from '../reducers';
 
-import { PageViewIds } from '../constants';
+import { PageViewIds } from '../../shared/constants';
 
 @Injectable()
 export class ProjectListPageEffects {

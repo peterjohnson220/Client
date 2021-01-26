@@ -1,0 +1,60 @@
+<pf-data-grid
+  [pageViewId]="pageViewId"
+  [reorderable]="true"
+  [title]="(project$ | async)?.Name"
+  [enableSelection]="true"
+  [inboundFilters]="filter"
+  [columnTemplates]="colTemplates"
+  [selectionField]="'UserJobListTemp_ID'"
+  [navigationURL] = "'./client/dashboard'"
+  [aboveGridTemplate]="aboveGridTemplate"
+  [noRecordsFound]="'No projects available. Please change your search criteria.'">
+</pf-data-grid>
+
+<ng-template #aboveGridTemplate>
+  <div><label [innerText]="(project$ | async)?.Rate"></label> effective date <label [innerText]="(project$ | async)?.EffectiveDate | date : 'longDate'"></label> </div>
+  <div class="d-flex flex-column content-wrapper pb-2">
+    <div class=" d-flex align-items-center">
+    <div class="card pf-card flex-fill m-2">
+      <div class="card-body">
+      Add Job
+      </div>
+    </div>
+    <div class="card pf-card flex-fill m-2">
+      <div class="card-body">
+      Select Market
+      </div>
+    </div>
+    <div class="card pf-card flex-fill m-2">
+      <div class="card-body">
+      Analyze
+      </div>
+    </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #jobTitle let-dataRow="dataRow">
+  <div class="d-flex justify-content-between">
+    <div>
+      <b>
+        {{dataRow['UserJobListTemp_Job_Title_Override'] || dataRow['UserJobListTemp_Job_Title']}}
+      </b>
+    </div>
+    <div>
+      <i> {{dataRow['CompanyPayMarkets_PayMarket']}}</i>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #jobCode let-dataRow="dataRow">
+  <span>
+    {{dataRow['UserJobListTemp_Job_Code'] || dataRow['UserJobListTemp_Company_Job_Code']}}
+  </span>
+</ng-template>
+
+<ng-template #jobCurrency let-dataRow="dataRow">
+  <span>
+    {{dataRow['CompanyPayMarkets_Currency_Code'] || dataRow['UserSessions_Currency']}}
+  </span>
+</ng-template>
