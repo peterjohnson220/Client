@@ -48,6 +48,7 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
   urlParamSubscription = new Subscription();
   statementSubscription = new Subscription();
   modeSubscription = new Subscription();
+  scrollSubscription = new Subscription();
 
   statement: models.Statement;
   statementId: string;
@@ -125,16 +126,18 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
     });
 
     // MISC
-    this.mainScrollableNode = document.querySelector('.page-content');
-    this.mainScrollableNode?.addEventListener('scroll', this.scrollEventHandler, true);
-    this.scrollSubject.pipe(throttleTime(100)).subscribe(() => { this.handlePageScroll(); });
+    setTimeout(() => {
+      this.mainScrollableNode = document.querySelector('.page-content');
+      this.mainScrollableNode?.addEventListener('scroll', this.scrollEventHandler, true);
+      this.scrollSubscription = this.scrollSubject.pipe(throttleTime(100)).subscribe(() => { this.handlePageScroll(); });
+    }, 0);
   }
 
   ngOnDestroy(): void {
     this.urlParamSubscription.unsubscribe();
     this.statementSubscription.unsubscribe();
     this.modeSubscription.unsubscribe();
-    this.scrollSubject.unsubscribe();
+    this.scrollSubscription.unsubscribe();
     this.mainScrollableNode?.removeEventListener('scroll', this.scrollEventHandler, true);
 
     this.store.dispatch(new fromEditStatementPageActions.ResetStatement());
