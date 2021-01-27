@@ -1185,6 +1185,17 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           }
         }
       };
+    case fromPfGridActions.UPDATE_SELECTED_ROW:
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            selectedRow: action.payload
+          }
+        }
+      };
     default:
       return state;
   }

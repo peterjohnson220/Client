@@ -13,11 +13,12 @@ import { MODIFY_PRICINGS } from 'libs/features/pricings/multi-match/constants';
 import {
   ActionBarConfig, getDefaultActionBarConfig, getDefaultGridRowActionsConfig, GridRowActionsConfig, GridConfig, PfDataGridFilter
 } from 'libs/features/grids/pf-data-grid/models';
-import { AsyncStateObj, GroupedListItem, UserContext } from 'libs/models';
+import { AsyncStateObj, CompanySettingsEnum, GroupedListItem, UserContext } from 'libs/models';
 import { GetPricingsToModifyRequest } from 'libs/features/pricings/multi-match/models';
 import { ChangeJobStatusRequest, CreateProjectRequest, MatchedSurveyJob, ViewField } from 'libs/models/payfactors-api';
 import { SurveySearchFilterMappingDataObj, SurveySearchUserFilterType } from 'libs/features/surveys/survey-search/data';
 import { SearchFeatureIds } from 'libs/features/search/search/enums/search-feature-ids';
+import { SettingsService } from 'libs/state/app-context/services';
 import * as fromRootState from 'libs/state/state';
 import * as fromModifyPricingsActions from 'libs/features/pricings/multi-match/actions';
 import * as fromModifyPricingsReducer from 'libs/features/pricings/multi-match/reducers';
@@ -67,8 +68,8 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   selectedJobDataSubscription: Subscription;
   companySettingsSubscription: Subscription;
 
-  userContext$: Observable<UserContext>;
   selectedRecordId$: Observable<number>;
+  canEditJobCompanySetting$: Observable<boolean>;
 
   colTemplates = {};
   filterTemplates = {};
@@ -155,7 +156,8 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     private store: Store<fromJobsPageReducer.State>,
     private actionsSubject: ActionsSubject,
-    private companyJobApiService: CompanyJobApiService
+    private companyJobApiService: CompanyJobApiService,
+    private settingsService: SettingsService
   ) {
     this.gridConfig = {
       PersistColumnWidth: true,
@@ -166,7 +168,6 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.userContext$ = this.store.select(fromRootState.getUserContext);
     this.selectedRecordId$ = this.store.select(fromPfDataGridReducer.getSelectedRecordId, this.pageViewId);
     this.creatingProject$ = this.store.select(fromJobsPageReducer.getCreatingProject);
     this.changingJobStatus$ = this.store.select(fromJobsPageReducer.getChangingJobStatus);
@@ -175,6 +176,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.updatingPricingMatch$ = this.store.select(fromJobsPageReducer.getUpdatingPricingMatch);
     this.updatingPricing$ = this.store.select(fromJobsPageReducer.getUpdatingPricing);
     this.pricingsToModify$ = this.store.select(fromModifyPricingsReducer.getPricingsToModify);
+    this.canEditJobCompanySetting$ = this.settingsService.selectCompanySetting<boolean>(CompanySettingsEnum.CanEditJob);
 
     this.companyPayMarketsSubscription = this.store.select(fromJobsPageReducer.getCompanyPayMarkets)
       .subscribe(o => this.payMarketOptions = o);

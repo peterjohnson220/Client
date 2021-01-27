@@ -11,6 +11,7 @@ import * as fromMultiMatchActions from 'libs/features/pricings/multi-match/actio
 import * as fromNotificationActions from 'libs/features/infrastructure/app-notifications/actions';
 import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core';
 import * as fromRootReducer from 'libs/state/state';
+import { Permissions } from 'libs/constants';
 
 import * as fromJobsPageActions from '../../actions';
 
@@ -25,9 +26,11 @@ import { PageViewIds } from '../../constants';
 export class JobsDetailsComponent implements OnDestroy, OnInit, OnChanges {
 
   @Input() jobDetailsFilters: PfDataGridFilter[];
+  @Input() canEditJobCompanySetting: boolean;
 
   @Output() onClose = new EventEmitter();
   @Output() tabChanged = new EventEmitter();
+  @Output() handleEditJobClicked = new EventEmitter();
 
   viewLoadedPayMarketSubscription: Subscription;
   viewLoadedEmployeesSubscription: Subscription;
@@ -46,6 +49,7 @@ export class JobsDetailsComponent implements OnDestroy, OnInit, OnChanges {
 
   userId: number;
   pageViewIds = PageViewIds;
+  permissions = Permissions;
 
   jobId: number;
 
@@ -135,6 +139,10 @@ export class JobsDetailsComponent implements OnDestroy, OnInit, OnChanges {
 
   close() {
     this.onClose.emit(null);
+  }
+
+  toggleJobManagmentModal(): void {
+    this.handleEditJobClicked.emit(this.jobId);
   }
 
   tabChange(event: any) {

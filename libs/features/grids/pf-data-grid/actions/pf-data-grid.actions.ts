@@ -81,6 +81,7 @@ export const ADD_FADE_IN_KEYS = '[PfDataGrid] Add Fade In Keys';
 export const DELETE_FADE_IN_KEYS = '[PfDataGrid] Delete Fade In Keys';
 export const SET_FADE_IN_KEYS = '[PfDataGrid] Set Fade In Keys';
 export const LOAD_DATA_AND_ADD_FADE_IN_KEYS = '[PfDataGrid] Load Data and Add Attention Grab Keys';
+export const UPDATE_SELECTED_ROW = '[PfDataGrid] Update Selected Row';
 
 export class LoadViewConfig implements Action {
   readonly type = LOAD_VIEW_CONFIG;
@@ -467,6 +468,12 @@ export class LoadDataAndAddFadeInKeys implements Action {
   constructor(public pageViewId: string, public payload: any) {}
 }
 
+export class UpdateSelectedRow implements Action {
+  readonly type = UPDATE_SELECTED_ROW;
+
+  constructor(public payload: any, public pageViewId: string) {}
+}
+
 export type DataGridActions =
   | LoadViewConfig
   | LoadViewConfigSuccess
@@ -541,4 +548,5 @@ export type DataGridActions =
   | AddFadeInKeys
   | DeleteFadeInKeys
   | SetFadeInKeys
-  | LoadDataAndAddFadeInKeys;
+  | LoadDataAndAddFadeInKeys
+  | UpdateSelectedRow;

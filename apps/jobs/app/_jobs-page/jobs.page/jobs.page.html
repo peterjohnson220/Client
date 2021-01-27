@@ -20,7 +20,7 @@
 </pf-data-grid>
 
 <ng-template #gridRowActionsTemplate let-dataRow="dataRow">
-  <fa-icon [icon]="['far', 'edit']"  title="Edit Job"  *ngIf="(userContext$ | async)?.CompanyId !== 1401"
+  <fa-icon [icon]="['far', 'edit']"  title="Edit Job"  *ngIf="(canEditJobCompanySetting$ | async)"
            [attr.data-qa-id]="'btn-jobs-page-edit-job-' + dataRow['CompanyJobs_CompanyJob_ID']"
            [pfSecuredResource]="permissions.JOBS_ADD_EDIT_DELETE"
            (click)="toggleJobManagmentModal(true, dataRow['CompanyJobs_CompanyJob_ID'], $event)" class="pr-2" [fixedWidth]="true"></fa-icon>
@@ -81,6 +81,8 @@
 <ng-template #jobsDetails let-splitViewEmitter="splitViewEmitter" let-splitViewFilters="splitViewFilters">
   <pf-jobs-details
     [jobDetailsFilters]="splitViewFilters"
+    [canEditJobCompanySetting]="(canEditJobCompanySetting$ | async)"
+    (handleEditJobClicked)="toggleJobManagmentModal(true, $event)"
     (onClose)="splitViewEmitter.emit('close')">
   </pf-jobs-details>
 </ng-template>
