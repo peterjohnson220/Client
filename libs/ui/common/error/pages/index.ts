@@ -5,3 +5,4 @@ export * from './token-expiration-page';
 export * from './forbidden-page';
 export * from './server-error-page';
 export * from './public-token-draft-description';
+export * from './review-link-expired';
