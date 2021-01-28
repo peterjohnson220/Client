@@ -539,7 +539,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
       }
 
       clearedFilterField.FilterOperator = action.field.FilterOperator;
-      clearedFilterField.FilterValues = !!action.filterValue && clearedFilterField?.FilterValues?.length
+      clearedFilterField.FilterValues = !!action.filterValue && clearedFilterField?.FilterValues?.length > 1
         ? clearedFilterField.FilterValues.filter(option => option !== action.filterValue)
         : null;
 
