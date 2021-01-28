@@ -3,7 +3,7 @@ import { Component, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { Comment } from 'libs/features/comment-box/models';
+import { Comment } from 'libs/ui/comment-box/models';
 
 import * as fromServicePageReducer from '../../reducers';
 import * as fromTicketNotesActions from '../../actions/ticket-notes.actions';

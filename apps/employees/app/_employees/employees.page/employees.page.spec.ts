@@ -6,7 +6,7 @@ import { Store, StoreModule, combineReducers } from '@ngrx/store';
 import { NgbModal, NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
 
 import * as fromRootState from 'libs/state/state';
-import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
+import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import { PfCommonModule } from 'libs/core';
 
 import * as fromEmployeesReducer from '../reducers';

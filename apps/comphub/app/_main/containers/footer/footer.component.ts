@@ -12,7 +12,7 @@ import { AsyncStateObj } from 'libs/models/state';
 import { DojGuidelinesService } from 'libs/features/peer/guidelines-badge/services/doj-guidelines.service';
 import * as fromRootReducer from 'libs/state/state';
 import * as fromLibsPeerExchangeExplorerReducers from 'libs/features/peer/exchange-explorer/reducers';
-import * as fromBasicDataGridReducer from 'libs/features/basic-data-grid/reducers';
+import * as fromBasicDataGridReducer from 'libs/features/grids/basic-data-grid/reducers';
 
 import * as fromComphubMainReducer from '../../reducers';
 import * as fromSummaryCardActions from '../../actions/summary-card.actions';

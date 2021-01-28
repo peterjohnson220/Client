@@ -9,7 +9,7 @@ import * as fromJobDescriptionHistoryListActions from '../actions/job-descriptio
 import * as fromJobDescriptionHistoryListReducer from '../reducers';
 import { JobDescriptionApiService } from 'libs/data/payfactors-api/jdm';
 import { JobDescriptionHistoryListItemResponse } from 'libs/models/payfactors-api/job-description-management/response';
-import { PayfactorsApiModelMapper } from 'libs/features/job-description-management/helpers';
+import { PayfactorsApiModelMapper } from 'libs/features/jobs/job-description-management/helpers';
 
 @Injectable()
 export class JobDescriptionHistoryListEffects {

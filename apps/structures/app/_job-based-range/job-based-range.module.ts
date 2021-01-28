@@ -9,6 +9,7 @@ import { PfCommonUIModule } from 'libs/ui/common';
 
 import { RangeGroupExistsGuard } from '../shared/guards';
 import { JobBasedRangeRoutingModule } from './job-based-range-routing.module';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   imports: [
@@ -24,7 +25,8 @@ import { JobBasedRangeRoutingModule } from './job-based-range-routing.module';
     PfCommonModule,
     PfCommonUIModule,
     PfFormsModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    SharedModule
   ],
   providers: [
     RangeGroupExistsGuard

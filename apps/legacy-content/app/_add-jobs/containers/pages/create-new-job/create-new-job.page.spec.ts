@@ -6,7 +6,7 @@ import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
-import * as fromSearchPageActions from 'libs/features/search/actions/search-page.actions';
+import * as fromSearchPageActions from 'libs/features/search/search/actions/search-page.actions';
 
 import * as fromCreateNewJobPageActions from '../../../actions/create-new-job-page.actions';
 import * as fromAddJobsReducer from '../../../reducers';

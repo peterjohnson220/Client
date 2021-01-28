@@ -14,7 +14,7 @@ import { DataViewsExportEffects, TotalRewardsStatementPdfEffects } from './effec
 import * as fromFaIcons from './fa-icons';
 import { reducers } from './reducers';
 import { MainRoutingModule } from './main-routing.module';
-import { PfUserNotificationsModule} from 'libs/features/user-notifications/user-notifications.module';
+import { PfUserNotificationsModule} from 'libs/features/infrastructure/user-notifications/user-notifications.module';
 import { TotalRewardsStatementPdfListComponent } from './containers/total-rewards-statement-pdf-list/total-rewards-statement-pdf-list.component';
 import { FileDownloadCardComponent } from './components/file-download-card/file-download-card.component';
 

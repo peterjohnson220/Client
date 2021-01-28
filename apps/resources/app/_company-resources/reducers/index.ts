@@ -5,11 +5,13 @@ import * as fromRoot from 'libs/state/state';
 import * as fromCompanyResourcesReducer from './company-resources.reducer';
 import * as fromCompanyResourcesFolderReducer from './company-resources-folder.reducer';
 import * as fromCompanyResourcesOrphanReducer from './company-resources-orphan.reducer';
+import * as fromCompanyResourcesUploadReducer from './company-resources-upload.reducer';
 // Feature area state
 export interface ResourcesMainState {
   companyResources: fromCompanyResourcesReducer.State;
   folderResources: fromCompanyResourcesFolderReducer.State;
   orphanResources: fromCompanyResourcesOrphanReducer.State;
+  companyResourcesUpload: fromCompanyResourcesUploadReducer.State;
 }
 // Extend root state with feature area state
 export interface State extends fromRoot.State {
@@ -19,7 +21,8 @@ export interface State extends fromRoot.State {
 export const reducers = {
   companyResources: fromCompanyResourcesReducer.reducer,
   folderResources: fromCompanyResourcesFolderReducer.reducer,
-  orphanResources: fromCompanyResourcesOrphanReducer.reducer
+  orphanResources: fromCompanyResourcesOrphanReducer.reducer,
+  companyResourcesUpload: fromCompanyResourcesUploadReducer.reducer
 };
 
 // Select Feature Area
@@ -29,6 +32,7 @@ export const selectResourcesMainState = createFeatureSelector<ResourcesMainState
 export const selectCompanyResourcesState = createSelector(selectResourcesMainState, (state: ResourcesMainState) => state.companyResources);
 export const selectCompanyResourcesFolderState = createSelector(selectResourcesMainState, (state: ResourcesMainState) => state.folderResources);
 export const selectCompanyResourcesOrphanState = createSelector(selectResourcesMainState, (state: ResourcesMainState) => state.orphanResources);
+export const selectCompanyResourcesUploadState = createSelector(selectResourcesMainState, (state: ResourcesMainState) => state.companyResourcesUpload);
 
 // company resources
 export const getCompanyResourcesLoading = createSelector(selectCompanyResourcesState, fromCompanyResourcesReducer.getCompanyResourcesLoading);
@@ -37,6 +41,7 @@ export const getCompanyResourceToAdd = createSelector(selectCompanyResourcesStat
 export const getCompanyResourceId = createSelector(selectCompanyResourcesState, fromCompanyResourcesReducer.getCompanyResourceId);
 export const getAddingCompanyResource = createSelector(selectCompanyResourcesState, fromCompanyResourcesReducer.getAddingCompanyResource);
 export const getAddingCompanyResourceSuccess = createSelector(selectCompanyResourcesState, fromCompanyResourcesReducer.getAddingCompanyResourceSuccess);
+export const getAddingCompanyResourceErrorMsg = createSelector(selectCompanyResourcesState, fromCompanyResourcesReducer.getAddingCompanyResourceErrorMsg);
 export const getDeletingCompanyResourceSuccess = createSelector(selectCompanyResourcesState, fromCompanyResourcesReducer.getDeletingCompanyResourceSuccess);
 
 // company folder resources
@@ -57,3 +62,11 @@ fromCompanyResourcesFolderReducer.getDeletingFolderFromCompanyResourcesSuccess);
 // company orphan resources
 export const { selectAll: getCompanyOrphanResources } = fromCompanyResourcesOrphanReducer.adapter.getSelectors(selectCompanyResourcesOrphanState);
 export const getOrphanedResources = createSelector(selectCompanyResourcesOrphanState, fromCompanyResourcesOrphanReducer.getOrphanedResources);
+
+// company resources upload
+export const getCompanyResourcesUploadState = createSelector(selectCompanyResourcesUploadState,
+  fromCompanyResourcesUploadReducer.getCompanyResourceUploadState);
+export const getCompanyResourceAddResourceModalOpen = createSelector(selectCompanyResourcesUploadState,
+    fromCompanyResourcesUploadReducer.getCompanyResourceAddResourceModalOpen);
+  
+

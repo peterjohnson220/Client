@@ -9,7 +9,7 @@ export interface JobMatchCut {
   TCC50?: number;
   JobTitle: string;
   JobCode: string;
-  DataCutId?: number;
+  DataSourceJobId?: number;
   SurveyJobCode?: string;
   PeerCutId?: string;
   CutFilterId?: string;
@@ -29,7 +29,7 @@ export function generateMockJobMatchCut(): JobMatchCut {
     JobCode: 'JB122',
     JobTitle: 'Janitor/Custodian',
     SurveyJobCode: 'KKNN',
-    DataCutId: 12345,
+    DataSourceJobId: 12345,
     MatchWeight: 0,
     MatchAdjustment: 0,
     Incs: 0,

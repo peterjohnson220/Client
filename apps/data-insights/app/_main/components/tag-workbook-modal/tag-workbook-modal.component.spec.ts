@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { generateMockWorkbook } from 'libs/features/reports/models';
+import { generateMockWorkbook } from 'libs/features/surveys/reports/models';
 
 import { TagWorkbookModalComponent } from './tag-workbook-modal.component';
 import { generateMockSaveWorkbookTagObj } from '../../models';

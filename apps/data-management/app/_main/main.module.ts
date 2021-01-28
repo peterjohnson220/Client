@@ -16,13 +16,14 @@ import { LayoutModule } from '@progress/kendo-angular-layout';
 import { UploadModule } from '@progress/kendo-angular-upload';
 
 import { EntityKeyValidationService, PfCommonModule } from 'libs/core';
-import { PfBulkExportSchedulerModule, PfNavigationLinksModule } from 'libs/features';
+import { PfBulkExportSchedulerModule } from 'libs/features/jobs/bulk-job-description-export-scheduler';
+import { PfNavigationLinksModule } from 'libs/features/infrastructure/navigation-links';
 import { PfCompanySelectorModule } from 'libs/features/company/company-selector/company-selector.module';
 import { PfCustomFieldsModule } from 'libs/features/company/custom-fields/custom-fields.module';
 import { PfEntityIdentifierModule } from 'libs/features/company/entity-identifier/entity-identifier.module';
-import { JobDescriptionExportEffects } from 'libs/features/job-description-management/effects/job-description-export.effects';
-import { PfEmailRecipientsModule } from 'libs/features/loader-email-reipients';
-import { PfFieldMapperModule } from 'libs/features/org-data-loader';
+import { JobDescriptionExportEffects } from 'libs/features/jobs/job-description-management/effects/job-description-export.effects';
+import { PfEmailRecipientsModule } from 'libs/features/loaders/loader-email-recipients';
+import { PfFieldMapperModule } from 'libs/features/loaders/org-data-loader';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 

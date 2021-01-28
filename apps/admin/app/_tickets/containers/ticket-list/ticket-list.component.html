@@ -144,13 +144,35 @@
     </kendo-grid-column>
 
     <kendo-grid-column field="Description"
-                       title="Description"
+                       title="Ticket Summary"
                        width="100"
                        [filterable]="false"
                        [sortable]="false">
-      <ng-template kendoGridCellTemplate
-                   let-dataItem>
-        <div [innerHtml]="dataItem.Description | stripHtml | TruncateAfter:150"></div>
+      <ng-template kendoGridCellTemplate let-dataItem>
+        <div class="d-flex"
+             #ticketSummaryDropdown="ngbDropdown"
+             ngbDropdown
+             container="body"
+             (openChange)="setActiveDropdown(ticketSummaryDropdown)">
+          <div class="ellipsis-overflowing-text-wrap flex-grow-1">
+            <ng-container *ngIf="dataItem?.TicketTitle?.length > 0; else descriptionTemplate">{{dataItem.TicketTitle}}</ng-container>
+            <ng-template #descriptionTemplate>{{dataItem.Description}}</ng-template>
+          </div>
+          <fa-icon ngbDropdownToggle
+                   icon="ellipsis-h"
+                   id="ticket-summary-{{dataItem?.Id}}"
+                   class="ml-2 text-info action-item">
+          </fa-icon>
+          <div ngbDropdownMenu class="dropdown-content" aria-labelledby="ticket-summary-{{dataItem?.Id}}">
+            <h5>Ticket Summary</h5>
+            <p *ngIf="dataItem?.TicketTitle?.length > 0; else notAvailableTemplate">{{dataItem.TicketTitle}}</p>
+            <h5>Description</h5>
+            <quill-view-html *ngIf="dataItem?.Description?.length > 0; else notAvailableTemplate"
+                             [content]="dataItem.Description"
+                             theme="snow">
+            </quill-view-html>
+          </div>
+        </div>
         <div class="pl-2 action-item text-underline"
              *ngFor="let attachment of dataItem.Attachments">
           <a href="/odata/CloudFiles.DownloadUserTicketAttachment?AttachmentId={{attachment.AttachmentId}}&TicketID={{dataItem.Id}}"
@@ -221,3 +243,13 @@
     </kendo-grid-column>
   </kendo-grid>
 </pf-async-container>
+
+<ng-template #ticketSummaryPopoverContent let-summary="summary" let-description="description">
+  <div class="d-flex flex-column popover-content">
+    
+  </div>
+</ng-template>
+
+<ng-template #notAvailableTemplate>
+  <p>N/A</p>
+</ng-template>

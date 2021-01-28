@@ -52,13 +52,10 @@ describe('Peer - Map - Export Data Cuts Modal', () => {
         PfValidatableDirective
       ],
       providers: [
+        SettingsService,
         {
           provide: ActivatedRoute,
           useValue: { parent: { snapshot: { params: { id : 1 } } } }
-        },
-        {
-          provide: SettingsService,
-          useValue: { selectUiPersistenceSetting: jest.fn() }
         }
       ],
       // Shallow Testing
@@ -121,7 +118,7 @@ describe('Peer - Map - Export Data Cuts Modal', () => {
     expect(instance.selectionsControl.setErrors).toHaveBeenCalledWith(error);
   });
 
-  it('should dispatch a ExportDataCuts action when the handleFormSubmit event is triggered', () => {
+  it('should dispatch a ExportDataCuts action when the handleFormSubmit event is triggered and enableFileDownloadSecurityWarning is false', () => {
     const action = new fromExportDataCutsActions.ExportDataCuts({selectedRate: RateType.Annual, scopes: [], exportCurrentMap: false,
                                                                         selectedWeightingType: WeightType.Inc, selectedCurrency: 'USD'});
 

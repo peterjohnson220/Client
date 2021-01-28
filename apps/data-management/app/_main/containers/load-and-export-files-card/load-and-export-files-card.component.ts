@@ -5,12 +5,12 @@ import { Observable, Subject, Subscription } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 
 import { CompositeDataLoadViewResponse, CompanySettingsEnum} from 'libs/models';
-import * as fromJobDescriptionsExportActions from 'libs/features/job-description-management/actions/job-description-export.actions';
-import * as fromOrgDataNavigationLinkActions from 'libs/features/navigation-links/actions/org-data-navigation-link.actions';
-import * as fromAppNotificationsMainReducer from 'libs/features/app-notifications/reducers';
-import * as fromAppNotificationsActions from 'libs/features/app-notifications/actions/app-notifications.actions';
+import * as fromJobDescriptionsExportActions from 'libs/features/jobs/job-description-management/actions/job-description-export.actions';
+import * as fromOrgDataNavigationLinkActions from 'libs/features/infrastructure/navigation-links/actions/org-data-navigation-link.actions';
+import * as fromAppNotificationsMainReducer from 'libs/features/infrastructure/app-notifications/reducers';
+import * as fromAppNotificationsActions from 'libs/features/infrastructure/app-notifications/actions/app-notifications.actions';
 import { SettingsService } from 'libs/state/app-context/services';
-import { NotificationLevel, NotificationSource, NotificationType } from 'libs/features/app-notifications/models';
+import { NotificationLevel, NotificationSource, NotificationType } from 'libs/features/infrastructure/app-notifications/models';
 
 import * as fromDataManagementMainReducer from '../../reducers';
 import * as fromLoadersDataActions from '../../actions/loaders-data.actions';

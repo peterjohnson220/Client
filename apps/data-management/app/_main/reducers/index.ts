@@ -1,9 +1,11 @@
+import { create } from 'domain';
+
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 import * as fromCustomFieldsReducer from 'libs/features/company/custom-fields/reducers/custom-fields.reducer';
 import * as fromEntityIdentifierReducer from 'libs/features/company/entity-identifier/reducers/entity-identifiers.reducer';
-import * as fromEmailRecipientsReducer from 'libs/features/loader-email-reipients/state/reducers/email-recipients.reducer';
-import * as fromLoaderSettingsReducer from 'libs/features/org-data-loader/state/reducers/loader-settings.reducer';
+import * as fromEmailRecipientsReducer from 'libs/features/loaders/loader-email-recipients/reducers/email-recipients.reducer';
+import * as fromLoaderSettingsReducer from 'libs/features/loaders/org-data-loader/reducers/loader-settings.reducer';
 // Import root app reducer
 import * as fromRoot from 'libs/state/state';
 
@@ -20,7 +22,6 @@ import * as fromProviderListReducer from './provider-list.reducer';
 import * as fromConverterSettingsReducer from './converter-settings.reducer';
 import * as fromLoadersDataReducer from './loaders-data.reducer';
 import * as fromLoadAndExportFilesCardReducer from './load-and-export-files-card.reducer';
-import { create } from 'domain';
 
 export interface DataManagementMainState {
   transferDataPage: fromTransferDataPageReducer.State;
@@ -278,6 +279,9 @@ export const getCustomEmployeeField =
 
 export const getTagCategories =
   createSelector(selectOrgDataCustomFieldsState, fromCustomFieldsReducer.GetTagCategories
+  );
+export const getBenefitsHeaders =
+  createSelector(selectOrgDataCustomFieldsState, fromCustomFieldsReducer.GetBenefitsHeaders
   );
 
 // Notification

@@ -1,8 +1,8 @@
 import cloneDeep from 'lodash/cloneDeep';
 
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
-import * as fromFormulaFieldActions from 'libs/features/formula-editor/actions/formula-field.actions';
-import { FieldDataType } from 'libs/features/formula-editor';
+import * as fromFormulaFieldActions from 'libs/ui/formula-editor/actions/formula-field.actions';
+import { FieldDataType } from 'libs/ui/formula-editor';
 
 
 export interface State {

@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
-import { generateMockField } from 'libs/features/formula-editor';
+import { generateMockField } from 'libs/ui/formula-editor';
 
 import { ViewAllFieldsComponent } from './view-all-fields.component';
 

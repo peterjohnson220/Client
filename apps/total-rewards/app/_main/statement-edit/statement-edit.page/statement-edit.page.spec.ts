@@ -65,7 +65,6 @@ describe('StatementEditPageComponent', () => {
 
     // assert
     const pageHtml = fixture.debugElement.nativeElement as HTMLElement;
-    expect(pageHtml.textContent).toContain('Canvas cannot be edited in preview mode');
     expect(pageHtml.querySelector('button.mode-button').textContent).toContain('Edit');
   });
 
@@ -78,7 +77,6 @@ describe('StatementEditPageComponent', () => {
 
     // assert
     const pageHtml = fixture.debugElement.nativeElement as HTMLElement;
-    expect(pageHtml.textContent.includes('Canvas cannot be edited in preview mode')).toBeFalsy();
     expect(pageHtml.querySelector('button.mode-button').textContent).toContain('Preview');
   });
 

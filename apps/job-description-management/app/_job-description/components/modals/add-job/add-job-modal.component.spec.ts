@@ -7,7 +7,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as fromRootState from 'libs/state/state';
 
 import * as fromAddJobModalActions from '../../../actions/add-job-modal.actions';
-import * as fromTemplateListActions from 'libs/features/job-description-management/actions/template-list.actions';
+import * as fromTemplateListActions from 'libs/features/jobs/job-description-management/actions/template-list.actions';
 import * as fromAddJobModalReducers from '../../../reducers';
 import { AddJobModalComponent } from './add-job-modal.component';
 import { FormBuilder, FormGroup } from '@angular/forms';

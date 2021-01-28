@@ -53,6 +53,21 @@ export class CustomFieldsEffect {
       )
     );
 
+
+  @Effect()
+  getBenefitsHeaders$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromCustomFieldsActions.GET_BENEFITHEADERS),
+      switchMap((action: fromCustomFieldsActions.GetBenefitHeaders) =>
+        this.loaderFieldMappingsApiService.getBenefitsHeaders().pipe(
+          map((benefitsHeaders: any) => {
+            return new fromCustomFieldsActions.GetBenefitHeadersSuccess(benefitsHeaders);
+          }),
+          catchError(error => of(new fromCustomFieldsActions.GetBenefitHeadersError()))
+        )
+      )
+    );
+
   constructor(
     private actions$: Actions,
     private loaderFieldMappingsApiService: LoaderFieldMappingsApiService,

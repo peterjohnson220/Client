@@ -7,7 +7,7 @@ import { Observable, of } from 'rxjs';
 
 import { JobDescriptionWorkflowTemplateApiService } from 'libs/data/payfactors-api';
 import { arraySortByString, SortDirection } from 'libs/core/functions';
-import { WorkflowTemplate } from 'libs/features/job-description-management/models';
+import { WorkflowTemplate } from 'libs/features/jobs/job-description-management/models';
 
 import * as fromWorkflowListActions from '../actions';
 

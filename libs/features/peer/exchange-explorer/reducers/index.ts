@@ -41,7 +41,7 @@ export const selectFeaturePeerExchangeExplorerState = createFeatureSelector<Feat
 // Feature Selectors
 export const selectMapState = createSelector(
   selectFeaturePeerExchangeExplorerState,
-  (state: FeaturePeerExchangeExplorerState) => state.map
+  (state: FeaturePeerExchangeExplorerState) => !!state ? state.map : {}
 );
 
 export const selectExchangeScopeState = createSelector(
@@ -51,7 +51,7 @@ export const selectExchangeScopeState = createSelector(
 
 export const selectFilterContextState = createSelector(
   selectFeaturePeerExchangeExplorerState,
-  (state: FeaturePeerExchangeExplorerState) => state.exchangeFilterContext
+  (state: FeaturePeerExchangeExplorerState) => !!state ? state.exchangeFilterContext : {}
 );
 
 export const selectExchangeExplorerContextInfo = createSelector(

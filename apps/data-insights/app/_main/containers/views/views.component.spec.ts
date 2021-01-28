@@ -7,7 +7,7 @@ import * as fromRootState from 'libs/state/state';
 import { generateDefaultAsyncStateObj } from 'libs/models';
 import { ReportOrderType } from 'libs/constants';
 import { SettingsService } from 'libs/state/app-context/services';
-import { generateMockView, generateMockWorkbook } from 'libs/features/reports/models';
+import { generateMockView, generateMockWorkbook } from 'libs/features/surveys/reports/models';
 
 import * as fromViewsActions from '../../actions/views.actions';
 import * as fromDataInsightsMainReducer from '../../reducers';

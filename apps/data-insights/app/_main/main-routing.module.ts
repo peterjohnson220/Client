@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { ReportViewTypes } from 'libs/features/reports/models';
+import { ReportViewTypes } from 'libs/features/surveys/reports/models';
 
 import { DataInsightsPageComponent, ReportViewPageComponent } from './containers/pages';
 

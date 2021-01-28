@@ -1,5 +1,5 @@
 import { generateMockTag, Tag } from './tag.model';
-import { FilterType } from '../../features/search/models';
+import { FilterType } from '../../features/search/search/models';
 import {TagCategoryDataTypeEnum} from './tag-category-data-type.enum';
 
 export interface TagInformation {

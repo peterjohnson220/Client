@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { JobMatchResult } from 'libs/features/job-description-management/models';
+import { JobMatchResult } from 'libs/features/jobs/job-description-management/models';
 
 @Component({
   selector: 'pf-job-match-result',

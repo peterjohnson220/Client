@@ -1,10 +1,12 @@
 import { Action } from '@ngrx/store';
 
-import { SearchFilterMappingDataObj } from '../../../search/models';
+import { MapGeoData } from 'libs/models/peer';
+import { PayMarket } from 'libs/models/paymarket';
+import { ComphubExchangeExplorerContextRequest } from 'libs/models/peer/requests/comphub-exchange-explorer-context-request.model';
+import { BaseExchangeDataSearchRequest } from 'libs/models/payfactors-api';
+
+import { SearchFilterMappingDataObj } from '../../../search/search/models';
 import { ExchangeJobExchangeDetail } from '../../models';
-import { MapGeoData } from '../../../../models/peer';
-import { PayMarket } from '../../../../models/paymarket';
-import {ComphubExchangeExplorerContextRequest} from '../../../../models/peer/requests/comphub-exchange-explorer-context-request.model';
 
 export const LOAD_CONTEXT_INFO = '[Features/Peer/ExchangeExplorer/ContextInfo] Load Context Info';
 export const LOAD_CONTEXT_INFO_SUCCESS = '[Features/Peer/ExchangeExplorer/ContextInfo] Load Context Info Success';
@@ -22,6 +24,7 @@ export class LoadContextInfo implements Action {
     | {companyJobId?: number, companyPayMarketId?: number}
     | {exchangeId: number, defaultScopeId?: string}
     | {lockedExchangeJobId: number, companyPayMarketId: number}
+    | {lockedExchangeJobId: number, exchangeDataSearchRequest: BaseExchangeDataSearchRequest}
     ) {}
 }
 

@@ -9,7 +9,7 @@ import {
 import { PayMarket } from 'libs/models/paymarket';
 import { KendoDropDownItem } from 'libs/models/kendo';
 import { MDLocationResponse, MDScopeResponse } from 'libs/models/payfactors-api';
-import { Filter } from 'libs/features/search/models';
+import { Filter } from 'libs/features/search/search/models';
 import { MDScopeSizeCategory } from 'libs/constants';
 
 import {

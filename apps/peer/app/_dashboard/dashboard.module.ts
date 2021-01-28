@@ -16,8 +16,8 @@ import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfCommonModule } from 'libs/core';
 import { PfExchangeExplorerModule } from 'libs/features/peer/exchange-explorer';
-import { PfEntityDescriptionModule } from 'libs/features/entity-description/entity-description.module';
-import { PfReportsModule } from 'libs/features/reports/reports.module';
+import { PfEntityDescriptionModule } from 'libs/features/entity-description/entity-description/entity-description.module';
+import { PfReportsModule } from 'libs/features/surveys/reports/reports.module';
 
 import {
   ExchangeDashboardPageComponent, AccessModalComponent, ExchangeIndustryChartComponent, ExchangeJobFamilyChartComponent,

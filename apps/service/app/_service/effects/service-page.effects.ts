@@ -7,8 +7,8 @@ import { switchMap, catchError, map, mergeMap, withLatestFrom } from 'rxjs/opera
 import { Store, select } from '@ngrx/store';
 
 import { UserTicketApiService } from 'libs/data/payfactors-api/index';
-import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
-import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
+import * as fromPfDataGridActions from 'libs/features/grids/pf-data-grid/actions';
+import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import { ViewField } from 'libs/models/payfactors-api/reports/request';
 import { UserTicketUpdatePublicOrPrivateTicketRequest } from 'libs/models/payfactors-api/service/request';
 import * as fromUiPersistenceSettingsActions from 'libs/state/app-context/actions/ui-persistence-settings.actions';

@@ -2,6 +2,8 @@
 
 exports[`CommunityPostComponent should show post 1`] = `
 <pf-community-post
+  avatarUrl={[Function String]}
+  companyLogoUrl={[Function String]}
   discardingPostId={[Function String]}
   discardingPostId$={[Function Observable]}
   discardingPostIdSubscription={[Function Subscriber]}
@@ -14,6 +16,8 @@ exports[`CommunityPostComponent should show post 1`] = `
   showAddReply="false"
   showReplies="false"
   store={[Function Store]}
+  userContext$={[Function Observable]}
+  userContextSub={[Function Subscriber]}
 >
   <div
     class="pl-1 col-12"

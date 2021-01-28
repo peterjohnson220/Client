@@ -1,6 +1,6 @@
 import cloneDeep from 'lodash/cloneDeep';
 
-import { Filter, FieldsHelper } from 'libs/features/formula-editor';
+import { Filter, FieldsHelper } from 'libs/ui/formula-editor';
 
 import * as fromFiltersActions from '../actions/filters.actions';
 

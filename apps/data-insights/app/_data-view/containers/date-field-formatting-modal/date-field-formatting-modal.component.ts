@@ -4,7 +4,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import cloneDeep from 'lodash/cloneDeep';
 
 import { FieldFormatType } from 'libs/models/payfactors-api';
-import { Field, dateFormatCasing } from 'libs/features/formula-editor';
+import { Field, dateFormatCasing } from 'libs/ui/formula-editor';
 
 @Component({
   selector: 'pf-date-field-formatting-modal',
