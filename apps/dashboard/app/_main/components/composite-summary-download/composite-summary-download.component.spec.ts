@@ -8,8 +8,8 @@ import {
   FileDownloadError,
   FileDownloadProgress,
   FileDownloadSuccess,
-} from 'libs/features/file-download/actions/file-download.actions';
-import * as fromFileReducer from 'libs/features/file-download/reducers/file-download.reducer';
+} from 'libs/features/file-download/file-download/actions/file-download.actions';
+import * as fromFileReducer from 'libs/features/file-download/file-download/reducers/file-download.reducer';
 import { FileModel } from 'libs/models/file';
 import * as fromRootState from 'libs/state/state';
 import { CompositeSummaryDownload } from '../../actions/composite-summary-download.actions';

@@ -6,7 +6,7 @@ import { ofType } from '@ngrx/effects';
 
 import { AsyncStateObj } from 'libs/models/state';
 import { GroupedListItem } from 'libs/models/list';
-import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
+import * as fromPfDataGridActions from 'libs/features/grids/pf-data-grid/actions';
 
 import * as fromServicePageActions from '../../actions/service-page.actions';
 import * as fromServicePageReducer from '../../reducers';

@@ -1,27 +1,23 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonModule, WindowCommunicationService, WindowRef } from 'libs/core';
-import { PfAddJobsModule } from 'libs/features/add-jobs';
+import { PfAddJobsModule } from 'libs/features/jobs/add-jobs';
 import { PfCommonUIModule } from 'libs/ui/common';
-import { PfSearchModule } from 'libs/features/search';
-import { PfDataGridModule } from 'libs/features/pf-data-grid';
+import { PfSearchModule } from 'libs/features/search/search';
+import { PfDataGridModule } from 'libs/features/grids/pf-data-grid';
 
 import { ModelRoutingModule } from './model-routing.module';
-import { ModelPageComponent } from './model.page/model.page';
-import { SharedModule } from './../../shared/shared.module';
-import { GradeBasedSummaryChartComponent } from './containers/grade-based-summary-chart';
+import { ModelPageComponent } from './model.page';
 import { HighchartsChartModule } from 'highcharts-angular';
+import { GradeBasedSharedModule } from '../shared/shared.module';
+import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
   imports: [
     // Angular
     CommonModule,
-
-    // 3rd Party
-    NgbCollapseModule,
 
     // PayFactors
     PfFormsModule,
@@ -34,12 +30,13 @@ import { HighchartsChartModule } from 'highcharts-angular';
     // Routing
     ModelRoutingModule,
 
+    GradeBasedSharedModule,
     SharedModule,
 
     // 3rd party
     HighchartsChartModule
   ],
-  declarations: [ModelPageComponent, GradeBasedSummaryChartComponent],
+  declarations: [ModelPageComponent],
   providers: [
     WindowRef,
     WindowCommunicationService

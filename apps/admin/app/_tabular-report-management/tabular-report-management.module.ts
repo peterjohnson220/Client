@@ -14,7 +14,7 @@ import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontaweso
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
-import { ExportSchedulerModule } from 'libs/features';
+import { ExportSchedulerModule } from 'libs/features/export-scheduler/export-scheduler';
 
 import { TabularReportManagementRoutingModule } from './tabular-report-management-routing.module';
 import { TabularReportExportSchedulerPageComponent } from './containers';

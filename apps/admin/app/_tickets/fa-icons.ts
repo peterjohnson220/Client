@@ -27,6 +27,7 @@ import { faClock } from '@fortawesome/pro-regular-svg-icons/faClock';
 import { faCommentAltExclamation } from '@fortawesome/pro-solid-svg-icons/faCommentAltExclamation';
 import { faPaperclip } from '@fortawesome/pro-solid-svg-icons/faPaperclip';
 import { faStickyNote } from '@fortawesome/pro-regular-svg-icons/faStickyNote';
+import { faEllipsisH } from '@fortawesome/pro-solid-svg-icons/faEllipsisH';
 
 export const faIcons = [
   faPlus, faLongArrowAltLeft, faPencil, faCheckCircle, faTimes,
@@ -34,5 +35,5 @@ export const faIcons = [
   faDownloadRegular, faFileExcel, faFileWord, faFilePdf, faFileImage,
   faFileArchive, faEnvelope, faFileAlt, faUndo, faEdit, faSave, faFilter,
   faFilterOff, faUser, faClock, faCommentAltExclamation, faPaperclip,
-  faStickyNote
+  faStickyNote, faEllipsisH
 ];

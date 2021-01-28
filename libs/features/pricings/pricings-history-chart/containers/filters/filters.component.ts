@@ -3,7 +3,8 @@ import { AbstractControl, FormArray, FormBuilder, FormGroup } from '@angular/for
 
 import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
-import moment from 'moment';
+
+import { subYears, setDate, min, max } from 'date-fns';
 
 import { AsyncStateObj, KendoTypedDropDownItem } from 'libs/models';
 import { PricedPayMarket, PricingHistoryChartFilters } from 'libs/models/payfactors-api';
@@ -86,7 +87,7 @@ export class FiltersComponent implements OnInit, OnDestroy {
     this.initUserDefaultFiltersSubscription = this.store.select(fromPricingHistoryChartReducer.getFilters)
       .subscribe((filters: PricingHistoryChartFilters) => {
         this.updateSelectedPayMarkets(filters);
-        this.store.dispatch(new fromPricingHistoryChartActions.GetData());        
+        this.store.dispatch(new fromPricingHistoryChartActions.GetData());
       });
 
     this.formChangesSubscription = this.pricingHistoryChartForm.valueChanges.subscribe(value => {
@@ -107,8 +108,8 @@ export class FiltersComponent implements OnInit, OnDestroy {
 
   resetDateRangeToFirstOfMonth(): void {
     this.pricingHistoryChartForm.patchValue({
-      StartDate: moment(this.f.StartDate.value).startOf('month').toDate(),
-      EndDate: moment(this.f.EndDate.value).startOf('month').toDate(),
+      StartDate: setDate(new Date(this.f.StartDate.value), 1),
+      EndDate: setDate(new Date(this.f.EndDate.value), 1)
     });
   }
 
@@ -121,20 +122,20 @@ export class FiltersComponent implements OnInit, OnDestroy {
       PayMarkets: userDefaultFilters.PayMarkets,
       Rate: userDefaultFilters.Rate,
       Currency: userDefaultFilters.Currency,
-      StartDate: moment(userDefaultFilters.StartDate).startOf('month').toDate(),
-      EndDate: moment(userDefaultFilters.EndDate).startOf('month').toDate(),
+      StartDate: setDate(new Date(userDefaultFilters.StartDate), 1),
+      EndDate: setDate(new Date(userDefaultFilters.EndDate), 1)
     }, {emitEvent: false});
-    
+
     this.filterPayMarketOptions();
   }
 
   updateDateRange(emitPatchEvent = true) {
-    let startDate = moment().subtract(3, 'year').startOf('month').toDate();
-    let endDate = moment().startOf('month').toDate();
+    let startDate = setDate(subYears(new Date(), 3), 1);
+    let endDate = setDate(new Date(), 1);
 
     if (this.selectedPayMarkets.length > 0) {
-      startDate = moment.min(this.selectedPayMarkets.map(p => moment(p.StartDate))).toDate();
-      endDate = moment.max(this.selectedPayMarkets.map(p => moment(p.EndDate))).toDate();
+      startDate = min(this.selectedPayMarkets.map(p => new Date(p.StartDate)));
+      endDate = max(this.selectedPayMarkets.map(p => new Date(p.EndDate)));
     }
 
     this.pricingHistoryChartForm.patchValue({

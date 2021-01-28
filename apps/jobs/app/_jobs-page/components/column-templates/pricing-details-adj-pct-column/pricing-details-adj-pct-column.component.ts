@@ -11,7 +11,7 @@ import { PageViewIds } from '../../../constants';
 import * as fromModifyPricingsActions from '../../../actions';
 import * as fromModifyPricingsReducer from '../../../reducers';
 
-import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
+import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 
 @Component({
   selector: 'pf-pricing-details-adj-pct-column',

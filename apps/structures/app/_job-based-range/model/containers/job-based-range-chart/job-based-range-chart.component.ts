@@ -8,20 +8,19 @@ import { ContentScrollEvent, GridDataResult } from '@progress/kendo-angular-grid
 import { take } from 'rxjs/operators';
 
 import { RangeGroupMetadata } from 'libs/models/structures';
-import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
+import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import { CompanySettingsEnum } from 'libs/models/company';
 import { SettingsService } from 'libs/state/app-context/services';
 
-import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
-import { StructuresPagesService } from '../../../shared/services';
-import { StructuresHighchartsService } from '../../../../shared/services';
+import * as fromSharedStructuresReducer from '../../../../shared/reducers';
+import { StructuresHighchartsService, StructuresPagesService } from '../../../../shared/services';
 import { JobRangeModelChartService, JobRangeModelChartSeries } from '../../data';
 import { GraphHelper } from '../../../shared/helpers/graph.helper';
 import { RangeDistributionTypeIds } from '../../../../shared/constants/range-distribution-type-ids';
-import { SalaryRangeSeries } from '../../../shared/models/salary-range-series.model';
-import { DataPointSeries } from '../../../shared/models/data-point-series.model';
+import { SalaryRangeSeries } from '../../../../shared/models/salary-range-series.model';
+import { DataPointSeries } from '../../../../shared/models/data-point-series.model';
 import { RangeDistributionDataPointTypeIds } from '../../../../shared/constants/range-distribution-data-point-type-ids';
-import { SelectedPeerExchangeModel } from '../../../shared/models';
+import { SelectedPeerExchangeModel } from '../../../../shared/models';
 
 @Component({
   selector: 'pf-job-based-range-chart',
@@ -82,7 +81,7 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
         }
       }
     });
-    this.metadataSubscription = this.store.select(fromSharedJobBasedRangeReducer.getMetadata).subscribe(md => {
+    this.metadataSubscription = this.store.select(fromSharedStructuresReducer.getMetadata).subscribe(md => {
       if (md) {
         this.metaData = md;
         this.isCurrent = md.IsCurrent;
@@ -119,7 +118,7 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.selectedPeerExchangeSub = this.store.select(fromSharedJobBasedRangeReducer.getSelectedPeerExchange).subscribe(peerExchange => {
+    this.selectedPeerExchangeSub = this.store.select(fromSharedStructuresReducer.getSelectedPeerExchange).subscribe(peerExchange => {
       if (peerExchange) {
         this.selectedPeerExchange = peerExchange;
       }
@@ -382,6 +381,7 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
 
     this.dataPointSeriesDataModel = {
       Mid: [],
+      Job: [],
       TertileFirst: [],
       TertileSecond: [],
       QuartileFirst: [],

@@ -7,19 +7,19 @@ import { Action, select, Store } from '@ngrx/store';
 
 import { RangeGroupMetadata } from 'libs/models/structures';
 import { WindowCommunicationService } from 'libs/core/services';
-import * as fromUserFilterActions from 'libs/features/user-filter/actions/user-filter.actions';
+import * as fromUserFilterActions from 'libs/features/users/user-filter/actions/user-filter.actions';
 import * as fromCompanySettingsActions from 'libs/state/app-context/actions/company-settings.actions';
-import * as fromAddJobsPageActions from 'libs/features/add-jobs/actions/add-jobs-page.actions';
-import * as fromSearchPageActions from 'libs/features/search/actions/search-page.actions';
-import * as fromAddJobsReducer from 'libs/features/add-jobs/reducers';
-import * as fromSearchReducer from 'libs/features/search/reducers';
-import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
-import { PayfactorsSearchApiHelper } from 'libs/features/search/helpers';
+import * as fromAddJobsPageActions from 'libs/features/jobs/add-jobs/actions/add-jobs-page.actions';
+import * as fromSearchPageActions from 'libs/features/search/search/actions/search-page.actions';
+import * as fromAddJobsReducer from 'libs/features/jobs/add-jobs/reducers';
+import * as fromSearchReducer from 'libs/features/search/search/reducers';
+import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
+import { PayfactorsSearchApiHelper } from 'libs/features/search/search/helpers';
 import { StructureModelingApiService } from 'libs/data/payfactors-api/structures';
 import { JobSearchRequestStructuresRangeGroup } from 'libs/models/payfactors-api';
-import { GridDataHelper } from 'libs/features/pf-data-grid/helpers';
+import { GridDataHelper } from 'libs/features/grids/pf-data-grid/helpers';
 
-import * as fromSharedReducer from '../../shared/reducers';
+import * as fromSharedStructuresReducer from '../../../shared/reducers';
 import * as fromSharedActions from '../../shared/actions/shared.actions';
 import * as fromSharedModelSettingsActions from '../../shared/actions/model-settings-modal.actions';
 import { UrlService } from '../../shared/services';
@@ -46,8 +46,8 @@ export class AddJobsModalEffects {
         this.store.pipe(select(fromAddJobsReducer.getSelectedPaymarkets)),
         this.store.pipe(select(fromAddJobsReducer.getSelectedJobIds)),
         this.store.pipe(select(fromAddJobsReducer.getSelectedPayfactorsJobCodes)),
-        this.store.pipe(select(fromSharedReducer.getMetadata)),
-        this.store.pipe(select(fromSharedReducer.getRoundingSettings)),
+        this.store.pipe(select(fromSharedStructuresReducer.getMetadata)),
+        this.store.pipe(select(fromSharedStructuresReducer.getRoundingSettings)),
         this.store.pipe(select(fromPfDataGridReducer.getGridConfig)),
         this.store.pipe(select(fromPfDataGridReducer.getData)),
         this.store.pipe(select(fromPfDataGridReducer.getPagingOptions)),
@@ -83,8 +83,8 @@ export class AddJobsModalEffects {
         this.store.pipe(select(fromSearchReducer.getParentFilters)),
         this.store.pipe(select(fromSearchReducer.getNumberOfResultsOnServer)),
         this.store.pipe(select(fromAddJobsReducer.getContextStructureRangeGroupId)),
-        this.store.pipe(select(fromSharedReducer.getMetadata)),
-        this.store.pipe(select(fromSharedReducer.getRoundingSettings)),
+        this.store.pipe(select(fromSharedStructuresReducer.getMetadata)),
+        this.store.pipe(select(fromSharedStructuresReducer.getRoundingSettings)),
         this.store.pipe(select(fromPfDataGridReducer.getGridConfig)),
         this.store.pipe(select(fromPfDataGridReducer.getData)),
         this.store.pipe(select(fromPfDataGridReducer.getPagingOptions)),
@@ -145,7 +145,8 @@ export class AddJobsModalEffects {
 
   private hasRequiredSettingsForRecalculation(metaData: RangeGroupMetadata, formulaValid: boolean) {
     return !!((metaData.ControlPoint || formulaValid) && metaData.Currency && metaData.Rate &&
-      (metaData.SpreadMin || metaData.RangeDistributionSetting.Min_Percentile) && (metaData.SpreadMax || metaData.RangeDistributionSetting.Max_Percentile));
+      (metaData.SpreadMin || metaData.RangeDistributionSetting.Min_Percentile || metaData.RangeDistributionSetting.Min_Formula) &&
+      (metaData.SpreadMax || metaData.RangeDistributionSetting.Max_Percentile || metaData.RangeDistributionSetting.Max_Formula));
   }
 
   constructor(

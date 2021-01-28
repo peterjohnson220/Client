@@ -6,8 +6,8 @@ import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import * as fromRootState from 'libs/state/state';
 
 
-import * as fromNavigationActions from 'libs/features/admin-navigation-links/actions/navigation.actions';
-import * as fromNavigationReducer from 'libs/features/admin-navigation-links/reducers';
+import * as fromNavigationActions from 'libs/features/infrastructure/admin-navigation-links/actions/navigation.actions';
+import * as fromNavigationReducer from 'libs/features/infrastructure/admin-navigation-links/reducers';
 
 import { NavigationPageComponent } from './navigation.page';
 

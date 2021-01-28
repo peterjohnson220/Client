@@ -29,6 +29,7 @@ export class SecurityManagementSettingsComponent implements OnInit, OnDestroy {
   private sessionTimeoutMinutes: string;
   private passwordHistoryNumber: string;
   private exportsSecurity: boolean;
+  private fileDownloadSecurityWarning: boolean;
 
   public passwordForm: FormGroup;
   public request: CompanySettingsSaveRequest;
@@ -89,7 +90,8 @@ export class SecurityManagementSettingsComponent implements OnInit, OnDestroy {
       passwordExpirationDays: new FormControl(this.defaultDays, this.validateExpirationDays.bind(this)),
       passwordHistoryNumber: new FormControl(this.defaultNum, this.validateHistoryNumber.bind(this)),
       sessionTimeoutMinutes: new FormControl(this.sessionTimeoutMinutes, this.validateSessionTimeoutMinutesNumber.bind(this)),
-      exportsSecurity: new FormControl(this.exportsSecurity)
+      exportsSecurity: new FormControl(this.exportsSecurity),
+      fileDownloadSecurityWarning: new FormControl(this.fileDownloadSecurityWarning) 
     });
     this.valueChange.emit(false);
     this.passwordForm.get('passwordExpirationDays').valueChanges
@@ -108,6 +110,11 @@ export class SecurityManagementSettingsComponent implements OnInit, OnDestroy {
         this.valueChange.emit(true);
       });
     this.passwordForm.get('exportsSecurity').valueChanges
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(v => {
+        this.valueChange.emit(true);
+      });
+    this.passwordForm.get('fileDownloadSecurityWarning').valueChanges
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(v => {
         this.valueChange.emit(true);
@@ -135,6 +142,7 @@ export class SecurityManagementSettingsComponent implements OnInit, OnDestroy {
     const expirationDays = this.passwordForm.get('passwordExpirationDays');
     const sessionTimeoutMinutes = this.passwordForm.get('sessionTimeoutMinutes');
     const exportsSecurity = this.passwordForm.get('exportsSecurity');
+    const fileDownloadSecurityWarning = this.passwordForm.get('fileDownloadSecurityWarning');
 
     const request: CompanySettingsSaveRequest = { CompanyId: this.companyId, Settings: [] };
 
@@ -165,6 +173,9 @@ export class SecurityManagementSettingsComponent implements OnInit, OnDestroy {
     if (exportsSecurity.dirty) {
       request.Settings.push({ Name: 'ExportsSecurity', Value: exportsSecurity.value === true ? 'true' : 'false' } as GenericNameValueDto);
     }
+    if (fileDownloadSecurityWarning.dirty) {
+      request.Settings.push({ Name: 'FileDownloadSecurityWarning', Value: fileDownloadSecurityWarning.value === true ? 'true' : 'false' } as GenericNameValueDto);
+    }
     return request;
   }
 
@@ -188,6 +199,9 @@ export class SecurityManagementSettingsComponent implements OnInit, OnDestroy {
       case CompanySettingsEnum.ExportsSecurity:
         this.exportsSecurity = setting.Value.toLowerCase() === 'true';
         break;
+      case CompanySettingsEnum.FileDownloadSecurityWarning:
+        this.fileDownloadSecurityWarning = setting.Value.toLowerCase() === 'true';
+        break;  
       default:
         break;
     }

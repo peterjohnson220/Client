@@ -8,7 +8,6 @@ import { LayoutModule } from '@progress/kendo-angular-layout';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { IntlModule } from '@progress/kendo-angular-intl';
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
-import { MomentModule } from 'ngx-moment';
 import { HighchartsChartModule } from 'highcharts-angular';
 
 import { PfCommonModule } from 'libs/core';
@@ -37,7 +36,6 @@ import { FiltersComponent, ChartComponent } from './containers';
     DropDownsModule,
     IntlModule,
     DateInputsModule,
-    MomentModule,
     HighchartsChartModule,
 
     // Payfactors

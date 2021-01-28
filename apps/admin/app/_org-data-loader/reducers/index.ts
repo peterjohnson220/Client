@@ -2,8 +2,8 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 import * as fromCustomFieldsReducer from 'libs/features/company/custom-fields/reducers/custom-fields.reducer';
 import * as fromEntityIdentifierReducer from 'libs/features/company/entity-identifier/reducers/entity-identifiers.reducer';
-import * as fromOrgDataEmailRecipientsReducer from 'libs/features/loader-email-reipients/state/reducers/email-recipients.reducer';
-import * as fromLoaderSettingsReducer from 'libs/features/org-data-loader/state/reducers/loader-settings.reducer';
+import * as fromOrgDataEmailRecipientsReducer from 'libs/features/loaders/loader-email-recipients/reducers/email-recipients.reducer';
+import * as fromLoaderSettingsReducer from 'libs/features/loaders/org-data-loader/reducers/loader-settings.reducer';
 // Import root app reducer
 import * as fromRoot from 'libs/state/state';
 
@@ -98,6 +98,7 @@ export const getEntityIdentifiers = createSelector(selectEntityIdentifierState, 
 export const getCustomJobFields = createSelector(selectCustomFieldsState, fromCustomFieldsReducer.GetCustomJobFields);
 export const getTagCategories = createSelector(selectCustomFieldsState, fromCustomFieldsReducer.GetTagCategories);
 export const getCustomEmployeeFields = createSelector(selectCustomFieldsState, fromCustomFieldsReducer.GetCustomEmployeeFields);
+export const getBenefitHeaders = createSelector(selectCustomFieldsState, fromCustomFieldsReducer.GetBenefitsHeaders);
 
 
 export const getLoadingRecipients = createSelector(

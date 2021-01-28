@@ -6,8 +6,8 @@ import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import * as fromRootState from 'libs/state/state';
-import * as fromFormulaFieldActions from 'libs/features/formula-editor/actions/formula-field.actions';
-import { FieldDataType, FormulaType } from 'libs/features/formula-editor';
+import * as fromFormulaFieldActions from 'libs/ui/formula-editor/actions/formula-field.actions';
+import { FieldDataType, FormulaType } from 'libs/ui/formula-editor';
 import { FormulaFieldModalObj } from 'libs/models/formula-editor';
 
 import * as fromDataViewMainReducer from '../../reducers';

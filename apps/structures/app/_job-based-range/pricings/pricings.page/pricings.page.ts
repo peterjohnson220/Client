@@ -5,25 +5,25 @@ import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
 import { JobBasedPageViewIds, RangeGroupMetadata } from 'libs/models/structures';
-import { ActionBarConfig, ColumnChooserType, getDefaultActionBarConfig, GridConfig, PfDataGridFilter } from 'libs/features/pf-data-grid/models';
-import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
+import { ActionBarConfig, ColumnChooserType, getDefaultActionBarConfig, GridConfig, PfDataGridFilter } from 'libs/features/grids/pf-data-grid/models';
+import * as fromPfDataGridActions from 'libs/features/grids/pf-data-grid/actions';
 import { Permissions } from 'libs/constants';
-import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
-import { PfThemeType } from 'libs/features/pf-data-grid/enums/pf-theme-type.enum';
-import { MODIFY_PRICINGS } from 'libs/features/multi-match/constants';
+import { PfDataGridColType } from 'libs/features/grids/pf-data-grid/enums';
+import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums/pf-theme-type.enum';
+import { MODIFY_PRICINGS } from 'libs/features/pricings/multi-match/constants';
 import * as fromRootState from 'libs/state/state';
-import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
-import { GetPricingsToModifyRequest } from 'libs/features/multi-match/models';
-import * as fromSearchPageActions from 'libs/features/search/actions/search-page.actions';
-import { SurveySearchFilterMappingDataObj, SurveySearchUserFilterType } from 'libs/features/survey-search/data';
-import { SearchFeatureIds } from 'libs/features/search/enums/search-feature-ids';
-import * as fromModifyPricingsActions from 'libs/features/multi-match/actions';
+import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
+import { GetPricingsToModifyRequest } from 'libs/features/pricings/multi-match/models';
+import * as fromSearchPageActions from 'libs/features/search/search/actions/search-page.actions';
+import { SurveySearchFilterMappingDataObj, SurveySearchUserFilterType } from 'libs/features/surveys/survey-search/data';
+import { SearchFeatureIds } from 'libs/features/search/search/enums/search-feature-ids';
+import * as fromModifyPricingsActions from 'libs/features/pricings/multi-match/actions';
 
-import * as fromSharedJobBasedRangeReducer from '../../shared/reducers';
+import * as fromSharedStructuresReducer from '../../../shared/reducers';
 import * as fromModelSettingsModalActions from '../../shared/actions/model-settings-modal.actions';
-import { StructuresPagesService } from '../../shared/services';
-import * as fromSharedActions from '../../shared/actions/shared.actions';
+import * as fromSharedStructuresActions from '../../../shared/actions/shared.actions';
 import * as fromDuplicateModelModalActions from '../../shared/actions/duplicate-model-modal.actions';
+import { StructuresPagesService } from '../../../shared/services';
 
 
 @Component({
@@ -62,11 +62,11 @@ export class PricingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   multiMatchImplementation = MODIFY_PRICINGS;
 
   constructor(
-    private store: Store<fromSharedJobBasedRangeReducer.State>,
+    private store: Store<fromSharedStructuresReducer.State>,
     private route: ActivatedRoute,
     private structuresPagesService: StructuresPagesService,
   ) {
-    this.metaData$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getMetadata));
+    this.metaData$ = this.store.pipe(select(fromSharedStructuresReducer.getMetadata));
     this.rangeGroupId = this.route.parent.snapshot.params.id;
     this.rangeId = parseInt(this.route.snapshot.params.id, 10);
 
@@ -139,7 +139,7 @@ export class PricingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     };
 
     // Get all overridden ranges
-    this.store.dispatch(new fromSharedActions.GetOverriddenRanges({
+    this.store.dispatch(new fromSharedStructuresActions.GetOverriddenRanges({
       pageViewId: this.modelPageViewId,
       rangeGroupId: this.rangeGroupId
     }));

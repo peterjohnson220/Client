@@ -7,15 +7,17 @@ import { Store, StoreModule, combineReducers } from '@ngrx/store';
 import { of } from 'rxjs';
 
 import * as fromRootState from 'libs/state/state';
-import * as fromAppNotificationsMainReducer from 'libs/features/app-notifications/reducers';
+import * as fromAppNotificationsMainReducer from 'libs/features/infrastructure/app-notifications/reducers';
 import { SettingsService } from 'libs/state/app-context/services';
 import {
   DataViewAccessLevel,
   generateMockSharedDataViewUser,
   SharedDataViewUser,
   generateMockUserDataView
-} from 'libs/features/formula-editor';
+} from 'libs/ui/formula-editor';
 import { CsvFileDelimiter, ExportFileExtension } from 'libs/models/payfactors-api';
+import { AbstractFeatureFlagService } from 'libs/core/services/feature-flags';
+import { PermissionService } from 'libs/core/services';
 
 import * as fromDataViewMainReducer from '../../reducers';
 import * as fromDataViewActions from '../../actions/data-view.actions';
@@ -25,11 +27,13 @@ import * as fromSharedReducer from '../../../_shared/reducers';
 import { DuplicateDataViewModalComponent } from '../duplicate-data-view-modal';
 import { EditDataViewModalComponent } from '../edit-data-view-modal';
 
+
 describe('Data Insights - Custom Report View Comopnent', () => {
   let instance: DataViewPageComponent;
   let fixture: ComponentFixture<DataViewPageComponent>;
   let store: Store<fromDataViewMainReducer.State>;
   let route: ActivatedRoute;
+  let abstractFeatureFlagService: AbstractFeatureFlagService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -51,6 +55,14 @@ describe('Data Insights - Custom Report View Comopnent', () => {
         {
           provide: SettingsService,
           useClass: SettingsService
+        },
+        {
+          provide: AbstractFeatureFlagService,
+          useValue: { enabled: jest.fn(), bindEnabled: jest.fn() }
+        },
+        {
+          provide: PermissionService,
+          useValue: { CheckPermission: jest.fn(() => true) }
         }
       ],
       declarations: [
@@ -65,6 +77,8 @@ describe('Data Insights - Custom Report View Comopnent', () => {
     route = TestBed.inject(ActivatedRoute);
 
     fixture.detectChanges();
+    abstractFeatureFlagService = TestBed.inject(AbstractFeatureFlagService);
+
   });
 
   it('should open edit workbook modal when handling edit clicked', () => {

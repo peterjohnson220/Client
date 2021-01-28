@@ -9,6 +9,7 @@ import spyOn = jest.spyOn;
 import * as fromRootState from 'libs/state/state';
 import { generateMockExchange } from 'libs/models';
 import { AbstractFeatureFlagService } from 'libs/core/services/feature-flags';
+import { SettingsService } from 'libs/state/app-context/services';
 
 import { ExchangeDashboardPageComponent } from './exchange-dashboard.page';
 import * as fromExchangeDashboardActions from '../../../actions/exchange-dashboard.actions';
@@ -34,6 +35,7 @@ describe('Peer - Exchange Dashboard', () => {
         }),
       ],
       providers: [
+        SettingsService,
         {
           provide: Router,
           useValue: { navigate: jest.fn() },

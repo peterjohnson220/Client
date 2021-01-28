@@ -6,23 +6,25 @@ import { Observable, Subscription } from 'rxjs';
 import cloneDeep from 'lodash/cloneDeep';
 
 import { RangeGroupMetadata } from 'libs/models/structures';
-import * as fromAddJobsPageActions from 'libs/features/add-jobs/actions/add-jobs-page.actions';
-import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
-import * as pfDataGridActions from 'libs/features/pf-data-grid/actions';
+import * as fromAddJobsPageActions from 'libs/features/jobs/add-jobs/actions/add-jobs-page.actions';
+import { PfDataGridFilter } from 'libs/features/grids/pf-data-grid/models';
+import * as pfDataGridActions from 'libs/features/grids/pf-data-grid/actions';
 import { PermissionCheckEnum, Permissions } from 'libs/constants';
 import { PermissionService } from 'libs/core/services';
 import { DataViewEntity } from 'libs/models/payfactors-api/reports/request';
-import * as fromFormulaFieldActions from 'libs/features/formula-editor/actions/formula-field.actions';
-import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
+import * as fromFormulaFieldActions from 'libs/ui/formula-editor/actions/formula-field.actions';
+import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 
 import * as fromSharedJobBasedRangeReducer from '../../shared/reducers';
+import * as fromSharedStructuresReducer from '../../../shared/reducers';
 import * as fromModelSettingsModalActions from '../../shared/actions/model-settings-modal.actions';
 import { AddJobsModalWrapperComponent } from '../containers/add-jobs-modal';
-import { StructuresPagesService, UrlService } from '../../shared/services';
+import { UrlService } from '../../shared/services';
 import { Workflow } from '../../../shared/constants/workflow';
-import * as fromSharedActions from '../../shared/actions/shared.actions';
+import * as fromSharedActions from '../../../shared/actions/shared.actions';
 import * as fromSharedJobBasedRangeActions from '../../shared/actions/shared.actions';
 import * as fromCompareJobRangesActions from '../../model/actions';
+import { StructuresPagesService } from '../../../shared/services';
 
 @Component({
   selector: 'pf-model-page',
@@ -53,12 +55,13 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(
     private store: Store<any>,
     private route: ActivatedRoute,
-    private sharedStore: Store<fromSharedJobBasedRangeReducer.State>,
+    private sharedJobBasedStore: Store<fromSharedJobBasedRangeReducer.State>,
+    private sharedStructuresStore: Store<fromSharedStructuresReducer.State>,
     private urlService: UrlService,
     private permissionService: PermissionService,
     private structuresPagesService: StructuresPagesService
   ) {
-    this.metaData$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getMetadata));
+    this.metaData$ = this.sharedStructuresStore.pipe(select(fromSharedStructuresReducer.getMetadata));
     this.rangeGroupId = this.route.snapshot.params.id;
 
     this.filters = [
@@ -78,7 +81,7 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
       PermissionCheckEnum.Single);
 
     this.pageViewIdSubscription = this.structuresPagesService.modelPageViewId.subscribe(pv => this.pageViewId = pv);
-    this.comparingSub = this.sharedStore.select(fromSharedJobBasedRangeReducer.getComparingModels).subscribe(flag => this.comparingFlag = flag);
+    this.comparingSub = this.sharedJobBasedStore.select(fromSharedStructuresReducer.getComparingModels).subscribe(flag => this.comparingFlag = flag);
     this._Permissions = Permissions;
   }
 
@@ -103,7 +106,7 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
   handleCompareModelClicked() {
     this.store.dispatch(new pfDataGridActions.ResetGridScrolled(this.pageViewId));
     this.store.dispatch(new pfDataGridActions.LoadData(this.pageViewId));
-    this.sharedStore.dispatch(new fromCompareJobRangesActions.GetDataForCompare(this.pageViewId));
+    this.sharedJobBasedStore.dispatch(new fromCompareJobRangesActions.GetDataForCompare(this.pageViewId));
   }
 
   // Lifecycle
@@ -133,7 +136,7 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     });
 
-    this.store.dispatch(new fromSharedJobBasedRangeActions.GetDistinctOverrideMessages(this.rangeGroupId));
+    this.store.dispatch(new fromSharedActions.GetDistinctOverrideMessages(this.rangeGroupId));
   }
 
   ngAfterViewInit(): void {
@@ -150,7 +153,7 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
       pageViewId: this.pageViewId,
       rangeGroupId: this.rangeGroupId
     }));
-    this.store.dispatch(new fromSharedActions.GetCurrentRangeGroup({
+    this.store.dispatch(new fromSharedJobBasedRangeActions.GetCurrentRangeGroup({
       RangeGroupId: this.rangeGroupId,
       PaymarketId: this.metadata.PaymarketId,
       PayType: this.metadata.PayType

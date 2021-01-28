@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { PfLinkifyService } from '../../services/pf-linkify-service';
 
-import { CommunityAddPost, CommunityPost, CommunityTopic, CommunityAttachment, CommunityAttachmentUploadStatus } from 'libs/models';
+import { CommunityAddPost, CommunityPost, CommunityTopic, CommunityAttachment, KendoUploadStatus } from 'libs/models';
 
 import * as fromCommunityPostReducer from '../../reducers';
 import * as fromCommunityPostActions from '../../actions/community-post.actions';
@@ -94,7 +94,7 @@ export class CommunityNewPostComponent implements OnInit, OnDestroy {
       IsInternalOnly: this.communityDiscussionForm.controls['isInternalOnly'].value,
       Links: this.pfLinkifyService.getLinks(this.content.value),
       TopicId: this.topic.value,
-      Attachments: attachments.filter((x) => x.Status === CommunityAttachmentUploadStatus.ScanSucceeded)
+      Attachments: attachments.filter((x) => x.Status === KendoUploadStatus.ScanSucceeded)
     };
 
     this.store.dispatch(new fromCommunityPostActions.SubmittingCommunityPost(newPost));

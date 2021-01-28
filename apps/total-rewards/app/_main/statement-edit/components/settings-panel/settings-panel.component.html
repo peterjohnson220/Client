@@ -1,4 +1,4 @@
-<aside class="settings-panel position-absolute p-3 pl-4" [class.expanded]="isOpen">
+<aside class="settings-panel position-fixed p-3 pl-4" [class.expanded]="isOpen">
   <div class="mb-4 d-flex">
     <h2 class="primary text-uppercase flex-grow-2">Statement Settings</h2>
     <a href="javascript:void(0)" (click)="onCloseClick()" class="close ml-4" aria-label="Close" [attr.tabindex]="isOpen ? 0 : -1">
@@ -57,13 +57,21 @@
             <input
               [colorPicker]="color"
               [cpOKButton]="true"
+              [cpUseRootViewContainer]="cpUseRootViewContainer"
               (colorPickerSelect)="onColorChange($event, i)"
-              [cpPosition]="'left'"
+              [cpPosition]="'top-left'"
               [style.background]="color"
               [style.caretColor]="color"
               class="d-block w-100"
               [attr.tabindex]="isOpen ? 0 : -1" />
             <label title="{{ color }}" class="w-100">{{ color }}</label>
+          </div>
+        </div>
+        <div *ngIf="totalRewardsEmployeeContributionFeatureFlag.value">
+          <h4 class="my-4">Display Settings</h4>
+          <div class="d-flex mb-4">
+            <input class="mt-1 mr-2" id="enableEmployeeContribution" value="true" type="checkbox">
+            <label for="enableEmployeeContribution">Employee Contributions</label>
           </div>
         </div>
       </div>

@@ -1,4 +1,4 @@
-import { FilterType, TextFilter } from 'libs/features/search/models';
+import { FilterType, TextFilter } from 'libs/features/search/search/models';
 
 export const staticFilters: TextFilter[] = [
   {

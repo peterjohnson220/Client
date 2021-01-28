@@ -39,7 +39,7 @@ import { TrendingJobGroupComponent, CardComponent, PaymarketCardsComponent, AddP
   SalaryTrendChartComponent, SharePricingSummaryModalComponent, GlossaryOfTermsComponent } from './components';
 import { MainRoutingModule } from './main-routing.module';
 import * as fromFaIcons from './fa-icons';
-import { BasicDataGridModule } from 'libs/features/basic-data-grid';
+import { BasicDataGridModule } from 'libs/features/grids/basic-data-grid';
 
 @NgModule({
     imports: [

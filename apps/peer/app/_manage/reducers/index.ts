@@ -94,6 +94,11 @@ export const getExchangeJobMappingsLoading = createSelector(
   fromExchangeJobMappingGridReducer.getLoading
 );
 
+export const getExchangeJobMappingsLoadingSuccess = createSelector(
+  selectExchangeJobMappingsFeatureState,
+  fromExchangeJobMappingGridReducer.getLoadingSuccess
+);
+
 export const getExchangeJobMappingsLoadingError = createSelector(
   selectExchangeJobMappingsFeatureState,
   fromExchangeJobMappingGridReducer.getLoadingError

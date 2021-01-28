@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { AuthorizationGuard, LoadUserGuard, LoadCompanyGuard } from 'libs/security/guards';
 import { PermissionCheckEnum, Permissions } from 'libs/constants';
-import { UsersListPageComponent, UserPageComponent } from 'libs/features/user-management';
+import { UsersListPageComponent, UserPageComponent } from 'libs/features/users/user-management';
 
 import {
   NavigationPageComponent,

@@ -6,14 +6,14 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { switchMap, map, catchError, withLatestFrom, concatMap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
-import { NotificationLevel, NotificationSource } from 'libs/features/app-notifications/models';
-import * as fromAppNotificationsActions from 'libs/features/app-notifications/actions/app-notifications.actions';
+import { NotificationLevel, NotificationSource } from 'libs/features/infrastructure/app-notifications/models';
+import * as fromAppNotificationsActions from 'libs/features/infrastructure/app-notifications/actions/app-notifications.actions';
 import { JobDescriptionTemplateApiService } from 'libs/data/payfactors-api/jdm';
 import { MessageHelper } from 'libs/core';
 
 import * as fromTemplateActions from '../actions';
 import * as fromTemplateReducers from '../reducers';
-import { ErrorGenerationService } from 'libs/features/job-description-management';
+import { ErrorGenerationService } from 'libs/features/jobs/job-description-management';
 
 
 @Injectable()

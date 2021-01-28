@@ -5,6 +5,7 @@ import { CompanyResourcePost, CompanyResourceFolderPost } from '../models';
 export interface State {
     addingCompanyResource: boolean;
     addingCompanyResourceSuccess: boolean;
+    addingCompanyResourceErrorMsg: string;
     companyResourceId: number;
     companyResourceToAdd: CompanyResourcePost;
     deletingCompanyResource: boolean;
@@ -16,6 +17,7 @@ export interface State {
   const initialState: State = {
     addingCompanyResource: null,
     addingCompanyResourceSuccess: false,
+    addingCompanyResourceErrorMsg: null,
     companyResourceId: null,
     companyResourceToAdd: null,
     deletingCompanyResource: null,
@@ -64,7 +66,8 @@ export interface State {
       case fromCompanyResourcesPageActions.ADDING_COMPANY_RESOURCE_ERROR: {
         return {
           ...state,
-          addingCompanyResource: false
+          addingCompanyResource: false,
+          addingCompanyResourceErrorMsg: action.payload.error.error.message
         };
       }
       case fromCompanyResourcesPageActions.DELETING_COMPANY_RESOURCE: {
@@ -100,4 +103,5 @@ export interface State {
   export const getCompanyResourceId = (state: State) => state.companyResourceId;
   export const getAddingCompanyResource = (state: State) => state.addingCompanyResource;
   export const getAddingCompanyResourceSuccess = (state: State) => state.addingCompanyResourceSuccess;
+  export const getAddingCompanyResourceErrorMsg = (state: State) => state.addingCompanyResourceErrorMsg;
   export const getDeletingCompanyResourceSuccess = (state: State) => state.deletingCompanyResourceSuccess;
