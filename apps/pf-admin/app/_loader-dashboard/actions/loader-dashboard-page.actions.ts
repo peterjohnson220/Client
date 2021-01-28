@@ -1,6 +1,8 @@
 import { Action } from '@ngrx/store';
-import { CompanyFilePackagesResponse, CompositeDataLoadViewResponse } from 'libs/models/admin/loader-dashboard/response';
-import { GridSearchPayload, UpdatedArchiveSummaryModel } from '../models';
+
+import {CompanyFilePackagesResponse, CompositeDataLoadViewResponse} from 'libs/models/admin/loader-dashboard/response';
+
+import {GridSearchPayload} from '../models';
 
 export const INIT = '[Loaders Dashboard] Init';
 export const GET_ALL_GRID_DATA = '[Loaders Dashboard] Get All Grids';
@@ -17,16 +19,6 @@ export const REDROP_EXPORTED_SOURCE_FILE_SUCCESS = '[Loaders Dashboard] Redrop E
 export const REDROP_EXPORTED_SOURCE_FILE_ERROR = '[Loaders Dashboard] Redrop Exported Source File Error';
 export const OPEN_REDROP_CONFIRMATION_MODAL = '[Loaders Dashboard] Open Redrop Confirmation Modal';
 export const DISMISS_REDROP_CONFIRMATION_MODAL = '[Loaders Dashboard] Dismiss Redrop Confirmation Modal';
-export const GET_ARCHIVE_DATA = '[Loaders Dashboard] Get Archive Data';
-export const GET_ARCHIVE_DATA_SUCCESS = '[Loaders Dashboard] Get Archive Data Success';
-export const GET_ARCHIVE_DATA_ERROR = '[Loaders Dashboard] Get Archive Data Error';
-export const CLEAR_ARCHIVE_DATA = '[Loaders Dashboard] Clear Archive Data';
-export const REDROP_ARCHIVE = '[Loaders Dashboard] Redrop Archive';
-export const REDROP_ARCHIVE_SUCCESS = '[Loaders Dashboard] Redrop Archive Success';
-export const REDROP_ARCHIVE_ERROR = '[Loaders Dashboard] Redrop Archive Error';
-export const PUBLISH_DOWNLOAD_ORGANIZATIONAL_DATA = '[Loaders Dashboard] Publish Download Org Data Message';
-export const PUBLISH_DOWNLOAD_ORGANIZATIONAL_DATA_SUCCESS = '[Loaders Dashboard] Publish Download Org Data Message Success';
-export const PUBLISH_DOWNLOAD_ORGANIZATIONAL_DATA_ERROR = '[Loaders Dashboard] Publish Download Org Data Message Error';
 
 export class Init implements Action {
   readonly type = INIT;
@@ -104,56 +96,6 @@ export class DismissRedropConfirmationModal implements Action {
   readonly type = DISMISS_REDROP_CONFIRMATION_MODAL;
 }
 
-export class GetArchiveData implements Action {
-  readonly type = GET_ARCHIVE_DATA;
-
-  constructor(public payload: { file: File }) {  }
-}
-
-export class GetArchiveDataSuccess implements Action {
-  readonly type = GET_ARCHIVE_DATA_SUCCESS;
-
-  constructor(public payload: UpdatedArchiveSummaryModel) { }
-}
-
-export class GetArchiveDataError implements Action {
-  readonly type = GET_ARCHIVE_DATA_ERROR;
-
-  constructor(public errorMessage: string) {  }
-}
-
-export class ClearArchiveData implements Action {
-  readonly type = CLEAR_ARCHIVE_DATA;
-}
-
-export class RedropArchive implements Action {
-  readonly type = REDROP_ARCHIVE;
-
-  constructor(public payload: { file: File, compositeDataLoadId: number }) {  }
-}
-
-export class RedropArchiveSuccess implements Action {
-  readonly type = REDROP_ARCHIVE_SUCCESS;
-}
-
-export class RedropArchiveError implements Action {
-  readonly type = REDROP_ARCHIVE_ERROR;
-}
-
-export class PublishDownloadOrgDataMessage implements Action {
-  readonly type = PUBLISH_DOWNLOAD_ORGANIZATIONAL_DATA;
-  constructor(public companyId: number) { }
-}
-
-export class PublishDownloadOrgDataMessageSuccess implements Action {
-  readonly type = PUBLISH_DOWNLOAD_ORGANIZATIONAL_DATA_SUCCESS;
-  constructor(public payload: boolean) { }
-}
-
-export class PublishDownloadOrgDataMessageError implements Action {
-  readonly type = PUBLISH_DOWNLOAD_ORGANIZATIONAL_DATA_ERROR;
-}
-
 export type Actions
   = Init
   | GetAllGridData
@@ -169,14 +111,4 @@ export type Actions
   | RedropExportedSourceFileSuccess
   | RedropExportedSourceFileError
   | OpenRedropConfirmationModal
-  | DismissRedropConfirmationModal
-  | GetArchiveData
-  | GetArchiveDataSuccess
-  | GetArchiveDataError
-  | ClearArchiveData
-  | RedropArchive
-  | RedropArchiveSuccess
-  | RedropArchiveError
-  | PublishDownloadOrgDataMessage
-  | PublishDownloadOrgDataMessageError
-  | PublishDownloadOrgDataMessageSuccess;
+  | DismissRedropConfirmationModal;

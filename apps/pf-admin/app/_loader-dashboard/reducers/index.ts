@@ -1,4 +1,4 @@
-import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { createSelector, createFeatureSelector } from '@ngrx/store';
 
 // Import root app reducer
 import * as fromRoot from 'libs/state/state';
@@ -57,15 +57,3 @@ export const getRedropConfirmationModalOpen = createSelector(
   selectLoaderDashboardPageState,
   fromLoaderDashboardPageReducer.getRedropConfirmationModalOpen
 );
-export const getUpdatedArchiveSummaryObj = createSelector(
-  selectLoaderDashboardPageState,
-  fromLoaderDashboardPageReducer.getUpdatedArchiveSummaryObj
-);
-export const getRedropFileObj = createSelector(
-  selectLoaderDashboardPageState,
-  fromLoaderDashboardPageReducer.getRedropFileObj
-);
-export const getIsModifiedRedropInProgress = createSelector(
-  selectLoaderDashboardPageState,
-  fromLoaderDashboardPageReducer.getIsModifiedRedropInProgress
-)
