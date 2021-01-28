@@ -15,7 +15,7 @@ import {
 import { environment } from 'environments/environment';
 
 import * as fromMarketingReducer from '../../reducers';
-import * as fromMarketingActions from 'libs/features/marketing-settings/marketing-settings.actions';
+import * as fromMarketingActions from 'libs/features/infrastructure/marketing-settings/marketing-settings/actions/marketing-settings.actions';
 
 @Component({
   selector: 'pf-tile',

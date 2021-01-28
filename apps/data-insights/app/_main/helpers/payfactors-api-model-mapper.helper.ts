@@ -4,8 +4,8 @@ import {
   UpsertUserReportTag
 } from 'libs/models/payfactors-api';
 import { WorkbookOrderType } from 'libs/constants';
-import { View } from 'libs/features/reports/models';
-import { ReportsPayfactorsApiModelMapper } from 'libs/features/reports/helpers';
+import { View } from 'libs/features/surveys/reports/models';
+import { ReportsPayfactorsApiModelMapper } from 'libs/features/surveys/reports/helpers';
 
 import { DashboardView, SaveWorkbookTagObj } from '../models';
 

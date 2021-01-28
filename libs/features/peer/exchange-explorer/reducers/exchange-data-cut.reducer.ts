@@ -17,7 +17,8 @@ export function reducer(
   action: fromExchangeDataCutActions.Actions
 ): State {
   switch (action.type) {
-    case fromExchangeDataCutActions.LOAD_EXCHANGE_DATA_CUT: {
+    case fromExchangeDataCutActions.LOAD_EXCHANGE_DATA_CUT:
+    case fromExchangeDataCutActions.LOAD_TEMP_EXCHANGE_DATA_CUT: {
       return {
         ...state,
         loading: true,

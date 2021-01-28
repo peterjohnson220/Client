@@ -7,7 +7,7 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 
 import { ProjectTemplatesApiService } from 'libs/data/payfactors-api/index';
 import { ProjectTemplate } from 'libs/models';
-import * as fromProjectTemplateManagementActions from 'libs/features/project-template-management/actions/project-template-management.actions';
+import * as fromProjectTemplateManagementActions from 'libs/features/projects/project-template-management/actions/project-template-management.actions';
 
 import * as fromProjectTemplateActions from '../actions/project-template.actions';
 import * as fromUserSettingsReducer from '../reducers';

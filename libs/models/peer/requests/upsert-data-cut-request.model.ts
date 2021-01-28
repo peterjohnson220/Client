@@ -1,7 +1,7 @@
 import { ExchangeStatCompanyMakeup, generateMockExchangeStatCompanyMakeup } from '../exchange-map-response.model';
 import { BaseExchangeDataSearchRequest } from '../../payfactors-api/peer/exchange-data-search/request';
-import { UpsertPeerDataCutEntityConfigurationModel } from '../../../features/upsert-peer-data-cut/models';
-import { UpsertPeerDataCutEntities, UpsertPeerDataCutParentEntities } from '../../../features/upsert-peer-data-cut/constants';
+import { UpsertPeerDataCutEntityConfigurationModel } from '../../../features/pricings/upsert-peer-data-cut/models';
+import { UpsertPeerDataCutEntities, UpsertPeerDataCutParentEntities } from '../../../features/pricings/upsert-peer-data-cut/constants';
 
 export interface UpsertDataCutRequest {
   DataCutGuid: string;

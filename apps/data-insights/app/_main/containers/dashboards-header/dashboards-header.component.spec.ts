@@ -9,7 +9,7 @@ import { of } from 'rxjs';
 import * as fromRootState from 'libs/state/state';
 import { SettingsService } from 'libs/state/app-context/services';
 import { generateDefaultAsyncStateObj } from 'libs/models';
-import { generateMockEntity } from 'libs/features/formula-editor';
+import { generateMockEntity } from 'libs/ui/formula-editor';
 
 import * as fromDataInsightsMainReducer from '../../reducers';
 import { DashboardsHeaderComponent } from './dashboards-header.component';

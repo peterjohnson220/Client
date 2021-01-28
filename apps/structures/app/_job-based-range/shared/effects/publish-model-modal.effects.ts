@@ -8,18 +8,20 @@ import { GridDataResult } from '@progress/kendo-angular-grid';
 
 import { RangeGroupMetadata } from 'libs/models/structures';
 import { StructureRangeGroupApiService } from 'libs/data/payfactors-api/structures';
-import { NotificationLevel, NotificationSource, NotificationType } from 'libs/features/app-notifications/models';
-import * as fromNotificationActions from 'libs/features/app-notifications/actions/app-notifications.actions';
-import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
-import { GridConfig, PfDataGridFilter } from 'libs/features/pf-data-grid/models';
+import { NotificationLevel, NotificationSource, NotificationType } from 'libs/features/infrastructure/app-notifications/models';
+import * as fromNotificationActions from 'libs/features/infrastructure/app-notifications/actions/app-notifications.actions';
+import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
+import { GridConfig, PfDataGridFilter } from 'libs/features/grids/pf-data-grid/models';
 import { PagingOptions } from 'libs/models/payfactors-api/search/request';
-import { GridDataHelper } from 'libs/features/pf-data-grid/helpers';
-import * as fromActions from 'libs/features/pf-data-grid/actions';
+import { GridDataHelper } from 'libs/features/grids/pf-data-grid/helpers';
+import * as fromActions from 'libs/features/grids/pf-data-grid/actions';
 import { ViewField } from 'libs/models/payfactors-api/reports/request';
 
 import * as fromPublishModelModalActions from '../actions/publish-model-modal.actions';
 import * as fromSharedActions from '../actions/shared.actions';
 import * as fromSharedReducer from '../reducers';
+import * as fromSharedStructuresReducer from '../../../shared/reducers';
+import * as fromSharedStructuresActions from '../../../shared/actions/shared.actions';
 import { PagesHelper } from '../../../shared/helpers/pages.helper';
 
 @Injectable()
@@ -30,7 +32,7 @@ export class PublishModelModalEffects {
     .pipe(
       ofType<fromPublishModelModalActions.PublishModel>(fromPublishModelModalActions.PUBLISH_MODEL),
       withLatestFrom(
-        this.store.pipe(select(fromSharedReducer.getMetadata)),
+        this.store.pipe(select(fromSharedStructuresReducer.getMetadata)),
         this.store.pipe(select(fromPfDataGridReducer.getGridConfig)),
         this.store.pipe(select(fromPfDataGridReducer.getData)),
         this.store.pipe(select(fromPfDataGridReducer.getPagingOptions)),
@@ -56,7 +58,7 @@ export class PublishModelModalEffects {
                 ...data.metadata,
                 IsCurrent: true
               };
-              actions.push(new fromSharedActions.SetMetadata(updatedMetaData));
+              actions.push(new fromSharedStructuresActions.SetMetadata(updatedMetaData));
 
               actions.push(new fromNotificationActions.AddNotification({
                 EnableHtml: true,
@@ -68,7 +70,7 @@ export class PublishModelModalEffects {
               }));
 
 
-              actions.push(new fromSharedActions.GetOverriddenRanges({
+              actions.push(new fromSharedStructuresActions.GetOverriddenRanges({
                 pageViewId: modelPageViewId,
                 rangeGroupId: data.action.payload.rangeGroupId
               }));

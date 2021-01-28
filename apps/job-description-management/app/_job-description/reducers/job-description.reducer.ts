@@ -5,7 +5,7 @@ import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 import { arrayMoveMutate } from 'libs/core/functions';
 
 import * as fromJobDescriptionActions from '../actions/job-description.actions';
-import { JobDescriptionExtendedInfo, UndoHelper, ControlDataHelper } from 'libs/features/job-description-management';
+import { JobDescriptionExtendedInfo, UndoHelper, ControlDataHelper } from 'libs/features/jobs/job-description-management';
 
 const MAX_UNDO_QUEUE_LEN = 50;
 

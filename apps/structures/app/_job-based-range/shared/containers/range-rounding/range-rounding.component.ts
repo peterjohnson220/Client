@@ -6,8 +6,8 @@ import { Observable, Subscription } from 'rxjs';
 import { RoundingSettingsDataObj, RangeGroupMetadata } from 'libs/models/structures';
 import { RoundingTypes } from 'libs/constants/structures/rounding-type';
 
-import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
-import * as fromSharedJobBasedRangeActions from '../../../shared/actions/shared.actions';
+import * as fromSharedStructuresReducer from '../../../../shared/reducers';
+import * as fromSharedStructuresActions from '../../../../shared/actions/shared.actions';
 import * as fromJobBasedRangeReducer from '../../reducers';
 import { RoundingPoint, RoundingType } from '../../models';
 import { StructuresRoundingPoints, StructuresRoundingTypes } from '../../data';
@@ -33,19 +33,19 @@ export class RangeRoundingComponent implements OnInit, OnDestroy {
   constructor(
     public store: Store<fromJobBasedRangeReducer.State>
   ) {
-    this.metaData$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getMetadata));
-    this.roundingSettings$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getRoundingSettings));
+    this.metaData$ = this.store.pipe(select(fromSharedStructuresReducer.getMetadata));
+    this.roundingSettings$ = this.store.pipe(select(fromSharedStructuresReducer.getRoundingSettings));
     this.staticRoundingPoints = StructuresRoundingPoints;
     this.staticRoundingTypes = StructuresRoundingTypes;
     this.toNearest = 'to nearest';
   }
 
   handleTypeChange(setting: string, type: RoundingTypes) {
-    this.store.dispatch(new fromSharedJobBasedRangeActions.UpdateRoundingType({RoundingSetting: setting, RoundingType: type}));
+    this.store.dispatch(new fromSharedStructuresActions.UpdateRoundingType({RoundingSetting: setting, RoundingType: type}));
   }
 
   handlePointChange(setting: string, point: number) {
-    this.store.dispatch(new fromSharedJobBasedRangeActions.UpdateRoundingPoint({RoundingSetting: setting, RoundingPoint: point}));
+    this.store.dispatch(new fromSharedStructuresActions.UpdateRoundingPoint({RoundingSetting: setting, RoundingPoint: point}));
   }
 
   // Lifecycle
@@ -55,7 +55,7 @@ export class RangeRoundingComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.store.dispatch(new fromSharedJobBasedRangeActions.ResetRoundingSetting());
+    this.store.dispatch(new fromSharedStructuresActions.ResetRoundingSetting());
     this.unsubscribe();
   }
 
@@ -84,9 +84,9 @@ export class RangeRoundingComponent implements OnInit, OnDestroy {
         defaultPoint = 2;
       }
 
-      this.store.dispatch(new fromSharedJobBasedRangeActions.UpdateRoundingPoint({RoundingSetting: 'min', RoundingPoint: defaultPoint}));
-      this.store.dispatch(new fromSharedJobBasedRangeActions.UpdateRoundingPoint({RoundingSetting: 'mid', RoundingPoint: defaultPoint}));
-      this.store.dispatch(new fromSharedJobBasedRangeActions.UpdateRoundingPoint({RoundingSetting: 'max', RoundingPoint: defaultPoint}));
+      this.store.dispatch(new fromSharedStructuresActions.UpdateRoundingPoint({RoundingSetting: 'min', RoundingPoint: defaultPoint}));
+      this.store.dispatch(new fromSharedStructuresActions.UpdateRoundingPoint({RoundingSetting: 'mid', RoundingPoint: defaultPoint}));
+      this.store.dispatch(new fromSharedStructuresActions.UpdateRoundingPoint({RoundingSetting: 'max', RoundingPoint: defaultPoint}));
 
       this.defaultSet = true;
     }

@@ -55,7 +55,8 @@
               "apps/notifications/styles.scss"
             ],
             "scripts": [
-              "assets/js/pendo.js"
+              "assets/js/pendo.js",
+              "assets/js/walk-me.js"
             ]
           },
           "configurations": {
@@ -110,6 +111,10 @@
                 {
                   "replace": "apps/notifications/../../environments/environment.ts",
                   "with": "apps/notifications/../../environments/environment.prod.ts"
+                },
+                {
+                  "replace": "apps/notifications/../../assets/js/walk-me.js",
+                  "with": "apps/notifications/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -169,7 +174,8 @@
             "polyfills": "apps/notifications/polyfills.ts",
             "tsConfig": "apps/notifications/../../tsconfig.spec.json",
             "scripts": [
-              "assets/js/pendo.js"
+              "assets/js/pendo.js",
+              "assets/js/walk-me.js"
             ],
             "styles": [
               "assets/scss/client.scss",
@@ -270,7 +276,8 @@
               "apps/admin/styles.scss"
             ],
             "scripts": [
-              "assets/js/pendo.js"
+              "assets/js/pendo.js",
+              "assets/js/walk-me.js"
             ]
           },
           "configurations": {
@@ -329,6 +336,10 @@
                 {
                   "replace": "apps/admin/../../assets/js/new-relic.js",
                   "with": "apps/admin/../../libs/ui/common/assets/js/new-relic.prod.js"
+                },
+                {
+                  "replace": "apps/admin/../../assets/js/walk-me.js",
+                  "with": "apps/admin/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -392,7 +403,8 @@
             "polyfills": "apps/admin/polyfills.ts",
             "tsConfig": "apps/admin/../../tsconfig.spec.json",
             "scripts": [
-              "assets/js/pendo.js"
+              "assets/js/pendo.js",
+              "assets/js/walk-me.js"
             ],
             "styles": [
               "assets/scss/client.scss",
@@ -495,7 +507,8 @@
             "scripts": [
               "assets/js/drift.js",
               "assets/js/pendo.js",
-              "assets/js/new-relic.js"
+              "assets/js/new-relic.js",
+              "assets/js/walk-me.js"
             ]
           },
           "configurations": {
@@ -554,6 +567,10 @@
                 {
                   "replace": "apps/dashboard/../../assets/js/new-relic.js",
                   "with": "apps/dashboard/../../libs/ui/common/assets/js/new-relic.prod.js"
+                },
+                {
+                  "replace": "apps/dashboard/../../assets/js/walk-me.js",
+                  "with": "apps/dashboard/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -618,7 +635,8 @@
             "tsConfig": "apps/dashboard/../../tsconfig.spec.json",
             "scripts": [
               "assets/js/drift.js",
-              "assets/js/pendo.js"
+              "assets/js/pendo.js",
+              "assets/js/walk-me.js"
             ],
             "styles": [
               "assets/scss/client.scss",
@@ -724,7 +742,8 @@
             "scripts": [
               "assets/js/pendo.js",
               "assets/js/drift.js",
-              "assets/js/tableau-2.2.0.min.js"
+              "assets/js/tableau-2.2.0.min.js",
+              "assets/js/walk-me.js"
             ]
           },
           "configurations": {
@@ -783,6 +802,10 @@
                 {
                   "replace": "apps/peer/../../assets/js/new-relic.js",
                   "with": "apps/peer/../../libs/ui/common/assets/js/new-relic.prod.js"
+                },
+                {
+                  "replace": "apps/peer/../../assets/js/walk-me.js",
+                  "with": "apps/peer/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -846,7 +869,8 @@
             "polyfills": "apps/peer/polyfills.ts",
             "tsConfig": "apps/peer/../../tsconfig.spec.json",
             "scripts": [
-              "assets/js/pendo.js"
+              "assets/js/pendo.js",
+              "assets/js/walk-me.js"
             ],
             "styles": [
               "assets/scss/client.scss",
@@ -953,7 +977,8 @@
               "node_modules/@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css"
             ],
             "scripts": [
-              "assets/js/pendo.js"
+              "assets/js/pendo.js",
+              "assets/js/walk-me.js"
             ]
           },
           "configurations": {
@@ -1012,6 +1037,10 @@
                 {
                   "replace": "apps/legacy-content/../../assets/js/new-relic.js",
                   "with": "apps/legacy-content/../../libs/ui/common/assets/js/new-relic.prod.js"
+                },
+                {
+                  "replace": "apps/legacy-content/../../assets/js/walk-me.js",
+                  "with": "apps/legacy-content/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -1075,7 +1104,8 @@
             "polyfills": "apps/legacy-content/polyfills.ts",
             "tsConfig": "apps/legacy-content/../../tsconfig.spec.json",
             "scripts": [
-              "assets/js/pendo.js"
+              "assets/js/pendo.js",
+              "assets/js/walk-me.js"
             ],
             "styles": [
               "assets/scss/client.scss",
@@ -1180,7 +1210,8 @@
             ],
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/recaptcha.js"
+              "assets/js/recaptcha.js",
+              "assets/js/walk-me.js"
             ]
           },
           "configurations": {
@@ -1239,6 +1270,10 @@
                 {
                   "replace": "apps/auth/../../assets/js/new-relic.js",
                   "with": "apps/auth/../../libs/ui/common/assets/js/new-relic.prod.js"
+                },
+                {
+                  "replace": "apps/auth/../../assets/js/walk-me.js",
+                  "with": "apps/auth/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -1302,7 +1337,8 @@
             "polyfills": "apps/auth/polyfills.ts",
             "tsConfig": "apps/auth/../../tsconfig.spec.json",
             "scripts": [
-              "assets/js/pendo.js"
+              "assets/js/pendo.js",
+              "assets/js/walk-me.js"
             ],
             "styles": [
               "assets/scss/client.scss",
@@ -1405,7 +1441,8 @@
               "node_modules/@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css"
             ],
             "scripts": [
-              "assets/js/pendo.js"
+              "assets/js/pendo.js",
+              "assets/js/walk-me.js"
             ]
           },
           "configurations": {
@@ -1464,6 +1501,10 @@
                 {
                   "replace": "apps/project/../../assets/js/new-relic.js",
                   "with": "apps/project/../../libs/ui/common/assets/js/new-relic.prod.js"
+                },
+                {
+                  "replace": "apps/project/../../assets/js/walk-me.js",
+                  "with": "apps/project/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -1527,7 +1568,8 @@
             "polyfills": "apps/project/polyfills.ts",
             "tsConfig": "apps/project/../../tsconfig.spec.json",
             "scripts": [
-              "assets/js/pendo.js"
+              "assets/js/pendo.js",
+              "assets/js/walk-me.js"
             ],
             "styles": [
               "assets/scss/client.scss",
@@ -1630,7 +1672,8 @@
             ],
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/uservoice.js"
+              "assets/js/uservoice.js",
+              "assets/js/walk-me.js"
             ]
           },
           "configurations": {
@@ -1689,6 +1732,10 @@
                 {
                   "replace": "apps/community/../../assets/js/new-relic.js",
                   "with": "apps/community/../../libs/ui/common/assets/js/new-relic.prod.js"
+                },
+                {
+                  "replace": "apps/community/../../assets/js/walk-me.js",
+                  "with": "apps/community/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -1752,7 +1799,8 @@
             "polyfills": "apps/community/polyfills.ts",
             "tsConfig": "apps/community/../../tsconfig.spec.json",
             "scripts": [
-              "assets/js/pendo.js"
+              "assets/js/pendo.js",
+              "assets/js/walk-me.js"
             ],
             "styles": [
               "assets/scss/client.scss",
@@ -1852,7 +1900,8 @@
               "node_modules/@progress/kendo-theme-default/dist/all.css"
             ],
             "scripts": [
-              "assets/js/pendo.js"
+              "assets/js/pendo.js",
+              "assets/js/walk-me.js"
             ]
           },
           "configurations": {
@@ -1926,6 +1975,10 @@
                 {
                   "replace": "apps/smallbiz/../../assets/js/new-relic.js",
                   "with": "apps/smallbiz/../../libs/ui/common/assets/js/new-relic.prod.js"
+                },
+                {
+                  "replace": "apps/smallbiz/../../assets/js/walk-me.js",
+                  "with": "apps/smallbiz/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -1985,6 +2038,10 @@
                 {
                   "replace": "apps/smallbiz/../../assets/js/new-relic.js",
                   "with": "apps/smallbiz/../../libs/ui/common/assets/js/new-relic.prod.js"
+                },
+                {
+                  "replace": "apps/smallbiz/../../assets/js/walk-me.js",
+                  "with": "apps/smallbiz/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ],
               "optimization": true
@@ -2022,7 +2079,8 @@
             "polyfills": "apps/smallbiz/polyfills.ts",
             "tsConfig": "apps/smallbiz/../../tsconfig.spec.json",
             "scripts": [
-              "assets/js/pendo.js"
+              "assets/js/pendo.js",
+              "assets/js/walk-me.js"
             ],
             "styles": [
               "apps/smallbiz/styles.scss"
@@ -2124,7 +2182,8 @@
               "node_modules/@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css"
             ],
             "scripts": [
-              "assets/js/pendo.js"
+              "assets/js/pendo.js",
+              "assets/js/walk-me.js"
             ]
           },
           "configurations": {
@@ -2183,6 +2242,10 @@
                 {
                   "replace": "apps/jobs/../../assets/js/new-relic.js",
                   "with": "apps/jobs/../../libs/ui/common/assets/js/new-relic.prod.js"
+                },
+                {
+                  "replace": "apps/jobs/../../assets/js/walk-me.js",
+                  "with": "apps/jobs/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -2246,7 +2309,8 @@
             "polyfills": "apps/jobs/polyfills.ts",
             "tsConfig": "apps/jobs/../../tsconfig.spec.json",
             "scripts": [
-              "assets/js/pendo.js"
+              "assets/js/pendo.js",
+              "assets/js/walk-me.js"
             ],
             "styles": [
               "assets/scss/client.scss",
@@ -2351,7 +2415,8 @@
               "node_modules/@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css"
             ],
             "scripts": [
-              "assets/js/pendo.js"
+              "assets/js/pendo.js",
+              "assets/js/walk-me.js"
             ]
           },
           "configurations": {
@@ -2410,6 +2475,10 @@
                 {
                   "replace": "apps/comphub/../../assets/js/new-relic.js",
                   "with": "apps/comphub/../../libs/ui/common/assets/js/new-relic.prod.js"
+                },
+                {
+                  "replace": "apps/comphub/../../assets/js/walk-me.js",
+                  "with": "apps/comphub/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -2473,7 +2542,8 @@
             "polyfills": "apps/comphub/polyfills.ts",
             "tsConfig": "apps/comphub/../../tsconfig.spec.json",
             "scripts": [
-              "assets/js/pendo.js"
+              "assets/js/pendo.js",
+              "assets/js/walk-me.js"
             ],
             "styles": [
               "assets/scss/client.scss",
@@ -2574,7 +2644,8 @@
               "apps/pf-admin/styles.scss"
             ],
             "scripts": [
-              "assets/js/pendo.js"
+              "assets/js/pendo.js",
+              "assets/js/walk-me.js"
             ]
           },
           "configurations": {
@@ -2633,6 +2704,10 @@
                 {
                   "replace": "apps/pf-admin/../../assets/js/new-relic.js",
                   "with": "apps/pf-admin/../../libs/ui/common/assets/js/new-relic.prod.js"
+                },
+                {
+                  "replace": "apps/pf-admin/../../assets/js/walk-me.js",
+                  "with": "apps/pf-admin/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -2696,7 +2771,8 @@
             "polyfills": "apps/pf-admin/polyfills.ts",
             "tsConfig": "apps/pf-admin/../../tsconfig.spec.json",
             "scripts": [
-              "assets/js/pendo.js"
+              "assets/js/pendo.js",
+              "assets/js/walk-me.js"
             ],
             "styles": [
               "assets/scss/client.scss",
@@ -2799,7 +2875,8 @@
             ],
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/tableau-2.2.0.min.js"
+              "assets/js/tableau-2.2.0.min.js",
+              "assets/js/walk-me.js"
             ]
           },
           "configurations": {
@@ -2858,6 +2935,10 @@
                 {
                   "replace": "apps/data-insights/../../assets/js/new-relic.js",
                   "with": "apps/data-insights/../../libs/ui/common/assets/js/new-relic.prod.js"
+                },
+                {
+                  "replace": "apps/data-insights/../../assets/js/walk-me.js",
+                  "with": "apps/data-insights/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -2922,7 +3003,8 @@
             "tsConfig": "apps/data-insights/../../tsconfig.spec.json",
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/tableau-2.2.0.min.js"
+              "assets/js/tableau-2.2.0.min.js",
+              "assets/js/walk-me.js"
             ],
             "styles": [
               "assets/scss/client.scss",
@@ -3023,7 +3105,8 @@
               "apps/job-description-management/styles.scss"
             ],
             "scripts": [
-              "assets/js/pendo.js"
+              "assets/js/pendo.js",
+              "assets/js/walk-me.js"
             ]
           },
           "configurations": {
@@ -3082,6 +3165,10 @@
                 {
                   "replace": "apps/job-description-management/../../assets/js/new-relic.js",
                   "with": "apps/job-description-management/../../libs/ui/common/assets/js/new-relic.prod.js"
+                },
+                {
+                  "replace": "apps/job-description-management/../../assets/js/walk-me.js",
+                  "with": "apps/job-description-management/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -3145,7 +3232,8 @@
             "polyfills": "apps/job-description-management/polyfills.ts",
             "tsConfig": "apps/job-description-management/../../tsconfig.spec.json",
             "scripts": [
-              "assets/js/pendo.js"
+              "assets/js/pendo.js",
+              "assets/js/walk-me.js"
             ],
             "styles": [
               "assets/scss/client.scss",
@@ -3247,7 +3335,8 @@
               "apps/structures/outside-view-encapsulation.scss"
             ],
             "scripts": [
-              "assets/js/pendo.js"
+              "assets/js/pendo.js",
+              "assets/js/walk-me.js"
             ]
           },
           "configurations": {
@@ -3306,6 +3395,10 @@
                 {
                   "replace": "apps/structures/../../assets/js/new-relic.js",
                   "with": "apps/structures/../../libs/ui/common/assets/js/new-relic.prod.js"
+                },
+                {
+                  "replace": "apps/structures/../../assets/js/walk-me.js",
+                  "with": "apps/structures/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -3369,7 +3462,8 @@
             "polyfills": "apps/structures/polyfills.ts",
             "tsConfig": "apps/structures/../../tsconfig.spec.json",
             "scripts": [
-              "assets/js/pendo.js"
+              "assets/js/pendo.js",
+              "assets/js/walk-me.js"
             ],
             "styles": [
               "assets/scss/client.scss",
@@ -3470,7 +3564,8 @@
               "apps/data-management/styles.scss"
             ],
             "scripts": [
-              "assets/js/pendo.js"
+              "assets/js/pendo.js",
+              "assets/js/walk-me.js"
             ]
           },
           "configurations": {
@@ -3529,6 +3624,10 @@
                 {
                   "replace": "apps/data-management/../../assets/js/new-relic.js",
                   "with": "apps/data-management/../../libs/ui/common/assets/js/new-relic.prod.js"
+                },
+                {
+                  "replace": "apps/data-management/../../assets/js/walk-me.js",
+                  "with": "apps/data-management/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -3592,7 +3691,8 @@
             "polyfills": "apps/data-management/polyfills.ts",
             "tsConfig": "apps/data-management/../../tsconfig.spec.json",
             "scripts": [
-              "assets/js/pendo.js"
+              "assets/js/pendo.js",
+              "assets/js/walk-me.js"
             ],
             "styles": [
               "assets/scss/client.scss",
@@ -3693,7 +3793,8 @@
               "apps/resources/styles.scss"
             ],
             "scripts": [
-              "assets/js/pendo.js"
+              "assets/js/pendo.js",
+              "assets/js/walk-me.js"
             ]
           },
           "configurations": {
@@ -3752,6 +3853,10 @@
                 {
                   "replace": "apps/resources/../../assets/js/new-relic.js",
                   "with": "apps/resources/../../libs/ui/common/assets/js/new-relic.prod.js"
+                },
+                {
+                  "replace": "apps/resources/../../assets/js/walk-me.js",
+                  "with": "apps/resources/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -3815,7 +3920,8 @@
             "polyfills": "apps/resources/polyfills.ts",
             "tsConfig": "apps/resources/../../tsconfig.spec.json",
             "scripts": [
-              "assets/js/pendo.js"
+              "assets/js/pendo.js",
+              "assets/js/walk-me.js"
             ],
             "styles": [
               "assets/scss/client.scss",
@@ -3916,7 +4022,8 @@
               "apps/employees/styles.scss"
             ],
             "scripts": [
-              "assets/js/pendo.js"
+              "assets/js/pendo.js",
+              "assets/js/walk-me.js"
             ]
           },
           "configurations": {
@@ -3975,6 +4082,10 @@
                 {
                   "replace": "apps/employees/../../assets/js/new-relic.js",
                   "with": "apps/employees/../../libs/ui/common/assets/js/new-relic.prod.js"
+                },
+                {
+                  "replace": "apps/employees/../../assets/js/walk-me.js",
+                  "with": "apps/employees/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -4038,7 +4149,8 @@
             "polyfills": "apps/employees/polyfills.ts",
             "tsConfig": "apps/employees/../../tsconfig.spec.json",
             "scripts": [
-              "assets/js/pendo.js"
+              "assets/js/pendo.js",
+              "assets/js/walk-me.js"
             ],
             "styles": [
               "assets/scss/client.scss",
@@ -4137,6 +4249,9 @@
             "styles": [
               "assets/scss/client.scss",
               "apps/total-rewards/styles.scss"
+            ],
+            "scripts": [
+              "assets/js/walk-me.js"
             ]
           },
           "configurations": {
@@ -4195,6 +4310,10 @@
                 {
                   "replace": "apps/total-rewards/../../assets/js/new-relic.js",
                   "with": "apps/total-rewards/../../libs/ui/common/assets/js/new-relic.prod.js"
+                },
+                {
+                  "replace": "apps/total-rewards/../../assets/js/walk-me.js",
+                  "with": "apps/total-rewards/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -4258,7 +4377,8 @@
             "polyfills": "apps/total-rewards/polyfills.ts",
             "tsConfig": "apps/total-rewards/../../tsconfig.spec.json",
             "scripts": [
-              "assets/js/pendo.js"
+              "assets/js/pendo.js",
+              "assets/js/walk-me.js"
             ],
             "styles": [
               "assets/scss/client.scss",
@@ -4359,7 +4479,8 @@
               "apps/service/styles.scss"
             ],
             "scripts": [
-              "assets/js/pendo.js"
+              "assets/js/pendo.js",
+              "assets/js/walk-me.js"
             ]
           },
           "configurations": {
@@ -4418,6 +4539,10 @@
                 {
                   "replace": "apps/service/../../assets/js/new-relic.js",
                   "with": "apps/service/../../libs/ui/common/assets/js/new-relic.prod.js"
+                },
+                {
+                  "replace": "apps/service/../../assets/js/walk-me.js",
+                  "with": "apps/service/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -4482,7 +4607,8 @@
             "tsConfig": "apps/service/../../tsconfig.spec.json",
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/fontawesome-all.min.js"
+              "assets/js/fontawesome-all.min.js",
+              "assets/js/walk-me.js"
             ],
             "styles": [
               "assets/scss/client.scss",
@@ -4639,6 +4765,10 @@
                 {
                   "replace": "apps/labs/../../assets/js/new-relic.js",
                   "with": "apps/labs/../../libs/ui/common/assets/js/new-relic.prod.js"
+                },
+                {
+                  "replace": "apps/labs/../../assets/js/walk-me.js",
+                  "with": "apps/labs/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -4702,7 +4832,8 @@
             "polyfills": "apps/labs/polyfills.ts",
             "tsConfig": "apps/labs/../../tsconfig.spec.json",
             "scripts": [
-              "assets/js/pendo.js"
+              "assets/js/pendo.js",
+              "assets/js/walk-me.js"
             ],
             "styles": [
               "assets/scss/client.scss",
@@ -4803,7 +4934,8 @@
               "apps/paymarkets/styles.scss"
             ],
             "scripts": [
-              "assets/js/pendo.js"
+              "assets/js/pendo.js",
+              "assets/js/walk-me.js"
             ]
           },
           "configurations": {
@@ -4862,6 +4994,10 @@
                 {
                   "replace": "apps/paymarkets/../../assets/js/new-relic.js",
                   "with": "apps/paymarkets/../../libs/ui/common/assets/js/new-relic.prod.js"
+                },
+                {
+                  "replace": "apps/paymarkets/../../assets/js/walk-me.js",
+                  "with": "apps/paymarkets/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -4925,7 +5061,8 @@
             "polyfills": "apps/paymarkets/polyfills.ts",
             "tsConfig": "apps/paymarkets/../../tsconfig.spec.json",
             "scripts": [
-              "assets/js/pendo.js"
+              "assets/js/pendo.js",
+              "assets/js/walk-me.js"
             ],
             "styles": [
               "assets/scss/client.scss",
@@ -5026,7 +5163,8 @@
               "apps/user-settings/styles.scss"
             ],
             "scripts": [
-              "assets/js/pendo.js"
+              "assets/js/pendo.js",
+              "assets/js/walk-me.js"
             ]
           },
           "configurations": {
@@ -5081,6 +5219,10 @@
                 {
                   "replace": "apps/user-settings/../../assets/js/new-relic.js",
                   "with": "apps/user-settings/../../libs/ui/common/assets/js/new-relic.prod.js"
+                },
+                {
+                  "replace": "apps/user-settings/../../assets/js/walk-me.js",
+                  "with": "apps/user-settings/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -5144,7 +5286,8 @@
             "polyfills": "apps/user-settings/polyfills.ts",
             "tsConfig": "apps/user-settings/../../tsconfig.spec.json",
             "scripts": [
-              "assets/js/pendo.js"
+              "assets/js/pendo.js",
+              "assets/js/walk-me.js"
             ],
             "styles": [
               "assets/scss/client.scss",
@@ -5245,7 +5388,8 @@
             ],
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/fontawesome-all.min.js"
+              "assets/js/fontawesome-all.min.js",
+              "assets/js/walk-me.js"
             ]
           },
           "configurations": {
@@ -5300,6 +5444,10 @@
                 {
                   "replace": "apps/form/../../assets/js/new-relic.js",
                   "with": "apps/form/../../libs/ui/common/assets/js/new-relic.prod.js"
+                },
+                {
+                  "replace": "apps/form/../../assets/js/walk-me.js",
+                  "with": "apps/form/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -5358,7 +5506,8 @@
             "tsConfig": "apps/form/../../tsconfig.spec.json",
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/fontawesome-all.min.js"
+              "assets/js/fontawesome-all.min.js",
+              "assets/js/walk-me.js"
             ],
             "styles": [
               "assets/scss/client.scss",

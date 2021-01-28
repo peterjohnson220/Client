@@ -12,7 +12,7 @@ import * as fromTemplateActions from '../actions';
 import * as fromTemplateReducers from '../reducers';
 
 import { TemplateService } from './template.service';
-import { JobDescriptionManagementService } from 'libs/features/job-description-management';
+import { JobDescriptionManagementService } from 'libs/features/jobs/job-description-management';
 
 @Injectable()
 export class TemplateDnDService {

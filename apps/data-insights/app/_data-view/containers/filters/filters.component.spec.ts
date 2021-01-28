@@ -4,7 +4,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Store, StoreModule, combineReducers } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
-import { generateMockField, Field, Filter, getDefaultOperatorByDataType, GetFilterOptionsData, generateMockFilter } from 'libs/features/formula-editor';
+import { generateMockField, Field, Filter, getDefaultOperatorByDataType, GetFilterOptionsData, generateMockFilter } from 'libs/ui/formula-editor';
 
 import * as fromDataInsightsMainReducer from '../../reducers';
 import * as fromFiltersActions from '../../actions/filters.actions';

@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
 
 import { HttpHeaders, HttpParams } from '@angular/common/http';
-import { EnumSurveyDelete } from 'apps/admin/app/_survey-library/constants/survey-delete-enum';
+import { EnumSurveyDelete } from 'apps/admin/app/_survey-library/constants/survey-delete-enum'; // TODO: REMOVE BAD REF [JP]
 
 import { Observable } from 'rxjs';
+
+import { SurveyNote } from 'libs/models/payfactors-api/survey-library/survey-note-model';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 import { SaveCustomCompanySurveyTitleRequestModel } from '../../../models/payfactors-api/survey-library/request';
 import { SurveyTitlesFilter } from '../../../../apps/admin/app/_survey-library/models';
 import { UdfSettingsRequestModel } from '../../../models/payfactors-api/survey/request/udf-settings-request.model';
-import { SurveyNote } from 'libs/models/payfactors-api/survey-library/survey-note-model';
 
 @Injectable({
   providedIn: 'root',

@@ -17,6 +17,18 @@
           </div>
           <div class="actions">
             <button class="btn btn-secondary data-view-grid-btn"
+                    [attr.data-qa-id]="'btn-schedule'"
+                    (click)="handleScheduleClicked()"
+                    ngbTooltip="Schedule Export"
+                    container="body"
+                    *ngIf="
+                      scheduleTabularReportingExportFeatureFlagEnabled &&
+                      hasScheduleTabularReportingExportPermission &&
+                      isOwner
+                    ">
+              <fa-icon icon="calendar-star"></fa-icon>
+            </button>
+            <button class="btn btn-secondary data-view-grid-btn"
                     [disabled]="isReadOnly"
                     [attr.data-qa-id]="'btn-edit'"
                     (click)="handleEditClicked()"
@@ -87,6 +99,11 @@
     #shareReportModal>
 
   </pf-share-report-modal>
+
+  <pf-schedule-export-modal
+    #scheduleExportModal
+    [style.display]="'none'">
+  </pf-schedule-export-modal>
 </div>
 
 <ng-template #disabledConfigureToggleButton>

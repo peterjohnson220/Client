@@ -4,7 +4,7 @@ import { select, Store } from '@ngrx/store';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder } from '@angular/forms';
 
-import { UserDataView } from 'libs/features/formula-editor';
+import { UserDataView } from 'libs/ui/formula-editor';
 
 import { AbstractBaseDataViewModal } from '../../../_shared/containers';
 import * as fromSharedReducer from '../../../_shared/reducers';

@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
-import { View } from 'libs/features/reports/models';
+import { View } from 'libs/features/surveys/reports/models';
 
 @Component({
   selector: 'pf-view-card',

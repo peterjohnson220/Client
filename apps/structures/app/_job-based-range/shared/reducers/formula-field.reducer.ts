@@ -1,6 +1,6 @@
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
-import * as fromFormulaFieldActions from 'libs/features/formula-editor/actions/formula-field.actions';
-import { FieldDataType, Field, PayfactorsApiModelMapper } from 'libs/features/formula-editor';
+import * as fromFormulaFieldActions from 'libs/ui/formula-editor/actions/formula-field.actions';
+import { FieldDataType, Field, PayfactorsApiModelMapper } from 'libs/ui/formula-editor';
 
 
 export interface FormulaFieldState {

@@ -1,5 +1,5 @@
 import { ConfigurationGroup, LoaderSetting, LoaderSettingKeyName, SavePricingLoaderConfigRequest } from 'libs/models';
-import { LoaderFileFormat } from 'libs/features/org-data-loader/constants';
+import { LoaderFileFormat } from 'libs/features/loaders/org-data-loader/constants';
 
 import { PricingLoaderSetting, MRPFieldConfig } from '../models';
 

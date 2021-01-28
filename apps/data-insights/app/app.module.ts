@@ -3,13 +3,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ErrorHandler, NgModule } from '@angular/core';
 
 import { PfApiModule } from 'libs/data/payfactors-api';
-import { PfAppRootModule, AppComponent } from 'libs/features/app-root';
+import { PfAppRootModule, AppComponent } from 'libs/features/infrastructure/app-root';
 import { PfSecurityModule } from 'libs/security/security.module';
 import { PfStateModule } from 'libs/state/state.module';
 import { PfCommonUIModule } from 'libs/ui/common/common-ui-module';
 import { PfLayoutWrapperModule } from 'libs/ui/layout-wrapper';
 import { SentryErrorHandler, SentryService } from 'libs/core/services';
-import { FormulaEditorModule } from 'libs/features/formula-editor';
+import { FormulaEditorModule } from 'libs/ui/formula-editor';
 
 import { AppRoutingModule } from './app-routing.module';
 

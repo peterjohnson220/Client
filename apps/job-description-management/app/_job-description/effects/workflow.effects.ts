@@ -11,7 +11,7 @@ import { JobDescriptionDataResponse } from 'libs/models/payfactors-api/job-descr
 
 import * as fromWorkflowActions from '../actions/workflow.actions';
 import * as fromJobDescriptionActions from '../actions/job-description.actions';
-import { PayfactorsApiModelMapper } from 'libs/features/job-description-management/helpers';
+import { PayfactorsApiModelMapper } from 'libs/features/jobs/job-description-management/helpers';
 
 @Injectable()
 export class WorkflowEffects {

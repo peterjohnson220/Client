@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+
 import { PayfactorsApiService } from '../payfactors-api.service';
 import { OrgDataLoaderConfigurationSaveRequest } from '../../../models/data-loads/request';
 
@@ -10,7 +11,7 @@ export class OrgDataLoaderConfigurationApiService {
 
   constructor(
     private payfactorsApiService: PayfactorsApiService
-  ) {}
+  ) { }
 
   saveConfiguration(data: any) {
     const formData = new FormData();
@@ -19,4 +20,6 @@ export class OrgDataLoaderConfigurationApiService {
 
     return this.payfactorsApiService.post(`${this.endpoint}/Save`, formData);
   }
+
+
 }

@@ -19,3 +19,4 @@ export * from './rate-currency-conversion.pipe';
 export * from './employee-details.pipe';
 export * from './structure-details.pipe';
 export * from './format-name.pipe';
+export * from './parse-date.pipe';

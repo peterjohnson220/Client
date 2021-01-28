@@ -18,8 +18,12 @@ export class TotalRewardsSearchApiService {
     return this.payfactorsApiService.post(`${this.endpoint}/SearchEmployees`, searchRequest);
   }
 
-  searchEmployeesAggregations(searchRequest: any): Observable<any> {
-    return this.payfactorsApiService.post(`${this.endpoint}/SearchEmployeesAggregations`, searchRequest);
+  searchUnassignedEmployees(searchRequest: any) {
+    return this.payfactorsApiService.post(`${this.endpoint}/SearchUnassignedEmployees`, searchRequest);
+  }
+
+  searchUnassignedEmployeesAggregations(searchRequest: any): Observable<any> {
+    return this.payfactorsApiService.post(`${this.endpoint}/SearchUnassignedEmployeesAggregations`, searchRequest);
   }
 
   getAssignedEmployees(request: any): Observable<GetAssignedEmployeesResponse> {

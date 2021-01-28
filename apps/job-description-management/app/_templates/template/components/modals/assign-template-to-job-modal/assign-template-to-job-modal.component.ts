@@ -9,8 +9,8 @@ import { CompanyJob, Template } from 'libs/models';
 import * as fromTemplateActions from '../../../actions';
 import * as fromTemplateReducers from '../../../reducers';
 import { CompanyJobSearchPipe } from '../../../pipes';
-import * as fromSharedJdmState from 'libs/features/job-description-management/reducers';
-import * as fromJobFamilyActions from 'libs/features/job-description-management/actions/job-family.actions';
+import * as fromSharedJdmState from 'libs/features/jobs/job-description-management/reducers';
+import * as fromJobFamilyActions from 'libs/features/jobs/job-description-management/actions/job-family.actions';
 
 @Component({
   selector: 'pf-assign-template-to-job-modal',

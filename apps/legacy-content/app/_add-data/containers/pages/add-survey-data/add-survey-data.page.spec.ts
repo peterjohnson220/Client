@@ -6,7 +6,7 @@ import spyOn = jest.spyOn;
 import { DragulaModule } from 'ng2-dragula';
 
 import * as fromRootState from 'libs/state/state';
-import * as fromSearchPageActions from 'libs/features/search/actions/search-page.actions';
+import * as fromSearchPageActions from 'libs/features/search/search/actions/search-page.actions';
 import { AbstractFeatureFlagService } from 'libs/core/services/feature-flags';
 
 import * as fromAddDataReducer from '../../../reducers';

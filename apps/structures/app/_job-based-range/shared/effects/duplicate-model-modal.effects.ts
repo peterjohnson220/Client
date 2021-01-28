@@ -8,14 +8,15 @@ import { catchError, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators'
 
 import { RangeGroupMetadata } from 'libs/models/structures';
 import { StructureModelingApiService } from 'libs/data/payfactors-api/structures';
-import { NotificationLevel, NotificationSource, NotificationType } from 'libs/features/app-notifications/models';
-import * as fromNotificationActions from 'libs/features/app-notifications/actions/app-notifications.actions';
+import { NotificationLevel, NotificationSource, NotificationType } from 'libs/features/infrastructure/app-notifications/models';
+import * as fromNotificationActions from 'libs/features/infrastructure/app-notifications/actions/app-notifications.actions';
 import { DuplicateModelRequest } from 'libs/models/payfactors-api/structures/request/duplicate-model-request.model';
 
 import * as fromDuplicateModelModalActions from '../actions/duplicate-model-modal.actions';
-import * as fromSharedReducer from '../reducers';
+import * as fromSharedStructuresReducer from '../../../shared/reducers';
 import * as fromSharedActions from '../actions/shared.actions';
 import { PagesHelper } from '../../../shared/helpers/pages.helper';
+import * as fromSharedStructuresActions from '../../../shared/actions/shared.actions';
 
 
 @Injectable()
@@ -25,7 +26,7 @@ export class DuplicateModelModalEffects {
   duplicateModel$: Observable<Action> = this.actions$
     .pipe(
       ofType<fromDuplicateModelModalActions.DuplicateModel>(fromDuplicateModelModalActions.DUPLICATE_MODEL),
-      withLatestFrom(this.store.pipe(select(fromSharedReducer.getMetadata)),
+      withLatestFrom(this.store.pipe(select(fromSharedStructuresReducer.getMetadata)),
         (action, metadata: RangeGroupMetadata) => {
           return { action, metadata };
         }
@@ -60,7 +61,7 @@ export class DuplicateModelModalEffects {
                 // Get all overridden ranges
                 const modelPageViewId =
                   PagesHelper.getModelPageViewIdByRangeTypeAndRangeDistributionType(data.metadata.RangeTypeId, data.metadata.RangeDistributionTypeId);
-                actions.push(new fromSharedActions.GetOverriddenRanges({
+                actions.push(new fromSharedStructuresActions.GetOverriddenRanges({
                   pageViewId: modelPageViewId,
                   rangeGroupId: response.RangeGroup.CompanyStructuresRangeGroupId
                 }));
@@ -77,7 +78,7 @@ export class DuplicateModelModalEffects {
   constructor(
     private actions$: Actions,
     private structureModelingApiService: StructureModelingApiService,
-    private store: Store<fromSharedReducer.State>,
+    private store: Store<fromSharedStructuresReducer.State>,
     private router: Router,
   ) {}
 }

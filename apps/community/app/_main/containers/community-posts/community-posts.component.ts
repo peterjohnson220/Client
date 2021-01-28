@@ -29,7 +29,6 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
   @Input() disableCommunityAttachments: boolean;
   @Output() filtersModifiedEvent = new EventEmitter();
 
-  avatarUrl = environment.avatarSource;
   communityPosts$: Observable<CommunityPost[]>;
   maximumReplies$: Observable<number>;
   loadingCommunityPosts$: Observable<boolean>;

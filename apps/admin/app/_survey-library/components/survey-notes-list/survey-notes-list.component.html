@@ -17,7 +17,7 @@
               <div class="row p-1">
                 <div class="info">
                   <a href="#">{{note.FirstName}} {{note.LastName}}</a>
-                  <span class="pl-2">{{note.CreateDate | amDateFormat:'MM/DD/YYYY'}}</span>
+                  <span class="pl-2">{{note.CreateDate | pfParseDate | dfnsFormatPure:'MM/dd/yyyy'}}</span>
                 </div>
               </div>
               <div class="row p-1">

@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { generateMockField } from 'libs/features/formula-editor';
+import { generateMockField } from 'libs/ui/formula-editor';
 
 import { DateFieldFormattingModalComponent } from './date-field-formatting-modal.component';
 

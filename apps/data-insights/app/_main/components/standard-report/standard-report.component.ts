@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Workbook } from 'libs/features/reports/models';
+import { Workbook } from 'libs/features/surveys/reports/models';
 
 
 @Component({

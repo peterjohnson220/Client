@@ -20,7 +20,11 @@
                 {{workflowLogEntry.AuthorName}}&nbsp;<span class="text-muted">{{workflowLogEntry.Title}}</span>
               </div>
               <div class="col p-0 timestamp">
-                <small title="{{(workflowLogEntry.Timestamp | amFromUnix) | amDateFormat:'LLL'}}" class="time-ago text-muted">{{(workflowLogEntry.Timestamp | amFromUnix) | amTimeAgo:true}} ago</small>
+                <small
+                  title="{{(workflowLogEntry.Timestamp | dfnsGetUnixTime) | dfnsFormatPure:'LLL'}}"
+                  class="time-ago text-muted">
+                  {{( workflowLogEntry.Timestamp | dfnsGetUnixTime) | dfnsFormatDistanceToNowPure:{addSuffix:true} }}
+                </small>
               </div>
             </h6>
           </h3>

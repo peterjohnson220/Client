@@ -8,8 +8,8 @@ import { select, Store } from '@ngrx/store';
 import { FilterDescriptor, State } from '@progress/kendo-data-query';
 
 import { StatementEmailTemplate, TotalRewardAssignedEmployee } from 'libs/models/payfactors-api/total-rewards';
-import * as fromAppNotificationsMainReducer from 'libs/features/app-notifications/reducers';
-import { AppNotification } from 'libs/features/app-notifications/models';
+import * as fromAppNotificationsMainReducer from 'libs/features/infrastructure/app-notifications/reducers';
+import { AppNotification } from 'libs/features/infrastructure/app-notifications/models';
 import { AsyncStateObj } from 'libs/models/state';
 import { GridTypeEnum, ListAreaColumn } from 'libs/models/common';
 import * as fromGridActions from 'libs/core/actions/grid.actions';

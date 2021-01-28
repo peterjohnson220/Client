@@ -2,7 +2,6 @@ import { Component, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { CommunityJob } from 'libs/models';
-import { environment } from 'environments/environment';
 
 import * as fromCommunityJobReducer from '../../reducers';
 import * as fromCommunityJobActions from '../../actions/community-job.actions';
@@ -16,8 +15,9 @@ export class CommunityJobComponent {
   @Input() job: CommunityJob;
   @Input() endOfList: boolean;
   @Input() isCurrentUserJob: boolean;
+  @Input() companyLogoSource: string;
 
-  get companyLogo() { return environment.companyLogoSource + this.job.CompanyLogo; }
+  get companyLogo() { return this.companyLogoSource + this.job.CompanyLogo; }
 
   constructor(public store: Store<fromCommunityJobReducer.State>) { }
 

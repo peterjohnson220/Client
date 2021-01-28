@@ -44,7 +44,7 @@
   </div>
   <div class="footer d-flex justify-content-end p-2">
     <button [disabled]="isExportButtonDisabled()"
-            (click)="export()" class="btn btn-primary">
+            (click)="handleExport()" class="btn btn-primary">
       Export
     </button>
   </div>
@@ -62,3 +62,8 @@
         [autoClose]="'outside'">
   <fa-icon icon="download"></fa-icon>
 </button>
+
+<pf-file-download-security-warning-modal 
+#fileDownloadSecurityWarningModal
+(securityWarningConfirmed)="handleSecurityWarningConfirmed($event)">
+</pf-file-download-security-warning-modal>

@@ -5,6 +5,7 @@ export interface State {
   customEmployeeFields: any;
   customFieldsError: boolean;
   tagCategories: any;
+  benefitsHeaders: any;
 }
 
 export const initialState: State = {
@@ -12,6 +13,7 @@ export const initialState: State = {
   customEmployeeFields: null,
   customFieldsError: false,
   tagCategories: null,
+  benefitsHeaders: null,
 };
 
 export function reducer(state = initialState, action: fromCustomFieldsActions.Actions): State {
@@ -79,6 +81,27 @@ export function reducer(state = initialState, action: fromCustomFieldsActions.Ac
         customFieldsError: true
       };
     }
+    case fromCustomFieldsActions.GET_BENEFITHEADERS: {
+      return {
+        ...state,
+        benefitsHeaders: null,
+        customFieldsError: false
+      };
+    }
+    case fromCustomFieldsActions.GET_BENEFITS_SUCCESS: {
+      return {
+        ...state,
+        benefitsHeaders: action.payload,
+        customFieldsError: false
+      };
+    }
+    case fromCustomFieldsActions.GET_BENEFITS_ERROR: {
+      return {
+        ...state,
+        benefitsHeaders: null,
+        customFieldsError: true
+      };
+    }
 
     default:
       return state;
@@ -88,4 +111,5 @@ export function reducer(state = initialState, action: fromCustomFieldsActions.Ac
 export const GetCustomJobFields = (state: State) => state.customJobFields;
 export const GetCustomEmployeeFields = (state: State) => state.customEmployeeFields;
 export const GetTagCategories = (state: State) => state.tagCategories;
+export const GetBenefitsHeaders = (state: State) => state.benefitsHeaders;
 export const GetCustomFieldsError = (state: State) => state.customFieldsError;

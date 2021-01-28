@@ -6,7 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
-import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { NgbTabsetModule } from '@ng-bootstrap/ng-bootstrap';
 import { ComboBoxModule } from '@progress/kendo-angular-dropdowns';
@@ -20,8 +20,8 @@ import { PfCommonModule } from 'libs/core';
 import { WindowRef } from 'libs/core/services';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
-import { PfCommentBoxModule } from 'libs/features';
-import { PfCompanyNotesModalModule } from 'libs/features';
+import { PfCommentBoxModule } from 'libs/ui/comment-box';
+import { PfCompanyNotesModalModule } from 'libs/features/company/company-notes';
 
 import { TicketDetailCardComponent } from './components';
 import {
@@ -63,6 +63,7 @@ import { TicketSharedEffects } from './effects/ticket-shared.effects';
     FontAwesomeModule,
     DateInputsModule,
     QuillModule.forRoot(),
+    NgbDropdownModule,
 
     // Routing
     TicketsRoutingModule,
