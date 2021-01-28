@@ -6,8 +6,8 @@ import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BehaviorSubject, of } from 'rxjs';
 
 import * as fromRootState from 'libs/state/state';
-import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
-import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
+import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
+import * as fromPfGridActions from 'libs/features/grids/pf-data-grid/actions';
 import { AbstractFeatureFlagService, PermissionService, PfCommonModule } from 'libs/core';
 import { JobBasedPageViewIds } from 'libs/models/structures';
 
@@ -16,7 +16,7 @@ import { ModelGridComponent } from './model-grid.component';
 import { RangeValuePipe } from '../../pipes';
 import * as fromPublishModelModalActions from '../../actions/publish-model-modal.actions';
 import * as fromModelSettingsModalActions from '../../../shared/actions/model-settings-modal.actions';
-import { StructuresPagesService } from '../../services';
+import { StructuresPagesService } from '../../../../shared/services';
 
 class MockStructuresPagesService {
   modelPageViewId: BehaviorSubject<string>;

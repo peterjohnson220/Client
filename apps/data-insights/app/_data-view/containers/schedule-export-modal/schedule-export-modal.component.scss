@@ -1,0 +1,27 @@
+@import 'common/common-variables';
+
+.form-footer {
+  margin-top: 26px;
+  padding-right: 12px;
+}
+
+.alert-txt {
+  font-size: 13px;
+  font-weight: bold;
+  letter-spacing: 0;
+  line-height: 24px;
+  margin-left: 10px;
+}
+
+.alert-bg {
+  box-sizing: border-box;
+  border: 1px solid #BCDFF1;
+  border-radius: 4px;
+  background-color: #D9EDF7;
+  color: #31708F;
+}
+
+.btn-danger, .btn-primary {
+  margin-right: 6px;
+  box-shadow: 0 0 0 2px rgba(204, 204, 204, 0.5);
+}

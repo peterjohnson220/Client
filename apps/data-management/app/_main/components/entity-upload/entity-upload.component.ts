@@ -2,9 +2,9 @@ import { Component, EventEmitter, Input, Output, QueryList, ViewChildren } from 
 
 import isObject from 'lodash/isObject';
 
-import { FileUploadComponent } from 'libs/features/org-data-loader/components/file-upload/';
-import { DATE_FORMATS, LoaderType } from 'libs/features/org-data-loader/constants';
-import { DateFormatItem } from 'libs/features/org-data-loader/models';
+import { FileUploadComponent } from 'libs/features/loaders/org-data-loader/containers/file-upload/';
+import { DATE_FORMATS, LoaderType } from 'libs/features/loaders/org-data-loader/constants';
+import { DateFormatItem } from 'libs/features/loaders/org-data-loader/models';
 import { ConfigurationGroup } from 'libs/models/data-loads';
 
 import { EntityChoice } from '../../models';

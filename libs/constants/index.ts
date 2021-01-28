@@ -22,3 +22,4 @@ export * from './load-types';
 export * from './sso-url';
 export * from './quick-price-type';
 export * from './images';
+export * from './cloud-file-locations';

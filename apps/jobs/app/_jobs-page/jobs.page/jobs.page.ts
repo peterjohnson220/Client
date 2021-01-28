@@ -9,23 +9,23 @@ import { SortDescriptor } from '@progress/kendo-data-query';
 
 import { Permissions } from 'libs/constants';
 import { CompanyJobApiService } from 'libs/data/payfactors-api/company';
-import { MODIFY_PRICINGS } from 'libs/features/multi-match/constants';
+import { MODIFY_PRICINGS } from 'libs/features/pricings/multi-match/constants';
 import {
   ActionBarConfig, getDefaultActionBarConfig, getDefaultGridRowActionsConfig, GridRowActionsConfig, GridConfig
-} from 'libs/features/pf-data-grid/models';
+} from 'libs/features/grids/pf-data-grid/models';
 import { AsyncStateObj, UserContext } from 'libs/models';
-import { GetPricingsToModifyRequest } from 'libs/features/multi-match/models';
+import { GetPricingsToModifyRequest } from 'libs/features/pricings/multi-match/models';
 import { ChangeJobStatusRequest, CreateProjectRequest, MatchedSurveyJob, ViewField } from 'libs/models/payfactors-api';
-import { SurveySearchFilterMappingDataObj, SurveySearchUserFilterType } from 'libs/features/survey-search/data';
-import { SearchFeatureIds } from 'libs/features/search/enums/search-feature-ids';
+import { SurveySearchFilterMappingDataObj, SurveySearchUserFilterType } from 'libs/features/surveys/survey-search/data';
+import { SearchFeatureIds } from 'libs/features/search/search/enums/search-feature-ids';
 import * as fromRootState from 'libs/state/state';
-import * as fromModifyPricingsActions from 'libs/features/multi-match/actions';
-import * as fromModifyPricingsReducer from 'libs/features/multi-match/reducers';
-import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
-import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
-import * as fromJobManagementActions from 'libs/features/job-management/actions';
-import * as fromSearchPageActions from 'libs/features/search/actions/search-page.actions';
-import * as fromSearchFeatureActions from 'libs/features/search/actions/search-feature.actions';
+import * as fromModifyPricingsActions from 'libs/features/pricings/multi-match/actions';
+import * as fromModifyPricingsReducer from 'libs/features/pricings/multi-match/reducers';
+import * as fromPfDataGridActions from 'libs/features/grids/pf-data-grid/actions';
+import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
+import * as fromJobManagementActions from 'libs/features/jobs/job-management/actions';
+import * as fromSearchPageActions from 'libs/features/search/search/actions/search-page.actions';
+import * as fromSearchFeatureActions from 'libs/features/search/search/actions/search-feature.actions';
 
 import { PageViewIds } from '../constants';
 import { ShowingActiveJobs } from '../pipes';

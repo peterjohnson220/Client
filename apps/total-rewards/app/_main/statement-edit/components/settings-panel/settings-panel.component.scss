@@ -3,7 +3,7 @@
 @import 'common/common-variables';
 
 aside.settings-panel {
-  top: 62px;
+  top: 176px;
   right: 0;
   z-index: 100;
   background-color: white;
@@ -12,6 +12,7 @@ aside.settings-panel {
   transition: transform .35s cubic-bezier(0.4, 0, 0.2, 1);
   transform: translateX(100%);
   &.expanded {
+    right: 17px;
     transform: translateX(0);
     box-shadow: 0 2px 12px 0 rgba(30, 30, 30, 0.3);
   }

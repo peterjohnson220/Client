@@ -4,6 +4,7 @@ import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { switchMap, catchError, map, mergeMap } from 'rxjs/operators';
 import * as fromCompanyResourcesPageActions from '../actions/company-resources.actions';
+import * as fromCompanyResourcesAddResourceActions from '../actions/company-resources-add-resource.actions';
 import { CompanyResourcesApiService } from 'libs/data/payfactors-api';
 import { CompanyResource, CompanyResourceFolder } from '../models';
 
@@ -47,8 +48,9 @@ export class CompanyResourcesPageEffects {
               } else {
                 actions.push(new fromCompanyResourcesPageActions.AddingCompanyResourceOrphanSuccess(response));
               }
-
+              
               actions.push(new fromCompanyResourcesPageActions.AddingCompanyResourceSuccess());
+              actions.push(new fromCompanyResourcesAddResourceActions.ClearCompanyResourcesUploadState())
               return actions;
             }),
             catchError(error => of(new fromCompanyResourcesPageActions.AddingCompanyResourceError(error)))
@@ -63,9 +65,20 @@ export class CompanyResourcesPageEffects {
       ofType(fromCompanyResourcesPageActions.DELETING_COMPANY_RESOURCE),
       switchMap((action: fromCompanyResourcesPageActions.DeletingCompanyResource) => {
         return this.resourcesApiService.deleteCompanyResource(action.payload).pipe(
-          mergeMap(() => {
-            return [new fromCompanyResourcesPageActions.DeletingCompanyResourceSuccess(action.payload)];
-          }),
+          map(() => new fromCompanyResourcesPageActions.DeletingCompanyResourceSuccess(action.payload)),
+          catchError(error => of(new fromCompanyResourcesPageActions.DeletingCompanyResourceError(error)))
+        );
+      }
+    )
+    );
+
+  @Effect()
+  deletingCompanyResourceFromCloud$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromCompanyResourcesAddResourceActions.DISCARD_COMPANY_RESOURCE),
+      switchMap((action: fromCompanyResourcesAddResourceActions.DiscardCompanyResource) => {
+        return this.resourcesApiService.removeCompanyResource(action.payload).pipe(
+          map(() => new fromCompanyResourcesAddResourceActions.DiscardCompanyResourceSuccess()),
           catchError(error => of(new fromCompanyResourcesPageActions.DeletingCompanyResourceError(error)))
         );
       }

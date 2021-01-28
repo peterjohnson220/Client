@@ -5,7 +5,7 @@ import { select, Store } from '@ngrx/store';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { IntlService } from '@progress/kendo-angular-intl';
 
-import { BaseDataView, Entity, EntityData, FieldDataType } from 'libs/features/formula-editor';
+import { BaseDataView, Entity, EntityData, FieldDataType } from 'libs/ui/formula-editor';
 
 import { AbstractBaseDataViewModal } from '../../../_shared/containers';
 import * as fromSharedReducer from '../../../_shared/reducers';

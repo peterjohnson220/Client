@@ -16,8 +16,7 @@
   </div>
   <kendo-chart [transitions]="!inEditMode && !inPrintMode" [seriesColors]="chartColors" [style.height]="height" (legendItemClick)="onLegendItemClick($event)" (render)="onChartRender($event)">
     <kendo-chart-legend 
-      [position]="'bottom'" 
-      [labels]="inPrintMode ? printModeLegendLabels : defaultLegendLabels">
+      [position]="'bottom'">
     </kendo-chart-legend>
     <kendo-chart-series>
       <kendo-chart-series-item

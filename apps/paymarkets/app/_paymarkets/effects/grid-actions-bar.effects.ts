@@ -6,8 +6,8 @@ import { of } from 'rxjs';
 import { switchMap, catchError, map, withLatestFrom } from 'rxjs/operators';
 
 import { MarketDataScopeApiService } from 'libs/data/payfactors-api';
-import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
-import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
+import * as fromPfDataGridActions from 'libs/features/grids/pf-data-grid/actions';
+import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 
 import * as fromPayMarketsPageReducer from '../reducers';
 import * as fromGridActionsBarActions from '../actions/grid-actions-bar.actions';

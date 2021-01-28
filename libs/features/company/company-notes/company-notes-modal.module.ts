@@ -1,21 +1,21 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ImgFallbackModule } from 'ngx-img-fallback';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { FormatPurePipeModule } from 'ngx-date-fns';
 
 import { reducers } from './reducers';
 
 import { CompanyNotesModalComponent } from './containers';
-import { CompanyNotesListComponent } from './components';
+import { CompanyNotesListComponent } from './containers';
 
 import { CompanyNotesEffects } from './effects';
 import { PfCommonUIModule } from '../../../ui/common';
 import { PfFormsModule } from '../../../forms';
-import { MomentModule } from 'ngx-moment';
-import { ImgFallbackModule } from 'ngx-img-fallback';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   imports: [
@@ -28,7 +28,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     PfCommonUIModule,
     ReactiveFormsModule,
     PfFormsModule,
-    MomentModule,
+    FormatPurePipeModule,
     ImgFallbackModule,
     FontAwesomeModule,
     FormsModule

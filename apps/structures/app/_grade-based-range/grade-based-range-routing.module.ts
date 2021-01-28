@@ -23,7 +23,11 @@ const routes: Routes = [
     canActivate: [RangeGroupExistsGuard],
     data: { gradeBased: true },
     loadChildren: () => import('apps/structures/app/_grade-based-range/model/model.module').then(m => m.ModelModule)
-  }
+  },
+  { path: ':id/employees',
+    canActivate: [RangeGroupExistsGuard],
+    loadChildren: () => import('apps/structures/app/_grade-based-range/employees/employees.module').then(m => m.EmployeesModule)
+  },
 ];
 
 @NgModule({

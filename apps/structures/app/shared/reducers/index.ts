@@ -40,3 +40,34 @@ export const getMetadata = createSelector(
   selectSharedState, fromSharedReducer.getMetadata
 );
 
+export const getRoundingSettings = createSelector(
+  selectSharedState, fromSharedReducer.getRoundingSettings
+);
+
+export const getCompanyExchanges = createSelector(
+  selectSharedState,
+  fromSharedReducer.getCompanyExchanges
+);
+
+export const getSelectedPeerExchange = createSelector(
+  selectSharedState,
+  fromSharedReducer.getSelectedPeerExchange
+);
+
+export const getRangeOverrides = createSelector(
+  selectSharedState, fromSharedReducer.getRangeOverrides
+);
+
+export const getDistinctOverrideMessages = createSelector(
+  selectSharedState, fromSharedReducer.getDistinctOverrideMessages
+);
+
+export const getComparingModels = createSelector(
+  selectSharedState,
+  fromSharedReducer.getComparingModels
+);
+
+export const getCompareEnabled = createSelector(
+  selectSharedState,
+  fromSharedReducer.getCompareEnabled
+);

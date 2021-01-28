@@ -36,6 +36,7 @@ export class NotificationPreferencesComponent implements OnInit, OnDestroy {
     this.NotificationPreferencesSubscription = this.NotificationPreferences$.subscribe(x => {
       this.NotificationPreferencesGrouped = this.getPreferencesGrouped(x.obj);
     });
+    this.store.dispatch(new fromNotificationPreferenceActions.GetNotificationPreferences());
   }
 
   handleSaveClicked() {

@@ -9,7 +9,7 @@ import {
   JobDescriptionValidationRequest
 } from 'apps/pf-admin/app/_utilities/models/requests/job-description-validation-request.model';
 import { LoadJobDescriptionRequest } from 'apps/pf-admin/app/_utilities/models/requests/job-description-load-request.model';
-import { LibrarySearchRequest, JobDescriptionLibraryResult, JobDescriptionLibraryBucket } from 'libs/features/job-description-management/models';
+import { LibrarySearchRequest, JobDescriptionLibraryResult, JobDescriptionLibraryBucket } from 'libs/features/jobs/job-description-management/models';
 import { UpdateViewsRequest } from '../../../models/payfactors-api/job-description-management/request';
 import { JobDescriptionViewApi } from '../../../models/payfactors-api/job-description-management/shared';
 import { ControlType } from 'libs/models';

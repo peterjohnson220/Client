@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 import { Store, select } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
@@ -26,10 +27,12 @@ export class ExchangeJobMappingGridComponent implements OnInit, OnDestroy {
   @Input() pageRowIndexToScrollTo: number;
 
   loadingExchangeJobMappings$: Observable<boolean>;
+  loadingExchangeJobMappingsSuccess$: Observable<boolean>;
   loadingExchangeJobMappingsError$: Observable<boolean>;
   exchangeJobMappingsGridData$: Observable<GridDataResult>;
   exchangeJobMappingsGridState$: Observable<State>;
   selectedExchangeJobMapping$: Observable<ExchangeJobMapping>;
+  exchangeJobAutoSelected = false;
 
   statusFilterOptions: any[] = [
     {StatusName: 'Matched', StatusId: 'matched'},
@@ -44,8 +47,9 @@ export class ExchangeJobMappingGridComponent implements OnInit, OnDestroy {
   associationData: any;
   pendingStatusData: any;
   exchangeId: number;
+  jobTitleSearch: string;
 
-  constructor(private store: Store<fromPeerManagementReducer.State>) {}
+  constructor(private store: Store<fromPeerManagementReducer.State>, private activatedRoute: ActivatedRoute) {}
 
   onDataStateChange(state: DataStateChangeEvent): void {
     this.store.dispatch(new fromGridActions.UpdateGrid(GridTypeEnum.ExchangeJobMapping, state));
@@ -104,6 +108,7 @@ export class ExchangeJobMappingGridComponent implements OnInit, OnDestroy {
   // Lifecycle
   ngOnInit() {
     this.loadingExchangeJobMappings$ = this.store.select(fromPeerManagementReducer.getExchangeJobMappingsLoading);
+    this.loadingExchangeJobMappingsSuccess$ = this.store.select(fromPeerManagementReducer.getExchangeJobMappingsLoadingSuccess);
     this.loadingExchangeJobMappingsError$ = this.store.select(fromPeerManagementReducer.getExchangeJobMappingsLoadingError);
     this.exchangeJobMappingsGridData$ = this.store.select(fromPeerManagementReducer.getExchangeJobMappingsGridData);
     this.exchangeJobMappingsGridState$ = this.store.select(fromPeerManagementReducer.getExchangeJobMappingsGridState);
@@ -115,9 +120,32 @@ export class ExchangeJobMappingGridComponent implements OnInit, OnDestroy {
       this.clearSelectedStatusFilter();
     }));
 
+    this.allSubscriptions.add(this.loadingExchangeJobMappingsSuccess$.subscribe( loaded => {
+      if (!!loaded && !this.exchangeJobAutoSelected && !!this.jobTitleSearch) {
+        this.store.dispatch(new fromExchangeJobMappingGridActions.SetActiveExchangeJobByJobTitle(this.jobTitleSearch));
+        this.exchangeJobAutoSelected = true;
+      }
+    }));
+
     this.allSubscriptions.add(this.store.pipe(select(companyJobsReducer.getCompanyJobsExchangeId)).subscribe(exchangeId => {
       this.exchangeId = exchangeId;
     }));
+
+    this.allSubscriptions.add(this.activatedRoute.queryParams.subscribe(params => {
+      this.selectedStatusFilterOption = params['status'];
+      this.jobTitleSearch = params['jobTitle'];
+    }));
+
+    if (!!this.selectedStatusFilterOption) {
+      this.store.dispatch(new fromGridActions.UpdateFilter(GridTypeEnum.ExchangeJobMapping, {columnName: 'StatusId', value: this.selectedStatusFilterOption}));
+    }
+
+    if (!!this.jobTitleSearch) {
+      this.store.dispatch(new fromGridActions.UpdateFilter(
+        GridTypeEnum.ExchangeJobMapping,
+        {columnName: 'ExchangeJobTitle', value: this.jobTitleSearch, operator: 'eq'}
+      ));
+    }
 
     this.store.dispatch(new fromExchangeJobMappingGridActions.LoadExchangeJobMappings());
   }

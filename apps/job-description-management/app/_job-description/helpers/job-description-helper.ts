@@ -1,4 +1,4 @@
-import { JobDescriptionViewConstants } from 'libs/features/job-description-management/constants';
+import { JobDescriptionViewConstants } from 'libs/features/jobs/job-description-management/constants';
 
 export class JobDescriptionHelper {
 

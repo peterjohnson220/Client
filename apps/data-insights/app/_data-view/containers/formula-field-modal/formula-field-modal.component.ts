@@ -7,8 +7,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { debounceTime } from 'rxjs/operators';
 
 import { PfValidators } from 'libs/forms/validators';
-import { DataViewAccessLevel, FieldDataType, FormulaEditorComponent, FormulaType, functionSuggestionList, Suggestion } from 'libs/features/formula-editor';
-import * as fromFormulaFieldActions from 'libs/features/formula-editor/actions/formula-field.actions';
+import { DataViewAccessLevel, FieldDataType, FormulaEditorComponent, FormulaType, functionSuggestionList, Suggestion } from 'libs/ui/formula-editor';
+import * as fromFormulaFieldActions from 'libs/ui/formula-editor/actions/formula-field.actions';
 import { FormulaFieldModalObj } from 'libs/models/formula-editor';
 
 import * as fromDataViewMainReducer from '../../reducers';

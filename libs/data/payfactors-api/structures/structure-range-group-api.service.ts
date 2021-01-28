@@ -30,4 +30,8 @@ export class StructureRangeGroupApiService {
   publishStructureModel(companyStructureRangeGroupId: number): Observable<number> {
     return this.payfactorsApiService.post<number>(`${this.endpoint}(${companyStructureRangeGroupId})/Default.Publish`);
   }
+
+  getDetails(companyStructureRangeGroupId: number): Observable<any> {
+    return this.payfactorsApiService.get<any>(`${this.endpoint}(${companyStructureRangeGroupId})/Default.GetDetail`);
+  }
 }

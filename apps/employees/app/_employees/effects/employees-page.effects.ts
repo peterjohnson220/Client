@@ -5,8 +5,8 @@ import { of } from 'rxjs';
 import { switchMap, catchError, map, tap, mergeMap } from 'rxjs/operators';
 
 import { ProjectApiService, CompanyEmployeeApiService, TotalRewardsPdfGenerationService } from 'libs/data/payfactors-api';
-import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
-import * as fromEmployeeManagementActions from 'libs/features/employee-management/actions';
+import * as fromPfDataGridActions from 'libs/features/grids/pf-data-grid/actions';
+import * as fromEmployeeManagementActions from 'libs/features/employees/employee-management/actions';
 import { TrsConstants } from 'libs/features/total-rewards/total-rewards-statement/constants/trs-constants';
 import { DeliveryMethod } from 'libs/features/total-rewards/total-rewards-statement/models/delivery-method';
 

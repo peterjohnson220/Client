@@ -5,8 +5,9 @@
      [placement]="'bottom-right'"
      [autoClose]="'outside'"
      [popoverClass]="'notification-list-popover'"
-     (click) = "markAllNotificationsAsSeen()">
-
+     (click) = "markAllNotificationsAsSeen()"
+     #p = "ngbPopover"
+  >
 
     <fa-icon *ngIf="!((notificationCount$ | async) > 0)" class="notification-icon" [icon]="['far', 'bell']"></fa-icon>
 
