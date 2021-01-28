@@ -1,8 +1,8 @@
 import cloneDeep from 'lodash/cloneDeep';
 
 import * as fromBulkExportPopoverActions from '../actions/bulk-export-popover.actions';
-import { ControlLabel } from 'libs/features/job-description-management/models';
-import { JobDescriptionBulkExportPayload } from 'libs/features/job-description-management';
+import { ControlLabel } from 'libs/features/jobs/job-description-management/models';
+import { JobDescriptionBulkExportPayload } from 'libs/features/jobs/job-description-management';
 
 export interface State {
   controlLabels: ControlLabel[];

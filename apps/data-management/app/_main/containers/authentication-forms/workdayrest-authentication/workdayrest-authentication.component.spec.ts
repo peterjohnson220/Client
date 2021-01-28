@@ -2,9 +2,11 @@ import { NO_ERRORS_SCHEMA } from '@angular/compiler/src/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 
+import { AbstractFeatureFlagService } from 'libs/core';
+
 import { WorkdayRestAuthenticationComponent } from './workdayrest-authentication.component';
 
-describe('Data Management - Main - Workday Mock Authentication Form', () => {
+describe('Data Management - Main - Workday REST Authentication Form', () => {
   let instance: WorkdayRestAuthenticationComponent;
   let fixture: ComponentFixture<WorkdayRestAuthenticationComponent>;
 
@@ -17,6 +19,10 @@ describe('Data Management - Main - Workday Mock Authentication Form', () => {
         WorkdayRestAuthenticationComponent,
       ],
       providers: [
+        {
+          provide: AbstractFeatureFlagService,
+          useValue: { enabled: jest.fn(), bindEnabled: jest.fn() }
+        }
       ],
       schemas: [ NO_ERRORS_SCHEMA ]
     });

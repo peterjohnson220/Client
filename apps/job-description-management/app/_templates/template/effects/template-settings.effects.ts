@@ -10,7 +10,7 @@ import { JobDescriptionTemplateApiService } from 'libs/data/payfactors-api';
 import { TemplateSettings } from 'libs/models/jdm/template';
 
 import * as fromTemplateActions from '../actions';
-import { ErrorGenerationService } from 'libs/features/job-description-management';
+import { ErrorGenerationService } from 'libs/features/jobs/job-description-management';
 
 @Injectable()
 export class TemplateSettingEffects {

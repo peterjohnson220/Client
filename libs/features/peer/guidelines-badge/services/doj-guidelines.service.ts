@@ -6,9 +6,9 @@ import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 
 import * as fromLibsPeerExchangeExplorerReducers from 'libs/features/peer/exchange-explorer/reducers';
-import * as fromLibsSurveySearchReducers from 'libs/features/survey-search/reducers';
+import * as fromLibsSurveySearchReducers from 'libs/features/surveys/survey-search/reducers';
 import { DataCutValidationInfo, ExchangeStatCompanyMakeup, TEMP_PEER_DATA_CUT_PREFIX } from 'libs/models/peer';
-import { UpsertPeerDataCutEntityConfigurationModel } from 'libs/features/upsert-peer-data-cut/models';
+import { UpsertPeerDataCutEntityConfigurationModel } from 'libs/features/pricings/upsert-peer-data-cut/models';
 import { arraysEqual, checkArraysOneOff } from 'libs/core/functions';
 import { WeightType } from 'libs/data/data-sets';
 import { BaseExchangeDataSearchRequest } from 'libs/models/payfactors-api';

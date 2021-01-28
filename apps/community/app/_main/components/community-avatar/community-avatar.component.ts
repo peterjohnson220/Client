@@ -9,11 +9,10 @@ import { environment } from 'environments/environment';
 export class CommunityAvatarComponent {
 
   @Input() AvatarSource: string;
+  @Input() AvatarUrl: string;
+  @Input() CompanyLogoUrl: string;
   @Input() CompanyLogoSource: string;
   @Input() UserFirstName: string;
   @Input() UserLastName: string;
   @Input() IsReply = false;
-
-  avatarUrl = environment.avatarSource;
-  companyLogoUrl = environment.companyLogoSource;
 }

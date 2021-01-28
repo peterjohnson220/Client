@@ -11,13 +11,13 @@ import {
 } from 'libs/models/peer';
 import * as fromRootState from 'libs/state/state';
 import * as fromExchangeExplorerReducers from 'libs/features/peer/exchange-explorer/reducers';
-import * as fromLibsSurveySearchReducers from 'libs/features/survey-search/reducers';
+import * as fromLibsSurveySearchReducers from 'libs/features/surveys/survey-search/reducers';
 import { SettingsService } from 'libs/state/app-context/services';
 
 import { DojGuidelinesService } from './doj-guidelines.service';
 import * as fromDataCutValidationReducer from '../reducers';
-import { UpsertPeerDataCutEntityConfigurationModel } from '../../../upsert-peer-data-cut/models';
-import { UpsertPeerDataCutEntities, UpsertPeerDataCutParentEntities } from '../../../upsert-peer-data-cut/constants';
+import { UpsertPeerDataCutEntityConfigurationModel } from '../../../pricings/upsert-peer-data-cut/models';
+import { UpsertPeerDataCutEntities, UpsertPeerDataCutParentEntities } from '../../../pricings/upsert-peer-data-cut/constants';
 
 jest.mock('mapbox-gl/dist/mapbox-gl', () => ({
   LngLatBounds: () => ({})

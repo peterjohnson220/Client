@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { generateDefaultAsyncStateObj } from 'libs/models/state';
-import { generateMockView, generateMockWorkbook, View } from 'libs/features/reports/models';
+import { generateMockView, generateMockWorkbook, View } from 'libs/features/surveys/reports/models';
 
 import { WorkbookViewsComponent } from './workbook-views.component';
 

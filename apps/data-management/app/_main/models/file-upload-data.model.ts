@@ -1,4 +1,4 @@
-import {FileUploadDataRequestModel} from 'libs/features/org-data-loader/models';
+import {FileUploadDataRequestModel} from 'libs/features/loaders/org-data-loader/models';
 import {UserContext} from 'libs/models/security';
 
 export interface FileUploadDataModel {

@@ -20,6 +20,7 @@ import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/cor
 import * as fromAssociateJobsActions from 'libs/features/peer/job-association-match/actions/associate-jobs.actions';
 import * as fromRootState from 'libs/state/state';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
+import { FileDownloadSecurityWarningModalComponent } from 'libs/ui/common';
 
 import * as fromExchangeJobMappingGridActions from '../../../actions/exchange-job-mapping-grid.actions';
 import * as fromExchangeRequestActions from '../../../../shared/actions/exchange-request.actions';
@@ -35,10 +36,12 @@ import { ExchangeJobMappingGridService } from '../../../services/exchange-job-ma
 })
 export class ExchangeJobMappingPageComponent implements OnInit, OnDestroy {
     @ViewChild('companyJobsSearchComponent', { static: true }) public companyJobsSearchComponent: InputDebounceComponent;
+    @ViewChild('fileDownloadSecurityWarningModal', { static: true }) fileDownloadSecurityWarningModal: FileDownloadSecurityWarningModalComponent;
 
     exchangeId: number;
     showCompanyJobs: boolean;
     companyJobsSearchTerm: string;
+    enableFileDownloadSecurityWarning = false;
 
     collapse = false;
     disableGridScollTo = false;
@@ -50,13 +53,17 @@ export class ExchangeJobMappingPageComponent implements OnInit, OnDestroy {
     selectedExchangeJobMapping$: Observable<ExchangeJobMapping>;
     userContext$: Observable<UserContext>;
     exchangeId$: Observable<number>;
+    queryParams$: Observable<any>;
+    enableFileDownloadSecurityWarning$: Observable<boolean>;
 
     selectedExchangeJobMappingSubscription: Subscription;
     showCompanyJobsSubscription: Subscription;
     companyJobsSearchTermSubscription: Subscription;
     exchangeIdSubscription: Subscription;
+    queryParamSubscription: Subscription;
     selectedCompanyJob$: Observable<CompanyJob>;
     unsubscribe$ = new Subject<void>();
+    enableFileDownloadSecurityWarningSubscription: Subscription;
 
     constructor(
         private store: Store<fromPeerManagementReducer.State>,
@@ -68,10 +75,14 @@ export class ExchangeJobMappingPageComponent implements OnInit, OnDestroy {
     ) {
         this.exchangeId$ = this.route.params.pipe(map(p => p.id));
 
+        this.queryParams$ = this.route.queryParams;
+
+
         this.gridPageRowIndexToScrollTo$ = this.store.select(fromPeerManagementReducer.getExchangeJobMappingPageRowIndexToScrollTo);
         this.selectedExchangeJobMapping$ = this.store.select(fromPeerManagementReducer.getSelectedExchangeJobMapping);
         this.userContext$ = store.select(fromRootState.getUserContext);
         this.selectedCompanyJob$ = this.store.select(fromPeerManagementReducer.getCompanyJobsSelectedCompanyJob);
+        this.enableFileDownloadSecurityWarning$ = this.settingsService.selectCompanySetting<boolean>(CompanySettingsEnum.FileDownloadSecurityWarning);
 
         this._Permissions = Permissions;
         this.featureFlagService.bindEnabled(this.peerManageJobsGridToggleFlag, this.unsubscribe$);
@@ -126,6 +137,27 @@ export class ExchangeJobMappingPageComponent implements OnInit, OnDestroy {
       }
     }
 
+    handleExportButtonClick() {
+      if (this.enableFileDownloadSecurityWarning) {
+        this.fileDownloadSecurityWarningModal.open();
+      } else {
+        this.downloadAssociations();
+      }
+    }
+
+    handleSecurityWarningConfirmed(isConfirmed) {
+      if (isConfirmed) {
+        this.downloadAssociations();
+      }
+    }
+
+    downloadAssociations() {
+      this.store.dispatch(new fromAssociateJobsActions.DownloadAssociations({
+        entityId: this.exchangeId,
+        entityType: ExchangeJobAssociationEntityTypes.EXCHANGE
+      }));
+    }
+
     // Lifecycle
     ngOnInit() {
         this.selectedExchangeJobMappingSubscription = this.selectedExchangeJobMapping$.subscribe(selectedMapping => {
@@ -137,12 +169,26 @@ export class ExchangeJobMappingPageComponent implements OnInit, OnDestroy {
           .selectCompanySetting<string>(CompanySettingsEnum.PeerManageShowCompanyJobs, 'string')
           .subscribe(setting => this.showCompanyJobs = (setting === 'true'));
 
+        this.enableFileDownloadSecurityWarningSubscription = this.enableFileDownloadSecurityWarning$.subscribe(isEnabled => {
+          if (isEnabled) {
+            this.enableFileDownloadSecurityWarning = true;
+          }
+        });
+
         if (this.showCompanyJobs) {
           this.companyJobsSearchTermSubscription = this.store.select(fromPeerManagementReducer.getCompanyJobsSearchTerm).subscribe(term => {
             this.companyJobsSearchComponent.writeValue(term);
             this.companyJobsSearchTerm = term;
           });
         }
+
+      this.queryParamSubscription = this.queryParams$.subscribe(x => {
+        const pageView = x['pageView'];
+
+        if (pageView === 'exchange') {
+          this.showCompanyJobs = false;
+        }
+      });
 
         this.exchangeIdSubscription = this.exchangeId$.subscribe(e => this.exchangeId = e);
 
@@ -153,6 +199,8 @@ export class ExchangeJobMappingPageComponent implements OnInit, OnDestroy {
         this.selectedExchangeJobMappingSubscription.unsubscribe();
         this.showCompanyJobsSubscription.unsubscribe();
         this.exchangeIdSubscription.unsubscribe();
+        this.queryParamSubscription.unsubscribe();
+        this.enableFileDownloadSecurityWarningSubscription.unsubscribe();
         if (this.companyJobsSearchTermSubscription) {
           this.companyJobsSearchTermSubscription.unsubscribe();
         }
@@ -161,8 +209,4 @@ export class ExchangeJobMappingPageComponent implements OnInit, OnDestroy {
         this.store.dispatch(new fromExchangeJobMappingGridActions.SetActiveExchangeJob(null));
         this.store.dispatch(new companyJobsActions.Reset());
     }
-
-  handleExportButtonClick() {
-    this.store.dispatch(new fromAssociateJobsActions.DownloadAssociations({entityId: this.exchangeId, entityType: ExchangeJobAssociationEntityTypes.EXCHANGE}));
-  }
 }

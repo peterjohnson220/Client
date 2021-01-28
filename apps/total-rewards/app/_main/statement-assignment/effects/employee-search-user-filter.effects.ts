@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { mergeMap } from 'rxjs/operators';
 
-import * as fromUserFilterActions from 'libs/features/user-filter/actions/user-filter.actions';
-import * as fromSearchResultsActions from 'libs/features/search/actions/search-results.actions';
+import * as fromUserFilterActions from 'libs/features/users/user-filter/actions/user-filter.actions';
+import * as fromSearchResultsActions from 'libs/features/search/search/actions/search-results.actions';
 
 @Injectable()
 export class EmployeeSearchUserFilterEffects {

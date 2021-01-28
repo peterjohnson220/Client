@@ -2,6 +2,7 @@
 
 exports[`Page With Title Bar should show no back button when no URL is provided 1`] = `
 <pf-page-with-title-bar
+  flexColumnContainerHeightAuto="false"
   isFullHeader={[Function Boolean]}
   location={[Function SpyLocation]}
   route={[Function ActivatedRoute]}
@@ -10,7 +11,7 @@ exports[`Page With Title Bar should show no back button when no URL is provided 
   theme={[Function String]}
 >
   <div
-    class="flex-column-container default"
+    class="default flex-column-container"
   >
     <div
       class="d-flex justify-content-between align-items-center page-header"
@@ -45,6 +46,7 @@ exports[`Page With Title Bar should show no back button when no URL is provided 
 
 exports[`Page With Title Bar should show the back button, when provided a return Url 1`] = `
 <pf-page-with-title-bar
+  flexColumnContainerHeightAuto="false"
   isFullHeader={[Function Boolean]}
   location={[Function SpyLocation]}
   returnUrl={[Function String]}
@@ -54,7 +56,7 @@ exports[`Page With Title Bar should show the back button, when provided a return
   theme={[Function String]}
 >
   <div
-    class="flex-column-container default"
+    class="default flex-column-container"
   >
     <div
       class="d-flex justify-content-between align-items-center page-header"
@@ -98,6 +100,7 @@ exports[`Page With Title Bar should show the back button, when provided a return
 exports[`Page With Title Bar should show the back button, when provided an absolute Url 1`] = `
 <pf-page-with-title-bar
   absoluteUrl={[Function String]}
+  flexColumnContainerHeightAuto="false"
   isFullHeader={[Function Boolean]}
   location={[Function SpyLocation]}
   route={[Function ActivatedRoute]}
@@ -106,7 +109,7 @@ exports[`Page With Title Bar should show the back button, when provided an absol
   theme={[Function String]}
 >
   <div
-    class="flex-column-container default"
+    class="default flex-column-container"
   >
     <div
       class="d-flex justify-content-between align-items-center page-header"
@@ -154,9 +157,7 @@ exports[`Page With Title Bar should show the back button, when provided an absol
 exports[`Page With Title Bar should transclude into slots 1`] = `
 <ng-component>
   <pf-page-with-title-bar>
-    <div
-      class="flex-column-container"
-    >
+    <div>
       <div
         class="d-flex justify-content-between align-items-center"
       >

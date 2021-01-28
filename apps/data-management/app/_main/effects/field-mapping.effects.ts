@@ -14,7 +14,7 @@ import { OrgDataEntityType } from 'libs/constants';
 import {
     ConverterSettingsHrisApiService, LoaderFieldMappingsApiService, LoaderSettingsApiService, MappingsHrisApiService, PayMarketApiService
 } from 'libs/data/payfactors-api';
-import * as fromLoaderSettingsActions from 'libs/features/org-data-loader/state/actions/loader-settings.actions';
+import * as fromLoaderSettingsActions from 'libs/features/loaders/org-data-loader/actions/loader-settings.actions';
 import { ConverterSettings, LoaderSetting, PayMarket } from 'libs/models';
 import * as fromRootState from 'libs/state/state';
 

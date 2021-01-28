@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewCh
 
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { ReportViewTypes, Workbook } from 'libs/features/reports/models';
+import { ReportViewTypes, Workbook } from 'libs/features/surveys/reports/models';
 
 @Component({
   selector: 'pf-peer-trend-report-modal',

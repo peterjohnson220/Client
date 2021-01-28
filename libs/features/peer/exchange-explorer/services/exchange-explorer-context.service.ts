@@ -5,13 +5,13 @@ import { combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs/Observable';
 
-import * as fromSearchReducer from 'libs/features/search/reducers';
+import * as fromSearchReducer from 'libs/features/search/search/reducers';
 
 import * as fromExchangeExplorerReducer from '../reducers';
-import { Filter, MultiSelectFilter } from '../../../search/models';
+import { Filter, MultiSelectFilter } from '../../../search/search/models';
 import { BaseExchangeDataSearchRequest } from '../../../../models/payfactors-api/peer/exchange-data-search/request';
 import { ExchangeDataSearchFilterContext } from '../../../../models/peer';
-import { PayfactorsSearchApiHelper } from '../../../search/helpers';
+import { PayfactorsSearchApiHelper } from '../../../search/search/helpers';
 
 @Injectable()
 export class ExchangeExplorerContextService {

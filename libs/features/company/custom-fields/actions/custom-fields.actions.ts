@@ -9,6 +9,9 @@ export const GET_CUSTOM_EMPLOYEE_FIELDS_SUCCESS = '[Data Management/ Custom Fiel
 export const GET_TAGCATEGORIES = '[Data Management/ Custom Fields] Get Tag Categories';
 export const GET_TAGCATEGORIES_ERROR = '[Data Management/ Custom Fields] Get Tag Categories Error';
 export const GET_TAGCATEGORIES_SUCCESS = '[Data Management/ Custom Fields] Get Tag Categories Success';
+export const GET_BENEFITHEADERS = '[Data Management/ Custom Fields] Get Benefits';
+export const GET_BENEFITS_ERROR = '[Data Management/ Custom Fields] Get Benefits Error';
+export const GET_BENEFITS_SUCCESS = '[Data Management/ Custom Fields] Get Benefits Success';
 
 export class GetCustomJobFields implements Action {
   readonly type = GET_CUSTOM_JOB_FIELDS;
@@ -49,6 +52,19 @@ export class GetTagCategoriesSuccess implements Action {
   constructor(public payload: any) { }
 }
 
+export class GetBenefitHeaders implements Action {
+  readonly type = GET_BENEFITHEADERS;
+}
+
+export class GetBenefitHeadersError implements Action {
+  readonly type = GET_BENEFITS_ERROR;
+}
+
+export class GetBenefitHeadersSuccess implements Action {
+  readonly type = GET_BENEFITS_SUCCESS;
+  constructor(public payload: any) { }
+}
+
 export type Actions
   = GetCustomJobFields
   | GetCustomJobFieldsError
@@ -58,4 +74,7 @@ export type Actions
   | GetCustomEmployeeFieldsSuccess
   | GetTagCategories
   | GetTagCategoriesSuccess
-  | GetTagCategoriesError;
+  | GetTagCategoriesError
+  | GetBenefitHeaders
+  | GetBenefitHeadersSuccess
+  | GetBenefitHeadersError;

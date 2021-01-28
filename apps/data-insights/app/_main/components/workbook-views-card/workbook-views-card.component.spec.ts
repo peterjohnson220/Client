@@ -4,7 +4,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { DragulaModule } from 'ng2-dragula';
 
 import { generateDefaultAsyncStateObj } from 'libs/models';
-import { generateMockView, generateMockWorkbook } from 'libs/features/reports/models';
+import { generateMockView, generateMockWorkbook } from 'libs/features/surveys/reports/models';
 
 import { WorkbookViewsCardComponent } from './workbook-views-card.component';
 

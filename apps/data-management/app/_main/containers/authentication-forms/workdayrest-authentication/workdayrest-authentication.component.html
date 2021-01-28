@@ -47,6 +47,9 @@
         </div>
         <div class="bg-light mt-4 mb-3 p-3" *ngIf="this.enabledControls.length > 0">
           <h6>Report URLs</h6>
+          <div *ngIf="hrisTestDataBypassFeatureFlag.value" class="alert alert-warning">
+            Test Data Bypass is enabled. Enter the name of the test report to use in the URL fields. Test report names are CaSE seNSItivE.
+          </div>
           <ng-container *ngFor="let item of this.enabledControls; let i = index">
             <div class="d-flex flex-row">
               <div class="col-3">

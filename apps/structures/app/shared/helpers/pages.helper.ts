@@ -49,18 +49,35 @@ export class PagesHelper {
     }
   }
 
-  static getEmployeePageViewIdByRangeDistributionType(rangeDistributionType: number): string {
-    switch (rangeDistributionType) {
-      case 1:
-        return JobBasedPageViewIds.EmployeesMinMidMax;
-      case 2:
-        return JobBasedPageViewIds.EmployeesTertile;
-      case 3:
-        return JobBasedPageViewIds.EmployeesQuartile;
-      case 4:
-        return JobBasedPageViewIds.EmployeesQuintile;
-      default:
-        return JobBasedPageViewIds.EmployeesMinMidMax;
+  static getEmployeePageViewIdByRangeTypeAndRangeDistributionType(rangeType: number, rangeDistributionType: number): string {
+    if (rangeType === RangeType.Grade) {
+      switch (rangeDistributionType) {
+        case 1:
+          return GradeBasedPageViewIds.EmployeesMinMidMax;
+        case 2:
+          return GradeBasedPageViewIds.EmployeesTertile;
+        case 3:
+          return GradeBasedPageViewIds.EmployeesQuartile;
+        case 4:
+          return GradeBasedPageViewIds.EmployeesQuintile;
+        default:
+          return GradeBasedPageViewIds.EmployeesMinMidMax;
+      }
+    }
+
+    if (rangeType === RangeType.Job) {
+      switch (rangeDistributionType) {
+        case 1:
+          return JobBasedPageViewIds.EmployeesMinMidMax;
+        case 2:
+          return JobBasedPageViewIds.EmployeesTertile;
+        case 3:
+          return JobBasedPageViewIds.EmployeesQuartile;
+        case 4:
+          return JobBasedPageViewIds.EmployeesQuintile;
+        default:
+          return JobBasedPageViewIds.EmployeesMinMidMax;
+      }
     }
   }
 }

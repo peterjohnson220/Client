@@ -5,7 +5,7 @@ import {ControlType} from 'libs/models/common';
 import { JobDescriptionControl } from 'libs/models/jdm';
 
 import {JobDescriptionVersionCompareService} from '../../services';
-import * as fromJobDescriptionManagementSharedReducer from 'libs/features/job-description-management/reducers';
+import * as fromJobDescriptionManagementSharedReducer from 'libs/features/jobs/job-description-management/reducers';
 
 @Component({
   selector: 'pf-job-description-compare-control-result',

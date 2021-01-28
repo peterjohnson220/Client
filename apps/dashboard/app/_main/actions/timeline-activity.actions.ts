@@ -16,7 +16,7 @@ export class LoadingActivity implements Action {
 
 export class LoadingActivitySuccess implements Action {
   readonly type = LOADING_ACTIVITY_SUCCESS;
-  constructor(public payload: TimelineActivityResponse) {}
+  constructor(public payload: {response: TimelineActivityResponse, baseUrl: string}) {}
 }
 
 export class LoadingActivityError implements Action {

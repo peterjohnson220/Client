@@ -7,16 +7,15 @@ import { getUserLocale } from 'get-user-locale';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 
 import { RangeGroupMetadata } from 'libs/models/structures';
-import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
+import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 
-import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
-import { StructuresPagesService } from '../../../shared/services';
-import { StructuresHighchartsService } from '../../../../shared/services';
+import * as fromSharedStructuresReducer from '../../../../shared/reducers';
+import { StructuresHighchartsService, StructuresPagesService } from '../../../../shared/services';
 import { EmployeeRangeChartService, EmployeeSalaryRangeChartSeries } from '../../data';
 import { GraphHelper } from '../../../shared/helpers/graph.helper';
-import { DataPointSeries } from '../../../shared/models/data-point-series.model';
+import { DataPointSeries } from '../../../../shared/models/data-point-series.model';
 import { RangeDistributionTypeIds } from '../../../../shared/constants/range-distribution-type-ids';
-import { SalaryRangeSeries } from '../../../shared/models/salary-range-series.model';
+import { SalaryRangeSeries } from '../../../../shared/models/salary-range-series.model';
 import { RangeDistributionDataPointTypeIds } from '../../../../shared/constants/range-distribution-data-point-type-ids';
 import { PagesHelper } from '../../../../shared/helpers/pages.helper';
 
@@ -64,10 +63,11 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
     public store: Store<any>,
     private structuresPagesService: StructuresPagesService
   ) {
-    this.metadataSubscription = this.store.select(fromSharedJobBasedRangeReducer.getMetadata).subscribe(md => {
+    this.metadataSubscription = this.store.select(fromSharedStructuresReducer.getMetadata).subscribe(md => {
       if (md) {
         this.metaData = md;
-        this.pageViewId = PagesHelper.getEmployeePageViewIdByRangeDistributionType(this.metaData.RangeDistributionTypeId);
+        this.pageViewId =
+          PagesHelper.getEmployeePageViewIdByRangeTypeAndRangeDistributionType(this.metaData.RangeTypeId, this.metaData.RangeDistributionTypeId);
         this.isCurrent = md.IsCurrent;
         this.rate = md.Rate;
         this.currency = md.Currency;
@@ -296,6 +296,7 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
 
       this.dataPointSeriesDataModel = {
         Mid: [],
+        Job: [],
         TertileFirst: [],
         TertileSecond: [],
         QuartileFirst: [],
@@ -395,11 +396,11 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
 
   private clearData(): void {
     if (this.jobRangeGroupData) {
-      this.jobRangeGroupData = {...this.jobRangeGroupData, data: []};
+      this.jobRangeGroupData = { ...this.jobRangeGroupData, data: [] };
     }
 
     if (this.employeeData) {
-      this.employeeData = {...this.employeeData, data: []};
+      this.employeeData = { ...this.employeeData, data: [] };
     }
   }
 

@@ -1,0 +1,121 @@
+@import '../../../../../../assets/scss/legacy/legacy-variables';
+@import 'assets/scss/_colors';
+@import '../../../../../../assets/scss/common/common';
+
+.job-data-cuts-row{
+  border-bottom: 1px solid #eeeeee;
+}
+
+.link{
+  color: $link-color;
+  cursor: pointer;
+}
+
+.copy-jd{
+  cursor: pointer;
+  display: flex;
+  justify-content: flex-end;
+  font-weight: normal;
+  padding-right: .25rem;
+}
+
+.job-title{
+  color: #006699;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.job-code{
+  color: #848484;
+  padding-left: .5rem;
+}
+
+.job-description{
+  margin: .25rem 0;
+  cursor: auto;
+}
+
+.no-job-description{
+  font-style: italic;
+}
+
+.result{
+  padding: .75rem 1.5rem .75rem .5rem;
+  border-bottom: 1px solid $grey;
+  border-left: 3px solid transparent;
+}
+
+.highlight{
+  background: rgba(255, 250, 203, 0.65);
+}
+
+.result:hover{
+  border-left: 3px solid #b9d3e0;
+}
+
+.paymarket{
+  margin: .25rem 0;
+  color: #848484;
+  font-style: italic;
+}
+
+
+.job-detail{
+  background: #f7f7f7;
+  padding: .5rem;
+  margin: .75rem -.5rem;
+}
+
+.job-detail th,td{
+  padding: .25rem;
+}
+
+.job-detail th{
+  white-space: nowrap;
+  vertical-align: top;
+}
+
+.data-cuts-container{
+  margin: .5rem 0 0 0;
+}
+
+.data-cuts-table{
+  width: 100%;
+  border: 1px solid $grey;
+  font-size: 11px;
+
+  td, th{
+    padding: .35rem;
+  }
+}
+.data-cuts-table thead tr{
+  background: $legacy-dark-header-grey;
+}
+
+.scope-cell{
+  width: 75%;
+}
+
+.fa-times{
+  cursor: pointer;
+}
+
+.dragging{
+  .dropzone{
+    min-height: 40px;
+    border: 2px dashed #b9d3e0;
+  }
+}
+
+.hidden {
+  display: none !important;
+}
+
+.no-cuts-to-show {
+  font-style: italic;
+  color: #848484;
+}
+.loading-datacuts-error{
+  width: 100%;
+  padding: 1rem 0;
+}

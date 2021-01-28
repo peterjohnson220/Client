@@ -1,0 +1,23 @@
+@import '../../../../../../assets/scss/colors';
+
+.child-selected {
+  background: $selected-item-background-color
+}
+
+.filter-icon {
+  color: $left-sidebar-color;
+  margin-left:2px;
+}
+
+.description-body{
+  margin: 5px;
+}
+
+.option-count {
+  color: #9b9b9a
+}
+
+.option-check:hover {
+  cursor: pointer;
+  background-color: #f4f4f4;
+}

@@ -15,7 +15,7 @@ import { TrsConstants } from 'libs/features/total-rewards/total-rewards-statemen
 import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services';
 import { SaveListAreaColumnsRequest } from 'libs/models/payfactors-api/user-profile/request';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
-import * as fromEmployeeManagementActions from 'libs/features/employee-management/actions';
+import * as fromEmployeeManagementActions from 'libs/features/employees/employee-management/actions';
 import { GridTypeEnum } from 'libs/models/common';
 
 import * as fromStatementAssignmentPageActions from '../actions/statement-assignment.page.actions';

@@ -12,11 +12,11 @@ import {
   GridRowActionsConfig,
   getDefaultActionBarConfig,
   getDefaultGridRowActionsConfig
-} from 'libs/features/pf-data-grid/models';
+} from 'libs/features/grids/pf-data-grid/models';
 import { ViewField } from 'libs/models/payfactors-api/reports/request';
 
-import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
-import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
+import * as fromPfDataGridActions from 'libs/features/grids/pf-data-grid/actions';
+import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import {Permissions} from 'libs/constants';
 import {PfSecuredResourceDirective} from 'libs/forms/directives';
 

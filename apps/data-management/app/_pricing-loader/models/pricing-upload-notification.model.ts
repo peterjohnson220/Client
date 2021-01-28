@@ -4,7 +4,7 @@ import {
   NotificationLevel,
   NotificationSource,
   NotificationType
-} from 'libs/features/app-notifications/models';
+} from 'libs/features/infrastructure/app-notifications/models';
 
 export interface PricingUploadNotification {
   Success: AppNotification<NotificationPayload>;

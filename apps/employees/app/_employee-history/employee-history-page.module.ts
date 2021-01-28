@@ -7,7 +7,7 @@ import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
-import { PfDataGridModule } from 'libs/features/pf-data-grid/pf-data-grid.module';
+import { PfDataGridModule } from 'libs/features/grids/pf-data-grid/pf-data-grid.module';
 
 import * as fromFaIcons from './fa-icons';
 import { EmployeeHistoryPageRoutingModule } from './employee-history-page-routing.module';

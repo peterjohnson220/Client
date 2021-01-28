@@ -9,8 +9,8 @@ import {reducers} from './reducers';
 import {GuidelinesBadgeComponent} from './components/guidelines-badge';
 import {DojGuidelinesService} from './services/doj-guidelines.service';
 import {ExchangeExplorerContextService} from '../exchange-explorer/services';
-import {SearchFilterMappingDataObj} from '../../search/models';
-import {PayfactorsSearchApiHelper, PayfactorsSearchApiModelMapper} from '../../search/helpers';
+import {SearchFilterMappingDataObj} from '../../search/search/models';
+import {PayfactorsSearchApiHelper, PayfactorsSearchApiModelMapper} from '../../search/search/helpers';
 import * as fromFaIcons from './fa-icons';
 import {DataCutValidationEffects} from './effects/data-cut-validation.effects';
 
