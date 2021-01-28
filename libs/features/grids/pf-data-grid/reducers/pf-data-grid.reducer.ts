@@ -515,6 +515,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
       updatedField.FilterValues = action.payload.FilterValues;
       updatedField.FilterOperator = action.payload.FilterOperator;
       updatedField.IsFilterable = action.payload.IsFilterable;
+      updatedField.ExcludeFieldInFilterSave = action.payload.ExcludeFieldInFilterSave;
 
       const splitViewFilters = updatedFields.filter(f => isFilter(f))
         .map(f => buildExternalFilter(f.FilterOperator, f.SourceName, f.FilterValues));
@@ -534,11 +535,9 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
       const clearedFilterFields: ViewField[] = cloneDeep(state.grids[action.pageViewId].fields);
       const clearedFilterField = clearedFilterFields.find(f => f.DataElementId === action.field.DataElementId);
 
-      if (clearedFilterField && action.resetOperator) {
-        clearedFilterField.FilterOperator = getDefaultFilterOperator(clearedFilterField);
-      }
-
-      clearedFilterField.FilterOperator = action.field.FilterOperator;
+      clearedFilterField.FilterOperator = clearedFilterField && action.resetOperator
+        ? getDefaultFilterOperator(clearedFilterField)
+        : action.field.FilterOperator;
       clearedFilterField.FilterValues = !!action.filterValue && clearedFilterField?.FilterValues?.length > 1
         ? clearedFilterField.FilterValues.filter(option => option !== action.filterValue)
         : null;

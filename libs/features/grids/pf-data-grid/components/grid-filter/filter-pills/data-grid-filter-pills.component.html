@@ -11,6 +11,12 @@
           [ngTemplateOutletContext]="{field: field, filterValue: filterValue}">
         </ng-container>
       </ng-container>
+      <ng-container *ngIf="valueIsNotRequired(field)">
+        <ng-container
+          [ngTemplateOutlet]="filterPill"
+          [ngTemplateOutletContext]="{field: field, filterValue: null}">
+        </ng-container>
+      </ng-container>
     </ng-container>
     
   </div>

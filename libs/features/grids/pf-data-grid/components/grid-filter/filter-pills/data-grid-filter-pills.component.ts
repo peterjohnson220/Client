@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 import { ViewField } from 'libs/models/payfactors-api';
 
-import { getHumanizedFilter } from '../helpers';
+import { getHumanizedFilter, isValueRequired } from '../helpers';
 
 @Component({
   selector: 'pf-data-grid-filter-pills',
@@ -35,5 +35,9 @@ export class PfDataGridFilterPillsComponent {
 
   getMaxWidthCalc() {
     return `calc(100vw - ${160 + this.widthOffset}px)`;
+  }
+
+  valueIsNotRequired(field: ViewField): boolean {
+    return !isValueRequired(field);
   }
 }

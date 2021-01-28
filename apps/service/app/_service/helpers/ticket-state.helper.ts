@@ -11,6 +11,7 @@ export class TicketStateHelper {
     const updatedField: ViewField = cloneDeep(ticketStateField);
     updatedField.FilterValues = selectedValues;
     updatedField.FilterOperator = 'in';
+    updatedField.ExcludeFieldInFilterSave = true;
     return updatedField;
   }
 
@@ -36,7 +37,8 @@ export class TicketStateHelper {
     return {
       SourceName: 'UserTicket_State',
       Operator: 'in',
-      Values: selectedStates
+      Values: selectedStates,
+      ExcludeFromFilterSave: true
     };
   }
 

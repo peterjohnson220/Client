@@ -27,7 +27,7 @@ export function getOperatorDisplay(operator: string, dataType: DataViewFieldData
 }
 
 export function getValueDisplay(value: string, dataType: DataViewFieldDataType) {
-  let display = value;
+  let display = value ?? '';
 
   switch (dataType) {
     case DataViewFieldDataType.DateTime: {
