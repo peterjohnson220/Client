@@ -6,3 +6,4 @@ export * from './grid-row-actions-config.model';
 export * from './column-reorder.model';
 export * from './grid-config.model';
 export * from './column-resize.model';
+export * from './pf-data-grid-custom-filter-options';
