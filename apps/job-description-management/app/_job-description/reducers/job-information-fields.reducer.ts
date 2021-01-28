@@ -1,7 +1,7 @@
 import cloneDeep from 'lodash/cloneDeep';
 
 import * as fromJobInformationFieldsActions from '../actions/job-information-fields.actions';
-import { AvailableJobInformationField } from 'libs/features/job-description-management/models';
+import { AvailableJobInformationField } from 'libs/features/jobs/job-description-management/models';
 
 export interface State {
   jobInformationFieldsForBulkExport: AvailableJobInformationField[];

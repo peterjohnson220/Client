@@ -3,9 +3,9 @@ import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
 import {SortDescriptor} from '@progress/kendo-data-query';
 
-import { ActionBarConfig, getDefaultActionBarConfig, GridConfig} from 'libs/features/pf-data-grid/models';
-import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
-import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
+import { ActionBarConfig, getDefaultActionBarConfig, GridConfig} from 'libs/features/grids/pf-data-grid/models';
+import * as fromPfDataGridActions from 'libs/features/grids/pf-data-grid/actions';
+import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 
 import {PageViewIds} from '../constants';
 

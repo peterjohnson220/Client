@@ -34,7 +34,7 @@ import { reducers } from './reducers';
 import { UtilitiesRoutingModule } from './utilities-routing.module';
 import { JobDescriptionLoaderValidationErrorsPipe } from './pipes';
 import { LoadJobDescriptionLoaderGuard } from './guards';
-import { PfJobDescriptionManagementModule } from 'libs/features/job-description-management/job-description-management.module';
+import { PfJobDescriptionManagementModule } from 'libs/features/jobs/job-description-management/job-description-management.module';
 
 @NgModule({
   imports: [

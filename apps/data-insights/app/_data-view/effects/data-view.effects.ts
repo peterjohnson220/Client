@@ -10,8 +10,8 @@ import { SortDescriptor } from '@progress/kendo-data-query';
 import { DataViewApiService, UserApiService } from 'libs/data/payfactors-api';
 import { UserContext } from 'libs/models/security';
 import * as fromRootState from 'libs/state/state';
-import { PayfactorsApiModelMapper } from 'libs/features/formula-editor';
-import * as fromFieldsActions from 'libs/features/formula-editor/actions/fields.actions';
+import { PayfactorsApiModelMapper } from 'libs/ui/formula-editor';
+import * as fromFieldsActions from 'libs/ui/formula-editor/actions/fields.actions';
 import { DataViewType, ExportDataViewRequest } from 'libs/models/payfactors-api';
 
 import * as fromDataViewActions from '../actions/data-view.actions';

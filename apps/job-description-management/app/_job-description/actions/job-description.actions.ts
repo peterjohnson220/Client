@@ -8,7 +8,7 @@ import {
   ReorderControlDataDto,
   JobDescriptionLibraryDropModel
 } from '../models';
-import { JobDescriptionAppliesTo, JobDescriptionExtendedInfo } from 'libs/features/job-description-management/models';
+import { JobDescriptionAppliesTo, JobDescriptionExtendedInfo } from 'libs/features/jobs/job-description-management/models';
 
 export const GET_JOB_DESCRIPTION = '[job-description-management / Job Description] Get Job Description';
 export const GET_JOB_DESCRIPTION_SUCCESS = '[job-description-management / Job Description] Get Job Description Success';

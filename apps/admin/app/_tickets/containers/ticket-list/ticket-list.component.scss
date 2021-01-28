@@ -38,3 +38,18 @@
     padding-left: 5px;
   }
 }
+
+.dropdown-content {
+  padding: 1rem;
+  max-height: 200px;
+  width: 300px;
+  overflow-y: auto;
+
+  p {
+    font-size: 13px;
+  }
+}
+
+.dropdown-toggle::after, .dropdown-toggle::after {
+  display: none !important;
+}

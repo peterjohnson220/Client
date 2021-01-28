@@ -11,13 +11,13 @@ import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontaweso
 
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
-import { PfSearchModule } from 'libs/features/search';
+import { PfSearchModule } from 'libs/features/search/search';
 
-import { SearchFilterMappingDataObj } from 'libs/features/search/models';
-import { UserFilterPopoverConfig, UserFilterTypeData } from 'libs/features/user-filter/models';
-import { SavedFiltersHelper } from 'libs/features/add-jobs/helpers';
-import { JobSearchUserFilterType, SearchFilterMappingData } from 'libs/features/add-jobs/data';
-import { PfAddJobsModule } from 'libs/features/add-jobs';
+import { SearchFilterMappingDataObj } from 'libs/features/search/search/models';
+import { UserFilterPopoverConfig, UserFilterTypeData } from 'libs/features/users/user-filter/models';
+import { SavedFiltersHelper } from 'libs/features/jobs/add-jobs/helpers';
+import { JobSearchUserFilterType, SearchFilterMappingData } from 'libs/features/jobs/add-jobs/data';
+import { PfAddJobsModule } from 'libs/features/jobs/add-jobs';
 
 import * as fromFaIcons from './fa-icons';
 import { AddJobsRoutingModule } from './add-jobs-routing.module';

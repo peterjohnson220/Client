@@ -1,3 +1,4 @@
+import { KendoUploadStatus } from '../common';
 import { CommunityAttachmentUploadStatus } from './community-attachment-upload-status';
 
 export interface CommunityAttachment {
@@ -6,7 +7,7 @@ export interface CommunityAttachment {
   FileType: string;
   Size: number;
   CloudFileName: string;
-  Status: CommunityAttachmentUploadStatus;
+  Status: KendoUploadStatus;
 }
 
 export function generateMockCommunityAttachment(): CommunityAttachment {
@@ -16,7 +17,7 @@ export function generateMockCommunityAttachment(): CommunityAttachment {
     FileType: 'Pdf',
     Size: 123456,
     CloudFileName: 'MockName.pdf',
-    Status: CommunityAttachmentUploadStatus.NotStarted
+    Status: KendoUploadStatus.NotStarted
   };
 }
 

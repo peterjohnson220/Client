@@ -8,6 +8,7 @@ import * as fromDataViewGridReducer from './data-view-grid.reducer';
 import * as fromFiltersReducer from './filters.reducer';
 import * as fromFieldsReducer from './fields.reducer';
 import * as fromFormulaFieldReducer from './formula-field.reducer';
+import * as fromScheduleExportModalReducer from './schedule-export-modal.reducer';
 
 // Feature area state
 export interface DataViewMainState {
@@ -16,6 +17,7 @@ export interface DataViewMainState {
   dataViewGrid: fromDataViewGridReducer.State;
   filters: fromFiltersReducer.State;
   fields: fromFieldsReducer.State;
+  exportModal: fromScheduleExportModalReducer.State;
 }
 
 // Extend root state with feature area state
@@ -29,7 +31,8 @@ export const reducers = {
   dataView: fromDataViewReducer.reducer,
   dataViewGrid: fromDataViewGridReducer.reducer,
   filters: fromFiltersReducer.reducer,
-  fields: fromFieldsReducer.reducer
+  fields: fromFieldsReducer.reducer,
+  exportModal: fromScheduleExportModalReducer.reducer
 };
 
 // Select Feature Area
@@ -39,6 +42,11 @@ export const selectFeatureAreaState = createFeatureSelector<DataViewMainState>('
 export const selectFormulaFieldState = createSelector(
   selectFeatureAreaState,
   (state: DataViewMainState) => state.formulaField
+);
+
+export const selectScheduleExportModalState = createSelector(
+  selectFeatureAreaState,
+  (state: DataViewMainState) => state.exportModal
 );
 
 export const selectDataViewState = createSelector(
@@ -254,4 +262,24 @@ export const getFormulaDataType = createSelector(
 export const getFormulaViewCount = createSelector(
   selectFormulaFieldState,
   fromFormulaFieldReducer.getFormulaViewCount
+);
+
+export const getSavedSchedulesAsync = createSelector(
+  selectScheduleExportModalState,
+  fromScheduleExportModalReducer.getSavedSchedulesAsync
+);
+
+export const getSavingSchedule = createSelector(
+  selectScheduleExportModalState,
+  fromScheduleExportModalReducer.getSavingSchedule
+);
+
+export const getSavingScheduleSuccess = createSelector(
+  selectScheduleExportModalState,
+  fromScheduleExportModalReducer.getSavingScheduleSuccess
+);
+
+export const getSavingScheduleError = createSelector(
+  selectScheduleExportModalState,
+  fromScheduleExportModalReducer.getSavingScheduleError
 );

@@ -4,9 +4,7 @@ exports[`TrsChartControlComponent should add a \`mt-3\` class when \`showTitle\`
 <pf-trs-chart-control
   chartRender={[Function EventEmitter]}
   controlData={[Function Object]}
-  defaultLegendLabels={[Function Object]}
   onTitleChange={[Function EventEmitter]}
-  printModeLegendLabels={[Function Object]}
   settingsClick={[Function EventEmitter]}
   showTitle={[Function Boolean]}
 >
@@ -54,9 +52,7 @@ exports[`TrsChartControlComponent should add a negative margin/\`mt-n3\` class w
 <pf-trs-chart-control
   chartRender={[Function EventEmitter]}
   controlData={[Function Object]}
-  defaultLegendLabels={[Function Object]}
   onTitleChange={[Function EventEmitter]}
-  printModeLegendLabels={[Function Object]}
   settingsClick={[Function EventEmitter]}
   showTitle="false"
 >
@@ -104,9 +100,7 @@ exports[`TrsChartControlComponent should omit the chart series labels from the d
   calculationControls={[Function Array]}
   chartRender={[Function EventEmitter]}
   controlData={[Function Object]}
-  defaultLegendLabels={[Function Object]}
   onTitleChange={[Function EventEmitter]}
-  printModeLegendLabels={[Function Object]}
   settingsClick={[Function EventEmitter]}
   showChartSeriesLabels="false"
 >
@@ -153,10 +147,8 @@ exports[`TrsChartControlComponent should set the \`height\` input on the kendo-c
 <pf-trs-chart-control
   chartRender={[Function EventEmitter]}
   controlData={[Function Object]}
-  defaultLegendLabels={[Function Object]}
   height={[Function String]}
   onTitleChange={[Function EventEmitter]}
-  printModeLegendLabels={[Function Object]}
   settingsClick={[Function EventEmitter]}
 >
   <div
@@ -205,9 +197,7 @@ exports[`TrsChartControlComponent should show chart series labels when \`showCha
   calculationControls={[Function Array]}
   chartRender={[Function EventEmitter]}
   controlData={[Function Object]}
-  defaultLegendLabels={[Function Object]}
   onTitleChange={[Function EventEmitter]}
-  printModeLegendLabels={[Function Object]}
   settingsClick={[Function EventEmitter]}
   showChartSeriesLabels={[Function Boolean]}
 >
@@ -259,9 +249,7 @@ exports[`TrsChartControlComponent should show the title component and a settings
   calculationControls={[Function Array]}
   chartRender={[Function EventEmitter]}
   controlData={[Function Object]}
-  defaultLegendLabels={[Function Object]}
   onTitleChange={[Function EventEmitter]}
-  printModeLegendLabels={[Function Object]}
   settingsClick={[Function EventEmitter]}
 >
   <div

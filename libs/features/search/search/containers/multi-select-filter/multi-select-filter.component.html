@@ -1,0 +1,46 @@
+<ng-container *ngIf="filter.Options.length;else noOptions">
+
+  <ng-container *ngFor="let option of filter.Options; trackBy: trackByOptionValue">
+    <div *ngIf="!fieldHasDescription()" class="option alt-color"
+         [title]="option.Name"
+         [class.selected]="option.Selected"
+         [class.disabled]="optionDisabled(option)"
+         [class.locked]="filter.Locked"
+         (click)="handleOptionSelected(filter.Id, option)"
+         [ngClass]="'au-chk-'+filter.CssClassName">
+      <div class="d-flex justify-content-between option-check p-2">
+        <div class="text-truncate mr-2">
+          <input type="checkbox" [disabled]="optionDisabled(option)" [ngModel]="option.Selected"/> {{option.Name}}
+        </div>
+        <div *ngIf="!filter.OptionCountDisabled" class="option-count">
+          {{option.Count}}
+        </div>
+      </div>
+    </div>
+    <pf-entity-description-popover *ngIf="fieldHasDescription()"
+                                   [entityType]="getEntityType()"
+                                   [entityId]="getEntityId(option)"
+                                   [entityName]="option.Name"
+                                   [placement]="'right right-top right-bottom auto'">
+      <div  class="option alt-color"
+           [class.selected]="option.Selected"
+           [class.disabled]="optionDisabled(option)"
+           [class.locked]="filter.Locked"
+           (click)="handleOptionSelected(filter.Id, option)"
+           [ngClass]="'au-chk-'+filter.CssClassName">
+        <div class="d-flex justify-content-between option-check p-2">
+          <div class="text-truncate mr-2">
+            <input type="checkbox" [disabled]="optionDisabled(option)" [ngModel]="option.Selected"/> {{option.Name}}
+          </div>
+          <div *ngIf="!filter.OptionCountDisabled" class="option-count">
+            {{option.Count}}
+          </div>
+        </div>
+      </div>
+    </pf-entity-description-popover>
+  </ng-container>
+</ng-container>
+
+<ng-template #noOptions>
+  <div class="no-data">No Data</div>
+</ng-template>

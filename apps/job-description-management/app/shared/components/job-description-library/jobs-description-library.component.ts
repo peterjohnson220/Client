@@ -5,7 +5,7 @@ import cloneDeep from 'lodash/cloneDeep';
 
 import { StripHtmlPipe } from 'libs/core/pipes';
 
-import { LibrarySearchRequest, JobDescriptionLibraryResult, JobDescriptionLibraryBucket, SortDirection } from 'libs/features/job-description-management/models';
+import { LibrarySearchRequest, JobDescriptionLibraryResult, JobDescriptionLibraryBucket, SortDirection } from 'libs/features/jobs/job-description-management/models';
 
 @Component({
   selector: 'pf-job-description-library',

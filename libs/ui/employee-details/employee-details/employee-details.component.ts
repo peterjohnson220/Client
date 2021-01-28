@@ -2,7 +2,7 @@ import { Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, Templat
 
 import * as moment from 'moment';
 
-import { PfThemeType } from '../../../features/pf-data-grid/enums/pf-theme-type.enum';
+import { PfThemeType } from '../../../features/grids/pf-data-grid/enums/pf-theme-type.enum';
 import { EmployeeDetails } from '../models/employee-details.model';
 import { rateEnum } from '../models/rate.enum';
 

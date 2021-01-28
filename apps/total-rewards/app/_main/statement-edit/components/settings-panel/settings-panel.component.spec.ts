@@ -3,6 +3,9 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SettingsPanelComponent } from './settings-panel.component';
 
+import { AbstractFeatureFlagService } from 'libs/core/services/feature-flags';
+import { BrowserDetectionService } from 'libs/core';
+
 describe('SettingsPanelComponent', () => {
   let component: SettingsPanelComponent;
   let fixture: ComponentFixture<SettingsPanelComponent>;
@@ -10,6 +13,10 @@ describe('SettingsPanelComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [SettingsPanelComponent],
+      providers: [BrowserDetectionService, {
+        provide: AbstractFeatureFlagService,
+        useValue: { enabled: jest.fn(), bindEnabled: jest.fn() }
+      }],
       schemas: [NO_ERRORS_SCHEMA]
     });
   }));

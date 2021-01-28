@@ -1,10 +1,12 @@
 import { Store } from '@ngrx/store';
 import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 
-import { TabularReportExportSchedule } from 'libs/features/reports/models';
-import { ExportScheduleHelper } from 'libs/features/export-scheduler/models';
-import { CronExpressionHelper } from 'libs/features/export-scheduler/helpers';
-import { ExportFormatComponent, ExportFrequencyComponent } from 'libs/features/export-scheduler/components';
+import cloneDeep from 'lodash/cloneDeep';
+
+import { ExportScheduleHelper } from 'libs/features/export-scheduler/export-scheduler/models';
+import { CronExpressionHelper } from 'libs/features/export-scheduler/export-scheduler/helpers';
+import { ExportFormatComponent, ExportFrequencyComponent } from 'libs/features/export-scheduler/export-scheduler/components';
+import { TabularReportExportSchedule } from 'libs/features/reports/models/tabular-report-export-schedule.model';
 
 import * as fromTabularReportExportSchedulerPageActions from '../../actions/tabular-report-export-scheduler-page.actions';
 import * as fromTabularReportExportSchedulerPageReducer from '../../reducers';
@@ -44,12 +46,16 @@ export class ExportScheduleDetailsComponent {
   }
 
   handleSaveClicked() {
+    const updatedSchedule = cloneDeep(this.schedule);
     this.dataViewIdClicked = null;
-    this.schedule.CronExpression = CronExpressionHelper.generateCronExpression(
+    updatedSchedule.Format = this.exportFormat.selectedFormat;
+    updatedSchedule.FormatSeparatorType = this.exportFormat?.selectedSeparatorType;
+    updatedSchedule.Frequency = this.exportFrequency.selectedFrequency;
+    updatedSchedule.CronExpression = CronExpressionHelper.generateCronExpression(
       this.exportFrequency.selectedFrequency,
       this.exportFrequency.selectedDaysOfWeek,
       this.exportFrequency.selectedMonthlyOccurrence);
-    this.schedule.FrequencyTextFormat = ExportScheduleHelper.getFrequencyTextFormat(this.exportFrequency.selectedFrequency, this.schedule.CronExpression);
-    this.store.dispatch(new fromTabularReportExportSchedulerPageActions.UpdateExportSchedule(this.schedule));
+    updatedSchedule.FrequencyTextFormat = ExportScheduleHelper.getFrequencyTextFormat(this.exportFrequency.selectedFrequency, updatedSchedule.CronExpression);
+    this.store.dispatch(new fromTabularReportExportSchedulerPageActions.UpdateExportSchedule(updatedSchedule));
   }
 }

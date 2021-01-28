@@ -2,8 +2,8 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import {combineReducers, Store, StoreModule} from '@ngrx/store';
-import { MomentModule } from 'ngx-moment';
+import { combineReducers, Store, StoreModule } from '@ngrx/store';
+import { FormatPurePipeModule } from 'ngx-date-fns';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 
 import * as fromRootState from 'libs/state/state';
@@ -27,7 +27,7 @@ describe('Admin - Tickets - Company Detail Card', () => {
           ...fromRootState.reducers,
           ticketsAdminMain: combineReducers(fromTicketReducer.reducers),
         }),
-        MomentModule,
+        FormatPurePipeModule,
         FormsModule,
         ReactiveFormsModule,
         NgbModalModule,

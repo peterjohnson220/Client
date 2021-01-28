@@ -18,16 +18,16 @@ import { JobDescriptionApiService } from 'libs/data/payfactors-api/jdm';
 import { arrayMoveMutate } from 'libs/core/functions';
 
 import * as fromJobDescriptionJobCompareActions from '../../../actions/job-description-job-compare.actions';
-import * as fromCompanyLogoActions from 'libs/features/job-description-management/actions';
+import * as fromCompanyLogoActions from 'libs/features/jobs/job-description-management/actions';
 import * as fromJobDescriptionJobCompareReducers from '../../../reducers/index';
 import * as fromJobDescriptionReducers from '../../../reducers';
-import * as fromJobDescriptionManagementSharedReducer from 'libs/features/job-description-management/reducers';
+import * as fromJobDescriptionManagementSharedReducer from 'libs/features/jobs/job-description-management/reducers';
 import { JobCompareFullscreenSender } from '../../../constants/job-compare.constants';
 import { ConflictErrorModalComponent, SaveErrorModalComponent } from '../../../../shared/components';
-import { JobDescriptionManagementDnDService, JobDescriptionManagementService } from 'libs/features/job-description-management/services';
-import { ControlDataHelper } from 'libs/features/job-description-management/helpers';
+import { JobDescriptionManagementDnDService, JobDescriptionManagementService } from 'libs/features/jobs/job-description-management/services';
+import { ControlDataHelper } from 'libs/features/jobs/job-description-management/helpers';
 import { AddSourceControlDataRowDto, AppendToControlDataAttributeValueDto, ReorderControlDataDto } from '../../../models';
-import { JobDescriptionManagementDndSource } from 'libs/features/job-description-management/constants/job-description-dnd-source';
+import { JobDescriptionManagementDndSource } from 'libs/features/jobs/job-description-management/constants/job-description-dnd-source';
 import { JobDescriptionDnDService } from '../../../services';
 
 @Component({

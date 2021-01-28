@@ -5,9 +5,9 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
-import * as fromRootState from 'libs/state/state';
-import { CompanySettingsEnum } from 'libs/models';
 import { CompanySettingsApiService } from 'libs/data/payfactors-api';
+import { CompanySettingsEnum } from 'libs/models';
+import * as fromRootState from 'libs/state/state';
 
 import * as fromOrgDataAutoloaderReducer from '../../reducers';
 import { FileMappingComponent } from '../../components';
@@ -19,8 +19,10 @@ describe('FileMappingComponent', () => {
   let store: Store<fromRootState.State>;
   const customFields = [{ Key: '1', Value: 'Test' }, { Key: '2', Value: 'Test' }];
   const companySetting_EnableJobRangeStructureRangeTypes_False = [
-    { Key: CompanySettingsEnum.EnableJobRangeStructureRangeTypes,
-      DisplayName: 'Enable JobRange Structure RangeTypes', Value: 'false', Visible: true, DataType: 'string'}];
+    {
+      Key: CompanySettingsEnum.EnableJobRangeStructureRangeTypes,
+      DisplayName: 'Enable JobRange Structure RangeTypes', Value: 'false', Visible: true, DataType: 'string'
+    }];
 
   class MockCompanySettingsApiService {
     constructor() {
@@ -42,14 +44,14 @@ describe('FileMappingComponent', () => {
           useClass: MockCompanySettingsApiService,
         }
       ],
-      declarations: [ FileMappingComponent ],
-      schemas: [ NO_ERRORS_SCHEMA ]
+      declarations: [FileMappingComponent],
+      schemas: [NO_ERRORS_SCHEMA]
     });
     fixture = TestBed.createComponent(FileMappingComponent);
     component = fixture.componentInstance;
     component.entities = getEntityChoicesForOrgLoader();
-    component.entities.forEach(e => { e.customFields.Jobs = customFields, e.customFields.Employees = customFields; });
-    component.selectedCompany = {CompanyId: 1, CompanyName: 'test', CombinedDetail: 'test (1)'};
+    component.customFields = { Jobs: customFields, EmployeeKeyFields: [], EmployeeTags: [], Employees: customFields, Benefits: [] }
+    component.selectedCompany = { CompanyId: 1, CompanyName: 'test', CombinedDetail: 'test (1)' };
     fixture.detectChanges();
     store = TestBed.inject(Store);
     spyOn(store, 'dispatch');

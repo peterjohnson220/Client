@@ -1,0 +1,17 @@
+<ng-template #fileDownloadSecurityWarningModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">File Download - Security Warning</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body text-align-center">
+    <div>Attention! This file may originate outside of your organization and contain sensitive information.</div><br>
+    <div>If this is a public computer or not a managed device, you should clear cache and delete any files downloaded.</div><br>
+    <div>Please click Accept to save the file to disk.</div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="c('Close click')">Cancel</button>
+    <button type="button" class="btn btn-primary"  (click)="handleSecurityWarningConfirmed()">Accept</button>
+  </div>
+</ng-template>

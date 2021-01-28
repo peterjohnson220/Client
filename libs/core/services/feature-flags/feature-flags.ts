@@ -7,6 +7,7 @@ export class FeatureFlags {
   static readonly JobsHierarchyPage = 'jobs-hierarchy-page';
   static readonly TotalRewardsElectronicDelivery = 'total-rewards-electronic-delivery';
   static readonly TotalRewardsStyledTemplate = 'total-rewards-styled-template';
+  static readonly TotalRewardsEmployeeContribution = 'total-rewards-employee-contribution';
   static readonly PeerManageJobsGridToggle = 'peer-manage-jobs-grid-toggle';
   static readonly PeerDashboard_PeerTrendsReport = 'peer-dashboard_peer-trends-report';
   static readonly BenefitsLoaderConfiguration = 'benefits-loader-configuration';
@@ -23,4 +24,6 @@ export class FeatureFlags {
   static readonly StructuresAdvancedModelingRegressionCalculation = 'structures-advanced-modeling-regression-calculation';
   static readonly StructuresGradeBasedRangeLandingPage = 'structures-client-grade-based-range-group';
   static readonly ExportsSecurity = 'exports-security';
+  static readonly ScheduleTabularReportingExport = 'schedule-tabular-reporting-export';
+  static readonly HrisTestDataBypass = 'hris-test-data-bypass';
 }

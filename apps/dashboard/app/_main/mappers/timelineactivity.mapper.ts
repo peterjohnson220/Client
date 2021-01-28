@@ -1,21 +1,20 @@
 import { TimelineActivityDto, TimelineActivityResponse } from 'libs/models/dashboard';
 import { Feature, FeatureTypes, TimelineActivity } from '../models';
-import { environment } from 'environments/environment';
+
 
 export class TimelineActivityMapper {
   public static get BASE_URL(): string { return  location.protocol + '//' + document.location.hostname; }
-  public static get AVATAR_BASE_URL(): string { return environment.avatarSource; }
   public static get ACTIVITY_TYPE(): string { return 'ProjectActivity'; }
   public static get COMMUNITY_TYPE(): string { return 'Community'; }
   public static get NEW_COMMUNITY_TYPE(): string { return 'NewCommunity'; }
   public static get RESOURCES_TYPE(): string { return 'Resources'; }
   public static get JOB_DESCRIPTIONS_TYPE(): string { return 'JobDescriptions'; }
 
-  static mapFromResponse(response: TimelineActivityResponse): TimelineActivity[] {
-    return this.mapFromDto(response.ViewModels);
+  static mapFromResponse(response: TimelineActivityResponse, baseAvatarUrl: string): TimelineActivity[] {
+    return this.mapFromDto(response.ViewModels, baseAvatarUrl);
   }
 
-  static mapFromDto(dtos: TimelineActivityDto[]): TimelineActivity[] {
+  static mapFromDto(dtos: TimelineActivityDto[], baseAvatarUrl: string): TimelineActivity[] {
     const timelineActivities = [];
     for (const dto of dtos) {
       timelineActivities.push({
@@ -29,7 +28,7 @@ export class TimelineActivityMapper {
         ElapsedTime: dto.ElapsedTime,
         Body: this.generateBody(dto),
         Subject: this.generateSubject(dto),
-        AvatarUrl: this.generateAvatarUrl(dto.PostedBy.AvatarUrl, dto.PostedBy.PayfactorsEmployee),
+        AvatarUrl: this.generateAvatarUrl(dto.PostedBy.AvatarUrl, dto.PostedBy.PayfactorsEmployee, baseAvatarUrl),
         IsVisible: true
       });
     }
@@ -260,14 +259,14 @@ export class TimelineActivityMapper {
     return  postedByProfileUrl;
   }
 
-  static generateAvatarUrl(url: string, isPayfactorsEmployee: boolean) {
+  static generateAvatarUrl(url: string, isPayfactorsEmployee: boolean, baseAvatarUrl: string) {
     if ((url == null || url === '') && !isPayfactorsEmployee) {
       return null;
     }
     if ((url == null || url === '' || url === 'default_user.png') && isPayfactorsEmployee) {
       return 'favicon.ico';
     }
-    return this.AVATAR_BASE_URL + url;
+    return baseAvatarUrl + url;
   }
 
   static generateInitials(name: string): string {

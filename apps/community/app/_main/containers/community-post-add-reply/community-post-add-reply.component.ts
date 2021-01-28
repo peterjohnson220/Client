@@ -7,16 +7,17 @@ import { Observable, Subscription } from 'rxjs';
 import { PfLinkifyService } from '../../services/pf-linkify-service';
 
 import * as fromCommunityPostReducer from '../../reducers';
-import * as fromAppNotificationsMainReducer from 'libs/features/app-notifications/reducers';
+import * as fromAppNotificationsMainReducer from 'libs/features/infrastructure/app-notifications/reducers';
 
 import * as fromCommunityPostReplyActions from '../../actions/community-post-reply.actions';
 import * as fromCommunityAttachmentActions from '../../actions/community-attachment.actions';
-import * as fromAppNotificationsActions from 'libs/features/app-notifications/actions/app-notifications.actions';
+import * as fromAppNotificationsActions from 'libs/features/infrastructure/app-notifications/actions/app-notifications.actions';
 
-import { CommunityAddReply, CommunityAttachment, CommunityReply, CommunityAttachmentModalState, CommunityAttachmentUploadStatus } from 'libs/models/community';
+import { CommunityAddReply, CommunityAttachment, CommunityReply, CommunityAttachmentModalState } from 'libs/models/community';
+import { KendoUploadStatus } from 'libs/models/common';
 import { CommunitySearchResultTypeEnum } from 'libs/models/community/community-constants.model';
 import { CommunityConstants } from '../../models';
-import { AppNotification } from 'libs/features/app-notifications/models';
+import { AppNotification } from 'libs/features/infrastructure/app-notifications/models';
 import { attachmentsReadyForUpload } from '../../helpers/model-mapping.helper';
 
 @Component({
@@ -117,10 +118,10 @@ export class CommunityPostAddReplyComponent implements OnInit, OnDestroy {
         if (!attachment) {
           return;
         }
-        if (notification.Level === 'Success' && attachment.Status !== CommunityAttachmentUploadStatus.ScanSucceeded) {
+        if (notification.Level === 'Success' && attachment.Status !== KendoUploadStatus.ScanSucceeded) {
           this.store.dispatch(new fromCommunityAttachmentActions.AttachmentScanSuccess(this.attachmentModalId, attachment.Id));
           this.appNotificationStore.dispatch(new fromAppNotificationsActions.DeleteNotification({notificationId: notification.NotificationId}));
-        } else if (notification.Level === 'Error' && attachment.Status !== CommunityAttachmentUploadStatus.ScanFailed) {
+        } else if (notification.Level === 'Error' && attachment.Status !== KendoUploadStatus.ScanFailed) {
           this.store.dispatch(new fromCommunityAttachmentActions.AttachmentScanFailure(this.attachmentModalId, attachment.Id));
           this.appNotificationStore.dispatch(new fromAppNotificationsActions.DeleteNotification({notificationId: notification.NotificationId}));
         }
@@ -150,7 +151,7 @@ export class CommunityPostAddReplyComponent implements OnInit, OnDestroy {
         PostId: this.postId,
         ReplyText: this.content.value,
         Links: this.pfLinkifyService.getLinks(this.content.value),
-        Attachments:  this.communityAttachments.filter((x) => x.Status === CommunityAttachmentUploadStatus.ScanSucceeded)
+        Attachments:  this.communityAttachments.filter((x) => x.Status === KendoUploadStatus.ScanSucceeded)
       };
       this.store.dispatch(new fromCommunityPostReplyActions.AddingCommunityPostReply(newReply));
       this.replySubmitted.emit();
@@ -187,10 +188,10 @@ export class CommunityPostAddReplyComponent implements OnInit, OnDestroy {
   }
 
   get scanningAttachments() {
-    return this.communityAttachments.find((x) => x.Status === CommunityAttachmentUploadStatus.ScanInProgress);
+    return this.communityAttachments.find((x) => x.Status === KendoUploadStatus.ScanInProgress);
   }
 
   get scannedAttachmentsCount() {
-    return this.communityAttachments.filter((x) => x.Status === CommunityAttachmentUploadStatus.ScanSucceeded).length;
+    return this.communityAttachments.filter((x) => x.Status === KendoUploadStatus.ScanSucceeded).length;
   }
 }

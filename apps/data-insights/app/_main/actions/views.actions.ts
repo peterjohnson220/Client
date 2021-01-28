@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { Workbook } from 'libs/features/reports/models';
+import { Workbook } from 'libs/features/surveys/reports/models';
 
 import { SaveReportOrderData, DashboardView } from '../models';
 

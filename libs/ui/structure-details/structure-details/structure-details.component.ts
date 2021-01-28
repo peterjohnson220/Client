@@ -3,7 +3,7 @@ import { Component, Input, OnChanges, SimpleChanges, TemplateRef } from '@angula
 import * as moment from 'moment';
 
 import { StructureDetails } from '../models/structure-details.model';
-import { PfThemeType } from '../../../features/pf-data-grid/enums/pf-theme-type.enum';
+import { PfThemeType } from '../../../features/grids/pf-data-grid/enums/pf-theme-type.enum';
 
 @Component({
   selector: 'pf-structure-details',
