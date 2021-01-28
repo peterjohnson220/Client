@@ -217,7 +217,6 @@ exports[`TotalRewardsStatementComponent should render a mock statement derived f
           </div>
         </div>
       </section>
-      
     </div>
   </div>
 </pf-total-rewards-statement>

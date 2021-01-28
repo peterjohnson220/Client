@@ -1,7 +1,7 @@
 import {
   SupportTeamResponse, UserTicketTypeResponse, UserTicketStateResponse, UserTicketResponse,
 } from 'libs/models/payfactors-api/service/response';
-import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
+import { PfDataGridFilter } from 'libs/features/grids/pf-data-grid/models';
 import { GroupedListItem } from 'libs/models/list';
 import { TicketCommentHelper } from 'libs/models/payfactors-api/service/helpers';
 

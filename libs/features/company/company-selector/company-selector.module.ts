@@ -10,7 +10,7 @@ import { ComboBoxModule } from '@progress/kendo-angular-dropdowns';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 
-import { CompanySelectorComponent } from './components';
+import { CompanySelectorComponent } from './containers';
 import { reducers } from './reducers';
 import { CompanySelectorEffects } from './effects';
 

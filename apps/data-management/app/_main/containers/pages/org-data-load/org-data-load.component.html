@@ -84,7 +84,8 @@
 
               <div *ngSwitchCase="stepEnum.FieldMapping"
                    class="px-5">
-                <pf-file-mapping [entities]="loadOptions"
+                <pf-file-mapping [customFields]="customFields"
+                                 [entities]="loadOptions"
                                  [selectedCompany]="selectedCompany"
                                  [existingCompanyLoaderSettings]="companySettings"
                                  [loaderConfigurationGroupId]="selectedMapping?.LoaderConfigurationGroupId"

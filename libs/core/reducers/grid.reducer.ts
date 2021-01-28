@@ -128,7 +128,7 @@ const getGridReducer = (gridType: GridTypeEnum, initialState: IGridState = initi
       case `${gridType}_${fromGridActions.UPDATE_FILTER}`: {
         const newGridState = cloneDeep(state.grid);
         const payload = action.payload;
-        KendoGridFilterHelper.updateFilter(payload.columnName, payload.value, newGridState);
+        KendoGridFilterHelper.updateFilter(payload.columnName, payload.value, payload.operator ?? 'contains', newGridState);
         newGridState.skip = 0;
         return {
           ...state,

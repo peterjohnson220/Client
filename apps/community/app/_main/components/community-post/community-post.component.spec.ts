@@ -3,17 +3,17 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import 'rxjs/add/observable/of';
+import { of } from 'rxjs';
 
-import { combineReducers, Store, StoreModule } from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
 
+import { generateMockUserContext, generateMockCommunityPost } from 'libs/models';
 import * as fromRootState from 'libs/state/state';
-import * as fromCommunityPostReducer from '../../reducers';
+
 import * as fromCommunityPostReplyActions from '../../actions/community-post-reply.actions';
 import * as fromCommunityPostAddReplyViewActions from '../../actions/community-post-add-reply-view.actions';
 
 import { CommunityPostComponent } from './community-post.component';
-import { generateMockCommunityPost } from 'libs/models/community/community-post.model';
-import { of } from 'rxjs';
 
 describe('CommunityPostComponent', () => {
   let fixture: ComponentFixture<CommunityPostComponent>;
@@ -40,6 +40,7 @@ describe('CommunityPostComponent', () => {
     fixture = TestBed.createComponent(CommunityPostComponent);
     instance = fixture.componentInstance;
     instance.post = generateMockCommunityPost();
+    instance.userContext$ = of(generateMockUserContext());
 
     instance.discardingPostId$ = of('test');
     instance.discardingPostReplyProceed$ = of(false);

@@ -13,7 +13,7 @@ import { catchError, map, mergeMap, switchMap, tap, withLatestFrom } from 'rxjs/
 
 import { CompositeDataLoadTypes, LoadTypes } from 'libs/constants';
 import { ConfigurationGroupApiService, ConnectionsHrisApiService, LoaderSettingsApiService } from 'libs/data/payfactors-api';
-import * as fromLoadersSettingsActions from 'libs/features/org-data-loader/state/actions/loader-settings.actions';
+import * as fromLoadersSettingsActions from 'libs/features/loaders/org-data-loader/actions/loader-settings.actions';
 import { ConnectionSummaryResponse, CredentialsPackage, PatchProperty, ValidateCredentialsResponse } from 'libs/models';
 import * as fromRootState from 'libs/state/state';
 

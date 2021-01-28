@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { MarketingSettingsEffects } from 'libs/features/marketing-settings/marketing-settings.effects';
+import { MarketingSettingsEffects } from 'libs/features/infrastructure/marketing-settings/marketing-settings/effects/marketing-settings.effects';
 
 // Reducers
 import { reducers } from './reducers';

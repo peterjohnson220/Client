@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { TabularReportExportSchedule } from 'libs/features/reports/models';
+import { TabularReportExportSchedule } from '../../../features/surveys/reports/models';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 

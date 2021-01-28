@@ -1,8 +1,12 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { CompanyResourceListComponent } from './company-resource-list.component';
-import { Store, StoreModule } from '@ngrx/store';
+
+import { StoreModule } from '@ngrx/store';
+
+import { SettingsService } from 'libs/state/app-context/services';
 import * as fromRootState from 'libs/state/state';
+
+import { CompanyResourceListComponent } from './company-resource-list.component';
 
 
 describe('CompanyResourceListComponent', () => {
@@ -15,6 +19,9 @@ describe('CompanyResourceListComponent', () => {
       ],
       declarations: [
         CompanyResourceListComponent
+      ],
+      providers: [
+        SettingsService
       ],
       schemas: [ NO_ERRORS_SCHEMA ]
     }).compileComponents();

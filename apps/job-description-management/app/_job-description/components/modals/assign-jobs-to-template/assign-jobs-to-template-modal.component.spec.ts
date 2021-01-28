@@ -9,7 +9,7 @@ import * as fromRootState from 'libs/state/state';
 
 import * as fromJobDescriptionReducers from '../../../reducers';
 import { AssignJobsToTemplateModalComponent } from '../../index';
-import * as fromTemplateListActions from 'libs/features/job-description-management/actions/template-list.actions';
+import * as fromTemplateListActions from 'libs/features/jobs/job-description-management/actions/template-list.actions';
 import { generateMockCompanyJobViewListItem } from '../../../models';
 
 describe('Job Description Management - Job Description - Assign Jobs To Template Modal', () => {

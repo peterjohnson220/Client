@@ -6,8 +6,8 @@ import { Store, StoreModule, combineReducers } from '@ngrx/store';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import * as fromRootState from 'libs/state/state';
-import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
-import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
+import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
+import * as fromPfGridActions from 'libs/features/grids/pf-data-grid/actions';
 import { AbstractFeatureFlagService, PfCommonModule } from 'libs/core';
 import { JobBasedPageViewIds } from 'libs/models/structures';
 
@@ -15,8 +15,8 @@ import * as fromJobBasedRangeReducer from '../../shared/reducers';
 import * as fromModelSettingsModalActions from '../../shared/actions/model-settings-modal.actions';
 import { EmployeesPageComponent } from './employees.page';
 import { RangeValuePipe } from '../../shared/pipes';
-import { StructuresPagesService } from '../../shared/services';
 import { BehaviorSubject } from 'rxjs';
+import { StructuresPagesService } from '../../../shared/services';
 
 class MockStructuresPagesService {
   modelPageViewId: BehaviorSubject<string>;

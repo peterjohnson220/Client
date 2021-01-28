@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-import { JobDescriptionAppliesToItem } from 'libs/features/job-description-management/models';
+import { JobDescriptionAppliesToItem } from 'libs/features/jobs/job-description-management/models';
 
 @Pipe({ name: 'jobDescriptionAppliesToDisplayName', pure: true })
 export class JobDescriptionAppliesToDisplayNamePipe implements PipeTransform {

@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import {PfCommonUIModule} from 'libs/ui/common/index';
-import { PfBulkExportSchedulerModule } from 'libs/features/bulk-job-description-export-scheduler';
+import { PfBulkExportSchedulerModule } from 'libs/features/jobs/bulk-job-description-export-scheduler';
 
 import {BulkExportSchedulerPageComponent} from './containers/pages';
 import { JdmBulkExportSchedulerRoutingModule } from './bulk-export-scheduler-routing.module';

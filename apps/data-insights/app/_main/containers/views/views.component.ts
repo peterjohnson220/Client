@@ -6,7 +6,7 @@ import { Observable, Subscription } from 'rxjs';
 import { AsyncStateObj } from 'libs/models/state';
 import { SettingsService } from 'libs/state/app-context/services';
 import { FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models/common';
-import { View, Workbook } from 'libs/features/reports/models';
+import { View, Workbook } from 'libs/features/surveys/reports/models';
 
 import * as fromViewsActions from '../../actions/views.actions';
 import * as fromDataInsightsMainReducer from '../../reducers';

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { ReportViewTypes } from 'libs/features/reports/models';
+import { ReportViewTypes } from 'libs/features/surveys/reports/models';
 
 @Component({
   selector: 'pf-report-view-page',

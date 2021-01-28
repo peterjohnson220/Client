@@ -1,0 +1,83 @@
+@import '../../../../../styles/perfect-scrollbar-overrides';
+@import '../../../../../../assets/scss/search/filters-variables';
+@import '../../../../../../assets/scss/legacy/legacy-variables';
+
+:host {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.pills-container{
+  position: relative;
+  align-items: center;
+  display: flex;
+  height: 100%;
+}
+
+.pill{
+  font-size: 11px;
+  height: 24px;
+  background: $selected-option-color;
+  margin: 0 .35rem;
+  border: 1px solid darken($selected-option-color, 30%);
+  padding: .25rem;
+  white-space: nowrap;
+
+  &:not(.locked):hover{
+    background: $hover-option-color;
+    cursor: pointer;
+  }
+}
+
+.pill-value{
+  display: inline-block;
+}
+
+.icon{
+  display: inline-block;
+  width: 1.5rem;
+  padding-left: .15rem;
+  text-align: center;
+}
+
+.icon.locked{
+  color: #8c8c8c;
+}
+
+.pill-detail{
+  padding: .25rem;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.pill-detail:hover{
+  background: $hover-action-color;
+}
+
+.text-filter-action{
+  @extend %text-filter-action
+}
+
+.clear-filter-link{
+  display: flex;
+  justify-content: flex-end;
+  visibility: hidden;
+  flex-grow: 1;
+}
+
+.pill-detail:hover .clear-filter-link{
+  visibility: visible;
+}
+
+.clear-all-filter-link{
+  display: flex;
+  border-bottom: 1px solid #efefef;
+  justify-content: center;
+  align-items: center;
+  height: 27px;
+  margin-bottom: .5rem;
+  cursor: pointer;
+}

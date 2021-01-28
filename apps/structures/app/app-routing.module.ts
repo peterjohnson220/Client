@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { AppWrapperComponent } from 'libs/features/app-root';
+import { AppWrapperComponent } from 'libs/features/infrastructure/app-root';
 import { UserContextGuard } from 'libs/security';
 import { AccessDeniedPageComponent, NotFoundErrorPageComponent, ServerErrorPageComponent, ForbiddenPageComponent } from 'libs/ui/common/error/pages';
 

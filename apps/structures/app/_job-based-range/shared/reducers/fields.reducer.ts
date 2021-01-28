@@ -1,8 +1,8 @@
 import cloneDeep from 'lodash/cloneDeep';
 
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
-import * as fromDataViewFieldsActions from 'libs/features/formula-editor/actions/fields.actions';
-import { Field, FieldType, Suggestion } from 'libs/features/formula-editor';
+import * as fromDataViewFieldsActions from 'libs/ui/formula-editor/actions/fields.actions';
+import { Field, FieldType, Suggestion } from 'libs/ui/formula-editor';
 
 export interface FieldState {
   reportFieldsAsync: AsyncStateObj<Field[]>;

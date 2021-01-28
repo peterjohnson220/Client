@@ -1,19 +1,19 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { MomentModule } from 'ngx-moment';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { NgbModalModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { FormatPurePipeModule } from 'ngx-date-fns';
 
 import { CompanyNote, getDefaultCompanyNote } from 'libs/models/payfactors-api';
+import { PfCommonModule } from 'libs/core';
 
 import * as fromCompanyNotesModalReducer from '../../reducers';
 import * as fromCompanyNotesModalActions from '../../actions';
 
-import { CompanyNotesListComponent } from '../../components';
+import { CompanyNotesListComponent } from '../../containers';
 import { CompanyNotesModalComponent } from './company-notes-modal.component';
-
 
 describe('CompanyNotesModalComponent', () => {
 
@@ -28,10 +28,11 @@ describe('CompanyNotesModalComponent', () => {
     beforeEach(() => {
     TestBed.configureTestingModule({
         imports: [
-            MomentModule,
+            FormatPurePipeModule,
             FormsModule,
             ReactiveFormsModule,
             NgbModalModule,
+            PfCommonModule
         ],
         declarations: [
             CompanyNotesModalComponent,

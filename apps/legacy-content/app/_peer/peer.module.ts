@@ -17,7 +17,7 @@ import { PfCommonModule } from 'libs/core';
 import { GuidelinesBadgeModule } from 'libs/features/peer/guidelines-badge/guidelines-badge.module';
 import { DojGuidelinesService } from 'libs/features/peer/guidelines-badge/services/doj-guidelines.service';
 import { DataCutValidationEffects } from 'libs/features/peer/guidelines-badge/effects';
-import { UpsertPeerDataCutModule } from 'libs/features/upsert-peer-data-cut/upsert-peer-data-cut.module';
+import { UpsertPeerDataCutModule } from 'libs/features/pricings/upsert-peer-data-cut/upsert-peer-data-cut.module';
 
 import * as fromFaIcons from './fa-icons';
 import {

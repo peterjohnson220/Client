@@ -1,4 +1,4 @@
-import { FormulaType } from 'libs/features/formula-editor/models';
+import { FormulaType } from 'libs/ui/formula-editor/models';
 
 export interface UpsertFormulaFieldRequest {
   Name: string;

@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleCha
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
-import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
+import { PfDataGridFilter } from 'libs/features/grids/pf-data-grid/models';
 import { AsyncStateObj } from 'libs/models/state';
 
 import * as fromServicePageReducer from '../../reducers';

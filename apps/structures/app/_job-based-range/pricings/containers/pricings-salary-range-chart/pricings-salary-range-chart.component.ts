@@ -7,19 +7,19 @@ import { Subscription } from 'rxjs';
 import { getUserLocale } from 'get-user-locale';
 
 import { JobBasedPageViewIds, RangeGroupMetadata } from 'libs/models/structures';
-import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
+import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import { appendOrdinalSuffix } from 'libs/core/functions';
 
-import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
-import { StructuresPagesService } from '../../../shared/services';
+import * as fromSharedStructuresReducer from '../../../../shared/reducers';
 import { StructuresHighchartsService } from '../../../../shared/services/structures-highcharts-service';
 import { PricingsSalaryRangeChartSeries, PricingsSalaryRangeChartService } from '../../data';
 import { PricingMatchHelper } from '../../helpers';
 import { GraphHelper } from '../../../shared/helpers/graph.helper';
-import { SalaryRangeSeries } from '../../../shared/models/salary-range-series.model';
-import { DataPointSeries } from '../../../shared/models/data-point-series.model';
+import { SalaryRangeSeries } from '../../../../shared/models/salary-range-series.model';
+import { DataPointSeries } from '../../../../shared/models/data-point-series.model';
 import { RangeDistributionTypeIds } from '../../../../shared/constants/range-distribution-type-ids';
 import { RangeDistributionDataPointTypeIds } from '../../../../shared/constants/range-distribution-data-point-type-ids';
+import { StructuresPagesService } from '../../../../shared/services';
 
 @Component({
   selector: 'pf-pricings-salary-range-chart',
@@ -60,7 +60,7 @@ export class PricingsSalaryRangeChartComponent implements OnInit, OnDestroy {
     public store: Store<any>,
     private structuresPagesService: StructuresPagesService
   ) {
-    this.metadataSubscription = this.store.select(fromSharedJobBasedRangeReducer.getMetadata).subscribe(md => {
+    this.metadataSubscription = this.store.select(fromSharedStructuresReducer.getMetadata).subscribe(md => {
       if (md) {
         this.metaData = md;
         this.currency = md.Currency;
@@ -264,6 +264,7 @@ export class PricingsSalaryRangeChartComponent implements OnInit, OnDestroy {
 
       this.dataPointSeriesDataModel = {
         Mid: [],
+        Job: [],
         TertileFirst: [],
         TertileSecond: [],
         QuartileFirst: [],

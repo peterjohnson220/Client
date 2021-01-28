@@ -1,9 +1,13 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
-import { MomentModule } from 'ngx-moment';
+import {
+  FormatPurePipeModule,
+  GetUnixTimePipeModule,
+  FormatDistanceToNowPurePipeModule
+} from 'ngx-date-fns';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ColumnResizingService, FilterMenuModule, GridModule } from '@progress/kendo-angular-grid';
 import { StoreModule } from '@ngrx/store';
@@ -15,8 +19,11 @@ import { DragulaModule } from 'ng2-dragula';
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
-import { PfJobDescriptionManagementModule } from 'libs/features/job-description-management/job-description-management.module';
-import { PfListAreaModule } from 'libs/features/list-area/list-area.module';
+import { PfJobDescriptionManagementModule } from 'libs/features/jobs/job-description-management/job-description-management.module';
+import { ListAreaService } from 'libs/core/services/list-area.service';
+import { PfListAreaFilterSidebarModule } from 'libs/ui/list-area/list-area-filter-sidebar/list-area-filter-sidebar.module';
+import { PfListAreaColumnChooserModule } from 'libs/ui/list-area/list-area-column-chooser/list-area-column-chooser.module';
+import { PfListAreaFilterPillsModule } from 'libs/ui/list-area/list-area-filter-pills/list-area-filter-pills.module';
 
 import * as fromFaIcons from './fa-icons';
 import { JobDescriptionRoutingModule } from './job-description-routing.module';
@@ -85,7 +92,6 @@ import { ListAreaColumnSearchPipe, UserFilterSearchPipe } from './pipes';
 import { JobDescriptionDnDService, JobDescriptionJobCompareService, JobDescriptionVersionCompareService } from './services';
 import { ResolveHistoryListGuard, JobDescriptionJobCompareListResolver } from './guards';
 import { SharedModule } from '../shared/shared.module';
-import { ListAreaService } from 'libs/core/services/list-area.service';
 
 @NgModule({
   imports: [
@@ -126,7 +132,9 @@ import { ListAreaService } from 'libs/core/services/list-area.service';
     PfCommonUIModule,
     PfFormsModule,
     PfJobDescriptionManagementModule,
-    PfListAreaModule,
+    PfListAreaFilterSidebarModule,
+    PfListAreaColumnChooserModule,
+    PfListAreaFilterPillsModule,
 
     // 3rd Party
     ReactiveFormsModule,
@@ -137,7 +145,9 @@ import { ListAreaService } from 'libs/core/services/list-area.service';
     FilterMenuModule,
     SharedModule,
     FontAwesomeModule,
-    MomentModule,
+    FormatPurePipeModule,
+    GetUnixTimePipeModule,
+    FormatDistanceToNowPurePipeModule
   ],
   declarations: [
     // Components

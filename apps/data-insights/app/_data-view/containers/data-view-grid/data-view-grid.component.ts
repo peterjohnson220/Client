@@ -7,8 +7,8 @@ import cloneDeep from 'lodash/cloneDeep';
 
 import { AsyncStateObj } from 'libs/models/state';
 import { FieldFormatType } from 'libs/models/payfactors-api/reports';
-import * as fromFieldsActions from 'libs/features/formula-editor/actions/fields.actions';
-import { Field, UserDataView, DataViewAccessLevel, Suggestion } from 'libs/features/formula-editor';
+import * as fromFieldsActions from 'libs/ui/formula-editor/actions/fields.actions';
+import { Field, UserDataView, DataViewAccessLevel, Suggestion } from 'libs/ui/formula-editor';
 import { FormulaFieldModalObj } from 'libs/models/formula-editor';
 
 import * as fromDataViewGridActions from '../../actions/data-view-grid.actions';

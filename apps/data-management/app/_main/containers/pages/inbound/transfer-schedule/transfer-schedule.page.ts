@@ -8,8 +8,8 @@ import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { filter, skip } from 'rxjs/operators';
 
-import * as fromEmailRecipientsActions from 'libs/features/loader-email-reipients/state/actions/email-recipients.actions';
-import * as fromLoadersSettingsActions from 'libs/features/org-data-loader/state/actions/loader-settings.actions';
+import * as fromEmailRecipientsActions from 'libs/features/loaders/loader-email-recipients/actions/email-recipients.actions';
+import * as fromLoadersSettingsActions from 'libs/features/loaders/org-data-loader/actions/loader-settings.actions';
 import * as fromRootState from 'libs/state/state';
 import { CompositeDataLoadTypes, LoadTypes } from 'libs/constants';
 import { EmailRecipientModel, SyncScheduleDtoModel, TransferScheduleSummary, UserContext } from 'libs/models';

@@ -88,6 +88,7 @@ pf-trs-effective-date-control {
         text-align: center;
         padding: .25rem 0 .35rem 0;
         transition: transform .3s ease-in-out;
+        text-transform: uppercase;
       }
     }
 
@@ -126,10 +127,6 @@ pf-trs-effective-date-control {
         font-size: .9rem;
       }
 
-      .static-date {
-        padding: 0.3rem;
-      }
-
       // Kendo
       .k-picker-wrap {
         .k-input {
@@ -157,13 +154,15 @@ pf-trs-effective-date-control {
 .pf-styled-template {
   pf-trs-effective-date-control {
     .effective-date {
-      padding: 1rem 0 0 1rem;
+      margin-top: 1rem;
+      padding-left: 1rem;
       font-family: 'Barlow Condensed', sans-serif;
       letter-spacing: 1px;
 
       label, .static-date, .k-picker-wrap .k-input {
         font-weight: 300;
         font-size: 1.5rem;
+        line-height: .9rem;
         font-style: italic;
         text-transform: uppercase;
       }

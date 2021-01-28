@@ -1,0 +1,71 @@
+@import 'assets/scss/_colors';
+
+.actions {
+  .action-button {
+    color: grey;
+    cursor: pointer;
+  }
+}
+
+.btn-secondary:disabled {
+  border: solid 1px #ccc;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.reply-icon {
+  color: #2f4f4f;
+  margin-right: 0.3rem;
+  font-weight: 300;
+  font-size: 11px;
+  margin-top: 0.25rem;
+}
+
+$radial-counter-width: 25px;
+$scrollbar-width: 8px;
+$link-color: rgb(64, 171, 221);
+
+.reply-box-container {
+  position: relative;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+}
+
+.textarea-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0.5rem 2.5rem 0.5rem 0.5rem;
+}
+
+.radial-counter {
+  position: absolute;
+  float: right;
+  top: 27px;
+  right: 11px;
+}
+
+.reply-box-container:focus-within {
+  outline: none !important;
+}
+
+::-webkit-scrollbar {
+  width: $scrollbar-width;
+}
+
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 5px;
+  width: $scrollbar-width;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #09c;
+  border-radius: 5px;
+  width: $scrollbar-width;
+  cursor: pointer;
+}

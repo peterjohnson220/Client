@@ -8,7 +8,7 @@ import { DragulaModule } from 'ng2-dragula';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
-import {MultiMatchModule} from 'libs/features/multi-match/multi-match.module';
+import {MultiMatchModule} from 'libs/features/pricings/multi-match/multi-match.module';
 
 import * as fromFaIcons from './fa-icons';
 import { MultiMatchRoutingModule } from './multi-match-routing.module';
