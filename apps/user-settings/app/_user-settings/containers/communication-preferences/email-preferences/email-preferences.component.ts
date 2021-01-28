@@ -31,6 +31,7 @@ export class EmailPreferencesComponent implements OnInit, OnDestroy {
     this.UserSubscriptionsSubscription = this.UserSubscriptions$.subscribe(x => {
       this.UserSubscriptions = x.obj;
     });
+    this.store.dispatch(new fromEmailPreferenceActions.GetUserSubscriptions());
   }
 
   ngOnDestroy(): void {

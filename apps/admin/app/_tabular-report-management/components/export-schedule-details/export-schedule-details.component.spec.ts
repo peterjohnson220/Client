@@ -4,9 +4,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
-import { generateMockTabularReportExportSchedule } from 'libs/features/reports/models';
+import { generateMockTabularReportExportSchedule } from 'libs/features/reports/models/tabular-report-export-schedule.model';
 
-import * as fromTabularReportExportSchedulerPageActions from '../../actions/tabular-report-export-scheduler-page.actions';
 import * as fromTabularReportExportSchedulerPageReducer from '../../reducers';
 import { ExportScheduleDetailsComponent } from './export-schedule-details.component';
 

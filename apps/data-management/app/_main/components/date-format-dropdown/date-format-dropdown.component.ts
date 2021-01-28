@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
-import { DATE_FORMATS } from 'libs/features/org-data-loader/constants';
+import { DATE_FORMATS } from 'libs/features/loaders/org-data-loader/constants';
 
 @Component({
   selector: 'pf-date-format-dropdown',

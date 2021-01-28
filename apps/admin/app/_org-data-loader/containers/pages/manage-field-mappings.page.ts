@@ -18,21 +18,19 @@ import { EntityKeyValidationService } from 'libs/core/services';
 import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
 import { CompanySettingsApiService } from 'libs/data/payfactors-api';
 import * as fromCompanySelectorActions from 'libs/features/company/company-selector/actions';
-import { CompanySelectorComponent } from 'libs/features/company/company-selector/components';
+import { CompanySelectorComponent } from 'libs/features/company/company-selector/containers';
 import { CompanySelectorItem } from 'libs/features/company/company-selector/models';
 import * as fromCompanyReducer from 'libs/features/company/company-selector/reducers';
 import * as fromCustomFieldsActions from 'libs/features/company/custom-fields/actions/custom-fields.actions';
 import * as fromEntityIdentifierActions from 'libs/features/company/entity-identifier/actions/entity-identifier.actions';
-import { EntityIdentifierViewModel } from 'libs/features/company/entity-identifier/models';
-import * as fromEmailRecipientsActions from 'libs/features/loader-email-reipients/state/actions/email-recipients.actions';
-import {
-    DATE_FORMATS, DEFAULT_DATE_FORMAT, LoaderFileFormat, ORG_DATA_PF_EMPLOYEE_TAG_FIELDS
-} from 'libs/features/org-data-loader/constants';
-import { LoaderSettings, OrgDataLoadHelper } from 'libs/features/org-data-loader/helpers';
+import { EntityIdentifierViewModel, FieldNames } from 'libs/features/company/entity-identifier/models';
+import * as fromEmailRecipientsActions from 'libs/features/loaders/loader-email-recipients/actions/email-recipients.actions';
+import * as fromLoaderSettingsActions from 'libs/features/loaders/org-data-loader/actions/loader-settings.actions';
+import { DATE_FORMATS, DEFAULT_DATE_FORMAT, LoaderFileFormat } from 'libs/features/loaders/org-data-loader/constants';
+import { LoaderSettings, OrgDataLoadHelper } from 'libs/features/loaders/org-data-loader/helpers';
 import {
     DateFormatItem, FieldMapping, InternalField, LoaderEntityStatus, VisibleLoaderOptionModel
-} from 'libs/features/org-data-loader/models';
-import * as fromLoaderSettingsActions from 'libs/features/org-data-loader/state/actions/loader-settings.actions';
+} from 'libs/features/loaders/org-data-loader/models';
 import { CompanySetting, CompanySettingsEnum } from 'libs/models';
 import { ConfigurationGroup, EmailRecipientModel, LoaderFieldSet, LoaderSetting, MappingModel } from 'libs/models/data-loads';
 import { OrgDataLoaderConfigurationSaveRequest } from 'libs/models/data-loads/request';
@@ -112,6 +110,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
   employeeIdentifiers$: Observable<any>;
   customEmployeeFields$: Observable<any>;
   customJobsfields$: Observable<any>;
+  benefitHeaders$: Observable<any>;
   tagCategories$: Observable<string[]>;
   existingCompanyLoaderSettings: LoaderSetting[];
   orgDataFilenamePatternSet$: Observable<OrgDataFilenamePatternSet>;
@@ -236,6 +235,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
     this.customJobsfields$ = this.store.select(fromOrgDataAutoloaderReducer.getCustomJobFields);
     this.customEmployeeFields$ = this.store.select(fromOrgDataAutoloaderReducer.getCustomEmployeeFields);
     this.tagCategories$ = this.store.select(fromOrgDataAutoloaderReducer.getTagCategories);
+    this.benefitHeaders$ = this.store.select(fromOrgDataAutoloaderReducer.getBenefitHeaders);
     this.emailRecipients$ = this.store.select(fromOrgDataAutoloaderReducer.getEmailRecipients);
     this.emailRecipientsSavingError$ = this.store.select(fromOrgDataAutoloaderReducer.getSavingRecipientError);
     this.emailRecipientsRemovingError$ = this.store.select(fromOrgDataAutoloaderReducer.getRemovingRecipientError);
@@ -317,6 +317,10 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
       takeUntil(this.unsubscribe$)
     ).subscribe(f => {
       this.hasBenefitsAccess = f;
+
+      if (f) {
+        this.store.dispatch(new fromCustomFieldsActions.GetBenefitHeaders());
+      }
     });
 
     this.companies$.pipe(
@@ -429,8 +433,15 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
       this.sftpUserNameIsValid = isValid;
     });
 
+    this.benefitHeaders$.pipe(
+      filter(r => !!r),
+      takeUntil(this.unsubscribe$)
+    ).subscribe(r => {
+      this.payfactorsBenefitsDataFields.push.apply(this.payfactorsBenefitsDataFields, this.buildInternalFields(r, true));
+    });
+
     const employeeIdentifiersSubscription = this.employeeIdentifiers$.pipe(
-      filter(x => !!x),
+      filter(r => !!r),
       take(1),
       takeUntil(this.unsubscribe$)
     );
@@ -441,7 +452,6 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
     ).subscribe(res => {
       const customEmployeeDisplayNames = res.map(udf => udf.Value);
       this.payfactorsEmployeeDataFields.push.apply(this.payfactorsEmployeeDataFields, this.buildInternalFields(customEmployeeDisplayNames, false));
-
       this.store.dispatch(new fromEntityIdentifierActions.GetEmployeeIdentifiers(this.selectedCompany.CompanyId, res));
     });
 
@@ -465,15 +475,14 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
       .subscribe(result => {
         const selected = result.employeeIdentifiers.filter(a => a.isChecked);
         this.employeeEntityKeys = selected;
-        const selectedWithoutEmployeeId = selected.filter(a => a.Field !== 'Employee_ID');
 
-        if (selectedWithoutEmployeeId?.length >= 0) {
-          this.payfactorsEmployeeTagsDataFields = this.payfactorsEmployeeTagsDataFields.concat(selectedWithoutEmployeeId.map(a => {
+        if (selected?.length > 0) {
+          this.payfactorsEmployeeTagsDataFields = selected.map(a => {
             return {
               FieldName: a.Field,
               IsDataElementName: false
             };
-          }));
+          });
         }
 
         this.payfactorsEmployeeTagsDataFields = this.payfactorsEmployeeTagsDataFields.concat(result.tagCategories.map(tagName => {
@@ -596,8 +605,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
 
   CompanySelected() {
 
-    this.payfactorsEmployeeTagsDataFields = this.buildInternalFields(ORG_DATA_PF_EMPLOYEE_TAG_FIELDS, false);
-
+    this.payfactorsEmployeeTagsDataFields = [{ FieldName: FieldNames.EMPLOYEE_ID, IsDataElementName: false }];
     this.store.dispatch(new fromCustomFieldsActions.GetCustomEmployeeFields(this.selectedCompany.CompanyId));
     this.store.dispatch(new fromCustomFieldsActions.GetCustomJobFields(this.selectedCompany.CompanyId));
     this.store.dispatch(new fromCustomFieldsActions.GetTagCategories(this.selectedCompany.CompanyId));

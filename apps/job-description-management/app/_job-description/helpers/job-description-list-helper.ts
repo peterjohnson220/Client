@@ -3,7 +3,7 @@ import { CreateJobDescriptionResponse } from 'libs/models/payfactors-api/job-des
 import { SaveCompanyJobsJobDescriptionTemplateIdRequest } from 'libs/models/payfactors-api/job-description-template/request';
 
 import { CompanyJobViewListItem, JobDescriptionDraftDetails } from '../models';
-import { JobDescriptionAppliesTo } from 'libs/features/job-description-management/models';
+import { JobDescriptionAppliesTo } from 'libs/features/jobs/job-description-management/models';
 
 export class JobDescriptionListHelper {
 

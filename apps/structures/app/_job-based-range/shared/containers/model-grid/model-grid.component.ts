@@ -15,27 +15,29 @@ import {
   GridRowActionsConfig,
   PfDataGridFilter,
   GridConfig
-} from 'libs/features/pf-data-grid/models';
+} from 'libs/features/grids/pf-data-grid/models';
 import { PagingOptions } from 'libs/models/payfactors-api/search/request';
 import { CompanyStructureRangeOverride, RoundingSettingsDataObj, RangeGroupMetadata, JobBasedPageViewIds } from 'libs/models/structures';
 import { DataViewFilter, ViewField } from 'libs/models/payfactors-api/reports/request';
-import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
+import * as fromPfDataGridActions from 'libs/features/grids/pf-data-grid/actions';
 import { RangeGroupType } from 'libs/constants/structures/range-group-type';
 import { PermissionCheckEnum, Permissions } from 'libs/constants';
 import { AsyncStateObj } from 'libs/models/state';
-import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
-import * as fromReducer from 'libs/features/pf-data-grid/reducers';
+import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
+import * as fromReducer from 'libs/features/grids/pf-data-grid/reducers';
 import { PermissionService } from 'libs/core/services';
-import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
-import { PfThemeType } from 'libs/features/pf-data-grid/enums/pf-theme-type.enum';
+import { PfDataGridColType } from 'libs/features/grids/pf-data-grid/enums';
+import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums/pf-theme-type.enum';
 
 import * as fromPublishModelModalActions from '../../actions/publish-model-modal.actions';
 import * as fromDuplicateModelModalActions from '../../actions/duplicate-model-modal.actions';
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
 import * as fromSharedJobBasedRangeActions from '../../../shared/actions/shared.actions';
+import * as fromSharedStructuresReducer from '../../../../shared/reducers';
+import * as fromSharedStructuresActions from '../../../../shared/actions/shared.actions';
 import * as fromModelSettingsModalActions from '../../../shared/actions/model-settings-modal.actions';
 import * as fromJobBasedRangeReducer from '../../reducers';
-import { StructuresPagesService } from '../../services';
+import { StructuresPagesService } from '../../../../shared/services';
 
 
 @Component({
@@ -128,10 +130,10 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     private permissionService: PermissionService,
     private structuresPagesService: StructuresPagesService
   ) {
-    this.metaData$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getMetadata));
-    this.roundingSettings$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getRoundingSettings));
-    this.rangeOverrides$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getRangeOverrides));
-    this.distinctOverrideMessages$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getDistinctOverrideMessages));
+    this.metaData$ = this.store.pipe(select(fromSharedStructuresReducer.getMetadata));
+    this.roundingSettings$ = this.store.pipe(select(fromSharedStructuresReducer.getRoundingSettings));
+    this.rangeOverrides$ = this.store.pipe(select(fromSharedStructuresReducer.getRangeOverrides));
+    this.distinctOverrideMessages$ = this.store.pipe(select(fromSharedStructuresReducer.getDistinctOverrideMessages));
     this.singleRecordActionBarConfig = {
       ...getDefaultActionBarConfig(),
       ShowActionBar: false
@@ -224,7 +226,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   revertChanges(dataRow: any, rowIndex: number) {
-    this.store.dispatch(new fromSharedJobBasedRangeActions.RevertingRangeChanges({
+    this.store.dispatch(new fromSharedStructuresActions.RevertingRangeChanges({
       pageViewId: this.modelPageViewId,
       rangeId: dataRow.CompanyStructures_Ranges_CompanyStructuresRanges_ID,
       rangeGroupId: dataRow.CompanyStructures_RangeGroup_CompanyStructuresRangeGroup_ID,
@@ -285,7 +287,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
 
   handleCompareModelClicked() {
     this.compareFlag = true;
-    this.store.dispatch(new fromSharedJobBasedRangeActions.ComparingModels());
+    this.store.dispatch(new fromSharedStructuresActions.ComparingModels());
     this.store.dispatch(new fromPfDataGridActions.UpdatePagingOptions(this.pageViewId, this.defaultPagingOptions));
     this.compareModelClicked.emit();
   }

@@ -9,7 +9,7 @@ import { StoreModule } from '@ngrx/store';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgbModule, NgbPopoverModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { ComboBoxModule } from '@progress/kendo-angular-dropdowns';
-import { MomentModule } from 'ngx-moment';
+import { FormatPurePipeModule } from 'ngx-date-fns';
 import { ImgFallbackModule } from 'ngx-img-fallback';
 
 import { PfCommonModule } from 'libs/core';
@@ -54,7 +54,7 @@ import { DeleteConfirmationModalComponent } from './containers/delete-confirmati
     NgbModule,
     FontAwesomeModule,
     ImgFallbackModule,
-    MomentModule,
+    FormatPurePipeModule,
 
     // PF Modules
     PfFormsModule,

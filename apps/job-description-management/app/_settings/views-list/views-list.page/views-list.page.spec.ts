@@ -9,7 +9,7 @@ import { FilterArrayByName } from 'libs/core/pipes';
 import { ActivatedRouteStub } from 'libs/test/activated-route-stub';
 import { SimpleYesNoModalComponent } from 'libs/ui/common/simple-yes-no';
 
-import { JobDescriptionViewConstants } from 'libs/features/job-description-management/constants';
+import { JobDescriptionViewConstants } from 'libs/features/jobs/job-description-management/constants';
 import * as fromViewListActions from '../actions/views-list.actions';
 import * as fromViewEditActions from '../../view-edit/actions/view-edit.actions';
 import { ViewsListPageComponent } from './views-list.page';

@@ -8,7 +8,7 @@ import { AsyncStateObj } from 'libs/models/state';
 
 import * as fromJobDescriptionHistoryListActions from '../../actions/job-description-history-list.actions';
 import * as fromJobDescriptionManagementReducer from '../../reducers';
-import { JobDescriptionHistoryListItem } from 'libs/features/job-description-management';
+import { JobDescriptionHistoryListItem } from 'libs/features/jobs/job-description-management';
 
 @Component({
   selector: 'pf-job-description-history-grid',

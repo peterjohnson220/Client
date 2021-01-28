@@ -2,8 +2,8 @@ import find from 'lodash/find';
 import isEmpty from 'lodash/isEmpty';
 
 import { ImportDataType, OrgDataEntityType, TransferMethodTypes } from 'libs/constants/hris-api';
-import { LoaderFileFormat, LoaderSettingsKeys } from 'libs/features/org-data-loader/constants';
-import { LoaderSettings, OrgDataLoadHelper } from 'libs/features/org-data-loader/helpers';
+import { LoaderFileFormat, LoaderSettingsKeys } from 'libs/features/loaders/org-data-loader/constants';
+import { LoaderSettings, OrgDataLoadHelper } from 'libs/features/loaders/org-data-loader/helpers';
 import {
     AuthenticationTypeResponse, ConnectionPostRequest, ConnectionSummaryResponse, CredentialsPackage, FieldMappingsDTO, LoaderSetting,
     LoaderSettingsDTO, MappingPackage, MappingPayloadItem, PatchProperty, PayfactorsEntityFieldsResponse, ProviderEntitiyFieldsResponse,

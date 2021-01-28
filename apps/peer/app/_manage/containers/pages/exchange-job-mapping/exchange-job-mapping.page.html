@@ -82,3 +82,7 @@
 
 <pf-request-job-modal></pf-request-job-modal>
 <pf-association-import-modal></pf-association-import-modal>
+<pf-file-download-security-warning-modal 
+  #fileDownloadSecurityWarningModal
+  (securityWarningConfirmed)="handleSecurityWarningConfirmed($event)">
+</pf-file-download-security-warning-modal>

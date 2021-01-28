@@ -12,6 +12,7 @@ import { ComboBoxModule } from '@progress/kendo-angular-dropdowns';
 import { PfCommonModule } from 'libs/core';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { TotalRewardsStatementModule } from 'libs/features/total-rewards/total-rewards-statement';
+import { BrowserDetectionService } from 'libs/core/services';
 
 import { StatementEditRoutingModule } from './statement-edit-routing.module';
 import { StatementEditPageComponent } from './statement-edit.page';
@@ -47,6 +48,9 @@ import { QuillToolbarComponent } from './components';
     StatementEditPageComponent,
     SettingsPanelComponent,
     QuillToolbarComponent
+  ],
+  providers: [
+    BrowserDetectionService
   ]
 })
 export class StatementEditModule {

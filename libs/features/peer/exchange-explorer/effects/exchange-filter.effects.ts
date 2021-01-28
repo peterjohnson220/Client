@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { map} from 'rxjs/operators';
 
-import * as fromSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
+import * as fromSearchFiltersActions from 'libs/features/search/search/actions/search-filters.actions';
 
 import * as fromExchangeFilterContextActions from '../actions/exchange-filter-context.actions';
 

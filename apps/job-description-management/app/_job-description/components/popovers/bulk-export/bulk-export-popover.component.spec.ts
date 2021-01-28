@@ -9,7 +9,7 @@ import * as fromRootState from 'libs/state/state';
 
 import * as fromJobDescriptionReducers from '../../../reducers';
 import { BulkExportPopoverComponent } from '../../index';
-import { generateMockControlLabel } from 'libs/features/job-description-management/models/control-label.model';
+import { generateMockControlLabel } from 'libs/features/jobs/job-description-management/models/control-label.model';
 
 describe('Job Description Management - Job Description - Bulk Export Popover', () => {
   let instance: BulkExportPopoverComponent;
@@ -41,14 +41,10 @@ describe('Job Description Management - Job Description - Bulk Export Popover', (
 
   it('should call exportLogic and then close the popover, when calling export', () => {
     spyOn(instance, 'exportLogic').and.callFake(jest.fn());
-    spyOn(instance.p, 'close');
-
-    instance.p = { close: jest.fn() };
 
     instance.export();
 
     expect(instance.exportLogic).toHaveBeenCalled();
-    expect(instance.p.close).toHaveBeenCalled();
   });
 
   it('should add label to control labels array, when calling toggleControlLabel with checked label', () => {

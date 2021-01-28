@@ -3,8 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import * as fromNavigationActions from 'libs/features/admin-navigation-links/actions/navigation.actions';
-import * as fromNavigationReducer from 'libs/features/admin-navigation-links/reducers';
+import * as fromNavigationActions from 'libs/features/infrastructure/admin-navigation-links/actions/navigation.actions';
+import * as fromNavigationReducer from 'libs/features/infrastructure/admin-navigation-links/reducers';
 import { NavigationLinkGroup } from 'libs/models/navigation';
 
 @Component({

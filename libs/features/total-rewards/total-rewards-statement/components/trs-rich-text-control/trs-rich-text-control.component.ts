@@ -151,6 +151,10 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
       setTimeout(() => {
         this.createQuillEditor();
       }, 0);
+    } else if (changes.mode?.currentValue === this.statementModeEnum.Preview && changes.mode?.previousValue === this.statementModeEnum.Edit) {
+      // manually remove the mention container from the DOM on Edit > Preview, since it can be orphaned when left open on mode transition
+      this.quillMentionContainer.style.display = 'none';
+      this.quillMentionContainer.remove();
     }
 
     this.isValid = !this.isContentHeightGreaterThanContainerHeight();

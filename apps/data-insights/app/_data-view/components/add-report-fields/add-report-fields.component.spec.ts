@@ -3,7 +3,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 
-import { generateMockField } from 'libs/features/formula-editor';
+import { generateMockField } from 'libs/ui/formula-editor';
 
 import { AddReportFieldsComponent } from './add-report-fields.component';
 

@@ -1,5 +1,5 @@
 import { UserTicketFile } from 'libs/models/payfactors-api/service/response';
-import { Comment } from 'libs/features/comment-box/models';
+import { Comment } from 'libs/ui/comment-box/models';
 
 export interface UserTicket {
   TicketId: number;

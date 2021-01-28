@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { LoadCompanyGuard, LoadUserGuard, PfAdminGuard } from 'libs/security';
-import { UsersListPageComponent, UserPageComponent } from 'libs/features/user-management';
+import { UsersListPageComponent, UserPageComponent } from 'libs/features/users/user-management';
 
 import { CompaniesListPageComponent, CompanyPageComponent } from './containers';
 

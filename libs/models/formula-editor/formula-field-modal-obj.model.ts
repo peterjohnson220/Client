@@ -1,4 +1,4 @@
-import { FieldDataType, DataViewAccessLevel } from 'libs/features/formula-editor';
+import { FieldDataType, DataViewAccessLevel } from 'libs/ui/formula-editor';
 
 
 export interface FormulaFieldModalObj {

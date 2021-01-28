@@ -2,8 +2,12 @@
 @import 'total-rewards/app-colors';
 
 .trs-image {
-  height: 80px;
-  &.edit-mode.show-image {
+  width: 174px;
+  height: 93px;
+  &.show-image img {
+    flex-shrink: 0; // don't allow the img to leak through it's container in IE11
+  }
+  &.edit-mode.show-image img {
     border: 2px dashed transparent;
     transition: border .6s ease-in-out;
     &:hover{
@@ -12,7 +16,6 @@
   }
   .upload-wrapper {
     border-radius: 5px;
-    width: 174px;
     border: 2px dashed $trs-canvas-background-color;
   }
   .remove-image {

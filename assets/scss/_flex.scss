@@ -4,6 +4,12 @@
   height: 100%;
 }
 
+.flex-column-container-auto{
+  display: flex;
+  flex-direction: column;
+  height: auto !important;
+}
+
 .flex-grow-1{
   flex-grow: 1;
 }

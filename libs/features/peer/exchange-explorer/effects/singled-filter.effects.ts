@@ -5,15 +5,15 @@ import { select, Store } from '@ngrx/store';
 import { catchError, map, switchMap, withLatestFrom, filter } from 'rxjs/operators';
 
 import { SearchFilter } from 'libs/models/payfactors-api';
-import { PayfactorsSearchApiModelMapper } from 'libs/features/search/helpers';
-import { MultiSelectFilter } from 'libs/features/search/models';
+import { PayfactorsSearchApiModelMapper } from 'libs/features/search/search/helpers';
+import { MultiSelectFilter } from 'libs/features/search/search/models';
 import { SearchExchangeAggregationsRequest } from 'libs/models/payfactors-api/peer/exchange-data-search/request';
 import { ExchangeDataSearchApiService } from 'libs/data/payfactors-api/search/peer';
-import { ScrollIdConstants } from 'libs/features/infinite-scroll/models';
-import { InfiniteScrollEffectsService } from 'libs/features/infinite-scroll/services/infinite-scroll-effects.service';
-import { SearchFeatureIds } from 'libs/features/search/enums/search-feature-ids';
-import * as fromSingledFilterActions from 'libs/features/search/actions/singled-filter.actions';
-import * as fromSearchReducer from 'libs/features/search/reducers';
+import { ScrollIdConstants } from 'libs/features/search/infinite-scroll/models';
+import { InfiniteScrollEffectsService } from 'libs/features/search/infinite-scroll/services/infinite-scroll-effects.service';
+import { SearchFeatureIds } from 'libs/features/search/search/enums/search-feature-ids';
+import * as fromSingledFilterActions from 'libs/features/search/search/actions/singled-filter.actions';
+import * as fromSearchReducer from 'libs/features/search/search/reducers';
 
 import { ExchangeExplorerContextService } from '../services';
 

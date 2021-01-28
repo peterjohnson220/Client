@@ -1,4 +1,4 @@
-import { FormulaType } from 'libs/features/formula-editor/models';
+import { FormulaType } from 'libs/ui/formula-editor/models';
 
 import { PagingOptions } from '../../search/request';
 import { DataViewAccessLevel } from '../response';

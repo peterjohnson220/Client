@@ -1,0 +1,38 @@
+@import '../../../../../assets/scss/common/common-variables';
+@import '../../../../../assets/scss/search/filters-variables';
+@import 'shared-variables';
+
+.search-action{
+  @extend %text-filter-action;
+}
+
+.search-action.disabled{
+  color: #c5c5c5;
+  cursor: not-allowed;
+
+  &:hover{
+    background-color: inherit;
+  }
+}
+
+.search-filter {
+  position: absolute;
+  height: 40px;
+  width: 100%;
+  padding: .5rem .2rem;
+}
+
+.results-header{
+  height: $results-header-height;
+  display: flex;
+  align-items: center;
+  padding-right: 1rem;
+  @extend %bottom-box-shadow;
+
+  .actions{
+    display: flex;
+    justify-content: flex-end;
+    margin-left: 1rem;
+    width: 210px;
+  }
+}

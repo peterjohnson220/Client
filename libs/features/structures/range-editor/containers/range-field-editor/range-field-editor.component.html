@@ -5,7 +5,7 @@
                      [value]="value"
                      [spinners]="false"
                      [format]="format"
-                     [decimals]="decimals"
+                     [decimals]="noRounding ? 2 : decimals"
                      (change)="handleValueChange($event, rowIndex)"
                      (blur)="handleBlur()"
                      (focus)="handleFocus()"

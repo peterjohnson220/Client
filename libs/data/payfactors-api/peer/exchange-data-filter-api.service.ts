@@ -27,4 +27,11 @@ export class ExchangeDataFilterApiService {
       {params: payload}
       );
   }
+
+  getTempExchangeDataCutFilterContext(payload: {lockedExchangeJobId: number, exchangeDataSearchRequest: BaseExchangeDataSearchRequest}): Observable<ExchangeExplorerDataCutResponse> {
+    return this.payfactorsApiService.post<ExchangeExplorerDataCutResponse>(`${this.endpoint}/GetTempExchangeDataCutFilterContext`, {
+      LockedExchangeJobId: payload.lockedExchangeJobId,
+      ExchangeDataSearchRequest: payload.exchangeDataSearchRequest
+    });
+  }
 }

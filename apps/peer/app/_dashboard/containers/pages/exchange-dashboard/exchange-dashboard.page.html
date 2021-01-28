@@ -34,7 +34,7 @@
             <div class="d-flex card card-body flex-column flex-grow-1 text-center mb-1 justify-content-center">
               <pf-exchange-company-count></pf-exchange-company-count>
             </div>
-            <div class="d-flex card card-body flex-column flex-grow-1 text-center mt-1 justify-content-center exchange-job-count" (click)="exportExchangeJobs()" [title]="'Export Exchange Jobs'">
+            <div class="d-flex card card-body flex-column flex-grow-1 text-center mt-1 justify-content-center exchange-job-count" (click)="handleExportExchangeJobs()" [title]="'Export Exchange Jobs'">
               <pf-exchange-job-count></pf-exchange-job-count>
             </div>
           </div>
@@ -104,3 +104,7 @@
   (modalDismissedEvent)="closeUploadOrgDataModal()">
 </pf-upload-org-data-modal>
 <pf-peer-trend-report-modal [selectedWorkbook]="(peerTrendsReportWorkbookAsync$ | async)?.obj"></pf-peer-trend-report-modal>
+<pf-file-download-security-warning-modal 
+  #fileDownloadSecurityWarningModal
+  (securityWarningConfirmed)="handleSecurityWarningConfirmed($event)">
+</pf-file-download-security-warning-modal>

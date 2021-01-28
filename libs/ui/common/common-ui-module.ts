@@ -40,6 +40,7 @@ import { SimpleYesNoModalComponent } from './simple-yes-no';
 import { LoadingProgressBarService } from './loading/service';
 import { PfTreeViewComponent, TreeViewCheckDirective } from './pf-treeview';
 import { JobTitleCodeComponent } from './job-title-code/job-title-code.component';
+import { FileDownloadSecurityWarningModalComponent } from './file-download-security-warning';
 
 const components = [
   // Content
@@ -73,6 +74,7 @@ const components = [
 
   // Modals
   TermsConditionsModalComponent,
+  FileDownloadSecurityWarningModalComponent,
 
   // Validation
   ValidationResultsComponent,

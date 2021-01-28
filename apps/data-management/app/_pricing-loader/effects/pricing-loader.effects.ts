@@ -9,7 +9,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import { PricingLoaderApiService, DataLoadEmailRecipientsApiService } from 'libs/data/payfactors-api';
 import { EmailRecipientModel } from 'libs/models';
 import { DataImportApiService } from 'libs/data/payfactors-api/integration/data-import';
-import { ExcelFileUploadRequest } from 'libs/features/org-data-loader/models';
+import { ExcelFileUploadRequest } from 'libs/features/loaders/org-data-loader/models';
 
 import * as fromPricingLoaderMainReducer from '../reducers';
 import * as fromPricingLoaderActions from '../actions/pricing-loader.actions';
