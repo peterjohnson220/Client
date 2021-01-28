@@ -54,6 +54,13 @@ export function reducer(state = initialState, action: userContextActions.Actions
         errorMessage: action.payload.errorMessage
       };
     }
+    case userContextActions.GET_USER_CONTEXT_410_ERROR: {
+        return {
+          ...state,
+          forbidden: true
+        };
+
+    }
     default: {
       return state;
     }

@@ -4,7 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AppWrapperComponent } from 'libs/features/infrastructure/app-root';
 import { UserContextGuard } from 'libs/security';
 import { DEFAULT_ROUTES } from 'libs/ui/common';
-import { TokenExpirationPageComponent, PublicTokenDraftDescriptionPageComponent } from 'libs/ui/common/error/pages';
+import { TokenExpirationPageComponent, PublicTokenDraftDescriptionPageComponent, ReviewLinkExpiredPageComponent } from 'libs/ui/common/error/pages';
 import { WorkflowStepCompletionPageComponent } from './shared/components/workflow-step-completion';
 import { SsoAuthGuard } from './shared/guards';
 
@@ -35,6 +35,7 @@ export const routes: Routes = [
       }
     ]
   },
+  { path: 'gone', component: ReviewLinkExpiredPageComponent },
   { path: 'workflow-complete', component: WorkflowStepCompletionPageComponent },
   { path: 'public-token-draft', component: PublicTokenDraftDescriptionPageComponent },
   { path: 'token-expired', component: TokenExpirationPageComponent },
