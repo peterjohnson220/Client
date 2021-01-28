@@ -8,7 +8,8 @@ import { map, switchMap } from 'rxjs/operators';
 import { DBEntityType } from 'libs/features/company/entity-identifier/models/db-entitytype.enum';
 import { FileType, PagedResponse, UserContext } from 'libs/models';
 
-import { CompositeSummaryDownloadRequest, CompositeDataLoadSearchCriteria, CompositeDataLoadViewResponse } from '../../../models';
+import { CompositeSummaryDownloadRequest } from '../../../models/dashboard';
+import { CompositeDataLoadSearchCriteria, CompositeDataLoadViewResponse } from '../../../models/admin/loader-dashboard';
 import { FileApiService } from '../file';
 import { PayfactorsApiService } from '../payfactors-api.service';
 
@@ -168,35 +169,9 @@ export class IntegrationApiService {
     );
   }
 
-  GetArchiveData(file: File, userContext: UserContext) {
-    const apiURL = `/company/${userContext.CompanyId}/DataImport/File/Zip/Archive`;
-
-    return this.fetchAuthToken().pipe(
-      switchMap(token => {
-        return this.postFormData(apiURL, token, userContext, { file: file }).pipe(
-          map((response: any) => response));
-      }),
-    );
-  }
-
-  RedropArchive(file: File, compositeDataLoadId: number, userContext: UserContext) {
-    const apiURL = `/company/${userContext.CompanyId}/ExportedSourceFile/ModifiedRedrop`;
-
-    return this.fetchAuthToken().pipe(
-      switchMap(token => {
-        return this.postFormData(apiURL, token, userContext, { file: file, compositeDataLoadId: compositeDataLoadId }).pipe(
-          map((response: any) => response));
-      }),
-    );
-  }
-
-  downloadOrganizationalData(companyId: number) {
-    return this.payfactorsApiService.get(`OrganizationalData/GetOrganizationalData/${companyId}`);
-  }
-
   fetchAuthToken() {
     // this is a stop-gap measure to get us out the door
-    // should be replaced with the ApiAuthService's HttpInterceptor functionality
+    // should be replaced with the ApiAuthService's HttpInteceptor functionality
     // using bearer tokens
     return this.payfactorsApiService.get('Integration.GetAuthToken');
   }
@@ -223,20 +198,6 @@ export class IntegrationApiService {
       map((response: any) => response)
     );
   }
-
-  postFormData(url: string, token: any, userContext: any, formDataParams?: any): Observable<any> {
-    const host = this.getAPIBase(userContext);
-    const formData = this.buildFormData(formDataParams);
-    const options = {
-      headers: new HttpHeaders().append('Accept', 'application/json')
-        .append('Authorization', `Bearer ${token}`)
-    };
-
-    return this.http.post(`${host}${url}`, formData, options).pipe(
-      map((response: any) => response)
-    );
-  }
-
   private buildFormData(formDataParams: any[]) {
     if (!formDataParams) { return; }
 

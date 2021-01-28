@@ -6,14 +6,13 @@
   secondaryButtonText="Back"
   primaryButtonTextSubmitting="Re-Dropping..."
   [isOpen$]="modalOpen$"
-  [submitting]="(isRedropInProgress$ | async).loading || (isModifiedRedropInProgress$ | async)"
-  (onSubmit)="handleRedropConfirmation()"
+  [submitting]="(isRedropInProgress$ | async).loading"
+  (onSubmit)="redropExportedSourceFile()"
   (onDismiss)="handleDismissRedropConfirmationModal()"
 >
   <ng-container basic-content>
     <div class="alert alert-warning" role="alert">
-      <span *ngIf="!isRedropModified">Are you sure you would like to re-drop the files in Load ID {{selectedCompositeDataLoadId}} for <b>{{selectedClientName}}</b>, Client ID <b>{{selectedClientId}}</b>?</span>
-      <span *ngIf="isRedropModified">Are you sure you would like to re-drop the modified files from Load ID {{selectedCompositeDataLoadId}} for <b>{{selectedClientName}}</b>, Client ID <b>{{selectedClientId}}</b>?</span>
+      Are you sure you would like to re-drop the files in Load ID {{selectedCompositeDataLoadId}} for <b>{{selectedClientName}}</b>, Client ID <b>{{selectedClientId}}</b>?
     </div>
   </ng-container>
 </pf-modal-form>

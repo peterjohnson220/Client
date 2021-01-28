@@ -117,12 +117,6 @@ export class LoaderDashboardGridComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromLoaderDashboardPageActions.OpenRedropConfirmationModal());
   }
 
-  handleRedropConfirmationResponse(confirmed: boolean): void {
-    if (confirmed) {
-      this.store.dispatch(new fromLoaderDashboardPageActions.RedropExportedSourceFile(this.selectedCompositeDataLoadId));
-    }
-  }
-
   showIfLoadHasSummaries(dataItem: CompositeDataLoadViewResponse, index: number): boolean {
     return dataItem && dataItem.entityLoadSummaries && dataItem.entityLoadSummaries.length > 0;
   }
