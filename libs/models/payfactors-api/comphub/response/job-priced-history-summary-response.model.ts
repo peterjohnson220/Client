@@ -2,7 +2,7 @@ import { QuickPriceMarketData } from './quick-price-response.model';
 import { SearchFilter } from '../../search/response';
 import { PayMarket } from '../../../paymarket';
 import { ExchangeDataSearchFilterContext } from '../../../peer';
-import { SearchFilterMappingDataObj } from '../../../../features/search/models';
+import { SearchFilterMappingDataObj } from '../../../../features/search/search/models';
 
 export interface JobPricedHistorySummaryResponse extends QuickPriceMarketData {
   PayMarketDto: PayMarket;

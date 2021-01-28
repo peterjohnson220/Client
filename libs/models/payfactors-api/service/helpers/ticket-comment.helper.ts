@@ -1,6 +1,6 @@
 import orderBy from 'lodash/orderBy';
 
-import { Comment } from 'libs/features/comment-box/models';
+import { Comment } from 'libs/ui/comment-box/models';
 
 import { UserTicketComment } from '../response';
 

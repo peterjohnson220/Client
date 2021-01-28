@@ -9,7 +9,7 @@ import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { ProjectListPageComponent } from './project-list.page/project-list.page';
 import { ProjectListPageRoutingModule } from './project-list-page-routing.module';
-import {PfDataGridModule} from 'libs/features';
+import { PfDataGridModule } from 'libs/features/grids/pf-data-grid';
 import * as fromFaIcons from './fa-icons';
 @NgModule({
   imports: [

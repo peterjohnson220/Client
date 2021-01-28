@@ -4,10 +4,10 @@ import { Observable, of } from 'rxjs';
 import { Action, select, Store } from '@ngrx/store';
 import { catchError, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
 
-import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
-import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
+import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
+import * as fromPfDataGridActions from 'libs/features/grids/pf-data-grid/actions';
 import { PagingOptions } from 'libs/models/payfactors-api/search/request';
-import { DataGridToDataViewsHelper } from 'libs/features/pf-data-grid/helpers';
+import { DataGridToDataViewsHelper } from 'libs/features/grids/pf-data-grid/helpers';
 import { DataViewApiService } from 'libs/data/payfactors-api/reports';
 import { StructureModelingApiService } from 'libs/data/payfactors-api/structures';
 
@@ -15,6 +15,7 @@ import { CompareJobRangesHelper } from '../helpers';
 import * as fromCompareJobRangesReducer from '../reducers';
 import * as fromCompareJobRangesActions from '../actions';
 import * as fromSharedReducer from '../../shared/reducers';
+import * as fromSharedStructuresReducer from '../../../shared/reducers';
 
 @Injectable()
 export class CompareJobRangesEffects {
@@ -42,9 +43,9 @@ export class CompareJobRangesEffects {
             this.store.pipe(select(fromPfDataGridReducer.getGridConfig)),
             this.store.pipe(select(fromPfDataGridReducer.getData)),
             this.store.pipe(select(fromSharedReducer.getCurrentRangeGroup)),
-            this.store.pipe(select(fromSharedReducer.getMetadata)),
-            this.store.pipe(select(fromSharedReducer.getRoundingSettings)),
-            this.store.pipe(select(fromSharedReducer.getComparingModels)),
+            this.store.pipe(select(fromSharedStructuresReducer.getMetadata)),
+            this.store.pipe(select(fromSharedStructuresReducer.getRoundingSettings)),
+            this.store.pipe(select(fromSharedStructuresReducer.getComparingModels)),
             (a: fromCompareJobRangesActions.GetDataForCompare, baseEntity, fields, pagingOptions, sortDescriptor, gridConfig, gridData,
              currentRangeGroup, metadata, roundingSettings, comparingFlag) =>
               ({ a, baseEntity, fields, pagingOptions, sortDescriptor, gridConfig, gridData, currentRangeGroup, metadata, roundingSettings, comparingFlag }))

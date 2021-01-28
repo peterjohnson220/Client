@@ -1,7 +1,7 @@
 import cloneDeep from 'lodash/cloneDeep';
 import { Permissions } from 'libs/constants';
 
-import { WorkflowTemplate } from 'libs/features/job-description-management/models';
+import { WorkflowTemplate } from 'libs/features/jobs/job-description-management/models';
 import * as fromWorkflowUpsertActions from '../actions';
 
 

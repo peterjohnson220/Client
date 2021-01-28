@@ -5,7 +5,7 @@ import { Store, StoreModule, combineReducers } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
 import { generateDefaultAsyncStateObj } from 'libs/models';
-import { generateMockView, generateMockWorkbook } from 'libs/features/reports/models';
+import { generateMockView, generateMockWorkbook } from 'libs/features/surveys/reports/models';
 
 import * as fromDataInsightsMainReducer from '../../../reducers';
 import * as fromDashboardsActions from '../../../actions/dashboards.actions';

@@ -10,8 +10,8 @@ import { CalendarModule } from '@progress/kendo-angular-dateinputs';
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
-import { PfDataGridModule } from 'libs/features/pf-data-grid/pf-data-grid.module';
-import { EmployeeManagementModule } from 'libs/features/employee-management';
+import { PfDataGridModule } from 'libs/features/grids/pf-data-grid/pf-data-grid.module';
+import { EmployeeManagementModule } from 'libs/features/employees/employee-management';
 import { TotalRewardsStatementModule } from 'libs/features/total-rewards/total-rewards-statement';
 
 import * as fromFaIcons from './fa-icons';

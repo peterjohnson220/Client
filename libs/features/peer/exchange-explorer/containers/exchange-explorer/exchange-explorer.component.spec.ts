@@ -8,10 +8,10 @@ import { of } from 'rxjs';
 
 import { SettingsService } from 'libs/state/app-context/services';
 import * as fromRootState from 'libs/state/state';
-import * as fromSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
-import * as fromSearchResultsActions from 'libs/features/search/actions/search-results.actions';
-import * as fromSearchPageActions from 'libs/features/search/actions/search-page.actions';
-import * as fromChildSearchFilterActions from 'libs/features/search/actions/child-filter.actions';
+import * as fromSearchFiltersActions from 'libs/features/search/search/actions/search-filters.actions';
+import * as fromSearchResultsActions from 'libs/features/search/search/actions/search-results.actions';
+import * as fromSearchPageActions from 'libs/features/search/search/actions/search-page.actions';
+import * as fromChildSearchFilterActions from 'libs/features/search/search/actions/child-filter.actions';
 import { generateMockPayMarket } from 'libs/models/paymarket';
 
 import { ExchangeExplorerComponent } from './exchange-explorer.component';

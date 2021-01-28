@@ -3,6 +3,8 @@ import { Component, Input, Output, EventEmitter, HostListener, OnInit, OnDestroy
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
+import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
+import { BrowserDetectionService } from 'libs/core/services';
 import { UpdateSettingsColorRequest } from 'libs/features/total-rewards/total-rewards-statement/models';
 import { FontFamily, FontSize } from 'libs/features/total-rewards/total-rewards-statement/types';
 
@@ -31,6 +33,14 @@ export class SettingsPanelComponent implements OnInit, OnDestroy {
   colorSubjectSubscription = new Subscription();
 
   showFontFamilyMenu = environment.enableTrsCustomFontFamilies;
+  cpUseRootViewContainer = false;
+  totalRewardsEmployeeContributionFeatureFlag: RealTimeFlag = { key: FeatureFlags.TotalRewardsEmployeeContribution, value: false };
+  unsubscribe$ = new Subject<void>();
+
+  constructor(private featureFlagService: AbstractFeatureFlagService,
+              private browserDetectionService: BrowserDetectionService) {
+    this.featureFlagService.bindEnabled(this.totalRewardsEmployeeContributionFeatureFlag, this.unsubscribe$);
+  }
 
   ngOnInit() {
     // debounce chart color changes which can fire rapidly when click + hold, then dragging
@@ -38,6 +48,10 @@ export class SettingsPanelComponent implements OnInit, OnDestroy {
       distinctUntilChanged(),
       debounceTime(400)
     ).subscribe((request: UpdateSettingsColorRequest) => this.colorChange.emit(request));
+
+    if (this.browserDetectionService.checkBrowserIsIE()) {
+      this.cpUseRootViewContainer = true;
+    }
   }
 
   ngOnDestroy() {

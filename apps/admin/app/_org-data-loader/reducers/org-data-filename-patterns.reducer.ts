@@ -1,4 +1,4 @@
-import * as fromLoaderSettingsActions from 'libs/features/org-data-loader/state/actions/loader-settings.actions';
+import * as fromLoaderSettingsActions from 'libs/features/loaders/org-data-loader/actions/loader-settings.actions';
 import { LoaderSetting } from 'libs/models/data-loads';
 
 import { OrgDataFilenamePatternSetFactory } from '../helpers/org-data-filename-pattern-set-factory';

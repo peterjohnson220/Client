@@ -1,0 +1,69 @@
+@import '../../../features/search/search/styles/shared-styles';
+
+.gradient-bar{
+  position: absolute;
+  width: 67.5%;
+  bottom: 100px;
+  height: 10px;
+  background-image: linear-gradient(#EAEAEA, white);
+}
+
+.top-container {
+  width: 67.5%;
+  bottom: 80px;
+  height: 20px;
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  font-weight: bold;
+
+  .job-usage-message {
+    color: #999999;
+  }
+
+  .job-limit-reached-message {
+    color: #ff3300;
+  }
+
+  .search-results-count {
+    color: #656565;
+  }
+}
+
+.middle-container {
+  width: 67.5%;
+  bottom: 30px;
+  height: 50px;
+  position: absolute;
+
+  .job-count-bar {
+    display: flex;
+    flex-direction: column;
+  }
+
+  ngb-progressbar {
+    width: 80%;
+    align-self: center;
+  }
+
+  .used-job-count {
+    align-self: flex-start;
+    margin-left: 10%;
+    font-weight: bold;
+  }
+
+  .max-job-count {
+    align-self: flex-end;
+    margin-right: 10%;
+    color: #999999;
+    font-weight: bold;
+  }
+
+  .max-job-count-reached-message {
+    text-align: center;
+    padding-top: 15px;
+  }
+}

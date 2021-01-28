@@ -10,7 +10,7 @@ import { AsyncStateObj } from 'libs/models/state';
 import { EmployeeRewardsData, TokenStatus } from 'libs/models/payfactors-api/total-rewards';
 import { Statement } from 'libs/features/total-rewards/total-rewards-statement/models';
 import * as fromRootState from 'libs/state/state';
-import { AppNotification, HubMethodName, NotificationLevel, SuccessStatusPayLoad } from 'libs/features/app-notifications/models';
+import { AppNotification, HubMethodName, NotificationLevel, SuccessStatusPayLoad } from 'libs/features/infrastructure/app-notifications/models';
 
 import * as fromPageReducer from '../../verification/reducers';
 import * as fromPageActions from '../actions/verification.page.actions';

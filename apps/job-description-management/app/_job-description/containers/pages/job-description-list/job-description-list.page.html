@@ -29,6 +29,7 @@
         [jobDescriptionListViewsLoading]="jobDescriptionListViewsLoading$ | async"
         [jobInformationFields]="jobInformationFields$ | async"
         [jobInformationFieldsLoading]="jobInformationFieldsLoading$ | async"
+        [enableFileDownloadSecurityWarning]="enableFileDownloadSecurityWarning"
         (open)="handleBulkExportPopoverOpened($event)"
         (viewSelectionChanged)="handleViewSelectionChangedOnBulkExport($event)"
         (exported)="handleExported($event)">
@@ -135,6 +136,7 @@
     <pf-save-filter-modal
       [userFilters]="userFilterList$ | async"
       (saved)="saveFilterHandler($event)"
-      (opened)="handleSaveFilterModalOpened()"></pf-save-filter-modal>
+      (opened)="handleSaveFilterModalOpened()">
+    </pf-save-filter-modal>
   </ng-container>
 </pf-page-with-title-bar>

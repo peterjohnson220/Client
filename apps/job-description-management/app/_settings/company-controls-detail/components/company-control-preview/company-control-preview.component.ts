@@ -2,7 +2,7 @@ import { Component, Input, OnChanges } from '@angular/core';
 
 import { ControlType } from 'libs/models';
 
-import { JobDescriptionManagementService } from 'libs/features/job-description-management';
+import { JobDescriptionManagementService } from 'libs/features/jobs/job-description-management';
 
 @Component({
   selector: 'pf-company-control-preview',

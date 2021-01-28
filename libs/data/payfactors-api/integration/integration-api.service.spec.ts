@@ -1,6 +1,6 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { FileDownloadSuccess } from 'libs/features/file-download/actions/file-download.actions';
+import { FileDownloadSuccess } from 'libs/features/file-download/file-download/actions/file-download.actions';
 import { UserContext, FileType } from 'libs/models';
 import { of } from 'rxjs';
 

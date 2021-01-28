@@ -24,3 +24,67 @@ hr {
     background-color: $primary-blue;
     border-color: $primary-blue;
 }
+
+::ng-deep kendo-upload .k-dropzone-hint {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+  
+  ::ng-deep kendo-upload .k-upload-button
+  {
+    background-color: #1872ae !important;
+    float: right !important;
+    color: #ffffff !important;
+  }
+  
+  ::ng-deep kendo-upload .k-upload-pct
+  {
+      visibility:hidden;
+      display:none;
+  }
+  
+  ::ng-deep kendo-upload .k-upload-status
+  {
+      visibility:hidden;
+      display:none;
+  }
+
+  .k-checkbox {
+    &:checked + .k-checkbox-label {
+      &::before {
+        background-color: #0883be;
+        border: none;
+      }
+  
+      &::after {
+        color: white;
+      }
+    }
+  
+    &:focus + .k-checkbox-label::before {
+      box-shadow: none;
+    }
+  }
+  
+  .k-checkbox-label::before {
+    background-color: #e1e5e9;
+    border-color: lightgrey;
+  }
+  
+  .upload-in-progress {
+    color: #99A0A4;
+  }
+  
+  .upload-success {
+    color: green;
+  }
+  
+  .upload-failed {
+    color:  #dc3545;
+  }
+  
+  .attachments-container{
+    font-size: 90%;
+    width: 90%
+  }

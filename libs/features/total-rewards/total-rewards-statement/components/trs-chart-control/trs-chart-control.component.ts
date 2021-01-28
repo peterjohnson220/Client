@@ -30,14 +30,6 @@ export class TrsChartControlComponent implements OnChanges {
 
   chartData: { category: string, value: number }[];
 
-  printModeLegendLabels: LegendLabels = {
-    font: '13px "DejaVu Sans", sans-serif'
-  };
-
-  defaultLegendLabels: LegendLabels = {
-    font: 'inherit'
-  };
-
   get inEditMode(): boolean {
     return this.mode === StatementModeEnum.Edit;
   }

@@ -64,10 +64,7 @@
 
 <ng-template #aboveGridTemplate>
   <div class="mb-3">
-    <pf-grid-context
-      [enableReturnBtn]="true"
-      [adjustMetadata]="true"
-      [metadata]="metaData$ | async">
+    <pf-grid-context [enableReturnBtn]="true" [metadata]="metaData$ | async">
 
       <button right-of-return-button-content
               [pfSecuredResource]="_Permissions.MODIFY_PRICINGS"

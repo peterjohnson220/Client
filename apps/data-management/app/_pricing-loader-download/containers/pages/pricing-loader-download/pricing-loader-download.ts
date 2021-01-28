@@ -12,9 +12,9 @@ import { SortDescriptor } from '@progress/kendo-data-query';
 import { environment } from 'environments/environment';
 import * as fromRootState from 'libs/state/state';
 import { UserContext } from 'libs/models/security';
-import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
-import { ActionBarConfig, ColumnChooserType, getDefaultActionBarConfig } from 'libs/features/pf-data-grid/models';
-import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
+import * as fromPfDataGridActions from 'libs/features/grids/pf-data-grid/actions';
+import { ActionBarConfig, ColumnChooserType, getDefaultActionBarConfig } from 'libs/features/grids/pf-data-grid/models';
+import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import { ViewField } from 'libs/models/payfactors-api/reports/request';
 
 import { JOB_PRICING_PAGEVIEW_ID } from '../../../constants';

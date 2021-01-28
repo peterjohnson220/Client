@@ -2,8 +2,8 @@ import { Component, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { TabularReportExportSchedule } from 'libs/features/reports/models';
-import { ExportScheduleHelper } from 'libs/features/export-scheduler/models';
+import { TabularReportExportSchedule } from 'libs/features/reports/models/tabular-report-export-schedule.model';
+import { ExportScheduleHelper } from 'libs/features/export-scheduler/export-scheduler/models';
 
 import * as fromTabularReportExportSchedulerPageActions from '../../actions/tabular-report-export-scheduler-page.actions';
 import * as fromTabularReportExportSchedulerPageReducer from '../../reducers';

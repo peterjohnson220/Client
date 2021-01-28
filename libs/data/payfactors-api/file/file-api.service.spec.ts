@@ -2,7 +2,7 @@ import { HttpHeaders, HttpEventType, HttpProgressEvent } from '@angular/common/h
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { FileDownloadError, FileDownloadSuccess, FileDownloadProgress } from 'libs/features/file-download/actions/file-download.actions';
+import { FileDownloadError, FileDownloadSuccess, FileDownloadProgress } from 'libs/features/file-download/file-download/actions/file-download.actions';
 import { FileApiService } from './file-api.service';
 
 describe('FileApiService', () => {

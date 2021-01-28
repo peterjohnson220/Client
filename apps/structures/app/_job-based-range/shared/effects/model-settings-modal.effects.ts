@@ -11,19 +11,25 @@ import { generateMockRangeAdvancedSetting, JobBasedPageViewIds, RangeGroupMetada
 import { CurrencyApiService } from 'libs/data/payfactors-api/currency';
 import { CompositeFieldApiService } from 'libs/data/payfactors-api/composite-field';
 import { StructureModelingApiService, StructuresApiService } from 'libs/data/payfactors-api/structures';
+import { SurveyApiService } from 'libs/data/payfactors-api';
 import { AsyncStateObj } from 'libs/models/state';
-import { NotificationLevel, NotificationSource, NotificationType } from 'libs/features/app-notifications/models';
-import * as fromDataGridActions from 'libs/features/pf-data-grid/actions';
-import * as fromNotificationActions from 'libs/features/app-notifications/actions/app-notifications.actions';
-import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
-import { GridConfig } from 'libs/features/pf-data-grid/models';
+import { NotificationLevel, NotificationSource, NotificationType } from 'libs/features/infrastructure/app-notifications/models';
+import * as fromDataGridActions from 'libs/features/grids/pf-data-grid/actions';
+import * as fromNotificationActions from 'libs/features/infrastructure/app-notifications/actions/app-notifications.actions';
+import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
+import { GridConfig } from 'libs/features/grids/pf-data-grid/models';
 import { PagingOptions } from 'libs/models/payfactors-api/search/request';
-import { GridDataHelper } from 'libs/features/pf-data-grid/helpers';
+import { GridDataHelper } from 'libs/features/grids/pf-data-grid/helpers';
+import * as fromRootState from 'libs/state/state';
+import { UserContext } from 'libs/models';
+
 
 import * as fromModelSettingsModalActions from '../actions/model-settings-modal.actions';
 import * as fromSharedActions from '../actions/shared.actions';
-import { PayfactorsApiModelMapper } from '../helpers/payfactors-api-model-mapper';
+import * as fromSharedStructuresActions from '../../../shared/actions/shared.actions';
+import { PayfactorsApiModelMapper } from '../../../shared/helpers/payfactors-api-model-mapper';
 import * as fromSharedReducer from '../reducers';
+import * as fromSharedStructuresReducer from '../../../shared/reducers';
 import { UrlService } from '../services';
 import { Workflow } from '../../../shared/constants/workflow';
 import { PagesHelper } from '../../../shared/helpers/pages.helper';
@@ -36,7 +42,7 @@ export class ModelSettingsModalEffects {
     .pipe(
       ofType(fromModelSettingsModalActions.CANCEL),
       withLatestFrom(
-        this.store.pipe(select(fromSharedReducer.getMetadata)),
+        this.store.pipe(select(fromSharedStructuresReducer.getMetadata)),
         this.store.pipe(select(fromPfDataGridReducer.getGridConfig)),
         this.store.pipe(select(fromPfDataGridReducer.getData)),
         this.store.pipe(select(fromPfDataGridReducer.getPagingOptions)),
@@ -70,6 +76,25 @@ export class ModelSettingsModalEffects {
               return new fromModelSettingsModalActions.GetCurrenciesSuccess(PayfactorsApiModelMapper.mapCurrencyDtosToCurrency(response));
             }),
             catchError(error => of(new fromModelSettingsModalActions.GetCurrenciesError()))
+          )
+      )
+    );
+
+  @Effect()
+  getSurveyUdfs$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromModelSettingsModalActions.GET_SURVEY_UDFS),
+      withLatestFrom(
+        this.store.pipe(select(fromRootState.getUserContext)),
+        (action, userContext: UserContext) => ({ userContext })
+      ),
+      switchMap((data) =>
+        this.surveyApiService.getUdfData(data.userContext.CompanyId)
+          .pipe(
+            map((response) => {
+              return new fromModelSettingsModalActions.GetSurveyUdfsSuccess(PayfactorsApiModelMapper.mapSurveyUdfsToControlPoints(response.UdfSettings));
+            }),
+            catchError(error => of(new fromModelSettingsModalActions.GetSurveyUdfsError()))
           )
       )
     );
@@ -115,7 +140,7 @@ export class ModelSettingsModalEffects {
     .pipe(
       ofType<fromModelSettingsModalActions.SaveModelSettings>(fromModelSettingsModalActions.SAVE_MODEL_SETTINGS),
       withLatestFrom(
-        this.store.pipe(select(fromSharedReducer.getMetadata)),
+        this.store.pipe(select(fromSharedStructuresReducer.getMetadata)),
         this.store.pipe(select(fromPfDataGridReducer.getGridConfig)),
         this.store.pipe(select(fromPfDataGridReducer.getData)),
         this.store.pipe(select(fromPfDataGridReducer.getPagingOptions)),
@@ -157,7 +182,7 @@ export class ModelSettingsModalEffects {
                     Payload: { Title: 'Model Created', Message: `Created, ${r.RangeGroup.RangeGroupName}` },
                     Type: NotificationType.Event
                   }));
-                  actions.push(new fromSharedActions.GetOverriddenRanges(
+                  actions.push(new fromSharedStructuresActions.GetOverriddenRanges(
                     { pageViewId: modelPageViewId, rangeGroupId: r.RangeGroup.CompanyStructuresRangeGroupId }));
                   actions.push(new fromSharedActions.GetCurrentRangeGroup({
                     RangeGroupId: r.RangeGroup.CompanyStructuresRangeGroupId,
@@ -165,12 +190,12 @@ export class ModelSettingsModalEffects {
                     PayType: r.RangeGroup.PayType
                   }));
                 } else {
-                  actions.push(new fromSharedActions.SetMetadata(
+                  actions.push(new fromSharedStructuresActions.SetMetadata(
                     PayfactorsApiModelMapper.mapStructuresRangeGroupResponseToRangeGroupMetadata(r.RangeGroup)
                   ));
                   actions.push(new fromModelSettingsModalActions.CloseModal());
                   actions.push(GridDataHelper.getLoadDataAction(modelPageViewId, data.gridData, data.gridConfig, data.pagingOptions));
-                  actions.push(new fromSharedActions.GetOverriddenRanges(
+                  actions.push(new fromSharedStructuresActions.GetOverriddenRanges(
                     { pageViewId: modelPageViewId, rangeGroupId: r.RangeGroup.CompanyStructuresRangeGroupId }));
                   actions.push(new fromSharedActions.GetCurrentRangeGroup({
                     RangeGroupId: r.RangeGroup.CompanyStructuresRangeGroupId,
@@ -210,6 +235,7 @@ export class ModelSettingsModalEffects {
     private structuresApiService: StructuresApiService,
     private compositeFieldsApiService: CompositeFieldApiService,
     private structureModelingApiService: StructureModelingApiService,
+    private surveyApiService: SurveyApiService,
     private router: Router,
     private urlService: UrlService,
     private store: Store<fromSharedReducer.State>

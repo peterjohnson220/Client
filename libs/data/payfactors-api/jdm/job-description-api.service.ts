@@ -36,7 +36,7 @@ import {
 import { FlsaQuestionnaireDetails } from '../../../../apps/job-description-management/app/_job-description/models';
 import {
   JobDescriptionBulkExportPayload
-} from 'libs/features/job-description-management/models/job-description-bulk-export-payload.model';
+} from 'libs/features/jobs/job-description-management/models/job-description-bulk-export-payload.model';
 
 @Injectable({
   providedIn: 'root',

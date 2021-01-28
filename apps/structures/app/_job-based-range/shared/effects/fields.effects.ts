@@ -6,8 +6,8 @@ import { switchMap, mergeMap, catchError, groupBy } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import { DataViewApiService } from 'libs/data/payfactors-api';
-import { PayfactorsApiModelMapper } from 'libs/features/formula-editor';
-import * as fromFieldsActions from 'libs/features/formula-editor/actions/fields.actions';
+import { PayfactorsApiModelMapper } from 'libs/ui/formula-editor';
+import * as fromFieldsActions from 'libs/ui/formula-editor/actions/fields.actions';
 import * as fromDataInsightsMainReducer from '../reducers';
 
 @Injectable()

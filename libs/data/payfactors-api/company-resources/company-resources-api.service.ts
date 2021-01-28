@@ -39,6 +39,6 @@ export class CompanyResourcesApiService {
   }
 
   removeCompanyResource(resource) {
-    return this.payfactorsApiService.post<any>('CloudFiles.DeleteCompanyResources', resource);
+    return this.payfactorsApiService.post<any>('CloudFiles.DeleteCompanyResources', {fileName: resource});
   }
 }

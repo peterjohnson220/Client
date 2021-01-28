@@ -7,7 +7,7 @@ import cloneDeep from 'lodash/cloneDeep';
 
 import { ControlTypeAttribute } from 'libs/models/common';
 
-import { BulletType, SmartListHierarchy } from 'libs/features/job-description-management/models';
+import { BulletType, SmartListHierarchy } from 'libs/features/jobs/job-description-management/models';
 
 const cheerio = require('cheerio');
 declare var Quill: any;
@@ -97,13 +97,13 @@ export class SmartListEditorComponent implements OnInit, OnChanges, OnDestroy {
             currentData[i][sourcedAttributeName] = currentSourcedValue.replace(this.newDataFromLibraryIdentifierString, '');
             this.rebuildQuillHtmlFromSavedData();
             this.replaceContent = false;
-          } 
+          }
         }
       } else if (this.replaceContent) {
         this.rebuildQuillHtmlFromSavedData();
         this.focusRTE();
         this.replaceContent = false;
-      } 
+      }
       if (this.rebuildQuillAfterDiscardDraft) {
         this.rebuildQuillHtmlFromSavedData();
         this.rebuildQuillAfterDiscardDraft = false;

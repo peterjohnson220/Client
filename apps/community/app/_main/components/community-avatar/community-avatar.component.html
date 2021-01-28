@@ -1,11 +1,10 @@
 <img class="float-left pf-avatar" [ngClass]="IsReply ? 'reply-avatar' : 'post-avatar'"
      *ngIf="AvatarSource !=='default_user.png'"
-     [src]="avatarUrl + AvatarSource" alt="avatar">
+     [src]="AvatarUrl + AvatarSource" alt="avatar">
 <img class="float-left pf-avatar" [ngClass]="IsReply ? 'reply-avatar' : 'post-avatar'"
      *ngIf="AvatarSource ==='default_user.png' && CompanyLogoSource !== null"
-     [src]="companyLogoUrl + CompanyLogoSource" alt="avatar">
+     [src]="CompanyLogoUrl + CompanyLogoSource" alt="avatar">
 <div *ngIf="AvatarSource ==='default_user.png' && CompanyLogoSource === null"
      class="float-left pf-avatar" [ngClass]="IsReply ? 'default-reply-avatar' : 'default-post-avatar'">
   {{ UserFirstName | slice:0:1 }}{{ UserLastName| slice:0:1 }}
 </div>
-

@@ -1,4 +1,4 @@
-import { NoteOperation } from '../../features/notes-manager/constants/note-operation-constants';
+import { NoteOperation } from '../../features/notes/notes-manager/constants/note-operation-constants';
 
 export interface NotesBase {
   Id: number;

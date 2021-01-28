@@ -7,11 +7,11 @@ import { BasicDataViewField } from 'libs/models/payfactors-api/reports/request';
 import { AsyncStateObj } from 'libs/models/state';
 import { SettingsService } from 'libs/state/app-context/services';
 import { FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models/common';
-import { BasicGridSettings } from 'libs/features/basic-data-grid/models';
+import { BasicGridSettings } from 'libs/features/grids/basic-data-grid/models';
 import { JobPricedHistorySummaryRequest } from 'libs/models/payfactors-api/comphub/request';
 import { QuickPriceType } from 'libs/constants';
-import * as fromBasicDataGridReducer from 'libs/features/basic-data-grid/reducers';
-import * as fromBasicDataGridActions from 'libs/features/basic-data-grid/actions/basic-data-grid.actions';
+import * as fromBasicDataGridReducer from 'libs/features/grids/basic-data-grid/reducers';
+import * as fromBasicDataGridActions from 'libs/features/grids/basic-data-grid/actions/basic-data-grid.actions';
 
 import * as fromComphubPageActions from '../../actions/comphub-page.actions';
 import * as fromQuickPriceHistoryActions from '../../actions/quick-price-history.actions';

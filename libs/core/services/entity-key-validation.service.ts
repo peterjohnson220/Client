@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { EntityIdentifierViewModel, EntityKeyValidationResult } from 'libs/features/company/entity-identifier/models';
-import { FieldMapping } from '../../features/org-data-loader/models';
+import { FieldMapping } from '../../features/loaders/org-data-loader/models';
 
 @Injectable()
 export class EntityKeyValidationService {

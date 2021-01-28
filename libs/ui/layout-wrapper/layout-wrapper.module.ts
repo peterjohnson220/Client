@@ -22,7 +22,7 @@ import {
 import { HeaderEffects, LeftSidebarEffects } from './effects';
 import { reducers } from './reducers';
 import { PfCommonModule } from '../../core';
-import {PfUserNotificationsModule} from '../../features/user-notifications/user-notifications.module';
+import {PfUserNotificationsModule} from '../../features/infrastructure/user-notifications/user-notifications.module';
 
 @NgModule({
   imports: [
