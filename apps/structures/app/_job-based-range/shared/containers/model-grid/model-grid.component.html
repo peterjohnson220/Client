@@ -90,13 +90,13 @@
   <ng-container>
     <pf-range-field-editor
       [pageViewId]="modelPageViewId"
-      [rangeGroupType]="rangeGroupType"
+      [rangeType]="rangeType"
       [rangeGroupId]="dataRow.CompanyStructures_RangeGroup_CompanyStructuresRangeGroup_ID"
       [rangeId]="dataRow.CompanyStructures_Ranges_CompanyStructuresRanges_ID"
       [rate]="(metaData$ | async)?.Rate"
       [fieldValue]="dataRow.CompanyStructures_Ranges_Mid"
       [fieldName]="fieldName"
-      [isMid]="true"
+      [rangeRecalculationType]="rangeRecalculationType.Mid"
       [currentStructure]="(metaData$ | async)?.IsCurrent"
       [dataRow]="dataRow"
       [rowIndex]="rowIndex"
@@ -113,13 +113,13 @@
   <ng-container>
     <pf-range-field-editor
       [pageViewId]="modelPageViewId"
-      [rangeGroupType]="rangeGroupType"
+      [rangeType]="rangeType"
       [rangeGroupId]="dataRow.CompanyStructures_RangeGroup_CompanyStructuresRangeGroup_ID"
       [rangeId]="dataRow.CompanyStructures_Ranges_CompanyStructuresRanges_ID"
       [rate]="(metaData$ | async)?.Rate"
       [fieldValue]="dataRow[fieldName]"
       [fieldName]="fieldName"
-      [isMid]="false"
+      [rangeRecalculationType]="rangeRecalculationType.Range"
       [currentStructure]="(metaData$ | async)?.IsCurrent"
       [dataRow]="dataRow"
       [rowIndex]="rowIndex"

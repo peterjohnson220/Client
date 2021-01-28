@@ -11,10 +11,11 @@ import { ViewField } from 'libs/models/payfactors-api/reports/request';
 import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import * as fromPfGridActions from 'libs/features/grids/pf-data-grid/actions';
 import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums/pf-theme-type.enum';
-import { RangeType } from 'libs/models/common';
 import * as fromActions from 'libs/features/grids/pf-data-grid/actions';
 import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
 import { GroupedListItem } from 'libs/models/list';
+import { RangeType } from 'libs/constants/structures/range-type';
+import { RangeRecalculationType } from 'libs/constants/structures/range-recalculation-type';
 
 import { PageViewIds } from '../../../../constants';
 import * as fromJobsPageReducer from '../../../../reducers';
@@ -98,12 +99,13 @@ export class StructureGridComponent implements AfterViewInit, OnDestroy {
     };
     this.colTemplates = {
       'Structure_Search': { Template: this.nameColumn },
-      'Mid': {Template: this.midColumn},
-      'AvgEEComparatio': {Template: this.comparatioColumn},
+      'Mid': { Template: this.midColumn },
+      'AvgEEComparatio': { Template: this.comparatioColumn },
       [PfDataGridColType.currency]: { Template: this.currencyColumn },
       [PfDataGridColType.percentage]: { Template: this.percentageColumn }
     };
   }
+
   ngOnDestroy() {
     this.gridFieldSubscription.unsubscribe();
     this.companyPayMarketSubscription.unsubscribe();
@@ -135,5 +137,9 @@ export class StructureGridComponent implements AfterViewInit, OnDestroy {
       Operator: '=',
       Values: [dataRow.vw_CompanyJobsStructureInfo_CompanyStructuresRanges_ID]
     };
+  }
+
+  public get rangeRecalculationType(): typeof RangeRecalculationType {
+    return RangeRecalculationType;
   }
 }

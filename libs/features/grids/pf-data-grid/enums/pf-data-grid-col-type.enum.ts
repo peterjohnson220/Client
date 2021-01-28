@@ -11,5 +11,6 @@ export enum PfDataGridColType {
   template = 'template',
   sharedTemplate = 'sharedTemplate',
   bit = 'bit',
-  midpointDiffFieldEditor = 'midpointDiffFieldEditor'
+  midpointDiffFieldEditor = 'midpointDiffFieldEditor',
+  rangeSpreadFieldEditor = 'rangeSpreadFieldEditor'
 }

@@ -1,7 +1,7 @@
 import * as Highcharts from 'highcharts';
 import { RateType } from 'libs/data/data-sets';
 import { RangeGroupMetadata } from 'libs/models/structures';
-import { RangeGroupType } from 'libs/constants/structures/range-group-type';
+import { RangeType } from 'libs/constants/structures/range-type';
 
 import { RangeDistributionDataPointTypeIds } from '../constants/range-distribution-data-point-type-ids';
 import { RangeDistributionTypeIds } from '../constants/range-distribution-type-ids';
@@ -195,7 +195,7 @@ export class StructuresHighchartsService {
       newDataPointTitle = 'New Top 4th 5th';
     }
 
-    if (metaData.RangeTypeId === RangeGroupType.Grade) {
+    if (metaData.RangeTypeId === RangeType.Grade) {
       gradeName = jobRangeData.CompanyStructures_Ranges_Grade_Name;
       currentMid = jobRangeData.CompanyStructures_RangeGroup_GradeBased_Range_CurrentMid;
     } else {

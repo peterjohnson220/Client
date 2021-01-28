@@ -16,11 +16,11 @@ import { PfDataGridColType } from 'libs/features/grids/pf-data-grid/enums';
 import { PagingOptions } from 'libs/models/payfactors-api/search/request';
 import { CompanyStructureRangeOverride, RangeGroupMetadata, RoundingSettingsDataObj } from 'libs/models/structures';
 import { DataViewFilter } from 'libs/models/payfactors-api/reports/request';
-import { RangeGroupType } from 'libs/constants/structures/range-group-type';
 import { PermissionCheckEnum, Permissions } from 'libs/constants';
 import { PermissionService } from 'libs/core/services';
 import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
-
+import { RangeType } from 'libs/constants/structures/range-type';
+import { RangeRecalculationType } from 'libs/constants/structures/range-recalculation-type';
 
 import * as fromSharedStructuresReducer from '../../../../shared/reducers';
 import * as fromSharedStructuresActions from '../../../../shared/actions/shared.actions';
@@ -41,6 +41,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   @ViewChild('gridRowActionsTemplate') gridRowActionsTemplate: ElementRef;
   @ViewChild('percentage', { static: true }) percentageColumn: ElementRef;
   @ViewChild('rangeValue', { static: true }) rangeValueColumn: ElementRef;
+  @ViewChild('rangeSpreadField') rangeSpreadFieldColumn: ElementRef;
 
   @Input() singleRecordView: boolean;
   @Input() inboundFilters: PfDataGridFilter[];
@@ -67,7 +68,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   defaultSort: SortDescriptor[];
   defaultPagingOptions: PagingOptions;
   fullGridActionBarConfig: ActionBarConfig;
-  rangeGroupType = RangeGroupType.Grade;
+  rangeType = RangeType.Grade;
   roundingSettings$: Observable<RoundingSettingsDataObj>;
   roundingSettingsSub: Subscription;
   roundingSettings: RoundingSettingsDataObj;
@@ -83,7 +84,6 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   hasAddEditDeleteStructurePermission: boolean;
   hasCreateEditStructureModelPermission: boolean;
   hasCanEditPublishedStructureRanges: boolean;
-
 
   constructor(
     public store: Store<any>,
@@ -192,6 +192,10 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     this.selectedDropdown = dropdown;
   }
 
+  public get rangeRecalculationType(): typeof RangeRecalculationType {
+    return RangeRecalculationType;
+  }
+
   // Lifecycle
   ngAfterViewInit() {
     this.colTemplates = {
@@ -201,7 +205,8 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
       [PfDataGridColType.noFormatting]: { Template: this.noFormattingColumn },
       [PfDataGridColType.rangeFieldEditor]: { Template: this.rangeFieldColumn },
       [PfDataGridColType.percentage]: { Template: this.percentageColumn },
-      [PfDataGridColType.rangeValue]: { Template: this.rangeValueColumn }
+      [PfDataGridColType.rangeValue]: { Template: this.rangeValueColumn },
+      [PfDataGridColType.rangeSpreadFieldEditor]: { Template: this.rangeSpreadFieldColumn },
     };
 
     this.fullGridActionBarConfig = {
