@@ -2,14 +2,14 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
-import * as fromSearchResultsActions from 'libs/features/search/actions/search-results.actions';
-import * as fromSearchReducer from 'libs/features/search/reducers';
-import { SearchBaseDirective } from 'libs/features/search/containers/search-base';
+import * as fromSearchResultsActions from 'libs/features/search/search/actions/search-results.actions';
+import * as fromSearchReducer from 'libs/features/search/search/reducers';
+import { SearchBaseDirective } from 'libs/features/search/search/containers/search-base';
 import * as fromRootState from 'libs/state/state';
 import { UserContext } from 'libs/models/security';
-import { FilterType, TextFilter } from 'libs/features/search/models';
-import * as fromSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
-import { SearchFeatureIds } from 'libs/features/search/enums/search-feature-ids';
+import { FilterType, TextFilter } from 'libs/features/search/search/models';
+import * as fromSearchFiltersActions from 'libs/features/search/search/actions/search-filters.actions';
+import { SearchFeatureIds } from 'libs/features/search/search/enums/search-feature-ids';
 
 import * as fromStatementAssignmentsReducers from '../../reducers';
 import * as fromStatementAssignmentModalActions from '../../actions/statement-assignment-modal.actions';

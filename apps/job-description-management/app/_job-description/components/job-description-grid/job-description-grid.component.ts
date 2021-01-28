@@ -1,17 +1,18 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
+
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
-
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { GridDataResult, SelectionEvent } from '@progress/kendo-angular-grid';
 import { State } from '@progress/kendo-data-query';
+
+import { PermissionService } from 'libs/core';
 import { ListAreaColumn } from 'libs/models/common';
+import { Permissions, PermissionCheckEnum } from 'libs/constants';
+
 import { CompanyJobViewListItem } from '../../models';
 import { JobDescriptionManagementJobDescriptionState, getJobDescriptionCreating } from '../../reducers';
-
-import { Permissions, PermissionCheckEnum } from 'libs/constants';
 import { JobDescriptionColumn } from '../../constants/job-description-column.constants';
-import { PermissionService } from 'libs/core';
-import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'pf-job-description-grid',
@@ -208,6 +209,4 @@ export class JobDescriptionGridComponent implements OnInit, OnDestroy {
       return 'Job code should have at least one job description record';
     }
   }
-
-
 }

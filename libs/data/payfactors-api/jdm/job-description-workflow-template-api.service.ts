@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
-import { WorkflowTemplate } from 'libs/features/job-description-management/models';
+import { WorkflowTemplate } from 'libs/features/jobs/job-description-management/models';
 
 @Injectable({
   providedIn: 'root',

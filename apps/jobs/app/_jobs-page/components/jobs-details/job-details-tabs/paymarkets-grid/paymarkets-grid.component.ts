@@ -1,28 +1,25 @@
 import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 
-import { BehaviorSubject, EMPTY, Observable, of, Subscription, timer } from 'rxjs';
+import { EMPTY, Observable, of, Subscription, timer } from 'rxjs';
 import { debounce, switchMap } from 'rxjs/operators';
 import { ActionsSubject, Store } from '@ngrx/store';
 import { ofType } from '@ngrx/effects';
 import { SortDescriptor } from '@progress/kendo-data-query';
 import cloneDeep from 'lodash/cloneDeep';
 
-import { ActionBarConfig, getDefaultActionBarConfig, GridConfig, PfDataGridFilter } from 'libs/features/pf-data-grid/models';
-import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
-import { ReScopeSurveyDataModalConfiguration } from 'libs/features/re-scope-survey-data/models';
-import { UpdatePricingMatchRequest, ViewField } from 'libs/models/payfactors-api';
-import * as fromReScopeActions from 'libs/features/re-scope-survey-data/actions';
-import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
-import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
-import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
+import { ActionBarConfig, getDefaultActionBarConfig, GridConfig, PfDataGridFilter } from 'libs/features/grids/pf-data-grid/models';
+import { PfDataGridColType } from 'libs/features/grids/pf-data-grid/enums';
+import { ViewField } from 'libs/models/payfactors-api';
+import * as fromPfGridActions from 'libs/features/grids/pf-data-grid/actions';
+import * as fromPfDataGridActions from 'libs/features/grids/pf-data-grid/actions';
+import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 
 import * as fromPricingDetailsActions from 'libs/features/pricings/pricing-details/actions';
-import { ApiServiceType } from 'libs/features/notes-manager/constants/api-service-type-constants';
-import { PfThemeType } from 'libs/features/pf-data-grid/enums/pf-theme-type.enum';
+import { ApiServiceType } from 'libs/features/notes/notes-manager/constants/api-service-type-constants';
+import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums/pf-theme-type.enum';
 import { PermissionCheckEnum, Permissions } from 'libs/constants';
 import { PermissionService } from 'libs/core/services';
 
-import * as fromModifyPricingsActions from '../../../../actions';
 import * as fromModifyPricingsReducer from '../../../../reducers';
 import { PageViewIds } from '../../../../constants';
 import { JobTitleCodePipe } from '../../../../pipes';

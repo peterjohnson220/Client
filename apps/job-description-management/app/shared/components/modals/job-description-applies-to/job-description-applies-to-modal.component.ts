@@ -9,14 +9,14 @@ import { Subscription } from 'rxjs';
 import { TemplateListItem } from 'libs/models/jdm';
 
 import { CompanyJobViewListItem } from '../../../../_job-description/models';
-import { JobDescriptionAppliesTo } from 'libs/features/job-description-management/models/job-description-applies-to.model';
-import * as fromTemplateListActions from 'libs/features/job-description-management/actions/template-list.actions';
-import * as fromJobDescriptionAppliesToActions from 'libs/features/job-description-management/actions/job-description-appliesto.actions';
-import * as fromJobDescriptionAppliesToReducers from 'libs/features/job-description-management/reducers';
-import { JobDescriptionAppliesToItem } from 'libs/features/job-description-management/models/job-description-appliesto-item.model';
-import { AppliesToAttributesExist } from 'libs/features/job-description-management/models/applies-to-attributes-exist.model';
+import { JobDescriptionAppliesTo } from 'libs/features/jobs/job-description-management/models/job-description-applies-to.model';
+import * as fromTemplateListActions from 'libs/features/jobs/job-description-management/actions/template-list.actions';
+import * as fromJobDescriptionAppliesToActions from 'libs/features/jobs/job-description-management/actions/job-description-appliesto.actions';
+import * as fromJobDescriptionAppliesToReducers from 'libs/features/jobs/job-description-management/reducers';
+import { JobDescriptionAppliesToItem } from 'libs/features/jobs/job-description-management/models/job-description-appliesto-item.model';
+import { AppliesToAttributesExist } from 'libs/features/jobs/job-description-management/models/applies-to-attributes-exist.model';
 import { Permissions } from 'libs/constants';
-import { JobDescriptionViewConstants } from 'libs/features/job-description-management/constants';
+import { JobDescriptionViewConstants } from 'libs/features/jobs/job-description-management/constants';
 
 @Component({
   selector: 'pf-job-description-applies-to-modal',

@@ -18,7 +18,7 @@ import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 // Libs / Controls
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
-import { PfCommunityModule } from 'libs/features/community/community.module';
+import { PfCommunityModule } from 'libs/ui/community-poll-choices/community.module';
 
 
 import { CommunityRoutingModule } from './community-routing.module';

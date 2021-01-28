@@ -7,7 +7,7 @@ import { PfApiModule } from 'libs/data/payfactors-api';
 import { PfStateModule } from 'libs/state/state.module';
 import { PfSecurityModule } from 'libs/security/security.module';
 import { PfCommonUIModule } from 'libs/ui/common/common-ui-module';
-import { PfAppRootModule, AppComponent } from 'libs/features/app-root';
+import { PfAppRootModule, AppComponent } from 'libs/features/infrastructure/app-root';
 import { SentryErrorHandler, SentryService } from 'libs/core/services';
 
 import { AppRoutingModule } from './app-routing.module';

@@ -9,9 +9,9 @@ import { switchMap, mergeMap, withLatestFrom } from 'rxjs/operators';
 import cloneDeep from 'lodash/cloneDeep';
 
 import { PricingProjectApiService } from 'libs/data/payfactors-api/project';
-import { DataGridState} from 'libs/features/pf-data-grid/reducers/pf-data-grid.reducer';
-import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
-import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
+import { DataGridState} from 'libs/features/grids/pf-data-grid/reducers/pf-data-grid.reducer';
+import * as fromPfDataGridActions from 'libs/features/grids/pf-data-grid/actions';
+import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 
 import * as fromProjectListPageActions from '../actions';
 import * as fromProjectListPageReducer from '../reducers';

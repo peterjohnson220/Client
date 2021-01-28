@@ -1,7 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
-import { environment } from 'environments/environment';
-
+import { CloudFileLocations } from 'libs/constants/cloud-file-locations';
 import { UserContext } from 'libs/models';
 
 @Component({
@@ -9,11 +8,14 @@ import { UserContext } from 'libs/models';
   templateUrl: './user-menu-avatar.component.html',
   styleUrls: ['./user-menu-avatar.component.scss']
 })
-export class UserMenuAvatarComponent {
+export class UserMenuAvatarComponent implements OnInit {
 
-  avatarUrl = environment.avatarSource;
   @Input() userContext: UserContext;
+  avatarUrl: string;
 
   constructor() { }
 
+  ngOnInit() {
+    this.avatarUrl = this.userContext.ConfigSettings.find(c => c.Name === 'CloudFiles_PublicBaseUrl')?.Value + CloudFileLocations.UserAvatars;
+  }
 }

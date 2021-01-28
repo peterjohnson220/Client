@@ -4,7 +4,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
 import { ProjectTemplate } from 'libs/models/projects/project-templates';
-import * as fromProjectTemplateManagementActions from 'libs/features/project-template-management/actions/project-template-management.actions';
+import * as fromProjectTemplateManagementActions from 'libs/features/projects/project-template-management/actions/project-template-management.actions';
 
 import { ProjectTemplatesComponent } from './project-templates.component';
 import * as fromUserSettingsReducer from '../../../reducers';
@@ -66,7 +66,7 @@ describe('ProjectTemplatesComponent', () => {
     instance.handleEditItemClicked(item);
 
     expect(instance.store.dispatch).toHaveBeenCalledWith(expectedAction);
-  })
+  });
 
   it('should dispatch open add when add button clicked', () => {
     spyOn(instance.store, 'dispatch');

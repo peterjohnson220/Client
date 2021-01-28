@@ -5,7 +5,7 @@ import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { MarketingImageDto } from 'libs/models/marketing/marketing-image-dto.model';
-import * as fromMarketingActions from 'libs/features/marketing-settings/marketing-settings.actions';
+import * as fromMarketingActions from 'libs/features/infrastructure/marketing-settings/marketing-settings/actions/marketing-settings.actions';
 
 import * as fromLoginReducer from '../../../reducers';
 import * as fromLoginActions from '../../../actions/login.actions';

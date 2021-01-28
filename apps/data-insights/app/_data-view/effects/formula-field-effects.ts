@@ -5,9 +5,9 @@ import { switchMap, map, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import { DataViewApiService } from 'libs/data/payfactors-api';
-import { FormulaType, PayfactorsApiModelMapper } from 'libs/features/formula-editor';
+import { FormulaType, PayfactorsApiModelMapper } from 'libs/ui/formula-editor';
 import { ValidateFormulaResponse, ValidateFormulaRequest, UpsertFormulaFieldRequest, DeleteUserFormulaRequest } from 'libs/models/payfactors-api/reports';
-import * as fromFormulaFieldActions from 'libs/features/formula-editor/actions/formula-field.actions';
+import * as fromFormulaFieldActions from 'libs/ui/formula-editor/actions/formula-field.actions';
 
 
 @Injectable()

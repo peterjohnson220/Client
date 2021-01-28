@@ -3,13 +3,16 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
+import { CommunityAttachmentModalState, KendoUploadStatus } from 'libs/models';
+import { formatBytes } from 'libs/core/functions';
+import { CommunityAttachment } from 'libs/models/community/community-attachment.model';
+
 import * as fromCommunityAttachmentsReducer from '../../reducers';
 import * as fromCommunityAttachmentsActions from '../../actions/community-attachment.actions';
-import { CommunityAttachment } from 'libs/models/community/community-attachment.model';
 import { FileRestrictions, SuccessEvent, UploadEvent, FileInfo, SelectEvent, RemoveEvent } from '@progress/kendo-angular-upload';
-import { mapFileInfoToCommunityAddAttachment, formatBytes } from '../../helpers/model-mapping.helper';
+import { mapFileInfoToCommunityAddAttachment } from '../../helpers/model-mapping.helper';
 import { CommunityFiles } from '../../constants/community-files';
-import { CommunityAttachmentModalState, CommunityAttachmentUploadStatus } from 'libs/models';
+
 
 @Component({
   selector: 'pf-community-attachment-modal',
@@ -27,7 +30,7 @@ export class CommunityAttachmentModalComponent implements OnInit {
   maxFileCount = 5;
   showFileCountWarning = false;
   currentCommunityAttachmentModal: CommunityAttachmentModalState;
-  communityAttachmentUploadStatus = CommunityAttachmentUploadStatus;
+  communityAttachmentUploadStatus = KendoUploadStatus;
 
   @ViewChild('uploadWidget', { static: true }) uploadWidget: any;
 
@@ -93,7 +96,7 @@ export class CommunityAttachmentModalComponent implements OnInit {
       if (file.validationErrors && file.validationErrors.includes('invalidFileExtension')) {
         const cloudFileName = `${file.uid}_${file.name}`;
         const fileToUpload = mapFileInfoToCommunityAddAttachment(file, cloudFileName);
-        fileToUpload.Status = CommunityAttachmentUploadStatus.InvalidExtension;
+        fileToUpload.Status = KendoUploadStatus.InvalidExtension;
         this.uploadedFiles.push(fileToUpload);
       }
     });
@@ -111,7 +114,7 @@ export class CommunityAttachmentModalComponent implements OnInit {
     e.data = { CloudFileName: cloudFileName, Id: file.uid };
 
     const fileToUpload = mapFileInfoToCommunityAddAttachment(file, cloudFileName);
-    fileToUpload.Status = CommunityAttachmentUploadStatus.UploadInProgress;
+    fileToUpload.Status = KendoUploadStatus.UploadInProgress;
     this.uploadedFiles.push(fileToUpload);
 
     this.currentCommunityAttachmentModal.Attachments = this.uploadedFiles;
@@ -141,7 +144,7 @@ export class CommunityAttachmentModalComponent implements OnInit {
     if (e.operation === 'upload' || (e.operation === 'remove' && e.response.type === 4)) {
       const uploadedFile = this.uploadedFiles.find(f => f.Id === e.files[0].uid);
       if (uploadedFile) {
-        uploadedFile.Status = CommunityAttachmentUploadStatus.ScanInProgress; // scan in progress now...
+        uploadedFile.Status = KendoUploadStatus.ScanInProgress; // scan in progress now...
         this.currentCommunityAttachmentModal.Attachments = this.uploadedFiles;
         this.store.dispatch(new fromCommunityAttachmentsActions.SaveCommunityAttachmentsState(this.currentCommunityAttachmentModal));
       }
@@ -159,7 +162,7 @@ export class CommunityAttachmentModalComponent implements OnInit {
 
     const uploadedFile = this.uploadedFiles.find(f => f.Id === e.files[0].uid);
     if (uploadedFile) {
-      uploadedFile.Status = CommunityAttachmentUploadStatus.UploadFailed;
+      uploadedFile.Status = KendoUploadStatus.UploadFailed;
     }
     this.currentCommunityAttachmentModal.Attachments = this.uploadedFiles;
     this.store.dispatch(new fromCommunityAttachmentsActions.SaveCommunityAttachmentsState(this.currentCommunityAttachmentModal));
@@ -171,7 +174,7 @@ export class CommunityAttachmentModalComponent implements OnInit {
     if (attachment) {
       return attachment.Status;
     }
-    return CommunityAttachmentUploadStatus.NotStarted;
+    return KendoUploadStatus.NotStarted;
   }
 
   getStatusClass(file: FileInfo) {
@@ -181,11 +184,11 @@ export class CommunityAttachmentModalComponent implements OnInit {
     }
 
     switch (attachment.Status) {
-      case CommunityAttachmentUploadStatus.ScanSucceeded:
+      case KendoUploadStatus.ScanSucceeded:
         return 'upload-success';
-      case CommunityAttachmentUploadStatus.UploadFailed:
-      case CommunityAttachmentUploadStatus.ScanFailed:
-      case CommunityAttachmentUploadStatus.InvalidExtension:
+      case KendoUploadStatus.UploadFailed:
+      case KendoUploadStatus.ScanFailed:
+      case KendoUploadStatus.InvalidExtension:
         return 'upload-failed';
       default:
         return 'upload-in-progress';

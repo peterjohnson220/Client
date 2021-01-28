@@ -5,16 +5,17 @@ import { catchError, filter, mergeMap, switchMap, withLatestFrom } from 'rxjs/op
 import { Action, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 
-import * as fromInfiniteScrollActions from 'libs/features/infinite-scroll/actions/infinite-scroll.actions';
-import * as fromSearchResultsActions from 'libs/features/search/actions/search-results.actions';
-import * as fromSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
-import * as fromSearchReducer from 'libs/features/search/reducers';
+import * as fromInfiniteScrollActions from 'libs/features/search/infinite-scroll/actions/infinite-scroll.actions';
+import * as fromSearchResultsActions from 'libs/features/search/search/actions/search-results.actions';
+import * as fromSearchFiltersActions from 'libs/features/search/search/actions/search-filters.actions';
+import * as fromSearchReducer from 'libs/features/search/search/reducers';
+import * as fromStatementAssignmentPageReducer from 'apps/total-rewards/app/_main/statement-assignment/reducers';
 
 import { TotalRewardsEmployeeSearchResponse } from 'libs/models/payfactors-api/total-rewards/response/employee-search-response.model';
-import { PayfactorsSearchApiHelper, PayfactorsSearchApiModelMapper } from 'libs/features/search/helpers';
+import { PayfactorsSearchApiHelper, PayfactorsSearchApiModelMapper } from 'libs/features/search/search/helpers';
 import { TotalRewardsAssignmentApiService, TotalRewardsSearchApiService } from 'libs/data/payfactors-api/total-rewards';
-import { ScrollIdConstants } from 'libs/features/infinite-scroll/models';
-import { SearchFeatureIds } from 'libs/features/search/enums/search-feature-ids';
+import { ScrollIdConstants } from 'libs/features/search/infinite-scroll/models';
+import { SearchFeatureIds } from 'libs/features/search/search/enums/search-feature-ids';
 
 import * as fromEmployeeSearchResultsActions from '../actions/employee-search-results.actions';
 
@@ -22,12 +23,12 @@ import * as fromEmployeeSearchResultsActions from '../actions/employee-search-re
 export class EmployeeSearchResultsEffects {
 
   @Effect()
-  getResults$ = this.searchEmployees(this.actions$.pipe(ofType(fromSearchResultsActions.GET_RESULTS)));
+  getResults$ = this.searchUnassignedEmployees(this.actions$.pipe(ofType(fromSearchResultsActions.GET_RESULTS)));
 
   @Effect()
-  getMoreResults$ = this.searchEmployees(this.actions$.pipe(ofType(fromSearchResultsActions.GET_MORE_RESULTS)));
+  getMoreResults$ = this.searchUnassignedEmployees(this.actions$.pipe(ofType(fromSearchResultsActions.GET_MORE_RESULTS)));
 
-  searchEmployees(action$: Actions): Observable<Action> {
+  searchUnassignedEmployees(action$: Actions): Observable<Action> {
     return action$
       .pipe(
         withLatestFrom(
@@ -35,12 +36,14 @@ export class EmployeeSearchResultsEffects {
           this.store.select(fromSearchReducer.getParentFilters),
           this.store.select(fromSearchReducer.getSearchFilterMappingData),
           this.store.select(fromSearchReducer.getSearchFeatureId),
-          (action: fromSearchResultsActions.GetResults, pagingOptions, filters, searchFilterMappingDataObj, searchFeatureId) =>
-            ({action, pagingOptions, filters, searchFilterMappingDataObj, searchFeatureId})
+          this.store.select(fromStatementAssignmentPageReducer.getStatement),
+          (action: fromSearchResultsActions.GetResults, pagingOptions, filters, searchFilterMappingDataObj, searchFeatureId, statement) =>
+            ({action, pagingOptions, filters, searchFilterMappingDataObj, searchFeatureId, statement})
         ),
         filter((data) => data.searchFeatureId === SearchFeatureIds.StatementAssignment),
         switchMap((data) => {
           const searchRequest = {
+            StatementId: data.statement.StatementId,
             FilterOptions: {
               ReturnFilters: true,
               AggregateCount: 10
@@ -50,7 +53,7 @@ export class EmployeeSearchResultsEffects {
             PagingOptions: this.payfactorsSearchApiModelMapper.mapResultsPagingOptionsToPagingOptions(data.pagingOptions)
           };
 
-          return this.totalRewardsSearchApiService.searchEmployees(searchRequest).pipe(
+          return this.totalRewardsSearchApiService.searchUnassignedEmployees(searchRequest).pipe(
             mergeMap((response: TotalRewardsEmployeeSearchResponse) => {
               const actions = [];
               const searchFilters = this.payfactorsSearchApiHelper.sliceSearchFiltersOptions(response.SearchFilters, searchRequest.Filters, 5);

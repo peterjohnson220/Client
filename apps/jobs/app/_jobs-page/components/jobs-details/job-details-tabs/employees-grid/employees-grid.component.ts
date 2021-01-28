@@ -9,12 +9,12 @@ import { SortDescriptor } from '@progress/kendo-data-query';
 import cloneDeep from 'lodash/cloneDeep';
 
 import { ViewField } from 'libs/models/payfactors-api/reports/request';
-import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig, GridConfig } from 'libs/features/pf-data-grid/models';
-import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
-import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
-import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
-import { PfThemeType } from 'libs/features/pf-data-grid/enums/pf-theme-type.enum';
-import * as fromActions from 'libs/features/pf-data-grid/actions';
+import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig, GridConfig } from 'libs/features/grids/pf-data-grid/models';
+import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
+import * as fromPfGridActions from 'libs/features/grids/pf-data-grid/actions';
+import { PfDataGridColType } from 'libs/features/grids/pf-data-grid/enums';
+import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums/pf-theme-type.enum';
+import * as fromActions from 'libs/features/grids/pf-data-grid/actions';
 
 import * as fromJobsPageReducer from '../../../../reducers';
 import { PageViewIds } from '../../../../constants/';

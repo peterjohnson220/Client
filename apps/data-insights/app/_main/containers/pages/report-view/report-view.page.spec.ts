@@ -2,7 +2,7 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { ReportViewTypes } from 'libs/features/reports/models';
+import { ReportViewTypes } from 'libs/features/surveys/reports/models';
 
 import { ReportViewPageComponent } from './report-view.page';
 

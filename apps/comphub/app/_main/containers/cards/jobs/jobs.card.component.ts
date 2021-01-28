@@ -4,7 +4,7 @@ import { Observable, Subscription } from 'rxjs';
 import { AutoCompleteComponent, PopupSettings } from '@progress/kendo-angular-dropdowns';
 
 import * as fromRootReducer from 'libs/state/state';
-import * as fromBasicDataGridReducer from 'libs/features/basic-data-grid/reducers';
+import * as fromBasicDataGridReducer from 'libs/features/grids/basic-data-grid/reducers';
 import { UserContext } from 'libs/models/security';
 import { QuickPriceType, SystemUserGroupNames } from 'libs/constants';
 import { ExchangeJobSearchOption } from 'libs/models/peer/ExchangeJobSearchOption';

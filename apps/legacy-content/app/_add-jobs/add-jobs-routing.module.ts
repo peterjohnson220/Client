@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { AddJobsPageComponent } from 'libs/features/add-jobs/containers/pages/add-jobs';
+import { AddJobsPageComponent } from 'libs/features/jobs/add-jobs/containers/pages/add-jobs';
 
 import { CreateNewJobPageComponent } from './containers';
 

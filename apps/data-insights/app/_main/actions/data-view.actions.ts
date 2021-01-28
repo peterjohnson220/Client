@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { BaseDataView } from 'libs/features/formula-editor';
+import { BaseDataView } from 'libs/ui/formula-editor';
 
 export const SAVE_USER_REPORT = '[Data Insights / Dashboards] Save User Report';
 export const SAVE_USER_REPORT_SUCCESS = '[Data Insights / Dashboards] Save User Report Success';

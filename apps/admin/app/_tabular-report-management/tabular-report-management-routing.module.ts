@@ -9,11 +9,11 @@ import { TabularReportExportSchedulerPageComponent } from './containers/pages/ta
 const routes: Routes = [
   {
     path: '', redirectTo: 'tabular-report-export-scheduler', pathMatch: 'full', canActivate: [AuthorizationGuard],
-    data: { Permissions: [Permissions.SCHEDULE_TABULAR_REPORT_EXPORT], Check: PermissionCheckEnum.Single }
+    data: { Permissions: [Permissions.SCHEDULE_TABULAR_REPORT_EXPORT_COMPANY_ADMIN], Check: PermissionCheckEnum.Single }
   },
   {
     path: 'tabular-report-export-scheduler', component: TabularReportExportSchedulerPageComponent, canActivate: [AuthorizationGuard],
-    data: { Permissions: [Permissions.SCHEDULE_TABULAR_REPORT_EXPORT], Check: PermissionCheckEnum.Single }
+    data: { Permissions: [Permissions.SCHEDULE_TABULAR_REPORT_EXPORT_COMPANY_ADMIN], Check: PermissionCheckEnum.Single }
   }
 ];
 

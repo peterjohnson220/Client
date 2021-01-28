@@ -3,23 +3,22 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
-import { MomentModule } from 'ngx-moment';
+import { FormatPurePipeModule, GetUnixTimePipeModule, FormatDistanceToNowPurePipeModule } from 'ngx-date-fns';
 import { NgbModalModule, NgbTabsetModule } from '@ng-bootstrap/ng-bootstrap';
 import { LayoutModule } from '@progress/kendo-angular-layout';
 
 import { PfApiModule } from 'libs/data/payfactors-api';
-import { PfAppRootModule, AppComponent } from 'libs/features/app-root';
+import { PfAppRootModule, AppComponent } from 'libs/features/infrastructure/app-root';
 import { PfSecurityModule } from 'libs/security/security.module';
 import { PfStateModule } from 'libs/state/state.module';
 import { PfCommonUIModule } from 'libs/ui/common/common-ui-module';
 import { PfLayoutWrapperModule } from 'libs/ui/layout-wrapper';
 import { JwtQueryStringAuthInterceptor, SentryService, SentryErrorHandler } from 'libs/core/services';
+import { PfJobDescriptionManagementModule } from 'libs/features/jobs/job-description-management/job-description-management.module';
 
 import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from './shared/shared.module';
-import { PfJobDescriptionManagementModule } from 'libs/features/job-description-management/job-description-management.module';
-import {SsoAuthGuard} from './shared/guards';
-import { UserContextGuard } from '../../../libs/security/guards';
+import { SsoAuthGuard } from './shared/guards';
 
 
 @NgModule({
@@ -29,7 +28,9 @@ import { UserContextGuard } from '../../../libs/security/guards';
     BrowserAnimationsModule,
 
     // 3rd Party
-    MomentModule,
+    FormatPurePipeModule,
+    GetUnixTimePipeModule,
+    FormatDistanceToNowPurePipeModule,
     NgbModalModule,
     NgbTabsetModule,
     LayoutModule,

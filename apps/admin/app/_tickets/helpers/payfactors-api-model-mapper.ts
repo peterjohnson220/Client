@@ -51,7 +51,8 @@ export class PayfactorsApiModelMapper {
         Attachments: this.mapUserTicketFilesToTicketAttachment(ut.UserTicketFiles),
         HasNotes: ut.HasNotes,
         HasNewAttachments: ut.HasNewAttachments,
-        UserModifiedDate: ut.UserModifiedDate
+        UserModifiedDate: ut.UserModifiedDate,
+        TicketTitle: ut.TicketTitle
       };
     });
   }

@@ -1,10 +1,12 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
 import { Exchange, ExchangeRequestTypeEnum, RequestExchangeRequest } from 'libs/models/peer';
+
+import {ExistingCompanySelectionFormComponent} from '../existing-company-selection-form/existing-company-selection-form.component'
 
 import { ExistingCompany } from '../../../models';
 import * as fromPeerDashboardReducer from '../../../reducers';
@@ -18,10 +20,13 @@ import * as fromExchangeRequestActions from '../../../../shared/actions/exchange
 })
 
 export class InviteCompanyModalComponent implements OnInit, OnDestroy {
+  @ViewChild(ExistingCompanySelectionFormComponent) ExistingCompanySelectionFormComponent! : ExistingCompanySelectionFormComponent;
+
   exchange$: Observable<Exchange>;
   exchangeCompanyRequesting$: Observable<boolean>;
   existingCompaniesExchangeRequestModalOpen$: Observable<boolean>;
   exchangeSubscription: Subscription;
+  modalOpenSubscription: Subscription;
   exchange: Exchange;
   requestCompanyForm: FormGroup;
   newCompanyFormEnabled = false;
@@ -90,6 +95,7 @@ export class InviteCompanyModalComponent implements OnInit, OnDestroy {
 
   handleModalDismissed(): void {
     this.store.dispatch(new fromExchangeRequestActions.CloseExchangeRequestModal(ExchangeRequestTypeEnum.ReferPayfactorsCompany));
+    this.requestCompanyForm.removeControl(this.currentChildForm);
     this.newCompanyFormEnabled = false;
   }
 
@@ -108,9 +114,15 @@ export class InviteCompanyModalComponent implements OnInit, OnDestroy {
     this.exchangeSubscription = this.exchange$.subscribe(e => {
       this.exchange = e;
     });
+    this.modalOpenSubscription  = this.existingCompaniesExchangeRequestModalOpen$.subscribe(modalOpen=>{
+      if(modalOpen){
+        this.ExistingCompanySelectionFormComponent.applyCompanySelectionForm();
+      }     
+    });
   }
 
   ngOnDestroy(): void {
     this.exchangeSubscription.unsubscribe();
+    this.modalOpenSubscription.unsubscribe();
   }
 }
