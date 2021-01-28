@@ -1,15 +1,14 @@
-import { Component, Input, Output, EventEmitter} from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy} from '@angular/core';
 
 import { Observable } from 'rxjs';
 
 import { ControlType } from 'libs/models/common';
 
-
 @Component({
   selector: 'pf-control-data-renderer',
   templateUrl: './control-data-renderer.component.html',
-  styleUrls: ['./control-data-renderer.component.scss']
+  styleUrls: ['./control-data-renderer.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class ControlDataRendererComponent {
@@ -27,9 +26,6 @@ export class ControlDataRendererComponent {
   @Output() dataRowDeleted = new EventEmitter();
   @Output() bulkDataChangesDetected = new EventEmitter();
   @Output() additionalPropertiesChangesDetected = new EventEmitter();
-
-  constructor(private sanitizer: DomSanitizer) {
-  }
 
   // Events
   handleDataChangesDetected(dataRowChangeObj: any) {

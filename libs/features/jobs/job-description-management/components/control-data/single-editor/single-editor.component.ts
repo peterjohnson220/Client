@@ -1,13 +1,14 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 
 import { ControlTypeAttribute } from 'libs/models/common';
 
-import { JobDescriptionManagementService } from 'libs/features/jobs/job-description-management/services';
+import { ControlDataHelper } from '../../../helpers';
 
 @Component({
   selector: 'pf-single-editor',
   templateUrl: './single-editor.component.html',
-  styleUrls: ['./single-editor.component.scss']
+  styleUrls: ['./single-editor.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class SingleEditorComponent {
@@ -19,10 +20,7 @@ export class SingleEditorComponent {
 
   @Output() dataChangesDetected = new EventEmitter();
 
-  constructor(
-    private jobDescriptionManagementService: JobDescriptionManagementService
-  ) {
-  }
+  controlDataHelper = ControlDataHelper;
 
   handleDataChangesDetected(dataRowChangeObj: any) {
     this.dataChangesDetected.emit(dataRowChangeObj);

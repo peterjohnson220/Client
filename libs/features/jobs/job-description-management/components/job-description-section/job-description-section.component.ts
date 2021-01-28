@@ -1,22 +1,25 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 import { JobDescriptionControl, JobDescriptionSection } from 'libs/models';
 
 @Component({
   selector: 'pf-job-description-section',
   templateUrl: './job-description-section.component.html',
-  styleUrls: ['./job-description-section.component.scss']
+  styleUrls: ['./job-description-section.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class JobDescriptionSectionComponent {
   @Input() section: JobDescriptionSection;
   @Input() readOnly: boolean;
-  @Input() controlTypesLoaded = false;
   @Input() isCompare = false;
   @Input() saveThrottle: Subject<any>;
   @Input() jobDescriptionStatus: string;
+  @Input() undoChanges$: Observable<boolean>;
+  @Input() replaceContents$: Observable<boolean>;
+
   @Output() controlDataChangesDetected = new EventEmitter();
   @Output() controlBulkDataChangesDetected = new EventEmitter();
   @Output() controlAdditionalPropertiesChangesDetected = new EventEmitter();
@@ -24,9 +27,6 @@ export class JobDescriptionSectionComponent {
   @Output() controlDataRowAdded = new EventEmitter();
 
   hideBody = false;
-
-  constructor() {
-  }
 
   toggleBody() {
     this.hideBody = !this.hideBody;

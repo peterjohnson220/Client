@@ -1,14 +1,15 @@
-import { Action } from '@ngrx/store';
 import { HttpErrorResponse } from '@angular/common/http';
 
-import { CompanyDto, ControlType, JobDescription, JobDescriptionControl } from 'libs/models';
+import { Action } from '@ngrx/store';
+
+import { ControlType, JobDescription, JobDescriptionControl } from 'libs/models';
+import { JobDescriptionAppliesTo, JobDescriptionExtendedInfo } from 'libs/features/jobs/job-description-management/models';
 
 import {
   GetJobDescriptionData,
   ReorderControlDataDto,
   JobDescriptionLibraryDropModel
 } from '../models';
-import { JobDescriptionAppliesTo, JobDescriptionExtendedInfo } from 'libs/features/jobs/job-description-management/models';
 
 export const GET_JOB_DESCRIPTION = '[job-description-management / Job Description] Get Job Description';
 export const GET_JOB_DESCRIPTION_SUCCESS = '[job-description-management / Job Description] Get Job Description Success';
@@ -71,7 +72,7 @@ export class GetJobDescription implements Action {
 export class GetJobDescriptionSuccess implements Action {
   readonly type = GET_JOB_DESCRIPTION_SUCCESS;
 
-  constructor(public payload: { jobDescription: JobDescription, requestData: GetJobDescriptionData }) {}
+  constructor(public payload: { jobDescription: JobDescription, requestData: GetJobDescriptionData, controlTypes: ControlType[] }) {}
 }
 
 export class GetJobDescriptionError implements Action {
@@ -238,7 +239,7 @@ export class ReplaceJobDescriptionViaCopy implements Action {
   readonly type = REPLACE_JOB_DESCRIPTION_VIA_COPY;
 
 
-  constructor(public payload: JobDescription) {}
+  constructor(public payload: { jobDescription: JobDescription, controlTypes: ControlType[] }) {}
 }
 
 export class ResetReplaceJobDescriptionViaCopy implements Action {

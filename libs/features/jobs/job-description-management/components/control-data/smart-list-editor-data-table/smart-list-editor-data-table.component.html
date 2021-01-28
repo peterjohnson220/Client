@@ -9,7 +9,7 @@
 
   <tbody>
 
-  <ng-template [ngIf]="data.length">
+  <ng-container *ngIf="data.length">
 
     <ng-container *ngFor="let dataRow of data; index as dataRowIndex; trackBy: trackByFn">
 
@@ -39,7 +39,7 @@
 
     </ng-container>
 
-  </ng-template>
+  </ng-container>
 
   </tbody>
 

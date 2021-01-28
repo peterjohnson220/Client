@@ -68,11 +68,38 @@ export class ControlDataHelper {
     return dataRow;
   }
 
-  private static hasData(attributes: ControlTypeAttribute[], dataRow: any) {
+  static initDataRows(sections: JobDescriptionSection[], allControlTypes: ControlType[]): JobDescriptionSection[] {
+    return sections.map(section => {
+      section.Controls.forEach(control => {
+        const controlType = allControlTypes.find(x => x.Type === control.Type && x.ControlVersion === control.ControlVersion);
+        if (!!controlType) {
+          control.ControlType = controlType;
+          if (this.shouldAddDataRowOnInit(control, controlType)) {
+            control.Data = control.Data.concat([this.createDataRow(controlType.Attributes)]);
+          }
+        }
+      });
+      return section;
+    });
+  }
+
+  static hasData(attributes: ControlTypeAttribute[], dataRow: any) {
     return attributes.some(a => !!dataRow[a.Name]);
   }
 
   private static hasTemplateDataRow(jobDescriptionControl: JobDescriptionControl) {
     return jobDescriptionControl.Data.some(dataRow => dataRow.TemplateId);
+  }
+
+  private static hasJobDescriptionDataRow(control: JobDescriptionControl) {
+    return !control.Data.length ? false : control.Data.some(dataRow => !dataRow.TemplateId);
+  }
+
+  private static shouldAddDataRowOnInit(control: JobDescriptionControl, controlType: ControlType): boolean {
+    return controlType.EditorType !== 'SmartList' &&
+      !controlType.ReadOnly &&
+      !(controlType.EditorType === 'Single' && control.Data.length) &&
+      !(controlType.EditorType === 'List' && controlType.Locked && control.Data.length) &&
+      !this.hasJobDescriptionDataRow(control);
   }
 }

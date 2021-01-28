@@ -11,14 +11,14 @@ import { ControlType } from 'libs/models/common';
 import * as fromRootState from 'libs/state/state';
 import { AsyncStateObj } from 'libs/models/state';
 import { CompanyDto } from 'libs/models/company';
-
-import {JobDescriptionHistoryListItem} from 'libs/features/jobs/job-description-management/models';
-import * as fromJobDescriptionReducer from '../../../reducers';
-import * as fromJobDescriptionVersionCompareActions from '../../../actions/job-description-version-compare.actions';
-import * as fromJobDescriptionHistoryListActions from '../../../actions/job-description-history-list.actions';
 import * as fromJobDescriptionManagementSharedReducer from 'libs/features/jobs/job-description-management/reducers';
 import * as fromCompanyLogoActions from 'libs/features/jobs/job-description-management/actions';
 import * as fromControlTypeActions from 'libs/features/jobs/job-description-management/actions/control-types.actions';
+import { JobDescriptionHistoryListItem } from 'libs/features/jobs/job-description-management/models';
+
+import * as fromJobDescriptionReducer from '../../../reducers';
+import * as fromJobDescriptionVersionCompareActions from '../../../actions/job-description-version-compare.actions';
+import * as fromJobDescriptionHistoryListActions from '../../../actions/job-description-history-list.actions';
 
 @Component({
   selector: 'pf-job-description-version-compare.page',
@@ -46,12 +46,6 @@ export class JobDescriptionVersionComparePageComponent implements OnInit, OnDest
               private store: Store<fromJobDescriptionReducer.State>,
               private router: Router, private route: ActivatedRoute,
               private userContextStore: Store<fromRootState.State>) {
-
-    this.store.dispatch(new fromJobDescriptionHistoryListActions.LoadJobDescriptionHistoryListItems(
-      {JobDescriptionId: this.route.snapshot.params.id}
-      ));
-    this.sharedStore.dispatch(new fromControlTypeActions.LoadControlTypes());
-
     this.controlTypesLoaded$ =   this.sharedStore.select(fromJobDescriptionManagementSharedReducer.getControlTypesLoaded);
     this.jobDescriptionHistoryList$ = this.store.select(fromJobDescriptionReducer.getJobDescriptionHistoryList);
     this.sourceHistoryItem$ = this.store.select(fromJobDescriptionReducer.getSourceHistoryListItem);
@@ -81,6 +75,9 @@ export class JobDescriptionVersionComparePageComponent implements OnInit, OnDest
   }
 
   ngOnInit() {
+    this.store.dispatch(new fromJobDescriptionHistoryListActions.LoadJobDescriptionHistoryListItems(
+      { JobDescriptionId: this.route.snapshot.params.id }
+      ));
     this.store.dispatch(new fromJobDescriptionVersionCompareActions.LoadJobDescriptionHistoryListSuccess({
       historyList: this.route.snapshot.data['historyList'],
       sourceVersion: Number(this.route.snapshot.params.sourceVersion),

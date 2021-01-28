@@ -1,13 +1,14 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 
 import { ControlTypeAttribute } from 'libs/models/common';
 
-import { JobDescriptionManagementService } from 'libs/features/jobs/job-description-management/services';
+import { ControlDataHelper } from '../../../helpers';
 
 @Component({
   selector: 'pf-list-editor',
   templateUrl: './list-editor.component.html',
-  styleUrls: ['./list-editor.component.scss']
+  styleUrls: ['./list-editor.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class ListEditorComponent {
@@ -21,9 +22,7 @@ export class ListEditorComponent {
   @Output() dataChangesDetected = new EventEmitter();
   @Output() dataRowDeleted = new EventEmitter();
 
-  constructor(
-    private jobDescriptionManagementService: JobDescriptionManagementService) {
-  }
+  controlDataHelper = ControlDataHelper;
 
   handleDataChangesDetected(dataRowChangeObj: any) {
     this.dataChangesDetected.emit(dataRowChangeObj);

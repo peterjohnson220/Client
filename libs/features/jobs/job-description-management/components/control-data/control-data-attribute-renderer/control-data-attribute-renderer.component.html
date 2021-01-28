@@ -1,7 +1,7 @@
 <!--BEGIN ReadOnly Rendering-->
-<ng-template [ngIf]="!editable">
+<ng-container *ngIf="!editable">
 
-  <ng-template [ngIf]="attribute.Type === 'RichText' ||
+  <ng-container *ngIf="attribute.Type === 'RichText' ||
                       attribute.Type === 'Textbox'  ||
                       attribute.Type === 'Textarea' ||
                       attribute.Type === 'Rendered'">
@@ -9,15 +9,15 @@
          [class.ql-editor-output]="attribute.Type === 'Rendered'" class="rendered-text"
          [innerHtml]="dataRow[attribute.Name] ? sanitizer.bypassSecurityTrustHtml(dataRow[attribute.Name]) : ''">
     </div>
-  </ng-template>
+  </ng-container>
 
-  <ng-template [ngIf]="attribute.Type === 'Dropdown'">
+  <ng-container *ngIf="attribute.Type === 'Dropdown'">
     <div class="rendered-text"
          [innerHtml]=sanitizer.bypassSecurityTrustHtml(displayValueByKey(dataRow[attribute.Name]))>
     </div>
-  </ng-template>
+  </ng-container>
 
-  <ng-template [ngIf]="attribute.Type === 'RadioButton'">
+  <ng-container *ngIf="attribute.Type === 'RadioButton'">
     <div class="form-check form-check-inline" *ngFor="let choice of attribute.Choices">
       <label class="form-check-label form-check-label-disabled pl-0">
         <input type="radio"
@@ -29,51 +29,30 @@
         {{choice.display}}
       </label>
     </div>
-  </ng-template>
+  </ng-container>
 
-</ng-template>
+</ng-container>
 <!--END ReadOnly Rendering-->
 
 <!--BEGIN Editable Rendering-->
-<ng-template [ngIf]="editable">
+<ng-container *ngIf="editable">
 
   <!--Rich Text Editor-->
   <div *ngIf="attribute.Type === 'RichText'" class="rte-container">
-    <p-editor [pfEditorModel]="dataRow[attribute.Name]" [ngModel]="dataRow[attribute.Name]" [style]="attribute.RTEHeight ? {'min-height': attribute.RTEHeight} : {'min-height': '200px' }"
-              (onTextChange)="handleDataChangesDetected(dataRow.Id, attribute.Name, $event.htmlValue || '')">
-      <p-header>
-        <select class="ql-size">
-          <option value="small"></option>
-          <!-- Note a missing, thus falsy value, is used to reset to default -->
-          <option selected></option>
-          <option value="large"></option>
-          <option value="huge"></option>
-        </select>
-        <span class="ql-formats">
-                    <button class="ql-bold"></button>
-                    <button class="ql-italic"></button>
-                    <button class="ql-underline"></button>
-                </span>
-        <span class="ql-formats">
-                    <select class="ql-align"></select>
-                </span>
-        <span class="ql-formats">
-                    <select class="ql-color"></select>
-                    <select class="ql-background"></select>
-                </span>
-        <span class="ql-formats">
-                    <button class="ql-clean"></button>
-                </span>
-      </p-header>
-    </p-editor>
+    <quill-editor
+      [modules]="richTextQuillConfig"
+      [ngModel]="dataRow[attribute.Name]"
+      [styles]="attribute.RTEHeight ? {'min-height': attribute.RTEHeight} : {'min-height': '200px' }"
+      (onContentChanged)="handleDataChangesDetected(dataRow.Id, attribute.Name, $event.html || '')">
+    </quill-editor>
   </div>
 
   <!--DropDown-->
   <select *ngIf="attribute.Type === 'Dropdown'" class="form-control"
-          (change)="handleDataChangesDetected(dataRow.Id, attribute.Name, $event.target.value)"
+          (ngModelChange)="handleDataChangesDetected(dataRow.Id, attribute.Name, $event)"
           [ngModel]="(dataRow[attribute.Name]).trim()">
     <option></option>
-    <option *ngFor="let choice of attribute.Choices" [value]="choice.value.trim()">{{choice.display}}</option>
+    <option *ngFor="let choice of attribute.Choices" [ngValue]="choice.value.trim()">{{choice.display}}</option>
   </select>
 
   <!--Textbox-->
@@ -82,7 +61,7 @@
          [ngModel]="dataRow[attribute.Name]"/>
 
   <!--Radio Button-->
-  <ng-template [ngIf]="attribute.Type == 'RadioButton'">
+  <ng-container *ngIf="attribute.Type == 'RadioButton'">
     <div class="form-check form-check-inline" *ngFor="let choice of attribute.Choices">
       <label class="form-check-label">
         <input type="radio"
@@ -94,17 +73,16 @@
         {{choice.display}}
       </label>
     </div>
-  </ng-template>
+  </ng-container>
 
   <!--Textarea-->
   <div *ngIf="attribute.Type === 'Textarea'" class="text-area-rte-container">
-    <p-editor [pfEditorModel]="dataRow[attribute.Name]" [ngModel]="dataRow[attribute.Name]"
-              (onTextChange)="handleDataChangesDetected(dataRow.Id, attribute.Name, $event.htmlValue || '')">
-      <p-header>
-
-      </p-header>
-    </p-editor>
+    <quill-editor [pfEditorModel]="dataRow[attribute.Name]"
+                  [ngModel]="dataRow[attribute.Name]"
+                  [modules]="{ toolbar: false }"
+                  (onContentChanged)="handleDataChangesDetected(dataRow.Id, attribute.Name, $event.html)">
+    </quill-editor>
   </div>
 
-</ng-template>
+</ng-container>
 <!--END Editable Rendering-->

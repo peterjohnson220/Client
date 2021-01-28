@@ -1,4 +1,3 @@
-export * from './control-data';
 export * from './info-header';
 export * from './modals';
 export * from './status-pill';
