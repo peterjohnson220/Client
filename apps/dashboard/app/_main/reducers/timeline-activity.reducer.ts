@@ -42,7 +42,7 @@ export function reducer(state = initialState, action: fromTimelineActivityAction
       };
     }
     case fromTimelineActivityActions.LOADING_ACTIVITY_SUCCESS: {
-      const viewModels = TimelineActivityMapper.mapFromResponse(action.payload);
+      const viewModels = TimelineActivityMapper.mapFromResponse(action.payload.response, action.payload.baseUrl);
       for (const viewModel of viewModels) {
         try {
           viewModel.IsVisible = state.filters.find(x => x.Value === viewModel.Type).IsEnabled;
@@ -53,8 +53,8 @@ export function reducer(state = initialState, action: fromTimelineActivityAction
       return {
         ...adapter.addMany(viewModels, state),
         loading: false,
-        currentPage: action.payload.CurrentPage,
-        hasMoreData: action.payload.HasMoreDataToReturn
+        currentPage: action.payload.response.CurrentPage,
+        hasMoreData: action.payload.response.HasMoreDataToReturn
       };
     }
     case fromTimelineActivityActions.LOADING_ACTIVITY_ERROR: {

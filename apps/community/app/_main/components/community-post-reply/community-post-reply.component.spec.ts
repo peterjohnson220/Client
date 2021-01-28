@@ -1,17 +1,25 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { Store, StoreModule } from '@ngrx/store';
+
+import { generateMockCommunityReply } from 'libs/models/community/community-reply.model';
+import * as fromRootState from 'libs/state/state';
 
 import { CommunityPostReplyComponent } from './community-post-reply.component';
-import { generateMockCommunityReply } from 'libs/models/community/community-reply.model';
 
 describe('CommunityPostReplyComponent', () => {
   let fixture: ComponentFixture<CommunityPostReplyComponent>;
   let instance: CommunityPostReplyComponent;
+  let store: Store<fromRootState.State>;
 
   // Configure Testing Module for before each test
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
+      imports: [
+        StoreModule.forRoot({
+          ...fromRootState.reducers,
+        }),
+      ],
       declarations: [
         CommunityPostReplyComponent
       ],
@@ -19,6 +27,7 @@ describe('CommunityPostReplyComponent', () => {
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
+    store = TestBed.inject(Store);
     fixture = TestBed.createComponent(CommunityPostReplyComponent);
     instance = fixture.componentInstance;
   });

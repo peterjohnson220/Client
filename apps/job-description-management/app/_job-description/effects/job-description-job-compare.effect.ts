@@ -9,7 +9,7 @@ import { JobDescriptionApiService } from 'libs/data/payfactors-api/jdm';
 import { JobDescription } from 'libs/models/jdm';
 
 import * as fromJobDescriptionJobCompareActions from '../actions/job-description-job-compare.actions';
-import { JobDescriptionManagementService } from 'libs/features/job-description-management';
+import { JobDescriptionManagementService } from 'libs/features/jobs/job-description-management';
 
 @Injectable()
 export class JobDescriptionJobCompareEffects {

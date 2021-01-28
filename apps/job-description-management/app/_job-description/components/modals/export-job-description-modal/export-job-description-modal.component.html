@@ -19,6 +19,11 @@
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-secondary" (click)="close()">Cancel</button>
-    <button type="button" class="btn btn-primary" (click)="exportClicked()">Export</button>
+    <button type="button" class="btn btn-primary" (click)="handleExportClicked()">Export</button>
   </div>
 </ng-template>
+
+<pf-file-download-security-warning-modal 
+  #fileDownloadSecurityWarningModal
+  (securityWarningConfirmed)="handleSecurityWarningConfirmed($event)">
+</pf-file-download-security-warning-modal>

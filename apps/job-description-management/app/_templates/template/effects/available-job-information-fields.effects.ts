@@ -9,7 +9,7 @@ import { JobDescriptionTemplateApiService } from 'libs/data/payfactors-api';
 import { MessageHelper } from 'libs/core';
 
 import * as fromTemplateActions from '../actions';
-import { AvailableJobInformationField } from 'libs/features/job-description-management';
+import { AvailableJobInformationField } from 'libs/features/jobs/job-description-management';
 
 @Injectable()
 export class AvailableJobInformationFieldsEffects {

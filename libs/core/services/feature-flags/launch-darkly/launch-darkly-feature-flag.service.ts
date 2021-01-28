@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { initialize } from 'launchdarkly-js-client-sdk';
+import { initialize, LDOptions } from 'launchdarkly-js-client-sdk';
 import { LDClient } from 'launchdarkly-js-client-sdk';
 import { LDUser } from 'launchdarkly-js-sdk-common';
 import { BehaviorSubject, Subject } from 'rxjs';
@@ -25,7 +25,9 @@ export class LaunchDarklyFeatureFlagService extends AbstractFeatureFlagService {
   }
 
   initialize(sdkKey: string, context: FeatureFlagContext, initialFlags?: any): void {
-    let options = {};
+    let options: LDOptions = {
+      sendEventsOnlyForVariation: true
+    };
 
     if (!sdkKey) {
       return;

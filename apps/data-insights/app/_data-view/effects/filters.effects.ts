@@ -7,8 +7,8 @@ import { select, Store } from '@ngrx/store';
 
 import { DataViewApiService } from 'libs/data/payfactors-api';
 import { PfConstants } from 'libs/models/common';
-import { PayfactorsApiModelMapper } from 'libs/features/formula-editor';
-import * as fromFieldsActions from 'libs/features/formula-editor/actions/fields.actions';
+import { PayfactorsApiModelMapper } from 'libs/ui/formula-editor';
+import * as fromFieldsActions from 'libs/ui/formula-editor/actions/fields.actions';
 
 import * as fromFiltersActions from '../actions/filters.actions';
 import * as fromDataViewGridActions from '../actions/data-view-grid.actions';

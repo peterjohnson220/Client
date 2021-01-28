@@ -10,7 +10,7 @@ import {
 } from 'libs/models';
 import { BaseExchangeDataSearchRequest } from 'libs/models/payfactors-api/peer/exchange-data-search/request';
 import { TempExchangeJobDataCutRequest, TempExchangeJobDataCutResponse } from 'libs/models/payfactors-api/peer/exchange-data-cuts';
-import { UpsertPeerDataCutEntityConfigurationModel } from 'libs/features/upsert-peer-data-cut/models';
+import { UpsertPeerDataCutEntityConfigurationModel } from 'libs/features/pricings/upsert-peer-data-cut/models';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 

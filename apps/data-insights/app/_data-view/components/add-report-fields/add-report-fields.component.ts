@@ -7,7 +7,7 @@ import { Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
 
 import { PfConstants } from 'libs/models/common';
-import { Field, FieldListItem, FieldType } from 'libs/features/formula-editor';
+import { Field, FieldListItem, FieldType } from 'libs/ui/formula-editor';
 
 @Component({
   selector: 'pf-add-report-fields',

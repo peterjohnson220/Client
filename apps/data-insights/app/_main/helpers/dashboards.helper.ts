@@ -1,7 +1,7 @@
 import orderBy from 'lodash/orderBy';
 import filter from 'lodash/filter';
 
-import { Workbook } from 'libs/features/reports/models';
+import { Workbook } from 'libs/features/surveys/reports/models';
 
 import { DashboardView } from '../models';
 

@@ -3,6 +3,7 @@ import { AggregateGridDataResult, ListAreaColumn, ListAreaResult } from '../../m
 import { ListAreaColumnRequest } from '../../models/payfactors-api/user-profile/request/list-area-column-request.model';
 import { ListAreaColumnResponse } from '../../models/payfactors-api/user-profile/response';
 import { TileTypes } from '../../models/dashboard';
+import { AttachmentFileType } from '../../models/common';
 
 export class MappingHelper {
   static mapListAreaResultToGridDataResult(listAreaResult: any): GridDataResult {
@@ -106,4 +107,20 @@ export class MappingHelper {
         return TileTypes.Unknown;
     }
   }
+
+  static mapFileExtensionToFileType(extension: string): AttachmentFileType {
+    if ( extension.toLocaleLowerCase().endsWith('doc') || extension.toLocaleLowerCase().endsWith('docx')) {
+      return AttachmentFileType.Word;
+    } else if ( extension.toLocaleLowerCase().endsWith('pdf')) {
+      return AttachmentFileType.Pdf;
+    } else if ( extension.toLocaleLowerCase().endsWith('png')) {
+      return AttachmentFileType.Image;
+    } else if ( extension.toLocaleLowerCase().endsWith('xls') || extension.toLocaleLowerCase().endsWith('xlsx')) {
+      return AttachmentFileType.Excel;
+    } else if ( extension.toLocaleLowerCase().endsWith('ppt') || extension.toLocaleLowerCase().endsWith('pptx')) {
+      return AttachmentFileType.Powerpoint;
+    }
+    return AttachmentFileType.Unknown;
+  }
+
 }

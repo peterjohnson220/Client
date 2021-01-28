@@ -1,0 +1,40 @@
+pf-infinite-scroll {
+  position: relative;
+}
+
+.page-header {
+  color: #495057;
+  font-size: 1.2rem;
+  height: 50px;
+
+  .title {
+    text-transform: uppercase;
+  }
+}
+
+.no-notifications {
+  font-style: italic;
+  font-size: 14px;
+  margin-left: 2.2rem;
+  margin-top:1rem;
+}
+
+.notification-row {
+  cursor: pointer;
+  border-radius:2px;
+
+  &:hover {
+    background-color: #cccccc;
+  }
+}
+
+.notification-table{
+  border-collapse:separate;
+  border-spacing:.5em;
+  max-height: 500px;
+  margin-bottom: 0;
+}
+
+::ng-deep .scroll-results{
+  max-height:500px;
+}

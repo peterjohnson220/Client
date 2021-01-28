@@ -39,12 +39,12 @@ export class KendoGridFilterHelper {
     };
   }
 
-  static updateFilter(columnName: string, value: string, gridState: State): void {
+  static updateFilter(columnName: string, value: string, operator: string, gridState: State): void {
     this.assumeCompositeFilter(gridState);
     const compositeFilter = gridState.filter;
     const filter: any = compositeFilter.filters.find((f: FilterDescriptor) => f.field === columnName);
     if (!filter) {
-      this.addColumnFilter(columnName, value, compositeFilter);
+      this.addColumnFilter(columnName, value, operator, compositeFilter);
       return;
     }
 
@@ -63,14 +63,14 @@ export class KendoGridFilterHelper {
     gridState.filter.filters = [];
   }
 
-  private static addColumnFilter(columnName: string, value: string, compositeFilter: CompositeFilterDescriptor) {
+  private static addColumnFilter(columnName: string, value: string, operator: string, compositeFilter: CompositeFilterDescriptor) {
     const hasValue = value && value.length > 0;
     if (!hasValue) {
       return;
     }
 
     const newFilter: FilterDescriptor = {
-      operator: 'contains',
+      operator: operator,
       field: columnName,
       value: value
     };

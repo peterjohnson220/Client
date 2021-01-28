@@ -1,0 +1,18 @@
+@import '../../../../../../assets/scss/search/filters-variables';
+
+.back-to-all-filters {
+  @extend %text-filter-action;
+  display: flex;
+  justify-content: center;
+  padding: 1.25rem;
+  position: absolute;
+  height: 45px;
+  width: 100%;
+}
+
+.filter-section{
+  position: absolute;
+  top: 45px;
+  width: 100%;
+  bottom: 0;
+}

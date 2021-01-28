@@ -1,4 +1,5 @@
-import { generateMockUserDataView, UserDataView } from 'libs/features';
+import { generateMockUserDataView, UserDataView } from 'libs/ui/formula-editor/models';
+
 
 export interface TabularReportExportSchedule {
   DataViewId: number;

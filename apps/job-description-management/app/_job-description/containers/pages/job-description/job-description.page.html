@@ -69,7 +69,7 @@
                     <h5>
                       <fa-icon [icon]="['fas','check-circle']" aria-hidden="true"></fa-icon>
                       This job description was acknowledged by {{(identity$ | async)?.Name}}
-                      {{((employeeAcknowledgementInfo$ | async)?.obj.SignatureDate | amTimeAgo: true)}} ago.
+                      {{((employeeAcknowledgementInfo$ | async)?.obj?.SignatureDate | pfParseDate | dfnsFormatDistanceToNowPure:{addSuffix:true})}}.
                     </h5>
                   </div>
                   <div *ngIf="(employeeAcknowledgementInfo$ | async)?.loadingError" class="alert alert-danger" role="alert">
@@ -189,6 +189,7 @@
 
 <pf-export-job-description-modal
   [jobDescriptionViews]="jobDescriptionViews"
+  [enableFileDownloadSecurityWarning]="enableFileDownloadSecurityWarning"
   (export)="handleExportModalConfirmed($event)">
 </pf-export-job-description-modal>
 

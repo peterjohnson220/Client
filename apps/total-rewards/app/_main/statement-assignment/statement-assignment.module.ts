@@ -12,13 +12,15 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
-import { PfSearchModule } from 'libs/features/search';
-import { UserFilterTypeData } from 'libs/features/user-filter/models';
+import { PfSearchModule } from 'libs/features/search/search';
+import { UserFilterTypeData } from 'libs/features/users/user-filter/models';
 import { WindowCommunicationService } from 'libs/core/services';
 import { ListAreaService } from 'libs/core/services/list-area.service';
-import { PfListAreaModule } from 'libs/features/list-area/list-area.module';
-import { EmployeeManagementModule } from 'libs/features/employee-management';
+import { EmployeeManagementModule } from 'libs/features/employees/employee-management';
 import * as fromTrsStatement from 'libs/features/total-rewards/total-rewards-statement';
+import { PfListAreaColumnChooserModule } from 'libs/ui/list-area/list-area-column-chooser/list-area-column-chooser.module';
+import { PfListAreaFilterPillsModule } from 'libs/ui/list-area/list-area-filter-pills/list-area-filter-pills.module';
+import { PfListAreaFilterSidebarModule } from 'libs/ui/list-area/list-area-filter-sidebar/list-area-filter-sidebar.module';
 
 import { reducers } from './reducers';
 import { StatementAssignmentRoutingModule } from './statement-assignment-routing.module';
@@ -63,7 +65,9 @@ import {
     PfCommonUIModule,
     PfFormsModule,
     PfSearchModule,
-    PfListAreaModule,
+    PfListAreaFilterSidebarModule,
+    PfListAreaFilterPillsModule,
+    PfListAreaColumnChooserModule,
     EmployeeManagementModule,
     fromTrsStatement.TotalRewardsStatementModule,
 

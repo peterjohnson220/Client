@@ -1,14 +1,19 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
-import { UserContext } from 'libs/models';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { KendoUpload, KendoUploadStatus, UserContext } from 'libs/models';
+import * as fromRootState from 'libs/state/state';
+import * as fromAppNotificationsMainReducer from 'libs/features/infrastructure/app-notifications/reducers';
+import { AppNotification } from 'libs/features/infrastructure/app-notifications/models';
 import { CompanyResourceFolder, OrphanedCompanyResource } from '../models/company-resources.model';
 import * as fromCompanyResourcesPageActions from '../actions/company-resources.actions';
+import * as fromCompanyResourcesAddResourceActions from '../actions/company-resources-add-resource.actions';
+import * as fromAppNotificationsActions from 'libs/features/infrastructure/app-notifications/actions/app-notifications.actions';
 import * as fromCompanyResourcesPageReducer from '../reducers';
-import * as fromRootState from 'libs/state/state';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { ResourceModalComponent } from '../containers/resource-modal/resource-modal.component';
 import { NewFolderModalComponent } from '../containers/new-folder-modal/new-folder-modal.component';
+import { CompanyResourceUploadState } from '../models/company-resource-upload-state.model';
 
 @Component({
   selector: 'pf-company-resources',
@@ -16,35 +21,42 @@ import { NewFolderModalComponent } from '../containers/new-folder-modal/new-fold
   styleUrls: ['./company-resources.page.scss']
 })
 export class CompanyResourcesPageComponent implements OnInit, OnDestroy {
+  addingFolderSuccessSubscription: Subscription;
+  addingResourceSuccessSubscription: Subscription;
   companyName: string;
-  folderResources$: Observable<CompanyResourceFolder[]>;
-  orphanedResources$: Observable<OrphanedCompanyResource[]>;
+  companyResourceUploads: KendoUpload[];
+  companyResourceUploadState$: Observable<CompanyResourceUploadState>;
+  companyResourceUploadStateSubscription: Subscription;
   companyResourcesLoading$: Observable<boolean>;
   companyResourcesLoadingError$: Observable<boolean>;
-  identity$: Observable<UserContext>;
-  loadingError$: Observable<boolean>;
-  resourceSuccess$: Observable<boolean>;
+  folderResources$: Observable<CompanyResourceFolder[]>;
   folderSuccess$: Observable<boolean>;
+  getNotification$: Observable<AppNotification<any>[]>;
+  getNotificationSubscription: Subscription;
+  identity$: Observable<UserContext>;
+  indentitySubscription: Subscription;
+  loadingError$: Observable<boolean>;
   modalReference: NgbModalRef;
-
-  private indentitySubscription: Subscription;
-  private addingResourceSuccessSubscription: Subscription;
-  private addingFolderSuccessSubscription: Subscription;
+  orphanedResources$: Observable<OrphanedCompanyResource[]>;
+  resourceSuccess$: Observable<boolean>;
 
   constructor(
     private store: Store<fromCompanyResourcesPageReducer.State>,
     private rootStore: Store<fromRootState.State>,
+    private appNotificationStore: Store<fromAppNotificationsMainReducer.State>,
     private modalService: NgbModal) { }
 
   ngOnInit() {
-    this.folderResources$ = this.store.select(fromCompanyResourcesPageReducer.getCompanyFolderResources);
-    this.orphanedResources$ = this.store.select(fromCompanyResourcesPageReducer.getCompanyOrphanResources);
     this.companyResourcesLoading$ = this.store.select(fromCompanyResourcesPageReducer.getCompanyResourcesLoading);
     this.companyResourcesLoadingError$ = this.store.select(fromCompanyResourcesPageReducer.getCompanyResourcesLoadingError);
-    this.loadingError$ = this.store.select(fromCompanyResourcesPageReducer.getCompanyResourcesLoadingError);
-    this.identity$ = this.rootStore.select(fromRootState.getUserContext);
-    this.resourceSuccess$ = this.store.select(fromCompanyResourcesPageReducer.getAddingCompanyResourceSuccess);
+    this.companyResourceUploadState$ = this.store.select(fromCompanyResourcesPageReducer.getCompanyResourcesUploadState);
+    this.folderResources$ = this.store.select(fromCompanyResourcesPageReducer.getCompanyFolderResources);
     this.folderSuccess$ = this.store.select(fromCompanyResourcesPageReducer.getAddingFolderToCompanyResourcesSuccess);
+    this.getNotification$ = this.appNotificationStore.select(fromAppNotificationsMainReducer.getNotifications);
+    this.identity$ = this.rootStore.select(fromRootState.getUserContext);
+    this.loadingError$ = this.store.select(fromCompanyResourcesPageReducer.getCompanyResourcesLoadingError);
+    this.orphanedResources$ = this.store.select(fromCompanyResourcesPageReducer.getCompanyOrphanResources);
+    this.resourceSuccess$ = this.store.select(fromCompanyResourcesPageReducer.getAddingCompanyResourceSuccess);
 
     this.store.dispatch(new fromCompanyResourcesPageActions.GettingCompanyResources());
 
@@ -55,6 +67,7 @@ export class CompanyResourcesPageComponent implements OnInit, OnDestroy {
     this.indentitySubscription.unsubscribe();
     this.addingResourceSuccessSubscription.unsubscribe();
     this.addingFolderSuccessSubscription.unsubscribe();
+    this.companyResourceUploadStateSubscription.unsubscribe();
   }
 
   openNewFolderModal() {
@@ -71,6 +84,7 @@ export class CompanyResourcesPageComponent implements OnInit, OnDestroy {
       size: 'lg',
       centered: true
     });
+    this.store.dispatch(new fromCompanyResourcesAddResourceActions.OpenAddResourceModal());
   }
 
   private createSubscriptions() {
@@ -81,6 +95,7 @@ export class CompanyResourcesPageComponent implements OnInit, OnDestroy {
     this.addingResourceSuccessSubscription = this.resourceSuccess$.subscribe((onSuccess) => {
       if (onSuccess) {
         this.modalService.dismissAll();
+        this.store.dispatch(new fromCompanyResourcesAddResourceActions.ClearCompanyResourcesUploadState());
       }
     });
 
@@ -88,6 +103,33 @@ export class CompanyResourcesPageComponent implements OnInit, OnDestroy {
       if (onSuccess) {
         this.modalService.dismissAll();
       }
+    });
+
+    this.companyResourceUploadStateSubscription = this.companyResourceUploadState$.subscribe((state) => {
+        if (state) {
+          this.companyResourceUploads = state.Resources;
+        }
+    });
+
+    this.getNotificationSubscription = this.getNotification$.subscribe(notifications => {
+      notifications.forEach(notification => {
+        if (!notification) {
+          return;
+        }
+
+        const resource = this.companyResourceUploads.find((x) => x.Id === notification.NotificationId);
+        if (!resource) {
+           return;
+        }
+
+        if (notification.Level === 'Success' && resource.Status !== KendoUploadStatus.ScanSucceeded) {
+          this.store.dispatch(new fromCompanyResourcesAddResourceActions.CompanyResourceScanSuccess(resource.Id));
+          this.appNotificationStore.dispatch(new fromAppNotificationsActions.DeleteNotification({notificationId: notification.NotificationId}));
+        } else if (notification.Level === 'Error' && resource.Status !== KendoUploadStatus.ScanFailed) {
+          this.store.dispatch(new fromCompanyResourcesAddResourceActions.CompanyResourceScanFailure(resource.Id));
+          this.appNotificationStore.dispatch(new fromAppNotificationsActions.DeleteNotification({notificationId: notification.NotificationId}));
+        }
+      });
     });
   }
 }

@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
@@ -14,6 +14,8 @@ import { KendoDropDownItem } from 'libs/models/kendo';
 import { Rates, RateType, Weights, WeightType, WeightTypeDisplayLabeled } from 'libs/data/data-sets';
 import { SettingsService } from 'libs/state/app-context/services';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
+import { FileDownloadSecurityWarningModalComponent } from 'libs/ui/common';
+import { CompanySettingsEnum } from 'libs/models/company';
 
 import * as fromExchangeCompanyJobGridActions from '../../actions/exchange-company-job-grid.actions';
 import * as fromExportDataCutsActions from '../../actions/export-data-cuts.actions';
@@ -27,6 +29,7 @@ import { ExportDataCutsContext } from '../../models';
 })
 export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
   @Input() context: ExportDataCutsContext;
+  @ViewChild('fileDownloadSecurityWarningModal', { static: true }) fileDownloadSecurityWarningModal: FileDownloadSecurityWarningModalComponent;
 
   exchangeCompanyJobsLoading$: Observable<boolean>;
   exchangeCompanyJobsLoadingError$: Observable<boolean>;
@@ -41,6 +44,7 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
   persistedRateForExport$: Observable<string>;
   persistedWeightingTypeForExport$: Observable<string>;
   currencies$: Observable<Currency[]>;
+  enableFileDownloadSecurityWarning$: Observable<boolean>;
 
   exportDataCutsModalOpenSubscription: Subscription;
   persistedRateForExportSubscription: Subscription;
@@ -51,6 +55,7 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
   selectionsSubscription: Subscription;
   allIdsSubscription: Subscription;
   currenciesSubscription: Subscription;
+  enableFileDownloadSecurityWarningSubscription: Subscription;
 
   gridDataResult: GridDataResult;
   gridState: State;
@@ -68,6 +73,7 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
   scopesToExportOptions: GenericMenuItem[] = [];
   selectedScopesToExport: GenericMenuItem[] = [];
   selectedWeightingType: KendoDropDownItem = { Name: WeightTypeDisplayLabeled.Inc, Value: WeightType.Inc };
+  enableFileDownloadSecurityWarning = false;
   readonly currentMapViewOptionValue = 'Current Map View';
 
   constructor(
@@ -98,6 +104,8 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
       'string'
     );
 
+    this.enableFileDownloadSecurityWarning$ = this.settingsService.selectCompanySetting<boolean>(CompanySettingsEnum.FileDownloadSecurityWarning);
+
     this.exchangeId = this.route.parent.snapshot.params.id;
     this.createForm();
   }
@@ -127,18 +135,27 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
     });
   }
 
+  exportDataCuts(): void {
+    const payload = {
+      selectedRate: this.selectedRate.Value,
+      scopes: this.selectedScopesToExport.filter(s => s.Value !== this.currentMapViewOptionValue).map(s => Number(s.Value)),
+      exportCurrentMap: this.selectedScopesToExport.some(s => s.Value === this.currentMapViewOptionValue),
+      selectedWeightingType: this.selectedWeightingType.Value,
+      selectedCurrency: this.selectedCurrency.CurrencyCode
+    };
+
+    this.store.dispatch(new fromExportDataCutsActions.ExportDataCuts(payload));
+  }
+
   // Modal events
   handleFormSubmit(): void {
     this.attemptedSubmit = true;
-    const payload = {
-        selectedRate: this.selectedRate.Value,
-        scopes: this.selectedScopesToExport.filter(s => s.Value !== this.currentMapViewOptionValue).map(s => Number(s.Value)),
-        exportCurrentMap: this.selectedScopesToExport.some(s => s.Value === this.currentMapViewOptionValue),
-        selectedWeightingType: this.selectedWeightingType.Value,
-        selectedCurrency: this.selectedCurrency.CurrencyCode
-      };
 
-    this.store.dispatch(new fromExportDataCutsActions.ExportDataCuts(payload));
+    if (this.enableFileDownloadSecurityWarning) {
+      this.fileDownloadSecurityWarningModal.open();
+    } else {
+      this.exportDataCuts();
+    }
   }
 
   handleModalDismissed(): void {
@@ -146,6 +163,12 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
     this.scopesToExportOptions = [];
     this.store.dispatch(new fromExportDataCutsActions.CloseExportDataCutsModal);
     this.store.dispatch(new fromGridActions.ResetGrid(GridTypeEnum.ExchangeCompanyJob));
+  }
+
+  handleSecurityWarningConfirmed(isConfirmed) {
+    if (isConfirmed) {
+      this.exportDataCuts();
+    }
   }
 
   // Grid
@@ -261,6 +284,12 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
       this.currencies = c;
       this.filteredCurrencies = c;
     });
+
+    this.enableFileDownloadSecurityWarningSubscription = this.enableFileDownloadSecurityWarning$.subscribe(isEnabled => {
+      if (isEnabled) {
+        this.enableFileDownloadSecurityWarning = true;
+      }
+    });
   }
 
   ngOnDestroy() {
@@ -273,6 +302,7 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
     this.persistedWeightingTypeForExportSubscription.unsubscribe();
     this.persistedRateForExportSubscription.unsubscribe();
     this.currenciesSubscription.unsubscribe();
+    this.enableFileDownloadSecurityWarningSubscription.unsubscribe();
   }
 
   // Helper methods

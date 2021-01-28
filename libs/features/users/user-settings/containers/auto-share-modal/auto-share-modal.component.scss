@@ -1,0 +1,18 @@
+@import '../../../../../styles/perfect-scrollbar-overrides';
+
+.users {
+  position: relative;
+  max-height: 300px;
+}
+
+:host ::ng-deep {
+  .modal-body {
+    padding: 0;
+  }
+
+  // Perfect scrollbar overrides
+  .ps__rail-y {
+    height: 12px;
+    left: auto !important;
+  }
+}

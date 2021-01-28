@@ -31,23 +31,24 @@ import { SimpleYesNoModalComponent } from 'libs/ui/common';
 import * as fromCompanySettingsActions from 'libs/state/app-context/actions/company-settings.actions';
 import { environment } from 'environments/environment';
 
-import { JobDescriptionManagementDnDService, JobDescriptionManagementService, SortDirection } from 'libs/features/job-description-management';
+import { JobDescriptionManagementDnDService, JobDescriptionManagementService, SortDirection } from 'libs/features/jobs/job-description-management';
 import {
   JobDescriptionLibraryBucket,
   JobDescriptionLibraryResult,
   LibrarySearchRequest,
   JobDescriptionAppliesTo,
   JobDescriptionExtendedInfo
-} from 'libs/features/job-description-management';
+} from 'libs/features/jobs/job-description-management';
 import { EmployeeAcknowledgement, JobDescriptionLibraryDropModel } from '../../../models';
 import * as fromJobDescriptionReducers from '../../../reducers';
-import * as fromJobDescriptionManagementSharedReducer from 'libs/features/job-description-management/reducers';
+import * as fromJobDescriptionManagementSharedReducer from 'libs/features/jobs/job-description-management/reducers';
 import * as fromJobDescriptionActions from '../../../actions/job-description.actions';
-import * as fromJobDescriptionLibraryActions from 'libs/features/job-description-management/actions/job-description-library.actions';
-import * as fromCompanyLogoActions from 'libs/features/job-description-management/actions/company-logo.actions';
+import * as fromJobDescriptionLibraryActions from 'libs/features/jobs/job-description-management/actions/job-description-library.actions';
+import * as fromCompanyLogoActions from 'libs/features/jobs/job-description-management/actions/company-logo.actions';
 import * as fromEmployeeAcknowledgementActions from '../../../actions/employee-acknowledgement.actions';
 import * as fromWorkflowActions from '../../../actions/workflow.actions';
-import { JobDescriptionManagementDndSource } from 'libs/features/job-description-management/constants';
+import { JobDescriptionActionsComponent } from '../../job-description-actions';
+import { JobDescriptionManagementDndSource } from 'libs/features/jobs/job-description-management/constants';
 import { JobDescriptionDnDService } from '../../../services';
 import { EmployeeAcknowledgementModalComponent, ExportJobDescriptionModalComponent,
   WorkflowCancelModalComponent } from '../../../components/modals';
@@ -58,7 +59,7 @@ import { CopyJobDescriptionModalComponent } from '../../copy-job-description-mod
 import { JobDescriptionHelper } from '../../../helpers';
 import { WorkflowSetupModalComponent } from '../../workflow-setup-modal';
 import { JobDescriptionAppliesToModalComponent } from 'apps/job-description-management/app/shared';
-import * as fromWorkflowTemplateListActions from 'libs/features/job-description-management/actions/shared-workflow.actions';
+import * as fromWorkflowTemplateListActions from 'libs/features/jobs/job-description-management/actions/shared-workflow.actions';
 import * as fromHeaderActions from 'libs/ui/layout-wrapper/actions/header.actions';
 
 
@@ -100,6 +101,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   completedStep$: Observable<boolean>;
   gettingJobDescriptionExtendedInfoSuccess$: Observable<AsyncStateObj<boolean>>;
   discardingDraftJobDescriptionSuccess$: Observable<boolean>;
+  enableFileDownloadSecurityWarning$: Observable<boolean>;
 
   loadingPage$: Observable<boolean>;
   loadingPageError$: Observable<boolean>;
@@ -121,12 +123,14 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   controlTypesSubscription: Subscription;
   requireSSOLoginSubscription: Subscription;
   discardingDraftJobDescriptionSuccessSubscription: Subscription;
+  enableFileDownloadSecurityWarningSub: Subscription;
 
   companyName: string;
   emailAddress: string;
   companyLogoPath: string;
   jobDescription: JobDescription;
   visibleSections: JobDescriptionSection[];
+  enableFileDownloadSecurityWarning: boolean;
   enableLibraryForRoutedJobDescriptions: boolean;
   hasCanEditJobDescriptionPermission: boolean;
   identityInWorkflow: boolean;
@@ -173,6 +177,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.enablePublicViewsInClient$ = this.settingsService.selectCompanySetting<boolean>(
       CompanySettingsEnum.JDMCoreUseClient
     );
+    this.enableFileDownloadSecurityWarning$ = this.settingsService.selectCompanySetting<boolean>(CompanySettingsEnum.FileDownloadSecurityWarning);
 
     this.requireSSOLogin$ = this.settingsService.selectCompanySetting<boolean>(
       CompanySettingsEnum.JDMExternalWorkflowsRequireSSOLogin
@@ -227,6 +232,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.publishingSubscription.unsubscribe();
     this.publishingSuccessSubscription.unsubscribe();
     this.discardingDraftJobDescriptionSuccessSubscription.unsubscribe();
+    this.enableFileDownloadSecurityWarningSub.unsubscribe();
   }
 
   appliesToFormCompleted(selected: any) {
@@ -570,6 +576,12 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.userAssignedRolesSubscription = this.userAssignedRoles$.subscribe( userRoles => {
       if (userRoles) {
         this.isCompanyAdmin = userRoles.some( x => x.RoleName === 'Company Admin' && x.Assigned);
+      }
+    });
+
+    this.enableFileDownloadSecurityWarningSub = this.enableFileDownloadSecurityWarning$.subscribe(isEnabled => {
+      if (isEnabled) {
+        this.enableFileDownloadSecurityWarning = true;
       }
     });
 

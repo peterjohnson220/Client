@@ -7,7 +7,7 @@ import {combineReducers, Store, StoreModule} from '@ngrx/store';
 
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { generateMockField } from 'libs/features/formula-editor';
+import { generateMockField } from 'libs/ui/formula-editor';
 import * as fromRootState from 'libs/state/state';
 
 import * as fromDataViewMainReducer from '../../reducers';

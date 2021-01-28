@@ -4,7 +4,7 @@ import { createSelector, createFeatureSelector } from '@ngrx/store';
 import * as fromRoot from 'libs/state/state';
 
 // Import feature reducers
-import * as fromMarketingReducer from 'libs/features/marketing-settings/marketing-settings.reducer';
+import * as fromMarketingReducer from 'libs/features/infrastructure/marketing-settings/marketing-settings/reducers/marketing-settings.reducer';
 
 // Feature area state
 export interface MarketingSettingsState {

@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 import { ControlType } from 'libs/models/common';
 import { JobDescriptionControl } from 'libs/models/jdm';
 
-import * as fromJobDescriptionManagementSharedReducer from 'libs/features/job-description-management/reducers';
+import * as fromJobDescriptionManagementSharedReducer from 'libs/features/jobs/job-description-management/reducers';
 import * as fromJobDescriptionReducers from '../../reducers';
 
 @Component({

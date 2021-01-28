@@ -3,7 +3,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models';
 
 import * as fromCopyJobDescriptionModalActions from '../actions/copy-job-description-modal.actions';
-import { JobDescriptionSource } from 'libs/features/job-description-management';
+import { JobDescriptionSource } from 'libs/features/jobs/job-description-management';
 
 export interface State {
   jobDescriptionSourcesAsync: AsyncStateObj<JobDescriptionSource[]>;

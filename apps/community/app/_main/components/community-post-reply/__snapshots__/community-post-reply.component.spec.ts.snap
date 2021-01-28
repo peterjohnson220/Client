@@ -2,10 +2,12 @@
 
 exports[`CommunityPostReplyComponent should show community post reply component 1`] = `
 <pf-community-post-reply
-  avatarUrl={[Function String]}
   onAttachmentClickedEvent={[Function EventEmitter]}
   reply={[Function Object]}
   replyHashTagClicked={[Function EventEmitter]}
+  rootStore={[Function Store]}
+  userContext$={[Function Store]}
+  userContextSub={[Function Subscriber]}
 >
   <pf-community-avatar /><div
     class="reply-offset"

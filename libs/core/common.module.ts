@@ -9,7 +9,7 @@ import {
   CompPipe, DataTypeFilterPipe, FilterArrayByName, GetFileExtensionCssClassPipe, HighlightTextPipe, HumanizeNumberPipe,
   JobDescriptionParserPipe, NewLinePipe, OrderByPipe, StringReplacePipe, StripHtmlPipe, TruncateAfterPipe, WrapSubtextWithTag,
   EmptyPlaceholderPipe, ValidationErrorsPipe, TimeElapsedPipe, EditableJobDescriptionPipe, RateCurrencyConversionPipe,
-  EmployeeDetailsPipe, StructureDetailsPipe, FormatNamePipe
+  EmployeeDetailsPipe, StructureDetailsPipe, FormatNamePipe, PfParseDatePipe
 } from './pipes';
 import { DragulaHelperService } from './services';
 
@@ -40,7 +40,8 @@ const declarations = [
   RateCurrencyConversionPipe,
   EmployeeDetailsPipe,
   StructureDetailsPipe,
-  FormatNamePipe
+  FormatNamePipe,
+  PfParseDatePipe
 ];
 
 const providers = [

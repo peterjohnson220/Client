@@ -10,9 +10,9 @@ import { NgbPopoverModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap'
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
-import { PfDataGridModule } from 'libs/features/pf-data-grid';
+import { PfDataGridModule } from 'libs/features/grids/pf-data-grid';
 import { DataViewApiService } from 'libs/data/payfactors-api/reports';
-import { PayMarketManagementModule } from 'libs/features/paymarket-management';
+import { PayMarketManagementModule } from 'libs/features/paymarkets/paymarket-management';
 
 import * as fromFaIcons from './fa-icons';
 import { reducers } from './reducers';

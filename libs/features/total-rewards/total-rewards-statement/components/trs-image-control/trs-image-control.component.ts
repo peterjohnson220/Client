@@ -49,7 +49,7 @@ export class TrsImageControlComponent implements AfterViewInit, OnInit {
 
   onImageLoaded() {
     this.imageLoaded.emit(this.controlData.Id);
-    this.image.nativeElement.removeEventListener('load');
+    this.image.nativeElement.removeEventListener('load', this.onImageLoaded);
   }
 
   uploadImageSuccess(e: SuccessEvent) {
@@ -87,7 +87,7 @@ export class TrsImageControlComponent implements AfterViewInit, OnInit {
   }
 
   setHorizontalAlignment(): void {
-    const horizontalAlignment = this.controlData.HorizontalAlignment.toLocaleLowerCase();
+    const horizontalAlignment = this.controlData.HorizontalAlignment?.toLocaleLowerCase();
     if (horizontalAlignment === 'left' || horizontalAlignment === 'right' || horizontalAlignment === 'center') {
       this.horizontalAlignment = horizontalAlignment;
     } else {

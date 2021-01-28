@@ -8,6 +8,7 @@ import * as fromExchangeJobMappingGridActions from '../../_manage/actions/exchan
 
 export interface State extends EntityState<ExchangeJobMapping> {
   loading: boolean;
+  loadingSuccess: boolean;
   loadingError: boolean;
   total: number;
   selectedMapping: ExchangeJobMapping;
@@ -20,6 +21,7 @@ export const adapter: EntityAdapter<ExchangeJobMapping> = createEntityAdapter<Ex
 
 const initialState: State = adapter.getInitialState({
   loading: false,
+  loadingSuccess: false,
   loadingError: false,
   total: 0,
   selectedMapping: null,
@@ -37,6 +39,7 @@ export function reducer(state, action) {
           return {
             ...adapter.removeAll(featureState),
             loading: true,
+            loadingSuccess: false,
             loadingError: false
           };
         }
@@ -44,6 +47,7 @@ export function reducer(state, action) {
           return {
             ...featureState,
             loading: true,
+            loadingSuccess: false,
             loadingError: false
           };
         }
@@ -53,6 +57,7 @@ export function reducer(state, action) {
             ...adapter.setAll(exchangeJobMappings, featureState),
             total: featureAction.payload.total,
             loading: false,
+            loadingSuccess: true,
             loadingError: false
           };
         }
@@ -60,6 +65,7 @@ export function reducer(state, action) {
           return {
             ...featureState,
             loading: false,
+            loadingSuccess: false,
             loadingError: true
           };
         }
@@ -67,6 +73,17 @@ export function reducer(state, action) {
           return {
             ...featureState,
             selectedMapping: featureAction.payload,
+          };
+        }
+        case fromExchangeJobMappingGridActions.SET_ACTIVE_EXCHANGE_JOB_BY_TITLE: {
+
+          const jobTitle = action.payload;
+
+          const selectedJob = findSelectedJobMappingByTitle(Object.values(featureState.entities), jobTitle);
+
+          return {
+            ...featureState,
+            selectedMapping: selectedJob
           };
         }
         case fromExchangeJobMappingGridActions.RESET_ACTIVE_EXCHANGE_JOB: {
@@ -92,6 +109,7 @@ export function reducer(state, action) {
 
 // Selector functions
 export const getLoading = (state: State) => state.loading;
+export const getLoadingSuccess = (state: State) => state.loadingSuccess;
 export const getLoadingError = (state: State) => state.loadingError;
 export const getTotal = (state: State) => state.total;
 export const getSelectedMapping = (state: State) => state.selectedMapping;
@@ -103,4 +121,7 @@ function findSelectedJobMapping(exchangeJobMappings: ExchangeJobMapping[], selec
   if (!selectedJobMapping) { return null; }
 
   return exchangeJobMappings.find(ejm => ejm.Id === selectedJobMapping.Id);
+}
+function findSelectedJobMappingByTitle(exchangeJobMappings: ExchangeJobMapping[], jobTitle: string) {
+  return exchangeJobMappings.find(ejm => ejm.ExchangeJobTitle === jobTitle);
 }
