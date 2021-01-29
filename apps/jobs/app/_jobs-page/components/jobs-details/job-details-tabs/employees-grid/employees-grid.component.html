@@ -15,7 +15,8 @@
   [pageable]="!gridConfig.EnableInfiniteScroll"
   [hasHeaderDividers]="true"
   [useReportingDB]="true"
-  [fieldsExcludedFromExport] = fieldsExcludedFromExport>
+  [fieldsExcludedFromExport] = fieldsExcludedFromExport
+  [customSortOptions]= "customSortOptions">
 </pf-data-grid>
 
 <ng-template #employeeDetails let-dataRow="dataRow">
