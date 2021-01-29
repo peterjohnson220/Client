@@ -4,14 +4,14 @@
       {{ lockedPillText }}
     </div>
     <ng-container *ngFor="let field of fields">
-      <ng-container *ngIf="field.FilterValues?.length">
+      <ng-container *ngIf="isValueRequired(field) && field.FilterValues?.length > 0">
         <ng-container
           *ngFor="let filterValue of field.FilterValues"
           [ngTemplateOutlet]="filterPill"
           [ngTemplateOutletContext]="{field: field, filterValue: filterValue}">
         </ng-container>
       </ng-container>
-      <ng-container *ngIf="valueIsNotRequired(field)">
+      <ng-container *ngIf="!isValueRequired(field)">
         <ng-container
           [ngTemplateOutlet]="filterPill"
           [ngTemplateOutletContext]="{field: field, filterValue: null}">

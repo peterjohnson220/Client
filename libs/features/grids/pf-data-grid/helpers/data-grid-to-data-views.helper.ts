@@ -15,7 +15,7 @@ export class DataGridToDataViewsHelper {
     const selectedFields = this.mapFieldsToDataViewFields(fields, sortDescriptor, gridConfig);
     // TODO: Change the way we save filters. This assumes we never save GlobalFilters and we never save filters for Named Views
     const filterFields = fields
-      .filter(f => !f.IsGlobalFilter && f.FilterValues !== null && name !== null && !f.ExcludeFieldInFilterSave);
+      .filter(f => !f.IsGlobalFilter && (f.FilterValues !== null || !isValueRequired(f)) && name !== null && !f.ExcludeFieldInFilterSave);
     return {
       PageViewId: pageViewId,
       BaseEntityId: baseEntityId,
@@ -92,7 +92,7 @@ export class DataGridToDataViewsHelper {
         EntitySourceName: field.EntitySourceName,
         SourceName: field.SourceName,
         Operator: field.FilterOperator,
-        Values: field.FilterValues,
+        Values: field.FilterValues ?? [''],
         DataType: field.DataType,
         FilterType: field.CustomFilterStrategy,
         DataElementId: field.DataElementId

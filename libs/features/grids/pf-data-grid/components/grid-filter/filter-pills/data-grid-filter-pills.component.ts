@@ -37,7 +37,7 @@ export class PfDataGridFilterPillsComponent {
     return `calc(100vw - ${160 + this.widthOffset}px)`;
   }
 
-  valueIsNotRequired(field: ViewField): boolean {
-    return !isValueRequired(field);
+  isValueRequired(field: ViewField): boolean {
+    return isValueRequired(field);
   }
 }
