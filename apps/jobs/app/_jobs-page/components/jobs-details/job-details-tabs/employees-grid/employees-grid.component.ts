@@ -38,10 +38,25 @@ export class EmployeesGridComponent implements AfterViewInit, OnDestroy, OnChang
   inboundFiltersToApply = ['CompanyJob_ID', 'PayMarket', 'Employees'];
   globalFilterTemplates = {};
   colTemplates = {};
-  defaultSort: SortDescriptor[] = [{
-    dir: 'asc',
-    field: 'CompanyEmployees_Employees'
-  }];
+  defaultSort: SortDescriptor[] =
+    [
+      {
+        dir: 'asc',
+        field: 'CompanyEmployees_Employees'
+      },
+      {
+        dir: 'asc',
+        field: 'CompanyEmployees_First_Name'
+      },
+      {
+        dir: 'asc',
+        field: 'CompanyEmployees_Last_Name'
+      },
+      {
+        dir: 'asc',
+        field: 'CompanyEmployees_ID'
+      }
+  ];
 
   pageViewId = PageViewIds.Employees;
   gridFieldSubscription: Subscription;
@@ -53,6 +68,7 @@ export class EmployeesGridComponent implements AfterViewInit, OnDestroy, OnChang
   gridConfig: GridConfig;
   hasEmployeeDetailsFlagEnabled: boolean;
   pfThemeType = PfThemeType;
+  allowMultipleSort = true;
 
   constructor(
     private store: Store<fromPfGridReducer.State>,
@@ -128,6 +144,37 @@ export class EmployeesGridComponent implements AfterViewInit, OnDestroy, OnChang
       this.store.dispatch(new fromPfGridActions.UpdateFilter(this.pageViewId, field));
     } else {
       this.store.dispatch(new fromPfGridActions.ClearFilter(this.pageViewId, field));
+    }
+  }
+
+  customSortOptions = (previousSortDescriptor: SortDescriptor[], currentSortDescriptor: SortDescriptor[]): SortDescriptor[] => {
+    if (
+      currentSortDescriptor &&
+      currentSortDescriptor.length === 1 &&
+      currentSortDescriptor[0].field === 'CompanyEmployees_Employees'
+    ) {
+      const newSortDescriptor: SortDescriptor[] = [{
+        dir: currentSortDescriptor[0].dir,
+        field: 'CompanyEmployees_Employees'
+      },
+        {
+          dir: currentSortDescriptor[0].dir,
+          field: 'CompanyEmployees_First_Name'
+        },
+        {
+          dir: currentSortDescriptor[0].dir,
+          field: 'CompanyEmployees_Last_Name'
+        },
+        {
+          dir: currentSortDescriptor[0].dir,
+          field: 'CompanyEmployees_ID'
+        }
+      ];
+
+      return newSortDescriptor;
+    } else {
+
+      return currentSortDescriptor;
     }
   }
 }
