@@ -8,6 +8,7 @@ import { ConverterSettings } from 'libs/models';
 
 import * as fromDataConverterActions from '../../actions/converter-settings.actions';
 import * as fromFieldMappingReducer from '../../reducers';
+import { ConverterSettingsHelper } from '../../helpers';
 
 @Component({
   selector: 'pf-data-converter-modal',
@@ -32,6 +33,7 @@ export class DataConverterModalComponent implements OnInit, OnDestroy {
   titleName = '';
   dataType = '';
   connectionId: number;
+  fieldMappingValues = [];
 
   constructor(private store: Store<fromFieldMappingReducer.State>) {
   }
@@ -54,9 +56,10 @@ export class DataConverterModalComponent implements OnInit, OnDestroy {
         this.provider = v.provider;
         this.entityType = v.entityType;
         this.dataType = v.dataType;
+        this.selectedConverterSetting = this.getCurrentlySelectedSettings(v);
+
         if (v.dataType === ImportDataType[ImportDataType.Date] || v.dataType === ImportDataType[ImportDataType.DateTime]) {
           this.titleName = 'Select Date Format';
-          this.selectedConverterSetting = this.getCurrentlySelectedDateSetting(v);
           if (this.selectedConverterSetting) {
             this.selectedDateFormat = this.selectedConverterSetting.options.DateTimeFormat;
           } else {
@@ -64,8 +67,9 @@ export class DataConverterModalComponent implements OnInit, OnDestroy {
           }
         } else {
           this.titleName =  'Translate Field Data';
-          // TODO: Add logic here for other translate data stuff.
+          this.fieldMappingValues = ConverterSettingsHelper.mapConvertedFields(this.fieldName, this.selectedConverterSetting);
         }
+
       } else {
         this.fieldName = null;
         this.provider = null;
@@ -73,6 +77,7 @@ export class DataConverterModalComponent implements OnInit, OnDestroy {
         this.selectedDateFormat = null;
         this.titleName = null;
         this.dataType = null;
+        this.fieldMappingValues = [];
       }
     });
   }
@@ -96,19 +101,22 @@ export class DataConverterModalComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromDataConverterActions.OpenDataConverterModal({open: false, modalInfo: null}));
   }
 
-  private getCurrentlySelectedDateSetting(modalInfo: any) {
+  private getCurrentlySelectedSettings(modalInfo: any) {
     let currentConverterSetting;
     if (this.converterSettings.some(setting => setting.connection_ID === modalInfo.connectionId && setting.fieldName === modalInfo.fieldName)) {
+      /// per connection field level setting
       currentConverterSetting = this.converterSettings.find(setting => setting.connection_ID === modalInfo.connectionId &&
         setting.fieldName === modalInfo.fieldName &&
         setting.dataType === modalInfo.dataType &&
         setting.entityType === modalInfo.entityType);
     } else if (this.converterSettings.some(setting => setting.connection_ID === modalInfo.connectionId && setting.fieldName === null)) {
+      /// per connection global level setting
       currentConverterSetting = this.converterSettings.find(setting => setting.connection_ID === modalInfo.connectionId &&
         setting.fieldName === null &&
         setting.dataType === modalInfo.dataType &&
         setting.entityType === modalInfo.entityType);
     } else {
+      // global data type setting
       currentConverterSetting = this.converterSettings.find(setting => setting.connection_ID === null &&
           setting.fieldName === null &&
           setting.dataType === modalInfo.dataType &&

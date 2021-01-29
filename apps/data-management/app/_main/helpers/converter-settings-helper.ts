@@ -2,6 +2,8 @@ import cloneDeep from 'lodash/cloneDeep';
 
 import { ConverterSettings } from 'libs/models';
 
+import { ValueMapping } from '../models';
+
 
 export class ConverterSettingsHelper {
  static addOrUpdateConvertSettings(converterSettings: ConverterSettings[], setting: ConverterSettings): ConverterSettings[] {
@@ -20,5 +22,30 @@ export class ConverterSettingsHelper {
     }
 
     return newConverterSettings;
+  }
+
+  static mapConvertedFields(fieldName: string, selectedConverterSetting: ConverterSettings): ValueMapping[] {
+    let mappingValues: ValueMapping[];
+
+    switch (fieldName) {
+      case 'Rate':
+        mappingValues = selectedConverterSetting ?
+          cloneDeep(selectedConverterSetting.options.MappingValues) :
+          [
+            {
+              PayfactorsName: 'Annual',
+              ClientValues: []
+            },
+            {
+              PayfactorsName: 'Hourly',
+              ClientValues: []
+            }
+          ];
+        break;
+      default:
+        mappingValues = null;
+    }
+
+    return mappingValues;
   }
 }

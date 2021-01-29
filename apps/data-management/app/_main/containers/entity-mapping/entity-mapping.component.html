@@ -71,6 +71,11 @@
                   (click)="showDataConverterModal(field)">
                   Date Format
                 </button>
+                <button ngbDropdownItem  class="dropdown-item" *ngIf="field.FieldName === 'Rate'"
+                  [disabled]="field.AssociatedEntity.length === 0"
+                  (click)="showDataConverterModal(field)">
+                  Translate Data
+                </button>
               </div>
             </div>
           </div>
