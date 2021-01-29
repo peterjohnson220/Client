@@ -9,7 +9,12 @@ import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfCompanySelectorModule } from 'libs/features/company/company-selector/company-selector.module';
-import { LoaderDashboardFileGridComponent, LoaderDashboardFilterComponent, LoaderDashboardGridComponent } from './containers';
+import {
+  LoaderDashboardFileArchiveRedropComponent,
+  LoaderDashboardFileGridComponent,
+  LoaderDashboardFilterComponent,
+  LoaderDashboardGridComponent
+} from './containers';
 import { LoaderDashboardFileGridDetailComponent, LoaderDashboardGridDetailComponent } from './components';
 import { reducers } from './reducers';
 import { LoaderDashboardPageEffects } from './effects';
@@ -20,9 +25,7 @@ import { GetErrorMessagePipe } from './pipes';
 import { CompositeSummaryDownloadEffects } from '../../../dashboard/app/_main/effects';
 import { RedropConfirmationModalComponent } from './components/redrop-confirmation-modal';
 import { LoaderDashboardSidebarComponent } from './components/loader-dashboard-sidebar';
-import { MainModule } from '../../../data-management/app/_main/main.module';
 import { PfFieldMapperModule } from '../../../../libs/features/loaders/org-data-loader';
-import { LoaderDashboardFileArchiveRedropComponent } from './containers/loader-dashboard-file-archive-redrop';
 
 @NgModule({
   imports: [
@@ -51,7 +54,6 @@ import { LoaderDashboardFileArchiveRedropComponent } from './containers/loader-d
     PfCompanySelectorModule,
     SharedModule,
     BodyModule,
-    MainModule,
     PfFieldMapperModule
   ],
   declarations: [
