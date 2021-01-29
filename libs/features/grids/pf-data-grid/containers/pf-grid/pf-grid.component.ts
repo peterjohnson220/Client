@@ -138,7 +138,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   filtersUpdatedCountSubscription: Subscription;
   resetGridScrolledSubscription: Subscription;
   closeExpandedRowSubscription: Subscription;
-  groupTracker: { group: string, dataElementId: number } [] = [];
+  groupTracker: {group: string, dataElementId: number } [] = [];
 
   fadeInKeys: any[] = [];
   fadeOutKeys: any[] = [];
@@ -404,15 +404,18 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  onSortChange(sortDescriptor: SortDescriptor[]): void {
+  onSortChange(newSortDescriptor: SortDescriptor[]): void {
     if (this.gridConfig?.ScrollToTop) {
       this.scrollToTop();
     }
+    let descriptorToDispatch = !newSortDescriptor[0].dir ?
+      cloneDeep(this.defaultSortDescriptor) :
+      newSortDescriptor;
 
-    let descriptorToDispatch = sortDescriptor;
-    if (sortDescriptor.every(x => x.dir === undefined)) {
-      descriptorToDispatch = this.defaultSortDescriptor;
+    if ( !newSortDescriptor[0].dir && this.defaultSortDescriptor && newSortDescriptor[0].field === this.defaultSortDescriptor[0].field) {
+      descriptorToDispatch[0].dir = this.defaultSortDescriptor[0].dir === 'asc' ? 'desc' : 'asc';
     }
+
 
     if (this.customSortOptions != null) {
       descriptorToDispatch = this.customSortOptions(this.sortDescriptor, descriptorToDispatch);
@@ -423,7 +426,6 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
       this.store.dispatch(new fromActions.SaveView(this.pageViewId, null, DataViewType.userDefault));
     }
   }
-
 
   onCellClick({ dataItem, rowIndex, originalEvent, column }) {
     if (originalEvent.button !== 0 || column?.title === this.gridRowActionsConfig?.Title) {
