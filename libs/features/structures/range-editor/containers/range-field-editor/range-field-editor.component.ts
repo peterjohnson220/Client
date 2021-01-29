@@ -1,16 +1,17 @@
-import { Component, Input, TemplateRef, OnChanges, SimpleChanges, ViewChild, ElementRef, OnInit, OnDestroy } from '@angular/core';
+import { Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
 
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
 import { RateType } from 'libs/data/data-sets';
 import { CompanySettingsEnum } from 'libs/models/company';
-import { RoundingSettingsDataObj, RangeGroupMetadata } from 'libs/models/structures';
+import { RangeGroupMetadata, RoundingSettingsDataObj } from 'libs/models/structures';
 import { SettingsService } from 'libs/state/app-context/services';
 import { DataViewFilter } from 'libs/models/payfactors-api';
-import { RangeGroupType } from 'libs/constants/structures/range-group-type';
 import { PermissionCheckEnum, Permissions } from 'libs/constants';
 import { PermissionService } from 'libs/core/services';
+import { RangeType } from 'libs/constants/structures/range-type';
+import { RangeRecalculationType } from 'libs/constants/structures/range-recalculation-type';
 
 import * as fromRangeFieldActions from '../../actions/range-field-edit.actions';
 import * as fromSharedStructuresReducer from '../../../../../../apps/structures/app/shared/reducers';
@@ -24,8 +25,8 @@ export class RangeFieldEditorComponent implements OnInit, OnDestroy, OnChanges {
   // The PageViewId of the pf-data-grid this editor is on
   @Input() pageViewId: string;
 
-  // The type of range group (Job, Grade), this will control editable state currently
-  @Input() rangeGroupType: RangeGroupType;
+  // The type of range (Job, Grade), this will control editable state currently
+  @Input() rangeType: RangeType;
 
   // Is the midpoint for a 'current' structure. This will control editable state along with company settings.
   @Input() currentStructure: boolean;
@@ -62,7 +63,7 @@ export class RangeFieldEditorComponent implements OnInit, OnDestroy, OnChanges {
   @Input() dataRow: any;
   @Input() rowIndex: number;
   @Input() fieldName: string;
-  @Input() isMid: boolean;
+  @Input() rangeRecalculationType: RangeRecalculationType;
   @Input() isJobPage: boolean;
   @ViewChild('rangeField') public rangeFieldElement: ElementRef;
 
@@ -78,23 +79,23 @@ export class RangeFieldEditorComponent implements OnInit, OnDestroy, OnChanges {
 
   get editable() {
     let isEditable = false;
-    if (this.rangeGroupType === RangeGroupType.Job) {
+    if (this.rangeType === RangeType.Job) {
       isEditable = this.isCurrent || this.isJobPage ?  (this.hasCanCreateEditModelStructurePermission &&
-        this.rangeGroupType === RangeGroupType.Job &&
+        this.rangeType === RangeType.Job &&
         ((this.currentStructure && this.canEditCurrentStructureRanges) || !this.currentStructure) &&
         this.hasCanEditPublishedStructureRanges)
         :
         (this.hasCanCreateEditModelStructurePermission &&
-          this.rangeGroupType === RangeGroupType.Job &&
+          this.rangeType === RangeType.Job &&
           ((this.currentStructure && this.canEditCurrentStructureRanges) || !this.currentStructure));
-    } else if (this.rangeGroupType === RangeGroupType.Grade) {
+    } else if (this.rangeType === RangeType.Grade) {
       isEditable = this.isCurrent ? (this.hasCanCreateEditModelStructurePermission &&
-      this.rangeGroupType === RangeGroupType.Grade &&
+      this.rangeType === RangeType.Grade &&
         ((this.currentStructure && this.canEditCurrentStructureRanges) || !this.currentStructure) &&
       this.hasCanEditPublishedStructureRanges)
         :
         (this.hasCanCreateEditModelStructurePermission &&
-          this.rangeGroupType === RangeGroupType.Grade &&
+          this.rangeType === RangeType.Grade &&
           ((this.currentStructure && this.canEditCurrentStructureRanges) || !this.currentStructure));
     }
     return isEditable;
@@ -161,11 +162,12 @@ export class RangeFieldEditorComponent implements OnInit, OnDestroy, OnChanges {
       rowIndex: index,
       fieldValue: targetValue,
       fieldName: this.fieldName,
-      isMid: this.isMid,
+      rangeRecalculationType: this.rangeRecalculationType,
       roundingSettings: this.roundingSettings,
       refreshRowDataViewFilter: this.refreshRowDataViewFilter,
       metaInfo: this.updateMetaInfo,
-      successCallBackFn: this.updateSuccessCallbackFn
+      successCallBackFn: this.updateSuccessCallbackFn,
+      rangeType: this.rangeType
     };
 
     // TODO - we really should be just persisting rounding settings rather than passing every time, but that is coming later.

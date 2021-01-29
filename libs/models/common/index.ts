@@ -26,7 +26,6 @@ export * from './save-error';
 export * from './currency.model';
 export * from './select-all-status.enum';
 export * from './paged-response.model';
-export * from './range-type.enum';
 export * from './db-entitytype.enum';
 export * from './attachment-file-type.model';
 export * from './kendo-upload-status';

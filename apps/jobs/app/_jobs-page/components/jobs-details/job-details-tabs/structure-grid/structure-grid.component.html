@@ -65,13 +65,13 @@
   <ng-container *ngIf="!!dataRow.vw_CompanyJobsStructureInfo_Mid; else noValue">
     <pf-range-field-editor
       [pageViewId]="pageViewId"
-      [rangeGroupType]="dataRow.vw_CompanyJobsStructureInfo_RangeTypeId"
+      [rangeType]="dataRow.vw_CompanyJobsStructureInfo_RangeTypeId"
       [rangeGroupId]="dataRow.vw_CompanyJobsStructureInfo_CompanyStructuresRangeGroup_ID"
       [rangeId]="dataRow.vw_CompanyJobsStructureInfo_CompanyStructuresRanges_ID"
       [rate]="dataRow.vw_CompanyJobsStructureInfo_Rate"
       [fieldValue]="dataRow.vw_CompanyJobsStructureInfo_Mid"
       [fieldName]="'Mid'"
-      [isMid]="true"
+      [rangeRecalculationType]="rangeRecalculationType.Mid"
       [currentStructure]="true"
       [textAlign]="'right'"
       [dataRow]="dataRow"

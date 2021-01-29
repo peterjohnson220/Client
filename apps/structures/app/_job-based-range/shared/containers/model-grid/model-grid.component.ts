@@ -17,10 +17,14 @@ import {
   GridConfig
 } from 'libs/features/grids/pf-data-grid/models';
 import { PagingOptions } from 'libs/models/payfactors-api/search/request';
-import { CompanyStructureRangeOverride, RoundingSettingsDataObj, RangeGroupMetadata, JobBasedPageViewIds } from 'libs/models/structures';
+import {
+  CompanyStructureRangeOverride,
+  RoundingSettingsDataObj,
+  RangeGroupMetadata,
+  JobBasedPageViewIds
+} from 'libs/models/structures';
 import { DataViewFilter, ViewField } from 'libs/models/payfactors-api/reports/request';
 import * as fromPfDataGridActions from 'libs/features/grids/pf-data-grid/actions';
-import { RangeGroupType } from 'libs/constants/structures/range-group-type';
 import { PermissionCheckEnum, Permissions } from 'libs/constants';
 import { AsyncStateObj } from 'libs/models/state';
 import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
@@ -28,6 +32,8 @@ import * as fromReducer from 'libs/features/grids/pf-data-grid/reducers';
 import { PermissionService } from 'libs/core/services';
 import { PfDataGridColType } from 'libs/features/grids/pf-data-grid/enums';
 import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums/pf-theme-type.enum';
+import { RangeType } from 'libs/constants/structures/range-type';
+import { RangeRecalculationType } from 'libs/constants/structures/range-recalculation-type';
 
 import * as fromPublishModelModalActions from '../../actions/publish-model-modal.actions';
 import * as fromDuplicateModelModalActions from '../../actions/duplicate-model-modal.actions';
@@ -93,7 +99,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   colTemplates = {};
   modelPageViewId: string;
   modelPageViewIdSubscription: Subscription;
-  rangeGroupType = RangeGroupType.Job;
+  rangeType = RangeType.Job;
   defaultPagingOptions: PagingOptions;
   defaultSort: SortDescriptor[];
   singleRecordActionBarConfig: ActionBarConfig;
@@ -290,6 +296,10 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     this.store.dispatch(new fromSharedStructuresActions.ComparingModels());
     this.store.dispatch(new fromPfDataGridActions.UpdatePagingOptions(this.pageViewId, this.defaultPagingOptions));
     this.compareModelClicked.emit();
+  }
+
+  public get rangeRecalculationType(): typeof RangeRecalculationType {
+    return RangeRecalculationType;
   }
 
   // Lifecycle

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { switchMap, mergeMap, catchError, withLatestFrom, map } from 'rxjs/operators';
+import { catchError, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
 
 import { StructureModelingApiService } from 'libs/data/payfactors-api/structures';
 import { DataViewApiService } from 'libs/data/payfactors-api/reports';
@@ -15,12 +15,12 @@ import * as fromNotificationActions from 'libs/features/infrastructure/app-notif
 import { NotificationLevel, NotificationSource, NotificationType } from 'libs/features/infrastructure/app-notifications';
 import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import { DataGridToDataViewsHelper, GridDataHelper } from 'libs/features/grids/pf-data-grid/helpers';
+import { RangeType } from 'libs/constants/structures/range-type';
 
 import * as fromSharedActions from '../actions/shared.actions';
+import * as fromSharedStructuresActions from '../actions/shared.actions';
 import * as fromSharedStructuresReducer from '../../shared/reducers';
 import { PayfactorsApiModelMapper } from '../helpers/payfactors-api-model-mapper';
-import * as fromSharedStructuresActions from '../actions/shared.actions';
-
 
 
 @Injectable()
@@ -89,8 +89,13 @@ export class SharedEffects {
   refreshOverriddenRanges$: Observable<Action> = this.actions$
     .pipe(
       ofType<fromRangeFieldActions.UpdateRangeFieldSuccess>(fromRangeFieldActions.UPDATE_RANGE_FIELD_SUCCESS),
-      map(action => {
-        return new fromSharedActions.UpdateOverrides({ rangeId: action.payload.modifiedKey, overrideToUpdate: action.payload.override, removeOverride: false });
+      map((action: fromRangeFieldActions.UpdateRangeFieldSuccess) => {
+        // We want to dispatch UpdateOverrides only for Job based ranges
+        if (action.payload.rangeType === RangeType.Job) {
+          return new fromSharedActions.UpdateOverrides({rangeId: action.payload.modifiedKey, overrideToUpdate: action.payload.override, removeOverride: false});
+        }
+
+        return new fromPfDataGridActions.DoNothing(action.payload.pageViewId);
       })
     );
 
@@ -160,7 +165,7 @@ export class SharedEffects {
                   From: NotificationSource.GenericNotificationMessage,
                   Level: NotificationLevel.Error,
                   NotificationId: '',
-                  Payload: { Title: 'Error', Message: `Unable to revert changes` },
+                  Payload: {Title: 'Error', Message: `Unable to revert changes`},
                   Type: NotificationType.Event
                 }));
 
@@ -184,7 +189,7 @@ export class SharedEffects {
             this.store.pipe(select(fromPfDataGridReducer.getData, action.payload.pageViewId)),
             this.store.pipe(select(fromPfDataGridReducer.getGridConfig, action.payload.pageViewId)),
             (a: fromSharedActions.RevertingRangeChangesSuccess, baseEntity, fields, pagingOptions, sortDescriptor, applyDefaultFilters, data, gridConfig) =>
-              ({ a, baseEntity, fields, pagingOptions, sortDescriptor, applyDefaultFilters, data, gridConfig }))
+              ({a, baseEntity, fields, pagingOptions, sortDescriptor, applyDefaultFilters, data, gridConfig}))
         )
       ),
       switchMap((data) => {
