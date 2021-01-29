@@ -114,6 +114,15 @@ export function getEntityChoicesForOrgLoader(): EntityChoice[] {
   ];
 }
 
+export function getEntityChoiceForRedrop(): EntityChoice {
+  return {
+    ...getDefaultEntityChoice(),
+    DisplayText: 'Archive Re-Drop',
+    FileBeginsWith: 'exportedsourcerecords',
+    templateReferenceConstants: LoaderType.Redrop,
+  };
+}
+
 export function getMockEntityChoiceList(): EntityChoice[] {
   const mock = getEntityChoicesForOrgLoader();
   mock[0].isChecked = true;
