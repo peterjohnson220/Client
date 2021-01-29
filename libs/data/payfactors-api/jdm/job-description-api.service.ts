@@ -4,7 +4,7 @@ import { HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
-import { BulkExportSchedule, JobDescription, ValidateStepResultItem } from '../../../models/jdm';
+import { BulkExportSchedule, JobDescription, BulkExportScheduleParameters, ValidateStepResultItem } from '../../../models/jdm';
 import {
   CreateJobDescriptionDraftRequest,
   CreateJobDescriptionRequest,
@@ -49,6 +49,10 @@ export class JobDescriptionApiService {
 
   addSchedule(schedule: BulkExportSchedule): Observable<any> {
     return this.payfactorsApiService.post<any>(`${this.endpoint}/Default.CreateBulkExportSchedule`, {schedule});
+  }
+
+  updateSchedule(schedule: BulkExportScheduleParameters): Observable<any> {
+    return this.payfactorsApiService.post<any>(`${this.endpoint}/Default.UpdateBulkExportSchedule`, {schedule});
   }
 
   appliesToAttributesExist(jobDescriptionId: number, request: GetAppliesToAttributesExistRequest):

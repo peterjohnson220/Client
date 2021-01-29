@@ -1,5 +1,4 @@
-export class BulkExportSchedule {
-  Id: number;
+export class BulkExportScheduleParameters {
   FileName: string;
   ViewId: string;
   Filter: string;
@@ -13,8 +12,12 @@ export class BulkExportSchedule {
   MonthlyOccurrence: string;
   CronExpression: string;
   Create_Date: Date;
-  ExportCount: number;
   PrevRunDate: Date;
+}
+
+export class BulkExportSchedule extends BulkExportScheduleParameters {
+  Id: number;
+  ExportCount: number;
 }
 
 export function generateMockBulkExportSchedule(frequency: string = 'Weekly'): BulkExportSchedule {
