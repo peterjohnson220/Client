@@ -31,6 +31,7 @@ import { UserNotificationListEffects } from './effects';
 import { UserNotificationHostDirective } from './directives';
 import * as fromFaIcons from './fa-icons';
 import { UserNotificationEventHelperService } from './helpers/user-notification-event-helper-service';
+import { StaleEmployeeDataNotificationComponent } from './components/categories/stale-employee-data/stale-employee-data-notification.component';
 
 @NgModule({
   providers:[UserNotificationEventHelperService],
@@ -63,7 +64,8 @@ import { UserNotificationEventHelperService } from './helpers/user-notification-
     JobDescriptionReviewCompleteNotificationComponent,
     JobDescriptionReviewRejectedNotificationComponent,
     CompanyResourcesNotificationComponent,
-    CommunityPostsNotificationComponent
+    CommunityPostsNotificationComponent,
+    StaleEmployeeDataNotificationComponent
   ],
   exports: [
     UserNotificationListComponent

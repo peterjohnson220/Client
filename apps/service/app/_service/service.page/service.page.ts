@@ -41,6 +41,7 @@ export class ServicePageComponent implements AfterViewInit, OnInit, OnDestroy {
   gridDataSubscription: Subscription;
   identitySubscription: Subscription;
   urlParamsSubscription: Subscription;
+  queryParamsSubscription: Subscription;
 
   defaultSort: SortDescriptor[] = [{
     dir: 'desc',
@@ -145,6 +146,12 @@ export class ServicePageComponent implements AfterViewInit, OnInit, OnDestroy {
       ...this.actionBarConfig,
       GlobalActionsTemplate: this.gridGlobalActionsTemplate
     };
+
+    this.queryParamsSubscription = this.route.queryParams.subscribe(params => {
+      if (!!params['newTicket']) {
+        this.store.dispatch(new fromServicePageActions.ShowNewTicketModal(true));
+      }
+    });
   }
 
   ngOnDestroy() {
@@ -152,6 +159,7 @@ export class ServicePageComponent implements AfterViewInit, OnInit, OnDestroy {
     this.gridDataSubscription.unsubscribe();
     this.identitySubscription.unsubscribe();
     this.urlParamsSubscription.unsubscribe();
+    this.queryParamsSubscription.unsubscribe();
   }
 
   handleTicketTypeFilterChanged(value: string) {
