@@ -27,11 +27,11 @@
 </pf-data-grid>
 
 <ng-template #gridActions>
-  <pf-grid-context [enableReturnBtn]="true"></pf-grid-context>
+  <pf-grid-context [enableReturnBtn]="true" [buttonText]="'Return to ranges'"></pf-grid-context>
 </ng-template>
 
 <ng-template #gridActionsRightTemplate>
-  <pf-grid-context [enableReturnBtn]="false" [metadata]="metaData$ | async"></pf-grid-context>
+  <pf-grid-context [metadata]="metaData$ | async"></pf-grid-context>
 </ng-template>
 
 <ng-template #graph>

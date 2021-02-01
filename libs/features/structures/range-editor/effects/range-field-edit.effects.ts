@@ -12,8 +12,6 @@ import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducer
 import * as fromPfDataGridActions from 'libs/features/grids/pf-data-grid/actions';
 import * as fromNotificationActions from 'libs/features/infrastructure/app-notifications/actions/app-notifications.actions';
 import { JobBasedPageViewIds } from 'libs/models/structures';
-import { RangeType } from 'libs/constants/structures/range-type';
-import { RangeRecalculationType } from 'libs/constants/structures/range-recalculation-type';
 
 import { PayfactorsApiModelMapper } from '../helpers';
 import * as fromRangeFieldActions from '../actions/range-field-edit.actions';
@@ -45,8 +43,8 @@ export class RangeFieldEditEffects {
                   rowIndex: action.payload.rowIndex,
                   modifiedKey: action.payload.rangeId,
                   override: response.Override,
-                  rangeRecalculationType: action.payload.rangeRecalculationType,
-                  rangeType: action.payload.rangeType
+                  rangeType: action.payload.rangeType,
+                  reloadGridData: action.payload.reloadGridData
                 }));
 
                 if (action.payload.successCallBackFn) {
@@ -108,7 +106,7 @@ export class RangeFieldEditEffects {
         )
       ),
       switchMap((data) => {
-          if (data.a.payload.rangeType === RangeType.Grade && data.a.payload.rangeRecalculationType === RangeRecalculationType.Mid) {
+          if (data.a.payload.reloadGridData) {
             return [
               GridDataHelper.getLoadDataAction(data.a.payload.pageViewId, data.gridData, data.gridConfig, data.pagingOptions)
             ];

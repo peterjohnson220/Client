@@ -97,7 +97,7 @@
 </ng-template>
 
 <ng-template #gridActionsRightTemplate>
-  <pf-grid-context [enableReturnBtn]="false" [metadata]="metaData$ | async"></pf-grid-context>
+  <pf-grid-context [metadata]="metaData$ | async"></pf-grid-context>
 </ng-template>
 
 <ng-template #gridGlobalActions>
@@ -148,7 +148,8 @@
       [refreshRowDataViewFilter]="getRefreshFilter(dataRow)"
       [updateMetaInfo]="{ pageViewId: modelGridPageViewId }"
       [updateSuccessCallbackFn]="updateMidSuccessCallbackFn"
-      [readonlyValueTemplate]="rangeValue">
+      [readonlyValueTemplate]="rangeValue"
+      [reloadGridData]="true">
     </pf-range-field-editor>
   </ng-container>
 </ng-template>
@@ -157,6 +158,14 @@
   <ng-container *ngIf="dataRow.CompanyStructures_RangeGroup_Employees_Per_Grade as numEmployees; else noValue">
     <a class="temp-link-color-override" routerLinkActive="disabled" routerLink="/grade/{{rangeGroupId}}/employees/{{dataRow.CompanyStructures_Ranges_CompanyStructuresRanges_ID}}">
       {{ numEmployees }}
+    </a>
+  </ng-container>
+</ng-template>
+
+<ng-template #jobsCount let-dataRow="dataRow" let-fieldName="fieldName">
+  <ng-container *ngIf="dataRow.CompanyStructures_RangeGroup_Jobs_Per_Grade as numJobs; else noValue">
+    <a class="temp-link-color-override" routerLinkActive="disabled" routerLink="/grade/{{rangeGroupId}}/jobs/{{dataRow.CompanyStructures_Ranges_CompanyStructuresRanges_ID}}">
+      {{ numJobs }}
     </a>
   </ng-container>
 </ng-template>

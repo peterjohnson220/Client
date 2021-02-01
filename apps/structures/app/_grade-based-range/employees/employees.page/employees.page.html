@@ -25,14 +25,6 @@
   [splitOnSelection]="false">
 </pf-data-grid>
 
-<ng-template #gridActions>
-  <pf-grid-context [enableReturnBtn]="true"></pf-grid-context>
-</ng-template>
-
-<ng-template #gridActionsRightTemplate>
-  <pf-grid-context [enableReturnBtn]="false" [metadata]="metaData$ | async"></pf-grid-context>
-</ng-template>
-
 <ng-template #subHeaderTemplate>
   <pf-data-grid
     [pageViewId]="modelGridPageViewId"
@@ -57,13 +49,133 @@
   <div style="clear: both"></div>
 </ng-template>
 
-<ng-template #rangeValue let-dataRow="dataRow" let-fieldName="fieldName">
-  <ng-container *ngIf="dataRow[fieldName]; else noValue">{{ dataRow[fieldName] | rangeValue: (metaData$ | async)?.Rate }}</ng-container>
+<ng-template #gridActions>
+  <pf-grid-context *ngIf="gradeName" [enableReturnBtn]="true" [buttonText]="'Return to All Grades'" [title]="gradeName + ' Employees'"></pf-grid-context>
+</ng-template>
+
+<ng-template #gridActionsRightTemplate>
+  <pf-grid-context [metadata]="metaData$ | async"></pf-grid-context>
+</ng-template>
+
+<ng-template #noFormatting let-dataRow="dataRow" let-fieldName="fieldName">
+  <div pfEllipsisActive class="ellipsis-overflowing-text-wrap" *ngIf="dataRow[fieldName]; else noValue">
+    {{dataRow[fieldName]}}
+  </div>
 </ng-template>
 
 <ng-template #noValue>
   - -
 </ng-template>
 
+<ng-template #percentage let-dataRow="dataRow" let-fieldName="fieldName">
+  <ng-container *ngIf="dataRow[fieldName] || dataRow[fieldName] === 0; else noValue">{{dataRow[fieldName]}}%</ng-container>
+</ng-template>
+
+<ng-template #rangeValue let-dataRow="dataRow" let-fieldName="fieldName">
+  <ng-container *ngIf="dataRow[fieldName]; else noValue">{{ dataRow[fieldName] | rangeValue: (metaData$ | async)?.Rate }}</ng-container>
+</ng-template>
+
+<ng-template #mid let-dataRow="dataRow" let-fieldName="fieldName" let-rowIndex="rowIndex">
+  <ng-container>
+    <pf-range-field-editor
+      [pageViewId]="modelGridPageViewId"
+      [rangeType]="rangeType"
+      [rangeGroupId]="dataRow.CompanyStructures_RangeGroup_CompanyStructuresRangeGroup_ID"
+      [rangeId]="dataRow.CompanyStructures_Ranges_CompanyStructuresRanges_ID"
+      [rate]="(metaData$ | async)?.Rate"
+      [fieldValue]="dataRow.CompanyStructures_Ranges_Mid"
+      [fieldName]="fieldName"
+      [rangeRecalculationType]="rangeRecalculationType.Mid"
+      [currentStructure]="(metaData$ | async)?.IsCurrent"
+      [dataRow]="dataRow"
+      [rowIndex]="rowIndex"
+      [textAlign]="'center'"
+      [roundingSettings]="roundingSettings"
+      [refreshRowDataViewFilter]="getRefreshFilter(dataRow)"
+      [updateMetaInfo]="{ pageViewId: modelGridPageViewId }"
+      [updateSuccessCallbackFn]="updateMidSuccessCallbackFn"
+      [readonlyValueTemplate]="rangeValue">
+    </pf-range-field-editor>
+  </ng-container>
+</ng-template>
+
+<ng-template #rangeField let-dataRow="dataRow" let-fieldName="fieldName" let-rowIndex="rowIndex">
+  <ng-container>
+    <pf-range-field-editor
+      [pageViewId]="modelGridPageViewId"
+      [rangeType]="rangeType"
+      [rangeGroupId]="dataRow.CompanyStructures_RangeGroup_CompanyStructuresRangeGroup_ID"
+      [rangeId]="dataRow.CompanyStructures_Ranges_CompanyStructuresRanges_ID"
+      [rate]="(metaData$ | async)?.Rate"
+      [fieldValue]="dataRow[fieldName]"
+      [fieldName]="fieldName"
+      [rangeRecalculationType]="rangeRecalculationType.Range"
+      [currentStructure]="(metaData$ | async)?.IsCurrent"
+      [dataRow]="dataRow"
+      [rowIndex]="rowIndex"
+      [textAlign]="'center'"
+      [roundingSettings]="roundingSettings"
+      [refreshRowDataViewFilter]="getRefreshFilter(dataRow)"
+      [updateMetaInfo]="{ pageViewId: modelGridPageViewId }"
+      [readonlyValueTemplate]="rangeValue">
+    </pf-range-field-editor>
+  </ng-container>
+</ng-template>
+
+<ng-template #diffField let-dataRow="dataRow" let-fieldName="fieldName" let-rowIndex="rowIndex">
+  <ng-container>
+    <pf-range-field-editor
+      [pageViewId]="modelGridPageViewId"
+      [rangeType]="rangeType"
+      [rangeGroupId]="dataRow.CompanyStructures_RangeGroup_CompanyStructuresRangeGroup_ID"
+      [rangeId]="dataRow.CompanyStructures_Ranges_CompanyStructuresRanges_ID"
+      [rate]="(metaData$ | async)?.Rate"
+      [fieldValue]="dataRow[fieldName]"
+      [fieldName]="fieldName"
+      [rangeRecalculationType]="rangeRecalculationType.MidDiff"
+      [currentStructure]="(metaData$ | async)?.IsCurrent"
+      [dataRow]="dataRow"
+      [rowIndex]="rowIndex"
+      [textAlign]="'center'"
+      [noRounding]="true"
+      [refreshRowDataViewFilter]="getRefreshFilter(dataRow)"
+      [updateMetaInfo]="{ pageViewId: modelGridPageViewId }"
+      [readonlyValueTemplate]="rangeValue">
+    </pf-range-field-editor>
+  </ng-container>
+</ng-template>
+
+<ng-template #rangeSpreadField let-dataRow="dataRow" let-fieldName="fieldName" let-rowIndex="rowIndex">
+  <ng-container>
+    <pf-range-field-editor
+      [pageViewId]="modelGridPageViewId"
+      [rangeType]="rangeType"
+      [rangeGroupId]="dataRow.CompanyStructures_RangeGroup_CompanyStructuresRangeGroup_ID"
+      [rangeId]="dataRow.CompanyStructures_Ranges_CompanyStructuresRanges_ID"
+      [rate]="(metaData$ | async)?.Rate"
+      [fieldValue]="dataRow[fieldName]"
+      [fieldName]="fieldName"
+      [rangeRecalculationType]="rangeRecalculationType.Spread"
+      [currentStructure]="(metaData$ | async)?.IsCurrent"
+      [dataRow]="dataRow"
+      [rowIndex]="rowIndex"
+      [textAlign]="'center'"
+      [noRounding]="true"
+      [refreshRowDataViewFilter]="getRefreshFilter(dataRow)"
+      [updateMetaInfo]="{ pageViewId: modelGridPageViewId }"
+      [readonlyValueTemplate]="rangeValue">
+    </pf-range-field-editor>
+  </ng-container>
+</ng-template>
+
+<ng-template #jobsCount let-dataRow="dataRow" let-fieldName="fieldName">
+  <ng-container *ngIf="dataRow.CompanyStructures_RangeGroup_Jobs_Per_Grade as numJobs; else noValue">
+    <a class="temp-link-color-override" routerLinkActive="disabled" routerLink="/grade/{{rangeGroupId}}/jobs/{{dataRow.CompanyStructures_Ranges_CompanyStructuresRanges_ID}}">
+      {{ numJobs }}
+    </a>
+  </ng-container>
+</ng-template>
+
 <ng-template #graph>
+
 </ng-template>

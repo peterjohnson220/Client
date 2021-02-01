@@ -17,6 +17,7 @@ import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
 import { PfDataGridModule } from 'libs/features/grids/pf-data-grid';
 import { FormulaEditorModule } from 'libs/ui/formula-editor';
+import { RangeFieldEditorComponent } from 'libs/features/structures/range-editor/containers/range-field-editor';
 
 import { RangeGroupExistsGuard } from './guards';
 import { reducers } from './reducers';
@@ -72,7 +73,8 @@ import { StructuresPagesService } from './services';
     RangeValuePipe,
     GridContextComponent,
     GlobalActionsComponent,
-    ModelSettingsBtnComponent
+    ModelSettingsBtnComponent,
+    RangeFieldEditorComponent
   ],
   providers: [
     RangeGroupExistsGuard,

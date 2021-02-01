@@ -24,7 +24,8 @@ export class UpdateRangeField implements Action {
     refreshRowDataViewFilter: DataViewFilter,
     metaInfo: any,
     successCallBackFn: any,
-    rangeType: RangeType
+    rangeType: RangeType,
+    reloadGridData: boolean
   }) {}
 }
 
@@ -37,8 +38,8 @@ export class UpdateRangeFieldSuccess implements Action {
     rowIndex: number,
     modifiedKey: number,
     override: CompanyStructureRangeOverride,
-    rangeRecalculationType: RangeRecalculationType,
-    rangeType: RangeType
+    rangeType: RangeType,
+    reloadGridData: boolean
   }) {}
 }
 

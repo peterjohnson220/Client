@@ -42,6 +42,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   @ViewChild('percentage', { static: true }) percentageColumn: ElementRef;
   @ViewChild('rangeValue', { static: true }) rangeValueColumn: ElementRef;
   @ViewChild('rangeSpreadField') rangeSpreadFieldColumn: ElementRef;
+  @ViewChild('jobsCount') jobsCountColumn: ElementRef;
 
   @Input() singleRecordView: boolean;
   @Input() inboundFilters: PfDataGridFilter[];
@@ -152,7 +153,6 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
 
   updateMidSuccessCallbackFn(store: Store<any>, metaInfo: any) {
     // We should dispatch this action only for Employees/Pricings pages
-
   }
 
   showRevertChanges(rangeId: number): boolean {
@@ -201,12 +201,13 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     this.colTemplates = {
       'Mid': { Template: this.midColumn },
       'Employees_Per_Grade': { Template: this.eeCountColumn },
-      [PfDataGridColType.midpointDiffFieldEditor]: { Template: this.diffFieldColumn },
+      'Jobs_Per_Grade': { Template: this.jobsCountColumn },
+      'Range_Spread': { Template: this.rangeSpreadFieldColumn },
+      'GradeMidpointDiff': { Template: this.diffFieldColumn },
       [PfDataGridColType.noFormatting]: { Template: this.noFormattingColumn },
       [PfDataGridColType.rangeFieldEditor]: { Template: this.rangeFieldColumn },
       [PfDataGridColType.percentage]: { Template: this.percentageColumn },
-      [PfDataGridColType.rangeValue]: { Template: this.rangeValueColumn },
-      [PfDataGridColType.rangeSpreadFieldEditor]: { Template: this.rangeSpreadFieldColumn },
+      [PfDataGridColType.rangeValue]: { Template: this.rangeValueColumn }
     };
 
     this.fullGridActionBarConfig = {
