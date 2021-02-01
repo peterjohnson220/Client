@@ -4,8 +4,7 @@ import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import * as fromLoaderDashboardPageReducer from '../../reducers';
 import * as fromLoaderDashboardPageActions from '../../actions/loader-dashboard-page.actions';
-import { EntityChoice, getEntityChoiceForRedrop } from '../../../../../data-management/app/_main/models';
-import { UpdatedArchiveSummaryModel } from '../../models';
+import { UpdatedArchiveSummaryModel, EntityChoiceForRedropModel, getEntityChoiceForRedrop } from '../../models';
 import { AsyncStateObj } from 'libs/models';
 import { FileUploadComponent } from 'libs/features/loaders/org-data-loader/containers';
 
@@ -21,7 +20,7 @@ export class LoaderDashboardFileArchiveRedropComponent implements OnInit, OnDest
   private unsubscribe$ = new Subject<boolean>();
   public updatedArchiveSummaryObj$: Observable<AsyncStateObj<UpdatedArchiveSummaryModel>>;
   public redropFileObj$: Observable<File>;
-  public redropEntity: EntityChoice;
+  public redropEntity: EntityChoiceForRedropModel;
   public updatedArchiveSummary: UpdatedArchiveSummaryModel;
   public selectedCompositeDataLoadId: number;
   public selectedClientName: string;
