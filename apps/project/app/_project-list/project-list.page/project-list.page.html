@@ -7,6 +7,7 @@
   [enableSelection]="true"
   [gridConfig]="gridConfig"
   [filterPanelTemplates]="filterTemplates"
+  [customFilterOptions]="customStatusFilterOptions"
   [defaultSort]="defaultSort"
   [columnTemplates]="colTemplates"
   [actionBarConfig]="actionBarConfig"
@@ -88,9 +89,9 @@
   <div>
     <label>Status:</label>
     <kendo-dropdownlist
-    [data]="statusFilterOptions"
-    [textField]="'display'"
-    [valueField]="'value'"
+    [data]="statusFilterDisplayOptions"
+    [textField]="'Display'"
+    [valueField]="'Value'"
     [filterable]="false"
     [(ngModel)]="status"
     [attr.data-qa-id]="'completed-status-filter'"

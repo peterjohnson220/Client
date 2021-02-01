@@ -11,7 +11,13 @@ import { Permissions } from 'libs/constants';
 import { CompanyJobApiService } from 'libs/data/payfactors-api/company';
 import { MODIFY_PRICINGS } from 'libs/features/pricings/multi-match/constants';
 import {
-  ActionBarConfig, getDefaultActionBarConfig, getDefaultGridRowActionsConfig, GridRowActionsConfig, GridConfig
+  ActionBarConfig,
+  getDefaultActionBarConfig,
+  getDefaultGridRowActionsConfig,
+  GridRowActionsConfig,
+  GridConfig,
+  PfDataGridCustomFilterDisplayOptions,
+  PfDataGridCustomFilterOptions
 } from 'libs/features/grids/pf-data-grid/models';
 import { AsyncStateObj, UserContext } from 'libs/models';
 import { GetPricingsToModifyRequest } from 'libs/features/pricings/multi-match/models';
@@ -31,8 +37,6 @@ import { PageViewIds } from '../constants';
 import { ShowingActiveJobs } from '../pipes';
 import * as fromJobsPageActions from '../actions';
 import * as fromJobsPageReducer from '../reducers';
-
-
 
 @Component({
   selector: 'pf-jobs-page',
@@ -57,8 +61,10 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   jobStatusField: ViewField;
   payMarketField: ViewField;
   structureGradeSearchField: ViewField;
+  pricingReviewedField: ViewField;
   selectedPayMarket: any;
   selectedStructureGrade: any;
+  selectedReviewedStatus: any;
 
   selectedKeysSubscription: Subscription;
   selectedPaymarketsSubscription: Subscription;
@@ -139,6 +145,23 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   multiMatchSaveChangesSubscription: Subscription;
 
+  pricingReviewedDropdownDisplayOptions: PfDataGridCustomFilterDisplayOptions[] = [{
+    Display: '',
+    Value: null
+  }, {
+    Display: 'Yes',
+    Value: 'Reviewed'
+  }, {
+    Display: 'No',
+    Value: 'Not Reviewed'
+  }];
+
+  customPricingReviewedFilterOptions: PfDataGridCustomFilterOptions[] = [{
+    EntitySourceName: 'CompanyJobs',
+    SourceName: 'Status',
+    FilterDisplayOptions: this.pricingReviewedDropdownDisplayOptions
+  }];
+
   @ViewChild('gridRowActionsTemplate') gridRowActionsTemplate: ElementRef;
   @ViewChild('jobTitleColumn') jobTitleColumn: ElementRef;
   @ViewChild('jobMatchCount') jobMatchCount: ElementRef;
@@ -151,6 +174,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild('gridGlobalActions', { static: true }) gridGlobalActionsTemplate: ElementRef;
   @ViewChild('structureGradeFilter') structureGradeFilter: ElementRef;
+  @ViewChild('pricingReviewedFilter') pricingReviewedFilter: ElementRef;
 
 
   constructor(
@@ -228,10 +252,12 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
         this.jobStatusField = fields.find(f => f.SourceName === 'JobStatus');
         this.payMarketField = fields.find(f => f.SourceName === 'PayMarket');
         this.structureGradeSearchField = fields.find(f => f.SourceName === 'Grade_Name');
+        this.pricingReviewedField = fields.find(f => f.SourceName === 'Status');
         this.selectedStructureGrade = this.structureGradeSearchField?.FilterValue !== null ?
           { Value: this.structureGradeSearchField?.FilterValue, Id: this.structureGradeSearchField?.FilterValue } : null;
         this.selectedPayMarket = this.payMarketField.FilterValue !== null ?
           { Value: this.payMarketField.FilterValue, Id: this.payMarketField.FilterValue } : null;
+        this.selectedReviewedStatus = this.pricingReviewedDropdownDisplayOptions.find(x => x.Value === this.pricingReviewedField.FilterValue);
       }
     });
 
@@ -305,7 +331,8 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.filterTemplates = {
       'PayMarket': { Template: this.payMarketFilter },
-      'Grade_Name': { Template: this.structureGradeFilter }
+      'Grade_Name': { Template: this.structureGradeFilter },
+      'Status': { Template: this.pricingReviewedFilter }
     };
 
     this.actionBarConfig = {
@@ -417,6 +444,13 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     newField.FilterOperator = '=';
     newField.FilterValue = value;
     this.store.dispatch(new fromPfDataGridActions.UpdateFilter(this.pageViewId, newField));
+  }
+
+  handlePricingReviewedStatusChanged(opt: any) {
+    const field = cloneDeep(this.pricingReviewedField);
+    field.FilterValue = opt.Value;
+    field.FilterOperator = '=';
+    this.updateField(field);
   }
 
   updateField(field) {
