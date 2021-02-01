@@ -1,6 +1,5 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   EventEmitter,
   Input,
@@ -167,6 +166,8 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
     if (this.onContentChangedSubscription) {
       this.onContentChangedSubscription.unsubscribe();
     }
+
+    this.closeQuillMention();
   }
 
   onTitleChanged(newTitle: string) {
