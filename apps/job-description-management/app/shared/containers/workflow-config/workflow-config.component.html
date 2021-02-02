@@ -64,16 +64,16 @@
 									<input class="custom-control-input" type="checkbox" id="customCheckbox-{{i}}-{{pi}}"
 										   [ngModel]="permission.selected"
 										   [disabled]="permission.disabled"
-                       (change)="updateWorkflowStepPermission(i, permission.permission, $event.target.checked)">
-                  <label class="custom-control-label" for="customCheckbox-{{i}}-{{pi}}">{{permission.display}}</label>
-                </div>
+                       						(change)="updateWorkflowStepPermission(i, permission.permission, $event.target.checked)">
+									<label class="custom-control-label" for="customCheckbox-{{i}}-{{pi}}">{{permission.display}}</label>
+								</div>
 							</ng-container>
-            </div>
+            			</div>
             
 						<div class="col-1 delete-step-frame">
 							<button class="btn btn-sm btn-secondary" (click)="deleteWorkflowStep(i)">
-                <fa-icon icon="trash-alt" aria-hidden="true"></fa-icon>
-              </button>
+								<fa-icon icon="trash-alt" aria-hidden="true"></fa-icon>
+							</button>
 						</div>
 					</div>
 					<div class="container multiple-users-one-step">
@@ -83,9 +83,10 @@
 							</div>
 							<div class="col-2 action-container justify-content-end text-center">
 								<button class="btn btn-sm btn-secondary" (click)="resetMultiUserStepTracking()">
-                  <fa-icon icon="times" aria-hidden="true"></fa-icon>
-                </button>
+									<fa-icon icon="times" aria-hidden="true"></fa-icon>
+								</button>
 							</div>
+							<div *ngIf="nonPfUserSameStepDuplicateEmail" class="text-danger">All email addresses must be unique per step</div>
 						</div>
 					</div>
 					<div *ngIf="stepAddingNonPfUsers === i">
