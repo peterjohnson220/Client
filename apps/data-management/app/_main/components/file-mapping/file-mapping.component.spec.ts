@@ -50,7 +50,7 @@ describe('FileMappingComponent', () => {
     fixture = TestBed.createComponent(FileMappingComponent);
     component = fixture.componentInstance;
     component.entities = getEntityChoicesForOrgLoader();
-    component.customFields = { Jobs: customFields, EmployeeKeyFields: [], EmployeeTags: [], Employees: customFields, Benefits: [] }
+    component.customFields = { Jobs: customFields, EmployeeKeyFields: [], EmployeeTags: [], Employees: customFields, Benefits: [] };
     component.selectedCompany = { CompanyId: 1, CompanyName: 'test', CombinedDetail: 'test (1)' };
     fixture.detectChanges();
     store = TestBed.inject(Store);

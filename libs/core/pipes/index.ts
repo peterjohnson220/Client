@@ -20,3 +20,4 @@ export * from './employee-details.pipe';
 export * from './structure-details.pipe';
 export * from './format-name.pipe';
 export * from './parse-date.pipe';
+export * from './parse-date-from-unix-time.pipe';
