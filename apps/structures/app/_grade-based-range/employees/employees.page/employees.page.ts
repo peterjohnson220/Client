@@ -5,10 +5,14 @@ import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
 import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums/pf-theme-type.enum';
-import { GradeBasedPageViewIds, RangeGroupMetadata } from 'libs/models/structures';
+import { GradeBasedPageViewIds, RangeGroupMetadata, RoundingSettingsDataObj } from 'libs/models/structures';
 import { ActionBarConfig, getDefaultActionBarConfig, GridConfig, PfDataGridFilter } from 'libs/features/grids/pf-data-grid/models';
 import * as fromActions from 'libs/features/grids/pf-data-grid/actions';
 import { PfDataGridColType } from 'libs/features/grids/pf-data-grid/enums';
+import { RangeType } from 'libs/constants/structures/range-type';
+import { RangeRecalculationType } from 'libs/constants/structures/range-recalculation-type';
+import { DataViewFilter } from 'libs/models/payfactors-api/reports/request';
+import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 
 import { PagesHelper } from '../../../shared/helpers/pages.helper';
 import * as fromSharedStructuresReducer from '../../../shared/reducers';
@@ -20,7 +24,17 @@ import { StructuresPagesService } from '../../../shared/services';
   styleUrls: ['./employees.page.scss']
 })
 export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy {
-  @ViewChild('rangeValue', { static: true }) rangeValueColumn: ElementRef;
+  @ViewChild('mid') midColumn: ElementRef;
+  @ViewChild('eeCount') eeCountColumn: ElementRef;
+  @ViewChild('diffField') diffFieldColumn: ElementRef;
+  @ViewChild('rangeField') rangeFieldColumn: ElementRef;
+  @ViewChild('noFormatting', {static: true}) noFormattingColumn: ElementRef;
+  @ViewChild('gridGlobalActions', {static: true}) gridGlobalActionsTemplate: ElementRef;
+  @ViewChild('gridRowActionsTemplate') gridRowActionsTemplate: ElementRef;
+  @ViewChild('percentage', {static: true}) percentageColumn: ElementRef;
+  @ViewChild('rangeValue', {static: true}) rangeValueColumn: ElementRef;
+  @ViewChild('rangeSpreadField') rangeSpreadFieldColumn: ElementRef;
+  @ViewChild('jobsCount') jobsCountColumn: ElementRef;
 
   employeesPageViewId: string;
   dataCutsPageViewId: string;
@@ -35,11 +49,17 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
   rangeGroupId: number;
   rangeId: number;
   colTemplates = {};
+  rangeType = RangeType.Grade;
+  roundingSettings$: Observable<RoundingSettingsDataObj>;
+  roundingSettingsSub: Subscription;
+  roundingSettings: RoundingSettingsDataObj;
+  gradeName = '';
 
   activeTab: string;
   filter: PfDataGridFilter;
 
   modelGridPageViewIdSubscription: Subscription;
+  dataSubscription: Subscription;
 
   filterTemplates = {};
 
@@ -56,6 +76,12 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
     });
 
     this.modelGridPageViewIdSubscription = this.structuresPagesService.modelPageViewId.subscribe(pv => this.modelGridPageViewId = pv);
+
+    this.dataSubscription = this.store.select(fromPfGridReducer.getData, this.modelGridPageViewId).subscribe(data => {
+      if (data) {
+        this.gradeName = data.data[0].CompanyStructures_Ranges_Grade_Name;
+      }
+    });
 
     this.rangeGroupId = this.route.parent.snapshot.params.id;
     this.rangeId = parseInt(this.route.snapshot.params.id, 10);
@@ -83,6 +109,8 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
       EnableInfiniteScroll: true,
       ScrollToTop: true
     };
+
+    this.roundingSettings$ = this.store.pipe(select(fromSharedStructuresReducer.getRoundingSettings));
   }
 
   onEmployeesClicked() {
@@ -111,20 +139,46 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
     return false;
   }
 
+  public get rangeRecalculationType(): typeof RangeRecalculationType {
+    return RangeRecalculationType;
+  }
+
+  getRefreshFilter(dataRow: any): DataViewFilter {
+    return {
+      EntitySourceName: 'CompanyStructures_Ranges',
+      SourceName: 'CompanyStructuresRanges_ID',
+      Operator: '=',
+      Values: [dataRow.CompanyStructures_Ranges_CompanyStructuresRanges_ID]
+    };
+  }
+
+  updateMidSuccessCallbackFn(store: Store<any>, metaInfo: any) {
+    // We should dispatch this action only for Employees/Pricings pages
+  }
+
   // Lifecycle
   ngOnInit(): void {
     this.activeTab = 'Employees';
+    this.roundingSettingsSub = this.roundingSettings$.subscribe(rs => this.roundingSettings = rs);
   }
 
   ngAfterViewInit(): void {
     this.colTemplates = {
-      ['Mid']: { Template: this.rangeValueColumn },
-      [PfDataGridColType.rangeFieldEditor]: { Template: this.rangeValueColumn }
+      'Mid': {Template: this.midColumn},
+      'Jobs_Per_Grade': {Template: this.jobsCountColumn},
+      'Range_Spread': {Template: this.rangeSpreadFieldColumn},
+      'GradeMidpointDiff': {Template: this.diffFieldColumn},
+      [PfDataGridColType.noFormatting]: {Template: this.noFormattingColumn},
+      [PfDataGridColType.rangeFieldEditor]: {Template: this.rangeFieldColumn},
+      [PfDataGridColType.percentage]: {Template: this.percentageColumn},
+      [PfDataGridColType.rangeValue]: {Template: this.rangeValueColumn}
     };
   }
 
   ngOnDestroy(): void {
     this.metadataSubscription.unsubscribe();
     this.modelGridPageViewIdSubscription.unsubscribe();
+    this.roundingSettingsSub.unsubscribe();
+    this.dataSubscription.unsubscribe();
   }
 }

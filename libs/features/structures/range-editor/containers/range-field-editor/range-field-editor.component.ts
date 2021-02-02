@@ -54,6 +54,7 @@ export class RangeFieldEditorComponent implements OnInit, OnDestroy, OnChanges {
   @Input() truncateAnnualValueDisplay: boolean;
 
   @Input() noRounding: true | false = false;
+  @Input() reloadGridData = false;
 
   // Row information
   @Input() rangeGroupId: number;
@@ -167,7 +168,8 @@ export class RangeFieldEditorComponent implements OnInit, OnDestroy, OnChanges {
       refreshRowDataViewFilter: this.refreshRowDataViewFilter,
       metaInfo: this.updateMetaInfo,
       successCallBackFn: this.updateSuccessCallbackFn,
-      rangeType: this.rangeType
+      rangeType: this.rangeType,
+      reloadGridData: this.reloadGridData
     };
 
     // TODO - we really should be just persisting rounding settings rather than passing every time, but that is coming later.
