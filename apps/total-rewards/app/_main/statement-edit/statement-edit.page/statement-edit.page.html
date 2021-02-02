@@ -116,6 +116,8 @@
       (displaySettingChange)="handleDisplaySettingChange($event)"
       (resetSettings)="handleResetSettings()"
       (close)="handleCloseSettingsClick()"
+      pfClickElsewhere
+      (clickElsewhere)="handleSettingsPanelClickElsewhere()"
     ></pf-settings-panel>
     <pf-footer-bar
       [primaryButtonText]="'Assign Employees'"

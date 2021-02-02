@@ -49,6 +49,7 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
   statementSubscription = new Subscription();
   modeSubscription = new Subscription();
   scrollSubscription = new Subscription();
+  settingsPanelOpenSubscription = new Subscription();
 
   statement: models.Statement;
   statementId: string;
@@ -72,6 +73,9 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
   mainScrollableNode: HTMLElement;
   scrollTimer: any;
   scrollSubject = new Subject();
+  allowClosingSettingsByClickingElsewhere = false;
+  isSettingsPanelOpen = false;
+
   scrollEventHandler = () => { this.scrollSubject.next(); };
 
   constructor(
@@ -125,6 +129,15 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
       }
     });
 
+    this.settingsPanelOpenSubscription = this.isSettingsPanelOpen$.subscribe(isOpen => {
+
+      this.isSettingsPanelOpen = isOpen;
+
+      if (!isOpen) { return; }
+
+      this.allowClosingSettingsByClickingElsewhere = false;
+    });
+
     // MISC
     setTimeout(() => {
       this.mainScrollableNode = document.querySelector('.page-content');
@@ -139,6 +152,7 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
     this.modeSubscription.unsubscribe();
     this.scrollSubscription.unsubscribe();
     this.mainScrollableNode?.removeEventListener('scroll', this.scrollEventHandler, true);
+    this.settingsPanelOpenSubscription.unsubscribe();
 
     this.store.dispatch(new fromEditStatementPageActions.ResetStatement());
   }
@@ -230,6 +244,20 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
 
   handleCloseSettingsClick() {
     this.store.dispatch(new fromEditStatementPageActions.CloseSettingsPanel());
+  }
+
+  handleSettingsPanelClickElsewhere() {
+    if (!this.isSettingsPanelOpen) { return; }
+
+    // Cannot simply close: we would end up closing as soon it opened, since the click to open is outside the panel
+    // But instead we can indicate closing is allowed the next time the user clicks outside
+    if (!this.allowClosingSettingsByClickingElsewhere) {
+      this.allowClosingSettingsByClickingElsewhere = true;
+      return;
+    }
+
+    this.allowClosingSettingsByClickingElsewhere = false;
+    this.handleCloseSettingsClick();
   }
 
   handleSettingsFontSizeChange(fontSize: FontSize) {
