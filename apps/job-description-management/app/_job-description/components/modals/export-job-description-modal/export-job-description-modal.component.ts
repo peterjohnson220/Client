@@ -28,6 +28,7 @@ export class ExportJobDescriptionModalComponent {
 
   open(exportType: string): void {
     this.exportType = exportType;
+    this.view = 'Default';
     this.modalService.open(this.exportJobDescriptionModal, { backdrop: 'static' });
   }
 

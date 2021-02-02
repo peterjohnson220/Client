@@ -29,7 +29,8 @@
         (routingHistoryClicked)="handleRoutingHistoryClicked()"
         (updateJobInfoClicked)="handleUpdateJobInfoClicked()"
         (exportClicked)="handleExportClickedFromActions($event)"
-        (acknowledgedClicked)="openEmployeeAcknowledgementModal()">
+        (acknowledgedClicked)="openEmployeeAcknowledgementModal()"
+        (viewSelected)="handleViewSelected($event)">
       </pf-job-description-actions>
 
     </ng-container>
@@ -85,7 +86,7 @@
                   [isPublic]="(identity$ | async)?.IsPublic">
                 </pf-job-description-info-header-with-logo>
 
-                <pf-job-description-section *ngFor="let section of jobDescription.Sections; trackBy: trackByFn"
+                <pf-job-description-section *ngFor="let section of visibleSections; trackBy: trackByFn"
                                             [section]="section"
                                             [controlTypesLoaded]="!(controlTypesAsync$ | async)?.loading"
                                             [readOnly]="!(hasCanEditJobDescriptionPermission) || !(editingJobDescription$ | async)"
