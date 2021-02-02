@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { EmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards';
 
-import { Statement, CalculationControl, CompensationField, TotalRewardsControlEnum, BaseControl } from '../models';
+import { Statement, CalculationControl, CompensationField, TotalRewardsControlEnum } from '../models';
 import { CurrentControlIndexResponse } from '../models/current-control-index-response';
 import { TrsConstants } from '../constants/trs-constants';
 
@@ -108,7 +108,7 @@ export class TotalRewardsStatementService {
     });
   }
 
-  static sumCalculationControl(control: CalculationControl, employeeRewardsData: EmployeeRewardsData): number {
+  static sumCalculationControlEmployerContribution(control: CalculationControl, employeeRewardsData: EmployeeRewardsData): number {
     let sum = 0;
     const visibleFields = control.DataFields.filter(f => f.IsVisible);
     visibleFields.forEach(df => {
@@ -117,8 +117,21 @@ export class TotalRewardsStatementService {
           ? TrsConstants.UDF_DEFAULT_VALUE
           : employeeRewardsData[df.Type][df.DatabaseField] > 0 ? employeeRewardsData[df.Type][df.DatabaseField] : 0;
         sum += fieldValue;
+      } else if (employeeRewardsData.BenefitsData && employeeRewardsData.BenefitsData[df.DatabaseField]) {
+        sum += employeeRewardsData.BenefitsData[df.DatabaseField].EmployerValue;
       } else {
         sum += employeeRewardsData[df.DatabaseField];
+      }
+    });
+    return sum;
+  }
+
+  static sumCalculationControlEmployeeContribution(control: CalculationControl, employeeRewardsData: EmployeeRewardsData): number {
+    let sum = 0;
+    const visibleFields = control.DataFields.filter(f => f.IsVisible && f.CanHaveEmployeeContribution);
+    visibleFields.forEach(df => {
+      if (employeeRewardsData.BenefitsData && employeeRewardsData.BenefitsData[df.DatabaseField]) {
+        sum += employeeRewardsData.BenefitsData[df.DatabaseField].CompanyEmployeeValue;
       }
     });
     return sum;
@@ -127,7 +140,7 @@ export class TotalRewardsStatementService {
   static sumCalculationControls(controls: CalculationControl[], employeeRewardsData: EmployeeRewardsData): number {
     let sum = 0;
     controls.forEach(calculationControl => {
-      sum += TotalRewardsStatementService.sumCalculationControl(calculationControl, employeeRewardsData);
+      sum += TotalRewardsStatementService.sumCalculationControlEmployerContribution(calculationControl, employeeRewardsData);
     });
     return sum;
   }
@@ -144,5 +157,22 @@ export class TotalRewardsStatementService {
         )
       )
     );
+  }
+
+  static doesBenefitFieldHaveData(fieldName: string, employeeRewardsData: EmployeeRewardsData, shouldCheckEmployeeContribution: boolean): boolean {
+    if (!employeeRewardsData) {
+      return false;
+    }
+
+    const fieldHasValue = employeeRewardsData[fieldName] > 0;
+    if (fieldHasValue) {
+      return true;
+    }
+
+    const benefitDataExists = employeeRewardsData.BenefitsData !== undefined;
+    const fieldExistInBenefitsData = benefitDataExists && employeeRewardsData.BenefitsData[fieldName] !== undefined;
+    const fieldHasEmployerValue = fieldExistInBenefitsData && employeeRewardsData.BenefitsData[fieldName].EmployerValue > 0;
+    const fieldHasEmployeeValue = fieldExistInBenefitsData && employeeRewardsData.BenefitsData[fieldName].CompanyEmployeeValue > 0;
+    return fieldHasEmployerValue || (shouldCheckEmployeeContribution && fieldHasEmployeeValue);
   }
 }

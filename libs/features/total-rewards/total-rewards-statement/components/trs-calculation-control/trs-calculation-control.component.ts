@@ -7,8 +7,7 @@ import { EmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards';
 
 import * as models from '../../models';
 import { TotalRewardsStatementService } from '../../services/total-rewards-statement.service';
-import { CompensationField, SelectableFieldsGroup } from '../../models';
-import { FieldLayout } from '../../models/settings';
+import { CompensationField, SelectableFieldsGroup, FieldLayout } from '../../models';
 import { TrsConstants } from '../../constants/trs-constants';
 
 @Component({
@@ -26,6 +25,8 @@ export class TrsCalculationControlComponent implements OnChanges {
   @Input() visibleFieldsCount: number;
   @Input() graphicsColors: string[];
   @Input() showDecimals: boolean;
+  @Input() showEmployeeContributions: boolean;
+  @Input() showSecondaryHeader: boolean;
 
   @Output() onTitleChange: EventEmitter<models.UpdateTitleRequest> = new EventEmitter();
   @Output() onCompFieldTitleChange: EventEmitter<models.UpdateFieldOverrideNameRequest> = new EventEmitter();
@@ -63,6 +64,16 @@ export class TrsCalculationControlComponent implements OnChanges {
     return this.showDecimals ? '1.2-2' : '1.0';
   }
 
+  get titleColumnSpan(): number {
+    if (this.showSecondaryHeader) {
+      return 1;
+    } else if (this.showEmployeeContributions) {
+      return 3;
+    } else {
+      return 2;
+    }
+  }
+
   removeField(field: models.CompensationField) {
     this.onCompFieldRemoved.emit({ControlId: this.controlData.Id, DataFieldId: field.Id, IsVisible: false});
   }
@@ -91,9 +102,12 @@ export class TrsCalculationControlComponent implements OnChanges {
   getEmployerContributionValue(field: models.CompensationField) {
     const employeeRewards = this.employeeRewardsData;
 
-    if (employeeRewards && (this.mode !== models.StatementModeEnum.Edit)) {
-      if (!field.Type && employeeRewards[field.DatabaseField] || employeeRewards[field.DatabaseField] === 0) {
+    if (employeeRewards) {
+      if (!field.Type && employeeRewards[field.DatabaseField] && employeeRewards[field.DatabaseField] > 0) {
         return this.formatAsCurrency(employeeRewards[field.DatabaseField], employeeRewards?.Currency);
+      }
+      if (!field.Type && employeeRewards.BenefitsData[field.DatabaseField]?.EmployerValue > 0) {
+        return this.formatAsCurrency(this.employeeRewardsData.BenefitsData[field.DatabaseField].EmployerValue, employeeRewards?.Currency);
       }
       if (field.Type) {
         const fieldValue = employeeRewards.IsMockData
@@ -107,10 +121,33 @@ export class TrsCalculationControlComponent implements OnChanges {
     return '';
   }
 
-  getSummaryValue() {
-    if (this.employeeRewardsData && (this.mode !== models.StatementModeEnum.Edit)) {
-      const sum = TotalRewardsStatementService.sumCalculationControl(this.controlData, this.employeeRewardsData);
-      return this.formatAsCurrency(sum, this.employeeRewardsData?.Currency);
+  getEmployeeContributionValue(field: models.CompensationField) {
+    if (!field.Type && field.CanHaveEmployeeContribution && this.employeeRewardsData?.BenefitsData) {
+      if (this.employeeRewardsData.BenefitsData[field.DatabaseField]?.CompanyEmployeeValue > 0) {
+        return this.formatAsCurrency(this.employeeRewardsData.BenefitsData[field.DatabaseField].CompanyEmployeeValue, this.employeeRewardsData?.Currency);
+      }
+    }
+
+    return '';
+  }
+
+  get totalEmployerContributions(): string {
+    if (this.employeeRewardsData) {
+      const sum = TotalRewardsStatementService.sumCalculationControlEmployerContribution(this.controlData, this.employeeRewardsData);
+      if (sum > 0) {
+        return this.formatAsCurrency(sum, this.employeeRewardsData?.Currency);
+      }
+    }
+
+    return '';
+  }
+
+  get totalEmployeeContributions(): string {
+    if (this.employeeRewardsData?.BenefitsData) {
+      const sum = TotalRewardsStatementService.sumCalculationControlEmployeeContribution(this.controlData, this.employeeRewardsData);
+      if (sum > 0) {
+        return this.formatAsCurrency(sum, this.employeeRewardsData?.Currency);
+      }
     }
 
     return '';
@@ -179,10 +216,11 @@ export class TrsCalculationControlComponent implements OnChanges {
     return field.IsVisible && this.employeeRewardsData[field.Type][field.DatabaseField] > 0;
   }
 
-  private isBenefitsFieldVisible(field: models.CompensationField): boolean {
+  isBenefitsFieldVisible(field: models.CompensationField): boolean {
     if (this.inEditMode) {
       return field.IsVisible;
     }
-    return field.IsVisible && this.employeeRewardsData[field.DatabaseField] > 0;
+    return field.IsVisible &&
+      TotalRewardsStatementService.doesBenefitFieldHaveData(field.DatabaseField, this.employeeRewardsData, this.showEmployeeContributions);
   }
 }

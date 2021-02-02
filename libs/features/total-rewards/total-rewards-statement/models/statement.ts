@@ -103,8 +103,8 @@ export function generateMockStatement(): Statement {
             Layout: { Width: 12 },
             Category: 'Retirement',
             DataFields: [
-              { Id: '1', DatabaseField: 'EmployeeSavings401KMatch', Name: { Default: '401K Savings Match' }, IsVisible: true},
-              { Id: '2', DatabaseField: 'EmployeePensionPlan', Name: { Default: 'Pension Plan' }, IsVisible: true}
+              { Id: '1', DatabaseField: 'Savings_401K_Match', Name: { Default: '401K Savings Match' }, IsVisible: true},
+              { Id: '2', DatabaseField: 'Pension_Plan', Name: { Default: 'Pension Plan' }, IsVisible: true}
             ],
             Summary: { Default: 'Total', Override: null },
             ControlType: TotalRewardsControlEnum.Calculation
@@ -114,12 +114,12 @@ export function generateMockStatement(): Statement {
             Category: 'Insurance',
             Summary: { Default: 'Total', Override: null },
             DataFields: [
-              { Id: '1', DatabaseField: 'EmployeeMedicalInsurance', Name: { Default: 'Medical Insurance' }, IsVisible: true},
-              { Id: '2', DatabaseField: 'EmployeeDentalInsurance', Name: { Default: 'Dental Insurance' }, IsVisible: true},
-              { Id: '3', DatabaseField: 'EmployeeVisionInsurance', Name: { Default: 'Vision Insurance' }, IsVisible: true},
-              { Id: '4', DatabaseField: 'EmployeeLifeInsurance', Name: { Default: 'Life Insurance' }, IsVisible: true},
-              { Id: '5', DatabaseField: 'EmployeeLongTermDisability', Name: { Default: 'Long - Term Disability' }, IsVisible: true},
-              { Id: '5', DatabaseField: 'EmployeeShortTermDisability', Name: { Default: 'Short - Term Disability' }, IsVisible: true}
+              { Id: '1', DatabaseField: 'Medical_Plan', Name: { Default: 'Medical Insurance' }, IsVisible: true},
+              { Id: '2', DatabaseField: 'Dental_Plan', Name: { Default: 'Dental Insurance' }, IsVisible: true},
+              { Id: '3', DatabaseField: 'Vision_Plan', Name: { Default: 'Vision Insurance' }, IsVisible: true},
+              { Id: '4', DatabaseField: 'Life_Insurance', Name: { Default: 'Life Insurance' }, IsVisible: true},
+              { Id: '5', DatabaseField: 'Long_Term_Disability', Name: { Default: 'Long - Term Disability' }, IsVisible: true},
+              { Id: '5', DatabaseField: 'Short_Term_Disability', Name: { Default: 'Short - Term Disability' }, IsVisible: true}
             ],
             ControlType: TotalRewardsControlEnum.Calculation
           } as CalculationControl, {
@@ -127,9 +127,9 @@ export function generateMockStatement(): Statement {
             Layout: { Width: 12 },
             Summary: { Default: 'Total', Override: null },
             DataFields: [
-              { Id: '1', DatabaseField: 'EmployeeTuitionReimbursement',  Name: { Default: 'Tuition Reimbursement' }, IsVisible: true},
-              { Id: '2', DatabaseField: 'EmployeePTO',  Name: { Default: 'Paid Time Off' }, IsVisible: true},
-              { Id: '3', DatabaseField: 'EmployeeOtherAllowances',  Name: { Default: 'Other Allowances' }, IsVisible: true}
+              { Id: '1', DatabaseField: 'Tuition_Reimbursement',  Name: { Default: 'Tuition Reimbursement' }, IsVisible: true},
+              { Id: '2', DatabaseField: 'PTO',  Name: { Default: 'Paid Time Off' }, IsVisible: true},
+              { Id: '3', DatabaseField: 'Other_Allowance',  Name: { Default: 'Other Allowances' }, IsVisible: true}
             ],
             ControlType: TotalRewardsControlEnum.Calculation
           } as CalculationControl, {
@@ -203,8 +203,10 @@ export function generateMockStatementWithSingleCalculationControlUDFsOnly(): Sta
   const calcControl = statement.Pages[0].Sections[0].Columns[0].Controls[0] as CalculationControl;
 
   calcControl.DataFields = [
-    { Id: '1', DatabaseField: 'UDF_1', Name: { Default: 'Employee UDF 1', Override: null }, IsVisible: true, Type: 'EmployeesUdf'},
-    { Id: '2', DatabaseField: 'UDF_2', Name: { Default: 'Employee UDF 2', Override: null }, IsVisible: true,  Type: 'EmployeesUdf'}
+    { Id: '1', DatabaseField: 'UDF_1', Name: { Default: 'Employee UDF 1', Override: null }, IsVisible: true, Type: 'EmployeesUdf',
+      CanHaveEmployeeContribution: false},
+    { Id: '2', DatabaseField: 'UDF_2', Name: { Default: 'Employee UDF 2', Override: null }, IsVisible: true,  Type: 'EmployeesUdf',
+      CanHaveEmployeeContribution: false}
     ];
   statement.Pages[0].Sections[0].Columns[0].Controls[0] = calcControl;
 

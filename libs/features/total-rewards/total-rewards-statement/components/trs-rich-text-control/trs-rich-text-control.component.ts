@@ -317,8 +317,10 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
 
   closeQuillMention() {
     // manually remove the mention container from the DOM, since it can be orphaned when left open on certain actions
-    this.quillMentionContainer.style.display = 'none';
-    this.quillMentionContainer.remove();
+    if (this.quillMentionContainer) {
+      this.quillMentionContainer.style.display = 'none';
+      this.quillMentionContainer.remove();
+    }
   }
 
   createStyleSheet() {
