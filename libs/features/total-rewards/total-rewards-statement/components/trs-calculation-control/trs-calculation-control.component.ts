@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input, OnChanges,
-  Output, SimpleChanges
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 
 import cloneDeep from 'lodash/cloneDeep';
@@ -31,6 +25,7 @@ export class TrsCalculationControlComponent implements OnChanges {
   @Input() companyUdfs: CompensationField[];
   @Input() visibleFieldsCount: number;
   @Input() graphicsColors: string[];
+  @Input() showDecimals: boolean;
 
   @Output() onTitleChange: EventEmitter<models.UpdateTitleRequest> = new EventEmitter();
   @Output() onCompFieldTitleChange: EventEmitter<models.UpdateFieldOverrideNameRequest> = new EventEmitter();
@@ -64,6 +59,10 @@ export class TrsCalculationControlComponent implements OnChanges {
     return this.controlData.DataFields.filter(field => this.displayFieldInTable(field));
   }
 
+  get currencyLocale(): string {
+    return this.showDecimals ? '1.2-2' : '1.0';
+  }
+
   removeField(field: models.CompensationField) {
     this.onCompFieldRemoved.emit({ControlId: this.controlData.Id, DataFieldId: field.Id, IsVisible: false});
   }
@@ -90,15 +89,18 @@ export class TrsCalculationControlComponent implements OnChanges {
   }
 
   getEmployerContributionValue(field: models.CompensationField) {
-    if (this.employeeRewardsData && (this.mode !== models.StatementModeEnum.Edit)) {
-      if (!field.Type && this.employeeRewardsData[field.DatabaseField] || this.employeeRewardsData[field.DatabaseField] === 0) {
-        return this.currencyPipe.transform(this.employeeRewardsData[field.DatabaseField], this.employeeRewardsData?.Currency, 'symbol-narrow', '1.0');
+    const employeeRewards = this.employeeRewardsData;
+
+    if (employeeRewards && (this.mode !== models.StatementModeEnum.Edit)) {
+      if (!field.Type && employeeRewards[field.DatabaseField] || employeeRewards[field.DatabaseField] === 0) {
+        return this.formatAsCurrency(employeeRewards[field.DatabaseField], employeeRewards?.Currency);
       }
       if (field.Type) {
-        const fieldValue = this.employeeRewardsData.IsMockData
+        const fieldValue = employeeRewards.IsMockData
           ? TrsConstants.UDF_DEFAULT_VALUE
-          : this.employeeRewardsData[field.Type][field.DatabaseField];
-        return this.currencyPipe.transform(fieldValue, this.employeeRewardsData?.Currency, 'symbol-narrow', '1.0');
+          : employeeRewards[field.Type][field.DatabaseField];
+
+        return this.formatAsCurrency(fieldValue, employeeRewards?.Currency);
       }
     }
 
@@ -108,10 +110,20 @@ export class TrsCalculationControlComponent implements OnChanges {
   getSummaryValue() {
     if (this.employeeRewardsData && (this.mode !== models.StatementModeEnum.Edit)) {
       const sum = TotalRewardsStatementService.sumCalculationControl(this.controlData, this.employeeRewardsData);
-      return this.currencyPipe.transform(sum, this.employeeRewardsData?.Currency, 'symbol-narrow', '1.0');
+      return this.formatAsCurrency(sum, this.employeeRewardsData?.Currency);
     }
 
     return '';
+  }
+
+  formatAsCurrency(value: number, currency?: string): string {
+    let valueAsCurrency = this.currencyPipe.transform(value, currency, 'symbol-narrow', this.currencyLocale);
+
+    // if we have a single decimal leftover like 1000.5, change to 1000.50 if decimals are on and 1000 otherwise
+    if (typeof valueAsCurrency === 'string' && valueAsCurrency.slice(-2)?.charAt(0) === '.') {
+      valueAsCurrency = (this.showDecimals) ? valueAsCurrency + '0' : valueAsCurrency.slice(0, -2);
+    }
+    return valueAsCurrency;
   }
 
   displayFieldInTable(compField: models.CompensationField): boolean {

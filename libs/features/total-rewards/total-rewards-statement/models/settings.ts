@@ -1,4 +1,5 @@
 import { FontFamily, FontSize } from '../types';
+import { StatementDisplaySettings } from './statement-display-settings';
 
 export enum TotalRewardsColorEnum { Undefined = 0, Primary = 1, Secondary = 2, Tertiary = 3, Quaternary = 4 }
 export enum FieldLayout { Normal = 0, Consolidated = 1 }
@@ -8,6 +9,7 @@ export interface Settings {
   DividerColor: TotalRewardsColorEnum;
   FontSize: FontSize;
   FontFamily: FontFamily;
+  DisplaySettings: StatementDisplaySettings;
 }
 
 export function generateMockSettings(): Settings {
@@ -16,5 +18,6 @@ export function generateMockSettings(): Settings {
     DividerColor: TotalRewardsColorEnum.Undefined,
     FontSize: 'Medium',
     FontFamily: 'Default',
+    DisplaySettings: { ShowEmployeeContributions: false, ShowDecimals: false }
   };
 }

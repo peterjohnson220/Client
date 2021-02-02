@@ -3,6 +3,14 @@
 
 table {
   table-layout: fixed;
+  h3 {
+    font-size: 1.5rem;
+  }
+  h4 {
+    padding-top: 2px;
+    font-size: 1.35rem;
+    letter-spacing: -.8px;
+  }
   .value-column {
     width: 25%;
     text-align: right;

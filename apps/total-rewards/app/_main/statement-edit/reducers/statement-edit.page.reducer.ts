@@ -224,6 +224,12 @@ export function reducer(state = initialState, action: fromEditStatementActions.S
       localState.statement.obj.Settings.Colors[action.payload.ColorIndex] = action.payload.Color;
       return localState;
     }
+    case fromEditStatementActions.TOGGLE_DISPLAY_SETTING: {
+      const localState: State = cloneDeep(state);
+      const displaySettings = localState.statement.obj.Settings.DisplaySettings;
+      displaySettings[action.payload.displaySettingKey] = !displaySettings[action.payload.displaySettingKey];
+      return localState;
+    }
     case fromEditStatementActions.SAVE_IMAGE_CONTROL_IMAGE: {
       const localState: State = cloneDeep(state);
       const {Page, Section, Column, Control} = TotalRewardsStatementService.getCurrentControlIndex(state.statement.obj, action.payload.ControlId);

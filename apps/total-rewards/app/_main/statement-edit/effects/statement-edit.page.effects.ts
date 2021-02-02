@@ -38,7 +38,7 @@ export class StatementEditPageEffects {
     );
 
   @Effect()
-  public statementChange$: Observable<Action> =
+  statementChange$: Observable<Action> =
     this.actions$.pipe(
       ofType(
         fromStatementEditActions.UPDATE_STATEMENT_NAME,
@@ -68,12 +68,13 @@ export class StatementEditPageEffects {
     );
 
   @Effect()
-  public settingsChange$: Observable<Action> =
+  settingsChange$: Observable<Action> =
     this.actions$.pipe(
       ofType(
         fromStatementEditActions.UPDATE_SETTINGS_FONT_SIZE,
         fromStatementEditActions.UPDATE_SETTINGS_FONT_FAMILY,
-        fromStatementEditActions.UPDATE_SETTINGS_COLOR
+        fromStatementEditActions.UPDATE_SETTINGS_COLOR,
+        fromStatementEditActions.TOGGLE_DISPLAY_SETTING
       ),
       mapTo(new SaveSettings())
     );

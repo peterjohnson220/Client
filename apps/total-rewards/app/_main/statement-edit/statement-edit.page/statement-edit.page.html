@@ -108,10 +108,12 @@
       [fontSize]="(statement$ | async)?.Settings.FontSize"
       [fontFamily]="(statement$ | async)?.Settings.FontFamily"
       [colors]="(statement$ | async)?.Settings.Colors"
+      [displaySettings]="(statement$ | async)?.Settings.DisplaySettings"
       [isSavingError]="settingsSavingError$ | async"
       (fontSizeChange)="handleSettingsFontSizeChange($event)"
       (fontFamilyChange)="handleSettingsFontFamilyChange($event)"
       (colorChange)="handleSettingsColorChange($event)"
+      (displaySettingChange)="handleDisplaySettingChange($event)"
       (resetSettings)="handleResetSettings()"
       (close)="handleCloseSettingsClick()"
     ></pf-settings-panel>

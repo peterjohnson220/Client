@@ -67,12 +67,31 @@
             <label title="{{ color }}" class="w-100">{{ color }}</label>
           </div>
         </div>
-        <div *ngIf="totalRewardsEmployeeContributionFeatureFlag.value">
-          <h5 class="my-2">Display Settings</h5>
-          <div class="d-flex mb-2">
-            <input class="mt-1 mr-2" id="enableEmployeeContribution" value="true" type="checkbox">
-            <label for="enableEmployeeContribution">Employee Contributions</label>
-          </div>
+        <h5 class="my-2">Display Settings</h5>
+        <div *ngIf="totalRewardsEmployeeContributionFeatureFlag.value" class="d-flex mb-2">
+          <input 
+            type="checkbox" 
+            class="mt-1 mr-2" 
+            id="enableEmployeeContribution" 
+            [checked]="displaySettings?.ShowEmployeeContributions"
+            (change)="onDisplaySettingChange('ShowEmployeeContributions')" 
+            [attr.tabindex]="isOpen ? 0 : -1">
+          <label for="enableEmployeeContribution">Employee Contributions</label>
+        </div>
+        <div class="d-flex">
+          <input 
+            type="checkbox" 
+            class="mt-1 mr-2" 
+            id="enableDecimals" 
+            [checked]="displaySettings?.ShowDecimals"
+            (change)="onDisplaySettingChange('ShowDecimals')" 
+            [attr.tabindex]="isOpen ? 0 : -1">
+          <label for="enableDecimals">Decimals</label>
+          <label
+            class="info ml-2"
+            [ngbTooltip]="'Display two decimal places for each of the benefits data values.'">
+            <fa-icon [icon]="['fal', 'info-circle']" aria-hidden="true"></fa-icon>
+          </label>
         </div>
       </div>
       <a href="javascript:void(0)" (click)="onResetSettings()" class="reset-settings mx-auto mb-1 d-table text-center" [attr.tabindex]="isOpen ? 0 : -1">

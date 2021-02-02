@@ -18,6 +18,7 @@ export * from './section';
 export * from './selectable-fields-group.enum';
 export * from './settings';
 export * from './statement';
+export * from './statement-display-settings';
 export * from './statement-for-print';
 export * from './statement-list-view-model';
 export * from './statement-mode-enum';
