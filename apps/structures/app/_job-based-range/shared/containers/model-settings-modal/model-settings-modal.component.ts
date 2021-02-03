@@ -8,17 +8,16 @@ import { delay } from 'rxjs/operators';
 import { AsyncStateObj } from 'libs/models/state';
 import { RoundingSettingsDataObj, RangeGroupMetadata } from 'libs/models/structures';
 import { SettingsService } from 'libs/state/app-context/services';
-import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
+import { AbstractFeatureFlagService } from 'libs/core/services/feature-flags';
 import { GenericKeyValue } from 'libs/models/common';
 import { CompanySettingsEnum } from 'libs/models/company';
 
-import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
 import * as fromSharedStructuresReducer from '../../../../shared/reducers';
-import * as fromModelSettingsModalActions from '../../../shared/actions/model-settings-modal.actions';
+import * as fromModelSettingsModalActions from '../../../../shared/actions/model-settings-modal.actions';
 import * as fromJobBasedRangeReducer from '../../reducers';
 import * as fromSharedStructuresActions from '../../../../shared/actions/shared.actions';
 import { ControlPoint, Currency } from '../../../../shared/models';
-import { UrlService } from '../../services';
+import { UrlService } from '../../../../shared/services';
 import { Workflow } from '../../../../shared/constants/workflow';
 import { RangeDistributionSettingComponent } from '../range-distribution-setting';
 import { ModelSettingsModalConstants } from '../../../../shared/constants/model-settings-modal-constants';
@@ -94,17 +93,17 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
     this.metaData$ = this.store.pipe(select(fromSharedStructuresReducer.getMetadata));
     this.roundingSettings$ = this.store.pipe(select(fromSharedStructuresReducer.getRoundingSettings));
     // delay(0) to push this into the next VM turn to avoid expression changed errors
-    this.modalOpen$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getModelSettingsModalOpen), delay(0));
-    this.currenciesAsyncObj$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getCurrenciesAsyncObj));
-    this.controlPointsAsyncObj$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getControlPointsAsyncObj));
-    this.surveyUdfsAsyncObj$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getSurveyUdfsAsyncObj));
-    this.structureNameSuggestionsAsyncObj$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getStructureNameSuggestionsAsyncObj));
-    this.savingModelSettingsAsyncObj$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getSavingModelSettingsAsyncObj));
-    this.modelNameExistsFailure$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getModelNameExistsFailure));
+    this.modalOpen$ = this.store.pipe(select(fromSharedStructuresReducer.getModelSettingsModalOpen), delay(0));
+    this.currenciesAsyncObj$ = this.store.pipe(select(fromSharedStructuresReducer.getCurrenciesAsyncObj));
+    this.controlPointsAsyncObj$ = this.store.pipe(select(fromSharedStructuresReducer.getControlPointsAsyncObj));
+    this.surveyUdfsAsyncObj$ = this.store.pipe(select(fromSharedStructuresReducer.getSurveyUdfsAsyncObj));
+    this.structureNameSuggestionsAsyncObj$ = this.store.pipe(select(fromSharedStructuresReducer.getStructureNameSuggestionsAsyncObj));
+    this.savingModelSettingsAsyncObj$ = this.store.pipe(select(fromSharedStructuresReducer.getSavingModelSettingsAsyncObj));
+    this.modelNameExistsFailure$ = this.store.pipe(select(fromSharedStructuresReducer.getModelNameExistsFailure));
     this.minSpreadTooltip = ModelSettingsModalConstants.MIN_SPREAD_TOOL_TIP;
     this.maxSpreadTooltip = ModelSettingsModalConstants.MAX_SPREAD_TOOL_TIP;
     this.peerExchangeToolTipInfo = ModelSettingsModalConstants.PEER_EXCHANGE_TOOL_TIP;
-    this.allFormulasSub = this.store.pipe(select(fromJobBasedRangeReducer.getAllFields)).subscribe(af => this.allFormulas = af);
+    this.allFormulasSub = this.store.pipe(select(fromSharedStructuresReducer.getAllFields)).subscribe(af => this.allFormulas = af);
     this.exchanges$ = this.store.pipe(select(fromSharedStructuresReducer.getCompanyExchanges));
     this.hasAcceptedPeerTermsSub = this.settingsService.selectCompanySetting<boolean>(
       CompanySettingsEnum.PeerTermsAndConditionsAccepted
@@ -346,7 +345,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
     this.modalOpenSub = this.modalOpen$.subscribe(mo => {
       if (mo) {
         this.buildForm();
-        this.isNewModel = this.urlService.isInWorkflow(Workflow.NewJobBasedRange);
+        this.isNewModel = this.urlService.isInWorkflow(Workflow.NewRange);
       }
     });
     this.modelNameExistsFailureSub = this.modelNameExistsFailure$.subscribe(mef => this.modelNameExistsFailure = mef);

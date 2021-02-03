@@ -102,7 +102,8 @@
 
 <ng-template #gridGlobalActions>
   <pf-global-actions
-    [metadata]="metaData$ | async">
+    [metadata]="metaData$ | async"
+    (manageModelClicked)="handleManageModelClicked()">
   </pf-global-actions>
 </ng-template>
 

@@ -62,8 +62,7 @@ import {
     FormulaEditorModule,
     FormsModule,
 
-    SharedModule,
-
+    SharedModule
   ],
   declarations: [
     ModelGridComponent,
@@ -75,7 +74,8 @@ import {
     GradeBasedSummaryChartComponent,
     GradeBasedVerticalRangeChartComponent
   ],
-  providers: []
+  providers: [
+  ]
 })
 export class GradeBasedSharedModule {
   constructor(library: FaIconLibrary) {

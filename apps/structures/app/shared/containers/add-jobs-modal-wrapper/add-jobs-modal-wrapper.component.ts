@@ -1,31 +1,35 @@
-import { Component } from '@angular/core';
-
+import { Component, Input, OnInit } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
 
 import { SearchBaseDirective } from 'libs/features/search/search/containers/search-base';
-import * as fromCompanySettingsActions from 'libs/state/app-context/actions/company-settings.actions';
+import { SearchFeatureIds } from 'libs/features/search/search/enums/search-feature-ids';
+import * as fromSearchReducer from 'libs/features/search/search/reducers';
+import * as fromAddJobsPageActions from 'libs/features/jobs/add-jobs/actions/add-jobs-page.actions';
 import * as fromSearchFiltersActions from 'libs/features/search/search/actions/search-filters.actions';
 import * as fromPaymarketActions from 'libs/features/jobs/add-jobs/actions/paymarkets.actions';
-import * as fromAddJobsPageActions from 'libs/features/jobs/add-jobs/actions/add-jobs-page.actions';
+import * as fromCompanySettingsActions from 'libs/state/app-context/actions/company-settings.actions';
 import * as fromAddJobsSearchResultsActions from 'libs/features/jobs/add-jobs/actions/search-results.actions';
-import * as fromSearchReducer from 'libs/features/search/search/reducers';
 import * as fromSearchPageActions from 'libs/features/search/search/actions/search-page.actions';
-import { SearchFeatureIds } from 'libs/features/search/search/enums/search-feature-ids';
+import { RangeType } from 'libs/constants/structures/range-type';
 
-import { staticFilters, StructuresSearchFilterMappingDataObj, StructuresJobSearchUserFilterType } from '../../../shared/data';
+import { StructuresSearchFilterMappingDataObj, StructuresJobSearchUserFilterType, staticFilters } from '../../data';
+
 
 @Component({
   selector: 'pf-add-jobs-modal-wrapper',
   templateUrl: './add-jobs-modal-wrapper.component.html',
   styleUrls: ['./add-jobs-modal-wrapper.component.scss']
 })
-export class AddJobsModalWrapperComponent extends SearchBaseDirective {
+export class AddJobsModalWrapperComponent extends SearchBaseDirective implements OnInit {
+  @Input() rangeTypeId: number;
+  @Input() controlPoint: string;
   // Observables
   pageShown$: Observable<boolean>;
 
   // Constants
   MODAL_NAME = 'Add Jobs';
+  isJobRange: boolean;
 
   constructor(
     store: Store<fromSearchReducer.State>
@@ -53,5 +57,9 @@ export class AddJobsModalWrapperComponent extends SearchBaseDirective {
 
   close() {
     this.store.dispatch(new fromSearchPageActions.CloseSearchPage());
+  }
+
+  ngOnInit(): void {
+    this.isJobRange = this.rangeTypeId === RangeType.Job;
   }
 }

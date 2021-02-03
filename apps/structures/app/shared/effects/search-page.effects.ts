@@ -8,8 +8,8 @@ import * as fromSearchPageActions from 'libs/features/search/search/actions/sear
 import * as fromSearchReducer from 'libs/features/search/search/reducers';
 import { SearchFeatureIds } from 'libs/features/search/search/enums/search-feature-ids';
 
-import { UrlService } from '../../shared/services';
-import { Workflow } from '../../../shared/constants/workflow';
+import { UrlService } from '../services';
+import { Workflow } from '../constants/workflow';
 
 @Injectable()
 export class SearchPageEffects {
@@ -24,7 +24,7 @@ export class SearchPageEffects {
           ({ action, searchFeatureId })
       ),
       filter((data) => data.searchFeatureId === SearchFeatureIds.AddJobs),
-      tap(() => this.urlService.removeWorkflow(Workflow.NewJobBasedRange))
+      tap(() => this.urlService.removeWorkflow(Workflow.NewRange))
     );
 
   constructor(

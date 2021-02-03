@@ -25,14 +25,14 @@ import { UserContext } from 'libs/models';
 
 
 import * as fromModelSettingsModalActions from '../actions/model-settings-modal.actions';
-import * as fromSharedActions from '../actions/shared.actions';
-import * as fromSharedStructuresActions from '../../../shared/actions/shared.actions';
-import { PayfactorsApiModelMapper } from '../../../shared/helpers/payfactors-api-model-mapper';
+import * as fromSharedActions from '../../_job-based-range/shared/actions/shared.actions';
+import * as fromSharedStructuresActions from '../actions/shared.actions';
+import { PayfactorsApiModelMapper } from '../helpers/payfactors-api-model-mapper';
 import * as fromSharedReducer from '../reducers';
-import * as fromSharedStructuresReducer from '../../../shared/reducers';
+import * as fromSharedStructuresReducer from '../reducers';
 import { UrlService } from '../services';
-import { Workflow } from '../../../shared/constants/workflow';
-import { PagesHelper } from '../../../shared/helpers/pages.helper';
+import { Workflow } from '../constants/workflow';
+import { PagesHelper } from '../helpers/pages.helper';
 
 @Injectable()
 export class ModelSettingsModalEffects {
@@ -50,7 +50,7 @@ export class ModelSettingsModalEffects {
           return { action, metadata, gridConfig, gridData, pagingOptions };
         }
       ),
-      filter(() => this.urlService.isInWorkflow(Workflow.NewJobBasedRange)),
+      filter(() => this.urlService.isInWorkflow(Workflow.NewRange)),
       map((data) => {
         const modelPageViewId =
           PagesHelper.getModelPageViewIdByRangeTypeAndRangeDistributionType(data.metadata.RangeTypeId, data.metadata.RangeDistributionTypeId);

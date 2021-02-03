@@ -17,14 +17,14 @@ import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducer
 
 import * as fromSharedJobBasedRangeReducer from '../../shared/reducers';
 import * as fromSharedStructuresReducer from '../../../shared/reducers';
-import * as fromModelSettingsModalActions from '../../shared/actions/model-settings-modal.actions';
-import { AddJobsModalWrapperComponent } from '../containers/add-jobs-modal';
-import { UrlService } from '../../shared/services';
+import * as fromModelSettingsModalActions from '../../../shared/actions/model-settings-modal.actions';
+import { UrlService} from '../../../shared/services';
 import { Workflow } from '../../../shared/constants/workflow';
 import * as fromSharedActions from '../../../shared/actions/shared.actions';
 import * as fromSharedJobBasedRangeActions from '../../shared/actions/shared.actions';
 import * as fromCompareJobRangesActions from '../../model/actions';
 import { StructuresPagesService } from '../../../shared/services';
+import { AddJobsModalWrapperComponent } from '../../../shared/containers/add-jobs-modal-wrapper';
 
 @Component({
   selector: 'pf-model-page',
@@ -140,7 +140,7 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    if (this.urlService.isInWorkflow(Workflow.NewJobBasedRange) && this.hasCanCreateEditModelStructurePermission) {
+    if (this.urlService.isInWorkflow(Workflow.NewRange) && this.hasCanCreateEditModelStructurePermission) {
       this.openAddJobsModal();
     }
 
