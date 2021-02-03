@@ -153,7 +153,7 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
       pageViewId: this.pageViewId,
       rangeGroupId: this.rangeGroupId
     }));
-    this.store.dispatch(new fromSharedJobBasedRangeActions.GetCurrentRangeGroup({
+    this.store.dispatch(new fromSharedActions.GetCurrentRangeGroup({
       RangeGroupId: this.rangeGroupId,
       PaymarketId: this.metadata.PaymarketId,
       PayType: this.metadata.PayType

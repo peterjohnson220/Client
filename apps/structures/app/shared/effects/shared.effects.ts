@@ -17,11 +17,9 @@ import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducer
 import { DataGridToDataViewsHelper, GridDataHelper } from 'libs/features/grids/pf-data-grid/helpers';
 import { RangeType } from 'libs/constants/structures/range-type';
 
-import * as fromSharedActions from '../actions/shared.actions';
 import * as fromSharedStructuresActions from '../actions/shared.actions';
 import * as fromSharedStructuresReducer from '../../shared/reducers';
 import { PayfactorsApiModelMapper } from '../helpers/payfactors-api-model-mapper';
-
 
 @Injectable()
 export class SharedEffects {
@@ -29,12 +27,12 @@ export class SharedEffects {
   @Effect()
   getCompanyExchanges: Observable<Action> = this.actions$
     .pipe(
-      ofType(fromSharedActions.GET_COMPANY_EXCHANGES),
-      mergeMap((action: fromSharedActions.GetCompanyExchanges) =>
+      ofType(fromSharedStructuresActions.GET_COMPANY_EXCHANGES),
+      mergeMap((action: fromSharedStructuresActions.GetCompanyExchanges) =>
         of(action).pipe(
           withLatestFrom(
             this.store.pipe(select(fromSharedStructuresReducer.getMetadata)),
-            (a: fromSharedActions.GetCompanyExchanges, metadata) =>
+            (a: fromSharedStructuresActions.GetCompanyExchanges, metadata) =>
               ({a, metadata}))
         )
       ),
@@ -54,14 +52,14 @@ export class SharedEffects {
                 exchangeId = defaultExchange[0].Key;
                 exchangeName = 'Global Network';
               }
-              actions.push(new fromSharedActions.SetSelectedPeerExchange({
+              actions.push(new fromSharedStructuresActions.SetSelectedPeerExchange({
                 ExchangeId: exchangeId,
                 ExchangeName: exchangeName
               }));
-              actions.push(new fromSharedActions.GetCompanyExchangesSuccess(res));
+              actions.push(new fromSharedStructuresActions.GetCompanyExchangesSuccess(res));
               return actions;
             }),
-            catchError((err) => of(new fromSharedActions.GetCompanyExchangesError(err)))
+            catchError((err) => of(new fromSharedStructuresActions.GetCompanyExchangesError(err)))
           );
       })
     );
@@ -69,18 +67,18 @@ export class SharedEffects {
   @Effect()
   getOverriddenRanges: Observable<Action> = this.actions$
     .pipe(
-      ofType(fromSharedActions.GET_OVERRIDDEN_RANGES),
+      ofType(fromSharedStructuresActions.GET_OVERRIDDEN_RANGES),
       switchMap(
-        (action: fromSharedActions.GetOverriddenRanges) =>
+        (action: fromSharedStructuresActions.GetOverriddenRanges) =>
           this.structureModelingApiService.getOverriddenRanges(action.payload.rangeGroupId)
             .pipe(
               mergeMap((response) =>
                 [
-                  new fromSharedActions.GetOverriddenRangesSuccess(response),
+                  new fromSharedStructuresActions.GetOverriddenRangesSuccess(response),
                   new fromPfDataGridActions.UpdateModifiedKeys(action.payload.pageViewId, response.map(o => o.CompanyStructuresRangesId)),
-                  new fromSharedActions.GetDistinctOverrideMessages(action.payload.rangeGroupId)
+                  new fromSharedStructuresActions.GetDistinctOverrideMessages(action.payload.rangeGroupId)
                 ]),
-              catchError(error => of(new fromSharedActions.GetOverriddenRangesError(error)))
+              catchError(error => of(new fromSharedStructuresActions.GetOverriddenRangesError(error)))
             )
       )
     );
@@ -92,7 +90,12 @@ export class SharedEffects {
       map((action: fromRangeFieldActions.UpdateRangeFieldSuccess) => {
         // We want to dispatch UpdateOverrides only for Job based ranges
         if (action.payload.rangeType === RangeType.Job) {
-          return new fromSharedActions.UpdateOverrides({rangeId: action.payload.modifiedKey, overrideToUpdate: action.payload.override, removeOverride: false});
+          return new fromSharedStructuresActions.UpdateOverrides({
+            rangeId: action.payload.modifiedKey,
+            overrideToUpdate:
+            action.payload.override,
+            removeOverride: false
+          });
         }
 
         return new fromPfDataGridActions.DoNothing(action.payload.pageViewId);
@@ -102,8 +105,8 @@ export class SharedEffects {
   @Effect()
   getDistinctOverrideMessages$: Observable<Action> = this.actions$
     .pipe(
-      ofType(fromSharedActions.GET_DISTINCT_OVERRIDE_MESSAGES),
-      switchMap((action: fromSharedActions.GetDistinctOverrideMessages) => {
+      ofType(fromSharedStructuresActions.GET_DISTINCT_OVERRIDE_MESSAGES),
+      switchMap((action: fromSharedStructuresActions.GetDistinctOverrideMessages) => {
         return this.dataViewApiService.getFilterOptions({
           EntitySourceName: 'CompanyStructures_Ranges_Overrides', SourceName: 'OverrideMessage',
           BaseEntityId: null, Query: null, BaseEntitySourceName: 'CompanyStructures_RangeGroup',
@@ -115,9 +118,9 @@ export class SharedEffects {
         })
           .pipe(
             map((response) => {
-              return new fromSharedActions.GetDistinctOverrideMessagesSuccess(response);
+              return new fromSharedStructuresActions.GetDistinctOverrideMessagesSuccess(response);
             }),
-            catchError((err) => of(new fromSharedActions.GetDistinctOverrideMessagesError(err)))
+            catchError((err) => of(new fromSharedStructuresActions.GetDistinctOverrideMessagesError(err)))
           );
       })
     );
@@ -125,9 +128,9 @@ export class SharedEffects {
   @Effect()
   revertingChangesRange$: Observable<Action> = this.actions$
     .pipe(
-      ofType(fromSharedActions.REVERTING_RANGE_CHANGES),
+      ofType(fromSharedStructuresActions.REVERTING_RANGE_CHANGES),
       switchMap(
-        (action: fromSharedActions.RevertingRangeChanges) =>
+        (action: fromSharedStructuresActions.RevertingRangeChanges) =>
           this.structureModelingApiService.revertRangeChanges(PayfactorsApiModelMapper.mapRevertingRangeChangesToRevertRangeChangesRequest(
             action.payload.rangeId,
             action.payload.rangeGroupId,
@@ -148,7 +151,7 @@ export class SharedEffects {
                     removeOverride: false
                   }));
                 }
-                actions.push(new fromSharedActions.RevertingRangeChangesSuccess({
+                actions.push(new fromSharedStructuresActions.RevertingRangeChangesSuccess({
                   pageViewId: action.payload.pageViewId,
                   refreshRowDataViewFilter: action.payload.refreshRowDataViewFilter,
                   rowIndex: action.payload.rowIndex
@@ -159,7 +162,7 @@ export class SharedEffects {
               catchError((error) => {
                 const actions = [];
 
-                actions.push(new fromSharedActions.RevertingRangeChangesError(error));
+                actions.push(new fromSharedStructuresActions.RevertingRangeChangesError(error));
                 actions.push(new fromNotificationActions.AddNotification({
                   EnableHtml: true,
                   From: NotificationSource.GenericNotificationMessage,
@@ -177,8 +180,8 @@ export class SharedEffects {
   @Effect()
   revertingChangesRangeSuccess$: Observable<Action> = this.actions$
     .pipe(
-      ofType(fromSharedActions.REVERTING_RANGE_CHANGES_SUCCESS),
-      mergeMap((action: fromSharedActions.RevertingRangeChangesSuccess) =>
+      ofType(fromSharedStructuresActions.REVERTING_RANGE_CHANGES_SUCCESS),
+      mergeMap((action: fromSharedStructuresActions.RevertingRangeChangesSuccess) =>
         of(action).pipe(
           withLatestFrom(
             this.store.pipe(select(fromPfDataGridReducer.getBaseEntity, action.payload.pageViewId)),
@@ -188,7 +191,8 @@ export class SharedEffects {
             this.store.pipe(select(fromPfDataGridReducer.getApplyDefaultFilters, action.payload.pageViewId)),
             this.store.pipe(select(fromPfDataGridReducer.getData, action.payload.pageViewId)),
             this.store.pipe(select(fromPfDataGridReducer.getGridConfig, action.payload.pageViewId)),
-            (a: fromSharedActions.RevertingRangeChangesSuccess, baseEntity, fields, pagingOptions, sortDescriptor, applyDefaultFilters, data, gridConfig) =>
+            (a: fromSharedStructuresActions.RevertingRangeChangesSuccess, baseEntity, fields, pagingOptions, sortDescriptor, applyDefaultFilters,
+             data, gridConfig) =>
               ({a, baseEntity, fields, pagingOptions, sortDescriptor, applyDefaultFilters, data, gridConfig}))
         )
       ),
@@ -225,6 +229,30 @@ export class SharedEffects {
         );
       }));
 
+  @Effect()
+  getCurrentRangeGroup: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromSharedStructuresActions.GET_CURRENT_RANGE_GROUP),
+      switchMap((action: fromSharedStructuresActions.GetCurrentRangeGroup) => {
+        return this.structureModelingApiService.getCurrentRangeGroup(action.payload)
+          .pipe(
+            mergeMap((res) => {
+              const actions = [];
+
+              if (res) {
+                actions.push(new fromSharedStructuresActions.EnableCompareFlag());
+              } else {
+                actions.push(new fromSharedStructuresActions.DisableCompareFlag());
+              }
+
+              actions.push(new fromSharedStructuresActions.GetCurrentRangeGroupSuccess(res));
+
+              return actions;
+            }),
+            catchError((err) => of(new fromSharedStructuresActions.GetCurrentRangeGroupError(err)))
+          );
+      })
+    );
 
   constructor(
     private actions$: Actions,

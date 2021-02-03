@@ -25,7 +25,6 @@ import { UserContext } from 'libs/models';
 
 
 import * as fromModelSettingsModalActions from '../actions/model-settings-modal.actions';
-import * as fromSharedActions from '../../_job-based-range/shared/actions/shared.actions';
 import * as fromSharedStructuresActions from '../actions/shared.actions';
 import { PayfactorsApiModelMapper } from '../helpers/payfactors-api-model-mapper';
 import * as fromSharedReducer from '../reducers';
@@ -184,7 +183,7 @@ export class ModelSettingsModalEffects {
                   }));
                   actions.push(new fromSharedStructuresActions.GetOverriddenRanges(
                     { pageViewId: modelPageViewId, rangeGroupId: r.RangeGroup.CompanyStructuresRangeGroupId }));
-                  actions.push(new fromSharedActions.GetCurrentRangeGroup({
+                  actions.push(new fromSharedStructuresActions.GetCurrentRangeGroup({
                     RangeGroupId: r.RangeGroup.CompanyStructuresRangeGroupId,
                     PaymarketId: r.RangeGroup.CompanyPayMarketId,
                     PayType: r.RangeGroup.PayType
@@ -197,7 +196,7 @@ export class ModelSettingsModalEffects {
                   actions.push(GridDataHelper.getLoadDataAction(modelPageViewId, data.gridData, data.gridConfig, data.pagingOptions));
                   actions.push(new fromSharedStructuresActions.GetOverriddenRanges(
                     { pageViewId: modelPageViewId, rangeGroupId: r.RangeGroup.CompanyStructuresRangeGroupId }));
-                  actions.push(new fromSharedActions.GetCurrentRangeGroup({
+                  actions.push(new fromSharedStructuresActions.GetCurrentRangeGroup({
                     RangeGroupId: r.RangeGroup.CompanyStructuresRangeGroupId,
                     PaymarketId: r.RangeGroup.CompanyPayMarketId,
                     PayType: r.RangeGroup.PayType

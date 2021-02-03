@@ -87,6 +87,11 @@ export const getCompareEnabled = createSelector(
   fromSharedReducer.getCompareEnabled
 );
 
+export const getCurrentRangeGroup = createSelector(
+  selectSharedState,
+  fromSharedReducer.getCurrentRangeGroup
+);
+
 // Model Settings Modal
 export const getModelSettingsModalOpen = createSelector(
   selectModelSettingsModalState, fromModelSettingsModalReducer.getModalOpen

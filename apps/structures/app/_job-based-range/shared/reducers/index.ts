@@ -64,12 +64,6 @@ export const selectFieldsState = createSelector(
 export const getRemovingRange = createSelector(selectSharedState, fromSharedReducer.getRemovingRange);
 
 
-
-export const getCurrentRangeGroup = createSelector(
-  selectSharedState,
-  fromSharedReducer.getCurrentRangeGroup
-);
-
 export const getStructureHasSettings = createSelector(
   selectSharedState,
   fromSharedReducer.getStructureHasSettings
