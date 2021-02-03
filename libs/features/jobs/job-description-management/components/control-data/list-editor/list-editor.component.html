@@ -20,7 +20,7 @@
 
       <!--Data Row-->
       <ng-container *ngFor="let dataRow of data; index as dataRowIndex; trackBy: trackByFn">
-        <tr *ngIf="!readOnly || (readOnly && jobDescriptionManagementService.hasData(attributes, dataRow))"
+        <tr *ngIf="!readOnly || (readOnly && controlDataHelper.hasData(attributes, dataRow))"
             [attr.data-index]="dataRowIndex"
             [attr.data-data-row-id]="dataRow.Id"
             [class.re-orderable]="!readOnly">

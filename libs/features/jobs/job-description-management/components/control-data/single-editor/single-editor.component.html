@@ -9,10 +9,10 @@
 
   <tbody>
 
-  <ng-template [ngIf]="data.length">
+  <ng-container *ngIf="data.length">
 
     <!--Vertical Rendering-->
-    <ng-template [ngIf]="vertical">
+    <ng-container *ngIf="vertical">
 
       <tr *ngFor="let attribute of attributes">
         <th class="vertical-heading">
@@ -35,15 +35,15 @@
         </td>
       </tr>
 
-    </ng-template>
+    </ng-container>
 
     <!--Non Vertical Rendering -->
-    <ng-template [ngIf]="!vertical">
+    <ng-container *ngIf="!vertical">
 
       <!--Data Row Loop ( Max 2 )-->
       <ng-container *ngFor="let dataRow of data; index as dataRowIndex; trackBy: trackByFn">
         <!--Data Row, Only show if it has Data in read only view-->
-        <tr *ngIf="!readOnly || (readOnly && jobDescriptionManagementService.hasData(attributes, dataRow))"
+        <tr *ngIf="!readOnly || (readOnly && controlDataHelper.hasData(attributes, dataRow))"
             [attr.data-index]="dataRowIndex"
             [attr.data-data-row-id]="dataRow.Id">
 
@@ -62,9 +62,9 @@
 
       </ng-container>
 
-    </ng-template>
+    </ng-container>
 
-  </ng-template>
+  </ng-container>
 
   </tbody>
 

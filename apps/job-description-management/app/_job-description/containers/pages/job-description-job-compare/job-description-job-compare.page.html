@@ -82,6 +82,8 @@
                     [hidden]="(jobDescriptionForComparisonAsync$ | async)?.obj && !editingJobDescription"
                     [isCompare]="true"
                     [saveThrottle]="saveThrottle"
+                    [undoChanges$]="undoChanges$"
+                    [replaceContents$]="replaceContents$"
                     (controlDataChangesDetected)="handleControlDataChanges($event)"
                     (controlBulkDataChangesDetected)="handleBulkControlDataChanges($event)"
                     (controlAdditionalPropertiesChangesDetected)="handleControlAdditionalPropertiesChangesDetected($event)"
@@ -138,7 +140,9 @@
                     [section]="section"
                     [controlTypesLoaded]="!(controlTypesAsync$ | async)?.loading"
                     [readOnly]="true"
-                    [isCompare]="true">
+                    [isCompare]="true"
+                    [undoChanges$]="undoChanges$"
+                    [replaceContents$]="replaceContents$">
                   </pf-job-description-section>
                 </div>
               </div>

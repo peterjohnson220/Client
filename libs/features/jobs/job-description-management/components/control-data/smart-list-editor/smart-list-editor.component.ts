@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit, OnChanges, HostListener, ElementRef, OnDestroy } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnChanges, HostListener, ElementRef, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 
 import { Observable, Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -9,13 +9,16 @@ import { ControlTypeAttribute } from 'libs/models/common';
 
 import { BulletType, SmartListHierarchy } from 'libs/features/jobs/job-description-management/models';
 
+import { ControlDataConfig } from '../../../models';
+
 const cheerio = require('cheerio');
 declare var Quill: any;
 
 @Component({
   selector: 'pf-smart-list-editor',
   templateUrl: 'smart-list-editor.component.html',
-  styleUrls: [ './smart-list-editor.component.scss' ]
+  styleUrls: [ './smart-list-editor.component.scss' ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class SmartListEditorComponent implements OnInit, OnChanges, OnDestroy {
@@ -42,6 +45,7 @@ export class SmartListEditorComponent implements OnInit, OnChanges, OnDestroy {
   private unsubscribe$ = new Subject();
   private replaceContent = false;
   private rebuildQuillAfterDiscardDraft = false;
+  smartListQuillConfig = ControlDataConfig.smartListQuillConfig;
 
   constructor(
     private elRef: ElementRef

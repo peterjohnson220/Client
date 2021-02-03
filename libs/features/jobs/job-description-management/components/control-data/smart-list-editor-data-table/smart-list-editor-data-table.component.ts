@@ -1,11 +1,12 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 
 import { ControlTypeAttribute } from 'libs/models/common';
 
 @Component({
   selector: 'pf-smart-list-editor-data-table',
   templateUrl: './smart-list-editor-data-table.component.html',
-  styleUrls: ['./smart-list-editor-data-table.component.scss']
+  styleUrls: ['./smart-list-editor-data-table.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class SmartListEditorDataTableComponent {

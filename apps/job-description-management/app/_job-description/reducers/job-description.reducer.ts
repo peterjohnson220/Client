@@ -74,7 +74,10 @@ export function reducer(state = initialState, action: fromJobDescriptionActions.
       const asyncStateObjClone: AsyncStateObj<JobDescription> = cloneDeep(state.jobDescriptionAsync);
 
       asyncStateObjClone.loading = false;
-      asyncStateObjClone.obj = action.payload.jobDescription;
+      asyncStateObjClone.obj = cloneDeep(action.payload.jobDescription);
+      if (!!action.payload.controlTypes && asyncStateObjClone.obj?.Sections?.length > 0) {
+        asyncStateObjClone.obj.Sections = ControlDataHelper.initDataRows(asyncStateObjClone.obj.Sections, action.payload.controlTypes);
+      }
 
       let editing: boolean = asyncStateObjClone.obj.JobDescriptionStatus === 'Draft' ||
         (asyncStateObjClone.obj.JobDescriptionStatus === 'In Review' && action.payload.requestData.InWorkflow);
@@ -374,7 +377,10 @@ export function reducer(state = initialState, action: fromJobDescriptionActions.
     }
     case fromJobDescriptionActions.REPLACE_JOB_DESCRIPTION_VIA_COPY: {
       const asyncStateObjClone: AsyncStateObj<JobDescription> = cloneDeep(state.jobDescriptionAsync);
-      asyncStateObjClone.obj = action.payload;
+      asyncStateObjClone.obj = cloneDeep(action.payload.jobDescription);
+      if (asyncStateObjClone.obj?.Sections?.length > 0) {
+        asyncStateObjClone.obj.Sections = ControlDataHelper.initDataRows(asyncStateObjClone.obj.Sections, action.payload.controlTypes);
+      }
 
       return {
         ...state,

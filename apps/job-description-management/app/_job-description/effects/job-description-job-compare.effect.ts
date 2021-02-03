@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 
-import { Action } from '@ngrx/store';
+import { Action, Store } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { switchMap, map, catchError, mergeMap } from 'rxjs/operators';
+import { switchMap, map, catchError, mergeMap, withLatestFrom } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
 import { JobDescriptionApiService } from 'libs/data/payfactors-api/jdm';
 import { JobDescription } from 'libs/models/jdm';
+import * as fromJobDescriptionManagementSharedReducer from 'libs/features/jobs/job-description-management/reducers';
 
 import * as fromJobDescriptionJobCompareActions from '../actions/job-description-job-compare.actions';
 import { JobDescriptionManagementService } from 'libs/features/jobs/job-description-management';
@@ -14,13 +15,32 @@ import { JobDescriptionManagementService } from 'libs/features/jobs/job-descript
 @Injectable()
 export class JobDescriptionJobCompareEffects {
   @Effect()
+  loadJobDescriptionList$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromJobDescriptionJobCompareActions.LOAD_JOB_DESCRIPTION_LIST),
+      switchMap((action: fromJobDescriptionJobCompareActions.LoadJobDescriptionList) => {
+        return this.jobDescriptionApiService.getJobDescriptionJobCompareList(action.payload).pipe(
+          map((response) => new fromJobDescriptionJobCompareActions.LoadJobDescriptionListSuccess(response)),
+          catchError(() => of(new fromJobDescriptionJobCompareActions.LoadJobDescriptionListError()))
+        );
+      })
+    );
+
+  @Effect()
   loadSourceJobDescription$: Observable<Action> = this.actions$
     .pipe(
       ofType(fromJobDescriptionJobCompareActions.LOAD_SOURCE_JOB_DESCRIPTION),
-      switchMap((action: fromJobDescriptionJobCompareActions.LoadSourceJobDescription) =>
-        this.jobDescriptionApiService.getDetail(action.payload).pipe(
-          map((response: JobDescription) => {
-            return new fromJobDescriptionJobCompareActions.LoadSourceJobDescriptionSuccess(response);
+      withLatestFrom(
+        this.jdmSharedStore.select(fromJobDescriptionManagementSharedReducer.getControlTypes),
+        (action: fromJobDescriptionJobCompareActions.LoadSourceJobDescription, controlTypes) => ({ action, controlTypes })
+      ),
+      switchMap((data) =>
+        this.jobDescriptionApiService.getDetail(data.action.payload).pipe(
+          map((response) => {
+            return new fromJobDescriptionJobCompareActions.LoadSourceJobDescriptionSuccess({
+              jobDescription: response,
+              controlTypes: data.controlTypes
+            });
           }),
           catchError(response => of(new fromJobDescriptionJobCompareActions.LoadSourceJobDescriptionError()))
         )
@@ -31,10 +51,17 @@ export class JobDescriptionJobCompareEffects {
   loadJobDescriptionForComparison$: Observable<Action> = this.actions$
     .pipe(
       ofType(fromJobDescriptionJobCompareActions.LOAD_JOB_DESCRIPTION_FOR_COMPARISON),
-      switchMap((action: fromJobDescriptionJobCompareActions.LoadJobDescriptionForComparison) =>
-        this.jobDescriptionApiService.getDetail(action.payload).pipe(
+      withLatestFrom(
+        this.jdmSharedStore.select(fromJobDescriptionManagementSharedReducer.getControlTypes),
+        (action: fromJobDescriptionJobCompareActions.LoadJobDescriptionForComparison, controlTypes) => ({ action, controlTypes })
+      ),
+      switchMap((data) =>
+        this.jobDescriptionApiService.getDetail(data.action.payload).pipe(
           map((response: JobDescription) => {
-            return new fromJobDescriptionJobCompareActions.LoadJobDescriptionForComparisonSuccess(response);
+            return new fromJobDescriptionJobCompareActions.LoadJobDescriptionForComparisonSuccess({
+              jobDescription: response,
+              controlTypes: data.controlTypes
+            });
           }),
           catchError(response => of(new fromJobDescriptionJobCompareActions.LoadJobDescriptionForComparisonError()))
         )
@@ -78,6 +105,7 @@ export class JobDescriptionJobCompareEffects {
 
   constructor(
     private actions$: Actions,
+    private jdmSharedStore: Store<fromJobDescriptionManagementSharedReducer.State>,
     private jobDescriptionApiService: JobDescriptionApiService,
     private jobDescriptionManagementService: JobDescriptionManagementService) {
   }
