@@ -21,6 +21,7 @@ import { RangeFieldEditorComponent } from 'libs/features/structures/range-editor
 import { PfAddJobsModule } from 'libs/features/jobs/add-jobs';
 import { PfSearchModule } from 'libs/features/search/search';
 import { PfAddJobsToRangeModule } from 'libs/features/structures/add-jobs-to-range';
+import { WindowCommunicationService } from 'libs/core/services';
 
 import { RangeGroupExistsGuard } from './guards';
 import { reducers } from './reducers';
@@ -100,7 +101,8 @@ import { AddJobsModalWrapperComponent } from './containers/add-jobs-modal-wrappe
   providers: [
     RangeGroupExistsGuard,
     StructuresPagesService,
-    UrlService
+    UrlService,
+    WindowCommunicationService
   ]
 })
 export class SharedModule {
