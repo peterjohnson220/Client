@@ -11,6 +11,7 @@ import { DataViewApiService } from 'libs/data/payfactors-api';
 import * as fromPfDataGridActions from '../actions';
 import * as fromPfDataGridReducer from '../reducers';
 import { DataGridToDataViewsHelper } from '../helpers';
+import * as fromActions from '../actions';
 
 @Injectable()
 export class PfDataGridEffects {
@@ -157,8 +158,9 @@ export class PfDataGridEffects {
               this.store.pipe(select(fromPfDataGridReducer.getSortDescriptor, updateFieldsAction.pageViewId)),
               this.store.pipe(select(fromPfDataGridReducer.getSaveSort, updateFieldsAction.pageViewId)),
               this.store.pipe(select(fromPfDataGridReducer.getGridConfig)),
-              (action: fromPfDataGridActions.UpdateFields, baseEntity, sortDescriptor, saveSort, gridConfig) =>
-                ({ action, baseEntity, sortDescriptor, saveSort, gridConfig })
+              this.store.pipe(select(fromPfDataGridReducer.getDefaultSortDescriptor, updateFieldsAction.pageViewId)),
+              (action: fromPfDataGridActions.UpdateFields, baseEntity, sortDescriptor, saveSort, gridConfig, defaultSortDescriptor) =>
+                ({ action, baseEntity, sortDescriptor, saveSort, gridConfig, defaultSortDescriptor })
             )
           ),
         ),
@@ -173,8 +175,14 @@ export class PfDataGridEffects {
               DataViewType.userDefault,
               data.gridConfig))
             .pipe(
-              map((response: any[]) => {
-                return new fromPfDataGridActions.UpdateFieldsSuccess(data.action.pageViewId);
+              mergeMap((response: any[]) => {
+                const actions: any[] = [];
+                if (data.sortDescriptor.every(x => x.dir === undefined)) {
+                  actions.push(new fromActions.UpdateSortDescriptor(data.action.pageViewId, data.defaultSortDescriptor));
+                }
+
+                actions.push(new fromPfDataGridActions.UpdateFieldsSuccess(data.action.pageViewId));
+                return actions;
               }),
               catchError(error => {
                 const msg = 'We encountered an error while loading your data';
