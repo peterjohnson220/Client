@@ -319,11 +319,9 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
 
   onWorkflowContextChanges(): void {
     if (!this.isPeerQuickPriceType) {
-      if (this.paymarketHasChanged() || this.jobHasChanged()) {
-        this.store.dispatch(new fromSummaryCardActions.RecalculateJobData());
-        if (this.jobHasChanged()) {
-          this.loadJobTrendChart();
-        }
+      this.store.dispatch(new fromSummaryCardActions.RecalculateJobData());
+      if (this.jobHasChanged()) {
+        this.loadJobTrendChart();
       }
       this.lastPaymarket = this.paymarket;
       this.lastJobData = this.jobData;
