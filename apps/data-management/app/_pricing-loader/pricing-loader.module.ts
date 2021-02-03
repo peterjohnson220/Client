@@ -17,6 +17,7 @@ import { NumericTextBoxModule } from '@progress/kendo-angular-inputs';
 import { PfCommonModule } from 'libs/core';
 import { PfCompanySelectorModule } from 'libs/features/company/company-selector/company-selector.module';
 import { PfFieldMapperModule } from 'libs/features/loaders/org-data-loader';
+import { PfSiteAdminRouteModule } from 'libs/features/site-admin';
 
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
@@ -60,7 +61,8 @@ import { UploadPricingFileEffects, PricingLoaderEffects } from './effects';
     PfCommonUIModule,
     PfFormsModule,
     PfCompanySelectorModule,
-    PfFieldMapperModule
+    PfFieldMapperModule,
+    PfSiteAdminRouteModule
   ],
   declarations: [
     // Pages

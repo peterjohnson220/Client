@@ -4,7 +4,7 @@ import { SettingsService } from '../state/app-context/services';
 import {
   UserContextGuard, PfAdminGuard, PeerTileEnabledGuard, TabularReportBuilderGuard,
   AuthorizationGuard, TileEnabledGuard, LoadUserGuard, LoadCompanyGuard,
-  PfServicesAdminOnlyGuard, UrlParameterValidationGuard
+  PfServicesAdminByRepositoryGuard, UrlParameterValidationGuard
 } from './guards';
 import { JobsHierarchyPageGuard } from './guards/jobs-hierarchy-page.guard';
 
@@ -21,7 +21,7 @@ import { JobsHierarchyPageGuard } from './guards/jobs-hierarchy-page.guard';
     LoadUserGuard,
     LoadCompanyGuard,
     TabularReportBuilderGuard,
-    PfServicesAdminOnlyGuard,
+    PfServicesAdminByRepositoryGuard,
     JobsHierarchyPageGuard,
     UrlParameterValidationGuard,
 

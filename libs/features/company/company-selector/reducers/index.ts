@@ -35,3 +35,4 @@ export const getCompanies = createSelector(selectCompanySelectorState, fromCompa
 export const getCompaniesLoading = createSelector(selectCompanySelectorState, fromCompanySelectorReducer.getIsLoadingCompanies);
 export const getSelectedCompany = createSelector(selectCompanySelectorState, fromCompanySelectorReducer.getSelectedCompany);
 export const companyHasBenefits = createSelector(selectCompanySelectorState, fromCompanySelectorReducer.companyHasBenefits);
+export const isValidCompanyRepository = createSelector(selectCompanySelectorState, fromCompanySelectorReducer.isValidCompanyRepository);
