@@ -172,7 +172,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
       dir: 'asc',
       field: 'CompanyStructures_Ranges_Mid'
     }];
-    this.currentRangeGroup$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getCurrentRangeGroup));
+    this.currentRangeGroup$ = this.store.pipe(select(fromSharedStructuresReducer.getCurrentRangeGroup));
   }
 
   hideRowActions(): boolean {

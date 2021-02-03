@@ -29,13 +29,13 @@ export class SharedEffects {
   @Effect()
   recalculateRangesWithoutMid$: Observable<Action> = this.actions$
     .pipe(
-      ofType(fromSharedJobBasedRangeActions.RECALCULATE_RANGES_WITHOUT_MID),
+      ofType(fromSharedStructuresActions.RECALCULATE_RANGES_WITHOUT_MID),
       withLatestFrom(
         this.store.pipe(select(fromSharedStructuresReducer.getMetadata)),
         this.store.pipe(select(fromPfDataGridReducer.getGridConfig)),
         this.store.pipe(select(fromPfDataGridReducer.getData)),
         this.store.pipe(select(fromPfDataGridReducer.getPagingOptions)),
-        (action: fromSharedJobBasedRangeActions.RecalculateRangesWithoutMid, metadata: RangeGroupMetadata, gridConfig: GridConfig, gridData: GridDataResult,
+        (action: fromSharedStructuresActions.RecalculateRangesWithoutMid, metadata: RangeGroupMetadata, gridConfig: GridConfig, gridData: GridDataResult,
          pagingOptions: PagingOptions) => {
           return { action, metadata, gridConfig, gridData, pagingOptions };
         }
@@ -72,7 +72,7 @@ export class SharedEffects {
         this.store.pipe(select(fromPfDataGridReducer.getGridConfig)),
         this.store.pipe(select(fromPfDataGridReducer.getData)),
         this.store.pipe(select(fromPfDataGridReducer.getPagingOptions)),
-        (action: fromSharedJobBasedRangeActions.RecalculateRangesWithoutMid, metadata: RangeGroupMetadata, gridConfig: GridConfig, gridData: GridDataResult,
+        (action: fromSharedStructuresActions.RecalculateRangesWithoutMid, metadata: RangeGroupMetadata, gridConfig: GridConfig, gridData: GridDataResult,
          pagingOptions: PagingOptions) => {
           return { action, metadata, gridConfig, gridData, pagingOptions };
         }
@@ -92,31 +92,6 @@ export class SharedEffects {
           }),
           catchError(error => of(new fromSharedJobBasedRangeActions.RemovingRangeError(error)))
         );
-      })
-    );
-
-  @Effect()
-  getCurrentRangeGroup: Observable<Action> = this.actions$
-    .pipe(
-      ofType(fromSharedJobBasedRangeActions.GET_CURRENT_RANGE_GROUP),
-      switchMap((action: fromSharedJobBasedRangeActions.GetCurrentRangeGroup) => {
-        return this.structureModelingApiService.getCurrentRangeGroup(action.payload)
-          .pipe(
-            mergeMap((res) => {
-              const actions = [];
-
-              if (res) {
-                actions.push(new fromSharedStructuresActions.EnableCompareFlag());
-              } else {
-                actions.push(new fromSharedStructuresActions.DisableCompareFlag());
-              }
-
-              actions.push(new fromSharedJobBasedRangeActions.GetCurrentRangeGroupSuccess(res));
-
-              return actions;
-            }),
-            catchError((err) => of(new fromSharedJobBasedRangeActions.GetCurrentRangeGroupError(err)))
-          );
       })
     );
 

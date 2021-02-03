@@ -20,7 +20,7 @@ import { JobSearchRequestStructuresRangeGroup } from 'libs/models/payfactors-api
 import { GridDataHelper } from 'libs/features/grids/pf-data-grid/helpers';
 
 import * as fromSharedStructuresReducer from '../reducers';
-import * as fromSharedActions from '../../_job-based-range/shared/actions/shared.actions';
+import * as fromSharedActions from '../actions/shared.actions';
 import * as fromSharedModelSettingsActions from '../actions/model-settings-modal.actions';
 import { UrlService } from '../services';
 import { Workflow } from '../constants/workflow';

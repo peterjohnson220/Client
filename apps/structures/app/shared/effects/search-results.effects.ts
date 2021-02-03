@@ -23,7 +23,6 @@ import * as fromAddJobsReducer from 'libs/features/jobs/add-jobs/reducers';
 import * as fromInfiniteScrollActions from 'libs/features/search/infinite-scroll/actions/infinite-scroll.actions';
 import { SearchFeatureIds } from 'libs/features/search/search/enums/search-feature-ids';
 
-import * as fromSharedReducer from '../../_job-based-range/shared/reducers';
 import * as fromSharedStructuresReducer from '../reducers';
 
 @Injectable()
