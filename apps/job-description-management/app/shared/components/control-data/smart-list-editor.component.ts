@@ -193,6 +193,19 @@ export class SmartListEditorComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
+  getAggregatedText(pastedText) {
+    const quillContainer = this.elRef.nativeElement.querySelector('.ui-editor-content');
+    if (quillContainer) {
+      const quillApi = Quill.find(quillContainer);
+      quillApi.disable();
+      const currentSelection = quillApi.getSelection(true);
+      const currentText = quillApi.getText();
+      const newText = currentText.slice(0, currentSelection.index) + pastedText + '\n' + currentText.slice(currentSelection.index + 1);
+      quillApi.enable();
+      return  newText; 
+    }
+  }
+
   buildHierarchyFromPasteData(data: string): SmartListHierarchy {
     const thisLevel = new SmartListHierarchy();
     thisLevel.Items = [];
@@ -289,12 +302,12 @@ export class SmartListEditorComponent implements OnInit, OnChanges, OnDestroy {
     } else {
       clipboardData = event.clipboardData.getData('text/plain');
     }
+    const newAggregatedText = this.getAggregatedText(clipboardData);
 
-    const smartListHierarchy = this.buildHierarchyFromPasteData(clipboardData);
+    const smartListHierarchy = this.buildHierarchyFromPasteData(newAggregatedText);
     const newListString = this.buildQuillHtmlListFromHierarchy(smartListHierarchy, 0);
 
-    let currentData = this.rteData || '';
-    this.rteData = currentData += newListString;
+    this.rteData = newListString;
 
     // Since "paste" with mouse right-click or ctrl-v doesn't trigger
     // the OnTextChange event of the p-editor call this method
