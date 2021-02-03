@@ -16,6 +16,7 @@ import * as fromFieldActions from 'libs/ui/formula-editor/actions/fields.actions
 import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 
 import * as fromJobBasedRangeReducer from '../../reducers';
+import * as fromSharedReducer from '../../../../shared/reducers';
 import { PagesHelper } from '../../../../shared/helpers/pages.helper';
 import { ModelSettingsModalConstants } from '../../../../shared/constants/model-settings-modal-constants';
 
@@ -99,13 +100,13 @@ export class StructuresFormulaEditorComponent implements ControlValueAccessor, O
 
   ngOnInit(): void {
     this.formulaFieldSuggestions$ = this.store.select(fromJobBasedRangeReducer.getFormulaFieldSuggestions, this.formulaFieldId);
-    this.validating$ = this.store.select(fromJobBasedRangeReducer.getFormulaValidating, this.formulaFieldId);
-    this.formulaValid$ = this.store.select(fromJobBasedRangeReducer.getFormulaValid, this.formulaFieldId);
-    this.savedFormulaField$ = this.store.select(fromJobBasedRangeReducer.getFormulaField, this.formulaFieldId);
-    this.savingErrorMessage$ = this.store.select(fromJobBasedRangeReducer.getFormulaSavingErrorMessage, this.formulaFieldId);
-    this.saveFormulaFieldError$ = this.store.select(fromJobBasedRangeReducer.getFormulaSavingError, this.formulaFieldId);
-    this.saveFormulaFieldSuccess$ = this.store.select(fromJobBasedRangeReducer.getFormulaSavingSuccess, this.formulaFieldId);
-    this.resetFormula$ = this.store.select(fromJobBasedRangeReducer.getResetFormula, this.formulaFieldId);
+    this.validating$ = this.store.select(fromSharedReducer.getFormulaValidating, this.formulaFieldId);
+    this.formulaValid$ = this.store.select(fromSharedReducer.getFormulaValid, this.formulaFieldId);
+    this.savedFormulaField$ = this.store.select(fromSharedReducer.getFormulaField, this.formulaFieldId);
+    this.savingErrorMessage$ = this.store.select(fromSharedReducer.getFormulaSavingErrorMessage, this.formulaFieldId);
+    this.saveFormulaFieldError$ = this.store.select(fromSharedReducer.getFormulaSavingError, this.formulaFieldId);
+    this.saveFormulaFieldSuccess$ = this.store.select(fromSharedReducer.getFormulaSavingSuccess, this.formulaFieldId);
+    this.resetFormula$ = this.store.select(fromSharedReducer.getResetFormula, this.formulaFieldId);
 
     this.buildForm();
 

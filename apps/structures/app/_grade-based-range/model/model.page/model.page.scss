@@ -18,3 +18,7 @@
   top: auto !important;
   bottom: auto !important;
 }
+
+::ng-deep .modal-dialog {
+  height: 90%;
+}

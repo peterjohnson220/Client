@@ -1,0 +1,25 @@
+<ng-container>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Job Code</th>
+        <th>Job Title</th>
+        <th>MRP</th>
+        <th>Job Level</th>
+        <th>Job Family</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="result job-search-row" *ngFor="let jobResult of jobResults;trackBy: trackByJobId"
+          [class.selected]="jobResult.IsSelected"
+          (click)="handleJobClicked(jobResult)">
+          <td>{{jobResult.Code}}</td>
+          <td>{{jobResult.Title}}</td>
+          <td>{{controlPoint === 'BaseMRP' ? jobResult.BaseMRP || '--' : jobResult.TCCMRP || '--'}}</td>
+          <td>{{jobResult.Level || '--'}}</td>
+          <td>{{jobResult.Family || '--'}}</td>
+      </tr>
+    </tbody>
+  </table>
+</ng-container>
+

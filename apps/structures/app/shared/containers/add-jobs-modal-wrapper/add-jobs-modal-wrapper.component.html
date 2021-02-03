@@ -1,0 +1,16 @@
+<pf-modal-form
+  [size]="'lg'"
+  [title]="MODAL_NAME"
+  [modalId]="isJobRange ? 'job-range-modeling-modal-form' : 'grade-range-modeling-modal-form'"
+  [attr.data-qa-id]="isJobRange ? 'job-range-modeling-modal' : 'grade-range-modeling-modal'"
+  [isOpen$]="pageShown$"
+  [showFooter]="false"
+  (onDismiss)="close()">
+
+  <ng-container basic-content>
+    <pf-add-jobs-to-range-page
+      [isJobRange]="isJobRange"
+      [controlPoint]="controlPoint">
+    </pf-add-jobs-to-range-page>
+  </ng-container>
+</pf-modal-form>

@@ -19,13 +19,12 @@ import { StructureModelingApiService } from 'libs/data/payfactors-api/structures
 import { JobSearchRequestStructuresRangeGroup } from 'libs/models/payfactors-api';
 import { GridDataHelper } from 'libs/features/grids/pf-data-grid/helpers';
 
-import * as fromSharedStructuresReducer from '../../../shared/reducers';
-import * as fromSharedActions from '../../shared/actions/shared.actions';
-import * as fromSharedModelSettingsActions from '../../shared/actions/model-settings-modal.actions';
-import { UrlService } from '../../shared/services';
-import { Workflow } from '../../../shared/constants/workflow';
-import { PagesHelper } from '../../../shared/helpers/pages.helper';
-import * as fromJobBasedRangeReducer from '../../shared/reducers';
+import * as fromSharedStructuresReducer from '../reducers';
+import * as fromSharedActions from '../../_job-based-range/shared/actions/shared.actions';
+import * as fromSharedModelSettingsActions from '../actions/model-settings-modal.actions';
+import { UrlService } from '../services';
+import { Workflow } from '../constants/workflow';
+import { PagesHelper } from '../helpers/pages.helper';
 
 @Injectable()
 export class AddJobsModalEffects {
@@ -51,7 +50,7 @@ export class AddJobsModalEffects {
         this.store.pipe(select(fromPfDataGridReducer.getGridConfig)),
         this.store.pipe(select(fromPfDataGridReducer.getData)),
         this.store.pipe(select(fromPfDataGridReducer.getPagingOptions)),
-        this.store.pipe(select(fromJobBasedRangeReducer.getFormulaValid)),
+        this.store.pipe(select(fromSharedStructuresReducer.getFormulaValid)),
         (action: fromAddJobsPageActions.AddSelectedJobs,
          contextStructureRangeGroupId, payMarkets, selectedJobIds, selectedJobCodes, metadata, roundingSettings, gridConfig, gridData, pagingOptions,
          formulaValid) =>
@@ -88,7 +87,7 @@ export class AddJobsModalEffects {
         this.store.pipe(select(fromPfDataGridReducer.getGridConfig)),
         this.store.pipe(select(fromPfDataGridReducer.getData)),
         this.store.pipe(select(fromPfDataGridReducer.getPagingOptions)),
-        this.store.pipe(select(fromJobBasedRangeReducer.getFormulaValid)),
+        this.store.pipe(select(fromSharedStructuresReducer.getFormulaValid)),
         (action: fromAddJobsPageActions.AddAllJobs, filters, numberResults, contextStructureRangeGroupId, metadata, roundingSettings, gridConfig, gridData,
          pagingOptions, formulaValid) =>
           ({ action, filters, numberResults, contextStructureRangeGroupId, metadata, roundingSettings, gridConfig, gridData, pagingOptions, formulaValid })
@@ -127,7 +126,7 @@ export class AddJobsModalEffects {
     actions.push(new fromAddJobsPageActions.AddJobsSuccess());
     actions.push(new fromSearchPageActions.CloseSearchPage());
 
-    if (this.urlService.isInWorkflow(Workflow.NewJobBasedRange)) {
+    if (this.urlService.isInWorkflow(Workflow.NewRange)) {
       actions.push(new fromSharedModelSettingsActions.OpenModal());
     } else if (this.hasRequiredSettingsForRecalculation(data.metadata, data.formulaValid)) {
       actions.push(new fromSharedActions.RecalculateRangesWithoutMid({

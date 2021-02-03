@@ -1,4 +1,4 @@
 export enum Workflow {
-  NewJobBasedRange = '/new',
+  NewRange = '/new',
   CreateModel = '/create-model'
 }

@@ -15,7 +15,7 @@ import * as fromSingledFilterActions from 'libs/features/search/search/actions/s
 import * as fromSearchReducer from 'libs/features/search/search/reducers';
 import * as fromAddJobsReducer from 'libs/features/jobs/add-jobs/reducers';
 
-import * as fromSharedStructuresReducer from '../../../shared/reducers';
+import * as fromSharedStructuresReducer from '../reducers';
 
 @Injectable()
 export class SingledFilterEffects {

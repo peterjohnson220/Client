@@ -23,10 +23,9 @@ import {
   RangeDistributionSettingComponent,
   DuplicateModelModalComponent
 } from './containers';
-import { ModelSettingsModalEffects, PublishModelModalEffects, SharedEffects, DuplicateModelModalEffects, FieldsEffects, FormulaFieldEffects } from './effects';
+import { PublishModelModalEffects, SharedEffects, DuplicateModelModalEffects, FieldsEffects } from './effects';
 import { RangeValuePipe } from './pipes';
 import { reducers } from './reducers';
-import { UrlService } from './services';
 import * as fromFaIcons from './fa-icons';
 import { AdvancedModelSettingComponent } from './containers/advanced-model-setting';
 import { StructuresFormulaEditorComponent } from './containers/structures-formula-editor/structures-formula-editor.component';
@@ -41,12 +40,10 @@ import { SharedModule } from '../../shared/shared.module';
         // 3rd Party
         StoreModule.forFeature('structures_jobBasedRange_shared', reducers),
         EffectsModule.forFeature([
-            ModelSettingsModalEffects,
             PublishModelModalEffects,
             SharedEffects,
             DuplicateModelModalEffects,
             FieldsEffects,
-            FormulaFieldEffects
         ]),
         FontAwesomeModule,
         NgbTabsetModule,
@@ -88,7 +85,6 @@ import { SharedModule } from '../../shared/shared.module';
     DuplicateModelModalComponent
   ],
   providers: [
-    UrlService,
   ]
 })
 export class JobBasedSharedModule {

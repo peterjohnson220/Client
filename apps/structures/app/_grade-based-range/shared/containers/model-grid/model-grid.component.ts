@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { SortDescriptor } from '@progress/kendo-data-query';
 
 import { Observable, Subscription } from 'rxjs';
@@ -53,6 +53,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   @Input() saveSort = false;
   @Input() modifiedKey: string = null;
   @Input() allowMultipleSort: boolean;
+  @Output() manageModelClicked = new EventEmitter();
 
   pfThemeType = PfThemeType;
   permissions = Permissions;
@@ -194,6 +195,10 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
 
   public get rangeRecalculationType(): typeof RangeRecalculationType {
     return RangeRecalculationType;
+  }
+
+  handleManageModelClicked() {
+    this.manageModelClicked.emit();
   }
 
   // Lifecycle
