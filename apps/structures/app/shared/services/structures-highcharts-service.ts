@@ -108,8 +108,8 @@ export class StructuresHighchartsService {
   static getJobDataPoint(xCoordinate, jobData, hasCurrentStructure, locale, metaData) {
     return {
       x: xCoordinate,
-      y: jobData.mrp,
-      dataPoint: StructuresHighchartsService.formatDataPoint('Job MRP', jobData.mrp, locale, metaData.Currency, metaData.Rate),
+      y: !!jobData.mrp ? jobData.mrp : null,
+      dataPoint: StructuresHighchartsService.formatCurrency(jobData.mrp, locale, metaData.Currency, metaData.Rate),
       jobTitle: jobData.jobTitle
     };
   }

@@ -658,8 +658,7 @@ export class GradeRangeModelChartService {
             useHTML: true,
             padding: 0,
             headerFormat: '<div style="display: inline-block; background-color: black">',
-            pointFormat: '<div style="color: white"><b>{point.jobTitle}</b></div><div>' +
-              '<div style="color: white">{point.dataPoint}</div>',
+            pointFormat: '<div style="color: white"><b>{point.jobTitle}: </b>{point.dataPoint}<div>',
             footerFormat: '</div>'
           }
         },
