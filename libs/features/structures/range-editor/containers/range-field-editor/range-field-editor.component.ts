@@ -55,6 +55,7 @@ export class RangeFieldEditorComponent implements OnInit, OnDestroy, OnChanges {
 
   @Input() noRounding: true | false = false;
   @Input() reloadGridData = false;
+  @Input() minValue = 1;
 
   // Row information
   @Input() rangeGroupId: number;
