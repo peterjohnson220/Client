@@ -39,6 +39,7 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
   @Output() updateJobInfoClicked = new EventEmitter();
   @Output() exportClicked: EventEmitter<{ exportType: string, viewName: string }> = new EventEmitter<{ exportType: string, viewName: string }>();
   @Output() acknowledgedClicked = new EventEmitter();
+  @Output() viewSelected = new EventEmitter();
 
   identity$: Observable<UserContext>;
   jobDescriptionAsync$: Observable<AsyncStateObj<JobDescription>>;
@@ -184,6 +185,7 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
         InHistory: false
       }));
     }
+    this.viewSelected.emit(viewName);
   }
 
   handleUndoClicked(): void {
