@@ -302,9 +302,9 @@ export class SmartListEditorComponent implements OnInit, OnChanges, OnDestroy {
     } else {
       clipboardData = event.clipboardData.getData('text/plain');
     }
-    const newAgregatedText = this.getAggregatedText(clipboardData);
+    const newAggregatedText = this.getAggregatedText(clipboardData);
 
-    const smartListHierarchy = this.buildHierarchyFromPasteData(newAgregatedText);
+    const smartListHierarchy = this.buildHierarchyFromPasteData(newAggregatedText);
     const newListString = this.buildQuillHtmlListFromHierarchy(smartListHierarchy, 0);
 
     this.rteData = newListString;
