@@ -189,7 +189,8 @@
       [refreshRowDataViewFilter]="getRefreshFilter(dataRow)"
       [updateMetaInfo]="{ pageViewId: modelGridPageViewId }"
       [readonlyValueTemplate]="rangeValue"
-      [minValue]="-999999999999999">
+      [minValue]="-999999999999999"
+      [reloadGridData]="true">
     </pf-range-field-editor>
   </ng-container>
 </ng-template>
