@@ -111,6 +111,14 @@ pipeline {
               octoVerSuffix = '-DF'
               env.buildConfig = '--configuration=staging'
 
+            } else if (env.BRANCH_NAME == 'Tardis/develop') {
+              isAutoDeployBranch = true
+              suffix = '-Tardis'
+              octoChannel = 'Tardis'
+              env.octoEnv = 'Tardis'
+              octoVerSuffix = '-TD'
+              env.buildConfig = '--configuration=staging'
+
             } else {
               isPublishable = false
               env.buildConfig = '--configuration=staging'

@@ -1,4 +1,4 @@
-<pf-modal-form [size]="'md'"
+<pf-modal-form [size]="'lg'"
                [title]="titleName"
                [showFooter]="false"
                [showSubmit]="false"
@@ -6,13 +6,25 @@
                [isOpen$]=" showDataConverterModal$"
                (onDismiss)="closeDataConverterModal()">
   <ng-container basic-content>
-    <pf-date-converter-form [fieldName]="fieldName"
-                            [provider]="provider"
-                            [selectedDateFormat]="selectedDateFormat"
-                            [entityType]="entityType"
-                            [dataType]="dataType"
-                            (onDateConverterFormSave)="saveDataConverterModal($event)"
-                            (onDateConverterFormCancel)="closeDataConverterModal()">
-    </pf-date-converter-form>
+    <div [ngSwitch]="dataType">
+      <pf-date-converter-form *ngSwitchCase="'Date' || 'DateTime'"
+                              [fieldName]="fieldName"
+                              [provider]="provider"
+                              [entityType]="entityType"
+                              [dataType]="dataType"
+                              [selectedDateFormat]="selectedDateFormat"
+                              (onDateConverterFormSave)="saveDataConverterModal($event)"
+                              (onDateConverterFormCancel)="closeDataConverterModal()">
+      </pf-date-converter-form>
+      <pf-converter-form *ngSwitchDefault
+                          [fieldName]="fieldName"
+                          [provider]="provider"
+                          [entityType]="entityType"
+                          [dataType]="dataType"
+                          [fieldValues]="fieldMappingValues"
+                          (onConverterFormSave)="saveDataConverterModal($event)"
+                          (onConverterFormCancel)="closeDataConverterModal()">
+      </pf-converter-form>
+    </div>
   </ng-container>
 </pf-modal-form>

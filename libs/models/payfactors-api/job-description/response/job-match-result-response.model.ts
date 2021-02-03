@@ -1,10 +1,10 @@
 export interface JobMatchResultResponse {
-  Code: string;
+  JobCode: string;
   EffectiveDate: string;
   Id: number;
   IsSurvey: boolean;
-  MatchStrength: number;
-  Name: string;
+  WeightedScore: number;
+  JobTitle: string;
   SurveyId: number;
   SurveyName: string;
   SurveyPublisher: string;

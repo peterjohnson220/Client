@@ -20,7 +20,8 @@ import {
   SimpleYesNoModalOptions,
   UserAssignedRole,
   JobDescriptionSection,
-  CompanyDto
+  CompanyDto,
+  showSection
 } from 'libs/models';
 import * as fromRootState from 'libs/state/state';
 import { SettingsService } from 'libs/state/app-context/services';
@@ -75,13 +76,13 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   @ViewChild(EmployeeAcknowledgementModalComponent, {static: true }) public employeeAcknowledgementModal: EmployeeAcknowledgementModalComponent;
   @ViewChild(ExportJobDescriptionModalComponent, { static: true }) public exportJobDescriptionModalComponent: ExportJobDescriptionModalComponent;
   @ViewChild(FlsaQuestionnaireModalComponent, { static: true }) public flsaQuestionnaireModal: FlsaQuestionnaireModalComponent;
-  @ViewChild(JobDescriptionActionsComponent, { static: true }) public actionsComponent: JobDescriptionActionsComponent;
   @ViewChild(JobDescriptionAppliesToModalComponent) public jobDescriptionAppliesToModalComponent: JobDescriptionAppliesToModalComponent;
   @ViewChild(WorkflowCancelModalComponent) public workflowCancelModal: WorkflowCancelModalComponent;
   @ViewChild(WorkflowSetupModalComponent) public workflowSetupModal: WorkflowSetupModalComponent;
 
   jobDescriptionAsync$: Observable<AsyncStateObj<JobDescription>>;
   jobDescriptionPublishing$: Observable<boolean>;
+  jobDescriptionPublishingSuccess$: Observable<boolean>;
   identity$: Observable<UserContext>;
   userAssignedRoles$: Observable<UserAssignedRole[]>;
   company$: Observable<CompanyDto>;
@@ -99,6 +100,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   jobDescriptionViewsAsync$: Observable<AsyncStateObj<string[]>>;
   completedStep$: Observable<boolean>;
   gettingJobDescriptionExtendedInfoSuccess$: Observable<AsyncStateObj<boolean>>;
+  discardingDraftJobDescriptionSuccess$: Observable<boolean>;
   enableFileDownloadSecurityWarning$: Observable<boolean>;
 
   loadingPage$: Observable<boolean>;
@@ -116,15 +118,18 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   jobDescriptionViewsAsyncSubscription: Subscription;
   editingSubscription: Subscription;
   publishingSubscription: Subscription;
+  publishingSuccessSubscription: Subscription;
   completedStepSubscription: Subscription;
   controlTypesSubscription: Subscription;
   requireSSOLoginSubscription: Subscription;
+  discardingDraftJobDescriptionSuccessSubscription: Subscription;
   enableFileDownloadSecurityWarningSub: Subscription;
 
   companyName: string;
   emailAddress: string;
   companyLogoPath: string;
   jobDescription: JobDescription;
+  visibleSections: JobDescriptionSection[];
   enableFileDownloadSecurityWarning: boolean;
   enableLibraryForRoutedJobDescriptions: boolean;
   hasCanEditJobDescriptionPermission: boolean;
@@ -188,11 +193,13 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.jobDescriptionExtendedInfo$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionExtendedInfo);
     this.gettingJobDescriptionExtendedInfoSuccess$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionExtendedInfoAsync);
     this.jobDescriptionPublishing$ = this.store.select(fromJobDescriptionReducers.getPublishingJobDescription);
+    this.jobDescriptionPublishingSuccess$ = this.store.select(fromJobDescriptionReducers.getPublishingJobDescriptionSuccess);
     this.acknowledging$ = this.store.select(fromJobDescriptionReducers.getAcknowledging);
     this.employeeAcknowledgementInfo$ = this.store.select(fromJobDescriptionReducers.getEmployeeAcknowledgementAsync);
     this.employeeAcknowledgementErrorMessage$ = this.store.select(fromJobDescriptionReducers.getEmployeeAcknowledgementErrorMessage);
     this.jobDescriptionViewsAsync$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionViewsAsync);
     this.completedStep$ = this.store.select(fromJobDescriptionReducers.getCompletedStep);
+    this.discardingDraftJobDescriptionSuccess$ = this.store.select(fromJobDescriptionReducers.getDiscardingDraftJobDescriptionSuccess);
 
     this.saveThrottle = new Subject();
 
@@ -223,6 +230,8 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.completedStepSubscription.unsubscribe();
     this.requireSSOLoginSubscription.unsubscribe();
     this.publishingSubscription.unsubscribe();
+    this.publishingSuccessSubscription.unsubscribe();
+    this.discardingDraftJobDescriptionSuccessSubscription.unsubscribe();
     this.enableFileDownloadSecurityWarningSub.unsubscribe();
   }
 
@@ -428,7 +437,21 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     }));
     this.showLibrary = false;
     this.showRoutingHistory = false;
-    this.actionsComponent.resetViewName();
+  }
+
+  resetView(): void {
+    if  (this.jobDescription && this.viewName) {
+      this.store.dispatch(new fromJobDescriptionActions.GetJobDescription({
+        JobDescriptionId: this.jobDescription.JobDescriptionId,
+        RevisionNumber: this.jobDescription.JobDescriptionRevision,
+        ViewName: this.viewName,
+        InHistory: false
+      }));
+    }
+  }
+
+  handleViewSelected(viewName: string): void {
+    this.viewName = viewName;
   }
 
   handleResize(): void {
@@ -609,6 +632,12 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
         this.editing = false;
       }
     });
+
+    this.publishingSuccessSubscription = this.jobDescriptionPublishingSuccess$.subscribe(asyncObj => {
+      if (asyncObj) {
+        this.resetView();
+      }
+    });
   }
 
   private enableAllContent() {
@@ -622,6 +651,8 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
         }
       });
     });
+
+    this.visibleSections =  this.jobDescription.Sections;
   }
 
   private initSsoSubscriptions() {
@@ -655,6 +686,12 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
         this.saveJobDescription();
       } else {
         this.queueSave = true;
+      }
+    });
+
+    this.discardingDraftJobDescriptionSuccessSubscription = this.discardingDraftJobDescriptionSuccess$.subscribe(value => {
+      if (value) {
+        this.resetView();
       }
     });
   }
@@ -702,8 +739,10 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     }
     this.jobDescription = cloneDeep(jobDescription);
 
-    if (this.editing || jobDescription.JobDescriptionStatus === 'In Review') {
+    if (jobDescription.JobDescriptionStatus !== 'Published') {
       this.enableAllContent();
+    } else {
+      this.visibleSections =  jobDescription.Sections.filter(x => showSection(x));
     }
 
     if (jobDescription.JobDescriptionTitle === null || jobDescription.JobDescriptionTitle.length === 0) {

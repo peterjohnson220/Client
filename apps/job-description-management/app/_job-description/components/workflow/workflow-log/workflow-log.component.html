@@ -21,9 +21,9 @@
               </div>
               <div class="col p-0 timestamp">
                 <small
-                  title="{{(workflowLogEntry.Timestamp | dfnsGetUnixTime) | dfnsFormatPure:'LLL'}}"
+                  title="{{(workflowLogEntry.Timestamp | pfParseDateFromUnixTime) | dfnsFormatPure:'MMMM d, yyyy h:mm a'}}"
                   class="time-ago text-muted">
-                  {{( workflowLogEntry.Timestamp | dfnsGetUnixTime) | dfnsFormatDistanceToNowPure:{addSuffix:true} }}
+                  {{(workflowLogEntry.Timestamp | pfParseDateFromUnixTime) | dfnsFormatDistanceToNowPure:{addSuffix:true} }}
                 </small>
               </div>
             </h6>
