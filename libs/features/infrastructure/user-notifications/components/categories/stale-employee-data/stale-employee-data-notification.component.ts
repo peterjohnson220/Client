@@ -16,8 +16,8 @@ export class StaleEmployeeDataNotificationComponent extends UserNotificationBase
   buildUserNotificationDisplay(): UserNotificationDisplay {
     return {
       Id: this.UserNotification.Id,
-      Title: 'Update Your Employee Data!',
-      Message: 'Your employee data is more than 90 days old. Upload new employee data',
+      Title: 'Update Your Employee Data',
+      Message: 'Keep your analysis up-to-date by uploading new employee data as your data is now older than 90 days',
       ButtonText : 'Upload Data',
       IsRead: this.UserNotification.IsRead,
       CreateDate: this.UserNotification.CreateDate,
