@@ -1,7 +1,6 @@
 import { ElementRef, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Store } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { of } from 'rxjs';
 
@@ -10,7 +9,7 @@ import { RangeGroupType } from 'libs/constants/structures/range-group-type';
 import { RateType } from 'libs/data/data-sets';
 import { generateMockRoundingSettingsDataObj } from 'libs/models/structures/ranges';
 import { getMockDataViewFilter } from 'libs//models/payfactors-api/reports/request';
-import { PermissionService } from 'libs/core/services';
+import { AbstractFeatureFlagService, PermissionService } from 'libs/core/services';
 
 import * as fromRangeFieldEditorActions from '../../actions/range-field-edit.actions';
 import { RangeFieldEditorComponent } from './range-field-editor.component';
@@ -32,6 +31,10 @@ describe('Features - Structures - Midpoint Editor', () => {
         {
           provide: PermissionService,
           useValue: { CheckPermission: jest.fn() }
+        },
+        {
+          provide: AbstractFeatureFlagService,
+          useValue: { enabled: jest.fn(), bindEnabled: jest.fn() }
         }
       ],
       schemas: [ NO_ERRORS_SCHEMA ]
@@ -54,6 +57,7 @@ describe('Features - Structures - Midpoint Editor', () => {
   it('should be editable when the rangeGroupType is not Job', () => {
     instance.hasCanCreateEditModelStructurePermission = true;
     instance.rangeGroupType = RangeGroupType.Grade;
+    instance.gradeBasedRangeGroupLandingPageFlag.value = true;
 
     expect(instance.editable).toBe(true);
   });
