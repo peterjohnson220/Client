@@ -1,7 +1,7 @@
 import { Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
 
 import { select, Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 
 import { RateType } from 'libs/data/data-sets';
 import { CompanySettingsEnum } from 'libs/models/company';
@@ -9,9 +9,9 @@ import { RangeGroupMetadata, RoundingSettingsDataObj } from 'libs/models/structu
 import { SettingsService } from 'libs/state/app-context/services';
 import { DataViewFilter } from 'libs/models/payfactors-api';
 import { PermissionCheckEnum, Permissions } from 'libs/constants';
-import { PermissionService } from 'libs/core/services';
 import { RangeType } from 'libs/constants/structures/range-type';
 import { RangeRecalculationType } from 'libs/constants/structures/range-recalculation-type';
+import { AbstractFeatureFlagService, FeatureFlags, PermissionService, RealTimeFlag } from 'libs/core/services';
 
 import * as fromRangeFieldActions from '../../actions/range-field-edit.actions';
 import * as fromSharedStructuresReducer from '../../../../../../apps/structures/app/shared/reducers';
@@ -78,6 +78,8 @@ export class RangeFieldEditorComponent implements OnInit, OnDestroy, OnChanges {
   metadata$: Observable<RangeGroupMetadata>;
 
   metadataSub: Subscription;
+  unsubscribe$ = new Subject<void>();
+  gradeBasedRangeGroupLandingPageFlag: RealTimeFlag = { key: FeatureFlags.StructuresGradeBasedRangeLandingPage, value: false };
 
   get editable() {
     let isEditable = false;
@@ -90,7 +92,7 @@ export class RangeFieldEditorComponent implements OnInit, OnDestroy, OnChanges {
         (this.hasCanCreateEditModelStructurePermission &&
           this.rangeType === RangeType.Job &&
           ((this.currentStructure && this.canEditCurrentStructureRanges) || !this.currentStructure));
-    } else if (this.rangeType === RangeType.Grade) {
+    } else if (this.rangeType === RangeType.Grade && this.gradeBasedRangeGroupLandingPageFlag.value) {
       isEditable = this.isCurrent ? (this.hasCanCreateEditModelStructurePermission &&
       this.rangeType === RangeType.Grade &&
         ((this.currentStructure && this.canEditCurrentStructureRanges) || !this.currentStructure) &&
@@ -123,7 +125,8 @@ export class RangeFieldEditorComponent implements OnInit, OnDestroy, OnChanges {
     private store: Store<any>,
     public jobBasedRangeStore: Store<fromSharedStructuresReducer.State>,
     private settingsService: SettingsService,
-    private permissionService: PermissionService
+    private permissionService: PermissionService,
+    private featureFlagService: AbstractFeatureFlagService
   ) {
     this.settingsService.selectCompanySetting<boolean>(CompanySettingsEnum.CanEditCurrentStructureRanges)
       .subscribe(s => this.canEditCurrentStructureRanges = s);
@@ -133,6 +136,7 @@ export class RangeFieldEditorComponent implements OnInit, OnDestroy, OnChanges {
       PermissionCheckEnum.Single);
 
     this.metadata$ = this.jobBasedRangeStore.pipe(select(fromSharedStructuresReducer.getMetadata));
+    this.featureFlagService.bindEnabled(this.gradeBasedRangeGroupLandingPageFlag, this.unsubscribe$);
   }
 
   handleFocus() {
@@ -200,6 +204,7 @@ export class RangeFieldEditorComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnDestroy(): void {
     this.metadataSub?.unsubscribe();
+    this.unsubscribe$.next();
   }
 
   private formatNumber(value: number) {

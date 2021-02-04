@@ -8,9 +8,9 @@ import { SettingsService } from 'libs/state/app-context/services';
 import { RateType } from 'libs/data/data-sets';
 import { generateMockRoundingSettingsDataObj } from 'libs/models/structures/ranges';
 import { getMockDataViewFilter } from 'libs//models/payfactors-api/reports/request';
-import { PermissionService } from 'libs/core/services';
 import { RangeType } from 'libs/constants/structures/range-type';
 import { RangeRecalculationType } from 'libs/constants/structures/range-recalculation-type';
+import { AbstractFeatureFlagService, PermissionService } from 'libs/core/services';
 
 
 import * as fromRangeFieldEditorActions from '../../actions/range-field-edit.actions';
@@ -33,6 +33,10 @@ describe('Features - Structures - Midpoint Editor', () => {
         {
           provide: PermissionService,
           useValue: { CheckPermission: jest.fn() }
+        },
+        {
+          provide: AbstractFeatureFlagService,
+          useValue: { enabled: jest.fn(), bindEnabled: jest.fn() }
         }
       ],
       schemas: [ NO_ERRORS_SCHEMA ]
@@ -55,6 +59,7 @@ describe('Features - Structures - Midpoint Editor', () => {
   it('should be editable when the rangeType is not Job', () => {
     instance.hasCanCreateEditModelStructurePermission = true;
     instance.rangeType = RangeType.Grade;
+    instance.gradeBasedRangeGroupLandingPageFlag.value = true;
 
     expect(instance.editable).toBe(true);
   });
