@@ -215,7 +215,7 @@ export class StructuresHighchartsService {
       delta: !!delta ? delta.message : delta,
       icon: !!delta ? delta.icon : delta,
       iconColor: !!delta ? delta.color : delta,
-      modeledMid: StructuresHighchartsService.formatDataPoint('Modeled Mid', dataPointValue, chartLocale, metaData.Currency, metaData.Rate),
+      modeledMid: StructuresHighchartsService.formatDataPoint(metaData.IsCurrent ? 'Current Mid' : 'Modeled Mid', dataPointValue, chartLocale, metaData.Currency, metaData.Rate),
       gradeName: gradeName ? `Grade Name: ${gradeName}` : null,
       currentMid: StructuresHighchartsService.formatDataPoint('Current Mid', currentMid, chartLocale, metaData.Currency, metaData.Rate),
       midPointDiff: StructuresHighchartsService.getPercentDiff('Mid Percent Difference', currentMid, dataPointValue)
