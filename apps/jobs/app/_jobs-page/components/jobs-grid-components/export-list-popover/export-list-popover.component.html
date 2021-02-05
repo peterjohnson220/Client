@@ -51,7 +51,7 @@
         [title]="disablePopover ? disabledPopoverTooltip : ''"
         type="button" title="Export" id="jobs-page-export-popover-btn" class="btn btn-secondary"
         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-        placement="bottom-right" popoverTitle="Choose Export Type" [ngbPopover]="exportList"
+        placement="bottom-right" popoverTitle="Choose Export Type" [ngbPopover]="exportList" #popover="ngbPopover"
         [autoClose]="'outside'" [attr.data-qa-id]="'btn-grid-export-popover'"
 >
   <fa-icon icon="download"></fa-icon>
