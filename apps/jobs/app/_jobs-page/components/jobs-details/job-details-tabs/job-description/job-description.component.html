@@ -1,35 +1,83 @@
 <pf-async-container [loading]="loading$ | async">
-  <div class="p-3">
-    <div class="py-3">
-      <pf-job-description-summary-editor
-        #jobDescriptionEditor
-        [actionIconSize]="'2x'"
-        [errorMessageClass]="'text-danger'"
-        [layout]="'card'"
-        [rows]="12"
-        [jobDescriptionSummary]="jobDescriptionSummary"
-        (jobDescriptionChanged)="jobDescriptionChanged($event)"
-        [theme]="pfThemeType.JobDetails">
-      </pf-job-description-summary-editor>
-    </div>
-    <div class="d-flex">
-      <div class="text-danger">
-        <div *ngIf="jobDescriptionSummaryAsyncObj?.loadingError">
-          We encountered an error while loading your the job description for your job
-        </div>
-        <div *ngIf="jobDescriptionSummaryAsyncObj?.savingError">
-          We encountered an error while saving your job description
-        </div>
-      </div>
-      <div *ngIf="jobDescriptionSummaryAsyncObj?.savingSuccess">
-        <b>Job Description Updated!</b>
-      </div>
-      <button *ngIf="jobDescriptionSummaryAsyncObj?.obj | editableJobDescription"
-              class="btn btn-primary ml-auto"
-              [disabled]="(updatedJobDescription$ | async) === jobDescriptionSummaryAsyncObj?.obj?.JobSummary"
-              [innerText]="'Save'"
-              (click)="saveJobDescription()">
-      </button>
+  <div class="p-3 job-description-container">
+    <div class="py-3 d-flex flex-column">
+      <ng-container *ngIf="jobDescriptionSummary?.JobDescriptionManagementEnabled; else jdmDisabledTemplate">
+        <ng-container *ngTemplateOutlet="jdmEnabledTemplate"></ng-container>
+      </ng-container>
     </div>
   </div>
 </pf-async-container>
+
+<ng-template #jdmEnabledTemplate>
+  <div *ngIf="jobDescriptionSummaryAsyncObj?.loadingError">
+    We encountered an error while loading your the job description for your job
+  </div>
+  <ng-container *ngIf="!jobDescription">
+    <div *ngIf="jobDescriptionSummary?.HasMultipleVersions">{{jobDescriptionSummary?.JobSummary}}</div>
+    <div *ngIf="!jobDescriptionSummary?.HasMultipleVersions">There is no Job Description loaded for this Job.</div>
+  </ng-container>
+  <ng-container *ngIf="!!jobDescription">
+    <div class="d-flex pb-3 flex-wrap">
+      <div class="d-flex flex-grow-1">
+        <div class="mr-3">
+          <span class="font-weight-bold">Created By: </span>
+          <span>{{jobDescription.CreatedBy}}</span>
+        </div>
+        <div class="mr-3">
+          <span class="font-weight-bold">Created Date: </span>
+          <span>{{jobDescriptionCreatedDate | date : 'MM/dd/yyyy'}}</span>
+        </div>
+        <div class="mr-3">
+          <span class="font-weight-bold">Status: </span>
+          <span>{{jobDescription.JobDescriptionStatus}}</span>
+        </div>
+      </div>
+      <div>
+        <pf-job-description-export
+          [jobDescriptionId]="jobDescription.JobDescriptionId"
+          [actionIconSize]="'2x'">
+        </pf-job-description-export>
+      </div>
+    </div>
+    <div *ngIf="isJobDescriptionInitialized" class="pt-3">
+      <pf-job-description-section
+        *ngFor="let section of jobDescription.Sections; trackBy: trackByFn"
+        [section]="section"
+        [readOnly]="true"
+        [jobDescriptionStatus]="jobDescription.JobDescriptionStatus">
+      </pf-job-description-section>
+    </div>
+  </ng-container>
+</ng-template>
+
+<ng-template #jdmDisabledTemplate>
+  <pf-job-description-summary-editor
+    #jobDescriptionEditor
+    [actionIconSize]="'2x'"
+    [errorMessageClass]="'text-danger'"
+    [layout]="'card'"
+    [rows]="12"
+    [jobDescriptionSummary]="jobDescriptionSummary"
+    (jobDescriptionChanged)="jobDescriptionChanged($event)"
+    [theme]="pfThemeType.JobDetails">
+  </pf-job-description-summary-editor>
+  <div class="d-flex pt-3">
+    <div class="text-danger">
+      <div *ngIf="jobDescriptionSummaryAsyncObj?.loadingError">
+        We encountered an error while loading your the job description for your job
+      </div>
+      <div *ngIf="jobDescriptionSummaryAsyncObj?.savingError">
+        We encountered an error while saving your job description
+      </div>
+    </div>
+    <div *ngIf="jobDescriptionSummaryAsyncObj?.savingSuccess">
+      <b>Job Description Updated!</b>
+    </div>
+    <button *ngIf="jobDescriptionSummaryAsyncObj?.obj | editableJobDescription"
+            class="btn btn-primary ml-auto"
+            [disabled]="(updatedJobDescription$ | async) === jobDescriptionSummaryAsyncObj?.obj?.JobSummary || !isValidJobDescription()"
+            [innerText]="'Save'"
+            (click)="saveJobDescription()">
+    </button>
+  </div>
+</ng-template>

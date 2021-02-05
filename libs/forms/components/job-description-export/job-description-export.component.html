@@ -1,0 +1,24 @@
+<div *ngIf="!!jobDescriptionId" class="d-flex ml-auto" [pfSecuredResource]="permissions.JOB_DESCRIPTIONS">
+  <div
+    class="export-btn pr-3 export-word"
+    title="Export to Word"
+    (click)="exportJobDescription('docx')"
+    [attr.data-qa-id]="'btn-jobs-page-export-jd-word'">
+    <fa-icon fa-icon [icon]="['fal', 'file-word']" [size]="actionIconSize" [ngClass]="theme"></fa-icon>
+  </div>
+  <div
+    class="export-btn export-pdf"
+    title="Export to PDF"
+    (click)="exportJobDescription('pdf')"
+    [attr.data-qa-id]="'btn-jobs-page-export-jd-pdf'">
+    <fa-icon fa-icon [icon]="['fal', 'file-pdf']" [size]="actionIconSize" [ngClass]="theme"></fa-icon>
+  </div>
+</div>
+
+<form
+  name="exportForm"
+  method="POST"
+  [action]="'/odata/JobDescription(' + jobDescriptionId + ')/Default.Export'">
+  <input type="hidden" name="export-uid" />
+  <input type="hidden" name="export-type" />
+</form>
