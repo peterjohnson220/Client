@@ -214,6 +214,11 @@
   [workflowId]="(jobDescriptionExtendedInfo$ | async)?.WorkflowId">
 </pf-change-approver-modal>
 
+<pf-file-download-security-warning-modal 
+  #fileDownloadSecurityWarningModal
+  (securityWarningConfirmed)="handleSecurityWarningConfirmed($event)">
+</pf-file-download-security-warning-modal>
+
 <!-- <pf-conflict-error-modal
     #conflictErrorModal
     [errorMessage]="(jobDescriptionSaveError$ | async)?.ErrorMessage"
