@@ -4,12 +4,11 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 import { Action, Store } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { switchMap, map, catchError, mergeMap, tap, withLatestFrom, concatMap } from 'rxjs/operators';
+import { switchMap, map, catchError, mergeMap, withLatestFrom, concatMap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { JobDescription } from 'libs/models/jdm';
 
 import * as fromRootState from 'libs/state/state';
-import * as fromControlTypesActions from 'libs/features/jobs/job-description-management/actions/control-types.actions';
 import * as fromJobDescriptionManagementSharedReducer from 'libs/features/jobs/job-description-management/reducers';
 import { JobDescriptionApiService, JobDescriptionManagementApiService, JobDescriptionWorkflowStepUserApiService } from 'libs/data/payfactors-api/jdm';
 import { AccountApiService } from 'libs/data/payfactors-api/auth';

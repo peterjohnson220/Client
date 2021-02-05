@@ -83,6 +83,25 @@ export class ControlDataHelper {
     });
   }
 
+  static removeControlTypes(sections: JobDescriptionSection[]): JobDescriptionSection[] {
+    return sections.map(section => {
+      section.Controls = section.Controls.map(control => {
+        return {
+          Id: control.Id,
+          SectionId: control.SectionId,
+          Label: control.Label,
+          Type: control.Type,
+          EditorType: control.EditorType,
+          ControlVersion: control.ControlVersion,
+          Data: control.Data,
+          AdditionalProperties: control.AdditionalProperties,
+          Statuses: control.Statuses
+        };
+      });
+      return section;
+    });
+  }
+
   static hasData(attributes: ControlTypeAttribute[], dataRow: any) {
     return attributes.some(a => !!dataRow[a.Name]);
   }

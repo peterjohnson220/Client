@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpHeaders } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
+import cloneDeep from 'lodash/cloneDeep';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 import { BulkExportSchedule, JobDescription, BulkExportScheduleParameters, ValidateStepResultItem } from '../../../models/jdm';
@@ -37,6 +38,7 @@ import { FlsaQuestionnaireDetails } from '../../../../apps/job-description-manag
 import {
   JobDescriptionBulkExportPayload
 } from 'libs/features/jobs/job-description-management/models/job-description-bulk-export-payload.model';
+import { ControlDataHelper } from 'libs/features/jobs/job-description-management/helpers';
 
 @Injectable({
   providedIn: 'root',
@@ -156,8 +158,10 @@ export class JobDescriptionApiService {
   }
 
   save(jobDescription: JobDescription, isFirstSave: boolean): Observable<JobDescription> {
+    const jobDescriptionClone: JobDescription = cloneDeep(jobDescription);
+    jobDescriptionClone.Sections = ControlDataHelper.removeControlTypes(jobDescriptionClone.Sections);
     const obj = {
-      jobDescriptionAsJsonString: JSON.stringify(jobDescription),
+      jobDescriptionAsJsonString: JSON.stringify(jobDescriptionClone),
       isFirstSave: isFirstSave
     };
     return this.payfactorsApiService.post(`${this.endpoint}(${jobDescription.JobDescriptionId})/Default.Save`, obj,
