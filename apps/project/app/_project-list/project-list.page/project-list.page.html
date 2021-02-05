@@ -6,18 +6,21 @@
   [gridActionsTemplate]="gridActions"
   [enableSelection]="true"
   [gridConfig]="gridConfig"
+  [filterPanelTemplates]="filterTemplates"
+  [customFilterOptions]="customStatusFilterOptions"
   [defaultSort]="defaultSort"
   [columnTemplates]="colTemplates"
   [actionBarConfig]="actionBarConfig"
   [noRecordsFound]="'No projects available. Please change your search criteria.'"
-  [pageable]="!gridConfig.EnableInfiniteScroll">
+  [pageable]="!gridConfig.EnableInfiniteScroll"
+  [gridRowActionsConfig]="gridRowActionsConfig">
 </pf-data-grid>
 
 
 <ng-template #gridActions>
   <button
     [disabled]="!(selectedRecordIds$ | async)?.length"
-    [attr.data-qa-id]="'btn-jobs-page-clear-selections'"
+    [attr.data-qa-id]="'btn-projects-page-clear-selections'"
     type="button"
     (click)="clearSelections()"
     [title]="!(selectedRecordIds$ | async)?.length ? 'No Projects Selected' : ''"
@@ -26,10 +29,112 @@
     <fa-icon [icon]="['far', 'times']" ></fa-icon>
     Clear Selections<span *ngIf="(selectedRecordIds$ | async)?.length">({{(selectedRecordIds$ | async)?.length}})</span>
   </button>
+  <div
+    class="vertical-separator my-2"
+    [pfSecuredResource]="[permissions.PRICING_PROJECTS_DELETE]">
+  </div>
+  <button
+    [disabled]="!(selectedRecordIds$ | async)?.length"
+    [attr.data-qa-id]="'btn-projects-page-delete-projects'"
+    [title]="!(selectedRecordIds$ | async)?.length ? 'No Projects Selected' : ''"
+    (click)="showDeleteProjectModal.next(true)"
+    [pfSecuredResource]="permissions.PRICING_PROJECTS_DELETE"
+    class="btn btn-secondary pf-btn-borderless">
+    <fa-icon [icon]="['far', 'trash-alt']"></fa-icon>Delete
+  </button>
 </ng-template>
 
 <ng-template #projectStatusColumn let-dataRow="dataRow" let-hover="hover">
   <div>
     <span [title]="dataRow.UserSessions_Completed ? 'Project is Completed' : 'Project is In Progress'" [ngClass]="dataRow.UserSessions_Completed ? 'complete' : 'in-progress'"> <fa-icon [icon]="'circle'"></fa-icon></span>
+    &nbsp;{{dataRow.UserSessions_Completed ? 'Complete' : 'In Progress'}}
   </div>
 </ng-template>
+
+<ng-template #gridRowActionsTemplate let-dataRow="dataRow">
+  <div class="grid-row-actions-container d-flex">
+    <div ngbDropdown container="body" #p="ngbDropdown" class="d-inline-block k-grid-ignore-click pr-3 pt-1" placement="bottom-right"
+         (openChange)="handleSelectedRowAction(dataRow['UserSessionMap_UserSession_ID'], p)">
+      <fa-icon
+        ngbDropdownToggle
+        class="hide-dropdown-arrow pf-icon-btn-transparent gray-text"
+        [attr.data-qa-id]="'btn-project-list-page-inline-actions-' + dataRow['UserSessionMap_UserSession_ID']"
+        [icon]="['fas', 'ellipsis-h']"></fa-icon>
+      <div ngbDropdownMenu aria-labelledby="project-list-actions-{{dataRow['UserSessionMap_UserSession_ID']}}">
+        <button
+          ngbDropdownItem
+          (click)="copyProject()">
+          <fa-icon [icon]="['far', 'copy']"></fa-icon> Copy
+        </button>
+        <button [pfSecuredResource]="permissions.PRICING_PROJECTS_DELETE"
+                ngbDropdownItem
+                (click)="showDeleteProjectModal.next(true)">
+          <fa-icon [icon]="['far', 'trash-alt']"></fa-icon> Delete
+        </button>
+      </div>
+    </div>
+    <div>
+      <button class="btn btn-secondary"
+              [attr.data-qa-id]="'btn-pin-to-dashboard-' + dataRow['UserSessionMap_UserSession_ID']"
+              [ngClass]="{'pinned-to-dashboard': dataRow['UserSessionMap_PinOnDashboard']}"
+              (click)="togglePinToDashboard(dataRow['UserSessionMap_UserSession_ID'])"
+      >
+        <fa-icon [icon]="['far', 'thumbtack']"></fa-icon>
+      </button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #projectStatusFilter>
+  <div>
+    <label>Status:</label>
+    <kendo-dropdownlist
+    [data]="statusFilterDisplayOptions"
+    [textField]="'Display'"
+    [valueField]="'Value'"
+    [filterable]="false"
+    [(ngModel)]="status"
+    [attr.data-qa-id]="'completed-status-filter'"
+    (valueChange)="handleStatusFilterChanged()"
+    class="k-dropdown-white form-control"
+    >
+    </kendo-dropdownlist>
+  </div>
+</ng-template>
+
+<ng-template #projectPinnedFilter>
+  <div>
+    <label>Pinned:</label>
+    <kendo-dropdownlist
+      [data]="pinnedFilterOptions"
+      [textField]="'display'"
+      [valueField]="'value'"
+      [filterable]="false"
+      [(ngModel)]="isPinned"
+      [attr.data-qa-id]="'pinned-filter'"
+      (valueChange)="handlePinnedFilterChanged()"
+      class="k-dropdown-white form-control"
+    >
+    </kendo-dropdownlist>
+  </div>
+</ng-template>
+
+<pf-modal-form
+  [size]="'md'"
+  [title]="'Delete Project'"
+  [primaryButtonText]="'Delete'"
+  [primaryButtonClass]="'btn-danger'"
+  [modalId]="'au-modal-employees-page-delete-employee'"
+  [isOpen$]=" showDeleteProjectModal$"
+  (onSubmit)="handleModalSubmit()"
+  [submitEnabled]="acknowledgeDelete"
+  (onDismiss)="handleModalDismissed()">
+  <ng-container basic-content>
+    <p >Are you sure you want to delete the selected project(s)?</p>
+    <hr>
+    <input type="checkbox" [(ngModel)]="acknowledgeDelete"/> I understand that once this pricing project(s) is deleted it cannot be undone.
+    <span style="color: red">*</span>
+
+  </ng-container>
+
+</pf-modal-form>

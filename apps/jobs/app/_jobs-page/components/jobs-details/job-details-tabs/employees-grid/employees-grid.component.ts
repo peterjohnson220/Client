@@ -10,7 +10,6 @@ import cloneDeep from 'lodash/cloneDeep';
 
 import { ViewField } from 'libs/models/payfactors-api/reports/request';
 import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig, GridConfig } from 'libs/features/grids/pf-data-grid/models';
-import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
 import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import * as fromPfGridActions from 'libs/features/grids/pf-data-grid/actions';
 import { PfDataGridColType } from 'libs/features/grids/pf-data-grid/enums';
@@ -51,14 +50,9 @@ export class EmployeesGridComponent implements AfterViewInit, OnDestroy, OnChang
   selectedPayMarket: any;
   actionBarConfig: ActionBarConfig;
   gridConfig: GridConfig;
-  hasEmployeeDetailsFlagEnabled: boolean;
   pfThemeType = PfThemeType;
 
-  constructor(
-    private store: Store<fromPfGridReducer.State>,
-    private featureFlagService: AbstractFeatureFlagService
-  ) {
-    this.hasEmployeeDetailsFlagEnabled = this.featureFlagService.enabled(FeatureFlags.EmployeeDetails, false);
+  constructor(private store: Store<fromPfGridReducer.State>) {
     this.companyPayMarketsSubscription = this.store.select(fromJobsPageReducer.getCompanyPayMarkets)
       .subscribe(o => {
         this.filteredPayMarketOptions = o;

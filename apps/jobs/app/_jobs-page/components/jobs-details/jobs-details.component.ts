@@ -9,7 +9,6 @@ import { PfDataGridFilter } from 'libs/features/grids/pf-data-grid/models';
 import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import * as fromMultiMatchActions from 'libs/features/pricings/multi-match/actions';
 import * as fromNotificationActions from 'libs/features/infrastructure/app-notifications/actions';
-import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core';
 import * as fromRootReducer from 'libs/state/state';
 
 import * as fromJobsPageActions from '../../actions';
@@ -49,18 +48,14 @@ export class JobsDetailsComponent implements OnDestroy, OnInit, OnChanges {
 
   jobId: number;
 
-  pricingHistoryChartFeatureFlag: RealTimeFlag = { key: FeatureFlags.PricingHistoryChart, value: false };
   unsubscribe$ = new Subject<void>();
 
   constructor(
     private store: Store<fromPfGridReducer.State>,
-    private actionsSubject: ActionsSubject,
-    private featureFlagService: AbstractFeatureFlagService
+    private actionsSubject: ActionsSubject
   ) { }
 
   ngOnInit() {
-
-    this.featureFlagService.bindEnabled(this.pricingHistoryChartFeatureFlag, this.unsubscribe$);
 
     this.selectedRow$ = this.store.select(fromPfGridReducer.getSelectedRow, PageViewIds.Jobs);
 
