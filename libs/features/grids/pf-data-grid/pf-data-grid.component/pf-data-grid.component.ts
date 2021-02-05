@@ -15,7 +15,8 @@ import {
   ActionBarConfig,
   getDefaultActionBarConfig,
   GridRowActionsConfig,
-  GridConfig
+  GridConfig,
+  PfDataGridCustomFilterOptions
 } from '../models';
 import { getUserFilteredFields } from '../components';
 import { SelectAllStatus } from '../reducers/pf-data-grid.reducer';
@@ -46,6 +47,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() gridRowActionsConfig: GridRowActionsConfig;
   @Input() customHeaderTemplate: TemplateRef<any>;
   @Input() filterPanelTemplates: TemplateRef<any>;
+  @Input() customFilterOptions: PfDataGridCustomFilterOptions[];
   @Input() noRecordsFoundTemplate: TemplateRef<any>;
   @Input() subHeaderTemplate: TemplateRef<any>;
   // TODO: lockedPillText needs to be a collection of objects
@@ -145,7 +147,8 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
     });
 
     this.userFilteredFieldsSubscription = this.store.select(fromReducer.getFilterableFields, this.pageViewId).subscribe(fields => {
-      this.userFilteredFields = getUserFilteredFields(fields);
+      const customFilterKeys = this.filterPanelTemplates ? Object.keys(this.filterPanelTemplates) : [];
+      this.userFilteredFields = getUserFilteredFields(fields, customFilterKeys);
     });
 
     this.selectedRecordIdSubscription = this.store.select(fromReducer.getSelectedRecordId, this.pageViewId).subscribe(recordId => {
@@ -272,6 +275,16 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
 
     if (changes['gridConfig']) {
       this.store.dispatch(new fromActions.UpdateGridConfig(this.pageViewId, changes['gridConfig'].currentValue));
+    }
+
+    if (changes['filterPanelTemplates']) {
+      const filterPanelKeys = changes['filterPanelTemplates'].currentValue ? Object.keys(changes['filterPanelTemplates'].currentValue) : [];
+      this.store.dispatch(new fromActions.UpdateFieldsWithCustomFilterTemplates(this.pageViewId, filterPanelKeys));
+    }
+
+    if (changes['customFilterOptions']) {
+      const filterOptions = changes['customFilterOptions'].currentValue ? changes['customFilterOptions'].currentValue : [];
+      this.store.dispatch(new fromActions.UpdateCustomFilterOptions(this.pageViewId, filterOptions));
     }
   }
 

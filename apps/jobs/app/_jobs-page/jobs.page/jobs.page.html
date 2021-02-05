@@ -6,6 +6,7 @@
   [gridActionsTemplate]="gridActions"
   [columnTemplates]="colTemplates"
   [filterPanelTemplates]="filterTemplates"
+  [customFilterOptions]="customPricingReviewedFilterOptions"
   [inboundFilters]="filters"
   [defaultSort]="defaultSort"
   [enableSelection]="true"
@@ -209,6 +210,21 @@
       [filterable]="true"
       (filterChange)="handleStructureGradeNameDropdownFilter($event)"
       [attr.data-qa-id]="'ddm-operator-jobs-page' + structureGradeSearchField.SourceName"
+      class="k-dropdown-white form-control">
+    </kendo-dropdownlist>
+  </div>
+</ng-template>
+
+<ng-template #pricingReviewedFilter>
+  <div>
+    <label>Pricing Reviewed:</label>
+    <kendo-dropdownlist
+      [data]="pricingReviewedDropdownDisplayOptions"
+      [textField]="'Display'"
+      [valueField]="'Value'"
+      [ngModel]="selectedReviewedStatus"
+      (valueChange)="handlePricingReviewedStatusChanged($event)"
+      [attr.data-qa-id]="'ddl-bit-filter-value-'+ pricingReviewedField.SourceName"
       class="k-dropdown-white form-control">
     </kendo-dropdownlist>
   </div>

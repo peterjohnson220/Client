@@ -42,6 +42,7 @@ export class WorkflowConfigComponent implements OnInit, OnDestroy {
   stepAddingNonPfUsers: number;
   publisherName: string;
   avatarUrl: string;
+  nonPfUserSameStepDuplicateEmail : boolean;
 
   constructor(
     private sharedJdmStore: Store<fromJDMSharedReduder.State>,
@@ -131,10 +132,15 @@ export class WorkflowConfigComponent implements OnInit, OnDestroy {
   }
 
   handleMultipleUserPerLevelSelection(selectedUser: any, stepIndex: number): void {
+    this.nonPfUserSameStepDuplicateEmail = false;
+    if(this.workflowSteps[stepIndex].WorkflowStepUsers.some(stepUser => stepUser.EmailAddress.toLowerCase() === selectedUser.EmailAddress.toLowerCase() )){
+      this.nonPfUserSameStepDuplicateEmail = true;
+      return;
+    }
+    
     if (!selectedUser.FirstName || !selectedUser.LastName) {
       this.addNonPfUserSameStepForm.reset();
-      this.nonPfUserSameStepFormSubmitted = false;
-      this.sameStepEmail = selectedUser.EmailAddress;
+      this.currentEmail = selectedUser.EmailAddress;
       this.resetMultiUserStepTracking();
       this.stepAddingNonPfUsers = stepIndex;
     } else {
@@ -144,6 +150,7 @@ export class WorkflowConfigComponent implements OnInit, OnDestroy {
   }
 
   resetMultiUserStepTracking(): void {
+    this.nonPfUserSameStepDuplicateEmail = false;
     this.stepWithMultipleUsersBeingAdded = null;
     this.stepAddingNonPfUsers = null;
   }
@@ -157,6 +164,7 @@ export class WorkflowConfigComponent implements OnInit, OnDestroy {
   }
 
   cancelNonPfUserSameLevelAdd(): void {
+    this.nonPfUserSameStepDuplicateEmail = false;
     this.stepAddingNonPfUsers = null;
     this.sameStepEmail = '';
   }

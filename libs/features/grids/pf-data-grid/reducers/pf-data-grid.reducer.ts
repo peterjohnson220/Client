@@ -12,8 +12,8 @@ import { arrayMoveMutate, arraySortByString, SortDirection } from 'libs/core/fun
 import { DataViewConfig, DataViewEntity, DataViewType, PagingOptions, SimpleDataView, ViewField } from 'libs/models/payfactors-api';
 
 import * as fromPfGridActions from '../actions';
-import { PfDataGridFilter, GridConfig, ColumnReorder } from '../models';
-import { getDefaultFilterOperator, getSimpleDataViewDescription, getUserFilteredFields } from '../components';
+import {PfDataGridFilter, GridConfig, ColumnReorder, PfDataGridCustomFilterOptions} from '../models';
+import { getDefaultFilterOperator, getSimpleDataViewDescription, getUserFilteredFields, getHumanizedFilter } from '../components';
 
 export interface DataGridState {
   pageViewId: string;
@@ -63,6 +63,8 @@ export interface DataGridState {
   visibleKeys: number[];
   unexpectedError: boolean;
   fadeInKeys: any[];
+  fieldsWithCustomFilterTemplates: string[];
+  customFilterOptions: PfDataGridCustomFilterOptions[];
 }
 
 export interface DataGridStoreState {
@@ -697,7 +699,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           ...state.grids,
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
-            savedViews: buildFiltersView(action.payload)
+            savedViews: buildFiltersView(action.payload, state, action.pageViewId)
           }
         }
       };
@@ -739,7 +741,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
       const views = cloneDeep(state.grids[action.pageViewId].savedViews) || [];
       // TODO: Refactor buildFiltersView so it can work with arrays and single objects
       if (action.viewType === DataViewType.savedFilter) {
-        views.push(buildFiltersView([action.payload])[0]);
+        views.push(buildFiltersView([action.payload], state, action.pageViewId)[0]);
       }
       return {
         ...state,
@@ -1195,6 +1197,28 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           }
         }
       };
+    case fromPfGridActions.UPDATE_FIELDS_WITH_CUSTOM_FILTER_TEMPLATES:
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            fieldsWithCustomFilterTemplates: action.payload
+          }
+        }
+      };
+    case fromPfGridActions.UPDATE_CUSTOM_FILTER_OPTIONS:
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            customFilterOptions: action.payload
+          }
+        }
+      };
     default:
       return state;
   }
@@ -1272,7 +1296,7 @@ function resetOperatorsForEmptyFilters(state: DataGridStoreState, pageViewId: st
 
   const fields: ViewField[] = cloneDeep(getFields(state, pageViewId));
   const filterableFields: ViewField[] = getFilterableFields(state, pageViewId);
-  const userFilteredFields: ViewField[] = getUserFilteredFields(filterableFields);
+  const userFilteredFields: ViewField[] = getUserFilteredFields(filterableFields, state.grids[pageViewId].fieldsWithCustomFilterTemplates);
 
   const fieldsToReset: ViewField[] = fields.filter(field =>
     filterableFields.findIndex(f => f.DataElementId === field.DataElementId) >= 0 &&
@@ -1329,7 +1353,7 @@ export function buildExternalFilter(operator: string, fieldName: string, values?
   };
 }
 
-export function buildFiltersView(views: DataViewConfig[]): SimpleDataView[] {
+export function buildFiltersView(views: DataViewConfig[], state: DataGridStoreState, pageViewId: string): SimpleDataView[] {
   return views.map(view => ({
     Name: view.Name,
     Description: view.Fields
@@ -1341,7 +1365,7 @@ export function buildFiltersView(views: DataViewConfig[]): SimpleDataView[] {
           FilterOperator: field.FilterOperator
         });
       })
-      .map(field => getSimpleDataViewDescription(field))
+      .map(field => getSimpleDataViewDescription(field, state.grids[pageViewId].customFilterOptions))
       .join(' • ')
   }));
 }
