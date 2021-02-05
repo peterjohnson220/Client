@@ -657,6 +657,7 @@ export class GradeRangeModelChartService {
             backgroundColor: '#000000',
             useHTML: true,
             padding: 0,
+            stickyTracking: false,
             headerFormat: '<div style="display: inline-block; background-color: black">',
             pointFormat: '<div style="color: white"><b>{point.jobTitle}: </b>{point.dataPoint}<div>',
             footerFormat: '</div>'
@@ -687,6 +688,7 @@ export class GradeRangeModelChartService {
             backgroundColor: '#000000',
             useHTML: true,
             padding: 0,
+            stickyTracking: false,
             headerFormat: '<div style="display: inline-block; background-color: black">',
             pointFormat: '<div style="color: white"><b>{point.jobTitle}</b></div><div>' +
               '<div style="color: white">{point.dataPoint}</div>',
