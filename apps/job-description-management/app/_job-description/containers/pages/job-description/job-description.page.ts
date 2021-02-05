@@ -27,7 +27,8 @@ import * as fromRootState from 'libs/state/state';
 import { SettingsService } from 'libs/state/app-context/services';
 import { PermissionService } from 'libs/core/services';
 import { PermissionCheckEnum, Permissions } from 'libs/constants/permissions';
-import { SimpleYesNoModalComponent } from 'libs/ui/common';
+import { SimpleYesNoModalComponent, FileDownloadSecurityWarningModalComponent } from 'libs/ui/common';
+
 import { environment } from 'environments/environment';
 
 import { JobDescriptionManagementDnDService, JobDescriptionManagementService, SortDirection } from 'libs/features/jobs/job-description-management';
@@ -46,7 +47,7 @@ import * as fromWorkflowTemplateListActions from 'libs/features/jobs/job-descrip
 import * as fromHeaderActions from 'libs/ui/layout-wrapper/actions/header.actions';
 import * as fromControlTypesActions from 'libs/features/jobs/job-description-management/actions/control-types.actions';
 
-import { EmployeeAcknowledgement, JobDescriptionLibraryDropModel } from '../../../models';
+import { EmployeeAcknowledgement, ExportData, JobDescriptionLibraryDropModel } from '../../../models';
 import * as fromJobDescriptionReducers from '../../../reducers';
 import * as fromJobDescriptionActions from '../../../actions/job-description.actions';
 import * as fromEmployeeAcknowledgementActions from '../../../actions/employee-acknowledgement.actions';
@@ -79,6 +80,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   @ViewChild(JobDescriptionAppliesToModalComponent) public jobDescriptionAppliesToModalComponent: JobDescriptionAppliesToModalComponent;
   @ViewChild(WorkflowCancelModalComponent) public workflowCancelModal: WorkflowCancelModalComponent;
   @ViewChild(WorkflowSetupModalComponent) public workflowSetupModal: WorkflowSetupModalComponent;
+  @ViewChild('fileDownloadSecurityWarningModal', { static: true }) public fileDownloadSecurityWarningModal: FileDownloadSecurityWarningModalComponent;
 
   jobDescriptionAsync$: Observable<AsyncStateObj<JobDescription>>;
   jobDescriptionPublishing$: Observable<boolean>;
@@ -134,6 +136,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   visibleSections: JobDescriptionSection[];
   enableFileDownloadSecurityWarning: boolean;
   enableLibraryForRoutedJobDescriptions: boolean;
+  exportData: ExportData;
   hasCanEditJobDescriptionPermission: boolean;
   identityInWorkflow: boolean;
   saving: boolean;
@@ -412,21 +415,40 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   }
 
   handleExportAsPDFClicked(): void {
-    this.export('pdf', '');
+    this.exportData = { Type: 'pdf', Name: '' };
+    this.handleExport();
   }
 
   handleExportClickedFromActions(data: { exportType: string, viewName: string }): void {
     const isUserDefinedViewsAvailable = JobDescriptionHelper.isUserDefinedViewsAvailable(this.jobDescriptionViews);
+    this.exportData = { Type: data.exportType, Name: data.viewName };
+
     if (this.editing && isUserDefinedViewsAvailable ) {
       this.exportJobDescriptionModalComponent.open(data.exportType);
     } else {
-      this.export(data.exportType, data.viewName);
+      this.handleExport();
     }
   }
 
   handleExportModalConfirmed(modalPayload: any): void {
+    this.exportJobDescriptionModalComponent.close();
     const viewName = modalPayload.selectedView || 'Default';
-    this.export(modalPayload.exportType, viewName);
+    this.exportData = { Type: modalPayload.exportType, Name: viewName };
+    this.handleExport();
+  }
+
+  handleExport() {
+    if (this.enableFileDownloadSecurityWarning) {
+      this.fileDownloadSecurityWarningModal.open();
+    } else {
+      this.export(this.exportData.Type, this.exportData.Name);
+    }
+  }
+
+  handleSecurityWarningConfirmed(isConfirmed) {
+    if (isConfirmed) {
+      this.export(this.exportData.Type, this.exportData.Name);
+    }
   }
 
   trackByFn(index: number, section: JobDescriptionSection) {
