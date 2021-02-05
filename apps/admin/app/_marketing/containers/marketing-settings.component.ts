@@ -6,9 +6,9 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import * as fromMarketingSettingsReducer from '../reducers';
 import * as fromMarketingSettingsActions from 'libs/features/infrastructure/marketing-settings/marketing-settings/actions/marketing-settings.actions';
+import { AppConstants } from 'libs/constants';
 
 import { SelectEvent } from '@progress/kendo-angular-upload';
-import { environment } from 'environments/environment';
 import { MarketingImageDto } from 'libs/models/marketing/marketing-image-dto.model';
 
 @Component({
@@ -17,6 +17,7 @@ import { MarketingImageDto } from 'libs/models/marketing/marketing-image-dto.mod
   styleUrls: ['./marketing-settings.component.scss'],
 })
 export class MarketingSettingsComponent implements OnInit, OnDestroy {
+  get SiteAdminUrl() { return AppConstants.SiteAdminUrl; }
 
   saving$: Observable<boolean>;
   savingSuccess$: Observable<boolean>;
@@ -34,7 +35,6 @@ export class MarketingSettingsComponent implements OnInit, OnDestroy {
   submitted = false;
 
   acceptedFileExtensions = ['.jpg', '.jpeg', '.png'];
-  env = environment;
   uploadSaveUrl = '/odata/MarketingSettings.UploadMarketingImage';
 
   constructor(public store: Store<fromMarketingSettingsReducer.State>,

@@ -30,7 +30,6 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
   employeeTagsLoaderFeatureFlag={[Function Object]}
   employeeTagsMappingComplete={[Function Boolean]}
   entityKeyValidatorService={[Function EntityKeyValidationService]}
-  env={[Function Object]}
   existingCompanyLoaderSettings={[Function Array]}
   featureFlagService={[Function MockAbstractFeatureFlagService]}
   fieldMappingsLoading="false"
@@ -289,7 +288,6 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
   employeeTagsLoaderFeatureFlag={[Function Object]}
   employeeTagsMappingComplete={[Function Boolean]}
   entityKeyValidatorService={[Function EntityKeyValidationService]}
-  env={[Function Object]}
   existingCompanyLoaderSettings={[Function Array]}
   featureFlagService={[Function MockAbstractFeatureFlagService]}
   fieldMappingsLoading="false"
@@ -548,7 +546,6 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
   employeeTagsLoaderFeatureFlag={[Function Object]}
   employeeTagsMappingComplete={[Function Boolean]}
   entityKeyValidatorService={[Function EntityKeyValidationService]}
-  env={[Function Object]}
   existingCompanyLoaderSettings={[Function Array]}
   featureFlagService={[Function MockAbstractFeatureFlagService]}
   fieldMappingsLoading="false"
@@ -807,7 +804,6 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
   employeeTagsLoaderFeatureFlag={[Function Object]}
   employeeTagsMappingComplete={[Function Boolean]}
   entityKeyValidatorService={[Function EntityKeyValidationService]}
-  env={[Function Object]}
   existingCompanyLoaderSettings={[Function Array]}
   featureFlagService={[Function MockAbstractFeatureFlagService]}
   fieldMappingsLoading="false"
@@ -933,7 +929,6 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
   employeeTagsLoaderFeatureFlag={[Function Object]}
   employeeTagsMappingComplete={[Function Boolean]}
   entityKeyValidatorService={[Function EntityKeyValidationService]}
-  env={[Function Object]}
   existingCompanyLoaderSettings={[Function Array]}
   featureFlagService={[Function MockAbstractFeatureFlagService]}
   fieldMappingsLoading="false"

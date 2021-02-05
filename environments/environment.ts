@@ -1,27 +1,11 @@
 export const environment = {
   production: false,
-  payfactorsApiUrl: '/odata/',
-  payfactorsMarketDataUrl: '/marketdata/',
+  name: 'development',
+  allowSelfRegistration: true,
+  hubspotRegistrationUrl: 'https://info.payfactors.com/payfactors-free-market-data-wh',
   userVoiceUrl: 'http://payfactors.uservoice.com/forums/',
   userVoiceLoginRedirect: '/payfactors/UserVoice/RedirectFromLogin',
   userVoiceForumId: 268517,
-  ngAppRoot: '/ng/',
-  tableauPayfactorsReportingServer: 'https://stagereports.payfactors.com/',
-  defaultHomePage: '/client/dashboard',
-  firstTimeLoginPage: '/client/auth/first-login',
-  allowSelfRegistration: true,
-  smallBusinessApiUrl: 'http://smallbizdev.payfactors.com/api/',
-  smallBusinessAppUrl: 'http://smallbizdev.payfactors.com/app/',
-  hostPath: 'client',
-  allowHubspotRegistration: true,
-  hubspotRegistrationUrl: 'https://info.payfactors.com/payfactors-free-market-data-wh',
-  // /client/pf-admin ### /ng/site-admin
-  siteAdminUrl: '/client/pf-admin',
-  // /client/admin/company-admin ### /ng/company-admin
-  companyAdminUrl: '/client/admin/company-admin',
-  payfactorsFrontEndApiUrl: '/Payfactors/',
-  name: 'development',
   mapBoxAPIKey: 'pk.eyJ1IjoicGZtYXBzIiwiYSI6ImNrOXg4ZWRvZjAwdzUzdHBtN3FlNzM2NjIifQ.VlodpfDhMKjG42DF4eBH6A',
-  mapBoxBaseUrl: 'https://api.mapbox.com/styles/v1/mapbox/streets-v10/static/',
-  enableTrsCustomFontFamilies: false,
+  mapBoxBaseUrl: 'https://api.mapbox.com/styles/v1/mapbox/streets-v10/static/'
 };

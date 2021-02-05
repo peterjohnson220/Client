@@ -8,19 +8,18 @@ import { Observable, Subject, Subscription } from 'rxjs';
 import cloneDeep from 'lodash/cloneDeep';
 import { debounceTime, takeWhile, filter, take } from 'rxjs/operators';
 
-import * as fromCompanySettingsActions from 'libs/state/app-context/actions/company-settings.actions';
 import { JdmListFilter } from 'libs/models/user-profile';
 import { ListAreaColumn } from 'libs/models/common';
 import { UserContext } from 'libs/models/security';
 import { CompanySettingsEnum, TemplateListItem } from 'libs/models';
 import { PermissionService } from 'libs/core/services';
-import { PermissionCheckEnum, Permissions } from 'libs/constants';
+import { PermissionCheckEnum, Permissions, AppConstants } from 'libs/constants';
 import { SettingsService } from 'libs/state/app-context/services';
-import { environment } from 'environments/environment';
 import * as fromRootState from 'libs/state/state';
 import * as fromAppNotificationsMainReducer from 'libs/features/infrastructure/app-notifications/reducers';
 import { AppNotification, NotificationLevel, NotificationPayload, NotificationType } from 'libs/features/infrastructure/app-notifications/models';
 import * as fromAppNotificationsActions from 'libs/features/infrastructure/app-notifications/actions/app-notifications.actions';
+
 
 import * as fromBulkExportPopoverActions from '../../../actions/bulk-export-popover.actions';
 import * as fromJobDescriptionListActions from '../../../actions/job-description-list.actions';
@@ -46,6 +45,7 @@ import * as fromTemplateReducer from 'libs/features/jobs/job-description-managem
 import * as fromTemplateActions from 'libs/features/jobs/job-description-management/actions/template-list.actions';
 import * as fromJobDescriptionActions from '../../../actions/job-description.actions';
 import * as fromHeaderActions from 'libs/ui/layout-wrapper/actions/header.actions';
+
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -473,7 +473,7 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
       this.enablePublicViewsInClient$.pipe(
         takeWhile((setting) => setting !== true),
         filter(setting => setting === false)
-      ).subscribe(() => window.location.href = window.location.href.replace(`/${environment.hostPath}/`, environment.ngAppRoot));
+      ).subscribe(() => window.location.href = window.location.href.replace(`/${AppConstants.HostPath}/`, AppConstants.NgAppRoot));
     } else {
       this.store.dispatch(new fromJobDescriptionGridActions.LoadListAreaColumns(request));
       this.store.dispatch(new fromTemplateActions.LoadTemplateList({publishedOnly: false }));

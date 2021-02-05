@@ -11,12 +11,12 @@ import { GenericKeyValue } from 'libs/models/common';
 import { ExchangeJobAssociationEntityTypes } from 'libs/constants/peer/exchange-job-association-entity-types';
 import * as fromAssociateJobsActions from 'libs/features/peer/job-association-match/actions/associate-jobs.actions';
 import * as fromAssociateJobMatchReducer from 'libs/features/peer/job-association-match/reducers';
+import { AppConstants } from 'libs/constants';
 
 import * as fromPeerAdminReducer from '../../../reducers';
 import * as fromCompanyOptionsActions from '../../../actions/exchange-job-association-utility/company-options.actions';
 import * as fromExchangeOptionsActions from '../../../actions/exchange-job-association-utility/exchange-options.actions';
 import * as fromAssociateBulkImportActions from '../../../actions/exchange-job-association-utility/associate-bulk-import.actions';
-import { environment } from 'environments/environment';
 
 @Component({
   selector: 'pf-exchange-job-association-import',
@@ -24,8 +24,7 @@ import { environment } from 'environments/environment';
   styleUrls: ['./exchange-job-association-utility.page.scss']
 })
 export class ExchangeJobAssociationUtilityPageComponent implements OnInit, OnDestroy {
-
-  env = environment;
+  get SiteAdminUrl() { return AppConstants.SiteAdminUrl; }
 
   @ViewChild('companyList', { static: true }) companyList: ComboBoxComponent;
   @ViewChild('exchangeList', { static: true }) exchangeList: ComboBoxComponent;

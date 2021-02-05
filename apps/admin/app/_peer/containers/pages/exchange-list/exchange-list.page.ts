@@ -3,9 +3,10 @@ import { Router } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 
+import { AppConstants } from 'libs/constants';
+
 import * as fromExchangeListActions from '../../../actions/exchange-list.actions';
 import * as fromPeerAdminReducer from '../../../reducers';
-import { environment } from 'environments/environment';
 
 @Component({
   selector: 'pf-exchange-list-page',
@@ -14,7 +15,8 @@ import { environment } from 'environments/environment';
 })
 export class ExchangeListPageComponent {
 
-  env = environment;
+  get SiteAdminUrl() { return AppConstants.SiteAdminUrl; }
+
   searchQuery = '';
 
   constructor(private store: Store<fromPeerAdminReducer.State>, private router: Router) { }

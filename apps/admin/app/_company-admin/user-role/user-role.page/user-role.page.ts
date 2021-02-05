@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
 import { UserAssignedRole, RoleDataRestriction } from 'libs/models/security';
-import { environment } from 'environments/environment';
+import { AppConstants } from 'libs/constants';
 
 import { UserRoleTabState, RoleApiResponse } from '../constants/user-role.constants';
 import { UserRoleService } from '../services';
@@ -18,7 +18,8 @@ import * as fromUserRoleUserTabActions from '../actions/user-role-users-tab.acti
   styleUrls: ['user-role.page.scss']
 })
 export class UserRolePageComponent implements OnDestroy {
-  env = environment;
+  get CompanyAdminUrl() { return AppConstants.CompanyAdminUrl; }
+
   currentUserRoleTabState: UserRoleTabState = UserRoleTabState.FUNCTION;
   _UserRoleTabState = UserRoleTabState;
   _RoleApiResponse = RoleApiResponse;

@@ -7,7 +7,6 @@ import { Store } from '@ngrx/store';
 import { forkJoin, Observable, Subject } from 'rxjs';
 import { filter, take, takeUntil } from 'rxjs/operators';
 
-import { environment } from 'environments/environment';
 import * as fromAppNotificationsActions from 'libs/features/infrastructure/app-notifications/actions/app-notifications.actions';
 import { NotificationLevel, NotificationSource, NotificationType } from 'libs/features/infrastructure/app-notifications/models';
 import * as fromAppNotificationsMainReducer from 'libs/features/infrastructure/app-notifications/reducers';
@@ -20,6 +19,7 @@ import { FieldNames } from 'libs/features/company/entity-identifier/models/const
 import { EntityIdentifierViewModel } from 'libs/features/company/entity-identifier/models/entity-identifiers-view.model';
 import { UserContext } from 'libs/models';
 import * as fromRootState from 'libs/state/state';
+import { AppConstants } from 'libs/constants';
 
 import { EmployeeKeyStep } from './employee-key-step.enum';
 import * as fromDataManagementMainReducer from '../../../reducers';
@@ -38,7 +38,6 @@ export class CustomEmployeeIdentifierComponent implements OnDestroy, OnInit {
   private hasSaved$: Observable<boolean>;
 
   private userContext: UserContext;
-  private env = environment;
   private companies: CompanySelectorItem[];
 
   isCustomField = false;
@@ -211,12 +210,12 @@ export class CustomEmployeeIdentifierComponent implements OnDestroy, OnInit {
     this.employeeFields = cloneDeep(this.employeeFieldsCopy);
 
     if (this.step === EmployeeKeyStep.Company) {
-      window.location.href = this.env.siteAdminUrl;
+      window.location.href = AppConstants.SiteAdminUrl;
       return;
     }
 
     if (this.step === EmployeeKeyStep.Fields && this.userContext.AccessLevel !== 'Admin') {
-      window.location.href = this.env.companyAdminUrl;
+      window.location.href = AppConstants.CompanyAdminUrl;
       return;
     }
 

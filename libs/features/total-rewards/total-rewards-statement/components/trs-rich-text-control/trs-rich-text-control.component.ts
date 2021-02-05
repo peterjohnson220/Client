@@ -14,17 +14,16 @@ import {
 
 import { AnyFn } from '@ngrx/store/src/selector';
 import { Subject, Subscription } from 'rxjs';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import 'quill-mention';
 import QuillType from 'quill';
 
 import { EmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards';
+import { AppConstants } from 'libs/constants';
 
 import { RichTextControl, StatementModeEnum } from '../../models';
 import { UpdateStringPropertyRequest, UpdateTitleRequest } from '../../models/request-models';
-
-import { environment } from 'environments/environment';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 const Quill = require('quill');
 const cheerio = require('cheerio');
@@ -68,7 +67,7 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
   onContentChangedSubject = new Subject();
   onContentChangedSubscription = new Subscription();
 
-  showFontFamilyMenu = environment.enableTrsCustomFontFamilies;
+  showFontFamilyMenu = AppConstants.EnableTrsCustomFontFamilies;
 
   mentionConfig = {
     allowedChars: /^[A-Za-z\sÅÄÖåäö]*$/,
