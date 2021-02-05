@@ -6,7 +6,7 @@ import { FilterOperatorOptions, isValueRequired } from './filter-operator-option
 import { PfDataGridCustomFilterOptions } from '../../../models/pf-data-grid-custom-filter-options';
 
 export function getHumanizedFilter(field: ViewField, filterValue: string,
-                                   fieldsToShowValueOnly: string[] = [], customFilterOptions: PfDataGridCustomFilterOptions[]) {
+                                   fieldsToShowValueOnly: string[] = [], customFilterOptions: PfDataGridCustomFilterOptions[] = []) {
   const operatorDisplay = getOperatorDisplay(field.FilterOperator, field.DataType);
   const valueDisplay = getValueDisplay(filterValue, field, customFilterOptions);
   if (fieldsToShowValueOnly?.includes(field.SourceName)) {
