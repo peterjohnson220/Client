@@ -1,12 +1,12 @@
-import { Input, Output, EventEmitter, Component, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
 
 import cloneDeep from 'lodash/cloneDeep';
 import { IntlService } from '@progress/kendo-angular-intl';
+import { NumericTextBoxComponent } from '@progress/kendo-angular-inputs';
 
 import { DataViewFieldDataType, ViewField } from 'libs/models/payfactors-api';
 
 import { FilterOperator, FilterOperatorOptions } from '../helpers';
-
 
 @Component({
   selector: 'pf-filter-builder',
@@ -20,6 +20,9 @@ export class FilterBuilderComponent implements OnChanges {
 
   @Output() filterChanged = new EventEmitter<ViewField>();
 
+  @ViewChild('numericInput') numericInputElement: NumericTextBoxComponent;
+
+  INT_MAX = 2147483647; // c# int max
   field: ViewField;
 
   filterOperatorOptions = FilterOperatorOptions;
@@ -36,6 +39,9 @@ export class FilterBuilderComponent implements OnChanges {
     value: 'false'
   }];
 
+  datePickerValue = null;
+  numericInputValue = null;
+
   constructor(private intlService: IntlService) {}
 
   ngOnChanges(changes: SimpleChanges) {
@@ -45,6 +51,8 @@ export class FilterBuilderComponent implements OnChanges {
   }
 
   handleFilterOperatorChanged(event) {
+    this.field = cloneDeep(this.field);
+
     this.field.FilterOperator = event;
 
     if (this.valueCanBeEmpty() || (this.field.FilterValues?.length > 0)) {
@@ -69,7 +77,7 @@ export class FilterBuilderComponent implements OnChanges {
 
   getNumericFieldValue(): number {
     const filterValue = !!this.field?.FilterValues ? this.field.FilterValues[0] : null;
-    return filterValue ? +filterValue : null;
+    return filterValue ? this.checkForIntMax(+filterValue) : null;
   }
 
   valueCanBeEmpty() {
@@ -85,6 +93,13 @@ export class FilterBuilderComponent implements OnChanges {
   getDateTimeValue(): Date {
     const filterValue = !!this.field?.FilterValues ? this.field.FilterValues[0] : null;
     return (filterValue ? this.intlService.parseDate(filterValue) : null);
+  }
+
+  checkForIntMax(value: number): number {
+    if (value > this.INT_MAX) {
+      return this.INT_MAX;
+    }
+    return value;
   }
 
 }

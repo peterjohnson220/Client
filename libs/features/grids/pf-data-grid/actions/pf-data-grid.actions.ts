@@ -3,8 +3,7 @@ import { ViewField, DataViewConfig, DataViewEntityResponseWithCount, PagingOptio
 import { SortDescriptor } from '@progress/kendo-data-query';
 import { ContentScrollEvent } from '@progress/kendo-angular-grid';
 
-import { PfDataGridFilter, ColumnResize, GridConfig } from '../models';
-import { ColumnReorder } from '../models';
+import { PfDataGridFilter, ColumnResize, GridConfig, ColumnReorder, PfDataGridCustomFilterOptions } from '../models';
 
 export const LOAD_VIEW_CONFIG = '[PfDataGrid] Load View Config';
 export const LOAD_VIEW_CONFIG_SUCCESS = '[PfDataGrid] Load View Config Success';
@@ -82,6 +81,8 @@ export const DELETE_FADE_IN_KEYS = '[PfDataGrid] Delete Fade In Keys';
 export const SET_FADE_IN_KEYS = '[PfDataGrid] Set Fade In Keys';
 export const LOAD_DATA_AND_ADD_FADE_IN_KEYS = '[PfDataGrid] Load Data and Add Attention Grab Keys';
 export const UPDATE_SELECTED_ROW = '[PfDataGrid] Update Selected Row';
+export const UPDATE_FIELDS_WITH_CUSTOM_FILTER_TEMPLATES = '[PfDataGrid] Update Fields With Custom Filter Templates';
+export const UPDATE_CUSTOM_FILTER_OPTIONS = '[PfDataGrid] Update Custom Filter Options';
 
 export class LoadViewConfig implements Action {
   readonly type = LOAD_VIEW_CONFIG;
@@ -474,6 +475,16 @@ export class UpdateSelectedRow implements Action {
   constructor(public payload: any, public pageViewId: string) {}
 }
 
+export class UpdateFieldsWithCustomFilterTemplates implements Action {
+  readonly type = UPDATE_FIELDS_WITH_CUSTOM_FILTER_TEMPLATES
+  constructor(public pageViewId: string, public payload: string[]) {}
+}
+
+export class UpdateCustomFilterOptions implements Action {
+  readonly type = UPDATE_CUSTOM_FILTER_OPTIONS;
+  constructor(public pageViewId: string, public payload: PfDataGridCustomFilterOptions[]) {}
+}
+
 export type DataGridActions =
   | LoadViewConfig
   | LoadViewConfigSuccess
@@ -549,4 +560,6 @@ export type DataGridActions =
   | DeleteFadeInKeys
   | SetFadeInKeys
   | LoadDataAndAddFadeInKeys
-  | UpdateSelectedRow;
+  | UpdateSelectedRow  
+  | UpdateFieldsWithCustomFilterTemplates
+  | UpdateCustomFilterOptions;

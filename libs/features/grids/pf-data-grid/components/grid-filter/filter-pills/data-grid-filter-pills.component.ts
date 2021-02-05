@@ -3,6 +3,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ViewField } from 'libs/models/payfactors-api';
 
 import { getHumanizedFilter, isValueRequired } from '../helpers';
+import { PfDataGridCustomFilterOptions } from '../../../models/pf-data-grid-custom-filter-options';
 
 @Component({
   selector: 'pf-data-grid-filter-pills',
@@ -15,6 +16,7 @@ export class PfDataGridFilterPillsComponent {
   @Input() widthOffset = 0;
   @Input() lockedPillText: string;
   @Input() fieldsToShowFilterValueOnly: string[] = [];
+  @Input() customFilterOptions: PfDataGridCustomFilterOptions[] = [];
 
   @Output() clearFilter: EventEmitter<{field: ViewField, value: string}> = new EventEmitter();
   @Output() clearAllFilters = new EventEmitter();
@@ -22,7 +24,7 @@ export class PfDataGridFilterPillsComponent {
   constructor() { }
 
   getPillDisplay(field: ViewField, filterValue: string): string {
-    return getHumanizedFilter(field, filterValue, this.fieldsToShowFilterValueOnly);
+    return getHumanizedFilter(field, filterValue, this.fieldsToShowFilterValueOnly, this.customFilterOptions);
   }
 
   pillClicked(field: ViewField, value = null) {
