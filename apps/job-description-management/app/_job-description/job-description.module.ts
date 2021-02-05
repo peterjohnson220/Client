@@ -87,7 +87,7 @@ import {
   JobDescriptionWorkflowCompareEffects
 } from './effects';
 import { ListAreaColumnSearchPipe, UserFilterSearchPipe } from './pipes';
-import { JobDescriptionDnDService, JobDescriptionJobCompareService, JobDescriptionVersionCompareService } from './services';
+import { JobDescriptionDnDService, JobDescriptionVersionCompareService } from './services';
 import { ResolveHistoryListGuard, JobDescriptionJobCompareListResolver } from './guards';
 import { SharedModule } from '../shared/shared.module';
 
@@ -193,7 +193,7 @@ import { SharedModule } from '../shared/shared.module';
     UserFilterSearchPipe
   ],
   providers: [
-    ListAreaService, ColumnResizingService, JobDescriptionVersionCompareService, JobDescriptionJobCompareService,
+    ListAreaService, ColumnResizingService, JobDescriptionVersionCompareService,
     ResolveHistoryListGuard, JobDescriptionJobCompareListResolver, JobDescriptionDnDService
   ]
 })

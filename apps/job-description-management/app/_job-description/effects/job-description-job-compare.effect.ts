@@ -86,8 +86,8 @@ export class JobDescriptionJobCompareEffects {
   saveJobDescription$: Observable<Action> = this.actions$
     .pipe(
       ofType(fromJobDescriptionJobCompareActions.SAVE_JOB_DESCRIPTION),
-      switchMap((action: fromJobDescriptionJobCompareActions.SaveJobDescription) =>
-        this.jobDescriptionApiService.save(action.payload.JobDescription, action.payload.IsFirstSave).pipe(
+      switchMap((action: fromJobDescriptionJobCompareActions.SaveJobDescription) => {
+        return this.jobDescriptionApiService.save(action.payload.JobDescription, action.payload.IsFirstSave).pipe(
           mergeMap((response: JobDescription) => {
             const actions = [];
             actions.push(new fromJobDescriptionJobCompareActions.SaveJobDescriptionSuccess(response, action.payload.IsFirstSave));
@@ -99,8 +99,8 @@ export class JobDescriptionJobCompareEffects {
           catchError(error => of(
             new fromJobDescriptionJobCompareActions.SaveJobDescriptionError(
               this.jobDescriptionManagementService.buildErrorModel(error, 'job description', 'job-description-management/job-descriptions'))))
-        )
-      )
+        );
+      })
     );
 
   constructor(
