@@ -30,3 +30,4 @@ export * from './db-entitytype.enum';
 export * from './attachment-file-type.model';
 export * from './kendo-upload-status';
 export * from './kendo-upload.model';
+export * from './file-download-security-warning-type';
