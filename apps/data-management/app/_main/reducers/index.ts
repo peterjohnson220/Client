@@ -237,6 +237,11 @@ export const isFieldMappingPageDirty = createSelector(
   fromFieldMappingReducer.isFieldMappingPageDirty
 );
 
+export const hasReportChanged = createSelector(
+  selectFieldMappingState,
+  fromFieldMappingReducer.hasReportChanged
+);
+
 // Default Paymarkets for Employee field mappings
 export const getDefaultPaymarket = createSelector(
   selectFieldMappingState,
