@@ -28,5 +28,9 @@ export class PricingProjectApiService {
   deleteProjects(projectIds: any[]) {
     return this.payfactorsApiService.post(`${this.endpoint}/DeleteProjects`, projectIds);
   }
+
+  getPricingProject(projectId: number) {
+    return this.payfactorsApiService.get(`${this.endpoint}/GetPricingProject?projectId=${projectId}`);
+  }
 }
 

@@ -1,0 +1,4 @@
+export enum  PageViewIds {
+  Projects = 'CEBF8D79-5553-470A-93FC-BFE5F5BA463B',
+  ProjectJobs = '6080CD02-CA3C-4300-ACC5-6CDC396FEA8E'
+}
