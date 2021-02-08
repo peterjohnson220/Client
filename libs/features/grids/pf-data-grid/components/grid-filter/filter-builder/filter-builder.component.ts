@@ -28,6 +28,7 @@ export class FilterBuilderComponent implements OnChanges {
   filterOperatorOptions = FilterOperatorOptions;
   dataTypes = DataViewFieldDataType;
 
+  stringFilterOperators: FilterOperator[];
   bitFilterOptions = [{
     display: '',
     value: null
@@ -42,7 +43,9 @@ export class FilterBuilderComponent implements OnChanges {
   datePickerValue = null;
   numericInputValue = null;
 
-  constructor(private intlService: IntlService) {}
+  constructor(private intlService: IntlService) {
+    this.stringFilterOperators = this.filterOperatorOptions.string.filter(f => f.value !== 'in');
+  }
 
   ngOnChanges(changes: SimpleChanges) {
     if (this.viewField) {
