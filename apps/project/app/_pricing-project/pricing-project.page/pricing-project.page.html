@@ -6,9 +6,12 @@
   [inboundFilters]="filter"
   [columnTemplates]="colTemplates"
   [selectionField]="'UserJobListTemp_ID'"
-  [navigationURL] = "'./client/dashboard'"
+  [gridConfig]="gridConfig"
+  [defaultSort]="defaultSort"
+  [navigationURL] = "'/client/dashboard'"
   [aboveGridTemplate]="aboveGridTemplate"
-  [noRecordsFound]="'No projects available. Please change your search criteria.'">
+  [pageable]="!gridConfig.EnableInfiniteScroll"
+  [noRecordsFound]="'No jobs available in this project.'">
 </pf-data-grid>
 
 <ng-template #aboveGridTemplate>
@@ -17,7 +20,7 @@
     <div class=" d-flex align-items-center">
     <div class="card pf-card flex-fill m-2">
       <div class="card-body">
-      Add Job
+      Add Jobs
       </div>
     </div>
     <div class="card pf-card flex-fill m-2">
@@ -38,7 +41,7 @@
   <div class="d-flex justify-content-between">
     <div>
       <b>
-        {{dataRow['UserJobListTemp_Job_Title_Override'] || dataRow['UserJobListTemp_Job_Title']}}
+        {{dataRow['UserJobListTemp_Job_Title']}}
       </b>
     </div>
     <div>

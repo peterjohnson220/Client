@@ -2,10 +2,15 @@ import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/
 import {ActivatedRoute} from '@angular/router';
 import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
+import {SortDescriptor} from '@progress/kendo-data-query';
+
+import {GridConfig} from 'libs/features/grids/pf-data-grid/models';
 
 import {PageViewIds} from '../../shared/constants';
 import * as fromPricingProjectActions from '../actions';
 import * as fromPricingProjectReducer from '../reducers';
+
+
 
 
 @Component({
@@ -24,8 +29,21 @@ export class PricingProjectPageComponent implements OnInit, AfterViewInit {
   pageViewId = PageViewIds.ProjectJobs;
   filter = [];
   colTemplates = {};
-  constructor(private route: ActivatedRoute,
-              private store: Store<fromPricingProjectReducer.State>) { }
+  gridConfig: GridConfig;
+  defaultSort: SortDescriptor[] = [{
+    dir: 'asc',
+    field: 'UserJobListTemp_Job_Title'
+  }, {
+    dir: 'asc',
+    field: 'CompanyPayMarkets_PayMarket'
+  }];  constructor(private route: ActivatedRoute,
+              private store: Store<fromPricingProjectReducer.State>) {
+    this.gridConfig = {
+      PersistColumnWidth: true,
+      EnableInfiniteScroll: true,
+      ScrollToTop: true
+    };
+  }
 
   ngOnInit(): void {
     this.initRouterParams();
