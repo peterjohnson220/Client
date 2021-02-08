@@ -8,13 +8,7 @@ exports[`CommunityDashboardPageComponent should show community dashboard page 1`
   disableCommunityAttachments$={[Function Observable]}
   executePageScrollDown="false"
   executePageScrollUp="false"
-  fileDownloadSecurityWarningModal={[Function ElementRef]}
-  fileDownloadSecurityWarningModal_DownloadId$={[Function Store]}
-  fileDownloadSecurityWarningModal_DownloadIdSubscription={[Function Subscriber]}
-  fileDownloadSecurityWarningModal_DownloadType$={[Function Store]}
-  fileDownloadSecurityWarningModal_DownloadTypeSubscription={[Function Subscriber]}
-  fileDownloadSecurityWarningModal_Open$={[Function Store]}
-  fileDownloadSecurityWarningModal_OpenSubscription={[Function Subscriber]}
+  fileDownloadSecurityWarningModal="undefined"
   getHasNextBatchPostsOnServer$={[Function Store]}
   getHasPreviousBatchPostsOnServer$={[Function Store]}
   hasNextBatchOnServer="false"
@@ -164,6 +158,6 @@ exports[`CommunityDashboardPageComponent should show community dashboard page 1`
         </div>
       </div>
     </div>
-  </div><pf-community-attachment-modal /><pf-community-attachment-warning-modal /><pf-community-cancel-post-modal /><pf-community-cancel-post-reply-modal /><pf-file-download-security-warning-modal />
+  </div><pf-community-attachment-modal /><pf-community-attachment-warning-modal /><pf-community-cancel-post-modal /><pf-community-cancel-post-reply-modal /><pf-community-security-warning-modal />
 </pf-community-dashboard-page>
 `;

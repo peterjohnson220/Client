@@ -11,11 +11,8 @@ import { FileDownloadSecurityWarningModalComponent } from 'libs/ui/common/file-d
 
 import * as fromCommunityReducers from '../../../reducers';
 import * as  fromCommunityPostActions from '../../../actions/community-post.actions';
-import * as fromCommunityPollResponseActions from '../../../actions/community-poll-response.actions';
 import { CommunityPostsComponent } from '../../community-posts';
 import { CommunityConstants } from '../../../models';
-import * as fromCommunityFileDownloadSecurityWarningActions from '../../../actions/community-file-download-security-warning.actions';
-import { DownloadTypeEnum } from '../../../models/download-type.enum';
 
 declare var InitializeUserVoice: any;
 
@@ -36,18 +33,11 @@ export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
   loadingPreviousBatchCommunityPosts$: Observable<boolean>;
   getHasPreviousBatchPostsOnServer$: Observable<boolean>;
   getHasNextBatchPostsOnServer$: Observable<boolean>;
-  fileDownloadSecurityWarningModal_Open$: Observable<boolean>;
-  fileDownloadSecurityWarningModal_DownloadId$: Observable<string>;
-  fileDownloadSecurityWarningModal_DownloadType$: Observable<string>;
   showFileDownloadSecurityWarning$: Observable<boolean>;
-
   loadingNextBatchCommunityPostsSubscription: Subscription;
   loadingPreviousBatchCommunityPostsSubscription: Subscription;
   hasPreviousBatchResultsOnServerSubscription: Subscription;
   hasNextBatchResultsOnServerSubscription: Subscription;
-  fileDownloadSecurityWarningModal_OpenSubscription: Subscription;
-  fileDownloadSecurityWarningModal_DownloadIdSubscription: Subscription;
-  fileDownloadSecurityWarningModal_DownloadTypeSubscription: Subscription;
   showFileDownloadSecurityWarningSubscription: Subscription;
   hasPreviousBatchOnServer = false;
   hasNextBatchOnServer = false;
@@ -73,8 +63,6 @@ export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
   postsChangedObserver: any;
   targetNode: any;
   observerOptions: any;
-  fileDownloadSecurityWarningModal_DownloadId: string;
-  fileDownloadSecurityWarningModal_DownloadType: string;
   showFileDownloadSecurityWarning: boolean;
 
   constructor(public store: Store<fromCommunityReducers.State>,
@@ -87,9 +75,6 @@ export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
     this.getHasPreviousBatchPostsOnServer$ = this.store.select(fromCommunityReducers.getHasPreviousBatchPostsOnServer);
     this.getHasNextBatchPostsOnServer$ = this.store.select(fromCommunityReducers.getHasNextBatchPostsOnServer);
     this.disableCommunityAttachments$ = this.settingService.selectCompanySetting<boolean>(CompanySettingsEnum.CommunityDisableAttachments);
-    this.fileDownloadSecurityWarningModal_Open$ = this.store.select(fromCommunityReducers.getCurrentFileDownloadSecurityWarningModalState);
-    this.fileDownloadSecurityWarningModal_DownloadId$ = this.store.select(fromCommunityReducers.getCurrentFileDownloadSecurityWarningDownloadId);
-    this.fileDownloadSecurityWarningModal_DownloadType$ = this.store.select(fromCommunityReducers.getCurrentFileDownloadSecurityWarningDownloadType);
     this.showFileDownloadSecurityWarning$ = this.settingService.selectCompanySetting<boolean>(CompanySettingsEnum.FileDownloadSecurityWarning);
 
     /* Using this to prevent sticky-top from being applied in Edge/IE due to a visual glitch
@@ -277,24 +262,6 @@ export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.fileDownloadSecurityWarningModal_OpenSubscription = this.fileDownloadSecurityWarningModal_Open$.subscribe(isOpen => {
-      if (isOpen === true) {
-        this.fileDownloadSecurityWarningModal.open();
-      }
-    });
-
-    this.fileDownloadSecurityWarningModal_DownloadIdSubscription = this.fileDownloadSecurityWarningModal_DownloadId$.subscribe(downloadId => {
-      if (downloadId) {
-        this.fileDownloadSecurityWarningModal_DownloadId = downloadId;
-      }
-    });
-
-    this.fileDownloadSecurityWarningModal_DownloadTypeSubscription = this.fileDownloadSecurityWarningModal_DownloadType$.subscribe(downloadType => {
-      if (downloadType) {
-        this.fileDownloadSecurityWarningModal_DownloadType = downloadType;
-      }
-    });
-
     this.showFileDownloadSecurityWarningSubscription = this.showFileDownloadSecurityWarning$.subscribe(value => {
       if (value != null) {
         this.showFileDownloadSecurityWarning = value;
@@ -323,18 +290,6 @@ export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
       this.hasNextBatchResultsOnServerSubscription.unsubscribe();
     }
 
-    if (this.fileDownloadSecurityWarningModal_OpenSubscription) {
-      this.fileDownloadSecurityWarningModal_OpenSubscription.unsubscribe();
-    }
-
-    if (this.fileDownloadSecurityWarningModal_DownloadIdSubscription) {
-      this.fileDownloadSecurityWarningModal_DownloadIdSubscription.unsubscribe();
-    }
-
-    if (this.fileDownloadSecurityWarningModal_DownloadTypeSubscription) {
-      this.fileDownloadSecurityWarningModal_DownloadTypeSubscription.unsubscribe();
-    }
-
     if (this.showFileDownloadSecurityWarningSubscription) {
       this.showFileDownloadSecurityWarningSubscription.unsubscribe();
     }
@@ -342,25 +297,5 @@ export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
 
   routeToSearchResults(searchString) {
     this.router.navigate(['/search-results'], { queryParams: { query: searchString } });
-  }
-
-  handleSecurityWarningConfirmed(isConfirmed) {
-    if (isConfirmed) {
-      switch (this.fileDownloadSecurityWarningModal_DownloadType) {
-        case DownloadTypeEnum.CommunityUserPollExport: {
-          this.store.dispatch(new fromCommunityPollResponseActions.ExportingCommunityUserPollResponses(this.fileDownloadSecurityWarningModal_DownloadId));
-          break;
-        }
-        case DownloadTypeEnum.CommunityAttachment: {
-          window.location.href = this.fileDownloadSecurityWarningModal_DownloadId;
-          break;
-        }
-      }
-    }
-    this.store.dispatch(new fromCommunityFileDownloadSecurityWarningActions.CloseCommunityFileDownloadSecurityWarningModal());
-  }
-
-  handleSecurityWarningCancelled() {
-    this.store.dispatch(new fromCommunityFileDownloadSecurityWarningActions.CloseCommunityFileDownloadSecurityWarningModal());
   }
 }
