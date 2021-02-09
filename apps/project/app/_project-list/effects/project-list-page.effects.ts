@@ -95,25 +95,38 @@ export class ProjectListPageEffects {
         return of(action).pipe(
           withLatestFrom(
             this.store.select(fromPfDataGridReducer.getSelectedKeys, PageViewIds.Projects),
-            (autoShareAction: fromProjectListPageActions.BulkProjectShare, selectedRecordIds: number[]) =>
-              ({autoShareAction, selectedRecordIds}) // Return new observable with only what is required for the subsequent switchMap.
+            this.store.select(fromProjectListPageReducer.getSingleProjectShareId),
+            (autoShareAction: fromProjectListPageActions.BulkProjectShare, selectedRecordIds: number[], shareIdFromRowAction: number) =>
+              ({autoShareAction, selectedRecordIds, shareIdFromRowAction}) // Return new observable with only what is required for the subsequent switchMap.
           )
         );
       }),
       switchMap((data) => {
+        let projectIds: number[] = [];
+
+        if (data.shareIdFromRowAction != null) {
+          projectIds.push(data.shareIdFromRowAction);
+        } else {
+          projectIds = data.selectedRecordIds;
+        }
+
         const request: BulkProjectShareRequest = {
           UserIds: data.autoShareAction.payload.UserIds,
-          ProjectIds: data.selectedRecordIds,
+          ProjectIds: projectIds,
           Message: data.autoShareAction.customMessage
         };
 
         return this.pricingProjectApiService.bulkProjectShare(request)
           .pipe(
-            map(() => new fromProjectListPageActions.BulkProjectShareSuccess()),
+            mergeMap(() => {
+              return [
+                new fromProjectListPageActions.ClearSingleProjectShareId(),
+                new fromProjectListPageActions.BulkProjectShareSuccess(),
+                new fromPfDataGridActions.LoadData(PageViewIds.Projects)
+              ];
+            }),
             catchError(() => of(new fromProjectListPageActions.BulkProjectShareError()))
           );
       })
     );
-
-
 }
