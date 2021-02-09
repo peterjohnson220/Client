@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
 
-import { PayfactorsApiService } from '../payfactors-api.service';
-import { CreateProjectRequest, MatchedSurveyJob } from 'libs/models/payfactors-api';
+import { Observable } from 'rxjs';
+
+import { CreateProjectRequest } from 'libs/models/payfactors-api';
 import { BaseUrlLocation } from 'libs/models/payfactors-api/common/base-url-location.enum';
+
+import { PayfactorsApiService } from '../payfactors-api.service';
 
 @Injectable({
   providedIn: 'root',
@@ -25,7 +28,8 @@ export class JobsApiService {
         CompanyJobIds: request.CompanyJobIds,
         PricingIds: request.PricingIds,
         FileExtension: request.FileExtension,
-        Name: request.Name
+        Name: request.Name,
+        PageViewId: request.PageViewId
       });
     } else {
       return this.payfactorsApiService.downloadFile(`${this.frontEndExportEndpoint}/${request.Endpoint}`, {
@@ -47,5 +51,11 @@ export class JobsApiService {
 
   getPricingCuts(request: any) {
     return this.payfactorsApiService.post<any>(`${this.endpoint}/GetPricingCuts`, request);
+  }
+
+  getRunningExport(pageViewId: string): Observable<string> {
+    return this.payfactorsApiService.post<string>(`${this.endpoint}/GetRunningExport`, {
+      PageViewId: pageViewId
+    });
   }
 }

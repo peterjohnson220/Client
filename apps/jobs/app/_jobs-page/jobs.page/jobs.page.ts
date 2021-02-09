@@ -27,6 +27,7 @@ import { SurveySearchFilterMappingDataObj, SurveySearchUserFilterType } from 'li
 import { SearchFeatureIds } from 'libs/features/search/search/enums/search-feature-ids';
 import { SettingsService } from 'libs/state/app-context/services';
 import { FileDownloadSecurityWarningModalComponent } from 'libs/ui/common';
+import { AppNotification, NotificationLevel } from 'libs/features/infrastructure/app-notifications';
 import * as fromRootState from 'libs/state/state';
 import * as fromModifyPricingsActions from 'libs/features/pricings/multi-match/actions';
 import * as fromModifyPricingsReducer from 'libs/features/pricings/multi-match/reducers';
@@ -35,6 +36,7 @@ import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducer
 import * as fromJobManagementActions from 'libs/features/jobs/job-management/actions';
 import * as fromSearchPageActions from 'libs/features/search/search/actions/search-page.actions';
 import * as fromSearchFeatureActions from 'libs/features/search/search/actions/search-feature.actions';
+import * as fromAppNotificationsMainReducer from 'libs/features/infrastructure/app-notifications/reducers';
 
 import { PageViewIds } from '../constants';
 import { ShowingActiveJobs } from '../pipes';
@@ -77,9 +79,14 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   structureGradeNameSubscription: Subscription;
   selectedJobDataSubscription: Subscription;
   companySettingsSubscription: Subscription;
+  getExportEventIdSubscription: Subscription;
+  getNotificationSubscription: Subscription;
 
   selectedRecordId$: Observable<number>;
   canEditJobCompanySetting$: Observable<boolean>;
+  getExportEventId$: Observable<AsyncStateObj<string>>;
+  getNotification$: Observable<AppNotification<any>[]>;
+  exporting$: Observable<boolean>;
 
   colTemplates = {};
   filterTemplates = {};
@@ -166,6 +173,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     SourceName: 'Status',
     FilterDisplayOptions: this.pricingReviewedDropdownDisplayOptions
   }];
+  exportEventId: string;
 
   @ViewChild('gridRowActionsTemplate') gridRowActionsTemplate: ElementRef;
   @ViewChild('jobTitleColumn') jobTitleColumn: ElementRef;
@@ -187,7 +195,8 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     private store: Store<fromJobsPageReducer.State>,
     private actionsSubject: ActionsSubject,
     private companyJobApiService: CompanyJobApiService,
-    private settingsService: SettingsService
+    private settingsService: SettingsService,
+    private appNotificationStore: Store<fromAppNotificationsMainReducer.State>,
   ) {
     this.gridConfig = {
       PersistColumnWidth: true,
@@ -207,6 +216,9 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.updatingPricing$ = this.store.select(fromJobsPageReducer.getUpdatingPricing);
     this.pricingsToModify$ = this.store.select(fromModifyPricingsReducer.getPricingsToModify);
     this.canEditJobCompanySetting$ = this.settingsService.selectCompanySetting<boolean>(CompanySettingsEnum.CanEditJob);
+    this.getNotification$ = this.appNotificationStore.select(fromAppNotificationsMainReducer.getNotifications);
+    this.getExportEventId$ = this.store.select(fromJobsPageReducer.getExportEventId);
+    this.exporting$ = this.store.select(fromJobsPageReducer.getExporting);
 
     this.companyPayMarketsSubscription = this.store.select(fromJobsPageReducer.getCompanyPayMarkets)
       .subscribe(o => this.payMarketOptions = o);
@@ -312,6 +324,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
         this.store.dispatch(new fromPfDataGridActions.ClearSelections(PageViewIds.PayMarkets));
         this.store.dispatch(new fromPfDataGridActions.LoadDataAndAddFadeInKeys(PageViewIds.PayMarkets, payMarketGridAttentionGrabKeys));
       });
+    this.initExportingSubscription();
 
     this.actionBarConfig = {
       ...getDefaultActionBarConfig(),
@@ -323,6 +336,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.store.dispatch(new fromJobsPageActions.LoadCompanyPayMarkets());
     this.store.dispatch(new fromJobsPageActions.LoadStructureGrades());
     this.store.dispatch(new fromJobsPageActions.LoadCustomExports());
+    this.store.dispatch(new fromJobsPageActions.GetRunningExport(this.pageViewId));
   }
 
   ngAfterViewInit() {
@@ -423,6 +437,8 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.deletingJobSuccessSubscription.unsubscribe();
     this.loadViewConfigSuccessSubscription.unsubscribe();
     this.multiMatchSaveChangesSubscription.unsubscribe();
+    this.getExportEventIdSubscription.unsubscribe();
+    this.getNotificationSubscription.unsubscribe();
   }
 
   closeSplitView() {
@@ -503,7 +519,8 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
       PricingIds: this.selectedPricingIds,
       FileExtension: this.exportRequest.Extension,
       Endpoint: this.exportRequest.Options.Endpoint,
-      Name: this.exportRequest.Options.Name
+      Name: this.exportRequest.Options.Name,
+      PageViewId: this.pageViewId
     };
 
     this.store.dispatch(new fromJobsPageActions.ExportPricings(request));
@@ -543,5 +560,20 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.store.dispatch(new fromSearchFeatureActions.SetSearchFeatureId(SearchFeatureIds.MultiMatch));
     this.store.dispatch(new fromSearchPageActions.SetUserFilterTypeData(SurveySearchUserFilterType));
     this.store.dispatch(new fromModifyPricingsActions.GetPricingsToModify(payload));
+  }
+
+  private initExportingSubscription(): void {
+    this.getExportEventIdSubscription = this.getExportEventId$.subscribe(eventIdAsync => {
+      if (!eventIdAsync?.loading && eventIdAsync.obj !== this.exportEventId) {
+        this.exportEventId = eventIdAsync.obj;
+      }
+    });
+    this.getNotificationSubscription = this.getNotification$.subscribe(notification => {
+      const completeNotification = notification.find((x) =>
+        (x.Level === NotificationLevel.Success || x.Level === NotificationLevel.Error) && x.NotificationId === this.exportEventId);
+      if (completeNotification) {
+        this.store.dispatch(new fromJobsPageActions.ExportingComplete());
+      }
+    });
   }
 }
