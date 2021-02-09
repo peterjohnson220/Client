@@ -229,8 +229,7 @@ export class ProjectListPageComponent implements AfterViewInit, OnInit, OnDestro
   }
 
   openShareFromActions(projectId: number) {
-    this.store.dispatch(new fromPfDataGridActions.ClearSelections(this.pageViewId));
-    this.store.dispatch(new fromPfDataGridActions.UpdateSelectedKey(this.pageViewId, projectId));
+    this.store.dispatch(new fromProjectListPageActions.SaveSingleProjectShareId(projectId));
     this.openShareModal();
   }
 

@@ -10,6 +10,8 @@ export const DELETE_PROJECTS_SUCCESS = '[Project List Page] Delete Projects Succ
 export const BULK_PROJECT_SHARE = '[Project List Page] Bulk Project Share';
 export const BULK_PROJECT_SHARE_SUCCESS = '[Project List Page] Bulk Project Share Success';
 export const BULK_PROJECT_SHARE_ERROR = '[Project List Page] Bulk Project Share Error';
+export const SAVE_SINGLE_PROJECT_SHARE_ID = '[Project List Page] Save Single Project Share Id';
+export const CLEAR_SINGLE_PROJECT_SHARE_ID = '[Project List Page] Clear Single Project Share Id';
 
 export class TogglePinOnDashboard implements Action {
   readonly type = TOGGLE_PIN_ON_DASHBOARD;
@@ -59,6 +61,20 @@ export class BulkProjectShareError implements Action {
   constructor() {}
 }
 
+export class SaveSingleProjectShareId implements Action {
+  readonly type = SAVE_SINGLE_PROJECT_SHARE_ID;
+
+  constructor(public payload: number) {
+  }
+}
+
+export class ClearSingleProjectShareId implements Action {
+  readonly type = CLEAR_SINGLE_PROJECT_SHARE_ID;
+
+  constructor() {
+  }
+}
+
 export type ProjectListPageActions
   = TogglePinOnDashboard
   | TogglePinOnDashboardSuccess
@@ -68,4 +84,6 @@ export type ProjectListPageActions
   | DeleteProjectsSuccess
   | BulkProjectShare
   | BulkProjectShareSuccess
-  | BulkProjectShareError;
+  | BulkProjectShareError
+  | SaveSingleProjectShareId
+  | ClearSingleProjectShareId;

@@ -22,3 +22,6 @@ export const selectProjectListPageMainState =
 
 export const selectProjectListPageState =
     createSelector(selectProjectListPageMainState, (state: ProjectListPageStateMain) => state.projectListPage);
+
+// property selectors
+export const getSingleProjectShareId = createSelector(selectProjectListPageState, fromProjectListPageReducer.getSingleProjectShareId);
