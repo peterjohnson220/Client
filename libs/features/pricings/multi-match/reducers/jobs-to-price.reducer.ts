@@ -2,11 +2,12 @@ import cloneDeep from 'lodash/cloneDeep';
 
 import { JobMatchCut } from 'libs/models/payfactors-api';
 import { arraySortByString, SortDirection } from 'libs/core/functions';
-import { SurveySearchResultDataSources } from 'libs/constants';
+import { SurveySearchResultDataSources, PricingMatchEntityTypes } from 'libs/constants';
 
 import * as fromJobsToPriceActions from '../actions/jobs-to-price.actions';
 import { JobToPrice } from '../models';
 import { DataCutDetails } from '../../../surveys/survey-search/models';
+import { PricingMatchTypes } from '../../pricing-match/constants';
 
 export interface EditableTempDataCut {
   CompanyJobId: number;
@@ -173,8 +174,11 @@ export function reducer(state = initialState, action: fromJobsToPriceActions.Job
 function mapDataCutToMatchCut(jobCuts: DataCutDetails[]): JobMatchCut[] {
   return jobCuts.map(jobCut => {
     return {
+      MatchId: getMatchId(jobCut),
+      MatchType: getMatchType(jobCut),
       JobTitle: jobCut.Job.Title,
       JobCode: jobCut.Job.Code,
+      MatchSourceCode: getMatchSourceCode(jobCut),
       Source: getJobSource(jobCut),
       Base50: Number(jobCut.Base50th),
       TCC50: Number(jobCut.TCC50th),
@@ -214,6 +218,57 @@ function getJobSource(jobCut: DataCutDetails): string {
   }
 }
 
+function getMatchSourceCode(jobCut: DataCutDetails): string {
+  switch (jobCut.DataSource) {
+    case SurveySearchResultDataSources.Surveys:
+      return PricingMatchTypes.SURVEY;
+    case SurveySearchResultDataSources.Peer:
+      return PricingMatchTypes.PEER;
+    default:
+      return PricingMatchTypes.MD_JOB;
+  }
+}
+
+function getMatchId(jobCut: DataCutDetails): any {
+  if (jobCut.DataSource === SurveySearchResultDataSources.Payfactors && jobCut.SurveyJobCode) {
+    return jobCut.SurveyJobCode;
+  } else {
+    const serverInfo = jobCut.ServerInfo;
+
+    if (serverInfo) {
+      if (serverInfo.DailyScopeAvgId) {
+        return serverInfo.DailyScopeAvgId;
+      } else if (serverInfo.DailyNatAvgId) {
+        return serverInfo.DailyNatAvgId;
+      } else if (serverInfo.SurveyDataId) {
+        return serverInfo.SurveyDataId;
+      } else if (serverInfo.CustomPeerCutId) {
+        return serverInfo.CustomPeerCutId;
+      }
+    }
+  }
+}
+
+function getMatchType(jobCut: DataCutDetails): PricingMatchEntityTypes {
+  if (jobCut.DataSource === SurveySearchResultDataSources.Payfactors && jobCut.SurveyJobCode) {
+    return PricingMatchEntityTypes.MDJobCode;
+  } else {
+    const serverInfo = jobCut.ServerInfo;
+
+    if (serverInfo) {
+      if (serverInfo.DailyScopeAvgId) {
+        return PricingMatchEntityTypes.DailyScopeAvgId;
+      } else if (serverInfo.DailyNatAvgId) {
+        return PricingMatchEntityTypes.DailyNatAvgId;
+      } else if (serverInfo.SurveyDataId) {
+        return PricingMatchEntityTypes.SurveyDataId;
+      } else if (serverInfo.CustomPeerCutId) {
+        return PricingMatchEntityTypes.CustomPeerCutId;
+      }
+    }
+  }
+}
+
 function addJobCuts(jobToPrice: JobToPrice, newDataCuts: DataCutDetails[]) {
   jobToPrice.JobMatchCuts = jobToPrice.JobMatchCuts || [];
   jobToPrice.JobMatchCuts = jobToPrice.JobMatchCuts.concat(mapDataCutToMatchCut(newDataCuts));
@@ -226,11 +281,11 @@ function addJobCuts(jobToPrice: JobToPrice, newDataCuts: DataCutDetails[]) {
 }
 
 function removeJobMatchCut(jobToPrice: JobToPrice, cutToRemove: JobMatchCut) {
-  if (cutToRemove.UserJobMatchId) {
+  if (cutToRemove.MatchId) {
     // remove job match cut and track deleted id
-    jobToPrice.JobMatchCuts = jobToPrice.JobMatchCuts.filter(x => x.UserJobMatchId !== cutToRemove.UserJobMatchId);
+    jobToPrice.JobMatchCuts = jobToPrice.JobMatchCuts.filter(x => x.MatchId !== cutToRemove.MatchId);
     jobToPrice.DeletedJobMatchCutIds = jobToPrice.DeletedJobMatchCutIds || [];
-    jobToPrice.DeletedJobMatchCutIds.push(cutToRemove.UserJobMatchId);
+    jobToPrice.DeletedJobMatchCutIds.push(cutToRemove.MatchId);
   } else {
     // new data cut filter
     const cutFilter = x => x.CutFilterId === cutToRemove.CutFilterId;

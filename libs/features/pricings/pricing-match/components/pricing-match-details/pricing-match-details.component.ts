@@ -29,9 +29,9 @@ export class PricingMatchDetailsComponent implements OnInit, OnChanges {
           const scopeDescription = `${this.pricingMatch.IndustryValue ? industry + '/ ' : ''}
             ${this.pricingMatch.SizeValue ? size + '/ ' : ''}
             ${this.pricingMatch.GeoValue ? location : ''}`.trim();
-          this.scope = `${this.pricingMatch.Name}${scopeDescription ? ' - ' + scopeDescription : ''}`;
+          this.scope = `${this.pricingMatch.Name ? this.pricingMatch.Name : ''}${scopeDescription ? ' - ' + scopeDescription : ''}`;
 
-          this.source = `Payfactors effective`;
+          this.source = this.pricingMatch.EffectiveDate ? `Payfactors effective` : null;
           break;
         case PricingMatchTypes.SURVEY:
           this.source = `${this.pricingMatch.Publisher} ${this.pricingMatch.SurveyName} effective`;

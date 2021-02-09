@@ -103,7 +103,8 @@
   <div class="pricingMatch">
     <pf-pricing-match
       [pricingId]="dataRow['CompanyJobs_PricingsMatches_CompanyJobPricing_ID']"
-      [matchId]="dataRow['CompanyJobs_PricingsMatches_CompanyJobPricingMatch_ID']"
+      [entityId]="dataRow['CompanyJobs_PricingsMatches_CompanyJobPricingMatch_ID']"
+      [entityType]="'CompanyJobPricingMatchId'"
       [matchType]="dataRow | pricingMatchType"
     ></pf-pricing-match>
   </div>

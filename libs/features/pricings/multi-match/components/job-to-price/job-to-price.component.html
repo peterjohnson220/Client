@@ -67,13 +67,15 @@
         </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let dataCut of job.JobMatchCuts" [class.highlight]="dataCut.UserJobMatchId == null">
+          <tr *ngFor="let dataCut of job.JobMatchCuts" [class.highlight]="dataCut.MatchType != 'UserJobMatchId' && dataCut.MatchType != 'CompanyJobPricingMatchId'">
             <td *ngIf="featureImplementation == modifyPricingsImplementation">{{dataCut.MatchWeight}}</td>
             <td *ngIf="featureImplementation == modifyPricingsImplementation">{{dataCut.MatchAdjustment}}</td>
             <td class="scope-cell">
-              <div><span class="job-title link" (click)="handleDataCutClick(job, dataCut)">
-                {{dataCut.JobTitle}} </span><span class="job-code">({{dataCut.JobCode}}) </span> </div>
-              <div class="paymarket"> {{dataCut.Source}} </div>
+              <pf-job-match-cut-title
+                [job]="job"
+                [dataCut]="dataCut"
+                (editCut)="handleDataCutClick(job, dataCut)">
+            </pf-job-match-cut-title>
             </td>
             <td *ngIf="featureImplementation == modifyPricingsImplementation" class="text-nowrap">
               <span *ngIf="dataCut.WeightingType=='I'">Incs ({{dataCut?.Incs || '-'}})</span>
@@ -117,4 +119,3 @@
     <fa-icon icon="exclamation-triangle" class="icon"></fa-icon> Error loading data cuts. Please try again later.
   </div>
 </ng-template>
-
