@@ -70,8 +70,4 @@
 <pf-community-attachment-warning-modal [showFileDownloadSecurityWarning]="showFileDownloadSecurityWarning"></pf-community-attachment-warning-modal>
 <pf-community-cancel-post-modal></pf-community-cancel-post-modal>
 <pf-community-cancel-post-reply-modal></pf-community-cancel-post-reply-modal>
-<pf-file-download-security-warning-modal
-  #fileDownloadSecurityWarningModal
-  (securityWarningConfirmed)="handleSecurityWarningConfirmed($event)"
-  (securityWarningCancelled)="handleSecurityWarningCancelled()">
-</pf-file-download-security-warning-modal>
+<pf-community-security-warning-modal></pf-community-security-warning-modal>

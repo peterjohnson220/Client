@@ -1,7 +1,7 @@
 <ng-template #fileDownloadSecurityWarningModal let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h4 class="modal-title">File Download - Security Warning</h4>
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+    <button type="button" class="close" aria-label="Close" (click)="handleSecurityWarningCancelled()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
