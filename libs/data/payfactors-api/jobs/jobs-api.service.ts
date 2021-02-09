@@ -19,12 +19,22 @@ export class JobsApiService {
   }
 
   exportPricings(request: any) {
-    return this.payfactorsApiService.downloadFile(`${this.frontEndExportEndpoint}/${request.Endpoint}`, {
-      CompanyJobIds: request.CompanyJobIds,
-      PricingIds: request.PricingIds,
-      FileExtension: request.FileExtension,
-      Name: request.Name
-    }, null, false, BaseUrlLocation.FrontEnd, true, true);
+
+    if (request.Endpoint === 'ExportPricings') {
+      return this.payfactorsApiService.post<any>(`${this.endpoint}/${request.Endpoint}`, {
+        CompanyJobIds: request.CompanyJobIds,
+        PricingIds: request.PricingIds,
+        FileExtension: request.FileExtension,
+        Name: request.Name
+      });
+    } else {
+      return this.payfactorsApiService.downloadFile(`${this.frontEndExportEndpoint}/${request.Endpoint}`, {
+          CompanyJobIds: request.CompanyJobIds,
+          PricingIds: request.PricingIds,
+          FileExtension: request.FileExtension,
+          Name: request.Name
+        }, null, false, BaseUrlLocation.FrontEnd, true, true);
+    }
   }
 
   loadCustomExports() {
