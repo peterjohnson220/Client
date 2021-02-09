@@ -13,6 +13,14 @@ pf-trs-calculation-control {
   }
 }
 
+.pf-styled-template {
+  pf-trs-calculation-control {
+    .secondary-header {
+      padding-bottom: 1rem;
+    }
+  }
+}
+
 pf-trs-image-control {
   // Custom CSS to adjust Kendo Upload component
   .trs-image {

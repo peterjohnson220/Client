@@ -26,8 +26,9 @@ exports[`TrsCalculationControlComponent should display contribution values and t
         <col
           class="field-column"
         />
+        
         <col
-          class="contribution-column"
+          class="employer-contribution-column"
         />
         
       </colgroup>
@@ -37,6 +38,7 @@ exports[`TrsCalculationControlComponent should display contribution values and t
         >
           <th
             class="font-weight-normal"
+            colspan="2"
             scope="col"
           >
             
@@ -56,15 +58,8 @@ exports[`TrsCalculationControlComponent should display contribution values and t
               </pf-string-editor>
             </h4>
           </th>
-          <th
-            class="secondary-header align-middle text-right font-weight-normal"
-            scope="col"
-          >
-            
-            <span>
-              Contribution
-            </span>
-          </th>
+          
+          
           
         </tr>
       </thead>
@@ -85,6 +80,203 @@ exports[`TrsCalculationControlComponent should display contribution values and t
               </span>
               
             </pf-string-editor>
+          </td>
+          
+          <td
+            class="contribution-field text-right preview-mode-animation"
+          >
+            
+            <span>
+              150000
+            </span>
+          </td>
+          
+        </tr>
+        <tr
+          class="trs-calculation-row w-100"
+        >
+          <td>
+            <pf-string-editor>
+              
+              <span
+                class="wrapper w-100 d-inline-block"
+              >
+                <span>
+                  Bonus
+                </span>
+              </span>
+              
+            </pf-string-editor>
+          </td>
+          
+          <td
+            class="contribution-field text-right preview-mode-animation"
+          >
+            
+            <span>
+              10000
+            </span>
+          </td>
+          
+        </tr>
+        <tr
+          class="trs-calculation-row w-100"
+        >
+          <td>
+            <pf-string-editor>
+              
+              <span
+                class="wrapper w-100 d-inline-block"
+              >
+                <span>
+                  Short Term Incentive
+                </span>
+              </span>
+              
+            </pf-string-editor>
+          </td>
+          
+          <td
+            class="contribution-field text-right preview-mode-animation"
+          >
+            
+            <span>
+              5000
+            </span>
+          </td>
+          
+        </tr>
+        <tr
+          class="trs-calculation-row w-100"
+        >
+          <td
+            class="summary"
+            pfstatementgraphicsdirective=""
+          >
+            <pf-string-editor>
+              
+              <span
+                class="wrapper w-100 d-inline-block"
+              >
+                <span>
+                  
+                </span>
+              </span>
+              
+            </pf-string-editor>
+          </td>
+          
+          <td
+            class="contribution-field summary text-right preview-mode-animation"
+          >
+            
+            <span>
+              165000
+            </span>
+          </td>
+          
+        </tr>
+      </tbody>
+    </table>
+    
+  </div>
+</pf-trs-calculation-control>
+`;
+
+exports[`TrsCalculationControlComponent should display field if employer does not have a value and employee has a value with showEmployeeContributions enabled 1`] = `
+<pf-trs-calculation-control
+  MAX_VISIBLE_FIELDS={[Function Number]}
+  consolidated={[Function Number]}
+  controlData={[Function Object]}
+  currencyPipe={[Function Object]}
+  employeeRewardsData={[Function Object]}
+  maxVisibleFieldsReached="false"
+  mode={[Function Number]}
+  onCompFieldAdded={[Function EventEmitter]}
+  onCompFieldRemoved={[Function EventEmitter]}
+  onCompFieldTitleChange={[Function EventEmitter]}
+  onTitleChange={[Function EventEmitter]}
+  onUpdateSummaryTitleChange={[Function EventEmitter]}
+  showDecimals={[Function Boolean]}
+  showEmployeeContributions={[Function Boolean]}
+>
+  <div
+    class="trs-calculation py-2 px-1"
+    pfmodeclassifierdirective=""
+  >
+    <table
+      class="table table-borderless table-sm mb-0 w-100"
+    >
+      <colgroup>
+        <col
+          class="field-column"
+        />
+        
+        <col
+          class="employee-contribution-column"
+        />
+        <col
+          class="employer-contribution-column"
+        />
+        
+      </colgroup>
+      <thead>
+        <tr
+          class="trs-calculation-row w-100"
+        >
+          <th
+            class="font-weight-normal"
+            colspan="3"
+            scope="col"
+          >
+            
+            <h4
+              class="primary-control-heading mb-1"
+            >
+              <pf-string-editor>
+                
+                <span
+                  class="wrapper w-100 d-inline-block"
+                >
+                  <span>
+                    Cash Compensation
+                  </span>
+                </span>
+                
+              </pf-string-editor>
+            </h4>
+          </th>
+          
+          
+          
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr
+          class="trs-calculation-row w-100"
+        >
+          <td>
+            <pf-string-editor>
+              
+              <span
+                class="wrapper w-100 d-inline-block"
+              >
+                <span>
+                  Base Salary
+                </span>
+              </span>
+              
+            </pf-string-editor>
+          </td>
+          
+          <td
+            class="contribution-field text-right preview-mode-animation"
+          >
+            
+            <span>
+              
+            </span>
           </td>
           <td
             class="contribution-field text-right preview-mode-animation"
@@ -112,6 +304,15 @@ exports[`TrsCalculationControlComponent should display contribution values and t
               
             </pf-string-editor>
           </td>
+          
+          <td
+            class="contribution-field text-right preview-mode-animation"
+          >
+            
+            <span>
+              
+            </span>
+          </td>
           <td
             class="contribution-field text-right preview-mode-animation"
           >
@@ -137,6 +338,15 @@ exports[`TrsCalculationControlComponent should display contribution values and t
               </span>
               
             </pf-string-editor>
+          </td>
+          
+          <td
+            class="contribution-field text-right preview-mode-animation"
+          >
+            
+            <span>
+              
+            </span>
           </td>
           <td
             class="contribution-field text-right preview-mode-animation"
@@ -166,6 +376,825 @@ exports[`TrsCalculationControlComponent should display contribution values and t
               </span>
               
             </pf-string-editor>
+          </td>
+          
+          <td
+            class="contribution-field summary text-right preview-mode-animation"
+          >
+            
+            <span>
+              
+            </span>
+          </td>
+          <td
+            class="contribution-field summary text-right preview-mode-animation"
+          >
+            
+            <span>
+              165000
+            </span>
+          </td>
+          
+        </tr>
+      </tbody>
+    </table>
+    
+  </div>
+</pf-trs-calculation-control>
+`;
+
+exports[`TrsCalculationControlComponent should display field if employer has a value and employee does not have a value with showEmployeeContributions disabled 1`] = `
+<pf-trs-calculation-control
+  MAX_VISIBLE_FIELDS={[Function Number]}
+  consolidated={[Function Number]}
+  controlData={[Function Object]}
+  currencyPipe={[Function Object]}
+  employeeRewardsData={[Function Object]}
+  maxVisibleFieldsReached="false"
+  mode={[Function Number]}
+  onCompFieldAdded={[Function EventEmitter]}
+  onCompFieldRemoved={[Function EventEmitter]}
+  onCompFieldTitleChange={[Function EventEmitter]}
+  onTitleChange={[Function EventEmitter]}
+  onUpdateSummaryTitleChange={[Function EventEmitter]}
+  showDecimals={[Function Boolean]}
+  showEmployeeContributions="false"
+>
+  <div
+    class="trs-calculation py-2 px-1"
+    pfmodeclassifierdirective=""
+  >
+    <table
+      class="table table-borderless table-sm mb-0 w-100"
+    >
+      <colgroup>
+        <col
+          class="field-column"
+        />
+        
+        <col
+          class="employer-contribution-column"
+        />
+        
+      </colgroup>
+      <thead>
+        <tr
+          class="trs-calculation-row w-100"
+        >
+          <th
+            class="font-weight-normal"
+            colspan="2"
+            scope="col"
+          >
+            
+            <h4
+              class="primary-control-heading mb-1"
+            >
+              <pf-string-editor>
+                
+                <span
+                  class="wrapper w-100 d-inline-block"
+                >
+                  <span>
+                    Cash Compensation
+                  </span>
+                </span>
+                
+              </pf-string-editor>
+            </h4>
+          </th>
+          
+          
+          
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr
+          class="trs-calculation-row w-100"
+        >
+          <td>
+            <pf-string-editor>
+              
+              <span
+                class="wrapper w-100 d-inline-block"
+              >
+                <span>
+                  Base Salary
+                </span>
+              </span>
+              
+            </pf-string-editor>
+          </td>
+          
+          <td
+            class="contribution-field text-right preview-mode-animation"
+          >
+            
+            <span>
+              150000
+            </span>
+          </td>
+          
+        </tr>
+        <tr
+          class="trs-calculation-row w-100"
+        >
+          <td>
+            <pf-string-editor>
+              
+              <span
+                class="wrapper w-100 d-inline-block"
+              >
+                <span>
+                  Bonus
+                </span>
+              </span>
+              
+            </pf-string-editor>
+          </td>
+          
+          <td
+            class="contribution-field text-right preview-mode-animation"
+          >
+            
+            <span>
+              10000
+            </span>
+          </td>
+          
+        </tr>
+        <tr
+          class="trs-calculation-row w-100"
+        >
+          <td>
+            <pf-string-editor>
+              
+              <span
+                class="wrapper w-100 d-inline-block"
+              >
+                <span>
+                  Short Term Incentive
+                </span>
+              </span>
+              
+            </pf-string-editor>
+          </td>
+          
+          <td
+            class="contribution-field text-right preview-mode-animation"
+          >
+            
+            <span>
+              5000
+            </span>
+          </td>
+          
+        </tr>
+        <tr
+          class="trs-calculation-row w-100"
+        >
+          <td
+            class="summary"
+            pfstatementgraphicsdirective=""
+          >
+            <pf-string-editor>
+              
+              <span
+                class="wrapper w-100 d-inline-block"
+              >
+                <span>
+                  
+                </span>
+              </span>
+              
+            </pf-string-editor>
+          </td>
+          
+          <td
+            class="contribution-field summary text-right preview-mode-animation"
+          >
+            
+            <span>
+              165000
+            </span>
+          </td>
+          
+        </tr>
+      </tbody>
+    </table>
+    
+  </div>
+</pf-trs-calculation-control>
+`;
+
+exports[`TrsCalculationControlComponent should display field if employer has a value and employee does not have a value with showEmployeeContributions enabled 1`] = `
+<pf-trs-calculation-control
+  MAX_VISIBLE_FIELDS={[Function Number]}
+  consolidated={[Function Number]}
+  controlData={[Function Object]}
+  currencyPipe={[Function Object]}
+  employeeRewardsData={[Function Object]}
+  maxVisibleFieldsReached="false"
+  mode={[Function Number]}
+  onCompFieldAdded={[Function EventEmitter]}
+  onCompFieldRemoved={[Function EventEmitter]}
+  onCompFieldTitleChange={[Function EventEmitter]}
+  onTitleChange={[Function EventEmitter]}
+  onUpdateSummaryTitleChange={[Function EventEmitter]}
+  showDecimals={[Function Boolean]}
+  showEmployeeContributions={[Function Boolean]}
+>
+  <div
+    class="trs-calculation py-2 px-1"
+    pfmodeclassifierdirective=""
+  >
+    <table
+      class="table table-borderless table-sm mb-0 w-100"
+    >
+      <colgroup>
+        <col
+          class="field-column"
+        />
+        
+        <col
+          class="employee-contribution-column"
+        />
+        <col
+          class="employer-contribution-column"
+        />
+        
+      </colgroup>
+      <thead>
+        <tr
+          class="trs-calculation-row w-100"
+        >
+          <th
+            class="font-weight-normal"
+            colspan="3"
+            scope="col"
+          >
+            
+            <h4
+              class="primary-control-heading mb-1"
+            >
+              <pf-string-editor>
+                
+                <span
+                  class="wrapper w-100 d-inline-block"
+                >
+                  <span>
+                    Cash Compensation
+                  </span>
+                </span>
+                
+              </pf-string-editor>
+            </h4>
+          </th>
+          
+          
+          
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr
+          class="trs-calculation-row w-100"
+        >
+          <td>
+            <pf-string-editor>
+              
+              <span
+                class="wrapper w-100 d-inline-block"
+              >
+                <span>
+                  Base Salary
+                </span>
+              </span>
+              
+            </pf-string-editor>
+          </td>
+          
+          <td
+            class="contribution-field text-right preview-mode-animation"
+          >
+            
+            <span>
+              
+            </span>
+          </td>
+          <td
+            class="contribution-field text-right preview-mode-animation"
+          >
+            
+            <span>
+              150000
+            </span>
+          </td>
+          
+        </tr>
+        <tr
+          class="trs-calculation-row w-100"
+        >
+          <td>
+            <pf-string-editor>
+              
+              <span
+                class="wrapper w-100 d-inline-block"
+              >
+                <span>
+                  Bonus
+                </span>
+              </span>
+              
+            </pf-string-editor>
+          </td>
+          
+          <td
+            class="contribution-field text-right preview-mode-animation"
+          >
+            
+            <span>
+              
+            </span>
+          </td>
+          <td
+            class="contribution-field text-right preview-mode-animation"
+          >
+            
+            <span>
+              10000
+            </span>
+          </td>
+          
+        </tr>
+        <tr
+          class="trs-calculation-row w-100"
+        >
+          <td>
+            <pf-string-editor>
+              
+              <span
+                class="wrapper w-100 d-inline-block"
+              >
+                <span>
+                  Short Term Incentive
+                </span>
+              </span>
+              
+            </pf-string-editor>
+          </td>
+          
+          <td
+            class="contribution-field text-right preview-mode-animation"
+          >
+            
+            <span>
+              
+            </span>
+          </td>
+          <td
+            class="contribution-field text-right preview-mode-animation"
+          >
+            
+            <span>
+              5000
+            </span>
+          </td>
+          
+        </tr>
+        <tr
+          class="trs-calculation-row w-100"
+        >
+          <td
+            class="summary"
+            pfstatementgraphicsdirective=""
+          >
+            <pf-string-editor>
+              
+              <span
+                class="wrapper w-100 d-inline-block"
+              >
+                <span>
+                  
+                </span>
+              </span>
+              
+            </pf-string-editor>
+          </td>
+          
+          <td
+            class="contribution-field summary text-right preview-mode-animation"
+          >
+            
+            <span>
+              
+            </span>
+          </td>
+          <td
+            class="contribution-field summary text-right preview-mode-animation"
+          >
+            
+            <span>
+              165000
+            </span>
+          </td>
+          
+        </tr>
+      </tbody>
+    </table>
+    
+  </div>
+</pf-trs-calculation-control>
+`;
+
+exports[`TrsCalculationControlComponent should display field if employer has a value and employee has a value with showEmployeeContributions disabled 1`] = `
+<pf-trs-calculation-control
+  MAX_VISIBLE_FIELDS={[Function Number]}
+  consolidated={[Function Number]}
+  controlData={[Function Object]}
+  currencyPipe={[Function Object]}
+  employeeRewardsData={[Function Object]}
+  maxVisibleFieldsReached="false"
+  mode={[Function Number]}
+  onCompFieldAdded={[Function EventEmitter]}
+  onCompFieldRemoved={[Function EventEmitter]}
+  onCompFieldTitleChange={[Function EventEmitter]}
+  onTitleChange={[Function EventEmitter]}
+  onUpdateSummaryTitleChange={[Function EventEmitter]}
+  showDecimals={[Function Boolean]}
+  showEmployeeContributions="false"
+>
+  <div
+    class="trs-calculation py-2 px-1"
+    pfmodeclassifierdirective=""
+  >
+    <table
+      class="table table-borderless table-sm mb-0 w-100"
+    >
+      <colgroup>
+        <col
+          class="field-column"
+        />
+        
+        <col
+          class="employer-contribution-column"
+        />
+        
+      </colgroup>
+      <thead>
+        <tr
+          class="trs-calculation-row w-100"
+        >
+          <th
+            class="font-weight-normal"
+            colspan="2"
+            scope="col"
+          >
+            
+            <h4
+              class="primary-control-heading mb-1"
+            >
+              <pf-string-editor>
+                
+                <span
+                  class="wrapper w-100 d-inline-block"
+                >
+                  <span>
+                    Cash Compensation
+                  </span>
+                </span>
+                
+              </pf-string-editor>
+            </h4>
+          </th>
+          
+          
+          
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr
+          class="trs-calculation-row w-100"
+        >
+          <td>
+            <pf-string-editor>
+              
+              <span
+                class="wrapper w-100 d-inline-block"
+              >
+                <span>
+                  Base Salary
+                </span>
+              </span>
+              
+            </pf-string-editor>
+          </td>
+          
+          <td
+            class="contribution-field text-right preview-mode-animation"
+          >
+            
+            <span>
+              150000
+            </span>
+          </td>
+          
+        </tr>
+        <tr
+          class="trs-calculation-row w-100"
+        >
+          <td>
+            <pf-string-editor>
+              
+              <span
+                class="wrapper w-100 d-inline-block"
+              >
+                <span>
+                  Bonus
+                </span>
+              </span>
+              
+            </pf-string-editor>
+          </td>
+          
+          <td
+            class="contribution-field text-right preview-mode-animation"
+          >
+            
+            <span>
+              10000
+            </span>
+          </td>
+          
+        </tr>
+        <tr
+          class="trs-calculation-row w-100"
+        >
+          <td>
+            <pf-string-editor>
+              
+              <span
+                class="wrapper w-100 d-inline-block"
+              >
+                <span>
+                  Short Term Incentive
+                </span>
+              </span>
+              
+            </pf-string-editor>
+          </td>
+          
+          <td
+            class="contribution-field text-right preview-mode-animation"
+          >
+            
+            <span>
+              5000
+            </span>
+          </td>
+          
+        </tr>
+        <tr
+          class="trs-calculation-row w-100"
+        >
+          <td
+            class="summary"
+            pfstatementgraphicsdirective=""
+          >
+            <pf-string-editor>
+              
+              <span
+                class="wrapper w-100 d-inline-block"
+              >
+                <span>
+                  
+                </span>
+              </span>
+              
+            </pf-string-editor>
+          </td>
+          
+          <td
+            class="contribution-field summary text-right preview-mode-animation"
+          >
+            
+            <span>
+              165000
+            </span>
+          </td>
+          
+        </tr>
+      </tbody>
+    </table>
+    
+  </div>
+</pf-trs-calculation-control>
+`;
+
+exports[`TrsCalculationControlComponent should display field if employer has a value and employee has a value with showEmployeeContributions enabled 1`] = `
+<pf-trs-calculation-control
+  MAX_VISIBLE_FIELDS={[Function Number]}
+  consolidated={[Function Number]}
+  controlData={[Function Object]}
+  currencyPipe={[Function Object]}
+  employeeRewardsData={[Function Object]}
+  maxVisibleFieldsReached="false"
+  mode={[Function Number]}
+  onCompFieldAdded={[Function EventEmitter]}
+  onCompFieldRemoved={[Function EventEmitter]}
+  onCompFieldTitleChange={[Function EventEmitter]}
+  onTitleChange={[Function EventEmitter]}
+  onUpdateSummaryTitleChange={[Function EventEmitter]}
+  showDecimals={[Function Boolean]}
+  showEmployeeContributions={[Function Boolean]}
+>
+  <div
+    class="trs-calculation py-2 px-1"
+    pfmodeclassifierdirective=""
+  >
+    <table
+      class="table table-borderless table-sm mb-0 w-100"
+    >
+      <colgroup>
+        <col
+          class="field-column"
+        />
+        
+        <col
+          class="employee-contribution-column"
+        />
+        <col
+          class="employer-contribution-column"
+        />
+        
+      </colgroup>
+      <thead>
+        <tr
+          class="trs-calculation-row w-100"
+        >
+          <th
+            class="font-weight-normal"
+            colspan="3"
+            scope="col"
+          >
+            
+            <h4
+              class="primary-control-heading mb-1"
+            >
+              <pf-string-editor>
+                
+                <span
+                  class="wrapper w-100 d-inline-block"
+                >
+                  <span>
+                    Cash Compensation
+                  </span>
+                </span>
+                
+              </pf-string-editor>
+            </h4>
+          </th>
+          
+          
+          
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr
+          class="trs-calculation-row w-100"
+        >
+          <td>
+            <pf-string-editor>
+              
+              <span
+                class="wrapper w-100 d-inline-block"
+              >
+                <span>
+                  Base Salary
+                </span>
+              </span>
+              
+            </pf-string-editor>
+          </td>
+          
+          <td
+            class="contribution-field text-right preview-mode-animation"
+          >
+            
+            <span>
+              
+            </span>
+          </td>
+          <td
+            class="contribution-field text-right preview-mode-animation"
+          >
+            
+            <span>
+              150000
+            </span>
+          </td>
+          
+        </tr>
+        <tr
+          class="trs-calculation-row w-100"
+        >
+          <td>
+            <pf-string-editor>
+              
+              <span
+                class="wrapper w-100 d-inline-block"
+              >
+                <span>
+                  Bonus
+                </span>
+              </span>
+              
+            </pf-string-editor>
+          </td>
+          
+          <td
+            class="contribution-field text-right preview-mode-animation"
+          >
+            
+            <span>
+              
+            </span>
+          </td>
+          <td
+            class="contribution-field text-right preview-mode-animation"
+          >
+            
+            <span>
+              10000
+            </span>
+          </td>
+          
+        </tr>
+        <tr
+          class="trs-calculation-row w-100"
+        >
+          <td>
+            <pf-string-editor>
+              
+              <span
+                class="wrapper w-100 d-inline-block"
+              >
+                <span>
+                  Short Term Incentive
+                </span>
+              </span>
+              
+            </pf-string-editor>
+          </td>
+          
+          <td
+            class="contribution-field text-right preview-mode-animation"
+          >
+            
+            <span>
+              
+            </span>
+          </td>
+          <td
+            class="contribution-field text-right preview-mode-animation"
+          >
+            
+            <span>
+              5000
+            </span>
+          </td>
+          
+        </tr>
+        <tr
+          class="trs-calculation-row w-100"
+        >
+          <td
+            class="summary"
+            pfstatementgraphicsdirective=""
+          >
+            <pf-string-editor>
+              
+              <span
+                class="wrapper w-100 d-inline-block"
+              >
+                <span>
+                  
+                </span>
+              </span>
+              
+            </pf-string-editor>
+          </td>
+          
+          <td
+            class="contribution-field summary text-right preview-mode-animation"
+          >
+            
+            <span>
+              
+            </span>
           </td>
           <td
             class="contribution-field summary text-right preview-mode-animation"
@@ -210,8 +1239,9 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
         <col
           class="field-column"
         />
+        
         <col
-          class="contribution-column"
+          class="employer-contribution-column"
         />
         
       </colgroup>
@@ -221,6 +1251,7 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
         >
           <th
             class="font-weight-normal"
+            colspan="2"
             scope="col"
           >
             
@@ -240,15 +1271,8 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
               </pf-string-editor>
             </h4>
           </th>
-          <th
-            class="secondary-header align-middle text-right font-weight-normal"
-            scope="col"
-          >
-            
-            <span>
-              Contribution
-            </span>
-          </th>
+          
+          
           
         </tr>
       </thead>
@@ -270,6 +1294,7 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
               
             </pf-string-editor>
           </td>
+          
           <td
             class="contribution-field text-right preview-mode-animation"
           >
@@ -296,6 +1321,7 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
               
             </pf-string-editor>
           </td>
+          
           <td
             class="contribution-field text-right preview-mode-animation"
           >
@@ -325,6 +1351,7 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
               
             </pf-string-editor>
           </td>
+          
           <td
             class="contribution-field summary text-right preview-mode-animation"
           >
@@ -368,8 +1395,9 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
         <col
           class="field-column"
         />
+        
         <col
-          class="contribution-column"
+          class="employer-contribution-column"
         />
         
       </colgroup>
@@ -379,6 +1407,7 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
         >
           <th
             class="font-weight-normal"
+            colspan="2"
             scope="col"
           >
             
@@ -398,15 +1427,8 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
               </pf-string-editor>
             </h4>
           </th>
-          <th
-            class="secondary-header align-middle text-right font-weight-normal"
-            scope="col"
-          >
-            
-            <span>
-              Contribution
-            </span>
-          </th>
+          
+          
           
         </tr>
       </thead>
@@ -428,6 +1450,7 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
               
             </pf-string-editor>
           </td>
+          
           <td
             class="contribution-field text-right preview-mode-animation"
           >
@@ -454,6 +1477,7 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
               
             </pf-string-editor>
           </td>
+          
           <td
             class="contribution-field text-right preview-mode-animation"
           >
@@ -483,6 +1507,7 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
               
             </pf-string-editor>
           </td>
+          
           <td
             class="contribution-field summary text-right preview-mode-animation"
           >
@@ -526,8 +1551,9 @@ exports[`TrsCalculationControlComponent should hide all content in the table hea
         <col
           class="field-column"
         />
+        
         <col
-          class="contribution-column"
+          class="employer-contribution-column"
         />
         
       </colgroup>
@@ -537,16 +1563,13 @@ exports[`TrsCalculationControlComponent should hide all content in the table hea
         >
           <th
             class="font-weight-normal"
+            colspan="2"
             scope="col"
           >
             
           </th>
-          <th
-            class="secondary-header align-middle text-right font-weight-normal"
-            scope="col"
-          >
-            
-          </th>
+          
+          
           
         </tr>
       </thead>
@@ -571,12 +1594,603 @@ exports[`TrsCalculationControlComponent should hide all content in the table hea
               
             </pf-string-editor>
           </td>
+          
           <td
             class="contribution-field summary text-right preview-mode-animation"
           >
             
             <span>
-              0
+              
+            </span>
+          </td>
+          
+        </tr>
+      </tbody>
+    </table>
+    
+  </div>
+</pf-trs-calculation-control>
+`;
+
+exports[`TrsCalculationControlComponent should not display field if employer and employee do not have values with showEmployeeContributions disabled 1`] = `
+<pf-trs-calculation-control
+  MAX_VISIBLE_FIELDS={[Function Number]}
+  consolidated={[Function Number]}
+  controlData={[Function Object]}
+  currencyPipe={[Function Object]}
+  employeeRewardsData={[Function Object]}
+  maxVisibleFieldsReached="false"
+  mode={[Function Number]}
+  onCompFieldAdded={[Function EventEmitter]}
+  onCompFieldRemoved={[Function EventEmitter]}
+  onCompFieldTitleChange={[Function EventEmitter]}
+  onTitleChange={[Function EventEmitter]}
+  onUpdateSummaryTitleChange={[Function EventEmitter]}
+  showDecimals={[Function Boolean]}
+  showEmployeeContributions="false"
+>
+  <div
+    class="trs-calculation py-2 px-1"
+    pfmodeclassifierdirective=""
+  >
+    <table
+      class="table table-borderless table-sm mb-0 w-100"
+    >
+      <colgroup>
+        <col
+          class="field-column"
+        />
+        
+        <col
+          class="employer-contribution-column"
+        />
+        
+      </colgroup>
+      <thead>
+        <tr
+          class="trs-calculation-row w-100"
+        >
+          <th
+            class="font-weight-normal"
+            colspan="2"
+            scope="col"
+          >
+            
+            <h4
+              class="primary-control-heading mb-1"
+            >
+              <pf-string-editor>
+                
+                <span
+                  class="wrapper w-100 d-inline-block"
+                >
+                  <span>
+                    Cash Compensation
+                  </span>
+                </span>
+                
+              </pf-string-editor>
+            </h4>
+          </th>
+          
+          
+          
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr
+          class="trs-calculation-row w-100"
+        >
+          <td>
+            <pf-string-editor>
+              
+              <span
+                class="wrapper w-100 d-inline-block"
+              >
+                <span>
+                  Base Salary
+                </span>
+              </span>
+              
+            </pf-string-editor>
+          </td>
+          
+          <td
+            class="contribution-field text-right preview-mode-animation"
+          >
+            
+            <span>
+              150000
+            </span>
+          </td>
+          
+        </tr>
+        <tr
+          class="trs-calculation-row w-100"
+        >
+          <td>
+            <pf-string-editor>
+              
+              <span
+                class="wrapper w-100 d-inline-block"
+              >
+                <span>
+                  Bonus
+                </span>
+              </span>
+              
+            </pf-string-editor>
+          </td>
+          
+          <td
+            class="contribution-field text-right preview-mode-animation"
+          >
+            
+            <span>
+              10000
+            </span>
+          </td>
+          
+        </tr>
+        <tr
+          class="trs-calculation-row w-100"
+        >
+          <td>
+            <pf-string-editor>
+              
+              <span
+                class="wrapper w-100 d-inline-block"
+              >
+                <span>
+                  Short Term Incentive
+                </span>
+              </span>
+              
+            </pf-string-editor>
+          </td>
+          
+          <td
+            class="contribution-field text-right preview-mode-animation"
+          >
+            
+            <span>
+              5000
+            </span>
+          </td>
+          
+        </tr>
+        <tr
+          class="trs-calculation-row w-100"
+        >
+          <td
+            class="summary"
+            pfstatementgraphicsdirective=""
+          >
+            <pf-string-editor>
+              
+              <span
+                class="wrapper w-100 d-inline-block"
+              >
+                <span>
+                  
+                </span>
+              </span>
+              
+            </pf-string-editor>
+          </td>
+          
+          <td
+            class="contribution-field summary text-right preview-mode-animation"
+          >
+            
+            <span>
+              165000
+            </span>
+          </td>
+          
+        </tr>
+      </tbody>
+    </table>
+    
+  </div>
+</pf-trs-calculation-control>
+`;
+
+exports[`TrsCalculationControlComponent should not display field if employer and employee do not have values with showEmployeeContributions enabled 1`] = `
+<pf-trs-calculation-control
+  MAX_VISIBLE_FIELDS={[Function Number]}
+  consolidated={[Function Number]}
+  controlData={[Function Object]}
+  currencyPipe={[Function Object]}
+  employeeRewardsData={[Function Object]}
+  maxVisibleFieldsReached="false"
+  mode={[Function Number]}
+  onCompFieldAdded={[Function EventEmitter]}
+  onCompFieldRemoved={[Function EventEmitter]}
+  onCompFieldTitleChange={[Function EventEmitter]}
+  onTitleChange={[Function EventEmitter]}
+  onUpdateSummaryTitleChange={[Function EventEmitter]}
+  showDecimals={[Function Boolean]}
+  showEmployeeContributions={[Function Boolean]}
+>
+  <div
+    class="trs-calculation py-2 px-1"
+    pfmodeclassifierdirective=""
+  >
+    <table
+      class="table table-borderless table-sm mb-0 w-100"
+    >
+      <colgroup>
+        <col
+          class="field-column"
+        />
+        
+        <col
+          class="employee-contribution-column"
+        />
+        <col
+          class="employer-contribution-column"
+        />
+        
+      </colgroup>
+      <thead>
+        <tr
+          class="trs-calculation-row w-100"
+        >
+          <th
+            class="font-weight-normal"
+            colspan="3"
+            scope="col"
+          >
+            
+            <h4
+              class="primary-control-heading mb-1"
+            >
+              <pf-string-editor>
+                
+                <span
+                  class="wrapper w-100 d-inline-block"
+                >
+                  <span>
+                    Cash Compensation
+                  </span>
+                </span>
+                
+              </pf-string-editor>
+            </h4>
+          </th>
+          
+          
+          
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr
+          class="trs-calculation-row w-100"
+        >
+          <td>
+            <pf-string-editor>
+              
+              <span
+                class="wrapper w-100 d-inline-block"
+              >
+                <span>
+                  Base Salary
+                </span>
+              </span>
+              
+            </pf-string-editor>
+          </td>
+          
+          <td
+            class="contribution-field text-right preview-mode-animation"
+          >
+            
+            <span>
+              
+            </span>
+          </td>
+          <td
+            class="contribution-field text-right preview-mode-animation"
+          >
+            
+            <span>
+              150000
+            </span>
+          </td>
+          
+        </tr>
+        <tr
+          class="trs-calculation-row w-100"
+        >
+          <td>
+            <pf-string-editor>
+              
+              <span
+                class="wrapper w-100 d-inline-block"
+              >
+                <span>
+                  Bonus
+                </span>
+              </span>
+              
+            </pf-string-editor>
+          </td>
+          
+          <td
+            class="contribution-field text-right preview-mode-animation"
+          >
+            
+            <span>
+              
+            </span>
+          </td>
+          <td
+            class="contribution-field text-right preview-mode-animation"
+          >
+            
+            <span>
+              10000
+            </span>
+          </td>
+          
+        </tr>
+        <tr
+          class="trs-calculation-row w-100"
+        >
+          <td>
+            <pf-string-editor>
+              
+              <span
+                class="wrapper w-100 d-inline-block"
+              >
+                <span>
+                  Short Term Incentive
+                </span>
+              </span>
+              
+            </pf-string-editor>
+          </td>
+          
+          <td
+            class="contribution-field text-right preview-mode-animation"
+          >
+            
+            <span>
+              
+            </span>
+          </td>
+          <td
+            class="contribution-field text-right preview-mode-animation"
+          >
+            
+            <span>
+              5000
+            </span>
+          </td>
+          
+        </tr>
+        <tr
+          class="trs-calculation-row w-100"
+        >
+          <td
+            class="summary"
+            pfstatementgraphicsdirective=""
+          >
+            <pf-string-editor>
+              
+              <span
+                class="wrapper w-100 d-inline-block"
+              >
+                <span>
+                  
+                </span>
+              </span>
+              
+            </pf-string-editor>
+          </td>
+          
+          <td
+            class="contribution-field summary text-right preview-mode-animation"
+          >
+            
+            <span>
+              
+            </span>
+          </td>
+          <td
+            class="contribution-field summary text-right preview-mode-animation"
+          >
+            
+            <span>
+              165000
+            </span>
+          </td>
+          
+        </tr>
+      </tbody>
+    </table>
+    
+  </div>
+</pf-trs-calculation-control>
+`;
+
+exports[`TrsCalculationControlComponent should not display field if employer does not have a value and employee has a value with showEmployeeContributions disabled 1`] = `
+<pf-trs-calculation-control
+  MAX_VISIBLE_FIELDS={[Function Number]}
+  consolidated={[Function Number]}
+  controlData={[Function Object]}
+  currencyPipe={[Function Object]}
+  employeeRewardsData={[Function Object]}
+  maxVisibleFieldsReached="false"
+  mode={[Function Number]}
+  onCompFieldAdded={[Function EventEmitter]}
+  onCompFieldRemoved={[Function EventEmitter]}
+  onCompFieldTitleChange={[Function EventEmitter]}
+  onTitleChange={[Function EventEmitter]}
+  onUpdateSummaryTitleChange={[Function EventEmitter]}
+  showDecimals={[Function Boolean]}
+  showEmployeeContributions="false"
+>
+  <div
+    class="trs-calculation py-2 px-1"
+    pfmodeclassifierdirective=""
+  >
+    <table
+      class="table table-borderless table-sm mb-0 w-100"
+    >
+      <colgroup>
+        <col
+          class="field-column"
+        />
+        
+        <col
+          class="employer-contribution-column"
+        />
+        
+      </colgroup>
+      <thead>
+        <tr
+          class="trs-calculation-row w-100"
+        >
+          <th
+            class="font-weight-normal"
+            colspan="2"
+            scope="col"
+          >
+            
+            <h4
+              class="primary-control-heading mb-1"
+            >
+              <pf-string-editor>
+                
+                <span
+                  class="wrapper w-100 d-inline-block"
+                >
+                  <span>
+                    Cash Compensation
+                  </span>
+                </span>
+                
+              </pf-string-editor>
+            </h4>
+          </th>
+          
+          
+          
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr
+          class="trs-calculation-row w-100"
+        >
+          <td>
+            <pf-string-editor>
+              
+              <span
+                class="wrapper w-100 d-inline-block"
+              >
+                <span>
+                  Base Salary
+                </span>
+              </span>
+              
+            </pf-string-editor>
+          </td>
+          
+          <td
+            class="contribution-field text-right preview-mode-animation"
+          >
+            
+            <span>
+              150000
+            </span>
+          </td>
+          
+        </tr>
+        <tr
+          class="trs-calculation-row w-100"
+        >
+          <td>
+            <pf-string-editor>
+              
+              <span
+                class="wrapper w-100 d-inline-block"
+              >
+                <span>
+                  Bonus
+                </span>
+              </span>
+              
+            </pf-string-editor>
+          </td>
+          
+          <td
+            class="contribution-field text-right preview-mode-animation"
+          >
+            
+            <span>
+              10000
+            </span>
+          </td>
+          
+        </tr>
+        <tr
+          class="trs-calculation-row w-100"
+        >
+          <td>
+            <pf-string-editor>
+              
+              <span
+                class="wrapper w-100 d-inline-block"
+              >
+                <span>
+                  Short Term Incentive
+                </span>
+              </span>
+              
+            </pf-string-editor>
+          </td>
+          
+          <td
+            class="contribution-field text-right preview-mode-animation"
+          >
+            
+            <span>
+              5000
+            </span>
+          </td>
+          
+        </tr>
+        <tr
+          class="trs-calculation-row w-100"
+        >
+          <td
+            class="summary"
+            pfstatementgraphicsdirective=""
+          >
+            <pf-string-editor>
+              
+              <span
+                class="wrapper w-100 d-inline-block"
+              >
+                <span>
+                  
+                </span>
+              </span>
+              
+            </pf-string-editor>
+          </td>
+          
+          <td
+            class="contribution-field summary text-right preview-mode-animation"
+          >
+            
+            <span>
+              165000
             </span>
           </td>
           
@@ -614,8 +2228,9 @@ exports[`TrsCalculationControlComponent should render additional content in the 
         <col
           class="field-column"
         />
+        
         <col
-          class="contribution-column"
+          class="employer-contribution-column"
         />
         
       </colgroup>
@@ -625,6 +2240,7 @@ exports[`TrsCalculationControlComponent should render additional content in the 
         >
           <th
             class="font-weight-normal"
+            colspan="2"
             scope="col"
           >
             
@@ -644,15 +2260,8 @@ exports[`TrsCalculationControlComponent should render additional content in the 
               </pf-string-editor>
             </h4>
           </th>
-          <th
-            class="secondary-header align-middle text-right font-weight-normal"
-            scope="col"
-          >
-            
-            <span>
-              Contribution
-            </span>
-          </th>
+          
+          
           
         </tr>
       </thead>
@@ -677,12 +2286,13 @@ exports[`TrsCalculationControlComponent should render additional content in the 
               
             </pf-string-editor>
           </td>
+          
           <td
             class="contribution-field summary text-right preview-mode-animation"
           >
             
             <span>
-              0
+              
             </span>
           </td>
           
@@ -719,8 +2329,9 @@ exports[`TrsCalculationControlComponent should render the supplied Summary 1`] =
         <col
           class="field-column"
         />
+        
         <col
-          class="contribution-column"
+          class="employer-contribution-column"
         />
         
         <col
@@ -733,16 +2344,13 @@ exports[`TrsCalculationControlComponent should render the supplied Summary 1`] =
         >
           <th
             class="font-weight-normal"
+            colspan="2"
             scope="col"
           >
             
           </th>
-          <th
-            class="secondary-header align-middle text-right font-weight-normal"
-            scope="col"
-          >
-            
-          </th>
+          
+          
           
           <th
             scope="col"
@@ -794,6 +2402,7 @@ exports[`TrsCalculationControlComponent should render the supplied Summary 1`] =
               
             </pf-string-editor>
           </td>
+          
           <td
             class="contribution-field summary text-right"
           >
@@ -838,8 +2447,9 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
         <col
           class="field-column"
         />
+        
         <col
-          class="contribution-column"
+          class="employer-contribution-column"
         />
         
         <col
@@ -852,16 +2462,13 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
         >
           <th
             class="font-weight-normal"
+            colspan="2"
             scope="col"
           >
             
           </th>
-          <th
-            class="secondary-header align-middle text-right font-weight-normal"
-            scope="col"
-          >
-            
-          </th>
+          
+          
           
           <th
             scope="col"
@@ -910,6 +2517,7 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
               
             </pf-string-editor>
           </td>
+          
           <td
             class="contribution-field text-right"
           >
@@ -968,6 +2576,7 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
               
             </pf-string-editor>
           </td>
+          
           <td
             class="contribution-field text-right"
           >
@@ -1026,6 +2635,7 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
               
             </pf-string-editor>
           </td>
+          
           <td
             class="contribution-field text-right"
           >
@@ -1087,6 +2697,7 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
               
             </pf-string-editor>
           </td>
+          
           <td
             class="contribution-field summary text-right"
           >

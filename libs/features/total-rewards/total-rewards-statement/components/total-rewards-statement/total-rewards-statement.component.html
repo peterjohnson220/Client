@@ -47,6 +47,8 @@
               [visibleFieldsCount]="visibleFieldsCount"
               [graphicsColors]="statement.Settings.Colors"
               [showDecimals]="statement.Settings.DisplaySettings.ShowDecimals"
+              [showEmployeeContributions]="statement.Settings.DisplaySettings.ShowEmployeeContributions"
+              [showSecondaryHeader]="visibleCalculationControls[0]?.Id === control.Id"
               (onTitleChange)="handleOnControlTitleChange($event)"
               (onCompFieldTitleChange)="handleOnCalculationControlCompFieldTitleChange($event)"
               (onUpdateSummaryTitleChange)="handleOnCalculationControlSummaryTitleChange($event)"

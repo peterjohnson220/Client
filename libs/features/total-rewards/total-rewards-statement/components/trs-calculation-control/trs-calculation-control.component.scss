@@ -6,13 +6,16 @@
   table {
     table-layout: fixed;
     .field-column {
-      width: 65%;
+      width: 55%;
     }
-    .contribution-column {
-      width: 25%;
+    .employer-contribution-column {
+      width: 20%;
+    }
+    .employee-contribution-column {
+      width: 20%;
     }
     .button-column {
-      width: 10%;
+      width: 5%;
     }
     &.consolidated {
       tr.trs-calculation-row {
@@ -39,8 +42,8 @@
 
 .trs-calculation.print-mode, .trs-calculation.preview-mode {
   table {
-    .field-column {
-      width: 75%;
+    .employer-contribution-column {
+      width: 25%;
     }
     .button-column {
       width: 0;
