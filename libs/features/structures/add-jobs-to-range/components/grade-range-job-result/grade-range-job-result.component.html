@@ -1,25 +1,32 @@
 <ng-container>
-  <table class="table table-hover">
-    <thead>
-      <tr>
-        <th>Job Code</th>
-        <th>Job Title</th>
-        <th>MRP</th>
-        <th>Job Level</th>
-        <th>Job Family</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr class="result job-search-row" *ngFor="let jobResult of jobResults;trackBy: trackByJobId"
-          [class.selected]="jobResult.IsSelected"
-          (click)="handleJobClicked(jobResult)">
-          <td>{{jobResult.Code}}</td>
-          <td>{{jobResult.Title}}</td>
-          <td>{{controlPoint === 'BaseMRP' ? jobResult.BaseMRP || '--' : jobResult.TCCMRP || '--'}}</td>
-          <td>{{jobResult.Level || '--'}}</td>
-          <td>{{jobResult.Family || '--'}}</td>
-      </tr>
-    </tbody>
-  </table>
+  <kendo-grid
+    class="table table-hover"
+    [data]="gridView"
+    [sortable]="sortable"
+    [sort]="sort"
+    [selectable]="selectableSettings"
+    [rowSelected]="isRowSelected"
+    (sortChange)="sortChange($event)"
+    (selectionChange)="handleSelectionChange($event)">
+    <ng-container class="result job-search-row">
+      <kendo-grid-column field="Code" title="Job Code" [width]="175"></kendo-grid-column>
+      <kendo-grid-column field="Title" title="Job Title" [width]="175"></kendo-grid-column>
+      <kendo-grid-column title="MRP" class="result job-search-row">
+        <ng-template kendoGridCellTemplate let-dataItem>
+          <div>{{controlPoint === 'BaseMRP' ? dataItem.BaseMRP || '--' : dataItem.TCCMRP || '--'}}</div>
+        </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column field="Level" title="Job Level">
+        <ng-template kendoGridCellTemplate let-dataItem>
+          <div>{{dataItem.Level || '--' }}</div>
+        </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column field="Family" title="Job Family">
+        <ng-template kendoGridCellTemplate let-dataItem>
+          <div>{{dataItem.Family || '--' }}</div>
+        </ng-template>
+      </kendo-grid-column>
+    </ng-container>
+  </kendo-grid>
 </ng-container>
 

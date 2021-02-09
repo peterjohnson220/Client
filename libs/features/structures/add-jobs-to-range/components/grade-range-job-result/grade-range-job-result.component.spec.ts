@@ -17,15 +17,15 @@ describe('Project - Add Jobs - Job Result', () => {
 
     fixture = TestBed.createComponent(GradeRangeJobResultComponent);
     instance = fixture.componentInstance;
+    instance.selectedJob = generateMockPayFactorsJobResult();
   });
 
   it('should emit job selection toggle when clicking on job result', () => {
-    instance.jobResults = [generateMockPayFactorsJobResult()];
     spyOn(instance.jobClicked, 'emit');
 
-    instance.handleJobClicked(instance.jobResults[0]);
+    instance.handleJobClicked();
 
-    expect(instance.jobClicked.emit).toHaveBeenCalledWith(instance.jobResults[0]);
+    expect(instance.jobClicked.emit).toHaveBeenCalledWith(instance.selectedJob);
   });
 
 });
