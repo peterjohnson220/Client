@@ -19,3 +19,10 @@
     }
   }
 }
+
+::ng-deep .compact-grid-container {
+  top: auto;
+  right: auto;
+  left: auto;
+  bottom: auto;
+}
