@@ -100,11 +100,12 @@
   </button>
 
   <pf-export-list-popover
+    #exportListPopover
     [disableCustomExport]="!selectedPricingIds.length"
     [disabledCustomExportTooltip]="'Select a pricing'"
     [disablePopover]="this.selectedJobPricingCount < 1 && this.selectedPricingIds.length < 1"
     [disabledPopoverTooltip]="'Please select at least one priced job'"
-    (exportEmitter)="exportPricings($event)">
+    (exportEmitter)="handleExportPricings($event)">
   </pf-export-list-popover>
 </ng-template>
 
@@ -380,3 +381,8 @@
   [display]="'modal'"
   [featureImplementation]="multiMatchImplementation"
 ></pf-multi-match-component>
+
+<pf-file-download-security-warning-modal 
+  #fileDownloadSecurityWarningModal
+  (securityWarningConfirmed)="handleSecurityWarningConfirmed($event)">
+</pf-file-download-security-warning-modal>

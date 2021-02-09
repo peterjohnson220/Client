@@ -26,6 +26,7 @@ import { ChangeJobStatusRequest, CreateProjectRequest, MatchedSurveyJob, ViewFie
 import { SurveySearchFilterMappingDataObj, SurveySearchUserFilterType } from 'libs/features/surveys/survey-search/data';
 import { SearchFeatureIds } from 'libs/features/search/search/enums/search-feature-ids';
 import { SettingsService } from 'libs/state/app-context/services';
+import { FileDownloadSecurityWarningModalComponent } from 'libs/ui/common';
 import * as fromRootState from 'libs/state/state';
 import * as fromModifyPricingsActions from 'libs/features/pricings/multi-match/actions';
 import * as fromModifyPricingsReducer from 'libs/features/pricings/multi-match/reducers';
@@ -50,6 +51,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   permissions = Permissions;
   readonly showingActiveJobsPipe = new ShowingActiveJobs();
 
+  exportRequest: any;
   pageViewId = PageViewIds.Jobs;
   payMarketOptions: GroupedListItem[];
   structureGradeNameOptions: any;
@@ -103,6 +105,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   selectedJobPricingCount = 0;
   enablePageToggle = false;
+  enableFileDownloadSecurityWarning = false;
 
   navigatingToOldPage$: Observable<AsyncStateObj<boolean>>;
 
@@ -178,6 +181,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('structureGradeFilter') structureGradeFilter: ElementRef;
   @ViewChild('pricingReviewedFilter') pricingReviewedFilter: ElementRef;
 
+  @ViewChild('fileDownloadSecurityWarningModal', { static: true }) fileDownloadSecurityWarningModal: FileDownloadSecurityWarningModalComponent;
 
   constructor(
     private store: Store<fromJobsPageReducer.State>,
@@ -270,10 +274,10 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.companySettingsSubscription = this.store.select(fromRootState.getCompanySettings).subscribe(cs => {
       if (cs) {
-        const setting = cs.find(x => x.Key === 'EnableJobsPageToggle');
+        const setting = cs.find(x => x.Key === CompanySettingsEnum.EnableJobsPageToggle);
         this.enablePageToggle = setting && setting.Value === 'true';
-        this.restrictSurveySearchToPaymarketCountry = cs.find(x => x.Key
-          === 'RestrictSurveySearchCountryFilterToPayMarket').Value === 'true';
+        this.restrictSurveySearchToPaymarketCountry = cs.find(x => x.Key === CompanySettingsEnum.RestrictSurveySearchCountryFilterToPayMarket).Value === 'true';
+        this.enableFileDownloadSecurityWarning = cs.find(x => x.Key === CompanySettingsEnum.FileDownloadSecurityWarning).Value === 'true';
       }
     });
 
@@ -466,6 +470,12 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.filteredStructureGradeNameOptions = this.structureGradeNameOptions.filter(o => o.Id.toLowerCase().indexOf(value.toLowerCase()) > -1);
   }
 
+  handleSecurityWarningConfirmed(isConfirmed) {
+    if (isConfirmed) {
+      this.exportPricings();
+    }
+  }
+
   toggleJobManagmentModal(toggle: boolean, jobId: number = null, event = null) {
     if (jobId === null) {
       this.store.dispatch(new fromJobManagementActions.ResetState());
@@ -478,13 +488,22 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  exportPricings(exportRequest: any) {
+  handleExportPricings(exportRequest: any) {
+    this.exportRequest = exportRequest;
+    if (this.enableFileDownloadSecurityWarning) {
+      this.fileDownloadSecurityWarningModal.open();
+    } else {
+      this.exportPricings();
+    }
+  }
+
+  exportPricings() {
     const request = {
       CompanyJobIds: this.selectedJobIds,
       PricingIds: this.selectedPricingIds,
-      FileExtension: exportRequest.Extension,
-      Endpoint: exportRequest.Options.Endpoint,
-      Name: exportRequest.Options.Name
+      FileExtension: this.exportRequest.Extension,
+      Endpoint: this.exportRequest.Options.Endpoint,
+      Name: this.exportRequest.Options.Name
     };
 
     this.store.dispatch(new fromJobsPageActions.ExportPricings(request));
