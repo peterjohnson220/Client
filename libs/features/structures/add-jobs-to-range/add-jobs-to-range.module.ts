@@ -6,6 +6,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { NgbProgressbarModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { GridModule } from '@progress/kendo-angular-grid';
 
 import { PfSearchModule } from 'libs/features/search/search';
 import { PfCommonUIModule } from 'libs/ui/common';
@@ -32,6 +33,7 @@ import { StructuresSearchResultsComponent } from './containers/structures-search
     NgbProgressbarModule,
     NgbTooltipModule,
     FontAwesomeModule,
+    GridModule,
 
     // Payfactors
     PfSearchModule,
