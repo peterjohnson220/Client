@@ -87,6 +87,8 @@
       [layout]="'simple'"      
       [jobDescriptionSummary]="jobDescriptionSummary"
       [isJdmEnabled]="isJdmEnabled$ | async"
+      [title]="(isJdmEnabled$ | async) ? 'Job Summary' : 'Job Description'"
+      [textareaPlaceholder]="(isJdmEnabled$ | async) ? 'There is no job summary currently available for this job.' : 'There is no Job Description loaded for this Job.'"
       (jobDescriptionChanged)="jobDescriptionChanged($event)">
     </pf-job-description-summary-editor>    
   </div>
