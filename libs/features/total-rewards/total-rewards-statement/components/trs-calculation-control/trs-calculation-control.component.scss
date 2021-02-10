@@ -42,7 +42,13 @@
 
 .trs-calculation.print-mode, .trs-calculation.preview-mode {
   table {
+    .field-column {
+      width: 45%;
+    }
     .employer-contribution-column {
+      width: 30%;
+    }
+    .employee-contribution-column {
       width: 25%;
     }
     .button-column {
