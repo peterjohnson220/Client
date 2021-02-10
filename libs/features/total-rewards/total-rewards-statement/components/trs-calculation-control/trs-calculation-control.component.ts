@@ -106,7 +106,7 @@ export class TrsCalculationControlComponent implements OnChanges {
       if (!field.Type && employeeRewards[field.DatabaseField] && employeeRewards[field.DatabaseField] > 0) {
         return this.formatAsCurrency(employeeRewards[field.DatabaseField], employeeRewards?.Currency);
       }
-      if (!field.Type && employeeRewards.BenefitsData[field.DatabaseField]?.EmployerValue > 0) {
+      if (!field.Type && this.benefitsDataExists && employeeRewards.BenefitsData[field.DatabaseField]?.EmployerValue > 0) {
         return this.formatAsCurrency(this.employeeRewardsData.BenefitsData[field.DatabaseField].EmployerValue, employeeRewards?.Currency);
       }
       if (field.Type) {
@@ -122,7 +122,7 @@ export class TrsCalculationControlComponent implements OnChanges {
   }
 
   getEmployeeContributionValue(field: models.CompensationField) {
-    if (!field.Type && field.CanHaveEmployeeContribution && this.employeeRewardsData?.BenefitsData) {
+    if (!field.Type && this.benefitsDataExists && field.CanHaveEmployeeContribution) {
       if (this.employeeRewardsData.BenefitsData[field.DatabaseField]?.CompanyEmployeeValue > 0) {
         return this.formatAsCurrency(this.employeeRewardsData.BenefitsData[field.DatabaseField].CompanyEmployeeValue, this.employeeRewardsData?.Currency);
       }
@@ -151,6 +151,10 @@ export class TrsCalculationControlComponent implements OnChanges {
     }
 
     return '';
+  }
+
+  get benefitsDataExists(): boolean {
+    return TotalRewardsStatementService.doesBenefitsDataExist(this.employeeRewardsData);
   }
 
   formatAsCurrency(value: number, currency?: string): string {
@@ -221,6 +225,7 @@ export class TrsCalculationControlComponent implements OnChanges {
       return field.IsVisible;
     }
     return field.IsVisible &&
-      TotalRewardsStatementService.doesBenefitFieldHaveData(field.DatabaseField, this.employeeRewardsData, this.showEmployeeContributions);
+      TotalRewardsStatementService.doesBenefitFieldHaveData(field.DatabaseField, this.employeeRewardsData,
+        this.showEmployeeContributions && field.CanHaveEmployeeContribution);
   }
 }
