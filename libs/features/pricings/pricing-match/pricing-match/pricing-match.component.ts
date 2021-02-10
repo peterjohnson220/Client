@@ -4,6 +4,8 @@ import { Store } from '@ngrx/store';
 
 import { Observable } from 'rxjs/Observable';
 
+import { PricingMatchEntityTypes } from 'libs/constants';
+
 import { PricingMatchTypes } from '../constants';
 import * as fromPricingMatchActions from '../actions';
 import * as fromPricingMatchReducer from '../reducers';
@@ -15,7 +17,9 @@ import * as fromPricingMatchReducer from '../reducers';
 })
 export class PricingMatchComponent implements OnChanges {
   @Input() pricingId: number;
-  @Input() matchId: number;
+
+  @Input() entityType: PricingMatchEntityTypes;
+  @Input() entityId: any;
   @Input() matchType: string;
 
   pricingMatchTypes = PricingMatchTypes;
@@ -32,12 +36,15 @@ export class PricingMatchComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     this.store.dispatch(new fromPricingMatchActions.ClearState());
-    if ((changes['matchId'] && changes['matchId'].currentValue) &&
+
+    if ((changes['entityId'] && changes['entityId'].currentValue) &&
+      (changes['entityType'] && changes['entityType'].currentValue) &&
       (changes['matchType'] && changes['matchType'].currentValue)
     ) {
       this.store.dispatch(new fromPricingMatchActions.LoadPricingMatch(
         {
-          pricingMatchId: changes['matchId'].currentValue,
+          entityId: changes['entityId'].currentValue,
+          entityType: changes['entityType'].currentValue,
           matchType: changes['matchType'].currentValue
         }));
     }

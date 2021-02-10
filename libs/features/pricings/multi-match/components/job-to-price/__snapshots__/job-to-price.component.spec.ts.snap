@@ -179,23 +179,7 @@ exports[`Project - MultiMatch - JobToPrice Component should display data cuts wh
             <td
               class="scope-cell"
             >
-              <div>
-                <span
-                  class="job-title link"
-                >
-                   Janitor/Custodian 
-                </span>
-                <span
-                  class="job-code"
-                >
-                  (JB122) 
-                </span>
-              </div>
-              <div
-                class="paymarket"
-              >
-                 Payfactors 
-              </div>
+              <pf-job-match-cut-title />
             </td>
             
             <td
@@ -503,23 +487,7 @@ exports[`Project - MultiMatch - JobToPrice Component should display with 2 decim
             <td
               class="scope-cell"
             >
-              <div>
-                <span
-                  class="job-title link"
-                >
-                   Janitor/Custodian 
-                </span>
-                <span
-                  class="job-code"
-                >
-                  (JB122) 
-                </span>
-              </div>
-              <div
-                class="paymarket"
-              >
-                 Payfactors 
-              </div>
+              <pf-job-match-cut-title />
             </td>
             
             <td
@@ -942,31 +910,13 @@ exports[`Project - MultiMatch - JobToPrice Component should show new job match c
         </thead>
         <tbody>
           
-          <tr
-            class="highlight"
-          >
+          <tr>
             
             
             <td
               class="scope-cell"
             >
-              <div>
-                <span
-                  class="job-title link"
-                >
-                   Janitor/Custodian 
-                </span>
-                <span
-                  class="job-code"
-                >
-                  (JB122) 
-                </span>
-              </div>
-              <div
-                class="paymarket"
-              >
-                 Payfactors 
-              </div>
+              <pf-job-match-cut-title />
             </td>
             
             <td

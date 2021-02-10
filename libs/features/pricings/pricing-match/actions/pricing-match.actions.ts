@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+import { PricingMatchEntityTypes } from 'libs/constants';
 
 export const CLEAR_STATE = '[Pricing Match] Clear State';
 export const LOAD_PRICING_MATCH = '[Pricing Match] Get Pricing Match';
@@ -12,7 +13,7 @@ export class ClearState implements Action {
 
 export class LoadPricingMatch implements Action {
   readonly type = LOAD_PRICING_MATCH;
-  constructor(public payload: { pricingMatchId: number, matchType: string }) { }
+  constructor(public payload: { entityId: any, entityType: PricingMatchEntityTypes, matchType: string }) { }
 }
 
 export class LoadPricingMatchSuccess implements Action {
