@@ -16,7 +16,6 @@ exports[`TrsCalculationControlComponent should display contribution values and t
   onUpdateSummaryTitleChange={[Function EventEmitter]}
 >
   <div
-    class="trs-calculation py-2 px-1"
     pfmodeclassifierdirective=""
   >
     <table
@@ -201,7 +200,7 @@ exports[`TrsCalculationControlComponent should display field if employer does no
   showEmployeeContributions={[Function Boolean]}
 >
   <div
-    class="trs-calculation py-2 px-1"
+    class="employee-contributions-decimals-enabled"
     pfmodeclassifierdirective=""
   >
     <table
@@ -421,7 +420,7 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
   showEmployeeContributions="false"
 >
   <div
-    class="trs-calculation py-2 px-1"
+    class="decimals-enabled"
     pfmodeclassifierdirective=""
   >
     <table
@@ -606,7 +605,7 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
   showEmployeeContributions={[Function Boolean]}
 >
   <div
-    class="trs-calculation py-2 px-1"
+    class="employee-contributions-decimals-enabled"
     pfmodeclassifierdirective=""
   >
     <table
@@ -826,7 +825,7 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
   showEmployeeContributions={[Function Boolean]}
 >
   <div
-    class="trs-calculation py-2 px-1"
+    class="employee-contributions-decimals-enabled"
     pfmodeclassifierdirective=""
   >
     <table
@@ -1046,7 +1045,7 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
   showEmployeeContributions="false"
 >
   <div
-    class="trs-calculation py-2 px-1"
+    class="decimals-enabled"
     pfmodeclassifierdirective=""
   >
     <table
@@ -1231,7 +1230,7 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
   showEmployeeContributions={[Function Boolean]}
 >
   <div
-    class="trs-calculation py-2 px-1"
+    class="employee-contributions-decimals-enabled"
     pfmodeclassifierdirective=""
   >
     <table
@@ -1449,7 +1448,6 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
   onUpdateSummaryTitleChange={[Function EventEmitter]}
 >
   <div
-    class="trs-calculation py-2 px-1"
     pfmodeclassifierdirective=""
   >
     <table
@@ -1605,7 +1603,6 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
   onUpdateSummaryTitleChange={[Function EventEmitter]}
 >
   <div
-    class="trs-calculation py-2 px-1"
     pfmodeclassifierdirective=""
   >
     <table
@@ -1761,7 +1758,6 @@ exports[`TrsCalculationControlComponent should hide all content in the table hea
   onUpdateSummaryTitleChange={[Function EventEmitter]}
 >
   <div
-    class="trs-calculation py-2 px-1"
     pfmodeclassifierdirective=""
   >
     <table
@@ -1850,7 +1846,7 @@ exports[`TrsCalculationControlComponent should not display field if BenefitsData
   showEmployeeContributions="false"
 >
   <div
-    class="trs-calculation py-2 px-1"
+    class="decimals-enabled"
     pfmodeclassifierdirective=""
   >
     <table
@@ -2035,7 +2031,7 @@ exports[`TrsCalculationControlComponent should not display field if BenefitsData
   showEmployeeContributions="false"
 >
   <div
-    class="trs-calculation py-2 px-1"
+    class="decimals-enabled"
     pfmodeclassifierdirective=""
   >
     <table
@@ -2220,7 +2216,7 @@ exports[`TrsCalculationControlComponent should not display field if employer and
   showEmployeeContributions="false"
 >
   <div
-    class="trs-calculation py-2 px-1"
+    class="decimals-enabled"
     pfmodeclassifierdirective=""
   >
     <table
@@ -2405,7 +2401,7 @@ exports[`TrsCalculationControlComponent should not display field if employer and
   showEmployeeContributions={[Function Boolean]}
 >
   <div
-    class="trs-calculation py-2 px-1"
+    class="employee-contributions-decimals-enabled"
     pfmodeclassifierdirective=""
   >
     <table
@@ -2625,7 +2621,7 @@ exports[`TrsCalculationControlComponent should not display field if employer doe
   showEmployeeContributions={[Function Boolean]}
 >
   <div
-    class="trs-calculation py-2 px-1"
+    class="employee-contributions-decimals-enabled"
     pfmodeclassifierdirective=""
   >
     <table
@@ -2845,7 +2841,7 @@ exports[`TrsCalculationControlComponent should not display field if employer doe
   showEmployeeContributions="false"
 >
   <div
-    class="trs-calculation py-2 px-1"
+    class="decimals-enabled"
     pfmodeclassifierdirective=""
   >
     <table
@@ -3028,7 +3024,6 @@ exports[`TrsCalculationControlComponent should render additional content in the 
   onUpdateSummaryTitleChange={[Function EventEmitter]}
 >
   <div
-    class="trs-calculation py-2 px-1"
     pfmodeclassifierdirective=""
   >
     <table
@@ -3129,7 +3124,6 @@ exports[`TrsCalculationControlComponent should render the supplied Summary 1`] =
   onUpdateSummaryTitleChange={[Function EventEmitter]}
 >
   <div
-    class="trs-calculation py-2 px-1"
     pfmodeclassifierdirective=""
   >
     <table
@@ -3247,7 +3241,6 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
   onUpdateSummaryTitleChange={[Function EventEmitter]}
 >
   <div
-    class="trs-calculation py-2 px-1"
     pfmodeclassifierdirective=""
   >
     <table

@@ -6,12 +6,9 @@
   table {
     table-layout: fixed;
     .field-column {
-      width: 55%;
+      width: 75%;
     }
     .employer-contribution-column {
-      width: 20%;
-    }
-    .employee-contribution-column {
       width: 20%;
     }
     .button-column {
@@ -30,7 +27,48 @@
       }
     }
   }
-
+  &.decimals-enabled {
+    table {
+      .field-column {
+        width: 73%;
+      }
+      .employer-contribution-column {
+        width: 22%;
+      }
+    }
+  }
+  &.employee-contributions-enabled {
+    table {
+      .field-column {
+        width: 50%;
+      }
+      .employee-contribution-column {
+        width: 25%;
+      }
+      .employer-contribution-column {
+        width: 20%;
+      }
+      .button-column {
+        width: 5%;
+      }
+    }
+  }
+  &.employee-contributions-decimals-enabled {
+    table {
+      .field-column {
+        width: 46%;
+      }
+      .employee-contribution-column {
+        width: 27%;
+      }
+      .employer-contribution-column {
+        width: 22%;
+      }
+      .button-column {
+        width: 5%;
+      }
+    }
+  }
   .faux-title {
     font-weight: bold;
     font-style: italic;
@@ -42,17 +80,18 @@
 
 .trs-calculation.print-mode, .trs-calculation.preview-mode {
   table {
-    .field-column {
-      width: 45%;
-    }
     .employer-contribution-column {
-      width: 30%;
-    }
-    .employee-contribution-column {
       width: 25%;
     }
     .button-column {
       width: 0;
+    }
+  }
+  &.decimals-enabled, &.employee-contributions-decimals-enabled  {
+    table {
+      .employer-contribution-column {
+        width: 27%;
+      }
     }
   }
 }
@@ -78,6 +117,7 @@
     padding-top: .3rem;
   }
 }
+
 .edit-mode {
   .trs-calculation-row:hover {
     .remove-btn {

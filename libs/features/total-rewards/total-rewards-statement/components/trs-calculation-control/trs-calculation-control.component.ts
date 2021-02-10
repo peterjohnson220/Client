@@ -74,6 +74,18 @@ export class TrsCalculationControlComponent implements OnChanges {
     }
   }
 
+  get featureClasses(): string {
+    if (this.showDecimals && this.showEmployeeContributions) {
+      return 'employee-contributions-decimals-enabled';
+    } else if (this.showDecimals) {
+      return 'decimals-enabled';
+    } else if (this.showEmployeeContributions) {
+      return 'employee-contributions-enabled';
+    } else {
+      return '';
+    }
+  }
+
   removeField(field: models.CompensationField) {
     this.onCompFieldRemoved.emit({ControlId: this.controlData.Id, DataFieldId: field.Id, IsVisible: false});
   }
