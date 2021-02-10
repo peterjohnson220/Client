@@ -24,7 +24,6 @@ export class SurveySearchResultsComponent implements OnInit {
   @Input() refineInPeerEnabled = false;
   @Input() refineInPeerReadyDefault = false;
 
-  refineInPeerByJobTitle = false;
   refineInPeerReady = false;
   // Observables
   jobResults$: Observable<JobResult[]>;
@@ -59,11 +58,6 @@ export class SurveySearchResultsComponent implements OnInit {
     switch (event.data.payfactorsMessage.type) {
       case 'Refine Exchange Job Enabled':
         this.refineInPeerReady = true;
-        this.refineInPeerByJobTitle = false;
-        break;
-      case 'Refine Exchange Job Title Search Enabled':
-        this.refineInPeerReady = true;
-        this.refineInPeerByJobTitle = true;
         break;
     }
   }
@@ -104,9 +98,7 @@ export class SurveySearchResultsComponent implements OnInit {
   handleRefineInPeerClicked(job): void {
     if (this.refineInPeerEnabled) {
       const exchangeJob = job.PeerJobInfo;
-      const payload = !this.refineInPeerByJobTitle ? {lockedExchangeJobId: exchangeJob.ExchangeJobId} :
-        {exchangeId: exchangeJob.ExchangeId, exchangeJobTitle: job.Title};
-      this.store.dispatch(new fromSurveySearchResultsActions.RefineExchangeJobResult(payload));
+      this.store.dispatch(new fromSurveySearchResultsActions.RefineExchangeJobResult({lockedExchangeJobId: exchangeJob.ExchangeJobId}));
     }
   }
 }

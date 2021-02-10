@@ -97,7 +97,7 @@ export class UpdateResultsMatchesCount implements Action {
 export class RefineExchangeJobResult implements Action {
   readonly type = REFINE_EXCHANGE_JOB_RESULT;
 
-  constructor(public payload: {lockedExchangeJobId: number}|{exchangeId: number, exchangeJobTitle: string}) { }
+  constructor(public payload: {lockedExchangeJobId: number}) { }
 }
 
 export class RefineExchangeJobResultComplete implements Action {
