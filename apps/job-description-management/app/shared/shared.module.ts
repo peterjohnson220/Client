@@ -8,7 +8,7 @@ import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { DragulaModule } from 'ng2-dragula';
 import { EditorModule } from 'primeng/editor';
-import { NgbTabsetModule, NgbPaginationModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbPaginationModule, NgbTooltipModule, NgbNavModule} from '@ng-bootstrap/ng-bootstrap';
 import { ImgFallbackModule } from 'ngx-img-fallback';
 
 import { PfCommonModule } from 'libs/core';
@@ -44,32 +44,32 @@ import { JobDescriptionAppliesToDisplayNamePipe } from './pipes';
 import { PeditorAutoFocusFixDirective } from './directives';
 
 @NgModule({
-  imports: [
-    // Angular
-    CommonModule,
+    imports: [
+        // Angular
+        CommonModule,
 
-    // 3rd Party
-    FontAwesomeModule,
-    PfJobDescriptionManagementModule,
-    DragulaModule.forRoot(),
-    EditorModule,
-    NgbTabsetModule,
-    NgbPaginationModule,
-    NgbTooltipModule,
-    ImgFallbackModule,
-    GridModule,
-    DropDownsModule,
+        // 3rd Party
+        FontAwesomeModule,
+        PfJobDescriptionManagementModule,
+        DragulaModule.forRoot(),
+        EditorModule,
+        NgbPaginationModule,
+        NgbTooltipModule,
+        ImgFallbackModule,
+        GridModule,
+        DropDownsModule,
 
-    // Payfactors
-    PfCommonModule,
-    PfCommonUIModule,
-    PfFormsModule,
-    ReactiveFormsModule,
-    FormsModule,
-    DatePickerModule,
-    FilterMenuModule,
-    GridModule
-  ],
+        // Payfactors
+        PfCommonModule,
+        PfCommonUIModule,
+        PfFormsModule,
+        ReactiveFormsModule,
+        FormsModule,
+        DatePickerModule,
+        FilterMenuModule,
+        GridModule,
+        NgbNavModule
+    ],
   exports: [
     StatusPillComponent,
     JobDescriptionAppliesToModalComponent,
