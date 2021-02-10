@@ -352,6 +352,113 @@ describe('TrsCalculationControlComponent', () => {
     expect(employerContribution).toBe('10000.50');
   });
 
+  // BenefitsData Tests
+  it('should not display field if BenefitsData is null', () => {
+    // arrange
+    component.controlData = generateMockCalculationControl();
+    component.mode = StatementModeEnum.Preview;
+    component.showDecimals = true;
+    component.showEmployeeContributions = false;
+    component.employeeRewardsData = { ...generateMockEmployeeRewardsData(), IsMockData: false, Currency: 'USD' } as any;
+    component.employeeRewardsData.BenefitsData = null;
+    const field = { Id: 'abc-123', DatabaseField: 'Savings_401K_Match', IsVisible: true, CanHaveEmployeeContribution: true, Name: {} as any };
+
+    // act
+    fixture.detectChanges();
+    const fieldIsBenefitsFieldVisible = component.isBenefitsFieldVisible(field);
+    const fieldEmployeeContribution = component.getEmployeeContributionValue(field);
+    const fieldEmployerContribution = component.getEmployerContributionValue(field);
+
+    // assert
+    expect(fieldIsBenefitsFieldVisible).toBe(false);
+    expect(fieldEmployeeContribution).toBe('');
+    expect(fieldEmployerContribution).toBe('');
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should not display field if BenefitsData is undefined', () => {
+    // arrange
+    component.controlData = generateMockCalculationControl();
+    component.mode = StatementModeEnum.Preview;
+    component.showDecimals = true;
+    component.showEmployeeContributions = false;
+    component.employeeRewardsData = { ...generateMockEmployeeRewardsData(), IsMockData: false, Currency: 'USD' } as any;
+    component.employeeRewardsData.BenefitsData = undefined;
+    const field = { Id: 'abc-123', DatabaseField: 'Savings_401K_Match', IsVisible: true, CanHaveEmployeeContribution: true, Name: {} as any };
+
+    // act
+    fixture.detectChanges();
+    const fieldIsBenefitsFieldVisible = component.isBenefitsFieldVisible(field);
+    const fieldEmployeeContribution = component.getEmployeeContributionValue(field);
+    const fieldEmployerContribution = component.getEmployerContributionValue(field);
+
+    // assert
+    expect(fieldIsBenefitsFieldVisible).toBe(false);
+    expect(fieldEmployeeContribution).toBe('');
+    expect(fieldEmployerContribution).toBe('');
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should not display field if invalid benefit field', () => {
+    // arrange
+    component.controlData = generateMockCalculationControl();
+    component.mode = StatementModeEnum.Preview;
+    component.showDecimals = true;
+    component.showEmployeeContributions = false;
+    component.employeeRewardsData = { ...generateMockEmployeeRewardsData(), IsMockData: false, Currency: 'USD' } as any;
+    const field = { Id: 'abc-123', DatabaseField: 'INVALID_FIELD', IsVisible: true, CanHaveEmployeeContribution: true, Name: {} as any };
+
+    // act
+    // fixture.detectChanges();
+    const fieldIsBenefitsFieldVisible = component.isBenefitsFieldVisible(field);
+    const fieldEmployeeContribution = component.getEmployeeContributionValue(field);
+    const fieldEmployerContribution = component.getEmployerContributionValue(field);
+
+    // assert
+    expect(fieldIsBenefitsFieldVisible).toBe(false);
+    expect(fieldEmployeeContribution).toBe('');
+    expect(fieldEmployerContribution).toBe('');
+
+    // expect(fixture).toMatchSnapshot();
+  });
+
+  it('should not display field if benefit field is null or undefined', () => {
+    // arrange
+    component.controlData = generateMockCalculationControl();
+    component.mode = StatementModeEnum.Preview;
+    component.showDecimals = true;
+    component.showEmployeeContributions = false;
+    component.employeeRewardsData = { ...generateMockEmployeeRewardsData(), IsMockData: false, Currency: 'USD' } as any;
+    component.employeeRewardsData.BenefitsData['Savings_401K_Match'] = null;
+    component.employeeRewardsData.BenefitsData['Pension_Plan'] = undefined;
+
+    const field1 = { Id: 'abc-123', DatabaseField: 'Savings_401K_Match', IsVisible: true, CanHaveEmployeeContribution: true, Name: {} as any };
+    const field2 = { Id: 'abc-123', DatabaseField: 'Pension_Plan', IsVisible: true, CanHaveEmployeeContribution: true, Name: {} as any };
+
+    // act
+    // fixture.detectChanges();
+    const field1IsBenefitsFieldVisible = component.isBenefitsFieldVisible(field1);
+    const field1EmployeeContribution = component.getEmployeeContributionValue(field1);
+    const field1EmployerContribution = component.getEmployerContributionValue(field1);
+
+    const field2IsBenefitsFieldVisible = component.isBenefitsFieldVisible(field2);
+    const field2EmployeeContribution = component.getEmployeeContributionValue(field2);
+    const field2EmployerContribution = component.getEmployerContributionValue(field2);
+
+    // assert
+    expect(field1IsBenefitsFieldVisible).toBe(false);
+    expect(field1EmployeeContribution).toBe('');
+    expect(field1EmployerContribution).toBe('');
+
+    expect(field2IsBenefitsFieldVisible).toBe(false);
+    expect(field2EmployeeContribution).toBe('');
+    expect(field2EmployerContribution).toBe('');
+
+    // expect(fixture).toMatchSnapshot();
+  });
+
   // BenefitsData tests with showEmployeeContributions disabled
   // has data: employer yes, employee yes
   it('should display field if employer has a value and employee has a value with showEmployeeContributions disabled', () => {
@@ -493,7 +600,7 @@ describe('TrsCalculationControlComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  // BenefitsData tests with showEmployeeContributions disabled
+  // BenefitsData tests with showEmployeeContributions enabled
   // has data: employer yes, employee yes
   it('should display field if employer has a value and employee has a value with showEmployeeContributions enabled', () => {
     // arrange
@@ -632,4 +739,81 @@ describe('TrsCalculationControlComponent', () => {
 
     expect(fixture).toMatchSnapshot();
   });
+
+  // BenefitsData tests with CanHaveEmployeeContribution is false
+  it('should display field if employer has a value and employee has a value with CanHaveEmployeeContribution is false', () => {
+    // arrange
+    component.controlData = generateMockCalculationControl();
+    component.mode = StatementModeEnum.Preview;
+    component.showDecimals = true;
+    component.showEmployeeContributions = true;
+    component.employeeRewardsData = { ...generateMockEmployeeRewardsData(), IsMockData: false, Currency: 'USD' } as any;
+    component.employeeRewardsData.BenefitsData['Tuition_Reimbursement'].EmployerValue = 1000;
+    component.employeeRewardsData.BenefitsData['Tuition_Reimbursement'].CompanyEmployeeValue = 1000;
+    component.employeeRewardsData.BenefitsData['PTO'].EmployerValue = 1000;
+    component.employeeRewardsData.BenefitsData['PTO'].CompanyEmployeeValue = 1000;
+    const field1 =
+      { Id: 'abc-123', DatabaseField: 'Tuition_Reimbursement', IsVisible: true, CanHaveEmployeeContribution: false, Name: {} as any } as CompensationField;
+    const field2 = { Id: 'abc-456', DatabaseField: 'PTO', IsVisible: true, CanHaveEmployeeContribution: false, Name: {} as any } as CompensationField;
+
+    // act
+    fixture.detectChanges();
+    const field1IsBenefitsFieldVisible = component.isBenefitsFieldVisible(field1);
+    const field1EmployerContribution = component.getEmployerContributionValue(field1);
+    const field1EmployeeContribution = component.getEmployeeContributionValue(field1);
+
+    const field2IsBenefitsFieldVisible = component.isBenefitsFieldVisible(field2);
+    const field2EmployerContribution = component.getEmployerContributionValue(field2);
+    const field2EmployeeContribution = component.getEmployeeContributionValue(field2);
+
+    // assert
+    // Should only display employer value
+    expect(field1IsBenefitsFieldVisible).toBe(true);
+    expect(field1EmployerContribution).toBe('1000');
+    expect(field1EmployeeContribution).toBe('');
+
+    expect(field2IsBenefitsFieldVisible).toBe(true);
+    expect(field2EmployerContribution).toBe('1000');
+    expect(field2EmployeeContribution).toBe('');
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should not display field if employer does not have a value and employee has a value with CanHaveEmployeeContribution set false', () => {
+    // arrange
+    component.controlData = generateMockCalculationControl();
+    component.mode = StatementModeEnum.Preview;
+    component.showDecimals = true;
+    component.showEmployeeContributions = true;
+    component.employeeRewardsData = { ...generateMockEmployeeRewardsData(), IsMockData: false, Currency: 'USD' } as any;
+    component.employeeRewardsData.BenefitsData['Tuition_Reimbursement'].EmployerValue = 0;
+    component.employeeRewardsData.BenefitsData['Tuition_Reimbursement'].CompanyEmployeeValue = 1000;
+    component.employeeRewardsData.BenefitsData['PTO'].EmployerValue = null;
+    component.employeeRewardsData.BenefitsData['PTO'].CompanyEmployeeValue = 1000;
+    const field1 =
+      { Id: 'abc-123', DatabaseField: 'Tuition_Reimbursement', IsVisible: true, CanHaveEmployeeContribution: false, Name: {} as any } as CompensationField;
+    const field2 = { Id: 'abc-456', DatabaseField: 'PTO', IsVisible: true, CanHaveEmployeeContribution: false, Name: {} as any } as CompensationField;
+
+    // act
+    fixture.detectChanges();
+    const field1IsBenefitsFieldVisible = component.isBenefitsFieldVisible(field1);
+    const field1EmployerContribution = component.getEmployerContributionValue(field1);
+    const field1EmployeeContribution = component.getEmployeeContributionValue(field1);
+
+    const field2IsBenefitsFieldVisible = component.isBenefitsFieldVisible(field2);
+    const field2EmployerContribution = component.getEmployerContributionValue(field2);
+    const field2EmployeeContribution = component.getEmployeeContributionValue(field2);
+
+    // assert
+    expect(field1IsBenefitsFieldVisible).toBe(false);
+    expect(field1EmployerContribution).toBe('');
+    expect(field1EmployeeContribution).toBe('');
+
+    expect(field2IsBenefitsFieldVisible).toBe(false);
+    expect(field2EmployerContribution).toBe('');
+    expect(field2EmployeeContribution).toBe('');
+
+    expect(fixture).toMatchSnapshot();
+  });
+
 });

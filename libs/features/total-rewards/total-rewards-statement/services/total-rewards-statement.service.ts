@@ -169,10 +169,16 @@ export class TotalRewardsStatementService {
       return true;
     }
 
-    const benefitDataExists = employeeRewardsData.BenefitsData !== undefined;
-    const fieldExistInBenefitsData = benefitDataExists && employeeRewardsData.BenefitsData[fieldName] !== undefined;
+    if (!this.doesBenefitsDataExist(employeeRewardsData)) {
+      return false;
+    }
+    const fieldExistInBenefitsData = employeeRewardsData.BenefitsData[fieldName] !== undefined && employeeRewardsData.BenefitsData[fieldName] != null;
     const fieldHasEmployerValue = fieldExistInBenefitsData && employeeRewardsData.BenefitsData[fieldName].EmployerValue > 0;
     const fieldHasEmployeeValue = fieldExistInBenefitsData && employeeRewardsData.BenefitsData[fieldName].CompanyEmployeeValue > 0;
     return fieldHasEmployerValue || (shouldCheckEmployeeContribution && fieldHasEmployeeValue);
+  }
+
+  static doesBenefitsDataExist(employeeRewardsData: EmployeeRewardsData): boolean {
+    return employeeRewardsData?.BenefitsData !== null && employeeRewardsData?.BenefitsData !== undefined;
   }
 }
