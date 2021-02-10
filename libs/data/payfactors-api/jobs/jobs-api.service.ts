@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { CreateProjectRequest } from 'libs/models/payfactors-api';
-import { BaseUrlLocation } from 'libs/models/payfactors-api/common/base-url-location.enum';
+import { CreateProjectRequest, ExportJobsRequest } from 'libs/models/payfactors-api';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 
@@ -12,7 +11,6 @@ import { PayfactorsApiService } from '../payfactors-api.service';
 })
 export class JobsApiService {
   private endpoint = 'Jobs';
-  private frontEndExportEndpoint = 'Pricing';
 
   constructor(private payfactorsApiService: PayfactorsApiService
   ) { }
@@ -21,9 +19,8 @@ export class JobsApiService {
     return this.payfactorsApiService.post<any>(`${this.endpoint}/AddToProject`, request);
   }
 
-  exportPricings(request: any) {
-
-    return this.payfactorsApiService.post<any>(`${this.endpoint}/${request.Endpoint}`, {
+  exportPricings(request: ExportJobsRequest): Observable<string> {
+    return this.payfactorsApiService.post<string>(`${this.endpoint}/${request.Endpoint}`, {
       CompanyJobIds: request.CompanyJobIds,
       PricingIds: request.PricingIds,
       FileExtension: request.FileExtension,

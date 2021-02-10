@@ -22,7 +22,7 @@ import {
 } from 'libs/features/grids/pf-data-grid/models';
 import { AsyncStateObj, CompanySettingsEnum, GroupedListItem, UserContext } from 'libs/models';
 import { GetPricingsToModifyRequest } from 'libs/features/pricings/multi-match/models';
-import { ChangeJobStatusRequest, CreateProjectRequest, MatchedSurveyJob, ViewField } from 'libs/models/payfactors-api';
+import { ChangeJobStatusRequest, CreateProjectRequest, ExportJobsRequest, MatchedSurveyJob, ViewField } from 'libs/models/payfactors-api';
 import { SurveySearchFilterMappingDataObj, SurveySearchUserFilterType } from 'libs/features/surveys/survey-search/data';
 import { SearchFeatureIds } from 'libs/features/search/search/enums/search-feature-ids';
 import { SettingsService } from 'libs/state/app-context/services';
@@ -514,7 +514,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   exportPricings() {
-    const request = {
+    const request: ExportJobsRequest = {
       CompanyJobIds: this.selectedJobIds,
       PricingIds: this.selectedPricingIds,
       FileExtension: this.exportRequest.Extension,

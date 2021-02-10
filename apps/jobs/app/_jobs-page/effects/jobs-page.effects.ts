@@ -148,15 +148,9 @@ export class JobsPageEffects {
   @Effect()
   exportPricings$: Observable<Action> = this.actions$.pipe(
     ofType(fromJobsPageActions.EXPORT_PRICINGS),
-    switchMap((action: any) => {
+    switchMap((action: fromJobsPageActions.ExportPricings) => {
       return this.jobsApiService.exportPricings(action.payload).pipe(
-        map(response => {
-          if (action.payload.Endpoint === 'ExportPricings') {
-            return new fromJobsPageActions.ExportPricingsSuccess(action.payload, response);
-          } else {
-            return new fromJobsPageActions.ExportPricingsSuccess(action.payload);
-          }
-        }),
+        map(response => new fromJobsPageActions.ExportPricingsSuccess(response)),
         catchError(error => {
           return this.handleError('Error creating export. Please contact Payfactors Support for assistance', 'Error',
             new fromJobsPageActions.ExportPricingsError(action.payload));

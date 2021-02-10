@@ -125,43 +125,23 @@ export function reducer(state = initialState, action: fromJobsPageActions.JobsPa
       return state;
     }
     case fromJobsPageActions.EXPORT_PRICINGS: {
-      const updatedExportOptions = cloneDeep(state.exportOptions);
-      const exportedReport = updatedExportOptions.find(eo => eo.Name === action.payload.Name);
-
-      exportedReport.ExportedReportExtension = action.payload.FileExtension;
-      exportedReport.Exporting = AsyncStateObjHelper.loading(exportedReport, 'Exporting').Exporting;
-
       return {
         ...state,
-        exportOptions: updatedExportOptions,
         exporting: true
       };
     }
     case fromJobsPageActions.EXPORT_PRICINGS_SUCCESS: {
-      const updatedExportOptions = cloneDeep(state.exportOptions);
-      const exportedReport = updatedExportOptions.find(eo => eo.Name === action.payload.Name);
-      exportedReport.ExportedReportExtension = action.payload.FileExtension;
-      exportedReport.Exporting = AsyncStateObjHelper.loadingSuccess(exportedReport, 'Exporting').Exporting;
-
       const exportEventIdClone: AsyncStateObj<string> = cloneDeep(state.exportEventId);
       exportEventIdClone.obj = action.exportEventId;
 
       return {
         ...state,
-        exportOptions: updatedExportOptions,
-        exporting: !!action.exportEventId,
         exportEventId: exportEventIdClone
       };
     }
     case fromJobsPageActions.EXPORT_PRICINGS_ERROR: {
-      const updatedExportOptions = cloneDeep(state.exportOptions);
-      const exportedReport = updatedExportOptions.find(eo => eo.Name === action.payload.Name);
-      exportedReport.ExportedReportExtension = action.payload.FileExtension;
-      exportedReport.Exporting = AsyncStateObjHelper.loadingError(exportedReport, 'Exporting').Exporting;
-
       return {
         ...state,
-        exportOptions: updatedExportOptions,
         exporting: false
       };
     }
