@@ -103,8 +103,8 @@
     #exportListPopover
     [disableCustomExport]="!selectedPricingIds.length"
     [disabledCustomExportTooltip]="'Select a pricing'"
-    [disablePopover]="this.selectedJobPricingCount < 1 && this.selectedPricingIds.length < 1"
-    [disabledPopoverTooltip]="'Please select at least one priced job'"
+    [disablePopover]="(this.selectedJobPricingCount < 1 && this.selectedPricingIds.length < 1) || (exporting$ | async) || (getExportEventId$ | async)?.loading"
+    [disabledPopoverTooltip]="(exporting$ | async) ? 'Download in progress' : 'Please select at least one priced job'"
     (exportEmitter)="handleExportPricings($event)">
   </pf-export-list-popover>
 </ng-template>

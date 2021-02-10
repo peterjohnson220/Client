@@ -150,7 +150,13 @@ export class JobsPageEffects {
     ofType(fromJobsPageActions.EXPORT_PRICINGS),
     switchMap((action: any) => {
       return this.jobsApiService.exportPricings(action.payload).pipe(
-        map(response => new fromJobsPageActions.ExportPricingsSuccess(action.payload)),
+        map(response => {
+          if (action.payload.Endpoint === 'ExportPricings') {
+            return new fromJobsPageActions.ExportPricingsSuccess(action.payload, response);
+          } else {
+            return new fromJobsPageActions.ExportPricingsSuccess(action.payload);
+          }
+        }),
         catchError(error => {
           return this.handleError('Error creating export. Please contact Payfactors Support for assistance', 'Error',
             new fromJobsPageActions.ExportPricingsError(action.payload));
@@ -194,6 +200,17 @@ export class JobsPageEffects {
           return this.handleError('Error saving Jobs page preference. Please contact Payfactors Support for assistance',
             'Error', new fromJobsPageActions.ToggleJobsPageError());
         })
+      );
+    })
+  );
+
+  @Effect()
+  getRunningExport$: Observable<Action> = this.actions$.pipe(
+    ofType(fromJobsPageActions.GET_RUNNING_EXPORT),
+    switchMap((action: fromJobsPageActions.GetRunningExport) => {
+      return this.jobsApiService.getRunningExport(action.pageViewId).pipe(
+        map((response) => new fromJobsPageActions.GetRunningExportSuccess(response)),
+        catchError(() => of(new fromJobsPageActions.GetRunningExportError()))
       );
     })
   );

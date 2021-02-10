@@ -15,6 +15,8 @@ export interface State {
   structureGradeNames: any;
   exportOptions: any;
   navigatingToOldPage: AsyncStateObj<boolean>;
+  exportEventId: AsyncStateObj<string>;
+  exporting: boolean;
 }
 
 export const initialState: State = {
@@ -26,7 +28,7 @@ export const initialState: State = {
   structureGradeNames: [],
   exportOptions: [{
     Display: 'Download Pricings',
-    Name: 'DownloadPricings',
+    Name: 'Pricing Details',
     Description: 'High Level Pricing Details including Pay Markets, Effective Dates',
     Endpoint: 'ExportPricings',
     ValidExtensions: ['xlsx'],
@@ -35,7 +37,7 @@ export const initialState: State = {
     ExportedReportExtension: undefined
   }, {
     Display: 'Download Job Report',
-    Name: 'DownloadJobReport',
+    Name: 'Job Report',
     Description: 'Report including Pricing Details and a breakdown of Pay',
     Endpoint: 'ExportJobReport',
     ValidExtensions: ['xlsx', 'pdf'],
@@ -43,7 +45,9 @@ export const initialState: State = {
     Exporting: generateDefaultAsyncStateObj<boolean>(false),
     ExportedReportExtension: undefined
   }],
-  navigatingToOldPage: generateDefaultAsyncStateObj<boolean>(false)
+  navigatingToOldPage: generateDefaultAsyncStateObj<boolean>(false),
+  exportEventId: generateDefaultAsyncStateObj<string>(null),
+  exporting: false
 };
 
 export function reducer(state = initialState, action: fromJobsPageActions.JobsPageActions): State {
@@ -129,7 +133,8 @@ export function reducer(state = initialState, action: fromJobsPageActions.JobsPa
 
       return {
         ...state,
-        exportOptions: updatedExportOptions
+        exportOptions: updatedExportOptions,
+        exporting: true
       };
     }
     case fromJobsPageActions.EXPORT_PRICINGS_SUCCESS: {
@@ -138,9 +143,14 @@ export function reducer(state = initialState, action: fromJobsPageActions.JobsPa
       exportedReport.ExportedReportExtension = action.payload.FileExtension;
       exportedReport.Exporting = AsyncStateObjHelper.loadingSuccess(exportedReport, 'Exporting').Exporting;
 
+      const exportEventIdClone: AsyncStateObj<string> = cloneDeep(state.exportEventId);
+      exportEventIdClone.obj = action.exportEventId;
+
       return {
         ...state,
-        exportOptions: updatedExportOptions
+        exportOptions: updatedExportOptions,
+        exporting: !!action.exportEventId,
+        exportEventId: exportEventIdClone
       };
     }
     case fromJobsPageActions.EXPORT_PRICINGS_ERROR: {
@@ -151,7 +161,8 @@ export function reducer(state = initialState, action: fromJobsPageActions.JobsPa
 
       return {
         ...state,
-        exportOptions: updatedExportOptions
+        exportOptions: updatedExportOptions,
+        exporting: false
       };
     }
     case fromJobsPageActions.TOGGLE_JOBS_PAGE: {
@@ -162,6 +173,29 @@ export function reducer(state = initialState, action: fromJobsPageActions.JobsPa
     }
     case fromJobsPageActions.TOGGLE_JOBS_PAGE_ERROR: {
       return AsyncStateObjHelper.loadingError(state, 'navigatingToOldPage');
+    }
+    case fromJobsPageActions.GET_RUNNING_EXPORT: {
+      return AsyncStateObjHelper.loading(state, 'exportEventId');
+    }
+    case fromJobsPageActions.GET_RUNNING_EXPORT_SUCCESS: {
+      const exportEventIdClone: AsyncStateObj<string> = cloneDeep(state.exportEventId);
+      exportEventIdClone.loading = false;
+      exportEventIdClone.obj = action.payload;
+      return {
+        ...state,
+        exportEventId: exportEventIdClone,
+        exporting: !!action.payload
+      };
+    }
+    case fromJobsPageActions.GET_RUNNING_EXPORT_ERROR: {
+      return AsyncStateObjHelper.loadingError(state, 'exportEventId');
+    }
+    case fromJobsPageActions.EXPORTING_COMPLETE: {
+      return {
+        ...state,
+        exporting: false,
+        exportEventId: generateDefaultAsyncStateObj<string>(null)
+      };
     }
     default: {
       return state;
@@ -177,4 +211,5 @@ export const getCompanyPayMarkets = (state: State) => state.companyPayMarkets;
 export const getStructureGradeNames = (state: State) => state.structureGradeNames;
 export const getExportOptions = (state: State) => state.exportOptions;
 export const getNavigatingToOldPage = (state: State) => state.navigatingToOldPage;
-
+export const getExportEventId = (state: State) => state.exportEventId;
+export const getExporting = (state: State) => state.exporting;
