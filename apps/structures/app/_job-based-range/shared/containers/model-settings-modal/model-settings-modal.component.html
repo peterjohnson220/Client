@@ -16,105 +16,210 @@
 
   <ng-container form-content>
     <div class="pt-3" *ngIf="modalOpen$ | async">
-      <ngb-tabset [destroyOnHide]="false" [activeId]="activeTab" (tabChange)="activeTab = $event.nextId">
-        <ngb-tab [title]="modelTabTitle" id="modelTab" >
-          <ng-template ngbTabContent>
-            <div class="p-3 pr-5">
-                <div class="form-group">
-                  <label for="model-name">Model Name</label>
-                  <input type="text"
-                         class="form-control"
-                         id="model-name"
-                         formControlName="ModelName"
-                         [ngClass]="{ 'is-invalid': (attemptedSubmit && !formControls.ModelName.valid) || modelNameExistsFailure }"
-                         [maxlength]="50"
-                         (input)="clearModelNameExistsFailure()"/>
-                  <div class="invalid-feedback">
-                    <div *ngIf="!formControls.ModelName.valid">Please provide a model name.</div>
-                    <div *ngIf="modelNameExistsFailure">Model Name Exists</div>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <pf-range-distribution-setting
-                    formControlName="RangeDistributionSetting"
-                    [controlPointsAsyncObj]="controlPointsAsyncObj"
-                    [surveyUdfsAsyncObj]="surveyUdfsAsyncObj"
-                    [metadata]="metadata"
-                    [rangeGroupId]="rangeGroupId"
-                    [attemptedSubmit]="attemptedSubmit"
-                    (payTypeSelectionChange)="handlePayTypeSelectionChange($event)">
-                  </pf-range-distribution-setting>
-                </div>
-                <div class="form-group">
-                  <label for="rate">Rate</label>
-                  <kendo-dropdownlist id="rate" class="form-control k-dropdown-white"
-                                      formControlName="Rate"
-                                      [data]="['Annual', 'Hourly']"
-                                      [valuePrimitive]="true"
-                                      (selectionChange)="handleRateSelectionChange($event)">
-                  </kendo-dropdownlist>
-                  <div class="invalid-feedback">
-                    Please provide a rate.
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="currency">Currency</label>
-                  <kendo-combobox id="currency" class="form-control"
-                                  formControlName="Currency"
-                                  [ngClass]="{ 'is-invalid': attemptedSubmit && !formControls.Currency.valid }"
-                                  [loading]="currenciesAsyncObj.loading"
-                                  [data]="currencies"
-                                  [textField]="'CurrencyDisplay'"
-                                  [valueField]="'CurrencyCode'"
-                                  [valuePrimitive]="true"
-                                  [clearButton]="false"
-                                  [allowCustom]="false"
-                                  [filterable]="true"
-                                  (filterChange)="handleCurrencyFilterChange($event)"
-                                  (selectionChange)="handleCurrencySelectionChange()">
-                  </kendo-combobox>
-                  <div class="invalid-feedback">
-                    Please provide a currency.
-                  </div>
-                </div>
-              <div class="form-group" *ngIf="hasAcceptedPeerTerms">
-                <label for="PeerExchange">
-                  Peer Exchange
-                  <span class="fa-icon-wrapper">
-                    <fa-icon placement="right" [ngbTooltip]="peerExchangeToolTipInfo" icon="info-circle" aria-hidden="true"></fa-icon>
-                  </span>
-                </label>
-                <kendo-dropdownlist id="PeerExchange" class="form-control k-dropdown-white"
-                                    formControlName="PeerExchange"
-                                    [data]="exchangeNames"
-                                    [valuePrimitive]="true"
-                                    [disabled]="peerDropDownDisabled"
-                                    (selectionChange)="handlePeerExchangeSelectionChange($event)">
-                </kendo-dropdownlist>
-                <div class="invalid-feedback">
-                  Please provide a Peer Exchange.
-                </div>
+<!--      <ngb-tabset [destroyOnHide]="false" [activeId]="activeTab" (tabChange)="activeTab = $event.nextId">-->
+<!--        <ngb-tab [title]="modelTabTitle" id="modelTab" >-->
+<!--          <ng-template ngbTabContent>-->
+<!--            <div class="p-3 pr-5">-->
+<!--                <div class="form-group">-->
+<!--                  <label for="model-name">Model Name</label>-->
+<!--                  <input type="text"-->
+<!--                         class="form-control"-->
+<!--                         id="model-name"-->
+<!--                         formControlName="ModelName"-->
+<!--                         [ngClass]="{ 'is-invalid': (attemptedSubmit && !formControls.ModelName.valid) || modelNameExistsFailure }"-->
+<!--                         [maxlength]="50"-->
+<!--                         (input)="clearModelNameExistsFailure()"/>-->
+<!--                  <div class="invalid-feedback">-->
+<!--                    <div *ngIf="!formControls.ModelName.valid">Please provide a model name.</div>-->
+<!--                    <div *ngIf="modelNameExistsFailure">Model Name Exists</div>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--                <div class="form-group">-->
+<!--                  <pf-range-distribution-setting-->
+<!--                    formControlName="RangeDistributionSetting"-->
+<!--                    [controlPointsAsyncObj]="controlPointsAsyncObj"-->
+<!--                    [surveyUdfsAsyncObj]="surveyUdfsAsyncObj"-->
+<!--                    [metadata]="metadata"-->
+<!--                    [rangeGroupId]="rangeGroupId"-->
+<!--                    [attemptedSubmit]="attemptedSubmit"-->
+<!--                    (payTypeSelectionChange)="handlePayTypeSelectionChange($event)">-->
+<!--                  </pf-range-distribution-setting>-->
+<!--                </div>-->
+<!--                <div class="form-group">-->
+<!--                  <label for="rate">Rate</label>-->
+<!--                  <kendo-dropdownlist id="rate" class="form-control k-dropdown-white"-->
+<!--                                      formControlName="Rate"-->
+<!--                                      [data]="['Annual', 'Hourly']"-->
+<!--                                      [valuePrimitive]="true"-->
+<!--                                      (selectionChange)="handleRateSelectionChange($event)">-->
+<!--                  </kendo-dropdownlist>-->
+<!--                  <div class="invalid-feedback">-->
+<!--                    Please provide a rate.-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--                <div class="form-group">-->
+<!--                  <label for="currency">Currency</label>-->
+<!--                  <kendo-combobox id="currency" class="form-control"-->
+<!--                                  formControlName="Currency"-->
+<!--                                  [ngClass]="{ 'is-invalid': attemptedSubmit && !formControls.Currency.valid }"-->
+<!--                                  [loading]="currenciesAsyncObj.loading"-->
+<!--                                  [data]="currencies"-->
+<!--                                  [textField]="'CurrencyDisplay'"-->
+<!--                                  [valueField]="'CurrencyCode'"-->
+<!--                                  [valuePrimitive]="true"-->
+<!--                                  [clearButton]="false"-->
+<!--                                  [allowCustom]="false"-->
+<!--                                  [filterable]="true"-->
+<!--                                  (filterChange)="handleCurrencyFilterChange($event)"-->
+<!--                                  (selectionChange)="handleCurrencySelectionChange()">-->
+<!--                  </kendo-combobox>-->
+<!--                  <div class="invalid-feedback">-->
+<!--                    Please provide a currency.-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              <div class="form-group" *ngIf="hasAcceptedPeerTerms">-->
+<!--                <label for="PeerExchange">-->
+<!--                  Peer Exchange-->
+<!--                  <span class="fa-icon-wrapper">-->
+<!--                    <fa-icon placement="right" [ngbTooltip]="peerExchangeToolTipInfo" icon="info-circle" aria-hidden="true"></fa-icon>-->
+<!--                  </span>-->
+<!--                </label>-->
+<!--                <kendo-dropdownlist id="PeerExchange" class="form-control k-dropdown-white"-->
+<!--                                    formControlName="PeerExchange"-->
+<!--                                    [data]="exchangeNames"-->
+<!--                                    [valuePrimitive]="true"-->
+<!--                                    [disabled]="peerDropDownDisabled"-->
+<!--                                    (selectionChange)="handlePeerExchangeSelectionChange($event)">-->
+<!--                </kendo-dropdownlist>-->
+<!--                <div class="invalid-feedback">-->
+<!--                  Please provide a Peer Exchange.-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+
+<!--          </ng-template>-->
+<!--        </ngb-tab>-->
+<!--        <ngb-tab title="Rounding" id="roundingTab">-->
+<!--          <ng-template ngbTabContent>-->
+<!--            <pf-range-rounding></pf-range-rounding>-->
+<!--          </ng-template>-->
+<!--        </ngb-tab>-->
+<!--        <ngb-tab *ngIf="structuresAdvancedModelingFeatureFlag.value" title="Advanced Modeling" id="advancedModelingTab">-->
+<!--          <ng-template ngbTabContent>-->
+<!--            <pf-advanced-model-setting-->
+<!--              formControlName="RangeAdvancedSetting"-->
+<!--              [metadata]="metadata"-->
+<!--              [attemptedSubmit]="attemptedSubmit"-->
+<!--              [rangeGroupId]="rangeGroupId">-->
+<!--            </pf-advanced-model-setting>-->
+<!--          </ng-template>-->
+<!--        </ngb-tab>-->
+<!--      </ngb-tabset>-->
+
+      <ul ngbNav #nav="ngbNav" [destroyOnHide]="false" [activeId]="activeTab" class="nav-tabs">
+      <li [ngbNavItem]="'modelTab'" [title]="modelTabTitle" id="modelTab" >
+        <a ngbNavLink>{{modelTabTitle}}</a>
+        <ng-template ngbNavContent>
+          <div class="p-3 pr-5">
+            <div class="form-group">
+              <label for="model-name">Model Name</label>
+              <input type="text"
+                     class="form-control"
+                     id="model-name"
+                     formControlName="ModelName"
+                     [ngClass]="{ 'is-invalid': (attemptedSubmit && !formControls.ModelName.valid) || modelNameExistsFailure }"
+                     [maxlength]="50"
+                     (input)="clearModelNameExistsFailure()"/>
+              <div class="invalid-feedback">
+                <div *ngIf="!formControls.ModelName.valid">Please provide a model name.</div>
+                <div *ngIf="modelNameExistsFailure">Model Name Exists</div>
               </div>
             </div>
+            <div class="form-group">
+              <pf-range-distribution-setting
+                formControlName="RangeDistributionSetting"
+                [controlPointsAsyncObj]="controlPointsAsyncObj"
+                [surveyUdfsAsyncObj]="surveyUdfsAsyncObj"
+                [metadata]="metadata"
+                [rangeGroupId]="rangeGroupId"
+                [attemptedSubmit]="attemptedSubmit"
+                (payTypeSelectionChange)="handlePayTypeSelectionChange($event)">
+              </pf-range-distribution-setting>
+            </div>
+            <div class="form-group">
+              <label for="rate">Rate</label>
+              <kendo-dropdownlist id="rate" class="form-control k-dropdown-white"
+                                  formControlName="Rate"
+                                  [data]="['Annual', 'Hourly']"
+                                  [valuePrimitive]="true"
+                                  (selectionChange)="handleRateSelectionChange($event)">
+              </kendo-dropdownlist>
+              <div class="invalid-feedback">
+                Please provide a rate.
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="currency">Currency</label>
+              <kendo-combobox id="currency" class="form-control"
+                              formControlName="Currency"
+                              [ngClass]="{ 'is-invalid': attemptedSubmit && !formControls.Currency.valid }"
+                              [loading]="currenciesAsyncObj.loading"
+                              [data]="currencies"
+                              [textField]="'CurrencyDisplay'"
+                              [valueField]="'CurrencyCode'"
+                              [valuePrimitive]="true"
+                              [clearButton]="false"
+                              [allowCustom]="false"
+                              [filterable]="true"
+                              (filterChange)="handleCurrencyFilterChange($event)"
+                              (selectionChange)="handleCurrencySelectionChange()">
+              </kendo-combobox>
+              <div class="invalid-feedback">
+                Please provide a currency.
+              </div>
+            </div>
+            <div class="form-group" *ngIf="hasAcceptedPeerTerms">
+              <label for="PeerExchange">
+                Peer Exchange
+                <span class="fa-icon-wrapper">
+                    <fa-icon placement="right" [ngbTooltip]="peerExchangeToolTipInfo" icon="info-circle" aria-hidden="true"></fa-icon>
+                  </span>
+              </label>
+              <kendo-dropdownlist id="PeerExchange" class="form-control k-dropdown-white"
+                                  formControlName="PeerExchange"
+                                  [data]="exchangeNames"
+                                  [valuePrimitive]="true"
+                                  [disabled]="peerDropDownDisabled"
+                                  (selectionChange)="handlePeerExchangeSelectionChange($event)">
+              </kendo-dropdownlist>
+              <div class="invalid-feedback">
+                Please provide a Peer Exchange.
+              </div>
+            </div>
+          </div>
 
-          </ng-template>
-        </ngb-tab>
-        <ngb-tab title="Rounding" id="roundingTab">
-          <ng-template ngbTabContent>
-            <pf-range-rounding></pf-range-rounding>
-          </ng-template>
-        </ngb-tab>
-        <ngb-tab *ngIf="structuresAdvancedModelingFeatureFlag.value" title="Advanced Modeling" id="advancedModelingTab">
-          <ng-template ngbTabContent>
-            <pf-advanced-model-setting
-              formControlName="RangeAdvancedSetting"
-              [metadata]="metadata"
-              [attemptedSubmit]="attemptedSubmit"
-              [rangeGroupId]="rangeGroupId">
-            </pf-advanced-model-setting>
-          </ng-template>
-        </ngb-tab>
-      </ngb-tabset>
+        </ng-template>
+      </li>
+      <li [ngbNavItem]="'roundingTab'" title="Rounding" id="roundingTab">
+        <a ngbNavLink>Rounding</a>
+        <ng-template ngbNavContent>
+          <pf-range-rounding></pf-range-rounding>
+        </ng-template>
+      </li>
+      <li [ngbNavItem]="'advancedModelingTab'" *ngIf="structuresAdvancedModelingFeatureFlag.value" title="Advanced Modeling" id="advancedModelingTab">
+        <a ngbNavLink>Advanced Modeling</a>
+        <ng-template ngbNavContent>
+          <pf-advanced-model-setting
+            formControlName="RangeAdvancedSetting"
+            [metadata]="metadata"
+            [attemptedSubmit]="attemptedSubmit"
+            [rangeGroupId]="rangeGroupId">
+          </pf-advanced-model-setting>
+        </ng-template>
+      </li>
+      </ul>
+      <div [ngbNavOutlet]="nav"></div>
+
     </div>
   </ng-container>
 

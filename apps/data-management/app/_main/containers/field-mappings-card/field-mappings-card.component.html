@@ -1,10 +1,10 @@
-<ngb-tabset [destroyOnHide]="false">
-  <ngb-tab *ngFor="let entity of selectedEntities"
+<ul ngbNav #nav="ngbNav" [destroyOnHide]="false" class="nav-tabs">
+  <li ngbNavItem *ngFor="let entity of selectedEntities"
             [id]="'tab-'+ entity.toLowerCase()">
-    <ng-template ngbTabTitle>
+    <a ngbNavLink>
         <h4 class="font-weight-lighter">{{entity | orgDataEntityTypeToDisplayName}}</h4>
-    </ng-template>
-    <ng-template ngbTabContent>
+    </a>
+    <ng-template ngbNavContent>
       <pf-entity-mapping
           [connectionId]="connectionId"
           [entityType]="entity"
@@ -14,5 +14,6 @@
           [provider]="provider">
       </pf-entity-mapping>
     </ng-template>
-  </ngb-tab>
-</ngb-tabset>
+  </li>
+</ul>
+<div [ngbNavOutlet]="nav"></div>

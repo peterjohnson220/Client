@@ -1,18 +1,130 @@
 <div class="card">
   <div class="card-content">
-    <ngb-tabset>
-      <ngb-tab title="Tiles">
-        <ng-template ngbTabContent>
+
+
+<!--    <ngb-tabset>-->
+<!--      <ngb-tab title="Tiles">-->
+<!--        <ng-template ngbTabContent>-->
+<!--          <div class="pt-2">-->
+<!--            <pf-async-container [loading]="loadingCompanyTiles$ | async"-->
+<!--              [loadingError]="loadingCompanyTilesError$ | async" [loadingErrorMessage]="'Error.'"-->
+<!--              [hideReloadButton]="true">-->
+<!--              <ng-container *ngIf="(companyTiles$ | async)?.length">-->
+<!--                <div class="checkbox" *ngFor="let companyTile of (companyTiles$ | async)">-->
+<!--                  <label *ngIf="companyTile.TileName !== tileNames.InternationalData">-->
+<!--                    <input type="checkbox"-->
+<!--                      (change)="toggleCompanyTile(companyTile)"-->
+<!--                      [disabled]="companyTile.Disabled" [checked]="companyTile.Checked" />-->
+<!--                    {{companyTile.TileDisplayName}}-->
+<!--                  </label>-->
+<!--                </div>-->
+<!--              </ng-container>-->
+<!--            </pf-async-container>-->
+<!--          </div>-->
+<!--        </ng-template>-->
+<!--      </ngb-tab>-->
+<!--      <ngb-tab title="Settings">-->
+<!--        <ng-template ngbTabContent>-->
+<!--          <div class="pt-2">-->
+<!--            <pf-async-container [loading]="loadingCompanySettings$ | async"-->
+<!--              [loadingError]="loadingCompanySettingsError$ | async" [loadingErrorMessage]="'Error.'"-->
+<!--              [hideReloadButton]="true">-->
+<!--              <ng-container *ngIf="(companySettings$ | async)?.length">-->
+<!--                <ng-container *ngFor="let setting of companySettings">-->
+<!--                  <div *ngIf="setting.Type === customListType; then customSettingsBlock else settingsBlock"></div>-->
+<!--                  <ng-template #customSettingsBlock>-->
+<!--                    <div class="checkbox">-->
+<!--                      <label>-->
+<!--                        <div *ngIf="setting.Key !== 'HideSecondarySurveyDataFields'; then customSetting else surveyDataSetting"></div>-->
+<!--                        <ng-template #customSetting>-->
+<!--                          <input type="checkbox" [(ngModel)]="setting.Value" /> {{setting.DisplayName}}-->
+<!--                        </ng-template>-->
+<!--                        <ng-template #surveyDataSetting>-->
+<!--                          <input type="checkbox" [(ngModel)]="setting.Value" /> -->
+<!--                          <a href="#" (click)="handleSurveyFieldsClicked()"> {{setting.DisplayName}}</a>-->
+<!--                        </ng-template>-->
+<!--                      </label>-->
+<!--                    </div>-->
+<!--                  </ng-template>-->
+<!--                  <ng-template #settingsBlock>-->
+<!--                    <div class="checkbox">-->
+<!--                      <label>-->
+<!--                        <input type="checkbox" (change)="toggleCompanySetting(setting)" [disabled]="setting.Disabled" [checked]="setting.Value === 'true'">-->
+<!--                        {{setting.DisplayName}}-->
+<!--                      </label>-->
+<!--                    </div>   -->
+<!--                  </ng-template>-->
+<!--                </ng-container>-->
+<!--                <div *ngIf="maxProjectCountSetting?.Visible && enableJobPricingLimiter" class="checkbox">-->
+<!--                    <label >Job Pricing Limit: {{jobPricingLimitUsed}} /-->
+<!--                      <input type="number" class="input-type-number p-0" [ngModel]="maxProjectCountSetting.Value" [disabled]="!enableJobPricingLimiter" (change)="checkMaxProjectJobCount($event, maxProjectCountSetting.Key)">-->
+<!--                      <p *ngIf="showJobPricingLimitError" class="alert-danger">Job Pricing Limit must be numeric and above the current number of priced jobs</p>-->
+<!--                    </label>-->
+<!--                </div>-->
+<!--              </ng-container>-->
+<!--            </pf-async-container>-->
+<!--          </div>-->
+<!--        </ng-template>-->
+<!--      </ngb-tab>-->
+<!--      <ngb-tab title="Market Data" *ngIf="companyDataSetsEnabled$ | async">-->
+<!--        <ng-template ngbTabContent>-->
+<!--          <div class="pt-2">-->
+<!--            <pf-async-container [loading]="loadingCompanyDataSets$ | async"-->
+<!--              [loadingError]="loadingCompanyDataSetsError$ | async" [loadingErrorMessage]="'Error.'"-->
+<!--              [hideReloadButton]="true">-->
+<!--              <div *ngIf="(companyDataSets$ | async)?.length">-->
+<!--                <div class="checkbox" *ngFor="let companyDataSet of (companyDataSets$ | async)">-->
+<!--                  <label>-->
+<!--                    <input type="checkbox" -->
+<!--                      (change)="toggleCompanyDataSet(companyDataSet)" -->
+<!--                      [checked]="companyDataSet.Checked" /> {{companyDataSet.DataSetName}}-->
+<!--                  </label>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </pf-async-container>-->
+<!--          </div>-->
+<!--        </ng-template>-->
+<!--      </ngb-tab>-->
+<!--      <ngb-tab title="In-App Marketing" *ngIf="(isUserAdmin() && isPayfactorsServices)">-->
+<!--        <ng-template ngbTabContent>-->
+<!--          <div class="pt-2">-->
+<!--            <pf-async-container [loading]="loadingCompanyTiles$ | async"-->
+<!--                                [loadingError]="loadingCompanyTilesError$ | async" [loadingErrorMessage]="'Error.'"-->
+<!--                                [hideReloadButton]="true">-->
+<!--              <ng-container *ngIf="(companyTiles$ | async)?.length">-->
+<!--                <div class="checkbox" *ngFor="let marketingTile of marketingTileFilter((companyTiles$ | async))">-->
+<!--                  <label>-->
+<!--                    <input type="checkbox"-->
+<!--                           (change)="toggleMarketingTile(marketingTile)" [checked]="marketingTile.MarketingEnabled" [disabled]="marketingTile.Checked" />-->
+<!--                    {{marketingTile.TileDisplayName}}-->
+<!--                  </label>-->
+<!--                </div>-->
+<!--              </ng-container>-->
+<!--            </pf-async-container>-->
+<!--          </div>-->
+<!--        </ng-template>-->
+<!--      </ngb-tab>-->
+<!--    </ngb-tabset>-->
+
+
+
+
+
+    <ul ngbNav #nav="ngbNav" class="nav-tabs"
+        [destroyOnHide]="false">
+      <li ngbNavItem>
+        <a ngbNavLink>Tiles</a>
+        <ng-template ngbNavContent>
           <div class="pt-2">
             <pf-async-container [loading]="loadingCompanyTiles$ | async"
-              [loadingError]="loadingCompanyTilesError$ | async" [loadingErrorMessage]="'Error.'"
-              [hideReloadButton]="true">
+                                [loadingError]="loadingCompanyTilesError$ | async" [loadingErrorMessage]="'Error.'"
+                                [hideReloadButton]="true">
               <ng-container *ngIf="(companyTiles$ | async)?.length">
                 <div class="checkbox" *ngFor="let companyTile of (companyTiles$ | async)">
                   <label *ngIf="companyTile.TileName !== tileNames.InternationalData">
                     <input type="checkbox"
-                      (change)="toggleCompanyTile(companyTile)"
-                      [disabled]="companyTile.Disabled" [checked]="companyTile.Checked" />
+                           (change)="toggleCompanyTile(companyTile)"
+                           [disabled]="companyTile.Disabled" [checked]="companyTile.Checked" />
                     {{companyTile.TileDisplayName}}
                   </label>
                 </div>
@@ -20,13 +132,14 @@
             </pf-async-container>
           </div>
         </ng-template>
-      </ngb-tab>
-      <ngb-tab title="Settings">
-        <ng-template ngbTabContent>
+      </li>
+      <li ngbNavItem>
+        <a ngbNavLink>Settings</a>
+        <ng-template ngbNavContent>
           <div class="pt-2">
             <pf-async-container [loading]="loadingCompanySettings$ | async"
-              [loadingError]="loadingCompanySettingsError$ | async" [loadingErrorMessage]="'Error.'"
-              [hideReloadButton]="true">
+                                [loadingError]="loadingCompanySettingsError$ | async" [loadingErrorMessage]="'Error.'"
+                                [hideReloadButton]="true">
               <ng-container *ngIf="(companySettings$ | async)?.length">
                 <ng-container *ngFor="let setting of companySettings">
                   <div *ngIf="setting.Type === customListType; then customSettingsBlock else settingsBlock"></div>
@@ -38,7 +151,7 @@
                           <input type="checkbox" [(ngModel)]="setting.Value" /> {{setting.DisplayName}}
                         </ng-template>
                         <ng-template #surveyDataSetting>
-                          <input type="checkbox" [(ngModel)]="setting.Value" /> 
+                          <input type="checkbox" [(ngModel)]="setting.Value" />
                           <a href="#" (click)="handleSurveyFieldsClicked()"> {{setting.DisplayName}}</a>
                         </ng-template>
                       </label>
@@ -50,41 +163,43 @@
                         <input type="checkbox" (change)="toggleCompanySetting(setting)" [disabled]="setting.Disabled" [checked]="setting.Value === 'true'">
                         {{setting.DisplayName}}
                       </label>
-                    </div>   
+                    </div>
                   </ng-template>
                 </ng-container>
                 <div *ngIf="maxProjectCountSetting?.Visible && enableJobPricingLimiter" class="checkbox">
-                    <label >Job Pricing Limit: {{jobPricingLimitUsed}} /
-                      <input type="number" class="input-type-number p-0" [ngModel]="maxProjectCountSetting.Value" [disabled]="!enableJobPricingLimiter" (change)="checkMaxProjectJobCount($event, maxProjectCountSetting.Key)">
-                      <p *ngIf="showJobPricingLimitError" class="alert-danger">Job Pricing Limit must be numeric and above the current number of priced jobs</p>
-                    </label>
+                  <label >Job Pricing Limit: {{jobPricingLimitUsed}} /
+                    <input type="number" class="input-type-number p-0" [ngModel]="maxProjectCountSetting.Value" [disabled]="!enableJobPricingLimiter" (change)="checkMaxProjectJobCount($event, maxProjectCountSetting.Key)">
+                    <p *ngIf="showJobPricingLimitError" class="alert-danger">Job Pricing Limit must be numeric and above the current number of priced jobs</p>
+                  </label>
                 </div>
               </ng-container>
             </pf-async-container>
           </div>
         </ng-template>
-      </ngb-tab>
-      <ngb-tab title="Market Data" *ngIf="companyDataSetsEnabled$ | async">
-        <ng-template ngbTabContent>
+      </li>
+      <li ngbNavItem *ngIf="companyDataSetsEnabled$ | async">
+        <a ngbNavLink>Market Data</a>
+        <ng-template ngbNavContent>
           <div class="pt-2">
             <pf-async-container [loading]="loadingCompanyDataSets$ | async"
-              [loadingError]="loadingCompanyDataSetsError$ | async" [loadingErrorMessage]="'Error.'"
-              [hideReloadButton]="true">
+                                [loadingError]="loadingCompanyDataSetsError$ | async" [loadingErrorMessage]="'Error.'"
+                                [hideReloadButton]="true">
               <div *ngIf="(companyDataSets$ | async)?.length">
                 <div class="checkbox" *ngFor="let companyDataSet of (companyDataSets$ | async)">
                   <label>
-                    <input type="checkbox" 
-                      (change)="toggleCompanyDataSet(companyDataSet)" 
-                      [checked]="companyDataSet.Checked" /> {{companyDataSet.DataSetName}}
+                    <input type="checkbox"
+                           (change)="toggleCompanyDataSet(companyDataSet)"
+                           [checked]="companyDataSet.Checked" /> {{companyDataSet.DataSetName}}
                   </label>
                 </div>
               </div>
             </pf-async-container>
           </div>
         </ng-template>
-      </ngb-tab>
-      <ngb-tab title="In-App Marketing" *ngIf="(isUserAdmin() && isPayfactorsServices)">
-        <ng-template ngbTabContent>
+      </li>
+      <li ngbNavItem *ngIf="(isUserAdmin() && isPayfactorsServices)">
+        <a ngbNavLink>In-App Marketing</a>
+        <ng-template ngbNavContent>
           <div class="pt-2">
             <pf-async-container [loading]="loadingCompanyTiles$ | async"
                                 [loadingError]="loadingCompanyTilesError$ | async" [loadingErrorMessage]="'Error.'"
@@ -101,8 +216,15 @@
             </pf-async-container>
           </div>
         </ng-template>
-      </ngb-tab>
-    </ngb-tabset>
+      </li>
+    </ul>
+    <div [ngbNavOutlet]="nav"></div>
+
+
+
+
+
+
   </div>
 </div>
 

@@ -30,9 +30,6 @@ export class StatementListPageComponent implements OnInit {
   deletingStatementError$: Observable<boolean>;
   openActionMenuStatement$: Observable<StatementListViewModel>;
 
-  @ViewChild('tabs')
-  tabs: NgbTabset;
-
   constructor(private store: Store<fromStatementListReducers.State>) { }
 
   ngOnInit(): void {
@@ -61,7 +58,8 @@ export class StatementListPageComponent implements OnInit {
   }
 
   onCreateNewClicked(): void {
-    this.tabs.select('Templates');
+    this.store.dispatch(new fromStatementListPageActions.SetTab('Templates'));
+
   }
 
   onTemplateSelected(templateId: string) {

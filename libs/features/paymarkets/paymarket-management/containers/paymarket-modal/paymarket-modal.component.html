@@ -17,9 +17,10 @@
       [loading]="(payMarket$ | async)?.loading"
       [loadingError]="(payMarket$ | async)?.loadingError">
       <div class="paymarket-modal-container px-3">
-        <ngb-tabset #payMarketTabs [destroyOnHide]="false">
-          <ngb-tab [title]="'General'" [id]="payMarketModalTabs.General">
-            <ng-template ngbTabContent>
+        <ul ngbNav #nav="ngbNav" [destroyOnHide]="false" class="nav-tabs">
+          <li ngbNavItem [title]="'General'" [id]="payMarketModalTabs.General">
+            <a ngbNavLink>General</a>
+            <ng-template ngbNavContent>
               <div class="pt-3">
                 <pf-general-form
                   [reset]="!(modalOpen$ | async)"
@@ -27,22 +28,25 @@
                 </pf-general-form>
               </div>
             </ng-template>
-          </ngb-tab>
-          <ngb-tab [title]="'Default Scopes'" [id]="payMarketModalTabs.DefaultScopes">
-            <ng-template ngbTabContent>
+          </li>
+          <li ngbNavItem [title]="'Default Scopes'" [id]="payMarketModalTabs.DefaultScopes">
+            <a ngbNavLink>Default Scopes</a>
+            <ng-template ngbNavContent>
               <div class="pt-3">
                 <pf-default-scopes [reset]="!(modalOpen$ | async)"></pf-default-scopes>
               </div>
             </ng-template>
-          </ngb-tab>
-          <ngb-tab *ngIf="hasPeerAccess" [title]="'Network Scopes'" [id]="payMarketModalTabs.NetworkScopes">
-            <ng-template ngbTabContent>
+          </li>
+          <li ngbNavItem *ngIf="hasPeerAccess" [title]="'Network Scopes'" [id]="payMarketModalTabs.NetworkScopes">
+            <a ngbNavLink>Network Scopes</a>
+            <ng-template ngbNavContent>
               <div class="pt-3">
                 <pf-exchange-scopes [reset]="!(modalOpen$ | async)"></pf-exchange-scopes>
               </div>
             </ng-template>
-          </ngb-tab>
-        </ngb-tabset>
+          </li>
+        </ul>
+        <div [ngbNavOutlet]="nav"></div>
       </div>
     </pf-async-container>
   </ng-container>

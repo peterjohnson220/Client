@@ -148,4 +148,20 @@ export class JobsDetailsComponent implements OnDestroy, OnInit, OnChanges {
       setTimeout(() => this.tabStatusOpened[this.activeTab] = true, 0);
     }
   }
+
+  onActiveIdChange(activeId: string) {
+    if (PageViewIds[activeId]) {
+      this.tabChanged.emit(PageViewIds[activeId]);
+    }
+
+
+    if (!this.tabStatusOpened[activeId]) {
+      this.tabStatusOpened[activeId] = true;
+    } else if (!this.tabStatusLoaded[activeId]) {
+      this.tabStatusOpened[activeId] = false;
+      // Need to have timeout before putting it back to true so UI can react on change and reload the component
+      setTimeout(() => this.tabStatusOpened[activeId] = true, 0);
+    }
+
+  }
 }

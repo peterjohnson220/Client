@@ -8,7 +8,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { NgbAlertModule, NgbDropdownModule, NgbTabsetModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import {NgbAlertModule, NgbDropdownModule, NgbNavModule, NgbTabsetModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { SwitchModule } from '@progress/kendo-angular-inputs';
@@ -57,57 +57,58 @@ import { GetSupportedSchedulesPipe, OrgDataEntityTypeToDisplayName } from './pip
 import { HrisAuthenticationGuard } from './guards';
 
 @NgModule({
-  imports: [
-    // Angular
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    DropDownsModule,
+    imports: [
+        // Angular
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        DropDownsModule,
 
-    // Routing
-    MainRoutingModule,
+        // Routing
+        MainRoutingModule,
 
-    // 3rd Party
-    DragulaModule.forRoot(),
-    StoreModule.forFeature('data_management', reducers),
-    EffectsModule.forFeature([
-      EntitySelectionEffects,
-      FieldMappingEffects,
-      HrisConnectionEffects,
-      OnDemandSyncEffects,
-      OrganizationalDataPageEffects,
-      OrgDataFieldMappingsEffects,
-      OutboundJdmEffects,
-      TransferDataPageEffects,
-      TransferScheduleEffects,
-      ProviderListEffects,
-      ConverterSettingsEffects,
-      LoadersDataEffects,
-      JobDescriptionExportEffects,
-      LoadAndExportFilesCardEffects
-    ]),
-    FontAwesomeModule,
-    NgbDropdownModule,
-    NgbTabsetModule,
-    NgbTooltipModule,
-    NgbAlertModule,
-    UploadModule,
-    LayoutModule,
-    SwitchModule,
-    GridModule,
+        // 3rd Party
+        DragulaModule.forRoot(),
+        StoreModule.forFeature('data_management', reducers),
+        EffectsModule.forFeature([
+            EntitySelectionEffects,
+            FieldMappingEffects,
+            HrisConnectionEffects,
+            OnDemandSyncEffects,
+            OrganizationalDataPageEffects,
+            OrgDataFieldMappingsEffects,
+            OutboundJdmEffects,
+            TransferDataPageEffects,
+            TransferScheduleEffects,
+            ProviderListEffects,
+            ConverterSettingsEffects,
+            LoadersDataEffects,
+            JobDescriptionExportEffects,
+            LoadAndExportFilesCardEffects
+        ]),
+        FontAwesomeModule,
+        NgbDropdownModule,
+        NgbTabsetModule,
+        NgbTooltipModule,
+        NgbAlertModule,
+        UploadModule,
+        LayoutModule,
+        SwitchModule,
+        GridModule,
 
-    // Payfactors
-    PfCommonModule,
-    PfCommonUIModule,
-    PfFormsModule,
-    PfCompanySelectorModule,
-    PfFieldMapperModule,
-    PfEmailRecipientsModule,
-    PfNavigationLinksModule,
-    PfBulkExportSchedulerModule,
-    PfEntityIdentifierModule,
-    PfCustomFieldsModule
-  ],
+        // Payfactors
+        PfCommonModule,
+        PfCommonUIModule,
+        PfFormsModule,
+        PfCompanySelectorModule,
+        PfFieldMapperModule,
+        PfEmailRecipientsModule,
+        PfNavigationLinksModule,
+        PfBulkExportSchedulerModule,
+        PfEntityIdentifierModule,
+        PfCustomFieldsModule,
+        NgbNavModule
+    ],
   declarations: [
     // Pipes
     OrgDataEntityTypeToDisplayName,
