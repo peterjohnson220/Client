@@ -1,12 +1,12 @@
-import { Input, Output, EventEmitter, Component, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
 
 import cloneDeep from 'lodash/cloneDeep';
 import { IntlService } from '@progress/kendo-angular-intl';
+import { NumericTextBoxComponent } from '@progress/kendo-angular-inputs';
 
 import { DataViewFieldDataType, ViewField } from 'libs/models/payfactors-api';
 
 import { FilterOperatorOptions } from '../helpers';
-
 
 @Component({
   selector: 'pf-filter-builder',
@@ -20,6 +20,9 @@ export class FilterBuilderComponent implements OnChanges {
 
   @Output() filterChanged = new EventEmitter<ViewField>();
 
+  @ViewChild('numericInput') numericInputElement: NumericTextBoxComponent;
+
+  INT_MAX = 2147483647; // c# int max
   field: ViewField;
 
   filterOperatorOptions = FilterOperatorOptions;
@@ -36,15 +39,33 @@ export class FilterBuilderComponent implements OnChanges {
     value: 'false'
   }];
 
+  datePickerValue = null;
+  numericInputValue = null;
+
   constructor(private intlService: IntlService) {}
 
   ngOnChanges(changes: SimpleChanges) {
-    if (this.viewField) {
+    if (changes['viewField']) {
+      this.numericInputValue = null;
       this.field = cloneDeep(this.viewField);
+
+      if (this.field.DataType === DataViewFieldDataType.DateTime) {
+        this.datePickerValue = this.intlService.parseDate(this.field.FilterValue);
+      }
+
+      if (this.field.DataType === DataViewFieldDataType.Int && this.field.FilterValue) {
+        this.numericInputValue = parseInt(this.field.FilterValue, 10);
+      }
+
+      if (this.field.DataType === DataViewFieldDataType.Float && this.field.FilterValue) {
+        this.numericInputValue = parseFloat(this.field.FilterValue);
+      }
     }
   }
 
   handleFilterOperatorChanged(event) {
+    this.field = cloneDeep(this.field);
+
     this.field.FilterOperator = event;
 
     if (this.valueCanBeEmpty() || (this.field.FilterValue && this.field.FilterValue.toString().trim().length)) {
@@ -53,18 +74,32 @@ export class FilterBuilderComponent implements OnChanges {
   }
 
   handleFilterValueChanged(event) {
-    this.field.FilterValue = event === null ? event : event.toString();
-    if (this.field.DataType === DataViewFieldDataType.DateTime) {
+    // prevent console errors when editing read only field
+    this.field = cloneDeep(this.field);
+
+    // check user input to ensure integer is not greater then c# max
+    if (this.field.DataType === DataViewFieldDataType.Int && event > this.INT_MAX) {
+      this.field.FilterValue = this.INT_MAX.toString();
+      this.numericInputElement.value = this.INT_MAX;
+      this.numericInputElement.blur();
+
+    } else if (this.field.DataType === DataViewFieldDataType.Int && event < 0) {
+      this.field.FilterValue = '0';
+      this.numericInputElement.value = 0;
+      this.numericInputElement.blur();
+
+    } else if (this.field.DataType === DataViewFieldDataType.DateTime) {
       this.field.FilterValue = this.intlService.formatDate(event, 'yyyy-MM-dd');
+    } else {
+      this.field.FilterValue = event === null ? event : event.toString();
     }
+
     this.filterChanged.emit(this.field);
   }
 
-  getNumericFieldValue(): number {
-    return this.field.FilterValue ? +this.field.FilterValue : null;
-  }
-
   valueCanBeEmpty() {
+    this.field = cloneDeep(this.field);
+
     const disabledValueOperators = this.filterOperatorOptions[this.field.DataType].filter(o => !o.requiresValue);
     if (disabledValueOperators.find(d => d.value === this.field.FilterOperator)) {
       this.field.FilterValue = '';
@@ -72,10 +107,6 @@ export class FilterBuilderComponent implements OnChanges {
     } else {
       return false;
     }
-  }
-
-  getDateTimeValue(): Date {
-    return (this.field.FilterValue ? this.intlService.parseDate(this.field.FilterValue) : null);
   }
 
 }

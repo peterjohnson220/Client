@@ -6,7 +6,7 @@
   <ng-container *ngIf="field.CustomFilterStrategy && field.DataType !== dataTypes.Bit; else simpleFilter" >
     <div class="row">
       <div class="col-12">
-        <pf-input-debounce 
+        <pf-input-debounce
           [id]="field.SourceName"
           [attr.data-qa-id]="'txt-value-'+field.SourceName"
           [ngModel]="field.FilterValue"
@@ -62,7 +62,8 @@
           </div>
           <div class="col-6">
             <kendo-datepicker
-              [value]="getDateTimeValue()"
+              class="w-100"
+              [value]="datePickerValue"
               [format]="'MM/dd/yyyy'"
               [disabled]="valueCanBeEmpty()"
               (valueChange)="handleFilterValueChanged($event)"
@@ -86,11 +87,13 @@
             </kendo-dropdownlist>
           </div>
           <div class="col-6">
-            <kendo-numerictextbox
-              [value]="getNumericFieldValue()"
+            <!--INT_MAX used to prevent overflow errors-->
+            <kendo-numerictextbox #numericInput
+              [value]="numericInputValue"
               [format]="'n0'"
               [decimals]="0"
               [min]="0"
+              [max]="INT_MAX"
               [disabled]="valueCanBeEmpty()"
               (pfDebounceValueChanged)="handleFilterValueChanged($event)"
               [attr.data-qa-id]="'txt-value-'+field.SourceName"
@@ -115,7 +118,7 @@
           </div>
           <div class="col-6">
             <kendo-numerictextbox
-              [value]="getNumericFieldValue()"
+              [value]="numericInputValue"
               [format]="'n2'"
               [decimals]="2"
               [disabled]="valueCanBeEmpty()"

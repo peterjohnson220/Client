@@ -2,25 +2,45 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { FaIconLibrary, FontAwesomeModule} from '@fortawesome/angular-fontawesome';
+import {NgbDropdownModule, NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+
+import { FaIconLibrary, FontAwesomeModule} from '@fortawesome/angular-fontawesome';
+import {DropDownListModule} from '@progress/kendo-angular-dropdowns';
+
+import { PfDataGridModule } from 'libs/features/grids/pf-data-grid';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
+
 import { ProjectListPageComponent } from './project-list.page/project-list.page';
 import { ProjectListPageRoutingModule } from './project-list-page-routing.module';
-import { PfDataGridModule } from 'libs/features/grids/pf-data-grid';
+
+
 import * as fromFaIcons from './fa-icons';
+import { reducers } from './reducers';
+
+import { ProjectListPageEffects } from './effects';
+
 @NgModule({
-  imports: [
-    // Angular
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
+    imports: [
+        // Angular
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
 
     // 3rd Party
-    // store, effects, reducers, etc.
+    StoreModule.forFeature('projectListPageMain', reducers),
+    EffectsModule.forFeature([
+        ProjectListPageEffects
+      ]
+    ),
     FontAwesomeModule,
+    NgbModule,
+    NgbDropdownModule,
+    DropDownListModule,
 
     // Routing
     ProjectListPageRoutingModule,
@@ -29,8 +49,8 @@ import * as fromFaIcons from './fa-icons';
     PfDataGridModule,
     PfCommonModule,
     PfCommonUIModule,
-    PfFormsModule
-  ],
+    PfFormsModule,
+    ],
   declarations: [
     // Pages
     ProjectListPageComponent
