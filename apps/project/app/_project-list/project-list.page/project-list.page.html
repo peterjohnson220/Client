@@ -46,6 +46,7 @@
     class="btn btn-secondary pf-btn-borderless"
     [attr.data-qa-id]="'btn-project-page-share'"
     [disabled]="!(selectedRecordIds$ | async)?.length"
+    [title]="!(selectedRecordIds$ | async)?.length ? 'No Projects Selected' : ''"
     (click)="openShareModal()"
   >
     <fa-icon [icon]="['fal', 'share-square']"></fa-icon>
