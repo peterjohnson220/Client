@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { CreateProjectRequest, ChangeJobStatusRequest } from 'libs/models/payfactors-api';
+import { CreateProjectRequest, ChangeJobStatusRequest, ExportJobsRequest } from 'libs/models/payfactors-api';
 import { PayMarket } from 'libs/models/paymarket';
 
 export const SET_JOBS_PAGE_ID = '[Jobs Page] Set Jobs PageID';
@@ -114,12 +114,12 @@ export class LoadStructureGradesSuccess implements Action {
 
 export class ExportPricings implements Action {
   readonly type = EXPORT_PRICINGS;
-  constructor(public payload: any) { }
+  constructor(public payload: ExportJobsRequest) { }
 }
 
 export class ExportPricingsSuccess implements Action {
   readonly type = EXPORT_PRICINGS_SUCCESS;
-  constructor(public payload: any, public exportEventId: string = null) { }
+  constructor(public exportEventId: string) { }
 }
 
 export class ExportPricingsError implements Action {
