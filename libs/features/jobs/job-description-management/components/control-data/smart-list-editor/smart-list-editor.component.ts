@@ -123,7 +123,7 @@ export class SmartListEditorComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   focusRTE() {
-    const quillContainer = this.elRef.nativeElement.querySelector('.ui-editor-content');
+    const quillContainer = this.elRef.nativeElement.querySelector('.ql-container.ql-snow');
     if (quillContainer) {
       const quillApi = Quill.find(quillContainer);
 
@@ -198,7 +198,7 @@ export class SmartListEditorComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   getAggregatedText(pastedText) {
-    const quillContainer = this.elRef.nativeElement.querySelector('.ui-editor-content');
+    const quillContainer = this.elRef.nativeElement.querySelector('.ql-container.ql-snow');
     if (quillContainer) {
       const quillApi = Quill.find(quillContainer);
       quillApi.disable();
