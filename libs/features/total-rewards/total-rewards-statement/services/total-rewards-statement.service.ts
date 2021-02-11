@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 
+import cloneDeep from 'lodash/cloneDeep';
+
 import { EmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards';
 
 import { Statement, CalculationControl, CompensationField, TotalRewardsControlEnum } from '../models';
@@ -180,5 +182,15 @@ export class TotalRewardsStatementService {
 
   static doesBenefitsDataExist(employeeRewardsData: EmployeeRewardsData): boolean {
     return employeeRewardsData?.BenefitsData !== null && employeeRewardsData?.BenefitsData !== undefined;
+  }
+
+  static parseStatementEffectiveDateToString(statement: Statement): Statement {
+    const statementCopy = cloneDeep(statement);
+    statementCopy.EffectiveDate = this.effectiveDateDateToString(statement.EffectiveDate);
+    return statementCopy;
+  }
+
+  static effectiveDateDateToString(date: Date): string {
+    return date === null ? '' : date.toDateString();
   }
 }

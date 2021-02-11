@@ -25,7 +25,7 @@ export interface Statement {
   AuditRecord: AuditRecord;
   Pages: Page[];
   Settings: Settings;
-  EffectiveDate: Date;
+  EffectiveDate: any;
   AssignedCompanyEmployeeIds?: number[];
   IsStatementGenerating: boolean;
 }
