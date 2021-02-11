@@ -5,6 +5,8 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
+import { BulkProjectShareRequest } from 'libs/models/share-modal/bulk-project-share-request';
+
 import { PayfactorsApiService } from '../payfactors-api.service';
 
 @Injectable({
@@ -27,6 +29,14 @@ export class PricingProjectApiService {
 
   deleteProjects(projectIds: any[]) {
     return this.payfactorsApiService.post(`${this.endpoint}/DeleteProjects`, projectIds);
+  }
+
+  getPricingProject(projectId: number) {
+    return this.payfactorsApiService.get(`${this.endpoint}/GetPricingProject?projectId=${projectId}`);
+  }
+
+  bulkProjectShare(request: BulkProjectShareRequest) {
+    return this.payfactorsApiService.post(`${this.endpoint}/BulkShareProjectsAndSendEmail`, request);
   }
 }
 
