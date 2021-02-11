@@ -265,7 +265,7 @@ describe('TrsCalculationControlComponent', () => {
 
     // assert
     expect(currencyPipe.transform).toHaveBeenCalledTimes(1);
-    expect(currencyPipe.transform).toHaveBeenCalledWith(77777, 'INR', 'symbol-narrow', '1.0');
+    expect(currencyPipe.transform).toHaveBeenCalledWith(77777, 'INR', 'symbol-narrow', '1.0-0');
   });
 
   it('getEmployerContributionValue should call currencyPipe with the expected parameters for UDF fields', () => {
@@ -281,7 +281,7 @@ describe('TrsCalculationControlComponent', () => {
 
     // assert
     expect(currencyPipe.transform).toHaveBeenCalledTimes(1);
-    expect(currencyPipe.transform).toHaveBeenCalledWith(12345, 'CAD', 'symbol-narrow', '1.0');
+    expect(currencyPipe.transform).toHaveBeenCalledWith(12345, 'CAD', 'symbol-narrow', '1.0-0');
   });
 
   it('getEmployerContributionValue should truncate two decimals after the period when showDecimals is falsy', () => {
@@ -297,7 +297,7 @@ describe('TrsCalculationControlComponent', () => {
 
     // assert
     expect(currencyPipe.transform).toHaveBeenCalledTimes(1);
-    expect(currencyPipe.transform).toHaveBeenCalledWith(10000.50, 'USD', 'symbol-narrow', '1.0');
+    expect(currencyPipe.transform).toHaveBeenCalledWith(10000.50, 'USD', 'symbol-narrow', '1.0-0');
     expect(employerContribution).toBe('10000');
   });
 
@@ -314,7 +314,7 @@ describe('TrsCalculationControlComponent', () => {
 
     // assert
     expect(currencyPipe.transform).toHaveBeenCalledTimes(1);
-    expect(currencyPipe.transform).toHaveBeenCalledWith(10000.5, 'USD', 'symbol-narrow', '1.0');
+    expect(currencyPipe.transform).toHaveBeenCalledWith(10000.5, 'USD', 'symbol-narrow', '1.0-0');
     expect(employerContribution).toBe('10000');
   });
 

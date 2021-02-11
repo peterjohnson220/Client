@@ -61,7 +61,7 @@ export class TrsCalculationControlComponent implements OnChanges {
   }
 
   get currencyLocale(): string {
-    return this.showDecimals ? '1.2-2' : '1.0';
+    return this.showDecimals ? '1.2-2' : '1.0-0';
   }
 
   get titleColumnSpan(): number {

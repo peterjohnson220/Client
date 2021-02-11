@@ -37,7 +37,7 @@ export class TrsSummaryControlComponent {
   }
 
   get currencyLocale(): string {
-    return this.showDecimals ? '1.2-2' : '1.0';
+    return this.showDecimals ? '1.2-2' : '1.0-0';
   }
 
   get sumOfCalculationControls(): string {
