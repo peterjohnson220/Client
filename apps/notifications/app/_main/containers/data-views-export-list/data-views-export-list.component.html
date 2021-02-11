@@ -13,7 +13,7 @@
         [fileName]="exportRecord.FileName"
         [createdDateTime]="exportRecord.DownloadDate"
         [downloadPath]="exportRecord.ExportUrl"
-        [iconName]="'file-excel'">
+        [iconName]="getIconName(exportRecord.FileName)">
       </pf-file-download-card>
     </div>
   </div>
