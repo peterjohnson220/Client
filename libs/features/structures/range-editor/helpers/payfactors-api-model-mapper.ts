@@ -51,8 +51,6 @@ export class PayfactorsApiModelMapper {
     switch (fieldName) {
       case 'CompanyStructures_Ranges_Min':
         return 'Min';
-      case 'CompanyStructures_Ranges_Mid':
-        return 'Mid';
       case 'CompanyStructures_Ranges_Max':
         return 'Max';
       case 'CompanyStructures_Ranges_Tertile_First':
@@ -72,7 +70,7 @@ export class PayfactorsApiModelMapper {
       case 'CompanyStructures_Ranges_Quintile_Fourth':
         return 'FourthQuintile';
       default:
-        return 'FormulaField';
+        return 'Mid';
     }
   }
 }
