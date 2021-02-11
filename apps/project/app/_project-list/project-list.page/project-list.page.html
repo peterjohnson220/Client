@@ -42,6 +42,16 @@
     class="btn btn-secondary pf-btn-borderless">
     <fa-icon [icon]="['far', 'trash-alt']"></fa-icon>Delete
   </button>
+  <button #shareBtn
+    class="btn btn-secondary pf-btn-borderless"
+    [attr.data-qa-id]="'btn-project-page-share'"
+    [disabled]="!(selectedRecordIds$ | async)?.length"
+    [title]="!(selectedRecordIds$ | async)?.length ? 'No Projects Selected' : ''"
+    (click)="openShareModal()"
+  >
+    <fa-icon [icon]="['fal', 'share-square']"></fa-icon>
+    Share
+  </button>
 </ng-template>
 
 <ng-template #projectStatusColumn let-dataRow="dataRow" let-hover="hover">
@@ -71,6 +81,13 @@
                 (click)="showDeleteProjectModal.next(true)">
           <fa-icon [icon]="['far', 'trash-alt']"></fa-icon> Delete
         </button>
+        <button
+          ngbDropdownItem
+          (click)="openShareFromActions(dataRow['UserSessionMap_UserSession_ID'])"
+        >
+          <fa-icon [icon]="['fal', 'share-square']"></fa-icon>
+          Share
+        </button>
       </div>
     </div>
     <div>
@@ -83,6 +100,12 @@
       </button>
     </div>
   </div>
+</ng-template>
+
+<ng-template #projectName let-dataRow="dataRow">
+  <span>
+    <a class="pf-link" href="/client/project/pricing-project/{{dataRow['UserSessionMap_UserSession_ID']}}">{{dataRow['UserSessions_Session_Name']}}</a>
+  </span>
 </ng-template>
 
 <ng-template #projectStatusFilter>
@@ -138,3 +161,7 @@
   </ng-container>
 
 </pf-modal-form>
+
+<pf-auto-share-modal
+  [modalOperation]="autoShareOperation"
+></pf-auto-share-modal>

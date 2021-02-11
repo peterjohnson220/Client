@@ -1,16 +1,16 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
-import {Store} from '@ngrx/store';
-import {BehaviorSubject, Observable, Subscription} from 'rxjs';
-import {SortDescriptor} from '@progress/kendo-data-query';
-import {NgbDropdown} from '@ng-bootstrap/ng-bootstrap';
+import { Store } from '@ngrx/store';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { SortDescriptor } from '@progress/kendo-data-query';
+import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
 import cloneDeep from 'lodash/cloneDeep';
 
 import {
   ActionBarConfig,
+  getDefaultActionBarConfig,
   GridConfig,
   GridRowActionsConfig,
-  getDefaultActionBarConfig,
   getDefaultGridRowActionsConfig,
   PfDataGridCustomFilterDisplayOptions,
   PfDataGridCustomFilterOptions
@@ -21,8 +21,10 @@ import * as fromPfDataGridActions from 'libs/features/grids/pf-data-grid/actions
 import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import {Permissions} from 'libs/constants';
 import {PfSecuredResourceDirective} from 'libs/forms/directives';
+import * as fromAutoShareModalActions from 'libs/features/users/user-settings/actions';
+import { ShareModalOperation } from 'libs/models/share-modal/share-modal-operation';
 
-import {PageViewIds} from '../constants';
+import {PageViewIds} from '../../shared/constants';
 
 import * as fromProjectListPageActions from '../actions';
 
@@ -87,15 +89,20 @@ export class ProjectListPageComponent implements AfterViewInit, OnInit, OnDestro
   gridfieldSubscription: Subscription;
   selectedRecordIdsSubscription: Subscription;
 
+  autoShareOperation: ShareModalOperation = ShareModalOperation.BulkProjectShare;
+
   @ViewChild('projectStatusColumn') projectStatusColumn: ElementRef;
   @ViewChild('projectStatusFilter') projectStatusFilter: ElementRef;
   @ViewChild('projectPinnedFilter') projectPinnedFilter: ElementRef;
   @ViewChild('gridRowActionsTemplate') gridRowActionsTemplate: ElementRef;
   @ViewChild('numJobsColumn') numJobsColumn: ElementRef;
+  @ViewChild('projectName') projectName: ElementRef;
   @ViewChild(PfSecuredResourceDirective) pfSecuredResourceDirective: PfSecuredResourceDirective;
+
   showDeleteProjectModal = new BehaviorSubject<boolean>(false);
   showDeleteProjectModal$ = this.showDeleteProjectModal.asObservable();
 
+  @ViewChild('shareBtn') shareBtn: ElementRef;
   constructor( private store: Store<fromPfDataGridReducer.State>) {
     this.selectedRecordIds$ = this.store.select(fromPfDataGridReducer.getSelectedKeys, this.pageViewId);
     this.selectedRecordIdsSubscription = this.store.select(fromPfDataGridReducer.getSelectedKeys, this.pageViewId).subscribe(sk => {
@@ -133,11 +140,12 @@ export class ProjectListPageComponent implements AfterViewInit, OnInit, OnDestro
     if (!!this.selectedDropdown) {
       this.selectedDropdown.close();
     }
-  };
+  }
 
   ngAfterViewInit() {
     this.colTemplates = {
-      'Completed': {Template: this.projectStatusColumn}
+      'Completed': {Template: this.projectStatusColumn},
+      'Session_Name': {Template: this.projectName}
     };
 
     this.filterTemplates = {
@@ -218,5 +226,15 @@ export class ProjectListPageComponent implements AfterViewInit, OnInit, OnDestro
   ngOnDestroy() {
     this.selectedRecordIdsSubscription.unsubscribe();
     this.gridfieldSubscription.unsubscribe();
+  }
+
+  openShareFromActions(projectId: number) {
+    this.store.dispatch(new fromProjectListPageActions.SaveSingleProjectShareId(projectId));
+    this.openShareModal();
+  }
+
+  openShareModal() {
+    this.shareBtn.nativeElement.blur();
+    this.store.dispatch(new fromAutoShareModalActions.OpenAutoShareModal());
   }
 }

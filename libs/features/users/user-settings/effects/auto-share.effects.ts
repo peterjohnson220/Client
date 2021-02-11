@@ -75,11 +75,11 @@ export class AutoShareEffects {
     );
 
   @Effect()
-  saveAutoShareUsers$ = this.action$
+  saveAutoShareUsers = this.action$
     .pipe(
       ofType(fromAutoShareActions.SAVE_AUTO_SHARE_USERS),
       switchMap((action: fromAutoShareActions.SaveAutoShareUsers) => {
-        return this.userApiService.saveAutoShareUsers(action.payload)
+        return this.userApiService.saveAutoShareUsers(action.payload.UserIds)
           .pipe(
             map(() => new fromAutoShareActions.SaveAutoShareUsersSuccess()),
             catchError(() => of(new fromAutoShareActions.SaveAutoShareUsersError()))
@@ -90,6 +90,6 @@ export class AutoShareEffects {
   constructor(
     private action$: Actions,
     private store: Store<fromUserSettingsSharedReducer.State>,
-    private userApiService: UserApiService,
+    private userApiService: UserApiService
   ) {}
 }
