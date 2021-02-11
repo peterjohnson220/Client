@@ -225,6 +225,7 @@ export class TrsCalculationControlComponent implements OnChanges {
       return field.IsVisible;
     }
     return field.IsVisible &&
+      TotalRewardsStatementService.doesEmployeeRewardsFieldHaveData(field.DatabaseField, this.employeeRewardsData) ||
       TotalRewardsStatementService.doesBenefitFieldHaveData(field.DatabaseField, this.employeeRewardsData,
         this.showEmployeeContributions && field.CanHaveEmployeeContribution);
   }

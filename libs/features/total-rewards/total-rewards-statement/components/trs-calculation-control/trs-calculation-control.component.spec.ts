@@ -9,6 +9,7 @@ import { CompensationFieldPipe } from '../../pipes/compensation-field-pipe';
 import { CalculationControl, CompensationField, generateMockCalculationControl, LabelWithOverride, StatementModeEnum } from '../../models';
 import { StringEditorComponent } from '../string-editor';
 import { TrsConstants } from '../../constants/trs-constants';
+import { TotalRewardsStatementService } from '../../services/total-rewards-statement.service';
 
 describe('TrsCalculationControlComponent', () => {
   let component: TrsCalculationControlComponent;
@@ -816,4 +817,62 @@ describe('TrsCalculationControlComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
+  // Calculations Sum tests
+  it('calculation control should sum properly if CompensationField does not exist within BenefitsData', () => {
+    // arrange
+    component.controlData = generateMockCalculationControl();
+    component.mode = StatementModeEnum.Preview;
+    component.showSecondaryHeader = true;
+    component.showDecimals = true;
+    component.showEmployeeContributions = true;
+    component.employeeRewardsData = { ...generateMockEmployeeRewardsData(), IsMockData: false, Currency: 'USD' } as any;
+    component.employeeRewardsData.BenefitsData['Savings_401K_Match'].EmployerValue = 1000;
+    component.employeeRewardsData.BenefitsData['Savings_401K_Match'].CompanyEmployeeValue = 100;
+    component.employeeRewardsData.BenefitsData['Pension_Plan'].EmployerValue = 1000;
+    component.employeeRewardsData.BenefitsData['Pension_Plan'].CompanyEmployeeValue = 100;
+    const field1 =
+      { Id: 'abc-123', DatabaseField: 'Savings_401K_Match', IsVisible: true, CanHaveEmployeeContribution: true, Name: { Default: '401k Match'} as any } as any;
+    const field2 =
+      { Id: 'abc-456', DatabaseField: 'Pension_Plan', IsVisible: true, CanHaveEmployeeContribution: true, Name: { Default: 'Pension Plan' } as any } as any;
+    const field3 =
+      { Id: 'abc-780', DatabaseField: 'No_Data', IsVisible: true, CanHaveEmployeeContribution: true, Name: { Default: 'No Data' } as any } as any;
+    component.controlData.DataFields = [field1, field2, field3];
+
+    // act
+    fixture.detectChanges();
+    const field1IsBenefitsFieldVisible = component.isBenefitsFieldVisible(field1);
+    const field1EmployerContribution = component.getEmployerContributionValue(field1);
+    const field1EmployeeContribution = component.getEmployeeContributionValue(field1);
+
+    const field2IsBenefitsFieldVisible = component.isBenefitsFieldVisible(field2);
+    const field2EmployerContribution = component.getEmployerContributionValue(field2);
+    const field2EmployeeContribution = component.getEmployeeContributionValue(field2);
+
+    const field3IsBenefitsFieldVisible = component.isBenefitsFieldVisible(field3);
+    const field3EmployerContribution = component.getEmployerContributionValue(field3);
+    const field3EmployeeContribution = component.getEmployeeContributionValue(field3);
+
+    const sumEmployerFields = TotalRewardsStatementService.sumCalculationControlEmployerContribution(component.controlData, component.employeeRewardsData);
+    const sumEmployeeFields = TotalRewardsStatementService.sumCalculationControlEmployeeContribution(component.controlData, component.employeeRewardsData);
+    const sumOfCalcControls = TotalRewardsStatementService.sumCalculationControls([component.controlData], component.employeeRewardsData);
+
+    // assert
+    expect(field1IsBenefitsFieldVisible).toBe(true);
+    expect(field1EmployerContribution).toBe('1000');
+    expect(field1EmployeeContribution).toBe('100');
+
+    expect(field2IsBenefitsFieldVisible).toBe(true);
+    expect(field2EmployerContribution).toBe('1000');
+    expect(field2EmployeeContribution).toBe('100');
+
+    expect(field3IsBenefitsFieldVisible).toBe(false);
+    expect(field3EmployerContribution).toBe('');
+    expect(field3EmployeeContribution).toBe('');
+
+    expect(sumEmployerFields).toBe(2000);
+    expect(sumEmployeeFields).toBe(200);
+    expect(sumEmployerFields).toBe(sumOfCalcControls);
+
+    expect(fixture).toMatchSnapshot();
+  });
 });

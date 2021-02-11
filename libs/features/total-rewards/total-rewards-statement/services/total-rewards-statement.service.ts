@@ -117,9 +117,9 @@ export class TotalRewardsStatementService {
           ? TrsConstants.UDF_DEFAULT_VALUE
           : employeeRewardsData[df.Type][df.DatabaseField] > 0 ? employeeRewardsData[df.Type][df.DatabaseField] : 0;
         sum += fieldValue;
-      } else if (employeeRewardsData.BenefitsData && employeeRewardsData.BenefitsData[df.DatabaseField]) {
+      } else if (this.doesBenefitFieldHaveData(df.DatabaseField, employeeRewardsData, false)) {
         sum += employeeRewardsData.BenefitsData[df.DatabaseField].EmployerValue;
-      } else {
+      } else if (this.doesEmployeeRewardsFieldHaveData(df.DatabaseField, employeeRewardsData)) {
         sum += employeeRewardsData[df.DatabaseField];
       }
     });
@@ -130,7 +130,7 @@ export class TotalRewardsStatementService {
     let sum = 0;
     const visibleFields = control.DataFields.filter(f => f.IsVisible && f.CanHaveEmployeeContribution);
     visibleFields.forEach(df => {
-      if (employeeRewardsData.BenefitsData && employeeRewardsData.BenefitsData[df.DatabaseField]) {
+      if (this.doesBenefitFieldHaveData(df.DatabaseField, employeeRewardsData, true)) {
         sum += employeeRewardsData.BenefitsData[df.DatabaseField].CompanyEmployeeValue;
       }
     });
@@ -159,14 +159,16 @@ export class TotalRewardsStatementService {
     );
   }
 
-  static doesBenefitFieldHaveData(fieldName: string, employeeRewardsData: EmployeeRewardsData, shouldCheckEmployeeContribution: boolean): boolean {
+  static doesEmployeeRewardsFieldHaveData(fieldName: string, employeeRewardsData: EmployeeRewardsData): boolean {
     if (!employeeRewardsData) {
       return false;
     }
+    return employeeRewardsData[fieldName] > 0;
+  }
 
-    const fieldHasValue = employeeRewardsData[fieldName] > 0;
-    if (fieldHasValue) {
-      return true;
+  static doesBenefitFieldHaveData(fieldName: string, employeeRewardsData: EmployeeRewardsData, shouldCheckEmployeeContribution: boolean): boolean {
+    if (!employeeRewardsData) {
+      return false;
     }
 
     if (!this.doesBenefitsDataExist(employeeRewardsData)) {

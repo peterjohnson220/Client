@@ -120,6 +120,7 @@ export class TotalRewardsStatementComponent {
       } else {
         return (f.Type) ?
           this.employeeRewardsData[f.Type][f.DatabaseField] !== null && this.employeeRewardsData[f.Type][f.DatabaseField] > 0 :
+          TotalRewardsStatementService.doesEmployeeRewardsFieldHaveData(f.DatabaseField, this.employeeRewardsData) ||
           TotalRewardsStatementService.doesBenefitFieldHaveData(f.DatabaseField, this.employeeRewardsData,
             this.statement.Settings.DisplaySettings.ShowEmployeeContributions && f.CanHaveEmployeeContribution);
       }

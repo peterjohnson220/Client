@@ -1,5 +1,209 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`TrsCalculationControlComponent calculation control should sum properly if CompensationField does not exist within BenefitsData 1`] = `
+<pf-trs-calculation-control
+  MAX_VISIBLE_FIELDS={[Function Number]}
+  consolidated={[Function Number]}
+  controlData={[Function Object]}
+  currencyPipe={[Function Object]}
+  employeeRewardsData={[Function Object]}
+  maxVisibleFieldsReached="false"
+  mode={[Function Number]}
+  onCompFieldAdded={[Function EventEmitter]}
+  onCompFieldRemoved={[Function EventEmitter]}
+  onCompFieldTitleChange={[Function EventEmitter]}
+  onTitleChange={[Function EventEmitter]}
+  onUpdateSummaryTitleChange={[Function EventEmitter]}
+  showDecimals={[Function Boolean]}
+  showEmployeeContributions={[Function Boolean]}
+  showSecondaryHeader={[Function Boolean]}
+>
+  <div
+    class="trs-calculation py-2 px-1"
+    pfmodeclassifierdirective=""
+  >
+    <table
+      class="table table-borderless table-sm mb-0 w-100"
+    >
+      <colgroup>
+        <col
+          class="field-column"
+        />
+        
+        <col
+          class="employee-contribution-column"
+        />
+        <col
+          class="employer-contribution-column"
+        />
+        
+      </colgroup>
+      <thead>
+        <tr
+          class="trs-calculation-row w-100"
+        >
+          <th
+            class="font-weight-normal"
+            colspan="1"
+            scope="col"
+          >
+            
+            <h4
+              class="primary-control-heading mb-1"
+            >
+              <pf-string-editor>
+                
+                <span
+                  class="wrapper w-100 d-inline-block"
+                >
+                  <span>
+                    Cash Compensation
+                  </span>
+                </span>
+                
+              </pf-string-editor>
+            </h4>
+          </th>
+          
+          <th
+            class="secondary-header align-middle text-right font-weight-normal"
+            scope="col"
+          >
+            <span>
+              Employee
+            </span>
+          </th>
+          
+          <th
+            class="secondary-header align-middle text-right font-weight-normal"
+            scope="col"
+          >
+            
+            
+            <span>
+              Company
+            </span>
+          </th>
+          
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr
+          class="trs-calculation-row w-100"
+        >
+          <td>
+            <pf-string-editor>
+              
+              <span
+                class="wrapper w-100 d-inline-block"
+              >
+                <span>
+                  401k Match
+                </span>
+              </span>
+              
+            </pf-string-editor>
+          </td>
+          
+          <td
+            class="contribution-field text-right preview-mode-animation"
+          >
+            
+            <span>
+              100
+            </span>
+          </td>
+          <td
+            class="contribution-field text-right preview-mode-animation"
+          >
+            
+            <span>
+              1000
+            </span>
+          </td>
+          
+        </tr>
+        <tr
+          class="trs-calculation-row w-100"
+        >
+          <td>
+            <pf-string-editor>
+              
+              <span
+                class="wrapper w-100 d-inline-block"
+              >
+                <span>
+                  Pension Plan
+                </span>
+              </span>
+              
+            </pf-string-editor>
+          </td>
+          
+          <td
+            class="contribution-field text-right preview-mode-animation"
+          >
+            
+            <span>
+              100
+            </span>
+          </td>
+          <td
+            class="contribution-field text-right preview-mode-animation"
+          >
+            
+            <span>
+              1000
+            </span>
+          </td>
+          
+        </tr>
+        <tr
+          class="trs-calculation-row w-100"
+        >
+          <td
+            class="summary"
+            pfstatementgraphicsdirective=""
+          >
+            <pf-string-editor>
+              
+              <span
+                class="wrapper w-100 d-inline-block"
+              >
+                <span>
+                  
+                </span>
+              </span>
+              
+            </pf-string-editor>
+          </td>
+          
+          <td
+            class="contribution-field summary text-right preview-mode-animation"
+          >
+            
+            <span>
+              200
+            </span>
+          </td>
+          <td
+            class="contribution-field summary text-right preview-mode-animation"
+          >
+            
+            <span>
+              2000
+            </span>
+          </td>
+          
+        </tr>
+      </tbody>
+    </table>
+    
+  </div>
+</pf-trs-calculation-control>
+`;
+
 exports[`TrsCalculationControlComponent should display contribution values and total when in preview mode 1`] = `
 <pf-trs-calculation-control
   MAX_VISIBLE_FIELDS={[Function Number]}
