@@ -7,9 +7,11 @@
       </button>
     </div>
     <div class="modal-body">
-      <ngb-tabset>
-        <ngb-tab title="Standard Fields">
-          <ng-template ngbTabContent>
+      <ul ngbNav #nav="ngbNav" class="nav-tabs"
+          [destroyOnHide]="false">
+        <li ngbNavItem>
+          <a ngbNavLink>Standard Fields</a>
+          <ng-template ngbNavContent>
             <div class="standard-fields">
               <div class="form-group row pt-3">
                 <label class="col-2 col-form-label">Job Code:</label>
@@ -96,19 +98,19 @@
                 <ng-container *ngIf="canRestrictJobDescriptionFromPublicView">
                   <label class="col-2 col-form-label">Public View:</label>
                   <div class="col-4">
-                      <div [ngClass]="{'public-view-tooltip' : !addAndAssign }">
-                          <kendo-dropdownlist
-                            [data]="publicViewOptions"
-                            [textField]="'display'"
-                            [valueField]="'value'"
-                            [valuePrimitive]="true"
-                            [value]="publicViewSelectedValue"
-                            [style.width]="'100%'"
-                            (valueChange)="valueChange($event)"
-                            [disabled]="!addAndAssign" >
-                          </kendo-dropdownlist>
-                          <span class="tooltiptext">Please select a template to set the Public View option.</span>
-                      </div>
+                    <div [ngClass]="{'public-view-tooltip' : !addAndAssign }">
+                      <kendo-dropdownlist
+                        [data]="publicViewOptions"
+                        [textField]="'display'"
+                        [valueField]="'value'"
+                        [valuePrimitive]="true"
+                        [value]="publicViewSelectedValue"
+                        [style.width]="'100%'"
+                        (valueChange)="valueChange($event)"
+                        [disabled]="!addAndAssign" >
+                      </kendo-dropdownlist>
+                      <span class="tooltiptext">Please select a template to set the Public View option.</span>
+                    </div>
                   </div>
 
 
@@ -116,9 +118,12 @@
               </div>
             </div>
           </ng-template>
-        </ngb-tab>
-        <ngb-tab *ngIf="(jobUserDefinedFields$ | async).length" title="User Defined Fields">
-          <ng-template ngbTabContent>
+        </li>
+        <li *ngIf="(jobUserDefinedFields$ | async).length" ngbNavItem>
+          <a ngbNavLink>
+            User Defined Fields
+          </a>
+          <ng-template ngbNavContent>
             <div class="row pt-3 user-defined-fields-section">
               <div class="col-6 px-0">
                 <div *ngFor="let jobUserDefinedField of (jobUserDefinedFields$ | async)
@@ -148,8 +153,9 @@
               </div>
             </div>
           </ng-template>
-        </ngb-tab>
-      </ngb-tabset>
+        </li>
+      </ul>
+      <div [ngbNavOutlet]="nav"></div>
     </div>
     <div class="modal-footer">
       <span *ngIf="(companyJobSaveError$ | async)" class="text-danger d-flex justify-content-end">{{ companyJobErrorMessage }}</span>

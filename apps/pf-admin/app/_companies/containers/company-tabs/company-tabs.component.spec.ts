@@ -2,10 +2,11 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
+import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 
 import * as fromRootState from 'libs/state/state';
-
 import { generateMockCompanySetting } from 'libs/models';
+
 import { generateMockCustomCompanySetting } from '../../models';
 import * as fromCompaniesReducer from '../../reducers';
 import { CompanyTabsComponent } from './company-tabs.component';
@@ -19,6 +20,7 @@ describe('CompanyTabsComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
         imports: [
+          NgbNavModule,
             StoreModule.forRoot({
                 ...fromRootState.reducers,
                 pf_admin: combineReducers(fromCompaniesReducer.reducers),

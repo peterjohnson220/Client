@@ -1,6 +1,5 @@
 import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 
-import { NgbTabset } from '@ng-bootstrap/ng-bootstrap';
 import { ActionsSubject, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { ofType } from '@ngrx/effects';
@@ -31,15 +30,14 @@ enum JobManagementTabs {
   styleUrls: ['./job-container.component.scss']
 })
 export class JobContainerComponent implements OnInit, OnChanges, OnDestroy {
-  // TODO: NgbTabset is deprecated. We should use NgbNav instead.
   @Input() jobId: number;
 
   @ViewChild('standardFieldsComponent') standardFieldsComponent: StandardFieldsComponent;
   @ViewChild('attachmentsComponent') attachmentsComponent: JobAttachmentsComponent;
-  @ViewChild('jobsTabs') jobsTabs: NgbTabset;
   @ViewChild(NotesManagerComponent) notesManager: NotesManagerComponent;
 
   notesApiServiceType: ApiServiceType;
+  activeId = JobManagementTabs.StandardFields;
 
   loading$: Observable<boolean>;
   jobUserDefinedFields$: Observable<CompanyJobUdf[]>;
@@ -88,9 +86,7 @@ export class JobContainerComponent implements OnInit, OnChanges, OnDestroy {
     this.resetStateSubscription = this.actionsSubject
       .pipe(ofType(fromJobManagementActions.RESET_STATE))
       .subscribe(data => {
-        if (this.jobsTabs) {
-          this.jobsTabs.select(JobManagementTabs.StandardFields);
-        }
+          this.activeId = JobManagementTabs.StandardFields;
       });
   }
 
@@ -101,17 +97,13 @@ export class JobContainerComponent implements OnInit, OnChanges, OnDestroy {
     this.resetNotesSubscription?.unsubscribe();
   }
 
-  tabChange() {
-    this.attachmentsComponent.errorMessage = '';
-  }
-
   submit(): void {
     this.standardFieldsComponent.jobForm.markAllAsTouched();
 
     if (this.standardFieldsComponent.isValid()) {
       this.store.dispatch(new fromJobManagementActions.SaveCompanyJob());
     } else {
-      this.jobsTabs.select(JobManagementTabs.StandardFields);
+      this.activeId = JobManagementTabs.StandardFields;
     }
   }
 

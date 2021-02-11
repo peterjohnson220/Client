@@ -6,7 +6,7 @@ import {EffectsModule} from '@ngrx/effects';
 
 import { GridModule } from '@progress/kendo-angular-grid';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
-import {NgbTabsetModule, NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { TooltipModule } from '@progress/kendo-angular-tooltip';
 
 import {PfCommonUIModule} from 'libs/ui/common';
@@ -30,7 +30,6 @@ import {StatementListRoutingModule} from './statement-list-routing.module';
     EffectsModule.forFeature([StatementGridEffects, TemplateSelectorEffects]),
     FontAwesomeModule,
     GridModule,
-    NgbTabsetModule,
     NgbDropdownModule,
     TooltipModule,
 
@@ -40,7 +39,8 @@ import {StatementListRoutingModule} from './statement-list-routing.module';
     fromTrsStatement.TotalRewardsStatementModule,
 
     // Routing,
-    StatementListRoutingModule
+    StatementListRoutingModule,
+    NgbNavModule
   ],
   declarations: [
     GridActionMenuComponent,

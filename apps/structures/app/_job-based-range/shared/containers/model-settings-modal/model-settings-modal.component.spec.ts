@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 
 import * as fromRootState from 'libs/state/state';
 import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
@@ -30,6 +30,7 @@ describe('Job Based Ranges - Model Settings Modal', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
+        NgbNavModule,
         StoreModule.forRoot({
           ...fromRootState.reducers,
           jobBased_main: combineReducers(fromJobBasedRangeReducer.reducers),

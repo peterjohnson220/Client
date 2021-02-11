@@ -1,8 +1,9 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 
 import * as fromRootState from 'libs/state/state';
 
@@ -10,7 +11,6 @@ import * as fromAddJobModalActions from '../../../actions/add-job-modal.actions'
 import * as fromTemplateListActions from 'libs/features/jobs/job-description-management/actions/template-list.actions';
 import * as fromAddJobModalReducers from '../../../reducers';
 import { AddJobModalComponent } from './add-job-modal.component';
-import { FormBuilder, FormGroup } from '@angular/forms';
 
 describe('Job Description Management - Job Description - Add Job Modal', () => {
   let instance: AddJobModalComponent;
@@ -21,6 +21,7 @@ describe('Job Description Management - Job Description - Add Job Modal', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
+        NgbNavModule,
         StoreModule.forRoot({
           ...fromRootState.reducers,
           jobdescriptonmanagement_jobdescription: combineReducers(fromAddJobModalReducers.reducers),
