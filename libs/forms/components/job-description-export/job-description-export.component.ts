@@ -18,8 +18,8 @@ export class JobDescriptionExportComponent {
   exportJobDescription(docType: string) {
     const htmlDocument: any = document;
 
-    htmlDocument.exportForm.elements['export-uid'].value = Date.now();
-    htmlDocument.exportForm.elements['export-type'].value = docType;
-    htmlDocument.exportForm.submit();
+    htmlDocument.exportFormFromJobDescriptionExport.elements['export-uid'].value = Date.now();
+    htmlDocument.exportFormFromJobDescriptionExport.elements['export-type'].value = docType;
+    htmlDocument.exportFormFromJobDescriptionExport.submit();
   }
 }
