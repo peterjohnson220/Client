@@ -65,7 +65,7 @@ export class SmartListEditorComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     if (this.undoChanges$) {
-     this.undoChangesSubscription = this.undoChanges$.subscribe(val => {
+      this.undoChangesSubscription = this.undoChanges$.subscribe(val => {
         if (val) {
           this.rebuildQuillHtmlFromSavedData();
         }
@@ -81,7 +81,7 @@ export class SmartListEditorComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     if (this.rebuildQuillAfterDiscardDraft$) {
-     this.rebuildQuillAfterDiscardDraftSubscription = this.rebuildQuillAfterDiscardDraft$.subscribe(val => {
+      this.rebuildQuillAfterDiscardDraftSubscription = this.rebuildQuillAfterDiscardDraft$.subscribe(val => {
         if (val) {
           this.rebuildQuillAfterDiscardDraft = val;
         }
@@ -197,19 +197,6 @@ export class SmartListEditorComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  getAggregatedText(pastedText) {
-    const quillContainer = this.elRef.nativeElement.querySelector('.ql-container.ql-snow');
-    if (quillContainer) {
-      const quillApi = Quill.find(quillContainer);
-      quillApi.disable();
-      const currentSelection = quillApi.getSelection(true);
-      const currentText = quillApi.getText();
-      const newText = currentText.slice(0, currentSelection.index) + pastedText + '\n' + currentText.slice(currentSelection.index + 1);
-      quillApi.enable();
-      return  newText; 
-    }
-  }
-
   buildHierarchyFromPasteData(data: string): SmartListHierarchy {
     const thisLevel = new SmartListHierarchy();
     thisLevel.Items = [];
@@ -306,12 +293,12 @@ export class SmartListEditorComponent implements OnInit, OnChanges, OnDestroy {
     } else {
       clipboardData = event.clipboardData.getData('text/plain');
     }
-    const newAggregatedText = this.getAggregatedText(clipboardData);
 
-    const smartListHierarchy = this.buildHierarchyFromPasteData(newAggregatedText);
+    const smartListHierarchy = this.buildHierarchyFromPasteData(clipboardData);
     const newListString = this.buildQuillHtmlListFromHierarchy(smartListHierarchy, 0);
 
-    this.rteData = newListString;
+    let currentData = this.rteData || '';
+    this.rteData = currentData += newListString;
 
     // Since "paste" with mouse right-click or ctrl-v doesn't trigger
     // the OnTextChange event of the p-editor call this method
