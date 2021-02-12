@@ -5,8 +5,8 @@ import { Observable, Subscription } from 'rxjs';
 
 import { UserContext, SidebarLink } from 'libs/models';
 import { SettingsService } from 'libs/state/app-context/services';
+import { AppConstants } from 'libs/constants';
 
-import { environment } from 'environments/environment';
 import * as fromRootState from '../../../../state/state';
 import * as fromLeftSidebarActions from '../../actions/left-sidebar.actions';
 import * as fromLayoutReducer from '../../reducers';
@@ -22,8 +22,8 @@ export class LeftSidebarComponent implements OnInit, OnDestroy {
   @Input() enableCoreJdmInClient = false;
   @Input() leftSidebarToggle = false;
 
-  clientAppRoot = '/' + environment.hostPath + '/';
-  ngAppRoot = environment.ngAppRoot;
+  clientAppRoot = '/' + AppConstants.HostPath + '/';
+  ngAppRoot = AppConstants.NgAppRoot;
   leftSidebarNavigationLinks$: Observable<SidebarLink[]>;
   userContext$: Observable<UserContext>;
   userContextSubscription: Subscription;

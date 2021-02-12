@@ -6,16 +6,16 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { userVoiceUrl } from 'libs/core/functions';
 import { SettingsService } from 'libs/state/app-context/services';
 import { CompanySettingsEnum, TileTypes } from 'libs/models';
+import * as fromMarketingActions from 'libs/features/infrastructure/marketing-settings/marketing-settings/actions/marketing-settings.actions';
+import { AppConstants } from 'libs/constants';
 
 import {
   generateTilePreviewBasicListFromTile, generateTilePreviewChartFromTile, generateTilePreviewChartWithCalendarFromTile,
   generateTilePreviewChartWithListFromTile, generateTilePreviewIconFromTile, generateTilePreviewListFromTile, generateTilePreviewPeerFromTile,
   generateTilePreviewPlaceHolderFromTile, Tile, TilePreviewBase, TilePreviewPeer, TilePreviewType, TilePreviewTypes
 } from '../../models';
-import { environment } from 'environments/environment';
 
 import * as fromMarketingReducer from '../../reducers';
-import * as fromMarketingActions from 'libs/features/infrastructure/marketing-settings/marketing-settings/actions/marketing-settings.actions';
 
 @Component({
   selector: 'pf-tile',
@@ -27,8 +27,8 @@ export class TileComponent implements OnInit, OnDestroy {
   @Input() userId: number;
 
   tilePreviewType: TilePreviewType = new TilePreviewType();
-  clientAppRoot = '/' + environment.hostPath + '/';
-  ngAppRoot = environment.ngAppRoot;
+  clientAppRoot = '/' + AppConstants.HostPath + '/';
+  ngAppRoot = AppConstants.NgAppRoot;
   previewModel: TilePreviewBase;
   highlightMarketingContent = false;
   enableCoreJdmInClient = false;

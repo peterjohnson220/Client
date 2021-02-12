@@ -26,10 +26,8 @@ import {
 import * as fromRootState from 'libs/state/state';
 import { SettingsService } from 'libs/state/app-context/services';
 import { PermissionService } from 'libs/core/services';
-import { PermissionCheckEnum, Permissions } from 'libs/constants/permissions';
+import { PermissionCheckEnum, Permissions, AppConstants } from 'libs/constants';
 import { SimpleYesNoModalComponent, FileDownloadSecurityWarningModalComponent } from 'libs/ui/common';
-
-import { environment } from 'environments/environment';
 
 import { JobDescriptionManagementDnDService, JobDescriptionManagementService, SortDirection } from 'libs/features/jobs/job-description-management';
 import { JobDescriptionManagementDndSource } from 'libs/features/jobs/job-description-management/constants';
@@ -620,7 +618,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.enablePublicViewsInClient$.pipe(
       takeWhile(() => this.identity.IsPublic),
       filter(setting => setting === false)
-    ).subscribe(() => window.location.href = window.location.href.replace(`/${environment.hostPath}/`, environment.ngAppRoot));
+    ).subscribe(() => window.location.href = window.location.href.replace(`/${AppConstants.HostPath}/`, AppConstants.NgAppRoot));
 
     this.controlTypesSubscription = this.controlTypesAsync$.subscribe(value => {
       if (value?.obj?.length > 0) {

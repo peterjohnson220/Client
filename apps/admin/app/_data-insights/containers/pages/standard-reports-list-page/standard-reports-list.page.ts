@@ -3,16 +3,16 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
-import { environment } from 'environments/environment';
-
 import { AsyncStateObj } from 'libs/models/state';
 import { UserContext } from 'libs/models/security';
 import * as fromRootReducer from 'libs/state/state';
+import { AppConstants } from 'libs/constants';
 
 import { StandardReportDetails, EditReportFormData } from '../../../models';
 import { EditReportModalComponent } from '../../../components';
 import * as fromDataInsightsMainReducer from '../../../reducers';
 import * as fromStandardReportsListPageActions from '../../../actions/standard-reports-list-page.actions';
+
 
 @Component({
   selector: 'pf-standard-reports-list-page',
@@ -20,6 +20,8 @@ import * as fromStandardReportsListPageActions from '../../../actions/standard-r
   styleUrls: ['./standard-reports-list.page.scss']
 })
 export class StandardReportsListPageComponent implements OnInit, OnDestroy {
+  get SiteAdminUrl() { return AppConstants.SiteAdminUrl; }
+
   @ViewChild(EditReportModalComponent, { static: true })
   public editReportModalComponent: EditReportModalComponent;
   standardReportDetails$: Observable<AsyncStateObj<StandardReportDetails[]>>;
@@ -36,11 +38,8 @@ export class StandardReportsListPageComponent implements OnInit, OnDestroy {
   selectedReport: StandardReportDetails;
   cloudFilesPublicBaseUrl: string;
 
-  env = environment;
-
   constructor(
-    private store: Store<fromDataInsightsMainReducer.State>
-  ) {
+    private store: Store<fromDataInsightsMainReducer.State>) {
     this.userContext$ = this.store.select(fromRootReducer.getUserContext);
     this.standardReportDetails$ = this.store.pipe(select(fromDataInsightsMainReducer.getStandardReportDetailsAsync));
     this.syncingStandardReports$ = this.store.pipe(select(fromDataInsightsMainReducer.getSyncingStandardReports));

@@ -6,7 +6,7 @@ import { NgbTabChangeEvent, NgbTabset } from '@ng-bootstrap/ng-bootstrap';
 import { takeUntil } from 'rxjs/operators';
 
 import { WindowRef } from 'libs/core/services';
-import { environment } from 'environments/environment';
+import { AppConstants } from 'libs/constants';
 
 import { TicketListComponent } from '../../ticket-list';
 import { UserTicketTabItem } from '../../../models';
@@ -14,14 +14,14 @@ import * as fromTicketReducer from '../../../reducers';
 import * as fromTicketActions from '../../../actions/ticket.actions';
 import * as fromTicketListActions from '../../../actions/ticket-list.actions';
 
+
 @Component({
   selector: 'pf-ticket-list-page',
   templateUrl: './ticket-list.page.html',
   styleUrls: ['./ticket-list.page.scss']
 })
 export class TicketListPageComponent implements OnDestroy {
-
-  env = environment;
+  get SiteAdminUrl() { return AppConstants.SiteAdminUrl; }
 
   userTicketTabs: UserTicketTabItem[] = [];
   selectedTicketId: number = null;
