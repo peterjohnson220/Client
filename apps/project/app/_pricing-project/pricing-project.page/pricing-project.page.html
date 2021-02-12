@@ -15,7 +15,7 @@
 </pf-data-grid>
 
 <ng-template #aboveGridTemplate>
-  <div><label [innerText]="(project$ | async)?.Rate"></label> effective date <label [innerText]="(project$ | async)?.EffectiveDate | date : 'longDate'"></label> </div>
+  <div><label [innerText]="(project$ | async)?.Rate"></label> data effective <label [innerText]="(project$ | async)?.EffectiveDate | date : 'longDate'"></label> </div>
   <div class="d-flex flex-column content-wrapper pb-2">
     <div class=" d-flex align-items-center">
     <div class="card pf-card flex-fill m-2">
