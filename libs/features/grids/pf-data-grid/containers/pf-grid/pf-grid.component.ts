@@ -418,7 +418,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
       descriptorToDispatch.forEach(x => {
         const defaultSort = this.defaultSortDescriptor.find(d => d.field === x.field);
         if (defaultSort) {
-          x.dir = defaultSort.dir === 'desc' ? 'asc' : 'desc';
+          x.dir = 'asc';
         }
       });
     }
