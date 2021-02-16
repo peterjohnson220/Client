@@ -8,12 +8,13 @@ import cloneDeep from 'lodash/cloneDeep';
 
 import { JobDescriptionSummaryEditorComponent } from 'libs/forms';
 import { PfDataGridFilter } from 'libs/features/grids/pf-data-grid/models';
-import { JobDescriptionSummary, AsyncStateObj, JobDescriptionSection, ControlType, JobDescription } from 'libs/models';
+import { JobDescriptionSummary, AsyncStateObj, JobDescriptionSection, ControlType, JobDescription, CompanySettingsEnum } from 'libs/models';
 import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums/pf-theme-type.enum';
 import { ControlDataHelper } from 'libs/features/jobs/job-description-management/helpers';
 import * as fromJobManagementActions from 'libs/features/jobs/job-management/actions';
 import * as fromJDMSharedReducer from 'libs/features/jobs/job-description-management/reducers';
 import * as fromControlTypesActions from 'libs/features/jobs/job-description-management/actions/control-types.actions';
+import { SettingsService } from 'libs/state/app-context/services';
 
 import * as fromJobsPageReducer from '../../../../reducers';
 import * as fromJobDescriptionActions from '../../../../actions';
@@ -33,6 +34,7 @@ export class JobDescriptionComponent implements OnInit, OnDestroy, OnChanges {
   loading$: Observable<boolean>;
   updatedJobDescription$: Observable<string>;
   controlTypesAsync$: Observable<AsyncStateObj<ControlType[]>>;
+  enableFileDownloadSecurityWarning$: Observable<boolean>;
 
   loadJobDescriptionSuccessSubscription: Subscription;
   controlTypesSubscription: Subscription;
@@ -49,9 +51,11 @@ export class JobDescriptionComponent implements OnInit, OnDestroy, OnChanges {
   constructor(
     private store: Store<fromJobsPageReducer.State>,
     private actionsSubject: ActionsSubject,
-    private sharedJDMStore: Store<fromJDMSharedReducer.State>
+    private sharedJDMStore: Store<fromJDMSharedReducer.State>,
+    private settingsService: SettingsService
   ) {
     this.controlTypesAsync$ = this.sharedJDMStore.select(fromJDMSharedReducer.getControlTypesAsync);
+    this.enableFileDownloadSecurityWarning$ = this.settingsService.selectCompanySetting<boolean>(CompanySettingsEnum.FileDownloadSecurityWarning);
   }
 
   ngOnInit(): void {
