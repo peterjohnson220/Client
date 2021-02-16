@@ -2,7 +2,7 @@
 filter="div.kendo-tooltip-container"
 tooltipClass="kendoTooltipWhiteTheme"
 position="right"
-[tooltipTemplate]="pricingMatch" >
+[tooltipTemplate]="pricingMatch">
   <div class="kendo-tooltip-container">
     <span class="job-title link" (click)="handleDataCutClick(job, dataCut)">{{dataCut.JobTitle}} </span>
     <span class="job-code">({{dataCut.JobCode}}) </span>
@@ -11,7 +11,7 @@ position="right"
 </div>
 
 <ng-template #pricingMatch>
-  <div class="pricingMatch">
+  <div class="pricingMatch" >
     <pf-pricing-match
       [entityType]="entityType"
       [entityId]="entityId"
