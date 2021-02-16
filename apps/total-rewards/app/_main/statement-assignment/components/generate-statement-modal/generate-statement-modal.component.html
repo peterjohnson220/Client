@@ -10,15 +10,15 @@
   (onSubmit)="onGenerateStatements()"
   (onDismiss)="onCancel()">
   <ng-container basic-content>
-    <pf-async-container 
+    <pf-async-container
       [loading]="false"
       [loadingError]="sendingGenerateRequestError"
-      [loadingErrorMessage]="'Error Generating Statements'"
+      [loadingErrorMessage]="'An error has occurred. Please refresh the page and try again.'"
       [hideReloadButton]="true">
 
       <div class="d-flex flex-column">
         <p>
-          Generate {{ statement?.StatementName }} for <strong>{{ companyEmployeeIdsTotal }} employee{{ (companyEmployeeIdsTotal > 1) ? 's' : '' }}</strong>? 
+          Generate {{ statement?.StatementName }} for <strong>{{ companyEmployeeIdsTotal }} employee{{ (companyEmployeeIdsTotal > 1) ? 's' : '' }}</strong>?
           <span *ngIf="electronicDeliveryEnabled">To proceed, select a delivery method:</span>
           <span *ngIf="!electronicDeliveryEnabled">To proceed, click Generate below.</span>
         </p>
