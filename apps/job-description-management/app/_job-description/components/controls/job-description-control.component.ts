@@ -79,11 +79,7 @@ export class JobDescriptionControlComponent implements OnInit, OnChanges, OnDest
 
   // if AdditionalProperties.ShowControlName is explicitly set to false, do not show control name
   get showControlName() {
-    if (this.jobDescriptionStatus === 'Published') {
-      return this.jobDescriptionControl?.AdditionalProperties?.ShowControlNameView === false ? false : true;
-    } else {
-      return this.jobDescriptionControl?.AdditionalProperties?.ShowControlName === false ? false : true;
-    }
+    return this.jobDescriptionControl?.AdditionalProperties?.ShowControlName === false ? false : true;
   }
 
   // if AdditionalProperties.ShowControl is explicitly set to false, do not show control
