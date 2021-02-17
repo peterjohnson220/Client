@@ -199,9 +199,9 @@ export class SmartListEditorComponent implements OnInit, OnChanges, OnDestroy {
       const quillApi = Quill.find(quillContainer);
       quillApi.disable();
 
-      var currentSelection = quillApi.getSelection(true);
+      const currentSelection = quillApi.getSelection(true);
 
-      var currentFormat = quillApi.getFormat(currentSelection.index);
+      const currentFormat = quillApi.getFormat(currentSelection.index);
 
       var quillListFormat = "bullet";
       if (typeof currentFormat.list === 'undefined')
@@ -217,7 +217,7 @@ export class SmartListEditorComponent implements OnInit, OnChanges, OnDestroy {
       var currentPosition = currentSelection.index + currentSelection.length;
 
       //Needed when the data comes without format.
-      var sourceFromJustText = (pastedText.BulletType) ? false : true; 
+      const sourceFromJustText = (pastedText.BulletType) ? false : true; 
 
       pastedText.Items.forEach(function(row){
         if (row.Data != ''){
