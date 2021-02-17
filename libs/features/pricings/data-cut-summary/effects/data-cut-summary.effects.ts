@@ -3,11 +3,11 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, Store, select } from '@ngrx/store';
 
-import { Observable, of } from 'rxjs/index';
+import { Observable, of } from 'rxjs';
 import { catchError, switchMap, withLatestFrom, filter } from 'rxjs/operators';
 
 import { DataCutSummaryEntityTypes } from 'libs/constants';
-import * as fromSurveySearchReducer from 'libs/features/surveys/survey-search/reducers';
+import * as fromMultiMatchReducer from 'libs/features/pricings/multi-match/reducers';
 import { DataCutSummaryApiService } from 'libs/data/payfactors-api/pricing';
 
 import * as fromDataCutSummaryActions from '../actions';
@@ -59,7 +59,7 @@ export class DataCutSummaryEffects {
     ofType<fromDataCutSummaryActions.LoadDataCutSummary>(fromDataCutSummaryActions.LOAD_DATA_CUT_SUMMARY),
     filter(action => action.payload.entityType === DataCutSummaryEntityTypes.CustomPeerCutId),
     withLatestFrom(
-      this.store.pipe(select(fromSurveySearchReducer.getTempExchangeJobDataCutFilterContextDictionary)),
+      this.store.pipe(select(fromMultiMatchReducer.getTempDataCutFilterContextDictionary)),
       this.store.pipe(select(fromDataCutSummaryReducer.getDataCutSummaryDictionary)),
       (action: fromDataCutSummaryActions.LoadDataCutSummary, filterContextDictionary, dataCutSummaryDictionary) =>
         ({action, filterContextDictionary, dataCutSummaryDictionary})

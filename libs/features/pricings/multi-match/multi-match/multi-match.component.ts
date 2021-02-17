@@ -2,8 +2,8 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } 
 
 import { ActionsSubject, Store } from '@ngrx/store';
 import { ofType } from '@ngrx/effects';
-import { skip, takeUntil, take } from 'rxjs/operators';
-import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
+import { skip, takeUntil } from 'rxjs/operators';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { DragulaService } from 'ng2-dragula';
 
 import { SearchBaseDirective } from 'libs/features/search/search/containers/search-base';
@@ -13,21 +13,21 @@ import { UpsertPeerDataCutComponent } from 'libs/features/pricings/upsert-peer-d
 import { cleanupDatacutsDragging, enableDatacutsDragging, PayfactorsSurveySearchApiModelMapper } from 'libs/features/surveys/survey-search/helpers';
 import { getSearchFilters, SurveySearchFilterMappingDataObj, SurveySearchUserFilterType } from 'libs/features/surveys/survey-search/data';
 import { TempExchangeDataCutDetails } from 'libs/models/payfactors-api/peer/exchange-data-search/request';
-import { ExchangeJobDataCut } from 'libs/features/surveys/survey-search/models';
+import { DataCutSummaryEntityTypes } from 'libs/constants';
 import * as fromSearchFeatureActions from 'libs/features/search/search/actions/search-feature.actions';
 import * as fromSearchFiltersActions from 'libs/features/search/search/actions/search-filters.actions';
 import * as fromSurveySearchResultsActions from 'libs/features/surveys/survey-search/actions/survey-search-results.actions';
 import * as fromDataCutValidationActions from 'libs/features/peer/actions/data-cut-validation.actions';
-import * as fromSurveySearchReducer from 'libs/features/surveys/survey-search/reducers';
 import * as fromSearchReducer from 'libs/features/search/search/reducers';
 
+import { JobToPrice } from '../models';
+import { TempDataCutService } from '../services';
+import { LEGACY_PROJECTS, MODIFY_PRICINGS } from '../constants';
 import * as fromMultiMatchPageActions from '../actions/multi-match-page.actions';
 import * as fromJobsToPriceActions from '../actions/jobs-to-price.actions';
 import * as fromModifyPricingsActions from '../actions/modify-pricings.actions';
+import * as fromTempDataCutActions from '../actions/temp-data-cut.actions';
 import * as fromMultiMatchReducer from '../reducers';
-import { JobToPrice } from '../models';
-import { LEGACY_PROJECTS, MODIFY_PRICINGS } from '../constants';
-import { map } from 'rxjs/internal/operators';
 
 @Component({
   selector: 'pf-multi-match-component',
@@ -35,38 +35,13 @@ import { map } from 'rxjs/internal/operators';
   styleUrls: ['./multi-match.component.scss']
 })
 export class MultiMatchComponent extends SearchBaseDirective implements OnInit, OnDestroy {
-  @ViewChild(UpsertPeerDataCutComponent) upsertPeerDataCutComponent: UpsertPeerDataCutComponent;
-
-  @Input() display: 'component' | 'modal' = 'component';
-  @Input() featureImplementation = LEGACY_PROJECTS;
-  @Output() afterSaveChanges = new EventEmitter<boolean>();
-
-  customizeScopeInMultimatchModalFlag: RealTimeFlag = { key: FeatureFlags.CustomizeScopeInMultimatchModal, value: false };
-  changesToSave: boolean;
-  saveChangesStarted = false;
-  hasError: boolean;
-  matchMode: boolean;
-  refiningExchangeJobId: number;
-
-  // Observables
-  showMultiMatchModal = new BehaviorSubject<boolean>(false);
-  showMultiMatchModal$ = this.showMultiMatchModal.asObservable();
-  unsubscribe$ = new Subject<void>();
-  jobsToPrice$: Observable<JobToPrice[]>;
-  savingChanges$: Observable<boolean>;
-  pageShown$: Observable<boolean>;
-  loadingResults$: Observable<boolean>;
-  loadingMoreResults$: Observable<boolean>;
-  searchError$: Observable<boolean>;
-  refiningPeerCut$: Observable<boolean>;
-  refiningExchangeJobId$: Observable<number>;
-  editingTempDataCut$: Observable<boolean>;
 
   constructor(
     store: Store<fromSearchReducer.State>,
     private dragulaService: DragulaService,
     private actionsSubject: ActionsSubject,
-    private featureFlagService: AbstractFeatureFlagService
+    private featureFlagService: AbstractFeatureFlagService,
+    public tempDataCutService: TempDataCutService
   ) {
     super(store, SurveySearchFilterMappingDataObj, SearchFeatureIds.MultiMatch, SurveySearchUserFilterType);
     this.matchMode = this.featureFlagService.enabled(FeatureFlags.SurveySearchLightningMode, false);
@@ -100,9 +75,6 @@ export class MultiMatchComponent extends SearchBaseDirective implements OnInit, 
     this.loadingResults$ = this.store.select(fromSearchReducer.getLoadingResults);
     this.loadingMoreResults$ = this.store.select(fromSearchReducer.getLoadingMoreResults);
     this.searchError$ = this.store.select(fromSearchReducer.getSearchResultsError);
-    this.refiningPeerCut$ = this.store.select(fromSurveySearchReducer.getRefining);
-    this.refiningExchangeJobId$ = this.store.select(fromSurveySearchReducer.getRefiningJobId);
-    this.editingTempDataCut$ = this.store.select(fromSurveySearchReducer.getEditingTempDataCut);
     this.actionsSubject
       .pipe(ofType(fromModifyPricingsActions.GET_PRICINGS_TO_MODIFY_SUCCESS), takeUntil(this.unsubscribe$))
       .subscribe(p => {
@@ -111,35 +83,66 @@ export class MultiMatchComponent extends SearchBaseDirective implements OnInit, 
 
     this.featureFlagService.bindEnabled(this.customizeScopeInMultimatchModalFlag, this.unsubscribe$);
   }
+  @ViewChild(UpsertPeerDataCutComponent) upsertPeerDataCutComponent: UpsertPeerDataCutComponent;
+
+  @Input() display: 'component' | 'modal' = 'component';
+  @Input() featureImplementation = LEGACY_PROJECTS;
+  @Output() afterSaveChanges = new EventEmitter<boolean>();
+
+  customizeScopeInMultimatchModalFlag: RealTimeFlag = { key: FeatureFlags.CustomizeScopeInMultimatchModal, value: false };
+  changesToSave: boolean;
+  saveChangesStarted = false;
+  hasError: boolean;
+  matchMode: boolean;
+  refiningExchangeJobId: number;
+
+  // Observables
+  showMultiMatchModal = new BehaviorSubject<boolean>(false);
+  showMultiMatchModal$ = this.showMultiMatchModal.asObservable();
+  unsubscribe$ = new Subject<void>();
+  jobsToPrice$: Observable<JobToPrice[]>;
+  savingChanges$: Observable<boolean>;
+  pageShown$: Observable<boolean>;
+  loadingResults$: Observable<boolean>;
+  loadingMoreResults$: Observable<boolean>;
+  searchError$: Observable<boolean>;
+
+  private static jobHasChangesToSave(job: JobToPrice): boolean {
+    return (!!job.DataCutsToAdd && job.DataCutsToAdd.length > 0) || (!!job.DeletedJobMatchCutIds && job.DeletedJobMatchCutIds.length > 0);
+  }
 
   ngOnInit(): void {
     this.jobsToPrice$.pipe(takeUntil(this.unsubscribe$)).subscribe((jobsToPrice) => {
-      this.changesToSave = jobsToPrice.some(job => this.jobHasChangesToSave(job));
+      this.changesToSave = jobsToPrice.some(job => MultiMatchComponent.jobHasChangesToSave(job));
     });
-    this.refiningExchangeJobId$.pipe(takeUntil(this.unsubscribe$)).subscribe((exchangeJobId) => this.refiningExchangeJobId = exchangeJobId);
-    combineLatest([this.refiningPeerCut$, this.editingTempDataCut$]).pipe(
+    this.tempDataCutService.state$.pipe(
       skip(1),
-      takeUntil(this.unsubscribe$),
-      map((combined) => {
-        return {
-          isRefining: !!combined[0],
-          isEditing: !!combined[1]
-        };
-      })).subscribe((tempDataCutState) => {
-        if (!tempDataCutState.isRefining && !tempDataCutState.isEditing) {
+      takeUntil(this.unsubscribe$)).subscribe((tempDataCutState) => {
+        if (!tempDataCutState.creating && !tempDataCutState.editing) {
           this.store.dispatch(new fromSearchFeatureActions.SetSearchFeatureId(SearchFeatureIds.MultiMatch));
           return;
         }
 
         this.store.dispatch(new fromSearchFeatureActions.ResetSearchFeatureId(SearchFeatureIds.ExchangeExplorer));
         this.store.dispatch(new fromSearchFeatureActions.SetSearchFeatureId(SearchFeatureIds.ExchangeExplorer));
-        if (tempDataCutState.isRefining) {
-          this.upsertPeerDataCutComponent.refineExchangeJob(this.refiningExchangeJobId);
-        } else {
-          this.store.select(fromSurveySearchReducer.getTempDataCutBeingEdited).pipe(take(1)).subscribe((tempDataCut) => {
-            this.upsertPeerDataCutComponent.editTempDataCut(tempDataCut);
-          });
+
+        if (!tempDataCutState.identity) {
+          return;
         }
+        if (tempDataCutState.creating) {
+          this.upsertPeerDataCutComponent.refineExchangeJob(tempDataCutState.identity.ExchangeJobId);
+          return;
+        }
+
+        if (tempDataCutState.identity.MatchType !== DataCutSummaryEntityTypes.CustomPeerCutId) {
+          this.upsertPeerDataCutComponent.editTempDataCut(tempDataCutState.identity);
+          return;
+        }
+
+        this.upsertPeerDataCutComponent.editTempDataCut({
+          lockedExchangeJobId: tempDataCutState.identity.ExchangeJobId,
+          exchangeDataSearchRequest: tempDataCutState.identity.FilterContext
+        });
     });
   }
 
@@ -157,8 +160,7 @@ export class MultiMatchComponent extends SearchBaseDirective implements OnInit, 
     this.store.dispatch(new fromSurveySearchResultsActions.ClearDataCutSelections());
     this.store.dispatch(new fromJobsToPriceActions.ClearAllJobs());
     this.store.dispatch(new fromSurveySearchResultsActions.RefineExchangeJobResultComplete());
-    this.store.dispatch(new fromSurveySearchResultsActions.ClearTempDataCutDictionary());
-    this.store.dispatch(new fromDataCutValidationActions.ClearTempDataCutValidation());
+    this.tempDataCutService.reset();
   }
 
   handleSaveClicked() {
@@ -189,28 +191,20 @@ export class MultiMatchComponent extends SearchBaseDirective implements OnInit, 
 
   handleExchangeDataCutRefined(tempExchangeDataCutDetails: TempExchangeDataCutDetails): void {
     const dataCut = tempExchangeDataCutDetails.TempExchangeJobDataCut;
-    const refinedCut: ExchangeJobDataCut = {
-      ExchangeJobId: dataCut.ExchangeJobId,
-      DataCut: PayfactorsSurveySearchApiModelMapper.mapCustomExchangeJobDataCutToDataCut(dataCut),
-      ExchangeDataSearchRequest: tempExchangeDataCutDetails.ExchangeDataSearchRequest
-    };
-
     this.store.dispatch(new fromSurveySearchResultsActions.GetExchangeDataResults({exchangeJobId: dataCut.ExchangeJobId}));
-    this.store.dispatch(new fromSurveySearchResultsActions.AddRefinedExchangeDataCut(refinedCut));
-    this.store.dispatch(new fromDataCutValidationActions.AddTempDataCutValidation(dataCut.DataCutValidationInfo));
-    this.store.dispatch(new fromSurveySearchResultsActions.RefineExchangeJobResultComplete());
+    this.store.dispatch(new fromSurveySearchResultsActions.AddTempExchangeDataCut({
+      exchangeJobId: dataCut.ExchangeJobId,
+      dataCut: PayfactorsSurveySearchApiModelMapper.mapCustomExchangeJobDataCutToDataCut(dataCut)
+    }));
+
+    this.tempDataCutService.complete(tempExchangeDataCutDetails);
   }
 
   handleTempDataCutEdited(tempExchangeDataCutDetails: TempExchangeDataCutDetails): void {
-    const dataCut = tempExchangeDataCutDetails.TempExchangeJobDataCut;
-    const exchangeJobDataCut: ExchangeJobDataCut = {
-      ExchangeJobId: dataCut.ExchangeJobId,
-      DataCut: PayfactorsSurveySearchApiModelMapper.mapCustomExchangeJobDataCutToDataCut(dataCut),
-      ExchangeDataSearchRequest: tempExchangeDataCutDetails.ExchangeDataSearchRequest
-    };
-    this.store.dispatch(new fromDataCutValidationActions.AddTempDataCutValidation(dataCut.DataCutValidationInfo));
-    this.store.dispatch(new fromSurveySearchResultsActions.EditTempDataCutComplete(exchangeJobDataCut));
-    this.store.dispatch(new fromJobsToPriceActions.EditTempDataCutComplete({DataCut: exchangeJobDataCut.DataCut}));
+    this.store.dispatch(new fromTempDataCutActions.ReplaceDataCutWithTemp({
+      tempDataCut: PayfactorsSurveySearchApiModelMapper.mapCustomExchangeJobDataCutToDataCut(tempExchangeDataCutDetails.TempExchangeJobDataCut)
+    }));
+    this.tempDataCutService.complete(tempExchangeDataCutDetails);
   }
 
   handleLoadRefiningValidationDetails(): void {
@@ -218,21 +212,17 @@ export class MultiMatchComponent extends SearchBaseDirective implements OnInit, 
   }
 
   handleRefineCancelled(): void {
-    if (!!this.refiningExchangeJobId) {
-      this.store.dispatch(new fromSurveySearchResultsActions.GetExchangeDataResults({exchangeJobId: this.refiningExchangeJobId}));
-      this.store.dispatch(new fromSurveySearchResultsActions.RefineExchangeJobResultComplete());
-    } else {
-      this.store.dispatch(new fromSurveySearchResultsActions.EditTempDataCutComplete(null));
+    const creatingExchangeJobId = this.tempDataCutService.creatingExchangeJobId;
+    if (!!creatingExchangeJobId) {
+      this.store.dispatch(new fromSurveySearchResultsActions.GetExchangeDataResults({exchangeJobId: creatingExchangeJobId}));
     }
+
+    this.tempDataCutService.cancel();
   }
 
   ngOnDestroy(): void {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
     cleanupDatacutsDragging(this.dragulaService);
-  }
-
-  private jobHasChangesToSave(job: JobToPrice): boolean {
-    return (!!job.DataCutsToAdd && job.DataCutsToAdd.length > 0) || (!!job.DeletedJobMatchCutIds && job.DeletedJobMatchCutIds.length > 0);
   }
 }

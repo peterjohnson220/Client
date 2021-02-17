@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { switchMap, map, catchError, withLatestFrom } from 'rxjs/operators';
+import { switchMap, map, catchError, withLatestFrom, concatMap } from 'rxjs/operators';
 
 import { SurveySearchApiService, JobsApiService } from 'libs/data/payfactors-api';
 
@@ -11,8 +11,10 @@ import { PayfactorsApiModelMapper } from '../helpers';
 import { ProjectSearchContext } from '../../../surveys/survey-search/models';
 
 import * as fromJobsToPriceActions from '../actions/jobs-to-price.actions';
+import * as fromTempDataCutActions from '../actions/temp-data-cut.actions';
 import * as fromMultiMatchReducer from '../reducers';
 import * as fromSurveySearchReducer from '../../../surveys/survey-search/reducers';
+import { TempDataCutIdentity } from '../models';
 
 @Injectable()
 export class JobsToPriceEffects {
@@ -75,6 +77,19 @@ export class JobsToPriceEffects {
         // TODO: The corresponding catchError condition for the project implementation of MMM needs the entire JobToPrice object in the payload...why?
       );
     })
+  );
+
+  @Effect()
+  replaceDataCutWithTemp$: Observable<Action> = this.actions$.pipe(
+    ofType(fromTempDataCutActions.REPLACE_DATA_CUT_WITH_TEMP),
+    withLatestFrom(
+      this.store.select(fromMultiMatchReducer.getTempDataCutCurrentIdentity),
+      (action: fromTempDataCutActions.ReplaceDataCutWithTemp, currentIdentity: TempDataCutIdentity) => ({payload: action.payload, currentIdentity})
+    ),
+    map((context) => new fromJobsToPriceActions.ReplaceEditedDataCut({
+      existing: context.currentIdentity,
+      tempDataCut: context.payload.tempDataCut
+    }))
   );
 
     constructor(

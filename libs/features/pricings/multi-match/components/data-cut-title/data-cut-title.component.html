@@ -1,10 +1,13 @@
 <div kendoTooltip
 filter="div.kendo-tooltip-container"
 tooltipClass="kendoTooltipWhiteTheme"
-position="right"
+position="left"
 [tooltipTemplate]="dataCutSummary">
   <div class="kendo-tooltip-container">
-    <span class="job-title link" (click)="handleDataCutClick(job, dataCut)">{{dataCut.JobTitle}} </span>
+    <span class="job-title"
+          [ngClass]="{'link' : dataCut.MatchSourceCode === DataCutSummaryTypes.PEER}"
+          [title]="dataCut.MatchSourceCode === DataCutSummaryTypes.PEER ? 'Click to customize this Peer scope' : ''"
+          (click)="handleDataCutClick(job, dataCut)">{{dataCut.JobTitle}} </span>
     <span class="job-code">({{dataCut.JobCode}}) </span>
   </div>
   <div class="job-subtitle paymarket"> {{dataCut.Source}} </div>
@@ -13,9 +16,9 @@ position="right"
 <ng-template #dataCutSummary>
   <div class="dataCutSummary">
     <pf-data-cut-summary
-      [entityType]="entityType"
-      [entityId]="entityId"
-      [matchType]="matchType"
+      [entityType]="dataCut?.MatchType"
+      [entityId]="dataCut?.MatchId"
+      [matchType]="dataCut?.MatchSourceCode"
     ></pf-data-cut-summary>
   </div>
 </ng-template>

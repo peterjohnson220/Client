@@ -2,7 +2,7 @@ import { Action } from '@ngrx/store';
 
 import { JobMatchCut } from 'libs/models/payfactors-api';
 
-import { JobToPrice } from '../models';
+import { JobToPrice, TempDataCutIdentity } from '../models';
 import { ProjectContext, DataCutDetails, DataCut } from '../../../surveys/survey-search/models';
 
 export const GET_JOBS_TO_PRICE = '[Project Add Data/Jobs to Price] Get Jobs To Price';
@@ -15,8 +15,7 @@ export const ADD_DATA_CUTS_TO_JOB_TO_PRICE = '[Project Add Data/Jobs to Price] A
 export const REMOVE_JOB_CUT = '[Project Add Data/Jobs to Price] Remove Job Cut';
 export const CLEAR_ALL_JOBS = '[Project Add Data/Jobs to Price] Remove all Jobs';
 export const GET_PRICING_MATCHES = '[Modify Pricings] Get Pricing Matches';
-export const EDIT_TEMP_DATA_CUT = '[Modify Pricings] Edit Temp Data Cut';
-export const EDIT_TEMP_DATA_CUT_COMPLETE = '[Modify Pricings] Edit Temp Data Cut Complete';
+export const REPLACE_EDITED_DATA_CUT = '[Modify Pricings] Replace Edited Data Cut';
 
 export class GetJobsToPrice implements Action {
   readonly type = GET_JOBS_TO_PRICE;
@@ -59,11 +58,13 @@ export class ClearAllJobs implements Action {
 
   constructor() {}
 }
+
 export class AddNewDataCuts implements Action {
   readonly type = ADD_DATA_CUTS_TO_JOB_TO_PRICE;
 
   constructor(public payload: {JobId: number, PaymarketId: number, CompanyJobId: number, DataCuts: DataCutDetails[]}) {}
 }
+
 export class RemoveJobCut implements Action {
   readonly type = REMOVE_JOB_CUT;
 
@@ -75,16 +76,10 @@ export class GetPricingMatches implements Action {
   constructor(public pricingId: number, public rate: string) {}
 }
 
-export class EditTempDataCut implements Action {
-  readonly type = EDIT_TEMP_DATA_CUT;
+export class ReplaceEditedDataCut implements Action {
+  readonly type = REPLACE_EDITED_DATA_CUT;
 
-  constructor(public payload: {companyJobId: number, jobMatchCut: JobMatchCut}) {}
-}
-
-export class EditTempDataCutComplete implements Action {
-  readonly type = EDIT_TEMP_DATA_CUT_COMPLETE;
-
-  constructor(public payload: {DataCut: DataCut}) { }
+  constructor(public payload: {existing: TempDataCutIdentity, tempDataCut: DataCut}) {}
 }
 
 export type JobsToPriceActions
@@ -98,5 +93,4 @@ export type JobsToPriceActions
   | AddNewDataCuts
   | RemoveJobCut
   | GetPricingMatches
-  | EditTempDataCut
-  | EditTempDataCutComplete;
+  | ReplaceEditedDataCut;

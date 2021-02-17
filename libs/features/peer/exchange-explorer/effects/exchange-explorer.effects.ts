@@ -94,6 +94,7 @@ export class ExchangeExplorerEffects {
     .pipe(
       ofType(fromExchangeExplorerActions.REFINE_EXCHANGE_JOB),
       mergeMap((action: fromExchangeExplorerActions.RefineExchangeJob) => {
+        // TODO: [JP] Do we need this effect? Can we just call LoadContextInfo where we need to?
         const payload = action.payload;
         return [
           new fromExchangeExplorerContextInfoActions.LoadContextInfo(payload)
