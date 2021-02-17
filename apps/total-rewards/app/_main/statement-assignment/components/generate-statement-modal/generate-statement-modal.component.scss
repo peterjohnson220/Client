@@ -1,3 +1,5 @@
+@import 'total-rewards/app-colors';
+
 .radio-button-container {
   padding: 0 1.5rem 1.5rem;
 }
@@ -23,4 +25,31 @@
   &.shown {
     display: block;
   }
+}
+
+.count-confirm {
+  .confirm-count-form {
+    width: 70px;
+    display: initial;
+    line-height: 1;
+    height: initial;
+    background-image: none;
+
+    &.correct-count {
+      border-color: $color-success;
+      box-shadow: 0 0 0 0.2rem lighten($color-success, 25%);
+    }
+  }
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }
