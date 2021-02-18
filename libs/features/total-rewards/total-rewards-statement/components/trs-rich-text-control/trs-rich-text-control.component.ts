@@ -23,12 +23,16 @@ import { EmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards';
 import { AppConstants } from 'libs/constants';
 
 import { RichTextControl, StatementModeEnum } from '../../models';
-import { UpdateStringPropertyRequest, UpdateTitleRequest } from '../../models/request-models';
+import { UpdateStringPropertyRequest, UpdateTitleRequest, UpdateUdfsInRteContentRequest } from '../../models/request-models';
 
 const Quill = require('quill');
 const cheerio = require('cheerio');
 
 const supportedFonts = ['Arial', 'Georgia', 'TimesNewRoman', 'Verdana'];
+
+const employeesUdf = 'EmployeesUdf_';
+const jobsUdf = 'JobsUdf_';
+const udfDefaultValue = '[Custom Value]';
 
 const font = Quill.import('formats/font');
 font.whitelist = supportedFonts;
@@ -53,6 +57,7 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
 
   @Output() onTitleChange: EventEmitter<UpdateTitleRequest> = new EventEmitter();
   @Output() onContentChange: EventEmitter<UpdateStringPropertyRequest> = new EventEmitter();
+  @Output() onUdfsInContentChange: EventEmitter<UpdateUdfsInRteContentRequest> = new EventEmitter();
   @Output() onRTEFocusChange: EventEmitter<string> = new EventEmitter();
 
   isValid = true;
@@ -68,6 +73,8 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
   onContentChangedSubscription = new Subscription();
 
   showFontFamilyMenu = AppConstants.EnableTrsCustomFontFamilies;
+
+  infoTooltip = 'This is a rich text area. Use [ to find and insert existing employee or company fields and custom fields into your text.';
 
   mentionConfig = {
     allowedChars: /^[A-Za-z\sÅÄÖåäö]*$/,
@@ -92,7 +99,7 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
   // quill mention requires options with a lower case `value`
   get dataFields(): { id: string, value: string }[] {
     if (this.mode === StatementModeEnum.Edit) {
-      return this.controlData.DataFields.map(df => ({ id: df.Key, value: df.Value }));
+      return this.controlData.AvailableDataFields.map(df => ({ id: df.Key, value: df.Value }));
     }
     return [];
   }
@@ -244,7 +251,6 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
   }
 
   isContentHeightGreaterThanContainerHeight(): boolean {
-
     if (!this.quillEditor) { return false; } // dom isn't ready yet.
 
     // get dom node references to the container around the quill content and the content nodes (p tags)
@@ -272,23 +278,43 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
     this.quillMentionContainer.scrollTop = 0;
   }
 
-  bindEmployeeDataHtml(): SafeHtml {
-    if (!this.htmlContent) {
-      return '';
-    }
+  bindDataFields(): SafeHtml {
+    if (!this.htmlContent) { return ''; }
+
+    // optimize the data fields lookup so we're not traversing a 200+ element array each find
+    const indexedDataFields = {};
+    this.controlData.AvailableDataFields?.forEach(df => indexedDataFields[df.Key] = df.Value);
+
+    // create a container div with the `ql-editor` class so we get styling
     const $ = cheerio.load('<div class=\'ql-editor\'>' + this.htmlContent + '</div>');
-    const spans = $('.ql-editor span').toArray();
-    for (const span of spans) {
-      if (span.attribs['data-value']) {
-        const employeeField = this.controlData.DataFields.find(f => f.Value === span.attribs['data-value']);
-        $('[data-value="' + employeeField.Value + '"]', '.ql-editor').replaceWith(this.getFormattedDataFieldValue(employeeField.Key));
-      }
+
+    // loop through all spans within the ql-editor which have an attribute of `data-value`, aka our inserted data fields
+    for (const span of this.getDataFieldsFromMarkup()) {
+      const dataFieldKey = span.attribs['data-id'];
+      const dataFieldValue = indexedDataFields[dataFieldKey];
+      $('[data-value="' + dataFieldValue + '"]', '.ql-editor').replaceWith(this.getFormattedDataFieldValue(dataFieldKey));
     }
     return this.sanitizer.bypassSecurityTrustHtml($.html());
   }
 
+  getDataFieldsFromMarkup() {
+    const $ = cheerio.load('<div class=\'ql-editor\'>' + this.htmlContent + '</div>');
+    return $('.ql-editor span[data-value]').toArray();
+  }
+
   getFormattedDataFieldValue(dataFieldKey: string): string {
-    const dataFieldValue = this.employeeRewardsData[dataFieldKey];
+    const isMockEmployeePreview = (this.mode === StatementModeEnum.Preview && !this.employeeRewardsData.CompanyEmployeeId);
+    let dataFieldValue = '';
+
+    // if our key represents an employees/jobs UDF access the appropriate sub-object with the back half of the key, else get from the standard employee fields
+    if (dataFieldKey.indexOf(employeesUdf) === 0) {
+      dataFieldValue = (isMockEmployeePreview) ? udfDefaultValue : this.employeeRewardsData.EmployeesUdf[dataFieldKey.substring(employeesUdf.length)];
+    } else if (dataFieldKey.indexOf(jobsUdf) === 0) {
+      dataFieldValue = (isMockEmployeePreview) ? udfDefaultValue : this.employeeRewardsData.JobsUdf[dataFieldKey.substring(jobsUdf.length)];
+    } else {
+      dataFieldValue = this.employeeRewardsData[dataFieldKey];
+    }
+
     return this.formatDataFieldValue(dataFieldValue);
   }
 
@@ -347,6 +373,11 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
       distinctUntilChanged()
     ).subscribe((update: UpdateStringPropertyRequest) => {
       if (this.mode === StatementModeEnum.Edit) {
+        const udfDataFieldsInContent = this.getDataFieldsFromMarkup()
+          .map(({ attribs }) => ({ Key: attribs['data-id'], Value: attribs['data-value'] }))
+          .filter(udf => udf.Key.indexOf(employeesUdf) === 0 || udf.Key.indexOf(jobsUdf) === 0);
+
+        this.onUdfsInContentChange.emit({ UdfDataFieldsInContent: udfDataFieldsInContent, ControlId: this.controlData.Id } );
         this.onContentChange.emit(update);
       }
     });

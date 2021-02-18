@@ -4,7 +4,8 @@ import {
   SaveImageRequest,
   UpdateStringPropertyRequest,
   DeleteImageRequest,
-  CompensationField
+  CompensationField,
+  UpdateUdfsInRteContentRequest
 } from 'libs/features/total-rewards/total-rewards-statement/models';
 import * as requestModels from 'libs/features/total-rewards/total-rewards-statement/models/request-models';
 
@@ -18,6 +19,7 @@ export const ADD_CALCULATION_CONTROL_COMPENSATION_FIELD = '[Total Rewards/Edit S
 export const REMOVE_CALCULATION_CONTROL_COMPENSATION_FIELD = '[Total Rewards/Edit Statement] Remove Calculation Control Compensation Field';
 
 export const UPDATE_RICH_TEXT_CONTROL_CONTENT = '[Total Rewards/Edit Statement] Update Rich Text Control Content';
+export const UPDATE_RICH_TEXT_CONTROL_UDFS_IN_CONTENT = '[Total Rewards/Edit Statement] Update Rich Text Control Udfs In Content';
 export const UPDATE_ACTIVE_RICH_TEXT_EDITOR_ID = '[Total Rewards/Edit Statement] Update Active Rich Text Editor ID';
 
 export const SAVE_IMAGE_CONTROL_IMAGE = '[Total Rewards/Edit Statement] Save Image Control Image';
@@ -66,6 +68,11 @@ export class UpdateRichTextControlContent implements Action {
 export class UpdateActiveRichTextEditorId implements Action {
   readonly type = UPDATE_ACTIVE_RICH_TEXT_EDITOR_ID;
   constructor(public payload: string) {}
+}
+
+export class UpdateRichTextControlUdfsInContent implements Action {
+  readonly type = UPDATE_RICH_TEXT_CONTROL_UDFS_IN_CONTENT;
+  constructor(public payload: UpdateUdfsInRteContentRequest) {}
 }
 
 export class SaveImageControlImage implements Action {

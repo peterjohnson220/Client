@@ -22,6 +22,7 @@ export type StatementEditPageActions =
   controlActions.AddCalculationControlCompensationField |
   controlActions.RemoveCalculationControlCompensationField |
   controlActions.UpdateRichTextControlContent |
+  controlActions.UpdateRichTextControlUdfsInContent |
   controlActions.SaveImageControlImage |
   controlActions.SelectImageControlImage |
   controlActions.RemoveImageControlImage |

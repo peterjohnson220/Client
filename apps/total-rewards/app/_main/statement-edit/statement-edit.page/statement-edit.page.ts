@@ -219,6 +219,10 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
     this.store.dispatch(new fromEditStatementPageActions.UpdateRichTextControlContent(request));
   }
 
+  handleOnRichTextControlUdfsInContentChange(request: models.UpdateUdfsInRteContentRequest) {
+    this.store.dispatch(new fromEditStatementPageActions.UpdateRichTextControlUdfsInContent(request));
+  }
+
   handleRTEFocusChange(event) {
     this.store.dispatch(new fromEditStatementPageActions.UpdateActiveRichTextEditorId(event));
   }

@@ -224,28 +224,13 @@ describe('TrsCalculationControlComponent', () => {
     expect(employerContribution).toBe('');
   });
 
-  it('getEmployerContributionValue should return TrsConstants.UDF_DEFAULT_VALUE for UDF fields in mock data', () => {
-    // arrange
-    component.controlData = generateMockCalculationControl();
-    component.mode = StatementModeEnum.Preview;
-    component.employeeRewardsData = { ...generateMockEmployeeRewardsData(), IsMockData: true };
-    const udfField = {
-      Id: 'abc-123', DatabaseField: 'UDF_CHAR_4_Name', IsVisible: true, CanHaveEmployeeContribution: false, Name: {} as any, Type: 'EmployeesUdf' };
-
-    // act
-    const employerContribution = component.getEmployerContributionValue(udfField);
-
-    // assert
-    expect(employerContribution).toBe(TrsConstants.UDF_DEFAULT_VALUE.toString());
-  });
-
   it('getEmployerContributionValue should return the UDF value for UDF fields with matching employee values', () => {
     // arrange
     component.controlData = generateMockCalculationControl();
     component.mode = StatementModeEnum.Preview;
-    component.employeeRewardsData = { ...generateMockEmployeeRewardsData(), IsMockData: false, EmployeesUdf: { 'UDF_CHAR_4_Name': 123123 } as any };
+    component.employeeRewardsData = { ...generateMockEmployeeRewardsData(), EmployeesUdf: { 'UDF_CHAR_4': 123123 } as any };
     const udfField = {
-      Id: 'abc-123', DatabaseField: 'UDF_CHAR_4_Name', IsVisible: true, CanHaveEmployeeContribution: false, Name: {} as any, Type: 'EmployeesUdf' };
+      Id: 'abc-123', DatabaseField: 'UDF_CHAR_4', IsVisible: true, CanHaveEmployeeContribution: false, Name: {} as any, Type: 'EmployeesUdf' as any };
 
     // act
     const employerContribution = component.getEmployerContributionValue(udfField);
@@ -274,11 +259,11 @@ describe('TrsCalculationControlComponent', () => {
     component.controlData = generateMockCalculationControl();
     component.mode = StatementModeEnum.Preview;
     component.employeeRewardsData = { ...generateMockEmployeeRewardsData(), Bonus: 10000, IsMockData: false, Currency: 'CAD'} as any;
-    component.employeeRewardsData.EmployeesUdf = { 'UDF_CHAR_2_Name': 12345 } as any;
+    component.employeeRewardsData.EmployeesUdf = { 'UDF_CHAR_2': 12345 } as any;
 
     // act
     component.getEmployerContributionValue(
-      { Id: 'abc-123', DatabaseField: 'UDF_CHAR_2_Name', IsVisible: true, CanHaveEmployeeContribution: false, Name: {} as any, Type: 'EmployeesUdf' });
+      { Id: 'abc-123', DatabaseField: 'UDF_CHAR_2', IsVisible: true, CanHaveEmployeeContribution: false, Name: {} as any, Type: 'EmployeesUdf' });
 
     // assert
     expect(currencyPipe.transform).toHaveBeenCalledTimes(1);

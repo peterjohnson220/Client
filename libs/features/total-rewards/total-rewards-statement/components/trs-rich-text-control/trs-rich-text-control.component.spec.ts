@@ -66,6 +66,25 @@ const markupWithDataFieldsAndFormatting = `
   </ul>
   <p>end</p>`;
 
+const markupWithEmployeesUdfDataField = `
+  <p>
+    <span class="mention" data-index="0" data-denotation-char="" data-id="EmployeesUdf_UDF_CHAR_1" data-value="1 (custom)">
+      <span contenteditable="false">
+        <span class="ql-mention-denotation-char"></span>1 (custom)
+      </span>
+    </span>
+  </p>`;
+
+const markupWithJobsUdfDataField = `
+  <p>
+    <span class="mention" data-index="14" data-denotation-char="" data-id="JobsUdf_UDF_CHAR_1" data-value="Custom (Custom)">
+      <span contenteditable="false">
+        <span class="ql-mention-denotation-char"></span>Custom (Custom)
+      </span>
+    </span>
+  </p>
+`;
+
 describe('TrsRichTextControlComponent', () => {
   let component: TrsRichTextControlComponent;
   let fixture: ComponentFixture<TrsRichTextControlComponent>;
@@ -93,14 +112,14 @@ describe('TrsRichTextControlComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('bindEmployeeDataHtml should maintain simple content with no data fields used', () => {
+  it('bindDataFields should maintain simple content with no data fields used', () => {
     // arrange
     component.controlData = { Title: { Default: 'Title' } } as any;
     component.mode = StatementModeEnum.Preview;
     component.htmlContent = '<p>static text that should not change</p>';
 
     // act
-    const boundHtml = component.bindEmployeeDataHtml() as any;
+    const boundHtml = component.bindDataFields() as any;
 
     // assert
     const testDiv = document.createElement('div');
@@ -108,7 +127,7 @@ describe('TrsRichTextControlComponent', () => {
     expect(testDiv.textContent).toEqual('static text that should not change');
   });
 
-  it('bindEmployeeDataHtml should persist styling attributes with no data fields used', () => {
+  it('bindDataFields should persist styling attributes with no data fields used', () => {
     // arrange
     component.controlData = { Title: { Default: 'Title' } } as any;
     component.mode = StatementModeEnum.Preview;
@@ -116,7 +135,7 @@ describe('TrsRichTextControlComponent', () => {
     component.htmlContent = markupWithFormatting;
 
     // act
-    const boundHtml = component.bindEmployeeDataHtml() as any;
+    const boundHtml = component.bindDataFields() as any;
 
     // assert
     const testDiv = document.createElement('div');
@@ -124,11 +143,11 @@ describe('TrsRichTextControlComponent', () => {
     expect(testDiv.innerHTML).toContain(markupWithFormatting);
   });
 
-  it('bindEmployeeData should replace data field placeholders with actual employee data', () => {
+  it('bindDataFields should replace data field placeholders with actual employee data', () => {
     // arrange
     component.controlData = {
       Title: { Default: 'Title' },
-      DataFields: [
+      AvailableDataFields: [
         { Key: 'EmployeeFirstName', Value: 'Employee First Name' },
         { Key: 'EmployeeLastName', Value: 'Employee Last Name' },
       ]
@@ -139,7 +158,7 @@ describe('TrsRichTextControlComponent', () => {
     component.htmlContent = markupWithDataFields;
 
     // act
-    const boundHtml = component.bindEmployeeDataHtml() as any;
+    const boundHtml = component.bindDataFields() as any;
 
     // assert
     const testDiv = document.createElement('div');
@@ -153,11 +172,11 @@ describe('TrsRichTextControlComponent', () => {
     expect(testDiv.textContent).not.toContain('EmployeeLastName');
   });
 
-  it('bindEmployeeData should maintain formatting when data fields are used', () => {
+  it('bindDataFields should maintain formatting when data fields are used', () => {
     // arrange
     component.controlData = {
       Title: { Default: 'Title' },
-      DataFields: [
+      AvailableDataFields: [
         { Key: 'EmployeeLastName', Value: 'Employee Last Name' },
         { Key: 'EmployeeDepartment', Value: 'Employee Department' },
         { Key: 'EmployeeEmailAddress', Value: 'Employee Email Address' },
@@ -169,7 +188,7 @@ describe('TrsRichTextControlComponent', () => {
     component.htmlContent = markupWithDataFieldsAndFormatting;
 
     // act
-    const boundHtml = component.bindEmployeeDataHtml() as any;
+    const boundHtml = component.bindDataFields() as any;
 
     // assert
     const testDiv = document.createElement('div');
@@ -181,6 +200,67 @@ describe('TrsRichTextControlComponent', () => {
     expect(testDiv.querySelector('u').innerHTML).toContain(rewardsData['EmployeeLastName']);
     expect(testDiv.querySelectorAll('strong').length).toBe(1);
     expect(testDiv.querySelector('strong').innerHTML).toContain(rewardsData['EmployeeEmailAddress']);
+  });
+
+  it('bindDataFields should insert the appropriate value when an Employees UDF is defined for an employee', () => {
+    // arrange
+    component.controlData = {
+      Title: { Default: 'Title' },
+      AvailableDataFields: [{ Key: 'EmployeesUdf_UDF_CHAR_1', Value: '1 (custom)' }]
+    } as any;
+    component.mode = StatementModeEnum.Print;
+    const rewardsData = { ...generateMockEmployeeRewardsData(), EmployeesUdf: { UDF_CHAR_1: 12345 } } as any;
+    component.employeeRewardsData = rewardsData;
+    component.htmlContent = markupWithEmployeesUdfDataField;
+
+    // act
+    const boundHtml = component.bindDataFields() as any;
+
+    // assert
+    const testDiv = document.createElement('div');
+    testDiv.innerHTML = boundHtml.changingThisBreaksApplicationSecurity;
+    expect(testDiv.textContent).toContain('12345');
+  });
+
+  it('bindDataFields should insert whitespace when a UDF is not defined for an employee', () => {
+    // arrange
+    component.controlData = {
+      Title: { Default: 'Title' },
+      AvailableDataFields: [{ Key: 'EmployeesUdf_UDF_CHAR_1', Value: '1 (custom)' }]
+    } as any;
+    component.mode = StatementModeEnum.Print;
+    const rewardsData = { ...generateMockEmployeeRewardsData(), EmployeesUdf: { } } as any;
+    component.employeeRewardsData = rewardsData;
+    component.htmlContent = markupWithEmployeesUdfDataField;
+
+    // act
+    const boundHtml = component.bindDataFields() as any;
+
+    // assert
+    const testDiv = document.createElement('div');
+    testDiv.innerHTML = boundHtml.changingThisBreaksApplicationSecurity;
+    expect(testDiv.textContent.replace('/n', '').trim()).toBeFalsy();
+  });
+
+  it('bindDataFields should insert the appropriate value when a Jobs UDF is defined for an employee', () => {
+    // arrange
+    component.controlData = {
+      Title: { Default: 'Title' },
+      AvailableDataFields: [{ Key: 'JobsUdf_UDF_CHAR_1', Value: 'Custom (Custom)' }]
+    } as any;
+    component.mode = StatementModeEnum.Print;
+    const rewardsData = { ...generateMockEmployeeRewardsData(), EmployeesUdf: { UDF_CHAR_1: 'emps' }, JobsUdf: { UDF_CHAR_1: 'jobs' } } as any;
+    component.employeeRewardsData = rewardsData;
+    component.htmlContent = markupWithJobsUdfDataField;
+
+    // act
+    const boundHtml = component.bindDataFields() as any;
+
+    // assert
+    const testDiv = document.createElement('div');
+    testDiv.innerHTML = boundHtml.changingThisBreaksApplicationSecurity;
+    expect(testDiv.textContent).toContain('jobs');
+    expect(testDiv.textContent).not.toContain('emps');
   });
 
   it('formatDataFieldValue should return an empty string for non string, number or date values', () => {

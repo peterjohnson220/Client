@@ -156,6 +156,13 @@ export function reducer(state = initialState, action: fromEditStatementActions.S
       control.Content = action.payload.value;
       return localState;
     }
+    case fromEditStatementActions.UPDATE_RICH_TEXT_CONTROL_UDFS_IN_CONTENT: {
+      const {Page, Section, Column, Control} = TotalRewardsStatementService.getCurrentControlIndex(state.statement.obj, action.payload.ControlId);
+      const localState = cloneDeep(state);
+      const control = localState.statement.obj.Pages[Page].Sections[Section].Columns[Column].Controls[Control];
+      control.UdfDataFieldsInContent = action.payload.UdfDataFieldsInContent;
+      return localState;
+    }
     case fromEditStatementActions.TOGGLE_STATEMENT_EDIT_MODE: {
       const localState = cloneDeep(state);
       localState.mode = action.payload;
