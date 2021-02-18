@@ -18,8 +18,8 @@
         [loadingError]="templateViewsAsync.loadingError"
         [hideReloadButton]="true">
 
-        <div class="container-fluid px-0" *ngIf="templateViewsAsync.obj.length">
-          <pf-job-info-view-editor></pf-job-info-view-editor>
+        <div class="container-fluid px-0" *ngIf="templateViewsAsync.obj.length">   
+          <pf-job-info-view-editor *ngIf="(viewName$ | async) !== 'Draft & In Review'"></pf-job-info-view-editor>
 
           <div class="row">
             <ng-container *ngFor="let templateView of templateViewsAsync.obj">
