@@ -51,11 +51,26 @@
           </div>
         </div>
 
-        <div class="email-form-container" [class.shown]="electronicDeliveryEnabled && selectedDeliveryMethod === deliveryMethod.Email">
+        <div class="email-form-container pb-3" [class.shown]="electronicDeliveryEnabled && selectedDeliveryMethod === deliveryMethod.Email">
           <pf-statement-email-template #emailTemplate
             [statement]="statement"
             [statementEmailTemplate]="statementEmailTemplate">
           </pf-statement-email-template>
+        </div>
+
+        <div class="count-confirm">
+          <label for="confirmGenerateCountInput">
+            Type the number of selected employees to confirm:
+          </label>
+          <input type="number"
+                 name="confirm-generate-count"
+                 id="confirmGenerateCountInput"
+                 class="form-control confirm-count-form ml-1 py-1 px-2"
+                 [ngClass]="{ 'is-invalid' : isConfirmCountInvalid , 'correct-count' : isConfirmCountCorrect}"
+                 [placeholder]="companyEmployeeIdsTotal"
+                 [(ngModel)]="confirmCountNumber"
+                 (ngModelChange)="onConfirmCountChange($event)" />
+          <span *ngIf="isConfirmCountInvalid" class="invalid-feedback">Number of selected employees is required</span>
         </div>
       </div>
     </pf-async-container>

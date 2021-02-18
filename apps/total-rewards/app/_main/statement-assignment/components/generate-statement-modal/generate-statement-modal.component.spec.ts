@@ -3,6 +3,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { of } from 'rxjs';
 
+import { DeliveryMethod } from 'libs/features/total-rewards/total-rewards-statement/models/delivery-method';
+
 import { GenerateStatementModalComponent } from './generate-statement-modal.component';
 
 describe('GenerateStatementModalComponent', () => {
@@ -65,5 +67,56 @@ describe('GenerateStatementModalComponent', () => {
     // assert
     const message = fixture.debugElement.nativeElement.querySelector('p');
     expect(message.textContent.indexOf('1 employee')).toBeTruthy();
+  });
+
+  it('should have submit disabled when count has not been confirmed', () => {
+    // arrange
+    component.confirmCountNumber = null;
+
+    // act
+    fixture.detectChanges();
+
+    // assert
+    expect(component.submitEnabled).toBeFalsy();
+  });
+
+  it('should have submit disabled when count is correct but no mode is selected', () => {
+    // arrange
+    component.confirmCountNumber = 3;
+    component.companyEmployeeIdsTotal = 3;
+    component.electronicDeliveryEnabled = true;
+    component.selectedDeliveryMethod = null;
+
+    // act
+    fixture.detectChanges();
+
+    // assert
+    expect(component.submitEnabled).toBeFalsy();
+  });
+
+  it('should have submit enabled when in pdf export and count is correct', () => {
+    // arrange
+    component.confirmCountNumber = 3;
+    component.companyEmployeeIdsTotal = 3;
+    component.selectedDeliveryMethod = DeliveryMethod.PDFExport;
+
+    // act
+    fixture.detectChanges();
+
+    // assert
+    expect(component.submitEnabled).toBeTruthy();
+  });
+
+  it('should have submit enabled when e-delivery is disabled and count is correct', () => {
+    // arrange
+    component.confirmCountNumber = 3;
+    component.companyEmployeeIdsTotal = 3;
+    component.electronicDeliveryEnabled = false;
+
+    // act
+    fixture.detectChanges();
+
+    // assert
+    expect(component.submitEnabled).toBeTruthy();
   });
 });
