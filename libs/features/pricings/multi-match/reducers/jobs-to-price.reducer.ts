@@ -281,7 +281,8 @@ function addJobCuts(jobToPrice: JobToPrice, newDataCuts: DataCutDetails[]) {
 }
 
 function removeJobMatchCut(jobToPrice: JobToPrice, cutToRemove: JobMatchCut) {
-  if (cutToRemove.MatchId) {
+  if (cutToRemove.MatchType === PricingMatchEntityTypes.CompanyJobPricingMatchId ||
+    cutToRemove.MatchType === PricingMatchEntityTypes.UserJobMatchId) {
     // remove job match cut and track deleted id
     jobToPrice.JobMatchCuts = jobToPrice.JobMatchCuts.filter(x => x.MatchId !== cutToRemove.MatchId);
     jobToPrice.DeletedJobMatchCutIds = jobToPrice.DeletedJobMatchCutIds || [];
