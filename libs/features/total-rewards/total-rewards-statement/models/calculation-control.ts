@@ -22,9 +22,9 @@ export function generateMockCalculationControl(): CalculationControl {
     Layout: { Width: 12 },
     Category: 'Compensation',
     DataFields: [
-      { Id: '1', DatabaseField: 'EmployeeBase', Name: {Default: 'Base Salary', Override: ''}, IsVisible: true},
-      { Id: '2', DatabaseField: 'EmployeeBonus', Name: {Default: 'Bonus', Override: ''}, IsVisible: true},
-      { Id: '3', DatabaseField: 'EmployeeSTI', Name: {Default: 'Short Term Incentive', Override: ''}, IsVisible: true}
+      { Id: '1', DatabaseField: 'EmployeeBase', Name: {Default: 'Base Salary', Override: ''}, IsVisible: true, CanHaveEmployeeContribution: false},
+      { Id: '2', DatabaseField: 'EmployeeBonus', Name: {Default: 'Bonus', Override: ''}, IsVisible: true, CanHaveEmployeeContribution: false},
+      { Id: '3', DatabaseField: 'EmployeeSTI', Name: {Default: 'Short Term Incentive', Override: ''}, IsVisible: true, CanHaveEmployeeContribution: false}
     ],
     Summary: {Default: '', Override: ''},
     SummaryTextColor: TotalRewardsColorEnum.Undefined,

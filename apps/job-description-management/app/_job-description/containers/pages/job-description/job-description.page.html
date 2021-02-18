@@ -1,8 +1,4 @@
-<pf-async-container [loading]="loadingPage$ | async"
-                    [loadingError]="loadingPageError$ | async"
-                    [loadingErrorMessage]="'Error Loading Job Descriptions Page'">
-
-  <pf-page-with-title-bar *ngIf="!(loadingPage$ | async)">
+<pf-page-with-title-bar *ngIf="(loadingPage$ | async) === false">
 
     <ng-container page-title>
       <ng-container *ngIf="!identityInWorkflow && !identityInEmployeeAcknowledgement">
@@ -36,13 +32,16 @@
     </ng-container>
 
     <ng-container page-content>
-      <div *ngIf="(jobDescriptionAsync$ | async) as jobDescriptionAsync" class="row pf-inner-page-content">
-        <pf-async-container
-          [loading]="jobDescriptionAsync.loading || (jobDescriptionPublishing$ | async)"
-          [loadingError]="jobDescriptionAsync.loadingError"
-          [loadingErrorMessage]="'Error loading the job description'"
-          [hideReloadButton]="true">
-        </pf-async-container>
+
+      <pf-async-container
+        [loading]="(jobDescriptionAsync$ | async)?.loading || (jobDescriptionPublishing$ | async)"
+        [loadingError]="(jobDescriptionAsync$ | async)?.loadingError"
+        [loadingErrorMessage]="'Error loading the job description'"
+        [hideReloadButton]="true">
+      </pf-async-container>
+
+      <div class="row pf-inner-page-content">
+        
         <div *ngIf="!!jobDescription" class="column-scroll-container"
             [class.col-8]="(jobDescription.JobDescriptionStatus == 'In Review' && !showLibrary) || showRoutingHistory"
             [class.col-7]="showLibrary"
@@ -65,7 +64,7 @@
 
               <div class="card-block">
                 <ng-container *ngIf="identityInEmployeeAcknowledgement">
-                  <div *ngIf="(employeeAcknowledgementInfo$ | async)?.obj.HasAcknowledged" class="alert alert-success" role="alert">
+                  <div *ngIf="(employeeAcknowledgementInfo$ | async)?.obj?.HasAcknowledged" class="alert alert-success" role="alert">
                     <h5>
                       <fa-icon [icon]="['fas','check-circle']" aria-hidden="true"></fa-icon>
                       This job description was acknowledged by {{(identity$ | async)?.Name}}
@@ -88,9 +87,10 @@
 
                 <pf-job-description-section *ngFor="let section of visibleSections; trackBy: trackByFn"
                                             [section]="section"
-                                            [controlTypesLoaded]="!(controlTypesAsync$ | async)?.loading"
-                                            [readOnly]="!(hasCanEditJobDescriptionPermission) || !(editingJobDescription$ | async)"
+                                            [readOnly]="!(hasCanEditJobDescriptionPermission) || !editing"
                                             [jobDescriptionStatus]="jobDescription.JobDescriptionStatus"
+                                            [undoChanges$]="undoChanges$"
+                                            [replaceContents$]="replaceContents$"
                                             (controlDataChangesDetected)="handleControlDataChanges($event)"
                                             (controlBulkDataChangesDetected)="handleBulkControlDataChanges($event)"
                                             (controlAdditionalPropertiesChangesDetected)="handleControlAdditionalPropertiesChangesDetected($event)"
@@ -105,7 +105,7 @@
         <div *ngIf="showLibrary" class="column-scroll-container col-5">
           <div class="scroll-y column-scroll-inner">
             <pf-job-description-library
-              [jobTitle]="jobDescriptionAsync?.obj.Name"
+              [jobTitle]="jobDescriptionAsync?.obj?.Name"
               [buckets]="(jobDescriptionLibraryBuckets$ | async)?.obj"
               [results]="(jobDescriptionLibraryResults$ | async)?.obj"
               [loadingBuckets]="(jobDescriptionLibraryBuckets$ | async)?.loading"
@@ -161,9 +161,7 @@
 
     </ng-container>
 
-  </pf-page-with-title-bar>
-
-</pf-async-container>
+</pf-page-with-title-bar>
 
 <!--Modals-->
 <pf-copy-job-description-modal *ngIf="!(identity$ | async)?.IsPublic && !(identity$ | async)?.WorkflowStepInfo"></pf-copy-job-description-modal>
@@ -200,7 +198,7 @@
 </pf-simple-yes-no-modal>
 
 <pf-employee-acknowledgement-modal
-  [acknowledging]="(acknowledging$ | async)"
+  [acknowledging]="!!(acknowledging$ | async)"
   (acknowledged)="acknowledgeJobDescription($event)">
 </pf-employee-acknowledgement-modal>
 
@@ -215,6 +213,11 @@
   [jobDescriptionRevision]="(jobDescriptionAsync$ | async)?.obj?.JobDescriptionRevision"
   [workflowId]="(jobDescriptionExtendedInfo$ | async)?.WorkflowId">
 </pf-change-approver-modal>
+
+<pf-file-download-security-warning-modal 
+  #fileDownloadSecurityWarningModal
+  (securityWarningConfirmed)="handleSecurityWarningConfirmed($event)">
+</pf-file-download-security-warning-modal>
 
 <!-- <pf-conflict-error-modal
     #conflictErrorModal

@@ -7,6 +7,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import * as fromRootState from 'libs/state/state';
 import { PfCommonModule } from 'libs/core';
+import { BulkExportSchedule } from 'libs/models';
 
 import * as fromBulkExportScheduleReducer from '../../reducers';
 import * as fromBulkExportScheduleActions from '../../actions/bulk-export-schedule.actions';
@@ -85,5 +86,14 @@ describe('Bulk Job Description Export Scheduler - Bulk Export Schedule Form', ()
 
     expect(store.dispatch).not.toHaveBeenCalledWith(expectedQueueAction);
     expect(store.dispatch).toHaveBeenCalledWith(expectedInitAction);
+  });
+
+  it('should dispatch a EditSchedule action when editSchedule is called', () => {
+    const schedule = new BulkExportSchedule();
+    const action = new fromBulkExportScheduleActions.EditSchedule(schedule);
+
+    instance.editSchedule(schedule);
+
+    expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 });

@@ -1,16 +1,17 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 
-import { CompositeDataLoadViewResponse, CompanySettingsEnum} from 'libs/models';
+import { CompositeDataLoadViewResponse, CompanySettingsEnum, FileDownloadSecurityWarningType} from 'libs/models';
 import * as fromJobDescriptionsExportActions from 'libs/features/jobs/job-description-management/actions/job-description-export.actions';
 import * as fromOrgDataNavigationLinkActions from 'libs/features/infrastructure/navigation-links/actions/org-data-navigation-link.actions';
 import * as fromAppNotificationsMainReducer from 'libs/features/infrastructure/app-notifications/reducers';
 import * as fromAppNotificationsActions from 'libs/features/infrastructure/app-notifications/actions/app-notifications.actions';
 import { SettingsService } from 'libs/state/app-context/services';
 import { NotificationLevel, NotificationSource, NotificationType } from 'libs/features/infrastructure/app-notifications/models';
+import { FileDownloadSecurityWarningModalComponent } from 'libs/ui/common';
 
 import * as fromDataManagementMainReducer from '../../reducers';
 import * as fromLoadersDataActions from '../../actions/loaders-data.actions';
@@ -21,6 +22,7 @@ import * as fromLoadersDataActions from '../../actions/loaders-data.actions';
   styleUrls: ['./load-and-export-files-card.component.scss'],
 })
 export class LoadAndExportFilesCardComponent implements OnInit, OnDestroy {
+  @ViewChild('fileDownloadSecurityWarningModal', { static: true }) public fileDownloadSecurityWarningModal: FileDownloadSecurityWarningModalComponent;
 
   loadAndExportFilesCardStateSubscription: Subscription;
 
@@ -31,6 +33,8 @@ export class LoadAndExportFilesCardComponent implements OnInit, OnDestroy {
   canExportPricingData: boolean;
   canExportJobDescription: boolean;
   canScheduleBulkExports: boolean;
+  enableFileDownloadSecurityWarning: boolean;
+  securityWarningType: FileDownloadSecurityWarningType;
 
   latestOrgDataLoad$: Observable<CompositeDataLoadViewResponse>;
   latestOrgDataLoadModalOpen$: Observable<boolean>;
@@ -45,6 +49,10 @@ export class LoadAndExportFilesCardComponent implements OnInit, OnDestroy {
       .selectCompanySetting<string>(CompanySettingsEnum.ManualOrgDataLoadLink, 'string')
       .pipe(takeUntil(this.unsubscribe$), filter(v => !!v))
       .subscribe(setting => this.canImportOrgData = (setting === 'true'));
+    this.settingsService
+      .selectCompanySetting<string>(CompanySettingsEnum.FileDownloadSecurityWarning, 'string')
+      .pipe(takeUntil(this.unsubscribe$), filter(v => !!v))
+      .subscribe(setting => this.enableFileDownloadSecurityWarning = (setting === 'true'));
     this.store.select(fromDataManagementMainReducer.getLoadAndExportFilesCardState)
       .pipe(takeUntil(this.unsubscribe$), filter(v => !!v))
       .subscribe(v => {
@@ -72,7 +80,35 @@ export class LoadAndExportFilesCardComponent implements OnInit, OnDestroy {
       || this.canScheduleBulkExports;
   }
 
-  handleOrgDataExportClick($event) {
+  clickLink(path) {
+    const link = document.createElement('a');
+    link.addEventListener('click', ($event) => {
+      $event.preventDefault();
+    }, false);
+    link.setAttribute('href', path);
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  }
+
+  handleSecurityWarningConfirmed(isConfirmed) {
+    if (isConfirmed) {
+      this.securityWarningType === FileDownloadSecurityWarningType.OrgDataExport ? this.exportOrgData() : this.exportJobDescriptions();
+    }
+  }
+
+  handleOrgDataExportClick() {
+    if (this.enableFileDownloadSecurityWarning) {
+      this.securityWarningType = FileDownloadSecurityWarningType.OrgDataExport;
+      this.fileDownloadSecurityWarningModal.open();
+    } else {
+      this.exportOrgData();
+    }
+  }
+
+  exportOrgData() {
+    this.clickLink('/odata/Company/GetOrganizationalData');
+
     const notification = {
       NotificationId: '',
       Level: NotificationLevel.Info,
@@ -85,7 +121,6 @@ export class LoadAndExportFilesCardComponent implements OnInit, OnDestroy {
     };
     this.notificationStore.dispatch(new fromAppNotificationsActions.AddNotification(notification));
     this.notificationStore.dispatch(new fromOrgDataNavigationLinkActions.InitiateOrgDataExport());
-    $event.preventDefault();
   }
 
   openOrgDataLoadModal($event) {
@@ -93,8 +128,16 @@ export class LoadAndExportFilesCardComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromLoadersDataActions.OpenLatestOrgDataLoadModal());
   }
 
-  handleJobDescriptionExportClick($event) {
+  handleJobDescriptionExportClick() {
+    if (this.enableFileDownloadSecurityWarning) {
+      this.securityWarningType = FileDownloadSecurityWarningType.JobDescriptionsExport;
+      this.fileDownloadSecurityWarningModal.open();
+    } else {
+      this.exportJobDescriptions();
+    }
+  }
+
+  exportJobDescriptions() {
     this.notificationStore.dispatch(new fromJobDescriptionsExportActions.InitiateJobDescriptionExport());
-    $event.preventDefault();
   }
 }

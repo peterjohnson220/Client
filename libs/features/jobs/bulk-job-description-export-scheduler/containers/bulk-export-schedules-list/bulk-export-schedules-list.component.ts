@@ -14,6 +14,7 @@ import * as fromJdmBulkExportScheduleActions from '../../actions/bulk-export-sch
   styleUrls: [ './bulk-export-schedules-list.component.scss' ]
 })
 export class BulkExportSchedulesListComponent {
+  @Input() allowEdit = false;
   @Input() schedules: BulkExportSchedule[];
   @Input() views: JobDescriptionViewModel[];
 
@@ -69,5 +70,9 @@ export class BulkExportSchedulesListComponent {
   openModal(filename) {
     this.filename = filename;
     this.store.dispatch(new fromJdmBulkExportScheduleActions.OpenScheduleModal);
+  }
+
+  editSchedule(schedule: BulkExportSchedule) {
+    this.store.dispatch(new fromJdmBulkExportScheduleActions.EditSchedule(schedule));
   }
 }

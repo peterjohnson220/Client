@@ -5,7 +5,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
 import { BrowserDetectionService } from 'libs/core/services';
-import { UpdateSettingsColorRequest } from 'libs/features/total-rewards/total-rewards-statement/models';
+import { UpdateSettingsColorRequest, StatementDisplaySettings } from 'libs/features/total-rewards/total-rewards-statement/models';
 import { FontFamily, FontSize } from 'libs/features/total-rewards/total-rewards-statement/types';
 
 import { environment } from 'environments/environment';
@@ -21,12 +21,14 @@ export class SettingsPanelComponent implements OnInit, OnDestroy {
   @Input() fontFamily: FontFamily;
   @Input() fontSize: FontSize;
   @Input() colors: string[];
+  @Input() displaySettings: StatementDisplaySettings;
   @Input() isSavingError: boolean;
 
   @Output() close = new EventEmitter();
   @Output() fontSizeChange = new EventEmitter<FontSize>();
   @Output() fontFamilyChange = new EventEmitter<FontFamily>();
   @Output() colorChange = new EventEmitter<UpdateSettingsColorRequest>();
+  @Output() displaySettingChange = new EventEmitter<'ShowDecimals' | 'ShowEmployeeContributions'>();
   @Output() resetSettings = new EventEmitter();
 
   colorSubject = new Subject<UpdateSettingsColorRequest>();
@@ -72,6 +74,10 @@ export class SettingsPanelComponent implements OnInit, OnDestroy {
 
   onColorChange(color: string, colorIndex: number) {
     this.colorSubject.next({ Color: color, ColorIndex: colorIndex });
+  }
+
+  onDisplaySettingChange(displaySettingKey: 'ShowDecimals' | 'ShowEmployeeContributions') {
+    this.displaySettingChange.emit(displaySettingKey);
   }
 
   onResetSettings() {

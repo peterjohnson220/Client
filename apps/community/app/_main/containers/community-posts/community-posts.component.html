@@ -9,6 +9,7 @@
               [post]="post"
               [maximumReplies]="maximumReplies$ | async"
               [hideAttachmentWarning]="hideAttachmentWarning"
+              [showFileDownloadSecurityWarning]="showFileDownloadSecurityWarning"
               [disableCommunityAttachments]="disableCommunityAttachments"
               (filtersModifiedEvent)="hashtagClicked($event)"
               (onAttachmentClickedEvent)="handleAttachmentClickedEvent($event)">

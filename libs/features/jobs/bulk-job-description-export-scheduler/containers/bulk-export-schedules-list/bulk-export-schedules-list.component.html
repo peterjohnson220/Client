@@ -2,15 +2,19 @@
   <ngb-accordion #savedSchedulesAccordion #savedSchedulesAcc="ngbAccordion">
     <ngb-panel *ngFor="let existingSchedule of schedules" [id]="'Schedule_' + existingSchedule.FileName">
       <ng-template ngbPanelHeader>
-        <div class="group-header w-100 d-flex align-items-center"
-             (click)="savedSchedulesAcc.toggle('Schedule_' + existingSchedule.FileName)">
-          <fa-icon icon="caret-down" *ngIf="savedSchedulesAcc.isExpanded('Schedule_' + existingSchedule.FileName)"></fa-icon>
-          <fa-icon icon="caret-right" *ngIf="!savedSchedulesAcc.isExpanded('Schedule_' + existingSchedule.FileName)"></fa-icon>
-          <span pfEllipsisActive class="col font-weight-bold flex-fill ellipsis-overflowing-text report-name">
-            {{existingSchedule.FileName}}
+        <div class="group-header w-100 d-flex align-items-center">
+          <span class="col" (click)="savedSchedulesAcc.toggle('Schedule_' + existingSchedule.FileName)">
+            <fa-icon icon="caret-down" *ngIf="savedSchedulesAcc.isExpanded('Schedule_' + existingSchedule.FileName)"></fa-icon>
+            <fa-icon icon="caret-right" *ngIf="!savedSchedulesAcc.isExpanded('Schedule_' + existingSchedule.FileName)"></fa-icon>
+            <span pfEllipsisActive class="col font-weight-bold flex-fill ellipsis-overflowing-text report-name">
+              {{existingSchedule.FileName}}
+            </span>
+          </span>
+          <span *ngIf="allowEdit" class="col col-sm-1" (click)="editSchedule(existingSchedule)">
+            <fa-icon icon="edit" class="btn edit-schedule"></fa-icon>
           </span>
           <span class="col col-sm-1" (click)="openModal(existingSchedule.FileName)">
-            <fa-icon icon="trash" class="remove-schedule"></fa-icon>
+            <fa-icon icon="trash" class="btn remove-schedule"></fa-icon>
           </span>
         </div>
       </ng-template>

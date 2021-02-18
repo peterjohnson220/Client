@@ -27,10 +27,17 @@
   <ng-container form-content>
     <div class="save-filter-modal-filters">
       <div *ngFor="let filter of filtersToSave">
-        <span class="filter-name">{{filter.DisplayName}}</span>
-        <ng-container *ngFor="let filterOption of filter.Options">
-          <div *ngIf="filterOption.Selected" class="filter-option">{{filterOption.Name}}</div>
+        <ng-container *ngIf="filter.Type === filterType.Multi">
+          <span class="filter-name">{{filter.DisplayName}}</span>
+          <ng-container *ngFor="let filterOption of $any(filter).Options">
+            <div *ngIf="filterOption.Selected" class="filter-option">{{filterOption.Name}}</div>
+          </ng-container>
         </ng-container>
+        <ng-container *ngIf="filter.Type === filterType.Range">
+          <span class="filter-name">{{filter.DisplayName}}</span>
+          <div class="filter-option">{{$any(filter).SelectedMinValue}} - {{$any(filter).SelectedMaxValue}}</div>
+        </ng-container>
+
       </div>
     </div>
   </ng-container>

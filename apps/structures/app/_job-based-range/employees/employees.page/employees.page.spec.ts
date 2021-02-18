@@ -12,7 +12,7 @@ import { AbstractFeatureFlagService, PfCommonModule } from 'libs/core';
 import { JobBasedPageViewIds } from 'libs/models/structures';
 
 import * as fromJobBasedRangeReducer from '../../shared/reducers';
-import * as fromModelSettingsModalActions from '../../shared/actions/model-settings-modal.actions';
+import * as fromModelSettingsModalActions from '../../../shared/actions/model-settings-modal.actions';
 import { EmployeesPageComponent } from './employees.page';
 import { RangeValuePipe } from '../../shared/pipes';
 import { BehaviorSubject } from 'rxjs';

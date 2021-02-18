@@ -80,6 +80,7 @@ export const ADD_FADE_IN_KEYS = '[PfDataGrid] Add Fade In Keys';
 export const DELETE_FADE_IN_KEYS = '[PfDataGrid] Delete Fade In Keys';
 export const SET_FADE_IN_KEYS = '[PfDataGrid] Set Fade In Keys';
 export const LOAD_DATA_AND_ADD_FADE_IN_KEYS = '[PfDataGrid] Load Data and Add Attention Grab Keys';
+export const UPDATE_SELECTED_ROW = '[PfDataGrid] Update Selected Row';
 export const UPDATE_FIELDS_WITH_CUSTOM_FILTER_TEMPLATES = '[PfDataGrid] Update Fields With Custom Filter Templates';
 export const UPDATE_CUSTOM_FILTER_OPTIONS = '[PfDataGrid] Update Custom Filter Options';
 
@@ -206,7 +207,7 @@ export class UpdateFilter implements Action {
 
 export class ClearFilter implements Action {
   readonly type = CLEAR_FILTER;
-  constructor(public pageViewId: string, public field: ViewField, public resetOperator = false) { }
+  constructor(public pageViewId: string, public field: ViewField, public resetOperator = false, public filterValue: string = null) { }
 }
 
 export class ClearAllNonGlobalFilters implements Action {
@@ -468,6 +469,12 @@ export class LoadDataAndAddFadeInKeys implements Action {
   constructor(public pageViewId: string, public payload: any) {}
 }
 
+export class UpdateSelectedRow implements Action {
+  readonly type = UPDATE_SELECTED_ROW;
+
+  constructor(public payload: any, public pageViewId: string) {}
+}
+
 export class UpdateFieldsWithCustomFilterTemplates implements Action {
   readonly type = UPDATE_FIELDS_WITH_CUSTOM_FILTER_TEMPLATES
   constructor(public pageViewId: string, public payload: string[]) {}
@@ -553,5 +560,6 @@ export type DataGridActions =
   | DeleteFadeInKeys
   | SetFadeInKeys
   | LoadDataAndAddFadeInKeys
+  | UpdateSelectedRow  
   | UpdateFieldsWithCustomFilterTemplates
   | UpdateCustomFilterOptions;

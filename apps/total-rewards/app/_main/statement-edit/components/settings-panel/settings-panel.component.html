@@ -1,5 +1,5 @@
 <aside class="settings-panel position-fixed p-3 pl-4" [class.expanded]="isOpen">
-  <div class="mb-4 d-flex">
+  <div class="mb-2 d-flex">
     <h2 class="primary text-uppercase flex-grow-2">Statement Settings</h2>
     <a href="javascript:void(0)" (click)="onCloseClick()" class="close ml-4" aria-label="Close" [attr.tabindex]="isOpen ? 0 : -1">
       <fa-icon [icon]="'times'" aria-hidden="true"></fa-icon>
@@ -9,8 +9,8 @@
     <pf-async-container [loadingError]="isSavingError" [hideReloadButton]="true">
       <div>
         <div *ngIf="showFontFamilyMenu">
-        <h3 class="my-4">Text</h3>
-          <h4 class="mb-3">Font Family</h4>
+        <h3 class="my-2">Text</h3>
+          <h5 class="mb-3">Font Family</h5>
           <div ngbDropdown class="font-family-container d-inline-block mb-4">
             <button ngbDropdownToggle class="btn btn-outline-primary" [attr.tabindex]="isOpen ? 0 : -1">
               {{ fontFamily }}
@@ -34,8 +34,8 @@
             </div>
           </div>
         </div>
-        <h4 class="mb-3">Font Size</h4>
-        <div ngbDropdown class="font-size-container d-inline-block mb-4">
+        <h5 class="mb-2">Font Size</h5>
+        <div ngbDropdown class="font-size-container d-inline-block mb-3">
           <button ngbDropdownToggle class="btn btn-outline-primary" [attr.tabindex]="isOpen ? 0 : -1">
             {{ fontSize }}
           </button>
@@ -51,8 +51,8 @@
             </a>
           </div>
         </div>
-        <h4 class="my-4">Colors</h4>
-        <div class="d-flex mb-4">
+        <h5 class="my-2">Colors</h5>
+        <div class="d-flex mb-2">
           <div *ngFor="let color of colors; let i = index;" class="color-picker-container mr-4">
             <input
               [colorPicker]="color"
@@ -67,12 +67,36 @@
             <label title="{{ color }}" class="w-100">{{ color }}</label>
           </div>
         </div>
-        <div *ngIf="totalRewardsEmployeeContributionFeatureFlag.value">
-          <h4 class="my-4">Display Settings</h4>
-          <div class="d-flex mb-4">
-            <input class="mt-1 mr-2" id="enableEmployeeContribution" value="true" type="checkbox">
-            <label for="enableEmployeeContribution">Employee Contributions</label>
-          </div>
+        <h5 class="my-2">Display Settings</h5>
+        <div *ngIf="totalRewardsEmployeeContributionFeatureFlag.value" class="d-flex mb-2">
+          <input
+            type="checkbox"
+            class="mt-1 mr-2"
+            id="enableEmployeeContribution"
+            [checked]="displaySettings?.ShowEmployeeContributions"
+            (change)="onDisplaySettingChange('ShowEmployeeContributions')"
+            [attr.tabindex]="isOpen ? 0 : -1">
+          <label for="enableEmployeeContribution">Employee Contributions</label>
+          <label
+            class="info ml-2"
+            [ngbTooltip]="'Display your employee’s contributions in addition to the company’s contributions.'">
+            <fa-icon [icon]="['fal', 'info-circle']" aria-hidden="true"></fa-icon>
+          </label>
+        </div>
+        <div class="d-flex">
+          <input
+            type="checkbox"
+            class="mt-1 mr-2"
+            id="enableDecimals"
+            [checked]="displaySettings?.ShowDecimals"
+            (change)="onDisplaySettingChange('ShowDecimals')"
+            [attr.tabindex]="isOpen ? 0 : -1">
+          <label for="enableDecimals">Decimals</label>
+          <label
+            class="info ml-2"
+            [ngbTooltip]="'Display two decimal places for each of the benefits data values.'">
+            <fa-icon [icon]="['fal', 'info-circle']" aria-hidden="true"></fa-icon>
+          </label>
         </div>
       </div>
       <a href="javascript:void(0)" (click)="onResetSettings()" class="reset-settings mx-auto mb-1 d-table text-center" [attr.tabindex]="isOpen ? 0 : -1">

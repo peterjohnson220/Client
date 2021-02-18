@@ -14,7 +14,7 @@
                              [hideClearBtn]="false"
                              [minWidth]="300"
                              [delay]="400"
-                             [(ngModel)]="getNgModel(gl).FilterValue"
+                             [ngModel]="!!gl.FilterValues ? gl.FilterValues[0] : ''"
                              (valueChanged)="handleGlobalFilterValueChanged(gl, $event)"
                              [id]="'txt-' + gl.SourceName">
           </pf-input-debounce>

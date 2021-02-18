@@ -79,7 +79,7 @@ export const SurveySearchFilterMappingDataObj: SearchFilterMappingDataObj = {
     DisplayName: 'Base 50th',
     Order: 13,
     OptionCountDisabled: false,
-    SaveDisabled: true,
+    SaveDisabled: false,
     RefreshOptionsFromServer: true
   },
   'data_source': {

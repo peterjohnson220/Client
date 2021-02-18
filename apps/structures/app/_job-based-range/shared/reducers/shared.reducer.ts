@@ -7,13 +7,11 @@ import * as fromSharedActions from '../actions/shared.actions';
 
 export interface State {
   removingRange: AsyncStateObj<boolean>;
-  currentRangeGroup: AsyncStateObj<any>;
   structureHasSettings: AsyncStateObj<any>;
 }
 
 const initialState: State = {
   removingRange: generateDefaultAsyncStateObj<boolean>(false),
-  currentRangeGroup: generateDefaultAsyncStateObj<any>(null),
   structureHasSettings: generateDefaultAsyncStateObj<any>(null)
 };
 
@@ -37,39 +35,6 @@ export function reducer(state = initialState, action: fromSharedActions.SharedAc
     }
     case fromSharedActions.REMOVING_RANGE_ERROR: {
       return AsyncStateObjHelper.loadingError(state, 'removingRange', action.error);
-    }
-    case fromSharedActions.GET_CURRENT_RANGE_GROUP: {
-      const currentRangeGroupClone = cloneDeep(state.currentRangeGroup);
-
-      currentRangeGroupClone.loading = true;
-      currentRangeGroupClone.obj = null;
-      currentRangeGroupClone.loadingError = false;
-
-      return {
-        ...state,
-        currentRangeGroup: currentRangeGroupClone
-      };
-    }
-    case fromSharedActions.GET_CURRENT_RANGE_GROUP_SUCCESS: {
-      const currentRangeGroupClone = cloneDeep(state.currentRangeGroup);
-
-      currentRangeGroupClone.loading = false;
-      currentRangeGroupClone.obj = action.payload;
-      return {
-        ...state,
-        currentRangeGroup: currentRangeGroupClone
-      };
-    }
-    case fromSharedActions.GET_CURRENT_RANGE_GROUP_ERROR: {
-      const currentRangeGroupClone = cloneDeep(state.currentRangeGroup);
-
-      currentRangeGroupClone.loading = false;
-      currentRangeGroupClone.loadingError = true;
-
-      return {
-        ...state,
-        currentRangeGroup: currentRangeGroupClone
-      };
     }
     case fromSharedActions.GET_STRUCTURE_HAS_SETTINGS: {
       const structureHasSettings = cloneDeep(state.structureHasSettings);
@@ -111,7 +76,6 @@ export function reducer(state = initialState, action: fromSharedActions.SharedAc
 }
 
 export const getRemovingRange = (state: State) => state.removingRange;
-export const getCurrentRangeGroup = (state: State) => state.currentRangeGroup;
 export const getStructureHasSettings = (state: State) => state.structureHasSettings;
 
 

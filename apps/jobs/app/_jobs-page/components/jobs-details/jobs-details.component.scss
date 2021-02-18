@@ -40,8 +40,12 @@
 
 .job-title-code {
   white-space: nowrap;
-  max-width: 350px;
+  max-width: 320px;
   display: block;
+}
+
+.cursor-pointer {
+  cursor: pointer;
 }
 
 @media only screen and (max-width: 1360px) {

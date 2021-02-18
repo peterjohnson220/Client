@@ -127,8 +127,10 @@ export class ProjectListPageComponent implements AfterViewInit, OnInit, OnDestro
         this.isCompletedField = fields.find(f => f.SourceName === 'Completed');
         this.isPinnedField = fields.find(f => f.SourceName === 'PinOnDashboard');
 
-        this.status = this.statusFilterDisplayOptions.find(x => x.Value === this.isCompletedField.FilterValue);
-        this.isPinned = this.pinnedFilterOptions.find(x => x.value === this.isPinnedField.FilterValue);
+        this.status = this.isCompletedField?.FilterValues?.length > 0 ?
+          this.statusFilterDisplayOptions.find(x => x.Value === this.isCompletedField.FilterValues[0]) : null;
+        this.isPinned = this.isPinnedField?.FilterValues?.length > 0 ?
+          this.pinnedFilterOptions.find(x => x.value === this.isPinnedField.FilterValues[0]) : null;
       }
     });
     window.addEventListener('scroll', this.scroll, true);
@@ -171,7 +173,7 @@ export class ProjectListPageComponent implements AfterViewInit, OnInit, OnDestro
 
   handleStatusFilterChanged() {
     const field: ViewField = cloneDeep(this.isCompletedField);
-    field.FilterValue = this.status.Value;
+    field.FilterValues = [this.status.Value];
     field.FilterOperator = '=';
 
     this.updateField(field);
@@ -179,14 +181,14 @@ export class ProjectListPageComponent implements AfterViewInit, OnInit, OnDestro
 
   handlePinnedFilterChanged() {
     const field: ViewField = cloneDeep(this.isPinnedField);
-    field.FilterValue = this.isPinned.value;
+    field.FilterValues = [this.isPinned.value];
     field.FilterOperator = '=';
 
     this.updateField(field);
   }
 
-  updateField(field) {
-    if (field.FilterValue) {
+  updateField(field: ViewField) {
+    if (field?.FilterValues?.length > 0) {
       this.store.dispatch(new fromPfDataGridActions.UpdateFilter(this.pageViewId, field));
     } else {
       this.store.dispatch(new fromPfDataGridActions.ClearFilter(this.pageViewId, field));
