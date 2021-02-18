@@ -59,6 +59,7 @@
             <kendo-grid-column [width]="80">
               <ng-template kendoGridCellTemplate let-dataItem>
                 <button class="btn btn-sm btn-secondary mr-2" [attr.data-qa-id]="'btn-editView'"
+                  [disabled]="isSystemNonEditableView(dataItem.ViewName)"
                   (click)="openUpsertViewModal(false, dataItem.ViewName, $event)">
                   <fa-icon [icon]="['fas', 'pencil-alt']"></fa-icon>
                 </button>

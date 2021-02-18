@@ -8,6 +8,10 @@ export class JobDescriptionViewConstants {
     JobDescriptionViewConstants.PUBLIC_VIEW,
     JobDescriptionViewConstants.DRAFT_AND_IN_REVIEW_VIEW];
 
+  public static SYSTEM_NON_EDITABLE_VIEWS: string[] =
+  [JobDescriptionViewConstants.DEFAULT_VIEW,
+    JobDescriptionViewConstants.DRAFT_AND_IN_REVIEW_VIEW];
+
   public static PUBLIC_VIEW_OPTIONS =  [
     { display: 'Enabled', value: true},
     { display: 'Disabled', value: false}

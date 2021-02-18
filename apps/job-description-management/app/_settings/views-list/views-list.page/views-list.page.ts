@@ -44,6 +44,7 @@ export class ViewsListPageComponent implements OnDestroy, OnInit {
   };
 
   isSystemView = JdmSettingsHelper.isSystemView;
+  isSystemNonEditableView = JdmSettingsHelper.isSystemNonEditableView;
 
   gridView: GridDataResult;
   gridData: JobDescriptionViewListGridItem[] = [];
