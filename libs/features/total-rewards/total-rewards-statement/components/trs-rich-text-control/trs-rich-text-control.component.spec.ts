@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, tick, fakeAsync } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
@@ -278,4 +278,59 @@ describe('TrsRichTextControlComponent', () => {
     // assert
     expect(fixture.debugElement.queryAll(By.css('.ql-editor'))).toBeTruthy();
   });
+
+  it('should only validate content length when changes unrelated to mode occur', () => {
+    // arrange
+    component.mode = StatementModeEnum.Preview;
+    component.controlData = { Title: { Default: 'Title' } } as any;
+    component.closeQuillMention = jest.fn();
+    component.isContentHeightGreaterThanContainerHeight = jest.fn();
+    component.createQuillEditor = jest.fn();
+
+    // act
+    component.ngOnChanges({} as any);
+
+    // assert
+    expect(component.isContentHeightGreaterThanContainerHeight).toHaveBeenCalledTimes(1);
+    expect(component.closeQuillMention).toHaveBeenCalledTimes(0);
+    expect(component.createQuillEditor).toHaveBeenCalledTimes(0);
+  });
+
+  it('should close quill mention when changing from edit to preview', () => {
+    // arrange
+    component.mode = StatementModeEnum.Edit;
+    component.controlData = { Title: { Default: 'Title' } } as any;
+    component.closeQuillMention = jest.fn();
+    component.isContentHeightGreaterThanContainerHeight = jest.fn();
+    component.createQuillEditor = jest.fn();
+
+    // act
+    component.ngOnChanges({ mode: { currentValue: StatementModeEnum.Preview, previousValue: StatementModeEnum.Edit } } as any);
+
+    // assert
+    expect(component.createQuillEditor).not.toBeCalled();
+    expect(component.closeQuillMention).toHaveBeenCalledTimes(1);
+    expect(component.isContentHeightGreaterThanContainerHeight).toHaveBeenCalledTimes(1);
+  });
+
+  it('should create the quill editor behind a setTimeout when changing from preview to edit', fakeAsync(() => {
+    // arrange
+    component.mode = StatementModeEnum.Preview;
+    component.controlData = { Title: { Default: 'Title' } } as any;
+    component.closeQuillMention = jest.fn();
+    component.isContentHeightGreaterThanContainerHeight = jest.fn();
+    component.createQuillEditor = jest.fn();
+
+    // act
+    component.ngOnChanges({ mode: { currentValue: StatementModeEnum.Edit, previousValue: StatementModeEnum.Preview } } as any);
+
+    // assert
+    expect(component.createQuillEditor).not.toBeCalled();
+    expect(component.closeQuillMention).toHaveBeenCalledTimes(0);
+    expect(component.isContentHeightGreaterThanContainerHeight).toHaveBeenCalledTimes(1);
+
+    tick(0);
+
+    expect(component.createQuillEditor).toHaveBeenCalledTimes(1);
+  }));
 });

@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
 
+import { Observable } from 'rxjs';
+
+import { CreateProjectRequest, ExportJobsRequest } from 'libs/models/payfactors-api';
+
 import { PayfactorsApiService } from '../payfactors-api.service';
-import { CreateProjectRequest, MatchedSurveyJob } from 'libs/models/payfactors-api';
-import { BaseUrlLocation } from 'libs/models/payfactors-api/common/base-url-location.enum';
 
 @Injectable({
   providedIn: 'root',
 })
 export class JobsApiService {
   private endpoint = 'Jobs';
-  private frontEndExportEndpoint = 'Pricing';
 
   constructor(private payfactorsApiService: PayfactorsApiService
   ) { }
@@ -18,13 +19,14 @@ export class JobsApiService {
     return this.payfactorsApiService.post<any>(`${this.endpoint}/AddToProject`, request);
   }
 
-  exportPricings(request: any) {
-    return this.payfactorsApiService.downloadFile(`${this.frontEndExportEndpoint}/${request.Endpoint}`, {
+  exportPricings(request: ExportJobsRequest): Observable<string> {
+    return this.payfactorsApiService.post<string>(`${this.endpoint}/${request.Endpoint}`, {
       CompanyJobIds: request.CompanyJobIds,
       PricingIds: request.PricingIds,
       FileExtension: request.FileExtension,
-      Name: request.Name
-    }, null, false, BaseUrlLocation.FrontEnd, true, true);
+      Name: request.Name,
+      PageViewId: request.PageViewId
+    });
   }
 
   loadCustomExports() {
@@ -37,5 +39,11 @@ export class JobsApiService {
 
   getPricingCuts(request: any) {
     return this.payfactorsApiService.post<any>(`${this.endpoint}/GetPricingCuts`, request);
+  }
+
+  getRunningExport(pageViewId: string): Observable<string> {
+    return this.payfactorsApiService.post<string>(`${this.endpoint}/GetRunningExport`, {
+      PageViewId: pageViewId
+    });
   }
 }

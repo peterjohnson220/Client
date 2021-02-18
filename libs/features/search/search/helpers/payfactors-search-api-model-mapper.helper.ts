@@ -8,7 +8,7 @@ import {
   Filter,
   FilterableMultiSelectFilter,
   FilterableMultiSelectOption,
-  FilterType,
+  FilterType, isMultiFilter, isRangeFilter,
   MultiSelectFilter,
   MultiSelectOption,
   RangeFilter,
@@ -103,6 +103,18 @@ export class PayfactorsSearchApiModelMapper {
         Value: f.Value,
         SearchType: f.SearchType
       };
+    });
+  }
+
+  mapFiltersToSearchFilters(filters: Filter[]): SearchFilter[] {
+    return filters.map((f: Filter) => {
+      if (isMultiFilter(f)) {
+        return this.mapMultiSelectFilterToSearchFilter(f);
+      }
+
+      if (isRangeFilter(f)) {
+        return this.mapRangeFilterToSearchFilter(f);
+      }
     });
   }
 

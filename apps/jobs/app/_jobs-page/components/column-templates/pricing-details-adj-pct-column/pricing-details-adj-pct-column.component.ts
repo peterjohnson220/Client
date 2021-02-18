@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { PermissionService } from 'libs/core';
 import { Permissions, PermissionCheckEnum } from 'libs/constants';
-import { UpdatePricingRequest } from 'libs/models/payfactors-api';
+import { UpdatePricingRequest, ViewField } from 'libs/models/payfactors-api';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
@@ -38,11 +38,10 @@ export class PricingDetailsAdjPctColumnComponent implements OnInit, OnChanges, O
       .select(fromPfDataGridReducer.getFields, PageViewIds.Jobs)
       .pipe(filter(f => !isEmpty(f)))
       .subscribe(fields => {
-        // TODO: The JobStatus field filter can have a value of 'true' or true.
-        // This is because of the way the active/inactive slider sets the filter value
-        // This  quick fix needs to be converted to a more robust solution
-        const statusFieldFilter: any = fields.find(f => f.SourceName === 'JobStatus').FilterValue;
-        this.isActiveJob = statusFieldFilter === 'true' || statusFieldFilter === true;
+        const statusFieldFilter: ViewField = fields.find(f => f.SourceName === 'JobStatus');
+        this.isActiveJob = statusFieldFilter?.FilterValues?.length > 0
+          ? statusFieldFilter.FilterValues[0] === 'true'
+          : true;
       });
   }
 

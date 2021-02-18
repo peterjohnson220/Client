@@ -13,6 +13,7 @@ export interface EntityDataField {
   HasDescription?: boolean;
   Description?: string;
   HasAssociation?: boolean;
+  MissingAssociatedField?: boolean;
   Metadata?: any;
 }
 

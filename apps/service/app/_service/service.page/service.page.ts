@@ -79,7 +79,7 @@ export class ServicePageComponent implements AfterViewInit, OnInit, OnDestroy {
     this.gridFieldSubscription = this.store.select(fromPfDataGridReducer.getFields, this.pageViewId).subscribe(fields => {
       if (fields) {
         this.ticketTypeField = fields.find(f => f.SourceName === 'TicketType_Display');
-        this.selectedTicketTypeFilterValue = this.ticketTypeField.FilterValue ?? 'All';
+        this.selectedTicketTypeFilterValue = this.ticketTypeField?.FilterValues?.length > 0 ? this.ticketTypeField.FilterValues[0] : 'All';
       }
     });
     this.identitySubscription = this.identity$.subscribe(i => {
@@ -113,14 +113,14 @@ export class ServicePageComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   handleTicketTypeFilterChanged(value: string) {
-    const field = cloneDeep(this.ticketTypeField);
-    field.FilterValue = value !== 'All' ? value : null;
+    const field: ViewField = cloneDeep(this.ticketTypeField);
+    field.FilterValues = value !== 'All' ? [value] : null;
     field.FilterOperator = '=';
     this.updateField(field);
   }
 
   updateField(field: ViewField) {
-    if (field.FilterValue) {
+    if (!!field.FilterValues) {
       this.store.dispatch(new fromPfDataGridActions.UpdateFilter(this.pageViewId, field));
     } else {
       this.store.dispatch(new fromPfDataGridActions.ClearFilter(this.pageViewId, field));
@@ -144,7 +144,7 @@ export class ServicePageComponent implements AfterViewInit, OnInit, OnDestroy {
       {
         SourceName: 'User_ID',
         Operator: '=',
-        Value: userContext.UserId ? userContext.UserId.toString() : null,
+        Values: userContext.UserId ? [userContext.UserId.toString()] : null,
         ExcludeFromFilterSave: true
       }
     ];

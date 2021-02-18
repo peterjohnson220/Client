@@ -49,7 +49,7 @@ export class JobDescriptionEffects {
     switchMap((data: any) => {
       const job = { CompanyJobId: data.jobId, JobDescription: data.updatedJobDescription } as CompanyJob;
       return this.companyJobApiService.patchCompanyJob(job).pipe(
-        map(() => new fromJobDescriptionActions.SaveJobDescriptionSuccess()),
+        map(() => new fromJobDescriptionActions.SaveJobDescriptionSuccess(job.JobDescription)),
         catchError(error => of(new fromJobDescriptionActions.SaveJobDescriptionError()))
       );
     })

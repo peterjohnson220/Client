@@ -27,6 +27,8 @@ exports[`CommunityPostsComponent should show community posts 1`] = `
   replyStore={[Function Store]}
   route={[Function Object]}
   settingService={[Function SettingsService]}
+  showFileDownloadSecurityWarning$={[Function Observable]}
+  showFileDownloadSecurityWarningSubscription={[Function Subscriber]}
   store={[Function Store]}
   totalDiscussionResultsOnServer$={[Function Store]}
 >

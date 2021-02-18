@@ -4,10 +4,10 @@
   </ng-container>
   <ng-container page-content>
     <div class="p-0 m-0">
-      <div class="w-100 m-0 search-results-container-height">           
+      <div class="w-100 m-0 search-results-container-height">
         <div class="pt-3 pb-2 pl-5 ml-3">
           <div class="search-bar-container">
-            <pf-community-search class="mt-2" 
+            <pf-community-search class="mt-2"
               [searchBoxText]="searchQuery"
               (searchEvent)="routeToSearch($event)"></pf-community-search>
           </div>
@@ -19,7 +19,7 @@
               [valueField]="'value'"
               [valuePrimitive]="true"
               [value]="sortOption"
-              (selectionChange)="sortBySelectionChange($event)">          
+              (selectionChange)="sortBySelectionChange($event)">
             </kendo-dropdownlist>
           </div>
           <div class="options-block pl-3 pt-4">
@@ -30,16 +30,17 @@
               [valueField]="'value'"
               [valuePrimitive]="true"
               [value]="durationOption"
-              (selectionChange)="dateSelectionChange($event)">          
+              (selectionChange)="dateSelectionChange($event)">
             </kendo-dropdownlist>
           </div>
-        </div>  
+        </div>
         <pf-community-search-results></pf-community-search-results>
       </div>
     </div>
   </ng-container>
 </pf-page-with-title-bar>
 <pf-community-attachment-modal></pf-community-attachment-modal>
-<pf-community-attachment-warning-modal></pf-community-attachment-warning-modal>
+<pf-community-attachment-warning-modal [showFileDownloadSecurityWarning]="showFileDownloadSecurityWarning$ | async"></pf-community-attachment-warning-modal>
 <pf-community-cancel-post-modal></pf-community-cancel-post-modal>
 <pf-community-cancel-post-reply-modal></pf-community-cancel-post-reply-modal>
+<pf-community-security-warning-modal></pf-community-security-warning-modal>

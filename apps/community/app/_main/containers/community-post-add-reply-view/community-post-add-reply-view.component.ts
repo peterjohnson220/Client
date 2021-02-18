@@ -18,6 +18,7 @@ export class CommunityPostAddReplyViewComponent implements  OnInit, OnDestroy {
   @Input() postId: string;
   @Input() disableCommunityAttachments: boolean;
   @Input() hideAttachmentWarning: boolean;
+  @Input() showFileDownloadSecurityWarning: boolean;
   @Output() replyHashTagClicked = new EventEmitter();
   @Output() onAttachmentClickedEvent = new EventEmitter<string>();
 

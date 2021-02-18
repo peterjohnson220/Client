@@ -6,7 +6,7 @@ import { NumericTextBoxComponent } from '@progress/kendo-angular-inputs';
 
 import { DataViewFieldDataType, ViewField } from 'libs/models/payfactors-api';
 
-import { FilterOperatorOptions } from '../helpers';
+import { FilterOperator, FilterOperatorOptions } from '../helpers';
 
 @Component({
   selector: 'pf-filter-builder',
@@ -28,6 +28,7 @@ export class FilterBuilderComponent implements OnChanges {
   filterOperatorOptions = FilterOperatorOptions;
   dataTypes = DataViewFieldDataType;
 
+  stringFilterOperators: FilterOperator[];
   bitFilterOptions = [{
     display: '',
     value: null
@@ -42,24 +43,13 @@ export class FilterBuilderComponent implements OnChanges {
   datePickerValue = null;
   numericInputValue = null;
 
-  constructor(private intlService: IntlService) {}
+  constructor(private intlService: IntlService) {
+    this.stringFilterOperators = this.filterOperatorOptions.string.filter(f => f.value !== 'in');
+  }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['viewField']) {
-      this.numericInputValue = null;
+    if (this.viewField) {
       this.field = cloneDeep(this.viewField);
-
-      if (this.field.DataType === DataViewFieldDataType.DateTime) {
-        this.datePickerValue = this.intlService.parseDate(this.field.FilterValue);
-      }
-
-      if (this.field.DataType === DataViewFieldDataType.Int && this.field.FilterValue) {
-        this.numericInputValue = parseInt(this.field.FilterValue, 10);
-      }
-
-      if (this.field.DataType === DataViewFieldDataType.Float && this.field.FilterValue) {
-        this.numericInputValue = parseFloat(this.field.FilterValue);
-      }
     }
   }
 
@@ -68,45 +58,51 @@ export class FilterBuilderComponent implements OnChanges {
 
     this.field.FilterOperator = event;
 
-    if (this.valueCanBeEmpty() || (this.field.FilterValue && this.field.FilterValue.toString().trim().length)) {
+    if (this.valueCanBeEmpty() || (this.field.FilterValues?.length > 0)) {
       this.filterChanged.emit(this.field);
     }
   }
 
-  handleFilterValueChanged(event) {
-    // prevent console errors when editing read only field
-    this.field = cloneDeep(this.field);
-
-    // check user input to ensure integer is not greater then c# max
-    if (this.field.DataType === DataViewFieldDataType.Int && event > this.INT_MAX) {
-      this.field.FilterValue = this.INT_MAX.toString();
-      this.numericInputElement.value = this.INT_MAX;
-      this.numericInputElement.blur();
-
-    } else if (this.field.DataType === DataViewFieldDataType.Int && event < 0) {
-      this.field.FilterValue = '0';
-      this.numericInputElement.value = 0;
-      this.numericInputElement.blur();
-
-    } else if (this.field.DataType === DataViewFieldDataType.DateTime) {
-      this.field.FilterValue = this.intlService.formatDate(event, 'yyyy-MM-dd');
-    } else {
-      this.field.FilterValue = event === null ? event : event.toString();
-    }
-
+  handleFilterValueChanged(event: any) {
+    this.field.FilterValues = event === null ? null : [event.toString()];
     this.filterChanged.emit(this.field);
   }
 
-  valueCanBeEmpty() {
-    this.field = cloneDeep(this.field);
+  handleTextInputValueChanged(event: string): void {
+    this.field.FilterValues = !!event && event.trim().length > 0 ? [event] : null;
+    this.filterChanged.emit(this.field);
+  }
 
-    const disabledValueOperators = this.filterOperatorOptions[this.field.DataType].filter(o => !o.requiresValue);
+  handleDatePickerValueChanged(event: Date): void {
+    this.field.FilterValues = event !== null ? [this.intlService.formatDate(event, 'yyyy-MM-dd')] : null;
+    this.filterChanged.emit(this.field);
+  }
+
+  getNumericFieldValue(): number {
+    const filterValue = !!this.field?.FilterValues ? this.field.FilterValues[0] : null;
+    return filterValue ? this.checkForIntMax(+filterValue) : null;
+  }
+
+  valueCanBeEmpty() {
+    const disabledValueOperators: FilterOperator[] = this.filterOperatorOptions[this.field.DataType].filter((o: FilterOperator) => !o.requiresValue);
     if (disabledValueOperators.find(d => d.value === this.field.FilterOperator)) {
-      this.field.FilterValue = '';
+      this.field.FilterValues = null;
       return true;
     } else {
       return false;
     }
+  }
+
+  getDateTimeValue(): Date {
+    const filterValue = !!this.field?.FilterValues ? this.field.FilterValues[0] : null;
+    return (filterValue ? this.intlService.parseDate(filterValue) : null);
+  }
+
+  checkForIntMax(value: number): number {
+    if (value > this.INT_MAX) {
+      return this.INT_MAX;
+    }
+    return value;
   }
 
 }

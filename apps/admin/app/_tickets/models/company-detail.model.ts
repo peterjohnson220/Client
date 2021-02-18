@@ -9,6 +9,7 @@ export interface CompanyDetail {
   RecentTickets: number;
   RecentTicketIds: UserTicketTabItem[];
   NotesCount: number;
+  PrimarySupportUserName: string;
 }
 
 export function generateMockCompanyDetail() {
@@ -21,5 +22,6 @@ export function generateMockCompanyDetail() {
     RecentTickets: 1,
     RecentTicketIds: generateMockUserTicketTabItems(),
     NotesCount: 1,
+    PrimarySupportUserName: 'MockPrimarySupportUserName',
   };
 }

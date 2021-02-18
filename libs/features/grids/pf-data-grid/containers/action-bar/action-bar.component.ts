@@ -86,16 +86,12 @@ export class ActionBarComponent implements OnChanges, OnInit, OnDestroy {
   handleGlobalFilterValueChanged(field: ViewField, value: any) {
     const newField = { ...field };
     newField.FilterOperator = 'contains';
-    newField.FilterValue = value;
-    this.store.dispatch(new fromActions.UpdateFilter(this.pageViewId, newField));
+    newField.FilterValues = !!value && value.trim().length > 0 ? [value] : null;
+    this.updateField(newField);
   }
 
   trackByFn(index, item: ViewField) {
     return item.DataElementId;
-  }
-
-  getNgModel(field: ViewField) {
-    return cloneDeep(field);
   }
 
   handleSecurityWarningConfirmed(isConfirmed) {
@@ -131,5 +127,13 @@ export class ActionBarComponent implements OnChanges, OnInit, OnDestroy {
     this.gridConfigSubscription.unsubscribe();
     this.pagingOptionsSubscription.unsubscribe();
     this.enableFileDownloadSecurityWarningSub.unsubscribe();
+  }
+
+  private updateField(field: ViewField) {
+    if (field?.FilterValues?.length > 0) {
+      this.store.dispatch(new fromActions.UpdateFilter(this.pageViewId, field));
+    } else {
+      this.store.dispatch(new fromActions.ClearFilter(this.pageViewId, field));
+    }
   }
 }

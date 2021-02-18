@@ -12,6 +12,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
+import { PfJobDescriptionManagementModule } from 'libs/features/jobs/job-description-management';
 
 import { SharedModule } from '../../shared/shared.module';
 import { CompanyControlsDndService, SmartListValidationService } from './services';
@@ -51,7 +52,8 @@ import { CompanyControlLayoutComponent, CompanyControlFormComponent, CompanyCont
     PfCommonUIModule,
     PfFormsModule,
     FontAwesomeModule,
-    SharedModule
+    SharedModule,
+    PfJobDescriptionManagementModule
   ],
   providers: [ ColumnResizingService, CompanyControlsDndService, SmartListValidationService ],
   exports: [CompanyControlsDetailPageComponent]

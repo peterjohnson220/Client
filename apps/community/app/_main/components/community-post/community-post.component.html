@@ -19,7 +19,7 @@
                                   [hasReplies]="hasReplies(post)"
                                   [hidePostActions]="false">
         </pf-community-post-header>
-        <div *ngIf="!post.UserPollRequest; else user_poll">      
+        <div *ngIf="!post.UserPollRequest; else user_poll">
           <pf-community-post-content class="mt-2 mb-2"
                                      (hashTagClicked)="hashtagClicked($event)"
                                      [content]="post.Content">
@@ -27,11 +27,12 @@
           <div *ngIf="post.Attachments" class="d-flex flex-wrap pt-2">
             <div class="pr-4 pt-1 pb-2" *ngFor="let attachment of post.Attachments">
               <pf-community-attachment
-                [attachment]="attachment" 
-                [disableCommunityAttachments]="disableCommunityAttachments" 
-                [hideAttachmentWarning]="hideAttachmentWarning" 
+                [attachment]="attachment"
+                [disableCommunityAttachments]="disableCommunityAttachments"
+                [hideAttachmentWarning]="hideAttachmentWarning"
+                [showFileDownloadSecurityWarning]="showFileDownloadSecurityWarning"
                 (onAttachmentClickedEvent)="handleAttachmentClickedEvent($event)">
-              </pf-community-attachment>         
+              </pf-community-attachment>
              </div>
           </div>
           <div class="url-preview-card p-1" *ngIf="post?.UrlPreviewData.PreviewTitle">
@@ -69,9 +70,10 @@
             </pf-community-post-add-reply>
           </div>
           <pf-community-post-add-reply-view
-            [postId]="post.Id" 
+            [postId]="post.Id"
             [disableCommunityAttachments]="disableCommunityAttachments"
             [hideAttachmentWarning]="hideAttachmentWarning"
+            [showFileDownloadSecurityWarning]="showFileDownloadSecurityWarning"
             (replyHashTagClicked)="hashtagClicked($event)"
             (onAttachmentClickedEvent)="handleAttachmentClickedEvent($event)">
           </pf-community-post-add-reply-view>
@@ -93,7 +95,8 @@
               [replies]="post.Replies"
               [loading]="loadingCommunityPostReplies$ | async"
               [disableCommunityAttachments]="disableCommunityAttachments"
-              [hideAttachmentWarning]="hideAttachmentWarning" 
+              [hideAttachmentWarning]="hideAttachmentWarning"
+              [showFileDownloadSecurityWarning]="showFileDownloadSecurityWarning"
               (replyHashTagClicked)="hashtagClicked($event)"
               (onAttachmentClickedEvent)="handleAttachmentClickedEvent($event)">
             </pf-community-post-replies>

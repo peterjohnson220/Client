@@ -25,6 +25,7 @@ export class FieldMappingPageComponent implements OnInit, OnDestroy {
   fieldMappingPageLoadingError$: Observable<boolean>;
   canSaveMappings$: Observable<boolean>;
   errorSavingMapping$: Observable<boolean>;
+  providerReportChanged$: Observable<boolean>;
   savingMappings$: Observable<boolean>;
   loaderSettings$: Observable<LoaderSetting[]>;
 
@@ -44,6 +45,7 @@ export class FieldMappingPageComponent implements OnInit, OnDestroy {
     this.canSaveMappings$ = this.store.select(fromDataManagementMainReducer.canSaveMappings);
     this.savingMappings$ = this.store.select(fromDataManagementMainReducer.savingMappings);
     this.errorSavingMapping$ = this.store.select(fromDataManagementMainReducer.savingMappingsError);
+    this.providerReportChanged$ = this.store.select(fromDataManagementMainReducer.hasReportChanged);
     this.loaderSettings$ = this.store.select(fromDataManagementMainReducer.getLoaderSettings);
 
     this.store.dispatch(new fromHrisConnectionActions.GetHrisConnectionSummary());

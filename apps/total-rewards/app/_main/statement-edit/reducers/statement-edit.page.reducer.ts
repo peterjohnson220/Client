@@ -25,6 +25,7 @@ export interface State {
   companyUdfs: AsyncStateObj<CompensationField[]>;
   visibleFieldsCount: number;
   activeRichTextEditorId: string;
+  isPageScrolling: boolean;
 }
 
 export const initialState: State = {
@@ -41,7 +42,8 @@ export const initialState: State = {
   assignedEmployees: generateDefaultAsyncStateObj<GenericNameValue<number>[]>([]),
   companyUdfs: generateDefaultAsyncStateObj([]),
   visibleFieldsCount: 0,
-  activeRichTextEditorId: null
+  activeRichTextEditorId: null,
+  isPageScrolling: false
 };
 
 export function reducer(state = initialState, action: fromEditStatementActions.StatementEditPageActions): State {
@@ -143,7 +145,7 @@ export function reducer(state = initialState, action: fromEditStatementActions.S
             }
             localState.statement.obj.Pages[Page].Sections[Section].Columns[Column].Controls[Control].DataFields.splice(i, 1);
           }
-          --localState.visibleFieldsCount ;
+          --localState.visibleFieldsCount;
         }
       }
       return localState;
@@ -220,6 +222,12 @@ export function reducer(state = initialState, action: fromEditStatementActions.S
     case fromEditStatementActions.UPDATE_SETTINGS_COLOR: {
       const localState: State = cloneDeep(state);
       localState.statement.obj.Settings.Colors[action.payload.ColorIndex] = action.payload.Color;
+      return localState;
+    }
+    case fromEditStatementActions.TOGGLE_DISPLAY_SETTING: {
+      const localState: State = cloneDeep(state);
+      const displaySettings = localState.statement.obj.Settings.DisplaySettings;
+      displaySettings[action.payload.displaySettingKey] = !displaySettings[action.payload.displaySettingKey];
       return localState;
     }
     case fromEditStatementActions.SAVE_IMAGE_CONTROL_IMAGE: {
@@ -314,6 +322,12 @@ export function reducer(state = initialState, action: fromEditStatementActions.S
       return {
         ...state,
         activeRichTextEditorId: action.payload
+      };
+    }
+    case fromEditStatementActions.PAGE_SCROLL: {
+      return {
+        ...state,
+        isPageScrolling: action.payload.isScrolling
       };
     }
     default: {

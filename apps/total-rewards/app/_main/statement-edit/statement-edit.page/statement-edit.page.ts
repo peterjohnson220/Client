@@ -2,7 +2,8 @@ import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { select, Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, Subject } from 'rxjs';
+import { throttleTime } from 'rxjs/operators';
 import cloneDeep from 'lodash/cloneDeep';
 
 import { AsyncStateObj } from 'libs/models/state';
@@ -37,6 +38,7 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
   companyUdfAsync$: Observable<AsyncStateObj<CompensationField[]>>;
   visibleFieldsCount$: Observable<number>;
   activeRichTextEditorId$: Observable<string>;
+  isPageScrolling$: Observable<boolean>;
 
   isSettingsPanelOpen$: Observable<boolean>;
   settingsSaving$: Observable<boolean>;
@@ -46,6 +48,8 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
   urlParamSubscription = new Subscription();
   statementSubscription = new Subscription();
   modeSubscription = new Subscription();
+  scrollSubscription = new Subscription();
+  settingsPanelOpenSubscription = new Subscription();
 
   statement: models.Statement;
   statementId: string;
@@ -65,6 +69,14 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
     'ql-picker-item'
   ];
   lastClickEventElement: HTMLElement;
+
+  mainScrollableNode: HTMLElement;
+  scrollTimer: any;
+  scrollSubject = new Subject();
+  allowClosingSettingsByClickingElsewhere = false;
+  isSettingsPanelOpen = false;
+
+  scrollEventHandler = () => { this.scrollSubject.next(); };
 
   constructor(
     private route: ActivatedRoute,
@@ -95,6 +107,9 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
     this.assignedEmployeesAsync$ = this.store.pipe(select(fromTotalRewardsStatementEditReducer.selectAssignedEmployees));
     this.employeeRewardsDataAsync$ = this.store.pipe(select(fromTotalRewardsStatementEditReducer.getEmployeeData));
 
+    // SCROLL
+    this.isPageScrolling$ = this.store.pipe(select(fromTotalRewardsStatementEditReducer.getIsPageScrolling));
+
     // SUBSCRIPTIONS
     this.urlParamSubscription = this.route.params.subscribe(params => {
       this.statementId = params['id'];
@@ -113,12 +128,32 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
         this.store.dispatch(new fromEditStatementPageActions.SearchAssignedEmployees({ statementId: this.statementId, searchTerm: ''}));
       }
     });
+
+    this.settingsPanelOpenSubscription = this.isSettingsPanelOpen$.subscribe(isOpen => {
+
+      this.isSettingsPanelOpen = isOpen;
+
+      if (!isOpen) { return; }
+
+      this.allowClosingSettingsByClickingElsewhere = false;
+    });
+
+    // MISC
+    setTimeout(() => {
+      this.mainScrollableNode = document.querySelector('.page-content');
+      this.mainScrollableNode?.addEventListener('scroll', this.scrollEventHandler, true);
+      this.scrollSubscription = this.scrollSubject.pipe(throttleTime(100)).subscribe(() => { this.handlePageScroll(); });
+    }, 0);
   }
 
   ngOnDestroy(): void {
     this.urlParamSubscription.unsubscribe();
     this.statementSubscription.unsubscribe();
     this.modeSubscription.unsubscribe();
+    this.scrollSubscription.unsubscribe();
+    this.mainScrollableNode?.removeEventListener('scroll', this.scrollEventHandler, true);
+    this.settingsPanelOpenSubscription.unsubscribe();
+
     this.store.dispatch(new fromEditStatementPageActions.ResetStatement());
   }
 
@@ -211,6 +246,20 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
     this.store.dispatch(new fromEditStatementPageActions.CloseSettingsPanel());
   }
 
+  handleSettingsPanelClickElsewhere() {
+    if (!this.isSettingsPanelOpen) { return; }
+
+    // Cannot simply close: we would end up closing as soon it opened, since the click to open is outside the panel
+    // But instead we can indicate closing is allowed the next time the user clicks outside
+    if (!this.allowClosingSettingsByClickingElsewhere) {
+      this.allowClosingSettingsByClickingElsewhere = true;
+      return;
+    }
+
+    this.allowClosingSettingsByClickingElsewhere = false;
+    this.handleCloseSettingsClick();
+  }
+
   handleSettingsFontSizeChange(fontSize: FontSize) {
     this.store.dispatch(new fromEditStatementPageActions.UpdateSettingsFontSize(fontSize));
   }
@@ -221,6 +270,10 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
 
   handleSettingsColorChange(request: models.UpdateSettingsColorRequest) {
     this.store.dispatch(new fromEditStatementPageActions.UpdateSettingsColor(request));
+  }
+
+  handleDisplaySettingChange(displaySettingKey: string) {
+    this.store.dispatch(new fromEditStatementPageActions.ToggleDisplaySetting({ displaySettingKey }));
   }
 
   handleResetSettings() {
@@ -254,7 +307,7 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
     this.store.dispatch(new fromEditStatementPageActions.GetEmployeeRewardsData({ companyEmployeeId: employeeId, statementId: this.statementId }));
   }
 
-
+  // SCROLL/MOUSE
   @HostListener('document:mousedown', ['$event'])
   public onMouseDownEvent(event: MouseEvent) {
     // Get the F outta here if in print mode
@@ -290,5 +343,12 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
 
     this.lastClickEventElement = null;
     this.store.dispatch(new fromEditStatementPageActions.UpdateActiveRichTextEditorId(null));
+  }
+
+  handlePageScroll() {
+    // user has scrolled, so cancel a potential delayed call to set isScrolling back to false, then set current (true) and future (false) actions
+    clearTimeout(this.scrollTimer);
+    this.store.dispatch(new fromEditStatementPageActions.PageScroll({ isScrolling: true }));
+    this.scrollTimer = setTimeout(() => this.store.dispatch(new fromEditStatementPageActions.PageScroll({ isScrolling: false })), 1000);
   }
 }

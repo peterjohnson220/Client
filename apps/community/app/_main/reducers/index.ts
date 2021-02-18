@@ -20,6 +20,7 @@ import * as fromCommunityCompanySizeReducer from './community-company-size.reduc
 import * as fromCommunityTopicReducer from './community-topic.reducer';
 import * as fromCommunityAttachmentReducer from './community-attachment.reducer';
 import * as fromCommunityAttachmentWarningReducer from './community-attachment-warning.reducer';
+import * as fromCommunityFileDownloadSecurityWarningReducer from './community-file-download-security-warning.reducer';
 import { CommunityConstants } from '../models';
 import { populatePostReplies } from '../helpers/model-mapping.helper';
 
@@ -42,6 +43,7 @@ export interface CommunityState {
   communityTopic: fromCommunityTopicReducer.State;
   communityAttachments: fromCommunityAttachmentReducer.State;
   communityAttachmentsWarning: fromCommunityAttachmentWarningReducer.State;
+  communityFileDownloadSecurityWarning: fromCommunityFileDownloadSecurityWarningReducer.State;
 }
 
 // Extend root state with feature area state
@@ -67,7 +69,8 @@ export const reducers = {
   communityCompanySizes: fromCommunityCompanySizeReducer.reducer,
   communityTopic: fromCommunityTopicReducer.reducer,
   communityAttachments: fromCommunityAttachmentReducer.reducer,
-  communityAttachmentsWarning: fromCommunityAttachmentWarningReducer.reducer
+  communityAttachmentsWarning: fromCommunityAttachmentWarningReducer.reducer,
+  communityFileDownloadSecurityWarning: fromCommunityFileDownloadSecurityWarningReducer.reducer
 };
 
 // select feature area
@@ -158,6 +161,11 @@ export const selectFromCommunityAttachmentsState = createSelector(
 export const selectFromCommunityAttachmentsWarningModalState = createSelector(
   selectCommunityState,
   (state: CommunityState) => state.communityAttachmentsWarning
+);
+
+export const selectFromCommunityFileDownloadSecurityWarningModalState = createSelector(
+  selectCommunityState,
+  (state: CommunityState) => state.communityFileDownloadSecurityWarning
 );
 
 // Community Poll Selectors
@@ -725,4 +733,20 @@ export const getCurrentAttachmentWarningModalState = createSelector(
 export const getCurrentAttachmentDownloadUrl = createSelector(
   selectFromCommunityAttachmentsWarningModalState,
   fromCommunityAttachmentWarningReducer.getCurrentAttachmentDownloadUrl
+);
+
+// Community File Download Security Warning Modal Selectors
+export const getCurrentFileDownloadSecurityWarningModalState = createSelector(
+  selectFromCommunityFileDownloadSecurityWarningModalState,
+  fromCommunityFileDownloadSecurityWarningReducer.getCurrentWarningModalOpen
+);
+
+export const getCurrentFileDownloadSecurityWarningDownloadId = createSelector(
+  selectFromCommunityFileDownloadSecurityWarningModalState,
+  fromCommunityFileDownloadSecurityWarningReducer.getCurrentDownloadId
+);
+
+export const getCurrentFileDownloadSecurityWarningDownloadType = createSelector(
+  selectFromCommunityFileDownloadSecurityWarningModalState,
+  fromCommunityFileDownloadSecurityWarningReducer.getCurrentDownloadType
 );

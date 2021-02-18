@@ -16,16 +16,18 @@ import { UserFilterPopoverConfig } from 'libs/features/users/user-filter/models'
 import { AddJobsConfig } from 'libs/features/jobs/add-jobs/data';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfSearchModule } from 'libs/features/search/search';
+import { PfAddJobsToRangeModule } from 'libs/features/structures/add-jobs-to-range';
 
-import { AddJobsModalWrapperComponent, JobBasedRangeChartComponent, PublishModelModalComponent } from './containers';
-import { AddJobsUserFilterPopoverConfig, JobBasedRangeAddJobsConfig } from './data';
-import { AddJobsModalEffects, CompareJobRangesEffects, SearchPageEffects, SearchResultsEffects, SingledFilterEffects } from './effects';
+import { JobBasedRangeChartComponent, PublishModelModalComponent } from './containers';
+import { JobBasedRangeAddJobsConfig } from './data';
+import { CompareJobRangesEffects } from './effects';
 import { ModelPageComponent } from './model.page';
 import { ModelRoutingModule } from './model-routing.module';
 import { JobBasedSharedModule } from '../shared/shared.module';
 import { CompareJobBasedRangeChartComponent } from './containers/compare-job-based-range-chart/compare-job-based-range-chart.component';
 import { reducers } from './reducers';
 import { SharedModule } from '../../shared/shared.module';
+import { AddJobsUserFilterPopoverConfig } from '../../shared/data';
 
 @NgModule({
   imports: [
@@ -37,10 +39,6 @@ import { SharedModule } from '../../shared/shared.module';
     // 3rd Party
     StoreModule.forFeature('model_jobRange', reducers),
     EffectsModule.forFeature([
-      AddJobsModalEffects,
-      SearchPageEffects,
-      SearchResultsEffects,
-      SingledFilterEffects,
       CompareJobRangesEffects
     ]),
     PerfectScrollbarModule,
@@ -55,6 +53,7 @@ import { SharedModule } from '../../shared/shared.module';
     PfAddJobsModule,
     PfCommonUIModule,
     PfSearchModule,
+    PfAddJobsToRangeModule,
 
     // Routing
     ModelRoutingModule,
@@ -65,7 +64,6 @@ import { SharedModule } from '../../shared/shared.module';
   ],
   declarations: [
     ModelPageComponent,
-    AddJobsModalWrapperComponent,
     PublishModelModalComponent,
     JobBasedRangeChartComponent,
     CompareJobBasedRangeChartComponent
