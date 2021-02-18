@@ -113,6 +113,7 @@ export class ExportFrequencyComponent implements OnChanges {
         this.selectedFrequency = ExportFrequencyType.Weekly;
         this.scheduledWeeklyFrequency = CronExpressionHelper.getWeeklyFrequencyFromCronExpression(this.schedule.CronExpression);
         this.selectedDaysOfWeek = cloneDeep(this.scheduledWeeklyFrequency);
+        this.scheduledMonthlyFrequency.ScheduledDayOfWeek = [];
         break;
       case ExportFrequencyType.Monthly:
         this.selectedFrequency = ExportFrequencyType.Monthly;
@@ -120,6 +121,7 @@ export class ExportFrequencyComponent implements OnChanges {
         const scheduledMonthlyFrequencyClone = cloneDeep(this.scheduledMonthlyFrequency);
         this.selectedMonthlyOccurrence = scheduledMonthlyFrequencyClone.ScheduledMonthlyOccurrence;
         this.selectedDaysOfWeek = scheduledMonthlyFrequencyClone.ScheduledDayOfWeek;
+        this.scheduledWeeklyFrequency = [];
         break;
       default:
         this.selectedFrequency = ExportFrequencyType.OneTime;

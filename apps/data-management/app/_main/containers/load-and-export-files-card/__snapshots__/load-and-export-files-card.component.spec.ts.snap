@@ -4,6 +4,8 @@ exports[`Data Management - Main - Load And Export File Card has access should sh
 <pf-load-and-export-files-card
   canExportOrgData={[Function Boolean]}
   canImportOrgData="false"
+  enableFileDownloadSecurityWarning="false"
+  fileDownloadSecurityWarningModal={[Function ElementRef]}
   latestOrgDataLoad$={[Function Store]}
   latestOrgDataLoadModalOpen$={[Function Store]}
   notificationStore={[Function Store]}
@@ -57,7 +59,6 @@ exports[`Data Management - Main - Load And Export File Card has access should sh
               >
                 <a
                   class="btn btn-outline-primary px-3"
-                  href="/odata/Company/GetOrganizationalData"
                 >
                   Export
                 </a>
@@ -71,13 +72,15 @@ exports[`Data Management - Main - Load And Export File Card has access should sh
       
     </div>
     <pf-latest-org-data-load-modal />
-  </div>
+  </div><pf-file-download-security-warning-modal />
 </pf-load-and-export-files-card>
 `;
 
 exports[`Data Management - Main - Load And Export File Card has access should show import button 1`] = `
 <pf-load-and-export-files-card
   canImportOrgData={[Function Boolean]}
+  enableFileDownloadSecurityWarning="false"
+  fileDownloadSecurityWarningModal={[Function ElementRef]}
   latestOrgDataLoad$={[Function Store]}
   latestOrgDataLoadModalOpen$={[Function Store]}
   notificationStore={[Function Store]}
@@ -165,7 +168,7 @@ exports[`Data Management - Main - Load And Export File Card has access should sh
       
     </div>
     <pf-latest-org-data-load-modal />
-  </div>
+  </div><pf-file-download-security-warning-modal />
 </pf-load-and-export-files-card>
 `;
 
@@ -173,6 +176,8 @@ exports[`Data Management - Main - Load And Export File Card no access should not
 <pf-load-and-export-files-card
   canExportOrgData="false"
   canImportOrgData="false"
+  enableFileDownloadSecurityWarning="false"
+  fileDownloadSecurityWarningModal={[Function ElementRef]}
   latestOrgDataLoad$={[Function Store]}
   latestOrgDataLoadModalOpen$={[Function Store]}
   notificationStore={[Function Store]}
@@ -180,6 +185,6 @@ exports[`Data Management - Main - Load And Export File Card no access should not
   store={[Function Store]}
   unsubscribe$={[Function Subject]}
 >
-  
+  <pf-file-download-security-warning-modal />
 </pf-load-and-export-files-card>
 `;

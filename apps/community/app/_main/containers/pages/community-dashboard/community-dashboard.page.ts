@@ -1,4 +1,5 @@
 import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { Subscription, Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -6,13 +7,12 @@ import { Store } from '@ngrx/store';
 import { BrowserDetectionService } from 'libs/core/services';
 import { CompanySettingsEnum } from 'libs/models';
 import { SettingsService } from 'libs/state/app-context/services';
+import { FileDownloadSecurityWarningModalComponent } from 'libs/ui/common/file-download-security-warning';
 
-import * as fromRootState from 'libs/state/state';
-import * as fromCommunityPostReducer from '../../../reducers';
+import * as fromCommunityReducers from '../../../reducers';
 import * as  fromCommunityPostActions from '../../../actions/community-post.actions';
 import { CommunityPostsComponent } from '../../community-posts';
 import { CommunityConstants } from '../../../models';
-import { Router } from '@angular/router';
 
 declare var InitializeUserVoice: any;
 
@@ -23,6 +23,7 @@ declare var InitializeUserVoice: any;
 })
 export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
   @ViewChild('posts', { static: true }) postsComponent: CommunityPostsComponent;
+  @ViewChild('fileDownloadSecurityWarningModal', { static: true }) fileDownloadSecurityWarningModal: FileDownloadSecurityWarningModalComponent;
 
   readonly POST_ITEM_CLASS = 'post-item';
   readonly COMMUNITY_POSTS_CONTAINER_ID = 'community-posts';
@@ -32,11 +33,12 @@ export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
   loadingPreviousBatchCommunityPosts$: Observable<boolean>;
   getHasPreviousBatchPostsOnServer$: Observable<boolean>;
   getHasNextBatchPostsOnServer$: Observable<boolean>;
-
+  showFileDownloadSecurityWarning$: Observable<boolean>;
   loadingNextBatchCommunityPostsSubscription: Subscription;
   loadingPreviousBatchCommunityPostsSubscription: Subscription;
   hasPreviousBatchResultsOnServerSubscription: Subscription;
   hasNextBatchResultsOnServerSubscription: Subscription;
+  showFileDownloadSecurityWarningSubscription: Subscription;
   hasPreviousBatchOnServer = false;
   hasNextBatchOnServer = false;
   hideTopComponents = false;
@@ -61,17 +63,19 @@ export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
   postsChangedObserver: any;
   targetNode: any;
   observerOptions: any;
+  showFileDownloadSecurityWarning: boolean;
 
-  constructor(public store: Store<fromCommunityPostReducer.State>,
+  constructor(public store: Store<fromCommunityReducers.State>,
               private browserDetectionService: BrowserDetectionService,
               private settingService: SettingsService,
               private router: Router) {
 
-    this.loadingNextBatchCommunityPosts$ = this.store.select(fromCommunityPostReducer.getLoadingNextBatchPosts);
-    this.loadingPreviousBatchCommunityPosts$ = this.store.select(fromCommunityPostReducer.getLoadingPreviousBatchPosts);
-    this.getHasPreviousBatchPostsOnServer$ = this.store.select(fromCommunityPostReducer.getHasPreviousBatchPostsOnServer);
-    this.getHasNextBatchPostsOnServer$ = this.store.select(fromCommunityPostReducer.getHasNextBatchPostsOnServer);
+    this.loadingNextBatchCommunityPosts$ = this.store.select(fromCommunityReducers.getLoadingNextBatchPosts);
+    this.loadingPreviousBatchCommunityPosts$ = this.store.select(fromCommunityReducers.getLoadingPreviousBatchPosts);
+    this.getHasPreviousBatchPostsOnServer$ = this.store.select(fromCommunityReducers.getHasPreviousBatchPostsOnServer);
+    this.getHasNextBatchPostsOnServer$ = this.store.select(fromCommunityReducers.getHasNextBatchPostsOnServer);
     this.disableCommunityAttachments$ = this.settingService.selectCompanySetting<boolean>(CompanySettingsEnum.CommunityDisableAttachments);
+    this.showFileDownloadSecurityWarning$ = this.settingService.selectCompanySetting<boolean>(CompanySettingsEnum.FileDownloadSecurityWarning);
 
     /* Using this to prevent sticky-top from being applied in Edge/IE due to a visual glitch
      https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/17555420/ */
@@ -258,6 +262,12 @@ export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
       }
     });
 
+    this.showFileDownloadSecurityWarningSubscription = this.showFileDownloadSecurityWarning$.subscribe(value => {
+      if (value != null) {
+        this.showFileDownloadSecurityWarning = value;
+      }
+    });
+
     if (typeof InitializeUserVoice !== 'undefined') {
       InitializeUserVoice();
     }
@@ -278,6 +288,10 @@ export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
 
     if (this.hasNextBatchResultsOnServerSubscription) {
       this.hasNextBatchResultsOnServerSubscription.unsubscribe();
+    }
+
+    if (this.showFileDownloadSecurityWarningSubscription) {
+      this.showFileDownloadSecurityWarningSubscription.unsubscribe();
     }
   }
 

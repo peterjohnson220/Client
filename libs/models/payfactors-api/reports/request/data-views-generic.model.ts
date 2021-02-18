@@ -55,14 +55,11 @@ export interface ViewField {
   TextAlign: string;
   CustomFilterStrategy: string;
   FilterPlaceholder: string;
-  FilterValue: string;
   FilterOperator: string;
   SortOrder?: number;
   SortDirection?: 'asc' | 'desc';
   GroupOrder?: number;
   DefaultOrder?: number;
-  // TODO: Replace FilterValue with FilterValues.
-  // Update filter builder and filter panel accordingly.
   FilterValues?: string[];
   IsSortable: boolean;
   IsAlwaysInResponse: boolean;
@@ -70,7 +67,7 @@ export interface ViewField {
 }
 
 export interface DataView {
-  EntityId: number;
+  BaseEntityId: number;
   PageViewId: string;
   Elements: DataViewField[];
   Filters: DataViewFilter[];
@@ -116,8 +113,8 @@ export function generateMockViewField(mockNumber: number = 1): ViewField {
     TextAlign: null,
     CustomFilterStrategy: null,
     FilterPlaceholder: null,
-    FilterValue: null,
     FilterOperator: null,
+    FilterValues: null,
     IsSortable: true,
     IsAlwaysInResponse: null
   };

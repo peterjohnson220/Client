@@ -2,6 +2,7 @@ import { Action } from '@ngrx/store';
 
 import { JobDescription } from 'libs/models/jdm';
 import { SaveError } from 'libs/models/common/save-error';
+import { ControlType } from 'libs/models/common';
 
 import { JobCompareSaveJobDescriptionRequestModel } from '../models/request/';
 
@@ -40,7 +41,7 @@ export class LoadSourceJobDescription implements Action {
 export class LoadSourceJobDescriptionSuccess implements Action {
   readonly type = LOAD_SOURCE_JOB_DESCRIPTION_SUCCESS;
 
-  constructor(public payload: any) {
+  constructor(public payload: { jobDescription: JobDescription, controlTypes: ControlType[] }) {
   }
 }
 
@@ -51,7 +52,7 @@ export class LoadSourceJobDescriptionError implements Action {
 export class LoadJobDescriptionList implements Action {
   readonly type = LOAD_JOB_DESCRIPTION_LIST;
 
-  constructor(public payload: any) {
+  constructor(public payload: number) {
   }
 }
 
@@ -76,7 +77,7 @@ export class LoadJobDescriptionForComparison implements Action {
 export class LoadJobDescriptionForComparisonSuccess implements Action {
   readonly type = LOAD_JOB_DESCRIPTION_FOR_COMPARISON_SUCCESS;
 
-  constructor(public payload: any) {
+  constructor(public payload: { jobDescription: JobDescription, controlTypes: ControlType[] }) {
   }
 }
 

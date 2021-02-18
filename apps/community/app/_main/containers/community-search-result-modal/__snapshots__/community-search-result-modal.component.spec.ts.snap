@@ -18,6 +18,8 @@ exports[`CommunityPostSearchResultComponent should show a modal with when commun
   postEditedSubscription={[Function Subscriber]}
   router={[Function Object]}
   settingService={[Function SettingsService]}
+  showFileDownloadSecurityWarning$={[Function Observable]}
+  showFileDownloadSecurityWarningSubscription={[Function Subscriber]}
   store={[Function Store]}
 >
   <pf-modal-form

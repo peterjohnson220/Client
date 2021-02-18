@@ -3,6 +3,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CommunitySearchResultsComponent } from '../../community-search-results';
 
 import * as constants from 'libs/models/community/community-constants.model';
+import { Observable } from 'rxjs';
+import { CompanySettingsEnum } from 'libs/models/company';
+import { SettingsService } from 'libs/state/app-context/services';
 
 @Component({
   selector: 'pf-community-search-results-page',
@@ -12,6 +15,7 @@ import * as constants from 'libs/models/community/community-constants.model';
 
 export class CommunitySearchResultsPageComponent implements OnInit {
   @ViewChild(CommunitySearchResultsComponent, { static: true }) searchResultsComponent: CommunitySearchResultsComponent;
+  showFileDownloadSecurityWarning$: Observable<boolean>;
   searchQuery: string;
   dateOptions = constants.CommunitySearchResultDates;
   sortOptions = constants.CommunitySearchResultSortOptions;
@@ -20,7 +24,8 @@ export class CommunitySearchResultsPageComponent implements OnInit {
   durationOption = constants.CommunitySearchDurationEnum.AllTime;
 
   constructor(private route: ActivatedRoute,
-              private router: Router) {
+              private router: Router, private settingService: SettingsService) {
+    this.showFileDownloadSecurityWarning$ = this.settingService.selectCompanySetting<boolean>(CompanySettingsEnum.FileDownloadSecurityWarning);
   }
 
   ngOnInit() {

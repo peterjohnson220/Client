@@ -12,6 +12,7 @@ import { generateMockCommunityUserInfo } from 'libs/models/community/community-u
 import { CommunityPostHeaderComponent } from './community-post-header.component';
 import { CommunityDeletePost } from '../../models/community-delete-post.model';
 import { CompanySecurityApiService } from 'libs/data/payfactors-api/security/company-security-api.service';
+import { SettingsService } from 'libs/state/app-context/services';
 import { of } from 'rxjs';
 
 
@@ -30,6 +31,7 @@ describe('CommunityPostHeaderComponent', () => {
         }),
         ReactiveFormsModule
       ],
+      providers: [SettingsService],
       declarations: [
         CommunityPostHeaderComponent
       ],

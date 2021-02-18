@@ -42,7 +42,7 @@ export class CompareJobRangesEffects {
             this.store.pipe(select(fromPfDataGridReducer.getSortDescriptor, action.pageViewId)),
             this.store.pipe(select(fromPfDataGridReducer.getGridConfig)),
             this.store.pipe(select(fromPfDataGridReducer.getData)),
-            this.store.pipe(select(fromSharedReducer.getCurrentRangeGroup)),
+            this.store.pipe(select(fromSharedStructuresReducer.getCurrentRangeGroup)),
             this.store.pipe(select(fromSharedStructuresReducer.getMetadata)),
             this.store.pipe(select(fromSharedStructuresReducer.getRoundingSettings)),
             this.store.pipe(select(fromSharedStructuresReducer.getComparingModels)),

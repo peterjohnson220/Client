@@ -17,14 +17,14 @@ import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducer
 
 import * as fromSharedJobBasedRangeReducer from '../../shared/reducers';
 import * as fromSharedStructuresReducer from '../../../shared/reducers';
-import * as fromModelSettingsModalActions from '../../shared/actions/model-settings-modal.actions';
-import { AddJobsModalWrapperComponent } from '../containers/add-jobs-modal';
-import { UrlService } from '../../shared/services';
+import * as fromModelSettingsModalActions from '../../../shared/actions/model-settings-modal.actions';
+import { UrlService} from '../../../shared/services';
 import { Workflow } from '../../../shared/constants/workflow';
 import * as fromSharedActions from '../../../shared/actions/shared.actions';
 import * as fromSharedJobBasedRangeActions from '../../shared/actions/shared.actions';
 import * as fromCompareJobRangesActions from '../../model/actions';
 import { StructuresPagesService } from '../../../shared/services';
+import { AddJobsModalWrapperComponent } from '../../../shared/containers/add-jobs-modal-wrapper';
 
 @Component({
   selector: 'pf-model-page',
@@ -68,12 +68,12 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
       {
         SourceName: 'CompanyStructuresRangeGroup_ID',
         Operator: '=',
-        Value: this.rangeGroupId
+        Values: [this.rangeGroupId]
       },
       {
         SourceName: 'JobStatus',
         Operator: '=',
-        Value: '1'
+        Values: ['1']
       }
     ];
 
@@ -116,7 +116,7 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
       this.rangeGroupId = params['id'];
       // This object must be being attached to the state at a later time since its being marked readonly and needs to be copied
       this.filters = cloneDeep(this.filters);
-      this.filters.find(f => f.SourceName === 'CompanyStructuresRangeGroup_ID').Value = this.rangeGroupId;
+      this.filters.find(f => f.SourceName === 'CompanyStructuresRangeGroup_ID').Values = [this.rangeGroupId];
     });
     this.metadataSub = this.metaData$.subscribe(md => {
       if (md) {
@@ -140,7 +140,7 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    if (this.urlService.isInWorkflow(Workflow.NewJobBasedRange) && this.hasCanCreateEditModelStructurePermission) {
+    if (this.urlService.isInWorkflow(Workflow.NewRange) && this.hasCanCreateEditModelStructurePermission) {
       this.openAddJobsModal();
     }
 
@@ -153,7 +153,7 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
       pageViewId: this.pageViewId,
       rangeGroupId: this.rangeGroupId
     }));
-    this.store.dispatch(new fromSharedJobBasedRangeActions.GetCurrentRangeGroup({
+    this.store.dispatch(new fromSharedActions.GetCurrentRangeGroup({
       RangeGroupId: this.rangeGroupId,
       PaymarketId: this.metadata.PaymarketId,
       PayType: this.metadata.PayType

@@ -19,6 +19,7 @@ import { ApiServiceType } from 'libs/features/notes/notes-manager/constants/api-
 import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums/pf-theme-type.enum';
 import { PermissionCheckEnum, Permissions } from 'libs/constants';
 import { PermissionService } from 'libs/core/services';
+import { GroupedListItem } from 'libs/models/list';
 
 import * as fromModifyPricingsReducer from '../../../../reducers';
 import { PageViewIds } from '../../../../constants';
@@ -58,7 +59,7 @@ export class PaymarketsGridComponent implements OnInit, AfterViewInit, OnDestroy
     'SalesIncentiveActualMRP', 'SalesIncentiveActualPctMRP', 'SalesIncentiveTargetMRP', 'SalesIncentiveTargetPctMRP',
     'TargetLTIPMRP', 'TargetTDCMRP', 'TCCMRP', 'TCCPlusAllowMRP', 'TCCPlusAllowNoCarMRP', 'TCCTargetMRP', 'TCCTargetPlusAllowMRP',
     'TCCTargetPlusAllowNoCarMRP', 'TDCMRP', 'TGPMRP'];
-  payMarketOptions: any;
+  payMarketOptions: GroupedListItem[];
 
   defaultSort: SortDescriptor[] = [{
     dir: 'desc',
@@ -80,8 +81,7 @@ export class PaymarketsGridComponent implements OnInit, AfterViewInit, OnDestroy
   gridFieldSubscription: Subscription;
 
   payMarketField: ViewField;
-  filteredPayMarketOptions: any;
-  selectedPayMarket: any;
+  selectedPayMarkets: string[];
 
   pricedField: ViewField;
   pricedFilterValue: any;
@@ -117,8 +117,9 @@ export class PaymarketsGridComponent implements OnInit, AfterViewInit, OnDestroy
 
     this.companyPayMarketsSubscription = this.store.select(fromModifyPricingsReducer.getCompanyPayMarkets)
       .subscribe(o => {
-        this.filteredPayMarketOptions = o;
-        this.payMarketOptions = o;
+        if (!!o) {
+          this.payMarketOptions = cloneDeep(o);
+        }
       });
 
     this.gridFieldSubscription = this.store.select(fromPfGridReducer.getFields, this.pageViewId).subscribe(fields => {
@@ -127,8 +128,7 @@ export class PaymarketsGridComponent implements OnInit, AfterViewInit, OnDestroy
         this.pricedFilterValue = this.bitFilterOptions.find(f => f.value === this.pricedField?.FilterOperator);
 
         this.payMarketField = fields.find(f => f.SourceName === 'PayMarket');
-        this.selectedPayMarket = this.payMarketField.FilterValue !== null ?
-          { Value: this.payMarketField.FilterValue, Id: this.payMarketField.FilterValue } : null;
+        this.selectedPayMarkets = this.payMarketField.FilterValues === null ? [] : cloneDeep(this.payMarketField.FilterValues);
       }
     });
 
@@ -181,15 +181,14 @@ export class PaymarketsGridComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.filters) {
+    if (changes.filters?.currentValue) {
       this.filters = cloneDeep(changes.filters.currentValue)
         .filter(f => this.inboundFiltersToApply.indexOf(f.SourceName) > -1);
-
       const pricedInboundFilter = this.filters.find(f => f.SourceName === 'Priced');
       if (pricedInboundFilter) {
         pricedInboundFilter.SourceName = 'CompanyJobPricing_ID';
-        pricedInboundFilter.Operator = pricedInboundFilter.Value === 'true' ? 'notnull' : 'isnull';
-        pricedInboundFilter.Value = '';
+        pricedInboundFilter.Operator = pricedInboundFilter.Values[0] === 'true' ? 'notnull' : 'isnull';
+        pricedInboundFilter.Values = null;
       }
     }
   }
@@ -206,27 +205,23 @@ export class PaymarketsGridComponent implements OnInit, AfterViewInit, OnDestroy
 
   }
 
-  handlePayMarketDropDownFilterChanged(value) {
-    this.filteredPayMarketOptions = this.payMarketOptions.filter((s) => s.Id.toLowerCase().indexOf(value.toLowerCase()) !== -1);
-  }
-
-  handlePayMarketFilterChanged(value: any) {
-    const field = cloneDeep(this.payMarketField);
-    field.FilterOperator = '=';
-    field.FilterValue = value.Id;
-
+  handlePayMarketValueChanged(payMarkets: string[]) {
+    const field: ViewField = cloneDeep(this.payMarketField);
+    field.FilterValues = payMarkets?.length > 0 ? payMarkets : null;
+    field.FilterOperator = 'in';
     this.updateField(field);
   }
 
   handlePricedFilterChanged(value: any) {
     const field = cloneDeep(this.pricedField);
     field.FilterOperator = this.pricedFilterValue.value;
+    field.FilterValues = null;
 
     this.updateField(field);
   }
 
-  updateField(field) {
-    if (field.FilterValue || field.FilterOperator) {
+  updateField(field: ViewField) {
+    if (!!field.FilterValues || !!field.FilterOperator) {
       this.store.dispatch(new fromPfGridActions.UpdateFilter(this.pageViewId, field));
     } else {
       this.store.dispatch(new fromPfGridActions.ClearFilter(this.pageViewId, field));

@@ -39,6 +39,8 @@ export const LOAD_MAPPED_FIELDS = '[Data Management/Field Mappings] Load Mapped 
 export const LOAD_MAPPED_FIELDS_ERROR = '[Data Management/Field Mappings] Load Mapped Fields Error';
 export const LOAD_MAPPED_FIELDS_SUCCESS = '[Data Management/Field Mappings] Load Mapped Fields Success';
 
+export const PROVIDER_REPORT_CHANGED = '[Data Management/Field Mapping] Provider Report Changed';
+
 // outbound jdm actions, delete me
 export const SAVE_OUTBOUND_MAPPINGS = '[Data Management/Field Mappings] Save Outbound JDM Mappings';
 export const SAVE_OUTBOUND_MAPPING_SUCCESS = '[Data Management/Field Mappings] Save Outbound JDM Mappings Success';
@@ -196,6 +198,10 @@ export class LoadMappedFieldsSucces implements Action {
   constructor(public payload: { payfactorsFields: EntityField, providerFields: EntityField }) {}
 }
 
+export class ProviderReportChanged implements Action {
+  readonly type = PROVIDER_REPORT_CHANGED;
+}
+
 
 
 // outbound jdm actions, delete me
@@ -238,5 +244,6 @@ export type Actions
  | LoadMappedFieldsError
  | LoadMappedFieldsSucces
  | TrySaveMapping
+ | ProviderReportChanged
  | SaveOutboundJdmFieldMappings
  | SaveOutboundJdmFieldMappingsSuccess;

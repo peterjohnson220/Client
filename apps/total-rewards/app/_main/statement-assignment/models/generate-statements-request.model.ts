@@ -7,6 +7,7 @@ import { DeliveryMethod } from 'libs/features/total-rewards/total-rewards-statem
 export interface GenerateStatementsRequest {
   StatementId: string;
   CompanyEmployeeIds: number[];
+  EmployeeSearchTerm: string;
   GenerateByQuery: State;
   WaitForPdfGenerationSelector: string;
   Method: DeliveryMethod;

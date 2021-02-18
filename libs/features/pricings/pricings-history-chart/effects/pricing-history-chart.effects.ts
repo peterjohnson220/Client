@@ -1,20 +1,18 @@
 import { Injectable } from '@angular/core';
 
-import { forkJoin, Observable, of } from 'rxjs';
+import { setDate, subYears } from 'date-fns';
+
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
-import { map, switchMap, catchError, withLatestFrom, mergeMap } from 'rxjs/operators';
-
-import { subYears, setDate } from 'date-fns';
+import { forkJoin, Observable, of } from 'rxjs';
+import { catchError, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
 
 import { CurrencyApiService, PricingApiService, UiPersistenceSettingsApiService } from 'libs/data/payfactors-api';
-import { GetPricingHistoryRequest, PricingHistoryChartFilters, PayMarketPricingHistory, PricedPayMarket } from 'libs/models/payfactors-api';
 import { FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models';
+import { GetPricingHistoryRequest, PayMarketPricingHistory, PricedPayMarket, PricingHistoryChartFilters } from 'libs/models/payfactors-api';
 
 import * as fromPricingHistoryChartActions from '../actions';
 import * as fromPricingHistoryChartReducer from '../reducers';
-
-
 
 @Injectable()
 export class PricingHistoryChartEffects {
@@ -48,7 +46,7 @@ export class PricingHistoryChartEffects {
           .pipe(
             mergeMap((response) => {
               const pricedPayMarkets = response[0];
-              let userDefaultFilters = response[2]['@odata.null'] ? null : JSON.parse(response[2]);
+              let userDefaultFilters = JSON.parse(response[2]);
               this.validateSelectedPaymarkets(userDefaultFilters, pricedPayMarkets);
               userDefaultFilters = this.getDefaultPMFilters(pricedPayMarkets, userDefaultFilters);
               return [

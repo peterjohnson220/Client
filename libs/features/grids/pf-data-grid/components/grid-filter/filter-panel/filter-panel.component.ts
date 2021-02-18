@@ -23,6 +23,7 @@ export class FilterPanelComponent implements OnChanges {
   @Output() close = new EventEmitter();
 
   customFilterFields: ViewField[];
+  customBitFields: ViewField[];
   bitFields: ViewField[];
   simpleFields: ViewField[];
 
@@ -33,9 +34,14 @@ export class FilterPanelComponent implements OnChanges {
       // TODO: Make this more customizable to allow different filter section configurations
       // This logic is repeated in the Filter-Builder panel and in getUserFilteredFields()
       const newFields: ViewField[] = changes['fields'].currentValue;
-      this.customFilterFields = newFields.filter(f => f.CustomFilterStrategy && f.DataType !== DataViewFieldDataType.Bit);
-      this.bitFields = newFields.filter(f => f.DataType === DataViewFieldDataType.Bit);
-      this.simpleFields = newFields.filter(f => f.DataType !== DataViewFieldDataType.Bit && !f.CustomFilterStrategy);
+      const fieldsWithFilterTemplates = Object.keys(this.filterTemplates);
+      const allCustomFields = newFields.filter(f => f.CustomFilterStrategy || fieldsWithFilterTemplates.indexOf(f.SourceName) > -1);
+      this.customFilterFields = allCustomFields.filter(f => f.DataType !== DataViewFieldDataType.Bit);
+      this.customBitFields = allCustomFields.filter(f => f.DataType === DataViewFieldDataType.Bit);
+      this.bitFields = newFields.filter(f => f.DataType === DataViewFieldDataType.Bit &&
+        !(f.CustomFilterStrategy || fieldsWithFilterTemplates.indexOf(f.SourceName) > -1));
+      this.simpleFields = newFields.filter(f => f.DataType !== DataViewFieldDataType.Bit &&
+        !(f.CustomFilterStrategy || fieldsWithFilterTemplates.indexOf(f.SourceName) > -1));
     }
   }
 
@@ -48,7 +54,7 @@ export class FilterPanelComponent implements OnChanges {
   }
 
   handleFilterChange(field: ViewField) {
-    if (field.FilterValue || this.valueCanBeEmpty(field)) {
+    if (!!field.FilterValues || this.valueCanBeEmpty(field)) {
       this.filterChanged.emit(field);
     } else {
       this.filterCleared.emit(field);
@@ -56,7 +62,8 @@ export class FilterPanelComponent implements OnChanges {
   }
 
   hasFilters(): boolean {
-    return getUserFilteredFields(this.fields).length > 0;
+    const customFilterKeys = this.filterTemplates ? Object.keys(this.filterTemplates) : [];
+    return getUserFilteredFields(this.fields, customFilterKeys).length > 0;
   }
 
   trackByField(index, field: ViewField) {

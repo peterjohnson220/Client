@@ -5,7 +5,7 @@ import { KendoTypedDropDownItem } from 'libs/models/kendo';
 import { CompanyEmployee, CompanyJob } from 'libs/models/company';
 import { EntityKeyFieldsResponse } from 'libs/models/payfactors-api/validation';
 import { EmployeeModalStructuresResponse } from 'libs/models/payfactors-api';
-import { RangeType } from 'libs/models/common';
+import { RangeType } from 'libs/constants/structures/range-type';
 
 import { EmployeeValidation, Job, Structure } from '../models';
 

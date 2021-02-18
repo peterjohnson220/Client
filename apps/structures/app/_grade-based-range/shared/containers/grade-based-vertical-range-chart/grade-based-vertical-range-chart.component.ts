@@ -35,6 +35,8 @@ export class GradeBasedVerticalRangeChartComponent implements OnInit, OnDestroy 
   salaryRangeSeriesDataModel: SalaryRangeSeries;
   dataPointSeriesDataModel: DataPointSeries;
   averageSeriesData: any;
+  regressionSeriesData: any;
+  excludedJobsSeriesData: any;
   outlierSeriesData: any;
   mrpSeriesData: any;
   parsedJobsData: any;
@@ -185,10 +187,20 @@ export class GradeBasedVerticalRangeChartComponent implements OnInit, OnDestroy 
     const matchingJobs = this.parsedJobsData.filter(j => j.gradeId === currentRow.CompanyStructures_Ranges_CompanyStructuresGrades_ID);
 
     for (let i = 0; i < matchingJobs.length; i++) {
-      this.dataPointSeriesDataModel.Job.push(
-        StructuresHighchartsService.getJobDataPoint(xCoordinate, matchingJobs[i], this.hasCurrentStructure, this.chartLocale, this.metaData)
-      );
+      if (matchingJobs[i].includeInRegression) {
+        this.dataPointSeriesDataModel.Job.push(
+          StructuresHighchartsService.getJobDataPoint(xCoordinate, matchingJobs[i], this.hasCurrentStructure, this.chartLocale, this.metaData)
+        );
+      } else {
+        this.excludedJobsSeriesData.push(
+          StructuresHighchartsService.getJobDataPoint(xCoordinate, matchingJobs[i], this.hasCurrentStructure, this.chartLocale, this.metaData)
+        );
+      }
     }
+  }
+
+  private addRegression(xCoordinate, currentRow, slope, intercept) {
+    this.regressionSeriesData.push(StructuresHighchartsService.getRegressionDataPoint(xCoordinate, currentRow, slope, intercept, this.metaData.Rate));
   }
 
 
@@ -317,9 +329,16 @@ export class GradeBasedVerticalRangeChartComponent implements OnInit, OnDestroy 
     this.chartMin = undefined;
     this.chartMax = undefined;
     this.parsedJobsData = [];
+    this.regressionSeriesData = [];
+    this.excludedJobsSeriesData = [];
 
     // parse the raw jobs data
     this.parseJobsData(this.gradeRangeDetails.obj[0].JobValues);
+
+    // set slope and intercept from the details
+    const slope = this.gradeRangeDetails.obj[0]?.Slope;
+    const intercept = this.gradeRangeDetails.obj[0]?.Intercept;
+    const rSquared = this.gradeRangeDetails.obj[0]?.Rsquared === null ? '--' : this.gradeRangeDetails.obj[0]?.Rsquared;
 
     // set initial min/max based on jobs data, since this is outside the main grid data
     this.determineInitialChartMinAndMax();
@@ -329,6 +348,10 @@ export class GradeBasedVerticalRangeChartComponent implements OnInit, OnDestroy 
       this.hasCurrentStructure = currentRow.CompanyStructures_RangeGroup_CurrentStructureMidPoint === null;
 
       this.addJobs(i, currentRow);
+
+      if (!!intercept && !!slope) {
+        this.addRegression(i, currentRow, slope, intercept);
+      }
 
       // check for new min
       this.determineChartMin(currentRow);
@@ -366,6 +389,7 @@ export class GradeBasedVerticalRangeChartComponent implements OnInit, OnDestroy 
     // set the min/max
     this.chartInstance.yAxis[0].setExtremes(this.chartMin, this.chartMax, false);
 
+    this.chartInstance.xAxis[0].setTitle({ text: '<b>R<sup>2</sup>:</b> ' + rSquared, useHTML: true });
     // set the series data (0 - salaryRange, 1 - midPoint, 2 - avg salary, 3 - outliers)
     this.chartInstance.series[GradeRangeVerticalModelChartSeries.SalaryRangeMinMidMax].setData(this.salaryRangeSeriesDataModel.MinMidMax, false);
 
@@ -375,6 +399,8 @@ export class GradeBasedVerticalRangeChartComponent implements OnInit, OnDestroy 
     this.chartInstance.series[GradeRangeVerticalModelChartSeries.RangeMid].setData(this.dataPointSeriesDataModel.Mid, false);
     this.chartInstance.series[GradeRangeVerticalModelChartSeries.EmployeeOutliers].setData(this.outlierSeriesData, true);
     this.chartInstance.series[GradeRangeVerticalModelChartSeries.Jobs].setData(this.dataPointSeriesDataModel.Job, false);
+    this.chartInstance.series[GradeRangeVerticalModelChartSeries.Regression].setData(this.regressionSeriesData, false);
+    this.chartInstance.series[GradeRangeVerticalModelChartSeries.JobsExcludedFromRegression].setData(this.excludedJobsSeriesData, false);
 
 
     // Tertile - Quartile - Quintile: salary range + data points

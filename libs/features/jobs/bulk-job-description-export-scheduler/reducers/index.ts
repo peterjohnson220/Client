@@ -71,3 +71,12 @@ export const getBulkExportScheduleRemovingError = createSelector(
 export const getBulkScheduleDeleteModalOpen = createSelector(
   selectBulkExportScheduleState, fromBulkExportSchedulerReducer.getBulkScheduleDeleteModalOpen
 );
+
+export const getBulkExportScheduleEditing = createSelector(selectBulkExportScheduleState, fromBulkExportSchedulerReducer.getEditing);
+export const getBulkExportScheduleEditSchedule = createSelector(
+  selectBulkExportScheduleState, fromBulkExportSchedulerReducer.getEditSchedule
+);
+export const getBulkExportScheduleUpdating = createSelector(selectBulkExportScheduleState, fromBulkExportSchedulerReducer.getUpdating);
+export const getBulkExportScheduleUpdatingError = createSelector(
+  selectBulkExportScheduleState, fromBulkExportSchedulerReducer.getUpdatingError
+);

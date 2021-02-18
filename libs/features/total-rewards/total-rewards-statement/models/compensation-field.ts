@@ -6,6 +6,7 @@ export interface CompensationField {
   DatabaseField: string;
   Name: LabelWithOverride;
   IsVisible: boolean;
+  CanHaveEmployeeContribution: boolean;
   DisplayName?: string;
   Group?: string;
   Type?: string;

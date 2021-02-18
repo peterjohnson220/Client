@@ -26,10 +26,10 @@
     <button type="button" ngbAutofocus class="btn btn-secondary" (click)="close()">Cancel</button>
     <div *ngIf="currentSchedule; else scheduleNotExists">
       <button class="btn btn-danger" (click)="handleDeleteClicked()">Delete</button>
-      <button class="btn btn-primary" (click)="handleUpdateClicked();close();" [disabled]="disabled">Update</button>
+      <button class="btn btn-primary" (click)="handleUpdateClicked();close();" [disabled]="!changesMade">Update</button>
     </div>
     <ng-template #scheduleNotExists>
-      <button class="btn btn-primary" (click)="handleSaveClicked();close();" [disabled]="disabled">Schedule</button>
+      <button class="btn btn-primary" (click)="handleSaveClicked();close();" [disabled]="saveDisabled">Schedule</button>
     </ng-template>
   </div>
 
