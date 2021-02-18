@@ -20,7 +20,7 @@ import { SearchFeatureIds } from 'libs/features/search/search/enums/search-featu
 import * as fromModifyPricingsActions from 'libs/features/pricings/multi-match/actions';
 
 import * as fromSharedStructuresReducer from '../../../shared/reducers';
-import * as fromModelSettingsModalActions from '../../shared/actions/model-settings-modal.actions';
+import * as fromModelSettingsModalActions from '../../../shared/actions/model-settings-modal.actions';
 import * as fromSharedStructuresActions from '../../../shared/actions/shared.actions';
 import * as fromDuplicateModelModalActions from '../../shared/actions/duplicate-model-modal.actions';
 import { StructuresPagesService } from '../../../shared/services';
@@ -73,7 +73,7 @@ export class PricingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.filter = {
       SourceName: 'CompanyStructuresRanges_ID',
       Operator: '=',
-      Value: this.route.snapshot.params.id
+      Values: [this.route.snapshot.params.id]
     };
 
     this.actionBarConfig = {

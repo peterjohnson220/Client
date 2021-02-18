@@ -1,0 +1,98 @@
+<ng-container *ngIf="!!jobDescriptionControl && showControl">
+
+  <ng-container *ngIf="!!jobDescriptionControl.ControlType &&
+                      (jobDescriptionControl.ControlType.ReadOnly === true || jobDescriptionControl.ControlType.EditorType === 'Single') &&
+                      !(jobDescriptionControl.AdditionalProperties != null && showControlName)">
+    <pf-control-data-renderer
+      [class.dnd-library-accept]="!jobDescriptionControl.ControlType.ReadOnly"
+      [attr.data-section-id]="jobDescriptionControl.SectionId"
+      [attr.data-control-id]="jobDescriptionControl.Id"
+      dragula="library-bag"
+      [controlType]="jobDescriptionControl.ControlType"
+      [data]="jobDescriptionControl.Data"
+      [readOnly]="readOnly || jobDescriptionControl.ControlType.ReadOnly"
+      [checkInheritedData]="true"
+      [additionalProperties]="jobDescriptionControl.AdditionalProperties"
+      [isCompare]="isCompare"
+      (dataChangesDetected)="handleDataChangesDetected($event)"
+      (bulkDataChangesDetected)="handleBulkDataChangesDetected($event)"
+      (additionalPropertiesChangesDetected)="handleAdditionalPropertiesChangesDetected($event)"
+      [undoChanges$]="undoChanges$"
+      [replaceContents$]="replaceContents$">
+    </pf-control-data-renderer>
+  </ng-container>
+
+  <ng-container *ngIf="!!jobDescriptionControl.ControlType &&
+                      (jobDescriptionControl.ControlType.ReadOnly === true || jobDescriptionControl.ControlType.EditorType === 'Single') &&
+                      (jobDescriptionControl.AdditionalProperties != null && showControlName)">
+    <div class="card my-3">
+      <div class="card-header">
+        {{jobDescriptionControl.Label}}
+        <div class="btn-group float-right">
+          <button class="btn btn-sm btn-secondary" (click)="toggleBody()">
+            <span *ngIf="hideBody"><fa-icon icon="caret-down"></fa-icon></span>
+            <span *ngIf="!hideBody"><fa-icon icon="caret-up"></fa-icon></span>
+          </button>
+        </div>
+      </div>
+      <div class="card-block" [hidden]="hideBody">
+        <pf-control-data-renderer
+          [class.dnd-library-accept]="!jobDescriptionControl.ControlType.ReadOnly"
+          [attr.data-section-id]="jobDescriptionControl.SectionId"
+          [attr.data-control-id]="jobDescriptionControl.Id"
+          dragula="library-bag"
+          [controlType]="jobDescriptionControl.ControlType"
+          [data]="jobDescriptionControl.Data"
+          [readOnly]="readOnly || jobDescriptionControl.ControlType.ReadOnly"
+          [checkInheritedData]="true"
+          [additionalProperties]="jobDescriptionControl.AdditionalProperties"
+          [isCompare]="isCompare"
+          (dataChangesDetected)="handleDataChangesDetected($event)"
+          (bulkDataChangesDetected)="handleBulkDataChangesDetected($event)"
+          (additionalPropertiesChangesDetected)="handleAdditionalPropertiesChangesDetected($event)"
+          [undoChanges$]="undoChanges$"
+          [replaceContents$]="replaceContents$">
+        </pf-control-data-renderer>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="!!jobDescriptionControl.ControlType && (jobDescriptionControl.ControlType.ReadOnly !== true && jobDescriptionControl.ControlType.EditorType !== 'Single')">
+    <div class="card my-3">
+      <div [class.card-header]="showControlName">
+        <ng-container *ngIf="showControlName">{{jobDescriptionControl.Label}}</ng-container>
+        <div class="btn-group float-right">
+          <button *ngIf="!readOnly && (jobDescriptionControl.ControlType.EditorType === 'List' && !jobDescriptionControl.ControlType.Locked)"
+                  class="btn btn-sm btn-secondary" (click)="addDataRow()">
+            <fa-icon icon="plus"></fa-icon>
+          </button>
+          <button class="btn btn-sm btn-secondary" (click)="toggleBody()">
+            <fa-icon *ngIf="hideBody" icon="caret-down"></fa-icon>
+            <fa-icon *ngIf="!hideBody" icon="caret-up"></fa-icon>
+          </button>
+        </div>
+      </div>
+      <div class="card-block" [hidden]="hideBody">
+        <pf-control-data-renderer
+          [class.dnd-library-accept]="!jobDescriptionControl.ControlType.ReadOnly"
+          [attr.data-section-id]="jobDescriptionControl.SectionId"
+          [attr.data-control-id]="jobDescriptionControl.Id"
+          [dragula]="isCompare ? undefined : 'library-bag'"
+          [controlType]="jobDescriptionControl.ControlType"
+          [data]="jobDescriptionControl.Data"
+          [readOnly]="readOnly || jobDescriptionControl.ControlType.ReadOnly"
+          [checkInheritedData]="true"
+          [additionalProperties]="jobDescriptionControl.AdditionalProperties"
+          [isCompare]="isCompare"
+          (dataChangesDetected)="handleDataChangesDetected($event)"
+          (dataRowDeleted)="handledDataRowDeleted($event)"
+          (bulkDataChangesDetected)="handleBulkDataChangesDetected($event)"
+          (additionalPropertiesChangesDetected)="handleAdditionalPropertiesChangesDetected($event)"
+          [undoChanges$]="undoChanges$"
+          [replaceContents$]="replaceContents$">
+        </pf-control-data-renderer>
+      </div>
+    </div>
+  </ng-container>
+
+</ng-container>

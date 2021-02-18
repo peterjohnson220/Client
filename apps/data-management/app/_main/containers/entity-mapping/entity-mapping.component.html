@@ -53,6 +53,7 @@
       <div class="pf-entity-table-body">
         <div class="row py-2 payfactors-field-list-item"
           [class.border-top]="!isFirst"
+          [ngClass]="field.MissingAssociatedField ? 'mapping-warning' : ''"
           *ngFor="let field of filteredPayfactorsFields; index as i; first as isFirst"
           [dragula]="entityGroupName"
           [dragulaModel]="field.AssociatedEntity"

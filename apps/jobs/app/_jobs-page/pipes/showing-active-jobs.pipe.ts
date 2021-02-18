@@ -8,9 +8,9 @@ import { ViewField } from 'libs/models/payfactors-api';
 
 export class ShowingActiveJobs implements PipeTransform {
   transform(jobStatusField: ViewField) {
-    // TODO: The JobStatus field filter can have a value of 'true' or true.
-    // This is because of the way the active/inactive slider sets the filter value
-    // This  quick fix needs to be converted to a more robust solution
-    return jobStatusField ? (jobStatusField.FilterValue === 'true' || <any>jobStatusField.FilterValue === true) : true;
+    const isActiveJob = jobStatusField?.FilterValues?.length > 0
+      ? jobStatusField.FilterValues[0] === 'true'
+      : true;
+    return isActiveJob;
   }
 }

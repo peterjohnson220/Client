@@ -34,4 +34,13 @@ export class DataViewsExportListComponent implements OnInit {
     this.showAll = !this.showAll;
   }
 
+  getIconName(fileName: string): string {
+    const extension = fileName.split('.');
+    if (extension[extension.length - 1] === 'pdf') {
+      return 'file-pdf';
+    } else {
+      return 'file-excel';
+    }
+  }
+
 }

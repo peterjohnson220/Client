@@ -17,13 +17,17 @@ import {
   GridRowActionsConfig,
   GridConfig,
   PfDataGridCustomFilterDisplayOptions,
-  PfDataGridCustomFilterOptions
+  PfDataGridCustomFilterOptions,
+  PfDataGridFilter
 } from 'libs/features/grids/pf-data-grid/models';
-import { AsyncStateObj, UserContext } from 'libs/models';
+import { AsyncStateObj, CompanySettingsEnum, GroupedListItem, UserContext } from 'libs/models';
 import { GetPricingsToModifyRequest } from 'libs/features/pricings/multi-match/models';
-import { ChangeJobStatusRequest, CreateProjectRequest, MatchedSurveyJob, ViewField } from 'libs/models/payfactors-api';
+import { ChangeJobStatusRequest, CreateProjectRequest, ExportJobsRequest, MatchedSurveyJob, ViewField } from 'libs/models/payfactors-api';
 import { SurveySearchFilterMappingDataObj, SurveySearchUserFilterType } from 'libs/features/surveys/survey-search/data';
 import { SearchFeatureIds } from 'libs/features/search/search/enums/search-feature-ids';
+import { SettingsService } from 'libs/state/app-context/services';
+import { FileDownloadSecurityWarningModalComponent } from 'libs/ui/common';
+import { AppNotification, NotificationLevel } from 'libs/features/infrastructure/app-notifications';
 import * as fromRootState from 'libs/state/state';
 import * as fromModifyPricingsActions from 'libs/features/pricings/multi-match/actions';
 import * as fromModifyPricingsReducer from 'libs/features/pricings/multi-match/reducers';
@@ -32,6 +36,7 @@ import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducer
 import * as fromJobManagementActions from 'libs/features/jobs/job-management/actions';
 import * as fromSearchPageActions from 'libs/features/search/search/actions/search-page.actions';
 import * as fromSearchFeatureActions from 'libs/features/search/search/actions/search-feature.actions';
+import * as fromAppNotificationsMainReducer from 'libs/features/infrastructure/app-notifications/reducers';
 
 import { PageViewIds } from '../constants';
 import { ShowingActiveJobs } from '../pipes';
@@ -48,9 +53,9 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   permissions = Permissions;
   readonly showingActiveJobsPipe = new ShowingActiveJobs();
 
+  exportRequest: any;
   pageViewId = PageViewIds.Jobs;
-  filteredPayMarketOptions: any;
-  payMarketOptions: any;
+  payMarketOptions: GroupedListItem[];
   structureGradeNameOptions: any;
   filteredStructureGradeNameOptions: any;
   selectedJobIds: number[] = [];
@@ -61,8 +66,9 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   jobStatusField: ViewField;
   payMarketField: ViewField;
   structureGradeSearchField: ViewField;
+  selectedPayMarkets: string[];
   pricingReviewedField: ViewField;
-  selectedPayMarket: any;
+
   selectedStructureGrade: any;
   selectedReviewedStatus: any;
 
@@ -73,9 +79,14 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   structureGradeNameSubscription: Subscription;
   selectedJobDataSubscription: Subscription;
   companySettingsSubscription: Subscription;
+  getExportEventIdSubscription: Subscription;
+  getNotificationSubscription: Subscription;
 
-  userContext$: Observable<UserContext>;
   selectedRecordId$: Observable<number>;
+  canEditJobCompanySetting$: Observable<boolean>;
+  getExportEventId$: Observable<AsyncStateObj<string>>;
+  getNotification$: Observable<AppNotification<any>[]>;
+  exporting$: Observable<boolean>;
 
   colTemplates = {};
   filterTemplates = {};
@@ -88,10 +99,10 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   peerJobId: number;
   target: string;
 
-  filters = [{
+  filters: PfDataGridFilter[] = [{
     SourceName: 'JobStatus',
     Operator: '=',
-    Value: 'true'
+    Values: ['true']
   }];
 
   defaultSort: SortDescriptor[] = [{
@@ -101,6 +112,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   selectedJobPricingCount = 0;
   enablePageToggle = false;
+  enableFileDownloadSecurityWarning = false;
 
   navigatingToOldPage$: Observable<AsyncStateObj<boolean>>;
 
@@ -161,6 +173,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     SourceName: 'Status',
     FilterDisplayOptions: this.pricingReviewedDropdownDisplayOptions
   }];
+  exportEventId: string;
 
   @ViewChild('gridRowActionsTemplate') gridRowActionsTemplate: ElementRef;
   @ViewChild('jobTitleColumn') jobTitleColumn: ElementRef;
@@ -176,11 +189,14 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('structureGradeFilter') structureGradeFilter: ElementRef;
   @ViewChild('pricingReviewedFilter') pricingReviewedFilter: ElementRef;
 
+  @ViewChild('fileDownloadSecurityWarningModal', { static: true }) fileDownloadSecurityWarningModal: FileDownloadSecurityWarningModalComponent;
 
   constructor(
     private store: Store<fromJobsPageReducer.State>,
     private actionsSubject: ActionsSubject,
-    private companyJobApiService: CompanyJobApiService
+    private companyJobApiService: CompanyJobApiService,
+    private settingsService: SettingsService,
+    private appNotificationStore: Store<fromAppNotificationsMainReducer.State>,
   ) {
     this.gridConfig = {
       PersistColumnWidth: true,
@@ -191,7 +207,6 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.userContext$ = this.store.select(fromRootState.getUserContext);
     this.selectedRecordId$ = this.store.select(fromPfDataGridReducer.getSelectedRecordId, this.pageViewId);
     this.creatingProject$ = this.store.select(fromJobsPageReducer.getCreatingProject);
     this.changingJobStatus$ = this.store.select(fromJobsPageReducer.getChangingJobStatus);
@@ -200,12 +215,13 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.updatingPricingMatch$ = this.store.select(fromJobsPageReducer.getUpdatingPricingMatch);
     this.updatingPricing$ = this.store.select(fromJobsPageReducer.getUpdatingPricing);
     this.pricingsToModify$ = this.store.select(fromModifyPricingsReducer.getPricingsToModify);
+    this.canEditJobCompanySetting$ = this.settingsService.selectCompanySetting<boolean>(CompanySettingsEnum.CanEditJob);
+    this.getNotification$ = this.appNotificationStore.select(fromAppNotificationsMainReducer.getNotifications);
+    this.getExportEventId$ = this.store.select(fromJobsPageReducer.getExportEventId);
+    this.exporting$ = this.store.select(fromJobsPageReducer.getExporting);
 
     this.companyPayMarketsSubscription = this.store.select(fromJobsPageReducer.getCompanyPayMarkets)
-      .subscribe(o => {
-        this.filteredPayMarketOptions = o;
-        this.payMarketOptions = o;
-      });
+      .subscribe(o => this.payMarketOptions = o);
 
     this.structureGradeNameSubscription = this.store.select(fromJobsPageReducer.getStructureGradeNames).subscribe(sgn => {
       this.structureGradeNameOptions = sgn.obj;
@@ -252,12 +268,12 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
         this.jobStatusField = fields.find(f => f.SourceName === 'JobStatus');
         this.payMarketField = fields.find(f => f.SourceName === 'PayMarket');
         this.structureGradeSearchField = fields.find(f => f.SourceName === 'Grade_Name');
+        this.selectedStructureGrade = this.structureGradeSearchField?.FilterValues?.length > 0 ?
+          { Value: this.structureGradeSearchField.FilterValues[0], Id: this.structureGradeSearchField.FilterValues[0] } : null;
+        this.selectedPayMarkets = this.payMarketField.FilterValues == null ? [] : this.payMarketField.FilterValues;
         this.pricingReviewedField = fields.find(f => f.SourceName === 'Status');
-        this.selectedStructureGrade = this.structureGradeSearchField?.FilterValue !== null ?
-          { Value: this.structureGradeSearchField?.FilterValue, Id: this.structureGradeSearchField?.FilterValue } : null;
-        this.selectedPayMarket = this.payMarketField.FilterValue !== null ?
-          { Value: this.payMarketField.FilterValue, Id: this.payMarketField.FilterValue } : null;
-        this.selectedReviewedStatus = this.pricingReviewedDropdownDisplayOptions.find(x => x.Value === this.pricingReviewedField.FilterValue);
+        this.selectedReviewedStatus = this.pricingReviewedField?.FilterValues?.length > 0 ?
+          this.pricingReviewedDropdownDisplayOptions.find(x => x.Value === this.pricingReviewedField.FilterValues[0]) : null;
       }
     });
 
@@ -270,10 +286,10 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.companySettingsSubscription = this.store.select(fromRootState.getCompanySettings).subscribe(cs => {
       if (cs) {
-        const setting = cs.find(x => x.Key === 'EnableJobsPageToggle');
+        const setting = cs.find(x => x.Key === CompanySettingsEnum.EnableJobsPageToggle);
         this.enablePageToggle = setting && setting.Value === 'true';
-        this.restrictSurveySearchToPaymarketCountry = cs.find(x => x.Key
-          === 'RestrictSurveySearchCountryFilterToPayMarket').Value === 'true';
+        this.restrictSurveySearchToPaymarketCountry = cs.find(x => x.Key === CompanySettingsEnum.RestrictSurveySearchCountryFilterToPayMarket).Value === 'true';
+        this.enableFileDownloadSecurityWarning = cs.find(x => x.Key === CompanySettingsEnum.FileDownloadSecurityWarning).Value === 'true';
       }
     });
 
@@ -308,6 +324,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
         this.store.dispatch(new fromPfDataGridActions.ClearSelections(PageViewIds.PayMarkets));
         this.store.dispatch(new fromPfDataGridActions.LoadDataAndAddFadeInKeys(PageViewIds.PayMarkets, payMarketGridAttentionGrabKeys));
       });
+    this.initExportingSubscription();
 
     this.actionBarConfig = {
       ...getDefaultActionBarConfig(),
@@ -319,6 +336,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.store.dispatch(new fromJobsPageActions.LoadCompanyPayMarkets());
     this.store.dispatch(new fromJobsPageActions.LoadStructureGrades());
     this.store.dispatch(new fromJobsPageActions.LoadCustomExports());
+    this.store.dispatch(new fromJobsPageActions.GetRunningExport(this.pageViewId));
   }
 
   ngAfterViewInit() {
@@ -419,54 +437,59 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.deletingJobSuccessSubscription.unsubscribe();
     this.loadViewConfigSuccessSubscription.unsubscribe();
     this.multiMatchSaveChangesSubscription.unsubscribe();
+    this.getExportEventIdSubscription.unsubscribe();
+    this.getNotificationSubscription.unsubscribe();
   }
 
   closeSplitView() {
     this.store.dispatch(new fromPfDataGridActions.UpdateSelectedRecordId(this.pageViewId, null, null));
   }
 
-  handlePayMarketFilterChanged(value: any) {
-    const field = cloneDeep(this.payMarketField);
-    field.FilterValue = value.Id;
-    field.FilterOperator = '=';
+  handlePayMarketFilterChanged(payMarkets: string[]) {
+    const field: ViewField = cloneDeep(this.payMarketField);
+    field.FilterValues = payMarkets?.length > 0 ? payMarkets : null;
+    field.FilterOperator = 'in';
     this.updateField(field);
   }
 
   handleGradeFilterChanged(value: any) {
-    const field = cloneDeep(this.structureGradeSearchField);
-    field.FilterValue = value.Id;
+    const field: ViewField = cloneDeep(this.structureGradeSearchField);
+    field.FilterValues = !!value?.Id ? [value.Id] : null;
     field.FilterOperator = '=';
     this.updateField(field);
   }
 
   handleJobStatusFilterChanged(field: ViewField, value: any) {
-    const newField = { ...field };
+    const newField = cloneDeep(field);
     newField.FilterOperator = '=';
-    newField.FilterValue = value;
+    newField.FilterValues = [value.toString()];
     this.store.dispatch(new fromPfDataGridActions.UpdateFilter(this.pageViewId, newField));
   }
 
   handlePricingReviewedStatusChanged(opt: any) {
     const field = cloneDeep(this.pricingReviewedField);
-    field.FilterValue = opt.Value;
+    field.FilterValues = [opt.Value];
     field.FilterOperator = '=';
     this.updateField(field);
   }
 
-  updateField(field) {
-    if (field.FilterValue) {
+
+  updateField(field: ViewField) {
+    if (field?.FilterValues?.length > 0) {
       this.store.dispatch(new fromPfDataGridActions.UpdateFilter(this.pageViewId, field));
     } else {
       this.store.dispatch(new fromPfDataGridActions.ClearFilter(this.pageViewId, field));
     }
   }
 
-  handlePayMarketDropdownFilter(value) {
-    this.filteredPayMarketOptions = this.payMarketOptions.filter((s) => s.Id.toLowerCase().indexOf(value.toLowerCase()) !== -1);
-  }
-
   handleStructureGradeNameDropdownFilter(value: string) {
     this.filteredStructureGradeNameOptions = this.structureGradeNameOptions.filter(o => o.Id.toLowerCase().indexOf(value.toLowerCase()) > -1);
+  }
+
+  handleSecurityWarningConfirmed(isConfirmed) {
+    if (isConfirmed) {
+      this.exportPricings();
+    }
   }
 
   toggleJobManagmentModal(toggle: boolean, jobId: number = null, event = null) {
@@ -481,13 +504,23 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  exportPricings(exportRequest: any) {
-    const request = {
+  handleExportPricings(exportRequest: any) {
+    this.exportRequest = exportRequest;
+    if (this.enableFileDownloadSecurityWarning) {
+      this.fileDownloadSecurityWarningModal.open();
+    } else {
+      this.exportPricings();
+    }
+  }
+
+  exportPricings() {
+    const request: ExportJobsRequest = {
       CompanyJobIds: this.selectedJobIds,
       PricingIds: this.selectedPricingIds,
-      FileExtension: exportRequest.Extension,
-      Endpoint: exportRequest.Options.Endpoint,
-      Name: exportRequest.Options.Name
+      FileExtension: this.exportRequest.Extension,
+      Endpoint: this.exportRequest.Options.Endpoint,
+      Name: this.exportRequest.Options.Name,
+      PageViewId: this.pageViewId
     };
 
     this.store.dispatch(new fromJobsPageActions.ExportPricings(request));
@@ -527,5 +560,20 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.store.dispatch(new fromSearchFeatureActions.SetSearchFeatureId(SearchFeatureIds.MultiMatch));
     this.store.dispatch(new fromSearchPageActions.SetUserFilterTypeData(SurveySearchUserFilterType));
     this.store.dispatch(new fromModifyPricingsActions.GetPricingsToModify(payload));
+  }
+
+  private initExportingSubscription(): void {
+    this.getExportEventIdSubscription = this.getExportEventId$.subscribe(eventIdAsync => {
+      if (!eventIdAsync?.loading && eventIdAsync.obj !== this.exportEventId) {
+        this.exportEventId = eventIdAsync.obj;
+      }
+    });
+    this.getNotificationSubscription = this.getNotification$.subscribe(notification => {
+      const completeNotification = notification.find((x) =>
+        (x.Level === NotificationLevel.Success || x.Level === NotificationLevel.Error) && x.NotificationId === this.exportEventId);
+      if (completeNotification) {
+        this.store.dispatch(new fromJobsPageActions.ExportingComplete());
+      }
+    });
   }
 }

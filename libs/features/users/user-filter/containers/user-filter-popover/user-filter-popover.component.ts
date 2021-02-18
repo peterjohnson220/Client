@@ -7,6 +7,7 @@ import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 
 import { arraySortByString, SortDirection } from 'libs/core/functions';
 import { MultiSelectFilter } from 'libs/features/search/search/models';
+import {isRangeFilter} from 'libs/features/search/search/models'
 
 import * as fromUserFilterActions from '../../actions/user-filter.actions';
 import * as fromSaveFilterModalActions from '../../actions/save-filter-modal.actions';
@@ -75,7 +76,10 @@ export class UserFilterPopoverComponent implements OnInit, OnDestroy {
   }
 
   getFilterPreview(savedFilter: SavedFilter) {
-    return savedFilter.Filters.map((f: MultiSelectFilter) => {
+    return savedFilter.Filters.map((f) => {
+      if(isRangeFilter(f)){
+        return f.MinimumValue + ' - ' + f.MaximumValue; 
+      }
       return f.Options.map(o => o.Name).join(', ');
     }).join(', ');
   }

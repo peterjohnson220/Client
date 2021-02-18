@@ -12,7 +12,6 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
 import { PfFormsModule } from 'libs/forms';
-import { RangeEditorModule } from 'libs/features/structures/range-editor';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfDataGridModule } from 'libs/features/grids/pf-data-grid';
 import { FormulaEditorModule } from 'libs/ui/formula-editor';
@@ -58,14 +57,12 @@ import {
     NumericTextBoxModule,
     DropDownListModule,
     ReactiveFormsModule,
-    RangeEditorModule,
     PfCommonModule,
     PfCommonUIModule,
     FormulaEditorModule,
     FormsModule,
 
-    SharedModule,
-
+    SharedModule
   ],
   declarations: [
     ModelGridComponent,
@@ -77,7 +74,8 @@ import {
     GradeBasedSummaryChartComponent,
     GradeBasedVerticalRangeChartComponent
   ],
-  providers: []
+  providers: [
+  ]
 })
 export class GradeBasedSharedModule {
   constructor(library: FaIconLibrary) {

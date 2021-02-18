@@ -10,9 +10,10 @@ import { RangeGroupMetadata } from 'libs/models/structures';
 export class GridContextComponent {
   @Input() title: string;
   @Input() metadata: RangeGroupMetadata;
-  @Input() enableReturnBtn: boolean;
+  @Input() enableReturnBtn = false;
   @Input() currentRangeGroupName: string;
   @Input() compareFlag: boolean;
+  @Input() buttonText: string;
 
   constructor() {}
 

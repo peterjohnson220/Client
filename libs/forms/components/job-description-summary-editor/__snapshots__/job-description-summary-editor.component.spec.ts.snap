@@ -14,6 +14,7 @@ exports[`Job Management Feature - Job Form Should display form 1`] = `
   layout={[Function String]}
   permissions={[Function Function]}
   rows={[Function Number]}
+  textareaPlaceholder={[Function String]}
   theme={[Function String]}
   title={[Function String]}
 >

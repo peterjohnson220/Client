@@ -108,6 +108,10 @@
         (unassignEmployeesClick)="handleUnassignEmployeesClick()"
         (cancelClick)="handleCancelUnassignEmployeesModal()"
       ></pf-unassign-employees-modal>
+      <pf-file-download-security-warning-modal 
+        #fileDownloadSecurityWarningModal
+        (securityWarningConfirmed)="handleSecurityWarningConfirmed($event)"
+      ></pf-file-download-security-warning-modal>
     </div>
   </ng-container>
 </pf-page-with-title-bar>

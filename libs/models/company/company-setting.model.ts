@@ -43,7 +43,8 @@ export enum CompanySettingsEnum {
   EnablePricingReview = 'EnablePricingReview',
   EnableLiveChat = 'EnableLiveChat',
   ExportsSecurity = 'ExportsSecurity',
-  FileDownloadSecurityWarning = 'FileDownloadSecurityWarning'
+  FileDownloadSecurityWarning = 'FileDownloadSecurityWarning',
+  CanEditJob = 'CanEditJob'
 }
 
 export enum CustomCompanySettingsDisplayEnum {

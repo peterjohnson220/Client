@@ -17,15 +17,28 @@ import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
 import { PfDataGridModule } from 'libs/features/grids/pf-data-grid';
 import { FormulaEditorModule } from 'libs/ui/formula-editor';
+import { RangeFieldEditorComponent } from 'libs/features/structures/range-editor/containers/range-field-editor';
+import { PfAddJobsModule } from 'libs/features/jobs/add-jobs';
+import { PfSearchModule } from 'libs/features/search/search';
+import { PfAddJobsToRangeModule } from 'libs/features/structures/add-jobs-to-range';
+import { WindowCommunicationService } from 'libs/core/services';
 
 import { RangeGroupExistsGuard } from './guards';
 import { reducers } from './reducers';
 import { RangeValuePipe } from './pipes';
-import { SharedEffects } from './effects';
+import {
+  AddJobsModalEffects, FormulaFieldEffects,
+  ModelSettingsModalEffects,
+  SearchPageEffects,
+  SearchResultsEffects,
+  SharedEffects,
+  SingledFilterEffects
+} from './effects';
 import { GridContextComponent } from './components/grid-context';
 import { GlobalActionsComponent } from './components/global-actions';
 import { ModelSettingsBtnComponent } from './components/model-settings-btn';
-import { StructuresPagesService } from './services';
+import { StructuresPagesService, UrlService } from './services';
+import { AddJobsModalWrapperComponent } from './containers/add-jobs-modal-wrapper';
 
 
 @NgModule({
@@ -36,6 +49,15 @@ import { StructuresPagesService } from './services';
 
       // 3rd party
       StoreModule.forFeature('structures_shared', reducers),
+      EffectsModule.forFeature([
+        SharedEffects,
+        AddJobsModalEffects,
+        SearchPageEffects,
+        SearchResultsEffects,
+        SingledFilterEffects,
+        ModelSettingsModalEffects,
+        FormulaFieldEffects
+      ]),
       FontAwesomeModule,
       NgbTabsetModule,
       AutoCompleteModule,
@@ -56,27 +78,31 @@ import { StructuresPagesService } from './services';
       PfCommonUIModule,
       FormulaEditorModule,
       FormsModule,
-      EffectsModule.forFeature([
-        SharedEffects
-      ]),
-
+      PfAddJobsModule,
+      PfSearchModule,
+      PfAddJobsToRangeModule
     ],
   declarations: [
     RangeValuePipe,
     GridContextComponent,
     GlobalActionsComponent,
-    ModelSettingsBtnComponent
+    ModelSettingsBtnComponent,
+    AddJobsModalWrapperComponent
   ],
   exports: [
     FontAwesomeModule,
     RangeValuePipe,
     GridContextComponent,
     GlobalActionsComponent,
-    ModelSettingsBtnComponent
+    ModelSettingsBtnComponent,
+    RangeFieldEditorComponent,
+    AddJobsModalWrapperComponent
   ],
   providers: [
     RangeGroupExistsGuard,
-    StructuresPagesService
+    StructuresPagesService,
+    UrlService,
+    WindowCommunicationService
   ]
 })
 export class SharedModule {

@@ -9,6 +9,9 @@ import * as fromRootState from 'libs/state/state';
 import {BrowserDetectionService} from 'libs/core/services';
 import { SettingsService } from 'libs/state/app-context/services';
 import * as fromCommunityPostActions from '../../../actions/community-post.actions';
+import * as fromCommunityFileDownloadSecurityWarningActions from '../../../actions/community-file-download-security-warning.actions';
+import * as fromCommunityPollResponseActions from '../../../actions/community-poll-response.actions';
+import { DownloadTypeEnum } from '../../../models/download-type.enum';
 
 describe('CommunityDashboardPageComponent', () => {
   let fixture: ComponentFixture<CommunityDashboardPageComponent>;

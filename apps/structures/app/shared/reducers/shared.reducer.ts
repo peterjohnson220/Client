@@ -17,6 +17,7 @@ export interface State {
   overrideMessages: string[];
   comparingModels: boolean;
   compareEnabled: boolean;
+  currentRangeGroup: AsyncStateObj<any>;
 }
 
 const initialState: State = {
@@ -40,7 +41,8 @@ const initialState: State = {
   rangeOverrides: [],
   overrideMessages: [],
   comparingModels: false,
-  compareEnabled: false
+  compareEnabled: false,
+  currentRangeGroup: generateDefaultAsyncStateObj<any>(null)
 };
 
 export function reducer(state = initialState, action: fromSharedActions.SharedActions): State {
@@ -176,6 +178,39 @@ export function reducer(state = initialState, action: fromSharedActions.SharedAc
         compareEnabled: false
       };
     }
+    case fromSharedActions.GET_CURRENT_RANGE_GROUP: {
+      const currentRangeGroupClone = cloneDeep(state.currentRangeGroup);
+
+      currentRangeGroupClone.loading = true;
+      currentRangeGroupClone.obj = null;
+      currentRangeGroupClone.loadingError = false;
+
+      return {
+        ...state,
+        currentRangeGroup: currentRangeGroupClone
+      };
+    }
+    case fromSharedActions.GET_CURRENT_RANGE_GROUP_SUCCESS: {
+      const currentRangeGroupClone = cloneDeep(state.currentRangeGroup);
+
+      currentRangeGroupClone.loading = false;
+      currentRangeGroupClone.obj = action.payload;
+      return {
+        ...state,
+        currentRangeGroup: currentRangeGroupClone
+      };
+    }
+    case fromSharedActions.GET_CURRENT_RANGE_GROUP_ERROR: {
+      const currentRangeGroupClone = cloneDeep(state.currentRangeGroup);
+
+      currentRangeGroupClone.loading = false;
+      currentRangeGroupClone.loadingError = true;
+
+      return {
+        ...state,
+        currentRangeGroup: currentRangeGroupClone
+      };
+    }
     default:
       return state;
   }
@@ -261,3 +296,4 @@ export const getRangeOverrides = (state: State) => state.rangeOverrides;
 export const getDistinctOverrideMessages  = (state: State) => state.overrideMessages;
 export const getComparingModels = (state: State) => state.comparingModels;
 export const getCompareEnabled = (state: State) => state.compareEnabled;
+export const getCurrentRangeGroup = (state: State) => state.currentRangeGroup;

@@ -13,6 +13,7 @@ export type StatementEditPageActions =
   statementActions.SaveStatementSuccess |
   statementActions.SaveStatementError |
   statementActions.UpdateEffectiveDate |
+  statementActions.PageScroll |
 
   controlActions.UpdateStatementName |
   controlActions.UpdateStatementControlTitle |
@@ -37,6 +38,7 @@ export type StatementEditPageActions =
   settingsActions.UpdateSettingsFontSize |
   settingsActions.UpdateSettingsFontFamily |
   settingsActions.UpdateSettingsColor |
+  settingsActions.ToggleDisplaySetting |
   settingsActions.ResetSettings |
 
   previewActions.SearchAssignedEmployees |

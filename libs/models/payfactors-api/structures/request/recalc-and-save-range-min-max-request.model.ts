@@ -1,3 +1,5 @@
+import { RangeRecalculationType } from 'libs/constants/structures/range-recalculation-type';
+
 import { RoundRangesRequest } from './round-ranges-request.model';
 
 export interface RecalcAndSaveRangeMinMaxRequest {
@@ -5,7 +7,7 @@ export interface RecalcAndSaveRangeMinMaxRequest {
   RangeId: number;
   FieldValue: number;
   FieldName: string;
-  IsMid: boolean;
+  RangeRecalculationType: RangeRecalculationType;
   RowIndex: number;
   Rounding: RoundRangesRequest;
 }

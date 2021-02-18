@@ -2,7 +2,7 @@ import { Action } from '@ngrx/store';
 
 import { CompanyStructureRangeOverride, RangeGroupMetadata, RoundingSettingsDataObj } from 'libs/models/structures';
 import { RoundingTypes } from 'libs/constants/structures/rounding-type';
-import { DataViewFilter } from 'libs/models/payfactors-api';
+import { CurrentRangeGroupRequestModel, DataViewFilter } from 'libs/models/payfactors-api';
 
 import { SelectedPeerExchangeModel } from '../models';
 
@@ -29,6 +29,11 @@ export const COMPARING_MODELS = '[Structures - Shared] Comparing Models';
 export const END_COMPARING_MODELS = '[Structures - Shared] End Comparing Models';
 export const ENABLE_COMPARE_FLAG = '[Structures - Shared] Enable Compare Flag';
 export const DISABLE_COMPARE_FLAG = '[Structures - Shared] Disable Compare Flag';
+export const RECALCULATE_RANGES_WITHOUT_MID = '[Structures - Shared] Recalculate Ranges Without Mid';
+export const GET_CURRENT_RANGE_GROUP = '[Structures - Shared] Get Current Range Group';
+export const GET_CURRENT_RANGE_GROUP_SUCCESS = '[Structures - Shared] Get Current Range Group Success';
+export const GET_CURRENT_RANGE_GROUP_ERROR = '[Structures - Shared] Get Current Range Group Error';
+
 
 export class SetMetadata implements Action {
   readonly type = SET_METADATA;
@@ -168,6 +173,30 @@ export class DisableCompareFlag implements Action {
   readonly type = DISABLE_COMPARE_FLAG;
 }
 
+export class RecalculateRangesWithoutMid implements Action {
+  readonly type = RECALCULATE_RANGES_WITHOUT_MID;
+
+  constructor(public payload: { rangeGroupId: number; rounding: RoundingSettingsDataObj; }) {}
+}
+
+export class GetCurrentRangeGroup implements Action {
+  readonly type = GET_CURRENT_RANGE_GROUP;
+
+  constructor(public payload: CurrentRangeGroupRequestModel) {}
+}
+
+export class GetCurrentRangeGroupSuccess implements Action {
+  readonly type = GET_CURRENT_RANGE_GROUP_SUCCESS;
+
+  constructor(public payload: any) {}
+}
+
+export class GetCurrentRangeGroupError implements Action {
+  readonly type = GET_CURRENT_RANGE_GROUP_ERROR;
+
+  constructor(public payload: any) {}
+}
+
 export type SharedActions
   = SetMetadata
   | UpdateRoundingType
@@ -191,5 +220,8 @@ export type SharedActions
   | ComparingModels
   | EndComparingModels
   | EnableCompareFlag
-  | DisableCompareFlag;
+  | DisableCompareFlag
+  | GetCurrentRangeGroup
+  | GetCurrentRangeGroupSuccess
+  | GetCurrentRangeGroupError;
 

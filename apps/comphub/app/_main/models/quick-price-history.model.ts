@@ -77,8 +77,7 @@ export class QuickPriceHistoryContext {
       {
         EntitySourceName: this.baseEntity,
         SourceName: 'Country_Code',
-        Operator: 'notnull',
-        Value: null
+        Operator: 'notnull'
       }
     ];
   }

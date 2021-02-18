@@ -10,6 +10,7 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 export class FileDownloadSecurityWarningModalComponent {
   @ViewChild('fileDownloadSecurityWarningModal', { static: true }) public fileDownloadSecurityWarningModal: any;
   @Output() securityWarningConfirmed = new EventEmitter<boolean>();
+  @Output() securityWarningCancelled = new EventEmitter<boolean>();
 
   modalRef: NgbModalRef;
 
@@ -21,6 +22,11 @@ export class FileDownloadSecurityWarningModalComponent {
 
   handleSecurityWarningConfirmed(): void {
     this.securityWarningConfirmed.emit(true);
+    this.modalRef.close();
+  }
+
+  handleSecurityWarningCancelled(): void {
+    this.securityWarningCancelled.emit();
     this.modalRef.close();
   }
 }

@@ -5,10 +5,10 @@ import { DataViewFieldDataType, ViewField } from 'libs/models/payfactors-api';
 import { FilterOperatorOptions, isValueRequired } from './filter-operator-options-helpers';
 import { PfDataGridCustomFilterOptions } from '../../../models/pf-data-grid-custom-filter-options';
 
-export function getHumanizedFilter(field: ViewField, fieldsToShowValueOnly: string[] = [],
-                                   customFilterOptions: PfDataGridCustomFilterOptions[] = []) {
+export function getHumanizedFilter(field: ViewField, filterValue: string,
+                                   fieldsToShowValueOnly: string[] = [], customFilterOptions: PfDataGridCustomFilterOptions[] = []) {
   const operatorDisplay = getOperatorDisplay(field.FilterOperator, field.DataType);
-  const valueDisplay = getValueDisplay(field, customFilterOptions);
+  const valueDisplay = getValueDisplay(filterValue, field, customFilterOptions);
   if (fieldsToShowValueOnly?.includes(field.SourceName)) {
     return valueDisplay;
   } else {
@@ -16,15 +16,23 @@ export function getHumanizedFilter(field: ViewField, fieldsToShowValueOnly: stri
   }
 }
 
+export function getSimpleDataViewDescription(field: ViewField, customFilterOptions: PfDataGridCustomFilterOptions[]): string {
+  if (!!field?.FilterValues) {
+    const descriptions = field.FilterValues.map(value => getHumanizedFilter(field, value, [], customFilterOptions));
+    return descriptions.join(' • ');
+  }
+  return '';
+}
+
 export function getOperatorDisplay(operator: string, dataType: DataViewFieldDataType) {
   return FilterOperatorOptions[dataType].find(foo => foo.value === operator).display;
 }
 
-export function getValueDisplay(field: ViewField, customDisplayOptions: PfDataGridCustomFilterOptions[]) {
-  let display = field.FilterValue;
+export function getValueDisplay(value: string, field: ViewField, customDisplayOptions: PfDataGridCustomFilterOptions[]) {
+  let display = value ?? '';
   const customFilterDisplay = customDisplayOptions.find(x => x.EntitySourceName === field.EntitySourceName && x.SourceName === field.SourceName);
   if (!!customFilterDisplay) {
-    display = customFilterDisplay.FilterDisplayOptions.find(x => x.Value === field.FilterValue).Display;
+    display = customFilterDisplay.FilterDisplayOptions.find(x => x.Value === field.FilterValues[0]).Display;
   } else {
     switch (field.DataType) {
       case DataViewFieldDataType.DateTime: {
@@ -38,17 +46,17 @@ export function getValueDisplay(field: ViewField, customDisplayOptions: PfDataGr
         if (display && !!display.length) {
           display = display === 'true' ? 'Yes' : 'No';
         }
-        break;
       }
     }
   }
+
   return display;
 }
 
 // This function is not a reducer selector because we were seeing
 // ExpressionChangedAfterItHasBeenCheckedError console errors when opening the split view template
 export function getUserFilteredFields(filterableFields: ViewField[], fieldsWithCustomTemplates: string[]): ViewField[] {
-  const filteredFields = filterableFields.filter(f => f.FilterValue || !isValueRequired(f));
+  const filteredFields = filterableFields.filter(f => !!f.FilterValues || !isValueRequired(f));
 
   return filteredFields.filter(f => f.CustomFilterStrategy || fieldsWithCustomTemplates.indexOf(f.SourceName) > -1)
     .concat(filteredFields.filter(f => f.DataType === DataViewFieldDataType.Bit

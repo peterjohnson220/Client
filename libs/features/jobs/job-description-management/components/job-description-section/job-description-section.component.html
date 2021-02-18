@@ -1,0 +1,34 @@
+<div id="{{section.Id}}" class="card mb-3">
+  <div class="card-header">
+    <div class="section-title">
+      {{section.Name}}
+      <div class="btn-group float-right">
+        <button class="btn btn-sm btn-secondary" (click)="toggleBody()">
+          <fa-icon *ngIf="hideBody" icon="caret-down"></fa-icon>
+          <fa-icon *ngIf="!hideBody" icon="caret-up"></fa-icon>
+        </button>
+      </div>
+    </div>
+    <div *ngIf="section.ShowSubheading" class="section-description">
+      {{section.SubHeading}}
+    </div>
+  </div>
+  <div *ngIf="!!section?.Controls?.length" class="card-block" [hidden]="hideBody">
+    <div *ngFor="let control of section.Controls; trackBy: trackByFn">
+      <pf-job-description-control
+        [jobDescriptionControl]="control"
+        [readOnly]="readOnly"
+        [isCompare]="isCompare"
+        [saveThrottle]="saveThrottle"
+        [jobDescriptionStatus]="jobDescriptionStatus"
+        [undoChanges$]="undoChanges$"
+        [replaceContents$]="replaceContents$"
+        (dataChangesDetected)="handleControlDataChangesDetected($event)"
+        (bulkDataChangesDetected)="handleControlBulkDataChangesDetected($event)"
+        (dataRowAdded)="handleControlDataRowAdded($event)"
+        (dataRowDeleted)="handleControlDataRowDeleted($event)"
+        (additionalPropertiesChangesDetected)="handleAdditionalPropertiesChangesDetected($event)">
+      </pf-job-description-control>
+    </div>
+  </div>
+</div>

@@ -46,6 +46,8 @@ export const getStructureGradeNames = createSelector(selectJobsPageState, fromJo
 export const getCompanyPayMarkets = createSelector(selectJobsPageState, fromJobsPageReducer.getCompanyPayMarkets);
 export const getExportOptions = createSelector(selectJobsPageState, fromJobsPageReducer.getExportOptions);
 export const getNavigatingToOldPage = createSelector(selectJobsPageState, fromJobsPageReducer.getNavigatingToOldPage);
+export const getExportEventId = createSelector(selectJobsPageState, fromJobsPageReducer.getExportEventId);
+export const getExporting = createSelector(selectJobsPageState, fromJobsPageReducer.getExporting);
 
 // Modify Pricings Selectors
 

@@ -8,6 +8,9 @@
       <div class="alert alert-danger my-4" *ngIf="errorSavingMapping$ | async">
         <h5 class="alert-heading mb-0">Something went wrong, please try again.</h5>
       </div>
+      <div class="alert alert-warning my-4" *ngIf="providerReportChanged$ | async">
+        <h5 class="alert-heading mb-0">Provider report(s) changed, please update your mappings.</h5>
+      </div>
       <pf-field-selection-card *ngIf="connectionSummary?.provider?.UsesFieldSelection"
         [selectedEntities]="selectedEntities"
         sourceName="Import"

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import cloneDeep from 'lodash/cloneDeep';
 
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
@@ -10,10 +11,12 @@ import { ToastrService } from 'ngx-toastr';
 
 import { JobsApiService, PayMarketApiService, CompanyJobApiService, UiPersistenceSettingsApiService } from 'libs/data/payfactors-api';
 import { StructuresApiService } from 'libs/data/payfactors-api/structures';
-import { FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models';
+import { CompanyJob, FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models';
 
 import * as fromPfDataGridActions from 'libs/features/grids/pf-data-grid/actions';
 import * as fromJobManagementActions from 'libs/features/jobs/job-management/actions';
+import * as fromJobManagementReducer from 'libs/features/jobs/job-management/reducers';
+import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 
 import * as fromJobsPageActions from '../actions';
 import * as fromJobsReducer from '../reducers';
@@ -98,13 +101,20 @@ export class JobsPageEffects {
     ofType(fromJobManagementActions.SAVE_COMPANY_JOB_SUCCESS),
     withLatestFrom(
       this.store.pipe(select(fromJobsReducer.getJobsPageId)),
-      (action: fromJobManagementActions.SaveCompanyJobSuccess, jobsPageId) =>
-        ({ action, jobsPageId })
+      this.store.pipe(select(fromJobManagementReducer.getJobFormData)),
+      this.store.pipe(select(fromPfDataGridReducer.getSelectedRow)),
+      (action: fromJobManagementActions.SaveCompanyJobSuccess, jobsPageId, jobFormData, selectedRow) =>
+        ({ action, jobsPageId, jobFormData, selectedRow })
     ),
-    switchMap(data => [
-      new fromPfDataGridActions.LoadData(data.jobsPageId),
-      new fromPfDataGridActions.CloseSplitView(data.jobsPageId)
-    ])
+    switchMap(data => {
+      const actions = [];
+      if (!!data.selectedRow) {
+        const updatedSelectedRow = this.mapJobFormDataToSelectedRow(data.selectedRow, data.jobFormData);
+        actions.push(new fromPfDataGridActions.UpdateSelectedRow(updatedSelectedRow, data.jobsPageId));
+      }
+      actions.push(new fromPfDataGridActions.LoadData(data.jobsPageId));
+      return actions;
+    })
   );
 
   @Effect()
@@ -138,9 +148,9 @@ export class JobsPageEffects {
   @Effect()
   exportPricings$: Observable<Action> = this.actions$.pipe(
     ofType(fromJobsPageActions.EXPORT_PRICINGS),
-    switchMap((action: any) => {
+    switchMap((action: fromJobsPageActions.ExportPricings) => {
       return this.jobsApiService.exportPricings(action.payload).pipe(
-        map(response => new fromJobsPageActions.ExportPricingsSuccess(action.payload)),
+        map(response => new fromJobsPageActions.ExportPricingsSuccess(response)),
         catchError(error => {
           return this.handleError('Error creating export. Please contact Payfactors Support for assistance', 'Error',
             new fromJobsPageActions.ExportPricingsError(action.payload));
@@ -188,6 +198,17 @@ export class JobsPageEffects {
     })
   );
 
+  @Effect()
+  getRunningExport$: Observable<Action> = this.actions$.pipe(
+    ofType(fromJobsPageActions.GET_RUNNING_EXPORT),
+    switchMap((action: fromJobsPageActions.GetRunningExport) => {
+      return this.jobsApiService.getRunningExport(action.pageViewId).pipe(
+        map((response) => new fromJobsPageActions.GetRunningExportSuccess(response)),
+        catchError(() => of(new fromJobsPageActions.GetRunningExportError()))
+      );
+    })
+  );
+
   private handleError(message: string, title: string = 'Error',
     resultingAction: Action = new fromJobsPageActions.HandleApiError(message)
   ): Observable<Action> {
@@ -196,5 +217,14 @@ export class JobsPageEffects {
     return of(resultingAction);
   }
 
+  private mapJobFormDataToSelectedRow(selectedRow: any, jobFormData: CompanyJob) {
+    const updatedSelectedRow = cloneDeep(selectedRow);
+    updatedSelectedRow.CompanyJobs_Job_Code = jobFormData.JobCode;
+    updatedSelectedRow.CompanyJobs_Job_Title = jobFormData.JobTitle;
+    updatedSelectedRow.CompanyJobs_Job_Family = jobFormData.JobFamily;
+    updatedSelectedRow.CompanyJobs_Job_Level = jobFormData.JobLevel;
+    updatedSelectedRow.CompanyJobs_FLSA_Status = jobFormData.FLSAStatus;
+    return updatedSelectedRow;
+  }
 }
 
