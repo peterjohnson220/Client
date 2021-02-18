@@ -12,8 +12,6 @@ import * as fromActions from '../actions';
 
 import { PfDataGridComponent } from './pf-data-grid.component';
 
-
-
 describe('PfDataGridComponent', () => {
   let fixture, component;
   let store: Store<fromReducer.State>;
@@ -53,7 +51,7 @@ describe('PfDataGridComponent', () => {
     const filterToRemove = filterList[0];
     component.filters$ = of(filterList);
 
-    component.clearFilter(filterToRemove);
+    component.clearFilter({ field: filterToRemove });
     const expectedAction = new fromActions.ClearFilter(component.pageViewId, filterToRemove);
 
     expect(store.dispatch).toHaveBeenLastCalledWith(expectedAction);
@@ -64,7 +62,7 @@ describe('PfDataGridComponent', () => {
     const filterToModify = filterList[0];
     const newFilterValue = 'Hello World';
 
-    filterToModify.FilterValue = newFilterValue;
+    filterToModify.FilterValues = [newFilterValue];
 
     const updateFilterAction = new fromActions.UpdateFilter(component.pageViewId, filterToModify);
 

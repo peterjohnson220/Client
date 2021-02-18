@@ -1,18 +1,22 @@
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+
 import cloneDeep from 'lodash/cloneDeep';
 import isEqual from 'lodash/isEqual';
-
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
 import { InputDebounceComponent } from 'libs/forms/components/input-debounce';
+import { ShareModalOperation } from 'libs/models/share-modal/share-modal-operation';
 
 import * as fromAutoShareActions from '../../actions/auto-share.actions';
 import * as fromAutoShareReducer from '../../reducers';
+import * as fromProjectListActions from '../../../../../../apps/project/app/_project-list/actions';
 import * as fromRootState from '../../../../../state/state';
 import { AsyncStateObj } from '../../../../../models/state';
 import { AutoShareUser } from '../../../../../models/user-settings';
 import { UserContext } from '../../../../../models/security';
+
 
 @Component({
   selector: 'pf-auto-share-modal',
@@ -20,6 +24,8 @@ import { UserContext } from '../../../../../models/security';
   styleUrls: ['./auto-share-modal.component.scss']
 })
 export class AutoShareModalComponent implements OnInit, OnDestroy {
+  @Input() modalOperation: ShareModalOperation = ShareModalOperation.SaveAutoShareUsers;
+
   @ViewChild(InputDebounceComponent, { static: true }) public inputDebounceComponent: InputDebounceComponent;
 
   // observables
@@ -39,9 +45,15 @@ export class AutoShareModalComponent implements OnInit, OnDestroy {
   filteredShareableUsers: AutoShareUser[];
   submitEnabled: boolean;
 
+  autoShareOperation = ShareModalOperation;
+
+  emailForm: FormGroup;
+  get f() { return this.emailForm.controls; }
+
   constructor(
     private rootStore: Store<fromRootState.State>,
-    private store: Store<fromAutoShareReducer.State>
+    private store: Store<fromAutoShareReducer.State>,
+    private formBuilder: FormBuilder
   ) {
     this.userContext$ = this.rootStore.pipe(select(fromRootState.getUserContext));
     this.showAutoShareModal$ = this.store.pipe(select(fromAutoShareReducer.getShowAutoShareModal));
@@ -49,6 +61,12 @@ export class AutoShareModalComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.store.dispatch(new fromAutoShareActions.GetShareableUsers());
+
+    this.emailForm = this.formBuilder.group({
+      CustomEmailMessage: ['', []]
+    });
+
     this.userContextSubscription = this.userContext$.subscribe(uc => {
       if (!!uc) {
         this.avatarUrl = uc.ConfigSettings.find(c => c.Name === 'CloudFiles_PublicBaseUrl').Value + '/avatars/';
@@ -79,7 +97,17 @@ export class AutoShareModalComponent implements OnInit, OnDestroy {
   handleOnSubmit() {
     const selectedUserIds = this.shareableUsers.filter(u => u.IsSelected === true).map(x => x.UserId);
     if (!isEqual(this.shareableUsers, this.originalShareableUsers)) {
-      this.store.dispatch(new fromAutoShareActions.SaveAutoShareUsers(selectedUserIds));
+      switch (this.modalOperation) {
+        case this.autoShareOperation.BulkProjectShare : {
+          this.store.dispatch(new fromProjectListActions.BulkProjectShare (
+            {UserIds: selectedUserIds}, this.f.CustomEmailMessage.value));
+          break;
+        }
+        case this.autoShareOperation.SaveAutoShareUsers : {
+          this.store.dispatch(new fromAutoShareActions.SaveAutoShareUsers({UserIds: selectedUserIds}));
+          break;
+        }
+      }
     }
     this.handleModalDismissed();
   }
@@ -88,6 +116,9 @@ export class AutoShareModalComponent implements OnInit, OnDestroy {
     this.shareableUsers = cloneDeep(this.originalShareableUsers);
     this.searchValue = '';
     this.inputDebounceComponent.clearValue();
+    this.emailForm.patchValue({
+      CustomEmailMessage: ''
+    });
     this.store.dispatch(new fromAutoShareActions.CloseAutoShareModal());
   }
 

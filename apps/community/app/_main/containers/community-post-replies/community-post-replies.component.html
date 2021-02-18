@@ -1,10 +1,11 @@
 <div class="mt-2">
   <ng-container *ngFor="let reply of replies">
     <div class="pl-1 col-12" *ngIf="editedReplyId !== reply.Id">
-      <pf-community-post-reply 
+      <pf-community-post-reply
         [reply]="reply"
         [disableCommunityAttachments]="disableCommunityAttachments"
-        [hideAttachmentWarning]="hideAttachmentWarning" 
+        [hideAttachmentWarning]="hideAttachmentWarning"
+        [showFileDownloadSecurityWarning]="showFileDownloadSecurityWarning"
         (replyHashTagClicked)="handleReplyHashTagClicked($event)"
         (onAttachmentClickedEvent)="handleAttachmentClickedEvent($event)">
       </pf-community-post-reply>

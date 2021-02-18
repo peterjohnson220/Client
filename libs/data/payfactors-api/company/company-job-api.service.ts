@@ -8,7 +8,9 @@ import { CompanyJob,
   JobInfoResponse,
   CompanyJobAttachment,
   ODataQuery,
-  generateQueryObject } from 'libs/models';
+  generateQueryObject,
+  JobDescriptionSummary
+} from 'libs/models';
 import { CompanyJobUdfColumn } from 'libs/models/jdm/company-job-udf-column';
 import { ChangeJobStatusRequest } from 'libs/models/payfactors-api';
 
@@ -61,7 +63,7 @@ export class CompanyJobApiService {
     return this.payfactorsApiService.get<CompanyJobUdfColumn[]>(`${this.endpoint}.GetJobUserDefinedFields`);
   }
 
-  getJobSummary(companyJobId: number) {
+  getJobSummary(companyJobId: number): Observable<JobDescriptionSummary> {
     return this.payfactorsApiService.get(`${this.endpoint}(${companyJobId})/Default.GetJobSummary`);
   }
 

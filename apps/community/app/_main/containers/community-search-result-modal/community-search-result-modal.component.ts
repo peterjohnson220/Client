@@ -40,6 +40,10 @@ export class CommunitySearchResultModalComponent implements OnInit, OnDestroy {
   hideAttachmentWarningSubscription: Subscription;
   hideAttachmentWarning: boolean;
 
+  showFileDownloadSecurityWarning$: Observable<boolean>;
+  showFileDownloadSecurityWarningSubscription: Subscription;
+  showFileDownloadSecurityWarning: boolean;
+
   communityPost: CommunityPost;
   isSystemAdmin: boolean;
   isUserPoll: boolean;
@@ -62,6 +66,8 @@ export class CommunitySearchResultModalComponent implements OnInit, OnDestroy {
 
     this.hideAttachmentWarning$ = this.settingService.selectUiPersistenceSetting(
       FeatureAreaConstants.Community, UiPersistenceSettingConstants.CommunityHideAttachmentWarningModal, 'boolean');
+
+    this.showFileDownloadSecurityWarning$ = this.settingService.selectCompanySetting<boolean>(CompanySettingsEnum.FileDownloadSecurityWarning);
   }
 
   ngOnInit() {
@@ -87,6 +93,12 @@ export class CommunitySearchResultModalComponent implements OnInit, OnDestroy {
         this.hideAttachmentWarning = value;
       }
     });
+
+    this.showFileDownloadSecurityWarningSubscription = this.showFileDownloadSecurityWarning$.subscribe(value => {
+      if (value) {
+        this.showFileDownloadSecurityWarning = value;
+      }
+    });
   }
 
   ngOnDestroy() {
@@ -100,6 +112,14 @@ export class CommunitySearchResultModalComponent implements OnInit, OnDestroy {
 
     if (this.postEditedSubscription) {
       this.postEditedSubscription.unsubscribe();
+    }
+
+    if (this.hideAttachmentWarningSubscription) {
+      this.hideAttachmentWarningSubscription.unsubscribe();
+    }
+
+    if (this.showFileDownloadSecurityWarningSubscription) {
+      this.showFileDownloadSecurityWarningSubscription.unsubscribe();
     }
   }
 

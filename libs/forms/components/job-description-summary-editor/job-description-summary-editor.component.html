@@ -46,7 +46,7 @@
       [attr.rows]="rows"
       formControlName="JobDescription"
       [readonly]="!(jobDescriptionSummary | editableJobDescription : isJdmEnabled)"
-      [placeholder]="'There is no Job Description loaded for this Job.'"
+      [placeholder]="textareaPlaceholder"
       [pfValidatable]="true">
     </textarea>
   </form>

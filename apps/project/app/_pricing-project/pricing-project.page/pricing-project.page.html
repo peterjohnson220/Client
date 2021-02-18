@@ -1,0 +1,63 @@
+<pf-data-grid
+  [pageViewId]="pageViewId"
+  [reorderable]="true"
+  [title]="(project$ | async)?.Name || ((project$ | async)?.CreateDate | date : 'MM/dd/yy')"
+  [enableSelection]="true"
+  [inboundFilters]="filter"
+  [columnTemplates]="colTemplates"
+  [selectionField]="'UserJobListTemp_ID'"
+  [gridConfig]="gridConfig"
+  [defaultSort]="defaultSort"
+  [navigationURL] = "'/client/dashboard'"
+  [aboveGridTemplate]="aboveGridTemplate"
+  [pageable]="!gridConfig.EnableInfiniteScroll"
+  [noRecordsFound]="'No jobs available in this project.'">
+</pf-data-grid>
+
+<ng-template #aboveGridTemplate>
+  <div><label [innerText]="(project$ | async)?.Rate"></label> effective date <label [innerText]="(project$ | async)?.EffectiveDate | date : 'longDate'"></label> </div>
+  <div class="d-flex flex-column content-wrapper pb-2">
+    <div class=" d-flex align-items-center">
+    <div class="card pf-card flex-fill m-2">
+      <div class="card-body">
+      Add Jobs
+      </div>
+    </div>
+    <div class="card pf-card flex-fill m-2">
+      <div class="card-body">
+      Select Market
+      </div>
+    </div>
+    <div class="card pf-card flex-fill m-2">
+      <div class="card-body">
+      Analyze
+      </div>
+    </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #jobTitle let-dataRow="dataRow">
+  <div class="d-flex justify-content-between">
+    <div>
+      <b>
+        {{dataRow['UserJobListTemp_Job_Title']}}
+      </b>
+    </div>
+    <div>
+      <i> {{dataRow['CompanyPayMarkets_PayMarket']}}</i>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #jobCode let-dataRow="dataRow">
+  <span>
+    {{dataRow['UserJobListTemp_Job_Code'] || dataRow['UserJobListTemp_Company_Job_Code']}}
+  </span>
+</ng-template>
+
+<ng-template #jobCurrency let-dataRow="dataRow">
+  <span>
+    {{dataRow['CompanyPayMarkets_Currency_Code'] || dataRow['UserSessions_Currency']}}
+  </span>
+</ng-template>

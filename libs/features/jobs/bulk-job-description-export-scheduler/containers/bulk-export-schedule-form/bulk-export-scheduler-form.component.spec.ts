@@ -3,11 +3,12 @@ import { FormsModule } from '@angular/forms';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
+import omit from 'lodash/omit';
 import { of } from 'rxjs/index';
 
 import * as fromRootState from 'libs/state/state';
 import { PfCommonModule } from 'libs/core';
-import { generateMockBulkExportSchedule } from 'libs/models/jdm';
+import { generateMockBulkExportSchedule, BulkExportScheduleParameters } from 'libs/models/jdm';
 
 import * as fromBulkExportScheduleReducer from '../../reducers';
 import * as fromBulkExportScheduleActions from '../../actions/bulk-export-schedule.actions';
@@ -167,5 +168,29 @@ describe('Bulk Job Description Export Scheduler Feature - Bulk Export Schedule F
     fixture.detectChanges();
 
     expect(window.alert).toHaveBeenCalledWith('There was an error saving the schedule.');
+  });
+
+  it('should dispatch UpdateSchedule when submitForm is triggered and a valid schedule is submitted and editing is true', () => {
+    // arrange
+    fixture.detectChanges();
+
+    (<any>instance).editing = true;
+    (<any>instance).originalReportName = 'Original Report Name';
+    instance.schedule = generateMockBulkExportSchedule();
+    // Change the filename because we can't have a duplicate filename
+    instance.schedule.FileName = 'New Report Name';
+    instance.schedules = [generateMockBulkExportSchedule()];
+    instance.generateCronExpression();
+
+    const updateParameters: BulkExportScheduleParameters = {
+      ...omit(instance.schedule, ['ExportCount', 'Id', 'View']),
+    };
+    const action = new fromBulkExportScheduleActions.UpdateSchedule(updateParameters);
+
+    // act
+    instance.submitForm();
+
+    // assert
+    expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 });

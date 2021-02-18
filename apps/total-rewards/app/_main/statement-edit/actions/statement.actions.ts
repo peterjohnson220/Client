@@ -12,6 +12,7 @@ export const SAVE_STATEMENT_SUCCESS = '[Total Rewards/Edit Statement] Save State
 export const SAVE_STATEMENT_ERROR = '[Total Rewards/Edit Statement] Save Statement Error';
 export const TOGGLE_STATEMENT_EDIT_MODE = '[Total Rewards/Edit Statement] Toggle Statement Edit Mode';
 export const UPDATE_EFFECTIVE_DATE = '[Total Rewards/Edit Statement] Update Effective Date';
+export const PAGE_SCROLL = '[Total Rewards/Edit Statement] Page Scroll';
 
 export class LoadStatement implements Action {
   readonly type = LOAD_STATEMENT;
@@ -57,6 +58,11 @@ export class UpdateEffectiveDate implements Action {
   constructor(public payload: { effectiveDate: Date }) {}
 }
 
+export class PageScroll implements Action {
+  readonly type = PAGE_SCROLL;
+  constructor(public payload: { isScrolling: boolean }) {}
+}
+
 export type StatementActions =
   ToggleStatementEditMode |
   LoadStatement |
@@ -66,4 +72,5 @@ export type StatementActions =
   SaveStatement |
   SaveStatementSuccess |
   SaveStatementError |
-  UpdateEffectiveDate;
+  UpdateEffectiveDate |
+  PageScroll;

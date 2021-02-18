@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 
+import cloneDeep from 'lodash/cloneDeep';
+
 import { EmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards';
 
-import { Statement, CalculationControl, CompensationField, TotalRewardsControlEnum, BaseControl } from '../models';
+import { Statement, CalculationControl, CompensationField, TotalRewardsControlEnum } from '../models';
 import { CurrentControlIndexResponse } from '../models/current-control-index-response';
 import { TrsConstants } from '../constants/trs-constants';
 
@@ -108,7 +110,7 @@ export class TotalRewardsStatementService {
     });
   }
 
-  static sumCalculationControl(control: CalculationControl, employeeRewardsData: EmployeeRewardsData): number {
+  static sumCalculationControlEmployerContribution(control: CalculationControl, employeeRewardsData: EmployeeRewardsData): number {
     let sum = 0;
     const visibleFields = control.DataFields.filter(f => f.IsVisible);
     visibleFields.forEach(df => {
@@ -117,8 +119,21 @@ export class TotalRewardsStatementService {
           ? TrsConstants.UDF_DEFAULT_VALUE
           : employeeRewardsData[df.Type][df.DatabaseField] > 0 ? employeeRewardsData[df.Type][df.DatabaseField] : 0;
         sum += fieldValue;
-      } else {
+      } else if (this.doesBenefitFieldHaveData(df.DatabaseField, employeeRewardsData, false)) {
+        sum += employeeRewardsData.BenefitsData[df.DatabaseField].EmployerValue;
+      } else if (this.doesEmployeeRewardsFieldHaveData(df.DatabaseField, employeeRewardsData)) {
         sum += employeeRewardsData[df.DatabaseField];
+      }
+    });
+    return sum;
+  }
+
+  static sumCalculationControlEmployeeContribution(control: CalculationControl, employeeRewardsData: EmployeeRewardsData): number {
+    let sum = 0;
+    const visibleFields = control.DataFields.filter(f => f.IsVisible && f.CanHaveEmployeeContribution);
+    visibleFields.forEach(df => {
+      if (this.doesBenefitFieldHaveData(df.DatabaseField, employeeRewardsData, true)) {
+        sum += employeeRewardsData.BenefitsData[df.DatabaseField].CompanyEmployeeValue;
       }
     });
     return sum;
@@ -127,12 +142,12 @@ export class TotalRewardsStatementService {
   static sumCalculationControls(controls: CalculationControl[], employeeRewardsData: EmployeeRewardsData): number {
     let sum = 0;
     controls.forEach(calculationControl => {
-      sum += TotalRewardsStatementService.sumCalculationControl(calculationControl, employeeRewardsData);
+      sum += TotalRewardsStatementService.sumCalculationControlEmployerContribution(calculationControl, employeeRewardsData);
     });
     return sum;
   }
 
-  static applyFuncToEachControl(statement: Statement, functionToCallWithControl: any): void {
+  static applyFuncToEachControl(statement: Statement, functionToCallWithControl: Function): void {
     statement?.Pages?.forEach(
       p => p.Sections?.forEach(
         s => s.Columns?.forEach(
@@ -144,5 +159,40 @@ export class TotalRewardsStatementService {
         )
       )
     );
+  }
+
+  static doesEmployeeRewardsFieldHaveData(fieldName: string, employeeRewardsData: EmployeeRewardsData): boolean {
+    if (!employeeRewardsData) {
+      return false;
+    }
+    return employeeRewardsData[fieldName] > 0;
+  }
+
+  static doesBenefitFieldHaveData(fieldName: string, employeeRewardsData: EmployeeRewardsData, shouldCheckEmployeeContribution: boolean): boolean {
+    if (!employeeRewardsData) {
+      return false;
+    }
+
+    if (!this.doesBenefitsDataExist(employeeRewardsData)) {
+      return false;
+    }
+    const fieldExistInBenefitsData = employeeRewardsData.BenefitsData[fieldName] !== undefined && employeeRewardsData.BenefitsData[fieldName] != null;
+    const fieldHasEmployerValue = fieldExistInBenefitsData && employeeRewardsData.BenefitsData[fieldName].EmployerValue > 0;
+    const fieldHasEmployeeValue = fieldExistInBenefitsData && employeeRewardsData.BenefitsData[fieldName].CompanyEmployeeValue > 0;
+    return fieldHasEmployerValue || (shouldCheckEmployeeContribution && fieldHasEmployeeValue);
+  }
+
+  static doesBenefitsDataExist(employeeRewardsData: EmployeeRewardsData): boolean {
+    return employeeRewardsData?.BenefitsData !== null && employeeRewardsData?.BenefitsData !== undefined;
+  }
+
+  static parseStatementEffectiveDateToString(statement: Statement): Statement {
+    const statementCopy = cloneDeep(statement);
+    statementCopy.EffectiveDate = this.effectiveDateDateToString(statement.EffectiveDate);
+    return statementCopy;
+  }
+
+  static effectiveDateDateToString(date: Date): string {
+    return date === null ? '' : date.toDateString();
   }
 }

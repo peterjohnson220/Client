@@ -84,6 +84,7 @@ export class EntityMappingHelper {
     payfactorsFields: EntityField,
     mappingPackage: MappingPackage,
     selectedEntities: string[]): any {
+      let reportChanged = false;
       if (mappingPackage.mappingPayload.items.length === 0) {
         return { updatedProviderFields: providerFields, updatedPayfactorsFields: payfactorsFields };
       }
@@ -102,17 +103,22 @@ export class EntityMappingHelper {
             const pEntityIndex = providerDataFields.findIndex( x => {
               return x.FieldName.toLowerCase() === field.sourceField.toLowerCase();
             });
-            providerDataFields[pEntityIndex].Metadata = {
-              ...field.sourceMetadata.metadata
-            };
-            payfactorsDataFields[pfEntityIndex].AssociatedEntity.push(providerDataFields[pEntityIndex]);
-            providerDataFields[pEntityIndex].HasAssociation = true;
+            if (providerDataFields[pEntityIndex]) {
+              providerDataFields[pEntityIndex].Metadata = {
+                ...field.sourceMetadata.metadata
+              };
+              payfactorsDataFields[pfEntityIndex].AssociatedEntity.push(providerDataFields[pEntityIndex]);
+              providerDataFields[pEntityIndex].HasAssociation = true;
+            } else {
+              payfactorsDataFields[pfEntityIndex].MissingAssociatedField = true;
+              reportChanged = true;
+            }
           });
         }
         payfactorsFields[entityType] = payfactorsDataFields;
         providerFields[entityType] = providerDataFields;
       });
-      return { updatedProviderFields: providerFields, updatedPayfactorsFields: payfactorsFields };
+      return { updatedProviderFields: providerFields, updatedPayfactorsFields: payfactorsFields, reportChanged: reportChanged };
   }
 
   static removeUnselectedEntities(selectedEntities: string[], payfactorsFields: EntityField): EntityField {

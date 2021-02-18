@@ -1,18 +1,24 @@
 <div class="d-flex">
   <div class="d-flex job-details-bottom-border hide-sm py-1">
-    <div class="my-auto px-3">
+    <div class="my-auto px-3 d-flex">
+      <ng-container *ngIf="canEditJobCompanySetting">
+        <fa-icon
+          [icon]="['far', 'edit']" title="Edit Job" size="lg" class="pr-3 cursor-pointer"
+          [attr.data-qa-id]="'btn-jobs-page-edit-job-' + (selectedRow$ | async).CompanyJobs_CompanyJob_ID"
+          [pfSecuredResource]="permissions.JOBS_ADD_EDIT_DELETE"
+          (click)="toggleJobManagmentModal()"></fa-icon>
+      </ng-container>
       <div pfEllipsisActive class="ellipsis-overflowing-text-wrap job-title-code">
-        <fa-icon [icon]="['far', 'briefcase']" size="lg" class="pr-3"></fa-icon>
-        <pf-job-title-code 
+        <pf-job-title-code
           [jobTitle]="(selectedRow$ | async).CompanyJobs_Job_Title"
           [jobCode]="(selectedRow$ | async).CompanyJobs_Job_Code"
           [jobTitleClass]="'font-weight-bold pf-brand-secondary-color'">
-        </pf-job-title-code>        
+        </pf-job-title-code>
       </div>
     </div>
     <div class="vertical-separator my-2 ml-auto"></div>
   </div>
-  <ngb-tabset [destroyOnHide]="false" (tabChange)="tabChange($event)">    
+  <ngb-tabset [destroyOnHide]="false" (tabChange)="tabChange($event)">
     <ngb-tab [title]="'Pricing Details'" [id]="pageViewIds.PayMarkets">
       <ng-template ngbTabContent>
         <div *ngIf="tabStatusOpened[pageViewIds.PayMarkets] === true" class="position-absolute full-size tab-top-offset">
@@ -49,27 +55,27 @@
       </ng-template>
     </ngb-tab>
     <ngb-tab [title]="'History'" [id]="pageViewIds.PricingHistory">
-      <ng-template ngbTabContent>        
+      <ng-template ngbTabContent>
         <div *ngIf="tabStatusOpened[pageViewIds.PricingHistory]  === true" class="position-absolute full-size tab-top-offset">
           <div class="d-flex flex-column h-100">
-            <div class="position-relative" *ngIf="pricingHistoryChartFeatureFlag.value">
+            <div class="position-relative">
               <pf-pricings-history-chart [jobId]="jobId"></pf-pricings-history-chart>
-            </div>            
+            </div>
             <div class="position-relative h-100 w-100">
               <div class="position-absolute full-size">
-                <pf-pricing-history-grid [filters]="jobDetailsFilters"></pf-pricing-history-grid>  
+                <pf-pricing-history-grid [filters]="jobDetailsFilters"></pf-pricing-history-grid>
               </div>
             </div>
           </div>
         </div>
       </ng-template>
     </ngb-tab>
-  </ngb-tabset> 
-  <div class="job-details-bottom-border d-flex flex-fill">   
+  </ngb-tabset>
+  <div class="job-details-bottom-border d-flex flex-fill">
     <div class="my-auto ml-auto pr-3">
       <div (click)="close()" class="close-btn">
         <fa-icon [icon]="['far', 'times']" size="lg"></fa-icon>
       </div>
     </div>
-  </div>  
+  </div>
 </div>

@@ -73,6 +73,7 @@ export class EmployeesPageEffects {
       map((data: any) => ({
         StatementId: data.payload.statementId,
         CompanyEmployeeIds: data.payload.companyEmployeeIds,
+        EmployeeSearchTerm: null,
         GenerateByQuery: data.payload.companyEmployeeIds,
         WaitForPdfGenerationSelector: TrsConstants.READY_FOR_PDF_GENERATION_SELECTOR,
         Method: DeliveryMethod.PDFExport,
