@@ -13,7 +13,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import { SortDescriptor } from '@progress/kendo-data-query';
 
 import { PfDataGridColType } from 'libs/features/grids/pf-data-grid/enums';
-import { ActionBarConfig, getDefaultActionBarConfig } from 'libs/features/grids/pf-data-grid/models';
+import { ActionBarConfig, getDefaultActionBarConfig, PfDataGridFilter } from 'libs/features/grids/pf-data-grid/models';
 import * as fromRescopeActions from 'libs/features/surveys/re-scope-survey-data/actions';
 import * as fromGridActions from 'libs/features/grids/pf-data-grid/actions';
 import * as fromGridReducer from 'libs/features/grids/pf-data-grid/reducers';
@@ -36,7 +36,7 @@ export class ReScopeSurveyDataComponent implements OnChanges, AfterViewInit, OnD
   @Output() cancelChanges = new EventEmitter();
 
   pageViewId = ReScopeSurveyDataPageViewIds.ReScopeSurveyDataResults;
-  reScopeSurveyDataFilters = [];
+  reScopeSurveyDataFilters: PfDataGridFilter[] = [];
   columnTemplates = {};
   selectedSurveyDataIdSubscription: Subscription;
   selectedSurveyDataId: number;
@@ -77,16 +77,16 @@ export class ReScopeSurveyDataComponent implements OnChanges, AfterViewInit, OnD
         const currentCountry = this.reScopeContext?.CountryCode;
         this.reScopeContext = c.obj;
 
-        const countryCodeFilter = cloneDeep(this.reScopeSurveyDataFilters.find(x => x.SourceName === 'Country_Code'));
+        const countryCodeFilter: PfDataGridFilter = cloneDeep(this.reScopeSurveyDataFilters.find(x => x.SourceName === 'Country_Code'));
         if (currentCountry !== c.obj.CountryCode || !currentCountry || !countryCodeFilter) {
           if (countryCodeFilter) {
-            countryCodeFilter.Value = c.obj.CountryCode;
+            countryCodeFilter.Values = [c.obj.CountryCode];
           } else {
-            const clonedFilters = cloneDeep(this.reScopeSurveyDataFilters);
+            const clonedFilters: PfDataGridFilter[] = cloneDeep(this.reScopeSurveyDataFilters);
             clonedFilters.push({
               SourceName: 'Country_Code',
               Operator: '=',
-              Value: c.obj.CountryCode
+              Values: [c.obj.CountryCode]
             });
             this.reScopeSurveyDataFilters = clonedFilters;
           }
@@ -103,29 +103,29 @@ export class ReScopeSurveyDataComponent implements OnChanges, AfterViewInit, OnD
       changes['modalConfiguration'].currentValue['SurveyJobId'] &&
       changes['modalConfiguration'].currentValue['SurveyDataId']) {
 
-      const clonedFilters = cloneDeep(this.reScopeSurveyDataFilters);
+      const clonedFilters: PfDataGridFilter[] = cloneDeep(this.reScopeSurveyDataFilters);
 
       const surveyJobFilter = clonedFilters.find(x => x.SourceName === 'Survey_Job_ID');
 
       if (surveyJobFilter) {
-        surveyJobFilter.Value = changes['modalConfiguration'].currentValue['SurveyJobId'];
+        surveyJobFilter.Values = [changes['modalConfiguration'].currentValue['SurveyJobId']];
       } else {
         clonedFilters.push({
           SourceName: 'Survey_Job_ID',
           Operator: '=',
-          Value: changes['modalConfiguration'].currentValue['SurveyJobId']
+          Values: [changes['modalConfiguration'].currentValue['SurveyJobId']]
         });
       }
 
       const surveyDataFilter = clonedFilters.find(x => x.SourceName === 'Survey_Data_ID');
 
       if (surveyDataFilter) {
-        surveyDataFilter.Value = changes['modalConfiguration'].currentValue['SurveyDataId'];
+        surveyDataFilter.Values = [changes['modalConfiguration'].currentValue['SurveyDataId']];
       } else {
         clonedFilters.push({
           SourceName: 'Survey_Data_ID',
           Operator: '<>',
-          Value: changes['modalConfiguration'].currentValue['SurveyDataId']
+          Values: [changes['modalConfiguration'].currentValue['SurveyDataId']]
         });
       }
 
@@ -167,14 +167,10 @@ export class ReScopeSurveyDataComponent implements OnChanges, AfterViewInit, OnD
     }
   }
 
-  getClonedField(field: ViewField) {
-    return cloneDeep(field);
-  }
-
   handleScopeSearch(field: ViewField, filterValue: string) {
-    const newField = cloneDeep(field);
+    const newField: ViewField = cloneDeep(field);
     newField.FilterOperator = 'contains';
-    newField.FilterValue = filterValue;
+    newField.FilterValues = [filterValue];
     this.store.dispatch(new fromGridActions.UpdateFilter(this.pageViewId, newField));
   }
 
@@ -182,7 +178,7 @@ export class ReScopeSurveyDataComponent implements OnChanges, AfterViewInit, OnD
   handleDefaultScopes(event: any) {
     const applyDefaultScopes = event.target.checked;
 
-    let clonedFilters = cloneDeep(this.reScopeSurveyDataFilters);
+    let clonedFilters: PfDataGridFilter[] = cloneDeep(this.reScopeSurveyDataFilters);
     if (applyDefaultScopes) {
       const defaultScopeFilter = clonedFilters.find(x => x.SourceName === 'ScopeSearch' && x.Operator === '=');
 

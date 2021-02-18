@@ -19,7 +19,8 @@
         <div class="card-body">
           <h4 class="card-title pb-4">Saved Schedules</h4>
           <pf-bulk-export-schedules-list [views]="views$ | async"
-                                        [schedules]="schedules$ | async">
+                                         [schedules]="schedules$ | async"
+                                         [allowEdit]="true">
           </pf-bulk-export-schedules-list>
         </div>
       </div>

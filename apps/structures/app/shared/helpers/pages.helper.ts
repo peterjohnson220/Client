@@ -1,5 +1,5 @@
-import { RangeType } from 'libs/models/common';
 import { GradeBasedPageViewIds, JobBasedPageViewIds } from 'libs/models/structures/page-view-ids';
+import { RangeType } from 'libs/constants/structures/range-type';
 
 export class PagesHelper {
   static getModelPageViewIdByRangeTypeAndRangeDistributionType(rangeType: number, rangeDistributionType: number): string {

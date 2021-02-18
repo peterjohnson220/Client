@@ -1,10 +1,11 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { PlatformLocation } from '@angular/common';
 
+import { PlatformLocation } from '@angular/common';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
+import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Store } from '@ngrx/store';
 
 import { environment } from '../../../environments/environment';
 import { FileApiService } from './file/file-api.service';
@@ -32,28 +33,28 @@ export class PayfactorsApiService implements OnDestroy {
   }
 
   get<T>(url: string, options: any = {}, mappingFn = this.extractValueFromOdata,
-         baseUrlLocation: BaseUrlLocation = BaseUrlLocation.Default, useUtilities: boolean = false): Observable<T> {
+    baseUrlLocation: BaseUrlLocation = BaseUrlLocation.Default, useUtilities: boolean = false): Observable<T> {
     return this.http.get<T>(this.formatUrl(baseUrlLocation, url, useUtilities), options).pipe(
       map(mappingFn)
     );
   }
 
   post<T>(url: string, body: any = {}, mappingFn = this.extractValueFromOdata,
-          baseUrlLocation: BaseUrlLocation = BaseUrlLocation.Default, useUtilities: boolean = false, options: any = {}): Observable<T> {
+    baseUrlLocation: BaseUrlLocation = BaseUrlLocation.Default, useUtilities: boolean = false, options: any = {}): Observable<T> {
     return this.http.post<T>(this.formatUrl(baseUrlLocation, url, useUtilities), body, options).pipe(
       map(mappingFn)
     );
   }
 
   patch<T>(url: string, body: any = {}, mappingFn = this.extractValueFromOdata,
-           baseUrlLocation: BaseUrlLocation = BaseUrlLocation.Default, useUtilities: boolean = false): Observable<T> {
+    baseUrlLocation: BaseUrlLocation = BaseUrlLocation.Default, useUtilities: boolean = false): Observable<T> {
     return this.http.patch<T>(this.formatUrl(baseUrlLocation, url, useUtilities), body).pipe(
       map(mappingFn)
     );
   }
 
   postWithHeader<T>(url: string, body: any = {}, headers: any,
-                    baseUrlLocation: BaseUrlLocation = BaseUrlLocation.Default, useUtilities: boolean = false): Observable<T> {
+    baseUrlLocation: BaseUrlLocation = BaseUrlLocation.Default, useUtilities: boolean = false): Observable<T> {
     return this.http.post<T>(this.formatUrl(baseUrlLocation, url, useUtilities), body, { headers: headers }).pipe(
     );
   }
@@ -85,6 +86,13 @@ export class PayfactorsApiService implements OnDestroy {
     );
   }
 
+  putWithHeaders<T>(url: string, body: any = {}, headers: HttpHeaders,
+    baseUrlLocation: BaseUrlLocation = BaseUrlLocation.Default, useUtilities: boolean = false): Observable<T> {
+    return this.http.put<T>(this.formatUrl(baseUrlLocation, url, useUtilities), body, { headers: headers }).pipe(
+      map(this.extractValueFromOdata)
+    );
+  }
+
   delete<T>(url: string, body: any = {}, baseUrlLocation: BaseUrlLocation = BaseUrlLocation.Default, useUtilities: boolean = false): Observable<T> {
     return this.http.delete<T>(this.formatUrl(baseUrlLocation, url, useUtilities), body).pipe(
       map(this.extractValueFromOdata)
@@ -92,7 +100,7 @@ export class PayfactorsApiService implements OnDestroy {
   }
 
   postFormData(url: string, formDataParams?: any,
-               baseUrlLocation: BaseUrlLocation = BaseUrlLocation.Default, useUtilities: boolean = false): Observable<any> {
+    baseUrlLocation: BaseUrlLocation = BaseUrlLocation.Default, useUtilities: boolean = false): Observable<any> {
 
     const formData = this.buildFormData(formDataParams);
 

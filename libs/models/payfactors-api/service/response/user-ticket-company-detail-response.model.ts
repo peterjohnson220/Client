@@ -9,6 +9,7 @@ export interface UserTicketCompanyDetailResponse {
   NumberOfRecentTickets: number;
   RecentTickets: UserTicketTabItem[];
   NotesCount: number;
+  PrimarySupportUserName: string;
 }
 
 export function generateMockUserTicketCompanyDetailResponse() {
@@ -19,6 +20,7 @@ export function generateMockUserTicketCompanyDetailResponse() {
     NumberOfDays: 1,
     NumberOfOpenTickets: 1,
     NumberOfRecentTickets: 1,
-    RecentTickets: generateMockUserTicketTabItems()
+    RecentTickets: generateMockUserTicketTabItems(),
+    PrimarySupportUserName: 'MockPrimarySupportUserName'
   };
 }

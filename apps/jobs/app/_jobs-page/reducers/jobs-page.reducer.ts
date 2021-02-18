@@ -1,19 +1,22 @@
 import cloneDeep from 'lodash/cloneDeep';
+
 import { arraySortByString, SortDirection } from 'libs/core/functions';
-import * as fromJobsPageActions from '../actions';
-import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models';
+import { AsyncStateObj, generateDefaultAsyncStateObj, GroupedListItem } from 'libs/models';
 import { AsyncStateObjHelper } from 'libs/core';
 
+import * as fromJobsPageActions from '../actions';
 
 export interface State {
   jobsPageId: string;
   creatingProject: AsyncStateObj<boolean>;
   changingJobStatus: AsyncStateObj<boolean>;
   deletingJob: AsyncStateObj<boolean>;
-  companyPayMarkets: any;
+  companyPayMarkets: GroupedListItem[];
   structureGradeNames: any;
   exportOptions: any;
   navigatingToOldPage: AsyncStateObj<boolean>;
+  exportEventId: AsyncStateObj<string>;
+  exporting: boolean;
 }
 
 export const initialState: State = {
@@ -25,7 +28,7 @@ export const initialState: State = {
   structureGradeNames: [],
   exportOptions: [{
     Display: 'Download Pricings',
-    Name: 'DownloadPricings',
+    Name: 'Pricing Details',
     Description: 'High Level Pricing Details including Pay Markets, Effective Dates',
     Endpoint: 'ExportPricings',
     ValidExtensions: ['xlsx'],
@@ -34,7 +37,7 @@ export const initialState: State = {
     ExportedReportExtension: undefined
   }, {
     Display: 'Download Job Report',
-    Name: 'DownloadJobReport',
+    Name: 'Job Report',
     Description: 'Report including Pricing Details and a breakdown of Pay',
     Endpoint: 'ExportJobReport',
     ValidExtensions: ['xlsx', 'pdf'],
@@ -42,7 +45,9 @@ export const initialState: State = {
     Exporting: generateDefaultAsyncStateObj<boolean>(false),
     ExportedReportExtension: undefined
   }],
-  navigatingToOldPage: generateDefaultAsyncStateObj<boolean>(false)
+  navigatingToOldPage: generateDefaultAsyncStateObj<boolean>(false),
+  exportEventId: generateDefaultAsyncStateObj<string>(null),
+  exporting: false
 };
 
 export function reducer(state = initialState, action: fromJobsPageActions.JobsPageActions): State {
@@ -89,8 +94,8 @@ export function reducer(state = initialState, action: fromJobsPageActions.JobsPa
     case fromJobsPageActions.LOAD_COMPANY_PAYMARKETS_SUCCESS: {
       return {
         ...state,
-        companyPayMarkets: action.payload.map(o => ({ Id: o.PayMarket, Value: o.PayMarket }))
-          .sort((a, b) => arraySortByString(a.Id, b.Id, SortDirection.Ascending))
+        companyPayMarkets: action.payload.map(o => ({ Name: o.PayMarket, Value: o.PayMarket }))
+          .sort((a, b) => arraySortByString(a.Name, b.Name, SortDirection.Ascending))
       };
     }
     case fromJobsPageActions.LOAD_STRUCTURE_GRADES_SUCCESS: {
@@ -120,37 +125,24 @@ export function reducer(state = initialState, action: fromJobsPageActions.JobsPa
       return state;
     }
     case fromJobsPageActions.EXPORT_PRICINGS: {
-      const updatedExportOptions = cloneDeep(state.exportOptions);
-      const exportedReport = updatedExportOptions.find(eo => eo.Name === action.payload.Name);
-
-      exportedReport.ExportedReportExtension = action.payload.FileExtension;
-      exportedReport.Exporting = AsyncStateObjHelper.loading(exportedReport, 'Exporting').Exporting;
-
       return {
         ...state,
-        exportOptions: updatedExportOptions
+        exporting: true
       };
     }
     case fromJobsPageActions.EXPORT_PRICINGS_SUCCESS: {
-      const updatedExportOptions = cloneDeep(state.exportOptions);
-      const exportedReport = updatedExportOptions.find(eo => eo.Name === action.payload.Name);
-      exportedReport.ExportedReportExtension = action.payload.FileExtension;
-      exportedReport.Exporting = AsyncStateObjHelper.loadingSuccess(exportedReport, 'Exporting').Exporting;
+      const exportEventIdClone: AsyncStateObj<string> = cloneDeep(state.exportEventId);
+      exportEventIdClone.obj = action.exportEventId;
 
       return {
         ...state,
-        exportOptions: updatedExportOptions
+        exportEventId: exportEventIdClone
       };
     }
     case fromJobsPageActions.EXPORT_PRICINGS_ERROR: {
-      const updatedExportOptions = cloneDeep(state.exportOptions);
-      const exportedReport = updatedExportOptions.find(eo => eo.Name === action.payload.Name);
-      exportedReport.ExportedReportExtension = action.payload.FileExtension;
-      exportedReport.Exporting = AsyncStateObjHelper.loadingError(exportedReport, 'Exporting').Exporting;
-
       return {
         ...state,
-        exportOptions: updatedExportOptions
+        exporting: false
       };
     }
     case fromJobsPageActions.TOGGLE_JOBS_PAGE: {
@@ -161,6 +153,29 @@ export function reducer(state = initialState, action: fromJobsPageActions.JobsPa
     }
     case fromJobsPageActions.TOGGLE_JOBS_PAGE_ERROR: {
       return AsyncStateObjHelper.loadingError(state, 'navigatingToOldPage');
+    }
+    case fromJobsPageActions.GET_RUNNING_EXPORT: {
+      return AsyncStateObjHelper.loading(state, 'exportEventId');
+    }
+    case fromJobsPageActions.GET_RUNNING_EXPORT_SUCCESS: {
+      const exportEventIdClone: AsyncStateObj<string> = cloneDeep(state.exportEventId);
+      exportEventIdClone.loading = false;
+      exportEventIdClone.obj = action.payload;
+      return {
+        ...state,
+        exportEventId: exportEventIdClone,
+        exporting: !!action.payload
+      };
+    }
+    case fromJobsPageActions.GET_RUNNING_EXPORT_ERROR: {
+      return AsyncStateObjHelper.loadingError(state, 'exportEventId');
+    }
+    case fromJobsPageActions.EXPORTING_COMPLETE: {
+      return {
+        ...state,
+        exporting: false,
+        exportEventId: generateDefaultAsyncStateObj<string>(null)
+      };
     }
     default: {
       return state;
@@ -176,4 +191,5 @@ export const getCompanyPayMarkets = (state: State) => state.companyPayMarkets;
 export const getStructureGradeNames = (state: State) => state.structureGradeNames;
 export const getExportOptions = (state: State) => state.exportOptions;
 export const getNavigatingToOldPage = (state: State) => state.navigatingToOldPage;
-
+export const getExportEventId = (state: State) => state.exportEventId;
+export const getExporting = (state: State) => state.exporting;

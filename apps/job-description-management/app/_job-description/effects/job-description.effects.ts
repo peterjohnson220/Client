@@ -4,21 +4,22 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 import { Action, Store } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { switchMap, map, catchError, mergeMap, tap, withLatestFrom, concatMap } from 'rxjs/operators';
+import { switchMap, map, catchError, mergeMap, withLatestFrom, concatMap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { JobDescription } from 'libs/models/jdm';
 
 import * as fromRootState from 'libs/state/state';
+import * as fromJobDescriptionManagementSharedReducer from 'libs/features/jobs/job-description-management/reducers';
 import { JobDescriptionApiService, JobDescriptionManagementApiService, JobDescriptionWorkflowStepUserApiService } from 'libs/data/payfactors-api/jdm';
 import { AccountApiService } from 'libs/data/payfactors-api/auth';
 import { SsoConfigApiService } from 'libs/data/payfactors-api/sso';
 import { ExtendedInfoResponse } from 'libs/models/payfactors-api/job-description/response';
-import { CompanyApiService } from 'libs/data/payfactors-api/company';
+import { PayfactorsApiModelMapper } from 'libs/features/jobs/job-description-management/helpers';
 
 import * as fromJobDescriptionActions from '../actions/job-description.actions';
 import * as fromCopyJobDescriptionActions from '../actions/copy-job-description-modal.actions';
 import * as fromWorkflowActions from '../actions/workflow.actions';
-import { PayfactorsApiModelMapper } from 'libs/features/jobs/job-description-management/helpers';
+import * as fromJobDescriptionReducers from '../reducers';
 import { GetJobDescriptionData } from '../models';
 
 @Injectable()
@@ -30,7 +31,8 @@ export class JobDescriptionEffects {
       ofType(fromJobDescriptionActions.GET_JOB_DESCRIPTION),
       withLatestFrom(
         this.userContextStore.select(fromRootState.getUserContext),
-        (action: fromJobDescriptionActions.GetJobDescription, userContext) => ({ action, userContext })
+        this.jdmSharedStore.select(fromJobDescriptionManagementSharedReducer.getControlTypes),
+        (action: fromJobDescriptionActions.GetJobDescription, userContext, controlTypes) => ({ action, userContext, controlTypes })
       ),
       switchMap((data) => {
         return this.jobDescriptionApiService.getDetail(
@@ -42,7 +44,8 @@ export class JobDescriptionEffects {
               const actions = [];
               actions.push( new fromJobDescriptionActions.GetJobDescriptionSuccess({
                 jobDescription: response,
-                requestData: data.action.payload
+                requestData: data.action.payload,
+                controlTypes: data.controlTypes
               }));
               actions.push(new fromJobDescriptionActions.GetJobDescriptionExtendedInfo({
                 jobDescriptionId: response.JobDescriptionId,
@@ -51,6 +54,7 @@ export class JobDescriptionEffects {
               if (!data.action.payload.InWorkflow && !data.userContext.IsPublic) {
                 actions.push(new fromJobDescriptionActions.GetViews({ templateId: response.TemplateId }));
               }
+
               return actions;
             }),
             catchError(error => {
@@ -107,8 +111,12 @@ export class JobDescriptionEffects {
   discardDraft$ = this.actions$
     .pipe(
       ofType(fromJobDescriptionActions.DISCARD_DRAFT),
-      switchMap((action: fromJobDescriptionActions.DiscardDraft) => {
-        return this.jobDescriptionApiService.discardDraft(action.payload.jobDescriptionId)
+      withLatestFrom(
+        this.jdmSharedStore.select(fromJobDescriptionManagementSharedReducer.getControlTypes),
+        (action: fromJobDescriptionActions.DiscardDraft, controlTypes) => ({ action, controlTypes })
+      ),
+      switchMap((data) => {
+        return this.jobDescriptionApiService.discardDraft(data.action.payload.jobDescriptionId)
           .pipe(
             concatMap((response) => {
               if (response === '') {
@@ -116,13 +124,15 @@ export class JobDescriptionEffects {
               }
               const jobDescription: JobDescription = JSON.parse(response);
               const requestData: GetJobDescriptionData = {
-                JobDescriptionId: action.payload.jobDescriptionId,
-                InWorkflow: action.payload.inWorkflow
+                JobDescriptionId: data.action.payload.jobDescriptionId,
+                InWorkflow: data.action.payload.inWorkflow
               };
               return [
                 new fromJobDescriptionActions.GetJobDescriptionSuccess({
-                jobDescription,
-                requestData }),
+                  jobDescription,
+                  requestData,
+                  controlTypes: data.controlTypes
+                }),
                new fromJobDescriptionActions.DiscardDraftSuccess()
               ];
             }),
@@ -169,8 +179,15 @@ export class JobDescriptionEffects {
   replaceJobDescriptionViaCopySuccess$ = this.actions$
     .pipe(
       ofType(fromCopyJobDescriptionActions.REPLACE_JOB_DESCRIPTION_SUCCESS),
-      map((action: fromCopyJobDescriptionActions.ReplaceJobDescriptionSuccess) => {
-        return new fromJobDescriptionActions.ReplaceJobDescriptionViaCopy(action.payload);
+      withLatestFrom(
+        this.jdmSharedStore.select(fromJobDescriptionManagementSharedReducer.getControlTypes),
+        (action: fromCopyJobDescriptionActions.ReplaceJobDescriptionSuccess, controlTypes) => ({ action, controlTypes })
+      ),
+      map((data) => {
+        return new fromJobDescriptionActions.ReplaceJobDescriptionViaCopy({
+          jobDescription: data.action.payload,
+          controlTypes: data.controlTypes
+        });
       })
     );
 
@@ -240,10 +257,11 @@ export class JobDescriptionEffects {
   constructor(
     private actions$: Actions,
     private jobDescriptionApiService: JobDescriptionApiService,
-    private companyApiService: CompanyApiService,
     private jobDescriptionManagementApiService: JobDescriptionManagementApiService,
     private router: Router,
     private userContextStore: Store<fromRootState.State>,
+    private store: Store<fromJobDescriptionReducers.State>,
+    private jdmSharedStore: Store<fromJobDescriptionManagementSharedReducer.State>,
     private jobDescriptionWorkflowStepUserApiService: JobDescriptionWorkflowStepUserApiService,
     private accountApiService: AccountApiService,
     private ssoConfigurationService: SsoConfigApiService

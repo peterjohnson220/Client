@@ -289,7 +289,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   hasFilters(fields: ViewField[]): boolean {
-    return fields.filter(f => f.FilterValue).length > 0;
+    return fields.some(f => f.FilterValues?.length > 0);
   }
 
   toggleFilterPanel() {
@@ -304,8 +304,8 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
     this.store.dispatch(new fromActions.UpdateFilter(this.pageViewId, field));
   }
 
-  clearFilter(field: ViewField, resetOperator = false) {
-    this.store.dispatch(new fromActions.ClearFilter(this.pageViewId, field, resetOperator));
+  clearFilter(data: { field: ViewField, value: string }, resetOperator = false) {
+    this.store.dispatch(new fromActions.ClearFilter(this.pageViewId, data.field, resetOperator, data.value));
   }
 
   clearAllFilters() {

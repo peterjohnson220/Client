@@ -17,7 +17,7 @@ aside.settings-panel {
     box-shadow: 0 2px 12px 0 rgba(30, 30, 30, 0.3);
   }
   h2 {
-    font-size: 1.8rem;
+    font-size: 1.5rem;
   }
   a.close {
     font-size: 1.6rem;
@@ -61,5 +61,8 @@ aside.settings-panel {
   }
   a.reset-settings {
     transition: color .25s ease-out;
+  }
+  .info {
+    color: $link-color;
   }
 }

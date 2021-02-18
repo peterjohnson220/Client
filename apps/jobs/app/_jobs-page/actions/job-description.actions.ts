@@ -37,7 +37,7 @@ export class SaveJobDescription implements Action {
 
 export class SaveJobDescriptionSuccess  implements Action {
   readonly type = SAVE_JOB_DESCRIPTION_SUCCESS;
-  constructor() {}
+  constructor(public payload: string) {}
 }
 
 export class SaveJobDescriptionError  implements Action {

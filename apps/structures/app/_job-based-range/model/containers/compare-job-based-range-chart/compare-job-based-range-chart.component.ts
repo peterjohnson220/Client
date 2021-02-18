@@ -95,7 +95,7 @@ export class CompareJobBasedRangeChartComponent implements OnInit, OnDestroy {
     private settingsService: SettingsService,
     private structuresPagesService: StructuresPagesService
   ) {
-    this.currentRangeGroupSub = this.store.select(fromSharedJobBasedRangeReducer.getCurrentRangeGroup).subscribe( rg => {
+    this.currentRangeGroupSub = this.store.select(fromSharedStructuresReducer.getCurrentRangeGroup).subscribe( rg => {
       this.currentRangeGroupName = rg.obj.RangeGroupName;
     });
 

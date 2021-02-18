@@ -10,6 +10,7 @@ import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import * as fromMultiMatchActions from 'libs/features/pricings/multi-match/actions';
 import * as fromNotificationActions from 'libs/features/infrastructure/app-notifications/actions';
 import * as fromRootReducer from 'libs/state/state';
+import { Permissions } from 'libs/constants';
 
 import * as fromJobsPageActions from '../../actions';
 
@@ -24,9 +25,11 @@ import { PageViewIds } from '../../constants';
 export class JobsDetailsComponent implements OnDestroy, OnInit, OnChanges {
 
   @Input() jobDetailsFilters: PfDataGridFilter[];
+  @Input() canEditJobCompanySetting: boolean;
 
   @Output() onClose = new EventEmitter();
   @Output() tabChanged = new EventEmitter();
+  @Output() handleEditJobClicked = new EventEmitter();
 
   viewLoadedPayMarketSubscription: Subscription;
   viewLoadedEmployeesSubscription: Subscription;
@@ -45,6 +48,7 @@ export class JobsDetailsComponent implements OnDestroy, OnInit, OnChanges {
 
   userId: number;
   pageViewIds = PageViewIds;
+  permissions = Permissions;
 
   jobId: number;
 
@@ -100,8 +104,11 @@ export class JobsDetailsComponent implements OnDestroy, OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['jobDetailsFilters']) {
-      this.jobId = parseInt(this.jobDetailsFilters.find(v => v.SourceName === 'CompanyJob_ID').Value, 10);
+    if (changes['jobDetailsFilters']?.currentValue) {
+      const filter = this.jobDetailsFilters.find(v => v.SourceName === 'CompanyJob_ID');
+      if (filter?.Values?.length > 0) {
+        this.jobId = parseInt(filter.Values[0], 10);
+      }
     }
   }
 
@@ -127,6 +134,10 @@ export class JobsDetailsComponent implements OnDestroy, OnInit, OnChanges {
 
   close() {
     this.onClose.emit(null);
+  }
+
+  toggleJobManagmentModal(): void {
+    this.handleEditJobClicked.emit(this.jobId);
   }
 
   tabChange(event: any) {

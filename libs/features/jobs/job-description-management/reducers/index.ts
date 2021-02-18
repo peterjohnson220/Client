@@ -230,7 +230,7 @@ export const getControlTypesLoaded = createSelector(
   fromControlTypesReducer.getControlTypesLoaded
 );
 
-export const getControlTypeAndVersionAsync = createSelector(
+export const getControlTypesAsync = createSelector(
   selectControlTypesState,
   fromControlTypesReducer.getControlTypesAsync
 );

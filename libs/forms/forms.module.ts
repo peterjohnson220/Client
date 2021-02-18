@@ -22,7 +22,8 @@ import {
   ActionButtonComponent,
   TypeaheadComponent,
   JobDescriptionSummaryEditorComponent,
-  CopyToClipboardButtonComponent
+  CopyToClipboardButtonComponent,
+  JobDescriptionExportComponent
 } from './components';
 
 const declarations = [
@@ -40,7 +41,8 @@ const declarations = [
   ActionButtonComponent,
   TypeaheadComponent,
   JobDescriptionSummaryEditorComponent,
-  CopyToClipboardButtonComponent
+  CopyToClipboardButtonComponent,
+  JobDescriptionExportComponent
 ];
 
 @NgModule({

@@ -1,5 +1,6 @@
-import { OverrideAndSaveRangeFieldRequest, RecalcAndSaveRangeMinMaxRequest, RoundRangesRequest } from 'libs/models/payfactors-api/structures';
+import { RecalcAndSaveRangeMinMaxRequest, RoundRangesRequest } from 'libs/models/payfactors-api/structures';
 import { RoundingSettingsDataObj } from 'libs/models/structures';
+import { RangeRecalculationType } from 'libs/constants/structures/range-recalculation-type';
 
 export class PayfactorsApiModelMapper {
 
@@ -7,25 +8,12 @@ export class PayfactorsApiModelMapper {
   /// OUT
   ///
 
-  static mapUpdateRangeFieldToOverrideAndSaveRangeFieldRequest
-  (rangeId: number,
-   fieldValue: number,
-   fieldName: string,
-   rowIndex: number): OverrideAndSaveRangeFieldRequest {
-    return {
-      RangeId: rangeId,
-      RowIndex: rowIndex,
-      Value: fieldValue,
-      FieldName: this.translateFieldName(fieldName)
-    };
-  }
-
   static mapUpdateRangeInputToRecalcAndSaveRangeMinMaxRequest
   (rangeGroupId: number,
    rangeId: number,
    fieldValue: number,
    fieldName: string,
-   isMid: boolean,
+   rangeRecalculationType: RangeRecalculationType,
    rowIndex: number,
    rounding: RoundingSettingsDataObj): RecalcAndSaveRangeMinMaxRequest {
     return {
@@ -34,7 +22,7 @@ export class PayfactorsApiModelMapper {
       RowIndex: rowIndex,
       FieldValue: fieldValue,
       FieldName: this.translateFieldName(fieldName),
-      IsMid: isMid,
+      RangeRecalculationType: rangeRecalculationType,
       Rounding: this.mapRoundingSettingsModalFormToRoundRangesRequest(rounding)
     };
   }

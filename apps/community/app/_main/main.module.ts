@@ -33,6 +33,7 @@ import { CommunityPostAddReplyComponent } from './containers/community-post-add-
 import { CommunityCategoriesComponent } from './containers/community-categories';
 import { CommunityAttachmentModalComponent } from './containers/community-attachment-modal';
 import { CommunityAttachmentWarningModalComponent } from './containers/community-attachment-warning-modal';
+import { CommunitySecurityWarningModalComponent } from './containers/community-security-warning-modal';
 import { CommunityFiltersComponent } from './containers/community-filters';
 import { CommunityFiltersDropdownComponent } from './components/community-filters-dropdown/community-filters-dropdown.component';
 
@@ -124,6 +125,7 @@ const components = [
   CommunityCategoriesComponent,
   CommunityAttachmentModalComponent,
   CommunityAttachmentWarningModalComponent,
+  CommunitySecurityWarningModalComponent,
   CommunityCancelPostModalComponent,
   CommunityCancelPostReplyModalComponent,
   CommunityFiltersComponent,

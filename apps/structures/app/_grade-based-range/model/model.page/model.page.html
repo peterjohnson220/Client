@@ -7,5 +7,11 @@
   [reorderable]="true"
   [saveSort]="true"
   [modifiedKey]="'CompanyStructures_Ranges_CompanyStructuresRanges_ID'"
-  [allowMultipleSort]="true">
+  [allowMultipleSort]="true"
+  (manageModelClicked)="openManageModelModal()">
 </pf-grade-based-model-grid>
+
+<pf-add-jobs-modal-wrapper
+  [rangeTypeId]="metadata?.RangeTypeId"
+  [controlPoint]="metadata?.ControlPoint">
+</pf-add-jobs-modal-wrapper>

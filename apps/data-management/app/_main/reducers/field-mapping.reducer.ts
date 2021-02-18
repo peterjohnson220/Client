@@ -20,6 +20,7 @@ export interface State {
   defaultPaymarketLoadingError: boolean;
   defaultPaymarketModalOpen: boolean;
   isDirty: boolean;
+  reportChanged: boolean;
 }
 
 export const initialState: State = {
@@ -36,6 +37,7 @@ export const initialState: State = {
   defaultPaymarketLoadingError: false,
   defaultPaymarketModalOpen: false,
   isDirty: false,
+  reportChanged: false
 };
 
 export function reducer(state: State = initialState, action: fromFieldMappingActions.Actions) {
@@ -163,7 +165,8 @@ export function reducer(state: State = initialState, action: fromFieldMappingAct
         ...state,
         saving: false,
         savingError: false,
-        isDirty: false
+        isDirty: false,
+        reportChanged: false
       };
     }
     case fromFieldMappingActions.LOAD_DEFAULT_PAYMARKET: {
@@ -231,6 +234,12 @@ export function reducer(state: State = initialState, action: fromFieldMappingAct
         loadingError: true
       };
     }
+    case fromFieldMappingActions.PROVIDER_REPORT_CHANGED: {
+      return {
+        ...state,
+        reportChanged: true
+      };
+    }
     default:
       return state;
   }
@@ -252,3 +261,4 @@ export const getDefaultPaymarketLoading = (state: State) => state.defaultPaymark
 export const getDefaultPaymarketLoadingError = (state: State) => state.defaultPaymarketLoadingError;
 export const getDefaultPaymarketModalOpen = (state: State) => state.defaultPaymarketModalOpen;
 export const isFieldMappingPageDirty = (state: State) => state.isDirty;
+export const hasReportChanged = (state: State) => state.reportChanged;

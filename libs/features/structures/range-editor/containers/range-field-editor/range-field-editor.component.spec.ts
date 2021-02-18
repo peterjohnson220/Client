@@ -5,11 +5,13 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { of } from 'rxjs';
 
 import { SettingsService } from 'libs/state/app-context/services';
-import { RangeGroupType } from 'libs/constants/structures/range-group-type';
 import { RateType } from 'libs/data/data-sets';
 import { generateMockRoundingSettingsDataObj } from 'libs/models/structures/ranges';
 import { getMockDataViewFilter } from 'libs//models/payfactors-api/reports/request';
+import { RangeType } from 'libs/constants/structures/range-type';
+import { RangeRecalculationType } from 'libs/constants/structures/range-recalculation-type';
 import { AbstractFeatureFlagService, PermissionService } from 'libs/core/services';
+
 
 import * as fromRangeFieldEditorActions from '../../actions/range-field-edit.actions';
 import { RangeFieldEditorComponent } from './range-field-editor.component';
@@ -54,9 +56,9 @@ describe('Features - Structures - Midpoint Editor', () => {
     expect(instance.editable).toBe(false);
   });
 
-  it('should be editable when the rangeGroupType is not Job', () => {
+  it('should be editable when the rangeType is not Job', () => {
     instance.hasCanCreateEditModelStructurePermission = true;
-    instance.rangeGroupType = RangeGroupType.Grade;
+    instance.rangeType = RangeType.Grade;
     instance.gradeBasedRangeGroupLandingPageFlag.value = true;
 
     expect(instance.editable).toBe(true);
@@ -64,7 +66,7 @@ describe('Features - Structures - Midpoint Editor', () => {
 
   it('should not be editable when it is the current structure but we cant edit current structure ranges', () => {
     instance.hasCanCreateEditModelStructurePermission = true;
-    instance.rangeGroupType = RangeGroupType.Job;
+    instance.rangeType = RangeType.Job;
     instance.currentStructure = true;
     instance.canEditCurrentStructureRanges = false;
 
@@ -73,7 +75,7 @@ describe('Features - Structures - Midpoint Editor', () => {
 
   it('should be editable when it is not the current structure', () => {
     instance.hasCanCreateEditModelStructurePermission = true;
-    instance.rangeGroupType = RangeGroupType.Job;
+    instance.rangeType = RangeType.Job;
     instance.currentStructure = false;
 
     expect(instance.editable).toBe(true);
@@ -169,12 +171,14 @@ describe('Features - Structures - Midpoint Editor', () => {
       rangeId: instance.rangeId,
       fieldValue: 97888,
       fieldName: 'Mid',
-      isMid: undefined,
+      rangeRecalculationType: RangeRecalculationType.Range,
       rowIndex: instance.rowIndex,
       roundingSettings: instance.roundingSettings,
       refreshRowDataViewFilter: instance.refreshRowDataViewFilter,
       metaInfo: instance.updateMetaInfo,
-      successCallBackFn: instance.updateSuccessCallbackFn
+      successCallBackFn: instance.updateSuccessCallbackFn,
+      rangeType: RangeType.Job,
+      reloadGridData: false
     };
     const expectedAction = new fromRangeFieldEditorActions.UpdateRangeField(expectedActionPayload);
 
@@ -195,7 +199,7 @@ describe('Features - Structures - Midpoint Editor', () => {
 
 function buildDefaultInputs(instance: RangeFieldEditorComponent): void {
   instance.pageViewId = '8881A5B6-2506-4755-B756-9D310EBFF8A1';
-  instance.rangeGroupType = RangeGroupType.Job;
+  instance.rangeType = RangeType.Job;
   instance.currentStructure = true;
   instance.roundingSettings = generateMockRoundingSettingsDataObj();
   instance.refreshRowDataViewFilter = getMockDataViewFilter();
@@ -212,4 +216,5 @@ function buildDefaultInputs(instance: RangeFieldEditorComponent): void {
   instance.fieldName = 'Mid';
   instance.dataRow = {};
   instance.rowIndex = 0;
+  instance.rangeRecalculationType = RangeRecalculationType.Range;
 }

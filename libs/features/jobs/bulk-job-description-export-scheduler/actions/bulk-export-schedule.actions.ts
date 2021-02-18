@@ -1,17 +1,21 @@
 import { Action } from '@ngrx/store';
-import { BulkExportSchedule } from 'libs/models/jdm';
+import { BulkExportSchedule, BulkExportScheduleParameters } from 'libs/models/jdm';
 
-export const ADDING_SCHEDULE  = '[Bulk Jobs Export Scheduler Feature / Schedule] Adding Schedule';
-export const ADDING_SCHEDULE_SUCCESS  = '[Bulk Jobs Export Scheduler Feature / Schedule] Adding Schedule Success';
-export const ADDING_SCHEDULE_ERROR  = '[Bulk Jobs Export Scheduler Feature / Schedule] Adding Schedule Error';
-export const LOADING_SCHEDULE  = '[Bulk Jobs Export Scheduler Feature / Schedule] Loading Schedule';
-export const LOADING_SCHEDULE_SUCCESS  = '[Bulk Jobs Export Scheduler Feature / Schedule] Loading Schedule Success';
-export const LOADING_SCHEDULE_ERROR  = '[Bulk Jobs Export Scheduler Feature / Schedule] Loading Schedule Error';
-export const REMOVING_SCHEDULE  = '[Bulk Jobs Export Scheduler Feature / Schedule] Removing Schedule';
-export const REMOVING_SCHEDULE_SUCCESS  = '[Bulk Jobs Export Scheduler Feature / Schedule] Removing Schedule Success';
-export const REMOVING_SCHEDULE_ERROR  = '[Bulk Jobs Export Scheduler Feature / Schedule] Removing Schedule Error';
-export const CLOSE_SCHEDULE_MODAL  = '[Bulk Jobs Export Scheduler Feature / Schedule] Close Schedule Modal';
-export const OPEN_SCHEDULE_MODAL  = '[Bulk Jobs Export Scheduler Feature / Schedule] Open Schedule Modal';
+export const ADDING_SCHEDULE = '[Bulk Jobs Export Scheduler Feature / Schedule] Adding Schedule';
+export const ADDING_SCHEDULE_SUCCESS = '[Bulk Jobs Export Scheduler Feature / Schedule] Adding Schedule Success';
+export const ADDING_SCHEDULE_ERROR = '[Bulk Jobs Export Scheduler Feature / Schedule] Adding Schedule Error';
+export const LOADING_SCHEDULE = '[Bulk Jobs Export Scheduler Feature / Schedule] Loading Schedule';
+export const LOADING_SCHEDULE_SUCCESS = '[Bulk Jobs Export Scheduler Feature / Schedule] Loading Schedule Success';
+export const LOADING_SCHEDULE_ERROR = '[Bulk Jobs Export Scheduler Feature / Schedule] Loading Schedule Error';
+export const REMOVING_SCHEDULE = '[Bulk Jobs Export Scheduler Feature / Schedule] Removing Schedule';
+export const REMOVING_SCHEDULE_SUCCESS = '[Bulk Jobs Export Scheduler Feature / Schedule] Removing Schedule Success';
+export const REMOVING_SCHEDULE_ERROR = '[Bulk Jobs Export Scheduler Feature / Schedule] Removing Schedule Error';
+export const CLOSE_SCHEDULE_MODAL = '[Bulk Jobs Export Scheduler Feature / Schedule] Close Schedule Modal';
+export const OPEN_SCHEDULE_MODAL = '[Bulk Jobs Export Scheduler Feature / Schedule] Open Schedule Modal';
+export const EDIT_SCHEDULE = '[Bulk Jobs Export Scheduler Feature / Schedule] Edit Schedule';
+export const UPDATE_SCHEDULE = '[Bulk Jobs Export Scheduler Feature / Schedule] Update Schedule';
+export const UPDATE_SCHEDULE_SUCCESS = '[Bulk Jobs Export Scheduler Feature / Schedule] Update Schedule Success';
+export const UPDATE_SCHEDULE_ERROR = '[Bulk Jobs Export Scheduler Feature / Schedule] Update Schedule Error';
 
 export class AddingSchedule implements Action {
   readonly type = ADDING_SCHEDULE;
@@ -79,6 +83,30 @@ export class OpenScheduleModal implements Action {
   constructor() {}
 }
 
+export class EditSchedule implements Action {
+  readonly type = EDIT_SCHEDULE;
+
+  constructor(public payload: BulkExportSchedule) { }
+}
+
+export class UpdateSchedule implements Action {
+  readonly type = UPDATE_SCHEDULE;
+
+  constructor(public payload: BulkExportScheduleParameters) { }
+}
+
+export class UpdateScheduleSuccess implements Action {
+  readonly type = UPDATE_SCHEDULE_SUCCESS;
+
+   constructor(public payload: any = null) {}
+}
+
+export class UpdateScheduleError implements Action {
+  readonly type = UPDATE_SCHEDULE_ERROR;
+
+   constructor(public payload: any = null) {}
+}
+
 export type BulkExportJobsSchedulerActions
   = AddingSchedule
   | AddingScheduleSuccess
@@ -90,4 +118,8 @@ export type BulkExportJobsSchedulerActions
   | RemovingScheduleError
   | RemovingScheduleSuccess
   | CloseScheduleModal
-  | OpenScheduleModal;
+  | OpenScheduleModal
+  | EditSchedule
+  | UpdateSchedule
+  | UpdateScheduleSuccess
+  | UpdateScheduleError;

@@ -25,3 +25,4 @@ export * from './source-detail.model';
 export * from './workflow-step.model';
 export * from './workflow-template.model';
 export * from './workflow-user.model';
+export * from './control-data-config.model';

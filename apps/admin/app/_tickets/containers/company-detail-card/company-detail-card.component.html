@@ -26,6 +26,12 @@
       <div class="detail-text mb-2">{{companyDetail.ClientType}}</div>
     </div>
   </div>
+  <div class="row" *ngIf="companyDetail.PrimarySupportUserName">
+    <div class="col-sm">
+      <div class="detail-label">Services Rep</div>
+      <div class="detail-text mb-2">{{companyDetail.PrimarySupportUserName}}</div>
+    </div>
+  </div>
   <hr class="my-1" />
   <div class="row">
     <div class="col-sm">

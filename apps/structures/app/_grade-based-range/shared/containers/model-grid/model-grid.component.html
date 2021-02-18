@@ -97,12 +97,13 @@
 </ng-template>
 
 <ng-template #gridActionsRightTemplate>
-  <pf-grid-context [enableReturnBtn]="false" [metadata]="metaData$ | async"></pf-grid-context>
+  <pf-grid-context [metadata]="metaData$ | async"></pf-grid-context>
 </ng-template>
 
 <ng-template #gridGlobalActions>
   <pf-global-actions
-    [metadata]="metaData$ | async">
+    [metadata]="metaData$ | async"
+    (manageModelClicked)="handleManageModelClicked()">
   </pf-global-actions>
 </ng-template>
 
@@ -110,13 +111,13 @@
   <ng-container>
     <pf-range-field-editor
       [pageViewId]="modelGridPageViewId"
-      [rangeGroupType]="rangeGroupType"
+      [rangeType]="rangeType"
       [rangeGroupId]="dataRow.CompanyStructures_RangeGroup_CompanyStructuresRangeGroup_ID"
       [rangeId]="dataRow.CompanyStructures_Ranges_CompanyStructuresRanges_ID"
       [rate]="(metaData$ | async)?.Rate"
       [fieldValue]="dataRow[fieldName]"
       [fieldName]="fieldName"
-      [isMid]="false"
+      [rangeRecalculationType]="rangeRecalculationType.Range"
       [currentStructure]="(metaData$ | async)?.IsCurrent"
       [dataRow]="dataRow"
       [rowIndex]="rowIndex"
@@ -133,13 +134,13 @@
   <ng-container>
     <pf-range-field-editor
       [pageViewId]="modelGridPageViewId"
-      [rangeGroupType]="rangeGroupType"
+      [rangeType]="rangeType"
       [rangeGroupId]="dataRow.CompanyStructures_RangeGroup_CompanyStructuresRangeGroup_ID"
       [rangeId]="dataRow.CompanyStructures_Ranges_CompanyStructuresRanges_ID"
       [rate]="(metaData$ | async)?.Rate"
       [fieldValue]="dataRow.CompanyStructures_Ranges_Mid"
       [fieldName]="fieldName"
-      [isMid]="true"
+      [rangeRecalculationType]="rangeRecalculationType.Mid"
       [currentStructure]="(metaData$ | async)?.IsCurrent"
       [dataRow]="dataRow"
       [rowIndex]="rowIndex"
@@ -148,7 +149,8 @@
       [refreshRowDataViewFilter]="getRefreshFilter(dataRow)"
       [updateMetaInfo]="{ pageViewId: modelGridPageViewId }"
       [updateSuccessCallbackFn]="updateMidSuccessCallbackFn"
-      [readonlyValueTemplate]="rangeValue">
+      [readonlyValueTemplate]="rangeValue"
+      [reloadGridData]="true">
     </pf-range-field-editor>
   </ng-container>
 </ng-template>
@@ -161,17 +163,50 @@
   </ng-container>
 </ng-template>
 
+<ng-template #jobsCount let-dataRow="dataRow" let-fieldName="fieldName">
+  <ng-container *ngIf="dataRow.CompanyStructures_RangeGroup_Jobs_Per_Grade as numJobs; else noValue">
+    <a class="temp-link-color-override" routerLinkActive="disabled" routerLink="/grade/{{rangeGroupId}}/jobs/{{dataRow.CompanyStructures_Ranges_CompanyStructuresRanges_ID}}">
+      {{ numJobs }}
+    </a>
+  </ng-container>
+</ng-template>
+
 <ng-template #diffField let-dataRow="dataRow" let-fieldName="fieldName" let-rowIndex="rowIndex">
   <ng-container>
     <pf-range-field-editor
       [pageViewId]="modelGridPageViewId"
-      [rangeGroupType]="rangeGroupType"
+      [rangeType]="rangeType"
       [rangeGroupId]="dataRow.CompanyStructures_RangeGroup_CompanyStructuresRangeGroup_ID"
       [rangeId]="dataRow.CompanyStructures_Ranges_CompanyStructuresRanges_ID"
       [rate]="(metaData$ | async)?.Rate"
       [fieldValue]="dataRow[fieldName]"
       [fieldName]="fieldName"
-      [isMid]="false"
+      [rangeRecalculationType]="rangeRecalculationType.MidDiff"
+      [currentStructure]="(metaData$ | async)?.IsCurrent"
+      [dataRow]="dataRow"
+      [rowIndex]="rowIndex"
+      [textAlign]="'center'"
+      [noRounding]="true"
+      [refreshRowDataViewFilter]="getRefreshFilter(dataRow)"
+      [updateMetaInfo]="{ pageViewId: modelGridPageViewId }"
+      [readonlyValueTemplate]="rangeValue"
+      [minValue]="-999999999999999"
+      [reloadGridData]="true">
+    </pf-range-field-editor>
+  </ng-container>
+</ng-template>
+
+<ng-template #rangeSpreadField let-dataRow="dataRow" let-fieldName="fieldName" let-rowIndex="rowIndex">
+  <ng-container>
+    <pf-range-field-editor
+      [pageViewId]="modelGridPageViewId"
+      [rangeType]="rangeType"
+      [rangeGroupId]="dataRow.CompanyStructures_RangeGroup_CompanyStructuresRangeGroup_ID"
+      [rangeId]="dataRow.CompanyStructures_Ranges_CompanyStructuresRanges_ID"
+      [rate]="(metaData$ | async)?.Rate"
+      [fieldValue]="dataRow[fieldName]"
+      [fieldName]="fieldName"
+      [rangeRecalculationType]="rangeRecalculationType.Spread"
       [currentStructure]="(metaData$ | async)?.IsCurrent"
       [dataRow]="dataRow"
       [rowIndex]="rowIndex"

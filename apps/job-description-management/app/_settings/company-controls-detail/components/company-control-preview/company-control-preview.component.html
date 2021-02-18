@@ -1,16 +1,16 @@
 <div class="card my-2 preview-section">
     <div class="card-header">Preview</div>
     <div class="card-block">
-        <ng-template [ngIf]="controlType?.ReadOnly === true || controlType?.EditorType === 'Single'">
+        <ng-container *ngIf="controlType?.ReadOnly === true || controlType?.EditorType === 'Single'">
             <pf-control-data-renderer
                 [controlType]="controlType"
                 [data]="data"
                 [readOnly]="readOnly"
                 [checkInheritedData]="true">
             </pf-control-data-renderer>
-        </ng-template>
+        </ng-container>
 
-        <ng-template [ngIf]="controlType?.ReadOnly !== true && ( controlType?.EditorType === 'List' || controlType?.EditorType === 'SmartList')">
+        <ng-container *ngIf="controlType?.ReadOnly !== true && ( controlType?.EditorType === 'List' || controlType?.EditorType === 'SmartList')">
             <div class="card my-3">
                 <div class="card-header">
                     {{ controlType.Name }}
@@ -39,6 +39,6 @@
                     </pf-control-data-renderer>
                 </div>
             </div>
-        </ng-template>
+        </ng-container>
     </div>
 </div>
