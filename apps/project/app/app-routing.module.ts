@@ -12,6 +12,8 @@ export const routes: Routes = [
     canActivate: [UserContextGuard],
     children: [
       { path: '', redirectTo: 'project-list', pathMatch: 'full'},
+      { path: 'pricing-project', loadChildren: () =>
+          import('apps/project/app/_pricing-project/pricing-project-page.module').then(m => m.PricingProjectPageModule) },
       { path: 'project-list', loadChildren: () =>
           import('apps/project/app/_project-list/project-list-page.module').then(x => x.ProjectListPageModule)}
     ]

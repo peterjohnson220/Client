@@ -13,6 +13,7 @@ import { TotalRewardsAssignmentService } from 'libs/features/total-rewards/total
 import { Statement, Settings } from 'libs/features/total-rewards/total-rewards-statement/models';
 import { SaveSettingsRequest } from 'libs/features/total-rewards/total-rewards-statement/models/request-models';
 import { EmployeeRewardsDataService } from 'libs/features/total-rewards/total-rewards-statement/services/employee-rewards-data.service';
+import { TotalRewardsStatementService } from 'libs/features/total-rewards/total-rewards-statement/services/total-rewards-statement.service';
 
 import * as fromTotalRewardsReducer from '../reducers';
 import * as fromStatementEditActions from '../actions';
@@ -38,7 +39,7 @@ export class StatementEditPageEffects {
     );
 
   @Effect()
-  public statementChange$: Observable<Action> =
+  statementChange$: Observable<Action> =
     this.actions$.pipe(
       ofType(
         fromStatementEditActions.UPDATE_STATEMENT_NAME,
@@ -61,19 +62,20 @@ export class StatementEditPageEffects {
       withLatestFrom(this.store.pipe(select(fromTotalRewardsReducer.selectStatement)),
         (action, statement) => ({action, statement})),
       concatMap((data) =>
-        this.totalRewardsApiService.saveStatement(data.statement).pipe(
+        this.totalRewardsApiService.saveStatement(TotalRewardsStatementService.parseStatementEffectiveDateToString(data.statement)).pipe(
           map((statement: Statement) => new fromStatementEditActions.SaveStatementSuccess(statement)),
           catchError(error => of(new fromStatementEditActions.SaveStatementError(error)))
         ))
     );
 
   @Effect()
-  public settingsChange$: Observable<Action> =
+  settingsChange$: Observable<Action> =
     this.actions$.pipe(
       ofType(
         fromStatementEditActions.UPDATE_SETTINGS_FONT_SIZE,
         fromStatementEditActions.UPDATE_SETTINGS_FONT_FAMILY,
-        fromStatementEditActions.UPDATE_SETTINGS_COLOR
+        fromStatementEditActions.UPDATE_SETTINGS_COLOR,
+        fromStatementEditActions.TOGGLE_DISPLAY_SETTING
       ),
       mapTo(new SaveSettings())
     );

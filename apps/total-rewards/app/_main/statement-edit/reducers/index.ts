@@ -128,3 +128,8 @@ export const getActiveRichTextEditorId = createSelector(
   selectPageState,
   (state: fromPageReducer.State) => state.activeRichTextEditorId
 );
+
+export const getIsPageScrolling = createSelector(
+  selectPageState,
+  (state: fromPageReducer.State) => state.isPageScrolling
+);

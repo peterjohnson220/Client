@@ -17,6 +17,7 @@ export class CommunityPostRepliesComponent implements OnInit, OnDestroy {
   @Input() loading: boolean;
   @Input() disableCommunityAttachments: boolean;
   @Input() hideAttachmentWarning: boolean;
+  @Input() showFileDownloadSecurityWarning: boolean;
   @Output() replyHashTagClicked = new EventEmitter();
   @Output() onAttachmentClickedEvent = new EventEmitter<string>();
 

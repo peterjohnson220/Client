@@ -25,7 +25,7 @@ export class SavedFilterHelper {
     const isEditMode = !!id;
     const searchFilters = isEditMode
       ? null
-      : this.payfactorsSearchApiModelMapper.mapMultiSelectFiltersToSearchFilters(modalData.SearchFiltersToSave);
+      : this.payfactorsSearchApiModelMapper.mapFiltersToSearchFilters(modalData.SearchFiltersToSave);
     const isPayMarketDefault = this.isPayMarketDefaultFilter(modalData.SavedFilter, payMarketId);
     let defaultPayMarkets = isEditMode
       ? cloneDeep(modalData.SavedFilter.MetaInfo.DefaultPayMarkets)

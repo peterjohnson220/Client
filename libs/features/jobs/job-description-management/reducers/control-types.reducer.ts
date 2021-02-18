@@ -59,6 +59,12 @@ export function reducer(state = initialState, action: fromControlTypes.ControlTy
         controlTypesAsync: controlTypeAsyncClone
       };
     }
+    case fromControlTypes.RESET_CONTROL_TYPES: {
+      return {
+        ...state,
+        controlTypesAsync: generateDefaultAsyncStateObj<ControlType[]>([])
+      };
+    }
     default:
       return state;
   }

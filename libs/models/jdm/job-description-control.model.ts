@@ -1,3 +1,5 @@
+import { ControlType } from '../common';
+
 export interface JobDescriptionControlId {
   Id: number;
   SectionId: number;
@@ -11,4 +13,5 @@ export interface JobDescriptionControl extends JobDescriptionControlId {
   Data: any[];
   AdditionalProperties?: any;
   Statuses: string[];
+  ControlType?: ControlType;
 }

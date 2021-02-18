@@ -19,6 +19,7 @@ import { Tag } from '../../models/tag.model';
 import { mapCommunityTagToTag } from '../../helpers/model-mapping.helper';
 import { SettingsService } from 'libs/state/app-context/services';
 import { FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models/common';
+import { CompanySettingsEnum } from 'libs/models/company';
 
 @Component({
   selector: 'pf-community-posts',
@@ -40,8 +41,10 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
   totalDiscussionResultsOnServer$: Observable<number>;
   communityPostEdited$: Observable<any>;
   hideAttachmentWarning$: Observable<boolean>;
+  showFileDownloadSecurityWarning$: Observable<boolean>;
   communityTopics$: Observable<CommunityTopic[]>;
   hideAttachmentWarning: boolean;
+  showFileDownloadSecurityWarning: boolean;
 
   communityPosts: CommunityPost[];
   pollsType = CommunityPollTypeEnum.DiscussionPoll;
@@ -53,6 +56,7 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
   hasPreviousBatchResultsOnServerSubscription: Subscription;
   postEditedSubscription: Subscription;
   hideAttachmentWarningSubscription: Subscription;
+  showFileDownloadSecurityWarningSubscription: Subscription;
 
   loadingNextBatchCommunityPosts: boolean;
   loadingPreviousBatchCommunityPosts: boolean;
@@ -81,6 +85,7 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
     this.communityPostEdited$ = this.store.select(fromCommunityReducers.getCommunityPostEdited);
     this.hideAttachmentWarning$ = this.settingService.selectUiPersistenceSetting(
       FeatureAreaConstants.Community, UiPersistenceSettingConstants.CommunityHideAttachmentWarningModal, 'boolean');
+    this.showFileDownloadSecurityWarning$ = this.settingService.selectCompanySetting<boolean>(CompanySettingsEnum.FileDownloadSecurityWarning);
     this.communityTopics$ = this.store.select(fromCommunityReducers.getTopics);
   }
 
@@ -158,8 +163,14 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
     });
 
     this.hideAttachmentWarningSubscription = this.hideAttachmentWarning$.subscribe(value => {
-      if (value != null) {
+      if (value) {
         this.hideAttachmentWarning = value;
+      }
+    });
+
+    this.showFileDownloadSecurityWarningSubscription = this.showFileDownloadSecurityWarning$.subscribe(value => {
+      if (value) {
+        this.showFileDownloadSecurityWarning = value;
       }
     });
   }
@@ -187,6 +198,10 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
 
     if (this.hasPreviousBatchResultsOnServerSubscription) {
       this.hasPreviousBatchResultsOnServerSubscription.unsubscribe();
+    }
+
+    if (this.showFileDownloadSecurityWarningSubscription) {
+      this.showFileDownloadSecurityWarningSubscription.unsubscribe();
     }
   }
 

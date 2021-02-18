@@ -3,6 +3,8 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store, StoreModule } from '@ngrx/store';
 
+import { SettingsService } from 'libs/state/app-context/services';
+
 import { CommunitySearchResultsPageComponent } from './community-search-results.page';
 import { CommunitySearchResultsComponent } from '../../community-search-results';
 import { CommunitySearchDurationEnum, CommunitySearchSortByEnum } from 'libs/models/community/community-constants.model';
@@ -24,6 +26,7 @@ describe('CommunitySearchResultsPageComponent', () => {
         })
       ],
       providers: [
+        SettingsService,
         {
         provide: Router,
         useValue: { navigate: jest.fn() },

@@ -6,6 +6,7 @@
   [gridActionsTemplate]="gridActions"
   [columnTemplates]="colTemplates"
   [filterPanelTemplates]="filterTemplates"
+  [customFilterOptions]="customPricingReviewedFilterOptions"
   [inboundFilters]="filters"
   [defaultSort]="defaultSort"
   [enableSelection]="true"
@@ -20,7 +21,7 @@
 </pf-data-grid>
 
 <ng-template #gridRowActionsTemplate let-dataRow="dataRow">
-  <fa-icon [icon]="['far', 'edit']"  title="Edit Job"  *ngIf="(userContext$ | async)?.CompanyId !== 1401"
+  <fa-icon [icon]="['far', 'edit']"  title="Edit Job"  *ngIf="(canEditJobCompanySetting$ | async)"
            [attr.data-qa-id]="'btn-jobs-page-edit-job-' + dataRow['CompanyJobs_CompanyJob_ID']"
            [pfSecuredResource]="permissions.JOBS_ADD_EDIT_DELETE"
            (click)="toggleJobManagmentModal(true, dataRow['CompanyJobs_CompanyJob_ID'], $event)" class="pr-2" [fixedWidth]="true"></fa-icon>
@@ -81,6 +82,8 @@
 <ng-template #jobsDetails let-splitViewEmitter="splitViewEmitter" let-splitViewFilters="splitViewFilters">
   <pf-jobs-details
     [jobDetailsFilters]="splitViewFilters"
+    [canEditJobCompanySetting]="(canEditJobCompanySetting$ | async)"
+    (handleEditJobClicked)="toggleJobManagmentModal(true, $event)"
     (onClose)="splitViewEmitter.emit('close')">
   </pf-jobs-details>
 </ng-template>
@@ -97,11 +100,12 @@
   </button>
 
   <pf-export-list-popover
+    #exportListPopover
     [disableCustomExport]="!selectedPricingIds.length"
     [disabledCustomExportTooltip]="'Select a pricing'"
-    [disablePopover]="this.selectedJobPricingCount < 1 && this.selectedPricingIds.length < 1"
-    [disabledPopoverTooltip]="'Please select at least one priced job'"
-    (exportEmitter)="exportPricings($event)">
+    [disablePopover]="(this.selectedJobPricingCount < 1 && this.selectedPricingIds.length < 1) || (exporting$ | async) || (getExportEventId$ | async)?.loading"
+    [disabledPopoverTooltip]="(exporting$ | async) ? 'Download in progress' : 'Please select at least one priced job'"
+    (exportEmitter)="handleExportPricings($event)">
   </pf-export-list-popover>
 </ng-template>
 
@@ -182,18 +186,15 @@
 <ng-template #payMarketFilter>
   <div>
     <label>Pay Market:</label>
-    <kendo-dropdownlist
-      [(ngModel)]="selectedPayMarket"
-      [textField]="'Value'"
-      [valueField]="'Id'"
-      [defaultItem]="{Value:'All Pay Markets', Id: null}"
-      [data]="filteredPayMarketOptions"
-      (valueChange)="handlePayMarketFilterChanged($event)"
-      [filterable]="true"
-      (filterChange)="handlePayMarketDropdownFilter($event)"
+    <pf-treeview
       [attr.data-qa-id]="'ddm-operator-jobs-page' + payMarketField.SourceName"
-      class="k-dropdown-white form-control">
-    </kendo-dropdownlist>
+      [data]="payMarketOptions"
+      [placeholder]="'All Pay Markets'"
+      [filterable]="true"
+      [checkedKeys]="selectedPayMarkets"
+      [anchorWidth]="406"
+      (applyClicked)="handlePayMarketFilterChanged($event)">
+    </pf-treeview>
   </div>
 </ng-template>
 
@@ -215,12 +216,27 @@
   </div>
 </ng-template>
 
+<ng-template #pricingReviewedFilter>
+  <div>
+    <label>Pricing Reviewed:</label>
+    <kendo-dropdownlist
+      [data]="pricingReviewedDropdownDisplayOptions"
+      [textField]="'Display'"
+      [valueField]="'Value'"
+      [ngModel]="selectedReviewedStatus"
+      (valueChange)="handlePricingReviewedStatusChanged($event)"
+      [attr.data-qa-id]="'ddl-bit-filter-value-'+ pricingReviewedField.SourceName"
+      class="k-dropdown-white form-control">
+    </kendo-dropdownlist>
+  </div>
+</ng-template>
+
 <ng-template #jobStatusFilter let-field="field">
   <kendo-switch
     *ngIf="field"
     style="width:80px;"
     [title]="field.FilterPlaceholder"
-    [checked]="field.FilterValue"
+    [checked]="!!field.FilterValues ? field.FilterValues[0] === 'true' : false"
     [onLabel]="'Active'"
     [offLabel]="'Inactive'"
     (valueChange)="handleJobStatusFilterChanged(field, $event)"
@@ -365,3 +381,8 @@
   [display]="'modal'"
   [featureImplementation]="multiMatchImplementation"
 ></pf-multi-match-component>
+
+<pf-file-download-security-warning-modal 
+  #fileDownloadSecurityWarningModal
+  (securityWarningConfirmed)="handleSecurityWarningConfirmed($event)">
+</pf-file-download-security-warning-modal>

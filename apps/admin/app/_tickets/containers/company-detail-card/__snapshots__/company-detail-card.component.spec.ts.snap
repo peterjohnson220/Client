@@ -65,6 +65,25 @@ exports[`Admin - Tickets - Company Detail Card Should display details about a co
         </div>
       </div>
     </div>
+    
+    <div
+      class="row"
+    >
+      <div
+        class="col-sm"
+      >
+        <div
+          class="detail-label"
+        >
+          Services Rep
+        </div>
+        <div
+          class="detail-text mb-2"
+        >
+          MockPrimarySupportUserName
+        </div>
+      </div>
+    </div>
     <hr
       class="my-1"
     />

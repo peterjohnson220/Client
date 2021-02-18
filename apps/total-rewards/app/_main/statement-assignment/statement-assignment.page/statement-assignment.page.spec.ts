@@ -8,8 +8,11 @@ import { of } from 'rxjs';
 import * as fromAppNotificationsMainReducer from 'libs/features/infrastructure/app-notifications/reducers';
 import * as fromEmployeeManagementReducer from 'libs/features/employees/employee-management/reducers';
 import { AbstractFeatureFlagService } from 'libs/core/services';
+import { SettingsService } from 'libs/state/app-context/services';
+import { DeliveryMethod } from 'libs/features/total-rewards/total-rewards-statement/models/delivery-method';
 
 import { StatementAssignmentPageComponent } from './statement-assignment.page';
+import { DeliveryOption } from '../models';
 import * as fromStatementAssignmentReducer from '../reducers';
 import * as fromPageActions from '../actions/statement-assignment.page.actions';
 import * as fromAssignmentsModalActions from '../actions/statement-assignment-modal.actions';
@@ -27,7 +30,7 @@ describe('AssignedEmployeesGridComponent', () => {
           ...fromStatementAssignmentReducer.reducers,
           totalRewards_statementAssignment: combineReducers(fromStatementAssignmentReducer.reducers),
           feature_appnotifications: combineReducers(fromAppNotificationsMainReducer.reducers),
-          feature_employee_management: combineReducers(fromEmployeeManagementReducer.reducers)
+          feature_employee_management: combineReducers(fromEmployeeManagementReducer.reducers),
         })],
       declarations: [StatementAssignmentPageComponent],
       schemas: [NO_ERRORS_SCHEMA],
@@ -43,6 +46,10 @@ describe('AssignedEmployeesGridComponent', () => {
         {
           provide: AbstractFeatureFlagService,
           useValue: { enabled: jest.fn() }
+        },
+        {
+          provide: SettingsService,
+          useValue: { selectCompanySetting: () => of(false)}
         }
       ]
     });
@@ -188,7 +195,7 @@ describe('AssignedEmployeesGridComponent', () => {
     expect(component.filterChangeSubject.next).toHaveBeenCalledWith(emptyFilters);
   });
 
-  it('should dispatch the expected action when Assign Employees is clicked', () => {
+  it('should dispatch the ExportAssignedEmployees action when Export Employee Benefits Report is clicked', () => {
     // arrange
     spyOn(store, 'dispatch');
     const exportEmployeesAction = new fromPageActions.ExportAssignedEmployees();
@@ -198,5 +205,66 @@ describe('AssignedEmployeesGridComponent', () => {
 
     // assert
     expect(store.dispatch).toHaveBeenCalledWith(exportEmployeesAction);
+  });
+
+  it(`should not dispatch the ExportAssignedEmployees action when Export Employee Benefits Report is clicked
+      and File Download Security Warning is canceled`, () => {
+    // arrange
+    spyOn(store, 'dispatch');
+    const exportEmployeesAction = new fromPageActions.ExportAssignedEmployees();
+    component.fileDownloadSecurityWarningModal = { open: () => ({})} as any;
+    component.enableFileDownloadSecurityWarning = true;
+
+    // act
+    component.handleExportClicked();
+    component.handleSecurityWarningConfirmed(false);
+
+    // assert
+    expect(store.dispatch).not.toHaveBeenCalledWith(exportEmployeesAction);
+  });
+
+  it('should dispatch the GenerateStatements action when Generate is clicked and Download Bulk PDF chosen', () => {
+    // arrange
+    spyOn(store, 'dispatch');
+    const deliveryOption: DeliveryOption = {
+      EmailTemplate: null,
+      Method: DeliveryMethod.PDFExport,
+      SaveEmailTemplate: false
+    };
+    const generateStatementsAction = new fromPageActions.GenerateStatements({
+      method: deliveryOption.Method,
+      emailTemplate: deliveryOption.EmailTemplate
+    });
+
+    // act
+    component.handleGenerateStatementsClick(deliveryOption);
+
+    // assert
+    expect(store.dispatch).toHaveBeenCalledWith(generateStatementsAction);
+  });
+
+  it('should dispatch the GenerateStatements action when Generate is clicked and Secure Email Delivery chosen', () => {
+    // arrange
+    spyOn(store, 'dispatch');
+    const deliveryOption: DeliveryOption = {
+      EmailTemplate: {
+        EmailBody: 'Your Statement Name is ready for review.',
+        EmailSubject: 'Your Statement Name is ready for review.',
+        StatementId: 'e1ab354e-fe7c-4d0d-bc10-883c58720809'
+      },
+      Method: DeliveryMethod.Email,
+      SaveEmailTemplate: false
+    };
+
+    const generateStatementsAction = new fromPageActions.GenerateStatements({
+      method: deliveryOption.Method,
+      emailTemplate: deliveryOption.EmailTemplate
+    });
+
+    // act
+    component.handleGenerateStatementsClick(deliveryOption);
+
+    // assert
+    expect(store.dispatch).toHaveBeenCalledWith(generateStatementsAction);
   });
 });

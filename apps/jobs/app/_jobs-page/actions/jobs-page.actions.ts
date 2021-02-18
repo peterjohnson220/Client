@@ -1,6 +1,7 @@
 import { Action } from '@ngrx/store';
 
-import { CreateProjectRequest, ChangeJobStatusRequest } from 'libs/models/payfactors-api';
+import { CreateProjectRequest, ChangeJobStatusRequest, ExportJobsRequest } from 'libs/models/payfactors-api';
+import { PayMarket } from 'libs/models/paymarket';
 
 export const SET_JOBS_PAGE_ID = '[Jobs Page] Set Jobs PageID';
 // TODO: Removed HANDLE_API_ERROR and replace it with AsyncStateObj
@@ -27,6 +28,10 @@ export const LOAD_CUSTOM_EXPORTS_SUCCESS = '[Jobs Page] Load Custom Exports Succ
 export const TOGGLE_JOBS_PAGE = '[Jobs Page] Toggle Jobs Page';
 export const TOGGLE_JOBS_PAGE_SUCCESS = '[Jobs Page] Toggle Jobs Page Success';
 export const TOGGLE_JOBS_PAGE_ERROR = '[Jobs Page] Toggle Jobs Page Error';
+export const GET_RUNNING_EXPORT = '[Jobs Page] Get Running Export';
+export const GET_RUNNING_EXPORT_SUCCESS = '[Jobs Page] Get Running Export Success';
+export const GET_RUNNING_EXPORT_ERROR = '[Jobs Page] Get Running Export Error';
+export const EXPORTING_COMPLETE = '[Jobs Page] Exporting Complete';
 
 export class SetJobsPageId implements Action {
   readonly type = SET_JOBS_PAGE_ID;
@@ -94,7 +99,7 @@ export class LoadCompanyPayMarkets implements Action {
 }
 export class LoadCompanyPayMarketsSuccess implements Action {
   readonly type = LOAD_COMPANY_PAYMARKETS_SUCCESS;
-  constructor(public payload: any) { }
+  constructor(public payload: PayMarket[]) { }
 }
 
 export class LoadStructureGrades implements Action {
@@ -109,12 +114,12 @@ export class LoadStructureGradesSuccess implements Action {
 
 export class ExportPricings implements Action {
   readonly type = EXPORT_PRICINGS;
-  constructor(public payload: any) { }
+  constructor(public payload: ExportJobsRequest) { }
 }
 
 export class ExportPricingsSuccess implements Action {
   readonly type = EXPORT_PRICINGS_SUCCESS;
-  constructor(public payload: any) { }
+  constructor(public exportEventId: string) { }
 }
 
 export class ExportPricingsError implements Action {
@@ -147,6 +152,26 @@ export class ToggleJobsPageError implements Action {
   constructor() { }
 }
 
+export class GetRunningExport implements Action {
+  readonly type = GET_RUNNING_EXPORT;
+  constructor(public pageViewId: string) {}
+}
+
+export class GetRunningExportSuccess implements Action {
+  readonly type = GET_RUNNING_EXPORT_SUCCESS;
+  constructor(public payload: string) {}
+}
+
+export class GetRunningExportError implements Action {
+  readonly type = GET_RUNNING_EXPORT_ERROR;
+  constructor() {}
+}
+
+export class ExportingComplete implements Action {
+  readonly type = EXPORTING_COMPLETE;
+  constructor() {}
+}
+
 export type JobsPageActions
   = SetJobsPageId
   | HandleApiError
@@ -171,4 +196,8 @@ export type JobsPageActions
   | LoadCustomExportsSuccess
   | ToggleJobsPage
   | ToggleJobsPageSuccess
-  | ToggleJobsPageError;
+  | ToggleJobsPageError
+  | GetRunningExport
+  | GetRunningExportSuccess
+  | GetRunningExportError
+  | ExportingComplete;

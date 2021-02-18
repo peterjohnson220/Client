@@ -3,12 +3,12 @@
     <div class="popover-body-content">
       <div class="list-group">
         <div *ngFor="let opt of exportOptions; let idx=index;" class="p-2" [ngClass]="idx !== exportOptions.length - 1 ? 'list-group-border' : 'last-item'">
-          <div class="row align-items-center">
-            <div class="col-10">
+          <div class="d-flex align-items-center">
+            <div class="export-description-container">
               <span>{{opt.Display}}</span>
               <small class="export-desc">{{opt.Description}}</small>
             </div>
-            <div class="export-btn-group space-out-children row pl-2">
+            <div class="export-btn-group space-out-children pl-2 d-flex">
               <div class="mr-1">
                 <button *ngIf="!opt.Exporting.loading || opt.Exporting.loading && opt.ExportedReportExtension !== 'pdf'"
                         [disabled]="exportInProgress"
@@ -51,7 +51,7 @@
         [title]="disablePopover ? disabledPopoverTooltip : ''"
         type="button" title="Export" id="jobs-page-export-popover-btn" class="btn btn-secondary"
         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-        placement="bottom-right" popoverTitle="Choose Export Type" [ngbPopover]="exportList"
+        placement="bottom-right" popoverTitle="Choose Export Type" [ngbPopover]="exportList" #popover="ngbPopover"
         [autoClose]="'outside'" [attr.data-qa-id]="'btn-grid-export-popover'"
 >
   <fa-icon icon="download"></fa-icon>

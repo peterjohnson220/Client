@@ -44,7 +44,7 @@
         Create Project
       </button>
       <a title="Export to Excel" class="btn btn-secondary pf-btn-borderless pl-3" [attr.data-qa-id]="'btn-pricing-details-export-to-excel'"
-        [href]="'/odata/CompanyJobPricing(' + pricingInfo.PricingID + ')/Default.GetPricingModalExport'">
+        (click)="handleExportToExcel()">
         <fa-icon fa-icon [icon]="['fal', 'file-excel']"></fa-icon> Export to Excel
       </a>
     </div>
@@ -124,3 +124,8 @@
   </div>
 
 </div>
+
+<pf-file-download-security-warning-modal 
+  #fileDownloadSecurityWarningModal
+  (securityWarningConfirmed)="handleSecurityWarningConfirmed($event)"
+></pf-file-download-security-warning-modal>

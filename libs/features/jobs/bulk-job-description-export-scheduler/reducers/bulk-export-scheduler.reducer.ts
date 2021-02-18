@@ -1,4 +1,5 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
+import isObject from 'lodash/isObject';
 
 import { BulkExportSchedule } from 'libs/models/jdm';
 
@@ -14,6 +15,11 @@ export interface State extends EntityState<BulkExportSchedule> {
   removing: boolean;
   removingError: boolean;
   bulkScheduleDeleteModalOpen: boolean;
+  editing: boolean;
+  editSchedule: BulkExportSchedule;
+  updating: boolean;
+  updatingError: boolean;
+  updatingSuccess: boolean;
 }
 
 export const adapter: EntityAdapter<BulkExportSchedule> = createEntityAdapter<BulkExportSchedule>({
@@ -28,7 +34,12 @@ const initialState: State = adapter.getInitialState({
   addingError: false,
   removing: false,
   removingError: false,
-  bulkScheduleDeleteModalOpen: false
+  bulkScheduleDeleteModalOpen: false,
+  editing: false,
+  editSchedule: null,
+  updating: false,
+  updatingError: false,
+  updatingSuccess: false,
 });
 
 
@@ -108,6 +119,39 @@ export function reducer(
         bulkScheduleDeleteModalOpen: true
       };
     }
+    case fromBulkExportScheduleActions.EDIT_SCHEDULE: {
+      return {
+        ...state,
+        editing: isObject(action.payload),
+        editSchedule: action.payload,
+      };
+    }
+    case fromBulkExportScheduleActions.UPDATE_SCHEDULE: {
+      return {
+        ...state,
+        updating: true,
+        updatingError: false,
+        updatingSuccess: false,
+      };
+    }
+    case fromBulkExportScheduleActions.UPDATE_SCHEDULE_ERROR: {
+      return {
+        ...state,
+        updating: false,
+        updatingError: true,
+        updatingSuccess: false,
+      };
+    }
+    case fromBulkExportScheduleActions.UPDATE_SCHEDULE_SUCCESS: {
+      return {
+        ...state,
+        editing: false,
+        editSchedule: null,
+        updating: false,
+        updatingError: false,
+        updatingSuccess: true,
+      };
+    }
     default: {
       return state;
     }
@@ -122,4 +166,7 @@ export const getAddingError = (state: State) => state.addingError;
 export const getRemoving = (state: State) => state.loading;
 export const getRemovingError = (state: State) => state.loadingError;
 export const getBulkScheduleDeleteModalOpen = (state: State) => state.bulkScheduleDeleteModalOpen;
-
+export const getEditing = (state: State) => state.editing;
+export const getEditSchedule = (state: State) => state.editSchedule;
+export const getUpdating = (state: State) => state.updating;
+export const getUpdatingError = (state: State) => state.updatingError;

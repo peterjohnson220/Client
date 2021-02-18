@@ -70,8 +70,6 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
 
   weight: number;
   adjustment: number;
-  jobsGridJobStatusField: ViewField;
-  jobsGridFieldSubscription: Subscription;
 
   public isCollapsed = true;
   public isOverflow = false;
@@ -159,11 +157,6 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
         this.showDeletePricingMatchModal.next(false);
       });
 
-    this.jobsGridFieldSubscription = this.store.select(fromPfDataGridReducer.getFields, PageViewIds.Jobs)
-      .pipe(filter(f => !isEmpty(f)))
-      .subscribe(fields => {
-        this.jobsGridJobStatusField = fields.find(f => f.SourceName === 'JobStatus');
-      });
     // We need to update the pricingInfo manually because the state is not updated when the grid is updated using the UpdateGridDataRow action
     this.updateGridDataRowSubscription = this.actionsSubject
       .pipe(ofType(fromPfDataGridActions.UPDATE_GRID_DATA_ROW))
@@ -178,11 +171,10 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
       .select(fromPfDataGridReducer.getFields, PageViewIds.Jobs)
       .pipe(filter(f => !isEmpty(f)))
       .subscribe(fields => {
-        // TODO: The JobStatus field filter can have a value of 'true' or true.
-        // This is because of the way the active/inactive slider sets the filter value
-        // This  quick fix needs to be converted to a more robust solution
-        const statusFieldFilter: any = fields.find(f => f.SourceName === 'JobStatus').FilterValue;
-        this.isActiveJob = statusFieldFilter === 'true' || statusFieldFilter === true;
+        const statusFieldFilter: ViewField = fields.find(f => f.SourceName === 'JobStatus');
+        this.isActiveJob = statusFieldFilter?.FilterValues?.length > 0
+          ? statusFieldFilter.FilterValues[0] === 'true'
+          : true;
       });
 
     this.upsertPeerDataSubscription = this.actionsSubject

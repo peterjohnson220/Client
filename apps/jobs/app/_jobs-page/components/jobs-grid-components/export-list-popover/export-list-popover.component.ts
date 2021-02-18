@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, Output, ViewChild } from '@angular/core';
+import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 
 import { Store } from '@ngrx/store';
 
@@ -13,6 +14,7 @@ import * as fromJobsPageReducer from '../../../reducers';
 })
 
 export class ExportListPopoverComponent implements OnDestroy {
+  @ViewChild('popover') popover: NgbPopover;
   @Input() disablePopover: boolean;
   @Input() disabledPopoverTooltip: string;
   @Input() disableCustomExport = false;
@@ -39,6 +41,7 @@ export class ExportListPopoverComponent implements OnDestroy {
     };
 
     this.exportEmitter.emit(metaData);
+    this.popover.close();
   }
 
   ngOnDestroy() {

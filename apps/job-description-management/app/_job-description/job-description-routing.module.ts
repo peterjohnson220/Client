@@ -11,7 +11,7 @@ import {
   JobDescriptionPageComponent,
   JobDescriptionWorkflowComparePageComponent
 } from './containers';
-import { JobDescriptionJobCompareListResolver, ResolveHistoryListGuard } from './guards';
+import { ResolveHistoryListGuard } from './guards';
 
 const routes: Routes = [
   { path: '', redirectTo: 'job-descriptions', pathMatch: 'full' },
@@ -24,7 +24,6 @@ const routes: Routes = [
   {
     path: 'job-descriptions/compare-jobs/:id',
     component: JobDescriptionJobComparePageComponent,
-    resolve: {jobDescriptionList: JobDescriptionJobCompareListResolver},
     canActivate: [AuthorizationGuard],
     data: {Permissions: [Permissions.JOB_DESCRIPTIONS, Permissions.CAN_VIEW_JOB_DESCRIPTION], Check: PermissionCheckEnum.Any}
   },

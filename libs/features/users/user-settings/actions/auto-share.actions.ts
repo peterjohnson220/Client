@@ -1,6 +1,8 @@
 import { Action } from '@ngrx/store';
 import { AutoShareUser } from '../../../../models/user-settings';
 import { ShareUserResponse } from '../../../../models/payfactors-api/user/response';
+import { BaseShareModalPayload } from '../../../../models/share-modal/bulk-project-share-request';
+
 
 export const GET_SHAREABLE_USERS = '[User Settings / Auto Share] Get Shareable Users';
 export const GET_SHAREABLE_USERS_SUCCESS = '[User Settings / Auto Share] Get Shareable Users Success';
@@ -87,7 +89,7 @@ export class CloseAutoShareModal implements Action {
 export class SaveAutoShareUsers implements Action {
   readonly type = SAVE_AUTO_SHARE_USERS;
 
-  constructor(public payload: number[]) {}
+  constructor(public payload: BaseShareModalPayload) {}
 }
 
 export class SaveAutoShareUsersSuccess implements Action {

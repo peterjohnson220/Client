@@ -15,6 +15,7 @@ import {
   UpdateStringPropertyRequest,
   UpdateTitleRequest
 } from '../../models';
+import { TotalRewardsStatementService } from '../../services/total-rewards-statement.service';
 
 @Component({
   selector: 'pf-total-rewards-statement',
@@ -32,6 +33,7 @@ export class TotalRewardsStatementComponent {
   @Input() companyUdfs: CompensationField[];
   @Input() visibleFieldsCount: number;
   @Input() activeEditorId: string;
+  @Input() isPageScrolling: boolean;
 
   // Common Outputs
   @Output() onControlTitleChange: EventEmitter<UpdateTitleRequest> = new EventEmitter();
@@ -116,8 +118,11 @@ export class TotalRewardsStatementComponent {
       if (this.employeeRewardsData.IsMockData || !f.IsVisible) {
         return f.IsVisible;
       } else {
-        return (f.Type) ? this.employeeRewardsData[f.Type][f.DatabaseField] !== null && this.employeeRewardsData[f.Type][f.DatabaseField] > 0 :
-          this.employeeRewardsData[ f.DatabaseField ] !== null && this.employeeRewardsData[ f.DatabaseField ] > 0;
+        return (f.Type) ?
+          this.employeeRewardsData[f.Type][f.DatabaseField] !== null && this.employeeRewardsData[f.Type][f.DatabaseField] > 0 :
+          TotalRewardsStatementService.doesEmployeeRewardsFieldHaveData(f.DatabaseField, this.employeeRewardsData) ||
+          TotalRewardsStatementService.doesBenefitFieldHaveData(f.DatabaseField, this.employeeRewardsData,
+            this.statement.Settings.DisplaySettings.ShowEmployeeContributions && f.CanHaveEmployeeContribution);
       }
     });
   }

@@ -6,12 +6,12 @@
   <ng-container *ngIf="field.CustomFilterStrategy && field.DataType !== dataTypes.Bit; else simpleFilter" >
     <div class="row">
       <div class="col-12">
-        <pf-input-debounce 
+        <pf-input-debounce
           [id]="field.SourceName"
           [attr.data-qa-id]="'txt-value-'+field.SourceName"
-          [ngModel]="field.FilterValue"
+          [ngModel]="!!field.FilterValues ? field.FilterValues[0] : ''"
           [placeholderText]="field.FilterPlaceholder ? field.FilterPlaceholder : null"
-          (valueChanged)="handleFilterValueChanged($event)"
+          (valueChanged)="handleTextInputValueChanged($event)"
           [delay]="400">
         </pf-input-debounce>
       </div>
@@ -24,7 +24,7 @@
         <div class="row">
           <div class="col-6">
             <kendo-dropdownlist
-              [data]="filterOperatorOptions.string"
+              [data]="stringFilterOperators"
               [textField]="'display'"
               [valueField]="'value'"
               [valuePrimitive]="true"
@@ -38,8 +38,8 @@
             <pf-input-debounce
               [id]="field.SourceName"
               [attr.data-qa-id]="'txt-value-'+field.SourceName"
-              [ngModel]="field.FilterValue"
-              (valueChanged)="handleFilterValueChanged($event)"
+              [ngModel]="!!field.FilterValues ? field.FilterValues[0] : ''"
+              (valueChanged)="handleTextInputValueChanged($event)"
               [disabled]="valueCanBeEmpty()"
               [delay]="400">
             </pf-input-debounce>
@@ -62,10 +62,11 @@
           </div>
           <div class="col-6">
             <kendo-datepicker
-              [value]="getDateTimeValue()"
+              class="w-100"
+              [value]="datePickerValue"
               [format]="'MM/dd/yyyy'"
               [disabled]="valueCanBeEmpty()"
-              (valueChange)="handleFilterValueChanged($event)"
+              (valueChange)="handleDatePickerValueChanged($event)"
               [attr.data-qa-id]="'datepicker-value-'+field.SourceName">
             </kendo-datepicker>
           </div>
@@ -86,11 +87,13 @@
             </kendo-dropdownlist>
           </div>
           <div class="col-6">
-            <kendo-numerictextbox
+            <!--INT_MAX used to prevent overflow errors-->
+            <kendo-numerictextbox #numericInput
               [value]="getNumericFieldValue()"
               [format]="'n0'"
               [decimals]="0"
               [min]="0"
+              [max]="INT_MAX"
               [disabled]="valueCanBeEmpty()"
               (pfDebounceValueChanged)="handleFilterValueChanged($event)"
               [attr.data-qa-id]="'txt-value-'+field.SourceName"
@@ -132,7 +135,7 @@
           [textField]="'display'"
           [valueField]="'value'"
           [valuePrimitive]="true"
-          [ngModel]="field.FilterValue"
+          [ngModel]="!!field.FilterValues ? field.FilterValues[0] : null"
           (valueChange)="handleFilterValueChanged($event)"
           [attr.data-qa-id]="'ddl-bit-filter-value-'+ field.SourceName"
           class="k-dropdown-white form-control">
