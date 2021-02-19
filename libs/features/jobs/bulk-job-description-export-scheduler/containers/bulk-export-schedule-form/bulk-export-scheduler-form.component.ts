@@ -1,8 +1,12 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
+import cloneDeep from 'lodash/cloneDeep';
+import isObject from 'lodash/isObject';
+import omit from 'lodash/omit';
+import { merge, Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
-import { BulkExportSchedule, JobDescriptionViewModel } from 'libs/models/jdm';
+import { BulkExportSchedule, JobDescriptionViewModel, BulkExportScheduleParameters } from 'libs/models/jdm';
 import { JdmListFilter } from 'libs/models/user-profile';
 
 import * as fromJdmAdminReducer from '../../reducers';
@@ -19,34 +23,58 @@ export class BulkExportSchedulerFormComponent implements OnInit, OnDestroy {
   @Input() schedules: BulkExportSchedule[];
   @Input() exportType: '';
 
+  editing: boolean;
   schedule: BulkExportSchedule = new BulkExportSchedule();
   daysOfWeekSelected: string[];
   validSchedule: boolean;
   clickedSchedule: string;
   addingSchedule$: Observable<boolean>;
   addingScheduleError$: Observable<boolean>;
-  addScheduleErrorSubscription: Subscription;
+  editing$: Observable<boolean>;
+  editSchedule$: Observable<BulkExportSchedule>;
+  updateSchedule$: Observable<boolean>;
+  updateScheduleError$: Observable<boolean>;
 
   weekday: string[] = [ 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday' ];
   occurence: string[] = [ 'First', 'Second', 'Third', 'Fourth' ];
 
+  private unsubscribe$ = new Subject<void>();
+
   constructor(private store: Store<fromJdmAdminReducer.State>) {
     this.addingSchedule$ = this.store.select(fromJdmAdminReducer.getBulkExportScheduleAdding);
     this.addingScheduleError$ = this.store.select(fromJdmAdminReducer.getBulkExportScheduleAddingError);
+    this.editing$ = this.store.select(fromJdmAdminReducer.getBulkExportScheduleEditing);
+    this.editSchedule$ = this.store.select(fromJdmAdminReducer.getBulkExportScheduleEditSchedule);
+    this.updateSchedule$ = this.store.select(fromJdmAdminReducer.getBulkExportScheduleUpdating);
+    this.updateScheduleError$ = this.store.select(fromJdmAdminReducer.getBulkExportScheduleUpdatingError);
   }
 
   // Lifecycle
   ngOnInit() {
     this.setDefaultPageValues();
-    this.addScheduleErrorSubscription = this.addingScheduleError$.subscribe(error => {
-      if (error) {
-        alert('There was an error saving the schedule.');
-      }
-    });
+    merge(
+      this.addingScheduleError$,
+      this.updateScheduleError$,
+    )
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(error => {
+        if (error) {
+          alert('There was an error saving the schedule.');
+        }
+      });
+    this.editSchedule$
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(schedule => {
+        this.schedule = isObject(schedule) ? cloneDeep(schedule) : new BulkExportSchedule();
+        this.daysOfWeekSelected = schedule?.DayOfWeek.split(',') ?? [];
+      });
+    this.editing$
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(editing => this.editing = editing);
   }
 
   ngOnDestroy() {
-    this.addScheduleErrorSubscription.unsubscribe();
+    this.unsubscribe$.next();
   }
 
   onDayOfWeekChange(event) {
@@ -89,7 +117,13 @@ export class BulkExportSchedulerFormComponent implements OnInit, OnDestroy {
         this.generateCronExpression();
       }
 
-      this.store.dispatch(new fromJdmBulkExportScheduleActions.AddingSchedule(this.schedule));
+      if (this.editing) {
+        this.store.dispatch(new fromJdmBulkExportScheduleActions.UpdateSchedule(<BulkExportScheduleParameters> {
+          ...omit(this.schedule, ['ExportCount', 'Id', 'View']),
+        }));
+      } else {
+        this.store.dispatch(new fromJdmBulkExportScheduleActions.AddingSchedule(this.schedule));
+      }
       this.schedule = new BulkExportSchedule();
 
       this.setDefaultPageValues();
@@ -115,7 +149,7 @@ export class BulkExportSchedulerFormComponent implements OnInit, OnDestroy {
   }
 
   isValidSchedule() {
-    if (!this.schedule.FileName || this.fileNameExists(this.schedule.FileName)) {
+    if (!this.schedule.FileName || (this.fileNameExists(this.schedule.FileName) && !this.editing)) {
       return false;
     }
 

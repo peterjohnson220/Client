@@ -4,9 +4,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 
 import { PfValidators } from 'libs/forms/validators';
-import { MultiSelectFilter } from 'libs/features/search/search/models';
 
 import { SaveFilterModalData } from '../../models';
+import { Filter, FilterType } from '../../../../search/search/models';
 
 @Component({
   selector: 'pf-save-filter-modal',
@@ -28,7 +28,8 @@ export class SaveFilterModalComponent implements OnInit, OnChanges {
   nameFilterForm: FormGroup;
   showErrorMessages: boolean;
   isEditMode: boolean;
-  filtersToSave: MultiSelectFilter[];
+  filtersToSave: Filter[];
+  filterType = FilterType;
 
   constructor(
     private fb: FormBuilder

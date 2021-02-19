@@ -102,7 +102,7 @@ export class EmployeeHistoryPageComponent implements OnInit, OnDestroy, AfterVie
       this.loadDateFilter = [{
         SourceName: 'Load_Date',
         Operator: '=',
-        Value: this.intlService.formatDate(this.historyDate, 'yyyy-MM-dd'),
+        Values: [this.intlService.formatDate(this.historyDate, 'yyyy-MM-dd')],
         ExcludeFromFilterSave: true
       }];
     }

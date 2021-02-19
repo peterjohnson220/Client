@@ -16,7 +16,7 @@ export class SavedFiltersHelper {
     const isEditMode = !!id;
     const searchFilters = isEditMode
       ? null
-      : this.payfactorsSearchApiModelMapper.mapMultiSelectFiltersToSearchFilters(modalData.SearchFiltersToSave);
+      : this.payfactorsSearchApiModelMapper.mapFiltersToSearchFilters(modalData.SearchFiltersToSave);
     const request = {
       Type: userFilterTypeData.Type,
       SavedFilter: {

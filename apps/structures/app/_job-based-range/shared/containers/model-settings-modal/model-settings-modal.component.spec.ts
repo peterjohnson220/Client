@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { NgbModal, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
@@ -13,12 +14,11 @@ import { generateMockRangeAdvancedSetting, generateMockRangeDistributionSettingF
 import { MissingMarketDataTypes } from 'libs/constants/structures/missing-market-data-type';
 
 import * as fromJobBasedRangeReducer from '../../../shared/reducers';
-import * as fromModelSettingsModalActions from '../../../shared/actions/model-settings-modal.actions';
+import * as fromModelSettingsModalActions from '../../../../shared/actions/model-settings-modal.actions';
 import { ModelSettingsModalComponent } from './model-settings-modal.component';
-import { UrlService } from '../../services';
 import { RangeDistributionSettingComponent } from '../range-distribution-setting';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AdvancedModelSettingComponent } from '../advanced-model-setting';
+import { UrlService } from '../../../../shared/services';
 
 describe('Job Based Ranges - Model Settings Modal', () => {
   let instance: ModelSettingsModalComponent;

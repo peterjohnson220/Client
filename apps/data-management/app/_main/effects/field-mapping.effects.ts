@@ -237,14 +237,22 @@ export class FieldMappingEffects {
     ),
     mergeMap((obj) => {
       if (obj.action.payload.mappedFields) {
-        const { updatedProviderFields, updatedPayfactorsFields } =
+        const actions = [];
+        const { updatedProviderFields, updatedPayfactorsFields, reportChanged } =
           EntityMappingHelper.mapMappedFieldsTpProviderAndPayfactorsFields(
             cloneDeep(obj.pFields),
             cloneDeep(obj.pfFields),
             obj.action.payload.mappedFields,
             obj.action.payload.selectedEntities
           );
-        return [new fromFieldMappingActions.LoadMappedFieldsSucces({ payfactorsFields: updatedPayfactorsFields, providerFields: updatedProviderFields })];
+          if (reportChanged) {
+            actions.push(new fromFieldMappingActions.ProviderReportChanged);
+          }
+          actions.push(new fromFieldMappingActions.LoadMappedFieldsSucces({
+            payfactorsFields: updatedPayfactorsFields,
+            providerFields: updatedProviderFields
+          }));
+        return actions;
       }
     })
   );

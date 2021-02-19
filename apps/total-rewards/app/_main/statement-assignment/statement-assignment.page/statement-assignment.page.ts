@@ -11,11 +11,14 @@ import { StatementEmailTemplate, TotalRewardAssignedEmployee } from 'libs/models
 import * as fromAppNotificationsMainReducer from 'libs/features/infrastructure/app-notifications/reducers';
 import { AppNotification } from 'libs/features/infrastructure/app-notifications/models';
 import { AsyncStateObj } from 'libs/models/state';
-import { GridTypeEnum, ListAreaColumn } from 'libs/models/common';
+import { GridTypeEnum, ListAreaColumn, FileDownloadSecurityWarningType } from 'libs/models/common';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
 import { Statement } from 'libs/features/total-rewards/total-rewards-statement/models';
 import { TotalRewardsAssignmentService } from 'libs/features/total-rewards/total-rewards-statement/services/total-rewards-assignment.service';
 import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services';
+import { SettingsService } from 'libs/state/app-context/services';
+import { CompanySettingsEnum } from 'libs/models/company';
+import { FileDownloadSecurityWarningModalComponent } from 'libs/ui/common';
 
 import * as fromPageReducer from '../reducers';
 import * as fromPageActions from '../actions/statement-assignment.page.actions';
@@ -32,6 +35,7 @@ import { DeliveryOption, StatementAssignmentConfig } from '../models';
 })
 export class StatementAssignmentPageComponent implements OnDestroy, OnInit {
   @ViewChild(StatementAssignmentModalComponent, {static: true}) public StatementAssignmentModalComponent: StatementAssignmentModalComponent;
+  @ViewChild('fileDownloadSecurityWarningModal', { static: true }) public fileDownloadSecurityWarningModal: FileDownloadSecurityWarningModalComponent;
 
   statement$: Observable<Statement>;
 
@@ -44,6 +48,7 @@ export class StatementAssignmentPageComponent implements OnDestroy, OnInit {
   isExportingAssignedEmployees$: Observable<boolean>;
   exportEventId$: Observable<AsyncStateObj<string>>;
   statementEmailTemplate$: Observable<StatementEmailTemplate>;
+  enableFileDownloadSecurityWarning$: Observable<boolean>;
 
   assignedEmployeesSelectedCompanyEmployeeIds$: Observable<number[]>;
 
@@ -75,22 +80,28 @@ export class StatementAssignmentPageComponent implements OnDestroy, OnInit {
   unassignEmployeesSuccessSubscription = new Subscription();
   appNotificationSubscription: Subscription;
   exportEventIdSubscription: Subscription;
+  enableFileDownloadSecurityWarningSubscription: Subscription;
 
   exportEventId = null;
   filterChangeSubject = new BehaviorSubject<FilterDescriptor[]>([]);
   filters$: Observable<FilterDescriptor[]>;
   isChangingFilters: boolean;
   statementAssignmentMax = StatementAssignmentConfig.statementAssignmentMax;
+  enableFileDownloadSecurityWarning: boolean;
+  deliveryOption: DeliveryOption;
+  securityWarningType: FileDownloadSecurityWarningType;
   private readonly FILTER_DEBOUNCE_TIME = 400;
 
   constructor(
     private store: Store<fromPageReducer.State>,
     private route: ActivatedRoute, private router: Router,
     private appNotificationStore: Store<fromAppNotificationsMainReducer.State>,
-    private featureFlagService: AbstractFeatureFlagService
+    private featureFlagService: AbstractFeatureFlagService,
+    private settingsService: SettingsService
   ) {
     this.filters$ = this.filterChangeSubject.asObservable();
     this.electronicDeliveryFeatureFlagEnabled = this.featureFlagService.enabled(FeatureFlags.TotalRewardsElectronicDelivery, false);
+    this.enableFileDownloadSecurityWarning$ = this.settingsService.selectCompanySetting<boolean>(CompanySettingsEnum.FileDownloadSecurityWarning);
   }
 
   private setSearchContext() {
@@ -177,6 +188,9 @@ export class StatementAssignmentPageComponent implements OnDestroy, OnInit {
         this.exportEventId = eventId.obj;
       }
     });
+    this.enableFileDownloadSecurityWarningSubscription = this.enableFileDownloadSecurityWarning$.subscribe(isEnabled => {
+        this.enableFileDownloadSecurityWarning = isEnabled;
+    });
 
     const processedNotificationIds = [];
     this.appNotificationSubscription = this.getNotification$.subscribe(notifications => {
@@ -207,6 +221,7 @@ export class StatementAssignmentPageComponent implements OnDestroy, OnInit {
     this.appNotificationSubscription.unsubscribe();
     this.unassignEmployeesSuccessSubscription.unsubscribe();
     this.filterChangeSubscription.unsubscribe();
+    this.enableFileDownloadSecurityWarningSubscription.unsubscribe();
     this.store.dispatch(new fromPageActions.ResetState());
   }
 
@@ -221,7 +236,15 @@ export class StatementAssignmentPageComponent implements OnDestroy, OnInit {
   }
 
   handleGenerateStatementsClick(deliveryOption: DeliveryOption) {
-    this.store.dispatch(new fromPageActions.GenerateStatements({ method: deliveryOption.Method, emailTemplate: deliveryOption.EmailTemplate }));
+    this.deliveryOption = deliveryOption;
+    if (this.enableFileDownloadSecurityWarning && !deliveryOption.EmailTemplate) {
+      this.store.dispatch(new fromPageActions.CloseGenerateStatementModal());
+      this.securityWarningType = FileDownloadSecurityWarningType.TotalRewardsStatement;
+      this.fileDownloadSecurityWarningModal.open();
+    } else {
+      this.store.dispatch(new fromPageActions.GenerateStatements({ method: this.deliveryOption.Method, emailTemplate: this.deliveryOption.EmailTemplate }));
+    }
+
     if (deliveryOption.SaveEmailTemplate && deliveryOption.EmailTemplate) {
       this.store.dispatch(new fromGenerateStatementModalActions.SaveStatementEmailTemplate(deliveryOption.EmailTemplate));
     }
@@ -237,6 +260,14 @@ export class StatementAssignmentPageComponent implements OnDestroy, OnInit {
     this.assignedEmployeesGridState = cloneDeep($event);
     this.assignedEmployeesGridState.filter = currentFilter;
     this.refreshGrid();
+  }
+
+  handleSecurityWarningConfirmed(isConfirmed) {
+    if (isConfirmed) {
+      this.securityWarningType === FileDownloadSecurityWarningType.TotalRewardsExport ?
+        this.store.dispatch(new fromPageActions.ExportAssignedEmployees()) :
+        this.store.dispatch(new fromPageActions.GenerateStatements({ method: this.deliveryOption.Method, emailTemplate: this.deliveryOption.EmailTemplate }));
+    }
   }
 
   // filter handler methods
@@ -295,7 +326,12 @@ export class StatementAssignmentPageComponent implements OnDestroy, OnInit {
   }
 
   handleExportClicked() {
-    this.store.dispatch(new fromPageActions.ExportAssignedEmployees());
+    if (this.enableFileDownloadSecurityWarning) {
+      this.securityWarningType = FileDownloadSecurityWarningType.TotalRewardsExport;
+      this.fileDownloadSecurityWarningModal.open();
+    } else {
+      this.store.dispatch(new fromPageActions.ExportAssignedEmployees());
+    }
   }
 
   handleSaveGridColumns(columns: ListAreaColumn[]): void {

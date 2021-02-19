@@ -14,7 +14,7 @@ export class ControlTypesEffects {
   @Effect()
   loadControlTypes$: Observable<Action> = this.actions$.pipe(
     ofType(fromControlTypeActions.LOAD_CONTROL_TYPES),
-    switchMap(() => {
+    switchMap((data) => {
       return this.jobDescriptionManagementApiService.getAvailableControls().pipe(
         map((response: any) => new fromControlTypeActions.LoadControlTypesSuccess(response))
       );

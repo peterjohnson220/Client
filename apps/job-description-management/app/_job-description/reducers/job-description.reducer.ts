@@ -14,6 +14,7 @@ export interface State {
   editing: boolean;
   saving: boolean;
   publishing: boolean;
+  publishingSuccess: boolean;
   inHistory: boolean;
   publishButtonEnabled: boolean;
   jobDescriptionIsFullscreen: boolean;
@@ -27,6 +28,9 @@ export interface State {
   deleting: boolean;
   deletingError: boolean;
   deletingSuccess: boolean;
+  discardingDraft: boolean;
+  discardingDraftError: boolean;
+  discardingDraftSuccess: boolean;
   ssoLoginUrl: string;
   ssoAuthResult: any;
   loadingPage: boolean;
@@ -39,6 +43,7 @@ export const initialState: State = {
   editing: false,
   saving: false,
   publishing: false,
+  publishingSuccess: false,
   publishButtonEnabled: true,
   inHistory: false,
   jobDescriptionIsFullscreen: false,
@@ -52,6 +57,9 @@ export const initialState: State = {
   deleting: false,
   deletingError: false,
   deletingSuccess: false,
+  discardingDraft: false,
+  discardingDraftError: false,
+  discardingDraftSuccess: false,
   ssoLoginUrl: null,
   ssoAuthResult: null,
   loadingPage: false,
@@ -74,7 +82,10 @@ export function reducer(state = initialState, action: fromJobDescriptionActions.
       const asyncStateObjClone: AsyncStateObj<JobDescription> = cloneDeep(state.jobDescriptionAsync);
 
       asyncStateObjClone.loading = false;
-      asyncStateObjClone.obj = action.payload.jobDescription;
+      asyncStateObjClone.obj = cloneDeep(action.payload.jobDescription);
+      if (!!action.payload.controlTypes && asyncStateObjClone.obj?.Sections?.length > 0) {
+        asyncStateObjClone.obj.Sections = ControlDataHelper.initDataRows(asyncStateObjClone.obj.Sections, action.payload.controlTypes);
+      }
 
       let editing: boolean = asyncStateObjClone.obj.JobDescriptionStatus === 'Draft' ||
         (asyncStateObjClone.obj.JobDescriptionStatus === 'In Review' && action.payload.requestData.InWorkflow);
@@ -198,7 +209,8 @@ export function reducer(state = initialState, action: fromJobDescriptionActions.
     case fromJobDescriptionActions.PUBLISH_JOB_DESCRIPTION: {
       return {
         ...state,
-        publishing: true
+        publishing: true,
+        publishingSuccess: false
       };
     }
     case fromJobDescriptionActions.PUBLISH_JOB_DESCRIPTION_SUCCESS: {
@@ -210,6 +222,7 @@ export function reducer(state = initialState, action: fromJobDescriptionActions.
       return {
         ...state,
         publishing: false,
+        publishingSuccess: true,
         editing: false,
         jobDescriptionAsync: asyncStateObjClone,
         jobDescriptionChangeHistory: [],
@@ -374,7 +387,10 @@ export function reducer(state = initialState, action: fromJobDescriptionActions.
     }
     case fromJobDescriptionActions.REPLACE_JOB_DESCRIPTION_VIA_COPY: {
       const asyncStateObjClone: AsyncStateObj<JobDescription> = cloneDeep(state.jobDescriptionAsync);
-      asyncStateObjClone.obj = action.payload;
+      asyncStateObjClone.obj = cloneDeep(action.payload.jobDescription);
+      if (asyncStateObjClone.obj?.Sections?.length > 0) {
+        asyncStateObjClone.obj.Sections = ControlDataHelper.initDataRows(asyncStateObjClone.obj.Sections, action.payload.controlTypes);
+      }
 
       return {
         ...state,
@@ -419,6 +435,30 @@ export function reducer(state = initialState, action: fromJobDescriptionActions.
         deleting: false,
         deletingSuccess: false,
         deletingError: true
+      };
+    }
+    case fromJobDescriptionActions.DISCARD_DRAFT: {
+      return {
+        ...state,
+        discardingDraft: true,
+        discardingDraftSuccess: false,
+        discardingDraftError: false
+      };
+    }
+    case fromJobDescriptionActions.DISCARD_DRAFT_SUCCESS: {
+      return {
+        ...state,
+        discardingDraft: false,
+        discardingDraftSuccess: true,
+        discardingDraftError: false
+      };
+    }
+    case fromJobDescriptionActions.DISCARD_DRAFT_ERROR: {
+      return {
+        ...state,
+        discardingDraft: false,
+        discardingDraftSuccess: false,
+        discardingDraftError: true
       };
     }
     case fromJobDescriptionActions.UPDATE_JOB_DESCRIPTION_APPLIES_TO: {
@@ -478,6 +518,7 @@ export const getEditingJobDescription = (state: State) => state.editing;
 export const getSavingJobDescription = (state: State) => state.saving;
 export const getJobDescriptionChangeHistory = (state: State) => state.jobDescriptionChangeHistory;
 export const getPublishingJobDescription = (state: State) => state.publishing;
+export const getPublishingJobDescriptionSuccess = (state: State) => state.publishingSuccess;
 export const getPublishButtonEnabled = (state: State) => state.publishButtonEnabled;
 export const getInHistory = (state: State) => state.inHistory;
 export const getJobDescriptionExtendedInfo = (state: State) => state.jobDescriptionExtendedInfo;
@@ -487,6 +528,9 @@ export const getUndoJobDescriptionChangesComplete = (state: State) => state.undo
 export const getDeletingJobDescription = (state: State) => state.deleting;
 export const getDeletingJobDescriptionSuccess = (state: State) => state.deletingSuccess;
 export const getDeletingJobDescriptionError = (state: State) => state.deletingError;
+export const getDiscardingDraftJobDescription = (state: State) => state.discardingDraft;
+export const getDiscardingDraftJobDescriptionSuccess = (state: State) => state.discardingDraftSuccess;
+export const getDiscardingDraftJobDescriptionError = (state: State) => state.discardingDraftError;
 export const getJobDescriptionExtendedInfoAsync = (state: State) => state.GettingJobDescriptionExtendedInfoAsync;
 export const getReplaceJobDescriptionComplete = (state: State) => state.replaceJobDescriptionComplete;
 export const getJobDescriptionSSOLoginUrl = (state: State) => state.ssoLoginUrl;

@@ -1,10 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 import { PricingInfo, PricingInfoDefaultField, CreateProjectRequest } from 'libs/models/payfactors-api';
 import { Permissions } from 'libs/constants';
+import { SettingsService } from 'libs/state/app-context/services';
+import { CompanySettingsEnum } from 'libs/models/company';
+import { FileDownloadSecurityWarningModalComponent } from 'libs/ui/common';
 
 import * as fromPricingDetailsActions from '../../actions';
 import * as fromPricingDetailsReducer from '../../reducers';
@@ -14,18 +17,19 @@ import * as fromPricingDetailsReducer from '../../reducers';
   templateUrl: './pricing-info.component.html',
   styleUrls: ['./pricing-info.component.scss']
 })
-export class PricingInfoComponent {
-
-  pricingInfo: PricingInfo;
-
-  pricingInfoSubscription = new Subscription();
-
-  permissions = Permissions;
+export class PricingInfoComponent implements OnInit, OnDestroy {
+  @ViewChild('fileDownloadSecurityWarningModal', { static: true }) fileDownloadSecurityWarningModal: FileDownloadSecurityWarningModalComponent;
 
   categories: any;
+  enableFileDownloadSecurityWarning = false;
+  enableFileDownloadSecurityWarning$: Observable<boolean>;
+  enableFileDownloadSecurityWarningSubscription: Subscription;
+  permissions = Permissions;
+  pricingInfo: PricingInfo;
+  pricingInfoSubscription = new Subscription();
   status: string;
 
-  constructor(private store: Store<fromPricingDetailsReducer.State>) {
+  constructor(private store: Store<fromPricingDetailsReducer.State>, private settingsService: SettingsService) {
 
     this.pricingInfoSubscription = this.store.select(fromPricingDetailsReducer.getPricingInfo).subscribe(pricingInfo => {
       this.pricingInfo = pricingInfo.obj;
@@ -33,6 +37,19 @@ export class PricingInfoComponent {
         this.pricingInfo.Status : 'Not Reviewed';
     });
 
+    this.enableFileDownloadSecurityWarning$ = this.settingsService.selectCompanySetting<boolean>(CompanySettingsEnum.FileDownloadSecurityWarning);
+  }
+
+  ngOnInit() {
+    this.enableFileDownloadSecurityWarningSubscription = this.enableFileDownloadSecurityWarning$.subscribe(isEnabled => {
+      if (isEnabled) {
+        this.enableFileDownloadSecurityWarning = true;
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    this.enableFileDownloadSecurityWarningSubscription.unsubscribe();
   }
 
   onStatusChanged(event) {
@@ -104,4 +121,25 @@ export class PricingInfoComponent {
     return suffix;
   }
 
+  handleExportToExcel() {
+    if (this.enableFileDownloadSecurityWarning) {
+      this.fileDownloadSecurityWarningModal.open();
+    } else {
+      this.download();
+    }
+  }
+
+  handleSecurityWarningConfirmed(isConfirmed) {
+    if (isConfirmed) {
+      this.download();
+    }
+  }
+
+  download() {
+    const link = document.createElement('a');
+    link.setAttribute('href', `/odata/CompanyJobPricing(${this.pricingInfo.PricingID})/Default.GetPricingModalExport`);
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  }
 }

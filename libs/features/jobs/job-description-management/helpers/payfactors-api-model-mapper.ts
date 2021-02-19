@@ -204,12 +204,12 @@ export class PayfactorsApiModelMapper {
 
   static mapJobMatchResultResponseToJobMatchResult(response: JobMatchResultResponse): JobMatchResult {
     return {
-      Code: response.Code,
+      JobCode: response.JobCode,
       EffectiveDate: response.EffectiveDate,
       Id: response.Id,
-      IsSurvey: response.IsSurvey,
-      MatchStrength: response.MatchStrength,
-      Name: response.Name,
+      IsSurvey: response.SurveyId > 0 ? true : false,
+      WeightedScore: response.WeightedScore,
+      JobTitle: response.JobTitle,
       SurveyId: response.SurveyId,
       SurveyName: response.SurveyName,
       SurveyPublisher: response.SurveyPublisher,

@@ -36,10 +36,10 @@
           <div *ngIf="result.Details.Attachments?.length > 0" class="pl-3 pt-3 pb-2 sub-results">
             <pf-community-search-result-attachment
               [attachments]="result.Details.Attachments"
-              [searchTerm]="query">     
+              [searchTerm]="query">
             </pf-community-search-result-attachment>
           </div>
-          <div class="pl-3 pt-4 sub-results" *ngFor="let reply of result.Details.Replies"> 
+          <div class="pl-3 pt-4 sub-results" *ngFor="let reply of result.Details.Replies">
             <pf-community-search-result-header class="my-0"
               [type]="discussionReplyType"
               [companyName]="reply.CompanyName"
@@ -53,7 +53,7 @@
             <div *ngIf="reply.Attachments?.length > 0" class="pt-1 pb-1">
               <pf-community-search-result-attachment
                 [attachments]="reply.Attachments"
-                [searchTerm]="query">     
+                [searchTerm]="query">
               </pf-community-search-result-attachment>
             </div>
           </div>

@@ -6,3 +6,4 @@ export * from './action-button';
 export * from './typeahead';
 export * from './job-description-summary-editor';
 export * from './copy-to-clipboard-button';
+export * from './job-description-export';

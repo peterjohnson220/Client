@@ -1,3 +1,4 @@
+import { JobDescription } from '../jdm/job-description.model';
 import { CompanyStructureInfo } from '../structures';
 
 export class JobInfoResponse {
@@ -82,6 +83,8 @@ export interface JobDescriptionSummary {
   JobDescriptionManagementEnabled: boolean;
   CompanyJobCode: string;
   CompanyJobId: number;
+  HasMultipleVersions?: boolean;
+  JobDescription?: JobDescription;
 }
 
 export interface CompanyJobAttachment {

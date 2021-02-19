@@ -10,6 +10,7 @@ import { PfCommonModule } from 'libs/core';
 import * as fromRootState from 'libs/state/state';
 import { RateType } from 'libs/data/data-sets';
 import { ExchangeExplorerContextService } from 'libs/features/peer/exchange-explorer/services';
+import { SettingsService } from 'libs/state/app-context/services';
 
 import { SummaryCardComponent } from './summary.card.component';
 import * as fromComphubMainReducer from '../../../reducers';
@@ -42,6 +43,7 @@ describe('Comphub - Main - Summary Card Component', () => {
       ],
       declarations: [ SummaryCardComponent ],
       providers: [
+        SettingsService,
         {
           provide: CurrencyPipe,
           useValue: { transform: (x) => x }
@@ -98,7 +100,7 @@ describe('Comphub - Main - Summary Card Component', () => {
     expect(actualValue).toEqual(expectedValue);
   });
 
-  it('should call saveAs on the pdf export view child when handleDownloadPdfClicked clicked', () => {
+  it('should call saveAs on the pdf export view child when handleDownloadPdfClicked clicked and enableFileDownloadSecurityWarning is false', () => {
     spyOn(instance.pdf, 'saveAs');
     instance.jobData = generateFakeJobData();
 

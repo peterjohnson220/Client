@@ -1,6 +1,5 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   EventEmitter,
   Input,
@@ -51,6 +50,7 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
   @Input() height: string;
   @Input() showTitle = true;
   @Input() activeEditorId: string;
+  @Input() isPageScrolling;
 
   @Output() onTitleChange: EventEmitter<UpdateTitleRequest> = new EventEmitter();
   @Output() onContentChange: EventEmitter<UpdateStringPropertyRequest> = new EventEmitter();
@@ -127,7 +127,7 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
     return this.controlData.Id === this.activeEditorId;
   }
 
-  constructor(private changeDetectorRef: ChangeDetectorRef, private sanitizer: DomSanitizer) { }
+  constructor(private sanitizer: DomSanitizer) { }
 
   ngOnInit() {
     this.title = this.controlData.Title.Default;
@@ -143,18 +143,20 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
     }
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges({ mode, isPageScrolling }: SimpleChanges) {
     // Get the F outta here if in print mode
     if (this.mode === StatementModeEnum.Print) { return; }
 
-    if (changes.mode?.currentValue === this.statementModeEnum.Edit && changes.mode?.previousValue === this.statementModeEnum.Preview) {
-      setTimeout(() => {
-        this.createQuillEditor();
-      }, 0);
-    } else if (changes.mode?.currentValue === this.statementModeEnum.Preview && changes.mode?.previousValue === this.statementModeEnum.Edit) {
-      // manually remove the mention container from the DOM on Edit > Preview, since it can be orphaned when left open on mode transition
-      this.quillMentionContainer.style.display = 'none';
-      this.quillMentionContainer.remove();
+    const changedFromPreviewToEdit = mode?.currentValue === StatementModeEnum.Edit && mode?.previousValue === StatementModeEnum.Preview;
+    const changedFromEditToPreview = mode?.currentValue === StatementModeEnum.Preview && mode?.previousValue === StatementModeEnum.Edit;
+    const pageScrolling = isPageScrolling?.currentValue && !isPageScrolling?.previousValue;
+
+    if (changedFromPreviewToEdit) {
+      // the dom node quill attaches to isn't there until the next turn, so wait until then to re-init
+      setTimeout(() => { this.createQuillEditor(); }, 0);
+    } else if (changedFromEditToPreview || pageScrolling) {
+      // we get this for free in most cases, but some edge cases like scrolling require manual closing
+      this.closeQuillMention();
     }
 
     this.isValid = !this.isContentHeightGreaterThanContainerHeight();
@@ -164,6 +166,8 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
     if (this.onContentChangedSubscription) {
       this.onContentChangedSubscription.unsubscribe();
     }
+
+    this.closeQuillMention();
   }
 
   onTitleChanged(newTitle: string) {
@@ -308,7 +312,15 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
   }
 
   formatCssDefaultTitle(): string {
-    return 'rte-' + this.controlData.Id; // Title?.Default?.toLowerCase().split(/[\s:,]/).join('');
+    return 'rte-' + this.controlData.Id;
+  }
+
+  closeQuillMention() {
+    // manually remove the mention container from the DOM, since it can be orphaned when left open on certain actions
+    if (this.quillMentionContainer) {
+      this.quillMentionContainer.style.display = 'none';
+      this.quillMentionContainer.remove();
+    }
   }
 
   createStyleSheet() {

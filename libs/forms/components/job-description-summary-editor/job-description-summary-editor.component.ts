@@ -24,6 +24,7 @@ export class JobDescriptionSummaryEditorComponent implements OnInit, OnDestroy, 
   @Input() jobDescriptionSummary: JobDescriptionSummary;
   @Input() isJdmEnabled = true;
   @Input() theme = PfThemeType.Default;
+  @Input() textareaPlaceholder = 'There is no Job Description loaded for this Job.';
 
   @Output() jobDescriptionChanged: EventEmitter<string> = new EventEmitter<string>();
 

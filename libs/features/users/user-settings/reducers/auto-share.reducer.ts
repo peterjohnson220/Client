@@ -85,7 +85,7 @@ export function reducer(state = initialState, action: fromAutoShareActions.Actio
     }
     case fromAutoShareActions.SAVE_AUTO_SHARE_USERS: {
       const asyncStateObjClone = cloneDeep(state.shareableUsersAsync);
-      const selectedUsers = action.payload;
+      const selectedUsers = action.payload.UserIds;
       const sharedUsers = asyncStateObjClone.obj.filter(x => x.IsSelected === true);
       const usersToAdd = asyncStateObjClone.obj.filter(x => selectedUsers.includes(x.UserId) && x.IsSelected === false);
       // Remove users from the shared list
@@ -97,6 +97,7 @@ export function reducer(state = initialState, action: fromAutoShareActions.Actio
       if (usersToAdd.length > 0) {
         usersToAdd.forEach(ua => ua.IsSelected = true);
       }
+
       return {
         ...state,
         shareableUsersAsync: asyncStateObjClone
