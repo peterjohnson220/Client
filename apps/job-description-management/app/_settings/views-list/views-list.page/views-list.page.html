@@ -42,7 +42,12 @@
               <ng-template kendoGridCellTemplate let-dataItem>
                 {{dataItem.ViewName}}
                 <fa-icon *ngIf="dataItem.ViewName === 'Export'"
-                  icon="exclamation-circle"  placement="right" ngbTooltip="Previously Export Settings in Templates">
+                  icon="exclamation-circle"  placement="right" ngbTooltip="Previously Export Settings in Templates"
+                  container="body">
+                </fa-icon>
+                <fa-icon *ngIf="dataItem.ViewName === 'Draft & In Review'"
+                  icon="exclamation-circle"  placement="right" ngbTooltip="This view controls the control name visibility for job descriptions that are in draft mode and in review"
+                  container="body">
                 </fa-icon>
             </ng-template>
             </kendo-grid-column>
