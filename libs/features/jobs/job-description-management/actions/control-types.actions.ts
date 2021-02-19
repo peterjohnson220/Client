@@ -3,7 +3,9 @@ import { Action } from '@ngrx/store';
 export const LOAD_CONTROL_TYPES = '[LOAD_CONTROL_TYPES / load ControlTypes Success] Load Control Types';
 export const LOAD_CONTROL_TYPES_SUCCESS = '[LOAD_CONTROL_TYPES_SUCCESS / load Control Types Success] Load Control Types Success';
 export const LOAD_HISTORICAL_CONTROL_TYPES = '[LOAD_HISTORICAL_CONTROL_TYPES / load historical ControlTypes Success] Load Historical Control Types';
-export const LOAD_HISTORICAL_CONTROL_TYPES_SUCCESS = '[LOAD_HISTORICAL_CONTROL_TYPES_SUCCESS / load historical Control Types Success] Load Historical Control Types Success';
+export const LOAD_HISTORICAL_CONTROL_TYPES_SUCCESS =
+  '[LOAD_HISTORICAL_CONTROL_TYPES_SUCCESS / load historical Control Types Success] Load Historical Control Types Success';
+export const RESET_CONTROL_TYPES = '[Features/Jobs/Job Description Management] Reset Control Types';
 
 export class LoadControlTypes implements Action {
   readonly type = LOAD_CONTROL_TYPES;
@@ -23,8 +25,14 @@ export class LoadHistoricalControlTypesSuccess implements Action {
   constructor(public payload: string) {}
 }
 
+export class ResetControlTypes implements Action {
+  readonly type = RESET_CONTROL_TYPES;
+  constructor() {}
+}
+
 export type ControlTypeActions =
   LoadControlTypesSuccess
   | LoadControlTypes
   | LoadHistoricalControlTypes
-  | LoadHistoricalControlTypesSuccess;
+  | LoadHistoricalControlTypesSuccess
+  | ResetControlTypes;

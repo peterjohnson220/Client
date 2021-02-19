@@ -30,7 +30,7 @@ import { PfCommonUIModule } from 'libs/ui/common';
 import {
     AuthenticationStatusComponent, DateConverterFormComponent, DateFormatDropDownComponent, DefaultPaymarketConfirmationModalComponent,
     EntityPickerComponent, EntityUploadComponent, FileMappingComponent, IntegrationCompleteModalComponent, LatestOrgDataLoadModalComponent,
-    PfCheckboxComponent, ProviderListComponent
+    PfCheckboxComponent, ProviderListComponent, ConverterFormComponent
 } from './components';
 import {
     CustomEmployeeIdentifierComponent, DataConverterModalComponent, DataManagementHomePageComponent, DataManagementLandingPageComponent,
@@ -183,6 +183,7 @@ import { HrisAuthenticationGuard } from './guards';
     DateFormatDropDownComponent,
     LoadAndExportFilesCardComponent,
     LatestOrgDataLoadModalComponent,
+    ConverterFormComponent,
   ],
   providers: [
     // Guards

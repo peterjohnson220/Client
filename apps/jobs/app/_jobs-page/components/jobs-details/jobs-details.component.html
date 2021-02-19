@@ -1,8 +1,14 @@
 <div class="d-flex">
   <div class="d-flex job-details-bottom-border hide-sm py-1">
-    <div class="my-auto px-3">
+     <div class="my-auto px-3 d-flex">
+      <ng-container *ngIf="canEditJobCompanySetting">
+        <fa-icon
+          [icon]="['far', 'edit']" title="Edit Job" size="lg" class="pr-3 cursor-pointer"
+          [attr.data-qa-id]="'btn-jobs-page-edit-job-' + (selectedRow$ | async).CompanyJobs_CompanyJob_ID"
+          [pfSecuredResource]="permissions.JOBS_ADD_EDIT_DELETE"
+          (click)="toggleJobManagmentModal()"></fa-icon>
+      </ng-container>
       <div pfEllipsisActive class="ellipsis-overflowing-text-wrap job-title-code">
-        <fa-icon [icon]="['far', 'briefcase']" size="lg" class="pr-3"></fa-icon>
         <pf-job-title-code
           [jobTitle]="(selectedRow$ | async).CompanyJobs_Job_Title"
           [jobCode]="(selectedRow$ | async).CompanyJobs_Job_Code"
@@ -60,7 +66,7 @@
       <ng-template ngbNavContent>
         <div *ngIf="tabStatusOpened[pageViewIds.PricingHistory]  === true" class="position-absolute full-size tab-top-offset">
           <div class="d-flex flex-column h-100">
-            <div class="position-relative" *ngIf="pricingHistoryChartFeatureFlag.value">
+            <div class="position-relative">
               <pf-pricings-history-chart [jobId]="jobId"></pf-pricings-history-chart>
             </div>
             <div class="position-relative h-100 w-100">

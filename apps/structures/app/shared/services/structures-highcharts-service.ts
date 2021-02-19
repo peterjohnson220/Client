@@ -1,7 +1,7 @@
 import * as Highcharts from 'highcharts';
 import { RateType } from 'libs/data/data-sets';
 import { RangeGroupMetadata } from 'libs/models/structures';
-import { RangeGroupType } from 'libs/constants/structures/range-group-type';
+import { RangeType } from 'libs/constants/structures/range-type';
 
 import { RangeDistributionDataPointTypeIds } from '../constants/range-distribution-data-point-type-ids';
 import { RangeDistributionTypeIds } from '../constants/range-distribution-type-ids';
@@ -108,10 +108,26 @@ export class StructuresHighchartsService {
   static getJobDataPoint(xCoordinate, jobData, hasCurrentStructure, locale, metaData) {
     return {
       x: xCoordinate,
-      y: jobData.mrp,
-      dataPoint: StructuresHighchartsService.formatDataPoint('Job MRP', jobData.mrp, locale, metaData.Currency, metaData.Rate),
+      y: !!jobData.mrp ? jobData.mrp : null,
+      dataPoint: StructuresHighchartsService.formatCurrency(jobData.mrp, locale, metaData.Currency, metaData.Rate),
       jobTitle: jobData.jobTitle
     };
+  }
+
+  static getRegressionDataPoint(xCoordinate, jobData, slope, intercept, rate) {
+    const roundDec = rate === 'Annual' ? 0 : 2;
+
+    const regCoordinate = StructuresHighchartsService.roundTo(Math.exp(intercept) * Math.exp(jobData.CompanyStructures_Ranges_DispSeq * slope), roundDec);
+
+    return {
+      x: xCoordinate,
+      y: regCoordinate
+    };
+  }
+
+  static roundTo(num: number, places: number) {
+    const factor = 10 ** places;
+    return Math.round(num * factor) / factor;
   }
 
   static getDataPoint(xCoordinate, dataPointTypeId, jobRangeData, hasCurrentStructure, chartLocale, metaData) {
@@ -179,7 +195,7 @@ export class StructuresHighchartsService {
       newDataPointTitle = 'New Top 4th 5th';
     }
 
-    if (metaData.RangeTypeId === RangeGroupType.Grade) {
+    if (metaData.RangeTypeId === RangeType.Grade) {
       gradeName = jobRangeData.CompanyStructures_Ranges_Grade_Name;
       currentMid = jobRangeData.CompanyStructures_RangeGroup_GradeBased_Range_CurrentMid;
     } else {
@@ -199,7 +215,7 @@ export class StructuresHighchartsService {
       delta: !!delta ? delta.message : delta,
       icon: !!delta ? delta.icon : delta,
       iconColor: !!delta ? delta.color : delta,
-      modeledMid: StructuresHighchartsService.formatDataPoint('Modeled Mid', dataPointValue, chartLocale, metaData.Currency, metaData.Rate),
+      modeledMid: StructuresHighchartsService.formatDataPoint(metaData.IsCurrent ? 'Current Mid' : 'Modeled Mid', dataPointValue, chartLocale, metaData.Currency, metaData.Rate),
       gradeName: gradeName ? `Grade Name: ${gradeName}` : null,
       currentMid: StructuresHighchartsService.formatDataPoint('Current Mid', currentMid, chartLocale, metaData.Currency, metaData.Rate),
       midPointDiff: StructuresHighchartsService.getPercentDiff('Mid Percent Difference', currentMid, dataPointValue)

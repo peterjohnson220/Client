@@ -82,7 +82,7 @@ describe('Data Management - Main - Load And Export File Card', () => {
 
     spyOn(store, 'dispatch');
 
-    instance.handleOrgDataExportClick({preventDefault: jest.fn()});
+    instance.handleOrgDataExportClick();
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedOrgDataNavigationAction);
     expect(store.dispatch).toHaveBeenCalledWith(expectedAppNotificationAction);
@@ -93,7 +93,7 @@ describe('Data Management - Main - Load And Export File Card', () => {
 
     spyOn(store, 'dispatch');
 
-    instance.handleJobDescriptionExportClick({preventDefault: jest.fn()});
+    instance.handleJobDescriptionExportClick();
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedJobDescriptionExportAction);
   });

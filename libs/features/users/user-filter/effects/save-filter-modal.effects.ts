@@ -12,6 +12,7 @@ import { UserFilterApiService } from 'libs/data/payfactors-api';
 import * as fromSaveFilterModalActions from '../actions/save-filter-modal.actions';
 import * as fromUserFilterActions from '../actions/user-filter.actions';
 import * as fromUserFilterReducer from '../reducers';
+import { Filter } from '../../../search/search/models';
 
 @Injectable()
 export class SaveFilterModalEffects {
@@ -24,11 +25,14 @@ export class SaveFilterModalEffects {
       (action: fromSaveFilterModalActions.CreateSavedFilter, filters) => ({ action, filters })),
     mergeMap(data => {
       const actions = [];
-      const selectedFilters = FiltersHelper.getMultiSelectFiltersWithSelections(data.filters);
+      const saveEnabledAndNotLocked = (f: Filter) => !f.Locked && !f.SaveDisabled;
+      const multiSelectFilters: Filter[] = FiltersHelper.getMultiSelectFiltersWithSelections(data.filters).filter(saveEnabledAndNotLocked);
+      const rangeFilters: Filter[] = FiltersHelper.getRangeFiltersWithSelections(data.filters).filter(saveEnabledAndNotLocked);
+
       actions.push(new fromSaveFilterModalActions.SetModalData({
         Name: '',
         SetAsDefault: false,
-        SearchFiltersToSave: selectedFilters.filter(f => !f.Locked && !f.SaveDisabled)
+        SearchFiltersToSave: multiSelectFilters.concat(rangeFilters)
       }));
       actions.push(new fromSaveFilterModalActions.OpenSaveModal());
 

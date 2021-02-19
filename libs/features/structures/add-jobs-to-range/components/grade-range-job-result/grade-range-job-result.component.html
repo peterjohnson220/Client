@@ -1,0 +1,33 @@
+<ng-container>
+  <kendo-grid
+    class="table table-hover"
+    [data]="gridView"
+    [sortable]="sortable"
+    [sort]="sort"
+    [selectable]="selectableSettings"
+    [rowSelected]="isRowSelected"
+    [scrollable]="'none'"
+    (sortChange)="sortChange($event)"
+    (selectionChange)="handleSelectionChange($event)">
+    <ng-container class="result job-search-row">
+      <kendo-grid-column field="Code" title="Job Code" [width]="175"></kendo-grid-column>
+      <kendo-grid-column field="Title" title="Job Title" [width]="175"></kendo-grid-column>
+      <kendo-grid-column title="MRP" class="result job-search-row">
+        <ng-template kendoGridCellTemplate let-dataItem>
+          <div>{{controlPoint === 'BaseMRP' ? dataItem.BaseMRP || '--' : dataItem.TCCMRP || '--'}}</div>
+        </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column field="Level" title="Job Level">
+        <ng-template kendoGridCellTemplate let-dataItem>
+          <div>{{dataItem.Level || '--' }}</div>
+        </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column field="Family" title="Job Family">
+        <ng-template kendoGridCellTemplate let-dataItem>
+          <div>{{dataItem.Family || '--' }}</div>
+        </ng-template>
+      </kendo-grid-column>
+    </ng-container>
+  </kendo-grid>
+</ng-container>
+

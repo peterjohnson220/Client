@@ -11,9 +11,11 @@ import { ViewField } from 'libs/models/payfactors-api/reports/request';
 import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import * as fromPfGridActions from 'libs/features/grids/pf-data-grid/actions';
 import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums/pf-theme-type.enum';
-import { RangeType } from 'libs/models/common';
 import * as fromActions from 'libs/features/grids/pf-data-grid/actions';
 import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
+import { GroupedListItem } from 'libs/models/list';
+import { RangeType } from 'libs/constants/structures/range-type';
+import { RangeRecalculationType } from 'libs/constants/structures/range-recalculation-type';
 
 import { PageViewIds } from '../../../../constants';
 import * as fromJobsPageReducer from '../../../../reducers';
@@ -51,9 +53,8 @@ export class StructureGridComponent implements AfterViewInit, OnDestroy {
   gridFieldSubscription: Subscription;
   companyPayMarketSubscription: Subscription;
   payMarketField: ViewField;
-  filteredPayMarketOptions: any;
-  payMarketOptions: any;
-  selectedPayMarket: any;
+  payMarketOptions: GroupedListItem[];
+  selectedPayMarkets: string[];
   actionBarConfig: ActionBarConfig;
   gridConfig: GridConfig;
   hasStructureDetailsFlagEnabled: boolean;
@@ -65,15 +66,15 @@ export class StructureGridComponent implements AfterViewInit, OnDestroy {
     this.hasStructureDetailsFlagEnabled = this.featureFlagService.enabled(FeatureFlags.StructureDetails, false);
     this.companyPayMarketSubscription = this.store.select(fromJobsPageReducer.getCompanyPayMarkets)
       .subscribe(o => {
-        this.filteredPayMarketOptions = o;
-        this.payMarketOptions = o;
+        if (!!o) {
+          this.payMarketOptions = cloneDeep(o);
+        }
       });
 
     this.gridFieldSubscription = this.store.select(fromPfGridReducer.getFields, this.pageViewId).subscribe(fields => {
       if (fields) {
         this.payMarketField = fields.find(f => f.SourceName === 'PayMarket' && f.IsGlobalFilter);
-        this.selectedPayMarket = this.payMarketField.FilterValue !== null ?
-          { Value: this.payMarketField.FilterValue, Id: this.payMarketField.FilterValue } : null;
+        this.selectedPayMarkets = this.payMarketField.FilterValues === null ? [] : cloneDeep(this.payMarketField.FilterValues);
       }
     });
     this.actionBarConfig = {
@@ -98,12 +99,13 @@ export class StructureGridComponent implements AfterViewInit, OnDestroy {
     };
     this.colTemplates = {
       'Structure_Search': { Template: this.nameColumn },
-      'Mid': {Template: this.midColumn},
-      'AvgEEComparatio': {Template: this.comparatioColumn},
+      'Mid': { Template: this.midColumn },
+      'AvgEEComparatio': { Template: this.comparatioColumn },
       [PfDataGridColType.currency]: { Template: this.currencyColumn },
       [PfDataGridColType.percentage]: { Template: this.percentageColumn }
     };
   }
+
   ngOnDestroy() {
     this.gridFieldSubscription.unsubscribe();
     this.companyPayMarketSubscription.unsubscribe();
@@ -113,23 +115,19 @@ export class StructureGridComponent implements AfterViewInit, OnDestroy {
     this.store.dispatch(new fromActions.CollapseRowById(this.pageViewId, id, idValue));
   }
 
-  handlePayMarketFilterChanged(value: any) {
-    const field = cloneDeep(this.payMarketField);
-    field.FilterValue = value.Id;
-    field.FilterOperator = '=';
+  handlePayMarketValueChanged(payMarkets: string[]) {
+    const field: ViewField = cloneDeep(this.payMarketField);
+    field.FilterValues = payMarkets?.length > 0 ? payMarkets : null;
+    field.FilterOperator = 'in';
     this.updateField(field);
   }
 
-  updateField(field) {
-    if (field.FilterValue) {
+  updateField(field: ViewField) {
+    if (!!field.FilterValues) {
       this.store.dispatch(new fromPfGridActions.UpdateFilter(this.pageViewId, field));
     } else {
       this.store.dispatch(new fromPfGridActions.ClearFilter(this.pageViewId, field));
     }
-  }
-
-  handleFilter(value) {
-    this.filteredPayMarketOptions = this.payMarketOptions.filter((s) => s.Id.toLowerCase().indexOf(value.toLowerCase()) !== -1);
   }
 
   getRefreshFilter(dataRow: any) {
@@ -139,5 +137,9 @@ export class StructureGridComponent implements AfterViewInit, OnDestroy {
       Operator: '=',
       Values: [dataRow.vw_CompanyJobsStructureInfo_CompanyStructuresRanges_ID]
     };
+  }
+
+  public get rangeRecalculationType(): typeof RangeRecalculationType {
+    return RangeRecalculationType;
   }
 }

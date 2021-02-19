@@ -9,8 +9,12 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
   creatingProject$={[Function Store]}
   creatingProjectError$={[Function Store]}
   currentDate={[Function Date]}
+  enableFileDownloadSecurityWarning="false"
+  enableFileDownloadSecurityWarning$={[Function Observable]}
+  enableFileDownloadSecurityWarningSub={[Function Subscriber]}
   exchangeExplorerContextService={[Function Object]}
   exchangeExplorerStore={[Function Store]}
+  fileDownloadSecurityWarningModal={[Function ElementRef]}
   filterContextHasFilters="false"
   firstDayOfMonth={[Function Date]}
   glossaryOpen$={[Function Store]}
@@ -32,6 +36,7 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
   selectedRate$={[Function Store]}
   selectedRateSubscription={[Function Subscriber]}
   sendingQuickPriceShareEmail$={[Function Store]}
+  settingsService={[Function SettingsService]}
   sharePricingSummaryConflict$={[Function Store]}
   sharePricingSummaryError$={[Function Store]}
   sharePricingSummaryModalOpen$={[Function Store]}
@@ -1052,7 +1057,7 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
     >
        Price New Job 
     </button>
-  </pf-card-layout><pf-share-pricing-summary-modal />
+  </pf-card-layout><pf-share-pricing-summary-modal /><pf-file-download-security-warning-modal />
 </pf-summary-card>
 `;
 
@@ -1065,8 +1070,12 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
   creatingProject$={[Function Store]}
   creatingProjectError$={[Function Store]}
   currentDate={[Function Date]}
+  enableFileDownloadSecurityWarning="false"
+  enableFileDownloadSecurityWarning$={[Function Observable]}
+  enableFileDownloadSecurityWarningSub={[Function Subscriber]}
   exchangeExplorerContextService={[Function Object]}
   exchangeExplorerStore={[Function Store]}
+  fileDownloadSecurityWarningModal={[Function ElementRef]}
   filterContextHasFilters="false"
   firstDayOfMonth={[Function Date]}
   glossaryOpen$={[Function Store]}
@@ -1088,6 +1097,7 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
   selectedRate$={[Function Store]}
   selectedRateSubscription={[Function Subscriber]}
   sendingQuickPriceShareEmail$={[Function Store]}
+  settingsService={[Function SettingsService]}
   sharePricingSummaryConflict$={[Function Store]}
   sharePricingSummaryError$={[Function Store]}
   sharePricingSummaryModalOpen$={[Function Store]}
@@ -2108,7 +2118,7 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
     >
        Price New Job 
     </button>
-  </pf-card-layout><pf-share-pricing-summary-modal />
+  </pf-card-layout><pf-share-pricing-summary-modal /><pf-file-download-security-warning-modal />
 </pf-summary-card>
 `;
 
@@ -2121,8 +2131,12 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
   creatingProject$={[Function Store]}
   creatingProjectError$={[Function Store]}
   currentDate={[Function Date]}
+  enableFileDownloadSecurityWarning="false"
+  enableFileDownloadSecurityWarning$={[Function Observable]}
+  enableFileDownloadSecurityWarningSub={[Function Subscriber]}
   exchangeExplorerContextService={[Function Object]}
   exchangeExplorerStore={[Function Store]}
+  fileDownloadSecurityWarningModal={[Function ElementRef]}
   filterContextHasFilters="false"
   firstDayOfMonth={[Function Date]}
   glossaryOpen$={[Function Store]}
@@ -2144,6 +2158,7 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
   selectedRate$={[Function Store]}
   selectedRateSubscription={[Function Subscriber]}
   sendingQuickPriceShareEmail$={[Function Store]}
+  settingsService={[Function SettingsService]}
   sharePricingSummaryConflict$={[Function Store]}
   sharePricingSummaryError$={[Function Store]}
   sharePricingSummaryModalOpen$={[Function Store]}
@@ -3164,7 +3179,7 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
     >
        Price New Job 
     </button>
-  </pf-card-layout><pf-share-pricing-summary-modal />
+  </pf-card-layout><pf-share-pricing-summary-modal /><pf-file-download-security-warning-modal />
 </pf-summary-card>
 `;
 
@@ -3177,8 +3192,12 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
   creatingProject$={[Function Store]}
   creatingProjectError$={[Function Store]}
   currentDate={[Function Date]}
+  enableFileDownloadSecurityWarning="false"
+  enableFileDownloadSecurityWarning$={[Function Observable]}
+  enableFileDownloadSecurityWarningSub={[Function Subscriber]}
   exchangeExplorerContextService={[Function Object]}
   exchangeExplorerStore={[Function Store]}
+  fileDownloadSecurityWarningModal={[Function ElementRef]}
   filterContextHasFilters="false"
   firstDayOfMonth={[Function Date]}
   glossaryOpen$={[Function Store]}
@@ -3200,6 +3219,7 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
   selectedRate$={[Function Store]}
   selectedRateSubscription={[Function Subscriber]}
   sendingQuickPriceShareEmail$={[Function Store]}
+  settingsService={[Function SettingsService]}
   sharePricingSummaryConflict$={[Function Store]}
   sharePricingSummaryError$={[Function Store]}
   sharePricingSummaryModalOpen$={[Function Store]}
@@ -4220,7 +4240,7 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
     >
        Price New Job 
     </button>
-  </pf-card-layout><pf-share-pricing-summary-modal />
+  </pf-card-layout><pf-share-pricing-summary-modal /><pf-file-download-security-warning-modal />
 </pf-summary-card>
 `;
 
@@ -4233,8 +4253,12 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
   creatingProject$={[Function Store]}
   creatingProjectError$={[Function Store]}
   currentDate={[Function Date]}
+  enableFileDownloadSecurityWarning="false"
+  enableFileDownloadSecurityWarning$={[Function Observable]}
+  enableFileDownloadSecurityWarningSub={[Function Subscriber]}
   exchangeExplorerContextService={[Function Object]}
   exchangeExplorerStore={[Function Store]}
+  fileDownloadSecurityWarningModal={[Function ElementRef]}
   filterContextHasFilters="false"
   firstDayOfMonth={[Function Date]}
   glossaryOpen$={[Function Store]}
@@ -4256,6 +4280,7 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
   selectedRate$={[Function Store]}
   selectedRateSubscription={[Function Subscriber]}
   sendingQuickPriceShareEmail$={[Function Store]}
+  settingsService={[Function SettingsService]}
   sharePricingSummaryConflict$={[Function Store]}
   sharePricingSummaryError$={[Function Store]}
   sharePricingSummaryModalOpen$={[Function Store]}
@@ -5276,7 +5301,7 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
     >
        Price New Job 
     </button>
-  </pf-card-layout><pf-share-pricing-summary-modal />
+  </pf-card-layout><pf-share-pricing-summary-modal /><pf-file-download-security-warning-modal />
 </pf-summary-card>
 `;
 
@@ -5289,8 +5314,12 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
   creatingProject$={[Function Store]}
   creatingProjectError$={[Function Store]}
   currentDate={[Function Date]}
+  enableFileDownloadSecurityWarning="false"
+  enableFileDownloadSecurityWarning$={[Function Observable]}
+  enableFileDownloadSecurityWarningSub={[Function Subscriber]}
   exchangeExplorerContextService={[Function Object]}
   exchangeExplorerStore={[Function Store]}
+  fileDownloadSecurityWarningModal={[Function ElementRef]}
   filterContextHasFilters="false"
   firstDayOfMonth={[Function Date]}
   glossaryOpen$={[Function Store]}
@@ -5312,6 +5341,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
   selectedRate$={[Function Store]}
   selectedRateSubscription={[Function Subscriber]}
   sendingQuickPriceShareEmail$={[Function Store]}
+  settingsService={[Function SettingsService]}
   sharePricingSummaryConflict$={[Function Store]}
   sharePricingSummaryError$={[Function Store]}
   sharePricingSummaryModalOpen$={[Function Store]}
@@ -6332,7 +6362,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
     >
        Price New Job 
     </button>
-  </pf-card-layout><pf-share-pricing-summary-modal />
+  </pf-card-layout><pf-share-pricing-summary-modal /><pf-file-download-security-warning-modal />
 </pf-summary-card>
 `;
 
@@ -6345,8 +6375,12 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
   creatingProject$={[Function Store]}
   creatingProjectError$={[Function Store]}
   currentDate={[Function Date]}
+  enableFileDownloadSecurityWarning="false"
+  enableFileDownloadSecurityWarning$={[Function Observable]}
+  enableFileDownloadSecurityWarningSub={[Function Subscriber]}
   exchangeExplorerContextService={[Function Object]}
   exchangeExplorerStore={[Function Store]}
+  fileDownloadSecurityWarningModal={[Function ElementRef]}
   filterContextHasFilters="false"
   firstDayOfMonth={[Function Date]}
   glossaryOpen$={[Function Store]}
@@ -6368,6 +6402,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
   selectedRate$={[Function Store]}
   selectedRateSubscription={[Function Subscriber]}
   sendingQuickPriceShareEmail$={[Function Store]}
+  settingsService={[Function SettingsService]}
   sharePricingSummaryConflict$={[Function Store]}
   sharePricingSummaryError$={[Function Store]}
   sharePricingSummaryModalOpen$={[Function Store]}
@@ -7388,7 +7423,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
     >
        Price New Job 
     </button>
-  </pf-card-layout><pf-share-pricing-summary-modal />
+  </pf-card-layout><pf-share-pricing-summary-modal /><pf-file-download-security-warning-modal />
 </pf-summary-card>
 `;
 
@@ -7401,8 +7436,12 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
   creatingProject$={[Function Store]}
   creatingProjectError$={[Function Store]}
   currentDate={[Function Date]}
+  enableFileDownloadSecurityWarning="false"
+  enableFileDownloadSecurityWarning$={[Function Observable]}
+  enableFileDownloadSecurityWarningSub={[Function Subscriber]}
   exchangeExplorerContextService={[Function Object]}
   exchangeExplorerStore={[Function Store]}
+  fileDownloadSecurityWarningModal={[Function ElementRef]}
   filterContextHasFilters="false"
   firstDayOfMonth={[Function Date]}
   glossaryOpen$={[Function Store]}
@@ -7424,6 +7463,7 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
   selectedRate$={[Function Store]}
   selectedRateSubscription={[Function Subscriber]}
   sendingQuickPriceShareEmail$={[Function Store]}
+  settingsService={[Function SettingsService]}
   sharePricingSummaryConflict$={[Function Store]}
   sharePricingSummaryError$={[Function Store]}
   sharePricingSummaryModalOpen$={[Function Store]}
@@ -8462,6 +8502,6 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
     >
        Price New Job 
     </button>
-  </pf-card-layout><pf-share-pricing-summary-modal />
+  </pf-card-layout><pf-share-pricing-summary-modal /><pf-file-download-security-warning-modal />
 </pf-summary-card>
 `;

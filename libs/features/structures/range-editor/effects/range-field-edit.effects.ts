@@ -7,7 +7,7 @@ import { Action, select, Store } from '@ngrx/store';
 
 import { DataViewApiService, StructureModelingApiService } from 'libs/data/payfactors-api';
 import { NotificationLevel, NotificationSource, NotificationType } from 'libs/features/infrastructure/app-notifications/models';
-import { DataGridToDataViewsHelper } from 'libs/features/grids/pf-data-grid/helpers';
+import { DataGridToDataViewsHelper, GridDataHelper } from 'libs/features/grids/pf-data-grid/helpers';
 import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import * as fromPfDataGridActions from 'libs/features/grids/pf-data-grid/actions';
 import * as fromNotificationActions from 'libs/features/infrastructure/app-notifications/actions/app-notifications.actions';
@@ -20,7 +20,7 @@ import * as fromRangeFieldActions from '../actions/range-field-edit.actions';
 export class RangeFieldEditEffects {
 
   @Effect()
-  updateMid$: Observable<Action> = this.actions$
+  updateField$: Observable<Action> = this.actions$
     .pipe(
       ofType(fromRangeFieldActions.UPDATE_RANGE_FIELD),
       switchMap(
@@ -30,7 +30,7 @@ export class RangeFieldEditEffects {
             action.payload.rangeId,
             action.payload.fieldValue,
             action.payload.fieldName,
-            action.payload.isMid,
+            action.payload.rangeRecalculationType,
             action.payload.rowIndex,
             action.payload.roundingSettings))
             .pipe(
@@ -42,7 +42,9 @@ export class RangeFieldEditEffects {
                   refreshRowDataViewFilter: action.payload.refreshRowDataViewFilter,
                   rowIndex: action.payload.rowIndex,
                   modifiedKey: action.payload.rangeId,
-                  override: response.Override
+                  override: response.Override,
+                  rangeType: action.payload.rangeType,
+                  reloadGridData: action.payload.reloadGridData
                 }));
 
                 if (action.payload.successCallBackFn) {
@@ -86,7 +88,7 @@ export class RangeFieldEditEffects {
     );
 
   @Effect()
-  updateMidSuccess$ = this.actions$
+  updateFieldSuccess$ = this.actions$
     .pipe(
       ofType<fromRangeFieldActions.UpdateRangeFieldSuccess>(fromRangeFieldActions.UPDATE_RANGE_FIELD_SUCCESS),
       mergeMap((action: fromRangeFieldActions.UpdateRangeFieldSuccess) =>
@@ -97,23 +99,32 @@ export class RangeFieldEditEffects {
             this.store.pipe(select(fromPfDataGridReducer.getPagingOptions, action.payload.pageViewId)),
             this.store.pipe(select(fromPfDataGridReducer.getSortDescriptor, action.payload.pageViewId)),
             this.store.pipe(select(fromPfDataGridReducer.getApplyDefaultFilters, action.payload.pageViewId)),
-            (a: fromRangeFieldActions.UpdateRangeFieldSuccess, baseEntity, fields, pagingOptions, sortDescriptor, applyDefaultFilters) =>
-              ({ a, baseEntity, fields, pagingOptions, sortDescriptor, applyDefaultFilters }))
+            this.store.pipe(select(fromPfDataGridReducer.getGridConfig)),
+            this.store.pipe(select(fromPfDataGridReducer.getData)),
+            (a: fromRangeFieldActions.UpdateRangeFieldSuccess, baseEntity, fields, pagingOptions, sortDescriptor, applyDefaultFilters, gridConfig, gridData) =>
+              ({a, baseEntity, fields, pagingOptions, sortDescriptor, applyDefaultFilters, gridConfig, gridData}))
         )
       ),
       switchMap((data) => {
-        return this.dataViewApiService.getData(DataGridToDataViewsHelper.buildDataViewDataRequest(
-          data.baseEntity.Id,
-          data.fields,
-          [...DataGridToDataViewsHelper.mapFieldsToFiltersUseValuesProperty(data.fields), data.a.payload.refreshRowDataViewFilter],
-          { From: 0, Count: 1 },
-          data.sortDescriptor,
-          false,
-          false
-        )).pipe(
-          map((response) => new fromPfDataGridActions.UpdateRow(data.a.payload.pageViewId, data.a.payload.rowIndex, response[0]))
-        );
-      })
+          if (data.a.payload.reloadGridData) {
+            return [
+              GridDataHelper.getLoadDataAction(data.a.payload.pageViewId, data.gridData, data.gridConfig, data.pagingOptions)
+            ];
+          } else {
+            return this.dataViewApiService.getData(DataGridToDataViewsHelper.buildDataViewDataRequest(
+              data.baseEntity.Id,
+              data.fields,
+              [...DataGridToDataViewsHelper.mapFieldsToFilters(data.fields), data.a.payload.refreshRowDataViewFilter],
+              { From: 0, Count: 1 },
+              data.sortDescriptor,
+              false,
+              false
+            )).pipe(
+              map((response) => new fromPfDataGridActions.UpdateRow(data.a.payload.pageViewId, data.a.payload.rowIndex, response[0]))
+            );
+          }
+        }
+      )
     );
 
   constructor(

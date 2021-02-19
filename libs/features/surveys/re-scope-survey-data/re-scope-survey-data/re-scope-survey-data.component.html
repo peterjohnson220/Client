@@ -61,7 +61,7 @@
                        [minWidth]="275"
                        [delay]="400"
                        [resetValue$]="clearSearch$"
-                       [(ngModel)]="getClonedField(field).FilterValue"
+                       [ngModel]="!!field.FilterValues ? field.FilterValues[0] : ''"
                        (valueChanged)="handleScopeSearch(field, $event)"
                        [id]="'txt-' + field.SourceName">
     </pf-input-debounce>

@@ -8,7 +8,7 @@ exports[`TrsSummaryControlComponent should display in edit mode 1`] = `
   onTitleChange={[Function EventEmitter]}
 >
   <div
-    class="summary-control px-3 mt-3"
+    class="summary-control px-1 mt-3"
     pfmodeclassifierdirective=""
   >
     
@@ -42,7 +42,7 @@ exports[`TrsSummaryControlComponent should display in preview mode 1`] = `
   onTitleChange={[Function EventEmitter]}
 >
   <div
-    class="summary-control px-3 mt-3"
+    class="summary-control px-1 mt-3"
     pfmodeclassifierdirective=""
   >
     
@@ -78,7 +78,7 @@ exports[`TrsSummaryControlComponent should display in preview mode w/ data 1`] =
   onTitleChange={[Function EventEmitter]}
 >
   <div
-    class="summary-control px-3 mt-3"
+    class="summary-control px-1 mt-3"
     pfmodeclassifierdirective=""
   >
     
@@ -114,7 +114,7 @@ exports[`TrsSummaryControlComponent should display italicised when enabled in al
   onTitleChange={[Function EventEmitter]}
 >
   <div
-    class="summary-control px-3 mt-3"
+    class="summary-control px-1 mt-3"
     pfmodeclassifierdirective=""
   >
     
@@ -150,7 +150,7 @@ exports[`TrsSummaryControlComponent should display italicised when enabled in al
   onTitleChange={[Function EventEmitter]}
 >
   <div
-    class="summary-control px-3 mt-3"
+    class="summary-control px-1 mt-3"
     pfmodeclassifierdirective=""
   >
     
@@ -186,7 +186,7 @@ exports[`TrsSummaryControlComponent should display italicised when enabled in al
   onTitleChange={[Function EventEmitter]}
 >
   <div
-    class="summary-control px-3 mt-3"
+    class="summary-control px-1 mt-3"
     pfmodeclassifierdirective=""
   >
     
@@ -222,7 +222,7 @@ exports[`TrsSummaryControlComponent should display italicised when enabled in al
   onTitleChange={[Function EventEmitter]}
 >
   <div
-    class="summary-control px-3 mt-3"
+    class="summary-control px-1 mt-3"
     pfmodeclassifierdirective=""
   >
     
@@ -258,7 +258,7 @@ exports[`TrsSummaryControlComponent should display italicised when enabled in al
   onTitleChange={[Function EventEmitter]}
 >
   <div
-    class="summary-control px-3 mt-3"
+    class="summary-control px-1 mt-3"
     pfmodeclassifierdirective=""
   >
     
@@ -294,7 +294,7 @@ exports[`TrsSummaryControlComponent should display italicised when enabled in al
   onTitleChange={[Function EventEmitter]}
 >
   <div
-    class="summary-control px-3 mt-3"
+    class="summary-control px-1 mt-3"
     pfmodeclassifierdirective=""
   >
     
@@ -330,7 +330,7 @@ exports[`TrsSummaryControlComponent should display tabular mode properly in all 
   onTitleChange={[Function EventEmitter]}
 >
   <div
-    class="summary-control px-3 mt-3"
+    class="summary-control px-1 mt-3"
     pfmodeclassifierdirective=""
   >
     
@@ -384,7 +384,7 @@ exports[`TrsSummaryControlComponent should display tabular mode properly in all 
   onTitleChange={[Function EventEmitter]}
 >
   <div
-    class="summary-control px-3 mt-3"
+    class="summary-control px-1 mt-3"
     pfmodeclassifierdirective=""
   >
     
@@ -438,7 +438,7 @@ exports[`TrsSummaryControlComponent should display tabular mode properly in all 
   onTitleChange={[Function EventEmitter]}
 >
   <div
-    class="summary-control px-3 mt-3"
+    class="summary-control px-1 mt-3"
     pfmodeclassifierdirective=""
   >
     

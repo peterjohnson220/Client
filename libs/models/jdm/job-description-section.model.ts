@@ -8,3 +8,7 @@ export class JobDescriptionSection {
   Controls: JobDescriptionControl[];
   Statuses: string[];
 }
+
+export function showSection(section: JobDescriptionSection): boolean {
+  return section.Controls.length > 0 ? section.Controls.some( x => x.AdditionalProperties?.ShowControl !== false) : true;
+}

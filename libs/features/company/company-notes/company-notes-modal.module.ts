@@ -8,14 +8,17 @@ import { ImgFallbackModule } from 'ngx-img-fallback';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FormatPurePipeModule } from 'ngx-date-fns';
 
+import { PfCommonUIModule } from 'libs/ui/common';
+import { PfCommonModule } from 'libs/core';
+import { PfFormsModule } from 'libs/forms';
+
 import { reducers } from './reducers';
 
 import { CompanyNotesModalComponent } from './containers';
 import { CompanyNotesListComponent } from './containers';
 
 import { CompanyNotesEffects } from './effects';
-import { PfCommonUIModule } from '../../../ui/common';
-import { PfFormsModule } from '../../../forms';
+
 
 @NgModule({
   imports: [
@@ -26,6 +29,7 @@ import { PfFormsModule } from '../../../forms';
     ]),
     CommonModule,
     PfCommonUIModule,
+    PfCommonModule,
     ReactiveFormsModule,
     PfFormsModule,
     FormatPurePipeModule,

@@ -8,8 +8,7 @@ import {JobDescriptionVersionCompareService} from '../../services';
   selector: 'pf-job-description-compare-section-result',
   templateUrl: './job-description-compare-section-result.component.html',
   styleUrls: ['./job-description-compare-section-result.component.scss',
-              '../shared-comparison-styles.scss',
-              '../job-description-section/job-description-section.component.scss']
+              '../shared-comparison-styles.scss']
 })
 export class JobDescriptionCompareSectionResultComponent implements OnInit {
   hideBody = true;

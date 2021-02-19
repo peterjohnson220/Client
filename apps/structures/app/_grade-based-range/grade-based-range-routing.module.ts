@@ -24,9 +24,17 @@ const routes: Routes = [
     data: { gradeBased: true },
     loadChildren: () => import('apps/structures/app/_grade-based-range/model/model.module').then(m => m.ModelModule)
   },
-  { path: ':id/employees',
+  {
+    path: ':id/employees',
     canActivate: [RangeGroupExistsGuard],
+    data: { gradeBased: true },
     loadChildren: () => import('apps/structures/app/_grade-based-range/employees/employees.module').then(m => m.EmployeesModule)
+  },
+  {
+    path: ':id/jobs',
+    canActivate: [RangeGroupExistsGuard],
+    data: { gradeBased: true },
+    loadChildren: () => import('apps/structures/app/_grade-based-range/jobs/jobs.module').then(m => m.JobsModule)
   },
 ];
 

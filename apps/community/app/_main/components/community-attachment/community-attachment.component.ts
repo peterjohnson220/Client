@@ -3,6 +3,10 @@ import { CommunityAttachment } from 'libs/models/community/community-attachment.
 import { AttachmentFileType } from 'libs/models/common';
 import { formatBytes } from 'libs/core/functions';
 import { CommunityConstants } from '../../models/community-constants';
+import * as fromCommunityFileDownloadSecurityWarningActions from '../../actions/community-file-download-security-warning.actions';
+import { Store } from '@ngrx/store';
+import * as fromCommunityReducers from '../../reducers';
+import { DownloadTypeEnum } from '../../models/download-type.enum';
 
 @Component({
   selector: 'pf-community-attachment',
@@ -13,6 +17,7 @@ export class CommunityAttachmentComponent implements OnInit {
   @Input() attachment: CommunityAttachment;
   @Input() disableCommunityAttachments: boolean;
   @Input() hideAttachmentWarning: boolean;
+  @Input() showFileDownloadSecurityWarning: boolean;
   @Output() onAttachmentClickedEvent = new EventEmitter<string>();
 
   readonly ATTACHMENT_DOWNLOAD_URL_PREFIX = '/odata/CloudFiles.DownloadCommunityAttachment?FileName=';
@@ -24,7 +29,7 @@ export class CommunityAttachmentComponent implements OnInit {
   disabledAttachmentMsg = CommunityConstants.DISABLED_ATTACHMENT_MESSAGE;
   maxNameSize = CommunityConstants.MAX_ATTACHMENT_NAME_LENGTH;
 
-  constructor() { }
+  constructor(public store: Store<fromCommunityReducers.State>) { }
 
   ngOnInit() {
     this.setupIcons();
@@ -34,11 +39,18 @@ export class CommunityAttachmentComponent implements OnInit {
   onAttachmentClicked() {
     if (!this.disableCommunityAttachments && !this.hideAttachmentWarning) {
       this.openWarningModal();
+    } else if (!this.disableCommunityAttachments && this.showFileDownloadSecurityWarning) {
+      this.openFileDownloadSecurityWarning();
     }
   }
 
   openWarningModal() {
     this.onAttachmentClickedEvent.emit(this.ATTACHMENT_DOWNLOAD_URL_PREFIX + this.attachment.CloudFileName);
+  }
+
+  openFileDownloadSecurityWarning() {
+    this.store.dispatch(new fromCommunityFileDownloadSecurityWarningActions.OpenCommunityFileDownloadSecurityWarningModal(
+      { downloadId: this.ATTACHMENT_DOWNLOAD_URL_PREFIX + this.attachment.CloudFileName, downloadType: DownloadTypeEnum.CommunityAttachment }));
   }
 
   getDownloadUrl() {

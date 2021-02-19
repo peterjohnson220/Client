@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
@@ -6,7 +6,9 @@ import * as fromRootState from 'libs/state/state';
 import * as fromCommunityReducers from '../../reducers';
 import * as fromCommunityAttachmentWarningActions from '../../actions/community-attachment-warning.actions';
 import * as fromUiPersistenceSettingsActions from 'libs/state/app-context/actions/ui-persistence-settings.actions';
+import * as fromCommunityFileDownloadSecurityWarningActions from '../../actions/community-file-download-security-warning.actions';
 import { FeatureAreaConstants, SaveUiPersistenceSettingRequest, UiPersistenceSettingConstants } from 'libs/models/common';
+import { DownloadTypeEnum } from '../../models/download-type.enum';
 
 
 @Component({
@@ -16,6 +18,7 @@ import { FeatureAreaConstants, SaveUiPersistenceSettingRequest, UiPersistenceSet
 })
 
 export class CommunityAttachmentWarningModalComponent implements OnInit {
+  @Input() showFileDownloadSecurityWarning: boolean;
   currentAttachmentWarningModalOpen$: Observable<boolean>;
   currentAttachmentDownloadUrl$: Observable<string>;
   savingSettingSuccess$: Observable<boolean>;
@@ -39,7 +42,13 @@ export class CommunityAttachmentWarningModalComponent implements OnInit {
         && (this.savingSettingName === UiPersistenceSettingConstants.CommunityHideAttachmentWarningModal)
         && this.attachmentDownloadUrl) {
         this.store.dispatch(new fromCommunityAttachmentWarningActions.CloseCommunityAttachmentsWarningModal());
-        window.location.href = this.attachmentDownloadUrl;
+
+        if (this.showFileDownloadSecurityWarning) {
+            this.store.dispatch(new fromCommunityFileDownloadSecurityWarningActions.OpenCommunityFileDownloadSecurityWarningModal(
+                 { downloadId: this.attachmentDownloadUrl, downloadType: DownloadTypeEnum.CommunityAttachment }));
+        } else {
+          window.location.href = this.attachmentDownloadUrl;
+        }
       }
     });
   }

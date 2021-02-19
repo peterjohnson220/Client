@@ -1,9 +1,9 @@
-import { Component, OnInit, OnDestroy, ViewChild, HostListener } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription, Subject } from 'rxjs';
-import { filter, first, take, takeWhile } from 'rxjs/operators';
+import { filter, first, takeWhile } from 'rxjs/operators';
 import 'rxjs/add/observable/combineLatest';
 import cloneDeep from 'lodash/cloneDeep';
 
@@ -20,17 +20,19 @@ import {
   SimpleYesNoModalOptions,
   UserAssignedRole,
   JobDescriptionSection,
-  CompanyDto
+  CompanyDto,
+  showSection
 } from 'libs/models';
 import * as fromRootState from 'libs/state/state';
 import { SettingsService } from 'libs/state/app-context/services';
 import { PermissionService } from 'libs/core/services';
 import { PermissionCheckEnum, Permissions } from 'libs/constants/permissions';
-import { SimpleYesNoModalComponent } from 'libs/ui/common';
-import * as fromCompanySettingsActions from 'libs/state/app-context/actions/company-settings.actions';
+import { SimpleYesNoModalComponent, FileDownloadSecurityWarningModalComponent } from 'libs/ui/common';
+
 import { environment } from 'environments/environment';
 
 import { JobDescriptionManagementDnDService, JobDescriptionManagementService, SortDirection } from 'libs/features/jobs/job-description-management';
+import { JobDescriptionManagementDndSource } from 'libs/features/jobs/job-description-management/constants';
 import {
   JobDescriptionLibraryBucket,
   JobDescriptionLibraryResult,
@@ -38,16 +40,18 @@ import {
   JobDescriptionAppliesTo,
   JobDescriptionExtendedInfo
 } from 'libs/features/jobs/job-description-management';
-import { EmployeeAcknowledgement, JobDescriptionLibraryDropModel } from '../../../models';
-import * as fromJobDescriptionReducers from '../../../reducers';
-import * as fromJobDescriptionManagementSharedReducer from 'libs/features/jobs/job-description-management/reducers';
-import * as fromJobDescriptionActions from '../../../actions/job-description.actions';
 import * as fromJobDescriptionLibraryActions from 'libs/features/jobs/job-description-management/actions/job-description-library.actions';
 import * as fromCompanyLogoActions from 'libs/features/jobs/job-description-management/actions/company-logo.actions';
+import * as fromJobDescriptionManagementSharedReducer from 'libs/features/jobs/job-description-management/reducers';
+import * as fromWorkflowTemplateListActions from 'libs/features/jobs/job-description-management/actions/shared-workflow.actions';
+import * as fromHeaderActions from 'libs/ui/layout-wrapper/actions/header.actions';
+import * as fromControlTypesActions from 'libs/features/jobs/job-description-management/actions/control-types.actions';
+
+import { EmployeeAcknowledgement, ExportData, JobDescriptionLibraryDropModel } from '../../../models';
+import * as fromJobDescriptionReducers from '../../../reducers';
+import * as fromJobDescriptionActions from '../../../actions/job-description.actions';
 import * as fromEmployeeAcknowledgementActions from '../../../actions/employee-acknowledgement.actions';
 import * as fromWorkflowActions from '../../../actions/workflow.actions';
-import { JobDescriptionActionsComponent } from '../../job-description-actions';
-import { JobDescriptionManagementDndSource } from 'libs/features/jobs/job-description-management/constants';
 import { JobDescriptionDnDService } from '../../../services';
 import { EmployeeAcknowledgementModalComponent, ExportJobDescriptionModalComponent,
   WorkflowCancelModalComponent } from '../../../components/modals';
@@ -58,8 +62,6 @@ import { CopyJobDescriptionModalComponent } from '../../copy-job-description-mod
 import { JobDescriptionHelper } from '../../../helpers';
 import { WorkflowSetupModalComponent } from '../../workflow-setup-modal';
 import { JobDescriptionAppliesToModalComponent } from 'apps/job-description-management/app/shared';
-import * as fromWorkflowTemplateListActions from 'libs/features/jobs/job-description-management/actions/shared-workflow.actions';
-import * as fromHeaderActions from 'libs/ui/layout-wrapper/actions/header.actions';
 
 
 @Component({
@@ -75,13 +77,14 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   @ViewChild(EmployeeAcknowledgementModalComponent, {static: true }) public employeeAcknowledgementModal: EmployeeAcknowledgementModalComponent;
   @ViewChild(ExportJobDescriptionModalComponent, { static: true }) public exportJobDescriptionModalComponent: ExportJobDescriptionModalComponent;
   @ViewChild(FlsaQuestionnaireModalComponent, { static: true }) public flsaQuestionnaireModal: FlsaQuestionnaireModalComponent;
-  @ViewChild(JobDescriptionActionsComponent, { static: true }) public actionsComponent: JobDescriptionActionsComponent;
   @ViewChild(JobDescriptionAppliesToModalComponent) public jobDescriptionAppliesToModalComponent: JobDescriptionAppliesToModalComponent;
   @ViewChild(WorkflowCancelModalComponent) public workflowCancelModal: WorkflowCancelModalComponent;
   @ViewChild(WorkflowSetupModalComponent) public workflowSetupModal: WorkflowSetupModalComponent;
+  @ViewChild('fileDownloadSecurityWarningModal', { static: true }) public fileDownloadSecurityWarningModal: FileDownloadSecurityWarningModalComponent;
 
   jobDescriptionAsync$: Observable<AsyncStateObj<JobDescription>>;
   jobDescriptionPublishing$: Observable<boolean>;
+  jobDescriptionPublishingSuccess$: Observable<boolean>;
   identity$: Observable<UserContext>;
   userAssignedRoles$: Observable<UserAssignedRole[]>;
   company$: Observable<CompanyDto>;
@@ -99,10 +102,13 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   jobDescriptionViewsAsync$: Observable<AsyncStateObj<string[]>>;
   completedStep$: Observable<boolean>;
   gettingJobDescriptionExtendedInfoSuccess$: Observable<AsyncStateObj<boolean>>;
+  discardingDraftJobDescriptionSuccess$: Observable<boolean>;
   enableFileDownloadSecurityWarning$: Observable<boolean>;
 
   loadingPage$: Observable<boolean>;
   loadingPageError$: Observable<boolean>;
+  undoChanges$: Observable<boolean>;
+  replaceContents$: Observable<boolean>;
 
   jobDescriptionSubscription: Subscription;
   routerParamsSubscription: Subscription;
@@ -116,17 +122,21 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   jobDescriptionViewsAsyncSubscription: Subscription;
   editingSubscription: Subscription;
   publishingSubscription: Subscription;
+  publishingSuccessSubscription: Subscription;
   completedStepSubscription: Subscription;
   controlTypesSubscription: Subscription;
   requireSSOLoginSubscription: Subscription;
+  discardingDraftJobDescriptionSuccessSubscription: Subscription;
   enableFileDownloadSecurityWarningSub: Subscription;
 
   companyName: string;
   emailAddress: string;
   companyLogoPath: string;
   jobDescription: JobDescription;
+  visibleSections: JobDescriptionSection[];
   enableFileDownloadSecurityWarning: boolean;
   enableLibraryForRoutedJobDescriptions: boolean;
+  exportData: ExportData;
   hasCanEditJobDescriptionPermission: boolean;
   identityInWorkflow: boolean;
   saving: boolean;
@@ -178,7 +188,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
       CompanySettingsEnum.JDMExternalWorkflowsRequireSSOLogin
     );
 
-    this.controlTypesAsync$ = this.sharedStore.select(fromJobDescriptionManagementSharedReducer.getControlTypeAndVersionAsync);
+    this.controlTypesAsync$ = this.sharedStore.select(fromJobDescriptionManagementSharedReducer.getControlTypesAsync);
     this.hasCanEditJobDescriptionPermission = this.permissionService.CheckPermission([Permissions.CAN_EDIT_JOB_DESCRIPTION],
       PermissionCheckEnum.Single);
     this.editingJobDescription$ = this.store.select(fromJobDescriptionReducers.getEditingJobDescription);
@@ -188,16 +198,21 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.jobDescriptionExtendedInfo$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionExtendedInfo);
     this.gettingJobDescriptionExtendedInfoSuccess$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionExtendedInfoAsync);
     this.jobDescriptionPublishing$ = this.store.select(fromJobDescriptionReducers.getPublishingJobDescription);
+    this.jobDescriptionPublishingSuccess$ = this.store.select(fromJobDescriptionReducers.getPublishingJobDescriptionSuccess);
     this.acknowledging$ = this.store.select(fromJobDescriptionReducers.getAcknowledging);
     this.employeeAcknowledgementInfo$ = this.store.select(fromJobDescriptionReducers.getEmployeeAcknowledgementAsync);
     this.employeeAcknowledgementErrorMessage$ = this.store.select(fromJobDescriptionReducers.getEmployeeAcknowledgementErrorMessage);
     this.jobDescriptionViewsAsync$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionViewsAsync);
     this.completedStep$ = this.store.select(fromJobDescriptionReducers.getCompletedStep);
+    this.discardingDraftJobDescriptionSuccess$ = this.store.select(fromJobDescriptionReducers.getDiscardingDraftJobDescriptionSuccess);
 
     this.saveThrottle = new Subject();
 
     this.loadingPage$ = this.store.select(fromJobDescriptionReducers.getLoadingPage);
     this.loadingPageError$ = this.store.select(fromJobDescriptionReducers.getLoadingPageError);
+
+    this.undoChanges$ = this.store.select(fromJobDescriptionReducers.getUndoJobDescriptionChangesComplete);
+    this.replaceContents$ = this.store.select(fromJobDescriptionReducers.getReplaceJobDescriptionComplete);
   }
 
   ngOnInit(): void {
@@ -209,6 +224,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.store.dispatch(new fromJobDescriptionActions.ClearJobDescription());
+    this.sharedStore.dispatch(new fromControlTypesActions.ResetControlTypes());
     this.routerParamsSubscription.unsubscribe();
     this.jobDescriptionSubscription.unsubscribe();
     this.identitySubscription.unsubscribe();
@@ -223,7 +239,10 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.completedStepSubscription.unsubscribe();
     this.requireSSOLoginSubscription.unsubscribe();
     this.publishingSubscription.unsubscribe();
+    this.publishingSuccessSubscription.unsubscribe();
+    this.discardingDraftJobDescriptionSuccessSubscription.unsubscribe();
     this.enableFileDownloadSecurityWarningSub.unsubscribe();
+    this.controlTypesSubscription.unsubscribe();
   }
 
   appliesToFormCompleted(selected: any) {
@@ -396,21 +415,40 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   }
 
   handleExportAsPDFClicked(): void {
-    this.export('pdf', '');
+    this.exportData = { Type: 'pdf', Name: '' };
+    this.handleExport();
   }
 
   handleExportClickedFromActions(data: { exportType: string, viewName: string }): void {
     const isUserDefinedViewsAvailable = JobDescriptionHelper.isUserDefinedViewsAvailable(this.jobDescriptionViews);
+    this.exportData = { Type: data.exportType, Name: data.viewName };
+
     if (this.editing && isUserDefinedViewsAvailable ) {
       this.exportJobDescriptionModalComponent.open(data.exportType);
     } else {
-      this.export(data.exportType, data.viewName);
+      this.handleExport();
     }
   }
 
   handleExportModalConfirmed(modalPayload: any): void {
+    this.exportJobDescriptionModalComponent.close();
     const viewName = modalPayload.selectedView || 'Default';
-    this.export(modalPayload.exportType, viewName);
+    this.exportData = { Type: modalPayload.exportType, Name: viewName };
+    this.handleExport();
+  }
+
+  handleExport() {
+    if (this.enableFileDownloadSecurityWarning) {
+      this.fileDownloadSecurityWarningModal.open();
+    } else {
+      this.export(this.exportData.Type, this.exportData.Name);
+    }
+  }
+
+  handleSecurityWarningConfirmed(isConfirmed) {
+    if (isConfirmed) {
+      this.export(this.exportData.Type, this.exportData.Name);
+    }
   }
 
   trackByFn(index: number, section: JobDescriptionSection) {
@@ -428,7 +466,21 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     }));
     this.showLibrary = false;
     this.showRoutingHistory = false;
-    this.actionsComponent.resetViewName();
+  }
+
+  resetView(): void {
+    if  (this.jobDescription && this.viewName) {
+      this.store.dispatch(new fromJobDescriptionActions.GetJobDescription({
+        JobDescriptionId: this.jobDescription.JobDescriptionId,
+        RevisionNumber: this.jobDescription.JobDescriptionRevision,
+        ViewName: this.viewName,
+        InHistory: false
+      }));
+    }
+  }
+
+  handleViewSelected(viewName: string): void {
+    this.viewName = viewName;
   }
 
   handleResize(): void {
@@ -497,6 +549,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
       this.inHistory = !!this.revisionNumber;
 
       this.initSubscriptions();
+      this.loadControlTypes();
     });
   }
 
@@ -510,45 +563,46 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.completedStepSubscription = this.completedStep$.subscribe(cs => this.completedStep = cs);
 
     this.identitySubscription = this.identity$.subscribe(userContext => {
-      this.identity = userContext;
-      this.companyName = userContext.CompanyName;
-      this.emailAddress = userContext.EmailAddress;
-      this.identityInEmployeeAcknowledgement = userContext.EmployeeAcknowledgementInfo && !!userContext.EmployeeAcknowledgementInfo.EmployeeAcknowledgementId;
-      if (this.identityInEmployeeAcknowledgement) {
-        if (!userContext.EmployeeAcknowledgementInfo.IsLatest && !userContext.EmployeeAcknowledgementInfo.HasAcknowledged) {
-          this.router.navigate(['/token-expired']);
+      if (!!userContext) {
+        this.identity = userContext;
+        this.companyName = userContext.CompanyName;
+        this.emailAddress = userContext.EmailAddress;
+        this.identityInEmployeeAcknowledgement = userContext.EmployeeAcknowledgementInfo
+          ? !!userContext.EmployeeAcknowledgementInfo.EmployeeAcknowledgementId
+          : false;
+        if (this.identityInEmployeeAcknowledgement) {
+          if (!userContext.EmployeeAcknowledgementInfo.IsLatest && !userContext.EmployeeAcknowledgementInfo.HasAcknowledged) {
+            this.router.navigate(['/token-expired']);
+          }
         }
-      }
-      this.identityInWorkflow = !!userContext.WorkflowStepInfo && !!userContext.WorkflowStepInfo.WorkflowId;
-      this.companySubscription = this.company$.subscribe((company) => {
-        this.companyLogoPath = company
-          ? userContext.ConfigSettings.find(c => c.Name === 'CloudFiles_PublicBaseUrl').Value + '/company_logos/' + company.CompanyLogo
-          : '';
-        if (company) {
-          this.companyName = company.CompanyName;
+        this.identityInWorkflow = !!userContext.WorkflowStepInfo && !!userContext.WorkflowStepInfo.WorkflowId;
+        this.companySubscription = this.company$.subscribe((company) => {
+          this.companyLogoPath = company
+            ? userContext.ConfigSettings.find(c => c.Name === 'CloudFiles_PublicBaseUrl').Value + '/company_logos/' + company.CompanyLogo
+            : '';
+          if (company) {
+            this.companyName = company.CompanyName;
+          }
+        });
+        this.isSiteAdmin = userContext.AccessLevel === 'Admin';
+
+        if (!this.completedStep) {
+          this.sharedStore.dispatch(new fromCompanyLogoActions.LoadCompanyLogo(userContext.CompanyId));
         }
-      });
-      this.isSiteAdmin = userContext.AccessLevel === 'Admin';
 
-      if (!this.completedStep) {
-        this.sharedStore.dispatch(new fromCompanyLogoActions.LoadCompanyLogo(userContext.CompanyId));
-      }
+        this.initSsoSubscriptions();
 
-      this.getJobDescriptionDetails();
-      this.initSsoSubscriptions();
-
-      if (this.identityInWorkflow) {
-        this.setWorkflowStepIsBeingViewed();
+        if (this.identityInWorkflow) {
+          this.setWorkflowStepIsBeingViewed();
+        }
+        if (this.identityInEmployeeAcknowledgement) {
+          this.store.dispatch(new fromEmployeeAcknowledgementActions.LoadEmployeeAcknowledgementInfo());
+        }
+        this.store.dispatch(new fromJobDescriptionActions.LoadingPage(false));
       }
-      if (this.identityInEmployeeAcknowledgement) {
-        this.store.dispatch(new fromEmployeeAcknowledgementActions.LoadEmployeeAcknowledgementInfo());
-      }
-      this.store.dispatch(new fromJobDescriptionActions.LoadingPage(false));
     });
 
-    this.jobDescriptionSubscription = this.jobDescriptionAsync$.subscribe(result => {
-      this.handleJobDescriptionChanged(result.obj);
-    });
+    this.jobDescriptionSubscription = this.jobDescriptionAsync$.subscribe(result => this.handleJobDescriptionChanged(result.obj));
 
     this.userAssignedRolesSubscription = this.userAssignedRoles$.subscribe( userRoles => {
       if (userRoles) {
@@ -568,22 +622,12 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
       filter(setting => setting === false)
     ).subscribe(() => window.location.href = window.location.href.replace(`/${environment.hostPath}/`, environment.ngAppRoot));
 
-    if (this.inHistory) {
-      this.jobDescriptionManagementService.getHistoricalControlTypes();
-    } else {
-      this.jobDescriptionManagementService.getControlTypes();
-    }
-
-    this.controlTypesAsync$.pipe(
-      filter(cts => !!cts && !!cts.obj),
-      take(1)
-    ).subscribe(ct => {
-      if (!ct.obj.length) {
-        this.jobDescriptionManagementService.getControlTypes();
+    this.controlTypesSubscription = this.controlTypesAsync$.subscribe(value => {
+      if (value?.obj?.length > 0) {
+        this.controlTypes = value.obj;
+        this.getJobDescriptionDetails();
       }
     });
-
-    this.controlTypesSubscription = this.controlTypesAsync$.subscribe(value => this.controlTypes = value.obj);
 
     this.jobDescriptionManagementDndService.initJobDescriptionManagementDnD(JobDescriptionManagementDndSource.JobDescription,
       (control, oldIndex, newIndex) => {
@@ -602,13 +646,29 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     );
 
     this.jobDescriptionViewsAsyncSubscription = this.jobDescriptionViewsAsync$.subscribe(asyncObj => this.jobDescriptionViews = asyncObj.obj);
-    this.editingSubscription = this.editingJobDescription$.subscribe(value => this.editing = value);
+    this.editingSubscription = this.editingJobDescription$.subscribe(value => {
+      this.editing = value;
+    });
 
     this.publishingSubscription = this.jobDescriptionPublishing$.subscribe(asyncObj => {
       if (asyncObj) {
         this.editing = false;
       }
     });
+
+    this.publishingSuccessSubscription = this.jobDescriptionPublishingSuccess$.subscribe(asyncObj => {
+      if (asyncObj) {
+        this.resetView();
+      }
+    });
+  }
+
+  private loadControlTypes(): void {
+    if (this.inHistory) {
+      this.sharedStore.dispatch(new fromControlTypesActions.LoadHistoricalControlTypes());
+    } else {
+      this.sharedStore.dispatch(new fromControlTypesActions.LoadControlTypes());
+    }
   }
 
   private enableAllContent() {
@@ -622,6 +682,8 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
         }
       });
     });
+
+    this.visibleSections =  this.jobDescription.Sections;
   }
 
   private initSsoSubscriptions() {
@@ -655,6 +717,12 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
         this.saveJobDescription();
       } else {
         this.queueSave = true;
+      }
+    });
+
+    this.discardingDraftJobDescriptionSuccessSubscription = this.discardingDraftJobDescriptionSuccess$.subscribe(value => {
+      if (value) {
+        this.resetView();
       }
     });
   }
@@ -702,8 +770,10 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     }
     this.jobDescription = cloneDeep(jobDescription);
 
-    if (this.editing || jobDescription.JobDescriptionStatus === 'In Review') {
+    if (jobDescription.JobDescriptionStatus !== 'Published') {
       this.enableAllContent();
+    } else {
+      this.visibleSections =  jobDescription.Sections.filter(x => showSection(x));
     }
 
     if (jobDescription.JobDescriptionTitle === null || jobDescription.JobDescriptionTitle.length === 0) {

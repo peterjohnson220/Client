@@ -1,0 +1,36 @@
+<pf-search-results
+  [useSmallBizStyles]="useSmallBizStyles"
+  [numberOfCurrentResults]="(jobResults$ | async)?.length"
+  [customSearchResultsStyle]="customSearchResultsStyle">
+
+  <ng-container *ngIf="(jobResults$ | async)?.length; else noResultsMessage">
+    <div *ngIf="isJobRange;then jobRangeAddJobsResults; else gradeRangeAddJobsResults">
+    </div>
+  </ng-container>
+
+  <ng-template #noResultsMessage>
+    <div *ngIf="!(loadingResults$ | async)" class="no-results-message-container">
+      No results. Please change your filter criteria and search again.
+    </div>
+  </ng-template>
+
+  <ng-template #jobRangeAddJobsResults >
+    <pf-add-job-result
+      *ngFor="let jobResult of jobResults$ | async;trackBy: trackByJobId"
+      [job]="jobResult"
+      (jobClicked)="handleJobSelectionToggle(jobResult)"
+      (jobDetailClicked)="handleJobDetailClicked(jobResult)"
+      [showJobBasedRangesJobMetadata] = "showJobBasedRangesJobMetadata"
+      [showJobSourceOrTitle]="showJobSourceOrTitle">
+    </pf-add-job-result>
+  </ng-template>
+
+  <ng-template #gradeRangeAddJobsResults>
+      <pf-grade-range-job-result
+        [jobResults]="(jobResults$ | async)"
+        (jobClicked)="handleJobSelectionToggle($event)"
+        [controlPoint]="controlPoint">
+      </pf-grade-range-job-result>
+  </ng-template>
+
+</pf-search-results>

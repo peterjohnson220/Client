@@ -1,4 +1,4 @@
-@import '../../../../../styles/perfect-scrollbar-overrides';
+@import 'libs/styles/perfect-scrollbar-overrides';
 
 .users {
   position: relative;
@@ -15,4 +15,8 @@
     height: 12px;
     left: auto !important;
   }
+}
+
+.custom-email-message{
+  resize: none;
 }

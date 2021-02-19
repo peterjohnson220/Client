@@ -15,13 +15,11 @@ import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import * as fromPricingDetailsActions from 'libs/features/pricings/pricing-details/actions';
 import * as fromPfDataGridActions from 'libs/features/grids/pf-data-grid/actions';
 import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums/pf-theme-type.enum';
-import { AsyncStateObj } from 'libs/models';
+import { AsyncStateObj, GroupedListItem } from 'libs/models';
 
 import * as fromModifyPricingsActions from '../../../../actions';
 import * as fromModifyPricingsReducer from '../../../../reducers';
 import { PageViewIds } from '../../../../constants';
-
-
 
 @Component({
   selector: 'pf-pricing-history-grid',
@@ -54,9 +52,8 @@ export class PricingHistoryGridComponent implements AfterViewInit, OnInit, OnDes
   companyPayMarketsSubscription: Subscription;
   getPricingReviewedSuccessSubscription: Subscription;
   payMarketField: ViewField;
-  filteredPayMarketOptions: any;
-  payMarketOptions: any;
-  selectedPayMarket: any;
+  payMarketOptions: GroupedListItem[];
+  selectedPayMarkets: string[];
   actionBarConfig: ActionBarConfig;
   gridConfig: GridConfig;
   pricingId: number;
@@ -90,14 +87,14 @@ export class PricingHistoryGridComponent implements AfterViewInit, OnInit, OnDes
   ngOnInit(): void {
     this.companyPayMarketsSubscription = this.store.select(fromModifyPricingsReducer.getCompanyPayMarkets)
       .subscribe(o => {
-        this.filteredPayMarketOptions = o;
-        this.payMarketOptions = o;
+        if (!!o) {
+          this.payMarketOptions = cloneDeep(o);
+        }
       });
     this.gridFieldSubscription = this.store.select(fromPfGridReducer.getFields, this.pageViewId).subscribe(fields => {
       if (fields) {
         this.payMarketField = fields.find(f => f.SourceName === 'PayMarket');
-        this.selectedPayMarket = this.payMarketField.FilterValue !== null ?
-          { Value: this.payMarketField.FilterValue, Id: this.payMarketField.FilterValue } : null;
+        this.selectedPayMarkets = this.payMarketField.FilterValues === null ? [] : cloneDeep(this.payMarketField.FilterValues);
       }
     });
 
@@ -143,11 +140,14 @@ export class PricingHistoryGridComponent implements AfterViewInit, OnInit, OnDes
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['filters']) {
+    if (changes['filters']?.currentValue) {
       this.filters = cloneDeep(changes['filters'].currentValue)
-        .filter(f => this.inboundFiltersToApply.indexOf(f.SourceName) > -1);
+        .filter((f: PfDataGridFilter) => this.inboundFiltersToApply.indexOf(f.SourceName) > -1);
 
-      this.jobId = parseInt(this.filters.find(v => v.SourceName === 'CompanyJob_ID').Value, 10);
+      const filterValues = this.filters.find(v => v.SourceName === 'CompanyJob_ID').Values;
+      if (!!filterValues) {
+        this.jobId = parseInt(filterValues[0], 10);
+      }
 
       if (this.filters.find(x => x.SourceName === 'Status')) {
         this.noRecordsMessage = 'There is no pricing history for the filter criteria you have selected.';
@@ -179,21 +179,18 @@ export class PricingHistoryGridComponent implements AfterViewInit, OnInit, OnDes
     this.getDeletingPricingSuccessSubscription.unsubscribe();
   }
 
-  handlePayMarketFilterChanged(value: any) {
-    const field = cloneDeep(this.payMarketField);
-    field.FilterValue = value.Id;
-    field.FilterOperator = '=';
+  handlePayMarketValueChanged(payMarkets: string[]) {
+    const field: ViewField = cloneDeep(this.payMarketField);
+    field.FilterValues = payMarkets?.length > 0 ? payMarkets : null;
+    field.FilterOperator = 'in';
     this.updateField(field);
   }
 
-  updateField(field) {
-    if (field.FilterValue) {
+  updateField(field: ViewField) {
+    if (!!field.FilterValues) {
       this.store.dispatch(new fromPfGridActions.UpdateFilter(this.pageViewId, field));
     } else {
       this.store.dispatch(new fromPfGridActions.ClearFilter(this.pageViewId, field));
     }
-  }
-  handleFilter(value) {
-    this.filteredPayMarketOptions = this.payMarketOptions.filter((s) => s.Id.toLowerCase().indexOf(value.toLowerCase()) !== -1);
   }
 }

@@ -5,6 +5,7 @@ import { JobDescription } from 'libs/models/jdm';
 import { SaveError } from 'libs/models/common/save-error';
 
 import * as fromJobDescriptionJobCompareActions from '../actions/job-description-job-compare.actions';
+import { ControlDataHelper } from 'libs/features/jobs/job-description-management/helpers';
 
 export interface State {
   jobDescriptionList: JobDescription[];
@@ -82,10 +83,13 @@ export function reducer(state = initialState, action: fromJobDescriptionJobCompa
       };
     }
     case fromJobDescriptionJobCompareActions.LOAD_SOURCE_JOB_DESCRIPTION_SUCCESS: {
-      const sourceJobDescriptionAsyncClone = cloneDeep(state.sourceJobDescriptionAsync);
+      const sourceJobDescriptionAsyncClone: AsyncStateObj<JobDescription> = cloneDeep(state.sourceJobDescriptionAsync);
 
       sourceJobDescriptionAsyncClone.loading = false;
-      sourceJobDescriptionAsyncClone.obj = action.payload;
+      sourceJobDescriptionAsyncClone.obj = cloneDeep(action.payload.jobDescription);
+      if (sourceJobDescriptionAsyncClone.obj?.Sections?.length > 0) {
+        sourceJobDescriptionAsyncClone.obj.Sections = ControlDataHelper.initDataRows(sourceJobDescriptionAsyncClone.obj.Sections, action.payload.controlTypes);
+      }
 
       return {
         ...state,
@@ -115,14 +119,17 @@ export function reducer(state = initialState, action: fromJobDescriptionJobCompa
       };
     }
     case fromJobDescriptionJobCompareActions.LOAD_JOB_DESCRIPTION_FOR_COMPARISON_SUCCESS: {
-      const jobDescriptionForComparisonAsyncClone = cloneDeep(state.jobDescriptionForComparisonAsync);
+      const jobDescriptionAsyncClone: AsyncStateObj<JobDescription> = cloneDeep(state.jobDescriptionForComparisonAsync);
 
-      jobDescriptionForComparisonAsyncClone.loading = false;
-      jobDescriptionForComparisonAsyncClone.obj = action.payload;
+      jobDescriptionAsyncClone.loading = false;
+      jobDescriptionAsyncClone.obj = cloneDeep(action.payload.jobDescription);
+      if (jobDescriptionAsyncClone.obj?.Sections?.length > 0) {
+        jobDescriptionAsyncClone.obj.Sections = ControlDataHelper.initDataRows(jobDescriptionAsyncClone.obj.Sections, action.payload.controlTypes);
+      }
 
       return {
         ...state,
-        jobDescriptionForComparisonAsync: jobDescriptionForComparisonAsyncClone
+        jobDescriptionForComparisonAsync: jobDescriptionAsyncClone
       };
     }
     case fromJobDescriptionJobCompareActions.LOAD_JOB_DESCRIPTION_FOR_COMPARISON_ERROR: {

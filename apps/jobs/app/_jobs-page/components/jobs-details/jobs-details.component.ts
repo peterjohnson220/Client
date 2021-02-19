@@ -9,8 +9,8 @@ import { PfDataGridFilter } from 'libs/features/grids/pf-data-grid/models';
 import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import * as fromMultiMatchActions from 'libs/features/pricings/multi-match/actions';
 import * as fromNotificationActions from 'libs/features/infrastructure/app-notifications/actions';
-import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core';
 import * as fromRootReducer from 'libs/state/state';
+import { Permissions } from 'libs/constants';
 
 import * as fromJobsPageActions from '../../actions';
 
@@ -25,9 +25,11 @@ import { PageViewIds } from '../../constants';
 export class JobsDetailsComponent implements OnDestroy, OnInit, OnChanges {
 
   @Input() jobDetailsFilters: PfDataGridFilter[];
+  @Input() canEditJobCompanySetting: boolean;
 
   @Output() onClose = new EventEmitter();
   @Output() tabChanged = new EventEmitter();
+  @Output() handleEditJobClicked = new EventEmitter();
 
   viewLoadedPayMarketSubscription: Subscription;
   viewLoadedEmployeesSubscription: Subscription;
@@ -46,21 +48,18 @@ export class JobsDetailsComponent implements OnDestroy, OnInit, OnChanges {
 
   userId: number;
   pageViewIds = PageViewIds;
+  permissions = Permissions;
 
   jobId: number;
 
-  pricingHistoryChartFeatureFlag: RealTimeFlag = { key: FeatureFlags.PricingHistoryChart, value: false };
   unsubscribe$ = new Subject<void>();
 
   constructor(
     private store: Store<fromPfGridReducer.State>,
-    private actionsSubject: ActionsSubject,
-    private featureFlagService: AbstractFeatureFlagService
+    private actionsSubject: ActionsSubject
   ) { }
 
   ngOnInit() {
-
-    this.featureFlagService.bindEnabled(this.pricingHistoryChartFeatureFlag, this.unsubscribe$);
 
     this.selectedRow$ = this.store.select(fromPfGridReducer.getSelectedRow, PageViewIds.Jobs);
 
@@ -105,8 +104,11 @@ export class JobsDetailsComponent implements OnDestroy, OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['jobDetailsFilters']) {
-      this.jobId = parseInt(this.jobDetailsFilters.find(v => v.SourceName === 'CompanyJob_ID').Value, 10);
+    if (changes['jobDetailsFilters']?.currentValue) {
+      const filter = this.jobDetailsFilters.find(v => v.SourceName === 'CompanyJob_ID');
+      if (filter?.Values?.length > 0) {
+        this.jobId = parseInt(filter.Values[0], 10);
+      }
     }
   }
 
@@ -132,6 +134,10 @@ export class JobsDetailsComponent implements OnDestroy, OnInit, OnChanges {
 
   close() {
     this.onClose.emit(null);
+  }
+
+  toggleJobManagmentModal(): void {
+    this.handleEditJobClicked.emit(this.jobId);
   }
 
   tabChange(event: any) {
