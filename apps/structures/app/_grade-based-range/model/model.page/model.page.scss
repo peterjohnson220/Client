@@ -7,18 +7,18 @@
   font-weight: bold;
 }
 
-::ng-deep .compact-grid-container {
+:host::ng-deep .compact-grid-container {
   top: 0;
   right: 0;
   left: 0;
   bottom: 0;
 }
 
-::ng-deep .grid-container {
+:host::ng-deep .grid-container {
   top: auto !important;
   bottom: auto !important;
 }
 
-::ng-deep .modal-dialog {
+:host::ng-deep .modal-dialog {
   height: 90%;
 }
