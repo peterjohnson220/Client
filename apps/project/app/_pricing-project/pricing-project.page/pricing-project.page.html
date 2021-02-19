@@ -41,23 +41,12 @@
   <div class="d-flex justify-content-between">
     <div>
       <b>
-        {{dataRow['UserJobListTemp_Job_Title']}}
+        {{dataRow['vw_ProjectJobPayMarketMetadata_Job_Title']}}
       </b>
     </div>
     <div>
-      <i> {{dataRow['CompanyPayMarkets_PayMarket']}}</i>
+      <i> {{dataRow['vw_ProjectJobPayMarketMetadata_Paymarket']}}</i>
     </div>
   </div>
 </ng-template>
 
-<ng-template #jobCode let-dataRow="dataRow">
-  <span>
-    {{dataRow['UserJobListTemp_Job_Code'] || dataRow['UserJobListTemp_Company_Job_Code']}}
-  </span>
-</ng-template>
-
-<ng-template #jobCurrency let-dataRow="dataRow">
-  <span>
-    {{dataRow['CompanyPayMarkets_Currency_Code'] || dataRow['UserSessions_Currency']}}
-  </span>
-</ng-template>
