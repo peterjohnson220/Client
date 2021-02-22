@@ -7,6 +7,7 @@ import { provideMockStore, MockStore } from '@ngrx/store/testing';
 
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonModule } from 'libs/core';
+import { SettingsService } from 'libs/state/app-context/services';
 
 import * as fromActions from '../../actions';
 import * as fromReducer from '../../reducers';
@@ -39,6 +40,7 @@ describe('Job Management Feature - Job Form', () => {
         PfCommonModule
       ],
       providers: [
+        SettingsService,
         provideMockStore({ initialState }),
         {
           provide: FormControlName,

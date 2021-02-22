@@ -8,6 +8,7 @@ exports[`Job Management Feature - Job Form Should display form 1`] = `
   duplicateJobCodeError="false"
   duplicateJobCodeError$={[Function Store]}
   duplicateJobCodeErrorSubscription={[Function Subscriber]}
+  enableFileDownloadSecurityWarning$={[Function Observable]}
   filterSettings={[Function Object]}
   formBuilder={[Function FormBuilder]}
   formChangesSubscription={[Function Subscriber]}
@@ -19,6 +20,7 @@ exports[`Job Management Feature - Job Form Should display form 1`] = `
   jobForm={[Function FormGroup]}
   loadJobSuccessSubscription={[Function Subscriber]}
   resetStateSubscription={[Function Subscriber]}
+  settingsService={[Function SettingsService]}
   store={[Function MockStore]}
 >
   <form
@@ -216,6 +218,9 @@ exports[`Job Management Feature - Job Form Should display form 1`] = `
             type="hidden"
           />
         </form>
+        <pf-file-download-security-warning-modal>
+          
+        </pf-file-download-security-warning-modal>
       </pf-job-description-summary-editor>
     </div>
   </form>

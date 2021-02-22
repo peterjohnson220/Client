@@ -1,7 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 
 import { Permissions } from 'libs/constants';
 import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums/pf-theme-type.enum';
+import { FileDownloadSecurityWarningModalComponent } from 'libs/ui/common';
 
 @Component({
   selector: 'pf-job-description-export',
@@ -9,17 +10,35 @@ import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums/pf-theme-typ
   styleUrls: ['./job-description-export.component.scss']
 })
 export class JobDescriptionExportComponent {
+  @ViewChild('fileDownloadSecurityWarningModal', { static: true }) fileDownloadSecurityWarningModal: FileDownloadSecurityWarningModalComponent;
   @Input() jobDescriptionId: number;
   @Input() actionIconSize = 'lg';
   @Input() theme = PfThemeType.Default;
+  @Input() enableFileDownloadSecurityWarning: boolean;
 
+  docType: string;
   permissions = Permissions;
 
-  exportJobDescription(docType: string) {
+  exportJobDescription() {
     const htmlDocument: any = document;
 
-    htmlDocument.exportFormFromJobDescriptionExport.elements['export-uid'].value = Date.now();
-    htmlDocument.exportFormFromJobDescriptionExport.elements['export-type'].value = docType;
-    htmlDocument.exportFormFromJobDescriptionExport.submit();
+    htmlDocument.exportForm.elements['export-uid'].value = Date.now();
+    htmlDocument.exportForm.elements['export-type'].value = this.docType;
+    htmlDocument.exportForm.submit();
+  }
+
+  handleExportJobDescription(docType: string) {
+    this.docType = docType;
+    if (this.enableFileDownloadSecurityWarning) {
+      this.fileDownloadSecurityWarningModal.open();
+    } else {
+      this.exportJobDescription();
+    }
+  }
+
+  handleSecurityWarningConfirmed(isConfirmed) {
+    if (isConfirmed) {
+      this.exportJobDescription();
+    }
   }
 }
