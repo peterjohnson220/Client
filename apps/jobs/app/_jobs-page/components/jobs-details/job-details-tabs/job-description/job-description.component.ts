@@ -8,7 +8,9 @@ import cloneDeep from 'lodash/cloneDeep';
 
 import { JobDescriptionSummaryEditorComponent } from 'libs/forms';
 import { PfDataGridFilter } from 'libs/features/grids/pf-data-grid/models';
-import { JobDescriptionSummary, AsyncStateObj, JobDescriptionSection, ControlType, JobDescription } from 'libs/models';
+import { JobDescriptionSummary, AsyncStateObj, JobDescriptionSection, ControlType, JobDescription, showSection } from 'libs/models';
+import { PermissionCheckEnum, Permissions } from 'libs/constants';
+import { PermissionService } from 'libs/core/services';
 import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums/pf-theme-type.enum';
 import { ControlDataHelper } from 'libs/features/jobs/job-description-management/helpers';
 import * as fromJobManagementActions from 'libs/features/jobs/job-management/actions';
@@ -41,20 +43,25 @@ export class JobDescriptionComponent implements OnInit, OnDestroy, OnChanges {
 
   jobDescriptionSummary: JobDescriptionSummary;
   jobDescription: JobDescription;
+  visibleSections: JobDescriptionSection[];
   jobDescriptionCreatedDate: Date;
   controlTypes: ControlType[];
   isJobDescriptionInitialized: boolean;
   pfThemeType = PfThemeType;
+  hasJobDescriptionAccess: boolean;
 
   constructor(
     private store: Store<fromJobsPageReducer.State>,
     private actionsSubject: ActionsSubject,
-    private sharedJDMStore: Store<fromJDMSharedReducer.State>
+    private sharedJDMStore: Store<fromJDMSharedReducer.State>,
+    private permissionService: PermissionService
   ) {
     this.controlTypesAsync$ = this.sharedJDMStore.select(fromJDMSharedReducer.getControlTypesAsync);
   }
 
   ngOnInit(): void {
+    this.hasJobDescriptionAccess = this.permissionService.CheckPermission([Permissions.JOB_DESCRIPTIONS],
+      PermissionCheckEnum.Single);
     this.loadJobDescriptionSuccessSubscription = this.actionsSubject
       .pipe(ofType(fromJobDescriptionActions.LOAD_JOB_DESCRIPTION_SUCCESS))
       .subscribe((action: fromJobDescriptionActions.LoadJobDescriptionSuccess) => {
@@ -115,12 +122,18 @@ export class JobDescriptionComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private initJobDescriptionDataRows(): void {
+    if (!this.hasJobDescriptionAccess) {
+      return;
+    }
+
     if (!this.controlTypes?.length) {
       this.loadControlTypes();
       return;
     }
+
     if (this.jobDescription?.Sections?.length > 0) {
       this.jobDescription.Sections = ControlDataHelper.initDataRows(this.jobDescription.Sections, this.controlTypes);
+      this.visibleSections = this.jobDescription.Sections.filter(x => showSection(x));
       this.isJobDescriptionInitialized = true;
     }
   }
