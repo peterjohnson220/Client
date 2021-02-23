@@ -32,7 +32,7 @@ import { ValidationResultsComponent } from './validation';
 import { PfCommonModule, WindowRef } from '../../core';
 import { CardSelectorComponent } from './content/cards/card-selector';
 import { CardComponent } from './content/cards/card';
-import { AfterIfDirective, ClickElsewhereDirective, EllipsisActiveDirective } from './directives';
+import { AfterIfDirective, ClickElsewhereDirective, EllipsisActiveDirective, PfScrollSpyDirective } from './directives';
 import { UserOrEmailPickerComponent } from './user-email-picker/user-or-email-picker.component';
 import { MultiSelectComponent } from './content/multi-select';
 import { PeerAssociationColorBlockComponent } from './content/peer-association-color-block';
@@ -55,7 +55,7 @@ const components = [
   JobTitleCodeComponent,
 
   // Directives
-  ClickElsewhereDirective, AfterIfDirective, EllipsisActiveDirective, TreeViewCheckDirective,
+  ClickElsewhereDirective, AfterIfDirective, EllipsisActiveDirective, TreeViewCheckDirective, PfScrollSpyDirective,
 
   // Error
   BaseErrorPageComponent,
