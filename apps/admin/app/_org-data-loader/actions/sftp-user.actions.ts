@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+
 import { SftpUserModel } from 'libs/models/Sftp';
 
 export const SET_SFTP_USERNAME = '[Org Data Autoloader/Sftp User] Set Sftp Username';
@@ -9,53 +10,70 @@ export const GET_SFTP_USER_Error = '[Org Data Autoloader/Sftp User] Get Sftp Use
 export const VALIDATE_USERNAME = '[Org Data Autoloader/Sftp User] Validate Username';
 export const VALIDATE_USERNAME_SUCCESS = '[Org Data Autoloader/Sftp User] Validate Username Success';
 export const VALIDATE_USERNAME_ERROR = '[Org Data Autoloader/Sftp User] Validate Username Error';
+export const DELETE_SFTP_CREDENTIALS = '[Org Data Autoloader/Sftp User] Delete SFTP Credentials';
+export const DELETE_SFTP_CREDENTIALS_SUCCESS = '[Org Data Autoloader/Sftp User] Delete SFTP Credentials Success';
+export const DELETE_SFTP_CREDENTIALS_ERROR = '[Org Data Autoloader/Sftp User] Delete SFTP Credentials Error';
+
 
 export class SetSftpUsername implements Action {
   readonly type = SET_SFTP_USERNAME;
 
-  constructor(public payload: string) {}
+  constructor(public payload: string) { }
 }
 
 export class SetSftpPublicKey implements Action {
   readonly type = SET_SFTP_PUBLIC_KEY;
 
-  constructor(public payload: File) {}
+  constructor(public payload: File) { }
 }
 
 export class GetSftpUser implements Action {
   readonly type = GET_SFTP_USER;
 
-  constructor(public payload: number) {}
+  constructor(public payload: number) { }
 }
 
 export class GetSftpUserSuccess implements Action {
   readonly type = GET_SFTP_USER_SUCCESS;
 
-  constructor(public payload: SftpUserModel) {}
+  constructor(public payload: SftpUserModel) { }
 }
 
 export class GetSftpUserError implements Action {
   readonly type = GET_SFTP_USER_Error;
 
-  constructor(public payload = null) {}
+  constructor(public payload = null) { }
 }
 
 export class ValidateUsername implements Action {
   readonly type = VALIDATE_USERNAME;
 
-  constructor(public payload: any) {}
+  constructor(public payload: any) { }
 }
 
 export class ValidateUsernameSuccess implements Action {
   readonly type = VALIDATE_USERNAME_SUCCESS;
 
-  constructor(public payload: any) {}
+  constructor(public payload: any) { }
 }
 
 export class ValidateUsernameError implements Action {
   readonly type = VALIDATE_USERNAME_ERROR;
 
-  constructor(public payload = null) {}
+  constructor(public payload = null) { }
+}
+
+export class DeleteSftpCreds implements Action {
+  readonly type = DELETE_SFTP_CREDENTIALS;
+  constructor(public companyId: number) { }
+}
+
+export class DeleteSftpCredsSuccess implements Action {
+  readonly type = DELETE_SFTP_CREDENTIALS_SUCCESS;
+}
+
+export class DeleteSftpCredsError implements Action {
+  readonly type = DELETE_SFTP_CREDENTIALS_ERROR;
 }
 
 export type Actions =
@@ -66,4 +84,7 @@ export type Actions =
   | GetSftpUserError
   | ValidateUsername
   | ValidateUsernameSuccess
-  | ValidateUsernameError;
+  | ValidateUsernameError
+  | DeleteSftpCreds
+  | DeleteSftpCredsSuccess
+  | DeleteSftpCredsError;

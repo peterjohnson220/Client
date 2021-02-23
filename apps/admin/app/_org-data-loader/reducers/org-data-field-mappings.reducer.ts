@@ -1,11 +1,13 @@
+import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
+
 import { LoaderFieldSet } from 'libs/models/data-loads';
 
 import * as fromOrgDataFieldMappingsActions from '../actions/org-data-field-mappings.actions';
-import {createEntityAdapter, EntityAdapter, EntityState} from '@ngrx/entity';
 
 export interface State extends EntityState<LoaderFieldSet> {
   loading: boolean;
   loadingError: boolean;
+  isDeleteModalOpen: boolean;
 }
 
 export const adapter: EntityAdapter<LoaderFieldSet> = createEntityAdapter<LoaderFieldSet>({
@@ -14,10 +16,11 @@ export const adapter: EntityAdapter<LoaderFieldSet> = createEntityAdapter<Loader
 
 const initialState: State = adapter.getInitialState({
   loading: false,
-  loadingError: false
+  loadingError: false,
+  isDeleteModalOpen: false,
 });
 
-export function reducer( state = initialState, action: fromOrgDataFieldMappingsActions.Actions): State {
+export function reducer(state = initialState, action: fromOrgDataFieldMappingsActions.Actions): State {
   switch (action.type) {
     case fromOrgDataFieldMappingsActions.LOADING_FIELD_MAPPINGS: {
       return {
@@ -39,6 +42,12 @@ export function reducer( state = initialState, action: fromOrgDataFieldMappingsA
         loadingError: true
       };
     }
+    case fromOrgDataFieldMappingsActions.DELETE_SFTP_CREDENTIALS_MODAL_OPEN: {
+      return {
+        ...state,
+        isDeleteModalOpen: action.isOpen,
+      };
+    }
     default: {
       return state;
     }
@@ -47,3 +56,5 @@ export function reducer( state = initialState, action: fromOrgDataFieldMappingsA
 
 export const getLoadingFieldMappings = (state: State) => state.loading;
 export const getLoadingFieldMappingsError = (state: State) => state.loadingError;
+export const getIsDeleteModalOpen = (state: State) => state.isDeleteModalOpen;
+
