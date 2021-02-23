@@ -16,6 +16,7 @@ import { UserNotification } from '../../models';
 import { UserNotificationHostDirective } from '../../directives';
 import { UserNotificationConstants } from '../../constants';
 import { PendingPeerJobMatchesNotificationComponent } from '../categories/pending-peer-job-matches/pending-peer-job-matches-notification.component';
+import { StaleEmployeeDataNotificationComponent } from '../categories/stale-employee-data/stale-employee-data-notification.component';
 
 @Component({
   selector: 'pf-user-notification-container',
@@ -66,6 +67,10 @@ export class UserNotificationContainerComponent  implements OnInit {
 
       case UserNotificationConstants.NEW_PEER_JOBS_LOOKUP_KEY:
         componentFactory = this.componentFactoryResolver.resolveComponentFactory(NewPeerJobsNotificationComponent);
+        break;
+
+      case UserNotificationConstants.STALE_EMPLOYEE_DATA_LOOKUP_KEY:
+        componentFactory = this.componentFactoryResolver.resolveComponentFactory(StaleEmployeeDataNotificationComponent);
         break;
 
       default:

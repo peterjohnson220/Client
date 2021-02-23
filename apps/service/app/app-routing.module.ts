@@ -11,7 +11,8 @@ export const routes: Routes = [
     component: AppWrapperComponent,
     canActivate: [UserContextGuard, TileEnabledGuard],
     children: [
-      { path: '', loadChildren: () => import('apps/service/app/_service/service.module').then(m => m.ServiceModule) }
+      { path: '', loadChildren: () => import('apps/service/app/_service/service.module').then(m => m.ServiceModule) },
+      { path: ':ticketId', loadChildren: () => import('apps/service/app/_service/service.module').then(m => m.ServiceModule) }
     ]
   },
   ...DEFAULT_ROUTES
