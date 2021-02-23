@@ -78,6 +78,7 @@ export class JobDescriptionSummaryEditorComponent implements OnInit, OnDestroy, 
 
     htmlDocument.exportForm.elements['export-uid'].value = Date.now();
     htmlDocument.exportForm.elements['export-type'].value = this.docType;
+    htmlDocument.exportForm.elements['viewName'].value = 'Default';
     htmlDocument.exportForm.submit();
   }
 
