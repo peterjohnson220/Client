@@ -2,6 +2,7 @@ import { NO_ERRORS_SCHEMA, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FieldMappingCardComponent } from './field-mappings-card.component';
+import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 
 describe('Data Management - Main - Field Mappings Card Component', () => {
   let instance: FieldMappingCardComponent;
@@ -15,7 +16,7 @@ describe('Data Management - Main - Field Mappings Card Component', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-
+        NgbNavModule
       ],
       declarations: [
         FieldMappingCardComponent,

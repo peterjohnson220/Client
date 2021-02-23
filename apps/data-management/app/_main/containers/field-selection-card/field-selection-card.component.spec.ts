@@ -1,6 +1,8 @@
 import {NO_ERRORS_SCHEMA, Pipe, PipeTransform} from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+
 import { FieldSelectionCardComponent } from './field-selection-card.component';
 
 describe('Data Management - Main - Field Selection Card Component', () => {
@@ -13,6 +15,9 @@ describe('Data Management - Main - Field Selection Card Component', () => {
   }
   beforeEach((() => {
     TestBed.configureTestingModule({
+      imports: [
+        NgbNavModule,
+      ],
       declarations: [
         FieldSelectionCardComponent,
         MockPipe

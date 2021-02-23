@@ -3,6 +3,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
+import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
 
 import * as fromRootState from 'libs/state/state';
@@ -10,7 +11,6 @@ import * as fromRootState from 'libs/state/state';
 import * as fromReducers from '../reducers';
 
 import { StatementListPageComponent } from './statement-list.page';
-import {NgbTabsetModule} from '@ng-bootstrap/ng-bootstrap';
 
 describe('TotalRewardsPageComponent', () => {
   let instance: StatementListPageComponent;
@@ -20,11 +20,12 @@ describe('TotalRewardsPageComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
+        NgbNavModule,
         StoreModule.forRoot({
           ...fromRootState.reducers,
           totalRewards_statementList: combineReducers(fromReducers.reducers)
         }),
-        ReactiveFormsModule, NgbTabsetModule],
+        ReactiveFormsModule],
       declarations: [StatementListPageComponent],
       schemas: [ NO_ERRORS_SCHEMA ]
     });

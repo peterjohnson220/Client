@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { StoreModule } from '@ngrx/store';
-import { NgbTabsetModule, NgbTooltipModule, NgbPopoverModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltipModule, NgbPopoverModule, NgbDropdownModule, NgbNavModule} from '@ng-bootstrap/ng-bootstrap';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AutoCompleteModule, ComboBoxModule, DropDownListModule } from '@progress/kendo-angular-dropdowns';
 import { NumericTextBoxModule, SwitchModule } from '@progress/kendo-angular-inputs';
@@ -46,7 +46,6 @@ import { SharedModule } from '../../shared/shared.module';
             FieldsEffects,
         ]),
         FontAwesomeModule,
-        NgbTabsetModule,
         AutoCompleteModule,
         ComboBoxModule,
         NgbTooltipModule,
@@ -65,7 +64,8 @@ import { SharedModule } from '../../shared/shared.module';
         FormulaEditorModule,
         FormsModule,
 
-        SharedModule
+        SharedModule,
+        NgbNavModule
     ],
   declarations: [
     ModelGridComponent,
