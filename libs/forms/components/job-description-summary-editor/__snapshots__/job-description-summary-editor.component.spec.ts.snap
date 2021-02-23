@@ -75,6 +75,10 @@ exports[`Job Management Feature - Job Form Should display form 1`] = `
       name="export-type"
       type="hidden"
     />
+    <input
+      name="viewName"
+      type="hidden"
+    />
   </form>
 </pf-job-description-summary-editor>
 `;

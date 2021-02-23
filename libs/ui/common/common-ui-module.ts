@@ -20,7 +20,8 @@ import {
   AccessDeniedPageComponent,
   TokenExpirationPageComponent,
   ForbiddenPageComponent,
-  ServerErrorPageComponent
+  ServerErrorPageComponent,
+  ReviewLinkExpiredPageComponent
 } from './error';
 import {
   LoadingIndicatorComponent, LoadingUserContextComponent,
@@ -65,6 +66,7 @@ const components = [
   TokenExpirationPageComponent,
   ForbiddenPageComponent,
   ServerErrorPageComponent,
+  ReviewLinkExpiredPageComponent,
 
   // Loading
   AsyncContainerComponent, LoadingIndicatorComponent, LoadingUserContextComponent,

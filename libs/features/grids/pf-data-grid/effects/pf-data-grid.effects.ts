@@ -177,7 +177,7 @@ export class PfDataGridEffects {
             .pipe(
               mergeMap((response: any[]) => {
                 const actions: any[] = [];
-                if (data.sortDescriptor.every(x => x.dir === undefined)) {
+                if (data.sortDescriptor?.every(x => x.dir === undefined)) {
                   actions.push(new fromActions.UpdateSortDescriptor(data.action.pageViewId, data.defaultSortDescriptor));
                 }
 
