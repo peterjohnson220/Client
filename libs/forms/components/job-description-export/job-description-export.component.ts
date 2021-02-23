@@ -20,6 +20,7 @@ export class JobDescriptionExportComponent {
 
     htmlDocument.exportFormFromJobDescriptionExport.elements['export-uid'].value = Date.now();
     htmlDocument.exportFormFromJobDescriptionExport.elements['export-type'].value = docType;
+    htmlDocument.exportFormFromJobDescriptionExport.elements['viewName'].value = 'Default';
     htmlDocument.exportFormFromJobDescriptionExport.submit();
   }
 }

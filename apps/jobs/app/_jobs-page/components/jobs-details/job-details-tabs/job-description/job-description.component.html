@@ -1,7 +1,7 @@
 <pf-async-container [loading]="loading$ | async">
   <div class="p-3 job-description-container">
     <div class="py-3 d-flex flex-column">
-      <ng-container *ngIf="jobDescriptionSummary?.JobDescriptionManagementEnabled; else jdmDisabledTemplate">
+      <ng-container *ngIf="jobDescriptionSummary?.JobDescriptionManagementEnabled && hasJobDescriptionAccess; else jdmDisabledTemplate">
         <ng-container *ngTemplateOutlet="jdmEnabledTemplate"></ng-container>
       </ng-container>
     </div>
@@ -41,7 +41,7 @@
     </div>
     <div *ngIf="isJobDescriptionInitialized" class="pt-3">
       <pf-job-description-section
-        *ngFor="let section of jobDescription.Sections; trackBy: trackByFn"
+        *ngFor="let section of visibleSections; trackBy: trackByFn"
         [section]="section"
         [readOnly]="true"
         [jobDescriptionStatus]="jobDescription.JobDescriptionStatus">
