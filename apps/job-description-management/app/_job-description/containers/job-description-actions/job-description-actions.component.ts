@@ -85,6 +85,9 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
   jobMatchesAsync: AsyncStateObj<JobMatchResult[]>;
   enableLibraryForRoutedJobDescriptions: boolean;
 
+  get isDraft() { return this.jobDescription?.JobDescriptionStatus === 'Draft'; }
+  get isInReview() { return this.jobDescription?.JobDescriptionStatus === 'In Review'; }
+
   constructor(
     private sharedStore: Store<fromJobDescriptionManagementSharedReducer.State>,
     private store: Store<fromJobDescriptionReducers.State>,
