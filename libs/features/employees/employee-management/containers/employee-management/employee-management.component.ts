@@ -126,6 +126,8 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
         if (!this.initialized) {
           this.initializeDroplists();
         }
+
+        this.currentSection = EmployeeModalSectionEnum.EmployeeInformationSection;
       }
     });
     this.udfsSubscription = this.employeesUserDefinedFields$.subscribe(userDefinedFieldsAync => {
