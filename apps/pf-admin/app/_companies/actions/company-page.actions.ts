@@ -26,6 +26,9 @@ export const GET_PF_CUSTOMER_SUCCESS_MANAGERS_ERROR = '[Pf-Admin/Company Page] G
 export const GET_COMPANY_INDUSTRIES = '[Pf-Admin/Company Page] Get Company Industries';
 export const GET_COMPANY_INDUSTRIES_SUCCESS = '[Pf-Admin/Company Page] Get Company Industries Success';
 export const GET_COMPANY_INDUSTRIES_ERROR = '[Pf-Admin/Company Page] Get Company Industries Error';
+export const GET_PEER_INDUSTRIES = '[Pf-Admin/Company Page] Get Peer Industries';
+export const GET_PEER_INDUSTRIES_SUCCESS = '[Pf-Admin/Company Page] Get Peer Industries Success';
+export const GET_PEER_INDUSTRIES_ERROR = '[Pf-Admin/Company Page] Get Peer Industries Error';
 export const GET_PUBLIC_TOKEN_URL = '[Pf-Admin/Company Page] Get Public Token Url';
 export const GET_PUBLIC_TOKEN_URL_SUCCESS = '[Pf-Admin/Company Page] Get Public Token Url Success';
 export const GET_PUBLIC_TOKEN_URL_ERROR = '[Pf-Admin/Company Page] Get Public Token Url Error';
@@ -38,6 +41,7 @@ export const GET_JOB_PRICING_LIMIT_INFO = '[Pf-Admin/Company Page] Get Job Prici
 export const SET_JOB_PRICING_LIMIT_INFO = '[Pf-Admin/Company Page] Set Job Pricing Limit Info';
 export const RESET = '[Pf-Admin/Company Page] Reset';
 export const ENABLE_JOB_PRICING_LIMITER = '[Pf-Admin/Company Page] Enable Job Pricing Limiter';
+export const SET_PEER_INDUSTRY = '[Pf-Admin/Company Page] Set Peer Industry';
 
 // Tabs
 export const GET_COMPANY_TILES = '[Pf-Admin/Company Page] Get Company Tiles';
@@ -471,6 +475,24 @@ export class EnableJobPricingLimiter implements Action {
   constructor(public payload: boolean) {}
 }
 
+export class GetPeerIndustries implements Action {
+  readonly type = GET_PEER_INDUSTRIES;
+}
+
+export class GetPeerIndustriesSuccess implements Action {
+  readonly type = GET_PEER_INDUSTRIES_SUCCESS;
+  constructor(public payload: string[]) {}
+}
+
+export class GetPeerIndustriesError implements Action {
+  readonly type = GET_PEER_INDUSTRIES_ERROR;
+}
+
+export class SetPeerIndustry implements Action {
+  readonly type = SET_PEER_INDUSTRY;
+  constructor(public payload: string) {}
+}
+
 export type Actions
   = GetSystemUserGroups
   | GetSystemUserGroupsSuccess
@@ -536,5 +558,9 @@ export type Actions
   | SetJobPricingLimitInfo
   | DisablePeerAndAnalysisTiles
   | Reset
-  | EnableJobPricingLimiter;
+  | EnableJobPricingLimiter
+  | GetPeerIndustries
+  | GetPeerIndustriesSuccess
+  | GetPeerIndustriesError
+  | SetPeerIndustry;
 
