@@ -24,7 +24,7 @@ import { PfDataGridModule } from 'libs/features/grids/pf-data-grid';
 import { MultiMatchModule } from 'libs/features/pricings/multi-match';
 import { UpsertPeerDataCutModule } from 'libs/features/pricings/upsert-peer-data-cut';
 import { ReScopeSurveyDataModule } from 'libs/features/surveys/re-scope-survey-data';
-import { PricingMatchModule } from 'libs/features/pricings/pricing-match';
+import { DataCutSummaryModule } from 'libs/features/pricings/data-cut-summary';
 import { NotesManagerModule } from 'libs/features/notes/notes-manager';
 import { RangeEditorModule } from 'libs/features/structures/range-editor';
 import { PricingDetailsModule } from 'libs/features/pricings/pricing-details';
@@ -103,7 +103,7 @@ import {
         RangeEditorModule,
         NotesManagerModule,
         MultiMatchModule,
-        PricingMatchModule,
+        DataCutSummaryModule,
         ReScopeSurveyDataModule,
         UpsertPeerDataCutModule,
         EmployeeDetailsModule,

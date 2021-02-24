@@ -1,5 +1,5 @@
-import { PricingMatchTypes } from 'libs/features/pricings/pricing-match/constants';
-import { PricingMatchEntityTypes } from 'libs/constants';
+import { DataCutSummaryTypes } from 'libs/features/pricings/data-cut-summary/constants';
+import { DataCutSummaryEntityTypes } from 'libs/constants';
 
 export interface JobMatchCutsResponse {
   JobMatchCuts: JobMatchCut[];
@@ -7,7 +7,7 @@ export interface JobMatchCutsResponse {
 
 export interface JobMatchCut {
   MatchId?: number;
-  MatchType?: PricingMatchEntityTypes;
+  MatchType?: DataCutSummaryEntityTypes;
   Source: string;
   Base50?: number;
   TCC50?: number;
@@ -28,13 +28,13 @@ export interface JobMatchCut {
 export function generateMockJobMatchCut(): JobMatchCut {
   return {
     MatchId: 1,
-    MatchType: PricingMatchEntityTypes.CompanyJobPricingMatchId,
+    MatchType: DataCutSummaryEntityTypes.CompanyJobPricingMatchId,
     Source: 'Payfactors',
     Base50: 25.66,
     TCC50: 100.11,
     JobCode: 'JB122',
     JobTitle: 'Janitor/Custodian',
-    MatchSourceCode: PricingMatchTypes.PEER,
+    MatchSourceCode: DataCutSummaryTypes.PEER,
     SurveyJobCode: 'KKNN',
     DataSourceJobId: 12345,
     MatchWeight: 0,

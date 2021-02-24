@@ -2,12 +2,12 @@ import cloneDeep from 'lodash/cloneDeep';
 
 import { JobMatchCut } from 'libs/models/payfactors-api';
 import { arraySortByString, SortDirection } from 'libs/core/functions';
-import { SurveySearchResultDataSources, PricingMatchEntityTypes } from 'libs/constants';
+import { SurveySearchResultDataSources, DataCutSummaryEntityTypes } from 'libs/constants';
 
 import * as fromJobsToPriceActions from '../actions/jobs-to-price.actions';
 import { JobToPrice } from '../models';
 import { DataCutDetails } from '../../../surveys/survey-search/models';
-import { PricingMatchTypes } from '../../pricing-match/constants';
+import { DataCutSummaryTypes } from '../../data-cut-summary/constants';
 
 export interface EditableTempDataCut {
   CompanyJobId: number;
@@ -221,11 +221,11 @@ function getJobSource(jobCut: DataCutDetails): string {
 function getMatchSourceCode(jobCut: DataCutDetails): string {
   switch (jobCut.DataSource) {
     case SurveySearchResultDataSources.Surveys:
-      return PricingMatchTypes.SURVEY;
+      return DataCutSummaryTypes.SURVEY;
     case SurveySearchResultDataSources.Peer:
-      return PricingMatchTypes.PEER;
+      return DataCutSummaryTypes.PEER;
     default:
-      return PricingMatchTypes.MD_JOB;
+      return DataCutSummaryTypes.MD_JOB;
   }
 }
 
@@ -249,21 +249,21 @@ function getMatchId(jobCut: DataCutDetails): any {
   }
 }
 
-function getMatchType(jobCut: DataCutDetails): PricingMatchEntityTypes {
+function getMatchType(jobCut: DataCutDetails): DataCutSummaryEntityTypes {
   if (jobCut.DataSource === SurveySearchResultDataSources.Payfactors && jobCut.SurveyJobCode) {
-    return PricingMatchEntityTypes.MDJobCode;
+    return DataCutSummaryEntityTypes.MDJobCode;
   } else {
     const serverInfo = jobCut.ServerInfo;
 
     if (serverInfo) {
       if (serverInfo.DailyScopeAvgId) {
-        return PricingMatchEntityTypes.DailyScopeAvgId;
+        return DataCutSummaryEntityTypes.DailyScopeAvgId;
       } else if (serverInfo.DailyNatAvgId) {
-        return PricingMatchEntityTypes.DailyNatAvgId;
+        return DataCutSummaryEntityTypes.DailyNatAvgId;
       } else if (serverInfo.SurveyDataId) {
-        return PricingMatchEntityTypes.SurveyDataId;
+        return DataCutSummaryEntityTypes.SurveyDataId;
       } else if (serverInfo.CustomPeerCutId) {
-        return PricingMatchEntityTypes.CustomPeerCutId;
+        return DataCutSummaryEntityTypes.CustomPeerCutId;
       }
     }
   }
@@ -281,8 +281,8 @@ function addJobCuts(jobToPrice: JobToPrice, newDataCuts: DataCutDetails[]) {
 }
 
 function removeJobMatchCut(jobToPrice: JobToPrice, cutToRemove: JobMatchCut) {
-  if (cutToRemove.MatchType === PricingMatchEntityTypes.CompanyJobPricingMatchId ||
-    cutToRemove.MatchType === PricingMatchEntityTypes.UserJobMatchId) {
+  if (cutToRemove.MatchType === DataCutSummaryEntityTypes.CompanyJobPricingMatchId ||
+    cutToRemove.MatchType === DataCutSummaryEntityTypes.UserJobMatchId) {
     // remove job match cut and track deleted id
     jobToPrice.JobMatchCuts = jobToPrice.JobMatchCuts.filter(x => x.MatchId !== cutToRemove.MatchId);
     jobToPrice.DeletedJobMatchCutIds = jobToPrice.DeletedJobMatchCutIds || [];

@@ -23,4 +23,4 @@ export * from './sso-url';
 export * from './quick-price-type';
 export * from './images';
 export * from './cloud-file-locations';
-export * from './pricing-match-entity-types';
+export * from './data-cut-summary-entity-types';
