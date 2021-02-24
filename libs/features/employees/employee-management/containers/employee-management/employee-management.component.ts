@@ -204,6 +204,8 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
   }
 
   scrollTo(section: EmployeeModalSectionEnum) {
+    this.onSectionChange(section);
+
     document.querySelector('#' + section)
       .scrollIntoView();
   }
