@@ -408,11 +408,16 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
 
     this.sftpUser$.pipe(
       takeUntil(this.unsubscribe$),
-      filter(user => !!user)
     ).subscribe(user => {
-      this.store.dispatch(new fromSftpUserActions.SetSftpUsername(user.UserName));
-      this.publicKeyFileName = user.FileName;
-      this.sftpUser = user;
+
+      if (user) {
+        this.store.dispatch(new fromSftpUserActions.SetSftpUsername(user.UserName));
+        this.publicKeyFileName = user.FileName;
+        this.sftpUser = user;
+      } else {
+        this.sftpUser = null;
+        this.publicKeyFileName = null;
+      }
     });
 
     this.emailRecipients$.pipe(
@@ -593,6 +598,10 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
         this.payfactorsStructureDataFields = this.payfactorsStructureDataFields.concat(internalJobRangeStructureFields);
       }
     });
+  }
+
+  public openModal() {
+    this.store.dispatch(new fromOrgDataFieldMappingsActions.DeleteSftpCredsModalOpen(true));
   }
 
   CompanySelected() {

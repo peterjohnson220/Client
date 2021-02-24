@@ -1,0 +1,22 @@
+<pf-modal-form [modalId]="'DeleteSftpCred'"
+               [title]="'Delete these credentials?'"
+               size=""
+               secondaryButtonText="Cancel"
+               primaryButtonClass="btn-primary"
+               primaryButtonText="Delete"
+               primaryButtonTextSubmitting="Deleting..."
+               [submitting]="isDeleteingSftpCreds$ | async"
+               [isOpen$]="isModalOpen$"
+               (onSubmit)="handleDeleteConfirmed()"
+               (onDismiss)="handleDeleteDenied()">
+
+  <ng-container basic-content>
+    These credentials cannot be recovered once deleted.
+    <div *ngIf="hasDeleteError$ | async"
+         class="alert alert-danger"
+         role="alert">
+      Delete failed. Please submit a JIRA ticket request.
+    </div>
+  </ng-container>
+
+</pf-modal-form>

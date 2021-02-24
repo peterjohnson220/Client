@@ -48,6 +48,19 @@ export class CompanySelectorEffects {
     })
   );
 
+  @Effect()
+  isValidCompanyRepository$: Observable<Action> = this.actions$.pipe(
+    ofType(fromCompanySelectorActions.IS_VALID_COMPANY_REPOSITORY),
+    switchMap((action: fromCompanySelectorActions.IsValidCompanyRepository) =>
+      this.companyApiService.isValidCompanyRepository(action.payload).pipe(
+        map((response: any) => {
+          return new fromCompanySelectorActions.IsValidCompanyRepositorySuccess(response.IsValidCompanyRepository);
+        }),
+        catchError(error => of(new fromCompanySelectorActions.GetCompaniesError))
+      )
+    )
+  );
+
   constructor(
     private actions$: Actions,
     private companyApiService: CompanyApiService,

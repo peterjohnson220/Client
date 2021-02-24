@@ -76,6 +76,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
   sftpPortConfig$={[Function Store]}
   sftpPublicKey="null"
   sftpPublicKey$={[Function Store]}
+  sftpUser="null"
   sftpUser$={[Function Store]}
   sftpUserName="null"
   sftpUserName$={[Function Store]}
@@ -144,7 +145,20 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
         <div
           class="container-fluid"
         >
-          <pf-public-key-auth />
+          <div
+            class="row"
+          >
+            <div
+              class="col"
+            >
+              <pf-public-key-auth />
+            </div>
+            <div
+              class="col"
+            >
+              
+            </div>
+          </div>
         </div>
       </div>
       
@@ -254,6 +268,8 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
     <pf-email-recipients-modal
       class="float-right m-2"
     />
+    
+    <pf-sftp-cred-delete-modal />
   </pf-page-with-title-bar>
 </pf-autoloader-field-mapping-page>
 `;
@@ -334,6 +350,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
   sftpPortConfig$={[Function Store]}
   sftpPublicKey="null"
   sftpPublicKey$={[Function Store]}
+  sftpUser="null"
   sftpUser$={[Function Store]}
   sftpUserName="null"
   sftpUserName$={[Function Store]}
@@ -402,7 +419,20 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
         <div
           class="container-fluid"
         >
-          <pf-public-key-auth />
+          <div
+            class="row"
+          >
+            <div
+              class="col"
+            >
+              <pf-public-key-auth />
+            </div>
+            <div
+              class="col"
+            >
+              
+            </div>
+          </div>
         </div>
       </div>
       
@@ -512,6 +542,8 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
     <pf-email-recipients-modal
       class="float-right m-2"
     />
+    
+    <pf-sftp-cred-delete-modal />
   </pf-page-with-title-bar>
 </pf-autoloader-field-mapping-page>
 `;
@@ -592,6 +624,7 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
   sftpPortConfig$={[Function Store]}
   sftpPublicKey="null"
   sftpPublicKey$={[Function Store]}
+  sftpUser="null"
   sftpUser$={[Function Store]}
   sftpUserName="null"
   sftpUserName$={[Function Store]}
@@ -660,7 +693,20 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
         <div
           class="container-fluid"
         >
-          <pf-public-key-auth />
+          <div
+            class="row"
+          >
+            <div
+              class="col"
+            >
+              <pf-public-key-auth />
+            </div>
+            <div
+              class="col"
+            >
+              
+            </div>
+          </div>
         </div>
       </div>
       
@@ -770,6 +816,8 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
     <pf-email-recipients-modal
       class="float-right m-2"
     />
+    
+    <pf-sftp-cred-delete-modal />
   </pf-page-with-title-bar>
 </pf-autoloader-field-mapping-page>
 `;
@@ -850,6 +898,7 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
   sftpPortConfig$={[Function Store]}
   sftpPublicKey="null"
   sftpPublicKey$={[Function Store]}
+  sftpUser="null"
   sftpUser$={[Function Store]}
   sftpUserName="null"
   sftpUserName$={[Function Store]}
@@ -894,6 +943,7 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
       
       
     </div>
+    
     
   </pf-page-with-title-bar>
 </pf-autoloader-field-mapping-page>
@@ -975,6 +1025,7 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
   sftpPortConfig$={[Function Store]}
   sftpPublicKey="null"
   sftpPublicKey$={[Function Store]}
+  sftpUser="null"
   sftpUser$={[Function Store]}
   sftpUserName="null"
   sftpUserName$={[Function Store]}
@@ -1043,7 +1094,20 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
         <div
           class="container-fluid"
         >
-          <pf-public-key-auth />
+          <div
+            class="row"
+          >
+            <div
+              class="col"
+            >
+              <pf-public-key-auth />
+            </div>
+            <div
+              class="col"
+            >
+              
+            </div>
+          </div>
         </div>
       </div>
       
@@ -1153,6 +1217,8 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
     <pf-email-recipients-modal
       class="float-right m-2"
     />
+    
+    <pf-sftp-cred-delete-modal />
   </pf-page-with-title-bar>
 </pf-autoloader-field-mapping-page>
 `;
