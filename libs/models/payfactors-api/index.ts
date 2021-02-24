@@ -20,4 +20,4 @@ export * from './total-rewards';
 export * from './validation';
 export * from './composite-field';
 export * from './market-data-feed';
-export * from './peer'
+export * from './peer';
