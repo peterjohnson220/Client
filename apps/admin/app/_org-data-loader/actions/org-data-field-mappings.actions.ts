@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+
 import { FieldMappingsDTO, LoaderFieldSet } from 'libs/models/data-loads';
 
 export const LOADING_FIELD_MAPPINGS = '[Org Data Autoloader/Field Mappings] Loading Field Mappings';
@@ -7,11 +8,12 @@ export const LOADING_FIELD_MAPPINGS_SUCCESS = '[Org Data Autoloader/Field Mappin
 export const SAVING_FIELD_MAPPINGS = '[Org Data Autoloader/Field Mappings] Saving Field Mappings';
 export const SAVING_FIELD_MAPPINGS_ERROR = '[Org Data Autoloader/Field Mappings] Saving Field Mappings Error';
 export const SAVING_FIELD_MAPPINGS_SUCCESS = '[Org Data Autoloader/Field Mappings] Saving Field Mappings Success';
+export const DELETE_SFTP_CREDENTIALS_MODAL_OPEN = '[Org Data Autoloader/Field Mappings] Delete SFTP Modal Open';
 
 export class LoadingFieldMappings implements Action {
   readonly type = LOADING_FIELD_MAPPINGS;
 
-  constructor(public companyId: number, public configGroupId: number) {}
+  constructor(public companyId: number, public configGroupId: number) { }
 }
 
 export class LoadingFieldMappingsError implements Action {
@@ -21,29 +23,36 @@ export class LoadingFieldMappingsError implements Action {
 export class LoadingFieldMappingsSuccess implements Action {
   readonly type = LOADING_FIELD_MAPPINGS_SUCCESS;
 
-  constructor(public payload: LoaderFieldSet[]) {}
+  constructor(public payload: LoaderFieldSet[]) { }
 }
 
 export class SavingFieldMappings implements Action {
   readonly type = SAVING_FIELD_MAPPINGS;
 
-  constructor(public payload: FieldMappingsDTO) {}
+  constructor(public payload: FieldMappingsDTO) { }
 }
 export class SavingFieldMappingsError implements Action {
   readonly type = SAVING_FIELD_MAPPINGS_ERROR;
 
-  constructor(public payload: any = null) {}
+  constructor(public payload: any = null) { }
 }
 export class SavingFieldMappingsSuccess implements Action {
   readonly type = SAVING_FIELD_MAPPINGS_SUCCESS;
 
-  constructor(public payload: any = null) {}
+  constructor(public payload: any = null) { }
+}
+
+export class DeleteSftpCredsModalOpen implements Action {
+  readonly type = DELETE_SFTP_CREDENTIALS_MODAL_OPEN;
+  constructor(public isOpen: boolean) { }
 }
 
 export type Actions
-= LoadingFieldMappings
-| LoadingFieldMappingsError
-| LoadingFieldMappingsSuccess
-| SavingFieldMappings
-| SavingFieldMappingsError
-| SavingFieldMappingsSuccess;
+  = LoadingFieldMappings
+  | LoadingFieldMappingsError
+  | LoadingFieldMappingsSuccess
+  | SavingFieldMappings
+  | SavingFieldMappingsError
+  | SavingFieldMappingsSuccess
+  | DeleteSftpCredsModalOpen;
+

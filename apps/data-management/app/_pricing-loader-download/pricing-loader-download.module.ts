@@ -24,6 +24,7 @@ import { PricingLoaderDownloadComponent } from './containers';
 // import {} from './effects';
 
 import { PricingLoaderDownloadRoutingModule } from './pricing-loader-download-routing.module';
+import { PfCompanySelectorModule } from 'libs/features/company/company-selector/company-selector.module';
 // import { reducers } from './reducers';
 
 @NgModule({
@@ -56,7 +57,8 @@ import { PricingLoaderDownloadRoutingModule } from './pricing-loader-download-ro
     PfCommonModule,
     PfCommonUIModule,
     PfDataGridModule,
-    PfFormsModule
+    PfFormsModule,
+    PfCompanySelectorModule
   ],
   declarations: [
     // Pages
