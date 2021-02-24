@@ -22,10 +22,10 @@ export class JobDescriptionExportComponent {
   exportJobDescription() {
     const htmlDocument: any = document;
 
-    htmlDocument.exportForm.elements['export-uid'].value = Date.now();
-    htmlDocument.exportForm.elements['export-type'].value = this.docType;
+    htmlDocument.exportFormFromJobDescriptionExport.elements['export-uid'].value = Date.now();
+    htmlDocument.exportFormFromJobDescriptionExport.elements['export-type'].value = this.docType;
     htmlDocument.exportFormFromJobDescriptionExport.elements['viewName'].value = 'Default';
-    htmlDocument.exportForm.submit();
+    htmlDocument.exportFormFromJobDescriptionExport.submit();
   }
 
   handleExportJobDescription(docType: string) {
