@@ -145,6 +145,15 @@ export function reducer(state = initialState, action: fromJobsPageActions.JobsPa
         exporting: false
       };
     }
+    case fromJobsPageActions.TOGGLE_JOBS_PAGE: {
+      return AsyncStateObjHelper.loading(state, 'navigatingToOldPage');
+    }
+    case fromJobsPageActions.TOGGLE_JOBS_PAGE_SUCCESS: {
+      return AsyncStateObjHelper.loadingSuccess(state, 'navigatingToOldPage');
+    }
+    case fromJobsPageActions.TOGGLE_JOBS_PAGE_ERROR: {
+      return AsyncStateObjHelper.loadingError(state, 'navigatingToOldPage');
+    }
     case fromJobsPageActions.GET_RUNNING_EXPORT: {
       return AsyncStateObjHelper.loading(state, 'exportEventId');
     }
