@@ -40,6 +40,12 @@ export class LeftSidebarComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    if (localStorage.getItem('leftSideBarToggleStatus')) {
+      this.leftSidebarToggle = localStorage.getItem('leftSideBarToggleStatus') === 'true';
+    } else {
+      localStorage.setItem('leftSideBarToggleStatus', 'false');
+      this.leftSidebarToggle = false;
+    }
     this.userContextSubscription = this.userContext$.subscribe(userContext => {
         this.userId = userContext.UserId;
         this.companyName = userContext.CompanyName;
@@ -85,5 +91,10 @@ export class LeftSidebarComponent implements OnInit, OnDestroy {
 
   toggle() {
     this.leftSidebarToggle = !this.leftSidebarToggle;
+    if (this.leftSidebarToggle) {
+      localStorage.setItem('leftSideBarToggleStatus', 'true');
+    } else {
+      localStorage.setItem('leftSideBarToggleStatus', 'false');
+    }
   }
 }
