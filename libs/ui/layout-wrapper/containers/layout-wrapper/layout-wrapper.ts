@@ -2,7 +2,6 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angu
 
 import { Store } from '@ngrx/store';
 import { Observable, Subject, Subscription } from 'rxjs';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 import { SettingsService } from 'libs/state/app-context/services';
 import { CompanySettingsEnum } from 'libs/models/company';
@@ -29,9 +28,7 @@ export class LayoutWrapperComponent implements OnInit, OnDestroy {
   getGettingHomePageLink$: Observable<boolean>;
   getGettingHomePageLinkError$: Observable<boolean>;
   homePageLink$: Observable<HomePageLink>;
-  enableCoreJDMInClient$: Observable<boolean>;
   requireSSOLogin$: Observable<boolean>;
-  enableCoreJDMInClientSubscription: Subscription;
   userContextSubscription: Subscription;
   userNotificationsFeatureFlag: RealTimeFlag = { key: FeatureFlags.UserNotifications, value: false };
   unsubscribe$ = new Subject<void>();
@@ -43,7 +40,6 @@ export class LayoutWrapperComponent implements OnInit, OnDestroy {
   @Input() centerContentScroll: boolean;
   leftSidebarToggle: boolean;
   leftSidebarToggleChangedSubject: Subject<boolean> = new Subject<boolean>();
-  enableCoreJdmInClient = false;
 
   constructor(
     private store: Store<fromRootState.State>,
@@ -67,9 +63,6 @@ export class LayoutWrapperComponent implements OnInit, OnDestroy {
         this.leftSidebarToggle = value;
         this.updateUserVoicePosition(value);
       });
-    this.enableCoreJDMInClient$ = this.settingsService.selectCompanySetting<boolean>(
-      CompanySettingsEnum.JDMCoreUseClient
-    );
 
     this.requireSSOLogin$ = this.settingsService.selectCompanySetting<boolean>(
       CompanySettingsEnum.JDMExternalWorkflowsRequireSSOLogin
@@ -89,23 +82,17 @@ export class LayoutWrapperComponent implements OnInit, OnDestroy {
         this.store.dispatch(new fromHeaderActions.GetHeaderDropdownNavigationLinks());
       }
     });
-    this.enableCoreJDMInClientSubscription = this.enableCoreJDMInClient$.subscribe((s) => this.enableCoreJdmInClient = s);
   }
 
   ngOnDestroy(): void {
     if (this.userContextSubscription) {
       this.userContextSubscription.unsubscribe();
     }
-    this.enableCoreJDMInClientSubscription.unsubscribe();
     this.unsubscribe$.next();
   }
 
   rightSidebarToggle(isOpen: boolean) {
     this.onRightSidebarToggle.emit(isOpen);
-  }
-
-  leftSidebarToggleChanged(value: boolean) {
-    this.leftSidebarToggleChangedSubject.next(value);
   }
 
   updateUserVoicePosition(expanded: boolean) {

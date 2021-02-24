@@ -1,6 +1,5 @@
 export class AppConstants {
   static readonly PayfactorsApiUrl = '/odata/';
-  static readonly NgAppRoot = '/ng/';
   static readonly DefaultHomePage = '/client/dashboard';
   static readonly FirstTimeLoginPage = '/client/auth/first-login';
   static readonly HostPath = 'client';
@@ -10,5 +9,3 @@ export class AppConstants {
   static readonly SiteAdminUrl = '/client/pf-admin';
   static readonly CompanyAdminUrl = '/client/admin/company-admin';
 }
-
-
