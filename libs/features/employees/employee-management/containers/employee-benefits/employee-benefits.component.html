@@ -1,0 +1,16 @@
+<div class="section-content">
+  <hr><h5 id="benefitsSection">Benefits</h5>
+  <ng-container *ngFor="let benefit of employeeBenefits">
+    <div class="form-group row">
+      <label class="col-3 col-form-label">{{benefit.DisplayName}}</label>
+      <div class="col-9">
+        <kendo-numerictextbox class="form-control"
+                              [attr.data-qa-id]="'txt-employee-form-benefit-' + benefit.BenefitLookupId"
+                              [value]="benefit.EmployerValue"
+                              [spinners]="false" min="0" autoCorrect="true"
+                              (valueChange)="handleBenefitValueChange(benefit, $event)">
+        </kendo-numerictextbox>
+      </div>
+    </div>
+  </ng-container>
+</div>

@@ -11,11 +11,14 @@ import { IntlService } from '@progress/kendo-angular-intl';
 import * as fromRootState from 'libs/state/state';
 import { PfEmailValidators, PfValidators } from 'libs/forms/validators';
 import { AsyncStateObj, CompanyEmployee, GenericKeyValue, KendoTypedDropDownItem, PfConstants, UserContext } from 'libs/models';
+import { PermissionService } from 'libs/core/services';
+import { PermissionCheckEnum, Permissions } from 'libs/constants';
 
 import * as fromEmployeeManagementReducer from '../../reducers';
 import * as fromEmployeeManagementActions from '../../actions';
 import { EmployeeModalSectionEnum, Job, Structure, EmployeeValidation } from '../../models';
 import { sectionFieldsMap } from '../../data/employee-modal-section-data';
+import { EmployeeBenefitsComponent } from '../employee-benefits/employee-benefits.component';
 
 @Component({
   selector: 'pf-employee-management',
@@ -29,6 +32,7 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
   @ViewChild('currencyCombobox', { static: true }) currencyCombobox: ComboBoxComponent;
   @ViewChild('workCountryCombobox', { static: true }) workCountryCombobox: ComboBoxComponent;
   @ViewChild('departmentCombobox', { static: true }) departmentCombobox: ComboBoxComponent;
+  @ViewChild(EmployeeBenefitsComponent, { static: false }) employeeBenefitsComponent: EmployeeBenefitsComponent;
 
   // observables
   userContext$: Observable<UserContext>;
@@ -47,6 +51,7 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
   employeesUserDefinedFields$: Observable<AsyncStateObj<GenericKeyValue<string, string>[]>>;
   employee$: Observable<AsyncStateObj<CompanyEmployee>>;
   employeeValidationAsync$: Observable<AsyncStateObj<EmployeeValidation>>;
+  employeeBenefitsSaving$: Observable<boolean>;
 
   // subscriptions
   openModalSubscription: Subscription;
@@ -72,6 +77,7 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
   currentSection: string = EmployeeModalSectionEnum.EmployeeInformationSection;
   employeeModalSectionEnum = EmployeeModalSectionEnum;
   customFieldNames: string[] = [];
+  hasTotalRewardsPermission: boolean;
 
   readonly MAX_EMAIL_LENGTH = 100;
   readonly DEFAULT_MAX_LENGTH = 255;
@@ -94,6 +100,7 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
   constructor(
     private rootStore: Store<fromRootState.State>,
     private store: Store<fromEmployeeManagementReducer.State>,
+    private permissionService: PermissionService,
     private formBuilder: FormBuilder,
     private intlService: IntlService
   ) {
@@ -112,6 +119,9 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
     this.employee$ = this.store.select(fromEmployeeManagementReducer.getEmployee);
     this.employeeValidationAsync$ = this.store.select(fromEmployeeManagementReducer.getEmployeeValidationAsync);
     this.moreJobsToLoad$ = this.store.select(fromEmployeeManagementReducer.getMoreCompanyJobsToLoad);
+    this.employeeBenefitsSaving$ = this.store.select(fromEmployeeManagementReducer.getEmployeeBenefitsSaving);
+    this.hasTotalRewardsPermission = this.permissionService.CheckPermission([Permissions.TOTAL_REWARDS],
+      PermissionCheckEnum.Single);
   }
 
   ngOnInit() {
@@ -210,6 +220,10 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
       .scrollIntoView();
   }
 
+  onBenefitValueChanged(): void {
+    this.employeeForm.markAsDirty();
+  }
+
   public isSectionInvalid(section: EmployeeModalSectionEnum): boolean {
     let fieldNames: string[];
     let employeeValidationFields: string[];
@@ -277,6 +291,9 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
   onSubmit() {
     const employee = this.getEmployeeDataFromForm();
     this.store.dispatch(new fromEmployeeManagementActions.ValidateEmployeeKeys(employee));
+    if (this.employeeBenefitsComponent) {
+      this.employeeBenefitsComponent.save();
+    }
   }
 
   loadMoreJobs() {

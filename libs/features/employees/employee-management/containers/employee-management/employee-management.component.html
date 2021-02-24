@@ -2,7 +2,7 @@
   [modalId]="'au-modal-employee-management'"
   [isOpen$]="showEmployeeForm$"
   [size]="'lg'"
-  [submitting]="saving$ | async"
+  [submitting]="(saving$ | async) || (employeeBenefitsSaving$ | async)"
   [showFooter]="!(employee$ | async)?.loading"
   [centered]="false"
   [allowDismiss]="true"
@@ -39,6 +39,8 @@
             <a (click)="scrollTo(employeeModalSectionEnum.IncentivesSection)" class="list-group-item"
                [ngClass]="{ 'active': currentSection === employeeModalSectionEnum.IncentivesSection,
                             'is-invalid': isSectionInvalid(employeeModalSectionEnum.IncentivesSection) }">Incentives</a>
+            <a *ngIf="hasTotalRewardsPermission" (click)="scrollTo(employeeModalSectionEnum.Benefits)" class="list-group-item"
+                [ngClass]="{ 'active': currentSection === employeeModalSectionEnum.Benefits }">Benefits</a>
             <a *ngIf="!!(employeesUserDefinedFields$ | async)?.obj && (employeesUserDefinedFields$ | async)?.obj?.length"
                class="list-group-item"
                (click)="scrollTo(employeeModalSectionEnum.CustomFieldsSection)"
@@ -542,6 +544,10 @@
                                     [spinners]="false" min="0" autoCorrect="true"></kendo-numerictextbox>
             </div>
           </div>
+
+          <pf-employee-benefits *ngIf="hasTotalRewardsPermission"
+                                (benefitValueChanged)="onBenefitValueChanged()">
+          </pf-employee-benefits>
 
           <ng-container *ngIf="!!(employeesUserDefinedFields$ | async)?.obj && (employeesUserDefinedFields$ | async)?.obj?.length">
             <hr><h5 id="customFieldsSection">Custom Fields</h5>

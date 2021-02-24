@@ -4,5 +4,6 @@ export enum EmployeeModalSectionEnum {
   ComponentsOfPaySection = 'componentsOfPaySection',
   AllowancesSection = 'allowancesSection',
   IncentivesSection = 'incentivesSection',
-  CustomFieldsSection = 'customFieldsSection'
+  CustomFieldsSection = 'customFieldsSection',
+  Benefits = 'benefitsSection'
 }
