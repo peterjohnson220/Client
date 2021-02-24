@@ -15,10 +15,10 @@ import { PfFormsModule } from 'libs/forms';
 import { PfSearchModule } from 'libs/features/search/search';
 import { SurveySearchModule } from 'libs/features/surveys/survey-search';
 import { UpsertPeerDataCutModule } from 'libs/features/pricings/upsert-peer-data-cut';
-import { PricingMatchModule } from 'libs/features/pricings/pricing-match';
+import { DataCutSummaryModule } from 'libs/features/pricings/data-cut-summary';
 
 import * as fromFaIcons from './fa-icons';
-import {JobToPriceComponent, JobMatchCutTitleComponent} from './components';
+import {JobToPriceComponent, DataCutTitleComponent} from './components';
 import { JobsToPriceContainerComponent } from './containers';
 import {MultiMatchEffects, JobsToPriceEffects, ModifyPricingsEffects} from './effects';
 import { reducers } from './reducers';
@@ -41,7 +41,7 @@ import {WindowCommunicationService} from '../../../core/services';
     // Payfactors
     SurveySearchModule,
     UpsertPeerDataCutModule,
-    PricingMatchModule,
+    DataCutSummaryModule,
     PfCommonUIModule,
     PfFormsModule,
     PfSearchModule
@@ -49,7 +49,7 @@ import {WindowCommunicationService} from '../../../core/services';
   declarations: [
     // Components
     JobToPriceComponent,
-    JobMatchCutTitleComponent,
+    DataCutTitleComponent,
 
     // Containers
     JobsToPriceContainerComponent,

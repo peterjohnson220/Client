@@ -24,4 +24,4 @@ export * from './quick-price-type';
 export * from './images';
 export * from './cloud-file-locations';
 export * from './app.constants';
-export * from './pricing-match-entity-types';
+export * from './data-cut-summary-entity-types';

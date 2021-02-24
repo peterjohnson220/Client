@@ -1,0 +1,23 @@
+<pf-async-container [loading]="(loading$ | async)">
+  <div *ngIf="matchType === dataCutSummaryTypes.PEER" class="peer-data-cut-summary p-2">
+    <div *ngIf="!(loading$ | async) && !(showError$ | async) && (dataCutSummary$ | async)">
+      <pf-peer-data-cut-summary [dataCutSummary]="(dataCutSummary$ | async).obj"></pf-peer-data-cut-summary>
+    </div>
+    <div *ngIf="(showError$ | async)">
+      There was a problem retrieving data.
+    </div>
+  </div>
+  <div *ngIf="!(matchType === dataCutSummaryTypes.PEER)" class="data-cut-summary p-2">
+    <div *ngIf="!(loading$ | async) && !(showError$ | async) && (dataCutSummary$ | async)">
+      <pf-data-cut-summary-details *ngIf="matchType === dataCutSummaryTypes.SURVEY" [dataCutSummary]="(dataCutSummary$ | async).obj" [dataCutSummaryType]="matchType">
+      </pf-data-cut-summary-details>
+      <pf-data-cut-summary-details *ngIf="matchType === dataCutSummaryTypes.MD_JOB" [dataCutSummary]="(dataCutSummary$ | async).obj" [dataCutSummaryType]="matchType">
+      </pf-data-cut-summary-details>
+      <pf-data-cut-summary-details *ngIf="matchType === dataCutSummaryTypes.SLOTTED_COMPANY_JOB" [dataCutSummary]="(dataCutSummary$ | async).obj" [dataCutSummaryType]="matchType">
+      </pf-data-cut-summary-details>
+    </div>
+    <div *ngIf="(showError$ | async)">
+      There was a problem retrieving data.
+    </div>
+  </div>
+</pf-async-container>

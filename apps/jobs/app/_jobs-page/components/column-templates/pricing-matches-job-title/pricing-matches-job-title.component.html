@@ -101,12 +101,12 @@
 
 <ng-template #pricingMatch>
   <div class="pricingMatch">
-    <pf-pricing-match
+    <pf-data-cut-summary
       [pricingId]="dataRow['CompanyJobs_PricingsMatches_CompanyJobPricing_ID']"
       [entityId]="dataRow['CompanyJobs_PricingsMatches_CompanyJobPricingMatch_ID']"
       [entityType]="'CompanyJobPricingMatchId'"
       [matchType]="dataRow | pricingMatchType"
-    ></pf-pricing-match>
+    ></pf-data-cut-summary>
   </div>
 </ng-template>
 

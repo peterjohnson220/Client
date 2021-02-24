@@ -71,11 +71,11 @@
             <td *ngIf="featureImplementation == modifyPricingsImplementation">{{dataCut.MatchWeight}}</td>
             <td *ngIf="featureImplementation == modifyPricingsImplementation">{{dataCut.MatchAdjustment}}</td>
             <td class="scope-cell">
-              <pf-job-match-cut-title
+              <pf-data-cut-title
                 [job]="job"
                 [dataCut]="dataCut"
                 (editCut)="handleDataCutClick(job, dataCut)">
-            </pf-job-match-cut-title>
+            </pf-data-cut-title>
             </td>
             <td *ngIf="featureImplementation == modifyPricingsImplementation" class="text-nowrap">
               <span *ngIf="dataCut.WeightingType=='I'">Incs ({{dataCut?.Incs || '-'}})</span>
