@@ -25,6 +25,9 @@ export const EXPORT_PRICINGS_SUCCESS = '[Jobs Page] Export Pricings Success';
 export const EXPORT_PRICINGS_ERROR = '[Jobs Page] Export Pricings Error';
 export const LOAD_CUSTOM_EXPORTS = '[Jobs Page] Load Custom Exports';
 export const LOAD_CUSTOM_EXPORTS_SUCCESS = '[Jobs Page] Load Custom Exports Success';
+export const TOGGLE_JOBS_PAGE = '[Jobs Page] Toggle Jobs Page';
+export const TOGGLE_JOBS_PAGE_SUCCESS = '[Jobs Page] Toggle Jobs Page Success';
+export const TOGGLE_JOBS_PAGE_ERROR = '[Jobs Page] Toggle Jobs Page Error';
 export const GET_RUNNING_EXPORT = '[Jobs Page] Get Running Export';
 export const GET_RUNNING_EXPORT_SUCCESS = '[Jobs Page] Get Running Export Success';
 export const GET_RUNNING_EXPORT_ERROR = '[Jobs Page] Get Running Export Error';
@@ -134,11 +137,26 @@ export class LoadCustomExportsSuccess implements Action {
   constructor(public payload: any) { }
 }
 
+export class ToggleJobsPage implements Action {
+  readonly type = TOGGLE_JOBS_PAGE;
+  constructor() { }
+}
+
+export class ToggleJobsPageSuccess implements Action {
+  readonly type = TOGGLE_JOBS_PAGE_SUCCESS;
+  constructor() { }
+}
+
+export class ToggleJobsPageError implements Action {
+  readonly type = TOGGLE_JOBS_PAGE_ERROR;
+  constructor() { }
+}
+
 export class GetRunningExport implements Action {
   readonly type = GET_RUNNING_EXPORT;
   constructor(public pageViewId: string) {}
-
 }
+
 export class GetRunningExportSuccess implements Action {
   readonly type = GET_RUNNING_EXPORT_SUCCESS;
   constructor(public payload: string) {}
@@ -176,6 +194,9 @@ export type JobsPageActions
   | ExportPricingsError
   | LoadCustomExports
   | LoadCustomExportsSuccess
+  | ToggleJobsPage
+  | ToggleJobsPageSuccess
+  | ToggleJobsPageError
   | GetRunningExport
   | GetRunningExportSuccess
   | GetRunningExportError
