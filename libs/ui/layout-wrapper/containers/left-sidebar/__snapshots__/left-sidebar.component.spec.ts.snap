@@ -45,7 +45,7 @@ exports[`Left Sidebar should show ul of sidebar open 1`] = `
   enableCoreJdmInClient="false"
   layoutStore={[Function Store]}
   leftSidebarNavigationLinks$={[Function Store]}
-  leftSidebarToggle={[Function Boolean]}
+  leftSidebarToggle="false"
   ngAppRoot={[Function String]}
   reload={[Function EventEmitter]}
   settingsService={[Function SettingsService]}
@@ -55,22 +55,22 @@ exports[`Left Sidebar should show ul of sidebar open 1`] = `
   userId={[Function Number]}
 >
   <ul
-    class="left-sidebar-nav pt-2 pl-0 m-0 mb-4 left-sidebar-nav-open"
+    class="left-sidebar-nav pt-2 pl-0 m-0 mb-4 left-sidebar-nav-close"
   >
     
   </ul><div
-    class="left-sidebar-footer left-sidebar-footer-open"
+    class="left-sidebar-footer left-sidebar-footer-close"
   >
     <div
-      class="left-sidebar-icon-open"
+      class="left-sidebar-icon-close"
     >
+      
       
       <span>
         <fa-icon
           size="lg"
         />
       </span>
-      
     </div>
   </div>
 </pf-layout-wrapper-left-sidebar>
