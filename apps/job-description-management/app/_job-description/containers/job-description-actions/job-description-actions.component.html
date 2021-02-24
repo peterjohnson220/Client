@@ -28,27 +28,27 @@
   <!-- Logged in actions -->
   <div *ngIf="!identity.IsPublic && !inWorkflow" class="d-flex space-out-children">
 
-    <button *ngIf="jobDescription.JobDescriptionStatus === 'Draft'" type="button" class="btn btn-secondary"
+    <button *ngIf="isDraft" type="button" class="btn btn-secondary"
       [disabled]="!undoQueueAvailable || (savingJobDescription$ | async) || (publishingJobDescription$ | async)"
       (click)="handleUndoClicked()">
       <fa-icon icon="undo" aria-hidden="true"></fa-icon> Undo
     </button>
 
-    <button *ngIf="jobDescription.JobDescriptionStatus === 'Draft' && hasCanPublishJobDescriptionPermission" type="button"
+    <button *ngIf="isDraft && hasCanPublishJobDescriptionPermission" type="button"
       class="btn btn-success"
       [disabled]="(publishingJobDescription$ | async) || (savingJobDescription$ | async) || !(publishButtonEnabled$ | async)"
       (click)="handlePublishClicked()">
       <fa-icon [icon]="['far','check-circle']" aria-hidden="true"></fa-icon> Publish
     </button>
 
-    <button *ngIf="jobDescription.JobDescriptionStatus === 'Draft' && hasCanRouteJobDescriptionPermission" type="button" class="btn"
+    <button *ngIf="isDraft && hasCanRouteJobDescriptionPermission" type="button" class="btn"
       [class.btn-primary]="!hasCanPublishJobDescriptionPermission"
       [class.btn-secondary]="hasCanPublishJobDescriptionPermission"
       (click)="handleRouteForApprovalClicked()">
       <fa-icon icon="random" aria-hidden="true"></fa-icon> Route for Approval
     </button>
 
-    <button *ngIf="jobDescription.JobDescriptionStatus === 'Draft' && hasCanEditJobDescriptionPermission" type="button" class="btn btn-secondary"
+    <button *ngIf="isDraft && hasCanEditJobDescriptionPermission" type="button" class="btn btn-secondary"
       (click)="handleDiscardDraftClicked()">
       <fa-icon [icon]="['far','trash-alt']" aria-hidden="true"></fa-icon> Discard Draft
     </button>
@@ -60,7 +60,7 @@
     </button>
 
     <button
-      *ngIf="hasNewProjectPermission && !(editingJobDescription$ | async) && jobDescription.JobDescriptionStatus === 'Published'"
+      *ngIf="hasNewProjectPermission && !isDraft && jobDescription.JobDescriptionStatus === 'Published'"
       type="button" class="btn btn-secondary" (click)="handlePriceJobClicked()">
       <fa-icon icon="bolt" aria-hidden="true"></fa-icon>
       Price Job
@@ -71,7 +71,7 @@
       <fa-icon icon="times" aria-hidden="true"></fa-icon> Cancel Approval
     </button>
 
-    <button *ngIf="jobDescription.JobDescriptionStatus !== 'In Review'" type="button"
+    <button *ngIf="!isInReview" type="button"
       id="history-popover-btn" class="btn btn-secondary" placement="bottom"
       [disabled]="jobDescription.JobDescriptionRevision < 2 && !(inHistory$ | async)"
       [ngbPopover]="historyGridPopContent"
@@ -83,7 +83,7 @@
     </button>
 
     <!--More Actions-->
-    <div *ngIf="jobDescription.JobDescriptionStatus !== 'In Review'" ngbDropdown class="d-inline-block" placement="bottom">
+    <div *ngIf="!isInReview" ngbDropdown class="d-inline-block" placement="bottom">
       <button class="btn btn-secondary" id="job-description-actions-dropdown" ngbDropdownToggle>
         <fa-icon icon="ellipsis-h" aria-hidden="true"></fa-icon>
       </button>
@@ -98,7 +98,7 @@
           Compare Versions
         </button>
 
-        <button class="dropdown-item" *ngIf="(editingJobDescription$ | async) && hasCanEditJobDescriptionPermission"
+        <button class="dropdown-item" *ngIf="isDraft && hasCanEditJobDescriptionPermission"
           (click)="handleCopyFromClicked()">
           Copy From
         </button>
@@ -107,7 +107,7 @@
           FLSA
         </button>
 
-        <button class="dropdown-item" *ngIf="(editingJobDescription$ | async) && hasCanEditJobDescriptionPermission"
+        <button class="dropdown-item" *ngIf="isDraft && hasCanEditJobDescriptionPermission"
           (click)="handleLibraryClicked()">
           Library
         </button>
@@ -117,7 +117,7 @@
           Routing History
         </button>
 
-        <button class="dropdown-item" *ngIf="(editingJobDescription$ | async) && hasCanEditJobDescriptionPermission"
+        <button class="dropdown-item" *ngIf="isDraft && hasCanEditJobDescriptionPermission"
           (click)="handleUpdateJobInfoClicked()">
           Update Job Info
         </button>
