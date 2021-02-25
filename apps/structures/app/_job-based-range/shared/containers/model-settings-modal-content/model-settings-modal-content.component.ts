@@ -1,41 +1,40 @@
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { select, Store } from '@ngrx/store';
+
 import { Observable, Subject, Subscription } from 'rxjs';
+import { select, Store } from '@ngrx/store';
 import { delay } from 'rxjs/operators';
 
+import { RangeGroupMetadata, RoundingSettingsDataObj } from 'libs/models/structures';
 import { AsyncStateObj } from 'libs/models/state';
-import { RoundingSettingsDataObj, RangeGroupMetadata } from 'libs/models/structures';
-import { SettingsService } from 'libs/state/app-context/services';
-import { AbstractFeatureFlagService } from 'libs/core/services/feature-flags';
 import { GenericKeyValue } from 'libs/models/common';
+import { SettingsService } from 'libs/state/app-context/services';
 import { CompanySettingsEnum } from 'libs/models/company';
 
+
+import { ControlPoint, Currency, SelectedPeerExchangeModel } from '../../../../shared/models';
 import * as fromSharedStructuresReducer from '../../../../shared/reducers';
-import * as fromModelSettingsModalActions from '../../../../shared/actions/model-settings-modal.actions';
-import * as fromJobBasedRangeReducer from '../../reducers';
-import * as fromSharedStructuresActions from '../../../../shared/actions/shared.actions';
-import { ControlPoint, Currency } from '../../../../shared/models';
-import { UrlService } from '../../../../shared/services';
-import { Workflow } from '../../../../shared/constants/workflow';
-import { RangeDistributionSettingComponent } from '../range-distribution-setting';
 import { ModelSettingsModalConstants } from '../../../../shared/constants/model-settings-modal-constants';
+import * as fromModelSettingsModalActions from '../../../../shared/actions/model-settings-modal.actions';
+import * as fromSharedStructuresActions from '../../../../shared/actions/shared.actions';
+import { RangeDistributionSettingComponent } from '../range-distribution-setting';
 import { AdvancedModelSettingComponent } from '../advanced-model-setting';
-import { SelectedPeerExchangeModel } from '../../../../shared/models';
 
 @Component({
-  selector: 'pf-model-settings-modal',
-  templateUrl: './model-settings-modal.component.html',
-  styleUrls: ['./model-settings-modal.component.scss']
+  selector: 'pf-job-based-model-settings-modal-content',
+  templateUrl: './model-settings-modal-content.component.html',
+  styleUrls: ['./model-settings-modal-content.component.scss']
 })
-export class ModelSettingsModalComponent implements OnInit, OnDestroy {
+export class ModelSettingsModalContentComponent implements OnInit, OnDestroy {
   @Input() rangeGroupId: number;
   @Input() pageViewId: string;
+  @Input() modalOpen: boolean;
+  @Input() modelSettingsForm: FormGroup;
+  @Input() selectedExchange: SelectedPeerExchangeModel;
   @ViewChild(RangeDistributionSettingComponent, { static: false }) public rangeDistributionSettingComponent: RangeDistributionSettingComponent;
   @ViewChild(AdvancedModelSettingComponent, { static: false }) public advancedModelSettingComponent: AdvancedModelSettingComponent;
 
-  modalOpen$: Observable<boolean>;
   metaData$: Observable<RangeGroupMetadata>;
   currenciesAsyncObj$: Observable<AsyncStateObj<Currency[]>>;
   controlPointsAsyncObj$: Observable<AsyncStateObj<ControlPoint[]>>;
@@ -49,7 +48,6 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   surveyUdfsAsyncObjSub: Subscription;
   currenciesAsyncObjSub: Subscription;
   metadataSub: Subscription;
-  modalOpenSub: Subscription;
   modelNameExistsFailureSub: Subscription;
   roundingSettingsSub: Subscription;
   allFormulasSub: Subscription;
@@ -58,10 +56,8 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   surveyUdfsAsyncObj: AsyncStateObj<ControlPoint[]>;
   currenciesAsyncObj: AsyncStateObj<Currency[]>;
   controlPoints: ControlPoint[];
-  udfControlPoints: ControlPoint[];
   currencies: Currency[];
   metadata: RangeGroupMetadata;
-  modelSettingsForm: FormGroup;
   attemptedSubmit: boolean;
   modelNameExistsFailure: boolean;
   isNewModel: boolean;
@@ -76,24 +72,17 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   exchanges$: Observable<AsyncStateObj<GenericKeyValue<number, string>[]>>;
   exchangeSub: Subscription;
   exchangeNames: string[];
-  selectedExchange: SelectedPeerExchangeModel;
   hasAcceptedPeerTermsSub: Subscription;
   hasAcceptedPeerTerms: boolean;
   peerDropDownDisabled: boolean;
   peerExchangeToolTipInfo: string;
-  selectedPeerExchangeSub: Subscription;
-  selectedPeerExchange$: Observable<SelectedPeerExchangeModel>;
 
   constructor(
     public store: Store<any>,
-    public urlService: UrlService,
     private settingsService: SettingsService,
-    private featureFlagService: AbstractFeatureFlagService
   ) {
     this.metaData$ = this.store.pipe(select(fromSharedStructuresReducer.getMetadata));
     this.roundingSettings$ = this.store.pipe(select(fromSharedStructuresReducer.getRoundingSettings));
-    // delay(0) to push this into the next VM turn to avoid expression changed errors
-    this.modalOpen$ = this.store.pipe(select(fromSharedStructuresReducer.getModelSettingsModalOpen), delay(0));
     this.currenciesAsyncObj$ = this.store.pipe(select(fromSharedStructuresReducer.getCurrenciesAsyncObj));
     this.controlPointsAsyncObj$ = this.store.pipe(select(fromSharedStructuresReducer.getControlPointsAsyncObj));
     this.surveyUdfsAsyncObj$ = this.store.pipe(select(fromSharedStructuresReducer.getSurveyUdfsAsyncObj));
@@ -108,7 +97,6 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
     this.hasAcceptedPeerTermsSub = this.settingsService.selectCompanySetting<boolean>(
       CompanySettingsEnum.PeerTermsAndConditionsAccepted
     ).subscribe(x => this.hasAcceptedPeerTerms = x);
-    this.selectedPeerExchange$ = this.store.pipe(select(fromSharedStructuresReducer.getSelectedPeerExchange));
   }
 
   get formControls() {
@@ -119,39 +107,8 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
     return this.modelSettingsForm.errors;
   }
 
-  get buttonPrimaryText() {
-    return this.metadata.IsCurrent ? 'Create Model' : 'Save';
-  }
-
-  get buttonPrimaryTextSubmitting() {
-    return this.metadata.IsCurrent ? 'Creating Model...' : 'Saving...';
-  }
-
   get modelTabTitle() {
     return this.metadata.IsCurrent || this.isNewModel ? 'Model Settings' : 'Current Model Settings';
-  }
-
-  get modalTitle() {
-    return this.metadata.StructureName;
-  }
-
-  get modalSubTitle() {
-    return this.metadata.Paymarket;
-  }
-
-  buildForm() {
-    this.modelSettingsForm = new FormGroup({
-      'StructureName': new FormControl(this.metadata.StructureName, [Validators.required, Validators.maxLength(50)]),
-      'ModelName': new FormControl(!this.metadata.IsCurrent || this.isNewModel ? this.metadata.ModelName : '', [Validators.required, Validators.maxLength(50)]),
-      'PayMarket': new FormControl(this.metadata.Paymarket, [Validators.required]),
-      'Rate': new FormControl(this.metadata.Rate || 'Annual', [Validators.required]),
-      'Currency': new FormControl(this.metadata.Currency || 'USD', [Validators.required]),
-      'PeerExchange': new FormControl(this.selectedExchange?.ExchangeName || 'Global Network', [Validators.required]),
-      'RangeDistributionSetting': new FormControl(this.metadata.RangeDistributionSetting),
-      'RangeAdvancedSetting': new FormControl(this.metadata.RangeAdvancedSetting)
-    });
-    // set active tab to model
-    this.activeTab = 'modelTab';
   }
 
   // Events
@@ -230,9 +187,6 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   }
 
   handleModalDismiss() {
-    this.store.dispatch(new fromModelSettingsModalActions.Cancel());
-    this.store.dispatch(new fromModelSettingsModalActions.CloseModal());
-    this.clearModelNameExistsFailure();
     this.reset();
   }
 
@@ -302,7 +256,6 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromModelSettingsModalActions.GetSurveyUdfs());
 
     this.subscribe();
-    this.buildForm();
   }
 
   ngOnDestroy(): void {
@@ -340,14 +293,6 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.selectedPeerExchangeSub = this.selectedPeerExchange$.subscribe(peerExchange => this.selectedExchange = peerExchange);
-
-    this.modalOpenSub = this.modalOpen$.subscribe(mo => {
-      if (mo) {
-        this.buildForm();
-        this.isNewModel = this.urlService.isInWorkflow(Workflow.NewRange);
-      }
-    });
     this.modelNameExistsFailureSub = this.modelNameExistsFailure$.subscribe(mef => this.modelNameExistsFailure = mef);
     this.roundingSettingsSub = this.roundingSettings$.subscribe(rs => this.roundingSettings = rs);
   }
@@ -356,18 +301,18 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
     this.controlPointsAsyncObjSub.unsubscribe();
     this.currenciesAsyncObjSub.unsubscribe();
     this.metadataSub.unsubscribe();
-    this.modalOpenSub.unsubscribe();
     this.modelNameExistsFailureSub.unsubscribe();
     this.roundingSettingsSub.unsubscribe();
     this.unsubscribe$.next();
     this.allFormulasSub.unsubscribe();
     this.exchangeSub.unsubscribe();
     this.hasAcceptedPeerTermsSub.unsubscribe();
-    this.selectedPeerExchangeSub.unsubscribe();
     this.surveyUdfsAsyncObjSub.unsubscribe();
   }
 
   private reset() {
     this.attemptedSubmit = false;
   }
+
+
 }

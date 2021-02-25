@@ -1,0 +1,148 @@
+<div class="pt-3" *ngIf="modalOpen" [formGroup]="modelSettingsForm">
+  <div class="p-3 pr-5">
+    <div class="form-group row">
+      <label for="model-name" class="col-3 mt-2">Model Name</label>
+      <input type="text"
+             class="form-control col-4"
+             id="model-name"
+             formControlName="ModelName"
+             [ngClass]="{ 'is-invalid': (attemptedSubmit && !formControls.ModelName.valid) || modelNameExistsFailure }"
+             [maxlength]="50"
+             (input)="clearModelNameExistsFailure()"/>
+      <div class="invalid-feedback">
+        <div *ngIf="!formControls.ModelName.valid">Please provide a model name.</div>
+        <div *ngIf="modelNameExistsFailure">Model Name Exists</div>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-3 mt-2" for="num-grades"># Grades</label>
+      <kendo-numerictextbox class="form-control col-4 ie-fix"
+                            formControlName="Grades"
+                            id="num-grades"
+                            [ngClass]="{ 'is-invalid': (attemptedSubmit && !formControls.Grades.valid)}"
+                            [format]="'n'"
+                            [spinners]="false"
+                            [min]="1"
+                            [max]="100"
+                            [autoCorrect]="true"
+                            [attr.disabled]="!isNewModel">
+      </kendo-numerictextbox>
+      </div>
+      <div class="invalid-feedback">
+        <div *ngIf="!formControls.Grades.valid">Please provide the number of grades.</div>
+      </div>
+    <div class="form-group row">
+      <label class="col-3 mt-2" for="rangeType">Range Type</label>
+        <ng-container *ngFor="let type of metadata.RangeDistributionTypes">
+          <label  for="rangeType_{{type.Type}}" class="radio-inline mr-3 d-none col-3 mt-2">
+            <input type="radio" id="rangeType_{{type.Type}}"
+                   class="col-4 form-control"
+                   [value]='type.Id'
+                   formControlName="RangeDistributionTypeId"
+                   (change)="handleRangeTypeChange(type)">
+            {{type.Type}}
+          </label>
+        </ng-container>
+        <label id="rangeType" class="font-weight-bold mr-3 col-4 mt-2 radio-inline">{{activeRangeTypeTab}}</label>
+    </div>
+    <div class="form-group row">
+      <label class="col-3 mt-2" for="market-based">Market Data Based On</label>
+      <kendo-combobox id="market-based" class="form-control col-4"
+                      formControlName="MarketDataBased"
+                      [ngClass]="{ 'is-invalid': attemptedSubmit && formControls.MarketDataBased.invalid }"
+                      [loading]="controlPointsAsyncObj.loading"
+                      [data]="controlPoints"
+                      [textField]="'PayTypeDisplay'"
+                      [valueField]="'Display'"
+                      [clearButton]="false"
+                      [valuePrimitive]="true"
+                      [allowCustom]="false"
+                      [filterable]="true"
+                      (filterChange)="handlePayTypeFilterChange($event)"
+                      (selectionChange)="handlePayTypeSelectionChange()">
+      </kendo-combobox>
+    </div>
+    <div class="form-group row" *ngIf="isNewModel">
+      <label class="col-3 mt-2" for="starting-mid">Starting Midpoint</label>
+      <kendo-numerictextbox class="form-control col-4 ie-fix"
+                            formControlName="StartingMidpoint"
+                            id="starting-mid"
+                            [ngClass]="{ 'is-invalid': (attemptedSubmit && !formControls.StartingMidpoint.valid)}"
+                            [format]="'n'"
+                            [spinners]="false"
+                            [decimals]="2"
+                            [min]="1"
+                            [autoCorrect]="true">
+      </kendo-numerictextbox>
+      <div class="invalid-feedback">
+        <div *ngIf="!formControls.StartingMidpoint.valid">Please provide a starting midpoint.</div>
+      </div>
+    </div>
+    <div class="form-group row" *ngIf="isNewModel">
+      <label class="col-3 mt-2" for="range-spread">Range Spread %</label>
+      <kendo-numerictextbox class="form-control col-4 ie-fix input-percentage-field"
+                            formControlName="RangeSpread"
+                            id="range-spread"
+                            [ngClass]="{ 'is-invalid': (attemptedSubmit && !formControls.RangeSpread.valid)}"
+                            [format]="'n'"
+                            [spinners]="false"
+                            [decimals]="2"
+                            [min]="1"
+                            [max]="200"
+                            [autoCorrect]="true">
+      </kendo-numerictextbox> %
+      <div class="invalid-feedback">
+        <div *ngIf="!formControls.RangeSpread.valid">Please provide a range spread %.</div>
+      </div>
+    </div>
+    <div class="form-group row" *ngIf="isNewModel">
+      <label class="col-3 mt-2" for="midpoint-progression">Midpoint Progression %</label>
+      <kendo-numerictextbox class="form-control col-4 ie-fix input-percentage-field"
+                            formControlName="MidProgression"
+                            id="midpoint-progression"
+                            [ngClass]="{ 'is-invalid': (attemptedSubmit && !formControls.MidProgression.valid)}"
+                            [format]="'n'"
+                            [spinners]="false"
+                            [decimals]="2"
+                            [min]="1"
+                            [max]="200"
+                            [autoCorrect]="true">
+      </kendo-numerictextbox> %
+      <div class="invalid-feedback">
+        <div *ngIf="!formControls.MidProgression.valid">Please provide a midpoint progression %.</div>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-3 mt-2" for="rate">Rate</label>
+      <kendo-dropdownlist id="rate" class="form-control k-dropdown-white col-4"
+                          formControlName="Rate"
+                          [data]="['Annual', 'Hourly']"
+                          [valuePrimitive]="true"
+                          (selectionChange)="handleRateSelectionChange($event)">
+      </kendo-dropdownlist>
+      <div class="invalid-feedback">
+        Please provide a rate.
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-3 mt-2" for="currency">Currency</label>
+      <kendo-combobox id="currency" class="form-control col-4"
+                      formControlName="Currency"
+                      [ngClass]="{ 'is-invalid': attemptedSubmit && !formControls.Currency.valid }"
+                      [loading]="currenciesAsyncObj.loading"
+                      [data]="currencies"
+                      [textField]="'CurrencyDisplay'"
+                      [valueField]="'CurrencyCode'"
+                      [valuePrimitive]="true"
+                      [clearButton]="false"
+                      [allowCustom]="false"
+                      [filterable]="true"
+                      (filterChange)="handleCurrencyFilterChange($event)"
+                      (selectionChange)="handleCurrencySelectionChange()">
+      </kendo-combobox>
+      <div class="invalid-feedback">
+        Please provide a currency.
+      </div>
+    </div>
+  </div>
+</div>

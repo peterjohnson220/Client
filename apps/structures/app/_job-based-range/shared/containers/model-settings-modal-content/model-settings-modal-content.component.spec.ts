@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
@@ -6,41 +6,40 @@ import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import * as fromRootState from 'libs/state/state';
-import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
-import { AbstractFeatureFlagService, PfCommonModule } from 'libs/core';
-import { generateMockStructureRangeDistributionTypes } from 'libs/models/payfactors-api';
-import { SettingsService } from 'libs/state/app-context/services';
-import { generateMockRangeAdvancedSetting, generateMockRangeDistributionSettingForm, JobBasedPageViewIds } from 'libs/models/structures';
 import { MissingMarketDataTypes } from 'libs/constants/structures/missing-market-data-type';
+import { AbstractFeatureFlagService, PfCommonModule } from 'libs/core';
+import { SettingsService } from 'libs/state/app-context/services';
+import { generateMockStructureRangeDistributionTypes } from 'libs/models/payfactors-api/structures/response';
+import { generateMockRangeAdvancedSetting, generateMockRangeDistributionSettingForm, JobBasedPageViewIds } from 'libs/models/structures';
 
-import * as fromJobBasedRangeReducer from '../../../shared/reducers';
-import * as fromModelSettingsModalActions from '../../../../shared/actions/model-settings-modal.actions';
-import { ModelSettingsModalComponent } from './model-settings-modal.component';
-import { RangeDistributionSettingComponent } from '../range-distribution-setting';
-import { AdvancedModelSettingComponent } from '../advanced-model-setting';
+import { ModelSettingsModalContentComponent } from './model-settings-modal-content.component';
 import { UrlService } from '../../../../shared/services';
+import * as fromSharedReducer from '../../../../shared/reducers';
+import { AdvancedModelSettingComponent } from '../advanced-model-setting';
+import { RangeDistributionSettingComponent } from '../range-distribution-setting';
+import * as fromModelSettingsModalActions from '../../../../shared/actions/model-settings-modal.actions';
+import * as fromJobBasedSharedReducer from '../../reducers';
 
-describe('Job Based Ranges - Model Settings Modal', () => {
-  let instance: ModelSettingsModalComponent;
-  let fixture: ComponentFixture<ModelSettingsModalComponent>;
-  let store: Store<fromJobBasedRangeReducer.State>;
+describe('ModelSettingsModalContentComponent', () => {
+  let instance: ModelSettingsModalContentComponent;
+  let fixture: ComponentFixture<ModelSettingsModalContentComponent>;
+  let store: Store<any>;
   let ngbModal: NgbModal;
   let urlService: UrlService;
-  let abstractFeatureFlagService: AbstractFeatureFlagService;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
+      declarations: [
+        ModelSettingsModalContentComponent,
+        RangeDistributionSettingComponent,
+        AdvancedModelSettingComponent],
       imports: [
         StoreModule.forRoot({
           ...fromRootState.reducers,
-          jobBased_main: combineReducers(fromJobBasedRangeReducer.reducers),
-          pfDataGrids: combineReducers(fromPfGridReducer.reducers)
+          structures_jobBasedRange_shared: combineReducers(fromJobBasedSharedReducer.reducers),
+          structures_shared: combineReducers(fromSharedReducer.reducers)
         }),
         PfCommonModule
-      ],
-      declarations: [
-        ModelSettingsModalComponent,
-        RangeDistributionSettingComponent,
-        AdvancedModelSettingComponent
       ],
       schemas: [NO_ERRORS_SCHEMA],
       providers: [
@@ -58,9 +57,9 @@ describe('Job Based Ranges - Model Settings Modal', () => {
         },
         SettingsService
       ]
-    });
 
-    fixture = TestBed.createComponent(ModelSettingsModalComponent);
+    });
+    fixture = TestBed.createComponent(ModelSettingsModalContentComponent);
     instance = fixture.componentInstance;
     instance.rangeDistributionSettingComponent = TestBed.createComponent(RangeDistributionSettingComponent).componentInstance;
     instance.advancedModelSettingComponent = TestBed.createComponent(AdvancedModelSettingComponent).componentInstance;
@@ -68,7 +67,6 @@ describe('Job Based Ranges - Model Settings Modal', () => {
     store = TestBed.inject(Store);
     ngbModal = TestBed.inject(NgbModal);
     urlService = TestBed.inject(UrlService);
-    abstractFeatureFlagService = TestBed.inject(AbstractFeatureFlagService);
 
     // mock the metadata
     instance.metadata = {
@@ -112,6 +110,17 @@ describe('Job Based Ranges - Model Settings Modal', () => {
       RangeDistributionSetting: generateMockRangeDistributionSettingForm(),
       RangeAdvancedSetting: generateMockRangeAdvancedSetting()
     };
+
+    instance.modelSettingsForm = new FormGroup({
+      'StructureName': new FormControl(instance.metadata.StructureName, [Validators.required, Validators.maxLength(50)]),
+      'ModelName': new FormControl(instance.metadata.ModelName, [Validators.required, Validators.maxLength(50)]),
+      'PayMarket': new FormControl(instance.metadata.Paymarket, [Validators.required]),
+      'Rate': new FormControl(instance.metadata.Rate, [Validators.required]),
+      'Currency': new FormControl(instance.metadata.Currency, [Validators.required]),
+      'PeerExchange': new FormControl( 'Global Network', [Validators.required]),
+      'RangeDistributionSetting': new FormControl(instance.metadata.RangeDistributionSetting),
+      'RangeAdvancedSetting': new FormControl(instance.metadata.RangeAdvancedSetting)
+    });
 
     instance.rangeDistributionSettingComponent.enablePercentilesAndRangeSpreads = true;
     instance.rangeDistributionSettingComponent.rangeDistributionSettingForm = new FormGroup({
@@ -179,20 +188,8 @@ describe('Job Based Ranges - Model Settings Modal', () => {
     };
 
     instance.ngOnInit();
+
   });
-
-  it('should dispatch cancel and close modal, as well as call reset on dismiss', () => {
-    spyOn(instance.store, 'dispatch');
-    const expectedAction1 = new fromModelSettingsModalActions.CloseModal();
-    const expectedAction2 = new fromModelSettingsModalActions.Cancel();
-
-    instance.handleModalDismiss();
-
-    expect(instance.store.dispatch).toHaveBeenCalledWith(expectedAction1);
-    expect(instance.store.dispatch).toHaveBeenCalledWith(expectedAction2);
-    expect(instance.attemptedSubmit).toEqual(false);
-  });
-
 
   it('should dispatch GetStructureNameSuggestions when structure name changed', () => {
     spyOn(instance.store, 'dispatch');
@@ -224,7 +221,6 @@ describe('Job Based Ranges - Model Settings Modal', () => {
   });
 
   it('should set attemptedSubmit to true (but leave the activeTab alone) if form is valid', () => {
-    instance.buildForm();
     instance.activeTab = '';
     instance.allFormulas = {};
     instance.handleModalSubmitAttempt();
@@ -256,8 +252,17 @@ describe('Job Based Ranges - Model Settings Modal', () => {
       RangeDistributionSetting: generateMockRangeDistributionSettingForm(),
       RangeAdvancedSetting: generateMockRangeAdvancedSetting()
     };
+    instance.modelSettingsForm = new FormGroup({
+      'StructureName': new FormControl(instance.metadata.StructureName, [Validators.required, Validators.maxLength(50)]),
+      'ModelName': new FormControl(instance.metadata.ModelName, [Validators.required, Validators.maxLength(50)]),
+      'PayMarket': new FormControl(instance.metadata.Paymarket, [Validators.required]),
+      'Rate': new FormControl(instance.metadata.Rate, [Validators.required]),
+      'Currency': new FormControl(instance.metadata.Currency, [Validators.required]),
+      'PeerExchange': new FormControl( 'Global Network', [Validators.required]),
+      'RangeDistributionSetting': new FormControl(instance.metadata.RangeDistributionSetting),
+      'RangeAdvancedSetting': new FormControl(instance.metadata.RangeAdvancedSetting)
+    });
 
-    instance.buildForm();
 
     instance.activeTab = '';
     instance.allFormulas = {};
@@ -283,7 +288,6 @@ describe('Job Based Ranges - Model Settings Modal', () => {
     expect(instance.controlPointsAsyncObjSub).not.toBe(undefined);
     expect(instance.currenciesAsyncObjSub).not.toBe(undefined);
     expect(instance.metadataSub).not.toBe(undefined);
-    expect(instance.modalOpenSub).not.toBe(undefined);
     expect(instance.modelNameExistsFailureSub).not.toBe(undefined);
     expect(instance.roundingSettingsSub).not.toBe(undefined);
   });
@@ -309,4 +313,5 @@ describe('Job Based Ranges - Model Settings Modal', () => {
     expect(instance.store.dispatch).toHaveBeenCalledWith(expectedAction);
     expect(instance.attemptedSubmit).toEqual(false);
   });
+
 });
