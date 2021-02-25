@@ -391,6 +391,7 @@
                               [data]="(departments$ | async)?.obj"
                               [loading]="(departments$ | async)?.loading"
                               [filterable]="true"
+                              [allowCustom]="true"
                               [virtual]="true"
                               [kendoDropDownFilter]="filterSettings"
                               [ngClass]="{ 'is-invalid': (!f.Department.valid && f.Department.touched) || employeeValidationFailed('Department') }">
