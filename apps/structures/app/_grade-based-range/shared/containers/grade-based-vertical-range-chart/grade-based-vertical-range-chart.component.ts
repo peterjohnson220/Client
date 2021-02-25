@@ -10,13 +10,13 @@ import { ActivatedRoute } from '@angular/router';
 import { RangeGroupMetadata } from 'libs/models/structures';
 import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import { SettingsService } from 'libs/state/app-context/services';
+import { RangeDistributionTypeIds } from 'libs/constants/structures/range-distribution-type-ids';
 
 import * as fromSharedStructuresReducer from '../../../../shared/reducers';
 import * as fromGradeBasedSharedReducer from '../../../shared/reducers';
 import * as fromGradeBasedSharedActions from '../../../shared/actions/shared.actions';
 import { StructuresHighchartsService, StructuresPagesService } from '../../../../shared/services';
 import { GradeRangeModelChartService, GradeRangeVerticalModelChartSeries } from '../../data';
-import { RangeDistributionTypeIds } from '../../../../shared/constants/range-distribution-type-ids';
 import { SalaryRangeSeries, DataPointSeries } from '../../../../shared/models';
 import { RangeDistributionDataPointTypeIds } from '../../../../shared/constants/range-distribution-data-point-type-ids';
 

@@ -10,10 +10,11 @@ import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import * as fromPfGridActions from 'libs/features/grids/pf-data-grid/actions';
 import { AbstractFeatureFlagService, PermissionService, PfCommonModule } from 'libs/core';
 import { JobBasedPageViewIds } from 'libs/models/structures';
+import { RangeValuePipe } from 'libs/features/structures/add-jobs-to-range/pipes';
 
 import * as fromJobBasedRangeReducer from '../../reducers';
 import { ModelGridComponent } from './model-grid.component';
-import { RangeValuePipe } from '../../pipes';
+
 import * as fromPublishModelModalActions from '../../actions/publish-model-modal.actions';
 import * as fromModelSettingsModalActions from '../../../../shared/actions/model-settings-modal.actions';
 import { StructuresPagesService, UrlService } from '../../../../shared/services';

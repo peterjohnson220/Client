@@ -22,10 +22,10 @@ import { PfAddJobsModule } from 'libs/features/jobs/add-jobs';
 import { PfSearchModule } from 'libs/features/search/search';
 import { PfAddJobsToRangeModule } from 'libs/features/structures/add-jobs-to-range';
 import { WindowCommunicationService } from 'libs/core/services';
+import { RangeValuePipe } from 'libs/features/structures/add-jobs-to-range/pipes';
 
 import { RangeGroupExistsGuard } from './guards';
 import { reducers } from './reducers';
-import { RangeValuePipe } from './pipes';
 import {
   AddJobsModalEffects, FormulaFieldEffects,
   ModelSettingsModalEffects,
@@ -84,7 +84,6 @@ import { ModelSettingsModalComponent } from './containers/model-settings-modal/m
       PfAddJobsToRangeModule
     ],
   declarations: [
-    RangeValuePipe,
     GridContextComponent,
     GlobalActionsComponent,
     ModelSettingsBtnComponent,
@@ -93,12 +92,12 @@ import { ModelSettingsModalComponent } from './containers/model-settings-modal/m
   ],
   exports: [
     FontAwesomeModule,
-    RangeValuePipe,
     GridContextComponent,
     GlobalActionsComponent,
     ModelSettingsBtnComponent,
     RangeFieldEditorComponent,
     AddJobsModalWrapperComponent,
+    RangeValuePipe,
     ModelSettingsModalComponent
   ],
   providers: [

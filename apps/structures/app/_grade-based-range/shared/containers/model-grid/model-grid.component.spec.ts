@@ -8,12 +8,10 @@ import { GradeBasedPageViewIds } from 'libs/models/structures';
 import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import { AbstractFeatureFlagService, PermissionService, PfCommonModule } from 'libs/core';
 import * as fromRootState from 'libs/state/state';
+import { RangeValuePipe } from 'libs/features/structures/add-jobs-to-range/pipes';
 
 import { StructuresPagesService, UrlService } from '../../../../shared/services';
 import { ModelGridComponent } from './model-grid.component';
-import { RangeValuePipe } from '../../../../shared/pipes';
-
-
 
 class MockStructuresPagesService {
   modelPageViewId: BehaviorSubject<string>;

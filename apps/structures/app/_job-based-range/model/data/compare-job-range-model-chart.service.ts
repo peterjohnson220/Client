@@ -1,5 +1,6 @@
+import { RangeDistributionTypeIds } from 'libs/constants/structures/range-distribution-type-ids';
+
 import { StructuresHighchartsService } from '../../../shared/services';
-import { RangeDistributionTypeIds } from '../../../shared/constants/range-distribution-type-ids';
 import {
   CompareJobRangeModelChartSeries,
   CompareQuartileJobRangeModelChartSeries,

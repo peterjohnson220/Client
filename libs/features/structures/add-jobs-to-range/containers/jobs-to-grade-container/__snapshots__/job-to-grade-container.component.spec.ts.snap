@@ -1,0 +1,91 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Project - AddJobs - JobToGrade Container Component should display grades instead of the no valid jobs message when grades are found 1`] = `
+<pf-jobs-to-grade-container
+  controlPoint={[Function String]}
+  dragEnd$={[Function AnonymousSubject]}
+  dragStart$={[Function AnonymousSubject]}
+  dragSubs={[Function Subscription]}
+  dragulaService={[Function DragulaService]}
+  error$={[Function Store]}
+  grades$={[Function Observable]}
+  isDragging="false"
+  isDragging$={[Function Observable]}
+  loadingGrades$={[Function Store]}
+  selectedJobs={[Function Array]}
+  selectedJobs$={[Function Store]}
+  selectedJobsSubscription={[Function Subscriber]}
+  spinnerType={[Function String]}
+  store={[Function Store]}
+>
+  <div
+    class="jobs-to-grade-container"
+  >
+    <table
+      class="table default k-widget k-grid"
+    >
+      <thead
+        class="k-header pf-data-grid-header text-center"
+      >
+        <th
+          class="text-left"
+        >
+          Grades
+        </th>
+      </thead>
+    </table>
+    <pf-async-container>
+      
+    </pf-async-container>
+  </div>
+</pf-jobs-to-grade-container>
+`;
+
+exports[`Project - AddJobs - JobToGrade Container Component should get jobs when load jobs clicked 1`] = `
+<pf-jobs-to-grade-container
+  controlPoint={[Function String]}
+  dragEnd$={[Function AnonymousSubject]}
+  dragStart$={[Function AnonymousSubject]}
+  dragSubs={[Function Subscription]}
+  dragulaService={[Function DragulaService]}
+  error$={[Function Store]}
+  grades$={[Function Store]}
+  isDragging="false"
+  isDragging$={[Function Observable]}
+  jobsToGradeComponents={[Function QueryList]}
+  loadingGrades$={[Function Store]}
+  selectedJobs={[Function Array]}
+  selectedJobs$={[Function Store]}
+  selectedJobsSubscription={[Function Subscriber]}
+  spinnerType={[Function String]}
+  store={[Function Store]}
+>
+  <div
+    class="jobs-to-grade-container"
+  >
+    <table
+      class="table default k-widget k-grid"
+    >
+      <thead
+        class="k-header pf-data-grid-header text-center"
+      >
+        <th
+          class="text-left"
+        >
+          Grades
+        </th>
+      </thead>
+    </table>
+    <pf-async-container>
+      
+      
+      <div
+        class="no-results-message-container"
+      >
+         No valid jobs selected. Please try again. 
+      </div>
+      
+    </pf-async-container>
+  </div>
+</pf-jobs-to-grade-container>
+`;
