@@ -4,7 +4,7 @@ import { SettingsService } from '../state/app-context/services';
 import {
   UserContextGuard, PfAdminGuard, PeerTileEnabledGuard, TabularReportBuilderGuard,
   AuthorizationGuard, TileEnabledGuard, LoadUserGuard, LoadCompanyGuard,
-  PfServicesAdminOnlyGuard, UrlParameterValidationGuard
+  PfServicesAdminByRepositoryGuard, UrlParameterValidationGuard
 } from './guards';
 
 
@@ -20,7 +20,7 @@ import {
     LoadUserGuard,
     LoadCompanyGuard,
     TabularReportBuilderGuard,
-    PfServicesAdminOnlyGuard,
+    PfServicesAdminByRepositoryGuard,
     UrlParameterValidationGuard,
 
     // Services
