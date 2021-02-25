@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import cloneDeep from 'lodash/cloneDeep';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
@@ -6,6 +7,7 @@ import { ActionsSubject, select, Store } from '@ngrx/store';
 import { SortDescriptor } from '@progress/kendo-data-query';
 import { ofType } from '@ngrx/effects';
 import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
+import { delay } from 'rxjs/operators';
 
 import {
   ActionBarConfig,
@@ -43,7 +45,10 @@ import * as fromSharedStructuresReducer from '../../../../shared/reducers';
 import * as fromSharedStructuresActions from '../../../../shared/actions/shared.actions';
 import * as fromModelSettingsModalActions from '../../../../shared/actions/model-settings-modal.actions';
 import * as fromJobBasedRangeReducer from '../../reducers';
-import { StructuresPagesService } from '../../../../shared/services';
+import { StructuresPagesService, UrlService } from '../../../../shared/services';
+import { ModelSettingsModalContentComponent } from '../model-settings-modal-content';
+import { Workflow } from '../../../../shared/constants/workflow';
+import { SelectedPeerExchangeModel } from '../../../../shared/models';
 
 
 @Component({
@@ -63,6 +68,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   @ViewChild('gridGlobalActions', { static: true }) gridGlobalActionsTemplate: ElementRef;
   @ViewChild('gridRowActionsTemplate') gridRowActionsTemplate: ElementRef;
   @ViewChild('overrideFilter') overrideFilter: ElementRef;
+  @ViewChild(ModelSettingsModalContentComponent, {static: false}) public modelSettingsModalContentComponent: ModelSettingsModalContentComponent;
   @Input() singleRecordView: boolean;
   @Input() splitViewTemplate: TemplateRef<any>;
   @Input() inboundFilters: PfDataGridFilter[];
@@ -129,17 +135,27 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   distinctOverrideMessages$: Observable<string[]>;
   distinctOverrideMessagesSub: Subscription;
   distinctOverrideMessages: string[];
+  modelSettingsForm: FormGroup;
+  isNewModel: boolean;
+  modalOpen$: Observable<boolean>;
+  modalOpenSub: Subscription;
+  selectedPeerExchangeSub: Subscription;
+  selectedPeerExchange$: Observable<SelectedPeerExchangeModel>;
+  selectedExchange: SelectedPeerExchangeModel;
 
   constructor(
     public store: Store<fromJobBasedRangeReducer.State>,
     private actionsSubject: ActionsSubject,
     private permissionService: PermissionService,
-    private structuresPagesService: StructuresPagesService
+    private structuresPagesService: StructuresPagesService,
+    public urlService: UrlService
   ) {
     this.metaData$ = this.store.pipe(select(fromSharedStructuresReducer.getMetadata));
+    this.modalOpen$ = this.store.pipe(select(fromSharedStructuresReducer.getModelSettingsModalOpen), delay(0));
     this.roundingSettings$ = this.store.pipe(select(fromSharedStructuresReducer.getRoundingSettings));
     this.rangeOverrides$ = this.store.pipe(select(fromSharedStructuresReducer.getRangeOverrides));
     this.distinctOverrideMessages$ = this.store.pipe(select(fromSharedStructuresReducer.getDistinctOverrideMessages));
+    this.selectedPeerExchange$ = this.store.pipe(select(fromSharedStructuresReducer.getSelectedPeerExchange));
     this.singleRecordActionBarConfig = {
       ...getDefaultActionBarConfig(),
       ShowActionBar: false
@@ -302,6 +318,33 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     return RangeRecalculationType;
   }
 
+  handleModalSubmit() {
+    this.modelSettingsModalContentComponent.handleModalSubmit();
+  }
+
+  handleModelAttemptedSubmit() {
+    this.modelSettingsModalContentComponent.handleModalSubmitAttempt();
+  }
+
+  handleModalDismissed() {
+    this.modelSettingsModalContentComponent.handleModalDismiss();
+  }
+
+  buildForm() {
+    this.isNewModel = this.urlService.isInWorkflow(Workflow.NewRange);
+
+    this.modelSettingsForm = new FormGroup({
+      'StructureName': new FormControl(this.metaData.StructureName, [Validators.required, Validators.maxLength(50)]),
+      'ModelName': new FormControl(!this.metaData.IsCurrent || this.isNewModel ? this.metaData.ModelName : '', [Validators.required, Validators.maxLength(50)]),
+      'PayMarket': new FormControl(this.metaData.Paymarket, [Validators.required]),
+      'Rate': new FormControl(this.metaData.Rate || 'Annual', [Validators.required]),
+      'Currency': new FormControl(this.metaData.Currency || 'USD', [Validators.required]),
+      'PeerExchange': new FormControl( this.selectedExchange?.ExchangeName || 'Global Network', [Validators.required]),
+      'RangeDistributionSetting': new FormControl(this.metaData.RangeDistributionSetting),
+      'RangeAdvancedSetting': new FormControl(this.metaData.RangeAdvancedSetting)
+    });
+  }
+
   // Lifecycle
   ngAfterViewInit() {
     this.colTemplates = {
@@ -370,6 +413,16 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
       }
     });
 
+    this.selectedPeerExchangeSub = this.selectedPeerExchange$.subscribe(peerExchange => this.selectedExchange = peerExchange);
+
+    this.modalOpenSub = this.modalOpen$.subscribe(mo => {
+      if (mo) {
+        this.buildForm();
+      }
+    });
+
+    this.buildForm();
+
     window.addEventListener('scroll', this.scroll, true);
   }
 
@@ -383,5 +436,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     this.currentRangeGroupSub.unsubscribe();
     this.gridFieldSubscription.unsubscribe();
     this.distinctOverrideMessagesSub.unsubscribe();
+    this.modalOpenSub.unsubscribe();
+    this.selectedPeerExchangeSub.unsubscribe();
   }
 }

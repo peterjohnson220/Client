@@ -16,7 +16,7 @@ import { ModelGridComponent } from './model-grid.component';
 import { RangeValuePipe } from '../../pipes';
 import * as fromPublishModelModalActions from '../../actions/publish-model-modal.actions';
 import * as fromModelSettingsModalActions from '../../../../shared/actions/model-settings-modal.actions';
-import { StructuresPagesService } from '../../../../shared/services';
+import { StructuresPagesService, UrlService } from '../../../../shared/services';
 
 class MockStructuresPagesService {
   modelPageViewId: BehaviorSubject<string>;
@@ -30,6 +30,7 @@ describe('Job Range Structures - Model page', () => {
   let fixture: ComponentFixture<ModelGridComponent>;
   let store: Store<fromJobBasedRangeReducer.State>;
   let ngbModal: NgbModal;
+  let urlService: UrlService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -60,7 +61,11 @@ describe('Job Range Structures - Model page', () => {
         {
           provide: AbstractFeatureFlagService,
           useValue: { enabled: jest.fn() }
-        }
+        },
+        {
+          provide: UrlService,
+          useValue: { isInWorkflow: jest.fn() }
+        },
       ]
     });
 
@@ -68,6 +73,7 @@ describe('Job Range Structures - Model page', () => {
     instance = fixture.componentInstance;
     store = TestBed.inject(Store);
     ngbModal = TestBed.inject(NgbModal);
+    urlService = TestBed.inject(UrlService);
     instance.roundingSettingsSub = of({}).subscribe();
   });
 

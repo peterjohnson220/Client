@@ -18,10 +18,10 @@ import { FormulaEditorModule } from 'libs/ui/formula-editor';
 
 import {
   ModelGridComponent,
-  ModelSettingsModalComponent,
   RangeRoundingComponent,
   RangeDistributionSettingComponent,
-  DuplicateModelModalComponent
+  DuplicateModelModalComponent,
+  ModelSettingsModalContentComponent
 } from './containers';
 import { PublishModelModalEffects, SharedEffects, DuplicateModelModalEffects, FieldsEffects } from './effects';
 import { RangeValuePipe } from './pipes';
@@ -71,18 +71,18 @@ import { SharedModule } from '../../shared/shared.module';
     ModelGridComponent,
     RangeRoundingComponent,
     AdvancedModelSettingComponent,
-    ModelSettingsModalComponent,
     RangeValuePipe,
     RangeDistributionSettingComponent,
     DuplicateModelModalComponent,
-    StructuresFormulaEditorComponent
+    StructuresFormulaEditorComponent,
+    ModelSettingsModalContentComponent
   ],
   exports: [
     ModelGridComponent,
-    ModelSettingsModalComponent,
     FontAwesomeModule,
     RangeValuePipe,
-    DuplicateModelModalComponent
+    DuplicateModelModalComponent,
+    ModelSettingsModalContentComponent
   ],
   providers: [
   ]
