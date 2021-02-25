@@ -6,3 +6,4 @@ export * from './employee-acknowledgement';
 export * from './flsa-questionnaire';
 export * from './export-job-description-modal';
 export * from './workflow-cancel';
+export * from './workflow-step-completion';

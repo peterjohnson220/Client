@@ -61,6 +61,7 @@ import {
   WorkflowProgressBarComponent,
   EmployeeAcknowledgementModalComponent,
   WorkflowCancelModalComponent,
+  WorkflowStepCompletionModalComponent,
   FlsaQuestionnaireModalComponent,
   JobMatchResultComponent,
   ExportJobDescriptionModalComponent
@@ -166,6 +167,7 @@ import { SharedModule } from '../shared/shared.module';
     WorkflowLogComponent,
     EmployeeAcknowledgementModalComponent,
     WorkflowCancelModalComponent,
+    WorkflowStepCompletionModalComponent,
     FlsaQuestionnaireModalComponent,
     JobMatchResultComponent,
     ExportJobDescriptionModalComponent,

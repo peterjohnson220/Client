@@ -22,6 +22,7 @@ export interface State {
   completedStep: boolean;
   completedStepError: boolean;
   workflowStepInfo: WorkflowStepInfo;
+  inSystemWorkflowStepCompletionModalOpen: boolean;
 }
 
 export const initialState: State = {
@@ -38,7 +39,8 @@ export const initialState: State = {
   message: '',
   completedStep: false,
   completedStepError: false,
-  workflowStepInfo: null
+  workflowStepInfo: null,
+  inSystemWorkflowStepCompletionModalOpen: false
 };
 
 export function reducer(state = initialState, action: fromWorkflowActions.Actions): State {
@@ -105,7 +107,8 @@ export function reducer(state = initialState, action: fromWorkflowActions.Action
         ...state,
         approving: false,
         rejecting: false,
-        completedStepError: false
+        completedStepError: false,
+        inSystemWorkflowStepCompletionModalOpen: action.payload.showInSystemWorkflowStepCompletionModal
       };
     }
     case fromWorkflowActions.COMPLETE_WORKFLOW_STEP_ERROR: {
@@ -224,3 +227,4 @@ export const getMessage = (state: State) => state.message;
 export const getCompletedStep = (state: State) => state.completedStep;
 export const getCompletedStepError = (state: State) => state.completedStepError;
 export const getWorkflowStepInfo = (state: State) => state.workflowStepInfo;
+export const getInSystemWorkflowStepCompletionModalOpen = (state: State) => state.inSystemWorkflowStepCompletionModalOpen;

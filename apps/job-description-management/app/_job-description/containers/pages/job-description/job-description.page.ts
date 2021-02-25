@@ -26,7 +26,7 @@ import {
 import * as fromRootState from 'libs/state/state';
 import { SettingsService } from 'libs/state/app-context/services';
 import { PermissionService } from 'libs/core/services';
-import { PermissionCheckEnum, Permissions } from 'libs/constants';
+import { PermissionCheckEnum, Permissions } from 'libs/constants/permissions';
 import { SimpleYesNoModalComponent, FileDownloadSecurityWarningModalComponent } from 'libs/ui/common';
 import { JobDescriptionManagementDnDService, JobDescriptionManagementService, SortDirection } from 'libs/features/jobs/job-description-management';
 import {
@@ -51,8 +51,10 @@ import * as fromJobDescriptionActions from '../../../actions/job-description.act
 import * as fromEmployeeAcknowledgementActions from '../../../actions/employee-acknowledgement.actions';
 import * as fromWorkflowActions from '../../../actions/workflow.actions';
 import { JobDescriptionDnDService } from '../../../services';
-import { EmployeeAcknowledgementModalComponent, ExportJobDescriptionModalComponent,
-  WorkflowCancelModalComponent } from '../../../components/modals';
+import {
+  EmployeeAcknowledgementModalComponent, ExportJobDescriptionModalComponent,
+  WorkflowCancelModalComponent, WorkflowStepCompletionModalComponent
+} from '../../../components/modals';
 import { FlsaQuestionnaireModalComponent } from '../../../components/modals/flsa-questionnaire';
 import { JobMatchesModalComponent } from '../../job-matches-modal';
 import { ChangeApproverModalComponent } from '../../change-approver-modal';
@@ -78,6 +80,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   @ViewChild(WorkflowCancelModalComponent) public workflowCancelModal: WorkflowCancelModalComponent;
   @ViewChild(WorkflowSetupModalComponent) public workflowSetupModal: WorkflowSetupModalComponent;
   @ViewChild('fileDownloadSecurityWarningModal', { static: true }) public fileDownloadSecurityWarningModal: FileDownloadSecurityWarningModalComponent;
+  @ViewChild(WorkflowStepCompletionModalComponent) public workflowStepCompletionModal: WorkflowStepCompletionModalComponent;
 
   jobDescriptionAsync$: Observable<AsyncStateObj<JobDescription>>;
   jobDescriptionPublishingSuccess$: Observable<boolean>;
@@ -105,6 +108,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   undoChanges$: Observable<boolean>;
   replaceContents$: Observable<boolean>;
   workflowStepInfo$: Observable<any>;
+  inSystemWorkflowStepCompletionModalOpen$: Observable<any>;
 
   jobDescriptionSubscription: Subscription;
   routerParamsSubscription: Subscription;
@@ -124,6 +128,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   discardingDraftJobDescriptionSuccessSubscription: Subscription;
   enableFileDownloadSecurityWarningSub: Subscription;
   workflowStepInfoSubscription: Subscription;
+  workflowStepCompletionModalSubscription: Subscription;
 
   companyName: string;
   emailAddress: string;
@@ -131,6 +136,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   jobDescription: JobDescription;
   visibleSections: JobDescriptionSection[];
   enableFileDownloadSecurityWarning: boolean;
+  enableLibraryForRoutedJobDescriptions: boolean;
   exportData: ExportData;
   hasCanEditJobDescriptionPermission: boolean;
   identityInWorkflow: boolean;
@@ -156,9 +162,9 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   jobDescriptionViews: string[];
   completedStep: boolean;
   controlTypes: ControlType[];
-  isInAppWorkflow: boolean;
+  isInSystemWorkflow: boolean;
 
-  get isJobDescrptionEditable() {
+  get isJobDescriptionEditable() {
     return this.identityInWorkflow ? this.hasCanEditJobDescriptionPermission :
     this.hasCanEditJobDescriptionPermission && this.jobDescription?.JobDescriptionStatus === 'Draft';
   }
@@ -208,6 +214,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.undoChanges$ = this.store.select(fromJobDescriptionReducers.getUndoJobDescriptionChangesComplete);
     this.replaceContents$ = this.store.select(fromJobDescriptionReducers.getReplaceJobDescriptionComplete);
     this.workflowStepInfo$ = this.store.select(fromJobDescriptionReducers.getWorkflowStepInfo);
+    this.inSystemWorkflowStepCompletionModalOpen$ = this.store.select(fromJobDescriptionReducers.getInSystemWorkflowStepCompletionModalOpen);
   }
 
   ngOnInit(): void {
@@ -238,6 +245,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.enableFileDownloadSecurityWarningSub.unsubscribe();
     this.controlTypesSubscription.unsubscribe();
     this.workflowStepInfoSubscription?.unsubscribe();
+    this.workflowStepCompletionModalSubscription?.unsubscribe();
   }
 
   appliesToFormCompleted(selected: any) {
@@ -527,7 +535,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
       this.viewName = params.queryParams['viewName'];
       this.revisionNumber = params['versionNumber'];
       this.tokenId = !!params.queryParams['jwt'] ? params.queryParams[ 'jwt' ] :  params.queryParams[ 'jwt-workflow' ];
-      this.isInAppWorkflow = !!params.queryParams[ 'jwt-workflow' ];
+      this.isInSystemWorkflow = !!params.queryParams[ 'jwt-workflow' ];
       this.ssoTokenId = params.queryParams['tokenid'];
       this.ssoAgentId = params.queryParams['agentid'];
 
@@ -561,9 +569,9 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
           }
         }
 
-        this.identityInWorkflow = (!!userContext.WorkflowStepInfo && !!userContext.WorkflowStepInfo.WorkflowId) || this.isInAppWorkflow;
+        this.identityInWorkflow = (!!userContext.WorkflowStepInfo && !!userContext.WorkflowStepInfo.WorkflowId) || this.isInSystemWorkflow;
 
-        if (this.isInAppWorkflow) {
+        if (this.isInSystemWorkflow) {
           this.workflowStepInfoSubscription = this.workflowStepInfo$.subscribe(workflowStepInfo => {
             if (!!workflowStepInfo) {
 
@@ -602,7 +610,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
           this.store.dispatch(new fromEmployeeAcknowledgementActions.LoadEmployeeAcknowledgementInfo());
         }
         this.store.dispatch(new fromJobDescriptionActions.LoadingPage(false));
-        if (this.isInAppWorkflow) {
+        if (this.isInSystemWorkflow) {
           this.store.dispatch(new fromWorkflowActions.GetWorkflowStepInfoFromToken({ token: this.tokenId }));
         }
       }
@@ -655,6 +663,11 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.publishingSuccessSubscription = this.jobDescriptionPublishingSuccess$.subscribe(asyncObj => {
       if (asyncObj) {
         this.getJobDescriptionDetails();
+      }
+    });
+    this.workflowStepCompletionModalSubscription = this.inSystemWorkflowStepCompletionModalOpen$.subscribe(value => {
+      if (value) {
+        this.workflowStepCompletionModal.open();
       }
     });
   }

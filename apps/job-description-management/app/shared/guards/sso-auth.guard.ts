@@ -46,6 +46,7 @@ export class SsoAuthGuard implements CanActivate {
 
             if (!!result.authResult.JwtSsoLoginUrl) {
               window.location.href = `${result.authResult.JwtSsoLoginUrl}${encodedUrl}`;
+              return false;
             } else {
               this.router.navigateByUrl(`/job-descriptions/${id}?jwt-workflow=${this.jwtTokenId}`).then(value => window.location.reload());
               return false;
