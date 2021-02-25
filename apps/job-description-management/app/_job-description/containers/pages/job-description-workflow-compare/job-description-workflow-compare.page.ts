@@ -70,7 +70,7 @@ export class JobDescriptionWorkflowComparePageComponent implements OnInit, OnDes
   }
 
   stopComparing() {
-     this.router.navigate([`job-descriptions/${this.route.snapshot.params.id}`], { queryParamsHandling: 'preserve' });
+      this.router.navigate([`job-descriptions/${this.route.snapshot.params.id}`], { queryParamsHandling: 'preserve' });
   }
 
   ngOnInit() {
