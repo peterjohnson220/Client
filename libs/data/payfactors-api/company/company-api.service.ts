@@ -133,4 +133,9 @@ export class CompanyApiService {
           { params: { subsidiaryId: entityId } });
     }
   }
+
+  isValidCompanyRepository(companyId: number) {
+    return this.payfactorsApiService.get<any>(`${this.endpoint}/IsValidCompanyRepository`,
+      { params: { companyId: companyId} });
+  }
 }

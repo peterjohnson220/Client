@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 
 import { RouterModule, Routes } from '@angular/router';
 
-import { PfServicesAdminOnlyGuard } from 'libs/security/guards';
+import { PfServicesAdminByRepositoryGuard } from 'libs/security/guards';
 
 import {
   PricingLoadersComponent
@@ -12,7 +12,7 @@ const routes: Routes = [
   {
     path: 'pricing-loader',
     component: PricingLoadersComponent,
-    canActivate: [PfServicesAdminOnlyGuard]
+    canActivate: [PfServicesAdminByRepositoryGuard]
   }
 ];
 

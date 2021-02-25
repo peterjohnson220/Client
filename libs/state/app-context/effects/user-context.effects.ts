@@ -39,6 +39,8 @@ export class UserContextEffects {
           return new userContextActions.GetUserContext404Error();
         } else if (errorContext.error.status === 403) {
           return new userContextActions.GetUserContext403Error({ errorMessage: errorContext.error.error.error.message });
+        } else if (errorContext.error.status === 410) {
+          return new userContextActions.GetUserContext410Error();
         } else if (errorContext.error.status === 500) {
           return new userContextActions.GetUserContext500Error();
         }
@@ -75,6 +77,18 @@ export class UserContextEffects {
       tap((action: userContextActions.GetUserContext404Error) => {
         if (isPlatformBrowser(this.platformId)) {
           this.router.navigate(['/not-found']);
+        }
+        return null;
+      })
+    );
+
+  @Effect({ dispatch: false })
+  getUserContext410Error$ = this.actions$
+    .pipe(
+      ofType(userContextActions.GET_USER_CONTEXT_410_ERROR),
+      tap((action: userContextActions.GetUserContext410Error) => {
+        if (isPlatformBrowser(this.platformId)) {
+          this.router.navigate(['/gone']);
         }
         return null;
       })

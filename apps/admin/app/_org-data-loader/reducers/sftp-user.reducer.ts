@@ -1,4 +1,5 @@
 import { SftpUserModel } from 'libs/models/Sftp';
+
 import * as fromSftpUserActions from '../actions/sftp-user.actions';
 
 export interface State {
@@ -10,6 +11,9 @@ export interface State {
   validatingUserName: boolean;
   validatingUserNameError: boolean;
   isUserNameValid: boolean;
+  isDeletingSftpCreds: boolean;
+  deleteSftpCredsError: boolean;
+  deleteSftpCredsSuccess: boolean;
 }
 
 const initialState: State = {
@@ -20,7 +24,10 @@ const initialState: State = {
   loadingError: false,
   validatingUserName: false,
   validatingUserNameError: false,
-  isUserNameValid: null
+  isUserNameValid: null,
+  isDeletingSftpCreds: false,
+  deleteSftpCredsError: false,
+  deleteSftpCredsSuccess: false
 };
 
 export function reducer(state = initialState, action: fromSftpUserActions.Actions): State {
@@ -79,6 +86,27 @@ export function reducer(state = initialState, action: fromSftpUserActions.Action
         validatingUserNameError: true
       };
     }
+    case fromSftpUserActions.DELETE_SFTP_CREDENTIALS: {
+      return {
+        ...state,
+        isDeletingSftpCreds: true,
+        deleteSftpCredsSuccess: false
+      };
+    }
+    case fromSftpUserActions.DELETE_SFTP_CREDENTIALS_SUCCESS: {
+      return {
+        ...state,
+        isDeletingSftpCreds: false,
+        deleteSftpCredsSuccess: true
+      };
+    }
+    case fromSftpUserActions.DELETE_SFTP_CREDENTIALS_ERROR: {
+      return {
+        ...state,
+        isDeletingSftpCreds: false,
+        deleteSftpCredsError: true
+      };
+    }
     default: {
       return state;
     }
@@ -93,3 +121,6 @@ export const getLoadingSftpUserError = (state: State) => state.loadingError;
 export const getValidatingUserName = (state: State) => state.validatingUserName;
 export const getValidatingUserNameError = (state: State) => state.validatingUserNameError;
 export const getIsUserNameValid = (state: State) => state.isUserNameValid;
+export const getIsDeleteingSftpCreds = (state: State) => state.isDeletingSftpCreds;
+export const getDeleteSftpCredsSuccess = (state: State) => state.deleteSftpCredsSuccess;
+export const getDeleteSftpCredsError = (state: State) => state.deleteSftpCredsError;

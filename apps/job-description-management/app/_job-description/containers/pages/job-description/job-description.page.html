@@ -105,7 +105,7 @@
         <div *ngIf="showLibrary" class="column-scroll-container col-5">
           <div class="scroll-y column-scroll-inner">
             <pf-job-description-library
-              [jobTitle]="jobDescriptionAsync?.obj?.Name"
+              [jobTitle]="(jobDescriptionAsync$ | async)?.obj?.Name"
               [buckets]="(jobDescriptionLibraryBuckets$ | async)?.obj"
               [results]="(jobDescriptionLibraryResults$ | async)?.obj"
               [loadingBuckets]="(jobDescriptionLibraryBuckets$ | async)?.loading"
