@@ -125,6 +125,9 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
       if (isOpen) {
         if (!this.initialized) {
           this.initializeDroplists();
+        } else {
+          // initialize departments every time to account for the addition of custom departments
+          this.store.dispatch(new fromEmployeeManagementActions.LoadDepartments())
         }
 
         this.currentSection = EmployeeModalSectionEnum.EmployeeInformationSection;
