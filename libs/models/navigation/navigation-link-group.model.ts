@@ -11,13 +11,11 @@ export function generateNavigationLinkGroup(): NavigationLinkGroup {
         Links: [
             {
                 Name: 'MockLinkName1',
-                Url: 'http://mock-url-1.url',
-                NgAppLink: false
+                Url: 'http://mock-url-1.url'
             },
             {
                 Name: 'MockLinkName2',
-                Url: 'http://mock-url-2.url',
-                NgAppLink: false
+                Url: 'http://mock-url-2.url'
             }
         ]
     };
@@ -29,13 +27,11 @@ export function generateNavigationLinkGroupLinks(): NavigationLinkGroup[] {
         Links: [
             {
                 Name: 'MockLinkNameA1',
-                Url: 'http://mock-url-1.url',
-                NgAppLink: false
+                Url: 'http://mock-url-1.url'
             },
             {
                 Name: 'MockLinkNameA2',
-                Url: 'http://mock-url-a-2.url',
-                NgAppLink: false
+                Url: 'http://mock-url-a-2.url'
             }
         ]
     },
@@ -44,13 +40,11 @@ export function generateNavigationLinkGroupLinks(): NavigationLinkGroup[] {
         Links: [
             {
                 Name: 'MockLinkNameB1',
-                Url: 'http://mock-url-b-1.url',
-                NgAppLink: false
+                Url: 'http://mock-url-b-1.url'
             },
             {
                 Name: 'MockLinkNameB2',
-                Url: 'http://mock-url-b-2.url',
-                NgAppLink: false
+                Url: 'http://mock-url-b-2.url'
             }
         ]
     }];

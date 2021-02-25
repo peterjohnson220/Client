@@ -4,13 +4,10 @@ exports[`Left Sidebar should show ul of sidebar closed 1`] = `
 <pf-layout-wrapper-left-sidebar
   clientAppRoot={[Function String]}
   companyName={[Function String]}
-  enableCoreJdmInClient="false"
   layoutStore={[Function Store]}
   leftSidebarNavigationLinks$={[Function Store]}
   leftSidebarToggle="false"
-  ngAppRoot={[Function String]}
   reload={[Function EventEmitter]}
-  settingsService={[Function SettingsService]}
   store={[Function Store]}
   userContext$={[Function Observable]}
   userContextSubscription={[Function Subscriber]}
@@ -42,13 +39,10 @@ exports[`Left Sidebar should show ul of sidebar open 1`] = `
 <pf-layout-wrapper-left-sidebar
   clientAppRoot={[Function String]}
   companyName={[Function String]}
-  enableCoreJdmInClient="false"
   layoutStore={[Function Store]}
   leftSidebarNavigationLinks$={[Function Store]}
   leftSidebarToggle="false"
-  ngAppRoot={[Function String]}
   reload={[Function EventEmitter]}
-  settingsService={[Function SettingsService]}
   store={[Function Store]}
   userContext$={[Function Observable]}
   userContextSubscription={[Function Subscriber]}

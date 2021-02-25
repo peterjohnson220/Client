@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription, Subject } from 'rxjs';
-import { filter, first, takeWhile } from 'rxjs/operators';
+import { first } from 'rxjs/operators';
 import 'rxjs/add/observable/combineLatest';
 import cloneDeep from 'lodash/cloneDeep';
 
@@ -26,9 +26,8 @@ import {
 import * as fromRootState from 'libs/state/state';
 import { SettingsService } from 'libs/state/app-context/services';
 import { PermissionService } from 'libs/core/services';
-import { PermissionCheckEnum, Permissions, AppConstants } from 'libs/constants';
+import { PermissionCheckEnum, Permissions } from 'libs/constants';
 import { SimpleYesNoModalComponent, FileDownloadSecurityWarningModalComponent } from 'libs/ui/common';
-
 import { JobDescriptionManagementDnDService, JobDescriptionManagementService, SortDirection } from 'libs/features/jobs/job-description-management';
 import { JobDescriptionManagementDndSource } from 'libs/features/jobs/job-description-management/constants';
 import {
@@ -86,7 +85,6 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   identity$: Observable<UserContext>;
   userAssignedRoles$: Observable<UserAssignedRole[]>;
   company$: Observable<CompanyDto>;
-  enablePublicViewsInClient$: Observable<boolean>;
   requireSSOLogin$: Observable<boolean>;
   controlTypesAsync$: Observable<AsyncStateObj<ControlType[]>>;
   editingJobDescription$: Observable<boolean>;
@@ -133,7 +131,6 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   jobDescription: JobDescription;
   visibleSections: JobDescriptionSection[];
   enableFileDownloadSecurityWarning: boolean;
-  enableLibraryForRoutedJobDescriptions: boolean;
   exportData: ExportData;
   hasCanEditJobDescriptionPermission: boolean;
   identityInWorkflow: boolean;
@@ -177,9 +174,6 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.jobDescriptionAsync$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionAsync);
     this.identity$ = this.userContextStore.select(fromRootState.getUserContext);
     this.userAssignedRoles$ = this.userContextStore.select(fromRootState.getUserAssignedRoles);
-    this.enablePublicViewsInClient$ = this.settingsService.selectCompanySetting<boolean>(
-      CompanySettingsEnum.JDMCoreUseClient
-    );
     this.enableFileDownloadSecurityWarning$ = this.settingsService.selectCompanySetting<boolean>(CompanySettingsEnum.FileDownloadSecurityWarning);
 
     this.requireSSOLogin$ = this.settingsService.selectCompanySetting<boolean>(
@@ -613,12 +607,6 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
         this.enableFileDownloadSecurityWarning = true;
       }
     });
-
-    // if the setting to enable public views in this repo is disabled redirect back to the NG implementation
-    this.enablePublicViewsInClient$.pipe(
-      takeWhile(() => this.identity.IsPublic),
-      filter(setting => setting === false)
-    ).subscribe(() => window.location.href = window.location.href.replace(`/${AppConstants.HostPath}/`, AppConstants.NgAppRoot));
 
     this.controlTypesSubscription = this.controlTypesAsync$.subscribe(value => {
       if (value?.obj?.length > 0) {

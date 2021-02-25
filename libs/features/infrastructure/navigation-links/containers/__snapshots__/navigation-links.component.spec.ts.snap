@@ -19,22 +19,18 @@ exports[`Pf-Admin - Navigation - Navigation Links Should display navigation grou
     >
       
       <li>
-        
         <a
           href="http://mock-url-1.url"
         >
           MockLinkNameA1 
         </a>
-        
       </li>
       <li>
-        
         <a
           href="http://mock-url-a-2.url"
         >
           MockLinkNameA2 
         </a>
-        
       </li>
     </ul>
   </div><div
@@ -50,22 +46,18 @@ exports[`Pf-Admin - Navigation - Navigation Links Should display navigation grou
     >
       
       <li>
-        
         <a
           href="http://mock-url-b-1.url"
         >
           MockLinkNameB1 
         </a>
-        
       </li>
       <li>
-        
         <a
           href="http://mock-url-b-2.url"
         >
           MockLinkNameB2 
         </a>
-        
       </li>
     </ul>
   </div>
