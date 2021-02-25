@@ -59,6 +59,10 @@ export class EntityMappingComponent implements OnInit, OnDestroy {
   selectedDateFormat = 'Select format for date fields';
   doFullReplace = true;
 
+  convertibleFields = {
+    employees: ['Rate', 'Employee_Status']
+  };
+
   constructor(private store: Store<fromFieldMappingReducer.State>, private dragulaService: DragulaService) {
   }
 
