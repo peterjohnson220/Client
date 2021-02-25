@@ -1,0 +1,115 @@
+<div class="d-flex flex-column">
+  <span class="title">Upload Survey File</span>
+  <div class="pricing-loader-content">
+    <div class="row">
+      <div class="col-12 col-lg-6 mb-3">
+        <div class="upload-survey">
+          <b>Note:</b> File must be in .xlsx format and file name must begin with <b>survey</b>. Once file is
+          uploaded, map the tabs in your file to either Survey Job, Survey Data or Survey Participation.
+        </div>
+      </div>
+      <div class="col-12 col-lg-6 d-flex flex-column">
+        <pf-file-upload #fileUpload
+                        class="mb-3"
+                        (onFileDropped)="handleOnFileDropped($event)"
+                        (onFileRemoved)="handleOnFileRemoved()"
+                        [validFileExtensions]="validFileExtensions"
+                        [validFileStartsWith]="'survey'"
+                        [autoGetColumnNames]="false">
+        </pf-file-upload>
+        <div class="form-group row mb-2">
+          <label class="col-md-5 col-form-label">Survey Job</label>
+          <div class="col-md-7">
+            <div class="form-group row mb-2" *ngFor="let surveyJob of surveyJobSheetName">
+              <pf-survey-loader-tab
+                  [worksheetNames$]="worksheetNames$"
+                  [surveySheet]="surveyJob"
+                  (updateSurveySheetNameEvent)="updateSurveyJobSheetName($event, surveyJob.Id)"
+                  (removeAdditionalDropdownEvent)="removeAdditionalDropdown(loaderSettings.SurveyJobsSheetName, surveyJob.Id)">
+              </pf-survey-loader-tab>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row justify-content-md-end">
+          <div class="col-md-5">
+            <span class="map-additional-Tab"
+                  (click)="addAdditionalDropdown(loaderSettings.SurveyJobsSheetName, surveyJobSheetName)"
+                  id="map-job-additional-tab"
+                  [ngbTooltip]="surveyJobSheetName.length === maxTap ? NextBtnToolTips[0] : ''">
+                  Map Additional Tab</span>
+          </div>
+        </div>
+        <div class="form-group row mb-2">
+          <label class="col-md-5 col-form-label">Survey Data</label>
+          <div class="col-md-7">
+            <div class="form-group row mb-2" *ngFor="let surveyData of surveyDataSheetName">
+              <pf-survey-loader-tab
+                [worksheetNames$]="worksheetNames$"
+                [surveySheet]="surveyData"
+                (updateSurveySheetNameEvent)="updateSurveyDataSheetName($event, surveyData.Id)"
+                (removeAdditionalDropdownEvent)="removeAdditionalDropdown(loaderSettings.SurveyDataSheetName, surveyData.Id)">
+              </pf-survey-loader-tab>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row justify-content-md-end">
+          <div class="col-md-5">
+            <span class="map-additional-Tab"
+                  (click)="addAdditionalDropdown(loaderSettings.SurveyDataSheetName, surveyDataSheetName)"
+                  id="map-data-additional-tab"
+                  [ngbTooltip]="surveyDataSheetName.length === maxTap ? NextBtnToolTips[0] : ''">
+                  Map Additional Tab</span>
+          </div>
+        </div>
+        <div class="form-group row mb-2">
+          <label class="col-md-5 col-form-label">Survey Participation</label>
+          <div class="col-md-7">
+            <div class="form-group row mb-2" *ngFor="let surveyParticipation of surveyParticipationSheetName">
+              <pf-survey-loader-tab
+                [worksheetNames$]="worksheetNames$"
+                [surveySheet]="surveyParticipation"
+                (updateSurveySheetNameEvent)="updateSurveyParticipationSheetName($event, surveyParticipation.Id)"
+                (removeAdditionalDropdownEvent)="removeAdditionalDropdown(loaderSettings.SurveyParticipationSheetName, surveyParticipation.Id)">
+              </pf-survey-loader-tab>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row justify-content-md-end">
+          <div class="col-md-5">
+            <span class="map-additional-Tab"
+                  (click)="addAdditionalDropdown(loaderSettings.SurveyParticipationSheetName, surveyParticipationSheetName)"
+                  id="map-participation-additional-tab"
+                  [ngbTooltip]="surveyParticipationSheetName.length === maxTap ? NextBtnToolTips[0] : ''">
+                  Map Additional Tab</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex justify-content-end upload-pricings-footer">
+      <div *ngFor="let error of duplicateSheetNamesErrors">
+        <span *ngIf="isDuplicateSheetName"
+              class="error-message text-danger pr-3">
+          {{error}}
+        </span>
+      </div>
+      <div class="mr-3 pt-1">
+        <div class="d-flex validation-only">
+          <input type="checkbox"
+                 class="k-checkbox"
+                 id="validationOnlyCkeckbox"
+                 [checked]="validationOnly"
+                 (change)="updateValidationOnly()">
+          <label class="k-checkbox-label"
+                 for="validationOnlyCkeckbox"></label>
+          <div class="k-checkbox-title">Validation Only</div>
+        </div>
+      </div>
+      <button type="button"
+              class="btn pf-primary-btn"
+              [disabled]="processDisabled"
+              (click)="onProcessClicked()">
+        Process
+      </button>
+    </div>
+  </div>
+</div>

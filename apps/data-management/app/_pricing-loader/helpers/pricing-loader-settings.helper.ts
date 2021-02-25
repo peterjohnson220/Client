@@ -1,4 +1,4 @@
-import { ConfigurationGroup, LoaderSetting, LoaderSettingKeyName, SavePricingLoaderConfigRequest } from 'libs/models';
+import { ConfigurationGroup, LoaderSetting, LoaderSettingKeyName, SaveLoaderConfigRequest } from 'libs/models';
 import { LoaderFileFormat } from 'libs/features/loaders/org-data-loader/constants';
 
 import { PricingLoaderSetting, MRPFieldConfig } from '../models';
@@ -86,7 +86,7 @@ export class PricingLoaderSettingsHelper {
   static buildSaveConfigRequest(
     configGroup: ConfigurationGroup,
     fileUploadSettings: LoaderSetting[],
-    defaultSettings: PricingLoaderSetting[]): SavePricingLoaderConfigRequest {
+    defaultSettings: PricingLoaderSetting[]): SaveLoaderConfigRequest {
     const filteredfFileUploadSettings: LoaderSetting[] = fileUploadSettings.filter(x => !!x.KeyValue);
     const mappedLoaderSettings: LoaderSetting[] = this.mapPricingLoaderSettingsToLoaderSettings(defaultSettings);
     return {
