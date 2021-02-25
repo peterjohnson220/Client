@@ -41,6 +41,10 @@
             <kendo-grid-column field="ViewName" title="View Name">
               <ng-template kendoGridCellTemplate let-dataItem>
                 {{dataItem.ViewName}}
+                <fa-icon *ngIf="dataItem.ViewName === 'Default'"
+                  icon="exclamation-circle"  placement="right" ngbTooltip="Default view controls the content viewable and exported in other areas of the product, such as in the Jobs tile, Peer tile, and Pricing Projects"
+                  container="body">
+                </fa-icon>                
                 <fa-icon *ngIf="dataItem.ViewName === 'Export'"
                   icon="exclamation-circle"  placement="right" ngbTooltip="Previously Export Settings in Templates"
                   container="body">
