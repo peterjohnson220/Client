@@ -1,7 +1,8 @@
 <div class="pt-3" *ngIf="modalOpen" [formGroup]="modelSettingsForm">
-  <ngb-tabset [destroyOnHide]="false" [activeId]="activeTab" (tabChange)="activeTab = $event.nextId">
-    <ngb-tab [title]="modelTabTitle" id="modelTab" >
-      <ng-template ngbTabContent>
+  <ul ngbNav #nav="ngbNav" class="nav-tabs" [destroyOnHide]="false" [activeId]="activeTab">
+    <li ngbNavItem id="modelTab" >
+      <a ngbNavLink>{{modelTabTitle}}</a>
+      <ng-template ngbNavContent>
         <div class="p-3 pr-5">
           <div class="form-group">
             <label for="model-name">Model Name</label>
@@ -81,14 +82,16 @@
         </div>
 
       </ng-template>
-    </ngb-tab>
-    <ngb-tab title="Rounding" id="roundingTab">
-      <ng-template ngbTabContent>
+    </li>
+    <li ngbNavItem id="roundingTab">
+      <a ngbNavLink>Rounding</a>
+      <ng-template ngbNavContent>
         <pf-range-rounding></pf-range-rounding>
       </ng-template>
-    </ngb-tab>
-    <ngb-tab title="Advanced Modeling" id="advancedModelingTab">
-      <ng-template ngbTabContent>
+    </li>
+    <li ngbNavItem id="advancedModelingTab">
+      <a ngbNavLink>Advanced Modeling</a>
+      <ng-template ngbNavContent>
         <pf-advanced-model-setting
           formControlName="RangeAdvancedSetting"
           [metadata]="metadata"
@@ -96,6 +99,7 @@
           [rangeGroupId]="rangeGroupId">
         </pf-advanced-model-setting>
       </ng-template>
-    </ngb-tab>
-  </ngb-tabset>
+    </li>
+  </ul>
+  <div [ngbNavOutlet]="nav"></div>
 </div>

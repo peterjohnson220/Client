@@ -3,7 +3,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 
 import * as fromRootState from 'libs/state/state';
 import { MissingMarketDataTypes } from 'libs/constants/structures/missing-market-data-type';
@@ -34,6 +34,7 @@ describe('ModelSettingsModalContentComponent', () => {
         RangeDistributionSettingComponent,
         AdvancedModelSettingComponent],
       imports: [
+        NgbNavModule,
         StoreModule.forRoot({
           ...fromRootState.reducers,
           structures_jobBasedRange_shared: combineReducers(fromJobBasedSharedReducer.reducers),

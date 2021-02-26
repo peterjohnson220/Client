@@ -1,20 +1,21 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
-
-import {NgbTabset} from '@ng-bootstrap/ng-bootstrap';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 
 @Component({
   selector: 'pf-field-selection-card',
   templateUrl: './field-selection-card.component.html',
   styleUrls: ['./field-selection-card.component.scss']
 })
-export class FieldSelectionCardComponent implements OnInit {
+export class FieldSelectionCardComponent implements OnChanges{
   @Input() selectedEntities: string[];
   @Input() sourceName: string;
   @Input() targetName: string;
-  @ViewChild(NgbTabset, { static: true }) tabSet: NgbTabset;
+  activeId: string;
 
   constructor() { }
 
-  ngOnInit(): void {
+  ngOnChanges(changes: SimpleChanges): void {
+    if (!!changes.selectedEntities && !!this.selectedEntities && !!this.selectedEntities[0]) {
+      this.activeId = this.selectedEntities[0].toLowerCase();
+    }
   }
 }
