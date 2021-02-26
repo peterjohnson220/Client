@@ -1,8 +1,7 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
-import {select, Store} from '@ngrx/store';
-import {Observable} from 'rxjs';
-import {NgbTabset} from '@ng-bootstrap/ng-bootstrap';
+import { select, Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 
 import { StatementListViewModel } from 'libs/features/total-rewards/total-rewards-statement/models';
 
@@ -29,9 +28,6 @@ export class StatementListPageComponent implements OnInit {
   deletingStatementSuccess$: Observable<boolean>;
   deletingStatementError$: Observable<boolean>;
   openActionMenuStatement$: Observable<StatementListViewModel>;
-
-  @ViewChild('tabs')
-  tabs: NgbTabset;
 
   constructor(private store: Store<fromStatementListReducers.State>) { }
 
@@ -61,7 +57,8 @@ export class StatementListPageComponent implements OnInit {
   }
 
   onCreateNewClicked(): void {
-    this.tabs.select('Templates');
+    this.store.dispatch(new fromStatementListPageActions.SetTab('Templates'));
+
   }
 
   onTemplateSelected(templateId: string) {
