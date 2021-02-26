@@ -21,8 +21,6 @@ import * as fromPricingProjectReducer from '../reducers';
 export class PricingProjectPageComponent implements OnInit, AfterViewInit {
 
   @ViewChild('jobTitle') jobTitle: ElementRef;
-  @ViewChild('jobCode') jobCode: ElementRef;
-  @ViewChild('jobCurrency') jobCurrency: ElementRef;
 
   project$: Observable<any>;
   projectId: number;
@@ -32,10 +30,10 @@ export class PricingProjectPageComponent implements OnInit, AfterViewInit {
   gridConfig: GridConfig;
   defaultSort: SortDescriptor[] = [{
     dir: 'asc',
-    field: 'UserJobListTemp_Job_Title'
+    field: 'vw_ProjectJobPayMarketMetadata_Job_Title'
   }, {
     dir: 'asc',
-    field: 'CompanyPayMarkets_PayMarket'
+    field: 'vw_ProjectJobPayMarketMetadata_PayMarket'
   }];  constructor(private route: ActivatedRoute,
               private store: Store<fromPricingProjectReducer.State>) {
     this.gridConfig = {
@@ -51,14 +49,12 @@ export class PricingProjectPageComponent implements OnInit, AfterViewInit {
     this.filter = [{
       SourceName: 'UserSession_ID',
       Operator: '=',
-      Value: this.projectId
+      Values: [this.projectId]
     }];
   }
   ngAfterViewInit() {
     this.colTemplates = {
-      'Job_Title': { Template: this.jobTitle },
-      'Job_Code': { Template: this.jobCode },
-      'Currency': { Template: this.jobCurrency }
+      'Job_Title': { Template: this.jobTitle }
     };
   }
 
