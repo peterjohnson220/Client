@@ -2,6 +2,7 @@ import { CompanyTilesResponse } from 'libs/models/payfactors-api';
 
 import * as fromCompanySelectorActions from '../actions';
 import { CompanySelectorItem } from '../models';
+import { IsValidCompanyRepository } from '../actions';
 
 export interface State {
   isLoadingCompanies: boolean;
@@ -9,6 +10,7 @@ export interface State {
   companies: CompanySelectorItem[];
   selectedCompany: CompanySelectorItem;
   companyHasBenefits: boolean;
+  isValidCompanyRepository: boolean;
 }
 
 export const initialState: State = {
@@ -16,7 +18,8 @@ export const initialState: State = {
   hasLoadingCompaniesError: false,
   companies: null,
   selectedCompany: null,
-  companyHasBenefits: null
+  companyHasBenefits: null,
+  isValidCompanyRepository: null
 };
 
 export function reducer(state = initialState, action: fromCompanySelectorActions.Actions): State {
@@ -66,6 +69,18 @@ export function reducer(state = initialState, action: fromCompanySelectorActions
         companyHasBenefits: null
       };
     }
+    case fromCompanySelectorActions.IS_VALID_COMPANY_REPOSITORY: {
+      return {
+        ...state,
+        isValidCompanyRepository: null
+      };
+    }
+    case fromCompanySelectorActions.IS_VALID_COMPANY_REPOSITORY_SUCCESS: {
+      return {
+        ...state,
+        isValidCompanyRepository: action.isValidCompanyRepository
+      };
+    }
     default:
       return state;
   }
@@ -76,3 +91,4 @@ export const getHasFetchCompaniesError = (state: State) => state.hasLoadingCompa
 export const getCompanies = (state: State) => state.companies;
 export const getSelectedCompany = (state: State) => state.selectedCompany;
 export const companyHasBenefits = (state: State) => state.companyHasBenefits;
+export const isValidCompanyRepository = (state: State) => state.isValidCompanyRepository;

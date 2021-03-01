@@ -89,6 +89,9 @@ export const getLoadingFieldMappings =
   createSelector(selectOrgDataFieldMappingsState, fromOrgDataFieldMappingsReducer.getLoadingFieldMappings);
 export const getLoadingFieldMappingsError =
   createSelector(selectOrgDataFieldMappingsState, fromOrgDataFieldMappingsReducer.getLoadingFieldMappingsError);
+export const getIsDeleteModalOpen =
+  createSelector(selectOrgDataFieldMappingsState, fromOrgDataFieldMappingsReducer.getIsDeleteModalOpen);
+
 
 export const {
   selectAll: getEmailRecipients
@@ -230,6 +233,13 @@ export const getIsUserNameValid = createSelector(
   selectSftpUserState,
   fromSftpUserReducer.getIsUserNameValid
 );
+
+export const getIsDeleteingSftpCreds =
+  createSelector(selectSftpUserState, fromSftpUserReducer.getIsDeleteingSftpCreds);
+export const getDeleteSftpCredsError =
+  createSelector(selectSftpUserState, fromSftpUserReducer.getDeleteSftpCredsError);
+export const getDeleteSftpCredsSuccess =
+  createSelector(selectSftpUserState, fromSftpUserReducer.getDeleteSftpCredsSuccess);
 
 // Autoloader Configuration
 
