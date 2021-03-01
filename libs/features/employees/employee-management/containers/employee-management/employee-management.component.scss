@@ -42,6 +42,10 @@
 .active {
   background-color: #0883BE;
   border: 1px solid #DDDDDD;
+  &:hover {
+    color: white;
+    font-weight: 500;
+  }
 }
 
 .hidden {
