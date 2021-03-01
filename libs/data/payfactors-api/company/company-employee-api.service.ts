@@ -44,8 +44,8 @@ export class CompanyEmployeeApiService {
       { params: { jobId, paymarketId, employeeId } });
   }
 
-  createEmployee(employee: CompanyEmployee) {
-    return this.payfactorsApiService.post<any>(`${this.endpoint}`, employee);
+  createEmployee(employee: CompanyEmployee): Observable<CompanyEmployee> {
+    return this.payfactorsApiService.post<CompanyEmployee>(`${this.endpoint}`, employee);
   }
 
   get(companyEmployeeId: number): Observable<CompanyEmployee> {
@@ -64,6 +64,10 @@ export class CompanyEmployeeApiService {
   getEmployeeBenefits(companyEmployeeId: number, employeeId: string): Observable<EmployeeBenefit[]> {
     return this.payfactorsApiService.get(`${this.endpoint}/GetEmployeeBenefits`,
       { params: { companyEmployeeId, employeeId } });
+  }
+
+  getNewEmployeeBenefits(): Observable<EmployeeBenefit[]> {
+    return this.payfactorsApiService.get(`${this.endpoint}/GetBenefitsLookup`);
   }
 
   saveEmployeeBenefits(request: SaveEmployeeBenefitsRequest): Observable<any> {

@@ -59,3 +59,5 @@ export const getTotalRewardsStatementId = createSelector(selectEmployeeDataState
 export const getEmployeeBenefitsAsync = createSelector(selectEmployeeBenefitsState, fromEmployeeBenefitsReducer.getEmployeeBenefitsAsync);
 export const getEmployeeBenefitsSaving = createSelector(selectEmployeeBenefitsState, fromEmployeeBenefitsReducer.getSaving);
 export const getEmployeeBenefitsSavingError = createSelector(selectEmployeeBenefitsState, fromEmployeeBenefitsReducer.getSavingError);
+export const getEmployeeBenefitsUpdated = createSelector(selectEmployeeBenefitsState, fromEmployeeBenefitsReducer.getEmployeeBenefitsUpdated);
+export const getEmployeeBenefits = createSelector(selectEmployeeBenefitsState, fromEmployeeBenefitsReducer.getEmployeeBenefits);

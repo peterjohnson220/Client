@@ -5,7 +5,7 @@ import { Observable, Subscription } from 'rxjs';
 import cloneDeep from 'lodash/cloneDeep';
 
 import { AsyncStateObj } from 'libs/models/state';
-import { EmployeeBenefit, SaveEmployeeBenefitsRequest } from 'libs/models/payfactors-api/employees';
+import { EmployeeBenefit } from 'libs/models/payfactors-api/employees';
 import { CompanyEmployee } from 'libs/models/company';
 
 import * as fromEmployeeManagementReducer from '../../reducers';
@@ -70,12 +70,7 @@ export class EmployeeBenefitsComponent implements OnInit, OnDestroy {
     if (!this.hasChanges) {
       return;
     }
-    const request: SaveEmployeeBenefitsRequest = {
-      CompanyEmployeeId: this.companyEmployeeId,
-      EmployeeId: this.employeeId,
-      Benefits: this.employeeBenefits
-    };
-    this.store.dispatch(new fromEmployeeBenefitsActions.SaveEmployeeBenefits(request));
+    this.store.dispatch(new fromEmployeeBenefitsActions.UpdateEmployeeBenefits(this.employeeBenefits));
   }
 }
 
