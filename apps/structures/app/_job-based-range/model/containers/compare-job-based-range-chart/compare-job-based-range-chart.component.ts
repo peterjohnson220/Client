@@ -10,6 +10,7 @@ import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import { RangeGroupMetadata } from 'libs/models/structures';
 import { CompanySettingsEnum } from 'libs/models/company';
 import { SettingsService } from 'libs/state/app-context/services';
+import { RangeDistributionTypeIds } from 'libs/constants/structures/range-distribution-type-ids';
 
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
 import * as fromSharedStructuresReducer from '../../../../shared/reducers';
@@ -24,7 +25,6 @@ import {
 } from '../../data';
 import { GraphHelper } from '../../../shared/helpers/graph.helper';
 import { RangeDistributionDataPointTypeIds } from '../../../../shared/constants/range-distribution-data-point-type-ids';
-import { RangeDistributionTypeIds } from '../../../../shared/constants/range-distribution-type-ids';
 import { SalaryRangeSeries } from '../../../../shared/models/salary-range-series.model';
 import { DataPointSeries } from '../../../../shared/models/data-point-series.model';
 import * as fromCompareJobBasedRangesReducer from '../../reducers';

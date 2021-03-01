@@ -1,7 +1,7 @@
-import { RangeDistributionTypeIds } from '../../../shared/constants/range-distribution-type-ids';
+import { RangeDistributionTypeIds } from 'libs/constants/structures/range-distribution-type-ids';
+
 import { GradeRangeVerticalModelChartSeries } from './grade-range-model-chart-series-constants';
 import { StructuresHighchartsService } from '../../../shared/services';
-
 
 export class GradeRangeModelChartService {
   static getCategoryLabels(distributionType) {

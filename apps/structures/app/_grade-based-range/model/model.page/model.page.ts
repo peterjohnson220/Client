@@ -10,14 +10,16 @@ import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums/pf-theme-typ
 import * as fromAddJobsPageActions from 'libs/features/jobs/add-jobs/actions/add-jobs-page.actions';
 import { PermissionCheckEnum, Permissions } from 'libs/constants';
 import { PermissionService } from 'libs/core/services';
+import { GradeRangeGroupDetails } from 'libs/features/structures/add-jobs-to-range/models';
 
 import * as fromSharedStructuresReducer from '../../../shared/reducers';
+import * as fromGradeBasedSharedReducer from '../../shared/reducers';
 import { StructuresPagesService } from '../../../shared/services';
 import { AddJobsModalWrapperComponent } from '../../../shared/containers/add-jobs-modal-wrapper';
 import { Workflow } from '../../../shared/constants/workflow';
 import { UrlService} from '../../../shared/services';
 import * as fromModelSettingsModalActions from '../../../shared/actions/model-settings-modal.actions';
-
+import * as fromGradeBasedSharedActions from '../../shared/actions/shared.actions';
 
 @Component({
   selector: 'pf-model.page',
@@ -29,6 +31,7 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
   metaData$: Observable<RangeGroupMetadata>;
   metadataSub: Subscription;
+  gradeRangeDetailsSubscription: Subscription;
 
   pageViewIdSubscription: Subscription;
   pageSummaryViewIdSubscription: Subscription;
@@ -39,6 +42,7 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
   pfThemeType = PfThemeType;
   metadata: RangeGroupMetadata;
   hasCanCreateEditModelStructurePermission: boolean;
+  gradeRangeDetails: GradeRangeGroupDetails;
 
   constructor(
     public store: Store<fromSharedStructuresReducer.State>,
@@ -55,6 +59,18 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
     }];
     this.metaData$ = this.store.pipe(select(fromSharedStructuresReducer.getMetadata));
     this.pageViewIdSubscription = this.structuresPagesService.modelPageViewId.subscribe(pv => this.modelGridPageViewId = pv);
+    this.gradeRangeDetailsSubscription = this.store.select(fromGradeBasedSharedReducer.getGradeRangeDetails).subscribe(details => {
+      if (details?.obj && details.obj.length > 0) {
+        const detailsObj = details.obj[0];
+        this.gradeRangeDetails = {
+          Intercept: detailsObj.Intercept,
+          RangeGroupId: this.rangeGroupId,
+          RoundDecimals: 2,
+          Slope: detailsObj.Slope,
+          RangeDistributionTypeId: detailsObj.RangeDistributionType_ID
+        };
+      }
+    });
     this.pageSummaryViewIdSubscription = this.structuresPagesService.modelSummaryViewId.subscribe(pv => this.modelSummaryPageViewId = pv);
     this.hasCanCreateEditModelStructurePermission = this.permissionService.CheckPermission([Permissions.STRUCTURES_CREATE_EDIT_MODEL],
       PermissionCheckEnum.Single);
@@ -89,6 +105,7 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
         this.metadata = md;
       }
     });
+    this.store.dispatch(new fromGradeBasedSharedActions.GetGradeRangeDetails(this.rangeGroupId));
   }
 
   ngAfterViewInit(): void {
@@ -105,5 +122,6 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
     this.pageViewIdSubscription.unsubscribe();
     this.pageSummaryViewIdSubscription.unsubscribe();
     this.metadataSub.unsubscribe();
+    this.gradeRangeDetailsSubscription.unsubscribe();
   }
 }

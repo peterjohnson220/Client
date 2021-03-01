@@ -9,6 +9,7 @@ import { getUserLocale } from 'get-user-locale';
 import { JobBasedPageViewIds, RangeGroupMetadata } from 'libs/models/structures';
 import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import { appendOrdinalSuffix } from 'libs/core/functions';
+import { RangeDistributionTypeIds } from 'libs/constants/structures/range-distribution-type-ids';
 
 import * as fromSharedStructuresReducer from '../../../../shared/reducers';
 import { StructuresHighchartsService } from '../../../../shared/services/structures-highcharts-service';
@@ -17,7 +18,6 @@ import { PricingMatchHelper } from '../../helpers';
 import { GraphHelper } from '../../../shared/helpers/graph.helper';
 import { SalaryRangeSeries } from '../../../../shared/models/salary-range-series.model';
 import { DataPointSeries } from '../../../../shared/models/data-point-series.model';
-import { RangeDistributionTypeIds } from '../../../../shared/constants/range-distribution-type-ids';
 import { RangeDistributionDataPointTypeIds } from '../../../../shared/constants/range-distribution-data-point-type-ids';
 import { StructuresPagesService } from '../../../../shared/services';
 

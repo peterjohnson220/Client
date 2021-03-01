@@ -11,10 +11,10 @@ import * as fromPaymarketActions from 'libs/features/jobs/add-jobs/actions/payma
 import * as fromCompanySettingsActions from 'libs/state/app-context/actions/company-settings.actions';
 import * as fromAddJobsSearchResultsActions from 'libs/features/jobs/add-jobs/actions/search-results.actions';
 import * as fromSearchPageActions from 'libs/features/search/search/actions/search-page.actions';
+import { GradeRangeGroupDetails } from 'libs/features/structures/add-jobs-to-range/models';
 import { RangeType } from 'libs/constants/structures/range-type';
 
 import { StructuresSearchFilterMappingDataObj, StructuresJobSearchUserFilterType, staticFilters } from '../../data';
-
 
 @Component({
   selector: 'pf-add-jobs-modal-wrapper',
@@ -24,6 +24,8 @@ import { StructuresSearchFilterMappingDataObj, StructuresJobSearchUserFilterType
 export class AddJobsModalWrapperComponent extends SearchBaseDirective implements OnInit {
   @Input() rangeTypeId: number;
   @Input() controlPoint: string;
+  @Input() rate: string;
+  @Input() gradeRangeGroupDetails: GradeRangeGroupDetails;
   // Observables
   pageShown$: Observable<boolean>;
 

@@ -7,6 +7,7 @@ import * as fromSearchReducer from 'libs/features/search/search/reducers';
 import { JobResult } from 'libs/features/jobs/add-jobs/models';
 import * as fromSearchResultsActions from 'libs/features/jobs/add-jobs/actions/search-results.actions';
 import * as fromAddJobsReducer from 'libs/features/jobs/add-jobs/reducers';
+import { GradeRangeGroupDetails } from '../../models';
 
 @Component({
   selector: 'pf-structures-jobs-search-results',
@@ -21,6 +22,8 @@ export class StructuresSearchResultsComponent {
   @Input() showJobSourceOrTitle = true;
   @Input() isJobRange: boolean;
   @Input() controlPoint: string;
+  @Input() rate: string;
+  @Input() gradeRangeGroupDetails: GradeRangeGroupDetails;
 
   jobResults$: Observable<JobResult[]>;
   loadingResults$: Observable<boolean>;
