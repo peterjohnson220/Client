@@ -69,10 +69,19 @@ export class ModelSettingsModalContentComponent implements OnInit, OnDestroy {
   }
 
   handlePayTypeFilterChange(value: string) {
-    this.controlPoints = this.controlPoints.filter(cp => {
-      return cp.Display.toLowerCase().startsWith(value.toLowerCase()) ||
-        cp.Category.toLowerCase().startsWith(value.toLowerCase());
-    });
+    if (!!value) {
+      const controlPointsResults = this.controlPointsAsyncObj.obj.filter((ctrlPt, i, arr) => {
+        return arr.indexOf(arr.find(t => t.Category === ctrlPt.Category && t.RangeDisplayName === 'MRP')) === i;
+      });
+      this.controlPoints = controlPointsResults.filter(cp => {
+        return cp.Display.toLowerCase().startsWith(value.toLowerCase()) ||
+          cp.Category.toLowerCase().startsWith(value.toLowerCase());
+      });
+    } else {
+      this.controlPoints = this.controlPointsAsyncObj.obj.filter((ctrlPt, i, arr) => {
+        return arr.indexOf(arr.find(t => t.Category === ctrlPt.Category && t.RangeDisplayName === 'MRP')) === i;
+      });
+    }
   }
 
   handlePayTypeSelectionChange() {
