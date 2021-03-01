@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
@@ -9,6 +9,7 @@ import { DataViewFilter } from 'libs/models/payfactors-api/reports/request';
 import * as fromRootReducer from 'libs/state/state';
 import * as fromBasicDataGridReducer from 'libs/features/grids/basic-data-grid/reducers';
 import * as fromBasicDataGridActions from 'libs/features/grids/basic-data-grid/actions/basic-data-grid.actions';
+import * as fromLayoutWrapperReducer from 'libs/ui/layout-wrapper/reducers';
 
 import * as fromComphubPageActions from '../../../actions/comphub-page.actions';
 import * as fromComphubMainReducer from '../../../reducers';
@@ -38,6 +39,7 @@ export class ComphubPageComponent implements OnInit, OnDestroy {
   userContext$: Observable<UserContext>;
   historyGridInitialized$: Observable<boolean>;
   showJobsHistorySummary$: Observable<boolean>;
+  leftSidebarOpen$: Observable<boolean>;
 
   private enabledPagesSub: Subscription;
   private cardsSub: Subscription;
@@ -45,19 +47,24 @@ export class ComphubPageComponent implements OnInit, OnDestroy {
   private userContextSub: Subscription;
   private historyGridInitializedSubscription: Subscription;
   private showJobHistorySummarySubscription: Subscription;
+  private leftSidebarOpenSubscription: Subscription;
 
   workflowContext: WorkflowContext;
   systemUserGroupNames = SystemUserGroupNames;
   summaryCard: AccordionCard;
   showJobHistorySummary: boolean;
+  isLeftSidebarOpened: boolean;
 
   private numberOfCardHeaders: number;
   private readonly cardHeaderWidth = 60;
-  private readonly sideBarWidth = 56;
+  private readonly sideBarClosedWidth = 56;
+  private readonly sideBarOpenedWidth = 200;
 
   constructor(
     private store: Store<fromComphubMainReducer.State>,
-    private basicGridStore: Store<fromBasicDataGridReducer.State>
+    private basicGridStore: Store<fromBasicDataGridReducer.State>,
+    private layoutWrapperStore: Store<fromLayoutWrapperReducer.State>,
+    private changeDetectorRef: ChangeDetectorRef
   ) {
     this.cards$ = this.store.select(fromComphubMainReducer.getCards);
     this.enabledPages$ = this.store.select(fromComphubMainReducer.getEnabledPages);
@@ -66,6 +73,7 @@ export class ComphubPageComponent implements OnInit, OnDestroy {
     this.userContext$ = this.store.select(fromRootReducer.getUserContext);
     this.showJobsHistorySummary$ = this.store.select(fromComphubMainReducer.getShowJobPricedHistorySummary);
     this.historyGridInitialized$ = this.store.select(fromBasicDataGridReducer.getIsInitialized, QuickPriceHistoryContext.gridId);
+    this.leftSidebarOpen$ = this.layoutWrapperStore.select(fromLayoutWrapperReducer.getLeftSidebarOpen);
   }
 
   @HostListener('window:resize', ['$event'])
@@ -114,6 +122,11 @@ export class ComphubPageComponent implements OnInit, OnDestroy {
     this.showJobHistorySummarySubscription = this.showJobsHistorySummary$.subscribe(x => {
       this.showJobHistorySummary = x;
     });
+    this.leftSidebarOpenSubscription = this.leftSidebarOpen$.subscribe(isOpen => {
+      this.isLeftSidebarOpened = isOpen;
+      this.onResize();
+      this.changeDetectorRef.detectChanges();
+    });
 
     this.store.dispatch(new fromComphubPageActions.Init());
   }
@@ -125,6 +138,7 @@ export class ComphubPageComponent implements OnInit, OnDestroy {
     this.userContextSub.unsubscribe();
     this.historyGridInitializedSubscription.unsubscribe();
     this.showJobHistorySummarySubscription.unsubscribe();
+    this.leftSidebarOpenSubscription.unsubscribe();
   }
 
   trackById(index: number, card: AccordionCard) {
@@ -142,8 +156,9 @@ export class ComphubPageComponent implements OnInit, OnDestroy {
     if (wrapperElement === undefined || wrapperElement[0] === undefined) {
       return;
     }
-    this.historySummaryCardContainerWidth = wrapperElement[0].clientWidth - this.sideBarWidth;
-    this.cardContentContainerWidth = wrapperElement[0].clientWidth - this.sideBarWidth -
+    const sidebarWidth = this.isLeftSidebarOpened ? this.sideBarOpenedWidth : this.sideBarClosedWidth;
+    this.historySummaryCardContainerWidth = wrapperElement[0].clientWidth - sidebarWidth;
+    this.cardContentContainerWidth = wrapperElement[0].clientWidth - sidebarWidth -
       (this.cardHeaderWidth * this.numberOfCardHeaders) -
       (this.cardHeaderMargin * (this.numberOfCardHeaders - 1));
   }
