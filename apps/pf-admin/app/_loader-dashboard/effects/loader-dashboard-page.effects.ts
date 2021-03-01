@@ -1,17 +1,15 @@
-import {Injectable} from '@angular/core';
-
-import {Actions, Effect, ofType} from '@ngrx/effects';
-import {Action, select, Store} from '@ngrx/store';
-import {Observable, of} from 'rxjs';
-import {catchError, map, switchMap, withLatestFrom} from 'rxjs/operators';
-
+import { Injectable } from '@angular/core';
+import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Action, select, Store } from '@ngrx/store';
+import { Observable, of } from 'rxjs';
+import { catchError, map, switchMap, withLatestFrom } from 'rxjs/operators';
 import * as fromRootState from 'libs/state/state';
 import { IntegrationApiService } from 'libs/data/payfactors-api/integration';
 import { CompanyFilePackagesResponse, CompositeDataLoadViewResponse, PagedResponse } from 'libs/models/';
-
 import * as fromLoaderDashboardPageActions from '../actions/loader-dashboard-page.actions';
-import {LoaderDashboardModelMappers} from '../helpers';
 import * as fromLoaderDashboardReducer from '../reducers';
+import { LoaderDashboardModelMappers } from '../helpers';
+import { UpdatedArchiveSummaryResponse } from '../models';
 
 @Injectable()
 export class LoaderDashboardPageEffects {
@@ -129,6 +127,71 @@ export class LoaderDashboardPageEffects {
         ];
       })
     );
+
+  @Effect()
+  getArchiveData$: Observable<Action> = this.actions$
+    .pipe(
+      ofType<fromLoaderDashboardPageActions.GetArchiveData>(fromLoaderDashboardPageActions.GET_ARCHIVE_DATA),
+      withLatestFrom(
+        this.store.pipe(select(fromRootState.getUserContext)),
+        (action, userContext) => {
+          return { action, userContext };
+        }),
+      switchMap(obj => {
+        return this.integrationApiService.GetArchiveData(obj.action.payload.file, obj.userContext).pipe(
+          map((response: string) => {
+            const parsedResponse = Object.assign(new UpdatedArchiveSummaryResponse(), JSON.parse(response));
+            const mappedResponse = LoaderDashboardModelMappers.mapUpdatedArchiveSummary(parsedResponse);
+            return new fromLoaderDashboardPageActions.GetArchiveDataSuccess(mappedResponse);
+          }),
+          catchError((error) => of(new fromLoaderDashboardPageActions.GetArchiveDataError(error.error)))
+        );
+      })
+    );
+
+  @Effect()
+  redropArchive$: Observable<Action> = this.actions$
+    .pipe(
+      ofType<fromLoaderDashboardPageActions.RedropArchive>(fromLoaderDashboardPageActions.REDROP_ARCHIVE),
+      withLatestFrom(
+        this.store.pipe(select(fromRootState.getUserContext)),
+        (action, userContext) => {
+          return { action, userContext };
+        }),
+      switchMap(obj => {
+        return this.integrationApiService.RedropArchive(obj.action.payload.file, obj.action.payload.compositeDataLoadId, obj.userContext).pipe(
+          map(() => new fromLoaderDashboardPageActions.RedropArchiveSuccess()),
+          catchError((e) => of(new fromLoaderDashboardPageActions.RedropArchiveError()))
+        );
+      })
+    );
+
+  @Effect()
+  redropArchiveSuccess$: Observable<Action> = this.actions$
+    .pipe(
+      ofType<fromLoaderDashboardPageActions.RedropArchiveSuccess>(fromLoaderDashboardPageActions.REDROP_ARCHIVE_SUCCESS),
+      switchMap(() => {
+        return [
+          new fromLoaderDashboardPageActions.DismissRedropConfirmationModal(),
+          new fromLoaderDashboardPageActions.ClearArchiveData()
+        ];
+      })
+    );
+
+  @Effect()
+  downloadOrgData$: Observable<Action> = this.actions$.pipe(
+    ofType(fromLoaderDashboardPageActions.PUBLISH_DOWNLOAD_ORGANIZATIONAL_DATA),
+    switchMap((action: fromLoaderDashboardPageActions.PublishDownloadOrgDataMessage) =>
+      this.integrationApiService.downloadOrganizationalData(action.companyId).pipe(
+        map(() => {
+          return new fromLoaderDashboardPageActions.PublishDownloadOrgDataMessageSuccess(true);
+        }),
+        // API exceptions are handled via the API and send failure toast notifications so this
+        // should not be necessary, leaving for completeness if something needs it in the future
+        catchError(error => of(new fromLoaderDashboardPageActions.PublishDownloadOrgDataMessageError()))
+      )
+    )
+  );
 
   constructor(
     private actions$: Actions,
