@@ -5,6 +5,7 @@ import { SidebarLink } from '../../../models';
 export const GET_LEFT_SIDEBAR_NAVIGATION_LINKS = '[Layout Wrapper/Left Sidebar] Get Left Sidebar Navigation Links';
 export const GET_LEFT_SIDEBAR_NAVIGATION_LINKS_SUCCESS = '[Layout Wrapper/Left Sidebar] Get Left Sidebar Navigation Links Success';
 export const GET_LEFT_SIDEBAR_NAVIGATION_LINKS_ERROR = '[Layout Wrapper/Left Sidebar] Get Left Sidebar Navigation Links Error';
+export const TOGGLE_LEFT_SIDEBAR = '[Layout Wrapper/Left Sidebar] Toggle Left Sidebar';
 
 export class GetLeftSidebarNavigationLinks implements Action {
   readonly type = GET_LEFT_SIDEBAR_NAVIGATION_LINKS;
@@ -24,7 +25,13 @@ export class GetLeftSidebarNavigationLinksError implements Action {
   constructor() {}
 }
 
+export class ToggleLeftSidebar implements Action {
+  readonly type = TOGGLE_LEFT_SIDEBAR;
+  constructor(public payload: boolean) {}
+}
+
 export type Actions =
   | GetLeftSidebarNavigationLinks
   | GetLeftSidebarNavigationLinksSuccess
-  | GetLeftSidebarNavigationLinksError;
+  | GetLeftSidebarNavigationLinksError
+  | ToggleLeftSidebar;

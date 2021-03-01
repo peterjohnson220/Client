@@ -49,6 +49,7 @@ export class LeftSidebarComponent implements OnInit, OnDestroy {
         }
       }
     );
+    this.dispatchToggleLeftSideBarAction();
   }
 
   ngOnDestroy() {
@@ -92,5 +93,10 @@ export class LeftSidebarComponent implements OnInit, OnDestroy {
     } else {
       localStorage.setItem('leftSideBarToggleStatus', 'false');
     }
+    this.dispatchToggleLeftSideBarAction();
+  }
+
+  private dispatchToggleLeftSideBarAction(): void {
+    this.store.dispatch(new fromLeftSidebarActions.ToggleLeftSidebar(this.leftSidebarToggle));
   }
 }
