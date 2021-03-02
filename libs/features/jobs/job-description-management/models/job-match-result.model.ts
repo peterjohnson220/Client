@@ -2,7 +2,7 @@ export interface JobMatchResult {
   JobCode: string;
   EffectiveDate: string;
   Id: number;
-  IsSurvey: boolean;
+  JobType: number;
   WeightedScore: number;
   JobTitle: string;
   SurveyId: number;

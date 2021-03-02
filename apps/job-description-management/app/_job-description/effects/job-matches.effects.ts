@@ -48,10 +48,10 @@ export class JobMatchesEffects {
       ),
       switchMap((data) => {
         const surveyJobIds = data.jobMatchesAsync.obj
-          .filter(x => x.Selected === true && x.IsSurvey === true)
+          .filter(x => x.Selected === true && x.JobType === 0)
           .map(x => x.Id);
         const payfactorsJobIds = data.jobMatchesAsync.obj
-          .filter(x => x.Selected === true && x.IsSurvey === false)
+          .filter(x => x.Selected === true && x.JobType === 1)
           .map(x => x.Id);
         return this.jobDescriptionApiService.createProjectFromMatches(data.action.payload.jobDescriptionId, surveyJobIds, payfactorsJobIds)
           .pipe(
