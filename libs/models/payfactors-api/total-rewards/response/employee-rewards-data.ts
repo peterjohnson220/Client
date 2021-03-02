@@ -173,5 +173,15 @@ export function generateMockBenefitsData(): Dictionary<BenefitsData> {
     EmployerValue: 500,
     CompanyEmployeeValue: 0
   };
+
+  benefitData['Annual_Bonus_Potential'] = {
+    EmployeeId: '12345',
+    FieldName: 'Annual_Bonus_Potential',
+    Category: 'CashCompensation',
+    DisplayName: 'Annual Bonus Potential',
+    EmployerValue: 5000,
+    CompanyEmployeeValue: 0
+  };
+
   return benefitData;
 }
