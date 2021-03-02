@@ -343,6 +343,8 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
       'RangeDistributionSetting': new FormControl(this.metaData.RangeDistributionSetting),
       'RangeAdvancedSetting': new FormControl(this.metaData.RangeAdvancedSetting)
     });
+
+    this.store.dispatch(new fromModelSettingsModalActions.SetActiveTab('modelTab'));
   }
 
   // Lifecycle

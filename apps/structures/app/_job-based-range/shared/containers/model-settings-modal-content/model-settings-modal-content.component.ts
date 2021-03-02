@@ -30,6 +30,7 @@ export class ModelSettingsModalContentComponent implements OnInit, OnDestroy {
   @Input() rangeGroupId: number;
   @Input() pageViewId: string;
   @Input() modalOpen: boolean;
+  @Input() isNewModel: boolean;
   @Input() modelSettingsForm: FormGroup;
   @Input() selectedExchange: SelectedPeerExchangeModel;
   @ViewChild(RangeDistributionSettingComponent, { static: false }) public rangeDistributionSettingComponent: RangeDistributionSettingComponent;
@@ -43,6 +44,7 @@ export class ModelSettingsModalContentComponent implements OnInit, OnDestroy {
   savingModelSettingsAsyncObj$: Observable<AsyncStateObj<null>>;
   modelNameExistsFailure$: Observable<boolean>;
   roundingSettings$: Observable<RoundingSettingsDataObj>;
+  activeTab$: Observable<string>;
 
   controlPointsAsyncObjSub: Subscription;
   surveyUdfsAsyncObjSub: Subscription;
@@ -51,6 +53,7 @@ export class ModelSettingsModalContentComponent implements OnInit, OnDestroy {
   modelNameExistsFailureSub: Subscription;
   roundingSettingsSub: Subscription;
   allFormulasSub: Subscription;
+  activeTabSub: Subscription;
 
   controlPointsAsyncObj: AsyncStateObj<ControlPoint[]>;
   surveyUdfsAsyncObj: AsyncStateObj<ControlPoint[]>;
@@ -60,7 +63,6 @@ export class ModelSettingsModalContentComponent implements OnInit, OnDestroy {
   metadata: RangeGroupMetadata;
   attemptedSubmit: boolean;
   modelNameExistsFailure: boolean;
-  isNewModel: boolean;
   roundingSettings: RoundingSettingsDataObj;
   activeTab: string;
   modelSetting: RangeGroupMetadata;
@@ -94,6 +96,7 @@ export class ModelSettingsModalContentComponent implements OnInit, OnDestroy {
     this.peerExchangeToolTipInfo = ModelSettingsModalConstants.PEER_EXCHANGE_TOOL_TIP;
     this.allFormulasSub = this.store.pipe(select(fromSharedStructuresReducer.getAllFields)).subscribe(af => this.allFormulas = af);
     this.exchanges$ = this.store.pipe(select(fromSharedStructuresReducer.getCompanyExchanges));
+    this.activeTab$ = this.store.pipe(select(fromSharedStructuresReducer.getActiveTab));
     this.hasAcceptedPeerTermsSub = this.settingsService.selectCompanySetting<boolean>(
       CompanySettingsEnum.PeerTermsAndConditionsAccepted
     ).subscribe(x => this.hasAcceptedPeerTerms = x);
@@ -151,9 +154,10 @@ export class ModelSettingsModalContentComponent implements OnInit, OnDestroy {
 
   handleModalSubmitAttempt() {
     this.attemptedSubmit = true;
+    let tab = this.activeTab;
 
     if (this.formulasInvalidForSubmission()) {
-      this.activeTab = 'modelTab';
+      tab = 'modelTab';
       return false;
     }
 
@@ -165,11 +169,13 @@ export class ModelSettingsModalContentComponent implements OnInit, OnDestroy {
 
     if (!this.modelSettingsForm.valid) {
       if (!this.modelSettingsForm.controls['RangeAdvancedSetting'].valid) {
-        this.activeTab = 'advancedModelingTab';
+        tab = 'advancedModelingTab';
       } else {
-        this.activeTab = 'modelTab';
+        tab = 'modelTab';
       }
     }
+
+    this.store.dispatch(new fromModelSettingsModalActions.SetActiveTab(tab));
   }
 
   updateRangeDistributionSetting() {
@@ -263,6 +269,12 @@ export class ModelSettingsModalContentComponent implements OnInit, OnDestroy {
   }
 
   private subscribe() {
+    this.activeTabSub = this.activeTab$.subscribe(tab => {
+      if (tab) {
+        this.activeTab = tab;
+      }
+    });
+
     this.controlPointsAsyncObjSub = this.controlPointsAsyncObj$.subscribe(cp => {
       this.controlPointsAsyncObj = cp;
       this.controlPoints = cp.obj.filter((ctrlPt, i, arr) => {
@@ -308,6 +320,7 @@ export class ModelSettingsModalContentComponent implements OnInit, OnDestroy {
     this.exchangeSub.unsubscribe();
     this.hasAcceptedPeerTermsSub.unsubscribe();
     this.surveyUdfsAsyncObjSub.unsubscribe();
+    this.activeTabSub.unsubscribe();
   }
 
   private reset() {

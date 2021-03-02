@@ -1,6 +1,6 @@
 <div class="pt-3" *ngIf="modalOpen" [formGroup]="modelSettingsForm">
-  <ul ngbNav #nav="ngbNav" class="nav-tabs" [destroyOnHide]="false" [activeId]="activeTab">
-    <li ngbNavItem id="modelTab" >
+  <ul ngbNav #nav="ngbNav" class="nav-tabs" [destroyOnHide]="false" [(activeId)]="activeTab">
+    <li [ngbNavItem]="'modelTab'" id="modelTab" >
       <a ngbNavLink>{{modelTabTitle}}</a>
       <ng-template ngbNavContent>
         <div class="p-3 pr-5">
@@ -83,13 +83,13 @@
 
       </ng-template>
     </li>
-    <li ngbNavItem id="roundingTab">
+    <li [ngbNavItem]="'roundingTab'" id="roundingTab">
       <a ngbNavLink>Rounding</a>
       <ng-template ngbNavContent>
         <pf-range-rounding></pf-range-rounding>
       </ng-template>
     </li>
-    <li ngbNavItem id="advancedModelingTab">
+    <li [ngbNavItem]="'advancedModelingTab'" id="advancedModelingTab">
       <a ngbNavLink>Advanced Modeling</a>
       <ng-template ngbNavContent>
         <pf-advanced-model-setting
