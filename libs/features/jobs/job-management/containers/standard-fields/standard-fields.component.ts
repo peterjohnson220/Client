@@ -11,7 +11,8 @@ import * as fromJobManagementActions from '../../actions';
 import * as fromJobManagementReducer from '../../reducers';
 
 import { PfValidators, JobDescriptionSummaryEditorComponent } from 'libs/forms';
-import { JobDescriptionSummary } from 'libs/models';
+import { CompanySettingsEnum, JobDescriptionSummary } from 'libs/models';
+import { SettingsService } from 'libs/state/app-context/services';
 
 @Component({
   selector: 'pf-standard-fields',
@@ -23,6 +24,7 @@ export class StandardFieldsComponent implements OnInit, OnDestroy {
 
   @ViewChild('jobDescriptionEditor', { static: true }) jobDescriptionEditor: JobDescriptionSummaryEditorComponent;
 
+  enableFileDownloadSecurityWarning$: Observable<boolean>;
   duplicateJobCodeError$: Observable<boolean>;
   jobFamilies$: Observable<string[]>;
   jobFlsaStatuses$: Observable<string[]>;
@@ -53,9 +55,11 @@ export class StandardFieldsComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store<fromJobManagementReducer.State>,
     private formBuilder: FormBuilder,
-    private actionsSubject: ActionsSubject) { }
+    private actionsSubject: ActionsSubject,
+    private settingsService: SettingsService) { }
 
   ngOnInit() {
+    this.enableFileDownloadSecurityWarning$ = this.settingsService.selectCompanySetting<boolean>(CompanySettingsEnum.FileDownloadSecurityWarning);
     this.duplicateJobCodeError$ = this.store.select(fromJobManagementReducer.getDuplicateJobCodeError);
     this.jobFamilies$ = this.store.select(fromJobManagementReducer.getJobFamilies);
     this.jobFlsaStatuses$ = this.store.select(fromJobManagementReducer.getCompanyFlsaStatuses);

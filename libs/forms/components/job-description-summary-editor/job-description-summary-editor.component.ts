@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 
 import { Permissions } from 'libs/constants';
 import { JobDescriptionSummary } from 'libs/models';
+import { FileDownloadSecurityWarningModalComponent } from 'libs/ui/common';
 
 import { PfValidators } from '../../validators';
 import { PfThemeType } from '../../../features/grids/pf-data-grid/enums/pf-theme-type.enum';
@@ -15,7 +16,6 @@ import { PfThemeType } from '../../../features/grids/pf-data-grid/enums/pf-theme
   styleUrls: ['./job-description-summary-editor.component.scss']
 })
 export class JobDescriptionSummaryEditorComponent implements OnInit, OnDestroy, OnChanges {
-
   @Input() title = 'Job Description';
   @Input() actionIconSize = 'lg';
   @Input() errorMessageClass = 'invalid-feedback';
@@ -25,9 +25,11 @@ export class JobDescriptionSummaryEditorComponent implements OnInit, OnDestroy, 
   @Input() isJdmEnabled = true;
   @Input() theme = PfThemeType.Default;
   @Input() textareaPlaceholder = 'There is no Job Description loaded for this Job.';
+  @Input() enableFileDownloadSecurityWarning: boolean;
 
   @Output() jobDescriptionChanged: EventEmitter<string> = new EventEmitter<string>();
 
+  @ViewChild('fileDownloadSecurityWarningModal', { static: true }) fileDownloadSecurityWarningModal: FileDownloadSecurityWarningModalComponent;
   @ViewChild('jobDescriptionTextArea') jobDescriptionTextArea: ElementRef;
 
   readonly JOB_SUMMARY_MIN_LENGTH = 10;
@@ -36,6 +38,7 @@ export class JobDescriptionSummaryEditorComponent implements OnInit, OnDestroy, 
 
   formChangesSubscription: Subscription;
 
+  docType: string;
   permissions = Permissions;
 
   // convenience getter for easy access to form fields
@@ -70,13 +73,28 @@ export class JobDescriptionSummaryEditorComponent implements OnInit, OnDestroy, 
     this.formChangesSubscription.unsubscribe();
   }
 
-  exportJobDescription(docType: string) {
+  exportJobDescription() {
     const htmlDocument: any = document;
 
     htmlDocument.exportForm.elements['export-uid'].value = Date.now();
-    htmlDocument.exportForm.elements['export-type'].value = docType;
+    htmlDocument.exportForm.elements['export-type'].value = this.docType;
     htmlDocument.exportForm.elements['viewName'].value = 'Default';
     htmlDocument.exportForm.submit();
+  }
+
+  handleExportJobDescription(docType: string) {
+    this.docType = docType;
+    if (this.enableFileDownloadSecurityWarning) {
+      this.fileDownloadSecurityWarningModal.open();
+    } else {
+      this.exportJobDescription();
+    }
+  }
+
+  handleSecurityWarningConfirmed(isConfirmed) {
+    if (isConfirmed) {
+      this.exportJobDescription();
+    }
   }
 
   isValid(): boolean {
