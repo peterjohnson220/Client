@@ -3,7 +3,6 @@ import { Component, Input, OnDestroy, OnInit, TemplateRef, ViewChild } from '@an
 import { Store } from '@ngrx/store';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { debounceTime, map } from 'rxjs/operators';
-import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 
 import { QuickPriceType, SystemUserGroupNames } from 'libs/constants';
 import { WindowRef } from 'libs/core';
@@ -60,7 +59,6 @@ export class ComphubFooterComponent implements OnInit, OnDestroy {
     private basicGridStore: Store<fromBasicDataGridReducer.State>,
     private exchangeExplorerStore: Store<fromLibsPeerExchangeExplorerReducers.State>,
     public guidelinesService: DojGuidelinesService,
-    private modalService: NgbModal,
     private window: WindowRef
   ) {
     this.workflowContext$ = this.store.select(fromComphubMainReducer.getWorkflowContext);
@@ -145,7 +143,7 @@ export class ComphubFooterComponent implements OnInit, OnDestroy {
     if (this.isPeerQuickPriceType && this.workflowContext.selectedPageId === ComphubPages.Data) {
       return this.failsGuidelines || this.loadingPeerMap;
     } else {
-      return !this.footerContext.NextButtonEnabled;
+      return !this.footerContext?.NextButtonEnabled;
     }
   }
 }
