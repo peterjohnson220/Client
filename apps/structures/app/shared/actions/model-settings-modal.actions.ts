@@ -25,6 +25,7 @@ export const SAVE_MODEL_SETTINGS_ERROR = '[Structures - Job Based Range - Model 
 export const MODEL_NAME_EXISTS_FAILURE = '[Structures - Job Based Range - Model Settings] Model Name Exists Failure';
 export const CLEAR_MODEL_NAME_EXISTS_FAILURE = '[Structures - Job Based Range - Model Settings] Clear Name Exists Failure';
 export const CANCEL = '[Structures - Job Based Range - Model Settings] Cancel';
+export const SET_ACTIVE_TAB = '[Structures - Job Based Range - Model Settings] Set Active Tab';
 
 export class OpenModal implements Action {
   readonly type = OPEN_MODAL;
@@ -118,6 +119,12 @@ export class Cancel implements Action {
   readonly type = CANCEL;
 }
 
+export class SetActiveTab implements Action {
+  readonly type = SET_ACTIVE_TAB;
+
+  constructor(public payload: string) {}
+}
+
 export type ModelSettingsModalActions
   = OpenModal
   | CloseModal
@@ -138,4 +145,5 @@ export type ModelSettingsModalActions
   | Cancel
   | GetSurveyUdfs
   | GetSurveyUdfsSuccess
-  | GetSurveyUdfsError;
+  | GetSurveyUdfsError
+  | SetActiveTab;
