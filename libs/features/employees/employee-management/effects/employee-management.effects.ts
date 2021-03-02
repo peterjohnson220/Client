@@ -11,11 +11,11 @@ import {
   EntityKeysValidationApiService, TotalRewardsApiService
 } from 'libs/data/payfactors-api';
 import { ODataQuery } from 'libs/models/common';
-import * as fromRootState from 'libs/state/state';
 import { EmployeeRewardsDataRequest } from 'libs/models/payfactors-api/total-rewards/request';
 
 import * as fromEmployeeManagementReducer from '../reducers';
-import * as fromEmployeeManagementActions from '../actions';
+import * as fromEmployeeManagementActions from '../actions/employee-management.actions';
+import * as fromEmployeeBenefitsActions from '../actions/employee-benefits.actions';
 import { PayfactorsApiModelMapper } from '../helpers';
 import { EmployeeRewardsDataService } from '../../../total-rewards/total-rewards-statement/services/employee-rewards-data.service';
 
@@ -191,9 +191,17 @@ export class EmployeeManagementEffects {
   saveEmployee = this.actions$
     .pipe(
       ofType(fromEmployeeManagementActions.SAVE_EMPLOYEE),
-      switchMap((action: fromEmployeeManagementActions.SaveEmployee) => {
-          return this.companyEmployeeApiService.createEmployee(action.payload).pipe(
-            map(() => {
+      withLatestFrom(
+        this.store.select(fromEmployeeManagementReducer.getEmployeeBenefitsUpdated),
+        (action: fromEmployeeManagementActions.SaveEmployee, benefitsUpdated) =>
+          ({ action, benefitsUpdated })
+      ),
+      switchMap((data) => {
+          return this.companyEmployeeApiService.createEmployee(data.action.payload).pipe(
+            map((response) => {
+              if (data.benefitsUpdated) {
+                return new fromEmployeeBenefitsActions.SaveEmployeeBenefits(response.CompanyEmployeeId, response.EmployeeId);
+              }
               return new fromEmployeeManagementActions.SaveEmployeeSuccess();
             }),
             catchError(() => of(new fromEmployeeManagementActions.SaveEmployeeError('There was an error processing this request.')))
@@ -206,10 +214,20 @@ export class EmployeeManagementEffects {
   updateEmployee$ = this.actions$
     .pipe(
       ofType(fromEmployeeManagementActions.UPDATE_EMPLOYEE),
-      switchMap((action: fromEmployeeManagementActions.UpdateEmployee) => {
-        return this.companyEmployeeApiService.patch(action.payload)
+      withLatestFrom(
+        this.store.select(fromEmployeeManagementReducer.getEmployeeBenefitsUpdated),
+        (action: fromEmployeeManagementActions.UpdateEmployee, benefitsUpdated) =>
+          ({ action, benefitsUpdated })
+      ),
+      switchMap((data) => {
+        return this.companyEmployeeApiService.patch(data.action.payload)
           .pipe(
-            map((response) => new fromEmployeeManagementActions.SaveEmployeeSuccess()),
+            map((response) => {
+              if (data.benefitsUpdated) {
+                return new fromEmployeeBenefitsActions.SaveEmployeeBenefits(data.action.payload.CompanyEmployeeId, data.action.payload.EmployeeId);
+              }
+              return new fromEmployeeManagementActions.SaveEmployeeSuccess();
+            }),
             catchError(() => of(new fromEmployeeManagementActions.SaveEmployeeError('There was an error processing this request.')))
           );
       })
@@ -322,7 +340,6 @@ export class EmployeeManagementEffects {
 
   constructor(
     private actions$: Actions,
-    private rootStore: Store<fromRootState.State>,
     private store: Store<fromEmployeeManagementReducer.State>,
     private companyJobApiService: CompanyJobApiService,
     private paymarketsApiService: PayMarketApiService,

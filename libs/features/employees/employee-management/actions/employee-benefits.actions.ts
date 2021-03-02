@@ -8,6 +8,8 @@ export const LOAD_EMPLOYEE_BENEFITS_ERROR = '[EmployeeManagement] Load Employee 
 export const SAVE_EMPLOYEE_BENEFITS = '[EmployeeManagement] Save Employee Benefits';
 export const SAVE_EMPLOYEE_BENEFITS_SUCCESS = '[EmployeeManagement] Save Employee Benefits Success';
 export const SAVE_EMPLOYEE_BENEFITS_ERROR = '[EmployeeManagement] Save Employee Benefits Error';
+export const LOAD_NEW_EMPLOYEE_BENEFITS = '[EmployeeManagement] Load New Employee Benefits';
+export const UPDATE_EMPLOYEE_BENEFITS = '[EmployeeManagement] Update Employee Benefits';
 
 export class LoadEmployeeBenefits implements Action {
   readonly type = LOAD_EMPLOYEE_BENEFITS;
@@ -30,7 +32,7 @@ export class LoadEmployeeBenefitsError implements Action {
 export class SaveEmployeeBenefits implements Action {
   readonly type = SAVE_EMPLOYEE_BENEFITS;
 
-  constructor(public payload: SaveEmployeeBenefitsRequest) {}
+  constructor(public companyEmployeeId: number, public employeeId: string) {}
 }
 
 export class SaveEmployeeBenefitsSuccess implements Action {
@@ -43,10 +45,23 @@ export class SaveEmployeeBenefitsError implements Action {
   constructor() {}
 }
 
+export class LoadNewEmployeeBenefits implements Action {
+  readonly type = LOAD_NEW_EMPLOYEE_BENEFITS;
+
+  constructor() {}
+}
+
+export class UpdateEmployeeBenefits implements Action {
+  readonly type = UPDATE_EMPLOYEE_BENEFITS;
+  constructor(public payload: EmployeeBenefit[]) {}
+}
+
 export type Actions
   = LoadEmployeeBenefits
   | LoadEmployeeBenefitsSuccess
   | LoadEmployeeBenefitsError
   | SaveEmployeeBenefits
   | SaveEmployeeBenefitsSuccess
-  | SaveEmployeeBenefitsError;
+  | SaveEmployeeBenefitsError
+  | LoadNewEmployeeBenefits
+  | UpdateEmployeeBenefits;

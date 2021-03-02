@@ -9,7 +9,8 @@ import { SortDescriptor } from '@progress/kendo-data-query';
 
 import { Permissions } from 'libs/constants';
 import { PfSecuredResourceDirective } from 'libs/forms/directives';
-import * as fromEmployeeManagementActions from 'libs/features/employees/employee-management/actions';
+import * as fromEmployeeManagementActions from 'libs/features/employees/employee-management/actions/employee-management.actions';
+import * as fromEmployeeBenefitsActions from 'libs/features/employees/employee-management/actions/employee-benefits.actions';
 import * as fromEmployeeManagementReducers from 'libs/features/employees/employee-management/reducers';
 import * as fromPfGridActions from 'libs/features/grids/pf-data-grid/actions/pf-data-grid.actions';
 import {
@@ -167,6 +168,7 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
 
   addNewEmployee() {
     this.employeeManagementStore.dispatch(new fromEmployeeManagementActions.AddEmployee());
+    this.employeeManagementStore.dispatch(new fromEmployeeBenefitsActions.LoadNewEmployeeBenefits());
   }
 
   handlePriceJobsClicked(fromActionsColumn?: boolean): void {
