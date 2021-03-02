@@ -40,7 +40,7 @@
                [ngClass]="{ 'active': currentSection === employeeModalSectionEnum.IncentivesSection,
                             'is-invalid': isSectionInvalid(employeeModalSectionEnum.IncentivesSection) }">Incentives</a>
             <a *ngIf="hasTotalRewardsPermission" (click)="scrollTo(employeeModalSectionEnum.Benefits)" class="list-group-item"
-                [ngClass]="{ 'active': currentSection === employeeModalSectionEnum.Benefits }">Benefits</a>
+               [ngClass]="{ 'active': currentSection === employeeModalSectionEnum.Benefits }">Benefits</a>
             <a *ngIf="!!(employeesUserDefinedFields$ | async)?.obj && (employeesUserDefinedFields$ | async)?.obj?.length"
                class="list-group-item"
                (click)="scrollTo(employeeModalSectionEnum.CustomFieldsSection)"
@@ -238,9 +238,9 @@
             <label class="col-3 col-form-label">Status</label>
             <div class="col-9">
               <input data-qa-id="txt-employee-form-manager-employee-id" type="text" class="form-control"
-              formControlName="EmployeeStatus"
-              [maxlength]="50"
-              [ngClass]="{ 'is-invalid':!f.EmployeeStatus.valid && f.EmployeeStatus.touched }">
+                     formControlName="EmployeeStatus"
+                     [maxlength]="50"
+                     [ngClass]="{ 'is-invalid':!f.EmployeeStatus.valid && f.EmployeeStatus.touched }">
             </div>
           </div>
           <div class="form-group row">
@@ -509,6 +509,16 @@
               </kendo-combobox>
             </div>
           </div>
+          <div class="form-group row">
+            <label class="col-3 col-form-label">Months of Base Pay</label>
+            <div class="col-9">
+              <kendo-numerictextbox class="form-control"
+                                    data-qa-id="txt-employee-form-mobp"
+                                    formControlName="MonthsofBasePay"
+                                    [ngClass]="{ 'is-invalid': !f.MonthsofBasePay.valid && f.MonthsofBasePay.touched }"
+                                    [spinners]="false" min="0" max="{{MAX_DECIMAL_SIZE}}" autoCorrect="true"></kendo-numerictextbox>
+            </div>
+          </div>
           <hr><h5 id="allowancesSection">Allowances</h5>
           <div class="form-group row">
             <label class="col-3 col-form-label">Allowances</label>
@@ -518,6 +528,89 @@
                                     formControlName="Allow"
                                     [ngClass]="{ 'is-invalid': !f.Allow.valid && f.Allow.touched }"
                                     [spinners]="false" min="0" autoCorrect="true"></kendo-numerictextbox>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-3 col-form-label">Housing Allowance</label>
+            <div class="col-9">
+              <kendo-numerictextbox class="form-control"
+                                    data-qa-id="txt-employee-form-ha"
+                                    formControlName="HousingAllowance"
+                                    [ngClass]="{ 'is-invalid': !f.HousingAllowance.valid && f.HousingAllowance.touched }"
+                                    [spinners]="false" min="0" max="{{MAX_DECIMAL_SIZE}}" autoCorrect="true"></kendo-numerictextbox>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-3 col-form-label">Transportation Allowance</label>
+            <div class="col-9">
+              <kendo-numerictextbox class="form-control"
+                                    data-qa-id="txt-employee-form-ta"
+                                    formControlName="TransportationAllowance"
+                                    [ngClass]="{ 'is-invalid': !f.TransportationAllowance.valid && f.TransportationAllowance.touched }"
+                                    [spinners]="false" min="0" max="{{MAX_DECIMAL_SIZE}}" autoCorrect="true"></kendo-numerictextbox>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-3 col-form-label">Meals Allowance</label>
+            <div class="col-9">
+              <kendo-numerictextbox class="form-control"
+                                    data-qa-id="txt-employee-form-ma"
+                                    formControlName="MealsAllowance"
+                                    [ngClass]="{ 'is-invalid': !f.MealsAllowance.valid && f.MealsAllowance.touched }"
+                                    [spinners]="false" min="0" max="{{MAX_DECIMAL_SIZE}}" autoCorrect="true"></kendo-numerictextbox>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-3 col-form-label">Flex Allowance</label>
+            <div class="col-9">
+              <kendo-numerictextbox class="form-control"
+                                    data-qa-id="txt-employee-form-fa"
+                                    formControlName="FlexAllowance"
+                                    [ngClass]="{ 'is-invalid': !f.FlexAllowance.valid && f.FlexAllowance.touched }"
+                                    [spinners]="false" min="0" max="{{MAX_DECIMAL_SIZE}}" autoCorrect="true"></kendo-numerictextbox>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-3 col-form-label">Leave Allowance</label>
+            <div class="col-9">
+              <kendo-numerictextbox class="form-control"
+                                    data-qa-id="txt-employee-form-la"
+                                    formControlName="LeaveAllowance"
+                                    [ngClass]="{ 'is-invalid': !f.LeaveAllowance.valid && f.LeaveAllowance.touched }"
+                                    [spinners]="false" min="0" max="{{MAX_DECIMAL_SIZE}}" autoCorrect="true"></kendo-numerictextbox>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-3 col-form-label">Other Allowance</label>
+            <div class="col-9">
+              <kendo-numerictextbox class="form-control"
+                                    data-qa-id="txt-employee-form-poa"
+                                    formControlName="PeerOtherAllowance"
+                                    [ngClass]="{ 'is-invalid': !f.PeerOtherAllowance.valid && f.PeerOtherAllowance.touched }"
+                                    [spinners]="false" min="0" max="{{MAX_DECIMAL_SIZE}}" autoCorrect="true"></kendo-numerictextbox>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-3 col-form-label">Car Allowance Eligibility</label>
+            <div class="col-9">
+              <kendo-combobox class="form-control"
+                              data-qa-id="ddl-employee-form-cae"
+                              [data]="yesNo"
+                              [valueField]="'Value'"
+                              [textField]="'Name'"
+                              [valuePrimitive]="true"
+                              formControlName="CarAllowanceEligibility"
+                              placeholder="Select Eligibility..."></kendo-combobox>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-3 col-form-label">Car Allowance Amount</label>
+            <div class="col-9">
+              <kendo-numerictextbox class="form-control"
+                                    data-qa-id="txt-employee-form-caa"
+                                    formControlName="CarAllowanceAmount"
+                                    [ngClass]="{ 'is-invalid': !f.CarAllowanceAmount.valid && f.CarAllowanceAmount.touched }"
+                                    [spinners]="false" min="0" max="{{MAX_DECIMAL_SIZE}}" autoCorrect="true"></kendo-numerictextbox>
             </div>
           </div>
           <hr><h5 id="incentivesSection">Incentives</h5>
@@ -543,6 +636,66 @@
                                     (valueChange)="onCompChanges()"
                                     [ngClass]="{ 'is-invalid': !f.LTI.valid && f.LTI.touched }"
                                     [spinners]="false" min="0" autoCorrect="true"></kendo-numerictextbox>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-3 col-form-label">Stock Appreciation Right (SAR) - Number Granted</label>
+            <div class="col-9">
+              <kendo-numerictextbox class="form-control"
+                                    data-qa-id="txt-employee-form-sarng"
+                                    formControlName="SARNumGranted"
+                                    [ngClass]="{ 'is-invalid': !f.SARNumGranted.valid && f.SARNumGranted.touched }"
+                                    [spinners]="false" min="0" max="{{MAX_DECIMAL_SIZE}}" autoCorrect="true"></kendo-numerictextbox>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-3 col-form-label">Stock Appreciation Right (SAR) - Price at Grant</label>
+            <div class="col-9">
+              <kendo-numerictextbox class="form-control"
+                                    data-qa-id="txt-employee-form-sarpag"
+                                    formControlName="SARPriceatGrant"
+                                    [ngClass]="{ 'is-invalid': !f.SARPriceatGrant.valid && f.SARPriceatGrant.touched }"
+                                    [spinners]="false" min="0" max="{{MAX_DECIMAL_SIZE}}" autoCorrect="true"></kendo-numerictextbox>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-3 col-form-label">Restricted Stock Unit (RSU) - Number Granted</label>
+            <div class="col-9">
+              <kendo-numerictextbox class="form-control"
+                                    data-qa-id="txt-employee-form-rsung"
+                                    formControlName="RSUNumGranted"
+                                    [ngClass]="{ 'is-invalid': !f.RSUNumGranted.valid && f.RSUNumGranted.touched }"
+                                    [spinners]="false" min="0" max="{{MAX_DECIMAL_SIZE}}" autoCorrect="true"></kendo-numerictextbox>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-3 col-form-label">Restricted Stock Unit (RSU) - Price at Grant</label>
+            <div class="col-9">
+              <kendo-numerictextbox class="form-control"
+                                    data-qa-id="txt-employee-form-rsupag"
+                                    formControlName="RSUPriceatGrant"
+                                    [ngClass]="{ 'is-invalid': !f.RSUPriceatGrant.valid && f.RSUPriceatGrant.touched }"
+                                    [spinners]="false" min="0" max="{{MAX_DECIMAL_SIZE}}" autoCorrect="true"></kendo-numerictextbox>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-3 col-form-label">Performance Stock - Number Granted</label>
+            <div class="col-9">
+              <kendo-numerictextbox class="form-control"
+                                    data-qa-id="txt-employee-form-psng"
+                                    formControlName="PerformanceStockNumGranted"
+                                    [ngClass]="{ 'is-invalid': !f.PerformanceStockNumGranted.valid && f.PerformanceStockNumGranted.touched }"
+                                    [spinners]="false" min="0" max="{{MAX_DECIMAL_SIZE}}" autoCorrect="true"></kendo-numerictextbox>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-3 col-form-label">Performance Stock - Price at Grant</label>
+            <div class="col-9">
+              <kendo-numerictextbox class="form-control"
+                                    data-qa-id="txt-employee-form-pspag"
+                                    formControlName="PerformanceStockPriceatGrant"
+                                    [ngClass]="{ 'is-invalid': !f.PerformanceStockPriceatGrant.valid && f.PerformanceStockPriceatGrant.touched }"
+                                    [spinners]="false" min="0" max="{{MAX_DECIMAL_SIZE}}" autoCorrect="true"></kendo-numerictextbox>
             </div>
           </div>
 

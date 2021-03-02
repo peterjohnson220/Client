@@ -24,13 +24,15 @@ export const sectionFieldsMap: Record<string, EmployeeModalSectionModel> = {
   'AllowancesSection' :
     {
       sectionEnum : EmployeeModalSectionEnum.AllowancesSection,
-      fieldNames : ['Allow'],
+      fieldNames : ['Allow', 'HousingAllowance', 'TransportationAllowance', 'MealsAllowance', 'FlexAllowance',
+        'LeaveAllowance', 'OtherAllowance', 'CarAllowanceEligibility', 'CarAllowanceAmount'],
       employeeValidationFields : []
     },
   'IncentivesSection' :
     {
       sectionEnum : EmployeeModalSectionEnum.IncentivesSection,
-      fieldNames : ['LTI'],
+      fieldNames : ['LTI', 'PerformanceStockNumGranted', 'PerformanceStockPriceatGrant', 'SARNumGranted', 'SARPriceatGrant',
+        'RSUNumGranted', 'RSUPriceatGrant'],
       employeeValidationFields : []
     }
 };

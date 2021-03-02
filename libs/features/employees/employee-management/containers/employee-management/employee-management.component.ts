@@ -83,6 +83,7 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
   readonly DEFAULT_MAX_LENGTH = 255;
   readonly HOURLY_CONVERSION_RATE = 2080;
   readonly PAGE_SIZE = 20;
+  readonly MAX_DECIMAL_SIZE = 999999999999999;
 
   filterSettings: DropDownFilterSettings = {
     caseSensitive: false,
@@ -367,7 +368,23 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
       GradeCode: null,
       EmailAddress: ['', [
         Validators.maxLength(this.MAX_EMAIL_LENGTH),
-        PfEmailValidators.emailFormat]]
+        PfEmailValidators.emailFormat]],
+      MonthsofBasePay: null,
+      HousingAllowance: null,
+      TransportationAllowance: null,
+      MealsAllowance: null,
+      FlexAllowance: null,
+      LeaveAllowance: null,
+      PeerOtherAllowance: null,
+      CarAllowanceEligibility: null,
+      CarAllowanceAmount: null,
+      PerformanceStockNumGranted: null,
+      PerformanceStockPriceatGrant: null,
+      SARNumGranted: null,
+      SARPriceatGrant: null,
+      RSUNumGranted: null,
+      RSUPriceatGrant: null
+
     });
   }
 
@@ -594,7 +611,22 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
         Fixed: this.employee.Fixed,
         StructureRangeGroupId: this.employee.StructureRangeGroupId,
         GradeCode: this.employee.GradeCode,
-        EmailAddress: this.employee.EmailAddress
+        EmailAddress: this.employee.EmailAddress,
+        MonthsofBasePay: this.employee.MonthsofBasePay,
+        HousingAllowance: this.employee.HousingAllowance,
+        TransportationAllowance: this.employee.TransportationAllowance,
+        MealsAllowance: this.employee.MealsAllowance,
+        FlexAllowance: this.employee.FlexAllowance,
+        LeaveAllowance: this.employee.LeaveAllowance,
+        PeerOtherAllowance: this.employee.PeerOtherAllowance,
+        CarAllowanceEligibility: this.employee.CarAllowanceEligibility,
+        CarAllowanceAmount: this.employee.CarAllowanceAmount,
+        PerformanceStockNumGranted: this.employee.PerformanceStockNumGranted,
+        PerformanceStockPriceatGrant: this.employee.PerformanceStockPriceatGrant,
+        SARNumGranted: this.employee.SARNumGranted,
+        SARPriceatGrant: this.employee.SARPriceatGrant,
+        RSUNumGranted: this.employee.RSUNumGranted,
+        RSUPriceatGrant: this.employee.RSUPriceatGrant
       });
       this.updateUDFFields();
       this.loadStructures();
