@@ -30,6 +30,8 @@ export class EmployeeBenefitsComponent implements OnInit, OnDestroy {
   employeeBenefits: EmployeeBenefit[];
   hasChanges = false;
 
+  readonly MAX_DECIMAL_SIZE = 999999999999999;
+
   constructor(
     private store: Store<fromEmployeeManagementReducer.State>
   ) {

@@ -7,7 +7,7 @@
         <kendo-numerictextbox class="form-control"
                               [attr.data-qa-id]="'txt-employee-form-benefit-' + benefit.BenefitLookupId"
                               [value]="benefit.EmployerValue"
-                              [spinners]="false" min="0" autoCorrect="true"
+                              [spinners]="false" min="0" max="{{MAX_DECIMAL_SIZE}}" autoCorrect="true"
                               (valueChange)="handleBenefitValueChange(benefit, $event)">
         </kendo-numerictextbox>
       </div>
