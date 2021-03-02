@@ -23,7 +23,7 @@ import { SearchFeatureIds } from 'libs/features/search/search/enums/search-featu
 import { ADD_JOBS_CONFIG_DEFAULT_TRUE } from 'libs/features/jobs/add-jobs/constants';
 
 import { GradeRangeGroupDetails } from '../../../models';
-import { enableJobsDragging } from '../../../helpers';
+import { cleanupDatacutsDragging, enableJobsDragging } from '../../../helpers';
 
 @Component({
   selector: 'pf-add-jobs-to-range-page',
@@ -150,6 +150,7 @@ export class AddJobsToRangePageComponent extends SearchBaseDirective implements 
   ngOnDestroy() {
     this.selectedJobIdsSubscription?.unsubscribe();
     this.selectedPayfactorsJobCodesSubscription?.unsubscribe();
+    cleanupDatacutsDragging(this.dragulaService);
   }
 
 }
