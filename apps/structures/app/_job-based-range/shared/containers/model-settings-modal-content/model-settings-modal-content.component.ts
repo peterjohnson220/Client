@@ -1,10 +1,8 @@
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-
+import { FormGroup } from '@angular/forms';
 
 import { Observable, Subject, Subscription } from 'rxjs';
 import { select, Store } from '@ngrx/store';
-import { delay } from 'rxjs/operators';
 
 import { RangeGroupMetadata, RoundingSettingsDataObj } from 'libs/models/structures';
 import { AsyncStateObj } from 'libs/models/state';
@@ -158,6 +156,7 @@ export class ModelSettingsModalContentComponent implements OnInit, OnDestroy {
 
     if (this.formulasInvalidForSubmission()) {
       tab = 'modelTab';
+      this.store.dispatch(new fromModelSettingsModalActions.SetActiveTab(tab));
       return false;
     }
 
