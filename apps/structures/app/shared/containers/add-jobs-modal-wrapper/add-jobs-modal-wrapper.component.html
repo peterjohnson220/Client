@@ -1,5 +1,5 @@
 <pf-modal-form
-  [size]="'xlg'"
+  [size]="isJobRange ? 'lg' : 'xlg'"
   [title]="MODAL_NAME"
   [modalId]="isJobRange ? 'job-range-modeling-modal-form' : 'grade-range-modeling-modal-form'"
   [attr.data-qa-id]="isJobRange ? 'job-range-modeling-modal' : 'grade-range-modeling-modal'"
