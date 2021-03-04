@@ -10,7 +10,6 @@ import { GenericKeyValue } from 'libs/models/common';
 import { SettingsService } from 'libs/state/app-context/services';
 import { CompanySettingsEnum } from 'libs/models/company';
 
-
 import { ControlPoint, Currency, SelectedPeerExchangeModel } from '../../../../shared/models';
 import * as fromSharedStructuresReducer from '../../../../shared/reducers';
 import { ModelSettingsModalConstants } from '../../../../shared/constants/model-settings-modal-constants';
@@ -116,7 +115,7 @@ export class ModelSettingsModalContentComponent implements OnInit, OnDestroy, Af
   // Events
   handleModalSubmit() {
     if (this.modelSettingsForm.valid && !this.formulasInvalidForSubmission()) {
-      this.store.dispatch(new fromModelSettingsModalActions.SaveModelSettings(
+      this.store.dispatch(new fromModelSettingsModalActions.SaveJobBasedModelSettings(
         {
           rangeGroupId: this.rangeGroupId,
           formValue: this.modelSetting,
@@ -248,7 +247,7 @@ export class ModelSettingsModalContentComponent implements OnInit, OnDestroy, Af
   }
 
   handlePayTypeSelectionChange(value: ControlPoint) {
-    if ( value.PayTypeDisplay === 'TCC' || value.PayTypeDisplay === 'Base') {
+    if (value.PayTypeDisplay === 'TCC' || value.PayTypeDisplay === 'Base') {
       this.peerDropDownDisabled = false;
     } else {
       this.peerDropDownDisabled = true;
@@ -302,7 +301,7 @@ export class ModelSettingsModalContentComponent implements OnInit, OnDestroy, Af
       if (this.exchanges) {
         const values = Object.values(this.exchanges);
         const names = [];
-        values.forEach(function(item: GenericKeyValue<number, string>) {
+        values.forEach(function (item: GenericKeyValue<number, string>) {
           names.push(item.Value);
         });
         this.exchangeNames = names;
@@ -330,6 +329,4 @@ export class ModelSettingsModalContentComponent implements OnInit, OnDestroy, Af
   private reset() {
     this.attemptedSubmit = false;
   }
-
-
 }

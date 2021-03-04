@@ -103,6 +103,7 @@
 <ng-template #gridGlobalActions>
   <pf-global-actions
     [metadata]="metaData$ | async"
+    [isNewModel]="isNewModel"
     (manageModelClicked)="handleManageModelClicked()"
     (modelSettingsClicked)="handleModelSettingsClicked()">
   </pf-global-actions>
@@ -112,7 +113,10 @@
   [rangeGroupId]="rangeGroupId"
   [pageViewId]="pageViewId"
   [modalOpen$]="modalOpen$"
-  [modelSettingsForm]="modelSettingsForm">
+  [modelSettingsForm]="modelSettingsForm"
+  (modalSubmit)="handleModalSubmit()"
+  (modalAttemptedSubmit)="handleModelAttemptedSubmit()"
+  (modalDismissed)="handleModalDismissed()">
   <ng-container structures-settings-modal-content>
     <pf-grade-based-model-settings-modal-content
       [rangeGroupId]="rangeGroupId"

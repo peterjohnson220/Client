@@ -5,8 +5,10 @@ import {
   RevertRangeChangesRequest,
   RoundRangesRequest,
   RangeDistributionSettingRequest,
-  SaveModelSettingsRequest,
-  StructureRangeGroupResponse
+  SaveJobBasedModelSettingsRequest,
+  StructureRangeGroupResponse,
+  CreateGradeBasedModelSettingsRequest,
+  SaveGradeBasedModelSettingsRequest
 } from 'libs/models/payfactors-api/structures';
 import { CompositeFieldResponse } from 'libs/models/payfactors-api/composite-field/composite-field-response.model';
 import { CurrencyDto } from 'libs/models/common';
@@ -52,7 +54,6 @@ export class PayfactorsApiModelMapper {
       RangeAdvancedSetting: srgr.RangeAdvancedSetting != null ? this.mapRangeAdvancedSetting(srgr.RangeAdvancedSetting) : null
     };
   }
-
 
   static mapRangeDistributionSetting(rangeDistributionSetting: RangeDistributionSettingResponse): RangeDistributionSettingForm {
     return {
@@ -210,13 +211,12 @@ export class PayfactorsApiModelMapper {
   }
 
 
-
   ///
   /// OUT
   ///
-  static mapModelSettingsModalFormToSaveSettingsRequest(
+  static mapJobBasedModelSettingsModalFormToSaveSettingsRequest(
     rangeGroupId: number, formValue: any, rounding: RoundingSettingsDataObj, advancedSetting: AdvancedSettingRequest,
-    rangeDistributionSetting: RangeDistributionSettingForm): SaveModelSettingsRequest {
+    rangeDistributionSetting: RangeDistributionSettingForm): SaveJobBasedModelSettingsRequest {
 
     // TODO remove this as soon as Rounding will be part of AdvancedSetting
     advancedSetting.Rounding = this.mapRoundingSettingsModalFormToRoundRangesRequest(rounding);
@@ -236,6 +236,36 @@ export class PayfactorsApiModelMapper {
       AdvancedSetting: advancedSetting,
       RangeDistributionTypeId: rangeDistributionSetting.RangeDistributionTypeId ?? 1,
       RangeDistributionSetting: this.mapRangeDistributionSettingRequest(formValue.RangeDistributionSetting)
+    };
+  }
+
+  static mapCreateGradeBasedModelSettingsModalFormToSaveSettingsRequest(rangeGroupId: number, formValue: any): CreateGradeBasedModelSettingsRequest {
+    const payType = formValue.MarketDataBased.replace('MRP', '');
+    return {
+      RangeGroupId: rangeGroupId,
+      ModelName: formValue.ModelName,
+      PayType: payType,
+      ControlPoint: formValue.MarketDataBased,
+      Rate: formValue.Rate,
+      GradeCount: formValue.Grades,
+      RangeSpread: formValue.RangeSpread,
+      Midpoint: formValue.StartingMidpoint,
+      MidpointProgression: formValue.MidpointProgression,
+      CurrencyCode: formValue.Currency,
+      RangeDistributionTypeId: formValue.RangeDistributionTypeId
+    };
+  }
+
+  static mapSaveGradeBasedModelSettingsModalFormToSaveSettingsRequest(rangeGroupId: number, formValue: any): SaveGradeBasedModelSettingsRequest {
+    const payType = formValue.MarketDataBased.replace('MRP', '');
+    return {
+      RangeGroupId: rangeGroupId,
+      ModelName: formValue.ModelName,
+      PayType: payType,
+      ControlPoint: formValue.MarketDataBased,
+      Rate: formValue.Rate,
+      CurrencyCode: formValue.Currency,
+      RangeDistributionTypeId: formValue.RangeDistributionTypeId
     };
   }
 

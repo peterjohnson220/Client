@@ -17,9 +17,8 @@ import * as fromGradeBasedSharedReducer from '../../shared/reducers';
 import { StructuresPagesService } from '../../../shared/services';
 import { AddJobsModalWrapperComponent } from '../../../shared/containers/add-jobs-modal-wrapper';
 import { Workflow } from '../../../shared/constants/workflow';
-import { UrlService} from '../../../shared/services';
+import { UrlService } from '../../../shared/services';
 import * as fromModelSettingsModalActions from '../../../shared/actions/model-settings-modal.actions';
-import * as fromGradeBasedSharedActions from '../../shared/actions/shared.actions';
 
 @Component({
   selector: 'pf-model.page',
@@ -52,11 +51,16 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
     private permissionService: PermissionService
   ) {
     this.rangeGroupId = this.route.snapshot.params.id;
-    this.filters = [{
-      SourceName: 'CompanyStructuresRangeGroup_ID',
-      Operator: '=',
-      Values: [this.route.snapshot.params.id]
-    }];
+    this.filters = [
+      {
+        SourceName: 'CompanyStructuresRangeGroup_ID',
+        Operator: '=',
+        Values: [this.route.snapshot.params.id]
+      },
+      {
+        SourceName: 'CompanyStructuresGrades_ID',
+        Operator: 'notnull'
+      }];
     this.metaData$ = this.store.pipe(select(fromSharedStructuresReducer.getMetadata));
     this.pageViewIdSubscription = this.structuresPagesService.modelPageViewId.subscribe(pv => this.modelGridPageViewId = pv);
     this.gradeRangeDetailsSubscription = this.store.select(fromGradeBasedSharedReducer.getGradeRangeDetails).subscribe(details => {
@@ -74,15 +78,9 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
     this.pageSummaryViewIdSubscription = this.structuresPagesService.modelSummaryViewId.subscribe(pv => this.modelSummaryPageViewId = pv);
     this.hasCanCreateEditModelStructurePermission = this.permissionService.CheckPermission([Permissions.STRUCTURES_CREATE_EDIT_MODEL],
       PermissionCheckEnum.Single);
-
   }
 
   openManageModelModal() {
-    this.setSearchContext();
-    this.store.dispatch(new fromAddJobsPageActions.SetContextStructuresRangeGroupId(this.rangeGroupId));
-  }
-
-  openAddJobsModal() {
     this.setSearchContext();
     this.store.dispatch(new fromAddJobsPageActions.SetContextStructuresRangeGroupId(this.rangeGroupId));
   }
@@ -105,15 +103,10 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
         this.metadata = md;
       }
     });
-    this.store.dispatch(new fromGradeBasedSharedActions.GetGradeRangeDetails(this.rangeGroupId));
   }
 
   ngAfterViewInit(): void {
-    if (this.urlService.isInWorkflow(Workflow.NewRange) && this.hasCanCreateEditModelStructurePermission) {
-      this.openAddJobsModal();
-    }
-
-    if (this.urlService.isInWorkflow(Workflow.CreateModel)) {
+    if (this.urlService.isInWorkflow(Workflow.NewRange) || this.urlService.isInWorkflow(Workflow.CreateModel)) {
       this.store.dispatch(new fromModelSettingsModalActions.OpenModal());
     }
   }
