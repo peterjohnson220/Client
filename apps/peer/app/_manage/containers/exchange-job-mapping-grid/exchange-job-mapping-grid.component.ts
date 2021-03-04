@@ -5,14 +5,13 @@ import { Store, select } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { GridDataResult, RowClassArgs, DataStateChangeEvent, SelectionEvent, FilterService } from '@progress/kendo-angular-grid';
 import { State, CompositeFilterDescriptor, FilterDescriptor } from '@progress/kendo-data-query';
+import cloneDeep from 'lodash/cloneDeep';
 
 import { GridTypeEnum, ExchangeJobMapping } from 'libs/models';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
 
 import * as fromExchangeJobMappingGridActions from '../../actions/exchange-job-mapping-grid.actions';
 import * as fromPeerManagementReducer from '../../reducers';
-
-import cloneDeep from 'lodash/cloneDeep';
 
 import * as companyJobsActions from '../../actions/company-jobs.actions';
 import * as companyJobsReducer from '../../reducers';
@@ -80,7 +79,7 @@ export class ExchangeJobMappingGridComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromExchangeJobMappingGridActions.SetActiveExchangeJob(event.dataItem));
     this.store.dispatch(new fromExchangeJobMappingGridActions.UpdatePageRowIndexToScrollTo(pageRowIndex));
 
-    this.store.dispatch(new companyJobsActions.SetMappedExchangeJobs(event.dataItem));
+    this.store.dispatch(new companyJobsActions.SetMappedExchangeJob(event.dataItem));
   }
 
   isNew(dataItem: ExchangeJobMapping) {

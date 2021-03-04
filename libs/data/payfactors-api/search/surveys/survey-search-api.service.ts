@@ -19,7 +19,8 @@ import {
   JobMatchCutsResponse,
   UpdateUserJobMatchesRequest,
   SurveySearchRequest,
-  ExchangeDataFilterRequest, ExchangeJobDataResponse
+  ExchangeDataFilterRequest,
+  ExchangeJobDataResponse
 } from 'libs/models/payfactors-api';
 
 import { PayfactorsApiService } from '../../payfactors-api.service';

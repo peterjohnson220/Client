@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { BaseExchangeDataSearchRequest } from 'libs/models/payfactors-api';
+import { BaseExchangeDataSearchRequest, ExchangeJobDailyNatAvgOrg50thDetails } from 'libs/models/payfactors-api';
 import { DataCutSummaryEntityTypes } from 'libs/constants';
 import { PayfactorsApiService } from '../payfactors-api.service';
 
@@ -18,5 +18,9 @@ export class DataCutSummaryApiService {
 
   getDataCutSummaryForCustomScope(customScope: BaseExchangeDataSearchRequest): Observable<any> {
     return this.payfactorsApiService.post(`${this.endpoint}/GetDataCutSummary`, customScope);
+  }
+
+  getNationalAveragesForExchangeJobs(exchangeJobIds: number[]): Observable<ExchangeJobDailyNatAvgOrg50thDetails[]> {
+    return this.payfactorsApiService.post(`${this.endpoint}/GetNationalAveragesForExchangeJobs`, exchangeJobIds);
   }
 }
