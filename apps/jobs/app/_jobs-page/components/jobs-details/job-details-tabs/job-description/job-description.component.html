@@ -30,7 +30,8 @@
     <div>
       <pf-job-description-export
         [jobDescriptionId]="jobDescription.JobDescriptionId"
-        [actionIconSize]="'2x'">
+        [actionIconSize]="'2x'"
+        [enableFileDownloadSecurityWarning]="enableFileDownloadSecurityWarning$ | async">
       </pf-job-description-export>
     </div>
   </div>
@@ -54,7 +55,8 @@
     [jobDescriptionSummary]="jobDescriptionSummary"
     (jobDescriptionChanged)="jobDescriptionChanged($event)"
     [theme]="pfThemeType.JobDetails"
-    [style.display]="jobDescriptionSummaryAsyncObj?.loading ? 'none' : 'block'">
+    [style.display]="jobDescriptionSummaryAsyncObj?.loading ? 'none' : 'block'"
+    [enableFileDownloadSecurityWarning]="enableFileDownloadSecurityWarning$ | async">
   </pf-job-description-summary-editor>
   <div class="d-flex pt-3">
     <div class="text-danger">
