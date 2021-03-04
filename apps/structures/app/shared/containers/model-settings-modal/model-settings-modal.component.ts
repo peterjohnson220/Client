@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { AfterViewChecked, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 import { select, Store } from '@ngrx/store';
@@ -15,7 +15,7 @@ import * as fromSharedStructuresReducer from '../../reducers';
   templateUrl: './model-settings-modal.component.html',
   styleUrls: ['./model-settings-modal.component.scss']
 })
-export class ModelSettingsModalComponent implements OnInit, OnDestroy {
+export class ModelSettingsModalComponent implements OnInit, OnDestroy, AfterViewChecked {
   @Input() rangeGroupId: number;
   @Input() pageViewId: string;
   @Input() modalOpen$: Observable<boolean>;
@@ -36,6 +36,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
 
   constructor(
     public store: Store<any>,
+    private changeDetectorRef: ChangeDetectorRef
   ) {
     this.metaData$ = this.store.pipe(select(fromSharedStructuresReducer.getMetadata));
     this.savingModelSettingsAsyncObj$ = this.store.pipe(select(fromSharedStructuresReducer.getSavingModelSettingsAsyncObj));
@@ -86,6 +87,10 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.unsubscribe();
+  }
+
+  ngAfterViewChecked(): void {
+    this.changeDetectorRef.detectChanges();
   }
 
   private subscribe() {

@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild, AfterViewChecked } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 import { Observable, Subject, Subscription } from 'rxjs';
@@ -24,7 +24,7 @@ import { AdvancedModelSettingComponent } from '../advanced-model-setting';
   templateUrl: './model-settings-modal-content.component.html',
   styleUrls: ['./model-settings-modal-content.component.scss']
 })
-export class ModelSettingsModalContentComponent implements OnInit, OnDestroy {
+export class ModelSettingsModalContentComponent implements OnInit, OnDestroy, AfterViewChecked  {
   @Input() rangeGroupId: number;
   @Input() pageViewId: string;
   @Input() modalOpen: boolean;
@@ -80,6 +80,7 @@ export class ModelSettingsModalContentComponent implements OnInit, OnDestroy {
   constructor(
     public store: Store<any>,
     private settingsService: SettingsService,
+    private changeDetectorRef: ChangeDetectorRef
   ) {
     this.metaData$ = this.store.pipe(select(fromSharedStructuresReducer.getMetadata));
     this.roundingSettings$ = this.store.pipe(select(fromSharedStructuresReducer.getRoundingSettings));
@@ -265,6 +266,10 @@ export class ModelSettingsModalContentComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.unsubscribe();
+  }
+
+  ngAfterViewChecked(): void {
+    this.changeDetectorRef.detectChanges();
   }
 
   private subscribe() {
