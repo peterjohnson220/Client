@@ -29,7 +29,6 @@ import { PermissionService } from 'libs/core/services';
 import { PermissionCheckEnum, Permissions } from 'libs/constants';
 import { SimpleYesNoModalComponent, FileDownloadSecurityWarningModalComponent } from 'libs/ui/common';
 import { JobDescriptionManagementDnDService, JobDescriptionManagementService, SortDirection } from 'libs/features/jobs/job-description-management';
-import { JobDescriptionManagementDndSource } from 'libs/features/jobs/job-description-management/constants';
 import {
   JobDescriptionLibraryBucket,
   JobDescriptionLibraryResult,
@@ -43,6 +42,8 @@ import * as fromJobDescriptionManagementSharedReducer from 'libs/features/jobs/j
 import * as fromWorkflowTemplateListActions from 'libs/features/jobs/job-description-management/actions/shared-workflow.actions';
 import * as fromHeaderActions from 'libs/ui/layout-wrapper/actions/header.actions';
 import * as fromControlTypesActions from 'libs/features/jobs/job-description-management/actions/control-types.actions';
+import { JobDescriptionConstants } from 'libs/features/jobs/job-description-management/constants/job-description-constants';
+import { JobDescriptionManagementDndSource, JobDescriptionViewConstants } from 'libs/features/jobs/job-description-management/constants';
 
 import { EmployeeAcknowledgement, ExportData, JobDescriptionLibraryDropModel } from '../../../models';
 import * as fromJobDescriptionReducers from '../../../reducers';
@@ -56,7 +57,6 @@ import { FlsaQuestionnaireModalComponent } from '../../../components/modals/flsa
 import { JobMatchesModalComponent } from '../../job-matches-modal';
 import { ChangeApproverModalComponent } from '../../change-approver-modal';
 import { CopyJobDescriptionModalComponent } from '../../copy-job-description-modal';
-import { JobDescriptionHelper } from '../../../helpers';
 import { WorkflowSetupModalComponent } from '../../workflow-setup-modal';
 import { JobDescriptionAppliesToModalComponent } from 'apps/job-description-management/app/shared';
 
@@ -80,7 +80,6 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   @ViewChild('fileDownloadSecurityWarningModal', { static: true }) public fileDownloadSecurityWarningModal: FileDownloadSecurityWarningModalComponent;
 
   jobDescriptionAsync$: Observable<AsyncStateObj<JobDescription>>;
-  jobDescriptionPublishing$: Observable<boolean>;
   jobDescriptionPublishingSuccess$: Observable<boolean>;
   identity$: Observable<UserContext>;
   userAssignedRoles$: Observable<UserAssignedRole[]>;
@@ -117,7 +116,6 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   saveThrottle: Subject<any>;
   jobDescriptionViewsAsyncSubscription: Subscription;
   editingSubscription: Subscription;
-  publishingSubscription: Subscription;
   publishingSuccessSubscription: Subscription;
   completedStepSubscription: Subscription;
   controlTypesSubscription: Subscription;
@@ -154,7 +152,6 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   inHistory: boolean;
   jobDescriptionDisplayName: string;
   jobDescriptionViews: string[];
-  editing: boolean;
   completedStep: boolean;
   controlTypes: ControlType[];
 
@@ -189,7 +186,6 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.jobDescriptionLibraryResults$ = this.sharedStore.select(fromJobDescriptionManagementSharedReducer.getResultsAsync);
     this.jobDescriptionExtendedInfo$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionExtendedInfo);
     this.gettingJobDescriptionExtendedInfoSuccess$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionExtendedInfoAsync);
-    this.jobDescriptionPublishing$ = this.store.select(fromJobDescriptionReducers.getPublishingJobDescription);
     this.jobDescriptionPublishingSuccess$ = this.store.select(fromJobDescriptionReducers.getPublishingJobDescriptionSuccess);
     this.acknowledging$ = this.store.select(fromJobDescriptionReducers.getAcknowledging);
     this.employeeAcknowledgementInfo$ = this.store.select(fromJobDescriptionReducers.getEmployeeAcknowledgementAsync);
@@ -230,7 +226,6 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.editingSubscription.unsubscribe();
     this.completedStepSubscription.unsubscribe();
     this.requireSSOLoginSubscription.unsubscribe();
-    this.publishingSubscription.unsubscribe();
     this.publishingSuccessSubscription.unsubscribe();
     this.discardingDraftJobDescriptionSuccessSubscription.unsubscribe();
     this.enableFileDownloadSecurityWarningSub.unsubscribe();
@@ -407,15 +402,15 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   }
 
   handleExportAsPDFClicked(): void {
-    this.exportData = { Type: 'pdf', Name: '' };
+    const viewName = this.jobDescription?.JobDescriptionStatus === JobDescriptionConstants.PUBLISHED ? this.viewName
+      : JobDescriptionViewConstants.DRAFT_AND_IN_REVIEW_VIEW;
+    this.exportData = { Type: 'pdf', Name: viewName };
     this.handleExport();
   }
 
   handleExportClickedFromActions(data: { exportType: string, viewName: string }): void {
-    const isUserDefinedViewsAvailable = JobDescriptionHelper.isUserDefinedViewsAvailable(this.jobDescriptionViews);
     this.exportData = { Type: data.exportType, Name: data.viewName };
-
-    if (this.editing && isUserDefinedViewsAvailable ) {
+    if (this.jobDescription?.JobDescriptionStatus !== JobDescriptionConstants.PUBLISHED) {
       this.exportJobDescriptionModalComponent.open(data.exportType);
     } else {
       this.handleExport();
@@ -424,7 +419,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
 
   handleExportModalConfirmed(modalPayload: any): void {
     this.exportJobDescriptionModalComponent.close();
-    const viewName = modalPayload.selectedView || 'Default';
+    const viewName = modalPayload.selectedView || JobDescriptionViewConstants.DEFAULT_VIEW;
     this.exportData = { Type: modalPayload.exportType, Name: viewName };
     this.handleExport();
   }
@@ -458,17 +453,6 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     }));
     this.showLibrary = false;
     this.showRoutingHistory = false;
-  }
-
-  resetView(): void {
-    if  (this.jobDescription && this.viewName) {
-      this.store.dispatch(new fromJobDescriptionActions.GetJobDescription({
-        JobDescriptionId: this.jobDescription.JobDescriptionId,
-        RevisionNumber: this.jobDescription.JobDescriptionRevision,
-        ViewName: this.viewName,
-        InHistory: false
-      }));
-    }
   }
 
   handleViewSelected(viewName: string): void {
@@ -509,10 +493,10 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     }));
   }
 
-  private getJobDescriptionDetails() {
+  private getJobDescriptionDetails(viewName: string = null) {
     this.store.dispatch(new fromJobDescriptionActions.GetJobDescription({
       JobDescriptionId: this.jobDescriptionId,
-      ViewName: this.viewName,
+      ViewName:  viewName ? viewName : this.viewName,
       RevisionNumber: !!this.identity.EmployeeAcknowledgementInfo ? this.identity.EmployeeAcknowledgementInfo.Version : this.revisionNumber,
       InHistory: !!this.revisionNumber,
       InWorkflow: this.identityInWorkflow
@@ -532,7 +516,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     );
     this.routerParamsSubscription = urlParams.subscribe(params => {
       this.jobDescriptionId = params['id'];
-      this.viewName = params.queryParams['viewName'] ?? 'Default' ;
+      this.viewName = params.queryParams['viewName'];
       this.revisionNumber = params['versionNumber'];
       this.tokenId = params.queryParams['jwt'];
       this.ssoTokenId = params.queryParams['tokenid'];
@@ -633,18 +617,14 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
 
     this.jobDescriptionViewsAsyncSubscription = this.jobDescriptionViewsAsync$.subscribe(asyncObj => this.jobDescriptionViews = asyncObj.obj);
     this.editingSubscription = this.editingJobDescription$.subscribe(value => {
-      this.editing = value;
-    });
-
-    this.publishingSubscription = this.jobDescriptionPublishing$.subscribe(asyncObj => {
-      if (asyncObj) {
-        this.editing = false;
+      if (value === true) {
+        this.getJobDescriptionDetails(JobDescriptionViewConstants.DRAFT_AND_IN_REVIEW_VIEW);
       }
     });
 
     this.publishingSuccessSubscription = this.jobDescriptionPublishingSuccess$.subscribe(asyncObj => {
       if (asyncObj) {
-        this.resetView();
+        this.getJobDescriptionDetails();
       }
     });
   }
@@ -655,21 +635,6 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     } else {
       this.sharedStore.dispatch(new fromControlTypesActions.LoadControlTypes());
     }
-  }
-
-  private enableAllContent() {
-    this.jobDescription.Sections.forEach(section => {
-      section.ShowSubheading = true;
-
-      section.Controls.forEach(control => {
-        if (control.AdditionalProperties) {
-          control.AdditionalProperties.ShowControlNameView = true;
-          control.AdditionalProperties.ShowControl = true;
-        }
-      });
-    });
-
-    this.visibleSections =  this.jobDescription.Sections;
   }
 
   private initSsoSubscriptions() {
@@ -708,7 +673,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
 
     this.discardingDraftJobDescriptionSuccessSubscription = this.discardingDraftJobDescriptionSuccess$.subscribe(value => {
       if (value) {
-        this.resetView();
+        this.getJobDescriptionDetails();
       }
     });
   }
@@ -755,12 +720,8 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
       return;
     }
     this.jobDescription = cloneDeep(jobDescription);
+    this.visibleSections =  jobDescription.Sections.filter(x => showSection(x));
 
-    if (jobDescription.JobDescriptionStatus !== 'Published') {
-      this.enableAllContent();
-    } else {
-      this.visibleSections =  jobDescription.Sections.filter(x => showSection(x));
-    }
 
     if (jobDescription.JobDescriptionTitle === null || jobDescription.JobDescriptionTitle.length === 0) {
       const jobTitleFieldName = jobDescription.JobInformationFields.find(infoField => infoField.FieldName === 'JobTitle');

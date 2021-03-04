@@ -2,14 +2,14 @@
   <div
     class="export-btn pr-3 export-word"
     title="Export to Word"
-    (click)="exportJobDescription('docx')"
+    (click)="handleExportJobDescription('docx')"
     [attr.data-qa-id]="'btn-jobs-page-export-jd-word'">
     <fa-icon fa-icon [icon]="['fal', 'file-word']" [size]="actionIconSize" [ngClass]="theme"></fa-icon>
   </div>
   <div
     class="export-btn export-pdf"
     title="Export to PDF"
-    (click)="exportJobDescription('pdf')"
+    (click)="handleExportJobDescription('pdf')"
     [attr.data-qa-id]="'btn-jobs-page-export-jd-pdf'">
     <fa-icon fa-icon [icon]="['fal', 'file-pdf']" [size]="actionIconSize" [ngClass]="theme"></fa-icon>
   </div>
@@ -23,3 +23,8 @@
   <input type="hidden" name="export-type" />
   <input type="hidden" name="viewName" />
 </form>
+
+<pf-file-download-security-warning-modal 
+  #fileDownloadSecurityWarningModal
+  (securityWarningConfirmed)="handleSecurityWarningConfirmed($event)">
+</pf-file-download-security-warning-modal>
