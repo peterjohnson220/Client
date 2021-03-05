@@ -14,7 +14,7 @@
     <!--Vertical Rendering-->
     <ng-container *ngIf="vertical">
 
-      <tr *ngFor="let attribute of attributes">
+      <tr *ngFor="let attribute of attributes; trackBy: trackByAttributeFn">
         <th class="vertical-heading">
           {{ attribute.DisplayName }}:
         </th>
