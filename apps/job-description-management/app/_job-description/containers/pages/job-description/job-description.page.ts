@@ -155,6 +155,11 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   completedStep: boolean;
   controlTypes: ControlType[];
 
+  get isJobDescrptionEditable() {
+    return this.identityInWorkflow ? this.hasCanEditJobDescriptionPermission :
+    this.hasCanEditJobDescriptionPermission && this.jobDescription?.JobDescriptionStatus === 'Draft';
+  }
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
