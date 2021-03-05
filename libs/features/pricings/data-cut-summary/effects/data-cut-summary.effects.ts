@@ -4,7 +4,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, Store, select } from '@ngrx/store';
 
 import { Observable, of } from 'rxjs/index';
-import { catchError, map, switchMap, mergeMap, withLatestFrom, filter } from 'rxjs/operators';
+import { catchError, switchMap, withLatestFrom, filter } from 'rxjs/operators';
 
 import { DataCutSummaryEntityTypes } from 'libs/constants';
 import * as fromSurveySearchReducer from 'libs/features/surveys/survey-search/reducers';

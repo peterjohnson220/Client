@@ -30,24 +30,34 @@
         [loadingError]="exchangeJobLoadingError || savingAssociationError"
         [loadingErrorMessage]="'Unexpected Error Occurred'"
         [hideReloadButton]="true">
-        <div class="pr-3">
-          <div class="info-row">
-            <label class="font-weight-bold w-25 mb-0">Title:</label>
-            <span>{{ exchangeJob.ExchangeJobTitle }}</span>
+        <div class="pr-3 d-flex">
+          <div class="flex-grow-1">
+            <div class="d-flex">
+              <div class="pr-3 flex-grow-1">
+                <div class="info-row">
+                  <label class="font-weight-bold w-25 mb-0">Title:</label>
+                  <span>{{ exchangeJob.ExchangeJobTitle }}</span>
+                </div>
+                <div class="info-row">
+                  <label class="font-weight-bold w-25 mb-0">Family:</label>
+                  <span>{{ exchangeJob.ExchangeJobFamily }}</span>
+                </div>
+              </div>
+              <pf-org-weighted-nat-avg-card [exchangeJobId]="exchangeJob.ExchangeJobId"
+                                            class="pt-3"
+              ></pf-org-weighted-nat-avg-card>
+            </div>
           </div>
-          <div class="info-row">
-            <label class="font-weight-bold w-25 mb-0">Family:</label>
-            <span>{{ exchangeJob.ExchangeJobFamily }}</span>
-          </div>
-          <div class="info-row">
-            <label class="font-weight-bold w-25 mb-0">Level:</label>
-            <span>{{ exchangeJob.ExchangeJobLevel }}</span>
-          </div>
+        </div>
+        <div class="info-row">
+          <label class="font-weight-bold w-25 mb-0">Level:</label>
+          <span>{{ exchangeJob.ExchangeJobLevel }}</span>
+        </div>
 
         <div class="info-row">
           <label class="font-weight-bold w-25">Description:</label>
         </div>
-        </div>
+
         <div class="info-row border-0 pr-3 exchange-job-description-container">
           <ng-container *ngIf="exchangeJob.ExchangeJobDescription && exchangeJob.ExchangeJobDescription !== '#N/A'; else noDescription">
             <p [innerHTML]="exchangeJob.ExchangeJobDescription | jobDescriptionParser" class="exchange-job-description"></p>

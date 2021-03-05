@@ -6,7 +6,7 @@ import { Store } from '@ngrx/store';
 import { MatchesDetailsRequestJobTypes, PricingMatchesDetailsRequest } from 'libs/models/payfactors-api';
 import * as fromSearchReducer from 'libs/features/search/search/reducers';
 import { SurveySearchResultDataSources } from 'libs/constants';
-import { annualDisplay, compRate } from 'libs/core/pipes';
+import { compRate } from 'libs/core/pipes';
 import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
 import { SearchFeatureIds } from 'libs/features/search/search/enums/search-feature-ids';
 
@@ -25,7 +25,6 @@ export class JobResultComponent implements OnInit, OnDestroy {
   @Input() currencyCode: string;
   @Input() legacyIframeImplementation: boolean;
   @Input() refineInPeerDisplayed: boolean;
-  @Input() rate: string;
   @Output() loadDataCuts: EventEmitter<JobResult> = new EventEmitter<JobResult>();
   @Output() cutSelected: EventEmitter<DataCutDetails> = new EventEmitter<DataCutDetails>();
   @Output() matchesMouseEnter: EventEmitter<MatchesDetailsTooltipData> = new EventEmitter<MatchesDetailsTooltipData>();
@@ -46,7 +45,6 @@ export class JobResultComponent implements OnInit, OnDestroy {
   showJobDetail: boolean;
   matchesMouseLeaveTimer: number;
   surveySearchResultDataSources = SurveySearchResultDataSources;
-  annualDisplay: annualDisplay = annualDisplay.full;
 
   unsubscribe$ = new Subject<void>();
 
@@ -66,10 +64,6 @@ export class JobResultComponent implements OnInit, OnDestroy {
     this.selectedCuts$ = this.store.select(fromSurveySearchReducer.getSelectedDataCuts);
 
     this.featureFlagService.bindEnabled(this.customizeScopeInMultimatchModalFlag, this.unsubscribe$);
-  }
-
-  get compRate(): compRate {
-    return !!this.rate && this.rate === compRate.hourly.toString() ? compRate.hourly : compRate.annual;
   }
 
   get isPeerJob(): boolean {

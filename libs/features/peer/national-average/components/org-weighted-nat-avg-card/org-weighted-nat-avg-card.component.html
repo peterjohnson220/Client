@@ -1,0 +1,17 @@
+<div *ngIf="nationalAverage || showPlaceholderCard" class="peer-org-weighted-nat-avg card kendo-tooltip-container"
+  title="{{nationalAverage ? 'National Org Weighted Average for ' + nationalAverage.CurrencyCode : ''}}">
+  <div class="avg-pay-container d-flex justify-content-between">
+    <div class="label-indicator">Base 50th</div>
+    <div>{{!nationalAverage ? '--' : nationalAverage.Base50th | comp: compRate : annualDisplay }}</div>
+  </div>
+  <div class="avg-pay-container d-flex justify-content-between">
+    <div class="label-indicator">TCC 50th</div>
+    <div>{{!nationalAverage ? '--' : nationalAverage.TCC50th | comp: compRate: annualDisplay}}</div>
+  </div>
+  <div class="card-footer d-flex justify-content-between">
+    <div class="text-muted small"><i>National</i></div>
+    <div class="text-muted small">
+      <i>Orgs: {{!nationalAverage ? '--' : nationalAverage.Orgs}}</i>
+    </div>
+  </div>
+</div>
