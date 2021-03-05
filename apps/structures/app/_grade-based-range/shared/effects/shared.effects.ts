@@ -26,6 +26,7 @@ import { Workflow } from '../../../shared/constants/workflow';
 import * as fromSharedStructuresActions from '../../../shared/actions/shared.actions';
 import { PayfactorsApiModelMapper } from '../../../shared/helpers/payfactors-api-model-mapper';
 import * as fromModelSettingsModalActions from '../../../shared/actions/model-settings-modal.actions';
+import * as fromGradeBasedSharedActions from '../actions/shared.actions';
 
 @Injectable()
 export class SharedEffects {
@@ -94,6 +95,7 @@ export class SharedEffects {
                 }
 
                 actions.push(new fromModelSettingsModalActions.CreateGradeBasedModelSettingsSuccess());
+                actions.push(new fromGradeBasedSharedActions.GetGradeRangeDetails(r.RangeGroup.CompanyStructuresRangeGroupId));
               }
 
               this.urlService.removeAllWorkflows();
@@ -144,6 +146,7 @@ export class SharedEffects {
                 }
 
                 actions.push(new fromModelSettingsModalActions.SaveGradeBasedModelSettingsSuccess());
+                actions.push(new fromGradeBasedSharedActions.GetGradeRangeDetails(r.RangeGroup.CompanyStructuresRangeGroupId));
               }
 
               return actions;
