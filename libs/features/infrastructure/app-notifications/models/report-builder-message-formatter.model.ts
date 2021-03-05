@@ -33,13 +33,17 @@ export class ReportBuilderMessageFormatter {
   }
 
   static getIconDiv(payload: NotificationPayload): string {
-    let icon = '<div class="file-excel-icon mr-3"></div>';
-    if (payload.FileType === NotificationPayloadFileType.Pdf) {
-      icon = '<div class="file-pdf-icon mr-3"></div>';
-    } else if (payload.FileType === NotificationPayloadFileType.Email) {
-      icon = '<div class="envelope-icon mr-3"></div>';
+    switch (payload.FileType) {
+      case NotificationPayloadFileType.Pdf:
+        return '<div class="file-pdf-icon mr-3"></div>';
+      case NotificationPayloadFileType.Email:
+        return '<div class="envelope-icon mr-3"></div>';
+      case NotificationPayloadFileType.Docx:
+        return '<div class="word-icon mr-3"></div>';
+      default: {
+        return '<div class="file-excel-icon mr-3"></div>';
+      }
     }
-    return icon;
   }
 
 }

@@ -15,15 +15,6 @@
   </div>
 </div>
 
-<form
-  name="exportFormFromJobDescriptionExport"
-  method="POST"
-  [action]="'/odata/JobDescription(' + jobDescriptionId + ')/Default.Export'">
-  <input type="hidden" name="export-uid" />
-  <input type="hidden" name="export-type" />
-  <input type="hidden" name="viewName" />
-</form>
-
 <pf-file-download-security-warning-modal 
   #fileDownloadSecurityWarningModal
   (securityWarningConfirmed)="handleSecurityWarningConfirmed($event)">
