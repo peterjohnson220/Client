@@ -25,7 +25,7 @@
                             [min]="1"
                             [max]="100"
                             [autoCorrect]="true"
-                            [attr.disabled]="!isNewModel">
+                            [disabled]="!isNewModel">
       </kendo-numerictextbox>
       </div>
       <div class="invalid-feedback">
@@ -53,7 +53,7 @@
                       [loading]="controlPointsAsyncObj.loading"
                       [data]="controlPoints"
                       [textField]="'PayTypeDisplay'"
-                      [valueField]="'Display'"
+                      [valueField]="'FieldName'"
                       [clearButton]="false"
                       [valuePrimitive]="true"
                       [allowCustom]="false"
@@ -98,9 +98,9 @@
     <div class="form-group row" *ngIf="isNewModel">
       <label class="col-3 mt-2" for="midpoint-progression">Midpoint Progression %</label>
       <kendo-numerictextbox class="form-control col-4 ie-fix input-percentage-field"
-                            formControlName="MidProgression"
+                            formControlName="MidpointProgression"
                             id="midpoint-progression"
-                            [ngClass]="{ 'is-invalid': (attemptedSubmit && !formControls.MidProgression.valid)}"
+                            [ngClass]="{ 'is-invalid': (attemptedSubmit && !formControls.MidpointProgression.valid)}"
                             [format]="'n'"
                             [spinners]="false"
                             [decimals]="2"
@@ -109,7 +109,7 @@
                             [autoCorrect]="true">
       </kendo-numerictextbox>
       <div class="invalid-feedback">
-        <div *ngIf="!formControls.MidProgression.valid">Please provide a midpoint progression %.</div>
+        <div *ngIf="!formControls.MidpointProgression.valid">Please provide a midpoint progression %.</div>
       </div>
     </div>
     <div class="form-group row">

@@ -43,6 +43,8 @@ export class ModelSettingsModalContentComponent implements OnInit, OnDestroy {
   controlPoints: ControlPoint[];
   controlPointSelection: ControlPoint;
   currencies: Currency[];
+  modelSetting: RangeGroupMetadata;
+  activeTab: string;
 
   constructor(
     public store: Store<any>,
@@ -62,7 +64,6 @@ export class ModelSettingsModalContentComponent implements OnInit, OnDestroy {
       this.store.dispatch(new fromModelSettingsModalActions.ClearModelNameExistsFailure());
     }
   }
-
 
   handleRangeTypeChange(event) {
     this.activeRangeTypeTab = event.Type;
@@ -104,6 +105,40 @@ export class ModelSettingsModalContentComponent implements OnInit, OnDestroy {
 
   handleCurrencySelectionChange() {
     this.currencies = this.currenciesAsyncObj.obj;
+  }
+
+  handleModalSubmit() {
+    if (this.modelSettingsForm.valid) {
+      const action = this.isNewModel ?
+        new fromModelSettingsModalActions.CreateGradeBasedModelSettings(
+          {
+            rangeGroupId: this.rangeGroupId,
+            formValue: this.modelSetting,
+            fromPageViewId: this.pageViewId
+          })
+        : new fromModelSettingsModalActions.SaveGradeBasedModelSettings(
+          {
+            rangeGroupId: this.rangeGroupId,
+            formValue: this.modelSetting,
+            fromPageViewId: this.pageViewId
+          });
+      this.store.dispatch(action);
+      this.reset();
+    }
+  }
+
+  handleModalSubmitAttempt() {
+    this.attemptedSubmit = true;
+
+    this.modelSetting = this.modelSettingsForm.getRawValue();
+
+    if (!this.modelSettingsForm.valid) {
+      this.activeTab = 'modelTab';
+    }
+  }
+
+  handleModalDismiss() {
+    this.reset();
   }
 
   // LifeCycle
@@ -153,5 +188,4 @@ export class ModelSettingsModalContentComponent implements OnInit, OnDestroy {
   private reset() {
     this.attemptedSubmit = false;
   }
-
 }

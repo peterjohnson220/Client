@@ -62,17 +62,7 @@ exports[`Project - Add Jobs - Structures Page should not display GUI features re
       >
          Clear Selections 
       </button>
-      <button
-        class="btn btn-sm legacy-primary-btn mr-3 au-btn-add"
-        data-qa-id="btn-addJobs"
-        disabled=""
-      >
-        
-        
-         Add 
-        
-        
-      </button>
+      
       <button
         class="btn btn-sm btn-secondary mr-3 au-btn-cancel"
         data-qa-id="btn-cancelAddJobs"

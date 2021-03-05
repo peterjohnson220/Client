@@ -1,5 +1,5 @@
 export * from './add-job-ranges-request.model';
-export * from './save-model-settings-request.model';
+export * from './save-job-based-model-settings-request.model';
 export * from './recalc-and-save-range-min-max-request.model';
 export * from './round-ranges-request.model';
 export * from './recalculate-ranges-without-mid-request.model';
@@ -12,3 +12,5 @@ export * from './current-range-group-request.model';
 export * from './convert-currency-and-rate-request.model';
 export * from './get-structure-has-settings-request.model';
 export * from './range-distribution-setting-request.model';
+export * from './create-grade-based-model-settings-request.model';
+export * from './save-grade-based-model-settings-request.model';

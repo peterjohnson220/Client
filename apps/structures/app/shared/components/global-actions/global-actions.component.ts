@@ -16,6 +16,7 @@ import * as fromSharedStructuresReducer from '../../../shared/reducers';
 })
 export class GlobalActionsComponent implements OnInit {
   @Input() metadata: RangeGroupMetadata;
+  @Input() isNewModel = false;
   @Output() addJobsClicked = new EventEmitter();
   @Output() publishModelClicked = new EventEmitter();
   @Output() modelSettingsClicked = new EventEmitter();
@@ -34,7 +35,6 @@ export class GlobalActionsComponent implements OnInit {
     this._Permissions = Permissions;
     this.comparing$ = this.store.select(fromSharedStructuresReducer.getComparingModels);
     this.compareEnabled$ = this.store.select(fromSharedStructuresReducer.getCompareEnabled);
-
   }
 
   handleAddJobsClicked() {
@@ -71,5 +71,4 @@ export class GlobalActionsComponent implements OnInit {
   ngOnInit(): void {
     this.isJobRange = this.metadata.RangeTypeId === RangeType.Job;
   }
-
 }

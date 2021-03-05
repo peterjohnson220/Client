@@ -78,10 +78,10 @@ describe('ModelSettingsModalContentComponent', () => {
       'ModelName': new FormControl(instance.metadata.ModelName, [Validators.required, Validators.maxLength(50)]),
       'Grades': new FormControl('', [Validators.required]),
       'RangeDistributionTypeId': new FormControl({ value: instance.metadata.RangeDistributionTypeId, disabled: true }, [Validators.required]),
-      'MarketDataBased': new FormControl('Base MRP', [Validators.required]),
+      'MarketDataBased': new FormControl('BaseMRP', [Validators.required]),
       'StartingMidpoint': new FormControl('', [Validators.required]),
       'RangeSpread': new FormControl('', [Validators.required]),
-      'MidProgression': new FormControl('', [Validators.required]),
+      'MidpointProgression': new FormControl('', [Validators.required]),
       'Rate': new FormControl(instance.metadata.Rate, [Validators.required]),
       'Currency': new FormControl(instance.metadata.Currency, [Validators.required])
     });

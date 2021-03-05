@@ -302,7 +302,7 @@ describe('ModelSettingsModalContentComponent', () => {
     instance.pageViewId = JobBasedPageViewIds.ModelMinMidMax;
     instance.roundingSettings = {};
 
-    const expectedAction = new fromModelSettingsModalActions.SaveModelSettings({
+    const expectedAction = new fromModelSettingsModalActions.SaveJobBasedModelSettings({
       rangeGroupId: instance.rangeGroupId,
       formValue: instance.modelSetting,
       fromPageViewId: JobBasedPageViewIds.ModelMinMidMax,
