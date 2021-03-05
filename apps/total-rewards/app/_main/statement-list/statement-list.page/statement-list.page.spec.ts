@@ -11,6 +11,7 @@ import * as fromRootState from 'libs/state/state';
 import * as fromReducers from '../reducers';
 
 import { StatementListPageComponent } from './statement-list.page';
+import { ActivatedRoute, Router } from '@angular/router';
 
 describe('TotalRewardsPageComponent', () => {
   let instance: StatementListPageComponent;
@@ -19,6 +20,11 @@ describe('TotalRewardsPageComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      providers: [
+        StatementListPageComponent,
+        { provide: ActivatedRoute, useValue: { url: of({ }) } },
+        { provide: Router, useValue: { navigate: of({ }) } }
+      ],
       imports: [
         NgbNavModule,
         StoreModule.forRoot({
