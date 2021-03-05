@@ -57,7 +57,7 @@ export class FormulaEditorComponent implements OnInit, AfterViewInit, OnChanges 
       this.initEditorData(this.initialFormula);
     }
     // this code makes it so that the text appears right away if the field was previously hidden
-    this.codeMirror.refresh();
+    this.codeMirror?.refresh();
   }
 
   initCodemirror(): void {
