@@ -93,7 +93,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   rangeOverrides: CompanyStructureRangeOverride[];
   selectedDropdown: NgbDropdown;
   filterTemplates = {};
-  isNewModel: boolean = true;
+  isNewModel = true;
   modelSettingsForm: FormGroup;
   numGrades: number;
   dataSubscription: Subscription;
