@@ -38,6 +38,8 @@ export class DataViewsExportListComponent implements OnInit {
     const extension = fileName.split('.');
     if (extension[extension.length - 1] === 'pdf') {
       return 'file-pdf';
+    } else if (extension[extension.length - 1] === 'docx') {
+      return 'file-word';
     } else {
       return 'file-excel';
     }

@@ -9,6 +9,7 @@ import {
   CompanyStructurePaymarketGrade,
   CompanyStructureInfo
 } from 'libs/models';
+import { JobDescriptionExportRequest } from 'libs/models/payfactors-api';
 
 export const RESET_STATE = '[JobManagement] Reset State';
 export const SHOW_JOB_MODAL = '[JobManagement] Show Job Modal';
@@ -32,6 +33,9 @@ export const UPDATE_JOB_DESCRIPTION = '[JobManagement] Update Job Description';
 export const UPDATE_USER_DEFINED_FIELDS = '[JobManagement] Update User Defined Fields';
 export const REMOVE_ATTACHMENT = '[JobManagement] Remove Attachment';
 export const HANDLE_API_ERROR = '[JobManagement] Handle API Error';
+export const EXPORT_JOB_DESCRIPTION = '[JobManagement] Export Job Description';
+export const EXPORT_JOB_DESCRIPTION_SUCCESS = '[JobManagement] Export Job Description Success';
+export const EXPORT_JOB_DESCRIPTION_ERROR = '[JobManagement] Export Job Description Error';
 
 export class ResetState implements Action {
   readonly type = RESET_STATE;
@@ -141,6 +145,21 @@ export class HandleApiError implements Action {
   constructor(public payload: string) { }
 }
 
+export class ExportJobDescription implements Action {
+  readonly type = EXPORT_JOB_DESCRIPTION;
+  constructor(public payload: JobDescriptionExportRequest) {}
+}
+
+export class ExportJobDescriptionSuccess implements Action {
+  readonly type = EXPORT_JOB_DESCRIPTION_SUCCESS;
+  constructor() {}
+}
+
+export class ExportJobDescriptionError implements Action {
+  readonly type = EXPORT_JOB_DESCRIPTION_ERROR;
+  constructor() {}
+}
+
 export type Actions
   = ResetState
   | SaveCompanyJob
@@ -162,4 +181,7 @@ export type Actions
   | UpdateJobDescription
   | UpdateUserDefinedFields
   | RemoveAttachment
-  | HandleApiError;
+  | HandleApiError
+  | ExportJobDescription
+  | ExportJobDescriptionSuccess
+  | ExportJobDescriptionError;

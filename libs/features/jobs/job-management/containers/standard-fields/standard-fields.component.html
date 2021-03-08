@@ -90,7 +90,8 @@
       [title]="(isJdmEnabled$ | async) ? 'Job Summary' : 'Job Description'"
       [textareaPlaceholder]="(isJdmEnabled$ | async) ? 'There is no job summary currently available for this job.' : 'There is no Job Description loaded for this Job.'"
       (jobDescriptionChanged)="jobDescriptionChanged($event)"
-      [enableFileDownloadSecurityWarning]="enableFileDownloadSecurityWarning$ | async">
+      [enableFileDownloadSecurityWarning]="enableFileDownloadSecurityWarning$ | async"
+      (exportClicked)="exportJobDescription($event)">
     </pf-job-description-summary-editor>    
   </div>
 </form>
