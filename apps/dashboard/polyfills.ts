@@ -51,6 +51,8 @@ import 'assets/js/new-relic.js';
 // Used for reflect-metadata in JIT. If you use AOT (and only Angular decorators), you can remove.
 import 'core-js/es7/reflect';
 
+/** Needed before Polyfills in order to avoid an infinite recursion issue */
+import 'core-js/es7/array';
 
 /**
  * Required to support Web Animations `@angular/platform-browser/animations`.
