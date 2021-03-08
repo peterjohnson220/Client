@@ -116,7 +116,7 @@ export class SurveyLoaderComponent implements OnInit, OnDestroy {
       GroupName: '',
       CompanyId: null,
       LoadType: LoadTypes.Manual,
-      PrimaryCompositeDataLoadType: CompositeDataLoadTypes.Survey,
+      PrimaryCompositeDataLoadType: CompositeDataLoadTypes.Surveys,
       CreateNewConfigOverride: true
     };
     this.store.dispatch(new fromSurveyLoaderActions.SetConfigGroup(configGroup));
@@ -126,8 +126,18 @@ export class SurveyLoaderComponent implements OnInit, OnDestroy {
     if (!success) {
       return;
     }
+    this.uploadExcelFile();
+  }
 
-    this.store.dispatch(new fromSurveyLoaderActions.ProcessingSuccess());
+  uploadExcelFile(): void {
+    if (!this.userContext || !this.surveyFileUpload.selectedFile) {
+      return;
+    }
+    this.store.dispatch(new fromSurveyLoaderActions.UploadFile({
+      companyId: null,
+      userContext: this.userContext,
+      file: this.surveyFileUpload.selectedFile
+    }));
   }
 
   showSuccessNotification(): void {

@@ -11,7 +11,6 @@ import { IntegrationApiService } from '../integration-api.service';
   providedIn: 'root',
 })
 export class DataImportApiService {
-  private service = 'Integration/api/v1';
   constructor(private integrationApiService: IntegrationApiService) {
 
   }
@@ -26,7 +25,7 @@ export class DataImportApiService {
   }
 
   sendExcelFile(request: ExcelFileUploadRequest): Observable<any> {
-    const url = `/company/${request.CompanyId}/DataImport/File/Excel`;
+    const url = `/DataImport/File/Excel/Company${request.CompanyId !== null ? `/${request.CompanyId}` : ''}` ;
     return this.integrationApiService.fetchAuthToken().pipe(
       switchMap(token => {
         return this.integrationApiService.putFormData(url, token, request.UserContext, request.FormData);
