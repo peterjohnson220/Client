@@ -289,6 +289,10 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
     this.store.dispatch(new fromEditStatementPageActions.RemoveImageControlImage(deleteImageRequest));
   }
 
+  handleSelectImage() {
+    this.store.dispatch(new fromEditStatementPageActions.SelectImageControlImage());
+  }
+
   // EFFECTIVE DATE
   handleEffectiveDateChange(date: Date) {
     this.store.dispatch(new fromEditStatementPageActions.UpdateEffectiveDate({ effectiveDate: date }));

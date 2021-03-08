@@ -56,6 +56,7 @@ export class TotalRewardsStatementComponent {
   @Output() onSaveImage: EventEmitter<SaveImageRequest> = new EventEmitter();
   @Output() onRemoveImage: EventEmitter<DeleteImageRequest> = new EventEmitter();
   @Output() onImageLoaded: EventEmitter<string> = new EventEmitter();
+  @Output() onImageSelected: EventEmitter<void> = new EventEmitter();
 
   // Effective Date Outputs
   @Output() onEffectiveDateChange: EventEmitter<Date> = new EventEmitter<Date>();
@@ -183,6 +184,10 @@ export class TotalRewardsStatementComponent {
 
   handleImageLoaded(imageControlId) {
     this.onImageLoaded.emit(imageControlId);
+  }
+
+  handleImageSelected() {
+    this.onImageSelected.emit();
   }
 
   // Effective Date pass through methods

@@ -1,7 +1,6 @@
 import { Action } from '@ngrx/store';
 
 import {
-  Statement,
   SaveImageRequest,
   UpdateStringPropertyRequest,
   DeleteImageRequest,
@@ -12,17 +11,22 @@ import * as requestModels from 'libs/features/total-rewards/total-rewards-statem
 // CONTROL UPDATES
 export const UPDATE_STATEMENT_NAME = '[Total Rewards/Edit Statement] Update Statement Name';
 export const UPDATE_STATEMENT_CONTROL_TITLE = '[Total Rewards/Edit Statement] Update Statement Control Title';
+
 export const UPDATE_CALCULATION_CONTROL_FIELD_TITLE = '[Total Rewards/Edit Statement] Update Calculation Control Field Title';
 export const UPDATE_CALCULATION_CONTROL_SUMMARY_TITLE = '[Total Rewards/Edit Statement] Update Calculation Control Summary Title';
 export const ADD_CALCULATION_CONTROL_COMPENSATION_FIELD = '[Total Rewards/Edit Statement] Add Calculation Control Compensation Field';
 export const REMOVE_CALCULATION_CONTROL_COMPENSATION_FIELD = '[Total Rewards/Edit Statement] Remove Calculation Control Compensation Field';
+
 export const UPDATE_RICH_TEXT_CONTROL_CONTENT = '[Total Rewards/Edit Statement] Update Rich Text Control Content';
+export const UPDATE_ACTIVE_RICH_TEXT_EDITOR_ID = '[Total Rewards/Edit Statement] Update Active Rich Text Editor ID';
+
 export const SAVE_IMAGE_CONTROL_IMAGE = '[Total Rewards/Edit Statement] Save Image Control Image';
 export const REMOVE_IMAGE_CONTROL_IMAGE = '[Total Rewards/Edit Statement] Remove Image Control Image';
+export const SELECT_IMAGE_CONTROL_IMAGE = '[Total Rewards/Edit Statement] Select Image Control Image';
+
 export const GET_COMPANY_UDF = '[Total Rewards/Edit Statement] Get Company UDF';
 export const GET_COMPANY_UDF_SUCCESS = '[Total Rewards/Edit Statement] Get Company UDF Success';
 export const GET_COMPANY_UDF_ERROR = '[Total Rewards/Edit Statement] Get Company UDF Error';
-export const UPDATE_ACTIVE_RICH_TEXT_EDITOR_ID = '[Total Rewards/Edit Statement] Update Active Rich Text Editor ID';
 
 export class UpdateStatementName implements Action {
   readonly type = UPDATE_STATEMENT_NAME;
@@ -59,6 +63,11 @@ export class UpdateRichTextControlContent implements Action {
   constructor(public payload: UpdateStringPropertyRequest) {}
 }
 
+export class UpdateActiveRichTextEditorId implements Action {
+  readonly type = UPDATE_ACTIVE_RICH_TEXT_EDITOR_ID;
+  constructor(public payload: string) {}
+}
+
 export class SaveImageControlImage implements Action {
   readonly type = SAVE_IMAGE_CONTROL_IMAGE;
   constructor(public payload: SaveImageRequest) {}
@@ -69,9 +78,12 @@ export class RemoveImageControlImage implements Action {
   constructor(public payload: DeleteImageRequest) {}
 }
 
+export class SelectImageControlImage implements Action {
+  readonly type = SELECT_IMAGE_CONTROL_IMAGE;
+}
+
 export class GetCompanyUDF implements Action {
   readonly type = GET_COMPANY_UDF;
-  constructor() {}
 }
 
 export class GetCompanyUDFSuccess implements Action {
@@ -81,12 +93,6 @@ export class GetCompanyUDFSuccess implements Action {
 
 export class GetCompanyUDFError implements Action {
   readonly type = GET_COMPANY_UDF_ERROR;
-  constructor() {}
-}
-
-export class UpdateActiveRichTextEditorId implements Action {
-  readonly type = UPDATE_ACTIVE_RICH_TEXT_EDITOR_ID;
-  constructor(public payload: string) {}
 }
 
 export type ControlActions =
@@ -100,6 +106,7 @@ export type ControlActions =
   AddCalculationControlCompensationField |
   SaveImageControlImage |
   RemoveImageControlImage |
+  SelectImageControlImage |
   GetCompanyUDF |
   GetCompanyUDFSuccess |
   GetCompanyUDFError |
