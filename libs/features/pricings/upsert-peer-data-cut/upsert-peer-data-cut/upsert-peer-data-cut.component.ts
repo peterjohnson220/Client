@@ -315,7 +315,7 @@ export class UpsertPeerDataCutComponent implements OnInit, OnDestroy, OnChanges 
     this.setContext({refineExchangeJobId: exchangeJobId});
   }
 
-  editTempDataCut(tempDataCut: ExchangeJobDataCut) {
+  editTempDataCut(tempDataCut: any) {
     this.editingTemp = true;
     this.showMap();
     this.setContext({tempDataCutBeingEdited: tempDataCut});

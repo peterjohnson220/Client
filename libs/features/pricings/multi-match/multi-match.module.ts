@@ -16,14 +16,15 @@ import { PfSearchModule } from 'libs/features/search/search';
 import { SurveySearchModule } from 'libs/features/surveys/survey-search';
 import { UpsertPeerDataCutModule } from 'libs/features/pricings/upsert-peer-data-cut';
 import { DataCutSummaryModule } from 'libs/features/pricings/data-cut-summary';
+import { WindowCommunicationService } from 'libs/core/services';
 
 import * as fromFaIcons from './fa-icons';
-import {JobToPriceComponent, DataCutTitleComponent} from './components';
+import { JobToPriceComponent, DataCutTitleComponent } from './components';
 import { JobsToPriceContainerComponent } from './containers';
-import {MultiMatchEffects, JobsToPriceEffects, ModifyPricingsEffects} from './effects';
+import { MultiMatchEffects, JobsToPriceEffects, ModifyPricingsEffects } from './effects';
+import { MultiMatchComponent } from './multi-match';
 import { reducers } from './reducers';
-import {MultiMatchComponent} from './multi-match';
-import {WindowCommunicationService} from '../../../core/services';
+import { TempDataCutService } from './services';
 
 @NgModule({
   imports: [
@@ -56,7 +57,7 @@ import {WindowCommunicationService} from '../../../core/services';
     MultiMatchComponent,
   ],
   exports: [MultiMatchComponent],
-  providers: [WindowCommunicationService]
+  providers: [WindowCommunicationService, TempDataCutService]
 })
 export class MultiMatchModule {
   constructor(library: FaIconLibrary) {
