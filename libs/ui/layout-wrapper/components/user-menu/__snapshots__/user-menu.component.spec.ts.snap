@@ -3,6 +3,7 @@
 exports[`User Menu should show a divider for log out 1`] = `
 <pf-layout-wrapper-user-menu
   dropdownNavigationLinks={[Function Array]}
+  dropdownNavigationLinksWithDivider={[Function Array]}
   userContext={[Function Object]}
 >
   <ul
@@ -55,6 +56,7 @@ exports[`User Menu should show a divider for log out 1`] = `
 exports[`User Menu should show a divider for referrals 1`] = `
 <pf-layout-wrapper-user-menu
   dropdownNavigationLinks={[Function Array]}
+  dropdownNavigationLinksWithDivider={[Function Array]}
   userContext={[Function Object]}
 >
   <ul
@@ -103,6 +105,7 @@ exports[`User Menu should show a divider for referrals 1`] = `
 exports[`User Menu should show a list of dropdown navigation links, when provided 1`] = `
 <pf-layout-wrapper-user-menu
   dropdownNavigationLinks={[Function Array]}
+  dropdownNavigationLinksWithDivider={[Function Array]}
   userContext={[Function Object]}
 >
   <ul
@@ -164,6 +167,7 @@ exports[`User Menu should show a list of dropdown navigation links, when provide
 exports[`User Menu should show an icon for log out 1`] = `
 <pf-layout-wrapper-user-menu
   dropdownNavigationLinks={[Function Array]}
+  dropdownNavigationLinksWithDivider={[Function Array]}
   userContext={[Function Object]}
 >
   <ul
@@ -216,6 +220,7 @@ exports[`User Menu should show an icon for log out 1`] = `
 exports[`User Menu should show the app users name 1`] = `
 <pf-layout-wrapper-user-menu
   dropdownNavigationLinks={[Function Array]}
+  dropdownNavigationLinksWithDivider={[Function Array]}
   userContext={[Function Object]}
 >
   <ul
@@ -253,6 +258,7 @@ exports[`User Menu should show the app users name 1`] = `
 exports[`User Menu should show the app users name with client name if user is impersonated 1`] = `
 <pf-layout-wrapper-user-menu
   dropdownNavigationLinks={[Function Array]}
+  dropdownNavigationLinksWithDivider={[Function Array]}
   userContext={[Function Object]}
 >
   <ul
