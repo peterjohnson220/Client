@@ -13,6 +13,7 @@ export class UserMenuComponent {
   @Input() dropdownNavigationLinks: NavigationLink[];
   @Input() requireSSOLogin: boolean;
 
+  dropdownNavigationLinksWithDivider = ['Log Out', 'Referrals', 'Submit a Ticket'];
   constructor() { }
 
   showUserDropdownMenu() {
@@ -23,5 +24,9 @@ export class UserMenuComponent {
       } else {
         return false;
       }
+  }
+
+  requiresDivider(dropDownLinkName: string): boolean {
+    return !!this.dropdownNavigationLinksWithDivider.includes(dropDownLinkName);
   }
 }

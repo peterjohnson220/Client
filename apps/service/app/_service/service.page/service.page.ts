@@ -149,7 +149,9 @@ export class ServicePageComponent implements AfterViewInit, OnInit, OnDestroy {
 
     this.queryParamsSubscription = this.route.queryParams.subscribe(params => {
       if (!!params['newTicket']) {
-        this.store.dispatch(new fromServicePageActions.ShowNewTicketModal(true));
+        setTimeout(() => {
+          this.store.dispatch(new fromServicePageActions.ShowNewTicketModal(true));
+        });
       }
     });
   }
