@@ -28,7 +28,6 @@ import { PayMarketsPageViewId } from '../models';
 })
 export class PayMarketsPageComponent implements AfterViewInit, OnInit, OnDestroy {
   @ViewChild('gridRowActionsTemplate') gridRowActionsTemplate: ElementRef;
-  @ViewChild('defaultScopesColumn') defaultScopesColumn: ElementRef;
   @ViewChild('payMarketNameColumn') payMarketNameColumn: ElementRef;
   @ViewChild('gridGlobalActions', { static: true }) public gridGlobalActionsTemplate: ElementRef;
   @ViewChild(PfSecuredResourceDirective) pfSecuredResourceDirective: PfSecuredResourceDirective;
@@ -89,7 +88,6 @@ export class PayMarketsPageComponent implements AfterViewInit, OnInit, OnDestroy
       ActionsTemplate : this.gridRowActionsTemplate
     };
     this.colTemplates = {
-      'Default_Scope': { Template: this.defaultScopesColumn},
       'PayMarket': { Template: this.payMarketNameColumn}
     };
     this.actionBarConfig = {
