@@ -39,6 +39,7 @@ exports[`User Menu should show a divider for log out 1`] = `
         <a
           class="dropdown-item"
           href="logout"
+          target=""
         >
           
           <fa-icon
@@ -92,6 +93,7 @@ exports[`User Menu should show a divider for referrals 1`] = `
         <a
           class="dropdown-item"
           href="referrals"
+          target=""
         >
           
            Referrals 
@@ -138,6 +140,7 @@ exports[`User Menu should show a list of dropdown navigation links, when provide
         <a
           class="dropdown-item"
           href="https://www.payfactors.com"
+          target=""
         >
           
            I am a link 
@@ -146,6 +149,7 @@ exports[`User Menu should show a list of dropdown navigation links, when provide
         <a
           class="dropdown-item"
           href="https://www.google.com"
+          target=""
         >
           
            I am a Link 2 
@@ -154,6 +158,7 @@ exports[`User Menu should show a list of dropdown navigation links, when provide
         <a
           class="dropdown-item"
           href="https://www.angular.io"
+          target=""
         >
           
            I am a Link 3 
@@ -203,6 +208,7 @@ exports[`User Menu should show an icon for log out 1`] = `
         <a
           class="dropdown-item"
           href="logout"
+          target=""
         >
           
           <fa-icon
