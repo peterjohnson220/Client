@@ -3,7 +3,7 @@ import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } fr
 import cloneDeep from 'lodash/cloneDeep';
 import { ofType } from '@ngrx/effects';
 import { ActionsSubject, Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { BehaviorSubject } from 'rxjs/index';
 import { SortDescriptor } from '@progress/kendo-data-query';
 
@@ -37,6 +37,7 @@ import * as fromJobManagementActions from 'libs/features/jobs/job-management/act
 import * as fromSearchPageActions from 'libs/features/search/search/actions/search-page.actions';
 import * as fromSearchFeatureActions from 'libs/features/search/search/actions/search-feature.actions';
 import * as fromAppNotificationsMainReducer from 'libs/features/infrastructure/app-notifications/reducers';
+import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
 
 import { PageViewIds } from '../constants';
 import { ShowingActiveJobs } from '../pipes';
@@ -50,6 +51,8 @@ import * as fromJobsPageReducer from '../reducers';
 })
 
 export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
+  hideOldJobsPageButtonFeatureFlag: RealTimeFlag = { key: FeatureFlags.HideOldJobsPageButton, value: false };
+  private unsubscribe$ = new Subject<void>();
   permissions = Permissions;
   readonly showingActiveJobsPipe = new ShowingActiveJobs();
 
@@ -188,7 +191,6 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('gridGlobalActions', { static: true }) gridGlobalActionsTemplate: ElementRef;
   @ViewChild('structureGradeFilter') structureGradeFilter: ElementRef;
   @ViewChild('pricingReviewedFilter') pricingReviewedFilter: ElementRef;
-
   @ViewChild('fileDownloadSecurityWarningModal', { static: true }) fileDownloadSecurityWarningModal: FileDownloadSecurityWarningModalComponent;
 
   constructor(
@@ -197,6 +199,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     private companyJobApiService: CompanyJobApiService,
     private settingsService: SettingsService,
     private appNotificationStore: Store<fromAppNotificationsMainReducer.State>,
+    private featureFlagService: AbstractFeatureFlagService
   ) {
     this.gridConfig = {
       PersistColumnWidth: true,
@@ -204,6 +207,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
       ScrollToTop: true,
       SelectAllPanelItemName: 'jobs'
     };
+    this.featureFlagService.bindEnabled(this.hideOldJobsPageButtonFeatureFlag, this.unsubscribe$);
   }
 
   ngOnInit() {
@@ -426,6 +430,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.unsubscribe$.next();
     this.selectedKeysSubscription.unsubscribe();
     this.selectedPaymarketsSubscription.unsubscribe();
     this.gridFieldSubscription.unsubscribe();

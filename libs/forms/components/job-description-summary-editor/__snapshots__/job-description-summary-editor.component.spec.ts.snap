@@ -5,6 +5,7 @@ exports[`Job Management Feature - Job Form Should display form 1`] = `
   JOB_SUMMARY_MIN_LENGTH={[Function Number]}
   actionIconSize={[Function String]}
   errorMessageClass={[Function String]}
+  fileDownloadSecurityWarningModal={[Function ElementRef]}
   formBuilder={[Function FormBuilder]}
   formChangesSubscription={[Function Subscriber]}
   isJdmEnabled={[Function Boolean]}
@@ -79,6 +80,6 @@ exports[`Job Management Feature - Job Form Should display form 1`] = `
       name="viewName"
       type="hidden"
     />
-  </form>
+  </form><pf-file-download-security-warning-modal />
 </pf-job-description-summary-editor>
 `;

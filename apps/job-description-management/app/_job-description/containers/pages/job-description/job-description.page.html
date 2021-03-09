@@ -87,7 +87,8 @@
 
                 <pf-job-description-section *ngFor="let section of visibleSections; trackBy: trackByFn"
                                             [section]="section"
-                                            [readOnly]="!(hasCanEditJobDescriptionPermission) || !editing"
+                                            [controlTypesLoaded]="!(controlTypesAsync$ | async)?.loading"
+                                            [readOnly]="!(hasCanEditJobDescriptionPermission && jobDescription.JobDescriptionStatus !== 'Published')"
                                             [jobDescriptionStatus]="jobDescription.JobDescriptionStatus"
                                             [undoChanges$]="undoChanges$"
                                             [replaceContents$]="replaceContents$"
