@@ -27,6 +27,6 @@ export class UserMenuComponent {
   }
 
   requiresDivider(dropDownLinkName: string): boolean {
-    return !!this.dropdownNavigationLinksWithDivider.includes(dropDownLinkName);
+    return this.dropdownNavigationLinksWithDivider.indexOf(dropDownLinkName) > -1;
   }
 }
