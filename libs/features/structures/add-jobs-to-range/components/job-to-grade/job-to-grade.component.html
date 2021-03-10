@@ -23,12 +23,20 @@
             <tr>
               <th class="text-nowrap">Job Code</th>
               <th class="text-nowrap">Job Title</th>
+              <th></th>
             </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let job of grade.Jobs">
+              <tr *ngFor="let job of grade.Jobs" [class.highlight]="!job.AlreadyExists">
                 <td>{{job.JobCode}}</td>
                 <td>{{job.JobTitle}}</td>
+                <td>
+                  <button class="btn bg-transparent"
+                          (click)="removeJob(job)">
+                    <fa-icon
+                      [icon]="['far', 'trash-alt']" ></fa-icon>
+                  </button>
+                </td>
               </tr>
             </tbody>
           </table>

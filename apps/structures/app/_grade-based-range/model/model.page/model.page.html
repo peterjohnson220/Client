@@ -16,4 +16,12 @@
   [controlPoint]="metadata?.ControlPoint"
   [rate]="metadata?.Rate"
   [gradeRangeGroupDetails]="this.gradeRangeDetails">
+  <ng-container help-text>
+    <div class="alert alert-info">
+      <ng-container>
+        Select one or more jobs. Drag and drop the selected jobs onto a Grade to the right. Remove unwanted jobs by clicking on the trashcan. Once complete,
+        click <strong>Save</strong> to commit your changes.
+      </ng-container>
+    </div>
+  </ng-container>
 </pf-add-jobs-modal-wrapper>

@@ -17,7 +17,8 @@
         [dragging]="isDragging$ | async"
         [rate]="rate"
         [rangeDistributionType]="gradeRangeGroupDetails.RangeDistributionTypeId"
-        (loadJobs)="handleLoadJobs($event)">
+        (loadJobs)="handleLoadJobs($event)"
+        (jobDeleted)="handleJobDeleted($event)">
       </pf-job-to-grade>
     </ng-container>
   </pf-async-container>

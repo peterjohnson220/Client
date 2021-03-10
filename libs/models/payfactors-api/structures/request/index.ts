@@ -14,3 +14,4 @@ export * from './get-structure-has-settings-request.model';
 export * from './range-distribution-setting-request.model';
 export * from './create-grade-based-model-settings-request.model';
 export * from './save-grade-based-model-settings-request.model';
+export * from './save-company-jobs-structure-maps-request.model';
