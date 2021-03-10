@@ -67,6 +67,7 @@ export class Permissions {
   public static CREATE_JOB_HIERARCHY = 'Create Job Hierarchy';
   public static SCHEDULE_TABULAR_REPORT_EXPORT_DATA_INSIGHT = 'Schedule Tabular Report Export Data Insight';
   public static SCHEDULE_TABULAR_REPORT_EXPORT_COMPANY_ADMIN = 'Schedule Tabular Report Export Company Admin';
+  public static COMPANY_RESOURCES_ADD_EDIT_DELETE = 'Company_Resources_Add_Edit_Delete';
 
   // DKG: Note there are two similar Org Loader permissions for different tiles, one for Company-Admin and one for Data-Management
   public static DATAMANAGEMENT_ORG_DATA_LOAD = 'Load Organizational Data';

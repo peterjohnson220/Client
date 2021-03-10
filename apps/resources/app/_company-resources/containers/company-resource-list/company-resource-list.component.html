@@ -5,7 +5,7 @@
                 <div class="folder-text" (click)="onFolderSelect(folderResource.FolderName)">
                     <span class="fa-li"><fa-icon icon="{{setFolderIcon(folderResource.FolderName)}}"></fa-icon></span>{{folderResource.FolderName}}
                 </div>
-                <button type="button" class="btn btn-danger" (click)="openDeleteResourceModal(folderResource)">Delete</button>
+                <button type="button" class="btn btn-danger" *ngIf = "hasCompanyResourcesAddEditDeletePermission" (click)="openDeleteResourceModal(folderResource)">Delete</button>
             </li>
             <ul [hidden]="folderStates[folderResource.FolderName]" class="resource-list">
                 <ng-container *ngIf="folderResource.CompanyResources && folderResource.CompanyResources.length > 0; then resourceItem else emptyResourceItem"></ng-container>
@@ -22,7 +22,7 @@
                         </div>
                         <div class="icon-container">
                             <fa-icon class="resource-icon" icon="{{setResourceIcon(resource)}}"></fa-icon>
-                            <button type="button" class="btn btn-danger" (click)="openDeleteResourceModal(resource)">Delete</button>
+                            <button type="button" class="btn btn-danger" *ngIf = "hasCompanyResourcesAddEditDeletePermission" (click)="openDeleteResourceModal(resource)">Delete</button>
                         </div>
                     </li>
                 </ng-template>
@@ -31,12 +31,12 @@
                         <span>Empty</span>
                     </li>
                 </ng-template>
-            </ul>    
+            </ul>
         </ul>
     </ng-container>
-    <ng-container *ngIf="orphanedResources">       
+    <ng-container *ngIf="orphanedResources">
         <ul class="orphan-list">
-            <li class="resource-item" *ngFor="let orphanResource of orphanedResources">  
+            <li class="resource-item" *ngFor="let orphanResource of orphanedResources">
                 <div class="resource-text">
                     <ng-container *ngIf="isLink(orphanResource); then orphanLinkItem else orphanFileItem"></ng-container>
                     <ng-template #orphanLinkItem>
@@ -48,14 +48,14 @@
                 </div>
                 <div class="icon-container">
                     <fa-icon class="resource-icon" icon="{{setResourceIcon(orphanResource)}}"></fa-icon>
-                    <button type="button" class="btn btn-danger" (click)="openDeleteResourceModal(orphanResource)">Delete</button>
+                    <button type="button" class="btn btn-danger" *ngIf = "hasCompanyResourcesAddEditDeletePermission" (click)="openDeleteResourceModal(orphanResource)">Delete</button>
                 </div>
             </li>
         </ul>
     </ng-container>
 </div>
 
-<pf-file-download-security-warning-modal 
+<pf-file-download-security-warning-modal
   #fileDownloadSecurityWarningModal
   (securityWarningConfirmed)="handleSecurityWarningConfirmed($event)">
 </pf-file-download-security-warning-modal>
