@@ -6,7 +6,11 @@
   [columnTemplates]="colTemplates"
   [gridRowActionsConfig]="gridRowActionsConfig"
   [gridActionsTemplate]="gridActions"
-  [customSortOptions]="customSortOptions">
+  [customSortOptions]="customSortOptions"
+  [enableResize]="!isTileView"
+  [gridConfig]="gridConfig"
+  [pageable]="!gridConfig?.EnableInfiniteScroll"
+  [class.tile-view]="isTileView">
 </pf-data-grid>
 
 <ng-template #gridRowActionsTemplate let-dataRow="dataRow">
@@ -31,9 +35,18 @@
 </ng-template>
 
 <ng-template #payMarketNameColumn let-dataRow="dataRow" let-hover="hover">
-  <div class="d-flex">
-    <span pfEllipsisActive class="w-100 ellipsis-overflowing-text-wrap" *ngIf="!!dataRow['CompanyPayMarkets_PayMarket']">{{dataRow['CompanyPayMarkets_PayMarket']}} </span>
-    <span *ngIf="dataRow['CompanyPayMarkets_IsDefaultPayMarket'] === 1" class="badge default-badge btn flex-shrink-1 pl-2 pr-2">Default</span>
+  <div class="d-flex" [class.name-column]="isTileView">
+    <span *ngIf="!!dataRow['CompanyPayMarkets_PayMarket']"
+          pfEllipsisActive
+          class="w-100 ellipsis-overflowing-text-wrap"
+          [class.pay-market-name]="isTileView">
+      {{dataRow['CompanyPayMarkets_PayMarket']}} 
+    </span>
+    <span *ngIf="dataRow['CompanyPayMarkets_IsDefaultPayMarket'] === 1"
+          class="badge btn flex-shrink-1 pl-2 pr-2"
+          [ngClass]="isTileView ? 'tile-default-badge' : 'default-badge'">
+          Default
+    </span>
   </div>
 </ng-template>
 
@@ -49,6 +62,11 @@
     (click)="addNewPayMarket()"
     class="btn btn-primary">
     New Pay Market
+  </button>
+
+  <button class="btn btn-secondary" (click)="toggleView()" [title]="isTileView ? listView : tileView">
+    <fa-icon *ngIf="isTileView" [icon]="['fal', 'list']"></fa-icon>
+    <fa-icon *ngIf="!isTileView" [icon]="['fal', 'server']"></fa-icon>
   </button>
 </ng-template>
 

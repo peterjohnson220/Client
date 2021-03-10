@@ -8,6 +8,7 @@ import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { ActionBarConfig,
   getDefaultActionBarConfig,
   getDefaultGridRowActionsConfig,
+  GridConfig,
   GridRowActionsConfig
 } from 'libs/features/grids/pf-data-grid/models';
 import { UserContext } from 'libs/models/security';
@@ -16,6 +17,8 @@ import { Permissions } from 'libs/constants';
 import * as fromPayMarketManagementReducers from 'libs/features/paymarkets/paymarket-management/reducers';
 import * as fromPayMarketModalActions from 'libs/features/paymarkets/paymarket-management/actions/paymarket-modal.actions';
 import { PfSecuredResourceDirective } from 'libs/forms/directives';
+import { SettingsService } from 'libs/state/app-context/services';
+import { FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models/common';
 
 import * as fromPayMarketsPageActions from '../actions/paymarkets-page.actions';
 import * as fromPayMarketsPageReducer from '../reducers';
@@ -33,7 +36,10 @@ export class PayMarketsPageComponent implements AfterViewInit, OnInit, OnDestroy
   @ViewChild(PfSecuredResourceDirective) pfSecuredResourceDirective: PfSecuredResourceDirective;
 
   identity$: Observable<UserContext>;
+  isTileView$: Observable<string>;
+
   identitySubscription: Subscription;
+  isTileViewSubscription: Subscription;
 
   defaultSort: SortDescriptor[] = [
     {
@@ -46,6 +52,7 @@ export class PayMarketsPageComponent implements AfterViewInit, OnInit, OnDestroy
     }
   ];
   actionBarConfig: ActionBarConfig;
+  gridConfig: GridConfig;
   pageViewId = PayMarketsPageViewId;
   companyId: number;
   colTemplates = {};
@@ -58,11 +65,15 @@ export class PayMarketsPageComponent implements AfterViewInit, OnInit, OnDestroy
   showSummaryModal = new BehaviorSubject<boolean>(false);
   showSummaryModal$ = this.showSummaryModal.asObservable();
   summaryPaymarketId: number;
+  isTileView: boolean;
+  tileView = 'Tile View';
+  listView = 'List View';
 
   constructor(
     private store: Store<fromPayMarketsPageReducer.State>,
     private userContextStore: Store<fromRootState.State>,
     public payMarketManagementStore: Store<fromPayMarketManagementReducers.State>,
+    private settingsService: SettingsService
   ) {
     this.identity$ = this.userContextStore.select(fromRootState.getUserContext);
     this.actionBarConfig = {
@@ -70,6 +81,14 @@ export class PayMarketsPageComponent implements AfterViewInit, OnInit, OnDestroy
       ShowActionBar: true,
       AllowSaveFilter: false
     };
+    this.gridConfig = {
+      PersistColumnWidth: false,
+      EnableInfiniteScroll: true,
+      ScrollToTop: true
+    };
+    this.isTileView$ = this.settingsService.selectUiPersistenceSetting<string>(
+      FeatureAreaConstants.PayMarkets, UiPersistenceSettingConstants.PayMarketsPageViewStyleSelection, 'string'
+    );
   }
 
   ngOnInit() {
@@ -78,6 +97,9 @@ export class PayMarketsPageComponent implements AfterViewInit, OnInit, OnDestroy
         this.defaultPayMarketId = i.DefaultPayMarketId;
         this.companyId =  i.CompanyId;
       }
+    });
+    this.isTileViewSubscription = this.isTileView$.subscribe(value => {
+      this.isTileView = value === this.tileView;
     });
     window.addEventListener('scroll', this.scroll, true);
   }
@@ -98,6 +120,7 @@ export class PayMarketsPageComponent implements AfterViewInit, OnInit, OnDestroy
 
   ngOnDestroy() {
     this.identitySubscription.unsubscribe();
+    this.isTileViewSubscription.unsubscribe();
   }
 
   customSortOptions = (previousSortDescriptor: SortDescriptor[], currentSortDescriptor: SortDescriptor[]): SortDescriptor[] => {
@@ -159,6 +182,11 @@ export class PayMarketsPageComponent implements AfterViewInit, OnInit, OnDestroy
 
   deletePayMarket(): void {
     this.payMarketManagementStore.dispatch(new fromPayMarketModalActions.OpenDeletePayMarketModal());
+  }
+
+  toggleView(): void {
+    const viewName = this.isTileView ? this.listView : this.tileView;
+    this.store.dispatch(new fromPayMarketsPageActions.SavePageViewStyle(viewName));
   }
 
   private getSizeColumnSort(sizeSortInfo: SortDescriptor): SortDescriptor[] {

@@ -1,3 +1,5 @@
+@import "colors";
+
 .gray-badge {
   background-color: #818A91;
   color: white;
@@ -42,4 +44,31 @@
 
 .paymarket-actions {
   cursor: pointer;
+}
+
+.name-column {
+  height: 69px;
+  border-radius: 2px;
+  background-color: $pf-brand-primary-color;
+
+  .pay-market-name {
+    margin-top: 25px;
+    margin-left: 13px;
+    color: #1F2F3D;
+    font-weight: 500;
+  }
+
+  .tile-default-badge {
+    background-color: #6C757D;
+    color: #ffffff;
+    height: 22px;
+    margin-top: 8px;
+    margin-right: 8px;
+  }
+}
+
+.tile-view {
+  .dropdown {
+    text-align: center;
+  }
 }
