@@ -1,7 +1,6 @@
 <pf-data-grid
   [pageViewId]="pageViewId"
   [title]="'Jobs'"
-  [titleActionsTemplate]="oldJobsPageToggleTemplate"
   [selectionField]="'CompanyJob_ID'"
   [gridActionsTemplate]="gridActions"
   [columnTemplates]="colTemplates"
@@ -29,20 +28,6 @@
            [attr.data-qa-id]="'btn-jobs-page-delete-job-' + dataRow['CompanyJobs_CompanyJob_ID']"
            [pfSecuredResource]="permissions.JOBS_ADD_EDIT_DELETE"
            (click)="openDeleteJobModal(dataRow['CompanyJobs_CompanyJob_ID'], dataRow['CompanyJobs_Job_Title']); $event.stopPropagation()" class="pr-2" [fixedWidth]="true"></fa-icon>
-</ng-template>
-
-<ng-template #oldJobsPageToggleTemplate>
-  <button
-    *ngIf="enablePageToggle && !hideOldJobsPageButtonFeatureFlag.value"
-    class="btn btn-secondary align-top ml-3"
-    [attr.data-qa-id]="'btn-toggle-jobs-page'"
-    [id]="'btn-toggle-jobs-page'"
-    (click)="jobsPageToggle()">
-    Back to old Jobs page
-    <div *ngIf="(navigatingToOldPage$ | async).loading" class="loading-icon-container ml-2">
-      <pf-loading-indicator></pf-loading-indicator>
-    </div>
-  </button>
 </ng-template>
 
 <ng-template #jobMatchCount let-dataRow="dataRow">
