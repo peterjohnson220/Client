@@ -11,7 +11,7 @@ import { StructureModelingApiService, StructureRangeGroupApiService } from 'libs
 import { GridDataHelper } from 'libs/features/grids/pf-data-grid/helpers';
 import * as fromDataGridActions from 'libs/features/grids/pf-data-grid/actions';
 import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
-import { GradeBasedPageViewIds, RangeGroupMetadata } from 'libs/models/structures';
+import { RangeGroupMetadata } from 'libs/models/structures';
 import { GridConfig } from 'libs/features/grids/pf-data-grid/models';
 import { PagingOptions } from 'libs/models/payfactors-api/search/request';
 import * as fromNotificationActions from 'libs/features/infrastructure/app-notifications/actions/app-notifications.actions';
@@ -61,12 +61,11 @@ export class SharedEffects {
       ),
       switchMap((data) => {
         return this.structureModelingApiService.createGradeBasedModelSettings(
-          PayfactorsApiModelMapper.mapCreateGradeBasedModelSettingsModalFormToSaveSettingsRequest(data.action.payload.rangeGroupId, data.action.payload.formValue)
+          PayfactorsApiModelMapper.mapCreateGradeBasedModelSettingsModalFormToSaveSettingsRequest(
+            data.action.payload.rangeGroupId, data.action.payload.formValue)
         ).pipe(
           mergeMap((r) => {
               const actions = [];
-              const modelPageViewId =
-                PagesHelper.getModelPageViewIdByRangeTypeAndRangeDistributionType(data.metadata.RangeTypeId, data.metadata.RangeDistributionTypeId);
 
               if (!r.ValidationResult.Pass && r.ValidationResult.FailureReason === 'Model Name Exists') {
                 actions.push(new fromModelSettingsModalActions.ModelNameExistsFailure());
@@ -88,10 +87,12 @@ export class SharedEffects {
                   }));
                 } else {
                   // Load data
+                  const modelPageViewId =
+                    PagesHelper.getModelPageViewIdByRangeTypeAndRangeDistributionType(data.metadata.RangeTypeId, data.metadata.RangeDistributionTypeId);
                   actions.push(GridDataHelper.getLoadDataAction(modelPageViewId, data.gridData, data.gridConfig, data.pagingOptions));
-                  if (this.isLoadDataRequired(data.action.payload.fromPageViewId)) {
-                    actions.push(new fromDataGridActions.LoadData(data.action.payload.fromPageViewId));
-                  }
+
+                  const modelSummaryPageViewId = PagesHelper.getModelSummaryPageViewIdByRangeDistributionType(data.metadata.RangeDistributionTypeId);
+                  actions.push(new fromDataGridActions.LoadData(modelSummaryPageViewId));
                 }
 
                 actions.push(new fromModelSettingsModalActions.CreateGradeBasedModelSettingsSuccess());
@@ -127,8 +128,6 @@ export class SharedEffects {
         ).pipe(
           mergeMap((r) => {
               const actions = [];
-              const modelPageViewId =
-                PagesHelper.getModelPageViewIdByRangeTypeAndRangeDistributionType(data.metadata.RangeTypeId, data.metadata.RangeDistributionTypeId);
 
               if (!r.ValidationResult.Pass && r.ValidationResult.FailureReason === 'Model Name Exists') {
                 actions.push(new fromModelSettingsModalActions.ModelNameExistsFailure());
@@ -140,10 +139,12 @@ export class SharedEffects {
                 ));
 
                 // Load data
+                const modelPageViewId =
+                  PagesHelper.getModelPageViewIdByRangeTypeAndRangeDistributionType(data.metadata.RangeTypeId, data.metadata.RangeDistributionTypeId);
                 actions.push(GridDataHelper.getLoadDataAction(modelPageViewId, data.gridData, data.gridConfig, data.pagingOptions));
-                if (this.isLoadDataRequired(data.action.payload.fromPageViewId)) {
-                  actions.push(new fromDataGridActions.LoadData(data.action.payload.fromPageViewId));
-                }
+
+                const modelSummaryPageViewId = PagesHelper.getModelSummaryPageViewIdByRangeDistributionType(data.metadata.RangeDistributionTypeId);
+                actions.push(new fromDataGridActions.LoadData(modelSummaryPageViewId));
 
                 actions.push(new fromModelSettingsModalActions.SaveGradeBasedModelSettingsSuccess());
                 actions.push(new fromGradeBasedSharedActions.GetGradeRangeDetails(r.RangeGroup.CompanyStructuresRangeGroupId));
@@ -156,17 +157,6 @@ export class SharedEffects {
         );
       })
     );
-
-  private isLoadDataRequired(fromPageViewId: string) {
-    return fromPageViewId === GradeBasedPageViewIds.EmployeesMinMidMax
-      || fromPageViewId === GradeBasedPageViewIds.EmployeesTertile
-      || fromPageViewId === GradeBasedPageViewIds.EmployeesQuartile
-      || fromPageViewId === GradeBasedPageViewIds.EmployeesQuintile
-      || fromPageViewId === GradeBasedPageViewIds.JobsMinMidMax
-      || fromPageViewId === GradeBasedPageViewIds.JobsTertile
-      || fromPageViewId === GradeBasedPageViewIds.JobsQuartile
-      || fromPageViewId === GradeBasedPageViewIds.JobsQuintile;
-  }
 
   constructor(
     private actions$: Actions,
