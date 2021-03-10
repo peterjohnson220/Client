@@ -89,24 +89,24 @@ exports[`ExchangeDetailComponent should hide the approve/reject buttons when a c
                       
                     </span>
                   </div>
+                  <div
+                    class="info-row"
+                  >
+                    <label
+                      class="font-weight-bold w-25 mb-0"
+                    >
+                      Level:
+                    </label>
+                    <span>
+                      
+                    </span>
+                  </div>
                 </div>
                 <pf-org-weighted-nat-avg-card
                   class="pt-3"
                 />
               </div>
             </div>
-          </div>
-          <div
-            class="info-row"
-          >
-            <label
-              class="font-weight-bold w-25 mb-0"
-            >
-              Level:
-            </label>
-            <span>
-              
-            </span>
           </div>
           <div
             class="info-row"
@@ -204,24 +204,24 @@ exports[`ExchangeDetailComponent should render the selected exchange jobs props 
                       ExchangeJobFamily
                     </span>
                   </div>
+                  <div
+                    class="info-row"
+                  >
+                    <label
+                      class="font-weight-bold w-25 mb-0"
+                    >
+                      Level:
+                    </label>
+                    <span>
+                      ExchangeJobLevel
+                    </span>
+                  </div>
                 </div>
                 <pf-org-weighted-nat-avg-card
                   class="pt-3"
                 />
               </div>
             </div>
-          </div>
-          <div
-            class="info-row"
-          >
-            <label
-              class="font-weight-bold w-25 mb-0"
-            >
-              Level:
-            </label>
-            <span>
-              ExchangeJobLevel
-            </span>
           </div>
           <div
             class="info-row"
@@ -341,24 +341,24 @@ exports[`ExchangeDetailComponent should show the approve/reject buttons when a c
                       
                     </span>
                   </div>
+                  <div
+                    class="info-row"
+                  >
+                    <label
+                      class="font-weight-bold w-25 mb-0"
+                    >
+                      Level:
+                    </label>
+                    <span>
+                      
+                    </span>
+                  </div>
                 </div>
                 <pf-org-weighted-nat-avg-card
                   class="pt-3"
                 />
               </div>
             </div>
-          </div>
-          <div
-            class="info-row"
-          >
-            <label
-              class="font-weight-bold w-25 mb-0"
-            >
-              Level:
-            </label>
-            <span>
-              
-            </span>
           </div>
           <div
             class="info-row"
@@ -476,24 +476,24 @@ exports[`ExchangeDetailComponent should show the unmatch button when a matched c
                       
                     </span>
                   </div>
+                  <div
+                    class="info-row"
+                  >
+                    <label
+                      class="font-weight-bold w-25 mb-0"
+                    >
+                      Level:
+                    </label>
+                    <span>
+                      
+                    </span>
+                  </div>
                 </div>
                 <pf-org-weighted-nat-avg-card
                   class="pt-3"
                 />
               </div>
             </div>
-          </div>
-          <div
-            class="info-row"
-          >
-            <label
-              class="font-weight-bold w-25 mb-0"
-            >
-              Level:
-            </label>
-            <span>
-              
-            </span>
           </div>
           <div
             class="info-row"

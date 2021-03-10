@@ -52,20 +52,20 @@ exports[`Peer - Job Info Container should show the job code, when showJobCode is
                 Mock Family
               </span>
             </div>
+            <div
+              class="info-row"
+            >
+              <label
+                class="font-weight-bold w-25 mb-0"
+              >
+                Job Level:
+              </label>
+              <span>
+                Mock Level
+              </span>
+            </div>
           </div>
           
-        </div>
-        <div
-          class="info-row"
-        >
-          <label
-            class="font-weight-bold w-25 mb-0"
-          >
-            Job Level:
-          </label>
-          <span>
-            Mock Level
-          </span>
         </div>
         <div
           class="info-row"

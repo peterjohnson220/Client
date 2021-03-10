@@ -42,18 +42,18 @@
                   <label class="font-weight-bold w-25 mb-0">Family:</label>
                   <span>{{ exchangeJob.ExchangeJobFamily }}</span>
                 </div>
+                <div class="info-row">
+                  <label class="font-weight-bold w-25 mb-0">Level:</label>
+                  <span>{{ exchangeJob.ExchangeJobLevel }}</span>
+                </div>
               </div>
               <pf-org-weighted-nat-avg-card [exchangeJobId]="exchangeJob.ExchangeJobId"
+                                            [showLargeCard]="true"
                                             class="pt-3"
               ></pf-org-weighted-nat-avg-card>
             </div>
           </div>
         </div>
-        <div class="info-row">
-          <label class="font-weight-bold w-25 mb-0">Level:</label>
-          <span>{{ exchangeJob.ExchangeJobLevel }}</span>
-        </div>
-
         <div class="info-row">
           <label class="font-weight-bold w-25">Description:</label>
         </div>
