@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 
 import { NavigationLink, UserContext } from 'libs/models';
 
@@ -7,14 +7,29 @@ import { NavigationLink, UserContext } from 'libs/models';
   templateUrl: './user-menu.component.html',
   styleUrls: ['./user-menu.component.scss']
 })
-export class UserMenuComponent {
+export class UserMenuComponent implements OnChanges {
 
   @Input() userContext: UserContext;
   @Input() dropdownNavigationLinks: NavigationLink[];
   @Input() requireSSOLogin: boolean;
 
-  dropdownNavigationLinksWithDivider = ['Log Out', 'Referrals', 'Submit a Ticket'];
+  dropdownNavigationLinksWithDivider = ['Log Out', 'Referrals'];
   constructor() { }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (!!changes.dropdownNavigationLinks && !!changes.dropdownNavigationLinks.currentValue) {
+      const submitATicketLink = this.dropdownNavigationLinks.find(x => x.Name === 'Submit a Ticket');
+      if (submitATicketLink) {
+        this.dropdownNavigationLinksWithDivider.push(submitATicketLink.Name);
+        return;
+      }
+      const resourceLink = this.dropdownNavigationLinks.find(x => x.Name === 'Resources');
+      if (resourceLink) {
+        this.dropdownNavigationLinksWithDivider.push(resourceLink.Name);
+        return;
+      }
+    }
+  }
 
   showUserDropdownMenu() {
       if (!this.userContext.IsPublic && !this.userContext.WorkflowStepInfo) {
