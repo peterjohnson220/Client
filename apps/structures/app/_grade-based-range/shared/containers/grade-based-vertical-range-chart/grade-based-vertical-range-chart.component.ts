@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 
 import * as Highcharts from 'highcharts';
 import { Store } from '@ngrx/store';
@@ -25,7 +25,9 @@ import { RangeDistributionDataPointTypeIds } from '../../../../shared/constants/
   templateUrl: './grade-based-vertical-range-chart.component.html',
   styleUrls: ['./grade-based-vertical-range-chart.component.scss']
 })
-export class GradeBasedVerticalRangeChartComponent implements OnInit, OnDestroy {
+export class GradeBasedVerticalRangeChartComponent implements OnInit, OnDestroy, OnChanges {
+  @Input() isRangeChartCollapsed = false;
+
   Highcharts: typeof Highcharts = Highcharts;
   chartOptions: any;
   updateFlag: boolean;
@@ -389,7 +391,7 @@ export class GradeBasedVerticalRangeChartComponent implements OnInit, OnDestroy 
     // set the min/max
     this.chartInstance.yAxis[0].setExtremes(this.chartMin, this.chartMax, false);
 
-    this.chartInstance.xAxis[0].setTitle({ text: '<b>R<sup>2</sup>:</b> ' + rSquared, useHTML: true });
+    this.chartInstance.xAxis[0].setTitle({text: '<b>R<sup>2</sup>:</b> ' + rSquared, useHTML: true});
     // set the series data (0 - salaryRange, 1 - midPoint, 2 - avg salary, 3 - outliers)
     this.chartInstance.series[GradeRangeVerticalModelChartSeries.SalaryRangeMinMidMax].setData(this.salaryRangeSeriesDataModel.MinMidMax, false);
 
@@ -465,12 +467,20 @@ export class GradeBasedVerticalRangeChartComponent implements OnInit, OnDestroy 
 
   ngOnInit(): void {
     StructuresHighchartsService.initializeHighcharts();
+    this.store.dispatch(new fromGradeBasedSharedActions.GetGradeRangeDetails(this.rangeGroupId));
     this.filterPanelSub = this.store.select(fromPfGridReducer.getFilterPanelOpen, this.pageViewId).subscribe(filterPanelOpen => {
       setTimeout(() => {
         this.chartInstance.reflow();
       }, 0);
     });
-    this.store.dispatch(new fromGradeBasedSharedActions.GetGradeRangeDetails(this.rangeGroupId));
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (!!changes && !!changes.isRangeChartCollapsed && changes.isRangeChartCollapsed.currentValue === false) {
+      setTimeout(() => {
+        this.chartInstance.reflow();
+      }, 0);
+    }
   }
 
   ngOnDestroy(): void {
