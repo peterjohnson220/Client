@@ -40,7 +40,7 @@ exports[`Project - Structures - JobToGrade Component should display error messag
           <div
             class="link"
           >
-             Hide Jobs 
+             Hide Jobs (1) 
           </div>
         </div>
         
@@ -129,7 +129,7 @@ exports[`Project - Structures - JobToGrade Component should display grade, min/m
           <div
             class="link"
           >
-             Show Jobs 
+             Show Jobs (1) 
           </div>
         </div>
         
@@ -205,7 +205,7 @@ exports[`Project - Structures - JobToGrade Component should display jobs when jo
           <div
             class="link"
           >
-             Hide Jobs 
+             Hide Jobs (1) 
           </div>
         </div>
         
@@ -324,7 +324,7 @@ exports[`Project - Structures - JobToGrade Component should display loading mess
           <div
             class="link"
           >
-             Hide Jobs 
+             Hide Jobs (1) 
           </div>
         </div>
         
@@ -407,7 +407,7 @@ exports[`Project - Structures - JobToGrade Component should display with 2 decim
           <div
             class="link"
           >
-             Hide Jobs 
+             Hide Jobs (1) 
           </div>
         </div>
         
@@ -526,7 +526,7 @@ exports[`Project - Structures - JobToGrade Component should show jobs when toggl
           <div
             class="link"
           >
-             Hide Jobs 
+             Hide Jobs (1) 
           </div>
         </div>
         
