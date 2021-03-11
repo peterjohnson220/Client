@@ -120,6 +120,11 @@ export const getSelectedJobIds = createSelector(
   fromSearchResultsReducer.getSelectedJobIds
 );
 
+export const getSelectedJobs = createSelector(
+  selectSearchResultsState,
+  fromSearchResultsReducer.getSelectedJobs
+);
+
 export const getSelectedPayfactorsJobCodes = createSelector(
   selectSearchResultsState,
   fromSearchResultsReducer.getSelectedPayfactorsJobCodes

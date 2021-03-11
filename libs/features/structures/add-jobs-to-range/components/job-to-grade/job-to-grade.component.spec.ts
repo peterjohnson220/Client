@@ -31,7 +31,9 @@ describe('Project - Structures - JobToGrade Component', () => {
     const job = {
       JobTitle: 'Fake Job',
       JobCode: 'AAA',
-      CompanyStructuresGradesId: 1
+      CompanyStructuresGradesId: 1,
+      AlreadyExists: true,
+      JobId: 1
     };
     jobs = [job];
   });

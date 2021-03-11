@@ -4,6 +4,7 @@ exports[`Project - Structures - JobToGrade Component should display error messag
 <pf-job-to-grade
   grade={[Function Object]}
   hideJobsLabel={[Function String]}
+  jobDeleted={[Function EventEmitter]}
   loadJobs={[Function EventEmitter]}
   rangeDistributionTypeEnum={[Function Object]}
   showJobs={[Function Boolean]}
@@ -93,6 +94,7 @@ exports[`Project - Structures - JobToGrade Component should display grade, min/m
 <pf-job-to-grade
   grade={[Function Object]}
   hideJobsLabel={[Function String]}
+  jobDeleted={[Function EventEmitter]}
   loadJobs={[Function EventEmitter]}
   rangeDistributionTypeEnum={[Function Object]}
   showJobsLabel={[Function String]}
@@ -167,6 +169,7 @@ exports[`Project - Structures - JobToGrade Component should display jobs when jo
 <pf-job-to-grade
   grade={[Function Object]}
   hideJobsLabel={[Function String]}
+  jobDeleted={[Function EventEmitter]}
   loadJobs={[Function EventEmitter]}
   rangeDistributionTypeEnum={[Function Object]}
   showJobs={[Function Boolean]}
@@ -226,6 +229,7 @@ exports[`Project - Structures - JobToGrade Component should display jobs when jo
                 >
                   Job Title
                 </th>
+                <th />
               </tr>
             </thead>
             <tbody>
@@ -236,6 +240,13 @@ exports[`Project - Structures - JobToGrade Component should display jobs when jo
                 </td>
                 <td>
                   Fake Job
+                </td>
+                <td>
+                  <button
+                    class="btn bg-transparent"
+                  >
+                    <fa-icon />
+                  </button>
                 </td>
               </tr>
             </tbody>
@@ -277,6 +288,7 @@ exports[`Project - Structures - JobToGrade Component should display loading mess
 <pf-job-to-grade
   grade={[Function Object]}
   hideJobsLabel={[Function String]}
+  jobDeleted={[Function EventEmitter]}
   loadJobs={[Function EventEmitter]}
   rangeDistributionTypeEnum={[Function Object]}
   showJobs={[Function Boolean]}
@@ -358,6 +370,7 @@ exports[`Project - Structures - JobToGrade Component should display with 2 decim
 <pf-job-to-grade
   grade={[Function Object]}
   hideJobsLabel={[Function String]}
+  jobDeleted={[Function EventEmitter]}
   loadJobs={[Function EventEmitter]}
   rangeDistributionTypeEnum={[Function Object]}
   rate={[Function String]}
@@ -418,6 +431,7 @@ exports[`Project - Structures - JobToGrade Component should display with 2 decim
                 >
                   Job Title
                 </th>
+                <th />
               </tr>
             </thead>
             <tbody>
@@ -428,6 +442,13 @@ exports[`Project - Structures - JobToGrade Component should display with 2 decim
                 </td>
                 <td>
                   Fake Job
+                </td>
+                <td>
+                  <button
+                    class="btn bg-transparent"
+                  >
+                    <fa-icon />
+                  </button>
                 </td>
               </tr>
             </tbody>
@@ -469,6 +490,7 @@ exports[`Project - Structures - JobToGrade Component should show jobs when toggl
 <pf-job-to-grade
   grade={[Function Object]}
   hideJobsLabel={[Function String]}
+  jobDeleted={[Function EventEmitter]}
   loadJobs={[Function EventEmitter]}
   rangeDistributionTypeEnum={[Function Object]}
   showJobs={[Function Boolean]}
@@ -528,6 +550,7 @@ exports[`Project - Structures - JobToGrade Component should show jobs when toggl
                 >
                   Job Title
                 </th>
+                <th />
               </tr>
             </thead>
             <tbody>

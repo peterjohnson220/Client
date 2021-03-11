@@ -16,6 +16,8 @@ import { GridConfig } from 'libs/features/grids/pf-data-grid/models';
 import { PagingOptions } from 'libs/models/payfactors-api/search/request';
 import * as fromNotificationActions from 'libs/features/infrastructure/app-notifications/actions/app-notifications.actions';
 import { NotificationLevel, NotificationSource, NotificationType } from 'libs/features/infrastructure/app-notifications/models';
+import * as fromJobsToGradeActions from 'libs/features/structures/add-jobs-to-range/actions/jobs-to-grade.actions';
+import * as fromAddJobsReducer from 'libs/features/jobs/add-jobs/reducers';
 
 import * as fromSharedGradeBasedRangeActions from '../actions/shared.actions';
 import * as fromSharedGradeBasedReducer from '../reducers';
@@ -37,6 +39,27 @@ export class SharedEffects {
       ofType(fromSharedGradeBasedRangeActions.GET_GRADE_RANGE_DETAILS),
       switchMap((action: fromSharedGradeBasedRangeActions.GetGradeRangeDetails) => {
         return this.structureRangeGroupApiService.getDetails(action.payload)
+          .pipe(
+            map((res) => {
+              return new fromSharedGradeBasedRangeActions.GetGradeRangeDetailsSuccess(res);
+            }),
+            catchError((err) => of(new fromSharedGradeBasedRangeActions.GetGradeRangeDetailsError(err)))
+          );
+      })
+    );
+
+  @Effect()
+  reloadRangeGroup: Observable<Action> = this.actions$
+    .pipe(
+      ofType<fromJobsToGradeActions.SaveGradeJobMapsSuccess>(fromJobsToGradeActions.SAVE_GRADE_JOB_MAPS_SUCCESS),
+        withLatestFrom(
+          this.store.select(fromAddJobsReducer.getContextStructureRangeGroupId),
+      (action, contextStructureRangeGroupId: number) => {
+        return { action, contextStructureRangeGroupId };
+      }
+      ),
+      switchMap((data) => {
+        return this.structureRangeGroupApiService.getDetails(data.contextStructureRangeGroupId)
           .pipe(
             map((res) => {
               return new fromSharedGradeBasedRangeActions.GetGradeRangeDetailsSuccess(res);

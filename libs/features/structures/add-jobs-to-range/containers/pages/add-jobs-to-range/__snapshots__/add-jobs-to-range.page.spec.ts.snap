@@ -9,6 +9,7 @@ exports[`Project - Add Jobs - Structures Page should not display GUI features re
   addingDataErrorMessage$={[Function Store]}
   currentJobCountSetting="0"
   dragulaService={[Function DragulaService]}
+  gradesSubscription={[Function Subscriber]}
   injectedAddJobsConfig="null"
   isSmallBiz="false"
   maxAllowedJobsSetting="0"
@@ -56,6 +57,7 @@ exports[`Project - Add Jobs - Structures Page should not display GUI features re
     
     
     <span>
+      
       <button
         class="btn btn-sm btn-secondary mr-3 clear-selections"
         data-qa-id="btn-clearSelections"
@@ -63,11 +65,28 @@ exports[`Project - Add Jobs - Structures Page should not display GUI features re
          Clear Selections 
       </button>
       
+      
+      <button
+        class="btn btn-sm legacy-primary-btn mr-3 au-btn-add"
+        data-qa-id="btn-saveJobs"
+        disabled=""
+      >
+         Save 
+      </button>
       <button
         class="btn btn-sm btn-secondary mr-3 au-btn-cancel"
         data-qa-id="btn-cancelAddJobs"
       >
          Cancel 
+      </button>
+      
+      <button
+        class="btn btn-link mr-3 au-btn-addall"
+        data-qa-id="btn-selectAllJobs"
+      >
+        
+         Select All 
+        
       </button>
       
     </span>
