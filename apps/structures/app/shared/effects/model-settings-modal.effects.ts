@@ -18,6 +18,8 @@ import { PagingOptions } from 'libs/models/payfactors-api/search/request';
 import { GridDataHelper } from 'libs/features/grids/pf-data-grid/helpers';
 import * as fromRootState from 'libs/state/state';
 import { UserContext } from 'libs/models';
+import { RangeType } from 'libs/constants/structures/range-type';
+import * as fromPfDataGridActions from 'libs/features/grids/pf-data-grid/actions';
 
 import * as fromModelSettingsModalActions from '../actions/model-settings-modal.actions';
 import { PayfactorsApiModelMapper } from '../helpers/payfactors-api-model-mapper';
@@ -47,7 +49,11 @@ export class ModelSettingsModalEffects {
       map((data) => {
         const modelPageViewId =
           PagesHelper.getModelPageViewIdByRangeTypeAndRangeDistributionType(data.metadata.RangeTypeId, data.metadata.RangeDistributionTypeId);
-        return GridDataHelper.getLoadDataAction(modelPageViewId, data.gridData, data.gridConfig, data.pagingOptions);
+        if (data.metadata.RangeTypeId === RangeType.Job) {
+          return GridDataHelper.getLoadDataAction(modelPageViewId, data.gridData, data.gridConfig, data.pagingOptions);
+        } else {
+          return new fromPfDataGridActions.DoNothing(modelPageViewId);
+        }
       })
     );
 
