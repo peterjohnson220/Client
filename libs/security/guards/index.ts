@@ -6,6 +6,6 @@ export * from './new-community-enabled.guard';
 export * from './tile-enabled.guard';
 export * from './load-user.guard';
 export * from './load-company.guard';
-export * from './tabular-report-builder.guard';
+export * from './permission.guard';
 export * from './pf-services-admin-by-repository.guard';
 export * from './url-parameter-validation.guard';

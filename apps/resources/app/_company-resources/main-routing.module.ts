@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ResourcesComponent } from './components/resources/resources.component';
 import { CompanyResourcesPageComponent } from './company-resources.page/company-resources.page';
-import { AuthorizationGuard } from 'libs/security/guards';
+import { PermissionGuard } from 'libs/security/guards';
 import { PermissionCheckEnum, Permissions } from 'libs/constants';
 
 
@@ -11,7 +11,7 @@ const routes: Routes = [
   {
     path: 'company-resources',
     component: CompanyResourcesPageComponent,
-    canActivate: [AuthorizationGuard],
+    canActivate: [PermissionGuard],
     data: {Permissions: [Permissions.VIEW_COMPANY_RESOURCES], Check: PermissionCheckEnum.Single}
   },
 ];
