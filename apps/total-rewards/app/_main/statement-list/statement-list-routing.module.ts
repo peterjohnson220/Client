@@ -1,11 +1,13 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
 
-import {StatementListPageComponent} from './statement-list.page';
+import { StatementListPageComponent } from './statement-list.page';
 
 const routes: Routes = [
-  { path: '', component: StatementListPageComponent }
+  {path: '', component: StatementListPageComponent},
+  {path: 'templates', component: StatementListPageComponent}
 ];
+
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]

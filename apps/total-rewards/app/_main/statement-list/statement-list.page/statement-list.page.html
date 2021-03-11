@@ -27,22 +27,21 @@
                     [activeId]="(focusedTab$ | async)">
 
           <li [ngbNavItem]="'Statements'" id="Statements" title="Statements">
-            <a ngbNavLink (click)="onTabChange()">Statements</a>
+            <a ngbNavLink (click)="onTabChange('')">Statements</a>
             <ng-template ngbNavContent >
               <div class="h-100">
                 <pf-statements-grid
                   [displayNoStatementsCreatedImage]="(focusedTab$ | async) !== 'Statements' ||
-                                  (!(statementsTotal$ | async) && !(statementsSearchTerm$ | async))"
-                  (createNewStatementClicked)="onCreateNewClicked()">
+                                  (!(statementsTotal$ | async) && !(statementsSearchTerm$ | async))">
                 </pf-statements-grid>
               </div>
             </ng-template>
           </li>
 
           <li [ngbNavItem]="'Templates'" id="Templates" title="Templates">
-            <a ngbNavLink (click)="onTabChange()">Templates</a>
+            <a ngbNavLink (click)="onTabChange('templates')">Templates</a>
             <ng-template ngbNavContent>
-              <pf-total-rewards-template-card-selector [autoLoad]="true" (onSelectClick)="onTemplateSelected($event)">
+              <pf-total-rewards-template-card-selector [autoLoad]="false" (onSelectClick)="onTemplateSelected($event)">
               </pf-total-rewards-template-card-selector>
             </ng-template>
           </li>
