@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { select, Store } from '@ngrx/store';
@@ -18,14 +18,13 @@ import { StructuresPagesService } from '../../../shared/services';
 import { AddJobsModalWrapperComponent } from '../../../shared/containers/add-jobs-modal-wrapper';
 import { Workflow } from '../../../shared/constants/workflow';
 import { UrlService } from '../../../shared/services';
-import * as fromModelSettingsModalActions from '../../../shared/actions/model-settings-modal.actions';
 
 @Component({
   selector: 'pf-model.page',
   templateUrl: './model.page.html',
   styleUrls: ['./model.page.scss']
 })
-export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
+export class ModelPageComponent implements OnInit, OnDestroy {
   @ViewChild(AddJobsModalWrapperComponent) public AddJobsModalComponent: AddJobsModalWrapperComponent;
 
   metaData$: Observable<RangeGroupMetadata>;
@@ -42,6 +41,7 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
   metadata: RangeGroupMetadata;
   hasCanCreateEditModelStructurePermission: boolean;
   gradeRangeDetails: GradeRangeGroupDetails;
+  isNewRangeOrCreateModelFlow = false;
 
   constructor(
     public store: Store<fromSharedStructuresReducer.State>,
@@ -78,6 +78,7 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
     this.pageSummaryViewIdSubscription = this.structuresPagesService.modelSummaryViewId.subscribe(pv => this.modelSummaryPageViewId = pv);
     this.hasCanCreateEditModelStructurePermission = this.permissionService.CheckPermission([Permissions.STRUCTURES_CREATE_EDIT_MODEL],
       PermissionCheckEnum.Single);
+    this.isNewRangeOrCreateModelFlow = this.urlService.isInWorkflow(Workflow.NewRange) || this.urlService.isInWorkflow(Workflow.CreateModel);
   }
 
   openManageModelModal() {
@@ -103,12 +104,6 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
         this.metadata = md;
       }
     });
-  }
-
-  ngAfterViewInit(): void {
-    if (this.urlService.isInWorkflow(Workflow.NewRange) || this.urlService.isInWorkflow(Workflow.CreateModel)) {
-      this.store.dispatch(new fromModelSettingsModalActions.OpenModal());
-    }
   }
 
   ngOnDestroy(): void {

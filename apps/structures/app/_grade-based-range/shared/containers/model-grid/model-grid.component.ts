@@ -64,6 +64,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   @Input() saveSort = false;
   @Input() modifiedKey: string = null;
   @Input() allowMultipleSort: boolean;
+  @Input() isNewRangeOrCreateModelFlow = false;
   @Output() manageModelClicked = new EventEmitter();
 
   pfThemeType = PfThemeType;
@@ -317,6 +318,11 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
       if (data) {
         this.numGrades = data.total;
         this.isNewModel = data.total < 1;
+
+        // Open Model Settings modal only if it's a new model flow
+        if (this.isNewRangeOrCreateModelFlow && this.isNewModel) {
+          this.store.dispatch(new fromModelSettingsModalActions.OpenModal());
+        }
       }
     });
     this.modalOpenSub = this.modalOpen$.subscribe(mo => {
