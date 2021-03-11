@@ -8,7 +8,6 @@ import { filter, take, takeUntil } from 'rxjs/operators';
 
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 
-import { environment } from 'environments/environment';
 import { CompositeDataLoadTypes, LoadTypes } from 'libs/constants';
 import { FeatureFlags, RealTimeFlag } from 'libs/core';
 import { EntityKeyValidationService } from 'libs/core/services';
@@ -37,6 +36,7 @@ import { ConfigurationGroup, EmailRecipientModel, LoaderSaveCoordination, Loader
 import { UserContext } from 'libs/models/security';
 import * as fromRootState from 'libs/state/state';
 import { LoadingProgressBarModel } from 'libs/ui/common/loading/models';
+import { AppConstants } from 'libs/constants';
 
 import * as fromDataManagementMainReducer from '../../../reducers';
 import * as fromOrganizationalDataActions from '../../../actions/organizational-data-page.action';
@@ -99,7 +99,6 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   stepEnum = OrgUploadStep;
   companies: CompanySelectorItem[];
   public selectedCompany: CompanySelectorItem = null;
-  env = environment;
   organizationalDataTemplateLink: string;
   selectedDelimiter = this.defaultDelimiter;
   userContext: UserContext;
@@ -459,7 +458,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
 
   setInitValues() {
     if (this.validateAccess()) {
-      window.location.href = this.env.companyAdminUrl;
+      window.location.href = AppConstants.CompanyAdminUrl;
       return;
     }
 
@@ -581,12 +580,12 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
 
     this.clearSelections();
     if (this.stepIndex === OrgUploadStep.Company) {
-      window.location.href = this.env.siteAdminUrl;
+      window.location.href = AppConstants.SiteAdminUrl;
       return;
     }
 
     if (this.stepIndex === OrgUploadStep.Entity && this.userContext.AccessLevel !== 'Admin') {
-      window.location.href = this.env.companyAdminUrl;
+      window.location.href = AppConstants.CompanyAdminUrl;
       return;
     }
 

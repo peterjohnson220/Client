@@ -1,4 +1,4 @@
-<pf-page-with-title-bar [absoluteUrl]="env.siteAdminUrl + '/navigation'">
+<pf-page-with-title-bar [absoluteUrl]="SiteAdminUrl + '/navigation'">
 
   <ng-container page-title>
     Tickets
@@ -13,34 +13,32 @@
   </ng-container>
 
   <ng-container page-content>
-
-    <ngb-tabset [destroyOnHide]="false"
-                (tabChange)="onTabChanged($event)">
-
-      <ngb-tab id="tab-tickets"
-               title="Tickets">
-        <ng-template ngbTabContent>
+    <ul ngbNav #nav="ngbNav" class="nav-tabs"
+      [destroyOnHide]="false"
+      [(activeId)]="activeId">
+      <li [ngbNavItem]="'tab-tickets'">
+        <a ngbNavLink>
+          Tickets
+        </a>
+        <ng-template ngbNavContent>
           <pf-ticket-list></pf-ticket-list>
         </ng-template>
-      </ngb-tab>
-
-      <ngb-tab *ngFor="let tab of userTicketTabs"
-               [id]="'tab-' + tab.UserTicketId">
-        <ng-template ngbTabTitle>
-            {{tab.UserTicketId}}
+      </li>
+      <li *ngFor="let tab of userTicketTabs" [ngbNavItem]="tab.UserTicketId.toString()">
+        <span>
+          <a ngbNavLink>{{tab.UserTicketId}}
             <span (click)="handleCloseTabClick(tab.UserTicketId, $event)">
               <fa-icon icon="times-circle"
                        class="close-btn"></fa-icon>
             </span>
+          </a>
+        </span>
+        <ng-template ngbNavContent>
+          <pf-ticket [ticketId]="tab.UserTicketId"></pf-ticket>
         </ng-template>
-        <ng-template ngbTabContent>
-          <pf-ticket [ticketId]="tab.UserTicketId">
-          </pf-ticket>
-        </ng-template>
-      </ngb-tab>
-
-    </ngb-tabset>
-
+      </li>
+    </ul>
+    <div [ngbNavOutlet]="nav"></div>
   </ng-container>
 
 </pf-page-with-title-bar>

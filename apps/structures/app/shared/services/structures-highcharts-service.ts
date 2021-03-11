@@ -2,9 +2,9 @@ import * as Highcharts from 'highcharts';
 import { RateType } from 'libs/data/data-sets';
 import { RangeGroupMetadata } from 'libs/models/structures';
 import { RangeType } from 'libs/constants/structures/range-type';
+import { RangeDistributionTypeIds } from 'libs/constants/structures/range-distribution-type-ids';
 
 import { RangeDistributionDataPointTypeIds } from '../constants/range-distribution-data-point-type-ids';
-import { RangeDistributionTypeIds } from '../constants/range-distribution-type-ids';
 
 export class StructuresHighchartsService {
 

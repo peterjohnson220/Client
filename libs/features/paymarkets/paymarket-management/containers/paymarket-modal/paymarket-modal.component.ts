@@ -2,7 +2,6 @@ import { Component, ViewChild, ChangeDetectionStrategy, OnDestroy, OnInit, Input
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
-import { NgbTabset } from '@ng-bootstrap/ng-bootstrap';
 
 import { PayMarket, AsyncStateObj } from 'libs/models';
 import { PermissionCheckEnum, Permissions } from 'libs/constants';
@@ -23,7 +22,6 @@ import { GeneralFormComponent } from '../general-form';
 })
 export class PayMarketModalComponent implements OnInit, OnDestroy {
   @ViewChild(GeneralFormComponent) public generalForm: GeneralFormComponent;
-  @ViewChild('payMarketTabs') payMarketTabs: NgbTabset;
   @Input() companyId: number;
 
   modalOpen$: Observable<boolean>;
@@ -32,6 +30,7 @@ export class PayMarketModalComponent implements OnInit, OnDestroy {
   payMarketModalTabs = PayMarketModalTabs;
   permissions = Permissions;
   hasPeerAccess: boolean;
+  activeId = this.payMarketModalTabs.General;
 
   modalOpenSubscription: Subscription;
   payMarketIdSubscription: Subscription;
@@ -60,7 +59,7 @@ export class PayMarketModalComponent implements OnInit, OnDestroy {
     });
     this.modalOpenSubscription = this.modalOpen$.subscribe(modalOpen => {
       if (modalOpen) {
-        this.payMarketTabs.select(this.payMarketModalTabs.General);
+        this.activeId = this.payMarketModalTabs.General;
         if (!!this.payMarketId) {
           this.store.dispatch(new fromPayMarketModalActions.LoadPayMarket({ payMarketId: this.payMarketId }));
         } else {

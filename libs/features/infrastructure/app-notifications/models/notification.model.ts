@@ -30,7 +30,8 @@ export interface NotificationPayload {
 
 export enum NotificationPayloadFileType {
   Excel = 'Excel',
-  Pdf = 'Pdf'
+  Pdf = 'Pdf',
+  Email = 'Email'
 }
 
 export interface NotificationWithFilePayload extends NotificationPayload {

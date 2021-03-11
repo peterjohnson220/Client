@@ -1,11 +1,11 @@
 import {NO_ERRORS_SCHEMA} from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {Router} from '@angular/router';
-
-import {Store} from '@ngrx/store';
 import {MockStore, provideMockStore} from '@ngrx/store/testing';
+import { Subject } from 'rxjs/Subject';
 
 import { AbstractFeatureFlagService } from 'libs/core';
+import { SettingsService } from 'libs/state/app-context/services';
 
 import * as fromHrisConnectionReducer from '../../../reducers/hris-connection.reducer';
 import * as fromHrisConnectionActions from '../../../actions/hris-connection.actions';
@@ -18,6 +18,8 @@ describe('DataManagementLandingPageComponent', () => {
   let store: MockStore<any>;
   let router: Router;
   let abstractFeatureFlagService: AbstractFeatureFlagService;
+  let settingsService: SettingsService;
+  let companySetting = new Subject<boolean>();
 
   const initialState = { data_management: { hrisConnection: fromHrisConnectionReducer.initialState } };
 
@@ -34,7 +36,11 @@ describe('DataManagementLandingPageComponent', () => {
         {
           provide: AbstractFeatureFlagService,
           useValue: { enabled: jest.fn(), bindEnabled: jest.fn() }
-        }
+        },
+        {
+          provide: SettingsService,
+          useValue: { selectCompanySetting: jest.fn(() => companySetting) }
+        },
       ],
       declarations: [DataManagementLandingPageComponent ],
       schemas: [NO_ERRORS_SCHEMA]
@@ -48,6 +54,7 @@ describe('DataManagementLandingPageComponent', () => {
     store = TestBed.inject(MockStore);
     router = TestBed.inject(Router);
     abstractFeatureFlagService = TestBed.inject(AbstractFeatureFlagService);
+    settingsService = TestBed.inject(SettingsService);
   });
 
   it('should create', () => {

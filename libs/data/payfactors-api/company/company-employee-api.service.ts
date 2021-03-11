@@ -4,7 +4,10 @@ import { Observable, of } from 'rxjs';
 
 import { GenericTextValueDto } from 'libs/models/common';
 import { CompanyEmployee } from 'libs/models/company';
-import { EmployeeModalStructuresResponse, EmployeeRewardsData, EmployeeRewardsDataRequest } from 'libs/models/payfactors-api';
+import {
+  EmployeeBenefit, EmployeeModalStructuresResponse, EmployeeRewardsData, EmployeeRewardsDataRequest,
+  SaveEmployeeBenefitsRequest
+} from 'libs/models/payfactors-api';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 
@@ -41,8 +44,8 @@ export class CompanyEmployeeApiService {
       { params: { jobId, paymarketId, employeeId } });
   }
 
-  createEmployee(employee: CompanyEmployee) {
-    return this.payfactorsApiService.post<any>(`${this.endpoint}`, employee);
+  createEmployee(employee: CompanyEmployee): Observable<CompanyEmployee> {
+    return this.payfactorsApiService.post<CompanyEmployee>(`${this.endpoint}`, employee);
   }
 
   get(companyEmployeeId: number): Observable<CompanyEmployee> {
@@ -56,5 +59,18 @@ export class CompanyEmployeeApiService {
   getBenefits(request: EmployeeRewardsDataRequest): Observable<EmployeeRewardsData> {
     return this.payfactorsApiService.get<EmployeeRewardsData>(`${this.endpoint}/GetBenefits`,
     { params: { companyEmployeeId: request.CompanyEmployeeId, statementId: request.StatementId } });
+  }
+
+  getEmployeeBenefits(companyEmployeeId: number, employeeId: string): Observable<EmployeeBenefit[]> {
+    return this.payfactorsApiService.get(`${this.endpoint}/GetEmployeeBenefits`,
+      { params: { companyEmployeeId, employeeId } });
+  }
+
+  getNewEmployeeBenefits(): Observable<EmployeeBenefit[]> {
+    return this.payfactorsApiService.get(`${this.endpoint}/GetBenefitsLookup`);
+  }
+
+  saveEmployeeBenefits(request: SaveEmployeeBenefitsRequest): Observable<any> {
+    return this.payfactorsApiService.post(`${this.endpoint}/Default.SaveEmployeeBenefits`, request);
   }
 }

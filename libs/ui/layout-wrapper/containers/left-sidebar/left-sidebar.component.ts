@@ -4,9 +4,8 @@ import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
 import { UserContext, SidebarLink } from 'libs/models';
-import { SettingsService } from 'libs/state/app-context/services';
+import { AppConstants } from 'libs/constants';
 
-import { environment } from 'environments/environment';
 import * as fromRootState from '../../../../state/state';
 import * as fromLeftSidebarActions from '../../actions/left-sidebar.actions';
 import * as fromLayoutReducer from '../../reducers';
@@ -14,16 +13,13 @@ import * as fromLayoutReducer from '../../reducers';
 @Component({
   selector: 'pf-layout-wrapper-left-sidebar',
   templateUrl: './left-sidebar.component.html',
-  styleUrls: [ './left-sidebar.component.scss' ]
+  styleUrls: ['./left-sidebar.component.scss']
 })
 export class LeftSidebarComponent implements OnInit, OnDestroy {
+  @Input() leftSidebarToggle = false;
   @Output() reload = new EventEmitter();
 
-  @Input() enableCoreJdmInClient = false;
-  @Input() leftSidebarToggle = false;
-
-  clientAppRoot = '/' + environment.hostPath + '/';
-  ngAppRoot = environment.ngAppRoot;
+  clientAppRoot = '/' + AppConstants.HostPath + '/';
   leftSidebarNavigationLinks$: Observable<SidebarLink[]>;
   userContext$: Observable<UserContext>;
   userContextSubscription: Subscription;
@@ -32,14 +28,19 @@ export class LeftSidebarComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store<fromRootState.State>,
-    private layoutStore: Store<fromLayoutReducer.LayoutWrapperState>,
-    private settingsService: SettingsService
+    private layoutStore: Store<fromLayoutReducer.LayoutWrapperState>
   ) {
     this.leftSidebarNavigationLinks$ = layoutStore.select(fromLayoutReducer.getLeftSidebarNavigationLinks);
     this.userContext$ = store.select(fromRootState.getUserContext);
   }
 
   ngOnInit() {
+    if (localStorage.getItem('leftSideBarToggleStatus')) {
+      this.leftSidebarToggle = localStorage.getItem('leftSideBarToggleStatus') === 'true';
+    } else {
+      localStorage.setItem('leftSideBarToggleStatus', 'false');
+      this.leftSidebarToggle = false;
+    }
     this.userContextSubscription = this.userContext$.subscribe(userContext => {
         this.userId = userContext.UserId;
         this.companyName = userContext.CompanyName;
@@ -48,6 +49,7 @@ export class LeftSidebarComponent implements OnInit, OnDestroy {
         }
       }
     );
+    this.dispatchToggleLeftSideBarAction();
   }
 
   ngOnDestroy() {
@@ -57,10 +59,11 @@ export class LeftSidebarComponent implements OnInit, OnDestroy {
   }
 
   getSidebarHref(sidebarLink: SidebarLink) {
-    if (sidebarLink.Name === 'Job Descriptions' && this.enableCoreJdmInClient === true) {
+    if (sidebarLink.Name === 'Job Descriptions') {
       return this.clientAppRoot + sidebarLink.Url;
     }
-    return sidebarLink.NgAppLink ? this.ngAppRoot + sidebarLink.Url : sidebarLink.Url;
+
+    return sidebarLink.Url;
   }
 
   handleSidebarNavigationLinksReload() {
@@ -85,5 +88,15 @@ export class LeftSidebarComponent implements OnInit, OnDestroy {
 
   toggle() {
     this.leftSidebarToggle = !this.leftSidebarToggle;
+    if (this.leftSidebarToggle) {
+      localStorage.setItem('leftSideBarToggleStatus', 'true');
+    } else {
+      localStorage.setItem('leftSideBarToggleStatus', 'false');
+    }
+    this.dispatchToggleLeftSideBarAction();
+  }
+
+  private dispatchToggleLeftSideBarAction(): void {
+    this.store.dispatch(new fromLeftSidebarActions.ToggleLeftSidebar(this.leftSidebarToggle));
   }
 }

@@ -19,6 +19,7 @@ export class JobGridComponent {
   @Input() loadingError: boolean;
   @Input() selectedJobData: JobData;
   @Input() currencyCode: string;
+  @Input() countryCode: string;
 
   @Output() sortChanged: EventEmitter<any> = new EventEmitter();
   @Output() selectionChanged: EventEmitter<JobData> = new EventEmitter();

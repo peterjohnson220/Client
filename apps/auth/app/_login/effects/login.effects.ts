@@ -7,9 +7,11 @@ import { map, catchError, switchMap } from 'rxjs/operators';
 
 import { AccountApiService } from 'libs/data/payfactors-api/auth/account-api.service';
 import { UserApiService } from 'libs/data/payfactors-api/user/user-api.service';
+import { AppConstants } from 'libs/constants';
 import { environment } from 'environments/environment';
 
 import * as fromLoginAction from '../actions/login.actions';
+
 
 @Injectable()
 export class LoginEffects {
@@ -25,7 +27,7 @@ export class LoginEffects {
           }).pipe(
           map((response: any) => {
             if (response !== null && response.first_login === 'true') {
-              return new fromLoginAction.LoginSuccess(environment.firstTimeLoginPage);
+              return new fromLoginAction.LoginSuccess(AppConstants.FirstTimeLoginPage);
             } else if (response !== null && response.password_expired === true) {
               return new fromLoginAction.PasswordExpired;
             } else if (action.payload.UserVoiceNextPage != null) {
@@ -115,7 +117,7 @@ export class LoginEffects {
     if (url !== undefined && url != null) {
       window.location.href = url + '?login=true';
     } else {
-      window.location.href = environment.defaultHomePage;
+      window.location.href = AppConstants.DefaultHomePage;
     }
   }
 

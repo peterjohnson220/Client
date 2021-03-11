@@ -6,9 +6,8 @@ import { GridDataResult, PageChangeEvent } from '@progress/kendo-angular-grid';
 import { Store } from '@ngrx/store';
 import { Observable, Subject, Subscription } from 'rxjs';
 import cloneDeep from 'lodash/cloneDeep';
-import { debounceTime, takeWhile, filter, take } from 'rxjs/operators';
+import { debounceTime, filter, take } from 'rxjs/operators';
 
-import * as fromCompanySettingsActions from 'libs/state/app-context/actions/company-settings.actions';
 import { JdmListFilter } from 'libs/models/user-profile';
 import { ListAreaColumn } from 'libs/models/common';
 import { UserContext } from 'libs/models/security';
@@ -16,11 +15,13 @@ import { CompanySettingsEnum, TemplateListItem } from 'libs/models';
 import { PermissionService } from 'libs/core/services';
 import { PermissionCheckEnum, Permissions } from 'libs/constants';
 import { SettingsService } from 'libs/state/app-context/services';
-import { environment } from 'environments/environment';
 import * as fromRootState from 'libs/state/state';
 import * as fromAppNotificationsMainReducer from 'libs/features/infrastructure/app-notifications/reducers';
 import { AppNotification, NotificationLevel, NotificationPayload, NotificationType } from 'libs/features/infrastructure/app-notifications/models';
 import * as fromAppNotificationsActions from 'libs/features/infrastructure/app-notifications/actions/app-notifications.actions';
+import { PayfactorsApiModelMapper } from 'libs/features/jobs/job-description-management/helpers';
+import { AvailableJobInformationField, ControlLabel, JobDescriptionBulkExportPayload } from 'libs/features/jobs/job-description-management/models';
+import { JobDescriptionViewConstants } from 'libs/features/jobs/job-description-management/constants/job-description-view-constants';
 
 import * as fromBulkExportPopoverActions from '../../../actions/bulk-export-popover.actions';
 import * as fromJobDescriptionListActions from '../../../actions/job-description-list.actions';
@@ -30,21 +31,12 @@ import * as fromUserFilterActions from '../../../actions/user-filter.actions';
 import * as fromJobDescriptionReducers from '../../../reducers';
 import { AssignJobsToTemplateModalComponent, JobDescriptionHistoryModalComponent } from '../../../components';
 import { CompanyJobViewListItem } from '../../../models';
-import { AvailableJobInformationField, ControlLabel, JobDescriptionBulkExportPayload } from 'libs/features/jobs/job-description-management/models';
-import { JobDescriptionViewConstants } from 'libs/features/jobs/job-description-management/constants/job-description-view-constants';
 import { SaveFilterModalComponent } from '../../../components/modals/save-filter';
-import { PayfactorsApiModelMapper } from 'libs/features/jobs/job-description-management/helpers';
 import { AddJobModalComponent } from '../../../components/modals/add-job';
-
-import {
-  JobDescriptionAppliesToModalComponent
-} from '../../../../shared/components/modals/job-description-applies-to';
-import {
-  DeleteJobDescriptionModalComponent
-} from '../../../../shared/components/modals/delete-job-description-modal';
+import { JobDescriptionAppliesToModalComponent } from '../../../../shared/components/modals/job-description-applies-to';
+import { DeleteJobDescriptionModalComponent } from '../../../../shared/components/modals/delete-job-description-modal';
 import * as fromTemplateReducer from 'libs/features/jobs/job-description-management/reducers';
 import * as fromTemplateActions from 'libs/features/jobs/job-description-management/actions/template-list.actions';
-import * as fromJobDescriptionActions from '../../../actions/job-description.actions';
 import * as fromHeaderActions from 'libs/ui/layout-wrapper/actions/header.actions';
 
 @Component({
@@ -82,15 +74,13 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
   public jobInformationFieldsLoading$: Observable<boolean>;
   public listAreaColumns$: Observable<ListAreaColumn[]>;
   public listFilter: string;
-  public nonStaticListAreaColumns: ListAreaColumn[];
   public permissions = Permissions;
   public publicCompanyId: number;
   public savedSearchTerm: string;
   public selectedCompanyJobForModal: CompanyJobViewListItem;
   public showFilterSidebar: any;
   public tokenId: string;
-  public templateUrl = '/ng/job-description-management/templates';
-  public templatesViewInClientEnabled = false;
+  public templateUrl = '/client/job-description-management/templates';
   public userFilterDeleting$: Observable<boolean>;
   public userFilterError$: Observable<boolean>;
   public userFilterErrorMessage$: Observable<string>;
@@ -98,17 +88,14 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
   public userFilterListAdding$: Observable<boolean>;
   public userFilterListLoading$: Observable<boolean>;
   public savedGridState$: Observable<State>;
-  public enableCoreJdmInClient = false;
   public ssoTokenId: string;
   public ssoAgentId: string;
   public requireSSOLogin$: Observable<boolean>;
   public filteredListAreaColumns: ListAreaColumn[];
 
   private templateListItems$: Observable<TemplateListItem[]>;
-  private enableJdmTemplatesInClient$: Observable<boolean>;
   private bulkExportError$: Observable<boolean>;
   private bulkExportErrorSubscription: Subscription;
-  private enablePublicViewsInClient$: Observable<boolean>;
   private enableFileDownloadSecurityWarningSub: Subscription;
   private gridStateSubscription: Subscription;
   private listAreaColumnsSubscription: Subscription;
@@ -118,7 +105,6 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
   private savingListAreaColumnsSuccessSubscription: Subscription;
   private deleteJobDescriptionSuccess$: Observable<boolean>;
   private deleteJobDescriptionSuccessSubscription: Subscription;
-  private enabledJdmTemplatesInClientSubscription: Subscription;
   private requireSSOLoginSubscription: Subscription;
 
   notification: { error: AppNotification<NotificationPayload> } = {
@@ -147,7 +133,6 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
     this.bulkExportControlLabelsLoading$ = this.store.select(fromJobDescriptionReducers.getControlLabelsLoading);
     this.bulkExportError$ = this.store.select(fromJobDescriptionReducers.getBulkExportError);
     this.bulkExportNoPublishedJobDescriptions$ = this.store.select(fromJobDescriptionReducers.getNoPublishedJobDescriptions);
-    this.enablePublicViewsInClient$ = this.settingsService.selectCompanySetting<boolean>(CompanySettingsEnum.JDMCoreUseClient);
     this.gridDataResult$ = this.store.select(fromJobDescriptionReducers.getGridDataResult);
     this.gridLoading$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionGridLoading);
     this.gridLoadingError$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionGridLoadingError);
@@ -170,7 +155,6 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
     this.templateListItems$ = this.store.select(fromTemplateReducer.getTemplateList);
 
     this.requireSSOLogin$ = this.settingsService.selectCompanySetting<boolean>(CompanySettingsEnum.JDMExternalWorkflowsRequireSSOLogin);
-    this.enableJdmTemplatesInClient$ = this.settingsService.selectCompanySetting<boolean>(CompanySettingsEnum.JDMTemplatesUseClient);
     this.enableFileDownloadSecurityWarning$ = this.settingsService.selectCompanySetting<boolean>(CompanySettingsEnum.FileDownloadSecurityWarning);
 
     this.filterThrottle = new Subject();
@@ -468,12 +452,6 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
 
     if (this.isPublic) {
       this.store.dispatch(new fromJobDescriptionGridActions.LoadPublicJdmColumns(this.publicCompanyId));
-      // settings aren't loaded in public views, so initiate that here, then redirect to the NG implementation if the client specific setting is off
-      // this.store.dispatch(new fromCompanySettingsActions.LoadCompanySettings());
-      this.enablePublicViewsInClient$.pipe(
-        takeWhile((setting) => setting !== true),
-        filter(setting => setting === false)
-      ).subscribe(() => window.location.href = window.location.href.replace(`/${environment.hostPath}/`, environment.ngAppRoot));
     } else {
       this.store.dispatch(new fromJobDescriptionGridActions.LoadListAreaColumns(request));
       this.store.dispatch(new fromTemplateActions.LoadTemplateList({publishedOnly: false }));
@@ -524,13 +502,6 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
       this.savedSearchTerm = savedSearchTerm || '';
       this.listFilter = savedSearchTerm || '';
     });
-
-    this.enabledJdmTemplatesInClientSubscription = this.enableJdmTemplatesInClient$.subscribe((setting) => {
-      if (setting === true) {
-        this.templateUrl = '/client/job-description-management/templates';
-        this.templatesViewInClientEnabled = true;
-      }
-    });
   }
 
   private routeToJobDescription(jobDescriptionId: number) {
@@ -558,7 +529,6 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
     this.gridStateSubscription.unsubscribe();
     this.bulkExportErrorSubscription.unsubscribe();
     this.deleteJobDescriptionSuccessSubscription.unsubscribe();
-    this.enabledJdmTemplatesInClientSubscription.unsubscribe();
     this.requireSSOLoginSubscription?.unsubscribe();
     this.enableFileDownloadSecurityWarningSub.unsubscribe();
   }

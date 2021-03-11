@@ -8,9 +8,10 @@ import { filter, takeUntil } from 'rxjs/operators';
 
 import { Permissions } from 'libs/constants';
 import { TransferMethodTypes } from 'libs/constants/hris-api';
-import { AsyncStateObj } from 'libs/models/state';
+import { AsyncStateObj, CompanySettingsEnum } from 'libs/models';
 import { HRISConnectionAuthenticationStatus } from 'libs/constants/hris-connection-authenticationstatus';
 import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
+import { SettingsService } from 'libs/state/app-context/services';
 
 import * as fromTransferDataPageActions from '../../../actions/transfer-data-page.actions';
 import * as fromHrisConnectionActions from '../../../actions/hris-connection.actions';
@@ -46,8 +47,14 @@ export class DataManagementLandingPageComponent implements OnInit, OnDestroy {
   loadAndExportsFilesCardFlag: RealTimeFlag = { key: FeatureFlags.LoadAndExportsFilesCards, value: false };
   jdmOutboundIntegrationFlag: RealTimeFlag = { key: FeatureFlags.JdmOutboundIntgration, value: false };
 
+  hrisInboundEnabledForCompany = false;
 
-  constructor(private store: Store<fromDataManagementMainReducer.State>, private router: Router, private featureFlagService: AbstractFeatureFlagService) {
+  constructor(
+    private store: Store<fromDataManagementMainReducer.State>,
+    private router: Router,
+    private featureFlagService: AbstractFeatureFlagService,
+    private settingsService: SettingsService,
+  ) {
     this.outboundConnectionSummary$ = this.store.select(fromDataManagementMainReducer.getJdmConnectionSummaryObj);
     this.connectionSummary$ = this.store.select(fromDataManagementMainReducer.getHrisConnectionSummary);
     this.loading$ = this.store.select(fromDataManagementMainReducer.getHrisConnectionLoading);
@@ -67,6 +74,10 @@ export class DataManagementLandingPageComponent implements OnInit, OnDestroy {
         cs.statuses.includes(HRISConnectionAuthenticationStatus.NOTSTARTED);
       }
     });
+    this.settingsService
+      .selectCompanySetting<boolean>(CompanySettingsEnum.DataManagementShowHRISInbound, 'boolean')
+      .pipe(takeUntil(this.unsubscribe$), filter(v => !!v))
+      .subscribe(setting => this.hrisInboundEnabledForCompany = setting);
   }
 
   ngOnInit() {

@@ -60,7 +60,7 @@
       </select>
     </div>
   </div>
-  <div class="row pb-3">
+  <div class="row pb-3" *ngIf="!exportType">
     <div class="col-sm-12 col-md-4 pr-0">
       <h5 for="includeDelimiters" class="text-primary">Include Delimiters</h5>
     </div>
@@ -82,6 +82,21 @@
       </select>
     </div>
   </div>
+  <div class="row pb-3" *ngIf="exportType">
+		<div class="col-sm-12 col-md-4 pr-0">
+		  <h5 for="fileType" class="text-primary">Select Json Type <span class="text-danger">*</span></h5>
+		</div>
+		<div class="col-sm-12 col-md-4">
+		  <div class="row">
+			<div class="col">
+			  <select id="jsonType" class="form-control" [(ngModel)]="schedule.ComplexJsonExport">
+				<option value="true">Complex</option>
+				<option value="false">Flat</option>
+			  </select>
+			</div>
+		  </div>
+		</div>
+	</div>
   <div class="row pb-3">
     <div class="col-sm-12 col-md-4 pr-0">
       <h5 for="frequency" class="text-primary">Select Frequency <span class="text-danger">*</span></h5>

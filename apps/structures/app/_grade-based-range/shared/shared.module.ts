@@ -27,6 +27,7 @@ import { reducers } from './reducers';
 import {
   SharedEffects
 } from './effects';
+import { ModelSettingsModalContentComponent } from './containers/model-settings-modal-content/model-settings-modal-content.component';
 
 @NgModule({
   imports: [
@@ -67,7 +68,8 @@ import {
   declarations: [
     ModelGridComponent,
     GradeBasedSummaryChartComponent,
-    GradeBasedVerticalRangeChartComponent
+    GradeBasedVerticalRangeChartComponent,
+    ModelSettingsModalContentComponent
   ],
   exports: [
     ModelGridComponent,

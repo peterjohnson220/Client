@@ -22,10 +22,10 @@ import { PfAddJobsModule } from 'libs/features/jobs/add-jobs';
 import { PfSearchModule } from 'libs/features/search/search';
 import { PfAddJobsToRangeModule } from 'libs/features/structures/add-jobs-to-range';
 import { WindowCommunicationService } from 'libs/core/services';
+import { RangeValuePipe } from 'libs/features/structures/add-jobs-to-range/pipes';
 
 import { RangeGroupExistsGuard } from './guards';
 import { reducers } from './reducers';
-import { RangeValuePipe } from './pipes';
 import {
   AddJobsModalEffects, FormulaFieldEffects,
   ModelSettingsModalEffects,
@@ -39,6 +39,7 @@ import { GlobalActionsComponent } from './components/global-actions';
 import { ModelSettingsBtnComponent } from './components/model-settings-btn';
 import { StructuresPagesService, UrlService } from './services';
 import { AddJobsModalWrapperComponent } from './containers/add-jobs-modal-wrapper';
+import { ModelSettingsModalComponent } from './containers/model-settings-modal/model-settings-modal.component';
 
 
 @NgModule({
@@ -83,20 +84,21 @@ import { AddJobsModalWrapperComponent } from './containers/add-jobs-modal-wrappe
       PfAddJobsToRangeModule
     ],
   declarations: [
-    RangeValuePipe,
     GridContextComponent,
     GlobalActionsComponent,
     ModelSettingsBtnComponent,
-    AddJobsModalWrapperComponent
+    AddJobsModalWrapperComponent,
+    ModelSettingsModalComponent
   ],
   exports: [
     FontAwesomeModule,
-    RangeValuePipe,
     GridContextComponent,
     GlobalActionsComponent,
     ModelSettingsBtnComponent,
     RangeFieldEditorComponent,
-    AddJobsModalWrapperComponent
+    AddJobsModalWrapperComponent,
+    RangeValuePipe,
+    ModelSettingsModalComponent
   ],
   providers: [
     RangeGroupExistsGuard,

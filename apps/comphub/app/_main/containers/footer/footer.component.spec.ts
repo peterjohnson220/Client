@@ -7,13 +7,13 @@ import { of } from 'rxjs';
 import { WindowRef } from 'libs/core/services';
 import * as fromRootState from 'libs/state/state';
 import { DojGuidelinesService } from 'libs/features/peer/guidelines-badge/services/doj-guidelines.service';
+import { AppConstants } from 'libs/constants';
 
 import * as fromComphubPageActions from '../../actions/comphub-page.actions';
 import * as fromComphubMainReducer from '../../reducers';
 import { ComphubFooterComponent } from './footer.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { generateMockFooterContext, generateMockPeerWorkflowContext, generateMockWorkflowContext } from '../../models';
-import { environment } from 'environments/environment';
 
 class DojGuidelinesStub {
   passing = true;
@@ -120,13 +120,13 @@ describe('Comphub - Main - Footer', () => {
     instance.workflowContext = generateMockWorkflowContext();
     instance.handleConfirmedCloseApp();
 
-    expect(windowRef.nativeWindow.location).toBe(`/${environment.hostPath}/dashboard`);
+    expect(windowRef.nativeWindow.location).toBe(`/${AppConstants.HostPath}/dashboard`);
   });
 
   it('should set the window location to the peer dashboard, when handling the confirm close app click for a peer quick price type', () => {
     instance.workflowContext = generateMockPeerWorkflowContext();
     instance.handleConfirmedCloseApp();
 
-    expect(windowRef.nativeWindow.location).toBe(`/${environment.hostPath}/peer/exchanges/redirect`);
+    expect(windowRef.nativeWindow.location).toBe(`/${AppConstants.HostPath}/peer/exchanges/redirect`);
   });
 });

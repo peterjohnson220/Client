@@ -1,6 +1,10 @@
 import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
+import dropRight from 'lodash/dropRight';
+import isEmpty from 'lodash/isEmpty';
+import last from 'lodash/last';
+
 import { ConverterSettings } from 'libs/models';
 
 import { ValueMapping } from '../../../models';
@@ -30,7 +34,6 @@ export class ConverterFormComponent {
 
   }
 
-
   cancelClick() {
     this.onConverterFormCancel.emit();
   }
@@ -54,5 +57,13 @@ export class ConverterFormComponent {
       PayfactorsName: field['PayfactorsName'],
       ClientValues: field['ClientValues'].toString().split(',').map(item => item.trim())
     }));
+  }
+
+  formatFieldValuesList() {
+    if (!isEmpty(this.fieldValues)) {
+      const lastValue = last(this.fieldValues).PayfactorsName;
+      const rest = dropRight(this.fieldValues.map(f => f.PayfactorsName));
+      return isEmpty(rest) ? lastValue : `${rest.join(', ')}${rest.length > 1 ? ',' : ''} and ${lastValue}`;
+    }
   }
 }
