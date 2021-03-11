@@ -4,7 +4,6 @@
       <pf-layout-wrapper-header [dropdownNavigationLinks]="headerDropdownNavigationLinks$ | async"
                                 [userContext]="userContext$ | async"
                                 [homePageLink]="homePageLink$ | async"
-                                [enableCoreJdmInClient]="enableCoreJdmInClient"
                                 [requireSSOLogin]="requireSSOLogin$ | async"
                                 [enableUserNotifications]="userNotificationsFeatureFlag.value">
       </pf-layout-wrapper-header>
@@ -15,7 +14,7 @@
          [class.left-sidebar-center-content-scroll]="centerContentScroll"
          [class.d-none]="(userContext$ | async)?.IsPublic || (userContext$ | async)?.WorkflowStepInfo"
     >
-      <pf-layout-wrapper-left-sidebar [leftSidebarToggle]="leftSidebarToggle" [enableCoreJdmInClient]="enableCoreJdmInClient"></pf-layout-wrapper-left-sidebar>
+      <pf-layout-wrapper-left-sidebar [leftSidebarToggle]="leftSidebarToggle"></pf-layout-wrapper-left-sidebar>
     </div>
     <div class="center-content"
          [ngClass]="{ 'center-content-body-scroll': !centerContentScroll, 'center-content-scroll': centerContentScroll }">

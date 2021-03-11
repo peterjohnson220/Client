@@ -5,8 +5,6 @@ import { Location } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
-import { environment } from 'environments/environment';
-
 import { LoaderState } from '../reducers/user-bulk-add.reducer';
 import * as fromBulkAddUsersReducer from '../reducers';
 import * as fromUserBulkAddActions from '../actions/user-bulk-add.action';
@@ -17,7 +15,6 @@ import * as fromUserBulkAddActions from '../actions/user-bulk-add.action';
   styleUrls: ['./bulk-add-users.page.css']
 })
 export class BulkAddUsersPageComponent implements OnInit, OnDestroy {
-  env = environment;
   companyId: number;
   loaderState: LoaderState;
   userWorksheet: string;

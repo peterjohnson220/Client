@@ -1,5 +1,4 @@
 import { Injectable, OnDestroy } from '@angular/core';
-
 import { PlatformLocation } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
@@ -7,7 +6,8 @@ import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { environment } from '../../../environments/environment';
+import { AppConstants } from 'libs/constants';
+
 import { FileApiService } from './file/file-api.service';
 import { BaseUrlLocation } from '../../models/payfactors-api/common/base-url-location.enum';
 import * as fromRootState from '../../state/state';
@@ -26,8 +26,7 @@ export class PayfactorsApiService implements OnDestroy {
     private http: HttpClient,
     private fileApiService: FileApiService,
     private location: PlatformLocation,
-    private rootStore: Store<fromRootState.State>
-  ) {
+    private rootStore: Store<fromRootState.State>) {
     this.userContextSubscription = this.rootStore.select(fromRootState.getUserContext).subscribe(
       uc => { this.utilitiesSubDomain = uc ? uc.ConfigSettings.find(c => c.Name === 'UtilitiesSubDomain').Value : ''; });
   }
@@ -155,9 +154,9 @@ export class PayfactorsApiService implements OnDestroy {
     switch (baseLocation) {
 
       case BaseUrlLocation.FrontEnd:
-        return `${origin}${environment.payfactorsFrontEndApiUrl}${relativeUrl}`;
+        return `${origin}${AppConstants.PayfactorsFrontendApiUrl}${relativeUrl}`;
       default:
-        return `${origin}${environment.payfactorsApiUrl}${relativeUrl}`;
+        return `${origin}${AppConstants.PayfactorsApiUrl}${relativeUrl}`;
         break;
     }
   }

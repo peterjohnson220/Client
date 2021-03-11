@@ -8,12 +8,10 @@ import { GradeBasedPageViewIds } from 'libs/models/structures';
 import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import { AbstractFeatureFlagService, PermissionService, PfCommonModule } from 'libs/core';
 import * as fromRootState from 'libs/state/state';
+import { RangeValuePipe } from 'libs/features/structures/add-jobs-to-range/pipes';
 
-import { StructuresPagesService } from '../../../../shared/services';
+import { StructuresPagesService, UrlService } from '../../../../shared/services';
 import { ModelGridComponent } from './model-grid.component';
-import { RangeValuePipe } from '../../../../shared/pipes';
-
-
 
 class MockStructuresPagesService {
   modelPageViewId: BehaviorSubject<string>;
@@ -27,6 +25,7 @@ describe('ModelGridComponent', () => {
   let fixture: ComponentFixture<ModelGridComponent>;
   let store: Store<any>;
   let ngbModal: NgbModal;
+  let urlService: UrlService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -56,7 +55,11 @@ describe('ModelGridComponent', () => {
         {
           provide: AbstractFeatureFlagService,
           useValue: { enabled: jest.fn() }
-        }
+        },
+        {
+          provide: UrlService,
+          useValue: { isInWorkflow: jest.fn() }
+        },
       ]
     });
 
@@ -64,6 +67,7 @@ describe('ModelGridComponent', () => {
     instance = fixture.componentInstance;
     store = TestBed.inject(Store);
     ngbModal = TestBed.inject(NgbModal);
+    urlService = TestBed.inject(UrlService);
     instance.roundingSettingsSub = of({}).subscribe();
   }));
 

@@ -1,16 +1,13 @@
-import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
-import { Observable, Subscription } from 'rxjs';
-
-import { SettingsService } from 'libs/state/app-context/services';
-import { CompanySettingsEnum } from 'libs/models';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'pf-grid-detail-panel',
   templateUrl: './grid-detail-panel.component.html',
   styleUrls: ['./grid-detail-panel.component.scss']
 })
-export class GridDetailPanelComponent implements OnInit, OnDestroy {
+export class GridDetailPanelComponent {
   @Input() isExpanded$: Observable<boolean>;
   @Input() checkForJdmDescription = false;
 
@@ -28,27 +25,7 @@ export class GridDetailPanelComponent implements OnInit, OnDestroy {
   @Output() closeClick = new EventEmitter();
   @Output() viewJdmDescriptionClick = new EventEmitter();
 
-  jdmUrl = '/ng/job-description-management/job-descriptions';
-  enableCoreJdmInClient$: Observable<boolean>;
-  enableCoreJdmInClientSubscription: Subscription;
-
-  constructor(private settingService: SettingsService) {
-    this.enableCoreJdmInClient$ = this.settingService.selectCompanySetting<boolean>(
-      CompanySettingsEnum.JDMCoreUseClient
-    );
-  }
-
-  ngOnInit() {
-    this.enableCoreJdmInClientSubscription = this.enableCoreJdmInClient$.subscribe((setting) => {
-      if (setting === true) {
-        this.jdmUrl = '/client/job-description-management/job-descriptions';
-      }
-    });
-  }
-
-  ngOnDestroy() {
-    this.enableCoreJdmInClientSubscription.unsubscribe();
-  }
+  jdmUrl = '/client/job-description-management/job-descriptions';
 
   handleClose() {
     this.closeClick.emit();

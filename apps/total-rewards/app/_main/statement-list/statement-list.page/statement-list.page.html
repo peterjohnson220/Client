@@ -22,12 +22,13 @@
     <div class="d-flex flex-column h-100">
       <div class="h-100">
 
-        <ngb-tabset #tabs
+        <ul ngbNav #nav="ngbNav" #tabs class="nav-tabs"
                     [destroyOnHide]="false"
-                    (tabChange)="onTabChange()">
+                    [activeId]="(focusedTab$ | async)">
 
-          <ngb-tab id="Statements" title="Statements">
-            <ng-template ngbTabContent >
+          <li [ngbNavItem]="'Statements'" id="Statements" title="Statements">
+            <a ngbNavLink (click)="onTabChange()">Statements</a>
+            <ng-template ngbNavContent >
               <div class="h-100">
                 <pf-statements-grid
                   [displayNoStatementsCreatedImage]="(focusedTab$ | async) !== 'Statements' ||
@@ -36,15 +37,17 @@
                 </pf-statements-grid>
               </div>
             </ng-template>
-          </ngb-tab>
+          </li>
 
-          <ngb-tab id="Templates" title="Templates">
-            <ng-template ngbTabContent>
+          <li [ngbNavItem]="'Templates'" id="Templates" title="Templates">
+            <a ngbNavLink (click)="onTabChange()">Templates</a>
+            <ng-template ngbNavContent>
               <pf-total-rewards-template-card-selector [autoLoad]="true" (onSelectClick)="onTemplateSelected($event)">
               </pf-total-rewards-template-card-selector>
             </ng-template>
-          </ngb-tab>
-        </ngb-tabset>
+          </li>
+        </ul>
+        <div [ngbNavOutlet]="nav"></div>
 
       </div>
     </div>

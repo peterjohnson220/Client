@@ -7,6 +7,7 @@ import spyOn = jest.spyOn;
 import { NgbProgressbarModule } from '@ng-bootstrap/ng-bootstrap';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
+import { DragulaModule } from 'ng2-dragula';
 
 import * as fromRootState from 'libs/state/state';
 import { generateMockUserContext } from 'libs/models/security';
@@ -17,6 +18,7 @@ import * as fromAddJobsSearchResultsActions from 'libs/features/jobs/add-jobs/ac
 import * as fromAddJobsReducer from 'libs/features/jobs/add-jobs/reducers';
 
 import { AddJobsToRangePageComponent } from './add-jobs-to-range.page';
+
 
 
 describe('Project - Add Jobs - Structures Page', () => {
@@ -34,7 +36,8 @@ describe('Project - Add Jobs - Structures Page', () => {
           ...fromRootState.reducers,
           project_addJobs: combineReducers(fromAddJobsReducer.reducers),
         }),
-        NgbProgressbarModule
+        NgbProgressbarModule,
+        DragulaModule.forRoot()
       ],
       declarations: [
         AddJobsToRangePageComponent

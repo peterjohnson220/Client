@@ -9,7 +9,6 @@ export interface UserTileDto {
   IconClass: string;
   Url: string;
   Sidebar: boolean;
-  NgAppLink: boolean;
   SidebarNew: boolean;
   TileClassName: string;
   IconClassNew: string;

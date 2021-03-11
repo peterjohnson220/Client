@@ -62,14 +62,17 @@ export class StatementAssignmentPageEffects {
         this.store.select(fromTotalRewardsReducer.getStatement),
         this.store.select(fromTotalRewardsReducer.getAssignedEmployeesSelectedCompanyEmployeeIds),
         this.store.select(fromTotalRewardsReducer.getEmployeeSearchTerm),
+        this.store.select(fromTotalRewardsReducer.getAssignedEmployeesTotalOrSelectedCount),
         this.store.select(fromTotalRewardsReducer.getAssignedEmployeesGridState),
-        (action: fromStatementAssignmentPageActions.GenerateStatements, statement, companyEmployeeIds, employeeSearchTerm, gridState) =>
-          ({ action, companyEmployeeIds, statementId: statement.StatementId, employeeSearchTerm, gridState })
+          (action: fromStatementAssignmentPageActions.GenerateStatements, statement, companyEmployeeIds, employeeSearchTerm,
+            employeesTotalOrSelectedCount, gridState) =>
+          ({ action, companyEmployeeIds, statementId: statement.StatementId, employeeSearchTerm, gridState, employeesTotalOrSelectedCount })
       ),
       map(data => ({
         StatementId: data.statementId,
         CompanyEmployeeIds: data.companyEmployeeIds,
         EmployeeSearchTerm: data.employeeSearchTerm,
+        ExpectedEmployeeCount: data.employeesTotalOrSelectedCount,
         GenerateByQuery: (data.companyEmployeeIds && data.companyEmployeeIds.length) ? null : data.gridState,
         WaitForPdfGenerationSelector: TrsConstants.READY_FOR_PDF_GENERATION_SELECTOR,
         Method: data.action.payload.method,
