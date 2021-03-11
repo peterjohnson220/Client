@@ -223,6 +223,11 @@ export const getSelectedJobData = createSelector(
   fromComphubPageReducer.getSelectedJobData
 );
 
+export const getJobPricingHistory = createSelector(
+  selectComphubPageState,
+  fromComphubPageReducer.getJobHistoryData
+);
+
 // Markets Card
 export const getSelectedPaymarket = createSelector(
   selectMarketsCardState,

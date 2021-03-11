@@ -41,6 +41,7 @@ export class DataCardEffects {
               return [
                 new fromDataCardActions.GetPeerQuickPriceDataSuccess(),
                 new fromComphubPageActions.SetSelectedJobData(response.JobData),
+                new fromComphubPageActions.SetJobPricingHistory(response.PayHistoryCollection),
                 new fromComphubPageActions.AddAccessiblePages([ComphubPages.Summary])
               ];
               }),

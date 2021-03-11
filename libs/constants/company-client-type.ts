@@ -5,4 +5,5 @@ export class CompanyClientTypeConstants {
   public static SURVEY_MANAGEMENT = 'Survey Management';
   public static PEER = 'Peer';
   public static PEER_AND_ANALYSIS = 'Peer and Analysis';
+  public static ENTERPRISE = 'Enterprise';
 }

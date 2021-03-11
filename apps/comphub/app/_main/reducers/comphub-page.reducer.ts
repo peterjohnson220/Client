@@ -21,6 +21,7 @@ export interface State {
   isQuickPriceHistoryModalOpen: boolean;
   footerContext: FooterContext;
   selectedJobData: JobData;
+  jobPricingHistory: any[];
 }
 
 const initialState: State = {
@@ -43,6 +44,7 @@ const initialState: State = {
   isQuickPriceHistoryModalOpen: false,
   footerContext: null,
   selectedJobData: null,
+  jobPricingHistory: null
 };
 
 export function reducer(state: State = initialState, action: fromComphubPageActions.Actions) {
@@ -218,6 +220,12 @@ export function reducer(state: State = initialState, action: fromComphubPageActi
         selectedJobData: null
       };
     }
+    case fromComphubPageActions.SET_JOB_PRICING_HISTORY: {
+      return {
+        ...state,
+        jobPricingHistory: action.payload
+      };
+    }
     default: {
       return state;
     }
@@ -250,6 +258,7 @@ export const getJobPricingBlocked = createSelector(
 export const getIsQuickPriceHistoryModalOpen = (state: State) => state.isQuickPriceHistoryModalOpen;
 export const getFooterContext = (state: State) => state.footerContext;
 export const getSelectedJobData = (state: State) => state.selectedJobData;
+export const getJobHistoryData = (state: State) => state.jobPricingHistory;
 export const getSmbLimitReached = createSelector(
   getJobPricingBlocked,
   getCountryDataSetsLoaded,

@@ -138,7 +138,8 @@ export class ComphubFooterComponent implements OnInit, OnDestroy {
   }
 
   get failsGuidelines(): boolean {
-    return !this.guidelinesService.passesGuidelines;
+    return false;
+    //return !this.guidelinesService.passesGuidelines;
   }
 
   get nextButtonDisabled() {

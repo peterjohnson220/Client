@@ -36,7 +36,7 @@
       </ng-template>
     </button>
 
-    <button *ngIf="!(footerContext$ | async)?.HideBackButton"
+    <button *ngIf="true"
             class="btn btn-secondary"
             [disabled]="!(footerContext$ | async)?.BackButtonEnabled"
             [attr.data-qa-id]="'btn-back-' + (footerContext$ | async)?.PageTitle"

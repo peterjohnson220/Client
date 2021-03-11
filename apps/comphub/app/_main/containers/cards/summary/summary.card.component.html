@@ -462,6 +462,37 @@
         </div>
 
         <div class="job-description-wrapper">
+
+
+          <div class="g" *ngIf="isPeerQuickPriceType">
+            <div class="h">
+              Peer Salary Trend
+              <small *ngIf="peerJobSalaryTrendData?.Data">
+                ({{peerJobSalaryTrendData.Data[0].EffectiveDate | date : 'MM/yyyy'}} -
+                {{peerJobSalaryTrendData.Data[peerJobSalaryTrendData.Data.length - 1].EffectiveDate | date : 'MM/yyyy'}})
+              </small>
+            </div>
+            <div class="gr">
+              <pf-salary-trend-chart
+                [isHourly]="isHourly"
+                [currencyCode]="currencyCode"
+                [salaryTrendData]="peerJobSalaryTrendData">
+              </pf-salary-trend-chart>
+            </div>
+          </div>
+
+
+          <div class="history skills" >
+            <div class="h title-container">
+              History
+            </div>
+
+            <div class="d-flex flex-wrap ml-3">
+              <div *ngFor="let record of jobPricingHistory" class="badge">{{record.EffectiveDate}} : ${{record.BasePay}}</div>
+            </div>
+          </div>
+
+
           <div class="skills" *ngIf="jobData?.Skills.length">
             <div class="h title-container">
               Skills
@@ -502,7 +533,7 @@
   {{jobData?.ExchangeName}}
 </ng-template>
 
-<pf-file-download-security-warning-modal 
+<pf-file-download-security-warning-modal
   #fileDownloadSecurityWarningModal
   (securityWarningConfirmed)="handleSecurityWarningConfirmed($event)">
 </pf-file-download-security-warning-modal>

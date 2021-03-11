@@ -99,7 +99,7 @@ export class ComphubPageComponent implements OnInit, OnDestroy {
     });
     this.workflowContextSub = this.workflowContext$.subscribe(wfc => this.workflowContext = wfc);
     this.userContextSub = this.userContext$.subscribe(uc => {
-      if (uc.ClientType === CompanyClientTypeConstants.PEER_AND_ANALYSIS || uc.ClientType === CompanyClientTypeConstants.PEER) {
+      if (uc.ClientType === CompanyClientTypeConstants.PEER_AND_ANALYSIS || uc.ClientType === CompanyClientTypeConstants.PEER || uc.ClientType == CompanyClientTypeConstants.ENTERPRISE) {
         this.store.dispatch(new fromComphubPageActions.SetQuickPriceTypeInWorkflowContext(QuickPriceType.PEER));
         this.store.dispatch(new fromComphubPageActions.GetExchangeDataSets());
       } else if (uc.CompanySystemUserGroupsGroupName === this.systemUserGroupNames.SmallBusiness) {

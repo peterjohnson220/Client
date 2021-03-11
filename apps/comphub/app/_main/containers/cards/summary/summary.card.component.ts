@@ -25,7 +25,7 @@ import * as fromSummaryCardActions from '../../../actions/summary-card.actions';
 import * as fromDataCardActions from '../../../actions/data-card.actions';
 import * as fromComphubMainReducer from '../../../reducers';
 import * as fromComphubPageActions from '../../../actions/comphub-page.actions';
-import { JobData, PricingPaymarket, JobSalaryTrend, WorkflowContext } from '../../../models';
+import { JobData, PricingPaymarket, JobSalaryTrend, WorkflowContext, PayRateDate, JobSalaryTrendData } from '../../../models';
 import { ComphubPages } from '../../../data';
 import { DataCardHelper } from '../../../helpers';
 @Component({
@@ -40,6 +40,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
   @ViewChild('fileDownloadSecurityWarningModal', { static: true }) fileDownloadSecurityWarningModal: FileDownloadSecurityWarningModalComponent;
 
   selectedJobData$: Observable<JobData>;
+  jobPricingHistory$: Observable<PayRateDate[]>;
   selectedPaymarket$: Observable<PricingPaymarket>;
   selectedRate$: Observable<RateType>;
   salaryTrendData$: Observable<JobSalaryTrend>;
@@ -62,6 +63,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
   enableFileDownloadSecurityWarning$: Observable<boolean>;
 
   selectedJobDataSubscription: Subscription;
+  jobPricingHistorySubscription: Subscription;
   selectedPaymarketSubscription: Subscription;
   selectedRateSubscription: Subscription;
   filterContextSubscription: Subscription;
@@ -71,8 +73,10 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
   private userContextSubscription: Subscription;
 
   jobData: JobData;
+  jobPricingHistory: PayRateDate[];
   lastJobData: JobData;
   jobSalaryTrendData: JobSalaryTrend;
+  peerJobSalaryTrendData: JobSalaryTrend;
   paymarket: PricingPaymarket;
   lastPaymarket: PricingPaymarket;
   selectedRate: RateType;
@@ -100,6 +104,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
     public cp: CurrencyPipe
   ) {
     this.selectedJobData$ = this.store.select(fromComphubMainReducer.getSelectedJobData);
+    this.jobPricingHistory$ = this.store.select(fromComphubMainReducer.getJobPricingHistory);
     this.selectedPaymarket$ = this.store.select(fromComphubMainReducer.getSelectedPaymarket);
     this.selectedRate$ = this.store.select(fromComphubMainReducer.getSelectedRate);
     this.salaryTrendData$ = this.store.select(fromComphubMainReducer.getSalaryTrendData);
@@ -119,10 +124,30 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
     this.calculatingJobData$ = this.store.select(fromComphubMainReducer.getRecalculatingJobData);
     this.showJobsHistorySummary$ = this.store.select(fromComphubMainReducer.getShowJobPricedHistorySummary);
     this.enableFileDownloadSecurityWarning$ = this.settingsService.selectCompanySetting<boolean>(CompanySettingsEnum.FileDownloadSecurityWarning);
+
   }
 
   ngOnInit() {
     this.selectedJobDataSubscription = this.selectedJobData$.subscribe(data => this.jobData = data);
+    this.jobPricingHistorySubscription = this.jobPricingHistory$.subscribe( h => {
+        this.jobPricingHistory = h;
+
+
+        if (!!h) {
+          const test: JobSalaryTrendData[] = h.map(x => this.convertPeerHistoryToSalaryTrend(x));
+
+          this.peerJobSalaryTrendData = {
+            PercentageChange: (( test[test.length - 1].SalaryAnnual / test[0].SalaryAnnual ) * 100) - 100,
+            Data: test
+          };
+        }
+        else {
+          this.peerJobSalaryTrendData = null;
+        }
+
+
+      }
+    );
     this.selectedPaymarketSubscription = this.selectedPaymarket$.subscribe(paymarket => this.paymarket = paymarket);
     this.selectedRateSubscription = this.selectedRate$.subscribe(r => this.selectedRate = r);
     this.showJobHistorySummarySubscription = this.showJobsHistorySummary$.subscribe(x => this.showJobHistorySummary = x);
@@ -177,6 +202,14 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
     } else {
       this.store.dispatch(new fromSummaryCardActions.PriceNewJob());
     }
+  }
+
+  convertPeerHistoryToSalaryTrend(payRateDate: PayRateDate): JobSalaryTrendData {
+    return {
+      SalaryAnnual: payRateDate.BasePay,
+      SalaryHourly: payRateDate.BasePay / 2080,
+      EffectiveDate: payRateDate.EffectiveDate
+    };
   }
 
   handleDownloadPdfClicked() {

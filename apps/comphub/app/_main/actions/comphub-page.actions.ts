@@ -29,6 +29,7 @@ export const UPDATE_FOOTER_CONTEXT = '[Comphub/Comphub Page] Update Footer Conte
 export const SET_FOOTER_CONTEXT = '[Comphub/Comphub Page] Set Footer Context';
 export const SET_SELECTED_JOB_DATA = '[Comphub/Comphub Page] Set Selected Job Data';
 export const CLEAR_SELECTED_JOB_DATA = '[Comphub/Comphub Page] Clear Selected Job Data';
+export const SET_JOB_PRICING_HISTORY = '[Comphub/Comphub Page] Set Job Pricing History';
 
 export class Init implements Action {
   readonly type = INIT;
@@ -40,6 +41,12 @@ export class NavigateToCard implements Action {
   readonly type = NAVIGATE_TO_CARD;
 
   constructor(public payload: { cardId: string }) {}
+}
+
+export class SetJobPricingHistory implements Action {
+  readonly type = SET_JOB_PRICING_HISTORY;
+
+  constructor(public payload: any[]) {}
 }
 
 export class NavigateToNextCard implements Action {
@@ -189,4 +196,5 @@ export type Actions
   | UpdateFooterContext
   | SetFooterContext
   | SetSelectedJobData
-  | ClearSelectedJobData;
+  | ClearSelectedJobData
+  | SetJobPricingHistory;
