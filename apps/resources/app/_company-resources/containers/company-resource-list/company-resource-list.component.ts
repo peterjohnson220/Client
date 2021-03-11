@@ -31,6 +31,7 @@ export class CompanyResourceListComponent implements OnInit, OnDestroy {
   @ViewChild('fileDownloadSecurityWarningModal', { static: true }) fileDownloadSecurityWarningModal: FileDownloadSecurityWarningModalComponent;
   @Input() folderResources: CompanyResourceFolder[];
   @Input() orphanedResources: OrphanedCompanyResource[];
+  @Input() hasCompanyResourcesAddEditDeletePermission: boolean;
 
   deleteResourceSuccess$: Observable<boolean>;
   deleteResourceSuccessSubscription: Subscription;
