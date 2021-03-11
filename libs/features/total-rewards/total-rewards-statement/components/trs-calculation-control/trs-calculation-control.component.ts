@@ -8,7 +8,6 @@ import { EmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards';
 import * as models from '../../models';
 import { TotalRewardsStatementService } from '../../services/total-rewards-statement.service';
 import { CompensationField, SelectableFieldsGroup, FieldLayout } from '../../models';
-import { TrsConstants } from '../../constants/trs-constants';
 
 @Component({
   selector: 'pf-trs-calculation-control',
@@ -116,17 +115,14 @@ export class TrsCalculationControlComponent implements OnChanges {
 
     if (employeeRewards) {
       if (!field.Type && employeeRewards[field.DatabaseField] && employeeRewards[field.DatabaseField] > 0) {
-        return this.formatAsCurrency(employeeRewards[field.DatabaseField], employeeRewards?.Currency);
+        return this.formatAsCurrency(employeeRewards[field.DatabaseField], employeeRewards.Currency);
       }
       if (!field.Type && this.benefitsDataExists && employeeRewards.BenefitsData[field.DatabaseField]?.EmployerValue > 0) {
-        return this.formatAsCurrency(this.employeeRewardsData.BenefitsData[field.DatabaseField].EmployerValue, employeeRewards?.Currency);
+        return this.formatAsCurrency(employeeRewards.BenefitsData[field.DatabaseField].EmployerValue, employeeRewards.Currency);
       }
       if (field.Type) {
-        const fieldValue = employeeRewards.IsMockData
-          ? TrsConstants.UDF_DEFAULT_VALUE
-          : employeeRewards[field.Type][field.DatabaseField];
-
-        return this.formatAsCurrency(fieldValue, employeeRewards?.Currency);
+        const fieldValue = TotalRewardsStatementService.getUdfAsNumeric(employeeRewards, field.Type, field.DatabaseField);
+        return this.formatAsCurrency(fieldValue, employeeRewards.Currency);
       }
     }
 
@@ -173,7 +169,7 @@ export class TrsCalculationControlComponent implements OnChanges {
     let valueAsCurrency = this.currencyPipe.transform(value, currency, 'symbol-narrow', this.currencyLocale);
 
     // if we have a single decimal leftover like 1000.5, change to 1000.50 if decimals are on and 1000 otherwise
-    if (typeof valueAsCurrency === 'string' && valueAsCurrency.slice(-2)?.charAt(0) === '.') {
+    if (valueAsCurrency.slice(-2)?.charAt(0) === '.') {
       valueAsCurrency = (this.showDecimals) ? valueAsCurrency + '0' : valueAsCurrency.slice(0, -2);
     }
     return valueAsCurrency;
@@ -226,10 +222,9 @@ export class TrsCalculationControlComponent implements OnChanges {
     if (this.inEditMode) {
       return true;
     }
-    if (this.employeeRewardsData.IsMockData) {
-      return field.IsVisible;
-    }
-    return field.IsVisible && this.employeeRewardsData[field.Type][field.DatabaseField] > 0;
+
+    const fieldValue = TotalRewardsStatementService.getUdfAsNumeric(this.employeeRewardsData, field.Type, field.DatabaseField);
+    return field.IsVisible && fieldValue > 0;
   }
 
   isBenefitsFieldVisible(field: models.CompensationField): boolean {
