@@ -3,7 +3,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
-import { RoundingSettingsDataObj, RangeGroupMetadata } from 'libs/models/structures';
+import { RoundingSettingsDataObj, RangeGroupMetadata, generateMockRoundingSettingsDataObj } from 'libs/models/structures';
 import { RoundingTypes } from 'libs/constants/structures/rounding-type';
 
 import * as fromSharedStructuresReducer from '../../reducers';
@@ -47,6 +47,7 @@ export class RangeRoundingComponent implements OnInit, OnDestroy {
   // Lifecycle
   ngOnInit(): void {
     this.defaultSet = false;
+    this.roundingSettings = generateMockRoundingSettingsDataObj();
     this.subscribe();
   }
 
@@ -60,7 +61,8 @@ export class RangeRoundingComponent implements OnInit, OnDestroy {
       md => {
         if (md) {
           this.metadata = md;
-          this.roundingSettings = this.metadata?.RangeAdvancedSetting.Rounding;
+          this.roundingSettings = this.metadata?.RangeAdvancedSetting.Rounding ?
+            this.metadata?.RangeAdvancedSetting.Rounding : this.roundingSettings;
           this.setDefaults();
         }
       }
