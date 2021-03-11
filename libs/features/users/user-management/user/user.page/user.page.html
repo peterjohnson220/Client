@@ -22,7 +22,7 @@
           </pf-user-form>
         </div>
         <div class="col-lg-6 px-3 mt-4">
-          <div *ngIf="isSiteAdmin" class="d-flex flex-row-reverse mb-3">
+          <div *ngIf="isSiteAdmin && userId" class="d-flex flex-row-reverse mb-3">
             <a class="cursor-pointer h6" (click)="handleResetPassword()">Reset Password</a>
           </div>
           <div class="card">

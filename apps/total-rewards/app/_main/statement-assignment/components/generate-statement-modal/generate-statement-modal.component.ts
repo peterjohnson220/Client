@@ -29,6 +29,7 @@ export class GenerateStatementModalComponent implements OnInit, OnDestroy {
   @Output() cancelClick = new EventEmitter();
 
   isOpenSubscription: Subscription;
+  confirmCountNumber: number;
 
   @ViewChild('emailTemplate', { static: true }) emailTemplateComponent: StatementEmailTemplateComponent;
   deliveryMethod = DeliveryMethod;
@@ -57,17 +58,34 @@ export class GenerateStatementModalComponent implements OnInit, OnDestroy {
         ? this.emailTemplateComponent.rememberForNextTime
         : false
     };
+    this.confirmCountNumber = null;
     this.generateStatementsClick.emit(selectedDeliveryOption);
   }
 
   onCancel() {
+    this.confirmCountNumber = null;
     this.cancelClick.emit();
   }
 
+  onConfirmCountChange(event: number) {
+    this.confirmCountNumber = event;
+  }
+
+  get isConfirmCountInvalid(): boolean {
+    return (this.confirmCountNumber || this.confirmCountNumber === 0) && this.confirmCountNumber !== this.companyEmployeeIdsTotal;
+  }
+
+  get isConfirmCountCorrect(): boolean {
+    return this.confirmCountNumber === this.companyEmployeeIdsTotal;
+  }
+
   get submitEnabled(): boolean {
-    if (!this.electronicDeliveryEnabled || this.selectedDeliveryMethod === DeliveryMethod.PDFExport) {
-      return true;
+    if (this.isConfirmCountCorrect) {
+      if (!this.electronicDeliveryEnabled || this.selectedDeliveryMethod === DeliveryMethod.PDFExport) {
+        return true;
+      }
+      return this.selectedDeliveryMethod === DeliveryMethod.Email && this.emailTemplateComponent?.isValid;
     }
-    return this.selectedDeliveryMethod === DeliveryMethod.Email && this.emailTemplateComponent?.isValid;
+    return false;
   }
 }

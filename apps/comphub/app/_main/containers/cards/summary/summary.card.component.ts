@@ -88,6 +88,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
   rates: KendoDropDownItem[] = Rates;
   showJobHistorySummary: boolean;
   currencyCode: string;
+  countryCode: string;
   enableFileDownloadSecurityWarning = false;
 
   private mbAccessToken: string;
@@ -326,6 +327,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
       this.lastPaymarket = this.paymarket;
       this.lastJobData = this.jobData;
       this.currencyCode = this.workflowContext.activeCountryDataSet.CurrencyCode;
+      this.countryCode = this.workflowContext.activeCountryDataSet.CountryCode;
       this.currencySymbol = getCurrencySymbol(this.workflowContext.activeCountryDataSet.CurrencyCode, 'narrow');
     } else if (this.isPeerQuickPriceType) {
       this.store.dispatch(new fromComphubPageActions.RemoveAccessiblePages([ComphubPages.Jobs, ComphubPages.Markets, ComphubPages.Data]));
@@ -349,6 +351,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
   private updateSummaryHistoryData(): void {
     this.paymarket = this.jobData.PayMarket;
     this.currencyCode = this.paymarket.CurrencyCode;
+    this.countryCode = this.paymarket.CountryCode;
     this.currencySymbol = getCurrencySymbol(this.paymarket.CurrencyCode, 'narrow');
     if (!this.isPeerQuickPriceType) {
       this.loadJobTrendChart();

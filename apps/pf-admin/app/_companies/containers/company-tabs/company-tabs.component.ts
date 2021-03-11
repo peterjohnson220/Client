@@ -4,8 +4,6 @@ import { Store } from '@ngrx/store';
 import { Observable, Subscription, combineLatest, Subject } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 
-import { environment } from 'environments/environment';
-
 import { UserContext } from 'libs/models/security';
 import { CompanyTilesResponse, CompanyDataSetsReponse, ListCompositeFields } from 'libs/models/payfactors-api';
 import { CompanySetting, CompanySettingsEnum } from 'libs/models/company';
@@ -71,7 +69,6 @@ export class CompanyTabsComponent implements OnInit, OnChanges, OnDestroy {
   jobPricingLimitUsed = 0;
   maxProjectCountSetting: CompanySetting;
   showJobPricingLimitError = false;
-  env = environment;
   isPayfactorsServices: boolean;
   customListType = CompanySettingsListType.Custom;
 

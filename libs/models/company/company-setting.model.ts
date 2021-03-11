@@ -43,7 +43,8 @@ export enum CompanySettingsEnum {
   EnableLiveChat = 'EnableLiveChat',
   ExportsSecurity = 'ExportsSecurity',
   FileDownloadSecurityWarning = 'FileDownloadSecurityWarning',
-  CanEditJob = 'CanEditJob'
+  CanEditJob = 'CanEditJob',
+  DataManagementShowHRISInbound = 'DataManagementShowHRISInbound',
 }
 
 export enum CustomCompanySettingsDisplayEnum {

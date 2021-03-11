@@ -1,21 +1,24 @@
-import { Component, OnInit, Output, EventEmitter, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { AfterViewInit, Component, EventEmitter, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { Observable, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { Store, select } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { ComboBoxComponent, DropDownFilterSettings } from '@progress/kendo-angular-dropdowns';
 import cloneDeep from 'lodash/cloneDeep';
 import { IntlService } from '@progress/kendo-angular-intl';
 
 import * as fromRootState from 'libs/state/state';
 import { PfEmailValidators, PfValidators } from 'libs/forms/validators';
-import { AsyncStateObj, KendoTypedDropDownItem, GenericKeyValue, CompanyEmployee, UserContext, PfConstants } from 'libs/models';
+import { AsyncStateObj, CompanyEmployee, GenericKeyValue, KendoTypedDropDownItem, PfConstants, UserContext } from 'libs/models';
+import { PermissionService } from 'libs/core/services';
+import { PermissionCheckEnum, Permissions } from 'libs/constants';
 
 import * as fromEmployeeManagementReducer from '../../reducers';
 import * as fromEmployeeManagementActions from '../../actions';
-import { EmployeeValidation } from '../../models/employee-validation.model';
-import { Job, Structure } from '../../models';
+import { EmployeeModalSectionEnum, Job, Structure, EmployeeValidation } from '../../models';
+import { sectionFieldsMap } from '../../data/employee-modal-section-data';
+import { EmployeeBenefitsComponent } from '../employee-benefits/employee-benefits.component';
 
 @Component({
   selector: 'pf-employee-management',
@@ -29,6 +32,7 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
   @ViewChild('currencyCombobox', { static: true }) currencyCombobox: ComboBoxComponent;
   @ViewChild('workCountryCombobox', { static: true }) workCountryCombobox: ComboBoxComponent;
   @ViewChild('departmentCombobox', { static: true }) departmentCombobox: ComboBoxComponent;
+  @ViewChild(EmployeeBenefitsComponent, { static: false }) employeeBenefitsComponent: EmployeeBenefitsComponent;
 
   // observables
   userContext$: Observable<UserContext>;
@@ -47,6 +51,7 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
   employeesUserDefinedFields$: Observable<AsyncStateObj<GenericKeyValue<string, string>[]>>;
   employee$: Observable<AsyncStateObj<CompanyEmployee>>;
   employeeValidationAsync$: Observable<AsyncStateObj<EmployeeValidation>>;
+  employeeBenefitsSaving$: Observable<boolean>;
 
   // subscriptions
   openModalSubscription: Subscription;
@@ -69,11 +74,16 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
   calculatedTDC: number;
   jobCode: string;
   jobSearchTerm: string;
+  currentSection: string = EmployeeModalSectionEnum.EmployeeInformationSection;
+  employeeModalSectionEnum = EmployeeModalSectionEnum;
+  customFieldNames: string[] = [];
+  hasTotalRewardsPermission: boolean;
 
   readonly MAX_EMAIL_LENGTH = 100;
   readonly DEFAULT_MAX_LENGTH = 255;
   readonly HOURLY_CONVERSION_RATE = 2080;
   readonly PAGE_SIZE = 20;
+  readonly MAX_DECIMAL_SIZE = 999999999999999;
 
   filterSettings: DropDownFilterSettings = {
     caseSensitive: false,
@@ -91,6 +101,7 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
   constructor(
     private rootStore: Store<fromRootState.State>,
     private store: Store<fromEmployeeManagementReducer.State>,
+    private permissionService: PermissionService,
     private formBuilder: FormBuilder,
     private intlService: IntlService
   ) {
@@ -109,6 +120,9 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
     this.employee$ = this.store.select(fromEmployeeManagementReducer.getEmployee);
     this.employeeValidationAsync$ = this.store.select(fromEmployeeManagementReducer.getEmployeeValidationAsync);
     this.moreJobsToLoad$ = this.store.select(fromEmployeeManagementReducer.getMoreCompanyJobsToLoad);
+    this.employeeBenefitsSaving$ = this.store.select(fromEmployeeManagementReducer.getEmployeeBenefitsSaving);
+    this.hasTotalRewardsPermission = this.permissionService.CheckPermission([Permissions.TOTAL_REWARDS],
+      PermissionCheckEnum.Single);
   }
 
   ngOnInit() {
@@ -122,7 +136,12 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
       if (isOpen) {
         if (!this.initialized) {
           this.initializeDroplists();
+        } else {
+          // initialize departments every time to account for the addition of custom departments
+          this.store.dispatch(new fromEmployeeManagementActions.LoadDepartments());
         }
+
+        this.currentSection = EmployeeModalSectionEnum.EmployeeInformationSection;
       }
     });
     this.udfsSubscription = this.employeesUserDefinedFields$.subscribe(userDefinedFieldsAync => {
@@ -132,10 +151,13 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
           this.employeeForm.addControl(
             userDefinedField.Key,
             new FormControl('', PfValidators.maxLengthTrimWhitespace(this.DEFAULT_MAX_LENGTH)));
+
+          this.customFieldNames.push(userDefinedField.Key);
         }
-        if(!!this.employee){
+        if (!!this.employee) {
           this.updateUDFFields();
         }
+
       }
     });
     this.gradeCodesSubscription = this.gradeCodes$.subscribe(gradeCodesAsync => {
@@ -165,6 +187,7 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
     this.employeeValidationSubscription = this.employeeValidationAsync$.subscribe(asyncObj => this.employeeValidationAsync = asyncObj);
   }
 
+
   ngAfterViewInit(): void {
     this.filterChangeSubscription = this.jobsCombobox.filterChange.asObservable().pipe(
       debounceTime(PfConstants.DEBOUNCE_DELAY),
@@ -190,6 +213,70 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
     this.employeeValidationSubscription.unsubscribe();
   }
 
+  onSectionChange(sectionId: string) {
+    this.currentSection = sectionId;
+  }
+
+  scrollTo(section: EmployeeModalSectionEnum) {
+    this.onSectionChange(section);
+
+    document.querySelector('#' + section)
+      .scrollIntoView();
+  }
+
+  onBenefitValueChanged(): void {
+    this.employeeForm.markAsDirty();
+  }
+
+  public isSectionInvalid(section: EmployeeModalSectionEnum): boolean {
+    let fieldNames: string[];
+    let employeeValidationFields: string[];
+
+    switch (section) {
+      case EmployeeModalSectionEnum.EmployeeInformationSection: {
+        fieldNames = sectionFieldsMap.EmployeeInformationSection.fieldNames;
+        employeeValidationFields = sectionFieldsMap.EmployeeInformationSection.employeeValidationFields;
+        break;
+      }
+      case EmployeeModalSectionEnum.JobInformationSection: {
+        fieldNames = sectionFieldsMap.JobInformationSection.fieldNames;
+        employeeValidationFields = sectionFieldsMap.JobInformationSection.employeeValidationFields;
+        break;
+      }
+      case EmployeeModalSectionEnum.ComponentsOfPaySection: {
+        fieldNames = sectionFieldsMap.ComponentsOfPaySection.fieldNames;
+        employeeValidationFields = sectionFieldsMap.ComponentsOfPaySection.employeeValidationFields;
+        break;
+      }
+      case EmployeeModalSectionEnum.AllowancesSection: {
+        fieldNames = sectionFieldsMap.AllowancesSection.fieldNames;
+        employeeValidationFields = sectionFieldsMap.AllowancesSection.employeeValidationFields;
+        break;
+      }
+      case EmployeeModalSectionEnum.IncentivesSection: {
+        fieldNames = sectionFieldsMap.IncentivesSection.fieldNames;
+        employeeValidationFields = sectionFieldsMap.IncentivesSection.employeeValidationFields;
+        break;
+      }
+      case EmployeeModalSectionEnum.CustomFieldsSection: {
+        fieldNames = this.customFieldNames;
+        employeeValidationFields = this.customFieldNames;
+        break;
+      }
+      default: {
+        fieldNames = [];
+        employeeValidationFields = [];
+        break;
+      }
+    }
+
+    const isInvalid = employeeValidationFields.some(field => this.employeeValidationFailed(field) && this.employeeForm.controls[field]?.touched)
+                      || fieldNames.some(field => !this.employeeForm.controls[field]?.valid && this.employeeForm.controls[field]?.touched);
+
+
+    return isInvalid;
+  }
+
   public get modalTitle(): string {
     return !!this.employee ? 'Edit Employee' : 'Add Employee';
   }
@@ -208,6 +295,9 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
   onSubmit() {
     const employee = this.getEmployeeDataFromForm();
     this.store.dispatch(new fromEmployeeManagementActions.ValidateEmployeeKeys(employee));
+    if (this.employeeBenefitsComponent) {
+      this.employeeBenefitsComponent.save();
+    }
   }
 
   loadMoreJobs() {
@@ -278,7 +368,23 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
       GradeCode: null,
       EmailAddress: ['', [
         Validators.maxLength(this.MAX_EMAIL_LENGTH),
-        PfEmailValidators.emailFormat]]
+        PfEmailValidators.emailFormat]],
+      MonthsofBasePay: null,
+      HousingAllowance: null,
+      TransportationAllowance: null,
+      MealsAllowance: null,
+      FlexAllowance: null,
+      LeaveAllowance: null,
+      PeerOtherAllowance: null,
+      CarAllowanceEligibility: null,
+      CarAllowanceAmount: null,
+      PerformanceStockNumGranted: null,
+      PerformanceStockPriceatGrant: null,
+      SARNumGranted: null,
+      SARPriceatGrant: null,
+      RSUNumGranted: null,
+      RSUPriceatGrant: null
+
     });
   }
 
@@ -505,7 +611,22 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
         Fixed: this.employee.Fixed,
         StructureRangeGroupId: this.employee.StructureRangeGroupId,
         GradeCode: this.employee.GradeCode,
-        EmailAddress: this.employee.EmailAddress
+        EmailAddress: this.employee.EmailAddress,
+        MonthsofBasePay: this.employee.MonthsofBasePay,
+        HousingAllowance: this.employee.HousingAllowance,
+        TransportationAllowance: this.employee.TransportationAllowance,
+        MealsAllowance: this.employee.MealsAllowance,
+        FlexAllowance: this.employee.FlexAllowance,
+        LeaveAllowance: this.employee.LeaveAllowance,
+        PeerOtherAllowance: this.employee.PeerOtherAllowance,
+        CarAllowanceEligibility: this.employee.CarAllowanceEligibility,
+        CarAllowanceAmount: this.employee.CarAllowanceAmount,
+        PerformanceStockNumGranted: this.employee.PerformanceStockNumGranted,
+        PerformanceStockPriceatGrant: this.employee.PerformanceStockPriceatGrant,
+        SARNumGranted: this.employee.SARNumGranted,
+        SARPriceatGrant: this.employee.SARPriceatGrant,
+        RSUNumGranted: this.employee.RSUNumGranted,
+        RSUPriceatGrant: this.employee.RSUPriceatGrant
       });
       this.updateUDFFields();
       this.loadStructures();

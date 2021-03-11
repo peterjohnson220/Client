@@ -3,9 +3,9 @@ import cloneDeep from 'lodash/cloneDeep';
 import { CompanyStructureRangeOverride, RangeGroupMetadata, RoundingSetting, RoundingSettingsDataObj } from 'libs/models/structures';
 import { RoundingTypes } from 'libs/constants/structures/rounding-type';
 import { AsyncStateObj, generateDefaultAsyncStateObj, GenericKeyValue } from 'libs/models';
+import { RangeDistributionTypeIds } from 'libs/constants/structures/range-distribution-type-ids';
 
 import * as fromSharedActions from '../actions/shared.actions';
-import { RangeDistributionTypeIds } from '../constants/range-distribution-type-ids';
 import { SelectedPeerExchangeModel } from '../models';
 
 export interface State {

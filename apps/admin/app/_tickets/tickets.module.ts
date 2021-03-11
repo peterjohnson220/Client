@@ -6,9 +6,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
-import { NgbDropdownModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownModule, NgbModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
-import { NgbTabsetModule } from '@ng-bootstrap/ng-bootstrap';
 import { ComboBoxModule } from '@progress/kendo-angular-dropdowns';
 import { BodyModule, ColumnResizingService, GridModule, RowFilterModule, SharedModule } from '@progress/kendo-angular-grid';
 import { LayoutModule } from '@progress/kendo-angular-layout';
@@ -56,7 +55,6 @@ import { TicketSharedEffects } from './effects/ticket-shared.effects';
     BodyModule,
     LayoutModule,
     ComboBoxModule,
-    NgbTabsetModule,
     NgbTooltipModule,
     UploadModule,
     RowFilterModule,
@@ -73,7 +71,7 @@ import { TicketSharedEffects } from './effects/ticket-shared.effects';
     PfFormsModule,
     PfCommonModule,
     PfCommentBoxModule,
-    PfCompanyNotesModalModule,
+    PfCompanyNotesModalModule, NgbModule,
   ],
   declarations: [
     // Pipes

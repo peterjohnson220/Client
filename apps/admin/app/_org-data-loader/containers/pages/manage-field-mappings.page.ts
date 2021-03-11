@@ -11,7 +11,6 @@ import { filter, take, takeUntil } from 'rxjs/operators';
 
 import { NotificationRef, NotificationService, NotificationSettings } from '@progress/kendo-angular-notification';
 
-import { environment } from 'environments/environment';
 import { LoadTypes } from 'libs/constants';
 import { CompositeDataLoadTypes } from 'libs/constants/composite-data-load-types';
 import { EntityKeyValidationService } from 'libs/core/services';
@@ -37,6 +36,7 @@ import { OrgDataLoaderConfigurationSaveRequest } from 'libs/models/data-loads/re
 import { ConfigSetting } from 'libs/models/security';
 import { SftpUserModel } from 'libs/models/Sftp';
 import { ConfigSettingsSelectorFactory } from 'libs/state/app-context/services';
+import { AppConstants } from 'libs/constants';
 
 import * as fromOrgDataAutoloaderReducer from '../../reducers';
 import * as fromOrgDataFieldMappingsActions from '../../actions/org-data-field-mappings.actions';
@@ -57,6 +57,8 @@ import { ACCEPTED_FILE_EXTENSIONS } from '../../constants/public-key-filename-co
   styleUrls: ['./manage-field-mappings.page.scss']
 })
 export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
+  get SiteAdminUrl() { return AppConstants.SiteAdminUrl; }
+
   @ViewChild('companySelector') companySelector: CompanySelectorComponent;
 
   benefitsLoaderFeatureFlag: RealTimeFlag = { key: FeatureFlags.BenefitsLoaderConfiguration, value: false };
@@ -65,7 +67,6 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
   dateFormats: Array<{ text: string, value: string }> = DATE_FORMATS;
   dateFormatsFilteredData: Array<{ text: string, value: string }>;
 
-  env = environment;
   payfactorsPaymarketDataFields: InternalField[];
   payfactorsJobDataFields: InternalField[];
   payfactorsStructureDataFields: InternalField[];

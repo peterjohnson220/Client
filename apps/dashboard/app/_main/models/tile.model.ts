@@ -16,7 +16,6 @@ export interface Tile {
   Size: number;
   Order: number;
   Url: string;
-  NgAppLink: boolean;
   MarketingEnabled: boolean;
   MarketingDescription: string;
   MarketingButtonText: string;
@@ -31,7 +30,6 @@ export function generateMockChartTile(): Tile {
     PreviewType: TilePreviewTypes.Chart,
     IconClass: 'far file-alt',
     Url: 'test tile url',
-    NgAppLink: false,
     Order: 0,
     Size: 2,
     CssClass: 'test cssClass',
@@ -50,7 +48,6 @@ export function generateMockIconTile(): Tile {
     PreviewType: TilePreviewTypes.Icon,
     IconClass: 'far file-alt',
     Url: 'test tile url',
-    NgAppLink: false,
     Order: 0,
     Size: 2,
     CssClass: 'test cssClass',
@@ -69,7 +66,6 @@ export function generateMockListTile(showColumnHeadings: boolean, mainButtonUrl:
     PreviewType: TilePreviewTypes.List,
     IconClass: 'far file-alt',
     Url: 'test tile url',
-    NgAppLink: false,
     Order: 0,
     Size: 2,
     CssClass: 'test cssClass',
@@ -119,7 +115,6 @@ export function generateMockIconTileWithPayload(): Tile {
     PreviewType: TilePreviewTypes.Icon,
     IconClass: 'far file-alt',
     Url: 'test tile url',
-    NgAppLink: false,
     Order: 0,
     Size: 2,
     CssClass: 'test cssClass',

@@ -4,13 +4,10 @@ exports[`Left Sidebar should show ul of sidebar closed 1`] = `
 <pf-layout-wrapper-left-sidebar
   clientAppRoot={[Function String]}
   companyName={[Function String]}
-  enableCoreJdmInClient="false"
   layoutStore={[Function Store]}
   leftSidebarNavigationLinks$={[Function Store]}
   leftSidebarToggle="false"
-  ngAppRoot={[Function String]}
   reload={[Function EventEmitter]}
-  settingsService={[Function SettingsService]}
   store={[Function Store]}
   userContext$={[Function Observable]}
   userContextSubscription={[Function Subscriber]}
@@ -42,35 +39,32 @@ exports[`Left Sidebar should show ul of sidebar open 1`] = `
 <pf-layout-wrapper-left-sidebar
   clientAppRoot={[Function String]}
   companyName={[Function String]}
-  enableCoreJdmInClient="false"
   layoutStore={[Function Store]}
   leftSidebarNavigationLinks$={[Function Store]}
-  leftSidebarToggle={[Function Boolean]}
-  ngAppRoot={[Function String]}
+  leftSidebarToggle="false"
   reload={[Function EventEmitter]}
-  settingsService={[Function SettingsService]}
   store={[Function Store]}
   userContext$={[Function Observable]}
   userContextSubscription={[Function Subscriber]}
   userId={[Function Number]}
 >
   <ul
-    class="left-sidebar-nav pt-2 pl-0 m-0 mb-4 left-sidebar-nav-open"
+    class="left-sidebar-nav pt-2 pl-0 m-0 mb-4 left-sidebar-nav-close"
   >
     
   </ul><div
-    class="left-sidebar-footer left-sidebar-footer-open"
+    class="left-sidebar-footer left-sidebar-footer-close"
   >
     <div
-      class="left-sidebar-icon-open"
+      class="left-sidebar-icon-close"
     >
+      
       
       <span>
         <fa-icon
           size="lg"
         />
       </span>
-      
     </div>
   </div>
 </pf-layout-wrapper-left-sidebar>

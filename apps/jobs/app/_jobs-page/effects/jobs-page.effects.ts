@@ -73,6 +73,7 @@ export class JobsPageEffects {
             new fromJobsPageActions.ChangingJobStatusSuccess(),
             new fromPfDataGridActions.ClearSelections(PageViewIds.PayMarkets),
             new fromPfDataGridActions.ClearSelections(PageViewIds.Jobs),
+            new fromPfDataGridActions.UpdatePagingOptions(PageViewIds.Jobs, fromPfDataGridReducer.DEFAULT_PAGING_OPTIONS),
             new fromPfDataGridActions.LoadData(PageViewIds.Jobs),
             new fromPfDataGridActions.CloseSplitView(PageViewIds.Jobs),
           ]),

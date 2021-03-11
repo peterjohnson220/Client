@@ -8,7 +8,6 @@ import { filter, takeUntil } from 'rxjs/operators';
 
 import { SortDescriptor } from '@progress/kendo-data-query';
 
-import { environment } from 'environments/environment';
 import * as fromRootState from 'libs/state/state';
 import { UserContext } from 'libs/models/security';
 import * as fromPfDataGridActions from 'libs/features/grids/pf-data-grid/actions';
@@ -50,7 +49,6 @@ export class PricingLoaderDownloadComponent implements OnInit, OnDestroy , After
     field: 'CompanyJobs_PricingsMatches_CompanyJobPricing_ID'
   }];
   actionBarConfig: ActionBarConfig;
-  env = environment;
 
   constructor(private route: ActivatedRoute,
               private pfGridStore: Store<fromPfDataGridReducer.State>,

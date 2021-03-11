@@ -1,8 +1,8 @@
 <div class="p-3 mb-3">
-  <p>Enter the values that will get converted for {{fieldName}}</p>
-  <p class="pb-2" *ngIf="fieldName?.toLowerCase() === 'rate'">
-    The accepted values for the Rate field are Annual and Hourly, if you are sending values other than those enter them in the appropriate field below and they will be converted to the accepted value.
-    Hourly and Annual will always be accepted as valid value in this field.
+  <p>Enter the {{fieldValues?.length ? 'values' : 'value'}} that will get converted for {{fieldName}}</p>
+  <p class="pb-2">
+    The accepted {{fieldValues?.length > 1 ? 'values' : 'value'}} for the {{fieldName}} field {{fieldValues?.length ? 'are' : 'is'}} {{formatFieldValuesList()}}, if you are sending values other than {{fieldValues?.length ? 'those' : 'that'}} enter them in the appropriate field below and they will be converted to the accepted value.
+    {{formatFieldValuesList()}} will always be accepted as valid {{fieldValues?.length > 1 ? 'values' : 'value'}} in this field.
   </p>
   <div class="container border">
     <div class="row border-bottom">

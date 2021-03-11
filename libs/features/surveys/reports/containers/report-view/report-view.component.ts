@@ -53,7 +53,8 @@ export class ReportViewComponent implements OnInit, OnDestroy {
 
   private static getReportViewContentUrl(url: string): string {
     const urlSplits = url.split('?');
-    return urlSplits[0];
+    //manually adding showShareOptions=false parameter in to hide share button on the view level
+    return urlSplits[0] + "?:showShareOptions=false";
   }
 
   private static getStandardReportFilter(url: string): StandardReportFilter {
