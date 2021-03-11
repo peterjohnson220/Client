@@ -121,6 +121,10 @@ export const getModelNameExistsFailure = createSelector(
   selectModelSettingsModalState, fromModelSettingsModalReducer.getModelNameExistsFailure
 );
 
+export const getActiveTab = createSelector(
+  selectModelSettingsModalState, fromModelSettingsModalReducer.getActiveTab
+);
+
 // Formula Field Modal
 export const getFormulaWaitingForValidation = createSelector(
   selectFormulaFieldState,

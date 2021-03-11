@@ -2,14 +2,13 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 
 import * as fromRootState from 'libs/state/state';
 
 import * as fromActions from '../actions';
 import * as fromNotesManagerActions from '../../../notes/notes-manager/actions';
 import * as fromReducer from '../reducers';
-
 import { JobManagementComponent } from './job-management.component';
 import { NotesManagerComponent } from '../../../notes/notes-manager/notes-manager/notes-manager.component';
 import { JobContainerComponent } from '../containers';
@@ -28,6 +27,7 @@ describe('Job Management Feature - Job Management', () => {
 
     TestBed.configureTestingModule({
       imports: [
+        NgbNavModule,
         FormsModule,
         ReactiveFormsModule,
         StoreModule.forRoot({

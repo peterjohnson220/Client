@@ -15,7 +15,7 @@
         <img height="55" width="220px" src="/client/total-rewards/assets/images/payfactors-logo.png" alt="payfactors-logo">
       </div>
       <hr>
-      <div *ngIf="(tokenStatus$ | async)?.obj === tokenStatus.Valid || (tokenStatus$ | async)?.obj === tokenStatus.Invalid" class="verification-content">
+      <div *ngIf="(tokenStatus$ | async)?.loading || (tokenStatus$ | async)?.obj === tokenStatus.Valid || (tokenStatus$ | async)?.obj === tokenStatus.Invalid" class="verification-content">
         <h3 class="mb-4">Check your email</h3>
         <p class="info">Please enter the verification code we just sent to {{(userContext$ | async)?.EmailAddress}}</p>
         <p class="text-danger text-center validation-error"
@@ -42,7 +42,7 @@
         </div>
         <button type="button"
                 [disabled]="verificationCode?.length !== VERIFICATION_CODE_LENGTH || (tokenStatus$ | async)?.loading"
-                [class.btn-enabled]="!(disableButton || (tokenStatus$ | async)?.loading)"
+                [class.btn-enabled]="!(verificationCode?.length !== VERIFICATION_CODE_LENGTH || (tokenStatus$ | async)?.loading)"
                 (click)="validateCode()"
                 class="btn btn-primary btn-continue mb-4">
           <span *ngIf="isValidating$ | async">Validating...</span>

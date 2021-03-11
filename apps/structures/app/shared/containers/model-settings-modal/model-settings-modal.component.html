@@ -1,0 +1,26 @@
+<pf-modal-form
+  [size]="'lg'"
+  [title]="modalTitle"
+  [subTitle]="modalSubTitle"
+  [modalId]="'company-structures-model-setting-modal'"
+  [primaryButtonText]="buttonPrimaryText"
+  [primaryButtonTextSubmitting]="buttonPrimaryTextSubmitting"
+  [submitting]="(savingModelSettingsAsyncObj$ | async)?.saving"
+  [formGroup]="modelSettingsForm"
+  [isOpen$]="modalOpen$"
+  [alwaysEnabledSubmit]="true"
+  [flipPrimarySecondaryBtns]="true"
+  (onSubmit)="handleModalSubmit()"
+  (onSubmitAttempt)="handleModalSubmitAttempt()"
+  (onDismiss)="handleModalDismiss()">
+
+  <ng-container *ngIf="modalOpen$ | async" [formGroup]="modelSettingsForm" form-content>
+    <ng-content select="[structures-settings-modal-content]"></ng-content>
+  </ng-container>
+
+  <ng-container footer-left>
+    <div *ngIf="(savingModelSettingsAsyncObj$ | async)?.savingError" class="invalid-feedback d-block">
+      Error saving settings
+    </div>
+  </ng-container>
+</pf-modal-form>

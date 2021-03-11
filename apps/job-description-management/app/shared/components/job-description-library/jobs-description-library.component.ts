@@ -5,7 +5,8 @@ import cloneDeep from 'lodash/cloneDeep';
 
 import { StripHtmlPipe } from 'libs/core/pipes';
 
-import { LibrarySearchRequest,
+import {
+  LibrarySearchRequest,
   JobDescriptionLibraryResult,
   JobDescriptionLibraryBucket,
   SortDirection } from 'libs/features/jobs/job-description-management/models';
@@ -33,6 +34,7 @@ export class JobDescriptionLibraryComponent implements OnChanges {
   jobTitleSearch = '';
   sourceSortDirection: SortDirection = SortDirection.Ascending;
   selectedSources: string[] = [];
+  activeId = 'summary';
 
   constructor(
     private sanitizer: DomSanitizer

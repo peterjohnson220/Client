@@ -5,11 +5,12 @@ import { Observable, Subscription } from 'rxjs';
 import { saveAs } from '@progress/kendo-file-saver';
 import { GridComponent } from '@progress/kendo-angular-grid';
 
-import * as fromCommunityPollActions from '../../actions/community-poll.actions';
-import * as fromCommunityPollReducer from '../../reducers';
 import * as constants from 'libs/models/community/community-constants.model';
 import { CommunityPollList } from 'libs/models/community/community-poll-list.model';
-import { environment } from 'environments/environment';
+import { AppConstants } from 'libs/constants';
+
+import * as fromCommunityPollActions from '../../actions/community-poll.actions';
+import * as fromCommunityPollReducer from '../../reducers';
 
 @Component({
   selector: 'pf-community-polls',
@@ -17,8 +18,6 @@ import { environment } from 'environments/environment';
   styleUrls: ['./community-polls.component.scss']
 })
 export class CommunityPollsComponent implements OnInit, OnDestroy {
-
-  env = environment;
 
   communityPollListLoading$: Observable<boolean>;
   communityPollListLoadingError$: Observable<boolean>;
@@ -29,6 +28,8 @@ export class CommunityPollsComponent implements OnInit, OnDestroy {
   @ViewChild(GridComponent, { static: true }) grid: GridComponent;
 
   get CommunityPollStatuses() { return constants.CommunityPollStatuses; }
+
+  get SiteAdminUrl() { return AppConstants.SiteAdminUrl; }
 
   constructor(private store: Store<fromCommunityPollReducer.State>) {
       this.communityPollListLoading$ = this.store.select(fromCommunityPollReducer.getCommunityPollListLoading);

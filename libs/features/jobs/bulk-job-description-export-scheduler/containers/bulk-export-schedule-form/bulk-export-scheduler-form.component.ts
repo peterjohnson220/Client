@@ -51,7 +51,6 @@ export class BulkExportSchedulerFormComponent implements OnInit, OnDestroy {
 
   // Lifecycle
   ngOnInit() {
-    this.setDefaultPageValues();
     merge(
       this.addingScheduleError$,
       this.updateScheduleError$,
@@ -65,8 +64,13 @@ export class BulkExportSchedulerFormComponent implements OnInit, OnDestroy {
     this.editSchedule$
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(schedule => {
-        this.schedule = isObject(schedule) ? cloneDeep(schedule) : new BulkExportSchedule();
-        this.daysOfWeekSelected = schedule?.DayOfWeek.split(',') ?? [];
+        if (isObject(schedule)) {
+          this.schedule = cloneDeep(schedule);
+          this.daysOfWeekSelected = schedule?.DayOfWeek.split(',') ?? [];
+        } else {
+          this.schedule = new BulkExportSchedule();
+          this.setDefaultPageValues();
+        }
       });
     this.editing$
       .pipe(takeUntil(this.unsubscribe$))
@@ -167,6 +171,7 @@ export class BulkExportSchedulerFormComponent implements OnInit, OnDestroy {
         return false;
       }
     }
+
     return true;
   }
 
@@ -180,6 +185,7 @@ export class BulkExportSchedulerFormComponent implements OnInit, OnDestroy {
     this.schedule.IncludeDelimiters = false;
     this.schedule.IncludeFormatting = false;
     this.schedule.Format = !this.exportType ? 'xlsx' : 'json';
+    this.schedule.ComplexJsonExport = this.exportType ? true : null;
 
     this.daysOfWeekSelected = [];
     this.validSchedule = true;

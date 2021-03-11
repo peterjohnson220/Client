@@ -5,7 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule} from '@ngrx/effects';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
-import { NgbTabsetModule, NgbPopoverModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbPopoverModule, NgbTooltipModule, NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { UploadModule } from '@progress/kendo-angular-upload';
 import { DragulaModule } from 'ng2-dragula';
 
@@ -46,34 +46,34 @@ import {
 import { TemplateDnDService, TemplateService } from './services';
 
 @NgModule({
-  imports: [
-    // Angular
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    FontAwesomeModule,
+    imports: [
+        // Angular
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        FontAwesomeModule,
 
-    // 3rd Party
-    NgbTabsetModule,
-    StoreModule.forFeature('jobDescriptionManagement_jobDescriptionTemplate', reducers),
-    EffectsModule.forFeature([
-      TemplateEffects,
-      AvailableJobInformationFieldsEffects,
-      CompanyJobAssignmentEffects,
-      TemplateSettingEffects
-    ]),
-    NgbPopoverModule,
-    NgbTooltipModule,
-    UploadModule,
-    DragulaModule.forRoot(),
+        // 3rd Party
+        StoreModule.forFeature('jobDescriptionManagement_jobDescriptionTemplate', reducers),
+        EffectsModule.forFeature([
+            TemplateEffects,
+            AvailableJobInformationFieldsEffects,
+            CompanyJobAssignmentEffects,
+            TemplateSettingEffects
+        ]),
+        NgbPopoverModule,
+        NgbTooltipModule,
+        UploadModule,
+        DragulaModule.forRoot(),
 
-    // Payfactors
-    PfCommonModule,
-    PfCommonUIModule,
-    PfFormsModule,
-    SharedModule,
-    PfJobDescriptionManagementModule,
-  ],
+        // Payfactors
+        PfCommonModule,
+        PfCommonUIModule,
+        PfFormsModule,
+        SharedModule,
+        PfJobDescriptionManagementModule,
+        NgbModule,
+    ],
   declarations: [
     // Components
     TemplateInlineComponent,

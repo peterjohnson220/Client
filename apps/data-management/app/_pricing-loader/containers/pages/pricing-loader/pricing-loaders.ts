@@ -4,8 +4,7 @@ import { Store } from '@ngrx/store';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { filter, take, takeUntil } from 'rxjs/operators';
 
-import { environment } from 'environments/environment';
-import { CompositeDataLoadTypes, LoadTypes } from 'libs/constants';
+import { CompositeDataLoadTypes, LoadTypes, AppConstants } from 'libs/constants';
 import * as fromAppNotificationsActions from 'libs/features/infrastructure/app-notifications/actions/app-notifications.actions';
 import * as fromAppNotificationsMainReducer from 'libs/features/infrastructure/app-notifications/reducers';
 import * as fromCompanySelectorActions from 'libs/features/company/company-selector/actions';
@@ -21,6 +20,7 @@ import * as fromPricingLoaderMainReducer from '../../../reducers';
 import { buildPricingUploadNotification, EntityChoice, getEntityChoicesForPricingLoader, PricingUploadNotification } from '../../../models';
 import { FILETYPES, MRPFIELDS } from '../../../constants';
 import { UploadPricingFileComponent } from '../../upload-pricing-file';
+
 
 @Component({
   selector: 'pf-pricing-loaders',
@@ -49,7 +49,6 @@ export class PricingLoadersComponent implements OnInit, OnDestroy {
   private selectedCompany$: Observable<CompanySelectorItem>;
   public selectedCompany: CompanySelectorItem = null;
   entities: EntityChoice[];
-  env = environment;
   isCollapsed = false;
   fileTypes = FILETYPES;
   MRPFields = MRPFIELDS;
@@ -141,7 +140,7 @@ export class PricingLoadersComponent implements OnInit, OnDestroy {
   }
 
   goBack() {
-    window.location.href = this.env.siteAdminUrl;
+    window.location.href = AppConstants.SiteAdminUrl;
   }
 
   textWidth(value: number) {

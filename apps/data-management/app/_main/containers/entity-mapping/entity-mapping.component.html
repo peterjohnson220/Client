@@ -72,7 +72,7 @@
                   (click)="showDataConverterModal(field)">
                   Date Format
                 </button>
-                <button ngbDropdownItem  class="dropdown-item" *ngIf="field.FieldName === 'Rate'"
+                <button ngbDropdownItem  class="dropdown-item" *ngIf="convertibleFields[entityType.toLowerCase()]?.includes(field.FieldName)"
                   [disabled]="field.AssociatedEntity.length === 0"
                   (click)="showDataConverterModal(field)">
                   Translate Data

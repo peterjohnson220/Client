@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
+import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+
 import { StripHtmlPipe } from 'libs/core/pipes';
 import { createMockJobDescriptionLibraryBucket, LibrarySearchRequest, SortDirection } from 'libs/features/jobs/job-description-management';
 import { JobDescriptionLibraryComponent } from './jobs-description-library.component';
@@ -12,6 +14,9 @@ describe('Job Description Library Component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [
+        NgbNavModule
+      ],
       declarations: [
         JobDescriptionLibraryComponent, StripHtmlPipe
       ],

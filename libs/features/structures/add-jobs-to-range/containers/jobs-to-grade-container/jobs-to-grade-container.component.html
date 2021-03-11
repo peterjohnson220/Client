@@ -1,0 +1,30 @@
+
+<div #jobsToGrade class="jobs-to-grade-container">
+  <table class="table default k-widget k-grid">
+    <thead class="k-header pf-data-grid-header text-center">
+    <th class="text-left">Grades</th>
+    </thead>
+  </table>
+  <pf-async-container
+    [loading]="loadingGrades$ | async"
+    [loadingError]="error$ | async"
+    [spinnerType]="spinnerType">
+
+    <ng-container *ngIf="(grades$ | async)?.length; else noGradesMessage">
+      <pf-job-to-grade
+        *ngFor="let grade of grades$ | async; trackBy: trackByGradeId"
+        [grade]="grade"
+        [dragging]="isDragging$ | async"
+        [rate]="rate"
+        [rangeDistributionType]="gradeRangeGroupDetails.RangeDistributionTypeId"
+        (loadJobs)="handleLoadJobs($event)">
+      </pf-job-to-grade>
+    </ng-container>
+  </pf-async-container>
+</div>
+
+<ng-template #noGradesMessage>
+  <div *ngIf="!(loadingGrades$ | async)" class="no-results-message-container">
+    No valid jobs selected. Please try again.
+  </div>
+</ng-template>

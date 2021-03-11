@@ -7,10 +7,10 @@ import { State } from '@progress/kendo-data-query';
 
 import * as fromGridActions from 'libs/core/actions/grid.actions';
 import { GridTypeEnum } from 'libs/models/common';
+import { AppConstants } from 'libs/constants';
 
 import * as fromPeerAdminReducer from '../../../reducers';
 import * as fromTagCategoriesActions from '../../../actions/tag-categories.actions';
-import { environment } from 'environments/environment';
 
 @Component({
   selector: 'pf-tag-categories',
@@ -19,14 +19,12 @@ import { environment } from 'environments/environment';
 })
 
 export class TagCategoriesPageComponent {
-
-  env = environment;
+  get SiteAdminUrl() { return AppConstants.SiteAdminUrl; }
 
   gridState$: Observable<State>;
 
   constructor(
-    private store: Store<fromPeerAdminReducer.State>
-  ) {
+    private store: Store<fromPeerAdminReducer.State>) {
     this.gridState$ = this.store.pipe(select(fromPeerAdminReducer.getTagCategoriesGridState));
   }
 

@@ -14,7 +14,7 @@
           <a href="#" class="" *ngIf="latestOrgDataLoad$ | async as latestOrgDataLoad" (click)="openOrgDataLoadModal($event)">Last Load {{latestOrgDataLoad.processingStartTime | date:'MM/dd/yyyy'}}</a>
         </div>
         <div class="col-4 text-right">
-          <div class="d-flex justify-content-end">
+          <div class="d-flex ie10-flex-fix justify-content-end">
             <div *ngIf="canExportOrgData" class="p-2">
               <a class="btn btn-outline-primary px-3" (click)="handleOrgDataExportClick()">Export</a>
             </div>

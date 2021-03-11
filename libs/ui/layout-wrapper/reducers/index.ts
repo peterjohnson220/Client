@@ -81,3 +81,8 @@ export const getLoadedLeftSidebarNavigationLinks = createSelector(
   selectLeftSidebarState,
   fromLeftSidebarReducer.getLoadedLeftSidebarNavigationLinks
 );
+
+export const getLeftSidebarOpen = createSelector(
+  selectLeftSidebarState,
+  fromLeftSidebarReducer.getLeftSidebarOpen
+);

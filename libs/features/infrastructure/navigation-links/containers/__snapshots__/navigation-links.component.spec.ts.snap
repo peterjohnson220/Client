@@ -23,7 +23,7 @@ exports[`Pf-Admin - Navigation - Navigation Links Should display navigation grou
         <a
           href="http://mock-url-1.url"
         >
-          MockLinkNameA1 
+          MockLinkNameA1
         </a>
         
       </li>
@@ -32,7 +32,7 @@ exports[`Pf-Admin - Navigation - Navigation Links Should display navigation grou
         <a
           href="http://mock-url-a-2.url"
         >
-          MockLinkNameA2 
+          MockLinkNameA2
         </a>
         
       </li>
@@ -54,7 +54,7 @@ exports[`Pf-Admin - Navigation - Navigation Links Should display navigation grou
         <a
           href="http://mock-url-b-1.url"
         >
-          MockLinkNameB1 
+          MockLinkNameB1
         </a>
         
       </li>
@@ -63,7 +63,7 @@ exports[`Pf-Admin - Navigation - Navigation Links Should display navigation grou
         <a
           href="http://mock-url-b-2.url"
         >
-          MockLinkNameB2 
+          MockLinkNameB2
         </a>
         
       </li>

@@ -3,7 +3,6 @@ import { Component, Input, OnDestroy, OnInit, TemplateRef, ViewChild } from '@an
 import { Store } from '@ngrx/store';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { debounceTime, map } from 'rxjs/operators';
-import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 
 import { QuickPriceType, SystemUserGroupNames } from 'libs/constants';
 import { WindowRef } from 'libs/core';
@@ -13,14 +12,13 @@ import { DojGuidelinesService } from 'libs/features/peer/guidelines-badge/servic
 import * as fromRootReducer from 'libs/state/state';
 import * as fromLibsPeerExchangeExplorerReducers from 'libs/features/peer/exchange-explorer/reducers';
 import * as fromBasicDataGridReducer from 'libs/features/grids/basic-data-grid/reducers';
+import { AppConstants } from 'libs/constants';
 
 import * as fromComphubMainReducer from '../../reducers';
 import * as fromSummaryCardActions from '../../actions/summary-card.actions';
 import * as fromComphubPageActions from '../../actions/comphub-page.actions';
 import { FooterContext, JobPricingLimitInfo, QuickPriceHistoryContext, WorkflowContext } from '../../models';
 import { ComphubPages } from '../../data';
-
-import { environment } from 'environments/environment';
 
 @Component({
   selector: 'pf-comphub-footer',
@@ -61,8 +59,7 @@ export class ComphubFooterComponent implements OnInit, OnDestroy {
     private basicGridStore: Store<fromBasicDataGridReducer.State>,
     private exchangeExplorerStore: Store<fromLibsPeerExchangeExplorerReducers.State>,
     public guidelinesService: DojGuidelinesService,
-    private modalService: NgbModal,
-    private window: WindowRef,
+    private window: WindowRef
   ) {
     this.workflowContext$ = this.store.select(fromComphubMainReducer.getWorkflowContext);
     this.jobPricingBlocked$ = this.store.select(fromComphubMainReducer.getJobPricingBlocked);
@@ -125,10 +122,10 @@ export class ComphubFooterComponent implements OnInit, OnDestroy {
   }
 
   handleConfirmedCloseApp() {
-    let returnLocation = `/${environment.hostPath}/dashboard`;
+    let returnLocation = `/${AppConstants.HostPath}/dashboard`;
 
     if (this.workflowContext.quickPriceType === QuickPriceType.PEER) {
-      returnLocation = `/${environment.hostPath}/peer/exchanges/redirect`;
+      returnLocation = `/${AppConstants.HostPath}/peer/exchanges/redirect`;
     }
 
     this.window.nativeWindow.location = returnLocation;
@@ -146,7 +143,7 @@ export class ComphubFooterComponent implements OnInit, OnDestroy {
     if (this.isPeerQuickPriceType && this.workflowContext.selectedPageId === ComphubPages.Data) {
       return this.failsGuidelines || this.loadingPeerMap;
     } else {
-      return !this.footerContext.NextButtonEnabled;
+      return !this.footerContext?.NextButtonEnabled;
     }
   }
 }
