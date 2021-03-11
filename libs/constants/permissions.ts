@@ -26,6 +26,7 @@ export class Permissions {
   public static ACTIVITY = 'Activity';
   public static STRUCTURES = 'Structures';
   public static RESOURCES = 'Resources';
+  public static VIEW_COMPANY_RESOURCES = 'View Company Resources';
   public static IDEAS = 'Ideas';
   public static EMPLOYEES = 'Employees';
   public static REFERRALS = 'Referrals';
