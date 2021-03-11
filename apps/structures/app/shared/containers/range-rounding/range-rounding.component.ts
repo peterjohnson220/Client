@@ -6,9 +6,8 @@ import { Observable, Subscription } from 'rxjs';
 import { RoundingSettingsDataObj, RangeGroupMetadata } from 'libs/models/structures';
 import { RoundingTypes } from 'libs/constants/structures/rounding-type';
 
-import * as fromSharedStructuresReducer from '../../../../shared/reducers';
-import * as fromSharedStructuresActions from '../../../../shared/actions/shared.actions';
-import * as fromJobBasedRangeReducer from '../../reducers';
+import * as fromSharedStructuresReducer from '../../reducers';
+import * as fromSharedStructuresActions from '../../actions/shared.actions';
 import { RoundingPoint, RoundingType } from '../../models';
 import { StructuresRoundingPoints, StructuresRoundingTypes } from '../../data';
 
@@ -20,8 +19,6 @@ import { StructuresRoundingPoints, StructuresRoundingTypes } from '../../data';
 export class RangeRoundingComponent implements OnInit, OnDestroy {
   metaData$: Observable<RangeGroupMetadata>;
   metadataSub: Subscription;
-  roundingSettings$: Observable<RoundingSettingsDataObj>;
-  roundingSettingsSub: Subscription;
 
   roundingSettings: RoundingSettingsDataObj;
   metadata: RangeGroupMetadata;
@@ -31,10 +28,9 @@ export class RangeRoundingComponent implements OnInit, OnDestroy {
   defaultSet: boolean;
 
   constructor(
-    public store: Store<fromJobBasedRangeReducer.State>
+    public store: Store<any>
   ) {
     this.metaData$ = this.store.pipe(select(fromSharedStructuresReducer.getMetadata));
-    this.roundingSettings$ = this.store.pipe(select(fromSharedStructuresReducer.getRoundingSettings));
     this.staticRoundingPoints = StructuresRoundingPoints;
     this.staticRoundingTypes = StructuresRoundingTypes;
     this.toNearest = 'to nearest';
@@ -62,14 +58,11 @@ export class RangeRoundingComponent implements OnInit, OnDestroy {
   private subscribe() {
     this.metadataSub = this.metaData$.subscribe(
       md => {
-        this.metadata = md;
-        this.setDefaults();
-      }
-    );
-    this.roundingSettingsSub = this.roundingSettings$.subscribe(
-      rs => {
-        this.roundingSettings = rs;
-        this.setDefaults();
+        if (md) {
+          this.metadata = md;
+          this.roundingSettings = this.metadata?.RangeAdvancedSetting.Rounding;
+          this.setDefaults();
+        }
       }
     );
   }
@@ -94,7 +87,6 @@ export class RangeRoundingComponent implements OnInit, OnDestroy {
 
   private unsubscribe() {
     this.metadataSub.unsubscribe();
-    this.roundingSettingsSub.unsubscribe();
   }
 
 }

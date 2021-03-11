@@ -11,7 +11,7 @@ import { StructureModelingApiService, StructureRangeGroupApiService } from 'libs
 import { GridDataHelper } from 'libs/features/grids/pf-data-grid/helpers';
 import * as fromDataGridActions from 'libs/features/grids/pf-data-grid/actions';
 import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
-import { RangeGroupMetadata } from 'libs/models/structures';
+import { generateMockRangeAdvancedSetting, GradeBasedPageViewIds, RangeGroupMetadata } from 'libs/models/structures';
 import { GridConfig } from 'libs/features/grids/pf-data-grid/models';
 import { PagingOptions } from 'libs/models/payfactors-api/search/request';
 import * as fromNotificationActions from 'libs/features/infrastructure/app-notifications/actions/app-notifications.actions';
@@ -83,9 +83,17 @@ export class SharedEffects {
         }
       ),
       switchMap((data) => {
+        let advancedSetting;
+        if (data.action.payload.formValue.RangeAdvancedSetting != null) {
+          advancedSetting = PayfactorsApiModelMapper.mapAdvancedSettingModalFormToAdvancedSettingRequest(
+            data.action.payload.formValue.RangeAdvancedSetting, data.action.payload.rounding);
+        } else {
+          advancedSetting = generateMockRangeAdvancedSetting();
+        }
+
         return this.structureModelingApiService.createGradeBasedModelSettings(
           PayfactorsApiModelMapper.mapCreateGradeBasedModelSettingsModalFormToSaveSettingsRequest(
-            data.action.payload.rangeGroupId, data.action.payload.formValue)
+            data.action.payload.rangeGroupId, data.action.payload.formValue, advancedSetting)
         ).pipe(
           mergeMap((r) => {
               const actions = [];
@@ -146,8 +154,17 @@ export class SharedEffects {
         }
       ),
       switchMap((data) => {
+        let advancedSetting;
+        if (data.action.payload.formValue.RangeAdvancedSetting != null) {
+          advancedSetting = PayfactorsApiModelMapper.mapAdvancedSettingModalFormToAdvancedSettingRequest(
+            data.action.payload.formValue.RangeAdvancedSetting, data.action.payload.rounding);
+        } else {
+          advancedSetting = generateMockRangeAdvancedSetting();
+        }
+
         return this.structureModelingApiService.saveGradeBasedModelSettings(
-          PayfactorsApiModelMapper.mapSaveGradeBasedModelSettingsModalFormToSaveSettingsRequest(data.action.payload.rangeGroupId, data.action.payload.formValue)
+          PayfactorsApiModelMapper.mapSaveGradeBasedModelSettingsModalFormToSaveSettingsRequest(
+            data.action.payload.rangeGroupId, data.action.payload.formValue, data.action.payload.rounding, advancedSetting)
         ).pipe(
           mergeMap((r) => {
               const actions = [];

@@ -218,9 +218,6 @@ export class PayfactorsApiModelMapper {
     rangeGroupId: number, formValue: any, rounding: RoundingSettingsDataObj, advancedSetting: AdvancedSettingRequest,
     rangeDistributionSetting: RangeDistributionSettingForm): SaveJobBasedModelSettingsRequest {
 
-    // TODO remove this as soon as Rounding will be part of AdvancedSetting
-    advancedSetting.Rounding = this.mapRoundingSettingsModalFormToRoundRangesRequest(rounding);
-
     return {
       RangeGroupId: rangeGroupId,
       PayType: rangeDistributionSetting.PayType,
@@ -239,7 +236,8 @@ export class PayfactorsApiModelMapper {
     };
   }
 
-  static mapCreateGradeBasedModelSettingsModalFormToSaveSettingsRequest(rangeGroupId: number, formValue: any): CreateGradeBasedModelSettingsRequest {
+  static mapCreateGradeBasedModelSettingsModalFormToSaveSettingsRequest(
+    rangeGroupId: number, formValue: any, advancedSetting: AdvancedSettingRequest): CreateGradeBasedModelSettingsRequest {
     const payType = formValue.MarketDataBased.replace('MRP', '');
     return {
       RangeGroupId: rangeGroupId,
@@ -252,11 +250,13 @@ export class PayfactorsApiModelMapper {
       Midpoint: formValue.StartingMidpoint,
       MidpointProgression: formValue.MidpointProgression,
       CurrencyCode: formValue.Currency,
+      AdvancedSetting: advancedSetting,
       RangeDistributionTypeId: formValue.RangeDistributionTypeId
     };
   }
 
-  static mapSaveGradeBasedModelSettingsModalFormToSaveSettingsRequest(rangeGroupId: number, formValue: any): SaveGradeBasedModelSettingsRequest {
+  static mapSaveGradeBasedModelSettingsModalFormToSaveSettingsRequest(
+    rangeGroupId: number, formValue: any, rounding: RoundingSettingsDataObj, advancedSetting: AdvancedSettingRequest): SaveGradeBasedModelSettingsRequest {
     const payType = formValue.MarketDataBased.replace('MRP', '');
     return {
       RangeGroupId: rangeGroupId,
@@ -265,6 +265,7 @@ export class PayfactorsApiModelMapper {
       ControlPoint: formValue.MarketDataBased,
       Rate: formValue.Rate,
       CurrencyCode: formValue.Currency,
+      AdvancedSetting: advancedSetting,
       RangeDistributionTypeId: formValue.RangeDistributionTypeId
     };
   }
@@ -323,7 +324,8 @@ export class PayfactorsApiModelMapper {
     };
   }
 
-  static mapAdvancedSettingModalFormToAdvancedSettingRequest(advancedSetting: AdvancedModelSettingForm): AdvancedSettingRequest {
+  static mapAdvancedSettingModalFormToAdvancedSettingRequest(
+    advancedSetting: AdvancedModelSettingForm, rounding: RoundingSettingsDataObj): AdvancedSettingRequest {
     let missingMarketDataTypePercentage = null;
     if (advancedSetting.MissingMarketDataType.Type === MissingMarketDataTypes.IncreaseMidpointByPercent) {
       missingMarketDataTypePercentage = advancedSetting.MissingMarketDataType.IncreaseMidpointByPercentage;
@@ -334,7 +336,7 @@ export class PayfactorsApiModelMapper {
     }
 
     return {
-      Rounding: advancedSetting.Rounding != null ? this.mapRoundingSettingsModalFormToRoundRangesRequest(advancedSetting.Rounding) : null,
+      Rounding: rounding != null ? this.mapRoundingSettingsModalFormToRoundRangesRequest(rounding) : null,
       PreventMidsBelowCurrent: advancedSetting.PreventMidsBelowCurrent,
       PreventMidsFromIncreasingMoreThanPercent: advancedSetting.PreventMidsFromIncreasingMoreThanPercent,
       PreventMidsFromIncreasingWithinPercentOfNextLevel: advancedSetting.PreventMidsFromIncreasingWithinPercentOfNextLevel,

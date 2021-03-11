@@ -4,7 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 
-import { RangeGroupMetadata } from 'libs/models/structures';
+import { AdvancedModelSettingForm, generateMockRangeAdvancedSetting, RangeGroupMetadata, RoundingSettingsDataObj } from 'libs/models/structures';
 import { AsyncStateObj } from 'libs/models/state';
 
 import { ControlPoint, Currency } from '../../../../shared/models';
@@ -28,11 +28,13 @@ export class ModelSettingsModalContentComponent implements OnInit, OnDestroy {
   modelNameExistsFailure$: Observable<boolean>;
   controlPointsAsyncObj$: Observable<AsyncStateObj<ControlPoint[]>>;
   currenciesAsyncObj$: Observable<AsyncStateObj<Currency[]>>;
+  roundingSettings$: Observable<RoundingSettingsDataObj>;
 
   metadataSub: Subscription;
   modelNameExistsFailureSub: Subscription;
   controlPointsAsyncObjSub: Subscription;
   currenciesAsyncObjSub: Subscription;
+  roundingSettingsSub: Subscription;
 
   metadata: RangeGroupMetadata;
   modelNameExistsFailure: boolean;
@@ -45,6 +47,8 @@ export class ModelSettingsModalContentComponent implements OnInit, OnDestroy {
   currencies: Currency[];
   modelSetting: RangeGroupMetadata;
   activeTab: string;
+  roundingSettings: RoundingSettingsDataObj;
+  defaultAdvancedSettings: AdvancedModelSettingForm;
 
   constructor(
     public store: Store<any>,
@@ -53,10 +57,15 @@ export class ModelSettingsModalContentComponent implements OnInit, OnDestroy {
     this.modelNameExistsFailure$ = this.store.pipe(select(fromSharedStructuresReducer.getModelNameExistsFailure));
     this.controlPointsAsyncObj$ = this.store.pipe(select(fromSharedStructuresReducer.getControlPointsAsyncObj));
     this.currenciesAsyncObj$ = this.store.pipe(select(fromSharedStructuresReducer.getCurrenciesAsyncObj));
+    this.roundingSettings$ = this.store.pipe(select(fromSharedStructuresReducer.getRoundingSettings));
   }
 
   get formControls() {
     return this.modelSettingsForm.controls;
+  }
+
+  get modelTabTitle() {
+    return this.metadata.IsCurrent || this.isNewModel ? 'Model Settings' : 'Current Model Settings';
   }
 
   clearModelNameExistsFailure() {
@@ -114,13 +123,15 @@ export class ModelSettingsModalContentComponent implements OnInit, OnDestroy {
           {
             rangeGroupId: this.rangeGroupId,
             formValue: this.modelSetting,
-            fromPageViewId: this.pageViewId
+            fromPageViewId: this.pageViewId,
+            rounding: this.roundingSettings
           })
         : new fromModelSettingsModalActions.SaveGradeBasedModelSettings(
           {
             rangeGroupId: this.rangeGroupId,
             formValue: this.modelSetting,
-            fromPageViewId: this.pageViewId
+            fromPageViewId: this.pageViewId,
+            rounding: this.roundingSettings
           });
       this.store.dispatch(action);
       this.reset();
@@ -131,6 +142,7 @@ export class ModelSettingsModalContentComponent implements OnInit, OnDestroy {
     this.attemptedSubmit = true;
 
     this.modelSetting = this.modelSettingsForm.getRawValue();
+    this.generateAdvancedSettingsForm();
 
     if (!this.modelSettingsForm.valid) {
       this.activeTab = 'modelTab';
@@ -141,11 +153,21 @@ export class ModelSettingsModalContentComponent implements OnInit, OnDestroy {
     this.reset();
   }
 
+  generateAdvancedSettingsForm() {
+    if (this.metadata.RangeAdvancedSetting != null) {
+      this.modelSetting.RangeAdvancedSetting = this.metadata.RangeAdvancedSetting;
+    } else {
+      this.defaultAdvancedSettings = generateMockRangeAdvancedSetting();
+      this.modelSetting.RangeAdvancedSetting = this.defaultAdvancedSettings;
+    }
+  }
+
   // LifeCycle
   ngOnInit(): void {
     this.store.dispatch(new fromModelSettingsModalActions.GetCurrencies());
     this.store.dispatch(new fromModelSettingsModalActions.GetControlPoints());
 
+    this.activeTab = 'modelTab';
     this.subscribe();
   }
 
@@ -176,6 +198,7 @@ export class ModelSettingsModalContentComponent implements OnInit, OnDestroy {
     });
 
     this.modelNameExistsFailureSub = this.modelNameExistsFailure$.subscribe(mef => this.modelNameExistsFailure = mef);
+    this.roundingSettingsSub = this.roundingSettings$.subscribe(rs => this.roundingSettings = rs);
   }
 
   private unsubscribe() {
@@ -183,6 +206,7 @@ export class ModelSettingsModalContentComponent implements OnInit, OnDestroy {
     this.modelNameExistsFailureSub.unsubscribe();
     this.controlPointsAsyncObjSub.unsubscribe();
     this.currenciesAsyncObjSub.unsubscribe();
+    this.roundingSettingsSub.unsubscribe();
   }
 
   private reset() {

@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { ModelSettingsModalContentComponent } from './model-settings-modal-content.component';
 
 import * as fromRootState from 'libs/state/state';
@@ -31,7 +31,8 @@ describe('ModelSettingsModalContentComponent', () => {
           structures_gradeBasedRange_shared: combineReducers(fromGradeBasedSharedReducer.reducers),
           structures_shared: combineReducers(fromSharedReducer.reducers)
         }),
-        PfCommonModule
+        PfCommonModule,
+        NgbNavModule
       ],
       schemas: [NO_ERRORS_SCHEMA],
       providers: [

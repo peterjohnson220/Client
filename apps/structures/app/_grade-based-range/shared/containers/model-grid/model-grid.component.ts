@@ -94,7 +94,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   rangeOverrides: CompanyStructureRangeOverride[];
   selectedDropdown: NgbDropdown;
   filterTemplates = {};
-  isNewModel = true;
+  isNewModel: boolean;
   modelSettingsForm: FormGroup;
   numGrades: number;
   dataSubscription: Subscription;
@@ -317,7 +317,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     this.dataSubscription = this.data$.subscribe(data => {
       if (data) {
         this.numGrades = data.total;
-        this.isNewModel = data.total < 1;
+        this.isNewModel = data.total < 1 ? true : false;
 
         // Open Model Settings modal only if it's a new model flow
         if (this.isNewRangeOrCreateModelFlow && this.isNewModel) {
