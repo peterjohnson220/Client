@@ -12,7 +12,7 @@ import { Observable, of } from 'rxjs';
 import { PermissionService } from '../../core/services';
 
 @Injectable()
-export class TabularReportBuilderGuard implements CanActivate, CanActivateChild {
+export class PermissionGuard implements CanActivate, CanActivateChild {
 
   constructor(
     private router: Router,
