@@ -6,7 +6,6 @@ exports[`UdfManagerPageComponent hide the udf picker when no company is selected
   companiesListLoading$={[Function Store]}
   companiesListLoadingError$={[Function Store]}
   confirmSave$={[Function Store]}
-  env={[Function Object]}
   payElements$={[Function Store]}
   savedUdfSettings$={[Function Store]}
   savedUdfSettingsLoading$={[Function Store]}
@@ -47,7 +46,6 @@ exports[`UdfManagerPageComponent show one company searcher when a company is sel
   companiesListLoading$={[Function Store]}
   companiesListLoadingError$={[Function Store]}
   confirmSave$={[Function Store]}
-  env={[Function Object]}
   payElements$={[Function Store]}
   savedUdfSettings$={[Function Store]}
   savedUdfSettingsLoading$={[Function Store]}
@@ -93,7 +91,6 @@ exports[`UdfManagerPageComponent show one company searcher when no company is se
   companiesListLoading$={[Function Store]}
   companiesListLoadingError$={[Function Store]}
   confirmSave$={[Function Store]}
-  env={[Function Object]}
   payElements$={[Function Store]}
   savedUdfSettings$={[Function Store]}
   savedUdfSettingsLoading$={[Function Store]}
@@ -134,7 +131,6 @@ exports[`UdfManagerPageComponent show the udf picker when a company is selected 
   companiesListLoading$={[Function Store]}
   companiesListLoadingError$={[Function Store]}
   confirmSave$={[Function Store]}
-  env={[Function Object]}
   payElements$={[Function Store]}
   savedUdfSettings$={[Function Store]}
   savedUdfSettingsLoading$={[Function Store]}

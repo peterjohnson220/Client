@@ -1,5 +1,5 @@
 <pf-modal-form
-  [size]="'lg'"
+  [size]="isJobRange ? 'lg' : 'xlg'"
   [title]="MODAL_NAME"
   [modalId]="isJobRange ? 'job-range-modeling-modal-form' : 'grade-range-modeling-modal-form'"
   [attr.data-qa-id]="isJobRange ? 'job-range-modeling-modal' : 'grade-range-modeling-modal'"
@@ -10,7 +10,9 @@
   <ng-container basic-content>
     <pf-add-jobs-to-range-page
       [isJobRange]="isJobRange"
-      [controlPoint]="controlPoint">
+      [controlPoint]="controlPoint"
+      [rate]="rate"
+      [gradeRangeGroupDetails]="gradeRangeGroupDetails">
     </pf-add-jobs-to-range-page>
   </ng-container>
 </pf-modal-form>

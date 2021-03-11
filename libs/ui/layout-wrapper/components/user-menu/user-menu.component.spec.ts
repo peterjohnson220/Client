@@ -48,24 +48,11 @@ describe('User Menu', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should prepend /ng/ to the dropdown url, when the navigation link is an NgAppLink', () => {
-
-    instance.userContext = generateMockUserContext();
-
-    const dropDownLink1 = { ...generateMockNavigationLink(), Name: 'I am an Ng AppLink', Url: 'company-admin', NgAppLink: true };
-
-    instance.dropdownNavigationLinks = [dropDownLink1];
-
-    fixture.detectChanges();
-
-    expect(fixture).toMatchSnapshot();
-  });
-
   it('should show an icon for log out', () => {
 
     instance.userContext = generateMockUserContext();
 
-    const dropDownLink1 = { ...generateMockNavigationLink(), Name: 'Log Out', Url: 'logout', NgAppLink: false };
+    const dropDownLink1 = { ...generateMockNavigationLink(), Name: 'Log Out', Url: 'logout' };
 
     instance.dropdownNavigationLinks = [dropDownLink1];
 
@@ -78,7 +65,7 @@ describe('User Menu', () => {
 
     instance.userContext = generateMockUserContext();
 
-    const dropDownLink1 = { ...generateMockNavigationLink(), Name: 'Referrals', Url: 'referrals', NgAppLink: false };
+    const dropDownLink1 = { ...generateMockNavigationLink(), Name: 'Referrals', Url: 'referrals' };
 
     instance.dropdownNavigationLinks = [dropDownLink1];
 
@@ -91,7 +78,7 @@ describe('User Menu', () => {
 
     instance.userContext = generateMockUserContext();
 
-    const dropDownLink1 = { ...generateMockNavigationLink(), Name: 'Log Out', Url: 'logout', NgAppLink: false };
+    const dropDownLink1 = { ...generateMockNavigationLink(), Name: 'Log Out', Url: 'logout' };
 
     instance.dropdownNavigationLinks = [dropDownLink1];
 

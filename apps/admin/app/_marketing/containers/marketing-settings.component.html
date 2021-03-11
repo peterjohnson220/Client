@@ -1,4 +1,4 @@
-<pf-page-with-title-bar [absoluteUrl]="env.siteAdminUrl + '/navigation'">
+<pf-page-with-title-bar [absoluteUrl]="SiteAdminUrl + '/navigation'">
     <ng-container page-title>
       Marketing Settings
     </ng-container>
@@ -13,19 +13,19 @@
         <form [formGroup]="marketingForm">
             <div class="row">
                 <div class="col-6">
-                  <div class="form-group">                 
+                  <div class="form-group">
                     <label class="control-label mt-4" for="marketingVideoUrl">Marketing Video URL<span class="text-danger">*</span></label>
                     <input formControlName="marketingVideoUrl" type="text" class="form-control" placeholder="Marketing Video URL" maxlength="255"
                       [ngClass]="{ 'is-invalid': !marketingVideoUrlControl.valid && marketingVideoUrlControl.touched }">
                     <span *ngIf="marketingVideoUrlControl.errors?.required" class="invalid-feedback">URL is required</span>
                     <span *ngIf="marketingVideoUrlControl.errors?.maxlength" class="invalid-feedback">URL cannot be longer than 255 characters</span>
-                    
+
                     <label class="control-label mt-4" for="marketingImageUrl">Marketing Image URL<span class="text-danger">*</span></label>
                     <input formControlName="marketingImageUrl" type="text" class="form-control" placeholder="Marketing Image URL" maxlength="255"
                       [ngClass]="{ 'is-invalid': !marketingImageUrlControl.valid && marketingImageUrlControl.touched }">
                     <span *ngIf="marketingImageUrlControl.errors?.required" class="invalid-feedback">URL is required</span>
-                    <span *ngIf="marketingImageUrlControl.errors?.maxlength" class="invalid-feedback">URL cannot be longer than 255 characters</span>         
-                    
+                    <span *ngIf="marketingImageUrlControl.errors?.maxlength" class="invalid-feedback">URL cannot be longer than 255 characters</span>
+
                     <label class="control-label mt-4" for="marketingImageFile">Select Marketing Image<span class="text-danger">*</span></label>
                     <kendo-upload
                         [autoUpload]="true"
@@ -41,10 +41,10 @@
                     </kendo-upload>
                     <span *ngIf="marketingImageLocation">
                         <img [src]="marketingImageLocation" class="mt-4"/>
-                    </span>    
+                    </span>
                   </div>
                 </div>
             </div>
-        </form>       
+        </form>
     </ng-container>
 </pf-page-with-title-bar>

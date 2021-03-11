@@ -1,9 +1,11 @@
 <div class="comphub-page">
-  <div class="page-header">
-    <fa-icon icon="{{pageIconClass}}" class="page-icon" aria-hidden="true"></fa-icon>
-    <span class="page-title">{{pageTitle}}</span>
-  </div>
-  <div>{{pageSubTitle}}</div>
+  <ng-container *ngIf="workflowContext?.selectedPageId === page || (this.selectedPageIdDelayed$ | async) == page">
+    <div class="page-header">
+      <fa-icon icon="{{pageIconClass}}" class="page-icon" aria-hidden="true"></fa-icon>
+      <span class="page-title">{{pageTitle}}</span>
+    </div>
+    <div>{{pageSubTitle}}</div>
+  </ng-container>
 
   <ng-content *ngIf="workflowContext?.selectedPageId === page || (this.selectedPageIdDelayed$ | async) == page" select="[page-content]"></ng-content>
 

@@ -173,5 +173,6 @@ export function generateMockBenefitsData(): Dictionary<BenefitsData> {
     EmployerValue: 500,
     CompanyEmployeeValue: 0
   };
+
   return benefitData;
 }

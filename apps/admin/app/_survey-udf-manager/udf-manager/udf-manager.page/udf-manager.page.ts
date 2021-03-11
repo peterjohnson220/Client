@@ -6,10 +6,11 @@ import { Store } from '@ngrx/store';
 import { CompanyBaseInformation } from 'libs/models/company';
 import { PayElement, UdfSetting } from 'libs/models/payfactors-api/survey/response/udf-data-response.model';
 import { UdfSettingsRequestModel } from 'libs/models/payfactors-api/survey/request/udf-settings-request.model';
-import { environment } from 'environments/environment';
+import { AppConstants } from 'libs/constants';
 
 import * as fromUdfManagerActions from '../actions/udf-manager.actions';
 import * as fromUdfManagerReducer from '../reducers';
+
 
 const take = 100;
 
@@ -19,7 +20,8 @@ const take = 100;
   styleUrls: ['./udf-manager.page.scss']
 })
 export class UdfManagerPageComponent implements OnDestroy, OnInit {
-  env = environment;
+  get SiteAdminUrl() { return AppConstants.SiteAdminUrl; }
+
   selectedCompany: CompanyBaseInformation;
   udfValues: UdfSettingsRequestModel[];
 

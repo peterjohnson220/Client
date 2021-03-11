@@ -42,6 +42,20 @@ export class ConverterSettingsHelper {
             }
           ];
         break;
+      case 'Employee_Status':
+        mappingValues = selectedConverterSetting ?
+          cloneDeep(selectedConverterSetting.options.MappingValues) :
+          [
+            {
+              PayfactorsName: 'Active',
+              ClientValues: []
+            },
+            {
+              PayfactorsName: 'Inactive',
+              ClientValues: []
+            }
+          ];
+        break;
       default:
         mappingValues = null;
     }

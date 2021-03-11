@@ -13,6 +13,7 @@ export interface State {
   structureNameSuggestionsAsyncObj: AsyncStateObj<string[]>;
   savingModelingSettingsAsyncObj: AsyncStateObj<any>;
   modelNameExistsFailure: boolean;
+  activeTab: string;
 }
 
 const initialState: State = {
@@ -22,7 +23,8 @@ const initialState: State = {
   surveyUdfsAsyncObj: generateDefaultAsyncStateObj<ControlPoint[]>([]),
   structureNameSuggestionsAsyncObj: generateDefaultAsyncStateObj<string[]>([]),
   savingModelingSettingsAsyncObj: generateDefaultAsyncStateObj<any>(null),
-  modelNameExistsFailure: false
+  modelNameExistsFailure: false,
+  activeTab: null
 };
 
 export function reducer(state = initialState, action: fromModelSettingsModalActions.ModelSettingsModalActions): State {
@@ -80,6 +82,12 @@ export function reducer(state = initialState, action: fromModelSettingsModalActi
         modelNameExistsFailure: false
       };
     }
+    case fromModelSettingsModalActions.SET_ACTIVE_TAB: {
+      return {
+        ...state,
+        activeTab: action.payload
+      };
+    }
     default:
       return state;
   }
@@ -92,3 +100,4 @@ export const getControlPointsAsyncObj = (state: State) => state.controlPointsAsy
 export const getStructureNameSuggestionsAsyncObj = (state: State) => state.structureNameSuggestionsAsyncObj;
 export const getSavingModelSettingsAsyncObj = (state: State) => state.savingModelingSettingsAsyncObj;
 export const getModelNameExistsFailure = (state: State) => state.modelNameExistsFailure;
+export const getActiveTab = (state: State) => state.activeTab;

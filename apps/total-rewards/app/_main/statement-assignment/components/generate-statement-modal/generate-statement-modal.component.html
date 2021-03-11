@@ -10,15 +10,15 @@
   (onSubmit)="onGenerateStatements()"
   (onDismiss)="onCancel()">
   <ng-container basic-content>
-    <pf-async-container 
+    <pf-async-container
       [loading]="false"
       [loadingError]="sendingGenerateRequestError"
-      [loadingErrorMessage]="'Error Generating Statements'"
+      [loadingErrorMessage]="'An error has occurred. Please refresh the page and try again.'"
       [hideReloadButton]="true">
 
       <div class="d-flex flex-column">
         <p>
-          Generate {{ statement?.StatementName }} for <strong>{{ companyEmployeeIdsTotal }} employee{{ (companyEmployeeIdsTotal > 1) ? 's' : '' }}</strong>? 
+          Generate {{ statement?.StatementName }} for <strong>{{ companyEmployeeIdsTotal }} employee{{ (companyEmployeeIdsTotal > 1) ? 's' : '' }}</strong>?
           <span *ngIf="electronicDeliveryEnabled">To proceed, select a delivery method:</span>
           <span *ngIf="!electronicDeliveryEnabled">To proceed, click Generate below.</span>
         </p>
@@ -51,11 +51,26 @@
           </div>
         </div>
 
-        <div class="email-form-container" [class.shown]="electronicDeliveryEnabled && selectedDeliveryMethod === deliveryMethod.Email">
+        <div class="email-form-container pb-3" [class.shown]="electronicDeliveryEnabled && selectedDeliveryMethod === deliveryMethod.Email">
           <pf-statement-email-template #emailTemplate
             [statement]="statement"
             [statementEmailTemplate]="statementEmailTemplate">
           </pf-statement-email-template>
+        </div>
+
+        <div class="count-confirm">
+          <label for="confirmGenerateCountInput">
+            Type the number of selected employees to confirm:
+          </label>
+          <input type="number"
+                 name="confirm-generate-count"
+                 id="confirmGenerateCountInput"
+                 class="form-control confirm-count-form ml-1 py-1 px-2 d-inline"
+                 [ngClass]="{ 'is-invalid' : isConfirmCountInvalid, 'correct-count' : isConfirmCountCorrect }"
+                 [placeholder]="companyEmployeeIdsTotal"
+                 [(ngModel)]="confirmCountNumber"
+                 (ngModelChange)="onConfirmCountChange($event)" />
+          <span *ngIf="isConfirmCountInvalid" class="invalid-feedback">Number of selected employees is required</span>
         </div>
       </div>
     </pf-async-container>

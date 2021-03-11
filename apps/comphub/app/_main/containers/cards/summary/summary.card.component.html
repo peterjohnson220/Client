@@ -85,7 +85,10 @@
         </div>
         <div class="item">
           <div class="h">Market</div>
-          <div class="v" [attr.data-qa-id]="'cnt-payMarketName'">{{paymarket?.PayMarketName}}</div>
+          <div class="v" [attr.data-qa-id]="'cnt-payMarketName'">
+            {{paymarket?.PayMarketName}}
+            <span *ngIf="paymarket?.PayMarketName === 'National' && countryCode?.length > 0">({{countryCode}})</span>
+          </div>
         </div>
         <div class="item">
           <div class="h">Location</div>
@@ -282,7 +285,10 @@
               <div class="col">
                 <div class="item">
                   <div class="h">Market</div>
-                  <div class="v">{{paymarket?.PayMarketName}}</div>
+                  <div class="v">
+                    {{paymarket?.PayMarketName}}
+                    <span *ngIf="paymarket?.PayMarketName === 'National' && countryCode?.length > 0">({{countryCode}})</span>
+                  </div>
                 </div>
               </div>
             </div>

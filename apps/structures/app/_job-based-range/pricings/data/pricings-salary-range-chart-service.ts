@@ -1,5 +1,6 @@
+import { RangeDistributionTypeIds } from 'libs/constants/structures/range-distribution-type-ids';
+
 import { PricingsSalaryRangeChartSeries } from './pricings-salary-range-chart-series-constants';
-import { RangeDistributionTypeIds } from '../../../shared/constants/range-distribution-type-ids';
 
 // making this a bespoke service to keep the component.ts file from being overly long and avoid clutter
 export class PricingsSalaryRangeChartService {

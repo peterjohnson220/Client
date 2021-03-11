@@ -3,7 +3,9 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import {
-  StructureRangeGroupResponse
+  StructureRangeGroupGradesResponse,
+  StructureRangeGroupResponse,
+  StructureRangeGroupGradeJobsResponse
 } from 'libs/models/payfactors-api/structures';
 import { CompanyStructureInfo } from 'libs/models';
 
@@ -34,4 +36,27 @@ export class StructureRangeGroupApiService {
   getDetails(companyStructureRangeGroupId: number): Observable<any> {
     return this.payfactorsApiService.get<any>(`${this.endpoint}(${companyStructureRangeGroupId})/Default.GetDetail`);
   }
+
+  getGrades(companyStructureRangeGroupId: number, intercept: number, slope: number, roundDecimals: number): Observable<StructureRangeGroupGradesResponse[]> {
+    return this.payfactorsApiService.get<StructureRangeGroupGradesResponse[]>(`${this.endpoint}(${companyStructureRangeGroupId})/Default.GetGrades`,
+      {params: {intercept: intercept, slope: slope, roundDec: roundDecimals }});
+  }
+
+  getJobsAvailableToAdd(companyStructureRangeGroupId: number, companyStructuresGradesId: number): Observable<StructureRangeGroupGradeJobsResponse[]> {
+    return this.payfactorsApiService.get<StructureRangeGroupGradeJobsResponse[]>(
+      `${this.endpoint}(${companyStructureRangeGroupId})/Default.GetJobsAvailableToAdd`,
+      {params: {gradeId: companyStructuresGradesId }});
+  }
+
+  getJobs(companyStructureRangeGroupId: number, companyStructuresGradesId: number): Observable<StructureRangeGroupGradeJobsResponse[]> {
+    return this.payfactorsApiService.get<StructureRangeGroupGradeJobsResponse[]>(
+      `${this.endpoint}(${companyStructureRangeGroupId})/Default.GetJobs`,
+      {params: {gradeId: companyStructuresGradesId }});
+  }
+
+  addJobsToGrade(companyStructureRangeGroupId: number, addJobsParams: any): Observable<any> {
+    return this.payfactorsApiService.post<number>(`${this.endpoint}(${companyStructureRangeGroupId})/Default.AddJobs`, addJobsParams);
+  }
+
+
 }

@@ -20,7 +20,6 @@ export class UserTileToTileMapper {
       ChartType: undefined,
       ChartLabel: undefined,
       CssClass: undefined,
-      NgAppLink: dashboardTile.NgAppLink,
       MarketingEnabled: dashboardTile.MarketingEnabled,
       MarketingDescription: '',
       MarketingButtonText: ''

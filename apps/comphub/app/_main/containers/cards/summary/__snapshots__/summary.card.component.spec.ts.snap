@@ -143,7 +143,8 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
               class="v"
               data-qa-id="cnt-payMarketName"
             >
-              National
+               National 
+              
             </div>
           </div>
           <div
@@ -444,7 +445,8 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
                     <div
                       class="v"
                     >
-                      National
+                       National 
+                      
                     </div>
                   </div>
                 </div>
@@ -644,7 +646,8 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
                       class="v"
                       data-qa-id="cnt-payMarketName"
                     >
-                      National
+                       National 
+                      
                     </div>
                   </div>
                   <div
@@ -945,7 +948,8 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
                             <div
                               class="v"
                             >
-                              National
+                               National 
+                              
                             </div>
                           </div>
                         </div>
@@ -1204,7 +1208,8 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
               class="v"
               data-qa-id="cnt-payMarketName"
             >
-              National
+               National 
+              
             </div>
           </div>
           <div
@@ -1505,7 +1510,8 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
                     <div
                       class="v"
                     >
-                      National
+                       National 
+                      
                     </div>
                   </div>
                 </div>
@@ -1705,7 +1711,8 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
                       class="v"
                       data-qa-id="cnt-payMarketName"
                     >
-                      National
+                       National 
+                      
                     </div>
                   </div>
                   <div
@@ -2006,7 +2013,8 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
                             <div
                               class="v"
                             >
-                              National
+                               National 
+                              
                             </div>
                           </div>
                         </div>
@@ -2265,7 +2273,8 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
               class="v"
               data-qa-id="cnt-payMarketName"
             >
-              National
+               National 
+              
             </div>
           </div>
           <div
@@ -2566,7 +2575,8 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
                     <div
                       class="v"
                     >
-                      National
+                       National 
+                      
                     </div>
                   </div>
                 </div>
@@ -2766,7 +2776,8 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
                       class="v"
                       data-qa-id="cnt-payMarketName"
                     >
-                      National
+                       National 
+                      
                     </div>
                   </div>
                   <div
@@ -3067,7 +3078,8 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
                             <div
                               class="v"
                             >
-                              National
+                               National 
+                              
                             </div>
                           </div>
                         </div>
@@ -3326,7 +3338,8 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
               class="v"
               data-qa-id="cnt-payMarketName"
             >
-              National
+               National 
+              
             </div>
           </div>
           <div
@@ -3627,7 +3640,8 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
                     <div
                       class="v"
                     >
-                      National
+                       National 
+                      
                     </div>
                   </div>
                 </div>
@@ -3827,7 +3841,8 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
                       class="v"
                       data-qa-id="cnt-payMarketName"
                     >
-                      National
+                       National 
+                      
                     </div>
                   </div>
                   <div
@@ -4128,7 +4143,8 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
                             <div
                               class="v"
                             >
-                              National
+                               National 
+                              
                             </div>
                           </div>
                         </div>
@@ -4387,7 +4403,8 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
               class="v"
               data-qa-id="cnt-payMarketName"
             >
-              National
+               National 
+              
             </div>
           </div>
           <div
@@ -4688,7 +4705,8 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
                     <div
                       class="v"
                     >
-                      National
+                       National 
+                      
                     </div>
                   </div>
                 </div>
@@ -4888,7 +4906,8 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
                       class="v"
                       data-qa-id="cnt-payMarketName"
                     >
-                      National
+                       National 
+                      
                     </div>
                   </div>
                   <div
@@ -5189,7 +5208,8 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
                             <div
                               class="v"
                             >
-                              National
+                               National 
+                              
                             </div>
                           </div>
                         </div>
@@ -5448,7 +5468,8 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
               class="v"
               data-qa-id="cnt-payMarketName"
             >
-              Boston
+               Boston 
+              
             </div>
           </div>
           <div
@@ -5749,7 +5770,8 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                     <div
                       class="v"
                     >
-                      Boston
+                       Boston 
+                      
                     </div>
                   </div>
                 </div>
@@ -5949,7 +5971,8 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                       class="v"
                       data-qa-id="cnt-payMarketName"
                     >
-                      Boston
+                       Boston 
+                      
                     </div>
                   </div>
                   <div
@@ -6250,7 +6273,8 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                             <div
                               class="v"
                             >
-                              Boston
+                               Boston 
+                              
                             </div>
                           </div>
                         </div>
@@ -6509,7 +6533,8 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
               class="v"
               data-qa-id="cnt-payMarketName"
             >
-              Boston
+               Boston 
+              
             </div>
           </div>
           <div
@@ -6810,7 +6835,8 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                     <div
                       class="v"
                     >
-                      Boston
+                       Boston 
+                      
                     </div>
                   </div>
                 </div>
@@ -7010,7 +7036,8 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                       class="v"
                       data-qa-id="cnt-payMarketName"
                     >
-                      Boston
+                       Boston 
+                      
                     </div>
                   </div>
                   <div
@@ -7311,7 +7338,8 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                             <div
                               class="v"
                             >
-                              Boston
+                               Boston 
+                              
                             </div>
                           </div>
                         </div>
@@ -7570,7 +7598,8 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
               class="v"
               data-qa-id="cnt-payMarketName"
             >
-              Boston
+               Boston 
+              
             </div>
           </div>
           <div
@@ -7880,7 +7909,8 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
                     <div
                       class="v"
                     >
-                      Boston
+                       Boston 
+                      
                     </div>
                   </div>
                 </div>
@@ -8080,7 +8110,8 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
                       class="v"
                       data-qa-id="cnt-payMarketName"
                     >
-                      Boston
+                       Boston 
+                      
                     </div>
                   </div>
                   <div
@@ -8390,7 +8421,8 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
                             <div
                               class="v"
                             >
-                              Boston
+                               Boston 
+                              
                             </div>
                           </div>
                         </div>

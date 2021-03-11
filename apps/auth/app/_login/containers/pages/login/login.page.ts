@@ -6,9 +6,11 @@ import { Store } from '@ngrx/store';
 
 import { MarketingImageDto } from 'libs/models/marketing/marketing-image-dto.model';
 import * as fromMarketingActions from 'libs/features/infrastructure/marketing-settings/marketing-settings/actions/marketing-settings.actions';
+import { AppConstants } from 'libs/constants';
 
 import * as fromLoginReducer from '../../../reducers';
 import * as fromLoginActions from '../../../actions/login.actions';
+
 
 import { environment } from 'environments/environment';
 
@@ -157,7 +159,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     return control.value.toString();
   }
   navigateToRegistration() {
-    if (environment.allowHubspotRegistration) {
+    if (AppConstants.AllowHubspotRegistration) {
       window.location.href = environment.hubspotRegistrationUrl;
     } else {
       this.router.navigateByUrl('/registration');

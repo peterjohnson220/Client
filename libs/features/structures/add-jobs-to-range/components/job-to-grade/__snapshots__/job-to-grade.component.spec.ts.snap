@@ -1,0 +1,568 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Project - Structures - JobToGrade Component should display error message when error found loading jobs 1`] = `
+<pf-job-to-grade
+  grade={[Function Object]}
+  hideJobsLabel={[Function String]}
+  loadJobs={[Function EventEmitter]}
+  rangeDistributionTypeEnum={[Function Object]}
+  showJobs={[Function Boolean]}
+  showJobsLabel={[Function String]}
+  toggleJobsLabel={[Function String]}
+>
+  <div
+    class="result"
+  >
+    <div
+      class="d-flex justify-content-between"
+    >
+      <div
+        class="flex-grow-1"
+      >
+        <div
+          class="d-flex"
+        >
+          <div
+            class="grade-name"
+          >
+             fakeGrade 
+          </div>
+        </div>
+        <div
+          class="dropzone"
+          data-grade-id="1"
+          dragula="jobs-grade-bag"
+        />
+        <div
+          class="d-flex mt-2"
+        >
+          <div
+            class="link"
+          >
+             Hide Jobs 
+          </div>
+        </div>
+        
+        <div
+          class="jobs-container"
+        >
+          
+          <div
+            class="loading-jobs-error"
+          >
+            <fa-icon
+              class="icon"
+              icon="exclamation-triangle"
+            />
+             Error loading jobs. Please try again later. 
+          </div>
+        </div>
+        
+      </div>
+      <div>
+        <div
+          class="row"
+        >
+          Min: 1
+        </div>
+        
+        
+        
+        
+        <div
+          class="row"
+        >
+          Mid: 1
+        </div>
+        
+        
+        
+        
+        <div
+          class="row"
+        >
+          Max: 1
+        </div>
+      </div>
+    </div>
+  </div>
+</pf-job-to-grade>
+`;
+
+exports[`Project - Structures - JobToGrade Component should display grade, min/mid/max 1`] = `
+<pf-job-to-grade
+  grade={[Function Object]}
+  hideJobsLabel={[Function String]}
+  loadJobs={[Function EventEmitter]}
+  rangeDistributionTypeEnum={[Function Object]}
+  showJobsLabel={[Function String]}
+  toggleJobsLabel={[Function String]}
+>
+  <div
+    class="result"
+  >
+    <div
+      class="d-flex justify-content-between"
+    >
+      <div
+        class="flex-grow-1"
+      >
+        <div
+          class="d-flex"
+        >
+          <div
+            class="grade-name"
+          >
+             fakeGrade 
+          </div>
+        </div>
+        <div
+          class="dropzone"
+          data-grade-id="1"
+          dragula="jobs-grade-bag"
+        />
+        <div
+          class="d-flex mt-2"
+        >
+          <div
+            class="link"
+          >
+             Show Jobs 
+          </div>
+        </div>
+        
+        
+      </div>
+      <div>
+        <div
+          class="row"
+        >
+          Min: 1
+        </div>
+        
+        
+        
+        
+        <div
+          class="row"
+        >
+          Mid: 1
+        </div>
+        
+        
+        
+        
+        <div
+          class="row"
+        >
+          Max: 1
+        </div>
+      </div>
+    </div>
+  </div>
+</pf-job-to-grade>
+`;
+
+exports[`Project - Structures - JobToGrade Component should display jobs when jobs loaded 1`] = `
+<pf-job-to-grade
+  grade={[Function Object]}
+  hideJobsLabel={[Function String]}
+  loadJobs={[Function EventEmitter]}
+  rangeDistributionTypeEnum={[Function Object]}
+  showJobs={[Function Boolean]}
+  showJobsLabel={[Function String]}
+  toggleJobsLabel={[Function String]}
+>
+  <div
+    class="result"
+  >
+    <div
+      class="d-flex justify-content-between"
+    >
+      <div
+        class="flex-grow-1"
+      >
+        <div
+          class="d-flex"
+        >
+          <div
+            class="grade-name"
+          >
+             fakeGrade 
+          </div>
+        </div>
+        <div
+          class="dropzone"
+          data-grade-id="1"
+          dragula="jobs-grade-bag"
+        />
+        <div
+          class="d-flex mt-2"
+        >
+          <div
+            class="link"
+          >
+             Hide Jobs 
+          </div>
+        </div>
+        
+        <div
+          class="jobs-container"
+        >
+          
+          
+          <table
+            class="jobs-table"
+          >
+            <thead>
+              <tr>
+                <th
+                  class="text-nowrap"
+                >
+                  Job Code
+                </th>
+                <th
+                  class="text-nowrap"
+                >
+                  Job Title
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              
+              <tr>
+                <td>
+                  AAA
+                </td>
+                <td>
+                  Fake Job
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+      </div>
+      <div>
+        <div
+          class="row"
+        >
+          Min: 1
+        </div>
+        
+        
+        
+        
+        <div
+          class="row"
+        >
+          Mid: 1
+        </div>
+        
+        
+        
+        
+        <div
+          class="row"
+        >
+          Max: 1
+        </div>
+      </div>
+    </div>
+  </div>
+</pf-job-to-grade>
+`;
+
+exports[`Project - Structures - JobToGrade Component should display loading message when loading jobs 1`] = `
+<pf-job-to-grade
+  grade={[Function Object]}
+  hideJobsLabel={[Function String]}
+  loadJobs={[Function EventEmitter]}
+  rangeDistributionTypeEnum={[Function Object]}
+  showJobs={[Function Boolean]}
+  showJobsLabel={[Function String]}
+  toggleJobsLabel={[Function String]}
+>
+  <div
+    class="result"
+  >
+    <div
+      class="d-flex justify-content-between"
+    >
+      <div
+        class="flex-grow-1"
+      >
+        <div
+          class="d-flex"
+        >
+          <div
+            class="grade-name"
+          >
+             fakeGrade 
+          </div>
+        </div>
+        <div
+          class="dropzone"
+          data-grade-id="1"
+          dragula="jobs-grade-bag"
+        />
+        <div
+          class="d-flex mt-2"
+        >
+          <div
+            class="link"
+          >
+             Hide Jobs 
+          </div>
+        </div>
+        
+        
+        <div
+          class="my-2"
+        >
+          <pf-loading-indicator />
+           Loading Jobs... 
+        </div>
+      </div>
+      <div>
+        <div
+          class="row"
+        >
+          Min: 1
+        </div>
+        
+        
+        
+        
+        <div
+          class="row"
+        >
+          Mid: 1
+        </div>
+        
+        
+        
+        
+        <div
+          class="row"
+        >
+          Max: 1
+        </div>
+      </div>
+    </div>
+  </div>
+</pf-job-to-grade>
+`;
+
+exports[`Project - Structures - JobToGrade Component should display with 2 decimal precision if hourly 1`] = `
+<pf-job-to-grade
+  grade={[Function Object]}
+  hideJobsLabel={[Function String]}
+  loadJobs={[Function EventEmitter]}
+  rangeDistributionTypeEnum={[Function Object]}
+  rate={[Function String]}
+  showJobs={[Function Boolean]}
+  showJobsLabel={[Function String]}
+  toggleJobsLabel={[Function String]}
+>
+  <div
+    class="result"
+  >
+    <div
+      class="d-flex justify-content-between"
+    >
+      <div
+        class="flex-grow-1"
+      >
+        <div
+          class="d-flex"
+        >
+          <div
+            class="grade-name"
+          >
+             fakeGrade 
+          </div>
+        </div>
+        <div
+          class="dropzone"
+          data-grade-id="1"
+          dragula="jobs-grade-bag"
+        />
+        <div
+          class="d-flex mt-2"
+        >
+          <div
+            class="link"
+          >
+             Hide Jobs 
+          </div>
+        </div>
+        
+        <div
+          class="jobs-container"
+        >
+          
+          
+          <table
+            class="jobs-table"
+          >
+            <thead>
+              <tr>
+                <th
+                  class="text-nowrap"
+                >
+                  Job Code
+                </th>
+                <th
+                  class="text-nowrap"
+                >
+                  Job Title
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              
+              <tr>
+                <td>
+                  AAA
+                </td>
+                <td>
+                  Fake Job
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+      </div>
+      <div>
+        <div
+          class="row"
+        >
+          Min: 1.00
+        </div>
+        
+        
+        
+        
+        <div
+          class="row"
+        >
+          Mid: 1.00
+        </div>
+        
+        
+        
+        
+        <div
+          class="row"
+        >
+          Max: 1.00
+        </div>
+      </div>
+    </div>
+  </div>
+</pf-job-to-grade>
+`;
+
+exports[`Project - Structures - JobToGrade Component should show jobs when toggle clicked 1`] = `
+<pf-job-to-grade
+  grade={[Function Object]}
+  hideJobsLabel={[Function String]}
+  loadJobs={[Function EventEmitter]}
+  rangeDistributionTypeEnum={[Function Object]}
+  showJobs={[Function Boolean]}
+  showJobsLabel={[Function String]}
+  toggleJobsLabel={[Function String]}
+>
+  <div
+    class="result"
+  >
+    <div
+      class="d-flex justify-content-between"
+    >
+      <div
+        class="flex-grow-1"
+      >
+        <div
+          class="d-flex"
+        >
+          <div
+            class="grade-name"
+          >
+             fakeGrade 
+          </div>
+        </div>
+        <div
+          class="dropzone"
+          data-grade-id="1"
+          dragula="jobs-grade-bag"
+        />
+        <div
+          class="d-flex mt-2"
+        >
+          <div
+            class="link"
+          >
+             Hide Jobs 
+          </div>
+        </div>
+        
+        <div
+          class="jobs-container"
+        >
+          
+          
+          <table
+            class="jobs-table"
+          >
+            <thead>
+              <tr>
+                <th
+                  class="text-nowrap"
+                >
+                  Job Code
+                </th>
+                <th
+                  class="text-nowrap"
+                >
+                  Job Title
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              
+            </tbody>
+          </table>
+        </div>
+        
+      </div>
+      <div>
+        <div
+          class="row"
+        >
+          Min: 1
+        </div>
+        
+        
+        
+        
+        <div
+          class="row"
+        >
+          Mid: 1
+        </div>
+        
+        
+        
+        
+        <div
+          class="row"
+        >
+          Max: 1
+        </div>
+      </div>
+    </div>
+  </div>
+</pf-job-to-grade>
+`;

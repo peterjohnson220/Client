@@ -2,10 +2,12 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { environment } from 'environments/environment';
+
+import { AppConstants } from 'libs/constants';
 
 import * as fromPasswordSettingsReducer from '../reducers';
 import { SecurityManagementSettingsComponent } from '../containers';
+
 
 @Component({
   selector: 'pf-security-settings-page',
@@ -13,7 +15,8 @@ import { SecurityManagementSettingsComponent } from '../containers';
   styleUrls: ['./security-settings.page.scss']
 })
 export class SecuritySettingsPageComponent implements OnInit {
-  env = environment;
+
+  get CompanyAdminUrl() { return AppConstants.CompanyAdminUrl; }
 
   @ViewChild(SecurityManagementSettingsComponent, { static: true }) settingsComponent: SecurityManagementSettingsComponent;
   public passwordSettingsSaving$: Observable<boolean>;

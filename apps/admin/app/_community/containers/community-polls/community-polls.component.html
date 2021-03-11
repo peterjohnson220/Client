@@ -1,4 +1,4 @@
-<pf-page-with-title-bar [absoluteUrl]="env.siteAdminUrl + '/navigation'">
+<pf-page-with-title-bar [absoluteUrl]="SiteAdminUrl + '/navigation'">
   <ng-container page-title>
     Community Polls
   </ng-container>
@@ -6,7 +6,7 @@
   <ng-container page-actions>
     <button class="btn btn-secondary" type="submit" (click)="openCommunityPollModal()">Add</button>
   </ng-container>
-  
+
   <ng-container page-content>
     <kendo-grid
         [data]="communityPollListItems$ | async"
@@ -21,19 +21,19 @@
           </ng-template>
         </kendo-grid-column>
         <kendo-grid-column field="NumberOfResponses" title="Responses" [headerClass]="'font-weight-bold'"></kendo-grid-column>
-        
+
        <kendo-grid-column field="Status" title="Status" [headerClass]="'font-weight-bold'" [width]="130" class="text-center">
           <ng-template kendoGridCellTemplate let-dataItem="dataItem">
-              <label class="lbl-status" 
+              <label class="lbl-status"
                 [ngClass]="{'lbl-draft': dataItem.Status == 0, 'lbl-live': dataItem.Status == 1, 'lbl-acrhived': dataItem.Status == 2}"
                 (click)="onCellClick(dataItem)">
                     {{ CommunityPollStatuses[dataItem.Status].text }}
-              </label>  
+              </label>
           </ng-template>
         </kendo-grid-column>
 
         <kendo-grid-column title="Export Responses" [headerClass]="'font-weight-bold'" [width]="130" class="text-center" >
-          <ng-template kendoGridCellTemplate 
+          <ng-template kendoGridCellTemplate
             let-dataItem="dataItem">
             <button kendoButton [icon]="'file-excel'" [look]="'outline'"
                 (click)="exportCommunityPoll(dataItem)">
@@ -43,6 +43,6 @@
 
       </kendo-grid>
     </ng-container>
-</pf-page-with-title-bar> 
+</pf-page-with-title-bar>
 
 <pf-community-poll-modal></pf-community-poll-modal>

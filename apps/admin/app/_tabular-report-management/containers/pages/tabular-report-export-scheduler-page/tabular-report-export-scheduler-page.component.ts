@@ -7,12 +7,12 @@ import isNumber from 'lodash/isNumber';
 import toNumber from 'lodash/toNumber';
 import cloneDeep from 'lodash/cloneDeep';
 
-import { environment } from 'environments/environment';
 import { AsyncStateObj } from 'libs/models/state';
 import { TabularReportExportSchedule, Workbook } from 'libs/features/surveys/reports/models';
 import { ExportFormatComponent, ExportFrequencyComponent } from 'libs/features/export-scheduler/export-scheduler/components';
 import { ExportFrequencyType, CronExpressionHelper } from 'libs/features/export-scheduler/export-scheduler/helpers';
 import { ExportScheduleHelper } from 'libs/features/export-scheduler/export-scheduler/models';
+import { AppConstants } from 'libs/constants';
 
 import * as fromTabularReportExportSchedulerPageReducer from '../../../reducers';
 import * as fromTabularReportExportSchedulerPageActions from '../../../actions/tabular-report-export-scheduler-page.actions';
@@ -23,6 +23,8 @@ import * as fromTabularReportExportSchedulerPageActions from '../../../actions/t
   styleUrls: ['./tabular-report-export-scheduler-page.component.scss']
 })
 export class TabularReportExportSchedulerPageComponent implements OnInit, OnDestroy {
+  get CompanyAdminUrl() { return AppConstants.CompanyAdminUrl; }
+
   @ViewChild('exportFormat', { static: true }) exportFormat: ExportFormatComponent;
   @ViewChild('exportFrequency', { static: true }) exportFrequency: ExportFrequencyComponent;
 
@@ -35,7 +37,6 @@ export class TabularReportExportSchedulerPageComponent implements OnInit, OnDest
   savedSchedulesSubscription: Subscription;
 
   selectedReport: Workbook;
-  env = environment;
   filterSettings: DropDownFilterSettings = {
     caseSensitive: false,
     operator: 'contains'
@@ -48,8 +49,7 @@ export class TabularReportExportSchedulerPageComponent implements OnInit, OnDest
       this.savingSchedule;
   }
   constructor(
-    private store: Store<fromTabularReportExportSchedulerPageReducer.State>
-  ) {
+    private store: Store<fromTabularReportExportSchedulerPageReducer.State>) {
     this.tabularReportsAsync$ = this.store.select(fromTabularReportExportSchedulerPageReducer.getTabularReportsAsync);
     this.savedSchedulesAsync$ = this.store.select(fromTabularReportExportSchedulerPageReducer.getSavedSchedulesAsync);
     this.savingSchedule$ = this.store.select(fromTabularReportExportSchedulerPageReducer.getSavingSchedule);

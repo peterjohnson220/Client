@@ -45,5 +45,14 @@ export const SearchFilterMappingData: SearchFilterMappingDataObj = {
     OptionCountDisabled: false,
     SaveDisabled: false,
     RefreshOptionsFromServer: true
+  },
+  'facility': {
+    Type: FilterType.Multi,
+    BackingField: 'facility',
+    DisplayName: 'Facility',
+    Order: 7,
+    OptionCountDisabled: false,
+    SaveDisabled: false,
+    RefreshOptionsFromServer: true
   }
 };

@@ -41,8 +41,17 @@
             <kendo-grid-column field="ViewName" title="View Name">
               <ng-template kendoGridCellTemplate let-dataItem>
                 {{dataItem.ViewName}}
+                <fa-icon *ngIf="dataItem.ViewName === 'Default'"
+                  icon="exclamation-circle"  placement="right" ngbTooltip="Default view controls the content viewable and exported in other areas of the product, such as in the Jobs tile, Peer tile, and Pricing Projects"
+                  container="body">
+                </fa-icon>                
                 <fa-icon *ngIf="dataItem.ViewName === 'Export'"
-                  icon="exclamation-circle"  placement="right" ngbTooltip="Previously Export Settings in Templates">
+                  icon="exclamation-circle"  placement="right" ngbTooltip="Previously Export Settings in Templates"
+                  container="body">
+                </fa-icon>
+                <fa-icon *ngIf="dataItem.ViewName === 'Draft & In Review'"
+                  icon="exclamation-circle"  placement="right" ngbTooltip="This view controls the control name visibility for job descriptions that are in draft mode and in review"
+                  container="body">
                 </fa-icon>
             </ng-template>
             </kendo-grid-column>
@@ -59,6 +68,7 @@
             <kendo-grid-column [width]="80">
               <ng-template kendoGridCellTemplate let-dataItem>
                 <button class="btn btn-sm btn-secondary mr-2" [attr.data-qa-id]="'btn-editView'"
+                  [disabled]="isSystemNonEditableView(dataItem.ViewName)"
                   (click)="openUpsertViewModal(false, dataItem.ViewName, $event)">
                   <fa-icon [icon]="['fas', 'pencil-alt']"></fa-icon>
                 </button>

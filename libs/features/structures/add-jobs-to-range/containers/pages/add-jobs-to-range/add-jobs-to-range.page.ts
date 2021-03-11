@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
+import { DragulaService } from 'ng2-dragula';
 
 import { Permissions, SystemUserGroupNames } from 'libs/constants';
 import * as fromCompanySettingsActions from 'libs/state/app-context/actions/company-settings.actions';
@@ -21,6 +22,9 @@ import * as fromAddJobsSearchResultsActions from 'libs/features/jobs/add-jobs/ac
 import { SearchFeatureIds } from 'libs/features/search/search/enums/search-feature-ids';
 import { ADD_JOBS_CONFIG_DEFAULT_TRUE } from 'libs/features/jobs/add-jobs/constants';
 
+import { GradeRangeGroupDetails } from '../../../models';
+import { cleanupDatacutsDragging, enableJobsDragging } from '../../../helpers';
+
 @Component({
   selector: 'pf-add-jobs-to-range-page',
   templateUrl: './add-jobs-to-range.page.html',
@@ -29,6 +33,8 @@ import { ADD_JOBS_CONFIG_DEFAULT_TRUE } from 'libs/features/jobs/add-jobs/consta
 export class AddJobsToRangePageComponent extends SearchBaseDirective implements OnInit, OnDestroy {
   @Input() isJobRange: boolean;
   @Input() controlPoint: string;
+  @Input() rate: string;
+  @Input() gradeRangeGroupDetails: GradeRangeGroupDetails;
   // Observables
   searchingFilter$: Observable<boolean>;
   numberOfSearchResults$: Observable<number>;
@@ -58,6 +64,7 @@ export class AddJobsToRangePageComponent extends SearchBaseDirective implements 
     private router: Router,
     private route: ActivatedRoute,
     private settingsService: SettingsService,
+    private dragulaService: DragulaService,
     @Optional() private injectedAddJobsConfig: AddJobsConfig
 
   ) {
@@ -72,6 +79,7 @@ export class AddJobsToRangePageComponent extends SearchBaseDirective implements 
     this.addingDataErrorMessage$ = this.store.select(fromAddJobsReducer.getAddingDataErrorMessage);
     this.userContext = store.select(fromRootState.getUserContext);
     this._Permissions = Permissions;
+    enableJobsDragging(dragulaService);
   }
 
   onSetContext(payload: any): void {
@@ -79,6 +87,7 @@ export class AddJobsToRangePageComponent extends SearchBaseDirective implements 
     this.store.dispatch(new fromSearchFiltersActions.AddFilters(staticFilters));
     this.store.dispatch(new fromPaymarketActions.SetDefaultPaymarket(Number(payload.PayMarketId)));
     this.store.dispatch(new fromPaymarketActions.LoadPaymarkets());
+
 
     // Always get the latest company settings so we have the latest job count
     this.store.dispatch(new fromCompanySettingsActions.LoadCompanySettings());
@@ -139,8 +148,9 @@ export class AddJobsToRangePageComponent extends SearchBaseDirective implements 
   }
 
   ngOnDestroy() {
-    this.selectedJobIdsSubscription.unsubscribe();
-    this.selectedPayfactorsJobCodesSubscription.unsubscribe();
+    this.selectedJobIdsSubscription?.unsubscribe();
+    this.selectedPayfactorsJobCodesSubscription?.unsubscribe();
+    cleanupDatacutsDragging(this.dragulaService);
   }
 
 }

@@ -14,7 +14,6 @@ export class PayfactorsApiModelMapper {
         IconClass: '',
         Url: '',
         Sidebar: false,
-        NgAppLink: false,
         SidebarNew: false,
         TileClassName: '',
         IconClassNew: '',
