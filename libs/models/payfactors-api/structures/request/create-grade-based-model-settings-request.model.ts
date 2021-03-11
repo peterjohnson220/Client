@@ -1,3 +1,5 @@
+import { AdvancedSettingRequest } from './advanced-setting-request.model';
+
 export interface CreateGradeBasedModelSettingsRequest {
   RangeGroupId: number;
   ModelName: string;
@@ -9,5 +11,6 @@ export interface CreateGradeBasedModelSettingsRequest {
   Midpoint: number;
   MidpointProgression: number;
   CurrencyCode: string;
+  AdvancedSetting: AdvancedSettingRequest;
   RangeDistributionTypeId: number;
 }

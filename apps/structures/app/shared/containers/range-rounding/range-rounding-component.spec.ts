@@ -12,15 +12,14 @@ import { RoundingTypes } from 'libs/constants/structures/rounding-type';
 import { generateMockRoundingSettingsDataObj } from 'libs/models/structures/ranges';
 import { generateMockStructureRangeDistributionTypes } from 'libs/models/payfactors-api';
 
-import * as fromJobBasedRangeReducer from '../../../shared/reducers';
-import * as fromSharedJobBasedRangeActions from '../../../shared/actions/shared.actions';
-import * as fromSharedStructuresActions from '../../../../shared/actions/shared.actions';
+import * as fromSharedStructuresReducer from '../../reducers';
+import * as fromSharedStructuresActions from '../../actions/shared.actions';
 import { RangeRoundingComponent } from './range-rounding.component';
 
 describe('Job Based Ranges - Rounding Settings', () => {
   let instance: RangeRoundingComponent;
   let fixture: ComponentFixture<RangeRoundingComponent>;
-  let store: Store<fromJobBasedRangeReducer.State>;
+  let store: Store<any>;
   let ngbModal: NgbModal;
 
   beforeEach(() => {
@@ -28,7 +27,7 @@ describe('Job Based Ranges - Rounding Settings', () => {
       imports: [
         StoreModule.forRoot({
           ...fromRootState.reducers,
-          jobBased_main: combineReducers(fromJobBasedRangeReducer.reducers),
+          structures_shared: combineReducers(fromSharedStructuresReducer.reducers),
           pfDataGrids: combineReducers(fromPfGridReducer.reducers)
         }),
         PfCommonModule
@@ -40,7 +39,6 @@ describe('Job Based Ranges - Rounding Settings', () => {
           provide: NgbModal,
           useValue: { open: jest.fn(), dismissAll: jest.fn() }
         }
-
       ]
     });
 

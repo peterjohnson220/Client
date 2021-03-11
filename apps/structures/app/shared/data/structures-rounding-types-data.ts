@@ -1,7 +1,6 @@
-import { RoundingType } from '../models/rounding-type.model';
-
 import { RoundingTypes } from 'libs/constants/structures/rounding-type';
 
+import { RoundingType } from '../models';
 
 export const StructuresRoundingTypes: RoundingType[] = [
   {

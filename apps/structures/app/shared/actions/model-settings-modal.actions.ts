@@ -133,7 +133,7 @@ export class SaveJobBasedModelSettingsError implements Action {
 export class CreateGradeBasedModelSettings implements Action {
   readonly type = CREATE_GRADE_BASED_MODEL_SETTINGS;
 
-  constructor(public payload: { rangeGroupId: number; formValue: RangeGroupMetadata; fromPageViewId: string }) {}
+  constructor(public payload: { rangeGroupId: number; formValue: RangeGroupMetadata; fromPageViewId: string, rounding: RoundingSettingsDataObj }) {}
 }
 
 export class CreateGradeBasedModelSettingsSuccess implements Action {
@@ -147,7 +147,7 @@ export class CreateGradeBasedModelSettingsError implements Action {
 export class SaveGradeBasedModelSettings implements Action {
   readonly type = SAVE_GRADE_BASED_MODEL_SETTINGS;
 
-  constructor(public payload: { rangeGroupId: number; formValue: RangeGroupMetadata; fromPageViewId: string }) {}
+  constructor(public payload: { rangeGroupId: number; formValue: RangeGroupMetadata; fromPageViewId: string, rounding: RoundingSettingsDataObj }) {}
 }
 
 export class SaveGradeBasedModelSettingsSuccess implements Action {

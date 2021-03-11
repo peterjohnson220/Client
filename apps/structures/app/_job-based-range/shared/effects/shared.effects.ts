@@ -130,7 +130,8 @@ export class SharedEffects {
       switchMap((data) => {
         let advancedSetting;
         if (data.action.payload.formValue.RangeAdvancedSetting != null) {
-          advancedSetting = PayfactorsApiModelMapper.mapAdvancedSettingModalFormToAdvancedSettingRequest(data.action.payload.formValue.RangeAdvancedSetting);
+          advancedSetting = PayfactorsApiModelMapper.mapAdvancedSettingModalFormToAdvancedSettingRequest(
+            data.action.payload.formValue.RangeAdvancedSetting, data.action.payload.rounding);
         } else {
           advancedSetting = generateMockRangeAdvancedSetting();
         }
