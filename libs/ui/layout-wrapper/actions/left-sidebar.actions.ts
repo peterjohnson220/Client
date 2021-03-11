@@ -6,6 +6,7 @@ export const GET_LEFT_SIDEBAR_NAVIGATION_LINKS = '[Layout Wrapper/Left Sidebar] 
 export const GET_LEFT_SIDEBAR_NAVIGATION_LINKS_SUCCESS = '[Layout Wrapper/Left Sidebar] Get Left Sidebar Navigation Links Success';
 export const GET_LEFT_SIDEBAR_NAVIGATION_LINKS_ERROR = '[Layout Wrapper/Left Sidebar] Get Left Sidebar Navigation Links Error';
 export const TOGGLE_LEFT_SIDEBAR = '[Layout Wrapper/Left Sidebar] Toggle Left Sidebar';
+export const CLOSE_LEFT_SIDEBAR = '[Layout Wrapper/Left Sidebar] Close Left Sidebar';
 
 export class GetLeftSidebarNavigationLinks implements Action {
   readonly type = GET_LEFT_SIDEBAR_NAVIGATION_LINKS;
@@ -30,8 +31,14 @@ export class ToggleLeftSidebar implements Action {
   constructor(public payload: boolean) {}
 }
 
+export class CloseLeftSidebar implements Action {
+  readonly type = CLOSE_LEFT_SIDEBAR;
+  constructor() {}
+}
+
 export type Actions =
   | GetLeftSidebarNavigationLinks
   | GetLeftSidebarNavigationLinksSuccess
   | GetLeftSidebarNavigationLinksError
-  | ToggleLeftSidebar;
+  | ToggleLeftSidebar
+  | CloseLeftSidebar;
