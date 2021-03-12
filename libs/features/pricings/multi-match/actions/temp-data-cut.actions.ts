@@ -27,7 +27,7 @@ export class CreateTempDataCutComplete implements Action {
 export class ReplaceDataCutWithTemp implements Action {
   readonly type = REPLACE_DATA_CUT_WITH_TEMP;
 
-  constructor(public payload: {tempDataCut: DataCut}) { }
+  constructor(public payload: {tempDataCut: DataCut, exchangeJobId?: number}) { }
 }
 
 export class EditTempDataCut implements Action {
