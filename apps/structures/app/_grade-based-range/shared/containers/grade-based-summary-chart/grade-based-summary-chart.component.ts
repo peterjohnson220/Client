@@ -6,11 +6,11 @@ import { Subscription } from 'rxjs';
 
 import { RangeGroupMetadata } from 'libs/models/structures';
 import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
+import { RangeDistributionTypeIds } from 'libs/constants/structures/range-distribution-type-ids';
 
 import { StructuresHighchartsService } from '../../../../shared/services';
 import { GradeRangeModelChartService } from '../../data/grade-range-model-chart.service';
 import { PagesHelper } from '../../../../shared/helpers/pages.helper';
-import { RangeDistributionTypeIds } from '../../../../shared/constants/range-distribution-type-ids';
 import { GradeRangeModelChartSeries } from '../../data/grade-range-model-chart-series-constants';
 import * as fromSharedStructuresReducer from '../../../../shared/reducers';
 

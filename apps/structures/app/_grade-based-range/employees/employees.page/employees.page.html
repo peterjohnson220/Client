@@ -22,7 +22,8 @@
   [subHeaderTemplate]="subHeaderTemplate"
   [filterPanelTemplates]="filterTemplates"
   [splitViewTemplate]="graph"
-  [splitOnSelection]="false">
+  [splitOnSelection]="false"
+  [columnTemplates]="colTemplates">
 </pf-data-grid>
 
 <ng-template #subHeaderTemplate>
@@ -92,7 +93,7 @@
       [textAlign]="'center'"
       [roundingSettings]="roundingSettings"
       [refreshRowDataViewFilter]="getRefreshFilter(dataRow)"
-      [updateMetaInfo]="{ pageViewId: modelGridPageViewId }"
+      [updateMetaInfo]="{ pageViewId: pageViewId, data: data, gridConfig: gridConfig, pagingOptions: pagingOptions }"
       [updateSuccessCallbackFn]="updateMidSuccessCallbackFn"
       [readonlyValueTemplate]="rangeValue">
     </pf-range-field-editor>

@@ -9,8 +9,9 @@ import * as fromRegistrationReducer from '../../../reducers';
 import * as fromRegistrationFormActions from '../../../actions/registration-form.actions';
 
 import { PfValidators, PfEmailValidators } from 'libs/forms/validators';
-import { RegistrationFormValidationService } from '../../../services/registration-form-validation.service';
+import { AppConstants } from 'libs/constants';
 
+import { RegistrationFormValidationService } from '../../../services/registration-form-validation.service';
 import { environment } from 'environments/environment';
 
 @Component({
@@ -34,7 +35,7 @@ export class RegistrationFormPageComponent implements OnInit, OnDestroy {
     public validationService: RegistrationFormValidationService,
     public registrationStore: Store<fromRegistrationReducer.State>) {
 
-    if (environment.allowHubspotRegistration && window.location) {
+    if (AppConstants.AllowHubspotRegistration && window.location) {
       window.location.href = environment.hubspotRegistrationUrl;
     }
 

@@ -30,8 +30,31 @@ pf-paymarkets {
 }
 
 
-::ng-deep .modal-lg {
-  max-width: 1000px;
+::ng-deep .modal-xlg {
+  max-width: 1500px !important;
+
+  .modal-body {
+    padding: 0.15rem 0.15rem 0.15rem 0.25rem;
+    -webkit-flex: 1 1 0;
+  }
+
+  .modal-content {
+    height: 100%;
+
+    .modal-content {
+      height: auto;
+      margin: 0.2rem;
+    }
+
+    .modal-dialog {
+      display: flex;
+      align-items: center;
+    }
+  }
+}
+
+:host::ng-deep .modal-lg {
+  max-width: 1000px !important;
 
   .modal-body {
     padding: 0.15rem 0.15rem 0.15rem 0.25rem;

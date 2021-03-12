@@ -6,6 +6,7 @@ import { takeUntil } from 'rxjs/operators';
 
 import { environment } from 'environments/environment';
 import { WindowRef } from 'libs/core/services';
+import { AppConstants } from 'libs/constants';
 
 import { TicketListComponent } from '../../ticket-list';
 import { UserTicketTabItem } from '../../../models';
@@ -13,12 +14,14 @@ import * as fromTicketReducer from '../../../reducers';
 import * as fromTicketActions from '../../../actions/ticket.actions';
 import * as fromTicketListActions from '../../../actions/ticket-list.actions';
 
+
 @Component({
   selector: 'pf-ticket-list-page',
   templateUrl: './ticket-list.page.html',
   styleUrls: ['./ticket-list.page.scss']
 })
 export class TicketListPageComponent implements OnDestroy {
+  get SiteAdminUrl() { return AppConstants.SiteAdminUrl; }
 
   env = environment;
   activeId = 'tab-tickets';

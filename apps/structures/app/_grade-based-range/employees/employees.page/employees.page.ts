@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
+import { GridDataResult } from '@progress/kendo-angular-grid';
 
 import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums/pf-theme-type.enum';
 import { GradeBasedPageViewIds, RangeGroupMetadata, RoundingSettingsDataObj } from 'libs/models/structures';
@@ -13,6 +14,9 @@ import { RangeType } from 'libs/constants/structures/range-type';
 import { RangeRecalculationType } from 'libs/constants/structures/range-recalculation-type';
 import { DataViewFilter } from 'libs/models/payfactors-api/reports/request';
 import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
+import { GridDataHelper } from 'libs/features/grids/pf-data-grid/helpers';
+import { PagingOptions } from 'libs/models/payfactors-api/search/request';
+import * as fromReducer from 'libs/features/grids/pf-data-grid/reducers';
 
 import { PagesHelper } from '../../../shared/helpers/pages.helper';
 import * as fromSharedStructuresReducer from '../../../shared/reducers';
@@ -41,7 +45,6 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
   modelGridPageViewId: string;
   pageViewId: string;
   metaData$: Observable<RangeGroupMetadata>;
-  metadataSubscription: Subscription;
   actionBarConfig: ActionBarConfig;
   singleRecordActionBarConfig: ActionBarConfig;
   gridConfig: GridConfig;
@@ -51,17 +54,19 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
   colTemplates = {};
   rangeType = RangeType.Grade;
   roundingSettings$: Observable<RoundingSettingsDataObj>;
-  roundingSettingsSub: Subscription;
   roundingSettings: RoundingSettingsDataObj;
   gradeName = '';
-
   activeTab: string;
   filter: PfDataGridFilter;
+  data: GridDataResult;
+  pagingOptions: PagingOptions;
+  filterTemplates = {};
 
   modelGridPageViewIdSubscription: Subscription;
   dataSubscription: Subscription;
-
-  filterTemplates = {};
+  roundingSettingsSubscription: Subscription;
+  metadataSubscription: Subscription;
+  pagingOptionsSubscription: Subscription;
 
   constructor(public store: Store<fromSharedStructuresReducer.State>,
               public route: ActivatedRoute,
@@ -79,6 +84,7 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
 
     this.dataSubscription = this.store.select(fromPfGridReducer.getData, this.modelGridPageViewId).subscribe(data => {
       if (data) {
+        this.data = data;
         this.gradeName = data.data[0].CompanyStructures_Ranges_Grade_Name;
       }
     });
@@ -111,6 +117,9 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
     };
 
     this.roundingSettings$ = this.store.pipe(select(fromSharedStructuresReducer.getRoundingSettings));
+
+    this.pagingOptionsSubscription = this.store.select(fromReducer.getPagingOptions, this.pageViewId)
+      .subscribe(pagingOptions => this.pagingOptions = pagingOptions);
   }
 
   onEmployeesClicked() {
@@ -153,13 +162,13 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   updateMidSuccessCallbackFn(store: Store<any>, metaInfo: any) {
-    // We should dispatch this action only for Employees/Pricings pages
+    store.dispatch(GridDataHelper.getLoadDataAction(metaInfo.pageViewId, metaInfo.data, metaInfo.gridConfig, metaInfo.pagingOptions));
   }
 
   // Lifecycle
   ngOnInit(): void {
     this.activeTab = 'Employees';
-    this.roundingSettingsSub = this.roundingSettings$.subscribe(rs => this.roundingSettings = rs);
+    this.roundingSettingsSubscription = this.roundingSettings$.subscribe(rs => this.roundingSettings = rs);
   }
 
   ngAfterViewInit(): void {
@@ -178,7 +187,8 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
   ngOnDestroy(): void {
     this.metadataSubscription.unsubscribe();
     this.modelGridPageViewIdSubscription.unsubscribe();
-    this.roundingSettingsSub.unsubscribe();
+    this.roundingSettingsSubscription.unsubscribe();
     this.dataSubscription.unsubscribe();
+    this.pagingOptionsSubscription.unsubscribe();
   }
 }

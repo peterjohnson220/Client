@@ -8,6 +8,7 @@ exports[`Project - Add Jobs - Structures Page should not display GUI features re
   addingDataError$={[Function Store]}
   addingDataErrorMessage$={[Function Store]}
   currentJobCountSetting="0"
+  dragulaService={[Function DragulaService]}
   injectedAddJobsConfig="null"
   isSmallBiz="false"
   maxAllowedJobsSetting="0"
@@ -50,6 +51,8 @@ exports[`Project - Add Jobs - Structures Page should not display GUI features re
     
     <pf-paymarkets />
     
+    
+    <pf-jobs-to-grade-container />
     
     
     <span>

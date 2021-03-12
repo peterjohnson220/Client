@@ -12,6 +12,7 @@ export class FeatureFlags {
   static readonly EmployeeTagsLoaderConfiguration = 'employee-tag-loader-configuration';
   static readonly StructureDetails = 'structure-details';
   static readonly LoaderDashboardRedrops = 'loader-dashboard-redrops';
+  static readonly LoaderDashboardSidebarAndModifiedRedrops = 'loader-dashboard-sidebar-and-modified-redrops';
   static readonly PricingMatchNotesTab = 'pricing-match-notes-tab';
   static readonly LoadAndExportsFilesCards = 'dm-load-export-files-card';
   static readonly SurveySearchLightningMode = 'survey-search-lightning-mode';
@@ -21,4 +22,5 @@ export class FeatureFlags {
   static readonly ExportsSecurity = 'exports-security';
   static readonly ScheduleTabularReportingExport = 'schedule-tabular-reporting-export';
   static readonly HrisTestDataBypass = 'hris-test-data-bypass';
+  static readonly HideOldJobsPageButton = 'hide-old-jobs-button';
 }

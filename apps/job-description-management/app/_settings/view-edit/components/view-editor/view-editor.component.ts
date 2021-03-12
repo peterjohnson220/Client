@@ -24,6 +24,8 @@ export class ViewEditorComponent implements OnInit {
   public sectionSetting: TemplateSettingsSection;
   public templateViewCopy: JobDescriptionView;
 
+  get isDraftView() { return this.templateView.Name === 'Draft & In Review'; }
+
   constructor() {}
 
   ngOnInit() {
@@ -31,7 +33,9 @@ export class ViewEditorComponent implements OnInit {
   }
 
   handleControlClicked(controlId: number) {
-    this.buildAndEmitElementViewToggleObj(controlId, !this.isHiddenControl(controlId));
+    if (!this.isDraftView) {
+      this.buildAndEmitElementViewToggleObj(controlId, !this.isHiddenControl(controlId));
+    }
   }
 
   isHiddenControl(controlId: number) {

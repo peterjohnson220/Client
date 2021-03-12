@@ -6,10 +6,10 @@ import { Observable } from 'rxjs';
 import { JdmListFilter } from 'libs/models/user-profile';
 import { BulkExportSchedule } from 'libs/models/jdm';
 import { JobDescriptionViewModel } from 'libs/models/jdm/job-description-view.model';
+import { AppConstants } from 'libs/constants';
 
 import * as bulkExportJobsSchedulerActions from 'libs/features/jobs/bulk-job-description-export-scheduler/actions';
 import * as fromJdmAdminReducer from 'libs/features/jobs/bulk-job-description-export-scheduler/reducers';
-import { environment } from 'environments/environment';
 
 @Component({
   selector: 'pf-bulk-export-scheduler-page',
@@ -17,8 +17,7 @@ import { environment } from 'environments/environment';
   styleUrls: ['./bulk-export-scheduler.page.scss']
 })
 export class BulkExportSchedulerPageComponent implements OnInit {
-
-  env = environment;
+  get CompanyAdminUrl() { return AppConstants.CompanyAdminUrl; }
 
   views$: Observable<JobDescriptionViewModel[]>;
   filters$: Observable<JdmListFilter[]>;

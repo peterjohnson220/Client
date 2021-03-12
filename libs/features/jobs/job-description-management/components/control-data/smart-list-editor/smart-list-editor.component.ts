@@ -197,6 +197,48 @@ export class SmartListEditorComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
+  insertClipboardData(pastedText: SmartListHierarchy) {
+    const quillContainer = this.elRef.nativeElement.querySelector('.ql-container.ql-snow');
+    if (quillContainer) {
+      const quillApi = Quill.find(quillContainer);
+      quillApi.disable();
+
+      const currentSelection = quillApi.getSelection(true);
+
+      const currentFormat = quillApi.getFormat(currentSelection.index);
+
+      var quillListFormat = "bullet";
+      if (typeof currentFormat.list === 'undefined')
+      {
+        var quillListFormat = (pastedText.BulletType == BulletType.OrderedNumeric) ? 'ordered' : quillListFormat;
+      }
+      else
+      {
+        quillListFormat = currentFormat.list;
+      }
+
+      // Get position to insert after the selection. And then quill remove the original selection.
+      var currentPosition = currentSelection.index + currentSelection.length;
+
+      //Needed when the data comes without format.
+      const sourceFromJustText = (pastedText.BulletType) ? false : true; 
+
+      pastedText.Items.forEach(function(row){
+        if (row.Data != ''){
+          //console.log(row.Data);
+          const value = row.Data + (sourceFromJustText ? '\r\n' : '');
+          quillApi.insertText(currentPosition, value);
+          quillApi.setSelection(currentPosition,value.length - 1);
+          quillApi.format('list',quillListFormat);
+          currentPosition += value.length - 1;
+        }
+      });
+
+      quillApi.enable();
+
+    }
+  }
+
   buildHierarchyFromPasteData(data: string): SmartListHierarchy {
     const thisLevel = new SmartListHierarchy();
     thisLevel.Items = [];
@@ -293,16 +335,9 @@ export class SmartListEditorComponent implements OnInit, OnChanges, OnDestroy {
     } else {
       clipboardData = event.clipboardData.getData('text/plain');
     }
-
     const smartListHierarchy = this.buildHierarchyFromPasteData(clipboardData);
-    const newListString = this.buildQuillHtmlListFromHierarchy(smartListHierarchy, 0);
 
-    let currentData = this.rteData || '';
-    this.rteData = currentData += newListString;
-
-    // Since "paste" with mouse right-click or ctrl-v doesn't trigger
-    // the OnTextChange event of the p-editor call this method
-    this.parseQuillHtmlIntoRealHtml(this.rteData);
+    this.insertClipboardData(smartListHierarchy);
 
     this.focusRTE();
   }

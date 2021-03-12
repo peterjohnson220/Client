@@ -49,6 +49,9 @@ import 'classlist.js';  // Run `npm install --save classlist.js`.
 /** IE 11 DOMTokenList.prototype.forEach for quill mention */
 import './domTokenListPolyfill.js';
 
+/** IE 11 Element.prototype.remove for quill mention */
+import './removePolyfill.js';
+
 /** Evergreen browsers require these. **/
 // Used for reflect-metadata in JIT. If you use AOT (and only Angular decorators), you can remove.
 import 'core-js/es7/reflect';

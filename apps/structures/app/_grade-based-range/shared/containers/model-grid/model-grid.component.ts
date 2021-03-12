@@ -1,9 +1,12 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
-import { SortDescriptor } from '@progress/kendo-data-query';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
+import { SortDescriptor } from '@progress/kendo-data-query';
 import { Observable, Subscription } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
+import { GridDataResult } from '@progress/kendo-angular-grid';
+import { delay } from 'rxjs/operators';
 
 import {
   ActionBarConfig, ColumnChooserType, getDefaultActionBarConfig, getDefaultGridRowActionsConfig,
@@ -21,9 +24,13 @@ import { PermissionService } from 'libs/core/services';
 import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import { RangeType } from 'libs/constants/structures/range-type';
 import { RangeRecalculationType } from 'libs/constants/structures/range-recalculation-type';
+import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 
 import * as fromSharedStructuresReducer from '../../../../shared/reducers';
 import * as fromSharedStructuresActions from '../../../../shared/actions/shared.actions';
+import { Workflow } from '../../../../shared/constants/workflow';
+import { StructuresPagesService, UrlService } from '../../../../shared/services';
+import * as fromModelSettingsModalActions from '../../../../shared/actions/model-settings-modal.actions';
 
 
 @Component({
@@ -82,6 +89,16 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   rangeOverrides: CompanyStructureRangeOverride[];
   selectedDropdown: NgbDropdown;
   filterTemplates = {};
+  isNewModel: boolean;
+  modelSettingsForm: FormGroup;
+  numGrades: number;
+  dataSubscription: Subscription;
+  data$: Observable<GridDataResult>;
+  pageViewId: string;
+  pageViewIdSubscription: Subscription;
+  modalOpenSub: Subscription;
+  modalOpen$: Observable<boolean>;
+  controlPoint: string;
 
   hasAddEditDeleteStructurePermission: boolean;
   hasCreateEditStructureModelPermission: boolean;
@@ -90,11 +107,16 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   constructor(
     public store: Store<any>,
     private permissionService: PermissionService,
+    public urlService: UrlService,
+    private structuresPagesService: StructuresPagesService
   ) {
     this.metaData$ = this.store.pipe(select(fromSharedStructuresReducer.getMetadata));
     this.roundingSettings$ = this.store.pipe(select(fromSharedStructuresReducer.getRoundingSettings));
     this.rangeOverrides$ = this.store.pipe(select(fromSharedStructuresReducer.getRangeOverrides));
+    this.pageViewIdSubscription = this.structuresPagesService.modelPageViewId.subscribe(pv => this.pageViewId = pv);
     this.selectedRecordId$ = this.store.select(fromPfDataGridReducer.getSelectedRecordId, this.modelGridPageViewId);
+    this.data$ = this.store.select(fromPfGridReducer.getData, this.pageViewId);
+    this.modalOpen$ = this.store.pipe(select(fromSharedStructuresReducer.getModelSettingsModalOpen), delay(0));
     this.singleRecordActionBarConfig = {
       ...getDefaultActionBarConfig(),
       ShowActionBar: false
@@ -201,6 +223,26 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     this.manageModelClicked.emit();
   }
 
+  handleModelSettingsClicked() {
+    this.store.dispatch(new fromModelSettingsModalActions.OpenModal());
+  }
+
+  buildForm() {
+    this.isNewModel = this.urlService.isInWorkflow(Workflow.NewRange);
+
+    this.modelSettingsForm = new FormGroup({
+      'ModelName': new FormControl(this.metaData.ModelName, [Validators.required, Validators.maxLength(50)]),
+      'Grades': new FormControl(this.numGrades || '', [Validators.required]),
+      'RangeDistributionTypeId': new FormControl({ value: this.metaData.RangeDistributionTypeId, disabled: true }, [Validators.required]),
+      'MarketDataBased': new FormControl(this.controlPoint || 'Base MRP', [Validators.required]),
+      'StartingMidpoint': new FormControl('', [Validators.required]),
+      'RangeSpread': new FormControl('', [Validators.required]),
+      'MidProgression': new FormControl('', [Validators.required]),
+      'Rate': new FormControl(this.metaData.Rate || 'Annual', [Validators.required]),
+      'Currency': new FormControl(this.metaData.Currency || 'USD', [Validators.required])
+    });
+  }
+
   // Lifecycle
   ngAfterViewInit() {
     this.colTemplates = {
@@ -225,14 +267,31 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
       Title: '',
       CustomClass: ['overflow-visible']
     };
+
+
   }
 
   ngOnInit(): void {
-    this.metaDataSub = this.metaData$.subscribe(md => this.metaData = md);
+    this.metaDataSub = this.metaData$.subscribe(md => {
+      if (md) {
+        this.metaData = md;
+        this.controlPoint = this.metaData?.PayType ? this.metaData.PayType + ' ' + 'MRP' : 'Base MRP';
+      }
+    });
     this.roundingSettingsSub = this.roundingSettings$.subscribe(rs => this.roundingSettings = rs);
     this.rangeOverridesSub = this.rangeOverrides$.subscribe(ro => this.rangeOverrides = ro);
+    this.dataSubscription = this.data$.subscribe(data => {
+      if (data) {
+        this.numGrades = data.total;
+      }
+    });
+    this.modalOpenSub = this.modalOpen$.subscribe(mo => {
+      if (mo) {
+        this.buildForm();
+      }
+    });
     this.initPermissions();
-
+    this.buildForm();
     window.addEventListener('scroll', this.scroll, true);
   }
 
@@ -240,5 +299,8 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     this.metaDataSub.unsubscribe();
     this.roundingSettingsSub.unsubscribe();
     this.rangeOverridesSub.unsubscribe();
+    this.dataSubscription.unsubscribe();
+    this.pageViewIdSubscription.unsubscribe();
+    this.modalOpenSub.unsubscribe();
   }
 }

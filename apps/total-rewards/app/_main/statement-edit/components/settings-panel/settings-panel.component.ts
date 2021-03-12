@@ -7,8 +7,7 @@ import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/cor
 import { BrowserDetectionService } from 'libs/core/services';
 import { UpdateSettingsColorRequest, StatementDisplaySettings } from 'libs/features/total-rewards/total-rewards-statement/models';
 import { FontFamily, FontSize } from 'libs/features/total-rewards/total-rewards-statement/types';
-
-import { environment } from 'environments/environment';
+import { AppConstants } from 'libs/constants';
 
 @Component({
   selector: 'pf-settings-panel',
@@ -34,7 +33,7 @@ export class SettingsPanelComponent implements OnInit, OnDestroy {
   colorSubject = new Subject<UpdateSettingsColorRequest>();
   colorSubjectSubscription = new Subscription();
 
-  showFontFamilyMenu = environment.enableTrsCustomFontFamilies;
+  showFontFamilyMenu = AppConstants.EnableTrsCustomFontFamilies;
   cpUseRootViewContainer = false;
   totalRewardsEmployeeContributionFeatureFlag: RealTimeFlag = { key: FeatureFlags.TotalRewardsEmployeeContribution, value: false };
   unsubscribe$ = new Subject<void>();

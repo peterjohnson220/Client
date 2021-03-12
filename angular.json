@@ -4252,6 +4252,7 @@
               "apps/total-rewards/styles.scss"
             ],
             "scripts": [
+              "assets/js/pendo.js",
               "assets/js/walk-me.js"
             ]
           },

@@ -1,0 +1,115 @@
+<pf-async-container [loading]="(updatedArchiveSummaryObj$| async).loading"
+                    [spinnerType]="'SVG'">
+  <div class="mb-5">
+    <h3>File Archive Re-Drop</h3>
+    <pf-file-upload #fileUpload
+                    (onFileDropped)="OnFileDropped($event)"
+                    (onColumnNamesRetrieved)="redropEntity.columnNames = $event"
+                    (onFileRemoved)="OnFileRemoved()"
+                    (onLoadingFinished)="redropEntity.isLoadingFinish = $event"
+                    [selectedFile]="redropEntity.File"
+                    [validFileExtensions]="['.zip']"
+                    [validFileStartsWith]="redropEntity.FileBeginsWith"
+                    [QAInputId]="redropEntity.FileBeginsWith"
+                    [autoGetColumnNames]="false"></pf-file-upload>
+  </div>
+  <div *ngIf="(updatedArchiveSummaryObj$ | async).loading; then updated_archive_summary_loading; else updated_archive_summary"></div>
+  <div *ngIf="(updatedArchiveSummaryObj$ | async).loadingError">
+    <h4>Updated Archive Summary</h4>
+    <div class="text-danger">
+      <h5 class="my-4">VALIDATION ERROR</h5>
+      <p>{{ (updatedArchiveSummaryObj$ | async).loadingErrorResponse
+        ? (updatedArchiveSummaryObj$ | async).loadingErrorResponse
+        : "An error occurred while validating the archive. Please make sure the metadata files in the archive have not been modified." }}</p>
+    </div>
+  </div>
+</pf-async-container>
+
+<ng-template #updated_archive_summary_loading>
+  <h4>Updated Archive Summary</h4>
+  <div class="" style="height: 250px"></div>
+</ng-template>
+
+<ng-template #updated_archive_summary>
+  <div *ngIf="updatedArchiveSummary.ArchiveName">
+    <div class="mb-4">
+      <h4>Updated Archive Summary</h4>
+      <button class="btn btn-primary float-right"
+              id="data-download-link"
+              (click)="orgDataExportAction()">
+        Download Data</button>
+    </div>
+    <p><b>Recorded Composite Data Load Id:</b> {{ updatedArchiveSummary.CompositeDataLoadId }}</p>
+    <p><b>Company: </b>{{ updatedArchiveSummary.CompanyName }} - {{ updatedArchiveSummary.CompanyId }}</p>
+    <p><b>Archive Name:</b> {{ updatedArchiveSummary.ArchiveName }}</p>
+    <p><b>Detected Files:</b> {{ updatedArchiveSummary.DetectedFiles?.length > 0 ? updatedArchiveSummary.DetectedFiles.join(", ") : "None" }}</p>
+    <p><b>Updated Files:</b> {{ updatedArchiveSummary.UpdatedFiles?.length > 0 ? updatedArchiveSummary.UpdatedFiles.join(", ") : "None" }}</p>
+    <p><b>Is Re-Drop Capable:<span [class]="updatedArchiveSummary.IsRedropCapable ? 'text-success' : 'text-danger'">{{ updatedArchiveSummary.IsRedropCapable ? " Yes" : " No" }}</span></b></p>
+    <p><b>Recorded Configuration Group ID:</b> {{ updatedArchiveSummary.RecordedConfigurationGroupId }}</p>
+    <p><b>Detected Configuration Group ID:</b> {{ updatedArchiveSummary.DetectedConfigurationGroupId }}</p>
+    <div class="mt-5">
+      <h5>Field Mappings Differences - (please ensure any differences are resolved on the files before processing)</h5>
+      <div *ngFor="let mappings of updatedArchiveSummary.FieldMappingsDiffs | keyvalue">
+        <div class="mb-5">
+          <h6>{{ mappings.key }}</h6>
+          <kendo-grid [data]="mappings.value"
+                      [sort]="[{
+                        field: 'DbField',
+                        dir: 'asc'
+                      }]">
+            <kendo-grid-column field="DbField" title="Database Field" [width]="200"></kendo-grid-column>
+            <kendo-grid-column field="RecordedClientField" title="Recorded Client Field" [width]="200"></kendo-grid-column>
+            <kendo-grid-column field="CurrentClientField" title="Current Client Field" [width]="200"></kendo-grid-column>
+          </kendo-grid>
+        </div>
+      </div>
+    </div>
+    <div class="mb-5">
+      <h5>Loader Settings Differences</h5>
+      <div>
+        <kendo-grid [data]="updatedArchiveSummary.LoaderSettingsDiffs"
+                    [sort]="[{
+                      field: 'LoaderSetting',
+                      dir: 'asc'
+                    }]">
+          <kendo-grid-column field="LoaderSetting" title="Database Field" [width]="200"></kendo-grid-column>
+          <kendo-grid-column field="RecordedValue" title="Recorded Value" [width]="200"></kendo-grid-column>
+          <kendo-grid-column field="CurrentValue" title="Current Value" [width]="200"></kendo-grid-column>
+        </kendo-grid>
+      </div>
+    </div>
+    <div *ngIf="updatedArchiveSummary.IsRedropCapable; then redrop_capable_button_group; else redrop_incapable_button_group"></div>
+  </div>
+  <pf-redrop-confirmation-modal
+    [selectedCompositeDataLoadId]="selectedCompositeDataLoadId"
+    [selectedClientName]="selectedClientName"
+    [selectedClientId]="selectedClientId"
+    [isRedropModified]="true"
+    (redropConfirmationEvent)="HandleRedropConfirmationResponse($event)"
+  ></pf-redrop-confirmation-modal>
+</ng-template>
+
+<ng-template #redrop_capable_button_group>
+  <div class="float-right">
+    <button class="btn btn-secondary mr-3"
+            (click)="OnFileRemoved()">
+      Cancel
+    </button>
+    <button class="btn btn-success"
+            (click)="OpenRedropConfirmationModal()">
+      Process Archive
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #redrop_incapable_button_group>
+  <div class="float-right">
+    <button class="btn btn-primary mr-3"
+            (click)="OnFileRemoved()">
+      Cancel
+    </button>
+    <button class="btn btn-secondary disabled">
+      Process Archive
+    </button>
+  </div>
+</ng-template>

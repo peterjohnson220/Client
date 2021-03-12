@@ -80,4 +80,19 @@ export class PagesHelper {
       }
     }
   }
+
+  static getJobsPageViewIdByRangeDistributionType(rangeDistributionType: number): string {
+    switch (rangeDistributionType) {
+      case 1:
+        return GradeBasedPageViewIds.JobsMinMidMax;
+      case 2:
+        return GradeBasedPageViewIds.JobsTertile;
+      case 3:
+        return GradeBasedPageViewIds.JobsQuartile;
+      case 4:
+        return GradeBasedPageViewIds.JobsQuintile;
+      default:
+        return GradeBasedPageViewIds.JobsMinMidMax;
+    }
+  }
 }

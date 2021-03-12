@@ -83,11 +83,17 @@ export class ChartComponent implements OnInit, OnDestroy {
       // YAxis labels
       const compPipe = this.compPipe;
       const rate = this.rate;
+      const chart = this.chartRef;
+      const chartCmp = this;
       this.chartRef.yAxis[0].update(
         {
           labels: {
             formatter: function () {
-              return compPipe.transform(this.value, rate, annualDisplay.truncatedRounded);
+              const rangeData = chart.yAxis[0].getExtremes();
+              const displayFormat = chartCmp.isSmallDataRange(rangeData) ?
+                annualDisplay.truncated :
+                annualDisplay.truncatedRounded;
+              return compPipe.transform(this.value, rate, displayFormat);
             }
           }
         }
@@ -125,6 +131,14 @@ export class ChartComponent implements OnInit, OnDestroy {
         title: {
           text: 'Base MRP'
         },
+        tickPositioner: function() {
+          const dataExtremes = this.getExtremes();
+          let positions = this.tickPositions;
+          if (chartCmp.isSmallDataRange(dataExtremes)) {
+            positions = chartCmp.updateYAxisTickPositions(dataExtremes.dataMin, dataExtremes.dataMax);
+          }
+          return positions;
+        }
       },
       xAxis: {
         type: 'datetime',
@@ -151,11 +165,11 @@ export class ChartComponent implements OnInit, OnDestroy {
             const differenceMonths = differenceInMonths(endDate, startDate);
 
             if (differenceMonths > 24) {
-              positions = chartCmp.updateTickPositions(setMonth(startDate, 1), endDate, 12);
+              positions = chartCmp.updateXAxisTickPositions(setMonth(startDate, 1), endDate, 12);
             } else if (differenceMonths > 4) {
-              positions = chartCmp.updateTickPositions(startDate, endDate, 3);
+              positions = chartCmp.updateXAxisTickPositions(startDate, endDate, 3);
             } else {
-              positions = chartCmp.updateTickPositions(startDate, endDate, 1);              
+              positions = chartCmp.updateXAxisTickPositions(startDate, endDate, 1);
             }
           }
 
@@ -178,15 +192,45 @@ export class ChartComponent implements OnInit, OnDestroy {
     this.getFiltersSubscription.unsubscribe();
   }
 
-  updateTickPositions(start: Date, end: Date, increment: number) {
+  updateXAxisTickPositions(start: Date, end: Date, increment: number) {
     const positions = [];
-    let curDate = start
+    let curDate = start;
 
     while (curDate <= end) {
       positions.push(curDate.getTime());
       curDate = addMonths(curDate, increment);
     }
     return positions;
+  }
+
+  updateYAxisTickPositions(min: number, max: number) {
+    const positions = [];
+    let tracker = min;
+    const range = max - min;
+    let interval = 100;
+
+    switch (true) {
+      case range > 2000:
+        interval = 500;
+        break;
+      case range > 1000:
+        interval = 250;
+        break;
+      default:
+        interval = 100;
+    }
+
+    while (tracker <= (max + interval)) {
+      positions.push(tracker);
+      tracker += interval;
+    }
+    return positions;
+  }
+
+  isSmallDataRange(dataExtremes: Highcharts.ExtremesObject): boolean {
+    return dataExtremes.dataMin && dataExtremes.dataMax &&
+      dataExtremes.dataMax !== dataExtremes.dataMin && this.rate === compRate.annual &&
+      dataExtremes.dataMax - dataExtremes.dataMin < 3000;
   }
 
 }
