@@ -15,6 +15,7 @@ import * as nationalAverageReducer from '../../reducers';
 export class OrgWeightedNatAvgCardComponent implements OnChanges {
   @Input() exchangeJobId: number;
   @Input() showPlaceholderCard: false;
+  @Input() showLargeCard: false;
 
   annualDisplay: annualDisplay = annualDisplay.full;
   nationalAverage: ExchangeJobDailyNatAvgOrg50thDetails;

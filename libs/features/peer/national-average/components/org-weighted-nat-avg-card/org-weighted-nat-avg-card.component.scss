@@ -18,3 +18,31 @@
     padding: .25rem .5rem;
   }
 }
+
+.peer-org-weighted-nat-avg-large {
+  width: 250px;
+
+  .avg-pay-container {
+    border-left: 6px solid #FDB82C;
+    width: 125px;
+    border-bottom: none;
+
+    .avg-pay {
+      font-weight: bold;
+      font-size: larger;
+      line-height: 16px;
+    }
+
+    .label-indicator {
+      font-size: smaller;
+    }
+  }
+
+  .card-footer {
+    width: 250px;
+  }
+
+  .card-footer, .avg-pay-container {
+    padding: .25rem .5rem;
+  }
+}

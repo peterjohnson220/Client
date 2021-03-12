@@ -12,15 +12,16 @@
             <label class="font-weight-bold w-25 mb-0">Job Family:</label>
             <span>{{ job.JobFamily }}</span>
           </div>
+          <div class="info-row">
+            <label class="font-weight-bold w-25 mb-0">Job Level:</label>
+            <span>{{ job.JobLevel }}</span>
+          </div>
         </div>
         <pf-org-weighted-nat-avg-card *ngIf="job.JobType == 'Exchange'"
                                       [exchangeJobId]="job.JobId"
+                                      [showLargeCard]="true"
                                       class="pt-3"
         ></pf-org-weighted-nat-avg-card>
-      </div>
-      <div class="info-row">
-        <label class="font-weight-bold w-25 mb-0">Job Level:</label>
-        <span>{{ job.JobLevel }}</span>
       </div>
       <div class="info-row">
         <label class="font-weight-bold w-25">Job Description:</label>
