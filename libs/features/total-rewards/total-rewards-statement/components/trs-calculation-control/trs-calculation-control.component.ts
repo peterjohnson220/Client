@@ -1,7 +1,9 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, OnChanges, Output, SimpleChanges, OnDestroy } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 
 import cloneDeep from 'lodash/cloneDeep';
+import { Subscription } from 'rxjs';
+import { DragulaService } from 'ng2-dragula';
 
 import { EmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards';
 
@@ -15,7 +17,7 @@ import { CompensationField, SelectableFieldsGroup, FieldLayout } from '../../mod
   styleUrls: ['./trs-calculation-control.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TrsCalculationControlComponent implements OnChanges {
+export class TrsCalculationControlComponent implements OnChanges, OnDestroy, OnInit {
 
   @Input() controlData: models.CalculationControl;
   @Input() employeeRewardsData: EmployeeRewardsData;
@@ -32,18 +34,37 @@ export class TrsCalculationControlComponent implements OnChanges {
   @Output() onUpdateSummaryTitleChange: EventEmitter<models.UpdateTitleRequest> = new EventEmitter();
   @Output() onCompFieldRemoved: EventEmitter<models.UpdateFieldVisibilityRequest> = new EventEmitter();
   @Output() onCompFieldAdded: EventEmitter<models.UpdateFieldVisibilityRequest> = new EventEmitter();
+  @Output() onCompFieldReordered: EventEmitter<models.ReorderCalcControlFieldsRequest> = new EventEmitter();
 
+  visibleFields: CompensationField[];
   selectableFields: CompensationField[];
   maxVisibleFieldsReached = false;
   consolidated = FieldLayout.Consolidated;
   private readonly MAX_VISIBLE_FIELDS = 20;
 
-  constructor(public currencyPipe: CurrencyPipe) { }
+  // dragula properties
+  dragulaGroupName: string;
+  dragulaSubscription$ = new Subscription();
+
+  constructor(public currencyPipe: CurrencyPipe, private dragulaService: DragulaService) {}
+
+  ngOnInit(): void {
+    if (this.controlData) {
+      this.visibleFields = this.controlData.DataFields.filter(field => this.displayFieldInTable(field));
+      this.setupDragula();
+    }
+  }
+
+  ngOnDestroy() {
+    this.dragulaSubscription$.unsubscribe();
+    this.dragulaService.destroy(this.dragulaGroupName);
+  }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes?.companyUdfs?.currentValue?.length || changes?.controlData?.currentValue?.DataFields?.length) {
       this.selectableFields = this.buildSelectableFieldsList();
       this.maxVisibleFieldsReached = this.visibleFieldsCount === this.MAX_VISIBLE_FIELDS;
+      this.visibleFields = this.controlData.DataFields.filter(field => this.displayFieldInTable(field));
     }
   }
 
@@ -53,10 +74,6 @@ export class TrsCalculationControlComponent implements OnChanges {
 
   get inPreviewMode(): boolean {
     return this.mode === models.StatementModeEnum.Preview;
-  }
-
-  get visibleFields(): models.CompensationField[] {
-    return this.controlData.DataFields.filter(field => this.displayFieldInTable(field));
   }
 
   get currencyLocale(): string {
@@ -240,5 +257,27 @@ export class TrsCalculationControlComponent implements OnChanges {
       svc.doesEmployeeRewardsFieldHaveData(field.DatabaseField, this.employeeRewardsData) ||
       svc.doesBenefitFieldHaveData(field.DatabaseField, this.employeeRewardsData, this.showEmployeeContributions && field.CanHaveEmployeeContribution)
     );
+  }
+
+  setupDragula(): void {
+    this.dragulaGroupName = 'dragula-group-calc-control-' + this.controlData.Id;
+    if (this.dragulaService) {
+
+      this.dragulaService.createGroup(this.dragulaGroupName, {
+        revertOnSpill: true,
+        direction: 'vertical',
+        mirrorContainer: document.getElementsByClassName('trs-calculation').item(0),
+        moves: () => {
+          return this.inEditMode;
+        }
+      });
+
+      this.dragulaSubscription$ = this.dragulaService.drop(this.dragulaGroupName).subscribe(() => {
+          this.onCompFieldReordered.emit({
+            ControlId: this.controlData.Id,
+            CompensationFields: this.visibleFields
+          });
+        });
+    }
   }
 }

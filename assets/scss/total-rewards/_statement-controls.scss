@@ -11,6 +11,23 @@ pf-trs-calculation-control {
       }
     }
   }
+
+  // dragula overrides
+  .gu-mirror {
+    z-index: 99999;
+    * {
+      cursor: grabbing !important;
+    }
+    .calculation-control-drag-icon {
+      visibility: visible !important;
+    }
+    .edit-icon {
+      visibility: hidden !important;
+    }
+    .remove-btn {
+      visibility: hidden !important;
+    }
+  }
 }
 
 .pf-styled-template {

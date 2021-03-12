@@ -214,6 +214,10 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
     this.store.dispatch(new fromEditStatementPageActions.AddCalculationControlCompensationField(request));
   }
 
+  handleOnCalculationControlCompFieldReordered(request: models.ReorderCalcControlFieldsRequest) {
+    this.store.dispatch(new fromEditStatementPageActions.ReorderCalculationControlCompensationField(request));
+  }
+
   // RICH TEXT
   handleOnRichTextControlContentChange(request: models.UpdateStringPropertyRequest) {
     this.store.dispatch(new fromEditStatementPageActions.UpdateRichTextControlContent(request));

@@ -114,6 +114,7 @@ export function reducer(state = initialState, action: fromEditStatementActions.S
           if (compFields[i].Id === action.payload.DataFieldId) {
             localState.statement.obj.Pages[Page].Sections[Section].Columns[Column].Controls[Control].DataFields[i].IsVisible = action.payload.IsVisible;
             ++localState.visibleFieldsCount;
+            break;
           }
         }
       }
@@ -130,23 +131,50 @@ export function reducer(state = initialState, action: fromEditStatementActions.S
       const {Page, Section, Column, Control} = TotalRewardsStatementService.getCurrentControlIndex(state.statement.obj, action.payload.ControlId);
       const localState = cloneDeep(state);
       const compFields = localState.statement.obj.Pages[Page].Sections[Section].Columns[Column].Controls[Control].DataFields;
+
       for (let i = 0; i < compFields.length; i++) {
         if (compFields[i].Id === action.payload.DataFieldId) {
-          localState.statement.obj.Pages[Page].Sections[Section].Columns[Column].Controls[Control].DataFields[i].IsVisible = action.payload.IsVisible;
+          let compField: CompensationField = null;
+          compFields[i].IsVisible = action.payload.IsVisible;
 
           // Removes override name so DefaultName displays if added back to the control.
-          localState.statement.obj.Pages[Page].Sections[Section].Columns[Column].Controls[Control].DataFields[i].Name.Override = null;
+          compFields[i].Name.Override = null;
           if (compFields[i].Type) {
             const updatedField = localState.companyUdfs.obj.find(udf => udf.Id === action.payload.DataFieldId);
             if (!!updatedField) {
               updatedField.IsVisible = false;
               updatedField.Name.Override = null;
             }
-            localState.statement.obj.Pages[Page].Sections[Section].Columns[Column].Controls[Control].DataFields.splice(i, 1);
+          } else {
+            compField = compFields[i];
           }
+
+          // removes the field from the array, if it's not a UDF field we add it back it to end of the array
+          compFields.splice(i, 1);
+          if (compField) {
+            compFields.splice(compFields.length, 0, compField);
+          }
+
           --localState.visibleFieldsCount;
+          break;
         }
       }
+      return localState;
+    }
+    case fromEditStatementActions.REORDER_CALCULATION_CONTROL_COMPENSATION_FIELD: {
+      const {Page, Section, Column, Control} = TotalRewardsStatementService.getCurrentControlIndex(state.statement.obj, action.payload.ControlId);
+      const localState = cloneDeep(state);
+      const compFields = localState.statement.obj.Pages[Page].Sections[Section].Columns[Column].Controls[Control].DataFields;
+      const orderedVisibleFields = cloneDeep(action.payload.CompensationFields);
+
+      // add back all non visible fields to the array
+      for (let i = 0; i < compFields.length; i++) {
+        if (!compFields[i].IsVisible) {
+          orderedVisibleFields.push(compFields[i]);
+        }
+      }
+
+      localState.statement.obj.Pages[Page].Sections[Section].Columns[Column].Controls[Control].DataFields = orderedVisibleFields;
       return localState;
     }
     case fromEditStatementActions.UPDATE_RICH_TEXT_CONTROL_CONTENT: {

@@ -47,6 +47,7 @@ export class StatementEditPageEffects {
         fromStatementEditActions.UPDATE_CALCULATION_CONTROL_FIELD_TITLE,
         fromStatementEditActions.UPDATE_CALCULATION_CONTROL_SUMMARY_TITLE,
         fromStatementEditActions.REMOVE_CALCULATION_CONTROL_COMPENSATION_FIELD,
+        fromStatementEditActions.REORDER_CALCULATION_CONTROL_COMPENSATION_FIELD,
         fromStatementEditActions.ADD_CALCULATION_CONTROL_COMPENSATION_FIELD,
         fromStatementEditActions.UPDATE_RICH_TEXT_CONTROL_CONTENT,
         fromStatementEditActions.SAVE_IMAGE_CONTROL_IMAGE,

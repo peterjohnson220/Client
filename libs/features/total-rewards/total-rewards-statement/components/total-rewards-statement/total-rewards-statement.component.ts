@@ -12,6 +12,7 @@ import {
   TotalRewardsControlEnum,
   UpdateFieldOverrideNameRequest,
   UpdateFieldVisibilityRequest,
+  ReorderCalcControlFieldsRequest,
   UpdateStringPropertyRequest,
   UpdateUdfsInRteContentRequest,
   UpdateTitleRequest
@@ -44,6 +45,7 @@ export class TotalRewardsStatementComponent {
   @Output() onCalculationControlSummaryTitleChange: EventEmitter<UpdateTitleRequest> = new EventEmitter();
   @Output() onCalculationControlCompFieldRemoved: EventEmitter<UpdateFieldVisibilityRequest> = new EventEmitter();
   @Output() onCalculationControlCompFieldAdded: EventEmitter<UpdateFieldVisibilityRequest> = new EventEmitter();
+  @Output() onCalculationControlCompFieldReordered: EventEmitter<ReorderCalcControlFieldsRequest> = new EventEmitter();
 
   // Rich Text Outputs
   @Output() onRichTextControlContentChange: EventEmitter<UpdateStringPropertyRequest> = new EventEmitter<UpdateStringPropertyRequest>();
@@ -150,6 +152,10 @@ export class TotalRewardsStatementComponent {
 
   handleOnCalculationControlCompFieldAdded(event) {
     this.onCalculationControlCompFieldAdded.emit(event);
+  }
+
+  handleOnCalculationControlCompFieldReordered(event) {
+    this.onCalculationControlCompFieldReordered.emit(event);
   }
 
   // Rich Text pass through methods

@@ -2,13 +2,14 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 
+import { DragulaService } from 'ng2-dragula';
+
 import { generateMockEmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards';
 
 import { TrsCalculationControlComponent } from './trs-calculation-control.component';
 import { CompensationFieldPipe } from '../../pipes/compensation-field-pipe';
 import { CalculationControl, CompensationField, generateMockCalculationControl, LabelWithOverride, StatementModeEnum } from '../../models';
 import { StringEditorComponent } from '../string-editor';
-import { TrsConstants } from '../../constants/trs-constants';
 import { TotalRewardsStatementService } from '../../services/total-rewards-statement.service';
 
 describe('TrsCalculationControlComponent', () => {
@@ -16,6 +17,7 @@ describe('TrsCalculationControlComponent', () => {
   let fixture: ComponentFixture<TrsCalculationControlComponent>;
   let currencyPipe: CurrencyPipe;
   let compensationField: CompensationFieldPipe;
+  let dragulaService: DragulaService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -27,6 +29,9 @@ describe('TrsCalculationControlComponent', () => {
         {
           provide: CompensationFieldPipe,
           useValue: { transform: (x) => x }
+        },
+        {
+          provide: DragulaService
         }],
       schemas: [NO_ERRORS_SCHEMA]
     });
@@ -37,6 +42,7 @@ describe('TrsCalculationControlComponent', () => {
     component = fixture.componentInstance;
     currencyPipe = TestBed.inject(CurrencyPipe);
     compensationField = TestBed.inject(CompensationFieldPipe);
+    dragulaService = TestBed.inject(DragulaService);
   });
 
   it('should create', () => {
