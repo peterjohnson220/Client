@@ -5,17 +5,16 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 import { userVoiceUrl } from 'libs/core/functions';
 import { SettingsService } from 'libs/state/app-context/services';
-import { CompanySettingsEnum, TileTypes } from 'libs/models';
+import { TileTypes } from 'libs/models';
+import * as fromMarketingActions from 'libs/features/infrastructure/marketing-settings/marketing-settings/actions/marketing-settings.actions';
+import { AppConstants } from 'libs/constants';
 
 import {
   generateTilePreviewBasicListFromTile, generateTilePreviewChartFromTile, generateTilePreviewChartWithCalendarFromTile,
   generateTilePreviewChartWithListFromTile, generateTilePreviewIconFromTile, generateTilePreviewListFromTile, generateTilePreviewPeerFromTile,
   generateTilePreviewPlaceHolderFromTile, Tile, TilePreviewBase, TilePreviewPeer, TilePreviewType, TilePreviewTypes
 } from '../../models';
-import { environment } from 'environments/environment';
-
 import * as fromMarketingReducer from '../../reducers';
-import * as fromMarketingActions from 'libs/features/infrastructure/marketing-settings/marketing-settings/actions/marketing-settings.actions';
 
 @Component({
   selector: 'pf-tile',
@@ -27,13 +26,9 @@ export class TileComponent implements OnInit, OnDestroy {
   @Input() userId: number;
 
   tilePreviewType: TilePreviewType = new TilePreviewType();
-  clientAppRoot = '/' + environment.hostPath + '/';
-  ngAppRoot = environment.ngAppRoot;
+  clientAppRoot = '/' + AppConstants.HostPath + '/';
   previewModel: TilePreviewBase;
   highlightMarketingContent = false;
-  enableCoreJdmInClient = false;
-  enableCoreJdmInClient$: Observable<boolean>;
-  enableCoreJdmInClientSubscription: Subscription;
 
   marketingVideoMouseOver = false;
   marketingVideoSafeIframeUrl: SafeResourceUrl;
@@ -41,13 +36,10 @@ export class TileComponent implements OnInit, OnDestroy {
   marketingVideoUrlSubscription: Subscription;
 
   constructor(private settingsService: SettingsService,
-    public store: Store<fromMarketingReducer.State>,
-    private sanitizer: DomSanitizer) {
-    this.enableCoreJdmInClient$ = this.settingsService.selectCompanySetting<boolean>(
-      CompanySettingsEnum.JDMCoreUseClient
-    );
+              public store: Store<fromMarketingReducer.State>,
+              private sanitizer: DomSanitizer) {
     this.marketingVideoUrl$ = this.store.select(fromMarketingReducer.getMarketingVideoUrl);
-   }
+  }
 
   generatePreviewModel(tile: Tile): TilePreviewBase {
     switch (tile.PreviewType) {
@@ -66,19 +58,19 @@ export class TileComponent implements OnInit, OnDestroy {
       case TilePreviewTypes.BasicList:
         return generateTilePreviewBasicListFromTile(tile);
       case TilePreviewTypes.Peer:
-        return <TilePreviewPeer>{...generateTilePreviewPeerFromTile(tile), TileUrl: this.getTileHref(tile) };
+        return <TilePreviewPeer>{...generateTilePreviewPeerFromTile(tile), TileUrl: this.getTileHref(tile)};
       case TilePreviewTypes.TotalRewards:
-        return {...generateTilePreviewListFromTile(tile), PreviewType: TilePreviewTypes.TotalRewards };
+        return {...generateTilePreviewListFromTile(tile), PreviewType: TilePreviewTypes.TotalRewards};
       case TilePreviewTypes.WhatIsNew: {
         this.store.dispatch(new fromMarketingActions.GetMarketingVideoUrl());
-        this.marketingVideoUrlSubscription  = this.marketingVideoUrl$.subscribe(result => {
+        this.marketingVideoUrlSubscription = this.marketingVideoUrl$.subscribe(result => {
           if (result) {
             this.marketingVideoSafeIframeUrl = this.getMarketingVideoIframeUrl(result);
           }
         });
         return generateTilePreviewIconFromTile(tile);
       }
-       default:
+      default:
         return {
           PreviewType: TilePreviewTypes.Unknown,
           IconClass: tile.IconClass
@@ -88,7 +80,7 @@ export class TileComponent implements OnInit, OnDestroy {
 
   onMouseOver() {
     if (this.tile.MarketingEnabled) {
-        this.highlightMarketingContent = true;
+      this.highlightMarketingContent = true;
     }
   }
 
@@ -100,36 +92,27 @@ export class TileComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.previewModel = this.generatePreviewModel(this.tile);
-    this.enableCoreJdmInClientSubscription = this.enableCoreJdmInClient$.subscribe((setting) => this.enableCoreJdmInClient = setting);
   }
 
   ngOnDestroy() {
-    this.enableCoreJdmInClientSubscription.unsubscribe();
     if (this.marketingVideoUrlSubscription) {
       this.marketingVideoUrlSubscription.unsubscribe();
     }
   }
 
   getTileHref(tile: Tile) {
-    if (tile.Type === 'JobDescriptions' && this.enableCoreJdmInClient === true) {
+    if (tile.Type === 'JobDescriptions') {
       return this.clientAppRoot + tile.Url;
     }
-    const url = this.getUrl(tile.NgAppLink, tile.Url);
+
     if (tile.Type === TileTypes.Ideas) {
-      return userVoiceUrl(url, this.userId);
+      return userVoiceUrl(tile.Url, this.userId);
     }
-    return url;
+
+    return tile.Url;
   }
 
-  getUrl(ngApplink: boolean, url: string): string {
-    if (ngApplink) {
-      return this.ngAppRoot + url;
-    }
-    return url;
-  }
-
-
-  getMarketingVideoIframeUrl (url: string): any {
+  getMarketingVideoIframeUrl(url: string): any {
     // extract video id from the url that looks like this: https://payfactors.wistia.com/medias/95g6ckx96u
     const videoIdRegex = new RegExp(/[^/]*$/);
     const videoId = url.length ? videoIdRegex.exec(url)[0] : '95g6ckx96u';
@@ -140,13 +123,12 @@ export class TileComponent implements OnInit, OnDestroy {
     this.marketingVideoMouseOver = true;
   }
 
-  onMarketingVideoMouseLeave () {
+  onMarketingVideoMouseLeave() {
     this.marketingVideoMouseOver = false;
   }
 
   handleLearnMore() {
     window.open('https://info.payfactors.com/demo');
-
   }
 }
 

@@ -1,33 +1,31 @@
-<ng-container>
-  <kendo-grid
-    class="table table-hover"
-    [data]="gridView"
-    [sortable]="sortable"
-    [sort]="sort"
-    [selectable]="selectableSettings"
-    [rowSelected]="isRowSelected"
-    [scrollable]="'none'"
-    (sortChange)="sortChange($event)"
-    (selectionChange)="handleSelectionChange($event)">
-    <ng-container class="result job-search-row">
-      <kendo-grid-column field="Code" title="Job Code" [width]="175"></kendo-grid-column>
-      <kendo-grid-column field="Title" title="Job Title" [width]="175"></kendo-grid-column>
-      <kendo-grid-column title="MRP" class="result job-search-row">
-        <ng-template kendoGridCellTemplate let-dataItem>
-          <div>{{controlPoint === 'BaseMRP' ? dataItem.BaseMRP || '--' : dataItem.TCCMRP || '--'}}</div>
-        </ng-template>
-      </kendo-grid-column>
-      <kendo-grid-column field="Level" title="Job Level">
-        <ng-template kendoGridCellTemplate let-dataItem>
-          <div>{{dataItem.Level || '--' }}</div>
-        </ng-template>
-      </kendo-grid-column>
-      <kendo-grid-column field="Family" title="Job Family">
-        <ng-template kendoGridCellTemplate let-dataItem>
-          <div>{{dataItem.Family || '--' }}</div>
-        </ng-template>
-      </kendo-grid-column>
-    </ng-container>
-  </kendo-grid>
-</ng-container>
-
+<table class="table position-absolute w-100 default k-widget k-grid">
+  <thead class="k-header pf-data-grid-header text-center">
+  <tr>
+    <th class="text-left">Job Code</th>
+    <th class="text-left">Job Title</th>
+    <th class="text-left">MRP</th>
+    <th class="text-left">Job Level</th>
+    <th class="text-left">Job Family</th>
+  </tr>
+  </thead>
+  <tbody dragula="jobs-grade-bag" class="jobs-source">
+      <tr *ngFor="let job of jobResults; trackBy: trackByJobId"
+          (click)="toggleJobSelection(job)"
+          [class.selected]="job.IsSelected"
+          [class.draggable]="job.IsSelected">
+        <td>
+          {{job.Code}}
+        </td>
+        <td>{{job.Title}}</td>
+        <td>{{controlPoint === 'BaseMRP' ? job.BaseMRP || '&#45;&#45;' : job.TCCMRP || '&#45;&#45;'}}</td>
+        <td>{{job.Level || '&#45;&#45;' }}</td>
+        <td>{{job.Family || '&#45;&#45;' }}</td>
+        <!-- Hidden Cell for Drag/Drop Re-Order -->
+        <td class="gu-mirror-show">
+          <div class="card">
+            <div class="card-block">Add <strong>{{selectedJobCount}}</strong> selected job<ng-container *ngIf="selectedJobCount > 1">s</ng-container> to grade...</div>
+          </div>
+        </td>
+      </tr>
+  </tbody>
+</table>

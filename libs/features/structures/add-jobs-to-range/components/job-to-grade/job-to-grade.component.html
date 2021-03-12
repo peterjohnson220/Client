@@ -1,0 +1,82 @@
+<div class="result" [class.dragging]="dragging">
+  <div class="d-flex justify-content-between">
+    <div class="flex-grow-1">
+      <div class="d-flex">
+        <div class="grade-name">
+          {{grade.GradeName}}
+        </div>
+      </div>
+
+      <div class="dropzone" dragula="jobs-grade-bag" [attr.data-grade-id]="grade.CompanyStructuresGradesId">
+      </div>
+
+      <div class="d-flex mt-2">
+        <div class="link" (click)="toggleJobsDisplay()">
+          {{toggleJobsLabel}}
+        </div>
+      </div>
+
+      <div class="jobs-container" *ngIf="showJobs && !grade.LoadingJobs">
+        <ng-container *ngIf="!grade.LoadingJobsError;else loadingJobsError">
+          <table class="jobs-table">
+            <thead>
+            <tr>
+              <th class="text-nowrap">Job Code</th>
+              <th class="text-nowrap">Job Title</th>
+            </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let job of grade.Jobs">
+                <td>{{job.JobCode}}</td>
+                <td>{{job.JobTitle}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </ng-container>
+      </div>
+      <div class="my-2" *ngIf="grade.LoadingJobs">
+        <pf-loading-indicator [spinnerType]="'GIF'"></pf-loading-indicator> Loading Jobs...
+      </div>
+    </div>
+    <div>
+      <div class="row">Min: {{grade.Min | rangeValue: this.rate}}</div>
+      <div class="row" *ngIf="rangeDistributionType === rangeDistributionTypeEnum.Tertile">
+        1st 3rd: <ng-container *ngIf="grade.Tertile_First;else noRangeData">{{grade.Tertile_First | rangeValue: this.rate}}</ng-container>
+      </div>
+      <div class="row" *ngIf="rangeDistributionType === rangeDistributionTypeEnum.Quartile">
+        1st 4th: <ng-container *ngIf="grade.Quartile_First;else noRangeData">{{grade.Quartile_First | rangeValue: this.rate}}</ng-container>
+      </div>
+      <div class="row" *ngIf="rangeDistributionType === rangeDistributionTypeEnum.Quintile">
+        1st 5th: <ng-container *ngIf="grade.Quintile_First;else noRangeData">{{grade.Quintile_First | rangeValue: this.rate}}</ng-container>
+      </div>
+      <div class="row" *ngIf="rangeDistributionType === rangeDistributionTypeEnum.Quintile">
+        2nd 5th: <ng-container *ngIf="grade.Quintile_Second;else noRangeData">{{grade.Quintile_Second | rangeValue: this.rate}}</ng-container>
+      </div>
+      <div class="row">Mid: {{grade.Mid | rangeValue: this.rate}}</div>
+      <div class="row" *ngIf="rangeDistributionType === rangeDistributionTypeEnum.Tertile">
+        2nd 3rd: <ng-container *ngIf="grade.Tertile_Second;else noRangeData">{{grade.Tertile_Second | rangeValue: this.rate}}</ng-container>
+      </div>
+      <div class="row" *ngIf="rangeDistributionType === rangeDistributionTypeEnum.Quartile">
+        3rd 4th: <ng-container *ngIf="grade.Quartile_Second;else noRangeData">{{grade.Quartile_Second | rangeValue: this.rate}}</ng-container>
+      </div>
+      <div class="row" *ngIf="rangeDistributionType === rangeDistributionTypeEnum.Quintile">
+        3rd 5th: <ng-container *ngIf="grade.Quintile_Third;else noRangeData">{{grade.Quintile_Third | rangeValue: this.rate}}</ng-container>
+      </div>
+      <div class="row" *ngIf="rangeDistributionType === rangeDistributionTypeEnum.Quintile">
+        4th 5th: <ng-container *ngIf="grade.Quintile_Fourth;else noRangeData">{{grade.Quintile_Fourth | rangeValue: this.rate}}</ng-container>
+      </div>
+      <div class="row">Max: {{grade.Max | rangeValue: this.rate}}</div>
+    </div>
+  </div>
+</div>
+
+<ng-template #loadingJobsError>
+  <div class="loading-jobs-error">
+    <fa-icon icon="exclamation-triangle" class="icon"></fa-icon> Error loading jobs. Please try again later.
+  </div>
+</ng-template>
+
+<ng-template #noRangeData>
+  --
+</ng-template>
+

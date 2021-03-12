@@ -6,7 +6,10 @@
     <div *ngIf="gridHasData" class="d-flex flex-row ml-auto">
       <div class="mr-3">Effective Date: <span class="effective-date">{{firstDayOfMonth | date:'MM/dd/yyyy'}}</span></div>
       <div class="mr-3">Rate: <span class="rate">Annual</span></div>
-      <div>Pay Market: <span class="paymarket">National</span></div>
+      <div>
+        Pay Market: <span class="paymarket">National</span>
+        <span *ngIf="countryCode?.length > 0"> ({{countryCode}})</span>
+      </div>
     </div>
   </div>
   <pf-async-container [loading]="loading"

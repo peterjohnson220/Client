@@ -12,6 +12,12 @@ import * as fromRootState from 'libs/state/state';
 
 import { UserContext } from '../../../../models';
 
+declare global {
+  interface Window {
+    walkmeUserContext: any;
+  }
+}
+
 declare var initializePendo: any;
 
 @Component({
@@ -50,6 +56,32 @@ export class LoadingUserContextComponent implements OnInit, OnDestroy {
       if (typeof initializePendo !== 'undefined') {
         initializePendo(uc);
       }
+      window.walkmeUserContext = (({
+                                     ClientType,
+                                     CompanyName,
+                                     CompanySystemUserGroupsGroupName,
+                                     UserId,
+                                     EmailAddress,
+                                     FirstName,
+                                     LastName,
+                                     Name,
+                                     Permissions,
+                                     RoleName,
+                                     CompanyId
+                                   }) =>
+                                  ({
+                                    ClientType,
+                                    CompanyName,
+                                    CompanySystemUserGroupsGroupName,
+                                    UserId,
+                                    EmailAddress,
+                                    FirstName,
+                                    LastName,
+                                    Name,
+                                    Permissions,
+                                    RoleName,
+                                    CompanyId
+                                  }))(uc);
     });
   }
 

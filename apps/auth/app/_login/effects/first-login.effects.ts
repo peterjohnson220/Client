@@ -7,8 +7,7 @@ import { map, catchError, switchMap } from 'rxjs/operators';
 
 import { AccountApiService } from 'libs/data/payfactors-api/auth/account-api.service';
 import { UserApiService } from 'libs/data/payfactors-api/user/user-api.service';
-import { environment } from 'environments/environment';
-
+import { AppConstants } from 'libs/constants';
 
 import * as fromFirstLoginAction from '../actions/first-login.action';
 
@@ -53,7 +52,7 @@ export class FirstLoginEffects {
     if (url !== undefined && url != null) {
       window.location.href = url + '?login=true';
     } else {
-      window.location.href = environment.defaultHomePage;
+      window.location.href = AppConstants.DefaultHomePage;
     }
   }
 

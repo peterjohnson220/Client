@@ -2,12 +2,13 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
+import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { WindowRef } from 'libs/core/services';
 import * as fromRootState from 'libs/state/state';
 
 import { TicketListPageComponent } from './ticket-list.page';
-import { generateMockUserTicketTabItem, generateMockUserTicketTabItems } from '../../../models/user-ticket-tab-item.model';
+import { generateMockUserTicketTabItem, generateMockUserTicketTabItems } from '../../../models';
 import * as fromTicketReducer from '../../../reducers';
 
 
@@ -16,8 +17,6 @@ describe('Admin - Tickets - Ticket List Page', () => {
   let fixture: ComponentFixture<TicketListPageComponent>;
   let windowRef: WindowRef;
   let store: Store<fromTicketReducer.State>;
-
-  const mockTabset: any = { select: jest.fn() };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -35,6 +34,7 @@ describe('Admin - Tickets - Ticket List Page', () => {
       // Shallow Testing
       schemas: [NO_ERRORS_SCHEMA],
       imports: [
+        NgbNavModule,
         StoreModule.forRoot({
           ...fromRootState.reducers,
           ticketsAdminMain: combineReducers(fromTicketReducer.reducers),
@@ -44,8 +44,6 @@ describe('Admin - Tickets - Ticket List Page', () => {
 
     fixture = TestBed.createComponent(TicketListPageComponent);
     instance = fixture.componentInstance;
-
-    instance.tabSet = mockTabset;
 
     store = TestBed.inject(Store);
     windowRef = TestBed.inject(WindowRef);

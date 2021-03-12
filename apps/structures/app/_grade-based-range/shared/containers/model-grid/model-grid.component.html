@@ -103,9 +103,26 @@
 <ng-template #gridGlobalActions>
   <pf-global-actions
     [metadata]="metaData$ | async"
-    (manageModelClicked)="handleManageModelClicked()">
+    (manageModelClicked)="handleManageModelClicked()"
+    (modelSettingsClicked)="handleModelSettingsClicked()">
   </pf-global-actions>
 </ng-template>
+
+<pf-model-settings-modal
+  [rangeGroupId]="rangeGroupId"
+  [pageViewId]="pageViewId"
+  [modalOpen$]="modalOpen$"
+  [modelSettingsForm]="modelSettingsForm">
+  <ng-container structures-settings-modal-content>
+    <pf-grade-based-model-settings-modal-content
+      [rangeGroupId]="rangeGroupId"
+      [pageViewId]="pageViewId"
+      [modelSettingsForm]="modelSettingsForm"
+      [modalOpen]="modalOpen$ | async"
+      [isNewModel]="isNewModel">
+    </pf-grade-based-model-settings-modal-content>
+  </ng-container>
+</pf-model-settings-modal>
 
 <ng-template #rangeField let-dataRow="dataRow" let-fieldName="fieldName" let-rowIndex="rowIndex">
   <ng-container>
