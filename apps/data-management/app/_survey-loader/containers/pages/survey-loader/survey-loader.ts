@@ -3,13 +3,12 @@ import { Store } from '@ngrx/store';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 
-import { environment } from 'environments/environment';
 import { UserContext } from 'libs/models';
 import { ConfigurationGroup, EmailRecipientModel } from 'libs/models/data-loads';
 import * as fromRootState from 'libs/state/state';
 import * as fromAppNotificationsMainReducer from 'libs/features/infrastructure/app-notifications/reducers';
 import { LoadingProgressBarModel } from 'libs/ui/common/loading/models';
-import { CompositeDataLoadTypes, LoadTypes } from 'libs/constants';
+import { CompositeDataLoadTypes, LoadTypes, AppConstants } from 'libs/constants';
 import * as fromAppNotificationsActions from 'libs/features/infrastructure/app-notifications/actions/app-notifications.actions';
 import { UploadSurveyFileComponent } from '../../upload-survey-file';
 import * as fromSurveyLoaderActions from '../../../actions/survey-loader.actions';
@@ -42,7 +41,6 @@ export class SurveyLoaderComponent implements OnInit, OnDestroy {
 
   @ViewChild('surveyFileUpload', {static: true}) private surveyFileUpload: UploadSurveyFileComponent;
   private unsubscribe$ = new Subject();
-  env = environment;
   userContext: UserContext;
   notification: SurveyUploadNotification;
   validationOnly: boolean;
@@ -103,7 +101,7 @@ export class SurveyLoaderComponent implements OnInit, OnDestroy {
   }
 
   goBack() {
-    window.location.href = this.env.siteAdminUrl;
+    window.location.href = AppConstants.SiteAdminUrl;
   }
 
   handleProcessClicked(): void {
