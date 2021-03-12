@@ -51,7 +51,7 @@ exports[`Data Management - Main - Load And Export File Card has access should sh
             class="col-4 text-right"
           >
             <div
-              class="d-flex justify-content-end"
+              class="d-flex ie10-flex-fix justify-content-end"
             >
               
               <div
@@ -126,7 +126,7 @@ exports[`Data Management - Main - Load And Export File Card has access should sh
             class="col-4 text-right"
           >
             <div
-              class="d-flex justify-content-end"
+              class="d-flex ie10-flex-fix justify-content-end"
             >
               
               

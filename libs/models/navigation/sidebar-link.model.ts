@@ -4,7 +4,6 @@ export interface SidebarLink {
   Url: string;
   IconClass: string;
   IconClassNew: string;
-  NgAppLink: boolean;
   FaIconClass?: string[];
 }
 
@@ -14,7 +13,6 @@ export function generateMockSidebarLink(): SidebarLink {
     DisplayName: 'Sidebar link display name',
     Url: 'https://www.payfactors.com',
     IconClass: 'fa fa-icon-class',
-    IconClassNew: 'fas fa-icon-class',
-    NgAppLink: false
+    IconClassNew: 'fas fa-icon-class'
   };
 }

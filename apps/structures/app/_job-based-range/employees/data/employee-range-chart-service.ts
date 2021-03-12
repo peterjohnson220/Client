@@ -1,5 +1,6 @@
+import { RangeDistributionTypeIds } from 'libs/constants/structures/range-distribution-type-ids';
+
 import { EmployeeSalaryRangeChartSeries } from './employee-salary-range-chart-series-constants';
-import { RangeDistributionTypeIds } from '../../../shared/constants/range-distribution-type-ids';
 
 export class EmployeeRangeChartService {
 

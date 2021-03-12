@@ -21,3 +21,4 @@ export * from './validation';
 export * from './composite-field';
 export * from './market-data-feed';
 export * from './peer';
+export * from './employees';

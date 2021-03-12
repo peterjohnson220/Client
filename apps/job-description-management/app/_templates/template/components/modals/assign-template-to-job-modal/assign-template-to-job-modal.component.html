@@ -35,7 +35,8 @@
     <ul ngbNav
         #nav="ngbNav"
         class="nav-tabs"
-        [destroyOnHide]="false">
+        [destroyOnHide]="false"
+        [(activeId)]="activeTab">
       <li [ngbNavItem]="'Assign'" id="Assign" title="Assign">
         <a ngbNavLink>Assign</a>
         <ng-template ngbNavContent>
@@ -87,7 +88,7 @@
               {{templateAssignmentSummary.AssignedJobsInReview}} job(s) associated to this template are In Review. Those jobs are hidden from this view and unable to be unassigned.
             </div>
             <div *ngIf="(companyJobsWithTemplate$ | async | companyJobSearch: searchTerm)?.length && !(companyJobsWithTemplateLoading$ | async)">
-              <div id="job-list" class="table-responsive">
+              <div id="job-list-unassign" class="table-responsive">
                 <table class="table">
                   <thead>
                   <tr>

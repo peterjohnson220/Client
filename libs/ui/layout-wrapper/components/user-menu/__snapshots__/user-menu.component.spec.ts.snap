@@ -1,50 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`User Menu should prepend /ng/ to the dropdown url, when the navigation link is an NgAppLink 1`] = `
-<pf-layout-wrapper-user-menu
-  dropdownNavigationLinks={[Function Array]}
-  userContext={[Function Object]}
->
-  <ul
-    class="navbar-nav"
-  >
-    <li
-      class="nav-item"
-      ngbdropdown=""
-      placement="bottom-right"
-    >
-      <a
-        class="nav-link dropdown-toggle"
-        data-toggle="dropdown"
-        ngbdropdowntoggle=""
-      >
-        <span
-          class="text-white pr-1"
-        >
-          John Doe 
-          
-        </span>
-        <pf-layout-wrapper-user-menu-avatar />
-      </a>
-      <div
-        class="dropdown-menu"
-        ngbdropdownmenu=""
-      >
-        
-        
-        <a
-          class="dropdown-item"
-          href="/ng/company-admin"
-        >
-          
-           I am an Ng AppLink 
-        </a>
-      </div>
-    </li>
-  </ul>
-</pf-layout-wrapper-user-menu>
-`;
-
 exports[`User Menu should show a divider for log out 1`] = `
 <pf-layout-wrapper-user-menu
   dropdownNavigationLinks={[Function Array]}

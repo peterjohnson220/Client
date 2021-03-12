@@ -7,3 +7,5 @@ export * from './advanced-setting-response.model';
 export * from './revert-range-response.model';
 export * from './current-range-group-response.model';
 export * from './range-distribution-setting-response.model';
+export * from './structure-range-group-grades-response.model';
+export * from './structure-range-group-grade-jobs-response.model';

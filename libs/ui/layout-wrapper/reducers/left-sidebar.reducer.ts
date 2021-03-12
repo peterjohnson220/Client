@@ -8,13 +8,15 @@ export interface State {
   gettingLeftSidebarNavigationLinksError: boolean;
   leftSidebarNavigationLinks: SidebarLink[];
   loadedLeftSidebarNavigationLinks: boolean;
+  isOpen: boolean;
 }
 
 export const initialState: State = {
   gettingLeftSidebarNavigationLinks: false,
   gettingLeftSidebarNavigationLinksError: false,
   leftSidebarNavigationLinks: null,
-  loadedLeftSidebarNavigationLinks: false
+  loadedLeftSidebarNavigationLinks: false,
+  isOpen: false
 };
 
 export function reducer(state = initialState, action: leftSidebarActions.Actions): State {
@@ -48,6 +50,12 @@ export function reducer(state = initialState, action: leftSidebarActions.Actions
         loadedLeftSidebarNavigationLinks: false
       };
     }
+    case leftSidebarActions.TOGGLE_LEFT_SIDEBAR: {
+      return {
+        ...state,
+        isOpen: action.payload
+      };
+    }
     default: {
       return state;
     }
@@ -58,3 +66,4 @@ export const getGettingLeftSidebarNavigationLinks = (state: State) => state.gett
 export const getGettingLeftSidebarNavigationLinksError = (state: State) => state.gettingLeftSidebarNavigationLinksError;
 export const getLeftSidebarNavigationLinks = (state: State) => state.leftSidebarNavigationLinks;
 export const getLoadedLeftSidebarNavigationLinks = (state: State) => state.loadedLeftSidebarNavigationLinks;
+export const getLeftSidebarOpen = (state: State) => state.isOpen;

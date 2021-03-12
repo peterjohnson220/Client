@@ -1,5 +1,4 @@
 <pf-search-layout *ngIf="pageShown$ | async" [resultsCount]="isSmallBiz ? null : (numberOfSearchResults$ | async)">
-
   <ng-container sidebar>
 
     <div *ngIf="addJobsConfig?.enableCreateNewJobs && !(searchingFilter$ | async)" [pfSecuredResource]="_Permissions.JOBS_ADD_EDIT_DELETE" class="create-new-job" [attr.data-qa-id]="'btn-createNewJobNav'">
@@ -24,11 +23,12 @@
 
     <pf-structures-jobs-search-results [canSelectJobs]="canSelectJobs"
                            [useSmallBizStyles]="isSmallBiz"
-                           [customSearchResultsStyle]="addJobsConfig?.enablePaymarkets ? {'width': '67%'} : {}"
+                           [customSearchResultsStyle]="!isJobRange ? {'width': '50%'} : {}"
                            [showJobBasedRangesJobMetadata]="addJobsConfig?.enableAssignedStructuresMetadata || false"
                            [showJobSourceOrTitle]="addJobsConfig?.enabledJobSourceOrTitle"
                            [isJobRange]="isJobRange"
-                           [controlPoint]="controlPoint">
+                           [controlPoint]="controlPoint"
+                           [gradeRangeGroupDetails]="gradeRangeGroupDetails">
     </pf-structures-jobs-search-results>
 
     <pf-paymarkets *ngIf="addJobsConfig?.enablePaymarkets" [useSmallBizStyles]="isSmallBiz"></pf-paymarkets>
@@ -39,6 +39,12 @@
                           [currentJobCountSetting]="currentJobCountSetting"
                           [maxAllowedJobsSetting]="maxAllowedJobsSetting">
     </pf-job-limit-counter>
+
+    <pf-jobs-to-grade-container *ngIf="!this.isJobRange"
+      [rate]="rate"
+      [gradeRangeGroupDetails]="gradeRangeGroupDetails"
+      [controlPoint]="controlPoint">
+    </pf-jobs-to-grade-container>
 
   </ng-container>
 

@@ -15,7 +15,8 @@ import { PfFormsModule } from 'libs/forms';
 
 import { EmployeeManagementEffects } from './effects/employee-management.effects';
 import { reducers } from './reducers';
-import { EmployeeManagementComponent } from './containers';
+import { EmployeeBenefitsComponent, EmployeeManagementComponent } from './containers';
+import { EmployeeBenefitEffects } from './effects';
 
 @NgModule({
   imports: [
@@ -26,6 +27,7 @@ import { EmployeeManagementComponent } from './containers';
     StoreModule.forFeature('feature_employee_management', reducers),
     EffectsModule.forFeature([
       EmployeeManagementEffects,
+      EmployeeBenefitEffects
     ]),
     LayoutModule,
     DropDownsModule,
@@ -38,10 +40,12 @@ import { EmployeeManagementComponent } from './containers';
   ],
   declarations: [
     // Feature
-    EmployeeManagementComponent
+    EmployeeManagementComponent,
+    EmployeeBenefitsComponent
   ],
   exports: [
     EmployeeManagementComponent,
+    EmployeeBenefitsComponent
   ]
 })
 

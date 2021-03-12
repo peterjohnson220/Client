@@ -7,7 +7,7 @@
       <li *ngFor="let section of templateView.Template.Sections">
         <div class="selection-container section-container">
           {{section.Name}}
-          <button *ngIf="section.SubHeading"
+          <button *ngIf="section.SubHeading && !isDraftView"
             [ngClass]="isHiddenSectionSubheading(section.Id) ? 'text-danger' : 'text-success'"
             class="btn btn-sm btn-secondary float-right toggle-btn"
             (click)="toggleSubheading(section.Id)">
@@ -16,16 +16,17 @@
         </div>  
         <ul>
           <li *ngFor="let control of section.Controls">
-            <button
+            <button 
               [ngClass]="isHiddenControlName(control.Id) ? 'text-danger' : 'text-success'"
               class="btn btn-sm btn-secondary float-right toggle-btn mt-2 mr-2"
               (click)="toggleControlName(control.Id)">
               <fa-icon icon="{{getControlNameIcon(control.Id)}}" aria-hidden="true"></fa-icon> Header
             </button>
             <div class="selection-container control-container"
-                 (click)="handleControlClicked(control.Id)"
-                 [class.hidden-control]="isHiddenControl(control.Id)"
-                 [style.border-left-color]="!!control.Color ? control.Color: 'transparent'">
+                [ngClass]="{ 'cursor-pointer': !isDraftView}"
+                (click)="handleControlClicked(control.Id)"
+                [class.hidden-control]="isHiddenControl(control.Id)"
+                [style.border-left-color]="!!control.Color ? control.Color: 'transparent'">
                 <div>
                   {{control.Label}}
                 </div>

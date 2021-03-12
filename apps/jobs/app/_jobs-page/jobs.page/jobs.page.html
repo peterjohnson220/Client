@@ -33,7 +33,7 @@
 
 <ng-template #oldJobsPageToggleTemplate>
   <button
-    *ngIf="enablePageToggle"
+    *ngIf="enablePageToggle && !hideOldJobsPageButtonFeatureFlag.value"
     class="btn btn-secondary align-top ml-3"
     [attr.data-qa-id]="'btn-toggle-jobs-page'"
     [id]="'btn-toggle-jobs-page'"
@@ -382,7 +382,7 @@
   [featureImplementation]="multiMatchImplementation"
 ></pf-multi-match-component>
 
-<pf-file-download-security-warning-modal 
+<pf-file-download-security-warning-modal
   #fileDownloadSecurityWarningModal
   (securityWarningConfirmed)="handleSecurityWarningConfirmed($event)">
 </pf-file-download-security-warning-modal>

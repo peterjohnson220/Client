@@ -4,8 +4,8 @@ import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
 import { JobLevelHierarchy, JobLevelHierarchyDetail } from 'libs/models';
+import { AppConstants } from 'libs/constants';
 
-import { environment } from 'environments/environment';
 import * as fromJobsHierarchyActions from '../../../actions/jobs-hierarchy.actions';
 import * as fromJobsHierarchyReducer from '../../../reducers';
 
@@ -15,7 +15,8 @@ import * as fromJobsHierarchyReducer from '../../../reducers';
   styleUrls: ['./jobs-hierarchy.page.scss']
 })
 export class JobsHierarchyPageComponent implements OnInit, OnDestroy {
-  env = environment;
+  get CompanyAdminUrl() { return AppConstants.CompanyAdminUrl; }
+
   defaultItem: {Id: number, Name: string} = {Id: 0, Name: 'Create New Hierarchy'};
   selectedItem: {Id: number, Name: string};
 

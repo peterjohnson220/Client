@@ -1,8 +1,16 @@
 export class JobDescriptionViewConstants {
   public static DEFAULT_VIEW = 'Default';
   public static PUBLIC_VIEW = 'Public';
+  public static DRAFT_AND_IN_REVIEW_VIEW = 'Draft & In Review';
 
-  public static SYSTEM_VIEWS: string[] = [JobDescriptionViewConstants.DEFAULT_VIEW, JobDescriptionViewConstants.PUBLIC_VIEW];
+  public static SYSTEM_VIEWS: string[] =
+  [JobDescriptionViewConstants.DEFAULT_VIEW,
+    JobDescriptionViewConstants.PUBLIC_VIEW,
+    JobDescriptionViewConstants.DRAFT_AND_IN_REVIEW_VIEW];
+
+  public static SYSTEM_NON_EDITABLE_VIEWS: string[] =
+  [JobDescriptionViewConstants.DEFAULT_VIEW,
+    JobDescriptionViewConstants.DRAFT_AND_IN_REVIEW_VIEW];
 
   public static PUBLIC_VIEW_OPTIONS =  [
     { display: 'Enabled', value: true},

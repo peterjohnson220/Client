@@ -17,7 +17,7 @@
   </div>
   <ng-container *ngIf="isUserDefinedViewsAvailable()">
     <kendo-dropdownlist class="view-dropdown p-3"
-                        [defaultItem]="'Default'"
+                        [value]="'Default'"
                         [data]="jobDescriptionListViews"
                         [popupSettings]="{appendTo: 'component'}"
                         (valueChange)="handleViewChanged($event)">
