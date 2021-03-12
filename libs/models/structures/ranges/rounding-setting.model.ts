@@ -27,6 +27,38 @@ export function generateMockRoundingSettingsDataObj(): RoundingSettingsDataObj {
     'max': {
       RoundingType: RoundingTypes.Round,
       RoundingPoint: 0
+    },
+    'firstTertile': {
+      RoundingType: RoundingTypes.Round,
+      RoundingPoint: 0
+    },
+    'secondTertile': {
+      RoundingType: RoundingTypes.Round,
+      RoundingPoint: 0
+    },
+    'firstQuartile': {
+      RoundingType: RoundingTypes.Round,
+      RoundingPoint: 0
+    },
+    'secondQuartile': {
+      RoundingType: RoundingTypes.Round,
+      RoundingPoint: 0
+    },
+    'firstQuintile': {
+      RoundingType: RoundingTypes.Round,
+      RoundingPoint: 0
+    },
+    'secondQuintile': {
+      RoundingType: RoundingTypes.Round,
+      RoundingPoint: 0
+    },
+    'thirdQuintile': {
+      RoundingType: RoundingTypes.Round,
+      RoundingPoint: 0
+    },
+    'fourthQuintile': {
+      RoundingType: RoundingTypes.Round,
+      RoundingPoint: 0
     }
   };
 }
