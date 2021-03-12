@@ -202,7 +202,8 @@ export class MultiMatchComponent extends SearchBaseDirective implements OnInit, 
 
   handleTempDataCutEdited(tempExchangeDataCutDetails: TempExchangeDataCutDetails): void {
     this.store.dispatch(new fromTempDataCutActions.ReplaceDataCutWithTemp({
-      tempDataCut: PayfactorsSurveySearchApiModelMapper.mapCustomExchangeJobDataCutToDataCut(tempExchangeDataCutDetails.TempExchangeJobDataCut)
+      tempDataCut: PayfactorsSurveySearchApiModelMapper.mapCustomExchangeJobDataCutToDataCut(tempExchangeDataCutDetails.TempExchangeJobDataCut),
+      exchangeJobId: tempExchangeDataCutDetails.TempExchangeJobDataCut?.ExchangeJobId
     }));
     this.tempDataCutService.complete(tempExchangeDataCutDetails);
   }

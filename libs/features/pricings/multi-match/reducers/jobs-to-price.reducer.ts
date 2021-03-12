@@ -141,7 +141,7 @@ export function reducer(state = initialState, action: fromJobsToPriceActions.Job
             Code: existingCut.JobCode,
             Source: existingCut.Source,
             PeerJobInfo: {
-              ExchangeJobId: existingCutIdentity.ExchangeJobId
+              ExchangeJobId: existingCutIdentity?.ExchangeJobId
             }
           },
           TCC50th: newCut.TCC50th,

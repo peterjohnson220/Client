@@ -86,10 +86,16 @@ export class JobsToPriceEffects {
       this.store.select(fromMultiMatchReducer.getTempDataCutCurrentIdentity),
       (action: fromTempDataCutActions.ReplaceDataCutWithTemp, currentIdentity: TempDataCutIdentity) => ({payload: action.payload, currentIdentity})
     ),
-    map((context) => new fromJobsToPriceActions.ReplaceEditedDataCut({
-      existing: context.currentIdentity,
-      tempDataCut: context.payload.tempDataCut
-    }))
+    map((context) => {
+      let identity = context.currentIdentity;
+      if (!context.currentIdentity.ExchangeJobId && !!context.payload.exchangeJobId) {
+        identity = {...context.currentIdentity, ExchangeJobId: context.payload.exchangeJobId};
+      }
+      return new fromJobsToPriceActions.ReplaceEditedDataCut({
+        existing: identity,
+        tempDataCut: context.payload.tempDataCut
+      });
+    })
   );
 
     constructor(
