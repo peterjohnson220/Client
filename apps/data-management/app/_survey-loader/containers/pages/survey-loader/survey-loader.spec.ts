@@ -49,10 +49,10 @@ describe('SurveyLoaderComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 
-  it('should dispatch handle saving config process success action when success is true', function () {
+  it('should call uploadExcelFile when success is true', function () {
+    spyOn(instance, 'uploadExcelFile');
     instance.handleSavingConfigGroupSuccess(true);
-    const action =  new fromSurveyLoaderActions.ProcessingSuccess();
-    expect(store.dispatch).toHaveBeenCalledWith(action);
+    expect(instance.uploadExcelFile).toBeCalled();
   });
 
   it('should dispatch notification for validate only ', function () {
