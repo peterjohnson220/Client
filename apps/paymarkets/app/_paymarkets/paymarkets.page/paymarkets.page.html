@@ -10,7 +10,8 @@
   [enableResize]="!isTileView"
   [gridConfig]="gridConfig"
   [pageable]="!gridConfig?.EnableInfiniteScroll"
-  [class.tile-view]="isTileView">
+  [class.tile-view]="isTileView"
+  [class.left-sidebar-open]="isLeftSidebarOpened">
 </pf-data-grid>
 
 <ng-template #gridRowActionsTemplate let-dataRow="dataRow">

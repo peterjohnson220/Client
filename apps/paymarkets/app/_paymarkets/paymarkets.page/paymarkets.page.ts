@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { SortDescriptor } from '@progress/kendo-data-query';
@@ -19,6 +19,7 @@ import * as fromPayMarketModalActions from 'libs/features/paymarkets/paymarket-m
 import { PfSecuredResourceDirective } from 'libs/forms/directives';
 import { SettingsService } from 'libs/state/app-context/services';
 import { FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models/common';
+import * as fromLayoutWrapperReducer from 'libs/ui/layout-wrapper/reducers';
 
 import * as fromPayMarketsPageActions from '../actions/paymarkets-page.actions';
 import * as fromPayMarketsPageReducer from '../reducers';
@@ -27,7 +28,8 @@ import { PayMarketsPageViewId } from '../models';
 @Component({
   selector: 'pf-paymarkets-page',
   templateUrl: './paymarkets.page.html',
-  styleUrls: ['./paymarkets.page.scss']
+  styleUrls: ['./paymarkets.page.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PayMarketsPageComponent implements AfterViewInit, OnInit, OnDestroy {
   @ViewChild('gridRowActionsTemplate') gridRowActionsTemplate: ElementRef;
@@ -37,9 +39,11 @@ export class PayMarketsPageComponent implements AfterViewInit, OnInit, OnDestroy
 
   identity$: Observable<UserContext>;
   isTileView$: Observable<string>;
+  leftSidebarOpen$: Observable<boolean>;
 
   identitySubscription: Subscription;
   isTileViewSubscription: Subscription;
+  leftSidebarOpenSubscription: Subscription;
 
   defaultSort: SortDescriptor[] = [
     {
@@ -66,6 +70,7 @@ export class PayMarketsPageComponent implements AfterViewInit, OnInit, OnDestroy
   showSummaryModal$ = this.showSummaryModal.asObservable();
   summaryPaymarketId: number;
   isTileView: boolean;
+  isLeftSidebarOpened: boolean;
   tileView = 'Tile View';
   listView = 'List View';
 
@@ -73,7 +78,9 @@ export class PayMarketsPageComponent implements AfterViewInit, OnInit, OnDestroy
     private store: Store<fromPayMarketsPageReducer.State>,
     private userContextStore: Store<fromRootState.State>,
     public payMarketManagementStore: Store<fromPayMarketManagementReducers.State>,
-    private settingsService: SettingsService
+    private layoutWrapperStore: Store<fromLayoutWrapperReducer.State>,
+    private settingsService: SettingsService,
+    private changeDetectorRef: ChangeDetectorRef
   ) {
     this.identity$ = this.userContextStore.select(fromRootState.getUserContext);
     this.actionBarConfig = {
@@ -89,6 +96,7 @@ export class PayMarketsPageComponent implements AfterViewInit, OnInit, OnDestroy
     this.isTileView$ = this.settingsService.selectUiPersistenceSetting<string>(
       FeatureAreaConstants.PayMarkets, UiPersistenceSettingConstants.PayMarketsPageViewStyleSelection, 'string'
     );
+    this.leftSidebarOpen$ = this.layoutWrapperStore.select(fromLayoutWrapperReducer.getLeftSidebarOpen);
   }
 
   ngOnInit() {
@@ -100,6 +108,12 @@ export class PayMarketsPageComponent implements AfterViewInit, OnInit, OnDestroy
     });
     this.isTileViewSubscription = this.isTileView$.subscribe(value => {
       this.isTileView = value === this.tileView;
+      this.changeDetectorRef.detectChanges();
+    });
+    this.leftSidebarOpenSubscription = this.leftSidebarOpen$.subscribe(isOpen => {
+      if (isOpen !== null) {
+        this.isLeftSidebarOpened = isOpen;
+      }
     });
     window.addEventListener('scroll', this.scroll, true);
   }
@@ -121,6 +135,7 @@ export class PayMarketsPageComponent implements AfterViewInit, OnInit, OnDestroy
   ngOnDestroy() {
     this.identitySubscription.unsubscribe();
     this.isTileViewSubscription.unsubscribe();
+    this.leftSidebarOpenSubscription.unsubscribe();
   }
 
   customSortOptions = (previousSortDescriptor: SortDescriptor[], currentSortDescriptor: SortDescriptor[]): SortDescriptor[] => {

@@ -22,6 +22,16 @@
     }
   }
 
+  &.left-sidebar-open {
+    @media screen and (max-width: 1400px) {
+      pf-grid {
+        kendo-grid {
+          width: 100% !important;
+        }
+      }
+    }
+  }
+
   @media screen and (max-width: 1400px) {
     pf-grid {
       kendo-grid {
