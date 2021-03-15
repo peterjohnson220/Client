@@ -4,7 +4,7 @@
     <div class="row">
       <div class="col-12 col-lg-6 mb-3">
         <div class="upload-survey">
-          <b>Note:</b> File must be in .xlsx format and file name must begin with <b>survey</b>. Once file is
+          <b>Note:</b> File must be in .xlsx format and file name must begin with <b>surveys</b>. Once file is
           uploaded, map the tabs in your file to either Survey Job, Survey Data or Survey Participation.
         </div>
       </div>
@@ -14,7 +14,7 @@
                         (onFileDropped)="handleOnFileDropped($event)"
                         (onFileRemoved)="handleOnFileRemoved()"
                         [validFileExtensions]="validFileExtensions"
-                        [validFileStartsWith]="'survey'"
+                        [validFileStartsWith]="'surveys'"
                         [autoGetColumnNames]="false">
         </pf-file-upload>
         <div class="form-group row mb-2">
