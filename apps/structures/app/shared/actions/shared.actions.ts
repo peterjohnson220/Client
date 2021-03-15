@@ -9,6 +9,7 @@ import { SelectedPeerExchangeModel } from '../models';
 export const SET_METADATA = '[Structures - Shared] Set Metadata';
 export const UPDATE_ROUNDING_TYPE = '[Structures - Shared] Update Rounding Type';
 export const UPDATE_ROUNDING_POINT = '[Structures - Shared] Update Rounding Point';
+export const UPDATE_ROUNDING_SETTINGS = '[Structures - Shared] Update Rounding Settings';
 export const RESET_ROUNDING_SETTING = '[Structures - Shared] Reset Rounding Setting';
 export const UPDATE_ROUNDING_POINTS = '[Structures - Shared] Update Rounding Points';
 export const GET_COMPANY_EXCHANGES = '[Structures - Shared] Get Company Exchanges';
@@ -51,6 +52,12 @@ export class UpdateOverrides implements  Action {
   readonly type = UPDATE_OVERRIDES;
 
   constructor(public payload: { rangeId: number, overrideToUpdate: CompanyStructureRangeOverride, removeOverride: boolean}) {}
+}
+
+export class UpdateRoundingSettings implements Action {
+  readonly type = UPDATE_ROUNDING_SETTINGS;
+
+  constructor(public payload: RoundingSettingsDataObj) {}
 }
 
 export class GetDistinctOverrideMessages implements Action {
@@ -201,6 +208,7 @@ export type SharedActions
   = SetMetadata
   | UpdateRoundingType
   | UpdateRoundingPoint
+  | UpdateRoundingSettings
   | ResetRoundingSetting
   | GetCompanyExchanges
   | GetCompanyExchangesSuccess

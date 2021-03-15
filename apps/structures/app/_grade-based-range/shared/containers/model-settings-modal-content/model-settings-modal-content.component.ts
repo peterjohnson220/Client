@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 import { Observable, Subscription } from 'rxjs';
@@ -11,6 +11,7 @@ import { ControlPoint, Currency } from '../../../../shared/models';
 import * as fromSharedStructuresActions from '../../../../shared/actions/shared.actions';
 import * as fromSharedStructuresReducer from '../../../../shared/reducers';
 import * as fromModelSettingsModalActions from '../../../../shared/actions/model-settings-modal.actions';
+import { RangeRoundingComponent } from '../../../../shared/containers/range-rounding';
 
 @Component({
   selector: 'pf-grade-based-model-settings-modal-content',
@@ -23,7 +24,7 @@ export class ModelSettingsModalContentComponent implements OnInit, OnDestroy {
   @Input() modelSettingsForm: FormGroup;
   @Input() modalOpen: boolean;
   @Input() isNewModel: boolean;
-
+  @ViewChild(RangeRoundingComponent, {static: false}) public rangeRoundingComponent: RangeRoundingComponent;
   metaData$: Observable<RangeGroupMetadata>;
   modelNameExistsFailure$: Observable<boolean>;
   controlPointsAsyncObj$: Observable<AsyncStateObj<ControlPoint[]>>;
@@ -143,6 +144,7 @@ export class ModelSettingsModalContentComponent implements OnInit, OnDestroy {
 
     this.modelSetting = this.modelSettingsForm.getRawValue();
     this.generateAdvancedSettingsForm();
+    this.updateRoundingSettings();
 
     if (!this.modelSettingsForm.valid) {
       this.activeTab = 'modelTab';
@@ -159,6 +161,13 @@ export class ModelSettingsModalContentComponent implements OnInit, OnDestroy {
     } else {
       this.defaultAdvancedSettings = generateMockRangeAdvancedSetting();
       this.modelSetting.RangeAdvancedSetting = this.defaultAdvancedSettings;
+    }
+  }
+
+  updateRoundingSettings() {
+    const settings = this.rangeRoundingComponent.roundingSettingsForm.getRawValue();
+    if (!!settings) {
+      this.roundingSettings = settings;
     }
   }
 
