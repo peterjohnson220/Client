@@ -15,6 +15,7 @@ import { generateMockRangeAdvancedSetting, generateMockRangeDistributionSettingF
 import * as fromSharedReducer from '../../../../shared/reducers';
 import * as fromGradeBasedSharedReducer from '../../reducers';
 import * as fromModelSettingsModalActions from '../../../../shared/actions/model-settings-modal.actions';
+import { RangeRoundingComponent } from '../../../../shared/containers/range-rounding';
 
 describe('ModelSettingsModalContentComponent', () => {
   let instance: ModelSettingsModalContentComponent;
@@ -24,7 +25,10 @@ describe('ModelSettingsModalContentComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ ModelSettingsModalContentComponent ],
+      declarations: [
+        ModelSettingsModalContentComponent,
+        RangeRoundingComponent
+      ],
       imports: [
         StoreModule.forRoot({
           ...fromRootState.reducers,
@@ -51,7 +55,7 @@ describe('ModelSettingsModalContentComponent', () => {
     instance = fixture.componentInstance;
     store = TestBed.inject(Store);
     ngbModal = TestBed.inject(NgbModal);
-
+    instance.rangeRoundingComponent = TestBed.createComponent(RangeRoundingComponent).componentInstance;
 
     // mock the metadata
     instance.metadata = {

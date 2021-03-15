@@ -76,57 +76,12 @@ describe('Job Based Ranges - Rounding Settings', () => {
 
   });
 
-  it('should dispatch UpdateRoundingType on handleTypeChange', () => {
+  it ('should dispatch UpdateRoundingSettings on init', () => {
     spyOn(instance.store, 'dispatch');
-    const expectedAction = new fromSharedStructuresActions.UpdateRoundingType( { RoundingSetting: 'mid', RoundingType: RoundingTypes.Round });
+    const expectedAction = new fromSharedStructuresActions.UpdateRoundingSettings(generateMockRoundingSettingsDataObj());
 
-    instance.handleTypeChange('mid', RoundingTypes.Round);
+    instance.ngOnInit();
 
     expect(instance.store.dispatch).toHaveBeenCalledWith(expectedAction);
-  });
-
-  it('should dispatch UpdateRoundingPoint on handlePointChange', () => {
-    spyOn(instance.store, 'dispatch');
-    const expectedAction = new fromSharedStructuresActions.UpdateRoundingPoint( { RoundingSetting: 'mid', RoundingPoint: 0 });
-
-    instance.handlePointChange('mid', 0);
-
-    expect(instance.store.dispatch).toHaveBeenCalledWith(expectedAction);
-  });
-
-  it('should dispatch UpdateRoundingPoint to set 0 for mid, min and max and update defaultSet when rate is annual', () => {
-    spyOn(instance.store, 'dispatch');
-    const expectedAction1 = new fromSharedStructuresActions.UpdateRoundingPoint( { RoundingSetting: 'min', RoundingPoint: 0 });
-    const expectedAction2 = new fromSharedStructuresActions.UpdateRoundingPoint( { RoundingSetting: 'mid', RoundingPoint: 0 });
-    const expectedAction3 = new fromSharedStructuresActions.UpdateRoundingPoint( { RoundingSetting: 'max', RoundingPoint: 0 });
-
-    // default set should not run more than once, but for test purposes we can reset it here
-    instance.defaultSet = false;
-    instance.metadata.Rate = 'annual';
-    instance.setDefaults();
-
-    expect(instance.defaultSet).toEqual(true);
-    expect(instance.store.dispatch).toHaveBeenCalledWith(expectedAction1);
-    expect(instance.store.dispatch).toHaveBeenCalledWith(expectedAction2);
-    expect(instance.store.dispatch).toHaveBeenCalledWith(expectedAction3);
-
-  });
-
-  it('should dispatch UpdateRoundingPoint to set 2 for mid, min and max and update defaultSet when rate is hourly', () => {
-    spyOn(instance.store, 'dispatch');
-    const expectedAction1 = new fromSharedStructuresActions.UpdateRoundingPoint( { RoundingSetting: 'min', RoundingPoint: 2 });
-    const expectedAction2 = new fromSharedStructuresActions.UpdateRoundingPoint( { RoundingSetting: 'mid', RoundingPoint: 2 });
-    const expectedAction3 = new fromSharedStructuresActions.UpdateRoundingPoint( { RoundingSetting: 'max', RoundingPoint: 2 });
-
-    // default set should not run more than once, but for test purposes we can reset it here
-    instance.defaultSet = false;
-    instance.metadata.Rate = 'hourly';
-    instance.setDefaults();
-
-    expect(instance.defaultSet).toEqual(true);
-    expect(instance.store.dispatch).toHaveBeenCalledWith(expectedAction1);
-    expect(instance.store.dispatch).toHaveBeenCalledWith(expectedAction2);
-    expect(instance.store.dispatch).toHaveBeenCalledWith(expectedAction3);
-
   });
 });

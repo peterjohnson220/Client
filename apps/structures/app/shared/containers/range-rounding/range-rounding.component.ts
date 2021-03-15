@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
 import { RoundingSettingsDataObj, RangeGroupMetadata, generateMockRoundingSettingsDataObj } from 'libs/models/structures';
-import { RoundingTypes } from 'libs/constants/structures/rounding-type';
 
 import * as fromSharedStructuresReducer from '../../reducers';
 import * as fromSharedStructuresActions from '../../actions/shared.actions';
@@ -19,6 +19,8 @@ import { StructuresRoundingPoints, StructuresRoundingTypes } from '../../data';
 export class RangeRoundingComponent implements OnInit, OnDestroy {
   metaData$: Observable<RangeGroupMetadata>;
   metadataSub: Subscription;
+  roundingSettings$: Observable<RoundingSettingsDataObj>;
+  roundingSettingsSub: Subscription;
 
   roundingSettings: RoundingSettingsDataObj;
   metadata: RangeGroupMetadata;
@@ -26,29 +28,74 @@ export class RangeRoundingComponent implements OnInit, OnDestroy {
   staticRoundingTypes: RoundingType[];
   toNearest: string;
   defaultSet: boolean;
+  roundingSettingsForm: FormGroup;
 
   constructor(
     public store: Store<any>
   ) {
     this.metaData$ = this.store.pipe(select(fromSharedStructuresReducer.getMetadata));
+    this.roundingSettings$ = this.store.pipe(select(fromSharedStructuresReducer.getRoundingSettings));
     this.staticRoundingPoints = StructuresRoundingPoints;
     this.staticRoundingTypes = StructuresRoundingTypes;
     this.toNearest = 'to nearest';
   }
 
-  handleTypeChange(setting: string, type: RoundingTypes) {
-    this.store.dispatch(new fromSharedStructuresActions.UpdateRoundingType({RoundingSetting: setting, RoundingType: type}));
-  }
-
-  handlePointChange(setting: string, point: number) {
-    this.store.dispatch(new fromSharedStructuresActions.UpdateRoundingPoint({RoundingSetting: setting, RoundingPoint: point}));
+  buildForm() {
+    this.roundingSettingsForm = new FormGroup({
+      'min': new FormGroup({
+        'RoundingType': new FormControl(this.roundingSettings?.min.RoundingType),
+        'RoundingPoint': new FormControl(this.roundingSettings?.min.RoundingPoint),
+      }),
+      'mid': new FormGroup({
+        'RoundingType': new FormControl(this.roundingSettings?.mid.RoundingType),
+        'RoundingPoint': new FormControl(this.roundingSettings?.mid.RoundingPoint),
+      }),
+      'max': new FormGroup({
+        'RoundingType': new FormControl(this.roundingSettings?.max.RoundingType),
+        'RoundingPoint': new FormControl(this.roundingSettings?.max.RoundingPoint),
+      }),
+      'firstTertile': new FormGroup({
+        'RoundingType': new FormControl(this.roundingSettings?.firstTertile.RoundingType),
+        'RoundingPoint': new FormControl(this.roundingSettings?.firstTertile.RoundingPoint),
+      }),
+      'secondTertile': new FormGroup({
+        'RoundingType': new FormControl(this.roundingSettings?.secondTertile.RoundingType),
+        'RoundingPoint': new FormControl(this.roundingSettings?.secondTertile.RoundingPoint),
+      }),
+      'firstQuartile': new FormGroup({
+        'RoundingType': new FormControl(this.roundingSettings?.firstQuartile.RoundingType),
+        'RoundingPoint': new FormControl(this.roundingSettings?.firstQuartile.RoundingPoint),
+      }),
+      'secondQuartile': new FormGroup({
+        'RoundingType': new FormControl(this.roundingSettings?.secondQuartile.RoundingType),
+        'RoundingPoint': new FormControl(this.roundingSettings?.secondQuartile.RoundingPoint),
+      }),
+      'firstQuintile': new FormGroup({
+        'RoundingType': new FormControl(this.roundingSettings?.firstQuintile.RoundingType),
+        'RoundingPoint': new FormControl(this.roundingSettings?.firstQuintile.RoundingPoint),
+      }),
+      'secondQuintile': new FormGroup({
+        'RoundingType': new FormControl(this.roundingSettings?.secondQuintile.RoundingType),
+        'RoundingPoint': new FormControl(this.roundingSettings?.secondQuintile.RoundingPoint),
+      }),
+      'thirdQuintile': new FormGroup({
+        'RoundingType': new FormControl(this.roundingSettings?.thirdQuintile.RoundingType),
+        'RoundingPoint': new FormControl(this.roundingSettings?.thirdQuintile.RoundingPoint),
+      }),
+      'fourthQuintile': new FormGroup({
+        'RoundingType': new FormControl(this.roundingSettings?.fourthQuintile.RoundingType),
+        'RoundingPoint': new FormControl(this.roundingSettings?.fourthQuintile.RoundingPoint),
+      })
+    });
   }
 
   // Lifecycle
   ngOnInit(): void {
     this.defaultSet = false;
-    this.roundingSettings = generateMockRoundingSettingsDataObj();
+    const defaultRoundingSettings = generateMockRoundingSettingsDataObj();
+    this.store.dispatch(new fromSharedStructuresActions.UpdateRoundingSettings(defaultRoundingSettings));
     this.subscribe();
+    this.buildForm();
   }
 
   ngOnDestroy(): void {
@@ -61,34 +108,23 @@ export class RangeRoundingComponent implements OnInit, OnDestroy {
       md => {
         if (md) {
           this.metadata = md;
-          this.roundingSettings = this.metadata?.RangeAdvancedSetting?.Rounding ?
-            this.metadata?.RangeAdvancedSetting?.Rounding : this.roundingSettings;
-          this.setDefaults();
+          this.store.dispatch(new fromSharedStructuresActions.UpdateRoundingSettings(this.metadata?.RangeAdvancedSetting?.Rounding));
         }
       }
     );
-  }
-
-  setDefaults() {
-    // wait for both to be present, and only set this once per visit to this page
-    if (this.metadata && this.roundingSettings && !this.defaultSet) {
-      // 0 is the default for Annual
-      let defaultPoint = 0;
-
-      if (this.metadata.Rate && this.metadata.Rate.toLowerCase() === 'hourly') {
-        defaultPoint = 2;
+    this.roundingSettingsSub = this.roundingSettings$.subscribe(settings => {
+      if (settings) {
+        this.roundingSettings = settings;
+        this.buildForm();
+      } else {
+        this.roundingSettings = generateMockRoundingSettingsDataObj();
       }
-
-      this.store.dispatch(new fromSharedStructuresActions.UpdateRoundingPoint({RoundingSetting: 'min', RoundingPoint: defaultPoint}));
-      this.store.dispatch(new fromSharedStructuresActions.UpdateRoundingPoint({RoundingSetting: 'mid', RoundingPoint: defaultPoint}));
-      this.store.dispatch(new fromSharedStructuresActions.UpdateRoundingPoint({RoundingSetting: 'max', RoundingPoint: defaultPoint}));
-
-      this.defaultSet = true;
-    }
+    });
   }
 
   private unsubscribe() {
     this.metadataSub.unsubscribe();
+    this.roundingSettingsSub.unsubscribe();
   }
 
 }

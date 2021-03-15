@@ -17,6 +17,7 @@ import * as fromModelSettingsModalActions from '../../../../shared/actions/model
 import * as fromSharedStructuresActions from '../../../../shared/actions/shared.actions';
 import { RangeDistributionSettingComponent } from '../range-distribution-setting';
 import { AdvancedModelSettingComponent } from '../advanced-model-setting';
+import { RangeRoundingComponent } from '../../../../shared/containers/range-rounding';
 
 @Component({
   selector: 'pf-job-based-model-settings-modal-content',
@@ -32,7 +33,7 @@ export class ModelSettingsModalContentComponent implements OnInit, OnDestroy, Af
   @Input() selectedExchange: SelectedPeerExchangeModel;
   @ViewChild(RangeDistributionSettingComponent, { static: false }) public rangeDistributionSettingComponent: RangeDistributionSettingComponent;
   @ViewChild(AdvancedModelSettingComponent, { static: false }) public advancedModelSettingComponent: AdvancedModelSettingComponent;
-
+  @ViewChild(RangeRoundingComponent, { static: false }) public rangeRoundingComponent: RangeRoundingComponent;
   metaData$: Observable<RangeGroupMetadata>;
   currenciesAsyncObj$: Observable<AsyncStateObj<Currency[]>>;
   controlPointsAsyncObj$: Observable<AsyncStateObj<ControlPoint[]>>;
@@ -165,6 +166,7 @@ export class ModelSettingsModalContentComponent implements OnInit, OnDestroy, Af
     this.updateSelectedPeerExchangeId();
 
     this.updateAdvancedModelingSetting();
+    this.updateRoundingSettings();
 
     if (!this.modelSettingsForm.valid) {
       if (!this.modelSettingsForm.controls['RangeAdvancedSetting'].valid) {
@@ -188,6 +190,13 @@ export class ModelSettingsModalContentComponent implements OnInit, OnDestroy, Af
     const setting = this.advancedModelSettingComponent.advancedModelSettingForm.getRawValue();
     if (!!setting) {
       this.modelSetting.RangeAdvancedSetting = setting;
+    }
+  }
+
+  updateRoundingSettings() {
+    const settings = this.rangeRoundingComponent.roundingSettingsForm.getRawValue();
+    if (!!settings) {
+      this.roundingSettings = settings;
     }
   }
 

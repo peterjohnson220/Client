@@ -19,6 +19,7 @@ import { AdvancedModelSettingComponent } from '../advanced-model-setting';
 import { RangeDistributionSettingComponent } from '../range-distribution-setting';
 import * as fromModelSettingsModalActions from '../../../../shared/actions/model-settings-modal.actions';
 import * as fromJobBasedSharedReducer from '../../reducers';
+import { RangeRoundingComponent } from '../../../../shared/containers/range-rounding';
 
 describe('ModelSettingsModalContentComponent', () => {
   let instance: ModelSettingsModalContentComponent;
@@ -32,7 +33,9 @@ describe('ModelSettingsModalContentComponent', () => {
       declarations: [
         ModelSettingsModalContentComponent,
         RangeDistributionSettingComponent,
-        AdvancedModelSettingComponent],
+        AdvancedModelSettingComponent,
+        RangeRoundingComponent
+      ],
       imports: [
         NgbNavModule,
         StoreModule.forRoot({
@@ -64,6 +67,7 @@ describe('ModelSettingsModalContentComponent', () => {
     instance = fixture.componentInstance;
     instance.rangeDistributionSettingComponent = TestBed.createComponent(RangeDistributionSettingComponent).componentInstance;
     instance.advancedModelSettingComponent = TestBed.createComponent(AdvancedModelSettingComponent).componentInstance;
+    instance.rangeRoundingComponent = TestBed.createComponent(RangeRoundingComponent).componentInstance;
 
     store = TestBed.inject(Store);
     ngbModal = TestBed.inject(NgbModal);
@@ -180,6 +184,53 @@ describe('ModelSettingsModalContentComponent', () => {
         'IncreaseMidpointByPercentage': new FormControl(increaseMidpointByPercentage),
         'DecreasePercentFromNextLevelPercentage': new FormControl(decreasePercentFromNextLevelPercentage),
         'IncreasePercentFromPreviousLevelPercentage': new FormControl(increasePercentFromPreviousLevelPercentage),
+      })
+    });
+
+    instance.rangeRoundingComponent.roundingSettingsForm = new FormGroup({
+      'min': new FormGroup({
+        'RoundingType': new FormControl(this.roundingSettings?.min.RoundingType),
+        'RoundingPoint': new FormControl(this.roundingSettings?.min.RoundingPoint),
+      }),
+      'mid': new FormGroup({
+        'RoundingType': new FormControl(this.roundingSettings?.mid.RoundingType),
+        'RoundingPoint': new FormControl(this.roundingSettings?.mid.RoundingPoint),
+      }),
+      'max': new FormGroup({
+        'RoundingType': new FormControl(this.roundingSettings?.max.RoundingType),
+        'RoundingPoint': new FormControl(this.roundingSettings?.max.RoundingPoint),
+      }),
+      'firstTertile': new FormGroup({
+        'RoundingType': new FormControl(this.roundingSettings?.firstTertile.RoundingType),
+        'RoundingPoint': new FormControl(this.roundingSettings?.firstTertile.RoundingPoint),
+      }),
+      'secondTertile': new FormGroup({
+        'RoundingType': new FormControl(this.roundingSettings?.secondTertile.RoundingType),
+        'RoundingPoint': new FormControl(this.roundingSettings?.secondTertile.RoundingPoint),
+      }),
+      'firstQuartile': new FormGroup({
+        'RoundingType': new FormControl(this.roundingSettings?.firstQuartile.RoundingType),
+        'RoundingPoint': new FormControl(this.roundingSettings?.firstQuartile.RoundingPoint),
+      }),
+      'secondQuartile': new FormGroup({
+        'RoundingType': new FormControl(this.roundingSettings?.secondQuartile.RoundingType),
+        'RoundingPoint': new FormControl(this.roundingSettings?.secondQuartile.RoundingPoint),
+      }),
+      'firstQuintile': new FormGroup({
+        'RoundingType': new FormControl(this.roundingSettings?.firstQuintile.RoundingType),
+        'RoundingPoint': new FormControl(this.roundingSettings?.firstQuintile.RoundingPoint),
+      }),
+      'secondQuintile': new FormGroup({
+        'RoundingType': new FormControl(this.roundingSettings?.secondQuintile.RoundingType),
+        'RoundingPoint': new FormControl(this.roundingSettings?.secondQuintile.RoundingPoint),
+      }),
+      'thirdQuintile': new FormGroup({
+        'RoundingType': new FormControl(this.roundingSettings?.thirdQuintile.RoundingType),
+        'RoundingPoint': new FormControl(this.roundingSettings?.thirdQuintile.RoundingPoint),
+      }),
+      'fourthQuintile': new FormGroup({
+        'RoundingType': new FormControl(this.roundingSettings?.fourthQuintile.RoundingType),
+        'RoundingPoint': new FormControl(this.roundingSettings?.fourthQuintile.RoundingPoint),
       })
     });
 
