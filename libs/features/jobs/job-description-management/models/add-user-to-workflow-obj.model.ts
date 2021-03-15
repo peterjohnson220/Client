@@ -5,4 +5,5 @@ export interface AddUserToWorkflowObj {
   JobId: number;
   IsNonPfUser: boolean;
   StepIndex?: number;
+  Permissions: any;
 }

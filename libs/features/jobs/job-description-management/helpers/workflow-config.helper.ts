@@ -5,9 +5,7 @@ import { WorkflowUser, AddUserToWorkflowObj, WorkflowStep } from '../models';
 export class WorkflowConfigHelper {
 
   static buildWorkflowUser(addUserToWorkflowObj: AddUserToWorkflowObj, permission: boolean): WorkflowUser {
-    const permissions = permission
-      ? [ Permissions.JOB_DESCRIPTIONS, Permissions.CAN_EDIT_JOB_DESCRIPTION ]
-      : [];
+    const permissions = permission ? addUserToWorkflowObj.Permissions : [];
     return {
       FirstName: addUserToWorkflowObj.FirstName,
       LastName: addUserToWorkflowObj.LastName,
@@ -19,8 +17,8 @@ export class WorkflowConfigHelper {
 
   static getDefaultPermissions(): any[] {
     return [
-      { permission: Permissions.JOB_DESCRIPTIONS, selected: true, display: 'View', disabled: true },
-      { permission: Permissions.CAN_EDIT_JOB_DESCRIPTION, selected: false, display: 'Edit', disabled: false }
+      { permission: Permissions.JOB_DESCRIPTIONS, selected: true, display: 'Review', disabled: true },
+      { permission: Permissions.CAN_EDIT_JOB_DESCRIPTION, selected: true, display: 'Edit', disabled: false }
     ];
   }
 
