@@ -112,6 +112,69 @@ describe('TrsRichTextControlComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should show a tooltip outside of print mode with at least one `AvailableDatafield` and `ShowTitle` true', () => {
+    // arrange
+    component.controlData = {
+      Title: { Default: 'Title' },
+      AvailableDataFields: [{ Key: 'Key', Value: 'Value' }],
+      ShowTitle: true
+    } as any;
+    component.mode = StatementModeEnum.Preview;
+
+    // act
+    fixture.detectChanges();
+
+    // assert
+    var tooltipLabel = fixture.debugElement.nativeElement.querySelector('.tooltip-wrapper');
+    expect(tooltipLabel).toBeTruthy();
+  });
+  
+  it('should hide the tooltip in print mode when `AvailableDatafield` is falsy', () => {
+    // arrange
+    component.controlData = { 
+      Title: { Default: 'Title' },
+      ShowTitle: true 
+    } as any;
+    component.showTitle = true;
+    component.mode = StatementModeEnum.Print;
+
+    // act
+    fixture.detectChanges();
+
+    // assert
+    var tooltipLabel = fixture.debugElement.nativeElement.querySelector('.tooltip-wrapper');
+    expect(tooltipLabel).toBeFalsy();
+  });
+
+  it('should show a tooltip when not in print mode with at least one `AvailableDatafield`', () => {
+    // arrange
+    component.controlData = { 
+      Title: { Default: 'Title' },
+      AvailableDataFields: [{ Key: 'Key', Value: 'Value' }],
+    } as any;
+    component.mode = StatementModeEnum.Preview;
+
+    // act
+    fixture.detectChanges();
+
+    // assert
+    var tooltipLabel = fixture.debugElement.nativeElement.querySelector('.tooltip-wrapper');
+    expect(tooltipLabel).toBeTruthy();
+  });
+  
+  it('should hide the tooltip in print mode when `AvailableDatafield` is falsy', () => {
+    // arrange
+    component.controlData = { Title: { Default: 'Title' } } as any;
+    component.mode = StatementModeEnum.Print;
+
+    // act
+    fixture.detectChanges();
+
+    // assert
+    var tooltipLabel = fixture.debugElement.nativeElement.querySelector('.tooltip-wrapper');
+    expect(tooltipLabel).toBeFalsy();
+  });
+
   it('bindDataFields should maintain simple content with no data fields used', () => {
     // arrange
     component.controlData = { Title: { Default: 'Title' } } as any;

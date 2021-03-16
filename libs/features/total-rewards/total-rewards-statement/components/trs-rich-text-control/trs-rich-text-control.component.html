@@ -10,7 +10,7 @@
     </h4>
     <div *ngIf="mode !== statementModeEnum.Print" kendoTooltip class="tooltip-wrapper d-inline-block ml-2 align-top">
       <label 
-        *ngIf="controlData?.DataFields?.length"
+        *ngIf="controlData?.AvailableDataFields?.length"
         class="info position-relative"
         [ngbTooltip]="infoTooltip"
         [container]="'body'">
@@ -21,7 +21,7 @@
   <ng-template #infoOnly>
     <div *ngIf="mode !== statementModeEnum.Print" kendoTooltip class="tooltip-wrapper">
       <label
-        *ngIf="controlData?.DataFields?.length"
+        *ngIf="controlData?.AvailableDataFields?.length"
         class="info position-absolute info-only"
         [ngbTooltip]="infoTooltip" 
         [container]="'body'"
