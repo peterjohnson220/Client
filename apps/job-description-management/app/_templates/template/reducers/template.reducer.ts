@@ -49,13 +49,19 @@ export function reducer(state = initialState, action: fromTemplateActions.Templa
         saving: true,
         saveError: null
       };
-    case fromTemplateActions.SAVE_TEMPLATE_SUCCESS:
+    case fromTemplateActions.SAVE_TEMPLATE_SUCCESS: {
+      const templateCopy = cloneDeep(state.template);
+      templateCopy.DraftNumber = action.payload.template.DraftNumber;
+      templateCopy.TemplateStatus = action.payload.template.TemplateStatus;
+      templateCopy.TemplateRevision = action.payload.template.TemplateRevision;
+      templateCopy.JobInformationFields = action.payload.template.JobInformationFields;
       return {
         ...state,
         saving: false,
-        template: action.payload.template
+        template: templateCopy
       };
-    case fromTemplateActions.SAVE_TEMPLATE_NAME_SUCCESS:
+    }
+    case fromTemplateActions.SAVE_TEMPLATE_NAME_SUCCESS: {
       const templateCopy = cloneDeep(state.template);
       templateCopy.TemplateName = action.payload;
 
@@ -63,6 +69,7 @@ export function reducer(state = initialState, action: fromTemplateActions.Templa
         ...state,
         template: templateCopy
       };
+    }
     case fromTemplateActions.SAVE_TEMPLATE_ERROR:
       return {
         ...state,
