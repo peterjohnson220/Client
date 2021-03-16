@@ -23,7 +23,7 @@ export class UserMenuComponent implements OnChanges {
         this.dropdownNavigationLinksWithDivider.push(submitATicketLink.Name);
         return;
       }
-      const resourceLink = this.dropdownNavigationLinks.find(x => x.Name === 'Resources');
+      const resourceLink = this.dropdownNavigationLinks.find(x => x.Name === 'Help');
       if (resourceLink) {
         this.dropdownNavigationLinksWithDivider.push(resourceLink.Name);
         return;
