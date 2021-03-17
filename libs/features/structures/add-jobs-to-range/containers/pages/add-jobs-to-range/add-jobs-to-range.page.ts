@@ -40,6 +40,7 @@ export class AddJobsToRangePageComponent extends SearchBaseDirective implements 
   // Observables
   searchingFilter$: Observable<boolean>;
   numberOfSearchResults$: Observable<number>;
+  jobCount$: Observable<number>;
   selectedPaymarkets$: Observable<number[]>;
   pageShown$: Observable<boolean>;
   addingData$: Observable<boolean>;
@@ -76,6 +77,7 @@ export class AddJobsToRangePageComponent extends SearchBaseDirective implements 
     this.addJobsConfig = injectedAddJobsConfig || ADD_JOBS_CONFIG_DEFAULT_TRUE;
     this.searchingFilter$ = this.store.select(fromSearchReducer.getSearchingFilter);
     this.numberOfSearchResults$ = this.store.select(fromSearchReducer.getNumberOfResultsOnServer);
+    this.jobCount$ = this.store.select(fromAddJobsReducer.getJobCount);
     this.selectedPaymarkets$ = this.store.select(fromAddJobsReducer.getSelectedPaymarkets);
     this.pageShown$ = this.store.select(fromSearchReducer.getPageShown);
     this.addingData$ = this.store.select(fromAddJobsReducer.getAddingData);

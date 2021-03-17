@@ -150,6 +150,7 @@ function filterSelectedJobs(state: State) {
 }
 
 export const getJobs = (state: State) => state.jobs;
+export const getJobCount = (state: State) => state.jobs.length;
 export const getSelectedJobIds = (state: State) => state.selectedJobIds;
 export const getSelectedJobs = (state: State) => filterSelectedJobs(state);
 export const getSelectedPayfactorsJobCodes = (state: State) => state.selectedPayfactorsJobCodes;

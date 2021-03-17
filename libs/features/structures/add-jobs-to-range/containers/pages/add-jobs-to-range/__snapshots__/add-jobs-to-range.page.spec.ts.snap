@@ -12,6 +12,7 @@ exports[`Project - Add Jobs - Structures Page should not display GUI features re
   gradesSubscription={[Function Subscriber]}
   injectedAddJobsConfig="null"
   isSmallBiz="false"
+  jobCount$={[Function Store]}
   maxAllowedJobsSetting="0"
   numberOfResults$={[Function Observable]}
   numberOfSearchResults$={[Function Store]}
@@ -86,7 +87,9 @@ exports[`Project - Add Jobs - Structures Page should not display GUI features re
       >
         
          Select All 
-        
+        <span>
+            
+        </span>
       </button>
       
     </span>
