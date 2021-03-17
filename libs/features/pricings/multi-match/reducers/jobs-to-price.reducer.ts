@@ -266,14 +266,17 @@ function getMatchType(jobCut: DataCutDetails): DataCutSummaryEntityTypes {
 }
 
 function addJobCuts(jobToPrice: JobToPrice, newDataCuts: DataCutDetails[]) {
+  const existingCustomPeerCutIds = jobToPrice.JobMatchCuts.filter(cut =>
+    cut.MatchType === DataCutSummaryEntityTypes.CustomPeerCutId)?.map(cut => cut.MatchId) ?? [];
+  const newDataCutsNotAlreadyAdded = newDataCuts.filter(newCut => existingCustomPeerCutIds.indexOf(getMatchId(newCut)) < 0);
   jobToPrice.JobMatchCuts = jobToPrice.JobMatchCuts || [];
-  jobToPrice.JobMatchCuts = jobToPrice.JobMatchCuts.concat(mapDataCutToMatchCut(newDataCuts));
-  jobToPrice.TotalDataCuts += newDataCuts.length;
+  jobToPrice.JobMatchCuts = jobToPrice.JobMatchCuts.concat(mapDataCutToMatchCut(newDataCutsNotAlreadyAdded));
+  jobToPrice.TotalDataCuts += newDataCutsNotAlreadyAdded.length;
   // sort after adding
   jobToPrice.JobMatchCuts.sort((a, b) => arraySortByString(a.JobTitle, b.JobTitle, SortDirection.Ascending));
   // track cuts added
   jobToPrice.DataCutsToAdd = jobToPrice.DataCutsToAdd || [];
-  jobToPrice.DataCutsToAdd = jobToPrice.DataCutsToAdd.concat(newDataCuts);
+  jobToPrice.DataCutsToAdd = jobToPrice.DataCutsToAdd.concat(newDataCutsNotAlreadyAdded);
 }
 
 function removeJobMatchCut(jobToPrice: JobToPrice, cutToRemove: JobMatchCut) {

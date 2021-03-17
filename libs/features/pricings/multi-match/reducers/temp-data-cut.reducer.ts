@@ -1,10 +1,10 @@
 import cloneDeep from 'lodash/cloneDeep';
 
-import {BaseExchangeDataSearchRequest} from 'libs/models/payfactors-api';
-import {DataCutSummaryEntityTypes} from 'libs/constants';
+import { BaseExchangeDataSearchRequest } from 'libs/models/payfactors-api';
+import { DataCutSummaryEntityTypes } from 'libs/constants';
 
 import * as fromTempDataCutActions from '../actions/temp-data-cut.actions';
-import {TempDataCutIdentity} from '../models';
+import { TempDataCutIdentity } from '../models';
 
 export interface State {
   creating: boolean;
@@ -68,10 +68,12 @@ export function reducer(state = initialState, action: fromTempDataCutActions.Tem
     case fromTempDataCutActions.EDIT_TEMP_DATA_CUT_COMPLETE: {
       const filterContextDictionaryCopy = cloneDeep(state.tempDataCutFilterContextDictionary);
       const currentTempDataCut = state.tempDataCut;
-      if (!!action.payload) {
+      const editCancelled = !action.payload;
+      if (!editCancelled) {
         const payload: {tempDataCutId: string, exchangeDataSearchRequest: any} = action.payload;
         filterContextDictionaryCopy[payload.tempDataCutId] = payload.exchangeDataSearchRequest;
-      } else {
+      } else if (currentTempDataCut.MatchType !== DataCutSummaryEntityTypes.CustomPeerCutId) {
+        // we don't want to remove the filter context for custom peer cuts if the edit is cancelled, they still exist and should be validated against [JP]
         delete filterContextDictionaryCopy[currentTempDataCut.MatchId];
       }
 
