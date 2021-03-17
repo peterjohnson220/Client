@@ -6,6 +6,7 @@ exports[`TotalRewardsStatementComponent should render a mock statement derived f
   employeeRewardsData={[Function Object]}
   onCalculationControlCompFieldAdded={[Function EventEmitter]}
   onCalculationControlCompFieldRemoved={[Function EventEmitter]}
+  onCalculationControlCompFieldReordered={[Function EventEmitter]}
   onCalculationControlCompFieldTitleChange={[Function EventEmitter]}
   onCalculationControlSummaryTitleChange={[Function EventEmitter]}
   onChartControlRender={[Function EventEmitter]}

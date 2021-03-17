@@ -17,6 +17,7 @@ export const UPDATE_CALCULATION_CONTROL_FIELD_TITLE = '[Total Rewards/Edit State
 export const UPDATE_CALCULATION_CONTROL_SUMMARY_TITLE = '[Total Rewards/Edit Statement] Update Calculation Control Summary Title';
 export const ADD_CALCULATION_CONTROL_COMPENSATION_FIELD = '[Total Rewards/Edit Statement] Add Calculation Control Compensation Field';
 export const REMOVE_CALCULATION_CONTROL_COMPENSATION_FIELD = '[Total Rewards/Edit Statement] Remove Calculation Control Compensation Field';
+export const REORDER_CALCULATION_CONTROL_COMPENSATION_FIELD = '[Total Rewards/Edit Statement] Reorder Calculation Control Compensation Field';
 
 export const UPDATE_RICH_TEXT_CONTROL_CONTENT = '[Total Rewards/Edit Statement] Update Rich Text Control Content';
 export const UPDATE_RICH_TEXT_CONTROL_UDFS_IN_CONTENT = '[Total Rewards/Edit Statement] Update Rich Text Control Udfs In Content';
@@ -53,6 +54,11 @@ export class UpdateCalculationControlFieldTitle implements Action {
 export class RemoveCalculationControlCompensationField implements Action {
   readonly type = REMOVE_CALCULATION_CONTROL_COMPENSATION_FIELD;
   constructor(public payload: requestModels.UpdateFieldVisibilityRequest) {}
+}
+
+export class ReorderCalculationControlCompensationField implements Action {
+  readonly type = REORDER_CALCULATION_CONTROL_COMPENSATION_FIELD;
+  constructor(public payload: requestModels.ReorderCalcControlFieldsRequest) {}
 }
 
 export class AddCalculationControlCompensationField implements Action {
@@ -109,8 +115,8 @@ export type ControlActions =
   UpdateCalculationControlSummaryTitle |
   AddCalculationControlCompensationField |
   RemoveCalculationControlCompensationField |
+  ReorderCalculationControlCompensationField |
   UpdateRichTextControlContent |
-  AddCalculationControlCompensationField |
   SaveImageControlImage |
   RemoveImageControlImage |
   SelectImageControlImage |
