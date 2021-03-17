@@ -77,7 +77,7 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
   infoTooltip = 'This is a rich text area. Use [ to find and insert existing employee or company fields and custom fields into your text.';
 
   mentionConfig = {
-    allowedChars: /^[A-Za-z\sÅÄÖåäö]*$/,
+    allowedChars: /^[A-Za-z\sÅÄÖåäö1234567890]*$/,
     mentionDenotationChars: ['['],
     showDenotationChar: false,
     positioningStrategy: 'fixed',
