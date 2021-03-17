@@ -9,7 +9,7 @@ export class PayfactorsApiModelMapper {
     return userTiles.map(ut => {
       return {
         UserTileId: ut.UserTileId,
-        TileName: ut.Label,
+        TileName: ut.TileName,
         TileDisplayName: ut.Label,
         IconClass: '',
         Url: '',
