@@ -37,7 +37,6 @@ import * as fromJobManagementActions from 'libs/features/jobs/job-management/act
 import * as fromSearchPageActions from 'libs/features/search/search/actions/search-page.actions';
 import * as fromSearchFeatureActions from 'libs/features/search/search/actions/search-feature.actions';
 import * as fromAppNotificationsMainReducer from 'libs/features/infrastructure/app-notifications/reducers';
-import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
 
 import { PageViewIds } from '../constants';
 import { ShowingActiveJobs } from '../pipes';
@@ -51,7 +50,6 @@ import * as fromJobsPageReducer from '../reducers';
 })
 
 export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
-  hideOldJobsPageButtonFeatureFlag: RealTimeFlag = { key: FeatureFlags.HideOldJobsPageButton, value: false };
   private unsubscribe$ = new Subject<void>();
   permissions = Permissions;
   readonly showingActiveJobsPipe = new ShowingActiveJobs();
@@ -114,7 +112,6 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   }];
 
   selectedJobPricingCount = 0;
-  enablePageToggle = false;
   enableFileDownloadSecurityWarning = false;
 
   navigatingToOldPage$: Observable<AsyncStateObj<boolean>>;
@@ -198,8 +195,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     private actionsSubject: ActionsSubject,
     private companyJobApiService: CompanyJobApiService,
     private settingsService: SettingsService,
-    private appNotificationStore: Store<fromAppNotificationsMainReducer.State>,
-    private featureFlagService: AbstractFeatureFlagService
+    private appNotificationStore: Store<fromAppNotificationsMainReducer.State>
   ) {
     this.gridConfig = {
       PersistColumnWidth: true,
@@ -207,7 +203,6 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
       ScrollToTop: true,
       SelectAllPanelItemName: 'jobs'
     };
-    this.featureFlagService.bindEnabled(this.hideOldJobsPageButtonFeatureFlag, this.unsubscribe$);
   }
 
   ngOnInit() {
@@ -290,8 +285,6 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.companySettingsSubscription = this.store.select(fromRootState.getCompanySettings).subscribe(cs => {
       if (cs) {
-        const setting = cs.find(x => x.Key === CompanySettingsEnum.EnableJobsPageToggle);
-        this.enablePageToggle = setting && setting.Value === 'true';
         this.restrictSurveySearchToPaymarketCountry = cs.find(x => x.Key === CompanySettingsEnum.RestrictSurveySearchCountryFilterToPayMarket).Value === 'true';
         this.enableFileDownloadSecurityWarning = cs.find(x => x.Key === CompanySettingsEnum.FileDownloadSecurityWarning).Value === 'true';
       }
@@ -539,10 +532,6 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
         this.offset = { left: event.clientX, top: event.clientY };
       }
     }
-  }
-
-  jobsPageToggle() {
-    this.store.dispatch(new fromJobsPageActions.ToggleJobsPage());
   }
 
   openSurveyParticipationModal(matchCount: number, jobId: number, event) {
