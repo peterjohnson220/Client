@@ -72,6 +72,7 @@ export class SurveyLoaderComponent implements OnInit, OnDestroy {
     this.userContextSubscription = this.userContext$.subscribe(userContext => {
       if (!!userContext) {
         this.userContext = userContext;
+        this.setEmailRecipient(userContext);
       }
     });
     this.processingSuccessSubscription = this.processingSuccess$.subscribe(success => {
@@ -124,6 +125,7 @@ export class SurveyLoaderComponent implements OnInit, OnDestroy {
     if (!success) {
       return;
     }
+    this.addEmailRecipient();
     this.uploadExcelFile();
   }
 
@@ -148,6 +150,29 @@ export class SurveyLoaderComponent implements OnInit, OnDestroy {
 
   showErrorNotification(): void {
     this.notificationStore.dispatch(new fromAppNotificationsActions.AddNotification(this.notification.Error));
+  }
+
+  private setEmailRecipient(userContext: UserContext): void {
+    if (!userContext) {
+      return;
+    }
+    const emailRecipient: EmailRecipientModel = {
+      DataLoadEmailRecipientId: 0,
+      CompanyId: null,
+      UserId: userContext.UserId,
+      EmailAddress: userContext.EmailAddress,
+      FirstName: userContext.FirstName,
+      LastName: userContext.LastName,
+      LoaderType: CompositeDataLoadTypes.Surveys,
+      IsCompanyServicesRep: false,
+      UserPicture: '',
+      LoaderConfigurationGroupId: null
+    };
+    this.store.dispatch(new fromSurveyLoaderActions.SetEmailRecipient(emailRecipient));
+  }
+
+  private addEmailRecipient() {
+    this.store.dispatch(new fromSurveyLoaderActions.AddEmailRecipient());
   }
 }
 
