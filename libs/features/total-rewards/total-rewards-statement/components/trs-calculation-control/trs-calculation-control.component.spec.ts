@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 
+import { of } from 'rxjs';
 import { DragulaService } from 'ng2-dragula';
 
 import { generateMockEmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards';
@@ -31,7 +32,8 @@ describe('TrsCalculationControlComponent', () => {
           useValue: { transform: (x) => x }
         },
         {
-          provide: DragulaService
+          provide: DragulaService,
+          useValue: { destroy: jest.fn(), createGroup: jest.fn(), drop: val => of(true) }
         }],
       schemas: [NO_ERRORS_SCHEMA]
     });
