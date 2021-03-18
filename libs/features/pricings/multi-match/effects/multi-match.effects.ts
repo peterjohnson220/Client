@@ -3,26 +3,28 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { switchMap, map, tap, mergeMap, withLatestFrom, catchError } from 'rxjs/operators';
-import { Observable, of } from 'rxjs/index';
+import { Observable, of } from 'rxjs';
 
 import { ExchangeDataCutsApiService, SurveySearchApiService } from 'libs/data/payfactors-api';
 import { SurveyJobMatchUpdate } from 'libs/models/payfactors-api';
 import { BaseExchangeDataSearchRequest } from 'libs/models/payfactors-api/peer/exchange-data-search/request';
 import { WindowCommunicationService } from 'libs/core/services';
+import { PayfactorsSurveySearchApiModelMapper, SurveySearchFiltersHelper } from 'libs/features/surveys/survey-search/helpers';
+import { ProjectSearchContext } from 'libs/features/surveys/survey-search/models';
+import { DataCutValidationInfo } from 'libs/models';
 import * as fromSearchPageActions from 'libs/features/search/search/actions/search-page.actions';
 import * as fromSearchFiltersActions from 'libs/features/search/search/actions/search-filters.actions';
 import * as fromSearchReducer from 'libs/features/search/search/reducers';
+import * as fromContextActions from 'libs/features/surveys/survey-search/actions/context.actions';
+import * as fromSurveySearchReducer from 'libs/features/surveys/survey-search/reducers';
+import * as fromDataCutValidationActions from 'libs/features/peer/actions/data-cut-validation.actions';
+import * as fromSurveySearchFiltersActions from 'libs/features/surveys/survey-search/actions/survey-search-filters.actions';
+import * as fromSurveySearchResultsActions from 'libs/features/surveys/survey-search/actions/survey-search-results.actions';
 
-import * as fromContextActions from '../../../surveys/survey-search/actions/context.actions';
 import * as fromMultiMatchPageActions from '../actions/multi-match-page.actions';
-import * as fromSurveySearchFiltersActions from '../../../surveys/survey-search/actions/survey-search-filters.actions';
-import { PayfactorsSurveySearchApiModelMapper, SurveySearchFiltersHelper } from '../../../surveys/survey-search/helpers';
+import * as fromTempDataCutActions from '../actions/temp-data-cut.actions';
 import { JobToPrice } from '../models';
 import * as fromMultiMatchReducer from '../reducers';
-import * as fromSurveySearchReducer from '../../../surveys/survey-search/reducers';
-import * as fromDataCutValidationActions from '../../../peer/actions/data-cut-validation.actions';
-import { ProjectSearchContext } from '../../../surveys/survey-search/models';
-import { DataCutValidationInfo } from '../../../../models';
 
 @Injectable()
 export class MultiMatchEffects {
@@ -74,7 +76,7 @@ export class MultiMatchEffects {
         this.store.select(fromMultiMatchReducer.getJobsToPrice),
         this.store.select(fromMultiMatchReducer.getMultimatchProjectContext),
         this.store.select(fromSurveySearchReducer.getProjectSearchContext),
-        this.store.select(fromSurveySearchReducer.getTempExchangeJobDataCutFilterContextDictionary),
+        this.store.select(fromMultiMatchReducer.getTempDataCutFilterContextDictionary),
         (action, jobsToPrice, projectContext, projectSearchContext, tempPeerDataCutFilterContextDictionary ) =>
           ({ jobsToPrice, projectContext, projectSearchContext, tempPeerDataCutFilterContextDictionary })
       ),
@@ -140,6 +142,14 @@ export class MultiMatchEffects {
         }
       )
     );
+
+  @Effect({dispatch: false})
+  createTempExchangeDataCut$ = this.actions$.pipe(
+    ofType(fromSurveySearchResultsActions.REFINE_EXCHANGE_JOB_RESULT),
+    tap((action: fromSurveySearchResultsActions.RefineExchangeJobResult) => {
+      this.store.dispatch(new fromTempDataCutActions.CreateTempDataCut({exchangeJobId: action.payload.lockedExchangeJobId}));
+    })
+  );
 
   private buildMatchUpdates(jobsToPrice: JobToPrice[], tempPeerDataCutFilterContextDictionary: {[key: string]: BaseExchangeDataSearchRequest}): SurveyJobMatchUpdate[] {
     return jobsToPrice.map(job => {

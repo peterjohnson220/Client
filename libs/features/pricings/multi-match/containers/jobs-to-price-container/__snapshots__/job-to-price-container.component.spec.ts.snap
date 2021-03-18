@@ -19,6 +19,7 @@ exports[`Project - MultiMatch - JobToPrice Container Component should get job ma
   selectedDataCutsSubscription={[Function Subscriber]}
   spinnerType={[Function String]}
   store={[Function Store]}
+  tempDataCutService={[Function TempDataCutService]}
 >
   <div
     class="jobs-to-price-container"
@@ -56,6 +57,7 @@ exports[`Project - MultiMatch - JobToPrice Container Component should not get jo
   selectedDataCutsSubscription={[Function Subscriber]}
   spinnerType={[Function String]}
   store={[Function Store]}
+  tempDataCutService={[Function TempDataCutService]}
 >
   <div
     class="jobs-to-price-container"

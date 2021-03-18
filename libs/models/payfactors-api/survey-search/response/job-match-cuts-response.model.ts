@@ -6,7 +6,7 @@ export interface JobMatchCutsResponse {
 }
 
 export interface JobMatchCut {
-  MatchId?: number;
+  MatchId?: string|number;
   MatchType?: DataCutSummaryEntityTypes;
   Source: string;
   Base50?: number;
