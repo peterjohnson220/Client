@@ -30,12 +30,14 @@ export class ModelSettingsModalContentComponent implements OnInit, OnDestroy {
   controlPointsAsyncObj$: Observable<AsyncStateObj<ControlPoint[]>>;
   currenciesAsyncObj$: Observable<AsyncStateObj<Currency[]>>;
   roundingSettings$: Observable<RoundingSettingsDataObj>;
+  activeTab$: Observable<string>;
 
   metadataSub: Subscription;
   modelNameExistsFailureSub: Subscription;
   controlPointsAsyncObjSub: Subscription;
   currenciesAsyncObjSub: Subscription;
   roundingSettingsSub: Subscription;
+  activeTabSub: Subscription;
 
   metadata: RangeGroupMetadata;
   modelNameExistsFailure: boolean;
@@ -59,6 +61,7 @@ export class ModelSettingsModalContentComponent implements OnInit, OnDestroy {
     this.controlPointsAsyncObj$ = this.store.pipe(select(fromSharedStructuresReducer.getControlPointsAsyncObj));
     this.currenciesAsyncObj$ = this.store.pipe(select(fromSharedStructuresReducer.getCurrenciesAsyncObj));
     this.roundingSettings$ = this.store.pipe(select(fromSharedStructuresReducer.getRoundingSettings));
+    this.activeTab$ = this.store.pipe(select(fromSharedStructuresReducer.getActiveTab));
   }
 
   get formControls() {
@@ -140,6 +143,7 @@ export class ModelSettingsModalContentComponent implements OnInit, OnDestroy {
   }
 
   handleModalSubmitAttempt() {
+    let tab = this.activeTab;
     this.attemptedSubmit = true;
 
     this.modelSetting = this.modelSettingsForm.getRawValue();
@@ -147,8 +151,10 @@ export class ModelSettingsModalContentComponent implements OnInit, OnDestroy {
     this.updateRoundingSettings();
 
     if (!this.modelSettingsForm.valid) {
-      this.activeTab = 'modelTab';
+      tab = 'modelTab';
     }
+
+    this.store.dispatch(new fromModelSettingsModalActions.SetActiveTab(tab));
   }
 
   handleModalDismiss() {
@@ -176,7 +182,6 @@ export class ModelSettingsModalContentComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromModelSettingsModalActions.GetCurrencies());
     this.store.dispatch(new fromModelSettingsModalActions.GetControlPoints());
 
-    this.activeTab = 'modelTab';
     this.subscribe();
   }
 
@@ -185,6 +190,12 @@ export class ModelSettingsModalContentComponent implements OnInit, OnDestroy {
   }
 
   private subscribe() {
+    this.activeTabSub = this.activeTab$.subscribe(tab => {
+      if (tab) {
+        this.activeTab = tab;
+      }
+    });
+
     this.metadataSub = this.metaData$.subscribe(md => {
       if (md) {
         this.metadata = md;
@@ -216,6 +227,7 @@ export class ModelSettingsModalContentComponent implements OnInit, OnDestroy {
     this.controlPointsAsyncObjSub.unsubscribe();
     this.currenciesAsyncObjSub.unsubscribe();
     this.roundingSettingsSub.unsubscribe();
+    this.activeTabSub.unsubscribe();
   }
 
   private reset() {
