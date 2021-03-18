@@ -7,7 +7,7 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { DragulaService } from 'ng2-dragula';
 
 import { SearchBaseDirective } from 'libs/features/search/search/containers/search-base';
-import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
+import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
 import { SearchFeatureIds } from 'libs/features/search/search/enums/search-feature-ids';
 import { UpsertPeerDataCutComponent } from 'libs/features/pricings/upsert-peer-data-cut/upsert-peer-data-cut';
 import { cleanupDatacutsDragging, enableDatacutsDragging, PayfactorsSurveySearchApiModelMapper } from 'libs/features/surveys/survey-search/helpers';
@@ -80,8 +80,6 @@ export class MultiMatchComponent extends SearchBaseDirective implements OnInit, 
       .subscribe(p => {
         this.showMultiMatchModal.next(true);
       });
-
-    this.featureFlagService.bindEnabled(this.customizeScopeInMultimatchModalFlag, this.unsubscribe$);
   }
   @ViewChild(UpsertPeerDataCutComponent) upsertPeerDataCutComponent: UpsertPeerDataCutComponent;
 
@@ -89,7 +87,6 @@ export class MultiMatchComponent extends SearchBaseDirective implements OnInit, 
   @Input() featureImplementation = LEGACY_PROJECTS;
   @Output() afterSaveChanges = new EventEmitter<boolean>();
 
-  customizeScopeInMultimatchModalFlag: RealTimeFlag = { key: FeatureFlags.CustomizeScopeInMultimatchModal, value: false };
   changesToSave: boolean;
   saveChangesStarted = false;
   hasError: boolean;
