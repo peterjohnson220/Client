@@ -3,21 +3,19 @@ import { HttpUrlEncodingCodec } from '@angular/common/http';
 
 import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdown, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import cloneDeep from 'lodash/cloneDeep';
 
 import { SettingsService } from 'libs/state/app-context/services';
 import { CompanySettingsEnum } from 'libs/models/company';
 import { FileDownloadSecurityWarningModalComponent } from 'libs/ui/common';
 
-import { CompanyResource, OrphanedCompanyResource, CompanyResourceFolder } from '../../models';
+import { CompanyResource, OrphanedCompanyResource, CompanyResourceFolder, ResourceType } from '../../models';
 import { DeleteModalComponent } from '../../components/delete-modal/delete-modal.component';
 import * as fromCompanyResourcesPageReducer from '../../reducers';
-
-const BASE_LINK = '/odata/CloudFiles.DownloadCompanyResource?FileName=';
-const RESOURCE_TYPE = {
-  link: 'Link',
-  file: 'File'
-};
+import * as fromCompanyResourcesPageActions from '../../actions/company-resources.actions';
+import * as fromCompanyResourcesAddResourceActions from '../../actions/company-resources-add-resource.actions';
+import { ResourceModalComponent } from '../resource-modal/resource-modal.component';
 
 @Component({
   selector: 'pf-company-resource-list',
@@ -39,22 +37,37 @@ export class CompanyResourceListComponent implements OnInit, OnDestroy {
   deleteFolderSuccessSubscription: Subscription;
   enableFileDownloadSecurityWarning$: Observable<boolean>;
   enableFileDownloadSecurityWarningSub: Subscription;
+  showRenameResourceModal$: Observable<boolean>;
+  showRenameFolderModal$: Observable<boolean>;
+  savingFolderNameError$: Observable<string>;
+
   enableFileDownloadSecurityWarning = false;
-  folderStates = {};
   resource: CompanyResource;
+  updatedResource: CompanyResource;
+  selectedFolder: CompanyResourceFolder;
+  originalFolderName: string;
+  resourceType = ResourceType;
+  selectedResourceDropdown: NgbDropdown;
+  selectedFolderDropdown: NgbDropdown;
+  readonly BASE_LINK = '/odata/CloudFiles.DownloadCompanyResource?FileName=';
 
   constructor(
     private httpUrlEncodingCodec: HttpUrlEncodingCodec,
     private modalService: NgbModal,
     private store: Store<fromCompanyResourcesPageReducer.State>,
-    private settingService: SettingsService) {
-      this.enableFileDownloadSecurityWarning$ = this.settingService.selectCompanySetting<boolean>(CompanySettingsEnum.FileDownloadSecurityWarning);
-    }
+    private settingService: SettingsService
+  ) {
+    this.enableFileDownloadSecurityWarning$ = this.settingService.selectCompanySetting<boolean>(CompanySettingsEnum.FileDownloadSecurityWarning);
+    this.showRenameResourceModal$ = this.store.select(fromCompanyResourcesPageReducer.getShowRenameResourceModal);
+    this.showRenameFolderModal$ = this.store.select(fromCompanyResourcesPageReducer.getShowRenameFolderModal);
+    this.savingFolderNameError$ = this.store.select(fromCompanyResourcesPageReducer.getSavingFolderNameError);
+  }
 
   ngOnInit() {
     this.deleteResourceSuccess$ = this.store.select(fromCompanyResourcesPageReducer.getDeletingCompanyResourceSuccess);
     this.deleteFolderSuccess$ = this.store.select(fromCompanyResourcesPageReducer.getDeletingFolderFromCompanyResourcesSuccess);
     this.createSubscriptions();
+    window.addEventListener('scroll', this.onScroll, true);
   }
 
   ngOnDestroy() {
@@ -63,32 +76,8 @@ export class CompanyResourceListComponent implements OnInit, OnDestroy {
     this.enableFileDownloadSecurityWarningSub.unsubscribe();
   }
 
-  onFolderSelect(folderName: string) {
-    this.folderStates[folderName] = !this.folderStates[folderName];
-  }
-
-  setFolderIcon(folderName: string) {
-    return this.folderStates[folderName] ? 'folder' : 'folder-open';
-  }
-
-  setResourceIcon(resource: CompanyResource) {
-    if (typeof resource === 'undefined') {
-      return;
-    }
-
-    return resource.ResourceType === RESOURCE_TYPE.link ? 'link' : 'download';
-  }
-
-  setFontWeight(folderName: string) {
-    return this.folderStates[folderName] ? 'normal' : 'bold';
-  }
-
-  isLink(resource: CompanyResource): boolean {
-    return resource.ResourceType === RESOURCE_TYPE.link ? true : false;
-  }
-
   formatFileUrl(resourceFileName: string): string {
-    return `${BASE_LINK}${this.httpUrlEncodingCodec.encodeValue(resourceFileName)}`;
+    return `${this.BASE_LINK}${this.httpUrlEncodingCodec.encodeValue(resourceFileName)}`;
   }
 
   openDeleteResourceModal(resource) {
@@ -106,7 +95,21 @@ export class CompanyResourceListComponent implements OnInit, OnDestroy {
     }
   }
 
-  handleResourceClicked(resource: CompanyResource) {
+  trackByResource(index: any, item: CompanyResource): number {
+    return item.CompanyResourceId;
+  }
+
+  handleResourceActionButtonClicked(resource: CompanyResource): void {
+    this.resource = this.resource?.CompanyResourceId !== resource?.CompanyResourceId
+      ? resource
+      : null;
+  }
+
+  handleFolderActionButtonClicked(): void {
+    this.resource = null;
+  }
+
+  handleResourceClicked(resource: CompanyResource): void {
     this.resource = resource;
     if (this.enableFileDownloadSecurityWarning) {
       this.fileDownloadSecurityWarningModal.open();
@@ -123,6 +126,92 @@ export class CompanyResourceListComponent implements OnInit, OnDestroy {
     document.body.appendChild(link);
     link.click();
     link.remove();
+  }
+
+  trackByFolder(index: any, item: CompanyResourceFolder): number {
+    return item.CompanyResourcesFoldersId;
+  }
+
+  resourceActionsOpenChanged(dropdown: NgbDropdown, isOpen: boolean): void {
+    this.selectedResourceDropdown = isOpen ? dropdown : null;
+    if (!isOpen) {
+      this.resource = null;
+    }
+  }
+
+  folderActionsOpenChanged(dropdown: NgbDropdown, isOpen: boolean): void {
+    this.selectedFolderDropdown = isOpen ? dropdown : null;
+    if (!isOpen) {
+      this.resource = null;
+    }
+  }
+
+  onScroll = (): void => {
+    if (!!this.selectedResourceDropdown) {
+      this.selectedResourceDropdown.close();
+    }
+    if (!!this.selectedFolderDropdown) {
+      this.selectedFolderDropdown.close();
+    }
+  }
+
+  handleResourceTitleChanged(value: string): void {
+    this.updatedResource.ResourceTitle = value;
+  }
+
+  updateResourceTitle(): void {
+    if (!this.updatedResource?.ResourceTitle?.length) {
+      return;
+    }
+    this.store.dispatch(new fromCompanyResourcesPageActions.UpdateResourceTitle({
+      companyResourceId: this.updatedResource.CompanyResourceId,
+      companyResourceFolderId: this.updatedResource.CompanyResourcesFoldersId,
+      title: this.updatedResource.ResourceTitle
+    }));
+  }
+
+  openRenameResourceModal(resource: CompanyResource): void {
+    this.updatedResource = cloneDeep(resource);
+    this.store.dispatch(new fromCompanyResourcesPageActions.OpenRenameResourceModal());
+  }
+
+  closeRenameResourceModal(): void {
+    this.updatedResource = null;
+    this.store.dispatch(new fromCompanyResourcesPageActions.CloseRenameResourceModal());
+  }
+
+  handleFolderNameChanged(value: string): void {
+    this.selectedFolder.FolderName = value;
+  }
+
+  updateFolderName(): void {
+    if (!this.selectedFolder?.FolderName?.length) {
+      return;
+    }
+    this.store.dispatch(new fromCompanyResourcesPageActions.UpdateFolderName({
+      companyResourcesFolderId: this.selectedFolder.CompanyResourcesFoldersId,
+      folderName: this.selectedFolder.FolderName
+    }));
+  }
+
+  openRenameFolderModal(folder: CompanyResourceFolder): void {
+    this.selectedFolder = cloneDeep(folder);
+    this.originalFolderName = folder.FolderName;
+    this.store.dispatch(new fromCompanyResourcesPageActions.OpenRenameFolderModal());
+  }
+
+  closeRenameFolderModal(): void {
+    this.selectedFolder = null;
+    this.store.dispatch(new fromCompanyResourcesPageActions.CloseRenameFolderModal());
+  }
+
+  openResourceModal(folder: CompanyResourceFolder): void {
+    this.modalService.open(ResourceModalComponent, {
+      backdrop: 'static',
+      size: 'lg',
+      centered: true
+    });
+    this.store.dispatch(new fromCompanyResourcesAddResourceActions.OpenAddResourceModal(folder.FolderName));
   }
 
   private createSubscriptions() {
