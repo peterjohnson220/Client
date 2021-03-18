@@ -64,7 +64,7 @@
         border: 2px dashed $link-color;
       }
     }
-    
+
     &.invalid {
       .ql-container.ql-snow {
         border-color: darken(tomato, 10%);
@@ -157,7 +157,16 @@
   transition: background-color .3s ease-in-out, color .3s ease-in-out, padding .05s ease-in-out;
   color: $trs-placeholder-font-color;
   background-color: $trs-canvas-background-color;
-  padding: .15rem;
+
+  // Fixes quill-mention issue whereby formatting not being applied to mention field if it is last in the selection
+  display: inline-block;
+
+  padding: 0 .15rem;
+}
+
+// Fix so that <u> formatting will work wrapped around inline-block element
+u .mention {
+  text-decoration: underline;
 }
 
 .ql-mention-list-container {
