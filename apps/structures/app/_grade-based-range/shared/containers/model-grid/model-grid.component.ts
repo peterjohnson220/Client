@@ -255,6 +255,8 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
       this.clearValidators('RangeSpread');
       this.clearValidators('MidpointProgression');
     }
+
+    this.store.dispatch(new fromModelSettingsModalActions.SetActiveTab('modelTab'));
   }
 
   handleModalSubmit() {
