@@ -51,7 +51,7 @@ export const selectModifyPricingsState =
 
 export const selectTempDataCutState = createSelector(
   selectFeatureAreaState,
-  (state: MultiMatchState) => state.tempDataCut
+  (state: MultiMatchState) => !!state ? state.tempDataCut : {}
 );
 
 // Multi Match Page Selectors
