@@ -34,6 +34,7 @@ import * as fromSharedStructuresActions from '../../../../shared/actions/shared.
 import { StructuresPagesService } from '../../../../shared/services';
 import * as fromModelSettingsModalActions from '../../../../shared/actions/model-settings-modal.actions';
 import { ModelSettingsModalContentComponent } from '../model-settings-modal-content';
+import * as fromGradeBasedSharedReducer from '../../reducers';
 
 
 @Component({
@@ -100,10 +101,11 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   dataSubscription: Subscription;
   data$: Observable<GridDataResult>;
   pageViewId: string;
-  pageViewIdSubscription: Subscription;
+  pageViewIdSub: Subscription;
   modalOpenSub: Subscription;
   modalOpen$: Observable<boolean>;
   controlPoint: string;
+  gradesDetailsSub: Subscription;
 
   hasAddEditDeleteStructurePermission: boolean;
   hasCreateEditStructureModelPermission: boolean;
@@ -117,7 +119,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     this.metaData$ = this.store.pipe(select(fromSharedStructuresReducer.getMetadata));
     this.roundingSettings$ = this.store.pipe(select(fromSharedStructuresReducer.getRoundingSettings));
     this.rangeOverrides$ = this.store.pipe(select(fromSharedStructuresReducer.getRangeOverrides));
-    this.pageViewIdSubscription = this.structuresPagesService.modelPageViewId.subscribe(pv => this.pageViewId = pv);
+    this.pageViewIdSub = this.structuresPagesService.modelPageViewId.subscribe(pv => this.pageViewId = pv);
     this.selectedRecordId$ = this.store.select(fromPfDataGridReducer.getSelectedRecordId, this.modelGridPageViewId);
     this.data$ = this.store.select(fromPfGridReducer.getData, this.pageViewId);
     this.modalOpen$ = this.store.pipe(select(fromSharedStructuresReducer.getModelSettingsModalOpen), delay(0));
@@ -316,9 +318,13 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     });
     this.roundingSettingsSub = this.roundingSettings$.subscribe(rs => this.roundingSettings = rs);
     this.rangeOverridesSub = this.rangeOverrides$.subscribe(ro => this.rangeOverrides = ro);
+    this.gradesDetailsSub = this.store.select(fromGradeBasedSharedReducer.getGradesDetails).subscribe(details => {
+      if (details?.obj?.length > 0) {
+        this.numGrades = details.obj.length;
+      }
+    });
     this.dataSubscription = this.data$.subscribe(data => {
       if (data) {
-        this.numGrades = data.total;
         this.isNewModel = data.total < 1 ? true : false;
 
         // Open Model Settings modal only if it's a new model flow
@@ -342,7 +348,8 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     this.roundingSettingsSub.unsubscribe();
     this.rangeOverridesSub.unsubscribe();
     this.dataSubscription.unsubscribe();
-    this.pageViewIdSubscription.unsubscribe();
+    this.pageViewIdSub.unsubscribe();
     this.modalOpenSub.unsubscribe();
+    this.gradesDetailsSub.unsubscribe();
   }
 }

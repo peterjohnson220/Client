@@ -24,6 +24,7 @@ export class ModelSettingsModalContentComponent implements OnInit, OnDestroy {
   @Input() modelSettingsForm: FormGroup;
   @Input() modalOpen: boolean;
   @Input() isNewModel: boolean;
+  @Input() numGrades: number;
   @ViewChild(RangeRoundingComponent, {static: false}) public rangeRoundingComponent: RangeRoundingComponent;
   metaData$: Observable<RangeGroupMetadata>;
   modelNameExistsFailure$: Observable<boolean>;
@@ -175,6 +176,10 @@ export class ModelSettingsModalContentComponent implements OnInit, OnDestroy {
     if (!!settings) {
       this.roundingSettings = settings;
     }
+  }
+
+  get disableNumGradesField() {
+    return this.numGrades > 0;
   }
 
   // LifeCycle

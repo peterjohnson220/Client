@@ -11,7 +11,7 @@ import { StructureModelingApiService, StructureRangeGroupApiService } from 'libs
 import { GridDataHelper } from 'libs/features/grids/pf-data-grid/helpers';
 import * as fromDataGridActions from 'libs/features/grids/pf-data-grid/actions';
 import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
-import { generateMockRangeAdvancedSetting, GradeBasedPageViewIds, RangeGroupMetadata } from 'libs/models/structures';
+import { generateMockRangeAdvancedSetting, RangeGroupMetadata } from 'libs/models/structures';
 import { GridConfig } from 'libs/features/grids/pf-data-grid/models';
 import { PagingOptions } from 'libs/models/payfactors-api/search/request';
 import * as fromNotificationActions from 'libs/features/infrastructure/app-notifications/actions/app-notifications.actions';
@@ -195,6 +195,21 @@ export class SharedEffects {
           ),
           catchError(() => of(new fromModelSettingsModalActions.SaveGradeBasedModelSettingsError()))
         );
+      })
+    );
+
+  @Effect()
+  getGradesDetails: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromGradeBasedSharedActions.GET_GRADES_DETAILS),
+      switchMap((action: fromGradeBasedSharedActions.GetGradesDetails) => {
+        return this.structureModelingApiService.getGradesForStructureByRangeGroupId(action.payload)
+          .pipe(
+            map((res) => {
+              return new fromGradeBasedSharedActions.GetGradesDetailsSuccess(res);
+            }),
+            catchError((err) => of(new fromGradeBasedSharedActions.GetGradesDetailsError(err)))
+          );
       })
     );
 
