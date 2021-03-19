@@ -31,7 +31,7 @@ const initialState: State = {
   copying: false,
   editing: false,
   deleting: false,
-  template: null,
+  template: new Template,
   saveError: null,
   error: false,
   summary: null,
