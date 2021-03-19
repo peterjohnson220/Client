@@ -61,7 +61,11 @@ export class TrsCalculationControlComponent implements OnChanges, OnDestroy, OnI
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes?.companyUdfs?.currentValue?.length || changes?.controlData?.currentValue?.DataFields?.length) {
+    const companyUdfsLength = changes?.companyUdfs?.currentValue?.length;
+    const dataFieldsLength = changes?.controlData?.currentValue?.DataFields?.length;
+    const rewardsDataChanged = changes?.employeeRewardsData?.currentValue != changes?.employeeRewardsData?.previousValue;
+
+    if (companyUdfsLength || dataFieldsLength || rewardsDataChanged) {
       this.selectableFields = this.buildSelectableFieldsList();
       this.maxVisibleFieldsReached = this.visibleFieldsCount === this.MAX_VISIBLE_FIELDS;
       this.visibleFields = this.controlData.DataFields.filter(field => this.displayFieldInTable(field));
