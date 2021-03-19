@@ -102,4 +102,10 @@ export class StructureModelingApiService {
       params: request
     });
   }
+
+  getGradesForStructureByRangeGroupId(rangeGroupId: number): Observable<any> {
+    return this.payfactorsApiService.get<any>(`${this.endpoint}/GetGradesForStructureByRangeGroupId`, {
+      params: { rangeGroupId }
+    });
+  }
 }

@@ -37,3 +37,8 @@ export const getGradeRangeDetails = createSelector(
   selectSharedState,
   fromSharedReducer.getGradeRangeDetails
 );
+
+export const getGradesDetails = createSelector(
+  selectSharedState,
+  fromSharedReducer.getGradesDetails
+);
