@@ -117,7 +117,7 @@
   </div>
   <div class="form-group rounding-group" *ngIf="(metaData$ | async)?.RangeDistributionTypeId === 4">
     <label>Top 2nd 5th</label>
-    <div class="form-row" formGroupName="'secondQuintile'">
+    <div class="form-row" [formGroupName]="'secondQuintile'">
       <div class="form-group col-5">
         <kendo-dropdownlist id="second-quintile-rounding-type" class="form-control k-dropdown-white"
                             formControlName="RoundingType"
