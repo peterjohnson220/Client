@@ -5,7 +5,8 @@
   [actionBarConfig]="actionBarConfig"
   [columnTemplates]="colTemplates"
   [gridRowActionsConfig]="gridRowActionsConfig"
-  [gridActionsTemplate]="gridActions"
+  [filterPanelTemplates]="filterTemplates"
+  [customFilterOptions]="customFilterOptions$ | async"
   [customSortOptions]="customSortOptions"
   [enableResize]="!isTileView"
   [gridConfig]="gridConfig"
@@ -41,7 +42,7 @@
           pfEllipsisActive
           class="w-100 ellipsis-overflowing-text-wrap"
           [class.pay-market-name]="isTileView">
-      {{dataRow['CompanyPayMarkets_PayMarket']}} 
+      {{dataRow['CompanyPayMarkets_PayMarket']}}
     </span>
     <span *ngIf="dataRow['CompanyPayMarkets_IsDefaultPayMarket'] === 1"
           class="badge btn flex-shrink-1 pl-2 pr-2"
@@ -51,8 +52,51 @@
   </div>
 </ng-template>
 
-<ng-template #gridActions>
-  <pf-paymarkets-grid-actions></pf-paymarkets-grid-actions>
+<ng-template #industryFilter>
+  <pf-treeview
+    *ngIf="!!(industries$ | async)?.obj && !! !!(industries$ | async)?.obj?.length"
+    [data]="(industries$ | async).obj"
+    [label]="'Industry'"
+    [anchorWidth]="'auto'"
+    [placeholder]="'All'"
+    [checkedKeys]="selectedIndustries"
+    class="filter"
+    [compressChildValues]="true"
+    [filterable]="true"
+    [searchPlaceholder]="'Search for an industry...'"
+    (applyClicked)="handleIndustryFilterChanged($event)">
+  </pf-treeview>
+</ng-template>
+
+<ng-template #sizeFilter>
+  <pf-treeview
+    *ngIf="!!(sizes$ | async)?.obj?.length"
+    [data]="(sizes$ | async)?.obj"
+    [label]="'Size'"
+    [anchorWidth]="'auto'"
+    [placeholder]="'All'"
+    [checkedKeys]="selectedSize"
+    class="filter"
+    [filterable]="true"
+    [searchPlaceholder]="'Search for a size...'"
+    (applyClicked)="handleSelectedSizesChanged($event)">
+  </pf-treeview>
+</ng-template>
+
+<ng-template #locationFilter>
+  <pf-treeview
+    *ngIf="!!(locations$ | async)?.obj && !! !!(locations$ | async)?.obj?.length"
+    [data]="(locations$ | async).obj"
+    [label]="'Location'"
+    [anchorWidth]="'auto'"
+    [placeholder]="'All'"
+    [checkedKeys]="selectedLocation"
+    class="filter"
+    [compressChildValues]="true"
+    [filterable]="true"
+    [searchPlaceholder]="'Search for a location...'"
+    (applyClicked)="handleLocationFilterChanged($event)">
+  </pf-treeview>
 </ng-template>
 
 <ng-template #gridGlobalActions>

@@ -43,3 +43,4 @@ export const getCompanyIndustries = createSelector(selectGridActionsBarState, fr
 export const getSelectedIndustries = createSelector(selectGridActionsBarState, fromGridActionsBarReducer.getSelectedIndustries);
 export const getLocations = createSelector(selectGridActionsBarState, fromGridActionsBarReducer.getLocations);
 export const getSelectedLocations = createSelector(selectGridActionsBarState, fromGridActionsBarReducer.getSelectedLocations);
+export const getCustomFilterOptions = createSelector(selectGridActionsBarState, fromGridActionsBarReducer.getCustomFilterOptions);

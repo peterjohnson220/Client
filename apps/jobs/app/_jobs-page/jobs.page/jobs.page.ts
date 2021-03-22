@@ -455,9 +455,9 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.store.dispatch(new fromPfDataGridActions.UpdateSelectedRecordId(this.pageViewId, null, null));
   }
 
-  handlePayMarketFilterChanged(payMarkets: string[]) {
+  handlePayMarketFilterChanged(payMarkets: GroupedListItem[]) {
     const field: ViewField = cloneDeep(this.payMarketField);
-    field.FilterValues = payMarkets?.length > 0 ? payMarkets : null;
+    field.FilterValues = payMarkets?.length > 0 ? payMarkets.map(x => x.Value) : null;
     field.FilterOperator = 'in';
     this.updateField(field);
   }

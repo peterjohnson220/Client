@@ -33,15 +33,15 @@ export class GridActionsComponent implements OnInit {
     this.store.dispatch(new fromGridActionsBarActions.GetLocations());
   }
 
-  handleSelectedSizesChanged(sizesStates: string[]): void {
+  handleSelectedSizesChanged(sizesStates: GroupedListItem[]): void {
     this.store.dispatch(new fromGridActionsBarActions.UpdateSelectedSizes(sizesStates));
   }
 
-   handleIndustryFilterChanged(values: string[]) {
+   handleIndustryFilterChanged(values: GroupedListItem[]) {
     this.store.dispatch(new fromGridActionsBarActions.SetSelectedIndustries(values));
   }
 
-  handleLocationFilterChanged(values: string[]): void {
+  handleLocationFilterChanged(values: GroupedListItem[]): void {
     this.store.dispatch(new fromGridActionsBarActions.SetSelectedLocations(values));
   }
 
