@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import {
-  SaveCompanyJobStructureMapsRequest,
+  SaveCompanyJobStructureMapsRequest, SwitchRegressionFlagsRequest,
 } from 'libs/models/payfactors-api';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
@@ -19,6 +19,10 @@ export class StructureMappingApiService {
 
   saveStructureGradeMappings(request: SaveCompanyJobStructureMapsRequest): Observable<any> {
     return this.payfactorsApiService.post<any>(`${this.endpoint}/SaveStructureGradeMappings`, request);
+  }
+
+  switchRegressionFlags(request: SwitchRegressionFlagsRequest): Observable<any> {
+    return this.payfactorsApiService.post<any>(`${this.endpoint}/SwitchRegressionFlags`, request);
   }
 
 }
