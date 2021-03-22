@@ -264,9 +264,12 @@ export class TrsCalculationControlComponent implements OnChanges, OnDestroy, OnI
   }
 
   setupDragula(): void {
-    this.dragulaGroupName = `dragula-group-calc-control-${this.uuidv4()}`;
-    if (this.dragulaService) {
+    if (!this.inEditMode) {
+      return;
+    }
 
+    this.dragulaGroupName = `dragula-group-calc-control-${this.controlData.Id}`;
+    if (this.dragulaService) {
       this.dragulaService.createGroup(this.dragulaGroupName, {
         revertOnSpill: true,
         direction: 'vertical',
@@ -277,19 +280,11 @@ export class TrsCalculationControlComponent implements OnChanges, OnDestroy, OnI
       });
 
       this.dragulaSubscription$ = this.dragulaService.drop(this.dragulaGroupName).subscribe(() => {
-          this.onCompFieldReordered.emit({
-            ControlId: this.controlData.Id,
-            CompensationFields: this.visibleFields
-          });
+        this.onCompFieldReordered.emit({
+          ControlId: this.controlData.Id,
+          CompensationFields: this.visibleFields
         });
+      });
     }
-  }
-
-  // https://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid
-  uuidv4() {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-      var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-      return v.toString(16);
-    });
   }
 }
