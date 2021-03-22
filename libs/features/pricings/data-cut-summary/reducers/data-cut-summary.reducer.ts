@@ -36,6 +36,14 @@ export function reducer(state = initialState, action: fromDataCutSummaryActions.
         dataCutSummaryDictionary: dataCutSummaryDictionaryCopy
       };
     }
+    case fromDataCutSummaryActions.REMOVE_DATA_CUT_SUMMARY: {
+      const dataCutSummaryDictionaryCopy = cloneDeep(state.dataCutSummaryDictionary);
+      delete dataCutSummaryDictionaryCopy[action.payload.dataCutKey];
+      return {
+        ...state,
+        dataCutSummaryDictionary: dataCutSummaryDictionaryCopy
+      };
+    }
     default:
       return state;
   }

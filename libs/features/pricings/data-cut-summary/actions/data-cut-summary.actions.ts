@@ -6,6 +6,7 @@ export const LOAD_DATA_CUT_SUMMARY = '[Job Summary] Load Data Cut Summary';
 export const LOAD_DATA_CUT_SUMMARY_SUCCESS = '[Job Summary] Load Data Cut Summary Success';
 export const LOAD_DATA_CUT_SUMMARY_ERROR = '[Job Summary] Load Data Cut Summary Error';
 export const ADD_DATA_CUT_SUMMARY = '[Job Summary] Add Data Cut Summary';
+export const REMOVE_DATA_CUT_SUMMARY = '[Job Summary] Remove Data Cut Summary';
 
 export class ClearDataCutSummary implements Action {
   readonly type = CLEAR_DATA_CUT_SUMMARY;
@@ -32,9 +33,15 @@ export class AddDataCutSummary implements Action {
   constructor(public payload: { dataCutKey: string, response: any }) { }
 }
 
+export class RemoveDataCutSummary implements Action {
+  readonly type = REMOVE_DATA_CUT_SUMMARY;
+  constructor(public payload : {dataCutKey: string }) { }
+}
+
 export type Actions
   = ClearDataCutSummary
   | LoadDataCutSummary
   | LoadDataCutSummarySuccess
   | LoadDataCutSummaryError
-  | AddDataCutSummary;
+  | AddDataCutSummary
+  | RemoveDataCutSummary;
