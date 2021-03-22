@@ -92,7 +92,7 @@ export class ServicePageComponent implements AfterViewInit, OnInit, OnDestroy {
         if (this.applyInitialSelection) {
           const ticketIdField = fields.find(f => f.SourceName === 'UserTicket_ID');
 
-          if (!ticketIdField.FilterValues.find(val => val === this.ticketId.toString())) {
+          if (!ticketIdField.FilterValues?.find(val => val === this.ticketId.toString())) {
             this.store.dispatch(new fromPfDataGridActions.UpdateInboundFilters(ServicePageConfig.ServicePageViewId, [{
               SourceName: 'UserTicket_ID',
               Operator: '=',

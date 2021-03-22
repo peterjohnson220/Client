@@ -3,7 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { BaseExchangeDataSearchRequest } from 'libs/models/payfactors-api/peer/exchange-data-search/request';
-import { ExchangeExplorerDataCutResponse, ExchangeExplorerScopeResponse } from 'libs/models/payfactors-api/peer/exchange-data-filter/';
+import { ExchangeExplorerDataCutResponse, ExchangeExplorerScopeResponse } from 'libs/models/payfactors-api/peer/exchange-data-filter';
+import { TempDataCutIdentity } from 'libs/features/pricings/multi-match/models';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 
@@ -34,4 +35,9 @@ export class ExchangeDataFilterApiService {
       ExchangeDataSearchRequest: payload.exchangeDataSearchRequest
     });
   }
+
+  getTempExchangeDataCutFilterContextFromEntity(payload: TempDataCutIdentity): Observable<ExchangeExplorerDataCutResponse> {
+    return this.payfactorsApiService.post<ExchangeExplorerDataCutResponse>(`${this.endpoint}/GetTempExchangeDataCutFilterContextFromEntity`, payload);
+  }
+
 }
