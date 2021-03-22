@@ -118,6 +118,48 @@
   </span>
 </ng-template>
 
+<ng-template #numJobsColumn let-dataRow="dataRow">
+  <pf-grid-column-tooltip
+    *ngIf="dataRow['UserSessionMap_Number_Of_Jobs'] > 0;else columnTemplate"
+    [columnTemplate]="columnTemplate"
+    [tooltipTemplate]="toolTipContent"
+  >
+
+  </pf-grid-column-tooltip>
+  <ng-template #columnTemplate>
+    {{dataRow['UserSessionMap_Number_Of_Jobs']}}
+  </ng-template>
+  <ng-template #toolTipContent>
+    <pf-project-list-tooltip
+      [projectId]="dataRow['UserSessionMap_UserSession_ID']"
+      [columnType]="tooltipDataTypes.Jobs"
+    >
+
+    </pf-project-list-tooltip>
+  </ng-template>
+</ng-template>
+
+<ng-template #numSharedColumn let-dataRow="dataRow">
+  <pf-grid-column-tooltip
+    *ngIf="dataRow['UserSessionMap_Number_Of_Shares'] > 0;else columnTemplate"
+    [columnTemplate]="columnTemplate"
+    [tooltipTemplate]="toolTipContent"
+  >
+
+  </pf-grid-column-tooltip>
+  <ng-template #columnTemplate>
+    {{dataRow['UserSessionMap_Number_Of_Shares']}}
+  </ng-template>
+  <ng-template #toolTipContent>
+    <pf-project-list-tooltip
+      [projectId]="dataRow['UserSessionMap_UserSession_ID']"
+      [columnType]="tooltipDataTypes.Shared"
+    >
+
+    </pf-project-list-tooltip>
+  </ng-template>
+</ng-template>
+
 <ng-template #projectStatusFilter>
   <div>
     <label>Status:</label>

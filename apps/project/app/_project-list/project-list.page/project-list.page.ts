@@ -25,6 +25,7 @@ import * as fromAutoShareModalActions from 'libs/features/users/user-settings/ac
 import { ShareModalOperation } from 'libs/models/share-modal/share-modal-operation';
 import * as fromFeatureFlagRedirectReducer from 'libs/state/state';
 import { UrlPage } from 'libs/models/url-redirect/url-page';
+import { TooltipTypes } from 'libs/constants/projects/tooltip-constants';
 
 import {PageViewIds} from '../../shared/constants';
 
@@ -100,11 +101,14 @@ export class ProjectListPageComponent implements AfterViewInit, OnInit, OnDestro
   redirectSlugLoading$: Observable<boolean>;
   redirectSlugLoadingError$: Observable<boolean>;
 
+  tooltipDataTypes = TooltipTypes;
+
   @ViewChild('projectStatusColumn') projectStatusColumn: ElementRef;
   @ViewChild('projectStatusFilter') projectStatusFilter: ElementRef;
   @ViewChild('projectPinnedFilter') projectPinnedFilter: ElementRef;
   @ViewChild('gridRowActionsTemplate') gridRowActionsTemplate: ElementRef;
   @ViewChild('numJobsColumn') numJobsColumn: ElementRef;
+  @ViewChild('numSharedColumn') numSharedColumn: ElementRef;
   @ViewChild('projectName') projectName: ElementRef;
   @ViewChild(PfSecuredResourceDirective) pfSecuredResourceDirective: PfSecuredResourceDirective;
   @ViewChild('shareBtn') shareBtn: ElementRef;
@@ -156,7 +160,9 @@ export class ProjectListPageComponent implements AfterViewInit, OnInit, OnDestro
   ngAfterViewInit() {
     this.colTemplates = {
       'Completed': {Template: this.projectStatusColumn},
-      'Session_Name': {Template: this.projectName}
+      'Session_Name': {Template: this.projectName},
+      'Number_Of_Jobs': {Template: this.numJobsColumn},
+      'Number_Of_Shares': {Template: this.numSharedColumn}
     };
 
     this.filterTemplates = {

@@ -476,7 +476,7 @@ export class UpdateSelectedRow implements Action {
 }
 
 export class UpdateFieldsWithCustomFilterTemplates implements Action {
-  readonly type = UPDATE_FIELDS_WITH_CUSTOM_FILTER_TEMPLATES
+  readonly type = UPDATE_FIELDS_WITH_CUSTOM_FILTER_TEMPLATES;
   constructor(public pageViewId: string, public payload: string[]) {}
 }
 
@@ -560,6 +560,6 @@ export type DataGridActions =
   | DeleteFadeInKeys
   | SetFadeInKeys
   | LoadDataAndAddFadeInKeys
-  | UpdateSelectedRow  
+  | UpdateSelectedRow
   | UpdateFieldsWithCustomFilterTemplates
   | UpdateCustomFilterOptions;

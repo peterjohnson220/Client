@@ -61,7 +61,7 @@ export type Actions
   = UpdateJobId
   | InitPricingHistoryChart
   | InitPricingHistoryChartSuccess
-  | InitPricingHistoryChartError  
+  | InitPricingHistoryChartError
   | InitUserDefaultFilters
   | GetData
   | GetDataSuccess
