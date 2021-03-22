@@ -33,7 +33,7 @@ export class GetCompanyScopeSizesError implements Action {
 export class UpdateSelectedSizes implements Action {
   readonly type = UPDATE_SELECTED_SIZES;
 
-  constructor(public payload: string[]) {}
+  constructor(public payload: GroupedListItem[]) {}
 }
 
 export class GetCompanyIndustries implements Action {
@@ -57,7 +57,7 @@ export class GetCompanyIndustriesError implements Action {
 export class SetSelectedIndustries implements Action {
   readonly type = SET_SELECTED_INDUSTRIES;
 
-  constructor(public payload: string[]) {}
+  constructor(public payload: GroupedListItem[]) {}
 }
 
 export class GetLocations implements Action {
@@ -81,7 +81,7 @@ export class GetLocationsError implements Action {
 export class SetSelectedLocations implements Action {
   readonly type = SET_SELECTED_LOCATIONS;
 
-  constructor(public payload: string[]) {}
+  constructor(public payload: GroupedListItem[]) {}
 }
 
 export type Actions

@@ -94,9 +94,9 @@ export class ProjectDetailsGridComponent implements AfterViewInit, OnDestroy, On
     this.companyPayMarketsSubscription.unsubscribe();
   }
 
-  handlePayMarketValueChanged(payMarkets: string[]) {
+  handlePayMarketValueChanged(payMarkets: GroupedListItem[]) {
     const field: ViewField = cloneDeep(this.payMarketField);
-    field.FilterValues = payMarkets?.length > 0 ? payMarkets : null;
+    field.FilterValues = payMarkets?.length > 0 ? payMarkets.map(x => x.Value) : null;
     field.FilterOperator = 'in';
     this.updateField(field);
   }

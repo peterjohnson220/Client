@@ -10,7 +10,7 @@ import { Align } from '@progress/kendo-angular-popup';
 import cloneDeep from 'lodash/cloneDeep';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
-import { GroupedListItem, PfConstants } from 'libs/models';
+import { GroupedListItem } from 'libs/models';
 import { TreeViewMode } from '../../models';
 
 @Component({
@@ -44,7 +44,7 @@ export class PfTreeViewComponent implements OnInit, OnDestroy, OnChanges {
   @Input() lazyLoadDefaultAppliedItem: GroupedListItem;
   @Input() loading = false;
   @Input() showDescriptionToolTip = false;
-  @Output() applyClicked: EventEmitter<string[]> = new EventEmitter();
+  @Output() applyClicked: EventEmitter<GroupedListItem[]> = new EventEmitter();
   @Output() expandNode: EventEmitter<string> = new EventEmitter();
   @Output() searchTermChanged: EventEmitter<string> = new EventEmitter();
 
@@ -132,7 +132,7 @@ export class PfTreeViewComponent implements OnInit, OnDestroy, OnChanges {
 
   handleApplyClicked(): void {
     this.handleCheckedKeysChanged();
-    this.applyClicked.emit(this.appliedValues.map(x => x.Value));
+    this.applyClicked.emit(this.appliedValues);
   }
 
   toggleDropdown(): void {
