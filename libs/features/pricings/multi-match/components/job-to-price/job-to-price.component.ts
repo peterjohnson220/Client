@@ -5,6 +5,7 @@ import { JobMatchCut } from 'libs/models/payfactors-api';
 import { JobToPrice } from '../../models';
 
 import { LEGACY_PROJECTS, MODIFY_PRICINGS } from '../../constants';
+import { DataCutSummaryTypes } from '../../../data-cut-summary/constants';
 
 @Component({
   selector: 'pf-job-to-price',
@@ -77,7 +78,7 @@ export class JobToPriceComponent implements OnInit {
   }
 
   handleDataCutClick(job: JobToPrice, jobMatchCut: JobMatchCut) {
-    if (!!jobMatchCut.PeerCutId) {
+    if (jobMatchCut.MatchSourceCode === DataCutSummaryTypes.PEER) {
       this.editCut.emit({ jobCut: jobMatchCut, job: job });
     }
   }

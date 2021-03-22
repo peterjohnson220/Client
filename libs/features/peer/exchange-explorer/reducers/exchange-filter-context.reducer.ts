@@ -139,5 +139,5 @@ export const getFilterContext = (state: State) => {
   };
   return filterContext;
 };
-export const getWeightingType = (state: State) => state.WeightingType;
+export const getWeightingType = (state: State) => !!state.hasBeenSet ? state.WeightingType : null;
 export const getHasDefaultScope = (state: State) => state.hasDefaultScope;
