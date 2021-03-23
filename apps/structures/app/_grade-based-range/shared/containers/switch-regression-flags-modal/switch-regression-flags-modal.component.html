@@ -1,0 +1,55 @@
+<pf-modal-form
+  [size]="'sm'"
+  [title]="'Regression Management'"
+  [modalId]="'au-modal-regression-management'"
+  [attr.data-qa-id]="'switch-regression-flags-modal'"
+  [primaryButtonText]="this.selectedGradePoint?.IncludeInRegression ? 'Exclude' : 'Include'"
+  [primaryButtonClass]="'btn-danger'"
+  [secondaryButtonText]="'Cancel'"
+  [primaryButtonTextSubmitting]="this.selectedGradePoint?.IncludeInRegression ? 'Excluding' : 'Including'"
+  [submitting]="(switchingRegressionFlagsAsyncObj$ | async)?.saving"
+  [isOpen$]="modalOpen$"
+  (onSubmit)="handleSwitch()"
+  (onDismiss)="handleDismiss()">
+
+  <ng-container basic-content>
+    <div *ngIf="selectedGradePoint?.IncludeInRegression && !showAll">
+      Exclude {{selectedGradePoint?.JobTitle}} from the regression line?
+      <br />
+      <button (click)="this.showAll = true"
+              class="btn btn-link"
+              [attr.data-qa-id]="'btn-show-included-jobs'">
+          Show all included jobs
+      </button>
+    </div>
+    <div *ngIf="!selectedGradePoint?.IncludeInRegression && !showAll">
+      Include {{selectedGradePoint?.JobTitle}} in the regression line?
+      <br />
+      <button (click)="this.showAll = true"
+              class="btn btn-link"
+              [attr.data-qa-id]="'btn-show-excluded-jobs'">
+        Show all excluded jobs
+      </button>
+    </div>
+    <div *ngIf="showAll" class="switchTableDiv">
+      <table class="table switchTable">
+        <thead>
+        <tr>
+          <th class="select-all-box"><input type="checkbox" (change)="selectAll()" [checked]="selectAllFlag"/></th>
+          <th class="assign-tab-header-row">Job Title</th>
+          <th class="assign-tab-header-row">MRP</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let point of gradePoints">
+          <td><input type="checkbox" [value]="point.CompanyJobsStructuresId"
+                     (change)="selectGradePoint(point.CompanyJobsStructuresId)" [checked]="point.Selected"
+          /></td>
+          <td>{{point.JobTitle}}</td>
+          <td>{{point.Mrp}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </ng-container>
+</pf-modal-form>
