@@ -44,11 +44,11 @@
         <div class="link au-lnk-show-hide-job-details" (click)="toggleJobDetailDisplay()">
           {{toggleJobDetailLabel}}
         </div>
-        <ng-container *ngIf="isPeerJob && refineInPeerDisplayed">
+        <ng-container *ngIf="isPeerJob && customizeInPeerDisplayed">
           <div class="link mx-2">
             |
           </div>
-          <div class="link au-lnk-refine-job-in-peer" (click)="toggleRefineInPeerDisplay()">
+          <div class="link au-lnk-refine-job-in-peer" (click)="toggleCustomizeInPeerDisplay()">
             Customize Your Scope
           </div>
         </ng-container>
@@ -117,11 +117,12 @@
                     [cutsDraggable]="cutsDraggable"
                     [currencyCode]="currencyCode"
                     [legacyIframeImplementation]="legacyIframeImplementation"
+                    [customizeInPeerDisplayed]="customizeInPeerDisplayed"
                     (dataCutSelected)="handleDataCutSelected($event)"
                     (payFactorsCutSelected)="handlePayfactorsCutSelected()"
                     (matchesMouseEnter)="handleDataCutMatchesMouseEnter($event)"
                     (matchesMouseLeave)="handleMatchesMouseLeave()"
-                    (refineInPeerClicked)="handleRefineInPeerClicked()">
+                    (customizeInPeerClicked)="handleCustomizeInPeerClicked()">
       </pf-data-cuts>
       <span *ngIf="hasMoreDataCuts && !job.LoadingMoreDataCuts" class="link" (click)="handleLoadDataCuts()">Load More</span>
     </ng-container>
