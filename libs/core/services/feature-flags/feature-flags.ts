@@ -21,5 +21,4 @@ export class FeatureFlags {
   static readonly ExportsSecurity = 'exports-security';
   static readonly ScheduleTabularReportingExport = 'schedule-tabular-reporting-export';
   static readonly HrisTestDataBypass = 'hris-test-data-bypass';
-  static readonly HideOldJobsPageButton = 'hide-old-jobs-button';
 }
