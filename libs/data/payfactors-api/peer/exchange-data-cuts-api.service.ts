@@ -70,7 +70,4 @@ export class ExchangeDataCutsApiService {
         TempExchangeDataSearchRequests: tempExchangeDataSearchRequests
       }, (success: boolean) => success);
   }
-  getDataCutFilter(filterGuid: string) {
-    return this.payfactorsApiService.get(`${this.endpoint}/GetDataCutFilter`, {params: {filterGuid: filterGuid}});
-  }
 }

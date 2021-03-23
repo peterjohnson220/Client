@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Action, Store, select } from '@ngrx/store';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
+import { filter } from 'rxjs/internal/operators';
 import { catchError, switchMap, map, withLatestFrom, concatMap, mergeMap } from 'rxjs/operators';
 
 import { ExchangeScopeApiService, ExchangeDataFilterApiService } from 'libs/data/payfactors-api/peer';
@@ -21,6 +22,7 @@ import { FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models
 import { PayfactorsSearchApiModelMapper } from 'libs/features/search/search/helpers';
 import { ScrollIdConstants } from 'libs/features/search/infinite-scroll/models';
 import { SettingsService } from 'libs/state/app-context/services';
+import { DataCutSummaryEntityTypes } from 'libs/constants';
 import * as fromInfiniteScrollActions from 'libs/features/search/infinite-scroll/actions/infinite-scroll.actions';
 import * as fromSearchResultsActions from 'libs/features/search/search/actions/search-results.actions';
 import * as fromSearchFiltersActions from 'libs/features/search/search/actions/search-filters.actions';
@@ -92,10 +94,24 @@ export class ExchangeScopeEffects {
 
   @Effect()
   loadTempExchangeDataCut: Observable<Action> = this.actions$.pipe(
-    ofType(fromExchangeDataCutActions.LOAD_TEMP_EXCHANGE_DATA_CUT)).pipe(
+    ofType(fromExchangeDataCutActions.LOAD_TEMP_EXCHANGE_DATA_CUT),
     map((action: fromExchangeDataCutActions.LoadTempExchangeDataCut) => action.payload),
+    filter((payload: any) => !payload.MatchType),
     switchMap((payload: any) =>
       this.exchangeDataFilterApiService.getTempExchangeDataCutFilterContext(payload).pipe(
+        mergeMap((response: ExchangeExplorerDataCutResponse) => ExchangeScopeEffects.getExchangeExplorerDataCutResponseActions(response)),
+        catchError((error) => of(new fromExchangeDataCutActions.LoadExchangeDataCutError))
+      )
+    )
+  );
+
+  @Effect()
+  loadTempExchangeDataCutFromEntity: Observable<Action> = this.actions$.pipe(
+    ofType(fromExchangeDataCutActions.LOAD_TEMP_EXCHANGE_DATA_CUT),
+    map((action: fromExchangeDataCutActions.LoadTempExchangeDataCut) => action.payload),
+    filter((payload: any) => !!payload.MatchType && payload.MatchType !== DataCutSummaryEntityTypes.CustomPeerCutId),
+    switchMap((payload: any) =>
+      this.exchangeDataFilterApiService.getTempExchangeDataCutFilterContextFromEntity(payload).pipe(
         mergeMap((response: ExchangeExplorerDataCutResponse) => ExchangeScopeEffects.getExchangeExplorerDataCutResponseActions(response)),
         catchError((error) => of(new fromExchangeDataCutActions.LoadExchangeDataCutError))
       )

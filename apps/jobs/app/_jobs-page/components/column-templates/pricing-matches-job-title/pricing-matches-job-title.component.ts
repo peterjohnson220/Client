@@ -25,6 +25,7 @@ import {
   UpsertPeerDataCutParentEntities
 } from 'libs/features/pricings/upsert-peer-data-cut/constants';
 import * as fromUpsertPeerActions from 'libs/features/pricings/upsert-peer-data-cut/actions';
+import * as fromDataCutSummaryActions from 'libs/features/pricings/data-cut-summary/actions';
 import { ReScopeSurveyDataModalConfiguration } from 'libs/features/surveys/re-scope-survey-data/models';
 import * as fromReScopeActions from 'libs/features/surveys/re-scope-survey-data/actions';
 
@@ -186,12 +187,13 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
             MatchWeight: null,
             MatchAdjustment: null,
             SurveyDataId: null,
-            ExchangeDataCutId: data['payload']['UserJobMatchId'],
+            ExchangeDataCutId: data['payload']['MatchId'],
           };
           const pricingId = this.dataRow['CompanyJobs_PricingsMatches_CompanyJobPricing_ID'];
           const matchesGridPageViewId = `${PageViewIds.PricingMatches}_${pricingId}`;
 
           this.store.dispatch(new fromModifyPricingsActions.UpdatingPricingMatch(request, pricingId, matchesGridPageViewId));
+          this.store.dispatch(new fromDataCutSummaryActions.RemoveDataCutSummary({dataCutKey: data['payload']['BaseEntityId'] + "CompanyJobPricingMatchId"}));
         }
       });
 

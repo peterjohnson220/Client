@@ -1,0 +1,33 @@
+<div class="d-flex">
+  <div>
+    <h5>Peer Data Cut</h5>
+    <div class="d-flex">
+      <div *ngIf="!!dataCutSummary['ExchangeJobDescriptions']?.join().length"  class="dataCutSummaryPropertiesContainer pr-3">
+        <strong class="pf-brand-secondary-color pr-1">Job Description</strong>
+        <pf-copy-to-clipboard-button [toolTipText] = "'Copy Job Description'" [copyText]="dataCutSummary['ExchangeJobDescriptions']"></pf-copy-to-clipboard-button>
+        <div class="dataCutSummaryProperties" data-qa-id="txt-pricing-match-job-description">
+          <div>{{dataCutSummary['ExchangeJobDescriptions']}}</div>
+        </div>
+      </div>
+      <div class="dataCutSummaryPropertiesContainer pr-3">
+        <strong class="pf-brand-secondary-color">Data Cut Details</strong>
+        <div class="dataCutSummaryProperties" data-qa-id="txt-pricing-match-details">
+          <pf-data-cut-summary-property [value]="dataCutSummary['ExchangeScopeName']" [label]="'Exchange Scope'" [labelPlural]="'Exchange Scopes'" [singleValue]="true"></pf-data-cut-summary-property>
+          <pf-data-cut-summary-property [value]="dataCutSummary['ExchangeJobTitles']" [label]="'Exchange Job'" [labelPlural]="'Exchange Jobs'"></pf-data-cut-summary-property>
+          <pf-data-cut-summary-property [value]="dataCutSummary['ExchangeNames']" [label]="'Exchange'" [labelPlural]="'Exchanges'"></pf-data-cut-summary-property>
+          <pf-data-cut-summary-property [value]="dataCutSummary['PayMarketName']" [label]="'Pay Market'" [labelPlural]="'Pay Market'" [singleValue]="true" ></pf-data-cut-summary-property>
+          <div *ngFor="let filter of dataCutSummary['Filters']">
+            <pf-data-cut-summary-property [value]="filter.FilterSelections" [label]="filter.DisplayName" [labelPlural]="filter.DisplayName"></pf-data-cut-summary-property>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="dataCutSummaryPropertiesContainer pr-3" [class]="badImageUrl?'badImage' : ''">
+    <img *ngIf="!badImageUrl" height='225px' width='225px' alt="Peer Data Cut Map"
+         [src]="mapUrl"/>
+    <strong class="text-center align-middle" *ngIf="badImageUrl">
+      No Data
+    </strong>
+  </div>
+</div>

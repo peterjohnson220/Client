@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-import { PricingMatchTypes } from 'libs/features/pricings/pricing-match/constants';
+import { DataCutSummaryTypes } from 'libs/features/pricings/data-cut-summary/constants';
 
 @Pipe({
   name: 'pricingMatchType',
@@ -11,13 +11,13 @@ export class PricingMatchTypePipe implements PipeTransform {
   transform(pricingMatch: any) {
     switch (true) {
       case pricingMatch['CompanyJobs_PricingsMatches_MDJob_Code'] != null:
-        return PricingMatchTypes.MD_JOB;
+        return DataCutSummaryTypes.MD_JOB;
       case pricingMatch['CompanyJobs_PricingsMatches_Slotted_CompanyJob_ID'] != null:
-        return PricingMatchTypes.SLOTTED_COMPANY_JOB;
+        return DataCutSummaryTypes.SLOTTED_COMPANY_JOB;
       case pricingMatch['ExchangeDataCut_FilterGUID'] != null:
-        return PricingMatchTypes.PEER;
+        return DataCutSummaryTypes.PEER;
       default:
-        return PricingMatchTypes.SURVEY;
+        return DataCutSummaryTypes.SURVEY;
     }
   }
 }

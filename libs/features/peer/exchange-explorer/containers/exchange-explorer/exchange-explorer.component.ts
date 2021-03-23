@@ -132,10 +132,7 @@ export class ExchangeExplorerComponent extends SearchBaseDirective {
     }
 
     if (!!payload.tempDataCutBeingEdited) {
-      this.store.dispatch(new fromExchangeExplorerDataCutsActions.LoadTempExchangeDataCut({
-        lockedExchangeJobId: payload.tempDataCutBeingEdited.ExchangeJobId,
-        exchangeDataSearchRequest: payload.tempDataCutBeingEdited.ExchangeDataSearchRequest
-      }));
+      this.store.dispatch(new fromExchangeExplorerDataCutsActions.LoadTempExchangeDataCut(payload.tempDataCutBeingEdited));
       return;
     }
 
