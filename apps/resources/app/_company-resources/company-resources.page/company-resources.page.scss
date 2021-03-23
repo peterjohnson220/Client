@@ -6,17 +6,10 @@ $button-shadow: rgba(0, 0, 0, 0.5);
 
 .company-resources-container {
     background-color: $white;
-    height: 100%;
 }
 
 ::content ::ng-deep .center-content-scroll {
     background: $white;
-}
-
-.content-container {
-    max-width: 62.5em;
-    margin: 0 auto;
-    padding-top: 50px;
 }
 
 .title {

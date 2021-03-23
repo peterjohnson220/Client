@@ -21,7 +21,17 @@ export const ADDING_FOLDER_TO_COMPANY_RESOURCES_ERROR = '[Company Resources/Comp
 export const DELETING_FOLDER_FROM_COMPANY_RESOURCES = '[Company Resources/Company Resources Page] Deleting Folder From Company Resources';
 export const DELETING_FOLDER_FROM_COMPANY_RESOURCES_SUCCESS = '[Company Resources/Company Resources Page] Deleting Folder From Company Resources Success';
 export const DELETING_FOLDER_FROM_COMPANY_RESOURCES_ERROR = '[Company Resources/Company Resources Page] Deleting Folder From Company Resources Error';
-
+export const UPDATE_RESOURCE_TITLE = '[Company Resources Page] Update Resource Title';
+export const UPDATE_RESOURCE_TITLE_WITH_FOLDER_SUCCESS = '[Company Resources Page] Update Resource Title With Folder Success';
+export const UPDATE_RESOURCE_TITLE_SUCCESS = '[Company Resources Page] Update Resource Title Success';
+export const UPDATE_RESOURCE_TITLE_ERROR = '[Company Resources Page] Update Resource Title Error';
+export const OPEN_RENAME_RESOURCE_MODAL = '[Company Resources Page] Open Rename Resource Modal';
+export const CLOSE_RENAME_RESOURCE_MODAL = '[Company Resources Page] Close Rename Resource Modal';
+export const UPDATE_FOLDER_NAME = '[Company Resources Page] Update Folder Name';
+export const UPDATE_FOLDER_NAME_SUCCESS = '[Company Resources Page] Update Folder Name Success';
+export const UPDATE_FOLDER_NAME_ERROR = '[Company Resources Page] Update Folder Name Error';
+export const OPEN_RENAME_FOLDER_MODAL = '[Company Resources Page] Open Rename Folder Modal';
+export const CLOSE_RENAME_FOLDER_MODAL = '[Company Resources Page] Close Rename Folder Modal';
 
 export class GettingCompanyResources implements Action {
   readonly type = GETTING_COMPANY_RESOURCES;
@@ -128,6 +138,61 @@ export class DeletingFolderFromCompanyResourcesError implements Action {
   constructor(public payload) {}
 }
 
+export class UpdateResourceTitle implements Action {
+  readonly type = UPDATE_RESOURCE_TITLE;
+  constructor(public payload: {companyResourceId: number, title: string, companyResourceFolderId?: number}) {}
+}
+
+export class UpdateResourceTitleWithFolderSuccess implements Action {
+  readonly type = UPDATE_RESOURCE_TITLE_WITH_FOLDER_SUCCESS;
+  constructor(public payload: {companyResourceId: number, title: string, companyResourceFolderId: number}) {}
+}
+
+export class UpdateResourceTitleSuccess implements Action {
+  readonly type = UPDATE_RESOURCE_TITLE_SUCCESS;
+  constructor(public payload: {companyResourceId: number, title: string}) {}
+}
+
+export class UpdateResourceTitleError implements Action {
+  readonly type = UPDATE_RESOURCE_TITLE_ERROR;
+  constructor() {}
+}
+
+export class OpenRenameResourceModal implements Action {
+  readonly type = OPEN_RENAME_RESOURCE_MODAL;
+  constructor() {}
+}
+
+export class CloseRenameResourceModal implements Action {
+  readonly type = CLOSE_RENAME_RESOURCE_MODAL;
+  constructor() {}
+}
+
+export class UpdateFolderName implements Action {
+  readonly type = UPDATE_FOLDER_NAME;
+  constructor(public payload: {companyResourcesFolderId: number, folderName: string}) {}
+}
+
+export class UpdateFolderNameSuccess implements Action {
+  readonly type = UPDATE_FOLDER_NAME_SUCCESS;
+  constructor(public payload: {companyResourcesFolderId: number, folderName: string}) {}
+}
+
+export class UpdateFolderNameError implements Action {
+  readonly type = UPDATE_FOLDER_NAME_ERROR;
+  constructor(public errorMessage: string) {}
+}
+
+export class OpenRenameFolderModal implements Action {
+  readonly type = OPEN_RENAME_FOLDER_MODAL;
+  constructor() {}
+}
+
+export class CloseRenameFolderModal implements Action {
+  readonly type = CLOSE_RENAME_FOLDER_MODAL;
+  constructor() {}
+}
+
 export type Actions
   = GettingCompanyResources
   | GettingCompanyResourcesSuccess
@@ -146,4 +211,15 @@ export type Actions
   | AddingFolderToCompanyResourcesError
   | DeletingFolderFromCompanyResources
   | DeletingFolderFromCompanyResourcesSuccess
-  | DeletingFolderFromCompanyResourcesError;
+  | DeletingFolderFromCompanyResourcesError
+  | UpdateResourceTitle
+  | UpdateResourceTitleSuccess
+  | UpdateResourceTitleWithFolderSuccess
+  | UpdateResourceTitleError
+  | OpenRenameResourceModal
+  | CloseRenameResourceModal
+  | OpenRenameFolderModal
+  | CloseRenameFolderModal
+  | UpdateFolderName
+  | UpdateFolderNameSuccess
+  | UpdateFolderNameError;
