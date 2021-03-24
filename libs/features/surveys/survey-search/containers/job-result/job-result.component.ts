@@ -23,12 +23,12 @@ export class JobResultComponent implements OnInit, OnDestroy {
   @Input() cutsDraggable: boolean;
   @Input() currencyCode: string;
   @Input() legacyIframeImplementation: boolean;
-  @Input() refineInPeerDisplayed: boolean;
+  @Input() customizeInPeerDisplayed: boolean;
   @Output() loadDataCuts: EventEmitter<JobResult> = new EventEmitter<JobResult>();
   @Output() cutSelected: EventEmitter<DataCutDetails> = new EventEmitter<DataCutDetails>();
   @Output() matchesMouseEnter: EventEmitter<MatchesDetailsTooltipData> = new EventEmitter<MatchesDetailsTooltipData>();
   @Output() matchesMouseLeave: EventEmitter<boolean> = new EventEmitter<boolean>();
-  @Output() refineInPeerClicked: EventEmitter<JobResult> = new EventEmitter<JobResult>();
+  @Output() customizeInPeerClicked: EventEmitter<JobResult> = new EventEmitter<JobResult>();
 
   // Observables
   loadingResults$: Observable<boolean>;
@@ -100,10 +100,11 @@ export class JobResultComponent implements OnInit, OnDestroy {
     this.showJobDetail = !this.showJobDetail;
   }
 
-  toggleRefineInPeerDisplay(): void {
-    this.refineInPeerClicked.emit(this.job);
+  toggleCustomizeInPeerDisplay(): void {
+    this.customizeInPeerClicked.emit(this.job);
     this.showDataCuts = true;
     this.toggleDataCutsLabel = this.hideCutsLabel;
+    this.handleLoadDataCuts();
   }
 
   handleDataCutSelected(dataCut: DataCut) {
@@ -136,8 +137,8 @@ export class JobResultComponent implements OnInit, OnDestroy {
     });
   }
 
-  handleRefineInPeerClicked() {
-    this.toggleRefineInPeerDisplay();
+  handleCustomizeInPeerClicked() {
+    this.toggleCustomizeInPeerDisplay();
   }
 
   // TODO: Create a story to further refactor the multi match display, break dependence on if legacy iFrame do X vs Y
