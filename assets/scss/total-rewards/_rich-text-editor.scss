@@ -196,3 +196,10 @@ u .mention {
     background-color: #D3E1EB;
   }
 }
+
+// quill defaults to line-height: 1.42 which renders content taller in firefox than chrome, so normalize that here by bumping down firefox a few hairs
+@-moz-document url-prefix() {
+  .trs-rich-text-control .ql-editor {
+    line-height: 1.38;
+  }
+}
