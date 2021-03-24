@@ -2,16 +2,21 @@ import { Injectable } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { switchMap, map, catchError, withLatestFrom, tap } from 'rxjs/operators';
-import { of } from 'rxjs';
-import { Store, select } from '@ngrx/store';
+import { switchMap, map, catchError, withLatestFrom, mergeMap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { Store, select, Action } from '@ngrx/store';
 
 import { JobDescriptionApiService } from 'libs/data/payfactors-api/jdm';
+import { PageRedirectUrl } from 'libs/models/url-redirect/page-redirect-url';
+import { JobMatchResult } from 'libs/features/jobs/job-description-management/';
+import { PayfactorsApiModelMapper } from 'libs/features/jobs/job-description-management/helpers';
+import * as fromFeatureFlagRedirectReducer from 'libs/state/state';
+import { UrlPage } from 'libs/models/url-redirect/url-page';
+import { UrlRedirectHelper } from 'libs/core/helpers/url-redirect-helper';
 
 import * as fromJobDescriptionManagement from '../reducers';
 import * as fromJobMatchesActions from '../actions/job-matches.actions';
-import { JobMatchResult } from 'libs/features/jobs/job-description-management/';
-import { PayfactorsApiModelMapper } from 'libs/features/jobs/job-description-management/helpers';
+
 
 @Injectable()
 export class JobMatchesEffects {
@@ -61,12 +66,18 @@ export class JobMatchesEffects {
       })
     );
 
-  @Effect({ dispatch: false })
-  createProjectSuccess$ = this.actions$
+@Effect()
+  createProjectSuccess$: Observable<Action> = this.actions$
     .pipe(
       ofType(fromJobMatchesActions.CREATE_PROJECT_SUCCESS),
-      tap((action: fromJobMatchesActions.CreateProjectSuccess) => {
-        window.location.href = `/marketdata/marketdata.asp?usersession_id=${action.payload.userSessionId}`;
+      withLatestFrom(
+        this.store.select(fromFeatureFlagRedirectReducer.getPageRedirectUrl, {page: UrlPage.PricingProject}),
+        (action: fromJobMatchesActions.CreateProjectSuccess, redirectUrl: string) => ({action, redirectUrl})
+      ),
+      mergeMap((data: any) => {
+        window.location.href = UrlRedirectHelper.getIdParamUrl(data.redirectUrl, data.action.payload.userSessionId);
+
+        return [];
       })
     );
 

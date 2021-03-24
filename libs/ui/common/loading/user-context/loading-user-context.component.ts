@@ -8,9 +8,12 @@ import * as fromUserContextActions from 'libs/state/app-context/actions/user-con
 import * as fromUserAssignedRoleActions from 'libs/state/app-context/actions/user-assigned-roles.actions';
 import * as fromLegacyCompanySettingsActions from 'libs/state/app-context/actions/legacy-company-settings.actions';
 import * as fromUiPersistenceSettingsActions from 'libs/state/app-context/actions/ui-persistence-settings.actions';
+import * as fromFeatureFlagRedirectActions from 'libs/state/app-context/actions/feature-flag-redirect.action';
 import * as fromRootState from 'libs/state/state';
 
 import { UserContext } from '../../../../models';
+import { UrlRedirectRequest } from '../../../../models/url-redirect';
+import { UrlRedirectHelper } from '../../../../core/helpers/url-redirect-helper';
 
 declare global {
   interface Window {
@@ -46,6 +49,7 @@ export class LoadingUserContextComponent implements OnInit, OnDestroy {
         this.store.dispatch(new fromUiPersistenceSettingsActions.GetUiPersistenceSettings());
       }
     });
+
     this.store.dispatch(new fromUserContextActions.GetUserContext());
 
     // TODO: this initialize pendo code should be moved to the app-wrapper component when the app wrappers are consolidated

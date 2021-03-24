@@ -103,7 +103,17 @@
 </ng-template>
 
 <ng-template #projectName let-dataRow="dataRow">
-  <span>
+  <div *ngIf="!(redirectSlugLoadingError$ | async) && !(redirectSlugLoading$ | async)">
+    <span *ngIf="(pricingProjectSlug$ | async)?.includes('client')">
+      <a class="pf-link" href="{{(pricingProjectSlug$ | async)}}/{{dataRow['UserSessionMap_UserSession_ID']}}">{{dataRow['UserSessions_Session_Name']}}</a>
+    </span>
+    <span *ngIf="(pricingProjectSlug$ | async)?.includes('marketdata')">
+      <a class="pf-link" href="{{(pricingProjectSlug$ | async)}}?usersession_id={{dataRow['UserSessionMap_UserSession_ID']}}">{{dataRow['UserSessions_Session_Name']}}</a>
+    </span>
+  </div>
+
+  <!--If there is a loading error, assume they go to the client pricing project page since they made it to the client project list page-->
+  <span *ngIf="!(redirectSlugLoading$ | async) && (redirectSlugLoadingError$ | async)">
     <a class="pf-link" href="/client/project/pricing-project/{{dataRow['UserSessionMap_UserSession_ID']}}">{{dataRow['UserSessions_Session_Name']}}</a>
   </span>
 </ng-template>

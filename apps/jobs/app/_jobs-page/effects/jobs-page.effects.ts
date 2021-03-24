@@ -11,12 +11,15 @@ import { ToastrService } from 'ngx-toastr';
 
 import { JobsApiService, PayMarketApiService, CompanyJobApiService, UiPersistenceSettingsApiService } from 'libs/data/payfactors-api';
 import { StructuresApiService } from 'libs/data/payfactors-api/structures';
-import { CompanyJob, FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models';
-
+import { CompanyJob } from 'libs/models';
 import * as fromPfDataGridActions from 'libs/features/grids/pf-data-grid/actions';
 import * as fromJobManagementActions from 'libs/features/jobs/job-management/actions';
 import * as fromJobManagementReducer from 'libs/features/jobs/job-management/reducers';
 import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
+import * as fromFeatureFlagRedirectReducer from 'libs/state/state';
+import { PageRedirectUrl } from 'libs/models/url-redirect/page-redirect-url';
+import { UrlPage } from 'libs/models/url-redirect/url-page';
+import { UrlRedirectHelper } from 'libs/core/helpers/url-redirect-helper';
 
 import * as fromJobsPageActions from '../actions';
 import * as fromJobsReducer from '../reducers';
@@ -51,11 +54,15 @@ export class JobsPageEffects {
   @Effect()
   createProject$: Observable<Action> = this.actions$.pipe(
     ofType(fromJobsPageActions.CREATING_PROJECT),
+    withLatestFrom(
+      this.store.select(fromFeatureFlagRedirectReducer.getPageRedirectUrl, {page: UrlPage.PricingProject}),
+      (action: fromJobsPageActions.CreatingProject, redirectUrl: string) => ({action, redirectUrl})
+    ),
     switchMap((data: any) => {
-      return this.jobsApiService.createProject(data.payload).pipe(
+      return this.jobsApiService.createProject(data.action.payload).pipe(
         mergeMap((projectId: number) => {
-          window.location.href = `/marketdata/marketdata.asp?usersession_id=${projectId}`;
-          // TODO: When we migrate the Projects page to Client we have to make sure the state is cleared if we return back to the Jobs page
+          window.location.href = UrlRedirectHelper.getIdParamUrl(data.redirectUrl, projectId.toString());
+
           return [];
         }),
         catchError(error => of(new fromJobsPageActions.CreatingProjectError(error)))

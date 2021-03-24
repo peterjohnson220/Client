@@ -4,7 +4,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
 
 import { Observable, of } from 'rxjs';
-import { switchMap, mergeMap, withLatestFrom, map, catchError } from 'rxjs/operators';
+import { switchMap, mergeMap, withLatestFrom, catchError } from 'rxjs/operators';
 
 import cloneDeep from 'lodash/cloneDeep';
 
