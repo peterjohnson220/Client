@@ -72,3 +72,17 @@ $resource-font: "Segoe UI", Arial, sans-serif;
   }
 }
 
+.alert-container {
+  margin-top: 1rem;
+  text-align: center;
+
+  .alert {
+    width: 100%;
+    margin-bottom: 0 !important;
+  }
+}
+
+.empty-resource-item {
+  padding-left: 38px;
+}
+
