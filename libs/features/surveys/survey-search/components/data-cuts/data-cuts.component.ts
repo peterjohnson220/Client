@@ -18,12 +18,13 @@ export class DataCutsComponent implements OnDestroy {
   @Input() cutsDraggable: boolean;
   @Input() currencyCode: string;
   @Input() legacyIframeImplementation: boolean;
+  @Input() customizeInPeerDisplayed: boolean;
 
   @Output() dataCutSelected: EventEmitter<DataCut> = new EventEmitter();
   @Output() payFactorsCutSelected: EventEmitter<any> = new EventEmitter();
   @Output() matchesMouseEnter: EventEmitter<MatchesDetailsTooltipData> = new EventEmitter<MatchesDetailsTooltipData>();
   @Output() matchesMouseLeave: EventEmitter<boolean> = new EventEmitter<boolean>();
-  @Output() refineInPeerClicked: EventEmitter<any> = new EventEmitter<any>();
+  @Output() customizeInPeerClicked: EventEmitter<any> = new EventEmitter<any>();
 
   isMatchesHovered: boolean;
   surveySearchResultDataSources = SurveySearchResultDataSources;
@@ -48,8 +49,8 @@ export class DataCutsComponent implements OnDestroy {
     this.payFactorsCutSelected.emit();
   }
 
-  toggleRefineInPeerDisplay(): void {
-    this.refineInPeerClicked.emit();
+  toggleCustomizeInPeerDisplay(): void {
+    this.customizeInPeerClicked.emit();
   }
 
   handleMatchesMouseEnter(event: MouseEvent, dataCut: DataCut): void {

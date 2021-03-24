@@ -59,7 +59,7 @@
           </tr>
       </ng-container>
       <ng-container *ngSwitchCase="surveySearchResultDataSources.Peer">
-        <tr (click)="toggleRefineInPeerDisplay()">
+        <tr *ngIf="customizeInPeerDisplayed" (click)="toggleCustomizeInPeerDisplay()">
           <td colspan="8" class="link">Customize Your Scope for this Peer Job!</td>
           <td></td>
         </tr>
@@ -111,7 +111,7 @@
   <div class="no-data-cuts-message">
     No data cuts available.
     <ng-container *ngIf="job.DataSource === surveySearchResultDataSources.Peer">
-      Please adjust your filters or <span class="link" (click)="toggleRefineInPeerDisplay()">Customize Your Scope for this Peer Job!</span>
+      Please adjust your filters or <span class="link" (click)="toggleCustomizeInPeerDisplay()">Customize Your Scope for this Peer Job!</span>
     </ng-container>
     <ng-container *ngIf="job.DataSource !== surveySearchResultDataSources.Peer">
       Please adjust your filters.
