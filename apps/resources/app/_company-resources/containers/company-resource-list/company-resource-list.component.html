@@ -25,7 +25,7 @@
                 {{folderResource.FolderName}}
               </span>
             </div>
-            <div>
+            <div *ngIf="hasCompanyResourcesAddEditDeletePermission">
               <ng-container [ngTemplateOutlet]="folderActionsTemplate"
                             [ngTemplateOutletContext]="{folder: folderResource}">
               </ng-container>
@@ -40,7 +40,7 @@
             </ng-container>
           </div>
           <ng-template #emptyResourceItem>
-            <div class="font-italic text-muted">
+            <div class="font-italic text-muted py-2 empty-resource-item">
               <span>Empty</span>
             </div>
           </ng-template>
@@ -62,12 +62,12 @@
            [class.selected]="resource.CompanyResourceId === selectedResource?.CompanyResourceId"
            [class.card-header]="!hasFolders">
         <div class="d-flex w-100 resource-container" [class.resource-in-folder]="hasFolders">
-          <div class="d-flex flex-fill">
+          <div class="d-flex flex-fill ellipsis-overflowing-text">
             <div class="mx-4">
               <fa-icon *ngIf="resource.ResourceType === resourceType.File" icon="file-download"></fa-icon>
               <fa-icon *ngIf="resource.ResourceType === resourceType.Link" icon="external-link"></fa-icon>
             </div>
-            <div class="title w-100">
+            <div pfEllipsisActive class="title w-100 ellipsis-overflowing-text">
               <ng-container *ngIf="resource.ResourceType === resourceType.Link; else fileItem">
                 <a href="{{resource.LinkUrl}}" target="_blank">{{resource.ResourceTitle}}</a>
               </ng-container>
@@ -76,7 +76,7 @@
               </ng-template>
             </div>
           </div>
-          <div>
+          <div *ngIf="hasCompanyResourcesAddEditDeletePermission">
             <ng-container [ngTemplateOutlet]="resourceActionsTemplate"
                           [ngTemplateOutletContext]="{resource: resource}">
             </ng-container>
@@ -97,7 +97,7 @@
     </button>
     <div ngbDropdownMenu aria-labelledby="resource-actions-{{resource.CompanyResourcesFoldersId}}-{{resource.CompanyResourceId}}">
       <button ngbDropdownItem (click)="openRenameResourceModal(resource)">Rename Resource</button>
-      <button *ngIf = "hasCompanyResourcesAddEditDeletePermission" ngbDropdownItem (click)="openDeleteResourceModal(resource)" class="text-danger">Delete</button>
+      <button ngbDropdownItem (click)="openDeleteResourceModal(resource)" class="text-danger">Delete</button>
     </div>
   </div>
 </ng-template>
@@ -113,7 +113,7 @@
     <div ngbDropdownMenu aria-labelledby="folder-actions-{{folder.CompanyResourcesFoldersId}}">
       <button ngbDropdownItem (click)="openResourceModal(folder)">Add Resource</button>
       <button ngbDropdownItem (click)="openRenameFolderModal(folder)">Rename Folder</button>
-      <button *ngIf = "hasCompanyResourcesAddEditDeletePermission" ngbDropdownItem (click)="openDeleteResourceModal(folder)" class="text-danger">Delete</button>
+      <button ngbDropdownItem (click)="openDeleteResourceModal(folder)" class="text-danger">Delete</button>
     </div>
   </div>
 </ng-template>
@@ -142,7 +142,9 @@
              [maxlength]="255"
              [ngModel]="updatedResource?.ResourceTitle"
              (ngModelChange)="handleResourceTitleChanged($event)">
-      <span [style.visibility]="updatedResource?.ResourceTitle?.length ? 'hidden' : 'visible'" class="text-danger pt-2">Resource Name is required</span>
+      <div class="alert-container w-100">
+        <label *ngIf="!updatedResource?.ResourceTitle?.length" class="alert alert-danger pt-2">Resource Name is required</label>
+      </div>
     </div>
   </ng-container>
 
@@ -164,11 +166,13 @@
       <input data-qa-id="txt-rename-folder-form-folder-name"
              type="text"
              class="form-control"
-             [maxlength]="255"
+             [maxlength]="50"
              [ngModel]="selectedFolder?.FolderName"
              (ngModelChange)="handleFolderNameChanged($event)">
-      <span *ngIf="!selectedFolder?.FolderName?.length" class="text-danger pt-2">Folder Name is required</span>
-      <span *ngIf="(savingFolderNameError$ | async)?.length" class="text-danger pt-2">{{(savingFolderNameError$ | async)}}</span>
+      <div class="alert-container w-100">
+        <label *ngIf="!selectedFolder?.FolderName?.length" class="alert alert-danger pt-2">Folder Name is required</label>
+        <label *ngIf="(savingFolderNameError$ | async)?.length" class="alert alert-danger pt-2">{{(savingFolderNameError$ | async)}}</label>
+      </div>
     </div>
   </ng-container>
 
