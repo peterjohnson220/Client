@@ -41,11 +41,13 @@
     <span *ngIf="!!dataRow['CompanyPayMarkets_PayMarket']"
           pfEllipsisActive
           class="w-100 ellipsis-overflowing-text-wrap"
-          [class.pay-market-name]="isTileView">
+          [class.pay-market-name]="isTileView"
+          [class.align-self-center]="isTileView">
       {{dataRow['CompanyPayMarkets_PayMarket']}}
     </span>
     <span *ngIf="dataRow['CompanyPayMarkets_IsDefaultPayMarket'] === 1"
           class="badge btn flex-shrink-1 pl-2 pr-2"
+          [class.align-self-center]="isTileView"
           [ngClass]="isTileView ? 'tile-default-badge' : 'default-badge'">
           Default
     </span>
