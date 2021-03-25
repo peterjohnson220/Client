@@ -135,7 +135,7 @@ export class PayMarketsPageComponent implements AfterViewInit, OnInit, OnDestroy
       }
     });
     this.isTileViewSubscription = this.isTileView$.subscribe(value => {
-      this.isTileView = value === this.tileView;
+      this.isTileView = value === this.tileView || (value === null);
       this.changeDetectorRef.detectChanges();
     });
     this.leftSidebarOpenSubscription = this.leftSidebarOpen$.subscribe(isOpen => {
