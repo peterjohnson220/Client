@@ -133,3 +133,19 @@ export const getIsPageScrolling = createSelector(
   selectPageState,
   (state: fromPageReducer.State) => state.isPageScrolling
 );
+
+
+export const getGenerateStatementPreviewEventAsync = createSelector(
+  selectPageState,
+  (state: fromPageReducer.State) => state.generateStatementPreviewEventId
+);
+
+export const getStatementPreviewGenerating = createSelector(
+  selectPageState,
+  (state: fromPageReducer.State) => state.generateStatementPreviewEventId.loading
+);
+
+export const statementPreviewGeneratingError = createSelector(
+  selectPageState,
+  (state: fromPageReducer.State) => state.generateStatementPreviewEventId.loadingError
+);

@@ -1,4 +1,4 @@
-import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { select, Store } from '@ngrx/store';
@@ -13,10 +13,15 @@ import * as models from 'libs/features/total-rewards/total-rewards-statement/mod
 import { CompensationField, TotalRewardsControlEnum } from 'libs/features/total-rewards/total-rewards-statement/models';
 import { FontFamily, FontSize } from 'libs/features/total-rewards/total-rewards-statement/types';
 import { TotalRewardsStatementService } from 'libs/features/total-rewards/total-rewards-statement/services/total-rewards-statement.service';
+import { CompanySettingsEnum } from 'libs/models';
+import { SettingsService } from 'libs/state/app-context/services';
+import { AppNotification } from 'libs/features/infrastructure/app-notifications';
+import * as fromAppNotificationsMainReducer from 'libs/features/infrastructure/app-notifications/reducers';
+import { StatementModeEnum } from 'libs/features/total-rewards/total-rewards-statement/models';
+import { FileDownloadSecurityWarningModalComponent } from 'libs/ui/common';
 
 import * as fromTotalRewardsStatementEditReducer from '../reducers';
 import * as fromEditStatementPageActions from '../actions';
-import { StatementModeEnum } from 'libs/features/total-rewards/total-rewards-statement/models';
 
 @Component({
   selector: 'pf-statement-edit.page',
@@ -24,8 +29,8 @@ import { StatementModeEnum } from 'libs/features/total-rewards/total-rewards-sta
   styleUrls: ['./statement-edit.page.scss']
 })
 export class StatementEditPageComponent implements OnDestroy, OnInit {
+  @ViewChild('fileDownloadSecurityWarningModal', { static: true }) public fileDownloadSecurityWarningModal: FileDownloadSecurityWarningModalComponent;
   statementNameMaxLength = 45;
-
   statement$: Observable<models.Statement>;
   statementLoading$: Observable<boolean>;
   statementLoadingError$: Observable<boolean>;
@@ -45,11 +50,21 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
   settingsSavingSuccess$: Observable<boolean>;
   settingsSavingError$: Observable<boolean>;
 
+  enableFileDownloadSecurityWarning$: Observable<boolean>;
+
+  getNotification$: Observable<AppNotification<any>[]>;
+  generateStatementPreviewEventId$: Observable<AsyncStateObj<string>>;
+  statementPreviewGenerating$: Observable<boolean>;
+  statementPreviewGeneratingError$: Observable<boolean>;
+
   urlParamSubscription = new Subscription();
   statementSubscription = new Subscription();
   modeSubscription = new Subscription();
   scrollSubscription = new Subscription();
   settingsPanelOpenSubscription = new Subscription();
+  enableFileDownloadSecurityWarningSubscription = new Subscription();
+  appNotificationSubscription = new Subscription();
+  generateStatementPreviewEventIdSubscription = new Subscription();
 
   statement: models.Statement;
   statementId: string;
@@ -75,14 +90,20 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
   scrollSubject = new Subject();
   allowClosingSettingsByClickingElsewhere = false;
   isSettingsPanelOpen = false;
+  enableFileDownloadSecurityWarning: boolean;
+  generateStatementPreviewEventId = null;
 
   scrollEventHandler = () => { this.scrollSubject.next(); };
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private store: Store<fromTotalRewardsStatementEditReducer.State>
-  ) { }
+    private store: Store<fromTotalRewardsStatementEditReducer.State>,
+    private settingsService: SettingsService,
+    private appNotificationStore: Store<fromAppNotificationsMainReducer.State>
+  ) {
+    this.enableFileDownloadSecurityWarning$ = this.settingsService.selectCompanySetting<boolean>(CompanySettingsEnum.FileDownloadSecurityWarning);
+  }
 
   ngOnInit() {
     // STATEMENT
@@ -109,6 +130,14 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
 
     // SCROLL
     this.isPageScrolling$ = this.store.pipe(select(fromTotalRewardsStatementEditReducer.getIsPageScrolling));
+
+    // NOTIFICATIONS
+    this.getNotification$ = this.appNotificationStore.pipe(select(fromAppNotificationsMainReducer.getNotifications));
+
+    // GENERATE STATEMENT PREVIEW
+    this.generateStatementPreviewEventId$ = this.store.pipe(select(fromTotalRewardsStatementEditReducer.getGenerateStatementPreviewEventAsync));
+    this.statementPreviewGenerating$ = this.store.pipe(select(fromTotalRewardsStatementEditReducer.getStatementPreviewGenerating));
+    this.statementPreviewGeneratingError$ = this.store.pipe(select(fromTotalRewardsStatementEditReducer.statementPreviewGeneratingError));
 
     // SUBSCRIPTIONS
     this.urlParamSubscription = this.route.params.subscribe(params => {
@@ -138,6 +167,24 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
       this.allowClosingSettingsByClickingElsewhere = false;
     });
 
+    this.enableFileDownloadSecurityWarningSubscription = this.enableFileDownloadSecurityWarning$.subscribe(isEnabled => {
+      this.enableFileDownloadSecurityWarning = isEnabled;
+    });
+
+    this.generateStatementPreviewEventIdSubscription = this.generateStatementPreviewEventId$.subscribe(eventId => {
+      if (eventId?.obj !== this.generateStatementPreviewEventId) {
+        this.generateStatementPreviewEventId = eventId.obj;
+      }
+    });
+
+    this.appNotificationSubscription = this.getNotification$.subscribe(notifications => {
+      notifications.forEach(notification => {
+        if (notification.Level === 'Success' && notification.NotificationId === this.generateStatementPreviewEventId) {
+          this.store.dispatch(new fromEditStatementPageActions.GenerateStatementPreviewComplete());
+        }
+      });
+    });
+
     // MISC
     setTimeout(() => {
       this.mainScrollableNode = document.querySelector('.page-content');
@@ -153,6 +200,9 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
     this.scrollSubscription.unsubscribe();
     this.mainScrollableNode?.removeEventListener('scroll', this.scrollEventHandler, true);
     this.settingsPanelOpenSubscription.unsubscribe();
+    this.enableFileDownloadSecurityWarningSubscription.unsubscribe();
+    this.appNotificationSubscription.unsubscribe();
+    this.generateStatementPreviewEventIdSubscription.unsubscribe();
 
     this.store.dispatch(new fromEditStatementPageActions.ResetStatement());
   }
@@ -317,6 +367,22 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
       return;
     }
     this.store.dispatch(new fromEditStatementPageActions.GetEmployeeRewardsData({ companyEmployeeId: employeeId, statementId: this.statementId }));
+  }
+
+  // GENERATE STATEMENT
+
+  handleGenerateStatementClicked(): void {
+    if (this.enableFileDownloadSecurityWarning) {
+      this.fileDownloadSecurityWarningModal.open();
+    } else {
+      this.store.dispatch(new fromEditStatementPageActions.GenerateStatementPreview());
+    }
+  }
+
+  handleSecurityWarningConfirmed(isConfirmed) {
+    if (!isConfirmed) { return; }
+
+    this.store.dispatch(new fromEditStatementPageActions.GenerateStatementPreview());
   }
 
   // SCROLL/MOUSE
