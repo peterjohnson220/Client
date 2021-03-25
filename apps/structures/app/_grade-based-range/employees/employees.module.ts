@@ -13,6 +13,7 @@ import { EmployeesRoutingModule } from './employees-routing.module';
 import { EmployeesPageComponent } from './employees.page/employees.page';
 import { SharedModule } from '../../shared/shared.module';
 import { GradeBasedSharedModule } from '../shared/shared.module';
+import { GradeBasedEmployeeSalaryRangeChartComponent } from './containers';
 
 
 @NgModule({
@@ -39,7 +40,8 @@ import { GradeBasedSharedModule } from '../shared/shared.module';
     GradeBasedSharedModule
   ],
   declarations: [
-    EmployeesPageComponent
+    EmployeesPageComponent,
+    GradeBasedEmployeeSalaryRangeChartComponent
   ]
 })
 export class EmployeesModule {
