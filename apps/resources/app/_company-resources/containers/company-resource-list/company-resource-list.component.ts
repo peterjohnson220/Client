@@ -111,7 +111,9 @@ export class CompanyResourceListComponent implements OnInit, OnDestroy {
 
   handleResourceClicked(resource: CompanyResource): void {
     this.resource = resource;
-    if (this.enableFileDownloadSecurityWarning) {
+    if (this.resource.ResourceType === this.resourceType.Link) {
+      window.open(this.resource.LinkUrl);
+    } else if (this.enableFileDownloadSecurityWarning) {
       this.fileDownloadSecurityWarningModal.open();
     } else {
       this.downloadResource();

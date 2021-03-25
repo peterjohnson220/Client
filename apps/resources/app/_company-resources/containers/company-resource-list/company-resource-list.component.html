@@ -56,11 +56,12 @@
 </div>
 
 <ng-template #resourcesTemplate let-resources="resources" let-hasFolders="hasFolders" let-selectedResource="selectedResource">
-  <div *ngIf="resources?.length > 0" class="d-flex flex-column" [class.no-folder-resource-list]="!hasFolder">
+  <div *ngIf="resources?.length > 0" class="d-flex flex-column">
     <div [ngClass]="hasFolders ? '' : 'card'">
       <div class="d-flex cursor-pointer background-container" *ngFor="let resource of resources; trackBy: trackByResource"
            [class.selected]="resource.CompanyResourceId === selectedResource?.CompanyResourceId"
-           [class.card-header]="!hasFolders">
+           [class.card-header]="!hasFolders"
+           (click)="handleResourceClicked(resource)">
         <div class="d-flex w-100 resource-container" [class.resource-in-folder]="hasFolders">
           <div class="d-flex flex-fill ellipsis-overflowing-text">
             <div class="mx-4">
@@ -68,12 +69,7 @@
               <fa-icon *ngIf="resource.ResourceType === resourceType.Link" icon="external-link"></fa-icon>
             </div>
             <div pfEllipsisActive class="title w-100 ellipsis-overflowing-text">
-              <ng-container *ngIf="resource.ResourceType === resourceType.Link; else fileItem">
-                <a href="{{resource.LinkUrl}}" target="_blank">{{resource.ResourceTitle}}</a>
-              </ng-container>
-              <ng-template #fileItem>
-                <a (click)="handleResourceClicked(resource)">{{resource.ResourceTitle}}</a>
-              </ng-template>
+              <div>{{resource.ResourceTitle}}</div>
             </div>
           </div>
           <div *ngIf="hasCompanyResourcesAddEditDeletePermission">
