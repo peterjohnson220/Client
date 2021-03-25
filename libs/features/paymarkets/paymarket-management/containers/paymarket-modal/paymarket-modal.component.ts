@@ -75,6 +75,7 @@ export class PayMarketModalComponent implements OnInit, OnDestroy {
   }
 
   closeModal(): void {
+    this.generalForm.onModalClose();
     this.store.dispatch(new fromPayMarketModalActions.ClosePayMarketModal());
   }
 
