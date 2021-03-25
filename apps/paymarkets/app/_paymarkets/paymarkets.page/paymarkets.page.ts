@@ -113,7 +113,7 @@ export class PayMarketsPageComponent implements AfterViewInit, OnInit, OnDestroy
       ...getDefaultActionBarConfig(),
       ShowActionBar: true,
       ShowFilterChooser: true,
-      AllowSaveFilter: false
+      AllowSaveFilter: true
     };
     this.gridConfig = {
       PersistColumnWidth: false,
