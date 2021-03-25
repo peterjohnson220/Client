@@ -3551,6 +3551,7 @@ exports[`TrsCalculationControlComponent should render the supplied Summary 1`] =
                 <a
                   class="editable d-flex show-icon-on-hover"
                   href="javascript:void(0)"
+                  title=""
                 >
                   <span
                     class="edit-text d-inline-block mw-100"
@@ -3675,6 +3676,7 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
                 <a
                   class="editable d-flex show-icon-on-hover"
                   href="javascript:void(0)"
+                  title=""
                 >
                   <span
                     class="edit-text d-inline-block mw-100"
@@ -3739,6 +3741,7 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
                 <a
                   class="editable d-flex show-icon-on-hover"
                   href="javascript:void(0)"
+                  title=""
                 >
                   <span
                     class="edit-text d-inline-block mw-100"
@@ -3803,6 +3806,7 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
                 <a
                   class="editable d-flex show-icon-on-hover"
                   href="javascript:void(0)"
+                  title=""
                 >
                   <span
                     class="edit-text d-inline-block mw-100"
@@ -3867,6 +3871,7 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
                 <a
                   class="editable d-flex show-icon-on-hover"
                   href="javascript:void(0)"
+                  title=""
                 >
                   <span
                     class="edit-text d-inline-block mw-100"

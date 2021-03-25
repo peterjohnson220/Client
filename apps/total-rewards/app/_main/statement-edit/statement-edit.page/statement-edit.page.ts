@@ -24,7 +24,7 @@ import { StatementModeEnum } from 'libs/features/total-rewards/total-rewards-sta
   styleUrls: ['./statement-edit.page.scss']
 })
 export class StatementEditPageComponent implements OnDestroy, OnInit {
-  statementNameMaxLength = 35;
+  statementNameMaxLength = 45;
 
   statement$: Observable<models.Statement>;
   statementLoading$: Observable<boolean>;

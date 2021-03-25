@@ -56,6 +56,10 @@ export class TotalRewardsApiService {
     return this.payfactorsApiService.get<any[]>(`${this.endpoint}/GetTemplates`);
   }
 
+  copyStatement(statementId: string): Observable<string> {
+    return this.payfactorsApiService.post<any>(`${this.endpoint}/CopyStatement?statementId=${statementId}`);
+  }
+
   deleteStatement(statementId: string): Observable<any> {
     return this.payfactorsApiService.delete<any>(`${this.endpoint}/DeleteStatement?statementId=${statementId}`);
   }

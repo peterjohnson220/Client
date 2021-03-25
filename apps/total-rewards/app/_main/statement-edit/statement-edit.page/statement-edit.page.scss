@@ -15,6 +15,10 @@ $spinner-easing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
   }
 }
 
+.statement-title {
+  width: 65%;
+}
+
 // the wrapper is there to hide the document's contents from leaking through over the top of the header row
 .header-row-wrapper {
   height: 68px;
