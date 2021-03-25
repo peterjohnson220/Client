@@ -101,7 +101,7 @@ export function reducer(state = initialState, action: fromSharedActions.SharedAc
       };
     }
     case fromSharedActions.RESET_ROUNDING_SETTING: {
-      const initialSetting = generateMockRoundingSettingsDataObj();
+      const initialSetting = generateMockRoundingSettingsDataObj(action.rate);
       return {
         ...state,
         roundingSettings: initialSetting
