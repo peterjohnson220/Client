@@ -21,7 +21,7 @@
           <li [ngbNavItem]="payMarketModalTabs.General" [title]="'General'" [id]="payMarketModalTabs.General">
             <a ngbNavLink>General</a>
             <ng-template ngbNavContent>
-              <div class="pt-3">
+              <div>
                 <pf-general-form
                   [reset]="!(modalOpen$ | async)"
                   [companyId]="companyId">
