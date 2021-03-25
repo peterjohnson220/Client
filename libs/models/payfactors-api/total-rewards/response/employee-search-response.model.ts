@@ -10,4 +10,5 @@ export interface TotalRewardsEmployeeSearchResponse {
   EmployeeResults: EmployeeSearchResult[];
   SearchFilters: SearchFilter[];
   Paging: PagingResponse;
+  NoResultsMessage: string;
 }
