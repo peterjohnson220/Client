@@ -105,7 +105,7 @@ export class GetOverriddenRangesError implements Action {
 export class ResetRoundingSetting implements Action {
   readonly type = RESET_ROUNDING_SETTING;
 
-  constructor() {}
+  constructor(public rate: string) {}
 }
 
 export class UpdateRoundingPoints implements Action {

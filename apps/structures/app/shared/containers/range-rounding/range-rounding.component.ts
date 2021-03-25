@@ -99,7 +99,7 @@ export class RangeRoundingComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.store.dispatch(new fromSharedStructuresActions.ResetRoundingSetting());
+    this.store.dispatch(new fromSharedStructuresActions.ResetRoundingSetting(this.metadata.Rate));
     this.unsubscribe();
   }
 
