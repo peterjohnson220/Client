@@ -99,7 +99,8 @@ export class CompanyResourceListComponent implements OnInit, OnDestroy {
     return item.CompanyResourceId;
   }
 
-  handleResourceActionButtonClicked(resource: CompanyResource): void {
+  handleResourceActionButtonClicked(clickEvent: any, resource: CompanyResource): void {
+    clickEvent.stopPropagation();
     this.resource = this.resource?.CompanyResourceId !== resource?.CompanyResourceId
       ? resource
       : null;
