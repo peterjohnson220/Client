@@ -8,11 +8,13 @@ import * as fromEmployeeSearchResultsActions from '../actions/employee-search-re
 export interface State {
   employees: EmployeeSearchResult[];
   selectedCompanyEmployeeIds: number[];
+  noResultsMessage: string;
 }
 
 export const initialState: State = {
   employees: [],
   selectedCompanyEmployeeIds: [],
+  noResultsMessage: null
 };
 
 export function reducer(state = initialState, action: fromEmployeeSearchResultsActions.EmployeeSearchResultsActions): State {
@@ -20,19 +22,22 @@ export function reducer(state = initialState, action: fromEmployeeSearchResultsA
     case fromEmployeeSearchResultsActions.REPLACE_EMPLOYEE_RESULTS: {
       return {
         ...state,
-        employees: TotalRewardsAssignmentService.setEmployeeSelectedToggle(action.payload, state.selectedCompanyEmployeeIds)
+        employees: TotalRewardsAssignmentService.setEmployeeSelectedToggle(action.payload.employeeResults, state.selectedCompanyEmployeeIds),
+        noResultsMessage: action.payload.noResultsMessage
       };
     }
     case fromEmployeeSearchResultsActions.ADD_EMPLOYEE_RESULTS: {
       return {
         ...state,
-        employees: state.employees.concat(TotalRewardsAssignmentService.setEmployeeSelectedToggle(action.payload, state.selectedCompanyEmployeeIds))
+        employees: state.employees.concat(TotalRewardsAssignmentService.setEmployeeSelectedToggle(action.payload.employeeResults, state.selectedCompanyEmployeeIds)),
+        noResultsMessage: action.payload.noResultsMessage
       };
     }
     case fromEmployeeSearchResultsActions.CLEAR_EMPLOYEE_RESULTS: {
       return {
         ...state,
-        employees: []
+        employees: [],
+        noResultsMessage: null
       };
     }
     case fromEmployeeSearchResultsActions.TOGGLE_EMPLOYEE_SELECTION: {
@@ -76,3 +81,4 @@ export function reducer(state = initialState, action: fromEmployeeSearchResultsA
 export const getSelectedCompanyEmployeeIds = (state: State) => state.selectedCompanyEmployeeIds;
 export const getSelectedEmployeesCount = (state: State) => state.selectedCompanyEmployeeIds.length;
 export const getEmployees = (state: State) => state.employees;
+export const getNoResultsMessage = (state: State) => state.noResultsMessage;
