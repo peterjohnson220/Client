@@ -112,7 +112,7 @@ describe('TrsRichTextControlComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should show a tooltip outside of print mode with at least one `AvailableDatafield` and `ShowTitle` true', () => {
+  it('should show a tooltip outside of print mode with at least one `AvailableDatafields` and `ShowTitle` true', () => {
     // arrange
     component.controlData = {
       Title: { Default: 'Title' },
@@ -125,15 +125,15 @@ describe('TrsRichTextControlComponent', () => {
     fixture.detectChanges();
 
     // assert
-    var tooltipLabel = fixture.debugElement.nativeElement.querySelector('.tooltip-wrapper');
+    const tooltipLabel = fixture.debugElement.nativeElement.querySelector('.tooltip-wrapper');
     expect(tooltipLabel).toBeTruthy();
   });
-  
-  it('should hide the tooltip in print mode when `AvailableDatafield` is falsy', () => {
+
+  it('should hide the tooltip in print mode when `AvailableDatafields` is falsy', () => {
     // arrange
-    component.controlData = { 
+    component.controlData = {
       Title: { Default: 'Title' },
-      ShowTitle: true 
+      ShowTitle: true
     } as any;
     component.showTitle = true;
     component.mode = StatementModeEnum.Print;
@@ -142,11 +142,11 @@ describe('TrsRichTextControlComponent', () => {
     fixture.detectChanges();
 
     // assert
-    var tooltipLabel = fixture.debugElement.nativeElement.querySelector('.tooltip-wrapper');
+    const tooltipLabel = fixture.debugElement.nativeElement.querySelector('.tooltip-wrapper');
     expect(tooltipLabel).toBeFalsy();
   });
 
-  it('should show a tooltip when not in print mode with at least one `AvailableDatafield`', () => {
+  it('should show a tooltip when not in print mode with at least one `AvailableDatafields`', () => {
     // arrange
     component.controlData = { 
       Title: { Default: 'Title' },
@@ -158,11 +158,11 @@ describe('TrsRichTextControlComponent', () => {
     fixture.detectChanges();
 
     // assert
-    var tooltipLabel = fixture.debugElement.nativeElement.querySelector('.tooltip-wrapper');
+    const tooltipLabel = fixture.debugElement.nativeElement.querySelector('.tooltip-wrapper');
     expect(tooltipLabel).toBeTruthy();
   });
-  
-  it('should hide the tooltip in print mode when `AvailableDatafield` is falsy', () => {
+
+  it('should hide the tooltip in print mode when `AvailableDatafields` is falsy', () => {
     // arrange
     component.controlData = { Title: { Default: 'Title' } } as any;
     component.mode = StatementModeEnum.Print;
@@ -171,7 +171,7 @@ describe('TrsRichTextControlComponent', () => {
     fixture.detectChanges();
 
     // assert
-    var tooltipLabel = fixture.debugElement.nativeElement.querySelector('.tooltip-wrapper');
+    const tooltipLabel = fixture.debugElement.nativeElement.querySelector('.tooltip-wrapper');
     expect(tooltipLabel).toBeFalsy();
   });
 
@@ -324,6 +324,55 @@ describe('TrsRichTextControlComponent', () => {
     testDiv.innerHTML = boundHtml.changingThisBreaksApplicationSecurity;
     expect(testDiv.textContent).toContain('jobs');
     expect(testDiv.textContent).not.toContain('emps');
+  });
+
+  it('bindDataFields should escape scripts and markup masquerading as employee data field content', () => {
+    // arrange
+    component.controlData = {
+      Title: { Default: 'Title' },
+      AvailableDataFields: [
+        { Key: 'EmployeeFirstName', Value: 'Employee First Name' },
+        { Key: 'EmployeeLastName', Value: 'Employee Last Name' },
+      ]
+    } as any;
+    component.mode = StatementModeEnum.Print;
+    const rewardsData = {
+      ...generateMockEmployeeRewardsData(),
+      EmployeeFirstName: '<script>alert(`nooooo`)</script>',
+      EmployeeLastName: '<h1>h1 content</h1>`'
+    } as any;
+    component.employeeRewardsData = rewardsData;
+    component.htmlContent = markupWithDataFields;
+
+    // act
+    const boundHtml = component.bindDataFields() as any;
+
+    // assert
+    expect(boundHtml.toString().indexOf('<h1>h1 content</h1>')).toBe(-1);
+    expect(boundHtml.toString().indexOf('h1 content')).toBeGreaterThan(-1);
+    expect(boundHtml.toString().indexOf('<script>')).toBe(-1);
+    expect(boundHtml.toString().indexOf('nooooo')).toBeGreaterThan(-1);
+  });
+
+  it('bindDataFields should escape scripts and markup masquerading as UDF data field content', () => {
+    // arrange
+    component.controlData = {
+      Title: { Default: 'Title' },
+      AvailableDataFields: [{ Key: 'EmployeesUdf_UDF_CHAR_1', Value: '1 (custom)' }]
+    } as any;
+    component.mode = StatementModeEnum.Print;
+    const rewardsData = { ...generateMockEmployeeRewardsData(), EmployeesUdf: { UDF_CHAR_1: '<script>alert(`nooooo`)</script><h1>h1 content</h1>`' } } as any;
+    component.employeeRewardsData = rewardsData;
+    component.htmlContent = markupWithEmployeesUdfDataField;
+
+    // act
+    const boundHtml = component.bindDataFields() as any;
+
+    // assert
+    expect(boundHtml.toString().indexOf('<h1>h1 content</h1>')).toBe(-1);
+    expect(boundHtml.toString().indexOf('h1 content')).toBeGreaterThan(-1);
+    expect(boundHtml.toString().indexOf('<script>')).toBe(-1);
+    expect(boundHtml.toString().indexOf('nooooo')).toBeGreaterThan(-1);
   });
 
   it('formatDataFieldValue should return an empty string for non string, number or date values', () => {
