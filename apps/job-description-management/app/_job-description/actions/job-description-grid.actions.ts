@@ -3,7 +3,7 @@ import { Action } from '@ngrx/store';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 import { State as KendoState } from '@progress/kendo-data-query';
 
-import { GetListAreaColumnsRequest, SaveListAreaColumnsRequest } from 'libs/models/payfactors-api/user-profile/request';
+import { GetListAreaColumnsRequest } from 'libs/models/payfactors-api/user-profile/request';
 import { ListAreaColumn } from 'libs/models/common';
 import { QueryListStateRequest } from 'libs/models/payfactors-api/job-description/request/query-liststate-request.model';
 
@@ -25,7 +25,7 @@ export const UPDATE_PUBLIC_VIEW_ERROR = '[job-description-management / Job Descr
 export const LOAD_PUBLIC_JDM_COLUMNS = '[job-description-management / Job Description Grid] Load Public JDM Columns';
 export const LOAD_PUBLIC_JDM_COLUMNS_ERROR = '[job-description-management / Job Description Grid] Load Public JDM Columns Error';
 export const LOAD_PUBLIC_JDM_COLUMNS_SUCCESS = '[job-description-management / Job Description Grid] Load Public JDM Columns Success';
-
+export const SELECT_JOB_DESCRIPTIONS = '[job-description-management / Job Description Grid] Select Job Descriptions';
 
 export class LoadJobDescriptionGrid implements Action {
   readonly type = LOAD_JOB_DESCRIPTION_GRID;
@@ -119,6 +119,11 @@ export class LoadPublicJdmColumnsSuccess implements Action {
   constructor(public payload: ListAreaColumn[]) {}
 }
 
+export class SelectJobDescriptions implements Action {
+  readonly type = SELECT_JOB_DESCRIPTIONS;
+  constructor(public payload:  Set<number>) {}
+}
+
 export type Actions
   = LoadJobDescriptionGrid
   | LoadJobDescriptionGridError
@@ -136,4 +141,5 @@ export type Actions
   | UpdatePublicViewError
   | LoadPublicJdmColumns
   | LoadPublicJdmColumnsError
-  | LoadPublicJdmColumnsSuccess;
+  | LoadPublicJdmColumnsSuccess
+  | SelectJobDescriptions;
