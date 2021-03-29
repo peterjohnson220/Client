@@ -8,9 +8,14 @@ import {
   Output,
   SimpleChanges,
   ViewChild,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
+  OnDestroy
 } from '@angular/core';
+
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import { Subject } from 'rxjs';
+
+import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
 
 @Component({
   selector: 'pf-string-editor',
@@ -18,9 +23,7 @@ import { IconProp } from '@fortawesome/fontawesome-svg-core';
   styleUrls: ['./string-editor.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class StringEditorComponent implements OnInit, OnChanges {
-  constructor() {}
-
+export class StringEditorComponent implements OnInit, OnChanges, OnDestroy {
   @Input() minCharacters = 1;
   @Input() maxCharacters: number;
   @Input() placeholder: string;
@@ -30,13 +33,27 @@ export class StringEditorComponent implements OnInit, OnChanges {
   @Input() showIcon: 'always' | 'never' | 'onHover' = 'onHover';
   @Input() isMultiline = false;
   @Input() showHoverText = false;
+  @Input() showRadialTextCounter = false;
+  @Input() showTextCounterTooltip = false;
 
   @Output() valueChange = new EventEmitter<string>();
 
   isEditable: boolean;
   isInEditState: boolean;
 
+  availableWidth: number;
+  contentWidth: number;
+
+  totalRewardsRadialTextCountersFeatureFlag: RealTimeFlag = { key: FeatureFlags.TotalRewardsRadialTextCounters, value: false };
+  unsubscribe$ = new Subject<void>();
+
   @ViewChild('textBox') textBox: ElementRef;
+  @ViewChild('editAnchor') editAnchor: ElementRef;
+  @ViewChild('editText') editText: ElementRef;
+
+  constructor(private featureFlagService: AbstractFeatureFlagService) {
+    this.featureFlagService.bindEnabled(this.totalRewardsRadialTextCountersFeatureFlag, this.unsubscribe$);
+  }
 
   ngOnInit(): void {
     this.isInEditState = false;
@@ -47,6 +64,14 @@ export class StringEditorComponent implements OnInit, OnChanges {
     if (changes.inEditMode) {
       this.isEditable = this.inEditMode;
     }
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+  }
+
+  get displayRadialTextCounter(): boolean {
+    return this.totalRewardsRadialTextCountersFeatureFlag.value && this.isInEditState && this.showRadialTextCounter;
   }
 
   getValueForInputControl(): string {
@@ -60,11 +85,7 @@ export class StringEditorComponent implements OnInit, OnChanges {
   }
 
   getValueForDisplay(): string {
-    let returnValue = this.placeholder;
-    if (this.value) {
-      returnValue = this.value;
-    }
-    return returnValue;
+    return this.value?.length > 0 ? this.value : this.placeholder;
   }
 
   getHoverText(): string {
@@ -73,6 +94,7 @@ export class StringEditorComponent implements OnInit, OnChanges {
 
   enableEditState(): void {
     this.isInEditState = true;
+    this.availableWidth = this.editAnchor?.nativeElement.clientWidth;
     setTimeout(() => this.textBox.nativeElement.focus(), 0);
   }
 
@@ -80,12 +102,28 @@ export class StringEditorComponent implements OnInit, OnChanges {
     this.isInEditState = false;
   }
 
+  onFocus(): void {
+    this.contentWidth = this.value?.length > 0 ? this.editText?.nativeElement.clientWidth : 0;
+  }
+
   onChange(): void {
     this.value = this.textBox.nativeElement.value;
     this.valueChange.emit(this.value);
   }
 
-   isIe(): boolean {
+  onKeyDown(event: KeyboardEvent) {
+    if (!(event.key === 'Backspace' || event.key === 'Delete')
+      && this.totalRewardsRadialTextCountersFeatureFlag.value && this.contentWidth >= this.availableWidth) {
+      event.preventDefault();
+    }
+  }
+
+  onKeyUp(event: any) {
+    this.editText.nativeElement.innerHTML = this.textBox.nativeElement.value;
+    this.contentWidth = this.editText.nativeElement.clientWidth;
+  }
+
+  isIe(): boolean {
     const agent = window.navigator.userAgent.toLowerCase();
     return agent.indexOf('trident') > -1;
   }
