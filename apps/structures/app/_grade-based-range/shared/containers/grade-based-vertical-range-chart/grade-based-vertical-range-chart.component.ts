@@ -400,7 +400,7 @@ export class GradeBasedVerticalRangeChartComponent implements OnInit, OnDestroy,
     // we need this hidden salary range => will prevent from messing up when we hide salary range from the legend
     this.chartInstance.series[GradeRangeVerticalModelChartSeries.SalaryRangeMinMidMaxHidden].setData(this.salaryRangeSeriesDataModel.MinMidMax, false);
 
-    this.chartInstance.series[GradeRangeVerticalModelChartSeries.RangeMid].setData(this.dataPointSeriesDataModel.Mid, false);
+    this.chartInstance.series[GradeRangeVerticalModelChartSeries.RangeMid].setData(this.dataPointSeriesDataModel.Mid, true);
     this.chartInstance.series[GradeRangeVerticalModelChartSeries.EmployeeOutliers].setData(this.outlierSeriesData, true);
     this.chartInstance.series[GradeRangeVerticalModelChartSeries.Jobs].setData(this.dataPointSeriesDataModel.Job, false);
     this.chartInstance.series[GradeRangeVerticalModelChartSeries.Regression].setData(this.regressionSeriesData, false);
@@ -411,20 +411,20 @@ export class GradeBasedVerticalRangeChartComponent implements OnInit, OnDestroy,
     if (this.rangeDistributionTypeId === RangeDistributionTypeIds.Tertile) {
       this.chartInstance.series[GradeRangeVerticalModelChartSeries.SalaryRangeTertile].setData(this.salaryRangeSeriesDataModel.Tertile, false);
       this.chartInstance.series[GradeRangeVerticalModelChartSeries.RangeTertileFirst].setData(this.dataPointSeriesDataModel.TertileFirst, false);
-      this.chartInstance.series[GradeRangeVerticalModelChartSeries.RangeTertileSecond].setData(this.dataPointSeriesDataModel.TertileSecond, false);
+      this.chartInstance.series[GradeRangeVerticalModelChartSeries.RangeTertileSecond].setData(this.dataPointSeriesDataModel.TertileSecond, true);
     } else if (this.rangeDistributionTypeId === RangeDistributionTypeIds.Quartile) {
       this.chartInstance.series[GradeRangeVerticalModelChartSeries.SalaryRangeQuartileFirst].setData(this.salaryRangeSeriesDataModel.Quartile.First, false);
       this.chartInstance.series[GradeRangeVerticalModelChartSeries.SalaryRangeQuartileSecond].setData(this.salaryRangeSeriesDataModel.Quartile.Second, false);
       this.chartInstance.series[GradeRangeVerticalModelChartSeries.SalaryRangeQuartileThird].setData(this.salaryRangeSeriesDataModel.Quartile.Third, false);
       this.chartInstance.series[GradeRangeVerticalModelChartSeries.SalaryRangeQuartileFourth].setData(this.salaryRangeSeriesDataModel.Quartile.Fourth, false);
       this.chartInstance.series[GradeRangeVerticalModelChartSeries.RangeQuartileFirst].setData(this.dataPointSeriesDataModel.QuartileFirst, false);
-      this.chartInstance.series[GradeRangeVerticalModelChartSeries.RangeQuartileSecond].setData(this.dataPointSeriesDataModel.QuartileSecond, false);
+      this.chartInstance.series[GradeRangeVerticalModelChartSeries.RangeQuartileSecond].setData(this.dataPointSeriesDataModel.QuartileSecond, true);
     } else if (this.rangeDistributionTypeId === RangeDistributionTypeIds.Quintile) {
       this.chartInstance.series[GradeRangeVerticalModelChartSeries.SalaryRangeQuintile].setData(this.salaryRangeSeriesDataModel.Quintile, false);
       this.chartInstance.series[GradeRangeVerticalModelChartSeries.RangeQuintileFirst].setData(this.dataPointSeriesDataModel.QuintileFirst, false);
       this.chartInstance.series[GradeRangeVerticalModelChartSeries.RangeQuintileSecond].setData(this.dataPointSeriesDataModel.QuintileSecond, false);
       this.chartInstance.series[GradeRangeVerticalModelChartSeries.RangeQuintileThird].setData(this.dataPointSeriesDataModel.QuintileThird, false);
-      this.chartInstance.series[GradeRangeVerticalModelChartSeries.RangeQuintileFourth].setData(this.dataPointSeriesDataModel.QuintileFourth, false);
+      this.chartInstance.series[GradeRangeVerticalModelChartSeries.RangeQuintileFourth].setData(this.dataPointSeriesDataModel.QuintileFourth, true);
     }
 
     this.chartInstance.xAxis[0].setCategories(this.gradeCategories, true);
