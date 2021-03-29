@@ -466,7 +466,9 @@ export class JobViewRangeChartService {
             padding: 0,
             headerFormat: '<div style="display: inline-block; background-color: black">',
             pointFormat: '<div style="color: white; font-weight: bold">{point.jobTitle}</div>' +
-              '<div style="color: white">{point.avgSalary}</div>',
+              '<div style="color: white">{point.avgPay}</div>' +
+              '<div style="color: white">Average Comparatio: {point.avgComparatio}%</div>' +
+              '<div style="color: white">Average Position in range: {point.avgPositionInRange}%</div>',
             footerFormat: '</div>'
           }
         },
@@ -485,7 +487,8 @@ export class JobViewRangeChartService {
             padding: 0,
             headerFormat: '<div style="display: inline-block; background-color: black">',
             pointFormat: '<div style="color: red">Employees out of Range</div>' +
-              '<div style="color: white">${point.y}</div>',
+              '<div style="color: white">{point.countString}<br />{point.avgSalary}</div>' +
+              '<div style="color: white">{point.delta}</div>',
             footerFormat: '</div>'
           }
         },

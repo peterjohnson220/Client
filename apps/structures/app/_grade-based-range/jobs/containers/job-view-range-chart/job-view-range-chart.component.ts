@@ -241,6 +241,9 @@ export class JobViewRangeChartComponent implements OnInit, OnDestroy {
       {
         x: xCoordinate,
         y: min,
+        countString: this.formatOutlierCount(true, currentRow.CompanyJobs_Structures_GradeBased_Job_CountEEMinOutlier),
+        avgSalary: this.formatSalary(min),
+        delta: this.formatDelta(true, currentRow.CompanyJobs_Structures_GradeBased_Job_DeltaBetweenMinOutliersAndMin)
       });
 
     // Max Outlier
@@ -248,6 +251,9 @@ export class JobViewRangeChartComponent implements OnInit, OnDestroy {
       {
         x: xCoordinate,
         y: currentRow.CompanyJobs_Structures_GradeBased_Job_AverageEEMaxOutlier,
+        countString: this.formatOutlierCount(false, currentRow.CompanyJobs_Structures_GradeBased_Job_CountEEMaxOutlier),
+        avgSalary: this.formatSalary(currentRow.CompanyJobs_Structures_GradeBased_Job_AverageEEMaxOutlier),
+        delta: this.formatDelta(false, currentRow.CompanyJobs_Structures_GradeBased_Job_DeltaBetweenMaxOutliersAndMax)
       });
   }
 
@@ -258,12 +264,27 @@ export class JobViewRangeChartComponent implements OnInit, OnDestroy {
       x: xCoordinate,
       y: value,
       jobTitle: currentRow.CompanyJobs_Structures_JobTitle,
-      avgPay: this.formatSalary(value)
+      avgComparatio: currentRow.CompanyJobs_Structures_GradeBased_Job_AvgComparatio,
+      avgPositionInRange: currentRow.CompanyJobs_Structures_GradeBased_Job_AveragePositionInRange,
+      avgPay: `
+        ${this.controlPointDisplay}:
+        ${StructuresHighchartsService
+        .formatCurrency(value, this.chartLocale, this.currency, this.rate, true)}
+      `
     });
   }
 
   private formatSalary(salary: number) {
     return `Average ${this.controlPointDisplay}: ${StructuresHighchartsService.formatCurrency(salary, this.chartLocale, this.currency, this.rate, true)}`;
+  }
+
+  private formatOutlierCount(min: boolean, count: number) {
+    return `${count} ${count > 1 ? 'employees' : 'employee'} ${min ? 'below min' : 'above max'}`;
+  }
+
+  private formatDelta(min: boolean, delta: number) {
+    return StructuresHighchartsService.formatCurrency(delta, this.chartLocale, this.currency, this.rate, true)
+      + (min ? ' to bring all to minimum' : ' above the maximum');
   }
 
   private processChartData() {
