@@ -1215,7 +1215,8 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           ...state.grids,
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
-            customFilterOptions: action.payload
+            customFilterOptions: action.payload,
+            savedViews: updateSavedViewsDescription(state.grids[action.pageViewId].savedViews, action.payload)
           }
         }
       };
@@ -1356,6 +1357,8 @@ export function buildExternalFilter(operator: string, fieldName: string, values?
 export function buildFiltersView(views: DataViewConfig[], state: DataGridStoreState, pageViewId: string): SimpleDataView[] {
   return views.map(view => ({
     Name: view.Name,
+    Fields: view.Fields
+      .filter(field => field.FilterOperator && field.FilterValues !== null && !field.IsGlobalFilter),
     Description: view.Fields
       .filter(field => field.FilterOperator && field.FilterValues !== null && !field.IsGlobalFilter)
       .map(field => {
@@ -1366,6 +1369,18 @@ export function buildFiltersView(views: DataViewConfig[], state: DataGridStoreSt
         });
       })
       .map(field => getSimpleDataViewDescription(field, state.grids[pageViewId].customFilterOptions))
+      .join(' • ')
+  }));
+}
+
+export function updateSavedViewsDescription(views: SimpleDataView[], customFilterOptions: PfDataGridCustomFilterOptions[]): SimpleDataView[] {
+  if (!views?.length) {
+    return [];
+  }
+  return views.map(view => ({
+    ...view,
+    Description: view.Fields
+      .map(field => getSimpleDataViewDescription(field, customFilterOptions))
       .join(' • ')
   }));
 }

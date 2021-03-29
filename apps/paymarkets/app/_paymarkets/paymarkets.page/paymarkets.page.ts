@@ -1,9 +1,10 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { ActionsSubject, Store } from '@ngrx/store';
 
 import { SortDescriptor } from '@progress/kendo-data-query';
 import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { ofType } from '@ngrx/effects';
 
 import { ActionBarConfig,
   getDefaultActionBarConfig,
@@ -24,12 +25,13 @@ import { SettingsService } from 'libs/state/app-context/services';
 import { FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models/common';
 import * as fromLayoutWrapperReducer from 'libs/ui/layout-wrapper/reducers';
 import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
-import { ViewField } from 'libs/models/payfactors-api/reports/request';
+import * as fromPfDataGridActions from 'libs/features/grids/pf-data-grid/actions';
+import { DataViewConfig, ViewField } from 'libs/models/payfactors-api/reports/request';
 
 import * as fromPayMarketsPageActions from '../actions/paymarkets-page.actions';
 import * as fromGridActionsBarActions from '../actions/grid-actions-bar.actions';
 import * as fromPayMarketsPageReducer from '../reducers';
-import { PayMarketsPageViewId } from '../models';
+import { PayMarketsPageViewId, PayMarketCustomDisplayFilters } from '../models';
 
 @Component({
   selector: 'pf-paymarkets-page',
@@ -59,6 +61,7 @@ export class PayMarketsPageComponent implements AfterViewInit, OnInit, OnDestroy
   isTileViewSubscription: Subscription;
   leftSidebarOpenSubscription: Subscription;
   gridFieldSubscription: Subscription;
+  savedViewsFieldsSubscription: Subscription;
 
   defaultSort: SortDescriptor[] = [
     {
@@ -96,6 +99,7 @@ export class PayMarketsPageComponent implements AfterViewInit, OnInit, OnDestroy
   isLeftSidebarOpened: boolean;
   tileView = 'Tile View';
   listView = 'List View';
+  customDisplayFilters = ['Industry_Value', 'Geo_Value'];
 
   constructor(
     private store: Store<fromPayMarketsPageReducer.State>,
@@ -103,7 +107,8 @@ export class PayMarketsPageComponent implements AfterViewInit, OnInit, OnDestroy
     public payMarketManagementStore: Store<fromPayMarketManagementReducers.State>,
     private layoutWrapperStore: Store<fromLayoutWrapperReducer.State>,
     private settingsService: SettingsService,
-    private changeDetectorRef: ChangeDetectorRef
+    private changeDetectorRef: ChangeDetectorRef,
+    private actionsSubject: ActionsSubject
   ) {
     this.identity$ = this.userContextStore.select(fromRootState.getUserContext);
     this.industries$ = this.store.select(fromPayMarketsPageReducer.getCompanyIndustries);
@@ -113,7 +118,7 @@ export class PayMarketsPageComponent implements AfterViewInit, OnInit, OnDestroy
       ...getDefaultActionBarConfig(),
       ShowActionBar: true,
       ShowFilterChooser: true,
-      AllowSaveFilter: false
+      AllowSaveFilter: true
     };
     this.gridConfig = {
       PersistColumnWidth: false,
@@ -156,6 +161,13 @@ export class PayMarketsPageComponent implements AfterViewInit, OnInit, OnDestroy
         this.selectedLocation = this.locationField.FilterValues === null ? [] : this.locationField.FilterValues;
       }
     });
+    this.savedViewsFieldsSubscription = this.actionsSubject
+      .pipe(ofType(fromPfDataGridActions.LOAD_SAVED_VIEWS_SUCCESS))
+      .subscribe((action: fromPfDataGridActions.LoadSavedViewsSuccess) => {
+        if (action.pageViewId === this.pageViewId && action.payload?.length) {
+          this.initSavedViewsCustomDisplayOptions(action.payload);
+        }
+      });
     window.addEventListener('scroll', this.scroll, true);
   }
 
@@ -281,5 +293,35 @@ export class PayMarketsPageComponent implements AfterViewInit, OnInit, OnDestroy
   }
   private hasDropdownOptions(isDefaultPayMarket: boolean, permission: string): boolean {
     return !(!this.pfSecuredResourceDirective.doAuthorize(permission) && isDefaultPayMarket);
+  }
+
+  private initSavedViewsCustomDisplayOptions(views: DataViewConfig[]): void {
+    const customFilters: PayMarketCustomDisplayFilters = {
+      Industry_Value: [],
+      Geo_Value: []
+    };
+    views.forEach(view => {
+      const filters = view.Fields.filter(field => field.FilterOperator && field.FilterValues !== null && !field.IsGlobalFilter);
+      if (filters) {
+        filters.forEach(filter => {
+          if (this.customDisplayFilters.indexOf(filter.SourceName) > -1) {
+            this.addFilterValuesToGroupListItems(customFilters, filter.SourceName, filter.FilterValues);
+          }
+        });
+      }
+    });
+    this.store.dispatch(new fromGridActionsBarActions.InitSavedViewsCustomDisplayOptions(customFilters));
+  }
+
+  private addFilterValuesToGroupListItems(filters: PayMarketCustomDisplayFilters, sourceName: string, filterValues: string[]): void {
+    filterValues.forEach(value => {
+      const parsedValues = value.split(':');
+      if (parsedValues.length) {
+        filters[sourceName].push({
+          Value: value,
+          Name: parsedValues[parsedValues.length - 1]
+        });
+      }
+    });
   }
 }

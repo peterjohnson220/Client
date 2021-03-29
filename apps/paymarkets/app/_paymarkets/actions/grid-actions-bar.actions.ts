@@ -1,5 +1,6 @@
 import { Action } from '@ngrx/store';
 import { GroupedListItem } from 'libs/models';
+import { PayMarketCustomDisplayFilters } from '../models';
 
 export const GET_COMPANY_SCOPE_SIZES = '[PayMarkets / Grid Actions Bar] Get Company Scope Sizes';
 export const GET_COMPANY_SCOPE_SIZES_SUCCESS = '[PayMarkets / Grid Actions Bar] Get Company Scope Sizes Success';
@@ -13,6 +14,7 @@ export const GET_LOCATIONS = '[PayMarkets / Grid Actions Bar] Get Locations';
 export const GET_LOCATIONS_SUCCESS = '[PayMarkets / Grid Actions Bar] Get Locations Success';
 export const GET_LOCATIONS_ERROR = '[PayMarkets / Grid Actions Bar] Get Locations Error';
 export const SET_SELECTED_LOCATIONS = '[PayMarkets / Grid Actions Bar] Set Selected Locations';
+export const INIT_SAVED_VIEWS_CUSTOM_DISPLAY_OPTIONS = '[PayMarkets / Grid Actions Bar] Init Saved Views Custom Display Options';
 
 export class GetCompanyScopeSizes implements Action {
   readonly type = GET_COMPANY_SCOPE_SIZES;
@@ -84,6 +86,11 @@ export class SetSelectedLocations implements Action {
   constructor(public payload: GroupedListItem[]) {}
 }
 
+export class InitSavedViewsCustomDisplayOptions implements Action {
+  readonly type = INIT_SAVED_VIEWS_CUSTOM_DISPLAY_OPTIONS;
+  constructor(public payload: PayMarketCustomDisplayFilters) {}
+}
+
 export type Actions
   = GetCompanyScopeSizes
   | GetCompanyScopeSizesSuccess
@@ -96,4 +103,5 @@ export type Actions
   | GetLocations
   | GetLocationsSuccess
   | GetLocationsError
-  | SetSelectedLocations;
+  | SetSelectedLocations
+  | InitSavedViewsCustomDisplayOptions;
