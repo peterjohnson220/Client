@@ -12,9 +12,23 @@ import { JobDescriptionDataResponse } from 'libs/models/payfactors-api/job-descr
 import * as fromWorkflowActions from '../actions/workflow.actions';
 import * as fromJobDescriptionActions from '../actions/job-description.actions';
 import { PayfactorsApiModelMapper } from 'libs/features/jobs/job-description-management/helpers';
+import { GET_WORKFLOW_STEP_INFO_FROM_TOKEN } from '../actions/workflow.actions';
 
 @Injectable()
 export class WorkflowEffects {
+  @Effect()
+  GetWorkflowStepInfoFromToken$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromWorkflowActions.GET_WORKFLOW_STEP_INFO_FROM_TOKEN),
+      switchMap((action: fromWorkflowActions.GetWorkflowStepInfoFromToken) =>
+        this.jobDescriptionWorkflowApiService.getWorkflowStepInfoFromToken(action.payload.token).pipe(
+          map((response: any) => {
+            return new fromWorkflowActions.GetWorkflowStepInfoFromTokenSuccess(response);
+          }),
+          catchError(response => of(new fromWorkflowActions.GetWorkflowStepInfoFromTokenError(response)))
+        )
+      ));
+
   @Effect()
   loadWorkflowStepSummary: Observable<Action> = this.actions$
     .pipe(

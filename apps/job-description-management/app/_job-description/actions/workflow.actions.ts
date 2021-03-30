@@ -2,6 +2,9 @@ import { Action } from '@ngrx/store';
 import { WorkflowStepInfo } from 'libs/models/security';
 import { CancelWorkflow, Workflow } from '../models';
 
+export const GET_WORKFLOW_STEP_INFO_FROM_TOKEN = '[job-description-management / Workflow] Get Workflow Step Info From Token';
+export const GET_WORKFLOW_STEP_INFO_FROM_TOKEN_SUCCESS = '[job-description-management / Workflow] Get Workflow Step Info From Token Success';
+export const GET_WORKFLOW_STEP_INFO_FROM_TOKEN_ERROR = '[job-description-management / Workflow] Get Workflow Step Info From Token Error';
 export const LOAD_WORKFLOW_LOG_ENTRIES = '[job-description-management / Workflow] Load Workflow Log Entries';
 export const LOAD_WORKFLOW_LOG_ENTRIES_SUCCESS = '[job-description-management / Workflow] Load Workflow Log Entries Success';
 export const LOAD_WORKFLOW_LOG_ENTRIES_ERROR = '[job-description-management / Workflow] Load Workflow Log Entries Error';
@@ -32,6 +35,21 @@ export const UPDATE_WORKFLOW_STEPS = '[job-description-management / Workflow] Up
 // Workflow Step Messages
 export const SET_MESSAGE = '[job-description-management / Workflow] Set Message';
 
+export class GetWorkflowStepInfoFromToken implements Action {
+  readonly type = GET_WORKFLOW_STEP_INFO_FROM_TOKEN;
+
+  constructor(public payload: any) {}
+}
+export class GetWorkflowStepInfoFromTokenSuccess implements Action {
+  readonly type = GET_WORKFLOW_STEP_INFO_FROM_TOKEN_SUCCESS;
+
+  constructor(public payload: any) {}
+}
+export class GetWorkflowStepInfoFromTokenError implements Action {
+  readonly type = GET_WORKFLOW_STEP_INFO_FROM_TOKEN_ERROR;
+
+  constructor(public payload: any) {}
+}
 
 export class LoadWorkflowLogEntries implements Action {
   readonly type = LOAD_WORKFLOW_LOG_ENTRIES;
@@ -180,7 +198,10 @@ export class ResendEmailError {
 }
 
 export type Actions
-  = LoadWorkflowLogEntries
+  = GetWorkflowStepInfoFromToken
+  | GetWorkflowStepInfoFromTokenSuccess
+  | GetWorkflowStepInfoFromTokenError
+  | LoadWorkflowLogEntries
   | LoadWorkflowLogEntriesSuccess
   | LoadWorkflowLogEntriesError
   | LoadWorkflowStepSummary

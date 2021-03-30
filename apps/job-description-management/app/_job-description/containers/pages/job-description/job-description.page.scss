@@ -1,3 +1,18 @@
 .pf-inner-page-content {
   height: calc(100vh - 130px);
 }
+
+.breadcrumb {
+  background-color: #ffffff;
+  margin-bottom: 0px;
+}
+
+.breadcrumb-item {
+  a {
+    color: #0883be;
+  }
+
+  &.active {
+    color: #999999;
+  }
+}

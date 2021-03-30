@@ -653,6 +653,11 @@ export const getWorkflowStepRejecting = createSelector(
   fromWorkflowReducer.getWorkflowStepRejecting
 );
 
+export const getWorkflowStepInfo = createSelector(
+  selectWorkflowState,
+  fromWorkflowReducer.getWorkflowStepInfo
+);
+
 // Workflow Step Summary
 export const getWorkflowStepSummaryAsync = createSelector(
   selectWorkflowState,

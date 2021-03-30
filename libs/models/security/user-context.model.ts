@@ -48,6 +48,7 @@ export interface WorkflowStepInfo {
   IsFirstStep: boolean;
   IsFirstRecipient: boolean;
   IsLastStep: boolean;
+  Permissions: any;
 }
 
 export function generateMockUserContext(): UserContext {

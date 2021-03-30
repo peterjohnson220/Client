@@ -26,13 +26,19 @@
         (updateJobInfoClicked)="handleUpdateJobInfoClicked()"
         (exportClicked)="handleExportClickedFromActions($event)"
         (acknowledgedClicked)="openEmployeeAcknowledgementModal()"
-        (viewSelected)="handleViewSelected($event)">
+        (viewSelected)="handleViewSelected($event)"
+        [isInAppWorkflow]="isInAppWorkflow">
       </pf-job-description-actions>
 
     </ng-container>
 
     <ng-container page-content>
-
+      <nav aria-label="breadcrumb" *ngIf="!!isInAppWorkflow">
+        <ol class="breadcrumb h5">
+          <li class="breadcrumb-item"><a href="/client/job-description-management">Job Descriptions</a></li>
+          <li class="breadcrumb-item active">Job Description Approval</li>
+        </ol>
+      </nav>
       <pf-async-container
         [loading]="(jobDescriptionAsync$ | async)?.loading || (jobDescriptionPublishing$ | async)"
         [loadingError]="(jobDescriptionAsync$ | async)?.loadingError"
@@ -41,7 +47,7 @@
       </pf-async-container>
 
       <div class="row pf-inner-page-content">
-        
+
         <div *ngIf="!!jobDescription" class="column-scroll-container"
             [class.col-8]="(jobDescription.JobDescriptionStatus == 'In Review' && !showLibrary) || showRoutingHistory"
             [class.col-7]="showLibrary"
@@ -128,7 +134,7 @@
           <div *ngIf="identityInWorkflow && !showLibrary" class="column-scroll-container col-4">
             <div class="scroll-y column-scroll-inner">
               <pf-workflow-sidebar
-                  [workflowStepInfo]="(identity$ | async)?.WorkflowStepInfo"
+                  [workflowStepInfo]="!isInAppWorkflow ? (identity$ | async)?.WorkflowStepInfo : (workflowStepInfo$ | async)"
                   [workflowStepCompleted]="completedStep">
               </pf-workflow-sidebar>
             </div>
@@ -165,7 +171,7 @@
 </pf-page-with-title-bar>
 
 <!--Modals-->
-<pf-copy-job-description-modal *ngIf="!(identity$ | async)?.IsPublic && !(identity$ | async)?.WorkflowStepInfo"></pf-copy-job-description-modal>
+<pf-copy-job-description-modal *ngIf="!(identity$ | async)?.IsPublic && !(identity$ | async)?.WorkflowStepInfo && !isInAppWorkflow"></pf-copy-job-description-modal>
 
 <pf-workflow-setup-modal *ngIf="!!jobDescription"
   [jobTitle]="(jobDescriptionAsync$ | async)?.obj?.Name"
@@ -215,7 +221,7 @@
   [workflowId]="(jobDescriptionExtendedInfo$ | async)?.WorkflowId">
 </pf-change-approver-modal>
 
-<pf-file-download-security-warning-modal 
+<pf-file-download-security-warning-modal
   #fileDownloadSecurityWarningModal
   (securityWarningConfirmed)="handleSecurityWarningConfirmed($event)">
 </pf-file-download-security-warning-modal>

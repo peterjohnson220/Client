@@ -104,6 +104,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   loadingPageError$: Observable<boolean>;
   undoChanges$: Observable<boolean>;
   replaceContents$: Observable<boolean>;
+  workflowStepInfo$: Observable<any>;
 
   jobDescriptionSubscription: Subscription;
   routerParamsSubscription: Subscription;
@@ -122,6 +123,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   requireSSOLoginSubscription: Subscription;
   discardingDraftJobDescriptionSuccessSubscription: Subscription;
   enableFileDownloadSecurityWarningSub: Subscription;
+  workflowStepInfoSubscription: Subscription;
 
   companyName: string;
   emailAddress: string;
@@ -154,6 +156,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   jobDescriptionViews: string[];
   completedStep: boolean;
   controlTypes: ControlType[];
+  isInAppWorkflow: boolean;
 
   get isJobDescrptionEditable() {
     return this.identityInWorkflow ? this.hasCanEditJobDescriptionPermission :
@@ -183,8 +186,6 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     );
 
     this.controlTypesAsync$ = this.sharedStore.select(fromJobDescriptionManagementSharedReducer.getControlTypesAsync);
-    this.hasCanEditJobDescriptionPermission = this.permissionService.CheckPermission([Permissions.CAN_EDIT_JOB_DESCRIPTION],
-      PermissionCheckEnum.Single);
     this.editingJobDescription$ = this.store.select(fromJobDescriptionReducers.getEditingJobDescription);
     this.savingJobDescription$ = this.store.select(fromJobDescriptionReducers.getSavingJobDescription);
     this.jobDescriptionLibraryBuckets$ = this.sharedStore.select(fromJobDescriptionManagementSharedReducer.getBucketsAsync);
@@ -206,6 +207,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
 
     this.undoChanges$ = this.store.select(fromJobDescriptionReducers.getUndoJobDescriptionChangesComplete);
     this.replaceContents$ = this.store.select(fromJobDescriptionReducers.getReplaceJobDescriptionComplete);
+    this.workflowStepInfo$ = this.store.select(fromJobDescriptionReducers.getWorkflowStepInfo);
   }
 
   ngOnInit(): void {
@@ -235,6 +237,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.discardingDraftJobDescriptionSuccessSubscription.unsubscribe();
     this.enableFileDownloadSecurityWarningSub.unsubscribe();
     this.controlTypesSubscription.unsubscribe();
+    this.workflowStepInfoSubscription?.unsubscribe();
   }
 
   appliesToFormCompleted(selected: any) {
@@ -523,7 +526,8 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
       this.jobDescriptionId = params['id'];
       this.viewName = params.queryParams['viewName'];
       this.revisionNumber = params['versionNumber'];
-      this.tokenId = params.queryParams['jwt'];
+      this.tokenId = !!params.queryParams['jwt'] ? params.queryParams[ 'jwt' ] :  params.queryParams[ 'jwt-workflow' ];
+      this.isInAppWorkflow = !!params.queryParams[ 'jwt-workflow' ];
       this.ssoTokenId = params.queryParams['tokenid'];
       this.ssoAgentId = params.queryParams['agentid'];
 
@@ -556,7 +560,25 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
             this.router.navigate(['/token-expired']);
           }
         }
-        this.identityInWorkflow = !!userContext.WorkflowStepInfo && !!userContext.WorkflowStepInfo.WorkflowId;
+
+        this.identityInWorkflow = (!!userContext.WorkflowStepInfo && !!userContext.WorkflowStepInfo.WorkflowId) || this.isInAppWorkflow;
+
+        if (this.isInAppWorkflow) {
+          this.workflowStepInfoSubscription = this.workflowStepInfo$.subscribe(workflowStepInfo => {
+            if (!!workflowStepInfo) {
+
+              if (userContext.UserId !== workflowStepInfo.UserId) {
+                this.router.navigate(['../forbidden']);
+              }
+
+              this.hasCanEditJobDescriptionPermission = workflowStepInfo.Permissions.indexOf(Permissions.CAN_EDIT_JOB_DESCRIPTION) > -1;
+            }
+          });
+        } else {
+          this.hasCanEditJobDescriptionPermission = this.permissionService.CheckPermission([Permissions.CAN_EDIT_JOB_DESCRIPTION],
+            PermissionCheckEnum.Single);
+        }
+
         this.companySubscription = this.company$.subscribe((company) => {
           this.companyLogoPath = company
             ? userContext.ConfigSettings.find(c => c.Name === 'CloudFiles_PublicBaseUrl').Value + '/company_logos/' + company.CompanyLogo
@@ -580,6 +602,9 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
           this.store.dispatch(new fromEmployeeAcknowledgementActions.LoadEmployeeAcknowledgementInfo());
         }
         this.store.dispatch(new fromJobDescriptionActions.LoadingPage(false));
+        if (this.isInAppWorkflow) {
+          this.store.dispatch(new fromWorkflowActions.GetWorkflowStepInfoFromToken({ token: this.tokenId }));
+        }
       }
     });
 
