@@ -34,13 +34,14 @@
         </div>
         <div class="header-row-wrapper position-fixed">
           <div class="header-row d-flex w-100">
-            <h3 class="flex-fill">
+            <h3 class="flex-fill statement-title">
               <pf-string-editor
                 [placeholder]="'New Statement Name'"
                 [maxCharacters]="statementNameMaxLength"
                 [value]="getStatementName()"
                 [inEditMode]="(mode === modeEnum.Edit)"
                 [showIcon]="'always'"
+                [showHoverText]="true"
                 (valueChange)="onStatementNameValueChange($event)"
               ></pf-string-editor>
             </h3>
