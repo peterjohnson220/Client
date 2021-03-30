@@ -31,9 +31,9 @@ export class ModelPageComponent implements OnInit, OnDestroy {
   metaData$: Observable<RangeGroupMetadata>;
   metadataSub: Subscription;
   gradeRangeDetailsSubscription: Subscription;
-
   pageViewIdSubscription: Subscription;
   pageSummaryViewIdSubscription: Subscription;
+  savingModelSettingsAsyncObjSubscription: Subscription;
   rangeGroupId: any;
   modelSummaryPageViewId: string;
   modelGridPageViewId: string;
@@ -80,6 +80,12 @@ export class ModelPageComponent implements OnInit, OnDestroy {
     this.hasCanCreateEditModelStructurePermission = this.permissionService.CheckPermission([Permissions.STRUCTURES_CREATE_EDIT_MODEL],
       PermissionCheckEnum.Single);
     this.isNewRangeOrCreateModelFlow = this.urlService.isInWorkflow(Workflow.NewRange) || this.urlService.isInWorkflow(Workflow.CreateModel);
+
+    this.savingModelSettingsAsyncObjSubscription = this.store.select(fromSharedStructuresReducer.getSavingModelSettingsAsyncObj).subscribe(settings => {
+      if (settings.savingSuccess === true && this.isNewRangeOrCreateModelFlow) {
+        this.openManageModelModal();
+      }
+    });
   }
 
   openManageModelModal() {
@@ -115,5 +121,6 @@ export class ModelPageComponent implements OnInit, OnDestroy {
     this.pageSummaryViewIdSubscription.unsubscribe();
     this.metadataSub.unsubscribe();
     this.gradeRangeDetailsSubscription.unsubscribe();
+    this.savingModelSettingsAsyncObjSubscription.unsubscribe();
   }
 }
