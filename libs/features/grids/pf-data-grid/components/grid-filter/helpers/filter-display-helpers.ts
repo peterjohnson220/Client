@@ -32,7 +32,7 @@ export function getValueDisplay(filterValue: string, field: ViewField, customDis
   let display = filterValue ?? '';
   const customFilterDisplay = customDisplayOptions.find(x => x.EntitySourceName === field.EntitySourceName && x.SourceName === field.SourceName);
   if (!!customFilterDisplay) {
-    display = customFilterDisplay.FilterDisplayOptions.find(x => x.Value === filterValue).Display;
+    display = customFilterDisplay.FilterDisplayOptions.find(x => x.Value === filterValue)?.Display ?? filterValue;
   } else {
     switch (field.DataType) {
       case DataViewFieldDataType.DateTime: {

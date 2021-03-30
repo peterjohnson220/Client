@@ -10,6 +10,7 @@ export interface DataViewConfig {
 export interface SimpleDataView {
   Name: string;
   Description: string;
+  Fields?: ViewField[];
 }
 
 export interface DataViewEntity {
