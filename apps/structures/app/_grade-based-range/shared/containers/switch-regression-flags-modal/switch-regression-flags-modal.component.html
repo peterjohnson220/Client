@@ -8,6 +8,7 @@
   [secondaryButtonText]="'Cancel'"
   [primaryButtonTextSubmitting]="this.selectedGradePoint?.IncludeInRegression ? 'Excluding' : 'Including'"
   [submitting]="(switchingRegressionFlagsAsyncObj$ | async)?.saving"
+  [submitEnabled]="enableButton()"
   [isOpen$]="modalOpen$"
   (onSubmit)="handleSwitch()"
   (onDismiss)="handleDismiss()">

@@ -61,6 +61,12 @@ export class SwitchRegressionFlagsModalComponent implements OnInit, OnDestroy {
     this.selectAllFlag = false;
   }
 
+  enableButton() {
+    return this.gradePoints.some(function(e) {
+      return e.Selected === true;
+    });
+  }
+
   selectAll() {
     this.selectAllFlag = !this.selectAllFlag;
     const gradePointsCopy = cloneDeep(this.gradePoints);
