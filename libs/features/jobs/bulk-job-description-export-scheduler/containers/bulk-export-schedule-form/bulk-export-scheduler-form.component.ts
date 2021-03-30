@@ -6,6 +6,10 @@ import omit from 'lodash/omit';
 import { merge, Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
+import { ExportReportType, ServiceAccountReportClass } from 'libs/constants';
+import * as fromServiceAccountActions from 'libs/features/service-accounts/actions';
+import * as fromServiceAccountReducer from 'libs/features/service-accounts/reducers';
+import { ServiceAccountUser, ServiceAccountUserStatus } from 'libs/models';
 import { BulkExportSchedule, JobDescriptionViewModel, BulkExportScheduleParameters } from 'libs/models/jdm';
 import { JdmListFilter } from 'libs/models/user-profile';
 
@@ -39,15 +43,28 @@ export class BulkExportSchedulerFormComponent implements OnInit, OnDestroy {
   weekday: string[] = [ 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday' ];
   occurence: string[] = [ 'First', 'Second', 'Third', 'Fourth' ];
 
+  hrisOutboundUrl: string;
+  serviceAccountStatus$: Observable<ServiceAccountUserStatus>;
+  serviceAccountStatus: ServiceAccountUserStatus;
+  serviceAccountUser$: Observable<ServiceAccountUser>;
+  serviceAccountCredentialsModalOpen$ = new Subject<boolean>();
+  jdmExportUrl$: Observable<string>;
+
   private unsubscribe$ = new Subject<void>();
 
-  constructor(private store: Store<fromJdmAdminReducer.State>) {
+  constructor(
+    private store: Store<fromJdmAdminReducer.State>,
+    private serviceAccountStore: Store<fromServiceAccountReducer.State>) {
     this.addingSchedule$ = this.store.select(fromJdmAdminReducer.getBulkExportScheduleAdding);
     this.addingScheduleError$ = this.store.select(fromJdmAdminReducer.getBulkExportScheduleAddingError);
     this.editing$ = this.store.select(fromJdmAdminReducer.getBulkExportScheduleEditing);
     this.editSchedule$ = this.store.select(fromJdmAdminReducer.getBulkExportScheduleEditSchedule);
     this.updateSchedule$ = this.store.select(fromJdmAdminReducer.getBulkExportScheduleUpdating);
     this.updateScheduleError$ = this.store.select(fromJdmAdminReducer.getBulkExportScheduleUpdatingError);
+
+    this.serviceAccountStatus$ = this.serviceAccountStore.select(fromServiceAccountReducer.getAccountStatus);
+    this.serviceAccountUser$ = this.serviceAccountStore.select(fromServiceAccountReducer.getServiceAccountUser);
+    this.jdmExportUrl$ = this.store.select(fromJdmAdminReducer.getJdmExportUrl);
   }
 
   // Lifecycle
@@ -76,6 +93,16 @@ export class BulkExportSchedulerFormComponent implements OnInit, OnDestroy {
     this.editing$
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(editing => this.editing = editing);
+
+    if (this.reportType === ExportReportType.HrisOutboundJobs) {
+      this.serviceAccountStatus$
+        .pipe(takeUntil(this.unsubscribe$))
+        .subscribe(serviceAccountStatus => this.serviceAccountStatus = serviceAccountStatus);
+
+      this.serviceAccountStore.dispatch(new fromServiceAccountActions.GetAccountStatus({
+        ReportClass: ServiceAccountReportClass.HrisOutboundJobs,
+      }));
+    }
   }
 
   ngOnDestroy() {
@@ -129,6 +156,11 @@ export class BulkExportSchedulerFormComponent implements OnInit, OnDestroy {
       } else {
         this.store.dispatch(new fromJdmBulkExportScheduleActions.AddingSchedule(this.schedule));
       }
+
+      if (this.reportType === ExportReportType.HrisOutboundJobs) {
+        this.spawnServiceAccountInfo();
+      }
+
       this.schedule = new BulkExportSchedule();
 
       this.setDefaultPageValues();
@@ -191,5 +223,22 @@ export class BulkExportSchedulerFormComponent implements OnInit, OnDestroy {
 
     this.daysOfWeekSelected = [];
     this.validSchedule = true;
+  }
+
+  closeServiceAccountModal() {
+    this.serviceAccountCredentialsModalOpen$.next(false);
+  }
+
+  private spawnServiceAccountInfo() {
+    if (!this.serviceAccountStatus?.IsActive) {
+      this.serviceAccountStore.dispatch(new fromServiceAccountActions.CreateServiceAccount({
+        Purpose: 'Accessing JDM Export Api',
+        ReportClass: ServiceAccountReportClass.HrisOutboundJobs,
+      }));
+    }
+
+    this.store.dispatch(new fromJdmBulkExportScheduleActions.GetJdmExportUrl(this.schedule.FileName));
+
+    this.serviceAccountCredentialsModalOpen$.next(true);
   }
 }
