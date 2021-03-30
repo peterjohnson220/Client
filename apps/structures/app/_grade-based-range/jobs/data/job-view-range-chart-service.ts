@@ -250,7 +250,7 @@ export class JobViewRangeChartService {
             useHTML: true,
             padding: 0,
             headerFormat: '<div style="display: inline-block; background-color: black; color: white">',
-            pointFormat: '<div><b>{point.jobTitle}</b></div><div>' +
+            pointFormat: '<div><b>{point.gradeName}</b></div><div>' +
               '<div>{point.dataPoint}</div>' +
               '<div>{point.currentDataPoint}</div>' +
               '<div>{point.newDataPoint}</div>' +

@@ -156,54 +156,54 @@ export class JobViewRangeChartComponent implements OnInit, OnDestroy {
 
   private addMidPoint(xCoordinate) {
     this.dataPointSeriesDataModel.Mid.push(
-      StructuresHighchartsService.getDataPoint(xCoordinate, RangeDistributionDataPointTypeIds.Mid, this.jobRangeData, this.hasCurrentStructure,
+      StructuresHighchartsService.getDataPointForGBRJobs(xCoordinate, RangeDistributionDataPointTypeIds.Mid, this.jobRangeData, this.hasCurrentStructure,
         this.chartLocale, this.metaData)
     );
   }
 
   private addTertilePoint(xCoordinate) {
     this.dataPointSeriesDataModel.TertileFirst.push(
-      StructuresHighchartsService.getDataPoint(xCoordinate, RangeDistributionDataPointTypeIds.TertileFirst, this.jobRangeData, this.hasCurrentStructure,
-        this.chartLocale, this.metaData)
+      StructuresHighchartsService.getDataPointForGBRJobs(xCoordinate, RangeDistributionDataPointTypeIds.TertileFirst, this.jobRangeData,
+        this.hasCurrentStructure, this.chartLocale, this.metaData)
     );
 
     this.dataPointSeriesDataModel.TertileSecond.push(
-      StructuresHighchartsService.getDataPoint(xCoordinate, RangeDistributionDataPointTypeIds.TertileSecond, this.jobRangeData, this.hasCurrentStructure,
-        this.chartLocale, this.metaData)
+      StructuresHighchartsService.getDataPointForGBRJobs(xCoordinate, RangeDistributionDataPointTypeIds.TertileSecond, this.jobRangeData,
+        this.hasCurrentStructure, this.chartLocale, this.metaData)
     );
   }
 
   private addQuartilePoint(xCoordinate) {
     this.dataPointSeriesDataModel.QuartileFirst.push(
-      StructuresHighchartsService.getDataPoint(xCoordinate, RangeDistributionDataPointTypeIds.QuartileFirst, this.jobRangeData, this.hasCurrentStructure,
-        this.chartLocale, this.metaData)
+      StructuresHighchartsService.getDataPointForGBRJobs(xCoordinate, RangeDistributionDataPointTypeIds.QuartileFirst, this.jobRangeData,
+        this.hasCurrentStructure, this.chartLocale, this.metaData)
     );
 
     this.dataPointSeriesDataModel.QuartileSecond.push(
-      StructuresHighchartsService.getDataPoint(xCoordinate, RangeDistributionDataPointTypeIds.QuartileSecond, this.jobRangeData, this.hasCurrentStructure,
-        this.chartLocale, this.metaData)
+      StructuresHighchartsService.getDataPointForGBRJobs(xCoordinate, RangeDistributionDataPointTypeIds.QuartileSecond, this.jobRangeData,
+        this.hasCurrentStructure, this.chartLocale, this.metaData)
     );
   }
 
   private addQuintilePoint(xCoordinate) {
     this.dataPointSeriesDataModel.QuintileFirst.push(
-      StructuresHighchartsService.getDataPoint(xCoordinate, RangeDistributionDataPointTypeIds.QuintileFirst, this.jobRangeData, this.hasCurrentStructure,
-        this.chartLocale, this.metaData)
+      StructuresHighchartsService.getDataPointForGBRJobs(xCoordinate, RangeDistributionDataPointTypeIds.QuintileFirst, this.jobRangeData,
+        this.hasCurrentStructure, this.chartLocale, this.metaData)
     );
 
     this.dataPointSeriesDataModel.QuintileSecond.push(
-      StructuresHighchartsService.getDataPoint(xCoordinate, RangeDistributionDataPointTypeIds.QuintileSecond, this.jobRangeData, this.hasCurrentStructure,
-        this.chartLocale, this.metaData)
+      StructuresHighchartsService.getDataPointForGBRJobs(xCoordinate, RangeDistributionDataPointTypeIds.QuintileSecond, this.jobRangeData,
+        this.hasCurrentStructure, this.chartLocale, this.metaData)
     );
 
     this.dataPointSeriesDataModel.QuintileThird.push(
-      StructuresHighchartsService.getDataPoint(xCoordinate, RangeDistributionDataPointTypeIds.QuintileThird, this.jobRangeData, this.hasCurrentStructure,
-        this.chartLocale, this.metaData)
+      StructuresHighchartsService.getDataPointForGBRJobs(xCoordinate, RangeDistributionDataPointTypeIds.QuintileThird, this.jobRangeData,
+        this.hasCurrentStructure, this.chartLocale, this.metaData)
     );
 
     this.dataPointSeriesDataModel.QuintileFourth.push(
-      StructuresHighchartsService.getDataPoint(xCoordinate, RangeDistributionDataPointTypeIds.QuintileFourth, this.jobRangeData, this.hasCurrentStructure,
-        this.chartLocale, this.metaData)
+      StructuresHighchartsService.getDataPointForGBRJobs(xCoordinate, RangeDistributionDataPointTypeIds.QuintileFourth, this.jobRangeData,
+        this.hasCurrentStructure, this.chartLocale, this.metaData)
     );
   }
 
