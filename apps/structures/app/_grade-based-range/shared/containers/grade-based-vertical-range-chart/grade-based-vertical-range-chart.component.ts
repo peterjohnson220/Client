@@ -113,7 +113,7 @@ export class GradeBasedVerticalRangeChartComponent implements OnInit, OnDestroy,
   }
 
 
-  private determineChartMin(currentRow) {
+  private determineChartMin(currentRow, xCoordinate) {
     // if we find average or avg outlier data AND its lower than CompanyStructures_Ranges_Min, use that value to check for new min.
     // otherwise just use CompanyStructures_Ranges_Min
     // also make sure the comparison value is at least zero, aka not NULL. This is to prevent negative y-axis values
@@ -125,13 +125,20 @@ export class GradeBasedVerticalRangeChartComponent implements OnInit, OnDestroy,
       comparisonValue = currentRow.CompanyStructures_RangeGroup_GradeBased_Range_AverageEEMinOutlier;
     }
 
+    // also check against the computed regression value
+    if (!!this.regressionSeriesData && this.regressionSeriesData.length > 0) {
+      const currentRegressionValue = this.regressionSeriesData[xCoordinate];
+      if (!!currentRegressionValue && currentRegressionValue.y < comparisonValue) {
+        comparisonValue = currentRegressionValue.y;
+      }
+    }
 
     if (this.chartMin === undefined || comparisonValue < this.chartMin) {
       this.chartMin = comparisonValue;
     }
   }
 
-  private determineChartMax(currentRow) {
+  private determineChartMax(currentRow, xCoordinate) {
     // if we find average or avg outlier data AND its higher than CompanyStructures_Ranges_Max, use that value to check for new max.
     // otherwise just use CompanyStructures_Ranges_Max
     let comparisonValue = StructuresHighchartsService.getChartMax(currentRow, this.rangeDistributionTypeId);
@@ -140,6 +147,14 @@ export class GradeBasedVerticalRangeChartComponent implements OnInit, OnDestroy,
     if (currentRow.CompanyStructures_RangeGroup_GradeBased_Range_AverageEEMaxOutlier &&
       currentRow.CompanyStructures_RangeGroup_GradeBased_Range_AverageEEMaxOutlier > comparisonValue) {
       comparisonValue = currentRow.CompanyStructures_RangeGroup_GradeBased_Range_AverageEEMaxOutlier;
+    }
+
+    // also check against the computed regression value
+    if (!!this.regressionSeriesData && this.regressionSeriesData.length > 0) {
+      const currentRegressionValue = this.regressionSeriesData[xCoordinate];
+      if (!!currentRegressionValue && currentRegressionValue.y > comparisonValue) {
+        comparisonValue = currentRegressionValue.y;
+      }
     }
 
     if (this.chartMax === undefined || comparisonValue > this.chartMax) {
@@ -358,10 +373,10 @@ export class GradeBasedVerticalRangeChartComponent implements OnInit, OnDestroy,
       }
 
       // check for new min
-      this.determineChartMin(currentRow);
+      this.determineChartMin(currentRow, i);
 
       // check for new max
-      this.determineChartMax(currentRow);
+      this.determineChartMax(currentRow, i);
 
       // always add to salary range group
       this.addSalaryRangeMinMidMax(i, currentRow);
