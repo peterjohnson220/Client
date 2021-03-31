@@ -10,7 +10,6 @@ import { JobsApiService, PricingApiService } from 'libs/data/payfactors-api';
 import { getSearchFilters } from '../../../surveys/survey-search/data';
 import { PayfactorsApiModelMapper } from '../helpers';
 import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
-import * as fromSurveySearchReducer from 'libs/features/surveys/survey-search/reducers';
 
 import { SurveySearchFiltersHelper } from '../../../surveys/survey-search/helpers';
 
@@ -69,7 +68,7 @@ export class ModifyPricingsEffects {
     ofType(fromModifyPricingsActions.MODIFY_PRICINGS),
     withLatestFrom(
       this.store.select(fromMultiMatchReducer.getJobsToPrice),
-      this.store.select(fromSurveySearchReducer.getTempExchangeJobDataCutFilterContextDictionary),
+      this.store.select(fromMultiMatchReducer.getTempDataCutFilterContextDictionary),
       (action, jobsToPrice, tempPeerDataCutFilterContextDictionary) =>
         ({ jobsToPrice, tempPeerDataCutFilterContextDictionary })
     ),

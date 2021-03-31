@@ -129,7 +129,7 @@ exports[`Libs - Upsert Peer Data Cut should display the upsert data cut page wit
   refinedDataCutDetails={[Function EventEmitter]}
   requestPeerAccessMessage={[Function String]}
   requestingPeerAccess$={[Function Store]}
-  selectedWeightingType={[Function Object]}
+  selectedWeightingType="undefined"
   settingsService={[Function SettingsService]}
   store={[Function Store]}
   untaggedIncumbentCount="0"

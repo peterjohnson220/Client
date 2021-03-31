@@ -1,4 +1,4 @@
-<div class="mapping-info-container">
+<div class="mapping-info-container" [ngClass]="{'d-none': isRefining}">
     <div class="row h-100">
         <div class="col-6 div-border-right h-100">
             <div class="row">
@@ -103,3 +103,13 @@
         </div>
     </div>
 </div>
+
+<pf-upsert-peer-data-cut [ngClass]="{'d-none': !isRefining}"
+  [displayInClassicAspIframe]="false"
+  [companyJobId]="companyJobId"
+  [companyPayMarketId]="companyPayMarketId"
+  [isPayMarketOverride]="isPayMarketOverride"
+  [entityConfiguration]="upsertEntityConfiguration"
+>
+
+</pf-upsert-peer-data-cut>

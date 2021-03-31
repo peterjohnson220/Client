@@ -6,7 +6,7 @@
       [modalId]="'au-modal-multi-match'"
       [isOpen$]="showMultiMatchModal$"
       [showFooter]="true"
-      [showFooterActions]="!(refiningPeerCut$ | async) && !(editingTempDataCut$ | async)"
+      [showFooterActions]="!(tempDataCutService.upserting$ | async)"
       [title]="'Price Jobs'"
       [primaryButtonText]="'Save'"
       [windowClass]="'multi-match-modal'"
@@ -36,13 +36,13 @@
     Something went wrong. Please try again later.
   </div>
   <div *ngIf="!hasError && display=='modal'" class="alert alert-info">
-    <ng-container *ngIf="!(refiningPeerCut$ | async) && !(refiningPeerCut$ | async); else infoAlertTempDataCut">
+    <ng-container *ngIf="!(tempDataCutService.upserting$ | async); else infoAlertTempDataCut">
       Select one or more data cuts. Drag and drop the selected cuts onto a Company Job to the right. Once complete,
       click <strong>Save</strong> to create the pricing.
     </ng-container>
   </div>
   <div class="multi-match-content">
-    <pf-search-layout [resultsCount]="numberOfResults$ | async" [ngClass]="{'d-none': (refiningPeerCut$ | async) || (editingTempDataCut$ | async)}">
+    <pf-search-layout [resultsCount]="numberOfResults$ | async" [ngClass]="{'d-none': (tempDataCutService.upserting$ | async)}">
       <ng-container sidebar>
         <pf-search-filters
           [defaultFocusedFilterId]="'jobTitleCode'"
@@ -84,7 +84,7 @@
       </ng-container>
     </pf-search-layout>
     <pf-upsert-peer-data-cut
-      [ngClass]="{'d-none': !(refiningPeerCut$ | async) && !(editingTempDataCut$ | async)}"
+      [ngClass]="{'d-none': !(tempDataCutService.upserting$ | async)}"
       (loadRefiningValidation)="handleLoadRefiningValidationDetails()"
       (refinedDataCutDetails)="handleExchangeDataCutRefined($event)"
       (editedTempDataCutDetails)="handleTempDataCutEdited($event)"
@@ -96,8 +96,8 @@
   <pf-survey-search-results
     [cutsDraggable]="true"
     [implementation]="display"
-    [refineInPeerEnabled]="customizeScopeInMultimatchModalFlag.value"
-    [refineInPeerReadyDefault]="true"
+    [customizeInPeerEnabled]="true"
+    [customizeInPeerReadyDefault]="true"
   ></pf-survey-search-results>
   <pf-jobs-to-price-container
     [featureImplementation]="featureImplementation"
@@ -105,7 +105,7 @@
 </ng-template>
 
 <ng-template #infoAlertTempDataCut>
-  <ng-container *ngIf="!(editingTempDataCut$ | async); else infoAlertEditingTemp">
+  <ng-container *ngIf="!(tempDataCutService.editing$ | async); else infoAlertEditingTemp">
     Filter the data to create a custom cut. Once the data is filtered, click <strong>Add</strong>
     to make this custom cut available to drag-and-drop to the company jobs.
   </ng-container>
