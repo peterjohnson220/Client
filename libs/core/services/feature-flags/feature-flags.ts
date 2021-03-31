@@ -23,4 +23,6 @@ export class FeatureFlags {
   static readonly ScheduleTabularReportingExport = 'schedule-tabular-reporting-export';
   static readonly HrisTestDataBypass = 'hris-test-data-bypass';
   static readonly JdmCheckboxes = 'jdm-checkboxes';
+  static readonly HideOldJobsPageButton = 'hide-old-jobs-button';
+  static readonly JdmInbox = 'jdm-inbox';
 }

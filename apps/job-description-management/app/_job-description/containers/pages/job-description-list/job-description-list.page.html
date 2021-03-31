@@ -15,6 +15,11 @@
           <button [pfSecuredResource]="permissions.CAN_MANAGE_JOB_DESCRIPTION_SETTINGS" routerLink="/settings" class="dropdown-item">Settings</button>
         </div>
       </div>
+      <button *ngIf="jdmInboxFeatureFlag.value"
+        class="btn btn-secondary d-flex justify-content-between align-items-center" (click)="inboxClicked()">
+        <span class="mr-2"><fa-icon [icon]="['far', 'inbox']" class="mr-2"></fa-icon>Inbox</span>
+        <span *ngIf="!(unreadCountError$ | async) && (unreadCount$ | async) > 0" class="badge rounded-circle">{{unreadCount$ | async}}</span>
+      </button>
       <button [pfSecuredResource]="permissions.JOB_DESCRIPTIONS_ADD" class="btn btn-secondary" type="submit" (click)="addJobClicked()">Add Job</button>
       <pf-bulk-export-popover
         [controlLabels]="bulkExportControlLabels$ | async"

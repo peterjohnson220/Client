@@ -1,0 +1,117 @@
+<div class="grid-select-all" *ngIf="(inboxInfoAlertFormat$ | async) === 'show-option'">
+  <span class="d-flex justify-content-center align-items-center">
+    All <span class="font-weight-bold">&nbsp;{{pageLength$ | async}}&nbsp;</span> Job Descriptions on this page are selected.
+    <span>
+        <button type="button" class="font-weight-bold btn btn-link" (click)="onSelectAllClicked()">
+            Select all {{inboxCount$ | async}} Job Descriptions in Inbox
+        </button>
+    </span>
+  </span>
+</div>
+
+<div class="grid-select-all d-flex justify-content-center align-items-center" *ngIf="(inboxInfoAlertFormat$ | async) === 'show-total'">
+  <span >
+      All <span class="font-weight-bold">{{inboxCount$ | async}}</span> Job Descriptions in Inbox are selected.
+  </span>
+</div>
+
+<div class="h-100 k-tooltip-container"
+  kendoTooltip
+  [tooltipTemplate]="tooltipTemplate"
+  filter=".k-grid td"
+  showOn="none"
+  (mouseover)="showGridTooltip($event)">
+
+  <pf-async-container [loading]="inboxLoading$ | async" [loadingError]="inboxLoadingError$ | async" [loadingErrorMessage]="'Error loading Job Description Inbox'">
+    <div class="job-description-inbox-grid-container mt-2">
+      <kendo-grid
+        class="job-description-inbox-grid"
+        [data]="inboxGridData$ | async"
+        [skip]="(inboxGridState$ | async)?.skip"
+        [pageSize]="(inboxGridState$ | async)?.take"
+        [sort]="(inboxGridState$ | async)?.sort"
+        [filter]="(inboxGridState$ | async)?.filter"
+        [resizable]="true"
+        [pageable]="{ buttonCount: 5, info: true }"
+        [rowClass]="getRowClass"
+        scrollable="scrollable"
+        (dataStateChange)="onDataStateChange($event)"
+        (cellClick)="onCellClick($event)">
+
+        <kendo-grid-column width="50">
+          <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+            <ng-container *ngIf="dataItem.IsRead === true; then envelopeOpened else envelopeClosed"></ng-container>
+              <ng-template #envelopeOpened>
+                <div class="d-flex justify-content-center align-items-center envelope-open">
+                  <fa-icon [icon]="['fas', 'envelope-open']"></fa-icon>
+                </div>
+              </ng-template>
+              <ng-template #envelopeClosed>
+                <div class="d-flex justify-content-center align-items-center envelope-closed">
+                  <fa-icon [icon]="['fas', 'envelope']"></fa-icon>
+                </div>
+              </ng-template>
+          </ng-template>
+        </kendo-grid-column>
+
+        <kendo-grid-checkbox-column [width]="35" showSelectAll="true" *ngIf="(inboxCount$ | async) > 0">
+          <ng-template kendoGridHeaderTemplate>
+            <div class="d-flex justify-content-center align-items-center" (click)="onSelectAllChange()">
+              <input class="k-checkbox" type="checkbox" id="selectAllInboxCheckboxId"
+              [checked]="(selectAllStatus$ | async) === selectAllStatus.checked"
+              [indeterminate]="(selectAllStatus$ | async) === selectAllStatus.indeterminate">
+              <label class="k-checkbox-label"></label>
+            </div>
+          </ng-template>
+          <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+            <div class="d-flex justify-content-center align-items-center" (click)="onIdSelected(dataItem.CompanyWorkflowStepUserId)">
+              <input class="k-checkbox" type="checkbox" id="inbox-id-{{dataItem.CompanyWorkflowStepUserId}}" 
+                [checked]="(selectedIds$ | async)?.has(dataItem.CompanyWorkflowStepUserId)">
+                <label class="k-checkbox-label"></label>
+            </div>
+          </ng-template>
+        </kendo-grid-checkbox-column>
+
+        <kendo-grid-column
+          *ngFor="let field of gridFields"
+          [field]="field.FieldName"
+          [width]="field.Width"
+          class="ellipsize {{field.CustomClass}}">
+
+          <ng-template kendoGridHeaderTemplate let-column>
+            <div class="ellipsis-overflowing-text-wrap show-tooltip {{field.CustomClass}}">
+              <fa-icon *ngIf="(statementsGridState$ | async)?.sort[0]?.field === column.field && (statementsGridState$ | async)?.sort[0]?.dir ==='desc'"
+                      class="sort-icon" [icon]="['far', 'long-arrow-down']">
+              </fa-icon>
+              <fa-icon *ngIf="(statementsGridState$ | async)?.sort[0]?.field === column.field && (statementsGridState$ | async)?.sort[0]?.dir ==='asc'"
+                      class="sort-icon" [icon]="['far', 'long-arrow-up']">
+              </fa-icon>
+              {{field.DisplayName}}
+            </div>
+          </ng-template>
+
+          <ng-template kendoGridCellTemplate let-dataItem>
+            <div [ngSwitch]="true" class="ellipsis-overflowing-text show-tooltip data-row" 
+              [ngClass]="{
+                'read-data-row': dataItem.IsRead === true, 
+                'version-cell': field.FieldName === 'VersionNumber',
+                'version-unread': field.FieldName === 'VersionNumber' && dataItem.IsRead === false}">
+              <ng-container *ngSwitchCase="field.DataType === 'date'">
+                {{dataItem[field.FieldName] | date: 'MM/dd/yyyy'}}
+              </ng-container>
+              <ng-template ngSwitchDefault>
+                {{dataItem[field.FieldName]}}
+              </ng-template>
+            </div>
+          </ng-template>
+        </kendo-grid-column>
+
+      </kendo-grid>
+    </div>
+  </pf-async-container>
+
+</div>
+
+<ng-template #tooltipTemplate let-hoverElement>
+  <span>{{ hoverElement.nativeElement.innerText }}</span>
+</ng-template>

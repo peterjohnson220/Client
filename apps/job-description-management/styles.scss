@@ -3,15 +3,22 @@
 
 .k-dropdown .k-dropdown-wrap {
   border-color: #cccccc;
-  background-color: white;
-}
-
-.k-pager-numbers .k-state-selected {
-  background-color: #1872ae !important;
-}
-
-.k-grid {
   background-color: white !important;
+}
+
+.k-grid-content .no-ellipsis {
+  text-overflow: clip;
+  word-wrap: normal;
+}
+
+.k-checkbox:checked+.k-checkbox-label::before,
+.k-checkbox:indeterminate+.k-checkbox-label::after {
+  background-color: $selected-bg;
+  border-color: $selected-bg;
+}
+
+.k-checkbox:focus+.k-checkbox-label::before {
+  box-shadow: none;
 }
 
 .k-grid-content .no-ellipsis {
@@ -119,9 +126,6 @@
   border-radius: 0.25rem;
 }
 
-.fa-times {
-  vertical-align: middle !important;
-}
 
 .modal-header {
   background-color: inherit !important;

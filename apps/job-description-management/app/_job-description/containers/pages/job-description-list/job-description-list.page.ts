@@ -22,10 +22,12 @@ import * as fromAppNotificationsActions from 'libs/features/infrastructure/app-n
 import { PayfactorsApiModelMapper } from 'libs/features/jobs/job-description-management/helpers';
 import { AvailableJobInformationField, ControlLabel, JobDescriptionBulkExportPayload } from 'libs/features/jobs/job-description-management/models';
 import { JobDescriptionViewConstants } from 'libs/features/jobs/job-description-management/constants/job-description-view-constants';
+import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
 
 import * as fromBulkExportPopoverActions from '../../../actions/bulk-export-popover.actions';
 import * as fromJobDescriptionListActions from '../../../actions/job-description-list.actions';
 import * as fromJobDescriptionGridActions from '../../../actions/job-description-grid.actions';
+import * as fromJobDescriptionInboxActions from '../../../actions/job-description-inbox.actions';
 import * as fromJobInformationFieldsActions from '../../../actions/job-information-fields.actions';
 import * as fromUserFilterActions from '../../../actions/user-filter.actions';
 import * as fromJobDescriptionReducers from '../../../reducers';
@@ -52,6 +54,8 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
   @ViewChild(JobDescriptionHistoryModalComponent, { static: true }) public jobDescriptionHistoryModalComponent: JobDescriptionHistoryModalComponent;
   @ViewChild(SaveFilterModalComponent, { static: true }) public saveFilterModalComponent: SaveFilterModalComponent;
   @ViewChild(DeleteJobDescriptionModalComponent, { static: true }) public deleteJobDescriptionModalComponent: DeleteJobDescriptionModalComponent;
+
+  jdmInboxFeatureFlag: RealTimeFlag = { key: FeatureFlags.JdmInbox, value: false };
 
   public bulkExportControlLabels$: Observable<ControlLabel[]>;
   public bulkExportControlLabelsLoading$: Observable<boolean>;
@@ -81,6 +85,8 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
   public showFilterSidebar: any;
   public tokenId: string;
   public templateUrl = '/client/job-description-management/templates';
+  public unreadCount$: Observable<number>;
+  public unreadCountError$: Observable<boolean>;
   public userFilterDeleting$: Observable<boolean>;
   public userFilterError$: Observable<boolean>;
   public userFilterErrorMessage$: Observable<string>;
@@ -106,6 +112,7 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
   private deleteJobDescriptionSuccess$: Observable<boolean>;
   private deleteJobDescriptionSuccessSubscription: Subscription;
   private requireSSOLoginSubscription: Subscription;
+  private unsubscribe$ = new Subject<void>();
 
   notification: { error: AppNotification<NotificationPayload> } = {
     error: {
@@ -127,8 +134,10 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private settingsService: SettingsService,
-    private store: Store<fromJobDescriptionReducers.State>
+    private store: Store<fromJobDescriptionReducers.State>,
+    private featureFlagService: AbstractFeatureFlagService
   ) {
+    this.featureFlagService.bindEnabled(this.jdmInboxFeatureFlag, this.unsubscribe$);
     this.bulkExportControlLabels$ = this.store.select(fromJobDescriptionReducers.getControlLabels);
     this.bulkExportControlLabelsLoading$ = this.store.select(fromJobDescriptionReducers.getControlLabelsLoading);
     this.bulkExportError$ = this.store.select(fromJobDescriptionReducers.getBulkExportError);
@@ -145,6 +154,8 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
     this.savedGridState$ = this.store.select(fromJobDescriptionReducers.getGridState);
     this.savedSearchTerm$ = this.store.select(fromJobDescriptionReducers.getSearchTerm);
     this.savingListAreaColumnsSuccess$ = this.store.select(fromJobDescriptionReducers.getListAreaColumnsSavingSuccess);
+    this.unreadCount$ = this.store.select(fromJobDescriptionReducers.getUnreadInboxCount);
+    this.unreadCountError$ = this.store.select(fromJobDescriptionReducers.getUnreadInboxCountError);
     this.userFilterDeleting$ = this.store.select(fromJobDescriptionReducers.getUserFilterDeleting);
     this.userFilterError$ = this.store.select(fromJobDescriptionReducers.getUserFilterError);
     this.userFilterErrorMessage$ = this.store.select(fromJobDescriptionReducers.getUserFilterErrorMessage);
@@ -298,6 +309,10 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
 
   handleExported(payload: JobDescriptionBulkExportPayload) {
     this.store.dispatch(new fromBulkExportPopoverActions.BulkExport(payload));
+  }
+
+  inboxClicked() {
+    this.router.navigate(['inbox']);
   }
 
   navigateToJobDescription(companyJobViewListItem: CompanyJobViewListItem) {
@@ -456,7 +471,7 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
       this.store.dispatch(new fromJobDescriptionGridActions.LoadListAreaColumns(request));
       this.store.dispatch(new fromTemplateActions.LoadTemplateList({publishedOnly: false }));
     }
-
+    this.store.dispatch(new fromJobDescriptionInboxActions.GetUnreadInboxCount());
     this.store.dispatch(new fromJobDescriptionGridActions.LoadJobDescriptionGrid(this.getQueryListStateRequest()));
   }
 
