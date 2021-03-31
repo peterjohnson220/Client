@@ -179,7 +179,12 @@ function updateCustomFilterOptions(customFilterOptions: PfDataGridCustomFilterOp
     }
   const filterOption: PfDataGridCustomFilterOptions = customFilterOptions
       .find(x => x.EntitySourceName === 'CompanyPayMarkets' && x.SourceName === sourceName);
-  filterOption.FilterDisplayOptions = mapGroupListItemsToFilterDisplayOptions(displayOptions);
+  const newDisplayOptions: PfDataGridCustomFilterDisplayOptions[] = mapGroupListItemsToFilterDisplayOptions(displayOptions);
+  newDisplayOptions.forEach(option => {
+    if (filterOption.FilterDisplayOptions.indexOf(option.Value) === -1) {
+      filterOption.FilterDisplayOptions.push(option);
+    }
+  });
 }
 
 function mapGroupListItemsToFilterDisplayOptions(items: GroupedListItem[]): PfDataGridCustomFilterDisplayOptions[] {
