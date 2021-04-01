@@ -64,7 +64,7 @@
         border: 2px dashed $link-color;
       }
     }
-    
+
     &.invalid {
       .ql-container.ql-snow {
         border-color: darken(tomato, 10%);
@@ -157,7 +157,16 @@
   transition: background-color .3s ease-in-out, color .3s ease-in-out, padding .05s ease-in-out;
   color: $trs-placeholder-font-color;
   background-color: $trs-canvas-background-color;
-  padding: .15rem;
+
+  // Fixes quill-mention issue whereby formatting not being applied to mention field if it is last in the selection
+  display: inline-block;
+
+  padding: 0 .15rem;
+}
+
+// Fix so that <u> formatting will work wrapped around inline-block element
+u .mention {
+  text-decoration: underline;
 }
 
 .ql-mention-list-container {
@@ -185,5 +194,12 @@
 
   &.selected {
     background-color: #D3E1EB;
+  }
+}
+
+// quill defaults to line-height: 1.42 which renders content taller in firefox than chrome, so normalize that here by bumping down firefox a few hairs
+@-moz-document url-prefix() {
+  .trs-rich-text-control .ql-editor {
+    line-height: 1.38;
   }
 }

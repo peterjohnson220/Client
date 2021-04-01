@@ -11,6 +11,23 @@ pf-trs-calculation-control {
       }
     }
   }
+
+  // dragula overrides
+  .gu-mirror {
+    z-index: 99999;
+    * {
+      cursor: grabbing !important;
+    }
+    .calculation-control-drag-icon {
+      visibility: visible !important;
+    }
+    .edit-icon {
+      visibility: hidden !important;
+    }
+    .remove-btn {
+      visibility: hidden !important;
+    }
+  }
 }
 
 .pf-styled-template {
@@ -66,7 +83,7 @@ pf-trs-image-control {
         padding: 0;
         border: none;
       }
-      .k-file-extension-wrapper, .k-file-size, .k-file-invalid-extension-wrapper, .k-file-name {
+      .k-file-extension-wrapper, .k-file-size, .k-file-invalid-extension-wrapper, .k-file-name, .k-icon.k-i-loading {
         display: none;
       }
       .k-upload-status {

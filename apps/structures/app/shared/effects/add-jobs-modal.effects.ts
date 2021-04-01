@@ -11,13 +11,17 @@ import * as fromUserFilterActions from 'libs/features/users/user-filter/actions/
 import * as fromCompanySettingsActions from 'libs/state/app-context/actions/company-settings.actions';
 import * as fromAddJobsPageActions from 'libs/features/jobs/add-jobs/actions/add-jobs-page.actions';
 import * as fromSearchPageActions from 'libs/features/search/search/actions/search-page.actions';
+import * as fromJobsToGradeActions from 'libs/features/structures/add-jobs-to-range/actions/jobs-to-grade.actions';
 import * as fromAddJobsReducer from 'libs/features/jobs/add-jobs/reducers';
 import * as fromSearchReducer from 'libs/features/search/search/reducers';
 import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
+import * as fromPfDataGridActions from 'libs/features/grids/pf-data-grid/actions/pf-data-grid.actions';
 import { PayfactorsSearchApiHelper } from 'libs/features/search/search/helpers';
 import { StructureModelingApiService } from 'libs/data/payfactors-api/structures';
 import { JobSearchRequestStructuresRangeGroup } from 'libs/models/payfactors-api';
 import { GridDataHelper } from 'libs/features/grids/pf-data-grid/helpers';
+import { PayfactorsApiModelMapper } from 'libs/features/structures/add-jobs-to-range/helpers';
+import { StructureMappingApiService } from 'libs/data/payfactors-api/structures/structure-mapping-api.service';
 
 import * as fromSharedStructuresReducer from '../reducers';
 import * as fromSharedActions from '../actions/shared.actions';
@@ -120,6 +124,42 @@ export class AddJobsModalEffects {
       map(() => new fromCompanySettingsActions.LoadCompanySettings())
     );
 
+  @Effect()
+  saveGradesWithJobs$ = this.actions$
+    .pipe(
+      ofType(fromJobsToGradeActions.SAVE_GRADE_JOB_MAPS),
+      withLatestFrom(
+        this.store.pipe(select(fromSharedStructuresReducer.getMetadata)),
+        this.store.pipe(select(fromPfDataGridReducer.getGridConfig)),
+        this.store.pipe(select(fromPfDataGridReducer.getData)),
+        this.store.pipe(select(fromPfDataGridReducer.getPagingOptions)),
+        this.store.pipe(select(fromSharedStructuresReducer.getFormulaValid)),
+        (action: fromJobsToGradeActions.SaveGradeJobMaps, metadata, gridConfig, gridData, pagingOptions) =>
+          ({ action, metadata, gridConfig, gridData, pagingOptions })
+      ),
+      switchMap((data) => {
+          return this.structureMappingApiService.saveStructureGradeMappings(
+            PayfactorsApiModelMapper.mapGradesToSaveCompanyJobStructureMapsRequest(data.action.payload)).pipe(
+            mergeMap(() => this.getSaveGradesWithJobsActions(data)),
+            catchError(() => of(new fromJobsToGradeActions.SaveGradeJobMapsError()))
+          );
+        }
+      )
+    );
+
+  private getSaveGradesWithJobsActions(data: any): Action[] {
+    const actions = [];
+    actions.push(new fromJobsToGradeActions.SaveGradeJobMapsSuccess());
+    actions.push(new fromSearchPageActions.CloseSearchPage());
+    const modelPageViewId =
+      PagesHelper.getModelPageViewIdByRangeTypeAndRangeDistributionType(data.metadata.RangeTypeId, data.metadata.RangeDistributionTypeId);
+    actions.push(GridDataHelper.getLoadDataAction(modelPageViewId, data.gridData, data.gridConfig, data.pagingOptions));
+    const summaryPageViewId = PagesHelper.getModelSummaryPageViewIdByRangeDistributionType( data.metadata.RangeDistributionTypeId);
+    actions.push(new fromPfDataGridActions.LoadData(summaryPageViewId));
+    return actions;
+  }
+
+
   private getAddJobsSuccessActions(data: any): Action[] {
     const actions = [];
 
@@ -153,6 +193,7 @@ export class AddJobsModalEffects {
     private windowCommunicationService: WindowCommunicationService,
     private structureModelingApiService: StructureModelingApiService,
     private payfactorsSearchApiHelper: PayfactorsSearchApiHelper,
+    private structureMappingApiService: StructureMappingApiService,
     private urlService: UrlService,
     private store: Store<fromAddJobsReducer.State>
   ) {

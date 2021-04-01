@@ -93,7 +93,7 @@
         <div *ngIf="displayNoStatementsCreatedImage; else noRecordsAvailable" class="text-center img-container">
           <img width="400" src="/client/total-rewards/assets/images/no-statements.png">
           <h2>No statements created yet.</h2>
-          <span><a (click)="handleCreateStatementClicked()" class="text-info" href="#">Create a Total Rewards statement</a> to show your employees the full value of their rewards.</span>
+          <span><a routerLink="templates" class="text-info" href="#">Create a Total Rewards statement</a> to show your employees the full value of their rewards.</span>
         </div>
       </ng-template>
     </kendo-grid>

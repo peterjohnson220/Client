@@ -14,6 +14,7 @@ export class BulkExportScheduleParameters {
   Create_Date: Date;
   PrevRunDate: Date;
   ComplexJsonExport?: boolean;
+  ReportType: string;
 }
 
 export class BulkExportSchedule extends BulkExportScheduleParameters {
@@ -39,6 +40,7 @@ export function generateMockBulkExportSchedule(frequency: string = 'Weekly'): Bu
     Create_Date: null,
     ExportCount: 0,
     PrevRunDate: null,
-    ComplexJsonExport: true
+    ComplexJsonExport: true,
+    ReportType: null
   };
 }

@@ -1,11 +1,11 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 import * as Highcharts from 'highcharts';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { getUserLocale } from 'get-user-locale';
 import { GridDataResult } from '@progress/kendo-angular-grid';
-import { ActivatedRoute } from '@angular/router';
 
 import { RangeGroupMetadata } from 'libs/models/structures';
 import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
@@ -15,17 +15,21 @@ import { RangeDistributionTypeIds } from 'libs/constants/structures/range-distri
 import * as fromSharedStructuresReducer from '../../../../shared/reducers';
 import * as fromGradeBasedSharedReducer from '../../../shared/reducers';
 import * as fromGradeBasedSharedActions from '../../../shared/actions/shared.actions';
+import * as fromSwitchRegressionFlagsActions from '../../../shared/actions/switch-regression-flags-modal.actions';
 import { StructuresHighchartsService, StructuresPagesService } from '../../../../shared/services';
 import { GradeRangeModelChartService, GradeRangeVerticalModelChartSeries } from '../../data';
 import { SalaryRangeSeries, DataPointSeries } from '../../../../shared/models';
 import { RangeDistributionDataPointTypeIds } from '../../../../shared/constants/range-distribution-data-point-type-ids';
+import { GradePoint } from '../../models';
 
 @Component({
   selector: 'pf-grade-based-vertical-range-chart',
   templateUrl: './grade-based-vertical-range-chart.component.html',
   styleUrls: ['./grade-based-vertical-range-chart.component.scss']
 })
-export class GradeBasedVerticalRangeChartComponent implements OnInit, OnDestroy {
+export class GradeBasedVerticalRangeChartComponent implements OnInit, OnDestroy, OnChanges {
+  @Input() isRangeChartCollapsed = false;
+
   Highcharts: typeof Highcharts = Highcharts;
   chartOptions: any;
   updateFlag: boolean;
@@ -389,7 +393,7 @@ export class GradeBasedVerticalRangeChartComponent implements OnInit, OnDestroy 
     // set the min/max
     this.chartInstance.yAxis[0].setExtremes(this.chartMin, this.chartMax, false);
 
-    this.chartInstance.xAxis[0].setTitle({ text: '<b>R<sup>2</sup>:</b> ' + rSquared, useHTML: true });
+    this.chartInstance.xAxis[0].setTitle({text: '<b>R<sup>2</sup>:</b> ' + rSquared, useHTML: true});
     // set the series data (0 - salaryRange, 1 - midPoint, 2 - avg salary, 3 - outliers)
     this.chartInstance.series[GradeRangeVerticalModelChartSeries.SalaryRangeMinMidMax].setData(this.salaryRangeSeriesDataModel.MinMidMax, false);
 
@@ -425,8 +429,50 @@ export class GradeBasedVerticalRangeChartComponent implements OnInit, OnDestroy 
 
     this.chartInstance.xAxis[0].setCategories(this.gradeCategories, true);
 
+    // set click events for jobs
+    const jobsOptions = this.chartInstance.series[GradeRangeVerticalModelChartSeries.Jobs].options;
+    const self = this;
+    jobsOptions.point.events.click = function(event) {
+      // Store the point object into a variable
+      const point = this as any;
+      self.handleJobPointClicked(point);
+    };
+    this.chartInstance.series[GradeRangeVerticalModelChartSeries.Jobs].update(jobsOptions);
+    // set click event for excluded jobs
+    const excludedJobsOptions = this.chartInstance.series[GradeRangeVerticalModelChartSeries.JobsExcludedFromRegression].options;
+    excludedJobsOptions.point.events.click = function(event) {
+      // Store the point object into a variable
+      const point = this as any;
+      self.handleJobPointClicked(point);
+    };
+    this.chartInstance.series[GradeRangeVerticalModelChartSeries.JobsExcludedFromRegression].update(excludedJobsOptions);
 
     this.chartInstance.setSize(null, 500);
+  }
+
+  private handleJobPointClicked(point) {
+    let gradePoints: GradePoint[] = [];
+    // first grab the point that they clicked on
+    const selectedPoint = { CompanyJobsStructuresId: point.companyJobsStructuresId,
+      IncludeInRegression: point.includeInRegression,
+      JobTitle: point.jobTitle,
+      Mrp: point.dataPoint,
+      Selected: true};
+    gradePoints.push(selectedPoint);
+    // add in any other applicable points (same IncludeInRegression and X value)
+    const additionalPoints = point.series.data.filter(p => p.x === point.x
+      && p.includeInRegression === point.includeInRegression
+      && p.companyJobsStructuresId !== point.companyJobsStructuresId);
+    gradePoints = gradePoints.concat(additionalPoints.map((p: any): GradePoint => {
+      return { CompanyJobsStructuresId: p.companyJobsStructuresId,
+        IncludeInRegression: p.includeInRegression,
+        JobTitle: p.jobTitle,
+        Mrp: p.dataPoint,
+        Selected: false};
+    }));
+
+    this.store.dispatch(new fromSwitchRegressionFlagsActions.SetGradePoints(gradePoints));
+    this.store.dispatch(new fromSwitchRegressionFlagsActions.OpenModal());
   }
 
   private parseJobsData(jobs) {
@@ -439,6 +485,7 @@ export class GradeBasedVerticalRangeChartComponent implements OnInit, OnDestroy 
       this.parsedJobsData.push({
         jobTitle: rawJobData[0],
         mrp: parseInt(rawJobData[2], 10),
+        companyJobsStructuresId: rawJobData[3],
         includeInRegression: !!parseInt(rawJobData[4], 10) ? true : false,
         gradeId: parseInt(rawJobData[5], 10)
       });
@@ -465,12 +512,20 @@ export class GradeBasedVerticalRangeChartComponent implements OnInit, OnDestroy 
 
   ngOnInit(): void {
     StructuresHighchartsService.initializeHighcharts();
+    this.store.dispatch(new fromGradeBasedSharedActions.GetGradeRangeDetails(this.rangeGroupId));
     this.filterPanelSub = this.store.select(fromPfGridReducer.getFilterPanelOpen, this.pageViewId).subscribe(filterPanelOpen => {
       setTimeout(() => {
         this.chartInstance.reflow();
       }, 0);
     });
-    this.store.dispatch(new fromGradeBasedSharedActions.GetGradeRangeDetails(this.rangeGroupId));
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (!!changes && !!changes.isRangeChartCollapsed && changes.isRangeChartCollapsed.currentValue === false) {
+      setTimeout(() => {
+        this.chartInstance.reflow();
+      }, 0);
+    }
   }
 
   ngOnDestroy(): void {

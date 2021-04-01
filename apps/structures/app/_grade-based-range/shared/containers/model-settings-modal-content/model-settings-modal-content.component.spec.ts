@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { ModelSettingsModalContentComponent } from './model-settings-modal-content.component';
 
 import * as fromRootState from 'libs/state/state';
@@ -15,6 +15,7 @@ import { generateMockRangeAdvancedSetting, generateMockRangeDistributionSettingF
 import * as fromSharedReducer from '../../../../shared/reducers';
 import * as fromGradeBasedSharedReducer from '../../reducers';
 import * as fromModelSettingsModalActions from '../../../../shared/actions/model-settings-modal.actions';
+import { RangeRoundingComponent } from '../../../../shared/containers/range-rounding';
 
 describe('ModelSettingsModalContentComponent', () => {
   let instance: ModelSettingsModalContentComponent;
@@ -24,14 +25,18 @@ describe('ModelSettingsModalContentComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ ModelSettingsModalContentComponent ],
+      declarations: [
+        ModelSettingsModalContentComponent,
+        RangeRoundingComponent
+      ],
       imports: [
         StoreModule.forRoot({
           ...fromRootState.reducers,
           structures_gradeBasedRange_shared: combineReducers(fromGradeBasedSharedReducer.reducers),
           structures_shared: combineReducers(fromSharedReducer.reducers)
         }),
-        PfCommonModule
+        PfCommonModule,
+        NgbNavModule
       ],
       schemas: [NO_ERRORS_SCHEMA],
       providers: [
@@ -50,7 +55,7 @@ describe('ModelSettingsModalContentComponent', () => {
     instance = fixture.componentInstance;
     store = TestBed.inject(Store);
     ngbModal = TestBed.inject(NgbModal);
-
+    instance.rangeRoundingComponent = TestBed.createComponent(RangeRoundingComponent).componentInstance;
 
     // mock the metadata
     instance.metadata = {
@@ -78,10 +83,10 @@ describe('ModelSettingsModalContentComponent', () => {
       'ModelName': new FormControl(instance.metadata.ModelName, [Validators.required, Validators.maxLength(50)]),
       'Grades': new FormControl('', [Validators.required]),
       'RangeDistributionTypeId': new FormControl({ value: instance.metadata.RangeDistributionTypeId, disabled: true }, [Validators.required]),
-      'MarketDataBased': new FormControl('Base MRP', [Validators.required]),
+      'MarketDataBased': new FormControl('BaseMRP', [Validators.required]),
       'StartingMidpoint': new FormControl('', [Validators.required]),
       'RangeSpread': new FormControl('', [Validators.required]),
-      'MidProgression': new FormControl('', [Validators.required]),
+      'MidpointProgression': new FormControl('', [Validators.required]),
       'Rate': new FormControl(instance.metadata.Rate, [Validators.required]),
       'Currency': new FormControl(instance.metadata.Currency, [Validators.required])
     });

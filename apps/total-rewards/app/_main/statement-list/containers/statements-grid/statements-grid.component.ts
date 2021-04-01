@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { select, Store } from '@ngrx/store';
@@ -25,7 +25,6 @@ import { statementsGridFields } from '../../models';
 export class StatementsGridComponent implements OnInit {
   @Input() autoLoad = false;
   @Input() displayNoStatementsCreatedImage: boolean;
-  @Output() createNewStatementClicked = new EventEmitter();
 
   statementsGridData$: Observable<GridDataResult>;
   statementsGridState$: Observable<State>;
@@ -95,10 +94,6 @@ export class StatementsGridComponent implements OnInit {
       return;
     }
     this.navigateToStatementEdit(dataItem.Id);
-  }
-
-  handleCreateStatementClicked() {
-    this.createNewStatementClicked.emit();
   }
 
   showGridTooltip(e: any): void {

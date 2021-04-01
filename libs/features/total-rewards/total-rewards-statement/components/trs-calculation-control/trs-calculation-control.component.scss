@@ -102,8 +102,12 @@
 }
 
 .trs-calculation-row {
-  &:nth-last-child(2) {
-    height: 2rem; // target the 2nd to last row and increase height for additional separation between this row and the last total row
+  &:last-child {
+    height: 2rem; // target the last row and increase height for additional separation between this row and the last total row
+  }
+  .calculation-control-drag-icon {
+    visibility: hidden;
+    margin-left: -17px;
   }
   .remove-btn {
     visibility: hidden;
@@ -124,5 +128,11 @@
       visibility: visible;
       position: relative;
     }
+    .calculation-control-drag-icon {
+      visibility: visible;
+    }
+  }
+  .draggable {
+    cursor: grab;
   }
 }

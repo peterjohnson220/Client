@@ -8,6 +8,7 @@ export interface UserTile {
   MarketingEnabled: boolean;
   HideOnDashboard: boolean;
   Dirty: boolean;
+  TileName: string;
 }
 
 export function generateMockUserTile(): UserTile {
@@ -17,6 +18,7 @@ export function generateMockUserTile(): UserTile {
     Type: TileTypes.DataInsights,
     MarketingEnabled: false,
     HideOnDashboard: false,
-    Dirty: false
+    Dirty: false,
+    TileName: 'Data Insights'
   };
 }

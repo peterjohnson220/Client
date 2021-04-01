@@ -81,4 +81,9 @@ export class TicketListPageComponent implements OnDestroy {
   handleExportClicked(): void {
     this.store.dispatch(new fromTicketListActions.ExportGrid(this.ticketListComponent.prepareFilter()));
   }
+  navChanged(event) {
+    if (event.nextId === 'tab-tickets') {
+      this.ticketListComponent.checkForRefresh();
+    }
+  }
 }

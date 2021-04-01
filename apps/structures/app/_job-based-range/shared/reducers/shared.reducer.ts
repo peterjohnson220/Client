@@ -1,6 +1,6 @@
 import cloneDeep from 'lodash/cloneDeep';
 
-import { AsyncStateObj, generateDefaultAsyncStateObj, GenericKeyValue } from 'libs/models';
+import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models';
 import { AsyncStateObjHelper } from 'libs/core';
 
 import * as fromSharedActions from '../actions/shared.actions';
@@ -77,5 +77,3 @@ export function reducer(state = initialState, action: fromSharedActions.SharedAc
 
 export const getRemovingRange = (state: State) => state.removingRange;
 export const getStructureHasSettings = (state: State) => state.structureHasSettings;
-
-

@@ -8,8 +8,9 @@
           <h4 class="card-title pb-4">Create JDM Outbound Report</h4>
           <pf-bulk-export-scheduler-form [views]="views$ | async"
                                          [filters]="filters$ | async"
-                                         [schedules]="schedules$ | async"
-                                         [exportType]="'hris-outbound'">
+                                         [schedules]="filteredSchedules"
+                                         [exportType]="'hris-outbound'"
+                                         [reportType]="exportReportType.HrisOutboundJobs">
           </pf-bulk-export-scheduler-form>
         </div>
       </div>
@@ -19,7 +20,7 @@
         <div class="card-body">
           <h4 class="card-title pb-4">Saved Schedules</h4>
           <pf-bulk-export-schedules-list [views]="views$ | async"
-                                         [schedules]="schedules$ | async"
+                                         [schedules]="filteredSchedules"
                                          [allowEdit]="true">
           </pf-bulk-export-schedules-list>
         </div>

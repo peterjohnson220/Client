@@ -21,7 +21,6 @@ import * as fromModelSettingsModalActions from '../../../shared/actions/model-se
 import { UrlService} from '../../../shared/services';
 import { Workflow } from '../../../shared/constants/workflow';
 import * as fromSharedActions from '../../../shared/actions/shared.actions';
-import * as fromSharedJobBasedRangeActions from '../../shared/actions/shared.actions';
 import * as fromCompareJobRangesActions from '../../model/actions';
 import { StructuresPagesService } from '../../../shared/services';
 import { AddJobsModalWrapperComponent } from '../../../shared/containers/add-jobs-modal-wrapper';
@@ -153,6 +152,8 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
       pageViewId: this.pageViewId,
       rangeGroupId: this.rangeGroupId
     }));
+
+    // Get current range group
     this.store.dispatch(new fromSharedActions.GetCurrentRangeGroup({
       RangeGroupId: this.rangeGroupId,
       PaymarketId: this.metadata.PaymarketId,

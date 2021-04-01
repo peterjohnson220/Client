@@ -15,7 +15,8 @@
   <ng-container page-content>
     <ul ngbNav #nav="ngbNav" class="nav-tabs"
       [destroyOnHide]="false"
-      [(activeId)]="activeId">
+      [(activeId)]="activeId"
+      (navChange)="navChanged($event)">
       <li [ngbNavItem]="'tab-tickets'">
         <a ngbNavLink>
           Tickets

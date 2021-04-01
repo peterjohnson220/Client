@@ -5,13 +5,14 @@ exports[`Job Management Feature - Job Form Should display form 1`] = `
   JOB_SUMMARY_MIN_LENGTH={[Function Number]}
   actionIconSize={[Function String]}
   errorMessageClass={[Function String]}
-  fileDownloadSecurityWarningModal={[Function ElementRef]}
+  exportClicked={[Function EventEmitter]}
   formBuilder={[Function FormBuilder]}
   formChangesSubscription={[Function Subscriber]}
   isJdmEnabled={[Function Boolean]}
   jobDescriptionChanged={[Function EventEmitter]}
   jobDescriptionForm={[Function FormGroup]}
   jobDescriptionTextArea={[Function ElementRef]}
+  jobsPageViewId={[Function String]}
   layout={[Function String]}
   permissions={[Function Function]}
   rows={[Function Number]}
@@ -61,25 +62,6 @@ exports[`Job Management Feature - Job Form Should display form 1`] = `
         </textarea>
       </form>
     </div>
-  </div><form
-    action="/odata/JobDescription(null)/Default.Export"
-    class="ng-untouched ng-pristine ng-valid"
-    method="POST"
-    name="exportForm"
-    novalidate=""
-  >
-    <input
-      name="export-uid"
-      type="hidden"
-    />
-    <input
-      name="export-type"
-      type="hidden"
-    />
-    <input
-      name="viewName"
-      type="hidden"
-    />
-  </form><pf-file-download-security-warning-modal />
+  </div>
 </pf-job-description-summary-editor>
 `;

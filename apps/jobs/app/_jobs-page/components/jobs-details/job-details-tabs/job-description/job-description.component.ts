@@ -17,9 +17,11 @@ import * as fromJobManagementActions from 'libs/features/jobs/job-management/act
 import * as fromJDMSharedReducer from 'libs/features/jobs/job-description-management/reducers';
 import * as fromControlTypesActions from 'libs/features/jobs/job-description-management/actions/control-types.actions';
 import { SettingsService } from 'libs/state/app-context/services';
+import { JobDescriptionExportRequest } from 'libs/models/payfactors-api';
 
 import * as fromJobsPageReducer from '../../../../reducers';
 import * as fromJobDescriptionActions from '../../../../actions';
+import { PageViewIds } from '../../../../constants';
 
 @Component({
   selector: 'pf-job-description',
@@ -51,6 +53,7 @@ export class JobDescriptionComponent implements OnInit, OnDestroy, OnChanges {
   isJobDescriptionInitialized: boolean;
   pfThemeType = PfThemeType;
   hasJobDescriptionAccess: boolean;
+  jobsPageViewId = PageViewIds.Jobs;
 
   constructor(
     private store: Store<fromJobsPageReducer.State>,
@@ -115,6 +118,10 @@ export class JobDescriptionComponent implements OnInit, OnDestroy, OnChanges {
 
   trackByFn(index: number, section: JobDescriptionSection) {
     return section.Id;
+  }
+
+  handleExportJobDescription(request: JobDescriptionExportRequest): void {
+    this.store.dispatch(new fromJobDescriptionActions.ExportJobDescription(request));
   }
 
   private initJobDescription(): void {
