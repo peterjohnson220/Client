@@ -12,7 +12,7 @@ exports[`Peer - Map - Save Exchange Scope Modal should show the form text and no
   saveExchangeScopeModalOpen$={[Function Store]}
   saveExchangeScopeModalOpenSub={[Function Subscriber]}
   store={[Function Store]}
-  upsertExchangeScopeEvent={[Function EventEmitter]}
+  upsertExchangeScopeEvent={[Function EventEmitter_]}
   upsertingExchangeScope$={[Function Store]}
   upsertingExchangeScopeError$={[Function Store]}
   validatingScopeName="false"

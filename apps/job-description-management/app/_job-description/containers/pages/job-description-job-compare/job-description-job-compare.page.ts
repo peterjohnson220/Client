@@ -2,8 +2,7 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Observable, Subject, Subscription } from 'rxjs';
-import 'rxjs/add/observable/forkJoin';
-import { filter, map, take } from 'rxjs/operators';
+import { filter, map, take, debounceTime } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import cloneDeep from 'lodash/cloneDeep';
 
@@ -295,7 +294,7 @@ export class JobDescriptionJobComparePageComponent implements OnInit, OnDestroy 
   }
 
   private initSaveThrottle() {
-    const saveThrottle$ = this.saveThrottle.debounceTime(500);
+    const saveThrottle$ = this.saveThrottle.pipe(debounceTime(500));
 
     saveThrottle$.subscribe(save => {
       this.saveJobDescription();

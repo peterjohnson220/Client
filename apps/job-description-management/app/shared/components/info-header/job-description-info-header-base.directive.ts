@@ -2,7 +2,7 @@ import { Input, OnInit, OnChanges, Directive } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 import { UserContext } from 'libs/models/index';
 import { JobDescription } from 'libs/models/jdm/job-description.model';

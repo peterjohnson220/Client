@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/index';
+import { Observable } from 'rxjs';
 
 import { ExchangeListItem } from 'libs/models/peer';
 

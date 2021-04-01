@@ -3,8 +3,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
-import { Observable } from 'rxjs';
-import 'rxjs/add/observable/of';
+import { of } from 'rxjs';
 
 import * as fromRootState from 'libs/state/state';
 import { DataTypeFilterPipe } from 'libs/core/pipes';
@@ -38,9 +37,9 @@ describe('UserRoleDataAccessTabComponent', () => {
 
     fixture = TestBed.createComponent(UserRoleDataAccessTabComponent);
     component = fixture.componentInstance;  // to access properties and methods
-    component.roleDataRestrictions$ = Observable.of(getMockRoleDataRestrictions());
-    component.dataTypes$ = Observable.of(getMockDataTypes());
-    component.currentRole$ = Observable.of(generateMockUserAssignedRole());
+    component.roleDataRestrictions$ = of(getMockRoleDataRestrictions());
+    component.dataTypes$ = of(getMockDataTypes());
+    component.currentRole$ = of(generateMockUserAssignedRole());
   }));
 
   it('should create', () => {
@@ -53,7 +52,7 @@ describe('UserRoleDataAccessTabComponent', () => {
   });
 
   it('should display message on system role', () => {
-    component.currentRole$ = Observable.of(generateMockSystemDefinedUserAssignedRole());
+    component.currentRole$ = of(generateMockSystemDefinedUserAssignedRole());
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });

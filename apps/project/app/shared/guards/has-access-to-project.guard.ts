@@ -1,9 +1,9 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import {ActivatedRoute, ActivatedRouteSnapshot, CanActivate, Data, Router, RouterStateSnapshot} from '@angular/router';
 
-import { select, Store } from '@ngrx/store';
-import { from, Observable, of, Subject, Subscription } from 'rxjs';
-import {map, catchError, filter} from 'rxjs/operators';
+import { Store } from '@ngrx/store';
+import { Observable, of } from 'rxjs';
+import { map, catchError, filter, switchMap } from 'rxjs/operators';
 
 import {PricingProjectApiService} from 'libs/data/payfactors-api/project';
 import {UserContext} from 'libs/models/security';
@@ -12,8 +12,6 @@ import {PermissionService} from 'libs/core/services';
 import * as fromPricingProjectPageActions from '../../_pricing-project/actions';
 import * as fromPricingProjectPageReducer from '../../_pricing-project/reducers';
 import * as fromRootState from 'libs/state/state';
-
-
 
 @Injectable()
 export class HasAccessToProjectGuard implements CanActivate {
@@ -59,8 +57,8 @@ export class HasAccessToProjectGuard implements CanActivate {
   }
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    return this.userContext$.pipe(filter(uc => !!uc)).switchMap((uc, p) =>
-      this.hasAccessToPage(uc, next.data) && this.hasAccessToProject(next.params.projectId || -1));
+    return this.userContext$.pipe(filter(uc => !!uc)).pipe(switchMap((uc, p) =>
+      this.hasAccessToPage(uc, next.data) && this.hasAccessToProject(next.params.projectId || -1)));
   }
 
 }

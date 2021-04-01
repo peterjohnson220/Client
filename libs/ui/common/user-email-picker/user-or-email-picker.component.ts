@@ -2,14 +2,8 @@ import { Component, EventEmitter, Input, OnInit, Output, OnDestroy } from '@angu
 
 import { Store } from '@ngrx/store';
 import { NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/distinctUntilChanged';
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
-import { of, Subscription } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
 
 import * as fromRootState from 'libs/state/state';
 
@@ -18,8 +12,6 @@ import { UserApiService } from '../../../data/payfactors-api/user';
 import { UserContext } from '../../../models/security';
 import { RegexStrings } from '../../../constants';
 import { PfConstants } from '../../../models/common';
-
-
 
 @Component({
   selector: 'pf-user-or-email-picker',
@@ -91,12 +83,12 @@ export class UserOrEmailPickerComponent implements OnInit, OnDestroy {
     }
 
     if (!this.workflow) {
-      this.recipients = this.userApiService.getEmailRecipientsSearchResults(this.companyId, term, this.loaderType, this.loaderConfigurationGroupId)
-        .map((results: any) => this.handleEmailRecipientsResponse(results, term));
+      this.recipients = this.userApiService.getEmailRecipientsSearchResults(this.companyId, term, this.loaderType, this.loaderConfigurationGroupId).pipe(
+        map((results: any) => this.handleEmailRecipientsResponse(results, term)));
     } else if (this.jobId) {
-      this.recipients = this.userApiService.jobPicker(term, this.jobId).map((results: any) => this.handleEmailRecipientsResponse(results, term));
+      this.recipients = this.userApiService.jobPicker(term, this.jobId).pipe(map((results: any) => this.handleEmailRecipientsResponse(results, term)));
     } else {
-      this.recipients = this.userApiService.picker(term).map((results: any) => this.handleEmailRecipientsResponse(results, term));
+      this.recipients = this.userApiService.picker(term).pipe(map((results: any) => this.handleEmailRecipientsResponse(results, term)));
     }
 
     return this.recipients;
@@ -117,17 +109,16 @@ export class UserOrEmailPickerComponent implements OnInit, OnDestroy {
   }
 
   userOrEmailTypeaheadFn = (text$: Observable<string>) =>
-    text$
-      .debounceTime(PfConstants.DEBOUNCE_DELAY)
-      .distinctUntilChanged()
-      .do(() => this.searching = true)
-      .switchMap(searchTerm => {
+    text$.pipe(
+      debounceTime(PfConstants.DEBOUNCE_DELAY),
+      distinctUntilChanged(),
+      tap(() => this.searching = true),
+      switchMap(searchTerm => {
         return this.search(searchTerm)
           .do(() => this.searchFailed = false)
           .catch(() => {
             this.searchFailed = true;
             return of({});
           });
-      })
-      .do(() => this.searching = false)
+      })).pipe(tap(() => this.searching = false))
 }

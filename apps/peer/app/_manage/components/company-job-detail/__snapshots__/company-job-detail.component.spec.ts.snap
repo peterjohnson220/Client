@@ -5,7 +5,7 @@ exports[`CompanyJobDetailComponent should hide a link to download the jdm descri
   jdmDescriptionIds={[Function Array]}
   jdmUrl={[Function String]}
   selectedCompanyJob={[Function Object]}
-  viewJdmDescriptionClick={[Function EventEmitter]}
+  viewJdmDescriptionClick={[Function EventEmitter_]}
 >
   <div
     class="d-flex flex-column h-100"
@@ -95,7 +95,7 @@ exports[`CompanyJobDetailComponent should render the selected company jobs props
   jdmDescriptionIds={[Function Array]}
   jdmUrl={[Function String]}
   selectedCompanyJob={[Function Object]}
-  viewJdmDescriptionClick={[Function EventEmitter]}
+  viewJdmDescriptionClick={[Function EventEmitter_]}
 >
   <div
     class="d-flex flex-column h-100"
@@ -185,7 +185,7 @@ exports[`CompanyJobDetailComponent should show a link to download the jdm descri
   jdmDescriptionIds={[Function Array]}
   jdmUrl={[Function String]}
   selectedCompanyJob={[Function Object]}
-  viewJdmDescriptionClick={[Function EventEmitter]}
+  viewJdmDescriptionClick={[Function EventEmitter_]}
 >
   <div
     class="d-flex flex-column h-100"
@@ -271,7 +271,7 @@ exports[`CompanyJobDetailComponent should show a spinner when downloading a jdm 
   jdmDescriptionLoading={[Function Boolean]}
   jdmUrl={[Function String]}
   selectedCompanyJob={[Function Object]}
-  viewJdmDescriptionClick={[Function EventEmitter]}
+  viewJdmDescriptionClick={[Function EventEmitter_]}
 >
   <div
     class="d-flex flex-column h-100"
@@ -359,7 +359,7 @@ exports[`CompanyJobDetailComponent should show an error message if the jdm descr
   jdmDescriptionLoadingError={[Function Boolean]}
   jdmUrl={[Function String]}
   selectedCompanyJob={[Function Object]}
-  viewJdmDescriptionClick={[Function EventEmitter]}
+  viewJdmDescriptionClick={[Function EventEmitter_]}
 >
   <div
     class="d-flex flex-column h-100"
@@ -449,7 +449,7 @@ exports[`CompanyJobDetailComponent should show an informational message when mul
   jdmDescriptionIds={[Function Array]}
   jdmUrl={[Function String]}
   selectedCompanyJob={[Function Object]}
-  viewJdmDescriptionClick={[Function EventEmitter]}
+  viewJdmDescriptionClick={[Function EventEmitter_]}
 >
   <div
     class="d-flex flex-column h-100"

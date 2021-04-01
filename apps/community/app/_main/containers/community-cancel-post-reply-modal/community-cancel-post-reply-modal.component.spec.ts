@@ -26,7 +26,7 @@ describe('CommunityCancelPostReplyModalComponent', () => {
     })
     .compileComponents();
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
   }));
 
   beforeEach(() => {

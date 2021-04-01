@@ -7,7 +7,7 @@ exports[`UserOrEmailPickerComponent should not show a spinner when no search is 
   identitySubscription={[Function Subscriber]}
   searchFailed="false"
   searching="false"
-  selected={[Function EventEmitter]}
+  selected={[Function EventEmitter_]}
   userApiService="undefined"
   userContextStore={[Function Store]}
   userOrEmailTypeaheadFn={[Function Function]}
@@ -40,7 +40,7 @@ exports[`UserOrEmailPickerComponent should show a spinner when a search is in pr
   identitySubscription={[Function Subscriber]}
   searchFailed="false"
   searching={[Function Boolean]}
-  selected={[Function EventEmitter]}
+  selected={[Function EventEmitter_]}
   userApiService="undefined"
   userContextStore={[Function Store]}
   userOrEmailTypeaheadFn={[Function Function]}
@@ -80,7 +80,7 @@ exports[`UserOrEmailPickerComponent should show an error message when a search f
   identitySubscription={[Function Subscriber]}
   searchFailed={[Function Boolean]}
   searching="false"
-  selected={[Function EventEmitter]}
+  selected={[Function EventEmitter_]}
   userApiService="undefined"
   userContextStore={[Function Store]}
   userOrEmailTypeaheadFn={[Function Function]}

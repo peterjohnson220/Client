@@ -3,11 +3,11 @@
 exports[`TrsChartControlComponent should add a \`mt-3\` class when \`showTitle\` input is true 1`] = `
 <pf-trs-chart-control
   calculationControls={[Function Array]}
-  chartRender={[Function EventEmitter]}
+  chartRender={[Function EventEmitter_]}
   controlData={[Function Object]}
   legendFont={[Function Object]}
-  onTitleChange={[Function EventEmitter]}
-  settingsClick={[Function EventEmitter]}
+  onTitleChange={[Function EventEmitter_]}
+  settingsClick={[Function EventEmitter_]}
   showTitle={[Function Boolean]}
 >
   <div
@@ -53,11 +53,11 @@ exports[`TrsChartControlComponent should add a \`mt-3\` class when \`showTitle\`
 exports[`TrsChartControlComponent should add a negative margin/\`mt-n3\` class when \`showTitle\` input is false 1`] = `
 <pf-trs-chart-control
   calculationControls={[Function Array]}
-  chartRender={[Function EventEmitter]}
+  chartRender={[Function EventEmitter_]}
   controlData={[Function Object]}
   legendFont={[Function Object]}
-  onTitleChange={[Function EventEmitter]}
-  settingsClick={[Function EventEmitter]}
+  onTitleChange={[Function EventEmitter_]}
+  settingsClick={[Function EventEmitter_]}
   showTitle="false"
 >
   <div
@@ -102,11 +102,11 @@ exports[`TrsChartControlComponent should add a negative margin/\`mt-n3\` class w
 exports[`TrsChartControlComponent should omit the chart series labels from the dom when \`showChartSeriesLabels\` is false 1`] = `
 <pf-trs-chart-control
   calculationControls={[Function Array]}
-  chartRender={[Function EventEmitter]}
+  chartRender={[Function EventEmitter_]}
   controlData={[Function Object]}
   legendFont={[Function Object]}
-  onTitleChange={[Function EventEmitter]}
-  settingsClick={[Function EventEmitter]}
+  onTitleChange={[Function EventEmitter_]}
+  settingsClick={[Function EventEmitter_]}
   showChartSeriesLabels="false"
 >
   <div
@@ -151,12 +151,12 @@ exports[`TrsChartControlComponent should omit the chart series labels from the d
 exports[`TrsChartControlComponent should set the \`height\` input on the kendo-chart element 1`] = `
 <pf-trs-chart-control
   calculationControls={[Function Array]}
-  chartRender={[Function EventEmitter]}
+  chartRender={[Function EventEmitter_]}
   controlData={[Function Object]}
   height={[Function String]}
   legendFont={[Function Object]}
-  onTitleChange={[Function EventEmitter]}
-  settingsClick={[Function EventEmitter]}
+  onTitleChange={[Function EventEmitter_]}
+  settingsClick={[Function EventEmitter_]}
 >
   <div
     class="trs-chart px-3 mt-n3"
@@ -202,11 +202,11 @@ exports[`TrsChartControlComponent should set the \`height\` input on the kendo-c
 exports[`TrsChartControlComponent should show chart series labels when \`showChartSeriesLabels\` is true 1`] = `
 <pf-trs-chart-control
   calculationControls={[Function Array]}
-  chartRender={[Function EventEmitter]}
+  chartRender={[Function EventEmitter_]}
   controlData={[Function Object]}
   legendFont={[Function Object]}
-  onTitleChange={[Function EventEmitter]}
-  settingsClick={[Function EventEmitter]}
+  onTitleChange={[Function EventEmitter_]}
+  settingsClick={[Function EventEmitter_]}
   showChartSeriesLabels={[Function Boolean]}
 >
   <div
@@ -255,11 +255,11 @@ exports[`TrsChartControlComponent should show chart series labels when \`showCha
 exports[`TrsChartControlComponent should show the title component and a settings link 1`] = `
 <pf-trs-chart-control
   calculationControls={[Function Array]}
-  chartRender={[Function EventEmitter]}
+  chartRender={[Function EventEmitter_]}
   controlData={[Function Object]}
   legendFont={[Function Object]}
-  onTitleChange={[Function EventEmitter]}
-  settingsClick={[Function EventEmitter]}
+  onTitleChange={[Function EventEmitter_]}
+  settingsClick={[Function EventEmitter_]}
 >
   <div
     class="trs-chart px-3 mt-n3"

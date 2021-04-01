@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
 import { ControlTypeAttribute } from 'libs/models/common';
@@ -14,6 +15,7 @@ import * as fromJobDescriptionManagementSharedReducer from '../reducers';
 import * as fromJobFamilyActions from '../actions/job-family.actions';
 import * as fromControlTypesActions from '../actions/control-types.actions';
 import { ControlDataHelper } from '../helpers';
+
 
 @Injectable()
 export class JobDescriptionManagementService {
@@ -55,9 +57,9 @@ export class JobDescriptionManagementService {
 
   userEmailHasJobPermission(emailAddr: string, jobId: number) {
     return this.jobDescriptionManagementApiService.userEmailHasJobPermission(encodeURIComponent(emailAddr), jobId)
-      .map(result => {
+      .pipe(map(result => {
         return result;
-      });
+      }));
   }
 
   hasData(attributes: ControlTypeAttribute[], dataRow: any) {
@@ -66,7 +68,7 @@ export class JobDescriptionManagementService {
 
   inactivateControl(controlType: string) {
     return this.jobDescriptionManagementApiService.inactivateControl(controlType)
-      .do(() => this.getControlTypes());
+      .pipe(tap(() => this.getControlTypes()));
   }
 
   buildErrorModel(error: any, item: string, goBackLink: string) {

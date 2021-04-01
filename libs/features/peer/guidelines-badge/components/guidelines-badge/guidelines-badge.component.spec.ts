@@ -25,7 +25,7 @@ class DojGuidelinesStub {
 describe('Legacy Content - Peer - Guidelines Badge Component', () => {
   let fixture: ComponentFixture<GuidelinesBadgeComponent>;
   let instance: GuidelinesBadgeComponent;
-  let guidelinesService: DojGuidelinesStub;
+  let guidelinesService: any;
 
   // Configure Testing Module for before each test
   beforeEach(() => {
@@ -43,8 +43,7 @@ describe('Legacy Content - Peer - Guidelines Badge Component', () => {
     fixture = TestBed.createComponent(GuidelinesBadgeComponent);
     instance = fixture.componentInstance;
 
-    // TODO: Resolve type mismatch here and use .inject
-    guidelinesService = TestBed.get(DojGuidelinesService);
+    guidelinesService = TestBed.inject(DojGuidelinesService);
     guidelinesService.passing = true;
   });
 

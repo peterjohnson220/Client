@@ -3,7 +3,6 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Router } from '@angular/router';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
-
 import * as fromRootState from 'libs/state/state';
 import * as fromCommunityTagsReducer from '../../reducers';
 import * as fromCommunityPostFilterOptionsActions from '../../actions/community-post-filter-options.actions';
@@ -12,8 +11,7 @@ import { CommunityFilteredTagsComponent } from './community-filtered-tags.compon
 import { CommunityCategoryEnum } from 'libs/models/community/community-category.enum';
 import { generateMockCommunityTag } from 'libs/models/community/community-tag.model';
 import { Tag } from '../../models/tag.model';
-import { Observable } from 'rxjs';
-import 'rxjs/add/observable/of';
+import { of } from 'rxjs';
 
 describe('CommunityFilteredTagsComponent', () => {
   let fixture: ComponentFixture<CommunityFilteredTagsComponent>;
@@ -165,7 +163,7 @@ describe('CommunityFilteredTagsComponent', () => {
     instance.isFilteredByPostId = true;
     instance.filterTitle = 'Test Post Filter';
 
-    instance.filters$ = Observable.of({
+    instance.filters$ = of({
       TagFilter: null,
       CategoryFilter: null,
       IndustryFilter: null,
@@ -183,7 +181,7 @@ describe('CommunityFilteredTagsComponent', () => {
     instance.isFilteredByPostId = true;
     instance.filterTitle = 'Test Post Filter';
 
-    instance.filters$ = Observable.of({
+    instance.filters$ = of({
       TagFilter: null,
       CategoryFilter: null,
       IndustryFilter: null,

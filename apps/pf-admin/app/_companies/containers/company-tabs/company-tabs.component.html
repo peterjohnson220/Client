@@ -58,7 +58,7 @@
                 </ng-container>
                 <div *ngIf="maxProjectCountSetting?.Visible && enableJobPricingLimiter" class="checkbox">
                   <label >Job Pricing Limit: {{jobPricingLimitUsed}} /
-                    <input type="number" class="input-type-number p-0" [ngModel]="maxProjectCountSetting.Value" [disabled]="!enableJobPricingLimiter" (change)="checkMaxProjectJobCount($event, maxProjectCountSetting.Key)">
+                    <input type="number" class="input-type-number p-0" [ngModel]="maxProjectCountSetting.Value" [disabled]="!enableJobPricingLimiter" (input)="checkMaxProjectJobCount($event, maxProjectCountSetting.Key)">
                     <p *ngIf="showJobPricingLimitError" class="alert-danger">Job Pricing Limit must be numeric and above the current number of priced jobs</p>
                   </label>
                 </div>

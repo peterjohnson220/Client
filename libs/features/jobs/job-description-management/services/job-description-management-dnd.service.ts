@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { DragulaService } from 'ng2-dragula';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 import { DragulaHelperService } from 'libs/core/services';
 

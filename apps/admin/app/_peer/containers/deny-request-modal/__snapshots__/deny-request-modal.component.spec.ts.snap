@@ -2,8 +2,8 @@
 
 exports[`Deny Request Modal modal and text area should match the snapshot 1`] = `
 <pf-deny-request-modal
-  closeClicked={[Function EventEmitter]}
-  denyClicked={[Function EventEmitter]}
+  closeClicked={[Function EventEmitter_]}
+  denyClicked={[Function EventEmitter_]}
   denyReasonForm={[Function FormGroup]}
   fb={[Function FormBuilder]}
 >
