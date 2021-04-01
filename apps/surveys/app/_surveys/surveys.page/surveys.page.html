@@ -1,3 +1,9 @@
-<div class="page">
-  <span class="title">Surveys</span>
-</div>
+<pf-data-grid
+  [pageViewId]="pageViewId"
+  [title]="'Surveys'"
+  [defaultSort]="defaultSort"
+  [actionBarConfig]="actionBarConfig"
+  [gridConfig]="gridConfig"
+  [useReportingDB]="true"
+  [pageable]="!gridConfig.EnableInfiniteScroll">
+</pf-data-grid>
