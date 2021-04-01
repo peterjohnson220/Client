@@ -1,31 +1,36 @@
 import { Action } from '@ngrx/store';
 
-import { Currency } from 'libs/models';
-import { RoundingSettingsDataObj, RangeGroupMetadata } from 'libs/models/structures';
+import { Currency, RangeGroupMetadata, RoundingSettingsDataObj } from 'libs/models';
 
 import { ControlPoint } from '../models';
 
-export const OPEN_MODAL = '[Structures - Job Based Range - Model Settings] Open Modal';
-export const CLOSE_MODAL = '[Structures - Job Based Range - Model Settings] Close Modal';
-export const GET_CURRENCIES = '[Structures - Job Based Range - Model Settings] Get Currencies';
-export const GET_CURRENCIES_SUCCESS = '[Structures - Job Based Range - Model Settings] Get Currencies Success';
-export const GET_CURRENCIES_ERROR = '[Structures - Job Based Range - Model Settings] Get Currencies Error';
-export const GET_SURVEY_UDFS = '[Structures - Job Based Range - Model Settings] Get Survey UDFs';
-export const GET_SURVEY_UDFS_SUCCESS = '[Structures - Job Based Range - Model Settings] Get Survey UDFs Success';
-export const GET_SURVEY_UDFS_ERROR = '[Structures - Job Based Range - Model Settings] Get Survey UDFs Error';
-export const GET_CONTROL_POINTS = '[Structures - Job Based Range - Model Settings] Get Control Points';
-export const GET_CONTROL_POINTS_SUCCESS = '[Structures - Job Based Range - Model Settings] Get Control Points Success';
-export const GET_CONTROL_POINTS_ERROR = '[Structures - Job Based Range - Model Settings] Get Control Points Error';
-export const GET_STRUCTURE_NAME_SUGGESTIONS = '[Structures - Job Based Range - Model Settings] Get Structure Name Suggestions';
-export const GET_STRUCTURE_NAME_SUGGESTIONS_SUCCESS = '[Structures - Job Based Range - Model Settings] Get Structure Name Suggestions Success';
-export const GET_STRUCTURE_NAME_SUGGESTIONS_ERROR = '[Structures - Job Based Range - Model Settings] Get Structure Name Suggestions Error';
-export const SAVE_MODEL_SETTINGS = '[Structures - Job Based Range - Model Settings] Save Model Settings';
-export const SAVE_MODEL_SETTINGS_SUCCESS = '[Structures - Job Based Range - Model Settings] Save Model Settings Success';
-export const SAVE_MODEL_SETTINGS_ERROR = '[Structures - Job Based Range - Model Settings] Save Model Settings Error';
-export const MODEL_NAME_EXISTS_FAILURE = '[Structures - Job Based Range - Model Settings] Model Name Exists Failure';
-export const CLEAR_MODEL_NAME_EXISTS_FAILURE = '[Structures - Job Based Range - Model Settings] Clear Name Exists Failure';
-export const CANCEL = '[Structures - Job Based Range - Model Settings] Cancel';
-export const SET_ACTIVE_TAB = '[Structures - Job Based Range - Model Settings] Set Active Tab';
+export const OPEN_MODAL = '[Structures - Range - Model Settings] Open Modal';
+export const CLOSE_MODAL = '[Structures - Range - Model Settings] Close Modal';
+export const GET_CURRENCIES = '[Structures - Range - Model Settings] Get Currencies';
+export const GET_CURRENCIES_SUCCESS = '[Structures - Range - Model Settings] Get Currencies Success';
+export const GET_CURRENCIES_ERROR = '[Structures - Range - Model Settings] Get Currencies Error';
+export const GET_SURVEY_UDFS = '[Structures - Range - Model Settings] Get Survey UDFs';
+export const GET_SURVEY_UDFS_SUCCESS = '[Structures - Range - Model Settings] Get Survey UDFs Success';
+export const GET_SURVEY_UDFS_ERROR = '[Structures - Range - Model Settings] Get Survey UDFs Error';
+export const GET_CONTROL_POINTS = '[Structures - Range - Model Settings] Get Control Points';
+export const GET_CONTROL_POINTS_SUCCESS = '[Structures - Range - Model Settings] Get Control Points Success';
+export const GET_CONTROL_POINTS_ERROR = '[Structures - Range - Model Settings] Get Control Points Error';
+export const GET_STRUCTURE_NAME_SUGGESTIONS = '[Structures - Range - Model Settings] Get Structure Name Suggestions';
+export const GET_STRUCTURE_NAME_SUGGESTIONS_SUCCESS = '[Structures - Range - Model Settings] Get Structure Name Suggestions Success';
+export const GET_STRUCTURE_NAME_SUGGESTIONS_ERROR = '[Structures - Range - Model Settings] Get Structure Name Suggestions Error';
+export const MODEL_NAME_EXISTS_FAILURE = '[Structures - Range - Model Settings] Model Name Exists Failure';
+export const CLEAR_MODEL_NAME_EXISTS_FAILURE = '[Structures - Range - Model Settings] Clear Name Exists Failure';
+export const CANCEL = '[Structures - Range - Model Settings] Cancel';
+export const SET_ACTIVE_TAB = '[Structures - Range - Model Settings] Set Active Tab';
+export const SAVE_JOB_BASED_MODEL_SETTINGS = '[Structures - Job Based Range - Model Settings] Save Model Settings';
+export const SAVE_JOB_BASED_MODEL_SETTINGS_SUCCESS = '[Structures - Job Based Range - Model Settings] Save Model Settings Success';
+export const SAVE_JOB_BASED_MODEL_SETTINGS_ERROR = '[Structures - Job Based Range - Model Settings] Save Model Settings Error';
+export const CREATE_GRADE_BASED_MODEL_SETTINGS = '[Structures - Grade Based Range - Model Settings] Create Model Settings';
+export const CREATE_GRADE_BASED_MODEL_SETTINGS_SUCCESS = '[Structures - Grade Based Range - Model Settings] Create Model Settings Success';
+export const CREATE_GRADE_BASED_MODEL_SETTINGS_ERROR = '[Structures - Grade Based Range - Model Settings] Create Model Settings Error';
+export const SAVE_GRADE_BASED_MODEL_SETTINGS = '[Structures - Grade Based Range - Model Settings] Save Model Settings';
+export const SAVE_GRADE_BASED_MODEL_SETTINGS_SUCCESS = '[Structures - Grade Based Range - Model Settings] Save Model Settings Success';
+export const SAVE_GRADE_BASED_MODEL_SETTINGS_ERROR = '[Structures - Grade Based Range - Model Settings] Save Model Settings Error';
 
 export class OpenModal implements Action {
   readonly type = OPEN_MODAL;
@@ -93,20 +98,6 @@ export class GetStructureNameSuggestionsError implements Action {
   readonly type = GET_STRUCTURE_NAME_SUGGESTIONS_ERROR;
 }
 
-export class SaveModelSettings implements Action {
-  readonly type = SAVE_MODEL_SETTINGS;
-
-  constructor(public payload: { rangeGroupId: number; formValue: RangeGroupMetadata; fromPageViewId: string, rounding: RoundingSettingsDataObj }) {}
-}
-
-export class SaveModelSettingsSuccess implements Action {
-  readonly type = SAVE_MODEL_SETTINGS_SUCCESS;
-}
-
-export class SaveModelSettingsError implements Action {
-  readonly type = SAVE_MODEL_SETTINGS_ERROR;
-}
-
 export class ModelNameExistsFailure implements Action {
   readonly type = MODEL_NAME_EXISTS_FAILURE;
 }
@@ -125,6 +116,48 @@ export class SetActiveTab implements Action {
   constructor(public payload: string) {}
 }
 
+export class SaveJobBasedModelSettings implements Action {
+  readonly type = SAVE_JOB_BASED_MODEL_SETTINGS;
+
+  constructor(public payload: { rangeGroupId: number; formValue: RangeGroupMetadata; fromPageViewId: string, rounding: RoundingSettingsDataObj }) {}
+}
+
+export class SaveJobBasedModelSettingsSuccess implements Action {
+  readonly type = SAVE_JOB_BASED_MODEL_SETTINGS_SUCCESS;
+}
+
+export class SaveJobBasedModelSettingsError implements Action {
+  readonly type = SAVE_JOB_BASED_MODEL_SETTINGS_ERROR;
+}
+
+export class CreateGradeBasedModelSettings implements Action {
+  readonly type = CREATE_GRADE_BASED_MODEL_SETTINGS;
+
+  constructor(public payload: { rangeGroupId: number; formValue: RangeGroupMetadata; fromPageViewId: string, rounding: RoundingSettingsDataObj }) {}
+}
+
+export class CreateGradeBasedModelSettingsSuccess implements Action {
+  readonly type = CREATE_GRADE_BASED_MODEL_SETTINGS_SUCCESS;
+}
+
+export class CreateGradeBasedModelSettingsError implements Action {
+  readonly type = CREATE_GRADE_BASED_MODEL_SETTINGS_ERROR;
+}
+
+export class SaveGradeBasedModelSettings implements Action {
+  readonly type = SAVE_GRADE_BASED_MODEL_SETTINGS;
+
+  constructor(public payload: { rangeGroupId: number; formValue: RangeGroupMetadata; fromPageViewId: string, rounding: RoundingSettingsDataObj }) {}
+}
+
+export class SaveGradeBasedModelSettingsSuccess implements Action {
+  readonly type = SAVE_GRADE_BASED_MODEL_SETTINGS_SUCCESS;
+}
+
+export class SaveGradeBasedModelSettingsError implements Action {
+  readonly type = SAVE_GRADE_BASED_MODEL_SETTINGS_ERROR;
+}
+
 export type ModelSettingsModalActions
   = OpenModal
   | CloseModal
@@ -137,13 +170,19 @@ export type ModelSettingsModalActions
   | GetStructureNameSuggestions
   | GetStructureNameSuggestionsSuccess
   | GetStructureNameSuggestionsError
-  | SaveModelSettings
-  | SaveModelSettingsSuccess
-  | SaveModelSettingsError
-  | ModelNameExistsFailure
-  | ClearModelNameExistsFailure
   | Cancel
   | GetSurveyUdfs
   | GetSurveyUdfsSuccess
   | GetSurveyUdfsError
-  | SetActiveTab;
+  | ModelNameExistsFailure
+  | ClearModelNameExistsFailure
+  | SetActiveTab
+  | SaveJobBasedModelSettings
+  | SaveJobBasedModelSettingsSuccess
+  | SaveJobBasedModelSettingsError
+  | CreateGradeBasedModelSettings
+  | CreateGradeBasedModelSettingsSuccess
+  | CreateGradeBasedModelSettingsError
+  | SaveGradeBasedModelSettings
+  | SaveGradeBasedModelSettingsSuccess
+  | SaveGradeBasedModelSettingsError;

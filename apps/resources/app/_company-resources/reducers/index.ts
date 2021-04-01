@@ -43,6 +43,9 @@ export const getAddingCompanyResource = createSelector(selectCompanyResourcesSta
 export const getAddingCompanyResourceSuccess = createSelector(selectCompanyResourcesState, fromCompanyResourcesReducer.getAddingCompanyResourceSuccess);
 export const getAddingCompanyResourceErrorMsg = createSelector(selectCompanyResourcesState, fromCompanyResourcesReducer.getAddingCompanyResourceErrorMsg);
 export const getDeletingCompanyResourceSuccess = createSelector(selectCompanyResourcesState, fromCompanyResourcesReducer.getDeletingCompanyResourceSuccess);
+export const getShowRenameResourceModal = createSelector(selectCompanyResourcesState, fromCompanyResourcesReducer.getShowRenameResourceModal);
+export const getShowRenameFolderModal = createSelector(selectCompanyResourcesState, fromCompanyResourcesReducer.getShowRenameFolderModal);
+export const getSavingFolderNameError = createSelector(selectCompanyResourcesState, fromCompanyResourcesReducer.getSavingFolderNameError);
 
 // company folder resources
 export const { selectAll: getCompanyFolderResources } = fromCompanyResourcesFolderReducer.adapter.getSelectors(selectCompanyResourcesFolderState);
@@ -68,5 +71,3 @@ export const getCompanyResourcesUploadState = createSelector(selectCompanyResour
   fromCompanyResourcesUploadReducer.getCompanyResourceUploadState);
 export const getCompanyResourceAddResourceModalOpen = createSelector(selectCompanyResourcesUploadState,
     fromCompanyResourcesUploadReducer.getCompanyResourceAddResourceModalOpen);
-  
-

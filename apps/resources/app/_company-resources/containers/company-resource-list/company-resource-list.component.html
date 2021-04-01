@@ -1,61 +1,175 @@
 <div class="list-container">
-    <ng-container *ngIf="folderResources">
-        <ul class="fa-ul" *ngFor="let folderResource of folderResources">
-            <li class="folder-item" [ngStyle]="{'font-weight': setFontWeight(folderResource.FolderName)}">
-                <div class="folder-text" (click)="onFolderSelect(folderResource.FolderName)">
-                    <span class="fa-li"><fa-icon icon="{{setFolderIcon(folderResource.FolderName)}}"></fa-icon></span>{{folderResource.FolderName}}
-                </div>
-                <button type="button" class="btn btn-danger" (click)="openDeleteResourceModal(folderResource)">Delete</button>
-            </li>
-            <ul [hidden]="folderStates[folderResource.FolderName]" class="resource-list">
-                <ng-container *ngIf="folderResource.CompanyResources && folderResource.CompanyResources.length > 0; then resourceItem else emptyResourceItem"></ng-container>
-                <ng-template #resourceItem>
-                    <li class="resource-item" *ngFor="let resource of folderResource.CompanyResources">
-                        <div class="resource-text">
-                            <ng-container *ngIf="isLink(resource); then linkItem else fileItem"></ng-container>
-                            <ng-template #linkItem>
-                                <a href="{{resource.LinkUrl}}" target="_blank">{{resource.ResourceTitle}}</a>
-                            </ng-template>
-                            <ng-template #fileItem>
-                                <a (click)="handleResourceClicked(resource)">{{resource.ResourceTitle}}</a>
-                            </ng-template>
-                        </div>
-                        <div class="icon-container">
-                            <fa-icon class="resource-icon" icon="{{setResourceIcon(resource)}}"></fa-icon>
-                            <button type="button" class="btn btn-danger" (click)="openDeleteResourceModal(resource)">Delete</button>
-                        </div>
-                    </li>
-                </ng-template>
-                <ng-template #emptyResourceItem>
-                    <li class="resource-item font-italic text-muted">
-                        <span>Empty</span>
-                    </li>
-                </ng-template>
-            </ul>    
-        </ul>
-    </ng-container>
-    <ng-container *ngIf="orphanedResources">       
-        <ul class="orphan-list">
-            <li class="resource-item" *ngFor="let orphanResource of orphanedResources">  
-                <div class="resource-text">
-                    <ng-container *ngIf="isLink(orphanResource); then orphanLinkItem else orphanFileItem"></ng-container>
-                    <ng-template #orphanLinkItem>
-                        <a href="{{orphanResource.LinkUrl}}" target="_blank">{{orphanResource.ResourceTitle}}</a>
-                    </ng-template>
-                    <ng-template #orphanFileItem>
-                        <a (click)="handleResourceClicked(orphanResource)">{{orphanResource.ResourceTitle}}</a>
-                    </ng-template>
-                </div>
-                <div class="icon-container">
-                    <fa-icon class="resource-icon" icon="{{setResourceIcon(orphanResource)}}"></fa-icon>
-                    <button type="button" class="btn btn-danger" (click)="openDeleteResourceModal(orphanResource)">Delete</button>
-                </div>
-            </li>
-        </ul>
-    </ng-container>
+  <ng-container *ngIf="folderResources">
+    <ngb-accordion #resourceListAcc="ngbAccordion">
+      <ngb-panel *ngFor="let folderResource of folderResources; trackBy: trackByFolder"
+                 [id]="'ResourcesFolder' + folderResource.CompanyResourcesFoldersId"
+                 [cardClass]="resourceListAcc.isExpanded('ResourcesFolder' + folderResource.CompanyResourcesFoldersId) ? 'opened' : ''">
+        <ng-template ngbPanelHeader>
+          <div class="d-flex">
+            <div class="cursor-pointer w-100 d-flex align-items-center"
+                (click)="resourceListAcc.toggle('ResourcesFolder' + folderResource.CompanyResourcesFoldersId)">
+              <fa-icon icon="caret-down"
+                      *ngIf="resourceListAcc.isExpanded('ResourcesFolder' + folderResource.CompanyResourcesFoldersId)"
+                      style="width: 10px">
+              </fa-icon>
+              <fa-icon icon="caret-right" *ngIf="!resourceListAcc.isExpanded('ResourcesFolder' + folderResource.CompanyResourcesFoldersId)"></fa-icon>
+              <div class="mx-3">
+                <fa-icon icon="folder-open" *ngIf="resourceListAcc.isExpanded('ResourcesFolder' + folderResource.CompanyResourcesFoldersId)"></fa-icon>
+                <fa-icon icon="folder"
+                        *ngIf="!resourceListAcc.isExpanded('ResourcesFolder' + folderResource.CompanyResourcesFoldersId)"
+                        style="margin-left: 2px">
+                </fa-icon>
+              </div>
+              <span pfEllipsisActive class="flex-fill ellipsis-overflowing-text title"
+                    [class.opened]="resourceListAcc.isExpanded('ResourcesFolder' + folderResource.CompanyResourcesFoldersId)">
+                {{folderResource.FolderName}}
+              </span>
+            </div>
+            <div *ngIf="hasCompanyResourcesAddEditDeletePermission">
+              <ng-container [ngTemplateOutlet]="folderActionsTemplate"
+                            [ngTemplateOutletContext]="{folder: folderResource}">
+              </ng-container>
+            </div>
+          </div>
+        </ng-template>
+
+        <ng-template ngbPanelContent>
+          <div *ngIf="folderResource?.CompanyResources?.length > 0; else emptyResourceItem">
+            <ng-container [ngTemplateOutlet]="resourcesTemplate"
+                          [ngTemplateOutletContext]="{resources: folderResource.CompanyResources, hasFolders: true, selectedResource: resource}">
+            </ng-container>
+          </div>
+          <ng-template #emptyResourceItem>
+            <div class="font-italic text-muted py-2 empty-resource-item">
+              <span>Empty</span>
+            </div>
+          </ng-template>
+        </ng-template>
+      </ngb-panel>
+    </ngb-accordion>
+  </ng-container>
+  <ng-container *ngIf="orphanedResources?.length > 0">
+    <ng-container [ngTemplateOutlet]="resourcesTemplate"
+                  [ngTemplateOutletContext]="{resources: orphanedResources, selectedResource: resource}">
+            </ng-container>
+  </ng-container>
 </div>
 
-<pf-file-download-security-warning-modal 
+<ng-template #resourcesTemplate let-resources="resources" let-hasFolders="hasFolders" let-selectedResource="selectedResource">
+  <div *ngIf="resources?.length > 0" class="d-flex flex-column">
+    <div [ngClass]="hasFolders ? '' : 'card'">
+      <div class="d-flex cursor-pointer background-container" *ngFor="let resource of resources; trackBy: trackByResource"
+           [class.selected]="resource.CompanyResourceId === selectedResource?.CompanyResourceId"
+           [class.card-header]="!hasFolders"
+           (click)="handleResourceClicked(resource)">
+        <div class="d-flex w-100 resource-container" [class.resource-in-folder]="hasFolders">
+          <div class="d-flex flex-fill ellipsis-overflowing-text">
+            <div class="mx-4">
+              <fa-icon *ngIf="resource.ResourceType === resourceType.File" icon="file-download"></fa-icon>
+              <fa-icon *ngIf="resource.ResourceType === resourceType.Link" icon="external-link"></fa-icon>
+            </div>
+            <div pfEllipsisActive class="title w-100 ellipsis-overflowing-text">
+              <div>{{resource.ResourceTitle}}</div>
+            </div>
+          </div>
+          <div *ngIf="hasCompanyResourcesAddEditDeletePermission">
+            <ng-container [ngTemplateOutlet]="resourceActionsTemplate"
+                          [ngTemplateOutletContext]="{resource: resource}">
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #resourceActionsTemplate let-resource="resource">
+  <div ngbDropdown container="body" #dropdown="ngbDropdown" (openChange)="resourceActionsOpenChanged(dropdown, $event)">
+    <button ngbDropdownToggle
+            id="resource-actions-{{resource.CompanyResourcesFoldersId}}-{{resource.CompanyResourceId}}"
+            class="btn btn-secondary"
+            (click)="handleResourceActionButtonClicked($event,resource)">
+      <fa-icon icon="ellipsis-h"></fa-icon>
+    </button>
+    <div ngbDropdownMenu aria-labelledby="resource-actions-{{resource.CompanyResourcesFoldersId}}-{{resource.CompanyResourceId}}">
+      <button ngbDropdownItem (click)="openRenameResourceModal(resource)">Rename Resource</button>
+      <button ngbDropdownItem (click)="openDeleteResourceModal(resource)" class="text-danger">Delete</button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #folderActionsTemplate let-folder="folder">
+  <div ngbDropdown container="body" #dropdown="ngbDropdown" (openChange)="folderActionsOpenChanged(dropdown, $event)">
+    <button ngbDropdownToggle
+            id="folder-actions-{{folder.CompanyResourcesFoldersId}}"
+            class="btn btn-secondary"
+            (click)="handleFolderActionButtonClicked()">
+      <fa-icon icon="ellipsis-h"></fa-icon>
+    </button>
+    <div ngbDropdownMenu aria-labelledby="folder-actions-{{folder.CompanyResourcesFoldersId}}">
+      <button ngbDropdownItem (click)="openResourceModal(folder)">Add Resource</button>
+      <button ngbDropdownItem (click)="openRenameFolderModal(folder)">Rename Folder</button>
+      <button ngbDropdownItem (click)="openDeleteResourceModal(folder)" class="text-danger">Delete</button>
+    </div>
+  </div>
+</ng-template>
+
+<pf-file-download-security-warning-modal
   #fileDownloadSecurityWarningModal
   (securityWarningConfirmed)="handleSecurityWarningConfirmed($event)">
 </pf-file-download-security-warning-modal>
+
+<pf-modal-form
+  [size]="'md'"
+  [title]="'Edit Resource Name'"
+  [primaryButtonText]="'Save'"
+  [primaryButtonClass]="'btn-primary'"
+  [modalId]="'au-modal-company-resources-page-rename-resource'"
+  [isOpen$]=" showRenameResourceModal$"
+  [submitEnabled]="!!updatedResource?.ResourceTitle?.length"
+  (onSubmit)="updateResourceTitle()"
+  (onDismiss)="closeRenameResourceModal()">
+
+  <ng-container basic-content>
+    <div class="w-100 d-flex flex-column">
+      <input data-qa-id="txt-rename-resource-form-title"
+             type="text"
+             class="form-control"
+             [maxlength]="255"
+             [ngModel]="updatedResource?.ResourceTitle"
+             (ngModelChange)="handleResourceTitleChanged($event)">
+      <div class="alert-container w-100">
+        <label *ngIf="!updatedResource?.ResourceTitle?.length" class="alert alert-danger pt-2">Resource Name is required</label>
+      </div>
+    </div>
+  </ng-container>
+
+</pf-modal-form>
+
+<pf-modal-form
+  [size]="'md'"
+  [title]="'Edit Folder Name'"
+  [primaryButtonText]="'Save'"
+  [primaryButtonClass]="'btn-primary'"
+  [modalId]="'au-modal-company-resources-page-rename-folder'"
+  [isOpen$]=" showRenameFolderModal$"
+  [submitEnabled]="!!selectedFolder?.FolderName?.length && selectedFolder.FolderName !== originalFolderName"
+  (onSubmit)="updateFolderName()"
+  (onDismiss)="closeRenameFolderModal()">
+
+  <ng-container basic-content>
+    <div class="w-100 d-flex flex-column">
+      <input data-qa-id="txt-rename-folder-form-folder-name"
+             type="text"
+             class="form-control"
+             [maxlength]="50"
+             [ngModel]="selectedFolder?.FolderName"
+             (ngModelChange)="handleFolderNameChanged($event)">
+      <div class="alert-container w-100">
+        <label *ngIf="!selectedFolder?.FolderName?.length" class="alert alert-danger pt-2">Folder Name is required</label>
+        <label *ngIf="(savingFolderNameError$ | async)?.length" class="alert alert-danger pt-2">{{(savingFolderNameError$ | async)}}</label>
+      </div>
+    </div>
+  </ng-container>
+
+</pf-modal-form>

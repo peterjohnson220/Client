@@ -13,6 +13,7 @@ import * as fromJobManagementReducer from '../../reducers';
 import { PfValidators, JobDescriptionSummaryEditorComponent } from 'libs/forms';
 import { CompanySettingsEnum, JobDescriptionSummary } from 'libs/models';
 import { SettingsService } from 'libs/state/app-context/services';
+import { JobDescriptionExportRequest } from 'libs/models/payfactors-api';
 
 @Component({
   selector: 'pf-standard-fields',
@@ -129,5 +130,9 @@ export class StandardFieldsComponent implements OnInit, OnDestroy {
 
   isValid(): boolean {
     return this.jobForm.valid && this.jobDescriptionEditor.isValid();
+  }
+
+  exportJobDescription(request: JobDescriptionExportRequest): void {
+    this.store.dispatch(new fromJobManagementActions.ExportJobDescription(request));
   }
 }

@@ -115,9 +115,19 @@ export const getJobs = createSelector(
   fromSearchResultsReducer.getJobs
 );
 
+export const getJobCount = createSelector(
+  selectSearchResultsState,
+  fromSearchResultsReducer.getJobCount
+);
+
 export const getSelectedJobIds = createSelector(
   selectSearchResultsState,
   fromSearchResultsReducer.getSelectedJobIds
+);
+
+export const getSelectedJobs = createSelector(
+  selectSearchResultsState,
+  fromSearchResultsReducer.getSelectedJobs
 );
 
 export const getSelectedPayfactorsJobCodes = createSelector(

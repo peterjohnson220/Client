@@ -19,6 +19,13 @@
   bottom: auto !important;
 }
 
+:host ::ng-deep .alert {
+  position: absolute;
+  padding: 0.5rem 1.25rem;
+  top: -45px;
+  left: 100px;
+}
+
 :host::ng-deep .modal-dialog {
   height: 90%;
 }

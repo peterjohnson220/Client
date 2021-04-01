@@ -1,15 +1,17 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { NgbCollapseModule, NgbDropdownModule, NgbPopoverModule, NgbTabsetModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCollapseModule, NgbDropdownModule, NgbNavModule, NgbPopoverModule, NgbTabsetModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { AutoCompleteModule, ComboBoxModule, DropDownListModule } from '@progress/kendo-angular-dropdowns';
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 import { NumericTextBoxModule, SwitchModule } from '@progress/kendo-angular-inputs';
 import { HighchartsChartModule } from 'highcharts-angular';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
+import { GridModule } from '@progress/kendo-angular-grid';
 
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
@@ -25,9 +27,10 @@ import { GradeBasedVerticalRangeChartComponent } from './containers/grade-based-
 import { reducers } from './reducers';
 
 import {
-  SharedEffects
+  SharedEffects, SwitchRegressionFlagsModalEffects
 } from './effects';
 import { ModelSettingsModalContentComponent } from './containers/model-settings-modal-content/model-settings-modal-content.component';
+import { SwitchRegressionFlagsModalComponent } from './containers';
 
 @NgModule({
   imports: [
@@ -38,7 +41,8 @@ import { ModelSettingsModalContentComponent } from './containers/model-settings-
     // 3rd party
     StoreModule.forFeature('structures_gradeBasedRange_shared', reducers),
     EffectsModule.forFeature([
-      SharedEffects
+      SharedEffects,
+      SwitchRegressionFlagsModalEffects
     ]),
     NgbCollapseModule,
     FontAwesomeModule,
@@ -48,9 +52,11 @@ import { ModelSettingsModalContentComponent } from './containers/model-settings-
     NgbTooltipModule,
     NgbPopoverModule,
     NgbDropdownModule,
+    NgbNavModule,
     CodemirrorModule,
     SwitchModule,
     HighchartsChartModule,
+    GridModule,
 
     // Payfactors
     PfDataGridModule,
@@ -69,7 +75,8 @@ import { ModelSettingsModalContentComponent } from './containers/model-settings-
     ModelGridComponent,
     GradeBasedSummaryChartComponent,
     GradeBasedVerticalRangeChartComponent,
-    ModelSettingsModalContentComponent
+    ModelSettingsModalContentComponent,
+    SwitchRegressionFlagsModalComponent
   ],
   exports: [
     ModelGridComponent,

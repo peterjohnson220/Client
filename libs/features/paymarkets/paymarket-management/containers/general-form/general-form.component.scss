@@ -1,5 +1,5 @@
-@import '../../../../../../assets/scss/common/common';
-@import '../../../../../../assets/scss/common/common-variables';
+@import 'common/common';
+@import 'common/common-variables';
 @import 'assets/scss/_kendo-checkbox-overrides';
 
 .col-form-label {
@@ -9,10 +9,6 @@
 
 .disabled {
   pointer-events: none;
-}
-
-.scope-container {
-  height: 300px;
 }
 
 ::ng-deep {

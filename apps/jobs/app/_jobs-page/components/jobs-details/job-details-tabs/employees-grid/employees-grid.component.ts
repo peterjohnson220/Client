@@ -126,9 +126,9 @@ export class EmployeesGridComponent implements AfterViewInit, OnDestroy, OnChang
     this.store.dispatch(new fromActions.CollapseRowById(this.pageViewId, id, idValue));
   }
 
-  handlePayMarketValueChanged(payMarkets: string[]) {
+  handlePayMarketValueChanged(payMarkets: GroupedListItem[]) {
     const field: ViewField = cloneDeep(this.payMarketField);
-    field.FilterValues = payMarkets?.length > 0 ? payMarkets : null;
+    field.FilterValues = payMarkets?.length > 0 ? payMarkets.map(x => x.Value) : null;
     field.FilterOperator = 'in';
     this.updateField(field);
   }

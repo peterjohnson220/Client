@@ -8,11 +8,14 @@ exports[`TotalRewardsPageComponent should show the create new banner when no sta
   focusedTab$={[Function Store]}
   isDeleteStatetementModalOpen$={[Function Store]}
   openActionMenuStatement$={[Function Store]}
+  route={[Function Object]}
+  router={[Function Object]}
   statementsLoading$={[Function Observable]}
   statementsLoadingError$={[Function Observable]}
   statementsSearchTerm$={[Function Store]}
   statementsTotal$={[Function Observable]}
   store={[Function Store]}
+  urlParamSubscription={[Function Subscriber]}
 >
   <pf-page-with-title-bar>
     
@@ -134,11 +137,14 @@ exports[`TotalRewardsPageComponent should show the grid component when statement
   focusedTab$={[Function Store]}
   isDeleteStatetementModalOpen$={[Function Store]}
   openActionMenuStatement$={[Function Store]}
+  route={[Function Object]}
+  router={[Function Object]}
   statementsLoading$={[Function Store]}
   statementsLoadingError$={[Function Store]}
   statementsSearchTerm$={[Function Store]}
   statementsTotal$={[Function Observable]}
   store={[Function Store]}
+  urlParamSubscription={[Function Subscriber]}
 >
   <pf-page-with-title-bar>
     

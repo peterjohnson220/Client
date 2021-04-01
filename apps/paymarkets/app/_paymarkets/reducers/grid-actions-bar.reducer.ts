@@ -2,6 +2,7 @@ import cloneDeep from 'lodash/cloneDeep';
 
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 import { GroupedListItem } from 'libs/models';
+import { PfDataGridCustomFilterDisplayOptions, PfDataGridCustomFilterOptions } from 'libs/features/grids/pf-data-grid/models';
 
 import * as fromGridActionsBarActions from '../actions/grid-actions-bar.actions';
 
@@ -12,6 +13,7 @@ export interface State {
   selectedIndustries: string[];
   locations: AsyncStateObj<GroupedListItem[]>;
   selectedLocations: string[];
+  customFilterOptions: PfDataGridCustomFilterOptions[];
 }
 
 const initialState: State = {
@@ -20,7 +22,24 @@ const initialState: State = {
   industries: generateDefaultAsyncStateObj([]),
   selectedIndustries: [],
   locations: generateDefaultAsyncStateObj([]),
-  selectedLocations: []
+  selectedLocations: [],
+  customFilterOptions: [
+    {
+      EntitySourceName: 'CompanyPayMarkets',
+      SourceName: 'Geo_Value',
+      FilterDisplayOptions: []
+    },
+    {
+      EntitySourceName: 'CompanyPayMarkets',
+      SourceName: 'Industry_Value',
+      FilterDisplayOptions: []
+    },
+    {
+      EntitySourceName: 'CompanyPayMarkets',
+      SourceName: 'ScopeSize',
+      FilterDisplayOptions: []
+    }
+  ]
 };
 
 export function reducer(state = initialState, action: fromGridActionsBarActions.Actions): State {
@@ -56,10 +75,14 @@ export function reducer(state = initialState, action: fromGridActionsBarActions.
       };
     }
     case fromGridActionsBarActions.UPDATE_SELECTED_SIZES: {
-
+      const customFilterOptionsClone: PfDataGridCustomFilterOptions[] = cloneDeep(state.customFilterOptions);
+      const sizeFilterOption: PfDataGridCustomFilterOptions = customFilterOptionsClone
+        .find(x => x.EntitySourceName === 'CompanyPayMarkets' && x.SourceName === 'ScopeSize');
+      sizeFilterOption.FilterDisplayOptions = mapGroupListItemsToFilterDisplayOptions(action.payload);
       return {
         ...state,
-        selectedSizes: action.payload
+        selectedSizes: action.payload.map(x => x.Value),
+        customFilterOptions: customFilterOptionsClone
       };
     }
     case fromGridActionsBarActions.GET_COMPANY_INDUSTRIES: {
@@ -93,9 +116,14 @@ export function reducer(state = initialState, action: fromGridActionsBarActions.
       };
     }
     case fromGridActionsBarActions.SET_SELECTED_INDUSTRIES: {
+      const customFilterOptionsClone: PfDataGridCustomFilterOptions[] = cloneDeep(state.customFilterOptions);
+      const industryFilterOption: PfDataGridCustomFilterOptions = customFilterOptionsClone
+        .find(x => x.EntitySourceName === 'CompanyPayMarkets' && x.SourceName === 'Industry_Value');
+      industryFilterOption.FilterDisplayOptions = mapGroupListItemsToFilterDisplayOptions(action.payload);
       return {
         ...state,
-        selectedIndustries: cloneDeep(action.payload)
+        selectedIndustries: action.payload.map(x => x.Value),
+        customFilterOptions: customFilterOptionsClone
       };
     }
     case fromGridActionsBarActions.GET_LOCATIONS: {
@@ -126,9 +154,14 @@ export function reducer(state = initialState, action: fromGridActionsBarActions.
       };
     }
     case fromGridActionsBarActions.SET_SELECTED_LOCATIONS: {
+      const customFilterOptionsClone: PfDataGridCustomFilterOptions[] = cloneDeep(state.customFilterOptions);
+      const locationFilterOption: PfDataGridCustomFilterOptions = customFilterOptionsClone
+        .find(x => x.EntitySourceName === 'CompanyPayMarkets' && x.SourceName === 'Geo_Value');
+      locationFilterOption.FilterDisplayOptions = mapGroupListItemsToFilterDisplayOptions(action.payload);
       return {
         ...state,
-        selectedLocations: action.payload
+        selectedLocations: action.payload.map(x => x.Value),
+        customFilterOptions: customFilterOptionsClone
       };
     }
     default: {
@@ -143,3 +176,13 @@ export const getCompanyIndustries = (state: State) => state.industries;
 export const getSelectedIndustries = (state: State) => state.selectedIndustries;
 export const getLocations = (state: State) => state.locations;
 export const getSelectedLocations = (state: State) => state.selectedLocations;
+export const getCustomFilterOptions = (state: State) => state.customFilterOptions;
+
+function mapGroupListItemsToFilterDisplayOptions(items: GroupedListItem[]): PfDataGridCustomFilterDisplayOptions[] {
+  return items.map(item => {
+    return {
+      Value: item.Value,
+      Display: item.Name
+    };
+  });
+}

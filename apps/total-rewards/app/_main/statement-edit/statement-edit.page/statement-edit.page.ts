@@ -214,9 +214,17 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
     this.store.dispatch(new fromEditStatementPageActions.AddCalculationControlCompensationField(request));
   }
 
+  handleOnCalculationControlCompFieldReordered(request: models.ReorderCalcControlFieldsRequest) {
+    this.store.dispatch(new fromEditStatementPageActions.ReorderCalculationControlCompensationField(request));
+  }
+
   // RICH TEXT
   handleOnRichTextControlContentChange(request: models.UpdateStringPropertyRequest) {
     this.store.dispatch(new fromEditStatementPageActions.UpdateRichTextControlContent(request));
+  }
+
+  handleOnRichTextControlUdfsInContentChange(request: models.UpdateUdfsInRteContentRequest) {
+    this.store.dispatch(new fromEditStatementPageActions.UpdateRichTextControlUdfsInContent(request));
   }
 
   handleRTEFocusChange(event) {
@@ -287,6 +295,10 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
 
   handleRemoveImage(deleteImageRequest) {
     this.store.dispatch(new fromEditStatementPageActions.RemoveImageControlImage(deleteImageRequest));
+  }
+
+  handleSelectImage() {
+    this.store.dispatch(new fromEditStatementPageActions.SelectImageControlImage());
   }
 
   // EFFECTIVE DATE

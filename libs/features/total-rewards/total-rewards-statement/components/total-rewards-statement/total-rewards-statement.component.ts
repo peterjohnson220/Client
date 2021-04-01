@@ -12,7 +12,9 @@ import {
   TotalRewardsControlEnum,
   UpdateFieldOverrideNameRequest,
   UpdateFieldVisibilityRequest,
+  ReorderCalcControlFieldsRequest,
   UpdateStringPropertyRequest,
+  UpdateUdfsInRteContentRequest,
   UpdateTitleRequest
 } from '../../models';
 import { TotalRewardsStatementService } from '../../services/total-rewards-statement.service';
@@ -43,9 +45,11 @@ export class TotalRewardsStatementComponent {
   @Output() onCalculationControlSummaryTitleChange: EventEmitter<UpdateTitleRequest> = new EventEmitter();
   @Output() onCalculationControlCompFieldRemoved: EventEmitter<UpdateFieldVisibilityRequest> = new EventEmitter();
   @Output() onCalculationControlCompFieldAdded: EventEmitter<UpdateFieldVisibilityRequest> = new EventEmitter();
+  @Output() onCalculationControlCompFieldReordered: EventEmitter<ReorderCalcControlFieldsRequest> = new EventEmitter();
 
   // Rich Text Outputs
   @Output() onRichTextControlContentChange: EventEmitter<UpdateStringPropertyRequest> = new EventEmitter<UpdateStringPropertyRequest>();
+  @Output() onRichTextControlUdfsInContentChange: EventEmitter<UpdateUdfsInRteContentRequest> = new EventEmitter<UpdateUdfsInRteContentRequest>();
   @Output() onRTEFocusChange: EventEmitter<string> = new EventEmitter();
 
   // Chart Control Outputs
@@ -56,6 +60,7 @@ export class TotalRewardsStatementComponent {
   @Output() onSaveImage: EventEmitter<SaveImageRequest> = new EventEmitter();
   @Output() onRemoveImage: EventEmitter<DeleteImageRequest> = new EventEmitter();
   @Output() onImageLoaded: EventEmitter<string> = new EventEmitter();
+  @Output() onImageSelected: EventEmitter<void> = new EventEmitter();
 
   // Effective Date Outputs
   @Output() onEffectiveDateChange: EventEmitter<Date> = new EventEmitter<Date>();
@@ -105,7 +110,7 @@ export class TotalRewardsStatementComponent {
         const currentControl = control as CalculationControl;
         if (this.mode === StatementModeEnum.Edit) {
           calcControls.push(control);
-        } else if (this.isControlVisible(currentControl.DataFields)) {
+        } else if (this.isCalcControlVisible(currentControl.DataFields)) {
           calcControls.push(control);
         }
       }
@@ -113,23 +118,18 @@ export class TotalRewardsStatementComponent {
     return calcControls;
   }
 
-  isControlVisible(dataFields: CompensationField[]): boolean {
+  isCalcControlVisible(dataFields: CompensationField[]): boolean {
     return dataFields.some(f => {
-      if (this.employeeRewardsData.IsMockData || !f.IsVisible) {
-        return f.IsVisible;
-      } else {
-        return (f.Type) ?
-          this.employeeRewardsData[f.Type][f.DatabaseField] !== null && this.employeeRewardsData[f.Type][f.DatabaseField] > 0 :
-          TotalRewardsStatementService.doesEmployeeRewardsFieldHaveData(f.DatabaseField, this.employeeRewardsData) ||
-          TotalRewardsStatementService.doesBenefitFieldHaveData(f.DatabaseField, this.employeeRewardsData,
-            this.statement.Settings.DisplaySettings.ShowEmployeeContributions && f.CanHaveEmployeeContribution);
+      if (!f.IsVisible) {
+        return false;
+      } else if (f.Type) {
+        return TotalRewardsStatementService.getUdfAsNumeric(this.employeeRewardsData, f.Type, f.DatabaseField) > 0;
       }
-    });
-  }
 
-  // track which item each ngFor is on, which no longer necessitates destroying/creating all components in state changes and improves perf significantly
-  trackByFn(index: number, item: any) {
-    return index;
+      const checkEmployeeContributions = this.statement.Settings.DisplaySettings.ShowEmployeeContributions && f.CanHaveEmployeeContribution;
+      return TotalRewardsStatementService.doesEmployeeRewardsFieldHaveData(f.DatabaseField, this.employeeRewardsData) ||
+        TotalRewardsStatementService.doesBenefitFieldHaveData(f.DatabaseField, this.employeeRewardsData, checkEmployeeContributions);
+    });
   }
 
   // Common pass through methods
@@ -154,9 +154,17 @@ export class TotalRewardsStatementComponent {
     this.onCalculationControlCompFieldAdded.emit(event);
   }
 
+  handleOnCalculationControlCompFieldReordered(event) {
+    this.onCalculationControlCompFieldReordered.emit(event);
+  }
+
   // Rich Text pass through methods
   handleOnRichTextControlContentChange(event) {
     this.onRichTextControlContentChange.emit(event);
+  }
+
+  handleOnRichTextControlUdfsInContentChange(event) {
+    this.onRichTextControlUdfsInContentChange.emit(event);
   }
 
   handleOnRTEFocusChange(event) {
@@ -185,8 +193,17 @@ export class TotalRewardsStatementComponent {
     this.onImageLoaded.emit(imageControlId);
   }
 
+  handleImageSelected() {
+    this.onImageSelected.emit();
+  }
+
   // Effective Date pass through methods
   handleEffectiveDateChange(date: Date) {
     this.onEffectiveDateChange.emit(date);
+  }
+
+  // track which item each ngFor is on, which no longer necessitates destroying/creating all components in state changes and improves perf significantly
+  trackByFn(index: number, item: any) {
+    return index;
   }
 }

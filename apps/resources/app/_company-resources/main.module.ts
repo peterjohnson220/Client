@@ -10,7 +10,7 @@ import { PfFormsModule } from 'libs/forms';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { EffectsModule } from '@ngrx/effects';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { StoreModule } from '@ngrx/store';
 import { UploadModule } from '@progress/kendo-angular-upload';
 import * as fromFaIcons from './fa-icons';
@@ -25,9 +25,7 @@ import { CompanyResourceListComponent } from './containers/company-resource-list
 import { NewFolderModalComponent } from './containers/new-folder-modal/new-folder-modal.component';
 import { ResourceModalComponent } from './containers/resource-modal/resource-modal.component';
 // Components
-import { DeleteModalComponent } from './components/delete-modal/delete-modal.component';
-import { ResourcesComponent } from './components/resources/resources.component';
-
+import { DeleteModalComponent, ResourcesComponent } from './components';
 
 @NgModule({
   imports: [
@@ -44,6 +42,7 @@ import { ResourcesComponent } from './components/resources/resources.component';
     NgbModule,
     UploadModule,
     DropDownsModule,
+    NgbDropdownModule,
     // Routing
     MainRoutingModule,
     // Payfactors

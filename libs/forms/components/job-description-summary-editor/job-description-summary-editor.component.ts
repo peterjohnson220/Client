@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 
 import { Permissions } from 'libs/constants';
 import { JobDescriptionSummary } from 'libs/models';
-import { FileDownloadSecurityWarningModalComponent } from 'libs/ui/common';
+import { JobDescriptionExportRequest } from 'libs/models/payfactors-api';
 
 import { PfValidators } from '../../validators';
 import { PfThemeType } from '../../../features/grids/pf-data-grid/enums/pf-theme-type.enum';
@@ -28,8 +28,8 @@ export class JobDescriptionSummaryEditorComponent implements OnInit, OnDestroy, 
   @Input() enableFileDownloadSecurityWarning: boolean;
 
   @Output() jobDescriptionChanged: EventEmitter<string> = new EventEmitter<string>();
+  @Output() exportClicked: EventEmitter<JobDescriptionExportRequest> = new EventEmitter();
 
-  @ViewChild('fileDownloadSecurityWarningModal', { static: true }) fileDownloadSecurityWarningModal: FileDownloadSecurityWarningModalComponent;
   @ViewChild('jobDescriptionTextArea') jobDescriptionTextArea: ElementRef;
 
   readonly JOB_SUMMARY_MIN_LENGTH = 10;
@@ -40,6 +40,7 @@ export class JobDescriptionSummaryEditorComponent implements OnInit, OnDestroy, 
 
   docType: string;
   permissions = Permissions;
+  jobsPageViewId = '705B7FE1-42AB-4B57-A414-764E52981160';
 
   // convenience getter for easy access to form fields
   get f() { return this.jobDescriptionForm.controls; }
@@ -73,28 +74,8 @@ export class JobDescriptionSummaryEditorComponent implements OnInit, OnDestroy, 
     this.formChangesSubscription.unsubscribe();
   }
 
-  exportJobDescription() {
-    const htmlDocument: any = document;
-
-    htmlDocument.exportForm.elements['export-uid'].value = Date.now();
-    htmlDocument.exportForm.elements['export-type'].value = this.docType;
-    htmlDocument.exportForm.elements['viewName'].value = 'Default';
-    htmlDocument.exportForm.submit();
-  }
-
-  handleExportJobDescription(docType: string) {
-    this.docType = docType;
-    if (this.enableFileDownloadSecurityWarning) {
-      this.fileDownloadSecurityWarningModal.open();
-    } else {
-      this.exportJobDescription();
-    }
-  }
-
-  handleSecurityWarningConfirmed(isConfirmed) {
-    if (isConfirmed) {
-      this.exportJobDescription();
-    }
+  exportJobDescription(request: JobDescriptionExportRequest) {
+    this.exportClicked.emit(request);
   }
 
   isValid(): boolean {

@@ -1,5 +1,5 @@
 import * as fromCompanyResourcesPageActions from '../actions/company-resources.actions';
-import { CompanyResourcePost, CompanyResourceFolderPost } from '../models';
+import { CompanyResourcePost } from '../models';
 
 
 export interface State {
@@ -12,6 +12,9 @@ export interface State {
     deletingCompanyResourceSuccess: boolean;
     loadingCompanyResources: boolean;
     loadingCompanyResourcesError: boolean;
+    showRenameResourceModal: boolean;
+    showRenameFolderModal: boolean;
+    savingFolderNameError: string;
   }
 
   const initialState: State = {
@@ -23,10 +26,13 @@ export interface State {
     deletingCompanyResource: null,
     deletingCompanyResourceSuccess: false,
     loadingCompanyResources: false,
-    loadingCompanyResourcesError: false
+    loadingCompanyResourcesError: false,
+    showRenameResourceModal: false,
+    showRenameFolderModal: false,
+    savingFolderNameError: null
   };
 
-  export function reducer(state: State = initialState, action: fromCompanyResourcesPageActions.Actions) {
+  export function reducer(state: State = initialState, action: fromCompanyResourcesPageActions.Actions): State {
     switch (action.type) {
       case fromCompanyResourcesPageActions.GETTING_COMPANY_RESOURCES: {
         return {
@@ -91,6 +97,43 @@ export interface State {
           ...state
         };
       }
+      case fromCompanyResourcesPageActions.OPEN_RENAME_RESOURCE_MODAL: {
+        return {
+          ...state,
+          showRenameResourceModal: true
+        };
+      }
+      case fromCompanyResourcesPageActions.CLOSE_RENAME_RESOURCE_MODAL: {
+        return {
+          ...state,
+          showRenameResourceModal: false
+        };
+      }
+      case fromCompanyResourcesPageActions.OPEN_RENAME_FOLDER_MODAL: {
+        return {
+          ...state,
+          showRenameFolderModal: true
+        };
+      }
+      case fromCompanyResourcesPageActions.CLOSE_RENAME_FOLDER_MODAL: {
+        return {
+          ...state,
+          showRenameFolderModal: false,
+          savingFolderNameError: null
+        };
+      }
+      case fromCompanyResourcesPageActions.UPDATE_FOLDER_NAME: {
+        return {
+          ...state,
+          savingFolderNameError: null
+        };
+      }
+      case fromCompanyResourcesPageActions.UPDATE_FOLDER_NAME_ERROR: {
+        return {
+          ...state,
+          savingFolderNameError: action.errorMessage
+        };
+      }
       default: {
         return state;
       }
@@ -105,3 +148,6 @@ export interface State {
   export const getAddingCompanyResourceSuccess = (state: State) => state.addingCompanyResourceSuccess;
   export const getAddingCompanyResourceErrorMsg = (state: State) => state.addingCompanyResourceErrorMsg;
   export const getDeletingCompanyResourceSuccess = (state: State) => state.deletingCompanyResourceSuccess;
+  export const getShowRenameResourceModal = (state: State) => state.showRenameResourceModal;
+  export const getShowRenameFolderModal = (state: State) => state.showRenameFolderModal;
+  export const getSavingFolderNameError = (state: State) => state.savingFolderNameError;

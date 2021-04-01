@@ -202,29 +202,6 @@ exports[`Job Management Feature - Job Form Should display form 1`] = `
         
         
         
-        <form
-          action="/odata/JobDescription(null)/Default.Export"
-          class="ng-untouched ng-pristine ng-valid"
-          method="POST"
-          name="exportForm"
-          novalidate=""
-        >
-          <input
-            name="export-uid"
-            type="hidden"
-          />
-          <input
-            name="export-type"
-            type="hidden"
-          />
-          <input
-            name="viewName"
-            type="hidden"
-          />
-        </form>
-        <pf-file-download-security-warning-modal>
-          
-        </pf-file-download-security-warning-modal>
       </pf-job-description-summary-editor>
     </div>
   </form>

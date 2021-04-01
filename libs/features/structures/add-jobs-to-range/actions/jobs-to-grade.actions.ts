@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { Grade, GradeRangeGroupDetails, GradeJobs, GetAddGradeJobsModel } from '../models';
+import { Grade, GradeRangeGroupDetails, GradeJobs, GetGradeJobsModel, GradeJob } from '../models';
 
 export const GET_GRADES = '[Project Add Jobs to Grade] Get Grades';
 export const GET_GRADES_SUCCESS = '[Project Add Jobs to Grade] Get Grades Success';
@@ -9,8 +9,11 @@ export const GET_GRADE_JOBS = '[Project Add Jobs to Grade] Get Grade Jobs';
 export const GET_GRADE_JOBS_SUCCESS = '[Project Add Jobs to Grade] Get Grade Jobs Success';
 export const GET_GRADE_JOBS_ERROR = '[Project Add Jobs to Grade] Get Grade Jobs Error';
 export const ADD_JOBS_TO_GRADE = '[Project Add Jobs to Grade] Add New Jobs To Grade';
-export const ADD_JOBS_TO_GRADE_SUCCESS = '[Project Add Jobs to Grade] Add New Jobs To Grade Success';
-export const ADD_JOBS_TO_GRADE_ERROR = '[Project Add Jobs to Grade] Add New Jobs To Grade Error';
+export const REMOVE_JOB = '[Project Add Jobs to Grade] Remove Job From Grade';
+export const SAVE_GRADE_JOB_MAPS = '[Project Add Jobs to Grade] Save Grade Job Maps';
+export const SAVE_GRADE_JOB_MAPS_SUCCESS = '[Project Add Jobs to Grade] Save Grade Job Maps Success';
+export const SAVE_GRADE_JOB_MAPS_ERROR = '[Project Add Jobs to Grade] Save Grade Job Maps Error';
+
 
 export class GetGrades implements Action {
   readonly type = GET_GRADES;
@@ -33,7 +36,7 @@ export class GetGradesError implements Action {
 export class GetGradeJobs implements Action {
   readonly type = GET_GRADE_JOBS;
 
-  constructor(public payload: GetAddGradeJobsModel) {}
+  constructor(public payload: GetGradeJobsModel) {}
 }
 
 export class GetGradeJobsError implements Action {
@@ -51,20 +54,33 @@ export class GetGradeJobsSuccess implements Action {
 export class AddJobsToGrade implements Action {
   readonly type = ADD_JOBS_TO_GRADE;
 
-  constructor(public payload: GetAddGradeJobsModel) {}
+  constructor(public payload: GradeJobs) {}
 }
 
-export class AddJobsToGradeSuccess implements Action {
-  readonly type = ADD_JOBS_TO_GRADE_SUCCESS;
+export class RemoveJob implements Action {
+  readonly type = REMOVE_JOB;
 
-  constructor(public payload: GetAddGradeJobsModel) {}
+  constructor(public payload: {GradeId: number, Job: GradeJob}) {}
 }
 
-export class AddJobsToGradeError implements Action {
-  readonly type = ADD_JOBS_TO_GRADE_ERROR;
+export class SaveGradeJobMaps implements Action {
+  readonly type = SAVE_GRADE_JOB_MAPS;
+
+  constructor(public payload: Grade[]) {}
+}
+
+export class SaveGradeJobMapsSuccess implements Action {
+  readonly type = SAVE_GRADE_JOB_MAPS_SUCCESS;
 
   constructor() {}
 }
+
+export class SaveGradeJobMapsError implements Action {
+  readonly type = SAVE_GRADE_JOB_MAPS_ERROR;
+
+  constructor() {}
+}
+
 
 
 export type JobsToGradeActions
@@ -75,5 +91,7 @@ export type JobsToGradeActions
   | GetGradeJobsSuccess
   | GetGradeJobsError
   | AddJobsToGrade
-  | AddJobsToGradeSuccess
-  | AddJobsToGradeError;
+  | RemoveJob
+  | SaveGradeJobMaps
+  | SaveGradeJobMapsSuccess
+  | SaveGradeJobMapsError;

@@ -1,14 +1,15 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, OnChanges, Output, SimpleChanges, OnDestroy } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 
 import cloneDeep from 'lodash/cloneDeep';
+import { Subscription } from 'rxjs';
+import { DragulaService } from 'ng2-dragula';
 
 import { EmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards';
 
 import * as models from '../../models';
 import { TotalRewardsStatementService } from '../../services/total-rewards-statement.service';
 import { CompensationField, SelectableFieldsGroup, FieldLayout } from '../../models';
-import { TrsConstants } from '../../constants/trs-constants';
 
 @Component({
   selector: 'pf-trs-calculation-control',
@@ -16,7 +17,7 @@ import { TrsConstants } from '../../constants/trs-constants';
   styleUrls: ['./trs-calculation-control.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TrsCalculationControlComponent implements OnChanges {
+export class TrsCalculationControlComponent implements OnChanges, OnDestroy, OnInit {
 
   @Input() controlData: models.CalculationControl;
   @Input() employeeRewardsData: EmployeeRewardsData;
@@ -33,18 +34,41 @@ export class TrsCalculationControlComponent implements OnChanges {
   @Output() onUpdateSummaryTitleChange: EventEmitter<models.UpdateTitleRequest> = new EventEmitter();
   @Output() onCompFieldRemoved: EventEmitter<models.UpdateFieldVisibilityRequest> = new EventEmitter();
   @Output() onCompFieldAdded: EventEmitter<models.UpdateFieldVisibilityRequest> = new EventEmitter();
+  @Output() onCompFieldReordered: EventEmitter<models.ReorderCalcControlFieldsRequest> = new EventEmitter();
 
+  visibleFields: CompensationField[];
   selectableFields: CompensationField[];
   maxVisibleFieldsReached = false;
   consolidated = FieldLayout.Consolidated;
   private readonly MAX_VISIBLE_FIELDS = 20;
 
-  constructor(public currencyPipe: CurrencyPipe) { }
+  // dragula properties
+  dragulaGroupName: string;
+  dragulaSubscription$ = new Subscription();
+
+  constructor(public currencyPipe: CurrencyPipe, private dragulaService: DragulaService) {}
+
+  ngOnInit(): void {
+    if (this.controlData) {
+      this.visibleFields = this.controlData.DataFields.filter(field => this.displayFieldInTable(field));
+      this.setupDragula();
+    }
+  }
+
+  ngOnDestroy() {
+    this.dragulaSubscription$.unsubscribe();
+    this.dragulaService.destroy(this.dragulaGroupName);
+  }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes?.companyUdfs?.currentValue?.length || changes?.controlData?.currentValue?.DataFields?.length) {
+    const companyUdfsLength = changes?.companyUdfs?.currentValue?.length;
+    const dataFieldsLength = changes?.controlData?.currentValue?.DataFields?.length;
+    const rewardsDataChanged = changes?.employeeRewardsData?.currentValue != changes?.employeeRewardsData?.previousValue;
+
+    if (companyUdfsLength || dataFieldsLength || rewardsDataChanged) {
       this.selectableFields = this.buildSelectableFieldsList();
       this.maxVisibleFieldsReached = this.visibleFieldsCount === this.MAX_VISIBLE_FIELDS;
+      this.visibleFields = this.controlData.DataFields.filter(field => this.displayFieldInTable(field));
     }
   }
 
@@ -54,10 +78,6 @@ export class TrsCalculationControlComponent implements OnChanges {
 
   get inPreviewMode(): boolean {
     return this.mode === models.StatementModeEnum.Preview;
-  }
-
-  get visibleFields(): models.CompensationField[] {
-    return this.controlData.DataFields.filter(field => this.displayFieldInTable(field));
   }
 
   get currencyLocale(): string {
@@ -116,17 +136,14 @@ export class TrsCalculationControlComponent implements OnChanges {
 
     if (employeeRewards) {
       if (!field.Type && employeeRewards[field.DatabaseField] && employeeRewards[field.DatabaseField] > 0) {
-        return this.formatAsCurrency(employeeRewards[field.DatabaseField], employeeRewards?.Currency);
+        return this.formatAsCurrency(employeeRewards[field.DatabaseField], employeeRewards.Currency);
       }
       if (!field.Type && this.benefitsDataExists && employeeRewards.BenefitsData[field.DatabaseField]?.EmployerValue > 0) {
-        return this.formatAsCurrency(this.employeeRewardsData.BenefitsData[field.DatabaseField].EmployerValue, employeeRewards?.Currency);
+        return this.formatAsCurrency(employeeRewards.BenefitsData[field.DatabaseField].EmployerValue, employeeRewards.Currency);
       }
       if (field.Type) {
-        const fieldValue = employeeRewards.IsMockData
-          ? TrsConstants.UDF_DEFAULT_VALUE
-          : employeeRewards[field.Type][field.DatabaseField];
-
-        return this.formatAsCurrency(fieldValue, employeeRewards?.Currency);
+        const fieldValue = TotalRewardsStatementService.getUdfAsNumeric(employeeRewards, field.Type, field.DatabaseField);
+        return this.formatAsCurrency(fieldValue, employeeRewards.Currency);
       }
     }
 
@@ -173,7 +190,7 @@ export class TrsCalculationControlComponent implements OnChanges {
     let valueAsCurrency = this.currencyPipe.transform(value, currency, 'symbol-narrow', this.currencyLocale);
 
     // if we have a single decimal leftover like 1000.5, change to 1000.50 if decimals are on and 1000 otherwise
-    if (typeof valueAsCurrency === 'string' && valueAsCurrency.slice(-2)?.charAt(0) === '.') {
+    if (valueAsCurrency.slice(-2)?.charAt(0) === '.') {
       valueAsCurrency = (this.showDecimals) ? valueAsCurrency + '0' : valueAsCurrency.slice(0, -2);
     }
     return valueAsCurrency;
@@ -226,10 +243,9 @@ export class TrsCalculationControlComponent implements OnChanges {
     if (this.inEditMode) {
       return true;
     }
-    if (this.employeeRewardsData.IsMockData) {
-      return field.IsVisible;
-    }
-    return field.IsVisible && this.employeeRewardsData[field.Type][field.DatabaseField] > 0;
+
+    const fieldValue = TotalRewardsStatementService.getUdfAsNumeric(this.employeeRewardsData, field.Type, field.DatabaseField);
+    return field.IsVisible && fieldValue > 0;
   }
 
   isBenefitsFieldVisible(field: models.CompensationField): boolean {
@@ -245,5 +261,30 @@ export class TrsCalculationControlComponent implements OnChanges {
       svc.doesEmployeeRewardsFieldHaveData(field.DatabaseField, this.employeeRewardsData) ||
       svc.doesBenefitFieldHaveData(field.DatabaseField, this.employeeRewardsData, this.showEmployeeContributions && field.CanHaveEmployeeContribution)
     );
+  }
+
+  setupDragula(): void {
+    if (!this.inEditMode) {
+      return;
+    }
+
+    this.dragulaGroupName = `dragula-group-calc-control-${this.controlData.Id}`;
+    if (this.dragulaService) {
+      this.dragulaService.createGroup(this.dragulaGroupName, {
+        revertOnSpill: true,
+        direction: 'vertical',
+        mirrorContainer: document.getElementsByClassName('trs-calculation').item(0),
+        moves: () => {
+          return this.inEditMode;
+        }
+      });
+
+      this.dragulaSubscription$ = this.dragulaService.drop(this.dragulaGroupName).subscribe(() => {
+        this.onCompFieldReordered.emit({
+          ControlId: this.controlData.Id,
+          CompensationFields: this.visibleFields
+        });
+      });
+    }
   }
 }
