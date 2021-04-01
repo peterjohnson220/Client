@@ -1,18 +1,20 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
-import { GridDataResult, SelectionEvent } from '@progress/kendo-angular-grid';
+import { GridDataResult, RowArgs } from '@progress/kendo-angular-grid';
 import { State } from '@progress/kendo-data-query';
 
-import { PermissionService } from 'libs/core';
+import { AbstractFeatureFlagService, FeatureFlags, PermissionService, RealTimeFlag } from 'libs/core';
 import { ListAreaColumn } from 'libs/models/common';
 import { Permissions, PermissionCheckEnum } from 'libs/constants';
 
 import { CompanyJobViewListItem } from '../../models';
-import { JobDescriptionManagementJobDescriptionState, getJobDescriptionCreating } from '../../reducers';
+import { JobDescriptionManagementJobDescriptionState, getJobDescriptionCreating, getSelectedJobDescriptions } from '../../reducers';
 import { JobDescriptionColumn } from '../../constants/job-description-column.constants';
+
+import * as jobDescriptionGridActions from '../../actions/job-description-grid.actions';
 
 @Component({
   selector: 'pf-job-description-grid',
@@ -37,6 +39,8 @@ export class JobDescriptionGridComponent implements OnInit, OnDestroy {
   @Output() publicViewChanged = new EventEmitter();
   @Output() openDeleteJobDescriptionModal = new EventEmitter();
 
+  jdmCheckboxesFeatureFlag: RealTimeFlag = { key: FeatureFlags.JdmCheckboxes, value: false };
+
   public info: any;
   public filterChanged: any;
   public permissions = Permissions;
@@ -54,33 +58,68 @@ export class JobDescriptionGridComponent implements OnInit, OnDestroy {
   private creatingJobDescription$: Observable<boolean>;
   private creatingJobDescriptionSubscription: Subscription;
 
+  private getSelectedJobDescriptions$: Observable<Set<number>>;
+  private getSelectedJobDescriptionsSubscription: Subscription;
+
+  selectedJobDescriptions: Set<number> = new Set();
+  private unsubscribe$ = new Subject<void>();
+
   constructor(
     private store: Store<JobDescriptionManagementJobDescriptionState>,
-    private permissionService: PermissionService
+    private permissionService: PermissionService,
+    private featureFlagService: AbstractFeatureFlagService
   ) {
     this.creatingJobDescription$ = this.store.select(getJobDescriptionCreating);
+    this.getSelectedJobDescriptions$ = this.store.select(getSelectedJobDescriptions);
     this.hasDeleteJobDescriptionPermission = this.permissionService.CheckPermission([Permissions.CAN_DELETE_JOB_DESCRIPTION],
       PermissionCheckEnum.Single);
+    this.featureFlagService.bindEnabled(this.jdmCheckboxesFeatureFlag, this.unsubscribe$);
+  }
+
+  isRowSelected = (e: RowArgs) => this.isSelectedJobDescription(e.dataItem.JobDescriptionId);
+
+  isSelectedJobDescription(jobDescriptionId: number): boolean {
+    return this.selectedJobDescriptions.has(jobDescriptionId);
   }
 
   ngOnInit() {
     this.creatingJobDescriptionSubscription = this.creatingJobDescription$.subscribe((creatingJobDescription) => {
       this.creatingJobDescription = creatingJobDescription;
     });
+
+    this.getSelectedJobDescriptionsSubscription = this.getSelectedJobDescriptions$.subscribe((selectedJobDescriptions) => {
+      this.selectedJobDescriptions = selectedJobDescriptions;
+    });
   }
 
   ngOnDestroy() {
     this.creatingJobDescriptionSubscription.unsubscribe();
+    this.getSelectedJobDescriptionsSubscription.unsubscribe();
+    this.unsubscribe$.next();
   }
 
-  handleRowClick(selection: SelectionEvent) {
-    if (!selection || (!!selection.selectedRows && selection.selectedRows.length !== 1)) {
-      return;
+  handleSelectionChange(selection: any): void {
+    let selectionChanged = false;
+    if (selection.selectedRows.length > 0) {
+      selection.selectedRows.forEach((row) => {
+        if (row.dataItem.JobDescriptionId) {
+          selectionChanged = true;
+          this.selectedJobDescriptions.add(row.dataItem.JobDescriptionId);
+        }
+      });
     }
-    const companyJobViewListItem: CompanyJobViewListItem = selection.selectedRows[0].dataItem;
-    selection.selectedRows = [];
-    if (!this.creatingJobDescription) {
-      this.navigateToJobDescription.emit(companyJobViewListItem);
+
+    if (selection.deselectedRows.length > 0) {
+      selection.deselectedRows.forEach((row) => {
+        if (row.dataItem.JobDescriptionId) {
+          selectionChanged = true;
+          this.selectedJobDescriptions.delete(row.dataItem.JobDescriptionId);
+        }
+      });
+    }
+
+    if (selectionChanged) {
+      this.store.dispatch(new jobDescriptionGridActions.SelectJobDescriptions(this.selectedJobDescriptions));
     }
   }
 
@@ -208,5 +247,17 @@ export class JobDescriptionGridComponent implements OnInit, OnDestroy {
     if (jobDescriptionCount <= 1 ) {
       return 'Job code should have at least one job description record';
     }
+  }
+
+  onCellClick(event: any) {
+    const companyJobViewListItem: CompanyJobViewListItem = event?.dataItem;
+    if (!this.creatingJobDescription) {
+      this.navigateToJobDescription.emit(companyJobViewListItem);
+    }
+  }
+
+  handleClearSelectionsClick() {
+    this.selectedJobDescriptions.clear();
+    this.store.dispatch(new jobDescriptionGridActions.SelectJobDescriptions(this.selectedJobDescriptions));
   }
 }

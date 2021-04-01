@@ -1,4 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
+@import 'kendo-grid';
 
 .k-dropdown .k-dropdown-wrap {
   border-color: #cccccc;
@@ -11,6 +12,21 @@
 
 .k-grid {
   background-color: white !important;
+}
+
+.k-grid-content .no-ellipsis {
+  text-overflow: clip;
+  word-wrap: normal;
+}
+
+.k-checkbox:checked+.k-checkbox-label::before,
+.k-checkbox:indeterminate+.k-checkbox-label::after {
+  background-color: $selected-bg;
+  border-color: $selected-bg;
+}
+
+.k-checkbox:focus+.k-checkbox-label::before {
+  box-shadow: none;
 }
 
 .k-select {

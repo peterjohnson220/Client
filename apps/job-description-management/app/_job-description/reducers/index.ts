@@ -468,6 +468,11 @@ export const getSearchTerm = createSelector(
   fromJobDescriptionGridReducer.getSearchTerm
 );
 
+export const getSelectedJobDescriptions = createSelector(
+  selectJobDescriptionGridState,
+  fromJobDescriptionGridReducer.getSelectedJobDescriptions
+);
+
 // Job Description History List
 export const getJobDescriptionHistoryList = createSelector(
   selectJobDescriptionHistoryListState,
