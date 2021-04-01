@@ -12,6 +12,7 @@ import { RangeType } from 'libs/constants/structures/range-type';
 import { RangeRecalculationType } from 'libs/constants/structures/range-recalculation-type';
 import { DataViewFilter } from 'libs/models/payfactors-api/reports/request';
 import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
+import { GridDataHelper } from 'libs/features/grids/pf-data-grid/helpers';
 
 import { PagesHelper } from '../../../shared/helpers/pages.helper';
 import * as fromSharedStructuresReducer from '../../../shared/reducers';
@@ -45,6 +46,8 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   pfThemeType = PfThemeType;
   rangeGroupId: number;
   rangeId: number;
+  jobsData: any;
+  jobsPagingOptions: any;
   colTemplates = {};
   rangeType = RangeType.Grade;
   roundingSettings$: Observable<RoundingSettingsDataObj>;
@@ -56,6 +59,8 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   modelGridPageViewIdSubscription: Subscription;
   dataSubscription: Subscription;
+  jobsDataSubscription: Subscription;
+  jobsPagingOptionsSubscription: Subscription;
 
   filterTemplates = {};
 
@@ -74,6 +79,18 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.dataSubscription = this.store.select(fromPfGridReducer.getData, this.modelGridPageViewId).subscribe(data => {
       if (data) {
         this.gradeName = data.data[0].CompanyStructures_Ranges_Grade_Name;
+      }
+    });
+
+    this.jobsDataSubscription = this.store.select(fromPfGridReducer.getData, this.pageViewId).subscribe(data => {
+      if (data) {
+        this.jobsData = data;
+      }
+    });
+
+    this.jobsPagingOptionsSubscription = this.store.select(fromPfGridReducer.getPagingOptions, this.pageViewId).subscribe(pagingOptions => {
+      if (pagingOptions) {
+        this.jobsPagingOptions = pagingOptions;
       }
     });
 
@@ -120,8 +137,8 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     };
   }
 
-  updateMidSuccessCallbackFn(store: Store<any>, metaInfo: any) {
-    // We should dispatch this action only for Employees/Pricings pages
+  updateSuccessCallbackFn(store: Store<any>, metaInfo: any) {
+     store.dispatch(GridDataHelper.getLoadDataAction(metaInfo.jobsPageViewId, metaInfo.jobsData, metaInfo.jobsGridConfig, metaInfo.jobsPagingOptions));
   }
 
   // Lifecycle
@@ -147,5 +164,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.modelGridPageViewIdSubscription.unsubscribe();
     this.roundingSettingsSub.unsubscribe();
     this.dataSubscription.unsubscribe();
+    this.jobsDataSubscription.unsubscribe();
+    this.jobsPagingOptionsSubscription.unsubscribe();
   }
 }
