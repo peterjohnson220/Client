@@ -30,9 +30,10 @@
         <th *ngIf="inEditMode" scope="col"></th>
       </tr>
     </thead>
-    <tbody>
-      <tr *ngFor="let listItem of visibleFields; let i = index;" class="trs-calculation-row w-100">
+    <tbody [dragula]="dragulaGroupName" [(dragulaModel)]="visibleFields">
+      <tr *ngFor="let listItem of visibleFields; let i = index;" class="trs-calculation-row draggable w-100">
         <td>
+          <fa-icon *ngIf="inEditMode" [icon]="'grip-lines'" class="calculation-control-drag-icon position-absolute text-muted" aria-hidden="true"></fa-icon>
           <pf-string-editor
             [value]="listItem.Name.Override"
             [placeholder]="listItem.Name.Default"
@@ -54,6 +55,8 @@
           </button>
         </td>
       </tr>
+    </tbody>
+    <tfoot>
       <tr class="trs-calculation-row w-100" [class.faux-title]="!controlData.ShowTitle">
         <td class="summary" pfStatementGraphicsDirective
             [colors]="graphicsColors" [colorRank]="controlData.SummaryTextColor" [styleAttrToColor]="'color'">
@@ -81,7 +84,7 @@
           </pf-trs-compensation-fields-chooser>
         </td>
       </tr>
-    </tbody>
+    </tfoot>
   </table>
 
   <ng-template #compensationValuePlaceholder>

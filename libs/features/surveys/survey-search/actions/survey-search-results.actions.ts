@@ -2,7 +2,7 @@ import { Action } from '@ngrx/store';
 
 import { PricingMatchesResponse } from 'libs/models/payfactors-api/survey-search';
 
-import { JobResult, DataCutDetails, ExchangeJobDataCut } from '../models';
+import { JobResult, DataCutDetails, ExchangeJobDataCut, DataCut } from '../models';
 
 export const REPLACE_JOB_RESULTS = '[Project/Survey Search] Replace Job Results';
 export const ADD_JOB_RESULTS = '[Project/Survey Search] Add Job Results';
@@ -18,11 +18,8 @@ export const GET_EXCHANGE_DATA_RESULTS_ERROR = '[Project/Survey Search] Get Exch
 export const UPDATE_RESULTS_MATCHES_COUNT = '[Project/Survey Search] Update Results Matches Count';
 export const REFINE_EXCHANGE_JOB_RESULT = '[Project/Survey Search] Refine Exchange Job Result';
 export const REFINE_EXCHANGE_JOB_RESULT_COMPLETE = '[Project/Survey Search] Refine Exchange Job Result Complete';
-export const ADD_REFINED_EXCHANGE_DATA_CUT = '[Project/Survey Search] Add Refined Exchange Data Cut';
+export const ADD_TEMP_EXCHANGE_DATA_CUT = '[Project/Survey Search] Add Refined Exchange Data Cut';
 export const REMOVE_REFINED_EXCHANGE_DATA_CUT = '[Project/Survey Search] Remove Refined Exchange Data Cut';
-export const CLEAR_TEMP_DATA_CUT_DICTIONARY = '[Project/Survey Search] Clear Temp Data Cut Dictionary';
-export const EDIT_TEMP_DATA_CUT = '[Project/Survey Search] Edit Temp Data Cut';
-export const EDIT_TEMP_DATA_CUT_COMPLETE = '[Project/Survey Search] Edit Temp Data Cut Complete';
 
 export class ReplaceJobResults implements Action {
   readonly type = REPLACE_JOB_RESULTS;
@@ -97,7 +94,7 @@ export class UpdateResultsMatchesCount implements Action {
 export class RefineExchangeJobResult implements Action {
   readonly type = REFINE_EXCHANGE_JOB_RESULT;
 
-  constructor(public payload: {lockedExchangeJobId: number}|{exchangeId: number, exchangeJobTitle: string}) { }
+  constructor(public payload: {lockedExchangeJobId: number}) { }
 }
 
 export class RefineExchangeJobResultComplete implements Action {
@@ -106,10 +103,10 @@ export class RefineExchangeJobResultComplete implements Action {
   constructor() { }
 }
 
-export class AddRefinedExchangeDataCut implements Action {
-  readonly type = ADD_REFINED_EXCHANGE_DATA_CUT;
+export class AddTempExchangeDataCut implements Action {
+  readonly type = ADD_TEMP_EXCHANGE_DATA_CUT;
 
-  constructor(public payload: ExchangeJobDataCut ) {
+  constructor(public payload: { exchangeJobId: number, dataCut: DataCut } ) {
   }
 }
 
@@ -118,22 +115,6 @@ export class RemoveRefinedExchangeDataCut implements Action {
 
   constructor(public payload: {ExchangeJobId: number, Id: string}) {
   }
-}
-
-export class ClearTempDataCutDictionary implements Action {
-  readonly type = CLEAR_TEMP_DATA_CUT_DICTIONARY;
-}
-
-export class EditTempDataCut implements Action {
-  readonly type = EDIT_TEMP_DATA_CUT;
-
-  constructor(public payload: { customPeerCutId: string, exchangeJobId: number }) { }
-}
-
-export class EditTempDataCutComplete implements Action {
-  readonly type = EDIT_TEMP_DATA_CUT_COMPLETE;
-
-  constructor(public payload?: ExchangeJobDataCut) { }
 }
 
 export type Actions
@@ -151,8 +132,5 @@ export type Actions
   | UpdateResultsMatchesCount
   | RefineExchangeJobResult
   | RefineExchangeJobResultComplete
-  | AddRefinedExchangeDataCut
-  | RemoveRefinedExchangeDataCut
-  | ClearTempDataCutDictionary
-  | EditTempDataCut
-  | EditTempDataCutComplete;
+  | AddTempExchangeDataCut
+  | RemoveRefinedExchangeDataCut;

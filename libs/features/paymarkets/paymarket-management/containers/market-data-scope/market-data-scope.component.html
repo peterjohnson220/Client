@@ -2,17 +2,18 @@
   <div class="scope-column">
     <pf-treeview #industryComponent
       [mode]="treeViewModes.Single"
-      [data]="industries"
+      [data]="(industries$ | async)?.obj"
       [label]="'Industry'"
       [placeholder]="'All'"
       class="filter smaller-text"
       [filterable]="true"
-      [searchPlaceholder]="'Search for an industry...'"
+      [searchPlaceholder]="'Search...'"
       [anchorWidth]="250"
-      [treeViewContainerHeight]="143"
+      [treeViewContainerHeight]="135"
       [isPopup]="false"
       [checkedKeys]="industryCheckedKeys"
       [showDescriptionToolTip]="true"
+      [theme]="treeViewTheme.Simple"
       (applyClicked)="handleSelectedIndustryChanged($event)">
     </pf-treeview>
   </div>
@@ -24,11 +25,12 @@
       [placeholder]="'All'"
       class="filter smaller-text"
       [filterable]="true"
-      [searchPlaceholder]="'Search for a size...'"
+      [searchPlaceholder]="'Search...'"
       [anchorWidth]="223"
-      [treeViewContainerHeight]="143"
+      [treeViewContainerHeight]="135"
       [isPopup]="false"
       [checkedKeys]="sizeCheckedKeys"
+      [theme]="treeViewTheme.Simple"
       (applyClicked)="handleSelectedSizesChanged($event)">
     </pf-treeview>
   </div>
@@ -40,14 +42,15 @@
       [placeholder]="'All'"
       class="filter smaller-text"
       [filterable]="true"
-      [searchPlaceholder]="'Search for a location...'"
+      [searchPlaceholder]="'Search...'"
       [anchorWidth]="250"
-      [treeViewContainerHeight]="143"
+      [treeViewContainerHeight]="135"
       [isPopup]="false"
       [checkedKeys]="locationCheckedKeys"
       [lazyLoad]="true"
       [lazyLoadDefaultAppliedItem]="defaultLocation"
       [loading]="(locations$ | async)?.loading"
+      [theme]="treeViewTheme.Simple"
       (applyClicked)="handleSelectedLocationChanged($event)"
       (expandNode)="handleExpandLocationNode($event)"
       (searchTermChanged)="handleLocationSearchChanged($event)">

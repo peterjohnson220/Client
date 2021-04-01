@@ -7,6 +7,7 @@ import { switchMap, catchError, map, withLatestFrom } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import { BuildRequestHelper } from 'libs/core/helpers/build-request.helper';
+import { PayMarketModalHelper } from '../helpers';
 import { PayMarketApiService } from 'libs/data/payfactors-api';
 
 import * as fromPayMarketModalActions from '../actions/paymarket-modal.actions';
@@ -36,7 +37,12 @@ export class PayMarketModalEffects {
       switchMap((action: fromPayMarketModalActions.LoadUserDefaultPayMarket) => {
         return this.payMarketApiService.getDefaultUserPayMarket()
           .pipe(
-            map((response) => new fromPayMarketModalActions.LoadPayMarketSuccess(response)),
+            map((response) => {
+              if (response === null) {
+                response = PayMarketModalHelper.buildDefaultPayMarket();
+              }
+              return new fromPayMarketModalActions.LoadPayMarketSuccess(response);
+            }),
             catchError(() => of(new fromPayMarketModalActions.LoadPayMarketError()))
           );
       })

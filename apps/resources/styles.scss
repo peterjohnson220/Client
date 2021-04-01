@@ -1,1 +1,20 @@
 /* You can add global styles to this file, and also import other style files */
+.company-resources-container {
+  .card-header {
+    background-color: #ffffff;
+
+    &:hover {
+      background-color: #ebebed;
+    }
+
+  }
+
+  .card.opened {
+    .card-header {
+      background-color: #f6f9fc;
+    }
+    .card-body {
+      padding: 0;
+    }
+  }
+}

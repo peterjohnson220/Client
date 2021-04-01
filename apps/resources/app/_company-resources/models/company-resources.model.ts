@@ -37,3 +37,8 @@ export interface OrphanedCompanyResource {
     ResourceTitle: string;
     ResourceType: string;
 }
+
+export enum ResourceType {
+  Link = 'Link',
+  File = 'File'
+}

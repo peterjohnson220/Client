@@ -48,29 +48,7 @@ export class JobsToGradeEffects {
       )
     );
 
-  @Effect()
-  addJobsToGrade$ = this.actions$
-    .pipe(
-      ofType(fromJobsToGradeActions.ADD_JOBS_TO_GRADE),
-      map((action: fromJobsToGradeActions.AddJobsToGrade) => action.payload),
-      switchMap((payload) => {
-          return this.structureRangeGroupApiService.addJobsToGrade(payload.CompanyStructuresRangeGroupId,
-            { JobIds: payload.JobIds, GradeId: payload.CompanyStructuresGradesId }).pipe(
-            map(response => new fromJobsToGradeActions.AddJobsToGradeSuccess(payload)),
-            catchError(() => of(new fromJobsToGradeActions.AddJobsToGradeError()))
-          );
-        }
-      )
-    );
 
-  @Effect()
-  addJobsToGradeSuccess$ = this.actions$
-    .pipe(
-      ofType(fromJobsToGradeActions.ADD_JOBS_TO_GRADE_SUCCESS),
-      map((action: fromJobsToGradeActions.AddJobsToGradeSuccess) => {
-        return new fromJobsToGradeActions.GetGradeJobs(action.payload);
-      })
-    );
 
     constructor(
       private actions$: Actions,

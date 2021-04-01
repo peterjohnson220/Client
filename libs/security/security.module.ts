@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 
 import { SettingsService } from '../state/app-context/services';
 import {
-  UserContextGuard, PfAdminGuard, PeerTileEnabledGuard, TabularReportBuilderGuard,
+  UserContextGuard, PfAdminGuard, PeerTileEnabledGuard, PermissionGuard,
   AuthorizationGuard, TileEnabledGuard, LoadUserGuard, LoadCompanyGuard,
   PfServicesAdminByRepositoryGuard, UrlParameterValidationGuard
 } from './guards';
@@ -19,7 +19,7 @@ import {
     TileEnabledGuard,
     LoadUserGuard,
     LoadCompanyGuard,
-    TabularReportBuilderGuard,
+    PermissionGuard,
     PfServicesAdminByRepositoryGuard,
     UrlParameterValidationGuard,
 

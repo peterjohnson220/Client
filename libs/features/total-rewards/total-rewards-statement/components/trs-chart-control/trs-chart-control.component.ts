@@ -6,6 +6,7 @@ import { EmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards';
 
 import { ChartControl, StatementModeEnum, UpdateTitleRequest, CalculationControl } from '../../models';
 import { TotalRewardsStatementService } from '../../services/total-rewards-statement.service';
+import { FontFamily } from '../../types';
 
 @Component({
   selector: 'pf-trs-chart-control',
@@ -15,21 +16,6 @@ import { TotalRewardsStatementService } from '../../services/total-rewards-state
 })
 export class TrsChartControlComponent implements OnChanges {
 
-  @Input() controlData: ChartControl;
-  @Input() chartColors: string[];
-  @Input() showChartSeriesLabels: boolean;
-  @Input() showTitle: boolean;
-  @Input() height: string;
-  @Input() employeeRewardsData: EmployeeRewardsData;
-  @Input() calculationControls: CalculationControl[];
-  @Input() mode: StatementModeEnum;
-
-  @Output() settingsClick = new EventEmitter();
-  @Output() onTitleChange: EventEmitter<UpdateTitleRequest> = new EventEmitter();
-  @Output() chartRender: EventEmitter<string> = new EventEmitter();
-
-  chartData: { category: string, value: number }[];
-
   get inEditMode(): boolean {
     return this.mode === StatementModeEnum.Edit;
   }
@@ -38,11 +24,40 @@ export class TrsChartControlComponent implements OnChanges {
     return this.mode === StatementModeEnum.Print;
   }
 
+  @Input() controlData: ChartControl;
+  @Input() chartColors: string[];
+  @Input() showChartSeriesLabels: boolean;
+  @Input() showTitle: boolean;
+  @Input() height: string;
+  @Input() employeeRewardsData: EmployeeRewardsData;
+  @Input() calculationControls: CalculationControl[];
+  @Input() mode: StatementModeEnum;
+  @Input() fontFamily: FontFamily;
+
+  @Output() settingsClick = new EventEmitter();
+  @Output() onTitleChange: EventEmitter<UpdateTitleRequest> = new EventEmitter();
+  @Output() chartRender: EventEmitter<string> = new EventEmitter();
+
+  chartData: { category: string, value: number }[];
+
+  legendFont: LegendLabels = { font: 'inherit' };
+
+  static getControlTitle (control: CalculationControl): string {
+    return control.ShowTitle === true ?
+      control.Title.Override || control.Title.Default :
+      control.Summary.Override || control.Summary.Default;
+  }
+
   ngOnChanges(changes: SimpleChanges) {
     // the chart animates on change detection, possibly because it thinks it's getting new values, so only change data when the mode changes
     if ((changes.mode && changes.mode.currentValue !== changes.mode.previousValue)
       || changes.employeeRewardsData || (changes.calculationControls?.currentValue !== changes.calculationControls?.previousValue && this.inEditMode)) {
       this.chartData = this.inEditMode ? this.getMockChartData() : this.getChartData();
+    }
+
+    if (changes.fontFamily) {
+      const font = changes.fontFamily.currentValue;
+      this.legendFont = font === 'Default' ? {font: 'inherit'} as LegendLabels : {font: '0.9rem ' + font} as LegendLabels;
     }
   }
 
@@ -51,7 +66,7 @@ export class TrsChartControlComponent implements OnChanges {
       const sumOfVisibleFields = TotalRewardsStatementService.sumCalculationControlEmployerContribution(c, this.employeeRewardsData);
       const fractionDigits = sumOfVisibleFields < 500 ? 3 : 0;
       return {
-        category: c.Title.Override || c.Title.Default,
+        category: TrsChartControlComponent.getControlTitle(c),
         value: (sumOfVisibleFields) ? +(sumOfVisibleFields / 1000).toFixed(fractionDigits) : 0
       };
     });
@@ -59,7 +74,9 @@ export class TrsChartControlComponent implements OnChanges {
 
   getMockChartData(): { category: string, value: number }[] {
     const mockEditValues = [55, 10, 20, 10];
-    return this.calculationControls.map((c: CalculationControl, i: number) => ({ category: c.Title.Override || c.Title.Default, value: mockEditValues[i] }));
+    return this.calculationControls.map((c: CalculationControl, i: number) => ({
+      category: TrsChartControlComponent.getControlTitle(c), value: mockEditValues[i]
+    }));
   }
 
   public labelContent(e: any): string {

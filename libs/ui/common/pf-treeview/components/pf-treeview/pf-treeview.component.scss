@@ -39,7 +39,7 @@
   .k-checkbox-label {
     margin-top: 0.4rem;
   }
-  
+
   .k-checkbox-label::before {
     background-color: white;
   }
@@ -47,21 +47,21 @@
   .k-checkbox:indeterminate {
     color: $pf-brand-secondary-color;
   }
-  
+
   .k-checkbox:indeterminate + .k-checkbox-label::after {
     border-color: $pf-brand-secondary-color;
     background-color: $pf-brand-secondary-color;
   }
-  
+
   .k-checkbox:checked + .k-checkbox-label::before {
     border-color: $pf-brand-secondary-color;
     background-color: $pf-brand-secondary-color;
   }
-  
+
   .k-checkbox:focus + .k-checkbox-label::before {
     box-shadow: none;
   }
-  
+
   .k-checkbox:checked + .k-checkbox-label::after {
     font-size: 12px;
     width: 15px;
@@ -82,6 +82,15 @@
     &.k-state-selected {
       border-color: $pf-brand-secondary-color;
       background-color: $pf-brand-secondary-color;
+    }
+  }
+}
+
+::ng-deep kendo-treeview.simple-theme {
+  .k-treeview-item {
+    .k-in {
+      padding-bottom: 0;
+      padding-top: 0;
     }
   }
 }

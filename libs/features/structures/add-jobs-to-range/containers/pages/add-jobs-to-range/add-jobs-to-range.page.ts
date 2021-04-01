@@ -22,7 +22,9 @@ import * as fromAddJobsSearchResultsActions from 'libs/features/jobs/add-jobs/ac
 import { SearchFeatureIds } from 'libs/features/search/search/enums/search-feature-ids';
 import { ADD_JOBS_CONFIG_DEFAULT_TRUE } from 'libs/features/jobs/add-jobs/constants';
 
-import { GradeRangeGroupDetails } from '../../../models';
+import { Grade, GradeRangeGroupDetails } from '../../../models';
+import * as fromJobsToGradeActions from '../../../actions/jobs-to-grade.actions';
+import * as fromJobsToGradeReducer from '../../../reducers';
 import { cleanupDatacutsDragging, enableJobsDragging } from '../../../helpers';
 
 @Component({
@@ -38,6 +40,7 @@ export class AddJobsToRangePageComponent extends SearchBaseDirective implements 
   // Observables
   searchingFilter$: Observable<boolean>;
   numberOfSearchResults$: Observable<number>;
+  jobCount$: Observable<number>;
   selectedPaymarkets$: Observable<number[]>;
   pageShown$: Observable<boolean>;
   addingData$: Observable<boolean>;
@@ -49,6 +52,7 @@ export class AddJobsToRangePageComponent extends SearchBaseDirective implements 
   // Subscriptions
   selectedJobIdsSubscription: Subscription;
   selectedPayfactorsJobCodesSubscription: Subscription;
+  gradesSubscription: Subscription;
 
   // Local variables
   maxAllowedJobsSetting = 0;
@@ -56,6 +60,7 @@ export class AddJobsToRangePageComponent extends SearchBaseDirective implements 
   isSmallBiz = false;
   selectedJobIdCount: number;
   selectedJobCodeCount: number;
+  grades: Grade[];
 
   // Add Jobs Config
   addJobsConfig: AddJobsConfig;
@@ -72,6 +77,7 @@ export class AddJobsToRangePageComponent extends SearchBaseDirective implements 
     this.addJobsConfig = injectedAddJobsConfig || ADD_JOBS_CONFIG_DEFAULT_TRUE;
     this.searchingFilter$ = this.store.select(fromSearchReducer.getSearchingFilter);
     this.numberOfSearchResults$ = this.store.select(fromSearchReducer.getNumberOfResultsOnServer);
+    this.jobCount$ = this.store.select(fromAddJobsReducer.getJobCount);
     this.selectedPaymarkets$ = this.store.select(fromAddJobsReducer.getSelectedPaymarkets);
     this.pageShown$ = this.store.select(fromSearchReducer.getPageShown);
     this.addingData$ = this.store.select(fromAddJobsReducer.getAddingData);
@@ -102,9 +108,22 @@ export class AddJobsToRangePageComponent extends SearchBaseDirective implements 
     this.store.dispatch(new fromAddJobsPageActions.AddSelectedJobs());
   }
 
+  handleSaveClicked(): void {
+    this.store.dispatch(new fromJobsToGradeActions.SaveGradeJobMaps(this.grades.filter(g => g.JobIdsToAdd.length > 0 || g.JobIdsToRemove.length > 0)));
+  }
+
   handleAddAllClicked(): void {
     this.store.dispatch(new fromAddJobsPageActions.AddAllJobs());
   }
+
+  handleSelectAllClicked(): void {
+    this.store.dispatch(new fromAddJobsSearchResultsActions.SelectAllJobs());
+  }
+
+  handleAutoGradeSelectedClicked(): void {
+    // this.store.dispatch(new fromAddJobsSearchResultsActions.)
+  }
+
 
   handleClearSelectionsClicked(): void {
     this.store.dispatch(new fromAddJobsSearchResultsActions.ClearSelectedJobs());
@@ -130,6 +149,16 @@ export class AddJobsToRangePageComponent extends SearchBaseDirective implements 
     }
   }
 
+  disableSaveButton(): boolean {
+    let disable = true;
+    if (this.grades) {
+      // see if there is at least one grade with jobs to remove or add, if yes, enable save button
+      const found = this.grades.find(g => g.JobIdsToAdd.length > 0 || g.JobIdsToRemove.length > 0);
+      disable = found == null;
+    }
+    return disable;
+  }
+
   ngOnInit() {
     this.userContext.subscribe(uc => {
       this.isSmallBiz = (uc.CompanySystemUserGroupsGroupName === SystemUserGroupNames.SmallBusiness);
@@ -145,11 +174,14 @@ export class AddJobsToRangePageComponent extends SearchBaseDirective implements 
       .subscribe(jobIds => this.selectedJobIdCount = jobIds.length);
     this.selectedPayfactorsJobCodesSubscription = this.store.select(fromAddJobsReducer.getSelectedPayfactorsJobCodes)
       .subscribe(jobCodes => this.selectedJobCodeCount = jobCodes.length);
+    this.gradesSubscription = this.store.select(fromJobsToGradeReducer.getGrades)
+      .subscribe(grades => this.grades = grades);
   }
 
   ngOnDestroy() {
     this.selectedJobIdsSubscription?.unsubscribe();
     this.selectedPayfactorsJobCodesSubscription?.unsubscribe();
+    this.gradesSubscription?.unsubscribe();
     cleanupDatacutsDragging(this.dragulaService);
   }
 

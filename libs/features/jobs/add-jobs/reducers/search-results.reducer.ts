@@ -61,6 +61,19 @@ export function reducer(state = initialState, action: fromSearchResultsActions.A
         selectedPayfactorsJobCodes: []
       };
     }
+    case fromSearchResultsActions.SELECT_ALL_JOBS: {
+      const jobsCopy = cloneDeep(state.jobs).map(j => {
+        j.IsSelected = true;
+        return j;
+      });
+
+      return {
+        ...state,
+        jobs: jobsCopy,
+        selectedJobIds: jobsCopy.filter(j => !j.IsPayfactorsJob).map(j => j.Id),
+        selectedPayfactorsJobCodes: jobsCopy.filter(j => j.IsPayfactorsJob).map(j => j.Code)
+      };
+    }
     case fromSearchResultsActions.LOAD_JOB_PRICING_DATA: {
       const jobsCopy = cloneDeep(state.jobs);
       const jobToUpdate = jobsCopy.find(x => x.Id === action.payload.Id);
@@ -132,6 +145,12 @@ function setIsSelected(jobResults: JobResult[], selectedJobIds: string[], select
   return jobResults;
 }
 
+function filterSelectedJobs(state: State) {
+  return state.jobs.filter(j => j.IsSelected);
+}
+
 export const getJobs = (state: State) => state.jobs;
+export const getJobCount = (state: State) => state.jobs.length;
 export const getSelectedJobIds = (state: State) => state.selectedJobIds;
+export const getSelectedJobs = (state: State) => filterSelectedJobs(state);
 export const getSelectedPayfactorsJobCodes = (state: State) => state.selectedPayfactorsJobCodes;

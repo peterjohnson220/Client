@@ -1,30 +1,19 @@
 import cloneDeep from 'lodash/cloneDeep';
 
 import { SurveySearchResultDataSources } from 'libs/constants';
-import { BaseExchangeDataSearchRequest } from 'libs/models/payfactors-api/peer/exchange-data-search/request';
 
 import * as fromSurveySearchResultsActions from '../actions/survey-search-results.actions';
-import { DataCut, DataCutDetails, ExchangeJobDataCut, JobResult } from '../models';
+import { DataCut, DataCutDetails, JobResult } from '../models';
 import { applyMatchesToJobResults } from '../helpers';
 
 export interface State {
   results: JobResult[];
   selectedDataCuts: DataCutDetails[];
-  jobId: number;
-  refining: boolean;
-  tempExchangeJobDataCutFilterContextDictionary: {[key: string]: BaseExchangeDataSearchRequest};
-  editingTempDataCut: boolean;
-  tempDataCutBeingEdited: ExchangeJobDataCut;
 }
 
 const initialState: State = {
   results: [],
-  selectedDataCuts: [],
-  jobId: null,
-  refining: false,
-  tempExchangeJobDataCutFilterContextDictionary: {},
-  editingTempDataCut: false,
-  tempDataCutBeingEdited: null
+  selectedDataCuts: []
 };
 
 // Reducer function
@@ -162,34 +151,12 @@ export function reducer(state = initialState, action: fromSurveySearchResultsAct
         results: applyMatchesToJobResults(resultsCopy, action.payload)
       };
     }
-    case fromSurveySearchResultsActions.REFINE_EXCHANGE_JOB_RESULT: {
-      let exchangeJobId = 0;
-      if (action.payload as {lockedExchangeJobId: number} !== undefined) {
-        exchangeJobId = (action.payload as {lockedExchangeJobId: number}).lockedExchangeJobId;
-      }
-      return {
-        ...state,
-        jobId: exchangeJobId,
-        refining: true
-      };
-    }
-    case fromSurveySearchResultsActions.REFINE_EXCHANGE_JOB_RESULT_COMPLETE: {
-      return {
-        ...state,
-        refining: false,
-        jobId: null
-      };
-    }
-    case fromSurveySearchResultsActions.ADD_REFINED_EXCHANGE_DATA_CUT: {
-      const id = action.payload.ExchangeJobId;
+    case fromSurveySearchResultsActions.ADD_TEMP_EXCHANGE_DATA_CUT: {
+      const id = action.payload.exchangeJobId;
       const resultsCopy = cloneDeep(state.results);
-      const tempDataCutDictionaryCopy = cloneDeep(state.tempExchangeJobDataCutFilterContextDictionary);
       const job = resultsCopy.find(r => r.PeerJobInfo.ExchangeJobId === id);
-      const dataCut = action.payload.DataCut;
+      const dataCut = action.payload.dataCut;
       const dataCuts = [dataCut];
-      const tempPeerDataCutId = dataCut.ServerInfo.CustomPeerCutId;
-
-      tempDataCutDictionaryCopy[tempPeerDataCutId] = action.payload.ExchangeDataSearchRequest;
 
       job.DataCuts = !!job.DataCuts?.length ? dataCuts.concat(job.DataCuts) : dataCuts;
 
@@ -210,8 +177,7 @@ export function reducer(state = initialState, action: fromSurveySearchResultsAct
       return {
         ...state,
         selectedDataCuts: selectedDataCuts,
-        results: resultsCopy,
-        tempExchangeJobDataCutFilterContextDictionary: tempDataCutDictionaryCopy
+        results: resultsCopy
       };
     }
     case fromSurveySearchResultsActions.REMOVE_REFINED_EXCHANGE_DATA_CUT: {
@@ -227,45 +193,6 @@ export function reducer(state = initialState, action: fromSurveySearchResultsAct
         selectedDataCuts: selectedDataCuts
       };
     }
-    case fromSurveySearchResultsActions.CLEAR_TEMP_DATA_CUT_DICTIONARY: {
-      return {
-        ...state,
-        editingTempDataCut: false,
-        tempDataCutBeingEdited: null,
-        tempExchangeJobDataCutFilterContextDictionary: {}
-      };
-    }
-    case fromSurveySearchResultsActions.EDIT_TEMP_DATA_CUT: {
-      const payload: any = action.payload;
-      const tempDataCutFilterContext = state.tempExchangeJobDataCutFilterContextDictionary[payload.customPeerCutId];
-      return {
-        ...state,
-        editingTempDataCut: true,
-        tempDataCutBeingEdited: {
-          ExchangeJobId: payload.exchangeJobId,
-          DataCut: null,
-          ExchangeDataSearchRequest: tempDataCutFilterContext
-        }
-      };
-    }
-    case fromSurveySearchResultsActions.EDIT_TEMP_DATA_CUT_COMPLETE: {
-      const newState = {
-        ...state,
-        editingTempDataCut: false,
-        tempDataCutBeingEdited: null
-      };
-
-      const dataCut = action.payload?.DataCut;
-      if (!!dataCut) {
-        const tempDataCutDictionaryCopy = cloneDeep(state.tempExchangeJobDataCutFilterContextDictionary);
-        const tempPeerDataCutId = dataCut.ServerInfo.CustomPeerCutId;
-
-        tempDataCutDictionaryCopy[tempPeerDataCutId] = action.payload.ExchangeDataSearchRequest;
-        newState.tempExchangeJobDataCutFilterContextDictionary = tempDataCutDictionaryCopy;
-      }
-
-      return newState;
-    }
     default: {
       return state;
     }
@@ -275,11 +202,6 @@ export function reducer(state = initialState, action: fromSurveySearchResultsAct
 // Selector functions
 export const getResults = (state: State) => state.results;
 export const getSelectedDataCuts = (state: State) => state.selectedDataCuts;
-export const getJobId = (state: State) => state.jobId;
-export const getRefining = (state: State) => state.refining;
-export const getEditingTempDataCut = (state: State) => state.editingTempDataCut;
-export const getTempDataCutBeingEdited = (state: State) => state.tempDataCutBeingEdited;
-export const getTempExchangeJobDataCutFilterContextDictionary = (state: State) => state?.tempExchangeJobDataCutFilterContextDictionary ?? {};
 
 function getMatchingDataCut(dataCut: DataCutDetails, selectedDataCuts: DataCutDetails[]) {
   let matchingDataCut = filter =>

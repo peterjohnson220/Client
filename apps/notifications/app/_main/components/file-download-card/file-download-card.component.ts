@@ -11,6 +11,6 @@ export class FileDownloadCardComponent {
   @Input() fileName: string;
   @Input() createdDateTime: Date;
   @Input() downloadPath: string;
-  @Input() iconName: 'file-excel' | 'file-pdf';
+  @Input() iconName: 'file-excel' | 'file-pdf' | 'file-word';
   @Input() openInNewTab = false;
 }

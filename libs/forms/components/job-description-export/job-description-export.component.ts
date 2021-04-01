@@ -1,7 +1,8 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, Input, Output, ViewChild, EventEmitter } from '@angular/core';
 
 import { Permissions } from 'libs/constants';
 import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums/pf-theme-type.enum';
+import { JobDescriptionExportRequest } from 'libs/models/payfactors-api';
 import { FileDownloadSecurityWarningModalComponent } from 'libs/ui/common';
 
 @Component({
@@ -15,17 +16,25 @@ export class JobDescriptionExportComponent {
   @Input() actionIconSize = 'lg';
   @Input() theme = PfThemeType.Default;
   @Input() enableFileDownloadSecurityWarning: boolean;
+  @Input() pageViewId: string;
+  @Output() exportClicked: EventEmitter<JobDescriptionExportRequest> = new EventEmitter();
 
   docType: string;
   permissions = Permissions;
 
   exportJobDescription() {
-    const htmlDocument: any = document;
+    if (!this.pageViewId) {
+      return;
+    }
+    const request: JobDescriptionExportRequest = {
+      JobDescriptionId: this.jobDescriptionId,
+      FileExtension: this.docType,
+      ViewName: 'Default',
+      ReportName: 'Job Description',
+      PageViewId: this.pageViewId
+    };
 
-    htmlDocument.exportFormFromJobDescriptionExport.elements['export-uid'].value = Date.now();
-    htmlDocument.exportFormFromJobDescriptionExport.elements['export-type'].value = this.docType;
-    htmlDocument.exportFormFromJobDescriptionExport.elements['viewName'].value = 'Default';
-    htmlDocument.exportFormFromJobDescriptionExport.submit();
+    this.exportClicked.emit(request);
   }
 
   handleExportJobDescription(docType: string) {

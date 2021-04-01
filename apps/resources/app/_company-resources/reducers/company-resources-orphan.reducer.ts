@@ -1,7 +1,8 @@
+import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
+import cloneDeep from 'lodash/cloneDeep';
+
 import * as fromCompanyResourcesPageActions from '../actions/company-resources.actions';
 import { OrphanedCompanyResource } from '../models';
-import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-
 
 export interface State extends EntityState<OrphanedCompanyResource> {
     orphanedResources: OrphanedCompanyResource[];
@@ -43,6 +44,17 @@ export interface State extends EntityState<OrphanedCompanyResource> {
         }
         return {
             ...state
+        };
+      }
+      case fromCompanyResourcesPageActions.UPDATE_RESOURCE_TITLE_SUCCESS: {
+        const resourcesClone: OrphanedCompanyResource[] = cloneDeep(state.entities);
+        const updatedResource = resourcesClone[action.payload.companyResourceId];
+        if (updatedResource) {
+          updatedResource.ResourceTitle = action.payload.title;
+        }
+        return {
+          ...state,
+          entities: resourcesClone
         };
       }
       default: {

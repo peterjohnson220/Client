@@ -1,11 +1,15 @@
 import { Injectable } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
+
 import { Action } from '@ngrx/store';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { switchMap, catchError, map, mergeMap } from 'rxjs/operators';
+
+import { CompanyResourcesApiService } from 'libs/data/payfactors-api';
+
 import * as fromCompanyResourcesPageActions from '../actions/company-resources.actions';
 import * as fromCompanyResourcesAddResourceActions from '../actions/company-resources-add-resource.actions';
-import { CompanyResourcesApiService } from 'libs/data/payfactors-api';
 import { CompanyResource, CompanyResourceFolder } from '../models';
 
 @Injectable()
@@ -48,9 +52,9 @@ export class CompanyResourcesPageEffects {
               } else {
                 actions.push(new fromCompanyResourcesPageActions.AddingCompanyResourceOrphanSuccess(response));
               }
-              
+
               actions.push(new fromCompanyResourcesPageActions.AddingCompanyResourceSuccess());
-              actions.push(new fromCompanyResourcesAddResourceActions.ClearCompanyResourcesUploadState())
+              actions.push(new fromCompanyResourcesAddResourceActions.ClearCompanyResourcesUploadState());
               return actions;
             }),
             catchError(error => of(new fromCompanyResourcesPageActions.AddingCompanyResourceError(error)))
@@ -105,6 +109,59 @@ export class CompanyResourcesPageEffects {
             map(() => new fromCompanyResourcesPageActions.DeletingFolderFromCompanyResourcesSuccess(action.payload)),
             catchError(error => of(new fromCompanyResourcesPageActions.DeletingFolderFromCompanyResourcesError(error)))
         ))
+    );
+
+  @Effect()
+  updateResourceName$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromCompanyResourcesPageActions.UPDATE_RESOURCE_TITLE),
+      switchMap((action: fromCompanyResourcesPageActions.UpdateResourceTitle) => {
+        return this.resourcesApiService.updateResourceTitle(action.payload.companyResourceId, action.payload.title).pipe(
+          mergeMap(() => {
+            const actions = [];
+            actions.push(new fromCompanyResourcesPageActions.CloseRenameResourceModal());
+            if (action.payload.companyResourceFolderId) {
+              actions.push(new fromCompanyResourcesPageActions.UpdateResourceTitleWithFolderSuccess({
+                companyResourceId: action.payload.companyResourceId,
+                companyResourceFolderId: action.payload.companyResourceFolderId,
+                title: action.payload.title
+              }));
+            }
+            actions.push(new fromCompanyResourcesPageActions.UpdateResourceTitleSuccess({
+              companyResourceId: action.payload.companyResourceId,
+              title: action.payload.title
+            }));
+            return actions;
+          }),
+          catchError((error) => of(new fromCompanyResourcesPageActions.UpdateResourceTitleError()))
+        );
+      })
+    );
+
+  @Effect()
+  updateFolderName$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromCompanyResourcesPageActions.UPDATE_FOLDER_NAME),
+      switchMap((action: fromCompanyResourcesPageActions.UpdateFolderName) => {
+        return this.resourcesApiService.updateFolderName(action.payload.companyResourcesFolderId, action.payload.folderName)
+          .pipe(
+            mergeMap(() => {
+              const actions = [];
+              actions.push(new fromCompanyResourcesPageActions.CloseRenameFolderModal);
+              actions.push(new fromCompanyResourcesPageActions.UpdateFolderNameSuccess({
+                companyResourcesFolderId: action.payload.companyResourcesFolderId,
+                folderName: action.payload.folderName
+              }));
+              return actions;
+            }),
+            catchError((error: HttpErrorResponse) => {
+              const errorMessage = error.status === 409
+                ? 'Folder name already exists'
+                : 'Error saving folder name';
+              return of(new fromCompanyResourcesPageActions.UpdateFolderNameError(errorMessage));
+            })
+          );
+      })
     );
 
   constructor(

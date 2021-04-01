@@ -48,9 +48,9 @@ export class GridActionsComponent implements OnInit, OnDestroy {
     this.loadViewConfigSuccessSubscription?.unsubscribe();
   }
 
-  handleSelectedStatesChanged(ticketStates: string[]): void {
+  handleSelectedStatesChanged(ticketStates: GroupedListItem[]): void {
     this.store.dispatch(new fromServicePageActions.UpdateSelectedTicketStates({
-      ticketStateValues: ticketStates
+      ticketStateValues: ticketStates.map(x => x.Value)
     }));
   }
 

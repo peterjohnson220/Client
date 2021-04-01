@@ -1,5 +1,5 @@
 import { CurrentControlIndexResponse } from './current-control-index-response';
-import {LabelWithOverride} from './label-with-override';
+import { LabelWithOverride } from './label-with-override';
 
 export interface CompensationField {
   Id: string;
@@ -9,7 +9,7 @@ export interface CompensationField {
   CanHaveEmployeeContribution: boolean;
   DisplayName?: string;
   Group?: string;
-  Type?: string;
+  Type?: 'EmployeesUdf' | 'JobsUdf';
   FieldIndex?: number;
   ControlIndex?: CurrentControlIndexResponse;
 }
@@ -18,9 +18,4 @@ export interface CompensationFieldGroup {
   DisplayName: number;
   Fields: CompensationField[];
   FilteredFields: CompensationField[];
-}
-
-export enum CompensationFieldType {
-  EmployeesUdf = 'EmployeesUdf',
-  JobsUdf = 'JobsUdf'
 }

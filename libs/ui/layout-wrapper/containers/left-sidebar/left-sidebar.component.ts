@@ -1,7 +1,8 @@
 import { Component, OnInit, OnDestroy, EventEmitter, Input, Output } from '@angular/core';
 
-import { Store } from '@ngrx/store';
+import { ActionsSubject, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
+import { ofType } from '@ngrx/effects';
 
 import { UserContext, SidebarLink } from 'libs/models';
 import { AppConstants } from 'libs/constants';
@@ -23,14 +24,17 @@ export class LeftSidebarComponent implements OnInit, OnDestroy {
   leftSidebarNavigationLinks$: Observable<SidebarLink[]>;
   userContext$: Observable<UserContext>;
   userContextSubscription: Subscription;
+  toggleLeftSideBarSubscription: Subscription;
+
   userId: number;
   companyName: string;
 
   constructor(
     private store: Store<fromRootState.State>,
-    private layoutStore: Store<fromLayoutReducer.LayoutWrapperState>
+    private layoutStore: Store<fromLayoutReducer.LayoutWrapperState>,
+    private actionsSubject: ActionsSubject
   ) {
-    this.leftSidebarNavigationLinks$ = layoutStore.select(fromLayoutReducer.getLeftSidebarNavigationLinks);
+    this.leftSidebarNavigationLinks$ = this.layoutStore.select(fromLayoutReducer.getLeftSidebarNavigationLinks);
     this.userContext$ = store.select(fromRootState.getUserContext);
   }
 
@@ -49,6 +53,11 @@ export class LeftSidebarComponent implements OnInit, OnDestroy {
         }
       }
     );
+    this.toggleLeftSideBarSubscription = this.actionsSubject
+    .pipe(ofType(fromLeftSidebarActions.CLOSE_LEFT_SIDEBAR))
+    .subscribe((action: fromLeftSidebarActions.CloseLeftSidebar) => {
+        this.close();
+      });
     this.dispatchToggleLeftSideBarAction();
   }
 
@@ -56,6 +65,7 @@ export class LeftSidebarComponent implements OnInit, OnDestroy {
     if (this.userContextSubscription) {
       this.userContextSubscription.unsubscribe();
     }
+    this.toggleLeftSideBarSubscription.unsubscribe();
   }
 
   getSidebarHref(sidebarLink: SidebarLink) {
@@ -98,5 +108,10 @@ export class LeftSidebarComponent implements OnInit, OnDestroy {
 
   private dispatchToggleLeftSideBarAction(): void {
     this.store.dispatch(new fromLeftSidebarActions.ToggleLeftSidebar(this.leftSidebarToggle));
+  }
+
+  private close() {
+    this.leftSidebarToggle = false;
+    this.dispatchToggleLeftSideBarAction();
   }
 }

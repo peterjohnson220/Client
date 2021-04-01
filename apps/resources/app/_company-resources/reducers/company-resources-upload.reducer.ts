@@ -16,9 +16,10 @@ export function reducer(state = initialState, action: companyResourcesAddResourc
     case companyResourcesAddResourceActions.OPEN_ADD_RESOURCE_MODAL: {
       let entity: CompanyResourceUploadState = cloneDeep(state.companyResourceUploadState);
       if (!entity) {
-        entity = {Resources: [], IsModalOpen: true};
+        entity = {Resources: [], IsModalOpen: true, FolderName: action.folderName};
       } else {
         entity.IsModalOpen = true;
+        entity.FolderName = action.folderName;
       }
       return {
         companyResourceUploadState: entity
@@ -50,7 +51,7 @@ export function reducer(state = initialState, action: companyResourcesAddResourc
       const entity: CompanyResourceUploadState = cloneDeep(state.companyResourceUploadState);
       const resource = entity.Resources.find((x) => x.Id === action.attachmentId);
       if (resource) {
-        resource.Status = KendoUploadStatus.ScanSucceeded; 
+        resource.Status = KendoUploadStatus.ScanSucceeded;
       }
       return {
         companyResourceUploadState: entity
@@ -59,8 +60,8 @@ export function reducer(state = initialState, action: companyResourcesAddResourc
     case companyResourcesAddResourceActions.COMPANY_RESOURCE_SCAN_FAILURE: {
       const entity: CompanyResourceUploadState = cloneDeep(state.companyResourceUploadState);
       const resource = entity.Resources.find((x) => x.Id === action.attachmentId);
-      if (resource) { 
-        resource.Status = KendoUploadStatus.ScanFailed; 
+      if (resource) {
+        resource.Status = KendoUploadStatus.ScanFailed;
       }
       return {
         companyResourceUploadState: entity
@@ -73,4 +74,6 @@ export function reducer(state = initialState, action: companyResourcesAddResourc
 }
 
 export const getCompanyResourceUploadState = (state: State) => cloneDeep(state.companyResourceUploadState);
-export const getCompanyResourceAddResourceModalOpen = (state: State) => !state.companyResourceUploadState ? false : state.companyResourceUploadState.IsModalOpen;
+export const getCompanyResourceAddResourceModalOpen = (state: State) => !state.companyResourceUploadState
+? false
+: state.companyResourceUploadState.IsModalOpen;

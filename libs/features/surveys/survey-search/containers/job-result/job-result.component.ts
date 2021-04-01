@@ -7,7 +7,6 @@ import { MatchesDetailsRequestJobTypes, PricingMatchesDetailsRequest } from 'lib
 import * as fromSearchReducer from 'libs/features/search/search/reducers';
 import { SurveySearchResultDataSources } from 'libs/constants';
 import { annualDisplay, compRate } from 'libs/core/pipes';
-import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
 import { SearchFeatureIds } from 'libs/features/search/search/enums/search-feature-ids';
 
 import { DataCut, DataCutDetails, JobResult, MatchesDetailsTooltipData } from '../../models';
@@ -24,15 +23,13 @@ export class JobResultComponent implements OnInit, OnDestroy {
   @Input() cutsDraggable: boolean;
   @Input() currencyCode: string;
   @Input() legacyIframeImplementation: boolean;
-  @Input() refineInPeerDisplayed: boolean;
+  @Input() customizeInPeerDisplayed: boolean;
   @Input() rate: string;
   @Output() loadDataCuts: EventEmitter<JobResult> = new EventEmitter<JobResult>();
   @Output() cutSelected: EventEmitter<DataCutDetails> = new EventEmitter<DataCutDetails>();
   @Output() matchesMouseEnter: EventEmitter<MatchesDetailsTooltipData> = new EventEmitter<MatchesDetailsTooltipData>();
   @Output() matchesMouseLeave: EventEmitter<boolean> = new EventEmitter<boolean>();
-  @Output() refineInPeerClicked: EventEmitter<JobResult> = new EventEmitter<JobResult>();
-
-  customizeScopeInMultimatchModalFlag: RealTimeFlag = { key: FeatureFlags.CustomizeScopeInMultimatchModal, value: false };
+  @Output() customizeInPeerClicked: EventEmitter<JobResult> = new EventEmitter<JobResult>();
 
   // Observables
   loadingResults$: Observable<boolean>;
@@ -48,14 +45,12 @@ export class JobResultComponent implements OnInit, OnDestroy {
   surveySearchResultDataSources = SurveySearchResultDataSources;
   annualDisplay: annualDisplay = annualDisplay.full;
 
-  unsubscribe$ = new Subject<void>();
-
   private readonly showCutsLabel: string = 'Show Cuts';
   private readonly hideCutsLabel: string = 'Hide Cuts';
   private readonly matchesMouseLeaveTimeout: number = 100;
 
   constructor(
-    private store: Store<fromSurveySearchReducer.State>, private featureFlagService: AbstractFeatureFlagService
+    private store: Store<fromSurveySearchReducer.State>
   ) {
     // This is not ideal. "Dumb" components should not know about the store. However we need to track these
     // components in the NgFor so they do not get re-initialized if they show up in subsequent searches. Currently this
@@ -64,8 +59,6 @@ export class JobResultComponent implements OnInit, OnDestroy {
       searchFeatureIds: [SearchFeatureIds.MultiMatch, SearchFeatureIds.AddSurveyData]
     });
     this.selectedCuts$ = this.store.select(fromSurveySearchReducer.getSelectedDataCuts);
-
-    this.featureFlagService.bindEnabled(this.customizeScopeInMultimatchModalFlag, this.unsubscribe$);
   }
 
   get compRate(): compRate {
@@ -113,10 +106,11 @@ export class JobResultComponent implements OnInit, OnDestroy {
     this.showJobDetail = !this.showJobDetail;
   }
 
-  toggleRefineInPeerDisplay(): void {
-    this.refineInPeerClicked.emit(this.job);
+  toggleCustomizeInPeerDisplay(): void {
+    this.customizeInPeerClicked.emit(this.job);
     this.showDataCuts = true;
     this.toggleDataCutsLabel = this.hideCutsLabel;
+    this.handleLoadDataCuts();
   }
 
   handleDataCutSelected(dataCut: DataCut) {
@@ -149,8 +143,8 @@ export class JobResultComponent implements OnInit, OnDestroy {
     });
   }
 
-  handleRefineInPeerClicked() {
-    this.toggleRefineInPeerDisplay();
+  handleCustomizeInPeerClicked() {
+    this.toggleCustomizeInPeerDisplay();
   }
 
   // TODO: Create a story to further refactor the multi match display, break dependence on if legacy iFrame do X vs Y

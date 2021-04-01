@@ -21,7 +21,7 @@
           <li [ngbNavItem]="payMarketModalTabs.General" [title]="'General'" [id]="payMarketModalTabs.General">
             <a ngbNavLink>General</a>
             <ng-template ngbNavContent>
-              <div class="pt-3">
+              <div>
                 <pf-general-form
                   [reset]="!(modalOpen$ | async)"
                   [companyId]="companyId">
@@ -37,8 +37,8 @@
               </div>
             </ng-template>
           </li>
-          <li [ngbNavItem]="payMarketModalTabs.NetworkScopes" *ngIf="hasPeerAccess" [title]="'Network Scopes'" [id]="payMarketModalTabs.NetworkScopes">
-            <a ngbNavLink>Network Scopes</a>
+          <li [ngbNavItem]="payMarketModalTabs.NetworkScopes" *ngIf="hasPeerAccess" [title]="'Exchange Scopes'" [id]="payMarketModalTabs.NetworkScopes">
+            <a ngbNavLink>Exchange Scopes</a>
             <ng-template ngbNavContent>
               <div class="pt-3">
                 <pf-exchange-scopes [reset]="!(modalOpen$ | async)"></pf-exchange-scopes>

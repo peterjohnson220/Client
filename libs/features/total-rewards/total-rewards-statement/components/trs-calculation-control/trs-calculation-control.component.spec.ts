@@ -2,13 +2,15 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 
+import { of } from 'rxjs';
+import { DragulaService } from 'ng2-dragula';
+
 import { generateMockEmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards';
 
 import { TrsCalculationControlComponent } from './trs-calculation-control.component';
 import { CompensationFieldPipe } from '../../pipes/compensation-field-pipe';
 import { CalculationControl, CompensationField, generateMockCalculationControl, LabelWithOverride, StatementModeEnum } from '../../models';
 import { StringEditorComponent } from '../string-editor';
-import { TrsConstants } from '../../constants/trs-constants';
 import { TotalRewardsStatementService } from '../../services/total-rewards-statement.service';
 
 describe('TrsCalculationControlComponent', () => {
@@ -16,6 +18,7 @@ describe('TrsCalculationControlComponent', () => {
   let fixture: ComponentFixture<TrsCalculationControlComponent>;
   let currencyPipe: CurrencyPipe;
   let compensationField: CompensationFieldPipe;
+  let dragulaService: DragulaService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -27,6 +30,10 @@ describe('TrsCalculationControlComponent', () => {
         {
           provide: CompensationFieldPipe,
           useValue: { transform: (x) => x }
+        },
+        {
+          provide: DragulaService,
+          useValue: { destroy: jest.fn(), createGroup: jest.fn(), drop: val => of(true) }
         }],
       schemas: [NO_ERRORS_SCHEMA]
     });
@@ -37,6 +44,7 @@ describe('TrsCalculationControlComponent', () => {
     component = fixture.componentInstance;
     currencyPipe = TestBed.inject(CurrencyPipe);
     compensationField = TestBed.inject(CompensationFieldPipe);
+    dragulaService = TestBed.inject(DragulaService);
   });
 
   it('should create', () => {
@@ -224,28 +232,13 @@ describe('TrsCalculationControlComponent', () => {
     expect(employerContribution).toBe('');
   });
 
-  it('getEmployerContributionValue should return TrsConstants.UDF_DEFAULT_VALUE for UDF fields in mock data', () => {
-    // arrange
-    component.controlData = generateMockCalculationControl();
-    component.mode = StatementModeEnum.Preview;
-    component.employeeRewardsData = { ...generateMockEmployeeRewardsData(), IsMockData: true };
-    const udfField = {
-      Id: 'abc-123', DatabaseField: 'UDF_CHAR_4_Name', IsVisible: true, CanHaveEmployeeContribution: false, Name: {} as any, Type: 'EmployeesUdf' };
-
-    // act
-    const employerContribution = component.getEmployerContributionValue(udfField);
-
-    // assert
-    expect(employerContribution).toBe(TrsConstants.UDF_DEFAULT_VALUE.toString());
-  });
-
   it('getEmployerContributionValue should return the UDF value for UDF fields with matching employee values', () => {
     // arrange
     component.controlData = generateMockCalculationControl();
     component.mode = StatementModeEnum.Preview;
-    component.employeeRewardsData = { ...generateMockEmployeeRewardsData(), IsMockData: false, EmployeesUdf: { 'UDF_CHAR_4_Name': 123123 } as any };
+    component.employeeRewardsData = { ...generateMockEmployeeRewardsData(), EmployeesUdf: { 'UDF_CHAR_4': 123123 } as any };
     const udfField = {
-      Id: 'abc-123', DatabaseField: 'UDF_CHAR_4_Name', IsVisible: true, CanHaveEmployeeContribution: false, Name: {} as any, Type: 'EmployeesUdf' };
+      Id: 'abc-123', DatabaseField: 'UDF_CHAR_4', IsVisible: true, CanHaveEmployeeContribution: false, Name: {} as any, Type: 'EmployeesUdf' as any };
 
     // act
     const employerContribution = component.getEmployerContributionValue(udfField);
@@ -274,11 +267,11 @@ describe('TrsCalculationControlComponent', () => {
     component.controlData = generateMockCalculationControl();
     component.mode = StatementModeEnum.Preview;
     component.employeeRewardsData = { ...generateMockEmployeeRewardsData(), Bonus: 10000, IsMockData: false, Currency: 'CAD'} as any;
-    component.employeeRewardsData.EmployeesUdf = { 'UDF_CHAR_2_Name': 12345 } as any;
+    component.employeeRewardsData.EmployeesUdf = { 'UDF_CHAR_2': 12345 } as any;
 
     // act
     component.getEmployerContributionValue(
-      { Id: 'abc-123', DatabaseField: 'UDF_CHAR_2_Name', IsVisible: true, CanHaveEmployeeContribution: false, Name: {} as any, Type: 'EmployeesUdf' });
+      { Id: 'abc-123', DatabaseField: 'UDF_CHAR_2', IsVisible: true, CanHaveEmployeeContribution: false, Name: {} as any, Type: 'EmployeesUdf' });
 
     // assert
     expect(currencyPipe.transform).toHaveBeenCalledTimes(1);

@@ -182,7 +182,6 @@ describe('TotalRewardsStatementComponent', () => {
     component.employeeRewardsData.EmployeeBonus = 0;
     component.employeeRewardsData.EmployeeSTI = -456;
     component.employeeRewardsData.EmployeeLTI = null;
-    component.employeeRewardsData.IsMockData = false;
 
     // act
     fixture.detectChanges();
@@ -214,6 +213,5 @@ describe('TotalRewardsStatementComponent', () => {
 
     // assert
     expect(component.visibleCalculationControls.length).toBe(1);
-
   });
 });
