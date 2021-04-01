@@ -12,7 +12,8 @@ export class UserTileToTileMapper {
       Type: MappingHelper.mapTileTypeFromTileName(dashboardTile.TileName),
       MarketingEnabled: dashboardTile.MarketingEnabled,
       HideOnDashboard: dashboardTile.HideOnDashboard,
-      Dirty: false
+      Dirty: false,
+      TileName: dashboardTile.TileName
     };
   }
 }

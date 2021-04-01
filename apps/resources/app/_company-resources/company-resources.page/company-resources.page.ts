@@ -10,6 +10,8 @@ import { CompanyResourceFolder, OrphanedCompanyResource } from '../models/compan
 import * as fromCompanyResourcesPageActions from '../actions/company-resources.actions';
 import * as fromCompanyResourcesAddResourceActions from '../actions/company-resources-add-resource.actions';
 import * as fromAppNotificationsActions from 'libs/features/infrastructure/app-notifications/actions/app-notifications.actions';
+import { PermissionService } from 'libs/core/services';
+import { PermissionCheckEnum, Permissions } from 'libs/constants';
 import * as fromCompanyResourcesPageReducer from '../reducers';
 import { ResourceModalComponent } from '../containers/resource-modal/resource-modal.component';
 import { NewFolderModalComponent } from '../containers/new-folder-modal/new-folder-modal.component';
@@ -24,6 +26,7 @@ export class CompanyResourcesPageComponent implements OnInit, OnDestroy {
   addingFolderSuccessSubscription: Subscription;
   addingResourceSuccessSubscription: Subscription;
   companyName: string;
+  hasCompanyResourcesAddEditDeletePermission: boolean;
   companyResourceUploads: KendoUpload[];
   companyResourceUploadState$: Observable<CompanyResourceUploadState>;
   companyResourceUploadStateSubscription: Subscription;
@@ -44,7 +47,12 @@ export class CompanyResourcesPageComponent implements OnInit, OnDestroy {
     private store: Store<fromCompanyResourcesPageReducer.State>,
     private rootStore: Store<fromRootState.State>,
     private appNotificationStore: Store<fromAppNotificationsMainReducer.State>,
-    private modalService: NgbModal) { }
+    private modalService: NgbModal,
+    private permissionService: PermissionService
+  ) {
+    this.hasCompanyResourcesAddEditDeletePermission = this.permissionService.CheckPermission([Permissions.COMPANY_RESOURCES_ADD_EDIT_DELETE],
+      PermissionCheckEnum.Single);
+  }
 
   ngOnInit() {
     this.companyResourcesLoading$ = this.store.select(fromCompanyResourcesPageReducer.getCompanyResourcesLoading);

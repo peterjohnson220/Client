@@ -12,7 +12,9 @@ import * as fromAddJobsActions from 'libs/features/jobs/add-jobs/actions/search-
 import { JobToGradeComponent } from '../../components';
 import * as fromJobsToGradeReducer from '../../reducers';
 import * as fromJobsToGradeActions from '../../actions';
-import { Grade, GradeRangeGroupDetails } from '../../models';
+import { Grade, GradeJob, GradeRangeGroupDetails } from '../../models';
+import { JobResult } from '../../../../jobs/add-jobs/models';
+import { PayfactorsApiModelMapper } from '../../helpers';
 
 @Component({
   selector: 'pf-jobs-to-grade-container',
@@ -26,7 +28,7 @@ export class JobsToGradeContainerComponent implements OnDestroy, OnInit {
   @Input() controlPoint: string;
   // Observables
   grades$: Observable<Grade[]>;
-  selectedJobs$: Observable<string[]>;
+  selectedJobs$: Observable<JobResult[]>;
   loadingGrades$: Observable<boolean>;
   error$: Observable<boolean>;
   isDragging$: Observable<boolean>;
@@ -37,7 +39,7 @@ export class JobsToGradeContainerComponent implements OnDestroy, OnInit {
   dragSubs: Subscription;
   selectedJobsSubscription: Subscription;
 
-  selectedJobs: number[];
+  selectedJobs: JobResult[];
   scroll: any;
   isDragging: boolean;
 
@@ -50,13 +52,13 @@ export class JobsToGradeContainerComponent implements OnDestroy, OnInit {
     this.selectedJobs = [];
     this.dragSubs = new Subscription();
     this.selectedJobsSubscription = new Subscription();
-    this.selectedJobs$ = this.store.select(fromAddJobsReducer.getSelectedJobIds);
+    this.selectedJobs$ = this.store.select(fromAddJobsReducer.getSelectedJobs);
     this.grades$ = this.store.select(fromJobsToGradeReducer.getGrades);
     this.loadingGrades$ = this.store.select(fromJobsToGradeReducer.getLoadingGrades);
     this.error$ = this.store.select(fromJobsToGradeReducer.getLoadingGradesError);
 
     this.selectedJobsSubscription = this.selectedJobs$.subscribe(jobs => {
-     this.selectedJobs = jobs.map(Number);
+     this.selectedJobs = jobs;
       // TODO: come up with a better solution to initialize the auto scroll.
       // These elements are not on the DOM until the multi match modal opens in Client implementations
      if (!this.scroll && jobs.length) {
@@ -71,9 +73,20 @@ export class JobsToGradeContainerComponent implements OnDestroy, OnInit {
   }
 
   handleLoadJobs(grade: Grade): void {
+    if (!grade.TotalJobs || this.jobsLoaded(grade)) {
+      return;
+    }
     this.store.dispatch(new fromJobsToGradeActions.GetGradeJobs(
       { CompanyStructuresGradesId: grade.CompanyStructuresGradesId, ControlPoint: this.controlPoint,
-        CompanyStructuresRangeGroupId: grade.CompanyStructuresRangeGroupId, JobIds: [] }));
+        CompanyStructuresRangeGroupId: grade.CompanyStructuresRangeGroupId }));
+  }
+
+  private jobsLoaded(grade: Grade): boolean {
+    return grade.Jobs && grade.Jobs.length > 0;
+  }
+
+  handleJobDeleted(deletedObj: { job: GradeJob, grade: Grade }): void {
+    this.store.dispatch(new fromJobsToGradeActions.RemoveJob({GradeId: deletedObj.grade.CompanyStructuresGradesId, Job: deletedObj.job }));
   }
 
   private initializeScroll() {
@@ -114,9 +127,8 @@ export class JobsToGradeContainerComponent implements OnDestroy, OnInit {
           const gradeIdAttribute = target.attributes['data-grade-id'];
           if (gradeIdAttribute && gradeIdAttribute.value) {
             const gradeId = Number(gradeIdAttribute.value);
-            this.store.dispatch(new fromJobsToGradeActions.AddJobsToGrade(
-              { CompanyStructuresRangeGroupId: this.gradeRangeGroupDetails.RangeGroupId,
-                CompanyStructuresGradesId: gradeId, JobIds: this.selectedJobs, ControlPoint: this.controlPoint }));
+            const jobs = PayfactorsApiModelMapper.mapJobResultsToGradeJobs(this.selectedJobs, gradeId);
+            this.store.dispatch(new fromJobsToGradeActions.AddJobsToGrade(jobs));
             this.store.dispatch(new fromAddJobsActions.ClearSelectedJobs());
             this.showJobsOnGrade(gradeId);
           }
@@ -137,6 +149,8 @@ export class JobsToGradeContainerComponent implements OnDestroy, OnInit {
   ngOnInit() {
     this.store.dispatch(new fromJobsToGradeActions.GetGrades(this.gradeRangeGroupDetails));
   }
+
+
 
   showJobsOnGrade(gradeId: number) {
     const gradeComponents = this.jobsToGradeComponents.toArray();

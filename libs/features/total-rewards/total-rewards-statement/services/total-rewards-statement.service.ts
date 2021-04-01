@@ -6,7 +6,6 @@ import { EmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards';
 
 import { Statement, CalculationControl, CompensationField, TotalRewardsControlEnum } from '../models';
 import { CurrentControlIndexResponse } from '../models/current-control-index-response';
-import { TrsConstants } from '../constants/trs-constants';
 
 @Injectable()
 export class TotalRewardsStatementService {
@@ -114,11 +113,9 @@ export class TotalRewardsStatementService {
     let sum = 0;
     const visibleFields = control.DataFields.filter(f => f.IsVisible);
     visibleFields.forEach(df => {
-      if (!!df.Type) {
-        const fieldValue = employeeRewardsData.IsMockData
-          ? TrsConstants.UDF_DEFAULT_VALUE
-          : employeeRewardsData[df.Type][df.DatabaseField] > 0 ? employeeRewardsData[df.Type][df.DatabaseField] : 0;
-        sum += fieldValue;
+      if (df.Type) {
+        const fieldValue = TotalRewardsStatementService.getUdfAsNumeric(employeeRewardsData, df.Type, df.DatabaseField);
+        sum += isNaN(fieldValue) ? 0 : fieldValue;
       } else if (this.doesBenefitFieldHaveData(df.DatabaseField, employeeRewardsData, false)) {
         sum += employeeRewardsData.BenefitsData[df.DatabaseField].EmployerValue;
       } else if (this.doesEmployeeRewardsFieldHaveData(df.DatabaseField, employeeRewardsData)) {
@@ -194,5 +191,13 @@ export class TotalRewardsStatementService {
 
   static effectiveDateDateToString(date: Date): string {
     return date === null ? '' : date.toDateString();
+  }
+
+  // in calc controls this should be called to attempt coercing UDF values such as `$1000` to 1000; in RTEs these same fields are inserted verbatim
+  static getUdfAsNumeric(employeeRewards: EmployeeRewardsData, udfType: 'EmployeesUdf' | 'JobsUdf', key: string): number | typeof NaN {
+    const rawFieldValue = employeeRewards[udfType][key];
+    if (typeof rawFieldValue === 'number') { return rawFieldValue; }
+    if (typeof rawFieldValue === 'string') { return +(rawFieldValue.replace('$', '').replace(',', '')); }
+    return NaN;
   }
 }

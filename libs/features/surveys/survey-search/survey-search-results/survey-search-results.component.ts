@@ -21,11 +21,10 @@ export class SurveySearchResultsComponent implements OnInit {
   @ViewChild('tooltipContainer', { static: true }) tooltipContainer: TooltipContainerComponent;
   @Input() cutsDraggable: boolean;
   @Input() implementation: string;
-  @Input() refineInPeerEnabled = false;
-  @Input() refineInPeerReadyDefault = false;
+  @Input() customizeInPeerEnabled = false;
+  @Input() customizeInPeerReadyDefault = false;
 
-  refineInPeerByJobTitle = false;
-  refineInPeerReady = false;
+  customizeInPeerReady = false;
   // Observables
   jobResults$: Observable<JobResult[]>;
   loadingResults$: Observable<boolean>;
@@ -45,7 +44,7 @@ export class SurveySearchResultsComponent implements OnInit {
 
   ngOnInit() {
     this.contextSub = this.pricingMatchDataSearchContext$.subscribe(c => {
-      this.refineInPeerReady = this.refineInPeerReadyDefault;
+      this.customizeInPeerReady = this.customizeInPeerReadyDefault;
     });
     this.legacyIframeImplementation = this.implementation === 'component';
   }
@@ -58,12 +57,7 @@ export class SurveySearchResultsComponent implements OnInit {
 
     switch (event.data.payfactorsMessage.type) {
       case 'Refine Exchange Job Enabled':
-        this.refineInPeerReady = true;
-        this.refineInPeerByJobTitle = false;
-        break;
-      case 'Refine Exchange Job Title Search Enabled':
-        this.refineInPeerReady = true;
-        this.refineInPeerByJobTitle = true;
+        this.customizeInPeerReady = true;
         break;
     }
   }
@@ -101,12 +95,10 @@ export class SurveySearchResultsComponent implements OnInit {
     this.tooltipContainer.handleMatchesMouseLeave();
   }
 
-  handleRefineInPeerClicked(job): void {
-    if (this.refineInPeerEnabled) {
+  handleCustomizeInPeerClicked(job): void {
+    if (this.customizeInPeerEnabled) {
       const exchangeJob = job.PeerJobInfo;
-      const payload = !this.refineInPeerByJobTitle ? {lockedExchangeJobId: exchangeJob.ExchangeJobId} :
-        {exchangeId: exchangeJob.ExchangeId, exchangeJobTitle: job.Title};
-      this.store.dispatch(new fromSurveySearchResultsActions.RefineExchangeJobResult(payload));
+      this.store.dispatch(new fromSurveySearchResultsActions.RefineExchangeJobResult({lockedExchangeJobId: exchangeJob.ExchangeJobId}));
     }
   }
 }

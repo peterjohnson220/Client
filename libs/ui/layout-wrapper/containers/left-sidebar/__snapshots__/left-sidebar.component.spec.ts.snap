@@ -2,6 +2,7 @@
 
 exports[`Left Sidebar should show ul of sidebar closed 1`] = `
 <pf-layout-wrapper-left-sidebar
+  actionsSubject={[Function ActionsSubject]}
   clientAppRoot={[Function String]}
   companyName={[Function String]}
   layoutStore={[Function Store]}
@@ -9,6 +10,7 @@ exports[`Left Sidebar should show ul of sidebar closed 1`] = `
   leftSidebarToggle="false"
   reload={[Function EventEmitter]}
   store={[Function Store]}
+  toggleLeftSideBarSubscription={[Function Subscriber]}
   userContext$={[Function Observable]}
   userContextSubscription={[Function Subscriber]}
   userId={[Function Number]}
@@ -37,6 +39,7 @@ exports[`Left Sidebar should show ul of sidebar closed 1`] = `
 
 exports[`Left Sidebar should show ul of sidebar open 1`] = `
 <pf-layout-wrapper-left-sidebar
+  actionsSubject={[Function ActionsSubject]}
   clientAppRoot={[Function String]}
   companyName={[Function String]}
   layoutStore={[Function Store]}
@@ -44,6 +47,7 @@ exports[`Left Sidebar should show ul of sidebar open 1`] = `
   leftSidebarToggle="false"
   reload={[Function EventEmitter]}
   store={[Function Store]}
+  toggleLeftSideBarSubscription={[Function Subscriber]}
   userContext$={[Function Observable]}
   userContextSubscription={[Function Subscriber]}
   userId={[Function Number]}

@@ -1,3 +1,5 @@
+@import '~dragula/dist/dragula.min.css';
+
 @import 'colors';
 @import 'common/common-variables';
 
@@ -10,7 +12,7 @@ pf-page-with-title-bar {
   .page-content, .page-header {
     transition: background-color .3s ease-in-out;
   }
-  &.preview-mode .page-content, &.preview-mode .page-header { 
+  &.preview-mode .page-content, &.preview-mode .page-header {
     background-color: #4C5964 !important;
     border-bottom-color: transparent;
   }

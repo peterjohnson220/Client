@@ -40,6 +40,7 @@ import { ModelSettingsBtnComponent } from './components/model-settings-btn';
 import { StructuresPagesService, UrlService } from './services';
 import { AddJobsModalWrapperComponent } from './containers/add-jobs-modal-wrapper';
 import { ModelSettingsModalComponent } from './containers/model-settings-modal/model-settings-modal.component';
+import { RangeRoundingComponent } from './containers/range-rounding';
 
 
 @NgModule({
@@ -88,7 +89,8 @@ import { ModelSettingsModalComponent } from './containers/model-settings-modal/m
     GlobalActionsComponent,
     ModelSettingsBtnComponent,
     AddJobsModalWrapperComponent,
-    ModelSettingsModalComponent
+    ModelSettingsModalComponent,
+    RangeRoundingComponent
   ],
   exports: [
     FontAwesomeModule,
@@ -98,7 +100,8 @@ import { ModelSettingsModalComponent } from './containers/model-settings-modal/m
     RangeFieldEditorComponent,
     AddJobsModalWrapperComponent,
     RangeValuePipe,
-    ModelSettingsModalComponent
+    ModelSettingsModalComponent,
+    RangeRoundingComponent
   ],
   providers: [
     RangeGroupExistsGuard,

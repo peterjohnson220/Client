@@ -13,6 +13,7 @@ export const DISCARD_COMPANY_RESOURCE_ERROR = '[Company Resources/Add Resource M
 
 export class OpenAddResourceModal implements Action {
   readonly type = OPEN_ADD_RESOURCE_MODAL;
+  constructor(public folderName?: string) {}
 }
 
 export class CloseAddResourceModal implements Action {

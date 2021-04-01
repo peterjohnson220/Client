@@ -19,20 +19,13 @@
       <b class="align-middle">{{title}}</b>
     </div>
     <div *ngIf="jobDescriptionSummary?.JobDescriptionId" class="d-flex ml-auto" [pfSecuredResource]="permissions.JOB_DESCRIPTIONS">
-      <div
-        class="export-btn pr-3 export-word"
-        title="Export to Word"
-        (click)="handleExportJobDescription('docx')"
-        [attr.data-qa-id]="'btn-jobs-page-export-jd-word'">
-        <fa-icon fa-icon [icon]="['fal', 'file-word']" [size]="actionIconSize" [ngClass]="theme"></fa-icon>
-      </div>
-      <div
-        class="export-btn export-pdf"
-        title="Export to PDF"
-        (click)="handleExportJobDescription('pdf')"
-        [attr.data-qa-id]="'btn-jobs-page-export-jd-pdf'">
-        <fa-icon fa-icon [icon]="['fal', 'file-pdf']" [size]="actionIconSize" [ngClass]="theme"></fa-icon>
-      </div>
+      <pf-job-description-export
+        [jobDescriptionId]="jobDescriptionSummary.JobDescriptionId"
+        [actionIconSize]="actionIconSize"
+        [enableFileDownloadSecurityWarning]="enableFileDownloadSecurityWarning"
+        [pageViewId]="jobsPageViewId"
+        (exportClicked)="exportJobDescription($event)">
+      </pf-job-description-export>
     </div>
   </div>
 </ng-template>
@@ -51,17 +44,3 @@
     </textarea>
   </form>
 </ng-template>
-
-<form
-  name="exportForm"
-  method="POST"
-  [action]="'/odata/JobDescription(' + jobDescriptionSummary?.JobDescriptionId + ')/Default.Export'">
-  <input type="hidden" name="export-uid" />
-  <input type="hidden" name="export-type" />
-  <input type="hidden" name="viewName" />
-</form>
-
-<pf-file-download-security-warning-modal 
-  #fileDownloadSecurityWarningModal
-  (securityWarningConfirmed)="handleSecurityWarningConfirmed($event)">
-</pf-file-download-security-warning-modal>

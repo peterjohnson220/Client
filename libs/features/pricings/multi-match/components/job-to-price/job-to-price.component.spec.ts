@@ -89,7 +89,7 @@ describe('Project - MultiMatch - JobToPrice Component', () => {
   it('should show new job match cuts as highlighted', () => {
     instance.showDataCuts = true;
     instance.job.JobMatchCuts = [generateMockJobMatchCut()];
-    instance.job.JobMatchCuts[0].UserJobMatchId = null;
+    instance.job.JobMatchCuts[0].MatchId = null;
 
     fixture.detectChanges();
 

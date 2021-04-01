@@ -40,6 +40,17 @@
   }
 }
 
+.kendoTooltipWhiteTheme .k-callout {
+  background-color: transparent;
+  color: white;
+}
+
+.kendoTooltipWhiteTheme  .k-widget.k-tooltip{
+  background-color: white;
+  color: black;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
 .k-numerictextbox {
   &.right {
     input {

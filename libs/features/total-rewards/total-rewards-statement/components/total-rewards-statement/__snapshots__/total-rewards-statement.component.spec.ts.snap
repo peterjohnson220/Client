@@ -6,6 +6,7 @@ exports[`TotalRewardsStatementComponent should render a mock statement derived f
   employeeRewardsData={[Function Object]}
   onCalculationControlCompFieldAdded={[Function EventEmitter]}
   onCalculationControlCompFieldRemoved={[Function EventEmitter]}
+  onCalculationControlCompFieldReordered={[Function EventEmitter]}
   onCalculationControlCompFieldTitleChange={[Function EventEmitter]}
   onCalculationControlSummaryTitleChange={[Function EventEmitter]}
   onChartControlRender={[Function EventEmitter]}
@@ -13,9 +14,11 @@ exports[`TotalRewardsStatementComponent should render a mock statement derived f
   onControlTitleChange={[Function EventEmitter]}
   onEffectiveDateChange={[Function EventEmitter]}
   onImageLoaded={[Function EventEmitter]}
+  onImageSelected={[Function EventEmitter]}
   onRTEFocusChange={[Function EventEmitter]}
   onRemoveImage={[Function EventEmitter]}
   onRichTextControlContentChange={[Function EventEmitter]}
+  onRichTextControlUdfsInContentChange={[Function EventEmitter]}
   onSaveImage={[Function EventEmitter]}
   statement={[Function Object]}
   statementModeEnum={[Function Object]}

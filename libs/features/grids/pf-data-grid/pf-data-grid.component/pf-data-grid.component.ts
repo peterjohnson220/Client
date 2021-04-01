@@ -305,6 +305,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   clearFilter(data: { field: ViewField, value: string }, resetOperator = false) {
+    resetOperator = !!data.value ? false : resetOperator;
     this.store.dispatch(new fromActions.ClearFilter(this.pageViewId, data.field, resetOperator, data.value));
   }
 

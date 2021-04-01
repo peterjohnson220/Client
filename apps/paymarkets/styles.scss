@@ -6,3 +6,64 @@
 .add-pay-market-modal .modal-dialog {
   max-width: 900px !important;
 }
+
+.tile-view {
+  .full-wrap {
+    border: 0 !important;
+  }
+
+  pf-grid-column {
+    div:not(.name-column) {
+      height: 69px;
+      border-radius: 2px;
+      background-color: #293B4A;
+      padding: 25px 13px;
+      color: #fff;
+    }
+  }
+
+  &.left-sidebar-open {
+    @media screen and (max-width: 1400px) {
+      pf-grid {
+        kendo-grid {
+          width: 100% !important;
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: 1400px) {
+    pf-grid {
+      kendo-grid {
+        width: 85% !important;
+      }
+    }
+  }
+
+  pf-grid {
+    kendo-grid {
+      width: 80%;
+      margin: auto;
+    }
+
+    .k-grid tbody td {
+      border: none !important;
+    }
+
+    .k-grid-header {
+      padding: 0 !important;
+      border-color: #fff;
+    }
+
+    .k-grid.default .k-grid-header tr th.k-header,
+    .k-grid.default .k-grid-header tr th.k-header:first-child {
+      border-style: none none solid none !important;
+      border-color: #f6f6f6 !important;
+    }
+
+    .k-grid.default .k-grid-header tr th.k-header:first-child {
+      color: transparent;
+      border-bottom-width: 1px !important;
+    }
+  }
+}

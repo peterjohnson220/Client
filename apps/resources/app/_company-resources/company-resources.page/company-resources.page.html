@@ -1,22 +1,25 @@
-<pf-async-container
-  [loading]="companyResourcesLoading$ | async"
-  [loadingError]="companyResourcesLoadingError$ | async"
-  [loadingErrorMessage]="'Error loading Company Resources.'"
->
-  <div class="company-resources-container">
-    <div class="content-container">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/client/resources">Knowledge Base</a></li>
-                <li class="breadcrumb-item">{{companyName}} Resources</li>
-            </ol>
-        </nav>
-        <h1 class="title">{{companyName}} Resources</h1>
-        <div class="button-container">
-          <button id="new-folder-btn" type="button" class="btn btn-primary" (click)="openNewFolderModal()"><fa-icon icon="folder-plus"></fa-icon>Add Folder</button>
-          <button id="upload-btn" type="button" class="btn btn-primary" (click)="openResourceModal()"><fa-icon icon="upload"></fa-icon>Add Resource</button>
+<pf-page-with-title-bar>
+  <ng-container page-title>
+    Company Resources
+  </ng-container>
+  <ng-container page-actions>
+    <button id="upload-btn" type="button" class="btn btn-primary" *ngIf = "hasCompanyResourcesAddEditDeletePermission" (click)="openResourceModal()">New Resource</button>
+    <button id="new-folder-btn" type="button" class="btn btn-secondary" *ngIf = "hasCompanyResourcesAddEditDeletePermission" (click)="openNewFolderModal()">New Folder</button>
+  </ng-container>
+  <ng-container page-content>
+    <pf-async-container
+      [loading]="companyResourcesLoading$ | async"
+      [loadingError]="companyResourcesLoadingError$ | async"
+      [loadingErrorMessage]="'Error loading Company Resources.'">
+      <div class="company-resources-container">
+        <div class="content-container">
+          <pf-company-resource-list
+            [hasCompanyResourcesAddEditDeletePermission] = "hasCompanyResourcesAddEditDeletePermission"
+            [folderResources]="folderResources$ | async"
+            [orphanedResources]="orphanedResources$ | async">
+          </pf-company-resource-list>
         </div>
-        <pf-company-resource-list [folderResources]="folderResources$ | async" [orphanedResources]="orphanedResources$ | async"></pf-company-resource-list>
-    </div>
-  </div>
-</pf-async-container>
+      </div>
+    </pf-async-container>
+  </ng-container>
+</pf-page-with-title-bar>

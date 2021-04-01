@@ -41,7 +41,7 @@ export class UpsertPeerDataCutEffects {
         PayMarketName: latest.paymarket.PayMarket,
         Companies: latest.companies
       }).pipe(
-        map((payload) => new fromUpsertPeerDataCutActions.UpsertDataCutSuccess({UserJobMatchId: payload.Key,
+        map((payload) => new fromUpsertPeerDataCutActions.UpsertDataCutSuccess({MatchId: payload.Key,
           IsUpdate: payload.Value, BaseEntityId: latest.action.EntityConfiguration.BaseEntityId})),
         catchError(() => of(new fromUpsertPeerDataCutActions.UpsertDataCutError()))
       );

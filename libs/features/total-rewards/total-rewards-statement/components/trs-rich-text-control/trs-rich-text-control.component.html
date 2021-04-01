@@ -10,9 +10,10 @@
     </h4>
     <div *ngIf="mode !== statementModeEnum.Print" kendoTooltip class="tooltip-wrapper d-inline-block ml-2 align-top">
       <label 
-        *ngIf="controlData?.DataFields?.length"
+        *ngIf="controlData?.AvailableDataFields?.length"
         class="info position-relative"
-        [ngbTooltip]="'This is a rich text area. Use [ to find and insert existing employee or company fields into your text.'">
+        [ngbTooltip]="infoTooltip"
+        [container]="'body'">
         <fa-icon [icon]="['fal', 'info-circle']" aria-hidden="true"></fa-icon>
       </label>
     </div>
@@ -20,9 +21,11 @@
   <ng-template #infoOnly>
     <div *ngIf="mode !== statementModeEnum.Print" kendoTooltip class="tooltip-wrapper">
       <label
-        *ngIf="controlData?.DataFields?.length"
+        *ngIf="controlData?.AvailableDataFields?.length"
         class="info position-absolute info-only"
-        [ngbTooltip]="'This is a rich text area. Use [ to find and insert existing employee or company fields into your text.'" [placement]="'right'">
+        [ngbTooltip]="infoTooltip" 
+        [container]="'body'"
+        [placement]="'right'">
         <fa-icon [icon]="['fal', 'info-circle']" aria-hidden="true"></fa-icon>
       </label>
     </div>
@@ -33,6 +36,6 @@
     </a>
   </div>
   <ng-template #rawHtml>
-    <div [innerHtml]="bindEmployeeDataHtml()"></div>
+    <div [innerHtml]="bindDataFields()"></div>
   </ng-template>
 </div>

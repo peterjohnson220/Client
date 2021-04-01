@@ -15,7 +15,10 @@
     </a>
   </div>
   <kendo-chart [transitions]="!inEditMode && !inPrintMode" [seriesColors]="chartColors" [style.height]="height" (legendItemClick)="onLegendItemClick($event)" (render)="onChartRender($event)">
-    <kendo-chart-legend 
+    <kendo-chart-legend
+      [labels]="legendFont"
+      [margin]="0"
+      [padding]="0"
       [position]="'bottom'">
     </kendo-chart-legend>
     <kendo-chart-series>

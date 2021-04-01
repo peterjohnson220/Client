@@ -118,6 +118,10 @@ export class GeneralFormComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
+  onModalClose(): void {
+    this.mdScopeComponent.onModalClose();
+  }
+
   private initSubscriptions(): void {
     this.payMarketSubscription = this.payMarket$.subscribe(asyncObj => {
       if (!!asyncObj && !asyncObj.loading && !!asyncObj.obj) {

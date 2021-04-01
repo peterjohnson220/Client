@@ -5,7 +5,7 @@ import { Action, Store, select } from '@ngrx/store';
 import { catchError, map, switchMap, mergeMap, withLatestFrom } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
-import { CompanyJobApiService } from 'libs/data/payfactors-api';
+import { CompanyJobApiService, JobsApiService } from 'libs/data/payfactors-api';
 
 import * as fromJobDescriptionActions from '../actions';
 import * as fromJobDescriptionReducer from '../reducers';
@@ -19,7 +19,8 @@ export class JobDescriptionEffects {
   constructor(
     private actions$: Actions,
     private companyJobApiService: CompanyJobApiService,
-    private store: Store<fromJobDescriptionReducer.State>,
+    private jobsApiService: JobsApiService,
+    private store: Store<fromJobDescriptionReducer.State>
   ) { }
 
   @Effect()
@@ -51,6 +52,17 @@ export class JobDescriptionEffects {
       return this.companyJobApiService.patchCompanyJob(job).pipe(
         map(() => new fromJobDescriptionActions.SaveJobDescriptionSuccess(job.JobDescription)),
         catchError(error => of(new fromJobDescriptionActions.SaveJobDescriptionError()))
+      );
+    })
+  );
+
+  @Effect()
+  exportJobDescription$ = this.actions$.pipe(
+    ofType(fromJobDescriptionActions.EXPORT_JOB_DESCRIPTION),
+    switchMap((action: fromJobDescriptionActions.ExportJobDescription) => {
+      return this.jobsApiService.exportJobDescription(action.payload).pipe(
+        map((response) => new fromJobDescriptionActions.ExportJobDescriptionSuccess()),
+        catchError(() => of(new fromJobDescriptionActions.ExportJobDescriptionError()))
       );
     })
   );

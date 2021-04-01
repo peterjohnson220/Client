@@ -41,6 +41,7 @@
   <div *ngIf="attribute.Type === 'RichText'" class="rte-container">
     <quill-editor
       [modules]="richTextQuillConfig"
+      [placeholder]="''"
       [ngModel]="dataRow[attribute.Name]"
       [styles]="attribute.RTEHeight ? {'min-height': attribute.RTEHeight} : {'min-height': '200px' }"
       (onContentChanged)="handleDataChangesDetected(dataRow.Id, attribute.Name, $event.html || '')">
@@ -80,6 +81,7 @@
     <quill-editor [pfEditorModel]="dataRow[attribute.Name]"
                   [ngModel]="dataRow[attribute.Name]"
                   [modules]="{ toolbar: false }"
+                  [placeholder]="''"
                   (onContentChanged)="handleDataChangesDetected(dataRow.Id, attribute.Name, $event.html)">
     </quill-editor>
   </div>

@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { AppWrapperComponent } from 'libs/features/infrastructure/app-root';
 import { PermissionCheckEnum, Permissions } from 'libs/constants';
-import { TileEnabledGuard, UserContextGuard, TabularReportBuilderGuard } from 'libs/security';
+import { TileEnabledGuard, UserContextGuard, PermissionGuard } from 'libs/security';
 import { DEFAULT_ROUTES } from 'libs/ui/common';
 
 export const routes: Routes = [
@@ -16,7 +16,7 @@ export const routes: Routes = [
       {
         path: 'custom-report/:dataViewId',
         loadChildren: () => import('apps/data-insights/app/_data-view/data-view.module').then(m => m.DataViewModule),
-        canActivate: [TabularReportBuilderGuard],
+        canActivate: [PermissionGuard],
         data: {Permissions: [Permissions.TABULAR_REPORT_BUILDER], Check: PermissionCheckEnum.Single}
       }
     ]
