@@ -21,6 +21,7 @@ export class TrsImageControlComponent implements AfterViewInit, OnInit {
   @Output() saveImage: EventEmitter<SaveImageRequest> = new EventEmitter();
   @Output() removeImage: EventEmitter<DeleteImageRequest> = new EventEmitter();
   @Output() imageLoaded: EventEmitter<string> = new EventEmitter();
+  @Output() imageSelected: EventEmitter<void> = new EventEmitter();
 
   saveUrl = '/odata/TotalRewards/SaveStatementImage';
   statementModeEnum = StatementModeEnum;
@@ -75,6 +76,7 @@ export class TrsImageControlComponent implements AfterViewInit, OnInit {
   selectEventHandler(e: SelectEvent): void {
     this.selectedFiles = [];
     e.files.forEach((file) => this.selectedFiles.push(file));
+    this.imageSelected.emit();
   }
 
   getFileValidation(file): string {

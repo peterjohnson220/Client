@@ -6,10 +6,12 @@ import * as fromSharedActions from '../actions/shared.actions';
 
 export interface State {
   gradeRangeDetails: AsyncStateObj<any>;
+  gradesDetails: AsyncStateObj<any>;
 }
 
 const initialState: State = {
-  gradeRangeDetails: generateDefaultAsyncStateObj<any>(null)
+  gradeRangeDetails: generateDefaultAsyncStateObj<any>(null),
+  gradesDetails: generateDefaultAsyncStateObj<any>(null)
 };
 
 export function reducer(state = initialState, action: fromSharedActions.SharedActions): State {
@@ -48,12 +50,44 @@ export function reducer(state = initialState, action: fromSharedActions.SharedAc
         gradeRangeDetails: gradeRangeDetails
       };
     }
+    case fromSharedActions.GET_GRADES_DETAILS: {
+      const gradesDetails = cloneDeep(state.gradesDetails);
+
+      gradesDetails.loading = true;
+      gradesDetails.obj = null;
+      gradesDetails.loadingError = false;
+
+      return {
+        ...state,
+        gradesDetails: gradesDetails
+      };
+    }
+    case fromSharedActions.GET_GRADES_DETAILS_SUCCESS: {
+      const gradesDetails = cloneDeep(state.gradesDetails);
+
+      gradesDetails.loading = false;
+      gradesDetails.obj = action.payload;
+
+      return {
+        ...state,
+        gradesDetails: gradesDetails
+      };
+    }
+    case fromSharedActions.GET_GRADES_DETAILS_ERROR: {
+      const gradesDetails = cloneDeep(state.gradesDetails);
+
+      gradesDetails.loading = false;
+      gradesDetails.loadingError = true;
+
+      return {
+        ...state,
+        gradesDetails: gradesDetails
+      };
+    }
     default:
       return state;
   }
 }
 
 export const getGradeRangeDetails = (state: State) => state.gradeRangeDetails;
-
-
-
+export const getGradesDetails = (state: State) => state.gradesDetails;

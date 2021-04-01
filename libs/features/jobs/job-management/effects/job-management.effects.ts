@@ -13,7 +13,8 @@ import {
   CompanyJobApiService,
   StructuresApiService,
   StructureRangeGroupApiService,
-  DashboardApiService
+  DashboardApiService,
+  JobsApiService
 } from 'libs/data/payfactors-api';
 
 import * as fromRootState from 'libs/state/state';
@@ -49,6 +50,7 @@ export class JobManagementEffects {
     private rootStore: Store<fromRootState.State>,
     private store: Store<fromJobManagementReducer.State>,
     private toastr: ToastrService,
+    private jobsApiService: JobsApiService
   ) { }
 
   @Effect()
@@ -208,6 +210,17 @@ export class JobManagementEffects {
             })
           );
       }));
+
+  @Effect()
+  exportJobDescription$ = this.actions$.pipe(
+    ofType(fromJobManagementActions.EXPORT_JOB_DESCRIPTION),
+    switchMap((action: fromJobManagementActions.ExportJobDescription) => {
+      return this.jobsApiService.exportJobDescription(action.payload).pipe(
+        map((response) => new fromJobManagementActions.ExportJobDescriptionSuccess()),
+        catchError(() => of(new fromJobManagementActions.ExportJobDescriptionError()))
+      );
+    })
+  );
 
 
   @Effect()

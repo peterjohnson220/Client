@@ -122,6 +122,31 @@ export interface State extends EntityState<CompanyResourceFolder> {
             entities: updatedEntities
           };
       }
+      case fromCompanyResourcesPageActions.UPDATE_RESOURCE_TITLE_WITH_FOLDER_SUCCESS: {
+        const foldersClone: CompanyResourceFolder[] = cloneDeep(state.entities);
+        const resourceFolder: CompanyResourceFolder = foldersClone[action.payload.companyResourceFolderId];
+        if (resourceFolder) {
+          const resourcesClone: CompanyResource[] = cloneDeep(resourceFolder.CompanyResources);
+          const updatedResource = resourcesClone.find(x => x.CompanyResourceId === action.payload.companyResourceId);
+          updatedResource.ResourceTitle = action.payload.title;
+          resourceFolder.CompanyResources = resourcesClone;
+        }
+        return {
+          ...state,
+          entities: foldersClone
+        };
+      }
+      case fromCompanyResourcesPageActions.UPDATE_FOLDER_NAME_SUCCESS: {
+        const foldersClone: CompanyResourceFolder[] = cloneDeep(state.entities);
+        const resourceFolder: CompanyResourceFolder = foldersClone[action.payload.companyResourcesFolderId];
+        if (resourceFolder) {
+          resourceFolder.FolderName = action.payload.folderName;
+        }
+        return {
+          ...state,
+          entities: foldersClone
+        };
+      }
       default: {
         return state;
       }

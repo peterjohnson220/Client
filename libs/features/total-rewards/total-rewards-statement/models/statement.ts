@@ -203,9 +203,9 @@ export function generateMockStatementWithSingleCalculationControlUDFsOnly(): Sta
   const calcControl = statement.Pages[0].Sections[0].Columns[0].Controls[0] as CalculationControl;
 
   calcControl.DataFields = [
-    { Id: '1', DatabaseField: 'UDF_1', Name: { Default: 'Employee UDF 1', Override: null }, IsVisible: true, Type: 'EmployeesUdf',
+    { Id: '1', DatabaseField: 'UDF_CHAR_1', Name: { Default: 'Employee UDF 1', Override: null }, IsVisible: true, Type: 'EmployeesUdf',
       CanHaveEmployeeContribution: false},
-    { Id: '2', DatabaseField: 'UDF_2', Name: { Default: 'Employee UDF 2', Override: null }, IsVisible: true,  Type: 'EmployeesUdf',
+    { Id: '2', DatabaseField: 'UDF_CHAR_2', Name: { Default: 'Employee UDF 2', Override: null }, IsVisible: true,  Type: 'EmployeesUdf',
       CanHaveEmployeeContribution: false}
     ];
   statement.Pages[0].Sections[0].Columns[0].Controls[0] = calcControl;

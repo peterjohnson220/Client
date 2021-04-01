@@ -12,6 +12,8 @@ const endpoint = 'CompanyResources';
 })
 export class CompanyResourcesApiService {
 
+  companyResourceFoldersEndpoint = 'CompanyResourceFolders';
+
   constructor(private payfactorsApiService: PayfactorsApiService) {}
 
   getCompanyResources(): Observable<CompanyResources> {
@@ -40,5 +42,14 @@ export class CompanyResourcesApiService {
 
   removeCompanyResource(resource) {
     return this.payfactorsApiService.post<any>('CloudFiles.DeleteCompanyResources', {fileName: resource});
+  }
+
+  updateResourceTitle(resourceId: number, resourceTitle: string): Observable<any> {
+    return this.payfactorsApiService.post<any>(`${endpoint}(${resourceId})/Default.UpdateResourceTitle`, { ResourceTitle: resourceTitle });
+  }
+
+  updateFolderName(folderId: number, folderName: string): Observable<any> {
+    return this.payfactorsApiService.post<any>(
+      `${this.companyResourceFoldersEndpoint}(${folderId})/Default.UpdateFolderName`, { FolderName: folderName });
   }
 }

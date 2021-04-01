@@ -2,6 +2,7 @@
   <quill-editor *ngIf="!readOnly"
                 [modules]="smartListQuillConfig"
                 [styles]="attributes.length === 1 ? { 'min-height' :'200px' } : {'height': '200px'}"
+                [placeholder] = "''"
                 [(ngModel)]="rteData"
                 (onContentChanged)="parseQuillHtmlIntoRealHtml($event.html)">
   </quill-editor>

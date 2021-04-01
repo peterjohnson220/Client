@@ -1,10 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
 import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { AsyncStateObj, GroupedListItem, PayMarketWithMdScope } from 'libs/models';
-import { TreeViewMode } from 'libs/ui/common/pf-treeview';
+import { PfTreeViewComponent, TreeViewMode, TreeViewTheme } from 'libs/ui/common/pf-treeview';
 import { MDLocationsRequest } from 'libs/models/payfactors-api';
 
 import * as fromPayMarketManagementReducer from '../../reducers';
@@ -18,6 +18,10 @@ import { GeneralFormHelper } from '../../helpers';
   styleUrls: ['./market-data-scope.component.scss']
 })
 export class MarketDataScopeComponent implements OnInit, OnDestroy {
+  @ViewChild('industryComponent', { static: true }) public industryComponent: PfTreeViewComponent;
+  @ViewChild('sizeComponent', { static: true }) public sizeComponent: PfTreeViewComponent;
+  @ViewChild('locationComponent', { static: true }) public locationComponent: PfTreeViewComponent;
+
   payMarket$: Observable<AsyncStateObj<PayMarketWithMdScope>>;
   industries$: Observable<AsyncStateObj<GroupedListItem[]>>;
   sizes$: Observable<AsyncStateObj<GroupedListItem[]>>;
@@ -40,6 +44,7 @@ export class MarketDataScopeComponent implements OnInit, OnDestroy {
   selectedSize: Scope;
   selectedIndustry: Scope;
   selectedLocation: Scope;
+  treeViewTheme = TreeViewTheme;
 
   readonly DEFAULT_COUNTRY_CODE = 'USA';
 
@@ -75,9 +80,9 @@ export class MarketDataScopeComponent implements OnInit, OnDestroy {
     this.payMarketSubscription.unsubscribe();
   }
 
-  handleSelectedSizesChanged(sizes: string[]): void {
-    if (sizes && sizes.length) {
-      const parsedSize: string[] = sizes[0].split(':');
+  handleSelectedSizesChanged(selectedItems: GroupedListItem[]): void {
+    if (selectedItems?.length) {
+      const parsedSize: string[] = selectedItems[0].Value.split(':');
       if (parsedSize.length === 2) {
         this.selectedSize = {
           Label: parsedSize[0],
@@ -87,9 +92,9 @@ export class MarketDataScopeComponent implements OnInit, OnDestroy {
     }
   }
 
-  handleSelectedIndustryChanged(industry: string[]): void {
-    if (industry && industry.length) {
-      const parsedIndustry: string[] = industry[0].split(':');
+  handleSelectedIndustryChanged(selectedItems: GroupedListItem[]): void {
+    if (selectedItems?.length) {
+      const parsedIndustry: string[] = selectedItems[0].Value.split(':');
       if (parsedIndustry.length === 3) {
         this.selectedIndustry = {
           Label: parsedIndustry[0],
@@ -102,9 +107,9 @@ export class MarketDataScopeComponent implements OnInit, OnDestroy {
     }
   }
 
-  handleSelectedLocationChanged(location: string[]): void {
-    if (location && location.length) {
-      this.selectedLocation = GeneralFormHelper.buildScopeLocation(location[0]);
+  handleSelectedLocationChanged(selectedItems: GroupedListItem[]): void {
+    if (selectedItems?.length) {
+      this.selectedLocation = GeneralFormHelper.buildScopeLocation(selectedItems[0].Value);
     }
   }
 
@@ -128,6 +133,12 @@ export class MarketDataScopeComponent implements OnInit, OnDestroy {
     this.countryCode = countryCode;
     this.defaultLocation = GeneralFormHelper.buildAllItem(ScopeLabel.Location);
     this.refreshLocation();
+  }
+
+  onModalClose(): void {
+    this.industryComponent.onModalClose();
+    this.sizeComponent.onModalClose();
+    this.locationComponent.onModalClose();
   }
 
   private handlePayMarketChanged(asyncObj: AsyncStateObj<PayMarketWithMdScope>): void {

@@ -31,7 +31,9 @@
       <pf-job-description-export
         [jobDescriptionId]="jobDescription.JobDescriptionId"
         [actionIconSize]="'2x'"
-        [enableFileDownloadSecurityWarning]="enableFileDownloadSecurityWarning$ | async">
+        [enableFileDownloadSecurityWarning]="enableFileDownloadSecurityWarning$ | async"
+        [pageViewId]="jobsPageViewId"
+        (exportClicked)="handleExportJobDescription($event)">
       </pf-job-description-export>
     </div>
   </div>

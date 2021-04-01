@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 import { StatementListViewModel } from 'libs/features/total-rewards/total-rewards-statement/models';
 
@@ -15,7 +16,7 @@ import * as fromTemplateSelectorActions from '../actions/template-selector.actio
   templateUrl: './statement-list.page.html',
   styleUrls: ['./statement-list.page.scss']
 })
-export class StatementListPageComponent implements OnInit {
+export class StatementListPageComponent implements OnInit, OnDestroy {
 
   focusedTab$: Observable<'Statements' | 'Templates'>;
   statementsLoading$: Observable<boolean>;
@@ -29,7 +30,13 @@ export class StatementListPageComponent implements OnInit {
   deletingStatementError$: Observable<boolean>;
   openActionMenuStatement$: Observable<StatementListViewModel>;
 
-  constructor(private store: Store<fromStatementListReducers.State>) { }
+  urlParamSubscription = new Subscription();
+
+  constructor(
+    private store: Store<fromStatementListReducers.State>,
+    private route: ActivatedRoute,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
     this.focusedTab$ = this.store.pipe(select(fromStatementListReducers.getFocusedTab));
@@ -44,21 +51,33 @@ export class StatementListPageComponent implements OnInit {
     this.deletingStatementError$ = this.store.pipe(select(fromStatementListReducers.getDeletingStatementError));
     this.openActionMenuStatement$ = this.store.pipe(select(fromStatementListReducers.getStatementsOpenActionMenuStatement));
 
-    this.store.dispatch(new fromStatementListPageActions.SetTab('Statements'));
-    this.store.dispatch(new fromStatementGridActions.LoadStatements());
+    // SUBSCRIPTIONS
+    this.urlParamSubscription = this.route.url.subscribe(params => {
+      // <host>/client/total-rewards/ => params.length === 0
+      // <host>/client/total-rewards/templates => params.length === 1
+      const tabSegment = params.length ? params[0].path : '';
+      this.dispatchSegmentAction(tabSegment);
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.urlParamSubscription.unsubscribe();
   }
 
   onSearchTermChange(searchTerm: string): void {
     this.store.dispatch(new fromStatementGridActions.UpdateSearchTerm(searchTerm));
   }
 
-  onTabChange(): void  {
-    this.store.dispatch(new fromStatementListPageActions.ToggleTab());
-  }
+  onTabChange(tab: TabSegment): void  {
+    switch (tab) {
+      case '':
+        this.router.navigate(['']);
+        break;
 
-  onCreateNewClicked(): void {
-    this.store.dispatch(new fromStatementListPageActions.SetTab('Templates'));
-
+      case 'templates':
+        this.router.navigate(['templates']);
+        break;
+    }
   }
 
   onTemplateSelected(templateId: string) {
@@ -72,4 +91,19 @@ export class StatementListPageComponent implements OnInit {
   onCancelDeleteStatement() {
     this.store.dispatch(new fromStatementGridActions.CloseDeleteStatement());
   }
+
+  private dispatchSegmentAction(tabSegment: string): void {
+    const isStatementsTab = (tabSegment ?? '') === '';
+    const isTemplatesTab = tabSegment?.toLowerCase() === 'templates';
+
+    if (isStatementsTab) {
+      this.store.dispatch(new fromStatementListPageActions.SetTab('Statements'));
+      this.store.dispatch(new fromStatementGridActions.LoadStatements());
+    } else if (isTemplatesTab) {
+      this.store.dispatch(new fromStatementListPageActions.SetTab('Templates'));
+      this.store.dispatch(new fromTemplateSelectorActions.LoadTemplates());
+    }
+  }
 }
+
+export type TabSegment = '' | 'templates';

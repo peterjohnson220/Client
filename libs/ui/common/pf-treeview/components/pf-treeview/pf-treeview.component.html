@@ -1,10 +1,10 @@
-<div class="d-flex flex-column multi-select-treeview-container"
+<div *ngIf="theme === treeViewTheme.Popup" class="d-flex flex-column multi-select-treeview-container"
       pfClickElsewhere
       (clickElsewhere)="handleCloseClicked($event)">
   <span *ngIf="!!label" class="mb-2">{{label}}</span>
   <div #anchor class="k-button anchor-button" [style.width.px]="anchorWidth">
     <span class="d-flex w-100 align-items-start">
-      <span *ngIf="appliedNames?.length > 0; else placeholderTemplate" class="d-flex anchor-label">
+      <span *ngIf="appliedNames?.length > 0; else placeholderTemplate" class="d-flex w-100 anchor-label">
         <span class="value-template"
               [style.width]="appliedNames.length > 1 ? anchorWidth - 147 + 'px' : anchorWidth - 67 + 'px'">
               {{ appliedNames[0] }}
@@ -41,9 +41,22 @@
   </kendo-popup>
 </div>
 
+<div *ngIf="theme === treeViewTheme.Simple" [style.width.px]="anchorWidth">
+  <span *ngIf="!!label" class="mb-3">{{label}}</span>
+  <div class="ellipsis-overflowing-text">
+    <span class="font-weight-bold">Selected:</span>
+    <span *ngIf="appliedNames?.length > 0; else placeholderTemplate" class="anchor-label">{{appliedNames[0]}}</span>
+    <ng-template #placeholderTemplate>
+      <span *ngIf="!!lazyLoadDefaultAppliedItem" class="anchor-label">{{lazyLoadDefaultAppliedItem.Name}}</span>
+      <span *ngIf="!lazyLoadDefaultAppliedItem" class="anchor-label">{{placeholder}}</span>
+    </ng-template>
+  </div>
+  <ng-container [ngTemplateOutlet]="treeViewContent"></ng-container>
+</div>
+
 <ng-template #treeViewContent>
   <div class="d-flex flex-column popup-container" [style.width.px]="anchorWidth - 2">
-    <div *ngIf="filterable" class="px-3 pt-3 pb-2">
+    <div *ngIf="filterable" class="pt-3 pb-2" [class.px-3]="theme === treeViewTheme.Popup">
       <div class="input-group smaller-text">
         <input class="form-control"
           [attr.data-qa-id]="'txt-searchItem'"
@@ -75,7 +88,8 @@
         [checkBy]="checkByKey"
         [(checkedKeys)]="checkedKeys"
         expandBy="Value"
-        [(expandedKeys)]="expandedKeys">
+        [(expandedKeys)]="expandedKeys"
+        [ngClass]="{'simple-theme': theme === treeViewTheme.Simple}">
 
         <ng-template kendoTreeViewNodeTemplate let-dataItem>
           <span class="item-name" [title]="dataItem.Name">{{dataItem.Name}}</span>
@@ -96,7 +110,8 @@
         [(expandedKeys)]="expandedKeys"
         [isSelected]="isSelected"
         (selectionChange)="handleSelectionChanged($event)"
-        (expand)="handleExpandNode($event)">
+        (expand)="handleExpandNode($event)"
+        [ngClass]="{'simple-theme': theme === treeViewTheme.Simple}">
 
         <ng-template kendoTreeViewNodeTemplate let-dataItem>
           <span *ngIf="showDescriptionToolTip; else default" class="text-wrap"
@@ -126,7 +141,7 @@
 
       </kendo-treeview>
     </div>
-    <div class="d-flex justify-content-end treeview-footer space-out-children">
+    <div *ngIf="theme === treeViewTheme.Popup" class="d-flex justify-content-end treeview-footer space-out-children">
       <button type="button"
         (click)="handleCloseClicked($event)"
         class="btn btn-secondary smaller-text">

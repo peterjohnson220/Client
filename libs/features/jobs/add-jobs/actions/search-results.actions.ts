@@ -12,6 +12,7 @@ export const LOAD_JOB_PRICING_DATA_SUCCESS = '[Add Jobs/Search Results] Load Pri
 export const LOAD_JOB_PRICING_DATA_ERROR = '[Add Jobs/Search Results] Load Pricing Data Error';
 export const TOGGLE_JOB_DETAIL = '[Add Jobs/Search Results] Toggle Job Detail';
 export const RESET = '[Add Jobs/Search Results] Reset';
+export const SELECT_ALL_JOBS = '[Add Jobs/Search Results] Select All Jobs';
 
 export class ToggleJobSelection implements Action {
   readonly type = TOGGLE_JOB_SELECTION;
@@ -36,6 +37,13 @@ export class ClearSelectedJobs implements Action {
 
   constructor() {}
 }
+
+export class SelectAllJobs implements Action {
+  readonly type = SELECT_ALL_JOBS;
+
+  constructor() {}
+}
+
 export class ToggleJobDetail implements Action {
   readonly type = TOGGLE_JOB_DETAIL;
 
@@ -73,5 +81,7 @@ export type Actions
   | GetJobPricingDataSuccess
   | GetJobPricingDataError
   | ToggleJobDetail
-  | Reset;
+  | Reset
+  | SelectAllJobs;
+
 

@@ -22,6 +22,7 @@ export class BulkExportSchedulerFormComponent implements OnInit, OnDestroy {
   @Input() filters: JdmListFilter[];
   @Input() schedules: BulkExportSchedule[];
   @Input() exportType: '';
+  @Input() reportType: null;
 
   editing: boolean;
   schedule: BulkExportSchedule = new BulkExportSchedule();
@@ -55,8 +56,8 @@ export class BulkExportSchedulerFormComponent implements OnInit, OnDestroy {
       this.addingScheduleError$,
       this.updateScheduleError$,
     )
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(error => {
+    .pipe(takeUntil(this.unsubscribe$))
+    .subscribe(error => {
         if (error) {
           alert('There was an error saving the schedule.');
         }
@@ -186,6 +187,7 @@ export class BulkExportSchedulerFormComponent implements OnInit, OnDestroy {
     this.schedule.IncludeFormatting = false;
     this.schedule.Format = !this.exportType ? 'xlsx' : 'json';
     this.schedule.ComplexJsonExport = this.exportType ? true : null;
+    this.schedule.ReportType = this.reportType;
 
     this.daysOfWeekSelected = [];
     this.validSchedule = true;

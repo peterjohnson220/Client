@@ -2,7 +2,7 @@ import { RoundRangesRequest } from './round-ranges-request.model';
 import { AdvancedSettingRequest } from './advanced-setting-request.model';
 import { RangeDistributionSettingRequest } from './range-distribution-setting-request.model';
 
-export interface SaveModelSettingsRequest {
+export interface SaveJobBasedModelSettingsRequest {
   RangeGroupId: number;
   StructureName: string;
   ModelName: string;
