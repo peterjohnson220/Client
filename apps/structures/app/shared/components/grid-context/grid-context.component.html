@@ -1,9 +1,15 @@
 <div class="d-flex justify-content-between mb-2 p-1">
-  <div>
+  <div *ngIf="rangeId && rangeGroupId; else default">
+    <h4 *ngIf="title">{{title}}</h4>
+    <button *ngIf="enableReturnBtn && buttonText" [routerLink]="[routerLink]" class="btn btn-secondary mr-1 return-btn">{{buttonText}}</button>
+    <ng-content select="[right-of-return-button-content]"></ng-content>
+  </div>
+
+  <ng-template #default>
     <h4 *ngIf="title">{{title}}</h4>
     <button *ngIf="enableReturnBtn && buttonText" routerLink="../../" class="btn btn-secondary mr-1 return-btn">{{buttonText}}</button>
     <ng-content select="[right-of-return-button-content]"></ng-content>
-  </div>
+  </ng-template>
 
   <div *ngIf="currentRangeGroupName && compareFlag" class="alert alert-info rounded my-auto" role="alert">
     Currently comparing to current model <b>{{currentRangeGroupName}}</b>

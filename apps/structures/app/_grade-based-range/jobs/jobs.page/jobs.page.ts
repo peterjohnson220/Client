@@ -35,6 +35,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('rangeValue', {static: true}) rangeValueColumn: ElementRef;
   @ViewChild('rangeSpreadField') rangeSpreadFieldColumn: ElementRef;
   @ViewChild('eeCount') employeesCountColumn: ElementRef;
+  @ViewChild('jobTitle') jobTitleColumn: ElementRef;
 
   pageViewId: string;
   modelGridPageViewId: string;
@@ -49,11 +50,13 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   jobsData: any;
   jobsPagingOptions: any;
   colTemplates = {};
+  colHeaderTemplates = {};
   rangeType = RangeType.Grade;
   roundingSettings$: Observable<RoundingSettingsDataObj>;
   roundingSettingsSub: Subscription;
   roundingSettings: RoundingSettingsDataObj;
   gradeName = '';
+  singleJobViewUrl: string;
 
   filter: PfDataGridFilter;
 
@@ -96,6 +99,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.rangeGroupId = this.route.parent.snapshot.params.id;
     this.rangeId = parseInt(this.route.snapshot.params.id, 10);
+    this.singleJobViewUrl = `/grade/${this.rangeGroupId}/job/`;
 
     this.filter = {
       SourceName: 'CompanyStructuresRanges_ID',
@@ -147,11 +151,22 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    this.colTemplates = {
+    this.colHeaderTemplates = {
       'Mid': {Template: this.midColumn},
       'Employees_Per_Grade': {Template: this.employeesCountColumn},
       'Range_Spread': {Template: this.rangeSpreadFieldColumn},
       'GradeMidpointDiff': {Template: this.diffFieldColumn},
+      'JobTitle': {Template: this.jobTitleColumn},
+      [PfDataGridColType.noFormatting]: {Template: this.noFormattingColumn},
+      [PfDataGridColType.rangeFieldEditor]: {Template: this.rangeFieldColumn},
+      [PfDataGridColType.percentage]: {Template: this.percentageColumn},
+      [PfDataGridColType.rangeValue]: {Template: this.rangeValueColumn}
+    };
+    this.colTemplates = {
+      'Employees_Per_Grade': {Template: this.employeesCountColumn},
+      'Range_Spread': {Template: this.rangeSpreadFieldColumn},
+      'GradeMidpointDiff': {Template: this.diffFieldColumn},
+      'JobTitle': {Template: this.jobTitleColumn},
       [PfDataGridColType.noFormatting]: {Template: this.noFormattingColumn},
       [PfDataGridColType.rangeFieldEditor]: {Template: this.rangeFieldColumn},
       [PfDataGridColType.percentage]: {Template: this.percentageColumn},
