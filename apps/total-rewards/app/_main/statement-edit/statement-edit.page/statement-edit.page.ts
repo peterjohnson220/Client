@@ -242,12 +242,12 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
 
   // CHART
   handleOnChartControlToggleSettingsPanelClick() {
-    this.store.dispatch(new fromEditStatementPageActions.ToggleSettingsPanel());
+    this.store.dispatch(new fromEditStatementPageActions.OpenSettingsPanel());
   }
 
   // SETTINGS
   handleToggleSettingsPanelClick() {
-    this.store.dispatch(new fromEditStatementPageActions.ToggleSettingsPanel());
+    this.store.dispatch(new fromEditStatementPageActions.OpenSettingsPanel());
   }
 
   handleCloseSettingsClick() {

@@ -34,7 +34,6 @@ export type StatementEditPageActions =
 
   settingsActions.OpenSettingsPanel |
   settingsActions.CloseSettingsPanel |
-  settingsActions.ToggleSettingsPanel |
   settingsActions.SaveSettings |
   settingsActions.SaveSettingsSuccess |
   settingsActions.SaveSettingsError |
