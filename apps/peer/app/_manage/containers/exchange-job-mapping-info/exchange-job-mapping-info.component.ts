@@ -7,10 +7,10 @@ import { NgbCarousel } from '@ng-bootstrap/ng-bootstrap';
 
 import { CompanyJobToMapTo, ExchangeJobMapping, Job, LatestCompanyJob } from 'libs/models';
 import { Permissions } from 'libs/constants';
+import * as fromNationalAverageActions from 'libs/features/peer/national-average/actions/national-average.actions';
 
 import * as fromExchangeJobMappingInfoActions from '../../actions/exchange-job-mapping-info.actions';
 import * as fromPeerManagementReducer from '../../reducers';
-
 import * as companyJobsActions from '../../actions/company-jobs.actions';
 
 @Component({
@@ -40,7 +40,6 @@ export class ExchangeJobMappingInfoComponent implements OnInit, OnDestroy {
   deletingMappingError$: Observable<boolean>;
   loadingExchangeMappingInfo$: Observable<boolean>;
   selectedCompanyJobInfoModels$: Observable<LatestCompanyJob[]>;
-  selectedJobs: LatestCompanyJob[];
 
   // Subscriptions
   selectedExchangeJobMappingSubscription: Subscription;
@@ -50,6 +49,7 @@ export class ExchangeJobMappingInfoComponent implements OnInit, OnDestroy {
 
   selectedExchangeJobMapping: ExchangeJobMapping;
   selectedCompanyJob: LatestCompanyJob;
+  selectedJobs: LatestCompanyJob[];
   selectedExchangeJobToCompanyJobId: number;
   exchangeJobInfo: Job;
   companyJobQuery: string;
@@ -174,6 +174,8 @@ export class ExchangeJobMappingInfoComponent implements OnInit, OnDestroy {
         }
 
         this.store.dispatch(new fromExchangeJobMappingInfoActions.CancelAddMapping());
+        this.store.dispatch(new fromNationalAverageActions.GetNationalAveragesForExchangeJobs([sm.ExchangeJobId]));
+
         this.buildJobModels(sm);
       }
     });
@@ -212,6 +214,7 @@ export class ExchangeJobMappingInfoComponent implements OnInit, OnDestroy {
 
   private buildJobModels(ejm: ExchangeJobMapping): void {
     this.exchangeJobInfo = {
+      JobId: ejm.ExchangeJobId,
       JobType: 'Exchange',
       JobTitle: ejm.ExchangeJobTitle,
       JobCode: ejm.ExchangeJobCode,

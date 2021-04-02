@@ -1,20 +1,30 @@
-<div class="d-flex flex-column h-100">
-  <div class="pr-3">
-    <h5 class="mb-3 font-weight-bold">{{job.JobType ? job.JobType : "Company"}} Job</h5>
-    <div class="info-row">
-      <label class="font-weight-bold w-25 mb-0">Job:</label>
-      <span>{{ job.JobTitle }} <ng-container *ngIf="showJobCode"> - {{job.JobCode}}</ng-container></span>
-    </div>
-    <div class="info-row">
-      <label class="font-weight-bold w-25 mb-0">Job Family:</label>
-      <span>{{ job.JobFamily }}</span>
-    </div>
-    <div class="info-row">
-      <label class="font-weight-bold w-25 mb-0">Job Level:</label>
-      <span>{{ job.JobLevel }}</span>
-    </div>
-    <div class="info-row">
-      <label class="font-weight-bold w-25">Job Description:</label>
+<div class="flex-column h-100">
+  <h5 class="mb-3 font-weight-bold">{{job.JobType ? job.JobType : "Company"}} Job</h5>
+  <div class="pr-3 d-flex">
+    <div class="flex-grow-1">
+      <div class="d-flex">
+        <div class="pr-3 flex-grow-1">
+          <div class="info-row">
+            <label class="font-weight-bold w-25 mb-0">Job:</label>
+            <span>{{ job.JobTitle }} <ng-container *ngIf="showJobCode"> - {{job.JobCode}}</ng-container></span>
+          </div>
+          <div class="info-row">
+            <label class="font-weight-bold w-25 mb-0">Job Family:</label>
+            <span>{{ job.JobFamily }}</span>
+          </div>
+        </div>
+        <pf-org-weighted-nat-avg-card *ngIf="job.JobType == 'Exchange'"
+                                      [exchangeJobId]="job.JobId"
+                                      class="pt-3"
+        ></pf-org-weighted-nat-avg-card>
+      </div>
+      <div class="info-row">
+        <label class="font-weight-bold w-25 mb-0">Job Level:</label>
+        <span>{{ job.JobLevel }}</span>
+      </div>
+      <div class="info-row">
+        <label class="font-weight-bold w-25">Job Description:</label>
+      </div>
     </div>
   </div>
   <div class="info-row border-0 pr-3 job-description-container">

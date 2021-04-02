@@ -54,53 +54,68 @@ exports[`ExchangeDetailComponent should hide the approve/reject buttons when a c
           class="d-flex flex-column h-100"
         >
           <div
-            class="pr-3"
+            class="pr-3 d-flex"
           >
             <div
-              class="info-row"
+              class="flex-grow-1"
             >
-              <label
-                class="font-weight-bold w-25 mb-0"
+              <div
+                class="d-flex"
               >
-                Title:
-              </label>
-              <span>
-                
-              </span>
+                <div
+                  class="pr-3 flex-grow-1"
+                >
+                  <div
+                    class="info-row"
+                  >
+                    <label
+                      class="font-weight-bold w-25 mb-0"
+                    >
+                      Title:
+                    </label>
+                    <span>
+                      
+                    </span>
+                  </div>
+                  <div
+                    class="info-row"
+                  >
+                    <label
+                      class="font-weight-bold w-25 mb-0"
+                    >
+                      Family:
+                    </label>
+                    <span>
+                      
+                    </span>
+                  </div>
+                </div>
+                <pf-org-weighted-nat-avg-card
+                  class="pt-3"
+                />
+              </div>
             </div>
-            <div
-              class="info-row"
+          </div>
+          <div
+            class="info-row"
+          >
+            <label
+              class="font-weight-bold w-25 mb-0"
             >
-              <label
-                class="font-weight-bold w-25 mb-0"
-              >
-                Family:
-              </label>
-              <span>
-                
-              </span>
-            </div>
-            <div
-              class="info-row"
+              Level:
+            </label>
+            <span>
+              
+            </span>
+          </div>
+          <div
+            class="info-row"
+          >
+            <label
+              class="font-weight-bold w-25"
             >
-              <label
-                class="font-weight-bold w-25 mb-0"
-              >
-                Level:
-              </label>
-              <span>
-                
-              </span>
-            </div>
-            <div
-              class="info-row"
-            >
-              <label
-                class="font-weight-bold w-25"
-              >
-                Description:
-              </label>
-            </div>
+              Description:
+            </label>
           </div>
           <div
             class="info-row border-0 pr-3 exchange-job-description-container"
@@ -154,53 +169,68 @@ exports[`ExchangeDetailComponent should render the selected exchange jobs props 
           class="d-flex flex-column h-100"
         >
           <div
-            class="pr-3"
+            class="pr-3 d-flex"
           >
             <div
-              class="info-row"
+              class="flex-grow-1"
             >
-              <label
-                class="font-weight-bold w-25 mb-0"
+              <div
+                class="d-flex"
               >
-                Title:
-              </label>
-              <span>
-                ExchangeJobTitle
-              </span>
+                <div
+                  class="pr-3 flex-grow-1"
+                >
+                  <div
+                    class="info-row"
+                  >
+                    <label
+                      class="font-weight-bold w-25 mb-0"
+                    >
+                      Title:
+                    </label>
+                    <span>
+                      ExchangeJobTitle
+                    </span>
+                  </div>
+                  <div
+                    class="info-row"
+                  >
+                    <label
+                      class="font-weight-bold w-25 mb-0"
+                    >
+                      Family:
+                    </label>
+                    <span>
+                      ExchangeJobFamily
+                    </span>
+                  </div>
+                </div>
+                <pf-org-weighted-nat-avg-card
+                  class="pt-3"
+                />
+              </div>
             </div>
-            <div
-              class="info-row"
+          </div>
+          <div
+            class="info-row"
+          >
+            <label
+              class="font-weight-bold w-25 mb-0"
             >
-              <label
-                class="font-weight-bold w-25 mb-0"
-              >
-                Family:
-              </label>
-              <span>
-                ExchangeJobFamily
-              </span>
-            </div>
-            <div
-              class="info-row"
+              Level:
+            </label>
+            <span>
+              ExchangeJobLevel
+            </span>
+          </div>
+          <div
+            class="info-row"
+          >
+            <label
+              class="font-weight-bold w-25"
             >
-              <label
-                class="font-weight-bold w-25 mb-0"
-              >
-                Level:
-              </label>
-              <span>
-                ExchangeJobLevel
-              </span>
-            </div>
-            <div
-              class="info-row"
-            >
-              <label
-                class="font-weight-bold w-25"
-              >
-                Description:
-              </label>
-            </div>
+              Description:
+            </label>
           </div>
           <div
             class="info-row border-0 pr-3 exchange-job-description-container"
@@ -276,53 +306,68 @@ exports[`ExchangeDetailComponent should show the approve/reject buttons when a c
           class="d-flex flex-column h-100"
         >
           <div
-            class="pr-3"
+            class="pr-3 d-flex"
           >
             <div
-              class="info-row"
+              class="flex-grow-1"
             >
-              <label
-                class="font-weight-bold w-25 mb-0"
+              <div
+                class="d-flex"
               >
-                Title:
-              </label>
-              <span>
-                
-              </span>
+                <div
+                  class="pr-3 flex-grow-1"
+                >
+                  <div
+                    class="info-row"
+                  >
+                    <label
+                      class="font-weight-bold w-25 mb-0"
+                    >
+                      Title:
+                    </label>
+                    <span>
+                      
+                    </span>
+                  </div>
+                  <div
+                    class="info-row"
+                  >
+                    <label
+                      class="font-weight-bold w-25 mb-0"
+                    >
+                      Family:
+                    </label>
+                    <span>
+                      
+                    </span>
+                  </div>
+                </div>
+                <pf-org-weighted-nat-avg-card
+                  class="pt-3"
+                />
+              </div>
             </div>
-            <div
-              class="info-row"
+          </div>
+          <div
+            class="info-row"
+          >
+            <label
+              class="font-weight-bold w-25 mb-0"
             >
-              <label
-                class="font-weight-bold w-25 mb-0"
-              >
-                Family:
-              </label>
-              <span>
-                
-              </span>
-            </div>
-            <div
-              class="info-row"
+              Level:
+            </label>
+            <span>
+              
+            </span>
+          </div>
+          <div
+            class="info-row"
+          >
+            <label
+              class="font-weight-bold w-25"
             >
-              <label
-                class="font-weight-bold w-25 mb-0"
-              >
-                Level:
-              </label>
-              <span>
-                
-              </span>
-            </div>
-            <div
-              class="info-row"
-            >
-              <label
-                class="font-weight-bold w-25"
-              >
-                Description:
-              </label>
-            </div>
+              Description:
+            </label>
           </div>
           <div
             class="info-row border-0 pr-3 exchange-job-description-container"
@@ -396,53 +441,68 @@ exports[`ExchangeDetailComponent should show the unmatch button when a matched c
           class="d-flex flex-column h-100"
         >
           <div
-            class="pr-3"
+            class="pr-3 d-flex"
           >
             <div
-              class="info-row"
+              class="flex-grow-1"
             >
-              <label
-                class="font-weight-bold w-25 mb-0"
+              <div
+                class="d-flex"
               >
-                Title:
-              </label>
-              <span>
-                
-              </span>
+                <div
+                  class="pr-3 flex-grow-1"
+                >
+                  <div
+                    class="info-row"
+                  >
+                    <label
+                      class="font-weight-bold w-25 mb-0"
+                    >
+                      Title:
+                    </label>
+                    <span>
+                      
+                    </span>
+                  </div>
+                  <div
+                    class="info-row"
+                  >
+                    <label
+                      class="font-weight-bold w-25 mb-0"
+                    >
+                      Family:
+                    </label>
+                    <span>
+                      
+                    </span>
+                  </div>
+                </div>
+                <pf-org-weighted-nat-avg-card
+                  class="pt-3"
+                />
+              </div>
             </div>
-            <div
-              class="info-row"
+          </div>
+          <div
+            class="info-row"
+          >
+            <label
+              class="font-weight-bold w-25 mb-0"
             >
-              <label
-                class="font-weight-bold w-25 mb-0"
-              >
-                Family:
-              </label>
-              <span>
-                
-              </span>
-            </div>
-            <div
-              class="info-row"
+              Level:
+            </label>
+            <span>
+              
+            </span>
+          </div>
+          <div
+            class="info-row"
+          >
+            <label
+              class="font-weight-bold w-25"
             >
-              <label
-                class="font-weight-bold w-25 mb-0"
-              >
-                Level:
-              </label>
-              <span>
-                
-              </span>
-            </div>
-            <div
-              class="info-row"
-            >
-              <label
-                class="font-weight-bold w-25"
-              >
-                Description:
-              </label>
-            </div>
+              Description:
+            </label>
           </div>
           <div
             class="info-row border-0 pr-3 exchange-job-description-container"

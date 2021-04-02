@@ -6,63 +6,76 @@ exports[`Peer - Job Info Container should show the job code, when showJobCode is
   showJobCode={[Function Boolean]}
 >
   <div
-    class="d-flex flex-column h-100"
+    class="flex-column h-100"
   >
-    <div
-      class="pr-3"
+    <h5
+      class="mb-3 font-weight-bold"
     >
-      <h5
-        class="mb-3 font-weight-bold"
-      >
-        Company Job
-      </h5>
+      Company Job
+    </h5>
+    <div
+      class="pr-3 d-flex"
+    >
       <div
-        class="info-row"
+        class="flex-grow-1"
       >
-        <label
-          class="font-weight-bold w-25 mb-0"
+        <div
+          class="d-flex"
         >
-          Job:
-        </label>
-        <span>
-          Mock Job 
+          <div
+            class="pr-3 flex-grow-1"
+          >
+            <div
+              class="info-row"
+            >
+              <label
+                class="font-weight-bold w-25 mb-0"
+              >
+                Job:
+              </label>
+              <span>
+                Mock Job 
+                
+                
+                 - 1002
+              </span>
+            </div>
+            <div
+              class="info-row"
+            >
+              <label
+                class="font-weight-bold w-25 mb-0"
+              >
+                Job Family:
+              </label>
+              <span>
+                Mock Family
+              </span>
+            </div>
+          </div>
           
-          
-           - 1002
-        </span>
-      </div>
-      <div
-        class="info-row"
-      >
-        <label
-          class="font-weight-bold w-25 mb-0"
+        </div>
+        <div
+          class="info-row"
         >
-          Job Family:
-        </label>
-        <span>
-          Mock Family
-        </span>
-      </div>
-      <div
-        class="info-row"
-      >
-        <label
-          class="font-weight-bold w-25 mb-0"
+          <label
+            class="font-weight-bold w-25 mb-0"
+          >
+            Job Level:
+          </label>
+          <span>
+            Mock Level
+          </span>
+        </div>
+        <div
+          class="info-row"
         >
-          Job Level:
-        </label>
-        <span>
-          Mock Level
-        </span>
-      </div>
-      <div
-        class="info-row"
-      >
-        <label
-          class="font-weight-bold w-25"
-        >
-          Job Description:
-        </label>
+          <label
+            class="font-weight-bold w-25"
+          >
+            Job Description:
+          </label>
+        </div>
       </div>
     </div>
     <div

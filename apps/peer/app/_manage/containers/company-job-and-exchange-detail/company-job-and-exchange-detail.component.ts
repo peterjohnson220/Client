@@ -6,6 +6,7 @@ import { Observable, Subscription } from 'rxjs';
 import { UpsertExchangeJobMapRequest } from 'libs/models/peer/requests/upsert-exchange-job-map.request.model';
 import { CompanyJob } from 'libs/features/peer/job-association/models/company-job.model';
 import { ExchangeJob } from 'libs/features/peer/job-association/models/exchange-job.model';
+import * as fromNationalAverageActions from 'libs/features/peer/national-average/actions/national-average.actions';
 
 import * as companyJobsActions from '../../actions/company-jobs.actions';
 import * as peerManagementReducer from '../../reducers';
@@ -54,6 +55,10 @@ export class CompanyJobAndExchangeDetailComponent implements OnInit, OnDestroy {
     this.allSubscriptions.add(this.selectedCompanyJob$.subscribe(selectedCompanyJob => this.selectedCompanyJob = selectedCompanyJob));
     this.allSubscriptions.add(this.store.pipe(select(peerManagementReducer.getCompanyJobsExchangeId)).subscribe((exchangeId: number) => {
       this.exchangeId = exchangeId;
+    }));
+
+    this.allSubscriptions.add(this.mappedExchangeJob$.subscribe(mappedExchangeJob => {
+      this.store.dispatch(new fromNationalAverageActions.GetNationalAveragesForExchangeJobs([mappedExchangeJob.ExchangeJobId]));
     }));
   }
 
