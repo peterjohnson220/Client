@@ -315,7 +315,7 @@ export class GradeBasedEmployeeSalaryRangeChartComponent implements OnInit, OnDe
         this.chartInstance.series[GradeBasedEmployeeSalaryRangeChartSeries.SalaryRangeQuintile].setData(this.salaryRangeSeriesDataModel.Quintile, false);
       }
 
-      this.chartInstance.setSize(null, GraphHelper.getChartHeight(this.employeeData.data));
+      this.chartInstance.setSize(null, GraphHelper.getEmployeeChartHeight(this.employeeData.data));
     }
   }
 

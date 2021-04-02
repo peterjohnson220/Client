@@ -4,7 +4,7 @@ import * as Highcharts from 'highcharts';
 import { getUserLocale } from 'get-user-locale';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { GridDataResult } from '@progress/kendo-angular-grid';
+import { GridDataResult, ContentScrollEvent } from '@progress/kendo-angular-grid';
 
 import { RangeGroupMetadata } from 'libs/models/structures';
 import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
@@ -59,9 +59,12 @@ export class JobViewRangeChartComponent implements OnInit, OnDestroy {
   mrpSeriesData: any;
   outlierSeriesData: any;
   averageSeriesData: any;
+  initialY: number;
+  gridScrolledSub: Subscription;
 
   constructor(
     public store: Store<any>,
+    public pfGridStore: Store<fromPfGridReducer.State>,
     private structuresPagesService: StructuresPagesService
   ) {
     this.metadataSubscription = this.store.select(fromSharedStructuresReducer.getMetadata).subscribe(md => {
@@ -94,6 +97,15 @@ export class JobViewRangeChartComponent implements OnInit, OnDestroy {
       if (data) {
         this.jobsViewData = data;
         this.processChartData();
+      }
+    });
+
+    this.gridScrolledSub = this.pfGridStore.select(fromPfGridReducer.getGridScrolledContent, this.pageViewId).subscribe( scrolledContent => {
+      if (scrolledContent && this.chartInstance) {
+        this.initialY = this.chartInstance.legend.options.y;
+        this.chartInstance.legend.group.attr({
+          translateY: this.initialY + scrolledContent.scrollTop
+        });
       }
     });
   }
@@ -213,7 +225,7 @@ export class JobViewRangeChartComponent implements OnInit, OnDestroy {
     this.mrpSeriesData.push({
       x: xCoordinate,
       y: currentRow.CompanyJobs_Structures_GradeBased_Job_MarketReferencePointValue,
-      jobTitle: currentRow.CompanyJobs_Job_Title,
+      jobTitle: currentRow.CompanyJobs_Structures_JobTitle,
       mrp: StructuresHighchartsService.formatMrpTooltip(currentRow.CompanyJobs_Structures_GradeBased_Job_MarketReferencePointValue,
         currentRow.CompanyJobs_Structures_GradeBased_Job_MrpPercentile, isMidFormula, !!this.metaData?.PayType ? this.metaData.PayType : 'Base',
         this.chartLocale, this.currency, this.rate)
@@ -391,7 +403,12 @@ export class JobViewRangeChartComponent implements OnInit, OnDestroy {
         this.chartInstance.series[JobViewRangeChartSeries.RangeQuintileFourth].setData(this.dataPointSeriesDataModel.QuintileFourth, false);
       }
 
-      this.chartInstance.setSize(null, GraphHelper.getChartHeight(this.jobsViewData.data));
+      this.chartInstance.setSize(null, GraphHelper.getJobsChartHeight(this.jobsViewData.data));
+
+      // adjust the radius of the range mid when there is only one record
+      const rangeMidOptions = this.chartInstance.series[JobViewRangeChartSeries.RangeMid].options as any;
+      rangeMidOptions.marker.radius = GraphHelper.getJobsRangeMidRadius(this.jobsViewData.data.length);
+      this.chartInstance.series[JobViewRangeChartSeries.RangeMid].update(rangeMidOptions);
     }
   }
 
@@ -429,5 +446,6 @@ export class JobViewRangeChartComponent implements OnInit, OnDestroy {
     this.jobRangeGroupDataSubscription.unsubscribe();
     this.modelGridPageViewIdSubscription.unsubscribe();
     this.filterPanelSub.unsubscribe();
+    this.gridScrolledSub.unsubscribe();
   }
 }

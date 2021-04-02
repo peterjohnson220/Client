@@ -242,7 +242,7 @@ export class JobViewRangeChartService {
             symbol: 'vline',
             lineWidth: 2,
             lineColor: '#CD8C01',
-            radius: 25,
+            radius: 24,
           },
           enableMouseTracking: true,
           tooltip: {
