@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, HostListener, OnInit, OnDestroy } from '@angular/core';
 
-import { Subject, Subscription } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
@@ -16,7 +16,7 @@ import { AppConstants } from 'libs/constants';
 })
 export class SettingsPanelComponent implements OnInit, OnDestroy {
 
-  @Input() isOpen: boolean;
+  @Input() isOpen$: Observable<boolean>;
   @Input() fontFamily: FontFamily;
   @Input() fontSize: FontSize;
   @Input() colors: string[];
@@ -30,6 +30,9 @@ export class SettingsPanelComponent implements OnInit, OnDestroy {
   @Output() displaySettingChange = new EventEmitter<'ShowDecimals' | 'ShowEmployeeContributions'>();
   @Output() resetSettings = new EventEmitter();
 
+  focusedTab: 'Style' | 'Content';
+  isOpen: boolean;
+  isOpenSubscription = new Subscription();
   colorSubject = new Subject<UpdateSettingsColorRequest>();
   colorSubjectSubscription = new Subscription();
 
@@ -37,6 +40,7 @@ export class SettingsPanelComponent implements OnInit, OnDestroy {
   cpUseRootViewContainer = false;
   totalRewardsEmployeeContributionFeatureFlag: RealTimeFlag = { key: FeatureFlags.TotalRewardsEmployeeContribution, value: false };
   unsubscribe$ = new Subject<void>();
+  delay = ms => new Promise(res => setTimeout(res, ms));
 
   constructor(private featureFlagService: AbstractFeatureFlagService,
               private browserDetectionService: BrowserDetectionService) {
@@ -50,6 +54,15 @@ export class SettingsPanelComponent implements OnInit, OnDestroy {
       debounceTime(400)
     ).subscribe((request: UpdateSettingsColorRequest) => this.colorChange.emit(request));
 
+    this.isOpenSubscription = this.isOpen$.subscribe(isOpen => {
+      this.isOpen = isOpen;
+      if (!this.isOpen) {
+        this.delay(300).then(() => {
+          this.focusedTab = 'Style';
+        });
+      }
+    });
+
     if (this.browserDetectionService.checkBrowserIsIE()) {
       this.cpUseRootViewContainer = true;
     }
@@ -57,6 +70,7 @@ export class SettingsPanelComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.colorSubjectSubscription.unsubscribe();
+    this.isOpenSubscription.unsubscribe();
   }
 
   onCloseClick() {
@@ -81,6 +95,10 @@ export class SettingsPanelComponent implements OnInit, OnDestroy {
 
   onResetSettings() {
     this.resetSettings.emit();
+  }
+
+  onHandleTabClick(tab) {
+    this.focusedTab = tab;
   }
 
   @HostListener('document:keyup', ['$event'])

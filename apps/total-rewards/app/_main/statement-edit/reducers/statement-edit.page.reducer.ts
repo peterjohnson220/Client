@@ -211,15 +211,6 @@ export function reducer(state = initialState, action: fromEditStatementActions.S
       localState.isSettingsPanelOpen = false;
       return localState;
     }
-    case fromEditStatementActions.TOGGLE_SETTINGS_PANEL: {
-      const localState: State = cloneDeep(state);
-      // bail if we're trying to open settings while in in preview mode
-      if (state.mode === StatementModeEnum.Preview && !localState.isSettingsPanelOpen) {
-        return localState;
-      }
-      localState.isSettingsPanelOpen = !localState.isSettingsPanelOpen;
-      return localState;
-    }
     case fromEditStatementActions.RESET_SETTINGS:
     case fromEditStatementActions.SAVE_SETTINGS: {
       const localState: State = cloneDeep(state);
