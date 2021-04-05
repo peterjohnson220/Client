@@ -80,3 +80,5 @@ export const getBulkExportScheduleUpdating = createSelector(selectBulkExportSche
 export const getBulkExportScheduleUpdatingError = createSelector(
   selectBulkExportScheduleState, fromBulkExportSchedulerReducer.getUpdatingError
 );
+
+export const getJdmExportUrl = createSelector(selectBulkExportScheduleState, fromBulkExportSchedulerReducer.getJdmExportUrl);
