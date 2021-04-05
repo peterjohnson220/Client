@@ -4,7 +4,7 @@
   </ng-container>
 
   <ng-container page-actions>
-    <div *ngIf="peerManageJobsGridToggleFlag.value" class="btn-group btn-group-toggle">
+    <div class="btn-group btn-group-toggle">
       <label class="btn btn-secondary" [ngClass]="{'active': showCompanyJobs}">
         <input type="radio" name="myJobs" id="myJobs" autocomplete="off" (click)="toggleGrid(true)"> My Jobs
       </label>
@@ -82,7 +82,7 @@
 
 <pf-request-job-modal></pf-request-job-modal>
 <pf-association-import-modal></pf-association-import-modal>
-<pf-file-download-security-warning-modal 
+<pf-file-download-security-warning-modal
   #fileDownloadSecurityWarningModal
   (securityWarningConfirmed)="handleSecurityWarningConfirmed($event)">
 </pf-file-download-security-warning-modal>

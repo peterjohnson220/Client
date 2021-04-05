@@ -95,6 +95,7 @@ export function generateMockCompanyFormData(): CompanyFormData {
     SystemUserGroupsId: 1,
     ClientType: 'Mock',
     Industry: 'Mock',
+    PeerIndustry: 'Mock',
     FTEs: 'Mock',
     Assets: 'Mock',
     Revenue: 'Mock',

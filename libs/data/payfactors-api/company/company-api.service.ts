@@ -27,15 +27,15 @@ export class CompanyApiService {
     return this.payfactorsApiService.get<CompanyDto>(this.endpoint + `(${companyId})`);
   }
 
-  insert(company: CompanyFormData, tileIds: number[], marketingTileIds: number[], countryCodes: string[]) {
+  insert(company: CompanyFormData, tileIds: number[], marketingTileIds: number[], countryCodes: string[], peerIndustry: string) {
     return this.payfactorsApiService.post(`${this.endpoint}/Default.Insert`,
-      { Company: company, TileIds: tileIds, MarketingTileIds: marketingTileIds, DataSetCountryCodes: countryCodes }
+      { Company: company, TileIds: tileIds, MarketingTileIds: marketingTileIds, DataSetCountryCodes: countryCodes, PeerIndustry: peerIndustry }
     );
   }
 
-  update(company: CompanyFormData, tileIds: number[], marketingTileIds: number[], countryCodes: string[]) {
+  update(company: CompanyFormData, tileIds: number[], marketingTileIds: number[], countryCodes: string[], peerIndustry: string) {
     return this.payfactorsApiService.post(`${this.endpoint}(${company.CompanyId})/Default.Update`,
-      { Company: company, TileIds: tileIds, MarketingTileIds: marketingTileIds, DataSetCountryCodes: countryCodes }
+      { Company: company, TileIds: tileIds, MarketingTileIds: marketingTileIds, DataSetCountryCodes: countryCodes, PeerIndustry: peerIndustry }
     );
   }
 
@@ -121,6 +121,10 @@ export class CompanyApiService {
 
   getCompanyLogos() {
     return this.payfactorsApiService.get(this.endpoint + '/Default.GetCompanyLogos');
+  }
+
+  getPeerIndustries(): Observable<string[]> {
+    return this.payfactorsApiService.get(this.endpoint + '/Default.GetPeerIndustries');
   }
 
   getEntityDescription(entityType: EntityDescriptionTypeEnum, entityId: number) {

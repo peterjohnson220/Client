@@ -157,7 +157,7 @@ export function reducer(state, action) {
           };
         }
         // mapped exchange job
-        case fromPeerCompanyJobs.SET_MAPPED_EXCHANGE_JOBS: {
+        case fromPeerCompanyJobs.SET_MAPPED_EXCHANGE_JOB: {
           return {
             ...featureState,
             mappedExchangeJob: action.payload
