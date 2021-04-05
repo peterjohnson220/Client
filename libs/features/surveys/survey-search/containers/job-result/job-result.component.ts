@@ -6,7 +6,7 @@ import { Store } from '@ngrx/store';
 import { MatchesDetailsRequestJobTypes, PricingMatchesDetailsRequest } from 'libs/models/payfactors-api';
 import * as fromSearchReducer from 'libs/features/search/search/reducers';
 import { SurveySearchResultDataSources } from 'libs/constants';
-import { annualDisplay, compRate } from 'libs/core/pipes';
+import { compRate } from 'libs/core/pipes';
 import { SearchFeatureIds } from 'libs/features/search/search/enums/search-feature-ids';
 
 import { DataCut, DataCutDetails, JobResult, MatchesDetailsTooltipData } from '../../models';
@@ -24,7 +24,6 @@ export class JobResultComponent implements OnInit, OnDestroy {
   @Input() currencyCode: string;
   @Input() legacyIframeImplementation: boolean;
   @Input() customizeInPeerDisplayed: boolean;
-  @Input() rate: string;
   @Output() loadDataCuts: EventEmitter<JobResult> = new EventEmitter<JobResult>();
   @Output() cutSelected: EventEmitter<DataCutDetails> = new EventEmitter<DataCutDetails>();
   @Output() matchesMouseEnter: EventEmitter<MatchesDetailsTooltipData> = new EventEmitter<MatchesDetailsTooltipData>();
@@ -43,7 +42,6 @@ export class JobResultComponent implements OnInit, OnDestroy {
   showJobDetail: boolean;
   matchesMouseLeaveTimer: number;
   surveySearchResultDataSources = SurveySearchResultDataSources;
-  annualDisplay: annualDisplay = annualDisplay.full;
 
   private readonly showCutsLabel: string = 'Show Cuts';
   private readonly hideCutsLabel: string = 'Hide Cuts';
@@ -59,10 +57,6 @@ export class JobResultComponent implements OnInit, OnDestroy {
       searchFeatureIds: [SearchFeatureIds.MultiMatch, SearchFeatureIds.AddSurveyData]
     });
     this.selectedCuts$ = this.store.select(fromSurveySearchReducer.getSelectedDataCuts);
-  }
-
-  get compRate(): compRate {
-    return !!this.rate && this.rate === compRate.hourly.toString() ? compRate.hourly : compRate.annual;
   }
 
   get isPeerJob(): boolean {

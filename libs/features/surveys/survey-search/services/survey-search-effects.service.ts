@@ -12,6 +12,7 @@ import { ScrollIdConstants } from 'libs/features/search/infinite-scroll/models';
 import * as fromInfiniteScrollActions from 'libs/features/search/infinite-scroll/actions/infinite-scroll.actions';
 import * as fromSearchResultsActions from 'libs/features/search/search/actions/search-results.actions';
 import * as fromSearchFiltersActions from 'libs/features/search/search/actions/search-filters.actions';
+import * as fromNationalAverageActions from 'libs/features/peer/national-average/actions/national-average.actions';
 import * as fromSearchReducer from 'libs/features/search/search/reducers';
 import { SearchFeatureIds } from 'libs/features/search/search/enums/search-feature-ids';
 
@@ -112,8 +113,9 @@ export class SurveySearchEffectsService {
 
         return this.surveySearchApiService.getPricingMatches(pricingMatchesRequest)
           .pipe(
-            map((pricingMatchesResponse: PricingMatchesResponse) =>
-              new fromSurveySearchResultsActions.UpdateResultsMatchesCount(pricingMatchesResponse))
+            mergeMap((pricingMatchesResponse: PricingMatchesResponse) =>
+              [new fromSurveySearchResultsActions.UpdateResultsMatchesCount(pricingMatchesResponse),
+              new fromNationalAverageActions.GetNationalAveragesForExchangeJobsSuccess(pricingMatchesResponse.ExchangeJobDailyNatAvgOrg50thDetails)])
           );
       })
     );

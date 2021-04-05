@@ -9,4 +9,5 @@ export interface CompanyFormContext {
   pfJdmSrAssociates: UserResponse[];
   pfCustomerSuccessMgrs: UserResponse[];
   industries: CompanyIndustriesResponse[];
+  peerIndustries: string[];
 }
