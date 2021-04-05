@@ -2,7 +2,7 @@
   [title]="(metaData$ | async)?.IsCurrent ? (metaData$ | async)?.StructureName : (metaData$ | async)?.ModelName"
   [subtitle]="(metaData$ | async)?.IsCurrent ? '' : 'Structure: ' + (metaData$ | async)?.StructureName"
   [navigationURL]="'/marketdata/structures.asp'"
-  [inboundFilters]="[filter]"
+  [inboundFilters]="filter"
   [pageViewId]="pageViewId"
   [gridContainerSplitViewWidth]="'60%'"
   [applyDefaultFilters]="false"
@@ -28,24 +28,38 @@
 
 <ng-template #subHeaderTemplate>
   <pf-data-grid
-    [pageViewId]="modelGridPageViewId"
+    [pageViewId]="jobPageViewId"
     [showTitle]="false"
     [compactGrid]="true"
     [showHeaderWhenCompact]="true"
-    [inboundFilters]="[filter]"
+    [inboundFilters]="filter"
     [contentClassNamesOverrides]="'p-0'"
     [allowSort]="false"
     [applyDefaultFilters]="false"
     [pageTheme]="pfThemeType.NextGen"
     [gridConfig]="gridConfig"
     [compactGridMinHeight]="'115px'"
-    [columnTemplates]="colHeaderTemplates"
+    [columnTemplates]="colTemplates"
     [actionBarConfig]="singleRecordActionBarConfig">
   </pf-data-grid>
+
+  <ul class="justify-content-start nav nav-tabs">
+    <li class="nav-item"><a href="#" class="nav-link" [ngClass]="{'active': activeTab === 'Employees'}" (click)="onEmployeesClicked()">Employees</a></li>
+    <li class="nav-item"><a href="#" class="nav-link" [ngClass]="{'active': activeTab === 'DataCuts'}" (click)="onDataCutsClicked()">Data Cuts</a></li>
+  </ul>
+  <div style="clear: both"></div>
 </ng-template>
 
 <ng-template #gridActions>
-  <pf-grid-context *ngIf="gradeName" [enableReturnBtn]="true" [buttonText]="'Return to All Grades'" [title]="gradeName + ' Jobs'"></pf-grid-context>
+  <pf-grid-context
+    *ngIf="jobTitle"
+    [enableReturnBtn]="true"
+    [buttonText]="buttonText"
+    [title]="jobTitle"
+    [rangeId]="rangeId"
+    [rangeGroupId]="rangeGroupId"
+    [fromJobsView]="fromJobsView">
+  </pf-grid-context>
 </ng-template>
 
 <ng-template #gridActionsRightTemplate>
@@ -70,34 +84,10 @@
   <ng-container *ngIf="dataRow[fieldName]; else noValue">{{ dataRow[fieldName] | rangeValue: (metaData$ | async)?.Rate }}</ng-container>
 </ng-template>
 
-<ng-template #mid let-dataRow="dataRow" let-fieldName="fieldName" let-rowIndex="rowIndex">
-  <ng-container>
-    <pf-range-field-editor
-      [pageViewId]="modelGridPageViewId"
-      [rangeType]="rangeType"
-      [rangeGroupId]="dataRow.CompanyStructures_RangeGroup_CompanyStructuresRangeGroup_ID"
-      [rangeId]="dataRow.CompanyStructures_Ranges_CompanyStructuresRanges_ID"
-      [rate]="(metaData$ | async)?.Rate"
-      [fieldValue]="dataRow.CompanyStructures_Ranges_Mid"
-      [fieldName]="fieldName"
-      [rangeRecalculationType]="rangeRecalculationType.Mid"
-      [currentStructure]="(metaData$ | async)?.IsCurrent"
-      [dataRow]="dataRow"
-      [rowIndex]="rowIndex"
-      [textAlign]="'center'"
-      [roundingSettings]="roundingSettings"
-      [refreshRowDataViewFilter]="getRefreshFilter(dataRow)"
-      [updateMetaInfo]="{ pageViewId: modelGridPageViewId, jobsPageViewId: this.pageViewId, jobsData: jobsData, jobsGridConfig: gridConfig, jobsPagingOptions: jobsPagingOptions }"
-      [updateSuccessCallbackFn]="updateSuccessCallbackFn"
-      [readonlyValueTemplate]="rangeValue">
-    </pf-range-field-editor>
-  </ng-container>
-</ng-template>
-
 <ng-template #rangeField let-dataRow="dataRow" let-fieldName="fieldName" let-rowIndex="rowIndex">
   <ng-container>
     <pf-range-field-editor
-      [pageViewId]="modelGridPageViewId"
+      [pageViewId]="jobPageViewId"
       [rangeType]="rangeType"
       [rangeGroupId]="dataRow.CompanyStructures_RangeGroup_CompanyStructuresRangeGroup_ID"
       [rangeId]="dataRow.CompanyStructures_Ranges_CompanyStructuresRanges_ID"
@@ -111,8 +101,7 @@
       [textAlign]="'center'"
       [roundingSettings]="roundingSettings"
       [refreshRowDataViewFilter]="getRefreshFilter(dataRow)"
-      [updateMetaInfo]="{ pageViewId: modelGridPageViewId, jobsPageViewId: this.pageViewId, jobsData: jobsData, jobsGridConfig: gridConfig, jobsPagingOptions: jobsPagingOptions }"
-      [updateSuccessCallbackFn]="updateSuccessCallbackFn"
+      [updateMetaInfo]="{ pageViewId: jobPageViewId }"
       [readonlyValueTemplate]="rangeValue">
     </pf-range-field-editor>
   </ng-container>
@@ -121,7 +110,7 @@
 <ng-template #diffField let-dataRow="dataRow" let-fieldName="fieldName" let-rowIndex="rowIndex">
   <ng-container>
     <pf-range-field-editor
-      [pageViewId]="modelGridPageViewId"
+      [pageViewId]="jobPageViewId"
       [rangeType]="rangeType"
       [rangeGroupId]="dataRow.CompanyStructures_RangeGroup_CompanyStructuresRangeGroup_ID"
       [rangeId]="dataRow.CompanyStructures_Ranges_CompanyStructuresRanges_ID"
@@ -135,9 +124,8 @@
       [textAlign]="'center'"
       [noRounding]="true"
       [refreshRowDataViewFilter]="getRefreshFilter(dataRow)"
-      [updateMetaInfo]="{ pageViewId: modelGridPageViewId, jobsPageViewId: this.pageViewId, jobsData: jobsData, jobsGridConfig: gridConfig, jobsPagingOptions: jobsPagingOptions }"
+      [updateMetaInfo]="{ pageViewId: jobPageViewId }"
       [readonlyValueTemplate]="rangeValue"
-      [updateSuccessCallbackFn]="updateSuccessCallbackFn"
       [minValue]="-999999999999999">
     </pf-range-field-editor>
   </ng-container>
@@ -146,7 +134,7 @@
 <ng-template #rangeSpreadField let-dataRow="dataRow" let-fieldName="fieldName" let-rowIndex="rowIndex">
   <ng-container>
     <pf-range-field-editor
-      [pageViewId]="modelGridPageViewId"
+      [pageViewId]="jobPageViewId"
       [rangeType]="rangeType"
       [rangeGroupId]="dataRow.CompanyStructures_RangeGroup_CompanyStructuresRangeGroup_ID"
       [rangeId]="dataRow.CompanyStructures_Ranges_CompanyStructuresRanges_ID"
@@ -160,8 +148,7 @@
       [textAlign]="'center'"
       [noRounding]="true"
       [refreshRowDataViewFilter]="getRefreshFilter(dataRow)"
-      [updateMetaInfo]="{ pageViewId: modelGridPageViewId, jobsPageViewId: this.pageViewId, jobsData: jobsData, jobsGridConfig: gridConfig, jobsPagingOptions: jobsPagingOptions }"
-      [updateSuccessCallbackFn]="updateSuccessCallbackFn"
+      [updateMetaInfo]="{ pageViewId: jobPageViewId }"
       [readonlyValueTemplate]="rangeValue">
     </pf-range-field-editor>
   </ng-container>
@@ -175,16 +162,14 @@
   </ng-container>
 </ng-template>
 
-<ng-template #jobTitle let-dataRow="dataRow" let-fieldName="fieldName">
-  <ng-container *ngIf="dataRow.CompanyJobs_Structures_JobTitle as jobTitle; else noValue">
-    <a class="temp-link-color-override" routerLinkActive="disabled" [routerLink]="[singleJobViewUrl, dataRow.CompanyJobs_Structures_CompanyJobId]" [queryParams]="{rangeId: rangeId, jobsView: true}">
-      {{ jobTitle }}
+<ng-template #eeCount let-dataRow="dataRow" let-fieldName="fieldName">
+  <ng-container *ngIf="dataRow.CompanyStructures_RangeGroup_Employees_Per_Grade as numEmployees; else noValue">
+    <a class="temp-link-color-override" routerLinkActive="disabled" routerLink="/grade/{{rangeGroupId}}/employees/{{dataRow.CompanyStructures_Ranges_CompanyStructuresRanges_ID}}">
+      {{ numEmployees }}
     </a>
   </ng-container>
 </ng-template>
 
 <ng-template #graph>
-  <pf-job-view-range-chart
-  [rangeId]="rangeId">
-  </pf-job-view-range-chart>
+
 </ng-template>
