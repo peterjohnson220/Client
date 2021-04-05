@@ -4,14 +4,14 @@ import cloneDeep from 'lodash/cloneDeep';
 import { QuickPriceType } from 'libs/constants';
 
 import * as fromComphubPageActions from '../actions/comphub-page.actions';
-import { AccordionCard, AccordionCards, ComphubPages } from '../data';
+import { AccordionCard, ComphubAccordionCards, ComphubPages, TrendsAccordionCards, TrendsPages } from '../data';
 import { CountryDataSet, JobPricingLimitInfo, ExchangeDataSet, WorkflowContext, FooterContext, JobData } from '../models';
 
 export interface State {
   cards: AccordionCard[];
-  selectedPageId: ComphubPages;
-  pagesAccessed: ComphubPages[];
-  accessiblePages: ComphubPages[];
+  selectedPageId: string;
+  pagesAccessed: string[];
+  accessiblePages: string[];
   jobPricingLimitInfo: JobPricingLimitInfo;
   countryDataSetLoaded: boolean;
   countryDataSets: CountryDataSet[];
@@ -24,7 +24,7 @@ export interface State {
 }
 
 const initialState: State = {
-  cards: AccordionCards.defaultAccordionCards,
+  cards: ComphubAccordionCards.defaultAccordionCards,
   selectedPageId: ComphubPages.Jobs,
   pagesAccessed: [ComphubPages.Jobs],
   accessiblePages: [ComphubPages.Jobs],
@@ -182,9 +182,30 @@ export function reducer(state: State = initialState, action: fromComphubPageActi
       };
     }
     case fromComphubPageActions.SET_QUICK_PRICE_TYPE_IN_WORKFLOW_CONTEXT: {
-      const cards: AccordionCard[] = action.payload === QuickPriceType.PEER
-        ? AccordionCards.peerAccordionCards
-        : AccordionCards.defaultAccordionCards;
+
+      let cards: AccordionCard[];
+
+      switch (action.payload) {
+        case QuickPriceType.PEER:
+          cards = ComphubAccordionCards.peerAccordionCards;
+          break;
+        case QuickPriceType.TRENDS:
+          cards = TrendsAccordionCards.trendAccordionCards;
+
+          return {
+          ...state,
+          cards: cards,
+          selectedPageId: TrendsPages.Landing,
+          workflowContext: {
+            ...state.workflowContext,
+            quickPriceType: action.payload,
+            selectedPageId: TrendsPages.Landing
+          }
+        };
+        default:
+          cards = ComphubAccordionCards.defaultAccordionCards;
+      }
+
       return {
         ...state,
         cards: cards,

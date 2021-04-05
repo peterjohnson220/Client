@@ -1,4 +1,4 @@
-import { ComphubPages } from '../data';
+import { ComphubPages, TrendsPages } from '../data';
 
 export interface FooterContext {
   HideBackButton: boolean;
@@ -13,7 +13,7 @@ export interface FooterContext {
 }
 
 export interface FooterContextRequest {
-  PageId: ComphubPages;
+  PageId: ComphubPages | TrendsPages;
   JobPricingBlocked: boolean;
   JobSelected: boolean;
   JobDataSelected: boolean;
@@ -73,6 +73,62 @@ export class FooterHelper {
     };
   }
 
+  static trendsLandingFooterContext() {
+    return {
+      HideBackButton: true,
+      BackButtonEnabled: false,
+      HideNextButton: false,
+      NextButtonEnabled: true,
+      PageTitle: 'Landing',
+      PreviousPageTitle: null,
+      NextPageTitle: 'Jobs',
+      DisplayCancelButton: false,
+      CancelButtonTitle: null
+    };
+  }
+
+  static trendsJobsFooterContext() {
+    return {
+      HideBackButton: false,
+      BackButtonEnabled: true,
+      HideNextButton: false,
+      NextButtonEnabled: true,
+      PageTitle: 'Jobs',
+      PreviousPageTitle: 'Landing',
+      NextPageTitle: 'Scopes',
+      DisplayCancelButton: false,
+      CancelButtonTitle: null
+    };
+  }
+
+  static trendsScopesFooterContext() {
+    return {
+      HideBackButton: false,
+      BackButtonEnabled: true,
+      HideNextButton: false,
+      NextButtonEnabled: true,
+      PageTitle: 'Scopes',
+      PreviousPageTitle: 'Jobs',
+      NextPageTitle: 'Summary',
+      DisplayCancelButton: false,
+      CancelButtonTitle: null
+    };
+  }
+
+  static trendsSummaryFooterContext() {
+    return {
+      HideBackButton: false,
+      BackButtonEnabled: true,
+      HideNextButton: true,
+      NextButtonEnabled: false,
+      PageTitle: 'Summary',
+      PreviousPageTitle: 'Scopes',
+      NextPageTitle: null,
+      DisplayCancelButton: false,
+      CancelButtonTitle: null
+    };
+  }
+
   static getFooterContext(request: FooterContextRequest): FooterContext {
     switch (request.PageId) {
       case ComphubPages.Jobs:
@@ -83,6 +139,14 @@ export class FooterHelper {
         return this.dataFooterContext(request.JobDataSelected);
       case ComphubPages.Summary:
         return this.summaryFooterContext(request.IsPeerQuickPriceType, request.ShowJobPricedHistorySummary, request.SmbLimitReached);
+      case TrendsPages.Landing:
+        return this.trendsLandingFooterContext();
+      case TrendsPages.Jobs:
+        return this.trendsJobsFooterContext();
+      case TrendsPages.Scopes:
+        return this.trendsScopesFooterContext();
+      case TrendsPages.Summary:
+        return this.trendsSummaryFooterContext();
       default:
         return null;
     }

@@ -1,10 +1,10 @@
-import { ComphubPages } from '../data';
+import { ComphubPages, TrendsPages } from '../data';
 import { CountryDataSet, generateMockCountryDataSet } from './country-data.set';
 import { ExchangeDataSet, generateMockExchangeDataSet } from './exchange-data.set';
 import { QuickPriceType } from 'libs/constants';
 
 export interface WorkflowContext {
-  selectedPageId: ComphubPages;
+  selectedPageId: ComphubPages | TrendsPages;
   selectedPageIndex: number;
   activeCountryDataSet: CountryDataSet;
   activeExchangeDataSet: ExchangeDataSet;

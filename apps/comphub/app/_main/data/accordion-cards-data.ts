@@ -6,14 +6,35 @@ export enum ComphubPages {
   SummaryHistory = 'comphubSummaryHistoryPage'
 }
 
+export enum TrendsPages {
+  Landing = 'trendsLandingPage',
+  Jobs = 'trendsJobsPage',
+  Scopes = 'trendsScopePage',
+  Summary = 'trendsSummaryPage'
+}
+
+
+
+export enum AllPages {
+  ComphubJobs = ComphubPages.Jobs,
+  ComphubMarkets = ComphubPages.Markets,
+  ComphubData = ComphubPages.Data,
+  ComphubSummary = ComphubPages.Summary,
+  ComphubSummaryHistory = ComphubPages.SummaryHistory,
+  TrendsLanding = TrendsPages.Landing,
+  TrendsJobs = TrendsPages.Jobs,
+  TrendsScopes = TrendsPages.Scopes,
+  TrendsSummary = TrendsPages.Summary
+}
+
 export interface AccordionCard {
-  Id: ComphubPages;
+  Id: ComphubPages | TrendsPages;
   Title: string;
   IconClass: string;
   Subtitle: string;
 }
 
-export class AccordionCards {
+export class ComphubAccordionCards {
   static jobs: AccordionCard = {
     Id: ComphubPages.Jobs,
     Title: 'Jobs',
@@ -52,6 +73,42 @@ export class AccordionCards {
       this.jobs,
       this.markets,
       this.data,
+      this.summary
+    ];
+  }
+}
+
+export class TrendsAccordionCards {
+  static landing: AccordionCard = {
+    Id: TrendsPages.Landing,
+    Title: 'Landing',
+    IconClass: 'file-alt',
+    Subtitle: ''
+  };
+  static jobs: AccordionCard = {
+    Id: TrendsPages.Jobs,
+    Title: 'Jobs',
+    IconClass: 'file-alt',
+    Subtitle: ''
+  };
+  static scopes: AccordionCard = {
+    Id: TrendsPages.Scopes,
+    Title: 'Scopes',
+    IconClass: 'file-alt',
+    Subtitle: ''
+  };
+  static summary: AccordionCard = {
+    Id: TrendsPages.Summary,
+    Title: 'Summary',
+    IconClass: 'file-alt',
+    Subtitle: ''
+  };
+
+  static get trendAccordionCards(): AccordionCard[] {
+    return [
+      this.landing,
+      this.jobs,
+      this.scopes,
       this.summary
     ];
   }

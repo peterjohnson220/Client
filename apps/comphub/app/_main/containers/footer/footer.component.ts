@@ -18,7 +18,7 @@ import * as fromComphubMainReducer from '../../reducers';
 import * as fromSummaryCardActions from '../../actions/summary-card.actions';
 import * as fromComphubPageActions from '../../actions/comphub-page.actions';
 import { FooterContext, JobPricingLimitInfo, QuickPriceHistoryContext, WorkflowContext } from '../../models';
-import { ComphubPages } from '../../data';
+import { ComphubPages, TrendsPages } from '../../data';
 
 @Component({
   selector: 'pf-comphub-footer',
@@ -39,7 +39,7 @@ export class ComphubFooterComponent implements OnInit, OnDestroy {
   countryDataSetsLoaded$: Observable<boolean>;
   jobPricingLimitInfo$: Observable<JobPricingLimitInfo>;
   userContext$: Observable<UserContext>;
-  selectedPageIdDelayed$: Observable<ComphubPages>;
+  selectedPageIdDelayed$: Observable<string>;
 
   workflowContextSub: Subscription;
   jobPricingLimitInfoSub: Subscription;
@@ -74,10 +74,14 @@ export class ComphubFooterComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+
+    this.store.dispatch(new fromComphubPageActions.UpdateFooterContext());
+
     this.workflowContextSub = this.workflowContext$.subscribe(wfc => {
       this.workflowContext = wfc;
       this.isPeerQuickPriceType = wfc.quickPriceType === QuickPriceType.PEER;
     });
+
     combineLatest([this.jobPricingBlocked$, this.workflowContext$]).pipe(
       map(([jobPricedBlocked, workflowContext]) => {
         return {

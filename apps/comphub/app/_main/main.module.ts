@@ -28,9 +28,21 @@ import { DojGuidelinesService } from 'libs/features/peer/guidelines-badge/servic
 
 
 import {
-  ComphubPageComponent, JobsCardComponent, MarketsCardComponent, CardLayoutComponent,
-  SummaryCardComponent, PeerDataCardComponent, ParentDataCardComponent, QuickPriceHistoryComponent,
-  ComphubFooterComponent, JobGridComponent, MarketDataJobGridComponent, PeerJobGridComponent
+  ComphubPageComponent,
+  JobsCardComponent,
+  MarketsCardComponent,
+  CardLayoutComponent,
+  SummaryCardComponent,
+  PeerDataCardComponent,
+  ParentDataCardComponent,
+  QuickPriceHistoryComponent,
+  ComphubFooterComponent,
+  JobGridComponent,
+  MarketDataJobGridComponent,
+  PeerJobGridComponent,
+  TrendsPageComponent,
+  TrendsLandingCardComponent,
+  TrendsSummaryCardComponent, TrendsScopesCardComponent, TrendsJobsCardComponent
 } from './containers';
 import { JobsCardEffects, MarketsCardEffects, AddPayMarketFormEffects, DataCardEffects, ComphubPageEffects,
   SummaryCardEffects, JobGridEffects, QuickPriceHistoryEffects } from './effects';
@@ -40,6 +52,8 @@ import { TrendingJobGroupComponent, CardComponent, PaymarketCardsComponent, AddP
 import { MainRoutingModule } from './main-routing.module';
 import * as fromFaIcons from './fa-icons';
 import { BasicDataGridModule } from 'libs/features/grids/basic-data-grid';
+
+
 
 @NgModule({
     imports: [
@@ -96,6 +110,7 @@ import { BasicDataGridModule } from 'libs/features/grids/basic-data-grid';
 
     // Pages
     ComphubPageComponent,
+    TrendsPageComponent,
     JobsCardComponent,
     MarketsCardComponent,
     CardLayoutComponent,
@@ -107,7 +122,11 @@ import { BasicDataGridModule } from 'libs/features/grids/basic-data-grid';
     ComphubFooterComponent,
     JobGridComponent,
     MarketDataJobGridComponent,
-    PeerJobGridComponent
+    PeerJobGridComponent,
+    TrendsLandingCardComponent,
+    TrendsJobsCardComponent,
+    TrendsScopesCardComponent,
+    TrendsSummaryCardComponent
   ],
   providers: [
     WindowRef,

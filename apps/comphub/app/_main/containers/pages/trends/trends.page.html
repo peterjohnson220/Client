@@ -1,0 +1,44 @@
+<div class="d-flex flex-column">
+  <div class="accordion">
+    <div class="card-container">
+      <ng-container>
+        <span class="hidden" data-qa-id="lbl-current-page">{{workflowContext?.selectedPageId}}</span>
+        <span class="hidden" data-qa-id="lbl-accessible-pages">{{enabledTrendPages?.join(',')}}</span>
+        <ng-container *ngFor="let card of trendsCards; let i = index; trackBy: trackById">
+
+          <pf-comphub-card
+            [showJobPricedHistorySummary]=false
+            [hasCardHeader]="i !== 0"
+            [card]="card"
+            [prevCard]="i !== 0 ? trendsCards[i - 1] : card"
+            [containerWidth]="i !== trendsCards.length - 1 ? cardContentContainerWidth : cardContentContainerWidth - cardHeaderMargin"
+            [accessed]="(accessedPages$ | async).indexOf(card.Id) !== -1"
+            [prevCardAccessed]="i > 0"
+            [selected]="workflowContext?.selectedPageId === card.Id"
+            [disabled]=false
+            [prevCardDisabled]=false
+            [cardIndex]="i"
+            [selectedCardIndex]="workflowContext?.selectedPageIndex"
+            (cardHeaderClick)="handleCardChange($event)">
+
+            <ng-container card-content [ngSwitch]="card.Id">
+
+              <pf-trends-landing-card *ngSwitchCase="trendsPages.Landing"></pf-trends-landing-card>
+              <pf-trends-jobs-card *ngSwitchCase="trendsPages.Jobs"></pf-trends-jobs-card>
+              <pf-trends-scopes-card *ngSwitchCase="trendsPages.Scopes"></pf-trends-scopes-card>
+              <pf-trends-summary-card *ngSwitchCase="trendsPages.Summary"></pf-trends-summary-card>
+            </ng-container>
+
+          </pf-comphub-card>
+
+          <div class="card-separator"
+               [class.no-transition]="resizeEvent"
+               [ngStyle]="{ 'margin-right.px' : (workflowContext?.selectedPageId === card.Id) ? 0 : -cardContentContainerWidth }">
+          </div>
+        </ng-container>
+      </ng-container>
+
+    </div>
+  </div>
+  <pf-comphub-footer [showJobHistorySummary]="showJobHistorySummary"></pf-comphub-footer>
+</div>

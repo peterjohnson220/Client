@@ -27,14 +27,14 @@ export class ComphubPageComponent implements OnInit, OnDestroy {
   cardContentContainerWidth: number;
   historySummaryCardContainerWidth: number;
   cardHeaderMargin = 8;
-  enabledPages: ComphubPages[];
+  enabledPages: string[];
   cards: AccordionCard[];
   resizeEventCompleteTimer: number;
   resizeEvent: boolean;
 
   cards$: Observable<AccordionCard[]>;
-  enabledPages$: Observable<ComphubPages[]>;
-  accessedPages$: Observable<ComphubPages[]>;
+  enabledPages$: Observable<string[]>;
+  accessedPages$: Observable<string[]>;
   workflowContext$: Observable<WorkflowContext>;
   userContext$: Observable<UserContext>;
   historyGridInitialized$: Observable<boolean>;
@@ -55,10 +55,10 @@ export class ComphubPageComponent implements OnInit, OnDestroy {
   showJobHistorySummary: boolean;
   isLeftSidebarOpened: boolean;
 
-  private numberOfCardHeaders: number;
-  private readonly cardHeaderWidth = 60;
-  private readonly sideBarClosedWidth = 56;
-  private readonly sideBarOpenedWidth = 200;
+  protected numberOfCardHeaders: number;
+  protected readonly cardHeaderWidth = 60;
+  protected readonly sideBarClosedWidth = 56;
+  protected readonly sideBarOpenedWidth = 200;
 
   constructor(
     private store: Store<fromComphubMainReducer.State>,
@@ -146,12 +146,10 @@ export class ComphubPageComponent implements OnInit, OnDestroy {
   }
 
   handleCardChange(cardId: string) {
-    if (this.enabledPages.some(ep => ep === cardId)) {
       this.store.dispatch(new fromComphubPageActions.NavigateToCard({ cardId: cardId }));
-    }
   }
 
-  private updateCardContentContainerWidth() {
+  protected updateCardContentContainerWidth() {
     const wrapperElement = document.getElementsByClassName('wrapper');
     if (wrapperElement === undefined || wrapperElement[0] === undefined) {
       return;

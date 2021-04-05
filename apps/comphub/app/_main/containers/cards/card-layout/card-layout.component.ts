@@ -6,7 +6,7 @@ import { debounceTime } from 'rxjs/operators';
 
 import * as fromComphubMainReducer from '../../../reducers';
 import { WorkflowContext } from '../../../models';
-import { ComphubPages } from '../../../data';
+import { ComphubPages, TrendsPages } from '../../../data';
 
 @Component({
   selector: 'pf-card-layout',
@@ -17,10 +17,10 @@ export class CardLayoutComponent implements OnInit, OnDestroy {
   @Input() pageTitle = '';
   @Input() pageSubTitle = '';
   @Input() pageIconClass = '';
-  @Input() page: ComphubPages;
+  @Input() page: ComphubPages | TrendsPages;
 
   workflowContext$: Observable<WorkflowContext>;
-  selectedPageIdDelayed$: Observable<ComphubPages>;
+  selectedPageIdDelayed$: Observable<string>;
 
   workflowContextSub: Subscription;
 
