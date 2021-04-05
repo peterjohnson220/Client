@@ -27,6 +27,10 @@ export class GridContextComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.routerLink = this.fromJobsView ? `/grade/${this.rangeGroupId}/jobs/${this.rangeId}` : `/grade/${this.rangeGroupId}/employees/${this.rangeId}`;
+    if (this.rangeId && this.rangeGroupId) {
+      this.routerLink = this.fromJobsView ? `/grade/${this.rangeGroupId}/jobs/${this.rangeId}` : `/grade/${this.rangeGroupId}/employees/${this.rangeId}`;
+    } else {
+      this.routerLink = '../../';
+    }
   }
 }
