@@ -115,7 +115,7 @@
           </kendo-grid-numeric-filter-menu>
         </ng-template>
         <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
-          <div>{{ dataItem.MappingCount }}
+          <div class="d-flex">{{ dataItem.MappingCount }}
             <button *ngIf="!dataItem.PendingRequest" class="match-button ml-3" (click)="onCellClick({dataItem: dataItem, rowIndex: rowIndex})">
               <fa-icon icon="exchange-alt"  title="Match Job"></fa-icon><span>Match</span>
             </button>
