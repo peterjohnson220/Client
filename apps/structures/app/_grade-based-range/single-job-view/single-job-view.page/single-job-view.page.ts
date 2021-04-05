@@ -186,5 +186,6 @@ export class SingleJobViewPageComponent implements OnInit, AfterViewInit, OnDest
     this.metadataSubscription.unsubscribe();
     this.pagingOptionsSubscription.unsubscribe();
     this.roundingSettingsSub.unsubscribe();
+    this.dataSubscription.unsubscribe();
   }
 }
