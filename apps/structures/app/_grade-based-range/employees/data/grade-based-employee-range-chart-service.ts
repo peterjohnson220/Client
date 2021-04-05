@@ -226,7 +226,7 @@ export class GradeBasedEmployeeRangeChartService {
             useHTML: true,
             padding: 0,
             headerFormat: '<div style="display: inline-block; background-color: black; color: white">',
-            pointFormat: '<div><b>{point.jobTitle}</b></div><div>' +
+            pointFormat: '<div><b>{point.gradeName}</b></div><div>' +
               '<div>{point.dataPoint}</div>' +
               '<div>{point.currentDataPoint}</div>' +
               '<div>{point.newDataPoint}</div>' +
@@ -291,7 +291,8 @@ export class GradeBasedEmployeeRangeChartService {
             padding: 0,
             stickyTracking: false,
             headerFormat: '<div style="display: inline-block; background-color: black">',
-            pointFormat: '<div style="color: white"><b>{point.jobTitle} - </b>{point.mrp}<div>',
+            pointFormat: '<div style="color: white; font-weight: bold">{point.jobTitle}</div>' +
+              '<div style="color: white">{point.mrp}<div>',
             footerFormat: '</div>'
           },
           cursor: 'pointer',

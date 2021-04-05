@@ -4,7 +4,7 @@ import * as Highcharts from 'highcharts';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { getUserLocale } from 'get-user-locale';
-import { GridDataResult } from '@progress/kendo-angular-grid';
+import { GridDataResult, ContentScrollEvent } from '@progress/kendo-angular-grid';
 
 import { RangeGroupMetadata } from 'libs/models/structures';
 import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
@@ -58,9 +58,12 @@ export class GradeBasedEmployeeSalaryRangeChartComponent implements OnInit, OnDe
   metaData: RangeGroupMetadata;
   rangeDistributionTypeId: number;
   filterPanelSub: Subscription;
+  initialY: number;
+  gridScrolledSub: Subscription;
 
   constructor(
     public store: Store<any>,
+    public pfGridStore: Store<fromPfGridReducer.State>,
     private structuresPagesService: StructuresPagesService
   ) {
     this.metadataSubscription = this.store.select(fromSharedStructuresReducer.getMetadata).subscribe(md => {
@@ -86,7 +89,9 @@ export class GradeBasedEmployeeSalaryRangeChartComponent implements OnInit, OnDe
     this.dataSubscription = this.store.select(fromPfGridReducer.getData, this.pageViewId).subscribe(data => {
       if (data) {
         this.employeeData = data;
-        this.processChartData();
+        if (this.jobRangeGroupData) {
+          this.processChartData();
+        }
       }
     });
 
@@ -94,7 +99,19 @@ export class GradeBasedEmployeeSalaryRangeChartComponent implements OnInit, OnDe
     this.jobDataSubscription = this.store.select(fromPfGridReducer.getData, this.jobRangeViewId).subscribe(data => {
       if (data) {
         this.jobRangeGroupData = data;
-        this.processChartData();
+        if (this.employeeData) {
+          this.processChartData();
+        }
+
+      }
+    });
+
+    this.gridScrolledSub = this.pfGridStore.select(fromPfGridReducer.getGridScrolledContent, this.pageViewId).subscribe( scrolledContent => {
+      if (scrolledContent && this.chartInstance) {
+        this.initialY = this.chartInstance.legend.options.y;
+        this.chartInstance.legend.group.attr({
+          translateY: this.initialY + scrolledContent.scrollTop
+        });
       }
     });
   }
@@ -137,7 +154,8 @@ export class GradeBasedEmployeeSalaryRangeChartComponent implements OnInit, OnDe
     const salary = currentRow.vw_EmployeesGradeBasedStructureInfo_GradeBased_EmployeePay;
     const fname = currentRow.vw_EmployeesGradeBasedStructureInfo_First_Name;
     const lname = currentRow.vw_EmployeesGradeBasedStructureInfo_Last_Name;
-    const name = fname && fname.length > 0 && lname && lname.length > 0 ? currentRow.vw_EmployeesGradeBasedStructureInfo_First_Name + ' ' + currentRow.vw_EmployeesGradeBasedStructureInfo_Last_Name
+    const name = fname && fname.length > 0 && lname && lname.length > 0 ?
+      currentRow.vw_EmployeesGradeBasedStructureInfo_First_Name + ' ' + currentRow.vw_EmployeesGradeBasedStructureInfo_Last_Name
       + ' (' + currentRow.vw_EmployeesGradeBasedStructureInfo_Employee_ID + ')' : currentRow.vw_EmployeesGradeBasedStructureInfo_Employee_ID;
     const salaryTooltipInfo = {
       x: xCoordinate,
@@ -187,7 +205,7 @@ export class GradeBasedEmployeeSalaryRangeChartComponent implements OnInit, OnDe
 
   private addMidPoint(xCoordinate) {
     this.dataPointSeriesDataModel.Mid.push(
-      StructuresHighchartsService.getDataPoint(xCoordinate, RangeDistributionDataPointTypeIds.Mid, this.jobRangeData, this.hasCurrentStructure,
+      StructuresHighchartsService.getDataPointForGBRJobs(xCoordinate, RangeDistributionDataPointTypeIds.Mid, this.jobRangeData, this.hasCurrentStructure,
         this.chartLocale, this.metaData)
     );
   }
@@ -353,6 +371,7 @@ export class GradeBasedEmployeeSalaryRangeChartComponent implements OnInit, OnDe
     this.jobDataSubscription.unsubscribe();
     this.jobRangeViewIdSubscription.unsubscribe();
     this.filterPanelSub.unsubscribe();
+    this.gridScrolledSub.unsubscribe();
   }
 }
 

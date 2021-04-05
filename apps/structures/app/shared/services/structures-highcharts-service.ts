@@ -147,7 +147,7 @@ export class StructuresHighchartsService {
       dataPointCurrentValue = jobRangeData.CompanyStructures_RangeGroup_CurrentStructureMidPoint;
       dataPointTitle = 'Midpoint';
       currentDataPointTitle = 'Current Mid';
-      newDataPointTitle = 'New Mid';
+      newDataPointTitle = 'Model Mid';
     } else if (dataPointTypeId === RangeDistributionDataPointTypeIds.TertileFirst) {
       dataPointValue = jobRangeData.CompanyStructures_Ranges_Tertile_First;
       dataPointCurrentValue = jobRangeData.CompanyStructures_Ranges_Tertile_CurrentFirst;
@@ -277,7 +277,7 @@ export class StructuresHighchartsService {
       dataPointCurrentValue = jobRangeData.CompanyStructures_RangeGroup_GradeBased_Range_CurrentMid;
       dataPointTitle = 'Midpoint';
       currentDataPointTitle = 'Current Mid';
-      newDataPointTitle = 'New Mid';
+      newDataPointTitle = 'Model Mid';
     }
     // will need to add else ifs for dataPointTypeIds 2-9 like getDataPoint when instructed to do so
 
