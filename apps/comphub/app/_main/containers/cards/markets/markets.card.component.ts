@@ -5,7 +5,7 @@ import { filter, take } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
 import * as fromRootReducer from 'libs/state/state';
-import { QuickPriceType } from 'libs/constants';
+import { ComphubType } from 'libs/constants';
 import { UserContext } from 'libs/models/security';
 
 import * as fromComphubMainReducer from '../../../reducers';
@@ -123,7 +123,7 @@ export class MarketsCardComponent implements OnInit {
 
   handlePaymarketChecked(checkedPayMarket: PricingPaymarket) {
     this.store.dispatch(new fromMarketsCardActions.SetSelectedPaymarket(
-                              {paymarket: checkedPayMarket, initialLoad: false, quickPriceType: this.workflowContext.quickPriceType}));
+                              {paymarket: checkedPayMarket, initialLoad: false, comphubType: this.workflowContext.comphubType}));
   }
 
   handleDismissInfoBanner() {
@@ -143,20 +143,20 @@ export class MarketsCardComponent implements OnInit {
   }
 
   setDefaultPayMarketSelection(paymarkets: PricingPaymarket[], userContext: UserContext, workflowContext: WorkflowContext) {
-    if (workflowContext.quickPriceType === QuickPriceType.PEER) {
+    if (workflowContext.comphubType === ComphubType.PEER) {
       this.store.dispatch(new fromMarketsCardActions.HideAddNewPaymarketButton());
       let userDefaultPaymarketSet = false;
       for (const pp of paymarkets) {
         if (pp.CompanyPayMarketId === userContext.DefaultPayMarketId) {
           this.store.dispatch(new fromMarketsCardActions.SetSelectedPaymarket(
-            {paymarket: pp, initialLoad: true, quickPriceType: workflowContext.quickPriceType}));
+            {paymarket: pp, initialLoad: true, comphubType: workflowContext.comphubType}));
           userDefaultPaymarketSet = true;
           break;
         }
       }
       if (!userDefaultPaymarketSet) {
         this.store.dispatch(new fromMarketsCardActions.SetSelectedPaymarket(
-          {paymarket: null, initialLoad: true, quickPriceType: workflowContext.quickPriceType}));
+          {paymarket: null, initialLoad: true, comphubType: workflowContext.comphubType}));
       }
     }
   }

@@ -23,7 +23,7 @@ export const UPDATE_ACTIVE_COUNTRY_DATA_SET = '[Comphub/Comphub Page] Update Act
 export const GET_EXCHANGE_DATA_SETS = '[Comphub/Comphub Page] Get Exchange Data Sets';
 export const GET_EXCHANGE_DATA_SETS_SUCCESS = '[Comphub/Comphub Page] Get Exchange Data Sets Success';
 export const UPDATE_ACTIVE_EXCHANGE_DATA_SET = '[Comphub/Comphub Page] Update Active Exchange Data Set';
-export const SET_QUICK_PRICE_TYPE_IN_WORKFLOW_CONTEXT = '[Comphub/Comphub Page] Set Quick Price Type In Workflow Context';
+export const SET_COMPHUB_TYPE_IN_WORKFLOW_CONTEXT = '[Comphub/Comphub Page] Set Quick Price Type In Workflow Context';
 export const SET_QUICK_PRICE_HISTORY_MODAL_OPEN = '[Comphub/Comphub Page] Set Quick Price History Modal Open';
 export const UPDATE_FOOTER_CONTEXT = '[Comphub/Comphub Page] Update Footer Context';
 export const SET_FOOTER_CONTEXT = '[Comphub/Comphub Page] Set Footer Context';
@@ -134,8 +134,8 @@ export class UpdateActiveExchangeDataSet implements Action {
   constructor(public payload: number) { }
 }
 
-export class SetQuickPriceTypeInWorkflowContext implements Action {
-  readonly type = SET_QUICK_PRICE_TYPE_IN_WORKFLOW_CONTEXT;
+export class SetComphubTypeInWorkflowContext implements Action {
+  readonly type = SET_COMPHUB_TYPE_IN_WORKFLOW_CONTEXT;
 
   constructor(public payload: string) {}
 }
@@ -184,7 +184,7 @@ export type Actions
   | GetExchangeDataSets
   | GetExchangeDataSetsSuccess
   | UpdateActiveExchangeDataSet
-  | SetQuickPriceTypeInWorkflowContext
+  | SetComphubTypeInWorkflowContext
   | SetQuickPriceHistoryModalOpen
   | UpdateFooterContext
   | SetFooterContext

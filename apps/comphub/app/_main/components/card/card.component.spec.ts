@@ -2,7 +2,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CardComponent } from './card.component';
-import { AccordionCard, AccordionCards } from '../../data';
+import { AccordionCard, QuickPriceAccordionCards } from '../../data';
 
 describe('Comphub - Accordion Card Layout', () => {
   let instance: CardComponent;
@@ -17,7 +17,7 @@ describe('Comphub - Accordion Card Layout', () => {
 
     fixture = TestBed.createComponent(CardComponent);
     instance = fixture.componentInstance;
-    cards = AccordionCards.defaultAccordionCards;
+    cards = QuickPriceAccordionCards.defaultAccordionCards;
 
     fixture.detectChanges();
   });

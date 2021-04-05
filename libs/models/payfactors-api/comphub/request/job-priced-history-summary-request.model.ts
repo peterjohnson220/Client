@@ -1,4 +1,4 @@
 export interface JobPricedHistorySummaryRequest {
   CompletedPricingHistoryId: number;
-  IsPeerQuickPriceType: boolean;
+  IsPeerComphubType: boolean;
 }

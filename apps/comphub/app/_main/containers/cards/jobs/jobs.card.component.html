@@ -9,7 +9,7 @@
     <div class="row">
       <div class="col-lg-12 col-xl-9">
 
-        <div *ngIf="!isPeerQuickPriceType">
+        <div *ngIf="!isPeerComphubType">
           <div class="data-set-selector" *ngIf="(countryDataSets$ | async)?.length > 1">
           <kendo-dropdownlist
             (valueChange)="handleCountryDataSetChanged($event)"
@@ -49,7 +49,7 @@
           </kendo-autocomplete>
 
       </div>
-        <div *ngIf="isPeerQuickPriceType">
+        <div *ngIf="isPeerComphubType">
       <div class="data-set-selector exchange-selector">
         <label class="exchange-dropdown-label">Peer Exchange: </label>
         <kendo-dropdownlist
@@ -86,9 +86,9 @@
       </div>
     </div>
 
-    <pf-market-data-job-grid *ngIf="!isPeerQuickPriceType"></pf-market-data-job-grid>
+    <pf-market-data-job-grid *ngIf="!isPeerComphubType"></pf-market-data-job-grid>
 
-    <pf-peer-job-grid *ngIf="isPeerQuickPriceType"></pf-peer-job-grid>
+    <pf-peer-job-grid *ngIf="isPeerComphubType"></pf-peer-job-grid>
 
     <div *ngIf="!selectedJob?.length" class="row">
       <div class="col-lg-12 col-xl-9">

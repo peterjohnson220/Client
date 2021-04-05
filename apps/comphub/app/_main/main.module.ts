@@ -25,12 +25,25 @@ import { PfCommonUIModule } from 'libs/ui/common';
 import { GuidelinesBadgeModule } from 'libs/features/peer/guidelines-badge/guidelines-badge.module';
 import { PfExchangeExplorerModule } from 'libs/features/peer/exchange-explorer';
 import { DojGuidelinesService } from 'libs/features/peer/guidelines-badge/services/doj-guidelines.service';
+import { BasicDataGridModule } from 'libs/features/grids/basic-data-grid';
 
 
 import {
-  ComphubPageComponent, JobsCardComponent, MarketsCardComponent, CardLayoutComponent,
-  SummaryCardComponent, PeerDataCardComponent, ParentDataCardComponent, QuickPriceHistoryComponent,
-  ComphubFooterComponent, JobGridComponent, MarketDataJobGridComponent, PeerJobGridComponent
+  ComphubPageComponent,
+  JobsCardComponent,
+  MarketsCardComponent,
+  CardLayoutComponent,
+  SummaryCardComponent,
+  PeerDataCardComponent,
+  ParentDataCardComponent,
+  QuickPriceHistoryComponent,
+  ComphubFooterComponent,
+  JobGridComponent,
+  MarketDataJobGridComponent,
+  PeerJobGridComponent,
+  TrendsPageComponent,
+  TrendsLandingCardComponent,
+  TrendsSummaryCardComponent, TrendsScopesCardComponent, TrendsJobsCardComponent, QuickPricePageComponent
 } from './containers';
 import { JobsCardEffects, MarketsCardEffects, AddPayMarketFormEffects, DataCardEffects, ComphubPageEffects,
   SummaryCardEffects, JobGridEffects, QuickPriceHistoryEffects } from './effects';
@@ -39,7 +52,9 @@ import { TrendingJobGroupComponent, CardComponent, PaymarketCardsComponent, AddP
   SalaryTrendChartComponent, SharePricingSummaryModalComponent, GlossaryOfTermsComponent } from './components';
 import { MainRoutingModule } from './main-routing.module';
 import * as fromFaIcons from './fa-icons';
-import { BasicDataGridModule } from 'libs/features/grids/basic-data-grid';
+
+
+
 
 @NgModule({
     imports: [
@@ -96,6 +111,7 @@ import { BasicDataGridModule } from 'libs/features/grids/basic-data-grid';
 
     // Pages
     ComphubPageComponent,
+    TrendsPageComponent,
     JobsCardComponent,
     MarketsCardComponent,
     CardLayoutComponent,
@@ -107,7 +123,12 @@ import { BasicDataGridModule } from 'libs/features/grids/basic-data-grid';
     ComphubFooterComponent,
     JobGridComponent,
     MarketDataJobGridComponent,
-    PeerJobGridComponent
+    PeerJobGridComponent,
+    TrendsLandingCardComponent,
+    TrendsJobsCardComponent,
+    TrendsScopesCardComponent,
+    TrendsSummaryCardComponent,
+    QuickPricePageComponent
   ],
   providers: [
     WindowRef,

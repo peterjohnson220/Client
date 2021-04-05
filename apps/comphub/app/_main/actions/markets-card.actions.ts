@@ -57,7 +57,7 @@ export class SetPaymarketFilter implements Action {
 export class SetSelectedPaymarket implements Action {
   readonly type = SET_SELECTED_PAYMARKET;
 
-  constructor(public payload: { paymarket: PricingPaymarket, initialLoad?: boolean, quickPriceType?: string }) {}
+  constructor(public payload: { paymarket: PricingPaymarket, initialLoad?: boolean, comphubType?: string }) {}
 }
 
 export class SetToDefaultPaymarket implements Action {

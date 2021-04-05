@@ -53,7 +53,7 @@
     </button>
 
     <span class="d-inline-block">
-      <pf-guidelines-badge [IncludeSimilarityCheck]="false" *ngIf="isPeerQuickPriceType && workflowContext.selectedPageId === comphubPages.Data && (this.selectedPageIdDelayed$ | async) == comphubPages.Data">
+      <pf-guidelines-badge [IncludeSimilarityCheck]="false" *ngIf="isPeerComphubType && workflowContext.selectedPageId === comphubPages.Data && (this.selectedPageIdDelayed$ | async) == comphubPages.Data">
       </pf-guidelines-badge>
     </span>
     <button *ngIf="!(smbLimitReached$ | async) && workflowContext?.selectedPageId === comphubPages.Summary" class="btn btn-primary"
