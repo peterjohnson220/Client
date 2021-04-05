@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { NgxLinkifyjsModule } from 'ngx-linkifyjs';
@@ -15,7 +15,7 @@ describe('CommunitySearchResultContentComponent', () => {
   let instance: CommunitySearchResultContentComponent;
 
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [ NgxLinkifyjsModule.forRoot(), NgbTooltipModule],
       providers: [],

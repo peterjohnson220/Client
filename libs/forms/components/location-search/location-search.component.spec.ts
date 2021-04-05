@@ -25,7 +25,7 @@ describe('LocationSearchComponent', () => {
       ],
       providers: [
         {
-          provide: MapboxApiService
+          provide: MapboxApiService, useValue: { getLocationResults: jest.fn() }
         }
       ],
       // Shallow Testing

@@ -1,4 +1,4 @@
-import { async, TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
@@ -14,7 +14,7 @@ import { VisiblePermissionsPipe } from '../../pipes/visible-permissions.pipe';
 describe('UserRoleFunctionTabComponent', () => {
   let fixture, component;
   let store: Store<fromUserRoleViewReducer.State>;
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({

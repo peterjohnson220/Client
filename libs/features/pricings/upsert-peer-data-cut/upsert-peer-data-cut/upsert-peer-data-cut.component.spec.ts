@@ -22,6 +22,7 @@ import * as fromRequestPeerAccessActions from '../actions/request-peer-access.ac
 import { UpsertPeerDataCutComponent } from './upsert-peer-data-cut.component';
 import { UpsertPeerDataCutEntities, UpsertPeerDataCutParentEntities } from '../constants';
 import { UpsertPeerDataCutEntityConfigurationModel } from '../models';
+import { ActivatedRouteStub } from '../../../../test/activated-route-stub';
 
 
 class DojGuidelinesStub {
@@ -84,7 +85,8 @@ describe('Libs - Upsert Peer Data Cut', () => {
       ],
       providers: [
         {
-          provide: ActivatedRoute
+          provide: ActivatedRoute,
+          useValue: new ActivatedRouteStub()
         },
         { provide: DojGuidelinesService, useClass: DojGuidelinesStub },
         { provide: SettingsService, useClass: SettingsService }
