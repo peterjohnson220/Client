@@ -246,15 +246,13 @@ export class JobViewRangeChartComponent implements OnInit, OnDestroy {
   }
 
   private processAndAddOutliers(xCoordinate, currentRow) {
-    const min =
-      currentRow.CompanyJobs_Structures_GradeBased_Job_AverageEEMaxOutlier > 0 ? currentRow.CompanyJobs_Structures_GradeBased_Job_AverageEEMaxOutlier : null;
     // Min Outlier
     this.outlierSeriesData.push(
       {
         x: xCoordinate,
-        y: min,
+        y: currentRow.CompanyJobs_Structures_GradeBased_Job_AverageEEMinOutlier,
         countString: this.formatOutlierCount(true, currentRow.CompanyJobs_Structures_GradeBased_Job_CountEEMinOutlier),
-        avgSalary: this.formatSalary(min),
+        avgSalary: this.formatSalary(currentRow.CompanyJobs_Structures_GradeBased_Job_AverageEEMinOutlier),
         delta: this.formatDelta(true, currentRow.CompanyJobs_Structures_GradeBased_Job_DeltaBetweenMinOutliersAndMin)
       });
 
