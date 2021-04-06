@@ -1,6 +1,7 @@
-import { StructureRangeGroupGradesResponse, StructureRangeGroupGradeJobsResponse } from 'libs/models/payfactors-api';
+import { StructureRangeGroupGradesResponse, StructureRangeGroupGradeJobsResponse, SaveCompanyJobStructureMapsRequest } from 'libs/models/payfactors-api';
 
-import { Grade, GradeJob, GradeJobs } from '../models';
+import { AddRemoveCompanyJobStructureMapModel, Grade, GradeJob, GradeJobs } from '../models';
+import { JobResult } from '../../../jobs/add-jobs/models';
 
 export class PayfactorsApiModelMapper {
 
@@ -31,7 +32,9 @@ export class PayfactorsApiModelMapper {
         LoadingJobsError: false,
         Jobs: [],
         TotalJobs: g.NumJobs,
-        CompanyStructuresRangeGroupId: rangeGroupId
+        CompanyStructuresRangeGroupId: rangeGroupId,
+        JobIdsToRemove: [],
+        JobIdsToAdd: []
       };
     });
   }
@@ -41,10 +44,40 @@ export class PayfactorsApiModelMapper {
       return {
         JobCode: gj.JobCode,
         JobTitle: gj.JobTitle,
-        CompanyStructuresGradesId: gradeId
+        CompanyStructuresGradesId: gradeId,
+        JobId: gj.CompanyJobId,
+        AlreadyExists: true
       };
     });
     return { CompanyStructuresGradesId: gradeId, GradeJobs: gradeJobs };
+  }
+
+  static mapJobResultsToGradeJobs(jrs: JobResult[], gradeId: number): GradeJobs {
+    const gradeJobs = jrs.map((jr: JobResult): GradeJob => {
+      return {
+        JobId: parseInt(jr.Id, 10),
+        JobTitle: jr.Title,
+        JobCode: jr.Code,
+        CompanyStructuresGradesId: gradeId,
+        AlreadyExists: false
+      };
+    });
+    return { CompanyStructuresGradesId: gradeId, GradeJobs: gradeJobs };
+  }
+
+  ///
+  /// OUT
+  ///
+
+  static mapGradesToSaveCompanyJobStructureMapsRequest(grades: Grade[]): SaveCompanyJobStructureMapsRequest {
+    const gradesToUpdate = grades.map((g: Grade): AddRemoveCompanyJobStructureMapModel => {
+      return {
+        StructuresGradesId: g.CompanyStructuresGradesId,
+        CompanyJobIdsToAdd: g.JobIdsToAdd,
+        CompanyJobIdsToRemove: g.JobIdsToRemove
+      };
+    });
+    return { GradesToUpdate: gradesToUpdate, StructuresRangeGroupId: grades[0].CompanyStructuresRangeGroupId };
   }
 
 }

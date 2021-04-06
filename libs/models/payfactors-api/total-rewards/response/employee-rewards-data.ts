@@ -1,7 +1,10 @@
 import { Dictionary } from 'lodash';
 import { GenericKeyValue } from 'libs/models/common';
 
+const UDF_MOCK_DATA_VALUE = 2500;
+
 export interface EmployeeRewardsData {
+  CompanyEmployeeId: number;
   CompanyName: string;
   EmployeeId: string;
   EmployeeJobTitle: string;
@@ -25,10 +28,9 @@ export interface EmployeeRewardsData {
   EmployeeLTI: number;
   CurrentYear: number;
   Currency: string;
-  IsMockData?: boolean;
   BenefitsData?: Dictionary<BenefitsData>;
-  EmployeesUdf?: GenericKeyValue<string, number>;
-  JobsUdf?: GenericKeyValue<string, number>;
+  EmployeesUdf?: GenericKeyValue<string, string>;
+  JobsUdf?: GenericKeyValue<string, string>;
 }
 
 export interface BenefitsData {
@@ -40,10 +42,9 @@ export interface BenefitsData {
   CompanyEmployeeValue?: number;
 }
 
-
 export function generateMockEmployeeRewardsData(): EmployeeRewardsData {
-
   return {
+    CompanyEmployeeId: null,
     CompanyName: 'Your Company',
     EmployeeId: '12345',
     EmployeeJobTitle: 'Product Manager',
@@ -67,8 +68,9 @@ export function generateMockEmployeeRewardsData(): EmployeeRewardsData {
     EmployeeLTI: 10000,
     CurrentYear: new Date().getFullYear(),
     Currency: 'USD',
-    IsMockData: true,
-    BenefitsData: generateMockBenefitsData()
+    BenefitsData: generateMockBenefitsData(),
+    EmployeesUdf: generateMockEmployeesUdf() as any,
+    JobsUdf: generateMockJobsUdf() as any
   };
 }
 
@@ -175,4 +177,20 @@ export function generateMockBenefitsData(): Dictionary<BenefitsData> {
   };
 
   return benefitData;
+}
+
+function generateMockEmployeesUdf() {
+  const employeesUdf = {};
+  for (let i = 1; i <= 150; i++) {
+    employeesUdf['UDF_CHAR_' + i] = UDF_MOCK_DATA_VALUE;
+  }
+  return employeesUdf;
+}
+
+function generateMockJobsUdf() {
+  const jobsUdf = {};
+  for (let i = 1; i <= 50; i++) {
+    jobsUdf['UDF_CHAR_' + i] = UDF_MOCK_DATA_VALUE;
+  }
+  return jobsUdf;
 }

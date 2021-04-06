@@ -8,14 +8,13 @@
       [job]="jobResult"
       [cutsDraggable]="cutsDraggable"
       [currencyCode]="(pricingMatchDataSearchContext$ | async)?.CurrencyCode"
-      [rate]="(pricingMatchDataSearchContext$ | async)?.Rate"
       [legacyIframeImplementation]="legacyIframeImplementation"
-      [refineInPeerDisplayed]="refineInPeerEnabled && refineInPeerReady"
+      [customizeInPeerDisplayed]="customizeInPeerEnabled && customizeInPeerReady"
       (loadDataCuts)="handleLoadDataCuts($event)"
       (cutSelected)="handleCutSelectionToggle($event)"
       (matchesMouseEnter)="handleMatchesMouseEnter($event)"
       (matchesMouseLeave)="handleMatchesMouseLeave()"
-      (refineInPeerClicked)="handleRefineInPeerClicked($event)">
+      (customizeInPeerClicked)="handleCustomizeInPeerClicked($event)">
     </pf-job-result>
   </ng-container>
 

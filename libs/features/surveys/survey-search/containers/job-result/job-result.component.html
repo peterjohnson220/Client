@@ -44,33 +44,21 @@
         <div class="link au-lnk-show-hide-job-details" (click)="toggleJobDetailDisplay()">
           {{toggleJobDetailLabel}}
         </div>
-        <ng-container *ngIf="isPeerJob && refineInPeerDisplayed">
+        <ng-container *ngIf="isPeerJob && customizeInPeerDisplayed">
           <div class="link mx-2">
             |
           </div>
-          <div class="link au-lnk-refine-job-in-peer" (click)="toggleRefineInPeerDisplay()">
-            {{this.customizeScopeInMultimatchModalFlag.value ? 'Customize Your Scope' : 'Refine'}}
+          <div class="link au-lnk-refine-job-in-peer" (click)="toggleCustomizeInPeerDisplay()">
+            Customize Your Scope
           </div>
         </ng-container>
       </div>
 
     </div>
-    <div class="peer-org-weighted-nat-avg card" *ngIf="showPeerOrgWeightedNatAvgCard">
-      <div class="avg-pay-container d-flex justify-content-between">
-        <div class="label-indicator">Base 50th</div>
-        <div>{{!job.PeerJobInfo.NatAvgBase50th ? '--' : job.PeerJobInfo.NatAvgBase50th | comp: compRate : annualDisplay }}</div>
-      </div>
-      <div class="avg-pay-container d-flex justify-content-between">
-        <div class="label-indicator">TCC 50th</div>
-        <div>{{!job.PeerJobInfo.NatAvgTCC50th ? '--' : job.PeerJobInfo.NatAvgTCC50th | comp: compRate: annualDisplay}}</div>
-      </div>
-      <div class="card-footer d-flex justify-content-between">
-        <div class="text-muted small"><i>National</i></div>
-        <div class="text-muted small">
-          <i>Orgs: {{!job.PeerJobInfo.NatAvgOrgs ? '--' : job.PeerJobInfo.NatAvgOrgs}}</i>
-        </div>
-      </div>
-    </div>
+    <pf-org-weighted-nat-avg-card *ngIf="showPeerOrgWeightedNatAvgCard"
+      [exchangeJobId]="job.PeerJobInfo.ExchangeJobId"
+      [showPlaceholderCard]="true"
+    ></pf-org-weighted-nat-avg-card>
   </div>
 
   <div *ngIf="showJobDetail" class="job-detail">
@@ -117,11 +105,12 @@
                     [cutsDraggable]="cutsDraggable"
                     [currencyCode]="currencyCode"
                     [legacyIframeImplementation]="legacyIframeImplementation"
+                    [customizeInPeerDisplayed]="customizeInPeerDisplayed"
                     (dataCutSelected)="handleDataCutSelected($event)"
                     (payFactorsCutSelected)="handlePayfactorsCutSelected()"
                     (matchesMouseEnter)="handleDataCutMatchesMouseEnter($event)"
                     (matchesMouseLeave)="handleMatchesMouseLeave()"
-                    (refineInPeerClicked)="handleRefineInPeerClicked()">
+                    (customizeInPeerClicked)="handleCustomizeInPeerClicked()">
       </pf-data-cuts>
       <span *ngIf="hasMoreDataCuts && !job.LoadingMoreDataCuts" class="link" (click)="handleLoadDataCuts()">Load More</span>
     </ng-container>

@@ -1,4 +1,5 @@
 import * as Highcharts from 'highcharts';
+
 import { RateType } from 'libs/data/data-sets';
 import { RangeGroupMetadata } from 'libs/models/structures';
 import { RangeType } from 'libs/constants/structures/range-type';
@@ -110,7 +111,9 @@ export class StructuresHighchartsService {
       x: xCoordinate,
       y: !!jobData.mrp ? jobData.mrp : null,
       dataPoint: StructuresHighchartsService.formatCurrency(jobData.mrp, locale, metaData.Currency, metaData.Rate),
-      jobTitle: jobData.jobTitle
+      jobTitle: jobData.jobTitle,
+      companyJobsStructuresId: jobData.companyJobsStructuresId,
+      includeInRegression: jobData.includeInRegression
     };
   }
 

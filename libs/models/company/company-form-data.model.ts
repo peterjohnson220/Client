@@ -14,6 +14,7 @@ export interface CompanyFormData {
   SystemUserGroupsId: number;
   ClientType: string;
   Industry: string;
+  PeerIndustry: string;
   FTEs?: string;
   Assets?: string;
   Revenue?: string;

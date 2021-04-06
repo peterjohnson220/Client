@@ -8,3 +8,5 @@ export * from './update-settings-chart-color-request';
 export * from './save-settings-request';
 export * from './save-image-request';
 export * from './delete-image-request';
+export * from './update-udfs-in-rte-content-request';
+export * from './reorder-calc-control-fields-request';

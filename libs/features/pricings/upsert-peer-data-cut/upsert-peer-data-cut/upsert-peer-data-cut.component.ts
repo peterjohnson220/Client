@@ -185,17 +185,7 @@ export class UpsertPeerDataCutComponent implements OnInit, OnDestroy, OnChanges 
   ngOnInit(): void {
     this.setSubscriptions();
     if (this.displayInClassicAspIframe) {
-      this.showMap();
-      const contextData = {
-        companyJobId: this.companyJobId,
-        companyPayMarketId: this.companyPayMarketId,
-        userSessionId: this.entityConfiguration.ParentEntityId,
-        isPayMarketOverride: this.isPayMarketOverride,
-        cutGuid: this.cutGuid,
-        isExchangeSpecific: false
-      };
-
-      this.setContext(contextData);
+      this.initExchangeExplorer();
     }
   }
 
@@ -214,6 +204,20 @@ export class UpsertPeerDataCutComponent implements OnInit, OnDestroy, OnChanges 
         this.setContext(contextData);
       }
     }
+  }
+
+  initExchangeExplorer() {
+    this.showMap();
+    const contextData = {
+      companyJobId: this.companyJobId,
+      companyPayMarketId: this.companyPayMarketId,
+      userSessionId: this.entityConfiguration.ParentEntityId,
+      isPayMarketOverride: this.isPayMarketOverride,
+      cutGuid: this.cutGuid,
+      isExchangeSpecific: false
+    };
+
+    this.setContext(contextData);
   }
 
   setContext(contextData: any) {
@@ -311,7 +315,7 @@ export class UpsertPeerDataCutComponent implements OnInit, OnDestroy, OnChanges 
     this.setContext({refineExchangeJobId: exchangeJobId});
   }
 
-  editTempDataCut(tempDataCut: ExchangeJobDataCut) {
+  editTempDataCut(tempDataCut: any) {
     this.editingTemp = true;
     this.showMap();
     this.setContext({tempDataCutBeingEdited: tempDataCut});

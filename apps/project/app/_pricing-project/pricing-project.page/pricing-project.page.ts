@@ -33,7 +33,7 @@ export class PricingProjectPageComponent implements OnInit, AfterViewInit {
     field: 'vw_ProjectJobPayMarketMetadata_Job_Title'
   }, {
     dir: 'asc',
-    field: 'vw_ProjectJobPayMarketMetadata_PayMarket'
+    field: 'vw_ProjectJobPayMarketMetadata_Paymarket'
   }];  constructor(private route: ActivatedRoute,
               private store: Store<fromPricingProjectReducer.State>) {
     this.gridConfig = {

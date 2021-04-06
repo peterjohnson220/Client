@@ -51,6 +51,7 @@ export class CompanyPageComponent implements OnInit, OnDestroy {
   pfJdmSrAssociates$: Observable<UserResponse[]>;
   pfCustomerSuccessMgrs$: Observable<UserResponse[]>;
   industries$: Observable<CompanyIndustriesResponse[]>;
+  peerIndustries$: Observable<string[]>;
   clientTypes$: Observable<CompanyClientTypesReponse[]>;
   enableJobPricingLimiter$: Observable<boolean>;
 
@@ -76,6 +77,7 @@ export class CompanyPageComponent implements OnInit, OnDestroy {
     this.industries$ = this.store.select(fromPfAdminMainReducer.getCompanyIndustries);
     this.clientTypes$ = this.store.select(fromPfAdminMainReducer.getCompanyClientTypes);
     this.enableJobPricingLimiter$ = this.store.select(fromPfAdminMainReducer.getEnableJobPricingLimiter);
+    this.peerIndustries$ = this.store.select(fromPfAdminMainReducer.getPeerIndustries);
   }
 
   ngOnInit() {
@@ -92,9 +94,10 @@ export class CompanyPageComponent implements OnInit, OnDestroy {
       this.pfServicesReps$,
       this.pfJdmSrAssociates$,
       this.pfCustomerSuccessMgrs$,
-      this.industries$
+      this.industries$,
+      this.peerIndustries$
     ).pipe(
-      map(([clientTypes, systemUserGroups, pfAccountExecutives, pfServicesReps, pfJdmSrAssociates, pfCustomerSuccessMgrs, industries]) => {
+      map(([clientTypes, systemUserGroups, pfAccountExecutives, pfServicesReps, pfJdmSrAssociates, pfCustomerSuccessMgrs, industries, peerIndustries]) => {
         return {
           clientTypes,
           systemUserGroups,
@@ -102,7 +105,8 @@ export class CompanyPageComponent implements OnInit, OnDestroy {
           pfServicesReps,
           pfJdmSrAssociates,
           pfCustomerSuccessMgrs,
-          industries
+          industries,
+          peerIndustries
         };
       })
     ).subscribe((c) => {

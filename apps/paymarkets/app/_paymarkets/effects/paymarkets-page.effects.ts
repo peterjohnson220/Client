@@ -6,6 +6,9 @@ import { switchMap, catchError, map, mergeMap } from 'rxjs/operators';
 import { PayMarketApiService } from 'libs/data/payfactors-api/index';
 import * as fromPfDataGridActions from 'libs/features/grids/pf-data-grid/actions';
 import * as fromPayMarketModalActions from 'libs/features/paymarkets/paymarket-management/actions/paymarket-modal.actions';
+import * as fromUiPersistenceSettingsActions from 'libs/state/app-context/actions/ui-persistence-settings.actions';
+import { FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models/common';
+import { PagingOptions } from 'libs/models/payfactors-api';
 
 import * as fromPayMarketsPageActions from '../actions/paymarkets-page.actions';
 import { PayMarketsPageViewId } from '../models';
@@ -30,9 +33,16 @@ export class PayMarketsPageEffects {
   setDefaultPayMarketSuccess$ = this.actions$
     .pipe(
       ofType(fromPayMarketsPageActions.SET_DEFAULT_PAYMARKET_SUCCESS),
-      map(() =>
-        new fromPfDataGridActions.LoadData(PayMarketsPageViewId)
-      )
+      mergeMap(() => {
+        const pagingOptions: PagingOptions = {
+          From: 0,
+          Count: 40
+        };
+        return [
+          new fromPfDataGridActions.ResetGridScrolled(PayMarketsPageViewId),
+          new fromPfDataGridActions.UpdatePagingOptions(PayMarketsPageViewId, pagingOptions)
+        ];
+      })
     );
 
   @Effect()
@@ -60,6 +70,18 @@ export class PayMarketsPageEffects {
         return actions;
       })
     );
+
+  @Effect()
+  savePageViewStyle$ = this.actions$.pipe(
+    ofType(fromPayMarketsPageActions.SAVE_PAGE_VIEW_STYLE),
+    map((action: fromPayMarketsPageActions.SavePageViewStyle) => {
+      return new fromUiPersistenceSettingsActions.SaveUiPersistenceSetting({
+        FeatureArea: FeatureAreaConstants.PayMarkets,
+        SettingName: UiPersistenceSettingConstants.PayMarketsPageViewStyleSelection,
+        SettingValue: action.viewName
+      });
+    })
+  );
 
   constructor(
     private actions$: Actions,

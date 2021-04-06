@@ -8,6 +8,7 @@
   (onDismiss)="close()">
 
   <ng-container basic-content>
+    <ng-content select="[help-text]"></ng-content>
     <pf-add-jobs-to-range-page
       [isJobRange]="isJobRange"
       [controlPoint]="controlPoint"

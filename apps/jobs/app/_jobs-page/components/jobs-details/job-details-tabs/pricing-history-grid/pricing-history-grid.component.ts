@@ -179,9 +179,9 @@ export class PricingHistoryGridComponent implements AfterViewInit, OnInit, OnDes
     this.getDeletingPricingSuccessSubscription.unsubscribe();
   }
 
-  handlePayMarketValueChanged(payMarkets: string[]) {
+  handlePayMarketValueChanged(payMarkets: GroupedListItem[]) {
     const field: ViewField = cloneDeep(this.payMarketField);
-    field.FilterValues = payMarkets?.length > 0 ? payMarkets : null;
+    field.FilterValues = payMarkets?.length > 0 ? payMarkets.map(x => x.Value) : null;
     field.FilterOperator = 'in';
     this.updateField(field);
   }

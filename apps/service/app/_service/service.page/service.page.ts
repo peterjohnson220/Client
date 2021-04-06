@@ -92,7 +92,7 @@ export class ServicePageComponent implements AfterViewInit, OnInit, OnDestroy {
         if (this.applyInitialSelection) {
           const ticketIdField = fields.find(f => f.SourceName === 'UserTicket_ID');
 
-          if (!ticketIdField.FilterValues.find(val => val === this.ticketId.toString())) {
+          if (!ticketIdField.FilterValues?.find(val => val === this.ticketId.toString())) {
             this.store.dispatch(new fromPfDataGridActions.UpdateInboundFilters(ServicePageConfig.ServicePageViewId, [{
               SourceName: 'UserTicket_ID',
               Operator: '=',
@@ -149,7 +149,9 @@ export class ServicePageComponent implements AfterViewInit, OnInit, OnDestroy {
 
     this.queryParamsSubscription = this.route.queryParams.subscribe(params => {
       if (!!params['newTicket']) {
-        this.store.dispatch(new fromServicePageActions.ShowNewTicketModal(true));
+        setTimeout(() => {
+          this.store.dispatch(new fromServicePageActions.ShowNewTicketModal(true));
+        });
       }
     });
   }

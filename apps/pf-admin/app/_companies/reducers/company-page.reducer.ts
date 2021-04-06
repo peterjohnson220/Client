@@ -18,6 +18,7 @@ export interface State {
   loadingPfJdmSrAssociates: boolean;
   loadingPfCustomerSuccessManagers: boolean;
   loadingCompanyIndustries: boolean;
+  loadingPeerIndustries: boolean;
   loadingCompanyTiles: boolean;
   loadingCompanyTilesSuccess: boolean;
   loadingCompanyTilesError: boolean;
@@ -39,6 +40,7 @@ export interface State {
   pfJdmSrAssociates: UserResponse[];
   systemUserGroups: SystemUserGroupsResponse[];
   companyIndustries: CompanyIndustriesResponse[];
+  peerIndustries: string[];
   companyTiles: CompanyTilesResponse[];
   companySettings: CompanySetting[];
   companyDataSets: CompanyDataSetsReponse[];
@@ -50,6 +52,7 @@ export interface State {
   peerTermsAndCondAccepted: boolean;
   jobPricingLimitInfo: any;
   enableJobPricingLimiter: boolean;
+  selectedPeerIndustry: string;
 }
 
 const initialState: State = {
@@ -61,6 +64,7 @@ const initialState: State = {
   loadingPfJdmSrAssociates: false,
   loadingPfCustomerSuccessManagers: false,
   loadingCompanyIndustries: false,
+  loadingPeerIndustries: false,
   loadingCompanyTiles: false,
   loadingCompanyTilesSuccess: false,
   loadingCompanyTilesError: false,
@@ -82,6 +86,7 @@ const initialState: State = {
   pfJdmSrAssociates: [],
   systemUserGroups: [],
   companyIndustries: [],
+  peerIndustries: [],
   companyTiles: [],
   companySettings: [],
   companyDataSets: [],
@@ -92,7 +97,8 @@ const initialState: State = {
   company: null,
   peerTermsAndCondAccepted: false,
   jobPricingLimitInfo: null,
-  enableJobPricingLimiter: false
+  enableJobPricingLimiter: false,
+  selectedPeerIndustry: ''
 };
 
 export function reducer(state = initialState, action: fromCompanyPageActions.Actions) {
@@ -218,6 +224,25 @@ export function reducer(state = initialState, action: fromCompanyPageActions.Act
       return {
         ...state,
         loadingCompanyIndustries: false
+      };
+    }
+    case fromCompanyPageActions.GET_PEER_INDUSTRIES: {
+      return {
+        ...state,
+        loadingPeerIndustries: true
+      };
+    }
+    case fromCompanyPageActions.GET_PEER_INDUSTRIES_SUCCESS: {
+      return {
+        ...state,
+        loadingPeerIndustries: false,
+        peerIndustries: action.payload
+      };
+    }
+    case fromCompanyPageActions.GET_PEER_INDUSTRIES_ERROR: {
+      return {
+        ...state,
+        loadingPeerIndustries: false
       };
     }
     case fromCompanyPageActions.GET_PUBLIC_TOKEN_URL: {
@@ -532,6 +557,7 @@ export function reducer(state = initialState, action: fromCompanyPageActions.Act
         ...state,
         loadingCompany: false,
         company: action.payload,
+        selectedPeerIndustry: action.payload.PeerIndustry,
         enableJobPricingLimiter: action.payload.GroupName === SystemUserGroupNames.SmallBusiness
       };
     }
@@ -558,6 +584,15 @@ export function reducer(state = initialState, action: fromCompanyPageActions.Act
         enableJobPricingLimiter: action.payload
       };
     }
+
+    case fromCompanyPageActions.SET_PEER_INDUSTRY: {
+      return {
+        ...state,
+        selectedPeerIndustry: action.payload
+      };
+    }
+
+
     default: {
       return state;
     }
@@ -578,6 +613,7 @@ export const getLoadingPfCustomerSuccessManagers = (state: State) => state.loadi
 export const getPfCustomerSuccessManagers = (state: State) => state.pfCustomerSuccessManagers;
 export const getLoadingCompanyIndustries = (state: State) => state.loadingCompanyIndustries;
 export const getCompanyIndustries = (state: State) => state.companyIndustries;
+export const getPeerIndustries = (state: State) => state.peerIndustries;
 export const getLoadingCompanyTiles = (state: State) => state.loadingCompanyTiles;
 export const getLoadingCompanyTilesSuccess = (state: State) => state.loadingCompanyTilesSuccess;
 export const getLoadingCompanyTilesError = (state: State) => state.loadingCompanyTilesError;
@@ -600,3 +636,4 @@ export const getLoadingCompany = (state: State) => state.loadingCompany;
 export const getCompany = (state: State) => state.company;
 export const getJobPricingLimitInfo = (state: State) => state.jobPricingLimitInfo;
 export const getEnableJobPricingLimiter = (state: State) => state.enableJobPricingLimiter;
+export const getSelectedPeerIndustry = (state: State) => state.selectedPeerIndustry;

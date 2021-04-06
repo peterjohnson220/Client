@@ -12,6 +12,7 @@ import { JobsToPriceContainerComponent } from './jobs-to-price-container.compone
 import { generateMockJobToPrice } from '../../models';
 import * as fromMultiMatchReducer from '../../reducers';
 import * as fromJobsToPriceActions from '../../actions/jobs-to-price.actions';
+import { TempDataCutService } from '../../services';
 
 describe('Project - MultiMatch - JobToPrice Container Component', () => {
   let instance: JobsToPriceContainerComponent;
@@ -26,6 +27,9 @@ describe('Project - MultiMatch - JobToPrice Container Component', () => {
           feature_multiMatch: combineReducers(fromMultiMatchReducer.reducers)
         }),
         DragulaModule.forRoot()
+      ],
+      providers: [
+        { provide: TempDataCutService, useClass: TempDataCutService }
       ],
       declarations: [ JobsToPriceContainerComponent ],
       schemas: [ NO_ERRORS_SCHEMA ]

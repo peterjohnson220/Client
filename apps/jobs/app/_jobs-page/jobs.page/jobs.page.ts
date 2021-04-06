@@ -20,7 +20,7 @@ import {
   PfDataGridCustomFilterOptions,
   PfDataGridFilter
 } from 'libs/features/grids/pf-data-grid/models';
-import { AsyncStateObj, CompanySettingsEnum, GroupedListItem, UserContext } from 'libs/models';
+import { AsyncStateObj, CompanySettingsEnum, GroupedListItem } from 'libs/models';
 import { GetPricingsToModifyRequest } from 'libs/features/pricings/multi-match/models';
 import { ChangeJobStatusRequest, CreateProjectRequest, ExportJobsRequest, MatchedSurveyJob, ViewField } from 'libs/models/payfactors-api';
 import { SurveySearchFilterMappingDataObj, SurveySearchUserFilterType } from 'libs/features/surveys/survey-search/data';
@@ -37,7 +37,8 @@ import * as fromJobManagementActions from 'libs/features/jobs/job-management/act
 import * as fromSearchPageActions from 'libs/features/search/search/actions/search-page.actions';
 import * as fromSearchFeatureActions from 'libs/features/search/search/actions/search-feature.actions';
 import * as fromAppNotificationsMainReducer from 'libs/features/infrastructure/app-notifications/reducers';
-import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
+import * as fromLayoutWrapperReducer from 'libs/ui/layout-wrapper/reducers';
+import * as fromLeftSidebarActions from 'libs/ui/layout-wrapper/actions/left-sidebar.actions';
 
 import { PageViewIds } from '../constants';
 import { ShowingActiveJobs } from '../pipes';
@@ -51,7 +52,6 @@ import * as fromJobsPageReducer from '../reducers';
 })
 
 export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
-  hideOldJobsPageButtonFeatureFlag: RealTimeFlag = { key: FeatureFlags.HideOldJobsPageButton, value: false };
   private unsubscribe$ = new Subject<void>();
   permissions = Permissions;
   readonly showingActiveJobsPipe = new ShowingActiveJobs();
@@ -84,12 +84,15 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   companySettingsSubscription: Subscription;
   getExportEventIdSubscription: Subscription;
   getNotificationSubscription: Subscription;
+  leftSidebarOpenSubscription: Subscription;
+  selectedRecordIdSubscription: Subscription;
 
   selectedRecordId$: Observable<number>;
   canEditJobCompanySetting$: Observable<boolean>;
   getExportEventId$: Observable<AsyncStateObj<string>>;
   getNotification$: Observable<AppNotification<any>[]>;
   exporting$: Observable<boolean>;
+  leftSidebarOpen$: Observable<boolean>;
 
   colTemplates = {};
   filterTemplates = {};
@@ -114,7 +117,6 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   }];
 
   selectedJobPricingCount = 0;
-  enablePageToggle = false;
   enableFileDownloadSecurityWarning = false;
 
   navigatingToOldPage$: Observable<AsyncStateObj<boolean>>;
@@ -177,6 +179,8 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     FilterDisplayOptions: this.pricingReviewedDropdownDisplayOptions
   }];
   exportEventId: string;
+  leftSidebarOpen: boolean;
+  selectedRecordId: number;
 
   @ViewChild('gridRowActionsTemplate') gridRowActionsTemplate: ElementRef;
   @ViewChild('jobTitleColumn') jobTitleColumn: ElementRef;
@@ -199,7 +203,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     private companyJobApiService: CompanyJobApiService,
     private settingsService: SettingsService,
     private appNotificationStore: Store<fromAppNotificationsMainReducer.State>,
-    private featureFlagService: AbstractFeatureFlagService
+    private layoutWrapperStore: Store<fromLayoutWrapperReducer.State>,
   ) {
     this.gridConfig = {
       PersistColumnWidth: true,
@@ -207,7 +211,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
       ScrollToTop: true,
       SelectAllPanelItemName: 'jobs'
     };
-    this.featureFlagService.bindEnabled(this.hideOldJobsPageButtonFeatureFlag, this.unsubscribe$);
+    this.leftSidebarOpen$ = this.layoutWrapperStore.select(fromLayoutWrapperReducer.getLeftSidebarOpen);
   }
 
   ngOnInit() {
@@ -290,8 +294,6 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.companySettingsSubscription = this.store.select(fromRootState.getCompanySettings).subscribe(cs => {
       if (cs) {
-        const setting = cs.find(x => x.Key === CompanySettingsEnum.EnableJobsPageToggle);
-        this.enablePageToggle = setting && setting.Value === 'true';
         this.restrictSurveySearchToPaymarketCountry = cs.find(x => x.Key === CompanySettingsEnum.RestrictSurveySearchCountryFilterToPayMarket).Value === 'true';
         this.enableFileDownloadSecurityWarning = cs.find(x => x.Key === CompanySettingsEnum.FileDownloadSecurityWarning).Value === 'true';
       }
@@ -329,6 +331,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
         this.store.dispatch(new fromPfDataGridActions.LoadDataAndAddFadeInKeys(PageViewIds.PayMarkets, payMarketGridAttentionGrabKeys));
       });
     this.initExportingSubscription();
+    this.initLeftSidebarAndSplitViewToggleSubscription();
 
     this.actionBarConfig = {
       ...getDefaultActionBarConfig(),
@@ -444,15 +447,17 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.multiMatchSaveChangesSubscription.unsubscribe();
     this.getExportEventIdSubscription.unsubscribe();
     this.getNotificationSubscription.unsubscribe();
+    this.leftSidebarOpenSubscription.unsubscribe();
+    this.selectedRecordIdSubscription.unsubscribe();
   }
 
   closeSplitView() {
     this.store.dispatch(new fromPfDataGridActions.UpdateSelectedRecordId(this.pageViewId, null, null));
   }
 
-  handlePayMarketFilterChanged(payMarkets: string[]) {
+  handlePayMarketFilterChanged(payMarkets: GroupedListItem[]) {
     const field: ViewField = cloneDeep(this.payMarketField);
-    field.FilterValues = payMarkets?.length > 0 ? payMarkets : null;
+    field.FilterValues = payMarkets?.length > 0 ? payMarkets.map(x => x.Value) : null;
     field.FilterOperator = 'in';
     this.updateField(field);
   }
@@ -541,10 +546,6 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  jobsPageToggle() {
-    this.store.dispatch(new fromJobsPageActions.ToggleJobsPage());
-  }
-
   openSurveyParticipationModal(matchCount: number, jobId: number, event) {
     if (matchCount > 0) {
       this.matchJobId = jobId;
@@ -578,6 +579,26 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
         (x.Level === NotificationLevel.Success || x.Level === NotificationLevel.Error) && x.NotificationId === this.exportEventId);
       if (completeNotification) {
         this.store.dispatch(new fromJobsPageActions.ExportingComplete());
+      }
+    });
+  }
+
+  private initLeftSidebarAndSplitViewToggleSubscription(): void {
+    this.leftSidebarOpenSubscription = this.leftSidebarOpen$.subscribe(isOpen => {
+      if (isOpen !== null) {
+        this.leftSidebarOpen = isOpen;
+        if (!!this.selectedRecordId && this.leftSidebarOpen) {
+          this.closeSplitView();
+        }
+      }
+    });
+
+    this.selectedRecordIdSubscription = this.selectedRecordId$.subscribe(recordId => {
+      if (!!recordId) {
+        this.selectedRecordId = recordId;
+        if (this.leftSidebarOpen) {
+          this.layoutWrapperStore.dispatch(new fromLeftSidebarActions.CloseLeftSidebar());
+        }
       }
     });
   }

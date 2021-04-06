@@ -7,18 +7,17 @@ import { DragulaService } from 'ng2-dragula';
 import * as autoScroll from 'dom-autoscroller';
 
 import { JobMatchCut } from 'libs/models/payfactors-api';
+import {DataCutDetails, PricingMatchDataSearchContext} from 'libs/features/surveys/survey-search/models';
+import * as fromSurveySearchReducer from 'libs/features/surveys/survey-search/reducers';
+import * as fromSurveySearchResultsActions from 'libs/features/surveys/survey-search/actions/survey-search-results.actions';
 
 import { JobToPriceComponent } from '../../components';
 import * as fromMultiMatchReducer from '../../reducers';
 import * as fromJobsToPriceActions from '../../actions/jobs-to-price.actions';
 
-import {DataCutDetails, PricingMatchDataSearchContext} from '../../../../surveys/survey-search/models';
 import { JobToPrice } from '../../models';
 import { LEGACY_PROJECTS, MODIFY_PRICINGS } from '../../constants';
-
-import * as fromSurveySearchReducer from '../../../../surveys/survey-search/reducers';
-import * as fromSurveySearchResultsActions from '../../../../surveys/survey-search/actions/survey-search-results.actions';
-
+import { TempDataCutService } from '../../services';
 
 @Component({
   selector: 'pf-jobs-to-price-container',
@@ -51,7 +50,8 @@ export class JobsToPriceContainerComponent implements OnDestroy {
 
   constructor(
     private store: Store<fromMultiMatchReducer.State>,
-    private dragulaService: DragulaService
+    private dragulaService: DragulaService,
+    private tempDataCutService: TempDataCutService
   ) {
     this.selectedCuts = [];
     this.dragSubs = new Subscription();
@@ -177,11 +177,7 @@ export class JobsToPriceContainerComponent implements OnDestroy {
   }
 
   handleEditCut(jobCutData: { jobCut: JobMatchCut, job: JobToPrice }) {
-    const cut = jobCutData.jobCut;
-    this.store.dispatch(new fromJobsToPriceActions.EditTempDataCut({companyJobId: jobCutData.job.CompanyJobId, jobMatchCut: cut}));
-    this.store.dispatch(new fromSurveySearchResultsActions.EditTempDataCut({
-      customPeerCutId: cut.PeerCutId,
-      exchangeJobId: cut.DataSourceJobId}));
+    this.tempDataCutService.edit(jobCutData);
   }
 }
 

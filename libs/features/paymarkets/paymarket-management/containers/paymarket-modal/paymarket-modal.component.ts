@@ -75,6 +75,7 @@ export class PayMarketModalComponent implements OnInit, OnDestroy {
   }
 
   closeModal(): void {
+    this.generalForm.onModalClose();
     this.store.dispatch(new fromPayMarketModalActions.ClosePayMarketModal());
   }
 
@@ -84,7 +85,7 @@ export class PayMarketModalComponent implements OnInit, OnDestroy {
 
   savePayMarket(): void {
     const payMarketDto: PayMarket = this.generalForm.buildPayMarketDto();
-    if (payMarketDto.CompanyPayMarketId) {
+    if (this.payMarketId) {
       this.store.dispatch(new fromPayMarketModalActions.UpdatePayMarket({PayMarketDto: payMarketDto}));
     } else {
       delete payMarketDto.CompanyPayMarketId;

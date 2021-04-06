@@ -2,7 +2,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import { RangeDistributionTypeIds } from 'libs/constants/structures/range-distribution-type-ids';
 
-import { Grade } from '../../models';
+import { Grade, GradeJob } from '../../models';
+
 
 @Component({
   selector: 'pf-job-to-grade',
@@ -15,6 +16,8 @@ export class JobToGradeComponent implements OnInit {
   @Input() rate: string;
   @Input() rangeDistributionType: RangeDistributionTypeIds;
   @Output() loadJobs: EventEmitter<Grade> = new EventEmitter<Grade>();
+  @Output() jobDeleted: EventEmitter<{ job: GradeJob, grade: Grade }>
+    = new EventEmitter<{ job: GradeJob, grade: Grade }>();
 
   rangeDistributionTypeEnum = RangeDistributionTypeIds;
   toggleJobsLabel: string;
@@ -43,9 +46,14 @@ export class JobToGradeComponent implements OnInit {
     return value.toFixed(precision);
   }
 
+  removeJob(jobToRemove: GradeJob) {
+    this.jobDeleted.emit({job: jobToRemove, grade: this.grade});
+  }
+
   showJobsDisplay(): void {
     this.showJobs = true;
     this.toggleJobsLabel = this.hideJobsLabel;
+    this.loadJobs.emit(this.grade);
   }
 
 }

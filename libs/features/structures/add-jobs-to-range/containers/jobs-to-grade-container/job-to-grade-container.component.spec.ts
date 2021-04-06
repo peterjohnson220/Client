@@ -8,7 +8,7 @@ import { of } from 'rxjs/index';
 import * as fromRootState from 'libs/state/state';
 
 import { JobsToGradeContainerComponent } from './jobs-to-grade-container.component';
-import { generateMockGrade, generateMockGetAddGradeJobsModel } from '../../models';
+import { generateMockGrade, generateMockGetGradeJobsModel, generateMockGradeJob } from '../../models';
 import * as fromAddJobsReducer from '../../reducers';
 import * as fromJobsToGradeActions from '../../actions/jobs-to-grade.actions';
 
@@ -42,7 +42,7 @@ describe('Project - AddJobs - JobToGrade Container Component', () => {
   });
 
   it('should get jobs when load jobs clicked', () => {
-    const model = generateMockGetAddGradeJobsModel();
+    const model = generateMockGetGradeJobsModel();
     const expectedAction = new fromJobsToGradeActions.GetGradeJobs(model);
     spyOn(store, 'dispatch');
 
@@ -60,6 +60,33 @@ describe('Project - AddJobs - JobToGrade Container Component', () => {
     expect(fixture).toMatchSnapshot();
 
 
+  });
+
+  it('should not get jobs when load jobs clicked but jobs are already loaded', () => {
+    const model = generateMockGetGradeJobsModel();
+    const expectedAction = new fromJobsToGradeActions.GetGradeJobs(model);
+    spyOn(store, 'dispatch');
+
+    const grade = generateMockGrade();
+    grade.Jobs = [generateMockGradeJob()];
+    instance.handleLoadJobs(grade);
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+
+    expect(store.dispatch).not.toHaveBeenCalledWith(expectedAction);
+  });
+
+  it('should dispatch a delete job action when job deleted', () => {
+    const grade = generateMockGrade();
+    grade.Jobs = [generateMockGradeJob()];
+    const expectedAction = new fromJobsToGradeActions.RemoveJob({GradeId: grade.CompanyStructuresGradesId, Job: grade.Jobs[0]});
+    spyOn(store, 'dispatch');
+
+    instance.handleJobDeleted({ job: grade.Jobs[0], grade: grade});
+    fixture.detectChanges();
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
 });
