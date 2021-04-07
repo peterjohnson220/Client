@@ -7,6 +7,7 @@ export interface CompanyDto extends Company {
   SystemUserGroupsId: number;
   ClientType: string;
   Industry: string;
+  PeerIndustry: string;
   City: string;
   State: string;
   Zip: string;

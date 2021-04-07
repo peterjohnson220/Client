@@ -1,6 +1,5 @@
 import { SurveySearchResultDataSources } from 'libs/constants';
 import {
-  ExchangeJobDailyNatAvgOrg50thDetails,
   PFJobMatches,
   PricingMatchesRequest,
   PricingMatchesResponse, SearchFilter,
@@ -12,7 +11,6 @@ import { JobResult, PricingMatchDataSearchContext } from '../models';
 export function applyMatchesToJobResults(jobResults: JobResult[], pricingMatches: PricingMatchesResponse): JobResult[] {
   const surveyJobsMatches: SurveyJobsMatches[] = pricingMatches.SurveyJobsMatches;
   const pfJobsMatches: PFJobMatches[] = pricingMatches.PFJobsMatches;
-  const exchangeJobNatAvgOrg50thDetails: ExchangeJobDailyNatAvgOrg50thDetails[] = pricingMatches.ExchangeJobDailyNatAvgOrg50thDetails;
   jobResults.map((jobResult: JobResult) => {
     if (jobResult.DataSource === SurveySearchResultDataSources.Payfactors) {
       const pfJobMatches: PFJobMatches = pfJobsMatches.find(m => m.JobCode === jobResult.Code);
@@ -23,14 +21,6 @@ export function applyMatchesToJobResults(jobResults: JobResult[], pricingMatches
       const surveyJobMatches: SurveyJobsMatches = surveyJobsMatches.find(m => m.SurveyJobId === jobResult.Id);
       if (!!surveyJobMatches) {
         jobResult.Matches = surveyJobMatches.Matches;
-      }
-    } else if (jobResult.DataSource === SurveySearchResultDataSources.Peer && !!exchangeJobNatAvgOrg50thDetails && exchangeJobNatAvgOrg50thDetails.length) {
-      const exchangeJobAverages: ExchangeJobDailyNatAvgOrg50thDetails = exchangeJobNatAvgOrg50thDetails.find(
-        m => m.ExchangeJobId === jobResult.PeerJobInfo.ExchangeJobId);
-      if (!!exchangeJobAverages && !!jobResult.PeerJobInfo) {
-        jobResult.PeerJobInfo.NatAvgBase50th = exchangeJobAverages.Base50th;
-        jobResult.PeerJobInfo.NatAvgTCC50th = exchangeJobAverages.TCC50th;
-        jobResult.PeerJobInfo.NatAvgOrgs = exchangeJobAverages.Orgs;
       }
     }
     return jobResult;

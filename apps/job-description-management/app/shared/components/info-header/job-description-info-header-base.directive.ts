@@ -73,4 +73,12 @@ export abstract class JobDescriptionInfoHeaderBaseDirective implements OnInit, O
 
     this.jobInfoFieldRows = rows;
   }
+
+  trackByIndexFn(index: number) {
+    return index;
+  }
+
+  trackByFieldNameFn(index: number, jobInfoField: { DisplayName: string, FieldName: string }) {
+    return jobInfoField.FieldName;
+  }
 }

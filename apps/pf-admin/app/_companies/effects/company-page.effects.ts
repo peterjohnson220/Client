@@ -31,7 +31,8 @@ export class CompanyPageEffects {
       new fromCompanyPageActions.GetCompanyClientTypes(),
       new fromCompanyPageActions.GetCompanyTiles(action.payload),
       new fromCompanyPageActions.GetCompanyDataSets(action.payload),
-      new fromCompanyPageActions.GetCompositeFields()
+      new fromCompanyPageActions.GetCompositeFields(),
+      new fromCompanyPageActions.GetPeerIndustries()
     ])
   );
 
@@ -106,6 +107,18 @@ export class CompanyPageEffects {
       )
     )
   );
+
+  @Effect()
+  getPeerIndustries$ = this.actions$
+    .pipe(
+      ofType(fromCompanyPageActions.GET_PEER_INDUSTRIES),
+      switchMap(() =>
+        this.companyApiService.getPeerIndustries()
+          .pipe(
+            map((response) => new fromCompanyPageActions.GetPeerIndustriesSuccess(response))
+          )
+      )
+    );
 
   @Effect()
   getCompanyClientTypes$ = this.actions$
@@ -209,11 +222,12 @@ export class CompanyPageEffects {
       this.store.select(fromPfAdminMainReducer.getSelectedCompanyMarketingTiles),
       this.store.select(fromPfAdminMainReducer.getCompanySettings),
       this.store.select(fromPfAdminMainReducer.getSelectedDataSets),
-      (action: fromCompanyPageActions.CreateCompany, tileIds, marketingTileIds, settings, countryCodes) =>
-        ({ action, tileIds, marketingTileIds, settings, countryCodes })
+      this.store.select(fromPfAdminMainReducer.getSelectedPeerIndustry),
+      (action: fromCompanyPageActions.CreateCompany, tileIds, marketingTileIds, settings, countryCodes, peerIndustry) =>
+        ({ action, tileIds, marketingTileIds, settings, countryCodes, peerIndustry })
     ),
     switchMap((data) =>
-      this.companyApiService.insert(data.action.payload, data.tileIds, data.marketingTileIds, data.countryCodes)
+      this.companyApiService.insert(data.action.payload, data.tileIds, data.marketingTileIds, data.countryCodes, data.peerIndustry)
       .pipe(
         mergeMap((company: CompanyDto ) => {
           const putSettingsRequest = CompanyPageHelper.buildCompanySettingsSaveRequest(company.CompanyId, data.settings);
@@ -236,11 +250,12 @@ export class CompanyPageEffects {
       this.store.select(fromPfAdminMainReducer.getSelectedCompanyMarketingTiles),
       this.store.select(fromPfAdminMainReducer.getCompanySettings),
       this.store.select(fromPfAdminMainReducer.getSelectedDataSets),
-      (action: fromCompanyPageActions.SaveCompany, tileIds, marketingTileIds, settings, countryCodes) =>
-        ({ action, tileIds, marketingTileIds, settings, countryCodes })
+      this.store.select(fromPfAdminMainReducer.getSelectedPeerIndustry),
+      (action: fromCompanyPageActions.SaveCompany, tileIds, marketingTileIds, settings, countryCodes, peerIndustry) =>
+        ({ action, tileIds, marketingTileIds, settings, countryCodes, peerIndustry })
     ),
     switchMap((data) =>
-      this.companyApiService.update(data.action.payload, data.tileIds, data.marketingTileIds, data.countryCodes)
+      this.companyApiService.update(data.action.payload, data.tileIds, data.marketingTileIds, data.countryCodes, data.peerIndustry)
       .pipe(
         mergeMap((company: CompanyDto ) => {
           const putSettingsRequest = CompanyPageHelper.buildCompanySettingsSaveRequest(company.CompanyId, data.settings);

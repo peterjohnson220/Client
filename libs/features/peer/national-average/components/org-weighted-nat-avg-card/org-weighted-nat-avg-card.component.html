@@ -1,0 +1,41 @@
+<ng-container *ngIf="!showLargeCard; else largeCard">
+  <div *ngIf="nationalAverage || showPlaceholderCard" class="peer-org-weighted-nat-avg card"
+    title="{{nationalAverage ? 'National Org Weighted Average for ' + nationalAverage.CurrencyCode : ''}}">
+    <div class="avg-pay-container d-flex justify-content-between">
+      <div class="label-indicator">Base 50th</div>
+      <div>{{!nationalAverage ? '--' : nationalAverage.Base50th | comp: compRate : annualDisplay }}</div>
+    </div>
+    <div class="avg-pay-container d-flex justify-content-between">
+      <div class="label-indicator">TCC 50th</div>
+      <div>{{!nationalAverage ? '--' : nationalAverage.TCC50th | comp: compRate: annualDisplay}}</div>
+    </div>
+    <div class="card-footer d-flex justify-content-between">
+      <div class="text-muted small"><i>National</i></div>
+      <div class="text-muted small">
+        <i>Orgs: {{!nationalAverage ? '--' : nationalAverage.Orgs}}</i>
+      </div>
+    </div>
+  </div>
+</ng-container>
+<ng-template #largeCard>
+  <div *ngIf="nationalAverage || showPlaceholderCard" class="peer-org-weighted-nat-avg-large"
+       title="{{nationalAverage ? 'National Org Weighted Average for ' + nationalAverage.CurrencyCode : ''}}">
+    <div class="d-flex">
+      <div class="card-header avg-pay-container text-center">
+        <div>
+          <div class="avg-pay">{{!nationalAverage ? '--' : nationalAverage.Base50th | comp: compRate : annualDisplay }}</div>
+          <div class="label-indicator">Base 50th</div>
+        </div>
+      </div>
+      <div class="card-header avg-pay-container text-center ml-2">
+        <div class="avg-pay">{{!nationalAverage ? '--' : nationalAverage.TCC50th | comp: compRate: annualDisplay}}</div>
+        <div class="label-indicator">TCC 50th</div>
+      </div>
+    </div>
+    <div class="d-flex justify-content-end">
+      <div class="text-muted small">
+        <i>{{!nationalAverage ? '--' : 'National, ' + nationalAverage.Orgs + ' Orgs'}}</i>
+      </div>
+    </div>
+  </div>
+</ng-template>
