@@ -9,6 +9,7 @@ import { BulkProjectShareRequest } from 'libs/models/share-modal/bulk-project-sh
 import { ProjectListTooltipRequest, ProjectListTooltipResponse } from 'libs/models/projects/tooltips';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
+import { ProjectExportRequest } from '../../../models/projects/project-export-manager/project-export-request.model';
 
 
 @Injectable({
@@ -35,6 +36,10 @@ export class PricingProjectApiService {
 
   getPricingProject(projectId: number) {
     return this.payfactorsApiService.get(`${this.endpoint}/GetPricingProject?projectId=${projectId}`);
+  }
+
+  exportPricingProject(request: ProjectExportRequest) {
+    return this.payfactorsApiService.post(`${this.endpoint}/PublishProjectsExportMessage`, request);
   }
 
   bulkProjectShare(request: BulkProjectShareRequest) {

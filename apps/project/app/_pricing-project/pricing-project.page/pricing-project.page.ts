@@ -1,16 +1,18 @@
-import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {Store} from '@ngrx/store';
-import {Observable} from 'rxjs';
+
+import { select, Store } from '@ngrx/store';
+import { Observable, Subscription } from 'rxjs';
 import {SortDescriptor} from '@progress/kendo-data-query';
 
-import {GridConfig} from 'libs/features/grids/pf-data-grid/models';
+import { ActionBarConfig, getDefaultActionBarConfig, GridConfig } from 'libs/features/grids/pf-data-grid/models';
+import { FileDownloadSecurityWarningModalComponent } from 'libs/ui/common/file-download-security-warning';
+import * as fromCompanySettingsReducer from 'libs/state/state';
+import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
+import { DataGridState } from 'libs/features/grids/pf-data-grid/reducers/pf-data-grid.reducer';
 
 import {PageViewIds} from '../../shared/constants';
-import * as fromPricingProjectActions from '../actions';
 import * as fromPricingProjectReducer from '../reducers';
-
-
 
 
 @Component({
@@ -18,9 +20,11 @@ import * as fromPricingProjectReducer from '../reducers';
   templateUrl: './pricing-project.page.html',
   styleUrls: ['./pricing-project.page.scss']
 })
-export class PricingProjectPageComponent implements OnInit, AfterViewInit {
+export class PricingProjectPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild('jobTitle') jobTitle: ElementRef;
+  @ViewChild('gridGlobalActions', { static: true }) gridGlobalActionsTemplate: ElementRef;
+  @ViewChild('fileDownloadSecurityWarningModal', { static: true }) fileDownloadSecurityWarningModal: FileDownloadSecurityWarningModalComponent;
 
   project$: Observable<any>;
   projectId: number;
@@ -28,19 +32,31 @@ export class PricingProjectPageComponent implements OnInit, AfterViewInit {
   filter = [];
   colTemplates = {};
   gridConfig: GridConfig;
+  actionBarConfig: ActionBarConfig;
   defaultSort: SortDescriptor[] = [{
     dir: 'asc',
     field: 'vw_ProjectJobPayMarketMetadata_Job_Title'
   }, {
     dir: 'asc',
     field: 'vw_ProjectJobPayMarketMetadata_Paymarket'
-  }];  constructor(private route: ActivatedRoute,
+  }];
+
+  companySettingsSubscription: Subscription;
+
+  exportModalIsOpen = false;
+  displaySecurityWarning = false;
+
+  projectJobGrid$: Observable<DataGridState>;
+
+  constructor(private route: ActivatedRoute,
               private store: Store<fromPricingProjectReducer.State>) {
     this.gridConfig = {
       PersistColumnWidth: true,
       EnableInfiniteScroll: true,
       ScrollToTop: true
     };
+
+    this.projectJobGrid$ = this.store.pipe(select(fromPfDataGridReducer.getGrid, PageViewIds.ProjectJobs));
   }
 
   ngOnInit(): void {
@@ -51,11 +67,45 @@ export class PricingProjectPageComponent implements OnInit, AfterViewInit {
       Operator: '=',
       Values: [this.projectId]
     }];
+
+    this.actionBarConfig = {
+      ...getDefaultActionBarConfig()
+    };
+
+    this.companySettingsSubscription = this.store.select(fromCompanySettingsReducer.getCompanySettings).subscribe(cs => {
+      if (cs !== null && cs !== undefined) {
+        this.displaySecurityWarning = cs.find(x => x.Key === 'FileDownloadSecurityWarning').Value === 'true';
+      }
+    });
   }
+
+  ngOnDestroy() {
+    this.companySettingsSubscription.unsubscribe();
+  }
+
   ngAfterViewInit() {
     this.colTemplates = {
       'Job_Title': { Template: this.jobTitle }
     };
+
+    this.actionBarConfig = {
+      ...this.actionBarConfig,
+      GlobalActionsTemplate: this.gridGlobalActionsTemplate
+    };
+  }
+
+  openExportModal(buttonElement): void {
+    buttonElement.blur();
+
+    if (this.displaySecurityWarning) {
+      this.fileDownloadSecurityWarningModal.open();
+    } else {
+      this.exportModalIsOpen = true;
+    }
+  }
+
+  closeExportModal(): void {
+    this.exportModalIsOpen = false;
   }
 
   private initRouterParams(): void {
