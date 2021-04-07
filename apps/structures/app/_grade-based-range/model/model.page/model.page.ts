@@ -56,7 +56,7 @@ export class ModelPageComponent implements OnInit, OnDestroy {
       {
         SourceName: 'CompanyStructuresRangeGroup_ID',
         Operator: '=',
-        Values: [this.route.snapshot.params.id]
+        Values: [this.rangeGroupId]
       },
       {
         SourceName: 'CompanyStructuresGrades_ID',
@@ -89,8 +89,11 @@ export class ModelPageComponent implements OnInit, OnDestroy {
   }
 
   openManageModelModal() {
-    this.setSearchContext();
-    this.store.dispatch(new fromAddJobsPageActions.SetContextStructuresRangeGroupId(this.rangeGroupId));
+    setTimeout(() => {
+      this.setSearchContext();
+      this.store.dispatch(new fromAddJobsPageActions.SetContextStructuresRangeGroupId(this.rangeGroupId));
+    }, 0);
+
   }
 
   private setSearchContext() {
