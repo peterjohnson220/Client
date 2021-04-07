@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { StoreModule } from '@ngrx/store';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { DropDownListModule } from '@progress/kendo-angular-dropdowns';
 
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
@@ -21,6 +23,8 @@ import { SurveysRoutingModule } from './surveys-routing.module';
   imports: [
     // Angular
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
 
     // Routing
     SurveysRoutingModule,
@@ -28,6 +32,7 @@ import { SurveysRoutingModule } from './surveys-routing.module';
     // 3rd party
     StoreModule.forFeature('surveys_main', reducers),
     FontAwesomeModule,
+    DropDownListModule,
 
     // Payfactors
     PfCommonModule,
