@@ -10,6 +10,8 @@ export interface State {
   resettingServiceAccount: boolean;
   resettingServiceAccountError: boolean;
   serviceAccountUser: ServiceAccountUser;
+  showResetAccountModal: boolean;
+  showNewAccountModal: boolean;
 }
 
 export const initialState: State = {
@@ -21,6 +23,8 @@ export const initialState: State = {
   resettingServiceAccount: false,
   resettingServiceAccountError: false,
   serviceAccountUser: null,
+  showResetAccountModal: false,
+  showNewAccountModal: false,
 };
 
 export function reducer(state = initialState, action: fromServiceAccountActions.Actions): State {
@@ -70,6 +74,30 @@ export function reducer(state = initialState, action: fromServiceAccountActions.
         accountStatusLoadingError: true,
       };
     }
+    case fromServiceAccountActions.CLOSE_RESET_ACCOUNT_MODAL: {
+      return {
+        ...state,
+        showResetAccountModal: false,
+      };
+    }
+    case fromServiceAccountActions.OPEN_RESET_ACCOUNT_MODAL: {
+      return {
+        ...state,
+        showResetAccountModal: true,
+      };
+    }
+    case fromServiceAccountActions.CLOSE_NEW_ACCOUNT_MODAL: {
+      return {
+        ...state,
+        showNewAccountModal: false,
+      };
+    }
+    case fromServiceAccountActions.OPEN_NEW_ACCOUNT_MODAL: {
+      return {
+        ...state,
+        showNewAccountModal: true,
+      };
+    }
     case fromServiceAccountActions.RESET_SERVICE_ACCOUNT: {
       return {
         ...state,
@@ -106,3 +134,5 @@ export const GetCreatingServiceAccountError = (state: State) => state.creatingSe
 export const GetResettingServiceAccount = (state: State) => state.resettingServiceAccount;
 export const GetResettingServiceAccountError = (state: State) => state.resettingServiceAccountError;
 export const GetServiceAccountUser = (state: State) => state.serviceAccountUser;
+export const OpenResetAccountModal = (state: State) => state.showResetAccountModal;
+export const OpenNewAccountModal = (state: State) => state.showNewAccountModal;

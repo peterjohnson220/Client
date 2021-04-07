@@ -7,7 +7,6 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 
 import { ServiceAccountApiService } from 'libs/data/payfactors-api/service-accounts';
-import { ServiceAccountUser } from 'libs/models';
 import * as fromServiceAccountsActions from '../actions';
 
 @Injectable()

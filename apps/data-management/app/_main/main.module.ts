@@ -41,9 +41,9 @@ import {
     OutboundAuthenticationPageComponent, OutboundBulkJobsExportSchedulerPageComponent, OutboundFieldMappingPageComponent,
     OutboundJdmViewSelectionPageComponent, OutboundProviderSelectionPageComponent, OutboundTransferSchedulePageComponent,
     OutboundTransferScheduleSummaryComponent, PfTestAuthenticationComponent, ProviderCardComponent, PublicApiAuthenticationComponent,
-    ResetIntegrationPageComponent, TransferDataPageComponent, TransferMethodDropdownComponent, TransferScheduleCardComponent,
-    TransferScheduleCronComponent, TransferSchedulePageComponent, TransferScheduleSummaryComponent, WorkdayAuthenticationComponent,
-    WorkdayMockAuthenticationComponent, WorkdayRestAuthenticationComponent
+    ResetCredentialsModalComponent, ResetIntegrationPageComponent, TransferDataPageComponent, TransferMethodDropdownComponent,
+    TransferScheduleCardComponent, TransferScheduleCronComponent, TransferSchedulePageComponent, TransferScheduleSummaryComponent,
+    WorkdayAuthenticationComponent, WorkdayMockAuthenticationComponent, WorkdayRestAuthenticationComponent
 } from './containers';
 import {
     ConverterSettingsEffects, EntitySelectionEffects, FieldMappingEffects, HrisConnectionEffects, LoadAndExportFilesCardEffects,
@@ -184,6 +184,7 @@ import { HrisAuthenticationGuard } from './guards';
     LoadAndExportFilesCardComponent,
     LatestOrgDataLoadModalComponent,
     ConverterFormComponent,
+    ResetCredentialsModalComponent,
   ],
   providers: [
     // Guards
