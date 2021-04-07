@@ -44,7 +44,7 @@
         [loading]="userFilterListLoading$ | async"
         [deleting]="userFilterDeleting$ | async"
         [userFilterList]="userFilterList$ | async"
-        [listAreaColumns]="listAreaColumns$ | async"
+        [listAreaColumns]="filteredListAreaColumns"
         [customListAreaColumns]="customListAreaColumns"
         [saveFiltersVisible]="!isPublic"
         (onFilterSidebarToggle)="showFilterSidebar = !showFilterSidebar"
@@ -68,7 +68,7 @@
           <div *ngIf="gridState?.filter?.filters.length" class="filter-pills-container"
                [class.background-light-grey]="showFilterSidebar">
             <pf-list-area-filter-pills
-              [listAreaColumns]="listAreaColumns$ | async"
+              [listAreaColumns]="filteredListAreaColumns"
               [customListAreaColumns]="customListAreaColumns"
               [filters]="gridState?.filter?.filters"
               (clearFilter)="handleClearFilter($event)"
@@ -81,7 +81,7 @@
               [gridDataResult]="gridDataResult$ | async"
               [loading]="gridLoading$ | async"
               [loadingError]="gridLoadingError$ | async"
-              [listAreaColumns]="listAreaColumns$ | async"
+              [listAreaColumns]="filteredListAreaColumns"
               [gridState]="gridState"
               [isPublic]="isPublic"
               [canRestrictJobDescriptionFromPublicView]="canRestrictJobDescriptionFromPublicView"
@@ -99,7 +99,7 @@
         <div [hidden]="!showFilterSidebar" class="sidebar-filter-container">
           <pf-list-area-filter-sidebar
             [filters]="gridState?.filter?.filters"
-            [listAreaColumns]="listAreaColumns$ | async"
+            [listAreaColumns]="filteredListAreaColumns"
             [customListAreaColumns]="customListAreaColumns"
             [saveFiltersVisible]="!isPublic"
             (filterChanged)="handleFilterChanged($event)"
