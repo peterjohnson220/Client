@@ -464,6 +464,9 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
     this.filteredListAreaColumns = listAreaColumns.filter(c =>
       (c.ColumnDatabaseName !== 'PublicView') ||
       (c.ColumnDatabaseName === 'PublicView' && this.canRestrictJobDescriptionFromPublicView));
+
+    this.filteredListAreaColumns = listAreaColumns.filter(c =>
+      (c.ColumnDatabaseName !== 'PublicViewStatusVisibility'));
   }
 
   private createSubscriptions() {
