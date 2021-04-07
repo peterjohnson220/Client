@@ -24,6 +24,7 @@
               [showTitle]="control.ShowTitle"
               (onTitleChange)="handleOnControlTitleChange($event)"
               (onContentChange)="handleOnRichTextControlContentChange($event)"
+              (onUdfsInContentChange)="handleOnRichTextControlUdfsInContentChange($event)"
               (onRTEFocusChange)="handleOnRTEFocusChange($event)"
               class="p-1">
             </pf-trs-rich-text-control>
@@ -35,7 +36,8 @@
               [mode]="mode"
               (saveImage)="handleSaveImage($event)"
               (removeImage)="handleRemoveImage($event)"
-              (imageLoaded)="handleImageLoaded($event)">
+              (imageLoaded)="handleImageLoaded($event)"
+              (imageSelected)="handleImageSelected()">
             </pf-trs-image-control>
 
             <pf-trs-calculation-control
@@ -53,7 +55,8 @@
               (onCompFieldTitleChange)="handleOnCalculationControlCompFieldTitleChange($event)"
               (onUpdateSummaryTitleChange)="handleOnCalculationControlSummaryTitleChange($event)"
               (onCompFieldRemoved)="handleOnCalculationControlCompFieldRemoved($event)"
-              (onCompFieldAdded)="handleOnCalculationControlCompFieldAdded($event)">
+              (onCompFieldAdded)="handleOnCalculationControlCompFieldAdded($event)"
+              (onCompFieldReordered)="handleOnCalculationControlCompFieldReordered($event)">
             </pf-trs-calculation-control>
 
             <pf-trs-chart-control
@@ -66,6 +69,7 @@
               [showChartSeriesLabels]="control.ShowChartSeriesLabels"
               [showTitle]="control.ShowTitle"
               [height]="control.Height"
+              [fontFamily]="statement.Settings.FontFamily"
               (onTitleChange)="handleOnControlTitleChange($event)"
               (settingsClick)="handleChartControlSettingsClick()"
               (chartRender)="handleChartRender()">

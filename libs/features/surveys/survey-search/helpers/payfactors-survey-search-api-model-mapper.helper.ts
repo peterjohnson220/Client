@@ -228,10 +228,7 @@ export class PayfactorsSurveySearchApiModelMapper {
       return {
         Id: surveyJob.Id,
         ExchangeId: surveyJob.Job.ExchangeId,
-        ExchangeJobId: surveyJob.Job.ExchangeJobId,
-        NatAvgBase50th: null,
-        NatAvgTCC50th: null,
-        NatAvgOrgs: null
+        ExchangeJobId: surveyJob.Job.ExchangeJobId
       };
     }
     return null;

@@ -16,8 +16,10 @@ import * as fromPaymarketActions from 'libs/features/jobs/add-jobs/actions/payma
 import * as fromAddJobsPageActions from 'libs/features/jobs/add-jobs/actions/add-jobs-page.actions';
 import * as fromAddJobsSearchResultsActions from 'libs/features/jobs/add-jobs/actions/search-results.actions';
 import * as fromAddJobsReducer from 'libs/features/jobs/add-jobs/reducers';
+import * as fromJobsToGradeActions from 'libs/features/structures/add-jobs-to-range/actions/jobs-to-grade.actions';
 
 import { AddJobsToRangePageComponent } from './add-jobs-to-range.page';
+import { generateMockGrade } from '../../../models';
 
 
 
@@ -136,6 +138,29 @@ describe('Project - Add Jobs - Structures Page', () => {
     spyOn(store, 'dispatch');
 
     instance.handleClearSelectionsClicked();
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
+
+  it('should dispatch a select all search results action when handling select all clicked', () => {
+    const expectedAction = new fromAddJobsSearchResultsActions.SelectAllJobs();
+
+    spyOn(store, 'dispatch');
+
+    instance.handleSelectAllClicked();
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
+
+  it('should dispatch a save action when handling save clicked', () => {
+    const grade = generateMockGrade();
+    grade.JobIdsToAdd = [1];
+    instance.grades = [grade];
+    const expectedAction = new fromJobsToGradeActions.SaveGradeJobMaps(instance.grades);
+
+    spyOn(store, 'dispatch');
+
+    instance.handleSaveClicked();
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });

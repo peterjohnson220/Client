@@ -36,6 +36,7 @@ export class CompanyFormComponent implements OnInit, OnChanges, AfterViewInit {
   pfJdmSrAssociates: UserResponse[];
   pfCustomerSuccessMgrs: UserResponse[];
   industries: CompanyIndustriesResponse[];
+  peerIndustries: string[];
   uploadUrl: string;
   groupVal: string;
   uploadLogoErrorMessage: string;
@@ -75,6 +76,7 @@ export class CompanyFormComponent implements OnInit, OnChanges, AfterViewInit {
       this.pfJdmSrAssociates = this.companyFormContext.pfJdmSrAssociates;
       this.pfCustomerSuccessMgrs = this.companyFormContext.pfCustomerSuccessMgrs;
       this.industries = this.companyFormContext.industries;
+      this.peerIndustries = this.companyFormContext.peerIndustries;
       this.peerOnlySystemUserGroupId = this.getSystemUserGroupId(SystemUserGroupNames.PeerOnly);
       this.smallBusinessSystemUserGroupId = this.getSystemUserGroupId(SystemUserGroupNames.SmallBusiness);
       this.smallBusinessPaidSystemUserGroupId = this.getSystemUserGroupId(SystemUserGroupNames.SmallBusinessPaid);
@@ -142,6 +144,7 @@ export class CompanyFormComponent implements OnInit, OnChanges, AfterViewInit {
       assets: [0, PfValidators.isNotNumeric],
       revenue: [0, PfValidators.isNotNumeric],
       industry: [''],
+      peerIndustry: [''],
       companyDescription: ['', Validators.maxLength(300)],
       repository: [''],
       customFieldValue: ['', Validators.maxLength(50)],
@@ -212,6 +215,7 @@ export class CompanyFormComponent implements OnInit, OnChanges, AfterViewInit {
       SystemUserGroupsId: Number(this.repositoryControl.value),
       ClientType: this.clientTypeControl.value,
       Industry: this.companyForm.get('industry').value,
+      PeerIndustry: this.companyForm.get('peerIndustry').value,
       FTEs: !!ftes ? ftes.toString() : null,
       Assets: !!assets ? assets.toString() : null,
       Revenue: !!revenue ? revenue.toString() : null,
@@ -292,6 +296,11 @@ export class CompanyFormComponent implements OnInit, OnChanges, AfterViewInit {
     this.setGroupFromIndustryValue(industryValue);
   }
 
+  onPeerIndustryDropdownChange() {
+    const peerIndustryValue = this.companyForm.get('peerIndustry').value;
+    this.store.dispatch(new fromCompanyPageActions.SetPeerIndustry(peerIndustryValue));
+  }
+
   successEventHandler(e: SuccessEvent) {
     const fileName = e.response.body.value;
     this.companyLogo = fileName;
@@ -345,6 +354,7 @@ export class CompanyFormComponent implements OnInit, OnChanges, AfterViewInit {
     this.companyForm.get('revenue').setValue(this.companyFormData.Revenue);
     this.companyForm.get('companyDescription').setValue(this.companyFormData.CompanyDescription);
     this.companyForm.get('industry').setValue(this.companyFormData.Industry);
+    this.companyForm.get('peerIndustry').setValue(this.companyFormData.PeerIndustry);
     this.companyForm.get('repository').setValue(this.companyFormData.SystemUserGroupsId);
     this.companyForm.get('customFieldValue').setValue(this.companyFormData.CustomFieldValue);
     this.companyForm.get('enablePricingReview').setValue(this.companyFormData.EnablePricingReview);

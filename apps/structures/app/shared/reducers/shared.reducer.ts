@@ -1,6 +1,12 @@
 import cloneDeep from 'lodash/cloneDeep';
 
-import { CompanyStructureRangeOverride, RangeGroupMetadata, RoundingSetting, RoundingSettingsDataObj } from 'libs/models/structures';
+import {
+  CompanyStructureRangeOverride,
+  generateMockRoundingSettingsDataObj,
+  RangeGroupMetadata,
+  RoundingSetting,
+  RoundingSettingsDataObj
+} from 'libs/models/structures';
 import { RoundingTypes } from 'libs/constants/structures/rounding-type';
 import { AsyncStateObj, generateDefaultAsyncStateObj, GenericKeyValue } from 'libs/models';
 import { RangeDistributionTypeIds } from 'libs/constants/structures/range-distribution-type-ids';
@@ -22,20 +28,7 @@ export interface State {
 
 const initialState: State = {
   metadata: null,
-  roundingSettings: {
-    'min': {
-      RoundingType: RoundingTypes.Round,
-      RoundingPoint: 0
-    },
-    'mid': {
-      RoundingType: RoundingTypes.Round,
-      RoundingPoint: 0
-    },
-    'max': {
-      RoundingType: RoundingTypes.Round,
-      RoundingPoint: 0
-    },
-  },
+  roundingSettings: generateMockRoundingSettingsDataObj(),
   gettingExchanges: generateDefaultAsyncStateObj<GenericKeyValue<number, string>[]>(null),
   selectedPeerExchange: null,
   rangeOverrides: [],
@@ -49,7 +42,7 @@ export function reducer(state = initialState, action: fromSharedActions.SharedAc
   switch (action.type) {
     case fromSharedActions.SET_METADATA:
       const newState = cloneDeep(state);
-      const roundingSettings = setRangeDistributionType(action.payload, newState);
+      const roundingSettings = generateMockRoundingSettingsDataObj();
       return {
         ...state,
         roundingSettings: roundingSettings,
@@ -101,8 +94,14 @@ export function reducer(state = initialState, action: fromSharedActions.SharedAc
         }
       };
     }
+    case fromSharedActions.UPDATE_ROUNDING_SETTINGS: {
+      return {
+        ...state,
+        roundingSettings: action.payload
+      };
+    }
     case fromSharedActions.RESET_ROUNDING_SETTING: {
-      const initialSetting = setRangeDistributionType(state.metadata, cloneDeep(initialState));
+      const initialSetting = generateMockRoundingSettingsDataObj(action.rate);
       return {
         ...state,
         roundingSettings: initialSetting
@@ -225,44 +224,6 @@ function updateRoundingPoints(roundingPoint: number, settings: RoundingSettingsD
   return settings;
 }
 
-function setRangeDistributionType(metadata: RangeGroupMetadata, state) {
-  const defaultRoundingSetting: RoundingSetting = {
-    RoundingPoint: 0,
-    RoundingType: RoundingTypes.Round
-  };
-
-  if (metadata.Rate && metadata.Rate.toLowerCase() === 'hourly') {
-    defaultRoundingSetting.RoundingPoint = 2;
-  }
-
-  addRoundingSetting('min', defaultRoundingSetting, state.roundingSettings);
-  addRoundingSetting('mid', defaultRoundingSetting, state.roundingSettings);
-  addRoundingSetting('max', defaultRoundingSetting, state.roundingSettings);
-
-  switch (metadata.RangeDistributionTypeId) {
-    case RangeDistributionTypeIds.Tertile: {
-      addRoundingSetting('firstTertile', defaultRoundingSetting, state.roundingSettings);
-      addRoundingSetting('secondTertile', defaultRoundingSetting, state.roundingSettings);
-      return state.roundingSettings;
-    }
-    case RangeDistributionTypeIds.Quartile: {
-      addRoundingSetting('firstQuartile', defaultRoundingSetting, state.roundingSettings);
-      addRoundingSetting('secondQuartile', defaultRoundingSetting, state.roundingSettings);
-      return state.roundingSettings;
-    }
-    case RangeDistributionTypeIds.Quintile: {
-      addRoundingSetting('firstQuintile', defaultRoundingSetting, state.roundingSettings);
-      addRoundingSetting('secondQuintile', defaultRoundingSetting, state.roundingSettings);
-      addRoundingSetting('thirdQuintile', defaultRoundingSetting, state.roundingSettings);
-      addRoundingSetting('fourthQuintile', defaultRoundingSetting, state.roundingSettings);
-      return state.roundingSettings;
-    }
-    case RangeDistributionTypeIds.MinMidMax: {
-      return state.roundingSettings;
-    }
-  }
-}
-
 function updateOverrides(rangeId: number, overrides: CompanyStructureRangeOverride[],
                          overrideToUpdate: CompanyStructureRangeOverride, remove: boolean): CompanyStructureRangeOverride[] {
   const rangeOverride = overrides.find(ro => ro.CompanyStructuresRangesId === rangeId);
@@ -285,9 +246,6 @@ function updateOverrideFiltersIfNeeded(overrideMessages: string[]) {
 }
 
 
-export const addRoundingSetting = (name: string, setting: RoundingSetting, settings: RoundingSettingsDataObj) => {
-  return settings[name] = setting;
-};
 export const getMetadata = (state: State) => state.metadata;
 export const getRoundingSettings = (state: State) => state.roundingSettings;
 export const getCompanyExchanges = (state: State) => state.gettingExchanges;

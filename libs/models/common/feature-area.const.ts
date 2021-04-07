@@ -10,4 +10,5 @@ export class FeatureAreaConstants {
   static readonly Jobs = 'Jobs';
   static readonly Service = 'Service';
   static readonly Community = 'Community';
+  static readonly PayMarkets = 'PayMarkets';
 }

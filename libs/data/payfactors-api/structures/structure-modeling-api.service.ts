@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import {
-  SaveModelSettingsRequest,
+  SaveJobBasedModelSettingsRequest,
   SaveModelSettingsResponse,
   RecalcAndSaveRangeMinMaxRequest,
   RecalcAndSaveRangeMinMaxResponse,
@@ -19,12 +19,13 @@ import {
   CurrentRangeGroupResponseModel,
   CurrentRangeGroupRequestModel,
   ConvertCurrencyAndRateRequestModel,
-  GetStructureHasSettingsRequestModel
+  GetStructureHasSettingsRequestModel,
+  CreateGradeBasedModelSettingsRequest,
+  SaveGradeBasedModelSettingsRequest
 } from 'libs/models/payfactors-api';
 import { CompanyStructureRange, CompanyStructureRangeOverride } from 'libs/models/structures';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
-
 
 @Injectable({
   providedIn: 'root',
@@ -40,8 +41,16 @@ export class StructureModelingApiService {
     });
   }
 
-  saveModelSettings(request: SaveModelSettingsRequest): Observable<SaveModelSettingsResponse> {
-    return this.payfactorsApiService.post<SaveModelSettingsResponse>(`${this.endpoint}/SaveModelSettings`, request);
+  saveJobBasedModelSettings(request: SaveJobBasedModelSettingsRequest): Observable<SaveModelSettingsResponse> {
+    return this.payfactorsApiService.post<SaveModelSettingsResponse>(`${this.endpoint}/SaveJobBasedModelSettings`, request);
+  }
+
+  createGradeBasedModelSettings(request: CreateGradeBasedModelSettingsRequest): Observable<SaveModelSettingsResponse> {
+    return this.payfactorsApiService.post<SaveModelSettingsResponse>(`${this.endpoint}/CreateGradeBasedModelSettings`, request);
+  }
+
+  saveGradeBasedModelSettings(request: SaveGradeBasedModelSettingsRequest): Observable<SaveModelSettingsResponse> {
+    return this.payfactorsApiService.post<SaveModelSettingsResponse>(`${this.endpoint}/SaveGradeBasedModelSettings`, request);
   }
 
   recalculateRangeMinMax(request: RecalcAndSaveRangeMinMaxRequest): Observable<RecalcAndSaveRangeMinMaxResponse> {
@@ -91,6 +100,12 @@ export class StructureModelingApiService {
   getStructureHasSettings(request: GetStructureHasSettingsRequestModel): Observable<any> {
     return this.payfactorsApiService.get<any>(`${this.endpoint}/GetStructureHasSettings`, {
       params: request
+    });
+  }
+
+  getGradesForStructureByRangeGroupId(rangeGroupId: number): Observable<any> {
+    return this.payfactorsApiService.get<any>(`${this.endpoint}/GetGradesForStructureByRangeGroupId`, {
+      params: { rangeGroupId }
     });
   }
 }

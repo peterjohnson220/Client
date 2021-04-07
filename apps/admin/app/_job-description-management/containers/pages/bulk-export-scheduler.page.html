@@ -13,7 +13,8 @@
                 <h4 class="card-title pb-4">Create File to Export</h4>
                 <pf-bulk-export-scheduler-form [views]="views$ | async"
                                                [filters]="filters$ | async"
-                                               [schedules]="schedules$ | async">
+                                               [schedules]="filteredSchedules"
+                                               [reportType]="exportReportType.ScheduledExportJobs">
                 </pf-bulk-export-scheduler-form>
               </div>
             </div>
@@ -21,7 +22,7 @@
           <div class="col-sm-12 col-md-6">
             <h4>Saved Schedules</h4>
             <pf-bulk-export-schedules-list [views]="views$ | async"
-                                           [schedules]="schedules$ | async">
+                                           [schedules]="filteredSchedules">
             </pf-bulk-export-schedules-list>
           </div>
         </div>

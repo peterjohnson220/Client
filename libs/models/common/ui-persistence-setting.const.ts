@@ -22,4 +22,5 @@ export class UiPersistenceSettingConstants {
   static readonly CommunityHideAttachmentWarningModal = 'HideAttachmentWarningModal';
   static readonly QuickPriceHistoryNoteDismissed = 'QuickPriceHistoryNoteDismissed';
   static readonly HideMarketingTiles = 'HideMarketingTiles';
+  static readonly PayMarketsPageViewStyleSelection = 'PayMarketsPageViewStyleSelection';
 }

@@ -1,0 +1,64 @@
+<div>
+  <div class="d-flex justify-content-between">
+    <div>
+      <h5>{{dataCutSummary.JobTitle}} ({{dataCutSummary.JobCode}})</h5>
+    </div>
+    <pf-copy-to-clipboard-button [toolTipText]="'Copy Job Description'" [copyText]="dataCutSummary.JobDescription"></pf-copy-to-clipboard-button>
+  </div>
+
+  <div *ngIf="dataCutSummaryType == dataCutSummaryTypes.MD_JOB">
+    <div>
+      <strong>Family: </strong><span class="pr-2">{{dataCutSummary.JobFamily | emptyPlaceholder : 'N/A'}}</span>
+      <strong>Job Category: </strong><span class="pr-2">{{dataCutSummary.Category | emptyPlaceholder : 'N/A'}}</span>
+      <strong>Level: </strong><span>{{dataCutSummary.JobLevel | emptyPlaceholder : 'N/A'}}</span>
+    </div>
+    <div>
+      <strong>FLSA: </strong><span class="pr-2">{{dataCutSummary.FlsaStatus | emptyPlaceholder : 'N/A'}}</span>
+      <strong>EEO: </strong><span>{{dataCutSummary.Eeo | emptyPlaceholder : 'N/A'}}</span>
+    </div>
+    <div class="pt-2">
+      <strong>Source: </strong><span>{{source | emptyPlaceholder : 'N/A'}} {{dataCutSummary.EffectiveDate | date:'MM/dd/yyyy'}}</span>
+    </div>
+    <div class="pt-2">
+      <strong>Country: </strong><span>{{dataCutSummary.CountryCode | emptyPlaceholder : 'N/A'}}</span>
+    </div>
+    <div class="pt-2">
+      <strong>Scope: </strong><span>{{scope | emptyPlaceholder : 'N/A'}}</span>
+    </div>
+  </div>
+  <div *ngIf="dataCutSummaryType == dataCutSummaryTypes.SURVEY">
+    <div>
+      <strong>Family: </strong><span class="pr-2">{{dataCutSummary.JobFamily | emptyPlaceholder : 'N/A'}}</span>
+      <strong>Level: </strong><span>{{dataCutSummary.JobLevel | emptyPlaceholder : 'N/A'}}</span>
+    </div>
+    <div class="pt-2">
+      <strong>Source: </strong><span>{{source | emptyPlaceholder : 'N/A'}} {{dataCutSummary.EffectiveDate | date:'MM/dd/yyyy'}}</span>
+    </div>
+    <div class="pt-2">
+      <strong>Scope: </strong><span class="pr-2">{{scope | emptyPlaceholder : 'N/A'}}</span>
+      <strong>Weighting: </strong><span class="pr-2">{{dataCutSummary.WeightingType | emptyPlaceholder : 'N/A'}}</span>
+    </div>
+  </div>
+  <div *ngIf="dataCutSummaryType == dataCutSummaryTypes.SLOTTED_COMPANY_JOB">
+    <div>
+      <strong>Family: </strong><span class="pr-2">{{dataCutSummary.JobFamily | emptyPlaceholder : 'N/A'}}</span>
+      <strong>Level: </strong><span>{{dataCutSummary.JobLevel | emptyPlaceholder : 'N/A'}}</span>
+    </div>
+    <div class="pt-2">
+      <ng-container *ngFor="let field of dataCutSummary.CustomFields">
+        <ng-container *ngIf="field.Value !== null">
+          <strong>{{field.DisplayName}}: </strong><span class="pr-2">{{field.Value | emptyPlaceholder : 'N/A'}}</span>
+        </ng-container>
+      </ng-container>
+    </div>
+  </div>
+
+  <div class="pt-2">
+    <div class="pb-1">
+      <strong>Job Description: </strong>
+    </div>
+    <div class="jobDescription">
+      {{dataCutSummary.JobDescription | emptyPlaceholder : 'N/A'}}
+    </div>
+  </div>
+</div>

@@ -28,11 +28,11 @@ export function getOperatorDisplay(operator: string, dataType: DataViewFieldData
   return FilterOperatorOptions[dataType].find(foo => foo.value === operator).display;
 }
 
-export function getValueDisplay(value: string, field: ViewField, customDisplayOptions: PfDataGridCustomFilterOptions[]) {
-  let display = value ?? '';
+export function getValueDisplay(filterValue: string, field: ViewField, customDisplayOptions: PfDataGridCustomFilterOptions[]) {
+  let display = filterValue ?? '';
   const customFilterDisplay = customDisplayOptions.find(x => x.EntitySourceName === field.EntitySourceName && x.SourceName === field.SourceName);
   if (!!customFilterDisplay) {
-    display = customFilterDisplay.FilterDisplayOptions.find(x => x.Value === field.FilterValues[0]).Display;
+    display = customFilterDisplay.FilterDisplayOptions.find(x => x.Value === filterValue).Display;
   } else {
     switch (field.DataType) {
       case DataViewFieldDataType.DateTime: {

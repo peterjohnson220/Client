@@ -21,7 +21,7 @@ export class DeleteModalComponent implements OnInit {
   }
 
   setModalTitle(): string {
-    return this.isFolder ? 'Delete resource folder' : 'Delete resource';
+    return this.isFolder ? `Delete ${this.resource.FolderName}` : `Delete ${this.resource.ResourceTitle}`;
   }
 
   setResourceName(): string {

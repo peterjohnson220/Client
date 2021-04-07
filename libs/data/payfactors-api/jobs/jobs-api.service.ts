@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { CreateProjectRequest, ExportJobsRequest } from 'libs/models/payfactors-api';
+import { CreateProjectRequest, ExportJobsRequest, JobDescriptionExportRequest } from 'libs/models/payfactors-api';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 
@@ -45,5 +45,9 @@ export class JobsApiService {
     return this.payfactorsApiService.post<string>(`${this.endpoint}/GetRunningExport`, {
       PageViewId: pageViewId
     });
+  }
+
+  exportJobDescription(request: JobDescriptionExportRequest): Observable<string> {
+    return this.payfactorsApiService.post<string>(`${this.endpoint}/ExportJobDescriptionReport`, request);
   }
 }

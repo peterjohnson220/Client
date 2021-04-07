@@ -18,7 +18,6 @@ import { FormulaEditorModule } from 'libs/ui/formula-editor';
 
 import {
   ModelGridComponent,
-  RangeRoundingComponent,
   RangeDistributionSettingComponent,
   DuplicateModelModalComponent,
   ModelSettingsModalContentComponent
@@ -68,7 +67,6 @@ import { SharedModule } from '../../shared/shared.module';
     ],
   declarations: [
     ModelGridComponent,
-    RangeRoundingComponent,
     AdvancedModelSettingComponent,
     RangeDistributionSettingComponent,
     DuplicateModelModalComponent,

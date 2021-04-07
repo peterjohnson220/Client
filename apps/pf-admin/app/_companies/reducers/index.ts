@@ -124,6 +124,11 @@ export const getCompanyIndustries = createSelector(
   fromCompanyPageReducer.getCompanyIndustries
 );
 
+export const getPeerIndustries = createSelector(
+  selectCompanyPageState,
+  fromCompanyPageReducer.getPeerIndustries
+);
+
 export const getLoadingCompanyTiles = createSelector(
   selectCompanyPageState,
   fromCompanyPageReducer.getLoadingCompanyTiles
@@ -252,3 +257,7 @@ export const getEnableJobPricingLimiter = createSelector(
   fromCompanyPageReducer.getEnableJobPricingLimiter
 );
 
+export const getSelectedPeerIndustry = createSelector(
+  selectCompanyPageState,
+  fromCompanyPageReducer.getSelectedPeerIndustry
+);

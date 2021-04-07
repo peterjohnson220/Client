@@ -13,6 +13,7 @@ import { PfFormsModule } from 'libs/forms';
 import { SearchFilterMappingDataObj } from 'libs/features/search/search/models';
 import { PfSearchModule } from 'libs/features/search/search';
 import { UserFilterTypeData } from 'libs/features/users/user-filter/models';
+import { NationalAverageModule } from 'libs/features/peer/national-average';
 import { PfCommonModule } from 'libs/core';
 
 import * as fromFaIcons from './fa-icons';
@@ -50,7 +51,8 @@ const components = [
         // Payfactors
         PfCommonUIModule,
         PfFormsModule,
-        PfSearchModule, PfCommonModule
+        PfSearchModule, PfCommonModule,
+        NationalAverageModule
     ],
   declarations: components,
   exports: [SurveySearchResultsComponent],

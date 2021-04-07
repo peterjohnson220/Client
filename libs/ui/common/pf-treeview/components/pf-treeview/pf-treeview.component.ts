@@ -10,8 +10,8 @@ import { Align } from '@progress/kendo-angular-popup';
 import cloneDeep from 'lodash/cloneDeep';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
-import { GroupedListItem, PfConstants } from 'libs/models';
-import { TreeViewMode } from '../../models';
+import { GroupedListItem } from 'libs/models';
+import { TreeViewMode, TreeViewTheme } from '../../models';
 
 @Component({
   selector: 'pf-treeview',
@@ -44,7 +44,8 @@ export class PfTreeViewComponent implements OnInit, OnDestroy, OnChanges {
   @Input() lazyLoadDefaultAppliedItem: GroupedListItem;
   @Input() loading = false;
   @Input() showDescriptionToolTip = false;
-  @Output() applyClicked: EventEmitter<string[]> = new EventEmitter();
+  @Input() theme = TreeViewTheme.Popup;
+  @Output() applyClicked: EventEmitter<GroupedListItem[]> = new EventEmitter();
   @Output() expandNode: EventEmitter<string> = new EventEmitter();
   @Output() searchTermChanged: EventEmitter<string> = new EventEmitter();
 
@@ -65,6 +66,7 @@ export class PfTreeViewComponent implements OnInit, OnDestroy, OnChanges {
   modes = TreeViewMode;
   isSearching: boolean;
   selectedTooltip: NgbTooltip;
+  treeViewTheme = TreeViewTheme;
 
   constructor(private changeDetectorRef: ChangeDetectorRef) {}
 
@@ -85,6 +87,9 @@ export class PfTreeViewComponent implements OnInit, OnDestroy, OnChanges {
       debounceTime(600),
       distinctUntilChanged()
     ).subscribe(searchTerm => {
+      if (searchTerm === null) {
+        return;
+      }
       if (this.lazyLoad && searchTerm !== null) {
         this.searchTermChanged.emit(searchTerm);
         return;
@@ -130,9 +135,18 @@ export class PfTreeViewComponent implements OnInit, OnDestroy, OnChanges {
     this.expandedKeys = [];
   }
 
+  onModalClose(): void {
+    this.show = false;
+    this.noSearchResults = false;
+    this.resetSelections();
+    this.clearSearchTerm();
+    this.filteredData = this.data;
+    this.expandedKeys = [];
+  }
+
   handleApplyClicked(): void {
     this.handleCheckedKeysChanged();
-    this.applyClicked.emit(this.appliedValues.map(x => x.Value));
+    this.applyClicked.emit(this.appliedValues);
   }
 
   toggleDropdown(): void {
@@ -147,6 +161,10 @@ export class PfTreeViewComponent implements OnInit, OnDestroy, OnChanges {
       return;
     }
     this.checkedKeys = [event.dataItem.Value];
+
+    if (this.theme === TreeViewTheme.Simple) {
+      this.handleApplyClicked();
+    }
   }
 
   handleExpandNode(event: TreeItem): void {

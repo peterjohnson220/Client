@@ -20,6 +20,8 @@ export interface Grade {
   LoadingJobs: boolean;
   LoadingJobsError: boolean;
   Jobs: GradeJob[];
+  JobIdsToAdd: number[];
+  JobIdsToRemove: number[];
 }
 
 
@@ -43,6 +45,8 @@ export function generateMockGrade(): Grade {
     TotalJobs: 1,
     LoadingJobs: false,
     LoadingJobsError: false,
-    Jobs: []
+    Jobs: [],
+    JobIdsToAdd: [],
+    JobIdsToRemove: []
   };
 }

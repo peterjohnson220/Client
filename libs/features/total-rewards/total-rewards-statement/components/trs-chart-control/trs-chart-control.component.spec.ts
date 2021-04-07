@@ -57,7 +57,9 @@ describe('TrsChartControlComponent', () => {
 
   it('should calc `getChartPreviewData` with the expected category when no override is defined', () => {
     // arrange
-    component.calculationControls = [{ DataFields: [], Title: { Default: 'Default' } as any, ControlType: TotalRewardsControlEnum.Calculation } as any];
+    component.calculationControls = [
+      { DataFields: [], Title: { Default: 'Default' } as any, ShowTitle: true, ControlType: TotalRewardsControlEnum.Calculation } as any
+    ];
 
     // act
     const chartPreviewData = component.getChartData();
@@ -68,7 +70,7 @@ describe('TrsChartControlComponent', () => {
 
   it('should calc `getChartPreviewData` with the expected category when an override is defined', () => {
     // arrange
-    const control = { DataFields: [], Title: { Default: 'Default', Override: 'Override' }, ControlType: TotalRewardsControlEnum.Calculation };
+    const control = { DataFields: [], Title: { Default: 'Default', Override: 'Override' }, ShowTitle: true, ControlType: TotalRewardsControlEnum.Calculation };
     component.calculationControls = [control as any];
 
     // act
@@ -80,7 +82,7 @@ describe('TrsChartControlComponent', () => {
 
   it('should calc `getChartPreviewData` with `value` 0 when no DataFields exist', () => {
     // arrange
-    component.calculationControls = [{ DataFields: [], Title: {} as any, ControlType: TotalRewardsControlEnum.Calculation } as any];
+    component.calculationControls = [{ DataFields: [], Title: {} as any, ShowTitle: true, ControlType: TotalRewardsControlEnum.Calculation } as any];
     component.employeeRewardsData = { EmployeeBase: 100000 } as any;
 
     // act
@@ -93,7 +95,7 @@ describe('TrsChartControlComponent', () => {
   it('should calc `getChartPreviewData` as 0 when no visible DataFields exist', () => {
     // arrange
     const dataFields = [{ Id: '1', DatabaseField: 'EmployeeBase', Name: { Default: 'Base Salary' }, IsVisible: false }];
-    component.calculationControls = [{ DataFields: dataFields, Title: {} as any, ControlType: TotalRewardsControlEnum.Calculation } as any];
+    component.calculationControls = [{ DataFields: dataFields, Title: {} as any, ShowTitle: true, ControlType: TotalRewardsControlEnum.Calculation } as any];
     component.employeeRewardsData = { EmployeeBase: 100000 } as any;
 
     // act
@@ -110,7 +112,7 @@ describe('TrsChartControlComponent', () => {
       { Id: '2', DatabaseField: 'EmployeeDentalInsurance', Name: { Default: 'Dental Insurance' }, IsVisible: false },
       { Id: '3', DatabaseField: 'EmployeeVisionInsurance', Name: { Default: 'Vision Insurance' }, IsVisible: true }
     ];
-    component.calculationControls = [{ DataFields: dataFields, Title: {} as any, ControlType: TotalRewardsControlEnum.Calculation } as any];
+    component.calculationControls = [{ DataFields: dataFields, Title: {} as any, ShowTitle: true, ControlType: TotalRewardsControlEnum.Calculation } as any];
     component.employeeRewardsData = { EmployeeMedicalInsurance: 10000, EmployeeDentalInsurance: 20000, EmployeeVisionInsurance: 30000 } as any;
 
     // act
@@ -126,7 +128,7 @@ describe('TrsChartControlComponent', () => {
       { Id: '1', DatabaseField: 'EmployeeMedicalInsurance', Name: { Default: 'Medical Insurance' }, IsVisible: true }
     ];
     component.calculationControls = [
-      { DataFields: dataFields, Title: {} as any, ControlType: TotalRewardsControlEnum.Calculation } as CalculationControl
+      { DataFields: dataFields, Title: {} as any, ShowTitle: true, ControlType: TotalRewardsControlEnum.Calculation } as CalculationControl
     ];
 
     // 1-499 returns a number less than 1
@@ -152,7 +154,7 @@ describe('TrsChartControlComponent', () => {
   it('should calc `getChartPreviewData` without a decimal when a visible DataField exists that maps to a non-whole number when formatted', () => {
     // arrange
     const dataFields = [{ Id: '1', DatabaseField: 'EmployeeBase', Name: { Default: 'Base Salary' }, IsVisible: true }];
-    component.calculationControls = [{ DataFields: dataFields, Title: {} as any, ControlType: TotalRewardsControlEnum.Calculation } as any];
+    component.calculationControls = [{ DataFields: dataFields, Title: {} as any, ShowTitle: true, ControlType: TotalRewardsControlEnum.Calculation } as any];
     component.employeeRewardsData = { EmployeeBase: 99555 } as any;
 
     // act
@@ -167,8 +169,10 @@ describe('TrsChartControlComponent', () => {
     const cashDataFields = [{ Id: '1', DatabaseField: 'EmployeeBase', Name: { Default: 'Base Salary' }, IsVisible: true }];
     const retirementDataFields = [{ Id: '1', DatabaseField: 'EmployeePensionPlan', Name: { Default: 'Pension Plan' }, IsVisible: true }];
 
-    const cashCalcControl = { DataFields: cashDataFields, Title: { Default: 'Cash' }, ControlType: TotalRewardsControlEnum.Calculation };
-    const retirementCalcControl = { DataFields: retirementDataFields, Title: { Default: 'Health' }, ControlType: TotalRewardsControlEnum.Calculation };
+    const cashCalcControl = { DataFields: cashDataFields, Title: { Default: 'Cash' }, ShowTitle: true, ControlType: TotalRewardsControlEnum.Calculation };
+    const retirementCalcControl = {
+      DataFields: retirementDataFields, Title: { Default: 'Health' }, ShowTitle: true, ControlType: TotalRewardsControlEnum.Calculation
+    };
 
     component.calculationControls = [cashCalcControl as any, retirementCalcControl as any];
     component.employeeRewardsData = { EmployeeBase: 100000, EmployeePensionPlan: 20000 } as any;
@@ -185,8 +189,12 @@ describe('TrsChartControlComponent', () => {
 
   it('should calc `getChartEditData` with the override calc control titles', () => {
     // arrange
-    const cashCalcControl = { Title: { Default: 'Default Cash', Override: 'Override Cash' }, ControlType: TotalRewardsControlEnum.Calculation };
-    const retirementCalcControl = { Title: { Default: 'Default Health', Override: 'Override Health' }, ControlType: TotalRewardsControlEnum.Calculation };
+    const cashCalcControl = {
+      Title: { Default: 'Default Cash', Override: 'Override Cash' }, ShowTitle: true, ControlType: TotalRewardsControlEnum.Calculation
+    };
+    const retirementCalcControl = {
+      Title: { Default: 'Default Health', Override: 'Override Health' }, ShowTitle: true, ControlType: TotalRewardsControlEnum.Calculation
+    };
 
     component.calculationControls = [cashCalcControl as any, retirementCalcControl as any];
 
@@ -201,7 +209,7 @@ describe('TrsChartControlComponent', () => {
 
   it('should calc `getChartEditData` with numeric, whole values greater than 0', () => {
     // arrange
-    const cashCalcControl = { Title: { Default: 'Default Cash', Override: 'Override' }, ControlType: TotalRewardsControlEnum.Calculation };
+    const cashCalcControl = { Title: { Default: 'Default Cash', Override: 'Override' }, ShowTitle: true, ControlType: TotalRewardsControlEnum.Calculation };
     component.calculationControls = [cashCalcControl as any];
 
     // act
@@ -217,6 +225,9 @@ describe('TrsChartControlComponent', () => {
     // arrange
     component.controlData = { Title: 'test title' } as any;
     component.showTitle = true;
+    component.calculationControls = [
+      { DataFields: [], Title: { Default: 'Default' } as any, ShowTitle: true, ControlType: TotalRewardsControlEnum.Calculation } as any
+    ];
 
     // act
     fixture.detectChanges();
@@ -229,6 +240,9 @@ describe('TrsChartControlComponent', () => {
     // arrange
     component.controlData = { Title: 'test title' } as any;
     component.showTitle = false;
+    component.calculationControls = [
+      { DataFields: [], Title: { Default: 'Default' } as any, ShowTitle: true, ControlType: TotalRewardsControlEnum.Calculation } as any
+    ];
 
     // act
     fixture.detectChanges();
@@ -240,6 +254,9 @@ describe('TrsChartControlComponent', () => {
     // arrange
     component.controlData = { Title: 'test title' } as any;
     component.height = '400px';
+    component.calculationControls = [
+      { DataFields: [], Title: { Default: 'Default' } as any, ShowTitle: true, ControlType: TotalRewardsControlEnum.Calculation } as any
+    ];
 
     // act
     fixture.detectChanges();
@@ -250,7 +267,7 @@ describe('TrsChartControlComponent', () => {
 
   it('should omit the chart series labels from the dom when `showChartSeriesLabels` is false', () => {
     // arrange
-    const cashCalcControl = { Title: { Default: 'Default Cash', Override: 'Override' }, ControlType: TotalRewardsControlEnum.Calculation };
+    const cashCalcControl = { Title: { Default: 'Default Cash', Override: 'Override' }, ShowTitle: true, ControlType: TotalRewardsControlEnum.Calculation };
     component.calculationControls = [cashCalcControl as any];
     component.controlData = { Title: 'test title' } as any;
     component.showChartSeriesLabels = false;
@@ -264,7 +281,7 @@ describe('TrsChartControlComponent', () => {
 
   it('should show chart series labels when `showChartSeriesLabels` is true', () => {
     // arrange
-    const cashCalcControl = { Title: { Default: 'Default Cash', Override: 'Override' }, ControlType: TotalRewardsControlEnum.Calculation };
+    const cashCalcControl = { Title: { Default: 'Default Cash', Override: 'Override' }, ShowTitle: true, ControlType: TotalRewardsControlEnum.Calculation };
     component.calculationControls = [cashCalcControl as any];
     component.controlData = { Title: 'test title' } as any;
     component.showChartSeriesLabels = true;
@@ -274,5 +291,41 @@ describe('TrsChartControlComponent', () => {
 
     // assert
     expect(fixture).toMatchSnapshot();
+  });
+
+  it('should use summary default title when calc control showTitle is false', () => {
+    // arrange
+    component.calculationControls = [
+      {
+        DataFields: [],
+        Title: { Default: 'Default', Override: 'Override' } as any,
+        Summary: { Default: 'Summary Default' },
+        ShowTitle: false,
+        ControlType: TotalRewardsControlEnum.Calculation } as any
+    ];
+
+    // act
+    const chartData = component.getChartData();
+
+    // assert
+    expect(chartData[0].category === 'Summary Default').toBeTruthy();
+  });
+
+  it('should use summary override title when calc control showTitle is false and there is an override value', () => {
+    // arrange
+    component.calculationControls = [
+      {
+        DataFields: [],
+        Title: { Default: 'Default', Override: 'Override' } as any,
+        Summary: { Default: 'Summary Default', Override: 'Summary Override' },
+        ShowTitle: false,
+        ControlType: TotalRewardsControlEnum.Calculation } as any
+    ];
+
+    // act
+    const chartData = component.getChartData();
+
+    // assert
+    expect(chartData[0].category === 'Summary Override').toBeTruthy();
   });
 });

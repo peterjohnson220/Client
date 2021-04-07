@@ -661,7 +661,8 @@ export class GradeRangeModelChartService {
             headerFormat: '<div style="display: inline-block; background-color: black">',
             pointFormat: '<div style="color: white"><b>{point.jobTitle}: </b>{point.dataPoint}<div>',
             footerFormat: '</div>'
-          }
+          },
+          cursor: 'pointer',
         },
         {
           name: GradeRangeModelChartService.getFormattedSeriesName(GradeRangeVerticalModelChartSeries.Regression, controlPointDisplay),

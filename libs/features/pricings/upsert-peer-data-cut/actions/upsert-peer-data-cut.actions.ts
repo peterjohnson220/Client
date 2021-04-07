@@ -24,7 +24,7 @@ export class UpsertDataCut implements Action {
 export class UpsertDataCutSuccess implements Action {
   readonly type = UPSERT_DATA_CUT_SUCCESS;
 
-  constructor(public payload: {UserJobMatchId: number, IsUpdate: boolean, BaseEntityId?: number}) {}
+  constructor(public payload: {MatchId: number, IsUpdate: boolean, BaseEntityId?: number}) {}
 }
 
 export class UpsertDataCutError implements Action {

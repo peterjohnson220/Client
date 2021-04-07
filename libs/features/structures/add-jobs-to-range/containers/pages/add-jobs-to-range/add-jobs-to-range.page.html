@@ -51,6 +51,16 @@
   <ng-container action-buttons>
 
     <span *ngIf="!(addingDataError$ | async)">
+      <button (click)="handleAutoGradeSelectedClicked()"
+        class="btn btn-link mr-3 auto-grade"
+        [attr.data-qa-id]="'btn-autoGradeSelectedJobs'"
+        [disabled]="(addingData$ | async)
+                || (numberOfJobsSelected === 0)
+                || (addJobsConfig?.enablePaymarkets && !(selectedPaymarkets$ | async)?.length)"
+        *ngIf="false">
+        Auto Grade Selected Jobs
+      </button>
+
       <button class="btn btn-sm btn-secondary mr-3 clear-selections"
               [attr.data-qa-id]="'btn-clearSelections'"
               [disabled]="numberOfJobsSelected === 0"
@@ -58,7 +68,7 @@
         Clear Selections
       </button>
 
-      <button class="btn btn-sm legacy-primary-btn mr-3 au-btn-add"
+      <button *ngIf="isJobRange" class="btn btn-sm legacy-primary-btn mr-3 au-btn-add"
               [attr.data-qa-id]="'btn-addJobs'"
               [disabled]="(addingData$ | async)
                           || (numberOfJobsSelected === 0)
@@ -73,10 +83,29 @@
         </ng-container>
       </button>
 
+      <button *ngIf="!isJobRange" class="btn btn-sm legacy-primary-btn mr-3 au-btn-add"
+              [attr.data-qa-id]="'btn-saveJobs'"
+              [disabled]="disableSaveButton()"
+              (click)="handleSaveClicked()">
+       Save
+      </button>
+
       <button (click)="handleCancelClicked()"
               class="btn btn-sm btn-secondary mr-3 au-btn-cancel"
               [attr.data-qa-id]="'btn-cancelAddJobs'">
         Cancel
+      </button>
+
+      <button (click)="handleSelectAllClicked()"
+              class="btn btn-link mr-3 au-btn-addall"
+              [attr.data-qa-id]="'btn-selectAllJobs'"
+              *ngIf="!isJobRange">
+        <ng-container>
+          Select All
+          <span>
+            {{ jobCount$ | async }}
+          </span>
+        </ng-container>
       </button>
 
       <button (click)="handleAddAllClicked()"
@@ -84,7 +113,7 @@
               [attr.data-qa-id]="'btn-addAllJobs'"
               [disabled]="(addingData$ | async)
                           || (numberOfSearchResults$ | async) === 0"
-              *ngIf="addJobsConfig?.enableAddAllJobs">
+              *ngIf="isJobRange && addJobsConfig?.enableAddAllJobs">
         <ng-container>
           Add All
           <span *ngIf="(numberOfSearchResults$ | async) > 0">

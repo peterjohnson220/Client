@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { Store } from '@ngrx/store';
-import { Observable, Subject, Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { PageChangeEvent } from '@progress/kendo-angular-grid';
 
@@ -16,7 +16,6 @@ import { SettingsService } from 'libs/state/app-context/services';
 import { CompanySettingsEnum } from 'libs/models/company';
 import { InputDebounceComponent } from 'libs/forms/components/input-debounce';
 import { ExchangeJobAssociationEntityTypes } from 'libs/constants/peer/exchange-job-association-entity-types';
-import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
 import * as fromAssociateJobsActions from 'libs/features/peer/job-association-match/actions/associate-jobs.actions';
 import * as fromRootState from 'libs/state/state';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
@@ -47,8 +46,6 @@ export class ExchangeJobMappingPageComponent implements OnInit, OnDestroy {
     disableGridScollTo = false;
     _Permissions = null;
 
-    peerManageJobsGridToggleFlag: RealTimeFlag = { key: FeatureFlags.PeerManageJobsGridToggle, value: false };
-
     gridPageRowIndexToScrollTo$: Observable<number>;
     selectedExchangeJobMapping$: Observable<ExchangeJobMapping>;
     userContext$: Observable<UserContext>;
@@ -62,7 +59,6 @@ export class ExchangeJobMappingPageComponent implements OnInit, OnDestroy {
     exchangeIdSubscription: Subscription;
     queryParamSubscription: Subscription;
     selectedCompanyJob$: Observable<CompanyJob>;
-    unsubscribe$ = new Subject<void>();
     enableFileDownloadSecurityWarningSubscription: Subscription;
 
     constructor(
@@ -70,13 +66,10 @@ export class ExchangeJobMappingPageComponent implements OnInit, OnDestroy {
         private route: ActivatedRoute,
         private exchangeJobMappingGridService: ExchangeJobMappingGridService,
         private companySecurityApi: CompanySecurityApiService,
-        private settingsService: SettingsService,
-        private featureFlagService: AbstractFeatureFlagService
+        private settingsService: SettingsService
     ) {
         this.exchangeId$ = this.route.params.pipe(map(p => p.id));
-
         this.queryParams$ = this.route.queryParams;
-
 
         this.gridPageRowIndexToScrollTo$ = this.store.select(fromPeerManagementReducer.getExchangeJobMappingPageRowIndexToScrollTo);
         this.selectedExchangeJobMapping$ = this.store.select(fromPeerManagementReducer.getSelectedExchangeJobMapping);
@@ -85,7 +78,6 @@ export class ExchangeJobMappingPageComponent implements OnInit, OnDestroy {
         this.enableFileDownloadSecurityWarning$ = this.settingsService.selectCompanySetting<boolean>(CompanySettingsEnum.FileDownloadSecurityWarning);
 
         this._Permissions = Permissions;
-        this.featureFlagService.bindEnabled(this.peerManageJobsGridToggleFlag, this.unsubscribe$);
     }
 
     handleSearchChanged(query: string): void {

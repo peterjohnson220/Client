@@ -13,6 +13,7 @@ import { UploadModule } from '@progress/kendo-angular-upload';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { DatePickerModule } from '@progress/kendo-angular-dateinputs';
 import { PDFExportModule } from '@progress/kendo-angular-pdf-export';
+import { DragulaModule } from 'ng2-dragula';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfCommonModule } from 'libs/core';
@@ -53,6 +54,7 @@ import { CompensationValuePlaceholderComponent } from './components/compensation
     DatePickerModule,
     PDFExportModule,
     NgbModule,
+    DragulaModule.forRoot(),
 
     // Payfactors
     PfCommonUIModule,

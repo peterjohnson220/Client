@@ -1,3 +1,5 @@
+import { ExchangeJobDailyNatAvgOrg50thDetails } from 'libs/models/payfactors-api';
+
 export interface PricingMatchesResponse {
   PFJobsMatches: PFJobMatches[];
   SurveyJobsMatches: SurveyJobsMatches[];
@@ -12,11 +14,4 @@ export interface PFJobMatches {
 export interface SurveyJobsMatches {
   SurveyJobId: number;
   Matches: number;
-}
-
-export interface ExchangeJobDailyNatAvgOrg50thDetails {
-  ExchangeJobId: number;
-  Base50th: number;
-  TCC50th: number;
-  Orgs: number;
 }
