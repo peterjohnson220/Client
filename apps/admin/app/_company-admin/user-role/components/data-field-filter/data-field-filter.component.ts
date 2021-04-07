@@ -4,6 +4,8 @@ import { Observable } from 'rxjs';
 import { DataType, RoleDataRestriction, DataField } from 'libs/models/security/roles';
 import { UserContext } from 'libs/models';
 import { TypeaheadComponent } from 'libs/forms/components/typeahead';
+import { TreeViewMultiSelectComponent } from 'libs/ui/common/content/treeview-multi-select';
+import { DataRestrictionDataType } from 'libs/models/security/roles/data-restriction-data-type.enum';
 
 import { DataFieldTypes } from '../../constants/data-field-type.constants';
 import { RoleApiNames } from '../../constants/user-role.constants';
@@ -15,11 +17,13 @@ import { RoleApiNames } from '../../constants/user-role.constants';
 })
 export class DataFieldFilterComponent implements OnInit {
   @ViewChild('typeaheadComponent') typeaheadComponent: TypeaheadComponent;
+  @ViewChild('treeviewMultiSelectComponent') treeviewMultiSelectComponent: TreeViewMultiSelectComponent;
   @Input() dataType: DataType;
   @Input() roleDataRestriction: RoleDataRestriction;
   @Output() roleDataRestrictionChange = new EventEmitter();
   @Output() roleDataRestrictionChanged = new EventEmitter();
   userContext$: Observable<UserContext>;
+  _DataRestrictionDataType = DataRestrictionDataType;
   _DataFieldTypes = DataFieldTypes;
   Operators = [{ value: true, text: 'Is equal to' }, { value: false, text: 'Is not equal to' }];
   selectedField: DataField;
@@ -58,7 +62,7 @@ export class DataFieldFilterComponent implements OnInit {
 
   buildApiEndpoint() {
     let endpoint = `${RoleApiNames.GetDataFieldValues}${this.dataType.Name.replace(/\s+/g, '')}`;
-    if (!this.isMultiSelect) {
+    if (!this.isMultiSelect || this.dataType?.Name === this._DataRestrictionDataType.Surveys) {
       endpoint += `&dataField=${this.toTitleCase(this.selectedField.Name)}`;
     }
     return endpoint;

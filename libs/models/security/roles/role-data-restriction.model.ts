@@ -6,6 +6,11 @@ export class RoleDataRestriction {
   DataValue: any;
 }
 
+export class RoleDataRestrictionValue {
+  Id: string;
+  Value: string;
+}
+
 
 export function getMockRoleDataRestrictions() {
   return [{

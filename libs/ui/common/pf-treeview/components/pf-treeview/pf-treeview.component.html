@@ -2,26 +2,31 @@
       pfClickElsewhere
       (clickElsewhere)="handleCloseClicked($event)">
   <span *ngIf="!!label" class="mb-2">{{label}}</span>
-  <div #anchor class="k-button anchor-button" [style.width.px]="anchorWidth">
-    <span class="d-flex w-100 align-items-start">
-      <span *ngIf="appliedNames?.length > 0; else placeholderTemplate" class="d-flex w-100 anchor-label">
-        <span class="value-template"
-              [style.width]="appliedNames.length > 1 ? anchorWidth - 147 + 'px' : anchorWidth - 67 + 'px'">
-              {{ appliedNames[0] }}
-        </span>
-        <span *ngIf="appliedNames.length > 1" class="has-more-label">
-          and {{appliedNames.length - 1}} more
-        </span>
-      </span>
-      <div [style.visibility]="mode === modes.Multiple && !!appliedNames?.length ? 'visible' : 'hidden'"
-        (click)="clearSelections()"
-        class="clear-all-wrap">
-        <fa-icon [icon]="['far', 'times']"></fa-icon>
+  <div #anchor class="k-button anchor-button w-100">
+    <div class="d-flex w-100">
+      <div *ngIf="appliedNames?.length > 0; else placeholderTemplate" class="d-flex anchor-label" [style.width]="'calc(100% - 50px)'">
+        <div class="flex-fill ellipsis-overflowing-text">
+          <span>
+            {{ appliedNames[0] }}
+          </span>
+        </div>
+        <div *ngIf="appliedNames.length > 1">
+          <span>
+            and {{appliedNames.length - 1}} more
+          </span>
+        </div>
       </div>
-      <div (click)="toggleDropdown()" class="anchor-icon-wrap">
-        <fa-icon icon="caret-down"></fa-icon>
+      <div class="d-flex">
+        <div [style.visibility]="mode === modes.Multiple && !!appliedNames?.length ? 'visible' : 'hidden'"
+             (click)="clearSelections()"
+             class="clear-all-wrap">
+          <fa-icon [icon]="['far', 'times']"></fa-icon>
+        </div>
+        <div (click)="toggleDropdown()" class="anchor-icon-wrap">
+          <fa-icon icon="caret-down"></fa-icon>
+        </div>
       </div>
-    </span>
+    </div>
     <ng-template #placeholderTemplate>
       <span *ngIf="!!lazyLoadDefaultAppliedItem" class="flex-fill anchor-label">{{lazyLoadDefaultAppliedItem.Name}}</span>
       <span *ngIf="!lazyLoadDefaultAppliedItem" class="flex-fill anchor-label">{{placeholder}}</span>
@@ -33,6 +38,8 @@
   </div>
 
   <kendo-popup *ngIf="isPopup && show"
+    [class.k-popup-position-absolute]="positionMode === 'absolute'"
+    [positionMode]="positionMode"
     [anchor]="anchor"
     [anchorAlign]="anchorAlign"
     [popupAlign]="popupAlign"
@@ -55,7 +62,7 @@
 </div>
 
 <ng-template #treeViewContent>
-  <div class="d-flex flex-column popup-container" [style.width.px]="anchorWidth - 2">
+  <div class="d-flex flex-column popup-container" [style.width]="positionMode === 'absolute' ? '100%' : anchorWidth - 2 + 'px'">
     <div *ngIf="filterable" class="pt-3 pb-2" [class.px-3]="theme === treeViewTheme.Popup">
       <div class="input-group smaller-text">
         <input class="form-control"
