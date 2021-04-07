@@ -9,7 +9,10 @@
       <h5 for="filename" class="text-primary">File Name <span class="text-danger">*</span></h5>
     </div>
     <div class="col-sm-12 col-md-4">
-      <input type="text" class="form-control" id="filename" name="filename" [(ngModel)]="schedule.FileName" [disabled]="editing">
+      <input type="text" class="form-control" id="filename" name="filename" [(ngModel)]="schedule.FileName" [disabled]="editing" [pattern]='specialCharPattern' #fname="ngModel">
+      <div *ngIf="fname.errors?.pattern" class = 'text-danger'>
+        Invalid special character
+      </div>
     </div>
   </div>
   <div class="row pb-3">

@@ -40,6 +40,7 @@ export class BulkExportSchedulerFormComponent implements OnInit, OnDestroy {
   updateSchedule$: Observable<boolean>;
   updateScheduleError$: Observable<boolean>;
 
+  specialCharPattern = '^[a-zA-Z0-9 _.-]*$';
   weekday: string[] = [ 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday' ];
   occurence: string[] = [ 'First', 'Second', 'Third', 'Fourth' ];
 
@@ -189,7 +190,9 @@ export class BulkExportSchedulerFormComponent implements OnInit, OnDestroy {
     if (!this.schedule.FileName || (this.fileNameExists(this.schedule.FileName) && !this.editing)) {
       return false;
     }
-
+    if ( this.schedule.FileName.match(this.specialCharPattern)  === null ) {
+      return false;
+    }
     if (!this.schedule.ViewId || !this.schedule.Filter) {
       return false;
     }
