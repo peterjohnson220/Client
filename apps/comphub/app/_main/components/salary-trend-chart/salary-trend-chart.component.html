@@ -7,29 +7,10 @@
     {{absoluteValueOfPercentageChange | number : '1.2-2'}}%
   </div>
 
-  <kendo-chart>
-    <kendo-chart-legend position="bottom" orientation="horizontal"></kendo-chart-legend>
-    <kendo-chart-value-axis>
-      <kendo-chart-value-axis-item [visible]="false"></kendo-chart-value-axis-item>
-    </kendo-chart-value-axis>
-    <kendo-chart-category-axis>
-      <kendo-chart-category-axis-item [visible]="false">
-      </kendo-chart-category-axis-item>
-    </kendo-chart-category-axis>
-    <kendo-chart-series>
-      <kendo-chart-series-item
-        type="area"
-        [color]="'#009900'"
-        [data]="localSalaryTrendData?.Data"
-        [name]="'National'"
-        [field]="isHourly ? 'SalaryHourly' : 'SalaryAnnual'"
-        categoryField="EffectiveDate">
-      </kendo-chart-series-item>
-    </kendo-chart-series>
-    <kendo-chart-tooltip>
-      <ng-template kendoChartSeriesTooltipTemplate let-category="category" let-value="value">
-        {{category | date : 'MM/yyyy'}}: {{ value | currency:currencyCode : 'symbol-narrow' : isHourly ? '1.2-2' : '1.0-0' }}
-      </ng-template>
-    </kendo-chart-tooltip>
-  </kendo-chart>
+  <highcharts-chart [ngClass]="'salary-chart'"
+    [Highcharts]="Highcharts"
+    [options]="chartOptions"
+    (chartInstance)="rangeChartCallback($event)"
+  ></highcharts-chart>
+  <img class="export-chart" [src]="img">
 </div>
