@@ -5,5 +5,22 @@
   [actionBarConfig]="actionBarConfig"
   [gridConfig]="gridConfig"
   [useReportingDB]="true"
-  [pageable]="!gridConfig.EnableInfiniteScroll">
+  [pageable]="!gridConfig.EnableInfiniteScroll"
+  [filterPanelTemplates]="filterTemplates"
+  [customFilterOptions]="customFilterOptions">
 </pf-data-grid>
+
+<ng-template #matchedFilter>
+  <div [style.width.px]="188">
+    <label>Matched:</label>
+    <kendo-dropdownlist
+      [data]="matchedFilterDisplayOptions"
+      [textField]="'Display'"
+      [valueField]="'Value'"
+      [ngModel]="matchedFilterSelectedOption"
+      (valueChange)="handleMatchedFilterChanged($event)"
+      [attr.data-qa-id]="'ddl-bit-filter-value-'+ matchedFilterField.SourceName"
+      class="k-dropdown-white form-control">
+    </kendo-dropdownlist>
+  </div>
+</ng-template>
