@@ -92,7 +92,7 @@ export class ModelPageComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.setSearchContext();
       this.store.dispatch(new fromAddJobsPageActions.SetContextStructuresRangeGroupId(this.rangeGroupId));
-    }, 0);
+    }, 250);
 
   }
 
