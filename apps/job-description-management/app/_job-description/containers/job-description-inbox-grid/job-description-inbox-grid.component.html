@@ -1,19 +1,22 @@
-<div class="grid-select-all" *ngIf="(inboxInfoAlertFormat$ | async) === 'show-option'">
-  <span class="d-flex justify-content-center align-items-center">
-    All <span class="font-weight-bold">&nbsp;{{pageLength$ | async}}&nbsp;</span> Job Descriptions on this page are selected.
-    <span>
-        <button type="button" class="font-weight-bold btn btn-link" (click)="onSelectAllClicked()">
-            Select all {{inboxCount$ | async}} Job Descriptions in Inbox
-        </button>
-    </span>
-  </span>
-</div>
 
-<div class="grid-select-all d-flex justify-content-center align-items-center" *ngIf="(inboxInfoAlertFormat$ | async) === 'show-total'">
-  <span >
-      All <span class="font-weight-bold">{{inboxCount$ | async}}</span> Job Descriptions in Inbox are selected.
-  </span>
-</div>
+<ng-container *ngIf="(inboxCount$ | async) > 0">
+  <div class="grid-select-all" *ngIf="(inboxInfoAlertFormat$ | async) === 'show-option'">
+    <span class="d-flex justify-content-center align-items-center">
+      All <span class="font-weight-bold">&nbsp;{{pageLength$ | async}}&nbsp;</span> Job Descriptions on this page are selected.
+      <span>
+          <button type="button" class="font-weight-bold btn btn-link" (click)="onSelectAllClicked()">
+              Select all {{inboxCount$ | async}} Job Descriptions in Inbox
+          </button>
+      </span>
+    </span>
+  </div>
+  
+  <div class="grid-select-all d-flex justify-content-center align-items-center" *ngIf="(inboxInfoAlertFormat$ | async) === 'show-total'">
+    <span >
+        All <span class="font-weight-bold">{{inboxCount$ | async}}</span> Job Descriptions in Inbox are selected.
+    </span>
+  </div>
+</ng-container>
 
 <div class="h-100 k-tooltip-container"
   kendoTooltip
