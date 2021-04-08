@@ -60,7 +60,6 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
   ) {
     this.actionBarConfig = {
       ...getDefaultActionBarConfig(),
-      AllowSaveFilter: false,
       ShowColumnChooser: true,
       ShowFilterChooser: true
     };
