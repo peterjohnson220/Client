@@ -1,6 +1,6 @@
 import { DataStateChangeEvent, RowArgs, SelectionEvent } from '@progress/kendo-angular-grid';
 
-export function generateMockDataStateChangeEvent(sortField: string): DataStateChangeEvent {
+export function generateMockDataStateChangeEvent(sortField?: string): DataStateChangeEvent {
   return {
     filter: {filters: [], logic: 'and'},
     group: null,

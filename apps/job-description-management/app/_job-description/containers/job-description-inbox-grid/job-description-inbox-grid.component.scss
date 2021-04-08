@@ -1,0 +1,58 @@
+@import 'kendo-grid';
+@import '_colors';
+
+.job-description-inbox-grid-container {
+    height: calc(100vh - 220px)
+}
+
+.job-description-inbox-grid ::ng-deep.clickable-row:hover {
+    cursor: pointer;
+}
+
+.envelope-open {
+    font-size: large;
+    color: $inactive-button-color;
+}
+
+.envelope-closed {
+    font-size: large;
+    color: $pf-primary-blue;
+}
+
+.data-row {
+    font-size: medium;
+    font-weight: 500;
+}
+
+.read-data-row {
+    color: $inactive-button-color;
+    font-weight: normal;
+}
+
+.version {
+    display: flex;
+    justify-content: center;
+}
+
+.version-cell {
+    display: flex;
+    justify-content: center;
+}
+
+.version-unread {
+    color: $pf-primary-blue;
+}
+
+.grid-select-all {
+    border: solid 1px #BCDFF1;
+    background-color: #D9EDF7;
+    height: 40px;
+    color: #31708F;
+    padding: 0.5rem;
+    width: 100%;
+    border-radius: 4px;
+  }
+  
+  .btn-link {
+    text-decoration: none;
+  }

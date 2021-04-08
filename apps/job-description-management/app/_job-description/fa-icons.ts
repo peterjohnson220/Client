@@ -27,19 +27,23 @@ import {
   faTimes,
   faTimesCircle,
   faTrashAlt,
-  faUndo
+  faUndo,
+  faEnvelope,
+  faEnvelopeOpen
 } from '@fortawesome/pro-solid-svg-icons';
-import { faCompressAlt, faExpandAlt } from '@fortawesome/pro-regular-svg-icons';
 
 // Regular
+import { faCompressAlt, faExpandAlt, faLongArrowDown, faLongArrowUp, faInbox,  } from '@fortawesome/pro-regular-svg-icons';
 import { faCheckCircle } from '@fortawesome/pro-regular-svg-icons/faCheckCircle';
 import { faFilePdf } from '@fortawesome/pro-regular-svg-icons/faFilePdf';
 import { faClone } from '@fortawesome/pro-regular-svg-icons/faClone';
 import { faFileWord } from '@fortawesome/pro-regular-svg-icons/faFileWord';
 import { faSquare as farSquare } from '@fortawesome/pro-regular-svg-icons/faSquare';
 import { faTrashAlt as farTrashAlt } from '@fortawesome/pro-regular-svg-icons/faTrashAlt';
-import { faLongArrowDown } from '@fortawesome/pro-regular-svg-icons';
-import { faLongArrowUp } from '@fortawesome/pro-regular-svg-icons';
+
+// Light
+import { faEnvelope as falEnvelope, faEnvelopeOpen as falEnvelopeOpen } from '@fortawesome/pro-light-svg-icons';
+
 
 export const faIcons = [
   faArrowRight,
@@ -81,5 +85,10 @@ export const faIcons = [
   faTrashAlt,
   faUndo,
   faLongArrowDown,
-  faLongArrowUp
+  faLongArrowUp,
+  faInbox,
+  faEnvelope,
+  falEnvelope,
+  faEnvelopeOpen,
+  falEnvelopeOpen
 ];
