@@ -4,6 +4,7 @@ export interface UserContext {
   AccessLevel: string;
   CompanyId: number;
   CompanyName: string;
+  CompanyStatus: string;
   ConfigSettings: ConfigSetting[];
   EmailAddress: string;
   EmployeeAcknowledgementInfo: EmployeeAcknowledgementInfo;
@@ -55,6 +56,7 @@ export function generateMockUserContext(): UserContext {
     AccessLevel: 'Admin',
     CompanyId: 13,
     CompanyName: 'Company Name',
+    CompanyStatus: 'Mock Status',
     ConfigSettings: [],
     EmailAddress: 'johndoe@payfactors.com',
     EmployeeAcknowledgementInfo: null,

@@ -38,7 +38,8 @@ export class PayfactorsApiModelMapper {
       AuthenticationTypeId: response.authenticationType_ID,
       Active: response.active,
       UsesFieldSelection: this.mapProviderResponseToFieldSelection(response),
-      ShowInUI: response.showInUI
+      ShowInUI: response.showInUI,
+      Demo: response.demo
     };
   }
 
