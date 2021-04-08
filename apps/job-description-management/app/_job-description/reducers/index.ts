@@ -674,6 +674,11 @@ export const getWorkflowStepInfo = createSelector(
   fromWorkflowReducer.getWorkflowStepInfo
 );
 
+export const getInSystemWorkflowStepCompletionModalOpen = createSelector(
+  selectWorkflowState,
+  fromWorkflowReducer.getInSystemWorkflowStepCompletionModalOpen
+);
+
 // Workflow Step Summary
 export const getWorkflowStepSummaryAsync = createSelector(
   selectWorkflowState,

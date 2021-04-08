@@ -27,13 +27,14 @@
         (exportClicked)="handleExportClickedFromActions($event)"
         (acknowledgedClicked)="openEmployeeAcknowledgementModal()"
         (viewSelected)="handleViewSelected($event)"
-        [isInAppWorkflow]="isInAppWorkflow">
+        [isInSystemWorkflow]="isInSystemWorkflow"
+        [isSystemWorkflowComplete]="(inSystemWorkflowStepCompletionModalOpen$ | async)">
       </pf-job-description-actions>
 
     </ng-container>
 
     <ng-container page-content>
-      <nav aria-label="breadcrumb" *ngIf="!!isInAppWorkflow">
+      <nav aria-label="breadcrumb" *ngIf="!!isInSystemWorkflow">
         <ol class="breadcrumb h5">
           <li class="breadcrumb-item"><a href="/client/job-description-management">Job Descriptions</a></li>
           <li class="breadcrumb-item active">Job Description Approval</li>
@@ -94,7 +95,7 @@
                 <pf-job-description-section *ngFor="let section of visibleSections; trackBy: trackByFn"
                                             [section]="section"
                                             [controlTypesLoaded]="!(controlTypesAsync$ | async)?.loading"
-                                            [readOnly]="!isJobDescrptionEditable"
+                                            [readOnly]="!isJobDescriptionEditable || (inSystemWorkflowStepCompletionModalOpen$ | async)"
                                             [jobDescriptionStatus]="jobDescription.JobDescriptionStatus"
                                             [undoChanges$]="undoChanges$"
                                             [replaceContents$]="replaceContents$"
@@ -134,8 +135,9 @@
           <div *ngIf="identityInWorkflow && !showLibrary" class="column-scroll-container col-4">
             <div class="scroll-y column-scroll-inner">
               <pf-workflow-sidebar
-                  [workflowStepInfo]="!isInAppWorkflow ? (identity$ | async)?.WorkflowStepInfo : (workflowStepInfo$ | async)"
-                  [workflowStepCompleted]="completedStep">
+                  [workflowStepInfo]="!isInSystemWorkflow ? (identity$ | async)?.WorkflowStepInfo : (workflowStepInfo$ | async)"
+                  [workflowStepCompleted]="completedStep"
+                  [isInSystemWorkflow]="isInSystemWorkflow">
               </pf-workflow-sidebar>
             </div>
           </div>
@@ -171,7 +173,7 @@
 </pf-page-with-title-bar>
 
 <!--Modals-->
-<pf-copy-job-description-modal *ngIf="!(identity$ | async)?.IsPublic && !(identity$ | async)?.WorkflowStepInfo && !isInAppWorkflow"></pf-copy-job-description-modal>
+<pf-copy-job-description-modal *ngIf="!(identity$ | async)?.IsPublic && !(identity$ | async)?.WorkflowStepInfo && !isInSystemWorkflow"></pf-copy-job-description-modal>
 
 <pf-workflow-setup-modal *ngIf="!!jobDescription"
   [jobTitle]="(jobDescriptionAsync$ | async)?.obj?.Name"
@@ -226,6 +228,8 @@
   (securityWarningConfirmed)="handleSecurityWarningConfirmed($event)">
 </pf-file-download-security-warning-modal>
 
+
+
 <!-- <pf-conflict-error-modal
     #conflictErrorModal
     [errorMessage]="(jobDescriptionSaveError$ | async)?.ErrorMessage"
@@ -241,3 +245,4 @@
 </pf-save-error-modal>
 
  -->
+<pf-workflow-step-completed-modal #workflowStepCompletedModal [jobDescriptionDisplayName]="jobDescriptionDisplayName"></pf-workflow-step-completed-modal>

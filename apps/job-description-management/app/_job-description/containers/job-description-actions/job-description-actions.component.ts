@@ -40,7 +40,8 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
   @Output() exportClicked: EventEmitter<{ exportType: string, viewName: string }> = new EventEmitter<{ exportType: string, viewName: string }>();
   @Output() acknowledgedClicked = new EventEmitter();
   @Output() viewSelected = new EventEmitter();
-  @Input() isInAppWorkflow = false;
+  @Input() isInSystemWorkflow = false;
+  @Input() isSystemWorkflowComplete = false;
 
   identity$: Observable<UserContext>;
   jobDescriptionAsync$: Observable<AsyncStateObj<JobDescription>>;
@@ -56,7 +57,7 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
   jobDescriptionViewsAsync$: Observable<AsyncStateObj<string[]>>;
   jobMatchesAsync$: Observable<AsyncStateObj<JobMatchResult[]>>;
   company$: Observable<CompanyDto>;
-  inAppWorkflowStepInfo$: Observable<any>;
+  inSystemWorkflowStepInfo$: Observable<any>;
 
   identitySubscription: Subscription;
   jobDescriptionSubscription: Subscription;
@@ -113,7 +114,7 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
     this.employeeAcknowledgementInfo$ = this.store.select(fromJobDescriptionReducers.getEmployeeAcknowledgementAsync);
     this.jobMatchesAsync$ = this.store.select(fromJobDescriptionReducers.getJobMatchesAsync);
     this.company$ = this.sharedStore.select(fromJobDescriptionManagementSharedReducer.getCompany);
-    this.inAppWorkflowStepInfo$ = this.sharedStore.select(fromJobDescriptionReducers.getWorkflowStepInfo);
+    this.inSystemWorkflowStepInfo$ = this.sharedStore.select(fromJobDescriptionReducers.getWorkflowStepInfo);
     this.initPermissions();
   }
 
@@ -123,8 +124,8 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
       this.identity = userContext;
 
       this.identityInEmployeeAcknowledgement = userContext.EmployeeAcknowledgementInfo && !!userContext.EmployeeAcknowledgementInfo.EmployeeAcknowledgementId;
-     if (this.isInAppWorkflow) {
-       this.workflowStepSubscription = this.inAppWorkflowStepInfo$.subscribe(value => {
+     if (this.isInSystemWorkflow) {
+       this.workflowStepSubscription = this.inSystemWorkflowStepInfo$.subscribe(value => {
          this.inWorkflow = !!value && !!value.WorkflowId;
          if (this.inWorkflow) {
            this.sharedStore.dispatch(new fromCompanyLogoActions.LoadCompanyLogo(this.identity.CompanyId));

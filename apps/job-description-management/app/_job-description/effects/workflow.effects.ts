@@ -105,8 +105,12 @@ export class WorkflowEffects {
         this.jobDescriptionWorkflowApiService.completeStep(action.payload.workflowStepInfo.WorkflowId, action.payload.willProceed, action.payload.comment)
           .pipe(
             map(() => {
-              return new fromWorkflowActions.CompleteWorkflowStepSuccess({
-                workflowStepInfo: action.payload.workflowStepInfo, willProceed: action.payload.willProceed});
+              const isRejectWorkflowStepCancelApproval = action.payload.workflowStepInfo.IsFirstStep && !action.payload.willProceed;
+                return new fromWorkflowActions.CompleteWorkflowStepSuccess({
+                  workflowStepInfo: action.payload.workflowStepInfo,
+                  willProceed: action.payload.willProceed,
+                  isInSystemWorkflow: action.payload.isInSystemWorkflow,
+                  showInSystemWorkflowStepCompletionModal: action.payload.isInSystemWorkflow && !isRejectWorkflowStepCancelApproval});
             }),
             catchError(() => of(new fromWorkflowActions.CompleteWorkflowStepError()))
           )
@@ -120,8 +124,12 @@ export class WorkflowEffects {
         this.jobDescriptionWorkflowApiService.completeStep(action.payload.workflowStepInfo.WorkflowId, action.payload.willProceed, action.payload.comment)
           .pipe(
             map(() => {
-              return new fromWorkflowActions.CompleteWorkflowStepSuccess({
-                workflowStepInfo: action.payload.workflowStepInfo, willProceed: action.payload.willProceed});
+              const isRejectWorkflowStepCancelApproval = action.payload.workflowStepInfo.IsFirstStep && !action.payload.willProceed;
+                return new fromWorkflowActions.CompleteWorkflowStepSuccess({
+                  workflowStepInfo: action.payload.workflowStepInfo,
+                  willProceed: action.payload.willProceed,
+                  isInSystemWorkflow: action.payload.isInSystemWorkflow,
+                  showInSystemWorkflowStepCompletionModal: action.payload.isInSystemWorkflow && !isRejectWorkflowStepCancelApproval});
             }),
             catchError(() => of(new fromWorkflowActions.CompleteWorkflowStepError()))
           )
@@ -136,7 +144,7 @@ export class WorkflowEffects {
         const workflowStepInfo = action.payload.workflowStepInfo;
         const willProceed = action.payload.willProceed;
         if (workflowStepInfo.IsFirstStep && !willProceed) {
-          this.router.navigate(['/client/job-description-management/job-descriptions']);
+          return new fromWorkflowActions.RejectWorkflowStepCancelApproval();
         } else {
           if (!workflowStepInfo.IsLastStep && willProceed) {
             completionMessage = 'Thank you for reviewing and approving this job description. It has been routed to the next approver for their review.';
@@ -146,7 +154,7 @@ export class WorkflowEffects {
           } else {
             completionMessage = 'Thank you for reviewing and approving this job description. It has now been Published and made official.';
           }
-          return new fromWorkflowActions.SetMessage({message: completionMessage});
+          return new fromWorkflowActions.SetMessage({message: completionMessage, isInSystemWorkflow: action.payload.isInSystemWorkflow});
         }
       })
     );
@@ -180,7 +188,18 @@ export class WorkflowEffects {
     .pipe(
       ofType(fromWorkflowActions.SET_MESSAGE),
       tap((action: fromWorkflowActions.SetMessage) => {
-        this.router.navigate(['/workflow-complete']);
+         if (!action.payload.isInSystemWorkflow) {
+           this.router.navigate(['/workflow-complete']);
+         }
+      })
+    );
+
+  @Effect({dispatch: false})
+  rejectWorkflowStepCancelApproval$ = this.actions$
+    .pipe(
+      ofType(fromWorkflowActions.REJECT_WORKFLOW_STEP_CANCEL_APPROVAL),
+      tap((action: fromWorkflowActions.RejectWorkflowStepCancelApproval) => {
+          this.router.navigate(['/']);
       })
     );
 
