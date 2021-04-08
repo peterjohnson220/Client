@@ -149,6 +149,9 @@ export function reducer(state, action) {
           } else if (selectedIds.size > 0) {
             selectAllStatus = SelectAllStatus.indeterminate;
             selectAllPages = false;
+          } else if (selectedIds.size === 0) {
+            selectAllStatus = SelectAllStatus.unchecked;
+            selectAllPages = false;
           }
 
           return {
