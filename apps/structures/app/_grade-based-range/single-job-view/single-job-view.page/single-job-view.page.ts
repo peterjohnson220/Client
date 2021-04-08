@@ -33,7 +33,6 @@ export class SingleJobViewPageComponent implements OnInit, AfterViewInit, OnDest
   @ViewChild('percentage', {static: true}) percentageColumn: ElementRef;
   @ViewChild('rangeValue', {static: true}) rangeValueColumn: ElementRef;
   @ViewChild('rangeSpreadField') rangeSpreadFieldColumn: ElementRef;
-  @ViewChild('eeCount') employeesCountColumn: ElementRef;
 
   metadataSubscription: Subscription;
   roundingSettingsSub: Subscription;
@@ -171,7 +170,6 @@ export class SingleJobViewPageComponent implements OnInit, AfterViewInit, OnDest
 
   ngAfterViewInit(): void {
     this.colTemplates = {
-      'Employees_Per_Grade': {Template: this.employeesCountColumn},
       'Range_Spread': {Template: this.rangeSpreadFieldColumn},
       'GradeMidpointDiff': {Template: this.diffFieldColumn},
       [PfDataGridColType.noFormatting]: {Template: this.noFormattingColumn},
