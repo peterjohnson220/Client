@@ -3,6 +3,7 @@ export class DataType {
   Id: number;
   Name: string;
   DataFields: DataField[];
+  AddAndDeleteDisabled?: boolean;
 }
 export function getMockDataTypes(): DataType[] {
   return [{

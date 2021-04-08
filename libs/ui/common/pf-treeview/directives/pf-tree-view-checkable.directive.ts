@@ -168,6 +168,7 @@ export class TreeViewCheckDirective implements OnInit, OnDestroy, OnChanges {
     if (isChecked) {
       this.checkedKeys.splice(idx, 1);
     } else {
+      this.checkedKeys = Object.assign([], this.checkedKeys);
       this.checkedKeys.push(key);
     }
     if (this.options.checkChildren) {

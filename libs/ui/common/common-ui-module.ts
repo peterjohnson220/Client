@@ -12,7 +12,7 @@ import { TreeViewModule } from '@progress/kendo-angular-treeview';
 import { PopupModule } from '@progress/kendo-angular-popup';
 
 import * as fromFaIcons from './fa-icons';
-import { EllipsisViewMoreComponent } from './content';
+import { EllipsisViewMoreComponent, TreeViewMultiSelectComponent } from './content';
 import {
   ErrorIndicatorComponent,
   BaseErrorPageComponent,
@@ -54,6 +54,7 @@ const components = [
   SimpleYesNoModalComponent,
   PfTreeViewComponent,
   JobTitleCodeComponent,
+  TreeViewMultiSelectComponent,
 
   // Directives
   ClickElsewhereDirective, AfterIfDirective, EllipsisActiveDirective, TreeViewCheckDirective, PfScrollSpyDirective,
