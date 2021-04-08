@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
-import { CommonModule, CurrencyPipe } from '@angular/common';
+import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
-import { ChartModule } from '@progress/kendo-angular-charts';
 import { PDFExportModule } from '@progress/kendo-angular-pdf-export';
+import { HighchartsChartModule } from 'highcharts-angular'
 import 'hammerjs';
 import {
   NgbModalModule,
@@ -85,11 +85,11 @@ import * as fromFaIcons from './fa-icons';
         // 3rd Party
         DropDownsModule,
         GridModule,
-        ChartModule,
         NgbPaginationModule,
         NgbModalModule,
         NgbProgressbarModule,
         NgbTooltipModule,
+        HighchartsChartModule,
 
         // Payfactors
         PfCommonModule,
@@ -133,6 +133,7 @@ import * as fromFaIcons from './fa-icons';
   providers: [
     WindowRef,
     CurrencyPipe,
+    DatePipe,
     WindowCommunicationService,
     DojGuidelinesService
   ]
