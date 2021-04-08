@@ -203,9 +203,9 @@ export const getWorkflowContext = createSelector(
   fromComphubPageReducer.getWorkflowContext
 );
 
-export const getQuickPriceType = createSelector(
+export const getComphubType = createSelector(
   getWorkflowContext,
-  (context) => context.quickPriceType
+  (context) => context.comphubType
 );
 
 export const getIsQuickPriceHistoryOpen = createSelector(

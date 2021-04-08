@@ -11,7 +11,7 @@ import isEqual from 'lodash/isEqual';
 import { SearchFilterOption, SharePricingSummaryRequest } from 'libs/models/payfactors-api';
 import * as fromRootReducer from 'libs/state/state';
 import { UserContext } from 'libs/models/security';
-import { QuickPriceType, SystemUserGroupNames } from 'libs/constants';
+import { ComphubType, SystemUserGroupNames } from 'libs/constants';
 import { RateType, Rates, WeightType, WeightTypeDisplayLabeled } from 'libs/data/data-sets';
 import { KendoDropDownItem } from 'libs/models/kendo';
 import { ExchangeExplorerContextService } from 'libs/features/peer/exchange-explorer/services';
@@ -83,7 +83,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
   currencySymbol: string;
   filterContext: any;
   workflowContext: WorkflowContext;
-  isPeerQuickPriceType = false;
+  isPeerComphubType = false;
   filterContextHasFilters = false;
   rates: KendoDropDownItem[] = Rates;
   showJobHistorySummary: boolean;
@@ -130,7 +130,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
     this.workflowContextSubscription = this.workflowContext$.subscribe(wfc => {
       if (!!wfc && wfc.selectedPageId === ComphubPages.Summary) {
         this.workflowContext = wfc;
-        this.isPeerQuickPriceType = wfc.quickPriceType === QuickPriceType.PEER;
+        this.isPeerComphubType = wfc.comphubType === ComphubType.PEER;
         if (this.showJobHistorySummary && this.pageId === ComphubPages.SummaryHistory) {
           this.updateSummaryHistoryData();
         } else if (!this.showJobHistorySummary && this.pageId === ComphubPages.Summary) {
@@ -153,7 +153,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
     this.selectedPaymarketSubscription.unsubscribe();
     this.selectedRateSubscription.unsubscribe();
     this.showJobHistorySummarySubscription.unsubscribe();
-    if (this.isPeerQuickPriceType && this.filterContextSubscription) {
+    if (this.isPeerComphubType && this.filterContextSubscription) {
       this.filterContextSubscription.unsubscribe();
     }
     this.workflowContextSubscription.unsubscribe();
@@ -173,7 +173,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
 
   handlePriceNewJobClicked() {
     this.lastJobData = null;
-    if (this.isPeerQuickPriceType) {
+    if (this.isPeerComphubType) {
       this.store.dispatch(new fromSummaryCardActions.PriceNewPeerJob());
     } else {
       this.store.dispatch(new fromSummaryCardActions.PriceNewJob());
@@ -319,7 +319,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
   }
 
   onWorkflowContextChanges(): void {
-    if (!this.isPeerQuickPriceType) {
+    if (!this.isPeerComphubType) {
       this.store.dispatch(new fromSummaryCardActions.RecalculateJobData());
       if (this.jobHasChanged()) {
         this.loadJobTrendChart();
@@ -329,7 +329,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
       this.currencyCode = this.workflowContext.activeCountryDataSet.CurrencyCode;
       this.countryCode = this.workflowContext.activeCountryDataSet.CountryCode;
       this.currencySymbol = getCurrencySymbol(this.workflowContext.activeCountryDataSet.CurrencyCode, 'narrow');
-    } else if (this.isPeerQuickPriceType) {
+    } else if (this.isPeerComphubType) {
       this.store.dispatch(new fromComphubPageActions.RemoveAccessiblePages([ComphubPages.Jobs, ComphubPages.Markets, ComphubPages.Data]));
       this.lastJobData = this.jobData;
       this.loadPeerQuickPriceData();
@@ -353,7 +353,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
     this.currencyCode = this.paymarket.CurrencyCode;
     this.countryCode = this.paymarket.CountryCode;
     this.currencySymbol = getCurrencySymbol(this.paymarket.CurrencyCode, 'narrow');
-    if (!this.isPeerQuickPriceType) {
+    if (!this.isPeerComphubType) {
       this.loadJobTrendChart();
     } else {
       this.filterContext$ = this.exchangeExplorerContextService.selectFilterContext();

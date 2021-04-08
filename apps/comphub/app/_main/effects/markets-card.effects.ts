@@ -8,12 +8,11 @@ import { catchError, debounceTime, map, mergeMap, switchMap, withLatestFrom } fr
 import { ComphubApiService, MarketDataScopeApiService } from 'libs/data/payfactors-api';
 import { AddPayMarketRequest, PayMarketDataResponse, MDLocationsRequest } from 'libs/models/payfactors-api';
 import * as fromRootState from 'libs/state/state';
-import { QuickPriceType } from 'libs/constants';
+import { ComphubType } from 'libs/constants';
 
 import * as fromMarketsCardActions from '../actions/markets-card.actions';
 import * as fromComphubPageActions from '../actions/comphub-page.actions';
 import * as fromComphubMainReducer from '../reducers';
-import * as fromJobGridActions from '../actions/job-grid.actions';
 import { MarketsCardHelper, PayfactorsApiModelMapper } from '../helpers';
 import * as fromAddPayMarketFormActions from '../actions/add-paymarket-form.actions';
 import { ComphubPages } from '../data';
@@ -34,7 +33,7 @@ export class MarketsCardEffects {
     ),
     mergeMap((data) => {
       const actions = [];
-      if (data.workflowContext.quickPriceType === QuickPriceType.PEER) {
+      if (data.workflowContext.comphubType === ComphubType.PEER) {
         actions.push(new fromMarketsCardActions.GetPaymarkets({ countryCode: 'All' }));
       } else {
         if (data.countryDataSet) {
