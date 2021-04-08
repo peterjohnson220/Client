@@ -10,7 +10,7 @@
     <pf-async-container [loadingError]="isSavingError" [hideReloadButton]="true">
       <ul ngbNav #nav="ngbNav" class="nav-tabs" [destroyOnHide]="true" [activeId]="focusedTab">
         <li [ngbNavItem]="'Style'" id="Style" title="Style" class="ml-4">
-          <a ngbNavLink (click)="onHandleTabClick('Style')" [attr.tabindex]="isOpen ? 0 : -1">Style</a>
+          <a ngbNavLink (click)="onHandleTabClick('Style')" [attr.tabindex]="isOpen ? null : -1">Style</a>
           <ng-template ngbNavContent>
             <div *ngIf="showFontFamilyMenu">
               <h3 class="my-2">Text</h3>
@@ -74,7 +74,7 @@
           </ng-template>
         </li>
         <li [ngbNavItem]="'Content'" id="Content" title="Content">
-          <a ngbNavLink (click)="onHandleTabClick('Content')" [attr.tabindex]="isOpen ? 0 : -1">Content</a>
+          <a ngbNavLink (click)="onHandleTabClick('Content')" [attr.tabindex]="isOpen ? null : -1">Content</a>
           <ng-template ngbNavContent>
             <h5 class="my-2">Display Settings</h5>
             <div *ngIf="totalRewardsEmployeeContributionFeatureFlag.value" class="d-flex mb-2">
