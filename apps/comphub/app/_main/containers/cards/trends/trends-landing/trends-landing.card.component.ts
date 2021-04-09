@@ -3,9 +3,12 @@ import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
+import { AsyncStateObj } from 'libs/models/state';
+
+import { ComphubPages } from '../../../../data';
+import { ExchangeDataSet, WorkflowContext } from '../../../../models';
 import * as fromComphubPageActions from '../../../../actions/comphub-page.actions';
 import * as fromComphubMainReducer from '../../../../reducers';
-import { ExchangeDataSet, WorkflowContext } from '../../../../models';
 
 @Component({
   selector: 'pf-trends-landing-card',
@@ -16,10 +19,13 @@ export class TrendsLandingCardComponent {
 
   workflowContext$: Observable<WorkflowContext>;
   exchangeDataSets$: Observable<ExchangeDataSet[]>;
+  newCompanies$: Observable<AsyncStateObj<string[]>>;
+  comphubPages = ComphubPages;
 
 constructor(private store: Store<fromComphubMainReducer.State>) {
   this.workflowContext$ = this.store.select(fromComphubMainReducer.getWorkflowContext);
   this.exchangeDataSets$ = this.store.select(fromComphubMainReducer.getExchangeDataSets);
+  this.newCompanies$ = this.store.select(fromComphubMainReducer.getNewExchangeParticipants);
 }
 
   handleExchangeDataSetChanged(exchangeId: number) {

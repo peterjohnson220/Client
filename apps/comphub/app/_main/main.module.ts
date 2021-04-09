@@ -43,18 +43,17 @@ import {
   PeerJobGridComponent,
   TrendsPageComponent,
   TrendsLandingCardComponent,
-  TrendsSummaryCardComponent, TrendsScopesCardComponent, TrendsJobsCardComponent, QuickPricePageComponent
+  TrendsSummaryCardComponent, TrendsScopesCardComponent, TrendsJobsCardComponent, QuickPricePageComponent,
 } from './containers';
-import { JobsCardEffects, MarketsCardEffects, AddPayMarketFormEffects, DataCardEffects, ComphubPageEffects,
-  SummaryCardEffects, JobGridEffects, QuickPriceHistoryEffects } from './effects';
+import {
+  JobsCardEffects, MarketsCardEffects, AddPayMarketFormEffects, DataCardEffects, ComphubPageEffects,
+  SummaryCardEffects, JobGridEffects, QuickPriceHistoryEffects, TrendsLandingCardEffects
+} from './effects';
 import { reducers } from './reducers';
 import { TrendingJobGroupComponent, CardComponent, PaymarketCardsComponent, AddPayMarketFormComponent, SalaryBarChartComponent,
-  SalaryTrendChartComponent, SharePricingSummaryModalComponent, GlossaryOfTermsComponent } from './components';
+  SalaryTrendChartComponent, SharePricingSummaryModalComponent, GlossaryOfTermsComponent, NewExchangeParticipantsComponent } from './components';
 import { MainRoutingModule } from './main-routing.module';
 import * as fromFaIcons from './fa-icons';
-
-
-
 
 @NgModule({
     imports: [
@@ -73,7 +72,8 @@ import * as fromFaIcons from './fa-icons';
             ComphubPageEffects,
             SummaryCardEffects,
             JobGridEffects,
-            QuickPriceHistoryEffects
+            QuickPriceHistoryEffects,
+            TrendsLandingCardEffects
         ]),
         PerfectScrollbarModule,
         PDFExportModule,
@@ -128,7 +128,8 @@ import * as fromFaIcons from './fa-icons';
     TrendsJobsCardComponent,
     TrendsScopesCardComponent,
     TrendsSummaryCardComponent,
-    QuickPricePageComponent
+    QuickPricePageComponent,
+    NewExchangeParticipantsComponent
   ],
   providers: [
     WindowRef,
