@@ -9,6 +9,7 @@ import { catchError, map, switchMap, mergeMap } from 'rxjs/operators';
 import { DataType } from 'libs/models/security/roles/data-type.model';
 import { RolesApiService } from 'libs/data/payfactors-api/company-admin';
 import { UserAssignedRole, UserAndRoleModel } from 'libs/models/security/roles';
+import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
 import { RoleApiResponse } from '../constants/user-role.constants';
 
 import * as fromUserRoleActions from '../actions/user-role-view.action';
@@ -103,6 +104,12 @@ export class UserRoleEffects {
       ofType(fromDataAccessActions.LOAD_DATA_TYPES),
       switchMap((action: fromDataAccessActions.LoadDataTypes) => this.adminRolesApi.getDataTypes().pipe(
         map((dataTypes: DataType[]) => {
+          const hasSurveyTitleFilterFeatureFlagEnabled = this.featureFlagService.enabled(FeatureFlags.DataAccessSurveyTitleFilter, false);
+          if (!hasSurveyTitleFilterFeatureFlagEnabled) {
+            dataTypes.forEach(x => {
+              x.DataFields = x.DataFields.filter(df => df.Name !== 'Survey_Name');
+            });
+          }
           return new fromDataAccessActions.LoadedDataTypes(dataTypes);
         })
       ))
@@ -138,6 +145,7 @@ export class UserRoleEffects {
 
   constructor(private actions$: Actions,
     private adminRolesApi: RolesApiService,
+    private featureFlagService: AbstractFeatureFlagService,
     private store: Store<fromUserRoleViewReducer.State>) {
   }
 }
