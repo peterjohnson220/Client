@@ -2,7 +2,7 @@
   <h2 class="mb-1" pfStatementGraphicsDirective [colors]="graphicsColors" [colorRank]="controlData.SummaryTextColor" [styleAttrToColor]="'color'">
     {{getEmployeeName}}
   </h2>
-  <h3 class="font-italic barlow-condensed-font-family" pfStatementGraphicsDirective [colors]="graphicsColors" [colorRank]="controlData.SummaryTextColor" [styleAttrToColor]="'color'">
+  <h3 *ngIf="statementDisplaySettings?.ShowEmployeeId" class="font-italic barlow-condensed-font-family" pfStatementGraphicsDirective [colors]="graphicsColors" [colorRank]="controlData.SummaryTextColor" [styleAttrToColor]="'color'">
     {{getEmployeeId}}
   </h3>
 </div>

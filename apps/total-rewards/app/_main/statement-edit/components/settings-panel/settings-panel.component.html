@@ -76,7 +76,26 @@
         <li [ngbNavItem]="'Content'" id="Content" title="Content">
           <a ngbNavLink (click)="onHandleTabClick('Content')" [attr.tabindex]="isOpen ? null : -1">Content</a>
           <ng-template ngbNavContent>
-            <h5 class="mb-2">Display Settings</h5>
+            <h5 class="my-2">Statement Header</h5>
+            <div class="d-flex align-items-center mb-2">
+              <input type="checkbox"
+                     class="p-0 m-0"
+                     id="enableEmployeeId"
+                     [checked]="displaySettings?.ShowEmployeeId"
+                     (change)="onDisplaySettingChange(displaySettingsEnum.ShowEmployeeId)"
+                     [attr.tabindex]="isOpen ? 0 : -1">
+              <label class="p-0 m-0 ml-1" for="enableEmployeeId">Employee ID</label>
+            </div>
+            <div class="d-flex mb-2">
+              <input type="checkbox"
+                     class="p-0 m-0"
+                     id="enableInformationEffectiveDate"
+                     [checked]="displaySettings?.ShowInformationEffectiveDate"
+                     (change)="onDisplaySettingChange(displaySettingsEnum.ShowInformationEffectiveDate)"
+                     [attr.tabindex]="isOpen ? 0 : -1">
+              <label class="p-0 m-0 ml-1" for="enableInformationEffectiveDate">Information Effective Date</label>
+            </div>
+            <h5 class="my-2">Display Settings</h5>
             <div *ngIf="totalRewardsEmployeeContributionFeatureFlag.value" class="d-flex align-items-center mb-2">
               <input
                 type="checkbox"
@@ -84,7 +103,7 @@
                 id="enableEmployeeContribution"
                 title="Display Employee Contributions"
                 [checked]="displaySettings?.ShowEmployeeContributions"
-                (change)="onDisplaySettingChange('ShowEmployeeContributions')"
+                (change)="onDisplaySettingChange(displaySettingsEnum.ShowEmployeeContributions)"
                 [attr.tabindex]="isOpen ? 0 : -1">
               <label class="p-0 m-0 ml-1" for="enableEmployeeContribution">Employee Contributions</label>
               <label
@@ -101,7 +120,7 @@
                 id="enableDecimals"
                 title="Display Decimals"
                 [checked]="displaySettings?.ShowDecimals"
-                (change)="onDisplaySettingChange('ShowDecimals')"
+                (change)="onDisplaySettingChange(displaySettingsEnum.ShowDecimals)"
                 [attr.tabindex]="isOpen ? 0 : -1">
               <label class="p-0 m-0 ml-1" for="enableDecimals">Decimals</label>
               <label

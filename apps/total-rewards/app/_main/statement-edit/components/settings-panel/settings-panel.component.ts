@@ -5,7 +5,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
 import { BrowserDetectionService } from 'libs/core/services';
-import { UpdateSettingsColorRequest, StatementDisplaySettings } from 'libs/features/total-rewards/total-rewards-statement/models';
+import { UpdateSettingsColorRequest, StatementDisplaySettings, StatementDisplaySettingsEnum } from 'libs/features/total-rewards/total-rewards-statement/models';
 import { FontFamily, FontSize } from 'libs/features/total-rewards/total-rewards-statement/types';
 import { AppConstants } from 'libs/constants';
 
@@ -27,9 +27,10 @@ export class SettingsPanelComponent implements OnInit, OnDestroy {
   @Output() fontSizeChange = new EventEmitter<FontSize>();
   @Output() fontFamilyChange = new EventEmitter<FontFamily>();
   @Output() colorChange = new EventEmitter<UpdateSettingsColorRequest>();
-  @Output() displaySettingChange = new EventEmitter<'ShowDecimals' | 'ShowEmployeeContributions'>();
+  @Output() displaySettingChange = new EventEmitter<StatementDisplaySettingsEnum>();
   @Output() resetSettings = new EventEmitter();
 
+  displaySettingsEnum = StatementDisplaySettingsEnum;
   focusedTab: 'Style' | 'Content';
   isOpen: boolean;
   isOpenSubscription = new Subscription();
@@ -89,7 +90,7 @@ export class SettingsPanelComponent implements OnInit, OnDestroy {
     this.colorSubject.next({ Color: color, ColorIndex: colorIndex });
   }
 
-  onDisplaySettingChange(displaySettingKey: 'ShowDecimals' | 'ShowEmployeeContributions') {
+  onDisplaySettingChange(displaySettingKey: StatementDisplaySettingsEnum) {
     this.displaySettingChange.emit(displaySettingKey);
   }
 
