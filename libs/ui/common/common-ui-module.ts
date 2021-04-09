@@ -9,6 +9,7 @@ import { ImgFallbackModule } from 'ngx-img-fallback';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { TreeViewModule } from '@progress/kendo-angular-treeview';
+import { TooltipModule } from '@progress/kendo-angular-tooltip';
 import { PopupModule } from '@progress/kendo-angular-popup';
 
 import * as fromFaIcons from './fa-icons';
@@ -42,6 +43,7 @@ import { LoadingProgressBarService } from './loading/service';
 import { PfTreeViewComponent, TreeViewCheckDirective } from './pf-treeview';
 import { JobTitleCodeComponent } from './job-title-code/job-title-code.component';
 import { FileDownloadSecurityWarningModalComponent } from './file-download-security-warning';
+import { GridColumnTooltipComponent } from './tooltips/grid-column-tooltip/grid-column-tooltip.component';
 
 const components = [
   // Content
@@ -54,6 +56,7 @@ const components = [
   SimpleYesNoModalComponent,
   PfTreeViewComponent,
   JobTitleCodeComponent,
+  GridColumnTooltipComponent,
 
   // Directives
   ClickElsewhereDirective, AfterIfDirective, EllipsisActiveDirective, TreeViewCheckDirective, PfScrollSpyDirective,
@@ -98,6 +101,7 @@ const components = [
     DropDownsModule,
     TreeViewModule,
     PopupModule,
+    TooltipModule,
   ],
   declarations: components,
   exports: components,

@@ -1,0 +1,30 @@
+<pf-async-container [loading]="(tooltipLoading$ | async)">
+  <div class="p-2">
+    <div *ngIf="!(tooltipLoading$ | async) && !(tooltipError$ | async) && (tooltipContent$ | async)" [ngSwitch]="columnType">
+      <ng-template [ngSwitchCase]="dataTypes.Jobs">
+        <div class="jobs-tooltip-container">
+          <div *ngFor="let job of (tooltipContent$ | async).Data">
+            {{job}}
+          </div>
+        </div>
+      </ng-template>
+      <ng-template [ngSwitchCase]="dataTypes.Shared">
+        <div class="shared-tooltip-container">
+          <div *ngFor="let user of (tooltipContent$ | async).Data" class="row pb-2">
+            <div class="col-2 user-picture">
+              <img [width]="40" [height]="40" [src]="avatarUrl + user.UserPicture" src-fallback="{{ avatarUrl + 'default_user.png' }}" alt="">
+            </div>
+            <div class="col-10 user-info">
+              <div>
+                {{user.FirstName}} {{user.LastName}}{{user.Title ? ', ' + user.Title : ''}}
+              </div>
+              <div *ngIf="user.LastViewed">
+                Last Viewed: {{user.LastViewed | TimeElapsedPipe}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</pf-async-container>

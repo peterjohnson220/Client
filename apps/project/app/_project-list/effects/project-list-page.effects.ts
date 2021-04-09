@@ -4,7 +4,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
 
 import { Observable, of } from 'rxjs';
-import { switchMap, mergeMap, withLatestFrom, catchError } from 'rxjs/operators';
+import { switchMap, mergeMap, withLatestFrom, catchError, map } from 'rxjs/operators';
 
 import cloneDeep from 'lodash/cloneDeep';
 
@@ -20,7 +20,6 @@ import * as fromProjectListPageActions from '../actions';
 import * as fromProjectListPageReducer from '../reducers';
 
 import { PageViewIds } from '../../shared/constants';
-
 
 @Injectable()
 export class ProjectListPageEffects {
@@ -70,7 +69,7 @@ export class ProjectListPageEffects {
       );
     }),
     catchError(error => {
-      return this.handleError('pinning', 'Error', new fromPfDataGridActions.DoNothing(PageViewIds.Projects));
+      return this.handleError('pinning your project', 'Error', new fromPfDataGridActions.DoNothing(PageViewIds.Projects));
     })
   );
 
@@ -88,7 +87,7 @@ export class ProjectListPageEffects {
       );
     }),
     catchError(error => {
-      return this.handleError('copying', 'Error', new fromPfDataGridActions.DoNothing(PageViewIds.Projects));
+      return this.handleError('copying your project', 'Error', new fromPfDataGridActions.DoNothing(PageViewIds.Projects));
     })
   );
 
@@ -104,7 +103,7 @@ export class ProjectListPageEffects {
           return actions;
         }),
         catchError(error => {
-          return this.handleError('deleting', 'Error', new fromPfDataGridActions.DoNothing(PageViewIds.Projects));
+          return this.handleError('deleting your project', 'Error', new fromPfDataGridActions.DoNothing(PageViewIds.Projects));
         })
       );
     })
@@ -150,16 +149,30 @@ export class ProjectListPageEffects {
               ];
             }),
             catchError(error => {
-              return this.handleError('sharing', 'Error', new fromProjectListPageActions.BulkProjectShareError());
+              return this.handleError('sharing your project', 'Error', new fromProjectListPageActions.BulkProjectShareError());
             })
           );
+      })
+    );
+
+  @Effect()
+  getTooltipContent$ = this.actions$
+    .pipe(
+      ofType(fromProjectListPageActions.GET_TOOLTIP_CONTENT),
+      switchMap((action: fromProjectListPageActions.GetTooltipContent) => {
+        return this.pricingProjectApiService.getTooltipContent(action.payload).pipe(
+          map(response => new fromProjectListPageActions.GetTooltipContentSuccess(response)),
+          catchError(error => {
+            return this.handleError('retrieving project information', 'Error', new fromProjectListPageActions.GetTooltipContentError());
+          })
+        );
       })
     );
 
   private handleError(message: string, title: string = 'Error',
                       resultingAction: Action = new fromPfDataGridActions.DoNothing(PageViewIds.Projects)
   ): Observable<Action> {
-    const errorMessage = `We encountered an error when ${message} your project. Please contact Payfactors support for assistance.`;
+    const errorMessage = `We encountered an error when ${message}. Please contact Payfactors support for assistance.`;
     const toastContent = `<div class="message-container"><div class="alert-triangle-icon mr-3"></div>${errorMessage}</div>`;
     this.toastr.error(toastContent, title, this.toastrOverrides);
     return of(resultingAction);
