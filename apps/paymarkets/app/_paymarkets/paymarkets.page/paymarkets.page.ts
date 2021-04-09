@@ -46,6 +46,7 @@ export class PayMarketsPageComponent implements AfterViewInit, OnInit, OnDestroy
   @ViewChild('industryFilter') industryFilter: ElementRef;
   @ViewChild('sizeFilter') sizeFilter: ElementRef;
   @ViewChild('locationFilter') locationFilter: ElementRef;
+  @ViewChild('countryColumn') countryColumn: ElementRef;
   @ViewChild(PfSecuredResourceDirective) pfSecuredResourceDirective: PfSecuredResourceDirective;
 
   industries$: Observable<AsyncStateObj<GroupedListItem[]>>;
@@ -177,7 +178,8 @@ export class PayMarketsPageComponent implements AfterViewInit, OnInit, OnDestroy
       ActionsTemplate : this.gridRowActionsTemplate
     };
     this.colTemplates = {
-      'PayMarket': { Template: this.payMarketNameColumn}
+      'PayMarket': { Template: this.payMarketNameColumn},
+      'Country_Code': { Template: this.countryColumn }
     };
     this.actionBarConfig = {
       ...this.actionBarConfig,
