@@ -20,7 +20,7 @@ export class PriceJobs implements Action {
 export class PriceJobsSuccess implements Action {
   readonly type = PRICE_JOBS_SUCCESS;
 
-  constructor(public payload: { projectId: number }) {}
+  constructor() {}
 }
 
 export class PriceJobsError implements Action {

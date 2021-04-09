@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -6,13 +6,12 @@ import { Subscription } from 'rxjs/Subscription';
 import { DragulaService } from 'ng2-dragula';
 
 import * as fromRootState from 'libs/state/state';
-import * as fromTileGridReducer from '../../reducers';
-import * as fromTileGridActions from '../../actions/tile-grid.actions';
-
 import { UserContext } from 'libs/models';
-import { Tile } from '../../models';
 import { ReorderTileRequest } from 'libs/models/dashboard';
 
+import * as fromTileGridReducer from '../../reducers';
+import * as fromTileGridActions from '../../actions/tile-grid.actions';
+import { Tile } from '../../models';
 
 @Component({
   selector: 'pf-tile-grid',

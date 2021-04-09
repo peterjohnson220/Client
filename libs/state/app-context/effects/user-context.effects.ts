@@ -8,6 +8,9 @@ import { tap, switchMap, map, catchError } from 'rxjs/operators';
 
 import { CompanySecurityApiService } from '../../../data/payfactors-api';
 import * as userContextActions from '../actions/user-context.actions';
+import * as fromFeatureFlagRedirectActions from '../actions/feature-flag-redirect.action';
+import { UrlRedirectRequest } from '../../../models/url-redirect';
+import { UrlRedirectHelper } from '../../../core/helpers/url-redirect-helper';
 
 @Injectable()
 export class UserContextEffects {
@@ -25,6 +28,14 @@ export class UserContextEffects {
           })
         )
       )
+    );
+
+  @Effect()
+  getUserContextSuccess$ = this.actions$
+    .pipe(
+      ofType(userContextActions.GET_USER_CONTEXT_SUCCESS),
+      // wherever there is a userContext, there should also be feature flag redirects
+      map(() => new fromFeatureFlagRedirectActions.GetUserRedirectUrls(this.generateUrlRedirectRequests()))
     );
 
   @Effect()
@@ -110,5 +121,14 @@ export class UserContextEffects {
     private companySecurityApiService: CompanySecurityApiService,
     private router: Router,
     @Inject(PLATFORM_ID) private platformId: Object) {
+  }
+
+  private generateUrlRedirectRequests(): UrlRedirectRequest[] {
+    const requestArr: UrlRedirectRequest[] = [];
+
+    requestArr.push(UrlRedirectHelper.getPricingProjectUrlRedirectRequest());
+    requestArr.push(UrlRedirectHelper.getProjectListUrlRedirectRequest());
+
+    return requestArr;
   }
 }

@@ -8,6 +8,7 @@ import * as fromUiPersistenceSettingsReducer from './app-context/reducers/ui-per
 import * as fromUserAssignedRoleReducer from './app-context/reducers/user-assigned-roles.reducer';
 import * as fromCompanyContextReducer from './app-context/reducers/company-context.reducer';
 import * as fromCompanySettingsReducer from './app-context/reducers/company-settings.reducer';
+import * as fromFeatureFlagReducer from './app-context/reducers/feature-flag-redirect.reducer';
 
 export interface State {
   userContext: fromUserContextReducer.State;
@@ -16,6 +17,7 @@ export interface State {
   userAssignedRoles: fromUserAssignedRoleReducer.State;
   companyContext: fromCompanyContextReducer.State;
   companySettings: fromCompanySettingsReducer.State;
+  featureFlagRedirectUrls: fromFeatureFlagReducer.State;
 }
 
 export const reducers: ActionReducerMap<State> = {
@@ -24,7 +26,8 @@ export const reducers: ActionReducerMap<State> = {
   uiPersistenceSettings: fromUiPersistenceSettingsReducer.reducer,
   userAssignedRoles: fromUserAssignedRoleReducer.reducer,
   companyContext: fromCompanyContextReducer.reducer,
-  companySettings: fromCompanySettingsReducer.reducer
+  companySettings: fromCompanySettingsReducer.reducer,
+  featureFlagRedirectUrls: fromFeatureFlagReducer.reducer
 };
 
 // If you wish to have all actions and states logged to the console, add this to your metaReducers for development
@@ -106,7 +109,7 @@ export const getUiPersistenceSettingsSavingSuccess =
 export const getUiPersistenceLastAttemptedSaveSettingName =
   createSelector(getUiPersistenceSettingsState, fromUiPersistenceSettingsReducer.getLastAttemptedSaveSettingName);
 export const getUiPersistenceSettingsSavingError =
-  createSelector(getUiPersistenceSettingsState, fromUiPersistenceSettingsReducer.getSavingError)
+  createSelector(getUiPersistenceSettingsState, fromUiPersistenceSettingsReducer.getSavingError);
 
 /**
  * User Assigned Role Reducers
@@ -131,4 +134,21 @@ export const getCompanyContext = createSelector(getCompanyContextState, fromComp
 export const getGettingCompanyContext = createSelector(getCompanyContextState, fromCompanyContextReducer.getGettingCompanyContext);
 export const getGettingCompanyContextError =
   createSelector(getCompanyContextState, fromCompanyContextReducer.getGettingCompanyContextError);
+
+/**
+ * Feature Flag Url Redirect Reducer
+ */
+export const getFeatureFlagRedirectState = createFeatureSelector<fromFeatureFlagReducer.State>('featureFlagRedirectUrls');
+
+export const getFeatureFlagUrls = createSelector(getFeatureFlagRedirectState, fromFeatureFlagReducer.getFeatureFlagUrls);
+export const getLoading = createSelector(getFeatureFlagRedirectState, fromFeatureFlagReducer.getLoading);
+export const getLoadingError = createSelector(getFeatureFlagRedirectState, fromFeatureFlagReducer.getLoadingError);
+export const getPageRedirectUrl = createSelector(getFeatureFlagRedirectState, (state, props) => {
+  const redirectObj = state.redirectUrls.obj.find(x => x.TargetPage === props.page);
+  if (redirectObj === undefined) {
+    return undefined;
+  }
+
+  return redirectObj.RedirectUrl;
+});
 
