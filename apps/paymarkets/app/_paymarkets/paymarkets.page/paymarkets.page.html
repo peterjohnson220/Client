@@ -53,6 +53,12 @@
   </div>
 </ng-template>
 
+<ng-template #countryColumn let-dataRow="dataRow">
+  <div pfEllipsisActive class="w-100 ellipsis-overflowing-text-wrap">
+    {{dataRow['Country_Country_Name']}} ({{dataRow['CompanyPayMarkets_Country_Code']}})
+  </div>
+</ng-template>
+
 <ng-template #industryFilter>
   <pf-treeview
     *ngIf="!!(industries$ | async)?.obj && !! !!(industries$ | async)?.obj?.length"

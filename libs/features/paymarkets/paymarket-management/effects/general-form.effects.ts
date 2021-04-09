@@ -23,7 +23,7 @@ export class GeneralFormEffects {
             map((response) => {
               return new fromGeneralFormActions.GetCountriesSuccess(
                 KendoTypedDropDownItemHelper.mapItemsToDropdownList(response, 'CountryCode', (item => {
-                  return `${item['CountryCode']} - ${item['CurrencyCode']}`;
+                  return `${item['CountryName']} (${item['CountryCode']})`;
                 }))
               );
             }),
@@ -41,8 +41,7 @@ export class GeneralFormEffects {
             map((response) => {
               return new fromGeneralFormActions.GetCurrenciesSuccess(
                 KendoTypedDropDownItemHelper.mapItemsToDropdownList(response, 'CurrencyCode', (item => {
-                  const currencySymbol = getCurrencySymbol(item['CurrencyCode'], 'narrow');
-                  return `${item['CurrencyCode']} (${currencySymbol})`;
+                  return `${item['CurrencyName']} (${item['CurrencyCode']})`;
                 }))
               );
             }),
