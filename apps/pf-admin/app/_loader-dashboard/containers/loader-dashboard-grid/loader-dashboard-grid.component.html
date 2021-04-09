@@ -9,14 +9,29 @@
       allowUnsort: true,
       mode: 'single'
     }"
-    [sort]="sort"
-    [pageSize]="pageSize"
-    [skip]="skip"
-    (pageChange)="pageChange($event)"
-    (sortChange)="sortChange($event)"
+    [sort]="gridState.sort"
+    [pageSize]="gridState.take"
+    [skip]="gridState.skip"
+    [filter]="gridState.filter"
+    filterable="menu"
+    (dataStateChange)="dataStateChange($event)"
     [rowClass]="rowCallback"
   >
-    <kendo-grid-column field="compositeDataLoadId" title="Load ID">
+    <kendo-grid-column field="compositeDataLoadId" title="Load ID" filter="numeric">
+      <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+        <kendo-grid-numeric-filter-menu [column]="column" [filter]="filter"
+                                       [decimals]="0"
+                                       [step]="1"
+                                       [min]="0"
+                                       [filterService]="filterService" [extra]="false">
+          <kendo-filter-eq-operator></kendo-filter-eq-operator>
+          <kendo-filter-neq-operator></kendo-filter-neq-operator>
+          <kendo-filter-gt-operator></kendo-filter-gt-operator>
+          <kendo-filter-gte-operator></kendo-filter-gte-operator>
+          <kendo-filter-lt-operator></kendo-filter-lt-operator>
+          <kendo-filter-lte-operator></kendo-filter-lte-operator>
+        </kendo-grid-numeric-filter-menu>
+      </ng-template>
       <ng-template kendoGridCellTemplate let-dataItem>
         <div class="d-flex">
           <span class="kendo-column-text-with-button">
@@ -34,11 +49,41 @@
     </kendo-grid-column>
     <!-- TODO: Show this when we have different loader types (e.g. pricings) -->
     <!--<kendo-grid-column field="compositeLoaderType" title="Load Type"></kendo-grid-column> -->
-    <kendo-grid-column field="company_ID" [width]="75" title="CID"></kendo-grid-column>
-    <kendo-grid-column field="company_Name" title="Company"></kendo-grid-column>
-    <kendo-grid-column field="validationErrorOutputUri" title="Error(s)">
+    <kendo-grid-column field="company_ID" [width]="75" title="CID" filter="numeric">
+      <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+        <kendo-grid-numeric-filter-menu [column]="column" [filter]="filter"
+                                        [decimals]="0"
+                                        [step]="1"
+                                        [min]="0"
+                                        [filterService]="filterService" [extra]="false">
+          <kendo-filter-eq-operator></kendo-filter-eq-operator>
+          <kendo-filter-neq-operator></kendo-filter-neq-operator>
+          <kendo-filter-gt-operator></kendo-filter-gt-operator>
+          <kendo-filter-gte-operator></kendo-filter-gte-operator>
+          <kendo-filter-lt-operator></kendo-filter-lt-operator>
+          <kendo-filter-lte-operator></kendo-filter-lte-operator>
+        </kendo-grid-numeric-filter-menu>
+      </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="company_Name" title="Company">
+      <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+        <kendo-grid-string-filter-menu [column]="column" [filter]="filter" [filterService]="filterService" [extra]="false">
+          <kendo-filter-contains-operator></kendo-filter-contains-operator>
+          <kendo-filter-not-contains-operator></kendo-filter-not-contains-operator>
+          <kendo-filter-eq-operator></kendo-filter-eq-operator>
+          <kendo-filter-neq-operator></kendo-filter-neq-operator>
+          <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+          <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+        </kendo-grid-string-filter-menu>
+      </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="hasErrorCondition" title="Error(s)" filter="boolean">
+      <kendo-grid-messages
+        filterIsTrue="Yes"
+        filterIsFalse="No">
+      </kendo-grid-messages>
       <ng-template kendoGridCellTemplate let-dataItem>
-        <div *ngIf="hasErrorCondition(dataItem)" class="d-flex">
+        <div *ngIf="dataItem.hasErrorCondition" class="d-flex">
           <button
             *ngIf="dataItem.validationErrorOutputUri"
             class="btn btn-secondary" (click)="downloadInvalidRecordsFile(dataItem.externalId)">
@@ -60,22 +105,32 @@
         </div>
       </ng-template>
     </kendo-grid-column>
-    <kendo-grid-column field="requestTime" title="Requested">
+    <kendo-grid-column field="requestTime" title="Requested" [filterable]="false">
       <ng-template kendoGridCellTemplate let-dataItem>
         <div>{{ dataItem.requestTime | date: 'MM/dd/yyyy hh:mm a' : 'UTC' }}</div>
       </ng-template>
     </kendo-grid-column>
-    <kendo-grid-column field="processingStartTime" title="Started">
+    <kendo-grid-column field="processingStartTime" title="Started" [filterable]="false">
       <ng-template kendoGridCellTemplate let-dataItem>
         <div>{{ dataItem.processingStartTime | date: 'MM/dd/yyyy hh:mm a' : 'UTC' }}</div>
       </ng-template>
     </kendo-grid-column>
-    <kendo-grid-column field="processingEndTime" title="Finished">
+    <kendo-grid-column field="processingEndTime" title="Finished" [filterable]="false">
       <ng-template kendoGridCellTemplate let-dataItem>
         <div>{{ dataItem.processingEndTime | date: 'MM/dd/yyyy hh:mm a' : 'UTC' }}</div>
       </ng-template>
     </kendo-grid-column>
-    <kendo-grid-column field="loadType" [width]="100" title="Load Type">
+    <kendo-grid-column field="loadType" [width]="125" title="Load Type">
+      <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+        <kendo-grid-string-filter-menu [column]="column" [filter]="filter" [filterService]="filterService" [extra]="false">
+          <kendo-filter-contains-operator></kendo-filter-contains-operator>
+          <kendo-filter-not-contains-operator></kendo-filter-not-contains-operator>
+          <kendo-filter-eq-operator></kendo-filter-eq-operator>
+          <kendo-filter-neq-operator></kendo-filter-neq-operator>
+          <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+          <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+        </kendo-grid-string-filter-menu>
+      </ng-template>
       <ng-template kendoGridCellTemplate let-dataItem>
         <div>
           {{ dataItem.loadType ? dataItem.loadType : "Unknown" }}

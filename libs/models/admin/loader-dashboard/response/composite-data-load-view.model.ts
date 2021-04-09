@@ -16,4 +16,5 @@ export interface CompositeDataLoadViewResponse {
   requestTime?: Date;
   processingStartTime?: Date;
   processingEndTime?: Date;
+  hasErrorCondition?: boolean;
 }
