@@ -66,3 +66,13 @@ export const getServiceAccountUser = createSelector(
   ServiceAccountsState,
   fromServiceAccountReducer.GetServiceAccountUser
 );
+
+export const getShowServiceAccountModal = createSelector(
+  ServiceAccountsState,
+  fromServiceAccountReducer.OpenResetAccountModal
+);
+
+export const getShowNewServiceAccountModal = createSelector(
+  ServiceAccountsState,
+  fromServiceAccountReducer.OpenNewAccountModal
+);
