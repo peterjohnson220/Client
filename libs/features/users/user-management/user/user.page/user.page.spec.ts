@@ -3,7 +3,6 @@ import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
-import 'rxjs/add/observable/of';
 
 import * as fromRootState from 'libs/state/state';
 import { generateMockUserManagementDto } from 'libs/models/payfactors-api/user';

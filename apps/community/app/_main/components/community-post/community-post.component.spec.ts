@@ -2,7 +2,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import 'rxjs/add/observable/of';
 import { of } from 'rxjs';
 
 import { Store, StoreModule } from '@ngrx/store';

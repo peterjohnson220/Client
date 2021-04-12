@@ -2,8 +2,8 @@
 
 exports[`Peer - Company Job Map Result should show a No Job Description message for the result, when there is none  1`] = `
 <pf-company-job-map-result
-  applyMapping={[Function EventEmitter]}
-  clicked={[Function EventEmitter]}
+  applyMapping={[Function EventEmitter_]}
+  clicked={[Function EventEmitter_]}
   companyJobToMapTo={[Function Object]}
 >
   <div

@@ -1,8 +1,6 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import 'rxjs/add/observable/of';
-
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { FormBuilder } from '@angular/forms';
 

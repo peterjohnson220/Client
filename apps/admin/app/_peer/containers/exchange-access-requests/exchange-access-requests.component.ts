@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 
 import { ExchangeAccessRequest } from 'libs/models/peer';

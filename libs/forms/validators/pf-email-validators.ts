@@ -1,5 +1,6 @@
 import { FormControl, ValidationErrors, AbstractControl } from '@angular/forms';
 import { UserApiService } from 'libs/data/payfactors-api';
+import { map } from 'rxjs/operators';
 
 // List of popular blacklisted personal email domains from https://github.com/mailcheck/mailcheck/wiki/List-of-Popular-Domains
 const BLACKLISTED_DOMAINS: Set<string> = new Set([
@@ -83,7 +84,7 @@ export class PfEmailTakenValidator {
       }
 
       return userApiService.emailExists(control.value)
-        .map(exists => exists === true ? { emailTaken: true } : null);
+        .pipe(map(exists => exists === true ? { emailTaken: true } : null));
     };
   }
 }

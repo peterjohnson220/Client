@@ -3,11 +3,11 @@
 exports[`TransferScheduleCardComponent should show a saveable form if the summary has been saved before 1`] = `
 <pf-transfer-schedule-card
   active={[Function Boolean]}
-  changesPending={[Function EventEmitter]}
+  changesPending={[Function EventEmitter_]}
   editMode={[Function Boolean]}
-  scheduleDisableSubmitted={[Function EventEmitter]}
-  scheduleEnableSubmitted={[Function EventEmitter]}
-  scheduleSaveSubmitted={[Function EventEmitter]}
+  scheduleDisableSubmitted={[Function EventEmitter_]}
+  scheduleEnableSubmitted={[Function EventEmitter_]}
+  scheduleSaveSubmitted={[Function EventEmitter_]}
   transferSchedule={[Function Object]}
 >
   <div
@@ -76,11 +76,11 @@ exports[`TransferScheduleCardComponent should show a saveable form if the summar
 exports[`TransferScheduleCardComponent should show an empty form if summary has never been saved 1`] = `
 <pf-transfer-schedule-card
   active={[Function Boolean]}
-  changesPending={[Function EventEmitter]}
+  changesPending={[Function EventEmitter_]}
   editMode={[Function Boolean]}
-  scheduleDisableSubmitted={[Function EventEmitter]}
-  scheduleEnableSubmitted={[Function EventEmitter]}
-  scheduleSaveSubmitted={[Function EventEmitter]}
+  scheduleDisableSubmitted={[Function EventEmitter_]}
+  scheduleEnableSubmitted={[Function EventEmitter_]}
+  scheduleSaveSubmitted={[Function EventEmitter_]}
   transferSchedule={[Function Object]}
 >
   <div

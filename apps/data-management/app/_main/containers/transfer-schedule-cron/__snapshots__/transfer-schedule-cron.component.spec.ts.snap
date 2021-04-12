@@ -4,7 +4,7 @@ exports[`TransferScheduleCronComponent should have a good default state if a dai
 <pf-transfer-schedule-cron
   cronArray={[Function Array]}
   cronExpression={[Function String]}
-  cronExpressionChanges={[Function EventEmitter]}
+  cronExpressionChanges={[Function EventEmitter_]}
   dailyChecked={[Function Boolean]}
   daysOfWeek={[Function Array]}
   defaultDay={[Function Object]}
@@ -55,7 +55,7 @@ exports[`TransferScheduleCronComponent should have a good default state if a mon
 <pf-transfer-schedule-cron
   cronArray={[Function Array]}
   cronExpression={[Function String]}
-  cronExpressionChanges={[Function EventEmitter]}
+  cronExpressionChanges={[Function EventEmitter_]}
   dailyChecked="false"
   daysOfWeek={[Function Array]}
   defaultDay={[Function Object]}
@@ -113,7 +113,7 @@ exports[`TransferScheduleCronComponent should have a good default state if a wee
 <pf-transfer-schedule-cron
   cronArray={[Function Array]}
   cronExpression={[Function String]}
-  cronExpressionChanges={[Function EventEmitter]}
+  cronExpressionChanges={[Function EventEmitter_]}
   dailyChecked="false"
   dayValue={[Function String]}
   daysOfWeek={[Function Array]}
@@ -165,7 +165,7 @@ exports[`TransferScheduleCronComponent should have a good default state if a wee
 exports[`TransferScheduleCronComponent should have a good default state if no expression is passed 1`] = `
 <pf-transfer-schedule-cron
   cronArray={[Function Array]}
-  cronExpressionChanges={[Function EventEmitter]}
+  cronExpressionChanges={[Function EventEmitter_]}
   dailyChecked="false"
   daysOfWeek={[Function Array]}
   defaultDay={[Function Object]}

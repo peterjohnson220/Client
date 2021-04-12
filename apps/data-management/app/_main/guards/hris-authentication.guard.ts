@@ -4,7 +4,7 @@ import { ActivatedRouteSnapshot, CanActivate, CanActivateChild, Router, RouterSt
 
 import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { filter, tap } from 'rxjs/operators';
+import { filter, switchMap, tap } from 'rxjs/operators';
 
 import { HRISConnectionAuthenticationStatus } from 'libs/constants/hris-connection-authenticationstatus';
 
@@ -31,11 +31,11 @@ export class HrisAuthenticationGuard implements CanActivate, CanActivateChild {
   }
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-    return this.connectionSummary$.pipe(filter(cs => !!cs)).switchMap(cs => this.canAccess(cs));
+    return this.connectionSummary$.pipe(filter(cs => !!cs)).pipe(switchMap(cs => this.canAccess(cs)));
   }
 
   canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-    return this.connectionSummary$.pipe(filter(cs => !!cs)).switchMap(cs => this.canAccess(cs));
+    return this.connectionSummary$.pipe(filter(cs => !!cs)).pipe(switchMap(cs => this.canAccess(cs)));
   }
 
   private canAccess(connectionSummary: ConnectionSummary): Observable<boolean> {

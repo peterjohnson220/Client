@@ -2,7 +2,7 @@
 
 exports[`CommunityBackToTopNavigationComponent should show back to top button 1`] = `
 <pf-community-back-to-top-navigation
-  backToTopClicked={[Function EventEmitter]}
+  backToTopClicked={[Function EventEmitter_]}
 >
   <div
     class="back-to-top-container"

@@ -3,7 +3,6 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 
 import { StoreModule, Store} from '@ngrx/store';
-import { of } from 'rxjs/observable/of';
 
 import { generateMockTermsConditionsSubmissionModel, generateMockUserContext } from 'libs/models';
 
