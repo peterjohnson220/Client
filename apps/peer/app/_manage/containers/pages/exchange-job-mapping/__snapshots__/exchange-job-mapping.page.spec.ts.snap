@@ -14,10 +14,8 @@ exports[`Peer - Exchange Job Mapping Page should apply a collapse-grid class to 
   exchangeId$={[Function Observable]}
   exchangeIdSubscription={[Function Subscriber]}
   exchangeJobMappingGridService={[Function Object]}
-  featureFlagService={[Function Object]}
   fileDownloadSecurityWarningModal={[Function ElementRef]}
   gridPageRowIndexToScrollTo$={[Function Store]}
-  peerManageJobsGridToggleFlag={[Function Object]}
   queryParamSubscription={[Function Subscriber]}
   queryParams$={[Function Observable]}
   route={[Function Object]}
@@ -28,14 +26,38 @@ exports[`Peer - Exchange Job Mapping Page should apply a collapse-grid class to 
   showCompanyJobs="false"
   showCompanyJobsSubscription={[Function Subscriber]}
   store={[Function Store]}
-  unsubscribe$={[Function Subject]}
   userContext$={[Function Store]}
 >
   <pf-page-with-title-bar>
     
      Manage Jobs 
     
-    
+    <div
+      class="btn-group btn-group-toggle"
+    >
+      <label
+        class="btn btn-secondary"
+      >
+        <input
+          autocomplete="off"
+          id="myJobs"
+          name="myJobs"
+          type="radio"
+        />
+         My Jobs 
+      </label>
+      <label
+        class="btn btn-secondary active"
+      >
+        <input
+          autocomplete="off"
+          id="exchangeJobs"
+          name="exchangeJobs"
+          type="radio"
+        />
+         Exchange Jobs 
+      </label>
+    </div>
     <pf-exchange-switcher />
     <div
       class="omni-box"
@@ -109,10 +131,8 @@ exports[`Peer - Exchange Job Mapping Page should show the correct header message
   exchangeId$={[Function Observable]}
   exchangeIdSubscription={[Function Subscriber]}
   exchangeJobMappingGridService={[Function Object]}
-  featureFlagService={[Function Object]}
   fileDownloadSecurityWarningModal={[Function ElementRef]}
   gridPageRowIndexToScrollTo$={[Function Store]}
-  peerManageJobsGridToggleFlag={[Function Object]}
   queryParamSubscription={[Function Subscriber]}
   queryParams$={[Function Observable]}
   route={[Function Object]}
@@ -123,14 +143,38 @@ exports[`Peer - Exchange Job Mapping Page should show the correct header message
   showCompanyJobs={[Function Boolean]}
   showCompanyJobsSubscription={[Function Subscriber]}
   store={[Function Store]}
-  unsubscribe$={[Function Subject]}
   userContext$={[Function Store]}
 >
   <pf-page-with-title-bar>
     
      Manage Jobs 
     
-    
+    <div
+      class="btn-group btn-group-toggle"
+    >
+      <label
+        class="btn btn-secondary active"
+      >
+        <input
+          autocomplete="off"
+          id="myJobs"
+          name="myJobs"
+          type="radio"
+        />
+         My Jobs 
+      </label>
+      <label
+        class="btn btn-secondary"
+      >
+        <input
+          autocomplete="off"
+          id="exchangeJobs"
+          name="exchangeJobs"
+          type="radio"
+        />
+         Exchange Jobs 
+      </label>
+    </div>
     <pf-exchange-switcher />
     <div
       class="omni-box"
@@ -204,10 +248,8 @@ exports[`Peer - Exchange Job Mapping Page should show the correct header message
   exchangeId$={[Function Observable]}
   exchangeIdSubscription={[Function Subscriber]}
   exchangeJobMappingGridService={[Function Object]}
-  featureFlagService={[Function Object]}
   fileDownloadSecurityWarningModal={[Function ElementRef]}
   gridPageRowIndexToScrollTo$={[Function Store]}
-  peerManageJobsGridToggleFlag={[Function Object]}
   queryParamSubscription={[Function Subscriber]}
   queryParams$={[Function Observable]}
   route={[Function Object]}
@@ -218,14 +260,38 @@ exports[`Peer - Exchange Job Mapping Page should show the correct header message
   showCompanyJobs="false"
   showCompanyJobsSubscription={[Function Subscriber]}
   store={[Function Store]}
-  unsubscribe$={[Function Subject]}
   userContext$={[Function Store]}
 >
   <pf-page-with-title-bar>
     
      Manage Jobs 
     
-    
+    <div
+      class="btn-group btn-group-toggle"
+    >
+      <label
+        class="btn btn-secondary"
+      >
+        <input
+          autocomplete="off"
+          id="myJobs"
+          name="myJobs"
+          type="radio"
+        />
+         My Jobs 
+      </label>
+      <label
+        class="btn btn-secondary active"
+      >
+        <input
+          autocomplete="off"
+          id="exchangeJobs"
+          name="exchangeJobs"
+          type="radio"
+        />
+         Exchange Jobs 
+      </label>
+    </div>
     <pf-exchange-switcher />
     <div
       class="omni-box"

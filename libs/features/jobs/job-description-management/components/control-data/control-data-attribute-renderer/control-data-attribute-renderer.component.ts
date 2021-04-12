@@ -37,4 +37,8 @@ export class ControlDataAttributeRendererComponent {
     }
     return '';
   }
+
+  trackByChoiceValue(index: number, choice: {display: string, value: string}) {
+    return choice.value;
+  }
 }

@@ -2,7 +2,7 @@
   <thead *ngIf="attributes.length > 1">
   <tr>
     <th width="1%" *ngIf="!readOnly"></th>
-    <th width="{{(attribute.WidthPct/106) * 100 + '%'}}" *ngFor="let attribute of attributes">
+    <th width="{{(attribute.WidthPct/106) * 100 + '%'}}" *ngFor="let attribute of attributes; trackBy: trackByAttributeFn">
       {{attribute.DisplayName}}
     </th>
     <th width="5%"></th>

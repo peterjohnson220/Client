@@ -162,6 +162,13 @@
         </select>
       </div>
       <div class="form-group">
+        <label class="control-label" for="peerIndustry">Peer Industry</label>
+        <select formControlName="peerIndustry" class="form-control" placeholder="Peer Industry" (change)="onPeerIndustryDropdownChange()">
+          <option></option>
+          <option *ngFor="let industry of peerIndustries" [ngValue]="industry">{{industry}}</option>
+        </select>
+      </div>
+      <div class="form-group">
         <label class="control-label" for="description">Description</label>
         <textarea [readonly]="saving" formControlName="companyDescription" class="form-control" rows="4" placeholder="Description"
                [ngClass]="{ 'is-invalid': !f.companyDescription.valid && f.companyDescription.touched }"></textarea>

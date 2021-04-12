@@ -53,6 +53,10 @@
                   icon="exclamation-circle"  placement="right" ngbTooltip="This view controls the control name visibility for job descriptions that are in draft mode and in review"
                   container="body">
                 </fa-icon>
+                <fa-icon *ngIf="dataItem.ViewName === 'Public'"
+                icon="exclamation-circle"  placement="right" ngbTooltip="Removing any template from Public View will remove all associated job descriptions from the public token"
+                container="body">
+              </fa-icon>
             </ng-template>
             </kendo-grid-column>
             <kendo-grid-column field="Templates" title="Templates">

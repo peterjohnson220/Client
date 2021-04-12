@@ -16,6 +16,7 @@ import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfCommonModule } from 'libs/core';
 import { JobAssociationMatchModule } from 'libs/features/peer/job-association-match';
+import { NationalAverageModule } from 'libs/features/peer/national-average';
 import { ExchangeJobMappingService, } from 'libs/features/peer/exchange-job-mapping/services';
 import { BoolFilterComponent } from 'libs/extensions/kendo/boolfilter/bool-filter.component';
 
@@ -81,7 +82,8 @@ import { ExchangeJobMappingGridService } from './services/exchange-job-mapping-g
     PfFormsModule,
     PfKendoExtensions,
     PfCommonModule,
-    SharedModule
+    SharedModule,
+    NationalAverageModule
   ],
   declarations: [
     // Components
