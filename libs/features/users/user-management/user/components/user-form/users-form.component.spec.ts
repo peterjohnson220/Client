@@ -1,5 +1,5 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed, async, tick, fakeAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, tick, fakeAsync, waitForAsync } from '@angular/core/testing';
 
 import { of } from 'rxjs';
 
@@ -23,14 +23,14 @@ describe('Admin - Company Admin - User Component', () => {
   const mockUserService = new MockUserService(null);
   const mockSubsidiaryInfo = generateMockSubsidiaryInfo();
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         PfFormsModule
       ],
       providers: [
         {
-          provide: UserApiService, userValue: mockUserService
+          provide: UserApiService, useValue: mockUserService
         }
       ],
       declarations: [

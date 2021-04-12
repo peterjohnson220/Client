@@ -11,7 +11,7 @@ import { ValidateStepResultItem } from 'libs/models/jdm/validation-step-result-i
 
 import * as fromUtilitiesReducer from '../../../reducers';
 import * as fromTemplateListReducer from 'libs/features/jobs/job-description-management/reducers';
-import * as fromJobDescriptionLoaderActions from '../../../actions/job-description-loader.actions.js';
+import * as fromJobDescriptionLoaderActions from '../../../actions/job-description-loader.actions';
 import { ConfirmDeleteJobDescriptionsModalComponent } from '../../../components/confirm-delete-job-descriptions-modal';
 
 @Component({

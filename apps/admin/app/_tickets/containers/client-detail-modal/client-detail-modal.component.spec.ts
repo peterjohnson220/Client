@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import * as fromRootState from 'libs/state/state';
 import * as fromTicketReducer from '../../reducers';
@@ -12,7 +12,7 @@ describe('ClientDetailModalComponent', () => {
   let fixture: ComponentFixture<ClientDetailModalComponent>;
   let store: Store<fromTicketReducer.State>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [StoreModule.forRoot({
         ...fromRootState.reducers,

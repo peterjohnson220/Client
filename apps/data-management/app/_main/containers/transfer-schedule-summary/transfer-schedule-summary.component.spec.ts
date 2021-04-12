@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {NO_ERRORS_SCHEMA} from '@angular/compiler/src/core';
 
 import { TransferScheduleSummaryComponent } from './transfer-schedule-summary.component';
@@ -15,7 +15,7 @@ describe('TransferScheduleSummaryComponent', () => {
 
   const initialState = {data_management: {transferSchedule: fromTransferScheduleReducers.initialState}};
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       providers: [
         provideMockStore({initialState})

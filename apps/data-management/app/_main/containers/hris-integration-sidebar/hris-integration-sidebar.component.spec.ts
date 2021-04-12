@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { HrisIntegrationSidebarComponent } from './hris-integration-sidebar.component';
 
@@ -6,7 +6,7 @@ describe('HrisIntegrationSidebarComponent', () => {
   let component: HrisIntegrationSidebarComponent;
   let fixture: ComponentFixture<HrisIntegrationSidebarComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ HrisIntegrationSidebarComponent ]
     })

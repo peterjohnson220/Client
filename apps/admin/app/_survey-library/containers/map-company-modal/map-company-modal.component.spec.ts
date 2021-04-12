@@ -22,7 +22,11 @@ describe('Custom Survey Title Component', () => {
         })
       ],
       declarations: [MapCompanyModalComponent],
-      providers: [{provide: SurveyLibraryApiService}],
+      providers: [
+        {
+          provide: SurveyLibraryApiService,
+          useValue: { insertCompanySurvey: jest.fn(), removeCompanySurvey: jest.fn(), updateCompanySurvey: jest.fn()}
+        }],
       schemas: [NO_ERRORS_SCHEMA]
     });
   });

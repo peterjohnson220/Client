@@ -1,5 +1,5 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { NgxLinkifyjsModule } from 'ngx-linkifyjs';
 
@@ -11,7 +11,7 @@ describe('CommunityPostContentComponent', () => {
   let fixture: ComponentFixture<CommunityPostContentComponent>;
   let instance: CommunityPostContentComponent;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         NgxLinkifyjsModule.forRoot()
