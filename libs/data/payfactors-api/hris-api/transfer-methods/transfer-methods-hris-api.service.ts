@@ -23,7 +23,7 @@ export class TransferMethodsHrisApiService {
       throw new Error('Configuration error: Missing utilities subdomain configuration');
     }
 
-    const host = `https://${utilitiesSubDomainConfig.Value}.payfactors.com/hris-api/`;
+    const host = `//${utilitiesSubDomainConfig.Value}.payfactors.com/hris-api/`;
 
     return this.hrisApiService.get<TransferMethodResponse[]>(`${host}${this.endpoint}`);
   }
