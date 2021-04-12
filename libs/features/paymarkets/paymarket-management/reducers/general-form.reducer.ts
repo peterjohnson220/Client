@@ -2,17 +2,18 @@ import cloneDeep from 'lodash/cloneDeep';
 
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 import { KendoTypedDropDownItem } from 'libs/models/kendo';
+import { CountryCurrency } from 'libs/models';
 
 import * as fromGeneralFormActions from '../actions/general-form.actions';
 
 export interface State {
-  countries: AsyncStateObj<KendoTypedDropDownItem[]>;
+  countries: AsyncStateObj<CountryCurrency[]>;
   currencies: AsyncStateObj<KendoTypedDropDownItem[]>;
   linkedPayMarkets: AsyncStateObj<KendoTypedDropDownItem[]>;
 }
 
 const initialState: State = {
-  countries: generateDefaultAsyncStateObj<KendoTypedDropDownItem[]>([]),
+  countries: generateDefaultAsyncStateObj<CountryCurrency[]>([]),
   currencies: generateDefaultAsyncStateObj<KendoTypedDropDownItem[]>([]),
   linkedPayMarkets: generateDefaultAsyncStateObj<KendoTypedDropDownItem[]>([])
 };
@@ -20,7 +21,7 @@ const initialState: State = {
 export function reducer(state = initialState, action: fromGeneralFormActions.Actions): State {
   switch (action.type) {
     case fromGeneralFormActions.GET_COUNTRIES: {
-      const countriesClone: AsyncStateObj<KendoTypedDropDownItem[]> = cloneDeep(state.countries);
+      const countriesClone: AsyncStateObj<CountryCurrency[]> = cloneDeep(state.countries);
       countriesClone.loading = true;
       countriesClone.loadingError = false;
 
@@ -30,9 +31,9 @@ export function reducer(state = initialState, action: fromGeneralFormActions.Act
       };
     }
     case fromGeneralFormActions.GET_COUNTRIES_SUCCESS: {
-      const countriesClone: AsyncStateObj<KendoTypedDropDownItem[]> = cloneDeep(state.countries);
+      const countriesClone: AsyncStateObj<CountryCurrency[]> = cloneDeep(state.countries);
       countriesClone.loading = false;
-      countriesClone.obj = action.payload;
+      countriesClone.obj = action.payload.filter(c => !!c.CountryCode);
 
       return {
         ...state,
@@ -40,7 +41,7 @@ export function reducer(state = initialState, action: fromGeneralFormActions.Act
       };
     }
     case fromGeneralFormActions.GET_COUNTRIES_ERROR: {
-      const countriesClone: AsyncStateObj<KendoTypedDropDownItem[]> = cloneDeep(state.countries);
+      const countriesClone: AsyncStateObj<CountryCurrency[]> = cloneDeep(state.countries);
       countriesClone.loading = false;
       countriesClone.loadingError = true;
 

@@ -20,13 +20,7 @@ export class GeneralFormEffects {
       switchMap((action: fromGeneralFormActions.GetCountries) => {
         return this.countryApiService.getAllCountryCurrency()
           .pipe(
-            map((response) => {
-              return new fromGeneralFormActions.GetCountriesSuccess(
-                KendoTypedDropDownItemHelper.mapItemsToDropdownList(response, 'CountryCode', (item => {
-                  return `${item['CountryName']} (${item['CountryCode']})`;
-                }))
-              );
-            }),
+            map((response) => new fromGeneralFormActions.GetCountriesSuccess(response)),
             catchError(() => of(new fromGeneralFormActions.GetCountriesError()))
           );
       })
