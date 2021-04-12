@@ -23,6 +23,7 @@ import { MarketDataScopeComponent } from '../market-data-scope';
 export class GeneralFormComponent implements OnInit, OnDestroy, OnChanges {
   @Input() reset: boolean;
   @Input() companyId: number;
+  @Input() selectedPayMarketId: number;
 
   @ViewChild('linkedPayMarketCombobox', { static: true }) public linkedPayMarketCombobox: ComboBoxComponent;
   @ViewChild('countryComponent', { static: true }) public countryComponent: DropDownListComponent;
@@ -211,7 +212,7 @@ export class GeneralFormComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private loadLinkedPayMarkets(): void {
-    const payMarketId = this.payMarket ? this.payMarket.CompanyPayMarketId : 0;
+    const payMarketId = this.selectedPayMarketId ?? 0;
     this.store.dispatch(new fromGeneralFormActions.GetLinkedPayMarkets({ payMarketId }));
   }
 
