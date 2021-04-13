@@ -37,12 +37,11 @@ export class JobDescriptionGridComponent implements OnInit, OnDestroy {
   @Output() publicViewChanged = new EventEmitter();
   @Output() openDeleteJobDescriptionModal = new EventEmitter();
 
-  public info: any;
   public filterChanged: any;
   public permissions = Permissions;
   public pageableSettings = {
     buttonCount: 5,
-    info: null,
+    info: true,
     type: 'numeric',
     pageSizes: false,
     previousNext: true
