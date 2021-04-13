@@ -50,7 +50,7 @@
         [style.width.px]="238"
         [data]="(countries$ | async)?.obj"
         [valueField]="'CountryCode'"
-        [textField]="'CountryCode'"
+        [textField]="'DisplayName'"
         [valuePrimitive]="true"
         [filterable]="true"
         [kendoDropDownFilter]="filterSettings"
@@ -58,10 +58,10 @@
         (valueChange)="handleCountryChange($event)">
 
         <ng-template kendoDropDownListItemTemplate let-dataItem>
-          <span pfEllipsisActive class="ellipsis-text">{{ dataItem?.CountryName }} ({{ dataItem?.CountryCode }})</span>
+          <span pfEllipsisActive class="ellipsis-text">{{ dataItem?.DisplayName }}</span>
         </ng-template>
         <ng-template kendoDropDownListValueTemplate let-dataItem>
-          <span pfEllipsisActive class="ellipsis-text">{{ dataItem?.CountryName }} ({{ dataItem?.CountryCode }})</span>
+          <span pfEllipsisActive class="ellipsis-text">{{ dataItem?.DisplayName }}</span>
         </ng-template>
 
       </kendo-dropdownlist>

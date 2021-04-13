@@ -33,7 +33,7 @@ export function reducer(state = initialState, action: fromGeneralFormActions.Act
     case fromGeneralFormActions.GET_COUNTRIES_SUCCESS: {
       const countriesClone: AsyncStateObj<CountryCurrency[]> = cloneDeep(state.countries);
       countriesClone.loading = false;
-      countriesClone.obj = action.payload.filter(c => !!c.CountryCode);
+      countriesClone.obj = action.payload;
 
       return {
         ...state,

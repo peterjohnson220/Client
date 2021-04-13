@@ -45,7 +45,7 @@ export class GeneralFormComponent implements OnInit, OnDestroy, OnChanges {
   payMarketForm: FormGroup;
   filterSettings: DropDownFilterSettings = {
     caseSensitive: false,
-    operator: 'startsWith'
+    operator: 'contains'
   };
   payMarket: PayMarketWithMdScope;
   countries: CountryCurrency[];
