@@ -14,6 +14,10 @@ export type StatementEditPageActions =
   statementActions.SaveStatementError |
   statementActions.UpdateEffectiveDate |
   statementActions.PageScroll |
+  statementActions.GenerateStatementPreview |
+  statementActions.GenerateStatementPreviewSuccess |
+  statementActions.GenerateStatementPreviewError |
+  statementActions.GenerateStatementPreviewComplete |
 
   controlActions.UpdateStatementName |
   controlActions.UpdateStatementControlTitle |
