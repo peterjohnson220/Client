@@ -44,6 +44,8 @@ describe('Data Management - Main - Outbound Bulk Jobs Export Scheduler Page', ()
 
     store = TestBed.inject(Store);
     router = TestBed.inject(Router);
+
+    instance.filteredSchedules = [];
   });
 
   it('should dispatch a get connection summary action on init', () => {
@@ -66,7 +68,7 @@ describe('Data Management - Main - Outbound Bulk Jobs Export Scheduler Page', ()
     spyOn(store, 'dispatch');
 
     const expectedAction = new serviceAccountsActions.OpenResetAccountModal();
-
+    instance.canResetCredentials = true;
     instance.openResetAccountModal();
 
     expect(store.dispatch).toHaveBeenLastCalledWith(expectedAction);

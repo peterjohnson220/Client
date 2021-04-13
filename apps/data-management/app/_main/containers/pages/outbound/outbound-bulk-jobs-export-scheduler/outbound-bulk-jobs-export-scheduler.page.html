@@ -21,8 +21,11 @@
           <div class="row">
             <h4 class="col-md-8 card-title pb-4">Saved Schedules</h4>
             <div class="col-md-4 text-right">
-              <button class="btn btn-primary" (click)="openResetAccountModal()">Reset Credentials</button>
+              <button class="btn btn-primary" [disabled]="!canResetCredentials" (click)="openResetAccountModal()">Reset Credentials</button>
             </div>
+          </div>
+          <div *ngIf="filteredSchedules.length === 0">
+            <h5 class="pl-3">No saved schedules</h5>
           </div>
           <pf-bulk-export-schedules-list [views]="views$ | async"
                                          [schedules]="filteredSchedules"
