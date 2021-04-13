@@ -1,7 +1,9 @@
 import cloneDeep from 'lodash/cloneDeep';
 
+import { Permissions } from 'libs/constants/permissions';
+
 import * as fromWorkflowConfigActions from '../actions';
-import { WorkflowStep } from '../models';
+import { WorkflowStep, WorkflowUser } from '../models';
 import { WorkflowConfigHelper } from '../helpers';
 
 export interface State {
@@ -10,6 +12,8 @@ export interface State {
   prepopulated: boolean;
   prepopulating: boolean;
   hasUsersWithoutPermission: boolean;
+  selectedUserOrEmail: any;
+  stepId: number;
 }
 
 export const initialState: State = {
@@ -17,21 +21,31 @@ export const initialState: State = {
   dirty: false,
   prepopulated: false,
   prepopulating: false,
-  hasUsersWithoutPermission: false
+  hasUsersWithoutPermission: false,
+  selectedUserOrEmail: null,
+  stepId: 0
 };
 
 export function reducer(state = initialState, action: fromWorkflowConfigActions.WorkflowConfigActions): State {
   switch (action.type) {
     case fromWorkflowConfigActions.POPULATE_WORKFLOW: {
       const workflowSteps: WorkflowStep[] = cloneDeep(action.payload.workflowSteps);
-      workflowSteps.map((step) => {
-        const selectedPermissions = step.Permissions;
-        const newPermissions = WorkflowConfigHelper.getDefaultPermissions();
-        step.Permissions = newPermissions.map(p => {
-          p.selected = !!selectedPermissions.find(sp => p.permission === sp);
-          return p;
+      let stepId = state.stepId;
+
+      workflowSteps.forEach((step: WorkflowStep) => {
+        step.WorkflowStepUsers.forEach((user) => {
+          const savedPermissions = user.Permissions;
+          user.Permissions = WorkflowConfigHelper.getDefaultPermissions().map(permissionObj => {
+            if (permissionObj.permission === Permissions.CAN_EDIT_JOB_DESCRIPTION) {
+              permissionObj.selected = savedPermissions.includes(Permissions.CAN_EDIT_JOB_DESCRIPTION);
+              return permissionObj;
+            } else {
+              return permissionObj;
+            }
+          });
+          user.StepId = stepId;
+          stepId++;
         });
-        return step;
       });
 
       return {
@@ -39,30 +53,43 @@ export function reducer(state = initialState, action: fromWorkflowConfigActions.
         workflowSteps: workflowSteps,
         prepopulating: action.payload.prepopulating,
         prepopulated: action.payload.prepopulating,
-        dirty: false
+        dirty: false,
+        stepId: stepId
       };
     }
     case fromWorkflowConfigActions.CREATE_WORKFLOW_STEP: {
       const workflowStepsClone: WorkflowStep[] = cloneDeep(state.workflowSteps);
+      const workflowStepUser: WorkflowUser = cloneDeep(action.payload);
+      let stepId = cloneDeep(state.stepId);
+      workflowStepUser.StepId = stepId;
       const workflowStep: WorkflowStep = {
         WorkflowStepUsers: [action.payload],
-        Permissions: WorkflowConfigHelper.getDefaultPermissions()
+        Permissions: []
       };
       workflowStepsClone.push(workflowStep);
       return {
         ...state,
         workflowSteps: workflowStepsClone,
         dirty: true,
-        hasUsersWithoutPermission: WorkflowConfigHelper.hasUsersWithNoPermission(workflowStepsClone)
+        hasUsersWithoutPermission: WorkflowConfigHelper.hasUsersWithNoPermission(workflowStepsClone),
+        stepId: stepId++
       };
     }
     case fromWorkflowConfigActions.UPDATE_WORKFLOW_STEP_PERMISSION: {
       const workflowStepsClone: WorkflowStep[] = cloneDeep(state.workflowSteps);
-      const workflowStep = workflowStepsClone.find((s, index) => index === action.payload.stepIndex);
-      if (!!workflowStep) {
-        const permission = workflowStep.Permissions.find(p => p.permission === action.payload.permission);
-        if (!!permission) {
-          permission.selected = action.payload.selected;
+      for (let i = 0; i < workflowStepsClone.length; i++) {
+        const userIndex = workflowStepsClone[i].WorkflowStepUsers.findIndex(u => u.StepId === action.payload.workflowUser.StepId);
+        if (userIndex > -1) {
+
+          let canEditJobDescription = workflowStepsClone[i].WorkflowStepUsers[userIndex].Permissions.find((p) =>
+            p.permission === Permissions.CAN_EDIT_JOB_DESCRIPTION).selected;
+
+          canEditJobDescription = !canEditJobDescription;
+
+          workflowStepsClone[i].WorkflowStepUsers[userIndex].Permissions.find((p) =>
+            p.permission === Permissions.CAN_EDIT_JOB_DESCRIPTION).selected = canEditJobDescription;
+
+          break;
         }
       }
       return {
@@ -84,17 +111,22 @@ export function reducer(state = initialState, action: fromWorkflowConfigActions.
     }
     case fromWorkflowConfigActions.ADD_USER_TO_WORKFLOW_STEP: {
       const workflowStepsClone: WorkflowStep[] = cloneDeep(state.workflowSteps);
+      const workflowUser = cloneDeep(action.payload.workflowUser);
       const workflowStep = workflowStepsClone.find((s, index) => index === action.payload.stepIndex);
       let dirtyState = state.dirty;
+      let stepId = state.stepId;
       if (!!workflowStep) {
-        workflowStep.WorkflowStepUsers.push(action.payload.workflowUser);
+        workflowUser.StepId = stepId;
+        workflowStep.WorkflowStepUsers.push(workflowUser);
         dirtyState = true;
+        stepId++;
       }
       return {
         ...state,
         workflowSteps: workflowStepsClone,
         dirty: dirtyState,
-        hasUsersWithoutPermission: WorkflowConfigHelper.hasUsersWithNoPermission(workflowStepsClone)
+        hasUsersWithoutPermission: WorkflowConfigHelper.hasUsersWithNoPermission(workflowStepsClone),
+        stepId: stepId
       };
     }
     case fromWorkflowConfigActions.REORDER_WORKFLOW_STEPS: {
@@ -113,6 +145,32 @@ export function reducer(state = initialState, action: fromWorkflowConfigActions.
         prepopulating: false
       };
     }
+    case fromWorkflowConfigActions.ADD_SELECTED_USER_OR_EMAIL: {
+      return {
+        ...state,
+        selectedUserOrEmail: action.payload
+      };
+    }
+    case fromWorkflowConfigActions.DELETE_USER_OR_EMAIL: {
+      const workflowSteps: WorkflowStep[] = cloneDeep(state.workflowSteps);
+
+      for (let i = 0; i < workflowSteps.length; i++) {
+        const userIndex = workflowSteps[i].WorkflowStepUsers.findIndex(u => u.StepId === action.payload.StepId);
+        if (userIndex > -1) {
+          workflowSteps[i].WorkflowStepUsers.splice(userIndex, 1);
+
+          if (workflowSteps[i].WorkflowStepUsers.length === 0) {
+            workflowSteps.splice(i, 1);
+          }
+          break;
+        }
+      }
+
+      return {
+        ...state,
+        workflowSteps: workflowSteps
+      };
+    }
     default: {
       return state;
     }
@@ -122,3 +180,4 @@ export function reducer(state = initialState, action: fromWorkflowConfigActions.
 export const getHasUsersWithoutPermission = (state: State) => state.hasUsersWithoutPermission;
 export const getWorkflowStepsFromWorkflowConfig = (state: State) => state.workflowSteps;
 export const getWorkflowConfigDirty = (state: State) => state.dirty;
+export const getWorkflowUserOrEmail = (state: State) => state.selectedUserOrEmail;

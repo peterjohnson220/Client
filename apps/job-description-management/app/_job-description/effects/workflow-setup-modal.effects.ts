@@ -8,6 +8,7 @@ import { of } from 'rxjs';
 import { JobDescriptionWorkflowApiService } from 'libs/data/payfactors-api/jdm';
 
 import * as fromWorkflowSetupModalActions from '../actions/workflow-setup-modal.actions';
+import * as fromWorkflowConfigActions from 'libs/features/jobs/job-description-management/actions/workflow-config.actions';
 
 @Injectable()
 export class WorkflowSetupModalEffects {
@@ -19,7 +20,10 @@ export class WorkflowSetupModalEffects {
       switchMap((action: fromWorkflowSetupModalActions.CreateWorkflow) => {
         return this.jobDescriptionWorkflowApiService.create(action.payload)
           .pipe(
-            map((response) => new fromWorkflowSetupModalActions.CreateWorkflowSuccess()),
+            switchMap(() => [
+              new fromWorkflowSetupModalActions.CreateWorkflowSuccess(),
+              new fromWorkflowConfigActions.ResetWorkflow()
+            ]),
             catchError(() => of(new fromWorkflowSetupModalActions.CreateWorkflowError()))
           );
       })

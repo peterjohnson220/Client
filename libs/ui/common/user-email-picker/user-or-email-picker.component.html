@@ -1,15 +1,15 @@
 <div class="form-group" [class.has-danger]="searchFailed">
   <input  type="text"
           class="form-control"
-          placeholder="Name or Email"
+          placeholder="Search by name or email"
           [(ngModel)]="model"
           [ngbTypeahead]="userOrEmailTypeaheadFn"
           [resultTemplate]="rt"
           (selectItem)="handleItemSelected($event)" />
 
-  <span *ngIf="searching">
-    <fa-icon icon="circle-notch" [spin]="true" class="picker-searching-icon" aria-hidden="true"></fa-icon>
-  </span>
+  <div *ngIf="searching" class="picker-searching-icon" >
+    <fa-icon icon="circle-notch" [spin]="true" aria-hidden="true"></fa-icon>
+  </div>
   <div class="form-control-feedback" *ngIf="searchFailed">
     Sorry, suggestions could not be loaded.
   </div>
@@ -17,7 +17,7 @@
 
 <ng-template #rt let-r="result" let-t="term">
 
-  <img [src]="avatarUrl + r.UserPicture" src-fallback="{{ avatarUrl + 'default_user.png' }}" width="20">
+  <img class="user-picture" [src]="avatarUrl + r.UserPicture" src-fallback="{{ avatarUrl + 'default_user.png' }}">
 
   <!--User/Employee-->
   <ng-container *ngIf="r.FirstName && r.LastName && r.EmailAddress">
