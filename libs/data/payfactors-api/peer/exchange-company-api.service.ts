@@ -124,6 +124,10 @@ export class ExchangeCompanyApiService {
     );
   }
 
+  getTopCompaniesRecentlyAddedToExchange(exchangeId: number, top: number) {
+    return this.payfactorsApiService.get<string[]>(`${this.endpoint}/GetTopCompaniesRecentlyAddedToExchange?exchangeId=${exchangeId}&top=${top}`);
+  }
+
   getChart(getChartRequest: GetChartRequest): Observable<ChartItem[]> {
     return this.payfactorsApiService.get<ChartItem[]>(`${this.endpoint}/GetChart`,
       { params: { getChartRequest: JSON.stringify(getChartRequest) } });

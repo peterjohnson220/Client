@@ -2,12 +2,20 @@
   kendo-dropdownlist {
     width: 200px;
   }
-float: right;
+  .exchange-dropdown-label{
+    position:absolute;
+    top: -20px;
+    right:215px;
+    width:100px;
+  }
 }
 
-.exchange-dropdown-label{
-  position:absolute;
-  top: 5px;
-  right:215px;
-  width:100px;
+.data-set-selector {
+  display: flex;
+  justify-content: flex-end;
+  kendo-dropdownlist {
+    position: absolute;
+    top: -25px;
+    right: 15px;
+  }
 }
