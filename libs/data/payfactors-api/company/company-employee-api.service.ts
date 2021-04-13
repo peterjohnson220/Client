@@ -40,6 +40,7 @@ export class CompanyEmployeeApiService {
     if (jobId === 0 || paymarketId === 0) {
       return of([]);
     }
+    employeeId = employeeId ?? 0;
     return this.payfactorsApiService.get<EmployeeModalStructuresResponse[]>(`${this.endpoint}/Default.GetEmployeeModalStructures`,
       { params: { jobId, paymarketId, employeeId } });
   }

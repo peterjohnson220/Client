@@ -104,7 +104,7 @@ export function reducer(state = initialState, action: fromJobsPageActions.JobsPa
           .sort((a, b) => arraySortByString(a.Id, b.Id, SortDirection.Ascending)));
     }
     case fromJobsPageActions.LOAD_CUSTOM_EXPORTS_SUCCESS: {
-      if (action.payload.DisplayText) {
+      if (action.payload?.DisplayText) {
         const exportObj = {
           Display: action.payload.DisplayText,
           Name: action.payload.ExportName,
