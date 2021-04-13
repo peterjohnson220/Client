@@ -22,7 +22,6 @@ import { CompanySettingsEnum } from 'libs/models';
 import { SettingsService } from 'libs/state/app-context/services';
 import { AppNotification } from 'libs/features/infrastructure/app-notifications';
 import * as fromAppNotificationsMainReducer from 'libs/features/infrastructure/app-notifications/reducers';
-import { StatementModeEnum } from 'libs/features/total-rewards/total-rewards-statement/models';
 import { FileDownloadSecurityWarningModalComponent } from 'libs/ui/common';
 
 import * as fromTotalRewardsStatementEditReducer from '../reducers';
