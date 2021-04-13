@@ -3,7 +3,7 @@
 <ng-template #standardFilter>
   <label>{{ field.DisplayName }}:</label>
 
-  <ng-container *ngIf="field.CustomFilterStrategy && field.DataType !== dataTypes.Bit; else simpleFilter" >
+  <ng-container *ngIf="field.CustomFilterStrategy && field.DataType !== dataTypes.Bit; else simpleFilter">
     <div class="row">
       <div class="col-12">
         <pf-input-debounce
@@ -86,24 +86,41 @@
               class="k-dropdown-white form-control">
             </kendo-dropdownlist>
           </div>
-          <div class="col-6">
+          <div [ngClass]="isBetweenOperator(field.FilterOperator) ? 'col-3' : 'col-6'">
             <!--INT_MAX used to prevent overflow errors-->
             <kendo-numerictextbox #numericInput
-              [value]="getNumericFieldValue()"
+              [value]="getNumericFieldValue(0)"
               [format]="'n0'"
               [decimals]="0"
               [min]="0"
               [max]="INT_MAX"
               [disabled]="valueCanBeEmpty()"
-              (pfDebounceValueChanged)="handleFilterValueChanged($event)"
+              (pfDebounceValueChanged)="!isBetweenOperator(field.FilterOperator)
+              ? handleFilterValueChanged($event)
+              : handleFilterBetweenValueChanged($event, 0)"
               [attr.data-qa-id]="'txt-value-'+field.SourceName"
+              [spinners]="!isBetweenOperator(field.FilterOperator)"
+              class="form-control">
+            </kendo-numerictextbox>
+          </div>
+          <div class="col-3" *ngIf="isBetweenOperator(field.FilterOperator)">
+            <kendo-numerictextbox
+              [value]="getNumericFieldValue(1)"
+              [format]="'n0'"
+              [decimals]="0"
+              [min]="0"
+              [max]="INT_MAX"
+              [disabled]="valueCanBeEmpty()"
+              (pfDebounceValueChanged)="handleFilterBetweenValueChanged($event, 1)"
+              [attr.data-qa-id]="'txt-value-'+field.SourceName"
+              [spinners]="false"
               class="form-control">
             </kendo-numerictextbox>
           </div>
         </div>
       </ng-template>
       <ng-template [ngSwitchCase]="dataTypes.Float">
-        <div class="row">
+        <div class="form-group row">
           <div class="col-6">
             <kendo-dropdownlist
               [data]="filterOperatorOptions.float"
@@ -116,14 +133,31 @@
               class="k-dropdown-white form-control">
             </kendo-dropdownlist>
           </div>
-          <div class="col-6">
+          <div [ngClass]="isBetweenOperator(field.FilterOperator) ? 'col-3 pr-2' : 'col-6'">
             <kendo-numerictextbox
-              [value]="getNumericFieldValue()"
+              [value]="getNumericFieldValue(0)"
               [format]="'n2'"
               [decimals]="2"
               [disabled]="valueCanBeEmpty()"
-              (pfDebounceValueChanged)="handleFilterValueChanged($event)"
+              (pfDebounceValueChanged)="!isBetweenOperator(field.FilterOperator)
+              ? handleFilterValueChanged($event)
+              : handleFilterBetweenValueChanged($event, 0)"
               [attr.data-qa-id]="'txt-value-'+field.SourceName"
+              [spinners]="!isBetweenOperator(field.FilterOperator)"
+              [placeholder]="isBetweenOperator(field.FilterOperator)? 'Min value' : null"
+              class="form-control">
+            </kendo-numerictextbox>
+          </div>
+          <div class="col-3 pl-2" *ngIf="isBetweenOperator(field.FilterOperator)">
+            <kendo-numerictextbox
+              [value]="getNumericFieldValue(1)"
+              [format]="'n2'"
+              [decimals]="2"
+              [disabled]="valueCanBeEmpty()"
+              (pfDebounceValueChanged)="handleFilterBetweenValueChanged($event, 1)"
+              [attr.data-qa-id]="'txt-value-'+field.SourceName"
+              [spinners]="false"
+              [placeholder]="isBetweenOperator(field.FilterOperator)? 'Max value' : null"
               class="form-control">
             </kendo-numerictextbox>
           </div>
