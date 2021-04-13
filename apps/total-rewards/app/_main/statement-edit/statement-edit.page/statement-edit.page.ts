@@ -2,7 +2,7 @@ import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { select, Store } from '@ngrx/store';
-import { Observable, Subscription, Subject } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { throttleTime } from 'rxjs/operators';
 import cloneDeep from 'lodash/cloneDeep';
 
@@ -10,13 +10,17 @@ import { AsyncStateObj } from 'libs/models/state';
 import { EmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards';
 import { GenericNameValue } from 'libs/models/common';
 import * as models from 'libs/features/total-rewards/total-rewards-statement/models';
-import { CompensationField, TotalRewardsControlEnum } from 'libs/features/total-rewards/total-rewards-statement/models';
+import {
+  CompensationField,
+  StatementDisplaySettingsEnum,
+  StatementModeEnum,
+  TotalRewardsControlEnum
+} from 'libs/features/total-rewards/total-rewards-statement/models';
 import { FontFamily, FontSize } from 'libs/features/total-rewards/total-rewards-statement/types';
 import { TotalRewardsStatementService } from 'libs/features/total-rewards/total-rewards-statement/services/total-rewards-statement.service';
 
 import * as fromTotalRewardsStatementEditReducer from '../reducers';
 import * as fromEditStatementPageActions from '../actions';
-import { StatementModeEnum } from 'libs/features/total-rewards/total-rewards-statement/models';
 
 @Component({
   selector: 'pf-statement-edit.page',
@@ -280,8 +284,11 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
     this.store.dispatch(new fromEditStatementPageActions.UpdateSettingsColor(request));
   }
 
-  handleDisplaySettingChange(displaySettingKey: string) {
+  handleDisplaySettingChange(displaySettingKey: StatementDisplaySettingsEnum) {
     this.store.dispatch(new fromEditStatementPageActions.ToggleDisplaySetting({ displaySettingKey }));
+    if (displaySettingKey === StatementDisplaySettingsEnum.ShowInformationEffectiveDate) {
+      this.store.dispatch(new fromEditStatementPageActions.UpdateEffectiveDate({ effectiveDate: new Date() }));
+    }
   }
 
   handleResetSettings() {
