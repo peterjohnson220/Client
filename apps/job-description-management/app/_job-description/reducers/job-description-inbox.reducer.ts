@@ -13,6 +13,7 @@ export interface State extends EntityState<JobDescriptionInbox> {
   inboxCount: number;
   markReadSaving: boolean;
   markUnreadSaving: boolean;
+  pageIds: number[];
   searchTerm: string;
   selectAllPages: boolean;
   selectAllStatus: string;
@@ -31,6 +32,7 @@ const initialState: State = adapter.getInitialState({
     inboxCount: 0,
     markReadSaving: false,
     markUnreadSaving: false,
+    pageIds: [],
     searchTerm: null,
     selectAllPages: false,
     selectAllStatus: SelectAllStatus.unchecked,
@@ -44,44 +46,6 @@ export function reducer(state, action) {
     GridTypeEnum.JobDescriptionInbox,
     (featureState: State = initialState, featureAction: fromJobDescriptionInboxActions.JobDescriptionInboxActions): State => {
       switch (featureAction.type) {
-        case fromJobDescriptionInboxActions.LOAD_INBOX: {
-          return {
-            ...featureState,
-            inboxLoading: true,
-            inboxLoadingError: false
-          };
-        }
-        case fromJobDescriptionInboxActions.LOAD_INBOX_SUCCESS: {
-          let selectAllStatus = SelectAllStatus.unchecked;
-          const selectedIds = cloneDeep(state.feature.selectedIds);
-
-          if (state.feature.selectAllPages) {
-            featureAction.payload.data.forEach(entity => {
-              selectedIds.add(entity['CompanyWorkflowStepUserId']);
-            });
-            selectAllStatus = SelectAllStatus.checked;
-          } else if (featureAction.payload.data && featureAction.payload.data.every(entity => selectedIds.has(entity['CompanyWorkflowStepUserId']))) {
-            selectAllStatus = SelectAllStatus.checked;
-          } else if (featureAction.payload.data && featureAction.payload.data.some(entity => selectedIds.has(entity['CompanyWorkflowStepUserId']))) {
-            selectAllStatus = SelectAllStatus.indeterminate;
-          }
-
-          return {
-            ...adapter.setAll(featureAction.payload.data, featureState),
-            inboxCount: featureAction.payload.total,
-            inboxLoading: false,
-            inboxLoadingError: false,
-            selectAllStatus: selectAllStatus,
-            selectedIds: selectedIds
-          };
-        }
-        case fromJobDescriptionInboxActions.LOAD_INBOX_ERROR: {
-          return {
-            ...featureState,
-            inboxLoading: false,
-            inboxLoadingError: true
-          };
-        }
         case fromJobDescriptionInboxActions.GET_UNREAD_INBOX_COUNT: {
           return {
             ...featureState,
@@ -101,8 +65,50 @@ export function reducer(state, action) {
             unreadInboxCountError: true
           };
         }
+        case fromJobDescriptionInboxActions.LOAD_INBOX: {
+          return {
+            ...featureState,
+            inboxLoading: true,
+            inboxLoadingError: false
+          };
+        }
+        case fromJobDescriptionInboxActions.LOAD_INBOX_SUCCESS: {
+          let selectAllStatus = SelectAllStatus.unchecked;
+          const selectedIds = cloneDeep(state.feature.selectedIds);
+
+          let pageIds = cloneDeep(state.feature.pageIds);
+          pageIds = action.payload.data.map(x => x.CompanyWorkflowStepUserId);
+
+          if (state.feature.selectAllPages) {
+            featureAction.payload.data.forEach(entity => {
+              selectedIds.add(entity['CompanyWorkflowStepUserId']);
+            });
+            selectAllStatus = SelectAllStatus.checked;
+          } else if (featureAction.payload.data && featureAction.payload.data.every(entity => selectedIds.has(entity['CompanyWorkflowStepUserId']))) {
+            selectAllStatus = SelectAllStatus.checked;
+          } else if (featureAction.payload.data && featureAction.payload.data.some(entity => selectedIds.has(entity['CompanyWorkflowStepUserId']))) {
+            selectAllStatus = SelectAllStatus.indeterminate;
+          }
+
+          return {
+            ...adapter.setAll(featureAction.payload.data, featureState),
+            inboxCount: featureAction.payload.total,
+            inboxLoading: false,
+            inboxLoadingError: false,
+            pageIds: pageIds,
+            selectAllStatus: selectAllStatus,
+            selectedIds: selectedIds
+          };
+        }
+        case fromJobDescriptionInboxActions.LOAD_INBOX_ERROR: {
+          return {
+            ...featureState,
+            inboxLoading: false,
+            inboxLoadingError: true
+          };
+        }
         case fromJobDescriptionInboxActions.SELECT_ALL: {
-          const selectAllStatus = state.feature.selectAllStatus === (SelectAllStatus.checked || SelectAllStatus.indeterminate) ?
+          const selectAllStatus = state.feature.selectAllStatus === SelectAllStatus.checked || state.feature.selectAllStatus === SelectAllStatus.indeterminate ?
             SelectAllStatus.unchecked : SelectAllStatus.checked;
 
           const selectedIds = cloneDeep(state.feature.selectedIds);
@@ -114,7 +120,9 @@ export function reducer(state, action) {
             });
           } else {
             state.feature.ids.forEach(id => {
-              selectedIds.delete(id);
+              if (state.feature.pageIds.includes(id)) {
+                selectedIds.delete(id);
+              }
             });
             selectAllPages = false;
           }
@@ -161,98 +169,6 @@ export function reducer(state, action) {
             selectedIds: selectedIds
           };
         }
-        case fromJobDescriptionInboxActions.UPDATE_INBOX_READ_ALL: {
-          const isMarkRead = action.payload;
-
-          if (isMarkRead) {
-            return {
-              ...featureState,
-              markReadSaving: true
-            };
-          } else {
-            return {
-              ...featureState,
-              markUnreadSaving: true
-            };
-          }
-        }
-        case fromJobDescriptionInboxActions.UPDATE_INBOX_READ_ALL_ERROR: {
-
-          return {
-            ...featureState,
-            markReadSaving: false,
-            markUnreadSaving: false
-          };
-        }
-        case fromJobDescriptionInboxActions.UPDATE_INBOX_READ_ALL_SUCCESS: {
-
-          const selectedIds = cloneDeep(state.feature.selectedIds);
-
-          let selectedEntities: JobDescriptionInbox[] = Object.values(state.feature.entities);
-          selectedEntities = selectedEntities.filter(entity => selectedIds.has(entity.CompanyWorkflowStepUserId) && entity.IsRead !== action.payload)
-            .map(x => ({...x, IsRead: action.payload}));
-
-          const unreadInboxCount =  action.payload ? 0 : state.feature.inboxCount;
-
-          selectedIds.clear();
-
-          return {
-            ...adapter.upsertMany(selectedEntities, featureState),
-            markReadSaving: false,
-            markUnreadSaving: false,
-            selectAllPages: false,
-            selectAllStatus: SelectAllStatus.unchecked,
-            selectedIds: selectedIds,
-            unreadInboxCount: unreadInboxCount
-          };
-        }
-        case fromJobDescriptionInboxActions.UPDATE_INBOX_READ_BULK: {
-          const isMarkRead = action.payload;
-
-          if (isMarkRead) {
-            return {
-              ...featureState,
-              markReadSaving: true
-            };
-          } else {
-            return {
-              ...featureState,
-              markUnreadSaving: true
-            };
-          }
-        }
-        case fromJobDescriptionInboxActions.UPDATE_INBOX_READ_BULK_ERROR: {
-
-          return {
-            ...featureState,
-            markReadSaving: false,
-            markUnreadSaving: false
-          };
-        }
-        case fromJobDescriptionInboxActions.UPDATE_INBOX_READ_BULK_SUCCESS: {
-
-          const selectedIds = cloneDeep(state.feature.selectedIds);
-
-          let selectedEntities: JobDescriptionInbox[] = Object.values(state.feature.entities);
-          selectedEntities = selectedEntities.filter(entity => selectedIds.has(entity.CompanyWorkflowStepUserId) && entity.IsRead !== action.payload)
-            .map(x => ({...x, IsRead: action.payload}));
-
-          const unreadInboxCount =  action.payload ?
-          state.feature.unreadInboxCount - selectedIds.size :
-          state.feature.unreadInboxCount + selectedIds.size;
-
-          selectedIds.clear();
-
-          return {
-            ...adapter.upsertMany(selectedEntities, featureState),
-            markReadSaving: false,
-            markUnreadSaving: false,
-            selectAllPages: false,
-            selectAllStatus: SelectAllStatus.unchecked,
-            selectedIds: selectedIds,
-            unreadInboxCount: unreadInboxCount
-          };
-        }
         case fromJobDescriptionInboxActions.UNSELECT_ALL: {
           const selectedIds = cloneDeep(state.feature.selectedIds);
           selectedIds.clear();
@@ -262,6 +178,158 @@ export function reducer(state, action) {
             selectAllPages: false,
             selectAllStatus: SelectAllStatus.unchecked,
             selectedIds: selectedIds
+          };
+        }
+        case fromJobDescriptionInboxActions.UPDATE_INBOX_READ_BULK: {
+          return {
+            ...featureState,
+            markReadSaving: true
+          };
+        }
+        case fromJobDescriptionInboxActions.UPDATE_INBOX_READ_BULK_ERROR: {
+
+          return {
+            ...featureState,
+            markReadSaving: false
+          };
+        }
+        case fromJobDescriptionInboxActions.UPDATE_INBOX_READ_BULK_SUCCESS: {
+
+          const selectedIds = cloneDeep(state.feature.selectedIds);
+
+          let selectedEntities: JobDescriptionInbox[] = Object.values(state.feature.entities);
+          selectedEntities = selectedEntities.filter(entity => selectedIds.has(entity.CompanyWorkflowStepUserId) && entity.IsRead === false)
+            .map(x => ({...x, IsRead: true}));
+
+          const unreadInboxCount = state.feature.unreadInboxCount - selectedIds.size;
+
+          selectedIds.clear();
+
+          return {
+            ...adapter.upsertMany(selectedEntities, featureState),
+            markReadSaving: false,
+            selectAllPages: false,
+            selectAllStatus: SelectAllStatus.unchecked,
+            selectedIds: selectedIds,
+            unreadInboxCount: unreadInboxCount
+          };
+        }
+        case fromJobDescriptionInboxActions.UPDATE_INBOX_READ_SELECT_ALL: {
+          return {
+            ...featureState,
+            markReadSaving: true
+          };
+        }
+        case fromJobDescriptionInboxActions.UPDATE_INBOX_READ_SELECT_ALL_ERROR: {
+          return {
+            ...featureState,
+            markReadSaving: false
+          };
+        }
+        case fromJobDescriptionInboxActions.UPDATE_INBOX_READ_SELECT_ALL_SUCCESS: {
+
+          const selectedIds = cloneDeep(state.feature.selectedIds);
+
+          let selectedEntities: JobDescriptionInbox[] = Object.values(state.feature.entities);
+          selectedEntities = selectedEntities.filter(entity => selectedIds.has(entity.CompanyWorkflowStepUserId) && entity.IsRead === false)
+            .map(x => ({...x, IsRead: true}));
+
+          selectedIds.clear();
+
+          return {
+            ...adapter.upsertMany(selectedEntities, featureState),
+            markReadSaving: false,
+            selectAllPages: false,
+            selectAllStatus: SelectAllStatus.unchecked,
+            selectedIds: selectedIds,
+            unreadInboxCount: 0
+          };
+        }
+        case fromJobDescriptionInboxActions.UPDATE_INBOX_UNREAD_BULK: {
+          return {
+            ...featureState,
+            markUnreadSaving: true
+          };
+        }
+        case fromJobDescriptionInboxActions.UPDATE_INBOX_UNREAD_BULK_ERROR: {
+          return {
+            ...featureState,
+            markUnreadSaving: false
+          };
+        }
+        case fromJobDescriptionInboxActions.UPDATE_INBOX_UNREAD_BULK_SUCCESS: {
+
+          const selectedIds = cloneDeep(state.feature.selectedIds);
+
+          let selectedEntities: JobDescriptionInbox[] = Object.values(state.feature.entities);
+          selectedEntities = selectedEntities.filter(entity => selectedIds.has(entity.CompanyWorkflowStepUserId) && entity.IsRead === true)
+            .map(x => ({...x, IsRead: false}));
+
+          const unreadInboxCount = state.feature.unreadInboxCount + selectedIds.size;
+
+          selectedIds.clear();
+
+          return {
+            ...adapter.upsertMany(selectedEntities, featureState),
+            markUnreadSaving: false,
+            selectAllPages: false,
+            selectAllStatus: SelectAllStatus.unchecked,
+            selectedIds: selectedIds,
+            unreadInboxCount: unreadInboxCount
+          };
+        }
+        case fromJobDescriptionInboxActions.UPDATE_INBOX_UNREAD_SELECT_ALL: {
+          return {
+            ...featureState,
+            markUnreadSaving: true
+          };
+        }
+        case fromJobDescriptionInboxActions.UPDATE_INBOX_UNREAD_SELECT_ALL_ERROR: {
+          return {
+            ...featureState,
+            markUnreadSaving: false
+          };
+        }
+        case fromJobDescriptionInboxActions.UPDATE_INBOX_UNREAD_SELECT_ALL_SUCCESS: {
+
+          const selectedIds = cloneDeep(state.feature.selectedIds);
+
+          let selectedEntities: JobDescriptionInbox[] = Object.values(state.feature.entities);
+          selectedEntities = selectedEntities.filter(entity => selectedIds.has(entity.CompanyWorkflowStepUserId) && entity.IsRead === true)
+            .map(x => ({...x, IsRead: false}));
+
+          selectedIds.clear();
+
+          return {
+            ...adapter.upsertMany(selectedEntities, featureState),
+            markReadSaving: false,
+            markUnreadSaving: false,
+            selectAllPages: false,
+            selectAllStatus: SelectAllStatus.unchecked,
+            selectedIds: selectedIds,
+            unreadInboxCount: state.feature.inboxCount
+          };
+        }
+        case fromJobDescriptionInboxActions.UPDATE_JOB_DESCRIPTION_READ_SUCCESS: {
+          const entity: JobDescriptionInbox = cloneDeep(state.feature.entities[action.payload]);
+          entity.IsRead = true;
+
+          const unreadInboxCount = state.feature.unreadInboxCount - 1;
+
+          return {
+            ...adapter.upsertOne(entity, featureState),
+            unreadInboxCount: unreadInboxCount
+          };
+        }
+        case fromJobDescriptionInboxActions.UPDATE_JOB_DESCRIPTION_UNREAD_SUCCESS: {
+          const entity: JobDescriptionInbox = cloneDeep(state.feature.entities[action.payload]);
+          entity.IsRead = false;
+
+          const unreadInboxCount = state.feature.unreadInboxCount + 1;
+
+          return {
+            ...adapter.upsertOne(entity, featureState),
+            unreadInboxCount: unreadInboxCount
           };
         }
         default: {

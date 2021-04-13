@@ -51,17 +51,17 @@ export class JobDescriptionInboxPageComponent implements OnDestroy, OnInit {
 
     onMarkRead() {
         if (this.inboxSelectAllPages) {
-            this.store.dispatch(new fromJobDescriptionInboxActions.UpdateInboxReadAll(true));
+            this.store.dispatch(new fromJobDescriptionInboxActions.UpdateInboxReadSelectAll());
         } else {
-            this.store.dispatch(new fromJobDescriptionInboxActions.UpdateInboxReadBulk(true));
+            this.store.dispatch(new fromJobDescriptionInboxActions.UpdateInboxReadBulk());
         }
       }
 
     onMarkUnread() {
         if (this.inboxSelectAllPages) {
-            this.store.dispatch(new fromJobDescriptionInboxActions.UpdateInboxReadAll(false));
+            this.store.dispatch(new fromJobDescriptionInboxActions.UpdateInboxUnreadSelectAll());
         } else {
-            this.store.dispatch(new fromJobDescriptionInboxActions.UpdateInboxReadBulk(false));
+            this.store.dispatch(new fromJobDescriptionInboxActions.UpdateInboxUnreadBulk());
         }
     }
 }
