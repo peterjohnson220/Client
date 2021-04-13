@@ -44,6 +44,8 @@ describe('Admin - Bulk Export Scheduler Page', () => {
 
     fixture = TestBed.createComponent(BulkExportSchedulerPageComponent);
     instance = fixture.componentInstance;
+
+    instance.filteredSchedules = [];
   });
 
   it('should dispatch a load views action on init', () => {
