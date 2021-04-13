@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, OnInit, Output, OnDestroy } from '@angu
 import { Store } from '@ngrx/store';
 import { NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, of, Subscription } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
+import { catchError, debounceTime, distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
 
 import * as fromRootState from 'libs/state/state';
 
@@ -115,10 +115,12 @@ export class UserOrEmailPickerComponent implements OnInit, OnDestroy {
       tap(() => this.searching = true),
       switchMap(searchTerm => {
         return this.search(searchTerm)
-          .do(() => this.searchFailed = false)
-          .catch(() => {
-            this.searchFailed = true;
-            return of({});
-          });
+          .pipe(
+            tap(() => this.searchFailed = false),
+            catchError(() => {
+              this.searchFailed = true;
+              return of({});
+            })
+          );
       })).pipe(tap(() => this.searching = false))
 }
