@@ -132,7 +132,7 @@ exports[`TransferSchedulePageComponent should show only supported entities 1`] =
         <button
           class="btn btn-primary px-4 float-right"
         >
-          Ok
+          OK
         </button>
       </div>
     </pf-modal-form>
@@ -273,7 +273,7 @@ exports[`TransferSchedulePageComponent should show only supported entities and o
         <button
           class="btn btn-primary px-4 float-right"
         >
-          Ok
+          OK
         </button>
       </div>
     </pf-modal-form>
