@@ -5,6 +5,7 @@ export class DataType {
   Name: string;
   DataFields: DataField[];
   DataFieldsDropdownDisabled?: boolean;
+  HideDivider?: boolean;
 }
 export function getMockDataTypes(): DataType[] {
   return [{
