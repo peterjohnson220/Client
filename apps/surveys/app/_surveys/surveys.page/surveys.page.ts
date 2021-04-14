@@ -12,7 +12,7 @@ import {
   getDefaultActionBarConfig,
   GridConfig,
   PfDataGridCustomFilterDisplayOptions,
-  PfDataGridCustomFilterOptions
+  PfDataGridCustomFilterOptions, PfDataGridFilter
 } from 'libs/features/grids/pf-data-grid/models';
 import { DataViewFieldDataType, ViewField } from 'libs/models/payfactors-api';
 
@@ -29,6 +29,7 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   gridFieldSubscription: Subscription;
 
+  filter: PfDataGridFilter;
   pageViewId = SurveysPageConfig.SurveysPageViewId;
   defaultSort: SortDescriptor[] = [{
     dir: 'asc',
@@ -58,6 +59,10 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     private store: Store<fromSurveysPageReducer.State>
   ) {
+    this.filter = {
+      SourceName: 'Survey_ID',
+      Operator: 'notnull'
+    };
     this.actionBarConfig = {
       ...getDefaultActionBarConfig(),
       ShowColumnChooser: true,

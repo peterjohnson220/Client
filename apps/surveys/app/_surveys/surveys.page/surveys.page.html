@@ -7,7 +7,8 @@
   [useReportingDB]="true"
   [pageable]="!gridConfig.EnableInfiniteScroll"
   [filterPanelTemplates]="filterTemplates"
-  [customFilterOptions]="customFilterOptions">
+  [customFilterOptions]="customFilterOptions"
+  [inboundFilters]="[filter]">
 </pf-data-grid>
 
 <ng-template #matchedFilter>
