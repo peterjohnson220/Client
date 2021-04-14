@@ -6,7 +6,7 @@ import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { SettingsPanelComponent } from './settings-panel.component';
 
-import { AbstractFeatureFlagService } from 'libs/core/services/feature-flags';
+import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
 import { BrowserDetectionService } from 'libs/core';
 
 describe('SettingsPanelComponent', () => {
@@ -108,5 +108,20 @@ describe('SettingsPanelComponent', () => {
 
     // assert
     expect(fixture.debugElement.nativeElement.textContent.indexOf('Font Family')).toBe(-1);
+  });
+
+  it.each([[true, 'additionalPageHeading', true], [false, 'additionalPageBody', false]])
+  ('feature flag enabled (%s) causes Additional Page section "%s" to display (%s)', (featureEnabled: boolean, featureId: string, expected: boolean) => {
+    // arrange
+    component.isOpen$ = of(true);
+    component.focusedTab = 'Content';
+
+    // act
+    component.totalRewardsAdditionalPageFeatureFlag = { key: FeatureFlags.TotalRewardsAdditionalPage, value: featureEnabled };
+    fixture.detectChanges();
+
+    // assert
+    const found = fixture.debugElement.nativeElement.querySelector('#' + featureId) !== null;
+    expect(found).toBe(expected);
   });
 });

@@ -16,8 +16,11 @@
 
   .tab-content {
     width: 335px;
-    height: 200px;
     padding: 15px;
+  }
+
+  .settings-panel h5 .fa-info-circle {
+    font-size: 1rem;
   }
 }
 
@@ -43,7 +46,7 @@ aside.settings-panel {
     font-size: 1.25rem;
     transition: opacity .3s ease-out;
   }
-  .font-family-container, .font-size-container {
+  .font-family-container, .font-size-container, .additional-page-dropdown-container {
     a {
       transition: background-color .25s ease-in-out;
       color: inherit;
