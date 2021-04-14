@@ -1,21 +1,27 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
 
-import { GridDataResult, RowArgs, SelectableSettings } from '@progress/kendo-angular-grid';
-import { SortDescriptor, orderBy } from '@progress/kendo-data-query';
+import { GridDataResult } from '@progress/kendo-angular-grid';
+import { SortDescriptor } from '@progress/kendo-data-query';
+import { Subscription } from 'rxjs';
+import { Store } from '@ngrx/store';
 
 import { JobResult } from 'libs/features/jobs/add-jobs/models';
+
+import * as fromAddJobsReducer from '../../../../jobs/add-jobs/reducers';
 
 @Component({
   selector: 'pf-grade-range-job-result',
   templateUrl: './grade-range-job-result.component.html',
   styleUrls: ['./grade-range-job-result.component.scss']
 })
-export class GradeRangeJobResultComponent {
+export class GradeRangeJobResultComponent implements OnDestroy {
   @Input() jobResults: JobResult[];
   @Input() controlPoint: string;
   @Output() jobClicked: EventEmitter<JobResult> = new EventEmitter<JobResult>();
   @Output() jobDetailClicked: EventEmitter<JobResult> = new EventEmitter<JobResult>();
 
+  selectedJobsSub: Subscription;
+  selectedJobs: JobResult[];
   gridView: GridDataResult;
   sort: SortDescriptor[];
   sortable = {
@@ -23,11 +29,14 @@ export class GradeRangeJobResultComponent {
     mode: 'multiple'
   };
 
-  constructor() {
+  constructor(
+    private store: Store<fromAddJobsReducer.State>
+  ) {
+    this.selectedJobsSub = this.store.select(fromAddJobsReducer.getSelectedAllLoadedJobs).subscribe(ids => this.selectedJobs = ids);
   }
 
   get selectedJobCount() {
-    const selectedJobs = this.jobResults.filter(jr => jr.IsSelected).length;
+    const selectedJobs = this.selectedJobs.length;
     return selectedJobs;
   }
 
@@ -39,4 +48,7 @@ export class GradeRangeJobResultComponent {
     return item.Id;
   }
 
+  ngOnDestroy(): void {
+    this.selectedJobsSub.unsubscribe();
+  }
 }
