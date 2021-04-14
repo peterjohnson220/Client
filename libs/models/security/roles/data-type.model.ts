@@ -1,9 +1,10 @@
-import {DataField} from './data-field.model';
+import { DataField } from './data-field.model';
+
 export class DataType {
   Id: number;
   Name: string;
   DataFields: DataField[];
-  AddAndDeleteDisabled?: boolean;
+  DataFieldsDropdownDisabled?: boolean;
 }
 export function getMockDataTypes(): DataType[] {
   return [{

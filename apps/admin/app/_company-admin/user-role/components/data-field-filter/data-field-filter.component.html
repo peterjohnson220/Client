@@ -8,7 +8,7 @@
       (valueChange)="dataFieldChanged($event)"
       [valuePrimitive]="true"
       [ngModel] = "roleDataRestriction.DataFieldId"
-      [disabled]="dataType?.Name === _DataRestrictionDataType.Surveys"
+      [disabled]="dataType?.DataFieldsDropdownDisabled"
     ></kendo-dropdownlist>
   </div>
   <div class="col-12 col-md-3">

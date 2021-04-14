@@ -62,7 +62,7 @@ export class DataFieldFilterComponent implements OnInit {
 
   buildApiEndpoint() {
     let endpoint = `${RoleApiNames.GetDataFieldValues}${this.dataType.Name.replace(/\s+/g, '')}`;
-    if (!this.isMultiSelect || this.dataType?.Name === this._DataRestrictionDataType.Surveys) {
+    if (!this.isMultiSelect) {
       endpoint += `&dataField=${this.toTitleCase(this.selectedField.Name)}`;
     }
     return endpoint;
