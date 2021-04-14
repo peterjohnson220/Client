@@ -3,5 +3,6 @@ export enum DataRestrictionDataType {
   Surveys = 'Surveys',
   Jobs = 'Jobs',
   Employees = 'Employees',
-  Exchanges = 'Exchanges'
+  Exchanges = 'Exchanges',
+  SurveysCompanySurveys = 'SurveysCompanySurveys'
 }

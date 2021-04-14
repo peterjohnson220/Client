@@ -11,7 +11,7 @@
       </div>
     </div>
     <div *ngFor="let dt of dataTypes$ | async" class="col-xl-10 col-12">
-      <div class="d-flex align-items-center pb-2">
+      <div *ngIf="dt.Name !== 'SurveysCompanySurveys'" class="d-flex align-items-center pb-2">
         <div class="flex-grow-1 mr-4">
           <b>{{dt.Name}}</b>
         </div>
@@ -36,7 +36,9 @@
           </button>
         </div>
       </div>
-      <hr />
+      <ng-container *ngIf="dt.Name !== 'Surveys'">
+        <hr />
+      </ng-container>
     </div>
   </div>
 </div>

@@ -107,7 +107,7 @@ export class UserRoleEffects {
           const hasSurveyTitleFilterFeatureFlagEnabled = this.featureFlagService.enabled(FeatureFlags.DataAccessSurveyTitleFilter, false);
           if (!hasSurveyTitleFilterFeatureFlagEnabled) {
             dataTypes.forEach(x => {
-              x.DataFields = x.DataFields.filter(df => df.Name !== 'Survey_Name');
+              x.DataFields = x.DataFields.filter(df => df.Name !== 'Survey_ID');
             });
           }
           return new fromDataAccessActions.LoadedDataTypes(dataTypes);

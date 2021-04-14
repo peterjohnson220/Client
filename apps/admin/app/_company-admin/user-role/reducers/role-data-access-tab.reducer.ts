@@ -28,9 +28,9 @@ export function reducer(state = initialState, action: fromDataAccessTabActions.D
       let dataFields = [];
       const dataTypes = [];
       (action.payload).forEach(dt => {
-        const dataType: DataType = {...dt, AddAndDeleteDisabled: false};
-        if (dt.Name === DataRestrictionDataType.Surveys) {
-          dataType.AddAndDeleteDisabled = true;
+        const dataType: DataType = {...dt};
+        if (dt.Name === DataRestrictionDataType.Surveys || dt.Name === DataRestrictionDataType.SurveysCompanySurveys) {
+          dataType.DataFieldsDropdownDisabled = true;
         }
         dataTypes.push(dataType);
         dataFields = dataFields.concat(dt.DataFields);
