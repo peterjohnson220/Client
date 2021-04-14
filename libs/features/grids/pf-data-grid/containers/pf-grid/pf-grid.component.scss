@@ -130,7 +130,9 @@ html .k-grid tr:hover {
 .k-header.k-drag-clue {
   @extend %ellipsis-overflowing-text;
   display: block;
-  padding-bottom: 30.75px !important
+  width: 200px;
+  padding: 10px 9.75px;
+  height: 42px;
 }
 
 .k-grid-pager .k-pager-input .k-numerictextbox {
