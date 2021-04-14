@@ -1,9 +1,21 @@
 .shared-tooltip-container, .jobs-tooltip-container {
   max-height: 200px;
   overflow-y: auto;
+  font-size: 13px;
 }
 
-.user-info {
+.shared-tooltip-container {
+  overflow-x: hidden;
+}
+
+.tooltip-job-title, .user-info {
+  width: 300px;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.user-info-container, .user-picture {
   margin-bottom: auto;
   margin-top: auto;
 }
