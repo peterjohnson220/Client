@@ -130,24 +130,9 @@ function getRoleDataAccessString(roleDataPermissions: RoleDataRestriction[]) {
 function createBlankDataRestrictionIfNeeded(dataTypes: DataType[], roleDataRestrictions: RoleDataRestriction[]) {
   const dataRestrictions = [];
   dataTypes.forEach(dt => {
-    const isSurveysDataType = dt.Name === DataRestrictionDataType.Surveys;
     const rd = roleDataRestrictions.find(r => dt.DataFields.map(m => m.Id).indexOf(r.DataFieldId) > -1);
     if (!rd) {
-      if (isSurveysDataType) {
-        dt.DataFields.forEach(df => {
-          dataRestrictions.push({ Id: new Date().getUTCMilliseconds(), DataFieldId: df.Id, DataConditionIsEqual: true });
-        });
-      } else {
-        dataRestrictions.push({ Id: new Date().getUTCMilliseconds(), DataFieldId: dt.DataFields[0].Id, DataConditionIsEqual: true });
-      }
-    }
-    if (rd && isSurveysDataType) {
-      dt.DataFields.forEach(df => {
-        const blankRowNeeded = !roleDataRestrictions.some(x => x.DataFieldId === df.Id);
-        if (blankRowNeeded) {
-          dataRestrictions.push({ Id: new Date().getUTCMilliseconds(), DataFieldId: df.Id, DataConditionIsEqual: true });
-        }
-      });
+      dataRestrictions.push({ Id: new Date().getUTCMilliseconds(), DataFieldId: dt.DataFields[0].Id, DataConditionIsEqual: true });
     }
   });
   return dataRestrictions.concat(roleDataRestrictions);
