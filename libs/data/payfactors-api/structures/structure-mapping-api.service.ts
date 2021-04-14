@@ -25,4 +25,8 @@ export class StructureMappingApiService {
     return this.payfactorsApiService.post<any>(`${this.endpoint}/SwitchRegressionFlags`, request);
   }
 
+  getGradesWithJobsCount(rangeGroupId: number): Observable<any> {
+    return this.payfactorsApiService.get<any>(`${this.endpoint}/GetGradesWithJobsCount?rangeGroupId=${rangeGroupId}`);
+  }
+
 }
