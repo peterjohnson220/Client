@@ -6,7 +6,7 @@ import { debounceTime } from 'rxjs/operators';
 
 import { ExchangeExplorerComponent } from 'libs/features/peer/exchange-explorer/containers/exchange-explorer';
 import { KendoDropDownItem } from 'libs/models/kendo';
-import { WeightType, WeightTypeDisplayLabeled } from 'libs/data/data-sets';
+import { Weights, WeightType, WeightTypeDisplayLabeled } from 'libs/data/data-sets';
 import * as fromLibsPeerExchangeExplorerReducers from 'libs/features/peer/exchange-explorer/reducers';
 import * as fromLibsExchangeExplorerFilterContextActions from 'libs/features/peer/exchange-explorer/actions/exchange-filter-context.actions';
 import * as fromExchangeExplorerMapActions from 'libs/features/peer/exchange-explorer/actions/map.actions';
@@ -41,6 +41,7 @@ export class PeerDataCardComponent implements OnInit, OnDestroy {
   workflowContext$: Observable<WorkflowContext>;
   forceRefresh$: Observable<boolean>;
   mapFilter$: Observable<any>;
+  filterContextWeightType$: Observable<string>;
 
   // Subscriptions
   payMarketSubscription: Subscription;
@@ -53,6 +54,7 @@ export class PeerDataCardComponent implements OnInit, OnDestroy {
   workflowContextSubscription: Subscription;
   forceRefreshSubscription: Subscription;
   mapFilterSubscription: Subscription;
+  filterContextWeightTypeSubscription: Subscription;
 
   forceRefresh: boolean;
   selectedExchangeId: number;
@@ -85,6 +87,7 @@ export class PeerDataCardComponent implements OnInit, OnDestroy {
     this.forceRefresh$ = this.store.select(fromComphubMainReducer.getForcePeerMapRefresh);
     this.selectedPageIdDelayed$ = this.store.select(fromComphubMainReducer.getSelectedPageId).pipe(debounceTime(750));
     this.mapFilter$ = this.exchangeExplorerStore.select(fromLibsPeerExchangeExplorerReducers.getPeerMapFilter);
+    this.filterContextWeightType$ = this.exchangeExplorerStore.select(fromLibsPeerExchangeExplorerReducers.getWeightingType);
   }
 
   showMap() {
@@ -127,6 +130,11 @@ export class PeerDataCardComponent implements OnInit, OnDestroy {
     });
 
     this.mapFilterSubscription = this.mapFilter$.subscribe(f => this.mapFilter = f);
+    this.filterContextWeightTypeSubscription = this.filterContextWeightType$.subscribe(wt => {
+      if (!!wt) {
+        this.selectedWeightingType = Weights.find(w => w.Value === wt);
+      }
+    });
   }
 
   onSelectedPageIdDelayedChanges(workflowContext: WorkflowContext): void {
@@ -172,6 +180,7 @@ export class PeerDataCardComponent implements OnInit, OnDestroy {
     this.forceRefreshSubscription.unsubscribe();
     this.selectedPageIdDelayedSubscription.unsubscribe();
     this.mapFilterSubscription.unsubscribe();
+    this.filterContextWeightTypeSubscription.unsubscribe();
   }
 
   get untaggedIncumbentMessage(): string {
