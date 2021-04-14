@@ -55,12 +55,10 @@ export class PayMarketsPageComponent implements AfterViewInit, OnInit, OnDestroy
 
   identity$: Observable<UserContext>;
   isTileView$: Observable<string>;
-  leftSidebarOpen$: Observable<boolean>;
   customFilterOptions$: Observable<PfDataGridCustomFilterOptions[]>;
 
   identitySubscription: Subscription;
   isTileViewSubscription: Subscription;
-  leftSidebarOpenSubscription: Subscription;
   gridFieldSubscription: Subscription;
   savedViewsFieldsSubscription: Subscription;
 
@@ -97,7 +95,6 @@ export class PayMarketsPageComponent implements AfterViewInit, OnInit, OnDestroy
   showSummaryModal$ = this.showSummaryModal.asObservable();
   summaryPaymarketId: number;
   isTileView: boolean;
-  isLeftSidebarOpened: boolean;
   tileView = 'Tile View';
   listView = 'List View';
   customDisplayFilters = ['Industry_Value', 'Geo_Value'];
@@ -129,7 +126,6 @@ export class PayMarketsPageComponent implements AfterViewInit, OnInit, OnDestroy
     this.isTileView$ = this.settingsService.selectUiPersistenceSetting<string>(
       FeatureAreaConstants.PayMarkets, UiPersistenceSettingConstants.PayMarketsPageViewStyleSelection, 'string'
     );
-    this.leftSidebarOpen$ = this.layoutWrapperStore.select(fromLayoutWrapperReducer.getLeftSidebarOpen);
     this.customFilterOptions$ = this.store.select(fromPayMarketsPageReducer.getCustomFilterOptions);
   }
 
@@ -143,11 +139,6 @@ export class PayMarketsPageComponent implements AfterViewInit, OnInit, OnDestroy
     this.isTileViewSubscription = this.isTileView$.subscribe(value => {
       this.isTileView = value === this.tileView || (value === null);
       this.changeDetectorRef.detectChanges();
-    });
-    this.leftSidebarOpenSubscription = this.leftSidebarOpen$.subscribe(isOpen => {
-      if (isOpen !== null) {
-        this.isLeftSidebarOpened = isOpen;
-      }
     });
     this.store.dispatch(new fromGridActionsBarActions.GetCompanyIndustries());
     this.store.dispatch(new fromGridActionsBarActions.GetCompanyScopeSizes());
@@ -195,7 +186,6 @@ export class PayMarketsPageComponent implements AfterViewInit, OnInit, OnDestroy
   ngOnDestroy() {
     this.identitySubscription.unsubscribe();
     this.isTileViewSubscription.unsubscribe();
-    this.leftSidebarOpenSubscription.unsubscribe();
     this.gridFieldSubscription.unsubscribe();
   }
 

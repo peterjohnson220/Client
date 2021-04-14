@@ -20,7 +20,14 @@ export class GeneralFormEffects {
       switchMap((action: fromGeneralFormActions.GetCountries) => {
         return this.countryApiService.getAllCountryCurrency()
           .pipe(
-            map((response) => new fromGeneralFormActions.GetCountriesSuccess(response)),
+            map((response) => {
+              let countries = response.filter(c => !!c.CountryCode);
+              countries = countries.map(c => {
+                c.DisplayName = `${c.CountryName} (${c.CountryCode})`;
+                return c;
+              });
+              return new fromGeneralFormActions.GetCountriesSuccess(response);
+            }),
             catchError(() => of(new fromGeneralFormActions.GetCountriesError()))
           );
       })
