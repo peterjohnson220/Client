@@ -9,6 +9,7 @@ export const GET_GRADES_DETAILS = '[Structures - Grade Based Range - Shared] Get
 export const GET_GRADES_DETAILS_SUCCESS = '[Structures - Grade Based Range - Shared] Get Grades Details Success';
 export const GET_GRADES_DETAILS_ERROR = '[Structures - Grade Based Range - Shared] Get Grades Details Error';
 export const SET_CURRENT_REGRESSION_GRADE_INFO = '[Structures - Grade Based Range - Shared] Set Current Regression Grade Info';
+export const SET_OPEN_ADD_JOBS = '[Structures - Grade Based Range - Shared] Set Open Add Jobs';
 
 export class GetGradeRangeDetails implements Action {
   readonly type = GET_GRADE_RANGE_DETAILS;
@@ -52,6 +53,12 @@ export class GetGradesDetailsError implements Action {
   constructor(public payload: any) {}
 }
 
+export class SetOpenAddJobs implements Action {
+  readonly type = SET_OPEN_ADD_JOBS;
+
+  constructor(public payload: boolean) {}
+}
+
 export type SharedActions
   = GetGradeRangeDetails
   | GetGradeRangeDetailsSuccess
@@ -60,6 +67,7 @@ export type SharedActions
   | GetGradesDetailsSuccess
   | GetGradesDetailsError
   | GetGradeRangeDetailsError
-  | SetCurrentRegressionGradeInfo;
+  | SetCurrentRegressionGradeInfo
+  | SetOpenAddJobs;
 
 
