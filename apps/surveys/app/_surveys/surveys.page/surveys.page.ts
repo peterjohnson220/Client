@@ -61,7 +61,8 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
   ) {
     this.filter = {
       SourceName: 'Survey_ID',
-      Operator: 'notnull'
+      Operator: 'notnull',
+      ExcludeFromFilterSave: true
     };
     this.actionBarConfig = {
       ...getDefaultActionBarConfig(),
