@@ -1,4 +1,3 @@
-
 <ng-container *ngIf="(inboxCount$ | async) > 0">
   <div class="grid-select-all" *ngIf="(inboxInfoAlertFormat$ | async) === 'show-option'">
     <span class="d-flex justify-content-center align-items-center">
@@ -38,39 +37,66 @@
         [pageable]="{ buttonCount: 5, info: true }"
         [rowClass]="getRowClass"
         scrollable="scrollable"
+        [selectable]="{
+          enabled: true,
+          checkboxOnly: true
+        }"
+        [rowSelected]="isRowSelected"
         (dataStateChange)="onDataStateChange($event)"
         (cellClick)="onCellClick($event)">
 
-        <kendo-grid-column width="50">
+        <kendo-grid-column width="40">
           <ng-template kendoGridCellTemplate let-dataItem="dataItem">
             <ng-container *ngIf="dataItem.IsRead === true; then envelopeOpened else envelopeClosed"></ng-container>
               <ng-template #envelopeOpened>
                 <div class="d-flex justify-content-center align-items-center envelope-open">
-                  <fa-icon [icon]="['fas', 'envelope-open']"></fa-icon>
+                  <pf-button-icon [iconStyle]="'fas'" [iconName]="'envelope-open'" [tooltipMsg]="'Mark as Unread'" 
+                    [tooltipPlacement]="'top'" (selected)="onEnvelopeSelected(dataItem.IsRead, dataItem.CompanyWorkflowStepUserId)">
+                  </pf-button-icon>
                 </div>
               </ng-template>
               <ng-template #envelopeClosed>
                 <div class="d-flex justify-content-center align-items-center envelope-closed">
-                  <fa-icon [icon]="['fas', 'envelope']"></fa-icon>
+                  <pf-button-icon [iconStyle]="'fas'" [iconName]="'envelope'" [tooltipMsg]="'Mark as Read'" 
+                    [tooltipPlacement]="'top'" (selected)="onEnvelopeSelected(dataItem.IsRead, dataItem.CompanyWorkflowStepUserId)">
+                  </pf-button-icon>
                 </div>
               </ng-template>
           </ng-template>
         </kendo-grid-column>
 
-        <kendo-grid-checkbox-column [width]="35" showSelectAll="true" *ngIf="(inboxCount$ | async) > 0">
+        <kendo-grid-checkbox-column [width]="40" showSelectAll="true" *ngIf="(inboxCount$ | async) > 0">
           <ng-template kendoGridHeaderTemplate>
-            <div class="d-flex justify-content-center align-items-center" (click)="onSelectAllChange()">
-              <input class="k-checkbox" type="checkbox" id="selectAllInboxCheckboxId"
-              [checked]="(selectAllStatus$ | async) === selectAllStatus.checked"
-              [indeterminate]="(selectAllStatus$ | async) === selectAllStatus.indeterminate">
-              <label class="k-checkbox-label"></label>
+            <div class="d-flex justify-content-center mt-2">
+              <pf-button-icon *ngIf="(selectAllStatus$ | async) === selectAllStatus.checked" class="checkbox" 
+                [iconStyle]="'fas'" [iconName]="'check-square'" (selected)="onSelectAllChange()">
+              </pf-button-icon>
+
+              <pf-button-icon *ngIf="(selectAllStatus$ | async) === selectAllStatus.indeterminate" class="checkbox" 
+                [iconStyle]="'fas'" [iconName]="'minus-square'" (selected)="onSelectAllChange()">
+              </pf-button-icon>
+
+              <pf-button-icon *ngIf="(selectAllStatus$ | async) !== selectAllStatus.checked &&
+                (selectAllStatus$ | async) !== selectAllStatus.indeterminate" 
+                class="unchecked-checkbox" [iconStyle]="'far'" [iconName]="'square'" (selected)="onSelectAllChange()">
+              </pf-button-icon>
             </div>
           </ng-template>
           <ng-template kendoGridCellTemplate let-dataItem="dataItem">
-            <div class="d-flex justify-content-center align-items-center" (click)="onIdSelected(dataItem.CompanyWorkflowStepUserId)">
-              <input class="k-checkbox" type="checkbox" id="inbox-id-{{dataItem.CompanyWorkflowStepUserId}}" 
-                [checked]="(selectedIds$ | async)?.has(dataItem.CompanyWorkflowStepUserId)">
-                <label class="k-checkbox-label"></label>
+            <div class="d-flex justify-content-center">
+                <ng-container *ngIf="selectedIds.has(dataItem.CompanyWorkflowStepUserId); then checked else unchecked"></ng-container>
+
+                <ng-template #checked>
+                  <pf-button-icon class="checkbox" [iconStyle]="'fas'" [iconName]="'check-square'"  
+                    (selected)="onIdSelected(dataItem.CompanyWorkflowStepUserId)">
+                  </pf-button-icon>
+                </ng-template>
+
+                <ng-template #unchecked>
+                  <pf-button-icon class="unchecked-checkbox" [iconStyle]="'far'" [iconName]="'square'"  
+                    (selected)="onIdSelected(dataItem.CompanyWorkflowStepUserId)">
+                  </pf-button-icon>
+                </ng-template>
             </div>
           </ng-template>
         </kendo-grid-checkbox-column>
@@ -83,12 +109,6 @@
 
           <ng-template kendoGridHeaderTemplate let-column>
             <div class="ellipsis-overflowing-text-wrap show-tooltip {{field.CustomClass}}">
-              <fa-icon *ngIf="(statementsGridState$ | async)?.sort[0]?.field === column.field && (statementsGridState$ | async)?.sort[0]?.dir ==='desc'"
-                      class="sort-icon" [icon]="['far', 'long-arrow-down']">
-              </fa-icon>
-              <fa-icon *ngIf="(statementsGridState$ | async)?.sort[0]?.field === column.field && (statementsGridState$ | async)?.sort[0]?.dir ==='asc'"
-                      class="sort-icon" [icon]="['far', 'long-arrow-up']">
-              </fa-icon>
               {{field.DisplayName}}
             </div>
           </ng-template>

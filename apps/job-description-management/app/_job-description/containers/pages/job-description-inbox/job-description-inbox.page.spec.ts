@@ -67,7 +67,7 @@ describe('Job Description Manager - Job Description Inbox Page', () => {
   it('should dispatch an UpdateInboxReadBulk action upon onMarkRead clicked ', () => {
     spyOn(store, 'dispatch');
 
-    const expectedAction = new fromJobDescriptionInboxActions.UpdateInboxReadBulk(true);
+    const expectedAction = new fromJobDescriptionInboxActions.UpdateInboxReadBulk();
 
     instance.onMarkRead();
 
@@ -77,7 +77,7 @@ describe('Job Description Manager - Job Description Inbox Page', () => {
   it('should dispatch an UpdateInboxReadBulk action upon onMarkUnread clicked ', () => {
     spyOn(store, 'dispatch');
 
-    const expectedAction = new fromJobDescriptionInboxActions.UpdateInboxReadBulk(false);
+    const expectedAction = new fromJobDescriptionInboxActions.UpdateInboxUnreadBulk();
 
     instance.onMarkUnread();
 

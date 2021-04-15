@@ -42,6 +42,7 @@ import { LoadingProgressBarService } from './loading/service';
 import { PfTreeViewComponent, TreeViewCheckDirective } from './pf-treeview';
 import { JobTitleCodeComponent } from './job-title-code/job-title-code.component';
 import { FileDownloadSecurityWarningModalComponent } from './file-download-security-warning';
+import { ButtonIconComponent } from './content/icons/button-icon';
 
 const components = [
   // Content
@@ -54,6 +55,7 @@ const components = [
   SimpleYesNoModalComponent,
   PfTreeViewComponent,
   JobTitleCodeComponent,
+  ButtonIconComponent,
 
   // Directives
   ClickElsewhereDirective, AfterIfDirective, EllipsisActiveDirective, TreeViewCheckDirective, PfScrollSpyDirective,

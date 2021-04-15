@@ -1,8 +1,6 @@
 import { Action } from '@ngrx/store';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 
-import { JobDescriptionInboxIsRead } from 'libs/models/payfactors-api';
-
 
 export const GET_UNREAD_INBOX_COUNT = '[Job Description Manager/Inbox] Get Unread Inbox Count';
 export const GET_UNREAD_INBOX_COUNT_ERROR = '[Job Description Manager/Inbox] Get Unread Inbox Count Error';
@@ -14,15 +12,27 @@ export const SELECT_ALL = '[Job Description Manager/Inbox] Select All';
 export const SELECT_ALL_PAGES = '[Job Description Manager/Inbox] Select All Pages';
 export const SELECT_ID = '[Job Description Manager/Inbox] Select Id';
 export const UNSELECT_ALL = '[Job Description Manager/Inbox] Unselect All';
-export const UPDATE_INBOX_READ = '[Job Description Manager/Inbox] Update Inbox Read';
-export const UPDATE_INBOX_READ_ERROR = '[Job Description Manager/Inbox] Update Inbox Read Error';
-export const UPDATE_INBOX_READ_SUCCESS = '[Job Description Manager/Inbox] Update Inbox Read Bulk Success';
-export const UPDATE_INBOX_READ_ALL = '[Job Description Manager/Inbox] Update Inbox Read All';
-export const UPDATE_INBOX_READ_ALL_ERROR = '[Job Description Manager/Inbox] Update Inbox Read All Error';
-export const UPDATE_INBOX_READ_ALL_SUCCESS = '[Job Description Manager/Inbox] Update Inbox Read Bulk All Success';
+
 export const UPDATE_INBOX_READ_BULK = '[Job Description Manager/Inbox] Update Inbox Read Bulk';
 export const UPDATE_INBOX_READ_BULK_ERROR = '[Job Description Manager/Inbox] Update Inbox Read Bulk Error';
 export const UPDATE_INBOX_READ_BULK_SUCCESS = '[Job Description Manager/Inbox] Update Inbox Read Bulk Success';
+export const UPDATE_INBOX_READ_SELECT_ALL = '[Job Description Manager/Inbox] Update Inbox Read Select All';
+export const UPDATE_INBOX_READ_SELECT_ALL_ERROR = '[Job Description Manager/Inbox] Update Inbox Read Select All Error';
+export const UPDATE_INBOX_READ_SELECT_ALL_SUCCESS = '[Job Description Manager/Inbox] Update Inbox Read Select All Success';
+
+export const UPDATE_INBOX_UNREAD_BULK = '[Job Description Manager/Inbox] Update Inbox Unread Bulk';
+export const UPDATE_INBOX_UNREAD_BULK_ERROR = '[Job Description Manager/Inbox] Update Inbox Unread Bulk Error';
+export const UPDATE_INBOX_UNREAD_BULK_SUCCESS = '[Job Description Manager/Inbox] Update Inbox Unread Bulk Success';
+export const UPDATE_INBOX_UNREAD_SELECT_ALL = '[Job Description Manager/Inbox] Update Inbox Unread Select All';
+export const UPDATE_INBOX_UNREAD_SELECT_ALL_ERROR = '[Job Description Manager/Inbox] Update Inbox Unread Select All Error';
+export const UPDATE_INBOX_UNREAD_SELECT_ALL_SUCCESS = '[Job Description Manager/Inbox] Update Inbox Unread Select All Success';
+
+export const UPDATE_JOB_DESCRIPTION_READ = '[Job Description Manager/Inbox] Update Job Description Read';
+export const UPDATE_JOB_DESCRIPTION_READ_ERROR = '[Job Description Manager/Inbox] Update Job Description Read Error';
+export const UPDATE_JOB_DESCRIPTION_READ_SUCCESS = '[Job Description Manager/Inbox] Update Job Description Read Success';
+export const UPDATE_JOB_DESCRIPTION_UNREAD = '[Job Description Manager/Inbox] Update Job Description Unread';
+export const UPDATE_JOB_DESCRIPTION_UNREAD_ERROR = '[Job Description Manager/Inbox] Update Job Description Unread Error';
+export const UPDATE_JOB_DESCRIPTION_UNREAD_SUCCESS = '[Job Description Manager/Inbox] Update Job Description Unread Success';
 
 
 export class GetUnreadInboxCount implements Action {
@@ -68,36 +78,8 @@ export class UnselectAll implements Action {
   readonly type = UNSELECT_ALL;
 }
 
-export class UpdateInboxRead implements Action {
-  readonly type = UPDATE_INBOX_READ;
-  constructor(public payload: JobDescriptionInboxIsRead) { }
-}
-
-export class UpdateInboxReadError implements Action {
-  readonly type = UPDATE_INBOX_READ_ERROR;
-}
-
-export class UpdateInboxReadSuccess implements Action {
-  readonly type = UPDATE_INBOX_READ_SUCCESS;
-}
-
-export class UpdateInboxReadAll implements Action {
-  readonly type = UPDATE_INBOX_READ_ALL;
-  constructor(public payload: boolean) { }
-}
-
-export class UpdateInboxReadAllError implements Action {
-  readonly type = UPDATE_INBOX_READ_ALL_ERROR;
-}
-
-export class UpdateInboxReadAllSuccess implements Action {
-  readonly type = UPDATE_INBOX_READ_ALL_SUCCESS;
-  constructor(public payload: boolean) { }
-}
-
 export class UpdateInboxReadBulk implements Action {
   readonly type = UPDATE_INBOX_READ_BULK;
-  constructor(public payload: boolean) { }
 }
 
 export class UpdateInboxReadBulkError implements Action {
@@ -106,7 +88,70 @@ export class UpdateInboxReadBulkError implements Action {
 
 export class UpdateInboxReadBulkSuccess implements Action {
   readonly type = UPDATE_INBOX_READ_BULK_SUCCESS;
-  constructor(public payload: boolean) { }
+}
+
+export class UpdateInboxReadSelectAll implements Action {
+  readonly type = UPDATE_INBOX_READ_SELECT_ALL;
+}
+
+export class UpdateInboxReadSelectAllError implements Action {
+  readonly type = UPDATE_INBOX_READ_SELECT_ALL_ERROR;
+}
+
+export class UpdateInboxReadSelectAllSuccess implements Action {
+  readonly type = UPDATE_INBOX_READ_SELECT_ALL_SUCCESS;
+}
+
+export class UpdateInboxUnreadBulk implements Action {
+  readonly type = UPDATE_INBOX_UNREAD_BULK;
+}
+
+export class UpdateInboxUnreadBulkError implements Action {
+  readonly type = UPDATE_INBOX_UNREAD_BULK_ERROR;
+}
+
+export class UpdateInboxUnreadBulkSuccess implements Action {
+  readonly type = UPDATE_INBOX_UNREAD_BULK_SUCCESS;
+}
+
+export class UpdateInboxUnreadSelectAll implements Action {
+  readonly type = UPDATE_INBOX_UNREAD_SELECT_ALL;
+}
+
+export class UpdateInboxUnreadSelectAllError implements Action {
+  readonly type = UPDATE_INBOX_UNREAD_SELECT_ALL_ERROR;
+}
+
+export class UpdateInboxUnreadSelectAllSuccess implements Action {
+  readonly type = UPDATE_INBOX_UNREAD_SELECT_ALL_SUCCESS;
+}
+
+export class UpdateJobDescriptionRead implements Action {
+  readonly type = UPDATE_JOB_DESCRIPTION_READ;
+  constructor(public payload: number) { }
+}
+
+export class UpdateJobDescriptionReadError implements Action {
+  readonly type = UPDATE_JOB_DESCRIPTION_READ_ERROR;
+}
+
+export class UpdateJobDescriptionReadSuccess implements Action {
+  readonly type = UPDATE_JOB_DESCRIPTION_READ_SUCCESS;
+  constructor(public payload: number) { }
+}
+
+export class UpdateJobDescriptionUnread implements Action {
+  readonly type = UPDATE_JOB_DESCRIPTION_UNREAD;
+  constructor(public payload: number) { }
+}
+
+export class UpdateJobDescriptionUnreadError implements Action {
+  readonly type = UPDATE_JOB_DESCRIPTION_UNREAD_ERROR;
+}
+
+export class UpdateJobDescriptionUnreadSuccess implements Action {
+  readonly type = UPDATE_JOB_DESCRIPTION_UNREAD_SUCCESS;
+  constructor(public payload: number) { }
 }
 
 
@@ -121,12 +166,21 @@ export type JobDescriptionInboxActions =
   SelectAllPages |
   SelectId |
   UnselectAll |
-  UpdateInboxRead |
-  UpdateInboxReadError |
-  UpdateInboxReadSuccess |
-  UpdateInboxReadAll |
-  UpdateInboxReadAllError |
-  UpdateInboxReadAllSuccess |
   UpdateInboxReadBulk |
   UpdateInboxReadBulkError |
-  UpdateInboxReadBulkSuccess;
+  UpdateInboxReadBulkSuccess |
+  UpdateInboxReadSelectAll |
+  UpdateInboxReadSelectAllError |
+  UpdateInboxReadSelectAllSuccess |
+  UpdateInboxUnreadBulk |
+  UpdateInboxUnreadBulkError |
+  UpdateInboxUnreadBulkSuccess |
+  UpdateInboxUnreadSelectAll |
+  UpdateInboxUnreadSelectAllError |
+  UpdateInboxUnreadSelectAllSuccess |
+  UpdateJobDescriptionRead |
+  UpdateJobDescriptionReadError |
+  UpdateJobDescriptionReadSuccess |
+  UpdateJobDescriptionUnread |
+  UpdateJobDescriptionUnreadError |
+  UpdateJobDescriptionUnreadSuccess;

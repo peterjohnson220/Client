@@ -59,6 +59,7 @@ describe('Job Description Manager - Job Description Inbox Page - ', () => {
     instance = fixture.componentInstance;
     store = TestBed.inject(Store);
     router = TestBed.inject(Router);
+    instance.ngOnInit();
   });
 
   it('should dispatch an UnselectAll action upon ngOnDestroy', () => {
@@ -127,4 +128,23 @@ describe('Job Description Manager - Job Description Inbox Page - ', () => {
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
+  it('should dispatch a UpdateJobDescriptionUnread action upon onEnvelopeSelected clicked and isRead is true', () => {
+    spyOn(store, 'dispatch');
+
+    const expectedAction = new fromJobDescriptionInboxActions.UpdateJobDescriptionUnread(1);
+
+    instance.onEnvelopeSelected(true, 1);
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
+
+  it('should dispatch a UpdateJobDescriptionRead action upon onEnvelopeSelected clicked and isRead is false', () => {
+    spyOn(store, 'dispatch');
+
+    const expectedAction = new fromJobDescriptionInboxActions.UpdateJobDescriptionRead(1);
+
+    instance.onEnvelopeSelected(false, 1);
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
 });

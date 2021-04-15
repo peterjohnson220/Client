@@ -1,6 +1,11 @@
 @import 'kendo-grid';
 @import '_colors';
 
+:host ::ng-deep .k-grid-header .k-header {
+    padding: 0 0.75rem;
+    vertical-align: middle;
+}
+
 .job-description-inbox-grid-container {
     height: calc(100vh - 220px)
 }
@@ -9,13 +14,19 @@
     cursor: pointer;
 }
 
+.checkbox {
+    color: $pf-brand-secondary-color;
+}
+
+.unchecked-checkbox {
+    color: $switch-off-color;
+}
+
 .envelope-open {
-    font-size: large;
     color: $inactive-button-color;
 }
 
 .envelope-closed {
-    font-size: large;
     color: $pf-primary-blue;
 }
 

@@ -29,7 +29,9 @@ import {
   faTrashAlt,
   faUndo,
   faEnvelope,
-  faEnvelopeOpen
+  faEnvelopeOpen,
+  faCheckSquare,
+  faMinusSquare
 } from '@fortawesome/pro-solid-svg-icons';
 
 // Regular
@@ -90,5 +92,7 @@ export const faIcons = [
   faEnvelope,
   falEnvelope,
   faEnvelopeOpen,
-  falEnvelopeOpen
+  falEnvelopeOpen,
+  faCheckSquare,
+  faMinusSquare
 ];

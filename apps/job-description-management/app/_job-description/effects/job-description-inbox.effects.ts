@@ -16,6 +16,18 @@ import * as fromJobDescriptionReducer from '../reducers';
 export class JobDescriptionInboxEffects {
 
   @Effect()
+  getUnreadInboxCount$: Observable<Action> = this.actions$.pipe(
+    ofType(fromJobDescriptionInboxActions.GET_UNREAD_INBOX_COUNT),
+    mergeMap(() => this.jobDescriptionManagementApiService.getUnreadInboxCount()
+      .pipe(
+        map((unreadCount) => {
+          return new fromJobDescriptionInboxActions.GetUnreadInboxCountSuccess(unreadCount);
+        }),
+        catchError(() => of(new fromJobDescriptionInboxActions.GetUnreadInboxCountError()))
+      ))
+    );
+
+  @Effect()
   loadInbox$: Observable<Action> = this.actions$.pipe(
     ofType(fromJobDescriptionInboxActions.LOAD_INBOX),
     withLatestFrom(
@@ -41,60 +53,86 @@ export class JobDescriptionInboxEffects {
     ));
 
   @Effect()
-  getUnreadInboxCount$: Observable<Action> = this.actions$.pipe(
-    ofType(fromJobDescriptionInboxActions.GET_UNREAD_INBOX_COUNT),
-    mergeMap(() => this.jobDescriptionManagementApiService.getUnreadInboxCount()
-      .pipe(
-        map((unreadCount) => {
-          return new fromJobDescriptionInboxActions.GetUnreadInboxCountSuccess(unreadCount);
-        }),
-        catchError(() => of(new fromJobDescriptionInboxActions.GetUnreadInboxCountError()))
-      ))
-    );
-
-  @Effect()
-  updateCompanyWorkflowStepUsersIsRead$: Observable<Action> = this.actions$.pipe(
-    ofType(fromJobDescriptionInboxActions.UPDATE_INBOX_READ),
-    switchMap((action: fromJobDescriptionInboxActions.UpdateInboxRead) =>
-    this.jobDescriptionManagementApiService.updateCompanyWorkflowStepUsersIsReadById(
-      action.payload.IsRead, [action.payload.CompanyWorkflowStepUserId])
-    .pipe(
-      map(() => {
-        return new fromJobDescriptionInboxActions.UpdateInboxReadSuccess();
-      }),
-      catchError(() => of(new fromJobDescriptionInboxActions.UpdateInboxReadError()))
-      )
-    ));
-
-  @Effect()
   updateCompanyWorkflowStepUsersIsReadBulk$: Observable<Action> = this.actions$.pipe(
     ofType(fromJobDescriptionInboxActions.UPDATE_INBOX_READ_BULK),
     withLatestFrom(
       this.store.pipe(select(fromJobDescriptionReducer.getSelectedIds)),
       (action: fromJobDescriptionInboxActions.UpdateInboxReadBulk, workflowStepUserIds: Set<number>) => ({ action, workflowStepUserIds })
     ),
-    switchMap((obj) => this.jobDescriptionManagementApiService.updateCompanyWorkflowStepUsersIsReadById(
-      obj.action.payload, [...obj.workflowStepUserIds])
+    switchMap((obj) => this.jobDescriptionManagementApiService.updateCompanyWorkflowStepUsersIsReadById(true, [...obj.workflowStepUserIds])
     .pipe(
       map(() => {
-        return new fromJobDescriptionInboxActions.UpdateInboxReadBulkSuccess(obj.action.payload);
+        return new fromJobDescriptionInboxActions.UpdateInboxReadBulkSuccess();
       }),
       catchError(() => of(new fromJobDescriptionInboxActions.UpdateInboxReadBulkError()))
       )
     ));
 
+  @Effect()
+  updateCompanyWorkflowStepUsersIsReadSelectAll$: Observable<Action> = this.actions$.pipe(
+    ofType(fromJobDescriptionInboxActions.UPDATE_INBOX_READ_SELECT_ALL),
+    mergeMap(() => this.jobDescriptionManagementApiService.updateCompanyWorkflowStepUsersIsReadAll(true)
+    .pipe(
+      map(() => {
+        return new fromJobDescriptionInboxActions.UpdateInboxReadSelectAllSuccess();
+      }),
+      catchError(() => of(new fromJobDescriptionInboxActions.UpdateInboxReadSelectAllError()))
+      )
+  ));
+
+  @Effect()
+  updateCompanyWorkflowStepUsersIsUnreadBulk$: Observable<Action> = this.actions$.pipe(
+    ofType(fromJobDescriptionInboxActions.UPDATE_INBOX_UNREAD_BULK),
+    withLatestFrom(
+      this.store.pipe(select(fromJobDescriptionReducer.getSelectedIds)),
+      (action: fromJobDescriptionInboxActions.UpdateInboxUnreadBulk, workflowStepUserIds: Set<number>) => ({ action, workflowStepUserIds })
+    ),
+    switchMap((obj) => this.jobDescriptionManagementApiService.updateCompanyWorkflowStepUsersIsReadById(false, [...obj.workflowStepUserIds])
+    .pipe(
+      map(() => {
+        return new fromJobDescriptionInboxActions.UpdateInboxUnreadBulkSuccess();
+      }),
+      catchError(() => of(new fromJobDescriptionInboxActions.UpdateInboxUnreadBulkError()))
+      )
+    ));
+
+  @Effect()
+  updateCompanyWorkflowStepUsersIsUnreadSelectAll$: Observable<Action> = this.actions$.pipe(
+    ofType(fromJobDescriptionInboxActions.UPDATE_INBOX_UNREAD_SELECT_ALL),
+    mergeMap(() => this.jobDescriptionManagementApiService.updateCompanyWorkflowStepUsersIsReadAll(false)
+    .pipe(
+      map(() => {
+        return new fromJobDescriptionInboxActions.UpdateInboxUnreadSelectAllSuccess();
+      }),
+      catchError(() => of(new fromJobDescriptionInboxActions.UpdateInboxUnreadSelectAllError()))
+      )
+  ));
+
+  @Effect()
+  updateCompanyWorkflowStepUsersIsRead$: Observable<Action> = this.actions$.pipe(
+    ofType(fromJobDescriptionInboxActions.UPDATE_JOB_DESCRIPTION_READ),
+    switchMap((action: fromJobDescriptionInboxActions.UpdateJobDescriptionRead) =>
+    this.jobDescriptionManagementApiService.updateCompanyWorkflowStepUsersIsReadById(true, [action.payload])
+    .pipe(
+      map(() => {
+        return new fromJobDescriptionInboxActions.UpdateJobDescriptionReadSuccess(action.payload);
+      }),
+      catchError(() => of(new fromJobDescriptionInboxActions.UpdateJobDescriptionReadError()))
+      )
+    ));
+
     @Effect()
-    updateCompanyWorkflowStepUsersIsReadAll$: Observable<Action> = this.actions$.pipe(
-      ofType(fromJobDescriptionInboxActions.UPDATE_INBOX_READ_ALL),
-      switchMap((action: fromJobDescriptionInboxActions.UpdateInboxReadAll) =>
-      this.jobDescriptionManagementApiService.updateCompanyWorkflowStepUsersIsReadAll(action.payload)
+    updateCompanyWorkflowStepUsersIsUnread$: Observable<Action> = this.actions$.pipe(
+      ofType(fromJobDescriptionInboxActions.UPDATE_JOB_DESCRIPTION_UNREAD),
+      switchMap((action: fromJobDescriptionInboxActions.UpdateJobDescriptionUnread) =>
+      this.jobDescriptionManagementApiService.updateCompanyWorkflowStepUsersIsReadById(false, [action.payload])
       .pipe(
         map(() => {
-          return new fromJobDescriptionInboxActions.UpdateInboxReadAllSuccess(action.payload);
+          return new fromJobDescriptionInboxActions.UpdateJobDescriptionUnreadSuccess(action.payload);
         }),
-        catchError(() => of(new fromJobDescriptionInboxActions.UpdateInboxReadAllError()))
+        catchError(() => of(new fromJobDescriptionInboxActions.UpdateJobDescriptionUnreadError()))
         )
-    ));
+      ));
 
   constructor(
     private store: Store<fromJobDescriptionReducer.State>,

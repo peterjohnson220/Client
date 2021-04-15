@@ -1,9 +1,11 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { GridDataResult, DataStateChangeEvent, RowClassArgs } from '@progress/kendo-angular-grid';
+import { Observable, Subscription } from 'rxjs';
+import { GridDataResult, DataStateChangeEvent, RowClassArgs, RowArgs } from '@progress/kendo-angular-grid';
 import { State } from '@progress/kendo-data-query';
+import { TooltipDirective } from '@progress/kendo-angular-tooltip';
 
 import { GridTypeEnum, SelectAllStatus } from 'libs/models/common';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
@@ -11,8 +13,7 @@ import * as fromGridActions from 'libs/core/actions/grid.actions';
 import * as fromJobDescriptionInboxReducer from '../../reducers/';
 import * as fromJobDescriptionInboxActions from '../../actions/job-description-inbox.actions';
 import { inboxGridFields } from '../../models';
-import { Router } from '@angular/router';
-import { TooltipDirective } from '@progress/kendo-angular-tooltip';
+
 
 @Component({
     selector: 'pf-job-description-inbox-grid',
@@ -33,14 +34,19 @@ export class JobDescriptionInboxGridComponent implements OnDestroy, OnInit {
   pageLength$: Observable<number>;
   selectAllStatus = SelectAllStatus;
   selectAllStatus$: Observable<string>;
+  selectedIds = new Set<number>();
   selectedIds$: Observable<Set<number>>;
+  selectedIdsSubscription: Subscription;
 
+  isRowSelected = (row: RowArgs) => this.selectedIds && this.selectedIds.has(row.dataItem.CompanyWorkflowStepUserId);
 
   constructor(private store: Store<fromJobDescriptionInboxReducer.State>, private router: Router) {}
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.store.dispatch(new fromJobDescriptionInboxActions.UnselectAll());
     this.store.dispatch(new fromGridActions.ResetGrid(GridTypeEnum.JobDescriptionInbox));
+
+    this.selectedIdsSubscription.unsubscribe();
   }
 
   ngOnInit(): void {
@@ -54,18 +60,24 @@ export class JobDescriptionInboxGridComponent implements OnDestroy, OnInit {
     this.pageLength$ = this.store.pipe(select(fromJobDescriptionInboxReducer.getPageLength));
     this.selectAllStatus$ = this.store.pipe(select(fromJobDescriptionInboxReducer.getSelectAllStatus));
     this.selectedIds$ = this.store.pipe(select(fromJobDescriptionInboxReducer.getSelectedIds));
+
+    this.selectedIdsSubscription = this.selectedIds$.subscribe((ids) => {
+      this.selectedIds = ids;
+    });
   }
 
-  getRowClass(context: RowClassArgs) {
+  getRowClass(context: RowClassArgs): string {
     return 'clickable-row';
   }
 
-  onCellClick({ dataItem, rowIndex, originalEvent, column }) {
+  onCellClick({ dataItem, rowIndex, originalEvent, column }): void {
     if (!dataItem?.JobDescriptionId || originalEvent.button !== 0 || column.field === undefined) {
       return;
     }
 
-    this.store.dispatch(new fromJobDescriptionInboxActions.UpdateInboxRead({IsRead: true, CompanyWorkflowStepUserId: dataItem.CompanyWorkflowStepUserId}));
+    if (!dataItem.IsRead) {
+      this.store.dispatch(new fromJobDescriptionInboxActions.UpdateJobDescriptionRead(dataItem.CompanyWorkflowStepUserId));
+    }
     this.router.navigate([`job-descriptions/${dataItem.JobDescriptionId}`], { queryParams: { 'jwt-workflow': dataItem.Token } });
   }
 
@@ -75,15 +87,23 @@ export class JobDescriptionInboxGridComponent implements OnDestroy, OnInit {
     this.store.dispatch(new fromJobDescriptionInboxActions.GetUnreadInboxCount());
   }
 
-  onIdSelected(companyWorkflowStepUserId: number) {
+  onEnvelopeSelected(isRead: boolean, companyWorkflowStepUserId: number): void {
+    if (isRead) {
+      this.store.dispatch(new fromJobDescriptionInboxActions.UpdateJobDescriptionUnread(companyWorkflowStepUserId));
+    } else {
+      this.store.dispatch(new fromJobDescriptionInboxActions.UpdateJobDescriptionRead(companyWorkflowStepUserId));
+    }
+  }
+
+  onIdSelected(companyWorkflowStepUserId: number): void {
     this.store.dispatch(new fromJobDescriptionInboxActions.SelectId(companyWorkflowStepUserId));
   }
 
-  onSelectAllChange() {
+  onSelectAllChange(): void {
     this.store.dispatch(new fromJobDescriptionInboxActions.SelectAll());
   }
 
-  onSelectAllClicked() {
+  onSelectAllClicked(): void {
     this.store.dispatch(new fromJobDescriptionInboxActions.SelectAllPages());
   }
 
