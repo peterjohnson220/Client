@@ -297,12 +297,12 @@ describe('Libs - Features - Peer - Exchange Explorer', () => {
       companyPayMarketId: 1,
       isExchangeSpecific: true,
       exchangeId: 1,
-      exchangeJobId: 1
+      exchangeJobIds: [1]
     };
 
     const request = {
       ExchangeId : 1,
-      ExchangeJobId : 1,
+      ExchangeJobIds : [1],
       CompanyPayMarketId : 1
     };
 
