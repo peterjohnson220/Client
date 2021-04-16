@@ -102,7 +102,7 @@
         </div>
 
         <div [hidden]="!showFilterSidebar" class="sidebar-filter-container">
-          <pf-list-area-filter-sidebar
+          <pf-list-area-filter-sidebar *ngIf="!!filteredListAreaColumns"
             [filters]="gridState?.filter?.filters"
             [listAreaColumns]="filteredListAreaColumns"
             [customListAreaColumns]="customListAreaColumns"
