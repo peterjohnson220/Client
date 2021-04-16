@@ -229,6 +229,9 @@ export class BulkExportSchedulerFormComponent implements OnInit, OnDestroy {
   }
 
   closeServiceAccountModal() {
+    this.serviceAccountStore.dispatch(new fromServiceAccountActions.GetAccountStatus({
+      ReportClass: ServiceAccountReportClass.HrisOutboundJobs
+    }));
     this.serviceAccountCredentialsModalOpen$.next(false);
   }
 
