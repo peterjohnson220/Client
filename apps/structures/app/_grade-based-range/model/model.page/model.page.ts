@@ -33,7 +33,7 @@ export class ModelPageComponent implements OnInit, OnDestroy {
   gradeRangeDetailsSubscription: Subscription;
   pageViewIdSubscription: Subscription;
   pageSummaryViewIdSubscription: Subscription;
-  savingModelSettingsAsyncObjSubscription: Subscription;
+  openAddJobsSubscription: Subscription;
   rangeGroupId: any;
   modelSummaryPageViewId: string;
   modelGridPageViewId: string;
@@ -81,9 +81,10 @@ export class ModelPageComponent implements OnInit, OnDestroy {
       PermissionCheckEnum.Single);
     this.isNewRangeOrCreateModelFlow = this.urlService.isInWorkflow(Workflow.NewRange) || this.urlService.isInWorkflow(Workflow.CreateModel);
 
-    this.savingModelSettingsAsyncObjSubscription = this.store.select(fromSharedStructuresReducer.getSavingModelSettingsAsyncObj).subscribe(settings => {
-      if (settings.savingSuccess === true && this.isNewRangeOrCreateModelFlow) {
+    this.openAddJobsSubscription = this.store.select(fromGradeBasedSharedReducer.getOpenAddJobs).subscribe(open => {
+      if (open) {
         this.openManageModelModal();
+        this.store.dispatch(new fromGradeBasedSharedActions.SetOpenAddJobs(false));
       }
     });
   }
@@ -92,8 +93,7 @@ export class ModelPageComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.setSearchContext();
       this.store.dispatch(new fromAddJobsPageActions.SetContextStructuresRangeGroupId(this.rangeGroupId));
-    }, 250);
-
+    }, 0);
   }
 
   private setSearchContext() {
@@ -124,6 +124,6 @@ export class ModelPageComponent implements OnInit, OnDestroy {
     this.pageSummaryViewIdSubscription.unsubscribe();
     this.metadataSub.unsubscribe();
     this.gradeRangeDetailsSubscription.unsubscribe();
-    this.savingModelSettingsAsyncObjSubscription.unsubscribe();
+    this.openAddJobsSubscription.unsubscribe();
   }
 }

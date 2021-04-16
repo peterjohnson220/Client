@@ -131,7 +131,7 @@ export class SharedEffects {
               }
 
               this.urlService.removeAllWorkflows();
-
+              actions.push(new fromGradeBasedSharedActions.SetOpenAddJobs(true));
               return actions;
             }
           ),
