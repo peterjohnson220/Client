@@ -37,6 +37,8 @@ export class ModelPageComponent implements OnInit, OnDestroy {
   rangeGroupId: any;
   modelSummaryPageViewId: string;
   modelGridPageViewId: string;
+  currentUrl: string;
+  openAddJobs: boolean;
   filters: PfDataGridFilter[];
   pfThemeType = PfThemeType;
   metadata: RangeGroupMetadata;
@@ -51,6 +53,12 @@ export class ModelPageComponent implements OnInit, OnDestroy {
     private urlService: UrlService,
     private permissionService: PermissionService
   ) {
+    this.route.url.subscribe(url => {
+      this.currentUrl = url.toString();
+      if (this.openAddJobs && this.currentUrl === '') {
+        this.handleOpenManageModelModalForNewWorkflow();
+      }
+    });
     this.rangeGroupId = this.route.snapshot.params.id;
     this.filters = [
       {
@@ -82,10 +90,10 @@ export class ModelPageComponent implements OnInit, OnDestroy {
     this.isNewRangeOrCreateModelFlow = this.urlService.isInWorkflow(Workflow.NewRange) || this.urlService.isInWorkflow(Workflow.CreateModel);
 
     this.openAddJobsSubscription = this.store.select(fromGradeBasedSharedReducer.getOpenAddJobs).subscribe(open => {
-      if (open) {
-        this.openManageModelModal();
-        this.store.dispatch(new fromGradeBasedSharedActions.SetOpenAddJobs(false));
+      if (open && this.currentUrl === '') {
+        this.handleOpenManageModelModalForNewWorkflow();
       }
+      this.openAddJobs = open;
     });
   }
 
@@ -94,6 +102,12 @@ export class ModelPageComponent implements OnInit, OnDestroy {
       this.setSearchContext();
       this.store.dispatch(new fromAddJobsPageActions.SetContextStructuresRangeGroupId(this.rangeGroupId));
     }, 0);
+  }
+
+  handleOpenManageModelModalForNewWorkflow() {
+    this.openManageModelModal();
+    this.store.dispatch(new fromGradeBasedSharedActions.SetOpenAddJobs(false));
+    this.openAddJobs = false;
   }
 
   private setSearchContext() {
