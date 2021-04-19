@@ -28,7 +28,7 @@ export class ExchangeDataSearchApiService {
     ):
     Observable<ExchangeExplorerContextInfo> {
     const request: ComphubExchangeExplorerContextRequest = payload as ComphubExchangeExplorerContextRequest;
-    if (request && request.ExchangeJobId) {
+    if (request && request.ExchangeJobIds) {
       return this.payfactorsApiService.post(`${this.endpoint}/GetExchangeExplorerContextInfo`, request);
     }
 
