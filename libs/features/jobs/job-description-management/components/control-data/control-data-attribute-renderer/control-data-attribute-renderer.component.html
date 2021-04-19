@@ -18,7 +18,7 @@
   </ng-container>
 
   <ng-container *ngIf="attribute.Type === 'RadioButton'">
-    <div class="form-check form-check-inline" *ngFor="let choice of attribute.Choices">
+    <div class="form-check form-check-inline" *ngFor="let choice of attribute.Choices; trackBy: trackByChoiceValue">
       <label class="form-check-label form-check-label-disabled pl-0">
         <input type="radio"
                class="form-check-input"
@@ -53,7 +53,7 @@
           (ngModelChange)="handleDataChangesDetected(dataRow.Id, attribute.Name, $event)"
           [ngModel]="(dataRow[attribute.Name]).trim()">
     <option></option>
-    <option *ngFor="let choice of attribute.Choices" [ngValue]="choice.value.trim()">{{choice.display}}</option>
+    <option *ngFor="let choice of attribute.Choices; trackBy: trackByChoiceValue" [ngValue]="choice.value.trim()">{{choice.display}}</option>
   </select>
 
   <!--Textbox-->
@@ -63,7 +63,7 @@
 
   <!--Radio Button-->
   <ng-container *ngIf="attribute.Type == 'RadioButton'">
-    <div class="form-check form-check-inline" *ngFor="let choice of attribute.Choices">
+    <div class="form-check form-check-inline" *ngFor="let choice of attribute.Choices; trackBy: trackByChoiceValue">
       <label class="form-check-label">
         <input type="radio"
                class="form-check-input"

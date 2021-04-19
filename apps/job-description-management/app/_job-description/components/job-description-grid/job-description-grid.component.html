@@ -35,7 +35,7 @@
 
       <ng-container *ngIf="listAreaColumn.ColumnDatabaseName === 'PublicView'">
         <ng-template kendoGridCellTemplate let-dataItem>
-          <ng-container *ngIf="dataItem.JobDescriptionStatus === 'Published'">
+          <ng-container *ngIf="dataItem.JobDescriptionStatus === 'Published' && dataItem.PublicViewStatusVisibility !== false">
             <ng-container *ngIf="dataItem.PublicView === false; then privateView else publicView"></ng-container>
             <ng-template #privateView>
               <fa-stack class="fa-lg" id="private-icon-stack" placement="bottom"
@@ -51,6 +51,12 @@
                 <fa-icon icon="eye" stackItemSize="1x" id="public-eye"></fa-icon>
               </fa-stack>
             </ng-template>
+          </ng-container>
+          <ng-container *ngIf="dataItem.JobDescriptionStatus === 'Published' && dataItem.PublicViewStatusVisibility === false">
+            <fa-stack class="fa-lg" id="private-icon-stack" placement="bottom"
+            ngbTooltip="Template not in Public View" container="body">
+              <fa-icon icon="eye-slash" stackItemSize="1x" id="private-eye"></fa-icon>
+            </fa-stack>
           </ng-container>
         </ng-template>
       </ng-container>
