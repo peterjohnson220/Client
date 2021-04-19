@@ -115,7 +115,6 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
     this.jobMatchesAsync$ = this.store.select(fromJobDescriptionReducers.getJobMatchesAsync);
     this.company$ = this.sharedStore.select(fromJobDescriptionManagementSharedReducer.getCompany);
     this.inSystemWorkflowStepInfo$ = this.sharedStore.select(fromJobDescriptionReducers.getWorkflowStepInfo);
-    this.initPermissions();
   }
 
   ngOnInit(): void {
@@ -125,14 +124,19 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
 
       this.identityInEmployeeAcknowledgement = userContext.EmployeeAcknowledgementInfo && !!userContext.EmployeeAcknowledgementInfo.EmployeeAcknowledgementId;
      if (this.isInSystemWorkflow) {
-       this.workflowStepSubscription = this.inSystemWorkflowStepInfo$.subscribe(value => {
-         this.inWorkflow = !!value && !!value.WorkflowId;
+       this.workflowStepSubscription = this.inSystemWorkflowStepInfo$.subscribe(workflowStepInfo => {
+         this.inWorkflow = !!workflowStepInfo && !!workflowStepInfo.WorkflowId;
          if (this.inWorkflow) {
            this.sharedStore.dispatch(new fromCompanyLogoActions.LoadCompanyLogo(this.identity.CompanyId));
          }
-         this.isFirstRecipient = !!value && !!value.IsFirstRecipient;
+         this.isFirstRecipient = !!workflowStepInfo && !!workflowStepInfo.IsFirstRecipient;
+
+         if (!!workflowStepInfo){
+           this.initWorkflowStepInfoPermissions(workflowStepInfo);
+         }
        });
      } else {
+       this.initUserContextPermissions();
        this.inWorkflow = !!userContext.WorkflowStepInfo && !!userContext.WorkflowStepInfo.WorkflowId;
        if (this.inWorkflow) {
          this.sharedStore.dispatch(new fromCompanyLogoActions.LoadCompanyLogo(userContext.CompanyId));
@@ -302,7 +306,7 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
     return JobDescriptionHelper.isUserDefinedViewsAvailable(this.jobDescriptionViews);
   }
 
-  private initPermissions(): void {
+  private initUserContextPermissions(): void {
     this.hasCanPublishJobDescriptionPermission = this.permissionService.CheckPermission([Permissions.CAN_PUBLISH_JOB_DESCRIPTION],
       PermissionCheckEnum.Single);
     this.hasCanRouteJobDescriptionPermission = this.permissionService.CheckPermission([Permissions.CAN_ROUTE_JOB_DESCRIPTION_FOR_APPROVAL],
@@ -313,6 +317,14 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
       PermissionCheckEnum.Single);
     this.hasCanCancelWorkflowPermission = this.permissionService.CheckPermission([Permissions.CAN_CANCEL_JOB_DESCRIPTION_WORKFLOW],
       PermissionCheckEnum.Single);
+  }
+
+  private initWorkflowStepInfoPermissions(workflowStepInfo): void {
+    this.hasCanPublishJobDescriptionPermission = false;
+    this.hasCanRouteJobDescriptionPermission = false;
+    this.hasNewProjectPermission = false;
+    this.hasCanCancelWorkflowPermission = true;
+    this.hasCanEditJobDescriptionPermission = workflowStepInfo.Permissions.indexOf(Permissions.CAN_EDIT_JOB_DESCRIPTION) > -1;
   }
 
   private resetJobMatches(): void {
