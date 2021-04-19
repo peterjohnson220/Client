@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TotalRewardsStatementComponent should render a mock statement derived from template A 1`] = `
+exports[`TotalRewardsStatementComponent should render a mock statement\`s pages, sections, columns and controls 1`] = `
 <pf-total-rewards-statement
   controlType={[Function Object]}
   employeeRewardsData={[Function Object]}
@@ -29,7 +29,7 @@ exports[`TotalRewardsStatementComponent should render a mock statement derived f
     <pf-async-container />
     
     <div
-      class="pb-4 trs-page"
+      class="pb-4 trs-page position-relative"
     >
       
       <section

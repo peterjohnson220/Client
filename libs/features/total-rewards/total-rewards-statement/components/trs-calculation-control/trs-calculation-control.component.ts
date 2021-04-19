@@ -57,13 +57,12 @@ export class TrsCalculationControlComponent implements OnChanges, OnDestroy, OnI
 
   ngOnDestroy() {
     this.dragulaSubscription$.unsubscribe();
-    this.dragulaService.destroy(this.dragulaGroupName);
   }
 
   ngOnChanges(changes: SimpleChanges) {
     const companyUdfsLength = changes?.companyUdfs?.currentValue?.length;
     const dataFieldsLength = changes?.controlData?.currentValue?.DataFields?.length;
-    const rewardsDataChanged = changes?.employeeRewardsData?.currentValue != changes?.employeeRewardsData?.previousValue;
+    const rewardsDataChanged = changes?.employeeRewardsData?.currentValue !== changes?.employeeRewardsData?.previousValue;
 
     if (companyUdfsLength || dataFieldsLength || rewardsDataChanged) {
       this.selectableFields = this.buildSelectableFieldsList();
@@ -267,6 +266,7 @@ export class TrsCalculationControlComponent implements OnChanges, OnDestroy, OnI
     if (this.mode === models.StatementModeEnum.Print || !this.dragulaService) { return; }
 
     this.dragulaGroupName = `dragula-group-calc-control-${this.controlData.Id}`;
+    this.dragulaService.destroy(this.dragulaGroupName);
     this.dragulaService.createGroup(this.dragulaGroupName, {
       revertOnSpill: true,
       direction: 'vertical',
