@@ -121,7 +121,7 @@ export class LoadPublicJdmColumnsSuccess implements Action {
 
 export class SelectJobDescriptions implements Action {
   readonly type = SELECT_JOB_DESCRIPTIONS;
-  constructor(public payload:  Set<number>) {}
+  constructor(public payload: Map<number, number>) {}
 }
 
 export type Actions

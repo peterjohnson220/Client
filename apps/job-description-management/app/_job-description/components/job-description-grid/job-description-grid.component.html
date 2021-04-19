@@ -6,8 +6,21 @@
   <div *ngIf="jdmCheckboxesFeatureFlag.value">
     <div class="d-flex grid-actions-container pb-2">
       <button type="button" class="btn btn-secondary pf-btn-borderless mr-3" [disabled]="selectedJobDescriptions?.size === 0" (click)="handleClearSelectionsClick()">
-        <fa-icon [icon]="['far', 'times']"></fa-icon>
+        <fa-icon [icon]="['fas', 'times']"></fa-icon>
         Clear Selections <span *ngIf="selectedJobDescriptions?.size > 0">({{selectedJobDescriptions?.size}})</span>
+      </button>
+      <div class="vertical-separator mr-3"></div>
+      <button type="button" class="btn btn-secondary pf-btn-borderless mr-3" [disabled]="selectedJobDescriptions?.size === 0">
+        <fa-icon [icon]="['fas', 'random']"></fa-icon>
+        Route for Approval
+      </button>
+      <button type="button" class="btn btn-secondary pf-btn-borderless mr-3" [disabled]="selectedJobDescriptions?.size === 0">
+        <fa-icon [icon]="['fas', 'download']"></fa-icon>
+        Export
+      </button>
+      <button type="button" class="btn btn-secondary pf-btn-borderless mr-3" [disabled]="selectedJobDescriptions?.size === 0 || !canDeleteJobDescriptions()">
+        <fa-icon [icon]="['far', 'trash-alt']"></fa-icon>
+        Delete
       </button>
     </div>
   </div>

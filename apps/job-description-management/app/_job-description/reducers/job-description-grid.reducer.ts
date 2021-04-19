@@ -19,7 +19,7 @@ export interface State {
   savingListAreaColumnsError: boolean;
   savingListAreaColumnsSuccess: boolean;
   searchTerm: string;
-  selectedJobDescriptions: Set<number>;
+  selectedJobDescriptions: Map<number, number>;
 }
 
 export const initialState: State = {
@@ -34,7 +34,7 @@ export const initialState: State = {
   savingListAreaColumnsError: false,
   savingListAreaColumnsSuccess: false,
   searchTerm: '',
-  selectedJobDescriptions: new Set()
+  selectedJobDescriptions: new Map<number, number>()
 };
 
 export function reducer(state = initialState, action: fromJobDescriptionGridActions.Actions): State {

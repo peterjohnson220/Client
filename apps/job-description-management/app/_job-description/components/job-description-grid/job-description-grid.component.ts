@@ -58,10 +58,10 @@ export class JobDescriptionGridComponent implements OnInit, OnDestroy {
   private creatingJobDescription$: Observable<boolean>;
   private creatingJobDescriptionSubscription: Subscription;
 
-  private getSelectedJobDescriptions$: Observable<Set<number>>;
+  private getSelectedJobDescriptions$: Observable<Map<number, number>>;
   private getSelectedJobDescriptionsSubscription: Subscription;
 
-  selectedJobDescriptions: Set<number> = new Set();
+  selectedJobDescriptions: Map<number, number>;
   private unsubscribe$ = new Subject<void>();
 
   constructor(
@@ -104,7 +104,7 @@ export class JobDescriptionGridComponent implements OnInit, OnDestroy {
       selection.selectedRows.forEach((row) => {
         if (row.dataItem.JobDescriptionId) {
           selectionChanged = true;
-          this.selectedJobDescriptions.add(row.dataItem.JobDescriptionId);
+          this.selectedJobDescriptions.set(row.dataItem.JobDescriptionId, row.dataItem.JobDescriptionCount);
         }
       });
     }
@@ -259,5 +259,15 @@ export class JobDescriptionGridComponent implements OnInit, OnDestroy {
   handleClearSelectionsClick() {
     this.selectedJobDescriptions.clear();
     this.store.dispatch(new jobDescriptionGridActions.SelectJobDescriptions(this.selectedJobDescriptions));
+  }
+
+  canDeleteJobDescriptions(): boolean {
+    let canDelete = false;
+    this.selectedJobDescriptions?.forEach(jobDescriptionCount => {
+      if (jobDescriptionCount > 1) {
+        canDelete = true;
+      }
+    });
+    return canDelete;
   }
 }
