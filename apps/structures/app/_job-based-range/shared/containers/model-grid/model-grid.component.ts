@@ -60,6 +60,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   @ViewChild('mid') midColumn: ElementRef;
   @ViewChild('rangeField') rangeFieldColumn: ElementRef;
   @ViewChild('eeCount') eeCountColumn: ElementRef;
+  @ViewChild('eeCountWithFilter') eeCountWithFilterColumn: ElementRef;
   @ViewChild('rangeValue') rangeValueColumn: ElementRef;
   @ViewChild('noFormatting', { static: true }) noFormattingColumn: ElementRef;
   @ViewChild('noFormattingInfoCircle', { static: true }) noFormattingInfoCircleColumn: ElementRef;
@@ -142,6 +143,22 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   selectedPeerExchangeSub: Subscription;
   selectedPeerExchange$: Observable<SelectedPeerExchangeModel>;
   selectedExchange: SelectedPeerExchangeModel;
+  eeCountQueryFilters = {
+    CompanyStructures_RangeGroup_CountEEMinOutlier: 'minOutlier',
+    CompanyStructures_RangeGroup_CountEEQ1: 'q1',
+    CompanyStructures_RangeGroup_CountEEQ2: 'q2',
+    CompanyStructures_RangeGroup_CountEEQ3: 'q3',
+    CompanyStructures_RangeGroup_CountEEQ4: 'q4',
+    CompanyStructures_RangeGroup_CountEE1st5th: '1st5th',
+    CompanyStructures_RangeGroup_CountEE2nd5th: '2nd5th',
+    CompanyStructures_RangeGroup_CountEE3rd5th: '3rd5th',
+    CompanyStructures_RangeGroup_CountEE4th5th: '4th5th',
+    CompanyStructures_RangeGroup_CountEELast5th: 'last5th',
+    CompanyStructures_RangeGroup_CountEE1st3rd: '1st3rd',
+    CompanyStructures_RangeGroup_CountEE2nd3rd: '2nd3rd',
+    CompanyStructures_RangeGroup_CountEELast3rd: 'last3rd',
+    CompanyStructures_RangeGroup_CountEEMaxOutlier: 'maxOutlier'
+  };
 
   constructor(
     public store: Store<fromJobBasedRangeReducer.State>,
@@ -354,11 +371,11 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
       'NumEmployees': { Template: this.eeCountColumn },
       'Job_Title': { Template: this.noFormattingInfoCircleColumn },
       'MarketReferencePointValue': { Template: this.mrpValueColumn },
+      [PfDataGridColType.eeCountWithFilter]: { Template: this.eeCountWithFilterColumn },
       [PfDataGridColType.rangeValue]: { Template: this.rangeValueColumn },
       [PfDataGridColType.noFormatting]: { Template: this.noFormattingColumn },
       [PfDataGridColType.rangeFieldEditor]: { Template: this.rangeFieldColumn },
       [PfDataGridColType.percentage]: { Template: this.percentageColumn }
-
     };
 
     this.filterTemplates = {
