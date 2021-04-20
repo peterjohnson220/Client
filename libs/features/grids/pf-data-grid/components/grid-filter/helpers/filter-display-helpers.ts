@@ -30,6 +30,11 @@ export function getHumanizedFilter(field: ViewField, filterValues: string[],
 
 export function getSimpleDataViewDescription(field: ViewField, customFilterOptions: PfDataGridCustomFilterOptions[]): string {
   if (!!field?.FilterValues) {
+    // For Between operator we need to pass array of filter values
+    if (field.FilterOperator === Between.Value) {
+      return getHumanizedFilter(field, field.FilterValues, [], customFilterOptions);
+    }
+
     const descriptions = field.FilterValues.map(value => getHumanizedFilter(field, [value], [], customFilterOptions));
     return descriptions.join(' • ');
   }
