@@ -3,7 +3,8 @@ import { ActionsSubject, Store } from '@ngrx/store';
 
 import { SortDescriptor } from '@progress/kendo-data-query';
 import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription, combineLatest } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { ofType } from '@ngrx/effects';
 
 import { ActionBarConfig,
@@ -22,10 +23,11 @@ import * as fromPayMarketManagementReducers from 'libs/features/paymarkets/payma
 import * as fromPayMarketModalActions from 'libs/features/paymarkets/paymarket-management/actions/paymarket-modal.actions';
 import { PfSecuredResourceDirective } from 'libs/forms/directives';
 import { SettingsService } from 'libs/state/app-context/services';
-import { FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models/common';
+import { CountryCurrency, FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models/common';
 import * as fromLayoutWrapperReducer from 'libs/ui/layout-wrapper/reducers';
 import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import * as fromPfDataGridActions from 'libs/features/grids/pf-data-grid/actions';
+import * as fromGeneralFormActions from 'libs/features/paymarkets/paymarket-management/actions/general-form.actions';
 import { DataViewConfig, ViewField } from 'libs/models/payfactors-api/reports/request';
 
 import * as fromPayMarketsPageActions from '../actions/paymarkets-page.actions';
@@ -153,15 +155,23 @@ export class PayMarketsPageComponent implements AfterViewInit, OnInit, OnDestroy
         this.selectedLocation = this.locationField.FilterValues === null ? [] : this.locationField.FilterValues;
       }
     });
-    this.savedViewsFieldsSubscription = this.actionsSubject
-      .pipe(ofType(fromPfDataGridActions.LOAD_SAVED_VIEWS_SUCCESS))
-      .subscribe((action: fromPfDataGridActions.LoadSavedViewsSuccess) => {
-        if (action.pageViewId === this.pageViewId && action.payload?.length) {
-          this.initSavedViewsCustomDisplayOptions(action.payload);
+
+    combineLatest(
+      [this.actionsSubject.pipe(ofType(fromPfDataGridActions.LOAD_SAVED_VIEWS_SUCCESS)),
+        this.actionsSubject.pipe(ofType(fromGeneralFormActions.GET_COUNTRIES_SUCCESS))]
+    ).pipe(
+      take(1),
+      ).subscribe(([views, countries]: [any, any]) => {
+        if (views.pageViewId === this.pageViewId && views.payload?.length) {
+          this.initSavedViewsCustomDisplayOptions(views.payload, countries.payload);
         }
       });
+
     window.addEventListener('scroll', this.scroll, true);
+
   }
+
+
 
   ngAfterViewInit(): void {
     this.gridRowActionsConfig = {
@@ -287,7 +297,9 @@ export class PayMarketsPageComponent implements AfterViewInit, OnInit, OnDestroy
     return !(!this.pfSecuredResourceDirective.doAuthorize(permission) && isDefaultPayMarket);
   }
 
-  private initSavedViewsCustomDisplayOptions(views: DataViewConfig[]): void {
+  private initSavedViewsCustomDisplayOptions(views: DataViewConfig[], countries: CountryCurrency[]): void {
+    const countriesDictionary = countries.reduce((a, x) => ({...a, [x.CountryCode]: x.CountryName}), {});
+
     const customFilters: PayMarketCustomDisplayFilters = {
       Industry_Value: [],
       Geo_Value: []
@@ -297,22 +309,38 @@ export class PayMarketsPageComponent implements AfterViewInit, OnInit, OnDestroy
       if (filters) {
         filters.forEach(filter => {
           if (this.customDisplayFilters.indexOf(filter.SourceName) > -1) {
-            this.addFilterValuesToGroupListItems(customFilters, filter.SourceName, filter.FilterValues);
+            this.addFilterValuesToGroupListItems(customFilters, filter.SourceName, filter.FilterValues, countriesDictionary);
           }
         });
       }
     });
+
     this.store.dispatch(new fromGridActionsBarActions.InitSavedViewsCustomDisplayOptions(customFilters));
   }
 
-  private addFilterValuesToGroupListItems(filters: PayMarketCustomDisplayFilters, sourceName: string, filterValues: string[]): void {
+  private addFilterValuesToGroupListItems(
+    filters: PayMarketCustomDisplayFilters,
+    sourceName: string,
+    filterValues: string[],
+    countriesDictionary: any
+  ): void {
     filterValues.forEach(value => {
       const parsedValues = value.split(':');
+
       if (parsedValues.length) {
-        filters[sourceName].push({
-          Value: value,
-          Name: parsedValues[parsedValues.length - 1]
-        });
+        const lastValue = parsedValues[parsedValues.length - 1];
+
+        if (parsedValues[0] === 'Country_Code') {
+          filters[sourceName].push({
+            Value: value,
+            Name: `${countriesDictionary[lastValue]} (${lastValue})`
+          });
+        } else {
+          filters[sourceName].push({
+            Value: value,
+            Name: lastValue
+          });
+        }
       }
     });
   }
