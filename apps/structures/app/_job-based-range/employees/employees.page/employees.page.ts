@@ -52,7 +52,7 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
   selectedFieldsSubscription: Subscription;
   filterQuery: string;
   modelData: GridDataResult;
-  queryParams: any;
+  routerParamsSubscription: Subscription;
 
   gridConfig: GridConfig;
   filterTemplates = {};
@@ -90,8 +90,12 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
     this.rangeGroupId = this.route.parent.snapshot.params.id;
     this.rangeId = parseInt(this.route.snapshot.params.id, 10);
 
-    this.queryParams = this.route.snapshot.queryParams;
-    this.filterQuery = this.queryParams?.filterQuery;
+    this.routerParamsSubscription = this.route.queryParams.subscribe(params => {
+      this.filterQuery = params['filterQuery'] ?? null;
+      if (this.filterQuery == null) {
+        this.filter = this.modelPageFilter;
+      }
+    });
 
     this.modelPageFilter = this.filter = [{
       SourceName: 'CompanyStructuresRanges_ID',
@@ -334,5 +338,6 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
     this.metadataSubscription.unsubscribe();
     this.selectedFieldsSubscription.unsubscribe();
     this.dataSubscription.unsubscribe();
+    this.routerParamsSubscription.unsubscribe();
   }
 }
