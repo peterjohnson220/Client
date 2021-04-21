@@ -32,7 +32,7 @@ import * as fromJobInformationFieldsActions from '../../../actions/job-informati
 import * as fromUserFilterActions from '../../../actions/user-filter.actions';
 import * as fromJobDescriptionReducers from '../../../reducers';
 import { AssignJobsToTemplateModalComponent, JobDescriptionHistoryModalComponent } from '../../../components';
-import { CompanyJobViewListItem } from '../../../models';
+import { CompanyJobViewListItem, WorkflowSetupModalInput } from '../../../models';
 import { SaveFilterModalComponent } from '../../../components/modals/save-filter';
 import { AddJobModalComponent } from '../../../components/modals/add-job';
 import { JobDescriptionAppliesToModalComponent } from '../../../../shared/components/modals/job-description-applies-to';
@@ -40,6 +40,7 @@ import { DeleteJobDescriptionModalComponent } from '../../../../shared/component
 import * as fromTemplateReducer from 'libs/features/jobs/job-description-management/reducers';
 import * as fromTemplateActions from 'libs/features/jobs/job-description-management/actions/template-list.actions';
 import * as fromHeaderActions from 'libs/ui/layout-wrapper/actions/header.actions';
+import { WorkflowSetupModalComponent } from '../../workflow-setup-modal/workflow-setup-modal.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -54,6 +55,7 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
   @ViewChild(JobDescriptionHistoryModalComponent, { static: true }) public jobDescriptionHistoryModalComponent: JobDescriptionHistoryModalComponent;
   @ViewChild(SaveFilterModalComponent, { static: true }) public saveFilterModalComponent: SaveFilterModalComponent;
   @ViewChild(DeleteJobDescriptionModalComponent, { static: true }) public deleteJobDescriptionModalComponent: DeleteJobDescriptionModalComponent;
+  @ViewChild(WorkflowSetupModalComponent, { static: true }) public workflowSetupModalComponent: WorkflowSetupModalComponent;
 
   jdmInboxFeatureFlag: RealTimeFlag = { key: FeatureFlags.JdmInbox, value: false };
 
@@ -114,6 +116,10 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
   private requireSSOLoginSubscription: Subscription;
   private unsubscribe$ = new Subject<void>();
 
+  private getSelectedJobDescriptions$: Observable<Map<number, any>>;
+  private getSelectedJobDescriptionsSubscription: Subscription;
+  selectedJobDescriptions: Map<number, any>;
+
   notification: { error: AppNotification<NotificationPayload> } = {
     error: {
       NotificationId: '',
@@ -127,6 +133,17 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
       Type: NotificationType.Event
     }
   };
+
+  get workflowSetupModalInput(): WorkflowSetupModalInput[]  {
+    const workflowSetupModalInputArray: WorkflowSetupModalInput[] = [];
+    this.selectedJobDescriptions?.forEach(jd => {
+      workflowSetupModalInputArray.push({EntityId: jd.JobDescriptionId,
+        JobTitle: jd.JobTitle,
+        Revision: jd.VersionNumber,
+        JobId: jd.CompanyJobId });
+    });
+    return workflowSetupModalInputArray;
+  }
 
   constructor(
     private notificationStore: Store<fromAppNotificationsMainReducer.State>,
@@ -164,6 +181,7 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
     this.userFilterListLoading$ = this.store.select(fromJobDescriptionReducers.getUserFilterLoading);
     this.deleteJobDescriptionSuccess$ = this.store.select(fromJobDescriptionReducers.getDeletingJobDescriptionSuccess);
     this.templateListItems$ = this.store.select(fromTemplateReducer.getTemplateList);
+    this.getSelectedJobDescriptions$ = this.store.select(fromJobDescriptionReducers.getSelectedJobDescriptions);
 
     this.requireSSOLogin$ = this.settingsService.selectCompanySetting<boolean>(CompanySettingsEnum.JDMExternalWorkflowsRequireSSOLogin);
     this.enableFileDownloadSecurityWarning$ = this.settingsService.selectCompanySetting<boolean>(CompanySettingsEnum.FileDownloadSecurityWarning);
@@ -396,6 +414,10 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromJobDescriptionGridActions.SaveListAreaColumns(columns));
   }
 
+  openBulkRouteJobDescriptions(event) {
+    this.workflowSetupModalComponent.open();
+  }
+
   private initFilterThrottle() {
     const filterThrottle$ = this.filterThrottle.pipe(debounceTime(400));
 
@@ -512,6 +534,10 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
       }
     });
 
+    this.getSelectedJobDescriptionsSubscription = this.getSelectedJobDescriptions$.subscribe((selectedJobDescriptions) => {
+      this.selectedJobDescriptions = selectedJobDescriptions;
+    });
+
     this.gridStateSubscription = this.savedGridState$.subscribe(savedGridState => this.gridState = cloneDeep(savedGridState));
   }
 
@@ -549,5 +575,6 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
     this.deleteJobDescriptionSuccessSubscription.unsubscribe();
     this.requireSSOLoginSubscription?.unsubscribe();
     this.enableFileDownloadSecurityWarningSub.unsubscribe();
+    this.getSelectedJobDescriptionsSubscription.unsubscribe();
   }
 }

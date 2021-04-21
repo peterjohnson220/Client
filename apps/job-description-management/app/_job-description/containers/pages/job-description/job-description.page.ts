@@ -44,7 +44,7 @@ import * as fromControlTypesActions from 'libs/features/jobs/job-description-man
 import { JobDescriptionConstants } from 'libs/features/jobs/job-description-management/constants/job-description-constants';
 import { JobDescriptionManagementDndSource, JobDescriptionViewConstants } from 'libs/features/jobs/job-description-management/constants';
 
-import { EmployeeAcknowledgement, ExportData, JobDescriptionLibraryDropModel } from '../../../models';
+import { EmployeeAcknowledgement, ExportData, JobDescriptionLibraryDropModel, WorkflowSetupModalInput } from '../../../models';
 import * as fromJobDescriptionReducers from '../../../reducers';
 import * as fromJobDescriptionActions from '../../../actions/job-description.actions';
 import * as fromEmployeeAcknowledgementActions from '../../../actions/employee-acknowledgement.actions';
@@ -166,6 +166,13 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   get isJobDescriptionEditable() {
     return this.identityInWorkflow ? this.hasCanEditJobDescriptionPermission :
     this.hasCanEditJobDescriptionPermission && this.jobDescription?.JobDescriptionStatus === 'Draft';
+  }
+
+  get workflowSetupModalInput(): WorkflowSetupModalInput[]  {
+    return [{EntityId:  this.jobDescription?.JobDescriptionId,
+      JobTitle: this.jobDescription?.Name,
+      Revision: this.jobDescription?.JobDescriptionRevision,
+      JobId: this.jobDescription?.CompanyJobId }];
   }
 
   constructor(

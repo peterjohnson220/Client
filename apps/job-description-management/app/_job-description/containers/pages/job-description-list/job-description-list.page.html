@@ -96,7 +96,8 @@
               (openDeleteJobDescriptionModal)="openDeleteJobDescModal($event)"
               (pageChanged)="handlePageChanged($event)"
               (sortChanged)="handleSortChanged($event)"
-              (publicViewChanged)="handlePublicViewChanged($event)">
+              (publicViewChanged)="handlePublicViewChanged($event)"
+              (bulkRouteJobDescriptions)="openBulkRouteJobDescriptions($event)">
             </pf-job-description-grid>
           </div>
         </div>
@@ -140,5 +141,9 @@
       (saved)="saveFilterHandler($event)"
       (opened)="handleSaveFilterModalOpened()">
     </pf-save-filter-modal>
+    
+    <pf-workflow-setup-modal 
+      [workflowSetupModalInput]="workflowSetupModalInput">
+    </pf-workflow-setup-modal>
   </ng-container>
 </pf-page-with-title-bar>

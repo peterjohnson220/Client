@@ -1,5 +1,5 @@
 import { Component, ViewChild, OnInit, OnDestroy, Input } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 
 import { Store, select } from '@ngrx/store';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -14,8 +14,9 @@ import * as fromWorkflowConfigActions from 'libs/features/jobs/job-description-m
 
 import * as fromJobDescriptionManagementReducer from '../../reducers';
 import * as fromWorkflowSetupModalActions from '../../actions/workflow-setup-modal.actions';
+import * as fromJobDescriptionGridActions from '../../actions/job-description-grid.actions';
 import { WorkflowTemplate, WorkflowStep } from 'libs/features/jobs/job-description-management/models';
-import { Workflow } from '../../models';
+import { Workflow, WorkflowSetupModalInput } from '../../models';
 
 @Component({
   selector: 'pf-workflow-setup-modal',
@@ -23,27 +24,21 @@ import { Workflow } from '../../models';
   styleUrls: ['./workflow-setup-modal.component.scss']
 })
 export class WorkflowSetupModalComponent implements OnInit, OnDestroy {
-  @Input() jobTitle: string;
-  @Input() revision: number;
-  @Input() jobId: number;
+  @Input() workflowSetupModalInput: WorkflowSetupModalInput[];
 
   @ViewChild('routeForApprovalModal', { static : true }) public routeForApprovalModal: any;
   workflowTemplatesAsync$: Observable<AsyncStateObj<WorkflowTemplate[]>>;
-  workflowSaving$: Observable<boolean>;
   workflowSteps$: Observable<WorkflowStep[]>;
   hasForbiddenUsers$: Observable<boolean>;
   stepsDirty$: Observable<boolean>;
-  savingSuccess$: Observable<boolean>;
 
   workflowTemplatesAsyncSubscription: Subscription;
   hasForbiddenUsersSubscription: Subscription;
   workflowStepsSubscription: Subscription;
-  savingSuccessSubscription: Subscription;
   stepsDirtySubscription: Subscription;
 
   accessibleTemplates: WorkflowTemplate[];
   addingNonSystemUser = false;
-  entityId: number;
   filteredTemplates: WorkflowTemplate[];
   hasFilteredTemplates: boolean;
   hasForbiddenUsers: boolean;
@@ -58,27 +53,18 @@ export class WorkflowSetupModalComponent implements OnInit, OnDestroy {
     private store: Store<fromJobDescriptionManagementReducer.State>,
     private sharedJdmStore: Store<fromJDMSharedReduder.State>,
     private modalService: NgbModal,
-    private route: ActivatedRoute
+    private router: Router
   ) {
     this.workflowSteps$ = this.store.pipe(select(fromJDMSharedReduder.getWorkflowStepsFromWorkflowConfig));
     this.workflowTemplatesAsync$ = this.store.pipe(select(fromJDMSharedReduder.getWorkflowTemplateList));
-    this.workflowSaving$ = this.store.pipe(select(fromJobDescriptionManagementReducer.getWorkflowSetupSaving));
     this.hasForbiddenUsers$ = this.sharedJdmStore.pipe(select(fromJDMSharedReduder.getHasUsersWithoutPermission));
     this.stepsDirty$ = this.sharedJdmStore.pipe(select(fromJDMSharedReduder.getWorkflowConfigDirty));
-    this.savingSuccess$ = this.store.pipe(select(fromJobDescriptionManagementReducer.getWorkflowSetupSavingSuccess));
   }
 
   ngOnInit(): void {
-    this.entityId = +this.route.snapshot.params['id'];
-    this.workflowUrl = `/job-description-management/job-descriptions/${this.entityId}`;
     this.workflowTemplatesAsyncSubscription = this.workflowTemplatesAsync$.subscribe(results => this.handleWorkflowTemplatesChanged(results.obj));
     this.hasForbiddenUsersSubscription = this.hasForbiddenUsers$.subscribe(value => this.hasForbiddenUsers = value);
     this.workflowStepsSubscription = this.workflowSteps$.subscribe(results => this.workflowSteps = results);
-    this.savingSuccessSubscription = this.savingSuccess$.subscribe(success => {
-      if (success) {
-        this.close();
-      }
-    });
     this.stepsDirtySubscription = this.stepsDirty$.subscribe(value => {
       this.stepsDirty = value;
       if (this.stepsDirty && this.selectedTemplateName !== undefined) {
@@ -91,7 +77,6 @@ export class WorkflowSetupModalComponent implements OnInit, OnDestroy {
     this.workflowTemplatesAsyncSubscription.unsubscribe();
     this.hasForbiddenUsersSubscription.unsubscribe();
     this.workflowStepsSubscription.unsubscribe();
-    this.savingSuccessSubscription.unsubscribe();
   }
 
   open(): void {
@@ -130,8 +115,14 @@ export class WorkflowSetupModalComponent implements OnInit, OnDestroy {
   }
 
   createWorkflow(): void {
-    const workflow = this.buildWorkflow();
-    this.store.dispatch(new fromWorkflowSetupModalActions.CreateWorkflow(workflow));
+    const workflows = [];
+    this.workflowSetupModalInput?.forEach(x => {
+      workflows.push(this.buildWorkflow(x));
+      this.store.dispatch(new fromJobDescriptionGridActions.AddRoutingJob(x.EntityId));
+    });
+    this.store.dispatch(new fromWorkflowSetupModalActions.CreateWorkflow(workflows));
+    this.router.navigate(['/job-descriptions']);
+    this.close();
   }
 
   private handleWorkflowTemplatesChanged(results: WorkflowTemplate[]): void {
@@ -144,7 +135,7 @@ export class WorkflowSetupModalComponent implements OnInit, OnDestroy {
     this.filteredTemplates = this.accessibleTemplates;
   }
 
-  private buildWorkflow(): Workflow {
+  private buildWorkflow(worflowInput: WorkflowSetupModalInput): Workflow {
     const workflowSteps: WorkflowStep[] = cloneDeep(this.workflowSteps);
 
     for (let i = 0; i < workflowSteps.length; i++) {
@@ -158,10 +149,10 @@ export class WorkflowSetupModalComponent implements OnInit, OnDestroy {
 
     return {
       EntityType: 'JobDescription',
-      EntityId: this.entityId,
-      EntityTitle: this.jobTitle,
-      WorkflowUrl: this.workflowUrl,
-      Revision: this.revision,
+      EntityId: worflowInput?.EntityId,
+      EntityTitle: worflowInput?.JobTitle,
+      WorkflowUrl:  `/job-description-management/job-descriptions/${worflowInput?.EntityId}`,
+      Revision: worflowInput?.Revision,
       WorkflowSteps: workflowSteps,
       InitiationComment: this.workflowInitiationComment,
       AllAvailablePermissions: [ Permissions.JOB_DESCRIPTIONS, Permissions.CAN_EDIT_JOB_DESCRIPTION ]

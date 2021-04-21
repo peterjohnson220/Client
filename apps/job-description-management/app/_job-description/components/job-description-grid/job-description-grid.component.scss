@@ -60,6 +60,10 @@
   cursor: pointer;
 }
 
+:host ::ng-deep .k-grid .k-disabled  > td {
+  cursor: not-allowed
+}
+
 #public-icon-stack {
   color: #1b1e21;
   transition: 0.3s;

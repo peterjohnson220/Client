@@ -5,7 +5,6 @@ import { GridDataResult } from '@progress/kendo-angular-grid';
 import { ListAreaColumn } from 'libs/models/common';
 
 import * as fromJobDescriptionGridActions from '../actions/job-description-grid.actions';
-import { CompanyJobViewListItem } from '../models';
 
 export interface State {
   gridDataResult: GridDataResult;
@@ -19,7 +18,7 @@ export interface State {
   savingListAreaColumnsError: boolean;
   savingListAreaColumnsSuccess: boolean;
   searchTerm: string;
-  selectedJobDescriptions: Map<number, number>;
+  selectedJobDescriptions: Map<number, any>;
 }
 
 export const initialState: State = {
@@ -34,7 +33,7 @@ export const initialState: State = {
   savingListAreaColumnsError: false,
   savingListAreaColumnsSuccess: false,
   searchTerm: '',
-  selectedJobDescriptions: new Map<number, number>()
+  selectedJobDescriptions: new Map<number, any>()
 };
 
 export function reducer(state = initialState, action: fromJobDescriptionGridActions.Actions): State {
@@ -134,6 +133,32 @@ export function reducer(state = initialState, action: fromJobDescriptionGridActi
         return {
           ...state,
           selectedJobDescriptions: action.payload
+        };
+      }
+
+      case fromJobDescriptionGridActions.ADD_ROUTING_JOB: {
+        const gridDataResultCopy = cloneDeep(state.gridDataResult);
+        gridDataResultCopy.data.forEach( jd => {
+          if (action.payload === jd['JobDescriptionId']) {
+            jd['JobDescriptionStatus'] = 'Routing';
+          }
+        });
+        return {
+          ...state,
+          gridDataResult: gridDataResultCopy
+        };
+      }
+
+      case fromJobDescriptionGridActions.REMOVE_ROUTING_JOB: {
+        const gridDataResultCopy = cloneDeep(state.gridDataResult);
+        gridDataResultCopy.data.forEach( jd => {
+          if (action.payload === jd['JobDescriptionId']) {
+            jd['JobDescriptionStatus'] = 'In Review';
+          }
+        });
+        return {
+          ...state,
+          gridDataResult: gridDataResultCopy
         };
       }
 

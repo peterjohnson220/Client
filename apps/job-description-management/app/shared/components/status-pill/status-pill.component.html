@@ -5,3 +5,6 @@
 <span *ngIf="status == 'Not Started'" class="badge badge-info">Not Started</span>
 <span *ngIf="status == 'Historical'" class="badge badge-default">Historical</span>
 <span *ngIf="status == 'In Review'" class="badge badge-review">In Review</span>
+<span *ngIf="status == 'Routing'">
+    <pf-loading-indicator></pf-loading-indicator> Routing...
+</span>
