@@ -137,6 +137,6 @@ export class FilterBuilderComponent implements OnChanges {
 
   private filterValueValid() {
     return (this.field.FilterOperator !== Between.Value && this.field.FilterValues?.length > 0) ||
-      (this.field.FilterOperator === Between.Value) && this.field.FilterValues?.length === 2;
+      (this.field.FilterOperator === Between.Value) && this.field.FilterValues?.length === 2 && this.field.FilterValues?.every(element => element !== null);
   }
 }
