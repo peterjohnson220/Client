@@ -49,6 +49,7 @@ export interface CompanyEmployee {
   TargetLTIP: number;
   TargetTDC: number;
   Gender: string;
+  EthnicityPF: string;
   STIElig: boolean;
   LTIElig: boolean;
   SubsidiaryId: number;
