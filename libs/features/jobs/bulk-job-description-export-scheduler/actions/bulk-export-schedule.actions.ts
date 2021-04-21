@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { BulkExportSchedule, BulkExportScheduleParameters } from 'libs/models/jdm';
+import { BulkExportHistory, BulkExportSchedule, BulkExportScheduleParameters } from 'libs/models/jdm';
 
 export const ADDING_SCHEDULE = '[Bulk Jobs Export Scheduler Feature / Schedule] Adding Schedule';
 export const ADDING_SCHEDULE_SUCCESS = '[Bulk Jobs Export Scheduler Feature / Schedule] Adding Schedule Success';
@@ -19,6 +19,9 @@ export const UPDATE_SCHEDULE_ERROR = '[Bulk Jobs Export Scheduler Feature / Sche
 export const GET_JDM_EXPORT_URL = '[Bulk Jobs Export Scheduler Feature / Schedule] Get JDM Export URL';
 export const GET_JDM_EXPORT_URL_SUCCESS = '[Bulk Jobs Export Scheduler Feature / Schedule] Get JDM Export URL Success';
 export const GET_JDM_EXPORT_URL_ERROR = '[Bulk Jobs Export Scheduler Feature / Schedule] Get JDM Export URL Error';
+export const GET_LATEST_EXPORT_HISTORY = '[Bulk Jobs Export Scheduler Feature / Schedule] Get Export History';
+export const GET_LATEST_EXPORT_HISTORY_ERROR = '[Bulk Jobs Export Scheduler Feature / Schedule] Get Export History Error';
+export const GET_LATEST_EXPORT_HISTORY_SUCCESS = '[Bulk Jobs Export Scheduler Feature / Schedule] Get Export History Success';
 
 export class AddingSchedule implements Action {
   readonly type = ADDING_SCHEDULE;
@@ -128,6 +131,22 @@ export class GetJdmExportUrlError implements Action {
    constructor() {}
 }
 
+export class GetLatestExportsHistory implements Action {
+  readonly type = GET_LATEST_EXPORT_HISTORY;
+
+  constructor() {}
+}
+export class GetLatestExportsHistorySuccess implements Action {
+  readonly type = GET_LATEST_EXPORT_HISTORY_SUCCESS;
+
+  constructor(public payload: BulkExportHistory[]) {}
+}
+export class GetLatestExportsHistoryError implements Action {
+  readonly type = GET_LATEST_EXPORT_HISTORY_ERROR;
+
+  constructor() {}
+}
+
 export type BulkExportJobsSchedulerActions
   = AddingSchedule
   | AddingScheduleSuccess
@@ -146,4 +165,7 @@ export type BulkExportJobsSchedulerActions
   | UpdateScheduleError
   | GetJdmExportUrl
   | GetJdmExportUrlSuccess
-  | GetJdmExportUrlError;
+  | GetJdmExportUrlError
+  | GetLatestExportsHistory
+  | GetLatestExportsHistorySuccess
+  | GetLatestExportsHistoryError;
