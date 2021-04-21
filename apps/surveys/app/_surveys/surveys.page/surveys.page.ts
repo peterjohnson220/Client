@@ -33,7 +33,7 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
   pageViewId = SurveysPageConfig.SurveysPageViewId;
   defaultSort: SortDescriptor[] = [{
     dir: 'asc',
-    field: 'Surveys_Survey_Publisher'
+    field: 'SurveyJob_Job_Title'
   }];
   matchedFilterDisplayOptions: PfDataGridCustomFilterDisplayOptions[] = [
     { Display: '', Value: null },
