@@ -153,7 +153,7 @@ export function reducer(state = initialState, action: fromWorkflowConfigActions.
       const workflowSteps: WorkflowStep[] = cloneDeep(state.workflowSteps);
 
       for (let i = 0; i < workflowSteps.length; i++) {
-        const userIndex = workflowSteps[i].WorkflowStepUsers.findIndex(u => u.StepId === action.payload.StepId);
+        const userIndex = workflowSteps[i].WorkflowStepUsers.findIndex(u => u.UserId === action.payload.UserId);
         if (userIndex > -1) {
           workflowSteps[i].WorkflowStepUsers.splice(userIndex, 1);
 
