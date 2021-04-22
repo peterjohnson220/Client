@@ -39,7 +39,7 @@
     [pageTheme]="pfThemeType.NextGen"
     [gridConfig]="gridConfig"
     [compactGridMinHeight]="'115px'"
-    [columnTemplates]="colTemplates"
+    [columnTemplates]="colHeaderTemplates"
     [actionBarConfig]="singleRecordActionBarConfig">
   </pf-data-grid>
 </ng-template>
@@ -87,8 +87,8 @@
       [textAlign]="'center'"
       [roundingSettings]="roundingSettings"
       [refreshRowDataViewFilter]="getRefreshFilter(dataRow)"
-      [updateMetaInfo]="{ pageViewId: modelGridPageViewId }"
-      [updateSuccessCallbackFn]="updateMidSuccessCallbackFn"
+      [updateMetaInfo]="{ pageViewId: modelGridPageViewId, jobsPageViewId: this.pageViewId, jobsData: jobsData, jobsGridConfig: gridConfig, jobsPagingOptions: jobsPagingOptions }"
+      [updateSuccessCallbackFn]="updateSuccessCallbackFn"
       [readonlyValueTemplate]="rangeValue">
     </pf-range-field-editor>
   </ng-container>
@@ -111,7 +111,8 @@
       [textAlign]="'center'"
       [roundingSettings]="roundingSettings"
       [refreshRowDataViewFilter]="getRefreshFilter(dataRow)"
-      [updateMetaInfo]="{ pageViewId: modelGridPageViewId }"
+      [updateMetaInfo]="{ pageViewId: modelGridPageViewId, jobsPageViewId: this.pageViewId, jobsData: jobsData, jobsGridConfig: gridConfig, jobsPagingOptions: jobsPagingOptions }"
+      [updateSuccessCallbackFn]="updateSuccessCallbackFn"
       [readonlyValueTemplate]="rangeValue">
     </pf-range-field-editor>
   </ng-container>
@@ -134,8 +135,9 @@
       [textAlign]="'center'"
       [noRounding]="true"
       [refreshRowDataViewFilter]="getRefreshFilter(dataRow)"
-      [updateMetaInfo]="{ pageViewId: modelGridPageViewId }"
+      [updateMetaInfo]="{ pageViewId: modelGridPageViewId, jobsPageViewId: this.pageViewId, jobsData: jobsData, jobsGridConfig: gridConfig, jobsPagingOptions: jobsPagingOptions }"
       [readonlyValueTemplate]="rangeValue"
+      [updateSuccessCallbackFn]="updateSuccessCallbackFn"
       [minValue]="-999999999999999">
     </pf-range-field-editor>
   </ng-container>
@@ -158,7 +160,8 @@
       [textAlign]="'center'"
       [noRounding]="true"
       [refreshRowDataViewFilter]="getRefreshFilter(dataRow)"
-      [updateMetaInfo]="{ pageViewId: modelGridPageViewId }"
+      [updateMetaInfo]="{ pageViewId: modelGridPageViewId, jobsPageViewId: this.pageViewId, jobsData: jobsData, jobsGridConfig: gridConfig, jobsPagingOptions: jobsPagingOptions }"
+      [updateSuccessCallbackFn]="updateSuccessCallbackFn"
       [readonlyValueTemplate]="rangeValue">
     </pf-range-field-editor>
   </ng-container>
@@ -172,6 +175,18 @@
   </ng-container>
 </ng-template>
 
-<ng-template #graph>
+<ng-template #jobTitle let-dataRow="dataRow" let-fieldName="fieldName">
+  <ng-container *ngIf="dataRow.CompanyJobs_Structures_JobTitle as jobTitle; else noValue">
+    <div pfEllipsisActive class="ellipsis-overflowing-text-wrap">
+      <a class="temp-link-color-override" routerLinkActive="disabled" [routerLink]="[singleJobViewUrl, dataRow.CompanyJobs_Structures_CompanyJobId]" [queryParams]="{rangeId: rangeId, jobsView: true}">
+        {{ jobTitle }}
+      </a>
+    </div>
+  </ng-container>
+</ng-template>
 
+<ng-template #graph>
+  <pf-job-view-range-chart
+  [rangeId]="rangeId">
+  </pf-job-view-range-chart>
 </ng-template>

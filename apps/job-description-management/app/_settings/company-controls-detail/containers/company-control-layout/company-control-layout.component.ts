@@ -288,7 +288,7 @@ export class CompanyControlLayoutComponent implements OnInit, OnDestroy, OnChang
             CanEditTemplateData: attribute.CanEditTemplateData,
             RTEHeight: attribute.RTEHeight,
             CanBeSourced: attribute.CanBeSourced,
-            WidthPct: attribute.WidthPct,
+            WidthPct: [attribute.WidthPct, Validators.required],
             Choices: choices
         });
     }

@@ -12,10 +12,14 @@ export interface State extends EntityState<StatementListViewModel> {
   statementsLoadingError: boolean;
   searchTerm: string;
   openActionMenuStatement: StatementListViewModel;
-  isDeleteStatetementModalOpen: boolean;
-  deletingStatetement: boolean;
-  deletingStatetementSuccess: boolean;
-  deletingStatetementError: boolean;
+  isDeleteStatementModalOpen: boolean;
+  deletingStatement: boolean;
+  deletingStatementSuccess: boolean;
+  deletingStatementError: boolean;
+  isCopyStatementModalOpen: boolean;
+  copyingStatement: boolean;
+  copyingStatementSuccess: boolean;
+  copyingStatementError: boolean;
 }
 
 // define our EntityAdapter of Statement type
@@ -29,10 +33,14 @@ const initialState: State = adapter.getInitialState({
   statementsLoadingError: false,
   searchTerm: null,
   openActionMenuStatement: null,
-  isDeleteStatetementModalOpen: false,
-  deletingStatetement: false,
-  deletingStatetementSuccess: false,
-  deletingStatetementError: false,
+  isDeleteStatementModalOpen: false,
+  deletingStatement: false,
+  deletingStatementSuccess: false,
+  deletingStatementError: false,
+  isCopyStatementModalOpen: false,
+  copyingStatement: false,
+  copyingStatementSuccess: false,
+  copyingStatementError: false,
 });
 
 export function reducer(state, action) {
@@ -78,41 +86,73 @@ export function reducer(state, action) {
           return {
             ...featureState,
             // action menu is behind an opacity blanket when the delete modal is open, so noop on a close in that case
-            openActionMenuStatement: (featureState.isDeleteStatetementModalOpen) ? featureState.openActionMenuStatement : null,
+            openActionMenuStatement: (featureState.isDeleteStatementModalOpen) ? featureState.openActionMenuStatement : null,
           };
         }
         case fromStatementGridActions.CONFIRM_DELETE_STATEMENT: {
           return {
             ...featureState,
-            isDeleteStatetementModalOpen: true,
+            isDeleteStatementModalOpen: true,
             openActionMenuStatement: action.payload
           };
         }
         case fromStatementGridActions.CLOSE_DELETE_STATEMENT:
           return {
             ...featureState,
-            isDeleteStatetementModalOpen: false
+            isDeleteStatementModalOpen: false
           };
         case fromStatementGridActions.DELETE_STATEMENT:
           return {
             ...featureState,
-            deletingStatetement: true,
-            deletingStatetementSuccess: false,
-            deletingStatetementError: false,
+            deletingStatement: true,
+            deletingStatementSuccess: false,
+            deletingStatementError: false,
           };
         case fromStatementGridActions.DELETE_STATEMENT_SUCCESS:
           return {
             ...featureState,
-            deletingStatetement: false,
-            deletingStatetementSuccess: true,
-            deletingStatetementError: false,
+            deletingStatement: false,
+            deletingStatementSuccess: true,
+            deletingStatementError: false,
           };
         case fromStatementGridActions.DELETE_STATEMENT_ERROR:
           return {
             ...featureState,
-            deletingStatetement: false,
-            deletingStatetementSuccess: false,
-            deletingStatetementError: true,
+            deletingStatement: false,
+            deletingStatementSuccess: false,
+            deletingStatementError: true,
+          };
+        case fromStatementGridActions.CONFIRM_COPY_STATEMENT:
+          return {
+            ...featureState,
+            isCopyStatementModalOpen: true,
+            openActionMenuStatement: action.payload
+          };
+        case fromStatementGridActions.CLOSE_COPY_STATEMENT:
+          return {
+            ...featureState,
+            isCopyStatementModalOpen: false
+          };
+        case fromStatementGridActions.COPY_STATEMENT:
+          return {
+            ...featureState,
+            copyingStatement: true,
+            copyingStatementSuccess: false,
+            copyingStatementError: false,
+          };
+        case fromStatementGridActions.COPY_STATEMENT_SUCCESS:
+          return {
+            ...featureState,
+            copyingStatement: false,
+            copyingStatementSuccess: true,
+            copyingStatementError: false,
+          };
+        case fromStatementGridActions.COPY_STATEMENT_ERROR:
+          return {
+            ...featureState,
+            copyingStatement: false,
+            copyingStatementSuccess: false,
+            copyingStatementError: true,
           };
         default: {
           return featureState;
@@ -136,7 +176,12 @@ export const getSearchTerm = (state: State) => state.searchTerm;
 
 export const getOpenActionMenuStatement = (state: State) => state.openActionMenuStatement;
 
-export const getIsDeleteStatetementModalOpen = (state: State) => state.isDeleteStatetementModalOpen;
-export const getDeletingStatetement = (state: State) => state.deletingStatetement;
-export const getDeletingStatetementSuccess = (state: State) => state.deletingStatetementSuccess;
-export const getDeletingStatetementError = (state: State) => state.deletingStatetementError;
+export const getIsDeleteStatementModalOpen = (state: State) => state.isDeleteStatementModalOpen;
+export const getDeletingStatement = (state: State) => state.deletingStatement;
+export const getDeletingStatementSuccess = (state: State) => state.deletingStatementSuccess;
+export const getDeletingStatementError = (state: State) => state.deletingStatementError;
+
+export const getIsCopyStatementModalOpen = (state: State) => state.isCopyStatementModalOpen;
+export const getCopyingStatement = (state: State) => state.copyingStatement;
+export const getCopyingStatementSuccess = (state: State) => state.copyingStatementSuccess;
+export const getCopyingStatementError = (state: State) => state.copyingStatementError;

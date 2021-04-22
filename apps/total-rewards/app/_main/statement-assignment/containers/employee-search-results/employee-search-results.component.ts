@@ -18,9 +18,11 @@ export class EmployeeSearchResultsComponent {
   // Observables
   employeeResults$: Observable<EmployeeSearchResult[]>;
   loadingResults$: Observable<boolean>;
+  noResultsMessage$: Observable<string>;
 
   constructor(private store: Store<fromStatementAssignmentsReducers.State>) {
     this.employeeResults$ = this.store.select(fromStatementAssignmentsReducers.getEmployees);
+    this.noResultsMessage$ = this.store.select(fromStatementAssignmentsReducers.getNoResultsMessage);
   }
 
   trackByEmployeeId(index, item: EmployeeSearchResult) {

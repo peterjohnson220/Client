@@ -39,6 +39,7 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
   @ViewChild('rangeValue', {static: true}) rangeValueColumn: ElementRef;
   @ViewChild('rangeSpreadField') rangeSpreadFieldColumn: ElementRef;
   @ViewChild('jobsCount') jobsCountColumn: ElementRef;
+  @ViewChild('jobTitle') jobTitleColumn: ElementRef;
 
   employeesPageViewId: string;
   dataCutsPageViewId: string;
@@ -61,6 +62,7 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
   data: GridDataResult;
   pagingOptions: PagingOptions;
   filterTemplates = {};
+  singleJobViewUrl: string;
 
   modelGridPageViewIdSubscription: Subscription;
   dataSubscription: Subscription;
@@ -91,6 +93,7 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
 
     this.rangeGroupId = this.route.parent.snapshot.params.id;
     this.rangeId = parseInt(this.route.snapshot.params.id, 10);
+    this.singleJobViewUrl = `/grade/${this.rangeGroupId}/job/`;
 
     this.filter = {
       SourceName: 'CompanyStructuresRanges_ID',
@@ -177,6 +180,7 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
       'Jobs_Per_Grade': {Template: this.jobsCountColumn},
       'Range_Spread': {Template: this.rangeSpreadFieldColumn},
       'GradeMidpointDiff': {Template: this.diffFieldColumn},
+      'JobTitle': {Template: this.jobTitleColumn},
       [PfDataGridColType.noFormatting]: {Template: this.noFormattingColumn},
       [PfDataGridColType.rangeFieldEditor]: {Template: this.rangeFieldColumn},
       [PfDataGridColType.percentage]: {Template: this.percentageColumn},

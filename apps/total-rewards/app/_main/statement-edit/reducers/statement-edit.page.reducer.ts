@@ -3,7 +3,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 import { GenericNameValue } from 'libs/models/common';
 import { AsyncStateObjHelper } from 'libs/core/helpers';
-import { EmployeeRewardsData, generateMockEmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards/response';
+import { EmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards/response';
 import { CompensationField, ImageControl, Statement, StatementModeEnum } from 'libs/features/total-rewards/total-rewards-statement/models';
 import { TotalRewardsStatementService } from 'libs/features/total-rewards/total-rewards-statement/services/total-rewards-statement.service';
 
@@ -25,6 +25,7 @@ export interface State {
   visibleFieldsCount: number;
   activeRichTextEditorId: string;
   isPageScrolling: boolean;
+  generateStatementPreviewEventId: AsyncStateObj<string>;
 }
 
 export const initialState: State = {
@@ -42,7 +43,8 @@ export const initialState: State = {
   companyUdfs: generateDefaultAsyncStateObj([]),
   visibleFieldsCount: 0,
   activeRichTextEditorId: null,
-  isPageScrolling: false
+  isPageScrolling: false,
+  generateStatementPreviewEventId: generateDefaultAsyncStateObj<string>(null)
 };
 
 export function reducer(state = initialState, action: fromEditStatementActions.StatementEditPageActions): State {
@@ -55,12 +57,14 @@ export function reducer(state = initialState, action: fromEditStatementActions.S
       localState.statement.saving = false;
       localState.statement.savingError = false;
       localState.statement.savingSuccess = false;
+      localState.statementPreviewGenerating = false;
+      localState.statementPreviewGeneratingError = false;
       return AsyncStateObjHelper.loading(localState, 'statement');
     }
     case fromEditStatementActions.LOAD_STATEMENT_SUCCESS: {
-      const localState = cloneDeep(state);
+      const localState = AsyncStateObjHelper.loadingSuccess(state, 'statement', action.payload);
       localState.lastSavedDateTime = Date.now();
-      return AsyncStateObjHelper.loadingSuccess(state, 'statement', action.payload);
+      return localState;
     }
     case fromEditStatementActions.LOAD_STATEMENT_ERROR: {
       return AsyncStateObjHelper.loadingError(state, 'statement', action.payload);
@@ -211,15 +215,6 @@ export function reducer(state = initialState, action: fromEditStatementActions.S
       localState.isSettingsPanelOpen = false;
       return localState;
     }
-    case fromEditStatementActions.TOGGLE_SETTINGS_PANEL: {
-      const localState: State = cloneDeep(state);
-      // bail if we're trying to open settings while in in preview mode
-      if (state.mode === StatementModeEnum.Preview && !localState.isSettingsPanelOpen) {
-        return localState;
-      }
-      localState.isSettingsPanelOpen = !localState.isSettingsPanelOpen;
-      return localState;
-    }
     case fromEditStatementActions.RESET_SETTINGS:
     case fromEditStatementActions.SAVE_SETTINGS: {
       const localState: State = cloneDeep(state);
@@ -308,16 +303,6 @@ export function reducer(state = initialState, action: fromEditStatementActions.S
     case fromEditStatementActions.GET_EMPLOYEE_REWARDS_DATA_ERROR: {
       return AsyncStateObjHelper.loadingError(state, 'employeeData');
     }
-    case fromEditStatementActions.RESET_EMPLOYEE_REWARDS_DATA: {
-      const employeeDataAsyncClone = cloneDeep(state.employeeData);
-      employeeDataAsyncClone.loading = false;
-      employeeDataAsyncClone.obj = generateMockEmployeeRewardsData();
-      employeeDataAsyncClone.loadingError = false;
-      return {
-        ...state,
-        employeeData: employeeDataAsyncClone
-      };
-    }
     case fromEditStatementActions.GET_COMPANY_UDF: {
       const companyUdfClone: AsyncStateObj<CompensationField[]> = cloneDeep(state.companyUdfs);
       companyUdfClone.loading = true;
@@ -368,6 +353,23 @@ export function reducer(state = initialState, action: fromEditStatementActions.S
         ...state,
         isPageScrolling: action.payload.isScrolling
       };
+    }
+    case fromEditStatementActions.GENERATE_STATEMENT_PREVIEW: {
+      return AsyncStateObjHelper.loading(state, 'generateStatementPreviewEventId');
+    }
+    case fromEditStatementActions.GENERATE_STATEMENT_PREVIEW_SUCCESS: {
+      const asyncClone = cloneDeep(state.generateStatementPreviewEventId);
+      asyncClone.obj = action.payload;
+      return {
+        ...state,
+        generateStatementPreviewEventId: asyncClone
+      };
+    }
+    case fromEditStatementActions.GENERATE_STATEMENT_PREVIEW_COMPLETE: {
+      return AsyncStateObjHelper.loadingSuccess(state, 'generateStatementPreviewEventId');
+    }
+    case fromEditStatementActions.GENERATE_STATEMENT_PREVIEW_ERROR: {
+      return AsyncStateObjHelper.loadingError(state, 'generateStatementPreviewEventId');
     }
     default: {
       return state;
