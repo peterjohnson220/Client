@@ -13,6 +13,7 @@ import { JobsRoutingModule } from './jobs-routing.module';
 import { SharedModule } from '../../shared/shared.module';
 import { GradeBasedSharedModule } from '../shared/shared.module';
 import { JobsPageComponent } from './jobs.page/jobs.page';
+import { JobViewRangeChartComponent } from './containers/job-view-range-chart/job-view-range-chart.component';
 
 
 @NgModule({
@@ -39,7 +40,8 @@ import { JobsPageComponent } from './jobs.page/jobs.page';
     GradeBasedSharedModule
   ],
   declarations: [
-    JobsPageComponent
+    JobsPageComponent,
+    JobViewRangeChartComponent
   ]
 })
 export class JobsModule {

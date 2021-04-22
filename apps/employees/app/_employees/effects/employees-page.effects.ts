@@ -82,7 +82,9 @@ export class EmployeesPageEffects {
         GenerateByQuery: data.payload.companyEmployeeIds,
         WaitForPdfGenerationSelector: TrsConstants.READY_FOR_PDF_GENERATION_SELECTOR,
         Method: DeliveryMethod.PDFExport,
-        EmailTemplate: null
+        EmailTemplate: null,
+        UseMockEmployeeRewardsData: false,
+        IncludeEmployeeNameInGeneratedFileName: false
       })),
       switchMap(request =>
         this.totalRewardsPdfGenerationService.generateStatements(request).pipe(

@@ -9,7 +9,10 @@
       <h5 for="filename" class="text-primary">File Name <span class="text-danger">*</span></h5>
     </div>
     <div class="col-sm-12 col-md-4">
-      <input type="text" class="form-control" id="filename" name="filename" [(ngModel)]="schedule.FileName" [disabled]="editing">
+      <input type="text" class="form-control" id="filename" name="filename" [(ngModel)]="schedule.FileName" [disabled]="editing" [pattern]='specialCharPattern' #fname="ngModel">
+      <div *ngIf="fname.errors?.pattern" class = 'text-danger'>
+        Invalid special character
+      </div>
     </div>
   </div>
   <div class="row pb-3">
@@ -160,4 +163,68 @@
       <button class="btn btn-primary px-4" (click)="submitForm()">Save</button>
     </div>
   </div>
+  <pf-modal-form
+    title="Report Access"
+    size="lg"
+    modalId="service-account-credentials-modal"
+    [centered]="true"
+    [showDismiss]="false"
+    [showSubmit]="true"
+    primaryButtonText="OK"
+    [isOpen$]="serviceAccountCredentialsModalOpen$"
+    (onSubmit)="closeServiceAccountModal()"
+    (onDismiss)="closeServiceAccountModal()">
+    <ng-container basic-content>
+      <div *ngIf="serviceAccountStatus?.IsActive" class="alert alert-info" role="alert">
+        The scheduled data export can be accessed using your existing JDM outbound report credentials.
+      </div>
+      <div *ngIf="!serviceAccountStatus?.IsActive" class="alert alert-info" role="alert">
+        The credentials below must be used to access the data export. These credentials are valid for all JDM outbound reports.
+        <span class="font-weight-bold">Be sure to retain these credentials for your records.</span>
+      </div>
+      <div class="row py-1">
+        <div class="col-2"><span class="form-control-plaintext">URL</span></div>
+        <div class="col-10">
+          <div class="d-flex flex-row form-control">
+            <span class="user-select-all text-truncate w-100" role="button">{{(jdmExportUrl$ | async)}}</span>
+            <pf-copy-to-clipboard-button class="pl-3" toolTipText="Copy Report URL" [copyText]="jdmExportUrl$ | async"></pf-copy-to-clipboard-button>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="!serviceAccountStatus?.IsActive">
+        <div *ngIf="(serviceAccountUser$ | async) as serviceAccountUser; else loadingServiceAccountUser">
+          <div class="row py-1">
+            <div class="col-2"><span class="form-control-plaintext">Username</span></div>
+            <div class="col-10">
+              <div class="d-flex flex-row form-control">
+                <span class="user-select-all text-truncate w-100" role="button">{{serviceAccountUser.Username}}</span>
+                <pf-copy-to-clipboard-button class="pl-3" toolTipText="Copy Username" [copyText]="serviceAccountUser.Username"></pf-copy-to-clipboard-button>
+              </div>
+            </div>
+          </div>
+          <div class="row py-1">
+            <div class="col-2"><span class="form-control-plaintext">Password</span></div>
+            <div class="col-10">
+              <div class="d-flex flex-row form-control">
+                <span class="user-select-all text-truncate w-100" role="button">{{serviceAccountUser.Password}}</span>
+                <pf-copy-to-clipboard-button class="pl-3" toolTipText="Copy Password" [copyText]="serviceAccountUser.Password"></pf-copy-to-clipboard-button>
+              </div>
+            </div>
+          </div>
+          <div class="row py-1">
+            <div class="col-2"><span class="form-control-plaintext">API Key</span></div>
+            <div class="col-10">
+              <div class="d-flex flex-row form-control">
+                <span class="user-select-all text-truncate w-100" role="button">{{serviceAccountUser.ApiKey}}</span>
+                <pf-copy-to-clipboard-button class="pl-3" toolTipText="Copy API Key" [copyText]="serviceAccountUser.ApiKey"></pf-copy-to-clipboard-button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <ng-template #loadingServiceAccountUser>
+          <pf-loading-indicator></pf-loading-indicator> Generating Credentials...
+        </ng-template>
+      </div>
+    </ng-container>
+  </pf-modal-form>
 </div>

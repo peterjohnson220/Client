@@ -2,19 +2,31 @@
   <ng-container page-title>Total Rewards</ng-container>
   <ng-container page-content>
     <pf-async-container [loading]="(statementLoading$ | async)"
-                        [loadingError]="(statementLoadingError$ | async) || (statementSavingError$ | async) || (settingsSavingError$ | async)"
+                        [loadingError]="(statementLoadingError$ | async) || (statementSavingError$ | async) || (settingsSavingError$ | async) || (statementPreviewGeneratingError$ | async)"
                         (reload)="handleStatementReload()">
       <div class="canvas mx-auto pb-1 mt-2" [class.preview-mode]="mode === modeEnum.Preview">
         <div *ngIf="mode === modeEnum.Preview" class="preview-controls">
-          <button
-            ngbButton
-            class="mode-button btn btn-outline-dark position-relative mr-2 d-block"
-            data-toggle="button"
-            aria-pressed="false"
-            (click)="toggleStatementEditMode()">
-            <fa-icon [icon]="'pencil'" aria-hidden="true"></fa-icon>
-            Edit
-          </button>
+          <div class="position-relative start-100">
+            <button
+              ngbButton
+              class="mode-button btn btn-outline-dark mr-2"
+              data-toggle="button"
+              aria-pressed="false"
+              (click)="toggleStatementEditMode()">
+              <fa-icon [icon]="'pencil'" aria-hidden="true"></fa-icon>
+              Edit
+            </button>
+
+            <button type="button"
+                    id="preview-download-button"
+                    class="preview-download-button btn btn-outline-dark"
+                    title="Download Statement Preview"
+                    [disabled]="(statementPreviewGenerating$ | async)"
+                    (click)="handleGenerateStatementClicked()">
+              <fa-icon icon="download"></fa-icon>
+            </button>
+
+          </div>
           <kendo-combobox
             [class.d-none]="!statement?.AssignedCompanyEmployeeIds?.length"
             class="employee-search mt-3"
@@ -34,13 +46,14 @@
         </div>
         <div class="header-row-wrapper position-fixed">
           <div class="header-row d-flex w-100">
-            <h3 class="flex-fill">
+            <h3 class="flex-fill statement-title">
               <pf-string-editor
                 [placeholder]="'New Statement Name'"
                 [maxCharacters]="statementNameMaxLength"
                 [value]="getStatementName()"
                 [inEditMode]="(mode === modeEnum.Edit)"
                 [showIcon]="'always'"
+                [showHoverText]="true"
                 (valueChange)="onStatementNameValueChange($event)"
               ></pf-string-editor>
             </h3>
@@ -57,7 +70,7 @@
                 Saved {{ (statement?.AuditRecord?.EditedDateTime || statement?.AuditRecord?.CreatedDateTime) | TimeElapsedPipe }}
               </span>
             </div>
-            <button ngbButton class="mode-button btn btn-outline-dark position-relative mr-2"
+            <button ngbButton class="mode-button btn btn-outline-dark mr-2 start-100"
                     data-toggle="button"
                     aria-pressed="false"
                     (click)="toggleStatementEditMode()">
@@ -107,7 +120,7 @@
       </div>
     </pf-async-container>
     <pf-settings-panel
-      [isOpen]="isSettingsPanelOpen$ | async"
+      [isOpen$]="isSettingsPanelOpen$"
       [fontSize]="(statement$ | async)?.Settings.FontSize"
       [fontFamily]="(statement$ | async)?.Settings.FontFamily"
       [colors]="(statement$ | async)?.Settings.Colors"
@@ -128,5 +141,9 @@
       (primaryButtonClick)="handleAssignEmployeesClick()"
       (secondaryButtonClick)="handleBackToStatementsClick()"
     ></pf-footer-bar>
+    <pf-file-download-security-warning-modal
+      #fileDownloadSecurityWarningModal
+      (securityWarningConfirmed)="handleSecurityWarningConfirmed($event)"
+    ></pf-file-download-security-warning-modal>
   </ng-container>
 </pf-page-with-title-bar>

@@ -1,5 +1,6 @@
 import { Action } from '@ngrx/store';
 
+import { CountryCurrency } from 'libs/models/common';
 import { KendoTypedDropDownItem } from 'libs/models/kendo';
 
 export const GET_COUNTRIES = '[Pay Market Management / General Form] Get Countries';
@@ -20,7 +21,7 @@ export class GetCountries implements Action {
 export class GetCountriesSuccess implements Action {
   readonly type = GET_COUNTRIES_SUCCESS;
 
-  constructor(public payload: KendoTypedDropDownItem[]) {}
+  constructor(public payload: CountryCurrency[]) {}
 }
 
 export class GetCountriesError implements Action {

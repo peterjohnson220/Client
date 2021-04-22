@@ -10,5 +10,6 @@ export const AppToTileMapping: AppToTileMap = {
   'service': { tileName: 'Service' },
   'paymarkets': { tileName: 'Pay Markets'},
   'total-rewards': { tileName: 'Total Rewards' },
-  'resources': { tileName: 'Resources'}
+  'resources': { tileName: 'Resources'},
+  'surveys': { tileName: 'Surveys'}
 };

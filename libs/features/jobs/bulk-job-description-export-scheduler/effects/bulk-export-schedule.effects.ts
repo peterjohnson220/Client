@@ -5,7 +5,9 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
 import { JobDescriptionApiService } from 'libs/data/payfactors-api/jdm';
+import { PayfactorsApiService } from 'libs/data/payfactors-api/payfactors-api.service';
 import { BulkExportSchedule } from 'libs/models/jdm';
+import { BaseUrlLocation } from 'libs/models/payfactors-api/common/base-url-location.enum';
 
 import * as fromBulkJobsExportScheduleActions from '../actions/bulk-export-schedule.actions';
 
@@ -105,8 +107,20 @@ export class BulkJobsExportScheduleEffects {
       )
     );
 
+  @Effect()
+  getJdmExportUrl$: Observable<Action> = this.actions$
+    .pipe(
+      ofType<fromBulkJobsExportScheduleActions.GetJdmExportUrl>(fromBulkJobsExportScheduleActions.GET_JDM_EXPORT_URL),
+      switchMap(action => {
+        const urlSafeReportname = encodeURIComponent(action.payload);
+        const reportUrl = this.payfactorsApiService.formatUrl(BaseUrlLocation.Default, `HrisJobDescriptionExport/GetReport/${urlSafeReportname}`, false);
+        return of(new fromBulkJobsExportScheduleActions.GetJdmExportUrlSuccess(reportUrl));
+      })
+    );
+
   constructor(
     private actions$: Actions,
-    private jobDescriptionApiService: JobDescriptionApiService
+    private jobDescriptionApiService: JobDescriptionApiService,
+    private payfactorsApiService: PayfactorsApiService,
   ) {}
 }

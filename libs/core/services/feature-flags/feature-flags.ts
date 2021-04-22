@@ -21,5 +21,6 @@ export class FeatureFlags {
   static readonly ExportsSecurity = 'exports-security';
   static readonly ScheduleTabularReportingExport = 'schedule-tabular-reporting-export';
   static readonly HrisTestDataBypass = 'hris-test-data-bypass';
+  static readonly DataAccessSurveyTitleFilter = 'data-access-survey-title-filter';
   static readonly ProjectsPage = 'projects-page';
 }

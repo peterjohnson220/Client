@@ -1,7 +1,7 @@
 <div class="d-flex justify-content-between mb-2 p-1">
   <div>
-    <h4 *ngIf="title">{{title}}</h4>
-    <button *ngIf="enableReturnBtn && buttonText" routerLink="../../" class="btn btn-secondary mr-1 return-btn">{{buttonText}}</button>
+    <h4 pfEllipsisActive *ngIf="title" class="overflow">{{title}}</h4>
+    <button *ngIf="enableReturnBtn && buttonText" [routerLink]="[routerLink]" class="btn btn-secondary mr-1 return-btn">{{buttonText}}</button>
     <ng-content select="[right-of-return-button-content]"></ng-content>
   </div>
 

@@ -178,6 +178,18 @@
   </ng-container>
 </ng-template>
 
-<ng-template #graph>
+<ng-template #jobTitle let-dataRow="dataRow" let-fieldName="fieldName">
+  <ng-container *ngIf="dataRow.CompanyJobs_Structures_JobTitle as jobTitle; else noValue">
+    <div pfEllipsisActive class="ellipsis-overflowing-text-wrap">
+      <a class="temp-link-color-override" routerLinkActive="disabled" [routerLink]="[singleJobViewUrl, dataRow.CompanyJobs_Structures_CompanyJobId]" [queryParams]="{rangeId: rangeId, jobsView: false}">
+        {{ jobTitle }}
+      </a>
+    </div>
+  </ng-container>
+</ng-template>
 
+<ng-template #graph>
+  <pf-grade-based-employee-salary-range-chart
+    [rangeId]="rangeId">
+  </pf-grade-based-employee-salary-range-chart>
 </ng-template>

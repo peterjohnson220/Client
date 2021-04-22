@@ -25,4 +25,4 @@ export * from './job-level-hierarchy';
 export * from './notes';
 export * from './user-settings';
 export * from './projects';
-
+export * from './service-accounts';
