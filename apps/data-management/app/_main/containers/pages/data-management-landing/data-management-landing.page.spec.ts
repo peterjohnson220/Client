@@ -6,6 +6,7 @@ import { Subject } from 'rxjs';
 
 import { AbstractFeatureFlagService } from 'libs/core';
 import { SettingsService } from 'libs/state/app-context/services';
+import * as fromRootState from 'libs/state/state';
 
 import * as fromHrisConnectionReducer from '../../../reducers/hris-connection.reducer';
 import * as fromHrisConnectionActions from '../../../actions/hris-connection.actions';
@@ -19,9 +20,12 @@ describe('DataManagementLandingPageComponent', () => {
   let router: Router;
   let abstractFeatureFlagService: AbstractFeatureFlagService;
   let settingsService: SettingsService;
-  let companySetting = new Subject<boolean>();
+  const companySetting = new Subject<boolean>();
 
-  const initialState = { data_management: { hrisConnection: fromHrisConnectionReducer.initialState } };
+  const initialState = {
+    ...fromRootState.reducers,
+    data_management: { hrisConnection: fromHrisConnectionReducer.initialState }
+  };
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({

@@ -13,6 +13,10 @@ export const SAVE_STATEMENT_ERROR = '[Total Rewards/Edit Statement] Save Stateme
 export const TOGGLE_STATEMENT_EDIT_MODE = '[Total Rewards/Edit Statement] Toggle Statement Edit Mode';
 export const UPDATE_EFFECTIVE_DATE = '[Total Rewards/Edit Statement] Update Effective Date';
 export const PAGE_SCROLL = '[Total Rewards/Edit Statement] Page Scroll';
+export const GENERATE_STATEMENT_PREVIEW = '[Total Rewards/Edit Statement] Generate Statement Preview';
+export const GENERATE_STATEMENT_PREVIEW_ERROR = '[Total Rewards/Edit Statement] Generate Statement Preview Error';
+export const GENERATE_STATEMENT_PREVIEW_SUCCESS = '[Total Rewards/Edit Statement] Generate Statement Preview Success';
+export const GENERATE_STATEMENT_PREVIEW_COMPLETE = '[Total Rewards/Edit Statement] Generate Statement Preview Complete';
 
 export class LoadStatement implements Action {
   readonly type = LOAD_STATEMENT;
@@ -61,6 +65,23 @@ export class UpdateEffectiveDate implements Action {
 export class PageScroll implements Action {
   readonly type = PAGE_SCROLL;
   constructor(public payload: { isScrolling: boolean }) {}
+}
+
+export class GenerateStatementPreview implements Action {
+  readonly type = GENERATE_STATEMENT_PREVIEW;
+}
+export class GenerateStatementPreviewSuccess implements Action {
+  readonly type = GENERATE_STATEMENT_PREVIEW_SUCCESS;
+  constructor(public payload: string) {}
+}
+
+export class GenerateStatementPreviewError implements Action {
+  readonly type = GENERATE_STATEMENT_PREVIEW_ERROR;
+  constructor(public payload: any) {}
+}
+
+export class GenerateStatementPreviewComplete implements Action {
+  readonly type = GENERATE_STATEMENT_PREVIEW_COMPLETE;
 }
 
 export type StatementActions =

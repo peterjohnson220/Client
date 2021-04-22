@@ -315,7 +315,14 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
       dataFieldValue = this.employeeRewardsData[dataFieldKey];
     }
 
-    return this.formatDataFieldValue(dataFieldValue);
+    // format and escape any potential markup/script tags that may have been set as content
+    const formattedValue = this.formatDataFieldValue(dataFieldValue);
+    return formattedValue
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
   }
 
   formatDataFieldValue(value: any): string {

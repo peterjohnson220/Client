@@ -134,3 +134,13 @@ export const getSelectedPayfactorsJobCodes = createSelector(
   selectSearchResultsState,
   fromSearchResultsReducer.getSelectedPayfactorsJobCodes
 );
+
+export const getAllLoadedJobs = createSelector(
+  selectSearchResultsState,
+  fromSearchResultsReducer.getAllLoadedJobs
+);
+
+export const getSelectedAllLoadedJobs = createSelector(
+  selectSearchResultsState,
+  fromSearchResultsReducer.getSelectedAllLoadedJobs
+);

@@ -1,0 +1,7 @@
+  <pf-treeview [positionMode]="'absolute'"
+               [checkedKeys]="checkedKeys"
+               [data]="surveyData"
+               [attr.data-qa-id]="'ddm-'+dataTypeName"
+               [filterable]="true"
+               (applyClicked)="applyClicked($event)">
+  </pf-treeview>

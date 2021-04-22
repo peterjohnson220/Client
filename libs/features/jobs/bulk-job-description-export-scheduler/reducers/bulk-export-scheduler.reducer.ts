@@ -20,6 +20,7 @@ export interface State extends EntityState<BulkExportSchedule> {
   updating: boolean;
   updatingError: boolean;
   updatingSuccess: boolean;
+  jdmExportUrl: string;
 }
 
 export const adapter: EntityAdapter<BulkExportSchedule> = createEntityAdapter<BulkExportSchedule>({
@@ -40,6 +41,7 @@ const initialState: State = adapter.getInitialState({
   updating: false,
   updatingError: false,
   updatingSuccess: false,
+  jdmExportUrl: null,
 });
 
 
@@ -152,6 +154,18 @@ export function reducer(
         updatingSuccess: true,
       };
     }
+    case fromBulkExportScheduleActions.GET_JDM_EXPORT_URL: {
+      return {
+        ...state,
+        jdmExportUrl: null,
+      };
+    }
+    case fromBulkExportScheduleActions.GET_JDM_EXPORT_URL_SUCCESS: {
+      return {
+        ...state,
+        jdmExportUrl: action.payload,
+      };
+    }
     default: {
       return state;
     }
@@ -170,3 +184,4 @@ export const getEditing = (state: State) => state.editing;
 export const getEditSchedule = (state: State) => state.editSchedule;
 export const getUpdating = (state: State) => state.updating;
 export const getUpdatingError = (state: State) => state.updatingError;
+export const getJdmExportUrl = (state: State) => state.jdmExportUrl;

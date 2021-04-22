@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { EmployeeControl, StatementModeEnum } from '../../models';
+import { EmployeeControl, StatementDisplaySettings, StatementModeEnum } from '../../models';
 import { EmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards';
 
 @Component({
@@ -12,6 +12,7 @@ export class TrsEmployeeControlComponent {
   @Input() controlData: EmployeeControl;
   @Input() employeeRewardsData: EmployeeRewardsData;
   @Input() graphicsColors: string[];
+  @Input() statementDisplaySettings: StatementDisplaySettings;
 
   employeeNamePlaceHolder = 'EMPLOYEE NAME';
   employeeIdPlaceHolder = 'EMPLOYEE ID';

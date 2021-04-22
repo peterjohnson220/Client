@@ -17,3 +17,4 @@ export * from './hris-reauthentication-modal';
 export * from './outbound-transfer-schedule-summary';
 export * from './data-converter-modal';
 export * from './load-and-export-files-card';
+export * from './reset-credentials-modal';

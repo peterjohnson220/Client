@@ -48,6 +48,7 @@ export class SwitchRegressionFlagsModalComponent implements OnInit, OnDestroy {
       if (gps) {
         this.gradePoints = cloneDeep(gps).sort((a, b) => arraySortByString(a.JobTitle, b.JobTitle, SortDirection.Ascending));
         this.selectedGradePoint = gps[0];
+        this.reassessSelectAll(true);
       }
     });
     this.showAll = false;
@@ -60,6 +61,12 @@ export class SwitchRegressionFlagsModalComponent implements OnInit, OnDestroy {
     this.selectAllFlag = false;
   }
 
+  enableButton() {
+    return this.gradePoints.some(function(e) {
+      return e.Selected === true;
+    });
+  }
+
   selectAll() {
     this.selectAllFlag = !this.selectAllFlag;
     const gradePointsCopy = cloneDeep(this.gradePoints);
@@ -70,6 +77,22 @@ export class SwitchRegressionFlagsModalComponent implements OnInit, OnDestroy {
   selectGradePoint(companyJobsStructuresId: number) {
     const currentGp = this.gradePoints.find(gp => gp.CompanyJobsStructuresId === companyJobsStructuresId);
     currentGp.Selected = !currentGp.Selected;
+    this.reassessSelectAll(currentGp.Selected);
+  }
+
+  reassessSelectAll(currentSelection: boolean) {
+    if (!currentSelection) {
+      this.selectAllFlag = false;
+      return;
+    }
+
+    const atLeastOneFalse = this.gradePoints.some(function(e) {
+      return e.Selected === false;
+    });
+
+    if (!atLeastOneFalse) {
+      this.selectAllFlag = true;
+    }
   }
 
   ngOnDestroy(): void {

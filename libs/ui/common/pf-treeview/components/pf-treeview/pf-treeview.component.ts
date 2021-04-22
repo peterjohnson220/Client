@@ -24,6 +24,7 @@ export class PfTreeViewComponent implements OnInit, OnDestroy, OnChanges {
   @Input() label: string;
   @Input() placeholder: string;
   @Input() data: GroupedListItem[];
+  @Input() positionMode = 'fixed';
   @Input() checkableSettings: CheckableSettings = {
     enabled: true,
     mode: 'multiple',

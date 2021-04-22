@@ -7,12 +7,16 @@ import { PfDataGridCustomFilterOptions } from '../../../models/pf-data-grid-cust
 
 export function getHumanizedFilter(field: ViewField, filterValue: string,
                                    fieldsToShowValueOnly: string[] = [], customFilterOptions: PfDataGridCustomFilterOptions[] = []) {
-  const operatorDisplay = getOperatorDisplay(field.FilterOperator, field.DataType);
-  const valueDisplay = getValueDisplay(filterValue, field, customFilterOptions);
+  const customFilterDisplay = customFilterOptions.find(x => x.EntitySourceName === field.EntitySourceName && x.SourceName === field.SourceName);
+  const fieldDataType = customFilterDisplay?.DataType ? customFilterDisplay.DataType : field.DataType;
+  const fieldDisplayName = customFilterDisplay?.DisplayName ? customFilterDisplay.DisplayName : field.DisplayName;
+  const fieldFilterOperator = customFilterDisplay?.FilterOperator ? customFilterDisplay.FilterOperator : field.FilterOperator;
+  const operatorDisplay = getOperatorDisplay(fieldFilterOperator, fieldDataType);
+  const valueDisplay = getValueDisplay(filterValue, fieldDataType, customFilterDisplay);
   if (fieldsToShowValueOnly?.includes(field.SourceName)) {
     return valueDisplay;
   } else {
-    return `${field.DisplayName} ${operatorDisplay} ${valueDisplay}`;
+    return `${fieldDisplayName} ${operatorDisplay} ${valueDisplay}`;
   }
 }
 
@@ -28,13 +32,12 @@ export function getOperatorDisplay(operator: string, dataType: DataViewFieldData
   return FilterOperatorOptions[dataType].find(foo => foo.value === operator).display;
 }
 
-export function getValueDisplay(filterValue: string, field: ViewField, customDisplayOptions: PfDataGridCustomFilterOptions[]) {
+export function getValueDisplay(filterValue: string, fieldDataType: DataViewFieldDataType, customFilterDisplay: PfDataGridCustomFilterOptions) {
   let display = filterValue ?? '';
-  const customFilterDisplay = customDisplayOptions.find(x => x.EntitySourceName === field.EntitySourceName && x.SourceName === field.SourceName);
   if (!!customFilterDisplay) {
-    display = customFilterDisplay.FilterDisplayOptions.find(x => x.Value === filterValue).Display;
+    display = customFilterDisplay.FilterDisplayOptions.find(x => x.Value === filterValue)?.Display ?? filterValue;
   } else {
-    switch (field.DataType) {
+    switch (fieldDataType) {
       case DataViewFieldDataType.DateTime: {
         const dateFormatPipe = new DatePipe('en-US');
         display = `${display}T00:00:00`;

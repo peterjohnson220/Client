@@ -62,6 +62,7 @@ describe('TrsTitleControlComponent', () => {
     component.controlData = generateMockTitleControl();
     component.mode = StatementModeEnum.Edit;
     component.showEmployee = true;
+    component.showEmployeeId = true;
 
     // act
     fixture.detectChanges();
@@ -93,6 +94,7 @@ describe('TrsTitleControlComponent', () => {
     const employeeRewardsData = generateMockEmployeeRewardsData();
     component.employeeRewardsData = employeeRewardsData;
     component.showEmployee = true;
+    component.showEmployeeId = true;
 
     // act
     fixture.detectChanges();
@@ -129,6 +131,22 @@ describe('TrsTitleControlComponent', () => {
 
     // assert
     expect(fixture).toMatchSnapshot();
+  });
+
+  it('should hide employeeId when showEmployeeId is false', () => {
+    // arrange
+    component.controlData = generateMockTitleControl();
+    component.mode = StatementModeEnum.Edit;
+    component.showEmployee = true;
+    component.showEmployeeId = false;
+
+    // act
+    fixture.detectChanges();
+
+    // assert
+    const employeeHeader = fixture.debugElement.nativeElement.querySelector('h3.employee');
+    expect(employeeHeader.textContent).toContain('Employee Name');
+    expect(employeeHeader.textContent.includes('Employee Id')).toBeFalsy();
   });
 
 });
