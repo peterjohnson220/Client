@@ -77,21 +77,19 @@ export function reducer(state = initialState, action: fromWorkflowConfigActions.
     }
     case fromWorkflowConfigActions.UPDATE_WORKFLOW_STEP_PERMISSION: {
       const workflowStepsClone: WorkflowStep[] = cloneDeep(state.workflowSteps);
-      for (let i = 0; i < workflowStepsClone.length; i++) {
-        const userIndex = workflowStepsClone[i].WorkflowStepUsers.findIndex(u => u.StepId === action.payload.workflowUser.StepId);
-        if (userIndex > -1) {
 
-          let canEditJobDescription = workflowStepsClone[i].WorkflowStepUsers[userIndex].Permissions.find((p) =>
+      workflowStepsClone?.forEach( wfStep => {
+        const wfUser = wfStep.WorkflowStepUsers?.find(u => u.UserId === action.payload.workflowUser.UserId);
+        if (wfUser) {
+          let canEditJobDescription = wfUser.Permissions.find((p) =>
             p.permission === Permissions.CAN_EDIT_JOB_DESCRIPTION).selected;
 
           canEditJobDescription = !canEditJobDescription;
 
-          workflowStepsClone[i].WorkflowStepUsers[userIndex].Permissions.find((p) =>
+          wfUser.Permissions.find((p) =>
             p.permission === Permissions.CAN_EDIT_JOB_DESCRIPTION).selected = canEditJobDescription;
-
-          break;
         }
-      }
+      });
       return {
         ...state,
         workflowSteps: workflowStepsClone,
