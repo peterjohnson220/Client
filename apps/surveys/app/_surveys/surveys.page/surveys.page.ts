@@ -1,7 +1,7 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
 import { SortDescriptor } from '@progress/kendo-data-query';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import cloneDeep from 'lodash/cloneDeep';
 
@@ -22,10 +22,13 @@ import { SurveysPageConfig } from '../models';
 @Component({
   selector: 'pf-surveys-page',
   templateUrl: './surveys.page.html',
-  styleUrls: ['./surveys.page.scss']
+  styleUrls: ['./surveys.page.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('matchedFilter') matchedFilter: ElementRef;
+
+  loading$: Observable<boolean>;
 
   gridFieldSubscription: Subscription;
 
@@ -74,6 +77,7 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
       EnableInfiniteScroll: true,
       ScrollToTop: true
     };
+    this.loading$ = this.store.select(fromPfDataGridReducer.getLoading, this.pageViewId);
   }
 
   ngOnInit(): void {
@@ -101,6 +105,10 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
       ? null
       : option.Value === '1' ? '>=' : '=';
     this.updateField(field);
+  }
+
+  closeExpandedRow(id: string, idValue: number): void {
+    this.store.dispatch(new fromPfDataGridActions.CollapseRowById(this.pageViewId, id, idValue));
   }
 
   private updateField(field: ViewField) {

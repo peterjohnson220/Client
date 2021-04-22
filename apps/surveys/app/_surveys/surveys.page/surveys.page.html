@@ -9,7 +9,10 @@
   [pageable]="!gridConfig.EnableInfiniteScroll"
   [filterPanelTemplates]="filterTemplates"
   [customFilterOptions]="customFilterOptions"
-  [inboundFilters]="[filter]">
+  [inboundFilters]="[filter]"
+  [expandedRowTemplate]="surveyDataCutsGrid"
+  [selectionField]="'Survey_Job_ID'"
+  [enableRowFade]="true">
 </pf-data-grid>
 
 <ng-template #matchedFilter>
@@ -24,5 +27,19 @@
       [attr.data-qa-id]="'ddl-bit-filter-value-'+ matchedFilterField.SourceName"
       class="k-dropdown-white form-control">
     </kendo-dropdownlist>
+  </div>
+</ng-template>
+
+<ng-template #surveyDataCutsGrid let-dataRow="dataRow">
+  <div *ngIf="!(loading$ | async)" class="survey-data-cuts-container pt-3 pb-4 px-4">
+    <div class="d-flex justify-content-end px-3 pb-3">
+      <div class="btn-close"
+           (click)="closeExpandedRow('SurveyJob_Survey_Job_ID', dataRow['SurveyJob_Survey_Job_ID'])">
+        <fa-icon [icon]="['far', 'times']" size="lg"></fa-icon>
+      </div>
+    </div>
+    <pf-survey-data-cuts
+      [surveyJobId]="dataRow['SurveyJob_Survey_Job_ID']">
+    </pf-survey-data-cuts>
   </div>
 </ng-template>

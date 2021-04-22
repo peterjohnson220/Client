@@ -17,6 +17,7 @@ import { reducers } from './reducers';
 
 import { SurveysPageComponent } from './surveys.page/surveys.page';
 import { SurveysRoutingModule } from './surveys-routing.module';
+import { SurveyDataCutsComponent } from './containers';
 
 
 @NgModule({
@@ -42,7 +43,10 @@ import { SurveysRoutingModule } from './surveys-routing.module';
   ],
   declarations: [
     // Pages
-    SurveysPageComponent
+    SurveysPageComponent,
+
+    // Containers
+    SurveyDataCutsComponent
   ],
   providers: [
     { provide: 'DataViewService', useClass: DataViewApiService }
