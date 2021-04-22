@@ -140,7 +140,8 @@ export function reducer(state = initialState, action: fromWorkflowConfigActions.
         ...state,
         dirty: false,
         workflowSteps: workflowStepsClone,
-        prepopulating: false
+        prepopulating: false,
+        selectedUserOrEmail: null
       };
     }
     case fromWorkflowConfigActions.ADD_SELECTED_USER_OR_EMAIL: {
