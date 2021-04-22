@@ -8,7 +8,7 @@ import { DropDownFilterSettings, ComboBoxComponent, DropDownListComponent } from
 import { AsyncStateObj } from 'libs/models/state';
 import { PfValidators } from 'libs/forms/validators';
 import { KendoTypedDropDownItem } from 'libs/models/kendo';
-import { PayMarket, PayMarketWithMdScope } from 'libs/models';
+import { CountryCurrency, PayMarket, PayMarketWithMdScope } from 'libs/models';
 
 import * as fromPayMarketManagementReducer from '../../reducers';
 import * as fromGeneralFormActions from '../../actions/general-form.actions';
@@ -23,13 +23,14 @@ import { MarketDataScopeComponent } from '../market-data-scope';
 export class GeneralFormComponent implements OnInit, OnDestroy, OnChanges {
   @Input() reset: boolean;
   @Input() companyId: number;
+  @Input() selectedPayMarketId: number;
 
   @ViewChild('linkedPayMarketCombobox', { static: true }) public linkedPayMarketCombobox: ComboBoxComponent;
   @ViewChild('countryComponent', { static: true }) public countryComponent: DropDownListComponent;
   @ViewChild('currencyComponent', { static: true }) public currencyComponent: DropDownListComponent;
   @ViewChild('mdScopeComponent', { static: true }) public mdScopeComponent: MarketDataScopeComponent;
 
-  countries$: Observable<AsyncStateObj<KendoTypedDropDownItem[]>>;
+  countries$: Observable<AsyncStateObj<CountryCurrency[]>>;
   currencies$: Observable<AsyncStateObj<KendoTypedDropDownItem[]>>;
   linkedPayMarkets$: Observable<AsyncStateObj<KendoTypedDropDownItem[]>>;
   payMarket$: Observable<AsyncStateObj<PayMarketWithMdScope>>;
@@ -44,10 +45,10 @@ export class GeneralFormComponent implements OnInit, OnDestroy, OnChanges {
   payMarketForm: FormGroup;
   filterSettings: DropDownFilterSettings = {
     caseSensitive: false,
-    operator: 'startsWith'
+    operator: 'contains'
   };
   payMarket: PayMarketWithMdScope;
-  countries: KendoTypedDropDownItem[];
+  countries: CountryCurrency[];
   currencies: KendoTypedDropDownItem[];
   linkedPayMarkets: KendoTypedDropDownItem[];
   hasLinkedPayMarket: boolean;
@@ -101,13 +102,13 @@ export class GeneralFormComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   handleCountryChange(countryCode: string): void {
-    const country = this.countries.find(c => c.Value === countryCode);
+    const country = this.countries.find(c => c.CountryCode === countryCode);
     if (country) {
-      const parsedCountryCurrency: string[] = country.Name.split('-');
-      if (parsedCountryCurrency && parsedCountryCurrency.length === 2) {
-        this.updateCurrencyCode(parsedCountryCurrency[1].trim());
+      const currencyCode = country.CurrencyCode;
+      if (currencyCode) {
+        this.updateCurrencyCode(currencyCode);
       }
-      this.mdScopeComponent.updateLocationsByCountryCode(countryCode);
+      this.mdScopeComponent.updateLocationsByCountryCode(country.CountryCode);
     }
   }
 
@@ -211,7 +212,7 @@ export class GeneralFormComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private loadLinkedPayMarkets(): void {
-    const payMarketId = this.payMarket ? this.payMarket.CompanyPayMarketId : 0;
+    const payMarketId = this.selectedPayMarketId ?? 0;
     this.store.dispatch(new fromGeneralFormActions.GetLinkedPayMarkets({ payMarketId }));
   }
 

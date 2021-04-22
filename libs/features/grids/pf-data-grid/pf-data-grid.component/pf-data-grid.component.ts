@@ -191,7 +191,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
     });
 
     this.getGridScrolledSubscription = this.store.select(fromReducer.getGridScrolledContent, this.pageViewId).subscribe(scrolledContent => {
-      if (scrolledContent && this.syncScrollWithSplit) {
+      if (scrolledContent && this.syncScrollWithSplit && this.splitViewContainer) {
         this.splitViewContainer.nativeElement.scrollTop = scrolledContent.scrollTop;
       }
     });

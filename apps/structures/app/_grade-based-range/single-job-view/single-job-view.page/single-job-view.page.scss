@@ -1,0 +1,21 @@
+.nav-tabs .nav-link {
+  border: 0;
+}
+
+.nav-tabs .nav-link.active {
+  border-bottom: 2px solid #006699 !important;
+  z-index: 999;
+  font-weight: bold;
+  background-color: inherit;
+}
+
+.temp-link-color-override {
+  &:not(.disabled) {
+    color: #1872ae;
+    font-weight: bold;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

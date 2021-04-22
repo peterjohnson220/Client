@@ -1,6 +1,7 @@
 import cloneDeep from 'lodash/cloneDeep';
 
 import { DataField, DataType, RoleDataRestriction } from 'libs/models/security/roles';
+import { DataRestrictionDataType } from 'libs/models/security/roles/data-restriction-data-type.enum';
 
 import { DataFieldTypes } from '../constants/data-field-type.constants';
 import * as fromDataAccessTabActions from '../actions/data-access-tab.action';
@@ -25,12 +26,18 @@ export function reducer(state = initialState, action: fromDataAccessTabActions.D
   switch (action.type) {
     case fromDataAccessTabActions.LOADED_DATA_TYPES: {
       let dataFields = [];
+      const dataTypes = [];
       (action.payload).forEach(dt => {
+        const dataType: DataType = {...dt};
+        if (dt.Name === DataRestrictionDataType.Surveys || dt.Name === DataRestrictionDataType.SurveysCompanySurveys) {
+          dataType.DataFieldsDropdownDisabled = true;
+        }
+        dataTypes.push(dataType);
         dataFields = dataFields.concat(dt.DataFields);
       });
       return {
         ...state,
-        dataTypes: action.payload,
+        dataTypes: dataTypes,
         dataFields: dataFields
       };
     }
@@ -140,6 +147,7 @@ function convertRoleDataRestrictionForUI(dataFields: DataField[], roleDataRestri
       switch (df.FieldType) {
         case DataFieldTypes.MULTISELECT:
         case DataFieldTypes.CONDITIONAL_MULTISELECT:
+        case DataFieldTypes.TREEVIEW:
           dataRestrictions.push({ ...tempRd[0], Id: new Date().getUTCMilliseconds(), DataValue: tempRd.map(t => t.DataValue) });
           break;
         default:
@@ -157,7 +165,9 @@ function convertRoleDataRestrictionForSave(dataFields: DataField[], dataRestrict
   const newRoleDataRestrictions = [];
   dataRestrictions.filter(f => f.DataFieldId).forEach(r => {
     const dataField = dataFields.find(df => df.Id === r.DataFieldId);
-    if (dataField.FieldType === DataFieldTypes.MULTISELECT || dataField.FieldType === DataFieldTypes.CONDITIONAL_MULTISELECT) {
+    if (dataField.FieldType === DataFieldTypes.MULTISELECT
+      || dataField.FieldType === DataFieldTypes.CONDITIONAL_MULTISELECT
+      || dataField.FieldType === DataFieldTypes.TREEVIEW) {
       r.DataValue.forEach(dv => {
         newRoleDataRestrictions.push({
           DataFieldId: r.DataFieldId,

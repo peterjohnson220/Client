@@ -71,10 +71,16 @@ export const getStatementsGridData = createSelector(
 );
 
 // Statements, Delete Statement
-export const getIsDeleteStatementModalOpen = createSelector(getStatementsFeature, fromStatementGridReducer.getIsDeleteStatetementModalOpen);
-export const getDeletingStatement = createSelector(getStatementsFeature, fromStatementGridReducer.getDeletingStatetement);
-export const getDeletingStatementSuccess = createSelector(getStatementsFeature, fromStatementGridReducer.getDeletingStatetementSuccess);
-export const getDeletingStatementError = createSelector(getStatementsFeature, fromStatementGridReducer.getDeletingStatetementError);
+export const getIsDeleteStatementModalOpen = createSelector(getStatementsFeature, fromStatementGridReducer.getIsDeleteStatementModalOpen);
+export const getDeletingStatement = createSelector(getStatementsFeature, fromStatementGridReducer.getDeletingStatement);
+export const getDeletingStatementSuccess = createSelector(getStatementsFeature, fromStatementGridReducer.getDeletingStatementSuccess);
+export const getDeletingStatementError = createSelector(getStatementsFeature, fromStatementGridReducer.getDeletingStatementError);
+
+// Statements, Copy Statement
+export const getIsCopyStatementModalOpen = createSelector(getStatementsFeature, fromStatementGridReducer.getIsCopyStatementModalOpen);
+export const getCopyingStatement = createSelector(getStatementsFeature, fromStatementGridReducer.getCopyingStatement);
+export const getCopyingStatementSuccess = createSelector(getStatementsFeature, fromStatementGridReducer.getCopyingStatementSuccess);
+export const getCopyingStatementError = createSelector(getStatementsFeature, fromStatementGridReducer.getCopyingStatementError);
 
 // Templates
 export const getTemplates = createSelector(selectStatementListPageState, (state: StatementListState) => state.templateSelector.templates.obj);

@@ -18,6 +18,6 @@ export function generateMockSettings(): Settings {
     DividerColor: TotalRewardsColorEnum.Undefined,
     FontSize: 'Medium',
     FontFamily: 'Default',
-    DisplaySettings: { ShowEmployeeContributions: false, ShowDecimals: false }
+    DisplaySettings: { ShowEmployeeContributions: false, ShowDecimals: false, ShowEmployeeId: true, ShowInformationEffectiveDate: true }
   };
 }

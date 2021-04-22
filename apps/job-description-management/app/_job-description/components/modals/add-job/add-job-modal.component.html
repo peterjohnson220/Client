@@ -46,7 +46,7 @@
                 <label class="col-2 col-form-label">Job Family:</label>
                 <div class="col-4">
                   <kendo-combobox class="form-control" formControlName="JobFamily"
-                                  [clearButton]="false"
+                                  [clearButton]="true"
                                   [suggest]="true"
                                   [data]="jobFamilies$ | async"
                                   [allowCustom]="true">
@@ -71,7 +71,7 @@
                 <label class="col-2 col-form-label">FLSA Status:</label>
                 <div class="col-4">
                   <kendo-combobox class="form-control" formControlName="FLSAStatus"
-                                  [clearButton]="false"
+                                  [clearButton]="true"
                                   [suggest]="true"
                                   [data]="jobFLSAStatus$ | async"
                                   [allowCustom]="true">

@@ -1,6 +1,9 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { of } from 'rxjs';
+import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+
 import { SettingsPanelComponent } from './settings-panel.component';
 
 import { AbstractFeatureFlagService } from 'libs/core/services/feature-flags';
@@ -17,6 +20,7 @@ describe('SettingsPanelComponent', () => {
         provide: AbstractFeatureFlagService,
         useValue: { enabled: jest.fn(), bindEnabled: jest.fn() }
       }],
+      imports: [NgbNavModule],
       schemas: [NO_ERRORS_SCHEMA]
     });
   }));
@@ -24,7 +28,6 @@ describe('SettingsPanelComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(SettingsPanelComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {
@@ -33,7 +36,7 @@ describe('SettingsPanelComponent', () => {
 
   it('should not class the container as `expanded` when in a closed state', () => {
     // arrange
-    component.isOpen = false;
+    component.isOpen$ = of(false);
 
     // act
     fixture.detectChanges();
@@ -45,7 +48,7 @@ describe('SettingsPanelComponent', () => {
 
   it('should class the container as `expanded` when in an open state', () => {
     // arrange
-    component.isOpen = true;
+    component.isOpen$ = of(true);
 
     // act
     fixture.detectChanges();
@@ -58,7 +61,7 @@ describe('SettingsPanelComponent', () => {
   it('should emit when the close button is clicked', () => {
     // arrange
     spyOn(component.close, 'emit');
-    component.isOpen = true;
+    component.isOpen$ = of(true);
 
     // act
     fixture.detectChanges();
@@ -72,7 +75,7 @@ describe('SettingsPanelComponent', () => {
   it('should emit when the reset button is clicked', () => {
     // arrange
     spyOn(component.resetSettings, 'emit');
-    component.isOpen = true;
+    component.isOpen$ = of(true);
 
     // act
     fixture.detectChanges();
@@ -85,7 +88,7 @@ describe('SettingsPanelComponent', () => {
 
   it('should show the Font Family menu when enabled', () => {
     // arrange
-    component.isOpen = true;
+    component.isOpen$ = of(true);
     component.showFontFamilyMenu = true;
 
     // act
@@ -97,7 +100,7 @@ describe('SettingsPanelComponent', () => {
 
   it('should hide the Font Family menu when disabled', () => {
     // arrange
-    component.isOpen = true;
+    component.isOpen$ = of(true);
     component.showFontFamilyMenu = false;
 
     // act

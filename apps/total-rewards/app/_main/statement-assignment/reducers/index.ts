@@ -173,6 +173,11 @@ export const getEmployees = createSelector(
   fromEmployeeSearchResultsReducer.getEmployees
 );
 
+export const getNoResultsMessage = createSelector(
+  selectEmployeeSearchState,
+  fromEmployeeSearchResultsReducer.getNoResultsMessage
+);
+
 export const getSelectedCompanyEmployeeIds = createSelector(
   selectEmployeeSearchState,
   fromEmployeeSearchResultsReducer.getSelectedCompanyEmployeeIds

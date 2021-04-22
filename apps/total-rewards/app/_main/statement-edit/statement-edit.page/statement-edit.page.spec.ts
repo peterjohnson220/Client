@@ -8,10 +8,14 @@ import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import * as fromRootState from 'libs/state/state';
 import { TimeElapsedPipe } from 'libs/core/pipes/time-elapsed.pipe';
 import { StatementModeEnum, Statement, generateMockStatement } from 'libs/features/total-rewards/total-rewards-statement/models';
+import * as fromAppNotificationsMainReducer from 'libs/features/infrastructure/app-notifications/reducers';
 
 import * as fromStatementEditReducer from '../reducers';
 import * as fromEditStatementPageActions from '../actions';
 import { StatementEditPageComponent } from './statement-edit.page';
+import { SettingsService } from 'libs/state/app-context/services';
+
+const each = require('jest-each').default;
 
 describe('StatementEditPageComponent', () => {
   let component: StatementEditPageComponent;
@@ -22,12 +26,15 @@ describe('StatementEditPageComponent', () => {
 
   let mainScrollableNode: HTMLDivElement;
 
+  let settingsService: SettingsService;
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
           ...fromRootState.reducers,
-          totalRewards_statementEdit: combineReducers(fromStatementEditReducer.reducers)
+          totalRewards_statementEdit: combineReducers(fromStatementEditReducer.reducers),
+          feature_appnotifications: combineReducers(fromAppNotificationsMainReducer.reducers)
         }),
       ],
       declarations: [StatementEditPageComponent, TimeElapsedPipe],
@@ -39,7 +46,12 @@ describe('StatementEditPageComponent', () => {
         {
           provide: ActivatedRoute,
           useValue: { params: of(1) },
-        }],
+        },
+        {
+          provide: SettingsService,
+          useValue: { selectCompanySetting: () => of(false)},
+        }
+      ],
         schemas: [NO_ERRORS_SCHEMA]
     });
 
@@ -53,6 +65,7 @@ describe('StatementEditPageComponent', () => {
     activatedRoute = TestBed.inject(ActivatedRoute);
     fixture = TestBed.createComponent(StatementEditPageComponent);
     component = fixture.componentInstance;
+    settingsService = TestBed.inject(SettingsService);
 
     // arrange, make sure there's a node that comes back on a `.page-content` query so scroll listener won't fail
     mainScrollableNode = document.createElement('div');
@@ -145,4 +158,23 @@ describe('StatementEditPageComponent', () => {
 
     expect(store.dispatch).toHaveBeenCalledWith(scrollFalseAction);
   }));
+
+  each([
+    [true, true],
+    [false, false]
+  ]).it('Download Statement Preview button should be disabled: %s while statement generating is %s', (isGenerating: boolean, expectedDisabled: boolean) => {
+    // arrange
+    component.mode = StatementModeEnum.Preview;
+    component.statementPreviewGenerating$ = of(isGenerating);
+
+    // act
+    fixture.detectChanges();
+
+    // assert
+    const pageHtml = fixture.debugElement.nativeElement as HTMLElement;
+    const actualDisabled = pageHtml.querySelector('#preview-download-button[disabled]') !== null;
+
+    expect(actualDisabled).toBe(expectedDisabled);
+  });
 });
+

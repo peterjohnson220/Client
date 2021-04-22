@@ -61,6 +61,10 @@ export class CompanyEmployeeApiService {
     { params: { companyEmployeeId: request.CompanyEmployeeId, statementId: request.StatementId } });
   }
 
+  getMockBenefits(): Observable<EmployeeRewardsData> {
+    return this.payfactorsApiService.get<EmployeeRewardsData>(`${this.endpoint}/GetMockBenefits`);
+  }
+
   getEmployeeBenefits(companyEmployeeId: number, employeeId: string): Observable<EmployeeBenefit[]> {
     return this.payfactorsApiService.get(`${this.endpoint}/GetEmployeeBenefits`,
       { params: { companyEmployeeId, employeeId } });

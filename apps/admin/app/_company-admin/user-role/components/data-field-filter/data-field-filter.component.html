@@ -8,6 +8,7 @@
       (valueChange)="dataFieldChanged($event)"
       [valuePrimitive]="true"
       [ngModel] = "roleDataRestriction.DataFieldId"
+      [disabled]="dataType?.DataFieldsDropdownDisabled"
     ></kendo-dropdownlist>
   </div>
   <div class="col-12 col-md-3">
@@ -46,5 +47,13 @@
       (valueChanged)="roleDataRestrictionChanged.emit({property: 'DataValue', value: $event})"
       [automationClassName]="'txt-restrictionTypeahead'"
     ></pf-typeahead>
+  </div>
+  <div class="col-12 col-md-6" *ngIf="selectedField?.FieldType == _DataFieldTypes.TREEVIEW">
+    <pf-treeview-multi-select #treeviewMultiSelectComponent
+      [apiEndpoint]="buildApiEndpoint()"
+      [dataTypeName]="selectedField?.DataType?.Name"
+      [roleDataRestriction]="roleDataRestriction"
+      (handleApplyClicked)="roleDataRestrictionChanged.emit({property:'DataValue', value: $event})">
+    </pf-treeview-multi-select>
   </div>
 </div>
