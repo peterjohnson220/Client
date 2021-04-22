@@ -14,7 +14,6 @@ import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/cor
 export class WorkflowStepMessagePageComponent implements OnInit {
   private unsubscribe$ = new Subject<void>();
   jdmInboxFeatureFlag: RealTimeFlag = { key: FeatureFlags.JdmInbox, value: false };
-
   workflowCompleteMessage$: Observable<string>;
 
   constructor(private router: Router,

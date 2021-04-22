@@ -11,4 +11,6 @@ export interface UserNotificationDisplay {
   IconName: IconName;
   IconPrefix: IconPrefix;
   OpenLinkInNewTab: boolean;
+  ButtonIsDisabled?: boolean;
+  DisabledButtonTooltip?: string;
 }

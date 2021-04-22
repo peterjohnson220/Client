@@ -32,6 +32,7 @@ import { UserNotificationHostDirective } from './directives';
 import * as fromFaIcons from './fa-icons';
 import { UserNotificationEventHelperService } from './helpers/user-notification-event-helper-service';
 import { StaleEmployeeDataNotificationComponent } from './components/categories/stale-employee-data/stale-employee-data-notification.component';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   providers:[UserNotificationEventHelperService],
@@ -47,7 +48,8 @@ import { StaleEmployeeDataNotificationComponent } from './components/categories/
     StoreModule.forFeature('feature_user_notifications', reducers),
     EffectsModule.forFeature([UserNotificationListEffects]),
     FontAwesomeModule,
-    FormatDistanceToNowPurePipeModule
+    FormatDistanceToNowPurePipeModule,
+    NgbTooltipModule
   ],
   declarations: [
     // Directives:
