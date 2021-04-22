@@ -166,7 +166,7 @@ export class ProjectListPageComponent implements AfterViewInit, OnInit, OnDestro
     };
 
     this.filterTemplates = {
-      'Completed': {Template: this.projectStatusFilter, isFullSize: true},
+      'Completed': {Template: this.projectStatusFilter},
       'PinOnDashboard': {Template: this.projectPinnedFilter, isFullSize: true}
     };
 
