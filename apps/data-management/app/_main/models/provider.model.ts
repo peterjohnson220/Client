@@ -7,6 +7,7 @@ export interface Provider {
   Active: boolean;
   UsesFieldSelection: boolean;
   ShowInUI: boolean;
+  Demo: boolean;
 }
 
 export function generateMockProvider(): Provider {
@@ -18,7 +19,8 @@ export function generateMockProvider(): Provider {
     AuthenticationTypeId: 1,
     Active: true,
     UsesFieldSelection: false,
-    ShowInUI: true
+    ShowInUI: true,
+    Demo: false
   };
 }
 
@@ -32,7 +34,8 @@ export function generateMockProviderList(): Provider[] {
       AuthenticationTypeId: 1,
       Active: true,
       UsesFieldSelection: false,
-      ShowInUI: true
+      ShowInUI: true,
+      Demo: false
     },
     {
       ProviderId: 2,
@@ -42,7 +45,8 @@ export function generateMockProviderList(): Provider[] {
       AuthenticationTypeId: 1,
       Active: true,
       UsesFieldSelection: false,
-      ShowInUI: true
+      ShowInUI: true,
+      Demo: false
     },
     {
       ProviderId: 3,
@@ -52,7 +56,8 @@ export function generateMockProviderList(): Provider[] {
       AuthenticationTypeId: 2,
       Active: true,
       UsesFieldSelection: false,
-      ShowInUI: true
+      ShowInUI: true,
+      Demo: false
     }
   ];
 }
@@ -66,7 +71,8 @@ export function generateMockOutboundProvider(): Provider {
     AuthenticationTypeId: 1,
     Active: true,
     UsesFieldSelection: false,
-    ShowInUI: true
+    ShowInUI: true,
+    Demo: false
   };
 }
 
@@ -80,7 +86,8 @@ export function generateMockOutboundProviderList(): Provider[] {
       AuthenticationTypeId: 1,
       Active: true,
       UsesFieldSelection: false,
-      ShowInUI: true
+      ShowInUI: true,
+      Demo: false
     },
     {
       ProviderId: 2,
@@ -90,7 +97,8 @@ export function generateMockOutboundProviderList(): Provider[] {
       AuthenticationTypeId: 1,
       Active: true,
       UsesFieldSelection: false,
-      ShowInUI: true
+      ShowInUI: true,
+      Demo: false
     },
     {
       ProviderId: 3,
@@ -100,7 +108,8 @@ export function generateMockOutboundProviderList(): Provider[] {
       AuthenticationTypeId: 2,
       Active: true,
       UsesFieldSelection: false,
-      ShowInUI: true
+      ShowInUI: true,
+      Demo: false
     }
   ];
 }

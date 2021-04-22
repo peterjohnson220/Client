@@ -52,7 +52,7 @@ export class JobsToGradeContainerComponent implements OnDestroy, OnInit {
     this.selectedJobs = [];
     this.dragSubs = new Subscription();
     this.selectedJobsSubscription = new Subscription();
-    this.selectedJobs$ = this.store.select(fromAddJobsReducer.getSelectedJobs);
+    this.selectedJobs$ = this.store.select(fromAddJobsReducer.getSelectedAllLoadedJobs);
     this.grades$ = this.store.select(fromJobsToGradeReducer.getGrades);
     this.loadingGrades$ = this.store.select(fromJobsToGradeReducer.getLoadingGrades);
     this.error$ = this.store.select(fromJobsToGradeReducer.getLoadingGradesError);

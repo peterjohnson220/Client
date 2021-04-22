@@ -53,7 +53,7 @@
 
     <pf-modal-form
       [size]="'lg'"
-      [isOpen$]="isDeleteStatetementModalOpen$"
+      [isOpen$]="isDeleteStatementModalOpen$"
       [title]="'Delete Statement'"
       [primaryButtonClass]="'btn-danger'"
       [primaryButtonText]="'Delete'"
@@ -63,6 +63,21 @@
       (onDismiss)="onCancelDeleteStatement()">
       <ng-container basic-content>
         <p>Are you sure you want to delete <strong>{{ (openActionMenuStatement$ | async)?.Name }}</strong>? This action is permanent and cannot be recovered.</p>
+      </ng-container>
+    </pf-modal-form>
+
+    <pf-modal-form
+      [size]="'lg'"
+      [isOpen$]="isCopyStatementModalOpen$"
+      [title]="'Copy Statement'"
+      [primaryButtonClass]="'btn-primary'"
+      [primaryButtonText]="'Copy'"
+      [primaryButtonTextSubmitting]="'Copying...'"
+      [submitting]="copyingStatement$ | async"
+      (onSubmit)="onConfirmCopyStatement()"
+      (onDismiss)="onCancelCopyStatement()">
+      <ng-container basic-content>
+        <p>You are about to create a copy of <strong>{{ (openActionMenuStatement$ | async)?.Name }}</strong>. Are you sure you want to continue?</p>
       </ng-container>
     </pf-modal-form>
   </ng-container>

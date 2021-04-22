@@ -6,6 +6,8 @@ import { DeliveryMethod } from 'libs/features/total-rewards/total-rewards-statem
 
 export interface GenerateStatementsRequest {
   StatementId: string;
+  UseMockEmployeeRewardsData: boolean;
+  IncludeEmployeeNameInGeneratedFileName: boolean;
   CompanyEmployeeIds: number[];
   EmployeeSearchTerm: string;
   GenerateByQuery: State;

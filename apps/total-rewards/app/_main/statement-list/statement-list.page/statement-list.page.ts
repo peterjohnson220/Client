@@ -24,11 +24,16 @@ export class StatementListPageComponent implements OnInit, OnDestroy {
   statementsSearchTerm$: Observable<string>;
   statementsTotal$: Observable<number>;
 
-  isDeleteStatetementModalOpen$: Observable<boolean>;
+  openActionMenuStatement$: Observable<StatementListViewModel>;
+
+  isDeleteStatementModalOpen$: Observable<boolean>;
   deletingStatement$: Observable<boolean>;
   deletingStatementSuccess$: Observable<boolean>;
   deletingStatementError$: Observable<boolean>;
-  openActionMenuStatement$: Observable<StatementListViewModel>;
+
+  isCopyStatementModalOpen$: Observable<boolean>;
+  copyingStatement$: Observable<boolean>;
+  copyingStatementSuccess$: Observable<boolean>;
 
   urlParamSubscription = new Subscription();
 
@@ -45,11 +50,16 @@ export class StatementListPageComponent implements OnInit, OnDestroy {
     this.statementsTotal$ = this.store.pipe(select(fromStatementListReducers.getStatementsTotal));
     this.statementsSearchTerm$ = this.store.pipe(select(fromStatementListReducers.getStatementsSearchTerm));
 
-    this.isDeleteStatetementModalOpen$ = this.store.pipe(select(fromStatementListReducers.getIsDeleteStatementModalOpen));
+    this.openActionMenuStatement$ = this.store.pipe(select(fromStatementListReducers.getStatementsOpenActionMenuStatement));
+
+    this.isDeleteStatementModalOpen$ = this.store.pipe(select(fromStatementListReducers.getIsDeleteStatementModalOpen));
     this.deletingStatement$ = this.store.pipe(select(fromStatementListReducers.getDeletingStatement));
     this.deletingStatementSuccess$ = this.store.pipe(select(fromStatementListReducers.getDeletingStatementSuccess));
     this.deletingStatementError$ = this.store.pipe(select(fromStatementListReducers.getDeletingStatementError));
-    this.openActionMenuStatement$ = this.store.pipe(select(fromStatementListReducers.getStatementsOpenActionMenuStatement));
+
+    this.isCopyStatementModalOpen$ = this.store.pipe(select(fromStatementListReducers.getIsCopyStatementModalOpen));
+    this.copyingStatement$ = this.store.pipe(select(fromStatementListReducers.getCopyingStatement));
+    this.copyingStatementSuccess$ = this.store.pipe(select(fromStatementListReducers.getCopyingStatementSuccess));
 
     // SUBSCRIPTIONS
     this.urlParamSubscription = this.route.url.subscribe(params => {
@@ -90,6 +100,14 @@ export class StatementListPageComponent implements OnInit, OnDestroy {
 
   onCancelDeleteStatement() {
     this.store.dispatch(new fromStatementGridActions.CloseDeleteStatement());
+  }
+
+  onConfirmCopyStatement() {
+    this.store.dispatch(new fromStatementGridActions.CopyStatement());
+  }
+
+  onCancelCopyStatement() {
+    this.store.dispatch(new fromStatementGridActions.CloseCopyStatement());
   }
 
   private dispatchSegmentAction(tabSegment: string): void {

@@ -1,5 +1,5 @@
 <pf-modal-form
-  [size]="'sm'"
+  [size]="'md'"
   [title]="'Regression Management'"
   [modalId]="'au-modal-regression-management'"
   [attr.data-qa-id]="'switch-regression-flags-modal'"
@@ -8,6 +8,7 @@
   [secondaryButtonText]="'Cancel'"
   [primaryButtonTextSubmitting]="this.selectedGradePoint?.IncludeInRegression ? 'Excluding' : 'Including'"
   [submitting]="(switchingRegressionFlagsAsyncObj$ | async)?.saving"
+  [submitEnabled]="enableButton()"
   [isOpen$]="modalOpen$"
   (onSubmit)="handleSwitch()"
   (onDismiss)="handleDismiss()">
@@ -17,7 +18,7 @@
       Exclude {{selectedGradePoint?.JobTitle}} from the regression line?
       <br />
       <button (click)="this.showAll = true"
-              class="btn btn-link"
+              class="btn btn-link showMoreLink"
               [attr.data-qa-id]="'btn-show-included-jobs'">
           Show all included jobs
       </button>
@@ -26,7 +27,7 @@
       Include {{selectedGradePoint?.JobTitle}} in the regression line?
       <br />
       <button (click)="this.showAll = true"
-              class="btn btn-link"
+              class="btn btn-link showMoreLink"
               [attr.data-qa-id]="'btn-show-excluded-jobs'">
         Show all excluded jobs
       </button>
@@ -36,16 +37,15 @@
         <thead>
         <tr>
           <th class="select-all-box"><input type="checkbox" (change)="selectAll()" [checked]="selectAllFlag"/></th>
-          <th class="assign-tab-header-row">Job Title</th>
-          <th class="assign-tab-header-row">MRP</th>
+          <th class="assign-tab-header-row w-75">Job Title</th>
+          <th class="assign-tab-header-row w-25">MRP</th>
         </tr>
         </thead>
         <tbody>
         <tr *ngFor="let point of gradePoints">
           <td><input type="checkbox" [value]="point.CompanyJobsStructuresId"
-                     (change)="selectGradePoint(point.CompanyJobsStructuresId)" [checked]="point.Selected"
-          /></td>
-          <td>{{point.JobTitle}}</td>
+                     (change)="selectGradePoint(point.CompanyJobsStructuresId)" [checked]="point.Selected"/></td>
+          <td class="jobTitle" title="{{point.JobTitle}}">{{point.JobTitle}}</td>
           <td>{{point.Mrp}}</td>
         </tr>
         </tbody>

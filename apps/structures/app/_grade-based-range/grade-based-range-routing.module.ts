@@ -36,6 +36,12 @@ const routes: Routes = [
     data: { gradeBased: true },
     loadChildren: () => import('apps/structures/app/_grade-based-range/jobs/jobs.module').then(m => m.JobsModule)
   },
+  {
+    path: ':id/job',
+    canActivate: [RangeGroupExistsGuard],
+    data: { gradeBased: true },
+    loadChildren: () => import('apps/structures/app/_grade-based-range/single-job-view/single-job-view.module').then(m => m.SingleJobViewModule)
+  }
 ];
 
 @NgModule({

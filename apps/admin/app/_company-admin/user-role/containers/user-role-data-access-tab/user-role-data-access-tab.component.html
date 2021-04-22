@@ -11,12 +11,12 @@
       </div>
     </div>
     <div *ngFor="let dt of dataTypes$ | async" class="col-xl-10 col-12">
-      <div class="d-flex align-items-center pb-2">
+      <div *ngIf="dt.Name !== 'SurveysCompanySurveys'" class="d-flex align-items-center pb-2">
         <div class="flex-grow-1 mr-4">
           <b>{{dt.Name}}</b>
         </div>
         <div class="action-buttons">
-          <button type="button" *ngIf="dt.DataFields.length > 1" (click)="addDataRestriction(dt)"
+          <button type="button" *ngIf="dt.DataFields.length > 1 && !dt.AddAndDeleteDisabled" (click)="addDataRestriction(dt)"
             class="btn btn-secondary action-buttons">
             <fa-icon icon="plus"></fa-icon>
           </button>
@@ -30,13 +30,15 @@
           </pf-data-field-filter>
         </div>
         <div class="action-buttons">
-          <button type="button" *ngIf="dt.DataFields.length > 1" (click)="removeDataRestriction(rdr)"
+          <button type="button" *ngIf="dt.DataFields.length > 1 && !dt.AddAndDeleteDisabled" (click)="removeDataRestriction(rdr)"
             class="btn btn-secondary">
             <fa-icon icon="trash"></fa-icon>
           </button>
         </div>
       </div>
-      <hr />
+      <ng-container *ngIf="!dt.HideDivider">
+        <hr />
+      </ng-container>
     </div>
   </div>
 </div>

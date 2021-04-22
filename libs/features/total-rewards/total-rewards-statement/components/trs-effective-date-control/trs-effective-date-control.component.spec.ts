@@ -27,6 +27,7 @@ describe('EffectiveDateComponent', () => {
     // arrange
     component.controlData = {} as any;
     component.effectiveDate = null;
+    component.showInformationEffectiveDate = true;
 
     // act
     fixture.detectChanges();
@@ -45,5 +46,18 @@ describe('EffectiveDateComponent', () => {
 
     // assert
     expect(fixture.debugElement.nativeElement.querySelector('.field-wrapper.empty-date')).toBeFalsy();
+  });
+
+  it('should show a `invisible` class when showInformationEffectiveDate is false', () => {
+    // arrange
+    component.controlData = {} as any;
+    component.effectiveDate = null;
+    component.showInformationEffectiveDate = false;
+
+    // act
+    fixture.detectChanges();
+
+    // assert
+    expect(fixture.debugElement.nativeElement.querySelector('.invisible')).toBeTruthy();
   });
 });

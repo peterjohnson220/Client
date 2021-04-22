@@ -17,6 +17,12 @@ export const DELETE_STATEMENT = '[Total Rewards/Statements] Delete Statement';
 export const DELETE_STATEMENT_SUCCESS = '[Total Rewards/Statements] Delete Statement Success';
 export const DELETE_STATEMENT_ERROR = '[Total Rewards/Statements] Delete Statement Error';
 
+export const CONFIRM_COPY_STATEMENT = '[Total Rewards/Statements] Confirm Copy Statement';
+export const CLOSE_COPY_STATEMENT = '[Total Rewards/Statements] Close Copy Statement';
+export const COPY_STATEMENT = '[Total Rewards/Statements] Copy Statement';
+export const COPY_STATEMENT_SUCCESS = '[Total Rewards/Statements] Copy Statement Success';
+export const COPY_STATEMENT_ERROR = '[Total Rewards/Statements] Copy Statement Error';
+
 export class LoadStatements implements Action {
   readonly type = LOAD_STATEMENTS;
 }
@@ -65,6 +71,28 @@ export class DeleteStatementError implements Action {
   readonly type = DELETE_STATEMENT_ERROR;
 }
 
+export class ConfirmCopyStatement implements Action {
+  readonly type = CONFIRM_COPY_STATEMENT;
+  constructor(public payload: StatementListViewModel) {}
+}
+
+export class CloseCopyStatement implements Action {
+  readonly type = CLOSE_COPY_STATEMENT;
+}
+
+export class CopyStatement implements Action {
+  readonly type = COPY_STATEMENT;
+}
+
+export class CopyStatementSuccess implements Action {
+  readonly type = COPY_STATEMENT_SUCCESS;
+  constructor(public payload: {statementId: string}) {}
+}
+
+export class CopyStatementError implements Action {
+  readonly type = COPY_STATEMENT_ERROR;
+}
+
 export type StatementGridActions =
   LoadStatements |
   LoadStatementsSuccess |
@@ -76,4 +104,9 @@ export type StatementGridActions =
   CloseDeleteStatement |
   DeleteStatement |
   DeleteStatementSuccess |
-  DeleteStatementError;
+  DeleteStatementError |
+  ConfirmCopyStatement |
+  CloseCopyStatement |
+  CopyStatement |
+  CopyStatementSuccess |
+  CopyStatementError;

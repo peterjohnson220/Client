@@ -9,6 +9,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 import { PfFormsModule } from 'libs/forms';
+import { PfServiceAccountsModule } from 'libs/features/service-accounts';
 
 import { BulkExportSchedulerFormComponent, BulkExportSchedulesListComponent } from './containers';
 import { BulkJobsExportScheduleEffects, BulkJobsExportScheduleFiltersEffects, BulkJobsExportScheduleViewEffects } from './effects';
@@ -33,7 +34,8 @@ import { reducers } from './reducers';
 
     // Payfactors
     FontAwesomeModule,
-    PfFormsModule
+    PfFormsModule,
+    PfServiceAccountsModule,
   ],
   declarations: [
     // Components
