@@ -9,6 +9,7 @@ import * as fromRootState from 'libs/state/state';
 
 import * as bulkExportJobsSchedulerActions from 'libs/features/jobs/bulk-job-description-export-scheduler/actions';
 import * as fromJdmAdminReducer from 'libs/features/jobs/bulk-job-description-export-scheduler/reducers';
+import * as serviceAccountsActions from 'libs/features/service-accounts/actions';
 
 import { OutboundBulkJobsExportSchedulerPageComponent } from './outbound-bulk-jobs-export-scheduler.page';
 
@@ -43,6 +44,8 @@ describe('Data Management - Main - Outbound Bulk Jobs Export Scheduler Page', ()
 
     store = TestBed.inject(Store);
     router = TestBed.inject(Router);
+
+    instance.filteredSchedules = [];
   });
 
   it('should dispatch a get connection summary action on init', () => {
@@ -59,6 +62,16 @@ describe('Data Management - Main - Outbound Bulk Jobs Export Scheduler Page', ()
     expect(store.dispatch).toHaveBeenCalledWith(expectedLoadFiltersAction);
     expect(store.dispatch).toHaveBeenCalledWith(expectedLoadViewsAction);
     expect(store.dispatch).toHaveBeenCalledWith(expectedLoadBulkExportSchedulesAction);
+  });
+
+  it('should dispatch an open reset modal action when button clicked', () => {
+    spyOn(store, 'dispatch');
+
+    const expectedAction = new serviceAccountsActions.OpenResetAccountModal();
+    instance.canResetCredentials = true;
+    instance.openResetAccountModal();
+
+    expect(store.dispatch).toHaveBeenLastCalledWith(expectedAction);
   });
 
 });

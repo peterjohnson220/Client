@@ -14,6 +14,10 @@ export type StatementEditPageActions =
   statementActions.SaveStatementError |
   statementActions.UpdateEffectiveDate |
   statementActions.PageScroll |
+  statementActions.GenerateStatementPreview |
+  statementActions.GenerateStatementPreviewSuccess |
+  statementActions.GenerateStatementPreviewError |
+  statementActions.GenerateStatementPreviewComplete |
 
   controlActions.UpdateStatementName |
   controlActions.UpdateStatementControlTitle |
@@ -34,7 +38,6 @@ export type StatementEditPageActions =
 
   settingsActions.OpenSettingsPanel |
   settingsActions.CloseSettingsPanel |
-  settingsActions.ToggleSettingsPanel |
   settingsActions.SaveSettings |
   settingsActions.SaveSettingsSuccess |
   settingsActions.SaveSettingsError |

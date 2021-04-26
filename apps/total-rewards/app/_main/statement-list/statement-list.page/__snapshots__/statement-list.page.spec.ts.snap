@@ -2,11 +2,14 @@
 
 exports[`TotalRewardsPageComponent should show the create new banner when no statements are returned 1`] = `
 <pf-total-rewards-statement-list-page
+  copyingStatement$={[Function Store]}
+  copyingStatementSuccess$={[Function Store]}
   deletingStatement$={[Function Store]}
   deletingStatementError$={[Function Store]}
   deletingStatementSuccess$={[Function Store]}
   focusedTab$={[Function Store]}
-  isDeleteStatetementModalOpen$={[Function Store]}
+  isCopyStatementModalOpen$={[Function Store]}
+  isDeleteStatementModalOpen$={[Function Store]}
   openActionMenuStatement$={[Function Store]}
   route={[Function Object]}
   router={[Function Object]}
@@ -125,17 +128,32 @@ exports[`TotalRewardsPageComponent should show the create new banner when no sta
         ? This action is permanent and cannot be recovered.
       </p>
     </pf-modal-form>
+    <pf-modal-form
+      title="Copy Statement"
+    >
+      
+      <p>
+        You are about to create a copy of 
+        <strong>
+          
+        </strong>
+        . Are you sure you want to continue?
+      </p>
+    </pf-modal-form>
   </pf-page-with-title-bar>
 </pf-total-rewards-statement-list-page>
 `;
 
 exports[`TotalRewardsPageComponent should show the grid component when statements are returned 1`] = `
 <pf-total-rewards-statement-list-page
+  copyingStatement$={[Function Store]}
+  copyingStatementSuccess$={[Function Store]}
   deletingStatement$={[Function Store]}
   deletingStatementError$={[Function Store]}
   deletingStatementSuccess$={[Function Store]}
   focusedTab$={[Function Store]}
-  isDeleteStatetementModalOpen$={[Function Store]}
+  isCopyStatementModalOpen$={[Function Store]}
+  isDeleteStatementModalOpen$={[Function Store]}
   openActionMenuStatement$={[Function Store]}
   route={[Function Object]}
   router={[Function Object]}
@@ -252,6 +270,18 @@ exports[`TotalRewardsPageComponent should show the grid component when statement
           
         </strong>
         ? This action is permanent and cannot be recovered.
+      </p>
+    </pf-modal-form>
+    <pf-modal-form
+      title="Copy Statement"
+    >
+      
+      <p>
+        You are about to create a copy of 
+        <strong>
+          
+        </strong>
+        . Are you sure you want to continue?
       </p>
     </pf-modal-form>
   </pf-page-with-title-bar>

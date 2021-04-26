@@ -30,7 +30,7 @@
   }
 
   .ql-editor {
-    padding: 4px 6px;
+    padding: 4px 6px; // IMPORTANT! css changes here may result in perceived data loss to end users 
     overflow-y: hidden;
     .ql-size-large {
       font-size: 1.4rem;
@@ -197,8 +197,13 @@ u .mention {
   }
 }
 
-// quill defaults to line-height: 1.42 which renders content taller in firefox than chrome, so normalize that here by bumping down firefox a few hairs
+// quill defaults to line-height: 1.42 which renders content taller in IE11 and firefox than chrome, so normalize that here by bumping down a few hairs
 @-moz-document url-prefix() {
+  .trs-rich-text-control .ql-editor {
+    line-height: 1.38;
+  }
+}
+_:-ms-fullscreen, :root {
   .trs-rich-text-control .ql-editor {
     line-height: 1.38;
   }

@@ -18,7 +18,6 @@ import * as fromDataCutValidationActions from 'libs/features/peer/actions/data-c
 import * as fromDataCutValidationReducer from 'libs/features/peer/guidelines-badge/reducers';
 import * as fromExchangeExplorerActions from 'libs/features/peer/exchange-explorer/actions/exchange-explorer.actions';
 import { TempExchangeDataCutDetails } from 'libs/models/payfactors-api/peer/exchange-data-search/request';
-import { ExchangeJobDataCut } from 'libs/features/surveys/survey-search/models';
 
 import * as fromUpsertDataCutActions from '../actions/upsert-peer-data-cut.actions';
 import * as fromRequestPeerAccessActions from '../actions/request-peer-access.actions';

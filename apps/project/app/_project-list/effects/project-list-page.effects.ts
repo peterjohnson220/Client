@@ -8,24 +8,39 @@ import { switchMap, mergeMap, withLatestFrom, map, catchError } from 'rxjs/opera
 
 import cloneDeep from 'lodash/cloneDeep';
 
+import { ToastrService } from 'ngx-toastr';
+
 import { PricingProjectApiService } from 'libs/data/payfactors-api/project';
 import { DataGridState} from 'libs/features/grids/pf-data-grid/reducers/pf-data-grid.reducer';
 import * as fromPfDataGridActions from 'libs/features/grids/pf-data-grid/actions';
 import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import { BulkProjectShareRequest } from 'libs/models/share-modal/bulk-project-share-request';
-import * as fromAutoShareActions from 'libs/features/users/user-settings/actions/auto-share.actions';
 
 import * as fromProjectListPageActions from '../actions';
 import * as fromProjectListPageReducer from '../reducers';
 
 import { PageViewIds } from '../../shared/constants';
 
+
 @Injectable()
 export class ProjectListPageEffects {
+
+  private readonly toastrOverrides = {
+    positionClass: 'toast-top-center',
+    tapToDismiss: true,
+    enableHtml: true,
+    preventDuplicates: true,
+    preventOpenDuplicates: true,
+    closeButton: true,
+    showMethod: 'fadeIn',
+    disableTimeOut: true,
+  };
+
   constructor(
     private actions$: Actions,
     private pricingProjectApiService: PricingProjectApiService,
-    private store: Store<fromProjectListPageReducer.State>) {
+    private store: Store<fromProjectListPageReducer.State>,
+    private toastr: ToastrService) {
   }
 
   @Effect()
@@ -53,6 +68,9 @@ export class ProjectListPageEffects {
           return actions;
         })
       );
+    }),
+    catchError(error => {
+      return this.handleError('pinning', 'Error', new fromPfDataGridActions.DoNothing(PageViewIds.Projects));
     })
   );
 
@@ -68,6 +86,9 @@ export class ProjectListPageEffects {
           return actions;
         })
       );
+    }),
+    catchError(error => {
+      return this.handleError('copying', 'Error', new fromPfDataGridActions.DoNothing(PageViewIds.Projects));
     })
   );
 
@@ -81,6 +102,9 @@ export class ProjectListPageEffects {
           actions.push(new fromProjectListPageActions.DeleteProjectsSuccess());
           actions.push(new fromPfDataGridActions.LoadData(PageViewIds.Projects));
           return actions;
+        }),
+        catchError(error => {
+          return this.handleError('deleting', 'Error', new fromPfDataGridActions.DoNothing(PageViewIds.Projects));
         })
       );
     })
@@ -125,8 +149,19 @@ export class ProjectListPageEffects {
                 new fromPfDataGridActions.LoadData(PageViewIds.Projects)
               ];
             }),
-            catchError(() => of(new fromProjectListPageActions.BulkProjectShareError()))
+            catchError(error => {
+              return this.handleError('sharing', 'Error', new fromProjectListPageActions.BulkProjectShareError());
+            })
           );
       })
     );
+
+  private handleError(message: string, title: string = 'Error',
+                      resultingAction: Action = new fromPfDataGridActions.DoNothing(PageViewIds.Projects)
+  ): Observable<Action> {
+    const errorMessage = `We encountered an error when ${message} your project. Please contact Payfactors support for assistance.`;
+    const toastContent = `<div class="message-container"><div class="alert-triangle-icon mr-3"></div>${errorMessage}</div>`;
+    this.toastr.error(toastContent, title, this.toastrOverrides);
+    return of(resultingAction);
+  }
 }

@@ -264,27 +264,23 @@ export class TrsCalculationControlComponent implements OnChanges, OnDestroy, OnI
   }
 
   setupDragula(): void {
-    if (!this.inEditMode) {
-      return;
-    }
+    if (this.mode === models.StatementModeEnum.Print || !this.dragulaService) { return; }
 
     this.dragulaGroupName = `dragula-group-calc-control-${this.controlData.Id}`;
-    if (this.dragulaService) {
-      this.dragulaService.createGroup(this.dragulaGroupName, {
-        revertOnSpill: true,
-        direction: 'vertical',
-        mirrorContainer: document.getElementsByClassName('trs-calculation').item(0),
-        moves: () => {
-          return this.inEditMode;
-        }
-      });
+    this.dragulaService.createGroup(this.dragulaGroupName, {
+      revertOnSpill: true,
+      direction: 'vertical',
+      mirrorContainer: document.getElementsByClassName('trs-calculation').item(0),
+      moves: () => {
+        return this.inEditMode;
+      }
+    });
 
-      this.dragulaSubscription$ = this.dragulaService.drop(this.dragulaGroupName).subscribe(() => {
-        this.onCompFieldReordered.emit({
-          ControlId: this.controlData.Id,
-          CompensationFields: this.visibleFields
-        });
+    this.dragulaSubscription$ = this.dragulaService.drop(this.dragulaGroupName).subscribe(() => {
+      this.onCompFieldReordered.emit({
+        ControlId: this.controlData.Id,
+        CompensationFields: this.visibleFields
       });
-    }
+    });
   }
 }
