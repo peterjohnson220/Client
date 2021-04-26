@@ -13,6 +13,7 @@ import { RangeType } from 'libs/constants/structures/range-type';
 import { RangeRecalculationType } from 'libs/constants/structures/range-recalculation-type';
 import { DataViewFilter } from 'libs/models/payfactors-api/reports/request';
 import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
+import * as fromPfDataGridActions from 'libs/features/grids/pf-data-grid/actions';
 import { GradeBasedPageViewIds, RangeGroupMetadata, RoundingSettingsDataObj } from 'libs/models/structures';
 
 import * as fromSharedStructuresReducer from '../../../shared/reducers';
@@ -47,6 +48,7 @@ export class SingleJobViewPageComponent implements OnInit, AfterViewInit, OnDest
   employeesPageViewId: string;
   dataCutsPageViewId: string;
   filter: PfDataGridFilter[];
+  dataCutFilter: PfDataGridFilter[];
   actionBarConfig: ActionBarConfig;
   singleRecordActionBarConfig: ActionBarConfig;
   gridConfig: GridConfig;
@@ -62,6 +64,7 @@ export class SingleJobViewPageComponent implements OnInit, AfterViewInit, OnDest
   rangeId: string;
   rangeGroupId: string;
   fromJobsView: boolean;
+  pricingId: string;
 
   constructor(
     public store: Store<fromSharedStructuresReducer.State>,
@@ -72,7 +75,7 @@ export class SingleJobViewPageComponent implements OnInit, AfterViewInit, OnDest
     this.metadataSubscription = this.metaData$.subscribe(md => {
       if (md) {
         this.employeesPageViewId = PagesHelper.getEmployeePageViewIdByRangeTypeAndRangeDistributionType(md.RangeTypeId, md.RangeDistributionTypeId);
-        this.dataCutsPageViewId = GradeBasedPageViewIds.DataCuts;
+        this.dataCutsPageViewId = GradeBasedPageViewIds.SingleJobDataCuts;
         this.jobPageViewId = PagesHelper.getJobsPageViewIdByRangeDistributionType(md.RangeDistributionTypeId);
         this.pageViewId = this.employeesPageViewId;
       }
@@ -86,6 +89,8 @@ export class SingleJobViewPageComponent implements OnInit, AfterViewInit, OnDest
       if (data && this.rangeId) {
         this.jobTitle = data.data.find(x =>
           x.CompanyJobs_Structures_CompanyJobId === Number(this.activatedRoute.snapshot.params.id)).CompanyJobs_Structures_JobTitle;
+        this.pricingId = data.data.find(x =>
+          x.CompanyJobs_Structures_CompanyJobId === Number(this.activatedRoute.snapshot.params.id)).CompanyJobs_Pricings_CompanyJobPricing_ID;
       }
     });
 
@@ -157,9 +162,20 @@ export class SingleJobViewPageComponent implements OnInit, AfterViewInit, OnDest
   }
 
   onDataCutsClicked() {
+    this.store.dispatch(new fromPfDataGridActions.SetFilterPanelDisplay(this.pageViewId, false));
+    this.dataCutFilter = [
+      {
+        SourceName: 'CompanyJobPricing_ID',
+        Operator: '=',
+        Values: [this.pricingId]
+      }
+    ];
     this.activeTab = 'DataCuts';
     this.pageViewId = this.dataCutsPageViewId;
-    // TODO: the rest of this implementation as part of STRUC-608
+
+    // Update inbound filters
+    this.store.dispatch(new fromPfDataGridActions.UpdateInboundFilters(this.pageViewId, this.dataCutFilter));
+
     return false;
   }
 
