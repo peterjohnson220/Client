@@ -7,7 +7,9 @@ import { SearchFilter } from 'libs/models/payfactors-api/search/response';
 import {
   ExchangeDataSearchRequest,
   SearchExchangeAggregationsRequest,
-  ExchangeDataSearchResponse, BaseExchangeDataSearchRequest
+  ExchangeDataSearchResponse,
+  HistoricalExchangeDataSearchRequest,
+  HistoricalExchangeDataSearchResponse
 } from 'libs/models/payfactors-api/peer/exchange-data-search';
 import { ComphubExchangeExplorerContextRequest } from 'libs/models/peer/requests/comphub-exchange-explorer-context-request.model';
 
@@ -67,4 +69,7 @@ export class ExchangeDataSearchApiService {
     return this.payfactorsApiService.post(`${this.endpoint}/SearchAggregations`, request);
   }
 
+  getHistoricalTrends(request: HistoricalExchangeDataSearchRequest): Observable<HistoricalExchangeDataSearchResponse> {
+    return this.payfactorsApiService.post(`${this.endpoint}/GetHistoricalTrend`, request);
+  }
 }

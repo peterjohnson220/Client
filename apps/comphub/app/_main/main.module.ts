@@ -47,13 +47,14 @@ import {
 } from './containers';
 import {
   JobsCardEffects, MarketsCardEffects, AddPayMarketFormEffects, DataCardEffects, ComphubPageEffects,
-  SummaryCardEffects, JobGridEffects, QuickPriceHistoryEffects, TrendsLandingCardEffects
+  SummaryCardEffects, JobGridEffects, QuickPriceHistoryEffects, TrendsLandingCardEffects, TrendsSummaryCardEffects
 } from './effects';
 import { reducers } from './reducers';
 import { TrendingJobGroupComponent, CardComponent, PaymarketCardsComponent, AddPayMarketFormComponent, SalaryBarChartComponent,
   SalaryTrendChartComponent, SharePricingSummaryModalComponent, GlossaryOfTermsComponent, NewExchangeParticipantsComponent } from './components';
 import { MainRoutingModule } from './main-routing.module';
 import * as fromFaIcons from './fa-icons';
+import { HistoricalTrendChartComponent } from './components/salary-trend-chart/historical-trend-chart/historical-trend-chart.component';
 
 @NgModule({
     imports: [
@@ -73,7 +74,8 @@ import * as fromFaIcons from './fa-icons';
             SummaryCardEffects,
             JobGridEffects,
             QuickPriceHistoryEffects,
-            TrendsLandingCardEffects
+            TrendsLandingCardEffects,
+            TrendsSummaryCardEffects
         ]),
         PerfectScrollbarModule,
         PDFExportModule,
@@ -106,6 +108,7 @@ import * as fromFaIcons from './fa-icons';
     AddPayMarketFormComponent,
     SalaryBarChartComponent,
     SalaryTrendChartComponent,
+    HistoricalTrendChartComponent,
     SharePricingSummaryModalComponent,
     GlossaryOfTermsComponent,
 
