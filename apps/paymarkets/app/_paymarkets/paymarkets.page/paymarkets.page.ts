@@ -205,6 +205,15 @@ export class PayMarketsPageComponent implements AfterViewInit, OnInit, OnDestroy
       if (sizeSortInfo) {
         currentSortDescriptor = this.getSizeColumnSort(sizeSortInfo);
       }
+
+      const countrySortInfo = currentSortDescriptor.find(s => s.field === 'CompanyPayMarkets_Country_Code');
+      if (countrySortInfo) {
+        currentSortDescriptor.unshift({
+          dir: countrySortInfo.dir,
+          field: 'Country_Country_Name'
+        });
+      }
+
       if (!currentSortDescriptor.some(s => s.field === 'CompanyPayMarkets_IsDefaultPayMarket')) {
         currentSortDescriptor.unshift({
           dir: 'desc',
