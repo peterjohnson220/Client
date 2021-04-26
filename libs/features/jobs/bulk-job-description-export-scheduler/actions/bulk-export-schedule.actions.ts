@@ -16,6 +16,9 @@ export const EDIT_SCHEDULE = '[Bulk Jobs Export Scheduler Feature / Schedule] Ed
 export const UPDATE_SCHEDULE = '[Bulk Jobs Export Scheduler Feature / Schedule] Update Schedule';
 export const UPDATE_SCHEDULE_SUCCESS = '[Bulk Jobs Export Scheduler Feature / Schedule] Update Schedule Success';
 export const UPDATE_SCHEDULE_ERROR = '[Bulk Jobs Export Scheduler Feature / Schedule] Update Schedule Error';
+export const GET_JDM_EXPORT_URL = '[Bulk Jobs Export Scheduler Feature / Schedule] Get JDM Export URL';
+export const GET_JDM_EXPORT_URL_SUCCESS = '[Bulk Jobs Export Scheduler Feature / Schedule] Get JDM Export URL Success';
+export const GET_JDM_EXPORT_URL_ERROR = '[Bulk Jobs Export Scheduler Feature / Schedule] Get JDM Export URL Error';
 
 export class AddingSchedule implements Action {
   readonly type = ADDING_SCHEDULE;
@@ -107,6 +110,24 @@ export class UpdateScheduleError implements Action {
    constructor(public payload: any = null) {}
 }
 
+export class GetJdmExportUrl implements Action {
+  readonly type = GET_JDM_EXPORT_URL;
+
+   constructor(public payload: string) {}
+}
+
+export class GetJdmExportUrlSuccess implements Action {
+  readonly type = GET_JDM_EXPORT_URL_SUCCESS;
+
+   constructor(public payload: string) {}
+}
+
+export class GetJdmExportUrlError implements Action {
+  readonly type = GET_JDM_EXPORT_URL_ERROR;
+
+   constructor() {}
+}
+
 export type BulkExportJobsSchedulerActions
   = AddingSchedule
   | AddingScheduleSuccess
@@ -122,4 +143,7 @@ export type BulkExportJobsSchedulerActions
   | EditSchedule
   | UpdateSchedule
   | UpdateScheduleSuccess
-  | UpdateScheduleError;
+  | UpdateScheduleError
+  | GetJdmExportUrl
+  | GetJdmExportUrlSuccess
+  | GetJdmExportUrlError;

@@ -2,7 +2,12 @@ import { Component, Input, ChangeDetectionStrategy, Output, EventEmitter } from 
 
 import { EmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards';
 
-import { StatementModeEnum, TitleControl, UpdateTitleRequest, TotalRewardsColorEnum } from '../../models';
+import {
+  StatementModeEnum,
+  TitleControl,
+  UpdateTitleRequest,
+  TotalRewardsColorEnum
+} from '../../models';
 
 @Component({
   selector: 'pf-trs-title-control',
@@ -19,6 +24,7 @@ export class TrsTitleControlComponent {
   @Input() backgroundGraphicsEnabled;
   @Input() showEmployee;
   @Input() titleInnerWidth = '100%';
+  @Input() showEmployeeId: boolean;
 
   @Output() titleChange: EventEmitter<UpdateTitleRequest> = new EventEmitter();
 

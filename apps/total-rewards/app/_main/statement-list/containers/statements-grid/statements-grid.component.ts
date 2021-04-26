@@ -67,6 +67,10 @@ export class StatementsGridComponent implements OnInit {
     this.store.dispatch(new fromStatementGridActions.ConfirmDeleteStatement(statement));
   }
 
+  onActionMenuCopyClick(statement: StatementListViewModel): void {
+    this.store.dispatch(new fromStatementGridActions.ConfirmCopyStatement(statement));
+  }
+
   navigateToStatementEdit(statementId: string): void {
     this.router.navigate(['/statement/edit/', statementId]).then();
   }

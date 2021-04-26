@@ -36,6 +36,9 @@
               <button ngbDropdownItem (click)="navigateToStatementEdit(dataItem?.Id)">
                 <span>Edit</span>
               </button>
+              <button ngbDropdownItem (click)="onActionMenuCopyClick(dataItem)">
+                <span>Copy</span>
+              </button>
               <button ngbDropdownItem (click)="navigateToStatementAssign(dataItem?.Id)">
                 <span>Assign</span>
               </button>

@@ -14,7 +14,7 @@
         </div>
       </div>
       <pf-provider-list 
-        [providers]="(providers$ | async).obj"
+        [providers]="providers"
         [selectedProvider]="(selectedProvider)?.ProviderId"
         (providerSelected)="setSelectedProvider($event)">
       </pf-provider-list>

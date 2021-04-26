@@ -70,6 +70,8 @@ export class StatementAssignmentPageEffects {
       ),
       map(data => ({
         StatementId: data.statementId,
+        UseMockEmployeeRewardsData: false,
+        IncludeEmployeeNameInGeneratedFileName: false,
         CompanyEmployeeIds: data.companyEmployeeIds,
         EmployeeSearchTerm: data.employeeSearchTerm,
         ExpectedEmployeeCount: data.employeesTotalOrSelectedCount,

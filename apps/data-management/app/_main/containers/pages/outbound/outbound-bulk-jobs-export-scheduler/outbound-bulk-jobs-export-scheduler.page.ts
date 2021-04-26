@@ -11,6 +11,9 @@ import { JobDescriptionViewModel } from 'libs/models/jdm/job-description-view.mo
 
 import * as bulkExportJobsSchedulerActions from 'libs/features/jobs/bulk-job-description-export-scheduler/actions';
 import * as fromJdmAdminReducer from 'libs/features/jobs/bulk-job-description-export-scheduler/reducers';
+import * as fromServiceAccountsActions from 'libs/features/service-accounts/actions';
+import * as fromServiceAccountsReducer from 'libs/features/service-accounts/reducers';
+import { ServiceAccountUserStatus } from 'libs/models';
 
 
 @Component({
@@ -32,12 +35,16 @@ export class OutboundBulkJobsExportSchedulerPageComponent implements OnInit, OnD
   loadingJdmViewsError$: Observable<boolean>;
   loadingJdmFiltersError$: Observable<boolean>;
 
+  showResetAccountModal$: Observable<boolean>;
+  serviceAccountStatus$: Observable<ServiceAccountUserStatus>;
+
   private unsubscribe$ = new Subject<void>();
 
   filteredSchedules: BulkExportSchedule[];
   exportReportType =  ExportReportType;
+  canResetCredentials = false;
 
-  constructor(private store: Store<fromJdmAdminReducer.State>) {
+  constructor(private store: Store<fromJdmAdminReducer.State>, private serviceAccountStore: Store<fromServiceAccountsReducer.State>) {
     this.views$ = this.store.select(fromJdmAdminReducer.getViews);
     this.filters$ = this.store.select(fromJdmAdminReducer.getFilters);
     this.schedules$ = this.store.select(fromJdmAdminReducer.getBulkExportSchedules);
@@ -49,6 +56,9 @@ export class OutboundBulkJobsExportSchedulerPageComponent implements OnInit, OnD
     this.loadingBulkExportSchedulesError$ = this.store.select(fromJdmAdminReducer.getBulkExportScheduleLoadingError);
     this.loadingJdmViewsError$ = this.store.select(fromJdmAdminReducer.getViewsLoadingError);
     this.loadingJdmFiltersError$ = this.store.select(fromJdmAdminReducer.getFiltersLoadingError);
+
+    this.showResetAccountModal$ = this.serviceAccountStore.select(fromServiceAccountsReducer.getShowServiceAccountModal);
+    this.serviceAccountStatus$ = this.serviceAccountStore.select(fromServiceAccountsReducer.getAccountStatus);
   }
 
   ngOnInit() {
@@ -61,10 +71,22 @@ export class OutboundBulkJobsExportSchedulerPageComponent implements OnInit, OnD
       .subscribe(schedules => {
         this.filteredSchedules = schedules.filter(s => s.ReportType === this.exportReportType.HrisOutboundJobs);
       });
+    this.serviceAccountStatus$
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(sas => {
+        if (sas != null) {
+          this.canResetCredentials = sas.IsActive;
+        }
+      });
   }
 
   ngOnDestroy() {
+    this.unsubscribe$.unsubscribe();
     this.unsubscribe$.next();
+  }
+
+  openResetAccountModal() {
+    this.serviceAccountStore.dispatch(new fromServiceAccountsActions.OpenResetAccountModal());
   }
 
 }

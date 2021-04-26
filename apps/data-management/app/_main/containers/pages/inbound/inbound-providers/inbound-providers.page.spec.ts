@@ -1,21 +1,28 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/compiler/src/core';
 import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+
+
+import { AbstractFeatureFlagService } from 'libs/core';
+import * as fromRootState from 'libs/state/state';
 
 import * as fromProviderListPageActions from '../../../../actions/provider-list.actions';
 import * as fromProviderListReducers from '../../../../reducers/provider-list.reducer';
 import { generateMockProvider } from '../../../../models';
 import { InboundProvidersPageComponent } from './inbound-providers.page';
+import { Store } from '@ngrx/store';
 
 describe('Data Management - Main - Transfer Data Page - Inbound - Vendor', () => {
   let instance: InboundProvidersPageComponent;
   let fixture: ComponentFixture<InboundProvidersPageComponent>;
-  let store: MockStore<any>;
+  let store: Store<fromProviderListReducers.State>;
   let router: Router;
+  let abstractFeatureFlagService: AbstractFeatureFlagService;
+
 
   const initialState = {
+    ...fromRootState.reducers,
     data_management: {
       providerList: fromProviderListReducers.initialState
     }
@@ -28,7 +35,11 @@ describe('Data Management - Main - Transfer Data Page - Inbound - Vendor', () =>
         {
           provide: Router,
           useValue: { navigate: jest.fn() },
-        }
+        },
+        {
+          provide: AbstractFeatureFlagService,
+          useValue: { enabled: jest.fn(), bindEnabled: jest.fn() }
+        },
       ],
       declarations: [InboundProvidersPageComponent],
       schemas: [NO_ERRORS_SCHEMA]
@@ -36,6 +47,7 @@ describe('Data Management - Main - Transfer Data Page - Inbound - Vendor', () =>
     .compileComponents();
     store = TestBed.inject(MockStore);
     router = TestBed.inject(Router);
+    abstractFeatureFlagService = TestBed.inject(AbstractFeatureFlagService);
     fixture = TestBed.createComponent(InboundProvidersPageComponent);
     instance = fixture.componentInstance;
   }));

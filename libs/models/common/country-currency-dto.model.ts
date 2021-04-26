@@ -3,4 +3,5 @@ export interface CountryCurrency {
   CountryName: string;
   CurrencyCode: string;
   CurrencyName: string;
+  DisplayName?: string;
 }
