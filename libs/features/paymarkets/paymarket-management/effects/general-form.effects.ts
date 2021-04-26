@@ -21,11 +21,12 @@ export class GeneralFormEffects {
         return this.countryApiService.getAllCountryCurrency()
           .pipe(
             map((response) => {
-              return new fromGeneralFormActions.GetCountriesSuccess(
-                KendoTypedDropDownItemHelper.mapItemsToDropdownList(response, 'CountryCode', (item => {
-                  return `${item['CountryCode']} - ${item['CurrencyCode']}`;
-                }))
-              );
+              let countries = response.filter(c => !!c.CountryCode);
+              countries = countries.map(c => {
+                c.DisplayName = `${c.CountryName} (${c.CountryCode})`;
+                return c;
+              });
+              return new fromGeneralFormActions.GetCountriesSuccess(response);
             }),
             catchError(() => of(new fromGeneralFormActions.GetCountriesError()))
           );
@@ -41,8 +42,7 @@ export class GeneralFormEffects {
             map((response) => {
               return new fromGeneralFormActions.GetCurrenciesSuccess(
                 KendoTypedDropDownItemHelper.mapItemsToDropdownList(response, 'CurrencyCode', (item => {
-                  const currencySymbol = getCurrencySymbol(item['CurrencyCode'], 'narrow');
-                  return `${item['CurrencyCode']} (${currencySymbol})`;
+                  return `${item['CurrencyName']} (${item['CurrencyCode']})`;
                 }))
               );
             }),

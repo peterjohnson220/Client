@@ -5,7 +5,7 @@ import { catchError, switchMap, map, withLatestFrom, mapTo, concatMap, debounceT
 import { Store, Action, select } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 
-import { TotalRewardsApiService, TotalRewardsSearchApiService } from 'libs/data/payfactors-api/total-rewards';
+import { TotalRewardsApiService, TotalRewardsPdfGenerationService, TotalRewardsSearchApiService } from 'libs/data/payfactors-api/total-rewards';
 import { EmployeeRewardsDataRequest, TotalRewardsEmployeeSearchResponse } from 'libs/models/payfactors-api/total-rewards';
 import { CompanyEmployeeApiService } from 'libs/data/payfactors-api/company';
 import { PfConstants } from 'libs/models/common';
@@ -14,6 +14,8 @@ import { Statement, Settings } from 'libs/features/total-rewards/total-rewards-s
 import { SaveSettingsRequest } from 'libs/features/total-rewards/total-rewards-statement/models/request-models';
 import { EmployeeRewardsDataService } from 'libs/features/total-rewards/total-rewards-statement/services/employee-rewards-data.service';
 import { TotalRewardsStatementService } from 'libs/features/total-rewards/total-rewards-statement/services/total-rewards-statement.service';
+import { TrsConstants } from 'libs/features/total-rewards/total-rewards-statement/constants/trs-constants';
+import { DeliveryMethod } from 'libs/features/total-rewards/total-rewards-statement/models/delivery-method';
 
 import * as fromTotalRewardsReducer from '../reducers';
 import * as fromStatementEditActions from '../actions';
@@ -21,6 +23,36 @@ import { SaveStatement, SaveSettings } from '../actions';
 
 @Injectable()
 export class StatementEditPageEffects {
+
+  @Effect()
+  generateStatementPreview$ = this.actions$
+    .pipe(
+      ofType(fromStatementEditActions.GENERATE_STATEMENT_PREVIEW),
+      withLatestFrom(
+        this.store.select(fromTotalRewardsReducer.selectStatement),
+        this.store.select(fromTotalRewardsReducer.getEmployeeData),
+        (action: fromStatementEditActions.GenerateStatementPreview, statement, employeeData) =>
+          ({ action, companyEmployeeId : employeeData.obj.CompanyEmployeeId, statementId: statement.StatementId })
+      ),
+      map(data => ({
+        StatementId: data.statementId,
+        UseMockEmployeeRewardsData: !data.companyEmployeeId,
+        IncludeEmployeeNameInGeneratedFileName: true,
+        CompanyEmployeeIds: data.companyEmployeeId ? [data.companyEmployeeId] : [],
+        EmployeeSearchTerm: '',
+        ExpectedEmployeeCount: data.companyEmployeeId ? 1 : 0,
+        GenerateByQuery: null,
+        WaitForPdfGenerationSelector: TrsConstants.READY_FOR_PDF_GENERATION_SELECTOR,
+        Method: DeliveryMethod.PDFExport,
+        EmailTemplate: null
+      })),
+      switchMap(request =>
+        this.totalRewardsPdfGenerationService.generateStatements(request).pipe(
+          map((response: string) => new fromStatementEditActions.GenerateStatementPreviewSuccess(response)),
+          catchError(error => of(new fromStatementEditActions.GenerateStatementPreviewError(error)))
+        )
+      )
+    );
 
   @Effect()
   getStatement$: Observable<Action> =
@@ -162,9 +194,20 @@ export class StatementEditPageEffects {
         };
         return this.companyEmployeeApiService.getBenefits(request)
           .pipe(
-            map((response) => {
-              return new fromStatementEditActions.GetEmployeeRewardsDataSuccess(EmployeeRewardsDataService.mapEmployeeRewardsDataDateFields(response));
-            }),
+            map(response => new fromStatementEditActions.GetEmployeeRewardsDataSuccess(EmployeeRewardsDataService.mapEmployeeRewardsDataDateFields(response))),
+            catchError(() => of(new fromStatementEditActions.GetEmployeeRewardsDataError()))
+          );
+      })
+    );
+
+  @Effect()
+  resetEmployeeRewardsData$ = this.actions$
+    .pipe(
+      ofType(fromStatementEditActions.RESET_EMPLOYEE_REWARDS_DATA),
+      switchMap((action: fromStatementEditActions.ResetEmployeeRewardsData) => {
+        return this.companyEmployeeApiService.getMockBenefits()
+          .pipe(
+            map(response => new fromStatementEditActions.GetEmployeeRewardsDataSuccess(EmployeeRewardsDataService.mapEmployeeRewardsDataDateFields(response))),
             catchError(() => of(new fromStatementEditActions.GetEmployeeRewardsDataError()))
           );
       })
@@ -188,6 +231,7 @@ export class StatementEditPageEffects {
     private actions$: Actions,
     private totalRewardsApiService: TotalRewardsApiService,
     private totalRewardsSearchApiService: TotalRewardsSearchApiService,
-    private companyEmployeeApiService: CompanyEmployeeApiService
+    private companyEmployeeApiService: CompanyEmployeeApiService,
+    private totalRewardsPdfGenerationService: TotalRewardsPdfGenerationService
   ) {}
 }

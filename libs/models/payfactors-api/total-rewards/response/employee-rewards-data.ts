@@ -24,6 +24,7 @@ export interface EmployeeRewardsData {
   EmployeeState: string;
   EmployeeBase: number;
   EmployeeBonus: number;
+  EmployeeBonusTarget: number;
   EmployeeSTI: number;
   EmployeeLTI: number;
   CurrentYear: number;
@@ -64,6 +65,7 @@ export function generateMockEmployeeRewardsData(): EmployeeRewardsData {
     EmployeeState: 'MA',
     EmployeeBase: 150000,
     EmployeeBonus: 10000,
+    EmployeeBonusTarget: 5000,
     EmployeeSTI: 5000,
     EmployeeLTI: 10000,
     CurrentYear: new Date().getFullYear(),

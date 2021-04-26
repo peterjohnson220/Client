@@ -6,7 +6,6 @@ import { FontSize, FontFamily } from 'libs/features/total-rewards/total-rewards-
 
 export const OPEN_SETTINGS_PANEL = '[Total Rewards/Edit Statement] Open Settings Panel';
 export const CLOSE_SETTINGS_PANEL = '[Total Rewards/Edit Statement] Close Settings Panel';
-export const TOGGLE_SETTINGS_PANEL = '[Total Rewards/Edit Statement] Toggle Settings Panel';
 export const SAVE_SETTINGS = '[Total Rewards/Edit Statement] Save Settings';
 export const SAVE_SETTINGS_SUCCESS = '[Total Rewards/Edit Statement] Save Settings Success';
 export const SAVE_SETTINGS_ERROR = '[Total Rewards/Edit Statement] Save Settings Error';
@@ -22,10 +21,6 @@ export class OpenSettingsPanel implements Action {
 
 export class CloseSettingsPanel implements Action {
   readonly type = CLOSE_SETTINGS_PANEL;
-}
-
-export class ToggleSettingsPanel implements Action {
-  readonly type = TOGGLE_SETTINGS_PANEL;
 }
 
 export class SaveSettings implements Action {
@@ -68,7 +63,6 @@ export class ResetSettings implements Action {
 export type SettingsActions =
   OpenSettingsPanel |
   CloseSettingsPanel |
-  ToggleSettingsPanel |
   SaveSettings |
   SaveSettingsSuccess |
   SaveSettingsError |

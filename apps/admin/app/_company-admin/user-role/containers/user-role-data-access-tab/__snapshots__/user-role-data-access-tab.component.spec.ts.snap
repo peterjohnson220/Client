@@ -57,6 +57,7 @@ exports[`UserRoleDataAccessTabComponent should show data access tab on company r
       <div
         class="col-xl-10 col-12"
       >
+        
         <div
           class="d-flex align-items-center pb-2"
         >
@@ -88,6 +89,8 @@ exports[`UserRoleDataAccessTabComponent should show data access tab on company r
             
           </div>
         </div>
+        
+        
         <hr />
       </div>
     </div>

@@ -5557,6 +5557,235 @@
           }
         }
       }
+    },
+    "surveys": {
+      "root": "",
+      "sourceRoot": "",
+      "projectType": "application",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "aot": true,
+            "outputPath": "dist/apps/surveys",
+            "index": "apps/surveys/index.html",
+            "main": "apps/surveys/main.ts",
+            "tsConfig": "apps/surveys/tsconfig.app.json",
+            "polyfills": "apps/surveys/polyfills.ts",
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "assets/scss",
+                "apps/surveys/assets"
+              ]
+            },
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "assets/images",
+                "output": "/assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "assets/js",
+                "output": "/assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "apps/surveys/assets",
+                "output": "/assets"
+              },
+              {
+                "glob": "favicon.ico",
+                "input": "apps/surveys",
+                "output": "/"
+              },
+              {
+                "glob": "web.config",
+                "input": "apps/surveys",
+                "output": "/"
+              }
+            ],
+            "styles": [
+              "assets/scss/client.scss",
+              "apps/surveys/styles.scss"
+            ],
+            "scripts": [
+              "assets/js/pendo.js",
+              "assets/js/walk-me.js"
+            ]
+          },
+          "configurations": {
+            "staging": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "baseline": "2.35mb",
+                  "maximumWarning": "200kb",
+                  "maximumError": "400kb"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/surveys/../../environments/environment.ts",
+                  "with": "apps/surveys/../../environments/environment.prod.ts"
+                },
+                {
+                  "replace": "apps/surveys/../../assets/js/new-relic.js",
+                  "with": "apps/surveys/../../libs/ui/common/assets/js/new-relic.prod.js"
+                }
+              ]
+            },
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "baseline": "2.35mb",
+                  "maximumWarning": "200kb",
+                  "maximumError": "400kb"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/surveys/../../environments/environment.ts",
+                  "with": "apps/surveys/../../environments/environment.prod.ts"
+                },
+                {
+                  "replace": "apps/surveys/../../assets/js/new-relic.js",
+                  "with": "apps/surveys/../../libs/ui/common/assets/js/new-relic.prod.js"
+                },
+                {
+                  "replace": "apps/surveys/../../assets/js/walk-me.js",
+                  "with": "apps/surveys/../../libs/ui/common/assets/js/walk-me.prod.js"
+                }
+              ]
+            },
+            "sales": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/surveys/../../environments/environment.ts",
+                  "with": "apps/surveys/../../environments/environment.sales.ts"
+                },
+                {
+                  "replace": "apps/surveys/../../assets/js/new-relic.js",
+                  "with": "apps/surveys/../../libs/ui/common/assets/js/new-relic.prod.js"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "surveys:build"
+          },
+          "configurations": {
+            "staging": {
+              "browserTarget": "surveys:build:staging"
+            },
+            "production": {
+              "browserTarget": "surveys:build:production"
+            },
+            "sales": {
+              "browserTarget": "surveys:build:sales"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "surveys:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "apps/surveys/../../test.ts",
+            "karmaConfig": "./karma.conf.js",
+            "polyfills": "apps/surveys/polyfills.ts",
+            "tsConfig": "apps/surveys/../../tsconfig.spec.json",
+            "scripts": [
+              "assets/js/pendo.js",
+              "assets/js/walk-me.js"
+            ],
+            "styles": [
+              "assets/scss/client.scss",
+              "apps/surveys/styles.scss"
+            ],
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "assets/images",
+                "output": "/assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "assets/js",
+                "output": "/assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "apps/surveys/assets",
+                "output": "/assets"
+              },
+              {
+                "glob": "favicon.ico",
+                "input": "apps/surveys",
+                "output": "/"
+              },
+              {
+                "glob": "web.config",
+                "input": "apps/surveys",
+                "output": "/"
+              }
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "./tsconfig.json",
+              "./tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "admin",

@@ -8,10 +8,11 @@ import { filter, takeUntil } from 'rxjs/operators';
 
 import { Permissions } from 'libs/constants';
 import { TransferMethodTypes } from 'libs/constants/hris-api';
-import { AsyncStateObj, CompanySettingsEnum } from 'libs/models';
+import { AsyncStateObj, CompanySettingsEnum, UserContext } from 'libs/models';
 import { HRISConnectionAuthenticationStatus } from 'libs/constants/hris-connection-authenticationstatus';
 import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
 import { SettingsService } from 'libs/state/app-context/services';
+import * as fromRootState from 'libs/state/state';
 
 import * as fromTransferDataPageActions from '../../../actions/transfer-data-page.actions';
 import * as fromHrisConnectionActions from '../../../actions/hris-connection.actions';
@@ -42,14 +43,18 @@ export class DataManagementLandingPageComponent implements OnInit, OnDestroy {
   loading$: Observable<boolean>;
   loadingError$: Observable<boolean>;
   loadAndExportFilesCardLoading$: Observable<boolean>;
+  identity$: Observable<UserContext>;
 
   connectionNeedsAuthentication: boolean;
   loadAndExportsFilesCardFlag: RealTimeFlag = { key: FeatureFlags.LoadAndExportsFilesCards, value: false };
   jdmOutboundIntegrationFlag: RealTimeFlag = { key: FeatureFlags.JdmOutboundIntgration, value: false };
 
   hrisInboundEnabledForCompany = false;
+  hrisOutboundEnabledForCompany = false; // TODO: Replace the FeatureFlag with this value when we go live.
+  isDemoCompany = false;
 
   constructor(
+    private userContextStore: Store<fromRootState.State>,
     private store: Store<fromDataManagementMainReducer.State>,
     private router: Router,
     private featureFlagService: AbstractFeatureFlagService,
@@ -62,9 +67,10 @@ export class DataManagementLandingPageComponent implements OnInit, OnDestroy {
     this.transferScheduleSummaryLoading$ = this.store.select(fromDataManagementMainReducer.getTransferScheduleSummaryLoading);
     this.transferScheduleSummaryError$ = this.store.select(fromDataManagementMainReducer.getTransferScheduleSummaryError);
     this.loadAndExportFilesCardLoading$ = this.store.select(fromDataManagementMainReducer.getLoadAndExportFilesCardStateLoading);
-
+    this.identity$ = this.userContextStore.select(fromRootState.getUserContext);
     this.featureFlagService.bindEnabled(this.loadAndExportsFilesCardFlag, this.unsubscribe$);
     this.featureFlagService.bindEnabled(this.jdmOutboundIntegrationFlag, this.unsubscribe$);
+
 
     this.connectionSummary$.pipe(filter(cs => !!cs),
     takeUntil(this.unsubscribe$)).subscribe(cs => {
@@ -74,6 +80,12 @@ export class DataManagementLandingPageComponent implements OnInit, OnDestroy {
         cs.statuses.includes(HRISConnectionAuthenticationStatus.NOTSTARTED);
       }
     });
+    this.identity$.pipe(takeUntil(this.unsubscribe$), filter(v => !!v)).subscribe(uc => {
+      if (uc.CompanyStatus === 'Demo') {
+        this.isDemoCompany = true;
+      }
+    });
+
     this.settingsService
       .selectCompanySetting<boolean>(CompanySettingsEnum.DataManagementShowHRISInbound, 'boolean')
       .pipe(takeUntil(this.unsubscribe$), filter(v => !!v))

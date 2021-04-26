@@ -7,3 +7,16 @@
   max-height: 25vh;
   overflow-y: auto;
 }
+
+.showMoreLink {
+  position: absolute;
+  top: 57px;
+}
+
+.jobTitle {
+  max-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
+}
