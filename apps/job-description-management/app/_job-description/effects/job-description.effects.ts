@@ -213,8 +213,27 @@ export class JobDescriptionEffects {
           map((response) => {
             return new fromJobDescriptionActions.SetWorkflowUserStepToIsBeingViewedSuccess(response);
           }),
-          catchError(() => of(new fromJobDescriptionActions.SetWorkflowUserStepToIsBeingViewedError()))
+          catchError(error => {
+            return of(new fromJobDescriptionActions.SetWorkflowUserStepToIsBeingViewedError(error));
+          })
         );
+      })
+    );
+
+  @Effect()
+  setWorkflowUserStepToIsBeingViewedError$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromJobDescriptionActions.SET_WORKFLOW_USER_STEP_TO_IS_BEING_VIEWED_ERROR),
+      mergeMap((action: fromJobDescriptionActions.SetWorkflowUserStepToIsBeingViewedError) => {
+        const actions = [];
+        if (action.payload.status === 410) {
+          this.router.navigate(['/in-system-gone']);
+        } else if (action.payload.status === 403) {
+          actions.push(new fromWorkflowActions.SetMessage({message: action.payload.error.Message, isInSystemWorkflow: true}));
+          this.router.navigate(['/system-message']);
+        }
+
+        return actions;
       })
     );
 
@@ -243,7 +262,9 @@ export class JobDescriptionEffects {
           map((response) => {
             return new fromJobDescriptionActions.GetSSOLoginUrlSuccess(response);
           }),
-          catchError(() => of(new fromJobDescriptionActions.SetWorkflowUserStepToIsBeingViewedError()))
+          catchError(error => {
+            return of(new fromJobDescriptionActions.SetWorkflowUserStepToIsBeingViewedError(error));
+          })
         );
       })
     );

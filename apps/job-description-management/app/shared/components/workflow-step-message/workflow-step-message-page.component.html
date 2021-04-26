@@ -5,9 +5,8 @@
 
   <div class="card">
     <div class="card-block">
-      <p>This step in the approval process for this job description is no longer valid. Please contact your administrator if you need more information on the approval process.</p>
-      <p *ngIf="!isInSystem">It is now okay to close this window.</p>
-      <div *ngIf="isInSystem" class="modal-footer justify-content-center">
+      <p>{{workflowCompleteMessage$ | async}}</p>
+      <div class="modal-footer justify-content-center">
         <button type="button" class="btn btn-primary" (click)="backToJobDescriptionList()">Back to Job Description List</button>
         <button type="button" class="btn btn-primary" (click)="backToJobDescriptionInbox()">Back to Job Description Inbox</button>
       </div>
