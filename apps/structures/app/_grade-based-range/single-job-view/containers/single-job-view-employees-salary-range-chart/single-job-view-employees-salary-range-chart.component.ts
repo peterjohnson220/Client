@@ -60,7 +60,6 @@ export class SingleJobViewEmployeesSalaryRangeChartComponent implements OnInit, 
   initialY: number;
   gridScrolledSub: Subscription;
 
-
   constructor(
     public store: Store<any>,
   ) {
@@ -357,7 +356,9 @@ export class SingleJobViewEmployeesSalaryRangeChartComponent implements OnInit, 
     this.filterPanelSub = this.store.select(fromPfGridReducer.getFilterPanelOpen, this.pageViewId).subscribe(filterPanelOpen => {
       if (filterPanelOpen === false) {
         setTimeout(() => {
-          this.chartInstance.reflow();
+          if (!!this.chartInstance.options) {
+            this.chartInstance.reflow();
+          }
         }, 0);
       }
     });
