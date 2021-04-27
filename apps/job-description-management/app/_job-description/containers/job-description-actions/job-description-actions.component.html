@@ -136,7 +136,7 @@
   </div>
 
   <div *ngIf="inWorkflow" class="d-flex space-out-children">
-    <button *ngIf="!(isFirstRecipient && jobDescription.JobDescriptionRevision === 1)" (click)="handleCompareVersionsClicked()" class="btn btn-secondary" [disabled]="isSystemWorkflowComplete">
+    <button (click)="handleCompareVersionsClicked()" class="btn btn-secondary" [disabled]="isSystemWorkflowComplete">
       <fa-icon [icon]="['far','clone']" aria-hidden="true"></fa-icon> Compare Versions
     </button>
 
