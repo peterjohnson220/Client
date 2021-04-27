@@ -207,7 +207,7 @@ export class PayfactorsApiModelMapper {
       JobCode: response.JobCode,
       EffectiveDate: response.EffectiveDate,
       Id: response.Id,
-      IsSurvey: response.SurveyId > 0 ? true : false,
+      JobType: response.JobType,
       WeightedScore: response.WeightedScore,
       JobTitle: response.JobTitle,
       SurveyId: response.SurveyId,

@@ -2,7 +2,7 @@ import {Component, Input, ChangeDetectionStrategy, OnChanges, SimpleChanges, Vie
 import { Router } from '@angular/router';
 
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { process, State } from '@progress/kendo-data-query';
 import { GridDataResult, PageChangeEvent } from '@progress/kendo-angular-grid';
 

@@ -1,5 +1,5 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { FileDownloadCardComponent } from './file-download-card.component';
 
@@ -7,7 +7,7 @@ describe('FileDownloadCardComponent', () => {
   let component: FileDownloadCardComponent;
   let fixture: ComponentFixture<FileDownloadCardComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [FileDownloadCardComponent],
       schemas: [NO_ERRORS_SCHEMA]

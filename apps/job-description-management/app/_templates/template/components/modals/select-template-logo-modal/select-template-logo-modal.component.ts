@@ -1,8 +1,7 @@
 import { Component, ViewChild, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
+import { Observable, Subscription } from 'rxjs';
 import { ErrorEvent, UploadEvent } from '@progress/kendo-angular-upload';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 

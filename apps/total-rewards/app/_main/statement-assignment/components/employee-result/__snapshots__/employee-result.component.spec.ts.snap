@@ -3,7 +3,7 @@
 exports[`EmployeeResultComponent should display employee info when available 1`] = `
 <pf-employee-result
   employee={[Function Object]}
-  employeeClicked={[Function EventEmitter]}
+  employeeClicked={[Function EventEmitter_]}
 >
   <a
     class="employee-result-row"

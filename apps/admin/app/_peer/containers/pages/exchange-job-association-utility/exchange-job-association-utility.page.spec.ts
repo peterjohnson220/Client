@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
-import { of } from 'rxjs/internal/observable/of';
+import { of } from 'rxjs';
 
 import * as fromRootState from 'libs/state/state';
 import { generateMockGenericKeyValue, GenericKeyValue } from 'libs/models/common';

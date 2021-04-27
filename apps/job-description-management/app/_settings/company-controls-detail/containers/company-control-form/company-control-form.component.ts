@@ -1,8 +1,7 @@
 import { Component, ViewChild, Input, Output, EventEmitter, OnInit, OnDestroy, OnChanges } from '@angular/core';
 
-import { Subscription } from 'rxjs/Subscription';
 import { Store, select } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 import { ControlType } from 'libs/models';
 

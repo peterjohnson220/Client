@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
@@ -17,7 +17,7 @@ describe('UserOrEmailPickerComponent', () => {
   let fixture: ComponentFixture<UserOrEmailPickerComponent>;
   let store: Store<fromRootState.State>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
@@ -27,9 +27,11 @@ describe('UserOrEmailPickerComponent', () => {
       ],
       declarations: [UserOrEmailPickerComponent],
       providers: [ {
-        provide: CompanyApiService
+        provide: CompanyApiService,
+        useValue: { get: jest.fn() }
       }, {
-        provide: UserApiService
+        provide: UserApiService,
+        useValue: { getEmailRecipientsSearchResults: jest.fn(), jobPicker: jest.fn(), picker: jest.fn() }
       } ],
       schemas: [ NO_ERRORS_SCHEMA ]
     })

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { SftpAccountStatusComponent } from './sftp-account-status.component';
@@ -7,7 +7,7 @@ describe('SftpAccountStatusComponent', () => {
   let component: SftpAccountStatusComponent;
   let fixture: ComponentFixture<SftpAccountStatusComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ SftpAccountStatusComponent ],
       schemas: [ NO_ERRORS_SCHEMA ]

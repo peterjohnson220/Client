@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
@@ -129,7 +129,7 @@ describe('ModelSettingsModalContentComponent', () => {
 
     instance.rangeDistributionSettingComponent.enablePercentilesAndRangeSpreads = true;
     instance.rangeDistributionSettingComponent.rangeDistributionSettingForm = new FormGroup({
-      'CompanyStructuresRangeGroupId': new FormControl(this.rangeGroupId),
+      'CompanyStructuresRangeGroupId': new FormControl(instance.rangeGroupId),
       'RangeDistributionTypeId': new FormControl({ value: instance.metadata.RangeDistributionTypeId, disabled: true }, [Validators.required]),
       'PayType': new FormControl(instance.metadata.PayType, [Validators.required]),
       'ControlPoint': new FormControl({ value: instance.metadata.ControlPoint, disabled: true }, [Validators.required]),
@@ -189,48 +189,48 @@ describe('ModelSettingsModalContentComponent', () => {
 
     instance.rangeRoundingComponent.roundingSettingsForm = new FormGroup({
       'min': new FormGroup({
-        'RoundingType': new FormControl(this.roundingSettings?.min.RoundingType),
-        'RoundingPoint': new FormControl(this.roundingSettings?.min.RoundingPoint),
+        'RoundingType': new FormControl(instance.roundingSettings?.min.RoundingType),
+        'RoundingPoint': new FormControl(instance.roundingSettings?.min.RoundingPoint),
       }),
       'mid': new FormGroup({
-        'RoundingType': new FormControl(this.roundingSettings?.mid.RoundingType),
-        'RoundingPoint': new FormControl(this.roundingSettings?.mid.RoundingPoint),
+        'RoundingType': new FormControl(instance.roundingSettings?.mid.RoundingType),
+        'RoundingPoint': new FormControl(instance.roundingSettings?.mid.RoundingPoint),
       }),
       'max': new FormGroup({
-        'RoundingType': new FormControl(this.roundingSettings?.max.RoundingType),
-        'RoundingPoint': new FormControl(this.roundingSettings?.max.RoundingPoint),
+        'RoundingType': new FormControl(instance.roundingSettings?.max.RoundingType),
+        'RoundingPoint': new FormControl(instance.roundingSettings?.max.RoundingPoint),
       }),
       'firstTertile': new FormGroup({
-        'RoundingType': new FormControl(this.roundingSettings?.firstTertile.RoundingType),
-        'RoundingPoint': new FormControl(this.roundingSettings?.firstTertile.RoundingPoint),
+        'RoundingType': new FormControl(instance.roundingSettings?.firstTertile.RoundingType),
+        'RoundingPoint': new FormControl(instance.roundingSettings?.firstTertile.RoundingPoint),
       }),
       'secondTertile': new FormGroup({
-        'RoundingType': new FormControl(this.roundingSettings?.secondTertile.RoundingType),
-        'RoundingPoint': new FormControl(this.roundingSettings?.secondTertile.RoundingPoint),
+        'RoundingType': new FormControl(instance.roundingSettings?.secondTertile.RoundingType),
+        'RoundingPoint': new FormControl(instance.roundingSettings?.secondTertile.RoundingPoint),
       }),
       'firstQuartile': new FormGroup({
-        'RoundingType': new FormControl(this.roundingSettings?.firstQuartile.RoundingType),
-        'RoundingPoint': new FormControl(this.roundingSettings?.firstQuartile.RoundingPoint),
+        'RoundingType': new FormControl(instance.roundingSettings?.firstQuartile.RoundingType),
+        'RoundingPoint': new FormControl(instance.roundingSettings?.firstQuartile.RoundingPoint),
       }),
       'secondQuartile': new FormGroup({
-        'RoundingType': new FormControl(this.roundingSettings?.secondQuartile.RoundingType),
-        'RoundingPoint': new FormControl(this.roundingSettings?.secondQuartile.RoundingPoint),
+        'RoundingType': new FormControl(instance.roundingSettings?.secondQuartile.RoundingType),
+        'RoundingPoint': new FormControl(instance.roundingSettings?.secondQuartile.RoundingPoint),
       }),
       'firstQuintile': new FormGroup({
-        'RoundingType': new FormControl(this.roundingSettings?.firstQuintile.RoundingType),
-        'RoundingPoint': new FormControl(this.roundingSettings?.firstQuintile.RoundingPoint),
+        'RoundingType': new FormControl(instance.roundingSettings?.firstQuintile.RoundingType),
+        'RoundingPoint': new FormControl(instance.roundingSettings?.firstQuintile.RoundingPoint),
       }),
       'secondQuintile': new FormGroup({
-        'RoundingType': new FormControl(this.roundingSettings?.secondQuintile.RoundingType),
-        'RoundingPoint': new FormControl(this.roundingSettings?.secondQuintile.RoundingPoint),
+        'RoundingType': new FormControl(instance.roundingSettings?.secondQuintile.RoundingType),
+        'RoundingPoint': new FormControl(instance.roundingSettings?.secondQuintile.RoundingPoint),
       }),
       'thirdQuintile': new FormGroup({
-        'RoundingType': new FormControl(this.roundingSettings?.thirdQuintile.RoundingType),
-        'RoundingPoint': new FormControl(this.roundingSettings?.thirdQuintile.RoundingPoint),
+        'RoundingType': new FormControl(instance.roundingSettings?.thirdQuintile.RoundingType),
+        'RoundingPoint': new FormControl(instance.roundingSettings?.thirdQuintile.RoundingPoint),
       }),
       'fourthQuintile': new FormGroup({
-        'RoundingType': new FormControl(this.roundingSettings?.fourthQuintile.RoundingType),
-        'RoundingPoint': new FormControl(this.roundingSettings?.fourthQuintile.RoundingPoint),
+        'RoundingType': new FormControl(instance.roundingSettings?.fourthQuintile.RoundingType),
+        'RoundingPoint': new FormControl(instance.roundingSettings?.fourthQuintile.RoundingPoint),
       })
     });
 

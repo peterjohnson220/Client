@@ -57,11 +57,6 @@ import { DeleteModalComponent, ResourcesComponent } from './components';
     NewFolderModalComponent,
     ResourceModalComponent,
     DeleteModalComponent
-  ],
-  entryComponents: [
-    NewFolderModalComponent,
-    ResourceModalComponent,
-    DeleteModalComponent
   ]
 })
 export class MainModule {

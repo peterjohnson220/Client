@@ -8,7 +8,7 @@ exports[`FieldMapperComponent Filename Pattern should display the filename patte
   filenamePattern={[Function Object]}
   loaderType={[Function String]}
   mappedFields={[Function Array]}
-  mappingComplete={[Function EventEmitter]}
+  mappingComplete={[Function EventEmitter_]}
   mappingErrorMessage="false"
   payfactorsDataFields="undefined"
   payfactorsDataFieldsForReset="undefined"
@@ -153,7 +153,7 @@ exports[`FieldMapperComponent Filename Pattern should read "begin with" if the p
   filenamePattern={[Function Object]}
   loaderType={[Function String]}
   mappedFields={[Function Array]}
-  mappingComplete={[Function EventEmitter]}
+  mappingComplete={[Function EventEmitter_]}
   mappingErrorMessage="false"
   payfactorsDataFields="undefined"
   payfactorsDataFieldsForReset="undefined"
@@ -298,7 +298,7 @@ exports[`FieldMapperComponent Filename Pattern should read "contain" if the patt
   filenamePattern={[Function Object]}
   loaderType={[Function String]}
   mappedFields={[Function Array]}
-  mappingComplete={[Function EventEmitter]}
+  mappingComplete={[Function EventEmitter_]}
   mappingErrorMessage="false"
   payfactorsDataFields="undefined"
   payfactorsDataFieldsForReset="undefined"
@@ -440,7 +440,7 @@ exports[`FieldMapperComponent should disable the Map button when a payfactors fi
   fileRestrictions={[Function Object]}
   loaderType={[Function String]}
   mappedFields={[Function Array]}
-  mappingComplete={[Function EventEmitter]}
+  mappingComplete={[Function EventEmitter_]}
   mappingErrorMessage="false"
   payfactorsDataFields="undefined"
   payfactorsDataFieldsForReset="undefined"
@@ -566,7 +566,7 @@ exports[`FieldMapperComponent should disable the Remove Mapping button when a ma
   fileRestrictions={[Function Object]}
   loaderType={[Function String]}
   mappedFields={[Function Array]}
-  mappingComplete={[Function EventEmitter]}
+  mappingComplete={[Function EventEmitter_]}
   mappingErrorMessage="false"
   payfactorsDataFields="undefined"
   payfactorsDataFieldsForReset="undefined"
@@ -691,7 +691,7 @@ exports[`FieldMapperComponent should enable the Map button when a payfactors fie
   fileRestrictions={[Function Object]}
   loaderType={[Function String]}
   mappedFields={[Function Array]}
-  mappingComplete={[Function EventEmitter]}
+  mappingComplete={[Function EventEmitter_]}
   mappingErrorMessage="false"
   payfactorsDataFields="undefined"
   payfactorsDataFieldsForReset="undefined"
@@ -816,7 +816,7 @@ exports[`FieldMapperComponent should enable the Remove Mapping button when a map
   fileRestrictions={[Function Object]}
   loaderType={[Function String]}
   mappedFields={[Function Array]}
-  mappingComplete={[Function EventEmitter]}
+  mappingComplete={[Function EventEmitter_]}
   mappingErrorMessage="false"
   payfactorsDataFields="undefined"
   payfactorsDataFieldsForReset="undefined"
@@ -940,7 +940,7 @@ exports[`FieldMapperComponent should show a add/full replace toggle when the loa
   fileRestrictions={[Function Object]}
   loaderType={[Function String]}
   mappedFields={[Function Array]}
-  mappingComplete={[Function EventEmitter]}
+  mappingComplete={[Function EventEmitter_]}
   mappingErrorMessage="false"
   payfactorsDataFields="undefined"
   payfactorsDataFieldsForReset="undefined"
@@ -1104,7 +1104,7 @@ exports[`FieldMapperComponent should show a add/full replace toggle when the loa
   fileRestrictions={[Function Object]}
   loaderType={[Function String]}
   mappedFields={[Function Array]}
-  mappingComplete={[Function EventEmitter]}
+  mappingComplete={[Function EventEmitter_]}
   mappingErrorMessage="false"
   payfactorsDataFields="undefined"
   payfactorsDataFieldsForReset="undefined"
@@ -1268,7 +1268,7 @@ exports[`FieldMapperComponent should show a date format selector when the loader
   fileRestrictions={[Function Object]}
   loaderType={[Function String]}
   mappedFields={[Function Array]}
-  mappingComplete={[Function EventEmitter]}
+  mappingComplete={[Function EventEmitter_]}
   mappingErrorMessage="false"
   payfactorsDataFields="undefined"
   payfactorsDataFieldsForReset="undefined"
@@ -1433,7 +1433,7 @@ exports[`FieldMapperComponent should show a spinner when the company's mappings 
   fileRestrictions={[Function Object]}
   loaderType={[Function String]}
   mappedFields={[Function Array]}
-  mappingComplete={[Function EventEmitter]}
+  mappingComplete={[Function EventEmitter_]}
   mappingErrorMessage="false"
   payfactorsDataFields="undefined"
   payfactorsDataFieldsForReset="undefined"

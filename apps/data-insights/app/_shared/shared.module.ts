@@ -34,7 +34,6 @@ import { BaseDataViewModalEffects } from './effects';
     PfCommonUIModule
   ],
   declarations: [ BaseDataViewModalComponent ],
-  exports: [ BaseDataViewModalComponent ],
-  entryComponents: [BaseDataViewModalComponent]
+  exports: [ BaseDataViewModalComponent ]
 })
 export class DataInsightsSharedModule {}

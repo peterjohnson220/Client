@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import { ModeClassifierDirective } from './pf-mode-classifier-directive';
@@ -19,7 +19,7 @@ describe('TrsSummaryControlComponent', () => {
 
   let directiveInstance: ModeClassifierDirective;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         TestModeClassifierComponent,

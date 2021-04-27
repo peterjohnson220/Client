@@ -2,8 +2,7 @@ import { Component, OnInit, OnDestroy, EventEmitter, Output, Input } from '@angu
 import { ActivatedRoute } from '@angular/router';
 
 import { Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
-import 'rxjs/add/observable/combineLatest';
+import { Observable, Subscription, combineLatest } from 'rxjs';
 
 import * as fromCommunityReducers from '../../reducers';
 
@@ -12,7 +11,6 @@ import * as fromCommunityPostFilterOptionsActions from '../../actions/community-
 import * as fromCommunityAttachmentWarningActions from '../../actions/community-attachment-warning.actions';
 
 import { CommunityPost, CommunityTopic } from 'libs/models/community';
-import { environment } from 'environments/environment';
 import { CommunityPollTypeEnum } from 'libs/models/community/community-constants.model';
 import { CommunityTag } from 'libs/models/community/community-tag.model';
 import { Tag } from '../../models/tag.model';
@@ -90,7 +88,7 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    const urlParams = Observable.combineLatest(
+    const urlParams = combineLatest(
       this.route.params,
       this.route.url,
       (params, url) => ({ ...params, url: url.join('') })

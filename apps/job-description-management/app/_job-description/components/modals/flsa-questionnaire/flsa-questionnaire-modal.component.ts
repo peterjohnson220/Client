@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy, ViewChild, Input } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
+import { Observable, Subscription } from 'rxjs';
+
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 import { AsyncStateObj, JobDescription } from 'libs/models';

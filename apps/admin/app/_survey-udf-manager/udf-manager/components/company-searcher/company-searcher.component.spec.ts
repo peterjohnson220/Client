@@ -1,5 +1,5 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { CompanySearcherComponent } from './company-searcher.component';
 
@@ -7,7 +7,7 @@ describe('CompanySearcherComponent', () => {
   let component: CompanySearcherComponent;
   let fixture: ComponentFixture<CompanySearcherComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [CompanySearcherComponent],
       schemas: [NO_ERRORS_SCHEMA]

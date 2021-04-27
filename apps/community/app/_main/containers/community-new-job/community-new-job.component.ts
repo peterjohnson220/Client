@@ -1,8 +1,7 @@
 import { Component, OnInit, OnDestroy} from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
+import { Observable, Subscription } from 'rxjs';
 
 import * as fromCommunityJobReducer from '../../reducers';
 import * as fromCommunityJobActions from '../../actions/community-job.actions';

@@ -3,14 +3,14 @@
 exports[`Libs - Upsert Peer Data Cut should disable the add/updated button when passesGuidelines is false 1`] = `
 <pf-upsert-peer-data-cut
   accessRequestedMessage={[Function String]}
-  cancelChanges={[Function EventEmitter]}
+  cancelChanges={[Function EventEmitter_]}
   cdRef={[Function ViewRef_]}
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
   cutGuid="null"
   displayInClassicAspIframe="false"
   displayMap="false"
-  editedTempDataCutDetails={[Function EventEmitter]}
+  editedTempDataCutDetails={[Function EventEmitter_]}
   employeesValid$={[Function Store]}
   entityConfiguration={[Function Object]}
   exchangeExplorer="undefined"
@@ -20,7 +20,7 @@ exports[`Libs - Upsert Peer Data Cut should disable the add/updated button when 
   includeUntaggedIncumbents$={[Function Store]}
   isEmployeeCheckLoading$={[Function Store]}
   isPayMarketOverride="false"
-  loadRefiningValidation={[Function EventEmitter]}
+  loadRefiningValidation={[Function EventEmitter_]}
   loadedDataCutDetails$={[Function Store]}
   loadedDataCutDetailsSubscription={[Function Subscriber]}
   map="undefined"
@@ -28,7 +28,7 @@ exports[`Libs - Upsert Peer Data Cut should disable the add/updated button when 
   peerMapCompaniesSubscription={[Function Subscriber]}
   persistedWeightingTypeForDataCuts$={[Function Observable]}
   persistedWeightingTypeForDataCutsSubscription={[Function Subscriber]}
-  refinedDataCutDetails={[Function EventEmitter]}
+  refinedDataCutDetails={[Function EventEmitter_]}
   requestPeerAccessMessage={[Function String]}
   requestingPeerAccess$={[Function Store]}
   selectedWeightingType={[Function Object]}
@@ -51,14 +51,14 @@ exports[`Libs - Upsert Peer Data Cut should disable the add/updated button when 
 exports[`Libs - Upsert Peer Data Cut should display the upsert data cut page with an Add button 1`] = `
 <pf-upsert-peer-data-cut
   accessRequestedMessage={[Function String]}
-  cancelChanges={[Function EventEmitter]}
+  cancelChanges={[Function EventEmitter_]}
   cdRef={[Function ViewRef_]}
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
   cutGuid="null"
   displayInClassicAspIframe="false"
   displayMap={[Function Boolean]}
-  editedTempDataCutDetails={[Function EventEmitter]}
+  editedTempDataCutDetails={[Function EventEmitter_]}
   employeesValid$={[Function Store]}
   entityConfiguration={[Function Object]}
   exchangeExplorer="undefined"
@@ -68,7 +68,7 @@ exports[`Libs - Upsert Peer Data Cut should display the upsert data cut page wit
   includeUntaggedIncumbents$={[Function Store]}
   isEmployeeCheckLoading$={[Function Store]}
   isPayMarketOverride="false"
-  loadRefiningValidation={[Function EventEmitter]}
+  loadRefiningValidation={[Function EventEmitter_]}
   loadedDataCutDetails$={[Function Store]}
   loadedDataCutDetailsSubscription={[Function Subscriber]}
   map="undefined"
@@ -76,7 +76,7 @@ exports[`Libs - Upsert Peer Data Cut should display the upsert data cut page wit
   peerMapCompaniesSubscription={[Function Subscriber]}
   persistedWeightingTypeForDataCuts$={[Function Observable]}
   persistedWeightingTypeForDataCutsSubscription={[Function Subscriber]}
-  refinedDataCutDetails={[Function EventEmitter]}
+  refinedDataCutDetails={[Function EventEmitter_]}
   requestPeerAccessMessage={[Function String]}
   requestingPeerAccess$={[Function Store]}
   selectedWeightingType={[Function Object]}
@@ -101,14 +101,14 @@ exports[`Libs - Upsert Peer Data Cut should display the upsert data cut page wit
 exports[`Libs - Upsert Peer Data Cut should display the upsert data cut page with an Update button 1`] = `
 <pf-upsert-peer-data-cut
   accessRequestedMessage={[Function String]}
-  cancelChanges={[Function EventEmitter]}
+  cancelChanges={[Function EventEmitter_]}
   cdRef={[Function ViewRef_]}
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
   cutGuid={[Function String]}
   displayInClassicAspIframe="false"
   displayMap={[Function Boolean]}
-  editedTempDataCutDetails={[Function EventEmitter]}
+  editedTempDataCutDetails={[Function EventEmitter_]}
   employeesValid$={[Function Store]}
   entityConfiguration={[Function Object]}
   exchangeExplorer="undefined"
@@ -118,7 +118,7 @@ exports[`Libs - Upsert Peer Data Cut should display the upsert data cut page wit
   includeUntaggedIncumbents$={[Function Store]}
   isEmployeeCheckLoading$={[Function Store]}
   isPayMarketOverride="false"
-  loadRefiningValidation={[Function EventEmitter]}
+  loadRefiningValidation={[Function EventEmitter_]}
   loadedDataCutDetails$={[Function Store]}
   loadedDataCutDetailsSubscription={[Function Subscriber]}
   map="undefined"
@@ -126,7 +126,7 @@ exports[`Libs - Upsert Peer Data Cut should display the upsert data cut page wit
   peerMapCompaniesSubscription={[Function Subscriber]}
   persistedWeightingTypeForDataCuts$={[Function Observable]}
   persistedWeightingTypeForDataCutsSubscription={[Function Subscriber]}
-  refinedDataCutDetails={[Function EventEmitter]}
+  refinedDataCutDetails={[Function EventEmitter_]}
   requestPeerAccessMessage={[Function String]}
   requestingPeerAccess$={[Function Store]}
   selectedWeightingType="undefined"
@@ -151,14 +151,14 @@ exports[`Libs - Upsert Peer Data Cut should display the upsert data cut page wit
 exports[`Libs - Upsert Peer Data Cut should display untagged incumbents filter when untaggedIncumbentCount$ > 0 1`] = `
 <pf-upsert-peer-data-cut
   accessRequestedMessage={[Function String]}
-  cancelChanges={[Function EventEmitter]}
+  cancelChanges={[Function EventEmitter_]}
   cdRef={[Function ViewRef_]}
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
   cutGuid="null"
   displayInClassicAspIframe="false"
   displayMap="false"
-  editedTempDataCutDetails={[Function EventEmitter]}
+  editedTempDataCutDetails={[Function EventEmitter_]}
   employeesValid$={[Function Store]}
   entityConfiguration={[Function Object]}
   exchangeExplorer="undefined"
@@ -168,7 +168,7 @@ exports[`Libs - Upsert Peer Data Cut should display untagged incumbents filter w
   includeUntaggedIncumbents$={[Function Observable]}
   isEmployeeCheckLoading$={[Function Store]}
   isPayMarketOverride="false"
-  loadRefiningValidation={[Function EventEmitter]}
+  loadRefiningValidation={[Function EventEmitter_]}
   loadedDataCutDetails$={[Function Store]}
   loadedDataCutDetailsSubscription={[Function Subscriber]}
   map="undefined"
@@ -176,7 +176,7 @@ exports[`Libs - Upsert Peer Data Cut should display untagged incumbents filter w
   peerMapCompaniesSubscription={[Function Subscriber]}
   persistedWeightingTypeForDataCuts$={[Function Observable]}
   persistedWeightingTypeForDataCutsSubscription={[Function Subscriber]}
-  refinedDataCutDetails={[Function EventEmitter]}
+  refinedDataCutDetails={[Function EventEmitter_]}
   requestPeerAccessMessage={[Function String]}
   requestingPeerAccess$={[Function Store]}
   selectedWeightingType={[Function Object]}
@@ -199,14 +199,14 @@ exports[`Libs - Upsert Peer Data Cut should display untagged incumbents filter w
 exports[`Libs - Upsert Peer Data Cut should enable the add button when passesGuidelines is true 1`] = `
 <pf-upsert-peer-data-cut
   accessRequestedMessage={[Function String]}
-  cancelChanges={[Function EventEmitter]}
+  cancelChanges={[Function EventEmitter_]}
   cdRef={[Function ViewRef_]}
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
   cutGuid="null"
   displayInClassicAspIframe="false"
   displayMap="false"
-  editedTempDataCutDetails={[Function EventEmitter]}
+  editedTempDataCutDetails={[Function EventEmitter_]}
   employeesValid$={[Function Store]}
   entityConfiguration={[Function Object]}
   exchangeExplorer="undefined"
@@ -216,7 +216,7 @@ exports[`Libs - Upsert Peer Data Cut should enable the add button when passesGui
   includeUntaggedIncumbents$={[Function Store]}
   isEmployeeCheckLoading$={[Function Store]}
   isPayMarketOverride="false"
-  loadRefiningValidation={[Function EventEmitter]}
+  loadRefiningValidation={[Function EventEmitter_]}
   loadedDataCutDetails$={[Function Store]}
   loadedDataCutDetailsSubscription={[Function Subscriber]}
   map="undefined"
@@ -224,7 +224,7 @@ exports[`Libs - Upsert Peer Data Cut should enable the add button when passesGui
   peerMapCompaniesSubscription={[Function Subscriber]}
   persistedWeightingTypeForDataCuts$={[Function Observable]}
   persistedWeightingTypeForDataCutsSubscription={[Function Subscriber]}
-  refinedDataCutDetails={[Function EventEmitter]}
+  refinedDataCutDetails={[Function EventEmitter_]}
   requestPeerAccessMessage={[Function String]}
   requestingPeerAccess$={[Function Store]}
   selectedWeightingType={[Function Object]}
@@ -247,14 +247,14 @@ exports[`Libs - Upsert Peer Data Cut should enable the add button when passesGui
 exports[`Libs - Upsert Peer Data Cut should enable the update button when passesGuidelines is true 1`] = `
 <pf-upsert-peer-data-cut
   accessRequestedMessage={[Function String]}
-  cancelChanges={[Function EventEmitter]}
+  cancelChanges={[Function EventEmitter_]}
   cdRef={[Function ViewRef_]}
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
   cutGuid="null"
   displayInClassicAspIframe="false"
   displayMap="false"
-  editedTempDataCutDetails={[Function EventEmitter]}
+  editedTempDataCutDetails={[Function EventEmitter_]}
   employeesValid$={[Function Store]}
   entityConfiguration={[Function Object]}
   exchangeExplorer="undefined"
@@ -264,7 +264,7 @@ exports[`Libs - Upsert Peer Data Cut should enable the update button when passes
   includeUntaggedIncumbents$={[Function Store]}
   isEmployeeCheckLoading$={[Function Store]}
   isPayMarketOverride="false"
-  loadRefiningValidation={[Function EventEmitter]}
+  loadRefiningValidation={[Function EventEmitter_]}
   loadedDataCutDetails$={[Function Store]}
   loadedDataCutDetailsSubscription={[Function Subscriber]}
   map="undefined"
@@ -272,7 +272,7 @@ exports[`Libs - Upsert Peer Data Cut should enable the update button when passes
   peerMapCompaniesSubscription={[Function Subscriber]}
   persistedWeightingTypeForDataCuts$={[Function Observable]}
   persistedWeightingTypeForDataCutsSubscription={[Function Subscriber]}
-  refinedDataCutDetails={[Function EventEmitter]}
+  refinedDataCutDetails={[Function EventEmitter_]}
   requestPeerAccessMessage={[Function String]}
   requestingPeerAccess$={[Function Store]}
   selectedWeightingType={[Function Object]}
@@ -295,14 +295,14 @@ exports[`Libs - Upsert Peer Data Cut should enable the update button when passes
 exports[`Libs - Upsert Peer Data Cut should show 'Request Access' button and message when peer terms haven't been accepted 1`] = `
 <pf-upsert-peer-data-cut
   accessRequestedMessage={[Function String]}
-  cancelChanges={[Function EventEmitter]}
+  cancelChanges={[Function EventEmitter_]}
   cdRef={[Function ViewRef_]}
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
   cutGuid="null"
   displayInClassicAspIframe="false"
   displayMap="false"
-  editedTempDataCutDetails={[Function EventEmitter]}
+  editedTempDataCutDetails={[Function EventEmitter_]}
   employeesValid$={[Function Store]}
   entityConfiguration={[Function Object]}
   exchangeExplorer="undefined"
@@ -312,7 +312,7 @@ exports[`Libs - Upsert Peer Data Cut should show 'Request Access' button and mes
   includeUntaggedIncumbents$={[Function Store]}
   isEmployeeCheckLoading$={[Function Store]}
   isPayMarketOverride="false"
-  loadRefiningValidation={[Function EventEmitter]}
+  loadRefiningValidation={[Function EventEmitter_]}
   loadedDataCutDetails$={[Function Store]}
   loadedDataCutDetailsSubscription={[Function Subscriber]}
   map="undefined"
@@ -320,7 +320,7 @@ exports[`Libs - Upsert Peer Data Cut should show 'Request Access' button and mes
   peerMapCompaniesSubscription={[Function Subscriber]}
   persistedWeightingTypeForDataCuts$={[Function Observable]}
   persistedWeightingTypeForDataCutsSubscription={[Function Subscriber]}
-  refinedDataCutDetails={[Function EventEmitter]}
+  refinedDataCutDetails={[Function EventEmitter_]}
   requestPeerAccessMessage={[Function String]}
   requestingPeerAccess$={[Function Store]}
   selectedWeightingType={[Function Object]}
@@ -344,14 +344,14 @@ exports[`Libs - Upsert Peer Data Cut should show disabled 'Access Requested' but
   peer terms haven't been accepted and access has been requested 1`] = `
 <pf-upsert-peer-data-cut
   accessRequestedMessage={[Function String]}
-  cancelChanges={[Function EventEmitter]}
+  cancelChanges={[Function EventEmitter_]}
   cdRef={[Function ViewRef_]}
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
   cutGuid="null"
   displayInClassicAspIframe="false"
   displayMap="false"
-  editedTempDataCutDetails={[Function EventEmitter]}
+  editedTempDataCutDetails={[Function EventEmitter_]}
   employeesValid$={[Function Store]}
   entityConfiguration={[Function Object]}
   exchangeExplorer="undefined"
@@ -361,7 +361,7 @@ exports[`Libs - Upsert Peer Data Cut should show disabled 'Access Requested' but
   includeUntaggedIncumbents$={[Function Store]}
   isEmployeeCheckLoading$={[Function Store]}
   isPayMarketOverride="false"
-  loadRefiningValidation={[Function EventEmitter]}
+  loadRefiningValidation={[Function EventEmitter_]}
   loadedDataCutDetails$={[Function Store]}
   loadedDataCutDetailsSubscription={[Function Subscriber]}
   map="undefined"
@@ -369,7 +369,7 @@ exports[`Libs - Upsert Peer Data Cut should show disabled 'Access Requested' but
   peerMapCompaniesSubscription={[Function Subscriber]}
   persistedWeightingTypeForDataCuts$={[Function Observable]}
   persistedWeightingTypeForDataCutsSubscription={[Function Subscriber]}
-  refinedDataCutDetails={[Function EventEmitter]}
+  refinedDataCutDetails={[Function EventEmitter_]}
   requestPeerAccessMessage={[Function String]}
   requestingPeerAccess$={[Function Store]}
   selectedWeightingType={[Function Object]}
@@ -393,14 +393,14 @@ exports[`Libs - Upsert Peer Data Cut should show disabled 'Requesting Access' bu
   is being requested 1`] = `
 <pf-upsert-peer-data-cut
   accessRequestedMessage={[Function String]}
-  cancelChanges={[Function EventEmitter]}
+  cancelChanges={[Function EventEmitter_]}
   cdRef={[Function ViewRef_]}
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
   cutGuid="null"
   displayInClassicAspIframe="false"
   displayMap="false"
-  editedTempDataCutDetails={[Function EventEmitter]}
+  editedTempDataCutDetails={[Function EventEmitter_]}
   employeesValid$={[Function Store]}
   entityConfiguration={[Function Object]}
   exchangeExplorer="undefined"
@@ -410,7 +410,7 @@ exports[`Libs - Upsert Peer Data Cut should show disabled 'Requesting Access' bu
   includeUntaggedIncumbents$={[Function Store]}
   isEmployeeCheckLoading$={[Function Store]}
   isPayMarketOverride="false"
-  loadRefiningValidation={[Function EventEmitter]}
+  loadRefiningValidation={[Function EventEmitter_]}
   loadedDataCutDetails$={[Function Store]}
   loadedDataCutDetailsSubscription={[Function Subscriber]}
   map="undefined"
@@ -418,7 +418,7 @@ exports[`Libs - Upsert Peer Data Cut should show disabled 'Requesting Access' bu
   peerMapCompaniesSubscription={[Function Subscriber]}
   persistedWeightingTypeForDataCuts$={[Function Observable]}
   persistedWeightingTypeForDataCutsSubscription={[Function Subscriber]}
-  refinedDataCutDetails={[Function EventEmitter]}
+  refinedDataCutDetails={[Function EventEmitter_]}
   requestPeerAccessMessage={[Function String]}
   requestingPeerAccess$={[Function Observable]}
   selectedWeightingType={[Function Object]}
