@@ -1,3 +1,4 @@
+import cloneDeep from 'lodash/cloneDeep';
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 import { TabularReportExportSchedule } from 'libs/features/reports/models/tabular-report-export-schedule.model';
 import { AsyncStateObjHelper } from 'libs/core/helpers';
@@ -30,6 +31,15 @@ export function reducer(state = initialState, action: fromScheduleExportModalAct
     }
     case fromScheduleExportModalActions.GET_SAVED_SCHEDULES_ERROR: {
       return AsyncStateObjHelper.loadingError(state, 'savedSchedules');
+    }
+    case fromScheduleExportModalActions.DELETE_EXPORT_SCHEDULE_SUCCESS: {
+      const savedSchedulesClone = cloneDeep(state.savedSchedules);
+      savedSchedulesClone.obj = savedSchedulesClone.obj.filter(x => x.DataViewId !== action.payload);
+
+      return {
+        ...state,
+        savedSchedules: savedSchedulesClone,
+      };
     }
     case fromScheduleExportModalActions.SAVE_SCHEDULE: {
       return {
