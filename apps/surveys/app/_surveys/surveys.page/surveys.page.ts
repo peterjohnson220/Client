@@ -32,7 +32,7 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   gridFieldSubscription: Subscription;
 
-  filter: PfDataGridFilter;
+  inboundFilters: PfDataGridFilter[];
   pageViewId = SurveysPageConfig.SurveysPageViewId;
   defaultSort: SortDescriptor[] = [{
     dir: 'asc',
@@ -62,11 +62,18 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     private store: Store<fromSurveysPageReducer.State>
   ) {
-    this.filter = {
-      SourceName: 'Survey_ID',
-      Operator: 'notnull',
-      ExcludeFromFilterSave: true
-    };
+    this.inboundFilters = [
+      {
+        SourceName: 'Survey_ID',
+        Operator: 'notnull',
+        ExcludeFromFilterSave: true
+      },
+      {
+        SourceName: 'Survey_Job_ID',
+        Operator: 'notnull',
+        ExcludeFromFilterSave: true
+      }
+    ];
     this.actionBarConfig = {
       ...getDefaultActionBarConfig(),
       ShowColumnChooser: true,
