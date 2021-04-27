@@ -1,7 +1,8 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, OnDestroy } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
 import * as fromJobDescriptionReducers from '../../../reducers';
+import * as fromWorkflowActions from '../../../actions/workflow.actions';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 
@@ -10,7 +11,7 @@ import { Router } from '@angular/router';
   templateUrl: './workflow-step-completion-modal.component.html',
   styleUrls: ['./workflow-step-completion-modal.component.scss']
 })
-export class WorkflowStepCompletionModalComponent {
+export class WorkflowStepCompletionModalComponent implements OnDestroy {
   @ViewChild('workflowStepCompletionModal', {static: true}) public workflowStepCompletionModal: any;
   private modalRef: NgbModalRef;
   workflowMessage$: Observable<string>;
@@ -35,5 +36,9 @@ export class WorkflowStepCompletionModalComponent {
   backToJobDescriptionInbox() {
     this.modalRef?.close();
     this.router.navigate(['/inbox']);
+  }
+
+  ngOnDestroy(): void {
+    this.store.dispatch(new fromWorkflowActions.CompleteWorkflowStep());
   }
 }

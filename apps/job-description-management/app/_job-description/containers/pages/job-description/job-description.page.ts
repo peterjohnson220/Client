@@ -667,7 +667,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     });
     this.workflowStepCompletionModalSubscription = this.inSystemWorkflowStepCompletionModalOpen$.subscribe(value => {
       if (value) {
-        this.workflowStepCompletionModal.open();
+        this.workflowStepCompletionModal?.open();
       }
     });
   }
