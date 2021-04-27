@@ -101,6 +101,12 @@ export function reducer(state = initialState, action: fromWorkflowActions.Action
         rejecting: true
       };
     }
+    case fromWorkflowActions.COMPLETE_WORKFLOW_STEP: {
+      return {
+        ...state,
+        inSystemWorkflowStepCompletionModalOpen: false
+      };
+    }
     case fromWorkflowActions.COMPLETE_WORKFLOW_STEP_SUCCESS: {
 
       return {
