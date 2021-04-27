@@ -37,7 +37,7 @@ export class ModelPageComponent implements OnInit, OnDestroy {
   rangeGroupId: any;
   modelSummaryPageViewId: string;
   modelGridPageViewId: string;
-  currentUrl: string;
+  idParamPresent: boolean;
   openAddJobs: boolean;
   filters: PfDataGridFilter[];
   pfThemeType = PfThemeType;
@@ -53,11 +53,16 @@ export class ModelPageComponent implements OnInit, OnDestroy {
     private urlService: UrlService,
     private permissionService: PermissionService
   ) {
-    this.route.url.subscribe(url => {
-      this.currentUrl = url.toString();
-      if (this.openAddJobs && this.currentUrl === '') {
+
+
+    this.route.params.subscribe(p => {
+      if (p && p.id) {
+        this.idParamPresent = true;
+      }
+      if (this.idParamPresent && this.openAddJobs) {
         this.handleOpenManageModelModalForNewWorkflow();
       }
+
     });
     this.rangeGroupId = this.route.snapshot.params.id;
     this.filters = [
@@ -90,7 +95,7 @@ export class ModelPageComponent implements OnInit, OnDestroy {
     this.isNewRangeOrCreateModelFlow = this.urlService.isInWorkflow(Workflow.NewRange) || this.urlService.isInWorkflow(Workflow.CreateModel);
 
     this.openAddJobsSubscription = this.store.select(fromGradeBasedSharedReducer.getOpenAddJobs).subscribe(open => {
-      if (open && this.currentUrl === '') {
+      if (open && this.idParamPresent) {
         this.handleOpenManageModelModalForNewWorkflow();
       }
       this.openAddJobs = open;
