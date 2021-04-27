@@ -18,10 +18,13 @@ import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducer
 import * as fromPfDataGridActions from 'libs/features/grids/pf-data-grid/actions/pf-data-grid.actions';
 import { PayfactorsSearchApiHelper } from 'libs/features/search/search/helpers';
 import { StructureModelingApiService } from 'libs/data/payfactors-api/structures';
-import { JobSearchRequestStructuresRangeGroup } from 'libs/models/payfactors-api';
+import { AutoGradeJobsRequestModel, JobSearchRequestStructuresRangeGroup } from 'libs/models/payfactors-api';
 import { GridDataHelper } from 'libs/features/grids/pf-data-grid/helpers';
 import { PayfactorsApiModelMapper } from 'libs/features/structures/add-jobs-to-range/helpers';
 import { StructureMappingApiService } from 'libs/data/payfactors-api/structures/structure-mapping-api.service';
+import * as fromAddJobsSearchResultsActions from 'libs/features/jobs/add-jobs/actions/search-results.actions';
+import * as fromNotificationActions from 'libs/features/infrastructure/app-notifications/actions/app-notifications.actions';
+import { NotificationLevel, NotificationSource, NotificationType } from 'libs/features/infrastructure/app-notifications/models';
 
 import * as fromSharedStructuresReducer from '../reducers';
 import * as fromSharedActions from '../actions/shared.actions';
@@ -147,6 +150,61 @@ export class AddJobsModalEffects {
       )
     );
 
+  @Effect()
+  autoGradeJobs$ = this.actions$
+    .pipe(
+      ofType(fromJobsToGradeActions.AUTO_GRADE_JOBS),
+      withLatestFrom(
+        this.store.pipe(select(fromAddJobsReducer.getSelectedJobIds)),
+        this.store.pipe(select(fromSharedStructuresReducer.getMetadata)),
+        this.store.pipe(select(fromAddJobsReducer.getJobs)),
+        (action: fromJobsToGradeActions.AutoGradeJobs, selectedJobIds, metadata, jobs) =>
+          ({ action, selectedJobIds, metadata, jobs })
+      ),
+      switchMap(data => {
+        const companyJobIds = data.selectedJobIds.map(j => Number(j));
+        const autoGradeJobsRequestModel: AutoGradeJobsRequestModel = {
+          RangeGroupId: data.action.gradeRangeGroupDetails.RangeGroupId,
+          CompanyJobIds: companyJobIds
+        };
+
+        return this.structureMappingApiService.autoGradeJobs(autoGradeJobsRequestModel)
+          .pipe(
+            mergeMap((r) => {
+                const actions = [];
+                actions.push(new fromJobsToGradeActions.AutoGradeJobsSuccess());
+                actions.push(new fromAddJobsSearchResultsActions.ClearSelectedJobs());
+                actions.push(new fromJobsToGradeActions.GetGrades(data.action.gradeRangeGroupDetails));
+
+                // Show a warning if API returns any Ids
+                if (r.length > 0) {
+                  const jobs = [];
+                  r.forEach((item: string) => {
+                    const job = data.jobs.find(x => x.Id === String(item));
+                    jobs.push(job.Title);
+                  });
+
+                  actions.push(new fromNotificationActions.AddNotification({
+                    EnableHtml: true,
+                    From: NotificationSource.GenericNotificationMessage,
+                    Level: NotificationLevel.Error,
+                    NotificationId: '',
+                    Payload: {
+                      Title: 'Error',
+                      Message: `The following jobs exist in two or more grades in this structure and cannot be regraded automatically: ${jobs.join(', ')} `
+                    },
+                    Type: NotificationType.Event
+                  }));
+                }
+
+                return actions;
+              }
+            ),
+            catchError((err) => of(new fromJobsToGradeActions.AutoGradeJobsError()))
+          );
+      })
+    );
+
   private getSaveGradesWithJobsActions(data: any): Action[] {
     const actions = [];
     actions.push(new fromJobsToGradeActions.SaveGradeJobMapsSuccess());
@@ -154,11 +212,10 @@ export class AddJobsModalEffects {
     const modelPageViewId =
       PagesHelper.getModelPageViewIdByRangeTypeAndRangeDistributionType(data.metadata.RangeTypeId, data.metadata.RangeDistributionTypeId);
     actions.push(GridDataHelper.getLoadDataAction(modelPageViewId, data.gridData, data.gridConfig, data.pagingOptions));
-    const summaryPageViewId = PagesHelper.getModelSummaryPageViewIdByRangeDistributionType( data.metadata.RangeDistributionTypeId);
+    const summaryPageViewId = PagesHelper.getModelSummaryPageViewIdByRangeDistributionType(data.metadata.RangeDistributionTypeId);
     actions.push(new fromPfDataGridActions.LoadData(summaryPageViewId));
     return actions;
   }
-
 
   private getAddJobsSuccessActions(data: any): Action[] {
     const actions = [];
