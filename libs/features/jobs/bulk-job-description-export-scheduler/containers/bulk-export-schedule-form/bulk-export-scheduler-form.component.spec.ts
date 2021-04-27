@@ -4,7 +4,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import omit from 'lodash/omit';
-import { of } from 'rxjs/index';
+import { of } from 'rxjs';
 
 import * as fromRootState from 'libs/state/state';
 import { PfCommonModule } from 'libs/core';

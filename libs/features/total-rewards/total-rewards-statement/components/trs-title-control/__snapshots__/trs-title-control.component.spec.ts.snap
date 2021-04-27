@@ -8,7 +8,7 @@ exports[`TrsTitleControlComponent should add a \`background-graphics\` class to 
   graphicsColors={[Function Array]}
   mode="0"
   modeEnum={[Function Object]}
-  titleChange={[Function EventEmitter]}
+  titleChange={[Function EventEmitter_]}
   titleInnerWidth={[Function String]}
 >
   <div
@@ -74,7 +74,7 @@ exports[`TrsTitleControlComponent should set the innerTitleWidth as the width of
   controlData={[Function Object]}
   mode="0"
   modeEnum={[Function Object]}
-  titleChange={[Function EventEmitter]}
+  titleChange={[Function EventEmitter_]}
   titleInnerWidth={[Function String]}
 >
   <div
@@ -140,7 +140,7 @@ exports[`TrsTitleControlComponent should show in edit mode 1`] = `
   controlData={[Function Object]}
   mode="0"
   modeEnum={[Function Object]}
-  titleChange={[Function EventEmitter]}
+  titleChange={[Function EventEmitter_]}
   titleInnerWidth={[Function String]}
 >
   <div
@@ -206,7 +206,7 @@ exports[`TrsTitleControlComponent should show when in preview mode 1`] = `
   controlData={[Function Object]}
   mode={[Function Number]}
   modeEnum={[Function Object]}
-  titleChange={[Function EventEmitter]}
+  titleChange={[Function EventEmitter_]}
   titleInnerWidth={[Function String]}
 >
   <div

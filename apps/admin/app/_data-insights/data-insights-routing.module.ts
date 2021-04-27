@@ -7,12 +7,9 @@ import { StandardReportsListPageComponent } from './containers/pages/standard-re
 
 
 const routes: Routes = [
-  {
-    path: '',
+  { path: '',
     redirectTo: 'payfactors-reports',
-    pathMatch: 'full',
-    canActivate: [PfAdminGuard]
-  },
+    pathMatch: 'full' },
   {
     path: 'payfactors-reports',
     component: StandardReportsListPageComponent,

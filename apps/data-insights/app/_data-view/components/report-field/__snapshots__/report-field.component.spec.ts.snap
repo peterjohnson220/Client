@@ -2,9 +2,9 @@
 
 exports[`Data-Insights Report Field Component should show edit form when toggleEdit is triggered 1`] = `
 <pf-report-field
-  displayNameUpdated={[Function EventEmitter]}
-  fieldIsActive={[Function EventEmitter]}
-  fieldRemoved={[Function EventEmitter]}
+  displayNameUpdated={[Function EventEmitter_]}
+  fieldIsActive={[Function EventEmitter_]}
+  fieldRemoved={[Function EventEmitter_]}
   inputField="undefined"
   isEditing={[Function Boolean]}
 >

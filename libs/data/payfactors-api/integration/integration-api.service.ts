@@ -206,7 +206,7 @@ export class IntegrationApiService {
     if (!utilitiesSubDomainConfig || !utilitiesSubDomainConfig.Value) {
       throw new Error('Configuration error: Missing utilities subdomain configuration');
     }
-    return `https://${utilitiesSubDomainConfig.Value}.payfactors.com/${this.service}`;
+    return `//${utilitiesSubDomainConfig.Value}.payfactors.com/${this.service}`;
   }
 
   putFormData(url: string, token: any, userContext: any, formDataParams?: any): Observable<any> {

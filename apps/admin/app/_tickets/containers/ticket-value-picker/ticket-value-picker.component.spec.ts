@@ -1,5 +1,5 @@
 import {NO_ERRORS_SCHEMA} from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { Store, StoreModule } from '@ngrx/store';
 import {FilterService} from '@progress/kendo-angular-grid';
@@ -18,7 +18,7 @@ describe('Admin - Tickets - Ticket Value Picker', () => {
   let fixture: ComponentFixture<TicketValuePickerComponent>;
   let store: Store<fromTicketReducer.State>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ TicketValuePickerComponent ],
       schemas: [ NO_ERRORS_SCHEMA ],

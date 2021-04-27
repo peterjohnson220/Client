@@ -1,5 +1,5 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
@@ -15,7 +15,7 @@ describe('SavePasswordSettingsModalComponent', () => {
   let fixture: ComponentFixture<SaveSecuritySettingsModalComponent>;
   let store: Store<fromPasswordSettingsReducer.State>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         SaveSecuritySettingsModalComponent

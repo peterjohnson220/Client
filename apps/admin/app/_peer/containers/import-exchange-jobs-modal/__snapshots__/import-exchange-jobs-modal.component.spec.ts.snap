@@ -4,12 +4,12 @@ exports[`Import Exchange Jobs Modal should create an empty form 1`] = `
 <pf-import-exchange-jobs-modal
   attemptedSubmit="false"
   formBuilder={[Function FormBuilder]}
-  importExchangeJobsEvent={[Function EventEmitter]}
+  importExchangeJobsEvent={[Function EventEmitter_]}
   importExchangeJobsForm={[Function FormGroup]}
   importingExchangeJobs$={[Function Store]}
   isFileValid="false"
   isFileValidSubscription={[Function Subscriber]}
-  modalDismissedEvent={[Function EventEmitter]}
+  modalDismissedEvent={[Function EventEmitter_]}
   store={[Function Store]}
   storedDataFile="null"
   storedDataFileSubscription={[Function Subscriber]}
@@ -56,12 +56,12 @@ exports[`Import Exchange Jobs Modal should initialize an empty modal 1`] = `
 <pf-import-exchange-jobs-modal
   attemptedSubmit="false"
   formBuilder={[Function FormBuilder]}
-  importExchangeJobsEvent={[Function EventEmitter]}
+  importExchangeJobsEvent={[Function EventEmitter_]}
   importExchangeJobsForm={[Function FormGroup]}
   importingExchangeJobs$={[Function Store]}
   isFileValid="false"
   isFileValidSubscription={[Function Subscriber]}
-  modalDismissedEvent={[Function EventEmitter]}
+  modalDismissedEvent={[Function EventEmitter_]}
   store={[Function Store]}
   storedDataFile="null"
   storedDataFileSubscription={[Function Subscriber]}
@@ -108,12 +108,12 @@ exports[`Import Exchange Jobs Modal should set the file to invalid when the stat
 <pf-import-exchange-jobs-modal
   attemptedSubmit="false"
   formBuilder={[Function FormBuilder]}
-  importExchangeJobsEvent={[Function EventEmitter]}
+  importExchangeJobsEvent={[Function EventEmitter_]}
   importExchangeJobsForm={[Function FormGroup]}
   importingExchangeJobs$={[Function Store]}
   isFileValid="false"
   isFileValidSubscription={[Function Subscriber]}
-  modalDismissedEvent={[Function EventEmitter]}
+  modalDismissedEvent={[Function EventEmitter_]}
   store={[Function Store]}
   storedDataFile="null"
   storedDataFileSubscription={[Function Subscriber]}
@@ -160,12 +160,12 @@ exports[`Import Exchange Jobs Modal should set the file to valid when the state 
 <pf-import-exchange-jobs-modal
   attemptedSubmit="false"
   formBuilder={[Function FormBuilder]}
-  importExchangeJobsEvent={[Function EventEmitter]}
+  importExchangeJobsEvent={[Function EventEmitter_]}
   importExchangeJobsForm={[Function FormGroup]}
   importingExchangeJobs$={[Function Store]}
   isFileValid={[Function Boolean]}
   isFileValidSubscription={[Function Subscriber]}
-  modalDismissedEvent={[Function EventEmitter]}
+  modalDismissedEvent={[Function EventEmitter_]}
   store={[Function Store]}
   storedDataFile={[Function String]}
   storedDataFileSubscription={[Function Subscriber]}

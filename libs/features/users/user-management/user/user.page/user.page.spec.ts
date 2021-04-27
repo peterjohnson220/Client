@@ -1,9 +1,8 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed, async } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
-import 'rxjs/add/observable/of';
 
 import * as fromRootState from 'libs/state/state';
 import { generateMockUserManagementDto } from 'libs/models/payfactors-api/user';
@@ -24,7 +23,7 @@ describe('Admin - Company Admin - User Page', () => {
   const mockCompanyId = 13;
   const mockUserId = 25;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
 
     TestBed.configureTestingModule({
       imports: [

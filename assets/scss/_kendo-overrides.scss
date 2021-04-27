@@ -118,3 +118,11 @@ kendo-tabstrip.bold-tabs .k-tabstrip-items {
 .k-combobox-clearable .k-input {
   padding-right: calc( 16px + 1rem) !important;
 }
+
+// TODO: Remove this override
+// Temporary override until we can upgrade kendo-theme-bootstrap to 4.x+
+// This is currently blocked by the removal of node-sass. Upgraded kendo grid has a select dropdown that is not
+// hidden as part of the pager.
+.k-pager-numbers-wrap select.k-dropdown {
+  display: none;
+}

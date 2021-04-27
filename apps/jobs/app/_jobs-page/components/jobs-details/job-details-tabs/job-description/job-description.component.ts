@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges, OnDestroy, ViewChild } from '@angular/core';
 
 import { Store, ActionsSubject } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { Subscription } from 'rxjs';
 import { ofType } from '@ngrx/effects';
 import cloneDeep from 'lodash/cloneDeep';

@@ -26,7 +26,7 @@ describe('Search Feature - Multi Select Filter', () => {
 
     fixture = TestBed.createComponent(MultiSelectFilterComponent);
     instance = fixture.componentInstance;
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
   });
 
   it('should emit an object with a filterId and an option when handling an option selected', () => {

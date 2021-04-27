@@ -43,7 +43,7 @@ describe('Pf-Admin - Market Data Feed Page', () => {
 
     fixture = TestBed.createComponent(MarketDataFeedPageComponent);
     instance = fixture.componentInstance;
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
   });
 
   it('should dispatch GenerateFeed action when handling generate export clicked', () => {

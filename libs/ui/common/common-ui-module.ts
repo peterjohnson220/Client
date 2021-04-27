@@ -7,7 +7,6 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { NgbModule, NgbTooltipModule, NgbProgressbarModule } from '@ng-bootstrap/ng-bootstrap';
 import { ImgFallbackModule } from 'ngx-img-fallback';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
-import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { TreeViewModule } from '@progress/kendo-angular-treeview';
 import { PopupModule } from '@progress/kendo-angular-popup';
 
@@ -96,7 +95,6 @@ const components = [
     ImgFallbackModule,
     FontAwesomeModule,
     ScrollingModule,
-    DropDownsModule,
     TreeViewModule,
     PopupModule,
   ],

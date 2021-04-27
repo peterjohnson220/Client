@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { TrsImageControlComponent } from './trs-image-control.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
@@ -8,7 +8,7 @@ describe('TrsImageControlComponent', () => {
   let component: TrsImageControlComponent;
   let fixture: ComponentFixture<TrsImageControlComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ TrsImageControlComponent ],
       schemas: [NO_ERRORS_SCHEMA]

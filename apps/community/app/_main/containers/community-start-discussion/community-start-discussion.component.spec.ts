@@ -2,8 +2,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
-import 'rxjs/add/observable/of';
+import { of } from 'rxjs';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
@@ -31,7 +30,7 @@ describe('CommunityStartDiscussionComponent', () => {
         {
           provide: ActivatedRoute,
           useValue: {
-            queryParams: Observable.of({type: 'poll'})
+            queryParams: of({type: 'poll'})
           }
         }
       ],

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 import {
@@ -8,7 +9,6 @@ import {
   TemplateListItemResponse,
   LoadTemplateListByCompanyIdRequest } from '../../../models/payfactors-api';
 import { Template, TemplateSettings } from '../../../models/jdm';
-
 
 @Injectable({
   providedIn: 'root',
@@ -88,7 +88,7 @@ export class JobDescriptionTemplateApiService {
           templateSettingsJsonAsString: JSON.stringify(settings)
       };
       return this.payfactorsApiService.post(`${this.endpoint}(${settings.TemplateId})/Default.SaveSettings`, obj)
-      .map((payload: string) => JSON.parse(payload));
+      .pipe(map((payload: string) => JSON.parse(payload)));
   }
 
   publish(templateId: number) {

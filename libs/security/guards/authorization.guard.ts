@@ -10,7 +10,7 @@ import {
 
 import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { filter, switchMap } from 'rxjs/operators';
 
 import * as fromRootState from '../../state/state';
 
@@ -30,11 +30,11 @@ export class AuthorizationGuard implements CanActivate, CanActivateChild {
   }
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-    return this.userContext$.pipe(filter(uc => !!uc)).switchMap(uc => this.hasAccess(uc, next.data));
+    return this.userContext$.pipe(filter(uc => !!uc)).pipe(switchMap(uc => this.hasAccess(uc, next.data)));
   }
 
   canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-    return this.userContext$.pipe(filter(uc => !!uc)).switchMap(uc => this.hasAccess(uc, childRoute.parent.data));
+    return this.userContext$.pipe(filter(uc => !!uc)).pipe(switchMap(uc => this.hasAccess(uc, childRoute.parent.data)));
   }
 
   private hasAccess(userContext: UserContext, routeData: Data): Observable<boolean> {

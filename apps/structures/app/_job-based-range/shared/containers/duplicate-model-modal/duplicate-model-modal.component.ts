@@ -11,8 +11,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'pf-duplicate-model-modal',
-  templateUrl: './duplicate-model-modal.component.html',
-  styleUrls: ['./duplicate-model-modal.component.scss']
+  templateUrl: './duplicate-model-modal.component.html'
 })
 export class DuplicateModelModalComponent implements OnInit, OnDestroy {
   @Input() rangeGroupId: number;

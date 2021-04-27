@@ -3,14 +3,13 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 
 import { StoreModule, Store} from '@ngrx/store';
-import { of } from 'rxjs/observable/of';
 
 import { generateMockTermsConditionsSubmissionModel, generateMockUserContext } from 'libs/models';
+import * as fromRootState from 'libs/state/state';
+import { ActivatedRouteStub } from 'libs/test/activated-route-stub';
 
 import { DashboardTCModalComponent } from './dashboard-tc-modal.component';
-import * as fromRootState from 'libs/state/state';
 import * as fromDashboardTCActions from '../../actions/dashboard-tc-modal.actions';
-
 
 describe('Dashboard TC Modal', () => {
   let fixture: ComponentFixture<DashboardTCModalComponent>;
@@ -26,9 +25,10 @@ describe('Dashboard TC Modal', () => {
         }),
       ],
       providers: [
-      {
-        provide: ActivatedRoute
-      }
+        {
+          provide: ActivatedRoute,
+          useValue: new ActivatedRouteStub()
+        }
     ],
       declarations: [
         DashboardTCModalComponent

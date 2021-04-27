@@ -3,8 +3,7 @@ import { Action, select, Store } from '@ngrx/store';
 import { HttpErrorResponse } from '@angular/common/http';
 
 import { Effect, Actions, ofType } from '@ngrx/effects';
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
+import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap, withLatestFrom, filter } from 'rxjs/operators';
 
 import { PermissionCheckEnum, Permissions } from 'libs/constants';

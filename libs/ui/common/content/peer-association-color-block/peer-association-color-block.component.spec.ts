@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { CompanyJob } from 'libs/features/peer/job-association/models/company-job.model';
 
@@ -8,7 +8,7 @@ describe('AssociationColorBlockComponent', () => {
   let component: PeerAssociationColorBlockComponent;
   let fixture: ComponentFixture<PeerAssociationColorBlockComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [PeerAssociationColorBlockComponent]
     });

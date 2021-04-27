@@ -2,13 +2,13 @@
 
 exports[`ExchangeDetailComponent should hide the approve/reject buttons when a company job with a pending match is selected 1`] = `
 <pf-exchange-job-detail
-  approveClick={[Function EventEmitter]}
-  createProjectClick={[Function EventEmitter]}
+  approveClick={[Function EventEmitter_]}
+  createProjectClick={[Function EventEmitter_]}
   exchangeJob={[Function Object]}
   permissions={[Function Function]}
-  rejectClick={[Function EventEmitter]}
+  rejectClick={[Function EventEmitter_]}
   selectedCompanyJob={[Function Object]}
-  unmatchClick={[Function EventEmitter]}
+  unmatchClick={[Function EventEmitter_]}
 >
   <section
     class="h-100"
@@ -137,13 +137,13 @@ exports[`ExchangeDetailComponent should hide the approve/reject buttons when a c
 
 exports[`ExchangeDetailComponent should render the selected exchange jobs props 1`] = `
 <pf-exchange-job-detail
-  approveClick={[Function EventEmitter]}
-  createProjectClick={[Function EventEmitter]}
+  approveClick={[Function EventEmitter_]}
+  createProjectClick={[Function EventEmitter_]}
   exchangeJob={[Function Object]}
   permissions={[Function Function]}
-  rejectClick={[Function EventEmitter]}
+  rejectClick={[Function EventEmitter_]}
   selectedCompanyJob={[Function Object]}
-  unmatchClick={[Function EventEmitter]}
+  unmatchClick={[Function EventEmitter_]}
 >
   <section
     class="h-100"
@@ -252,13 +252,13 @@ exports[`ExchangeDetailComponent should render the selected exchange jobs props 
 
 exports[`ExchangeDetailComponent should show the approve/reject buttons when a company job with a pending match is selected 1`] = `
 <pf-exchange-job-detail
-  approveClick={[Function EventEmitter]}
-  createProjectClick={[Function EventEmitter]}
+  approveClick={[Function EventEmitter_]}
+  createProjectClick={[Function EventEmitter_]}
   exchangeJob={[Function Object]}
   permissions={[Function Function]}
-  rejectClick={[Function EventEmitter]}
+  rejectClick={[Function EventEmitter_]}
   selectedCompanyJob={[Function Object]}
-  unmatchClick={[Function EventEmitter]}
+  unmatchClick={[Function EventEmitter_]}
 >
   <section
     class="h-100"
@@ -389,13 +389,13 @@ exports[`ExchangeDetailComponent should show the approve/reject buttons when a c
 
 exports[`ExchangeDetailComponent should show the unmatch button when a matched company job is selected 1`] = `
 <pf-exchange-job-detail
-  approveClick={[Function EventEmitter]}
-  createProjectClick={[Function EventEmitter]}
+  approveClick={[Function EventEmitter_]}
+  createProjectClick={[Function EventEmitter_]}
   exchangeJob={[Function Object]}
   permissions={[Function Function]}
-  rejectClick={[Function EventEmitter]}
+  rejectClick={[Function EventEmitter_]}
   selectedCompanyJob={[Function Object]}
-  unmatchClick={[Function EventEmitter]}
+  unmatchClick={[Function EventEmitter_]}
 >
   <section
     class="h-100"

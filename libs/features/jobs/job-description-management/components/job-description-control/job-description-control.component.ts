@@ -1,7 +1,6 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 
-import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 import { JobDescriptionControl } from 'libs/models/jdm';
 
