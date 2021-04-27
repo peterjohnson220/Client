@@ -60,11 +60,13 @@ export class ModelPageComponent implements OnInit, OnDestroy {
       if (p && p.id) {
         this.idParamPresent = true;
       }
+      this.rangeGroupId = this.route.snapshot.params.id;
+
       if (this.idParamPresent && this.openAddJobs) {
         this.handleOpenManageModelModalForNewWorkflow();
       }
-      this.rangeGroupId = this.route.snapshot.params.id;
-      if(!!this.gradeRangeDetails) {
+
+      if (!!this.gradeRangeDetails) {
         this.gradeRangeDetails.RangeGroupId = this.rangeGroupId;
       }
     });
