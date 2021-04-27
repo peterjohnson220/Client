@@ -37,7 +37,7 @@ import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums/pf-theme-typ
 import { RangeType } from 'libs/constants/structures/range-type';
 import { RangeRecalculationType } from 'libs/constants/structures/range-recalculation-type';
 
-import * as fromPublishModelModalActions from '../../actions/publish-model-modal.actions';
+import * as fromPublishModelModalActions from '../../../../shared/actions/publish-model-modal.actions';
 import * as fromDuplicateModelModalActions from '../../actions/duplicate-model-modal.actions';
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
 import * as fromSharedJobBasedRangeActions from '../../../shared/actions/shared.actions';

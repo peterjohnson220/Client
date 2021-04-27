@@ -11,11 +11,9 @@ import { StructureRangeGroupApiService } from 'libs/data/payfactors-api/structur
 import { NotificationLevel, NotificationSource, NotificationType } from 'libs/features/infrastructure/app-notifications/models';
 import * as fromNotificationActions from 'libs/features/infrastructure/app-notifications/actions/app-notifications.actions';
 import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
-import { GridConfig, PfDataGridFilter } from 'libs/features/grids/pf-data-grid/models';
+import { GridConfig } from 'libs/features/grids/pf-data-grid/models';
 import { PagingOptions } from 'libs/models/payfactors-api/search/request';
 import { GridDataHelper } from 'libs/features/grids/pf-data-grid/helpers';
-import * as fromActions from 'libs/features/grids/pf-data-grid/actions';
-import { ViewField } from 'libs/models/payfactors-api/reports/request';
 
 import * as fromPublishModelModalActions from '../../../shared/actions/publish-model-modal.actions';
 import * as fromSharedReducer from '../reducers';
@@ -35,11 +33,8 @@ export class PublishModelModalEffects {
         this.store.pipe(select(fromPfDataGridReducer.getGridConfig)),
         this.store.pipe(select(fromPfDataGridReducer.getData)),
         this.store.pipe(select(fromPfDataGridReducer.getPagingOptions)),
-        this.store.pipe(select(fromPfDataGridReducer.getFields)),
-        this.store.pipe(select(fromPfDataGridReducer.getSplitViewFilters)),
-        (action, metadata: RangeGroupMetadata, gridConfig: GridConfig, gridData: GridDataResult, pagingOptions: PagingOptions, fields: ViewField[],
-         splitViewFilters: PfDataGridFilter[]) => {
-          return { action, metadata, gridConfig, gridData, pagingOptions, fields, splitViewFilters };
+        (action, metadata: RangeGroupMetadata, gridConfig: GridConfig, gridData: GridDataResult, pagingOptions: PagingOptions) => {
+          return { action, metadata, gridConfig, gridData, pagingOptions };
         }
       ),
       switchMap((data) => {
@@ -73,14 +68,6 @@ export class PublishModelModalEffects {
                 pageViewId: modelPageViewId,
                 rangeGroupId: data.action.payload.rangeGroupId
               }));
-
-              // We need to clear filter for OverrideMessage if it was applied
-              if (data.splitViewFilters.find(f => f.SourceName === 'OverrideMessage')) {
-                const overrideMessageField = data.fields.find(f => f.SourceName === 'OverrideMessage');
-                if (overrideMessageField != null) {
-                  actions.push(new fromActions.ClearFilter(modelPageViewId, overrideMessageField));
-                }
-              }
 
               return actions;
             }

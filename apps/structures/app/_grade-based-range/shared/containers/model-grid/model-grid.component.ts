@@ -33,9 +33,9 @@ import * as fromSharedStructuresReducer from '../../../../shared/reducers';
 import * as fromSharedStructuresActions from '../../../../shared/actions/shared.actions';
 import { StructuresPagesService } from '../../../../shared/services';
 import * as fromModelSettingsModalActions from '../../../../shared/actions/model-settings-modal.actions';
+import * as fromPublishModelModalActions from '../../../../shared/actions/publish-model-modal.actions';
 import { ModelSettingsModalContentComponent } from '../model-settings-modal-content';
 import * as fromGradeBasedSharedReducer from '../../reducers';
-
 
 @Component({
   selector: 'pf-grade-based-model-grid',
@@ -231,6 +231,10 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
 
   handleModelSettingsClicked() {
     this.store.dispatch(new fromModelSettingsModalActions.OpenModal());
+  }
+
+  handlePublishModelClicked() {
+    this.store.dispatch(new fromPublishModelModalActions.OpenModal());
   }
 
   buildForm() {
