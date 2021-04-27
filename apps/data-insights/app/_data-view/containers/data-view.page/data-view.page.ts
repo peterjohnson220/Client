@@ -166,11 +166,8 @@ export class DataViewPageComponent implements OnInit, OnDestroy {
         this.enableFileDownloadSecurityWarning = true;
       }
     });
-    this.getSavedSchedulesSubscription = this.savedSchedulesAsync$.subscribe(x => {
-      if (x?.obj?.length) {
-        this.isScheduled = x.obj.some(schedules => schedules.DataViewId === this.dataViewId);
-      }
-    });
+    this.getSavedSchedulesSubscription = this.savedSchedulesAsync$.subscribe(x =>
+      this.isScheduled = x.obj.some(schedules => schedules.DataViewId === this.dataViewId));
   }
 
   handleEditClicked(): void {
