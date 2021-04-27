@@ -1,0 +1,29 @@
+<div class="pb-3" *ngIf="(this.exportHistory$ | async).length > 0">
+  <div class="card-mb-3 shadow-sm p-3">
+    <h5 class="card-title text-uppercase text-muted">
+      Recently Run Exports
+    </h5>
+    <div class="card-body pt-2">
+      <div class="row" *ngIf="(this.exportHistory$ | async).length">
+        <table class="table table-striped text-muted">
+          <tbody>
+            <ng-container>
+              <tr *ngFor="let item of ((this.exportHistory$ | async))">
+                <td>{{ item.FileName}}</td>
+                <td class="text-right font-italic">last ran {{ item.EndTime | date:'shortDate'}} </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="(this.exportHistory$ | async).length === 0">
+  <div class="alert alert-info" role="alert">
+    <h4 class="alert-heading">No Recently Run Exports</h4>
+    <p>
+      View your saved schedules to see when the next run(s) will occur.
+    </p>
+  </div>
+</div>

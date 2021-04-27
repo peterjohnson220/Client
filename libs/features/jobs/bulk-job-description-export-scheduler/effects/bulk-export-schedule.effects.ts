@@ -6,10 +6,11 @@ import { Observable, of } from 'rxjs';
 
 import { JobDescriptionApiService } from 'libs/data/payfactors-api/jdm';
 import { PayfactorsApiService } from 'libs/data/payfactors-api/payfactors-api.service';
-import { BulkExportSchedule } from 'libs/models/jdm';
+import { BulkExportHistory, BulkExportSchedule } from 'libs/models/jdm';
 import { BaseUrlLocation } from 'libs/models/payfactors-api/common/base-url-location.enum';
 
 import * as fromBulkJobsExportScheduleActions from '../actions/bulk-export-schedule.actions';
+import { OutboundJobsApiService } from 'libs/data/payfactors-api';
 
 @Injectable()
 export class BulkJobsExportScheduleEffects {
@@ -118,9 +119,22 @@ export class BulkJobsExportScheduleEffects {
       })
     );
 
+  @Effect()
+  getLatestExports$: Observable<Action> = this.actions$
+    .pipe(
+      ofType<fromBulkJobsExportScheduleActions.GetLatestExportsHistory>(fromBulkJobsExportScheduleActions.GET_LATEST_EXPORT_HISTORY),
+      switchMap(() => {
+        return this.outboundJobsApiService.getLatestExportRuns().pipe(
+          map((response: BulkExportHistory[]) => new fromBulkJobsExportScheduleActions.GetLatestExportsHistorySuccess(response)),
+          catchError(error => of(new fromBulkJobsExportScheduleActions.GetLatestExportsHistoryError))
+        );
+      })
+    );
+
   constructor(
     private actions$: Actions,
     private jobDescriptionApiService: JobDescriptionApiService,
+    private outboundJobsApiService: OutboundJobsApiService,
     private payfactorsApiService: PayfactorsApiService,
   ) {}
 }

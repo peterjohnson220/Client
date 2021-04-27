@@ -1,7 +1,7 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import isObject from 'lodash/isObject';
 
-import { BulkExportSchedule } from 'libs/models/jdm';
+import { BulkExportHistory, BulkExportSchedule } from 'libs/models/jdm';
 
 // Import all exports from our feature's actions
 import * as fromBulkExportScheduleActions from '../actions/bulk-export-schedule.actions';
@@ -21,6 +21,7 @@ export interface State extends EntityState<BulkExportSchedule> {
   updatingError: boolean;
   updatingSuccess: boolean;
   jdmExportUrl: string;
+  bulkExportHistory: BulkExportHistory[];
 }
 
 export const adapter: EntityAdapter<BulkExportSchedule> = createEntityAdapter<BulkExportSchedule>({
@@ -28,7 +29,7 @@ export const adapter: EntityAdapter<BulkExportSchedule> = createEntityAdapter<Bu
 });
 
 // Define our initial state
-const initialState: State = adapter.getInitialState({
+export const initialState: State = adapter.getInitialState({
   loading: false,
   loadingError: false,
   adding: false,
@@ -42,6 +43,7 @@ const initialState: State = adapter.getInitialState({
   updatingError: false,
   updatingSuccess: false,
   jdmExportUrl: null,
+  bulkExportHistory: []
 });
 
 
@@ -166,6 +168,12 @@ export function reducer(
         jdmExportUrl: action.payload,
       };
     }
+    case fromBulkExportScheduleActions.GET_LATEST_EXPORT_HISTORY_SUCCESS: {
+      return {
+        ...state,
+        bulkExportHistory: action.payload
+      };
+    }
     default: {
       return state;
     }
@@ -185,3 +193,4 @@ export const getEditSchedule = (state: State) => state.editSchedule;
 export const getUpdating = (state: State) => state.updating;
 export const getUpdatingError = (state: State) => state.updatingError;
 export const getJdmExportUrl = (state: State) => state.jdmExportUrl;
+export const getBulkExportHistory = (state: State) => state.bulkExportHistory;

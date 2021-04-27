@@ -81,7 +81,6 @@ export class OutboundBulkJobsExportSchedulerPageComponent implements OnInit, OnD
   }
 
   ngOnDestroy() {
-    this.unsubscribe$.unsubscribe();
     this.unsubscribe$.next();
   }
 
