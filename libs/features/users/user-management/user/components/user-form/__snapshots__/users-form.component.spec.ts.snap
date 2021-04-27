@@ -22,13 +22,13 @@ exports[`Admin - Company Admin - User Component Should display form 1`] = `
   newUser={[Function Object]}
   passwordFocused="false"
   passwordValidationRules={[Function Array]}
-  saveUser={[Function EventEmitter]}
+  saveUser={[Function EventEmitter_]}
   selectedValues={[Function Array]}
   showUserRoleModal={[Function BehaviorSubject]}
   showUserRoleModal$={[Function Observable]}
   user={[Function Object]}
   user$={[Function Observable]}
-  userApiService="undefined"
+  userApiService={[Function MockUserService]}
   userForm={[Function FormGroup]}
 >
   <form

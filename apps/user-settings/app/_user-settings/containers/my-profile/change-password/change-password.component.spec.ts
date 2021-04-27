@@ -7,11 +7,11 @@ import { of } from 'rxjs';
 import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
+import { ActivatedRouteStub } from 'libs/test/activated-route-stub';
 
 import * as fromChangePasswordActions from '../../../actions/change-password.actions';
 import * as fromUserSettingsReducer from '../../../reducers';
 import { ChangePasswordComponent } from './change-password.component';
-
 
 describe('Auth - Reset Password', () => {
   let fixture: ComponentFixture<ChangePasswordComponent>;
@@ -31,6 +31,7 @@ describe('Auth - Reset Password', () => {
       providers: [
         {
           provide: ActivatedRoute,
+          useValue: new ActivatedRouteStub(),
         }
       ],
       declarations: [

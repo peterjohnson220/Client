@@ -1,5 +1,5 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormBuilder } from '@angular/forms';
 
 import { Store, StoreModule } from '@ngrx/store';
@@ -18,7 +18,7 @@ describe('SecuritySettingsComponent', () => {
   let childFixture: ComponentFixture<SecurityManagementSettingsComponent>;
   let store: Store<fromPasswordSettingsReducer.State>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ SecuritySettingsPageComponent, SecurityManagementSettingsComponent ],
       providers: [ FormBuilder, {

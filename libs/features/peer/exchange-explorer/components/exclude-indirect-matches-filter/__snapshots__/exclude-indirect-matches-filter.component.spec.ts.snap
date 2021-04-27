@@ -2,7 +2,7 @@
 
 exports[`Features - Peer - Exclude Indirect Matches Filter should display appropriate label 1`] = `
 <pf-exclude-indirect-matches-filter
-  filterToggled={[Function EventEmitter]}
+  filterToggled={[Function EventEmitter_]}
 >
   <div
     class="filter-switch-container"
@@ -25,6 +25,7 @@ exports[`Features - Peer - Exclude Indirect Matches Filter should display approp
         
         <span
           class="k-switch-container"
+          role="switch"
         >
           <span
             class="k-switch-label-on"

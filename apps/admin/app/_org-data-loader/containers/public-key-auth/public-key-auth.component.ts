@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 
 import { Observable, Subject } from 'rxjs';
-import { filter, takeUntil } from 'rxjs/operators';
+import { filter, takeUntil, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
 import { SftpUserModel } from 'libs/models/Sftp';
@@ -39,8 +39,10 @@ export class PublicKeyAuthComponent implements OnInit, OnDestroy {
     this.isUserNameValid$ = this.store.select(fromOrgDataAutoloaderReducer.getIsUserNameValid);
 
     this.userNameChanged
-      .debounceTime(500)
-      .distinctUntilChanged()
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged()
+      )
       .subscribe(value => {
         this.username = value;
         this.setUserName();

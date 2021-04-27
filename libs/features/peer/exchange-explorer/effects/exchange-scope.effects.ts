@@ -3,8 +3,7 @@ import { Injectable } from '@angular/core';
 import { Action, Store, select } from '@ngrx/store';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { filter } from 'rxjs/internal/operators';
-import { catchError, switchMap, map, withLatestFrom, concatMap, mergeMap } from 'rxjs/operators';
+import { catchError, switchMap, map, withLatestFrom, concatMap, mergeMap, filter } from 'rxjs/operators';
 
 import { ExchangeScopeApiService, ExchangeDataFilterApiService } from 'libs/data/payfactors-api/peer';
 import {

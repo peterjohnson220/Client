@@ -7,7 +7,6 @@ import { GridModule, FilterMenuModule } from '@progress/kendo-angular-grid';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { DragulaModule } from 'ng2-dragula';
-import { EditorModule } from 'primeng/editor';
 import { NgbPaginationModule, NgbTooltipModule, NgbNavModule} from '@ng-bootstrap/ng-bootstrap';
 import { ImgFallbackModule } from 'ngx-img-fallback';
 
@@ -47,7 +46,6 @@ import { PeditorAutoFocusFixDirective } from './directives';
         FontAwesomeModule,
         PfJobDescriptionManagementModule,
         DragulaModule.forRoot(),
-        EditorModule,
         NgbPaginationModule,
         NgbTooltipModule,
         ImgFallbackModule,

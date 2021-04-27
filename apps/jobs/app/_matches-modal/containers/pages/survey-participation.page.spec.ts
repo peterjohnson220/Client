@@ -1,5 +1,5 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
@@ -17,7 +17,7 @@ describe( 'SurveyParticipationPageComponent', () => {
   let store: Store<fromReducers.State>;
   const queryStringParams = { 'companyJobId': 1 };
 
-  beforeEach(async( () => {
+  beforeEach(waitForAsync( () => {
     TestBed.configureTestingModule( {
       imports: [
         StoreModule.forRoot({

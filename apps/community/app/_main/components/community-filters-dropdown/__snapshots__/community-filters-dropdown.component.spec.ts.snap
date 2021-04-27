@@ -2,7 +2,7 @@
 
 exports[`CommunityFiltersDropdownComponent should show community filters 1`] = `
 <pf-community-filters-dropdown
-  filtersSelected={[Function EventEmitter]}
+  filtersSelected={[Function EventEmitter_]}
 >
   <div
     class="py-2"

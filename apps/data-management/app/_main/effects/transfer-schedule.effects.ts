@@ -55,7 +55,7 @@ export class TransferScheduleEffects {
       ),
       switchMap((obj) => {
         const arr = obj.summary.obj.length > 0 ? obj.summary.obj : generateOutboundTransferScheduleSummary();
-        return of(arr).map(x => new fromTransferScheduleActions.GetOutboundTransferSummarySuccess(x));
+        return of(arr).pipe(map(x => new fromTransferScheduleActions.GetOutboundTransferSummarySuccess(x)));
       })
     );
 
@@ -155,7 +155,7 @@ export class TransferScheduleEffects {
           expression: obj.action.payload.Expression,
           active: obj.action.payload.Active === true ? 1 : 0
         };
-        return of(val).map(x => new fromTransferScheduleActions.SaveOutboundTransferScheduleSuccess(x));
+        return of(val).pipe(map(x => new fromTransferScheduleActions.SaveOutboundTransferScheduleSuccess(x)));
       })
     );
 

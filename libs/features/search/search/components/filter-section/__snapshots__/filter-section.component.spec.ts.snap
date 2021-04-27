@@ -2,7 +2,7 @@
 
 exports[`Search Feature - Filter Section should display the given title in the header 1`] = `
 <pf-filter-section
-  clear={[Function EventEmitter]}
+  clear={[Function EventEmitter_]}
   collapsed="undefined"
   cssReplacementRegex={[Function RegExp]}
   filter={[Function Object]}
@@ -10,11 +10,11 @@ exports[`Search Feature - Filter Section should display the given title in the h
   maxOptions={[Function Number]}
   persistedCollapsedSetting={[Function String]}
   persistedCollapsedSetting$={[Function Observable]}
-  search={[Function EventEmitter]}
-  searchValueChanged={[Function EventEmitter]}
+  search={[Function EventEmitter_]}
+  searchValueChanged={[Function EventEmitter_]}
   settingsService={[Function Object]}
-  showLess={[Function EventEmitter]}
-  showMore={[Function EventEmitter]}
+  showLess={[Function EventEmitter_]}
+  showMore={[Function EventEmitter_]}
 >
   <div
     class="filter"
@@ -123,7 +123,7 @@ exports[`Search Feature - Filter Section should display the transcluded content 
 
 exports[`Search Feature - Filter Section should show a fa-angle-down icon in the header, when collapsed 1`] = `
 <pf-filter-section
-  clear={[Function EventEmitter]}
+  clear={[Function EventEmitter_]}
   collapsed="undefined"
   cssReplacementRegex={[Function RegExp]}
   filter={[Function Object]}
@@ -131,11 +131,11 @@ exports[`Search Feature - Filter Section should show a fa-angle-down icon in the
   maxOptions={[Function Number]}
   persistedCollapsedSetting={[Function String]}
   persistedCollapsedSetting$={[Function Observable]}
-  search={[Function EventEmitter]}
-  searchValueChanged={[Function EventEmitter]}
+  search={[Function EventEmitter_]}
+  searchValueChanged={[Function EventEmitter_]}
   settingsService={[Function Object]}
-  showLess={[Function EventEmitter]}
-  showMore={[Function EventEmitter]}
+  showLess={[Function EventEmitter_]}
+  showMore={[Function EventEmitter_]}
 >
   <div
     class="filter"
@@ -188,7 +188,7 @@ exports[`Search Feature - Filter Section should show a fa-angle-down icon in the
 exports[`Search Feature - Filter Section should show a search icon and show more link, when the filter is a multi select,
       not singled, and the number of options is >= the max 1`] = `
 <pf-filter-section
-  clear={[Function EventEmitter]}
+  clear={[Function EventEmitter_]}
   collapsed="undefined"
   cssReplacementRegex={[Function RegExp]}
   filter={[Function Object]}
@@ -196,11 +196,11 @@ exports[`Search Feature - Filter Section should show a search icon and show more
   maxOptions={[Function Number]}
   persistedCollapsedSetting={[Function String]}
   persistedCollapsedSetting$={[Function Observable]}
-  search={[Function EventEmitter]}
-  searchValueChanged={[Function EventEmitter]}
+  search={[Function EventEmitter_]}
+  searchValueChanged={[Function EventEmitter_]}
   settingsService={[Function Object]}
-  showLess={[Function EventEmitter]}
-  showMore={[Function EventEmitter]}
+  showLess={[Function EventEmitter_]}
+  showMore={[Function EventEmitter_]}
   singled="false"
 >
   <div

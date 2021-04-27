@@ -3,7 +3,7 @@
 exports[`Exchange Job Request Info should match snapshot 1`] = `
 <pf-exchange-job-request-info
   approvingError$={[Function Store]}
-  closeClicked={[Function EventEmitter]}
+  closeClicked={[Function EventEmitter_]}
   denyingError$={[Function Store]}
   selectedJobRequest={[Function Object]}
   store={[Function Store]}

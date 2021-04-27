@@ -3,7 +3,7 @@
 exports[`CommunityPostContentComponent should show community post content 1`] = `
 <pf-community-post-content
   content={[Function String]}
-  hashTagClicked={[Function EventEmitter]}
+  hashTagClicked={[Function EventEmitter_]}
 >
   <div
     class="m-0 content-body"

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/internal/operators';
+import { catchError, map, switchMap } from 'rxjs/operators';
 
 import { LoaderSettingsApiService } from 'libs/data/payfactors-api/data-loads';
 import { LoaderSetting } from 'libs/models/data-loads';

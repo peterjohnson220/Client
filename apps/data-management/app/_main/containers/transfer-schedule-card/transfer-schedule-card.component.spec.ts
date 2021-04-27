@@ -1,5 +1,5 @@
 import {SimpleChange} from '@angular/core';
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {NO_ERRORS_SCHEMA} from '@angular/compiler/src/core';
 
 import {OrgDataEntityType} from 'libs/constants/hris-api';
@@ -11,7 +11,7 @@ describe('TransferScheduleCardComponent', () => {
   let component: TransferScheduleCardComponent;
   let fixture: ComponentFixture<TransferScheduleCardComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ TransferScheduleCardComponent ],
       schemas: [NO_ERRORS_SCHEMA]

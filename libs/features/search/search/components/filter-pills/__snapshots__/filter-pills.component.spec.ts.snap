@@ -2,8 +2,8 @@
 
 exports[`Search Feature - Filter Pills should apply a locked class to the pill, the pill icon, and show a locked icon (fa-lock), when its locked 1`] = `
 <pf-filter-pills
-  clearPill={[Function EventEmitter]}
-  clearPillGroup={[Function EventEmitter]}
+  clearPill={[Function EventEmitter_]}
+  clearPillGroup={[Function EventEmitter_]}
   filters={[Function Array]}
   pillGroups={[Function Array]}
   previewStringLength={[Function Number]}
@@ -65,8 +65,8 @@ exports[`Search Feature - Filter Pills should apply a locked class to the pill, 
 
 exports[`Search Feature - Filter Pills should not add a locked class to the pill or icon, and show a (fa-angle-down) icon, when its not locked 1`] = `
 <pf-filter-pills
-  clearPill={[Function EventEmitter]}
-  clearPillGroup={[Function EventEmitter]}
+  clearPill={[Function EventEmitter_]}
+  clearPillGroup={[Function EventEmitter_]}
   filters={[Function Array]}
   pillGroups={[Function Array]}
   previewStringLength={[Function Number]}
@@ -126,8 +126,8 @@ exports[`Search Feature - Filter Pills should not add a locked class to the pill
 
 exports[`Search Feature - Filter Pills should show a comma separated list of multi select option values for the pill value 1`] = `
 <pf-filter-pills
-  clearPill={[Function EventEmitter]}
-  clearPillGroup={[Function EventEmitter]}
+  clearPill={[Function EventEmitter_]}
+  clearPillGroup={[Function EventEmitter_]}
   filters={[Function Array]}
   pillGroups={[Function Array]}
   previewStringLength={[Function Number]}
@@ -187,8 +187,8 @@ exports[`Search Feature - Filter Pills should show a comma separated list of mul
 
 exports[`Search Feature - Filter Pills should show a comma separated list of multi select option values with an ellipsis, when it exceeds the preview length 1`] = `
 <pf-filter-pills
-  clearPill={[Function EventEmitter]}
-  clearPillGroup={[Function EventEmitter]}
+  clearPill={[Function EventEmitter_]}
+  clearPillGroup={[Function EventEmitter_]}
   filters={[Function Array]}
   pillGroups={[Function Array]}
   previewStringLength={[Function Number]}
@@ -248,8 +248,8 @@ exports[`Search Feature - Filter Pills should show a comma separated list of mul
 
 exports[`Search Feature - Filter Pills should show range filters selected min and max as the pill value (min - max) 1`] = `
 <pf-filter-pills
-  clearPill={[Function EventEmitter]}
-  clearPillGroup={[Function EventEmitter]}
+  clearPill={[Function EventEmitter_]}
+  clearPillGroup={[Function EventEmitter_]}
   filters={[Function Array]}
   pillGroups={[Function Array]}
   previewStringLength={[Function Number]}

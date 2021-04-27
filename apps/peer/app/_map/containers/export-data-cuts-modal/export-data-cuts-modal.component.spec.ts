@@ -6,7 +6,6 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { DropDownListModule } from '@progress/kendo-angular-dropdowns';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
-import 'rxjs/add/operator/take';
 
 import { GridTypeEnum } from 'libs/models/common';
 import { PfCommonModule, KendoGridFilterHelper } from 'libs/core';

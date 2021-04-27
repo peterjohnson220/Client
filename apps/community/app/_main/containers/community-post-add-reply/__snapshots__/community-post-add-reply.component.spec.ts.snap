@@ -22,7 +22,7 @@ exports[`CommunityPostAddReplyComponent should show community add reply 1`] = `
   getNotificationSubscription={[Function Subscriber]}
   pfLinkifyService={[Function Object]}
   replyMaxLength={[Function Number]}
-  replySubmitted={[Function EventEmitter]}
+  replySubmitted={[Function EventEmitter_]}
   store={[Function Store]}
   submitAttempted="false"
 >

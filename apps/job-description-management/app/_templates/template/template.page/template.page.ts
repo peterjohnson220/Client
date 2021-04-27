@@ -5,6 +5,7 @@ import cloneDeep from 'lodash/cloneDeep';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription, Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 import * as fromRootState from 'libs/state/state';
 import { SimpleYesNoModalComponent } from 'libs/ui/common';
@@ -398,7 +399,7 @@ export class TemplatePageComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private initSaveThrottle() {
-      const saveThrottle$ = this.saveThrottle.debounceTime(500);
+      const saveThrottle$ = this.saveThrottle.pipe(debounceTime(500));
 
       saveThrottle$.subscribe(save => {
           this.saveTemplate();

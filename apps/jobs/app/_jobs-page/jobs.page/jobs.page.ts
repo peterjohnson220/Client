@@ -4,7 +4,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import { ofType } from '@ngrx/effects';
 import { ActionsSubject, Store } from '@ngrx/store';
 import { Observable, Subject, Subscription } from 'rxjs';
-import { BehaviorSubject } from 'rxjs/index';
+import { BehaviorSubject } from 'rxjs';
 import { SortDescriptor } from '@progress/kendo-data-query';
 
 import { Permissions } from 'libs/constants';

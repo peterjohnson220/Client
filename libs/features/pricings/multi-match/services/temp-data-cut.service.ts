@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable, combineLatest } from 'rxjs';
-import { map } from 'rxjs/internal/operators';
-import { take } from 'rxjs/operators';
+import { take, map } from 'rxjs/operators';
 
 import { TempExchangeDataCutDetails } from 'libs/models/payfactors-api';
 import * as fromDataCutValidationActions from 'libs/features/peer/actions/data-cut-validation.actions';

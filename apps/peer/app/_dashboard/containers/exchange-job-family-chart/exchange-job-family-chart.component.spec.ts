@@ -17,7 +17,7 @@ describe('Peer Dashboard - Job Family Chart', () => {
   let fixture: ComponentFixture<ExchangeJobFamilyChartComponent>;
   let instance: ExchangeJobFamilyChartComponent;
   let store: Store<fromPeerDashboardReducer.State>;
-  let route: ActivatedRouteStub;
+  let route: any;
 
   // Configure Testing Module for before each test
   beforeEach(() => {
@@ -43,7 +43,7 @@ describe('Peer Dashboard - Job Family Chart', () => {
 
     store = TestBed.inject(Store);
     // TODO: Resolve type mismatch here and use .inject
-    route = TestBed.get(ActivatedRoute);
+    route = TestBed.inject(ActivatedRoute);
 
     route.setParamMap({ id: 1 });
 

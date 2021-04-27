@@ -1,9 +1,11 @@
 import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
+
+import {Observable, Subscription} from 'rxjs';
+import {Store} from '@ngrx/store';
+
 import * as fromJobsPeerMatchesReducer from '../../../reducers';
 import * as fromJobPeerMatchesActions from '../../../actions';
-import {Store} from '@ngrx/store';
-import {Subscription} from 'rxjs/Subscription';
+
 @Component({
   selector: 'pf-peer-exchange-matches',
   templateUrl: './peer-exchange-matches.component.html',

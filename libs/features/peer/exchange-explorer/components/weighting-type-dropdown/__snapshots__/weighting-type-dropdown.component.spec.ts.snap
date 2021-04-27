@@ -3,7 +3,7 @@
 exports[`Weighting Type Toggle should load the dropdown as if it was in a component 1`] = `
 <pf-weighting-type-dropdown
   inComponent={[Function Boolean]}
-  weightingTypeChanged={[Function EventEmitter]}
+  weightingTypeChanged={[Function EventEmitter_]}
 >
   <kendo-dropdownlist
     class="weighting-type-dropdown-width k-dropdown-white"
@@ -15,7 +15,7 @@ exports[`Weighting Type Toggle should load the dropdown as if it was in a compon
 exports[`Weighting Type Toggle should load the dropdown with default options 1`] = `
 <pf-weighting-type-dropdown
   inComponent={[Function Boolean]}
-  weightingTypeChanged={[Function EventEmitter]}
+  weightingTypeChanged={[Function EventEmitter_]}
 >
   <kendo-dropdownlist
     class="weighting-type-dropdown-width k-dropdown-white"
@@ -28,7 +28,7 @@ exports[`Weighting Type Toggle should load the dropdown with the label 1`] = `
 <pf-weighting-type-dropdown
   inComponent={[Function Boolean]}
   includeLabel={[Function Boolean]}
-  weightingTypeChanged={[Function EventEmitter]}
+  weightingTypeChanged={[Function EventEmitter_]}
 >
   <label
     for="weights-dropdown"
