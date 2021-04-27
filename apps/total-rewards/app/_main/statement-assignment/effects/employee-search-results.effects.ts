@@ -60,11 +60,11 @@ export class EmployeeSearchResultsEffects {
               const filters = this.payfactorsSearchApiModelMapper.mapSearchFiltersToFilters(searchFilters, data.searchFilterMappingDataObj);
               if (searchRequest.PagingOptions.From > 0) {
                 actions.push(new fromSearchResultsActions.GetMoreResultsSuccess());
-                actions.push(new fromEmployeeSearchResultsActions.AddEmployeeResults(response.EmployeeResults));
+                actions.push(new fromEmployeeSearchResultsActions.AddEmployeeResults({ employeeResults: response.EmployeeResults, noResultsMessage: response.NoResultsMessage }));
               } else {
                 actions.push(new fromSearchResultsActions.GetResultsSuccess({totalRecordCount: response.Paging.TotalRecordCount}));
 
-                actions.push(new fromEmployeeSearchResultsActions.ReplaceEmployeeResults((response.EmployeeResults)));
+                actions.push(new fromEmployeeSearchResultsActions.ReplaceEmployeeResults({ employeeResults: response.EmployeeResults, noResultsMessage: response.NoResultsMessage }));
                 actions.push(new fromSearchFiltersActions.RefreshFilters({
                   filters: filters,
                   keepFilteredOutOptions: data.action.payload.keepFilteredOutOptions
@@ -83,7 +83,6 @@ export class EmployeeSearchResultsEffects {
 
   constructor(
     private store: Store<fromSearchReducer.State>,
-    private totalRewardsAssignmentApiService: TotalRewardsAssignmentApiService,
     private totalRewardsSearchApiService: TotalRewardsSearchApiService,
     private payfactorsSearchApiModelMapper: PayfactorsSearchApiModelMapper,
     private payfactorsSearchApiHelper: PayfactorsSearchApiHelper,

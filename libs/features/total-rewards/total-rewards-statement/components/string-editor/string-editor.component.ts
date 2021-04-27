@@ -29,6 +29,7 @@ export class StringEditorComponent implements OnInit, OnChanges {
   @Input() value: string;
   @Input() showIcon: 'always' | 'never' | 'onHover' = 'onHover';
   @Input() isMultiline = false;
+  @Input() showHoverText = false;
 
   @Output() valueChange = new EventEmitter<string>();
 
@@ -64,6 +65,10 @@ export class StringEditorComponent implements OnInit, OnChanges {
       returnValue = this.value;
     }
     return returnValue;
+  }
+
+  getHoverText(): string {
+    return this.showHoverText ? this.getValueForInputControl() : '';
   }
 
   enableEditState(): void {

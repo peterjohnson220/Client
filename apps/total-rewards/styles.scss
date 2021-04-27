@@ -88,10 +88,18 @@ pf-statement-edit.page {
     }
     .canvas {
       .mode-button {
-        left: 100%;
         width: 100px;
         color: white;
         border-color: white;
+      }
+
+      .preview-download-button {
+        color: white;
+        border-color: white;
+      }
+
+      .start-100{
+        left: 100%;
       }
       .header-row-wrapper {
         opacity: 0;

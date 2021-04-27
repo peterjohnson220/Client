@@ -11,13 +11,13 @@ export const CLEAR_SELECTED_EMPLOYEES = '[Total Rewards / Employee Search] Clear
 export class ReplaceEmployeeResults implements Action {
   readonly type = REPLACE_EMPLOYEE_RESULTS;
 
-  constructor(public payload: EmployeeSearchResult[]) {}
+  constructor(public payload: { employeeResults: EmployeeSearchResult[], noResultsMessage: string }) {}
 }
 
 export class AddEmployeeResults implements Action {
   readonly type = ADD_EMPLOYEE_RESULTS;
 
-  constructor(public payload: EmployeeSearchResult[]) {}
+  constructor(public payload: { employeeResults: EmployeeSearchResult[], noResultsMessage: string }) {}
 }
 
 export class ClearEmployeeResults implements Action {
@@ -34,8 +34,8 @@ export class ClearSelectedEmployees implements Action {
   readonly type = CLEAR_SELECTED_EMPLOYEES;
 }
 
-export type EmployeeSearchResultsActions
-  = ReplaceEmployeeResults |
+export type EmployeeSearchResultsActions =
+  ReplaceEmployeeResults |
   AddEmployeeResults |
   ClearEmployeeResults |
   ToggleEmployeeSelection |

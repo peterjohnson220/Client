@@ -83,6 +83,7 @@
               [backgroundGraphicsEnabled]="control.EnableBackgroundGraphics"
               [graphicsColors]="statement.Settings.Colors"
               [showEmployee]="control.ShowEmployee"
+              [showEmployeeId]="statement.Settings.DisplaySettings?.ShowEmployeeId"
               [titleInnerWidth]="control.TitleInnerWidth"
               (titleChange)="handleOnControlTitleChange($event)">
             </pf-trs-title-control>
@@ -103,7 +104,8 @@
               [mode]="mode"
               [controlData]="control"
               [employeeRewardsData]="employeeRewardsData"
-              [graphicsColors]="statement.Settings.Colors">
+              [graphicsColors]="statement.Settings.Colors"
+              [statementDisplaySettings]="statement.Settings.DisplaySettings">
             </pf-trs-employee-control>
 
             <pf-trs-effective-date-control
@@ -112,6 +114,7 @@
               [controlData]="control"
               [effectiveDate]="statement.EffectiveDate"
               [graphicsColors]="statement.Settings.Colors"
+              [showInformationEffectiveDate]="statement.Settings.DisplaySettings?.ShowInformationEffectiveDate"
               (onDateChange)="handleEffectiveDateChange($event)">
             </pf-trs-effective-date-control>
 

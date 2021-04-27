@@ -49,13 +49,21 @@
         formControlName="CountryCode"
         [style.width.px]="238"
         [data]="(countries$ | async)?.obj"
-        [valueField]="'Value'"
-        [textField]="'Value'"
+        [valueField]="'CountryCode'"
+        [textField]="'DisplayName'"
         [valuePrimitive]="true"
         [filterable]="true"
         [kendoDropDownFilter]="filterSettings"
         [pfValidatable]="true"
         (valueChange)="handleCountryChange($event)">
+
+        <ng-template kendoDropDownListItemTemplate let-dataItem>
+          <span pfEllipsisActive class="ellipsis-text">{{ dataItem?.DisplayName }}</span>
+        </ng-template>
+        <ng-template kendoDropDownListValueTemplate let-dataItem>
+          <span pfEllipsisActive class="ellipsis-text">{{ dataItem?.DisplayName }}</span>
+        </ng-template>
+
       </kendo-dropdownlist>
     </div>
     <label class="col-2 col-form-label">Linked Pay Market Adj.</label>
@@ -93,6 +101,14 @@
         [filterable]="true"
         [kendoDropDownFilter]="filterSettings"
         [pfValidatable]="true">
+
+        <ng-template kendoDropDownListItemTemplate let-dataItem>
+          <span pfEllipsisActive class="ellipsis-text">{{ dataItem?.Name }}</span>
+        </ng-template>
+        <ng-template kendoDropDownListValueTemplate let-dataItem>
+          <span pfEllipsisActive class="ellipsis-text">{{ dataItem?.Name }}</span>
+        </ng-template>
+
       </kendo-dropdownlist>
     </div>
     <div class="col-6 d-flex pl-0" [class.disabled]="!hasLinkedPayMarket">

@@ -26,7 +26,7 @@
   <div class="line graphic circle bottom" pfStatementGraphicsDirective [colors]="graphicsColors" [colorRank]="color.Tertiary" aria-hidden="true"></div>
   <h3 *ngIf="showEmployee" class="employee font-weight-normal p-1">
     <span class="employee-name">{{ employeeName }}</span>
-    <span *ngIf="employeeId">
+    <span *ngIf="showEmployeeId && employeeId">
       (<span class="employee-id">{{ employeeId }}</span>)
     </span>
   </h3>

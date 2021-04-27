@@ -1,6 +1,25 @@
 @import 'colors';
 @import 'total-rewards/app-colors';
 @import 'common/common-variables';
+@import 'libs/styles/ngbootstrap-tabset-overrides';
+
+:host ::ng-deep {
+  .nav-tabs {
+    font-size: 1.2rem;
+    height: 40px
+  }
+
+  @include pf-tabset;
+  .tab-pane {
+    height: 100%;
+  }
+
+  .tab-content {
+    width: 335px;
+    height: 200px;
+    padding: 15px;
+  }
+}
 
 aside.settings-panel {
   top: 176px;
@@ -20,7 +39,8 @@ aside.settings-panel {
     font-size: 1.5rem;
   }
   a.close {
-    font-size: 1.6rem;
+    margin-top: -5px;
+    font-size: 1.25rem;
     transition: opacity .3s ease-out;
   }
   .font-family-container, .font-size-container {

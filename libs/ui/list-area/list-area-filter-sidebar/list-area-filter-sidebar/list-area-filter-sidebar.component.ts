@@ -33,8 +33,8 @@ export class ListAreaFilterSidebarComponent implements OnChanges {
   constructor() {}
 
   ngOnChanges() {
-      this.listAreaColumnCustomAssociatedFilter = this.customListAreaColumns.map(x => this.getFilterByListAreaColumn(x));
-      this.listAreaColumnAssociatedFilter = this.listAreaColumns.map(x => this.getFilterByListAreaColumn(x));
+      this.listAreaColumnCustomAssociatedFilter = this.customListAreaColumns?.map(x => this.getFilterByListAreaColumn(x));
+      this.listAreaColumnAssociatedFilter = this.listAreaColumns?.map(x => this.getFilterByListAreaColumn(x));
   }
 
   getFilterByListAreaColumn(listAreaColumn: ListAreaColumn) {

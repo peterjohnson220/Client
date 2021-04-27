@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { select, Action, Store } from '@ngrx/store';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { map, catchError, switchMap, concatMap, mergeMap, withLatestFrom } from 'rxjs/operators';
+import { map, catchError, switchMap, concatMap, mergeMap, withLatestFrom, tap } from 'rxjs/operators';
 
 import { TotalRewardsApiService } from 'libs/data/payfactors-api/total-rewards';
 import { StatementListResponse } from 'libs/models/payfactors-api/total-rewards/response';
@@ -13,6 +13,8 @@ import { StatementListViewModel } from 'libs/features/total-rewards/total-reward
 
 import * as fromStatementGridActions from '../actions/statement-grid.actions';
 import * as fromTotalRewardsReducer from '../reducers';
+import * as fromTemplateSelectorActions from '../actions/template-selector.actions';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class StatementGridEffects {
@@ -74,8 +76,35 @@ export class StatementGridEffects {
       )
     ));
 
+  @Effect()
+  copyStatement$: Observable<Action> = this.actions$.pipe(
+    ofType(fromStatementGridActions.COPY_STATEMENT),
+    withLatestFrom(
+      this.store.pipe(
+        select(fromTotalRewardsReducer.getStatementsOpenActionMenuStatement)),
+        (action, statement: StatementListViewModel) => statement.Id
+    ),
+    concatMap((statementId: string) => this.totalRewardsApiService.copyStatement(statementId).pipe(
+      mergeMap((statementId: string) => [
+        new fromStatementGridActions.CloseCopyStatement(),
+        new fromStatementGridActions.CopyStatementSuccess({ statementId })
+      ]),
+      catchError(() => of(new fromStatementGridActions.CopyStatementError()))
+    ))
+  );
+
+  @Effect({ dispatch: false })
+  navigateToCopiedStatement$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromStatementGridActions.COPY_STATEMENT_SUCCESS),
+      tap((action: fromStatementGridActions.CopyStatementSuccess) => {
+        this.router.navigate(['statement/edit', action.payload.statementId]);
+      })
+    );
+
   constructor(
     private store: Store<fromTotalRewardsReducer.State>,
     private actions$: Actions,
-    private totalRewardsApiService: TotalRewardsApiService) {}
+    private totalRewardsApiService: TotalRewardsApiService,
+    private router: Router) {}
 }

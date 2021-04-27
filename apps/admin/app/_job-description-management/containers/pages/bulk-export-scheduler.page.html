@@ -21,6 +21,9 @@
           </div>
           <div class="col-sm-12 col-md-6">
             <h4>Saved Schedules</h4>
+            <div *ngIf="filteredSchedules.length === 0">
+              <h5 class="pl-3">No saved schedules</h5>
+            </div>
             <pf-bulk-export-schedules-list [views]="views$ | async"
                                            [schedules]="filteredSchedules">
             </pf-bulk-export-schedules-list>

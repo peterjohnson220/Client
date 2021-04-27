@@ -32,7 +32,7 @@ export function reducer(state = initialState, action: fromCompanyFlsaStatusActio
         ...state,
         loadingCompanyFlsaStatuses: false,
         loadingCompanyFlsaStatusesError: false,
-        companyFlsaStatuses: cloneDeep(action.payload)
+        companyFlsaStatuses: cloneDeep(action.payload.filter(e => e.length > 0))
       };
     default:
       return state;
