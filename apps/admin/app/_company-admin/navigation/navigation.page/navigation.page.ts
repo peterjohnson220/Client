@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 import * as fromNavigationActions from 'libs/features/infrastructure/admin-navigation-links/actions/navigation.actions';
 import * as fromNavigationViewReducer from 'libs/features/infrastructure/admin-navigation-links/reducers';

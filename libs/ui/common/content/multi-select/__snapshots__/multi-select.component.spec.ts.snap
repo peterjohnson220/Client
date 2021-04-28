@@ -2,7 +2,7 @@
 
 exports[`UI/Common/Content - Multi Select should hide checkbox panel when not expanded 1`] = `
 <pf-multi-select
-  clearSelectionsClick={[Function EventEmitter]}
+  clearSelectionsClick={[Function EventEmitter_]}
   disabled="false"
   disabledMessage=""
   displayNamePreview="false"
@@ -11,11 +11,11 @@ exports[`UI/Common/Content - Multi Select should hide checkbox panel when not ex
   isLoading="false"
   remoteDataSourceService={[Function RemoteDataSourceService]}
   searchTerm=""
-  selectFacadeClick={[Function EventEmitter]}
+  selectFacadeClick={[Function EventEmitter_]}
   selectedOptions={[Function Array]}
-  selectedOptionsChange={[Function EventEmitter]}
+  selectedOptionsChange={[Function EventEmitter_]}
   selectedValues={[Function Array]}
-  selectedValuesChange={[Function EventEmitter]}
+  selectedValuesChange={[Function EventEmitter_]}
   textField={[Function String]}
   tooltipDir="undefined"
   valueField={[Function String]}
@@ -54,7 +54,7 @@ exports[`UI/Common/Content - Multi Select should hide checkbox panel when not ex
 
 exports[`UI/Common/Content - Multi Select should hide the loading indicator when not loading 1`] = `
 <pf-multi-select
-  clearSelectionsClick={[Function EventEmitter]}
+  clearSelectionsClick={[Function EventEmitter_]}
   disabled="false"
   disabledMessage=""
   displayNamePreview="false"
@@ -63,11 +63,11 @@ exports[`UI/Common/Content - Multi Select should hide the loading indicator when
   isLoading="false"
   remoteDataSourceService={[Function RemoteDataSourceService]}
   searchTerm=""
-  selectFacadeClick={[Function EventEmitter]}
+  selectFacadeClick={[Function EventEmitter_]}
   selectedOptions={[Function Array]}
-  selectedOptionsChange={[Function EventEmitter]}
+  selectedOptionsChange={[Function EventEmitter_]}
   selectedValues={[Function Array]}
-  selectedValuesChange={[Function EventEmitter]}
+  selectedValuesChange={[Function EventEmitter_]}
   textField={[Function String]}
   tooltipDir="undefined"
   valueField={[Function String]}
@@ -180,7 +180,7 @@ exports[`UI/Common/Content - Multi Select should hide the loading indicator when
 
 exports[`UI/Common/Content - Multi Select should render its options when expanded 1`] = `
 <pf-multi-select
-  clearSelectionsClick={[Function EventEmitter]}
+  clearSelectionsClick={[Function EventEmitter_]}
   disabled="false"
   disabledMessage=""
   displayNamePreview="false"
@@ -190,11 +190,11 @@ exports[`UI/Common/Content - Multi Select should render its options when expande
   options={[Function Array]}
   remoteDataSourceService={[Function RemoteDataSourceService]}
   searchTerm=""
-  selectFacadeClick={[Function EventEmitter]}
+  selectFacadeClick={[Function EventEmitter_]}
   selectedOptions={[Function Array]}
-  selectedOptionsChange={[Function EventEmitter]}
+  selectedOptionsChange={[Function EventEmitter_]}
   selectedValues={[Function Array]}
-  selectedValuesChange={[Function EventEmitter]}
+  selectedValuesChange={[Function EventEmitter_]}
   textField={[Function String]}
   tooltipDir="undefined"
   valueField={[Function String]}
@@ -302,7 +302,7 @@ exports[`UI/Common/Content - Multi Select should render its options when expande
 
 exports[`UI/Common/Content - Multi Select should render the correct primary label text 1`] = `
 <pf-multi-select
-  clearSelectionsClick={[Function EventEmitter]}
+  clearSelectionsClick={[Function EventEmitter_]}
   disabled="false"
   disabledMessage=""
   displayNamePreview="false"
@@ -312,11 +312,11 @@ exports[`UI/Common/Content - Multi Select should render the correct primary labe
   labelText={[Function String]}
   remoteDataSourceService={[Function RemoteDataSourceService]}
   searchTerm=""
-  selectFacadeClick={[Function EventEmitter]}
+  selectFacadeClick={[Function EventEmitter_]}
   selectedOptions={[Function Array]}
-  selectedOptionsChange={[Function EventEmitter]}
+  selectedOptionsChange={[Function EventEmitter_]}
   selectedValues={[Function Array]}
-  selectedValuesChange={[Function EventEmitter]}
+  selectedValuesChange={[Function EventEmitter_]}
   textField={[Function String]}
   tooltipDir="undefined"
   valueField={[Function String]}
@@ -360,7 +360,7 @@ exports[`UI/Common/Content - Multi Select should render the correct primary labe
 
 exports[`UI/Common/Content - Multi Select should show the checkbox panel when expanded 1`] = `
 <pf-multi-select
-  clearSelectionsClick={[Function EventEmitter]}
+  clearSelectionsClick={[Function EventEmitter_]}
   disabled="false"
   disabledMessage=""
   displayNamePreview="false"
@@ -369,11 +369,11 @@ exports[`UI/Common/Content - Multi Select should show the checkbox panel when ex
   isLoading="false"
   remoteDataSourceService={[Function RemoteDataSourceService]}
   searchTerm=""
-  selectFacadeClick={[Function EventEmitter]}
+  selectFacadeClick={[Function EventEmitter_]}
   selectedOptions={[Function Array]}
-  selectedOptionsChange={[Function EventEmitter]}
+  selectedOptionsChange={[Function EventEmitter_]}
   selectedValues={[Function Array]}
-  selectedValuesChange={[Function EventEmitter]}
+  selectedValuesChange={[Function EventEmitter_]}
   textField={[Function String]}
   tooltipDir="undefined"
   valueField={[Function String]}
@@ -486,7 +486,7 @@ exports[`UI/Common/Content - Multi Select should show the checkbox panel when ex
 
 exports[`UI/Common/Content - Multi Select should show the loading indicator when loading 1`] = `
 <pf-multi-select
-  clearSelectionsClick={[Function EventEmitter]}
+  clearSelectionsClick={[Function EventEmitter_]}
   disabled="false"
   disabledMessage=""
   displayNamePreview="false"
@@ -495,11 +495,11 @@ exports[`UI/Common/Content - Multi Select should show the loading indicator when
   isLoading={[Function Boolean]}
   remoteDataSourceService={[Function RemoteDataSourceService]}
   searchTerm=""
-  selectFacadeClick={[Function EventEmitter]}
+  selectFacadeClick={[Function EventEmitter_]}
   selectedOptions={[Function Array]}
-  selectedOptionsChange={[Function EventEmitter]}
+  selectedOptionsChange={[Function EventEmitter_]}
   selectedValues={[Function Array]}
-  selectedValuesChange={[Function EventEmitter]}
+  selectedValuesChange={[Function EventEmitter_]}
   textField={[Function String]}
   tooltipDir="undefined"
   valueField={[Function String]}

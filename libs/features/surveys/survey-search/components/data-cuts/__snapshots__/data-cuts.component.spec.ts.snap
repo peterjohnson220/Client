@@ -2,14 +2,14 @@
 
 exports[`Project - Survey Search - Data Cuts should display Scope, Country and Weight 1`] = `
 <pf-data-cuts
-  customizeInPeerClicked={[Function EventEmitter]}
-  dataCutSelected={[Function EventEmitter]}
+  customizeInPeerClicked={[Function EventEmitter_]}
+  dataCutSelected={[Function EventEmitter_]}
   dataCuts={[Function Array]}
   job={[Function Object]}
-  matchesMouseEnter={[Function EventEmitter]}
-  matchesMouseLeave={[Function EventEmitter]}
+  matchesMouseEnter={[Function EventEmitter_]}
+  matchesMouseLeave={[Function EventEmitter_]}
   matchesMouseLeaveTimeout={[Function Number]}
-  payFactorsCutSelected={[Function EventEmitter]}
+  payFactorsCutSelected={[Function EventEmitter_]}
   surveySearchResultDataSources={[Function Object]}
 >
   <div
@@ -144,16 +144,16 @@ exports[`Project - Survey Search - Data Cuts should display Scope, Country and W
 
 exports[`Project - Survey Search - Data Cuts should display singular drag cuts message if single cut selected 1`] = `
 <pf-data-cuts
-  customizeInPeerClicked={[Function EventEmitter]}
+  customizeInPeerClicked={[Function EventEmitter_]}
   cutsDraggable="false"
-  dataCutSelected={[Function EventEmitter]}
+  dataCutSelected={[Function EventEmitter_]}
   dataCuts={[Function Array]}
   job={[Function Object]}
-  matchesMouseEnter={[Function EventEmitter]}
-  matchesMouseLeave={[Function EventEmitter]}
+  matchesMouseEnter={[Function EventEmitter_]}
+  matchesMouseLeave={[Function EventEmitter_]}
   matchesMouseLeaveTimeout={[Function Number]}
   numberCutsSelected={[Function Number]}
-  payFactorsCutSelected={[Function EventEmitter]}
+  payFactorsCutSelected={[Function EventEmitter_]}
   surveySearchResultDataSources={[Function Object]}
 >
   <div
@@ -290,14 +290,14 @@ exports[`Project - Survey Search - Data Cuts should display singular drag cuts m
 
 exports[`Project - Survey Search - Data Cuts should handle empty currency fields 1`] = `
 <pf-data-cuts
-  customizeInPeerClicked={[Function EventEmitter]}
-  dataCutSelected={[Function EventEmitter]}
+  customizeInPeerClicked={[Function EventEmitter_]}
+  dataCutSelected={[Function EventEmitter_]}
   dataCuts={[Function Array]}
   job={[Function Object]}
-  matchesMouseEnter={[Function EventEmitter]}
-  matchesMouseLeave={[Function EventEmitter]}
+  matchesMouseEnter={[Function EventEmitter_]}
+  matchesMouseLeave={[Function EventEmitter_]}
   matchesMouseLeaveTimeout={[Function Number]}
-  payFactorsCutSelected={[Function EventEmitter]}
+  payFactorsCutSelected={[Function EventEmitter_]}
   surveySearchResultDataSources={[Function Object]}
 >
   <div
@@ -432,15 +432,15 @@ exports[`Project - Survey Search - Data Cuts should handle empty currency fields
 
 exports[`Project - Survey Search - Data Cuts should have a draggable class if cuts draggable and cut is selected 1`] = `
 <pf-data-cuts
-  customizeInPeerClicked={[Function EventEmitter]}
+  customizeInPeerClicked={[Function EventEmitter_]}
   cutsDraggable={[Function Boolean]}
-  dataCutSelected={[Function EventEmitter]}
+  dataCutSelected={[Function EventEmitter_]}
   dataCuts={[Function Array]}
   job={[Function Object]}
-  matchesMouseEnter={[Function EventEmitter]}
-  matchesMouseLeave={[Function EventEmitter]}
+  matchesMouseEnter={[Function EventEmitter_]}
+  matchesMouseLeave={[Function EventEmitter_]}
   matchesMouseLeaveTimeout={[Function Number]}
-  payFactorsCutSelected={[Function EventEmitter]}
+  payFactorsCutSelected={[Function EventEmitter_]}
   surveySearchResultDataSources={[Function Object]}
 >
   <div
@@ -571,15 +571,15 @@ exports[`Project - Survey Search - Data Cuts should have a draggable class if cu
 
 exports[`Project - Survey Search - Data Cuts should not have a draggable class if cuts draggable and cut is not selected 1`] = `
 <pf-data-cuts
-  customizeInPeerClicked={[Function EventEmitter]}
+  customizeInPeerClicked={[Function EventEmitter_]}
   cutsDraggable={[Function Boolean]}
-  dataCutSelected={[Function EventEmitter]}
+  dataCutSelected={[Function EventEmitter_]}
   dataCuts={[Function Array]}
   job={[Function Object]}
-  matchesMouseEnter={[Function EventEmitter]}
-  matchesMouseLeave={[Function EventEmitter]}
+  matchesMouseEnter={[Function EventEmitter_]}
+  matchesMouseLeave={[Function EventEmitter_]}
   matchesMouseLeaveTimeout={[Function Number]}
-  payFactorsCutSelected={[Function EventEmitter]}
+  payFactorsCutSelected={[Function EventEmitter_]}
   surveySearchResultDataSources={[Function Object]}
 >
   <div
@@ -708,15 +708,15 @@ exports[`Project - Survey Search - Data Cuts should not have a draggable class i
 
 exports[`Project - Survey Search - Data Cuts should not have a draggable class if cuts not draggable and cut is selected 1`] = `
 <pf-data-cuts
-  customizeInPeerClicked={[Function EventEmitter]}
+  customizeInPeerClicked={[Function EventEmitter_]}
   cutsDraggable="false"
-  dataCutSelected={[Function EventEmitter]}
+  dataCutSelected={[Function EventEmitter_]}
   dataCuts={[Function Array]}
   job={[Function Object]}
-  matchesMouseEnter={[Function EventEmitter]}
-  matchesMouseLeave={[Function EventEmitter]}
+  matchesMouseEnter={[Function EventEmitter_]}
+  matchesMouseLeave={[Function EventEmitter_]}
   matchesMouseLeaveTimeout={[Function Number]}
-  payFactorsCutSelected={[Function EventEmitter]}
+  payFactorsCutSelected={[Function EventEmitter_]}
   surveySearchResultDataSources={[Function Object]}
 >
   <div
@@ -853,16 +853,16 @@ exports[`Project - Survey Search - Data Cuts should not have a draggable class i
 
 exports[`Project - Survey Search - Data Cuts should pluralize drag cuts message if multiple data cuts selected 1`] = `
 <pf-data-cuts
-  customizeInPeerClicked={[Function EventEmitter]}
+  customizeInPeerClicked={[Function EventEmitter_]}
   cutsDraggable="false"
-  dataCutSelected={[Function EventEmitter]}
+  dataCutSelected={[Function EventEmitter_]}
   dataCuts={[Function Array]}
   job={[Function Object]}
-  matchesMouseEnter={[Function EventEmitter]}
-  matchesMouseLeave={[Function EventEmitter]}
+  matchesMouseEnter={[Function EventEmitter_]}
+  matchesMouseLeave={[Function EventEmitter_]}
   matchesMouseLeaveTimeout={[Function Number]}
   numberCutsSelected={[Function Number]}
-  payFactorsCutSelected={[Function EventEmitter]}
+  payFactorsCutSelected={[Function EventEmitter_]}
   surveySearchResultDataSources={[Function Object]}
 >
   <div
@@ -1002,14 +1002,14 @@ exports[`Project - Survey Search - Data Cuts should pluralize drag cuts message 
 exports[`Project - Survey Search - Data Cuts should show a message when there is no data cuts 1`] = `
 <pf-data-cuts
   currencyCode=""
-  customizeInPeerClicked={[Function EventEmitter]}
-  dataCutSelected={[Function EventEmitter]}
+  customizeInPeerClicked={[Function EventEmitter_]}
+  dataCutSelected={[Function EventEmitter_]}
   dataCuts={[Function Array]}
   job={[Function Object]}
-  matchesMouseEnter={[Function EventEmitter]}
-  matchesMouseLeave={[Function EventEmitter]}
+  matchesMouseEnter={[Function EventEmitter_]}
+  matchesMouseLeave={[Function EventEmitter_]}
   matchesMouseLeaveTimeout={[Function Number]}
-  payFactorsCutSelected={[Function EventEmitter]}
+  payFactorsCutSelected={[Function EventEmitter_]}
   surveySearchResultDataSources={[Function Object]}
 >
   <div
@@ -1035,14 +1035,14 @@ exports[`Project - Survey Search - Data Cuts should show a message when there is
 
 exports[`Project - Survey Search - Data Cuts should show selected if the data cut has been selected 1`] = `
 <pf-data-cuts
-  customizeInPeerClicked={[Function EventEmitter]}
-  dataCutSelected={[Function EventEmitter]}
+  customizeInPeerClicked={[Function EventEmitter_]}
+  dataCutSelected={[Function EventEmitter_]}
   dataCuts={[Function Array]}
   job={[Function Object]}
-  matchesMouseEnter={[Function EventEmitter]}
-  matchesMouseLeave={[Function EventEmitter]}
+  matchesMouseEnter={[Function EventEmitter_]}
+  matchesMouseLeave={[Function EventEmitter_]}
   matchesMouseLeaveTimeout={[Function Number]}
-  payFactorsCutSelected={[Function EventEmitter]}
+  payFactorsCutSelected={[Function EventEmitter_]}
   surveySearchResultDataSources={[Function Object]}
 >
   <div

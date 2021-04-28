@@ -1,5 +1,5 @@
 import {Router} from '@angular/router';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/compiler/src/core';
 import { Store } from '@ngrx/store';
 import {MockStore, provideMockStore} from '@ngrx/store/testing';
@@ -16,7 +16,7 @@ describe('ResetIntegrationPageComponent', () => {
 
   const initialState = { data_management: { hrisConnection: fromHrisConnectionReducer.initialState } };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       providers: [
         provideMockStore({ initialState }),

@@ -27,6 +27,6 @@ export class OnDemandSyncHrisApiService {
       throw new Error('Configuration error: Missing utilities subdomain configuration');
     }
 
-    return `https://${utilitiesSubDomainConfig.Value}.payfactors.com/hris-api/`;
+    return `//${utilitiesSubDomainConfig.Value}.payfactors.com/hris-api/`;
   }
 }

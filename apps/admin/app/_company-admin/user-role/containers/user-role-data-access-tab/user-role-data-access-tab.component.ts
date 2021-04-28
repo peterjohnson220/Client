@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { DataType, RoleDataRestriction, UserAssignedRole } from 'libs/models/security/roles';
 import * as fromRoleDataTabActions from '../../actions/data-access-tab.action';
 import * as userRoleReducer from '../../reducers';

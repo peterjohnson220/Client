@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { Store, StoreModule } from '@ngrx/store';
@@ -16,7 +16,7 @@ describe('EmailRecipientsComponent', () => {
   let fixture: ComponentFixture<EmailRecipientsComponent>;
   let store: Store<any>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({

@@ -4,8 +4,8 @@ exports[`Project - Structures - JobToGrade Component should display error messag
 <pf-job-to-grade
   grade={[Function Object]}
   hideJobsLabel={[Function String]}
-  jobDeleted={[Function EventEmitter]}
-  loadJobs={[Function EventEmitter]}
+  jobDeleted={[Function EventEmitter_]}
+  loadJobs={[Function EventEmitter_]}
   rangeDistributionTypeEnum={[Function Object]}
   showJobs={[Function Boolean]}
   showJobsLabel={[Function String]}
@@ -94,8 +94,8 @@ exports[`Project - Structures - JobToGrade Component should display grade, min/m
 <pf-job-to-grade
   grade={[Function Object]}
   hideJobsLabel={[Function String]}
-  jobDeleted={[Function EventEmitter]}
-  loadJobs={[Function EventEmitter]}
+  jobDeleted={[Function EventEmitter_]}
+  loadJobs={[Function EventEmitter_]}
   rangeDistributionTypeEnum={[Function Object]}
   showJobsLabel={[Function String]}
   toggleJobsLabel={[Function String]}
@@ -169,8 +169,8 @@ exports[`Project - Structures - JobToGrade Component should display jobs when jo
 <pf-job-to-grade
   grade={[Function Object]}
   hideJobsLabel={[Function String]}
-  jobDeleted={[Function EventEmitter]}
-  loadJobs={[Function EventEmitter]}
+  jobDeleted={[Function EventEmitter_]}
+  loadJobs={[Function EventEmitter_]}
   rangeDistributionTypeEnum={[Function Object]}
   showJobs={[Function Boolean]}
   showJobsLabel={[Function String]}
@@ -288,8 +288,8 @@ exports[`Project - Structures - JobToGrade Component should display loading mess
 <pf-job-to-grade
   grade={[Function Object]}
   hideJobsLabel={[Function String]}
-  jobDeleted={[Function EventEmitter]}
-  loadJobs={[Function EventEmitter]}
+  jobDeleted={[Function EventEmitter_]}
+  loadJobs={[Function EventEmitter_]}
   rangeDistributionTypeEnum={[Function Object]}
   showJobs={[Function Boolean]}
   showJobsLabel={[Function String]}
@@ -370,8 +370,8 @@ exports[`Project - Structures - JobToGrade Component should display with 2 decim
 <pf-job-to-grade
   grade={[Function Object]}
   hideJobsLabel={[Function String]}
-  jobDeleted={[Function EventEmitter]}
-  loadJobs={[Function EventEmitter]}
+  jobDeleted={[Function EventEmitter_]}
+  loadJobs={[Function EventEmitter_]}
   rangeDistributionTypeEnum={[Function Object]}
   rate={[Function String]}
   showJobs={[Function Boolean]}
@@ -490,8 +490,8 @@ exports[`Project - Structures - JobToGrade Component should show jobs when toggl
 <pf-job-to-grade
   grade={[Function Object]}
   hideJobsLabel={[Function String]}
-  jobDeleted={[Function EventEmitter]}
-  loadJobs={[Function EventEmitter]}
+  jobDeleted={[Function EventEmitter_]}
+  loadJobs={[Function EventEmitter_]}
   rangeDistributionTypeEnum={[Function Object]}
   showJobs={[Function Boolean]}
   showJobsLabel={[Function String]}

@@ -6,7 +6,7 @@ exports[`Admin - Peer - Editable Tag Category Display Name should match snapshot
   errorSaving$={[Function Observable]}
   fb={[Function FormBuilder]}
   isSaving="false"
-  onSave={[Function EventEmitter]}
+  onSave={[Function EventEmitter_]}
   saving$={[Function Observable]}
   savingSubscription={[Function Subscriber]}
   value={[Function String]}
@@ -34,7 +34,7 @@ exports[`Admin - Peer - Editable Tag Category Display Name should show edit form
   fb={[Function FormBuilder]}
   isEditing={[Function Boolean]}
   isSaving="false"
-  onSave={[Function EventEmitter]}
+  onSave={[Function EventEmitter_]}
   saving$={[Function Observable]}
   savingSubscription={[Function Subscriber]}
   value={[Function String]}

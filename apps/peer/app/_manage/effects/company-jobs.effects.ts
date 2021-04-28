@@ -3,8 +3,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 import { Action, select, Store } from '@ngrx/store';
 import { Effect, Actions, ofType } from '@ngrx/effects';
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
+import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap, withLatestFrom, filter, mergeMap } from 'rxjs/operators';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 

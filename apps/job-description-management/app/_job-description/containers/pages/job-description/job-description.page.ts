@@ -2,9 +2,8 @@ import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Store } from '@ngrx/store';
-import { Observable, Subscription, Subject } from 'rxjs';
-import { first } from 'rxjs/operators';
-import 'rxjs/add/observable/combineLatest';
+import { Observable, Subscription, Subject, combineLatest } from 'rxjs';
+import { first, debounceTime, tap } from 'rxjs/operators';
 import cloneDeep from 'lodash/cloneDeep';
 
 import * as signalR from '@microsoft/signalr';
@@ -514,7 +513,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   }
 
   private initRouterParams(): void {
-    const urlParams = Observable.combineLatest(
+    const urlParams = combineLatest(
       this.route.params,
       this.route.queryParams,
       (params, queryParams) => ({ ...params, queryParams: queryParams })
@@ -664,9 +663,10 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     });
 
     const saveThrottle$ = this.saveThrottle
-      .debounceTime(100)
-      .do(() => this.togglePublishButton(false))
-      .debounceTime(400);
+      .pipe(
+        debounceTime(100),
+        tap(() => this.togglePublishButton(false)),
+        debounceTime(400));
 
     this.saveThrottleSubscription = saveThrottle$.subscribe(save => {
       if (!this.saving) {

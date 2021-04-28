@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 import { ValidationResultItem } from 'libs/models/common';
 import { Company } from 'libs/models/company/company.model';
@@ -11,7 +11,7 @@ import { ValidateStepResultItem } from 'libs/models/jdm/validation-step-result-i
 
 import * as fromUtilitiesReducer from '../../../reducers';
 import * as fromTemplateListReducer from 'libs/features/jobs/job-description-management/reducers';
-import * as fromJobDescriptionLoaderActions from '../../../actions/job-description-loader.actions.js';
+import * as fromJobDescriptionLoaderActions from '../../../actions/job-description-loader.actions';
 import { ConfirmDeleteJobDescriptionsModalComponent } from '../../../components/confirm-delete-job-descriptions-modal';
 
 @Component({

@@ -1,31 +1,37 @@
 <div class="d-flex justify-content-between">
   <div class="job-info-container">
+
     <h5>{{jobMatchResult.JobTitle}} <small class="text-muted">({{jobMatchResult.JobCode}})</small></h5>
 
-    <ng-container *ngIf="jobMatchResult.IsSurvey; else payfactorsLabel">
-      <div class="text-muted">{{jobMatchResult.SurveyPublisher}}</div>
+    <ng-container [ngSwitch]="jobMatchResult.JobType">
+      <ng-container *ngSwitchCase="0">
+        <div class="text-muted">{{jobMatchResult.SurveyPublisher}}</div>
 
-      <div class="text-muted">
-        {{jobMatchResult.SurveyName}} effective {{jobMatchResult.EffectiveDate}}
-      </div>
+        <div class="text-muted">
+          {{jobMatchResult.SurveyName}} effective {{jobMatchResult.EffectiveDate}}
+        </div>
+      </ng-container>
+      <ng-container *ngSwitchCase="1">
+        <div class="text-muted">Payfactors</div>
+      </ng-container>
+      <ng-container *ngSwitchCase="2">
+        <div class="text-muted">Exchange Job</div>
+      </ng-container>
     </ng-container>
 
-    <ng-template #payfactorsLabel>
-      <div class="text-muted">Payfactors</div>
-    </ng-template>
   </div>
 
   <div class="signal-container d-flex justify-content-between" [attr.title]="jobMatchResult.WeightedScore"
-    [class.strength-2]="jobMatchResult.WeightedScore > 30 && jobMatchResult.WeightedScore < 50"
-    [class.strength-3]="jobMatchResult.WeightedScore > 50 && jobMatchResult.WeightedScore < 70"
-    [class.strength-4]="jobMatchResult.WeightedScore > 70">
+    [class.strength-2]="jobMatchResult.WeightedScore >= 31 && jobMatchResult.WeightedScore <= 50"
+    [class.strength-3]="jobMatchResult.WeightedScore >= 51 && jobMatchResult.WeightedScore <= 70"
+    [class.strength-4]="jobMatchResult.WeightedScore >= 71">
     <span><fa-icon icon="square" class="solid-square" aria-hidden="true"></fa-icon></span>
-    <span *ngIf="jobMatchResult.WeightedScore > 30"><fa-icon icon="square" class="solid-square" aria-hidden="true"></fa-icon></span>
-    <span *ngIf="jobMatchResult.WeightedScore < 30"><fa-icon [icon]="['far', 'square']" class="outline-square"></fa-icon></span>
-    <span *ngIf="jobMatchResult.WeightedScore > 50"><fa-icon icon="square" class="solid-square" aria-hidden="true"></fa-icon></span>
-    <span *ngIf="jobMatchResult.WeightedScore < 50"><fa-icon [icon]="['far', 'square']" class="outline-square"></fa-icon></span>
-    <span *ngIf="jobMatchResult.WeightedScore > 70"><fa-icon icon="square" class="solid-square" aria-hidden="true"></fa-icon></span>
-    <span *ngIf="jobMatchResult.WeightedScore < 70"><fa-icon [icon]="['far', 'square']" class="outline-square"></fa-icon></span>
+    <span *ngIf="jobMatchResult.WeightedScore >= 31"><fa-icon icon="square" class="solid-square" aria-hidden="true"></fa-icon></span>
+    <span *ngIf="jobMatchResult.WeightedScore <= 30"><fa-icon [icon]="['far', 'square']" class="outline-square"></fa-icon></span>
+    <span *ngIf="jobMatchResult.WeightedScore >= 51"><fa-icon icon="square" class="solid-square" aria-hidden="true"></fa-icon></span>
+    <span *ngIf="jobMatchResult.WeightedScore <= 50"><fa-icon [icon]="['far', 'square']" class="outline-square"></fa-icon></span>
+    <span *ngIf="jobMatchResult.WeightedScore >= 71"><fa-icon icon="square" class="solid-square" aria-hidden="true"></fa-icon></span>
+    <span *ngIf="jobMatchResult.WeightedScore <= 70"><fa-icon [icon]="['far', 'square']" class="outline-square"></fa-icon></span>
   </div>
 </div>
 <div class="job-description-container">
