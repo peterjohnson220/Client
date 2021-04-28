@@ -32,7 +32,7 @@
     [title]="(metaData$ | async)?.IsCurrent ? (metaData$ | async)?.StructureName : (metaData$ | async)?.ModelName"
     [subtitle]="(metaData$ | async)?.IsCurrent ? '' : 'Structure: ' + (metaData$ | async)?.StructureName"
     [navigationURL]="'/marketdata/structures.asp'"
-    [inboundFilters]="dataCutFilter"
+    [inboundFilters]="filter"
     [pageViewId]="pageViewId"
     [gridContainerSplitViewWidth]="'60%'"
     [applyDefaultFilters]="false"

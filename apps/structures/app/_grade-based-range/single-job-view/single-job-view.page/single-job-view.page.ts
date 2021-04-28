@@ -48,7 +48,6 @@ export class SingleJobViewPageComponent implements OnInit, AfterViewInit, OnDest
   employeesPageViewId: string;
   dataCutsPageViewId: string;
   filter: PfDataGridFilter[];
-  dataCutFilter: PfDataGridFilter[];
   actionBarConfig: ActionBarConfig;
   singleRecordActionBarConfig: ActionBarConfig;
   gridConfig: GridConfig;
@@ -65,6 +64,7 @@ export class SingleJobViewPageComponent implements OnInit, AfterViewInit, OnDest
   rangeGroupId: string;
   fromJobsView: boolean;
   pricingId: string;
+  companyJobId: string;
 
   constructor(
     public store: Store<fromSharedStructuresReducer.State>,
@@ -84,6 +84,7 @@ export class SingleJobViewPageComponent implements OnInit, AfterViewInit, OnDest
     this.rangeId = this.queryParams?.rangeId;
     this.rangeGroupId = this.router.url.split('/')[2];
     this.fromJobsView = this.queryParams?.jobsView === 'true' ? true : false;
+    this.companyJobId = this.activatedRoute.snapshot.params.id;
 
     this.dataSubscription = this.store.select(fromPfGridReducer.getData, this.jobPageViewId).subscribe(data => {
       if (data && this.rangeId) {
@@ -103,7 +104,7 @@ export class SingleJobViewPageComponent implements OnInit, AfterViewInit, OnDest
       {
         SourceName: 'CompanyJobId',
         Operator: '=',
-        Values: [this.activatedRoute.snapshot.params.id]
+        Values: [this.companyJobId]
       }
     ];
 
@@ -163,19 +164,8 @@ export class SingleJobViewPageComponent implements OnInit, AfterViewInit, OnDest
 
   onDataCutsClicked() {
     this.store.dispatch(new fromPfDataGridActions.SetFilterPanelDisplay(this.pageViewId, false));
-    this.dataCutFilter = [
-      {
-        SourceName: 'CompanyJobPricing_ID',
-        Operator: '=',
-        Values: [this.pricingId]
-      }
-    ];
     this.activeTab = 'DataCuts';
     this.pageViewId = this.dataCutsPageViewId;
-
-    // Update inbound filters
-    this.store.dispatch(new fromPfDataGridActions.UpdateInboundFilters(this.pageViewId, this.dataCutFilter));
-
     return false;
   }
 
