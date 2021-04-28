@@ -171,8 +171,7 @@ export class ExchangeScopeSelectorComponent implements OnInit, OnDestroy {
     // Select the default exchange scope once the scopes have loaded
     combineLatest([selectedExchangeScopeItem$, this.exchangeScopeItems$, defaultExchangeScopeId$])
       .pipe(
-        filter(([selected, items, defaultId]) => !!defaultId && !this.defaultScopeToggled),
-        take(1)
+        filter(([selected, items, defaultId]) => !!defaultId && !this.defaultScopeToggled)
       ).subscribe(([selected, items, defaultId]) => {
       if (!selected && !!items && items.length && !!defaultId) {
         const defaultExchangeScopeItem = items.find(i => i.ExchangeScopeId === defaultId);
