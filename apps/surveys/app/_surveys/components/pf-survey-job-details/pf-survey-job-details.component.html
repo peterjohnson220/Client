@@ -1,0 +1,16 @@
+<div (click)="toggleJobDetails()" class="px-3 pb-3 btn btn-link">{{buttonText}}</div>
+<div class="px-3 pb-3" *ngIf="showJobDetails">
+  <div>
+    <span>Family: {{surveyJobDetails.JobFamily}} </span>
+    <span class="job-level-padding">Level: {{surveyJobDetails.LevelCode}} </span>
+  </div>
+  <div class="job-description-container">
+    <div *ngIf="surveyJobDetails.JobDescription else noJobDescription">
+      {{surveyJobDetails.JobDescription}}
+      <div class="btn-link" toolTipText="Copy Job Description" (click)="copyJobDescription(surveyJobDetails.JobDescription)">Copy</div>
+    </div>
+    <ng-template #noJobDescription>
+      <span>No job description</span>
+    </ng-template>
+  </div>
+</div>
