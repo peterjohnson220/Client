@@ -174,6 +174,20 @@ export class SharedEffects {
               } else {
                 actions.push(new fromModelSettingsModalActions.ClearModelNameExistsFailure());
                 actions.push(new fromModelSettingsModalActions.CloseModal());
+
+                if (data.metadata.IsCurrent) {
+                  this.router.navigate(['grade/' + r.RangeGroup.CompanyStructuresRangeGroupId]);
+
+                  actions.push(new fromNotificationActions.AddNotification({
+                    EnableHtml: true,
+                    From: NotificationSource.GenericNotificationMessage,
+                    Level: NotificationLevel.Success,
+                    NotificationId: '',
+                    Payload: { Title: 'Model Created', Message: `Created, ${r.RangeGroup.RangeGroupName}` },
+                    Type: NotificationType.Event
+                  }));
+
+                } else {
                 actions.push(new fromSharedStructuresActions.SetMetadata(
                   PayfactorsApiModelMapper.mapStructuresRangeGroupResponseToRangeGroupMetadata(r.RangeGroup)
                 ));
@@ -182,9 +196,12 @@ export class SharedEffects {
                 const modelPageViewId =
                   PagesHelper.getModelPageViewIdByRangeTypeAndRangeDistributionType(data.metadata.RangeTypeId, data.metadata.RangeDistributionTypeId);
                 actions.push(GridDataHelper.getLoadDataAction(modelPageViewId, data.gridData, data.gridConfig, data.pagingOptions));
-
+                
                 const modelSummaryPageViewId = PagesHelper.getModelSummaryPageViewIdByRangeDistributionType(data.metadata.RangeDistributionTypeId);
                 actions.push(new fromDataGridActions.LoadData(modelSummaryPageViewId));
+
+                }
+
 
                 actions.push(new fromModelSettingsModalActions.SaveGradeBasedModelSettingsSuccess());
                 actions.push(new fromGradeBasedSharedActions.GetGradeRangeDetails(r.RangeGroup.CompanyStructuresRangeGroupId));

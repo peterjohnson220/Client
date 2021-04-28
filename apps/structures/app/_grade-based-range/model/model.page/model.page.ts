@@ -45,6 +45,7 @@ export class ModelPageComponent implements OnInit, OnDestroy {
   hasCanCreateEditModelStructurePermission: boolean;
   gradeRangeDetails: GradeRangeGroupDetails;
   isNewRangeOrCreateModelFlow = false;
+  _Permissions = null;
 
   constructor(
     public store: Store<fromSharedStructuresReducer.State>,
@@ -62,9 +63,12 @@ export class ModelPageComponent implements OnInit, OnDestroy {
       if (this.idParamPresent && this.openAddJobs) {
         this.handleOpenManageModelModalForNewWorkflow();
       }
-
+      this.rangeGroupId = this.route.snapshot.params.id;
+      if(!!this.gradeRangeDetails) {
+        this.gradeRangeDetails.RangeGroupId = this.rangeGroupId;
+      }
     });
-    this.rangeGroupId = this.route.snapshot.params.id;
+
     this.filters = [
       {
         SourceName: 'CompanyStructuresRangeGroup_ID',
@@ -100,6 +104,7 @@ export class ModelPageComponent implements OnInit, OnDestroy {
       }
       this.openAddJobs = open;
     });
+    this._Permissions = Permissions;
   }
 
   openManageModelModal() {

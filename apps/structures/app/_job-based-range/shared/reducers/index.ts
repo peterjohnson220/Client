@@ -7,7 +7,6 @@ import * as fromRoot from 'libs/state/state';
 // Import feature reducers
 import * as fromSharedReducer from './shared.reducer';
 import * as fromModelSettingsModalReducer from '../../../shared/reducers/model-settings-modal.reducer';
-import * as fromPublishModelModalReducer from './publish-model-modal.reducer';
 import * as fromDuplicateModelModalReducer from './duplicate-model-modal.reducer';
 import * as fromFieldsReducer from './fields.reducer';
 import * as fromFormulaFieldReducer from '../../../shared/reducers/formula-field.reducer';
@@ -15,7 +14,6 @@ import * as fromFormulaFieldReducer from '../../../shared/reducers/formula-field
 // Feature area state
 export interface JobBasedRangeSharedState {
   shared: fromSharedReducer.State;
-  publishModelModal: fromPublishModelModalReducer.State;
   duplicateModelModal: fromDuplicateModelModalReducer.State;
   fields: fromFieldsReducer.State;
 }
@@ -28,7 +26,6 @@ export interface State extends fromRoot.State {
 // Feature area reducers
 export const reducers = {
   shared: fromSharedReducer.reducer,
-  publishModelModal: fromPublishModelModalReducer.reducer,
   duplicateModelModal: fromDuplicateModelModalReducer.reducer,
   fields: fromFieldsReducer.reducer,
 };
@@ -42,13 +39,6 @@ export const selectFeatureAreaState =
 export const selectSharedState = createSelector(
   selectFeatureAreaState,
   (state: JobBasedRangeSharedState) => state.shared
-);
-
-
-
-export const selectPublishModelModalState = createSelector(
-  selectFeatureAreaState,
-  (state: JobBasedRangeSharedState) => state.publishModelModal
 );
 
 export const selectDuplicateModelModalState = createSelector(
@@ -68,15 +58,6 @@ export const getRemovingRange = createSelector(selectSharedState, fromSharedRedu
 export const getStructureHasSettings = createSelector(
   selectSharedState,
   fromSharedReducer.getStructureHasSettings
-);
-
-// Publish Model Modal
-export const getPublishModelModalOpen = createSelector(
-  selectPublishModelModalState, fromPublishModelModalReducer.getModalOpen
-);
-
-export const getPublishingModelAsyncObj = createSelector(
-  selectPublishModelModalState, fromPublishModelModalReducer.getPublishingModelAsyncObj
 );
 
 // Duplicate Model Modal
