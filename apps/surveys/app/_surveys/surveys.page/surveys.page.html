@@ -10,7 +10,7 @@
   [filterPanelTemplates]="filterTemplates"
   [customFilterOptions]="customFilterOptions"
   [inboundFilters]="inboundFilters"
-  [expandedRowTemplate]="surveyDataCutsGrid"
+  [expandedRowTemplate]="expandRow"
   [selectionField]="'Survey_Job_ID'"
   [enableRowFade]="true">
 </pf-data-grid>
@@ -30,10 +30,11 @@
   </div>
 </ng-template>
 
-<ng-template #surveyDataCutsGrid let-dataRow="dataRow">
+<ng-template #expandRow let-dataRow="dataRow">
   <div *ngIf="!(loading$ | async)" class="survey-data-cuts-container pt-3 pb-4 px-4">
-    <div class="d-flex justify-content-end px-3 pb-3">
-      <div class="btn-close"
+    <div class="d-flex px-3 pb-3 justify-content-between">
+      <pf-survey-job-details [surveyJobDetails]="dataRow | surveyJobDetails"></pf-survey-job-details>
+      <div class="btn-close float-end"
            (click)="closeExpandedRow('SurveyJob_Survey_Job_ID', dataRow['SurveyJob_Survey_Job_ID'])">
         <fa-icon [icon]="['far', 'times']" size="lg"></fa-icon>
       </div>

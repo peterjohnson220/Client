@@ -18,6 +18,8 @@ import { reducers } from './reducers';
 import { SurveysPageComponent } from './surveys.page/surveys.page';
 import { SurveysRoutingModule } from './surveys-routing.module';
 import { SurveyDataCutsComponent } from './containers';
+import { PfSurveyJobDetailsComponent } from './components/pf-survey-job-details/pf-survey-job-details.component';
+import { SurveyJobDetailsPipe } from './pipes/survey-job-details.pipe';
 
 
 @NgModule({
@@ -46,7 +48,13 @@ import { SurveyDataCutsComponent } from './containers';
     SurveysPageComponent,
 
     // Containers
-    SurveyDataCutsComponent
+    SurveyDataCutsComponent,
+
+    // Components
+    PfSurveyJobDetailsComponent,
+
+    // Pipes
+    SurveyJobDetailsPipe
   ],
   providers: [
     { provide: 'DataViewService', useClass: DataViewApiService }
