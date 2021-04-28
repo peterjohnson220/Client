@@ -56,8 +56,7 @@
         [attr.data-qa-id]="'btn-autoGradeSelectedJobs'"
         [disabled]="(addingData$ | async)
                 || (numberOfJobsSelected === 0)
-                || (addJobsConfig?.enablePaymarkets && !(selectedPaymarkets$ | async)?.length)"
-        *ngIf="false">
+                || (addJobsConfig?.enablePaymarkets && !(selectedPaymarkets$ | async)?.length)">
         Auto Grade Selected Jobs
       </button>
 

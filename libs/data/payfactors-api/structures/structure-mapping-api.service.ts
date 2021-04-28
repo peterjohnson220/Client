@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import {
+  AutoGradeJobsRequestModel,
   SaveCompanyJobStructureMapsRequest, SwitchRegressionFlagsRequest,
 } from 'libs/models/payfactors-api';
 
@@ -29,4 +30,7 @@ export class StructureMappingApiService {
     return this.payfactorsApiService.get<any>(`${this.endpoint}/GetGradesWithJobsCount?rangeGroupId=${rangeGroupId}`);
   }
 
+  autoGradeJobs(request: AutoGradeJobsRequestModel): Observable<any[]> {
+    return this.payfactorsApiService.post<any[]>(`${this.endpoint}/AutoGradeJobs`, request);
+  }
 }

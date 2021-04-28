@@ -58,7 +58,13 @@ exports[`Project - Add Jobs - Structures Page should not display GUI features re
     
     
     <span>
-      
+      <button
+        class="btn btn-link mr-3 auto-grade"
+        data-qa-id="btn-autoGradeSelectedJobs"
+        disabled=""
+      >
+         Auto Grade Selected Jobs 
+      </button>
       <button
         class="btn btn-sm btn-secondary mr-3 clear-selections"
         data-qa-id="btn-clearSelections"
