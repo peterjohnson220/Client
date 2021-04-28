@@ -31,7 +31,7 @@ export class SalaryTrendChartComponent implements OnChanges {
   chart: Highcharts.Chart;
   chartOptions: Highcharts.Options = this.getChartOptions();
 
-  constructor(private datePipe: DatePipe, private currencyPipe: CurrencyPipe, private sanitizer: DomSanitizer) { }
+  constructor(protected datePipe: DatePipe, protected currencyPipe: CurrencyPipe, private sanitizer: DomSanitizer) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes?.salaryTrendData?.currentValue) {

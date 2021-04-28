@@ -1,1 +1,23 @@
-Testing Summary
+<pf-card-layout
+  pageTitle="Summary"
+  pageIconClass="file-alt"
+  [page]="comphubPages.TrendsSummary">
+
+  <ng-container page-content>
+    <div class="row">
+      <div class="col-md-12">
+        <pf-async-container [loading]="(peerTrends$ | async).loading"></pf-async-container>
+        <div *ngIf = "!!jobSalaryTrend && jobSalaryTrend.Data.length > 0 else noResults">
+          <pf-historical-trend-chart
+            [isHourly]="false"
+            [currencyCode]="'USD'"
+            [salaryTrendData]="jobSalaryTrend">
+          </pf-historical-trend-chart>
+        </div>
+        <ng-template #noResults>No history found</ng-template>
+
+      </div>
+    </div>
+  </ng-container>
+
+</pf-card-layout>
