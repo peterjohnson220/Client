@@ -21,6 +21,7 @@ export class SurveyDataCutsComponent implements OnChanges, OnInit, AfterViewInit
 
   @ViewChild('scopeColumn') scopeColumn: ElementRef;
   @ViewChild('currencyColumn') currencyColumn: ElementRef;
+  @ViewChild('weightingTypeColumn') weightingTypeColumn: ElementRef;
 
   splitViewFilters$: Observable<PfDataGridFilter[]>;
 
@@ -60,7 +61,7 @@ export class SurveyDataCutsComponent implements OnChanges, OnInit, AfterViewInit
     this.matchedFilter = {
       SourceName: 'SurveyDataMatchesCount',
       Operator: null,
-      Values: [''],
+      Values: null,
       ExcludeFromFilterSave: true
     };
     this.actionBarConfig = {
@@ -93,6 +94,7 @@ export class SurveyDataCutsComponent implements OnChanges, OnInit, AfterViewInit
   ngAfterViewInit(): void {
     this.colTemplates = {
       'Scope1': { Template: this.scopeColumn },
+      'WeightingType': { Template: this.weightingTypeColumn },
       [PfDataGridColType.currency]: { Template: this.currencyColumn }
     };
   }
