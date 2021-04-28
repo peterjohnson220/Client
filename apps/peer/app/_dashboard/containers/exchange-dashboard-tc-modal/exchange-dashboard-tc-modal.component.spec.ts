@@ -6,10 +6,10 @@ import { StoreModule, Store } from '@ngrx/store';
 
 import { generateMockTermsConditionsSubmissionModel } from 'libs/models';
 import * as fromRootState from 'libs/state/state';
+import { ActivatedRouteStub } from 'libs/test/activated-route-stub';
 
 import { ExchangeDashboardTCModalComponent } from './exchange-dashboard-tc-modal.component';
 import * as fromExchangeDashboardTCActions from '../../actions/exchange-dashboard-tc-modal.actions';
-
 
 describe('Exchange Dashboard TC Modal', () => {
   let fixture: ComponentFixture<ExchangeDashboardTCModalComponent>;
@@ -26,7 +26,8 @@ describe('Exchange Dashboard TC Modal', () => {
       ],
       providers: [
         {
-          provide: ActivatedRoute
+          provide: ActivatedRoute,
+          useValue: new ActivatedRouteStub()
         }
       ],
       declarations: [

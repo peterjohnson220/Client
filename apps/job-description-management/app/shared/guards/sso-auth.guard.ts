@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
-
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { take, filter } from 'rxjs/operators';
+import { Observable, combineLatest } from 'rxjs';
+import { take, filter, map } from 'rxjs/operators';
 import * as fromRootState from 'libs/state/state';
 import * as fromJobDescriptionActions from '../../_job-description/actions/job-description.actions';
 import * as fromJobDescriptionReducers from '../../_job-description/reducers';
@@ -36,7 +35,7 @@ export class SsoAuthGuard implements CanActivate {
         agentId: this.ssoAgentId ?? ''
       }));
 
-      return this.waitForSSOAuthResult().map(result => {
+      return this.waitForSSOAuthResult().pipe(map(result => {
         if (result.authResult) {
           if (result.authResult.RequiresStandardLogin) {
             const currentURL = window.location.href;
@@ -73,7 +72,7 @@ export class SsoAuthGuard implements CanActivate {
 
           window.location.href = `${result.authError.error.JwtSsoLoginUrl}&appurl=${encodedUrl}`;
         }
-      });
+      }));
 
     } else {
       return true;
@@ -81,7 +80,7 @@ export class SsoAuthGuard implements CanActivate {
   }
 
   waitForSSOAuthResult() {
-    return Observable.combineLatest(
+    return combineLatest(
       this.store.select(fromJobDescriptionReducers.getJobDescriptionSSOAuthResult),
       this.store.select(fromJobDescriptionReducers.getJobDescriptionSSOAuthError),
       (authResult, authError) => ({ authResult, authError })).pipe(filter(a => a.authError != null || a.authResult != null), take(1));

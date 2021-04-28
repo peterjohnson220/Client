@@ -1,6 +1,6 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Store, StoreModule } from '@ngrx/store';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TruncateAfterPipe } from 'libs/core';
 import { generateMockCommunityAttachment } from 'libs/models/community';
 import * as fromRootState from 'libs/state/state';
@@ -12,7 +12,7 @@ describe('CommunityAttachmentComponent', () => {
   let instance: CommunityAttachmentComponent;
   let store: Store<fromRootState.State>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({

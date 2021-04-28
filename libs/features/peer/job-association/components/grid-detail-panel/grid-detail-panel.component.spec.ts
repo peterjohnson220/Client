@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { of } from 'rxjs';
@@ -14,7 +14,7 @@ describe('GridDetailPanelComponent', () => {
   let component: GridDetailPanelComponent;
   let fixture: ComponentFixture<GridDetailPanelComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({

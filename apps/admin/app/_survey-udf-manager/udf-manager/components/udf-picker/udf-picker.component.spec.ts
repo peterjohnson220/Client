@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
@@ -11,7 +11,7 @@ describe('UdfPickerComponent', () => {
   let instance: UdfPickerComponent;
   let formBuilder: FormBuilder;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, DropDownsModule, NumericTextBoxModule],
       declarations: [UdfPickerComponent],

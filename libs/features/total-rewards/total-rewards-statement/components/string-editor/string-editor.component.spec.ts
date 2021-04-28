@@ -1,5 +1,5 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { StringEditorComponent } from './string-editor.component';
 
@@ -7,7 +7,7 @@ describe('StringEditorComponent', () => {
   let component: StringEditorComponent;
   let fixture: ComponentFixture<StringEditorComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [StringEditorComponent],
       schemas: [NO_ERRORS_SCHEMA]

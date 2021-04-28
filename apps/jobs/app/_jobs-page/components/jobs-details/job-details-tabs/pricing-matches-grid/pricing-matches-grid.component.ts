@@ -1,9 +1,8 @@
 import {
-  Component, Input, ViewChild, ElementRef, AfterViewInit, OnChanges, SimpleChanges, OnInit,
-  Output, EventEmitter
-} from '@angular/core';
+  Component, Input, ViewChild, ElementRef, AfterViewInit, OnChanges, SimpleChanges, OnInit } from '@angular/core';
 
 import { SortDescriptor } from '@progress/kendo-data-query';
+import cloneDeep from 'lodash/cloneDeep';
 
 import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig } from 'libs/features/grids/pf-data-grid/models';
 import { PfDataGridColType } from 'libs/features/grids/pf-data-grid/enums';
@@ -83,7 +82,11 @@ export class PricingMatchesGridComponent implements OnInit, AfterViewInit, OnCha
       this.rateOverride = this.mrpFormatterService.generateRateOverride(changes.pricingInfo.currentValue);
 
       const newFilterValue = changes.pricingInfo.currentValue.CompanyJobs_Pricings_CompanyJobPricing_ID;
-      if (newFilterValue && !!this.filter?.Values && newFilterValue !== this.filter.Values[0]) {
+      if (newFilterValue && !!this.filter?.Values) {
+        // The filter object gets bound to the immutable state by lower level components. Need to break this connection
+        // anytime we want to update the value outside of the store.
+        this.filter = cloneDeep(this.filter);
+
         this.filter.Values = [newFilterValue];
         this.rate = changes.pricingInfo.currentValue.CompanyJobs_Pricings_Rate;
       }

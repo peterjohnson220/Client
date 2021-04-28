@@ -140,6 +140,7 @@ exports[`Admin - Create Tag Category Modal (the modal) should match the snapshot
                 
                 <span
                   class="k-switch-container"
+                  role="switch"
                 >
                   <span
                     class="k-switch-label-on"
@@ -218,6 +219,7 @@ exports[`Admin - Create Tag Category Modal (the modal) should match the snapshot
                 
                 <span
                   class="k-switch-container"
+                  role="switch"
                 >
                   <span
                     class="k-switch-label-on"

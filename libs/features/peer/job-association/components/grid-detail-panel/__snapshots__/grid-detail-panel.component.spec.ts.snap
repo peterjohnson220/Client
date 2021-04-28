@@ -3,11 +3,11 @@
 exports[`GridDetailPanelComponent should hide a link to download the jdm description via omitting the \`show\` class when no jdm descriptions exists 1`] = `
 <pf-grid-detail-panel
   checkForJdmDescription={[Function Boolean]}
-  closeClick={[Function EventEmitter]}
+  closeClick={[Function EventEmitter_]}
   isExpanded$={[Function Observable]}
   jdmDescriptionIds={[Function Array]}
   jdmUrl={[Function String]}
-  viewJdmDescriptionClick={[Function EventEmitter]}
+  viewJdmDescriptionClick={[Function EventEmitter_]}
 >
   <section
     class="slide-in-panel position-absolute invisible expanded"
@@ -76,10 +76,10 @@ exports[`GridDetailPanelComponent should hide a link to download the jdm descrip
 exports[`GridDetailPanelComponent should not render jdm controls when checkForJdmDescription is false 1`] = `
 <pf-grid-detail-panel
   checkForJdmDescription="false"
-  closeClick={[Function EventEmitter]}
+  closeClick={[Function EventEmitter_]}
   isExpanded$={[Function Observable]}
   jdmUrl={[Function String]}
-  viewJdmDescriptionClick={[Function EventEmitter]}
+  viewJdmDescriptionClick={[Function EventEmitter_]}
 >
   <section
     class="slide-in-panel position-absolute invisible expanded"
@@ -132,10 +132,10 @@ exports[`GridDetailPanelComponent should not render jdm controls when checkForJd
 exports[`GridDetailPanelComponent should render a falsy job family as No Family 1`] = `
 <pf-grid-detail-panel
   checkForJdmDescription="false"
-  closeClick={[Function EventEmitter]}
+  closeClick={[Function EventEmitter_]}
   jdmUrl={[Function String]}
   jobFamily=""
-  viewJdmDescriptionClick={[Function EventEmitter]}
+  viewJdmDescriptionClick={[Function EventEmitter_]}
 >
   <section
     class="slide-in-panel position-absolute collapsed invisible"
@@ -188,14 +188,14 @@ exports[`GridDetailPanelComponent should render a falsy job family as No Family 
 exports[`GridDetailPanelComponent should render input props 1`] = `
 <pf-grid-detail-panel
   checkForJdmDescription="false"
-  closeClick={[Function EventEmitter]}
+  closeClick={[Function EventEmitter_]}
   jdmUrl={[Function String]}
   jobCode={[Function String]}
   jobDescription={[Function String]}
   jobExchange={[Function String]}
   jobFamily={[Function String]}
   jobId={[Function Number]}
-  viewJdmDescriptionClick={[Function EventEmitter]}
+  viewJdmDescriptionClick={[Function EventEmitter_]}
 >
   <section
     class="slide-in-panel position-absolute collapsed invisible"
@@ -248,11 +248,11 @@ exports[`GridDetailPanelComponent should render input props 1`] = `
 exports[`GridDetailPanelComponent should show a link to download the jdm description via the \`show\` class when one jdm description id exists 1`] = `
 <pf-grid-detail-panel
   checkForJdmDescription={[Function Boolean]}
-  closeClick={[Function EventEmitter]}
+  closeClick={[Function EventEmitter_]}
   isExpanded$={[Function Observable]}
   jdmDescriptionIds={[Function Array]}
   jdmUrl={[Function String]}
-  viewJdmDescriptionClick={[Function EventEmitter]}
+  viewJdmDescriptionClick={[Function EventEmitter_]}
 >
   <section
     class="slide-in-panel position-absolute invisible expanded"
@@ -316,12 +316,12 @@ exports[`GridDetailPanelComponent should show a link to download the jdm descrip
 exports[`GridDetailPanelComponent should show a spinner when downloading a jdm description 1`] = `
 <pf-grid-detail-panel
   checkForJdmDescription={[Function Boolean]}
-  closeClick={[Function EventEmitter]}
+  closeClick={[Function EventEmitter_]}
   isExpanded$={[Function Observable]}
   jdmDescriptionIds={[Function Array]}
   jdmDescriptionLoading={[Function Boolean]}
   jdmUrl={[Function String]}
-  viewJdmDescriptionClick={[Function EventEmitter]}
+  viewJdmDescriptionClick={[Function EventEmitter_]}
 >
   <section
     class="slide-in-panel position-absolute invisible expanded"
@@ -386,13 +386,13 @@ exports[`GridDetailPanelComponent should show a spinner when downloading a jdm d
 exports[`GridDetailPanelComponent should show an error message if the jdm description download fails 1`] = `
 <pf-grid-detail-panel
   checkForJdmDescription={[Function Boolean]}
-  closeClick={[Function EventEmitter]}
+  closeClick={[Function EventEmitter_]}
   isExpanded$={[Function Observable]}
   jdmDescriptionIds={[Function Array]}
   jdmDescriptionLoading="false"
   jdmDescriptionLoadingError={[Function Boolean]}
   jdmUrl={[Function String]}
-  viewJdmDescriptionClick={[Function EventEmitter]}
+  viewJdmDescriptionClick={[Function EventEmitter_]}
 >
   <section
     class="slide-in-panel position-absolute invisible expanded"
@@ -461,11 +461,11 @@ exports[`GridDetailPanelComponent should show an error message if the jdm descri
 exports[`GridDetailPanelComponent should show an informational message when multiple jdm ids exist 1`] = `
 <pf-grid-detail-panel
   checkForJdmDescription={[Function Boolean]}
-  closeClick={[Function EventEmitter]}
+  closeClick={[Function EventEmitter_]}
   isExpanded$={[Function Observable]}
   jdmDescriptionIds={[Function Array]}
   jdmUrl={[Function String]}
-  viewJdmDescriptionClick={[Function EventEmitter]}
+  viewJdmDescriptionClick={[Function EventEmitter_]}
 >
   <section
     class="slide-in-panel position-absolute invisible expanded"

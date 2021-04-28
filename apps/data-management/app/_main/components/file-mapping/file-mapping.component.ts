@@ -4,7 +4,7 @@ import cloneDeep from 'lodash/cloneDeep';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
-import { filter, takeUntil } from 'rxjs/internal/operators';
+import { filter, takeUntil } from 'rxjs/operators';
 
 import { CompanySettingsApiService } from 'libs/data/payfactors-api';
 import { CompanySelectorItem } from 'libs/features/company/company-selector/models';

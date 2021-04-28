@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { select, Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs/index';
+import { Observable, Subscription } from 'rxjs';
 
 import { Exchange, StatusEnum } from 'libs/models';
 

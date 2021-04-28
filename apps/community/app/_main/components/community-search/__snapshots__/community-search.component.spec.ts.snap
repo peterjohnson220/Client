@@ -2,7 +2,7 @@
 
 exports[`CommunitySearchComponent should show community search component 1`] = `
 <pf-community-search
-  searchEvent={[Function EventEmitter]}
+  searchEvent={[Function EventEmitter_]}
 >
   <div
     class="input-group shadow"

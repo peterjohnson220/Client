@@ -8,7 +8,7 @@ import {
 
 import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { filter, map, switchMap } from 'rxjs/operators';
 
 import * as fromRootState from '../../state/state';
 
@@ -30,7 +30,7 @@ export class UrlParameterValidationGuard implements CanActivate {
   }
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-    return this.userContext$.pipe(filter(uc => !!uc)).switchMap(uc => this.hasAccess(uc, next));
+    return this.userContext$.pipe(filter(uc => !!uc)).pipe(switchMap(uc => this.hasAccess(uc, next)));
   }
 
   private hasAccess(userContext: UserContext, activeRoute: ActivatedRouteSnapshot ): Observable<boolean> {
@@ -51,7 +51,7 @@ export class UrlParameterValidationGuard implements CanActivate {
     const hasCompanyId = queryParam.get('companyId') !== null && queryParam.get('companyId') !== '';
     if (userContext.AccessLevel === 'Admin' && hasCompanyId && queryParam.get('companyName') !== null) {
       this.store.dispatch(new fromCompanySelectorActions.IsValidCompanyRepository(parseInt(queryParam.get('companyId'), 10)));
-      return this.store.select(fromCompanySelectorReducer.isValidCompanyRepository).pipe(filter(cr => cr !== null)).
+      return this.store.select(fromCompanySelectorReducer.isValidCompanyRepository).pipe(filter(cr => cr !== null)).pipe(
       map(isValid => {
         if (isValid) {
           return true;
@@ -59,7 +59,7 @@ export class UrlParameterValidationGuard implements CanActivate {
           this.router.navigate(['/access-denied']);
           return false;
         }
-      });
+      }));
     } else if (this.permissionService.CheckPermission(routeData.Permissions, routeData.Check) && queryParam.keys.length === 0) {
       return of(true);
     } else {

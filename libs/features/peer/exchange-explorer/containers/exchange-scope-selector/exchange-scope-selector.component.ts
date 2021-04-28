@@ -3,7 +3,7 @@ import { Component, ViewChild, OnInit, OnDestroy, Input } from '@angular/core';
 import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { Store, select } from '@ngrx/store';
 import { combineLatest, Observable, Subscription } from 'rxjs';
-import { filter, map, take } from 'rxjs/internal/operators';
+import { filter, map, take } from 'rxjs/operators';
 
 import { FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models/common';
 import { SettingsService } from 'libs/state/app-context/services';

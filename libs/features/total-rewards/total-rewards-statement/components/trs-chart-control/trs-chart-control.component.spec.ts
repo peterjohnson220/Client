@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { TrsChartControlComponent } from './trs-chart-control.component';
@@ -8,7 +8,7 @@ describe('TrsChartControlComponent', () => {
   let component: TrsChartControlComponent;
   let fixture: ComponentFixture<TrsChartControlComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [TrsChartControlComponent],
       schemas: [NO_ERRORS_SCHEMA]

@@ -1,5 +1,5 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { TrsEffectiveDateControlComponent } from './trs-effective-date-control.component';
 
@@ -7,7 +7,7 @@ describe('EffectiveDateComponent', () => {
   let component: TrsEffectiveDateControlComponent;
   let fixture: ComponentFixture<TrsEffectiveDateControlComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [TrsEffectiveDateControlComponent],
       schemas: [NO_ERRORS_SCHEMA]

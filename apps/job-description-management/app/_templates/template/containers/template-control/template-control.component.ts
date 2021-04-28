@@ -1,9 +1,8 @@
 import { Component, Input, Output, EventEmitter, OnInit, ChangeDetectionStrategy, OnChanges, OnDestroy } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import { Subject } from 'rxjs/Subject';
-import { skip, distinctUntilChanged, debounceTime } from 'rxjs/operators';
-import { Observable, Subscription } from 'rxjs';
+import { distinctUntilChanged, debounceTime } from 'rxjs/operators';
+import { Observable, Subscription, Subject } from 'rxjs';
 
 import { TemplateControl, TemplateSettings, TemplateSettingsControl, ControlType } from 'libs/models';
 

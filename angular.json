@@ -57,6 +57,11 @@
             "scripts": [
               "assets/js/pendo.js",
               "assets/js/walk-me.js"
+            ],
+            "allowedCommonJsDependencies": [
+              "lodash",
+              "jwt-decode",
+              "dragula"
             ]
           },
           "configurations": {
@@ -72,7 +77,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -101,7 +105,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -128,7 +131,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -278,6 +280,11 @@
             "scripts": [
               "assets/js/pendo.js",
               "assets/js/walk-me.js"
+            ],
+            "allowedCommonJsDependencies": [
+              "lodash",
+              "jwt-decode",
+              "dragula"
             ]
           },
           "configurations": {
@@ -285,7 +292,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.53mb",
+                  "baseline": "2.73mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -293,7 +300,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -314,7 +320,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.53mb",
+                  "baseline": "2.73mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -322,7 +328,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -353,7 +358,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -509,6 +513,12 @@
               "assets/js/pendo.js",
               "assets/js/new-relic.js",
               "assets/js/walk-me.js"
+            ],
+            "allowedCommonJsDependencies": [
+              "lodash",
+              "jwt-decode",
+              "dragula",
+              "hammerjs"
             ]
           },
           "configurations": {
@@ -524,7 +534,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -553,7 +562,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -584,7 +592,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -744,6 +751,13 @@
               "assets/js/drift.js",
               "assets/js/tableau-2.2.0.min.js",
               "assets/js/walk-me.js"
+            ],
+            "allowedCommonJsDependencies": [
+              "lodash",
+              "jwt-decode",
+              "dragula",
+              "hammerjs",
+              "@mapbox/mapbox-gl-geocoder"
             ]
           },
           "configurations": {
@@ -759,7 +773,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -788,7 +801,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -819,7 +831,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -979,6 +990,13 @@
             "scripts": [
               "assets/js/pendo.js",
               "assets/js/walk-me.js"
+            ],
+            "allowedCommonJsDependencies": [
+              "lodash",
+              "jwt-decode",
+              "dragula",
+              "dom-autoscroller",
+              "@mapbox/mapbox-gl-geocoder"
             ]
           },
           "configurations": {
@@ -994,7 +1012,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -1023,7 +1040,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -1054,7 +1070,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -1212,6 +1227,11 @@
               "assets/js/pendo.js",
               "assets/js/recaptcha.js",
               "assets/js/walk-me.js"
+            ],
+            "allowedCommonJsDependencies": [
+              "lodash",
+              "jwt-decode",
+              "dragula"
             ]
           },
           "configurations": {
@@ -1227,7 +1247,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -1256,7 +1275,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -1287,7 +1305,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -1443,6 +1460,11 @@
             "scripts": [
               "assets/js/pendo.js",
               "assets/js/walk-me.js"
+            ],
+            "allowedCommonJsDependencies": [
+              "lodash",
+              "jwt-decode",
+              "dragula"
             ]
           },
           "configurations": {
@@ -1458,7 +1480,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -1487,7 +1508,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -1518,7 +1538,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -1674,6 +1693,12 @@
               "assets/js/pendo.js",
               "assets/js/uservoice.js",
               "assets/js/walk-me.js"
+            ],
+            "allowedCommonJsDependencies": [
+              "lodash",
+              "jwt-decode",
+              "dragula",
+              "linkifyjs"
             ]
           },
           "configurations": {
@@ -1689,7 +1714,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -1718,7 +1742,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -1749,7 +1772,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -1902,6 +1924,11 @@
             "scripts": [
               "assets/js/pendo.js",
               "assets/js/walk-me.js"
+            ],
+            "allowedCommonJsDependencies": [
+              "lodash",
+              "jwt-decode",
+              "dragula"
             ]
           },
           "configurations": {
@@ -1916,7 +1943,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -1933,7 +1959,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -1961,7 +1986,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -1993,7 +2017,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -2184,6 +2207,15 @@
             "scripts": [
               "assets/js/pendo.js",
               "assets/js/walk-me.js"
+            ],
+            "allowedCommonJsDependencies": [
+              "lodash",
+              "jwt-decode",
+              "dragula",
+              "@mapbox/mapbox-gl-geocoder",
+              "hammerjs",
+              "highcharts",
+              "dom-autoscroller"
             ]
           },
           "configurations": {
@@ -2191,7 +2223,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.41mb",
+                  "baseline": "2.5mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -2199,7 +2231,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -2220,7 +2251,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.41mb",
+                  "baseline": "2.5mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -2228,7 +2259,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -2259,7 +2289,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -2417,6 +2446,13 @@
             "scripts": [
               "assets/js/pendo.js",
               "assets/js/walk-me.js"
+            ],
+            "allowedCommonJsDependencies": [
+              "lodash",
+              "jwt-decode",
+              "dragula",
+              "hammerjs",
+              "@mapbox/mapbox-gl-geocoder"
             ]
           },
           "configurations": {
@@ -2432,7 +2468,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -2461,7 +2496,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -2492,7 +2526,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -2646,6 +2679,11 @@
             "scripts": [
               "assets/js/pendo.js",
               "assets/js/walk-me.js"
+            ],
+            "allowedCommonJsDependencies": [
+              "lodash",
+              "jwt-decode",
+              "dragula"
             ]
           },
           "configurations": {
@@ -2661,7 +2699,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -2690,7 +2727,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -2721,7 +2757,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -2877,6 +2912,16 @@
               "assets/js/pendo.js",
               "assets/js/tableau-2.2.0.min.js",
               "assets/js/walk-me.js"
+            ],
+            "allowedCommonJsDependencies": [
+              "lodash",
+              "jwt-decode",
+              "dragula",
+              "@ctrl/ngx-codemirror",
+              "codemirror/addon/hint/show-hint",
+              "codemirror/addon/edit/matchbrackets",
+              "codemirror/addon/display/placeholder",
+              "codemirror/mode/spreadsheet/spreadsheet"
             ]
           },
           "configurations": {
@@ -2892,7 +2937,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -2921,7 +2965,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -2952,7 +2995,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -3108,6 +3150,11 @@
               "assets/js/pendo.js",
               "assets/js/walk-me.js",
               "apps/job-description-management/assets/js/quill.min.js"
+            ],
+            "allowedCommonJsDependencies": [
+              "lodash",
+              "jwt-decode",
+              "dragula"
             ]
           },
           "configurations": {
@@ -3123,7 +3170,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -3152,7 +3198,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -3183,7 +3228,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -3338,6 +3382,19 @@
             "scripts": [
               "assets/js/pendo.js",
               "assets/js/walk-me.js"
+            ],
+            "allowedCommonJsDependencies": [
+              "lodash",
+              "jwt-decode",
+              "dragula",
+              "highcharts",
+              "@ctrl/ngx-codemirror",
+              "@mapbox/mapbox-gl-geocoder",
+              "dom-autoscroller",
+              "codemirror/addon/hint/show-hint",
+              "codemirror/addon/edit/matchbrackets",
+              "codemirror/addon/display/placeholder",
+              "codemirror/mode/spreadsheet/spreadsheet"
             ]
           },
           "configurations": {
@@ -3345,7 +3402,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.55mb",
+                  "baseline": "2.65mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -3353,7 +3410,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -3374,7 +3430,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.55mb",
+                  "baseline": "2.65mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -3382,7 +3438,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -3413,7 +3468,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -3567,6 +3621,11 @@
             "scripts": [
               "assets/js/pendo.js",
               "assets/js/walk-me.js"
+            ],
+            "allowedCommonJsDependencies": [
+              "lodash",
+              "jwt-decode",
+              "dragula"
             ]
           },
           "configurations": {
@@ -3582,7 +3641,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -3611,7 +3669,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -3642,7 +3699,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -3796,6 +3852,11 @@
             "scripts": [
               "assets/js/pendo.js",
               "assets/js/walk-me.js"
+            ],
+            "allowedCommonJsDependencies": [
+              "lodash",
+              "jwt-decode",
+              "dragula"
             ]
           },
           "configurations": {
@@ -3811,7 +3872,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -3840,7 +3900,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -3871,7 +3930,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -4025,6 +4083,12 @@
             "scripts": [
               "assets/js/pendo.js",
               "assets/js/walk-me.js"
+            ],
+            "allowedCommonJsDependencies": [
+              "lodash",
+              "jwt-decode",
+              "dragula",
+              "hammerjs"
             ]
           },
           "configurations": {
@@ -4040,7 +4104,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -4069,7 +4132,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -4100,7 +4162,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -4254,6 +4315,12 @@
             "scripts": [
               "assets/js/pendo.js",
               "assets/js/walk-me.js"
+            ],
+            "allowedCommonJsDependencies": [
+              "lodash",
+              "jwt-decode",
+              "dragula",
+              "hammerjs"
             ]
           },
           "configurations": {
@@ -4269,7 +4336,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -4298,7 +4364,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -4329,7 +4394,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -4483,6 +4547,11 @@
             "scripts": [
               "assets/js/pendo.js",
               "assets/js/walk-me.js"
+            ],
+            "allowedCommonJsDependencies": [
+              "lodash",
+              "jwt-decode",
+              "dragula"
             ]
           },
           "configurations": {
@@ -4498,7 +4567,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -4527,7 +4595,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -4558,7 +4625,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -4709,6 +4775,11 @@
             "styles": [
               "assets/scss/client.scss",
               "apps/labs/styles.scss"
+            ],
+            "allowedCommonJsDependencies": [
+              "lodash",
+              "jwt-decode",
+              "dragula"
             ]
           },
           "configurations": {
@@ -4724,7 +4795,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -4753,7 +4823,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -4784,7 +4853,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -4938,6 +5006,11 @@
             "scripts": [
               "assets/js/pendo.js",
               "assets/js/walk-me.js"
+            ],
+            "allowedCommonJsDependencies": [
+              "lodash",
+              "jwt-decode",
+              "dragula"
             ]
           },
           "configurations": {
@@ -4953,7 +5026,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -4982,7 +5054,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -5013,7 +5084,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -5167,6 +5237,11 @@
             "scripts": [
               "assets/js/pendo.js",
               "assets/js/walk-me.js"
+            ],
+            "allowedCommonJsDependencies": [
+              "lodash",
+              "jwt-decode",
+              "dragula"
             ]
           },
           "configurations": {
@@ -5174,7 +5249,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.05mb",
+                  "baseline": "2.25mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -5182,7 +5257,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -5199,7 +5273,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.05mb",
+                  "baseline": "2.25mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -5207,7 +5281,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -5238,7 +5311,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -5392,6 +5464,11 @@
               "assets/js/pendo.js",
               "assets/js/fontawesome-all.min.js",
               "assets/js/walk-me.js"
+            ],
+            "allowedCommonJsDependencies": [
+              "lodash",
+              "jwt-decode",
+              "dragula"
             ]
           },
           "configurations": {
@@ -5407,7 +5484,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -5432,7 +5508,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -5457,7 +5532,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,

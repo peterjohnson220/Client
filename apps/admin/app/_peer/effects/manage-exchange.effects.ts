@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Action, select, Store } from '@ngrx/store';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { NEVER } from 'rxjs/internal/observable/never';
+import { NEVER } from 'rxjs';
 import { map, switchMap, catchError, withLatestFrom, tap } from 'rxjs/operators';
 
 import { ExchangeApiService } from 'libs/data/payfactors-api';

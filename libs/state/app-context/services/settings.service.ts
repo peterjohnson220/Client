@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 import { filter, map, take } from 'rxjs/operators';
 import { combineLatest } from 'rxjs';

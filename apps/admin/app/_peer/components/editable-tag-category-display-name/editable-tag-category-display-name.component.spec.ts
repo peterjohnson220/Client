@@ -2,7 +2,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { of } from 'rxjs/internal/observable/of';
+import { of } from 'rxjs';
 
 import { PfCommonModule } from 'libs/core';
 import { PfValidatableDirective } from 'libs/forms/directives';

@@ -46,7 +46,7 @@ export class JobDescriptionGridComponent implements OnInit, OnDestroy {
   public permissions = Permissions;
   public pageableSettings = {
     buttonCount: 5,
-    info: this.info,
+    info: true,
     type: 'numeric',
     pageSizes: false,
     previousNext: true
