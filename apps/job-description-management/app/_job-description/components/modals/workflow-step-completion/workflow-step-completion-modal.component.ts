@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild, Input, OnDestroy } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import * as fromJobDescriptionReducers from '../../../reducers';
 import * as fromWorkflowActions from '../../../actions/workflow.actions';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
+import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
 
 @Component({
   selector: 'pf-workflow-step-completed-modal',
@@ -12,15 +13,22 @@ import { Router } from '@angular/router';
   styleUrls: ['./workflow-step-completion-modal.component.scss']
 })
 export class WorkflowStepCompletionModalComponent implements OnDestroy {
-  @ViewChild('workflowStepCompletionModal', {static: true}) public workflowStepCompletionModal: any;
+  private unsubscribe$ = new Subject<void>();
   private modalRef: NgbModalRef;
-  workflowMessage$: Observable<string>;
+
+  @ViewChild('workflowStepCompletionModal', {static: true}) public workflowStepCompletionModal: any;
   @Input() jobDescriptionDisplayName: string;
+
+  jdmInboxFeatureFlag: RealTimeFlag = { key: FeatureFlags.JdmInbox, value: false };
+  workflowMessage$: Observable<string>;
 
   constructor(
     private modalService: NgbModal,
     private router: Router,
-    private store: Store<fromJobDescriptionReducers.State>) {
+    private store: Store<fromJobDescriptionReducers.State>,
+    private featureFlagService: AbstractFeatureFlagService) {
+
+    this.featureFlagService.bindEnabled(this.jdmInboxFeatureFlag, this.unsubscribe$);
     this.workflowMessage$ = this.store.select(fromJobDescriptionReducers.getMessage);
   }
 

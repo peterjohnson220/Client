@@ -8,7 +8,7 @@
       <p>{{workflowCompleteMessage$ | async}}</p>
       <div class="modal-footer justify-content-center">
         <button type="button" class="btn btn-primary" (click)="backToJobDescriptionList()">Back to Job Description List</button>
-        <button type="button" class="btn btn-primary" (click)="backToJobDescriptionInbox()">Back to Job Description Inbox</button>
+        <button *ngIf="jdmInboxFeatureFlag.value" type="button" class="btn btn-primary" (click)="backToJobDescriptionInbox()">Back to Job Description Inbox</button>
       </div>
     </div>
   </div>

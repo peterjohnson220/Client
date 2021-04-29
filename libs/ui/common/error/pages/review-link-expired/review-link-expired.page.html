@@ -9,7 +9,7 @@
       <p *ngIf="!isInSystem">It is now okay to close this window.</p>
       <div *ngIf="isInSystem" class="modal-footer justify-content-center">
         <button type="button" class="btn btn-primary" (click)="backToJobDescriptionList()">Back to Job Description List</button>
-        <button type="button" class="btn btn-primary" (click)="backToJobDescriptionInbox()">Back to Job Description Inbox</button>
+        <button *ngIf="jdmInboxFeatureFlag.value" type="button" class="btn btn-primary" (click)="backToJobDescriptionInbox()">Back to Job Description Inbox</button>
       </div>
     </div>
   </div>
