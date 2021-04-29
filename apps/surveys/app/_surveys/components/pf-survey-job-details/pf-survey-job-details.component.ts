@@ -1,6 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
-
-import { copyTextToClipboard } from 'libs/core/functions';
+import { Component, Input } from '@angular/core';
 
 import { SurveyJobDetails } from '../../models';
 
@@ -17,10 +15,6 @@ export class PfSurveyJobDetailsComponent {
   showJobDetails = false;
 
   constructor() { }
-
-  copyJobDescription(text: string): void {
-    copyTextToClipboard(text);
-  }
 
   toggleJobDetails(): void {
     this.showJobDetails = !this.showJobDetails;
