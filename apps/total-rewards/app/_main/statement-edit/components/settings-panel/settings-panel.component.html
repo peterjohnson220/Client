@@ -15,7 +15,7 @@
             <div *ngIf="showFontFamilyMenu">
               <h3 class="my-2">Text</h3>
               <h5 class="mb-3">Font Family</h5>
-              <div ngbDropdown class="font-family-container d-inline-block mb-4">
+              <div ngbDropdown class="button-dropdown-container d-inline-block mb-4">
                 <button ngbDropdownToggle class="btn btn-outline-primary" [attr.tabindex]="isOpen ? 0 : -1">
                   {{ fontFamily }}
                 </button>
@@ -39,7 +39,7 @@
               </div>
             </div>
             <h5 class="mb-2">Font Size</h5>
-            <div ngbDropdown class="font-size-container d-inline-block mb-3">
+            <div ngbDropdown class="button-dropdown-container font-size-container d-inline-block mb-3">
               <button ngbDropdownToggle class="btn btn-outline-primary" [attr.tabindex]="isOpen ? 0 : -1">
                 {{ fontSize }}
               </button>
@@ -150,7 +150,7 @@
 
               <!-- Additional Page Placement drop-down -->
 
-              <div ngbDropdown class="additional-page-dropdown-container d-inline-block mb-3">
+              <div ngbDropdown class="button-dropdown-container d-inline-block mb-3">
                 <button ngbDropdownToggle class="btn btn-outline-primary" [attr.tabindex]="isOpen ? 0 : -1">
                   {{ getSelectedAdditionalPagePlacement()?.text }}
                 </button>
