@@ -206,7 +206,6 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
       rangeId: dataRow.CompanyStructures_Ranges_CompanyStructuresRanges_ID,
       rangeGroupId: dataRow.CompanyStructures_RangeGroup_CompanyStructuresRangeGroup_ID,
       rowIndex: rowIndex,
-      roundingSettings: this.roundingSettings,
       refreshRowDataViewFilter: this.getRefreshFilter(dataRow)
     }));
   }

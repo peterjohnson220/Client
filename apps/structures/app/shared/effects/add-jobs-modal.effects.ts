@@ -226,10 +226,7 @@ export class AddJobsModalEffects {
     if (this.urlService.isInWorkflow(Workflow.NewRange)) {
       actions.push(new fromSharedModelSettingsActions.OpenModal());
     } else if (this.hasRequiredSettingsForRecalculation(data.metadata, data.formulaValid)) {
-      actions.push(new fromSharedActions.RecalculateRangesWithoutMid({
-        rangeGroupId: data.contextStructureRangeGroupId,
-        rounding: data.roundingSettings
-      }));
+      actions.push(new fromSharedActions.RecalculateRangesWithoutMid(data.contextStructureRangeGroupId));
     } else {
       const modelPageViewId =
         PagesHelper.getModelPageViewIdByRangeTypeAndRangeDistributionType(data.metadata.RangeTypeId, data.metadata.RangeDistributionTypeId);

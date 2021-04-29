@@ -46,9 +46,7 @@ export class SharedEffects {
         }
       ),
       switchMap((data) => {
-          return this.structureModelingApiService.recalculateRangesWithoutMid(
-            PayfactorsApiModelMapper.mapRecalculateRangesWithoutMidInputToRecalculateRangesWithoutMidRequest(
-              data.action.payload.rangeGroupId, data.action.payload.rounding))
+          return this.structureModelingApiService.recalculateRangesWithoutMid(data.action.payload)
             .pipe(
               mergeMap(() => {
                 const actions = [];
@@ -59,7 +57,7 @@ export class SharedEffects {
 
                 actions.push(new fromSharedStructuresActions.GetOverriddenRanges({
                   pageViewId: modelPageViewId,
-                  rangeGroupId: data.action.payload.rangeGroupId
+                  rangeGroupId: data.action.payload
                 }));
 
                 return actions;
