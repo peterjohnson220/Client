@@ -94,6 +94,10 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
       this.filterQuery = params['filterQuery'] ?? null;
       if (this.filterQuery == null) {
         this.filter = this.modelPageFilter;
+      } else {
+        if(!!this.modelData) {
+          this.filter = this.getFilter();
+        }
       }
     });
 
@@ -129,13 +133,15 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
       if (data) {
         this.modelData = data;
         if (this.filterQuery != null) {
-          this.filter = this.getFilter(this.metaData.PayType, this.metaData.RangeDistributionTypeId);
+          this.filter = this.getFilter();
         }
       }
     });
   }
 
-  private getFilter(payType: string, rangeDistributionTypeId: number) {
+  private getFilter() {
+    const payType = this.metaData.PayType;
+    const rangeDistributionTypeId = this.metaData.RangeDistributionTypeId;
     const filter = [
       {
         SourceName: 'CompanyStructuresRanges_ID',
