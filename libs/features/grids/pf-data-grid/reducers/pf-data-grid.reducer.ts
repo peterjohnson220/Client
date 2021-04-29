@@ -246,9 +246,9 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
     case fromPfGridActions.LOAD_DATA:
     case fromPfGridActions.RELOAD_DATA:
 
-      const currentGridPagingOptions = cloneDeep(state.grids[action.pageViewId].pagingOptions);
+      const currentGridPagingOptions = cloneDeep(state.grids[action.pageViewId]?.pagingOptions);
 
-      const newPagingOptions = currentGridPagingOptions && !state.grids[action.pageViewId].gridConfig?.EnableInfiniteScroll
+      const newPagingOptions = currentGridPagingOptions && !state.grids[action.pageViewId]?.gridConfig?.EnableInfiniteScroll
         ? currentGridPagingOptions
         : DEFAULT_PAGING_OPTIONS;
 
