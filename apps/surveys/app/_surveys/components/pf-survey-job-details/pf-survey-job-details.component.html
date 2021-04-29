@@ -5,10 +5,9 @@
     <span class="job-level-padding">Level: {{surveyJobDetails.LevelCode}} </span>
   </div>
   <div class="job-description-container">
-    <div *ngIf="surveyJobDetails.JobDescription else noJobDescription">
-      {{surveyJobDetails.JobDescription}}
-      <div class="btn-link" toolTipText="Copy Job Description" (click)="copyJobDescription(surveyJobDetails.JobDescription)">Copy</div>
-    </div>
+    <ng-container *ngIf="surveyJobDetails.JobDescription; else noJobDescription">
+      <pf-ellipsis-view-more [copy]="true" [content]="surveyJobDetails.JobDescription" [maxLength]="600"></pf-ellipsis-view-more>
+    </ng-container>
     <ng-template #noJobDescription>
       <span>No job description</span>
     </ng-template>
