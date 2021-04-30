@@ -155,7 +155,7 @@ export class JobsToGradeContainerComponent implements OnDestroy, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (!!changes.gradeRangeGroupDetails && !!changes.gradeRangeGroupDetails.currentValue.RangeGroupId) {
+    if (!!changes.gradeRangeGroupDetails && !!changes.gradeRangeGroupDetails.currentValue && !!changes.gradeRangeGroupDetails.currentValue.RangeGroupId) {
       this.store.dispatch(new fromJobsToGradeActions.GetGrades(this.gradeRangeGroupDetails));
     }
   }
