@@ -5,7 +5,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import { map, switchMap, catchError, mergeMap, withLatestFrom } from 'rxjs/operators';
 
-import { ProjectTemplatesApiService } from 'libs/data/payfactors-api';
+import { ProjectTemplateApiService } from 'libs/data/payfactors-api';
 import * as fromRootState from 'libs/state/state';
 
 import * as fromProjectTemplateManagementReducer from '../reducers';
@@ -97,6 +97,6 @@ export class ProjectTemplateManagementEffects {
     private actions$: Actions,
     private store: Store<fromProjectTemplateManagementReducer.State>,
     private userContextStore: Store<fromRootState.State>,
-    private projectTemplateApiService: ProjectTemplatesApiService
+    private projectTemplateApiService: ProjectTemplateApiService
   ) {}
 }

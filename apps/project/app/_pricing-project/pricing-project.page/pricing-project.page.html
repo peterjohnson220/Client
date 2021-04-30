@@ -11,6 +11,7 @@
   [navigationURL] = "'/client/dashboard'"
   [aboveGridTemplate]="aboveGridTemplate"
   [pageable]="!gridConfig.EnableInfiniteScroll"
+  [actionBarConfig]="actionBarConfig"
   [noRecordsFound]="'No jobs available in this project.'">
 </pf-data-grid>
 
@@ -50,3 +51,32 @@
   </div>
 </ng-template>
 
+<ng-template #gridGlobalActions>
+  <button #exportDownloadBtn
+          (click)="openExportModal(exportDownloadBtn)"
+          class="btn btn-secondary"
+          [disabled]="(projectJobGrid$ | async)?.data.data.length === 0"
+  >
+    <fa-icon
+      icon="download" title="Download Export"
+      [attr.data-qa-id]="'btn-pricing-project-export'"
+      [fixedWidth]="true"
+    >
+    </fa-icon>
+  </button>
+</ng-template>
+
+<pf-project-export-manager
+  [modalTitle]="'Download Data Export'"
+  [openModal]="exportModalIsOpen"
+  [modalSize]="'md'"
+  (saveSuccess)="closeExportModal()"
+  (cancelChanges)="closeExportModal()"
+>
+</pf-project-export-manager>
+
+<pf-file-download-security-warning-modal
+  #fileDownloadSecurityWarningModal
+  (securityWarningConfirmed)="exportModalIsOpen = true;"
+>
+</pf-file-download-security-warning-modal>
