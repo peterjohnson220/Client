@@ -25,3 +25,6 @@ export const selectProjectListPageState =
 
 // property selectors
 export const getSingleProjectShareId = createSelector(selectProjectListPageState, fromProjectListPageReducer.getSingleProjectShareId);
+export const getTooltipContent = createSelector(selectProjectListPageState, fromProjectListPageReducer.getTooltipContent);
+export const getTooltipLoading = createSelector(selectProjectListPageState, fromProjectListPageReducer.getTooltipLoading);
+export const getTooltipError = createSelector(selectProjectListPageState, fromProjectListPageReducer.getTooltipError);

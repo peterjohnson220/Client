@@ -1,7 +1,6 @@
 import { createEntityAdapter, EntityAdapter, EntityState} from '@ngrx/entity';
 
 import { Tile } from '../models';
-
 import * as fromTileGridActions from '../actions/tile-grid.actions';
 
 export interface State extends EntityState<Tile> {
@@ -25,6 +24,11 @@ export function reducer(
   action: fromTileGridActions.Actions
 ): State {
     switch (action.type) {
+      case fromTileGridActions.RELOAD_TILES: {
+        return {
+          ...adapter.setAll(action.payload, state)
+        };
+      }
       case fromTileGridActions.LOADING_TILES: {
         return {
           ...state,
@@ -67,11 +71,6 @@ export function reducer(
           ...state,
           loading: false,
           loadingError: true
-        };
-      }
-      case fromTileGridActions.REORDER_TILES_SUCCESS : {
-        return {
-          ...adapter.setAll(action.payload, state)
         };
       }
       default: {

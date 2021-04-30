@@ -9,7 +9,6 @@ import { EffectsModule } from '@ngrx/effects';
 
 import { FaIconLibrary, FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {DropDownListModule} from '@progress/kendo-angular-dropdowns';
-
 import { PfDataGridModule } from 'libs/features/grids/pf-data-grid';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfCommonModule } from 'libs/core';
@@ -22,6 +21,7 @@ import * as fromFaIcons from './fa-icons';
 import { reducers } from './reducers';
 
 import { ProjectListPageEffects } from './effects';
+import { ProjectListPageTooltipComponent } from './components';
 
 @NgModule({
   imports: [
@@ -53,7 +53,8 @@ import { ProjectListPageEffects } from './effects';
   ],
   declarations: [
     // Pages
-    ProjectListPageComponent
+    ProjectListPageComponent,
+    ProjectListPageTooltipComponent
   ]
 })
 export class ProjectListPageModule {

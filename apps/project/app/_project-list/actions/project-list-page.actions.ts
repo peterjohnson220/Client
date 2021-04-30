@@ -1,5 +1,7 @@
 import { Action } from '@ngrx/store';
+
 import { BaseShareModalPayload } from 'libs/models/share-modal/bulk-project-share-request';
+import {ProjectListTooltipRequest, ProjectListTooltipResponse} from 'libs/models/projects/tooltips';
 
 export const TOGGLE_PIN_ON_DASHBOARD = '[Project List Page] Toggle Pin On Dashboard';
 export const TOGGLE_PIN_ON_DASHBOARD_SUCCESS = '[Project List Page] Toggle Pin On Dashboard Success';
@@ -12,6 +14,10 @@ export const BULK_PROJECT_SHARE_SUCCESS = '[Project List Page] Bulk Project Shar
 export const BULK_PROJECT_SHARE_ERROR = '[Project List Page] Bulk Project Share Error';
 export const SAVE_SINGLE_PROJECT_SHARE_ID = '[Project List Page] Save Single Project Share Id';
 export const CLEAR_SINGLE_PROJECT_SHARE_ID = '[Project List Page] Clear Single Project Share Id';
+export const GET_TOOLTIP_CONTENT = '[Project List Page] Get Tooltip Content';
+export const GET_TOOLTIP_CONTENT_SUCCESS = '[Project List Page] Get Tooltip Content Success';
+export const GET_TOOLTIP_CONTENT_ERROR = '[Project List Page] Get Tooltip Error';
+export const CLEAR_TOOLTIP = '[Project List Page] Clear Tooltip';
 
 export class TogglePinOnDashboard implements Action {
   readonly type = TOGGLE_PIN_ON_DASHBOARD;
@@ -64,15 +70,37 @@ export class BulkProjectShareError implements Action {
 export class SaveSingleProjectShareId implements Action {
   readonly type = SAVE_SINGLE_PROJECT_SHARE_ID;
 
-  constructor(public payload: number) {
-  }
+  constructor(public payload: number) {}
 }
 
 export class ClearSingleProjectShareId implements Action {
   readonly type = CLEAR_SINGLE_PROJECT_SHARE_ID;
 
-  constructor() {
-  }
+  constructor() {}
+}
+
+export class GetTooltipContent implements Action {
+  readonly type = GET_TOOLTIP_CONTENT;
+
+  constructor(public payload: ProjectListTooltipRequest) {}
+}
+
+export class GetTooltipContentSuccess implements Action {
+  readonly type = GET_TOOLTIP_CONTENT_SUCCESS;
+
+  constructor(public payload: ProjectListTooltipResponse) {}
+}
+
+export class GetTooltipContentError implements Action {
+  readonly type = GET_TOOLTIP_CONTENT_ERROR;
+
+  constructor() {}
+}
+
+export class ClearTooltip implements Action {
+  readonly type = CLEAR_TOOLTIP;
+
+  constructor() {}
 }
 
 export type ProjectListPageActions
@@ -86,4 +114,8 @@ export type ProjectListPageActions
   | BulkProjectShareSuccess
   | BulkProjectShareError
   | SaveSingleProjectShareId
-  | ClearSingleProjectShareId;
+  | ClearSingleProjectShareId
+  | GetTooltipContent
+  | GetTooltipContentSuccess
+  | GetTooltipContentError
+  | ClearTooltip;

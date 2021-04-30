@@ -5,11 +5,16 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, Store, select } from '@ngrx/store';
 import { map, switchMap, catchError, mergeMap, withLatestFrom } from 'rxjs/operators';
 
+import { PricingLegacyApiService, JobsApiService, PricingEdmxApiService } from 'libs/data/payfactors-api';
+import { PricingInfo } from 'libs/models/payfactors-api';
+
+
+import * as fromFeatureFlagRedirectReducer from '../../../../state/state';
+import { UrlPage } from '../../../../models/url-redirect/url-page';
+import { UrlRedirectHelper } from '../../../../core/helpers/url-redirect-helper';
 import * as fromPricingDetailsReducer from '../reducers';
 import * as fromPricingDetailsActions from '../actions';
 
-import { PricingLegacyApiService, JobsApiService, PricingEdmxApiService } from 'libs/data/payfactors-api';
-import { PricingInfo } from 'libs/models/payfactors-api';
 
 @Injectable()
 export class PricingDetailsEffects {
@@ -41,11 +46,15 @@ export class PricingDetailsEffects {
   @Effect()
   addingToNewProject$: Observable<Action> = this.actions$.pipe(
     ofType(fromPricingDetailsActions.ADDING_TO_NEW_PROJECT),
+    withLatestFrom(
+      this.store.select(fromFeatureFlagRedirectReducer.getPageRedirectUrl, {page: UrlPage.PricingProject}),
+      (action: fromPricingDetailsActions.AddingToNewProject, redirectUrl: string) => ({action, redirectUrl})
+    ),
     switchMap((data: any) => {
-      return this.jobsApiService.createProject(data.payload).pipe(
+      return this.jobsApiService.createProject(data.action.payload).pipe(
         mergeMap((projectId: number) => {
-          window.location.href = `/marketdata/marketdata.asp?usersession_id=${projectId}`;
-          // TODO: When we migrate the Projects page to Client we have to make sure the state is cleared if we return back to the Jobs page
+          window.location.href = UrlRedirectHelper.getIdParamUrl(data.redirectUrl, projectId.toString());
+
           return [];
         }),
         catchError(error => of(new fromPricingDetailsActions.AddingToNewProjectError(error)))
