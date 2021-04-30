@@ -34,12 +34,6 @@
     </ng-container>
 
     <ng-container page-content>
-      <nav aria-label="breadcrumb" *ngIf="!!isInSystemWorkflow">
-        <ol class="breadcrumb h5">
-          <li class="breadcrumb-item"><a href="/client/job-description-management">Job Descriptions</a></li>
-          <li class="breadcrumb-item active">Job Description Approval</li>
-        </ol>
-      </nav>
       <pf-async-container
         [loading]="(jobDescriptionAsync$ | async)?.loading || (jobDescriptionPublishing$ | async)"
         [loadingError]="(jobDescriptionAsync$ | async)?.loadingError"
