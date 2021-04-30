@@ -41,8 +41,6 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
   @ViewChild('jobsCount') jobsCountColumn: ElementRef;
   @ViewChild('jobTitle') jobTitleColumn: ElementRef;
 
-  employeesPageViewId: string;
-  dataCutsPageViewId: string;
   modelGridPageViewId: string;
   pageViewId: string;
   metaData$: Observable<RangeGroupMetadata>;
@@ -57,7 +55,6 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
   roundingSettings$: Observable<RoundingSettingsDataObj>;
   roundingSettings: RoundingSettingsDataObj;
   gradeName = '';
-  activeTab: string;
   filter: PfDataGridFilter;
   data: GridDataResult;
   pagingOptions: PagingOptions;
@@ -76,9 +73,7 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
     this.metaData$ = this.store.pipe(select(fromSharedStructuresReducer.getMetadata));
     this.metadataSubscription = this.metaData$.subscribe(md => {
       if (md) {
-        this.employeesPageViewId = PagesHelper.getEmployeePageViewIdByRangeTypeAndRangeDistributionType(md.RangeTypeId, md.RangeDistributionTypeId);
-        this.dataCutsPageViewId = GradeBasedPageViewIds.DataCuts;
-        this.pageViewId = this.employeesPageViewId;
+        this.pageViewId = PagesHelper.getEmployeePageViewIdByRangeTypeAndRangeDistributionType(md.RangeTypeId, md.RangeDistributionTypeId);
       }
     });
 
@@ -125,32 +120,6 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
       .subscribe(pagingOptions => this.pagingOptions = pagingOptions);
   }
 
-  onEmployeesClicked() {
-    this.activeTab = 'Employees';
-    this.pageViewId = this.employeesPageViewId;
-    return false;
-  }
-
-  onDataCutsClicked() {
-    // TODO this is Employees implementation - we need to change this in the future
-
-    // Close filter
-    this.store.dispatch(new fromActions.SetFilterPanelDisplay(this.pageViewId, false));
-    this.filter = {
-      SourceName: 'CompanyStructuresRanges_ID',
-      Operator: '=',
-      Values: [this.route.snapshot.params.id]
-    };
-
-    this.activeTab = 'DataCuts';
-    this.pageViewId = this.dataCutsPageViewId;
-
-    // Update inbound filters
-    this.store.dispatch(new fromActions.UpdateInboundFilters(this.pageViewId, [this.filter]));
-
-    return false;
-  }
-
   public get rangeRecalculationType(): typeof RangeRecalculationType {
     return RangeRecalculationType;
   }
@@ -170,7 +139,6 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
 
   // Lifecycle
   ngOnInit(): void {
-    this.activeTab = 'Employees';
     this.roundingSettingsSubscription = this.roundingSettings$.subscribe(rs => this.roundingSettings = rs);
   }
 
