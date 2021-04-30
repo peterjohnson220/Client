@@ -15,8 +15,10 @@ import {
   PfDataGridCustomFilterOptions, PfDataGridFilter
 } from 'libs/features/grids/pf-data-grid/models';
 import { DataViewFieldDataType, ViewField } from 'libs/models/payfactors-api';
+import { SurveyDataField } from 'libs/features/surveys/survey-data-fields-management/models';
 
 import * as fromSurveysPageReducer from '../reducers';
+import * as fromSurveysPageActions from '../actions/surveys-page.actions';
 import { SurveysPageConfig } from '../models';
 
 @Component({
@@ -29,8 +31,12 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('matchedFilter') matchedFilter: ElementRef;
 
   loading$: Observable<boolean>;
+  surveyDataFieldsModalOpen$: Observable<boolean>;
+  savingSurveyFields$: Observable<boolean>;
 
   gridFieldSubscription: Subscription;
+  surveyDataGridSubscription: Subscription;
+  savingSurveyFieldSubscription: Subscription;
 
   inboundFilters: PfDataGridFilter[];
   pageViewId = SurveysPageConfig.SurveysPageViewId;
@@ -58,6 +64,9 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
   matchedFilterField: ViewField;
   actionBarConfig: ActionBarConfig;
   gridConfig: GridConfig;
+  activeSurveyDataGridPageViewId: string;
+  surveyDataViewFields: ViewField[];
+  surveyDataFields: SurveyDataField[];
 
   constructor(
     private store: Store<fromSurveysPageReducer.State>
@@ -85,6 +94,7 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
       ScrollToTop: true
     };
     this.loading$ = this.store.select(fromPfDataGridReducer.getLoading, this.pageViewId);
+    this.surveyDataFieldsModalOpen$ = this.store.select(fromSurveysPageReducer.getSurveyFieldsModalOpen);
   }
 
   ngOnInit(): void {
@@ -118,6 +128,44 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.store.dispatch(new fromPfDataGridActions.CollapseRowById(this.pageViewId, id, idValue));
   }
 
+  openSurveyFieldsModal(surveyJobId: number): void {
+    this.activeSurveyDataGridPageViewId = `${SurveysPageConfig.SurveyDataCutsPageViewId}_${surveyJobId}`;
+    this.surveyDataGridSubscription = this.store.select(fromPfDataGridReducer.getFields, this.activeSurveyDataGridPageViewId)
+      .subscribe(fields => {
+        if (fields) {
+          this.createSurveyDataFields(fields);
+        }
+      });
+    this.store.dispatch(new fromSurveysPageActions.OpenSurveyFieldsModal());
+  }
+
+  closeSurveyFieldsModal(): void {
+    this.store.dispatch(new fromSurveysPageActions.CloseSurveyFieldsModal());
+    this.surveyDataGridSubscription.unsubscribe();
+    if (this.savingSurveyFieldSubscription) {
+      this.savingSurveyFieldSubscription.unsubscribe();
+    }
+  }
+
+  updateSurveyFields(fields: SurveyDataField[]): void {
+    fields.forEach(field => {
+      const updatedVieField = this.surveyDataViewFields.find(f => f.EntitySourceName === field.EntitySourceName && f.SourceName === field.SourceName);
+      if (updatedVieField) {
+        updatedVieField.IsSelected = field.IsSelected
+      }
+    });
+    this.savingSurveyFields$ = this.store.select(fromPfDataGridReducer.getViewIsSaving, this.activeSurveyDataGridPageViewId);
+    this.savingSurveyFieldSubscription = this.savingSurveyFields$.subscribe((saving) => {
+      if (saving === false) {
+        this.closeSurveyFieldsModal();
+        this.store.dispatch(new fromPfDataGridActions.LoadData(this.pageViewId));
+        this.store.dispatch(new fromPfDataGridActions.ResetGridScrolled(this.pageViewId));
+      }
+    })
+    this.store.dispatch(new fromPfDataGridActions.UpdateFields(this.activeSurveyDataGridPageViewId, this.surveyDataViewFields));
+    this.store.dispatch(new fromPfDataGridActions.CollapseAllRows(this.pageViewId));
+  }
+
   private updateField(field: ViewField) {
     if (field?.FilterValues?.length > 0) {
       this.store.dispatch(new fromPfDataGridActions.UpdateFilter(this.pageViewId, field));
@@ -135,6 +183,24 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
       ? null
       : this.matchedFilterField.FilterOperator === '>=' ? '1' : '0';
     this.matchedFilterSelectedOption = this.matchedFilterDisplayOptions.find(x => x.Value === matchedFilterValue);
+  }
+
+  private createSurveyDataFields(fields: ViewField[]): void {
+    this.surveyDataViewFields = cloneDeep(fields);
+    this.surveyDataFields = [];
+    const fieldsWithGroup = this.surveyDataViewFields.filter(f => !!f.Group ||
+      (f.EntitySourceName === 'CompanySurveys' && f.SourceName === 'Aging_Factor'));
+    fieldsWithGroup.forEach(field => {
+      this.surveyDataFields.push({
+        EntitySourceName: field.EntitySourceName,
+        SourceName: field.SourceName,
+        DisplayName: field.DisplayName,
+        Group: field.Group,
+        GroupOrder: field.GroupOrder,
+        Order: field.Order,
+        IsSelected: field.IsSelected
+      });
+    });
   }
 }
 

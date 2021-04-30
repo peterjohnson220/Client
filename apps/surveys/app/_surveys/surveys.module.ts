@@ -11,6 +11,7 @@ import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfDataGridModule } from 'libs/features/grids/pf-data-grid';
 import { DataViewApiService } from 'libs/data/payfactors-api/reports';
+import { SurveyDataFieldsManagementModule } from 'libs/features/surveys';
 
 import * as fromFaIcons from './fa-icons';
 import { reducers } from './reducers';
@@ -18,8 +19,8 @@ import { reducers } from './reducers';
 import { SurveysPageComponent } from './surveys.page/surveys.page';
 import { SurveysRoutingModule } from './surveys-routing.module';
 import { SurveyDataCutsComponent } from './containers';
-import { PfSurveyJobDetailsComponent } from './components/pf-survey-job-details/pf-survey-job-details.component';
-import { SurveyJobDetailsPipe } from './pipes/survey-job-details.pipe';
+import { PfSurveyJobDetailsComponent } from './components';
+import { SurveyJobDetailsPipe } from './pipes';
 
 
 @NgModule({
@@ -41,7 +42,8 @@ import { SurveyJobDetailsPipe } from './pipes/survey-job-details.pipe';
     PfCommonModule,
     PfCommonUIModule,
     PfFormsModule,
-    PfDataGridModule
+    PfDataGridModule,
+    SurveyDataFieldsManagementModule
   ],
   declarations: [
     // Pages

@@ -1,0 +1,48 @@
+export enum SurveyDataFieldsModalTab {
+  Basic = 'Basic',
+  MarketComparison = 'Market Comparison',
+  Bonus = 'Bonus',
+  Sales = 'Sales',
+  Allowances = 'Allowances'
+}
+
+export class SurveyDataFieldsConfig {
+  public static groupTabConfig = {
+    'FLSA': SurveyDataFieldsModalTab.Basic,
+    'Structure': SurveyDataFieldsModalTab.Basic,
+    'Base': SurveyDataFieldsModalTab.MarketComparison,
+    'TCC': SurveyDataFieldsModalTab.MarketComparison,
+    'TCC + Allow excl. Car': SurveyDataFieldsModalTab.MarketComparison,
+    'TCC + Allow': SurveyDataFieldsModalTab.MarketComparison,
+    'TCC Target': SurveyDataFieldsModalTab.MarketComparison,
+    'TCC Target + Allow excl. Car': SurveyDataFieldsModalTab.MarketComparison,
+    'TCC Target + Allow': SurveyDataFieldsModalTab.MarketComparison,
+    'TDC': SurveyDataFieldsModalTab.MarketComparison,
+    'Target TDC': SurveyDataFieldsModalTab.MarketComparison,
+    'Fixed': SurveyDataFieldsModalTab.MarketComparison,
+    'Remuneration': SurveyDataFieldsModalTab.MarketComparison,
+    'TGP': SurveyDataFieldsModalTab.MarketComparison,
+    'Bonus': SurveyDataFieldsModalTab.Bonus,
+    'Percentage': SurveyDataFieldsModalTab.Bonus,
+    'Target %': SurveyDataFieldsModalTab.Bonus,
+    'Target Mix': SurveyDataFieldsModalTab.Bonus,
+    'Mix': SurveyDataFieldsModalTab.Bonus,
+    'New Hire': SurveyDataFieldsModalTab.Bonus,
+    'New Hire %': SurveyDataFieldsModalTab.Bonus,
+    'New Hire LTI': SurveyDataFieldsModalTab.Bonus,
+    'LTIP': SurveyDataFieldsModalTab.Bonus,
+    'LTIP %': SurveyDataFieldsModalTab.Bonus,
+    'Incentive Target': SurveyDataFieldsModalTab.Sales,
+    'Incentive Actual': SurveyDataFieldsModalTab.Sales,
+    'Incentive Target %': SurveyDataFieldsModalTab.Sales,
+    'Incentive Actual %': SurveyDataFieldsModalTab.Sales,
+    'Quota Target': SurveyDataFieldsModalTab.Sales,
+    'Allowances': SurveyDataFieldsModalTab.Allowances,
+    'House': SurveyDataFieldsModalTab.Allowances,
+    'Transportation': SurveyDataFieldsModalTab.Allowances,
+    'Other': SurveyDataFieldsModalTab.Allowances,
+    'Car - $ or Car': SurveyDataFieldsModalTab.Allowances,
+    'Car - Car Only': SurveyDataFieldsModalTab.Allowances,
+    'Car - $ Only': SurveyDataFieldsModalTab.Allowances,
+  }
+}

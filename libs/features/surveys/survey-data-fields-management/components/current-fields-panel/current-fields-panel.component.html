@@ -1,0 +1,29 @@
+<ng-container *ngIf="!!fieldGroups?.length">
+  <div class="d-flex flex-column">
+    <ngb-accordion #fieldsAccordion #currentFieldsAcc="ngbAccordion" [activeIds]="activeAccordionIds">
+      <ng-container *ngFor="let group of fieldGroups; trackBy: trackByGroup">
+        <ngb-panel *ngIf="group.HasSelectedField" [id]="group.GroupName">
+          <ng-template ngbPanelHeader>
+            <div class="group-header w-100 d-flex align-items-center justify-content-between" (click)="togglePanel(group.GroupName)">
+              <h5>{{group.GroupName}}</h5>
+              <fa-icon icon="caret-down" *ngIf="currentFieldsAcc.isExpanded(group.GroupName)"></fa-icon>
+              <fa-icon icon="caret-right" *ngIf="!currentFieldsAcc.isExpanded(group.GroupName)"></fa-icon>
+            </div>
+          </ng-template>
+  
+          <ng-template ngbPanelContent>
+            <div class="d-flex flex-wrap">
+              <div class="d-flex flex-column">
+                <ng-container *ngFor="let field of group.Fields; trackBy: trackByField">
+                  <div *ngIf="field.IsSelected" pfEllipsisActive class="ellipsis-overflowing-text-wrap">
+                    <label>{{field.DisplayName}}</label>
+                  </div>
+                </ng-container>
+              </div>
+            </div>
+          </ng-template>
+        </ngb-panel>
+      </ng-container>
+    </ngb-accordion>
+  </div>
+</ng-container>

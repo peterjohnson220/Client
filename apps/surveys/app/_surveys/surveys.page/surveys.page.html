@@ -34,9 +34,19 @@
   <div *ngIf="!(loading$ | async)" class="survey-data-cuts-container pt-3 pb-4 px-4">
     <div class="d-flex px-3 pb-3 justify-content-between">
       <pf-survey-job-details [surveyJobDetails]="dataRow | surveyJobDetails"></pf-survey-job-details>
-      <div class="btn-close float-end"
-           (click)="closeExpandedRow('SurveyJob_Survey_Job_ID', dataRow['SurveyJob_Survey_Job_ID'])">
-        <fa-icon [icon]="['far', 'times']" size="lg"></fa-icon>
+
+      <div class="d-flex space-out-children">
+        <button type="button"
+                class="btn btn-secondary action-btn"
+                title="Edit Survey Fields"
+                (click)="openSurveyFieldsModal(dataRow['SurveyJob_Survey_Job_ID'])">
+          <fa-icon icon="edit"></fa-icon>
+        </button>
+        <button type="button"
+                class="btn btn-secondary action-btn btn-close"
+                (click)="closeExpandedRow('SurveyJob_Survey_Job_ID', dataRow['SurveyJob_Survey_Job_ID'])">
+          <fa-icon [icon]="['far', 'times']"></fa-icon>
+        </button>
       </div>
     </div>
     <pf-survey-data-cuts
@@ -44,3 +54,11 @@
     </pf-survey-data-cuts>
   </div>
 </ng-template>
+
+<pf-survey-data-fields
+  [fields]="surveyDataFields"
+  [showModal$]="surveyDataFieldsModalOpen$"
+  [saving$]="savingSurveyFields$"
+  (onDismiss)="closeSurveyFieldsModal()"
+  (onSubmit)="updateSurveyFields($event)">
+</pf-survey-data-fields>

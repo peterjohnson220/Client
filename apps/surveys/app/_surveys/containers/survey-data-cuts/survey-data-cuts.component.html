@@ -23,13 +23,17 @@
 </ng-template>
 
 <ng-template #weightingTypeColumn let-dataRow="dataRow">
-  <span *ngIf="dataRow['SurveyData_WeightingType'] === 'I'">Inc</span>
-  <span *ngIf="dataRow['SurveyData_WeightingType'] === 'O'">Org</span>
-  <span *ngIf="dataRow['SurveyData_WeightingType'] !== 'I' && dataRow['SurveyData_WeightingType'] !== 'O'">- -</span>
+  <span [innerHTML]="dataRow['SurveyData_WeightingType'] | weightingType | emptyPlaceholder"></span>
 </ng-template>
 
 <ng-template #currencyColumn let-dataRow="dataRow" let-fieldName="fieldName">
   <div pfEllipsisActive class="ellipsis-overflowing-text">
-    <span [innerHTML]="dataRow[fieldName] | comp: rate | emptyPlaceholder"></span>
+    <span [innerHTML]="dataRow[fieldName] | comp: 'Annual' | emptyPlaceholder"></span>
+  </div>
+</ng-template>
+
+<ng-template #numericColumn let-dataRow="dataRow" let-fieldName="fieldName">
+  <div pfEllipsisActive class="ellipsis-overflowing-text">
+    <span [innerHTML]="dataRow[fieldName] | comp: 'Annual' : 'full' | emptyPlaceholder"></span>
   </div>
 </ng-template>
