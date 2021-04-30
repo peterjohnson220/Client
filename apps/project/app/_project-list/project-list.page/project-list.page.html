@@ -103,9 +103,61 @@
 </ng-template>
 
 <ng-template #projectName let-dataRow="dataRow">
-  <span>
+  <div *ngIf="!(redirectSlugLoadingError$ | async) && !(redirectSlugLoading$ | async)">
+    <span *ngIf="(pricingProjectSlug$ | async)?.includes('client')">
+      <a class="pf-link" href="{{(pricingProjectSlug$ | async)}}/{{dataRow['UserSessionMap_UserSession_ID']}}">{{dataRow['UserSessions_Session_Name']}}</a>
+    </span>
+    <span *ngIf="(pricingProjectSlug$ | async)?.includes('marketdata')">
+      <a class="pf-link" href="{{(pricingProjectSlug$ | async)}}?usersession_id={{dataRow['UserSessionMap_UserSession_ID']}}">{{dataRow['UserSessions_Session_Name']}}</a>
+    </span>
+  </div>
+
+  <!--If there is a loading error, assume they go to the client pricing project page since they made it to the client project list page-->
+  <span *ngIf="!(redirectSlugLoading$ | async) && (redirectSlugLoadingError$ | async)">
     <a class="pf-link" href="/client/project/pricing-project/{{dataRow['UserSessionMap_UserSession_ID']}}">{{dataRow['UserSessions_Session_Name']}}</a>
   </span>
+</ng-template>
+
+<ng-template #numJobsColumn let-dataRow="dataRow">
+  <pf-grid-column-tooltip
+    *ngIf="dataRow['UserSessionMap_Number_Of_Jobs'] > 0;else columnTemplate"
+    [columnTemplate]="columnTemplate"
+    [tooltipTemplate]="toolTipContent"
+  >
+
+  </pf-grid-column-tooltip>
+  <ng-template #columnTemplate>
+    {{dataRow['UserSessionMap_Number_Of_Jobs']}}
+  </ng-template>
+  <ng-template #toolTipContent>
+    <pf-project-list-tooltip
+      [projectId]="dataRow['UserSessionMap_UserSession_ID']"
+      [columnType]="tooltipDataTypes.Jobs"
+    >
+
+    </pf-project-list-tooltip>
+  </ng-template>
+</ng-template>
+
+<ng-template #numSharedColumn let-dataRow="dataRow">
+  <pf-grid-column-tooltip
+    *ngIf="dataRow['UserSessionMap_Number_Of_Shares'] > 0;else columnTemplate"
+    [columnTemplate]="columnTemplate"
+    [tooltipTemplate]="toolTipContent"
+  >
+
+  </pf-grid-column-tooltip>
+  <ng-template #columnTemplate>
+    {{dataRow['UserSessionMap_Number_Of_Shares']}}
+  </ng-template>
+  <ng-template #toolTipContent>
+    <pf-project-list-tooltip
+      [projectId]="dataRow['UserSessionMap_UserSession_ID']"
+      [columnType]="tooltipDataTypes.Shared"
+    >
+
+    </pf-project-list-tooltip>
+  </ng-template>
 </ng-template>
 
 <ng-template #projectStatusFilter>

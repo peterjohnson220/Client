@@ -23,6 +23,9 @@ import {Permissions} from 'libs/constants';
 import {PfSecuredResourceDirective} from 'libs/forms/directives';
 import * as fromAutoShareModalActions from 'libs/features/users/user-settings/actions';
 import { ShareModalOperation } from 'libs/models/share-modal/share-modal-operation';
+import * as fromFeatureFlagRedirectReducer from 'libs/state/state';
+import { UrlPage } from 'libs/models/url-redirect/url-page';
+import { TooltipTypes } from 'libs/constants/projects/tooltip-constants';
 
 import {PageViewIds} from '../../shared/constants';
 
@@ -91,19 +94,31 @@ export class ProjectListPageComponent implements AfterViewInit, OnInit, OnDestro
 
   autoShareOperation: ShareModalOperation = ShareModalOperation.BulkProjectShare;
 
+  showDeleteProjectModal = new BehaviorSubject<boolean>(false);
+  showDeleteProjectModal$ = this.showDeleteProjectModal.asObservable();
+
+  pricingProjectSlug$: Observable<string>;
+  redirectSlugLoading$: Observable<boolean>;
+  redirectSlugLoadingError$: Observable<boolean>;
+
+  tooltipDataTypes = TooltipTypes;
+
   @ViewChild('projectStatusColumn') projectStatusColumn: ElementRef;
   @ViewChild('projectStatusFilter') projectStatusFilter: ElementRef;
   @ViewChild('projectPinnedFilter') projectPinnedFilter: ElementRef;
   @ViewChild('gridRowActionsTemplate') gridRowActionsTemplate: ElementRef;
   @ViewChild('numJobsColumn') numJobsColumn: ElementRef;
+  @ViewChild('numSharedColumn') numSharedColumn: ElementRef;
   @ViewChild('projectName') projectName: ElementRef;
   @ViewChild(PfSecuredResourceDirective) pfSecuredResourceDirective: PfSecuredResourceDirective;
-
-  showDeleteProjectModal = new BehaviorSubject<boolean>(false);
-  showDeleteProjectModal$ = this.showDeleteProjectModal.asObservable();
-
   @ViewChild('shareBtn') shareBtn: ElementRef;
+
+
   constructor( private store: Store<fromPfDataGridReducer.State>) {
+    this.pricingProjectSlug$ = this.store.select(fromFeatureFlagRedirectReducer.getPageRedirectUrl, {page: UrlPage.PricingProject});
+    this.redirectSlugLoading$ = this.store.select(fromFeatureFlagRedirectReducer.getLoading);
+    this.redirectSlugLoadingError$ = this.store.select(fromFeatureFlagRedirectReducer.getLoadingError);
+
     this.selectedRecordIds$ = this.store.select(fromPfDataGridReducer.getSelectedKeys, this.pageViewId);
     this.selectedRecordIdsSubscription = this.store.select(fromPfDataGridReducer.getSelectedKeys, this.pageViewId).subscribe(sk => {
       this.selectedRecordIds = sk || [];
@@ -145,11 +160,13 @@ export class ProjectListPageComponent implements AfterViewInit, OnInit, OnDestro
   ngAfterViewInit() {
     this.colTemplates = {
       'Completed': {Template: this.projectStatusColumn},
-      'Session_Name': {Template: this.projectName}
+      'Session_Name': {Template: this.projectName},
+      'Number_Of_Jobs': {Template: this.numJobsColumn},
+      'Number_Of_Shares': {Template: this.numSharedColumn}
     };
 
     this.filterTemplates = {
-      'Completed': {Template: this.projectStatusFilter, isFullSize: true},
+      'Completed': {Template: this.projectStatusFilter},
       'PinOnDashboard': {Template: this.projectPinnedFilter, isFullSize: true}
     };
 
