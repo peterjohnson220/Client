@@ -139,17 +139,15 @@ export class BulkExportSchedulerFormComponent implements OnInit, OnDestroy {
   }
 
   submitForm() {
-    if (this.daysOfWeekSelected.length > 0) {
+    if (this.daysOfWeekSelected.length > 0 && this.schedule.Frequency === 'Weekly') {
       this.schedule.DayOfWeek = this.daysOfWeekSelected.join(',');
     }
-
     this.validSchedule = this.isValidSchedule();
 
     if (this.validSchedule) {
       if (this.schedule.Frequency !== 'One-time') {
         this.generateCronExpression();
       }
-
       if (this.editing) {
         this.store.dispatch(new fromJdmBulkExportScheduleActions.UpdateSchedule(<BulkExportScheduleParameters> {
           ...omit(this.schedule, ['ExportCount', 'Id', 'View']),
