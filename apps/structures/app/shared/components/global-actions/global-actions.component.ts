@@ -53,7 +53,7 @@ export class GlobalActionsComponent implements OnInit {
     this.duplicateModelClicked.emit();
   }
 
-  handleMangeModelClicked() {
+  handleManageJobsClicked() {
     this.manageModelClicked.emit();
   }
 
