@@ -51,7 +51,8 @@
   <ng-container action-buttons>
 
     <span *ngIf="!(addingDataError$ | async)">
-      <button (click)="handleAutoGradeSelectedClicked()"
+      <button *ngIf="!isJobRange"
+        (click)="handleAutoGradeSelectedClicked()"
         class="btn btn-link mr-3 auto-grade"
         [attr.data-qa-id]="'btn-autoGradeSelectedJobs'"
         [disabled]="(addingData$ | async)
