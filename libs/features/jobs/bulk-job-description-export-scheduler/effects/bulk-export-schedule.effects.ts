@@ -34,8 +34,8 @@ export class BulkJobsExportScheduleEffects {
       map((action: fromBulkJobsExportScheduleActions.AddingSchedule) => action.payload),
       switchMap((payload) => {
         return this.jobDescriptionApiService.addSchedule(payload).pipe(
-          map(() => {
-            return new fromBulkJobsExportScheduleActions.AddingScheduleSuccess;
+          map((scheduleId) => {
+            return new fromBulkJobsExportScheduleActions.AddingScheduleSuccess(scheduleId);
           }),
           catchError(error => of(new fromBulkJobsExportScheduleActions.AddingScheduleError()))
         );
