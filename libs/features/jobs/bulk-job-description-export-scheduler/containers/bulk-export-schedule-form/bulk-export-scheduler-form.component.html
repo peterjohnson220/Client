@@ -106,7 +106,7 @@
     </div>
     <div class="col">
       <div class="row">
-        <div class="col"><input type="radio" name="frequency" value="One-time" [(ngModel)]="schedule.Frequency" (change)="onFrequencyChange()"> One-time</div>
+        <div class="col" *ngIf="!exportType"><input type="radio" name="frequency" value="One-time" [(ngModel)]="schedule.Frequency" (change)="onFrequencyChange()"> One-time</div>
         <div class="col"><input type="radio" name="frequency" value="Weekly" [(ngModel)]="schedule.Frequency" (change)="onFrequencyChange()"> Weekly</div>
         <div class="col"><input type="radio" name="frequency" value="Monthly" [(ngModel)]="schedule.Frequency" (change)="onFrequencyChange()"> Monthly</div>
       </div>

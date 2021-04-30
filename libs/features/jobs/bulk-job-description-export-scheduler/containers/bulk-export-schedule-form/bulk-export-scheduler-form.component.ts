@@ -215,7 +215,7 @@ export class BulkExportSchedulerFormComponent implements OnInit, OnDestroy {
 
   setDefaultPageValues() {
     this.schedule.DayOfWeek = '';
-    this.schedule.Frequency = 'One-time';
+    this.schedule.Frequency = !this.exportType ? 'One-time' : 'Weekly';
     this.schedule.IncludeDelimiters = false;
     this.schedule.IncludeFormatting = false;
     this.schedule.Format = !this.exportType ? 'xlsx' : 'json';
