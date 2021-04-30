@@ -15,6 +15,7 @@ import { SingleJobViewPageComponent } from './single-job-view.page';
 import { SingleJobViewRoutingModule } from './single-job-view-routing.module';
 import { SingleJobViewEmployeesSalaryRangeChartComponent } from './containers/single-job-view-employees-salary-range-chart';
 import { SingleJobViewHighchartsService } from './data';
+import { SingleJobViewDataCutsRangeChartComponent } from './containers/single-job-view-data-cuts-range-chart';
 
 @NgModule({
   imports: [
@@ -40,7 +41,8 @@ import { SingleJobViewHighchartsService } from './data';
   ],
   declarations: [
     SingleJobViewPageComponent,
-    SingleJobViewEmployeesSalaryRangeChartComponent
+    SingleJobViewEmployeesSalaryRangeChartComponent,
+    SingleJobViewDataCutsRangeChartComponent
   ],
   providers: [
     SingleJobViewHighchartsService
