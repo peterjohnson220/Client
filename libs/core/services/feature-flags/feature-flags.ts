@@ -23,4 +23,5 @@ export class FeatureFlags {
   static readonly HrisTestDataBypass = 'hris-test-data-bypass';
   static readonly DataAccessSurveyTitleFilter = 'data-access-survey-title-filter';
   static readonly TotalRewardsAdditionalPage = 'total-rewards-additional-page';
+  static readonly ProjectsPage = 'projects-page';
 }

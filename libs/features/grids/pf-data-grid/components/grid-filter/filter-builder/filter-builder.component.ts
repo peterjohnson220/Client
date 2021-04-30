@@ -41,9 +41,6 @@ export class FilterBuilderComponent implements OnChanges {
     value: 'false'
   }];
 
-  datePickerValue = null;
-  numericInputValue = null;
-
   constructor(private intlService: IntlService) {
     this.stringFilterOperators = this.filterOperatorOptions.string.filter(f => f.value !== 'in');
   }
@@ -71,7 +68,18 @@ export class FilterBuilderComponent implements OnChanges {
   }
 
   handleFilterValueChanged(event: any) {
-    this.field.FilterValues = event === null ? null : [event.toString()];
+    if (this.field.DataType === DataViewFieldDataType.Int && event > this.INT_MAX) {
+      this.field.FilterValues = [this.INT_MAX.toString()];
+      this.numericInputElement.value = this.INT_MAX;
+      this.numericInputElement.blur();
+    } else if (this.field.DataType === DataViewFieldDataType.Int && event < 0) {
+      this.field.FilterValues = ['0'];
+      this.numericInputElement.value = 0;
+      this.numericInputElement.blur();
+    } else {
+      this.field.FilterValues = event === null ? null : [event.toString()];
+    }
+
     this.filterChanged.emit(this.field);
   }
 
