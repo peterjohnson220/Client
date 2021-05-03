@@ -1,0 +1,11 @@
+<div class="d-flex"
+     kendoTooltip
+     filter="div.kendo-tooltip-container"
+     tooltipClass="kendoTooltipWhiteTheme"
+     position="right"
+     [tooltipTemplate]="tooltipTemplate"
+>
+  <div class="kendo-tooltip-container">
+    <ng-container [ngTemplateOutlet]="columnTemplate"></ng-container>
+  </div>
+</div>

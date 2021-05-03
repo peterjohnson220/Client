@@ -2,13 +2,18 @@ import { Injectable } from '@angular/core';
 
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
-import { switchMap, catchError, map, tap, mergeMap } from 'rxjs/operators';
+import { switchMap, catchError, map, mergeMap, withLatestFrom } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
 
 import { ProjectApiService, CompanyEmployeeApiService, TotalRewardsPdfGenerationService } from 'libs/data/payfactors-api';
 import * as fromPfDataGridActions from 'libs/features/grids/pf-data-grid/actions';
 import * as fromEmployeeManagementActions from 'libs/features/employees/employee-management/actions';
 import { TrsConstants } from 'libs/features/total-rewards/total-rewards-statement/constants/trs-constants';
 import { DeliveryMethod } from 'libs/features/total-rewards/total-rewards-statement/models/delivery-method';
+import { UrlRedirectHelper } from 'libs/core/helpers/url-redirect-helper';
+import { PageRedirectUrl } from 'libs/models/url-redirect/page-redirect-url';
+import { UrlPage } from 'libs/models/url-redirect/url-page';
+import * as fromFeatureFlagRedirectReducer from 'libs/state/state';
 
 import * as fromEmployeesPageActions from '../actions/employees-page.actions';
 import { EmployeesPageViewId } from '../models';
@@ -21,21 +26,20 @@ export class EmployeesPageEffects {
   priceJobs$ = this.actions$
     .pipe(
       ofType(fromEmployeesPageActions.PRICE_JOBS),
-      switchMap((action: fromEmployeesPageActions.PriceJobs) => {
-        return this.projectsApiService.createFromEmployees(action.payload.companyEmployeeIds)
+      withLatestFrom(
+        this.store.select(fromFeatureFlagRedirectReducer.getPageRedirectUrl, {page: UrlPage.PricingProject}),
+        (action: fromEmployeesPageActions.PriceJobs, redirectUrl: string) => ({action, redirectUrl})
+      ),
+      switchMap((data: any) => {
+        return this.projectsApiService.createFromEmployees(data.action.payload.companyEmployeeIds)
           .pipe(
-            map((projectId: number) => new fromEmployeesPageActions.PriceJobsSuccess({ projectId })),
+            mergeMap((projectId: number) => {
+              window.location.href = UrlRedirectHelper.getIdParamUrl(data.redirectUrl, projectId.toString());
+
+              return [];
+            }),
             catchError(() => of(new fromEmployeesPageActions.PriceJobsError()))
           );
-      })
-    );
-
-  @Effect({dispatch: false})
-  priceJobsSuccess$ = this.actions$
-    .pipe(
-      ofType(fromEmployeesPageActions.PRICE_JOBS_SUCCESS),
-      tap((action: fromEmployeesPageActions.PriceJobsSuccess) => {
-        window.location.href = `/marketdata/marketdata.asp?usersession_id=${action.payload.projectId}`;
       })
     );
 
@@ -97,5 +101,6 @@ export class EmployeesPageEffects {
     private projectsApiService: ProjectApiService,
     private companyEmployeesApiService: CompanyEmployeeApiService,
     private totalRewardsPdfGenerationService: TotalRewardsPdfGenerationService,
+    private store: Store<fromFeatureFlagRedirectReducer.State>
   ) {}
 }

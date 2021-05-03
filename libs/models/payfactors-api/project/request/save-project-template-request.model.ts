@@ -1,7 +1,3 @@
-export interface SaveProjectTemplateRequest extends SaveCompositeFieldsRequest {
-  TemplateName: string;
-}
-
 export interface SaveCompositeFieldsRequest {
   CompositeFieldIds: number[];
   BaseRefPt: number;
@@ -28,4 +24,8 @@ export interface SaveCompositeFieldsRequest {
   BonusTargetPctRefPt: number;
   SalesIncentiveActualRefPt?: number;
   SalesIncentiveTargetRefPt?: number;
+}
+
+export interface SaveProjectTemplateRequest extends SaveCompositeFieldsRequest {
+  TemplateName: string;
 }
