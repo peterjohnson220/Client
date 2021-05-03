@@ -12,11 +12,13 @@ import { GridTypeEnum, ExchangeJobComparison, generateMockExchangeJobComparison 
 import { generateMockDataStateChangeEvent, generateMockSelectionEvent } from 'libs/extensions/kendo/mocks';
 import { SettingsService } from 'libs/state/app-context/services';
 import { generateMockRateOption, generateMockWeightOption, RateType } from 'libs/data/data-sets';
+import { PermissionService } from 'libs/core/services';
 
 import * as fromExchangeJobComparisonGridActions from '../../actions/exchange-job-comparison-grid.actions';
 import * as fromExchangeDashboardActions from '../../actions/exchange-dashboard.actions';
 import * as fromPeerDashboardReducer from '../../reducers';
 import { ExchangeJobComparisonGridComponent } from './exchange-job-comparison-grid.component';
+
 
 describe('Peer - Exchange Job Comparison Grid', () => {
   let fixture: ComponentFixture<ExchangeJobComparisonGridComponent>;
@@ -39,7 +41,9 @@ describe('Peer - Exchange Job Comparison Grid', () => {
       // Shallow Testing
       schemas: [ NO_ERRORS_SCHEMA ],
       providers: [
-        {provide: SettingsService, useValue: {selectUiPersistenceSetting: jest.fn()}}
+        { provide: SettingsService, useValue: {selectUiPersistenceSetting: jest.fn()} },
+        { provide: PermissionService,
+          useValue: { CheckPermission: jest.fn(() => true)} }
       ]
     });
 
