@@ -1,17 +1,16 @@
-import {SurveyLoaderComponent} from '../index';
-import {ComponentFixture, TestBed} from '@angular/core/testing';
-import {Store} from '@ngrx/store';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Store } from '@ngrx/store';
 import { of } from 'rxjs/index';
-import {RouterTestingModule} from '@angular/router/testing';
-import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
-import {provideMockStore} from '@ngrx/store/testing';
-import {NO_ERRORS_SCHEMA} from '@angular/core';
+import { RouterTestingModule } from '@angular/router/testing';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { provideMockStore } from '@ngrx/store/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { generateMockUserContext } from 'libs/models';
 import * as fromAppNotificationsActions from 'libs/features/infrastructure/app-notifications/actions/app-notifications.actions';
 import * as fromSurveyLoaderMainReducer from '../../../reducers';
 import * as fromSurveyLoaderActions from '../../../actions/survey-loader.actions';
 import { buildSurveyUploadNotification } from '../../../models';
-
+import { SurveyLoaderComponent } from '../index';
 
 describe('SurveyLoaderComponent', () => {
   let instance: SurveyLoaderComponent;

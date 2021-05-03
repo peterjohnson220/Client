@@ -1,10 +1,9 @@
-import {SurveyLoaderTabComponent} from '../index';
-import {ComponentFixture, TestBed} from '@angular/core/testing';
-import {RouterTestingModule} from '@angular/router/testing';
-import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
-import {provideMockStore} from '@ngrx/store/testing';
-import {NO_ERRORS_SCHEMA} from '@angular/core';
-
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { provideMockStore } from '@ngrx/store/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { SurveyLoaderTabComponent } from '../index';
 
 describe('SurveyLoaderTabComponent', () => {
   let instance: SurveyLoaderTabComponent;
