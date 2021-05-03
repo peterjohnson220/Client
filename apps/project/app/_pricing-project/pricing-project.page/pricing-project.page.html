@@ -55,7 +55,7 @@
   <button #exportDownloadBtn
           (click)="openExportModal(exportDownloadBtn)"
           class="btn btn-secondary"
-          [disabled]="(projectJobGrid$ | async)?.data.data.length === 0"
+          [disabled]="(projectJobGrid$ | async)?.data?.data.length === 0"
   >
     <fa-icon
       icon="download" title="Download Export"
