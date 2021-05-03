@@ -40,9 +40,10 @@ export class RadialTextCounterComponent implements OnChanges {
   }
 
   get tooltipText(): string {
-    if (this.ShowTextRemainingTooltip) {
-      return this.charactersRemaining + ' characters remaining';
-    }
-    return this.ContentLength >= this.AvailableLength ? 'No space remaining' : 'Space remaining';
+    return this.ShowTextRemainingTooltip
+      ? this.charactersRemaining + ` character${this.charactersRemaining === 1 ? '' : 's'} remaining`
+      : this.ContentLength >= this.AvailableLength
+      ? 'No space remaining'
+      : 'Space remaining';
   }
 }
