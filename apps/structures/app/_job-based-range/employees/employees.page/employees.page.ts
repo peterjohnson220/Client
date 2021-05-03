@@ -3,7 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
-import { GridDataResult } from '@progress/kendo-angular-grid';
 
 import { RangeGroupMetadata } from 'libs/models/structures';
 import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig, GridConfig } from 'libs/features/grids/pf-data-grid/models';
@@ -36,7 +35,6 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
   metaData$: Observable<RangeGroupMetadata>;
   metaData: RangeGroupMetadata;
   metadataSubscription: Subscription;
-  dataSubscription: Subscription;
   colTemplates = {};
   modelPageFilter: PfDataGridFilter[];
   filter: PfDataGridFilter[];
@@ -52,7 +50,8 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
   selectedFieldsSubscription: Subscription;
   filterQuery: string;
   filterValue: string;
-  modelData: GridDataResult;
+  filterMinValue: string;
+  filterMaxValue: string;
   routerParamsSubscription: Subscription;
 
   gridConfig: GridConfig;
@@ -90,7 +89,7 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
 
     this.rangeGroupId = this.route.parent.snapshot.params.id;
     this.rangeId = parseInt(this.route.snapshot.params.id, 10);
-    
+
 
     this.modelPageFilter = this.filter = [{
       SourceName: 'CompanyStructuresRanges_ID',
@@ -104,13 +103,11 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
         this.filter = this.modelPageFilter;
       } else {
         this.filterValue = params['value'] ?? null;
+        this.filterMinValue = params['minValue'] ?? null;
+        this.filterMaxValue = params['maxValue'] ?? null;
 
-        if(!!this.modelData) {
+        if (!!this.filterValue || (!!this.filterMinValue && !!this.filterMaxValue)) {
           this.filter = this.getFilter();
-        }
-        
-        if(!!this.filterValue) {
-            this.filter = this.getFilter();
         }
       }
     });
@@ -135,20 +132,10 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
         this.groupFieldSelected = !!anyGroupField;
       }
     });
-
-    this.dataSubscription = this.store.select(fromPfGridReducer.getData, this.modelPageViewId).subscribe(data => {
-      if (data) {
-        this.modelData = data;
-        if (this.filterQuery != null && !this.filterValue) {
-          this.filter = this.getFilter();          
-        }
-      }
-    });
   }
 
   private getFilter() {
     const payType = this.metaData.PayType;
-    const rangeDistributionTypeId = this.metaData.RangeDistributionTypeId;
     const filter = [
       {
         SourceName: 'CompanyStructuresRanges_ID',
@@ -157,145 +144,25 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
       }];
 
     const sourceName = this.getSourceName(payType);
-    if (this.filterQuery === 'minOutlier') {
+    if (this.filterQuery === 'minOutlier' || this.filterQuery === 'maxOutlier') {
+      const filterOperator = this.filterQuery === 'minOutlier' ? '<' : '>';
       filter.push(
         {
           SourceName: sourceName,
-          Operator: '<',
-          Values: [this.filterValue ?? this.modelData.data[0]['CompanyStructures_Ranges_Min']]
+          Operator: filterOperator,
+          Values: [this.filterValue]
         });
     }
 
-    if (this.filterQuery === 'maxOutlier') {
-      filter.push(
-        {
-          SourceName: sourceName,
-          Operator: '>',
-          Values: [this.filterValue ?? this.modelData.data[0]['CompanyStructures_Ranges_Max']]
-        });
-    }
-
-    if (this.filterQuery === 'q1') {
-      const value = rangeDistributionTypeId === 1
-        ? (this.modelData.data[0]['CompanyStructures_Ranges_Min'] + this.modelData.data[0]['CompanyStructures_Ranges_Mid']) / 2
-        : this.modelData.data[0]['CompanyStructures_Ranges_Quartile_First'];
-
+    if (this.filterQuery === 'q1' || this.filterQuery === 'q2' || this.filterQuery === 'q3' || this.filterQuery === 'q4'
+      || this.filterQuery === '1st5th' || this.filterQuery === '2nd5th'
+      || this.filterQuery === '3rd5th' || this.filterQuery === '4th5th' || this.filterQuery === 'last5th'
+      || this.filterQuery === '1st3rd' || this.filterQuery === '2nd3rd' || this.filterQuery === 'last3rd') {
       filter.push(
         {
           SourceName: sourceName,
           Operator: Between.Value,
-          Values: [this.modelData.data[0]['CompanyStructures_Ranges_Min'], value]
-        });
-    }
-
-    if (this.filterQuery === 'q2') {
-      const value = rangeDistributionTypeId === 1
-        ? (this.modelData.data[0]['CompanyStructures_Ranges_Min'] + this.modelData.data[0]['CompanyStructures_Ranges_Mid']) / 2
-        : this.modelData.data[0]['CompanyStructures_Ranges_Quartile_First'];
-
-      filter.push(
-        {
-          SourceName: sourceName,
-          Operator: Between.Value,
-          Values: [value, this.modelData.data[0]['CompanyStructures_Ranges_Mid']]
-        });
-    }
-
-    if (this.filterQuery === 'q3') {
-      const value = rangeDistributionTypeId === 1
-        ? (this.modelData.data[0]['CompanyStructures_Ranges_Mid'] + this.modelData.data[0]['CompanyStructures_Ranges_Max']) / 2
-        : this.modelData.data[0]['CompanyStructures_Ranges_Quartile_Second'];
-
-      filter.push(
-        {
-          SourceName: sourceName,
-          Operator: Between.Value,
-          Values: [this.modelData.data[0]['CompanyStructures_Ranges_Mid'], value]
-        });
-    }
-
-    if (this.filterQuery === 'q4') {
-      const value = rangeDistributionTypeId === 1
-        ? (this.modelData.data[0]['CompanyStructures_Ranges_Mid'] + this.modelData.data[0]['CompanyStructures_Ranges_Max']) / 2
-        : this.modelData.data[0]['CompanyStructures_Ranges_Quartile_Second'];
-
-      filter.push(
-        {
-          SourceName: sourceName,
-          Operator: Between.Value,
-          Values: [value, this.modelData.data[0]['CompanyStructures_Ranges_Max']]
-        });
-    }
-
-    if (this.filterQuery === '1st5th') {
-      filter.push(
-        {
-          SourceName: sourceName,
-          Operator: Between.Value,
-          Values: [this.modelData.data[0]['CompanyStructures_Ranges_Min'], this.modelData.data[0]['CompanyStructures_Ranges_Quintile_First']]
-        });
-    }
-
-    if (this.filterQuery === '2nd5th') {
-      filter.push(
-        {
-          SourceName: sourceName,
-          Operator: Between.Value,
-          Values: [this.modelData.data[0]['CompanyStructures_Ranges_Quintile_First'], this.modelData.data[0]['CompanyStructures_Ranges_Quintile_Second']]
-        });
-    }
-
-    if (this.filterQuery === '3rd5th') {
-      filter.push(
-        {
-          SourceName: sourceName,
-          Operator: Between.Value,
-          Values: [this.modelData.data[0]['CompanyStructures_Ranges_Quintile_Second'], this.modelData.data[0]['CompanyStructures_Ranges_Quintile_Third']]
-        });
-    }
-
-    if (this.filterQuery === '4th5th') {
-      filter.push(
-        {
-          SourceName: sourceName,
-          Operator: Between.Value,
-          Values: [this.modelData.data[0]['CompanyStructures_Ranges_Quintile_Third'], this.modelData.data[0]['CompanyStructures_Ranges_Quintile_Fourth']]
-        });
-    }
-
-    if (this.filterQuery === 'last5th') {
-      filter.push(
-        {
-          SourceName: sourceName,
-          Operator: Between.Value,
-          Values: [this.modelData.data[0]['CompanyStructures_Ranges_Quintile_Fourth'], this.modelData.data[0]['CompanyStructures_Ranges_Tertile_Max']]
-        });
-    }
-
-    if (this.filterQuery === '1st3rd') {
-      filter.push(
-        {
-          SourceName: sourceName,
-          Operator: Between.Value,
-          Values: [this.modelData.data[0]['CompanyStructures_Ranges_Min'], this.modelData.data[0]['CompanyStructures_Ranges_Tertile_First']]
-        });
-    }
-
-    if (this.filterQuery === '2nd3rd') {
-      filter.push(
-        {
-          SourceName: sourceName,
-          Operator: Between.Value,
-          Values: [this.modelData.data[0]['CompanyStructures_Ranges_Tertile_First'], this.modelData.data[0]['CompanyStructures_Ranges_Tertile_Second']]
-        });
-    }
-
-    if (this.filterQuery === 'last3rd') {
-      filter.push(
-        {
-          SourceName: sourceName,
-          Operator: Between.Value,
-          Values: [this.modelData.data[0]['CompanyStructures_Ranges_Tertile_Second'], this.modelData.data[0]['CompanyStructures_Ranges_Max']]
+          Values: [this.filterMinValue, this.filterMaxValue]
         });
     }
 
@@ -350,7 +217,6 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
     this.modelPageViewIdSubscription.unsubscribe();
     this.metadataSubscription.unsubscribe();
     this.selectedFieldsSubscription.unsubscribe();
-    this.dataSubscription.unsubscribe();
     this.routerParamsSubscription.unsubscribe();
   }
 }

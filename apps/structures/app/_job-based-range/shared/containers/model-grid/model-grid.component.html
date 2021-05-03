@@ -146,7 +146,7 @@
     <a class="temp-link-color-override"
        routerLinkActive="disabled"
        routerLink="/job/{{rangeGroupId}}/employees/{{dataRow.CompanyStructures_Ranges_CompanyStructuresRanges_ID}}"
-       [queryParams]="{ filterQuery: eeCountQueryFilters[fieldName] }">
+       [queryParams]="getFilterQueryParam(fieldName, dataRow)">
       {{ numEmployees }}
     </a>
   </ng-container>

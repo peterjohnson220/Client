@@ -92,7 +92,7 @@ export class FilterBuilderComponent implements OnChanges {
       }
     } else {
       if (this.field.FilterValues == null) {
-        this.field.FilterValues = [];
+        this.field.FilterValues = [null, null];
       }
       this.field.FilterValues[index] = event.toString();
     }
@@ -144,7 +144,7 @@ export class FilterBuilderComponent implements OnChanges {
   }
 
   private filterValueValid() {
-    return (this.field.FilterOperator !== Between.Value && this.field.FilterValues?.length > 0) ||
-      (this.field.FilterOperator === Between.Value) && this.field.FilterValues?.length === 2 && this.field.FilterValues?.every(element => element !== null);
+    return (this.field.FilterOperator !== Between.Value && this.field.FilterValues?.length > 0)
+      || (this.field.FilterOperator === Between.Value && this.field.FilterValues?.length === 2 && this.field.FilterValues?.every(element => element !== null));
   }
 }
