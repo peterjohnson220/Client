@@ -51,6 +51,21 @@ export class StatementEmailTemplateComponent implements OnInit, OnChanges {
     return this.emailForm.valid;
   }
 
+  get warningStartNumber(): number {
+    // Start warning at 25% remaining utilization
+    return Math.floor(this.CONTENT_MAX_LENGTH * .75);
+  }
+
+  get dangerStartNumber(): number {
+    // Start danger at 2.5% remaining utilization
+    return Math.floor(this.CONTENT_MAX_LENGTH * .975);
+  }
+
+  get contentLength(): number {
+    const content =  this.emailForm.get('EmailBody').value as string;
+    return content ? content.length : 0;
+  }
+
   init(): void {
     this.rememberForNextTime = false;
     const emailTemplate = this.statementEmailTemplate ?? this.defaultEmailTemplate;
