@@ -25,6 +25,7 @@ export class PricingProjectPageComponent implements OnInit, AfterViewInit, OnDes
   @ViewChild('jobTitle') jobTitle: ElementRef;
   @ViewChild('gridGlobalActions', { static: true }) gridGlobalActionsTemplate: ElementRef;
   @ViewChild('fileDownloadSecurityWarningModal', { static: true }) fileDownloadSecurityWarningModal: FileDownloadSecurityWarningModalComponent;
+  @ViewChild('compColumn', { static: false }) compColumn: ElementRef;
 
   project$: Observable<any>;
   projectId: number;
@@ -54,6 +55,10 @@ export class PricingProjectPageComponent implements OnInit, AfterViewInit, OnDes
       PersistColumnWidth: true,
       EnableInfiniteScroll: true,
       ScrollToTop: true
+    };
+    this.actionBarConfig = {
+      ...getDefaultActionBarConfig(),
+      ShowColumnChooser: true
     };
 
     this.projectJobGrid$ = this.store.pipe(select(fromPfDataGridReducer.getGrid, PageViewIds.ProjectJobs));
@@ -85,7 +90,8 @@ export class PricingProjectPageComponent implements OnInit, AfterViewInit, OnDes
 
   ngAfterViewInit() {
     this.colTemplates = {
-      'Job_Title': { Template: this.jobTitle }
+      'Job_Title': { Template: this.jobTitle },
+      'comp': { Template: this.compColumn },
     };
 
     this.actionBarConfig = {
