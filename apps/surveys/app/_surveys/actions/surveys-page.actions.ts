@@ -1,12 +1,18 @@
 import { Action } from '@ngrx/store';
 
-export const LOAD_SURVEYS  = '[Surveys / Surveys Page] Load Surveys';
+export const OPEN_SURVEY_FIELDS_MODAL = '[Surveys / Surveys Page] Open Survey Fields Modal';
+export const CLOSE_SURVEY_FIELDS_MODAL = '[Surveys / Surveys Page] Close Survey Fields Modal';
 
-export class LoadSurveys implements Action {
-  readonly type = LOAD_SURVEYS;
+export class OpenSurveyFieldsModal implements Action {
+  readonly type = OPEN_SURVEY_FIELDS_MODAL;
+  constructor() {}
+}
 
+export class CloseSurveyFieldsModal implements Action {
+  readonly type = CLOSE_SURVEY_FIELDS_MODAL;
   constructor() {}
 }
 
 export type Actions
-  = LoadSurveys;
+  = OpenSurveyFieldsModal
+  | CloseSurveyFieldsModal;

@@ -11,14 +11,15 @@ pf-survey-data-cuts {
     border: none;
   }
 
-  .k-grid-header tr:last-child th {
-    border-style: none !important;
+  .k-grid.default .k-grid-header tr th.k-header:first-child {
+    border-color: #fff !important;
+    border-style: none none none solid;
   }
 
-  .k-grid-header tr:last-child th:nth-child(1),
-  .k-grid-header tr:last-child th:nth-child(5),
-  .k-grid-header tr:last-child th:nth-child(9) {
-    border-style: none none none solid !important;
+  .k-grid.default .k-grid-header tr th.k-header:not(:first-child) {
+    border-color: #f6f6f6 !important;
+    border-width: 1px !important;
+    border-style: none;
   }
 
   .k-grid-header .k-header>.k-link>.k-icon {

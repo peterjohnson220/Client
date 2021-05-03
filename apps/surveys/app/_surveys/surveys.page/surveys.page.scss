@@ -12,11 +12,13 @@
 
 .survey-data-cuts-container {
   background-color: #fff;
+}
 
-  .btn-close {
-    cursor: pointer;
-    &:hover {
-      opacity: 0.5;
-    }
+.action-btn {
+  margin-left: .75rem;
+  border: 1px solid transparent;
+  fa-icon {
+    color: #777;
+    font-size: 1.25rem;
   }
 }

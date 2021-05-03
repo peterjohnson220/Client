@@ -22,6 +22,7 @@ export class SurveyDataCutsComponent implements OnChanges, OnInit, AfterViewInit
   @ViewChild('scopeColumn') scopeColumn: ElementRef;
   @ViewChild('currencyColumn') currencyColumn: ElementRef;
   @ViewChild('weightingTypeColumn') weightingTypeColumn: ElementRef;
+  @ViewChild('numericColumn') numericColumn: ElementRef;
 
   splitViewFilters$: Observable<PfDataGridFilter[]>;
 
@@ -95,7 +96,8 @@ export class SurveyDataCutsComponent implements OnChanges, OnInit, AfterViewInit
     this.colTemplates = {
       'Scope1': { Template: this.scopeColumn },
       'WeightingType': { Template: this.weightingTypeColumn },
-      [PfDataGridColType.currency]: { Template: this.currencyColumn }
+      [PfDataGridColType.currency]: { Template: this.currencyColumn },
+      ['numeric']: { Template: this.numericColumn}
     };
   }
 

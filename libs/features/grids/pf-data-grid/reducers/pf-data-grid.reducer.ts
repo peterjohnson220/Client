@@ -352,7 +352,8 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
             selectedRecordId: null,
             selectedRow: null,
             expandedRows: [],
-            sortDescriptor: sortDescriptor
+            sortDescriptor: sortDescriptor,
+            viewIsSaving: true
           }
         }
       };
@@ -363,7 +364,8 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           ...state.grids,
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
-            lastUpdateFieldsDate: new Date()
+            lastUpdateFieldsDate: new Date(),
+            viewIsSaving: false
           }
         }
       };

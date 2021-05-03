@@ -1,0 +1,75 @@
+<pf-modal-form
+  [isOpen$]="showModal$"
+  [size]="'xl'"
+  [title]="'Edit Survey Fields'"
+  [primaryButtonText]="'Apply'"
+  [allowDismiss]="true"
+  [submitting]="saving$ | async"
+  (onDismiss)="handleDismiss()"
+  (onSubmit)="handleSubmit()">
+
+  <ng-container basic-content>
+    <div class="container" [style.max-height]="'600px'" [style.overflow]="'auto'">
+      <ul ngbNav #nav="ngbNav" class="nav-tabs"
+          [destroyOnHide]="false"
+          [(activeId)]="activeTab">
+        <li [ngbNavItem]="tab" *ngFor="let tab of modalTabs">
+          <a ngbNavLink class="tab-title">
+            {{ tab }}
+          </a>
+          <ng-template ngbNavContent>
+            <ng-container *ngIf="!!tabsConfiguration && tabsConfiguration[tab]">
+              <ngb-accordion #accordion class="w-100" #acc="ngbAccordion" [activeIds]="activeAccordionIds">
+                <ngb-panel *ngFor="let group of getKeys(tabsConfiguration[tab]);trackBy: trackByGroup" [id]="tab + '_' + group">
+                  <ng-template ngbPanelHeader>
+                    <div class="group-header w-100 d-flex align-items-center justify-content-between" (click)="acc.toggle(tab + '_' + group)">
+                      <h5>{{group}}</h5>
+                      <fa-icon icon="caret-down" *ngIf="acc.isExpanded(tab + '_' + group)"></fa-icon>
+                      <fa-icon icon="caret-right" *ngIf="!acc.isExpanded(tab + '_' + group)"></fa-icon>
+                    </div>
+                  </ng-template>
+                  <ng-template ngbPanelContent>
+                    <div class="d-flex flex-wrap">
+                      <div class="col-4 d-flex"
+                            *ngFor="let field of tabsConfiguration[tab][group]?.Fields; trackBy: trackByField">
+                        <label pfEllipsisActive
+                               class="ellipsis-overflowing-text-wrap mb-2">
+                          <input type="checkbox"
+                                 [value]="field.EntitySourceName + '_' + field.SourceName"
+                                 [checked]="field.IsSelected"
+                                 (change)="handleSelectionChanged(field)"/>
+                          {{field.DisplayName}}
+                        </label>
+                      </div>
+                    </div>
+                  </ng-template>
+                </ngb-panel>
+              </ngb-accordion>
+            </ng-container>
+          </ng-template>
+        </li>
+      </ul>
+
+      <div class="d-flex">
+        <div class="d-flex selection-area mr-4 mt-5">
+          <div [ngbNavOutlet]="nav" class="w-100"></div>
+        </div>
+        <div class="d-flex current-fields mr-4 mt-5">
+          <ngb-accordion class="w-100" type="info" activeIds="currentFields">
+            <ngb-panel id="currentFields" cardClass="current-fields-panel">
+              <ng-template ngbPanelHeader>
+                <div class="w-100 d-flex align-items-center">
+                  <h5>Current Fields</h5>
+                </div>
+              </ng-template>
+              <ng-template ngbPanelContent>
+                <pf-current-fields-panel [fieldGroups]="allFieldGroups"></pf-current-fields-panel>
+              </ng-template>
+            </ngb-panel>
+          </ngb-accordion>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+</pf-modal-form>
