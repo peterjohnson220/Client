@@ -238,7 +238,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
 
   buildForm() {
     this.modelSettingsForm = new FormGroup({
-      'ModelName': new FormControl(this.metaData.ModelName, [Validators.required, Validators.maxLength(50)]),
+      'ModelName': new FormControl(!this.metaData.IsCurrent || this.isNewModel ? this.metaData.ModelName : '', [Validators.required, Validators.maxLength(50)]),
       'Grades': new FormControl(this.numGrades || ''),
       'RangeDistributionTypeId': new FormControl({ value: this.metaData.RangeDistributionTypeId, disabled: true }, [Validators.required]),
       'MarketDataBased': new FormControl(this.controlPoint || 'BaseMRP', [Validators.required]),
