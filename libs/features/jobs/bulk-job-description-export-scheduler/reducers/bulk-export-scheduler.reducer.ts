@@ -22,6 +22,7 @@ export interface State extends EntityState<BulkExportSchedule> {
   updatingSuccess: boolean;
   jdmExportUrl: string;
   bulkExportHistory: BulkExportHistory[];
+  scheduleId: string;
 }
 
 export const adapter: EntityAdapter<BulkExportSchedule> = createEntityAdapter<BulkExportSchedule>({
@@ -43,7 +44,8 @@ export const initialState: State = adapter.getInitialState({
   updatingError: false,
   updatingSuccess: false,
   jdmExportUrl: null,
-  bulkExportHistory: []
+  bulkExportHistory: [],
+  scheduleId: null
 });
 
 
@@ -68,7 +70,8 @@ export function reducer(
     case  fromBulkExportScheduleActions.ADDING_SCHEDULE_SUCCESS: {
       return {
         ...state,
-        adding: false
+        adding: false,
+        scheduleId: action.payload
       };
     }
     case fromBulkExportScheduleActions.LOADING_SCHEDULE: {
@@ -194,3 +197,4 @@ export const getUpdating = (state: State) => state.updating;
 export const getUpdatingError = (state: State) => state.updatingError;
 export const getJdmExportUrl = (state: State) => state.jdmExportUrl;
 export const getBulkExportHistory = (state: State) => state.bulkExportHistory;
+export const getScheduleId = (state: State) => state.scheduleId;

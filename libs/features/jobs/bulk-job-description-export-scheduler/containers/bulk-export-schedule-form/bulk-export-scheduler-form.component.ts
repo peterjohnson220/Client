@@ -4,7 +4,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import isObject from 'lodash/isObject';
 import omit from 'lodash/omit';
 import { merge, Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { filter, takeUntil } from 'rxjs/operators';
 
 import { ExportReportType, ServiceAccountReportClass } from 'libs/constants';
 import * as fromServiceAccountActions from 'libs/features/service-accounts/actions';
@@ -39,6 +39,7 @@ export class BulkExportSchedulerFormComponent implements OnInit, OnDestroy {
   editSchedule$: Observable<BulkExportSchedule>;
   updateSchedule$: Observable<boolean>;
   updateScheduleError$: Observable<boolean>;
+  scheduleId$: Observable<string>;
 
   specialCharPattern = '^[a-zA-Z0-9 _.-]*$';
   weekday: string[] = [ 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday' ];
@@ -50,6 +51,7 @@ export class BulkExportSchedulerFormComponent implements OnInit, OnDestroy {
   serviceAccountUser$: Observable<ServiceAccountUser>;
   serviceAccountCredentialsModalOpen$ = new Subject<boolean>();
   jdmExportUrl$: Observable<string>;
+  scheduleId: string;
 
   private unsubscribe$ = new Subject<void>();
 
@@ -62,7 +64,7 @@ export class BulkExportSchedulerFormComponent implements OnInit, OnDestroy {
     this.editSchedule$ = this.store.select(fromJdmAdminReducer.getBulkExportScheduleEditSchedule);
     this.updateSchedule$ = this.store.select(fromJdmAdminReducer.getBulkExportScheduleUpdating);
     this.updateScheduleError$ = this.store.select(fromJdmAdminReducer.getBulkExportScheduleUpdatingError);
-
+    this.scheduleId$ = this.store.select(fromJdmAdminReducer.getScheduleId)
     this.serviceAccountStatus$ = this.serviceAccountStore.select(fromServiceAccountReducer.getAccountStatus);
     this.serviceAccountUser$ = this.serviceAccountStore.select(fromServiceAccountReducer.getServiceAccountUser);
     this.jdmExportUrl$ = this.store.select(fromJdmAdminReducer.getJdmExportUrl);
@@ -85,11 +87,17 @@ export class BulkExportSchedulerFormComponent implements OnInit, OnDestroy {
       .subscribe(schedule => {
         if (isObject(schedule)) {
           this.schedule = cloneDeep(schedule);
+          this.scheduleId = this.schedule.Id;
           this.daysOfWeekSelected = schedule?.DayOfWeek.split(',') ?? [];
         } else {
           this.schedule = new BulkExportSchedule();
           this.setDefaultPageValues();
         }
+      });
+    this.scheduleId$
+      .pipe(takeUntil(this.unsubscribe$), filter(v => !!v))
+      .subscribe(id => {
+        this.scheduleId = id;
       });
     this.editing$
       .pipe(takeUntil(this.unsubscribe$))
@@ -159,7 +167,6 @@ export class BulkExportSchedulerFormComponent implements OnInit, OnDestroy {
       if (this.reportType === ExportReportType.HrisOutboundJobs) {
         this.spawnServiceAccountInfo();
       }
-
       this.schedule = new BulkExportSchedule();
 
       this.setDefaultPageValues();

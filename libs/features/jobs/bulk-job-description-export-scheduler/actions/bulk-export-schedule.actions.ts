@@ -32,7 +32,7 @@ export class AddingSchedule implements Action {
 export class AddingScheduleSuccess implements Action {
   readonly type = ADDING_SCHEDULE_SUCCESS;
 
-   constructor(public payload: any = null) {}
+   constructor(public payload: string) {}
 }
 
 export class AddingScheduleError implements Action {
