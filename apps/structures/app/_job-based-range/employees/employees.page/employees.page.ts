@@ -51,6 +51,7 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
   groupFieldSelected = false;
   selectedFieldsSubscription: Subscription;
   filterQuery: string;
+  filterValue: string;
   modelData: GridDataResult;
   routerParamsSubscription: Subscription;
 
@@ -89,17 +90,7 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
 
     this.rangeGroupId = this.route.parent.snapshot.params.id;
     this.rangeId = parseInt(this.route.snapshot.params.id, 10);
-
-    this.routerParamsSubscription = this.route.queryParams.subscribe(params => {
-      this.filterQuery = params['filterQuery'] ?? null;
-      if (this.filterQuery == null) {
-        this.filter = this.modelPageFilter;
-      } else {
-        if(!!this.modelData) {
-          this.filter = this.getFilter();
-        }
-      }
-    });
+    
 
     this.modelPageFilter = this.filter = [{
       SourceName: 'CompanyStructuresRanges_ID',
@@ -107,6 +98,22 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
       Values: [this.route.snapshot.params.id]
     }];
 
+    this.routerParamsSubscription = this.route.queryParams.subscribe(params => {
+      this.filterQuery = params['filterQuery'] ?? null;
+      if (this.filterQuery == null) {
+        this.filter = this.modelPageFilter;
+      } else {
+        this.filterValue = params['value'] ?? null;
+
+        if(!!this.modelData) {
+          this.filter = this.getFilter();
+        }
+        
+        if(!!this.filterValue) {
+            this.filter = this.getFilter();
+        }
+      }
+    });
     this.actionBarConfig = {
       ...getDefaultActionBarConfig(),
       ShowColumnChooser: true,
@@ -132,8 +139,8 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
     this.dataSubscription = this.store.select(fromPfGridReducer.getData, this.modelPageViewId).subscribe(data => {
       if (data) {
         this.modelData = data;
-        if (this.filterQuery != null) {
-          this.filter = this.getFilter();
+        if (this.filterQuery != null && !this.filterValue) {
+          this.filter = this.getFilter();          
         }
       }
     });
@@ -155,7 +162,7 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
         {
           SourceName: sourceName,
           Operator: '<',
-          Values: [this.modelData.data[0]['CompanyStructures_Ranges_Min']]
+          Values: [this.filterValue ?? this.modelData.data[0]['CompanyStructures_Ranges_Min']]
         });
     }
 
@@ -164,7 +171,7 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
         {
           SourceName: sourceName,
           Operator: '>',
-          Values: [this.modelData.data[0]['CompanyStructures_Ranges_Max']]
+          Values: [this.filterValue ?? this.modelData.data[0]['CompanyStructures_Ranges_Max']]
         });
     }
 
