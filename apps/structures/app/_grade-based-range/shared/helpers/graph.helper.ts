@@ -16,11 +16,11 @@ export class GraphHelper {
   }
 
   static getJobsRangeMidRadius(dataLength) {
-    return dataLength === 1 ? 30 : 24;
+    return dataLength === 1 ? 30 : 26;
   }
 
   static getEmployeeChartHeight(data: any, multiLineHeader: boolean = false): number {
-    const defaultOffset = 56;
+    const defaultOffset = 54;
     const multiLineHeaderOffset = 46;
     const defaultSingleRecordHeight = 98;
     const rowHeight = 48;
