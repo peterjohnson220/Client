@@ -59,6 +59,7 @@ export class Permissions {
   public static USER_ROLES = 'User Roles';
   public static PEER_IMPORT_ASSOCIATIONS = 'Peer_Import_Associations';
   public static PEER_MANAGE_JOBS = 'Peer_Manage_Jobs';
+  public static PEER_DISPLAY_COMPANY_BASE_AVERAGE = 'Peer_Display_Company_Base_Average';
   public static SECURITY_SETTINGS = 'Security Settings';
   public static DATA_MANAGEMENT = 'Data Management';
   public static MODIFY_PRICINGS = 'Modify Pricings';
