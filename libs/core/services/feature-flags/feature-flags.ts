@@ -6,6 +6,7 @@ export class FeatureFlags {
   static readonly TotalRewardsElectronicDelivery = 'total-rewards-electronic-delivery';
   static readonly TotalRewardsStyledTemplate = 'total-rewards-styled-template';
   static readonly TotalRewardsEmployeeContribution = 'total-rewards-employee-contribution';
+  static readonly TotalRewardsRadialTextCounters = 'total-rewards-radial-text-counters';
   static readonly PeerManageJobsGridToggle = 'peer-manage-jobs-grid-toggle';
   static readonly PeerDashboard_PeerTrendsReport = 'peer-dashboard_peer-trends-report';
   static readonly BenefitsLoaderConfiguration = 'benefits-loader-configuration';

@@ -44,6 +44,10 @@ export class CommunityTextAreaComponent implements OnInit, OnDestroy {
 
   get content() { return this.parentForm.get('content'); }
 
+  get contentLength() {
+    return (this.content.value as string)?.length ?? 0;
+  }
+
   @HostListener('document:click', ['$event'])
   clickout(event) {
     if (this.suggestTagsContainer

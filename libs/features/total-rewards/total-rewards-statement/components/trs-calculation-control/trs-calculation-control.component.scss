@@ -9,10 +9,7 @@
       width: 75%;
     }
     .employer-contribution-column {
-      width: 20%;
-    }
-    .button-column {
-      width: 5%;
+      width: 25%;
     }
     &.consolidated {
       tr.trs-calculation-row {
@@ -33,7 +30,7 @@
         width: 73%;
       }
       .employer-contribution-column {
-        width: 22%;
+        width: 27%;
       }
     }
   }
@@ -48,9 +45,6 @@
       .employer-contribution-column {
         width: 20%;
       }
-      .button-column {
-        width: 5%;
-      }
     }
   }
   &.employee-contributions-decimals-enabled {
@@ -63,9 +57,6 @@
       }
       .employer-contribution-column {
         width: 22%;
-      }
-      .button-column {
-        width: 5%;
       }
     }
   }
@@ -111,7 +102,7 @@
   }
   .remove-btn {
     visibility: hidden;
-    margin: 0;
+    margin: 0 0 0 4px;
     padding: .2rem;
     line-height: 1;
   }
@@ -120,13 +111,15 @@
     border-top: 1px solid $trs-soft-border-color;
     padding-top: .3rem;
   }
+  .add-field-btn {
+    margin-left: 4px;
+  }
 }
 
 .edit-mode {
   .trs-calculation-row:hover {
     .remove-btn {
       visibility: visible;
-      position: relative;
     }
     .calculation-control-drag-icon {
       visibility: visible;
@@ -135,4 +128,8 @@
   .draggable {
     cursor: grab;
   }
+}
+
+.edit-icon {
+  right: -2px;
 }
