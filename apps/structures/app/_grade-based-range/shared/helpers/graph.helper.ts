@@ -20,7 +20,7 @@ export class GraphHelper {
   }
 
   static getEmployeeChartHeight(data: any, multiLineHeader: boolean = false): number {
-    const defaultOffset = 56;
+    const defaultOffset = 54;
     const multiLineHeaderOffset = 46;
     const defaultSingleRecordHeight = 98;
     const rowHeight = 50;

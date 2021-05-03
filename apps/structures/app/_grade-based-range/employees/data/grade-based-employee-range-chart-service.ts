@@ -87,7 +87,7 @@ export class GradeBasedEmployeeRangeChartService {
         title: {
           text: undefined
         },
-        offset: 22
+        offset: 25
       },
       xAxis: {
         visible: false,
