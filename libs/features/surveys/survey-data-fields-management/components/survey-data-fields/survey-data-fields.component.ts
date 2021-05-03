@@ -24,6 +24,11 @@ export class SurveyDataFieldsComponent implements OnChanges {
   activeTab: string;
   tabsConfiguration = {};
   allFieldGroups: SurveyDataFieldGroup[];
+  isUpdated: boolean;
+
+  constructor() {
+    this.isUpdated = false;
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes?.fields?.currentValue?.length) {
@@ -45,14 +50,17 @@ export class SurveyDataFieldsComponent implements OnChanges {
 
   handleSelectionChanged(field: SurveyDataField) {
     field.IsSelected = !field.IsSelected;
+    this.isUpdated = true;
     this.updateCurrentFields(field);
   }
 
   handleDismiss(): void {
+    this.isUpdated = false;
     this.onDismiss.emit();
   }
 
   handleSubmit(): void {
+    this.isUpdated = false;
     this.onSubmit.emit(this.fields);
   }
 
