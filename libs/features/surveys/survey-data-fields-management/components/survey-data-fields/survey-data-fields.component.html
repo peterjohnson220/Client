@@ -4,6 +4,7 @@
   [title]="'Edit Survey Fields'"
   [primaryButtonText]="'Apply'"
   [allowDismiss]="true"
+  [submitEnabled]="isUpdated"
   [submitting]="saving$ | async"
   (onDismiss)="handleDismiss()"
   (onSubmit)="handleSubmit()">
