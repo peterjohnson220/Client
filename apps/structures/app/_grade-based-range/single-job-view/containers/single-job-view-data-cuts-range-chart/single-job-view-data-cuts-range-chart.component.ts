@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { formatDate } from '@angular/common';
 
 import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -181,13 +182,13 @@ export class SingleJobViewDataCutsRangeChartComponent implements OnInit, OnDestr
 
   private addDataCutMRPPoint(xCoordinate, currentRow) {
     const isMidFormula = !!this.metaData.RangeDistributionSetting?.Mid_Formula?.FormulaId;
-
+    const formattedDate = formatDate(currentRow.vw_PricingMatchesJobTitlesMerged_Effective_Date, 'MM/dd/yyyy', this.chartLocale);
     this.dataCutMRPSeriesData.push({
       x: xCoordinate,
       y: currentRow.CompanyJobs_PricingsMatches_GradeBased_SingleJob_DataCut_MRP,
       source: currentRow.vw_PricingMatchesJobTitlesMerged_Source,
       sourceTitle: currentRow.vw_PricingMatchesJobTitlesMerged_Job_Title,
-      effectiveDate: currentRow.vw_PricingMatchesJobTitlesMerged_Effective_Date,
+      effectiveDate: formattedDate,
       mrp: StructuresHighchartsService.formatMrpTooltip(currentRow.CompanyJobs_PricingsMatches_GradeBased_SingleJob_DataCut_MRP,
         this.jobRangeData.CompanyJobs_Structures_GradeBased_Job_MrpPercentile, isMidFormula, !!this.metaData?.PayType ? this.metaData.PayType : 'Base',
         this.chartLocale, this.currency, this.rate)
