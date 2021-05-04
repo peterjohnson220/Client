@@ -126,7 +126,7 @@ export class HistoricalTrendChartComponent implements OnChanges {
         tickPositioner: function () {
           const positions = [];
           const increment = (this.dataMax === this.dataMin) ? Math.ceil(this.dataMax / 2000) * 1000 : (Math.ceil((this.dataMax - this.dataMin) / 2000)) * 1000;
-          let tick = Math.abs(Math.floor((this.dataMin - (increment * 2)) / 1000) * 1000);
+          let tick = Math.max(Math.floor((this.dataMin - (increment * 2)) / 1000) * 1000, 0);
 
           if (this.dataMax !== null && this.dataMin !== null) {
             for (tick; tick - increment <= this.dataMax; tick += increment) {
