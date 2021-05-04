@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { DatePipe, CurrencyPipe } from '@angular/common'
+import { DatePipe, CurrencyPipe } from '@angular/common';
 import { DomSanitizer } from '@angular/platform-browser';
 import * as Highcharts from 'highcharts';
 import Exporting from 'highcharts/modules/exporting';
@@ -31,7 +31,7 @@ export class SalaryTrendChartComponent implements OnChanges {
   chart: Highcharts.Chart;
   chartOptions: Highcharts.Options = this.getChartOptions();
 
-  constructor(protected datePipe: DatePipe, protected currencyPipe: CurrencyPipe, private sanitizer: DomSanitizer) { }
+  constructor(private datePipe: DatePipe, private currencyPipe: CurrencyPipe, private sanitizer: DomSanitizer) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes?.salaryTrendData?.currentValue) {
@@ -43,7 +43,7 @@ export class SalaryTrendChartComponent implements OnChanges {
       this.refreshChart();
     }
 
-    if(changes?.isHourly?.currentValue != null && this.localSalaryTrendData != null){
+    if (changes?.isHourly?.currentValue != null && this.localSalaryTrendData != null) {
       this.refreshChart();
     }
   }
@@ -73,7 +73,7 @@ export class SalaryTrendChartComponent implements OnChanges {
   }
 
   refreshChartImage(): void {
-    if(this.chart) {
+    if (this.chart) {
       const svg = this.chart.getSVG(this.chartOptions);
       const blob = new Blob([svg], {type: 'image/svg+xml'});
       this.img = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
@@ -95,27 +95,27 @@ export class SalaryTrendChartComponent implements OnChanges {
       tooltip: {
         backgroundColor: '#009900',
         animation: false,
-        style:{
+        style: {
           color: '#FFFFFF'
         },
         formatter: (data) => {
-          let point = data.chart.hoverPoint;
-          let transformedDate = this.datePipe.transform(point.category, 'MM/yyyy')
-          let transformedSalary = this.currencyPipe.transform(point.y, this.currencyCode, 'symbol-narrow', this.isHourly ? '1.2-2' : '1.0-0');
+          const point = data.chart.hoverPoint;
+          const transformedDate = this.datePipe.transform(point.category, 'MM/yyyy');
+          const transformedSalary = this.currencyPipe.transform(point.y, this.currencyCode, 'symbol-narrow', this.isHourly ? '1.2-2' : '1.0-0');
           return transformedDate + ': ' + transformedSalary;
         }
       },
-      xAxis:{
+      xAxis: {
         categories: this.categories,
         labels: {
           enabled: false
         }
       },
-      yAxis:{
+      yAxis: {
         tickPositioner: function () {
-          var positions = [];
-          var increment = Math.ceil((this.dataMax - this.dataMin) / 2);
-          var tick = Math.floor(this.dataMin - (increment * 2));
+          const positions = [];
+          const increment = Math.ceil((this.dataMax - this.dataMin) / 2);
+          let tick = Math.floor(this.dataMin - (increment * 2));
 
           if (this.dataMax !== null && this.dataMin !== null) {
             for (tick; tick - increment <= this.dataMax; tick += increment) {
