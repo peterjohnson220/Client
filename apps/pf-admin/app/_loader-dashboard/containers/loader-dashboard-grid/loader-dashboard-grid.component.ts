@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import { GridDataResult, PageChangeEvent, RowClassArgs } from '@progress/kendo-angular-grid';
-import { orderBy, SortDescriptor } from '@progress/kendo-data-query';
+import { DataStateChangeEvent, GridDataResult, RowClassArgs } from '@progress/kendo-angular-grid';
+import { process, State } from '@progress/kendo-data-query';
 
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -32,18 +32,25 @@ export class LoaderDashboardGridComponent implements OnInit, OnDestroy {
   loaderDashboardRedropsFeatureFlag: RealTimeFlag = { key: FeatureFlags.LoaderDashboardRedrops, value: false };
 
   gridView: GridDataResult;
-  sort: SortDescriptor[] = [{
-    field: 'compositeDataLoadId',
-    dir: 'desc'
-  }];
   gridData: CompositeDataLoadViewResponse[] = [];
-  skip = 0;
-  pageSize = 10;
   pageSizes = [10, 20, 30];
+  gridState: State = {
+    skip: 0,
+    take: 10,
+    filter: {
+      filters: [],
+      logic: 'and'
+    },
+    sort: [{
+      field: 'compositeDataLoadId',
+      dir: 'desc'
+    }]
+  };
 
   selectedCompositeDataLoadId: number;
   selectedClientName: string;
   selectedClientId: number;
+  public checked = false;
 
   constructor(
     private store: Store<fromLoaderDashboardPageReducer.State>,
@@ -56,11 +63,9 @@ export class LoaderDashboardGridComponent implements OnInit, OnDestroy {
     this.gridDataObj$ = this.store.select(fromLoaderDashboardPageReducer.getCompositeLoadsObj);
     this.gridDataObj$.pipe(takeUntil(this.unsubscribe$)).subscribe(v => {
       if (v && !v.loading) {
-        this.gridData = v.obj;
-        this.skip = 0;
-        this.applySort();
-        this.refreshGridDataResult();
-      }
+        this.gridData = this.hasErrorCondition(v.obj);
+        this.gridView = process(this.gridData, this.gridState);
+        }
     });
     this.isRedropInProgress$ = this.store.select(fromLoaderDashboardPageReducer.getRedropExportedSourceFile);
   }
@@ -79,27 +84,9 @@ export class LoaderDashboardGridComponent implements OnInit, OnDestroy {
     return '';
   }
 
-  pageChange($event: PageChangeEvent) {
-    this.skip = $event.skip;
-    this.pageSize = $event.take;
-    this.refreshGridDataResult();
-  }
-
-  sortChange($event: SortDescriptor[]) {
-    this.sort = $event;
-    this.applySort();
-    this.refreshGridDataResult();
-  }
-
-  applySort() {
-    this.gridData = orderBy(this.gridData, this.sort);
-  }
-
-  private refreshGridDataResult() {
-    this.gridView = {
-      data: this.gridData.slice(this.skip, this.skip + this.pageSize),
-      total: this.gridData.length
-    };
+  dataStateChange(state: DataStateChangeEvent) {
+    this.gridState = state;
+    this.gridView = process(this.gridData, this.gridState);
   }
 
   downloadInvalidRecordsFile(externalId: string) {
@@ -127,7 +114,8 @@ export class LoaderDashboardGridComponent implements OnInit, OnDestroy {
     return dataItem && dataItem.entityLoadSummaries && dataItem.entityLoadSummaries.length > 0;
   }
 
-  hasErrorCondition(dataItem: CompositeDataLoadViewResponse): boolean {
-    return !!dataItem.fixableDataConditionException || !!dataItem.terminalException || dataItem.entityLoadSummaries.filter(v => v.invalidCount > 0).length > 0;
+  hasErrorCondition(data: CompositeDataLoadViewResponse[]): CompositeDataLoadViewResponse[] {
+    return data.map( d => ({...d, hasErrorCondition: !!d.fixableDataConditionException || !!d.terminalException ||
+       d.entityLoadSummaries.filter(v => v.invalidCount > 0).length > 0}));
   }
 }

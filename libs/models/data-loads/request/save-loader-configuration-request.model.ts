@@ -1,6 +1,6 @@
 import { ConfigurationGroup, LoaderSetting } from 'libs/models';
 
-export interface SavePricingLoaderConfigRequest {
+export interface SaveLoaderConfigRequest {
   ConfigurationGroup: ConfigurationGroup;
   LoaderSettings: LoaderSetting[];
 }
