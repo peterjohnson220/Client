@@ -158,8 +158,9 @@ export class AddJobsModalEffects {
         this.store.pipe(select(fromAddJobsReducer.getSelectedJobIds)),
         this.store.pipe(select(fromSharedStructuresReducer.getMetadata)),
         this.store.pipe(select(fromAddJobsReducer.getJobs)),
-        (action: fromJobsToGradeActions.AutoGradeJobs, selectedJobIds, metadata, jobs) =>
-          ({ action, selectedJobIds, metadata, jobs })
+        this.store.pipe(select(fromAddJobsReducer.getSelectedAllLoadedJobs)),
+        (action: fromJobsToGradeActions.AutoGradeJobs, selectedJobIds, metadata, jobs, selectedJobs) =>
+          ({ action, selectedJobIds, metadata, jobs, selectedJobs })
       ),
       switchMap(data => {
         const companyJobIds = data.selectedJobIds.map(j => Number(j));
@@ -173,13 +174,19 @@ export class AddJobsModalEffects {
             mergeMap((r) => {
                 const actions = [];
                 actions.push(new fromJobsToGradeActions.AutoGradeJobsSuccess());
-                actions.push(new fromAddJobsSearchResultsActions.ClearSelectedJobs());
-                actions.push(new fromJobsToGradeActions.GetGrades(data.action.gradeRangeGroupDetails));
 
-                // Show a warning if API returns any Ids
-                if (r.length > 0) {
+                r.CompanyJobStructureGradesMapDtos.forEach(item => {
+                  const jobs = PayfactorsApiModelMapper.mapJobResultsToGradeJobs(data.selectedJobs.filter(j => j.Id === String(item.CompanyJobId)),
+                    item.CompanyStructuresGradesId);
+                  actions.push(new fromJobsToGradeActions.AddJobsToGrade(jobs));
+                });
+
+                actions.push(new fromAddJobsSearchResultsActions.ClearSelectedJobs());
+
+                // Show a warning if jobs in multiple grades
+                if (r.CompanyJobIdsInMultipleGrades.length > 0) {
                   const jobs = [];
-                  r.forEach((item: string) => {
+                  r.CompanyJobIdsInMultipleGrades.forEach((item: number) => {
                     const job = data.jobs.find(x => x.Id === String(item));
                     jobs.push(job.Title);
                   });
