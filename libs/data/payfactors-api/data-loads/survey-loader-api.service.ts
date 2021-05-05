@@ -9,8 +9,8 @@ import { PayfactorsApiService } from '../payfactors-api.service';
 @Injectable({
   providedIn: 'root',
 })
-export class PricingLoaderApiService {
-  private endpoint = 'PricingLoader';
+export class SurveyLoaderApiService {
+  private endpoint = 'SurveyLoader';
 
   constructor(
     private payfactorsApiService: PayfactorsApiService
@@ -20,7 +20,7 @@ export class PricingLoaderApiService {
     return this.payfactorsApiService.postFormData(`${this.endpoint}/GetWorksheetNames`, { file: request });
   }
 
-  savePricingLoaderConfig(request: SaveLoaderConfigRequest): Observable<number> {
-    return this.payfactorsApiService.post(`${this.endpoint}/SavePricingLoaderConfiguration`, request);
+  saveSurveyLoaderConfig(request: SaveLoaderConfigRequest): Observable<number> {
+    return this.payfactorsApiService.post(`${this.endpoint}/SaveSurveyLoaderConfiguration`, request);
   }
 }
