@@ -1,0 +1,14 @@
+<div class="form-inline col-md-12">
+  <kendo-combobox [data]="(worksheetNames$ | async)?.obj"
+                  [ngModel]="surveySheet.Value"
+                  [placeholder]="worksheetNamePlaceholder"
+                  [style.width.px]="250"
+                  (valueChange)="onChange($event)">
+  </kendo-combobox>
+  <div class="ml-2" *ngIf="surveySheet.Id !== 1">
+    <fa-icon [icon]="['fas', 'trash-alt']"
+             [style.cursor]="'pointer'"
+             class="text-danger"
+             (click)="onClick()"></fa-icon>
+  </div>
+</div>
