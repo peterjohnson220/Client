@@ -50,8 +50,8 @@ describe('Job Description Management - Templates - Template List',
 
     fixture = TestBed.createComponent(TemplateListComponent);
     instance = fixture.componentInstance;
-    instance.copyBtn = TestBed.get(ElementRef);
-    instance.deleteBtn = TestBed.get(ElementRef);
+    instance.copyBtn = TestBed.inject(ElementRef);
+    instance.deleteBtn = TestBed.inject(ElementRef);
 
     store = TestBed.inject(Store);
     modal = TestBed.inject(NgbModal);

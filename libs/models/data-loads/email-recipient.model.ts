@@ -1,6 +1,6 @@
 export interface EmailRecipientModel {
   DataLoadEmailRecipientId: number;
-  CompanyId: number;
+  CompanyId?: number;
   UserId: number;
   EmailAddress: string;
   FirstName: string;

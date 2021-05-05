@@ -97,6 +97,14 @@ pipeline {
               env.octoEnv = "${teamName}"
               octoVerSuffix = "-${teamName.substring(0,3).toUpperCase()}"
               env.buildConfig = '--configuration=staging'
+              
+            } else if (env.BRANCH_NAME == 'Defiant/develop') {
+              isAutoDeployBranch = true
+              suffix = '-Defiant'
+              octoChannel = 'Defiant'
+              env.octoEnv = 'Defiant'
+              octoVerSuffix = '-DF'
+              env.buildConfig = '--configuration=staging'
 
             } else if (env.BRANCH_NAME == 'Tardis/develop') {
               isAutoDeployBranch = true
@@ -207,11 +215,17 @@ pipeline {
     }
 
     stage('Build') {
+      environment {
+        KENDO_UI_LICENSE = credentials('KENDO_UI_LICENSE')
+      }
       steps {
         parallel (
           Build: {
             script {
               nodejs(nodeVersion) {
+                sh "KENDO_UI_LICENSE=${env.KENDO_UI_LICENSE}"
+                sh "npx kendo-ui-license activate"
+
                 echo "Getting list of apps..."
                 sh 'ls apps > dirs'
                 sh """

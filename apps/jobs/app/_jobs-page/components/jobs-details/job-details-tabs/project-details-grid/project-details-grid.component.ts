@@ -1,7 +1,7 @@
-import { Component, ViewChild, AfterViewInit, ElementRef, Input, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, ElementRef, Input, OnDestroy, OnChanges, SimpleChanges, OnInit } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { SortDescriptor } from '@progress/kendo-data-query';
 import cloneDeep from 'lodash/cloneDeep';
 
@@ -11,6 +11,8 @@ import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import * as fromPfGridActions from 'libs/features/grids/pf-data-grid/actions';
 import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums/pf-theme-type.enum';
 import { GroupedListItem } from 'libs/models';
+import * as fromFeatureFlagRedirectReducer from 'libs/state/state';
+import { UrlPage } from 'libs/models/url-redirect/url-page';
 
 import * as fromJobsPageReducer from '../../../../reducers';
 import { PageViewIds } from '../../../../constants';
@@ -20,7 +22,7 @@ import { PageViewIds } from '../../../../constants';
   templateUrl: './project-details-grid.component.html',
   styleUrls: ['./project-details-grid.component.scss']
 })
-export class ProjectDetailsGridComponent implements AfterViewInit, OnDestroy, OnChanges {
+export class ProjectDetailsGridComponent implements AfterViewInit, OnDestroy, OnChanges, OnInit {
   @Input() filters: PfDataGridFilter[];
   @ViewChild('projectAccessColumn') projectAccessColumn: ElementRef;
   @ViewChild('payMarketFilter') payMarketFilter: ElementRef;
@@ -38,6 +40,11 @@ export class ProjectDetailsGridComponent implements AfterViewInit, OnDestroy, On
 
   gridFieldSubscription: Subscription;
   companyPayMarketsSubscription: Subscription;
+
+  pricingProjectSlug$: Observable<string>;
+  redirectSlugLoading$: Observable<boolean>;
+  redirectSlugLoadingError$: Observable<boolean>;
+
   payMarketField: ViewField;
   payMarketOptions: GroupedListItem[];
   selectedPayMarkets: string[];
@@ -47,7 +54,24 @@ export class ProjectDetailsGridComponent implements AfterViewInit, OnDestroy, On
   constructor(
     private store: Store<fromJobsPageReducer.State>
     ) {
-    this.companyPayMarketsSubscription = store.select(fromJobsPageReducer.getCompanyPayMarkets)
+
+    this.pricingProjectSlug$ = this.store.select(fromFeatureFlagRedirectReducer.getPageRedirectUrl, {page: UrlPage.PricingProject});
+    this.redirectSlugLoading$ = this.store.select(fromFeatureFlagRedirectReducer.getLoading);
+    this.redirectSlugLoadingError$ = this.store.select(fromFeatureFlagRedirectReducer.getLoadingError);
+
+    this.actionBarConfig = {
+      ...getDefaultActionBarConfig(),
+      ActionBarClassName: 'ml-0 mr-3 mt-1'
+    };
+    this.gridConfig = {
+      PersistColumnWidth: false,
+      EnableInfiniteScroll: true,
+      ScrollToTop: true
+    };
+  }
+
+  ngOnInit() {
+    this.companyPayMarketsSubscription = this.store.select(fromJobsPageReducer.getCompanyPayMarkets)
       .subscribe(o => {
         if (!!o) {
           this.payMarketOptions = cloneDeep(o);
@@ -59,15 +83,6 @@ export class ProjectDetailsGridComponent implements AfterViewInit, OnDestroy, On
         this.selectedPayMarkets = this.payMarketField.FilterValues === null ? [] : cloneDeep(this.payMarketField.FilterValues);
       }
     });
-    this.actionBarConfig = {
-      ...getDefaultActionBarConfig(),
-      ActionBarClassName: 'ml-0 mr-3 mt-1'
-    };
-    this.gridConfig = {
-      PersistColumnWidth: false,
-      EnableInfiniteScroll: true,
-      ScrollToTop: true
-    };
   }
 
   ngAfterViewInit() {

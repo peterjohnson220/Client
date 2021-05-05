@@ -2,9 +2,9 @@
 
 exports[`CommunityPostReplyComponent should show community post reply component 1`] = `
 <pf-community-post-reply
-  onAttachmentClickedEvent={[Function EventEmitter]}
+  onAttachmentClickedEvent={[Function EventEmitter_]}
   reply={[Function Object]}
-  replyHashTagClicked={[Function EventEmitter]}
+  replyHashTagClicked={[Function EventEmitter_]}
   rootStore={[Function Store]}
   userContext$={[Function Store]}
   userContextSub={[Function Subscriber]}

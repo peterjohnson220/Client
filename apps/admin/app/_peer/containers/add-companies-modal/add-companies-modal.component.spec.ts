@@ -6,7 +6,6 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import { SortDescriptor } from '@progress/kendo-data-query';
-import 'rxjs/add/operator/take';
 
 import {
   AvailableCompany, ExchangeStatusEnum, generateMockAddExchangeCompaniesRequest,

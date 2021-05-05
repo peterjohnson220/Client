@@ -119,7 +119,7 @@ describe('Pricing History Chart Features - Filters', () => {
     instance.ngOnInit();
     const c = instance.pricingHistoryChartForm.controls;
 
-    const userSelectedPM = makePayMarket(2222, 'Chicago', 'Annual', 'USD', '8/1/2018', '10/1/2018', false)
+    const userSelectedPM = makePayMarket(2222, 'Chicago', 'Annual', 'USD', '8/1/2018', '10/1/2018', false);
     instance.payMarketOptions = [
       userSelectedPM,
       makePayMarket(1111, 'Boston', 'Annual', 'USD', '10/1/2010', '8/1/2015', false)

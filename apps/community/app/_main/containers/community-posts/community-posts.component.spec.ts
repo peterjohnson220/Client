@@ -2,11 +2,9 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
-import { of } from 'rxjs';
-import 'rxjs/add/observable/of';
 import { CdkScrollable } from '@angular/cdk/scrolling';
 
+import { of } from 'rxjs';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
@@ -14,7 +12,6 @@ import * as fromCommunityPostReducer from '../../reducers';
 import * as fromCommunityPostActions from '../../actions/community-post.actions';
 import { CommunityPostsComponent } from './community-posts.component';
 import { CommunityPost } from 'libs/models/community/community-post.model';
-import { ActivatedRouteStub } from 'libs/test/activated-route-stub';
 import { generateMockCommunityPost } from 'libs/models/community/community-post.model';
 import { SettingsService } from 'libs/state/app-context/services';
 
@@ -38,7 +35,7 @@ describe('CommunityPostsComponent', () => {
         {
           provide: ActivatedRoute,
           useValue: {
-            params: Observable.of({ id: 123 })
+            params: of({ id: 123 })
           }
         },
         SettingsService ],

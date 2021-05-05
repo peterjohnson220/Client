@@ -6,8 +6,10 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { BulkProjectShareRequest } from 'libs/models/share-modal/bulk-project-share-request';
+import { ProjectListTooltipRequest, ProjectListTooltipResponse } from 'libs/models/projects/tooltips';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
+
 
 @Injectable({
   providedIn: 'root',
@@ -37,6 +39,10 @@ export class PricingProjectApiService {
 
   bulkProjectShare(request: BulkProjectShareRequest) {
     return this.payfactorsApiService.post(`${this.endpoint}/BulkShareProjectsAndSendEmail`, request);
+  }
+
+  getTooltipContent(request: ProjectListTooltipRequest): Observable<ProjectListTooltipResponse> {
+    return this.payfactorsApiService.post(`${this.endpoint}/GetTooltipContent`, request);
   }
 }
 

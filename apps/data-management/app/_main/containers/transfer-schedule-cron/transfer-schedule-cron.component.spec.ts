@@ -1,5 +1,5 @@
 import {SimpleChange} from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {NO_ERRORS_SCHEMA} from '@angular/compiler/src/core';
 
 import { TransferScheduleCronComponent } from './transfer-schedule-cron.component';
@@ -8,7 +8,7 @@ describe('TransferScheduleCronComponent', () => {
   let component: TransferScheduleCronComponent;
   let fixture: ComponentFixture<TransferScheduleCronComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ TransferScheduleCronComponent ],
       schemas: [NO_ERRORS_SCHEMA]

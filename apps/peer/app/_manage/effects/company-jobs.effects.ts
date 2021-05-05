@@ -3,8 +3,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 import { Action, select, Store } from '@ngrx/store';
 import { Effect, Actions, ofType } from '@ngrx/effects';
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
+import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap, withLatestFrom, filter, mergeMap } from 'rxjs/operators';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 
@@ -14,6 +13,9 @@ import { JobsApiService } from 'libs/data/payfactors-api/jobs';
 import { ExchangeJob } from 'libs/features/peer/job-association/models/exchange-job.model';
 import { PermissionService } from 'libs/core/services';
 import { PermissionCheckEnum, Permissions } from 'libs/constants';
+import * as fromFeatureFlagRedirectReducer from 'libs/state/state';
+import { UrlPage } from 'libs/models/url-redirect/url-page';
+import { UrlRedirectHelper } from 'libs/core/helpers/url-redirect-helper';
 
 import { ExchangeJobsSearchParams } from '../models/exchange-jobs-search-params.model';
 import * as fromCompanyJobsActions from '../actions/company-jobs.actions';
@@ -168,10 +170,21 @@ export class CompanyJobsEffects {
   @Effect()
   createProject$: Observable<Action> = this.actions$.pipe(
     ofType(fromCompanyJobsActions.CREATE_PROJECT),
+    withLatestFrom(
+      this.store.select(fromFeatureFlagRedirectReducer.getPageRedirectUrl, {page: UrlPage.PricingProject}),
+      (action: fromCompanyJobsActions.CreateProject, redirectUrl: string) => ({action, redirectUrl})
+    ),
     switchMap((data: any) => {
-      return this.jobsApiService.createProject(data.payload).pipe(
+      return this.jobsApiService.createProject(data.action.payload).pipe(
         mergeMap((projectId: number) => {
-          window.location.href = `/marketdata/marketdata.asp?usersession_id=${projectId}&show_peer_exchange=true`;
+          let url = UrlRedirectHelper.getIdParamUrl(data.redirectUrl, projectId.toString());
+
+          if (url.includes('marketdata')) {
+            url = url + '&show_peer_exchange=true';
+            window.location.href = url;
+          }
+
+          window.location.href = url;
           return [];
         }),
         catchError(() => of(new fromCompanyJobsActions.CreateProjectError()))

@@ -16,12 +16,34 @@
 
 <ng-template kendoGridCellTemplate #projectAccessColumn let-dataRow="dataRow" let-rowIndex="rowIndex">
   <ng-container *ngIf="dataRow['UserSessions_HasProjectAccess']; else noAccess">
-    <a
-      [attr.data-qa-id]="'lnk-access-project-' + rowIndex"
-      class="access-project-link"
-      href="../../../../marketdata/marketdata.asp?usersession_id={{dataRow['UserSessions_UserSession_ID']}}">
-      Access Project
-    </a>
+    <div *ngIf="!(redirectSlugLoadingError$ | async) && !(redirectSlugLoading$ | async)">
+      <span *ngIf="(pricingProjectSlug$ | async)?.includes('client')">
+        <a
+          [attr.data-qa-id]="'lnk-access-project-' + rowIndex"
+          class="access-project-link"
+          href="{{(pricingProjectSlug$ | async)}}/{{dataRow['UserSessions_UserSession_ID']}}">
+          Access Project
+        </a>
+      </span>
+      <span *ngIf="(pricingProjectSlug$ | async)?.includes('marketdata')">
+        <a
+          [attr.data-qa-id]="'lnk-access-project-' + rowIndex"
+          class="access-project-link"
+          href="{{(pricingProjectSlug$ | async)}}?usersession_id={{dataRow['UserSessions_UserSession_ID']}}">
+          Access Project
+        </a>
+      </span>
+    </div>
+
+    <!--If there is a loading error, assume they go to the old pricing project page-->
+    <span *ngIf="!(redirectSlugLoading$ | async) && (redirectSlugLoadingError$ | async)">
+      <a
+        [attr.data-qa-id]="'lnk-access-project-' + rowIndex"
+        class="access-project-link"
+        href="../../../../marketdata/marketdata.asp?usersession_id={{dataRow['UserSessions_UserSession_ID']}}">
+        Access Project
+      </a>
+    </span>
   </ng-container>
   <ng-template #noAccess>
     Owned by {{dataRow['UserSessions_Create_User']}}

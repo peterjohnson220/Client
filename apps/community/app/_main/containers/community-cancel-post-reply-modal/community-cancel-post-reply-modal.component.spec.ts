@@ -1,5 +1,5 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
@@ -12,7 +12,7 @@ describe('CommunityCancelPostReplyModalComponent', () => {
   let fixture: ComponentFixture<CommunityCancelPostReplyModalComponent>;
   let store: Store<fromRootState.State>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
@@ -26,7 +26,7 @@ describe('CommunityCancelPostReplyModalComponent', () => {
     })
     .compileComponents();
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
   }));
 
   beforeEach(() => {

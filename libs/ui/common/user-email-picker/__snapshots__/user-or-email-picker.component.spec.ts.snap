@@ -2,13 +2,13 @@
 
 exports[`UserOrEmailPickerComponent should not show a spinner when no search is being performed 1`] = `
 <pf-user-or-email-picker
-  companyApiService="undefined"
+  companyApiService={[Function Object]}
   identity$={[Function Store]}
   identitySubscription={[Function Subscriber]}
   searchFailed="false"
   searching="false"
-  selected={[Function EventEmitter]}
-  userApiService="undefined"
+  selected={[Function EventEmitter_]}
+  userApiService={[Function Object]}
   userContextStore={[Function Store]}
   userOrEmailTypeaheadFn={[Function Function]}
 >
@@ -35,13 +35,13 @@ exports[`UserOrEmailPickerComponent should not show a spinner when no search is 
 
 exports[`UserOrEmailPickerComponent should show a spinner when a search is in progress 1`] = `
 <pf-user-or-email-picker
-  companyApiService="undefined"
+  companyApiService={[Function Object]}
   identity$={[Function Store]}
   identitySubscription={[Function Subscriber]}
   searchFailed="false"
   searching={[Function Boolean]}
-  selected={[Function EventEmitter]}
-  userApiService="undefined"
+  selected={[Function EventEmitter_]}
+  userApiService={[Function Object]}
   userContextStore={[Function Store]}
   userOrEmailTypeaheadFn={[Function Function]}
 >
@@ -75,13 +75,13 @@ exports[`UserOrEmailPickerComponent should show a spinner when a search is in pr
 
 exports[`UserOrEmailPickerComponent should show an error message when a search failed 1`] = `
 <pf-user-or-email-picker
-  companyApiService="undefined"
+  companyApiService={[Function Object]}
   identity$={[Function Store]}
   identitySubscription={[Function Subscriber]}
   searchFailed={[Function Boolean]}
   searching="false"
-  selected={[Function EventEmitter]}
-  userApiService="undefined"
+  selected={[Function EventEmitter_]}
+  userApiService={[Function Object]}
   userContextStore={[Function Store]}
   userOrEmailTypeaheadFn={[Function Function]}
 >

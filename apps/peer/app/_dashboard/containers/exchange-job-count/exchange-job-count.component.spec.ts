@@ -16,7 +16,7 @@ describe('Peer Dashboard - Exchange Job Count', () => {
   let fixture: ComponentFixture<ExchangeJobCountComponent>;
   let instance: ExchangeJobCountComponent;
   let store: Store<fromPeerDashboardReducer.State>;
-  let route: ActivatedRouteStub;
+  let route: any;
 
   // Configure Testing Module for before each test
   beforeEach(() => {
@@ -41,8 +41,7 @@ describe('Peer Dashboard - Exchange Job Count', () => {
     });
 
     store = TestBed.inject(Store);
-    // TODO: Resolve type mismatch here and use .inject
-    route = TestBed.get(ActivatedRoute);
+    route = TestBed.inject(ActivatedRoute);
 
     route.setParamMap({ id: 1 });
 

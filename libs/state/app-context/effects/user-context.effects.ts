@@ -3,11 +3,19 @@ import { isPlatformBrowser } from '@angular/common';
 import { Router } from '@angular/router';
 
 import { Actions, Effect, ofType } from '@ngrx/effects';
+import { select, Store } from '@ngrx/store';
 import { of } from 'rxjs';
-import { tap, switchMap, map, catchError } from 'rxjs/operators';
+import { tap, switchMap, map, catchError, withLatestFrom } from 'rxjs/operators';
 
 import { CompanySecurityApiService } from '../../../data/payfactors-api';
+import { UrlRedirectRequest } from '../../../models/url-redirect';
+import { UrlRedirectHelper } from '../../../core/helpers/url-redirect-helper';
+import { UserContext } from '../../../models/security/user-context.model';
+
 import * as userContextActions from '../actions/user-context.actions';
+import * as fromFeatureFlagRedirectActions from '../actions/feature-flag-redirect.action';
+import * as userContextReducer from '../reducers/user-context.reducer';
+import * as fromRootState from '../../state';
 
 @Injectable()
 export class UserContextEffects {
@@ -25,6 +33,22 @@ export class UserContextEffects {
           })
         )
       )
+    );
+
+  @Effect()
+  getUserContextSuccess$ = this.actions$
+    .pipe(
+      ofType(userContextActions.GET_USER_CONTEXT_SUCCESS),
+      // wherever there is a userContext, there should also be feature flag redirects
+      withLatestFrom(
+        this.store.pipe(select(fromRootState.getUserContext)),
+        (action, userContext: UserContext) => {
+          return { action, userContext };
+        }),
+      map((data) => {
+        return data.userContext.IsPublic ? { type: 'No Action' } :
+          new fromFeatureFlagRedirectActions.GetUserRedirectUrls(this.generateUrlRedirectRequests());
+      })
     );
 
   @Effect()
@@ -109,6 +133,16 @@ export class UserContextEffects {
   constructor(private actions$: Actions,
     private companySecurityApiService: CompanySecurityApiService,
     private router: Router,
-    @Inject(PLATFORM_ID) private platformId: Object) {
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private store: Store<userContextReducer.State>) {
+  }
+
+  private generateUrlRedirectRequests(): UrlRedirectRequest[] {
+    const requestArr: UrlRedirectRequest[] = [];
+
+    requestArr.push(UrlRedirectHelper.getPricingProjectUrlRedirectRequest());
+    requestArr.push(UrlRedirectHelper.getProjectListUrlRedirectRequest());
+
+    return requestArr;
   }
 }

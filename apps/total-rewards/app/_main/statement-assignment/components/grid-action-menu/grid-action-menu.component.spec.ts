@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { GridActionMenuComponent } from './grid-action-menu.component';
@@ -7,7 +7,7 @@ describe('GridActionMenuComponent', () => {
   let component: GridActionMenuComponent;
   let fixture: ComponentFixture<GridActionMenuComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ GridActionMenuComponent ],
       schemas: [NO_ERRORS_SCHEMA]

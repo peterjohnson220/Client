@@ -1,10 +1,9 @@
 import { OnInit, Component, OnDestroy } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 
-import { forkJoin, Subscription } from 'rxjs';
-import {Observable} from 'rxjs/Observable';
+import { forkJoin, Subscription, Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
 import {Store} from '@ngrx/store';
-import 'rxjs-compat/add/operator/take';
 
 import { UserContext } from 'libs/models/security';
 import { ControlType } from 'libs/models/common';
@@ -102,7 +101,7 @@ export class JobDescriptionVersionComparePageComponent implements OnInit, OnDest
   }
 
   private getDetailCompareFromSelectedVersions() {
-    forkJoin([this.sourceHistoryItem$.pipe().take(1), this.comparisonHistoryItem$.pipe().take(1)]).subscribe(result => {
+    forkJoin([this.sourceHistoryItem$.pipe(take(1)), this.comparisonHistoryItem$.pipe(take(1))]).subscribe(result => {
       if (result[0] && result[1]) {
         const sourceVersionNum = result[0].VersionNumber;
         const comparisonVersionNumber = result[1].VersionNumber;

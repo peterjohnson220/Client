@@ -51,6 +51,7 @@ exports[`TransferSchedulePageComponent should show only supported entities 1`] =
           class="float-right hris-validation-mode-toggle"
         >
           <kendo-switch
+            aria-readonly="false"
             class="k-widget k-switch k-switch-off"
             dir="ltr"
             style="width:80px;"
@@ -192,6 +193,7 @@ exports[`TransferSchedulePageComponent should show only supported entities and o
           class="float-right hris-validation-mode-toggle"
         >
           <kendo-switch
+            aria-readonly="false"
             class="k-widget k-switch k-switch-off"
             dir="ltr"
             style="width:80px;"

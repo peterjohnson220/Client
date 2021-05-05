@@ -25,13 +25,13 @@ describe('LocationSearchComponent', () => {
       ],
       providers: [
         {
-          provide: MapboxApiService
+          provide: MapboxApiService, useValue: { getLocationResults: jest.fn() }
         }
       ],
       // Shallow Testing
       schemas: [ NO_ERRORS_SCHEMA ]
     });
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     fixture = TestBed.createComponent(LocationSearchComponent);
     instance = fixture.componentInstance;
   });

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Action, select, Store } from '@ngrx/store';
 
 import { Effect, Actions, ofType } from '@ngrx/effects';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { catchError, map, switchMap, mergeMap, withLatestFrom, debounceTime } from 'rxjs/operators';
 import { iif, of } from 'rxjs';
 

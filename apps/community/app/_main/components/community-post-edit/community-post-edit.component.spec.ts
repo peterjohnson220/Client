@@ -1,7 +1,5 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import 'rxjs/add/observable/of';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { FormBuilder } from '@angular/forms';
@@ -17,7 +15,7 @@ describe('CommunityPostEditComponent', () => {
   let instance: CommunityPostEditComponent;
   let store: Store<fromRootState.State>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({

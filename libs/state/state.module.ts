@@ -6,7 +6,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import {
     CompanyContextEffects, CompanySettingsEffects, LegacyCompanySettingsEffects, UiPersistenceSettingsEffects, UserAssignedRoleEffects,
-    UserContextEffects
+    UserContextEffects, FeatureFlagRedirectEffects
 } from './app-context/effects';
 import { metaReducers, reducers } from './state';
 import { environment } from '../../environments/environment';
@@ -26,7 +26,7 @@ import { SettingsService } from './app-context/services';
     // Effects
     EffectsModule.forRoot([
       UserContextEffects, LegacyCompanySettingsEffects, UiPersistenceSettingsEffects,
-      UserAssignedRoleEffects, CompanyContextEffects, CompanySettingsEffects
+      UserAssignedRoleEffects, CompanyContextEffects, CompanySettingsEffects, FeatureFlagRedirectEffects
     ]),
 
     // Dev Tools
