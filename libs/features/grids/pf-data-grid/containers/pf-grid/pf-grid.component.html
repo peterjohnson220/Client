@@ -148,7 +148,7 @@
 
 
 <ng-template #columnHeaderTemplate let-column="column">
-  <span *ngIf="column" pfEllipsisActive [class.default-cursor]="!column.sortable" class="ellipsis-text k-column-title">
+  <div *ngIf="column" pfEllipsisActive [class.default-cursor]="!column.sortable" class="ellipsis-text k-column-title">
     {{column.title}}
-  </span>
+  </div>
 </ng-template>
