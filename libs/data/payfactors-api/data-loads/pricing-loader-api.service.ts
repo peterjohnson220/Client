@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { SavePricingLoaderConfigRequest } from 'libs/models/data-loads';
+import { SaveLoaderConfigRequest } from 'libs/models/data-loads';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 
@@ -20,7 +20,7 @@ export class PricingLoaderApiService {
     return this.payfactorsApiService.postFormData(`${this.endpoint}/GetWorksheetNames`, { file: request });
   }
 
-  savePricingLoaderConfig(request: SavePricingLoaderConfigRequest): Observable<number> {
+  savePricingLoaderConfig(request: SaveLoaderConfigRequest): Observable<number> {
     return this.payfactorsApiService.post(`${this.endpoint}/SavePricingLoaderConfiguration`, request);
   }
 }

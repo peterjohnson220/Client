@@ -15,7 +15,8 @@ export const routes: Routes = [
       { path: 'pricing-loader',
         loadChildren: () => import('apps/data-management/app/_pricing-loader-download/pricing-loader-download.module')
           .then(m => m.PricingLoaderDownloadModule)
-      }
+      },
+      { path: '', loadChildren: () => import('apps/data-management/app/_survey-loader/survey-loader.module').then(m => m.SurveyLoaderModule) },
     ]
   },
   ...DEFAULT_ROUTES

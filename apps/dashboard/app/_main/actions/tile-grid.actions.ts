@@ -1,5 +1,6 @@
 import { Action } from '@ngrx/store';
 import { Tile } from '../models';
+
 import { ReorderTileRequest } from 'libs/models/dashboard';
 
 export const LOADING_TILES = '[Dashboard Tile Grid/Tiles] Loading Tiles';
@@ -13,6 +14,8 @@ export const LOADING_SINGLE_TILE_ERROR = '[Dashboard Tile Grid/Tiles] Loading Si
 export const REORDER_TILES = '[Dashboard Tile Grid/Tiles] Reorder Tiles';
 export const REORDER_TILES_SUCCESS = '[Dashboard Tile Grid/Tiles] Reorder Tiles Success';
 export const REORDER_TILES_ERROR = '[Dashboard Tile Grid/Tiles] Reorder Tiles Error';
+
+export const RELOAD_TILES = '[Dashboard Tile Grid/Tiles] Reload Tiles';
 
 export class LoadingTiles implements Action {
   readonly type = LOADING_TILES;
@@ -66,14 +69,20 @@ export class ReorderTiles implements Action {
 export class ReorderTilesSuccess implements Action {
   readonly type = REORDER_TILES_SUCCESS;
 
-  constructor(public payload: Tile[]) {
-  }
+  constructor() {}
 }
 
 export class ReorderTilesError implements Action {
   readonly type = REORDER_TILES_ERROR;
 
   constructor(public payload: string) {
+  }
+}
+
+export class ReloadTiles implements Action {
+  readonly type = RELOAD_TILES;
+
+  constructor(public payload: Tile[]) {
   }
 }
 
@@ -86,4 +95,5 @@ export type Actions
   | LoadingSingleTileError
   | ReorderTiles
   | ReorderTilesSuccess
-  | ReorderTilesError;
+  | ReorderTilesError
+  | ReloadTiles;

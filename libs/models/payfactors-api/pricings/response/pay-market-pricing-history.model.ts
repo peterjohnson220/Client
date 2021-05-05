@@ -3,5 +3,5 @@ export interface PayMarketPricingHistory {
   PayMarketName: string;
   Currency: string;
   Rate: string;
-  PricingData: any[]
+  PricingData: any[];
 }

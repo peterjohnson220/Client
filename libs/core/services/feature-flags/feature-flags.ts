@@ -25,4 +25,5 @@ export class FeatureFlags {
   static readonly HideOldJobsPageButton = 'hide-old-jobs-button';
   static readonly JdmInbox = 'jdm-inbox';
   static readonly DataAccessSurveyTitleFilter = 'data-access-survey-title-filter';
+  static readonly ProjectsPage = 'projects-page';
 }

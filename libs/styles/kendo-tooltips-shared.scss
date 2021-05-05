@@ -1,0 +1,24 @@
+// This file should be imported into appName/styles.scss
+// applying :host ::ng-deep syntax doesn't work due to where kendo renders the tooltip elements in the DOM
+
+.kendoTooltipWhiteTheme .k-callout {
+  background-color: transparent;
+  color: white;
+}
+
+.kendoTooltipWhiteTheme  .k-widget.k-tooltip{
+  background-color: white;
+  color: black;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.tooltip-container {
+  max-width: none;
+  max-height: 300px;
+  margin-left: 0;
+  padding: 5px;
+  border: 1px dotted black;
+  position: fixed;
+  background: white;
+  z-index: 999;
+}
