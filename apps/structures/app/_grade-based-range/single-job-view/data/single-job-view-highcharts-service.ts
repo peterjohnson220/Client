@@ -111,7 +111,7 @@ export class SingleJobViewHighchartsService {
 
     if (dataPointTypeId === RangeDistributionDataPointTypeIds.Mid) {
       dataPointValue = jobRangeData.CompanyJobs_Structures_Mid;
-      dataPointCurrentValue = null;
+      dataPointCurrentValue = jobRangeData.CompanyStructures_RangeGroup_GradeBased_Range_CurrentMid;
       dataPointTitle = 'Midpoint';
       currentDataPointTitle = 'Current Mid';
       newDataPointTitle = 'Model Mid';
@@ -119,7 +119,7 @@ export class SingleJobViewHighchartsService {
     // will need to add else ifs for dataPointTypeIds 2-9 like getDataPoint when instructed to do so
 
     gradeName = metaData.RangeTypeId === RangeType.Grade ? jobRangeData.CompanyJobs_Structures_Grade_Name : null;
-    currentMid = null;
+    currentMid = metaData.RangeTypeId === RangeType.Grade ? jobRangeData.CompanyStructures_RangeGroup_GradeBased_Range_CurrentMid : null;
     const delta = StructuresHighchartsService.formatDataPointDelta(hasCurrentStructure, chartLocale, metaData, dataPointValue, dataPointCurrentValue);
 
     return {
