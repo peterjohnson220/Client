@@ -80,3 +80,7 @@
   (securityWarningConfirmed)="exportModalIsOpen = true;"
 >
 </pf-file-download-security-warning-modal>
+
+<ng-template #compColumn let-dataRow="dataRow" let-fieldName="fieldName">
+  <span [innerHTML]="dataRow[fieldName] | comp: (project$ | async)?.Rate | emptyPlaceholder"></span>
+</ng-template>
