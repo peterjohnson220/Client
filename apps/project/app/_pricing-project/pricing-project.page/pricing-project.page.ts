@@ -73,10 +73,6 @@ export class PricingProjectPageComponent implements OnInit, AfterViewInit, OnDes
       Values: [this.projectId]
     }];
 
-    this.actionBarConfig = {
-      ...getDefaultActionBarConfig()
-    };
-
     this.companySettingsSubscription = this.store.select(fromCompanySettingsReducer.getCompanySettings).subscribe(cs => {
       if (cs !== null && cs !== undefined) {
         this.displaySecurityWarning = cs.find(x => x.Key === 'FileDownloadSecurityWarning').Value === 'true';
