@@ -1,0 +1,27 @@
+<pf-async-container
+  [loading]="processing$ | async"
+  [loadingError]="processingError$ | async"
+  [loadingErrorMessage]="errorMessage$ | async"
+  [hideReloadButton]="true"
+  [loadingProgress]="loadingProgress"
+  [spinnerType]="spinnerType">
+  <pf-page-with-title-bar>
+    <ng-container custom-button>
+      <button class="btn btn-secondary px-3 mr-2"
+              (click)="goBack()">
+        <fa-icon icon="long-arrow-alt-left"
+                 aria-hidden="true"></fa-icon>
+      </button>
+    </ng-container>
+    <ng-container page-title>
+      Survey Loaders
+    </ng-container>
+    <ng-container page-content>
+      <div class="d-flex flex-column mb-3 p-3">
+          <pf-upload-survey-file #surveyFileUpload
+                                  (processClicked)="handleProcessClicked()">
+          </pf-upload-survey-file>
+      </div>
+    </ng-container>
+  </pf-page-with-title-bar>
+</pf-async-container>

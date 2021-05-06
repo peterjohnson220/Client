@@ -8,8 +8,7 @@
         <pf-loader-dashboard-sidebar (onPageSelected)="selectPage($event)"></pf-loader-dashboard-sidebar>
       </div>
       <div class="col my-5">
-        <div [ngClass]="'container'">
-          <div class="inner-content col w-100" *ngIf="this.selectedPage == 'dataLoadSummary'">
+          <div class="inner-content col " *ngIf="this.selectedPage == 'dataLoadSummary'">
             <div class="mb-4">
               <pf-loader-dashboard-filter></pf-loader-dashboard-filter>
             </div>
@@ -23,7 +22,6 @@
           <div *ngIf="this.selectedPage == 'fileArchiveRedrop'">
             <pf-loader-dashboard-file-archive-redrop></pf-loader-dashboard-file-archive-redrop>
           </div>
-        </div>
       </div>
     </div>
   </ng-container>

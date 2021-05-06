@@ -34,5 +34,9 @@ export enum LoaderSettingKeyName {
   PricingsMatchWeight = 'PricingsMatchWeight',
   PricingsCompositeAdj = 'PricingsCompositeAdj',
   PricingsAging = 'PricingsAging',
-  PricingsMatchAdj = 'PricingsMatchAdjustment'
+  PricingsMatchAdj = 'PricingsMatchAdjustment',
+  // Survey
+  SurveyJobsSheetName = 'SurveyJobsSheetName',
+  SurveyDataSheetName = 'SurveyDataSheetName',
+  SurveyParticipationSheetName = 'SurveyParticipationSheetName'
 }
