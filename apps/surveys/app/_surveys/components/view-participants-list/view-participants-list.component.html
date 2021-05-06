@@ -16,7 +16,7 @@
                        (valueChanged)="handleSearchValueChanged($event)">
     </pf-input-debounce>
     <hr>
-    <div class="participant-container" perfectScrollbar>
+    <div class="participant-container">
       <p *ngIf="searchValue?.length > 0 && filteredParticipants?.length === 0">
         No results.
       </p>
