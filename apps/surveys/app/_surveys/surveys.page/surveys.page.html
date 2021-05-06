@@ -36,6 +36,10 @@
       <pf-survey-job-details [surveyJobDetails]="dataRow | surveyJobDetails"></pf-survey-job-details>
 
       <div class="d-flex space-out-children">
+        <button *ngIf="dataRow['Surveys_ParticipantsCount'] > 0"
+                class="btn btn-secondary"
+                (click)="viewParticipantsList(dataRow['CompanySurveys_Survey_ID'], dataRow['Surveys_Survey_Name'])">View Participant List
+        </button>
         <button type="button"
                 class="btn btn-secondary action-btn"
                 title="Edit Survey Fields"
@@ -62,3 +66,7 @@
   (onDismiss)="closeSurveyFieldsModal()"
   (onSubmit)="updateSurveyFields($event)">
 </pf-survey-data-fields>
+
+<pf-view-participants-list
+  [surveyTitle]="surveyTitle">
+</pf-view-participants-list>

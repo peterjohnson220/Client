@@ -30,3 +30,5 @@ export const selectSurveysPageState = createSelector(selectFeatureAreaState,
 
 // Surveys Page
 export const getSurveyFieldsModalOpen = createSelector(selectSurveysPageState, fromSurveysPageReducer.getSurveyFieldsModalOpen);
+export const getParticipantsModalOpen = createSelector(selectSurveysPageState, fromSurveysPageReducer.getParticipantsModalOpen);
+export const getSurveyParticipants = createSelector(selectSurveysPageState, fromSurveysPageReducer.getSurveyParticipants);
