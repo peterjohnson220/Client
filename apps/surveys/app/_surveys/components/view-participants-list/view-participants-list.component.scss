@@ -3,16 +3,9 @@
 .participant-container {
   position: relative;
   max-height: 300px;
+  overflow: auto;
 }
 
 .list-group-item {
   cursor: default !important;
-}
-
-:host ::ng-deep {
-  // Perfect scrollbar overrides
-  .ps__rail-y {
-    height: 12px;
-    left: auto !important;
-  }
 }
