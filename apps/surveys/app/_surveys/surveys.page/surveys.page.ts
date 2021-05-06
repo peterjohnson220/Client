@@ -33,7 +33,7 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
   loading$: Observable<boolean>;
   surveyDataFieldsModalOpen$: Observable<boolean>;
   savingSurveyFields$: Observable<boolean>;
-
+  
   gridFieldSubscription: Subscription;
   surveyDataGridSubscription: Subscription;
   savingSurveyFieldSubscription: Subscription;
@@ -67,6 +67,7 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
   activeSurveyDataGridPageViewId: string;
   surveyDataViewFields: ViewField[];
   surveyDataFields: SurveyDataField[];
+  surveyTitle: string;
 
   constructor(
     private store: Store<fromSurveysPageReducer.State>
@@ -151,7 +152,7 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
     fields.forEach(field => {
       const updatedVieField = this.surveyDataViewFields.find(f => f.EntitySourceName === field.EntitySourceName && f.SourceName === field.SourceName);
       if (updatedVieField) {
-        updatedVieField.IsSelected = field.IsSelected
+        updatedVieField.IsSelected = field.IsSelected;
       }
     });
     this.savingSurveyFields$ = this.store.select(fromPfDataGridReducer.getViewIsSaving, this.activeSurveyDataGridPageViewId);
@@ -161,9 +162,15 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
         this.store.dispatch(new fromPfDataGridActions.LoadData(this.pageViewId));
         this.store.dispatch(new fromPfDataGridActions.ResetGridScrolled(this.pageViewId));
       }
-    })
+    });
     this.store.dispatch(new fromPfDataGridActions.UpdateFields(this.activeSurveyDataGridPageViewId, this.surveyDataViewFields));
     this.store.dispatch(new fromPfDataGridActions.CollapseAllRows(this.pageViewId));
+  }
+
+  viewParticipantsList(surveyId: number, surveyTitle: string): void {
+    this.surveyTitle = surveyTitle;
+    this.store.dispatch(new fromSurveysPageActions.GetSurveyParticipants(surveyId));
+    this.store.dispatch(new fromSurveysPageActions.OpenParticipantsModal());
   }
 
   private updateField(field: ViewField) {

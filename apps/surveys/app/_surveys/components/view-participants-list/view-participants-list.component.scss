@@ -1,0 +1,18 @@
+@import 'libs/styles/perfect-scrollbar-overrides';
+
+.participant-container {
+  position: relative;
+  max-height: 300px;
+}
+
+.list-group-item {
+  cursor: default !important;
+}
+
+:host ::ng-deep {
+  // Perfect scrollbar overrides
+  .ps__rail-y {
+    height: 12px;
+    left: auto !important;
+  }
+}
