@@ -30,6 +30,7 @@ export class SingleJobViewDataCutsRangeChartComponent implements OnInit, OnDestr
   metadataSubscription: Subscription;
   gridScrolledSub: Subscription;
   filterPanelSub: Subscription;
+  selectedFieldsSubscription: Subscription;
 
   Highcharts: typeof Highcharts = Highcharts;
   chartOptions: any;
@@ -51,6 +52,9 @@ export class SingleJobViewDataCutsRangeChartComponent implements OnInit, OnDestr
   controlPointDisplay: string;
   prevControlPointDisplay: string;
   rate: string;
+  selectedFields: any[];
+  groupFieldSelected: boolean;
+
   isCurrent: boolean;
   hasCurrentStructure: boolean;
   metaData: RangeGroupMetadata;
@@ -71,13 +75,12 @@ export class SingleJobViewDataCutsRangeChartComponent implements OnInit, OnDestr
         this.currency = md.Currency;
         this.prevControlPointDisplay = this.controlPointDisplay;
         this.controlPointDisplay = md.ControlPointDisplay;
-        this.rate = md.Rate;
         this.chartLocale = getUserLocale();
         this.rangeDistributionTypeId = md.RangeDistributionTypeId;
         this.clearData();
         this.chartOptions =
           SingleJobViewDataCutsChartService.getSingleJobViewDataCutChartOptions(
-            this.chartLocale, this.currency, this.controlPointDisplay, this.rangeDistributionTypeId);
+            this.chartLocale, this.currency, this.controlPointDisplay, this.rangeDistributionTypeId, this.groupFieldSelected);
       }
     });
 
@@ -107,6 +110,15 @@ export class SingleJobViewDataCutsRangeChartComponent implements OnInit, OnDestr
         });
       }
     });
+
+    this.selectedFieldsSubscription = this.store.select(fromPfGridReducer.getFields, this.pageViewId).subscribe(fields => {
+      if (fields) {
+        this.selectedFields = fields;
+        const anyGroupField = this.selectedFields.find(f => f.Group && f.IsSelected);
+        this.groupFieldSelected = !!anyGroupField;
+      }
+    });
+
   }
 
   rangeChartCallback(chart: Highcharts.Chart = null) {
@@ -311,7 +323,7 @@ export class SingleJobViewDataCutsRangeChartComponent implements OnInit, OnDestr
         this.chartInstance.series[SingleJobViewDataCutsChartSeries.SalaryRangeQuintile].setData(this.salaryRangeSeriesDataModel.Quintile, false);
       }
 
-      this.chartInstance.setSize(null, GraphHelper.getDataCutChartHeight(this.dataCutData.data, true));
+      this.chartInstance.setSize(null, GraphHelper.getDataCutChartHeight(this.dataCutData.data, this.groupFieldSelected));
     }
   }
 
@@ -334,6 +346,7 @@ export class SingleJobViewDataCutsRangeChartComponent implements OnInit, OnDestr
     this.jobDataSubscription.unsubscribe();
     this.filterPanelSub.unsubscribe();
     this.gridScrolledSub.unsubscribe();
+    this.selectedFieldsSubscription.unsubscribe();
   }
 
 }

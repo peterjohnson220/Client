@@ -38,7 +38,7 @@ export class SingleJobViewDataCutsChartService {
     }
   }
 
-  static getSingleJobViewDataCutChartOptions(locale, currencyCode, controlPointDisplay, rangeDistributionTypeId) {
+  static getSingleJobViewDataCutChartOptions(locale, currencyCode, controlPointDisplay, rangeDistributionTypeId, multiRowHeader) {
     return {
       chart: {
         inverted: true,
@@ -84,7 +84,7 @@ export class SingleJobViewDataCutsChartService {
         title: {
           text: undefined
         },
-        offset: 60
+        offset: multiRowHeader ? 60 : 15
       },
       xAxis: {
         visible: false,
