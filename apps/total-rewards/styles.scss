@@ -79,6 +79,9 @@ pf-statement-edit.page {
   .page-content {
     overflow-x: hidden; // let settings panel hide out to the right
   }
+  .statement .trs-page {
+    margin-bottom: 1rem; // show a gap in between pages in the editor so users can see where a page begins and ends
+  }
   .preview-mode {
     .page-header button {
       background-color: rgba(255, 255, 255, 0.5);

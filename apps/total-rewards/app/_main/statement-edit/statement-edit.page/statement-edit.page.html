@@ -89,7 +89,8 @@
         <ng-container *ngFor="let editorId of getRichTextIds()">
           <pf-quill-toolbar
             *ngIf="mode === modeEnum.Edit"
-            [toolbarId]="'quill-editor-toolbar-' + editorId" [isToolbarActive]="editorId === (activeRichTextEditorId$ | async)">
+            [toolbarId]="'quill-editor-toolbar-' + editorId" 
+            [isToolbarActive]="editorId === (activeRichTextEditorId$ | async)">
           </pf-quill-toolbar>
         </ng-container>
 

@@ -104,20 +104,6 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
     return [];
   }
 
-  get quillToolbarContainer(): any[] {
-    const allOptions = [
-      [{ 'font': supportedFonts }],
-      [{ 'size': ['small', false, 'large'] }],
-      ['bold', 'italic', 'underline'],
-      [{ 'color': [] }],
-      [{ 'align': [] }],
-      [{ 'list': 'bullet' }],
-    ];
-
-    // remove the custom font family menu if disabled in environment
-    return (this.showFontFamilyMenu) ? allOptions : allOptions.slice(1);
-  }
-
   get cssClasses(): any[] {
     const classes = [this.formatCssDefaultTitle()];
     if (this.isFocused) {

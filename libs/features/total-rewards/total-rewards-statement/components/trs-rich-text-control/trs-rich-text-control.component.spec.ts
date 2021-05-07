@@ -148,7 +148,7 @@ describe('TrsRichTextControlComponent', () => {
 
   it('should show a tooltip when not in print mode with at least one `AvailableDatafields`', () => {
     // arrange
-    component.controlData = { 
+    component.controlData = {
       Title: { Default: 'Title' },
       AvailableDataFields: [{ Key: 'Key', Value: 'Value' }],
     } as any;
@@ -402,28 +402,6 @@ describe('TrsRichTextControlComponent', () => {
     expect(component.formatDataFieldValue('')).toBe('');
     expect(component.formatDataFieldValue('string with spaces')).toBe('string with spaces');
     expect(component.formatDataFieldValue('nospaces')).toBe('nospaces');
-  });
-
-  it('quillToolbarContainer should contain supported font families when enabled', () => {
-    // arrange
-    component.showFontFamilyMenu = true;
-
-    // act
-    const config = component.quillToolbarContainer;
-
-    // assert
-    expect(config[0][0].font).toStrictEqual(['Arial', 'Georgia', 'TimesNewRoman', 'Verdana']);
-  });
-
-  it('quillToolbarContainer should not contain font families when disabled', () => {
-    // arrange
-    component.showFontFamilyMenu = false;
-
-    // act
-    const config = component.quillToolbarContainer;
-
-    // assert
-    expect(config[0][0].font).toBeUndefined();
   });
 
   it('should not include Quill editor in print mode', () => {

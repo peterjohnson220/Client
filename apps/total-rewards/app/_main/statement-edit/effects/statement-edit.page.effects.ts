@@ -124,7 +124,13 @@ export class StatementEditPageEffects {
       map(statement => ({ StatementId: statement.StatementId, ...statement.Settings } as SaveSettingsRequest)),
       concatMap((saveSettingsRequest: SaveSettingsRequest) =>
         this.totalRewardsApiService.saveStatementSettings(saveSettingsRequest).pipe(
-          map((settings: Settings) => new fromStatementEditActions.SaveSettingsSuccess(settings)),
+          map((updatedStatement: Statement) => {
+            return updatedStatement.EffectiveDate ? { ...updatedStatement, EffectiveDate: new Date(updatedStatement.EffectiveDate) } : updatedStatement;
+          }),
+          mergeMap((updatedStatement: Statement) => [
+            new fromStatementEditActions.SaveStatementSuccess(updatedStatement),
+            new fromStatementEditActions.SaveSettingsSuccess(updatedStatement.Settings),
+          ]),
           catchError(() => of(new fromStatementEditActions.SaveSettingsError()))
         ))
     );
@@ -138,7 +144,13 @@ export class StatementEditPageEffects {
         (action, statement: Statement) => statement),
       concatMap((statement: Statement) =>
         this.totalRewardsApiService.resetStatementSettings(statement.StatementId).pipe(
-          map((settings: Settings) => new fromStatementEditActions.SaveSettingsSuccess(settings)),
+          map((updatedStatement: Statement) => {
+            return updatedStatement.EffectiveDate ? { ...updatedStatement, EffectiveDate: new Date(updatedStatement.EffectiveDate) } : updatedStatement;
+          }),
+          mergeMap((updatedStatement: Statement) => [
+            new fromStatementEditActions.SaveStatementSuccess(updatedStatement),
+            new fromStatementEditActions.SaveSettingsSuccess(updatedStatement.Settings),
+          ]),
           catchError(() => of(new fromStatementEditActions.SaveSettingsError()))
         ))
     );

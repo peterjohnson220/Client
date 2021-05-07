@@ -57,7 +57,6 @@ export class TrsCalculationControlComponent implements OnChanges, OnDestroy, OnI
 
   ngOnDestroy() {
     this.dragulaSubscription$.unsubscribe();
-    this.dragulaService.destroy(this.dragulaGroupName);
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -257,6 +256,7 @@ export class TrsCalculationControlComponent implements OnChanges, OnDestroy, OnI
     if (this.mode === models.StatementModeEnum.Print || !this.dragulaService) { return; }
 
     this.dragulaGroupName = `dragula-group-calc-control-${this.controlData.Id}`;
+    this.dragulaService.destroy(this.dragulaGroupName);
     this.dragulaService.createGroup(this.dragulaGroupName, {
       revertOnSpill: true,
       direction: 'vertical',
