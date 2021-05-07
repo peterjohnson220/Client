@@ -84,6 +84,16 @@ export class JobDescriptionGridComponent implements OnInit, OnDestroy {
     return this.selectedJobDescriptions.has(jobDescriptionId);
   }
 
+  get bulkRouteTooltip(): string {
+    return this.selectedJobDescriptions?.size > 0 && !this.canBulkRouteJobDescriptions()
+      ? 'Only Draft Job Descriptions can be routed for approval' : '';
+  }
+
+  get bulkDeleteTooltip(): string {
+return this.selectedJobDescriptions?.size > 0 && !this.canBulkDeleteJobDescriptions()
+    ? 'Only Job Descriptions that have at least one sibling can be deleted' : '';
+  }
+
   ngOnInit() {
     this.creatingJobDescriptionSubscription = this.creatingJobDescription$.subscribe((creatingJobDescription) => {
       this.creatingJobDescription = creatingJobDescription;
@@ -270,21 +280,23 @@ export class JobDescriptionGridComponent implements OnInit, OnDestroy {
     this.bulkRouteJobDescriptions.emit();
   }
 
-  canDeleteJobDescriptions(): boolean {
-    let canDelete = false;
+  canBulkDeleteJobDescriptions(): boolean {
+    let canDelete = true;
     this.selectedJobDescriptions?.forEach(jobDescription => {
-      if (jobDescription.JobDescriptionCount > 1) {
-        canDelete = true;
+      if (jobDescription.JobDescriptionCount <= 1) {
+        canDelete = false;
+        return;
       }
     });
     return canDelete;
   }
 
   canBulkRouteJobDescriptions(): boolean {
-    let canRoute = false;
+    let canRoute = true;
     this.selectedJobDescriptions?.forEach(jobDescription => {
-      if (jobDescription.JobDescriptionStatus === 'Draft') {
-        canRoute = true;
+      if (jobDescription.JobDescriptionStatus !== 'Draft') {
+        canRoute = false;
+        return;
       }
     });
     return canRoute;
