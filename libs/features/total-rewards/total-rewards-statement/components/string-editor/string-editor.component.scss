@@ -48,7 +48,6 @@ input[type=text] {
 
 .edit-text {
   transition: color $graphics-color-transition; // gradually change if accent color changed
-  overflow: hidden;
 }
 
 .edit-icon {

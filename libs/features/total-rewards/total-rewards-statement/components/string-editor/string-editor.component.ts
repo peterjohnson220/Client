@@ -9,7 +9,7 @@ import {
   SimpleChanges,
   ViewChild,
   ChangeDetectionStrategy,
-  OnDestroy
+  OnDestroy, ChangeDetectorRef
 } from '@angular/core';
 
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
@@ -51,7 +51,7 @@ export class StringEditorComponent implements OnInit, OnChanges, OnDestroy {
   @ViewChild('editAnchor') editAnchor: ElementRef;
   @ViewChild('editText') editText: ElementRef;
 
-  constructor(private featureFlagService: AbstractFeatureFlagService) {
+  constructor(private featureFlagService: AbstractFeatureFlagService, private changeDetector: ChangeDetectorRef) {
     this.featureFlagService.bindEnabled(this.totalRewardsRadialTextCountersFeatureFlag, this.unsubscribe$);
   }
 
@@ -85,6 +85,9 @@ export class StringEditorComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   getValueForDisplay(): string {
+    if (this.isInEditState) {
+      return this.value ?? this.placeholder;
+    }
     return this.value?.length > 0 ? this.value : this.placeholder;
   }
 
@@ -107,20 +110,21 @@ export class StringEditorComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   onChange(): void {
-    this.value = this.textBox.nativeElement.value;
     this.valueChange.emit(this.value);
   }
 
-  onKeyDown(event: KeyboardEvent) {
+  onKeyDown(event: KeyboardEvent): void {
     if (!(event.key === 'Backspace' || event.key === 'Delete')
       && this.totalRewardsRadialTextCountersFeatureFlag.value && this.contentWidth >= this.availableWidth) {
       event.preventDefault();
     }
   }
 
-  onKeyUp(event: any) {
-    this.editText.nativeElement.innerHTML = this.textBox.nativeElement.value;
+  onKeyUp(event: any): void {
+    this.value = event.target.value;
+    this.changeDetector.detectChanges();
     this.contentWidth = this.editText.nativeElement.clientWidth;
+    this.changeDetector.detectChanges();
   }
 
   isIe(): boolean {
