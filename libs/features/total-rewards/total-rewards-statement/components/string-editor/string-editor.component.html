@@ -9,7 +9,7 @@
          (focus)="onFocus()"
          (blur)="disableEditState()"
          (change)="onChange()"
-         (keydown)="onKeyDown($event)"
+         (keypress)="onKeyPress($event)"
          (keyup)="onKeyUp($event)"
          [ngClass]="isInEditState ? '' : 'offScreen'"
          [attr.tabindex]="isInEditState ? 0 : -1">
