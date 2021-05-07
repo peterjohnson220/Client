@@ -29,7 +29,7 @@
 
     <pf-user-or-email-picker *ngIf="!addingNonSystemUser"  
       (selected)="handlePickerSelection($event)"
-      [jobId]="jobId"
+      [jobId]="workflowSetupModalInput?.JobId"
       [workflow]="true">
     </pf-user-or-email-picker>
 
@@ -38,16 +38,13 @@
       </textarea>
     </div>
   </div>
-  <pf-workflow-config [jobId]="jobId" (onShowNameFormClicked)="handleShowNameFormClicked($event)"></pf-workflow-config>
+  <pf-workflow-config [jobId]="workflowSetupModalInput?.JobId" (onShowNameFormClicked)="handleShowNameFormClicked($event)"></pf-workflow-config>
   <div class="modal-footer">
-    <button type="button" [disabled]="(workflowSaving$ | async)" class="btn btn-secondary" (click)="close()">Cancel</button>
+    <button type="button" class="btn btn-secondary" (click)="close()">Cancel</button>
     <button class="btn btn-primary"
       [disabled]="(!stepsDirty && !selectedTemplateName) || (workflowSteps$ | async)?.length < 1 || (workflowSaving$ | async) || hasForbiddenUsers"
-      (click)="createWorkflow()">
-      <span *ngIf="(workflowSaving$ | async)">
-        <pf-loading-indicator></pf-loading-indicator> Routing...
-      </span>
-      <span *ngIf="!(workflowSaving$ | async)">Route</span>
+      (click)="createWorkflow()">   
+      <span>Route</span>
     </button>
   </div>
 </ng-template>

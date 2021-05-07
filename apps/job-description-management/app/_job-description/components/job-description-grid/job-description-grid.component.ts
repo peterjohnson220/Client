@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 
-import { Store } from '@ngrx/store';
+import { ActionsSubject, Store } from '@ngrx/store';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { GridDataResult, RowArgs } from '@progress/kendo-angular-grid';
@@ -15,6 +15,7 @@ import { JobDescriptionManagementJobDescriptionState, getJobDescriptionCreating,
 import { JobDescriptionColumn } from '../../constants/job-description-column.constants';
 
 import * as jobDescriptionGridActions from '../../actions/job-description-grid.actions';
+import * as fromJobDescriptionManagementReducer from '../../reducers';
 
 @Component({
   selector: 'pf-job-description-grid',
@@ -38,10 +39,10 @@ export class JobDescriptionGridComponent implements OnInit, OnDestroy {
   @Output() sortChanged = new EventEmitter();
   @Output() publicViewChanged = new EventEmitter();
   @Output() openDeleteJobDescriptionModal = new EventEmitter();
+  @Output() bulkRouteJobDescriptions = new EventEmitter();
 
   jdmCheckboxesFeatureFlag: RealTimeFlag = { key: FeatureFlags.JdmCheckboxes, value: false };
 
-  public info: any;
   public filterChanged: any;
   public permissions = Permissions;
   public pageableSettings = {
@@ -58,16 +59,17 @@ export class JobDescriptionGridComponent implements OnInit, OnDestroy {
   private creatingJobDescription$: Observable<boolean>;
   private creatingJobDescriptionSubscription: Subscription;
 
-  private getSelectedJobDescriptions$: Observable<Map<number, number>>;
+  private getSelectedJobDescriptions$: Observable<Map<number, any>>;
   private getSelectedJobDescriptionsSubscription: Subscription;
 
-  selectedJobDescriptions: Map<number, number>;
+  private selectedJobDescriptions: Map<number, any>;
   private unsubscribe$ = new Subject<void>();
 
   constructor(
     private store: Store<JobDescriptionManagementJobDescriptionState>,
     private permissionService: PermissionService,
-    private featureFlagService: AbstractFeatureFlagService
+    private featureFlagService: AbstractFeatureFlagService,
+    private actionsSubject: ActionsSubject
   ) {
     this.creatingJobDescription$ = this.store.select(getJobDescriptionCreating);
     this.getSelectedJobDescriptions$ = this.store.select(getSelectedJobDescriptions);
@@ -104,7 +106,7 @@ export class JobDescriptionGridComponent implements OnInit, OnDestroy {
       selection.selectedRows.forEach((row) => {
         if (row.dataItem.JobDescriptionId) {
           selectionChanged = true;
-          this.selectedJobDescriptions.set(row.dataItem.JobDescriptionId, row.dataItem.JobDescriptionCount);
+          this.selectedJobDescriptions.set(row.dataItem.JobDescriptionId, row.dataItem);
         }
       });
     }
@@ -250,24 +252,50 @@ export class JobDescriptionGridComponent implements OnInit, OnDestroy {
   }
 
   onCellClick(event: any) {
+    if (event?.dataItem.JobDescriptionStatus === 'Routing') {
+      return;
+    }
     const companyJobViewListItem: CompanyJobViewListItem = event?.dataItem;
     if (!this.creatingJobDescription) {
       this.navigateToJobDescription.emit(companyJobViewListItem);
     }
   }
 
-  handleClearSelectionsClick() {
+  handleClearSelectionsClicked() {
     this.selectedJobDescriptions.clear();
     this.store.dispatch(new jobDescriptionGridActions.SelectJobDescriptions(this.selectedJobDescriptions));
   }
 
+  handleBulkRouteForApprovalClicked(): void {
+    this.bulkRouteJobDescriptions.emit();
+  }
+
   canDeleteJobDescriptions(): boolean {
     let canDelete = false;
-    this.selectedJobDescriptions?.forEach(jobDescriptionCount => {
-      if (jobDescriptionCount > 1) {
+    this.selectedJobDescriptions?.forEach(jobDescription => {
+      if (jobDescription.JobDescriptionCount > 1) {
         canDelete = true;
       }
     });
     return canDelete;
+  }
+
+  canBulkRouteJobDescriptions(): boolean {
+    let canRoute = false;
+    this.selectedJobDescriptions?.forEach(jobDescription => {
+      if (jobDescription.JobDescriptionStatus === 'Draft') {
+        canRoute = true;
+      }
+    });
+    return canRoute;
+  }
+
+  public rowClass(args) {
+    const isRouting = args.dataItem.JobDescriptionStatus === 'Routing';
+    if (isRouting) {
+      return {
+        'k-disabled': true
+      };
+    }
   }
 }
