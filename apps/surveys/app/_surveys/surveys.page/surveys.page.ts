@@ -36,16 +36,19 @@ import { SurveysPageConfig } from '../models';
 export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('matchedFilter') matchedFilter: ElementRef;
   @ViewChild('countriesFilter') countriesFilter: ElementRef;
+  @ViewChild('historyFilter') historyFilter: ElementRef;
 
   loading$: Observable<boolean>;
   surveyDataFieldsModalOpen$: Observable<boolean>;
   savingSurveyFields$: Observable<boolean>;
   countries$: Observable<AsyncStateObj<SurveyCountryDto[]>>;
+  surveyYears$: Observable<AsyncStateObj<PfDataGridCustomFilterDisplayOptions[]>>;
 
   gridFieldSubscription: Subscription;
   surveyDataGridSubscription: Subscription;
   savingSurveyFieldSubscription: Subscription;
   countriesSubscription: Subscription;
+  surveyYearsSubscription: Subscription;
 
   inboundFilters: PfDataGridFilter[];
   pageViewId = SurveysPageConfig.SurveysPageViewId;
@@ -93,6 +96,10 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
   surveyDataFields: SurveyDataField[];
   surveyTitle: string;
   countries: GroupedListItem[];
+  historyFilterSelectedItem: PfDataGridCustomFilterDisplayOptions;
+  surveyYearFilterField: ViewField;
+  surveyYearOptions: PfDataGridCustomFilterDisplayOptions[];
+  filteredSurveyYearOptions: PfDataGridCustomFilterDisplayOptions[];
 
   constructor(
     private store: Store<fromSurveysPageReducer.State>
@@ -122,6 +129,7 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.loading$ = this.store.select(fromPfDataGridReducer.getLoading, this.pageViewId);
     this.surveyDataFieldsModalOpen$ = this.store.select(fromSurveysPageReducer.getSurveyFieldsModalOpen);
     this.countries$ = this.store.select(fromSurveysPageReducer.getSurveyCountries);
+    this.surveyYears$ = this.store.select(fromSurveysPageReducer.getSurveyYears);
   }
 
   ngOnInit(): void {
@@ -129,6 +137,7 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
       if (fields) {
         this.updateMatchedFilter(fields);
         this.updateCountriesFilter(fields);
+        this.updateHistoryFilter(fields);
       }
     });
     this.countriesSubscription = this.countries$.subscribe(results => {
@@ -136,11 +145,19 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
         this.populateCountriesFilter(results.obj);
       }
     });
+    this.surveyYearsSubscription = this.surveyYears$.subscribe(asyncObj => {
+      if (!asyncObj?.loading && asyncObj?.obj?.length) {
+        this.surveyYearOptions = asyncObj.obj;
+        this.filteredSurveyYearOptions = asyncObj.obj;
+      }
+    });
     this.store.dispatch(new fromSurveysPageActions.GetSurveyCountries());
+    this.store.dispatch(new fromSurveysPageActions.GetSurveyYears());
   }
 
   ngAfterViewInit(): void {
     this.filterTemplates = {
+      'SurveyYearFilter': { Template: this.historyFilter },
       'SurveyJobMatchesCount': { Template: this.matchedFilter },
       'SurveyCountryFilter': {Template: this.countriesFilter}
     };
@@ -149,6 +166,7 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     this.gridFieldSubscription.unsubscribe();
     this.countriesSubscription.unsubscribe();
+    this.surveyYearsSubscription.unsubscribe();
   }
 
   handleMatchedFilterChanged(option: PfDataGridCustomFilterDisplayOptions): void {
@@ -253,6 +271,17 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.store.dispatch(new fromSurveysPageActions.OpenParticipantsModal());
   }
 
+  handleHistoryValueChanged(option: PfDataGridCustomFilterDisplayOptions): void {
+    const field: ViewField = cloneDeep(this.surveyYearFilterField);
+    field.FilterValues = option.Value === null ? null : [option.Value];
+    field.FilterOperator = '=';
+    this.updateField(field);
+  }
+
+  handleHistoryFilterChanged(searchTerm: string): void {
+    this.filteredSurveyYearOptions = this.surveyYearOptions.filter(o => o.Value.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1);
+  }
+
   private updateField(field: ViewField) {
     if (field?.FilterValues?.length > 0) {
       this.store.dispatch(new fromPfDataGridActions.UpdateFilter(this.pageViewId, field));
@@ -297,6 +326,16 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
         IsSelected: field.IsSelected
       });
     });
+  }
+
+  private updateHistoryFilter(fields: ViewField[]): void {
+    this.surveyYearFilterField = fields.find(f => f.SourceName === 'SurveyYearFilter');
+    if (!this.surveyYearFilterField) {
+      return;
+    }
+    this.historyFilterSelectedItem = this.surveyYearFilterField.FilterValues === null
+      ? null
+      : { Value: this.surveyYearFilterField.FilterValues[0], Display: this.surveyYearFilterField.FilterValues[0] };
   }
 }
 

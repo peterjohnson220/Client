@@ -33,3 +33,4 @@ export const getSurveyFieldsModalOpen = createSelector(selectSurveysPageState, f
 export const getParticipantsModalOpen = createSelector(selectSurveysPageState, fromSurveysPageReducer.getParticipantsModalOpen);
 export const getSurveyParticipants = createSelector(selectSurveysPageState, fromSurveysPageReducer.getSurveyParticipants);
 export const getSurveyCountries = createSelector(selectSurveysPageState, fromSurveysPageReducer.getSurveyCountries);
+export const getSurveyYears = createSelector(selectSurveysPageState, fromSurveysPageReducer.getSurveyYears);

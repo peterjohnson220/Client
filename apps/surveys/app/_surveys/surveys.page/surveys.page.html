@@ -15,6 +15,24 @@
   [enableRowFade]="true">
 </pf-data-grid>
 
+<ng-template #historyFilter>
+  <div>
+    <label>History:</label>
+    <kendo-dropdownlist
+      [(ngModel)]="historyFilterSelectedItem"
+      [textField]="'Display'"
+      [valueField]="'Value'"
+      [defaultItem]="{Display:'All', Value: null}"
+      [data]="filteredSurveyYearOptions"
+      (valueChange)="handleHistoryValueChanged($event)"
+      [filterable]="true"
+      (filterChange)="handleHistoryFilterChanged($event)"
+      [attr.data-qa-id]="'ddm-operator-surveys-page-Effective-Date'"
+      class="k-dropdown-white form-control">
+    </kendo-dropdownlist>
+  </div>
+</ng-template>
+
 <ng-template #matchedFilter>
   <div [style.width.px]="188">
     <label>Matched:</label>
