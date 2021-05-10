@@ -64,8 +64,8 @@ export class TotalRewardsApiService {
     return this.payfactorsApiService.delete<any>(`${this.endpoint}/DeleteStatement?statementId=${statementId}`);
   }
 
-  deleteStatementImage(fileName: string): Observable<any> {
-    return this.payfactorsApiService.post<any>(`${this.endpoint}/DeleteStatementImage?fileName=${fileName}`);
+  deleteStatementImage(fileName: string, statementId: string): Observable<any> {
+    return this.payfactorsApiService.delete<any>(`${this.endpoint}/DeleteStatementImage?fileName=${fileName}&statementId=${statementId}`);
   }
 
   getStatementEmailTemplate(statementId: string): Observable<StatementEmailTemplate> {
