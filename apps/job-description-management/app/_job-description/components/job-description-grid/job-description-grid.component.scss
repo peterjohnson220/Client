@@ -12,6 +12,10 @@
   cursor: not-allowed;
 }
 
+.dropdown-menu.show {
+  top: 0px !important;
+  left: 150px !important;
+}
 
 #jd-list-view-actions-dropdown svg {
   font-size:  0.875rem;
