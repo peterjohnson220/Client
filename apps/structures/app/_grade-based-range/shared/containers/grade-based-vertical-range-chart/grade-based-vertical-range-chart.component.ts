@@ -14,7 +14,7 @@ import { RangeDistributionTypeIds } from 'libs/constants/structures/range-distri
 
 import * as fromSharedStructuresReducer from '../../../../shared/reducers';
 import * as fromGradeBasedSharedReducer from '../../../shared/reducers';
-import * as fromGradeBasedSharedActions from '../../../shared/actions/shared.actions';
+import * as fromSharedStructuresActions from '../../../../shared/actions/shared.actions';
 import * as fromSwitchRegressionFlagsActions from '../../../shared/actions/switch-regression-flags-modal.actions';
 import { StructuresHighchartsService, StructuresPagesService } from '../../../../shared/services';
 import { GradeRangeModelChartService, GradeRangeVerticalModelChartSeries } from '../../data';
@@ -92,7 +92,7 @@ export class GradeBasedVerticalRangeChartComponent implements OnInit, OnDestroy,
       }
     });
 
-    this.gradeRangeDetailsSubscription = this.store.select(fromGradeBasedSharedReducer.getGradeRangeDetails).subscribe(details => {
+    this.gradeRangeDetailsSubscription = this.store.select(fromSharedStructuresReducer.getGradeRangeDetails).subscribe(details => {
       this.gradeRangeDetails = details;
     });
 
@@ -527,7 +527,7 @@ export class GradeBasedVerticalRangeChartComponent implements OnInit, OnDestroy,
 
   ngOnInit(): void {
     StructuresHighchartsService.initializeHighcharts();
-    this.store.dispatch(new fromGradeBasedSharedActions.GetGradeRangeDetails(this.rangeGroupId));
+    this.store.dispatch(new fromSharedStructuresActions.GetGradeRangeDetails(this.rangeGroupId));
     this.filterPanelSub = this.store.select(fromPfGridReducer.getFilterPanelOpen, this.pageViewId).subscribe(filterPanelOpen => {
       setTimeout(() => {
         this.chartInstance.reflow();
