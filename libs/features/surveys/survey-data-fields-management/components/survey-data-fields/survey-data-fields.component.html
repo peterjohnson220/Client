@@ -1,6 +1,6 @@
 <pf-modal-form
   [isOpen$]="showModal$"
-  [size]="'xl'"
+  [size]="'lg'"
   [title]="'Edit Survey Fields'"
   [primaryButtonText]="'Apply'"
   [allowDismiss]="true"
@@ -10,7 +10,7 @@
   (onSubmit)="handleSubmit()">
 
   <ng-container basic-content>
-    <div class="container" [style.max-height]="'600px'" [style.overflow]="'auto'">
+    <div class="container" [style.max-height]="'425px'" [style.overflow]="'auto'">
       <ul ngbNav #nav="ngbNav" class="nav-tabs"
           [destroyOnHide]="false"
           [(activeId)]="activeTab">
@@ -24,7 +24,7 @@
                 <ngb-panel *ngFor="let group of getKeys(tabsConfiguration[tab]);trackBy: trackByGroup" [id]="tab + '_' + group">
                   <ng-template ngbPanelHeader>
                     <div class="group-header w-100 d-flex align-items-center justify-content-between" (click)="acc.toggle(tab + '_' + group)">
-                      <h5>{{group}}</h5>
+                      <h6>{{group}}</h6>
                       <fa-icon icon="caret-down" *ngIf="acc.isExpanded(tab + '_' + group)"></fa-icon>
                       <fa-icon icon="caret-right" *ngIf="!acc.isExpanded(tab + '_' + group)"></fa-icon>
                     </div>
@@ -60,7 +60,7 @@
             <ngb-panel id="currentFields" cardClass="current-fields-panel">
               <ng-template ngbPanelHeader>
                 <div class="w-100 d-flex align-items-center">
-                  <h5>Current Fields</h5>
+                  <h6>Current Fields</h6>
                 </div>
               </ng-template>
               <ng-template ngbPanelContent>

@@ -5,6 +5,18 @@ pf-survey-data-cuts {
     border-width: 1px !important;
   }
 
+  .k-grid.default .k-grid-header tr th.surveys-page-sub-grid-header {
+    font-weight: 600 !important;
+  }
+
+  .k-grid-header .k-header .k-link > .k-icon {
+    color: white !important;
+  }
+
+  .k-sort-order {
+    display: none !important;
+  }
+
   .k-grid.default .k-grid-header tr th.k-header {
     background-color: #087DB5 !important;
     color: white !important;
