@@ -26,11 +26,28 @@
   </ng-template>
 
   <ng-template #gradeRangeAddJobsResults>
-      <pf-grade-range-job-result
-        [jobResults]="(jobResults$ | async)"
-        (jobClicked)="handleJobSelectionToggle($event)"
-        [controlPoint]="controlPoint">
-      </pf-grade-range-job-result>
+    <div dragula="jobs-grade-bag">
+      <div *ngFor="let jobResult of jobResults$ | async;trackBy: trackByJobId" [class.draggable]="jobResult.IsSelected">
+        <pf-add-job-result
+          [job]="jobResult"
+          (jobClicked)="handleJobSelectionToggle(jobResult)"
+          (jobDetailClicked)="handleJobDetailClicked(jobResult)"
+          [showJobBasedRangesJobMetadata] = "showJobBasedRangesJobMetadata"
+          [showJobSourceOrTitle]="showJobSourceOrTitle">
+        </pf-add-job-result>
+        <table>
+          <tbody>
+          <tr>
+            <!-- Hidden Cell for Drag/Drop Re-Order -->
+            <td class="gu-mirror-show">
+              <div class="card">
+                <div class="card-block">Add <strong>{{selectedJobCount}}</strong> selected job<ng-container *ngIf="selectedJobCount > 1">s</ng-container> to grade...</div>
+              </div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </ng-template>
-
 </pf-search-results>
