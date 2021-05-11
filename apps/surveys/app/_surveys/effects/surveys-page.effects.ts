@@ -4,7 +4,7 @@ import { Effect, Actions, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { switchMap, catchError, map } from 'rxjs/operators';
 
-import { SurveyApiService } from 'libs/data/payfactors-api/index';
+import { SurveyApiService } from 'libs/data/payfactors-api/surveys';
 
 import * as fromSurveyPageActions from '../actions/surveys-page.actions';
 
@@ -22,6 +22,19 @@ export class SurveyPageEffects {
               return new fromSurveyPageActions.GetSurveyParticipantsSuccess(response);
             }),
             catchError((error) => of(new fromSurveyPageActions.GetSurveyParticipantsError()))
+          );
+      })
+    );
+
+  @Effect()
+  getSurveyCountries$ = this.actions$
+    .pipe(
+      ofType(fromSurveyPageActions.GET_SURVEY_COUNTRIES),
+      switchMap((action: fromSurveyPageActions.GetSurveyCountries) => {
+        return this.surveyApiService.GetSurveyCountryInfoByCompany()
+          .pipe(
+            map((response) => new fromSurveyPageActions.GetSurveyCountriesSuccess(response)),
+            catchError(() => of(new fromSurveyPageActions.GetSurveyCountriesError()))
           );
       })
     );

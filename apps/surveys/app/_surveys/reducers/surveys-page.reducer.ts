@@ -1,5 +1,8 @@
 import cloneDeep from 'lodash/cloneDeep';
+
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
+import { AsyncStateObjHelper } from 'libs/core/helpers';
+import { SurveyCountryDto } from 'libs/models/survey/survey-country-dto.model';
 
 import * as fromSurveysPageActions from '../actions/surveys-page.actions';
 
@@ -8,13 +11,15 @@ export interface State {
   surveyFieldsModalOpen: boolean;
   participantsModalOpen: boolean;
   surveyParticipants: AsyncStateObj<string[]>;
+  countries: AsyncStateObj<SurveyCountryDto[]>;
 }
 
 // Define our initial state
 const initialState: State = {
   surveyFieldsModalOpen: false,
   participantsModalOpen: false,
-  surveyParticipants: generateDefaultAsyncStateObj<string[]>([])
+  surveyParticipants: generateDefaultAsyncStateObj<string[]>([]),
+  countries: generateDefaultAsyncStateObj([]),
 };
 
 // Reducer function
@@ -70,6 +75,15 @@ export function reducer(state = initialState, action: fromSurveysPageActions.Act
         surveyParticipants: surveyParticipantsClone
       };
     }
+    case fromSurveysPageActions.GET_SURVEY_COUNTRIES: {
+      return AsyncStateObjHelper.loading(state, 'countries');
+    }
+    case fromSurveysPageActions.GET_SURVEY_COUNTRIES_SUCCESS: {
+      return AsyncStateObjHelper.loadingSuccess(state, 'countries', action.payload);
+    }
+    case fromSurveysPageActions.GET_SURVEY_COUNTRIES_ERROR: {
+      return AsyncStateObjHelper.loadingError(state, 'countries');
+    }
     default: {
       return state;
     }
@@ -79,3 +93,6 @@ export function reducer(state = initialState, action: fromSurveysPageActions.Act
 export const getSurveyFieldsModalOpen = (state: State) => state.surveyFieldsModalOpen;
 export const getParticipantsModalOpen = (state: State) => state.participantsModalOpen;
 export const getSurveyParticipants = (state: State) => state.surveyParticipants;
+
+export const getSurveyCountries = (state: State) => state.countries;
+

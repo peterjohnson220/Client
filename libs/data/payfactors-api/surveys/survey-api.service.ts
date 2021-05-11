@@ -7,7 +7,7 @@ import { YoyDsSurveysResponse, YoyDsToMapResponse, YoySurveyScopesResponse, YoyD
   GetCompanySurveysRequest, GetCompanySurveysResponse
 } from '../../../models/payfactors-api';
 import { UdfDataResponse } from '../../../models/payfactors-api/survey/response/udf-data-response.model';
-import { CombinedScopeViewModel } from 'libs/models';
+import { CombinedScopeViewModel, SurveyCountryDto } from 'libs/models';
 
 @Injectable({
   providedIn: 'root',
@@ -55,5 +55,9 @@ export class SurveyApiService {
     return this.payfactorsApiService.get<string[]>(`${this.endpoint}/Default.GetSurveyParticipants`, {
       params: { surveyId: surveyId }
     });
+  }
+
+  GetSurveyCountryInfoByCompany(): Observable<SurveyCountryDto[]> {
+    return this.payfactorsApiService.get<SurveyCountryDto[]>(`${this.endpoint}/Default.GetSurveyCountryInfoByCompany`);
   }
 }
