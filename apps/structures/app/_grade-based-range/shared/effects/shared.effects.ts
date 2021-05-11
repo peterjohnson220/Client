@@ -36,14 +36,14 @@ export class SharedEffects {
   @Effect()
   getCurrentRangeGroup: Observable<Action> = this.actions$
     .pipe(
-      ofType(fromSharedGradeBasedRangeActions.GET_GRADE_RANGE_DETAILS),
-      switchMap((action: fromSharedGradeBasedRangeActions.GetGradeRangeDetails) => {
+      ofType(fromSharedStructuresActions.GET_GRADE_RANGE_DETAILS),
+      switchMap((action: fromSharedStructuresActions.GetGradeRangeDetails) => {
         return this.structureRangeGroupApiService.getDetails(action.payload)
           .pipe(
             map((res) => {
-              return new fromSharedGradeBasedRangeActions.GetGradeRangeDetailsSuccess(res);
+              return new fromSharedStructuresActions.GetGradeRangeDetailsSuccess(res);
             }),
-            catchError((err) => of(new fromSharedGradeBasedRangeActions.GetGradeRangeDetailsError(err)))
+            catchError((err) => of(new fromSharedStructuresActions.GetGradeRangeDetailsError(err)))
           );
       })
     );
@@ -62,9 +62,9 @@ export class SharedEffects {
         return this.structureRangeGroupApiService.getDetails(data.contextStructureRangeGroupId)
           .pipe(
             map((res) => {
-              return new fromSharedGradeBasedRangeActions.GetGradeRangeDetailsSuccess(res);
+              return new fromSharedStructuresActions.GetGradeRangeDetailsSuccess(res);
             }),
-            catchError((err) => of(new fromSharedGradeBasedRangeActions.GetGradeRangeDetailsError(err)))
+            catchError((err) => of(new fromSharedStructuresActions.GetGradeRangeDetailsError(err)))
           );
       })
     );
@@ -127,7 +127,7 @@ export class SharedEffects {
                 }
 
                 actions.push(new fromModelSettingsModalActions.CreateGradeBasedModelSettingsSuccess());
-                actions.push(new fromGradeBasedSharedActions.GetGradeRangeDetails(r.RangeGroup.CompanyStructuresRangeGroupId));
+                actions.push(new fromSharedStructuresActions.GetGradeRangeDetails(r.RangeGroup.CompanyStructuresRangeGroupId));
               }
 
               this.urlService.removeAllWorkflows();
@@ -196,7 +196,7 @@ export class SharedEffects {
                 const modelPageViewId =
                   PagesHelper.getModelPageViewIdByRangeTypeAndRangeDistributionType(data.metadata.RangeTypeId, data.metadata.RangeDistributionTypeId);
                 actions.push(GridDataHelper.getLoadDataAction(modelPageViewId, data.gridData, data.gridConfig, data.pagingOptions));
-                
+
                 const modelSummaryPageViewId = PagesHelper.getModelSummaryPageViewIdByRangeDistributionType(data.metadata.RangeDistributionTypeId);
                 actions.push(new fromDataGridActions.LoadData(modelSummaryPageViewId));
 
@@ -204,7 +204,7 @@ export class SharedEffects {
 
 
                 actions.push(new fromModelSettingsModalActions.SaveGradeBasedModelSettingsSuccess());
-                actions.push(new fromGradeBasedSharedActions.GetGradeRangeDetails(r.RangeGroup.CompanyStructuresRangeGroupId));
+                actions.push(new fromSharedStructuresActions.GetGradeRangeDetails(r.RangeGroup.CompanyStructuresRangeGroupId));
               }
 
               return actions;

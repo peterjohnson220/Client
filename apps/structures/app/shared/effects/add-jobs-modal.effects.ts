@@ -221,6 +221,7 @@ export class AddJobsModalEffects {
     actions.push(GridDataHelper.getLoadDataAction(modelPageViewId, data.gridData, data.gridConfig, data.pagingOptions));
     const summaryPageViewId = PagesHelper.getModelSummaryPageViewIdByRangeDistributionType(data.metadata.RangeDistributionTypeId);
     actions.push(new fromPfDataGridActions.LoadData(summaryPageViewId));
+    actions.push(new fromSharedActions.GetGradeRangeDetails(data.metadata.RangeGroupId));
     return actions;
   }
 

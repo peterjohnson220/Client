@@ -12,8 +12,8 @@ import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducer
 import * as fromSwitchRegressionFlagsReducer from '../../shared/reducers';
 import * as fromSwitchRegressionFlagsActions from '../../shared/actions/switch-regression-flags-modal.actions';
 import * as fromSharedStructuresReducer from '../../../shared/reducers';
+import * as fromSharedStructuresActions from '../../../shared/actions/shared.actions';
 import { PagesHelper } from '../../../shared/helpers/pages.helper';
-import * as fromSharedGradeBasedRangeActions from '../actions/shared.actions';
 
 
 @Injectable()
@@ -49,9 +49,9 @@ export class SwitchRegressionFlagsModalEffects {
         return this.structureRangeGroupApiService.getDetails(action.rangeGroupId)
           .pipe(
             map((res) => {
-              return new fromSharedGradeBasedRangeActions.GetGradeRangeDetailsSuccess(res);
+              return new fromSharedStructuresActions.GetGradeRangeDetailsSuccess(res);
             }),
-            catchError((err) => of(new fromSharedGradeBasedRangeActions.GetGradeRangeDetailsError(err)))
+            catchError((err) => of(new fromSharedStructuresActions.GetGradeRangeDetailsError(err)))
           );
       })
     );
