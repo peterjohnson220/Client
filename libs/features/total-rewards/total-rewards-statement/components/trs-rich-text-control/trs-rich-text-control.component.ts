@@ -21,6 +21,7 @@ import QuillType from 'quill';
 
 import { EmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards';
 import { AppConstants } from 'libs/constants';
+import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
 
 import { RichTextControl, StatementModeEnum } from '../../models';
 import { UpdateStringPropertyRequest, UpdateTitleRequest, UpdateUdfsInRteContentRequest } from '../../models/request-models';
@@ -92,6 +93,15 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
     },
   };
 
+  availableHeight: number;
+
+  totalRewardsRadialTextCountersFeatureFlag: RealTimeFlag = { key: FeatureFlags.TotalRewardsRadialTextCounters, value: false };
+  unsubscribe$ = new Subject<void>();
+
+  get quillEditorId(): string {
+    return 'quill-editor-' + this.controlData.Id;
+  }
+
   get richTextNode(): HTMLElement {
     return this.quillEditor?.container;
   }
@@ -119,7 +129,9 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
     return this.controlData.Id === this.activeEditorId;
   }
 
-  constructor(private sanitizer: DomSanitizer) { }
+  constructor(private sanitizer: DomSanitizer, private featureFlagService: AbstractFeatureFlagService) {
+    this.featureFlagService.bindEnabled(this.totalRewardsRadialTextCountersFeatureFlag, this.unsubscribe$);
+  }
 
   ngOnInit() {
     this.title = this.controlData.Title.Default;
@@ -160,6 +172,8 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
     }
 
     this.closeQuillMention();
+
+    this.unsubscribe$.next();
   }
 
   onTitleChanged(newTitle: string) {
@@ -241,15 +255,35 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
 
     // get dom node references to the container around the quill content and the content nodes (p tags)
     const container = this.richTextNode.querySelector('.ql-editor') as HTMLElement;
+
+    return this.contentHeight > container.offsetHeight;
+  }
+
+  get displayRadialTextCounter(): boolean {
+     return this.quillEditor?.hasFocus() && this.totalRewardsRadialTextCountersFeatureFlag.value;
+  }
+
+  get contentHeight(): number {
     const contentNodes = this.richTextNode.querySelectorAll('.ql-editor p, .ql-editor li') as NodeListOf<HTMLElement>;
+
+    // Even with user entering nothing, there's still some empty content resulting in a height, so account for this.
+    const isEmpty = this.quillEditor.getText() === '\n';
+
+    if (isEmpty) { return 0; }
 
     // calculate how many pixels tall the content is with a for loop, as IE 11 does not support NodeListOf.forEach()
     let totalContentHeightInPixels = 0;
+
     for (let i = 0; i < contentNodes.length; i ++) {
       totalContentHeightInPixels += contentNodes[i].offsetHeight;
     }
 
-    return totalContentHeightInPixels > container.offsetHeight;
+    return totalContentHeightInPixels;
+  }
+
+  get containerHeight(): number {
+    const container = this.richTextNode.querySelector('.ql-editor') as HTMLElement;
+    return container.offsetHeight;
   }
 
   onClickEditor() {
