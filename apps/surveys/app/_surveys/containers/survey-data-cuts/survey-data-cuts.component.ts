@@ -46,6 +46,7 @@ export class SurveyDataCutsComponent implements OnChanges, OnInit, AfterViewInit
   ];
   surveyJobFilter: PfDataGridFilter;
   matchedFilter: PfDataGridFilter;
+  countriesFilter: PfDataGridFilter;
   actionBarConfig: ActionBarConfig;
   gridConfig: GridConfig;
   colTemplates = {};
@@ -62,6 +63,12 @@ export class SurveyDataCutsComponent implements OnChanges, OnInit, AfterViewInit
     this.matchedFilter = {
       SourceName: 'SurveyDataMatchesCount',
       Operator: null,
+      Values: null,
+      ExcludeFromFilterSave: true
+    };
+    this.countriesFilter = {
+      SourceName: 'Country_Code',
+      Operator: '=',
       Values: null,
       ExcludeFromFilterSave: true
     };
@@ -88,6 +95,7 @@ export class SurveyDataCutsComponent implements OnChanges, OnInit, AfterViewInit
     this.splitViewFiltersSubscription = this.splitViewFilters$.subscribe(filters => {
       if (filters?.length) {
         this.updateMatchedFilter(filters);
+        this.updateCountriesFilter(filters);
       }
     });
   }
@@ -114,6 +122,18 @@ export class SurveyDataCutsComponent implements OnChanges, OnInit, AfterViewInit
       ...this.matchedFilter,
       Operator: surveyJobMatchedFilter.Operator,
       Values: surveyJobMatchedFilter.Values
+    };
+  }
+
+  private updateCountriesFilter(filters: PfDataGridFilter[]): void {
+    const dataCountriesFilter: PfDataGridFilter = filters.find((x: PfDataGridFilter) => x.SourceName === 'SurveyCountryFilter');
+    if (!dataCountriesFilter) {
+      return;
+    }
+    this.countriesFilter = {
+      ...this.countriesFilter,
+      Operator: dataCountriesFilter.Operator,
+      Values: dataCountriesFilter.Values
     };
   }
 }

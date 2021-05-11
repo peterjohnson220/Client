@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+import { SurveyCountryDto } from 'libs/models/survey/survey-country-dto.model';
 
 export const OPEN_SURVEY_FIELDS_MODAL = '[Surveys / Surveys Page] Open Survey Fields Modal';
 export const CLOSE_SURVEY_FIELDS_MODAL = '[Surveys / Surveys Page] Close Survey Fields Modal';
@@ -7,6 +8,9 @@ export const CLOSE_PARTICIPANTS_MODAL = '[Surveys / Surveys Page] Close Particip
 export const GET_SURVEY_PARTICIPANTS = '[Surveys / Surveys Page] Get Survey Participants';
 export const GET_SURVEY_PARTICIPANTS_SUCCESS = '[Surveys / Surveys Page] Get Survey Participants Success';
 export const GET_SURVEY_PARTICIPANTS_ERROR = '[Surveys / Surveys Page] Get Survey Participants Error';
+export const GET_SURVEY_COUNTRIES = '[Surveys / Surveys Page] Get Survey Countries';
+export const GET_SURVEY_COUNTRIES_SUCCESS = '[Surveys / Surveys Page] Get Survey Countries Success';
+export const GET_SURVEY_COUNTRIES_ERROR = '[Surveys / Surveys Page] Get Survey Countries Error';
 
 export class OpenSurveyFieldsModal implements Action {
   readonly type = OPEN_SURVEY_FIELDS_MODAL;
@@ -44,6 +48,24 @@ export class GetSurveyParticipantsError implements Action {
 }
 
 
+export class GetSurveyCountries implements Action {
+  readonly type = GET_SURVEY_COUNTRIES;
+
+  constructor() {}
+}
+
+export class GetSurveyCountriesSuccess implements Action {
+  readonly type = GET_SURVEY_COUNTRIES_SUCCESS;
+
+  constructor(public payload: SurveyCountryDto[]) {}
+}
+
+export class GetSurveyCountriesError implements Action {
+  readonly type = GET_SURVEY_COUNTRIES_ERROR;
+
+  constructor() {}
+}
+
 export type Actions
   = OpenSurveyFieldsModal
   | CloseSurveyFieldsModal
@@ -51,4 +73,7 @@ export type Actions
   | CloseParticipantsModal
   | GetSurveyParticipants
   | GetSurveyParticipantsSuccess
-  | GetSurveyParticipantsError;
+  | GetSurveyParticipantsError
+  | GetSurveyCountries
+  | GetSurveyCountriesSuccess
+  | GetSurveyCountriesError;

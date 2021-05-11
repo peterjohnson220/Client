@@ -1,6 +1,7 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
 import { SortDescriptor } from '@progress/kendo-data-query';
+import { DropDownFilterSettings } from '@progress/kendo-angular-dropdowns';
 import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import cloneDeep from 'lodash/cloneDeep';
@@ -12,14 +13,19 @@ import {
   getDefaultActionBarConfig,
   GridConfig,
   PfDataGridCustomFilterDisplayOptions,
-  PfDataGridCustomFilterOptions, PfDataGridFilter
+  PfDataGridCustomFilterOptions,
+  PfDataGridFilter
 } from 'libs/features/grids/pf-data-grid/models';
 import { DataViewFieldDataType, ViewField } from 'libs/models/payfactors-api';
 import { SurveyDataField } from 'libs/features/surveys/survey-data-fields-management/models';
+import { AsyncStateObj } from 'libs/models/state';
+import { SurveyCountryDto } from 'libs/models/survey/survey-country-dto.model';
+import { GroupedListItem } from 'libs/models/list';
 
 import * as fromSurveysPageReducer from '../reducers';
 import * as fromSurveysPageActions from '../actions/surveys-page.actions';
 import { SurveysPageConfig } from '../models';
+
 
 @Component({
   selector: 'pf-surveys-page',
@@ -29,14 +35,17 @@ import { SurveysPageConfig } from '../models';
 })
 export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('matchedFilter') matchedFilter: ElementRef;
+  @ViewChild('countriesFilter') countriesFilter: ElementRef;
 
   loading$: Observable<boolean>;
   surveyDataFieldsModalOpen$: Observable<boolean>;
   savingSurveyFields$: Observable<boolean>;
-  
+  countries$: Observable<AsyncStateObj<SurveyCountryDto[]>>;
+
   gridFieldSubscription: Subscription;
   surveyDataGridSubscription: Subscription;
   savingSurveyFieldSubscription: Subscription;
+  countriesSubscription: Subscription;
 
   inboundFilters: PfDataGridFilter[];
   pageViewId = SurveysPageConfig.SurveysPageViewId;
@@ -49,6 +58,7 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
     { Display: 'Yes', Value: '1' },
     { Display: 'No', Value: '0' }
   ];
+  countryDisplayOptions: PfDataGridCustomFilterDisplayOptions[];
   customFilterOptions: PfDataGridCustomFilterOptions[] = [
     {
       EntitySourceName: 'CompanySurveys',
@@ -57,26 +67,41 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
       DataType: DataViewFieldDataType.Bit,
       FilterOperator: '=',
       FilterDisplayOptions: this.matchedFilterDisplayOptions
+    },
+    {
+      EntitySourceName: 'CompanySurveys',
+      SourceName: 'SurveyCountryFilter',
+      DisplayName: 'Country',
+      DataType: DataViewFieldDataType.String,
+      FilterOperator: '=',
+      FilterDisplayOptions: [{Display: 'All', Value: null}]
     }
   ];
+  filterSettings: DropDownFilterSettings = {
+    caseSensitive: false,
+    operator: 'contains'
+  };
   filterTemplates = {};
   matchedFilterSelectedOption: PfDataGridCustomFilterDisplayOptions;
+  countriesFilterSelectedOption: PfDataGridCustomFilterDisplayOptions;
   matchedFilterField: ViewField;
+  countriesFilterField: ViewField;
   actionBarConfig: ActionBarConfig;
   gridConfig: GridConfig;
   activeSurveyDataGridPageViewId: string;
   surveyDataViewFields: ViewField[];
   surveyDataFields: SurveyDataField[];
   surveyTitle: string;
+  countries: GroupedListItem[];
 
   constructor(
     private store: Store<fromSurveysPageReducer.State>
   ) {
     this.inboundFilters = [
       {
-        SourceName: 'Survey_ID',
+        SourceName: 'SurveyCountryFilter',
         Operator: 'notnull',
-        ExcludeFromFilterSave: true
+        ExcludeFromFilterSave: false
       },
       {
         SourceName: 'Survey_Job_ID',
@@ -96,24 +121,34 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
     };
     this.loading$ = this.store.select(fromPfDataGridReducer.getLoading, this.pageViewId);
     this.surveyDataFieldsModalOpen$ = this.store.select(fromSurveysPageReducer.getSurveyFieldsModalOpen);
+    this.countries$ = this.store.select(fromSurveysPageReducer.getSurveyCountries);
   }
 
   ngOnInit(): void {
     this.gridFieldSubscription = this.store.select(fromPfDataGridReducer.getFields, this.pageViewId).subscribe(fields => {
       if (fields) {
         this.updateMatchedFilter(fields);
+        this.updateCountriesFilter(fields);
       }
     });
+    this.countriesSubscription = this.countries$.subscribe(results => {
+      if (results && !results.loading && !!results.obj.length) {
+        this.populateCountriesFilter(results.obj);
+      }
+    });
+    this.store.dispatch(new fromSurveysPageActions.GetSurveyCountries());
   }
 
   ngAfterViewInit(): void {
     this.filterTemplates = {
       'SurveyJobMatchesCount': { Template: this.matchedFilter },
+      'SurveyCountryFilter': {Template: this.countriesFilter}
     };
   }
 
   ngOnDestroy(): void {
     this.gridFieldSubscription.unsubscribe();
+    this.countriesSubscription.unsubscribe();
   }
 
   handleMatchedFilterChanged(option: PfDataGridCustomFilterDisplayOptions): void {
@@ -123,6 +158,51 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
       ? null
       : option.Value === '1' ? '>=' : '=';
     this.updateField(field);
+  }
+
+  handleCountriesFilterChanged(countryCode: string): void {
+    const field: ViewField = cloneDeep(this.countriesFilterField);
+    field.FilterValues = [countryCode];
+    field.FilterOperator = '=';
+    this.updateField(field);
+  }
+
+  populateCountriesFilter(options: SurveyCountryDto[]): void {
+    const flags = {};
+    const distinctOptions = options.filter(function(entry) {
+      if (flags[entry.CountryCode]) {
+        return false;
+      }
+      flags[entry.CountryCode] = true;
+      return true;
+    });
+
+    this.countries = distinctOptions.map(r => {
+      return {
+        Name: `${r.CountryName} (${r.CountryCode})`,
+        Value: r.CountryCode
+      };
+    });
+    this.countryDisplayOptions = distinctOptions.map(r => {
+      return {
+        Display: `${r.CountryName} (${r.CountryCode})`,
+        Value: r.CountryCode
+      };
+    });
+
+    const customFilterOptionsClone: PfDataGridCustomFilterOptions[] = cloneDeep(this.customFilterOptions);
+
+    const filterOption: PfDataGridCustomFilterOptions = customFilterOptionsClone
+      .find(p => p.SourceName === 'SurveyCountryFilter');
+
+    this.countryDisplayOptions.forEach(option => {
+      if (filterOption.FilterDisplayOptions.indexOf(option.Value) === -1) {
+        filterOption.FilterDisplayOptions.push(option);
+      }
+    });
+
+    this.customFilterOptions = customFilterOptionsClone;
+
   }
 
   closeExpandedRow(id: string, idValue: number): void {
@@ -150,9 +230,9 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   updateSurveyFields(fields: SurveyDataField[]): void {
     fields.forEach(field => {
-      const updatedVieField = this.surveyDataViewFields.find(f => f.EntitySourceName === field.EntitySourceName && f.SourceName === field.SourceName);
-      if (updatedVieField) {
-        updatedVieField.IsSelected = field.IsSelected;
+      const updatedViewField = this.surveyDataViewFields.find(f => f.EntitySourceName === field.EntitySourceName && f.SourceName === field.SourceName);
+      if (updatedViewField) {
+        updatedViewField.IsSelected = field.IsSelected;
       }
     });
     this.savingSurveyFields$ = this.store.select(fromPfDataGridReducer.getViewIsSaving, this.activeSurveyDataGridPageViewId);
@@ -183,6 +263,7 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private updateMatchedFilter(fields: ViewField[]): void {
     this.matchedFilterField = fields.find(f => f.SourceName === 'SurveyJobMatchesCount');
+
     if (!this.matchedFilterField) {
       return;
     }
@@ -190,6 +271,14 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
       ? null
       : this.matchedFilterField.FilterOperator === '>=' ? '1' : '0';
     this.matchedFilterSelectedOption = this.matchedFilterDisplayOptions.find(x => x.Value === matchedFilterValue);
+  }
+
+  private updateCountriesFilter(fields: ViewField[]): void {
+    this.countriesFilterField = fields.find(f => f.SourceName === 'SurveyCountryFilter');
+    if (this.countriesFilterField && this.countryDisplayOptions) {
+      this.countriesFilterSelectedOption = this.countriesFilterField?.FilterValues?.length > 0 ?
+        this.countryDisplayOptions.find(x => x.Value === this.countriesFilterField.FilterValues[0]) : null;
+    }
   }
 
   private createSurveyDataFields(fields: ViewField[]): void {
