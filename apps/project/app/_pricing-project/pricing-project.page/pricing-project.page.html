@@ -1,6 +1,6 @@
 <pf-data-grid
   [pageViewId]="pageViewId"
-  [reorderable]="true"
+  [reorderable]="false"
   [title]="(project$ | async)?.Name || ((project$ | async)?.CreateDate | date : 'MM/dd/yy')"
   [enableSelection]="true"
   [inboundFilters]="filter"
