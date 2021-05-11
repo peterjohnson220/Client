@@ -50,7 +50,7 @@ export class ProjectExportManagerComponent implements OnInit, OnChanges {
   selectedReportType: ReportType = ReportType.Excel;
 
   ReportType = ReportType;
-  templatePlaceHolder: ProjectTemplate = { TemplateName: 'Select a template', ProjectTemplateId: null };
+  templatePlaceHolder: ProjectTemplate = { TemplateName: 'Current', ProjectTemplateId: null };
 
   dataSourceForm: FormGroup;
   get f() { return this.dataSourceForm.controls; }
