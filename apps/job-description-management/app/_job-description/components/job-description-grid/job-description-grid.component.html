@@ -52,13 +52,41 @@
     (selectionChange)="handleSelectionChange($event)"
     (cellClick)="onCellClick($event)">
 
-      <kendo-grid-checkbox-column *ngIf="jdmCheckboxesFeatureFlag.value"
-        showSelectAll="true" [resizable]="false" [width]="30" class="no-ellipsis">
-        <ng-template kendoGridHeaderTemplate>
-          <input class="k-checkbox no-ellipsis" id="selectAllCheckboxId" kendoGridSelectAllCheckbox>
-          <label class="k-checkbox-label no-ellipsis" for="selectAllCheckboxId"></label>
-        </ng-template>
-      </kendo-grid-checkbox-column>
+    <kendo-grid-checkbox-column *ngIf="jdmCheckboxesFeatureFlag.value" showSelectAll="true" [resizable]="false" [width]="35" class="no-ellipsis">
+      <ng-template kendoGridHeaderTemplate>
+        <input kendoGridSelectAllCheckbox [state]="getSelectAllState()">
+      </ng-template>
+      <ng-template kendoGridCellTemplate let-dataItem let-idx="rowIndex">
+       <input [kendoGridSelectionCheckbox]="idx" [disabled]="!canSelectRow(dataItem)"/>
+      </ng-template>
+    </kendo-grid-checkbox-column>
+
+    <kendo-grid-column *ngIf="!isPublic" class="cancel-row-click" [width]="75"
+      [style]="{'text-align': 'center', 'overflow': 'inherit'}"
+      [title]="'Actions'">
+      <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+        <div ngbDropdown #jobDescriptionActionsDropDown="ngbDropdown" class="d-inline-block k-grid-ignore-click"
+          [pfSecuredResource]="permissions.JOB_DESCRIPTIONS_ADD" placement="bottom-right">
+          <button ngbDropdownToggle class="btn btn-secondary btn-sm" id="jd-list-view-actions-dropdown">
+            <fa-icon icon="ellipsis-h"></fa-icon>
+          </button>
+          <div ngbDropdownMenu class="dropdown-menu">
+            <button class="dropdown-item" [disabled]="dataItem.JobDescriptionStatus === 'Not Started'"
+              (click)="handleNewJobDescriptionClick(dataItem)">
+              Add Sibling Description
+            </button>
+            <div #toolTipWrapper *ngIf="hasDeleteJobDescriptionPermission === true"
+              [ngbTooltip]="tooltipForDeleteButton(dataItem.JobDescriptionCount)">
+              <button class="dropdown-item"
+                (click)="handleDeleteJobDescriptionClick(dataItem.JobDescriptionId)"
+                [disabled]="dataItem.JobDescriptionCount <= 1">
+                Delete Job Description
+              </button>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </kendo-grid-column>
     
     <kendo-grid-column
       *ngFor="let listAreaColumn of listAreaColumns"
@@ -146,33 +174,6 @@
         </ng-template>
       </ng-container>
       <!-- End of Kendo Grid Templates -->
-    </kendo-grid-column>
-
-    <kendo-grid-column *ngIf="!isPublic" class="cancel-row-click" [width]="50"
-      [style]="{'text-align': 'center', 'overflow': 'inherit'}">
-      <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
-        <div ngbDropdown #jobDescriptionActionsDropDown="ngbDropdown" class="d-inline-block k-grid-ignore-click"
-          [pfSecuredResource]="permissions.JOB_DESCRIPTIONS_ADD" placement="bottom-right">
-          <button ngbDropdownToggle class="btn btn-secondary btn-sm" id="jd-list-view-actions-dropdown">
-            <fa-icon icon="ellipsis-h"></fa-icon>
-          </button>
-          <div ngbDropdownMenu class="dropdown-menu dropdown-menu-left"
-            aria-labelledby="job-description-actions-dropdown">
-            <button class="dropdown-item" [disabled]="dataItem.JobDescriptionStatus === 'Not Started'"
-              (click)="handleNewJobDescriptionClick(dataItem)">
-              Add Sibling Description
-            </button>
-            <div #toolTipWrapper *ngIf="hasDeleteJobDescriptionPermission === true"
-              [ngbTooltip]="tooltipForDeleteButton(dataItem.JobDescriptionCount)">
-              <button class="dropdown-item"
-                (click)="handleDeleteJobDescriptionClick(dataItem.JobDescriptionId)"
-                [disabled]="dataItem.JobDescriptionCount <= 1">
-                Delete Job Description
-              </button>
-            </div>
-          </div>
-        </div>
-      </ng-template>
     </kendo-grid-column>
 
   </kendo-grid>

@@ -1,9 +1,9 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 
-import { ActionsSubject, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
-import { GridDataResult, RowArgs } from '@progress/kendo-angular-grid';
+import { GridDataResult, RowArgs, SelectAllCheckboxState } from '@progress/kendo-angular-grid';
 import { State } from '@progress/kendo-data-query';
 
 import { AbstractFeatureFlagService, FeatureFlags, PermissionService, RealTimeFlag } from 'libs/core';
@@ -15,7 +15,6 @@ import { JobDescriptionManagementJobDescriptionState, getJobDescriptionCreating,
 import { JobDescriptionColumn } from '../../constants/job-description-column.constants';
 
 import * as jobDescriptionGridActions from '../../actions/job-description-grid.actions';
-import * as fromJobDescriptionManagementReducer from '../../reducers';
 
 @Component({
   selector: 'pf-job-description-grid',
@@ -69,7 +68,6 @@ export class JobDescriptionGridComponent implements OnInit, OnDestroy {
     private store: Store<JobDescriptionManagementJobDescriptionState>,
     private permissionService: PermissionService,
     private featureFlagService: AbstractFeatureFlagService,
-    private actionsSubject: ActionsSubject
   ) {
     this.creatingJobDescription$ = this.store.select(getJobDescriptionCreating);
     this.getSelectedJobDescriptions$ = this.store.select(getSelectedJobDescriptions);
@@ -81,7 +79,7 @@ export class JobDescriptionGridComponent implements OnInit, OnDestroy {
   isRowSelected = (e: RowArgs) => this.isSelectedJobDescription(e.dataItem.JobDescriptionId);
 
   isSelectedJobDescription(jobDescriptionId: number): boolean {
-    return this.selectedJobDescriptions.has(jobDescriptionId);
+    return this.selectedJobDescriptions?.has(jobDescriptionId);
   }
 
   get bulkRouteTooltip(): string {
@@ -114,25 +112,25 @@ return this.selectedJobDescriptions?.size > 0 && !this.canBulkDeleteJobDescripti
     let selectionChanged = false;
     if (selection.selectedRows.length > 0) {
       selection.selectedRows.forEach((row) => {
-        if (row.dataItem.JobDescriptionId) {
-          selectionChanged = true;
-          this.selectedJobDescriptions.set(row.dataItem.JobDescriptionId, row.dataItem);
-        }
+        selectionChanged = true;
+        this.selectedJobDescriptions?.set(row.dataItem.JobDescriptionId, row.dataItem);
       });
     }
 
     if (selection.deselectedRows.length > 0) {
       selection.deselectedRows.forEach((row) => {
-        if (row.dataItem.JobDescriptionId) {
-          selectionChanged = true;
-          this.selectedJobDescriptions.delete(row.dataItem.JobDescriptionId);
-        }
+        selectionChanged = true;
+        this.selectedJobDescriptions?.delete(row.dataItem.JobDescriptionId);
       });
     }
 
     if (selectionChanged) {
       this.store.dispatch(new jobDescriptionGridActions.SelectJobDescriptions(this.selectedJobDescriptions));
     }
+  }
+
+  canSelectRow(jd): boolean {
+    return jd.JobDescriptionStatus === 'Routing' ? false : true;
   }
 
   handleJobDescriptionHistoryClick(jobDescriptionId: number, jobTitle: string) {
@@ -300,6 +298,16 @@ return this.selectedJobDescriptions?.size > 0 && !this.canBulkDeleteJobDescripti
       }
     });
     return canRoute;
+  }
+
+  getSelectAllState(): SelectAllCheckboxState {
+    if (this.selectedJobDescriptions?.size === 0) {
+      return 'unchecked';
+    } else if (this.selectedJobDescriptions?.size === this.gridDataResult?.data?.length) {
+      return 'checked';
+    } else {
+      return 'indeterminate';
+    }
   }
 
   public rowClass(args) {
