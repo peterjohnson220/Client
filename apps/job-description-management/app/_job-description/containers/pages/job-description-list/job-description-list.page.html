@@ -1,26 +1,38 @@
 <pf-page-with-title-bar>
   <ng-container page-title>
-    Job Description Manager <pf-public-view-header *ngIf="isPublic"></pf-public-view-header>
+    Job Description Manager
+    <pf-public-view-header *ngIf="isPublic"></pf-public-view-header>
   </ng-container>
 
   <ng-container page-actions>
-    <pf-input-debounce id="search-box" (valueChanged)="updateSearchFilter($event)" [delay]="400" [(ngModel)]="savedSearchTerm" [placeholderText]="'Search for a Job Code or Title...'"></pf-input-debounce>
+    <pf-input-debounce id="search-box" (valueChanged)="updateSearchFilter($event)" [delay]="400"
+                       [(ngModel)]="savedSearchTerm"
+                       [placeholderText]="'Search for a Job Code or Title...'"></pf-input-debounce>
 
     <!-- Hide from public view -->
     <ng-container *ngIf="!isPublic">
-      <div [pfSecuredResource]="[permissions.CAN_MANAGE_JOB_DESCRIPTION_TEMPLATES, permissions.CAN_MANAGE_JOB_DESCRIPTION_SETTINGS]" ngbDropdown class="d-inline-block">
+      <div
+        [pfSecuredResource]="[permissions.CAN_MANAGE_JOB_DESCRIPTION_TEMPLATES, permissions.CAN_MANAGE_JOB_DESCRIPTION_SETTINGS]"
+        ngbDropdown class="d-inline-block">
         <button class="btn btn-primary" ngbDropdownToggle>Admin</button>
         <div class="dropdown-menu" ngbDropdownMenu>
-          <button [pfSecuredResource]="permissions.CAN_MANAGE_JOB_DESCRIPTION_TEMPLATES" routerLink="/templates" class="dropdown-item">Template Management</button>
-          <button [pfSecuredResource]="permissions.CAN_MANAGE_JOB_DESCRIPTION_SETTINGS" routerLink="/settings" class="dropdown-item">Settings</button>
+          <button [pfSecuredResource]="permissions.CAN_MANAGE_JOB_DESCRIPTION_TEMPLATES" routerLink="/templates"
+                  class="dropdown-item">Template Management
+          </button>
+          <button [pfSecuredResource]="permissions.CAN_MANAGE_JOB_DESCRIPTION_SETTINGS" routerLink="/settings"
+                  class="dropdown-item">Settings
+          </button>
         </div>
       </div>
       <button *ngIf="jdmInboxFeatureFlag.value"
-        class="btn btn-secondary d-flex justify-content-between align-items-center" (click)="inboxClicked()">
+              class="btn btn-secondary d-flex justify-content-between align-items-center" (click)="inboxClicked()">
         <span class="mr-2"><fa-icon [icon]="['far', 'inbox']" class="mr-2"></fa-icon>Inbox</span>
-        <span *ngIf="!(unreadCountError$ | async) && (unreadCount$ | async) > 0" class="badge rounded-circle">{{unreadCount$ | async}}</span>
+        <span *ngIf="!(unreadCountError$ | async) && (unreadCount$ | async) > 0"
+              class="badge rounded-circle">{{unreadCount$ | async}}</span>
       </button>
-      <button [pfSecuredResource]="permissions.JOB_DESCRIPTIONS_ADD" class="btn btn-secondary" type="submit" (click)="addJobClicked()">Add Job</button>
+      <button [pfSecuredResource]="permissions.JOB_DESCRIPTIONS_ADD" class="btn btn-secondary" type="submit"
+              (click)="addJobClicked()">Add Job
+      </button>
       <pf-bulk-export-popover
         [controlLabels]="bulkExportControlLabels$ | async"
         [controlLabelsLoading]="bulkExportControlLabelsLoading$ | async"
@@ -38,50 +50,37 @@
       </pf-bulk-export-popover>
       <span class="column-popover">
         <pf-list-area-column-chooser *ngIf="!!filteredListAreaColumns?.length"
-          [listAreaColumns]="filteredListAreaColumns"
-          (saveColumns)="saveListAreaColumns($event)">
+                                     [listAreaColumns]="filteredListAreaColumns"
+                                     (saveColumns)="saveListAreaColumns($event)">
         </pf-list-area-column-chooser>
       </span>
     </ng-container>
-
-    <span class="user-filter-popover">
-      <pf-filter-selector-popover
-        [loading]="userFilterListLoading$ | async"
-        [deleting]="userFilterDeleting$ | async"
-        [userFilterList]="userFilterList$ | async"
-        [listAreaColumns]="filteredListAreaColumns"
-        [customListAreaColumns]="customListAreaColumns"
-        [saveFiltersVisible]="!isPublic"
-        (onFilterSidebarToggle)="showFilterSidebar = !showFilterSidebar"
-        (onFilterSelected)="handleUserFilterSelected($event)"
-        (onDeleteConfirmed)="handleUserFilterDeleteConfirmed($event)"
-        (open)="handleUserFilterListPopoverOpened()">
-      </pf-filter-selector-popover>
-    </span>
-
   </ng-container>
 
   <ng-container page-content>
     <div class="col-12 full-height" [class.column-sidebar-open]="showFilterSidebar">
-      <div *ngIf="(userFilterError$ | async) && !(userFilterListLoading$ | async)" >
+      <div *ngIf="(userFilterError$ | async) && !(userFilterListLoading$ | async)">
         <div class="alert alert-danger" role="alert">
           {{userFilterErrorMessage$ | async}}
         </div>
       </div>
       <div class="d-flex h-100">
         <div class="grid-and-filter-container">
-          <div *ngIf="gridState?.filter?.filters.length" class="filter-pills-container"
-               [class.background-light-grey]="showFilterSidebar">
-            <pf-list-area-filter-pills
-              [listAreaColumns]="filteredListAreaColumns"
-              [customListAreaColumns]="customListAreaColumns"
-              [filters]="gridState?.filter?.filters"
-              (clearFilter)="handleClearFilter($event)"
-              (clearAllFilters)="handleClearAllFilters($event)">
-            </pf-list-area-filter-pills>
-          </div>
-
-          <div class="grid-container" *ngIf="gridState" [class.shift-grid-down]="gridState?.filter?.filters.length">
+          <div class="grid-container" *ngIf="gridState">
+            <span class="user-filter-popover" *ngIf="!showFilterSidebar">
+              <pf-filter-selector-popover
+                [loading]="userFilterListLoading$ | async"
+                [deleting]="userFilterDeleting$ | async"
+                [userFilterList]="userFilterList$ | async"
+                [listAreaColumns]="filteredListAreaColumns"
+                [customListAreaColumns]="customListAreaColumns"
+                [saveFiltersVisible]="!isPublic"
+                (onFilterSidebarToggle)="showFilterSidebar = !showFilterSidebar"
+                (onFilterSelected)="handleUserFilterSelected($event)"
+                (onDeleteConfirmed)="handleUserFilterDeleteConfirmed($event)"
+                (open)="handleUserFilterListPopoverOpened()">
+              </pf-filter-selector-popover>
+          </span>
             <pf-job-description-grid
               [gridDataResult]="gridDataResult$ | async"
               [loading]="gridLoading$ | async"
@@ -98,19 +97,31 @@
               (sortChanged)="handleSortChanged($event)"
               (publicViewChanged)="handlePublicViewChanged($event)"
               (bulkRouteJobDescriptions)="openBulkRouteJobDescriptions($event)">
+              <ng-container filter-controls>
+                <div *ngIf="gridState?.filter?.filters.length" class="filter-pills-container"
+                     [class.background-light-grey]="showFilterSidebar">
+                  <pf-list-area-filter-pills
+                    [listAreaColumns]="filteredListAreaColumns"
+                    [customListAreaColumns]="customListAreaColumns"
+                    [filters]="gridState?.filter?.filters"
+                    (clearFilter)="handleClearFilter($event)"
+                    (clearAllFilters)="handleClearAllFilters($event)">
+                  </pf-list-area-filter-pills>
+                </div>
+              </ng-container>
             </pf-job-description-grid>
           </div>
         </div>
 
         <div [hidden]="!showFilterSidebar" class="sidebar-filter-container">
           <pf-list-area-filter-sidebar *ngIf="!!filteredListAreaColumns"
-            [filters]="gridState?.filter?.filters"
-            [listAreaColumns]="filteredListAreaColumns"
-            [customListAreaColumns]="customListAreaColumns"
-            [saveFiltersVisible]="!isPublic"
-            (filterChanged)="handleFilterChanged($event)"
-            (close)="showFilterSidebar = false"
-            (saveFilterClicked)="saveFilterClicked()">
+                                       [filters]="gridState?.filter?.filters"
+                                       [listAreaColumns]="filteredListAreaColumns"
+                                       [customListAreaColumns]="customListAreaColumns"
+                                       [saveFiltersVisible]="!isPublic"
+                                       (filterChanged)="handleFilterChanged($event)"
+                                       (close)="showFilterSidebar = false"
+                                       (saveFilterClicked)="saveFilterClicked()">
           </pf-list-area-filter-sidebar>
         </div>
       </div>
@@ -141,8 +152,8 @@
       (saved)="saveFilterHandler($event)"
       (opened)="handleSaveFilterModalOpened()">
     </pf-save-filter-modal>
-    
-    <pf-workflow-setup-modal 
+
+    <pf-workflow-setup-modal
       [workflowSetupModalInput]="workflowSetupModalInput">
     </pf-workflow-setup-modal>
   </ng-container>
