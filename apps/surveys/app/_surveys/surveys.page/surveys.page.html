@@ -35,7 +35,7 @@
     <div class="d-flex px-3 pb-3 justify-content-between">
       <pf-survey-job-details [surveyJobDetails]="dataRow | surveyJobDetails"></pf-survey-job-details>
 
-      <div class="d-flex space-out-children">
+      <div class="d-flex align-self-center flex-shrink-0 space-out-children">
         <button *ngIf="dataRow['Surveys_ParticipantsCount'] > 0"
                 class="btn btn-secondary"
                 (click)="viewParticipantsList(dataRow['CompanySurveys_Survey_ID'], dataRow['Surveys_Survey_Name'])">View Participant List
