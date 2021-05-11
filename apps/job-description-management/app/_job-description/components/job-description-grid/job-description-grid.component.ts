@@ -112,16 +112,18 @@ return this.selectedJobDescriptions?.size > 0 && !this.canBulkDeleteJobDescripti
     let selectionChanged = false;
     if (selection.selectedRows.length > 0) {
       selection.selectedRows.forEach((row) => {
-        selectionChanged = true;
-        this.selectedJobDescriptions?.set(row.dataItem.JobDescriptionId, row.dataItem);
-      });
+        if (this.canSelectRow(row.dataItem)) {
+          selectionChanged = true;
+          this.selectedJobDescriptions?.set(row.dataItem.JobDescriptionId, row.dataItem);
+      }});
     }
 
     if (selection.deselectedRows.length > 0) {
       selection.deselectedRows.forEach((row) => {
-        selectionChanged = true;
-        this.selectedJobDescriptions?.delete(row.dataItem.JobDescriptionId);
-      });
+        if (this.canSelectRow(row.dataItem)) {
+          selectionChanged = true;
+          this.selectedJobDescriptions?.delete(row.dataItem.JobDescriptionId);
+      }});
     }
 
     if (selectionChanged) {
@@ -130,7 +132,7 @@ return this.selectedJobDescriptions?.size > 0 && !this.canBulkDeleteJobDescripti
   }
 
   canSelectRow(jd): boolean {
-    return jd.JobDescriptionStatus === 'Routing' ? false : true;
+    return jd.JobDescriptionId && jd.JobDescriptionStatus !== 'Routing' ? true : false;
   }
 
   handleJobDescriptionHistoryClick(jobDescriptionId: number, jobTitle: string) {
@@ -301,10 +303,13 @@ return this.selectedJobDescriptions?.size > 0 && !this.canBulkDeleteJobDescripti
   }
 
   getSelectAllState(): SelectAllCheckboxState {
-    if (this.selectedJobDescriptions?.size === 0) {
-      return 'unchecked';
-    } else if (this.selectedJobDescriptions?.size === this.gridDataResult?.data?.length) {
+    const selectedIds = Array.from(this.selectedJobDescriptions?.keys());
+    const eligiblePageIds =  this.gridDataResult?.data?.filter(x => this.canSelectRow(x)).map(jd => jd.JobDescriptionId);
+
+    if (eligiblePageIds.every(r => selectedIds.includes(r))) {
       return 'checked';
+    } else if (eligiblePageIds.filter(r => selectedIds.includes(r))?.length === 0) {
+      return 'unchecked';
     } else {
       return 'indeterminate';
     }
