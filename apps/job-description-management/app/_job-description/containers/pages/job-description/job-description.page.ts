@@ -373,7 +373,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
 
   handleRouteForApprovalClicked(): void {
     if ( !this.identity.IsPublic && this.jobDescription) {
-      this.store.dispatch(new fromWorkflowTemplateListActions.Load(this.jobDescription.CompanyJobId));
+      this.store.dispatch(new fromWorkflowTemplateListActions.Load([this.jobDescription.CompanyJobId]));
     }
     this.workflowSetupModal.open();
   }
