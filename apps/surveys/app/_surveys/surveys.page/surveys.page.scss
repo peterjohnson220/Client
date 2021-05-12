@@ -12,11 +12,17 @@
 
 .survey-data-cuts-container {
   background-color: #fff;
+  position: relative;
 }
 
 .action-btn {
   margin-left: .75rem;
   border: 1px solid transparent;
+
+  &:disabled {
+    border: none;
+  }
+
   fa-icon {
     color: #777;
     font-size: 1.25rem;

@@ -66,31 +66,39 @@
 </ng-template>
 
 <ng-template #expandRow let-dataRow="dataRow">
-  <div *ngIf="!(loading$ | async)" class="survey-data-cuts-container pt-3 pb-4 px-4">
-    <div class="d-flex px-3 pb-3 justify-content-between">
-      <pf-survey-job-details [surveyJobDetails]="dataRow | surveyJobDetails"></pf-survey-job-details>
+  <div class="survey-data-cuts-container pt-3 pb-4 px-4">
+    <pf-async-container [loading]="surveyDataGridReloading(dataRow['SurveyJob_Survey_Job_ID'])">
+      <div class="d-flex px-3 pb-3 justify-content-between">
+        <pf-survey-job-details [surveyJobDetails]="dataRow | surveyJobDetails"></pf-survey-job-details>
 
-      <div class="d-flex align-self-center flex-shrink-0 space-out-children">
-        <button *ngIf="dataRow['Surveys_ParticipantsCount'] > 0"
-                class="btn btn-secondary"
-                (click)="viewParticipantsList(dataRow['CompanySurveys_Survey_ID'], dataRow['Surveys_Survey_Name'])">View Participant List
-        </button>
-        <button type="button"
-                class="btn btn-secondary action-btn"
-                title="Edit Survey Fields"
-                (click)="openSurveyFieldsModal(dataRow['SurveyJob_Survey_Job_ID'])">
-          <fa-icon icon="edit"></fa-icon>
-        </button>
-        <button type="button"
-                class="btn btn-secondary action-btn btn-close"
-                (click)="closeExpandedRow('SurveyJob_Survey_Job_ID', dataRow['SurveyJob_Survey_Job_ID'])">
-          <fa-icon [icon]="['far', 'times']"></fa-icon>
-        </button>
+        <div class="d-flex align-self-center flex-shrink-0 space-out-children">
+          <button *ngIf="dataRow['Surveys_ParticipantsCount'] > 0"
+                  class="btn btn-secondary"
+                  (click)="viewParticipantsList(dataRow['CompanySurveys_Survey_ID'], dataRow['Surveys_Survey_Name'])">View Participant List
+          </button>
+          <button *ngIf="surveyDataGridRefreshed(dataRow['SurveyJob_Survey_Job_ID']) === false"
+                  type="button"
+                  class="btn btn-secondary action-btn"
+                  title="Refresh the table to view updates"
+                  (click)="refreshSurveyDataGrid(dataRow['SurveyJob_Survey_Job_ID'])">
+            <fa-icon icon="redo"></fa-icon>
+          </button>
+          <button type="button"
+                  class="btn btn-secondary action-btn"
+                  title="Edit Survey Fields"
+                  [disabled]="surveyDataGridRefreshed(dataRow['SurveyJob_Survey_Job_ID']) === false"
+                  (click)="openSurveyFieldsModal(dataRow['SurveyJob_Survey_Job_ID'])">
+            <fa-icon icon="edit"></fa-icon>
+          </button>
+          <button type="button"
+                  class="btn btn-secondary action-btn btn-close"
+                  (click)="closeExpandedRow('SurveyJob_Survey_Job_ID', dataRow['SurveyJob_Survey_Job_ID'])">
+            <fa-icon [icon]="['far', 'times']"></fa-icon>
+          </button>
+        </div>
       </div>
-    </div>
-    <pf-survey-data-cuts
-      [surveyJobId]="dataRow['SurveyJob_Survey_Job_ID']">
-    </pf-survey-data-cuts>
+      <pf-survey-data-cuts [surveyJobId]="dataRow['SurveyJob_Survey_Job_ID']"></pf-survey-data-cuts>
+    </pf-async-container>
   </div>
 </ng-template>
 

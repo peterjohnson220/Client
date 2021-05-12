@@ -6,6 +6,7 @@ import { SurveyCountryDto } from 'libs/models/survey/survey-country-dto.model';
 import { PfDataGridCustomFilterDisplayOptions } from 'libs/features/grids/pf-data-grid/models';
 
 import * as fromSurveysPageActions from '../actions/surveys-page.actions';
+import { SurveyDataGrid, SurveysPageConfig } from '../models';
 
 // Define our feature state
 export interface State {
@@ -14,6 +15,7 @@ export interface State {
   surveyParticipants: AsyncStateObj<string[]>;
   countries: AsyncStateObj<SurveyCountryDto[]>;
   surveyYears: AsyncStateObj<PfDataGridCustomFilterDisplayOptions[]>;
+  openedSurveyDataGrids: SurveyDataGrid[];
 }
 
 // Define our initial state
@@ -22,7 +24,8 @@ const initialState: State = {
   participantsModalOpen: false,
   surveyParticipants: generateDefaultAsyncStateObj<string[]>([]),
   countries: generateDefaultAsyncStateObj([]),
-  surveyYears: generateDefaultAsyncStateObj<PfDataGridCustomFilterDisplayOptions[]>([])
+  surveyYears: generateDefaultAsyncStateObj<PfDataGridCustomFilterDisplayOptions[]>([]),
+  openedSurveyDataGrids: []
 };
 
 // Reducer function
@@ -98,6 +101,63 @@ export function reducer(state = initialState, action: fromSurveysPageActions.Act
     case fromSurveysPageActions.GET_SURVEY_YEARS_ERROR: {
       return AsyncStateObjHelper.loadingError(state, 'surveyYears');
     }
+    case fromSurveysPageActions.OPEN_SURVEY_DATA_GRID: {
+      const openedSurveyDataGridsClone: SurveyDataGrid[] = cloneDeep(state.openedSurveyDataGrids);
+      const gridExists = openedSurveyDataGridsClone.some(x => x.SurveyJobId === action.surveyJobId);
+      if (!gridExists) {
+        openedSurveyDataGridsClone.push({
+          SurveyJobId: action.surveyJobId,
+          PageViewId: `${SurveysPageConfig.SurveyDataCutsPageViewId}_${action.surveyJobId}`,
+          GridRefreshed: true,
+          Reloading: false
+        });
+      }
+      return {
+        ...state,
+        openedSurveyDataGrids: openedSurveyDataGridsClone
+      };
+    }
+    case fromSurveysPageActions.RESET_OPENED_SURVEY_DATA_GRIDS: {
+      return {
+        ...state,
+        openedSurveyDataGrids: []
+      };
+    }
+    case fromSurveysPageActions.UPDATE_SURVEY_DATA_GRID_FIELDS: {
+      const openedSurveyDataGridsClone: SurveyDataGrid[] = cloneDeep(state.openedSurveyDataGrids);
+      openedSurveyDataGridsClone.forEach(grid => {
+        if (grid.SurveyJobId !== action.surveyJobId) {
+          grid.GridRefreshed = false;
+        }
+      });
+      return {
+        ...state,
+        openedSurveyDataGrids: openedSurveyDataGridsClone
+      };
+    }
+    case fromSurveysPageActions.RELOAD_SURVEY_DATA_GRID: {
+      const openedSurveyDataGridsClone: SurveyDataGrid[] = cloneDeep(state.openedSurveyDataGrids);
+      const updatedGrid = openedSurveyDataGridsClone.find(x => x.SurveyJobId === action.surveyJobId);
+      if (updatedGrid) {
+        updatedGrid.GridRefreshed = true;
+        updatedGrid.Reloading = true;
+      }
+      return {
+        ...state,
+        openedSurveyDataGrids: openedSurveyDataGridsClone
+      };
+    }
+    case fromSurveysPageActions.RELOAD_SURVEY_DATA_GRID_SUCCESS: {
+      const openedSurveyDataGridsClone: SurveyDataGrid[] = cloneDeep(state.openedSurveyDataGrids);
+      const updatedGrid = openedSurveyDataGridsClone.find(x => x.SurveyJobId === action.surveyJobId);
+      if (updatedGrid) {
+        updatedGrid.Reloading = false;
+      }
+      return {
+        ...state,
+        openedSurveyDataGrids: openedSurveyDataGridsClone
+      };
+    }
     default: {
       return state;
     }
@@ -109,3 +169,4 @@ export const getParticipantsModalOpen = (state: State) => state.participantsModa
 export const getSurveyParticipants = (state: State) => state.surveyParticipants;
 export const getSurveyCountries = (state: State) => state.countries;
 export const getSurveyYears = (state: State) => state.surveyYears;
+export const getOpenedSurveyDataGrids = (state: State) => state.openedSurveyDataGrids;

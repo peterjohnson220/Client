@@ -200,6 +200,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
     this.dataSubscription = this.store.select(fromReducer.getData, this.pageViewId).subscribe(newData => {
       this.data = cloneDeep(newData);
       if (this.data && this.grid) {
+        this.groupTracker = [];
         this.grid.resetGroupsState();
         for (let index = 0; index < this.data.data.length; index++) {
           if (!this.expandedRows.includes(index)) {
