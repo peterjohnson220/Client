@@ -22,7 +22,7 @@ export interface State {
 }
 
 export const initialState: State = {
-  gridDataResult: null,
+  gridDataResult: { data: [], total: null },
   gridState: { skip: 0, take: 20, sort: [{ 'field': 'JobTitle', 'dir': 'asc' }] },
   listAreaColumns: [],
   loadingJobDescriptionGrid: false,

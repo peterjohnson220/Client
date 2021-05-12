@@ -303,6 +303,10 @@ return this.selectedJobDescriptions?.size > 0 && !this.canBulkDeleteJobDescripti
   }
 
   getSelectAllState(): SelectAllCheckboxState {
+    if (!this.selectedJobDescriptions || !this.gridDataResult ) {
+      return 'unchecked';
+    }
+
     const selectedIds = Array.from(this.selectedJobDescriptions?.keys());
     const eligiblePageIds =  this.gridDataResult?.data?.filter(x => this.canSelectRow(x)).map(jd => jd.JobDescriptionId);
 
