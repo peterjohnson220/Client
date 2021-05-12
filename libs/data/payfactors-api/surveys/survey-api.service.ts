@@ -57,7 +57,11 @@ export class SurveyApiService {
     });
   }
 
-  GetSurveyCountryInfoByCompany(): Observable<SurveyCountryDto[]> {
+  getSurveyCountryInfoByCompany(): Observable<SurveyCountryDto[]> {
     return this.payfactorsApiService.get<SurveyCountryDto[]>(`${this.endpoint}/Default.GetSurveyCountryInfoByCompany`);
+  }
+
+  getSurveyYears(): Observable<number[]> {
+    return this.payfactorsApiService.get<number[]>(`${this.endpoint}/Default.GetSurveyYears`);
   }
 }

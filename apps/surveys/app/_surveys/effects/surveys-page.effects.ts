@@ -31,10 +31,23 @@ export class SurveyPageEffects {
     .pipe(
       ofType(fromSurveyPageActions.GET_SURVEY_COUNTRIES),
       switchMap((action: fromSurveyPageActions.GetSurveyCountries) => {
-        return this.surveyApiService.GetSurveyCountryInfoByCompany()
+        return this.surveyApiService.getSurveyCountryInfoByCompany()
           .pipe(
             map((response) => new fromSurveyPageActions.GetSurveyCountriesSuccess(response)),
             catchError(() => of(new fromSurveyPageActions.GetSurveyCountriesError()))
+          );
+      })
+    );
+
+  @Effect()
+  getSurveyYears$ = this.actions$
+    .pipe(
+      ofType(fromSurveyPageActions.GET_SURVEY_YEARS),
+      switchMap((action: fromSurveyPageActions.GetSurveyYears) => {
+        return this.surveyApiService.getSurveyYears()
+          .pipe(
+            map((response) => new fromSurveyPageActions.GetSurveyYearsSuccess(response)),
+            catchError(() => of(new fromSurveyPageActions.GetSurveyYearsError()))
           );
       })
     );

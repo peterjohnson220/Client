@@ -11,6 +11,9 @@ export const GET_SURVEY_PARTICIPANTS_ERROR = '[Surveys / Surveys Page] Get Surve
 export const GET_SURVEY_COUNTRIES = '[Surveys / Surveys Page] Get Survey Countries';
 export const GET_SURVEY_COUNTRIES_SUCCESS = '[Surveys / Surveys Page] Get Survey Countries Success';
 export const GET_SURVEY_COUNTRIES_ERROR = '[Surveys / Surveys Page] Get Survey Countries Error';
+export const GET_SURVEY_YEARS = '[Surveys / Surveys Page] Get Survey Years';
+export const GET_SURVEY_YEARS_SUCCESS = '[Surveys / Surveys Page] Get Survey Years Success';
+export const GET_SURVEY_YEARS_ERROR = '[Surveys / Surveys Page] Get Survey Years Error';
 
 export class OpenSurveyFieldsModal implements Action {
   readonly type = OPEN_SURVEY_FIELDS_MODAL;
@@ -47,6 +50,20 @@ export class GetSurveyParticipantsError implements Action {
   constructor() {}
 }
 
+export class GetSurveyYears implements Action {
+  readonly type = GET_SURVEY_YEARS;
+  constructor() {}
+}
+
+export class GetSurveyYearsSuccess implements Action {
+  readonly type = GET_SURVEY_YEARS_SUCCESS;
+  constructor(public payload: number[]) {}
+}
+
+export class GetSurveyYearsError implements Action {
+  readonly type = GET_SURVEY_YEARS_ERROR;
+  constructor() {}
+}
 
 export class GetSurveyCountries implements Action {
   readonly type = GET_SURVEY_COUNTRIES;
@@ -76,4 +93,7 @@ export type Actions
   | GetSurveyParticipantsError
   | GetSurveyCountries
   | GetSurveyCountriesSuccess
-  | GetSurveyCountriesError;
+  | GetSurveyCountriesError
+  | GetSurveyYears
+  | GetSurveyYearsSuccess
+  | GetSurveyYearsError;
