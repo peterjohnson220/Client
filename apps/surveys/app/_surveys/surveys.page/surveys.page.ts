@@ -86,7 +86,7 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
   };
   filterTemplates = {};
   matchedFilterSelectedOption: PfDataGridCustomFilterDisplayOptions;
-  countriesFilterSelectedOption: PfDataGridCustomFilterDisplayOptions;
+  countriesFilterSelectedOption: string;
   matchedFilterField: ViewField;
   countriesFilterField: ViewField;
   actionBarConfig: ActionBarConfig;
@@ -106,9 +106,9 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
   ) {
     this.inboundFilters = [
       {
-        SourceName: 'SurveyCountryFilter',
+        SourceName: 'Survey_ID',
         Operator: 'notnull',
-        ExcludeFromFilterSave: false
+        ExcludeFromFilterSave: true
       },
       {
         SourceName: 'Survey_Job_ID',
@@ -180,13 +180,14 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   handleCountriesFilterChanged(countryCode: string): void {
     const field: ViewField = cloneDeep(this.countriesFilterField);
-    field.FilterValues = [countryCode];
+    field.FilterValues = countryCode === null ? null : [countryCode];
     field.FilterOperator = '=';
     this.updateField(field);
   }
 
   populateCountriesFilter(options: SurveyCountryDto[]): void {
     const flags = {};
+
     const distinctOptions = options.filter(function(entry) {
       if (flags[entry.CountryCode]) {
         return false;
@@ -304,9 +305,9 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private updateCountriesFilter(fields: ViewField[]): void {
     this.countriesFilterField = fields.find(f => f.SourceName === 'SurveyCountryFilter');
-    if (this.countriesFilterField && this.countryDisplayOptions) {
-      this.countriesFilterSelectedOption = this.countriesFilterField?.FilterValues?.length > 0 ?
-        this.countryDisplayOptions.find(x => x.Value === this.countriesFilterField.FilterValues[0]) : null;
+
+    if (this.countriesFilterField) {
+      this.countriesFilterSelectedOption = this.countriesFilterField?.FilterValues?.length > 0 ? this.countriesFilterField.FilterValues[0] : null;
     }
   }
 
