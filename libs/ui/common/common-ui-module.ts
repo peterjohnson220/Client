@@ -12,7 +12,7 @@ import { TooltipModule } from '@progress/kendo-angular-tooltip';
 import { PopupModule } from '@progress/kendo-angular-popup';
 
 import * as fromFaIcons from './fa-icons';
-import { EllipsisViewMoreComponent, TreeViewMultiSelectComponent } from './content';
+import { EllipsisViewMoreComponent, TreeViewMultiSelectComponent, RadialTextCounterComponent } from './content';
 import {
   ErrorIndicatorComponent,
   BaseErrorPageComponent,
@@ -57,6 +57,7 @@ const components = [
   JobTitleCodeComponent,
   TreeViewMultiSelectComponent,
   GridColumnTooltipComponent,
+  RadialTextCounterComponent,
 
   // Directives
   ClickElsewhereDirective, AfterIfDirective, EllipsisActiveDirective, TreeViewCheckDirective, PfScrollSpyDirective,

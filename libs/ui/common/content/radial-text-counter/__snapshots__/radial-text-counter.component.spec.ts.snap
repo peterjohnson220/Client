@@ -1,17 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`CommunityStartDiscussionComponent should set radialCounterClass to radial-counter-danger radial-counter-pulse when inputTextLength >= DangerStartNumber  1`] = `
+exports[`RadialTextCounterComponent should set radialCounterClass to radial-counter-danger radial-counter-pulse when inputTextLength >= DangerStartNumber  1`] = `
 <pf-radial-text-counter
+  ContentLength={[Function Number]}
   DangerStartNumber={[Function Number]}
+  DisplayWarningColors="false"
   WarningStartNumber={[Function Number]}
-  charactersRemaining={[Function Number]}
   radialCounterClass={[Function String]}
-  radialIncrementValue={[Function Number]}
   radialStartValue={[Function Number]}
   radialStrokeDashOffsetValue={[Function Number]}
-  textMaxLength={[Function Number]}
 >
-  <div
+  <span
     placement="bottom"
   >
     <svg
@@ -24,88 +23,7 @@ exports[`CommunityStartDiscussionComponent should set radialCounterClass to radi
         cx="50%"
         cy="50%"
         fill="none"
-        r="8"
-        stroke-width="2"
-      />
-      <circle
-        class="radial-counter-overlay radial-counter-danger radial-counter-pulse"
-        cx="50%"
-        cy="50%"
-        fill="none"
-        r="8"
-        stroke-width="2"
-        style="stroke-dashoffset: 49.8131105;"
-      />
-    </svg>
-  </div>
-</pf-radial-text-counter>
-`;
-
-exports[`CommunityStartDiscussionComponent should set radialCounterClass to radial-counter-warn radial-counter-pulse when inputTextLength >= WarningStartNumber  1`] = `
-<pf-radial-text-counter
-  DangerStartNumber={[Function Number]}
-  WarningStartNumber={[Function Number]}
-  charactersRemaining={[Function Number]}
-  radialCounterClass={[Function String]}
-  radialIncrementValue={[Function Number]}
-  radialStartValue={[Function Number]}
-  radialStrokeDashOffsetValue={[Function Number]}
-  textMaxLength={[Function Number]}
->
-  <div
-    placement="bottom"
-  >
-    <svg
-      class="radial-counter"
-      height="20"
-      width="20"
-    >
-      <circle
-        class="radial-counter-underlay"
-        cx="50%"
-        cy="50%"
-        fill="none"
-        r="8"
-        stroke-width="2"
-      />
-      <circle
-        class="radial-counter-overlay radial-counter-warn radial-counter-pulse"
-        cx="50%"
-        cy="50%"
-        fill="none"
-        r="8"
-        stroke-width="2"
-        style="stroke-dashoffset: 49.8131105;"
-      />
-    </svg>
-  </div>
-</pf-radial-text-counter>
-`;
-
-exports[`CommunityStartDiscussionComponent should show radial text counter 1`] = `
-<pf-radial-text-counter
-  DangerStartNumber={[Function Number]}
-  WarningStartNumber={[Function Number]}
-  charactersRemaining={[Function Number]}
-  radialCounterClass={[Function String]}
-  radialStartValue={[Function Number]}
-  radialStrokeDashOffsetValue={[Function Number]}
-  textMaxLength={[Function Number]}
->
-  <div
-    placement="bottom"
-  >
-    <svg
-      class="radial-counter"
-      height="20"
-      width="20"
-    >
-      <circle
-        class="radial-counter-underlay"
-        cx="50%"
-        cy="50%"
-        fill="none"
-        r="8"
+        r="6"
         stroke-width="2"
       />
       <circle
@@ -113,11 +31,90 @@ exports[`CommunityStartDiscussionComponent should show radial text counter 1`] =
         cx="50%"
         cy="50%"
         fill="none"
-        r="8"
+        r="6"
         stroke-width="2"
-        style="stroke-dashoffset: 50.2655;"
+        style="stroke-dashoffset: 37.6991;"
       />
     </svg>
-  </div>
+  </span>
+</pf-radial-text-counter>
+`;
+
+exports[`RadialTextCounterComponent should set radialCounterClass to radial-counter-warn radial-counter-pulse when inputTextLength >= WarningStartNumber  1`] = `
+<pf-radial-text-counter
+  ContentLength={[Function Number]}
+  DangerStartNumber={[Function Number]}
+  DisplayWarningColors="false"
+  WarningStartNumber={[Function Number]}
+  radialCounterClass={[Function String]}
+  radialStartValue={[Function Number]}
+  radialStrokeDashOffsetValue={[Function Number]}
+>
+  <span
+    placement="bottom"
+  >
+    <svg
+      class="radial-counter"
+      height="20"
+      width="20"
+    >
+      <circle
+        class="radial-counter-underlay"
+        cx="50%"
+        cy="50%"
+        fill="none"
+        r="6"
+        stroke-width="2"
+      />
+      <circle
+        class="radial-counter-overlay radial-counter-safe"
+        cx="50%"
+        cy="50%"
+        fill="none"
+        r="6"
+        stroke-width="2"
+        style="stroke-dashoffset: 37.6991;"
+      />
+    </svg>
+  </span>
+</pf-radial-text-counter>
+`;
+
+exports[`RadialTextCounterComponent should show radial text counter 1`] = `
+<pf-radial-text-counter
+  DangerStartNumber={[Function Number]}
+  DisplayWarningColors="false"
+  WarningStartNumber={[Function Number]}
+  radialCounterClass={[Function String]}
+  radialStartValue={[Function Number]}
+  radialStrokeDashOffsetValue={[Function Number]}
+>
+  <span
+    placement="bottom"
+  >
+    <svg
+      class="radial-counter"
+      height="20"
+      width="20"
+    >
+      <circle
+        class="radial-counter-underlay"
+        cx="50%"
+        cy="50%"
+        fill="none"
+        r="6"
+        stroke-width="2"
+      />
+      <circle
+        class="radial-counter-overlay radial-counter-safe"
+        cx="50%"
+        cy="50%"
+        fill="none"
+        r="6"
+        stroke-width="2"
+        style="stroke-dashoffset: 37.6991;"
+      />
+    </svg>
+  </span>
 </pf-radial-text-counter>
 `;

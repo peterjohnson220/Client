@@ -6,12 +6,14 @@ import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 
-import { Permissions } from 'libs/constants';
+import { ExportReportType, Permissions } from 'libs/constants';
 import { TransferMethodTypes } from 'libs/constants/hris-api';
-import { AsyncStateObj, CompanySettingsEnum, UserContext } from 'libs/models';
+import { AsyncStateObj, BulkExportSchedule, CompanySettingsEnum, UserContext } from 'libs/models';
 import { HRISConnectionAuthenticationStatus } from 'libs/constants/hris-connection-authenticationstatus';
 import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
 import { SettingsService } from 'libs/state/app-context/services';
+import * as fromBulkJobsExportScheduleActions from 'libs/features/jobs/bulk-job-description-export-scheduler/actions/bulk-export-schedule.actions';
+import * as fromBulkExportJobsReducer from 'libs/features/jobs/bulk-job-description-export-scheduler/reducers';
 import * as fromRootState from 'libs/state/state';
 
 import * as fromTransferDataPageActions from '../../../actions/transfer-data-page.actions';
@@ -44,6 +46,7 @@ export class DataManagementLandingPageComponent implements OnInit, OnDestroy {
   loadingError$: Observable<boolean>;
   loadAndExportFilesCardLoading$: Observable<boolean>;
   identity$: Observable<UserContext>;
+  bulkExportJobs$: Observable<BulkExportSchedule[]>;
 
   connectionNeedsAuthentication: boolean;
   loadAndExportsFilesCardFlag: RealTimeFlag = { key: FeatureFlags.LoadAndExportsFilesCards, value: false };
@@ -52,9 +55,12 @@ export class DataManagementLandingPageComponent implements OnInit, OnDestroy {
   hrisInboundEnabledForCompany = false;
   hrisOutboundEnabledForCompany = false; // TODO: Replace the FeatureFlag with this value when we go live.
   isDemoCompany = false;
+  hasOutboundSchedules = false;
+  exportReportType =  ExportReportType;
 
   constructor(
     private userContextStore: Store<fromRootState.State>,
+    private bulkJobsExportStore: Store<fromBulkExportJobsReducer.State>,
     private store: Store<fromDataManagementMainReducer.State>,
     private router: Router,
     private featureFlagService: AbstractFeatureFlagService,
@@ -70,6 +76,7 @@ export class DataManagementLandingPageComponent implements OnInit, OnDestroy {
     this.identity$ = this.userContextStore.select(fromRootState.getUserContext);
     this.featureFlagService.bindEnabled(this.loadAndExportsFilesCardFlag, this.unsubscribe$);
     this.featureFlagService.bindEnabled(this.jdmOutboundIntegrationFlag, this.unsubscribe$);
+    this.bulkExportJobs$ = this.bulkJobsExportStore.select(fromBulkExportJobsReducer.getBulkExportSchedules);
 
 
     this.connectionSummary$.pipe(filter(cs => !!cs),
@@ -86,6 +93,10 @@ export class DataManagementLandingPageComponent implements OnInit, OnDestroy {
       }
     });
 
+    this.bulkExportJobs$.pipe(takeUntil(this.unsubscribe$), filter(v => !!v)).subscribe(es => {
+      this.hasOutboundSchedules = es.some(s => s.ReportType === this.exportReportType.HrisOutboundJobs);
+    });
+
     this.settingsService
       .selectCompanySetting<boolean>(CompanySettingsEnum.DataManagementShowHRISInbound, 'boolean')
       .pipe(takeUntil(this.unsubscribe$), filter(v => !!v))
@@ -97,6 +108,8 @@ export class DataManagementLandingPageComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromHrisConnectionActions.GetHrisConnectionSummary());
     this.store.dispatch(new fromOutboundJdmActions.LoadConnectionSummary());
     this.store.dispatch(new fromTransferScheduleActions.GetTransferSummary());
+    this.store.dispatch(new fromBulkJobsExportScheduleActions.LoadingSchedules());
+    this.store.dispatch(new fromBulkJobsExportScheduleActions.GetLatestExportsHistory());
   }
 
   ngOnDestroy(): void {

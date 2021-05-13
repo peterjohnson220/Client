@@ -102,8 +102,11 @@ export class ChartComponent implements OnInit, OnDestroy {
       this.chartRef.tooltip.update(
         {
           formatter: function () {
+            const date = new Date(this.x);
+            const offset = date.getTimezoneOffset();
+            const utcDate = format(new Date(date.setMinutes(offset)), 'MM/dd/yyyy')
             return `<b>${this.series.name}</b>
-            <br> <b>Pricing Date: </b>${format(new Date(this.x), 'MM/dd/yyyy')}
+            <br> <b>Pricing Date: </b>${utcDate}</b>
             <br> <b>Base MRP: </b>${compPipe.transform(this.y, rate)}`;
           }
         }

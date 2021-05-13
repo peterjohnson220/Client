@@ -1,0 +1,33 @@
+<pf-modal-form
+  [size]="'md'"
+  [title]="'Participants'"
+  [subTitle]="surveyTitle"
+  [showSubmit]="false"
+  [modalId]="'au-modal-view-participants'"
+  [isOpen$]=" participantsModalOpen$"
+  (onDismiss)="closeParticipantModal()">
+
+  <ng-container basic-content>
+    <pf-input-debounce class="w-100"
+                       [value]="searchValue"
+                       [attr.data-qa-id]="'txt-searchParticipant'"
+                       [delay]="200"
+                       [placeholderText]="'Search for a participant...'"
+                       (valueChanged)="handleSearchValueChanged($event)">
+    </pf-input-debounce>
+    <hr>
+    <div class="participant-container">
+      <p *ngIf="searchValue?.length > 0 && filteredParticipants?.length === 0">
+        No results.
+      </p>
+      <ul class="list-group">
+        <li *ngFor="let participant of filteredParticipants" title="{{participant}}" class="list-group-item ellipsis-overflowing-text" >
+          {{ participant }}
+        </li>
+      </ul>
+    </div>
+  </ng-container>
+
+</pf-modal-form>
+
+

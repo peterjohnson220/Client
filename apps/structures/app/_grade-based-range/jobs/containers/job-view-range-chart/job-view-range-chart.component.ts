@@ -404,9 +404,12 @@ export class JobViewRangeChartComponent implements OnInit, OnDestroy {
       this.chartInstance.setSize(null, GraphHelper.getJobsChartHeight(this.jobsViewData.data));
 
       // adjust the radius of the range mid when there is only one record
-      const rangeMidOptions = this.chartInstance.series[JobViewRangeChartSeries.RangeMid].options as any;
-      rangeMidOptions.marker.radius = GraphHelper.getJobsRangeMidRadius(this.jobsViewData.data.length);
-      this.chartInstance.series[JobViewRangeChartSeries.RangeMid].update(rangeMidOptions);
+      // only do this if there is indeed one record only
+      if (this.jobsViewData.data.length === 1) {
+        const rangeMidOptions = this.chartInstance.series[JobViewRangeChartSeries.RangeMid].options as any;
+        rangeMidOptions.marker.radius = GraphHelper.getJobsRangeMidRadius(this.jobsViewData.data.length);
+        this.chartInstance.series[JobViewRangeChartSeries.RangeMid].update(rangeMidOptions);
+      }
     }
   }
 

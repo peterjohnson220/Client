@@ -13,7 +13,9 @@ export const REMOVE_JOB = '[Project Add Jobs to Grade] Remove Job From Grade';
 export const SAVE_GRADE_JOB_MAPS = '[Project Add Jobs to Grade] Save Grade Job Maps';
 export const SAVE_GRADE_JOB_MAPS_SUCCESS = '[Project Add Jobs to Grade] Save Grade Job Maps Success';
 export const SAVE_GRADE_JOB_MAPS_ERROR = '[Project Add Jobs to Grade] Save Grade Job Maps Error';
-
+export const AUTO_GRADE_JOBS = '[Project Add Jobs to Grade] Auto Grade Jobs';
+export const AUTO_GRADE_JOBS_SUCCESS = '[Project Add Jobs to Grade] Auto Grade Jobs Success';
+export const AUTO_GRADE_JOBS_ERROR = '[Project Add Jobs to Grade] Auto Grade Jobs Error';
 
 export class GetGrades implements Action {
   readonly type = GET_GRADES;
@@ -81,7 +83,23 @@ export class SaveGradeJobMapsError implements Action {
   constructor() {}
 }
 
+export class AutoGradeJobs implements Action {
+  readonly type = AUTO_GRADE_JOBS;
 
+  constructor(public gradeRangeGroupDetails: GradeRangeGroupDetails) {}
+}
+
+export class AutoGradeJobsSuccess implements Action {
+  readonly type = AUTO_GRADE_JOBS_SUCCESS;
+
+  constructor() {}
+}
+
+export class AutoGradeJobsError implements Action {
+  readonly type = AUTO_GRADE_JOBS_ERROR;
+
+  constructor() {}
+}
 
 export type JobsToGradeActions
   = GetGrades
@@ -94,4 +112,7 @@ export type JobsToGradeActions
   | RemoveJob
   | SaveGradeJobMaps
   | SaveGradeJobMapsSuccess
-  | SaveGradeJobMapsError;
+  | SaveGradeJobMapsError
+  | AutoGradeJobs
+  | AutoGradeJobsSuccess
+  | AutoGradeJobsError;

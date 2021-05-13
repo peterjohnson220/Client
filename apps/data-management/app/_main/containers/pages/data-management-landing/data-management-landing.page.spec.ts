@@ -6,6 +6,7 @@ import { Subject } from 'rxjs';
 
 import { AbstractFeatureFlagService } from 'libs/core';
 import { SettingsService } from 'libs/state/app-context/services';
+import * as fromBulkExportSchedulerReducer from 'libs/features/jobs/bulk-job-description-export-scheduler/reducers/bulk-export-scheduler.reducer';
 import * as fromRootState from 'libs/state/state';
 
 import * as fromHrisConnectionReducer from '../../../reducers/hris-connection.reducer';
@@ -24,7 +25,8 @@ describe('DataManagementLandingPageComponent', () => {
 
   const initialState = {
     ...fromRootState.reducers,
-    data_management: { hrisConnection: fromHrisConnectionReducer.initialState }
+    data_management: { hrisConnection: fromHrisConnectionReducer.initialState, },
+    feature_bulk_jobs_export_scheduler: {bulkExportSchedule: fromBulkExportSchedulerReducer.initialState}
   };
 
   beforeEach(waitForAsync(() => {

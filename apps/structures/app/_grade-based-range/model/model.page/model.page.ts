@@ -33,16 +33,19 @@ export class ModelPageComponent implements OnInit, OnDestroy {
   gradeRangeDetailsSubscription: Subscription;
   pageViewIdSubscription: Subscription;
   pageSummaryViewIdSubscription: Subscription;
-  savingModelSettingsAsyncObjSubscription: Subscription;
+  openAddJobsSubscription: Subscription;
   rangeGroupId: any;
   modelSummaryPageViewId: string;
   modelGridPageViewId: string;
+  idParamPresent: boolean;
+  openAddJobs: boolean;
   filters: PfDataGridFilter[];
   pfThemeType = PfThemeType;
   metadata: RangeGroupMetadata;
   hasCanCreateEditModelStructurePermission: boolean;
   gradeRangeDetails: GradeRangeGroupDetails;
   isNewRangeOrCreateModelFlow = false;
+  _Permissions = null;
 
   constructor(
     public store: Store<fromSharedStructuresReducer.State>,
@@ -51,7 +54,23 @@ export class ModelPageComponent implements OnInit, OnDestroy {
     private urlService: UrlService,
     private permissionService: PermissionService
   ) {
-    this.rangeGroupId = this.route.snapshot.params.id;
+
+
+    this.route.params.subscribe(p => {
+      if (p && p.id) {
+        this.idParamPresent = true;
+      }
+      this.rangeGroupId = this.route.snapshot.params.id;
+
+      if (this.idParamPresent && this.openAddJobs) {
+        this.handleOpenManageModelModalForNewWorkflow();
+      }
+
+      if (!!this.gradeRangeDetails) {
+        this.gradeRangeDetails.RangeGroupId = this.rangeGroupId;
+      }
+    });
+
     this.filters = [
       {
         SourceName: 'CompanyStructuresRangeGroup_ID',
@@ -81,19 +100,26 @@ export class ModelPageComponent implements OnInit, OnDestroy {
       PermissionCheckEnum.Single);
     this.isNewRangeOrCreateModelFlow = this.urlService.isInWorkflow(Workflow.NewRange) || this.urlService.isInWorkflow(Workflow.CreateModel);
 
-    this.savingModelSettingsAsyncObjSubscription = this.store.select(fromSharedStructuresReducer.getSavingModelSettingsAsyncObj).subscribe(settings => {
-      if (settings.savingSuccess === true && this.isNewRangeOrCreateModelFlow) {
-        this.openManageModelModal();
+    this.openAddJobsSubscription = this.store.select(fromGradeBasedSharedReducer.getOpenAddJobs).subscribe(open => {
+      if (open && this.idParamPresent) {
+        this.handleOpenManageModelModalForNewWorkflow();
       }
+      this.openAddJobs = open;
     });
+    this._Permissions = Permissions;
   }
 
   openManageModelModal() {
     setTimeout(() => {
       this.setSearchContext();
       this.store.dispatch(new fromAddJobsPageActions.SetContextStructuresRangeGroupId(this.rangeGroupId));
-    }, 250);
+    }, 0);
+  }
 
+  handleOpenManageModelModalForNewWorkflow() {
+    this.openManageModelModal();
+    this.store.dispatch(new fromGradeBasedSharedActions.SetOpenAddJobs(false));
+    this.openAddJobs = false;
   }
 
   private setSearchContext() {
@@ -124,6 +150,6 @@ export class ModelPageComponent implements OnInit, OnDestroy {
     this.pageSummaryViewIdSubscription.unsubscribe();
     this.metadataSub.unsubscribe();
     this.gradeRangeDetailsSubscription.unsubscribe();
-    this.savingModelSettingsAsyncObjSubscription.unsubscribe();
+    this.openAddJobsSubscription.unsubscribe();
   }
 }

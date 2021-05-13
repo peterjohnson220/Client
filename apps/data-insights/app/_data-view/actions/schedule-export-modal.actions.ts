@@ -85,4 +85,7 @@ export type Actions
   | SaveScheduleError
   | UpdateExportSchedule
   | UpdateExportScheduleSuccess
-  | UpdateExportScheduleError;
+  | UpdateExportScheduleError
+  | DeleteExportSchedule
+  | DeleteExportScheduleSuccess
+  | DeleteExportScheduleError;
