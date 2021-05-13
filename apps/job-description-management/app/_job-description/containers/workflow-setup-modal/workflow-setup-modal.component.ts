@@ -139,8 +139,8 @@ export class WorkflowSetupModalComponent implements OnInit, OnDestroy {
       return;
     }
     const multipleStepsTemplates = results.filter(t => t.Steps.length > 0);
-    this.accessibleTemplates = multipleStepsTemplates.filter(t => !t.Steps.some(s => s.WorkflowStepUsers.forEach(u => u.Permissions.length === 0)));
-    this.hasFilteredTemplates = this.accessibleTemplates.length < multipleStepsTemplates.length;
+    this.hasFilteredTemplates = multipleStepsTemplates.some(t => t.Steps.some(s => s.Permissions.length === 0));
+    this.accessibleTemplates = multipleStepsTemplates.filter(t => !t.Steps.some(s => s.Permissions.length === 0));
     this.filteredTemplates = this.accessibleTemplates;
   }
 
