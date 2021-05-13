@@ -46,6 +46,7 @@ export type StatementEditPageActions =
   settingsActions.UpdateSettingsColor |
   settingsActions.ToggleDisplaySetting |
   settingsActions.ResetSettings |
+  settingsActions.UpdateAdditionalPageSettings |
 
   previewActions.SearchAssignedEmployees |
   previewActions.SearchAssignedEmployeesSuccess |

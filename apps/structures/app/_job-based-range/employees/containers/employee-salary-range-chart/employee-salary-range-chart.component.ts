@@ -278,7 +278,7 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
 
   private processChartData() {
     // make sure all the proper data is present. If not present, don't do anything yet. this is because we can't control the order in which both datasets appear
-    if (this.jobRangeGroupData && this.jobRangeGroupData.data.length && this.employeeData && this.employeeData.data.length) {
+    if (this.jobRangeGroupData && this.jobRangeGroupData.data.length && this.employeeData && this.employeeData.data) {
       this.jobRangeData = this.jobRangeGroupData.data.find(jr => jr.CompanyStructures_Ranges_CompanyStructuresRanges_ID === this.rangeId);
       this.hasCurrentStructure = this.jobRangeData.CompanyStructures_RangeGroup_CurrentStructureMidPoint === null;
 

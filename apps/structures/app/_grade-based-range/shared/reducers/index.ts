@@ -52,6 +52,11 @@ export const getGradesDetails = createSelector(
   fromSharedReducer.getGradesDetails
 );
 
+export const getOpenAddJobs = createSelector(
+  selectSharedState,
+  fromSharedReducer.getOpenAddJobs
+);
+
 // Switch Regression Flags
 export const getSwitchRegressionFlagsModalOpen = createSelector(
   selectSwitchRegressionFlagsState, fromSwitchRegressionFlagsReducer.getModalOpen

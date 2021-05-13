@@ -9,7 +9,10 @@
   [pageable]="!gridConfig.EnableInfiniteScroll"
   [filterPanelTemplates]="filterTemplates"
   [customFilterOptions]="customFilterOptions"
-  [inboundFilters]="[filter]">
+  [inboundFilters]="inboundFilters"
+  [expandedRowTemplate]="expandRow"
+  [selectionField]="'Survey_Job_ID'"
+  [enableRowFade]="true">
 </pf-data-grid>
 
 <ng-template #matchedFilter>
@@ -26,3 +29,44 @@
     </kendo-dropdownlist>
   </div>
 </ng-template>
+
+<ng-template #expandRow let-dataRow="dataRow">
+  <div *ngIf="!(loading$ | async)" class="survey-data-cuts-container pt-3 pb-4 px-4">
+    <div class="d-flex px-3 pb-3 justify-content-between">
+      <pf-survey-job-details [surveyJobDetails]="dataRow | surveyJobDetails"></pf-survey-job-details>
+
+      <div class="d-flex space-out-children">
+        <button *ngIf="dataRow['Surveys_ParticipantsCount'] > 0"
+                class="btn btn-secondary"
+                (click)="viewParticipantsList(dataRow['CompanySurveys_Survey_ID'], dataRow['Surveys_Survey_Name'])">View Participant List
+        </button>
+        <button type="button"
+                class="btn btn-secondary action-btn"
+                title="Edit Survey Fields"
+                (click)="openSurveyFieldsModal(dataRow['SurveyJob_Survey_Job_ID'])">
+          <fa-icon icon="edit"></fa-icon>
+        </button>
+        <button type="button"
+                class="btn btn-secondary action-btn btn-close"
+                (click)="closeExpandedRow('SurveyJob_Survey_Job_ID', dataRow['SurveyJob_Survey_Job_ID'])">
+          <fa-icon [icon]="['far', 'times']"></fa-icon>
+        </button>
+      </div>
+    </div>
+    <pf-survey-data-cuts
+      [surveyJobId]="dataRow['SurveyJob_Survey_Job_ID']">
+    </pf-survey-data-cuts>
+  </div>
+</ng-template>
+
+<pf-survey-data-fields
+  [fields]="surveyDataFields"
+  [showModal$]="surveyDataFieldsModalOpen$"
+  [saving$]="savingSurveyFields$"
+  (onDismiss)="closeSurveyFieldsModal()"
+  (onSubmit)="updateSurveyFields($event)">
+</pf-survey-data-fields>
+
+<pf-view-participants-list
+  [surveyTitle]="surveyTitle">
+</pf-view-participants-list>

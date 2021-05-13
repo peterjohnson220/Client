@@ -19,14 +19,14 @@
             <button class="btn btn-secondary data-view-grid-btn"
                     [attr.data-qa-id]="'btn-schedule'"
                     (click)="handleScheduleClicked()"
-                    ngbTooltip="Schedule Export"
+                    [ngbTooltip]="isScheduled ? 'View scheduled export' : 'Schedule Export'"
                     container="body"
                     *ngIf="
                       scheduleTabularReportingExportFeatureFlagEnabled &&
                       hasScheduleTabularReportingExportPermission &&
                       isOwner
                     ">
-              <fa-icon icon="calendar-star"></fa-icon>
+              <fa-icon [class.scheduled]="isScheduled" icon="calendar-star"></fa-icon>
             </button>
             <button class="btn btn-secondary data-view-grid-btn"
                     [disabled]="isReadOnly"
@@ -88,6 +88,7 @@
 
   <pf-delete-user-workbook-modal
     #deleteWorkbookModal
+    [isScheduled]="isScheduled"
     (deleteClicked)="handleDeleteSaveClicked()">
   </pf-delete-user-workbook-modal>
   <pf-share-report-modal

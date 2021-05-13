@@ -6,6 +6,7 @@ export class FeatureFlags {
   static readonly TotalRewardsElectronicDelivery = 'total-rewards-electronic-delivery';
   static readonly TotalRewardsStyledTemplate = 'total-rewards-styled-template';
   static readonly TotalRewardsEmployeeContribution = 'total-rewards-employee-contribution';
+  static readonly TotalRewardsRadialTextCounters = 'total-rewards-radial-text-counters';
   static readonly PeerManageJobsGridToggle = 'peer-manage-jobs-grid-toggle';
   static readonly PeerDashboard_PeerTrendsReport = 'peer-dashboard_peer-trends-report';
   static readonly BenefitsLoaderConfiguration = 'benefits-loader-configuration';
@@ -25,5 +26,6 @@ export class FeatureFlags {
   static readonly HideOldJobsPageButton = 'hide-old-jobs-button';
   static readonly JdmInbox = 'jdm-inbox';
   static readonly DataAccessSurveyTitleFilter = 'data-access-survey-title-filter';
+  static readonly TotalRewardsAdditionalPage = 'total-rewards-additional-page';
   static readonly ProjectsPage = 'projects-page';
 }

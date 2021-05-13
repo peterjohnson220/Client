@@ -1,7 +1,7 @@
 <div class="form-group" [formGroup]="parentForm">
   <div class="textAreaContainerScrollable" #textAreaContainerScrollable
     [ngClass]="{ 'invalid-conent': !content.valid && content.dirty }">
-     <div #textAreaContainer class="textAreaContainer" 
+     <div #textAreaContainer class="textAreaContainer"
       (window:resize)="onResize($event)">
       <div #overlayTextArea
           class="overlayTextArea"
@@ -22,10 +22,12 @@
   </div>
 
   <pf-radial-text-counter class="radial-counter"
-    [textToCount]="content.value"
-    [textMaxLength]="maxTextLength"
+                          [ContentLength]="contentLength"
+                          [AvailableLength]="maxTextLength"
+    [ShowTextRemainingTooltip]="true"
     [WarningStartNumber]="warningStartNumber"
-    [DangerStartNumber]="dangerStartNumber">
+    [DangerStartNumber]="dangerStartNumber"
+    [DisplayWarningColors]="true">
   </pf-radial-text-counter>
 
   <div *ngIf="!content.valid && content.dirty" class="text-danger">Discussion text is required</div>

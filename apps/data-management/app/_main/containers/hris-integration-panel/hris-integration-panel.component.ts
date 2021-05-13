@@ -13,6 +13,7 @@ import {ConnectionSummary} from '../../models';
 export class HrisIntegrationPanelComponent {
   @Input() transferMethodType: TransferMethodTypes;
   @Input() connectionSummary: ConnectionSummary;
+  @Input() hasSavedExportSchedules: boolean;
   @Output() onMappingButtonClicked = new EventEmitter();
   @Output() onCreateNewIntegrationClicked = new EventEmitter();
   @Output() onTransferScheduleButtonClick = new EventEmitter();

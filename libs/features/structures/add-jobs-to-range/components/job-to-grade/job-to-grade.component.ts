@@ -1,20 +1,20 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 
 import { RangeDistributionTypeIds } from 'libs/constants/structures/range-distribution-type-ids';
 
 import { Grade, GradeJob } from '../../models';
-
 
 @Component({
   selector: 'pf-job-to-grade',
   templateUrl: './job-to-grade.component.html',
   styleUrls: ['./job-to-grade.component.scss']
 })
-export class JobToGradeComponent implements OnInit {
+export class JobToGradeComponent implements OnInit, OnChanges {
   @Input() grade: Grade;
   @Input() dragging: boolean;
   @Input() rate: string;
   @Input() rangeDistributionType: RangeDistributionTypeIds;
+  @Input() loadingGrades: boolean;
   @Output() loadJobs: EventEmitter<Grade> = new EventEmitter<Grade>();
   @Output() jobDeleted: EventEmitter<{ job: GradeJob, grade: Grade }>
     = new EventEmitter<{ job: GradeJob, grade: Grade }>();
@@ -26,10 +26,17 @@ export class JobToGradeComponent implements OnInit {
   private readonly showJobsLabel: string = 'Show Jobs';
   private readonly hideJobsLabel: string = 'Hide Jobs';
 
-  constructor() {  }
+  constructor() { }
 
   ngOnInit(): void {
     this.toggleJobsLabel = this.showJobs ? this.hideJobsLabel : this.showJobsLabel;
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (!!changes.loadingGrades && !!changes.loadingGrades.currentValue && this.showJobs) {
+      this.showJobs = false;
+      this.toggleJobsLabel = this.showJobsLabel;
+    }
   }
 
   toggleJobsDisplay(): void {

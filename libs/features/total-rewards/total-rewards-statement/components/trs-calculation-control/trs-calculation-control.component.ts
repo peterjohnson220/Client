@@ -63,7 +63,7 @@ export class TrsCalculationControlComponent implements OnChanges, OnDestroy, OnI
   ngOnChanges(changes: SimpleChanges) {
     const companyUdfsLength = changes?.companyUdfs?.currentValue?.length;
     const dataFieldsLength = changes?.controlData?.currentValue?.DataFields?.length;
-    const rewardsDataChanged = changes?.employeeRewardsData?.currentValue != changes?.employeeRewardsData?.previousValue;
+    const rewardsDataChanged = changes?.employeeRewardsData?.currentValue !== changes?.employeeRewardsData?.previousValue;
 
     if (companyUdfsLength || dataFieldsLength || rewardsDataChanged) {
       this.selectableFields = this.buildSelectableFieldsList();
@@ -82,16 +82,6 @@ export class TrsCalculationControlComponent implements OnChanges, OnDestroy, OnI
 
   get currencyLocale(): string {
     return this.showDecimals ? '1.2-2' : '1.0-0';
-  }
-
-  get titleColumnSpan(): number {
-    if (this.showSecondaryHeader) {
-      return 1;
-    } else if (this.showEmployeeContributions) {
-      return 3;
-    } else {
-      return 2;
-    }
   }
 
   get featureClasses(): string {

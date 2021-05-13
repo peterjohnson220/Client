@@ -16,7 +16,7 @@
         </div>
       </div>
 
-      <div class="jobs-container" *ngIf="showJobs && !grade.LoadingJobs">
+      <div class="jobs-container" *ngIf="showJobs && !grade.LoadingJobs && !loadingGrades">
         <ng-container *ngIf="!grade.LoadingJobsError;else loadingJobsError">
           <table class="jobs-table">
             <thead>

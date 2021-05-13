@@ -6,6 +6,7 @@ import { of } from 'rxjs';
 import { DragulaService } from 'ng2-dragula';
 
 import { generateMockEmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards';
+import { AbstractFeatureFlagService } from 'libs/core/services/feature-flags';
 
 import { TrsCalculationControlComponent } from './trs-calculation-control.component';
 import { CompensationFieldPipe } from '../../pipes/compensation-field-pipe';
@@ -19,6 +20,7 @@ describe('TrsCalculationControlComponent', () => {
   let currencyPipe: CurrencyPipe;
   let compensationField: CompensationFieldPipe;
   let dragulaService: DragulaService;
+  let abstractFeatureFlagService: AbstractFeatureFlagService;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -34,6 +36,10 @@ describe('TrsCalculationControlComponent', () => {
         {
           provide: DragulaService,
           useValue: { destroy: jest.fn(), createGroup: jest.fn(), drop: val => of(true) }
+        },
+        {
+          provide: AbstractFeatureFlagService,
+          useValue: { enabled: jest.fn(), bindEnabled: jest.fn() }
         }],
       schemas: [NO_ERRORS_SCHEMA]
     });
@@ -45,6 +51,7 @@ describe('TrsCalculationControlComponent', () => {
     currencyPipe = TestBed.inject(CurrencyPipe);
     compensationField = TestBed.inject(CompensationFieldPipe);
     dragulaService = TestBed.inject(DragulaService);
+    abstractFeatureFlagService = TestBed.inject(AbstractFeatureFlagService);
   });
 
   it('should create', () => {

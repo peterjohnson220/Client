@@ -1,5 +1,4 @@
-import { RecalcAndSaveRangeMinMaxRequest, RoundRangesRequest } from 'libs/models/payfactors-api/structures';
-import { RoundingSettingsDataObj } from 'libs/models/structures';
+import { RecalcAndSaveRangeMinMaxRequest } from 'libs/models/payfactors-api/structures';
 import { RangeRecalculationType } from 'libs/constants/structures/range-recalculation-type';
 
 export class PayfactorsApiModelMapper {
@@ -14,36 +13,14 @@ export class PayfactorsApiModelMapper {
    fieldValue: number,
    fieldName: string,
    rangeRecalculationType: RangeRecalculationType,
-   rowIndex: number,
-   rounding: RoundingSettingsDataObj): RecalcAndSaveRangeMinMaxRequest {
+   rowIndex: number): RecalcAndSaveRangeMinMaxRequest {
     return {
       RangeGroupId: rangeGroupId,
       RangeId: rangeId,
       RowIndex: rowIndex,
       FieldValue: fieldValue,
       FieldName: this.translateFieldName(fieldName),
-      RangeRecalculationType: rangeRecalculationType,
-      Rounding: this.mapRoundingSettingsModalFormToRoundRangesRequest(rounding)
-    };
-  }
-
-  static mapRoundingSettingsModalFormToRoundRangesRequest(roundingSettings: RoundingSettingsDataObj): RoundRangesRequest {
-    if (roundingSettings == null) {
-      return null;
-    }
-
-    return {
-      Min: roundingSettings['min'],
-      Mid: roundingSettings['mid'],
-      Max: roundingSettings['max'],
-      FirstTertile: roundingSettings['firstTertile'],
-      SecondTertile: roundingSettings['secondTertile'],
-      FirstQuartile: roundingSettings['firstQuartile'],
-      SecondQuartile: roundingSettings['secondQuartile'],
-      FirstQuintile: roundingSettings['firstQuintile'],
-      SecondQuintile: roundingSettings['secondQuintile'],
-      ThirdQuintile: roundingSettings['thirdQuintile'],
-      FourthQuintile: roundingSettings['fourthQuintile']
+      RangeRecalculationType: rangeRecalculationType
     };
   }
 

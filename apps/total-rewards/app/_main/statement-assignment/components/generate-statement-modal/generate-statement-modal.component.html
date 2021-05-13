@@ -16,62 +16,51 @@
       [loadingErrorMessage]="'An error has occurred. Please refresh the page and try again.'"
       [hideReloadButton]="true">
 
-      <div class="d-flex flex-column">
-        <p>
-          Generate {{ statement?.StatementName }} for <strong>{{ companyEmployeeIdsTotal }} employee{{ (companyEmployeeIdsTotal > 1) ? 's' : '' }}</strong>?
-          <span *ngIf="electronicDeliveryEnabled">To proceed, select a delivery method:</span>
-          <span *ngIf="!electronicDeliveryEnabled">To proceed, click Generate below.</span>
-        </p>
-        <div *ngIf="electronicDeliveryEnabled" class="d-flex flex-column radio-button-container" kendoTooltip position="right">
-          <div class="custom-radio mb-3">
-            <input type="radio"
-                   name="select-delivery-method"
-                   class="custom-control-input"
-                   id="electronicDeliveryMethod"
-                   [value]="deliveryMethod.Email"
-                   [(ngModel)]="selectedDeliveryMethod" />
-            <label class="custom-control-label"
-                   for="electronicDeliveryMethod"
-                   title="Send statements via secure email to each selected employee">
-                   Secure Email Delivery
-            </label>
-          </div>
-          <div class="custom-radio">
-            <input type="radio"
-                   name="select-delivery-method"
-                   class="custom-control-input"
-                   id="pdfExportMethod"
-                   [value]="deliveryMethod.PDFExport"
-                   [(ngModel)]="selectedDeliveryMethod" />
-            <label class="custom-control-label"
-                   for="pdfExportMethod"
-                   title="Generate a single bulk PDF containing 1 page per selected employee">
-                   Download Bulk PDF
-            </label>
-          </div>
+      <p>
+        Generate {{ statement?.StatementName }} for <strong>{{ companyEmployeeIdsTotal }} employee{{ (companyEmployeeIdsTotal > 1) ? 's' : '' }}</strong>?
+        <span *ngIf="electronicDeliveryEnabled">To proceed, select a delivery method:</span>
+        <span *ngIf="!electronicDeliveryEnabled">To proceed, click Generate below.</span>
+      </p>
+      <div *ngIf="electronicDeliveryEnabled" ngbDropdown class="button-dropdown-container mb-3">
+        <button ngbDropdownToggle class="btn btn-outline-primary">
+          {{ selectedDeliveryMethod === deliveryMethod.Email ? 'Secure Email Delivery' : 'Download PDF' }}
+        </button>
+        <div ngbDropdownMenu class="w-auto">
+          <a ngbDropdownItem href="javascript:void(0)"
+            (click)="selectedDeliveryMethod = deliveryMethod.PDFExport"
+            class="d-block p-2">
+            Download PDF
+          </a>
+          <a ngbDropdownItem href="javascript:void(0)"
+            (click)="selectedDeliveryMethod = deliveryMethod.Email"
+            class="d-block p-2">
+            Secure Email Delivery
+          </a>
         </div>
+      </div>
 
-        <div class="email-form-container pb-3" [class.shown]="electronicDeliveryEnabled && selectedDeliveryMethod === deliveryMethod.Email">
-          <pf-statement-email-template #emailTemplate
-            [statement]="statement"
-            [statementEmailTemplate]="statementEmailTemplate">
-          </pf-statement-email-template>
-        </div>
+      <p class="text-muted font-italic" *ngIf="!electronicDeliveryEnabled || selectedDeliveryMethod === deliveryMethod.PDFExport">Generate a single bulk PDF containing 1 page per selected employee.</p>
 
-        <div class="count-confirm">
-          <label for="confirmGenerateCountInput">
-            Type the number of selected employees to confirm:
-          </label>
-          <input type="number"
-                 name="confirm-generate-count"
-                 id="confirmGenerateCountInput"
-                 class="form-control confirm-count-form ml-1 py-1 px-2 d-inline"
-                 [ngClass]="{ 'is-invalid' : isConfirmCountInvalid, 'correct-count' : isConfirmCountCorrect }"
-                 [placeholder]="companyEmployeeIdsTotal"
-                 [(ngModel)]="confirmCountNumber"
-                 (ngModelChange)="onConfirmCountChange($event)" />
-          <span *ngIf="isConfirmCountInvalid" class="invalid-feedback">Number of selected employees is required</span>
-        </div>
+      <div class="email-form-container pb-3" [class.shown]="electronicDeliveryEnabled && selectedDeliveryMethod === deliveryMethod.Email">
+        <pf-statement-email-template #emailTemplate
+          [statement]="statement"
+          [statementEmailTemplate]="statementEmailTemplate">
+        </pf-statement-email-template>
+      </div>
+
+      <div class="count-confirm">
+        <label for="confirmGenerateCountInput">
+          Type the number of selected employees to confirm:
+        </label>
+        <input type="number"
+                name="confirm-generate-count"
+                id="confirmGenerateCountInput"
+                class="form-control confirm-count-form ml-1 py-1 px-2 d-inline"
+                [ngClass]="{ 'is-invalid' : isConfirmCountInvalid, 'correct-count' : isConfirmCountCorrect }"
+                [placeholder]="companyEmployeeIdsTotal"
+                [(ngModel)]="confirmCountNumber"
+                (ngModelChange)="onConfirmCountChange($event)" />
+        <span *ngIf="isConfirmCountInvalid" class="invalid-feedback">Number of selected employees is required</span>
       </div>
     </pf-async-container>
   </ng-container>

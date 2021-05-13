@@ -87,7 +87,7 @@ export class GradeBasedEmployeeRangeChartService {
         title: {
           text: undefined
         },
-        offset: 22
+        offset: 25
       },
       xAxis: {
         visible: false,
@@ -218,7 +218,7 @@ export class GradeBasedEmployeeRangeChartService {
             symbol: 'vline',
             lineWidth: 2,
             lineColor: '#CD8C01',
-            radius: 24,
+            radius: 26,
           },
           enableMouseTracking: true,
           tooltip: {
