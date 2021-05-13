@@ -1,0 +1,15 @@
+@import 'colors';
+@import 'common/common-variables';
+
+.info-sidebar {
+  min-width: 250px;
+  max-width: 250px;
+  background: lighten($grey, 4%);
+  border-right: 4px solid $pf-brand-secondary-color;
+  overflow: auto;
+
+  .item-value {
+    color: $header-color;
+  }
+
+}

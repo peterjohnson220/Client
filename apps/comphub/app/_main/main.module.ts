@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
+import { CommonModule, CurrencyPipe, DatePipe, PercentPipe } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { StoreModule } from '@ngrx/store';
@@ -11,7 +11,7 @@ import { HighchartsChartModule } from 'highcharts-angular'
 import 'hammerjs';
 import {
   NgbModalModule,
-  NgbPaginationModule,
+  NgbPaginationModule, NgbPopoverModule,
   NgbProgressbarModule,
   NgbTooltipModule
 } from '@ng-bootstrap/ng-bootstrap';
@@ -55,6 +55,7 @@ import { TrendingJobGroupComponent, CardComponent, PaymarketCardsComponent, AddP
 import { MainRoutingModule } from './main-routing.module';
 import * as fromFaIcons from './fa-icons';
 import { HistoricalTrendChartComponent } from './components/salary-trend-chart/historical-trend-chart/historical-trend-chart.component';
+import { PfSideBarInfoModule } from '../../../../libs/features/side-bar-info/side-bar-info.module';
 
 @NgModule({
     imports: [
@@ -99,7 +100,8 @@ import { HistoricalTrendChartComponent } from './components/salary-trend-chart/h
         PfFormsModule,
         PfExchangeExplorerModule,
         GuidelinesBadgeModule,
-        BasicDataGridModule
+        BasicDataGridModule,
+      PfSideBarInfoModule
     ],
   declarations: [
     // Components
@@ -139,7 +141,8 @@ import { HistoricalTrendChartComponent } from './components/salary-trend-chart/h
     CurrencyPipe,
     DatePipe,
     WindowCommunicationService,
-    DojGuidelinesService
+    DojGuidelinesService,
+    PercentPipe
   ]
 })
 export class MainModule {

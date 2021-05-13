@@ -1,11 +1,14 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
 import { CurrencyPipe, DatePipe } from '@angular/common';
 
+import { Store } from '@ngrx/store';
 import * as Highcharts from 'highcharts/highstock';
 import cloneDeep from 'lodash/cloneDeep';
 
-import { JobSalaryTrend } from '../../../models';
+import { PayRateDate } from 'libs/models/payfactors-api/peer/exchange-data-search/response';
+
+import * as fromComphubMainReducer from '../../../reducers';
+import * as fromTrendsSummaryCardActions from '../../../actions/trends-summary-card.actions';
 
 @Component({
   selector: 'pf-historical-trend-chart',
@@ -14,7 +17,7 @@ import { JobSalaryTrend } from '../../../models';
 })
 
 export class HistoricalTrendChartComponent implements OnChanges {
-  @Input() salaryTrendData: JobSalaryTrend;
+  @Input() salaryTrendData: PayRateDate[];
   @Input() isHourly: boolean;
   @Input() currencyCode: string;
 
@@ -22,41 +25,30 @@ export class HistoricalTrendChartComponent implements OnChanges {
   chart: Highcharts.Chart;
   chartOptions: Highcharts.Options = this.getChartOptions();
 
-  absoluteValueOfPercentageChange: number;
-  localSalaryTrendData: JobSalaryTrend;
+  localSalaryTrendData: PayRateDate[];
   data: any[];
-  img: any;
 
-  constructor(private datePipe: DatePipe, private currencyPipe: CurrencyPipe, private sanitizer: DomSanitizer) { }
+  constructor(private store: Store<fromComphubMainReducer.State>,
+              private datePipe: DatePipe,
+              private currencyPipe: CurrencyPipe) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes?.salaryTrendData?.currentValue) {
-      this.absoluteValueOfPercentageChange = this.salaryTrendData.PercentageChange
-        ? Math.abs(this.salaryTrendData.PercentageChange)
-        : 0;
       this.localSalaryTrendData = cloneDeep(this.salaryTrendData);
-
-      this.refreshChart();
-    }
-
-    if (changes?.isHourly?.currentValue != null && this.localSalaryTrendData != null) {
       this.refreshChart();
     }
   }
 
   refreshChart(): void {
     this.data = [];
-
-    this.localSalaryTrendData.Data.forEach(item => {
-
+    this.localSalaryTrendData.forEach(item => {
       const seconds = Math.floor(new Date(item.EffectiveDate).getTime());
-
-      this.data.push([seconds, this.isHourly ? item.SalaryHourly : item.SalaryAnnual]);
+      this.data.push([seconds, item.BasePay]);
     });
 
-    this.chartOptions = this.getChartOptions();
+    this.updateSidePanelInfo(this.localSalaryTrendData);
 
-    this.refreshChartImage();
+    this.chartOptions = this.getChartOptions();
   }
 
   getChartOptions(): any {
@@ -70,13 +62,8 @@ export class HistoricalTrendChartComponent implements OnChanges {
       rangeSelector: {
         enabled: true,
         allButtonsEnabled: true,
-        selected: 4,
+        selected: 3,
         buttons: [{
-          type: 'month',
-          count: 3,
-          text: '3m',
-          title: 'View 3 months'
-        }, {
           type: 'month',
           count: 6,
           text: '6m',
@@ -106,7 +93,7 @@ export class HistoricalTrendChartComponent implements OnChanges {
         animation: false,
         formatter: (data) => {
           const point = data.chart.hoverPoint;
-          const transformedDate = this.datePipe.transform(new Date(point.category), 'yyyy-MM');
+          const transformedDate = this.datePipe.transform(new Date(point.category), 'yyyy-MM', 'UTC');
           const transformedSalary = this.currencyPipe.transform(point.y, this.currencyCode, 'symbol-narrow', this.isHourly ? '1.2-2' : '1.0-0');
           return transformedDate + ': ' + transformedSalary;
         }
@@ -120,7 +107,10 @@ export class HistoricalTrendChartComponent implements OnChanges {
       },
       xAxis: {
         type: 'datetime',
-        showLastLabel: 'false'
+        showLastLabel: 'false',
+        events: {
+          afterSetExtremes : (event) => { this.onSetExtremes(event); },
+        }
       },
       yAxis: {
         tickPositioner: function () {
@@ -171,20 +161,30 @@ export class HistoricalTrendChartComponent implements OnChanges {
     };
   }
 
-  refreshChartImage(): void {
-    if (this.chart) {
-      const svg = this.chart.getSVG(this.chartOptions);
-      const blob = new Blob([svg], {type: 'image/svg+xml'});
-      this.img = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
-    }
+  onSetExtremes(event: any) {
+    const zoomedTrendData = this.localSalaryTrendData.filter(x => Date.parse(x.EffectiveDate.toString()) >= event.min
+      && Date.parse(x.EffectiveDate.toString()) <= new Date(event.max).getTime());
+
+    this.updateSidePanelInfo(zoomedTrendData);
   }
 
-  rangeChartCallback(chart: Highcharts.Chart = null) {
-    if (chart) {
-      this.chart = chart;
+  updateSidePanelInfo(trendData: PayRateDate[]) {
+    const upperPayRateDate = trendData[trendData.length - 1];
+    const lowerPayRateDate = trendData[0];
+    const basePayPctChange = (upperPayRateDate.BasePay - lowerPayRateDate.BasePay) / lowerPayRateDate.BasePay;
+    const incsPctChange = (upperPayRateDate.Incs - lowerPayRateDate.Incs) / lowerPayRateDate.Incs;
+    const orgsPctChange = (upperPayRateDate.Orgs - lowerPayRateDate.Orgs) / lowerPayRateDate.Orgs;
 
-      this.refreshChartImage();
-    }
+    const contributingCompanyJobCount = upperPayRateDate.CompanyJobCount;
+    const contributingExchangeJobCount = upperPayRateDate.ExchangeJobCount;
+
+    this.store.dispatch(new fromTrendsSummaryCardActions.SetTrendsPercentChange({
+      BasePayPctChange: basePayPctChange,
+      IncsPctChange: incsPctChange,
+      OrgsPctChange: orgsPctChange,
+      ContributingCompanyJobCount: contributingCompanyJobCount,
+      ContributingExchangeJobCount: contributingExchangeJobCount
+    }));
   }
 }
 
