@@ -1,4 +1,5 @@
 <pf-data-grid
+  *ngIf="pageViewId == employeesPageViewId; else dataCuts"
   [title]="(metaData$ | async)?.IsCurrent ? (metaData$ | async)?.StructureName : (metaData$ | async)?.ModelName"
   [subtitle]="(metaData$ | async)?.IsCurrent ? '' : 'Structure: ' + (metaData$ | async)?.StructureName"
   [navigationURL]="'/marketdata/structures.asp'"
@@ -25,6 +26,36 @@
   [splitOnSelection]="false"
   [columnTemplates]="colTemplates">
 </pf-data-grid>
+
+<ng-template #dataCuts>
+  <pf-data-grid
+    [title]="(metaData$ | async)?.IsCurrent ? (metaData$ | async)?.StructureName : (metaData$ | async)?.ModelName"
+    [subtitle]="(metaData$ | async)?.IsCurrent ? '' : 'Structure: ' + (metaData$ | async)?.StructureName"
+    [navigationURL]="'/marketdata/structures.asp'"
+    [inboundFilters]="filter"
+    [pageViewId]="pageViewId"
+    [gridContainerSplitViewWidth]="'60%'"
+    [applyDefaultFilters]="false"
+    [actionBarConfig]="actionBarConfig"
+    [borders]="false"
+    [contentClassNamesOverrides]="'py-3 px-4'"
+    [pageTheme]="pfThemeType.NextGen"
+    [defaultColumnWidth]="135"
+    [reorderable]="true"
+    [syncScrollWithSplit]="true"
+    [saveSort]="true"
+    [showSplitViewToggle]="true"
+    [gridConfig]="gridConfig"
+    [pageable]="!gridConfig.EnableInfiniteScroll"
+    [gridActionsTemplate]="gridActions"
+    [gridActionsRightTemplate]="gridActionsRightTemplate"
+    [subHeaderTemplate]="subHeaderTemplate"
+    [filterPanelTemplates]="filterTemplates"
+    [splitViewTemplate]="dataCutGraph"
+    [splitOnSelection]="false"
+    [columnTemplates]="colTemplates">
+  </pf-data-grid>
+</ng-template>
 
 <ng-template #subHeaderTemplate>
   <pf-data-grid
@@ -155,5 +186,12 @@
 </ng-template>
 
 <ng-template #graph>
+  <pf-single-job-view-employees-salary-range-chart
+    [rangeId]="rangeId">
+  </pf-single-job-view-employees-salary-range-chart>
+</ng-template>
 
+<ng-template #dataCutGraph>
+  <pf-single-job-view-data-cuts-range-chart>
+  </pf-single-job-view-data-cuts-range-chart>
 </ng-template>

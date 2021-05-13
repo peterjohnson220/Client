@@ -15,7 +15,7 @@
             <div *ngIf="showFontFamilyMenu">
               <h3 class="my-2">Text</h3>
               <h5 class="mb-3">Font Family</h5>
-              <div ngbDropdown class="font-family-container d-inline-block mb-4">
+              <div ngbDropdown class="button-dropdown-container d-inline-block mb-4">
                 <button ngbDropdownToggle class="btn btn-outline-primary" [attr.tabindex]="isOpen ? 0 : -1">
                   {{ fontFamily }}
                 </button>
@@ -39,7 +39,7 @@
               </div>
             </div>
             <h5 class="mb-2">Font Size</h5>
-            <div ngbDropdown class="font-size-container d-inline-block mb-3">
+            <div ngbDropdown class="button-dropdown-container font-size-container d-inline-block mb-3">
               <button ngbDropdownToggle class="btn btn-outline-primary" [attr.tabindex]="isOpen ? 0 : -1">
                 {{ fontSize }}
               </button>
@@ -130,6 +130,70 @@
                 <fa-icon [icon]="['fal', 'info-circle']" aria-hidden="true"></fa-icon>
               </label>
             </div>
+
+            <!-- BEGIN: Additional Page -->
+
+            <!-- Section Heading -->
+
+            <h5 id="additionalPageHeading" class="my-2" *ngIf="totalRewardsAdditionalPageFeatureFlag.value">Additional Page
+              <label
+                class="info p-0 m-0"
+                [ngbTooltip]="'Add an additional page before or after your Total Rewards Statement.'"
+                [attr.tabindex]="isOpen ? 0 : -1">
+                <fa-icon [icon]="['fal', 'info-circle']" aria-hidden="true"></fa-icon>
+              </label>
+            </h5>
+
+            <!-- Section Body -->
+
+            <div id="additionalPageBody" class="mt-3" *ngIf="totalRewardsAdditionalPageFeatureFlag.value">
+
+              <!-- Additional Page Placement drop-down -->
+
+              <div ngbDropdown class="button-dropdown-container d-inline-block mb-3">
+                <button ngbDropdownToggle class="btn btn-outline-primary" [attr.tabindex]="isOpen ? 0 : -1">
+                  {{ getSelectedAdditionalPagePlacement()?.text }}
+                </button>
+                <div ngbDropdownMenu class="w-auto">
+                  <a *ngFor="let placementOption of additionalPagePlacementOptions"
+                    ngbDropdownItem href="javascript:void(0)"
+                    (click)="onAdditionalPagePlacementSettingChange(placementOption.value)"
+                    class="d-block p-2"
+                    [attr.tabindex]="isOpen ? 0 : -1">
+                    {{placementOption.text}}
+                  </a>
+                </div>
+              </div>
+
+              <!-- Statement Header toggle -->
+
+              <div *ngIf="additionalPageSettings?.PagePlacement !== additionalPagePlacementEnum.None">
+                <input
+                  type="checkbox"
+                  class="p-0 m-0"
+                  id="additionalPageShowStatementHeader"
+                  [checked]="additionalPageSettings?.ShowStatementHeader"
+                  (change)="onAdditionalPageHeaderSettingChange()"
+                  [attr.tabindex]="isOpen ? 0 : -1">
+
+                <label
+                  class="p-0 m-0 ml-1"
+                  for="additionalPageShowStatementHeader"
+                >Display Statement Header
+                </label>
+
+                <label
+                  class="info p-0 ml-1"
+                  [ngbTooltip]="'Include the statement header from your Total Rewards Statement, including the statement title, logo, effective date, and employee information.'"
+                  placement="top"
+                  [attr.tabindex]="isOpen ? 0 : -1">
+                  <fa-icon [icon]="['fal', 'info-circle']" aria-hidden="true"></fa-icon>
+                </label>
+              </div>
+            </div>
+
+            <!-- END: Additional Page -->
+
           </ng-template>
         </li>
       </ul>

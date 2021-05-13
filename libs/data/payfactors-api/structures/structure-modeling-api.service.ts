@@ -8,7 +8,6 @@ import {
   RecalcAndSaveRangeMinMaxRequest,
   RecalcAndSaveRangeMinMaxResponse,
   StructureRangeGroupResponse,
-  RecalculateRangesWithoutMidRequest,
   AddJobRangesRequest,
   JobSearchRequestStructuresRangeGroup,
   RemoveRangeRequest,
@@ -57,8 +56,8 @@ export class StructureModelingApiService {
     return this.payfactorsApiService.post<RecalcAndSaveRangeMinMaxResponse>(`${this.endpoint}/RecalculateRangeMinMax`, request);
   }
 
-  recalculateRangesWithoutMid(request: RecalculateRangesWithoutMidRequest): Observable<StructureRangeGroupResponse> {
-    return this.payfactorsApiService.post<StructureRangeGroupResponse>(`${this.endpoint}/RecalculateRangesWithoutMid`, request);
+  recalculateRangesWithoutMid(rangeGroupId: number): Observable<StructureRangeGroupResponse> {
+    return this.payfactorsApiService.post<StructureRangeGroupResponse>(`${this.endpoint}/RecalculateRangesWithoutMid`, { RangeGroupId: rangeGroupId });
   }
 
   removeRange(request: RemoveRangeRequest): Observable<boolean> {

@@ -1,4 +1,4 @@
-import { Component, ViewChild, EventEmitter, Output } from '@angular/core';
+import { Component, ViewChild, EventEmitter, Output, Input } from '@angular/core';
 
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -7,6 +7,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   templateUrl: './delete-user-workbook-modal.component.html'
 })
 export class DeleteUserWorkbookModalComponent {
+  @Input() isScheduled: boolean;
   @Output() deleteClicked = new EventEmitter();
 
   @ViewChild('deleteUserWorkbookModal', { static: true }) public deleteUserWorkbookModal: any;

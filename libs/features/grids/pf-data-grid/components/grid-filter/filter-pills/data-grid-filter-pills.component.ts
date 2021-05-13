@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 import { ViewField } from 'libs/models/payfactors-api';
+import { Between } from 'libs/ui/formula-editor/models';
 
 import { getHumanizedFilter, isValueRequired } from '../helpers';
 import { PfDataGridCustomFilterOptions } from '../../../models/pf-data-grid-custom-filter-options';
@@ -12,23 +13,29 @@ import { PfDataGridCustomFilterOptions } from '../../../models/pf-data-grid-cust
 })
 export class PfDataGridFilterPillsComponent {
 
+
   @Input() fields: ViewField[];
   @Input() widthOffset = 0;
   @Input() lockedPillText: string;
   @Input() fieldsToShowFilterValueOnly: string[] = [];
   @Input() customFilterOptions: PfDataGridCustomFilterOptions[] = [];
 
-  @Output() clearFilter: EventEmitter<{field: ViewField, value: string}> = new EventEmitter();
+  @Output() clearFilter: EventEmitter<{ field: ViewField, value: string }> = new EventEmitter();
   @Output() clearAllFilters = new EventEmitter();
 
   constructor() { }
 
-  getPillDisplay(field: ViewField, filterValue: string): string {
-    return getHumanizedFilter(field, filterValue, this.fieldsToShowFilterValueOnly, this.customFilterOptions);
+  isBetweenOperator(operator: string) {
+    return operator === Between.Value;
   }
 
-  pillClicked(field: ViewField, value = null) {
-    this.clearFilter.emit({ field, value });
+  getPillDisplay(field: ViewField, filterValues: string[]): string {
+    return getHumanizedFilter(field, filterValues, this.fieldsToShowFilterValueOnly, this.customFilterOptions);
+  }
+
+  pillClicked(field: ViewField, values: string[] = null) {
+    const value = values != null && values.length > 0 ? values[0] : null;
+    this.clearFilter.emit({field, value});
   }
 
   clearFilters() {

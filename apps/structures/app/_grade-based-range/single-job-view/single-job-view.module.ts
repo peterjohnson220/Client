@@ -13,6 +13,9 @@ import { SharedModule } from '../../shared/shared.module';
 import { GradeBasedSharedModule } from '../shared/shared.module';
 import { SingleJobViewPageComponent } from './single-job-view.page';
 import { SingleJobViewRoutingModule } from './single-job-view-routing.module';
+import { SingleJobViewEmployeesSalaryRangeChartComponent } from './containers/single-job-view-employees-salary-range-chart';
+import { SingleJobViewHighchartsService } from './data';
+import { SingleJobViewDataCutsRangeChartComponent } from './containers/single-job-view-data-cuts-range-chart';
 
 @NgModule({
   imports: [
@@ -37,8 +40,13 @@ import { SingleJobViewRoutingModule } from './single-job-view-routing.module';
     GradeBasedSharedModule
   ],
   declarations: [
-    SingleJobViewPageComponent
+    SingleJobViewPageComponent,
+    SingleJobViewEmployeesSalaryRangeChartComponent,
+    SingleJobViewDataCutsRangeChartComponent
   ],
+  providers: [
+    SingleJobViewHighchartsService
+  ]
 })
 export class SingleJobViewModule {
   constructor() {}

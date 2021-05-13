@@ -7,6 +7,7 @@ import * as fromRoot from 'libs/state/state';
 import * as fromSharedReducer from './shared.reducer';
 import * as fromModelSettingsModalReducer from './model-settings-modal.reducer';
 import * as fromFormulaFieldReducer from './formula-field.reducer';
+import * as fromPublishModelModalReducer from './publish-model-modal.reducer';
 
 
 // Feature area state
@@ -14,6 +15,7 @@ export interface StructuresSharedState {
   shared: fromSharedReducer.State;
   modelSettingsModal: fromModelSettingsModalReducer.State;
   formulaFields: fromFormulaFieldReducer.State;
+  publishModelModal: fromPublishModelModalReducer.State;
 
 }
 
@@ -26,7 +28,8 @@ export interface State extends fromRoot.State {
 export const reducers = {
   shared: fromSharedReducer.reducer,
   modelSettingsModal: fromModelSettingsModalReducer.reducer,
-  formulaFields: fromFormulaFieldReducer.reducer
+  formulaFields: fromFormulaFieldReducer.reducer,
+  publishModelModal: fromPublishModelModalReducer.reducer,
 };
 
 // Select Feature Area
@@ -48,6 +51,11 @@ export const selectModelSettingsModalState = createSelector(
 export const selectFormulaFieldState = createSelector(
   selectFeatureAreaState,
   (state: StructuresSharedState) => state.formulaFields
+);
+
+export const selectPublishModelModalState = createSelector(
+  selectFeatureAreaState,
+  (state: StructuresSharedState) => state.publishModelModal
 );
 
 // Shared
@@ -177,3 +185,11 @@ export const getAllFields = createSelector(
   fromFormulaFieldReducer.getAllFields
 );
 
+// Publish Model Modal
+export const getPublishModelModalOpen = createSelector(
+  selectPublishModelModalState, fromPublishModelModalReducer.getModalOpen
+);
+
+export const getPublishingModelAsyncObj = createSelector(
+  selectPublishModelModalState, fromPublishModelModalReducer.getPublishingModelAsyncObj
+);

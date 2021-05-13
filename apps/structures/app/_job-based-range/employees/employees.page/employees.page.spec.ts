@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { Store, StoreModule, combineReducers } from '@ngrx/store';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 
 import * as fromRootState from 'libs/state/state';
 import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
@@ -51,7 +51,7 @@ describe('Job Based Range Employees - Employees Page', () => {
         },
         {
           provide: ActivatedRoute,
-          useValue: { parent: {snapshot: {params: {id: 1}}}, snapshot: {params: {id: 1}}}
+          useValue: { parent: {snapshot: {params: {id: 1}}}, snapshot: {params: {id: 1}}, queryParams: of({})}
         },
         {
           provide: StructuresPagesService,

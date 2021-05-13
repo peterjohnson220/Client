@@ -1,3 +1,4 @@
+import { StatementAdditionalPageSettings, StatementAdditionalPagePlacementEnum } from './statement-additional-page-settings';
 import { FontFamily, FontSize } from '../types';
 import { StatementDisplaySettings } from './statement-display-settings';
 
@@ -10,6 +11,7 @@ export interface Settings {
   FontSize: FontSize;
   FontFamily: FontFamily;
   DisplaySettings: StatementDisplaySettings;
+  AdditionalPageSettings: StatementAdditionalPageSettings;
 }
 
 export function generateMockSettings(): Settings {
@@ -18,6 +20,7 @@ export function generateMockSettings(): Settings {
     DividerColor: TotalRewardsColorEnum.Undefined,
     FontSize: 'Medium',
     FontFamily: 'Default',
-    DisplaySettings: { ShowEmployeeContributions: false, ShowDecimals: false, ShowEmployeeId: true, ShowInformationEffectiveDate: true }
+    DisplaySettings: { ShowEmployeeContributions: false, ShowDecimals: false, ShowEmployeeId: true, ShowInformationEffectiveDate: true },
+    AdditionalPageSettings: {PagePlacement: StatementAdditionalPagePlacementEnum.None, ShowStatementHeader: false}
   };
 }

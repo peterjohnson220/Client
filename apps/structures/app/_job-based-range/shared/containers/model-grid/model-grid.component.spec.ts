@@ -15,7 +15,7 @@ import { RangeValuePipe } from 'libs/features/structures/add-jobs-to-range/pipes
 import * as fromJobBasedRangeReducer from '../../reducers';
 import { ModelGridComponent } from './model-grid.component';
 
-import * as fromPublishModelModalActions from '../../actions/publish-model-modal.actions';
+import * as fromPublishModelModalActions from '../../../../shared/actions/publish-model-modal.actions';
 import * as fromModelSettingsModalActions from '../../../../shared/actions/model-settings-modal.actions';
 import { StructuresPagesService, UrlService } from '../../../../shared/services';
 

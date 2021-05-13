@@ -53,7 +53,7 @@ export class GlobalActionsComponent implements OnInit {
     this.duplicateModelClicked.emit();
   }
 
-  handleMangeModelClicked() {
+  handleManageJobsClicked() {
     this.manageModelClicked.emit();
   }
 
@@ -70,5 +70,9 @@ export class GlobalActionsComponent implements OnInit {
 
   ngOnInit(): void {
     this.isJobRange = this.metadata.RangeTypeId === RangeType.Job;
+  }
+
+  isPublishButtonDisabled() {
+    return this.metadata.PayType === null;
   }
 }

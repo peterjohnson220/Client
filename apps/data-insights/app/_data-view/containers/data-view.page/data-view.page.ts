@@ -14,6 +14,7 @@ import { CsvFileDelimiter, ExportFileExtension } from 'libs/models/payfactors-ap
 import { AbstractFeatureFlagService, FeatureFlags, PermissionService } from 'libs/core/services';
 import * as fromAppNotificationsMainReducer from 'libs/features/infrastructure/app-notifications/reducers';
 import { FileDownloadSecurityWarningModalComponent } from 'libs/ui/common';
+import { TabularReportExportSchedule } from 'libs/features/reports/models/tabular-report-export-schedule.model';
 
 import * as fromDataViewMainReducer from '../../reducers';
 import * as fromDataViewActions from '../../actions/data-view.actions';
@@ -51,6 +52,7 @@ export class DataViewPageComponent implements OnInit, OnDestroy {
   formulaBuilderEnabled$: Observable<boolean>;
   activeFilters$: Observable<Filter[]>;
   enableFileDownloadSecurityWarning$: Observable<boolean>;
+  savedSchedulesAsync$: Observable<AsyncStateObj<TabularReportExportSchedule[]>>;
 
   editReportSuccessSubscription: Subscription;
   duplicateReportSuccessSubscription: Subscription;
@@ -60,6 +62,7 @@ export class DataViewPageComponent implements OnInit, OnDestroy {
   shareableUsersSubscription: Subscription;
   sharedUserPermissionsLoadedSubscription: Subscription;
   enableFileDownloadSecurityWarningSub: Subscription;
+  getSavedSchedulesSubscription: Subscription;
 
   userDataView: UserDataView;
   eventIdState = null;
@@ -70,6 +73,8 @@ export class DataViewPageComponent implements OnInit, OnDestroy {
   hasScheduleTabularReportingExportPermission: boolean;
   enableFileDownloadSecurityWarning = false;
   exportData: any;
+  isScheduled: boolean;
+  dataViewId: number;
 
   constructor(
     private store: Store<fromDataViewMainReducer.State>,
@@ -78,7 +83,7 @@ export class DataViewPageComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private featureFlagService: AbstractFeatureFlagService,
     private permissionService: PermissionService
-  ) {
+) {
     this.userDataView$ = this.store.pipe(select(fromDataViewMainReducer.getUserDataViewAsync));
     this.exportingUserDataReport$ = this.store.pipe(select(fromDataViewMainReducer.getExportingUserReport));
     this.getNotification$ = this.appNotificationStore.pipe(select(fromAppNotificationsMainReducer.getNotifications));
@@ -92,6 +97,7 @@ export class DataViewPageComponent implements OnInit, OnDestroy {
     this.scheduleTabularReportingExportFeatureFlagEnabled = this.featureFlagService.enabled(FeatureFlags.ScheduleTabularReportingExport, false);
     this.hasScheduleTabularReportingExportPermission = this.permissionService.CheckPermission([Permissions.SCHEDULE_TABULAR_REPORT_EXPORT_DATA_INSIGHT],
       PermissionCheckEnum.Single);
+    this.savedSchedulesAsync$ = this.store.select(fromDataViewMainReducer.getSavedSchedulesAsync);
   }
 
   ngOnInit(): void {
@@ -108,10 +114,12 @@ export class DataViewPageComponent implements OnInit, OnDestroy {
     this.getEventIdSubscription.unsubscribe();
     this.getNotificationSubscription.unsubscribe();
     this.shareableUsersSubscription.unsubscribe();
+    this.getSavedSchedulesSubscription.unsubscribe();
   }
 
-  private loadFieldsAndData(dataViewId: number): void {
-    const dataViewIdObj = { dataViewId };
+  private loadFieldsAndData(dataViewId: string): void {
+    this.dataViewId = parseInt(dataViewId, 10);
+    const dataViewIdObj = { dataViewId: this.dataViewId };
     this.store.dispatch(new fromFiltersActions.ResetFilters());
     this.store.dispatch(new fromDataViewActions.GetUserDataView(dataViewIdObj));
     this.store.dispatch(new fromDataViewActions.GetExportingUserReport(dataViewIdObj));
@@ -158,6 +166,8 @@ export class DataViewPageComponent implements OnInit, OnDestroy {
         this.enableFileDownloadSecurityWarning = true;
       }
     });
+    this.getSavedSchedulesSubscription = this.savedSchedulesAsync$.subscribe(x =>
+      this.isScheduled = x.obj.some(schedules => schedules.DataViewId === this.dataViewId));
   }
 
   handleEditClicked(): void {
