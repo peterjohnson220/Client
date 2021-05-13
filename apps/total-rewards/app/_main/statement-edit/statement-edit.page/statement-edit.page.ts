@@ -3,20 +3,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { select, Store } from '@ngrx/store';
 import { Observable, Subject, Subscription } from 'rxjs';
-import { throttleTime } from 'rxjs/operators';
+import { throttleTime, filter, map, tap } from 'rxjs/operators';
 import cloneDeep from 'lodash/cloneDeep';
 
 import { AsyncStateObj } from 'libs/models/state';
 import { EmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards';
 import { GenericNameValue } from 'libs/models/common';
 import * as models from 'libs/features/total-rewards/total-rewards-statement/models';
-import {
-  CompensationField,
-  StatementDisplaySettingsEnum,
-  StatementModeEnum,
-  TotalRewardsControlEnum,
-  StatementAdditionalPageSettings
-} from 'libs/features/total-rewards/total-rewards-statement/models';
 import { FontFamily, FontSize } from 'libs/features/total-rewards/total-rewards-statement/types';
 import { TotalRewardsStatementService } from 'libs/features/total-rewards/total-rewards-statement/services/total-rewards-statement.service';
 import { CompanySettingsEnum } from 'libs/models';
@@ -45,7 +38,7 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
   mode$: Observable<models.StatementModeEnum>;
   assignedEmployeesAsync$: Observable<AsyncStateObj<GenericNameValue<number>[]>>;
   employeeRewardsDataAsync$: Observable<AsyncStateObj<EmployeeRewardsData>>;
-  companyUdfAsync$: Observable<AsyncStateObj<CompensationField[]>>;
+  companyUdfAsync$: Observable<AsyncStateObj<models.CompensationField[]>>;
   visibleFieldsCount$: Observable<number>;
   activeRichTextEditorId$: Observable<string>;
   isPageScrolling$: Observable<boolean>;
@@ -62,14 +55,7 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
   statementPreviewGenerating$: Observable<boolean>;
   statementPreviewGeneratingError$: Observable<boolean>;
 
-  urlParamSubscription = new Subscription();
-  statementSubscription = new Subscription();
-  modeSubscription = new Subscription();
-  scrollSubscription = new Subscription();
-  settingsPanelOpenSubscription = new Subscription();
-  enableFileDownloadSecurityWarningSubscription = new Subscription();
-  appNotificationSubscription = new Subscription();
-  generateStatementPreviewEventIdSubscription = new Subscription();
+  allSubscriptions = new Subscription();
 
   statement: models.Statement;
   statementId: string;
@@ -145,70 +131,68 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
     this.statementPreviewGeneratingError$ = this.store.pipe(select(fromTotalRewardsStatementEditReducer.statementPreviewGeneratingError));
 
     // SUBSCRIPTIONS
-    this.urlParamSubscription = this.route.params.subscribe(params => {
+    this.allSubscriptions.add(this.route.params.subscribe(params => {
       this.statementId = params['id'];
       this.store.dispatch(new fromEditStatementPageActions.LoadStatement(this.statementId));
-    });
-    this.statementSubscription = this.statement$.subscribe(s => {
+    }));
+
+    this.allSubscriptions.add(this.statement$.subscribe(s => {
       if (s) {
         this.statement = cloneDeep(s);
       }
-    });
+    }));
 
-    this.modeSubscription = this.mode$.subscribe(e => {
+    this.allSubscriptions.add(this.mode$.subscribe(e => {
       this.mode = e;
       if (this.mode === models.StatementModeEnum.Preview) {
         this.store.dispatch(new fromEditStatementPageActions.ResetEmployeeRewardsData());
         this.store.dispatch(new fromEditStatementPageActions.SearchAssignedEmployees({ statementId: this.statementId, searchTerm: ''}));
       }
-    });
+    }));
 
-    this.settingsPanelOpenSubscription = this.isSettingsPanelOpen$.subscribe(isOpen => {
-
+    this.allSubscriptions.add(this.isSettingsPanelOpen$.subscribe(isOpen => {
       this.isSettingsPanelOpen = isOpen;
-
       if (!isOpen) { return; }
-
       this.allowClosingSettingsByClickingElsewhere = false;
-    });
+    }));
 
-    this.enableFileDownloadSecurityWarningSubscription = this.enableFileDownloadSecurityWarning$.subscribe(isEnabled => {
+    this.allSubscriptions.add(this.enableFileDownloadSecurityWarning$.subscribe(isEnabled => {
       this.enableFileDownloadSecurityWarning = isEnabled;
-    });
+    }));
 
-    this.generateStatementPreviewEventIdSubscription = this.generateStatementPreviewEventId$.subscribe(eventId => {
+    this.allSubscriptions.add(this.generateStatementPreviewEventId$.subscribe(eventId => {
       if (eventId?.obj !== this.generateStatementPreviewEventId) {
         this.generateStatementPreviewEventId = eventId.obj;
       }
-    });
+    }));
 
-    this.appNotificationSubscription = this.getNotification$.subscribe(notifications => {
+    this.allSubscriptions.add(this.getNotification$.subscribe(notifications => {
       notifications.forEach(notification => {
         if (notification.Level === 'Success' && notification.NotificationId === this.generateStatementPreviewEventId) {
           this.store.dispatch(new fromEditStatementPageActions.GenerateStatementPreviewComplete());
         }
       });
-    });
+    }));
+
+    const isPreparingSettingsSave$ = this.store.pipe(
+      select(fromTotalRewardsStatementEditReducer.getIsPreparingSettingsSave),
+      filter(isPreparing => isPreparing),
+      map(() => this.calculateRepeatableHeaderHeightInPixels()),
+      map((headerHeight: number) => this.store.dispatch(new fromEditStatementPageActions.CalculateRepeatableHeaderContentHeightInPixels({ headerHeight })))
+    );
+    this.allSubscriptions.add(isPreparingSettingsSave$.subscribe());
 
     // MISC
     setTimeout(() => {
       this.mainScrollableNode = document.querySelector('.page-content');
       this.mainScrollableNode?.addEventListener('scroll', this.scrollEventHandler, true);
-      this.scrollSubscription = this.scrollSubject.pipe(throttleTime(100)).subscribe(() => { this.handlePageScroll(); });
+      this.allSubscriptions.add(this.scrollSubject.pipe(throttleTime(100)).subscribe(() => { this.handlePageScroll(); }));
     }, 0);
   }
 
   ngOnDestroy(): void {
-    this.urlParamSubscription.unsubscribe();
-    this.statementSubscription.unsubscribe();
-    this.modeSubscription.unsubscribe();
-    this.scrollSubscription.unsubscribe();
+    this.allSubscriptions.unsubscribe();
     this.mainScrollableNode?.removeEventListener('scroll', this.scrollEventHandler, true);
-    this.settingsPanelOpenSubscription.unsubscribe();
-    this.enableFileDownloadSecurityWarningSubscription.unsubscribe();
-    this.appNotificationSubscription.unsubscribe();
-    this.generateStatementPreviewEventIdSubscription.unsubscribe();
-
     this.store.dispatch(new fromEditStatementPageActions.ResetStatement());
   }
 
@@ -289,7 +273,7 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
   getRichTextIds() {
     const ids = [];
     const funcToCallWithControl = (control: models.BaseControl): void => {
-      if (control.ControlType === TotalRewardsControlEnum.RichTextEditor) { ids.push(control.Id); }
+      if (control.ControlType === models.TotalRewardsControlEnum.RichTextEditor) { ids.push(control.Id); }
     };
     TotalRewardsStatementService.applyFuncToEachControl(this.statement, funcToCallWithControl);
     return ids;
@@ -335,14 +319,14 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
     this.store.dispatch(new fromEditStatementPageActions.UpdateSettingsColor(request));
   }
 
-  handleDisplaySettingChange(displaySettingKey: StatementDisplaySettingsEnum) {
+  handleDisplaySettingChange(displaySettingKey: models.StatementDisplaySettingsEnum) {
     this.store.dispatch(new fromEditStatementPageActions.ToggleDisplaySetting({ displaySettingKey }));
-    if (displaySettingKey === StatementDisplaySettingsEnum.ShowInformationEffectiveDate) {
+    if (displaySettingKey === models.StatementDisplaySettingsEnum.ShowInformationEffectiveDate) {
       this.store.dispatch(new fromEditStatementPageActions.UpdateEffectiveDate({ effectiveDate: new Date() }));
     }
   }
 
-  handleAdditionalPageSettingsChange(additionalPageSettings: StatementAdditionalPageSettings) {
+  handleAdditionalPageSettingsChange(additionalPageSettings: models.StatementAdditionalPageSettings) {
     this.store.dispatch(new fromEditStatementPageActions.UpdateAdditionalPageSettings({ additionalPageSettings: additionalPageSettings }));
   }
 
@@ -382,7 +366,6 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
   }
 
   // GENERATE STATEMENT
-
   handleGenerateStatementClicked(): void {
     if (this.enableFileDownloadSecurityWarning) {
       this.fileDownloadSecurityWarningModal.open();
@@ -397,11 +380,28 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
     this.store.dispatch(new fromEditStatementPageActions.GenerateStatementPreview());
   }
 
+  handlePageScroll() {
+    // user has scrolled, so cancel a potential delayed call to set isScrolling back to false, then set current (true) and future (false) actions
+    clearTimeout(this.scrollTimer);
+    this.store.dispatch(new fromEditStatementPageActions.PageScroll({ isScrolling: true }));
+    this.scrollTimer = setTimeout(() => this.store.dispatch(new fromEditStatementPageActions.PageScroll({ isScrolling: false })), 1000);
+  }
+
+  calculateRepeatableHeaderHeightInPixels() {
+    // get the first page classed as main, then all section elements classed as repeatable-header-content within
+    const headerSections = document.querySelector('.statement .trs-page.main').querySelectorAll('section.repeatable-header-content');
+    let totalContentHeightInPixels = 0;
+    for (let i = 0; i < headerSections.length; i ++) {
+      totalContentHeightInPixels += (headerSections[i] as any).offsetHeight;
+    }
+    return totalContentHeightInPixels;
+  }
+
   // SCROLL/MOUSE
   @HostListener('document:mousedown', ['$event'])
   public onMouseDownEvent(event: MouseEvent) {
     // Get the F outta here if in print mode
-    if (this.mode !== StatementModeEnum.Edit) { return; }
+    if (this.mode !== models.StatementModeEnum.Edit) { return; }
 
     const targetElement = event.target as HTMLElement;
 
@@ -419,7 +419,7 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
   @HostListener('document:mouseup', ['$event'])
   public onMouseUpEvent(event: MouseEvent) {
     // Get the F outta here if in print mode
-    if (this.mode !== StatementModeEnum.Edit) { return; }
+    if (this.mode !== models.StatementModeEnum.Edit) { return; }
 
     const targetElement = event.target as HTMLElement;
 
@@ -433,12 +433,5 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
 
     this.lastClickEventElement = null;
     this.store.dispatch(new fromEditStatementPageActions.UpdateActiveRichTextEditorId(null));
-  }
-
-  handlePageScroll() {
-    // user has scrolled, so cancel a potential delayed call to set isScrolling back to false, then set current (true) and future (false) actions
-    clearTimeout(this.scrollTimer);
-    this.store.dispatch(new fromEditStatementPageActions.PageScroll({ isScrolling: true }));
-    this.scrollTimer = setTimeout(() => this.store.dispatch(new fromEditStatementPageActions.PageScroll({ isScrolling: false })), 1000);
   }
 }

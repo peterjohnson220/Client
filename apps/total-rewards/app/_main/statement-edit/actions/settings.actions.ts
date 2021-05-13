@@ -8,6 +8,7 @@ import { StatementAdditionalPageSettings } from 'libs/features/total-rewards/tot
 export const OPEN_SETTINGS_PANEL = '[Total Rewards/Edit Statement] Open Settings Panel';
 export const CLOSE_SETTINGS_PANEL = '[Total Rewards/Edit Statement] Close Settings Panel';
 export const SAVE_SETTINGS = '[Total Rewards/Edit Statement] Save Settings';
+export const PREPARE_SAVE_SETTINGS = '[Total Rewards/Edit Statement] Prepare Save Settings';
 export const SAVE_SETTINGS_SUCCESS = '[Total Rewards/Edit Statement] Save Settings Success';
 export const SAVE_SETTINGS_ERROR = '[Total Rewards/Edit Statement] Save Settings Error';
 export const UPDATE_SETTINGS_FONT_SIZE = '[Total Rewards/Edit Statement] Update Settings Font Size';
@@ -23,6 +24,10 @@ export class OpenSettingsPanel implements Action {
 
 export class CloseSettingsPanel implements Action {
   readonly type = CLOSE_SETTINGS_PANEL;
+}
+
+export class PrepareSaveSettings implements Action {
+  readonly type = PREPARE_SAVE_SETTINGS;
 }
 
 export class SaveSettings implements Action {
@@ -70,6 +75,7 @@ export class ResetSettings implements Action {
 export type SettingsActions =
   OpenSettingsPanel |
   CloseSettingsPanel |
+  PrepareSaveSettings |
   SaveSettings |
   SaveSettingsSuccess |
   SaveSettingsError |
