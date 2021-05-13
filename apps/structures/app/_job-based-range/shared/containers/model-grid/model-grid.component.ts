@@ -36,8 +36,9 @@ import { PfDataGridColType } from 'libs/features/grids/pf-data-grid/enums';
 import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums/pf-theme-type.enum';
 import { RangeType } from 'libs/constants/structures/range-type';
 import { RangeRecalculationType } from 'libs/constants/structures/range-recalculation-type';
+import { RangeDistributionTypeIds } from 'libs/constants/structures/range-distribution-type-ids';
 
-import * as fromPublishModelModalActions from '../../actions/publish-model-modal.actions';
+import * as fromPublishModelModalActions from '../../../../shared/actions/publish-model-modal.actions';
 import * as fromDuplicateModelModalActions from '../../actions/duplicate-model-modal.actions';
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
 import * as fromSharedJobBasedRangeActions from '../../../shared/actions/shared.actions';
@@ -50,7 +51,6 @@ import { ModelSettingsModalContentComponent } from '../model-settings-modal-cont
 import { Workflow } from '../../../../shared/constants/workflow';
 import { SelectedPeerExchangeModel } from '../../../../shared/models';
 
-
 @Component({
   selector: 'pf-model-grid',
   templateUrl: './model-grid.component.html',
@@ -60,6 +60,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   @ViewChild('mid') midColumn: ElementRef;
   @ViewChild('rangeField') rangeFieldColumn: ElementRef;
   @ViewChild('eeCount') eeCountColumn: ElementRef;
+  @ViewChild('eeCountWithFilter') eeCountWithFilterColumn: ElementRef;
   @ViewChild('rangeValue') rangeValueColumn: ElementRef;
   @ViewChild('noFormatting', { static: true }) noFormattingColumn: ElementRef;
   @ViewChild('noFormattingInfoCircle', { static: true }) noFormattingInfoCircleColumn: ElementRef;
@@ -68,7 +69,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   @ViewChild('gridGlobalActions', { static: true }) gridGlobalActionsTemplate: ElementRef;
   @ViewChild('gridRowActionsTemplate') gridRowActionsTemplate: ElementRef;
   @ViewChild('overrideFilter') overrideFilter: ElementRef;
-  @ViewChild(ModelSettingsModalContentComponent, {static: false}) public modelSettingsModalContentComponent: ModelSettingsModalContentComponent;
+  @ViewChild(ModelSettingsModalContentComponent, { static: false }) public modelSettingsModalContentComponent: ModelSettingsModalContentComponent;
   @Input() singleRecordView: boolean;
   @Input() splitViewTemplate: TemplateRef<any>;
   @Input() inboundFilters: PfDataGridFilter[];
@@ -142,6 +143,22 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   selectedPeerExchangeSub: Subscription;
   selectedPeerExchange$: Observable<SelectedPeerExchangeModel>;
   selectedExchange: SelectedPeerExchangeModel;
+  eeCountQueryFilters = {
+    CompanyStructures_RangeGroup_CountEEMinOutlier: 'minOutlier',
+    CompanyStructures_RangeGroup_CountEEQ1: 'q1',
+    CompanyStructures_RangeGroup_CountEEQ2: 'q2',
+    CompanyStructures_RangeGroup_CountEEQ3: 'q3',
+    CompanyStructures_RangeGroup_CountEEQ4: 'q4',
+    CompanyStructures_RangeGroup_CountEE1st5th: '1st5th',
+    CompanyStructures_RangeGroup_CountEE2nd5th: '2nd5th',
+    CompanyStructures_RangeGroup_CountEE3rd5th: '3rd5th',
+    CompanyStructures_RangeGroup_CountEE4th5th: '4th5th',
+    CompanyStructures_RangeGroup_CountEELast5th: 'last5th',
+    CompanyStructures_RangeGroup_CountEE1st3rd: '1st3rd',
+    CompanyStructures_RangeGroup_CountEE2nd3rd: '2nd3rd',
+    CompanyStructures_RangeGroup_CountEELast3rd: 'last3rd',
+    CompanyStructures_RangeGroup_CountEEMaxOutlier: 'maxOutlier'
+  };
 
   constructor(
     public store: Store<fromJobBasedRangeReducer.State>,
@@ -253,7 +270,6 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
       rangeId: dataRow.CompanyStructures_Ranges_CompanyStructuresRanges_ID,
       rangeGroupId: dataRow.CompanyStructures_RangeGroup_CompanyStructuresRangeGroup_ID,
       rowIndex: rowIndex,
-      roundingSettings: this.roundingSettings,
       refreshRowDataViewFilter: this.getRefreshFilter(dataRow)
     }));
   }
@@ -339,12 +355,140 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
       'PayMarket': new FormControl(this.metaData.Paymarket, [Validators.required]),
       'Rate': new FormControl(this.metaData.Rate || 'Annual', [Validators.required]),
       'Currency': new FormControl(this.metaData.Currency || 'USD', [Validators.required]),
-      'PeerExchange': new FormControl( this.selectedExchange?.ExchangeName || 'Global Network', [Validators.required]),
+      'PeerExchange': new FormControl(this.selectedExchange?.ExchangeName || 'Global Network', [Validators.required]),
       'RangeDistributionSetting': new FormControl(this.metaData.RangeDistributionSetting),
       'RangeAdvancedSetting': new FormControl(this.metaData.RangeAdvancedSetting)
     });
 
     this.store.dispatch(new fromModelSettingsModalActions.SetActiveTab('modelTab'));
+  }
+
+  getFilterQueryParam(fieldName: string, dataRow: any) {
+    if (fieldName === 'CompanyStructures_RangeGroup_CountEEMinOutlier') {
+      return {
+        filterQuery: this.eeCountQueryFilters[fieldName],
+        value: dataRow.CompanyStructures_Ranges_Min
+      };
+    }
+
+    if (fieldName === 'CompanyStructures_RangeGroup_CountEEMaxOutlier') {
+      return {
+        filterQuery: this.eeCountQueryFilters[fieldName],
+        value: dataRow.CompanyStructures_Ranges_Max
+      };
+    }
+
+    if (fieldName === 'CompanyStructures_RangeGroup_CountEEQ1') {
+      const value = this.metaData.RangeDistributionTypeId === RangeDistributionTypeIds.MinMidMax
+        ? (dataRow.CompanyStructures_Ranges_Min + dataRow.CompanyStructures_Ranges_Mid) / 2
+        : dataRow.CompanyStructures_Ranges_Quartile_First;
+
+      return {
+        filterQuery: this.eeCountQueryFilters[fieldName],
+        minValue: dataRow.CompanyStructures_Ranges_Min,
+        maxValue: value
+      };
+    }
+
+    if (fieldName === 'CompanyStructures_RangeGroup_CountEEQ2') {
+      const value = this.metaData.RangeDistributionTypeId === RangeDistributionTypeIds.MinMidMax
+        ? (dataRow.CompanyStructures_Ranges_Min + dataRow.CompanyStructures_Ranges_Mid) / 2
+        : dataRow.CompanyStructures_Ranges_Quartile_First;
+
+      return {
+        filterQuery: this.eeCountQueryFilters[fieldName],
+        minValue: value,
+        maxValue: dataRow.CompanyStructures_Ranges_Mid
+      };
+    }
+
+    if (fieldName === 'CompanyStructures_RangeGroup_CountEEQ3') {
+      const value = this.metaData.RangeDistributionTypeId === RangeDistributionTypeIds.MinMidMax
+        ? (dataRow.CompanyStructures_Ranges_Mid + dataRow.CompanyStructures_Ranges_Max) / 2
+        : dataRow.CompanyStructures_Ranges_Quartile_Second;
+
+      return {
+        filterQuery: this.eeCountQueryFilters[fieldName],
+        minValue: dataRow.CompanyStructures_Ranges_Mid,
+        maxValue: value
+      };
+    }
+
+    if (fieldName === 'CompanyStructures_RangeGroup_CountEEQ4') {
+      const value = this.metaData.RangeDistributionTypeId === RangeDistributionTypeIds.MinMidMax
+        ? (dataRow.CompanyStructures_Ranges_Mid + dataRow.CompanyStructures_Ranges_Max) / 2
+        : dataRow.CompanyStructures_Ranges_Quartile_Second;
+
+      return {
+        filterQuery: this.eeCountQueryFilters[fieldName],
+        minValue: value,
+        maxValue: dataRow.CompanyStructures_Ranges_Max
+      };
+    }
+
+    if (fieldName === 'CompanyStructures_RangeGroup_CountEE1st5th') {
+      return {
+        filterQuery: this.eeCountQueryFilters[fieldName],
+        minValue: dataRow.CompanyStructures_Ranges_Min,
+        maxValue: dataRow.CompanyStructures_Ranges_Quintile_First
+      };
+    }
+
+    if (fieldName === 'CompanyStructures_RangeGroup_CountEE2nd5th') {
+      return {
+        filterQuery: this.eeCountQueryFilters[fieldName],
+        minValue: dataRow.CompanyStructures_Ranges_Quintile_First,
+        maxValue: dataRow.CompanyStructures_Ranges_Quintile_Second
+      };
+    }
+
+    if (fieldName === 'CompanyStructures_RangeGroup_CountEE3rd5th') {
+      return {
+        filterQuery: this.eeCountQueryFilters[fieldName],
+        minValue: dataRow.CompanyStructures_Ranges_Quintile_Second,
+        maxValue: dataRow.CompanyStructures_Ranges_Quintile_Third
+      };
+    }
+
+    if (fieldName === 'CompanyStructures_RangeGroup_CountEE4th5th') {
+      return {
+        filterQuery: this.eeCountQueryFilters[fieldName],
+        minValue: dataRow.CompanyStructures_Ranges_Quintile_Third,
+        maxValue: dataRow.CompanyStructures_Ranges_Quintile_Fourth
+      };
+    }
+
+    if (fieldName === 'CompanyStructures_RangeGroup_CountEELast5th') {
+      return {
+        filterQuery: this.eeCountQueryFilters[fieldName],
+        minValue: dataRow.CompanyStructures_Ranges_Quintile_Fourth,
+        maxValue: dataRow.CompanyStructures_Ranges_Max
+      };
+    }
+
+    if (fieldName === 'CompanyStructures_RangeGroup_CountEE1st3rd') {
+      return {
+        filterQuery: this.eeCountQueryFilters[fieldName],
+        minValue: dataRow.CompanyStructures_Ranges_Min,
+        maxValue: dataRow.CompanyStructures_Ranges_Tertile_First
+      };
+    }
+
+    if (fieldName === 'CompanyStructures_RangeGroup_CountEE2nd3rd') {
+      return {
+        filterQuery: this.eeCountQueryFilters[fieldName],
+        minValue: dataRow.CompanyStructures_Ranges_Tertile_First,
+        maxValue: dataRow.CompanyStructures_Ranges_Tertile_Second
+      };
+    }
+
+    if (fieldName === 'CompanyStructures_RangeGroup_CountEELast3rd') {
+      return {
+        filterQuery: this.eeCountQueryFilters[fieldName],
+        minValue: dataRow.CompanyStructures_Ranges_Tertile_Second,
+        maxValue: dataRow.CompanyStructures_Ranges_Max
+      };
+    }
   }
 
   // Lifecycle
@@ -354,11 +498,11 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
       'NumEmployees': { Template: this.eeCountColumn },
       'Job_Title': { Template: this.noFormattingInfoCircleColumn },
       'MarketReferencePointValue': { Template: this.mrpValueColumn },
+      [PfDataGridColType.eeCountWithFilter]: { Template: this.eeCountWithFilterColumn },
       [PfDataGridColType.rangeValue]: { Template: this.rangeValueColumn },
       [PfDataGridColType.noFormatting]: { Template: this.noFormattingColumn },
       [PfDataGridColType.rangeFieldEditor]: { Template: this.rangeFieldColumn },
       [PfDataGridColType.percentage]: { Template: this.percentageColumn }
-
     };
 
     this.filterTemplates = {

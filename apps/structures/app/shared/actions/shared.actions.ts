@@ -147,7 +147,6 @@ export class RevertingRangeChanges implements Action {
     rangeId: number,
     rangeGroupId: number,
     rowIndex: number
-    roundingSettings: RoundingSettingsDataObj,
     refreshRowDataViewFilter: DataViewFilter
   }) {}
 }
@@ -183,7 +182,7 @@ export class DisableCompareFlag implements Action {
 export class RecalculateRangesWithoutMid implements Action {
   readonly type = RECALCULATE_RANGES_WITHOUT_MID;
 
-  constructor(public payload: { rangeGroupId: number; rounding: RoundingSettingsDataObj; }) {}
+  constructor(public payload: number) {}
 }
 
 export class GetCurrentRangeGroup implements Action {

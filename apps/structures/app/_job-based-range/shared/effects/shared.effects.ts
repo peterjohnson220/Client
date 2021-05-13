@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { switchMap, map, mergeMap, catchError, withLatestFrom } from 'rxjs/operators';
+import { switchMap, map, mergeMap, catchError, withLatestFrom, tap } from 'rxjs/operators';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 
 import { generateMockRangeAdvancedSetting, JobBasedPageViewIds, RangeGroupMetadata } from 'libs/models/structures';
@@ -17,6 +17,7 @@ import { PagingOptions } from 'libs/models/payfactors-api/search/request';
 import * as fromNotificationActions from 'libs/features/infrastructure/app-notifications/actions/app-notifications.actions';
 import { NotificationLevel, NotificationSource, NotificationType } from 'libs/features/infrastructure/app-notifications/models';
 import * as fromDataGridActions from 'libs/features/grids/pf-data-grid/actions';
+import * as fromPfDataGridActions from 'libs/features/grids/pf-data-grid/actions';
 
 import * as fromSharedJobBasedRangeActions from '../actions/shared.actions';
 import * as fromSharedJobBasedReducer from '../reducers';
@@ -45,9 +46,7 @@ export class SharedEffects {
         }
       ),
       switchMap((data) => {
-          return this.structureModelingApiService.recalculateRangesWithoutMid(
-            PayfactorsApiModelMapper.mapRecalculateRangesWithoutMidInputToRecalculateRangesWithoutMidRequest(
-              data.action.payload.rangeGroupId, data.action.payload.rounding))
+          return this.structureModelingApiService.recalculateRangesWithoutMid(data.action.payload)
             .pipe(
               mergeMap(() => {
                 const actions = [];
@@ -58,7 +57,7 @@ export class SharedEffects {
 
                 actions.push(new fromSharedStructuresActions.GetOverriddenRanges({
                   pageViewId: modelPageViewId,
-                  rangeGroupId: data.action.payload.rangeGroupId
+                  rangeGroupId: data.action.payload
                 }));
 
                 return actions;
@@ -201,6 +200,22 @@ export class SharedEffects {
       })
     );
 
+  // We want to remove filterQuery param otherwise Saved filter won't be applied
+  @Effect({ dispatch: false })
+  handleSavedViewClicked$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromPfDataGridActions.HANDLE_SAVED_VIEW_CLICKED),
+      tap((action: fromPfDataGridActions.HandleSavedViewClicked) => {
+        this.router.navigate(
+          [],
+          {
+            relativeTo: this.route,
+            queryParams: { },
+            queryParamsHandling: ''
+          });
+      })
+    );
+
   private isLoadDataRequired(fromPageViewId: string) {
     return fromPageViewId === JobBasedPageViewIds.EmployeesMinMidMax
       || fromPageViewId === JobBasedPageViewIds.EmployeesTertile
@@ -214,6 +229,7 @@ export class SharedEffects {
     private store: Store<fromSharedJobBasedReducer.State>,
     private structureModelingApiService: StructureModelingApiService,
     private router: Router,
-    private urlService: UrlService
+    private urlService: UrlService,
+    private route: ActivatedRoute
   ) { }
 }

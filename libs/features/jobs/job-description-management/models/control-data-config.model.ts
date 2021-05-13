@@ -3,7 +3,7 @@ export class ControlDataConfig {
     toolbar: {
       container: [
         [{ 'size': ['small', false, 'large', 'huge'] }],
-        ['bold', 'italic', 'underline'],
+        ['bold', 'italic', 'underline', 'link'],
         [{ 'align': [] }],
         [{ 'color': [] }, { 'background': [] }],
         ['clean']
@@ -15,7 +15,7 @@ export class ControlDataConfig {
     toolbar: {
       container: [
         [{ 'size': ['small', false, 'large', 'huge'] }],
-        ['bold', 'italic', 'underline'],
+        ['bold', 'italic', 'underline', 'link'],
         [{ 'list': 'bullet' }, { 'list': 'ordered'}],
         [{ 'color': [] }, { 'background': [] }],
         ['clean']

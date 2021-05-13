@@ -106,7 +106,7 @@
     </div>
     <div class="col">
       <div class="row">
-        <div class="col"><input type="radio" name="frequency" value="One-time" [(ngModel)]="schedule.Frequency" (change)="onFrequencyChange()"> One-time</div>
+        <div class="col" *ngIf="!exportType"><input type="radio" name="frequency" value="One-time" [(ngModel)]="schedule.Frequency" (change)="onFrequencyChange()"> One-time</div>
         <div class="col"><input type="radio" name="frequency" value="Weekly" [(ngModel)]="schedule.Frequency" (change)="onFrequencyChange()"> Weekly</div>
         <div class="col"><input type="radio" name="frequency" value="Monthly" [(ngModel)]="schedule.Frequency" (change)="onFrequencyChange()"> Monthly</div>
       </div>
@@ -188,6 +188,15 @@
           <div class="d-flex flex-row form-control">
             <span class="user-select-all text-truncate w-100" role="button">{{(jdmExportUrl$ | async)}}</span>
             <pf-copy-to-clipboard-button class="pl-3" toolTipText="Copy Report URL" [copyText]="jdmExportUrl$ | async"></pf-copy-to-clipboard-button>
+          </div>
+        </div>
+      </div>
+      <div class="row py-1" *ngIf="!(addingSchedule$ | async)">
+        <div class="col-2"><span class="form-control-plaintext">Report ID</span></div>
+        <div class="col-10">
+          <div class="d-flex flex-row form-control">
+            <span class="user-select-all text-truncate w-100" role="button">{{scheduleId}}</span>
+            <pf-copy-to-clipboard-button class="pl-3" toolTipText="Copy Report ID" [copyText]="scheduleId"></pf-copy-to-clipboard-button>
           </div>
         </div>
       </div>

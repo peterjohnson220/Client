@@ -5,7 +5,13 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
 import { BrowserDetectionService } from 'libs/core/services';
-import { UpdateSettingsColorRequest, StatementDisplaySettings, StatementDisplaySettingsEnum } from 'libs/features/total-rewards/total-rewards-statement/models';
+import {
+  UpdateSettingsColorRequest,
+  StatementDisplaySettings,
+  StatementDisplaySettingsEnum,
+  StatementAdditionalPageSettings,
+  StatementAdditionalPagePlacementEnum
+} from 'libs/features/total-rewards/total-rewards-statement/models';
 import { FontFamily, FontSize } from 'libs/features/total-rewards/total-rewards-statement/types';
 import { AppConstants } from 'libs/constants';
 
@@ -22,15 +28,25 @@ export class SettingsPanelComponent implements OnInit, OnDestroy {
   @Input() colors: string[];
   @Input() displaySettings: StatementDisplaySettings;
   @Input() isSavingError: boolean;
+  @Input() additionalPageSettings: StatementAdditionalPageSettings;
 
   @Output() close = new EventEmitter();
   @Output() fontSizeChange = new EventEmitter<FontSize>();
   @Output() fontFamilyChange = new EventEmitter<FontFamily>();
   @Output() colorChange = new EventEmitter<UpdateSettingsColorRequest>();
   @Output() displaySettingChange = new EventEmitter<StatementDisplaySettingsEnum>();
+  @Output() additionalPageSettingChange = new EventEmitter<StatementAdditionalPageSettings>();
   @Output() resetSettings = new EventEmitter();
 
   displaySettingsEnum = StatementDisplaySettingsEnum;
+  additionalPagePlacementEnum = StatementAdditionalPagePlacementEnum;
+
+  additionalPagePlacementOptions = [
+    {value: StatementAdditionalPagePlacementEnum.None, text: 'None'},
+    {value: StatementAdditionalPagePlacementEnum.BeforeStatement, text: 'Before Statement'},
+    {value: StatementAdditionalPagePlacementEnum.AfterStatement, text: 'After Statement'}
+  ];
+
   focusedTab: 'Style' | 'Content';
   isOpen: boolean;
   isOpenSubscription = new Subscription();
@@ -40,12 +56,13 @@ export class SettingsPanelComponent implements OnInit, OnDestroy {
   showFontFamilyMenu = AppConstants.EnableTrsCustomFontFamilies;
   cpUseRootViewContainer = false;
   totalRewardsEmployeeContributionFeatureFlag: RealTimeFlag = { key: FeatureFlags.TotalRewardsEmployeeContribution, value: false };
+  totalRewardsAdditionalPageFeatureFlag: RealTimeFlag = { key: FeatureFlags.TotalRewardsAdditionalPage, value: false };
   unsubscribe$ = new Subject<void>();
   delay = ms => new Promise(res => setTimeout(res, ms));
 
-  constructor(private featureFlagService: AbstractFeatureFlagService,
-              private browserDetectionService: BrowserDetectionService) {
+  constructor(private featureFlagService: AbstractFeatureFlagService, private browserDetectionService: BrowserDetectionService) {
     this.featureFlagService.bindEnabled(this.totalRewardsEmployeeContributionFeatureFlag, this.unsubscribe$);
+    this.featureFlagService.bindEnabled(this.totalRewardsAdditionalPageFeatureFlag, this.unsubscribe$);
   }
 
   ngOnInit() {
@@ -72,6 +89,7 @@ export class SettingsPanelComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.colorSubjectSubscription.unsubscribe();
     this.isOpenSubscription.unsubscribe();
+    this.unsubscribe$.next();
   }
 
   onCloseClick() {
@@ -94,12 +112,32 @@ export class SettingsPanelComponent implements OnInit, OnDestroy {
     this.displaySettingChange.emit(displaySettingKey);
   }
 
+  onAdditionalPagePlacementSettingChange(pagePlacement: StatementAdditionalPagePlacementEnum) {
+    const additionalPageSettings = this.createAdditionalPageSettingsEventArg();
+    additionalPageSettings.PagePlacement = pagePlacement;
+    this.additionalPageSettingChange.emit(additionalPageSettings);
+  }
+
+  onAdditionalPageHeaderSettingChange() {
+    const additionalPageSettings = this.createAdditionalPageSettingsEventArg();
+    additionalPageSettings.ShowStatementHeader = !this.additionalPageSettings.ShowStatementHeader;
+    this.additionalPageSettingChange.emit(additionalPageSettings);
+  }
+
+  getSelectedAdditionalPagePlacement() {
+    return this.additionalPagePlacementOptions.find(el => el.value === this.additionalPageSettings?.PagePlacement);
+  }
+
   onResetSettings() {
     this.resetSettings.emit();
   }
 
   onHandleTabClick(tab) {
     this.focusedTab = tab;
+  }
+
+  private createAdditionalPageSettingsEventArg(): StatementAdditionalPageSettings {
+    return {...this.additionalPageSettings};
   }
 
   @HostListener('document:keyup', ['$event'])

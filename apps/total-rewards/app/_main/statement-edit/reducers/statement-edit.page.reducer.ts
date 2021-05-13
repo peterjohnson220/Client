@@ -371,6 +371,11 @@ export function reducer(state = initialState, action: fromEditStatementActions.S
     case fromEditStatementActions.GENERATE_STATEMENT_PREVIEW_ERROR: {
       return AsyncStateObjHelper.loadingError(state, 'generateStatementPreviewEventId');
     }
+    case fromEditStatementActions.UPDATE_ADDITIONAL_PAGE_SETTINGS: {
+      const localState: State = cloneDeep(state);
+      localState.statement.obj.Settings.AdditionalPageSettings = action.payload.additionalPageSettings;
+      return localState;
+    }
     default: {
       return state;
     }

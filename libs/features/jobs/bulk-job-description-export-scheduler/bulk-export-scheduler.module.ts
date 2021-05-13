@@ -11,7 +11,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PfFormsModule } from 'libs/forms';
 import { PfServiceAccountsModule } from 'libs/features/service-accounts';
 
-import { BulkExportSchedulerFormComponent, BulkExportSchedulesListComponent } from './containers';
+import { BulkExportHistoryComponent, BulkExportSchedulerFormComponent, BulkExportSchedulesListComponent } from './containers';
 import { BulkJobsExportScheduleEffects, BulkJobsExportScheduleFiltersEffects, BulkJobsExportScheduleViewEffects } from './effects';
 import * as fromFaIcons from './fa-icons';
 import { reducers } from './reducers';
@@ -40,11 +40,13 @@ import { reducers } from './reducers';
   declarations: [
     // Components
     BulkExportSchedulerFormComponent,
-    BulkExportSchedulesListComponent
+    BulkExportSchedulesListComponent,
+    BulkExportHistoryComponent
   ],
   exports: [
     BulkExportSchedulerFormComponent,
-    BulkExportSchedulesListComponent
+    BulkExportSchedulesListComponent,
+    BulkExportHistoryComponent
   ]
 })
 export class PfBulkExportSchedulerModule {
