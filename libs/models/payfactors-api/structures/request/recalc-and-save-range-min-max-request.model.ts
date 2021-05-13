@@ -9,5 +9,4 @@ export interface RecalcAndSaveRangeMinMaxRequest {
   FieldName: string;
   RangeRecalculationType: RangeRecalculationType;
   RowIndex: number;
-  Rounding: RoundRangesRequest;
 }

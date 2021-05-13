@@ -14,7 +14,6 @@ import { StructureModelingApiService } from 'libs/data/payfactors-api/structures
 import { CompareJobRangesHelper } from '../helpers';
 import * as fromCompareJobRangesReducer from '../reducers';
 import * as fromCompareJobRangesActions from '../actions';
-import * as fromSharedReducer from '../../shared/reducers';
 import * as fromSharedStructuresReducer from '../../../shared/reducers';
 
 @Injectable()
@@ -83,9 +82,10 @@ export class CompareJobRangesEffects {
                       NewCurrency: data.metadata.Currency,
                       OldRate: data.currentRangeGroup.obj.Rate,
                       NewRate: data.metadata.Rate,
-                      Rounding: data.roundingSettings,
                       RangeDistributionTypeId: data.metadata.RangeDistributionTypeId,
-                      JobRangeData: res
+                      JobRangeData: res,
+                      RangeGroupId: data.metadata.RangeDistributionSetting.CompanyStructuresRangeGroupId,
+                      RangeTypeId: data.metadata.RangeTypeId
                     }
                   ));
                 } else {
@@ -95,9 +95,10 @@ export class CompareJobRangesEffects {
                       NewCurrency: data.metadata.Currency,
                       OldRate: data.currentRangeGroup.obj.Rate,
                       NewRate: data.metadata.Rate,
-                      Rounding: data.roundingSettings,
                       RangeDistributionTypeId: data.metadata.RangeDistributionTypeId,
-                      JobRangeData: res
+                      JobRangeData: res,
+                      RangeGroupId: data.metadata.RangeDistributionSetting.CompanyStructuresRangeGroupId,
+                      RangeTypeId: data.metadata.RangeTypeId
                     }
                   ));
                 }

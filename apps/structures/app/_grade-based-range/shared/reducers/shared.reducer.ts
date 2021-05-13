@@ -7,11 +7,13 @@ import * as fromSharedActions from '../actions/shared.actions';
 export interface State {
   gradeRangeDetails: AsyncStateObj<any>;
   gradesDetails: AsyncStateObj<any>;
+  openAddJobs: boolean;
 }
 
 const initialState: State = {
   gradeRangeDetails: generateDefaultAsyncStateObj<any>(null),
-  gradesDetails: generateDefaultAsyncStateObj<any>(null)
+  gradesDetails: generateDefaultAsyncStateObj<any>(null),
+  openAddJobs: false
 };
 
 export function reducer(state = initialState, action: fromSharedActions.SharedActions): State {
@@ -84,6 +86,12 @@ export function reducer(state = initialState, action: fromSharedActions.SharedAc
         gradesDetails: gradesDetails
       };
     }
+    case fromSharedActions.SET_OPEN_ADD_JOBS: {
+      return {
+        ...state,
+        openAddJobs: action.payload
+      };
+    }
     default:
       return state;
   }
@@ -91,3 +99,4 @@ export function reducer(state = initialState, action: fromSharedActions.SharedAc
 
 export const getGradeRangeDetails = (state: State) => state.gradeRangeDetails;
 export const getGradesDetails = (state: State) => state.gradesDetails;
+export const getOpenAddJobs = (state: State) => state.openAddJobs;

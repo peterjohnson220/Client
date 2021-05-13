@@ -38,7 +38,8 @@ const numericFilterOperators: FilterOperator[] = [
   { display: 'Is less than or equal to', value: '<=', requiresValue: true, defaultOperatorForType: false },
   { display: 'Is less than', value: '<', requiresValue: true, defaultOperatorForType: false },
   { display: 'Is empty', value: 'isnull', requiresValue: false, defaultOperatorForType: false },
-  { display: 'Is not empty', value: 'notnull', requiresValue: false, defaultOperatorForType: false }
+  { display: 'Is not empty', value: 'notnull', requiresValue: false, defaultOperatorForType: false },
+  { display: 'Between', value: 'between', requiresValue: true, defaultOperatorForType: false }
 ];
 
 const booleanFilterOperators: FilterOperator[] = [

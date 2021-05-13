@@ -16,12 +16,28 @@ export class GraphHelper {
   }
 
   static getJobsRangeMidRadius(dataLength) {
-    return dataLength === 1 ? 30 : 24;
+    return dataLength === 1 ? 30 : 26;
   }
 
   static getEmployeeChartHeight(data: any, multiLineHeader: boolean = false): number {
-    const defaultOffset = 56;
+    const defaultOffset = 54;
     const multiLineHeaderOffset = 46;
+    const defaultSingleRecordHeight = 98;
+    const rowHeight = 50;
+    const singleDataPointOffset = 10;
+    if (data.length > 1) {
+      return (rowHeight * data.length) + (multiLineHeader ? (multiLineHeaderOffset + defaultOffset) : defaultOffset);
+    } else if (data.length === 1) {
+      return (multiLineHeader ? (multiLineHeaderOffset + defaultSingleRecordHeight + singleDataPointOffset)
+        : defaultSingleRecordHeight + singleDataPointOffset);
+    } else {
+      return (multiLineHeader ? (multiLineHeaderOffset + defaultSingleRecordHeight) : defaultSingleRecordHeight);
+    }
+  }
+
+  static getDataCutChartHeight(data: any, multiLineHeader: boolean = false): number {
+    const defaultOffset = 56;
+    const multiLineHeaderOffset = 85;
     const defaultSingleRecordHeight = 98;
     const rowHeight = 48;
     const singleDataPointOffset = 10;

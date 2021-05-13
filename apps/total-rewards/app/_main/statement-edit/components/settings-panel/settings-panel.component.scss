@@ -16,15 +16,18 @@
 
   .tab-content {
     width: 335px;
-    height: 200px;
     padding: 15px;
+  }
+
+  .settings-panel h5 .fa-info-circle {
+    font-size: 1rem;
   }
 }
 
 aside.settings-panel {
   top: 176px;
   right: 0;
-  z-index: 100;
+  z-index: 1040;
   background-color: white;
   border-left: 9px solid $trs-prominent-border-color;
   box-shadow: none;
@@ -43,7 +46,7 @@ aside.settings-panel {
     font-size: 1.25rem;
     transition: opacity .3s ease-out;
   }
-  .font-family-container, .font-size-container {
+  .button-dropdown-container {
     a {
       transition: background-color .25s ease-in-out;
       color: inherit;

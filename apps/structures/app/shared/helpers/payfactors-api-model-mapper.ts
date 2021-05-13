@@ -1,7 +1,6 @@
 import {
   AdvancedSettingResponse,
   RangeDistributionSettingResponse,
-  RecalculateRangesWithoutMidRequest,
   RevertRangeChangesRequest,
   RoundRangesRequest,
   RangeDistributionSettingRequest,
@@ -299,15 +298,6 @@ export class PayfactorsApiModelMapper {
     };
   }
 
-  static mapRecalculateRangesWithoutMidInputToRecalculateRangesWithoutMidRequest
-  (rangeGroupId: number,
-   rounding: RoundingSettingsDataObj): RecalculateRangesWithoutMidRequest {
-    return {
-      RangeGroupId: rangeGroupId,
-      Rounding: this.mapRoundingSettingsModalFormToRoundRangesRequest(rounding)
-    };
-  }
-
   static mapRoundingSettingsModalFormToRoundRangesRequest(roundingSettings: RoundingSettingsDataObj): RoundRangesRequest {
     return {
       Min: roundingSettings['min'],
@@ -347,14 +337,10 @@ export class PayfactorsApiModelMapper {
     };
   }
 
-  static mapRevertingRangeChangesToRevertRangeChangesRequest
-  (rangeId: number,
-   rangeGroupId: number,
-   rounding: RoundingSettingsDataObj): RevertRangeChangesRequest {
+  static mapRevertingRangeChangesToRevertRangeChangesRequest(rangeId: number, rangeGroupId: number): RevertRangeChangesRequest {
     return {
       RangeId: rangeId,
-      RangeGroupId: rangeGroupId,
-      Rounding: this.mapRoundingSettingsModalFormToRoundRangesRequest(rounding)
+      RangeGroupId: rangeGroupId
     };
   }
 

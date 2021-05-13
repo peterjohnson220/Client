@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { AsyncStateObj } from 'libs/models/state';
 
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
-import * as fromPublishModelModalActions from '../../../shared/actions/publish-model-modal.actions';
+import * as fromPublishModelModalActions from '../../actions/publish-model-modal.actions';
 
 @Component({
   selector: 'pf-publish-model-modal',

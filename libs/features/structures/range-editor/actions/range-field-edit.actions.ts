@@ -20,7 +20,6 @@ export class UpdateRangeField implements Action {
     fieldName: string,
     rangeRecalculationType: RangeRecalculationType,
     rowIndex: number,
-    roundingSettings: RoundingSettingsDataObj,
     refreshRowDataViewFilter: DataViewFilter,
     metaInfo: any,
     successCallBackFn: any,

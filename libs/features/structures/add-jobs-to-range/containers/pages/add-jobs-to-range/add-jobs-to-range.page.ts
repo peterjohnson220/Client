@@ -64,6 +64,7 @@ export class AddJobsToRangePageComponent extends SearchBaseDirective implements 
 
   // Add Jobs Config
   addJobsConfig: AddJobsConfig;
+
   constructor(
     store: Store<fromSearchReducer.State>,
     private router: Router,
@@ -71,7 +72,6 @@ export class AddJobsToRangePageComponent extends SearchBaseDirective implements 
     private settingsService: SettingsService,
     private dragulaService: DragulaService,
     @Optional() private injectedAddJobsConfig: AddJobsConfig
-
   ) {
     super(store, SearchFilterMappingData, SearchFeatureIds.AddJobs, JobSearchUserFilterType);
     this.addJobsConfig = injectedAddJobsConfig || ADD_JOBS_CONFIG_DEFAULT_TRUE;
@@ -121,16 +121,15 @@ export class AddJobsToRangePageComponent extends SearchBaseDirective implements 
   }
 
   handleAutoGradeSelectedClicked(): void {
-    // this.store.dispatch(new fromAddJobsSearchResultsActions.)
+    this.store.dispatch(new fromJobsToGradeActions.AutoGradeJobs(this.gradeRangeGroupDetails));
   }
-
 
   handleClearSelectionsClicked(): void {
     this.store.dispatch(new fromAddJobsSearchResultsActions.ClearSelectedJobs());
   }
 
   handleCreateNewJobClicked(): void {
-    this.router.navigate(['../create-new-job'], {relativeTo: this.route});
+    this.router.navigate(['../create-new-job'], { relativeTo: this.route });
   }
 
   get numberOfJobsSelected(): number {
@@ -184,5 +183,4 @@ export class AddJobsToRangePageComponent extends SearchBaseDirective implements 
     this.gradesSubscription?.unsubscribe();
     cleanupDatacutsDragging(this.dragulaService);
   }
-
 }

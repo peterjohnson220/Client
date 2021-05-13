@@ -1,10 +1,10 @@
 import { Action } from '@ngrx/store';
 
-export const OPEN_MODAL = '[Structures - Job Based Range - Model Publish] Open Modal';
-export const CLOSE_MODAL = '[Structures - Job Based Range - Model Publish] Close Modal';
-export const PUBLISH_MODEL = '[Structures - Job Based Range - Model Publish] Publish Model';
-export const PUBLISH_MODEL_SUCCESS = '[Structures - Job Based Range - Model Publish] Publish Model Success';
-export const PUBLISH_MODEL_ERROR = '[Structures - Job Based Range - Model Publish] Publish Model Error';
+export const OPEN_MODAL = '[Structures - Range Group - Model Publish] Open Modal';
+export const CLOSE_MODAL = '[Structures - Range Group - Model Publish] Close Modal';
+export const PUBLISH_MODEL = '[Structures - Range Group - Model Publish] Publish Model';
+export const PUBLISH_MODEL_SUCCESS = '[Structures - Range Group - Model Publish] Publish Model Success';
+export const PUBLISH_MODEL_ERROR = '[Structures - Range Group - Model Publish] Publish Model Error';
 
 export class OpenModal implements Action {
   readonly type = OPEN_MODAL;

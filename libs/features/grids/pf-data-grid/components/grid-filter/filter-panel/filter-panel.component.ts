@@ -10,13 +10,10 @@ import { FilterOperatorOptions, getUserFilteredFields } from '../helpers';
   styleUrls: ['./filter-panel.component.scss']
 })
 export class FilterPanelComponent implements OnChanges {
-
   @Input() pageViewId: string;
-
   @Input() fields: ViewField[];
   @Input() filterTemplates: any;
   @Input() allowSaveFilter: boolean;
-
   @Output() saveFilterClicked = new EventEmitter();
   @Output() filterChanged = new EventEmitter<ViewField>();
   @Output() filterCleared = new EventEmitter<ViewField>();
@@ -73,5 +70,4 @@ export class FilterPanelComponent implements OnChanges {
   private valueCanBeEmpty(field: ViewField) {
     return !FilterOperatorOptions[field.DataType].find(f => f.value === field.FilterOperator).requiresValue;
   }
-
 }

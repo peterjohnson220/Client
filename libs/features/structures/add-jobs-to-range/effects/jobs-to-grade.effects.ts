@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { switchMap, map, catchError } from 'rxjs/operators';
 
-import { StructureRangeGroupApiService } from 'libs/data/payfactors-api';
+import { StructureMappingApiService, StructureRangeGroupApiService } from 'libs/data/payfactors-api';
 
 import { PayfactorsApiModelMapper } from '../helpers';
 import * as fromJobsToGradeActions from '../actions/jobs-to-grade.actions';
@@ -20,7 +20,7 @@ export class JobsToGradeEffects {
       ofType(fromJobsToGradeActions.GET_GRADES),
       map((action: fromJobsToGradeActions.GetGrades) => action.payload),
       switchMap((details) => {
-        return this.structureRangeGroupApiService.getGrades(details.RangeGroupId, details.Intercept, details.Slope, details.RoundDecimals).pipe(
+        return this.structureMappingApiService.getGradesWithJobsCount(details.RangeGroupId).pipe(
             map(response => new fromJobsToGradeActions.GetGradesSuccess(
               PayfactorsApiModelMapper.mapGradesResponseToGrades(response, details.RangeGroupId))
             ),
@@ -53,6 +53,7 @@ export class JobsToGradeEffects {
     constructor(
       private actions$: Actions,
       private structureRangeGroupApiService: StructureRangeGroupApiService,
+      private structureMappingApiService: StructureMappingApiService,
       private store: Store<fromJobsToGradeReducer.State>
   ) {}
 }

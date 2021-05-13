@@ -8,3 +8,15 @@
 .email-body {
   background-color: rgba(0, 0, 0, 0.03);
 }
+
+.email-body textarea {
+  padding-right: 22px;
+}
+
+.email-input-radial-counter {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  margin-bottom: 0px;
+  margin-right: 18px;
+}

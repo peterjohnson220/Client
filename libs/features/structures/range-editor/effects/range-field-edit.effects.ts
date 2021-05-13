@@ -31,8 +31,7 @@ export class RangeFieldEditEffects {
             action.payload.fieldValue,
             action.payload.fieldName,
             action.payload.rangeRecalculationType,
-            action.payload.rowIndex,
-            action.payload.roundingSettings))
+            action.payload.rowIndex))
             .pipe(
               mergeMap((response) => {
                 const actions = [];

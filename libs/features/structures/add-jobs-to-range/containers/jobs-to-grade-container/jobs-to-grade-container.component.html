@@ -17,6 +17,7 @@
         [dragging]="isDragging$ | async"
         [rate]="rate"
         [rangeDistributionType]="gradeRangeGroupDetails.RangeDistributionTypeId"
+        [loadingGrades]="loadingGrades$ | async"
         (loadJobs)="handleLoadJobs($event)"
         (jobDeleted)="handleJobDeleted($event)">
       </pf-job-to-grade>

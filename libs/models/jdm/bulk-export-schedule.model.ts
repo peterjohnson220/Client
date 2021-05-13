@@ -18,13 +18,13 @@ export class BulkExportScheduleParameters {
 }
 
 export class BulkExportSchedule extends BulkExportScheduleParameters {
-  Id: number;
+  Id: string;
   ExportCount: number;
 }
 
 export function generateMockBulkExportSchedule(frequency: string = 'Weekly'): BulkExportSchedule {
   return {
-    Id: 1,
+    Id: '1',
     FileName: 'Mock',
     ViewId: 'MockViewId',
     Filter: 'MockFilter',
