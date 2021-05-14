@@ -31,7 +31,7 @@ export class SurveyPageEffects {
     .pipe(
       ofType(fromSurveyPageActions.GET_SURVEY_COUNTRIES),
       switchMap((action: fromSurveyPageActions.GetSurveyCountries) => {
-        return this.surveyApiService.getSurveyCountryInfoByCompany()
+        return this.surveyApiService.getAccessibleSurveyCountries()
           .pipe(
             map((response) => new fromSurveyPageActions.GetSurveyCountriesSuccess(response)),
             catchError(() => of(new fromSurveyPageActions.GetSurveyCountriesError()))
