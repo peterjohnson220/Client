@@ -21,9 +21,25 @@
       </div>
     </div>
     <br>
-    <div class="row">
-      <div class="col-md-4">
+    <div class="row flex-nowrap">
+      <div class="fixed pr-3">
         <pf-new-exchange-participants [companyNames]="(newCompanies$ | async)"></pf-new-exchange-participants>
+      </div>
+      <div class="fixed pr-3">
+        <div class="card">
+          <pf-historical-org-inc-count-chart
+            [orgIncCountData]="orgIncCountHistory$ | async"
+            [countType]="'Org'">
+          </pf-historical-org-inc-count-chart>
+        </div>
+      </div>
+      <div class="fixed">
+        <div class="card">
+          <pf-historical-org-inc-count-chart
+            [orgIncCountData]="orgIncCountHistory$ | async"
+            [countType]="'Inc'">
+          </pf-historical-org-inc-count-chart>
+        </div>
       </div>
     </div>
   </ng-container>

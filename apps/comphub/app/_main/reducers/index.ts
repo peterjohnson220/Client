@@ -475,6 +475,11 @@ export const getNewExchangeParticipants = createSelector(
   fromTrendsLandingCardReducer.getNewExchangeParticipants
 );
 
+export const getOrgIncCountHistory = createSelector(
+  selectTrendsLandingCardState,
+  fromTrendsLandingCardReducer.getOrgIncCountHistory
+);
+
 // Trends Summary Card
 export const getPeerTrends = createSelector(
   selectTrendsSummaryCardState,

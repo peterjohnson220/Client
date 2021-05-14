@@ -55,6 +55,7 @@ import { TrendingJobGroupComponent, CardComponent, PaymarketCardsComponent, AddP
 import { MainRoutingModule } from './main-routing.module';
 import * as fromFaIcons from './fa-icons';
 import { HistoricalTrendChartComponent } from './components/salary-trend-chart/historical-trend-chart/historical-trend-chart.component';
+import { HistoricalOrgIncCountChartComponent } from './components/salary-trend-chart/historical-org-inc-count-chart/historical-org-inc-count-chart.component';
 
 @NgModule({
     imports: [
@@ -109,6 +110,7 @@ import { HistoricalTrendChartComponent } from './components/salary-trend-chart/h
     SalaryBarChartComponent,
     SalaryTrendChartComponent,
     HistoricalTrendChartComponent,
+    HistoricalOrgIncCountChartComponent,
     SharePricingSummaryModalComponent,
     GlossaryOfTermsComponent,
 
