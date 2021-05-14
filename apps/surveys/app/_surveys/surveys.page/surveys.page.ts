@@ -19,7 +19,7 @@ import {
 import { DataViewFieldDataType, ViewField } from 'libs/models/payfactors-api';
 import { SurveyDataField } from 'libs/features/surveys/survey-data-fields-management/models';
 import { AsyncStateObj } from 'libs/models/state';
-import { SurveyCountryDto } from 'libs/models/survey/survey-country-dto.model';
+import { SurveyDataCountryAccessDto } from 'libs/models/survey/survey-data-country-access-dto.model';
 import { GroupedListItem } from 'libs/models/list';
 
 import * as fromSurveysPageReducer from '../reducers';
@@ -41,7 +41,7 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
   loading$: Observable<boolean>;
   surveyDataFieldsModalOpen$: Observable<boolean>;
   savingSurveyFields$: Observable<boolean>;
-  countries$: Observable<AsyncStateObj<SurveyCountryDto[]>>;
+  countries$: Observable<AsyncStateObj<SurveyDataCountryAccessDto[]>>;
   surveyYears$: Observable<AsyncStateObj<PfDataGridCustomFilterDisplayOptions[]>>;
 
   gridFieldSubscription: Subscription;
@@ -185,7 +185,7 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.updateField(field);
   }
 
-  populateCountriesFilter(options: SurveyCountryDto[]): void {
+  populateCountriesFilter(options: SurveyDataCountryAccessDto[]): void {
     const flags = {};
 
     const distinctOptions = options.filter(function(entry) {

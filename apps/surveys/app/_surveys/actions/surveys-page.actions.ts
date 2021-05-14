@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { SurveyCountryDto } from 'libs/models/survey/survey-country-dto.model';
+import { SurveyDataCountryAccessDto } from 'libs/models/survey/survey-data-country-access-dto.model';
 
 export const OPEN_SURVEY_FIELDS_MODAL = '[Surveys / Surveys Page] Open Survey Fields Modal';
 export const CLOSE_SURVEY_FIELDS_MODAL = '[Surveys / Surveys Page] Close Survey Fields Modal';
@@ -74,7 +74,7 @@ export class GetSurveyCountries implements Action {
 export class GetSurveyCountriesSuccess implements Action {
   readonly type = GET_SURVEY_COUNTRIES_SUCCESS;
 
-  constructor(public payload: SurveyCountryDto[]) {}
+  constructor(public payload: SurveyDataCountryAccessDto[]) {}
 }
 
 export class GetSurveyCountriesError implements Action {

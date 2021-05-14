@@ -2,7 +2,7 @@ import cloneDeep from 'lodash/cloneDeep';
 
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 import { AsyncStateObjHelper } from 'libs/core/helpers';
-import { SurveyCountryDto } from 'libs/models/survey/survey-country-dto.model';
+import { SurveyDataCountryAccessDto } from 'libs/models/survey/survey-data-country-access-dto.model';
 import { PfDataGridCustomFilterDisplayOptions } from 'libs/features/grids/pf-data-grid/models';
 
 import * as fromSurveysPageActions from '../actions/surveys-page.actions';
@@ -12,7 +12,7 @@ export interface State {
   surveyFieldsModalOpen: boolean;
   participantsModalOpen: boolean;
   surveyParticipants: AsyncStateObj<string[]>;
-  countries: AsyncStateObj<SurveyCountryDto[]>;
+  countries: AsyncStateObj<SurveyDataCountryAccessDto[]>;
   surveyYears: AsyncStateObj<PfDataGridCustomFilterDisplayOptions[]>;
 }
 
