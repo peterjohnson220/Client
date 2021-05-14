@@ -9,7 +9,8 @@ import {
   SearchExchangeAggregationsRequest,
   ExchangeDataSearchResponse,
   HistoricalExchangeDataSearchRequest,
-  HistoricalExchangeDataSearchResponse
+  HistoricalExchangeDataSearchResponse,
+  HistoricalExchangeOrgIncCountResponse
 } from 'libs/models/payfactors-api/peer/exchange-data-search';
 import { ComphubExchangeExplorerContextRequest } from 'libs/models/peer/requests/comphub-exchange-explorer-context-request.model';
 
@@ -71,5 +72,9 @@ export class ExchangeDataSearchApiService {
 
   getHistoricalTrends(request: HistoricalExchangeDataSearchRequest): Observable<HistoricalExchangeDataSearchResponse> {
     return this.payfactorsApiService.post(`${this.endpoint}/GetHistoricalTrend`, request);
+  }
+
+  getOrgIncCountHistory(request: HistoricalExchangeDataSearchRequest): Observable<HistoricalExchangeOrgIncCountResponse> {
+    return this.payfactorsApiService.post(`${this.endpoint}/GetHistoricalOrgIncCount`, request);
   }
 }

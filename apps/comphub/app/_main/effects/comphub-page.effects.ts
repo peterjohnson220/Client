@@ -185,6 +185,7 @@ export class ComphubPageEffects {
                 const activeExchange = response.filter(x => x.Active)[0];
                 if (!!activeExchange) {
                   actions.push( new fromTrendsLandingCardActions.GetNewExchangeParticipants(activeExchange.ExchangeId));
+                  actions.push( new fromTrendsLandingCardActions.GetOrgIncCountHistory(activeExchange.ExchangeId));
                 }
               } else {
                 if (response.length) {
@@ -214,6 +215,7 @@ export class ComphubPageEffects {
         if (data.workflow.comphubType === ComphubType.TRENDS) {
           actions = [
             new fromTrendsLandingCardActions.GetNewExchangeParticipants(data.exchange.ExchangeId),
+            new fromTrendsLandingCardActions.GetOrgIncCountHistory(data.exchange.ExchangeId)
           ];
         } else {
 

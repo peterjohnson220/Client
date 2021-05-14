@@ -27,3 +27,13 @@ export interface PayRateDate {
   EffectiveDate: Date;
   BasePay: number;
 }
+
+export interface HistoricalExchangeOrgIncCountResponse {
+  OrgIncCountCollection: OrgIncCount[];
+}
+
+export interface OrgIncCount {
+  EffectiveDate: Date;
+  OrgCount: number;
+  IncCount: number;
+}
