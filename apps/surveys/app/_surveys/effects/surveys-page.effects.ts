@@ -2,11 +2,13 @@ import { Injectable } from '@angular/core';
 
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
-import { switchMap, catchError, map } from 'rxjs/operators';
+import { switchMap, catchError, map, mergeMap } from 'rxjs/operators';
 
+import * as fromPfDataGridActions from 'libs/features/grids/pf-data-grid/actions';
 import { SurveyApiService } from 'libs/data/payfactors-api/surveys';
 
 import * as fromSurveyPageActions from '../actions/surveys-page.actions';
+import { SurveysPageConfig } from '../models';
 
 @Injectable()
 export class SurveyPageEffects {
@@ -52,8 +54,20 @@ export class SurveyPageEffects {
       })
     );
 
+  @Effect()
+  reloadSurveyDataGrid$ = this.actions$
+    .pipe(
+      ofType(fromSurveyPageActions.RELOAD_SURVEY_DATA_GRID),
+      mergeMap((action: fromSurveyPageActions.ReloadSurveyDataGrid) => {
+        return [
+          new fromSurveyPageActions.ReloadSurveyDataGridSuccess(action.surveyJobId),
+          new fromPfDataGridActions.LoadViewConfig(`${SurveysPageConfig.SurveyDataCutsPageViewId}_${action.surveyJobId}`)
+        ];
+      })
+    );
+
   constructor(
     private actions$: Actions,
-    private surveyApiService: SurveyApiService,
+    private surveyApiService: SurveyApiService
   ) {}
 }

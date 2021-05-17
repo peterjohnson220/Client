@@ -9,6 +9,7 @@ import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums/pf-theme-typ
 import { ActionBarConfig, getDefaultActionBarConfig, GridConfig, PfDataGridFilter } from 'libs/features/grids/pf-data-grid/models';
 import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 
+import * as fromSurveysPageActions from '../../actions/surveys-page.actions';
 import * as fromSurveysPageReducer from '../../reducers';
 import { SurveysPageConfig } from '../../models';
 
@@ -98,6 +99,7 @@ export class SurveyDataCutsComponent implements OnChanges, OnInit, AfterViewInit
         this.updateCountriesFilter(filters);
       }
     });
+    this.store.dispatch(new fromSurveysPageActions.OpenSurveyDataGrid(this.surveyJobId));
   }
 
   ngAfterViewInit(): void {

@@ -14,6 +14,11 @@ export const GET_SURVEY_COUNTRIES_ERROR = '[Surveys / Surveys Page] Get Survey C
 export const GET_SURVEY_YEARS = '[Surveys / Surveys Page] Get Survey Years';
 export const GET_SURVEY_YEARS_SUCCESS = '[Surveys / Surveys Page] Get Survey Years Success';
 export const GET_SURVEY_YEARS_ERROR = '[Surveys / Surveys Page] Get Survey Years Error';
+export const OPEN_SURVEY_DATA_GRID = '[Surveys / Surveys Page] Open Survey Data Grid';
+export const RESET_OPENED_SURVEY_DATA_GRIDS = '[Surveys / Surveys Page] Reset Opened Survey Data Grid';
+export const UPDATE_SURVEY_DATA_GRID_FIELDS = '[Surveys / Surveys Page] Update Survey Data Grid Fields';
+export const RELOAD_SURVEY_DATA_GRID = '[Surveys / Surveys Page] Reload Survey Data Grid';
+export const RELOAD_SURVEY_DATA_GRID_SUCCESS = '[Surveys / Surveys Page] Reload Survey Data Grid Success';
 
 export class OpenSurveyFieldsModal implements Action {
   readonly type = OPEN_SURVEY_FIELDS_MODAL;
@@ -83,6 +88,31 @@ export class GetSurveyCountriesError implements Action {
   constructor() {}
 }
 
+export class OpenSurveyDataGrid implements Action {
+  readonly type = OPEN_SURVEY_DATA_GRID;
+  constructor(public surveyJobId: number) {}
+}
+
+export class ResetOpenedSurveyDataGrids implements Action {
+  readonly type = RESET_OPENED_SURVEY_DATA_GRIDS;
+  constructor() {}
+}
+
+export class UpdateSurveyDataGridFields implements Action {
+  readonly type = UPDATE_SURVEY_DATA_GRID_FIELDS;
+  constructor(public surveyJobId: number) {}
+}
+
+export class ReloadSurveyDataGrid implements Action {
+  readonly type = RELOAD_SURVEY_DATA_GRID;
+  constructor(public surveyJobId: number) {}
+}
+
+export class ReloadSurveyDataGridSuccess implements Action {
+  readonly type = RELOAD_SURVEY_DATA_GRID_SUCCESS;
+  constructor(public surveyJobId: number) {}
+}
+
 export type Actions
   = OpenSurveyFieldsModal
   | CloseSurveyFieldsModal
@@ -96,4 +126,9 @@ export type Actions
   | GetSurveyCountriesError
   | GetSurveyYears
   | GetSurveyYearsSuccess
-  | GetSurveyYearsError;
+  | GetSurveyYearsError
+  | OpenSurveyDataGrid
+  | ResetOpenedSurveyDataGrids
+  | UpdateSurveyDataGridFields
+  | ReloadSurveyDataGrid
+  | ReloadSurveyDataGridSuccess;
