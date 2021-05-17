@@ -13,6 +13,7 @@
     }
     &.consolidated {
       tr.trs-calculation-row {
+        height: 18px;
         line-height: 1; // shrink row heights in consolidated mode
       }
       td.summary {
