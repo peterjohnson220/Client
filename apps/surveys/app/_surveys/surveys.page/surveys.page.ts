@@ -124,7 +124,8 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.gridConfig = {
       PersistColumnWidth: false,
       EnableInfiniteScroll: true,
-      ScrollToTop: true
+      ScrollToTop: true,
+      SelectAllPanelItemName: 'jobs'
     };
     this.loading$ = this.store.select(fromPfDataGridReducer.getLoading, this.pageViewId);
     this.surveyDataFieldsModalOpen$ = this.store.select(fromSurveysPageReducer.getSurveyFieldsModalOpen);
