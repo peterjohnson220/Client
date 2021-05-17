@@ -1,11 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, combineLatest } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
-
-import { LegacyCompanySettingDto } from 'libs/models/company';
+import { SettingsService } from 'libs/state/app-context/services';
+import { CompanySettingsEnum } from 'libs/models/company';
 import { UserContext } from 'libs/models/security';
 
 declare var loadDrift: any;
@@ -17,25 +17,24 @@ declare var loadDrift: any;
 
 export class AppWrapperComponent implements OnInit, OnDestroy {
     userContext$: Observable<UserContext>;
-    legacyCompanySettings$: Observable<LegacyCompanySettingDto[]>;
-    userContextSubscription: Subscription;
+    enableLiveChat$: Observable<boolean>;
+    settingSubscription: Subscription;
 
-    constructor(private store: Store<fromRootState.State>) {
+    constructor(private store: Store<fromRootState.State>, private settingsService: SettingsService) {
         this.userContext$ = store.pipe(select(fromRootState.getUserContext));
-        this.legacyCompanySettings$ = store.pipe(select(fromRootState.getLegacyCompanySettings));
+        this.enableLiveChat$ = this.settingsService.selectLegacyCompanySetting<boolean>(CompanySettingsEnum.EnableLiveChat);
     }
 
     ngOnInit() {
-        this.userContextSubscription = this.userContext$.subscribe(userContext => {
-            this.legacyCompanySettings$.subscribe(companySettings => {
-                if (companySettings != null) {
-                    loadDrift(userContext.UserId, userContext.EmailAddress, userContext.Name, userContext.CompanyName);
-                }
-            });
+      this.settingSubscription = combineLatest(this.userContext$, this.enableLiveChat$, (userContext, enableLiveChat) => ({userContext, enableLiveChat}))
+        .subscribe(data => {
+          if (data.enableLiveChat) {
+            loadDrift(data.userContext.UserId, data.userContext.EmailAddress, data.userContext.Name, data.userContext.CompanyName);
+          }
         });
     }
 
     ngOnDestroy() {
-        this.userContextSubscription.unsubscribe();
+        this.settingSubscription.unsubscribe();
     }
 }
