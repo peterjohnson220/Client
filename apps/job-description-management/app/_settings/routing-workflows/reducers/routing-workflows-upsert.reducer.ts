@@ -1,7 +1,7 @@
 import cloneDeep from 'lodash/cloneDeep';
 import { Permissions } from 'libs/constants';
 
-import { WorkflowTemplate } from 'libs/features/jobs/job-description-management/models';
+import { WorkflowStep, WorkflowTemplate } from 'libs/features/jobs/job-description-management/models';
 import * as fromWorkflowUpsertActions from '../actions';
 
 
@@ -34,14 +34,14 @@ export function reducer(state = initialState, action: fromWorkflowUpsertActions.
   switch (action.type) {
     case fromWorkflowUpsertActions.BUILD_WORKFLOW_TEMPLATE_SAVE_OBJ: {
       const clonedTemplate = cloneDeep(state.template);
-      clonedTemplate.Steps.map(step => {
-          step.Permissions = step.Permissions.filter(p => p.selected).map(p => p.permission);
-          step.WorkflowStepUsers.map(wsu => {
-              wsu.Permissions = step.Permissions;
-              return wsu;
-          });
-          return step;
+
+      clonedTemplate.Steps.forEach((step: WorkflowStep) => {
+        step.WorkflowStepUsers.forEach((user) => {
+          user.Permissions = user.Permissions.filter(p => p.selected).map(p => p.permission);
+          delete user.StepId;
+        });
       });
+
       return {
         ...state,
         templateSaveObj: {

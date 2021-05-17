@@ -1,72 +1,149 @@
 @import 'libs/styles/dragula-drag-drop';
+@import 'colors';
 
-.text-right{
-  text-align: right;
-}
-
-.text-center{
-  text-align: center;
-}
-
-.workflow-step{
-  margin: 5px 0;
+.config-container {
+    background-color: $grey;
+    width: 100%;
+    height: 100%;
 }
 
-.permission-container, .action-container{
-  margin-top:5px;
-}
-.multiple-users-one-step{
-  margin-top:10px;
-}
-.multiple-users-one-step button{
-  width: 25px;
-  height: 25px;
+.row-container {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  align-content: center;
 }
 
-.truncate  {
- text-overflow: ellipsis;
- white-space: nowrap;
- overflow: hidden; 
+.plus-container {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  align-content: center;
 }
 
-.truncate:hover{
-  overflow: visible;
-  z-index: 100;
-  white-space: normal;
+.user-container {
+  flex: 0 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  align-content: center;
 }
 
-.delete-step-frame{
-  width: 40px;
-  margin-top: 5px;
+.avatar-chip {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  align-content: space-around;
 }
 
-.delete-step-container{
+.avatar {
+  border-radius: 50%;
+  width: 30px;
+  height: 30px; 
+}
+
+.user-name {
+  font-size: small;
+}
+
+.user-initials {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px; 
+  color: #fff;
+  background-color: $inactive-button-color;
+  font-size: large;
+  font-weight: 400;
+}
+
+.at-sign {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px; 
+  color: #fff;
+  background-color: $pf-secondary-border;
+  font-size: large;
+  font-weight: 400;
+}
+
+.remove-icon {
+  font-size: medium;
+}
+
+.remove-icon:hover {
+  cursor: pointer;
+}
+
+.badge {
+  color: #000;
+  background-color: $grey;
+}
+
+.badge-pill {
+  padding: 1em .6em;
+  border-radius: 10rem;
+  height: 3.25em;
+  max-width: 23rem;
+}
+
+.btn-accent-color {
+  color: #fff;
+  background-color: $pf-brand-secondary-accent-color;
+  border-color: $pf-brand-secondary-accent-color;
+}
+
+.btn-action {
+  background-color: $grey;
+  border-color: $grey;
+  width: 32px;
+  height: 32px;
+}
+
+.action-container {
+  flex: 0 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  align-content: center;
+}
+
+.permission-label {
+  color: $pf-brand-secondary-accent-color;
+  font-weight: 600;
+  font-size: medium;
+}
+
+.picker-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin-top: 6px;
+}
+
+.multiple-picker {
   width: 100%;
-}
-
-.delete-step-btn{
-  width: 25px;
-  height: 25px;
-}
-
-.invisible{
-  display: none;
-}
-
-.add-more-users-to-step{
-  padding-top: 3px;
-}
-
-.workflow-user-container{
-  padding-top: 5px;
+  max-width: 444px;
+  margin-right: 6px;
 }
 
 .workflow-user-forbidden {
   color: red;
-}
-
-.custom-control-label {
-  vertical-align: top;
 }
 
 .grabbable {
@@ -76,9 +153,12 @@
   cursor: -webkit-grab;
 }
 
-.workflow-user-count{
-  padding: 0px;
-  margin: 0px;
-  justify-content: center;
-  max-width: 5%;
+.non-users {
+  max-width: 510px;
+  margin-left: auto;
+}
+
+.k-checkbox:checked + .k-checkbox-label::before{
+  background-color:$pf-brand-secondary-accent-color;
+  border-color: $pf-brand-secondary-accent-color;
 }

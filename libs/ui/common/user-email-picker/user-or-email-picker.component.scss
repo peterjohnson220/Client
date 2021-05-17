@@ -1,5 +1,16 @@
+.form-group {
+    position: relative;
+}
+
 .picker-searching-icon {
     position: absolute;
-    top: 16px;
-    right: 15px;
+    right: 14px;
+    top: calc(22%);
+}
+
+.user-picture {
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    margin-right: 6px;
 }

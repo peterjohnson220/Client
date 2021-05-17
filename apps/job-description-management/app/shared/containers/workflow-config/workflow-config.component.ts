@@ -1,16 +1,18 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { DragulaService } from 'ng2-dragula';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 
 import * as fromRootState from 'libs/state/state';
 import { UserContext } from 'libs/models/security';
-
+import { Permissions } from 'libs/constants/permissions';
 import * as fromJDMSharedReduder from 'libs/features/jobs/job-description-management/reducers';
 import * as fromWorkflowConfigActions from 'libs/features/jobs/job-description-management/actions/workflow-config.actions';
-import { AddUserToWorkflowObj, WorkflowStep } from 'libs/features/jobs/job-description-management/models';
+import { AddUserToWorkflowObj, WorkflowStep, WorkflowUser } from 'libs/features/jobs/job-description-management/models';
+import { WorkflowConfigHelper } from 'libs/features/jobs/job-description-management';
 
 @Component({
   selector: 'pf-workflow-config',
@@ -19,30 +21,34 @@ import { AddUserToWorkflowObj, WorkflowStep } from 'libs/features/jobs/job-descr
 })
 export class WorkflowConfigComponent implements OnInit, OnDestroy {
   @Input() jobId: number;
+  @Output() onShowNameFormClicked = new EventEmitter<boolean>();
 
   hasForbiddenUsers$: Observable<boolean>;
   workflowSteps$: Observable<WorkflowStep[]>;
+  workflowUserOrEmail$: Observable<any>;
   identity$: Observable<UserContext>;
 
   hasForbiddenUsersSubscription: Subscription;
   workflowStepsSubscription: Subscription;
+  workflowUserOrEmailSubscription: Subscription;
   dragulaSub: Subscription;
   identitySubscription: Subscription;
 
-  workflowSteps: WorkflowStep[];
   addNonPfUserForm: FormGroup;
   addNonPfUserSameStepForm: FormGroup;
+  avatarUrl: string;
   currentEmail: string;
-  sameStepEmail: string;
-  showNameForm: boolean;
+  displayNameThreshold = 30;
   hasForbiddenUsers: boolean;
   nonPfUserFormSubmitted: boolean;
+  nonPfUserSameStepDuplicateEmail: boolean;
   nonPfUserSameStepFormSubmitted: boolean;
-  stepWithMultipleUsersBeingAdded: number;
-  stepAddingNonPfUsers: number;
   publisherName: string;
-  avatarUrl: string;
-  nonPfUserSameStepDuplicateEmail : boolean;
+  sameStepEmail: string;
+  showNameForm: boolean;
+  stepAddingNonPfUsers: number;
+  stepWithMultipleUsersBeingAdded: number;
+  workflowSteps: WorkflowStep[];
 
   constructor(
     private sharedJdmStore: Store<fromJDMSharedReduder.State>,
@@ -53,6 +59,7 @@ export class WorkflowConfigComponent implements OnInit, OnDestroy {
     this.initDragulaSub();
     this.hasForbiddenUsers$ = this.sharedJdmStore.select(fromJDMSharedReduder.getHasUsersWithoutPermission);
     this.workflowSteps$ = this.sharedJdmStore.select(fromJDMSharedReduder.getWorkflowStepsFromWorkflowConfig);
+    this.workflowUserOrEmail$ = this.sharedJdmStore.select(fromJDMSharedReduder.getWorkflowUserOrEmail);
     this.identity$ = this.userContextStore.select(fromRootState.getUserContext);
   }
 
@@ -64,6 +71,11 @@ export class WorkflowConfigComponent implements OnInit, OnDestroy {
     this.workflowStepsSubscription = this.workflowSteps$.subscribe(results => {
       this.workflowSteps = results;
       this.setPublisherName();
+    });
+    this.workflowUserOrEmailSubscription = this.workflowUserOrEmail$.subscribe(selection => {
+      if (selection) {
+        this.handlePickerSelection(selection);
+      }
     });
     this.identitySubscription = this.identity$.subscribe(i => {
       if (!!i) {
@@ -78,6 +90,7 @@ export class WorkflowConfigComponent implements OnInit, OnDestroy {
     this.hasForbiddenUsersSubscription.unsubscribe();
     this.workflowStepsSubscription.unsubscribe();
     this.identitySubscription.unsubscribe();
+    this.workflowUserOrEmailSubscription.unsubscribe();
   }
 
   nonPfUserFormSubmit(): void {
@@ -89,6 +102,7 @@ export class WorkflowConfigComponent implements OnInit, OnDestroy {
 
   cancelNonPfUserAdd(): void {
     this.showNameForm = false;
+    this.onShowNameFormClicked.emit(false);
     this.currentEmail = '';
   }
 
@@ -99,31 +113,45 @@ export class WorkflowConfigComponent implements OnInit, OnDestroy {
       EmailAddress: this.currentEmail,
       JobId: this.jobId,
       IsNonPfUser: true,
-      StepIndex: stepIndex
+      StepIndex: stepIndex,
+      Permissions: WorkflowConfigHelper.getDefaultPermissions()
     };
     this.showNameForm = false;
     this.sharedJdmStore.dispatch(new fromWorkflowConfigActions.AddNonPfUserToWorkflow(addUserToWorkflowObj));
   }
 
-  handlePickerSelection(selectedUser: any): void {
+  handlePickerSelection(selectedUser: WorkflowUser): void {
     if (!selectedUser.FirstName || !selectedUser.LastName) {
       this.addNonPfUserForm.reset();
       this.nonPfUserFormSubmitted = false;
       this.showNameForm = true;
       this.currentEmail = selectedUser.EmailAddress;
     } else {
-      this.sharedJdmStore.dispatch(new fromWorkflowConfigActions.CreateWorkflowStep(selectedUser));
+      const workflowUser: WorkflowUser = {
+        ...selectedUser,
+        Permissions: WorkflowConfigHelper.getDefaultPermissions()
+      };
+      this.onShowNameFormClicked.emit(false);
+      this.sharedJdmStore.dispatch(new fromWorkflowConfigActions.CreateWorkflowStep(workflowUser));
     }
+  }
+
+  handleRemoveClicked(user: WorkflowUser) {
+    this.sharedJdmStore.dispatch(new fromWorkflowConfigActions.DeleteUserOrEmail(user));
+  }
+
+  isUserImg(user: WorkflowUser) {
+    return user.UserPicture && user.UserPicture !== 'default_user.png';
   }
 
   addMultipleUsersToLevel(stepIndex: number): void {
     this.stepWithMultipleUsersBeingAdded = stepIndex;
   }
 
-  updateWorkflowStepPermission(stepIndex: number, permission: string, selected: boolean): void {
-    this.sharedJdmStore.dispatch(new fromWorkflowConfigActions.UpdateWorkflowStepPermission({
-      stepIndex, permission, selected
-    }));
+  updateWorkflowStepPermission(workflowUser: WorkflowUser, permission: string): void {
+    if (permission === Permissions.CAN_EDIT_JOB_DESCRIPTION) {
+      this.sharedJdmStore.dispatch(new fromWorkflowConfigActions.UpdateWorkflowStepPermission({workflowUser, permission}));
+    }
   }
 
   deleteWorkflowStep(stepIndex: number): void {
@@ -133,18 +161,22 @@ export class WorkflowConfigComponent implements OnInit, OnDestroy {
 
   handleMultipleUserPerLevelSelection(selectedUser: any, stepIndex: number): void {
     this.nonPfUserSameStepDuplicateEmail = false;
-    if(this.workflowSteps[stepIndex].WorkflowStepUsers.some(stepUser => stepUser.EmailAddress.toLowerCase() === selectedUser.EmailAddress.toLowerCase() )){
+    if (this.workflowSteps[stepIndex].WorkflowStepUsers.some(stepUser => stepUser.EmailAddress.toLowerCase() === selectedUser.EmailAddress.toLowerCase() )) {
       this.nonPfUserSameStepDuplicateEmail = true;
       return;
     }
-    
+
     if (!selectedUser.FirstName || !selectedUser.LastName) {
       this.addNonPfUserSameStepForm.reset();
       this.currentEmail = selectedUser.EmailAddress;
       this.resetMultiUserStepTracking();
       this.stepAddingNonPfUsers = stepIndex;
     } else {
-      this.sharedJdmStore.dispatch(new fromWorkflowConfigActions.AddUserToWorkflowStep({ stepIndex, workflowUser: selectedUser }));
+      const workflowUser: WorkflowUser = {
+        ...selectedUser,
+        Permissions: WorkflowConfigHelper.getDefaultPermissions()
+      };
+      this.sharedJdmStore.dispatch(new fromWorkflowConfigActions.AddUserToWorkflowStep({ stepIndex, workflowUser: workflowUser }));
       this.resetMultiUserStepTracking();
     }
   }
@@ -167,6 +199,28 @@ export class WorkflowConfigComponent implements OnInit, OnDestroy {
     this.nonPfUserSameStepDuplicateEmail = false;
     this.stepAddingNonPfUsers = null;
     this.sameStepEmail = '';
+  }
+
+  getUserInitials(user: WorkflowUser): string {
+    return `${user.FirstName.substring(0, 1)}${user.LastName.substring(0, 1)}`.toUpperCase();
+  }
+
+  getDisplayName(user: WorkflowUser): string {
+    return user.UserId ? `${user.FirstName} ${user.LastName}` : user.EmailAddress;
+  }
+
+  hideDisplayNameTooltip(ngbTooltip: NgbTooltip) {
+    if (ngbTooltip.isOpen()) {
+      ngbTooltip.close();
+    }
+  }
+
+  showDisplayNameTooltip(user: WorkflowUser, ngbTooltip: NgbTooltip) {
+    const displayName = this.getDisplayName(user);
+
+    if (displayName.trim().length > this.displayNameThreshold) {
+      ngbTooltip.open();
+    }
   }
 
   private initDragulaSub(): void {
@@ -222,7 +276,7 @@ export class WorkflowConfigComponent implements OnInit, OnDestroy {
   }
 
   private setPublisherName(): void {
-    if (this.workflowSteps.length === 0) {
+    if (this.workflowSteps.every(x => x.WorkflowStepUsers.length === 0)) {
       this.publisherName = '';
       return;
     }

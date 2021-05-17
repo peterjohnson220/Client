@@ -17,4 +17,5 @@ export enum GridTypeEnum {
   PeerManageCompanyJobs = 'PEER_MANAGE_COMPANY_JOBS',
   TotalRewardsStatements = 'TOTAL_REWARDS_STATEMENTS',
   TotalRewardsAssignedEmployees = 'TOTAL_REWARDS_ASSIGNED_EMPLOYEES',
+  JobDescriptionInbox = 'JOB_DESCRIPTION_INBOX'
 }
