@@ -26,3 +26,4 @@ export * from './template';
 export * from './template-preview';
 export * from './title-control';
 export * from './total-rewards-control-enum';
+export * from './statement-additional-page-settings';

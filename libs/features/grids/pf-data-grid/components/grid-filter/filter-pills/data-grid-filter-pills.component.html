@@ -4,21 +4,30 @@
       {{ lockedPillText }}
     </div>
     <ng-container *ngFor="let field of fields">
-      <ng-container *ngIf="isValueRequired(field) && field.FilterValues?.length > 0">
+
+      <ng-container *ngIf="isValueRequired(field) && field.FilterValues?.length > 0 && !isBetweenOperator(field.FilterOperator)">
         <ng-container
           *ngFor="let filterValue of field.FilterValues"
           [ngTemplateOutlet]="filterPill"
-          [ngTemplateOutletContext]="{field: field, filterValue: filterValue}">
+          [ngTemplateOutletContext]="{ field: field, filterValue: filterValue }">
         </ng-container>
       </ng-container>
+
+      <ng-container *ngIf="isValueRequired(field) && field.FilterValues?.length == 2 && isBetweenOperator(field.FilterOperator)">
+        <ng-container
+          [ngTemplateOutlet]="filterBetweenPill"
+          [ngTemplateOutletContext]="{ field: field, filterValues: field.FilterValues }">
+        </ng-container>
+      </ng-container>
+
       <ng-container *ngIf="!isValueRequired(field)">
         <ng-container
           [ngTemplateOutlet]="filterPill"
-          [ngTemplateOutletContext]="{field: field, filterValue: null}">
+          [ngTemplateOutletContext]="{ field: field, filterValue: null }">
         </ng-container>
       </ng-container>
     </ng-container>
-    
+
   </div>
   <div *ngIf="fields.length > 0">
     <button (click)="clearFilters()" class="btn btn-link py-0 pr-0">
@@ -28,8 +37,15 @@
 </div>
 
 <ng-template #filterPill let-field="field" let-filterValue="filterValue">
-  <div class="badge badge-pill" (click)="pillClicked(field, filterValue)">
-    {{ getPillDisplay(field, filterValue) }}
+  <div class="badge badge-pill" (click)="pillClicked(field, [filterValue])">
+    {{ getPillDisplay(field, [filterValue]) }}
+    <fa-icon icon="times" aria-hidden="true"></fa-icon>
+  </div>
+</ng-template>
+
+<ng-template #filterBetweenPill let-field="field" let-filterValues="filterValues">
+  <div class="badge badge-pill" (click)="pillClicked(field, filterValues)">
+    {{ getPillDisplay(field, filterValues) }}
     <fa-icon icon="times" aria-hidden="true"></fa-icon>
   </div>
 </ng-template>

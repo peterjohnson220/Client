@@ -24,16 +24,18 @@
     </div>
     <div class="row">
       <div class="col-sm-12">
-        <pf-hris-integration-status
+        <pf-hris-integration-status 
           [connectionSummary]="connectionSummary"
           (onCreateNewIntegrationClicked)="createNewIntegration()"
           (onContinueIntegrationSetupClicked)="continueIntegrationSetup()"
-          [transferMethod]="transferMethodType">
+          [transferMethod]="transferMethodType"
+          [hasSavedSchedules]="hasSavedExportSchedules">
         </pf-hris-integration-status>
       </div>
     </div>
     <div class="row">
       <div class="col-sm-12">
+        <pf-bulk-export-history-list *ngIf="hasSavedExportSchedules && transferMethodType === outboundJdm"></pf-bulk-export-history-list>
         <!-- do outbound one here -->
         <pf-transfer-schedule-summary *ngIf="transferMethodType === inbound"
           [validationMode]="connectionSummary?.validationMode">
@@ -42,7 +44,7 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-sm-12 text-right pt-3" *ngIf="connectionSummary?.hasConnection">
+      <div class="col-sm-12 text-right pt-3" *ngIf="connectionSummary?.hasConnection && transferMethodType === inbound">
         <div ngbDropdown class="d-inline-block">
           <button class="btn btn-outline-primary px-4" id="dropdownBasic1" ngbDropdownToggle><span class="mr-1">Edit</span></button>
           <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="dropdown-menu">
@@ -52,6 +54,11 @@
               {{transferMethodType === outboundJdm ? 'JDM View Selection' : 'Entity Selection'}}
             </button>
           </div>
+        </div>
+      </div>
+      <div class="col-sm-12 text-center" *ngIf="hasSavedExportSchedules && transferMethodType === outboundJdm">
+        <div ngbDropdown class="d-inline-block">
+          <button class="btn btn-primary px-4" (click)="createNewIntegration()">View All Schedules</button>
         </div>
       </div>
     </div>

@@ -41,6 +41,7 @@ import { StructuresPagesService, UrlService } from './services';
 import { AddJobsModalWrapperComponent } from './containers/add-jobs-modal-wrapper';
 import { ModelSettingsModalComponent } from './containers/model-settings-modal/model-settings-modal.component';
 import { RangeRoundingComponent } from './containers/range-rounding';
+import { PublishModelModalComponent } from './containers/publish-model-modal';
 
 
 @NgModule({
@@ -90,7 +91,8 @@ import { RangeRoundingComponent } from './containers/range-rounding';
     ModelSettingsBtnComponent,
     AddJobsModalWrapperComponent,
     ModelSettingsModalComponent,
-    RangeRoundingComponent
+    RangeRoundingComponent,
+    PublishModelModalComponent,
   ],
   exports: [
     FontAwesomeModule,
@@ -101,7 +103,8 @@ import { RangeRoundingComponent } from './containers/range-rounding';
     AddJobsModalWrapperComponent,
     RangeValuePipe,
     ModelSettingsModalComponent,
-    RangeRoundingComponent
+    RangeRoundingComponent,
+    PublishModelModalComponent,
   ],
   providers: [
     RangeGroupExistsGuard,

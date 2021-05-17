@@ -1,4 +1,4 @@
-import { Component, OnDestroy, ViewChildren, QueryList, Input, OnInit } from '@angular/core';
+import { Component, OnDestroy, ViewChildren, QueryList, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription, merge } from 'rxjs';
@@ -21,7 +21,7 @@ import { PayfactorsApiModelMapper } from '../../helpers';
   templateUrl: './jobs-to-grade-container.component.html',
   styleUrls: ['./jobs-to-grade-container.component.scss']
 })
-export class JobsToGradeContainerComponent implements OnDestroy, OnInit {
+export class JobsToGradeContainerComponent implements OnDestroy, OnChanges {
   @ViewChildren(JobToGradeComponent) jobsToGradeComponents !: QueryList<JobToGradeComponent>;
   @Input() gradeRangeGroupDetails: GradeRangeGroupDetails;
   @Input() rate: string;
@@ -146,17 +146,17 @@ export class JobsToGradeContainerComponent implements OnDestroy, OnInit {
     this.selectedJobsSubscription.unsubscribe();
   }
 
-  ngOnInit() {
-    this.store.dispatch(new fromJobsToGradeActions.GetGrades(this.gradeRangeGroupDetails));
-  }
-
-
-
   showJobsOnGrade(gradeId: number) {
     const gradeComponents = this.jobsToGradeComponents.toArray();
     const matchingComponent = gradeComponents.find(c => c.grade.CompanyStructuresGradesId === gradeId);
     if (matchingComponent) {
       matchingComponent.showJobsDisplay();
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (!!changes.gradeRangeGroupDetails && !!changes.gradeRangeGroupDetails.currentValue && !!changes.gradeRangeGroupDetails.currentValue.RangeGroupId) {
+      this.store.dispatch(new fromJobsToGradeActions.GetGrades(this.gradeRangeGroupDetails));
     }
   }
 }

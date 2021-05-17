@@ -21,6 +21,10 @@
 
       <ng-template ngbPanelContent>
         <div class="d-flex  flex-column">
+          <div class="row" *ngIf="existingSchedule.ReportType === reportType">
+            <div class="col-sm-12 col-md-3 pr-0 font-weight-bold">Report ID: </div>
+            <span class="col-sm-12 col-md-4">{{existingSchedule.Id}}</span>
+          </div>
           <div class="row">
             <div class="col-sm-12 col-md-3 pr-0 font-weight-bold">Last Sent: </div>
             <span class="col-sm-12 col-md-4" *ngIf="existingSchedule.PrevRunDate">{{existingSchedule.PrevRunDate | date : 'MM/dd/yyyy'}}</span>

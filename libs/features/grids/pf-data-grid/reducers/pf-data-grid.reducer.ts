@@ -10,10 +10,11 @@ import { groupBy, GroupResult, SortDescriptor } from '@progress/kendo-data-query
 
 import { arrayMoveMutate, arraySortByString, SortDirection } from 'libs/core/functions';
 import { DataViewConfig, DataViewEntity, DataViewType, PagingOptions, SimpleDataView, ViewField } from 'libs/models/payfactors-api';
+import { Between } from 'libs/ui/formula-editor/models';
 
 import * as fromPfGridActions from '../actions';
-import {PfDataGridFilter, GridConfig, ColumnReorder, PfDataGridCustomFilterOptions} from '../models';
-import { getDefaultFilterOperator, getSimpleDataViewDescription, getUserFilteredFields, getHumanizedFilter } from '../components';
+import { PfDataGridFilter, GridConfig, ColumnReorder, PfDataGridCustomFilterOptions } from '../models';
+import { getDefaultFilterOperator, getSimpleDataViewDescription, getUserFilteredFields } from '../components';
 
 export interface DataGridState {
   pageViewId: string;
@@ -245,9 +246,9 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
     case fromPfGridActions.LOAD_DATA:
     case fromPfGridActions.RELOAD_DATA:
 
-      const currentGridPagingOptions = cloneDeep(state.grids[action.pageViewId].pagingOptions);
+      const currentGridPagingOptions = cloneDeep(state.grids[action.pageViewId]?.pagingOptions);
 
-      const newPagingOptions = currentGridPagingOptions && !state.grids[action.pageViewId].gridConfig?.EnableInfiniteScroll
+      const newPagingOptions = currentGridPagingOptions && !state.grids[action.pageViewId]?.gridConfig?.EnableInfiniteScroll
         ? currentGridPagingOptions
         : DEFAULT_PAGING_OPTIONS;
 
@@ -351,7 +352,8 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
             selectedRecordId: null,
             selectedRow: null,
             expandedRows: [],
-            sortDescriptor: sortDescriptor
+            sortDescriptor: sortDescriptor,
+            viewIsSaving: true
           }
         }
       };
@@ -362,7 +364,8 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           ...state.grids,
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
-            lastUpdateFieldsDate: new Date()
+            lastUpdateFieldsDate: new Date(),
+            viewIsSaving: false
           }
         }
       };
@@ -548,9 +551,15 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
       clearedFilterField.FilterOperator = clearedFilterField && action.resetOperator
         ? getDefaultFilterOperator(clearedFilterField)
         : action.field.FilterOperator;
+
       clearedFilterField.FilterValues = !!action.filterValue && clearedFilterField?.FilterValues?.length > 1
         ? clearedFilterField.FilterValues.filter(option => option !== action.filterValue)
         : null;
+
+      // For Between operator we need to remove two values => assign NULL
+      if (clearedFilterField.FilterOperator === Between.Value) {
+        clearedFilterField.FilterValues = null;
+      }
 
       let clearFilterSplitViewFilters: PfDataGridFilter[] = cloneDeep(state.grids[action.pageViewId].splitViewFilters);
       if (clearedFilterField.FilterValues === null) {

@@ -27,6 +27,7 @@ import { GradeBasedVerticalRangeChartComponent } from './containers/grade-based-
 import { reducers } from './reducers';
 
 import {
+  PublishModelModalEffects,
   SharedEffects, SwitchRegressionFlagsModalEffects
 } from './effects';
 import { ModelSettingsModalContentComponent } from './containers/model-settings-modal-content/model-settings-modal-content.component';
@@ -42,7 +43,8 @@ import { SwitchRegressionFlagsModalComponent } from './containers';
     StoreModule.forFeature('structures_gradeBasedRange_shared', reducers),
     EffectsModule.forFeature([
       SharedEffects,
-      SwitchRegressionFlagsModalEffects
+      SwitchRegressionFlagsModalEffects,
+      PublishModelModalEffects
     ]),
     NgbCollapseModule,
     FontAwesomeModule,

@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { BulkExportSchedule, JobDescriptionViewModel } from 'libs/models/jdm';
+import { ExportReportType } from 'libs/constants';
 
 import * as fromJdmAdminReducer from '../../reducers';
 import * as fromJdmBulkExportScheduleActions from '../../actions/bulk-export-schedule.actions';
@@ -23,6 +24,7 @@ export class BulkExportSchedulesListComponent {
   occurence: string[] = [ 'First', 'Second', 'Third', 'Fourth' ];
   showBulkScheduleDeleteModal$: Observable<boolean>;
   filename: string;
+  reportType: string = ExportReportType.HrisOutboundJobs;
 
   constructor(private store: Store<fromJdmAdminReducer.State>) {
     this.showBulkScheduleDeleteModal$ = this.store.select(fromJdmAdminReducer.getBulkScheduleDeleteModalOpen);

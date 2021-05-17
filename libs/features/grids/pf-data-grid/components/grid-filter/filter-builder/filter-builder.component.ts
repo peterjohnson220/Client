@@ -5,6 +5,7 @@ import { IntlService } from '@progress/kendo-angular-intl';
 import { NumericTextBoxComponent } from '@progress/kendo-angular-inputs';
 
 import { DataViewFieldDataType, ViewField } from 'libs/models/payfactors-api';
+import { Between } from 'libs/ui/formula-editor/models';
 
 import { FilterOperator, FilterOperatorOptions } from '../helpers';
 
@@ -53,9 +54,15 @@ export class FilterBuilderComponent implements OnChanges {
   handleFilterOperatorChanged(event) {
     this.field = cloneDeep(this.field);
 
+    // If operator changed from Between then we need to remove second value
+    if (this.field.FilterOperator === Between.Value && this.field.FilterValues?.length === 2) {
+      this.field.FilterValues.splice(1);
+    }
+
     this.field.FilterOperator = event;
 
-    if (this.valueCanBeEmpty() || (this.field.FilterValues?.length > 0)) {
+    // We want to emit for Between operator only when both values are presented
+    if (this.valueCanBeEmpty() || this.filterValueValid()) {
       this.filterChanged.emit(this.field);
     }
   }
@@ -76,6 +83,25 @@ export class FilterBuilderComponent implements OnChanges {
     this.filterChanged.emit(this.field);
   }
 
+  // For Between operator we need to process differently
+  handleFilterBetweenValueChanged(event: any, index: number) {
+    if (event === null) {
+      this.field.FilterValues[index] = null;
+      if (this.field.FilterValues.every(element => element === null)) {
+        this.field.FilterValues = null;
+      }
+    } else {
+      if (this.field.FilterValues == null) {
+        this.field.FilterValues = [null, null];
+      }
+      this.field.FilterValues[index] = event.toString();
+    }
+
+    if (this.field.FilterValues == null || this.filterValueValid()) {
+      this.filterChanged.emit(this.field);
+    }
+  }
+
   handleTextInputValueChanged(event: string): void {
     this.field.FilterValues = !!event && event.trim().length > 0 ? [event] : null;
     this.filterChanged.emit(this.field);
@@ -86,8 +112,8 @@ export class FilterBuilderComponent implements OnChanges {
     this.filterChanged.emit(this.field);
   }
 
-  getNumericFieldValue(): number {
-    const filterValue = !!this.field?.FilterValues ? this.field.FilterValues[0] : null;
+  getNumericFieldValue(index: number = 0): number {
+    const filterValue = !!this.field?.FilterValues && this.field.FilterValues.length > index ? this.field.FilterValues[index] : null;
     return filterValue ? this.checkForIntMax(+filterValue) : null;
   }
 
@@ -113,4 +139,12 @@ export class FilterBuilderComponent implements OnChanges {
     return value;
   }
 
+  private isBetweenOperator(operator: string) {
+    return operator === Between.Value;
+  }
+
+  private filterValueValid() {
+    return (this.field.FilterOperator !== Between.Value && this.field.FilterValues?.length > 0)
+      || (this.field.FilterOperator === Between.Value && this.field.FilterValues?.length === 2 && this.field.FilterValues?.every(element => element !== null));
+  }
 }

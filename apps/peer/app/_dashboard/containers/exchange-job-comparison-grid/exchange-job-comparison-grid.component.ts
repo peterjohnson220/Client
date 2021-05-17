@@ -18,6 +18,8 @@ import * as fromGridActions from 'libs/core/actions/grid.actions';
 import * as fromRootState from 'libs/state/state';
 import { SettingsService } from 'libs/state/app-context/services';
 import { Rates, RateType, Weights, WeightType } from 'libs/data/data-sets';
+import { PermissionCheckEnum, Permissions } from 'libs/constants/permissions';
+import { PermissionService } from 'libs/core/services';
 
 import * as fromExchangeJobComparisonGridActions from '../../actions/exchange-job-comparison-grid.actions';
 import * as fromExchangeDashboardActions from '../../actions/exchange-dashboard.actions';
@@ -54,10 +56,13 @@ export class ExchangeJobComparisonGridComponent implements OnInit, OnDestroy {
   weights: KendoDropDownItem[] = Weights;
   selectedRate: KendoDropDownItem = { Name: RateType.Annual, Value: RateType.Annual };
   selectedWeight: KendoDropDownItem = { Name: WeightType.Inc, Value: WeightType.Inc };
+  displayCompanyBaseAverage: boolean;
+  permissions = Permissions;
 
   constructor(
     private store: Store<fromDashboardReducer.State>,
-    private settingsService: SettingsService
+    private settingsService: SettingsService,
+    private permissionService: PermissionService
   ) {
     this.loadingExchangeJobComparisons$ = this.store.pipe(select(fromDashboardReducer.getExchangeJobComparisonsLoading));
     this.loadingExchangeJobComparisonsError$ = this.store.pipe(select(fromDashboardReducer.getExchangeJobComparisonsLoadingError));
@@ -80,6 +85,8 @@ export class ExchangeJobComparisonGridComponent implements OnInit, OnDestroy {
       UiPersistenceSettingConstants.ComparisonWeightSelection,
       'string'
     );
+    this.displayCompanyBaseAverage = this.permissionService.CheckPermission([Permissions.PEER_DISPLAY_COMPANY_BASE_AVERAGE],
+      PermissionCheckEnum.Single);
   }
 
   get isAnnualRate(): boolean {

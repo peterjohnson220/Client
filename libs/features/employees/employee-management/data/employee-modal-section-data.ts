@@ -5,7 +5,7 @@ export const sectionFieldsMap: Record<string, EmployeeModalSectionModel> = {
   'EmployeeInformationSection' :
     {
       sectionEnum : EmployeeModalSectionEnum.EmployeeInformationSection,
-      fieldNames : ['EmployeeId', 'FirstName', 'LastName', 'EmailAddress', 'City', 'State', 'Zip', 'Country', 'DOB'],
+      fieldNames : ['EmployeeId', 'FirstName', 'LastName', 'EmailAddress', 'City', 'State', 'Zip', 'Country', 'DOB', 'EthnicityPF'],
       employeeValidationFields : ['EmployeeId']
     },
   'JobInformationSection' :

@@ -50,4 +50,10 @@ export class SurveyApiService {
   getScopesBySurvey(surveyId: number): Observable<CombinedScopeViewModel[]> {
     return this.payfactorsApiService.get<CombinedScopeViewModel[]>(`${this.endpoint}(${surveyId})/Default.GetScopesBySurvey`);
   }
+
+  getSurveyParticipants(surveyId: number): Observable<string[]> {
+    return this.payfactorsApiService.get<string[]>(`${this.endpoint}/Default.GetSurveyParticipants`, {
+      params: { surveyId: surveyId }
+    });
+  }
 }

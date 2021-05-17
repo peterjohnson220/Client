@@ -17,7 +17,7 @@ import { GridDataHelper } from 'libs/features/grids/pf-data-grid/helpers';
 import * as fromActions from 'libs/features/grids/pf-data-grid/actions';
 import { ViewField } from 'libs/models/payfactors-api/reports/request';
 
-import * as fromPublishModelModalActions from '../actions/publish-model-modal.actions';
+import * as fromPublishModelModalActions from '../../../shared/actions/publish-model-modal.actions';
 import * as fromSharedReducer from '../reducers';
 import * as fromSharedStructuresReducer from '../../../shared/reducers';
 import * as fromSharedStructuresActions from '../../../shared/actions/shared.actions';
