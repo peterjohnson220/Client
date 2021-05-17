@@ -5,6 +5,7 @@ import { GridDataResult } from '@progress/kendo-angular-grid';
 import { ListAreaColumn } from 'libs/models/common';
 
 import * as fromJobDescriptionGridActions from '../actions/job-description-grid.actions';
+import { CompanyJobViewListItem } from '../models';
 
 export interface State {
   gridDataResult: GridDataResult;
@@ -18,6 +19,7 @@ export interface State {
   savingListAreaColumnsError: boolean;
   savingListAreaColumnsSuccess: boolean;
   searchTerm: string;
+  selectedJobDescriptions: Map<number, number>;
 }
 
 export const initialState: State = {
@@ -31,7 +33,8 @@ export const initialState: State = {
   savingListAreaColumns: false,
   savingListAreaColumnsError: false,
   savingListAreaColumnsSuccess: false,
-  searchTerm: ''
+  searchTerm: '',
+  selectedJobDescriptions: new Map<number, number>()
 };
 
 export function reducer(state = initialState, action: fromJobDescriptionGridActions.Actions): State {
@@ -127,6 +130,13 @@ export function reducer(state = initialState, action: fromJobDescriptionGridActi
         ...state,
         gridDataResult: clonedGridDataResult
       };
+      case fromJobDescriptionGridActions.SELECT_JOB_DESCRIPTIONS: {
+        return {
+          ...state,
+          selectedJobDescriptions: action.payload
+        };
+      }
+
     default:
       return state;
   }
@@ -141,3 +151,4 @@ export const getListAreaColumnsSaving = (state: State) => state.savingListAreaCo
 export const getListAreaColumnsSavingError = (state: State) => state.savingListAreaColumnsError;
 export const getListAreaColumnsSavingSuccess = (state: State) => state.savingListAreaColumnsSuccess;
 export const getSearchTerm = (state: State) => state.searchTerm;
+export const getSelectedJobDescriptions = (state: State) => state.selectedJobDescriptions;

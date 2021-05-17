@@ -7,6 +7,8 @@ import { faInfoCircle } from '@fortawesome/pro-solid-svg-icons/faInfoCircle';
 import { faExclamationTriangle } from '@fortawesome/pro-solid-svg-icons/faExclamationTriangle';
 import { faExclamationCircle } from '@fortawesome/pro-solid-svg-icons/faExclamationCircle';
 import { faCaretDown } from '@fortawesome/pro-solid-svg-icons/faCaretDown';
+import { faCircle } from '@fortawesome/pro-solid-svg-icons/faCircle';
+import { faEnvelopeOpen } from '@fortawesome/pro-solid-svg-icons/faEnvelopeOpen';
 
 import { faExclamationTriangle as farExclamationTriangle } from '@fortawesome/pro-regular-svg-icons/faExclamationTriangle';
 import { faCheckCircle } from '@fortawesome/pro-regular-svg-icons/faCheckCircle';
@@ -18,4 +20,4 @@ import { faBan } from '@fortawesome/pro-light-svg-icons/faBan';
 import { faExclamationCircle as falExclamationCircle } from '@fortawesome/pro-light-svg-icons/faExclamationCircle';
 
 export const faIcons = [faTimes, faAngleDown, faSearch, faCircleNotch, faLongArrowAltLeft, faInfoCircle, faExclamationTriangle,
-  faExclamationCircle, farExclamationTriangle, faCheckCircle, faTable, faCaretDown, farTimes, faFrown, faBan, falExclamationCircle];
+  faExclamationCircle, farExclamationTriangle, faCheckCircle, faTable, faCaretDown, faCircle, faEnvelopeOpen, farTimes, faFrown, faBan, falExclamationCircle];

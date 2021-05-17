@@ -3,6 +3,9 @@ import { createSelector, createFeatureSelector } from '@ngrx/store';
 // Import root app reducer
 import * as fromRoot from 'libs/state/state';
 
+import * as fromGridReducer from 'libs/core/reducers/grid.reducer';
+import { IFeatureGridState } from 'libs/core/reducers/grid.reducer';
+
 // Import feature reducers
 import * as fromAddJobModalReducer from './add-job-modal.reducer';
 import * as fromBulkExportPopoverReducer from './bulk-export-popover.reducer';
@@ -22,6 +25,7 @@ import * as fromCopyJobDescriptionModalReducer from './copy-job-description-moda
 import * as fromJobDescriptionListReducer from './job-description-list.reducer';
 import * as fromWorkflowSetupModalReducer from './workflow-setup-modal.reducer';
 import * as fromJobDescriptionWorkflowCompareReducer from './job-description-workflow-compare.reducer';
+import * as fromJobDescriptionInboxReducer from './job-description-inbox.reducer';
 
 // Feature area state
 export interface JobDescriptionManagementJobDescriptionState {
@@ -43,6 +47,7 @@ export interface JobDescriptionManagementJobDescriptionState {
   copyJobDescriptionModal: fromCopyJobDescriptionModalReducer.State;
   jobDescriptionList: fromJobDescriptionListReducer.State;
   workflowSetupModal: fromWorkflowSetupModalReducer.State;
+  inbox: IFeatureGridState<fromJobDescriptionInboxReducer.State>;
 }
 
 // Extend root state with feature area state
@@ -69,7 +74,8 @@ export const reducers = {
   copyJobDescriptionModal: fromCopyJobDescriptionModalReducer.reducer,
   jobDescriptionList: fromJobDescriptionListReducer.reducer,
   workflowSetupModal: fromWorkflowSetupModalReducer.reducer,
-  jobDescriptionWorkflowCompare: fromJobDescriptionWorkflowCompareReducer.reducer
+  jobDescriptionWorkflowCompare: fromJobDescriptionWorkflowCompareReducer.reducer,
+  inbox: fromJobDescriptionInboxReducer.reducer
 };
 
 // Select Feature Area
@@ -165,6 +171,11 @@ export const selectJobDescriptionListState = createSelector(
 export const selectWorkflowSetupModalState = createSelector(
   selectFeatureAreaState,
   (state: JobDescriptionManagementJobDescriptionState) => state.workflowSetupModal
+);
+
+export const selectInboxState = createSelector(
+  selectFeatureAreaState,
+  (state: JobDescriptionManagementJobDescriptionState) => state.inbox
 );
 
 // Add Job Modal
@@ -468,6 +479,11 @@ export const getSearchTerm = createSelector(
   fromJobDescriptionGridReducer.getSearchTerm
 );
 
+export const getSelectedJobDescriptions = createSelector(
+  selectJobDescriptionGridState,
+  fromJobDescriptionGridReducer.getSelectedJobDescriptions
+);
+
 // Job Description History List
 export const getJobDescriptionHistoryList = createSelector(
   selectJobDescriptionHistoryListState,
@@ -653,6 +669,16 @@ export const getWorkflowStepRejecting = createSelector(
   fromWorkflowReducer.getWorkflowStepRejecting
 );
 
+export const getWorkflowStepInfo = createSelector(
+  selectWorkflowState,
+  fromWorkflowReducer.getWorkflowStepInfo
+);
+
+export const getInSystemWorkflowStepCompletionModalOpen = createSelector(
+  selectWorkflowState,
+  fromWorkflowReducer.getInSystemWorkflowStepCompletionModalOpen
+);
+
 // Workflow Step Summary
 export const getWorkflowStepSummaryAsync = createSelector(
   selectWorkflowState,
@@ -785,4 +811,88 @@ export const getCompareListLoading = createSelector(
 export const getCompareListError = createSelector(
   selectJobDescriptionWorkflowCompareState,
   fromJobDescriptionWorkflowCompareReducer.getCompareListError
+);
+
+// Inbox
+export const getInboxGrid = createSelector(
+  selectInboxState,
+  (state: IFeatureGridState<fromJobDescriptionInboxReducer.State>) => state.grid);
+
+export const getInboxFeature = createSelector(
+  selectInboxState,
+  (state: IFeatureGridState<fromJobDescriptionInboxReducer.State>) => state.feature);
+
+export const getInboxLoading = createSelector(
+  getInboxFeature,
+  fromJobDescriptionInboxReducer.getInboxLoading);
+
+export const getInboxLoadingError = createSelector(
+  getInboxFeature,
+  fromJobDescriptionInboxReducer.getInboxLoadingError);
+
+export const getMarkReadSaving = createSelector(
+  getInboxFeature,
+  fromJobDescriptionInboxReducer.getMarkReadSaving);
+
+export const getMarkUnreadSaving = createSelector(
+  getInboxFeature,
+  fromJobDescriptionInboxReducer.getMarkUnreadSaving);
+
+export const getUnreadInboxCount = createSelector(
+  getInboxFeature,
+  fromJobDescriptionInboxReducer.getUnreadInboxCount);
+
+export const getUnreadInboxCountError = createSelector(
+  getInboxFeature,
+  fromJobDescriptionInboxReducer.getUnreadInboxCountError);
+
+export const getInboxSearchTerm = createSelector(
+  getInboxFeature,
+  fromJobDescriptionInboxReducer.getSearchTerm);
+
+export const getInboxSelectAllPages = createSelector(
+  getInboxFeature,
+  fromJobDescriptionInboxReducer.getInboxSelectAllPages);
+
+export const getSelectAllStatus = createSelector(
+  getInboxFeature,
+  fromJobDescriptionInboxReducer.getSelectAllStatus);
+
+export const getSelectedIds = createSelector(
+  getInboxFeature,
+  fromJobDescriptionInboxReducer.getSelectedIds);
+
+export const getInboxGridState = createSelector(
+  getInboxGrid,
+  fromGridReducer.getGridState);
+
+export const { selectAll: getInbox } = fromJobDescriptionInboxReducer.adapter.getSelectors(getInboxFeature);
+
+export const getInboxCount = createSelector(
+  getInboxFeature,
+  fromJobDescriptionInboxReducer.getInboxCount);
+
+export const getInboxGridData = createSelector(
+  getInbox,
+  getInboxCount,
+  (data, total) => ({ data, total })
+);
+
+export const getPageLength = createSelector(
+  getInbox,
+  (data) => (data.length)
+);
+
+export const getInboxInfoAlertFormat = createSelector(
+  getInbox,
+  getSelectedIds,
+  getInboxSelectAllPages,
+  getInboxCount,
+  (inbox, ids, selectAll, inboxCount) => {
+    if (inbox.every(x => ids.has(x.CompanyWorkflowStepUserId)) && !selectAll && inboxCount !== ids.size) {
+      return 'show-option';
+    } else if (selectAll || inboxCount === ids.size) {
+      return 'show-total';
+    }
+  }
 );

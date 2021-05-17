@@ -9,9 +9,18 @@ export class JwtQueryStringAuthInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const jwtToken = this.getParameterByName('jwt', window.location.href);
+    const jwtWorkflowToken = this.getParameterByName('jwt-workflow', window.location.href);
+
     if (jwtToken) {
       const authRequest = req.clone({
         headers: req.headers.set('Authorization', 'Bearer ' + jwtToken)
+      });
+      return next.handle(authRequest);
+    }
+
+    if (jwtWorkflowToken) {
+      const authRequest = req.clone({
+        headers: req.headers.set('jwt-workflow', jwtWorkflowToken)
       });
       return next.handle(authRequest);
     }

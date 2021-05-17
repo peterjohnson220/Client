@@ -4,13 +4,13 @@ import { Observable } from 'rxjs';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 import { JobDescriptionViewModel, ValidateStepResultItem, JobDescriptionViewListGridItem } from '../../../models/jdm';
-import { ControlLabelResponse } from '../../../models/payfactors-api/job-description-management/response';
+import { ControlLabelResponse, JobDescriptionInboxResponse } from '../../../models/payfactors-api/job-description-management/response';
 import {
   JobDescriptionValidationRequest
 } from 'apps/pf-admin/app/_utilities/models/requests/job-description-validation-request.model';
 import { LoadJobDescriptionRequest } from 'apps/pf-admin/app/_utilities/models/requests/job-description-load-request.model';
 import { LibrarySearchRequest, JobDescriptionLibraryResult, JobDescriptionLibraryBucket } from 'libs/features/jobs/job-description-management/models';
-import { UpdateViewsRequest } from '../../../models/payfactors-api/job-description-management/request';
+import { JobDescriptionInboxRequest, UpdateViewsRequest } from '../../../models/payfactors-api/job-description-management/request';
 import { JobDescriptionViewApi } from '../../../models/payfactors-api/job-description-management/shared';
 import { ControlType } from 'libs/models';
 
@@ -158,5 +158,24 @@ export class JobDescriptionManagementApiService {
     return this.payfactorsApiService
     .get(`${this.endpoint}.GetCompanyControlByTypeAndVersion?type=${encodeURIComponent(type)}&version=${version}`,
       {}, (response) => JSON.parse(response.value));
+  }
+
+  getUserInbox(searchRequest: JobDescriptionInboxRequest): Observable<JobDescriptionInboxResponse> {
+    return this.payfactorsApiService.post<JobDescriptionInboxResponse>(`${this.endpoint}.GetUserInbox`, searchRequest);
+  }
+
+  getUnreadInboxCount(): Observable<number> {
+    return this.payfactorsApiService.get<number>(`${this.endpoint}.GetUnreadInboxCount`);
+  }
+
+  updateCompanyWorkflowStepUsersIsReadById(isRead: boolean, companyWorkflowStepUserIds: number[]) {
+    return this.payfactorsApiService.post(`${this.endpoint}.UpdateCompanyWorkflowStepUsersIsReadById`, {
+      IsRead: isRead,
+      CompanyWorkflowStepUserIds: companyWorkflowStepUserIds
+    });
+  }
+
+  updateCompanyWorkflowStepUsersIsReadAll(isRead: boolean) {
+    return this.payfactorsApiService.post(`${this.endpoint}.UpdateCompanyWorkflowStepUsersIsReadAll`, {IsRead: isRead});
   }
 }

@@ -1,0 +1,40 @@
+@import '_colors';
+
+.btn-icon-stack {
+  transition: 0.3s;
+}
+
+.btn-icon-outline {
+  opacity: 0.0;
+  color: $icon-hover-background; 
+  transition: 0.3s;
+}
+
+.btn-icon-stack:hover > .btn-icon-outline { 
+  opacity: 0.2; 
+  cursor: pointer;
+}
+
+.btn-icon-stack:hover > .btn-icon {
+  opacity: 0.8; 
+  cursor: pointer;
+}
+
+@media all and (-ms-high-contrast:none)
+{
+  /* IE10 */
+  .btn-icon-outline { 
+    color: transparent; 
+  } 
+
+  /* IE11 */
+  *::-ms-backdrop, .btn-icon-outline { 
+    color: transparent;
+  } 
+}
+
+@supports (-ms-ime-align:auto) { 
+  .btn-icon-outline { 
+    color: transparent;
+  } 
+}
