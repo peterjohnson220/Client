@@ -7,7 +7,7 @@
     </colgroup>
     <thead>
       <tr class="trs-calculation-row w-100">
-        <th class="font-weight-normal" scope="col">
+        <th class="font-weight-normal pr-0" scope="col">
           <h4 *ngIf="controlData.ShowTitle" class="primary-control-heading mb-1">
             <pf-string-editor
               [value]="controlData.Title.Override"
@@ -21,10 +21,10 @@
           </h4>
         </th>
         <th *ngIf="showSecondaryHeader && showEmployeeContributions" scope="col"
-            class="secondary-header align-middle text-right font-weight-normal">
+            class="secondary-header align-middle text-right font-weight-normal mb-1">
           <span>Employee</span>
         </th>
-        <th *ngIf="showSecondaryHeader" scope="col" class="secondary-header align-middle text-right font-weight-normal">
+        <th *ngIf="showSecondaryHeader" scope="col" class="secondary-header align-middle text-right font-weight-normal mb-1">
           <span *ngIf="controlData.ShowTitle && !showEmployeeContributions">Contribution</span>
           <span *ngIf="showEmployeeContributions">Company</span>
         </th>
