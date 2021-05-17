@@ -9,6 +9,7 @@ import * as fromRootState from 'libs/state/state';
 import {
   CompanySetting,
   CompanySettingsEnum,
+  LegacyCompanySettingDto,
   GenericNameValueDto,
   UiPersistenceFeatureSettingsModel
 } from 'libs/models';
@@ -18,12 +19,16 @@ import * as fromUiPersistenceSettingsActions from '../actions/ui-persistence-set
 export class SettingsService {
   companySettings$: Observable<CompanySetting[]>;
   companySettingsLoading$: Observable<boolean>;
+  legacyCompanySettings$: Observable<LegacyCompanySettingDto[]>;
+  legacyCompanySettingsLoading$: Observable<boolean>;
   uiPersistenceSettings$: Observable<UiPersistenceFeatureSettingsModel[]>;
   uiPersistenceSettingsLoading$: Observable<boolean>;
 
   constructor(private store: Store<fromRootState.State>) {
     this.companySettings$ = this.store.pipe(select(fromRootState.getCompanySettings));
     this.companySettingsLoading$ = this.store.pipe(select(fromRootState.getCompanySettingsLoading));
+    this.legacyCompanySettings$ = this.store.pipe(select(fromRootState.getLegacyCompanySettings));
+    this.legacyCompanySettingsLoading$ = this.store.pipe(select(fromRootState.getGettingLegacyCompanySettings));
     this.uiPersistenceSettings$ = this.store.pipe(select(fromRootState.getUiPersistenceSettings));
     this.uiPersistenceSettingsLoading$ = this.store.pipe(select(fromRootState.getUiPersistenceSettingsLoading));
   }
@@ -113,6 +118,26 @@ export class SettingsService {
         }
 
         return this.getSettingValue<TValueType>(setting.Value, type);
+      })
+    );
+  }
+
+  selectLegacyCompanySetting<TValueType>(
+    companySettingEnum: CompanySettingsEnum,
+    type: 'boolean'|'number'|'string' = 'boolean'
+  ): Observable<TValueType> {
+    return combineLatest([this.legacyCompanySettings$, this.legacyCompanySettingsLoading$]).pipe(
+      filter(([settings, loading]) => !loading),
+      map(([settings, loading]) => {
+        if (!settings) {
+          return null;
+        }
+        const setting = settings.find(cs => cs.Name === companySettingEnum);
+        if (!setting) {
+          return null;
+        }
+
+        return this.getSettingValue<TValueType>(setting.Value.toLowerCase(), type);
       })
     );
   }
