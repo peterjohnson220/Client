@@ -2,10 +2,11 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, OnChan
 import { CurrencyPipe } from '@angular/common';
 
 import cloneDeep from 'lodash/cloneDeep';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { DragulaService } from 'ng2-dragula';
 
 import { EmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards';
+import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core';
 
 import * as models from '../../models';
 import { TotalRewardsStatementService } from '../../services/total-rewards-statement.service';
@@ -46,7 +47,13 @@ export class TrsCalculationControlComponent implements OnChanges, OnDestroy, OnI
   dragulaGroupName: string;
   dragulaSubscription$ = new Subscription();
 
-  constructor(public currencyPipe: CurrencyPipe, private dragulaService: DragulaService) {}
+  // launchDarkly properties
+  totalRewardsRadialTextCountersFeatureFlag: RealTimeFlag = { key: FeatureFlags.TotalRewardsRadialTextCounters, value: false };
+  unsubscribe$ = new Subject<void>();
+
+  constructor(public currencyPipe: CurrencyPipe, private dragulaService: DragulaService, private featureFlagService: AbstractFeatureFlagService) {
+    this.featureFlagService.bindEnabled(this.totalRewardsRadialTextCountersFeatureFlag, this.unsubscribe$);
+  }
 
   ngOnInit(): void {
     if (this.controlData) {
@@ -57,6 +64,7 @@ export class TrsCalculationControlComponent implements OnChanges, OnDestroy, OnI
 
   ngOnDestroy() {
     this.dragulaSubscription$.unsubscribe();
+    this.unsubscribe$.next();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -93,6 +101,10 @@ export class TrsCalculationControlComponent implements OnChanges, OnDestroy, OnI
     } else {
       return '';
     }
+  }
+
+  get maxCharacterCount(): number {
+    return this.totalRewardsRadialTextCountersFeatureFlag.value ? 60 : 30;
   }
 
   removeField(field: models.CompensationField) {

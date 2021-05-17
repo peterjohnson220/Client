@@ -12,7 +12,7 @@
             <pf-string-editor
               [value]="controlData.Title.Override"
               [placeholder]="controlData.Title.Default"
-              [maxCharacters]="60"
+              [maxCharacters]="maxCharacterCount"
               [inEditMode]="inEditMode"
               [showRadialTextCounter]="true"
               [showTextCounterTooltip]="false"
@@ -37,7 +37,7 @@
           <pf-string-editor
             [value]="listItem.Name.Override"
             [placeholder]="listItem.Name.Default"
-            [maxCharacters]="60"
+            [maxCharacters]="maxCharacterCount"
             [inEditMode]="inEditMode"
             [showRadialTextCounter]="true"
             [showTextCounterTooltip]="false"
@@ -63,7 +63,7 @@
           <pf-string-editor
             [value]="controlData.Summary.Override"
             [placeholder]="controlData.Summary.Default"
-            [maxCharacters]="60"
+            [maxCharacters]="maxCharacterCount"
             [inEditMode]="inEditMode"
             [showRadialTextCounter]="true"
             [showTextCounterTooltip]="false"
