@@ -4,6 +4,8 @@
   [title]="'Surveys'"
   [defaultSort]="defaultSort"
   [actionBarConfig]="actionBarConfig"
+  [enableSelection]="true"
+  [selectionFieldExistsOnBase]="false"
   [gridConfig]="gridConfig"
   [useReportingDB]="true"
   [pageable]="!gridConfig.EnableInfiniteScroll"
@@ -11,7 +13,7 @@
   [customFilterOptions]="customFilterOptions"
   [inboundFilters]="inboundFilters"
   [expandedRowTemplate]="expandRow"
-  [selectionField]="'Survey_Job_ID'"
+  [selectionField]="'SurveyJob_Survey_Job_ID'"
   [enableRowFade]="true">
 </pf-data-grid>
 
