@@ -94,6 +94,9 @@ export class GradeBasedVerticalRangeChartComponent implements OnInit, OnDestroy,
 
     this.gradeRangeDetailsSubscription = this.store.select(fromSharedStructuresReducer.getGradeRangeDetails).subscribe(details => {
       this.gradeRangeDetails = details;
+      if (this.gradeRangeData && this.rate && this.currency && this.gradeRangeDetails.obj) {
+        this.processChartData();
+      }
     });
 
     this.pageViewIdSubscription = this.structuresPagesService.modelPageViewId.subscribe(pv => this.pageViewId = pv);
