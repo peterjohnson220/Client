@@ -1,7 +1,7 @@
-import { Component, Input,  } from '@angular/core';
+import { Component, Input, OnDestroy, } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 import * as fromSearchReducer from 'libs/features/search/search/reducers';
 import { JobResult } from 'libs/features/jobs/add-jobs/models';
@@ -14,7 +14,7 @@ import { GradeRangeGroupDetails } from '../../models';
   templateUrl: './structures-search-results.component.html',
   styleUrls: ['./structures-search-results.component.scss']
 })
-export class StructuresSearchResultsComponent {
+export class StructuresSearchResultsComponent implements OnDestroy {
   @Input() canSelectJobs: boolean;
   @Input() useSmallBizStyles: boolean;
   @Input() customSearchResultsStyle: any;
@@ -28,10 +28,13 @@ export class StructuresSearchResultsComponent {
   jobResults$: Observable<JobResult[]>;
   loadingResults$: Observable<boolean>;
   spinnerType = 'GIF';
+  selectedJobsSub: Subscription;
+  selectedJobs: JobResult[];
 
   constructor(private store: Store<fromAddJobsReducer.State>) {
     this.jobResults$ = this.store.select(fromAddJobsReducer.getJobs);
     this.loadingResults$ = this.store.select(fromSearchReducer.getLoadingResults);
+    this.selectedJobsSub = this.store.select(fromAddJobsReducer.getSelectedAllLoadedJobs).subscribe(ids => this.selectedJobs = ids);
   }
 
   handleJobSelectionToggle(job: JobResult): void {
@@ -42,15 +45,24 @@ export class StructuresSearchResultsComponent {
     }
   }
 
+  get selectedJobCount() {
+    const selectedJobs = this.selectedJobs.length;
+    return selectedJobs;
+  }
+
   handleJobDetailClicked(job: JobResult): void {
     this.store.dispatch(new fromSearchResultsActions.ToggleJobDetail(job));
     if (!job.PricingDataLoaded) {
-      this.store.dispatch(new fromSearchResultsActions.GetJobPricingData(job));
+      this.store.dispatch(new fromSearchResultsActions.GetJobPricingData( {job: job, loadSingleMrp: !this.isJobRange}));
     }
   }
 
   trackByJobId(index, item: JobResult) {
     return item.Id;
+  }
+
+  ngOnDestroy(): void {
+    this.selectedJobsSub.unsubscribe();
   }
 
 }

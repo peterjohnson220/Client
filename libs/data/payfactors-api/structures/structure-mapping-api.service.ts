@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 import {
   AutoGradeJobsModelResponse,
-  AutoGradeJobsRequestModel,
+  AutoGradeJobsRequestModel, GetMrpForJobByPayTypeRequest,
   SaveCompanyJobStructureMapsRequest,
   SwitchRegressionFlagsRequest,
 } from 'libs/models/payfactors-api';
@@ -33,5 +33,9 @@ export class StructureMappingApiService {
 
   autoGradeJobs(request: AutoGradeJobsRequestModel): Observable<AutoGradeJobsModelResponse> {
     return this.payfactorsApiService.post<AutoGradeJobsModelResponse>(`${this.endpoint}/AutoGradeJobs`, request);
+  }
+
+  getFormattedJobMrpByPayType(request: GetMrpForJobByPayTypeRequest): Observable<string> {
+    return this.payfactorsApiService.post<any>(`${this.endpoint}/GetFormattedJobMrpByPayType`, request);
   }
 }
