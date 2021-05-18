@@ -79,7 +79,8 @@ export function reducer(state = initialState, action: fromWorkflowConfigActions.
       const workflowStepsClone: WorkflowStep[] = cloneDeep(state.workflowSteps);
 
       workflowStepsClone?.forEach( wfStep => {
-        const wfUser = wfStep.WorkflowStepUsers?.find(u => u.UserId === action.payload.workflowUser.UserId);
+        const wfUser = wfStep.WorkflowStepUsers?.find(u => u.UserId === action.payload.workflowUser.UserId
+          && u.EmailAddress === action.payload.workflowUser.EmailAddress);
         if (wfUser) {
           let canEditJobDescription = wfUser.Permissions.find((p) =>
             p.permission === Permissions.CAN_EDIT_JOB_DESCRIPTION).selected;
