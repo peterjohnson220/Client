@@ -485,3 +485,8 @@ export const getPeerTrends = createSelector(
   selectTrendsSummaryCardState,
   fromTrendsSummaryCardReducer.getPeerTrends
 );
+
+export const getPeerTrendsSummaryDetails = createSelector(
+  selectTrendsSummaryCardState,
+  fromTrendsSummaryCardReducer.getPeerTrendsSummaryDetails
+);

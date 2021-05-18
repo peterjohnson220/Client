@@ -1,17 +1,6 @@
-<div *ngIf="localSalaryTrendData?.Data.length" data-qa-id="cht-salary-trend">
-  <div class="percentage-change" [attr.data-qa-id]="'cnt-percentageChange'">
-    <span *ngIf="localSalaryTrendData?.PercentageChange !== 0"
-          [ngClass]="localSalaryTrendData?.PercentageChange > 0 ? 'plus-sign' : 'text-danger'">
-      {{localSalaryTrendData.PercentageChange > 0 ? '+' : '-' }}
-    </span>
-    {{absoluteValueOfPercentageChange | number : '1.2-2'}}%
-  </div>
-
+<div *ngIf="localSalaryTrendData?.length" data-qa-id="cht-salary-trend">
   <highcharts-chart [ngClass]="'salary-chart'"
                     [Highcharts]="Highcharts"
-                    [options]="chartOptions"
-                    (chartInstance)="rangeChartCallback($event)"
-  ></highcharts-chart>
-
-  <img class="export-chart" [src]="img">
+                    [options]="chartOptions">
+  </highcharts-chart>
 </div>
