@@ -20,7 +20,6 @@ import { SurveysPageConfig } from '../../models';
 export class SurveyDataCutsComponent implements OnChanges, OnInit, AfterViewInit, OnDestroy {
   @Input() surveyJobId: number;
 
-  @ViewChild('scopeColumn') scopeColumn: ElementRef;
   @ViewChild('currencyColumn') currencyColumn: ElementRef;
   @ViewChild('weightingTypeColumn') weightingTypeColumn: ElementRef;
   @ViewChild('numericColumn') numericColumn: ElementRef;
@@ -34,15 +33,7 @@ export class SurveyDataCutsComponent implements OnChanges, OnInit, AfterViewInit
   defaultSort: SortDescriptor[] = [
     {
       dir: 'asc',
-      field: 'SurveyData_Scope1'
-    },
-    {
-      dir: 'asc',
-      field: 'SurveyData_Scope2'
-    },
-    {
-      dir: 'asc',
-      field: 'SurveyData_Scope3'
+      field: 'SurveyData_SurveyDataCombinedScope'
     }
   ];
   surveyJobFilter: PfDataGridFilter;
@@ -104,7 +95,6 @@ export class SurveyDataCutsComponent implements OnChanges, OnInit, AfterViewInit
 
   ngAfterViewInit(): void {
     this.colTemplates = {
-      'Scope1': { Template: this.scopeColumn },
       'WeightingType': { Template: this.weightingTypeColumn },
       [PfDataGridColType.currency]: { Template: this.currencyColumn },
       ['numeric']: { Template: this.numericColumn}

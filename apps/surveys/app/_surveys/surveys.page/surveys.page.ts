@@ -104,6 +104,7 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
   surveyYearOptions: PfDataGridCustomFilterDisplayOptions[];
   filteredSurveyYearOptions: PfDataGridCustomFilterDisplayOptions[];
   openedSurveyDataGrids: SurveyDataGrid[];
+  fieldsExcludedFromExport = ['Survey_Job_ID', 'Survey_ID', 'SurveyJobMatchesCount'];
 
   constructor(
     private store: Store<fromSurveysPageReducer.State>
@@ -123,7 +124,12 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.actionBarConfig = {
       ...getDefaultActionBarConfig(),
       ShowColumnChooser: true,
-      ShowFilterChooser: true
+      ShowFilterChooser: true,
+      AllowExport: true,
+      ExportSourceName: 'Survey Report',
+      CustomExportType: 'SurveyJobs',
+      ExportSelectionRequired: true,
+      ExportSelectionRequiredTooltip: 'Please select at least 1 survey job'
     };
     this.gridConfig = {
       PersistColumnWidth: false,
