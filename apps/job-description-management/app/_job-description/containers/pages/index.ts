@@ -4,3 +4,4 @@ export * from './job-description-version-compare';
 export * from './job-description-workflow-compare';
 export * from './job-description';
 export * from './workflow-watch-sidebar';
+export * from './job-description-inbox';

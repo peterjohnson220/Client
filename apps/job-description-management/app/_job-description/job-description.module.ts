@@ -15,6 +15,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { LayoutModule } from '@progress/kendo-angular-layout';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { DragulaModule } from 'ng2-dragula';
+import { TooltipModule } from '@progress/kendo-angular-tooltip';
 
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
@@ -40,7 +41,9 @@ import {
   WorkflowSidebarComponent,
   ChangeApproverModalComponent,
   WorkflowSetupModalComponent,
-  JobDescriptionWorkflowComparePageComponent
+  JobDescriptionWorkflowComparePageComponent,
+  JobDescriptionInboxPageComponent,
+  JobDescriptionInboxGridComponent
 } from './containers';
 import {
   AddJobModalComponent,
@@ -61,6 +64,7 @@ import {
   WorkflowProgressBarComponent,
   EmployeeAcknowledgementModalComponent,
   WorkflowCancelModalComponent,
+  WorkflowStepCompletionModalComponent,
   FlsaQuestionnaireModalComponent,
   JobMatchResultComponent,
   ExportJobDescriptionModalComponent
@@ -84,7 +88,8 @@ import {
   CopyJobDescriptionModalEffects,
   JobDescriptionListEffects,
   WorkflowSetupModalEffects,
-  JobDescriptionWorkflowCompareEffects
+  JobDescriptionWorkflowCompareEffects,
+  JobDescriptionInboxEffects
 } from './effects';
 import { ListAreaColumnSearchPipe, UserFilterSearchPipe } from './pipes';
 import { JobDescriptionDnDService, JobDescriptionVersionCompareService } from './services';
@@ -116,7 +121,8 @@ import { SharedModule } from '../shared/shared.module';
       CopyJobDescriptionModalEffects,
       JobDescriptionListEffects,
       WorkflowSetupModalEffects,
-      JobDescriptionWorkflowCompareEffects
+      JobDescriptionWorkflowCompareEffects,
+      JobDescriptionInboxEffects
     ]),
     LayoutModule,
     SharedModule,
@@ -145,7 +151,8 @@ import { SharedModule } from '../shared/shared.module';
     FontAwesomeModule,
     FormatPurePipeModule,
     GetUnixTimePipeModule,
-    FormatDistanceToNowPurePipeModule
+    FormatDistanceToNowPurePipeModule,
+    TooltipModule
   ],
   declarations: [
     // Components
@@ -166,6 +173,7 @@ import { SharedModule } from '../shared/shared.module';
     WorkflowLogComponent,
     EmployeeAcknowledgementModalComponent,
     WorkflowCancelModalComponent,
+    WorkflowStepCompletionModalComponent,
     FlsaQuestionnaireModalComponent,
     JobMatchResultComponent,
     ExportJobDescriptionModalComponent,
@@ -178,6 +186,7 @@ import { SharedModule } from '../shared/shared.module';
     JobDescriptionPageComponent,
     WorkflowWatchSidebarComponent,
     JobDescriptionWorkflowComparePageComponent,
+    JobDescriptionInboxPageComponent,
 
     // Containers
     JobDescriptionActionsComponent,
@@ -187,6 +196,7 @@ import { SharedModule } from '../shared/shared.module';
     WorkflowSidebarComponent,
     ChangeApproverModalComponent,
     WorkflowSetupModalComponent,
+    JobDescriptionInboxGridComponent,
 
     // Pipes
     ListAreaColumnSearchPipe,

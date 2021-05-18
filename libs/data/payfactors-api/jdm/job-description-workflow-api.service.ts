@@ -11,6 +11,11 @@ export class JobDescriptionWorkflowApiService {
 
   constructor(private payfactorsApiService: PayfactorsApiService) {}
 
+  getWorkflowStepInfoFromToken(token: string) {
+    return this.payfactorsApiService.get(`${this.apiUrl}/Default.GetWorkflowStepInfoFromToken`,
+      { params: { token : token}});
+  }
+
   getStepSummary(workflowId: number) {
     return this.payfactorsApiService.get(`${this.apiUrl}(${workflowId})/Default.GetStepSummary`);
   }

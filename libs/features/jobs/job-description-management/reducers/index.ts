@@ -344,3 +344,8 @@ export const getWorkflowConfigDirty = createSelector(
   selectWorkflowConfigState,
   fromWorkflowConfigReducer.getWorkflowConfigDirty
 );
+
+export const getWorkflowUserOrEmail = createSelector(
+  selectWorkflowConfigState,
+  fromWorkflowConfigReducer.getWorkflowUserOrEmail
+);

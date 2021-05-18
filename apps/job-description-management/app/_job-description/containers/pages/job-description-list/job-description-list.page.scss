@@ -1,5 +1,13 @@
+@import '_colors';
+
 :host ::ng-deep .modal-dialog {
   max-width: 600px;
+}
+
+.badge {
+  background-color: $body-background-color;
+  top: 1px;
+  font-size: smaller;
 }
 
 .grid-and-filter-container{

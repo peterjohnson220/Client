@@ -5,6 +5,8 @@ import { WorkflowUser, AddUserToWorkflowObj, WorkflowStep } from '../models';
 export const POPULATE_WORKFLOW = '[JobDescriptionManagement/Shared/Workflow Config] Populate Workflow';
 export const ADD_NON_PF_USER_TO_WORKFLOW = '[JobDescriptionManagement/Shared/Workflow Config] Add Non Payfactors User to Workflow';
 export const ADD_NON_PF_USER_TO_WORKFLOW_ERROR = '[JobDescriptionManagement/Shared/Workflow Config] Add Non Payfactors User to Workflow Error';
+export const ADD_SELECTED_USER_OR_EMAIL = '[JobDescriptionManagement/Shared/Workflow Config] Add Selected User or Email';
+export const DELETE_USER_OR_EMAIL = '[JobDescriptionManagement/Shared/Workflow Config] Delete User or Email';
 export const CREATE_WORKFLOW_STEP = '[JobDescriptionManagement/Shared/Workflow Config] Create Workflow Step';
 export const UPDATE_WORKFLOW_STEP_PERMISSION = '[JobDescriptionManagement/Shared/Workflow Config] Update Workflow Step Permission';
 export const DELETE_WORKFLOW_STEP = '[JobDescriptionManagement/Shared/Workflow Config] Delete Workflow Step';
@@ -26,8 +28,18 @@ export class AddNonPfUserToWorkflow implements Action {
 
 export class AddNonPfUserToWorkflowError implements Action {
   readonly type = ADD_NON_PF_USER_TO_WORKFLOW_ERROR;
+}
 
-  constructor() {}
+export class AddSelectedUserOrEmail implements Action {
+  readonly type = ADD_SELECTED_USER_OR_EMAIL;
+
+  constructor(public payload: WorkflowUser) {}
+}
+
+export class DeleteUserOrEmail implements Action {
+  readonly type = DELETE_USER_OR_EMAIL;
+
+  constructor(public payload: WorkflowUser) {}
 }
 
 export class CreateWorkflowStep implements Action {
@@ -39,7 +51,7 @@ export class CreateWorkflowStep implements Action {
 export class UpdateWorkflowStepPermission implements Action {
   readonly type = UPDATE_WORKFLOW_STEP_PERMISSION;
 
-  constructor(public payload: { stepIndex: number, permission: string, selected: boolean }) {}
+  constructor(public payload: { workflowUser: WorkflowUser, permission: string}) {}
 }
 
 export class DeleteWorkflowStep implements Action {
@@ -62,14 +74,14 @@ export class ReorderWorkflowSteps implements Action {
 
 export class ResetWorkflow implements Action {
   readonly type = RESET_WORKFLOW;
-
-  constructor() {}
 }
 
 export type WorkflowConfigActions
   = PopulateWorkflow
   | AddNonPfUserToWorkflow
   | AddNonPfUserToWorkflowError
+  | AddSelectedUserOrEmail
+  | DeleteUserOrEmail
   | CreateWorkflowStep
   | UpdateWorkflowStepPermission
   | DeleteWorkflowStep

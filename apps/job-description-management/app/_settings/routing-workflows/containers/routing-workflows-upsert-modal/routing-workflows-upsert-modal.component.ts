@@ -90,6 +90,10 @@ export class RoutingWorkflowsUpsertModalComponent implements OnInit, OnDestroy {
     this.savingErrorMessageSubscription.unsubscribe();
   }
 
+  handlePickerSelection(selectedUser: any): void {
+    this.store.dispatch(new fromSharedWorkflowAction.AddSelectedUserOrEmail(selectedUser));
+  }
+
   open(workflowTemplate: WorkflowTemplate = null) {
     this.editing = workflowTemplate !== null;
     this.existingName = this.editing ? workflowTemplate.Name : '';

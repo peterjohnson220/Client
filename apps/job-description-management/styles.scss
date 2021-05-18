@@ -1,16 +1,40 @@
 /* You can add global styles to this file, and also import other style files */
+@import 'kendo-grid';
+@import 'colors';
 
 .k-dropdown .k-dropdown-wrap {
   border-color: #cccccc;
-  background-color: white;
-}
-
-.k-pager-numbers .k-state-selected {
-  background-color: #1872ae !important;
-}
-
-.k-grid {
   background-color: white !important;
+}
+
+.k-grid-content .no-ellipsis {
+  text-overflow: clip;
+  word-wrap: normal;
+}
+
+.k-checkbox:checked+.k-checkbox-label::before,
+.k-checkbox:indeterminate+.k-checkbox-label::after {
+  background-color: $selected-bg;
+  border-color: $selected-bg;
+}
+
+.k-checkbox:focus+.k-checkbox-label::before {
+  box-shadow: none;
+}
+
+.k-grid-content .no-ellipsis {
+  text-overflow: clip;
+  word-wrap: normal;
+}
+
+.k-checkbox:checked+.k-checkbox-label::before,
+.k-checkbox:indeterminate+.k-checkbox-label::after {
+  background-color: $selected-bg;
+  border-color: $selected-bg;
+}
+
+.k-checkbox:focus+.k-checkbox-label::before {
+  box-shadow: none;
 }
 
 .k-select {
@@ -103,9 +127,6 @@
   border-radius: 0.25rem;
 }
 
-.fa-times {
-  vertical-align: middle !important;
-}
 
 .modal-header {
   background-color: inherit !important;
@@ -223,7 +244,7 @@ pf-job-description-version-compare {
 
 pf-workflow-config {
   .dropdown-item.active, .dropdown-item:active {
-    background-color: #1872ae;
+    background-color: $pf-brand-secondary-accent-color;
   }
 }
 

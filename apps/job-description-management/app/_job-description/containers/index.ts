@@ -6,3 +6,4 @@ export * from './copy-job-description-modal';
 export * from './workflow-sidebar';
 export * from './change-approver-modal';
 export * from './workflow-setup-modal';
+export * from './job-description-inbox-grid';
