@@ -159,8 +159,11 @@ export class StatementEditPageEffects {
   removeImage$: Observable<Action> = this.actions$
     .pipe(
       ofType(fromStatementEditActions.REMOVE_IMAGE_CONTROL_IMAGE),
-      switchMap((action: fromStatementEditActions.RemoveImageControlImage) =>
-        this.totalRewardsApiService.deleteStatementImage(action.payload.FileName).pipe(
+      withLatestFrom(
+        this.store.pipe(select(fromTotalRewardsReducer.selectStatement)),
+        (action, statement: Statement) => ({ action, statement })),
+      switchMap((combined: { action: fromStatementEditActions.RemoveImageControlImage, statement: Statement }) =>
+        this.totalRewardsApiService.deleteStatementImage(combined.action.payload.FileName, combined.statement.StatementId).pipe(
           mapTo(new SaveStatement())
         )
       )
