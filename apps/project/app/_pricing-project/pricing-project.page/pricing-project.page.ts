@@ -26,6 +26,7 @@ export class PricingProjectPageComponent implements OnInit, AfterViewInit, OnDes
   @ViewChild('gridGlobalActions', { static: true }) gridGlobalActionsTemplate: ElementRef;
   @ViewChild('fileDownloadSecurityWarningModal', { static: true }) fileDownloadSecurityWarningModal: FileDownloadSecurityWarningModalComponent;
   @ViewChild('compColumn', { static: false }) compColumn: ElementRef;
+  @ViewChild('percentageColumn', { static: false }) percentageColumn: ElementRef;
 
   project$: Observable<any>;
   projectId: number;
@@ -88,6 +89,7 @@ export class PricingProjectPageComponent implements OnInit, AfterViewInit, OnDes
     this.colTemplates = {
       'Job_Title': { Template: this.jobTitle },
       'comp': { Template: this.compColumn },
+      'percentage': { Template: this.percentageColumn }
     };
 
     this.actionBarConfig = {
