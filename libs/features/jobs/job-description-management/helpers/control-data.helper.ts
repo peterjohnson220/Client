@@ -5,6 +5,7 @@ import { ControlType, ControlTypeAttribute } from 'libs/models/common';
 
 
 export class ControlDataHelper {
+  static prevId = '0';
   static getControl = (sections: JobDescriptionSection[], jobDescriptionControl: JobDescriptionControlId): JobDescriptionControl => {
     return sections
       .find(s => s.Id === +jobDescriptionControl.SectionId).Controls
@@ -59,8 +60,12 @@ export class ControlDataHelper {
   }
 
   static createDataRow(attributes: ControlTypeAttribute[], data?: string) {
-    const dataRow = {Id: Date.now().toString()};
-
+    let Id = Date.now().toString();
+    while (this.prevId === Id) {
+      Id  =   Date.now().toString();
+    }
+    this.prevId = Id;
+    const dataRow = {Id: Id};
     attributes.forEach(a => {
       (data && a.CanBeSourced) ? dataRow[a.Name] = data : dataRow[a.Name] = '';
     });
