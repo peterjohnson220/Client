@@ -28,7 +28,7 @@
       <div class="fixed pr-3">
         <div class="card">
           <pf-historical-org-inc-count-chart
-            [orgIncCountData]="orgIncCountHistory$ | async"
+            [orgIncCountData]="(orgIncCountHistory$ | async).obj"
             [countType]="'Org'">
           </pf-historical-org-inc-count-chart>
         </div>
@@ -36,7 +36,7 @@
       <div class="fixed">
         <div class="card">
           <pf-historical-org-inc-count-chart
-            [orgIncCountData]="orgIncCountHistory$ | async"
+            [orgIncCountData]="(orgIncCountHistory$ | async).obj"
             [countType]="'Inc'">
           </pf-historical-org-inc-count-chart>
         </div>
