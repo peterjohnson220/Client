@@ -147,6 +147,11 @@ export class GradeBasedEmployeeSalaryRangeChartComponent implements OnInit, OnDe
     }
   }
 
+  private getScatterXCoordinate(index): number {
+
+    return index - (.018 * index);
+  }
+
   private addEmployee(xCoordinate, currentRow) {
     // if this employee falls within the salary range, add to employee series. else, add to outlier employee series
     const min = this.jobRangeData.CompanyStructures_Ranges_Min;
@@ -158,7 +163,7 @@ export class GradeBasedEmployeeSalaryRangeChartComponent implements OnInit, OnDe
       currentRow.vw_EmployeesGradeBasedStructureInfo_First_Name + ' ' + currentRow.vw_EmployeesGradeBasedStructureInfo_Last_Name
       + ' (' + currentRow.vw_EmployeesGradeBasedStructureInfo_Employee_ID + ')' : currentRow.vw_EmployeesGradeBasedStructureInfo_Employee_ID;
     const salaryTooltipInfo = {
-      x: xCoordinate,
+      x: this.getScatterXCoordinate(xCoordinate),
       y: currentRow.vw_EmployeesGradeBasedStructureInfo_GradeBased_EmployeePay,
       empDisplay: name,
       salaryDisplay: `${this.controlPointDisplay}: ${StructuresHighchartsService.formatCurrency(salary, this.chartLocale, this.currency, this.rate, true)}`
@@ -214,7 +219,7 @@ export class GradeBasedEmployeeSalaryRangeChartComponent implements OnInit, OnDe
     const isMidFormula = !!this.metaData.RangeDistributionSetting?.Mid_Formula?.FormulaId;
 
     this.mrpSeriesData.push({
-      x: xCoordinate,
+      x: this.getScatterXCoordinate(xCoordinate),
       y: currentRow.CompanyJobs_Structures_GradeBased_Job_MarketReferencePointValue,
       jobTitle: currentRow.CompanyJobs_Structures_JobTitle,
       mrp: StructuresHighchartsService.formatMrpTooltip(currentRow.CompanyJobs_Structures_GradeBased_Job_MarketReferencePointValue,

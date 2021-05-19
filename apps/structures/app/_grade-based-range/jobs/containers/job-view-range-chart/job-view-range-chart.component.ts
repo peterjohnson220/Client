@@ -134,6 +134,10 @@ export class JobViewRangeChartComponent implements OnInit, OnDestroy {
     }
   }
 
+  private getScatterXCoordinate(index): number {
+    return index - (0.018 * index);
+  }
+
   private addSalaryRangeMinMidMax(xCoordinate) {
     this.salaryRangeSeriesDataModel.MinMidMax.push(StructuresHighchartsService.formatColumnRange(
       xCoordinate, this.jobRangeData.CompanyStructures_Ranges_Min, this.jobRangeData.CompanyStructures_Ranges_Max));
@@ -223,7 +227,7 @@ export class JobViewRangeChartComponent implements OnInit, OnDestroy {
     const isMidFormula = !!this.metaData.RangeDistributionSetting?.Mid_Formula?.FormulaId;
 
     this.mrpSeriesData.push({
-      x: xCoordinate,
+      x: this.getScatterXCoordinate(xCoordinate),
       y: currentRow.CompanyJobs_Structures_GradeBased_Job_MarketReferencePointValue,
       jobTitle: currentRow.CompanyJobs_Structures_JobTitle,
       mrp: StructuresHighchartsService.formatMrpTooltip(currentRow.CompanyJobs_Structures_GradeBased_Job_MarketReferencePointValue,
@@ -249,7 +253,7 @@ export class JobViewRangeChartComponent implements OnInit, OnDestroy {
     // Min Outlier
     this.outlierSeriesData.push(
       {
-        x: xCoordinate,
+        x: this.getScatterXCoordinate(xCoordinate),
         y: currentRow.CompanyJobs_Structures_GradeBased_Job_AverageEEMinOutlier,
         countString: this.formatOutlierCount(true, currentRow.CompanyJobs_Structures_GradeBased_Job_CountEEMinOutlier),
         avgSalary: this.formatSalary(currentRow.CompanyJobs_Structures_GradeBased_Job_AverageEEMinOutlier),
@@ -259,7 +263,7 @@ export class JobViewRangeChartComponent implements OnInit, OnDestroy {
     // Max Outlier
     this.outlierSeriesData.push(
       {
-        x: xCoordinate,
+        x: this.getScatterXCoordinate(xCoordinate),
         y: currentRow.CompanyJobs_Structures_GradeBased_Job_AverageEEMaxOutlier,
         countString: this.formatOutlierCount(false, currentRow.CompanyJobs_Structures_GradeBased_Job_CountEEMaxOutlier),
         avgSalary: this.formatSalary(currentRow.CompanyJobs_Structures_GradeBased_Job_AverageEEMaxOutlier),
@@ -271,7 +275,7 @@ export class JobViewRangeChartComponent implements OnInit, OnDestroy {
     const value = currentRow.CompanyJobs_Structures_GradeBased_Job_AverageEEPay !== 0 ? currentRow.CompanyJobs_Structures_GradeBased_Job_AverageEEPay : null;
 
     this.averageSeriesData.push({
-      x: xCoordinate,
+      x: this.getScatterXCoordinate(xCoordinate),
       y: value,
       jobTitle: currentRow.CompanyJobs_Structures_JobTitle,
       avgComparatio: currentRow.CompanyJobs_Structures_GradeBased_Job_AvgComparatio,
