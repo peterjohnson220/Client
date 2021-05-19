@@ -16,8 +16,8 @@ export class JobDescriptionWorkflowTemplateApiService {
     return this.payfactorsApiService.get(`${this.apiUrl}/Default.GetList`);
   }
 
-  getTemplateListWithJobFilter(jobId: number) {
-    return this.payfactorsApiService.get(`${this.apiUrl}/Default.GetFilteredList`, {params: {jobId: jobId}});
+  getTemplateListWithJobFilter(jobIds: number[]) {
+    return this.payfactorsApiService.post<any>(`${this.apiUrl}/Default.GetFilteredList`, {jobIds: jobIds});
   }
 
   saveTemplate(workflowTemplate: any) {

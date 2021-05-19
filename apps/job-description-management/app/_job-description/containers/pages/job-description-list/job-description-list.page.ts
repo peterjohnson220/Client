@@ -29,6 +29,7 @@ import * as fromJobDescriptionListActions from '../../../actions/job-description
 import * as fromJobDescriptionGridActions from '../../../actions/job-description-grid.actions';
 import * as fromJobDescriptionInboxActions from '../../../actions/job-description-inbox.actions';
 import * as fromJobInformationFieldsActions from '../../../actions/job-information-fields.actions';
+import * as fromWorkflowTemplateListActions from 'libs/features/jobs/job-description-management/actions/shared-workflow.actions';
 import * as fromUserFilterActions from '../../../actions/user-filter.actions';
 import * as fromJobDescriptionReducers from '../../../reducers';
 import { AssignJobsToTemplateModalComponent, JobDescriptionHistoryModalComponent } from '../../../components';
@@ -416,7 +417,12 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromJobDescriptionGridActions.SaveListAreaColumns(columns));
   }
 
-  openBulkRouteJobDescriptions(event) {
+  openBulkRouteJobDescriptions() {
+    if ( !this.isPublic) {
+      const selectedJobIds = Array.from( this.selectedJobDescriptions.values()).map(x => x.CompanyJobId);
+      this.store.dispatch(new fromWorkflowTemplateListActions.Load(selectedJobIds));
+    }
+
     this.workflowSetupModalComponent.open();
   }
 
