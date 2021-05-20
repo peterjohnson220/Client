@@ -2,7 +2,7 @@ import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } fr
 
 import { SortDescriptor } from '@progress/kendo-data-query';
 import { DropDownFilterSettings } from '@progress/kendo-angular-dropdowns';
-import { Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import cloneDeep from 'lodash/cloneDeep';
 
@@ -25,6 +25,7 @@ import { GroupedListItem } from 'libs/models/list';
 import * as fromSurveysPageReducer from '../reducers';
 import * as fromSurveysPageActions from '../actions/surveys-page.actions';
 import { SurveyDataGrid, SurveysPageConfig } from '../models';
+import { SurveyInfoByCompanyDto } from 'libs/models/survey';
 
 @Component({
   selector: 'pf-surveys-page',
@@ -35,6 +36,7 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('matchedFilter') matchedFilter: ElementRef;
   @ViewChild('countriesFilter') countriesFilter: ElementRef;
   @ViewChild('historyFilter') historyFilter: ElementRef;
+  @ViewChild('gridGlobalActions', { static: true }) public gridGlobalActionsTemplate: ElementRef;
 
   loading$: Observable<boolean>;
   surveyDataFieldsModalOpen$: Observable<boolean>;
@@ -43,6 +45,10 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
   surveyYears$: Observable<AsyncStateObj<PfDataGridCustomFilterDisplayOptions[]>>;
   openedSurveyDataGrids$: Observable<SurveyDataGrid[]>;
   expandedRows$: Observable<number[]>;
+  surveyInfo$: Observable<AsyncStateObj<SurveyInfoByCompanyDto[]>>;
+
+  showSurveyParticipantModal = new BehaviorSubject<boolean>(false);
+  showSurveyParticipantModal$ = this.showSurveyParticipantModal.asObservable();
 
   gridFieldSubscription: Subscription;
   surveyDataGridSubscription: Subscription;
@@ -143,6 +149,7 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.surveyYears$ = this.store.select(fromSurveysPageReducer.getSurveyYears);
     this.openedSurveyDataGrids$ = this.store.select(fromSurveysPageReducer.getOpenedSurveyDataGrids);
     this.expandedRows$ = this.store.select(fromPfDataGridReducer.getExpandedRows, this.pageViewId);
+    this.surveyInfo$ = this.store.select(fromSurveysPageReducer.getSurveyInfo);
   }
 
   ngOnInit(): void {
@@ -172,6 +179,7 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.openedSurveyDataGridsSubscription = this.openedSurveyDataGrids$.subscribe(grids => this.openedSurveyDataGrids = grids);
     this.store.dispatch(new fromSurveysPageActions.GetSurveyCountries());
     this.store.dispatch(new fromSurveysPageActions.GetSurveyYears());
+    this.store.dispatch(new fromSurveysPageActions.GetSurveyInfo());
   }
 
   ngAfterViewInit(): void {
@@ -179,6 +187,10 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
       'SurveyYearFilter': { Template: this.historyFilter },
       'SurveyJobMatchesCount': { Template: this.matchedFilter },
       'SurveyCountryFilter': {Template: this.countriesFilter}
+    };
+    this.actionBarConfig = {
+      ...this.actionBarConfig,
+      GlobalActionsTemplate: this.gridGlobalActionsTemplate
     };
   }
 
@@ -188,6 +200,14 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.surveyYearsSubscription.unsubscribe();
     this.openedSurveyDataGridsSubscription.unsubscribe();
     this.expandedRowsSubscription.unsubscribe();
+  }
+
+  viewSurveyParticipantsModal() {
+    this.showSurveyParticipantModal.next(true);
+  }
+
+  handleSurveyParticipationDismissed(): void {
+    this.showSurveyParticipantModal.next(false);
   }
 
   handleMatchedFilterChanged(option: PfDataGridCustomFilterDisplayOptions): void {

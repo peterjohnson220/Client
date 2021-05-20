@@ -105,6 +105,16 @@
   </div>
 </ng-template>
 
+<ng-template #gridGlobalActions>
+  <button
+    [attr.data-qa-id]="'btn-viewSurveyParticipants'"
+    type="button"
+    (click)="viewSurveyParticipantsModal()"
+    class="btn btn-primary">
+    Participants
+  </button>
+</ng-template>
+
 <pf-survey-data-fields
   [fields]="surveyDataFields"
   [showModal$]="surveyDataFieldsModalOpen$"
@@ -116,3 +126,21 @@
 <pf-view-participants-list
   [surveyTitle]="surveyTitle">
 </pf-view-participants-list>
+
+<pf-modal-form
+  [size]="'lg'"
+  [title]="'Survey Participation'"
+  [primaryButtonText]="'Cancel'"
+  [primaryButtonClass]="'btn-danger'"
+  [modalId]="'au-modal-survey-participation'"
+  [isOpen$]=" showSurveyParticipantModal$"
+  [showSubmit]="false"
+  (onDismiss)="handleSurveyParticipationDismissed()">
+  <ng-container basic-content>
+    <pf-survey-participation
+      [showSurveyParticipantModal]="showSurveyParticipantModal$ | async"
+      [surveys]="(surveyInfo$ | async)?.obj">
+    </pf-survey-participation>
+  </ng-container>
+
+</pf-modal-form>
