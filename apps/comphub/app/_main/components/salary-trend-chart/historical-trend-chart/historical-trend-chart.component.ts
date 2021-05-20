@@ -175,6 +175,8 @@ export class HistoricalTrendChartComponent implements OnChanges {
     const zoomedTrendData = this.localSalaryTrendData.filter(x => Date.parse(x.EffectiveDate.toString()) >= event.min
       && Date.parse(x.EffectiveDate.toString()) <= event.max);
 
+    this.store.dispatch(new fromTrendsSummaryCardActions.SetTrendsDomain({minDate: new Date(event.min), maxDate: new Date(event.max)}));
+
     this.updateSidePanelInfo(zoomedTrendData);
 
     this.store.dispatch(new fromTrendsSummaryCardActions.SetTrendsDomain({

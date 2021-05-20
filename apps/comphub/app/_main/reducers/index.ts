@@ -495,3 +495,13 @@ export const getPeerTrendsDomain = createSelector(
   selectTrendsSummaryCardState,
   fromTrendsSummaryCardReducer.getPeerTrendsDomain
 );
+
+export const getDisplaySavePeerTrendModal = createSelector (
+  selectTrendsSummaryCardState,
+  fromTrendsSummaryCardReducer.getDisplaySavePeerTrendModal
+);
+
+export const getSavingPeerTrend = createSelector (
+  selectTrendsSummaryCardState,
+  fromTrendsSummaryCardReducer.getSavingPeerTrend
+);

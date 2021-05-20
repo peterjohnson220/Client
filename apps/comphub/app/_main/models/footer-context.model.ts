@@ -10,6 +10,8 @@ export interface FooterContext {
   NextPageTitle: string;
   DisplayCancelButton: boolean;
   CancelButtonTitle?: string;
+  DisplaySaveButton: boolean;
+  SaveButtonEnabled: boolean;
 }
 
 export interface FooterContextRequest {
@@ -32,7 +34,9 @@ export class FooterHelper {
       PageTitle: 'Jobs',
       PreviousPageTitle: null,
       NextPageTitle: 'Markets',
-      DisplayCancelButton: cancelButtonDisplay
+      DisplayCancelButton: cancelButtonDisplay,
+      DisplaySaveButton: false,
+      SaveButtonEnabled: false
     };
   }
   static marketsFooterContext(isPeerComphubType: boolean): FooterContext {
@@ -44,7 +48,9 @@ export class FooterHelper {
       PageTitle: 'Markets',
       PreviousPageTitle: 'Jobs',
       NextPageTitle: isPeerComphubType ? 'Data' : 'Summary',
-      DisplayCancelButton: true
+      DisplayCancelButton: true,
+      DisplaySaveButton: false,
+      SaveButtonEnabled: false
     };
   }
   static dataFooterContext(jobDataSelected: boolean): FooterContext {
@@ -56,7 +62,9 @@ export class FooterHelper {
       PageTitle: 'Data',
       PreviousPageTitle: 'Markets',
       NextPageTitle: 'Summary',
-      DisplayCancelButton: true
+      DisplayCancelButton: true,
+      DisplaySaveButton: false,
+      SaveButtonEnabled: false
     };
   }
   static summaryFooterContext(isPeerComphubType: boolean, showJobPricedHistorySummary: boolean, smbLimitReached: boolean): FooterContext {
@@ -69,7 +77,9 @@ export class FooterHelper {
       PreviousPageTitle: isPeerComphubType ? 'Data' : 'Markets',
       NextPageTitle: null,
       DisplayCancelButton: smbLimitReached,
-      CancelButtonTitle: smbLimitReached ? 'Close' : 'Cancel'
+      CancelButtonTitle: smbLimitReached ? 'Close' : 'Cancel',
+      DisplaySaveButton: false,
+      SaveButtonEnabled: false
     };
   }
 
@@ -83,7 +93,9 @@ export class FooterHelper {
       PreviousPageTitle: null,
       NextPageTitle: 'Jobs',
       DisplayCancelButton: false,
-      CancelButtonTitle: null
+      CancelButtonTitle: null,
+      DisplaySaveButton: false,
+      SaveButtonEnabled: false
     };
   }
 
@@ -97,7 +109,9 @@ export class FooterHelper {
       PreviousPageTitle: 'Landing',
       NextPageTitle: 'Scopes',
       DisplayCancelButton: false,
-      CancelButtonTitle: null
+      CancelButtonTitle: null,
+      DisplaySaveButton: false,
+      SaveButtonEnabled: false
     };
   }
 
@@ -111,7 +125,9 @@ export class FooterHelper {
       PreviousPageTitle: 'Jobs',
       NextPageTitle: 'Summary',
       DisplayCancelButton: false,
-      CancelButtonTitle: null
+      CancelButtonTitle: null,
+      DisplaySaveButton: false,
+      SaveButtonEnabled: false
     };
   }
 
@@ -125,7 +141,9 @@ export class FooterHelper {
       PreviousPageTitle: 'Scopes',
       NextPageTitle: null,
       DisplayCancelButton: false,
-      CancelButtonTitle: null
+      CancelButtonTitle: null,
+      DisplaySaveButton: true,
+      SaveButtonEnabled: true
     };
   }
 
@@ -168,6 +186,8 @@ export function generateMockFooterContext(): FooterContext {
     PageTitle: 'Jobs',
     PreviousPageTitle: '',
     NextPageTitle: 'Markets',
-    DisplayCancelButton: true
+    DisplayCancelButton: true,
+    DisplaySaveButton: false,
+    SaveButtonEnabled: false
   };
 }
