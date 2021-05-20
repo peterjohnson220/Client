@@ -17,6 +17,23 @@
     (dataStateChange)="dataStateChange($event)"
     [rowClass]="rowCallback"
   >
+    <kendo-grid-column field="compositeLoaderType" title="Load Type" filter="string">
+      <ng-template kendoGridFilterMenuTemplate let-filterService="filterService">
+        <kendo-combobox [(ngModel)]="compositeLoaderType"
+                        [data]="compositeLoaderTypes"
+                        [value]="compositeLoaderType"
+                        [valuePrimitive]="true"
+                        class="form-control"
+                        id="compositeLoaderType"
+                        (valueChange)="setLoadTypeFilter($event, filterService)">
+        </kendo-combobox>
+      </ng-template>
+      <ng-template kendoGridCellTemplate let-dataItem>
+        <div class="d-flex">
+            {{ dataItem.compositeLoaderType }}
+        </div>
+      </ng-template>
+    </kendo-grid-column>
     <kendo-grid-column field="compositeDataLoadId" title="Load ID" filter="numeric">
       <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
         <kendo-grid-string-filter-menu [column]="column" [filter]="filter" [filterService]="filterService" [extra]="false">
@@ -112,7 +129,7 @@
         <div>{{ dataItem.processingEndTime | date: 'MM/dd/yyyy hh:mm a' : 'UTC' }}</div>
       </ng-template>
     </kendo-grid-column>
-    <kendo-grid-column field="loadType" [width]="125" title="Load Type">
+    <kendo-grid-column field="loadType" [width]="125" title="Data Origin">
       <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
         <kendo-grid-string-filter-menu [column]="column" [filter]="filter" [filterService]="filterService" [extra]="false">
           <kendo-filter-contains-operator></kendo-filter-contains-operator>

@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import { DataStateChangeEvent, GridDataResult, RowClassArgs } from '@progress/kendo-angular-grid';
-import { process, State } from '@progress/kendo-data-query';
+import { DataStateChangeEvent, FilterService, GridDataResult, RowClassArgs } from '@progress/kendo-angular-grid';
+import { CompositeFilterDescriptor, FilterDescriptor, process, State } from '@progress/kendo-data-query';
 
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -50,6 +50,12 @@ export class LoaderDashboardGridComponent implements OnInit, OnDestroy {
   selectedCompositeDataLoadId: number;
   selectedClientName: string;
   selectedClientId: number;
+  compositeLoaderTypes: Array<string> = [
+    'Organizational Data',
+    'Pricings',
+    'Surveys'
+  ];
+  compositeLoaderType = null;
   public checked = false;
 
   constructor(
@@ -87,6 +93,7 @@ export class LoaderDashboardGridComponent implements OnInit, OnDestroy {
   dataStateChange(state: DataStateChangeEvent) {
     this.gridState = state;
     this.gridView = process(this.gridData, this.gridState);
+    this.clearLoadTypeFilter(this.gridState.filter);
   }
 
   downloadInvalidRecordsFile(externalId: string) {
@@ -117,5 +124,21 @@ export class LoaderDashboardGridComponent implements OnInit, OnDestroy {
   hasErrorCondition(data: CompositeDataLoadViewResponse[]): CompositeDataLoadViewResponse[] {
     return data.map( d => ({...d, hasErrorCondition: !!d.fixableDataConditionException || !!d.terminalException ||
        d.entityLoadSummaries.filter(v => v.invalidCount > 0).length > 0}));
+  }
+
+  setLoadTypeFilter(value: any, filterService: FilterService): void {
+    filterService.filter({
+      filters: [{ field: 'compositeLoaderType', operator: 'eq', value: value }],
+      logic: 'or'
+    });
+  }
+
+  clearLoadTypeFilter(gridFilter: CompositeFilterDescriptor): void {
+    const compositeLoaderTypeFilter: any = gridFilter.filters.find( (f: FilterDescriptor) => f.field === 'compositeLoaderType');
+    if (!compositeLoaderTypeFilter) {
+      this.compositeLoaderType = null;
+    } else if (compositeLoaderTypeFilter.value !== this.compositeLoaderType) {
+      this.compositeLoaderType = compositeLoaderTypeFilter.value;
+    }
   }
 }
