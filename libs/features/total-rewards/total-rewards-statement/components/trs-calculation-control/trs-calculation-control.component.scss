@@ -129,6 +129,11 @@
   .draggable {
     cursor: grab;
   }
+
+  //Targets the dragging element for dragula
+  .gu-mirror pf-string-editor .radial-text-counter {
+    visibility: hidden;
+  }
 }
 
 .edit-icon {
