@@ -5,7 +5,7 @@ import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { AsyncStateObj } from 'libs/models/state';
-import { PayRateDate } from 'libs/models/payfactors-api/peer/exchange-data-search/response';
+import { PayRateDate, OrgIncCount } from 'libs/models/payfactors-api/peer/exchange-data-search/response';
 import { BaseExchangeDataSearchRequest } from 'libs/models/payfactors-api/peer/exchange-data-search/request';
 import { SearchFilterOption } from 'libs/models/payfactors-api/search/response';
 import { SidebarGroup } from 'libs/features/side-bar-info/models/side-bar-info-models';
@@ -37,6 +37,7 @@ export class TrendsSummaryCardComponent implements OnInit, OnDestroy {
   filterContext: BaseExchangeDataSearchRequest;
   filterContextSubscription: Subscription;
   filterContextHasFilters: boolean;
+  trendOrgIncCountHistory: OrgIncCount[];
 
   trendsSummaryDetails$: Observable<TrendsSummaryDetails>;
   trendsSummaryDetailsSubscription: Subscription;
@@ -76,6 +77,12 @@ export class TrendsSummaryCardComponent implements OnInit, OnDestroy {
                 CompanyJobCount: x.CompanyJobCount
               })
             );
+          this.trendOrgIncCountHistory = this.peerTrends.map(x =>
+            ({
+              OrgCount: x.Orgs,
+              IncCount: x.Incs,
+              EffectiveDate: new Date(Date.parse(x.EffectiveDate + 'Z'))
+            }))
         } else {
           this.peerTrends = pt.obj;
           this.jobSalaryTrend =  [];

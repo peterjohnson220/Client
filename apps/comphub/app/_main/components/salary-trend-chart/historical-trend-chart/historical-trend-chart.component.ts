@@ -46,6 +46,10 @@ export class HistoricalTrendChartComponent implements OnChanges {
       this.data.push([seconds, item.BasePay]);
     });
 
+    const minDate = new Date(Math.min(...this.localSalaryTrendData.map(d => d.EffectiveDate.getTime())));
+    const maxDate = new Date(Math.max(...this.localSalaryTrendData.map(d => d.EffectiveDate.getTime())));
+    this.store.dispatch(new fromTrendsSummaryCardActions.SetTrendsDomain({ minDate, maxDate }));
+
     this.updateSidePanelInfo(this.localSalaryTrendData);
 
     this.chartOptions = this.getChartOptions();
@@ -56,7 +60,7 @@ export class HistoricalTrendChartComponent implements OnChanges {
       chart: {
         type: 'areaspline',
         height: 500,
-        width: 1000,
+        width: 800,
         plotBorderWidth: 1
       },
       rangeSelector: {
@@ -87,7 +91,13 @@ export class HistoricalTrendChartComponent implements OnChanges {
         }]
       },
       title: {
-        text: 'Peer Salary Trend'
+        text: 'Peer Salary Trend',
+        style: {
+          fontSize: 14,
+          fontWeight: 'bold',
+          color: '#306589',
+          fontFamily: '"Segoe UI", Arial, sans-serif'
+        }
       },
       tooltip: {
         animation: false,
@@ -163,9 +173,14 @@ export class HistoricalTrendChartComponent implements OnChanges {
 
   onSetExtremes(event: any) {
     const zoomedTrendData = this.localSalaryTrendData.filter(x => Date.parse(x.EffectiveDate.toString()) >= event.min
-      && Date.parse(x.EffectiveDate.toString()) <= new Date(event.max).getTime());
+      && Date.parse(x.EffectiveDate.toString()) <= event.max);
 
     this.updateSidePanelInfo(zoomedTrendData);
+
+    this.store.dispatch(new fromTrendsSummaryCardActions.SetTrendsDomain({
+      minDate: new Date(event.min),
+      maxDate: new Date(event.max)
+    }));
   }
 
   updateSidePanelInfo(trendData: PayRateDate[]) {

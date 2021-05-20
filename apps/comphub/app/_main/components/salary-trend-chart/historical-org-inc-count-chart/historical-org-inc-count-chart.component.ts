@@ -1,12 +1,14 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
 import { DatePipe } from '@angular/common';
+
+import { Observable, Subscription } from 'rxjs';
+import { Store } from '@ngrx/store';
 
 import * as Highcharts from 'highcharts/highstock';
 import cloneDeep from 'lodash/cloneDeep';
 
-import { AsyncStateObj } from 'libs/models/state';
-
 import { OrgIncCountData } from '../../../models';
+import * as fromComphubMainReducer from '../../../reducers';
 
 @Component({
   selector: 'pf-historical-org-inc-count-chart',
@@ -14,9 +16,10 @@ import { OrgIncCountData } from '../../../models';
   styleUrls: ['historical-org-inc-count-chart.component.scss']
 })
 
-export class HistoricalOrgIncCountChartComponent implements OnChanges {
-  @Input() orgIncCountData: AsyncStateObj<OrgIncCountData[]>;
+export class HistoricalOrgIncCountChartComponent implements OnInit, OnDestroy, OnChanges {
+  @Input() orgIncCountData: OrgIncCountData[];
   @Input() countType: string;
+  @Input() useTrendsDomain: boolean = false;
 
   Highcharts: typeof Highcharts = Highcharts;
   chart: Highcharts.Chart;
@@ -25,11 +28,35 @@ export class HistoricalOrgIncCountChartComponent implements OnChanges {
   localOrgIncCountData: OrgIncCountData[];
   data: any[];
 
-  constructor(private datePipe: DatePipe) { }
+  trendsDomain$: Observable<any>;
+  trendsDomainSubscription: Subscription;
+
+  constructor(private store: Store<fromComphubMainReducer.State>, private datePipe: DatePipe) {
+    this.trendsDomain$ = this.store.select(fromComphubMainReducer.getPeerTrendsDomain);
+  }
+
+  ngOnInit(): void {
+    this.trendsDomainSubscription = this.trendsDomain$.subscribe(d => {
+      this.updateTrendsDomain(d.minDate, d.maxDate);
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.trendsDomainSubscription.unsubscribe();
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes?.orgIncCountData?.currentValue) {
-      this.localOrgIncCountData = cloneDeep(this.orgIncCountData.obj);
+      this.localOrgIncCountData = cloneDeep(this.orgIncCountData);
+
+      this.refreshChart();
+    }
+  }
+
+  updateTrendsDomain(minDate: Date, maxDate: Date) {
+    if(this.useTrendsDomain) {
+      this.localOrgIncCountData = this.orgIncCountData.filter(x => Date.parse(x.EffectiveDate.toString()) >= minDate.getTime()
+        && Date.parse(x.EffectiveDate.toString()) <= maxDate.getTime());
 
       this.refreshChart();
     }
@@ -67,7 +94,7 @@ export class HistoricalOrgIncCountChartComponent implements OnChanges {
         animation: false,
         formatter: (data) => {
           const point = data.chart.hoverPoint;
-          const transformedDate = this.datePipe.transform(new Date(point.category), 'yyyy-MM');
+          const transformedDate = this.datePipe.transform(new Date(point.category), 'yyyy-MM', 'UTC');
           return transformedDate + ': ' + point.y;
         }
       },

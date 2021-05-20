@@ -1,19 +1,20 @@
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 import { AsyncStateObjHelper } from 'libs/core/helpers';
 
+
 import * as fromTrendsSummaryCardActions from '../actions/trends-summary-card.actions';
 import { TrendsSummaryDetails } from '../models/trends-summary-details.model';
+import { PayRateDate } from '../models';
 
 export interface State {
-  peerTrends: AsyncStateObj<any[]>;
+  peerTrends: AsyncStateObj<PayRateDate[]>;
   minDate: Date;
   maxDate: Date;
   trendsSummaryDetails: TrendsSummaryDetails;
-
 }
 
 export const initialState: State = {
-  peerTrends: generateDefaultAsyncStateObj<any[]>([]),
+  peerTrends: generateDefaultAsyncStateObj<PayRateDate[]>([]),
   minDate: new Date(),
   maxDate: new Date(),
   trendsSummaryDetails: null
@@ -49,7 +50,7 @@ export function reducer(state: State = initialState, action: fromTrendsSummaryCa
   }
 }
 
-
 export const getPeerTrends = (state: State) => state.peerTrends;
 export const getPeerTrendsSummaryDetails = (state: State) => state.trendsSummaryDetails;
+export const getPeerTrendsDomain = (state: State) =>  { return { minDate: state.minDate, maxDate: state.maxDate }; };
 
