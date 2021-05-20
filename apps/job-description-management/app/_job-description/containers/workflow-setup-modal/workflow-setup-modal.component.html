@@ -29,7 +29,7 @@
 
     <pf-user-or-email-picker *ngIf="!addingNonSystemUser"  
       (selected)="handlePickerSelection($event)"
-      [jobId]="workflowSetupModalInput?.JobId"
+      [jobIds]="jobIds"
       [workflow]="true">
     </pf-user-or-email-picker>
 
@@ -38,7 +38,7 @@
       </textarea>
     </div>
   </div>
-  <pf-workflow-config [jobId]="workflowSetupModalInput?.JobId" (onShowNameFormClicked)="handleShowNameFormClicked($event)"></pf-workflow-config>
+  <pf-workflow-config [jobIds]="jobIds" (onShowNameFormClicked)="handleShowNameFormClicked($event)"></pf-workflow-config>
   <div class="modal-footer">
     <button type="button" class="btn btn-secondary" (click)="close()">Cancel</button>
     <button class="btn btn-primary"

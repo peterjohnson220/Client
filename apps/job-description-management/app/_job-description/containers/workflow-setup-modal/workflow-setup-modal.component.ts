@@ -49,6 +49,10 @@ export class WorkflowSetupModalComponent implements OnInit, OnDestroy {
   workflowSteps: WorkflowStep[];
   workflowUrl: string;
 
+  get jobIds(): number[] {
+    return this.workflowSetupModalInput.map(x => x.JobId);
+  }
+
   constructor(
     private store: Store<fromJobDescriptionManagementReducer.State>,
     private sharedJdmStore: Store<fromJDMSharedReduder.State>,
