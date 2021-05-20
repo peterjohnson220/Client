@@ -35,6 +35,7 @@ export class ActionBarComponent implements OnChanges, OnInit, OnDestroy {
   exporting$: Observable<boolean>;
   loadingExportingStatus$: Observable<boolean>;
   data$: Observable<GridDataResult>;
+  selectedKeys$: Observable<number[]>;
   data: GridDataResult;
   gridConfig: GridConfig;
   pagingOptions: PagingOptions;
@@ -65,6 +66,7 @@ export class ActionBarComponent implements OnChanges, OnInit, OnDestroy {
       this.exporting$ = this.store.select(fromReducer.getExportingGrid, this.pageViewId);
       this.loadingExportingStatus$ = this.store.select(fromReducer.getLoadingExportingStatus, this.pageViewId);
       this.data$ = this.store.select(fromReducer.getData, this.pageViewId);
+      this.selectedKeys$ = this.store.select(fromReducer.getSelectedKeys, this.pageViewId);
       this.dataSubscription = this.data$.subscribe(data => this.data = data);
       this.pagingOptionsSubscription = this.store.select(fromReducer.getPagingOptions, this.pageViewId)
         .subscribe(pagingOptions => this.pagingOptions = pagingOptions);
@@ -112,11 +114,13 @@ export class ActionBarComponent implements OnChanges, OnInit, OnDestroy {
     this.store.dispatch(new fromActions.ExportGrid(this.pageViewId, this.actionBarConfig.ExportSourceName, this.actionBarConfig.CustomExportType));
   }
 
-  getExportTitleTooltip(exporting: boolean, loadingExportingStatus: boolean, data: GridDataResult): string {
+  getExportTitleTooltip(exporting: boolean, loadingExportingStatus: boolean, data: GridDataResult, selectedKeys: number[]): string {
     if (exporting || loadingExportingStatus) {
       return 'Exporting';
     } else if (data && data.total === 0) {
       return 'There is no data to export';
+    } else if (this.actionBarConfig.ExportSelectionRequired && !selectedKeys?.length) {
+      return this.actionBarConfig.ExportSelectionRequiredTooltip || 'Please select at least 1 item';
     } else {
       return 'Export';
     }
