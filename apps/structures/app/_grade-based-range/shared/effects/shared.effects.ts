@@ -70,77 +70,6 @@ export class SharedEffects {
     );
 
   @Effect()
-  createGradeBasedModelSettings$: Observable<Action> = this.actions$
-    .pipe(
-      ofType<fromModelSettingsModalActions.CreateGradeBasedModelSettings>(fromModelSettingsModalActions.CREATE_GRADE_BASED_MODEL_SETTINGS),
-      withLatestFrom(
-        this.store.pipe(select(fromSharedStructuresReducer.getMetadata)),
-        this.store.pipe(select(fromPfDataGridReducer.getGridConfig)),
-        this.store.pipe(select(fromPfDataGridReducer.getData)),
-        this.store.pipe(select(fromPfDataGridReducer.getPagingOptions)),
-        (action, metadata: RangeGroupMetadata, gridConfig: GridConfig, gridData: GridDataResult, pagingOptions: PagingOptions) => {
-          return { action, metadata, gridConfig, gridData, pagingOptions };
-        }
-      ),
-      switchMap((data) => {
-        let advancedSetting;
-        if (data.action.payload.formValue.RangeAdvancedSetting != null) {
-          advancedSetting = PayfactorsApiModelMapper.mapAdvancedSettingModalFormToAdvancedSettingRequest(
-            data.action.payload.formValue.RangeAdvancedSetting, data.action.payload.rounding);
-        } else {
-          advancedSetting = generateMockRangeAdvancedSetting();
-        }
-
-        return this.structureModelingApiService.createGradeBasedModelSettings(
-          PayfactorsApiModelMapper.mapCreateGradeBasedModelSettingsModalFormToSaveSettingsRequest(
-            data.action.payload.rangeGroupId, data.action.payload.formValue, advancedSetting)
-        ).pipe(
-          mergeMap((r) => {
-              const actions = [];
-
-              if (!r.ValidationResult.Pass && r.ValidationResult.FailureReason === 'Model Name Exists') {
-                actions.push(new fromModelSettingsModalActions.ModelNameExistsFailure());
-              } else {
-                actions.push(new fromModelSettingsModalActions.ClearModelNameExistsFailure());
-                actions.push(new fromModelSettingsModalActions.CloseModal());
-                actions.push(new fromSharedStructuresActions.SetMetadata(
-                  PayfactorsApiModelMapper.mapStructuresRangeGroupResponseToRangeGroupMetadata(r.RangeGroup)));
-
-                if (this.urlService.isInWorkflow(Workflow.NewRange)) {
-                  this.router.navigate(['grade/' + r.RangeGroup.CompanyStructuresRangeGroupId]);
-                  actions.push(new fromNotificationActions.AddNotification({
-                    EnableHtml: true,
-                    From: NotificationSource.GenericNotificationMessage,
-                    Level: NotificationLevel.Success,
-                    NotificationId: '',
-                    Payload: { Title: 'Model Created', Message: `Created, ${r.RangeGroup.RangeGroupName}` },
-                    Type: NotificationType.Event
-                  }));
-                } else {
-                  // Load data
-                  const modelPageViewId =
-                    PagesHelper.getModelPageViewIdByRangeTypeAndRangeDistributionType(data.metadata.RangeTypeId, data.metadata.RangeDistributionTypeId);
-                  actions.push(GridDataHelper.getLoadDataAction(modelPageViewId, data.gridData, data.gridConfig, data.pagingOptions));
-
-                  const modelSummaryPageViewId = PagesHelper.getModelSummaryPageViewIdByRangeDistributionType(data.metadata.RangeDistributionTypeId);
-                  actions.push(new fromDataGridActions.LoadData(modelSummaryPageViewId));
-                }
-
-                actions.push(new fromModelSettingsModalActions.CreateGradeBasedModelSettingsSuccess());
-                actions.push(new fromSharedStructuresActions.GetGradeRangeDetails(r.RangeGroup.CompanyStructuresRangeGroupId));
-              }
-
-              this.urlService.removeAllWorkflows();
-              actions.push(new fromGradeBasedSharedActions.SetOpenAddJobs(true));
-              return actions;
-            }
-          ),
-          catchError(() => of(new fromModelSettingsModalActions.CreateGradeBasedModelSettingsError()))
-        );
-      })
-    );
-
-  @Effect()
   saveGradeBasedModelSettings$: Observable<Action> = this.actions$
     .pipe(
       ofType<fromModelSettingsModalActions.SaveGradeBasedModelSettings>(fromModelSettingsModalActions.SAVE_GRADE_BASED_MODEL_SETTINGS),
@@ -164,7 +93,7 @@ export class SharedEffects {
 
         return this.structureModelingApiService.saveGradeBasedModelSettings(
           PayfactorsApiModelMapper.mapSaveGradeBasedModelSettingsModalFormToSaveSettingsRequest(
-            data.action.payload.rangeGroupId, data.action.payload.formValue, data.action.payload.rounding, advancedSetting)
+            data.action.payload.rangeGroupId, data.action.payload.formValue, data.action.payload.rounding, advancedSetting, data.action.payload.isNewModel)
         ).pipe(
           mergeMap((r) => {
               const actions = [];
@@ -174,8 +103,12 @@ export class SharedEffects {
               } else {
                 actions.push(new fromModelSettingsModalActions.ClearModelNameExistsFailure());
                 actions.push(new fromModelSettingsModalActions.CloseModal());
+                if (data.action.payload.isNewModel) {
+                  actions.push(new fromSharedStructuresActions.SetMetadata(
+                    PayfactorsApiModelMapper.mapStructuresRangeGroupResponseToRangeGroupMetadata(r.RangeGroup)));
+                }
 
-                if (data.metadata.IsCurrent) {
+                if (data.metadata.IsCurrent || this.urlService.isInWorkflow(Workflow.NewRange)) {
                   this.router.navigate(['grade/' + r.RangeGroup.CompanyStructuresRangeGroupId]);
 
                   actions.push(new fromNotificationActions.AddNotification({
@@ -188,9 +121,11 @@ export class SharedEffects {
                   }));
 
                 } else {
-                actions.push(new fromSharedStructuresActions.SetMetadata(
-                  PayfactorsApiModelMapper.mapStructuresRangeGroupResponseToRangeGroupMetadata(r.RangeGroup)
-                ));
+                if (!data.action.payload.isNewModel) {
+                  actions.push(new fromSharedStructuresActions.SetMetadata(
+                    PayfactorsApiModelMapper.mapStructuresRangeGroupResponseToRangeGroupMetadata(r.RangeGroup)
+                  ));
+                }
 
                 // Load data
                 const modelPageViewId =
@@ -202,11 +137,13 @@ export class SharedEffects {
 
                 }
 
-
                 actions.push(new fromModelSettingsModalActions.SaveGradeBasedModelSettingsSuccess());
                 actions.push(new fromSharedStructuresActions.GetGradeRangeDetails(r.RangeGroup.CompanyStructuresRangeGroupId));
               }
-
+              if (data.action.payload.isNewModel) {
+                this.urlService.removeAllWorkflows();
+                actions.push(new fromGradeBasedSharedActions.SetOpenAddJobs(true));
+              }
               return actions;
             }
           ),

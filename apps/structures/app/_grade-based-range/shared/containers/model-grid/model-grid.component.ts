@@ -242,9 +242,9 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
       'Grades': new FormControl(this.numGrades || ''),
       'RangeDistributionTypeId': new FormControl({ value: this.metaData.RangeDistributionTypeId, disabled: true }, [Validators.required]),
       'MarketDataBased': new FormControl(this.controlPoint || 'BaseMRP', [Validators.required]),
-      'StartingMidpoint': new FormControl(''),
-      'RangeSpread': new FormControl(''),
-      'MidpointProgression': new FormControl(''),
+      'StartingMidpoint': new FormControl(this.metaData.StartingMidpoint || '', [Validators.required]),
+      'RangeSpread': new FormControl(this.metaData.SpreadMin || '', [Validators.required]),
+      'MidpointProgression': new FormControl(this.metaData.MidpointProgression || '', [Validators.required]),
       'Rate': new FormControl(this.metaData.Rate || 'Annual', [Validators.required]),
       'Currency': new FormControl(this.metaData.Currency || 'USD', [Validators.required])
     });

@@ -68,7 +68,7 @@
                             (selectionChange)="handlePayTypeSelectionChange()">
             </kendo-combobox>
           </div>
-          <div class="form-group row" *ngIf="isNewModel">
+          <div class="form-group row">
             <label class="col-3 mt-2" for="starting-mid">Starting Midpoint</label>
             <kendo-numerictextbox class="form-control col-4 ie-fix"
                                   formControlName="StartingMidpoint"
@@ -85,7 +85,7 @@
               <div *ngIf="!formControls.StartingMidpoint.valid">Please provide a starting midpoint.</div>
             </div>
           </div>
-          <div class="form-group row" *ngIf="isNewModel">
+          <div class="form-group row">
             <label class="col-3 mt-2" for="range-spread">Range Spread %</label>
             <kendo-numerictextbox class="form-control col-4 ie-fix input-percentage-field"
                                   formControlName="RangeSpread"
@@ -103,7 +103,7 @@
               <div *ngIf="!formControls.RangeSpread.valid">Please provide a range spread %.</div>
             </div>
           </div>
-          <div class="form-group row" *ngIf="isNewModel">
+          <div class="form-group row">
             <label class="col-3 mt-2 no-wrap" for="midpoint-progression">Midpoint Progression %</label>
             <kendo-numerictextbox class="form-control col-4 ie-fix input-percentage-field"
                                   formControlName="MidpointProgression"
