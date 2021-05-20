@@ -37,9 +37,11 @@
                   </button>
                   <span class="vertical-separator mx-3"></span>
                 </ng-container>
-                <button type="button"
+                <button *ngIf="!!item.ParticipationFileName?.length"
+                        type="button"
                         class="btn btn-link"
-                        title="Download File">
+                        title="Download File"
+                        (click)="downloadSurveyParticipationFile(item.ParticipationFileName)">
                   Download
                 </button>
               </div>
