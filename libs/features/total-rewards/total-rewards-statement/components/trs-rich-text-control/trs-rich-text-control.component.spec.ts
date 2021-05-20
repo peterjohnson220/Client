@@ -3,6 +3,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
 import { generateMockEmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards';
+import { AbstractFeatureFlagService } from 'libs/core/services/feature-flags';
 
 import { TrsRichTextControlComponent } from './trs-rich-text-control.component';
 import { StatementModeEnum } from '../../models';
@@ -92,7 +93,11 @@ describe('TrsRichTextControlComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [TrsRichTextControlComponent],
-      schemas: [NO_ERRORS_SCHEMA]
+      schemas: [NO_ERRORS_SCHEMA],
+      providers: [{
+        provide: AbstractFeatureFlagService,
+        useValue: { enabled: jest.fn(), bindEnabled: jest.fn() }
+      }]
     });
   }));
 
@@ -503,4 +508,40 @@ describe('TrsRichTextControlComponent', () => {
 
     expect(component.createQuillEditor).toHaveBeenCalledTimes(1);
   }));
+
+  const isEditorFocused = true;
+  const isFeatureEnabled = true;
+  const shouldExpectRadialCounter = true;
+
+  it.each([
+    [isEditorFocused, isFeatureEnabled, shouldExpectRadialCounter],
+    [isEditorFocused, !isFeatureEnabled, !shouldExpectRadialCounter],
+    [!isEditorFocused, isFeatureEnabled, !shouldExpectRadialCounter],
+    [!isEditorFocused, !isFeatureEnabled, !shouldExpectRadialCounter],
+  ])
+  ('rich text editor focused (%s), feature flag enabled (%s), expect radial text counter displayed (%s)',
+  (editorFocused: boolean, featureEnabled: boolean, expectRadialCounter: boolean) => {
+    // arrange
+    component.mode = StatementModeEnum.Edit;
+    component.controlData = { Title: { Default: 'Title' } } as any;
+    component.closeQuillMention = jest.fn();
+    component.isContentHeightGreaterThanContainerHeight = jest.fn();
+    component.createQuillEditor = jest.fn();
+    component.quillEditor = {
+      hasFocus: function() { return editorFocused; },
+      container: {
+        querySelectorAll: function() { return []; },
+        querySelector: function() { return {offsetHeight: 0}; }
+      },
+      getText: jest.fn()
+    };
+    component.totalRewardsRadialTextCountersFeatureFlag.value = featureEnabled;
+
+    // act
+    fixture.detectChanges();
+
+    // assert
+    const found = fixture.debugElement.nativeElement.querySelector('.radial-text-counter') !== null;
+    expect(found).toBe(expectRadialCounter);
+  });
 });
