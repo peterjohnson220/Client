@@ -1,0 +1,56 @@
+<ng-container *ngIf="surveys?.length; else noSurveys">
+  <div class="d-flex flex-column survey-participation-container">
+    <ngb-accordion #surveysAccordion #surveysAcc="ngbAccordion">
+      <ngb-panel *ngFor="let survey of groupedSurveys; trackBy: trackByPublisher" [id]="'Publisher_' + survey.value">
+        <ng-template ngbPanelHeader>
+          <div class="group-header w-100 d-flex align-items-center">
+          <span (click)="surveysAcc.toggle('Publisher_' + survey.value)" class="cursor-pointer">
+            <fa-icon icon="caret-down" *ngIf="surveysAcc.isExpanded('Publisher_' + survey.value)"></fa-icon>
+            <fa-icon icon="caret-right" *ngIf="!surveysAcc.isExpanded('Publisher_' + survey.value)"></fa-icon>
+            <span pfEllipsisActive class="col ml-3 font-weight-bold flex-fill ellipsis-overflowing-text report-name">
+              {{survey.value}}
+            </span>
+          </span>
+          </div>
+        </ng-template>
+
+        <ng-template ngbPanelContent>
+          <div class=" d-flex flex-row-reverse">
+              <fa-icon
+                [icon]="['far', 'times']"
+                class="close-btn cursor-pointer mb-1"
+                (click)="surveysAcc.collapse('Publisher_' + survey.value)">
+              </fa-icon>
+          </div>
+          <div class="d-flex flex-column gray-border">
+              <div *ngFor="let item of survey.items; let lastItem = last; trackBy: trackBySurveyTitle"
+                   [ngClass]="{'gray-bottom-border' : !lastItem}"
+                   class="d-flex p-3">
+                <div pfEllipsisActive class="mr-auto w-75 ellipsis-overflowing-text align-self-center">
+                  {{item.SurveyName}}
+                </div>
+                <ng-container *ngIf="impersonatorId !== 0">
+                  <button type="button"
+                          class="btn btn-link"
+                          title="Upload File">
+                    Upload
+                  </button>
+                  <span class="vertical-separator mx-3"></span>
+                </ng-container>
+                <button type="button"
+                        class="btn btn-link"
+                        title="Download File">
+                  Download
+                </button>
+              </div>
+          </div>
+        </ng-template>
+      </ngb-panel>
+    </ngb-accordion>
+  </div>
+</ng-container>
+
+<ng-template #noSurveys>
+  <p>No Surveys.</p>
+</ng-template>
+

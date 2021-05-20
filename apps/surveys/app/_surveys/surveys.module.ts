@@ -6,6 +6,7 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { DropDownListModule } from '@progress/kendo-angular-dropdowns';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
@@ -19,7 +20,7 @@ import { reducers } from './reducers';
 
 import { SurveysPageComponent } from './surveys.page';
 import { SurveysRoutingModule } from './surveys-routing.module';
-import { SurveyDataCutsComponent } from './containers';
+import { SurveyDataCutsComponent, SurveyParticipationComponent } from './containers';
 import { PfSurveyJobDetailsComponent, ViewParticipantsListComponent } from './components';
 import { SurveyJobDetailsPipe } from './pipes';
 import { SurveyPageEffects } from './effects';
@@ -41,6 +42,7 @@ import { SurveyPageEffects } from './effects';
     ]),
     FontAwesomeModule,
     DropDownListModule,
+    NgbModule,
 
     // Payfactors
     PfCommonModule,
@@ -55,6 +57,7 @@ import { SurveyPageEffects } from './effects';
 
     // Containers
     SurveyDataCutsComponent,
+    SurveyParticipationComponent,
 
     // Components
     PfSurveyJobDetailsComponent,

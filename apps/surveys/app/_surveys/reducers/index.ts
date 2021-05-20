@@ -35,3 +35,4 @@ export const getSurveyParticipants = createSelector(selectSurveysPageState, from
 export const getSurveyCountries = createSelector(selectSurveysPageState, fromSurveysPageReducer.getSurveyCountries);
 export const getSurveyYears = createSelector(selectSurveysPageState, fromSurveysPageReducer.getSurveyYears);
 export const getOpenedSurveyDataGrids = createSelector(selectSurveysPageState, fromSurveysPageReducer.getOpenedSurveyDataGrids);
+export const getSurveyInfo = createSelector(selectSurveysPageState, fromSurveysPageReducer.getSurveyInfo);

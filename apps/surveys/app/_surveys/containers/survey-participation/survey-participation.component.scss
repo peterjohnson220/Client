@@ -1,0 +1,24 @@
+.survey-participation-container {
+  position: relative;
+  max-height: 438px;
+  overflow: auto;
+
+  .cursor-pointer {
+    cursor: pointer;
+  }
+
+  .close-btn {
+    position: relative;
+    bottom: 10px;
+  }
+
+  .gray-border {
+    border: 1px solid #DFDFDF;
+  }
+
+  .gray-bottom-border {
+    border-bottom: 1px solid #DFDFDF;
+  }
+
+}
+
