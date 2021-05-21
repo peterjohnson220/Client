@@ -26,8 +26,9 @@ export const LOAD_PUBLIC_JDM_COLUMNS = '[job-description-management / Job Descri
 export const LOAD_PUBLIC_JDM_COLUMNS_ERROR = '[job-description-management / Job Description Grid] Load Public JDM Columns Error';
 export const LOAD_PUBLIC_JDM_COLUMNS_SUCCESS = '[job-description-management / Job Description Grid] Load Public JDM Columns Success';
 export const SELECT_JOB_DESCRIPTIONS = '[job-description-management / Job Description Grid] Select Job Descriptions';
-export const ADD_ROUTING_JOB = '[job-description-management / Job Description Grid] Add Routing Job';
-export const REMOVE_ROUTING_JOB = '[job-description-management / Job Description Grid] Remove Routing Job';
+export const ADD_ROUTING_JOB_STATUS = '[job-description-management / Job Description Grid] Add Routing Job Status';
+export const REMOVE_ROUTING_JOB_STATUS = '[job-description-management / Job Description Grid] Remove Routing Job Status';
+export const ADD_DELETING_JOB_STATUS = '[job-description-management / Job Description Grid] Add Deleting Job Status';
 
 export class LoadJobDescriptionGrid implements Action {
   readonly type = LOAD_JOB_DESCRIPTION_GRID;
@@ -126,16 +127,22 @@ export class SelectJobDescriptions implements Action {
   constructor(public payload: Map<number, any>) {}
 }
 
-export class AddRoutingJob implements Action {
-  readonly type = ADD_ROUTING_JOB;
+export class AddRoutingJobStatus implements Action {
+  readonly type = ADD_ROUTING_JOB_STATUS;
 
   constructor(public payload: number) {}
 }
 
-export class RemoveRoutingJob implements Action {
-  readonly type = REMOVE_ROUTING_JOB;
+export class RemoveRoutingJobStatus implements Action {
+  readonly type = REMOVE_ROUTING_JOB_STATUS;
 
   constructor(public payload: number) {}
+}
+
+export class AddDeletingJobStatus implements Action {
+  readonly type = ADD_DELETING_JOB_STATUS;
+
+  constructor(public payload: number[]) {}
 }
 
 export type Actions
@@ -157,5 +164,6 @@ export type Actions
   | LoadPublicJdmColumnsError
   | LoadPublicJdmColumnsSuccess
   | SelectJobDescriptions
-  | AddRoutingJob
-  | RemoveRoutingJob;
+  | AddRoutingJobStatus
+  | RemoveRoutingJobStatus
+  | AddDeletingJobStatus;

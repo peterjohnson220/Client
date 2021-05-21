@@ -196,7 +196,7 @@ export class JobDescriptionEffects {
     .pipe(
       ofType(fromJobDescriptionActions.DELETE_JOB_DESCRIPTION),
       switchMap((action: fromJobDescriptionActions.DeleteJobDescription) => {
-        return this.jobDescriptionApiService.deleteJobDescription(action.payload.jobDescriptionId)
+        return this.jobDescriptionApiService.deleteJobDescription(action.payload.jobDescriptionIds)
           .pipe(
             map(() => new fromJobDescriptionActions.DeleteJobDescriptionSuccess()),
             catchError(() => of(new fromJobDescriptionActions.DeleteJobDescriptionError()))

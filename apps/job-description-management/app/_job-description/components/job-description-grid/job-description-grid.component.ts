@@ -132,7 +132,9 @@ return this.selectedJobDescriptions?.size > 0 && !this.canBulkDeleteJobDescripti
   }
 
   canSelectRow(jd): boolean {
-    return jd.JobDescriptionId && jd.JobDescriptionStatus !== 'Routing' ? true : false;
+    return jd.JobDescriptionId
+      && jd.JobDescriptionStatus !== 'Routing'
+      && jd.JobDescriptionStatus !== 'Deleting';
   }
 
   handleJobDescriptionHistoryClick(jobDescriptionId: number, jobTitle: string) {
@@ -144,7 +146,7 @@ return this.selectedJobDescriptions?.size > 0 && !this.canBulkDeleteJobDescripti
   }
 
   handleDeleteJobDescriptionClick(jobDescriptionId) {
-    this.openDeleteJobDescriptionModal.emit(jobDescriptionId);
+    this.openDeleteJobDescriptionModal.emit([jobDescriptionId]);
   }
 
   hideCurrentReviewerTooltip(ngbTooltip: NgbTooltip) {
@@ -262,7 +264,7 @@ return this.selectedJobDescriptions?.size > 0 && !this.canBulkDeleteJobDescripti
   }
 
   onCellClick(event: any) {
-    if (event?.dataItem.JobDescriptionStatus === 'Routing') {
+    if (event?.dataItem.JobDescriptionStatus === 'Routing' || event?.dataItem.JobDescriptionStatus === 'Deleting' ) {
       return;
     }
     const companyJobViewListItem: CompanyJobViewListItem = event?.dataItem;
@@ -278,6 +280,11 @@ return this.selectedJobDescriptions?.size > 0 && !this.canBulkDeleteJobDescripti
 
   handleBulkRouteForApprovalClicked(): void {
     this.bulkRouteJobDescriptions.emit();
+  }
+
+  handleBulkDeleteClicked(): void {
+    const selectedIds = Array.from(this.selectedJobDescriptions?.keys());
+    this.openDeleteJobDescriptionModal.emit(selectedIds);
   }
 
   canBulkDeleteJobDescriptions(): boolean {
@@ -320,8 +327,8 @@ return this.selectedJobDescriptions?.size > 0 && !this.canBulkDeleteJobDescripti
   }
 
   public rowClass(args) {
-    const isRouting = args.dataItem.JobDescriptionStatus === 'Routing';
-    if (isRouting) {
+    const disabled = args.dataItem.JobDescriptionStatus === 'Routing' || args.dataItem.JobDescriptionStatus === 'Deleting';
+    if (disabled) {
       return {
         'k-disabled': true
       };

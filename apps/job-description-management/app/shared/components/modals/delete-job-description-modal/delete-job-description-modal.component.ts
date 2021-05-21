@@ -5,6 +5,7 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 import * as fromJobDescriptionReducer from '../../../../_job-description/reducers/job-description.reducer';
 import * as fromJobDescriptionActions from '../../../../_job-description/actions/job-description.actions';
+import * as fromJobDescriptionGridActions from '../../../../_job-description/actions/job-description-grid.actions';
 
 
 @Component({
@@ -15,7 +16,7 @@ import * as fromJobDescriptionActions from '../../../../_job-description/actions
 export class DeleteJobDescriptionModalComponent implements OnInit, OnDestroy {
   @ViewChild('deleteJobDescriptionModal', { static: true }) public deleteJobDescriptionModal: any;
 
-  private jobDescriptionId: number;
+  private jobDescriptionIds: number[];
   private deleteJobDescriptionSuccess$: Observable<boolean>;
   private deleteJobDescriptionSuccessSubscription: Subscription;
   public modalRef: NgbModalRef;
@@ -35,8 +36,8 @@ export class DeleteJobDescriptionModalComponent implements OnInit, OnDestroy {
     });
   }
 
-  open(jobDescriptionId: number) {
-    this.jobDescriptionId = jobDescriptionId;
+  open(jobDescriptionIds: number[]) {
+    this.jobDescriptionIds = jobDescriptionIds;
     this.modalRef = this.modalService.open(this.deleteJobDescriptionModal, { backdrop: 'static', size: 'lg' });
   }
 
@@ -47,8 +48,10 @@ export class DeleteJobDescriptionModalComponent implements OnInit, OnDestroy {
   }
 
   submit() {
-    this.store.dispatch(new fromJobDescriptionActions.DeleteJobDescription({ jobDescriptionId: this.jobDescriptionId }));
-  }
+    this.store.dispatch(new fromJobDescriptionActions.DeleteJobDescription({ jobDescriptionIds: this.jobDescriptionIds }));
+    this.store.dispatch(new fromJobDescriptionGridActions.AddDeletingJobStatus(this.jobDescriptionIds));
+    this.close();
+   }
 
   ngOnDestroy() {
     this.deleteJobDescriptionSuccessSubscription.unsubscribe();

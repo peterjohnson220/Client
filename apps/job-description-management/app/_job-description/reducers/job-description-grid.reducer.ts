@@ -136,7 +136,7 @@ export function reducer(state = initialState, action: fromJobDescriptionGridActi
         };
       }
 
-      case fromJobDescriptionGridActions.ADD_ROUTING_JOB: {
+      case fromJobDescriptionGridActions.ADD_ROUTING_JOB_STATUS: {
         const gridDataResultCopy = cloneDeep(state.gridDataResult);
         gridDataResultCopy.data.forEach( jd => {
           if (action.payload === jd['JobDescriptionId']) {
@@ -149,11 +149,24 @@ export function reducer(state = initialState, action: fromJobDescriptionGridActi
         };
       }
 
-      case fromJobDescriptionGridActions.REMOVE_ROUTING_JOB: {
+      case fromJobDescriptionGridActions.REMOVE_ROUTING_JOB_STATUS: {
         const gridDataResultCopy = cloneDeep(state.gridDataResult);
         gridDataResultCopy.data.forEach( jd => {
           if (action.payload === jd['JobDescriptionId']) {
             jd['JobDescriptionStatus'] = 'In Review';
+          }
+        });
+        return {
+          ...state,
+          gridDataResult: gridDataResultCopy
+        };
+      }
+
+      case fromJobDescriptionGridActions.ADD_DELETING_JOB_STATUS: {
+        const gridDataResultCopy = cloneDeep(state.gridDataResult);
+        gridDataResultCopy.data.forEach( jd => {
+          if (action.payload.includes(jd['JobDescriptionId'])) {
+            jd['JobDescriptionStatus'] = 'Deleting';
           }
         });
         return {
