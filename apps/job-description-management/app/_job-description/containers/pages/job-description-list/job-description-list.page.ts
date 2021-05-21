@@ -386,8 +386,8 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
     this.jobDescriptionAppliesToModalComponent.open(selectedCompanyJob.JobDescriptionId, selectedCompanyJob.CompanyJobId);
   }
 
-  openDeleteJobDescModal(jobDescriptionId) {
-    this.deleteJobDescriptionModalComponent.open(jobDescriptionId);
+  openDeleteJobDescModal(jobDescriptionIds: number[]) {
+    this.deleteJobDescriptionModalComponent.open(jobDescriptionIds);
   }
   saveFilterClicked() {
     this.saveFilterModalComponent.open();

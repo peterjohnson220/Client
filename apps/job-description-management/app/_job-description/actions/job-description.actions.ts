@@ -261,7 +261,7 @@ export class AddSourceDataToControl implements Action {
 export class DeleteJobDescription implements Action {
   readonly type = DELETE_JOB_DESCRIPTION;
 
-  constructor(public payload: { jobDescriptionId: number }) {}
+  constructor(public payload: { jobDescriptionIds: number[] }) {}
 }
 
 export class DeleteJobDescriptionSuccess implements Action {
