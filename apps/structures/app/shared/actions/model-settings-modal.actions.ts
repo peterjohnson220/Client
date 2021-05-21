@@ -25,9 +25,6 @@ export const SET_ACTIVE_TAB = '[Structures - Range - Model Settings] Set Active 
 export const SAVE_JOB_BASED_MODEL_SETTINGS = '[Structures - Job Based Range - Model Settings] Save Model Settings';
 export const SAVE_JOB_BASED_MODEL_SETTINGS_SUCCESS = '[Structures - Job Based Range - Model Settings] Save Model Settings Success';
 export const SAVE_JOB_BASED_MODEL_SETTINGS_ERROR = '[Structures - Job Based Range - Model Settings] Save Model Settings Error';
-export const CREATE_GRADE_BASED_MODEL_SETTINGS = '[Structures - Grade Based Range - Model Settings] Create Model Settings';
-export const CREATE_GRADE_BASED_MODEL_SETTINGS_SUCCESS = '[Structures - Grade Based Range - Model Settings] Create Model Settings Success';
-export const CREATE_GRADE_BASED_MODEL_SETTINGS_ERROR = '[Structures - Grade Based Range - Model Settings] Create Model Settings Error';
 export const SAVE_GRADE_BASED_MODEL_SETTINGS = '[Structures - Grade Based Range - Model Settings] Save Model Settings';
 export const SAVE_GRADE_BASED_MODEL_SETTINGS_SUCCESS = '[Structures - Grade Based Range - Model Settings] Save Model Settings Success';
 export const SAVE_GRADE_BASED_MODEL_SETTINGS_ERROR = '[Structures - Grade Based Range - Model Settings] Save Model Settings Error';
@@ -130,24 +127,11 @@ export class SaveJobBasedModelSettingsError implements Action {
   readonly type = SAVE_JOB_BASED_MODEL_SETTINGS_ERROR;
 }
 
-export class CreateGradeBasedModelSettings implements Action {
-  readonly type = CREATE_GRADE_BASED_MODEL_SETTINGS;
-
-  constructor(public payload: { rangeGroupId: number; formValue: RangeGroupMetadata; fromPageViewId: string, rounding: RoundingSettingsDataObj }) {}
-}
-
-export class CreateGradeBasedModelSettingsSuccess implements Action {
-  readonly type = CREATE_GRADE_BASED_MODEL_SETTINGS_SUCCESS;
-}
-
-export class CreateGradeBasedModelSettingsError implements Action {
-  readonly type = CREATE_GRADE_BASED_MODEL_SETTINGS_ERROR;
-}
-
 export class SaveGradeBasedModelSettings implements Action {
   readonly type = SAVE_GRADE_BASED_MODEL_SETTINGS;
 
-  constructor(public payload: { rangeGroupId: number; formValue: RangeGroupMetadata; fromPageViewId: string, rounding: RoundingSettingsDataObj }) {}
+  constructor(public payload: { rangeGroupId: number; formValue: RangeGroupMetadata; fromPageViewId: string,
+    rounding: RoundingSettingsDataObj, isNewModel: boolean }) {}
 }
 
 export class SaveGradeBasedModelSettingsSuccess implements Action {
@@ -180,9 +164,6 @@ export type ModelSettingsModalActions
   | SaveJobBasedModelSettings
   | SaveJobBasedModelSettingsSuccess
   | SaveJobBasedModelSettingsError
-  | CreateGradeBasedModelSettings
-  | CreateGradeBasedModelSettingsSuccess
-  | CreateGradeBasedModelSettingsError
   | SaveGradeBasedModelSettings
   | SaveGradeBasedModelSettingsSuccess
   | SaveGradeBasedModelSettingsError;

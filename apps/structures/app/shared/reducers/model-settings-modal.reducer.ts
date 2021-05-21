@@ -64,15 +64,12 @@ export function reducer(state = initialState, action: fromModelSettingsModalActi
     case fromModelSettingsModalActions.GET_STRUCTURE_NAME_SUGGESTIONS_ERROR:
       return AsyncStateObjHelper.loadingError(state, 'structureNameSuggestionsAsyncObj');
     case fromModelSettingsModalActions.SAVE_JOB_BASED_MODEL_SETTINGS:
-    case fromModelSettingsModalActions.CREATE_GRADE_BASED_MODEL_SETTINGS:
     case fromModelSettingsModalActions.SAVE_GRADE_BASED_MODEL_SETTINGS:
       return AsyncStateObjHelper.saving(state, 'savingModelingSettingsAsyncObj');
     case fromModelSettingsModalActions.SAVE_JOB_BASED_MODEL_SETTINGS_SUCCESS:
-    case fromModelSettingsModalActions.CREATE_GRADE_BASED_MODEL_SETTINGS_SUCCESS:
     case fromModelSettingsModalActions.SAVE_GRADE_BASED_MODEL_SETTINGS_SUCCESS:
       return AsyncStateObjHelper.savingSuccess(state, 'savingModelingSettingsAsyncObj');
     case fromModelSettingsModalActions.SAVE_JOB_BASED_MODEL_SETTINGS_ERROR:
-    case fromModelSettingsModalActions.CREATE_GRADE_BASED_MODEL_SETTINGS_ERROR:
     case fromModelSettingsModalActions.SAVE_GRADE_BASED_MODEL_SETTINGS_ERROR:
       return AsyncStateObjHelper.savingError(state, 'savingModelingSettingsAsyncObj');
     case fromModelSettingsModalActions.MODEL_NAME_EXISTS_FAILURE: {
