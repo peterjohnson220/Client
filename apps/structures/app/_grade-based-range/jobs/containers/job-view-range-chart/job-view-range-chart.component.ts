@@ -135,7 +135,7 @@ export class JobViewRangeChartComponent implements OnInit, OnDestroy {
   }
 
   private getScatterXCoordinate(index): number {
-    return index - (0.018 * index);
+    return index - (0.02 * index);
   }
 
   private addSalaryRangeMinMidMax(xCoordinate) {
