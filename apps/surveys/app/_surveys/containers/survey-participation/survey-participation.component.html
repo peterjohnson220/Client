@@ -35,15 +35,16 @@
                           title="Upload File">
                     Upload
                   </button>
-                  <span class="vertical-separator mx-3"></span>
                 </ng-container>
-                <button *ngIf="!!item.ParticipationFileName?.length"
-                        type="button"
-                        class="btn btn-link"
-                        title="Download File"
-                        (click)="downloadSurveyParticipationFile(item.ParticipationFileName)">
-                  Download
-                </button>
+                <ng-container *ngIf="!!item.ParticipationFileName?.length">
+                  <span class="vertical-separator mx-3"></span>
+                  <button type="button"
+                          class="btn btn-link"
+                          title="Download File"
+                          (click)="downloadSurveyParticipationFile(item.ParticipationFileName)">
+                    Download
+                  </button>
+                </ng-container>
               </div>
           </div>
         </ng-template>

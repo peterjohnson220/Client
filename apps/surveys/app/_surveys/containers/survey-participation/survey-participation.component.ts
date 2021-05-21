@@ -68,6 +68,7 @@ export class SurveyParticipationComponent implements OnInit, OnChanges {
   }
 
   downloadSurveyParticipationFile(fileName: string): void {
+    const formattedFileName = encodeURIComponent(fileName);
     const notification = {
       NotificationId: '',
       Level: NotificationLevel.Success,
@@ -75,7 +76,7 @@ export class SurveyParticipationComponent implements OnInit, OnChanges {
       Payload: {
         Title: 'File Ready',
         Message: `Download: ${fileName}`,
-        ExportedViewLink: `/odata/CloudFiles.GetSurveyParticipationFile?FileName=${fileName}`
+        ExportedViewLink: `/odata/CloudFiles.GetSurveyParticipationFile?FileName=${formattedFileName}`
       },
       EnableHtml: true,
       Type: NotificationType.Event
