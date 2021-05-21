@@ -115,6 +115,11 @@ pf-statement-edit.page {
   .statement, .header-row-wrapper, .canvas {
     transition: opacity .2s ease-in-out, background-color .2s ease-in-out, transform .5s ease-in-out;
   }
+
+  //Targets the dragging element for dragula
+  .gu-mirror pf-string-editor .radial-text-counter {
+    visibility: hidden;
+  }
   a.settings {
     color: inherit;
     svg {
