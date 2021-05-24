@@ -111,7 +111,7 @@
     type="button"
     (click)="viewSurveyParticipantsModal()"
     class="btn btn-primary">
-    Participants
+    Participation
   </button>
 </ng-template>
 
@@ -130,8 +130,7 @@
 <pf-modal-form
   [size]="'lg'"
   [title]="'Survey Participation'"
-  [primaryButtonText]="'Close'"
-  [primaryButtonClass]="'btn-danger'"
+  [secondaryButtonText]="'Close'"
   [modalId]="'au-modal-survey-participation'"
   [isOpen$]=" showSurveyParticipantModal$"
   [showSubmit]="false"
