@@ -1,0 +1,24 @@
+@import '_colors';
+
+.inbox-options {
+    min-width: 200px;
+    max-width: 200px;
+    margin-top: 48px;
+    height: 100%;
+    overflow-x: hidden;
+}
+
+.option {
+    font-size: medium;
+    border-color: $theme-grid-line-color;
+    min-height: 42px;
+}
+
+.badge {
+    background-color: $body-background-color;
+}
+
+.job-description-inbox-grid-container {
+    height: calc(100vh - 186px);
+    width: 100%;
+}

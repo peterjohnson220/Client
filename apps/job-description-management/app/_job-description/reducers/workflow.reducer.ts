@@ -2,6 +2,7 @@ import cloneDeep from 'lodash/cloneDeep';
 
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 import { Permissions } from 'libs/constants';
+import { WorkflowStepInfo } from 'libs/models/security';
 
 import * as fromWorkflowActions from '../actions/workflow.actions';
 import { Workflow, WorkflowLogEntry, WorkflowStepSummaryItem } from '../models';
@@ -20,6 +21,8 @@ export interface State {
   message: string;
   completedStep: boolean;
   completedStepError: boolean;
+  workflowStepInfo: WorkflowStepInfo;
+  inSystemWorkflowStepCompletionModalOpen: boolean;
 }
 
 export const initialState: State = {
@@ -35,11 +38,19 @@ export const initialState: State = {
   saving: false,
   message: '',
   completedStep: false,
-  completedStepError: false
+  completedStepError: false,
+  workflowStepInfo: null,
+  inSystemWorkflowStepCompletionModalOpen: false
 };
 
 export function reducer(state = initialState, action: fromWorkflowActions.Actions): State {
   switch (action.type) {
+    case fromWorkflowActions.GET_WORKFLOW_STEP_INFO_FROM_TOKEN_SUCCESS: {
+      return {
+        ...state,
+        workflowStepInfo: action.payload
+      };
+    }
     case fromWorkflowActions.LOAD_WORKFLOW_LOG_ENTRIES: {
       const workflowLogEntriesAsyncClone = cloneDeep(state.workflowLogEntriesAsync);
       workflowLogEntriesAsyncClone.loading = true;
@@ -90,13 +101,20 @@ export function reducer(state = initialState, action: fromWorkflowActions.Action
         rejecting: true
       };
     }
+    case fromWorkflowActions.COMPLETE_WORKFLOW_STEP: {
+      return {
+        ...state,
+        inSystemWorkflowStepCompletionModalOpen: false
+      };
+    }
     case fromWorkflowActions.COMPLETE_WORKFLOW_STEP_SUCCESS: {
 
       return {
         ...state,
         approving: false,
         rejecting: false,
-        completedStepError: false
+        completedStepError: false,
+        inSystemWorkflowStepCompletionModalOpen: action.payload.showInSystemWorkflowStepCompletionModal
       };
     }
     case fromWorkflowActions.COMPLETE_WORKFLOW_STEP_ERROR: {
@@ -214,3 +232,5 @@ export const getWorkflowSaving = (state: State) => state.saving;
 export const getMessage = (state: State) => state.message;
 export const getCompletedStep = (state: State) => state.completedStep;
 export const getCompletedStepError = (state: State) => state.completedStepError;
+export const getWorkflowStepInfo = (state: State) => state.workflowStepInfo;
+export const getInSystemWorkflowStepCompletionModalOpen = (state: State) => state.inSystemWorkflowStepCompletionModalOpen;

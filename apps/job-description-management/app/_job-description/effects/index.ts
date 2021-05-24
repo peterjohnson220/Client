@@ -16,3 +16,4 @@ export * from './copy-job-description-modal.effects';
 export * from './job-description-list.effects';
 export * from './workflow-setup-modal.effects';
 export * from './job-description-workflow-compare.effects';
+export * from './job-description-inbox.effects';

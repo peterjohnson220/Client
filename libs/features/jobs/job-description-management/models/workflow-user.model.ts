@@ -1,7 +1,10 @@
 export interface WorkflowUser {
-  FirstName: string;
-  LastName: string;
   EmailAddress: string;
-  Permissions: any[];
+  FirstName: string;
   IsNonPfUser: boolean;
+  LastName: string;
+  Permissions: any[];
+  StepId?: number;
+  UserId?: number;
+  UserPicture?: string;
 }

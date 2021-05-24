@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRoute, ActivatedRouteSnapshot, CanActivate, Router } from '@angular/router';
-
+import { ActivatedRoute, ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { combineLatest } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 import { take, filter, map } from 'rxjs/operators';
-
-import * as fromRootState from '../../../../../libs/state/state';
+import * as fromRootState from 'libs/state/state';
 import * as fromJobDescriptionActions from '../../_job-description/actions/job-description.actions';
 import * as fromJobDescriptionReducers from '../../_job-description/reducers';
 
@@ -25,7 +23,7 @@ export class SsoAuthGuard implements CanActivate {
 
   }
 
-  canActivate(route: ActivatedRouteSnapshot) {
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     this.jwtTokenId = route.queryParams[ 'jwt' ];
     this.ssoTokenId = route.queryParams[ 'tokenid' ];
     this.ssoAgentId = route.queryParams[ 'agentid' ];
@@ -39,6 +37,22 @@ export class SsoAuthGuard implements CanActivate {
 
       return this.waitForSSOAuthResult().pipe(map(result => {
         if (result.authResult) {
+          if (result.authResult.RequiresStandardLogin) {
+            const currentURL = window.location.href;
+            const id = currentURL.slice(0, currentURL.indexOf('?')).slice(currentURL.lastIndexOf('/') + 1);
+            const ssoRedirectPath = `/client/job-description-management/job-descriptions/${id}?jwt-workflow=${this.jwtTokenId}`;
+            const encodedUrl = encodeURIComponent(ssoRedirectPath);
+
+            if (!!result.authResult.JwtSsoLoginUrl) {
+              window.location.href = `${result.authResult.JwtSsoLoginUrl}${encodedUrl}`;
+              return false;
+            } else {
+              this.router.navigateByUrl(`/job-descriptions/${id}?jwt-workflow=${this.jwtTokenId}`).then(value => window.location.reload());
+              return false;
+            }
+
+            return true;
+          }
           return true;
         } else if (result.authError) {
 
