@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { EmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards';
+import { Page } from '../../models/page';
 
 import {
   CalculationControl,
@@ -36,6 +37,7 @@ export class TotalRewardsStatementComponent {
   @Input() visibleFieldsCount: number;
   @Input() activeEditorId: string;
   @Input() isPageScrolling: boolean;
+  @Input() isAdditionalPageEnabled: boolean;
 
   // Common Outputs
   @Output() onControlTitleChange: EventEmitter<UpdateTitleRequest> = new EventEmitter();
@@ -69,7 +71,7 @@ export class TotalRewardsStatementComponent {
   statementModeEnum = StatementModeEnum;
 
   get cssClasses(): string {
-    return  this.templateSpecificCss + ' ' + this.fontSizeCssClass + ' ' + this.fontFamilyCssClass;
+    return `${this.templateSpecificCss} ${this.fontSizeCssClass} ${this.fontFamilyCssClass} ${this.additionalPageCss}`;
   }
 
   get templateSpecificCss(): string {
@@ -97,6 +99,11 @@ export class TotalRewardsStatementComponent {
       return this.statement.Settings.FontFamily.toLowerCase().replace(/ /g, '-') + '-font-family';
     }
     return '';
+  }
+
+  // this and it's reference in cssClasses can be removed when the launch darkly additional page flag is deprecated
+  get additionalPageCss(): string {
+    return this.isAdditionalPageEnabled ? '' : 'additional-page-disabled';
   }
 
   get visibleCalculationControls(): CalculationControl[] {

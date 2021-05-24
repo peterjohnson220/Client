@@ -12,11 +12,13 @@ import {
   StatementForPrint, generateMockStatementWithSingleControl, generateMockImageControl
 } from 'libs/features/total-rewards/total-rewards-statement/models';
 import { generateMockChartControl } from 'libs/features/total-rewards/total-rewards-statement/models/chart-control';
+import { AbstractFeatureFlagService } from 'libs/core/services/feature-flags';
 
 import * as fromStatementPrintReducer from '../reducers';
 import { StatementPrintPageComponent } from './statement-print.page';
 
 describe('StatementPrintPageComponent', () => {
+  let abstractFeatureFlagService: AbstractFeatureFlagService;
   let component: StatementPrintPageComponent;
   let fixture: ComponentFixture<StatementPrintPageComponent>;
   let store: Store<fromStatementPrintReducer.State>;
@@ -40,12 +42,18 @@ describe('StatementPrintPageComponent', () => {
         {
           provide: ActivatedRoute,
           useValue: { params: of(1) },
+        },
+        {
+          provide: AbstractFeatureFlagService,
+          useValue: { enabled: jest.fn(), bindEnabled: jest.fn() }
         }],
         schemas: [NO_ERRORS_SCHEMA]
     });
 
     store = TestBed.inject(Store);
     router = TestBed.inject(Router);
+
+    abstractFeatureFlagService = TestBed.inject(AbstractFeatureFlagService);
   }));
 
   beforeEach(() => {

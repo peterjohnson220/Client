@@ -1,10 +1,9 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-
 import { Router } from '@angular/router';
 
 import { NgbDropdown, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { select, Store } from '@ngrx/store';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription, Subject } from 'rxjs';
 import { SortDescriptor } from '@progress/kendo-data-query';
 
 import { Permissions } from 'libs/constants';
@@ -25,6 +24,7 @@ import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import { Statement, StatementModeEnum } from 'libs/features/total-rewards/total-rewards-statement/models';
 import { EmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards/response';
 import { AsyncStateObj } from 'libs/models/state';
+import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
 
 import * as fromEmployeesReducer from '../reducers';
 import * as fromEmployeesPageActions from '../actions/employees-page.actions';
@@ -82,10 +82,14 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
   gridConfig: GridConfig;
   gridRowActionsConfig: GridRowActionsConfig = getDefaultGridRowActionsConfig();
   hasDropdownOptions: boolean;
+
+  // total rewards
   totalRewardsStatementMode = StatementModeEnum.Print;
   totalRewardsStatement: Statement;
   employeeRewardsData: EmployeeRewardsData;
   totalRewardsStatementId: string;
+  totalRewardsAdditionalPageFeatureFlag: RealTimeFlag = { key: FeatureFlags.TotalRewardsAdditionalPage, value: false };
+  unsubscribe$ = new Subject<void>();
 
   constructor(
     public store: Store<fromEmployeesReducer.State>,
@@ -93,6 +97,7 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
     private pfGridStore: Store<fromPfGridReducer.State>,
     private modalService: NgbModal,
     private router: Router,
+    private featureFlagService: AbstractFeatureFlagService
   ) {
     this.pricingJobs$ = this.store.pipe(select(fromEmployeesReducer.getPricingJobs));
     this.pricingJobsError$ = this.store.pipe(select(fromEmployeesReducer.getPricingsJobsError));
@@ -116,6 +121,8 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
       ScrollToTop: true,
       SelectAllPanelItemName: 'employees'
     };
+
+    this.featureFlagService.bindEnabled(this.totalRewardsAdditionalPageFeatureFlag, this.unsubscribe$);
   }
 
   ngOnInit(): void {

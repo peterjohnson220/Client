@@ -1,14 +1,5 @@
 import { Page } from './page';
-import {
-  BaseControl,
-  CalculationControl,
-  ChartControl,
-  ImageControl,
-  RichTextControl,
-  AuditRecord,
-  Settings,
-  Layout
-} from './index';
+import { BaseControl, CalculationControl, ChartControl, ImageControl, RichTextControl, AuditRecord, Settings, Layout } from './index';
 import { TotalRewardsControlEnum } from './total-rewards-control-enum';
 import { TitleControl } from './title-control';
 import { generateMockAuditRecord } from './audit-record';

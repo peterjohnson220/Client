@@ -23,6 +23,10 @@ pf-total-rewards-statement {
       left: calc(100% - 1rem);
     }
   }
+
+  .additional-page-disabled .trs-page.additional {
+    display: none;
+  }
 }
 
 @import 'total-rewards/statement-controls';

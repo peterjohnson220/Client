@@ -3,6 +3,7 @@
     [statement]="(statement$ | async)"
     [employeeRewardsData]="employeeRewardsData"
     [mode]="printMode"
+    [isAdditionalPageEnabled]="totalRewardsAdditionalPageFeatureFlag?.value"
     [pageBreakAfter]="i !== (statement$ | async)?.EmployeeRewardsData?.length - 1"
     (onImageLoaded)="handleImageLoaded($event)"
     (onChartControlRender)="handleChartRender($event)"
