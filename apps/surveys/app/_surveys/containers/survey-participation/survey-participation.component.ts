@@ -44,7 +44,6 @@ export class SurveyParticipationComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes?.surveys?.currentValue) {
       this.groupedSurveys = groupBy(this.surveys, [{ field: 'SurveyPublisher' }]);
-      this.groupedSurveys = orderBy(this.groupedSurveys, ['value', (x: GroupResult) => x.value.toLowerCase()], 'asc');
     }
     if (changes?.showSurveyParticipantModal?.currentValue) {
       this.surveysAccordion.collapseAll();

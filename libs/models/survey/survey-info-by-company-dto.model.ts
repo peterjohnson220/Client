@@ -1,6 +1,6 @@
 export interface SurveyInfoByCompanyDto {
   SurveyId: number;
   SurveyPublisher: string;
-  SurveyName: string;
+  SurveyTitle: string;
   ParticipationFileName: string;
 }
