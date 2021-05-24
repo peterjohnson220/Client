@@ -78,9 +78,11 @@ export class SingleJobViewDataCutsRangeChartComponent implements OnInit, OnDestr
         this.chartLocale = getUserLocale();
         this.rangeDistributionTypeId = md.RangeDistributionTypeId;
         this.clearData();
-        this.chartOptions =
-          SingleJobViewDataCutsChartService.getSingleJobViewDataCutChartOptions(
-            this.chartLocale, this.currency, this.controlPointDisplay, this.rangeDistributionTypeId, this.groupFieldSelected);
+        if (!!this.groupFieldSelected) {
+          this.chartOptions =
+            SingleJobViewDataCutsChartService.getSingleJobViewDataCutChartOptions(
+              this.chartLocale, this.currency, this.controlPointDisplay, this.rangeDistributionTypeId, this.groupFieldSelected);
+        }
       }
     });
 
@@ -116,6 +118,11 @@ export class SingleJobViewDataCutsRangeChartComponent implements OnInit, OnDestr
         this.selectedFields = fields;
         const anyGroupField = this.selectedFields.find(f => f.Group && f.IsSelected);
         this.groupFieldSelected = !!anyGroupField;
+        if (!!this.chartLocale &&  !!this.currency && !!this.controlPointDisplay && !!this.rangeDistributionTypeId) {
+          this.chartOptions =
+            SingleJobViewDataCutsChartService.getSingleJobViewDataCutChartOptions(
+              this.chartLocale, this.currency, this.controlPointDisplay, this.rangeDistributionTypeId, this.groupFieldSelected);
+        }
       }
     });
 
