@@ -50,10 +50,21 @@ export function reducer(state = initialState, action: fromJobDescriptionGridActi
         loadingJobDescriptionGridError: true
       };
       case fromJobDescriptionGridActions.LOAD_JOB_DESCRIPTION_GRID_SUCCESS:
+        const gridData = cloneDeep(action.payload);
+
+        // update selected JDs with new grid data
+        if ( state.selectedJobDescriptions?.size > 0) {
+          gridData.data.forEach(jobDescription => {
+            if (state.selectedJobDescriptions.has(jobDescription['JobDescriptionId'])) {
+              state.selectedJobDescriptions.set(jobDescription['JobDescriptionId'], jobDescription);
+            }
+          });
+        }
+
         return {
           ...state,
           loadingJobDescriptionGrid: false,
-          gridDataResult: cloneDeep(action.payload)
+          gridDataResult: gridData
         };
     case fromJobDescriptionGridActions.LOAD_LIST_AREA_COLUMNS:
     case fromJobDescriptionGridActions.LOAD_PUBLIC_JDM_COLUMNS:
