@@ -17,6 +17,7 @@ import { SaveListAreaColumnsRequest } from 'libs/models/payfactors-api/user-prof
 
 import * as fromJobDescriptionGridActions from '../actions/job-description-grid.actions';
 import * as fromAppNotificationsActions from 'libs/features/infrastructure/app-notifications/actions/app-notifications.actions';
+import * as fromJobDescriptionInboxActions from '../actions/job-description-inbox.actions';
 import * as fromJobDescriptionGridReducer from '../reducers';
 import { NotificationLevel, NotificationSource } from 'libs/features/infrastructure/app-notifications';
 
@@ -118,6 +119,7 @@ export class JobDescriptionGridEffects {
             if (action.payload.Payload?.Status === 'Started') {
               actions.push(new fromJobDescriptionGridActions.AddRoutingJobStatus(action.payload.Payload?.JobDescriptionId));
             } else if (action.payload.Payload?.Status === 'Complete') {
+              actions.push( new fromJobDescriptionInboxActions.GetUnreadInboxCount());
               actions.push(new fromJobDescriptionGridActions.RemoveRoutingJobStatus(action.payload.Payload?.JobDescriptionId));
             }
         }
