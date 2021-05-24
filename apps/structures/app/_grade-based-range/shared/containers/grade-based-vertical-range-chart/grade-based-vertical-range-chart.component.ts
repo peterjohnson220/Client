@@ -65,6 +65,7 @@ export class GradeBasedVerticalRangeChartComponent implements OnInit, OnDestroy,
   filterPanelSub: Subscription;
   gradeRangeDetails: any;
   rangeGroupId: number;
+  openAddJobsSubscription: Subscription;
 
   constructor(
     public store: Store<any>,
@@ -104,6 +105,14 @@ export class GradeBasedVerticalRangeChartComponent implements OnInit, OnDestroy,
       if (data && this.rate && this.currency && this.gradeRangeDetails.obj) {
         this.gradeRangeData = data;
         this.processChartData();
+      }
+    });
+
+    this.openAddJobsSubscription = this.store.select(fromGradeBasedSharedReducer.getOpenAddJobs).subscribe(open => {
+      // if we're about to open the add jobs modal for the first time, clear out the data so that the charts fully fill in
+      if (open) {
+        this.gradeRangeData = null;
+        this.gradeRangeDetails = null;
       }
     });
   }
@@ -552,5 +561,6 @@ export class GradeBasedVerticalRangeChartComponent implements OnInit, OnDestroy,
     this.pageViewIdSubscription.unsubscribe();
     this.filterPanelSub.unsubscribe();
     this.gradeRangeDetailsSubscription.unsubscribe();
+    this.openAddJobsSubscription.unsubscribe();
   }
 }
