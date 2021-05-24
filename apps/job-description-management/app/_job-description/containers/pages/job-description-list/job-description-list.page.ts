@@ -584,5 +584,6 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
     this.requireSSOLoginSubscription?.unsubscribe();
     this.enableFileDownloadSecurityWarningSub.unsubscribe();
     this.getSelectedJobDescriptionsSubscription.unsubscribe();
+    this.unsubscribe$.next();
   }
 }

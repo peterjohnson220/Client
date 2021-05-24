@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { JobDescriptionManagementJobDescriptionState } from '../../../_job-description/reducers';
 import * as fromWorkflowReducer from '../../../_job-description/reducers';
@@ -11,7 +11,7 @@ import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/cor
   templateUrl: './workflow-step-message-page.component.html',
   styleUrls: ['./workflow-step-message-page.component.scss']
 })
-export class WorkflowStepMessagePageComponent implements OnInit {
+export class WorkflowStepMessagePageComponent implements OnDestroy {
   private unsubscribe$ = new Subject<void>();
   jdmInboxFeatureFlag: RealTimeFlag = { key: FeatureFlags.JdmInbox, value: false };
   workflowCompleteMessage$: Observable<string>;
@@ -24,7 +24,8 @@ export class WorkflowStepMessagePageComponent implements OnInit {
     this.workflowCompleteMessage$ = this.store.select(fromWorkflowReducer.getMessage);
   }
 
-  ngOnInit(): void {
+  ngOnDestroy() {
+    this.unsubscribe$.next();
   }
 
   backToJobDescriptionList() {

@@ -48,5 +48,6 @@ export class WorkflowStepCompletionModalComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     this.store.dispatch(new fromWorkflowActions.CompleteWorkflowStep());
+    this.unsubscribe$.next();
   }
 }
