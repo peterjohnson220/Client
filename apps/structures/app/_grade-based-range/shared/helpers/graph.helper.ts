@@ -40,7 +40,7 @@ export class GraphHelper {
     const multiLineHeaderOffset = 85;
     const defaultSingleRecordHeight = 98;
     const rowHeight = 50;
-    const multiLineHeaderRowHeight = 42;
+    const multiLineHeaderRowHeight = 38;
     const singleDataPointOffset = 10;
     if (data.length > 1) {
       return ((multiLineHeader ? multiLineHeaderRowHeight : rowHeight) * data.length)
