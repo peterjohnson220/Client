@@ -487,8 +487,8 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
 
   public get exportAction(): string {
     if (!!this.jobDescription && !!this.identity) {
-      const tokenId = this.identity.UserId === 0 ? '?jwt=' + this.tokenId : '';
-      return `/odata/JobDescription(${this.jobDescription.JobDescriptionId})/Default.Export${tokenId}`;
+      const actionQueryString = this.tokenId != null ? '?jwt-workflow=' + this.tokenId : '';
+      return `/odata/JobDescription(${this.jobDescription.JobDescriptionId})/Default.Export${actionQueryString}`;
     }
   }
 
