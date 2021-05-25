@@ -3639,7 +3639,7 @@ exports[`TrsCalculationControlComponent should render the supplied Summary 1`] =
             <pf-string-editor>
               
               <span
-                class="wrapper w-100 d-inline-block"
+                class="wrapper w-100 d-inline-block overflow-hidden"
               >
                 <input
                   class="input-text w-100 offScreen"
@@ -3757,7 +3757,7 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
             <pf-string-editor>
               
               <span
-                class="wrapper w-100 d-inline-block"
+                class="wrapper w-100 d-inline-block overflow-hidden"
               >
                 <input
                   class="input-text w-100 offScreen"
@@ -3822,7 +3822,7 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
             <pf-string-editor>
               
               <span
-                class="wrapper w-100 d-inline-block"
+                class="wrapper w-100 d-inline-block overflow-hidden"
               >
                 <input
                   class="input-text w-100 offScreen"
@@ -3887,7 +3887,7 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
             <pf-string-editor>
               
               <span
-                class="wrapper w-100 d-inline-block"
+                class="wrapper w-100 d-inline-block overflow-hidden"
               >
                 <input
                   class="input-text w-100 offScreen"
@@ -3950,7 +3950,7 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
             <pf-string-editor>
               
               <span
-                class="wrapper w-100 d-inline-block"
+                class="wrapper w-100 d-inline-block overflow-hidden"
               >
                 <input
                   class="input-text w-100 offScreen"
