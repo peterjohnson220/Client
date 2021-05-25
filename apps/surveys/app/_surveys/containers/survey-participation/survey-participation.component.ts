@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { NgbAccordion, NgbAccordionConfig } from '@ng-bootstrap/ng-bootstrap';
 import { groupBy, GroupResult } from '@progress/kendo-data-query';
-import orderBy from 'lodash/orderBy';
+import cloneDeep from 'lodash/cloneDeep';
 
 import { SurveyInfoByCompanyDto } from 'libs/models/survey';
 import { UserContext } from 'libs/models/security';
@@ -12,6 +12,7 @@ import { NotificationLevel, NotificationType } from 'libs/features/infrastructur
 import * as fromRootState from 'libs/state/state';
 import * as fromAppNotificationsMainReducer from 'libs/features/infrastructure/app-notifications/reducers';
 import * as fromAppNotificationsActions from 'libs/features/infrastructure/app-notifications/actions/app-notifications.actions';
+import { InputDebounceComponent } from 'libs/forms/components/input-debounce';
 
 @Component({
   selector: 'pf-survey-participation',
@@ -24,13 +25,17 @@ export class SurveyParticipationComponent implements OnInit, OnChanges {
   @Input() showSurveyParticipantModal: boolean;
 
   @ViewChild('surveysAccordion') surveysAccordion: NgbAccordion;
+  @ViewChild(InputDebounceComponent, { static: true }) public inputDebounceComponent: InputDebounceComponent;
 
   userContext$: Observable<UserContext>;
 
   userContextSubscription: Subscription;
 
-  groupedSurveys: GroupResult[] | SurveyInfoByCompanyDto[];
+  originalGroupedSurveys: GroupResult[] | SurveyInfoByCompanyDto[];
+  filteredGroupedSurveys: GroupResult[] | SurveyInfoByCompanyDto[];
+
   impersonatorId: number;
+  searchValue: string;
 
   constructor(
     private rootStore: Store<fromRootState.State>,
@@ -43,10 +48,14 @@ export class SurveyParticipationComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes?.surveys?.currentValue) {
-      this.groupedSurveys = groupBy(this.surveys, [{ field: 'SurveyPublisher' }]);
+      this.filteredGroupedSurveys = groupBy(this.surveys, [{ field: 'SurveyPublisher' }]);
+      this.originalGroupedSurveys = cloneDeep( this.filteredGroupedSurveys);
     }
     if (changes?.showSurveyParticipantModal?.currentValue) {
-      this.surveysAccordion.collapseAll();
+      this.collapseAllPanels();
+    } else {
+      this.searchValue = '';
+      this.inputDebounceComponent.clearValue();
     }
   }
 
@@ -56,6 +65,11 @@ export class SurveyParticipationComponent implements OnInit, OnChanges {
         this.impersonatorId = uc.ImpersonatorId;
       }
     });
+  }
+
+  handleSearchValueChanged(value: string): void {
+    this.searchValue = value.toLowerCase();
+    this.applySearchFilterList();
   }
 
   trackByPublisher(index: number) {
@@ -82,5 +96,22 @@ export class SurveyParticipationComponent implements OnInit, OnChanges {
     };
 
     this.notificationStore.dispatch(new fromAppNotificationsActions.AddNotification(notification));
+  }
+  private applySearchFilterList(): void {
+    if (!!this.searchValue && !!this.searchValue.length) {
+      const filteredOptions = this.surveys
+        .filter(s => s.SurveyTitle.toLowerCase().indexOf(this.searchValue.toLowerCase()) !== -1 ||
+          s.SurveyPublisher.toLowerCase().indexOf(this.searchValue.toLowerCase()) !== -1);
+      this.filteredGroupedSurveys = groupBy(filteredOptions, [{ field: 'SurveyPublisher' }]);
+    } else {
+      this.filteredGroupedSurveys = this.originalGroupedSurveys;
+      this.collapseAllPanels();
+    }
+  }
+
+  private collapseAllPanels(): void {
+    if (this.surveysAccordion) {
+      this.surveysAccordion.collapseAll();
+    }
   }
 }

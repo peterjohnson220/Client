@@ -1,7 +1,16 @@
-<ng-container *ngIf="surveys?.length; else noSurveys">
+<div class="d-flex flex-row-reverse mb-3">
+  <pf-input-debounce style="width: 45%;"
+                     [value]="searchValue"
+                     [attr.data-qa-id]="'txt-searchParticipant'"
+                     [delay]="400"
+                     [placeholderText]="'Search Survey Vendors or Titles'"
+                     (valueChanged)="handleSearchValueChanged($event)">
+  </pf-input-debounce>
+</div>
+<ng-container *ngIf="filteredGroupedSurveys?.length; else noSurveys">
   <div class="d-flex flex-column survey-participation-container">
     <ngb-accordion #surveysAccordion #surveysAcc="ngbAccordion">
-      <ngb-panel *ngFor="let survey of groupedSurveys; trackBy: trackByPublisher" [id]="'Publisher_' + survey.value">
+      <ngb-panel *ngFor="let survey of filteredGroupedSurveys; trackBy: trackByPublisher" [id]="'Publisher_' + survey.value">
         <ng-template ngbPanelHeader>
           <div class="group-header w-100 d-flex align-items-center">
           <span (click)="surveysAcc.toggle('Publisher_' + survey.value)" class="cursor-pointer">
