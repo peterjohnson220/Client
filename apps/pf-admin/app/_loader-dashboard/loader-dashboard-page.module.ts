@@ -15,9 +15,9 @@ import {
   LoaderDashboardFileArchiveRedropComponent,
   LoaderDashboardFileGridComponent,
   LoaderDashboardFilterComponent,
-  LoaderDashboardGridComponent
+  LoaderDashboardGridComponent,
 } from './containers';
-import { LoaderDashboardFileGridDetailComponent, LoaderDashboardGridDetailComponent } from './components';
+import { LoaderDashboardFileGridDetailComponent, LoaderDashboardGridDetailComponent, LoaderDashboardGridSummaryDetailComponent } from './components';
 import { reducers } from './reducers';
 import { LoaderDashboardPageEffects } from './effects';
 import { LoaderDashboardPageRoutingModule } from './loader-dashboard-page-routing.module';
@@ -72,7 +72,8 @@ import { PfFieldMapperModule } from '../../../../libs/features/loaders/org-data-
     LoaderDashboardFileGridDetailComponent,
     LoaderDashboardFileArchiveRedropComponent,
     LoaderDashboardSidebarComponent,
-    RedropConfirmationModalComponent
+    RedropConfirmationModalComponent,
+    LoaderDashboardGridSummaryDetailComponent
   ]
 })
 export class LoaderDashboardPageModule {

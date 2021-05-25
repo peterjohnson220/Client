@@ -1,4 +1,5 @@
-import {EntityLoadSummaryView} from './entity-load-summary-view.model';
+import { EntityLoadSummaryView } from './entity-load-summary-view.model';
+import { EntityLoadSummaryDetailView } from './entity-load-summary-detail-view.model';
 
 export interface CompositeDataLoadViewResponse {
   compositeDataLoadId: number;
@@ -13,6 +14,7 @@ export interface CompositeDataLoadViewResponse {
   loadType?: string;
   validationOnly?: boolean;
   entityLoadSummaries: EntityLoadSummaryView[];
+  entityLoadSummaryDetails: EntityLoadSummaryDetailView[];
   requestTime?: Date;
   processingStartTime?: Date;
   processingEndTime?: Date;
