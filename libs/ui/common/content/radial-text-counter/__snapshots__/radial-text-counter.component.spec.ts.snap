@@ -15,7 +15,7 @@ exports[`RadialTextCounterComponent should set radialCounterClass to radial-coun
   >
     <svg
       class="radial-counter"
-      height="20"
+      height="15"
       width="20"
     >
       <circle
@@ -55,7 +55,7 @@ exports[`RadialTextCounterComponent should set radialCounterClass to radial-coun
   >
     <svg
       class="radial-counter"
-      height="20"
+      height="15"
       width="20"
     >
       <circle
@@ -94,7 +94,7 @@ exports[`RadialTextCounterComponent should show radial text counter 1`] = `
   >
     <svg
       class="radial-counter"
-      height="20"
+      height="15"
       width="20"
     >
       <circle
