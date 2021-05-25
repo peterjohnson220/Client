@@ -72,7 +72,7 @@
   <div class="survey-data-cuts-container pt-3 pb-4 px-4">
     <pf-async-container [loading]="surveyDataGridReloading(dataRow['SurveyJob_Survey_Job_ID'])">
       <div class="d-flex px-3 pb-3 justify-content-between">
-        <pf-survey-job-details [surveyJobDetails]="dataRow | surveyJobDetails"></pf-survey-job-details>
+        <pf-survey-job-details [surveyJobId]="dataRow['SurveyJob_Survey_Job_ID']"></pf-survey-job-details>
 
         <div class="d-flex align-self-center flex-shrink-0 space-out-children">
           <button *ngIf="dataRow['Surveys_ParticipantsCount'] > 0"

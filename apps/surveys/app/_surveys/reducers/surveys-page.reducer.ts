@@ -2,7 +2,7 @@ import cloneDeep from 'lodash/cloneDeep';
 
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 import { AsyncStateObjHelper } from 'libs/core/helpers';
-import { SurveyInfoByCompanyDto } from 'libs/models/survey';
+import { SurveyInfoByCompanyDto, SurveyJobDetails } from 'libs/models/survey';
 import { SurveyDataCountryAccessDto } from 'libs/models/survey/survey-data-country-access-dto.model';
 import { PfDataGridCustomFilterDisplayOptions } from 'libs/features/grids/pf-data-grid/models';
 
@@ -15,6 +15,7 @@ export interface State {
   participantsModalOpen: boolean;
   surveyParticipants: AsyncStateObj<string[]>;
   countries: AsyncStateObj<SurveyDataCountryAccessDto[]>;
+  surveyJobDetails: SurveyJobDetails[];
   surveyYears: AsyncStateObj<PfDataGridCustomFilterDisplayOptions[]>;
   openedSurveyDataGrids: SurveyDataGrid[];
   surveyInfo: AsyncStateObj<SurveyInfoByCompanyDto[]>;
@@ -26,6 +27,7 @@ const initialState: State = {
   participantsModalOpen: false,
   surveyParticipants: generateDefaultAsyncStateObj<string[]>([]),
   countries: generateDefaultAsyncStateObj([]),
+  surveyJobDetails: [],
   surveyYears: generateDefaultAsyncStateObj<PfDataGridCustomFilterDisplayOptions[]>([]),
   openedSurveyDataGrids: [],
   surveyInfo: generateDefaultAsyncStateObj<SurveyInfoByCompanyDto[]>([])
@@ -170,6 +172,14 @@ export function reducer(state = initialState, action: fromSurveysPageActions.Act
     case fromSurveysPageActions.GET_SURVEY_INFO_ERROR: {
       return AsyncStateObjHelper.loadingError(state, 'surveyInfo');
     }
+    case fromSurveysPageActions.GET_SURVEY_JOB_DETAILS_SUCCESS: {
+      const surveyJobDetailsClone: SurveyJobDetails[] = cloneDeep(state.surveyJobDetails);
+      surveyJobDetailsClone.push(action.payload);
+      return {
+        ...state,
+        surveyJobDetails: surveyJobDetailsClone
+      };
+    }
     default: {
       return state;
     }
@@ -183,3 +193,4 @@ export const getSurveyCountries = (state: State) => state.countries;
 export const getSurveyYears = (state: State) => state.surveyYears;
 export const getOpenedSurveyDataGrids = (state: State) => state.openedSurveyDataGrids;
 export const getSurveyInfo = (state: State) => state.surveyInfo;
+export const getSurveyJobDetails = (state: State) => state.surveyJobDetails;
