@@ -144,6 +144,7 @@
           [allowSaveFilter]="actionBarConfig.AllowSaveFilter"
           [fields]="filterableFields$ | async"
           [filterTemplates]="filterPanelTemplates"
+          [displayGroupNameInFilter]="displayGroupNameInFilter"          
           (close)="closeFilterPanel()"
           (filterChanged)="handleFilterChanged($event)"
           (filterCleared)="clearFilter({ field: $event, value: null} )"
