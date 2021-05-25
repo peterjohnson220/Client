@@ -1,4 +1,4 @@
-<pf-page-with-title-bar *ngIf="(loadingPage$ | async) === false">
+<pf-page-with-title-bar *ngIf="!(loadingPage$ | async)">
 
     <ng-container page-title>
       <ng-container *ngIf="!identityInWorkflow && !identityInEmployeeAcknowledgement">
