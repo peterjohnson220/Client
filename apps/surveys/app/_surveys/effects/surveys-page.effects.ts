@@ -81,6 +81,21 @@ export class SurveyPageEffects {
       })
     );
 
+  @Effect()
+  getSurveyJobDetails$ = this.actions$
+    .pipe(
+      ofType(fromSurveyPageActions.GET_SURVEY_JOB_DETAILS),
+      switchMap((action: fromSurveyPageActions.GetSurveyJobDetails) => {
+        return this.surveyApiService.getSurveyJobDetails(action.surveyJobId)
+          .pipe(
+            map((response) => {
+              return new fromSurveyPageActions.GetSurveyJobDetailsSuccess(response);
+            }),
+            catchError(() => of(new fromSurveyPageActions.GetSurveyJobDetailsError()))
+          );
+      })
+    );
+
   constructor(
     private actions$: Actions,
     private surveyApiService: SurveyApiService
