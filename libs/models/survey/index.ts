@@ -5,3 +5,4 @@ export * from './survey-and-scope.model';
 export * from './survey-data-country-access-dto.model';
 export * from './survey-info-by-company-dto.model';
 export * from './survey-job-details.model';
+export * from './survey-participation.model';

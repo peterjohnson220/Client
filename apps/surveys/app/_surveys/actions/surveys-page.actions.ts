@@ -1,6 +1,7 @@
 import { Action } from '@ngrx/store';
+
 import { SurveyDataCountryAccessDto } from 'libs/models/survey/survey-data-country-access-dto.model';
-import { SurveyInfoByCompanyDto, SurveyJobDetails } from 'libs/models/survey';
+import { SurveyJobDetails } from 'libs/models/survey';
 
 export const OPEN_SURVEY_FIELDS_MODAL = '[Surveys / Surveys Page] Open Survey Fields Modal';
 export const CLOSE_SURVEY_FIELDS_MODAL = '[Surveys / Surveys Page] Close Survey Fields Modal';
@@ -20,9 +21,6 @@ export const RESET_OPENED_SURVEY_DATA_GRIDS = '[Surveys / Surveys Page] Reset Op
 export const UPDATE_SURVEY_DATA_GRID_FIELDS = '[Surveys / Surveys Page] Update Survey Data Grid Fields';
 export const RELOAD_SURVEY_DATA_GRID = '[Surveys / Surveys Page] Reload Survey Data Grid';
 export const RELOAD_SURVEY_DATA_GRID_SUCCESS = '[Surveys / Surveys Page] Reload Survey Data Grid Success';
-export const GET_SURVEY_INFO = '[Surveys / Surveys Page] Get Survey Info';
-export const GET_SURVEY_INFO_SUCCESS = '[Surveys / Surveys Page] Get Survey Info Success';
-export const GET_SURVEY_INFO_ERROR = '[Surveys / Surveys Page] Get Survey Info Error';
 export const GET_SURVEY_JOB_DETAILS = '[Surveys / Surveys Page] Get Survey Job Details';
 export const GET_SURVEY_JOB_DETAILS_SUCCESS = '[Surveys / Surveys Page] Get Survey Job Details Success';
 export const GET_SURVEY_JOB_DETAILS_ERROR = '[Surveys / Surveys Page] Get Survey Job Details Error';
@@ -121,21 +119,6 @@ export class ReloadSurveyDataGridSuccess implements Action {
   constructor(public surveyJobId: number) {}
 }
 
-export class GetSurveyInfo implements Action {
-  readonly type = GET_SURVEY_INFO;
-  constructor() {}
-}
-
-export class GetSurveyInfoSuccess implements Action {
-  readonly type = GET_SURVEY_INFO_SUCCESS;
-  constructor(public payload: SurveyInfoByCompanyDto[]) {}
-}
-
-export class GetSurveyInfoError implements Action {
-  readonly type = GET_SURVEY_INFO_ERROR;
-  constructor() {}
-}
-
 export class GetSurveyJobDetails implements Action {
   readonly type = GET_SURVEY_JOB_DETAILS;
 
@@ -173,9 +156,6 @@ export type Actions
   | UpdateSurveyDataGridFields
   | ReloadSurveyDataGrid
   | ReloadSurveyDataGridSuccess
-  | GetSurveyInfo
-  | GetSurveyInfoSuccess
-  | GetSurveyInfoError
   | GetSurveyJobDetails
   | GetSurveyJobDetailsSuccess
   | GetSurveyJobDetailsError;

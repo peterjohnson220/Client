@@ -24,8 +24,8 @@ import { GroupedListItem } from 'libs/models/list';
 
 import * as fromSurveysPageReducer from '../reducers';
 import * as fromSurveysPageActions from '../actions/surveys-page.actions';
+import * as fromSurveyParticipationActions from '../actions/survey-participation.actions';
 import { SurveyDataGrid, SurveysPageConfig } from '../models';
-import { SurveyInfoByCompanyDto } from 'libs/models/survey';
 
 @Component({
   selector: 'pf-surveys-page',
@@ -45,10 +45,6 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
   surveyYears$: Observable<AsyncStateObj<PfDataGridCustomFilterDisplayOptions[]>>;
   openedSurveyDataGrids$: Observable<SurveyDataGrid[]>;
   expandedRows$: Observable<number[]>;
-  surveyInfo$: Observable<AsyncStateObj<SurveyInfoByCompanyDto[]>>;
-
-  showSurveyParticipantModal = new BehaviorSubject<boolean>(false);
-  showSurveyParticipantModal$ = this.showSurveyParticipantModal.asObservable();
 
   gridFieldSubscription: Subscription;
   surveyDataGridSubscription: Subscription;
@@ -149,7 +145,6 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.surveyYears$ = this.store.select(fromSurveysPageReducer.getSurveyYears);
     this.openedSurveyDataGrids$ = this.store.select(fromSurveysPageReducer.getOpenedSurveyDataGrids);
     this.expandedRows$ = this.store.select(fromPfDataGridReducer.getExpandedRows, this.pageViewId);
-    this.surveyInfo$ = this.store.select(fromSurveysPageReducer.getSurveyInfo);
   }
 
   ngOnInit(): void {
@@ -179,7 +174,7 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.openedSurveyDataGridsSubscription = this.openedSurveyDataGrids$.subscribe(grids => this.openedSurveyDataGrids = grids);
     this.store.dispatch(new fromSurveysPageActions.GetSurveyCountries());
     this.store.dispatch(new fromSurveysPageActions.GetSurveyYears());
-    this.store.dispatch(new fromSurveysPageActions.GetSurveyInfo());
+    this.store.dispatch(new fromSurveyParticipationActions.GetSurveyInfo());
   }
 
   ngAfterViewInit(): void {
@@ -203,11 +198,7 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   viewSurveyParticipantsModal() {
-    this.showSurveyParticipantModal.next(true);
-  }
-
-  handleSurveyParticipationDismissed(): void {
-    this.showSurveyParticipantModal.next(false);
+    this.store.dispatch(new fromSurveyParticipationActions.OpenSurveyParticipationModal());
   }
 
   handleMatchedFilterChanged(option: PfDataGridCustomFilterDisplayOptions): void {

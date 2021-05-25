@@ -3,4 +3,8 @@ export interface SurveyInfoByCompanyDto {
   SurveyPublisher: string;
   SurveyTitle: string;
   ParticipationFileName: string;
+  UploadingFileError?: string;
+  Saving?: boolean;
+  SavingError?: string;
+  SavingSuccess?: boolean;
 }
