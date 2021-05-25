@@ -54,7 +54,7 @@ export class JobDescriptionEffects {
               if (!data.action.payload.InWorkflow && !data.userContext.IsPublic) {
                 actions.push(new fromJobDescriptionActions.GetViews({ templateId: response.TemplateId }));
               }
-
+              actions.push( new fromJobDescriptionActions.LoadingPage(false));
               return actions;
             }),
             catchError(error => {
