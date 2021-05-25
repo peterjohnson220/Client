@@ -35,6 +35,9 @@ import { PagesHelper } from '../helpers/pages.helper';
 
 @Injectable()
 export class AddJobsModalEffects {
+
+  formulaFieldId: string = 'Mid';
+
   @Effect()
   setContext$ = this.actions$
     .pipe(
@@ -57,7 +60,7 @@ export class AddJobsModalEffects {
         this.store.pipe(select(fromPfDataGridReducer.getGridConfig)),
         this.store.pipe(select(fromPfDataGridReducer.getData)),
         this.store.pipe(select(fromPfDataGridReducer.getPagingOptions)),
-        this.store.pipe(select(fromSharedStructuresReducer.getFormulaValid)),
+        this.store.pipe(select(fromSharedStructuresReducer.getFormulaValid, this.formulaFieldId)),
         (action: fromAddJobsPageActions.AddSelectedJobs,
          contextStructureRangeGroupId, payMarkets, selectedJobIds, selectedJobCodes, metadata, roundingSettings, gridConfig, gridData, pagingOptions,
          formulaValid) =>
