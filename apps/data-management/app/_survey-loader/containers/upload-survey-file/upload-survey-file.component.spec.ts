@@ -31,7 +31,7 @@ describe('UploadSurveyFileComponent', () => {
     instance.worksheetNamesSubscription = of(mockWorksheetName).subscribe();
     instance.surveyJobSheetNameSubscription = of('test').subscribe();
     instance.surveyDataSheetNameSubscription = of('test').subscribe();
-    instance.surveyParticipationSheetNameSubscription = of('test').subscribe();
+    instance.surveyParticipantsSheetNameSubscription = of('test').subscribe();
     instance.validationOnlySubscription = of(true).subscribe();
   });
 
@@ -54,7 +54,7 @@ describe('UploadSurveyFileComponent', () => {
   it('should have duplicate sheets',  () => {
     instance.surveyJobSheetName = [{ Id: 1, Value: 'test' }, { Id: 2, Value: null }];
     instance.surveyDataSheetName = [{ Id: 1, Value: 'test' }, { Id: 2, Value: null }];
-    instance.surveyParticipationSheetName = [{ Id: 1, Value: 'test1' }, { Id: 2, Value: null }];
+    instance.surveyParticipantsSheetName = [{ Id: 1, Value: 'test1' }, { Id: 2, Value: null }];
     instance.duplicateSurveySheetError();
     expect(instance.isDuplicateSheetName).toBe(true);
   });
@@ -62,7 +62,7 @@ describe('UploadSurveyFileComponent', () => {
   it('should process option be disabled', function () {
     instance.surveyJobSheetName = [{ Id: 1, Value: null }, { Id: 2, Value: null }];
     instance.surveyDataSheetName = [{ Id: 1, Value: null }, { Id: 2, Value: null }];
-    instance.surveyParticipationSheetName = [{ Id: 1, Value: null}, { Id: 2, Value: null }];
+    instance.surveyParticipantsSheetName = [{ Id: 1, Value: null}, { Id: 2, Value: null }];
     instance.selectedFile = null;
     expect(instance.processDisabled).toBe(true);
   });
