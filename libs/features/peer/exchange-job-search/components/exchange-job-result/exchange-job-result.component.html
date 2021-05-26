@@ -1,0 +1,20 @@
+<a href="javascript:void(0)" class="employee-result-row">
+  <div class="result  position-relative" [class.selected]="exchangeJob.IsSelected" (click)="handleExchangeJobClicked()">
+    <div class="d-flex justify-content-between">
+      <h4 class="d-flex">
+      <span *ngIf="exchangeJob.JobId" class="employee-name font-weight-bold pr-2">
+        {{exchangeJob.Title}} {{exchangeJob.Code}}
+      </span>
+        <span class="employee-id">
+        ({{exchangeJob.JobId}})
+      </span>
+      </h4>
+    </div>
+
+    <h5 class="flex-column job-title my-1">
+      {{exchangeJob.Title}}
+    </h5>
+
+  </div>
+
+</a>

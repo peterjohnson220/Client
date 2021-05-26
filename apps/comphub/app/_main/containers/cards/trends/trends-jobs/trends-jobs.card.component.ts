@@ -5,6 +5,9 @@ import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { ExchangeJobSearchOption } from 'libs/models/peer/ExchangeJobSearchOption';
+import { SearchFeatureIds } from 'libs/features/search/search/enums/search-feature-ids';
+import * as fromSearchFeatureActions from 'libs/features/search/search/actions/search-feature.actions';
+import * as fromLibsPeerExchangeJobSearchReducer from 'libs/features/peer/exchange-job-search/reducers';
 
 import { ComphubPages } from '../../../../data';
 import * as fromComphubMainReducer from '../../../../reducers/';
@@ -20,11 +23,14 @@ import * as fromTrendsJobsCardActions from '../../../../actions/trends-jobs.acti
 // NOTE: There's a lot of duplicate code between this and the Quick Price Jobs card, but this page is temporary
 // and will be replaced by smart job code picker [PJ]
 export class TrendsJobsCardComponent implements OnInit, OnDestroy {
-
   @ViewChild('exchangeJobSearch') exchangeJobSearch: AutoCompleteComponent;
   exchangeJobSearchOptions$: Observable<ExchangeJobSearchOption[]>;
   selectedJob$: Observable<string>;
   loadingJobSearchOptions$: Observable<boolean>;
+  activeExchangeId$: Observable<number>;
+  selectedPageId$: Observable<string>;
+
+  selectedExchangeJobResults$: Observable<any[]>;
 
   potentialOptions: string[];
   selectedJob: string;
@@ -32,6 +38,8 @@ export class TrendsJobsCardComponent implements OnInit, OnDestroy {
   exchangeJobSearchOptions: ExchangeJobSearchOption[];
 
   exchangeJobSearchOptionsSub: Subscription;
+  selectedExchangeJobResultsSub: Subscription;
+  selectedPageIdSub: Subscription;
 
   comphubPages = ComphubPages;
 
@@ -41,12 +49,34 @@ export class TrendsJobsCardComponent implements OnInit, OnDestroy {
       appendTo: 'component'
     };
     this.exchangeJobSearchOptions$ = this.store.select(fromComphubMainReducer.getExchangeJobSearchOptions);
+    this.activeExchangeId$ = this.store.select(fromComphubMainReducer.getActiveExchangeId);
+    this.selectedExchangeJobResults$ = this.store.select(fromLibsPeerExchangeJobSearchReducer.getSelectedExchangeJobs);
+    this.selectedPageId$ = this.store.select(fromComphubMainReducer.getSelectedPageId);
   }
 
   ngOnInit(): void {
     this.exchangeJobSearchOptionsSub = this.exchangeJobSearchOptions$.subscribe(o => {
       this.potentialOptions = o.map(x => x.JobTitle);
       this.exchangeJobSearchOptions = o;
+    });
+
+    this.selectedExchangeJobResultsSub = this.selectedExchangeJobResults$.subscribe(ejs => {
+      if (!!ejs?.length) {
+        this.store.dispatch(new fromTrendsJobsCardActions.SetSelectedJobs(ejs.map(ej => <ExchangeJobSearchOption>{
+          ExchangeJobId: ej.ExchangeJobId, JobTitle: ej.JobTitle
+        })));
+      } else {
+        this.store.dispatch(new fromTrendsJobsCardActions.ClearSelectedJobs());
+      }
+    });
+
+    this.selectedPageIdSub = this.selectedPageId$.subscribe((pageId) => {
+      // TODO: [JP] We should do this better/differently. Also, why are there two SetSearchFeatureId actions?
+      if (pageId === ComphubPages.TrendsJobs) {
+        this.store.dispatch(new fromSearchFeatureActions.SetSearchFeatureId(SearchFeatureIds.PeerExchangeJob));
+      } else {
+        this.store.dispatch(new fromSearchFeatureActions.SetSearchFeatureId(SearchFeatureIds.ExchangeExplorer));
+      }
     });
   }
 

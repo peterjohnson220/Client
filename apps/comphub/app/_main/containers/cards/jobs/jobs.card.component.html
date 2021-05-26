@@ -47,42 +47,41 @@
               No matching job titles
             </ng-template>
           </kendo-autocomplete>
-
-      </div>
-        <div *ngIf="isPeerComphubType">
-      <div class="data-set-selector exchange-selector">
-        <label class="exchange-dropdown-label">Peer Exchange: </label>
-        <kendo-dropdownlist
-          (valueChange)="handleExchangeDataSetChanged($event)"
-          class="form-control"
-          textField="ExchangeName"
-          valueField="ExchangeId"
-          [data]="exchangeDataSets$ | async"
-          [disabled]="(exchangeDataSets$ | async)?.length <= 1"
-          [valuePrimitive]="true"
-          [ngModel]="workflowContext?.activeExchangeDataSet?.ExchangeId">
-        </kendo-dropdownlist>
-      </div>
-          <kendo-autocomplete
-            #exchangeJobSearch
-            valueField="JobTitle"
-            class="w-100 mt-4"
-            placeholder="Search for a Job Title..."
-            [data]="(exchangeJobSearchOptions$ | async)"
-            [value]="!(jobPricingBlocked$ | async) ? (selectedJob$ | async) : ''"
-            [filterable]="true"
-            [loading]="loadingJobSearchOptions$ | async"
-            [disabled]="jobPricingBlocked$ | async"
-            [popupSettings]="popupSettings"
-            [attr.data-qa-id]="'txt-job-search'"
-            (close)="handleSearchClosed()"
-            (valueChange)="handleJobSearchValueChanged($event)"
-            (filterChange)="handleJobSearchFilterChange($event)">
-            <ng-template kendoAutoCompleteNoDataTemplate>
-              No matching job titles
-            </ng-template>
-          </kendo-autocomplete>
         </div>
+      <div *ngIf="isPeerComphubType">
+        <div class="data-set-selector exchange-selector">
+          <label class="exchange-dropdown-label">Peer Exchange: </label>
+          <kendo-dropdownlist
+            (valueChange)="handleExchangeDataSetChanged($event)"
+            class="form-control"
+            textField="ExchangeName"
+            valueField="ExchangeId"
+            [data]="exchangeDataSets$ | async"
+            [disabled]="(exchangeDataSets$ | async)?.length <= 1"
+            [valuePrimitive]="true"
+            [ngModel]="workflowContext?.activeExchangeDataSet?.ExchangeId">
+          </kendo-dropdownlist>
+        </div>
+        <kendo-autocomplete
+          #exchangeJobSearch
+          valueField="JobTitle"
+          class="w-100 mt-4"
+          placeholder="Search for a Job Title..."
+          [data]="(exchangeJobSearchOptions$ | async)"
+          [value]="!(jobPricingBlocked$ | async) ? (selectedJob$ | async) : ''"
+          [filterable]="true"
+          [loading]="loadingJobSearchOptions$ | async"
+          [disabled]="jobPricingBlocked$ | async"
+          [popupSettings]="popupSettings"
+          [attr.data-qa-id]="'txt-job-search'"
+          (close)="handleSearchClosed()"
+          (valueChange)="handleJobSearchValueChanged($event)"
+          (filterChange)="handleJobSearchFilterChange($event)">
+          <ng-template kendoAutoCompleteNoDataTemplate>
+            No matching job titles
+          </ng-template>
+        </kendo-autocomplete>
+      </div>
       </div>
     </div>
 

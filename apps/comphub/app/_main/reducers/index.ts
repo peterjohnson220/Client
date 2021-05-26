@@ -227,6 +227,11 @@ export const getActiveExchangeDataSet = createSelector(
   fromComphubPageReducer.getActiveExchangeDataSet
 );
 
+export const getActiveExchangeId = createSelector(
+  getActiveExchangeDataSet,
+  (exchangeDataSet) => exchangeDataSet?.ExchangeId ?? null
+);
+
 export const getWorkflowContext = createSelector(
   selectComphubPageState,
   fromComphubPageReducer.getWorkflowContext
