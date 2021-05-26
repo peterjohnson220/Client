@@ -615,7 +615,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
         if (this.identityInEmployeeAcknowledgement) {
           this.store.dispatch(new fromEmployeeAcknowledgementActions.LoadEmployeeAcknowledgementInfo());
         }
-        if (!this.isInSystemWorkflow) {
+        if (!this.isInSystemWorkflow && this.identity?.UserId > 0) {
           this.store.dispatch(new fromJobDescriptionActions.LoadingPage(false));
         } else {
           this.store.dispatch(new fromWorkflowActions.GetWorkflowStepInfoFromToken({ token: this.tokenId }));
