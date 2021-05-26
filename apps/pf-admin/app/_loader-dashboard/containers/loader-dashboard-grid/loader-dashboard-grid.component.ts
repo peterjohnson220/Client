@@ -16,6 +16,7 @@ import * as fromCompositeSummaryDownloadActions from '../../../../../dashboard/a
 import * as fromLoaderDashboardPageActions from '../../actions/loader-dashboard-page.actions';
 import * as fromLoaderDashboardPageReducer from '../../reducers';
 import { FileType } from 'libs/models/dashboard';
+import { DetailKeysModel, getDetailKeysByLoadType } from '../../models/detail-keys.model';
 
 @Component({
   selector: 'pf-loader-dashboard-grid',
@@ -55,7 +56,14 @@ export class LoaderDashboardGridComponent implements OnInit, OnDestroy {
     'Pricings',
     'Surveys'
   ];
+  dataOrigins: Array<string> = [
+    'Manual',
+    'Sftp',
+    'Hris'
+  ];
   compositeLoaderType = null;
+  dataOrigin = null;
+  detailKeyByLoaderTypes = getDetailKeysByLoadType();
   public checked = false;
 
   constructor(
@@ -93,7 +101,7 @@ export class LoaderDashboardGridComponent implements OnInit, OnDestroy {
   dataStateChange(state: DataStateChangeEvent) {
     this.gridState = state;
     this.gridView = process(this.gridData, this.gridState);
-    this.clearLoadTypeFilter(this.gridState.filter);
+    this.clearFilters(this.gridState.filter);
   }
 
   downloadInvalidRecordsFile(externalId: string) {
@@ -118,7 +126,17 @@ export class LoaderDashboardGridComponent implements OnInit, OnDestroy {
   }
 
   showIfLoadHasSummaries(dataItem: CompositeDataLoadViewResponse, index: number): boolean {
-    return dataItem && dataItem.entityLoadSummaries && dataItem.entityLoadSummaries.length > 0;
+    return dataItem && ((dataItem.entityLoadSummaries && dataItem.entityLoadSummaries.length > 0)
+      || (dataItem.entityLoadSummaryDetails && dataItem.entityLoadSummaryDetails.length > 0));
+  }
+
+  showIfLoadHasOnlySummary(dataItem: CompositeDataLoadViewResponse): boolean {
+    return dataItem && dataItem.entityLoadSummaries && dataItem.entityLoadSummaries.length > 0
+      && !(dataItem.entityLoadSummaryDetails && dataItem.entityLoadSummaryDetails.length > 0);
+  }
+
+  showIfLoadHasSummaryDetails(dataItem: CompositeDataLoadViewResponse): boolean {
+    return dataItem && dataItem.entityLoadSummaryDetails && dataItem.entityLoadSummaryDetails.length > 0;
   }
 
   hasErrorCondition(data: CompositeDataLoadViewResponse[]): CompositeDataLoadViewResponse[] {
@@ -126,19 +144,29 @@ export class LoaderDashboardGridComponent implements OnInit, OnDestroy {
        d.entityLoadSummaries.filter(v => v.invalidCount > 0).length > 0}));
   }
 
-  setLoadTypeFilter(value: any, filterService: FilterService): void {
+  setFilter(field: string, value: any, filterService: FilterService): void {
     filterService.filter({
-      filters: [{ field: 'compositeLoaderType', operator: 'eq', value: value }],
+      filters: [{ field: field, operator: 'eq', value: value }],
       logic: 'or'
     });
   }
 
-  clearLoadTypeFilter(gridFilter: CompositeFilterDescriptor): void {
+  clearFilters(gridFilter: CompositeFilterDescriptor): void {
     const compositeLoaderTypeFilter: any = gridFilter.filters.find( (f: FilterDescriptor) => f.field === 'compositeLoaderType');
+    const LoadTypeFilter: any = gridFilter.filters.find( (f: FilterDescriptor) => f.field === 'loadType');
     if (!compositeLoaderTypeFilter) {
       this.compositeLoaderType = null;
     } else if (compositeLoaderTypeFilter.value !== this.compositeLoaderType) {
       this.compositeLoaderType = compositeLoaderTypeFilter.value;
     }
+    if (!LoadTypeFilter) {
+      this.dataOrigin = null;
+    } else if (LoadTypeFilter.value !== this.dataOrigin) {
+      this.dataOrigin = LoadTypeFilter.value;
+    }
+  }
+
+  getDetailKeys(loadType: string): DetailKeysModel {
+    return this.detailKeyByLoaderTypes.find( dk => dk.Key === loadType).Value;
   }
 }
