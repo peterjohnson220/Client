@@ -20,7 +20,7 @@ export class SurveyParticipationDetailsComponent implements OnDestroy {
   @Input() impersonatorId: number;
   @Input() survey: SurveyInfoByCompanyDto;
 
-  uploadSurveyParticipationFileUrl = '/odata/CloudFiles.UploadSurveyParticipationFile';
+  uploadSurveyParticipationFileUrl = '/odata/CloudFiles.UploadSurveyParticipation';
   invalidFileTypeMessage: string;
   fileRestrictions: FileRestrictions = {
     allowedExtensions: ['.xls', '.xlsx', '.pdf', '.zip']
