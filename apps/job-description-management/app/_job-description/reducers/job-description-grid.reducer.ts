@@ -147,11 +147,18 @@ export function reducer(state = initialState, action: fromJobDescriptionGridActi
         };
       }
 
-      case fromJobDescriptionGridActions.ADD_ROUTING_JOB_STATUS: {
+      case fromJobDescriptionGridActions.ADD_ROUTING_JOBS: {
         const gridDataResultCopy = cloneDeep(state.gridDataResult);
+
         gridDataResultCopy.data.forEach( jd => {
-          if (action.payload === jd['JobDescriptionId']) {
+          const jobDescriptionId = jd['JobDescriptionId'];
+          if (action.payload.includes(jobDescriptionId)) {
             jd['JobDescriptionStatus'] = 'Routing';
+
+            // Remove this job from grid selections
+            if (state.selectedJobDescriptions.has(jobDescriptionId)) {
+              state.selectedJobDescriptions.delete(jobDescriptionId);
+            }
           }
         });
         return {
@@ -160,7 +167,7 @@ export function reducer(state = initialState, action: fromJobDescriptionGridActi
         };
       }
 
-      case fromJobDescriptionGridActions.REMOVE_ROUTING_JOB_STATUS: {
+      case fromJobDescriptionGridActions.REMOVE_ROUTING_JOB: {
         const gridDataResultCopy = cloneDeep(state.gridDataResult);
         gridDataResultCopy.data.forEach( jd => {
           if (action.payload === jd['JobDescriptionId']) {
@@ -185,7 +192,6 @@ export function reducer(state = initialState, action: fromJobDescriptionGridActi
           gridDataResult: gridDataResultCopy
         };
       }
-
     default:
       return state;
   }

@@ -117,10 +117,10 @@ export class JobDescriptionGridEffects {
         if (action.payload.From === NotificationSource.JDMRouting
           && action.payload.Level === NotificationLevel.Success)  {
             if (action.payload.Payload?.Status === 'Started') {
-              actions.push(new fromJobDescriptionGridActions.AddRoutingJobStatus(action.payload.Payload?.JobDescriptionId));
+              actions.push(new fromJobDescriptionGridActions.AddRoutingJobs([action.payload.Payload?.JobDescriptionId]));
             } else if (action.payload.Payload?.Status === 'Complete') {
               actions.push( new fromJobDescriptionInboxActions.GetUnreadInboxCount());
-              actions.push(new fromJobDescriptionGridActions.RemoveRoutingJobStatus(action.payload.Payload?.JobDescriptionId));
+              actions.push(new fromJobDescriptionGridActions.RemoveRoutingJob(action.payload.Payload?.JobDescriptionId));
             }
         }
         return actions;
