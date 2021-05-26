@@ -7,7 +7,7 @@ import { YoyDsSurveysResponse, YoyDsToMapResponse, YoySurveyScopesResponse, YoyD
   GetCompanySurveysRequest, GetCompanySurveysResponse
 } from '../../../models/payfactors-api';
 import { UdfDataResponse } from '../../../models/payfactors-api/survey/response/udf-data-response.model';
-import { CombinedScopeViewModel, SurveyDataCountryAccessDto, SurveyInfoByCompanyDto, SurveyJobDetails } from 'libs/models';
+import { CombinedScopeViewModel, SurveyDataCountryAccessDto, SurveyInfoByCompanyDto, SurveyJobDetails, SurveyParticipation } from 'libs/models';
 
 @Injectable({
   providedIn: 'root',
@@ -71,5 +71,10 @@ export class SurveyApiService {
 
   getSurveyJobDetails(surveyJobId: number): Observable<SurveyJobDetails> {
     return this.payfactorsApiService.get<SurveyJobDetails>(`${this.endpoint}/Default.GetSurveyJobDetails`, { params: { surveyJobId } });
+  }
+
+  saveSurveyParticipation(surveyInfo: SurveyInfoByCompanyDto): Observable<SurveyParticipation> {
+    return this.payfactorsApiService.post<SurveyParticipation>(`${this.endpoint}/Default.SaveSurveyParticipation`,
+      { SurveyInfo: surveyInfo });
   }
 }

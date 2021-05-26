@@ -127,19 +127,4 @@
   [surveyTitle]="surveyTitle">
 </pf-view-participants-list>
 
-<pf-modal-form
-  [size]="'lg'"
-  [title]="'Survey Participation'"
-  [secondaryButtonText]="'Close'"
-  [modalId]="'au-modal-survey-participation'"
-  [isOpen$]=" showSurveyParticipantModal$"
-  [showSubmit]="false"
-  (onDismiss)="handleSurveyParticipationDismissed()">
-  <ng-container basic-content>
-    <pf-survey-participation
-      [showSurveyParticipantModal]="showSurveyParticipantModal$ | async"
-      [surveys]="(surveyInfo$ | async)?.obj">
-    </pf-survey-participation>
-  </ng-container>
-
-</pf-modal-form>
+<pf-survey-participation></pf-survey-participation>

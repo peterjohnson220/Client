@@ -1,18 +1,18 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { NgbAccordion, NgbAccordionConfig } from '@ng-bootstrap/ng-bootstrap';
 import { groupBy, GroupResult } from '@progress/kendo-data-query';
-import cloneDeep from 'lodash/cloneDeep';
 
 import { SurveyInfoByCompanyDto } from 'libs/models/survey';
 import { UserContext } from 'libs/models/security';
-import { NotificationLevel, NotificationType } from 'libs/features/infrastructure/app-notifications';
 import * as fromRootState from 'libs/state/state';
-import * as fromAppNotificationsMainReducer from 'libs/features/infrastructure/app-notifications/reducers';
-import * as fromAppNotificationsActions from 'libs/features/infrastructure/app-notifications/actions/app-notifications.actions';
 import { InputDebounceComponent } from 'libs/forms/components/input-debounce';
+import { AsyncStateObj } from 'libs/models/state';
+
+import * as fromSurveysPageReducer from '../../reducers';
+import * as fromSurveyParticipationActions from '../../actions/survey-participation.actions';
 
 @Component({
   selector: 'pf-survey-participation',
@@ -20,56 +20,72 @@ import { InputDebounceComponent } from 'libs/forms/components/input-debounce';
   styleUrls: ['./survey-participation.component.scss'],
   providers: [NgbAccordionConfig]
 })
-export class SurveyParticipationComponent implements OnInit, OnChanges {
-  @Input() surveys: SurveyInfoByCompanyDto[];
-  @Input() showSurveyParticipantModal: boolean;
-
+export class SurveyParticipationComponent implements OnInit, OnDestroy {
   @ViewChild('surveysAccordion') surveysAccordion: NgbAccordion;
   @ViewChild(InputDebounceComponent, { static: true }) public inputDebounceComponent: InputDebounceComponent;
 
+  surveyInfo$: Observable<AsyncStateObj<SurveyInfoByCompanyDto[]>>;
   userContext$: Observable<UserContext>;
+  modalOpen$: Observable<boolean>;
 
+  surveyInfoSubscription: Subscription;
   userContextSubscription: Subscription;
+  modalOpenSubscription: Subscription;
 
   originalGroupedSurveys: GroupResult[] | SurveyInfoByCompanyDto[];
   filteredGroupedSurveys: GroupResult[] | SurveyInfoByCompanyDto[];
-
   impersonatorId: number;
   searchValue: string;
+  surveys: SurveyInfoByCompanyDto[];
 
   constructor(
     private rootStore: Store<fromRootState.State>,
-    private notificationStore: Store<fromAppNotificationsMainReducer.State>,
+    private store: Store<fromSurveysPageReducer.State>,
     config: NgbAccordionConfig
   ) {
     config.type = 'white';
     this.userContext$ = this.rootStore.select(fromRootState.getUserContext);
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes?.surveys?.currentValue) {
-      this.filteredGroupedSurveys = groupBy(this.surveys, [{ field: 'SurveyPublisher' }]);
-      this.originalGroupedSurveys = cloneDeep( this.filteredGroupedSurveys);
-    }
-    if (changes?.showSurveyParticipantModal?.currentValue) {
-      this.collapseAllPanels();
-    } else {
-      this.searchValue = '';
-      this.inputDebounceComponent.clearValue();
-    }
+    this.surveyInfo$ = this.store.select(fromSurveysPageReducer.getSurveyInfo);
+    this.modalOpen$ = this.store.select(fromSurveysPageReducer.getSurveyParticipationModalOpen);
   }
 
   ngOnInit() {
+    this.surveyInfoSubscription = this.surveyInfo$.subscribe(asyncObj => {
+      if (!asyncObj?.loading && asyncObj?.obj?.length) {
+        this.surveys = asyncObj.obj;
+        this.originalGroupedSurveys = groupBy(this.surveys, [{ field: 'SurveyPublisher' }]);
+        this.applySearchFilterList();
+      }
+    });
     this.userContextSubscription = this.userContext$.subscribe(uc => {
       if (!!uc) {
         this.impersonatorId = uc.ImpersonatorId;
       }
     });
+    this.modalOpenSubscription = this.modalOpen$.subscribe(isOpen => {
+      if (!isOpen) {
+        this.searchValue = '';
+        this.inputDebounceComponent.clearValue();
+        this.applySearchFilterList();
+        this.collapseAllPanels();
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.surveyInfoSubscription.unsubscribe();
+    this.userContextSubscription.unsubscribe();
+    this.modalOpenSubscription.unsubscribe();
+  }
+
+  handleSurveyParticipationDismissed(): void {
+    this.store.dispatch(new fromSurveyParticipationActions.CloseSurveyParticipationModal());
   }
 
   handleSearchValueChanged(value: string): void {
     this.searchValue = value.toLowerCase();
     this.applySearchFilterList();
+    this.collapseAllPanels();
   }
 
   trackByPublisher(index: number) {
@@ -80,23 +96,6 @@ export class SurveyParticipationComponent implements OnInit, OnChanges {
     return surveyInfo.SurveyId;
   }
 
-  downloadSurveyParticipationFile(fileName: string): void {
-    const formattedFileName = encodeURIComponent(fileName);
-    const notification = {
-      NotificationId: '',
-      Level: NotificationLevel.Success,
-      From: 'Survey Participation',
-      Payload: {
-        Title: 'File Ready',
-        Message: `Download: ${fileName}`,
-        ExportedViewLink: `/odata/CloudFiles.GetSurveyParticipationFile?FileName=${formattedFileName}`
-      },
-      EnableHtml: true,
-      Type: NotificationType.Event
-    };
-
-    this.notificationStore.dispatch(new fromAppNotificationsActions.AddNotification(notification));
-  }
   private applySearchFilterList(): void {
     if (!!this.searchValue && !!this.searchValue.length) {
       const filteredOptions = this.surveys
@@ -105,7 +104,6 @@ export class SurveyParticipationComponent implements OnInit, OnChanges {
       this.filteredGroupedSurveys = groupBy(filteredOptions, [{ field: 'SurveyPublisher' }]);
     } else {
       this.filteredGroupedSurveys = this.originalGroupedSurveys;
-      this.collapseAllPanels();
     }
   }
 
