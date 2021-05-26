@@ -122,8 +122,9 @@ export class WorkflowSetupModalComponent implements OnInit, OnDestroy {
     const workflows = [];
     this.workflowSetupModalInput?.forEach(x => {
       workflows.push(this.buildWorkflow(x));
-      this.store.dispatch(new fromJobDescriptionGridActions.AddRoutingJobStatus(x.EntityId));
     });
+    const jobDescriptionIds = this.workflowSetupModalInput.map(x => x.EntityId);
+    this.store.dispatch(new fromJobDescriptionGridActions.AddRoutingJobs(jobDescriptionIds));
     this.store.dispatch(new fromWorkflowSetupModalActions.CreateWorkflow(workflows));
     this.router.navigate(['/job-descriptions']);
     this.close();
