@@ -1,0 +1,16 @@
+<div class="center-container">
+  <div class="image-container">
+    <img width="247" height="62" src="/client/job-description-management/assets/payfactors-transparent.png"/>
+  </div>
+
+  <div class="card">
+    <div class="card-block">
+      <p>{{workflowCompleteMessage$ | async}}</p>
+      <div class="modal-footer justify-content-center">
+        <button type="button" class="btn btn-primary" (click)="backToJobDescriptionList()">Back to Job Description List</button>
+        <button *ngIf="jdmInboxFeatureFlag.value" type="button" class="btn btn-primary" (click)="backToJobDescriptionInbox()">Back to Job Description Inbox</button>
+      </div>
+    </div>
+  </div>
+</div>
+

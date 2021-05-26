@@ -3,7 +3,7 @@ import { Component, ViewChild, OnInit, OnDestroy, Input } from '@angular/core';
 import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { Store, select } from '@ngrx/store';
 import { combineLatest, Observable, Subscription } from 'rxjs';
-import { filter, map, take } from 'rxjs/internal/operators';
+import { filter, map, take } from 'rxjs/operators';
 
 import { FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models/common';
 import { SettingsService } from 'libs/state/app-context/services';
@@ -171,16 +171,14 @@ export class ExchangeScopeSelectorComponent implements OnInit, OnDestroy {
     // Select the default exchange scope once the scopes have loaded
     combineLatest([selectedExchangeScopeItem$, this.exchangeScopeItems$, defaultExchangeScopeId$])
       .pipe(
-        filter(([selected, items, defaultId]) => !!defaultId && !this.defaultScopeToggled),
+        filter(([selected, items, defaultId]) => !selected && !!items && items.length && items.findIndex(i => i.ExchangeId == this.exchangeId) > -1 && !!defaultId && !this.defaultScopeToggled),
         take(1)
       ).subscribe(([selected, items, defaultId]) => {
-      if (!selected && !!items && items.length && !!defaultId) {
         const defaultExchangeScopeItem = items.find(i => i.ExchangeScopeId === defaultId);
         if (!!defaultExchangeScopeItem) {
           const itemToSelect = {...defaultExchangeScopeItem, IsDefault: true};
           this.store.dispatch(new fromLibsExchangeFilterContextActions.SetExchangeScopeSelection(itemToSelect));
         }
-      }
     });
 
     this.systemFilterLoadedSubscription = this.systemFilterLoaded$.subscribe(loaded => {

@@ -1,7 +1,7 @@
 import { Injectable, QueryList } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { DragulaService } from 'ng2-dragula';
 
 import { Template, TemplateControl, ControlType } from 'libs/models';

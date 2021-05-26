@@ -108,7 +108,8 @@ export class StatementEditPageEffects {
         fromStatementEditActions.UPDATE_SETTINGS_FONT_SIZE,
         fromStatementEditActions.UPDATE_SETTINGS_FONT_FAMILY,
         fromStatementEditActions.UPDATE_SETTINGS_COLOR,
-        fromStatementEditActions.TOGGLE_DISPLAY_SETTING
+        fromStatementEditActions.TOGGLE_DISPLAY_SETTING,
+        fromStatementEditActions.UPDATE_ADDITIONAL_PAGE_SETTINGS
       ),
       mapTo(new SaveSettings())
     );

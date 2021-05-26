@@ -1,4 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import * as Highcharts from 'highcharts';
 import { Store } from '@ngrx/store';
@@ -69,7 +70,8 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
     public store: Store<any>,
     public pfGridStore: Store<fromPfGridReducer.State>,
     private settingsService: SettingsService,
-    private structuresPagesService: StructuresPagesService
+    private structuresPagesService: StructuresPagesService,
+    private router: Router
   ) {
     this.hasAcceptedPeerTermsSub = this.settingsService.selectCompanySetting<boolean>(
       CompanySettingsEnum.PeerTermsAndConditionsAccepted
@@ -350,7 +352,10 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
         count: currentRow.CompanyStructures_RangeGroup_CountEEMinOutlier,
         countString: this.formatOutlierCount(true, currentRow.CompanyStructures_RangeGroup_CountEEMinOutlier),
         avgSalary: this.formatSalary(currentRow.CompanyStructures_RangeGroup_AverageEEMinOutlier),
-        delta: this.formatDelta(true, currentRow.CompanyStructures_RangeGroup_SumOfDeltaBetweenMinOutliersAndMRP)
+        delta: this.formatDelta(true, currentRow.CompanyStructures_RangeGroup_SumOfDeltaBetweenMinOutliersAndMRP),
+        companyStructuresRangesId: currentRow.CompanyStructures_Ranges_CompanyStructuresRanges_ID,
+        filterType: 'minOutlier',
+        filterValue: currentRow.CompanyStructures_Ranges_Min
       });
 
     // Max Outlier
@@ -361,7 +366,10 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
         count: currentRow.CompanyStructures_RangeGroup_CountEEMaxOutlier,
         countString: this.formatOutlierCount(false, currentRow.CompanyStructures_RangeGroup_CountEEMaxOutlier),
         avgSalary: this.formatSalary(currentRow.CompanyStructures_RangeGroup_AverageEEMaxOutlier),
-        delta: this.formatDelta(false, currentRow.CompanyStructures_RangeGroup_SumOfDeltaBetweenMaxOutliersAndMRP)
+        delta: this.formatDelta(false, currentRow.CompanyStructures_RangeGroup_SumOfDeltaBetweenMaxOutliersAndMRP),
+        companyStructuresRangesId: currentRow.CompanyStructures_Ranges_CompanyStructuresRanges_ID,
+        filterType: 'maxOutlier',
+        filterValue: currentRow.CompanyStructures_Ranges_Max
       });
   }
 
@@ -478,7 +486,23 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
       this.chartInstance.series[JobRangeModelChartSeries.RangeQuintileFourth].setData(this.dataPointSeriesDataModel.QuintileFourth, false);
     }
 
+    
+    // set click event for employee outlier points
+    const employeeOutlierOptions = this.chartInstance.series[JobRangeModelChartSeries.EmployeeOutliers].options;
+    const self = this;
+    employeeOutlierOptions.point.events.click = function(event) {
+      // Store the point object into a variable
+      const point = this as any;
+      self.handleEmployeeOutlierPointClicked(point);
+    };
+    this.chartInstance.series[JobRangeModelChartSeries.EmployeeOutliers].update(employeeOutlierOptions);
+    
     this.chartInstance.setSize(null, GraphHelper.getChartHeight(this.jobRangeData.data));
+  }
+
+  private handleEmployeeOutlierPointClicked(point) {
+    var url = `/job/${this.metaData.RangeDistributionSetting.CompanyStructuresRangeGroupId}/employees/${point.companyStructuresRangesId}`;       
+    this.router.navigate([url], { queryParams: { filterQuery: point.filterType, value: point.filterValue } });
   }
 
   ngOnInit(): void {

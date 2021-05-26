@@ -23,7 +23,7 @@ export class ProvidersHrisApiService {
       throw new Error('Configuration error: Missing utilities subdomain configuration');
     }
 
-    const host = `https://${utilitiesSubDomainConfig.Value}.payfactors.com/hris-api/`;
+    const host = `//${utilitiesSubDomainConfig.Value}.payfactors.com/hris-api/`;
 
     return this.hrisApiService.get<ProviderResponse[]>(`${host}${this.endpoint}/all?transferMethodId=${transferMethodId}`);
   }
@@ -34,7 +34,7 @@ export class ProvidersHrisApiService {
       throw new Error('Configuration error: Missing utilities subdomain configuration');
     }
 
-    const host = `https://${utilitiesSubDomainConfig.Value}.payfactors.com/hris-api/`;
+    const host = `//${utilitiesSubDomainConfig.Value}.payfactors.com/hris-api/`;
 
     return this.hrisApiService.get<ProviderResponse[]>(`${host}${this.endpoint}/${providerId}`);
   }
@@ -45,7 +45,7 @@ export class ProvidersHrisApiService {
       throw new Error('Configuration error: Missing utilities subdomain configuration');
     }
 
-    const host = `https://${utilitiesSubDomainConfig.Value}.payfactors.com/hris-api/`;
+    const host = `//${utilitiesSubDomainConfig.Value}.payfactors.com/hris-api/`;
 
     return this.hrisApiService.get<ProviderSupportedEntityDTO[]>(`${host}${this.endpoint}/${providerId}/entities`);
   }

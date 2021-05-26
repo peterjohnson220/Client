@@ -292,6 +292,7 @@ export class SetWorkflowUserStepToIsBeingViewedSuccess implements Action {
 
 export class SetWorkflowUserStepToIsBeingViewedError implements Action {
   readonly type = SET_WORKFLOW_USER_STEP_TO_IS_BEING_VIEWED_ERROR;
+  constructor(public payload) {}
 }
 
 export class AuthenticateSSOParams implements Action {

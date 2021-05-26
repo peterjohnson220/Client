@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed, tick, fakeAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, tick, fakeAsync, waitForAsync } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
@@ -89,7 +89,7 @@ describe('TrsRichTextControlComponent', () => {
   let component: TrsRichTextControlComponent;
   let fixture: ComponentFixture<TrsRichTextControlComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [TrsRichTextControlComponent],
       schemas: [NO_ERRORS_SCHEMA]

@@ -2,10 +2,10 @@ import { Action } from '@ngrx/store';
 
 import { JobPayMarket } from 'libs/features/jobs/add-jobs/models';
 
-export const LOAD_PAYMARKETS = '[Add Jobs/Paymarkets Container] Load all paymarkets';
-export const LOAD_PAYMARKETS_SUCCESS = '[Add Jobs/Paymarkets Container] Load all paymarkets success';
-export const LOAD_PAYMARKETS_ERROR = '[Add Jobs/Paymarkets Container] Load all paymarkets error';
-export const TOGGLE_PAYMARKET_SELECTION = '[Add Jobs/Paymarkets Container] Toggle paymarket selection';
+export const LOAD_PAYMARKETS = '[Add Jobs/Paymarkets Container] Load All Paymarkets';
+export const LOAD_PAYMARKETS_SUCCESS = '[Add Jobs/Paymarkets Container] Load All Paymarkets Success';
+export const LOAD_PAYMARKETS_ERROR = '[Add Jobs/Paymarkets Container] Load All Paymarkets Error';
+export const TOGGLE_PAYMARKET_SELECTION = '[Add Jobs/Paymarkets Container] Toggle Paymarket Selection';
 export const SET_DEFAULT_PAYMARKET = '[Add Jobs/Paymarkets Container] Set Default Paymarket';
 export const CLEAR_PAYMARKETS = '[Add Jobs/Paymarkets Container] Clear Paymarkets';
 export const SET_SEARCH_TERM = '[Add Jobs/Paymarkets Container] Set Search Term';

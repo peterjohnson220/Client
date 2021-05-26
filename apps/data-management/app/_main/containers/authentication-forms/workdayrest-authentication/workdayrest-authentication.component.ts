@@ -10,7 +10,8 @@ import {
   SimpleChanges
 } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Subject } from 'rxjs/Subject';
+
+import { Subject } from 'rxjs';
 
 import { OrgDataEntityType } from 'libs/constants/hris-api';
 import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core';

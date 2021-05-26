@@ -38,7 +38,7 @@ export class GenerateStatementModalComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.isOpenSubscription = this.isOpen$.subscribe(isOpen => {
       if (isOpen) {
-        this.selectedDeliveryMethod = null;
+        this.selectedDeliveryMethod = DeliveryMethod.PDFExport;
         this.emailTemplateComponent.init();
       }
     });

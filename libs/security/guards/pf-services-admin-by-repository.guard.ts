@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
 
 import { Store } from '@ngrx/store';
-import { take, filter, switchMap, map, takeUntil } from 'rxjs/operators';
+import { take, filter, switchMap, takeUntil, map } from 'rxjs/operators';
 import { Observable, of, Subject } from 'rxjs';
 
 import * as fromRootState from '../../state/state';
@@ -62,7 +62,7 @@ export class PfServicesAdminByRepositoryGuard implements CanActivate {
   }
   private repositoriesValidation() {
     this.store.dispatch(new fromSiteAdminRouteActions.GetRepositoriesByRoute(PRICING_LOADER_NEW));
-    return this.store.select(fromSiteAdminRouteReducer.getRepositoriesByRoute).pipe(filter(uc => !!uc)).
+    return this.store.select(fromSiteAdminRouteReducer.getRepositoriesByRoute).pipe(filter(uc => !!uc)).pipe(
       map(rbr => {
         if (this.userContext.AccessLevel === 'Admin' && !(rbr.indexOf(this.userContext.CompanySystemUserGroupsId) === -1) ) {
           return true;
@@ -70,6 +70,6 @@ export class PfServicesAdminByRepositoryGuard implements CanActivate {
           this.router.navigate(['/access-denied']);
           return false;
         }
-      });
+      }));
   }
 }

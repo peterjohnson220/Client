@@ -1,0 +1,37 @@
+<pf-page-with-title-bar [returnUrl]="'/job-descriptions'">
+    <ng-container page-title>Job Description Inbox</ng-container>
+    <ng-container page-content>
+        <div class="d-flex">
+            <div class="inbox-options d-flex flex-column">
+                <div class="option border rounded d-flex justify-content-between align-items-center mr-3 px-4">
+                    <span><fa-icon [icon]="['far', 'inbox']" class="mr-3"></fa-icon>Inbox</span>
+                    <span *ngIf="!(unreadCountError$ | async) && (unreadCount$ | async) > 0" class="badge rounded-circle">{{unreadCount$ | async}}</span>
+                </div>
+            </div>
+            <div class="d-flex flex-column h-100">
+                <div class="d-flex grid-actions-container my-2">
+                    <button [disabled]="(selectedIds$ | async)?.size === 0" [attr.data-qa-id]="'btn-job-description-inbox-clear-selections'" type="button"
+                      class="btn btn-secondary pf-btn-borderless mr-3" (click)="onClearSelections()">
+                      <fa-icon [icon]="['far', 'times']"></fa-icon>
+                      Clear Selections
+                    </button>
+                    <div class="vertical-separator mr-3"></div>
+                    <button [disabled]="(selectedIds$ | async)?.size === 0 || (markReadSaving$ | async)" [attr.data-qa-id]="'btn-job-description-inbox-mark-read'" 
+                      type="button" class="btn btn-secondary pf-btn-borderless mr-3" (click)="onMarkRead()">
+                      <fa-icon *ngIf="!(markReadSaving$ | async)" [icon]="['fal', 'envelope-open']"></fa-icon>
+                      <pf-loading-indicator *ngIf="(markReadSaving$ | async)"></pf-loading-indicator>
+                      Mark as Read
+                    </button>
+                    <button [disabled]="(selectedIds$ | async)?.size === 0 || (markUnreadSaving$ | async)" [attr.data-qa-id]="'btn-job-description-inbox-mark-unread'" 
+                      type="button" class="btn btn-secondary pf-btn-borderless mr-3" (click)="onMarkUnread()">
+                      <fa-icon *ngIf="!(markUnreadSaving$ | async)" [icon]="['fal', 'envelope']"></fa-icon>
+                      <pf-loading-indicator *ngIf="(markUnreadSaving$ | async)"></pf-loading-indicator>
+                      Mark as Unread
+                    </button>
+                </div>
+
+                <pf-job-description-inbox-grid></pf-job-description-inbox-grid>
+            </div>
+        </div>
+    </ng-container>
+</pf-page-with-title-bar>

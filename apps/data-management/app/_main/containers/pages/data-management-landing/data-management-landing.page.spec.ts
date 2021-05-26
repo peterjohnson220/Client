@@ -1,11 +1,12 @@
 import {NO_ERRORS_SCHEMA} from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {Router} from '@angular/router';
 import {MockStore, provideMockStore} from '@ngrx/store/testing';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 
 import { AbstractFeatureFlagService } from 'libs/core';
 import { SettingsService } from 'libs/state/app-context/services';
+import * as fromBulkExportSchedulerReducer from 'libs/features/jobs/bulk-job-description-export-scheduler/reducers/bulk-export-scheduler.reducer';
 import * as fromRootState from 'libs/state/state';
 
 import * as fromHrisConnectionReducer from '../../../reducers/hris-connection.reducer';
@@ -24,10 +25,11 @@ describe('DataManagementLandingPageComponent', () => {
 
   const initialState = {
     ...fromRootState.reducers,
-    data_management: { hrisConnection: fromHrisConnectionReducer.initialState }
+    data_management: { hrisConnection: fromHrisConnectionReducer.initialState, },
+    feature_bulk_jobs_export_scheduler: {bulkExportSchedule: fromBulkExportSchedulerReducer.initialState}
   };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       providers: [
         provideMockStore({initialState}),

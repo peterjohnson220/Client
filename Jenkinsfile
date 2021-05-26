@@ -220,11 +220,17 @@ pipeline {
     }
 
     stage('Build') {
+      environment {
+        KENDO_UI_LICENSE = credentials('KENDO_UI_LICENSE')
+      }
       steps {
         parallel (
           Build: {
             script {
               nodejs(nodeVersion) {
+                sh "KENDO_UI_LICENSE=${env.KENDO_UI_LICENSE}"
+                sh "npx kendo-ui-license activate"
+
                 echo "Getting list of apps..."
                 sh 'ls apps > dirs'
                 sh """

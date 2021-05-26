@@ -4,4 +4,5 @@ export interface GridConfig {
   ScrollToTop?: boolean;
   SelectAllPanelItemName?: string;
   CaptureGridScroll?: boolean;
+  IsExpandedRowGrid?: boolean;
 }

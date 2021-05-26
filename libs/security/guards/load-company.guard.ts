@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot } from '@angular/router';
 
 import { of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
 import { CompanyApiService } from 'libs/data/payfactors-api';
-
 
 @Injectable()
 export class LoadCompanyGuard implements CanActivate {
@@ -16,11 +16,12 @@ export class LoadCompanyGuard implements CanActivate {
 
     loadCompany(companyId: number) {
         return this.companyApiService.get(companyId)
-            .map(company => !!company)
-            .catch(() => {
+          .pipe(
+            map(company => !!company),
+            catchError(() => {
                 this.router.navigate(['/access-denied']);
                 return of(false);
-            });
+            }));
     }
 
     canActivate(route: ActivatedRouteSnapshot) {

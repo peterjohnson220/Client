@@ -11,6 +11,9 @@ import { ComphubApiService } from 'libs/data/payfactors-api';
 import { CreateQuickPriceProjectRequest, AddCompletedPricingHistoryRequest } from 'libs/models/payfactors-api';
 import * as fromNavigationActions from 'libs/ui/layout-wrapper/actions/left-sidebar.actions';
 import * as fromBasicDataGridActions from 'libs/features/grids/basic-data-grid/actions/basic-data-grid.actions';
+import * as fromFeatureFlagRedirectReducer from 'libs/state/state';
+import { UrlPage } from 'libs/models/url-redirect/url-page';
+import { UrlRedirectHelper } from 'libs/core/helpers/url-redirect-helper';
 
 import * as fromComphubPageActions from '../actions/comphub-page.actions';
 import * as fromSummaryCardActions from '../actions/summary-card.actions';
@@ -119,8 +122,12 @@ export class SummaryCardEffects {
   createProjectSuccess$ = this.actions$
     .pipe(
       ofType(fromSummaryCardActions.CREATE_PROJECT_SUCCESS),
-      tap((action: fromSummaryCardActions.CreateProjectSuccess) => {
-        this.projectWindow.location.href = `/marketdata/marketdata.asp?usersession_id=${action.payload}`;
+      withLatestFrom(
+        this.store.select(fromFeatureFlagRedirectReducer.getPageRedirectUrl, {page: UrlPage.PricingProject}),
+        (action: fromSummaryCardActions.CreateProjectSuccess, redirectUrl: string) => ({action, redirectUrl})
+      ),
+      tap((data: any) => {
+        this.projectWindow.location.href = UrlRedirectHelper.getIdParamUrl(data.redirectUrl, data.action.payload.toString());
         this.projectWindow.focus();
       })
     );

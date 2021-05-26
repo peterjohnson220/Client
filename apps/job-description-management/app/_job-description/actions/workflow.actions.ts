@@ -2,6 +2,9 @@ import { Action } from '@ngrx/store';
 import { WorkflowStepInfo } from 'libs/models/security';
 import { CancelWorkflow, Workflow } from '../models';
 
+export const GET_WORKFLOW_STEP_INFO_FROM_TOKEN = '[job-description-management / Workflow] Get Workflow Step Info From Token';
+export const GET_WORKFLOW_STEP_INFO_FROM_TOKEN_SUCCESS = '[job-description-management / Workflow] Get Workflow Step Info From Token Success';
+export const GET_WORKFLOW_STEP_INFO_FROM_TOKEN_ERROR = '[job-description-management / Workflow] Get Workflow Step Info From Token Error';
 export const LOAD_WORKFLOW_LOG_ENTRIES = '[job-description-management / Workflow] Load Workflow Log Entries';
 export const LOAD_WORKFLOW_LOG_ENTRIES_SUCCESS = '[job-description-management / Workflow] Load Workflow Log Entries Success';
 export const LOAD_WORKFLOW_LOG_ENTRIES_ERROR = '[job-description-management / Workflow] Load Workflow Log Entries Error';
@@ -10,6 +13,8 @@ export const LOAD_WORKFLOW_STEP_SUMMARY_SUCCESS = '[job-description-management /
 export const LOAD_WORKFLOW_STEP_SUMMARY_ERROR = '[job-description-management / Workflow] Load Workflow Step Summary Error';
 export const APPROVE_WORKFLOW_STEP = '[job-description-management / Workflow] Approve Workflow Step';
 export const REJECT_WORKFLOW_STEP = '[job-description-management / Workflow] Reject Workflow Step';
+export const REJECT_WORKFLOW_STEP_CANCEL_APPROVAL = '[job-description-management / Workflow] Reject Workflow Step Cancel Approval';
+export const COMPLETE_WORKFLOW_STEP = '[job-description-management / Workflow] Complete Workflow Step';
 export const COMPLETE_WORKFLOW_STEP_SUCCESS = '[job-description-management / Workflow] Complete Workflow Step Success';
 export const COMPLETE_WORKFLOW_STEP_ERROR = '[job-description-management / Workflow] Complete Workflow Step Error';
 export const GET_WORKFLOW_LINK = '[job-description-management / Workflow] Get Workflow Link';
@@ -32,6 +37,21 @@ export const UPDATE_WORKFLOW_STEPS = '[job-description-management / Workflow] Up
 // Workflow Step Messages
 export const SET_MESSAGE = '[job-description-management / Workflow] Set Message';
 
+export class GetWorkflowStepInfoFromToken implements Action {
+  readonly type = GET_WORKFLOW_STEP_INFO_FROM_TOKEN;
+
+  constructor(public payload: any) {}
+}
+export class GetWorkflowStepInfoFromTokenSuccess implements Action {
+  readonly type = GET_WORKFLOW_STEP_INFO_FROM_TOKEN_SUCCESS;
+
+  constructor(public payload: any) {}
+}
+export class GetWorkflowStepInfoFromTokenError implements Action {
+  readonly type = GET_WORKFLOW_STEP_INFO_FROM_TOKEN_ERROR;
+
+  constructor(public payload: any) {}
+}
 
 export class LoadWorkflowLogEntries implements Action {
   readonly type = LOAD_WORKFLOW_LOG_ENTRIES;
@@ -72,19 +92,29 @@ export class LoadWorkflowStepSummaryError {
 export class ApproveWorkflowStep implements Action {
   readonly type = APPROVE_WORKFLOW_STEP;
 
-  constructor(public payload: {workflowStepInfo: WorkflowStepInfo, willProceed: boolean, comment: string}) {}
+  constructor(public payload: {workflowStepInfo: WorkflowStepInfo, willProceed: boolean, comment: string, isInSystemWorkflow: boolean}) {}
 }
 
 export class RejectWorkflowStep {
   readonly type = REJECT_WORKFLOW_STEP;
 
-  constructor(public payload: {workflowStepInfo: WorkflowStepInfo, willProceed: boolean, comment: string}) {}
+  constructor(public payload: {workflowStepInfo: WorkflowStepInfo, willProceed: boolean, comment: string, isInSystemWorkflow: boolean}) {}
+}
+
+export class RejectWorkflowStepCancelApproval {
+  readonly type = REJECT_WORKFLOW_STEP_CANCEL_APPROVAL;
+
+  constructor() {}
+}
+export class CompleteWorkflowStep {
+  readonly type = COMPLETE_WORKFLOW_STEP;
 }
 
 export class CompleteWorkflowStepSuccess {
   readonly type = COMPLETE_WORKFLOW_STEP_SUCCESS;
 
-  constructor(public payload: {workflowStepInfo: WorkflowStepInfo, willProceed: boolean}) {}
+  constructor(public payload:
+    {workflowStepInfo: WorkflowStepInfo, willProceed: boolean, isInSystemWorkflow: boolean, showInSystemWorkflowStepCompletionModal: boolean}) {}
 }
 
 export class CompleteWorkflowStepError {
@@ -162,7 +192,7 @@ export class UpdateWorkflowSteps implements Action {
 export class SetMessage implements Action {
   readonly type = SET_MESSAGE;
 
-  constructor(public payload: {message: string}) {}
+  constructor(public payload: {message: string, isInSystemWorkflow: boolean}) {}
 }
 
 export class ResendEmail implements Action {
@@ -180,7 +210,10 @@ export class ResendEmailError {
 }
 
 export type Actions
-  = LoadWorkflowLogEntries
+  = GetWorkflowStepInfoFromToken
+  | GetWorkflowStepInfoFromTokenSuccess
+  | GetWorkflowStepInfoFromTokenError
+  | LoadWorkflowLogEntries
   | LoadWorkflowLogEntriesSuccess
   | LoadWorkflowLogEntriesError
   | LoadWorkflowStepSummary
@@ -188,6 +221,8 @@ export type Actions
   | LoadWorkflowStepSummaryError
   | ApproveWorkflowStep
   | RejectWorkflowStep
+  | RejectWorkflowStepCancelApproval
+  | CompleteWorkflowStep
   | CompleteWorkflowStepSuccess
   | CompleteWorkflowStepError
   | GetWorkflowLink

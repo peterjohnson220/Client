@@ -3,7 +3,7 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
-import { of } from 'rxjs/internal/observable/of';
+import { of } from 'rxjs';
 import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
@@ -22,6 +22,7 @@ import * as fromRequestPeerAccessActions from '../actions/request-peer-access.ac
 import { UpsertPeerDataCutComponent } from './upsert-peer-data-cut.component';
 import { UpsertPeerDataCutEntities, UpsertPeerDataCutParentEntities } from '../constants';
 import { UpsertPeerDataCutEntityConfigurationModel } from '../models';
+import { ActivatedRouteStub } from '../../../../test/activated-route-stub';
 
 
 class DojGuidelinesStub {
@@ -66,7 +67,7 @@ describe('Libs - Upsert Peer Data Cut', () => {
   let instance: UpsertPeerDataCutComponent;
   let store: Store<fromRootState.State>;
   let route: ActivatedRoute;
-  let guidelinesService: DojGuidelinesStub;
+  let guidelinesService: any;
   const mockDataCutGUID = 'MockCutGUID';
   let dataCutGuid = null;
 
@@ -84,7 +85,8 @@ describe('Libs - Upsert Peer Data Cut', () => {
       ],
       providers: [
         {
-          provide: ActivatedRoute
+          provide: ActivatedRoute,
+          useValue: new ActivatedRouteStub()
         },
         { provide: DojGuidelinesService, useClass: DojGuidelinesStub },
         { provide: SettingsService, useClass: SettingsService }
@@ -99,8 +101,7 @@ describe('Libs - Upsert Peer Data Cut', () => {
 
     store = TestBed.inject(Store);
     route = TestBed.inject(ActivatedRoute);
-    // TODO: Resolve type mismatch here and use .inject
-    guidelinesService = TestBed.get(DojGuidelinesService);
+    guidelinesService = TestBed.inject(DojGuidelinesService);
     // exchangeExplorerStub = TestBed.inject(ExchangeExplorerComponent);
 
     spyOn(store, 'dispatch');

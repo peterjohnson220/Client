@@ -15,6 +15,11 @@ export class HrisIntegrationStatusComponent {
   @Output() onCreateNewIntegrationClicked = new EventEmitter();
   @Output() onContinueIntegrationSetupClicked = new EventEmitter();
   @Input() transferMethod: TransferMethodTypes;
+  @Input() hasSavedSchedules: boolean;
+
+
+  public inbound = TransferMethodTypes.HRIS_INTEGRATION;
+  public outboundJdm = TransferMethodTypes.HRIS_OUTBOUND_JDM_INTEGRATION;
 
   constructor() {
   }

@@ -110,7 +110,9 @@ export class UserRoleEffects {
             dataTypes = dataTypes.filter(x => x.Name !== DataRestrictionDataType.SurveysCompanySurveys);
           } else {
             const surveysDataType = dataTypes.find(x => x.Name === DataRestrictionDataType.Surveys);
-            surveysDataType.HideDivider = true;
+            if (surveysDataType) {
+              surveysDataType.HideDivider = true;
+            }
           }
           return new fromDataAccessActions.LoadedDataTypes(dataTypes);
         })

@@ -66,7 +66,7 @@ export class WorkflowWatchSidebarComponent implements OnChanges, OnInit, OnDestr
   }
 
   ngOnChanges(changes: any) {
-    if (changes.workflowId && changes.workflowId.currentValue !== changes.workflowId.previousValue) {
+    if ((changes.workflowId && changes.workflowId.currentValue !== changes.workflowId.previousValue) || changes.gettingJobDescriptionExtendedInfoSuccess) {
       if (this.gettingJobDescriptionExtendedInfoSuccess) {
         this.store.dispatch(new fromWorkflowActions.GetWorkflowLink({workflowId: this.workflowId}));
         this.store.dispatch(new fromWorkflowActions.LoadWorkflowStepSummary({workflowId: this.workflowId}));

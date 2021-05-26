@@ -3,8 +3,8 @@
 exports[`Project - Add Jobs - Job Result should not show the job category or eeo, when the job is a company job 1`] = `
 <pf-add-job-result
   job={[Function Object]}
-  jobClicked={[Function EventEmitter]}
-  jobDetailClicked={[Function EventEmitter]}
+  jobClicked={[Function EventEmitter_]}
+  jobDetailClicked={[Function EventEmitter_]}
   showJobBasedRangesJobMetadata="false"
   showJobLevelFamilyDescription="false"
   showJobSourceOrTitle={[Function Boolean]}
@@ -144,8 +144,8 @@ exports[`Project - Add Jobs - Job Result should not show the job category or eeo
 exports[`Project - Add Jobs - Job Result should show a peer icon, when the jobs is mapped to an exchange 1`] = `
 <pf-add-job-result
   job={[Function Object]}
-  jobClicked={[Function EventEmitter]}
-  jobDetailClicked={[Function EventEmitter]}
+  jobClicked={[Function EventEmitter_]}
+  jobDetailClicked={[Function EventEmitter_]}
   showJobBasedRangesJobMetadata="false"
   showJobLevelFamilyDescription="false"
   showJobSourceOrTitle={[Function Boolean]}
@@ -207,8 +207,8 @@ exports[`Project - Add Jobs - Job Result should show a peer icon, when the jobs 
 exports[`Project - Add Jobs - Job Result should show the job detail 1`] = `
 <pf-add-job-result
   job={[Function Object]}
-  jobClicked={[Function EventEmitter]}
-  jobDetailClicked={[Function EventEmitter]}
+  jobClicked={[Function EventEmitter_]}
+  jobDetailClicked={[Function EventEmitter_]}
   showJobBasedRangesJobMetadata="false"
   showJobLevelFamilyDescription="false"
   showJobSourceOrTitle={[Function Boolean]}

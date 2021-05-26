@@ -39,7 +39,7 @@ export function reducer(state = initialState, action: fromPricingHistoryChartAct
         pricedPayMarkets: { ...state.pricedPayMarkets, loading: false, obj: formatPayMarkets(action.payload[0]) },
         data: { ...state.data, obj: [] },
         currencies: KendoTypedDropDownItemHelper.mapItemsToDropdownList(
-          action.payload[1],'CurrencyCode', (item => {return `${item.CurrencyCode} - ${item.CurrencyName}`;}))
+          action.payload[1], 'CurrencyCode', (item => `${item.CurrencyCode} - ${item.CurrencyName}`))
       };
     }
     case fromPricingHistoryChartActions.INIT_PRICING_HISTORY_CHART_ERROR: {

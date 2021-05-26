@@ -3,7 +3,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { DragulaModule } from 'ng2-dragula';
-import { of } from 'rxjs/index';
+import { of } from 'rxjs';
 
 import * as fromRootState from 'libs/state/state';
 

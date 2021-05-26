@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnDestroy, Output, EventEmitter, Input } from '@angular/core';
 
 import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -40,6 +40,8 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
   @Output() exportClicked: EventEmitter<{ exportType: string, viewName: string }> = new EventEmitter<{ exportType: string, viewName: string }>();
   @Output() acknowledgedClicked = new EventEmitter();
   @Output() viewSelected = new EventEmitter();
+  @Input() isInSystemWorkflow = false;
+  @Input() isSystemWorkflowComplete = false;
 
   identity$: Observable<UserContext>;
   jobDescriptionAsync$: Observable<AsyncStateObj<JobDescription>>;
@@ -55,6 +57,7 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
   jobDescriptionViewsAsync$: Observable<AsyncStateObj<string[]>>;
   jobMatchesAsync$: Observable<AsyncStateObj<JobMatchResult[]>>;
   company$: Observable<CompanyDto>;
+  inSystemWorkflowStepInfo$: Observable<any>;
 
   identitySubscription: Subscription;
   jobDescriptionSubscription: Subscription;
@@ -64,6 +67,7 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
   inHistorySubscription: Subscription;
   jobMatchesAsyncSubscription: Subscription;
   companySubscription: Subscription;
+  workflowStepSubscription: Subscription;
 
   jobDescription: JobDescription;
   jobDescriptionExtendedInfo: JobDescriptionExtendedInfo;
@@ -71,7 +75,6 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
   identity: UserContext;
   inWorkflow: boolean;
   isPublicContext: boolean;
-  isFirstRecipient: boolean;
   undoQueueAvailable: boolean;
   containsFLSA: boolean;
   inHistory: boolean;
@@ -110,8 +113,7 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
     this.employeeAcknowledgementInfo$ = this.store.select(fromJobDescriptionReducers.getEmployeeAcknowledgementAsync);
     this.jobMatchesAsync$ = this.store.select(fromJobDescriptionReducers.getJobMatchesAsync);
     this.company$ = this.sharedStore.select(fromJobDescriptionManagementSharedReducer.getCompany);
-
-    this.initPermissions();
+    this.inSystemWorkflowStepInfo$ = this.sharedStore.select(fromJobDescriptionReducers.getWorkflowStepInfo);
   }
 
   ngOnInit(): void {
@@ -120,12 +122,26 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
       this.identity = userContext;
 
       this.identityInEmployeeAcknowledgement = userContext.EmployeeAcknowledgementInfo && !!userContext.EmployeeAcknowledgementInfo.EmployeeAcknowledgementId;
-      this.inWorkflow = !!userContext.WorkflowStepInfo && !!userContext.WorkflowStepInfo.WorkflowId;
-      if (this.inWorkflow) {
-        this.sharedStore.dispatch(new fromCompanyLogoActions.LoadCompanyLogo(userContext.CompanyId));
-      }
+     if (this.isInSystemWorkflow) {
+       this.workflowStepSubscription = this.inSystemWorkflowStepInfo$.subscribe(workflowStepInfo => {
+         this.inWorkflow = !!workflowStepInfo && !!workflowStepInfo.WorkflowId;
+         if (this.inWorkflow) {
+           this.sharedStore.dispatch(new fromCompanyLogoActions.LoadCompanyLogo(this.identity.CompanyId));
+         }
+
+         if (!!workflowStepInfo){
+           this.initWorkflowStepInfoPermissions(workflowStepInfo);
+         }
+       });
+     } else {
+       this.initUserContextPermissions();
+       this.inWorkflow = !!userContext.WorkflowStepInfo && !!userContext.WorkflowStepInfo.WorkflowId;
+       if (this.inWorkflow) {
+         this.sharedStore.dispatch(new fromCompanyLogoActions.LoadCompanyLogo(userContext.CompanyId));
+       }
+     }
+
       this.isPublicContext = !!userContext.IsPublic;
-      this.isFirstRecipient = !!userContext.WorkflowStepInfo && !!userContext.WorkflowStepInfo.IsFirstRecipient;
     });
     this.jobDescriptionSubscription = this.jobDescriptionAsync$.subscribe(asyncStateObj => {
       if (!!asyncStateObj && !!asyncStateObj.obj) {
@@ -287,7 +303,7 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
     return JobDescriptionHelper.isUserDefinedViewsAvailable(this.jobDescriptionViews);
   }
 
-  private initPermissions(): void {
+  private initUserContextPermissions(): void {
     this.hasCanPublishJobDescriptionPermission = this.permissionService.CheckPermission([Permissions.CAN_PUBLISH_JOB_DESCRIPTION],
       PermissionCheckEnum.Single);
     this.hasCanRouteJobDescriptionPermission = this.permissionService.CheckPermission([Permissions.CAN_ROUTE_JOB_DESCRIPTION_FOR_APPROVAL],
@@ -298,6 +314,14 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
       PermissionCheckEnum.Single);
     this.hasCanCancelWorkflowPermission = this.permissionService.CheckPermission([Permissions.CAN_CANCEL_JOB_DESCRIPTION_WORKFLOW],
       PermissionCheckEnum.Single);
+  }
+
+  private initWorkflowStepInfoPermissions(workflowStepInfo): void {
+    this.hasCanPublishJobDescriptionPermission = false;
+    this.hasCanRouteJobDescriptionPermission = false;
+    this.hasNewProjectPermission = false;
+    this.hasCanCancelWorkflowPermission = true;
+    this.hasCanEditJobDescriptionPermission = workflowStepInfo.Permissions.indexOf(Permissions.CAN_EDIT_JOB_DESCRIPTION) > -1;
   }
 
   private resetJobMatches(): void {

@@ -18,6 +18,7 @@ import {
   generateMockJdmListFilter
 } from 'libs/models/user-profile';
 import { PermissionService, RouteTrackingService } from 'libs/core/services';
+import { AbstractFeatureFlagService } from 'libs/core/services/feature-flags';
 import { SettingsService } from 'libs/state/app-context/services';
 
 import { JobDescriptionListPageComponent } from './job-description-list.page';
@@ -40,6 +41,7 @@ import {
 } from '../../../../shared/components/modals/delete-job-description-modal/delete-job-description-modal.component';
 
 describe('Job Description Management - Job Description - Job Description List Page', () => {
+  let abstractFeatureFlagService: AbstractFeatureFlagService;
   let instance: JobDescriptionListPageComponent;
   let fixture: ComponentFixture<JobDescriptionListPageComponent>;
   let store: Store<fromJobDescriptionReducers.State>;
@@ -83,6 +85,10 @@ describe('Job Description Management - Job Description - Job Description List Pa
         {
           provide: PermissionService,
           useValue: { CheckPermission: jest.fn(() => true) }
+        },
+        {
+          provide: AbstractFeatureFlagService,
+          useValue: { enabled: jest.fn(), bindEnabled: jest.fn() }
         }
       ],
       declarations: [
@@ -104,6 +110,7 @@ describe('Job Description Management - Job Description - Job Description List Pa
     instance.filterThrottle = new Subject();
     instance.savedGridState$ = of({ skip: 0, take: 20 });
 
+    abstractFeatureFlagService = TestBed.inject(AbstractFeatureFlagService);
     store = TestBed.inject(Store);
     router = TestBed.inject(Router);
     route = TestBed.inject(ActivatedRoute);

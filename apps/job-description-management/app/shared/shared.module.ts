@@ -7,7 +7,6 @@ import { GridModule, FilterMenuModule } from '@progress/kendo-angular-grid';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { DragulaModule } from 'ng2-dragula';
-import { EditorModule } from 'primeng/editor';
 import { NgbPaginationModule, NgbTooltipModule, NgbNavModule} from '@ng-bootstrap/ng-bootstrap';
 import { ImgFallbackModule } from 'ngx-img-fallback';
 
@@ -27,6 +26,7 @@ import {
   JobDescriptionLibraryComponent,
   UserRoutingSelectorComponent,
   WorkflowStepCompletionPageComponent,
+  WorkflowStepMessagePageComponent,
   DeleteJobDescriptionModalComponent,
   CopyTemplateModalComponent
 } from './components';
@@ -46,7 +46,6 @@ import { PeditorAutoFocusFixDirective } from './directives';
         FontAwesomeModule,
         PfJobDescriptionManagementModule,
         DragulaModule.forRoot(),
-        EditorModule,
         NgbPaginationModule,
         NgbTooltipModule,
         ImgFallbackModule,
@@ -74,6 +73,7 @@ import { PeditorAutoFocusFixDirective } from './directives';
     JobDescriptionLibraryComponent,
     UserRoutingSelectorComponent,
     WorkflowStepCompletionPageComponent,
+    WorkflowStepMessagePageComponent,
     WorkflowConfigComponent,
     DeleteJobDescriptionModalComponent,
     CopyTemplateModalComponent
@@ -89,6 +89,7 @@ import { PeditorAutoFocusFixDirective } from './directives';
     JobDescriptionLibraryComponent,
     UserRoutingSelectorComponent,
     WorkflowStepCompletionPageComponent,
+    WorkflowStepMessagePageComponent,
     DeleteJobDescriptionModalComponent,
     CopyTemplateModalComponent,
 

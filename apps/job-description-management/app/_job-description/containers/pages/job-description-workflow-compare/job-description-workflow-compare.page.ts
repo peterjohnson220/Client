@@ -1,10 +1,9 @@
 import { OnInit, Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { forkJoin, Subscription } from 'rxjs';
-import { Observable } from 'rxjs/Observable';
+import { forkJoin, Subscription, Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
-import 'rxjs-compat/add/operator/take';
 
 import { UserContext } from 'libs/models/security';
 import { ControlType } from 'libs/models/common';
@@ -70,7 +69,7 @@ export class JobDescriptionWorkflowComparePageComponent implements OnInit, OnDes
   }
 
   stopComparing() {
-     this.router.navigate([`job-descriptions/${this.route.snapshot.params.id}`], { queryParamsHandling: 'preserve' });
+      this.router.navigate([`job-descriptions/${this.route.snapshot.params.id}`], { queryParamsHandling: 'preserve' });
   }
 
   ngOnInit() {
@@ -102,7 +101,7 @@ export class JobDescriptionWorkflowComparePageComponent implements OnInit, OnDes
   }
 
   private getWorkflowCompareFromSelectedVersions() {
-    forkJoin([this.sourceCompareItem$.take(1), this.comparisonCompareItem$.take(1)]).subscribe(result => {
+    forkJoin([this.sourceCompareItem$.pipe(take(1)), this.comparisonCompareItem$.pipe(take(1))]).subscribe(result => {
 
       if (result[0] && result[1]) {
         const sourceStepNumber = result[0].StepNumber;

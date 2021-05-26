@@ -1,1 +1,39 @@
 /* You can add global styles to this file, and also import other style files */
+
+pf-survey-data-cuts {
+  .k-grid {
+    border-width: 1px !important;
+  }
+
+  .k-grid.default .k-grid-header tr th.k-header {
+    background-color: #087DB5 !important;
+    color: white !important;
+    border: none;
+  }
+
+  .k-grid.default .k-grid-header tr th.k-header:first-child {
+    border-color: #fff !important;
+    border-style: none none none solid;
+  }
+
+  .k-grid.default .k-grid-header tr th.k-header:not(:first-child) {
+    border-color: #f6f6f6 !important;
+    border-width: 1px !important;
+    border-style: none;
+  }
+
+  .k-grid-header .k-header>.k-link>.k-icon {
+    color: #fff !important;
+  }
+
+  .full-size-wrapper {
+    width: 100%;
+  }
+
+  .expanded-row-grid-container {
+    .k-grid-aria-root {
+      max-height: 547px;
+      overflow-y: auto;
+    }
+  }
+}

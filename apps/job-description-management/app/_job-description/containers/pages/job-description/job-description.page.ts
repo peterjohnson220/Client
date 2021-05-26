@@ -2,9 +2,8 @@ import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Store } from '@ngrx/store';
-import { Observable, Subscription, Subject } from 'rxjs';
-import { first } from 'rxjs/operators';
-import 'rxjs/add/observable/combineLatest';
+import { Observable, Subscription, Subject, combineLatest } from 'rxjs';
+import { first, debounceTime, tap } from 'rxjs/operators';
 import cloneDeep from 'lodash/cloneDeep';
 
 import * as signalR from '@microsoft/signalr';
@@ -26,7 +25,7 @@ import {
 import * as fromRootState from 'libs/state/state';
 import { SettingsService } from 'libs/state/app-context/services';
 import { PermissionService } from 'libs/core/services';
-import { PermissionCheckEnum, Permissions } from 'libs/constants';
+import { PermissionCheckEnum, Permissions } from 'libs/constants/permissions';
 import { SimpleYesNoModalComponent, FileDownloadSecurityWarningModalComponent } from 'libs/ui/common';
 import { JobDescriptionManagementDnDService, JobDescriptionManagementService, SortDirection } from 'libs/features/jobs/job-description-management';
 import {
@@ -51,8 +50,10 @@ import * as fromJobDescriptionActions from '../../../actions/job-description.act
 import * as fromEmployeeAcknowledgementActions from '../../../actions/employee-acknowledgement.actions';
 import * as fromWorkflowActions from '../../../actions/workflow.actions';
 import { JobDescriptionDnDService } from '../../../services';
-import { EmployeeAcknowledgementModalComponent, ExportJobDescriptionModalComponent,
-  WorkflowCancelModalComponent } from '../../../components/modals';
+import {
+  EmployeeAcknowledgementModalComponent, ExportJobDescriptionModalComponent,
+  WorkflowCancelModalComponent, WorkflowStepCompletionModalComponent
+} from '../../../components/modals';
 import { FlsaQuestionnaireModalComponent } from '../../../components/modals/flsa-questionnaire';
 import { JobMatchesModalComponent } from '../../job-matches-modal';
 import { ChangeApproverModalComponent } from '../../change-approver-modal';
@@ -78,6 +79,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   @ViewChild(WorkflowCancelModalComponent) public workflowCancelModal: WorkflowCancelModalComponent;
   @ViewChild(WorkflowSetupModalComponent) public workflowSetupModal: WorkflowSetupModalComponent;
   @ViewChild('fileDownloadSecurityWarningModal', { static: true }) public fileDownloadSecurityWarningModal: FileDownloadSecurityWarningModalComponent;
+  @ViewChild(WorkflowStepCompletionModalComponent) public workflowStepCompletionModal: WorkflowStepCompletionModalComponent;
 
   jobDescriptionAsync$: Observable<AsyncStateObj<JobDescription>>;
   jobDescriptionPublishingSuccess$: Observable<boolean>;
@@ -104,6 +106,8 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   loadingPageError$: Observable<boolean>;
   undoChanges$: Observable<boolean>;
   replaceContents$: Observable<boolean>;
+  workflowStepInfo$: Observable<any>;
+  inSystemWorkflowStepCompletionModalOpen$: Observable<any>;
 
   jobDescriptionSubscription: Subscription;
   routerParamsSubscription: Subscription;
@@ -122,6 +126,8 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   requireSSOLoginSubscription: Subscription;
   discardingDraftJobDescriptionSuccessSubscription: Subscription;
   enableFileDownloadSecurityWarningSub: Subscription;
+  workflowStepInfoSubscription: Subscription;
+  workflowStepCompletionModalSubscription: Subscription;
 
   companyName: string;
   emailAddress: string;
@@ -129,6 +135,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   jobDescription: JobDescription;
   visibleSections: JobDescriptionSection[];
   enableFileDownloadSecurityWarning: boolean;
+  enableLibraryForRoutedJobDescriptions: boolean;
   exportData: ExportData;
   hasCanEditJobDescriptionPermission: boolean;
   identityInWorkflow: boolean;
@@ -154,8 +161,9 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   jobDescriptionViews: string[];
   completedStep: boolean;
   controlTypes: ControlType[];
+  isInSystemWorkflow: boolean;
 
-  get isJobDescrptionEditable() {
+  get isJobDescriptionEditable() {
     return this.identityInWorkflow ? this.hasCanEditJobDescriptionPermission :
     this.hasCanEditJobDescriptionPermission && this.jobDescription?.JobDescriptionStatus === 'Draft';
   }
@@ -183,8 +191,6 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     );
 
     this.controlTypesAsync$ = this.sharedStore.select(fromJobDescriptionManagementSharedReducer.getControlTypesAsync);
-    this.hasCanEditJobDescriptionPermission = this.permissionService.CheckPermission([Permissions.CAN_EDIT_JOB_DESCRIPTION],
-      PermissionCheckEnum.Single);
     this.editingJobDescription$ = this.store.select(fromJobDescriptionReducers.getEditingJobDescription);
     this.savingJobDescription$ = this.store.select(fromJobDescriptionReducers.getSavingJobDescription);
     this.jobDescriptionLibraryBuckets$ = this.sharedStore.select(fromJobDescriptionManagementSharedReducer.getBucketsAsync);
@@ -206,6 +212,8 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
 
     this.undoChanges$ = this.store.select(fromJobDescriptionReducers.getUndoJobDescriptionChangesComplete);
     this.replaceContents$ = this.store.select(fromJobDescriptionReducers.getReplaceJobDescriptionComplete);
+    this.workflowStepInfo$ = this.store.select(fromJobDescriptionReducers.getWorkflowStepInfo);
+    this.inSystemWorkflowStepCompletionModalOpen$ = this.store.select(fromJobDescriptionReducers.getInSystemWorkflowStepCompletionModalOpen);
   }
 
   ngOnInit(): void {
@@ -235,6 +243,8 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.discardingDraftJobDescriptionSuccessSubscription.unsubscribe();
     this.enableFileDownloadSecurityWarningSub.unsubscribe();
     this.controlTypesSubscription.unsubscribe();
+    this.workflowStepInfoSubscription?.unsubscribe();
+    this.workflowStepCompletionModalSubscription?.unsubscribe();
   }
 
   appliesToFormCompleted(selected: any) {
@@ -514,7 +524,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   }
 
   private initRouterParams(): void {
-    const urlParams = Observable.combineLatest(
+    const urlParams = combineLatest(
       this.route.params,
       this.route.queryParams,
       (params, queryParams) => ({ ...params, queryParams: queryParams })
@@ -523,7 +533,8 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
       this.jobDescriptionId = params['id'];
       this.viewName = params.queryParams['viewName'];
       this.revisionNumber = params['versionNumber'];
-      this.tokenId = params.queryParams['jwt'];
+      this.tokenId = !!params.queryParams['jwt'] ? params.queryParams[ 'jwt' ] :  params.queryParams[ 'jwt-workflow' ];
+      this.isInSystemWorkflow = !!params.queryParams[ 'jwt-workflow' ];
       this.ssoTokenId = params.queryParams['tokenid'];
       this.ssoAgentId = params.queryParams['agentid'];
 
@@ -556,7 +567,25 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
             this.router.navigate(['/token-expired']);
           }
         }
-        this.identityInWorkflow = !!userContext.WorkflowStepInfo && !!userContext.WorkflowStepInfo.WorkflowId;
+
+        this.identityInWorkflow = (!!userContext.WorkflowStepInfo && !!userContext.WorkflowStepInfo.WorkflowId) || this.isInSystemWorkflow;
+
+        if (this.isInSystemWorkflow) {
+          this.workflowStepInfoSubscription = this.workflowStepInfo$.subscribe(workflowStepInfo => {
+            if (!!workflowStepInfo) {
+
+              if (userContext.UserId !== workflowStepInfo.UserId) {
+                this.router.navigate(['../forbidden']);
+              }
+
+              this.hasCanEditJobDescriptionPermission = workflowStepInfo.Permissions.indexOf(Permissions.CAN_EDIT_JOB_DESCRIPTION) > -1;
+            }
+          });
+        } else {
+          this.hasCanEditJobDescriptionPermission = this.permissionService.CheckPermission([Permissions.CAN_EDIT_JOB_DESCRIPTION],
+            PermissionCheckEnum.Single);
+        }
+
         this.companySubscription = this.company$.subscribe((company) => {
           this.companyLogoPath = company
             ? userContext.ConfigSettings.find(c => c.Name === 'CloudFiles_PublicBaseUrl').Value + '/company_logos/' + company.CompanyLogo
@@ -580,6 +609,9 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
           this.store.dispatch(new fromEmployeeAcknowledgementActions.LoadEmployeeAcknowledgementInfo());
         }
         this.store.dispatch(new fromJobDescriptionActions.LoadingPage(false));
+        if (this.isInSystemWorkflow) {
+          this.store.dispatch(new fromWorkflowActions.GetWorkflowStepInfoFromToken({ token: this.tokenId }));
+        }
       }
     });
 
@@ -632,6 +664,11 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
         this.getJobDescriptionDetails();
       }
     });
+    this.workflowStepCompletionModalSubscription = this.inSystemWorkflowStepCompletionModalOpen$.subscribe(value => {
+      if (value) {
+        this.workflowStepCompletionModal?.open();
+      }
+    });
   }
 
   private loadControlTypes(): void {
@@ -664,9 +701,10 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     });
 
     const saveThrottle$ = this.saveThrottle
-      .debounceTime(100)
-      .do(() => this.togglePublishButton(false))
-      .debounceTime(400);
+      .pipe(
+        debounceTime(100),
+        tap(() => this.togglePublishButton(false)),
+        debounceTime(400));
 
     this.saveThrottleSubscription = saveThrottle$.subscribe(save => {
       if (!this.saving) {

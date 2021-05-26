@@ -19,6 +19,7 @@
       <pf-hris-integration-panel
         [pfSecuredResource]="permissions.HRIS_OUTBOUND_INTEGRATION"
         [transferMethodType]="outboundjdm"
+        [hasSavedExportSchedules]="hasOutboundSchedules"
         (onCreateNewIntegrationClicked)="createNewIntegration($event)"
       ></pf-hris-integration-panel>
     </div>

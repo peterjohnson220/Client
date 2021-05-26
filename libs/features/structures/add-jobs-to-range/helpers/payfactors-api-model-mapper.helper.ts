@@ -10,24 +10,22 @@ export class PayfactorsApiModelMapper {
   ///
 
   static mapGradesResponseToGrades(srggr: StructureRangeGroupGradesResponse[], rangeGroupId: number): Grade[] {
-    // the last entry is a total that we don't care about in the client implementation
-    srggr.pop();
     return srggr.map((g: StructureRangeGroupGradesResponse): Grade => {
       return {
-        GradeName: g.Grade_Name,
-        CompanyStructuresRangesId: g.CompanyStructuresRanges_ID,
-        CompanyStructuresGradesId: g.CompanyStructuresGrades_ID,
+        GradeName: g.GradeName,
+        CompanyStructuresRangesId: g.CompanyStructuresRangesId,
+        CompanyStructuresGradesId: g.CompanyStructuresGradesId,
         Min: g.Min,
         Mid: g.Mid,
         Max: g.Max,
-        Tertile_First: g.Tertile_First,
-        Tertile_Second: g.Tertile_Second,
-        Quartile_First: g.Quartile_First,
-        Quartile_Second: g.Quartile_Second,
-        Quintile_First: g.Quintile_First,
-        Quintile_Second: g.Quintile_Second,
-        Quintile_Third: g.Quintile_Third,
-        Quintile_Fourth: g.Quintile_Fourth,
+        Tertile_First: g.TertileFirst,
+        Tertile_Second: g.TertileSecond,
+        Quartile_First: g.QuartileFirst,
+        Quartile_Second: g.QuartileSecond,
+        Quintile_First: g.QuintileFirst,
+        Quintile_Second: g.QuintileSecond,
+        Quintile_Third: g.QuintileThird,
+        Quintile_Fourth: g.QuintileFourth,
         LoadingJobs: false,
         LoadingJobsError: false,
         Jobs: [],

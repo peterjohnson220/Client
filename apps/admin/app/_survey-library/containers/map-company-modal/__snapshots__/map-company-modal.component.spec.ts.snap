@@ -10,7 +10,7 @@ exports[`Custom Survey Title Component should not show map companies list when s
   mappedCompanies={[Function Object]}
   modalData$={[Function Store]}
   store={[Function Store]}
-  surveyApi="undefined"
+  surveyApi={[Function Object]}
   unsubscribe$={[Function Subject]}
 >
   <pf-modal-form
@@ -57,7 +57,7 @@ exports[`Custom Survey Title Component should show map companies list when surve
   mappedCompanies={[Function Object]}
   modalData$={[Function Store]}
   store={[Function Store]}
-  surveyApi="undefined"
+  surveyApi={[Function Object]}
   unsubscribe$={[Function Subject]}
 >
   <pf-modal-form

@@ -2,7 +2,7 @@
 
 exports[`Exchange Access Requests Info should match snapshot 1`] = `
 <pf-exchange-access-requests-info
-  closeClicked={[Function EventEmitter]}
+  closeClicked={[Function EventEmitter_]}
   selectedAccessRequest={[Function Object]}
 >
   <div

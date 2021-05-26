@@ -31,16 +31,10 @@ export function reducer(state = initialState, action: leftSidebarActions.Actions
       };
     }
     case leftSidebarActions.GET_LEFT_SIDEBAR_NAVIGATION_LINKS_SUCCESS: {
-      const sidebarLinks = action.payload.map((l: SidebarLink) => (<SidebarLink>{
-        ...l,
-        FaIconClass: convertToFaIconFormat(l.IconClassNew)
-      }));
-      return {
-        ...state,
-        gettingLeftSidebarNavigationLinks: false,
-        leftSidebarNavigationLinks: sidebarLinks,
-        loadedLeftSidebarNavigationLinks: true
-      };
+      return saveNavigationLinks(state, action.payload);
+    }
+    case leftSidebarActions.URL_REDIRECT_APPLICATION_SUCCESS: {
+      return saveNavigationLinks(state, action.payload);
     }
     case leftSidebarActions.GET_LEFT_SIDEBAR_NAVIGATION_LINKS_ERROR: {
       return {
@@ -60,6 +54,20 @@ export function reducer(state = initialState, action: leftSidebarActions.Actions
       return state;
     }
   }
+}
+
+export function saveNavigationLinks(state: State, navigationLinks: SidebarLink[]): State {
+  const sidebarLinks = navigationLinks.map((l: SidebarLink) => (<SidebarLink>{
+    ...l,
+    FaIconClass: convertToFaIconFormat(l.IconClassNew)
+  }));
+
+  return {
+    ...state,
+    gettingLeftSidebarNavigationLinks: false,
+    leftSidebarNavigationLinks: sidebarLinks,
+    loadedLeftSidebarNavigationLinks: true
+  };
 }
 
 export const getGettingLeftSidebarNavigationLinks = (state: State) => state.gettingLeftSidebarNavigationLinks;
