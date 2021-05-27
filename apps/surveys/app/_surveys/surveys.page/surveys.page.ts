@@ -2,8 +2,9 @@ import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } fr
 
 import { SortDescriptor } from '@progress/kendo-data-query';
 import { DropDownFilterSettings } from '@progress/kendo-angular-dropdowns';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-import { Store } from '@ngrx/store';
+import { Observable, Subscription } from 'rxjs';
+import { ActionsSubject, Store } from '@ngrx/store';
+import { ofType } from '@ngrx/effects';
 import cloneDeep from 'lodash/cloneDeep';
 
 import * as fromPfDataGridActions from 'libs/features/grids/pf-data-grid/actions';
@@ -50,9 +51,9 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
   surveyDataGridSubscription: Subscription;
   savingSurveyFieldSubscription: Subscription;
   countriesSubscription: Subscription;
-  surveyYearsSubscription: Subscription;
   openedSurveyDataGridsSubscription: Subscription;
   expandedRowsSubscription: Subscription;
+  loadViewConfigSuccessSubscription: Subscription;
 
   inboundFilters: PfDataGridFilter[];
   pageViewId = SurveysPageConfig.SurveysPageViewId;
@@ -103,13 +104,13 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
   countries: GroupedListItem[];
   historyFilterSelectedItem: PfDataGridCustomFilterDisplayOptions;
   surveyYearFilterField: ViewField;
-  surveyYearOptions: PfDataGridCustomFilterDisplayOptions[];
-  filteredSurveyYearOptions: PfDataGridCustomFilterDisplayOptions[];
   openedSurveyDataGrids: SurveyDataGrid[];
   fieldsExcludedFromExport = ['Survey_Job_ID', 'Survey_ID', 'SurveyJobMatchesCount'];
+  defaultHistoryFilterSelectedItem: PfDataGridCustomFilterDisplayOptions = {Value: 'Most Recent', Display: 'Most Recent'};
 
   constructor(
-    private store: Store<fromSurveysPageReducer.State>
+    private store: Store<fromSurveysPageReducer.State>,
+    private actionsSubject: ActionsSubject,
   ) {
     this.inboundFilters = [
       {
@@ -160,17 +161,23 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
         this.populateCountriesFilter(results.obj);
       }
     });
-    this.surveyYearsSubscription = this.surveyYears$.subscribe(asyncObj => {
-      if (!asyncObj?.loading && asyncObj?.obj?.length) {
-        this.surveyYearOptions = asyncObj.obj;
-        this.filteredSurveyYearOptions = asyncObj.obj;
-      }
-    });
     this.expandedRowsSubscription = this.expandedRows$.subscribe(expandedRows => {
       if (!expandedRows?.length && this.openedSurveyDataGrids?.length) {
         this.store.dispatch(new fromSurveysPageActions.ResetOpenedSurveyDataGrids());
       }
     });
+    this.loadViewConfigSuccessSubscription = this.actionsSubject
+      .pipe(ofType(fromPfDataGridActions.LOAD_VIEW_CONFIG_SUCCESS))
+      .subscribe((action: fromPfDataGridActions.LoadViewConfigSuccess) => {
+        if (action.pageViewId === SurveysPageConfig.SurveysPageViewId) {
+          const historyField = action.payload.Fields.find(f => f.SourceName === 'SurveyYearFilter');
+          if (!!historyField) {
+            this.surveyYearFilterField = cloneDeep(historyField);
+            this.surveyYearFilterField.FilterValues = [this.defaultHistoryFilterSelectedItem.Value];
+            this.updateField(this.surveyYearFilterField);
+          }
+        }
+      });
     this.openedSurveyDataGridsSubscription = this.openedSurveyDataGrids$.subscribe(grids => this.openedSurveyDataGrids = grids);
     this.store.dispatch(new fromSurveysPageActions.GetSurveyCountries());
     this.store.dispatch(new fromSurveysPageActions.GetSurveyYears());
@@ -179,20 +186,21 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     this.filterTemplates = {
-      'SurveyYearFilter': { Template: this.historyFilter },
       'SurveyJobMatchesCount': { Template: this.matchedFilter },
       'SurveyCountryFilter': {Template: this.countriesFilter}
     };
     this.actionBarConfig = {
       ...this.actionBarConfig,
-      GlobalActionsTemplate: this.gridGlobalActionsTemplate
+      GlobalActionsTemplate: this.gridGlobalActionsTemplate,
+      GlobalFiltersTemplates: {
+        'SurveyYearFilter': this.historyFilter
+      }
     };
   }
 
   ngOnDestroy(): void {
     this.gridFieldSubscription.unsubscribe();
     this.countriesSubscription.unsubscribe();
-    this.surveyYearsSubscription.unsubscribe();
     this.openedSurveyDataGridsSubscription.unsubscribe();
     this.expandedRowsSubscription.unsubscribe();
   }
@@ -309,10 +317,6 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
     field.FilterValues = option.Value === null ? null : [option.Value];
     field.FilterOperator = '=';
     this.updateField(field);
-  }
-
-  handleHistoryFilterChanged(searchTerm: string): void {
-    this.filteredSurveyYearOptions = this.surveyYearOptions.filter(o => o.Value.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1);
   }
 
   surveyDataGridRefreshed(surveyJobId: number): boolean {

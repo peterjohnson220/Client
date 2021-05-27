@@ -97,7 +97,7 @@ export function reducer(state = initialState, action: fromSurveysPageActions.Act
       return AsyncStateObjHelper.loading(state, 'surveyYears');
     }
     case fromSurveysPageActions.GET_SURVEY_YEARS_SUCCESS: {
-      let surveyYears = [{ Value: 'Most Recent', Display: 'Most Recent' }];
+      let surveyYears = [ { Value: null, Display: 'All' }, { Value: 'Most Recent', Display: 'Most Recent' } ];
       surveyYears = surveyYears.concat(action.payload.map(x => ({ Value: x.toString(), Display: x.toString() })));
       return AsyncStateObjHelper.loadingSuccess(state, 'surveyYears', surveyYears);
     }
