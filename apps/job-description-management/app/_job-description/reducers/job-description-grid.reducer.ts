@@ -180,11 +180,16 @@ export function reducer(state = initialState, action: fromJobDescriptionGridActi
         };
       }
 
-      case fromJobDescriptionGridActions.ADD_DELETING_JOB_STATUS: {
+      case fromJobDescriptionGridActions.ADD_DELETING_JOBS: {
         const gridDataResultCopy = cloneDeep(state.gridDataResult);
         gridDataResultCopy.data.forEach( jd => {
-          if (action.payload.includes(jd['JobDescriptionId'])) {
+          const jobDescriptionId = jd['JobDescriptionId'];
+          if (action.payload.includes(jobDescriptionId)) {
             jd['JobDescriptionStatus'] = 'Deleting';
+          }
+          // Remove this job from grid selections
+          if (state.selectedJobDescriptions.has(jobDescriptionId)) {
+            state.selectedJobDescriptions.delete(jobDescriptionId);
           }
         });
         return {

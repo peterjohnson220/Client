@@ -49,7 +49,7 @@ export class DeleteJobDescriptionModalComponent implements OnInit, OnDestroy {
 
   submit() {
     this.store.dispatch(new fromJobDescriptionActions.DeleteJobDescription({ jobDescriptionIds: this.jobDescriptionIds }));
-    this.store.dispatch(new fromJobDescriptionGridActions.AddDeletingJobStatus(this.jobDescriptionIds));
+    this.store.dispatch(new fromJobDescriptionGridActions.AddDeletingJobs(this.jobDescriptionIds));
     this.close();
    }
 

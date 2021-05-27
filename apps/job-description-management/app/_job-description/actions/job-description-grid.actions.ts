@@ -28,7 +28,7 @@ export const LOAD_PUBLIC_JDM_COLUMNS_SUCCESS = '[job-description-management / Jo
 export const SELECT_JOB_DESCRIPTIONS = '[job-description-management / Job Description Grid] Select Job Descriptions';
 export const ADD_ROUTING_JOBS = '[job-description-management / Job Description Grid] Add Routing Jobs';
 export const REMOVE_ROUTING_JOB = '[job-description-management / Job Description Grid] Remove Routing Job';
-export const ADD_DELETING_JOB_STATUS = '[job-description-management / Job Description Grid] Add Deleting Job Status';
+export const ADD_DELETING_JOBS = '[job-description-management / Job Description Grid] Add Deleting Jobs';
 
 export class LoadJobDescriptionGrid implements Action {
   readonly type = LOAD_JOB_DESCRIPTION_GRID;
@@ -139,8 +139,8 @@ export class RemoveRoutingJob implements Action {
   constructor(public payload: number) {}
 }
 
-export class AddDeletingJobStatus implements Action {
-  readonly type = ADD_DELETING_JOB_STATUS;
+export class AddDeletingJobs implements Action {
+  readonly type = ADD_DELETING_JOBS;
 
   constructor(public payload: number[]) {}
 }
@@ -166,4 +166,4 @@ export type Actions
   | SelectJobDescriptions
   | AddRoutingJobs
   | RemoveRoutingJob
-  | AddDeletingJobStatus;
+  | AddDeletingJobs;
