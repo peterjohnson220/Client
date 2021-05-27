@@ -20,18 +20,20 @@
 
 <ng-template #historyFilter>
   <div>
-    <label>History:</label>
     <kendo-dropdownlist
       [(ngModel)]="historyFilterSelectedItem"
       [textField]="'Display'"
       [valueField]="'Value'"
-      [defaultItem]="{Display:'All', Value: null}"
-      [data]="filteredSurveyYearOptions"
+      [data]="(surveyYears$ | async)?.obj"
       (valueChange)="handleHistoryValueChanged($event)"
-      [filterable]="true"
-      (filterChange)="handleHistoryFilterChanged($event)"
+      [filterable]="false"
       [attr.data-qa-id]="'ddm-operator-surveys-page-Effective-Date'"
       class="k-dropdown-white form-control">
+      <ng-template kendoDropDownListValueTemplate let-dataItem>
+        <span>
+          History: <span class="font-weight-bold pl-2">{{ dataItem?.Display }}</span>
+        </span>
+      </ng-template>
     </kendo-dropdownlist>
   </div>
 </ng-template>
