@@ -157,12 +157,13 @@ export class JobDescriptionApiService {
       (response) => JSON.parse(response.value));
   }
 
-  save(jobDescription: JobDescription, isFirstSave: boolean): Observable<JobDescription> {
+  save(jobDescription: JobDescription, isFirstSave: boolean, workflowToken: string): Observable<JobDescription> {
     const jobDescriptionClone: JobDescription = cloneDeep(jobDescription);
     jobDescriptionClone.Sections = ControlDataHelper.removeControlTypes(jobDescriptionClone.Sections);
     const obj = {
       jobDescriptionAsJsonString: JSON.stringify(jobDescriptionClone),
-      isFirstSave: isFirstSave
+      isFirstSave: isFirstSave,
+      workflowToken: workflowToken
     };
     return this.payfactorsApiService.post(`${this.endpoint}(${jobDescription.JobDescriptionId})/Default.Save`, obj,
       (response => JSON.parse(response.value)));

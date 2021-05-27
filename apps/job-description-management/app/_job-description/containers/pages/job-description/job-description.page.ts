@@ -339,7 +339,8 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromJobDescriptionActions.SaveJobDescription({
       jobDescription: this.jobDescription,
       isFirstSave: this.isFirstSave,
-      undo
+      undo,
+      workflowToken: this.tokenId
     }));
     this.isFirstSave = false;
   }

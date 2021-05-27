@@ -88,7 +88,7 @@ export class ClearJobDescription implements Action {
 export class SaveJobDescription implements Action {
   readonly type = SAVE_JOB_DESCRIPTION;
 
-  constructor(public payload: { jobDescription: JobDescription, isFirstSave: boolean, undo: boolean }) {}
+  constructor(public payload: { jobDescription: JobDescription, isFirstSave: boolean, undo: boolean, workflowToken: string }) {}
 }
 
 export class SaveJobDescriptionSuccess implements Action {
