@@ -38,15 +38,15 @@ export class GraphHelper {
   static getDataCutChartHeight(data: any, multiLineHeader: boolean = false): number {
     const defaultOffset = 56;
     const multiLineHeaderOffset = 85;
-    const defaultSingleRecordHeight = 98;
+    const defaultSingleRecordHeight = 60;
     const rowHeight = 50;
-    const multiLineHeaderRowHeight = 38;
-    const singleDataPointOffset = 10;
+    const multiLineHeaderRowHeight = 42;
+    const singleDataPointOffset = 45;
     if (data.length > 1) {
       return ((multiLineHeader ? multiLineHeaderRowHeight : rowHeight) * data.length)
         + (multiLineHeader ? (multiLineHeaderOffset + defaultOffset) : defaultOffset);
     } else if (data.length === 1) {
-      return (multiLineHeader ? (multiLineHeaderOffset + defaultSingleRecordHeight + singleDataPointOffset)
+      return (multiLineHeader ? (multiLineHeaderOffset + defaultSingleRecordHeight)
         : defaultSingleRecordHeight + singleDataPointOffset);
     } else {
       return (multiLineHeader ? (multiLineHeaderOffset + defaultSingleRecordHeight) : defaultSingleRecordHeight);

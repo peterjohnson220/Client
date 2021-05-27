@@ -78,11 +78,11 @@ export class SingleJobViewDataCutsRangeChartComponent implements OnInit, OnDestr
         this.chartLocale = getUserLocale();
         this.rangeDistributionTypeId = md.RangeDistributionTypeId;
         this.clearData();
-        if (!!this.groupFieldSelected) {
-          this.chartOptions =
-            SingleJobViewDataCutsChartService.getSingleJobViewDataCutChartOptions(
-              this.chartLocale, this.currency, this.controlPointDisplay, this.rangeDistributionTypeId, this.groupFieldSelected);
-        }
+
+        this.chartOptions =
+          SingleJobViewDataCutsChartService.getSingleJobViewDataCutChartOptions(
+            this.chartLocale, this.currency, this.controlPointDisplay, this.rangeDistributionTypeId, this.groupFieldSelected);
+
       }
     });
 
