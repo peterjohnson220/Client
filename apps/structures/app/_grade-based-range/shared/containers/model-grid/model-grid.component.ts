@@ -33,9 +33,9 @@ import * as fromSharedStructuresReducer from '../../../../shared/reducers';
 import * as fromSharedStructuresActions from '../../../../shared/actions/shared.actions';
 import { StructuresPagesService } from '../../../../shared/services';
 import * as fromModelSettingsModalActions from '../../../../shared/actions/model-settings-modal.actions';
+import * as fromPublishModelModalActions from '../../../../shared/actions/publish-model-modal.actions';
 import { ModelSettingsModalContentComponent } from '../model-settings-modal-content';
 import * as fromGradeBasedSharedReducer from '../../reducers';
-
 
 @Component({
   selector: 'pf-grade-based-model-grid',
@@ -206,7 +206,6 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
       rangeId: dataRow.CompanyStructures_Ranges_CompanyStructuresRanges_ID,
       rangeGroupId: dataRow.CompanyStructures_RangeGroup_CompanyStructuresRangeGroup_ID,
       rowIndex: rowIndex,
-      roundingSettings: this.roundingSettings,
       refreshRowDataViewFilter: this.getRefreshFilter(dataRow)
     }));
   }
@@ -233,9 +232,13 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     this.store.dispatch(new fromModelSettingsModalActions.OpenModal());
   }
 
+  handlePublishModelClicked() {
+    this.store.dispatch(new fromPublishModelModalActions.OpenModal());
+  }
+
   buildForm() {
     this.modelSettingsForm = new FormGroup({
-      'ModelName': new FormControl(this.metaData.ModelName, [Validators.required, Validators.maxLength(50)]),
+      'ModelName': new FormControl(!this.metaData.IsCurrent || this.isNewModel ? this.metaData.ModelName : '', [Validators.required, Validators.maxLength(50)]),
       'Grades': new FormControl(this.numGrades || ''),
       'RangeDistributionTypeId': new FormControl({ value: this.metaData.RangeDistributionTypeId, disabled: true }, [Validators.required]),
       'MarketDataBased': new FormControl(this.controlPoint || 'BaseMRP', [Validators.required]),

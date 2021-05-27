@@ -19,3 +19,7 @@
     }
   }
 }
+
+:host ::ng-deep .split-view-container {
+  height: unset !important;
+}

@@ -26,6 +26,7 @@ import {
   JobDescriptionLibraryComponent,
   UserRoutingSelectorComponent,
   WorkflowStepCompletionPageComponent,
+  WorkflowStepMessagePageComponent,
   DeleteJobDescriptionModalComponent,
   CopyTemplateModalComponent
 } from './components';
@@ -72,6 +73,7 @@ import { PeditorAutoFocusFixDirective } from './directives';
     JobDescriptionLibraryComponent,
     UserRoutingSelectorComponent,
     WorkflowStepCompletionPageComponent,
+    WorkflowStepMessagePageComponent,
     WorkflowConfigComponent,
     DeleteJobDescriptionModalComponent,
     CopyTemplateModalComponent
@@ -87,6 +89,7 @@ import { PeditorAutoFocusFixDirective } from './directives';
     JobDescriptionLibraryComponent,
     UserRoutingSelectorComponent,
     WorkflowStepCompletionPageComponent,
+    WorkflowStepMessagePageComponent,
     DeleteJobDescriptionModalComponent,
     CopyTemplateModalComponent,
 

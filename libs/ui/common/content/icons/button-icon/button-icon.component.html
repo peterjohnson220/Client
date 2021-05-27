@@ -1,0 +1,16 @@
+<ng-container *ngIf="tooltipMsg && tooltipMsg.length > 0; then withTooltip else withoutTooltip"></ng-container>
+
+<ng-template #withTooltip>
+  <fa-stack class="fa-lg btn-icon-stack" (click)="onIconSelected()" 
+    placement="{{tooltipPlacement}}" ngbTooltip="{{tooltipMsg}}" container="body" >
+    <fa-icon icon="circle" stackItemSize="2x" class="btn-icon-outline"></fa-icon>
+    <fa-icon [icon]="[iconStyle, iconName]" stackItemSize="1x" class="btn-icon"></fa-icon>
+  </fa-stack>
+</ng-template>
+
+<ng-template #withoutTooltip>
+  <fa-stack class="fa-lg btn-icon-stack" (click)="onIconSelected()">
+    <fa-icon icon="circle" stackItemSize="2x" class="btn-icon-outline"></fa-icon>
+    <fa-icon [icon]="[iconStyle, iconName]" stackItemSize="1x" class="btn-icon"></fa-icon>
+  </fa-stack>
+</ng-template>

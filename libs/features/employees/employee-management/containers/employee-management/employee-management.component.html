@@ -169,6 +169,16 @@
                               placeholder="Select a Gender..."></kendo-combobox>
             </div>
           </div>
+          <div class="form-group row">
+            <label class="col-3 col-form-label">Ethnicity</label>
+            <div class="col-9">
+              <input  data-qa-id="txt-employee-form-ethnicity"
+                      type="text"
+                      class="form-control"
+                      formControlName="EthnicityPF"
+                      [maxlength]="DEFAULT_MAX_LENGTH">
+            </div>
+          </div>
           <hr><h5 id="jobInformationSection">Job Information</h5>
           <div class="form-group row">
             <label class="col-3 col-form-label">Job <span class="text-danger">*</span></label>

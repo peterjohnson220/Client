@@ -1,4 +1,5 @@
 <form [formGroup]="emailForm">
+  <p class="text-muted font-italic">Send statements via secure email to each selected employee. Customize your email below.</p>
   <div class="form-group">
     <label for="trsStatementEmailSubject">Email Subject</label>
     <input id="trsStatementEmailSubject"
@@ -16,13 +17,23 @@
     <label for="trsStatementEmailBody">Email Body</label>
     <div class="p-3 email-body">
       <div class="mb-2">Hello [employee_name],</div>
-      <textarea id="trsStatementEmailBody"
-                class="form-control text-area-resize-vertical"
-                formControlName="EmailBody"
-                maxlength="{{CONTENT_MAX_LENGTH}}"
-                rows="3"
-                [pfValidatable]="true">
-      </textarea>
+      <div class="position-relative">
+        <textarea id="trsStatementEmailBody"
+                  class="form-control text-area-resize-vertical"
+                  formControlName="EmailBody"
+                  maxlength="{{CONTENT_MAX_LENGTH}}"
+                  rows="3"
+                  [pfValidatable]="true">
+        </textarea>
+        <pf-radial-text-counter class="radial-counter email-input-radial-counter"
+                                [ContentLength]="contentLength"
+                                [AvailableLength]="CONTENT_MAX_LENGTH"
+                                [ShowTextRemainingTooltip]="true"
+                                [WarningStartNumber]="warningStartNumber"
+                                [DangerStartNumber]="dangerStartNumber"
+                                [DisplayWarningColors]="true">
+        </pf-radial-text-counter>
+      </div>
       <span *ngIf="formControls.EmailBody.errors?.required" class="invalid-feedback">Email body is required</span>
       <span *ngIf="formControls.EmailBody.errors?.maxLengthTrimmed" class="invalid-feedback">
         Email body cannot be longer than {{CONTENT_MAX_LENGTH}} characters

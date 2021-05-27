@@ -1,27 +1,42 @@
-<div *ngIf="!connectionSummary?.hasConnection &&  !(connectionSummary?.canEditConnection && connectionSummary.canEditMappings)">
-  <div class="alert alert-info" role="alert">
-    <h4 class="alert-heading">No HRIS Integration to Display</h4>
-    <p>
-      Click the button below to create a new integration.
-    </p>
+<div *ngIf="transferMethod === inbound">
+  <div *ngIf="!connectionSummary?.hasConnection &&  !(connectionSummary?.canEditConnection && connectionSummary.canEditMappings)">
+    <div class="alert alert-info" role="alert">
+      <h4 class="alert-heading">No HRIS Integration to Display</h4>
+      <p>
+        Click the button below to create a new integration.
+      </p>
+    </div>
+    <div class="w-100 text-center">
+      <button type="button" (click)="createNewIntegration()" class="btn btn-primary px-4">Create New Integration</button>
+    </div>
   </div>
-  <div class="w-100 text-center">
-    <button type="button" (click)="createNewIntegration()" class="btn btn-primary px-4">Create New Integration</button>
+  <div *ngIf="!connectionSummary?.hasConnection && (connectionSummary?.canEditConnection && connectionSummary.canEditMappings)">
+    <div class="alert alert-info" role="alert">
+      <h4 class="alert-heading">Finish Setting Up Your Integration</h4>
+      <p>
+        Click the button below to continue setting up your integration.
+      </p>
+    </div>
+    <div class="w-100 text-center">
+      <button type="button" (click)="continueIntegrationSetup()" class="btn btn-primary px-4">Continue Setup</button>
+    </div>
+  </div>
+  <div *ngIf="connectionSummary?.hasConnection" class="row justify-content-center py-4">
+    <div class="col col-sm-6">
+      <img [src]="connectionSummary?.provider?.ImageUrl" [alt]="connectionSummary?.provider?.ProviderName" class="img-fluid" />
+    </div>
   </div>
 </div>
-<div *ngIf="!connectionSummary?.hasConnection && (connectionSummary?.canEditConnection && connectionSummary.canEditMappings)">
-  <div class="alert alert-info" role="alert">
-    <h4 class="alert-heading">Finish Setting Up Your Integration</h4>
-    <p>
-      Click the button below to continue setting up your integration.
-    </p>
-  </div>
-  <div class="w-100 text-center">
-    <button type="button" (click)="continueIntegrationSetup()" class="btn btn-primary px-4">Continue Setup</button>
-  </div>
-</div>
-<div *ngIf="connectionSummary?.hasConnection" class="row justify-content-center py-4">
-  <div class="col col-sm-6">
-    <img [src]="connectionSummary?.provider?.ImageUrl" [alt]="connectionSummary?.provider?.ProviderName" class="img-fluid" />
+<div *ngIf="transferMethod === outboundJdm">
+  <div *ngIf="!hasSavedSchedules">
+    <div class="alert alert-info" role="alert">
+      <h4 class="alert-heading">No scheduled Job Description Exports</h4>
+      <p>
+        Click the button below to create a new schedule.
+      </p>
+    </div>
+    <div class="w-100 text-center">
+      <button type="button" (click)="createNewIntegration()" class="btn btn-primary px-4">Create a Schedule</button>
+    </div>
   </div>
 </div>

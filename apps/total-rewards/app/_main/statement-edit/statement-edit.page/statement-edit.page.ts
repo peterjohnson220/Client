@@ -14,7 +14,8 @@ import {
   CompensationField,
   StatementDisplaySettingsEnum,
   StatementModeEnum,
-  TotalRewardsControlEnum
+  TotalRewardsControlEnum,
+  StatementAdditionalPageSettings
 } from 'libs/features/total-rewards/total-rewards-statement/models';
 import { FontFamily, FontSize } from 'libs/features/total-rewards/total-rewards-statement/types';
 import { TotalRewardsStatementService } from 'libs/features/total-rewards/total-rewards-statement/services/total-rewards-statement.service';
@@ -339,6 +340,10 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
     if (displaySettingKey === StatementDisplaySettingsEnum.ShowInformationEffectiveDate) {
       this.store.dispatch(new fromEditStatementPageActions.UpdateEffectiveDate({ effectiveDate: new Date() }));
     }
+  }
+
+  handleAdditionalPageSettingsChange(additionalPageSettings: StatementAdditionalPageSettings) {
+    this.store.dispatch(new fromEditStatementPageActions.UpdateAdditionalPageSettings({ additionalPageSettings: additionalPageSettings }));
   }
 
   handleResetSettings() {

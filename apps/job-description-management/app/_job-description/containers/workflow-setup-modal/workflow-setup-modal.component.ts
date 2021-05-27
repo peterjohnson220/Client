@@ -41,16 +41,18 @@ export class WorkflowSetupModalComponent implements OnInit, OnDestroy {
   savingSuccessSubscription: Subscription;
   stepsDirtySubscription: Subscription;
 
-  entityId: number;
   accessibleTemplates: WorkflowTemplate[];
+  addingNonSystemUser = false;
+  entityId: number;
   filteredTemplates: WorkflowTemplate[];
   hasFilteredTemplates: boolean;
-  selectedTemplateName: string;
-  workflowInitiationComment: string;
   hasForbiddenUsers: boolean;
+  selectedTemplateName: string;
+  selectedUser: any;
   stepsDirty: boolean;
-  workflowUrl: string;
+  workflowInitiationComment: string;
   workflowSteps: WorkflowStep[];
+  workflowUrl: string;
 
   constructor(
     private store: Store<fromJobDescriptionManagementReducer.State>,
@@ -106,6 +108,10 @@ export class WorkflowSetupModalComponent implements OnInit, OnDestroy {
     this.filteredTemplates = this.accessibleTemplates.filter(t => t.Name.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1);
   }
 
+  handlePickerSelection(selectedUser: any): void {
+    this.sharedJdmStore.dispatch(new fromWorkflowConfigActions.AddSelectedUserOrEmail(selectedUser));
+  }
+
   handleSelectedTemplateChanged(templateId: string): void {
     if (!templateId) {
       return;
@@ -119,6 +125,10 @@ export class WorkflowSetupModalComponent implements OnInit, OnDestroy {
     }
   }
 
+  handleShowNameFormClicked(isAddingNonSystemUser: boolean) {
+    this.addingNonSystemUser = isAddingNonSystemUser;
+  }
+
   createWorkflow(): void {
     const workflow = this.buildWorkflow();
     this.store.dispatch(new fromWorkflowSetupModalActions.CreateWorkflow(workflow));
@@ -129,25 +139,30 @@ export class WorkflowSetupModalComponent implements OnInit, OnDestroy {
       return;
     }
     const multipleStepsTemplates = results.filter(t => t.Steps.length > 0);
-    this.hasFilteredTemplates = multipleStepsTemplates.some(t => t.Steps.some(s => s.Permissions.length === 0));
-    this.accessibleTemplates = multipleStepsTemplates.filter(t => !t.Steps.some(s => s.Permissions.length === 0));
+    this.accessibleTemplates = multipleStepsTemplates.filter(t => !t.Steps.some(s => s.WorkflowStepUsers.some(u => u.Permissions.length === 0)));
+    this.hasFilteredTemplates = this.accessibleTemplates.length < multipleStepsTemplates.length;
     this.filteredTemplates = this.accessibleTemplates;
   }
 
   private buildWorkflow(): Workflow {
-    let workflowStepsClone: WorkflowStep[] = cloneDeep(this.workflowSteps);
-    workflowStepsClone = workflowStepsClone.map(step => {
-      delete step['UserPicture'];
-      step.Permissions = step.Permissions.filter(p => p.selected).map(p => p.permission);
-      return step;
-    });
+    const workflowSteps: WorkflowStep[] = cloneDeep(this.workflowSteps);
+
+    for (let i = 0; i < workflowSteps.length; i++) {
+      for (let j = 0; j < workflowSteps[i].WorkflowStepUsers.length; j++) {
+        const user = workflowSteps[i].WorkflowStepUsers[j];
+        delete user['UserPicture'];
+        delete user['StepId'];
+        user.Permissions = user.Permissions.filter(p => p.selected).map(p => p.permission);
+      }
+    }
+
     return {
       EntityType: 'JobDescription',
       EntityId: this.entityId,
       EntityTitle: this.jobTitle,
       WorkflowUrl: this.workflowUrl,
       Revision: this.revision,
-      WorkflowSteps: workflowStepsClone,
+      WorkflowSteps: workflowSteps,
       InitiationComment: this.workflowInitiationComment,
       AllAvailablePermissions: [ Permissions.JOB_DESCRIPTIONS, Permissions.CAN_EDIT_JOB_DESCRIPTION ]
     };

@@ -28,6 +28,7 @@ export interface EmployeeRewardsData {
   EmployeeSTI: number;
   EmployeeLTI: number;
   CurrentYear: number;
+  PeerOtherAllowance: number;
   Currency: string;
   BenefitsData?: Dictionary<BenefitsData>;
   EmployeesUdf?: GenericKeyValue<string, string>;
@@ -70,6 +71,7 @@ export function generateMockEmployeeRewardsData(): EmployeeRewardsData {
     EmployeeLTI: 10000,
     CurrentYear: new Date().getFullYear(),
     Currency: 'USD',
+    PeerOtherAllowance: 500,
     BenefitsData: generateMockBenefitsData(),
     EmployeesUdf: generateMockEmployeesUdf() as any,
     JobsUdf: generateMockJobsUdf() as any

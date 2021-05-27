@@ -126,6 +126,7 @@
       [colors]="(statement$ | async)?.Settings.Colors"
       [displaySettings]="(statement$ | async)?.Settings.DisplaySettings"
       [isSavingError]="settingsSavingError$ | async"
+      [additionalPageSettings]="(statement$ | async)?.Settings.AdditionalPageSettings"
       (fontSizeChange)="handleSettingsFontSizeChange($event)"
       (fontFamilyChange)="handleSettingsFontFamilyChange($event)"
       (colorChange)="handleSettingsColorChange($event)"
@@ -134,6 +135,7 @@
       (close)="handleCloseSettingsClick()"
       pfClickElsewhere
       (clickElsewhere)="handleSettingsPanelClickElsewhere()"
+      (additionalPageSettingChange)="handleAdditionalPageSettingsChange($event)"
     ></pf-settings-panel>
     <pf-footer-bar
       [primaryButtonText]="'Assign Employees'"

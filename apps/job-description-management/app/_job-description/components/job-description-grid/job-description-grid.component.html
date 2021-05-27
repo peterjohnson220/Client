@@ -2,19 +2,57 @@
   [loading]="loading"
   [loadingError]="loadingError"
   [loadingErrorMessage]="'Error loading Job Descriptions'">
+
+  <div *ngIf="jdmCheckboxesFeatureFlag.value">
+    <div class="d-flex grid-actions-container pb-2">
+      <button type="button" class="btn btn-secondary pf-btn-borderless mr-3" [disabled]="selectedJobDescriptions?.size === 0" (click)="handleClearSelectionsClick()">
+        <fa-icon [icon]="['fas', 'times']"></fa-icon>
+        Clear Selections <span *ngIf="selectedJobDescriptions?.size > 0">({{selectedJobDescriptions?.size}})</span>
+      </button>
+      <div class="vertical-separator mr-3"></div>
+      <button type="button" class="btn btn-secondary pf-btn-borderless mr-3" [disabled]="selectedJobDescriptions?.size === 0">
+        <fa-icon [icon]="['fas', 'random']"></fa-icon>
+        Route for Approval
+      </button>
+      <button type="button" class="btn btn-secondary pf-btn-borderless mr-3" [disabled]="selectedJobDescriptions?.size === 0">
+        <fa-icon [icon]="['fas', 'download']"></fa-icon>
+        Export
+      </button>
+      <button type="button" class="btn btn-secondary pf-btn-borderless mr-3" [disabled]="selectedJobDescriptions?.size === 0 || !canDeleteJobDescriptions()">
+        <fa-icon [icon]="['far', 'trash-alt']"></fa-icon>
+        Delete
+      </button>
+    </div>
+  </div>
+
+<div class="job-description-grid-container">
   <kendo-grid
-    rowClick
     [data]="gridDataResult"
     [pageable]="pageableSettings"
     [pageSize]="gridState.take"
     [sortable]="true"
     [sort]="gridState.sort"
     [skip]="gridState.skip"
-    [selectable]="true"
+    [selectable]="{
+      enabled: true,
+      checkboxOnly: true
+    }"
+    [kendoGridSelectBy]="'JobDescriptionId'"
+    [rowSelected]="isRowSelected"
     (pageChange)="pageChanged.emit($event)"
     (dataStateChange)="dataStateChanged.emit($event)"
     (sortChange)="sortChanged.emit($event)"
-    (selectionChange)="handleRowClick($event)">
+    (selectionChange)="handleSelectionChange($event)"
+    (cellClick)="onCellClick($event)">
+
+      <kendo-grid-checkbox-column *ngIf="jdmCheckboxesFeatureFlag.value"
+        showSelectAll="true" [resizable]="false" [width]="30" class="no-ellipsis">
+        <ng-template kendoGridHeaderTemplate>
+          <input class="k-checkbox no-ellipsis" id="selectAllCheckboxId" kendoGridSelectAllCheckbox>
+          <label class="k-checkbox-label no-ellipsis" for="selectAllCheckboxId"></label>
+        </ng-template>
+      </kendo-grid-checkbox-column>
+    
     <kendo-grid-column
       *ngFor="let listAreaColumn of listAreaColumns"
       [field]="listAreaColumn.ColumnDatabaseName"
@@ -129,5 +167,7 @@
         </div>
       </ng-template>
     </kendo-grid-column>
+
   </kendo-grid>
+</div>  
 </pf-async-container>

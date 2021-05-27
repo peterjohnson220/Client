@@ -7,8 +7,8 @@ import { NgbDropdown, NgbModal, NgbPopoverModule, NgbTooltip } from '@ng-bootstr
 import cloneDeep from 'lodash/cloneDeep';
 
 import * as fromRootState from 'libs/state/state';
-import { PermissionService } from 'libs/core';
-import { PfCommonModule } from 'libs/core';
+import { AbstractFeatureFlagService } from 'libs/core/services/feature-flags';
+import { PermissionService, PfCommonModule } from 'libs/core';
 
 import * as fromJobDescriptionReducers from '../../reducers';
 import { JobDescriptionGridComponent } from './job-description-grid.component';
@@ -16,6 +16,7 @@ import { generateMockCompanyJobViewListItem } from '../../models';
 
 
 describe('Job Description Management - Job Description - Job Description Grid', () => {
+  let abstractFeatureFlagService: AbstractFeatureFlagService;
   let instance: JobDescriptionGridComponent;
   let fixture: ComponentFixture<JobDescriptionGridComponent>;
   let store: Store<fromJobDescriptionReducers.State>;
@@ -43,6 +44,10 @@ describe('Job Description Management - Job Description - Job Description Grid', 
         {
           provide: PermissionService,
           useValue: { CheckPermission: jest.fn(() => true) }
+        },
+        {
+          provide: AbstractFeatureFlagService,
+          useValue: { enabled: jest.fn(), bindEnabled: jest.fn() }
         }
       ],
       schemas: [ NO_ERRORS_SCHEMA ]
@@ -50,12 +55,13 @@ describe('Job Description Management - Job Description - Job Description Grid', 
 
     fixture = TestBed.createComponent(JobDescriptionGridComponent);
     instance = fixture.componentInstance;
+    abstractFeatureFlagService = TestBed.inject(AbstractFeatureFlagService);
 
     store = TestBed.inject(Store);
     modal = TestBed.inject(NgbModal);
   });
 
-  it('should emit companyJobViewListItem found at specified rowIndex, when calling handleRowClick', () => {
+  it('should emit companyJobViewListItem found at specified rowIndex, when calling onCellClick', () => {
     spyOn(instance.navigateToJobDescription, 'emit');
 
     const mockedCompanyJobViewListItem1 = generateMockCompanyJobViewListItem(1);
@@ -63,7 +69,7 @@ describe('Job Description Management - Job Description - Job Description Grid', 
 
     instance.gridDataResult = { data: [cloneDeep(mockedCompanyJobViewListItem1), cloneDeep(mockedCompanyJobViewListItem2)], total: 2 };
 
-    instance.handleRowClick({ ctrlKey: false, deselectedRows: [], selectedRows: [{ index: 1, dataItem: mockedCompanyJobViewListItem2 }]});
+    instance.onCellClick({ dataItem: mockedCompanyJobViewListItem2 });
 
     expect(instance.navigateToJobDescription.emit).toHaveBeenLastCalledWith(mockedCompanyJobViewListItem2);
   });

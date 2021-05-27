@@ -221,11 +221,10 @@ export class SmartListEditorComponent implements OnInit, OnChanges, OnDestroy {
       var currentPosition = currentSelection.index + currentSelection.length;
 
       //Needed when the data comes without format.
-      const sourceFromJustText = (pastedText.BulletType) ? false : true; 
+      const sourceFromJustText = (pastedText.BulletType) ? false : true;
 
       pastedText.Items.forEach(function(row){
         if (row.Data != ''){
-          //console.log(row.Data);
           const value = row.Data + (sourceFromJustText ? '\r\n' : '');
           quillApi.insertText(currentPosition, value);
           quillApi.setSelection(currentPosition,value.length - 1);

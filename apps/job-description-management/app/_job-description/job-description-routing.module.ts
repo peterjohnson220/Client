@@ -3,13 +3,16 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { AuthorizationGuard } from 'libs/security/guards';
 import { PermissionCheckEnum, Permissions } from 'libs/constants';
+import { ReviewLinkExpiredPageComponent } from 'libs/ui/common/error/pages/review-link-expired';
+import { WorkflowStepMessagePageComponent } from '../shared/components/workflow-step-message';
 
 import {
   JobDescriptionJobComparePageComponent,
   JobDescriptionListPageComponent,
   JobDescriptionVersionComparePageComponent,
   JobDescriptionPageComponent,
-  JobDescriptionWorkflowComparePageComponent
+  JobDescriptionWorkflowComparePageComponent,
+  JobDescriptionInboxPageComponent,
 } from './containers';
 import { ResolveHistoryListGuard } from './guards';
 
@@ -45,6 +48,20 @@ const routes: Routes = [
     component: JobDescriptionPageComponent,
     canActivate: [AuthorizationGuard],
     data: {Permissions: [Permissions.JOB_DESCRIPTIONS, Permissions.CAN_VIEW_JOB_DESCRIPTION], Check: PermissionCheckEnum.Any}
+  },
+  {
+    path: 'inbox',
+    component: JobDescriptionInboxPageComponent,
+    canActivate: [AuthorizationGuard],
+    data: {Permissions: [Permissions.JOB_DESCRIPTIONS, Permissions.CAN_VIEW_JOB_DESCRIPTION], Check: PermissionCheckEnum.Any}
+  },
+  {
+    path: 'system-message',
+    component: WorkflowStepMessagePageComponent
+  },
+  {
+    path: 'in-system-gone',
+    component: ReviewLinkExpiredPageComponent
   }
 ];
 

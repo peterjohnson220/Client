@@ -1,0 +1,15 @@
+<ng-template #workflowStepCompletionModal let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h4 class="modal-title">{{jobDescriptionDisplayName}}</h4>
+      <button type="button" class="close" (click)="c('close')" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p>{{(workflowMessage$ | async)}}</p>
+    </div>
+    <div class="modal-footer justify-content-center">
+      <button type="button" class="btn btn-primary" (click)="backToJobDescriptionList()">Back to Job Description List</button>
+      <button *ngIf="jdmInboxFeatureFlag.value" type="button" class="btn btn-primary" (click)="backToJobDescriptionInbox()">Back to Job Description Inbox</button>
+    </div>
+</ng-template>

@@ -4,17 +4,18 @@
       <col class="field-column">
       <col *ngIf="showEmployeeContributions" class="employee-contribution-column">
       <col class="employer-contribution-column">
-      <col *ngIf="inEditMode" class="button-column">
     </colgroup>
     <thead>
       <tr class="trs-calculation-row w-100">
-        <th class="font-weight-normal" scope="col" [colSpan]="titleColumnSpan">
+        <th class="font-weight-normal" scope="col">
           <h4 *ngIf="controlData.ShowTitle" class="primary-control-heading mb-1">
             <pf-string-editor
               [value]="controlData.Title.Override"
               [placeholder]="controlData.Title.Default"
-              [maxCharacters]="30"
+              [maxCharacters]="60"
               [inEditMode]="inEditMode"
+              [showRadialTextCounter]="true"
+              [showTextCounterTooltip]="false"
               (valueChange)="onControlTitleChange($event)">
             </pf-string-editor>
           </h4>
@@ -27,18 +28,19 @@
           <span *ngIf="controlData.ShowTitle && !showEmployeeContributions">Contribution</span>
           <span *ngIf="showEmployeeContributions">Company</span>
         </th>
-        <th *ngIf="inEditMode" scope="col"></th>
       </tr>
     </thead>
     <tbody [dragula]="dragulaGroupName" [(dragulaModel)]="visibleFields">
       <tr *ngFor="let listItem of visibleFields; let i = index;" class="trs-calculation-row draggable w-100">
-        <td>
+        <td class="pr-0">
           <fa-icon *ngIf="inEditMode" [icon]="'grip-lines'" class="calculation-control-drag-icon position-absolute text-muted" aria-hidden="true"></fa-icon>
           <pf-string-editor
             [value]="listItem.Name.Override"
             [placeholder]="listItem.Name.Default"
-            [maxCharacters]="30"
+            [maxCharacters]="60"
             [inEditMode]="inEditMode"
+            [showRadialTextCounter]="true"
+            [showTextCounterTooltip]="false"
             (valueChange)="onCompFieldNameChange(listItem, $event)">
           </pf-string-editor>
         </td>
@@ -48,9 +50,7 @@
         </td>
         <td class="contribution-field text-right" [ngClass]="inPreviewMode ? 'preview-mode-animation' : '' ">
           <span *ngIf="!inEditMode; else compensationValuePlaceholder">{{ getEmployerContributionValue(listItem) }}</span>
-        </td>
-        <td *ngIf="inEditMode">
-          <button type="button" class="remove-btn btn btn-sm btn-outline-danger" (click)="removeField(listItem)">
+          <button *ngIf="inEditMode" type="button" class="remove-btn btn btn-sm btn-outline-danger position-absolute" (click)="removeField(listItem)">
             <fa-icon class="fa-sm" [icon]="'trash-alt'"></fa-icon>
           </button>
         </td>
@@ -63,8 +63,10 @@
           <pf-string-editor
             [value]="controlData.Summary.Override"
             [placeholder]="controlData.Summary.Default"
-            [maxCharacters]="30"
+            [maxCharacters]="60"
             [inEditMode]="inEditMode"
+            [showRadialTextCounter]="true"
+            [showTextCounterTooltip]="false"
             (valueChange)="onSummaryTitleChange($event)">
           </pf-string-editor>
         </td>
@@ -74,10 +76,9 @@
         </td>
         <td class="contribution-field summary text-right" [ngClass]="inPreviewMode ? 'preview-mode-animation' : '' ">
           <span *ngIf="!inEditMode; else compensationValuePlaceholder">{{ totalEmployerContributions }}</span>
-        </td>
-        <td *ngIf="inEditMode">
           <pf-trs-compensation-fields-chooser
-            *ngIf="(selectableFields?.length > 0)"
+            class="add-field-btn position-absolute"
+            *ngIf="inEditMode && selectableFields?.length > 0"
             [fields]="selectableFields"
             [maxVisibleFieldsReached]="maxVisibleFieldsReached"
             (fieldClicked)="addField($event)">

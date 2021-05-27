@@ -23,6 +23,7 @@ import { WorkflowLogEntry } from '../../models';
 export class WorkflowSidebarComponent implements OnInit, OnDestroy {
   @Input() workflowStepInfo: WorkflowStepInfo;
   @Input() workflowStepCompleted: boolean;
+  @Input() isInSystemWorkflow: boolean;
 
 
   workflowLogEntriesAsync$: Observable<AsyncStateObj<WorkflowLogEntry[]>>;
@@ -30,6 +31,7 @@ export class WorkflowSidebarComponent implements OnInit, OnDestroy {
   workflowStepApproving$: Observable<boolean>;
   workflowStepRejecting$: Observable<boolean>;
   jobDescriptionAsync$: Observable<AsyncStateObj<JobDescription>>;
+  inSystemWorkflowComplete$: Observable<boolean>;
   workflowCompleteStepError$: Observable<boolean>;
   workflowStepCommentForm: FormGroup;
   commentFormSubmitted: boolean;
@@ -45,6 +47,7 @@ export class WorkflowSidebarComponent implements OnInit, OnDestroy {
     this.workflowCompleteStepError$ = this.store.select(fromWorkflowReducer.getCompletedStepError);
     this.workflowStepRejecting$ = this.store.select(fromWorkflowReducer.getWorkflowStepRejecting);
     this.jobDescriptionAsync$ = this.store.select(fromWorkflowReducer.getJobDescriptionAsync);
+    this.inSystemWorkflowComplete$ = this.store.select(fromWorkflowReducer.getInSystemWorkflowStepCompletionModalOpen);
   }
 
   ngOnInit() {
@@ -72,8 +75,12 @@ export class WorkflowSidebarComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromWorkflowActions.ApproveWorkflowStep({
       workflowStepInfo: this.workflowStepInfo,
       willProceed: true,
-      comment: this.workflowStepCommentForm.value.comment
+      comment: this.workflowStepCommentForm.value.comment,
+      isInSystemWorkflow: this.isInSystemWorkflow
     }));
+    if (this.isInSystemWorkflow) {
+      this.workflowStepCommentForm.controls.comment.disable();
+    }
   }
 
   rejectWorkflowStep() {
@@ -83,8 +90,12 @@ export class WorkflowSidebarComponent implements OnInit, OnDestroy {
       this.store.dispatch(new fromWorkflowActions.RejectWorkflowStep({
         workflowStepInfo: this.workflowStepInfo,
         willProceed: false,
-        comment: this.workflowStepCommentForm.value.comment
+        comment: this.workflowStepCommentForm.value.comment,
+        isInSystemWorkflow: this.isInSystemWorkflow
       }));
+      if (this.isInSystemWorkflow) {
+        this.workflowStepCommentForm.controls.comment.disable();
+      }
     }
   }
 }

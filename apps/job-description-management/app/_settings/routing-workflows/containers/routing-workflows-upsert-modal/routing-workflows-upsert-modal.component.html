@@ -13,7 +13,11 @@
         		<span *ngIf="!workflowName.pristine && workflowName.hasError('required')" class="text-danger d-flex justify-content-end">Required</span>
         		<span *ngIf="workflowName.errors?.notBlackListed" class="text-danger d-flex justify-content-end">Workflow Name is required and must be unique.</span>      
 			</div>
-		</form>		
+		</form>	
+		<pf-user-or-email-picker
+			(selected)="handlePickerSelection($event)"
+			[workflow]="true">
+	  	</pf-user-or-email-picker>	
 		<pf-workflow-config></pf-workflow-config>
 	</div>
 	<div class="modal-footer">

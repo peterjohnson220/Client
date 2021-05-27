@@ -2,7 +2,7 @@
   [title]="(metaData$ | async)?.IsCurrent ? (metaData$ | async)?.StructureName : (metaData$ | async)?.ModelName"
   [subtitle]="(metaData$ | async)?.IsCurrent ? '' : 'Structure: ' + (metaData$ | async)?.StructureName"
   [navigationURL]="'/marketdata/structures.asp'"
-  [inboundFilters]="[filter]"
+  [inboundFilters]="filter"
   [columnTemplates]="colTemplates"
   [pageViewId]="pageViewId"
   [gridContainerSplitViewWidth]="'60%'"
@@ -70,7 +70,7 @@
 <ng-template #subHeaderTemplate>
   <div class="mb-3" >
     <pf-model-grid
-      [inboundFilters]="[filter]"
+      [inboundFilters]="modelPageFilter"
       [rangeGroupId]="rangeGroupId"
       [singleRecordView]="true"
       [pageViewId]="pageViewId"

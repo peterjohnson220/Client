@@ -131,10 +131,8 @@ export class SharedEffects {
       ofType(fromSharedStructuresActions.REVERTING_RANGE_CHANGES),
       switchMap(
         (action: fromSharedStructuresActions.RevertingRangeChanges) =>
-          this.structureModelingApiService.revertRangeChanges(PayfactorsApiModelMapper.mapRevertingRangeChangesToRevertRangeChangesRequest(
-            action.payload.rangeId,
-            action.payload.rangeGroupId,
-            action.payload.roundingSettings))
+          this.structureModelingApiService.revertRangeChanges(
+            PayfactorsApiModelMapper.mapRevertingRangeChangesToRevertRangeChangesRequest(action.payload.rangeId, action.payload.rangeGroupId))
             .pipe(
               mergeMap((response) => {
                 const actions = [];
