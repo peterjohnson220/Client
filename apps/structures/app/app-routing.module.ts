@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { AppWrapperComponent } from 'libs/features/infrastructure/app-root';
-import { UserContextGuard } from 'libs/security';
+import { TileEnabledGuard, UserContextGuard } from 'libs/security';
 import { AccessDeniedPageComponent, NotFoundErrorPageComponent, ServerErrorPageComponent, ForbiddenPageComponent } from 'libs/ui/common/error/pages';
 
 export const routes: Routes = [
@@ -10,6 +10,12 @@ export const routes: Routes = [
   { path: 'not-found', component: NotFoundErrorPageComponent },
   { path: 'server-error', component: ServerErrorPageComponent },
   { path: 'forbidden', component: ForbiddenPageComponent },
+  {
+    path: '',
+    component: AppWrapperComponent,
+    canActivate: [UserContextGuard, TileEnabledGuard],
+    loadChildren: () => import('apps/structures/app/_structures/structures.module').then(m => m.StructuresModule)
+  },
   {
     path: '',
     component: AppWrapperComponent,
