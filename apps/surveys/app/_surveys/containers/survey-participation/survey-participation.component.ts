@@ -99,7 +99,7 @@ export class SurveyParticipationComponent implements OnInit, OnDestroy {
   private applySearchFilterList(): void {
     if (!!this.searchValue && !!this.searchValue.length) {
       const filteredOptions = this.surveys
-        .filter(s => s.SurveyTitle.toLowerCase().indexOf(this.searchValue.toLowerCase()) !== -1 ||
+        .filter(s => s.SurveyName.toLowerCase().indexOf(this.searchValue.toLowerCase()) !== -1 ||
           s.SurveyPublisher.toLowerCase().indexOf(this.searchValue.toLowerCase()) !== -1);
       this.filteredGroupedSurveys = groupBy(filteredOptions, [{ field: 'SurveyPublisher' }]);
     } else {

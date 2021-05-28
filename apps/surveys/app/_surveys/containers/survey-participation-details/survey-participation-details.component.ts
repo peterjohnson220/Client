@@ -74,7 +74,7 @@ export class SurveyParticipationDetailsComponent implements OnDestroy {
     const updatedSurvey: SurveyInfoByCompanyDto = {
       SurveyId: this.survey.SurveyId,
       SurveyPublisher: this.survey.SurveyPublisher,
-      SurveyTitle: this.survey.SurveyTitle,
+      SurveyName: this.survey.SurveyName,
       ParticipationFileName: event.files[0].name
     };
     this.store.dispatch(new fromSurveyParticipationActions.SaveSurveyParticipation(updatedSurvey));
