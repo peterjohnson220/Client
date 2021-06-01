@@ -69,7 +69,7 @@ export class JobDescriptionEffects {
     .pipe(
       ofType(fromJobDescriptionActions.SAVE_JOB_DESCRIPTION),
       switchMap((action: fromJobDescriptionActions.SaveJobDescription) => {
-        return this.jobDescriptionApiService.save(action.payload.jobDescription, action.payload.isFirstSave, action.payload.workflowToken)
+        return this.jobDescriptionApiService.save(action.payload.jobDescription, action.payload.isFirstSave)
           .pipe(
             map((response) => new fromJobDescriptionActions.SaveJobDescriptionSuccess({
               jobDescription: response,

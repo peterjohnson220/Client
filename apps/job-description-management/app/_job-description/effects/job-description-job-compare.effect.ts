@@ -87,7 +87,7 @@ export class JobDescriptionJobCompareEffects {
     .pipe(
       ofType(fromJobDescriptionJobCompareActions.SAVE_JOB_DESCRIPTION),
       switchMap((action: fromJobDescriptionJobCompareActions.SaveJobDescription) => {
-        return this.jobDescriptionApiService.save(action.payload.JobDescription, action.payload.IsFirstSave, action.payload.WorkflowToken).pipe(
+        return this.jobDescriptionApiService.save(action.payload.JobDescription, action.payload.IsFirstSave).pipe(
           mergeMap((response: JobDescription) => {
             const actions = [];
             actions.push(new fromJobDescriptionJobCompareActions.SaveJobDescriptionSuccess(response, action.payload.IsFirstSave));
