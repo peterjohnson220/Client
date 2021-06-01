@@ -1,7 +1,7 @@
 export interface SurveyInfoByCompanyDto {
   SurveyId: number;
   SurveyPublisher: string;
-  SurveyTitle: string;
+  SurveyName: string;
   ParticipationFileName: string;
   UploadingFileError?: string;
   Saving?: boolean;
