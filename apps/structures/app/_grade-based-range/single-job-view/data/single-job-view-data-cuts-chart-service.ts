@@ -71,7 +71,13 @@ export class SingleJobViewDataCutsChartService {
         useHTML: true,
         snap: 0,
         backgroundColor: '#000000',
-        borderWidth: 0
+        borderWidth: 0,
+        positioner: function(labelWidth, labelHeight, point) {
+          return {
+            x: point.plotX - 50,
+            y: multiRowHeader ? point.plotY + 15 : point.plotY - 30
+          };
+        }
       },
       yAxis: {
         opposite: true,
