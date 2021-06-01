@@ -4,5 +4,4 @@ export interface JobCompareSaveJobDescriptionRequestModel {
   JobDescription: JobDescription;
   IsFirstSave: boolean;
   CompareJobDescriptionId: number;
-  WorkflowToken: string;
 }

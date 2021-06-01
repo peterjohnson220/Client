@@ -68,7 +68,6 @@ export class JobDescriptionJobComparePageComponent implements OnInit, OnDestroy 
   rightJobDescriptionIsFullscreen = false;
   companyLogoPath: string;
   jobDescriptionId: number;
-  tokenId: string;
 
   _JobCompareFullscreenSender: typeof JobCompareFullscreenSender = JobCompareFullscreenSender;
   private isFirstSave = true;
@@ -152,7 +151,6 @@ export class JobDescriptionJobComparePageComponent implements OnInit, OnDestroy 
     this.routeParamSubscription = this.route.params.subscribe(params => {
       if (!!params) {
         this.jobDescriptionId = params['id'];
-        this.tokenId = !!params.queryParams['jwt'] ? params.queryParams[ 'jwt' ] :  params.queryParams[ 'jwt-workflow' ];
         this.store.dispatch(new fromJobDescriptionJobCompareActions.LoadJobDescriptionList(this.route.snapshot.params.id));
       }
     });
@@ -204,7 +202,7 @@ export class JobDescriptionJobComparePageComponent implements OnInit, OnDestroy 
       map(jdca => jdca.obj)
     ).subscribe(jd => {
       try {
-        this.jobDescriptionApiService.save(this.sourceJobDescription, this.isFirstSave, this.tokenId).pipe(
+        this.jobDescriptionApiService.save(this.sourceJobDescription, this.isFirstSave).pipe(
           filter(response => !!response),
           take(1)
         ).subscribe(response => {
