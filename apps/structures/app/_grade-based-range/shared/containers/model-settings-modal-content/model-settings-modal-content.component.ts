@@ -108,6 +108,10 @@ export class ModelSettingsModalContentComponent implements OnInit, OnDestroy {
   handleRateSelectionChange(value: string) {
     const roundingPoint = value.toLowerCase() === 'hourly' ? 2 : 0;
     this.store.dispatch(new fromSharedStructuresActions.UpdateRoundingPoints({ RoundingPoint: roundingPoint }));
+    // if this is not a new model, and they change the value for rate, clear out starting midpoint
+    if (!this.isNewModel) {
+      this.formControls.StartingMidpoint.reset('');
+    }
   }
 
   handleCurrencyFilterChange(value: string) {
