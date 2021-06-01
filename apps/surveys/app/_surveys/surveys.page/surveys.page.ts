@@ -173,8 +173,7 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
           const historyField = action.payload.Fields.find(f => f.SourceName === 'SurveyYearFilter');
           if (!!historyField) {
             this.surveyYearFilterField = cloneDeep(historyField);
-            this.surveyYearFilterField.FilterValues = [this.defaultHistoryFilterSelectedItem.Value];
-            this.updateField(this.surveyYearFilterField);
+            this.handleHistoryValueChanged(this.defaultHistoryFilterSelectedItem);
           }
         }
       });
