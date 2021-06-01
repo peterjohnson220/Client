@@ -74,7 +74,7 @@ export class SingleJobViewDataCutsChartService {
         borderWidth: 0,
         positioner: function(labelWidth, labelHeight, point) {
           return {
-            x: point.plotX - 50,
+            x: point.plotX,
             y: multiRowHeader ? point.plotY + 15 : point.plotY - 30
           };
         }
