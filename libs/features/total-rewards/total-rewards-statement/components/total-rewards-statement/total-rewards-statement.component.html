@@ -1,7 +1,7 @@
 <div *ngIf="statement" class="container statement position-relative" [ngClass]="cssClasses">
   <pf-async-container [loading]="loadingData"></pf-async-container>
-  <div *ngFor="let page of statement.Pages; trackBy: trackByFn" class="pb-4 trs-page position-relative">
-    <section *ngFor="let section of page.Sections; trackBy: trackByFn" class="row vertical-divider trs-section">
+  <div *ngFor="let page of statement.Pages; trackBy: trackByFn" class="pb-4 trs-page position-relative {{ page.IsAdditionalPage ? 'additional' : 'main' }}">
+    <section *ngFor="let section of page.Sections; trackBy: trackByFn" class="row vertical-divider trs-section" [class.repeatable-header-content]="section.ContainsRepeatableHeaderContent">
       <div
         *ngFor="let column of section.Columns; trackBy: trackByFn"
         [ngClass]="'col-' + column?.Layout?.Width"

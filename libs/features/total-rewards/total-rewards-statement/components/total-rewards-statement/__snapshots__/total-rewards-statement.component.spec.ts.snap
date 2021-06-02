@@ -29,7 +29,7 @@ exports[`TotalRewardsStatementComponent should render a mock statement\`s pages,
     <pf-async-container />
     
     <div
-      class="pb-4 trs-page position-relative"
+      class="pb-4 trs-page position-relative main"
     >
       
       <section

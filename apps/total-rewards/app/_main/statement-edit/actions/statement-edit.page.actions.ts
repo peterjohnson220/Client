@@ -18,6 +18,7 @@ export type StatementEditPageActions =
   statementActions.GenerateStatementPreviewSuccess |
   statementActions.GenerateStatementPreviewError |
   statementActions.GenerateStatementPreviewComplete |
+  statementActions.CalculateRepeatableHeaderContentHeightInPixels |
 
   controlActions.UpdateStatementName |
   controlActions.UpdateStatementControlTitle |
@@ -38,6 +39,7 @@ export type StatementEditPageActions =
 
   settingsActions.OpenSettingsPanel |
   settingsActions.CloseSettingsPanel |
+  settingsActions.PrepareSaveSettings |
   settingsActions.SaveSettings |
   settingsActions.SaveSettingsSuccess |
   settingsActions.SaveSettingsError |

@@ -26,6 +26,8 @@ export interface State {
   activeRichTextEditorId: string;
   isPageScrolling: boolean;
   generateStatementPreviewEventId: AsyncStateObj<string>;
+  repeatableHeaderHeightInPixels: number;
+  preparingSettingsSave: boolean;
 }
 
 export const initialState: State = {
@@ -44,7 +46,9 @@ export const initialState: State = {
   visibleFieldsCount: 0,
   activeRichTextEditorId: null,
   isPageScrolling: false,
-  generateStatementPreviewEventId: generateDefaultAsyncStateObj<string>(null)
+  generateStatementPreviewEventId: generateDefaultAsyncStateObj<string>(null),
+  repeatableHeaderHeightInPixels: null,
+  preparingSettingsSave: false,
 };
 
 export function reducer(state = initialState, action: fromEditStatementActions.StatementEditPageActions): State {
@@ -225,10 +229,14 @@ export function reducer(state = initialState, action: fromEditStatementActions.S
       }
       return localState;
     }
+    case fromEditStatementActions.PREPARE_SAVE_SETTINGS: {
+      return { ...state, preparingSettingsSave: true };
+    }
     case fromEditStatementActions.SAVE_SETTINGS: {
       const localState: State = cloneDeep(state);
       localState.settingsSaving = true;
       localState.settingsSaveError = false;
+      localState.preparingSettingsSave = false;
       return localState;
     }
     case fromEditStatementActions.SAVE_SETTINGS_SUCCESS: {
@@ -387,6 +395,9 @@ export function reducer(state = initialState, action: fromEditStatementActions.S
     }
     case fromEditStatementActions.GENERATE_STATEMENT_PREVIEW_ERROR: {
       return AsyncStateObjHelper.loadingError(state, 'generateStatementPreviewEventId');
+    }
+    case fromEditStatementActions.CALCULATE_REPEATABLE_HEADER_CONTENT_HEIGHT_IN_PIXELS: {
+      return { ...state, repeatableHeaderHeightInPixels: action.payload.headerHeight };
     }
     default: {
       return state;

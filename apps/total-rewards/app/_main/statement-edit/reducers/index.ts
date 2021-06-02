@@ -84,6 +84,11 @@ export const selectIsSettingsPanelOpen = createSelector(
   (state: fromPageReducer.State) => state.isSettingsPanelOpen
 );
 
+export const getIsPreparingSettingsSave = createSelector(
+  selectPageState,
+  (state: fromPageReducer.State) => state.preparingSettingsSave
+);
+
 export const selectIsSettingsSaving = createSelector(
   selectPageState,
   (state: fromPageReducer.State) => state.settingsSaving
@@ -134,7 +139,6 @@ export const getIsPageScrolling = createSelector(
   (state: fromPageReducer.State) => state.isPageScrolling
 );
 
-
 export const getGenerateStatementPreviewEventAsync = createSelector(
   selectPageState,
   (state: fromPageReducer.State) => state.generateStatementPreviewEventId
@@ -148,4 +152,9 @@ export const getStatementPreviewGenerating = createSelector(
 export const statementPreviewGeneratingError = createSelector(
   selectPageState,
   (state: fromPageReducer.State) => state.generateStatementPreviewEventId.loadingError
+);
+
+export const getRepeatableHeaderHeightInPixels = createSelector(
+  selectPageState,
+  (state: fromPageReducer.State) => state.repeatableHeaderHeightInPixels
 );
