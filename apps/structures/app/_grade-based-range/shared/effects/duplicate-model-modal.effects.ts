@@ -45,7 +45,7 @@ export class DuplicateModelModalEffects {
               } else {
                 actions.push(new fromDuplicateModelModalActions.ClearModelNameExistsFailure());
 
-                this.router.navigate(['job/' + response.RangeGroup.CompanyStructuresRangeGroupId]);
+                this.router.navigate(['grade/' + response.RangeGroup.CompanyStructuresRangeGroupId]);
                 actions.push(new fromDuplicateModelModalActions.CloseModal());
                 actions.push(new fromNotificationActions.AddNotification({
                   EnableHtml: true,
@@ -57,14 +57,6 @@ export class DuplicateModelModalEffects {
                 }));
 
                 actions.push(new fromDuplicateModelModalActions.DuplicateModelSuccess());
-
-                // Get all overridden ranges
-                const modelPageViewId =
-                  PagesHelper.getModelPageViewIdByRangeTypeAndRangeDistributionType(data.metadata.RangeTypeId, data.metadata.RangeDistributionTypeId);
-                actions.push(new fromSharedStructuresActions.GetOverriddenRanges({
-                  pageViewId: modelPageViewId,
-                  rangeGroupId: response.RangeGroup.CompanyStructuresRangeGroupId
-                }));
               }
 
               return actions;

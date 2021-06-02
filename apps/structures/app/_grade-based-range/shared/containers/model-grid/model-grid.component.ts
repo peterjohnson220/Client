@@ -34,6 +34,7 @@ import * as fromSharedStructuresActions from '../../../../shared/actions/shared.
 import { StructuresPagesService } from '../../../../shared/services';
 import * as fromModelSettingsModalActions from '../../../../shared/actions/model-settings-modal.actions';
 import * as fromPublishModelModalActions from '../../../../shared/actions/publish-model-modal.actions';
+import * as fromDuplicateModelModalActions from '../../../../shared/actions/duplicate-model-modal.actions';
 import { ModelSettingsModalContentComponent } from '../model-settings-modal-content';
 import * as fromGradeBasedSharedReducer from '../../reducers';
 
@@ -234,6 +235,10 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
 
   handlePublishModelClicked() {
     this.store.dispatch(new fromPublishModelModalActions.OpenModal());
+  }
+
+  handleDuplicateModelBtnClicked() {
+    this.store.dispatch(new fromDuplicateModelModalActions.OpenModal());
   }
 
   buildForm() {

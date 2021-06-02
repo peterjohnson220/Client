@@ -6,7 +6,7 @@ import { Observable, Subscription } from 'rxjs';
 import { AsyncStateObj } from 'libs/models/state';
 
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
-import * as fromDuplicateModelModalActions from '../../../shared/actions/duplicate-model-modal.actions';
+import * as fromDuplicateModelModalActions from '../../actions/duplicate-model-modal.actions';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
