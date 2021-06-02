@@ -32,7 +32,7 @@ import {
   SearchPageEffects,
   SearchResultsEffects,
   SharedEffects,
-  SingledFilterEffects
+  SingledFilterEffects,
 } from './effects';
 import { GridContextComponent } from './components/grid-context';
 import { GlobalActionsComponent } from './components/global-actions';
@@ -42,6 +42,7 @@ import { AddJobsModalWrapperComponent } from './containers/add-jobs-modal-wrappe
 import { ModelSettingsModalComponent } from './containers/model-settings-modal/model-settings-modal.component';
 import { RangeRoundingComponent } from './containers/range-rounding';
 import { PublishModelModalComponent } from './containers/publish-model-modal';
+import { DuplicateModelModalComponent } from './containers/duplicate-model-modal';
 
 
 @NgModule({
@@ -93,6 +94,7 @@ import { PublishModelModalComponent } from './containers/publish-model-modal';
     ModelSettingsModalComponent,
     RangeRoundingComponent,
     PublishModelModalComponent,
+    DuplicateModelModalComponent,
   ],
   exports: [
     FontAwesomeModule,
@@ -105,6 +107,7 @@ import { PublishModelModalComponent } from './containers/publish-model-modal';
     ModelSettingsModalComponent,
     RangeRoundingComponent,
     PublishModelModalComponent,
+    DuplicateModelModalComponent,
   ],
   providers: [
     RangeGroupExistsGuard,

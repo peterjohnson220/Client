@@ -19,7 +19,6 @@ import { FormulaEditorModule } from 'libs/ui/formula-editor';
 import {
   ModelGridComponent,
   RangeDistributionSettingComponent,
-  DuplicateModelModalComponent,
   ModelSettingsModalContentComponent
 } from './containers';
 import { PublishModelModalEffects, SharedEffects, DuplicateModelModalEffects, FieldsEffects } from './effects';
@@ -69,14 +68,12 @@ import { SharedModule } from '../../shared/shared.module';
     ModelGridComponent,
     AdvancedModelSettingComponent,
     RangeDistributionSettingComponent,
-    DuplicateModelModalComponent,
     StructuresFormulaEditorComponent,
     ModelSettingsModalContentComponent
   ],
   exports: [
     ModelGridComponent,
     FontAwesomeModule,
-    DuplicateModelModalComponent,
     ModelSettingsModalContentComponent
   ],
   providers: [

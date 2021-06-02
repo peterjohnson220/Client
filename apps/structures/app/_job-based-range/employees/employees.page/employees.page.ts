@@ -15,7 +15,7 @@ import { Between } from 'libs/ui/formula-editor/models';
 
 import * as fromSharedStructuresReducer from '../../../shared/reducers';
 import * as fromModelSettingsModalActions from '../../../shared/actions/model-settings-modal.actions';
-import * as fromDuplicateModelModalActions from '../../shared/actions/duplicate-model-modal.actions';
+import * as fromDuplicateModelModalActions from '../../../shared/actions/duplicate-model-modal.actions';
 import { PagesHelper } from '../../../shared/helpers/pages.helper';
 import { StructuresPagesService } from '../../../shared/services';
 import * as fromSharedStructuresActions from '../../../shared/actions/shared.actions';
