@@ -35,6 +35,9 @@ import { PagesHelper } from '../helpers/pages.helper';
 
 @Injectable()
 export class AddJobsModalEffects {
+
+  formulaFieldId: string = 'Mid';
+
   @Effect()
   setContext$ = this.actions$
     .pipe(
@@ -57,7 +60,7 @@ export class AddJobsModalEffects {
         this.store.pipe(select(fromPfDataGridReducer.getGridConfig)),
         this.store.pipe(select(fromPfDataGridReducer.getData)),
         this.store.pipe(select(fromPfDataGridReducer.getPagingOptions)),
-        this.store.pipe(select(fromSharedStructuresReducer.getFormulaValid)),
+        this.store.pipe(select(fromSharedStructuresReducer.getFormulaValid, this.formulaFieldId)),
         (action: fromAddJobsPageActions.AddSelectedJobs,
          contextStructureRangeGroupId, payMarkets, selectedJobIds, selectedJobCodes, metadata, roundingSettings, gridConfig, gridData, pagingOptions,
          formulaValid) =>
@@ -221,6 +224,10 @@ export class AddJobsModalEffects {
     actions.push(GridDataHelper.getLoadDataAction(modelPageViewId, data.gridData, data.gridConfig, data.pagingOptions));
     const summaryPageViewId = PagesHelper.getModelSummaryPageViewIdByRangeDistributionType(data.metadata.RangeDistributionTypeId);
     actions.push(new fromPfDataGridActions.LoadData(summaryPageViewId));
+    // retrieve range group id from the first grade in the payload
+    if (!!data.action.payload && !!data.action.payload[0]) {
+      actions.push(new fromSharedActions.GetGradeRangeDetails(data.action.payload[0].CompanyStructuresRangeGroupId));
+    }
     return actions;
   }
 

@@ -4,7 +4,7 @@ import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 import { GenericNameValue } from 'libs/models/common';
 import { AsyncStateObjHelper } from 'libs/core/helpers';
 import { EmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards/response';
-import { CompensationField, ImageControl, Statement, StatementModeEnum } from 'libs/features/total-rewards/total-rewards-statement/models';
+import { CompensationField, ImageControl, Statement, StatementAdditionalPagePlacementEnum, StatementModeEnum } from 'libs/features/total-rewards/total-rewards-statement/models';
 import { TotalRewardsStatementService } from 'libs/features/total-rewards/total-rewards-statement/services/total-rewards-statement.service';
 
 import * as fromEditStatementActions from '../actions';
@@ -215,7 +215,16 @@ export function reducer(state = initialState, action: fromEditStatementActions.S
       localState.isSettingsPanelOpen = false;
       return localState;
     }
-    case fromEditStatementActions.RESET_SETTINGS:
+    case fromEditStatementActions.RESET_SETTINGS: {
+      const localState: State = cloneDeep(state);
+      localState.settingsSaving = true;
+      localState.settingsSaveError = false;
+      // temporarily remove all content when a addtl page settings are changed to circumvent RTE errors when statement is re-hydrated
+      if (localState.statement.obj.Settings.AdditionalPageSettings.PagePlacement !== StatementAdditionalPagePlacementEnum.None) {
+        localState.statement.obj.Pages = localState.statement.obj.Pages.map(p => ({ Sections: [] }));
+      }
+      return localState;
+    }
     case fromEditStatementActions.SAVE_SETTINGS: {
       const localState: State = cloneDeep(state);
       localState.settingsSaving = true;
@@ -257,6 +266,14 @@ export function reducer(state = initialState, action: fromEditStatementActions.S
       const localState: State = cloneDeep(state);
       const displaySettings = localState.statement.obj.Settings.DisplaySettings;
       displaySettings[action.payload.displaySettingKey] = !displaySettings[action.payload.displaySettingKey];
+      return localState;
+    }
+    case fromEditStatementActions.UPDATE_ADDITIONAL_PAGE_SETTINGS: {
+      const localState: State = cloneDeep(state);
+      localState.statement.obj.Settings.AdditionalPageSettings = action.payload.additionalPageSettings;
+
+      // temporarily remove all content when a addtl page settings are changed to circumvent RTE errors when statement is re-hydrated
+      localState.statement.obj.Pages = localState.statement.obj.Pages.map(p => ({ Sections: [] }));
       return localState;
     }
     case fromEditStatementActions.SAVE_IMAGE_CONTROL_IMAGE: {
@@ -370,11 +387,6 @@ export function reducer(state = initialState, action: fromEditStatementActions.S
     }
     case fromEditStatementActions.GENERATE_STATEMENT_PREVIEW_ERROR: {
       return AsyncStateObjHelper.loadingError(state, 'generateStatementPreviewEventId');
-    }
-    case fromEditStatementActions.UPDATE_ADDITIONAL_PAGE_SETTINGS: {
-      const localState: State = cloneDeep(state);
-      localState.statement.obj.Settings.AdditionalPageSettings = action.payload.additionalPageSettings;
-      return localState;
     }
     default: {
       return state;

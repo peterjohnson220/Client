@@ -1,11 +1,18 @@
 @import 'total-rewards/app-colors';
 
 .statement {
-  background: white;
   overflow: hidden;
   max-width: none !important;
   width: 8.5in !important;
-  height: 11in !important;
+  .trs-page {
+    background: white;
+    height: 11in !important;
+    overflow: hidden;
+    margin-left: -15px;
+    margin-right: -15px;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
   // add dividers via a right border - default below, with potential custom colors from statement settings
   .trs-column {
     border-right-color: $trs-canvas-background-color;

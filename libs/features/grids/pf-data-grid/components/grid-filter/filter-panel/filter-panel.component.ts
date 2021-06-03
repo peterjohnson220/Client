@@ -14,6 +14,7 @@ export class FilterPanelComponent implements OnChanges {
   @Input() fields: ViewField[];
   @Input() filterTemplates: any;
   @Input() allowSaveFilter: boolean;
+  @Input() displayGroupNameInFilter: boolean;
   @Output() saveFilterClicked = new EventEmitter();
   @Output() filterChanged = new EventEmitter<ViewField>();
   @Output() filterCleared = new EventEmitter<ViewField>();

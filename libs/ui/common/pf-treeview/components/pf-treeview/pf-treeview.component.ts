@@ -46,6 +46,7 @@ export class PfTreeViewComponent implements OnInit, OnDestroy, OnChanges {
   @Input() loading = false;
   @Input() showDescriptionToolTip = false;
   @Input() theme = TreeViewTheme.Popup;
+  @Input() searchDescription = false;
   @Output() applyClicked: EventEmitter<GroupedListItem[]> = new EventEmitter();
   @Output() expandNode: EventEmitter<string> = new EventEmitter();
   @Output() searchTermChanged: EventEmitter<string> = new EventEmitter();
@@ -221,7 +222,10 @@ export class PfTreeViewComponent implements OnInit, OnDestroy, OnChanges {
 
   private search(items: GroupedListItem[], term: string): GroupedListItem[] {
     return items.reduce((acc: GroupedListItem[], item) => {
-      if ((!item.Children || item.Children.length === 0) && this.contains(item.Name, term)) {
+      if (
+        (!item.Children || item.Children.length === 0) &&
+        (this.contains(item.Name, term) || (this.searchDescription && item.Description && this.contains(item.Description, term)))
+      ) {
         acc.push(item);
       } else if (item.Children && item.Children.length > 0) {
         const newItems = this.search(item.Children, term);
@@ -231,7 +235,7 @@ export class PfTreeViewComponent implements OnInit, OnDestroy, OnChanges {
             ...item,
             Children: newItems
           });
-        } else if (this.contains(item.Name, term)) {
+        } else if (this.contains(item.Name, term) || (this.searchDescription && item.Description && this.contains(item.Description, term))) {
           acc.push(item);
         }
       }

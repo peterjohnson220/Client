@@ -24,6 +24,7 @@ export interface State {
   comparingModels: boolean;
   compareEnabled: boolean;
   currentRangeGroup: AsyncStateObj<any>;
+  gradeRangeDetails: AsyncStateObj<any>;
 }
 
 const initialState: State = {
@@ -35,7 +36,8 @@ const initialState: State = {
   overrideMessages: [],
   comparingModels: false,
   compareEnabled: false,
-  currentRangeGroup: generateDefaultAsyncStateObj<any>(null)
+  currentRangeGroup: generateDefaultAsyncStateObj<any>(null),
+  gradeRangeDetails: generateDefaultAsyncStateObj<any>(null)
 };
 
 export function reducer(state = initialState, action: fromSharedActions.SharedActions): State {
@@ -209,6 +211,39 @@ export function reducer(state = initialState, action: fromSharedActions.SharedAc
         ...state,
         currentRangeGroup: currentRangeGroupClone
       };
+    } case fromSharedActions.GET_GRADE_RANGE_DETAILS: {
+      const gradeRangeDetails = cloneDeep(state.gradeRangeDetails);
+
+      gradeRangeDetails.loading = true;
+      gradeRangeDetails.obj = null;
+      gradeRangeDetails.loadingError = false;
+
+      return {
+        ...state,
+        gradeRangeDetails: gradeRangeDetails
+      };
+    }
+    case fromSharedActions.GET_GRADE_RANGE_DETAILS_SUCCESS: {
+      const gradeRangeDetails = cloneDeep(state.gradeRangeDetails);
+
+      gradeRangeDetails.loading = false;
+      gradeRangeDetails.obj = action.payload;
+
+      return {
+        ...state,
+        gradeRangeDetails: gradeRangeDetails
+      };
+    }
+    case fromSharedActions.GET_GRADE_RANGE_DETAILS_ERROR: {
+      const gradeRangeDetails = cloneDeep(state.gradeRangeDetails);
+
+      gradeRangeDetails.loading = false;
+      gradeRangeDetails.loadingError = true;
+
+      return {
+        ...state,
+        gradeRangeDetails: gradeRangeDetails
+      };
     }
     default:
       return state;
@@ -255,3 +290,4 @@ export const getDistinctOverrideMessages  = (state: State) => state.overrideMess
 export const getComparingModels = (state: State) => state.comparingModels;
 export const getCompareEnabled = (state: State) => state.compareEnabled;
 export const getCurrentRangeGroup = (state: State) => state.currentRangeGroup;
+export const getGradeRangeDetails = (state: State) => state.gradeRangeDetails;

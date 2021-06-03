@@ -18,6 +18,7 @@ import { FilterOperator, FilterOperatorOptions } from '../helpers';
 export class FilterBuilderComponent implements OnChanges {
   @Input() viewField: ViewField;
   @Input() filterTemplate: any;
+  @Input() displayGroupNameInFilter: boolean = false;
 
   @Output() filterChanged = new EventEmitter<ViewField>();
 

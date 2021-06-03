@@ -27,9 +27,10 @@ export function reducer(state = initialState, action: fromEmployeeSearchResultsA
       };
     }
     case fromEmployeeSearchResultsActions.ADD_EMPLOYEE_RESULTS: {
+      const employees = TotalRewardsAssignmentService.setEmployeeSelectedToggle(action.payload.employeeResults, state.selectedCompanyEmployeeIds);
       return {
         ...state,
-        employees: state.employees.concat(TotalRewardsAssignmentService.setEmployeeSelectedToggle(action.payload.employeeResults, state.selectedCompanyEmployeeIds)),
+        employees: state.employees.concat(employees),
         noResultsMessage: action.payload.noResultsMessage
       };
     }
