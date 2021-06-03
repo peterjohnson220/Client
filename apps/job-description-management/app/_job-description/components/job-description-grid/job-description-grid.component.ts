@@ -52,6 +52,7 @@ export class JobDescriptionGridComponent implements OnInit, OnDestroy {
     previousNext: true
   };
   public hasDeleteJobDescriptionPermission: boolean;
+  public hasCanRouteJobDescriptionPermission: boolean;
   public currentReviewerThreshold = 40;
 
   private creatingJobDescription: boolean;
@@ -72,6 +73,8 @@ export class JobDescriptionGridComponent implements OnInit, OnDestroy {
     this.creatingJobDescription$ = this.store.select(getJobDescriptionCreating);
     this.getSelectedJobDescriptions$ = this.store.select(getSelectedJobDescriptions);
     this.hasDeleteJobDescriptionPermission = this.permissionService.CheckPermission([Permissions.CAN_DELETE_JOB_DESCRIPTION],
+      PermissionCheckEnum.Single);
+    this.hasCanRouteJobDescriptionPermission = this.permissionService.CheckPermission([Permissions.CAN_ROUTE_JOB_DESCRIPTION_FOR_APPROVAL],
       PermissionCheckEnum.Single);
     this.featureFlagService.bindEnabled(this.jdmCheckboxesFeatureFlag, this.unsubscribe$);
   }

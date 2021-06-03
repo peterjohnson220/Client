@@ -9,8 +9,9 @@
         <fa-icon [icon]="['fas', 'times']"></fa-icon>
         Clear Selections <span *ngIf="selectedJobDescriptions?.size > 0">({{selectedJobDescriptions?.size}})</span>
       </button>
-      <div class="vertical-separator mr-3"></div>
-      <div [ngbTooltip]="bulkRouteTooltip"  placement="bottom">
+      <div *ngIf="hasCanRouteJobDescriptionPermission || hasDeleteJobDescriptionPermission" class="vertical-separator mr-3"></div>
+      <div *ngIf="hasCanRouteJobDescriptionPermission"
+        [ngbTooltip]="bulkRouteTooltip"  placement="bottom">
         <button type="button" class="btn btn-secondary pf-btn-borderless mr-3"
           [disabled]="selectedJobDescriptions?.size === 0 || !canBulkRouteJobDescriptions()"
           (click)="handleBulkRouteForApprovalClicked()">
@@ -22,7 +23,8 @@
         <fa-icon [icon]="['fas', 'download']"></fa-icon>
         Export
       </button>-->
-      <div [ngbTooltip]="bulkDeleteTooltip"  placement="bottom">
+      <div *ngIf="hasDeleteJobDescriptionPermission" 
+        [ngbTooltip]="bulkDeleteTooltip"  placement="bottom">
         <button type="button" class="btn btn-secondary pf-btn-borderless mr-3" 
           [disabled]="selectedJobDescriptions?.size === 0 || !canBulkDeleteJobDescriptions()"
           (click)="handleBulkDeleteClicked()">
