@@ -201,8 +201,6 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
       DisableDropdown: true,
       PublicView: true
     });
-
-    this.store.dispatch(new fromUserFilterActions.LoadUserFilterList());
   }
 
   ngOnInit() {
@@ -459,6 +457,8 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
 
       if (this.isPublic) {
         this.initAuthSubscriptions();
+      } else {
+        this.store.dispatch(new fromUserFilterActions.LoadUserFilterList());
       }
 
       this.initPostAuthCheckSubscriptions();
