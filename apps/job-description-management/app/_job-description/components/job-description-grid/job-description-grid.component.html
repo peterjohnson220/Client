@@ -3,7 +3,7 @@
   [loadingError]="loadingError"
   [loadingErrorMessage]="'Error loading Job Descriptions'">
 
-  <div *ngIf="jdmCheckboxesFeatureFlag.value">
+  <div *ngIf="jdmCheckboxesFeatureFlag.value && !isPublic">
     <div class="d-flex grid-actions-container pb-2">
       <button type="button" class="btn btn-secondary pf-btn-borderless mr-3" [disabled]="selectedJobDescriptions?.size === 0" (click)="handleClearSelectionsClicked()">
         <fa-icon [icon]="['fas', 'times']"></fa-icon>
@@ -55,7 +55,7 @@
     (selectionChange)="handleSelectionChange($event)"
     (cellClick)="onCellClick($event)">
 
-    <kendo-grid-checkbox-column *ngIf="jdmCheckboxesFeatureFlag.value" showSelectAll="true" [resizable]="false" [width]="35" class="no-ellipsis">
+    <kendo-grid-checkbox-column *ngIf="jdmCheckboxesFeatureFlag.value && !isPublic" showSelectAll="true" [resizable]="false" [width]="35" class="no-ellipsis">
       <ng-template kendoGridHeaderTemplate>
         <input kendoGridSelectAllCheckbox [state]="getSelectAllState()">
       </ng-template>
