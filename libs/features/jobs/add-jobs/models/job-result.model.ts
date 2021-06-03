@@ -7,6 +7,7 @@ export interface JobResult {
   Source: string;
   BaseMRP: string;
   TCCMRP: string;
+  SingleMRP: string;
   IsMappedToPeerExchange: boolean;
   Family: string;
   Description: string;
@@ -37,6 +38,7 @@ export function generateMockPayFactorsJobResult(): JobResult {
     FLSAStatus: 'Exempt',
     Category: 'Finance',
     Level: 'II',
+    SingleMRP: '56.3',
     EEO: 'Typically Professionals',
     UdfFields: [{
       Key: 'UdfField1',

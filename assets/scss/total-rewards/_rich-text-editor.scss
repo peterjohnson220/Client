@@ -120,6 +120,13 @@
     content: 'Verdana';
     font-family: 'Verdana', sans-serif;
   }
+
+  .radial-text-counter {
+    right: 0px; 
+    bottom: 0px; 
+    transform: translatex(100%);
+    z-index: 1;
+  }
 }
 
 .rte-toolbar {

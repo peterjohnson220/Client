@@ -506,11 +506,11 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
   }
 
   private setFilteredListAreaColumns(listAreaColumns: ListAreaColumn[]): void {
-    this.filteredListAreaColumns = listAreaColumns.filter(c =>
+    this.filteredListAreaColumns = listAreaColumns?.filter(c =>
       (c.ColumnDatabaseName !== 'PublicView') ||
       (c.ColumnDatabaseName === 'PublicView' && this.canRestrictJobDescriptionFromPublicView));
 
-    this.filteredListAreaColumns = listAreaColumns.filter(c =>
+    this.filteredListAreaColumns = listAreaColumns?.filter(c =>
       (c.ColumnDatabaseName !== 'PublicViewStatusVisibility'));
   }
 

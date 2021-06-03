@@ -7,20 +7,15 @@
     [hasColDividers]="true"
     [defaultSort]="defaultSort"
     [actionBarConfig]="actionBarConfig"
+    [headerClassName]="'surveys-page-sub-grid-header'"
     [gridConfig]="gridConfig"
     [useReportingDB]="true"
-    [inboundFilters]="[surveyJobFilter, matchedFilter]"
+    [inboundFilters]="[surveyJobFilter, matchedFilter, countriesFilter]"
     [pageable]="!gridConfig.EnableInfiniteScroll"
     [borders]="false"
     [columnTemplates]="colTemplates">
   </pf-data-grid>
 </ng-container>
-
-<ng-template #scopeColumn let-dataRow="dataRow">
-  <div pfEllipsisActive class="ellipsis-overflowing-text">
-    {{dataRow['SurveyData_Scope1']}} / {{dataRow['SurveyData_Scope2']}} / {{dataRow['SurveyData_Scope3']}}
-  </div>
-</ng-template>
 
 <ng-template #weightingTypeColumn let-dataRow="dataRow">
   <span [innerHTML]="dataRow['SurveyData_WeightingType'] | weightingType | emptyPlaceholder"></span>

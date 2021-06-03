@@ -1,7 +1,7 @@
 <ng-container *ngIf="filterTemplate; else standardFilter" [ngTemplateOutlet]="filterTemplate.Template"></ng-container>
 
 <ng-template #standardFilter>
-  <label>{{ field.DisplayName }}:</label>
+  <label> {{ !!displayGroupNameInFilter ? field.Group : '' }} {{ field.DisplayName }}:</label>
 
   <ng-container *ngIf="field.CustomFilterStrategy && field.DataType !== dataTypes.Bit; else simpleFilter">
     <div class="row">

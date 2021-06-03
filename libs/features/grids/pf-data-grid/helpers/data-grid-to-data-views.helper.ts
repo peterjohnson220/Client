@@ -99,10 +99,10 @@ export class DataGridToDataViewsHelper {
       });
   }
 
-  static getFiltersForExportView(fields: ViewField[], selectionField: string, selectedKeys: number[]): DataViewFilter[] {
+  static getFiltersForExportView(fields: ViewField[], selectionField: string, selectedKeys: number[], primaryKey: string): DataViewFilter[] {
     const filters = this.mapFieldsToFilters(fields);
     if (!!selectedKeys && !!selectedKeys.length) {
-      const field: ViewField = fields.find(f => f.SourceName === selectionField);
+      const field: ViewField = fields.find(f => `${f.EntitySourceName}_${f.SourceName}` === primaryKey);
       for (const selectedKey of selectedKeys) {
         const selectedKeysFilter: DataViewFilter = {
           DataElementId: field.DataElementId,

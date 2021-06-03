@@ -43,7 +43,8 @@ export class GradeRangeModelChartService {
         title: null,
         labels: {
           enabled: false
-        }
+        },
+        height: 72
       },
 
       credits: {

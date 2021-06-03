@@ -25,6 +25,8 @@ export interface StructureRangeGroupResponse {
   RangeDistributionTypes: RangeDistributionType[];
   RangeDistributionSetting: RangeDistributionSettingResponse;
   RangeAdvancedSetting: AdvancedSettingResponse;
+  StartingMidpoint: number;
+  MidpointProgression: number;
 }
 
 export function generateMockCompanyStructureRangeGroup(): StructureRangeGroupResponse {
@@ -50,6 +52,8 @@ export function generateMockCompanyStructureRangeGroup(): StructureRangeGroupRes
     ExchangeId: 14,
     RangeDistributionTypes: generateMockStructureRangeDistributionTypes(),
     RangeDistributionSetting: generateMockRangeDistributionSettingResponse(),
-    RangeAdvancedSetting: generateMockRangeAdvancedSettingResponse()
+    RangeAdvancedSetting: generateMockRangeAdvancedSettingResponse(),
+    StartingMidpoint: 55555,
+    MidpointProgression: 5
   };
 }
