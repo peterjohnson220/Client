@@ -1,2 +1,6 @@
-/* You can add global styles to this file, and also import other style files */
 @import 'total-rewards/statement';
+@import 'total-rewards/statement-layout-variables';
+
+.modal-container .statement .trs-page {
+  margin-bottom: $web-view-page-margin; // show a gap in between pages in the editor so users can see where a page begins and ends
+}

@@ -215,7 +215,7 @@ export class SingleJobViewDataCutsChartService {
             symbol: 'vline',
             lineWidth: 2,
             lineColor: '#CD8C01',
-            radius: 29,
+            radius: 27,
           },
           enableMouseTracking: true,
           tooltip: {
@@ -240,7 +240,7 @@ export class SingleJobViewDataCutsChartService {
             symbol: 'vline',
             lineWidth: 2,
             lineColor: '#000000',
-            radius: 29,
+            radius: 27,
           },
           tooltip: {
             backgroundColor: '#000000',

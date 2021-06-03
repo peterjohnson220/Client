@@ -64,9 +64,10 @@ exports[`Project - Add Jobs - Job Result should not show the job category or eeo
     >
       <table>
         <tbody>
+          
           <tr>
             <th>
-              Base MRP:
+              MRP:
             </th>
             
             <td>
@@ -74,16 +75,8 @@ exports[`Project - Add Jobs - Job Result should not show the job category or eeo
             </td>
             
           </tr>
-          <tr>
-            <th>
-              TCC MRP:
-            </th>
-            
-            <td>
-              58.1
-            </td>
-            
-          </tr>
+          
+          
           
           
           <tr>
@@ -261,9 +254,10 @@ exports[`Project - Add Jobs - Job Result should show the job detail 1`] = `
     >
       <table>
         <tbody>
+          
           <tr>
             <th>
-              Base MRP:
+              MRP:
             </th>
             
             <td>
@@ -271,16 +265,8 @@ exports[`Project - Add Jobs - Job Result should show the job detail 1`] = `
             </td>
             
           </tr>
-          <tr>
-            <th>
-              TCC MRP:
-            </th>
-            
-            <td>
-              58.1
-            </td>
-            
-          </tr>
+          
+          
           
           
           <tr>

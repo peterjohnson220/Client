@@ -34,7 +34,9 @@ export const RECALCULATE_RANGES_WITHOUT_MID = '[Structures - Shared] Recalculate
 export const GET_CURRENT_RANGE_GROUP = '[Structures - Shared] Get Current Range Group';
 export const GET_CURRENT_RANGE_GROUP_SUCCESS = '[Structures - Shared] Get Current Range Group Success';
 export const GET_CURRENT_RANGE_GROUP_ERROR = '[Structures - Shared] Get Current Range Group Error';
-
+export const GET_GRADE_RANGE_DETAILS = '[Structures - Grade Based Range - Shared] Get Grade Range Details';
+export const GET_GRADE_RANGE_DETAILS_SUCCESS = '[Structures - Grade Based Range - Shared] Get Grade Range Details Success';
+export const GET_GRADE_RANGE_DETAILS_ERROR = '[Structures - Grade Based Range - Shared] Get Grade Range Details Error';
 
 export class SetMetadata implements Action {
   readonly type = SET_METADATA;
@@ -203,6 +205,24 @@ export class GetCurrentRangeGroupError implements Action {
   constructor(public payload: any) {}
 }
 
+export class GetGradeRangeDetails implements Action {
+  readonly type = GET_GRADE_RANGE_DETAILS;
+
+  constructor(public payload: any) {}
+}
+
+export class GetGradeRangeDetailsSuccess implements Action {
+  readonly type = GET_GRADE_RANGE_DETAILS_SUCCESS;
+
+  constructor(public payload: any) {}
+}
+
+export class GetGradeRangeDetailsError implements Action {
+  readonly type = GET_GRADE_RANGE_DETAILS_ERROR;
+
+  constructor(public payload: any) {}
+}
+
 export type SharedActions
   = SetMetadata
   | UpdateRoundingType
@@ -230,5 +250,8 @@ export type SharedActions
   | DisableCompareFlag
   | GetCurrentRangeGroup
   | GetCurrentRangeGroupSuccess
-  | GetCurrentRangeGroupError;
+  | GetCurrentRangeGroupError
+  | GetGradeRangeDetails
+  | GetGradeRangeDetailsSuccess
+  | GetGradeRangeDetailsError;
 

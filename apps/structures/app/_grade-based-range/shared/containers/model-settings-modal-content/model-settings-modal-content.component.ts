@@ -123,20 +123,13 @@ export class ModelSettingsModalContentComponent implements OnInit, OnDestroy {
 
   handleModalSubmit() {
     if (this.modelSettingsForm.valid) {
-      const action = this.isNewModel ?
-        new fromModelSettingsModalActions.CreateGradeBasedModelSettings(
+      const action = new fromModelSettingsModalActions.SaveGradeBasedModelSettings(
           {
             rangeGroupId: this.rangeGroupId,
             formValue: this.modelSetting,
             fromPageViewId: this.pageViewId,
-            rounding: this.roundingSettings
-          })
-        : new fromModelSettingsModalActions.SaveGradeBasedModelSettings(
-          {
-            rangeGroupId: this.rangeGroupId,
-            formValue: this.modelSetting,
-            fromPageViewId: this.pageViewId,
-            rounding: this.roundingSettings
+            rounding: this.roundingSettings,
+            isNewModel: this.isNewModel
           });
       this.store.dispatch(action);
       this.reset();

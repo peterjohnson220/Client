@@ -42,7 +42,7 @@ describe('TotalRewardsStatementComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should render a mock statement derived from template A', () => {
+  it('should render a mock statement`s pages, sections, columns and controls', () => {
     // arrange
     component.statement = generateMockStatement();
     component.employeeRewardsData = generateMockEmployeeRewardsData();

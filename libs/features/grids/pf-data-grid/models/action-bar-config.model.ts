@@ -8,6 +8,8 @@ export interface ActionBarConfig {
   AllowExport: boolean;
   ExportSourceName: string;
   CustomExportType?: string;
+  ExportSelectionRequired?: boolean;
+  ExportSelectionRequiredTooltip?: string;
   ColumnChooserType?: ColumnChooserType;
   ActionBarClassName?: string;
   GlobalActionsTemplate?: ElementRef<any>;

@@ -50,7 +50,9 @@ export class PayfactorsApiModelMapper {
       ExchangeId: srgr.ExchangeId,
       RangeDistributionTypes: srgr.RangeDistributionTypes,
       RangeDistributionSetting: srgr.RangeDistributionSetting != null ? this.mapRangeDistributionSetting(srgr.RangeDistributionSetting) : null,
-      RangeAdvancedSetting: srgr.RangeAdvancedSetting != null ? this.mapRangeAdvancedSetting(srgr.RangeAdvancedSetting) : null
+      RangeAdvancedSetting: srgr.RangeAdvancedSetting != null ? this.mapRangeAdvancedSetting(srgr.RangeAdvancedSetting) : null,
+      StartingMidpoint: srgr.StartingMidpoint,
+      MidpointProgression: srgr.MidpointProgression
     };
   }
 
@@ -255,7 +257,8 @@ export class PayfactorsApiModelMapper {
   }
 
   static mapSaveGradeBasedModelSettingsModalFormToSaveSettingsRequest(
-    rangeGroupId: number, formValue: any, rounding: RoundingSettingsDataObj, advancedSetting: AdvancedSettingRequest): SaveGradeBasedModelSettingsRequest {
+    rangeGroupId: number, formValue: any, rounding: RoundingSettingsDataObj, advancedSetting: AdvancedSettingRequest,
+    isNewModel: boolean): SaveGradeBasedModelSettingsRequest {
     const payType = formValue.MarketDataBased.replace('MRP', '');
     return {
       RangeGroupId: rangeGroupId,
@@ -265,7 +268,12 @@ export class PayfactorsApiModelMapper {
       Rate: formValue.Rate,
       CurrencyCode: formValue.Currency,
       AdvancedSetting: advancedSetting,
-      RangeDistributionTypeId: formValue.RangeDistributionTypeId
+      RangeDistributionTypeId: formValue.RangeDistributionTypeId,
+      GradeCount: formValue.Grades,
+      RangeSpread: formValue.RangeSpread,
+      Midpoint: formValue.StartingMidpoint,
+      MidpointProgression: formValue.MidpointProgression,
+      IsNewModel: isNewModel
     };
   }
 

@@ -3,7 +3,7 @@ import { Component, OnInit, ChangeDetectionStrategy, Input, Output, EventEmitter
 import { Subject, Subscription } from 'rxjs';
 import { distinctUntilChanged, debounceTime } from 'rxjs/operators';
 
-import { EffectiveDateControl, StatementDisplaySettings, StatementModeEnum } from '../../models';
+import { EffectiveDateControl, StatementModeEnum } from '../../models';
 
 @Component({
   selector: 'pf-trs-effective-date-control',

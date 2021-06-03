@@ -92,7 +92,9 @@ describe('ModelSettingsModalContentComponent', () => {
       ExchangeId: null,
       RangeDistributionTypes: generateMockStructureRangeDistributionTypes(),
       RangeDistributionSetting: generateMockRangeDistributionSettingForm(),
-      RangeAdvancedSetting: generateMockRangeAdvancedSetting()
+      RangeAdvancedSetting: generateMockRangeAdvancedSetting(),
+      MidpointProgression: null,
+      StartingMidpoint: null
     };
 
     instance.modelSetting = {
@@ -113,7 +115,9 @@ describe('ModelSettingsModalContentComponent', () => {
       ExchangeId: null,
       RangeDistributionTypes: generateMockStructureRangeDistributionTypes(),
       RangeDistributionSetting: generateMockRangeDistributionSettingForm(),
-      RangeAdvancedSetting: generateMockRangeAdvancedSetting()
+      RangeAdvancedSetting: generateMockRangeAdvancedSetting(),
+      MidpointProgression: null,
+      StartingMidpoint: null
     };
 
     instance.modelSettingsForm = new FormGroup({
@@ -302,7 +306,9 @@ describe('ModelSettingsModalContentComponent', () => {
       ExchangeId: null,
       RangeDistributionTypes: generateMockStructureRangeDistributionTypes(),
       RangeDistributionSetting: generateMockRangeDistributionSettingForm(),
-      RangeAdvancedSetting: generateMockRangeAdvancedSetting()
+      RangeAdvancedSetting: generateMockRangeAdvancedSetting(),
+      MidpointProgression: null,
+      StartingMidpoint: null
     };
     instance.modelSettingsForm = new FormGroup({
       'StructureName': new FormControl(instance.metadata.StructureName, [Validators.required, Validators.maxLength(50)]),

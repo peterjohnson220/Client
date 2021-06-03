@@ -39,7 +39,7 @@ export class SearchResultsEffects {
       mergeMap((data) => {
         let jobCode = null;
         let companyJobId = null;
-        const jobResult = data.action.payload;
+        const jobResult = data.action.payload.job;
 
         if (jobResult.IsPayfactorsJob) {
           jobCode = jobResult.Code;
