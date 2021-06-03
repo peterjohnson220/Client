@@ -66,7 +66,9 @@ describe('ModelSettingsModalComponent', () => {
       ExchangeId: null,
       RangeDistributionTypes: generateMockStructureRangeDistributionTypes(),
       RangeDistributionSetting: generateMockRangeDistributionSettingForm(),
-      RangeAdvancedSetting: generateMockRangeAdvancedSetting()
+      RangeAdvancedSetting: generateMockRangeAdvancedSetting(),
+      MidpointProgression: 5,
+      StartingMidpoint: 55555
     };
 
     instance.ngOnInit();

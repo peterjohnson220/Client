@@ -7,12 +7,12 @@
     </colgroup>
     <thead>
       <tr class="trs-calculation-row w-100">
-        <th class="font-weight-normal" scope="col">
+        <th class="font-weight-normal pr-0" scope="col">
           <h4 *ngIf="controlData.ShowTitle" class="primary-control-heading mb-1">
             <pf-string-editor
               [value]="controlData.Title.Override"
               [placeholder]="controlData.Title.Default"
-              [maxCharacters]="60"
+              [maxCharacters]="maxCharacterCount"
               [inEditMode]="inEditMode"
               [showRadialTextCounter]="true"
               [showTextCounterTooltip]="false"
@@ -21,10 +21,10 @@
           </h4>
         </th>
         <th *ngIf="showSecondaryHeader && showEmployeeContributions" scope="col"
-            class="secondary-header align-middle text-right font-weight-normal">
+            class="secondary-header align-middle text-right font-weight-normal mb-1">
           <span>Employee</span>
         </th>
-        <th *ngIf="showSecondaryHeader" scope="col" class="secondary-header align-middle text-right font-weight-normal">
+        <th *ngIf="showSecondaryHeader" scope="col" class="secondary-header align-middle text-right font-weight-normal mb-1">
           <span *ngIf="controlData.ShowTitle && !showEmployeeContributions">Contribution</span>
           <span *ngIf="showEmployeeContributions">Company</span>
         </th>
@@ -37,7 +37,7 @@
           <pf-string-editor
             [value]="listItem.Name.Override"
             [placeholder]="listItem.Name.Default"
-            [maxCharacters]="60"
+            [maxCharacters]="maxCharacterCount"
             [inEditMode]="inEditMode"
             [showRadialTextCounter]="true"
             [showTextCounterTooltip]="false"
@@ -58,12 +58,12 @@
     </tbody>
     <tfoot>
       <tr class="trs-calculation-row w-100" [class.faux-title]="!controlData.ShowTitle">
-        <td class="summary" pfStatementGraphicsDirective
+        <td class="summary pr-0" pfStatementGraphicsDirective
             [colors]="graphicsColors" [colorRank]="controlData.SummaryTextColor" [styleAttrToColor]="'color'">
           <pf-string-editor
             [value]="controlData.Summary.Override"
             [placeholder]="controlData.Summary.Default"
-            [maxCharacters]="60"
+            [maxCharacters]="maxCharacterCount"
             [inEditMode]="inEditMode"
             [showRadialTextCounter]="true"
             [showTextCounterTooltip]="false"

@@ -345,7 +345,7 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
       Gender: null,
       EthnicityPF: null,
       Base: 0,
-      FTE: 1,
+      FTE: [1, [Validators.required]],
       Bonus: 0,
       BonusPct: 0,
       BonusTarget: 0,

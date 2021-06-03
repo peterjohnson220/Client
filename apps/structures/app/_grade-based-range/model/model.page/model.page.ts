@@ -83,7 +83,7 @@ export class ModelPageComponent implements OnInit, OnDestroy {
       }];
     this.metaData$ = this.store.pipe(select(fromSharedStructuresReducer.getMetadata));
     this.pageViewIdSubscription = this.structuresPagesService.modelPageViewId.subscribe(pv => this.modelGridPageViewId = pv);
-    this.gradeRangeDetailsSubscription = this.store.select(fromGradeBasedSharedReducer.getGradeRangeDetails).subscribe(details => {
+    this.gradeRangeDetailsSubscription = this.store.select(fromSharedStructuresReducer.getGradeRangeDetails).subscribe(details => {
       if (details?.obj && details.obj.length > 0) {
         const detailsObj = details.obj[0];
         this.gradeRangeDetails = {
