@@ -20,3 +20,4 @@ export * from './upsert-tag-category-request.model';
 export * from './add-tag-categories-request.model';
 export * from './tag-information-request.model';
 export * from './save-tag-information-request.model';
+export * from './upsert-peer-trend-request.model';

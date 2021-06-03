@@ -44,6 +44,11 @@
       Back: {{(footerContext$ | async)?.PreviousPageTitle}}
     </button>
 
+  <button *ngIf="(footerContext$ | async)?.DisplaySaveButton" class="btn btn-primary"
+  (click)="handleSaveButtonClicked()">
+    Save
+  </button>
+
     <button *ngIf="!(footerContext$ | async)?.HideNextButton"
             class="btn btn-primary"
             [disabled]="nextButtonDisabled"
@@ -79,3 +84,5 @@
     <button type="button" class="btn comphub-secondary-btn" [attr.data-qa-id]="'btn-cancel-close-quickprice-app-'+ (footerContext$ | async)?.PageTitle" (click)="modal.dismiss()">Cancel</button>
   </div>
 </ng-template>
+
+<pf-save-peer-trend-modal></pf-save-peer-trend-modal>

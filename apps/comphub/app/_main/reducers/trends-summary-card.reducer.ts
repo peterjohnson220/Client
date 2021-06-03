@@ -11,13 +11,17 @@ export interface State {
   minDate: Date;
   maxDate: Date;
   trendsSummaryDetails: TrendsSummaryDetails;
+  displaySaveTrendModal: boolean;
+  savingPeerTrend: AsyncStateObj<boolean>;
 }
 
 export const initialState: State = {
   peerTrends: generateDefaultAsyncStateObj<PayRateDate[]>([]),
   minDate: new Date(),
   maxDate: new Date(),
-  trendsSummaryDetails: null
+  trendsSummaryDetails: null,
+  displaySaveTrendModal: false,
+  savingPeerTrend: generateDefaultAsyncStateObj<boolean>(false)
 };
 
 export function reducer(state: State = initialState, action: fromTrendsSummaryCardActions.Actions): State {
@@ -45,6 +49,21 @@ export function reducer(state: State = initialState, action: fromTrendsSummaryCa
        trendsSummaryDetails: action.payload
       };
 
+    case fromTrendsSummaryCardActions.TOGGLE_SAVE_TREND_MODAL:
+      return {
+        ...state,
+        displaySaveTrendModal: action.payload.displayModal
+      };
+
+    case fromTrendsSummaryCardActions.SAVE_PEER_TREND:
+      return AsyncStateObjHelper.saving(state, 'savingPeerTrend');
+
+    case fromTrendsSummaryCardActions.SAVE_PEER_TREND_SUCCESS:
+      return AsyncStateObjHelper.savingSuccess(state, 'savingPeerTrend');
+
+    case fromTrendsSummaryCardActions.SAVE_PEER_TREND_ERROR:
+      return AsyncStateObjHelper.savingError(state, 'savingPeerTrend');
+
     default:
       return state;
   }
@@ -52,5 +71,6 @@ export function reducer(state: State = initialState, action: fromTrendsSummaryCa
 
 export const getPeerTrends = (state: State) => state.peerTrends;
 export const getPeerTrendsSummaryDetails = (state: State) => state.trendsSummaryDetails;
-export const getPeerTrendsDomain = (state: State) =>  { return { minDate: state.minDate, maxDate: state.maxDate }; };
-
+export const getPeerTrendsDomain = (state: State) => ({ minDate: state.minDate, maxDate: state.maxDate });
+export const getDisplaySavePeerTrendModal = (state: State) => state.displaySaveTrendModal;
+export const getSavingPeerTrend = (state: State) => state.savingPeerTrend;

@@ -57,6 +57,7 @@ exports[`Comphub - Main - Footer should disable next button, when told to 1`] = 
     </button>
     
     
+    
     <button
       class="btn btn-primary"
       data-qa-id="btn-next-Jobs"
@@ -70,7 +71,7 @@ exports[`Comphub - Main - Footer should disable next button, when told to 1`] = 
       
     </span>
     
-  </div>
+  </div><pf-save-peer-trend-modal />
 </pf-comphub-footer>
 `;
 
@@ -131,6 +132,7 @@ exports[`Comphub - Main - Footer should hide the back button, when told to 1`] =
     </button>
     
     
+    
     <button
       class="btn btn-primary"
       data-qa-id="btn-next-Jobs"
@@ -143,7 +145,7 @@ exports[`Comphub - Main - Footer should hide the back button, when told to 1`] =
       
     </span>
     
-  </div>
+  </div><pf-save-peer-trend-modal />
 </pf-comphub-footer>
 `;
 
@@ -204,12 +206,13 @@ exports[`Comphub - Main - Footer should hide the next button, when told to 1`] =
     </button>
     
     
+    
     <span
       class="d-inline-block"
     >
       
     </span>
     
-  </div>
+  </div><pf-save-peer-trend-modal />
 </pf-comphub-footer>
 `;

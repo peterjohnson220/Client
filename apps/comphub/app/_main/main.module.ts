@@ -44,7 +44,7 @@ import {
   PeerJobGridComponent,
   TrendsPageComponent,
   TrendsLandingCardComponent,
-  TrendsSummaryCardComponent, TrendsScopesCardComponent, TrendsJobsCardComponent, QuickPricePageComponent,
+  TrendsSummaryCardComponent, TrendsScopesCardComponent, TrendsJobsCardComponent, QuickPricePageComponent, SavePeerTrendModalComponent,
 } from './containers';
 import {
   JobsCardEffects, MarketsCardEffects, AddPayMarketFormEffects, DataCardEffects, ComphubPageEffects,
@@ -117,6 +117,7 @@ import { HistoricalOrgIncCountChartComponent } from './components/salary-trend-c
     HistoricalOrgIncCountChartComponent,
     SharePricingSummaryModalComponent,
     GlossaryOfTermsComponent,
+    SavePeerTrendModalComponent,
 
     // Pages
     ComphubPageComponent,

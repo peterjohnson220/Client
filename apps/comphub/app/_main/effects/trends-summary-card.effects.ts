@@ -1,4 +1,3 @@
-
 import { Injectable } from '@angular/core';
 
 import { Actions, Effect, ofType } from '@ngrx/effects';
@@ -12,15 +11,17 @@ import * as fromTrendsSummaryCardActions from '../actions/trends-summary-card.ac
 import { ExchangeExplorerContextService } from 'libs/features/peer/exchange-explorer/services';
 import { ExchangeDataSearchApiService } from 'libs/data/payfactors-api/search/peer';
 import { CalendarInterval, HistoricalExchangeDataSearchRequest } from 'libs/models/payfactors-api/peer/exchange-data-search/request';
+import { UpsertPeerTrendRequest } from 'libs/models/peer/requests';
+import { PeerTrendsApiService } from 'libs/data/payfactors-api/peer/peer-trends-api.service';
 
 @Injectable()
 export class TrendsSummaryCardEffects {
-
   constructor(
     private actions$: Actions,
     private store: Store<fromComphubMainReducer.State>,
     private exchangeExplorerContextService: ExchangeExplorerContextService,
-    private exchangeDataSearchApiService: ExchangeDataSearchApiService
+    private exchangeDataSearchApiService: ExchangeDataSearchApiService,
+    private peerTrendApiService: PeerTrendsApiService
   ) {}
 
   @Effect({dispatch: true})
@@ -33,8 +34,6 @@ export class TrendsSummaryCardEffects {
       (action, exchangeExplorerFilterContext, exchangeJobs) => ({action, exchangeExplorerFilterContext, exchangeJobs})
     ),
     switchMap( (data) => {
-      const actions = [];
-
       const lowerDate = new Date();
       lowerDate.setFullYear(lowerDate.getFullYear() - 3);
 
@@ -43,7 +42,7 @@ export class TrendsSummaryCardEffects {
         From: lowerDate,
         To: new Date(),
         CalendarInterval: CalendarInterval.Month
-      }
+      };
 
       return this.exchangeDataSearchApiService.getHistoricalTrends(request).pipe(
         map((response) => {
@@ -51,7 +50,30 @@ export class TrendsSummaryCardEffects {
         }),
         catchError(() => of(new fromTrendsSummaryCardActions.GetPeerTrendsError()))
       );
-
     }));
 
+  @Effect({dispatch: true})
+  savePeerTrend$ = this.actions$.pipe(
+    ofType(fromTrendsSummaryCardActions.SAVE_PEER_TREND),
+    map((action: fromTrendsSummaryCardActions.SavePeerTrend) => action),
+    withLatestFrom(
+      this.exchangeExplorerContextService.selectFilterContext(),
+      (action, exchangeExplorerFilterContext) => ({action, exchangeExplorerFilterContext})
+    ),
+    switchMap((data) => {
+      const actions = [];
+      const request: UpsertPeerTrendRequest = {
+        PeerTrendDetails: data.action.payload,
+        ExchangeDataSearchRequest: data.exchangeExplorerFilterContext
+      };
+      return this.peerTrendApiService.upsertPeerTrend(request).pipe(
+        switchMap((response) => {
+          actions.push(new fromTrendsSummaryCardActions.SavePeerTrendSuccess());
+          actions.push(new fromTrendsSummaryCardActions.ToggleSaveTrendModal({displayModal: false}));
+          return actions;
+        }),
+        catchError( () => of(new fromTrendsSummaryCardActions.SavePeerTrendError()))
+      );
+    })
+  );
 }
