@@ -36,5 +36,14 @@ export const StructuresSearchFilterMappingDataObj: SearchFilterMappingDataObj = 
     OptionCountDisabled: false,
     SaveDisabled: false,
     RefreshOptionsFromServer: true
+  },
+  'priced_jobs': {
+    Type: FilterType.Multi,
+    BackingField: 'priced_jobs',
+    DisplayName: 'Priced',
+    Order: 10,
+    OptionCountDisabled: false,
+    SaveDisabled: false,
+    RefreshOptionsFromServer: true
   }
 };
