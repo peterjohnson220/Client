@@ -12,9 +12,18 @@
 </pf-data-grid>
 
 <ng-template #aboveGridTemplate>
-  <ul ngbNav #nav="ngbNav" class="nav-tabs" [destroyOnHide]="false" [(activeId)]="activeTab">
+  <ul ngbNav #nav="ngbNav" class="nav-tabs"
+      [destroyOnHide]="false"
+      [(activeId)]="activeTab"
+      (activeIdChange)="handleTabChange($event)">
     <li [ngbNavItem]="'current-models'">
       <a ngbNavLink class="tab-title">Current Models</a>
+    </li>
+    <li [ngbNavItem]="'proposed-models'">
+      <a ngbNavLink class="tab-title">Proposed Models</a>
+    </li>
+    <li [ngbNavItem]="'historical-models'">
+      <a ngbNavLink class="tab-title">Historical Models</a>
     </li>
   </ul>
 </ng-template>
