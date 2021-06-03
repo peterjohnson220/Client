@@ -21,4 +21,6 @@ export interface RangeGroupMetadata {
   RangeDistributionTypes: RangeDistributionType[];
   RangeDistributionSetting: RangeDistributionSettingForm;
   RangeAdvancedSetting: AdvancedModelSettingForm;
+  StartingMidpoint: number;
+  MidpointProgression: number;
 }

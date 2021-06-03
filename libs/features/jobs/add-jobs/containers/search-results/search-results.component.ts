@@ -40,7 +40,7 @@ export class SearchResultsComponent {
   handleJobDetailClicked(job: JobResult): void {
     this.store.dispatch(new fromSearchResultsActions.ToggleJobDetail(job));
     if (!job.PricingDataLoaded) {
-      this.store.dispatch(new fromSearchResultsActions.GetJobPricingData(job));
+      this.store.dispatch(new fromSearchResultsActions.GetJobPricingData({ job: job, loadSingleMrp: false}));
     }
   }
 

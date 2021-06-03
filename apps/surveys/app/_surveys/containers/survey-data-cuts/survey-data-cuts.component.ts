@@ -9,6 +9,7 @@ import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums/pf-theme-typ
 import { ActionBarConfig, getDefaultActionBarConfig, GridConfig, PfDataGridFilter } from 'libs/features/grids/pf-data-grid/models';
 import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 
+import * as fromSurveysPageActions from '../../actions/surveys-page.actions';
 import * as fromSurveysPageReducer from '../../reducers';
 import { SurveysPageConfig } from '../../models';
 
@@ -19,7 +20,6 @@ import { SurveysPageConfig } from '../../models';
 export class SurveyDataCutsComponent implements OnChanges, OnInit, AfterViewInit, OnDestroy {
   @Input() surveyJobId: number;
 
-  @ViewChild('scopeColumn') scopeColumn: ElementRef;
   @ViewChild('currencyColumn') currencyColumn: ElementRef;
   @ViewChild('weightingTypeColumn') weightingTypeColumn: ElementRef;
   @ViewChild('numericColumn') numericColumn: ElementRef;
@@ -33,19 +33,12 @@ export class SurveyDataCutsComponent implements OnChanges, OnInit, AfterViewInit
   defaultSort: SortDescriptor[] = [
     {
       dir: 'asc',
-      field: 'SurveyData_Scope1'
-    },
-    {
-      dir: 'asc',
-      field: 'SurveyData_Scope2'
-    },
-    {
-      dir: 'asc',
-      field: 'SurveyData_Scope3'
+      field: 'SurveyData_SurveyDataCombinedScope'
     }
   ];
   surveyJobFilter: PfDataGridFilter;
   matchedFilter: PfDataGridFilter;
+  countriesFilter: PfDataGridFilter;
   actionBarConfig: ActionBarConfig;
   gridConfig: GridConfig;
   colTemplates = {};
@@ -62,6 +55,12 @@ export class SurveyDataCutsComponent implements OnChanges, OnInit, AfterViewInit
     this.matchedFilter = {
       SourceName: 'SurveyDataMatchesCount',
       Operator: null,
+      Values: null,
+      ExcludeFromFilterSave: true
+    };
+    this.countriesFilter = {
+      SourceName: 'Country_Code',
+      Operator: '=',
       Values: null,
       ExcludeFromFilterSave: true
     };
@@ -88,13 +87,14 @@ export class SurveyDataCutsComponent implements OnChanges, OnInit, AfterViewInit
     this.splitViewFiltersSubscription = this.splitViewFilters$.subscribe(filters => {
       if (filters?.length) {
         this.updateMatchedFilter(filters);
+        this.updateCountriesFilter(filters);
       }
     });
+    this.store.dispatch(new fromSurveysPageActions.OpenSurveyDataGrid(this.surveyJobId));
   }
 
   ngAfterViewInit(): void {
     this.colTemplates = {
-      'Scope1': { Template: this.scopeColumn },
       'WeightingType': { Template: this.weightingTypeColumn },
       [PfDataGridColType.currency]: { Template: this.currencyColumn },
       ['numeric']: { Template: this.numericColumn}
@@ -114,6 +114,18 @@ export class SurveyDataCutsComponent implements OnChanges, OnInit, AfterViewInit
       ...this.matchedFilter,
       Operator: surveyJobMatchedFilter.Operator,
       Values: surveyJobMatchedFilter.Values
+    };
+  }
+
+  private updateCountriesFilter(filters: PfDataGridFilter[]): void {
+    const dataCountriesFilter: PfDataGridFilter = filters.find((x: PfDataGridFilter) => x.SourceName === 'SurveyCountryFilter');
+    if (!dataCountriesFilter) {
+      return;
+    }
+    this.countriesFilter = {
+      ...this.countriesFilter,
+      Operator: dataCountriesFilter.Operator,
+      Values: dataCountriesFilter.Values
     };
   }
 }

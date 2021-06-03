@@ -14,6 +14,7 @@
       [checkedKeys]="industryCheckedKeys"
       [showDescriptionToolTip]="true"
       [theme]="treeViewTheme.Simple"
+      [searchDescription] = "true"
       (applyClicked)="handleSelectedIndustryChanged($event)">
     </pf-treeview>
   </div>
@@ -43,7 +44,7 @@
       class="filter smaller-text"
       [filterable]="true"
       [searchPlaceholder]="'Search...'"
-      [anchorWidth]="250"
+      [anchorWidth]="322"
       [treeViewContainerHeight]="135"
       [isPopup]="false"
       [checkedKeys]="locationCheckedKeys"

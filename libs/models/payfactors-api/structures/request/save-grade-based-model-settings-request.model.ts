@@ -9,4 +9,9 @@ export interface SaveGradeBasedModelSettingsRequest {
   CurrencyCode: string;
   AdvancedSetting: AdvancedSettingRequest;
   RangeDistributionTypeId: number;
+  GradeCount: number;
+  RangeSpread: number;
+  Midpoint: number;
+  MidpointProgression: number;
+  IsNewModel: boolean;
 }

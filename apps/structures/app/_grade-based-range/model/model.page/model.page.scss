@@ -29,3 +29,11 @@
 :host::ng-deep .modal-dialog {
   height: 90%;
 }
+
+:host::ng-deep .page-content {
+  overflow-y: hidden;
+}
+
+:host::ng-deep .content-wrapper {
+  overflow: auto;
+}

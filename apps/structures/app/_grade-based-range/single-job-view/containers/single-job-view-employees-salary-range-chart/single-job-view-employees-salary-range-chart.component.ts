@@ -120,6 +120,11 @@ export class SingleJobViewEmployeesSalaryRangeChartComponent implements OnInit, 
       this.chartInstance = chart;
     }
   }
+
+  private getScatterXCoordinate(index): number {
+    return index - (.018 * index);
+  }
+
   private reassessMinMax(currentRow) {
     // only do this if currentRow.vw_EmployeesGradeBasedStructureInfo_GradeBased_EmployeePay has a value
     if (currentRow.vw_EmployeesGradeBasedStructureInfo_GradeBased_EmployeePay !== null) {
@@ -155,7 +160,7 @@ export class SingleJobViewEmployeesSalaryRangeChartComponent implements OnInit, 
       currentRow.vw_EmployeesGradeBasedStructureInfo_First_Name + ' ' + currentRow.vw_EmployeesGradeBasedStructureInfo_Last_Name
       + ' (' + currentRow.vw_EmployeesGradeBasedStructureInfo_Employee_ID + ')' : currentRow.vw_EmployeesGradeBasedStructureInfo_Employee_ID;
     const salaryTooltipInfo = {
-      x: xCoordinate,
+      x: this.getScatterXCoordinate(xCoordinate),
       y: currentRow.vw_EmployeesGradeBasedStructureInfo_GradeBased_EmployeePay,
       empDisplay: name,
       salaryDisplay: `${this.controlPointDisplay}: ${StructuresHighchartsService.formatCurrency(salary, this.chartLocale, this.currency, this.rate, true)}`
@@ -211,7 +216,7 @@ export class SingleJobViewEmployeesSalaryRangeChartComponent implements OnInit, 
     const isMidFormula = !!this.metaData.RangeDistributionSetting?.Mid_Formula?.FormulaId;
 
     this.mrpSeriesData.push({
-      x: xCoordinate,
+      x: this.getScatterXCoordinate(xCoordinate),
       y: currentRow.CompanyJobs_Structures_GradeBased_Job_MarketReferencePointValue,
       jobTitle: currentRow.CompanyJobs_Structures_JobTitle,
       mrp: StructuresHighchartsService.formatMrpTooltip(currentRow.CompanyJobs_Structures_GradeBased_Job_MarketReferencePointValue,

@@ -30,10 +30,15 @@
       </label>
     </div>
   </ng-template>
-  <div *ngIf="mode === statementModeEnum.Edit; else rawHtml">
+  <div *ngIf="mode === statementModeEnum.Edit; else rawHtml" class="position-relative">
     <a (click)="onClickEditor()">
-      <div [id]="'quill-editor-' + controlData.Id"></div>
+      <div [id]="quillEditorId"></div>
     </a>
+    <pf-radial-text-counter *ngIf="displayRadialTextCounter"
+      class="position-absolute radial-text-counter"
+      [ContentLength]="contentHeight"
+      [AvailableLength]="containerHeight">
+    </pf-radial-text-counter>
   </div>
   <ng-template #rawHtml>
     <div [innerHtml]="bindDataFields()"></div>

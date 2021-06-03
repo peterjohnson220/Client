@@ -6,13 +6,14 @@
   table {
     table-layout: fixed;
     .field-column {
-      width: 75%;
+      width: 70%;
     }
     .employer-contribution-column {
-      width: 25%;
+      width: 30%;
     }
     &.consolidated {
       tr.trs-calculation-row {
+        height: 18px;
         line-height: 1; // shrink row heights in consolidated mode
       }
       td.summary {
@@ -27,10 +28,10 @@
   &.decimals-enabled {
     table {
       .field-column {
-        width: 73%;
+        width: 68%;
       }
       .employer-contribution-column {
-        width: 27%;
+        width: 32%;
       }
     }
   }

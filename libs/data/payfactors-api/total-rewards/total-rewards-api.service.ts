@@ -44,11 +44,11 @@ export class TotalRewardsApiService {
     return this.payfactorsApiService.post<any>(`${this.endpoint}/SaveStatement`, statement, TotalRewardsApiService.validateEffectiveDate);
   }
 
-  saveStatementSettings(request: SaveSettingsRequest): Observable<Settings> {
+  saveStatementSettings(request: SaveSettingsRequest): Observable<Statement> {
     return this.payfactorsApiService.put<any>(`${this.endpoint}/SaveStatementSettings`, request);
   }
 
-  resetStatementSettings(statementId: string): Observable<Settings> {
+  resetStatementSettings(statementId: string): Observable<Statement> {
     return this.payfactorsApiService.put<any>(`${this.endpoint}/ResetStatementSettings?statementId=${statementId}`);
   }
 
@@ -64,8 +64,8 @@ export class TotalRewardsApiService {
     return this.payfactorsApiService.delete<any>(`${this.endpoint}/DeleteStatement?statementId=${statementId}`);
   }
 
-  deleteStatementImage(fileName: string): Observable<any> {
-    return this.payfactorsApiService.post<any>(`${this.endpoint}/DeleteStatementImage?fileName=${fileName}`);
+  deleteStatementImage(fileName: string, statementId: string): Observable<any> {
+    return this.payfactorsApiService.delete<any>(`${this.endpoint}/DeleteStatementImage?fileName=${fileName}&statementId=${statementId}`);
   }
 
   getStatementEmailTemplate(statementId: string): Observable<StatementEmailTemplate> {

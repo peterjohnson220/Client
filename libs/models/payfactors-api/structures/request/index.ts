@@ -16,3 +16,4 @@ export * from './save-grade-based-model-settings-request.model';
 export * from './save-company-jobs-structure-maps-request.model';
 export * from './switch-regression-flags-request.model';
 export * from './auto-grade-jobs-request.model';
+export * from './get-job-mrp-by-paytype-request.model';
