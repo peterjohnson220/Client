@@ -1,5 +1,20 @@
-<pf-page-with-title-bar>
-  <ng-container page-title>
-    Structures
-  </ng-container>
-</pf-page-with-title-bar>
+<pf-data-grid
+  [reorderable]="true"
+  [pageViewId]="pageViewId"
+  [title]="'Structures'"
+  [defaultSort]="defaultSort"
+  [actionBarConfig]="actionBarConfig"
+  [gridConfig]="gridConfig"
+  [pageable]="!gridConfig.EnableInfiniteScroll"
+  [applyDefaultFilters]="false"
+  [inboundFilters]="inboundFilters"
+  [aboveGridTemplate]="aboveGridTemplate">
+</pf-data-grid>
+
+<ng-template #aboveGridTemplate>
+  <ul ngbNav #nav="ngbNav" class="nav-tabs" [destroyOnHide]="false" [(activeId)]="activeTab">
+    <li [ngbNavItem]="'current-models'">
+      <a ngbNavLink class="tab-title">Current Models</a>
+    </li>
+  </ul>
+</ng-template>
