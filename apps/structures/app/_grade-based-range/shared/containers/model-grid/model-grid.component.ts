@@ -254,18 +254,6 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
       'Currency': new FormControl(this.metaData.Currency || 'USD', [Validators.required])
     });
 
-    if (this.isNewModel) {
-      this.setValidators('Grades');
-      this.setValidators('StartingMidpoint');
-      this.setValidators('RangeSpread');
-      this.setValidators('MidpointProgression');
-    } else {
-      this.clearValidators('Grades');
-      this.clearValidators('StartingMidpoint');
-      this.clearValidators('RangeSpread');
-      this.clearValidators('MidpointProgression');
-    }
-
     this.store.dispatch(new fromModelSettingsModalActions.SetActiveTab('modelTab'));
   }
 
@@ -279,16 +267,6 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
 
   handleModalDismissed() {
     this.modelSettingsModalContentComponent.handleModalDismiss();
-  }
-
-  private setValidators(controlName: string) {
-    this.modelSettingsForm.get(controlName).setValidators([Validators.required]);
-    this.modelSettingsForm.get(controlName).updateValueAndValidity();
-  }
-
-  private clearValidators(controlName: string) {
-    this.modelSettingsForm.get(controlName).clearValidators();
-    this.modelSettingsForm.get(controlName).updateValueAndValidity();
   }
 
   // Lifecycle
