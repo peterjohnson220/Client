@@ -263,9 +263,8 @@ export class JobDescriptionApiService {
     return this.payfactorsApiService.post(`${this.endpoint}/Default.UpdatePublicView`, {companyId, jobDescriptionId, publicView});
   }
 
-  deleteJobDescription(jobDescriptionId: number): Observable<any> {
-    return this.payfactorsApiService.post(`${this.endpoint}(${jobDescriptionId})/Default.Delete`,
-      (response => JSON.parse(response.value)));
+  deleteJobDescription(jobDescriptionIds: number[]): Observable<any> {
+    return this.payfactorsApiService.post(`${this.endpoint}/Default.Delete`, { jobDescriptionIds: jobDescriptionIds });
   }
 
   exportJobDescriptions(ignoreMappingFile: boolean) {

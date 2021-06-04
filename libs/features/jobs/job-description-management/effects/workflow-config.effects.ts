@@ -18,7 +18,7 @@ export class WorkflowConfigEffects {
     .pipe(
       ofType(fromWorkflowConfigActions.ADD_NON_PF_USER_TO_WORKFLOW),
       switchMap((action: fromWorkflowConfigActions.AddNonPfUserToWorkflow) => {
-        return this.jdmApiService.userEmailHasJobPermission(action.payload.EmailAddress, action.payload.JobId)
+        return this.jdmApiService.userEmailHasJobPermission(action.payload.EmailAddress, action.payload.JobIds)
           .pipe(
             map((hasPermission: boolean) => {
               const workflowUser: WorkflowUser = WorkflowConfigHelper.buildWorkflowUser(action.payload, hasPermission);

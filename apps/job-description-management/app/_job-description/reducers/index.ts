@@ -23,7 +23,6 @@ import * as fromEmployeeAcknowledgementReducer from './employee-acknowledgement.
 import * as fromFlsaQuestionnaireReducer from './job-description-flsa-questionnaire.reducer';
 import * as fromCopyJobDescriptionModalReducer from './copy-job-description-modal.reducer';
 import * as fromJobDescriptionListReducer from './job-description-list.reducer';
-import * as fromWorkflowSetupModalReducer from './workflow-setup-modal.reducer';
 import * as fromJobDescriptionWorkflowCompareReducer from './job-description-workflow-compare.reducer';
 import * as fromJobDescriptionInboxReducer from './job-description-inbox.reducer';
 
@@ -46,7 +45,6 @@ export interface JobDescriptionManagementJobDescriptionState {
   flsaQuestionnaire: fromFlsaQuestionnaireReducer.State;
   copyJobDescriptionModal: fromCopyJobDescriptionModalReducer.State;
   jobDescriptionList: fromJobDescriptionListReducer.State;
-  workflowSetupModal: fromWorkflowSetupModalReducer.State;
   inbox: IFeatureGridState<fromJobDescriptionInboxReducer.State>;
 }
 
@@ -73,7 +71,6 @@ export const reducers = {
   flsaQuestionnaire: fromFlsaQuestionnaireReducer.reducer,
   copyJobDescriptionModal: fromCopyJobDescriptionModalReducer.reducer,
   jobDescriptionList: fromJobDescriptionListReducer.reducer,
-  workflowSetupModal: fromWorkflowSetupModalReducer.reducer,
   jobDescriptionWorkflowCompare: fromJobDescriptionWorkflowCompareReducer.reducer,
   inbox: fromJobDescriptionInboxReducer.reducer
 };
@@ -166,11 +163,6 @@ export const selectCopyJobDescriptionModalState = createSelector(
 export const selectJobDescriptionListState = createSelector(
   selectFeatureAreaState,
   (state: JobDescriptionManagementJobDescriptionState) => state.jobDescriptionList
-);
-
-export const selectWorkflowSetupModalState = createSelector(
-  selectFeatureAreaState,
-  (state: JobDescriptionManagementJobDescriptionState) => state.workflowSetupModal
 );
 
 export const selectInboxState = createSelector(
@@ -759,17 +751,6 @@ export const getSavingFlsaQuestionnaire = createSelector(
 export const getJobDescriptionSourcesAsync = createSelector(
   selectCopyJobDescriptionModalState,
   fromCopyJobDescriptionModalReducer.getJobDescriptionSourcesAsync
-);
-
-// Workflow Setup Modal
-export const getWorkflowSetupSaving = createSelector(
-  selectWorkflowSetupModalState,
-  fromWorkflowSetupModalReducer.getWorkflowSetupSaving
-);
-
-export const getWorkflowSetupSavingSuccess = createSelector(
-  selectWorkflowSetupModalState,
-  fromWorkflowSetupModalReducer.getWorkflowSetupSavingSuccess
 );
 
 // JDM Workflow Compare

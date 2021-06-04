@@ -12,7 +12,7 @@ import {
   JobDescriptionVersionComparePageComponent,
   JobDescriptionPageComponent,
   JobDescriptionWorkflowComparePageComponent,
-  JobDescriptionInboxPageComponent,
+  JobDescriptionInboxPageComponent
 } from './containers';
 import { ResolveHistoryListGuard } from './guards';
 

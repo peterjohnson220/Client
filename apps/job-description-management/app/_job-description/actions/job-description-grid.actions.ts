@@ -26,6 +26,9 @@ export const LOAD_PUBLIC_JDM_COLUMNS = '[job-description-management / Job Descri
 export const LOAD_PUBLIC_JDM_COLUMNS_ERROR = '[job-description-management / Job Description Grid] Load Public JDM Columns Error';
 export const LOAD_PUBLIC_JDM_COLUMNS_SUCCESS = '[job-description-management / Job Description Grid] Load Public JDM Columns Success';
 export const SELECT_JOB_DESCRIPTIONS = '[job-description-management / Job Description Grid] Select Job Descriptions';
+export const ADD_ROUTING_JOBS = '[job-description-management / Job Description Grid] Add Routing Jobs';
+export const REMOVE_ROUTING_JOB = '[job-description-management / Job Description Grid] Remove Routing Job';
+export const ADD_DELETING_JOBS = '[job-description-management / Job Description Grid] Add Deleting Jobs';
 
 export class LoadJobDescriptionGrid implements Action {
   readonly type = LOAD_JOB_DESCRIPTION_GRID;
@@ -121,7 +124,25 @@ export class LoadPublicJdmColumnsSuccess implements Action {
 
 export class SelectJobDescriptions implements Action {
   readonly type = SELECT_JOB_DESCRIPTIONS;
-  constructor(public payload: Map<number, number>) {}
+  constructor(public payload: Map<number, any>) {}
+}
+
+export class AddRoutingJobs implements Action {
+  readonly type = ADD_ROUTING_JOBS;
+
+  constructor(public payload: number[]) {}
+}
+
+export class RemoveRoutingJob implements Action {
+  readonly type = REMOVE_ROUTING_JOB;
+
+  constructor(public payload: number) {}
+}
+
+export class AddDeletingJobs implements Action {
+  readonly type = ADD_DELETING_JOBS;
+
+  constructor(public payload: number[]) {}
 }
 
 export type Actions
@@ -142,4 +163,7 @@ export type Actions
   | LoadPublicJdmColumns
   | LoadPublicJdmColumnsError
   | LoadPublicJdmColumnsSuccess
-  | SelectJobDescriptions;
+  | SelectJobDescriptions
+  | AddRoutingJobs
+  | RemoveRoutingJob
+  | AddDeletingJobs;
