@@ -79,9 +79,6 @@ pf-statement-edit.page {
   .page-content {
     overflow-x: hidden; // let settings panel hide out to the right
   }
-  .statement .trs-page {
-    margin-bottom: $web-view-page-margin; // show a gap in between pages in the editor so users can see where a page begins and ends
-  }
   .preview-mode {
     .page-header button {
       background-color: rgba(255, 255, 255, 0.5);
@@ -131,6 +128,13 @@ pf-statement-edit.page {
     &.preview-mode svg {
       opacity: .5;
     }
+  }
+}
+
+pf-statement-edit, pf-total-rewards-statement-view {
+  .statement .trs-page {
+    // show a gap between pages in the editor and e-delivery view so users can see where a page begins and ends
+    margin-bottom: $web-view-page-margin;
   }
 }
 
