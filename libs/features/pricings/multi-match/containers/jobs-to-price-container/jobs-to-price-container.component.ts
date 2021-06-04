@@ -17,7 +17,7 @@ import * as fromJobsToPriceActions from '../../actions/jobs-to-price.actions';
 
 import { JobToPrice } from '../../models';
 import { LEGACY_PROJECTS, MODIFY_PRICINGS } from '../../constants';
-import { TempDataCutService } from '../../services';
+import { TempDataCutService } from '../../../../temp-data-cut/services';
 
 @Component({
   selector: 'pf-jobs-to-price-container',

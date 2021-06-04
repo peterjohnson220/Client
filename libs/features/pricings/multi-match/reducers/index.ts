@@ -7,7 +7,6 @@ import * as fromRoot from 'libs/state/state';
 import * as fromMultiMatchPageReducer from './multi-match-page.reducer';
 import * as fromJobsToPriceReducer from './jobs-to-price.reducer';
 import * as fromModifyPricingsReducer from './modify-pricings.reducer';
-import * as fromTempDataCutReducer from './temp-data-cut.reducer';
 
 import { SharedState } from '../../../surveys/survey-search/reducers';
 
@@ -16,7 +15,6 @@ export interface MultiMatchState extends SharedState {
   multiMatchPage: fromMultiMatchPageReducer.State;
   jobsToPrice: fromJobsToPriceReducer.State;
   modifyPricings: fromModifyPricingsReducer.State;
-  tempDataCut: fromTempDataCutReducer.State;
 }
 
 // Extend root state with feature area state
@@ -28,8 +26,7 @@ export interface State extends fromRoot.State {
 export const reducers = {
   multiMatchPage: fromMultiMatchPageReducer.reducer,
   jobsToPrice: fromJobsToPriceReducer.reducer,
-  modifyPricings: fromModifyPricingsReducer.reducer,
-  tempDataCut: fromTempDataCutReducer.reducer
+  modifyPricings: fromModifyPricingsReducer.reducer
 };
 
 // Select Feature Area
@@ -48,11 +45,6 @@ export const selectJobsToPriceState = createSelector(
 
 export const selectModifyPricingsState =
   createSelector(selectFeatureAreaState, (state: MultiMatchState) => state.modifyPricings);
-
-export const selectTempDataCutState = createSelector(
-  selectFeatureAreaState,
-  (state: MultiMatchState) => !!state ? state.tempDataCut : {}
-);
 
 // Multi Match Page Selectors
 
@@ -90,12 +82,4 @@ export const getLoadingJobsToPriceError = createSelector(
 export const getPricingsToModify = createSelector(selectModifyPricingsState, fromModifyPricingsReducer.getPricingsToModify);
 export const getIsSaving = createSelector(selectModifyPricingsState, fromModifyPricingsReducer.getIsSaving);
 export const getHasError = createSelector(selectModifyPricingsState, fromModifyPricingsReducer.getHasError);
-
-// Temp Data Cut
-export const getTempDataCutUpsert = createSelector(selectTempDataCutState, fromTempDataCutReducer.getUpserting);
-export const getTempDataCutComplete = createSelector(selectTempDataCutState, fromTempDataCutReducer.getComplete);
-export const getTempDataCutFilterContextDictionary = createSelector(selectTempDataCutState, fromTempDataCutReducer.getFilterContextDictionary);
-export const getTempDataCutCurrentIdentity = createSelector(selectTempDataCutState, fromTempDataCutReducer.getCurrent);
-export const getTempDataCutCreating = createSelector(selectTempDataCutState, fromTempDataCutReducer.getCreating);
-export const getTempDataCutEditing = createSelector(selectTempDataCutState, fromTempDataCutReducer.getEditing);
 
