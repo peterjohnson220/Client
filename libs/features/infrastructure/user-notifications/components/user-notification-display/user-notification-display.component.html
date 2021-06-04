@@ -28,9 +28,10 @@
   </div>
 
   <!--  notification button -->
-  <div class="align-self-center m-3 notification-link" >
-    <a *ngIf="UserNotificationDisplay.OpenLinkInNewTab" (click)="closePopover()" href="{{UserNotificationDisplay.BaseUrl}}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">{{UserNotificationDisplay.ButtonText}}</a>
-    <a *ngIf="!UserNotificationDisplay.OpenLinkInNewTab" href="{{UserNotificationDisplay.BaseUrl}}" class="btn btn-secondary">{{UserNotificationDisplay.ButtonText}}</a>
+  <div class="align-self-center m-3 notification-link">
+    <div *ngIf="UserNotificationDisplay.ButtonIsDisabled" [ngbTooltip]="UserNotificationDisplay.DisabledButtonTooltip" placement="bottom"><button class="btn btn-secondary" disabled>{{UserNotificationDisplay.ButtonText}}</button></div>
+    <a *ngIf="UserNotificationDisplay.OpenLinkInNewTab && !UserNotificationDisplay.ButtonIsDisabled" (click)="closePopover()" href="{{UserNotificationDisplay.BaseUrl}}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" >{{UserNotificationDisplay.ButtonText}}</a>
+    <a *ngIf="!UserNotificationDisplay.OpenLinkInNewTab && !UserNotificationDisplay.ButtonIsDisabled" href="{{UserNotificationDisplay.BaseUrl}}" class="btn btn-secondary">{{UserNotificationDisplay.ButtonText}}</a>
   </div>
 
 </div>

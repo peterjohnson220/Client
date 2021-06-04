@@ -20,7 +20,7 @@ import { WorkflowConfigHelper } from 'libs/features/jobs/job-description-managem
   styleUrls: ['././workflow-config.component.scss']
 })
 export class WorkflowConfigComponent implements OnInit, OnDestroy {
-  @Input() jobId: number;
+  @Input() jobIds: number[];
   @Output() onShowNameFormClicked = new EventEmitter<boolean>();
 
   hasForbiddenUsers$: Observable<boolean>;
@@ -111,7 +111,7 @@ export class WorkflowConfigComponent implements OnInit, OnDestroy {
       FirstName: firstName,
       LastName: lastName,
       EmailAddress: this.currentEmail,
-      JobId: this.jobId,
+      JobIds: this.jobIds,
       IsNonPfUser: true,
       StepIndex: stepIndex,
       Permissions: WorkflowConfigHelper.getDefaultPermissions()

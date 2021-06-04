@@ -1,7 +1,8 @@
 @import 'kendo-grid';
 
 .job-description-grid-container {
-  height: calc(100vh - 170px)
+  height: calc(100vh - 170px);
+  clear:both;
 }
 
 .dropdown-item {
@@ -12,6 +13,10 @@
   cursor: not-allowed;
 }
 
+.dropdown-menu.show {
+  top: 0px !important;
+  left: 150px !important;
+}
 
 #jd-list-view-actions-dropdown svg {
   font-size:  0.875rem;
@@ -58,6 +63,10 @@
 
 :host ::ng-deep .k-grid tbody tr:hover {
   cursor: pointer;
+}
+
+:host ::ng-deep .k-grid .k-disabled  > td {
+  cursor: not-allowed
 }
 
 #public-icon-stack {

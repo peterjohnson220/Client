@@ -75,6 +75,7 @@ export interface CompanyJob {
   UdfChar48: string;
   UdfChar49: string;
   UdfChar50: string;
+  HasNonDraftJobs: boolean;
 }
 
 export interface JobDescriptionSummary {
@@ -166,5 +167,6 @@ export function generateMockCompanyJob(): CompanyJob {
     UdfChar48: 'MockUdf_48',
     UdfChar49: 'MockUdf_49',
     UdfChar50: 'MockUdf_50',
+    HasNonDraftJobs: false,
   };
 }

@@ -60,10 +60,10 @@ export function reducer(state = initialState, action: fromWorkflowConfigActions.
     case fromWorkflowConfigActions.CREATE_WORKFLOW_STEP: {
       const workflowStepsClone: WorkflowStep[] = cloneDeep(state.workflowSteps);
       const workflowStepUser: WorkflowUser = cloneDeep(action.payload);
-      let stepId = cloneDeep(state.stepId);
+      const stepId = cloneDeep(state.stepId);
       workflowStepUser.StepId = stepId;
       const workflowStep: WorkflowStep = {
-        WorkflowStepUsers: [action.payload],
+        WorkflowStepUsers: [workflowStepUser],
         Permissions: []
       };
       workflowStepsClone.push(workflowStep);
@@ -72,7 +72,7 @@ export function reducer(state = initialState, action: fromWorkflowConfigActions.
         workflowSteps: workflowStepsClone,
         dirty: true,
         hasUsersWithoutPermission: WorkflowConfigHelper.hasUsersWithNoPermission(workflowStepsClone),
-        stepId: stepId++
+        stepId: stepId + 1
       };
     }
     case fromWorkflowConfigActions.UPDATE_WORKFLOW_STEP_PERMISSION: {
@@ -80,7 +80,8 @@ export function reducer(state = initialState, action: fromWorkflowConfigActions.
 
       workflowStepsClone?.forEach( wfStep => {
         const wfUser = wfStep.WorkflowStepUsers?.find(u => u.UserId === action.payload.workflowUser.UserId
-          && u.EmailAddress === action.payload.workflowUser.EmailAddress);
+          && u.EmailAddress === action.payload.workflowUser.EmailAddress
+          && u.StepId === action.payload.workflowUser.StepId);
         if (wfUser) {
           let canEditJobDescription = wfUser.Permissions.find((p) =>
             p.permission === Permissions.CAN_EDIT_JOB_DESCRIPTION).selected;

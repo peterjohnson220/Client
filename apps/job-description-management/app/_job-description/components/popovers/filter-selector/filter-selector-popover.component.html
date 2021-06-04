@@ -31,15 +31,28 @@
   </div>
 </ng-template>
 <div class="btn-group">
-  <button title="Filter" (click)="filterButtonClicked()" class="btn btn-secondary">
+<button
+    [attr.data-qa-id]="'btn-grid-filter'"
+    title="Filters"
+    class="btn btn-secondary pf-btn"
+    (click)="filterButtonClicked()">
     <fa-icon icon="sliders-h"></fa-icon>
+    Filters
   </button>
-  <div *ngIf="saveFiltersVisible===true">
-    <button title="Saved Filters" type="button" id="filter-popover-btn" class="btn btn-secondary dropdown-toggle dropdown-toggle-split"
-            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-            placement="bottom-right"  #p="ngbPopover" popoverTitle="Saved Filters"
-            [ngbPopover]="popContent" (hidden)="filter=''"
-            (shown)="open.emit()" [autoClose]="'outside'">
-    </button>
-  </div>
+  <button *ngIf="saveFiltersVisible===true && userFilterList.length"
+          [attr.data-qa-id]="'btn-saved-filters'"
+          title="Saved Filters"
+          type="button"
+          class="btn btn-secondary dropdown-toggle dropdown-toggle-split pf-btn"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+          placement="bottom-right"
+          [ngbPopover]="popContent"
+          popoverClass="popover-width-sm"
+          #p="ngbPopover"
+          popoverTitle="Saved Filters"
+          [autoClose]="'outside'"
+          (click)="open.emit()">
+  </button>
 </div>
