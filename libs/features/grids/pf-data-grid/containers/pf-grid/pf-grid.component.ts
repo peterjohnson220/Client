@@ -52,6 +52,8 @@ import { PfThemeType } from '../../enums/pf-theme-type.enum';
 export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   @Input() pageViewId: string;
   @Input() columnTemplates: any;
+  @Input() columnHeaderTemplates: any;
+  @Input() groupedColumnHeaderTemplates: any;
   @Input() expandedRowTemplate: TemplateRef<any>;
   @Input() gridRowActionsConfig: GridRowActionsConfig;
   @Input() customHeaderTemplate: TemplateRef<any>;

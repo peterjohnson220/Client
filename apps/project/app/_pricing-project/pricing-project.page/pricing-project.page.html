@@ -5,6 +5,7 @@
   [enableSelection]="true"
   [inboundFilters]="filter"
   [columnTemplates]="colTemplates"
+  [groupedColumnHeaderTemplates]="groupedColumnHeaderTemplates"
   [selectionField]="'UserJobListTemp_ID'"
   [gridConfig]="gridConfig"
   [defaultSort]="defaultSort"
@@ -87,4 +88,8 @@
 
 <ng-template #percentageColumn let-dataRow="dataRow" let-fieldName="fieldName">
   <span [innerHTML]="dataRow[fieldName] | comp: (project$ | async)?.Rate : 'full' | emptyPlaceholder"></span>
+</ng-template>
+
+<ng-template #companyColumn let-column="column">
+  <div pfEllipsisActive class="ellipsis-text">{{column.title | companyNameShort : (userContext$ | async)}}</div>
 </ng-template>

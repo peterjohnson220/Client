@@ -10,10 +10,11 @@ import { FileDownloadSecurityWarningModalComponent } from 'libs/ui/common/file-d
 import * as fromCompanySettingsReducer from 'libs/state/state';
 import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import { DataGridState } from 'libs/features/grids/pf-data-grid/reducers/pf-data-grid.reducer';
+import * as fromRootState from 'libs/state/state';
+import { UserContext } from 'libs/models';
 
 import {PageViewIds} from '../../shared/constants';
 import * as fromPricingProjectReducer from '../reducers';
-
 
 @Component({
   selector: 'pf-pricing-project',
@@ -27,6 +28,7 @@ export class PricingProjectPageComponent implements OnInit, AfterViewInit, OnDes
   @ViewChild('fileDownloadSecurityWarningModal', { static: true }) fileDownloadSecurityWarningModal: FileDownloadSecurityWarningModalComponent;
   @ViewChild('compColumn', { static: false }) compColumn: ElementRef;
   @ViewChild('percentageColumn', { static: false }) percentageColumn: ElementRef;
+  @ViewChild('companyColumn', { static: false }) companyColumn: ElementRef;
 
   project$: Observable<any>;
   projectId: number;
@@ -49,6 +51,27 @@ export class PricingProjectPageComponent implements OnInit, AfterViewInit, OnDes
   displaySecurityWarning = false;
 
   projectJobGrid$: Observable<DataGridState>;
+  userContext$: Observable<UserContext>;
+
+  groupedColumnHeaderTemplates = {};
+
+  companyFieldGroups = [
+    'Company Allow',
+    'Company Base',
+    'Company Bonus',
+    'Company Bonus Pct',
+    'Company Bonus Target',
+    'Company Bonus Target Pct',
+    'Company Fixed',
+    'Company LTIP',
+    'Company Remun',
+    'Company Target LTIP',
+    'Company Target TDC',
+    'Company TCC',
+    'Company TCC Target',
+    'Company TDC',
+    'Company TGP',
+  ];
 
   constructor(private route: ActivatedRoute,
               private store: Store<fromPricingProjectReducer.State>) {
@@ -79,6 +102,8 @@ export class PricingProjectPageComponent implements OnInit, AfterViewInit, OnDes
         this.displaySecurityWarning = cs.find(x => x.Key === 'FileDownloadSecurityWarning').Value === 'true';
       }
     });
+
+    this.userContext$ = this.store.select(fromRootState.getUserContext);
   }
 
   ngOnDestroy() {
@@ -96,6 +121,10 @@ export class PricingProjectPageComponent implements OnInit, AfterViewInit, OnDes
       ...this.actionBarConfig,
       GlobalActionsTemplate: this.gridGlobalActionsTemplate
     };
+
+    this.companyFieldGroups.forEach(group => {
+      this.groupedColumnHeaderTemplates[group] = { Template: this.companyColumn };
+    });
   }
 
   openExportModal(buttonElement): void {
