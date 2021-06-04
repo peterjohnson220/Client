@@ -18,3 +18,4 @@ export * from './workflow.model';
 export * from './job-description-workflow-compare-list-item.model';
 export * from './export-data.model';
 export * from './job-description-inbox-grid-config.model';
+export * from './workflow-setup-modal-input.model';

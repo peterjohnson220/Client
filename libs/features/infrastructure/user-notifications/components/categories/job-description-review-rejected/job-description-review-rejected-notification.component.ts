@@ -28,7 +28,9 @@ export class JobDescriptionReviewRejectedNotificationComponent extends UserNotif
       BaseUrl: parsedMetaData.Url,
       IconPrefix: this.IconPrefix,
       IconName: this.IconName,
-      OpenLinkInNewTab: true
+      OpenLinkInNewTab: true,
+      ButtonIsDisabled: parsedMetaData.ButtonDisabled,
+      DisabledButtonTooltip: 'This workflow process step is no longer valid'
     };
   }
 
@@ -37,10 +39,12 @@ export class JobDescriptionReviewRejectedNotificationComponent extends UserNotif
       const json = JSON.parse(this.UserNotification.MetaData);
       const jobTitle = json['JobTitle'];
       const url = json['Url'];
+      const buttonDisabled = json.hasOwnProperty('disabled') ? json['disabled'] : false;
 
       return {
         Message: `Changes for the job description for ${jobTitle} were rejected`,
-        Url: url
+        Url: url,
+        ButtonDisabled: buttonDisabled
       };
     }
   }
