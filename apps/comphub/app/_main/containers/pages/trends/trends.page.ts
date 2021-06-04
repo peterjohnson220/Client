@@ -24,6 +24,7 @@ export class TrendsPageComponent extends ComphubPageComponent implements OnInit,
     private trendsStore: Store<fromComphubMainReducer.State>,
     private trendsBasicGridStore: Store<fromBasicDataGridReducer.State>,
     private trendsLayoutWrapperStore: Store<fromLayoutWrapperReducer.State>,
+    private quickPriceBasicGridStore: Store<fromBasicDataGridReducer.State>,
     private trendsChangeDetectorRef: ChangeDetectorRef
   ) {
     super(trendsStore, trendsBasicGridStore, trendsLayoutWrapperStore, trendsChangeDetectorRef);
@@ -32,7 +33,6 @@ export class TrendsPageComponent extends ComphubPageComponent implements OnInit,
   ngOnInit() {
     this.trendsStore.dispatch(new fromComphubPageActions.SetComphubTypeInWorkflowContext(ComphubType.TRENDS));
     this.trendsStore.dispatch(new fromComphubPageActions.GetExchangeDataSets());
-
     super.ngOnInit();
   }
 
