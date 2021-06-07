@@ -226,7 +226,7 @@ export class MarketDataScopeComponent implements OnInit, OnDestroy {
 
     if (this.selectedSize.Value !== 'All' && !this.sizeComponent.getExpandedKeys(this.filteredSizes).includes(`${this.selectedSize.Label}:${this.selectedSize.Value}`)) {
       this.sizeCheckedKeys = [sizeAllItem.Value];
-      this.selectedSize = defaultSize;
+      this.selectedSize = { Label: 'Size', Value: 'All' };
     }
   }
 }
