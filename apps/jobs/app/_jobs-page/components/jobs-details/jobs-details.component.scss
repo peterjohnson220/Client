@@ -62,16 +62,4 @@
   }
 }
 
-@media only screen and (max-width: 1550px) {
-  .job-title-code {
-    max-width: 190px !important;
-  }
-}
-
-@media only screen and (max-width: 1400px) {
-  .job-title-code {
-    max-width: 150px !important;
-  }
-}
-
 @include pf-tabset;

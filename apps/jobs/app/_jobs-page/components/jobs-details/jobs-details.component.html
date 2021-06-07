@@ -78,6 +78,8 @@
           [jobCode]="(selectedRow$ | async).CompanyJobs_Job_Code"
           [jobTitleClass]="'font-weight-bold pf-brand-secondary-color'">
         </pf-job-title-code>
+      </div>
+      <div class="job-title-code">
         <ng-container *ngIf="canEditJobCompanySetting">
           <a
             title="Edit Job" class="edit-job"
