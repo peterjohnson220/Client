@@ -67,7 +67,7 @@
       <div class="d-flex h-100">
         <div class="grid-and-filter-container">
           <div class="grid-container" *ngIf="gridState">
-            <span class="user-filter-popover" *ngIf="!showFilterSidebar && !isPublic">
+            <span class="user-filter-popover" *ngIf="!showFilterSidebar">
               <pf-filter-selector-popover
                 [loading]="userFilterListLoading$ | async"
                 [deleting]="userFilterDeleting$ | async"
