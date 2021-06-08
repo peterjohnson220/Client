@@ -126,7 +126,8 @@
       [modelSettingsForm]="modelSettingsForm"
       [modalOpen]="modalOpen$ | async"
       [isNewModel]="isNewModel"
-      [numGrades]="numGrades">
+      [numGrades]="numGrades"
+      (adjustMidpointRadioButtonChanged)="handleAdjustMidpointRadioButtonChanged($event)">
     </pf-grade-based-model-settings-modal-content>
   </ng-container>
 </pf-model-settings-modal>

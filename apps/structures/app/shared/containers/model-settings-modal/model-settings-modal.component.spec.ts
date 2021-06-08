@@ -7,7 +7,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as fromRootState from 'libs/state/state';
 import { SettingsService } from 'libs/state/app-context/services';
 import { PfCommonModule } from 'libs/core';
-import { generateMockRangeAdvancedSetting, generateMockRangeDistributionSettingForm } from 'libs/models/structures';
+import { generateMockAdjustMidpointSetting, generateMockRangeAdvancedSetting, generateMockRangeDistributionSettingForm } from 'libs/models/structures';
 import { generateMockStructureRangeDistributionTypes } from 'libs/models/payfactors-api/structures/response';
 
 import { ModelSettingsModalComponent } from './model-settings-modal.component';
@@ -68,7 +68,8 @@ describe('ModelSettingsModalComponent', () => {
       RangeDistributionSetting: generateMockRangeDistributionSettingForm(),
       RangeAdvancedSetting: generateMockRangeAdvancedSetting(),
       MidpointProgression: 5,
-      StartingMidpoint: 55555
+      StartingMidpoint: 55555,
+      AdjustMidpointSetting: generateMockAdjustMidpointSetting()
     };
 
     instance.ngOnInit();
