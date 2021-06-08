@@ -67,6 +67,7 @@ export class TotalRewardsStatementComponent {
 
   controlType = TotalRewardsControlEnum;
   statementModeEnum = StatementModeEnum;
+  allowCalculationFieldDragDrop = true;
 
   get cssClasses(): string {
     return  this.templateSpecificCss + ' ' + this.fontSizeCssClass + ' ' + this.fontFamilyCssClass;
@@ -140,6 +141,7 @@ export class TotalRewardsStatementComponent {
   // Calculation pass through methods
   handleOnCalculationControlCompFieldTitleChange(event) {
     this.onCalculationControlCompFieldTitleChange.emit(event);
+    this.allowCalculationFieldDragDrop = true;
   }
 
   handleOnCalculationControlSummaryTitleChange(event) {
@@ -205,5 +207,13 @@ export class TotalRewardsStatementComponent {
   // track which item each ngFor is on, which no longer necessitates destroying/creating all components in state changes and improves perf significantly
   trackByFn(index: number, item: any) {
     return index;
+  }
+
+  handleCalculationControlFocus(): void {
+    this.allowCalculationFieldDragDrop = false;
+  }
+
+  handleCalculationControlBlur(): void {
+    this.allowCalculationFieldDragDrop = true;
   }
 }

@@ -31,9 +31,9 @@
       </tr>
     </thead>
     <tbody [dragula]="dragulaGroupName" [(dragulaModel)]="visibleFields">
-      <tr *ngFor="let listItem of visibleFields; let i = index;" class="trs-calculation-row draggable w-100">
+      <tr *ngFor="let listItem of visibleFields; let i = index;" [ngClass]="{draggable: allowDragDrop}" class="trs-calculation-row w-100">
         <td class="pr-0">
-          <fa-icon *ngIf="inEditMode" [icon]="'grip-lines'" class="calculation-control-drag-icon position-absolute text-muted" aria-hidden="true"></fa-icon>
+          <fa-icon *ngIf="inEditMode" [icon]="'grip-lines'" [ngClass]="{invisible: !allowDragDrop}" class="calculation-control-drag-icon position-absolute text-muted" aria-hidden="true"></fa-icon>
           <pf-string-editor
             [value]="listItem.Name.Override"
             [placeholder]="listItem.Name.Default"
@@ -41,7 +41,9 @@
             [inEditMode]="inEditMode"
             [showRadialTextCounter]="true"
             [showTextCounterTooltip]="false"
-            (valueChange)="onCompFieldNameChange(listItem, $event)">
+            (valueChange)="onCompFieldNameChange(listItem, $event)"
+            (focus)="handleStringEditorFocus()"
+            (blur)="handleStringEditorBlur()">
           </pf-string-editor>
         </td>
         <td *ngIf="showEmployeeContributions"

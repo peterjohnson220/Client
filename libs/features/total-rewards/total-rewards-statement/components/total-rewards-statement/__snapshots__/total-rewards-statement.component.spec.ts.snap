@@ -2,6 +2,7 @@
 
 exports[`TotalRewardsStatementComponent should render a mock statement\`s pages, sections, columns and controls 1`] = `
 <pf-total-rewards-statement
+  allowCalculationFieldDragDrop={[Function Boolean]}
   controlType={[Function Object]}
   employeeRewardsData={[Function Object]}
   onCalculationControlCompFieldAdded={[Function EventEmitter_]}

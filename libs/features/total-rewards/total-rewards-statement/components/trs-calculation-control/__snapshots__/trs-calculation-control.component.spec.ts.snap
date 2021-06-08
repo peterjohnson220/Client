@@ -13,6 +13,8 @@ exports[`TrsCalculationControlComponent calculation control should sum properly 
   featureFlagService={[Function Object]}
   maxVisibleFieldsReached="false"
   mode={[Function Number]}
+  onCalcControlFieldBlur={[Function EventEmitter_]}
+  onCalcControlFieldFocus={[Function EventEmitter_]}
   onCompFieldAdded={[Function EventEmitter_]}
   onCompFieldRemoved={[Function EventEmitter_]}
   onCompFieldReordered={[Function EventEmitter_]}
@@ -95,7 +97,7 @@ exports[`TrsCalculationControlComponent calculation control should sum properly 
       <tbody>
         
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -133,7 +135,7 @@ exports[`TrsCalculationControlComponent calculation control should sum properly 
           </td>
         </tr>
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -230,6 +232,8 @@ exports[`TrsCalculationControlComponent should display contribution values and t
   featureFlagService={[Function Object]}
   maxVisibleFieldsReached="false"
   mode={[Function Number]}
+  onCalcControlFieldBlur={[Function EventEmitter_]}
+  onCalcControlFieldFocus={[Function EventEmitter_]}
   onCompFieldAdded={[Function EventEmitter_]}
   onCompFieldRemoved={[Function EventEmitter_]}
   onCompFieldReordered={[Function EventEmitter_]}
@@ -287,7 +291,7 @@ exports[`TrsCalculationControlComponent should display contribution values and t
       <tbody>
         
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -317,7 +321,7 @@ exports[`TrsCalculationControlComponent should display contribution values and t
           </td>
         </tr>
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -347,7 +351,7 @@ exports[`TrsCalculationControlComponent should display contribution values and t
           </td>
         </tr>
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -428,6 +432,8 @@ exports[`TrsCalculationControlComponent should display field if employer does no
   featureFlagService={[Function Object]}
   maxVisibleFieldsReached="false"
   mode={[Function Number]}
+  onCalcControlFieldBlur={[Function EventEmitter_]}
+  onCalcControlFieldFocus={[Function EventEmitter_]}
   onCompFieldAdded={[Function EventEmitter_]}
   onCompFieldRemoved={[Function EventEmitter_]}
   onCompFieldReordered={[Function EventEmitter_]}
@@ -491,7 +497,7 @@ exports[`TrsCalculationControlComponent should display field if employer does no
       <tbody>
         
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -529,7 +535,7 @@ exports[`TrsCalculationControlComponent should display field if employer does no
           </td>
         </tr>
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -567,7 +573,7 @@ exports[`TrsCalculationControlComponent should display field if employer does no
           </td>
         </tr>
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -664,6 +670,8 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
   featureFlagService={[Function Object]}
   maxVisibleFieldsReached="false"
   mode={[Function Number]}
+  onCalcControlFieldBlur={[Function EventEmitter_]}
+  onCalcControlFieldFocus={[Function EventEmitter_]}
   onCompFieldAdded={[Function EventEmitter_]}
   onCompFieldRemoved={[Function EventEmitter_]}
   onCompFieldReordered={[Function EventEmitter_]}
@@ -724,7 +732,7 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
       <tbody>
         
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -754,7 +762,7 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
           </td>
         </tr>
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -784,7 +792,7 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
           </td>
         </tr>
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -865,6 +873,8 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
   featureFlagService={[Function Object]}
   maxVisibleFieldsReached="false"
   mode={[Function Number]}
+  onCalcControlFieldBlur={[Function EventEmitter_]}
+  onCalcControlFieldFocus={[Function EventEmitter_]}
   onCompFieldAdded={[Function EventEmitter_]}
   onCompFieldRemoved={[Function EventEmitter_]}
   onCompFieldReordered={[Function EventEmitter_]}
@@ -928,7 +938,7 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
       <tbody>
         
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -966,7 +976,7 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
           </td>
         </tr>
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -1004,7 +1014,7 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
           </td>
         </tr>
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -1101,6 +1111,8 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
   featureFlagService={[Function Object]}
   maxVisibleFieldsReached="false"
   mode={[Function Number]}
+  onCalcControlFieldBlur={[Function EventEmitter_]}
+  onCalcControlFieldFocus={[Function EventEmitter_]}
   onCompFieldAdded={[Function EventEmitter_]}
   onCompFieldRemoved={[Function EventEmitter_]}
   onCompFieldReordered={[Function EventEmitter_]}
@@ -1164,7 +1176,7 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
       <tbody>
         
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -1202,7 +1214,7 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
           </td>
         </tr>
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -1240,7 +1252,7 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
           </td>
         </tr>
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -1337,6 +1349,8 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
   featureFlagService={[Function Object]}
   maxVisibleFieldsReached="false"
   mode={[Function Number]}
+  onCalcControlFieldBlur={[Function EventEmitter_]}
+  onCalcControlFieldFocus={[Function EventEmitter_]}
   onCompFieldAdded={[Function EventEmitter_]}
   onCompFieldRemoved={[Function EventEmitter_]}
   onCompFieldReordered={[Function EventEmitter_]}
@@ -1397,7 +1411,7 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
       <tbody>
         
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -1427,7 +1441,7 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
           </td>
         </tr>
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -1457,7 +1471,7 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
           </td>
         </tr>
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -1538,6 +1552,8 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
   featureFlagService={[Function Object]}
   maxVisibleFieldsReached="false"
   mode={[Function Number]}
+  onCalcControlFieldBlur={[Function EventEmitter_]}
+  onCalcControlFieldFocus={[Function EventEmitter_]}
   onCompFieldAdded={[Function EventEmitter_]}
   onCompFieldRemoved={[Function EventEmitter_]}
   onCompFieldReordered={[Function EventEmitter_]}
@@ -1601,7 +1617,7 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
       <tbody>
         
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -1639,7 +1655,7 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
           </td>
         </tr>
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -1677,7 +1693,7 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
           </td>
         </tr>
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -1774,6 +1790,8 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
   featureFlagService={[Function Object]}
   maxVisibleFieldsReached="false"
   mode={[Function Number]}
+  onCalcControlFieldBlur={[Function EventEmitter_]}
+  onCalcControlFieldFocus={[Function EventEmitter_]}
   onCompFieldAdded={[Function EventEmitter_]}
   onCompFieldRemoved={[Function EventEmitter_]}
   onCompFieldReordered={[Function EventEmitter_]}
@@ -1831,7 +1849,7 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
       <tbody>
         
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -1861,7 +1879,7 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
           </td>
         </tr>
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -1942,6 +1960,8 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
   featureFlagService={[Function Object]}
   maxVisibleFieldsReached="false"
   mode={[Function Number]}
+  onCalcControlFieldBlur={[Function EventEmitter_]}
+  onCalcControlFieldFocus={[Function EventEmitter_]}
   onCompFieldAdded={[Function EventEmitter_]}
   onCompFieldRemoved={[Function EventEmitter_]}
   onCompFieldReordered={[Function EventEmitter_]}
@@ -1999,7 +2019,7 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
       <tbody>
         
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -2029,7 +2049,7 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
           </td>
         </tr>
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -2110,6 +2130,8 @@ exports[`TrsCalculationControlComponent should hide all content in the table hea
   featureFlagService={[Function Object]}
   maxVisibleFieldsReached="false"
   mode={[Function Number]}
+  onCalcControlFieldBlur={[Function EventEmitter_]}
+  onCalcControlFieldFocus={[Function EventEmitter_]}
   onCompFieldAdded={[Function EventEmitter_]}
   onCompFieldRemoved={[Function EventEmitter_]}
   onCompFieldReordered={[Function EventEmitter_]}
@@ -2203,6 +2225,8 @@ exports[`TrsCalculationControlComponent should not display field if BenefitsData
   featureFlagService={[Function Object]}
   maxVisibleFieldsReached="false"
   mode={[Function Number]}
+  onCalcControlFieldBlur={[Function EventEmitter_]}
+  onCalcControlFieldFocus={[Function EventEmitter_]}
   onCompFieldAdded={[Function EventEmitter_]}
   onCompFieldRemoved={[Function EventEmitter_]}
   onCompFieldReordered={[Function EventEmitter_]}
@@ -2263,7 +2287,7 @@ exports[`TrsCalculationControlComponent should not display field if BenefitsData
       <tbody>
         
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -2293,7 +2317,7 @@ exports[`TrsCalculationControlComponent should not display field if BenefitsData
           </td>
         </tr>
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -2323,7 +2347,7 @@ exports[`TrsCalculationControlComponent should not display field if BenefitsData
           </td>
         </tr>
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -2404,6 +2428,8 @@ exports[`TrsCalculationControlComponent should not display field if BenefitsData
   featureFlagService={[Function Object]}
   maxVisibleFieldsReached="false"
   mode={[Function Number]}
+  onCalcControlFieldBlur={[Function EventEmitter_]}
+  onCalcControlFieldFocus={[Function EventEmitter_]}
   onCompFieldAdded={[Function EventEmitter_]}
   onCompFieldRemoved={[Function EventEmitter_]}
   onCompFieldReordered={[Function EventEmitter_]}
@@ -2464,7 +2490,7 @@ exports[`TrsCalculationControlComponent should not display field if BenefitsData
       <tbody>
         
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -2494,7 +2520,7 @@ exports[`TrsCalculationControlComponent should not display field if BenefitsData
           </td>
         </tr>
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -2524,7 +2550,7 @@ exports[`TrsCalculationControlComponent should not display field if BenefitsData
           </td>
         </tr>
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -2605,6 +2631,8 @@ exports[`TrsCalculationControlComponent should not display field if employer and
   featureFlagService={[Function Object]}
   maxVisibleFieldsReached="false"
   mode={[Function Number]}
+  onCalcControlFieldBlur={[Function EventEmitter_]}
+  onCalcControlFieldFocus={[Function EventEmitter_]}
   onCompFieldAdded={[Function EventEmitter_]}
   onCompFieldRemoved={[Function EventEmitter_]}
   onCompFieldReordered={[Function EventEmitter_]}
@@ -2665,7 +2693,7 @@ exports[`TrsCalculationControlComponent should not display field if employer and
       <tbody>
         
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -2695,7 +2723,7 @@ exports[`TrsCalculationControlComponent should not display field if employer and
           </td>
         </tr>
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -2725,7 +2753,7 @@ exports[`TrsCalculationControlComponent should not display field if employer and
           </td>
         </tr>
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -2806,6 +2834,8 @@ exports[`TrsCalculationControlComponent should not display field if employer and
   featureFlagService={[Function Object]}
   maxVisibleFieldsReached="false"
   mode={[Function Number]}
+  onCalcControlFieldBlur={[Function EventEmitter_]}
+  onCalcControlFieldFocus={[Function EventEmitter_]}
   onCompFieldAdded={[Function EventEmitter_]}
   onCompFieldRemoved={[Function EventEmitter_]}
   onCompFieldReordered={[Function EventEmitter_]}
@@ -2869,7 +2899,7 @@ exports[`TrsCalculationControlComponent should not display field if employer and
       <tbody>
         
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -2907,7 +2937,7 @@ exports[`TrsCalculationControlComponent should not display field if employer and
           </td>
         </tr>
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -2945,7 +2975,7 @@ exports[`TrsCalculationControlComponent should not display field if employer and
           </td>
         </tr>
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -3042,6 +3072,8 @@ exports[`TrsCalculationControlComponent should not display field if employer doe
   featureFlagService={[Function Object]}
   maxVisibleFieldsReached="false"
   mode={[Function Number]}
+  onCalcControlFieldBlur={[Function EventEmitter_]}
+  onCalcControlFieldFocus={[Function EventEmitter_]}
   onCompFieldAdded={[Function EventEmitter_]}
   onCompFieldRemoved={[Function EventEmitter_]}
   onCompFieldReordered={[Function EventEmitter_]}
@@ -3105,7 +3137,7 @@ exports[`TrsCalculationControlComponent should not display field if employer doe
       <tbody>
         
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -3143,7 +3175,7 @@ exports[`TrsCalculationControlComponent should not display field if employer doe
           </td>
         </tr>
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -3181,7 +3213,7 @@ exports[`TrsCalculationControlComponent should not display field if employer doe
           </td>
         </tr>
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -3278,6 +3310,8 @@ exports[`TrsCalculationControlComponent should not display field if employer doe
   featureFlagService={[Function Object]}
   maxVisibleFieldsReached="false"
   mode={[Function Number]}
+  onCalcControlFieldBlur={[Function EventEmitter_]}
+  onCalcControlFieldFocus={[Function EventEmitter_]}
   onCompFieldAdded={[Function EventEmitter_]}
   onCompFieldRemoved={[Function EventEmitter_]}
   onCompFieldReordered={[Function EventEmitter_]}
@@ -3338,7 +3372,7 @@ exports[`TrsCalculationControlComponent should not display field if employer doe
       <tbody>
         
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -3368,7 +3402,7 @@ exports[`TrsCalculationControlComponent should not display field if employer doe
           </td>
         </tr>
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -3398,7 +3432,7 @@ exports[`TrsCalculationControlComponent should not display field if employer doe
           </td>
         </tr>
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -3479,6 +3513,8 @@ exports[`TrsCalculationControlComponent should render additional content in the 
   featureFlagService={[Function Object]}
   maxVisibleFieldsReached="false"
   mode={[Function Number]}
+  onCalcControlFieldBlur={[Function EventEmitter_]}
+  onCalcControlFieldFocus={[Function EventEmitter_]}
   onCompFieldAdded={[Function EventEmitter_]}
   onCompFieldRemoved={[Function EventEmitter_]}
   onCompFieldReordered={[Function EventEmitter_]}
@@ -3586,6 +3622,8 @@ exports[`TrsCalculationControlComponent should render the supplied Summary 1`] =
   featureFlagService={[Function Object]}
   maxVisibleFieldsReached="false"
   mode="0"
+  onCalcControlFieldBlur={[Function EventEmitter_]}
+  onCalcControlFieldFocus={[Function EventEmitter_]}
   onCompFieldAdded={[Function EventEmitter_]}
   onCompFieldRemoved={[Function EventEmitter_]}
   onCompFieldReordered={[Function EventEmitter_]}
@@ -3651,7 +3689,7 @@ exports[`TrsCalculationControlComponent should render the supplied Summary 1`] =
                 />
                 
                 <a
-                  class="editable d-flex show-icon-on-hover"
+                  class="editable d-flex cursor-pointer show-icon-on-hover"
                   href="javascript:void(0)"
                   title=""
                 >
@@ -3702,6 +3740,8 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
   featureFlagService={[Function Object]}
   maxVisibleFieldsReached="false"
   mode="0"
+  onCalcControlFieldBlur={[Function EventEmitter_]}
+  onCalcControlFieldFocus={[Function EventEmitter_]}
   onCompFieldAdded={[Function EventEmitter_]}
   onCompFieldRemoved={[Function EventEmitter_]}
   onCompFieldReordered={[Function EventEmitter_]}
@@ -3744,7 +3784,7 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
       <tbody>
         
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -3752,7 +3792,7 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
             
             <fa-icon
               aria-hidden="true"
-              class="calculation-control-drag-icon position-absolute text-muted"
+              class="calculation-control-drag-icon position-absolute text-muted invisible"
             />
             <pf-string-editor>
               
@@ -3769,7 +3809,7 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
                 />
                 
                 <a
-                  class="editable d-flex show-icon-on-hover"
+                  class="editable d-flex cursor-pointer show-icon-on-hover"
                   href="javascript:void(0)"
                   title=""
                 >
@@ -3809,7 +3849,7 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
           </td>
         </tr>
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -3817,7 +3857,7 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
             
             <fa-icon
               aria-hidden="true"
-              class="calculation-control-drag-icon position-absolute text-muted"
+              class="calculation-control-drag-icon position-absolute text-muted invisible"
             />
             <pf-string-editor>
               
@@ -3834,7 +3874,7 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
                 />
                 
                 <a
-                  class="editable d-flex show-icon-on-hover"
+                  class="editable d-flex cursor-pointer show-icon-on-hover"
                   href="javascript:void(0)"
                   title=""
                 >
@@ -3874,7 +3914,7 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
           </td>
         </tr>
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -3882,7 +3922,7 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
             
             <fa-icon
               aria-hidden="true"
-              class="calculation-control-drag-icon position-absolute text-muted"
+              class="calculation-control-drag-icon position-absolute text-muted invisible"
             />
             <pf-string-editor>
               
@@ -3899,7 +3939,7 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
                 />
                 
                 <a
-                  class="editable d-flex show-icon-on-hover"
+                  class="editable d-flex cursor-pointer show-icon-on-hover"
                   href="javascript:void(0)"
                   title=""
                 >
@@ -3962,7 +4002,7 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
                 />
                 
                 <a
-                  class="editable d-flex show-icon-on-hover"
+                  class="editable d-flex cursor-pointer show-icon-on-hover"
                   href="javascript:void(0)"
                   title=""
                 >
