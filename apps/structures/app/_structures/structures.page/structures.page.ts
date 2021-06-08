@@ -46,6 +46,6 @@ export class StructuresPageComponent {
     } else if (activeTabId === StructuresPageConfig.HistoricalModelsTabId) {
       inboundFilters = StructuresPageConfig.HistoricalModelsInboundFilters;
     }
-    this.pfDataGridStore.dispatch(new fromPfDataGridActions.UpdateInboundFilters(this.pageViewId, inboundFilters));
+    this.pfDataGridStore.dispatch(new fromPfDataGridActions.UpdateInboundFilters(this.pageViewId, inboundFilters, false));
   }
 }
