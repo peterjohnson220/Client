@@ -2452,7 +2452,8 @@
               "jwt-decode",
               "dragula",
               "hammerjs",
-              "@mapbox/mapbox-gl-geocoder"
+              "@mapbox/mapbox-gl-geocoder",
+              "highcharts"
             ]
           },
           "configurations": {
