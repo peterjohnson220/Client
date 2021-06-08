@@ -45,5 +45,14 @@ export const StructuresSearchFilterMappingDataObj: SearchFilterMappingDataObj = 
     OptionCountDisabled: false,
     SaveDisabled: false,
     RefreshOptionsFromServer: true
-  }
+  },
+  'graded_jobs': {
+    Type: FilterType.Multi,
+    BackingField: 'graded_jobs',
+    DisplayName: 'Graded',
+    Order: 11,
+    OptionCountDisabled: false,
+    SaveDisabled: false,
+    RefreshOptionsFromServer: true
+  },
 };
