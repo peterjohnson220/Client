@@ -11,10 +11,10 @@ import { PayfactorsApiModelMapper } from '../helpers';
 import { ProjectSearchContext } from '../../../surveys/survey-search/models';
 
 import * as fromJobsToPriceActions from '../actions/jobs-to-price.actions';
-import * as fromTempDataCutActions from '../actions/temp-data-cut.actions';
-import * as fromMultiMatchReducer from '../reducers';
+import * as fromTempDataCutActions from '../../../temp-data-cut/actions/temp-data-cut.actions';
+import * as fromTempDataCutReducer from '../../../temp-data-cut/reducers';
 import * as fromSurveySearchReducer from '../../../surveys/survey-search/reducers';
-import { TempDataCutIdentity } from '../models';
+import { TempDataCutIdentity } from '../../../temp-data-cut/models';
 
 @Injectable()
 export class JobsToPriceEffects {
@@ -83,7 +83,7 @@ export class JobsToPriceEffects {
   replaceDataCutWithTemp$: Observable<Action> = this.actions$.pipe(
     ofType(fromTempDataCutActions.REPLACE_DATA_CUT_WITH_TEMP),
     withLatestFrom(
-      this.store.select(fromMultiMatchReducer.getTempDataCutCurrentIdentity),
+      this.store.select(fromTempDataCutReducer.getTempDataCutCurrentIdentity),
       (action: fromTempDataCutActions.ReplaceDataCutWithTemp, currentIdentity: TempDataCutIdentity) => ({payload: action.payload, currentIdentity})
     ),
     map((context) => {
@@ -102,6 +102,6 @@ export class JobsToPriceEffects {
       private actions$: Actions,
       private surveySearchApiService: SurveySearchApiService,
       private jobsApiService: JobsApiService,
-      private store: Store<fromMultiMatchReducer.State>
+      private store: Store<fromTempDataCutReducer.State>
   ) {}
 }

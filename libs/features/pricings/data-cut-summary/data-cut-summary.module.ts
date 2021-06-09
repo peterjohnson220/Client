@@ -17,6 +17,7 @@ import { DataCutSummaryEffects } from './effects';
 import { DataCutSummaryDetailsComponent } from './components/data-cut-summary-details/data-cut-summary-details.component';
 import { PeerDataCutSummaryComponent } from './components/peer-data-cut-summary/peer-data-cut-summary.component';
 import { DataCutSummaryPropertyComponent } from './components/data-cut-summary-property/data-cut-summary-property.component';
+import { TempDataCutModule } from '../../temp-data-cut/temp-data-cut.module';
 
 import * as fromFaIcons from './fa-icons';
 
@@ -31,6 +32,7 @@ import * as fromFaIcons from './fa-icons';
     PfCommonModule,
     PfCommonUIModule,
     PfFormsModule,
+    TempDataCutModule,
 
     StoreModule.forFeature('feature_dataCutSummary', reducers),
     EffectsModule.forFeature([

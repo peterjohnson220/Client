@@ -5,7 +5,7 @@ import { Store, select } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
 import * as fromLibsPeerExchangeExplorerReducers from 'libs/features/peer/exchange-explorer/reducers';
-import * as fromLibsMultiMatchReducers from 'libs/features/pricings/multi-match/reducers';
+import * as fromTempDataCutReducer from 'libs/features/temp-data-cut/reducers';
 import { DataCutValidationInfo, ExchangeStatCompanyMakeup, TEMP_PEER_DATA_CUT_PREFIX } from 'libs/models/peer';
 import { UpsertPeerDataCutEntityConfigurationModel } from 'libs/features/pricings/upsert-peer-data-cut/models';
 import { arraysEqual, checkArraysOneOff } from 'libs/core/functions';
@@ -55,7 +55,7 @@ export class DojGuidelinesService implements OnDestroy {
     this.dataCutValidationInfo$ = this.store.pipe(select(fromUpsertPeerDataReducers.getDataCutValidationInfo));
     this.areEmployeesValid$ = this.store.pipe(select(fromUpsertPeerDataReducers.getEmployeeCheckPassed));
     this.weightingType$ = this.store.pipe(select(fromLibsPeerExchangeExplorerReducers.getWeightingType));
-    this.tempExchangeJobDataCutFilterContextDictionary$ = this.store.select(fromLibsMultiMatchReducers.getTempDataCutFilterContextDictionary);
+    this.tempExchangeJobDataCutFilterContextDictionary$ = this.store.select(fromTempDataCutReducer.getTempDataCutFilterContextDictionary);
 
 
     this.peerMapCompaniesSubscription = this.peerMapCompanies$.subscribe(pmc => this.companies = pmc);
