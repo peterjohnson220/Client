@@ -1,45 +1,48 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { SortDescriptor } from '@progress/kendo-data-query';
+import { Store } from '@ngrx/store';
 
 import { BasicDataViewField } from 'libs/models/payfactors-api/reports/request';
-import { getDefaultActionBarConfig, GridConfig, PfDataGridFilter } from 'libs/features/grids/pf-data-grid/models';
-import { AsyncStateObj } from 'libs/models/state';
+import { SimpleYesNoModalComponent } from 'libs/ui/common/simple-yes-no';
+import { SimpleYesNoModalOptions } from 'libs/models/common';
+import {
+  getDefaultActionBarConfig,
+  getDefaultGridRowActionsConfig,
+  GridConfig,
+  GridRowActionsConfig,
+  PositionType
+} from 'libs/features/grids/pf-data-grid/models';
 
 import { PageViewIds } from '../../constants/page-view-id-constants';
+import * as fromPeerTrendsLandingCardReducer from '../../reducers/trends-landing-card.reducer';
+import * as fromTrendsLandingActions from '../../actions/trends-landing-card.actions';
 
 @Component({
   selector: 'pf-peer-trend-grid',
-  templateUrl: './peer-trend-grid.component.html'
+  templateUrl: './peer-trend-grid.component.html',
+  styleUrls: ['./peer-trend-grid.component.scss']
 })
-export class PeerTrendGridComponent implements OnInit, OnDestroy {
+export class PeerTrendGridComponent implements AfterViewInit {
+  @ViewChild('gridRowActionsTemplate') gridRowActionsTemplate: ElementRef;
+  @ViewChild('deleteTrendModal', {static: false}) public deleteTrendModal: SimpleYesNoModalComponent;
 
-  data$: Observable<AsyncStateObj<any[]>>;
   fields$: Observable<BasicDataViewField[]>;
   loadingMoreData$: Observable<boolean>;
-  hasMoreDataOnServer$: Observable<boolean>;
 
-  hasMoreDataOnServerSubscription: Subscription;
-  hasMoreDataOnServer: boolean;
   gridConfig: GridConfig;
   pageViewId = PageViewIds.Trends;
   actionBarConfig: any;
+  gridRowActionsConfig: GridRowActionsConfig = getDefaultGridRowActionsConfig();
 
   defaultSort: SortDescriptor[] = [{
     dir: 'desc',
     field: 'PeerTrends_Create_Date'
   }];
-  filters: PfDataGridFilter[] = [{
-    SourceName: 'StatusLookup_ID',
-    Operator: '=',
-    Values: ['1']
-  }];
+  deleteTrendModalOptions: SimpleYesNoModalOptions;
 
-  constructor(
-
-  ) {
-
+  constructor(private store: Store<fromPeerTrendsLandingCardReducer.State>) {
     this.gridConfig = {
       PersistColumnWidth: true,
       EnableInfiniteScroll: true,
@@ -53,13 +56,33 @@ export class PeerTrendGridComponent implements OnInit, OnDestroy {
       ShowSelectAllColumns: true,
       ShowActionBar: true
     };
+
+    this.deleteTrendModalOptions =
+    {
+      Title: 'Delete Trend',
+      Body: '',
+      CancelText: 'Cancel',
+      ConfirmText: 'Delete',
+      IsDelete: true
+    };
   }
 
-  ngOnInit(): void {
-    this.hasMoreDataOnServerSubscription = this.hasMoreDataOnServer$.subscribe(value => this.hasMoreDataOnServer = value);
+  ngAfterViewInit(): void {
+    this.gridRowActionsConfig = {
+      ...this.gridRowActionsConfig,
+      ActionsTemplate : this.gridRowActionsTemplate,
+      Title: '',
+      Position: PositionType.Right,
+      Width: 20
+    };
   }
 
-  ngOnDestroy(): void {
-    this.hasMoreDataOnServerSubscription.unsubscribe();
+  onDeleteClick(dataRow) {
+    this.deleteTrendModalOptions.Body = 'Are you sure you want to delete ' + dataRow['PeerTrends_Name'];
+    this.deleteTrendModal.open(dataRow['PeerTrends_Name']);
+  }
+
+  onConfirmDeleteTrend(eventName: string) {
+    this.store.dispatch(new fromTrendsLandingActions.DeleteSavedTrend(eventName));
   }
 }

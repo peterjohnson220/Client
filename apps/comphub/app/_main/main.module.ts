@@ -45,8 +45,12 @@ import {
   PeerJobGridComponent,
   TrendsPageComponent,
   TrendsLandingCardComponent,
-  TrendsSummaryCardComponent, TrendsScopesCardComponent, TrendsJobsCardComponent, QuickPricePageComponent, SavePeerTrendModalComponent,
-  PeerTrendGridComponent
+  TrendsSummaryCardComponent,
+  TrendsScopesCardComponent,
+  TrendsJobsCardComponent,
+  QuickPricePageComponent,
+  SavePeerTrendModalComponent,
+  PeerTrendGridComponent,
 } from './containers';
 import {
   JobsCardEffects, MarketsCardEffects, AddPayMarketFormEffects, DataCardEffects, ComphubPageEffects,
@@ -97,18 +101,17 @@ import { HistoricalOrgIncCountChartComponent } from './components/salary-trend-c
     NgbTooltipModule,
     HighchartsChartModule,
 
-    // Payfactors
-    PfCommonModule,
-    PfCommonUIModule,
-    PfFormsModule,
-    PfExchangeExplorerModule,
-    GuidelinesBadgeModule,
-    BasicDataGridModule,
-    PfSideBarInfoModule,
-    PfPeerExchangeJobSearchModule,
-    PfDataGridModule,
-
-  ],
+        // Payfactors
+        PfCommonModule,
+        PfCommonUIModule,
+        PfFormsModule,
+        PfExchangeExplorerModule,
+        GuidelinesBadgeModule,
+        BasicDataGridModule,
+        PfSideBarInfoModule,
+        PfPeerExchangeJobSearchModule,
+        PfDataGridModule
+    ],
   declarations: [
     // Components
     TrendingJobGroupComponent,

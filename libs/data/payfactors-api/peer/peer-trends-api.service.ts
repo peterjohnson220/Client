@@ -18,4 +18,8 @@ export class PeerTrendsApiService {
   checkPeerTrendNameUniqueness(peerTrendName: string) {
     return this.payfactorsApiService.get(`${this.endpoint}/IsUniquePeerTrendName`, { params: {peerTrendName: peerTrendName}});
   }
+
+  deletePeerTrend(peerTrendName: string) {
+    return this.payfactorsApiService.post(`${this.endpoint}/DeletePeerTrend`, {peerTrendName: peerTrendName});
+  }
 }
