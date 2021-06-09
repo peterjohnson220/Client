@@ -53,5 +53,6 @@ export enum NotificationSource {
   ExchangeDataCutsExport = 'Exchange Data Cuts Exporter',
   GenericNotificationMessage = 'Generic Notification Message',
   JobDescriptionBulkExport = 'Job Description Bulk Exporter',
-  JobDescriptionTemplatePublisher = 'Job Description Template Publisher'
+  JobDescriptionTemplatePublisher = 'Job Description Template Publisher',
+  JDMRouting  = 'JDM Routing'
 }

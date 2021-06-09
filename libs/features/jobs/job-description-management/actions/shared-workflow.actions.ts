@@ -25,7 +25,7 @@ export const ROUTING_TO_NEW_USER_ERROR = '[job-description-management / Workflow
 export class Load implements Action {
   readonly type = LOAD;
 
-  constructor(public payload: number) {}
+  constructor(public payload: number[]) {}
 }
 
 export class LoadSuccess implements Action {

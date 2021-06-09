@@ -44,7 +44,7 @@ import * as fromControlTypesActions from 'libs/features/jobs/job-description-man
 import { JobDescriptionConstants } from 'libs/features/jobs/job-description-management/constants/job-description-constants';
 import { JobDescriptionManagementDndSource, JobDescriptionViewConstants } from 'libs/features/jobs/job-description-management/constants';
 
-import { EmployeeAcknowledgement, ExportData, JobDescriptionLibraryDropModel } from '../../../models';
+import { EmployeeAcknowledgement, ExportData, JobDescriptionLibraryDropModel, WorkflowSetupModalInput } from '../../../models';
 import * as fromJobDescriptionReducers from '../../../reducers';
 import * as fromJobDescriptionActions from '../../../actions/job-description.actions';
 import * as fromEmployeeAcknowledgementActions from '../../../actions/employee-acknowledgement.actions';
@@ -166,6 +166,13 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   get isJobDescriptionEditable() {
     return this.identityInWorkflow ? this.hasCanEditJobDescriptionPermission :
     this.hasCanEditJobDescriptionPermission && this.jobDescription?.JobDescriptionStatus === 'Draft';
+  }
+
+  get workflowSetupModalInput(): WorkflowSetupModalInput[]  {
+    return [{EntityId:  this.jobDescription?.JobDescriptionId,
+      JobTitle: this.jobDescription?.Name,
+      Revision: this.jobDescription?.JobDescriptionRevision,
+      JobId: this.jobDescription?.CompanyJobId }];
   }
 
   constructor(
@@ -366,7 +373,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
 
   handleRouteForApprovalClicked(): void {
     if ( !this.identity.IsPublic && this.jobDescription) {
-      this.store.dispatch(new fromWorkflowTemplateListActions.Load(this.jobDescription.CompanyJobId));
+      this.store.dispatch(new fromWorkflowTemplateListActions.Load([this.jobDescription.CompanyJobId]));
     }
     this.workflowSetupModal.open();
   }
@@ -480,8 +487,9 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
 
   public get exportAction(): string {
     if (!!this.jobDescription && !!this.identity) {
-      const tokenId = this.identity.UserId === 0 ? '?jwt=' + this.tokenId : '';
-      return `/odata/JobDescription(${this.jobDescription.JobDescriptionId})/Default.Export${tokenId}`;
+      const queryStringParamName = this.isInSystemWorkflow ? '?jwt-workflow=' : '?jwt=';
+      const actionQueryString = this.tokenId != null ? queryStringParamName + this.tokenId : '';
+      return `/odata/JobDescription(${this.jobDescription.JobDescriptionId})/Default.Export${actionQueryString}`;
     }
   }
 
@@ -608,8 +616,9 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
         if (this.identityInEmployeeAcknowledgement) {
           this.store.dispatch(new fromEmployeeAcknowledgementActions.LoadEmployeeAcknowledgementInfo());
         }
-        this.store.dispatch(new fromJobDescriptionActions.LoadingPage(false));
-        if (this.isInSystemWorkflow) {
+        if (!this.isInSystemWorkflow && this.identity?.UserId > 0) {
+          this.store.dispatch(new fromJobDescriptionActions.LoadingPage(false));
+        } else {
           this.store.dispatch(new fromWorkflowActions.GetWorkflowStepInfoFromToken({ token: this.tokenId }));
         }
       }

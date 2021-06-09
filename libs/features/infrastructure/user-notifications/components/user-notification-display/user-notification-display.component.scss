@@ -24,3 +24,7 @@
 .notification-body{
   flex: 1;
 }
+
+::ng-deep .notification-link .bs-tooltip-bottom {
+  left: -6px !important;
+}
