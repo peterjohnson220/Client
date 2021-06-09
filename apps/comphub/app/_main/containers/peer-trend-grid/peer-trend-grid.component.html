@@ -11,7 +11,8 @@
   [actionBarConfig]="actionBarConfig"
   [applyDefaultFilters]="true"
   [pageable]="!gridConfig?.EnableInfiniteScroll"
-  [gridRowActionsConfig]="gridRowActionsConfig">
+  [gridRowActionsConfig]="gridRowActionsConfig"
+  [gridConfig]="gridConfig">
 </pf-data-grid>
 
 <ng-template #gridRowActionsTemplate let-dataRow="dataRow" let-index="rowIndex">
