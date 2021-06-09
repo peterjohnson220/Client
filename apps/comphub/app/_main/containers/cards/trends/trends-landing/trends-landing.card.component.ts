@@ -22,15 +22,14 @@ export class TrendsLandingCardComponent {
   exchangeDataSets$: Observable<ExchangeDataSet[]>;
   newCompanies$: Observable<AsyncStateObj<string[]>>;
   comphubPages = ComphubPages;
-
   orgIncCountHistory$: Observable<AsyncStateObj<OrgIncCount[]>>
 
-constructor(private store: Store<fromComphubMainReducer.State>) {
-  this.workflowContext$ = this.store.select(fromComphubMainReducer.getWorkflowContext);
-  this.exchangeDataSets$ = this.store.select(fromComphubMainReducer.getExchangeDataSets);
-  this.newCompanies$ = this.store.select(fromComphubMainReducer.getNewExchangeParticipants);
-  this.orgIncCountHistory$ = this.store.select(fromComphubMainReducer.getOrgIncCountHistory);
-}
+  constructor (private store: Store<fromComphubMainReducer.State>) {
+    this.workflowContext$ = this.store.select(fromComphubMainReducer.getWorkflowContext);
+    this.exchangeDataSets$ = this.store.select(fromComphubMainReducer.getExchangeDataSets);
+    this.newCompanies$ = this.store.select(fromComphubMainReducer.getNewExchangeParticipants);
+    this.orgIncCountHistory$ = this.store.select(fromComphubMainReducer.getOrgIncCountHistory);
+  }
 
   handleExchangeDataSetChanged(exchangeId: number) {
     this.store.dispatch(new fromComphubPageActions.UpdateActiveExchangeDataSet(exchangeId));

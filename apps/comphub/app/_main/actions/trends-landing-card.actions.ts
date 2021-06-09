@@ -6,6 +6,9 @@ export const GET_NEW_EXCHANGE_PARTICIPANTS_ERROR = '[Comphub/Trends Landing Card
 export const GET_ORG_INC_COUNT_HISTORY = '[Comphub/Trends Landing Card] Get Org/Inc Count History';
 export const GET_ORG_INC_COUNT_HISTORY_SUCCESS = '[Comphub/Trends Landing Card] Get Org/Inc Count History Success';
 export const GET_ORG_INC_COUNT_HISTORY_ERROR = '[Comphub/Trends Landing Card] Get Org/Inc Count History Error';
+export const DELETE_SAVED_TREND = '[Comphub/Trends Landing Card] Delete Saved Trend';
+export const DELETE_SAVED_TREND_SUCCESS = '[Comphub/Trends Landing Card] Delete Saved Trend Success';
+export const DELETE_SAVED_TREND_ERROR = '[Comphub/Trends Landing Card] Delete Saved Trend Error';
 
 export class GetNewExchangeParticipants implements Action {
   readonly type = GET_NEW_EXCHANGE_PARTICIPANTS;
@@ -37,10 +40,28 @@ export class GetOrgIncCountHistoryError implements Action {
   readonly type = GET_ORG_INC_COUNT_HISTORY_ERROR;
 }
 
+export class DeleteSavedTrend implements Action {
+  readonly type = DELETE_SAVED_TREND;
+  constructor(public payload: string) {}
+}
+
+export class DeleteSavedTrendSuccess implements Action {
+  readonly type = DELETE_SAVED_TREND_SUCCESS;
+  constructor() {}
+}
+
+export class DeleteSavedTrendError implements Action {
+  readonly type = DELETE_SAVED_TREND_ERROR;
+  constructor() {}
+}
+
 export type Actions
   = GetNewExchangeParticipants
 | GetNewExchangeParticipantsSuccess
 | GetNewExchangeParticipantsError
 | GetOrgIncCountHistory
 | GetOrgIncCountHistorySuccess
-| GetOrgIncCountHistoryError;
+| GetOrgIncCountHistoryError
+| DeleteSavedTrend
+| DeleteSavedTrendSuccess
+| DeleteSavedTrendError;
