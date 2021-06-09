@@ -101,9 +101,10 @@
                   </thead>
                   <tbody>
                   <tr *ngFor="let companyJob of (companyJobsWithTemplate$ | async) | companyJobSearch: searchTerm">
-                    <td><input type="checkbox" [value]="companyJob.CompanyJobId" (change)="selectCompanyJob(companyJob.CompanyJobId)"
-                               [checked]="(selectedCompanyJobIdsWithTemplate$ | async).indexOf(companyJob.CompanyJobId) > -1"
-                    /></td>
+                    <td><div [ngbTooltip]="companyJob.HasNonDraftJobs ? 'The job or a sibling job is in published state.' : ''"><input type="checkbox" [value]="companyJob.CompanyJobId" (change)="selectCompanyJob(companyJob.CompanyJobId)"
+                               [checked]="(selectedCompanyJobIdsWithTemplate$ | async).indexOf(companyJob.CompanyJobId) > -1" [disabled]="companyJob.HasNonDraftJobs"
+                               
+                    /></div></td>
                     <td>{{companyJob.JobCode}}</td>
                     <td>{{companyJob.JobTitle}}</td>
                     <td>{{companyJob.JobFamily}}</td>

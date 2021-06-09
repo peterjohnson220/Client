@@ -55,8 +55,8 @@ export class JobDescriptionManagementService {
     this.store.dispatch(new fromCompanyFLSAStatusActions.LoadCompanyFlsaStatuses());
   }
 
-  userEmailHasJobPermission(emailAddr: string, jobId: number) {
-    return this.jobDescriptionManagementApiService.userEmailHasJobPermission(encodeURIComponent(emailAddr), jobId)
+  userEmailHasJobPermission(emailAddr: string, jobIds: number[]) {
+    return this.jobDescriptionManagementApiService.userEmailHasJobPermission(encodeURIComponent(emailAddr), jobIds)
       .pipe(map(result => {
         return result;
       }));
