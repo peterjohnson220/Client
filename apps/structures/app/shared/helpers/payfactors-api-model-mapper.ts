@@ -6,8 +6,8 @@ import {
   RangeDistributionSettingRequest,
   SaveJobBasedModelSettingsRequest,
   StructureRangeGroupResponse,
-  CreateGradeBasedModelSettingsRequest,
-  SaveGradeBasedModelSettingsRequest
+  SaveGradeBasedModelSettingsRequest,
+  AdjustMidpointSettingRequest
 } from 'libs/models/payfactors-api/structures';
 import { CompositeFieldResponse } from 'libs/models/payfactors-api/composite-field/composite-field-response.model';
 import { CurrencyDto } from 'libs/models/common';
@@ -52,7 +52,8 @@ export class PayfactorsApiModelMapper {
       RangeDistributionSetting: srgr.RangeDistributionSetting != null ? this.mapRangeDistributionSetting(srgr.RangeDistributionSetting) : null,
       RangeAdvancedSetting: srgr.RangeAdvancedSetting != null ? this.mapRangeAdvancedSetting(srgr.RangeAdvancedSetting) : null,
       StartingMidpoint: srgr.StartingMidpoint,
-      MidpointProgression: srgr.MidpointProgression
+      MidpointProgression: srgr.MidpointProgression,
+      AdjustMidpointSetting: null
     };
   }
 
@@ -237,28 +238,9 @@ export class PayfactorsApiModelMapper {
     };
   }
 
-  static mapCreateGradeBasedModelSettingsModalFormToSaveSettingsRequest(
-    rangeGroupId: number, formValue: any, advancedSetting: AdvancedSettingRequest): CreateGradeBasedModelSettingsRequest {
-    const payType = formValue.MarketDataBased.replace('MRP', '');
-    return {
-      RangeGroupId: rangeGroupId,
-      ModelName: formValue.ModelName,
-      PayType: payType,
-      ControlPoint: formValue.MarketDataBased,
-      Rate: formValue.Rate,
-      GradeCount: formValue.Grades,
-      RangeSpread: formValue.RangeSpread,
-      Midpoint: formValue.StartingMidpoint,
-      MidpointProgression: formValue.MidpointProgression,
-      CurrencyCode: formValue.Currency,
-      AdvancedSetting: advancedSetting,
-      RangeDistributionTypeId: formValue.RangeDistributionTypeId
-    };
-  }
-
   static mapSaveGradeBasedModelSettingsModalFormToSaveSettingsRequest(
     rangeGroupId: number, formValue: any, rounding: RoundingSettingsDataObj, advancedSetting: AdvancedSettingRequest,
-    isNewModel: boolean): SaveGradeBasedModelSettingsRequest {
+    isNewModel: boolean, adjustMidpointSetting: AdjustMidpointSettingRequest): SaveGradeBasedModelSettingsRequest {
     const payType = formValue.MarketDataBased.replace('MRP', '');
     return {
       RangeGroupId: rangeGroupId,
@@ -273,7 +255,8 @@ export class PayfactorsApiModelMapper {
       RangeSpread: formValue.RangeSpread,
       Midpoint: formValue.StartingMidpoint,
       MidpointProgression: formValue.MidpointProgression,
-      IsNewModel: isNewModel
+      IsNewModel: isNewModel,
+      AdjustMidpointSetting: adjustMidpointSetting
     };
   }
 

@@ -19,7 +19,6 @@ import { NotificationLevel, NotificationSource, NotificationType } from 'libs/fe
 import * as fromJobsToGradeActions from 'libs/features/structures/add-jobs-to-range/actions/jobs-to-grade.actions';
 import * as fromAddJobsReducer from 'libs/features/jobs/add-jobs/reducers';
 
-import * as fromSharedGradeBasedRangeActions from '../actions/shared.actions';
 import * as fromSharedGradeBasedReducer from '../reducers';
 import * as fromSharedStructuresReducer from '../../../shared/reducers';
 import { UrlService } from '../../../shared/services';
@@ -52,11 +51,11 @@ export class SharedEffects {
   reloadRangeGroup: Observable<Action> = this.actions$
     .pipe(
       ofType<fromJobsToGradeActions.SaveGradeJobMapsSuccess>(fromJobsToGradeActions.SAVE_GRADE_JOB_MAPS_SUCCESS),
-        withLatestFrom(
-          this.store.select(fromAddJobsReducer.getContextStructureRangeGroupId),
-      (action, contextStructureRangeGroupId: number) => {
-        return { action, contextStructureRangeGroupId };
-      }
+      withLatestFrom(
+        this.store.select(fromAddJobsReducer.getContextStructureRangeGroupId),
+        (action, contextStructureRangeGroupId: number) => {
+          return { action, contextStructureRangeGroupId };
+        }
       ),
       switchMap((data) => {
         return this.structureRangeGroupApiService.getDetails(data.contextStructureRangeGroupId)
@@ -91,9 +90,18 @@ export class SharedEffects {
           advancedSetting = generateMockRangeAdvancedSetting();
         }
 
+        let adjustMidpointSetting = null;
+        if (data.action.payload.formValue.AdjustMidpointSetting != null) {
+          adjustMidpointSetting = {
+            Type: data.action.payload.formValue.AdjustMidpointSetting.Type,
+            Percentage: data.action.payload.formValue.AdjustMidpointSetting.Percentage
+          };
+        }
+
         return this.structureModelingApiService.saveGradeBasedModelSettings(
           PayfactorsApiModelMapper.mapSaveGradeBasedModelSettingsModalFormToSaveSettingsRequest(
-            data.action.payload.rangeGroupId, data.action.payload.formValue, data.action.payload.rounding, advancedSetting, data.action.payload.isNewModel)
+            data.action.payload.rangeGroupId, data.action.payload.formValue, data.action.payload.rounding, advancedSetting, data.action.payload.isNewModel,
+            adjustMidpointSetting)
         ).pipe(
           mergeMap((r) => {
               const actions = [];
@@ -121,19 +129,19 @@ export class SharedEffects {
                   }));
 
                 } else {
-                if (!data.action.payload.isNewModel) {
-                  actions.push(new fromSharedStructuresActions.SetMetadata(
-                    PayfactorsApiModelMapper.mapStructuresRangeGroupResponseToRangeGroupMetadata(r.RangeGroup)
-                  ));
-                }
+                  if (!data.action.payload.isNewModel) {
+                    actions.push(new fromSharedStructuresActions.SetMetadata(
+                      PayfactorsApiModelMapper.mapStructuresRangeGroupResponseToRangeGroupMetadata(r.RangeGroup)
+                    ));
+                  }
 
-                // Load data
-                const modelPageViewId =
-                  PagesHelper.getModelPageViewIdByRangeTypeAndRangeDistributionType(data.metadata.RangeTypeId, data.metadata.RangeDistributionTypeId);
-                actions.push(GridDataHelper.getLoadDataAction(modelPageViewId, data.gridData, data.gridConfig, data.pagingOptions));
+                  // Load data
+                  const modelPageViewId =
+                    PagesHelper.getModelPageViewIdByRangeTypeAndRangeDistributionType(data.metadata.RangeTypeId, data.metadata.RangeDistributionTypeId);
+                  actions.push(GridDataHelper.getLoadDataAction(modelPageViewId, data.gridData, data.gridConfig, data.pagingOptions));
 
-                const modelSummaryPageViewId = PagesHelper.getModelSummaryPageViewIdByRangeDistributionType(data.metadata.RangeDistributionTypeId);
-                actions.push(new fromDataGridActions.LoadData(modelSummaryPageViewId));
+                  const modelSummaryPageViewId = PagesHelper.getModelSummaryPageViewIdByRangeDistributionType(data.metadata.RangeDistributionTypeId);
+                  actions.push(new fromDataGridActions.LoadData(modelSummaryPageViewId));
 
                 }
 

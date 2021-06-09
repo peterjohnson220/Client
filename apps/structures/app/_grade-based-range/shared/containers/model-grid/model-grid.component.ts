@@ -28,6 +28,7 @@ import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducer
 import { RangeType } from 'libs/constants/structures/range-type';
 import { RangeRecalculationType } from 'libs/constants/structures/range-recalculation-type';
 import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
+import { AdjustMidpointTypes } from 'libs/constants/structures/adjust-midpoint-type';
 
 import * as fromSharedStructuresReducer from '../../../../shared/reducers';
 import * as fromSharedStructuresActions from '../../../../shared/actions/shared.actions';
@@ -66,7 +67,8 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   @Input() saveSort = false;
   @Input() modifiedKey: string = null;
   @Input() allowMultipleSort: boolean;
-  @Input() isNewRangeOrCreateModelFlow = false;
+  @Input() isNewRangeFlow = false;
+  @Input() isCreateModelFlow = false;
   @Output() manageModelClicked = new EventEmitter();
 
   pfThemeType = PfThemeType;
@@ -247,11 +249,15 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
       'Grades': new FormControl(this.numGrades || ''),
       'RangeDistributionTypeId': new FormControl({ value: this.metaData.RangeDistributionTypeId, disabled: true }, [Validators.required]),
       'MarketDataBased': new FormControl(this.controlPoint || 'BaseMRP', [Validators.required]),
-      'StartingMidpoint': new FormControl(this.metaData.StartingMidpoint || '', [Validators.required]),
-      'RangeSpread': new FormControl(this.metaData.SpreadMin || '', [Validators.required]),
-      'MidpointProgression': new FormControl(this.metaData.MidpointProgression || '', [Validators.required]),
+      'StartingMidpoint': new FormControl(this.metaData.StartingMidpoint || ''),
+      'RangeSpread': new FormControl(this.metaData.SpreadMin || ''),
+      'MidpointProgression': new FormControl(this.metaData.MidpointProgression || ''),
       'Rate': new FormControl(this.metaData.Rate || 'Annual', [Validators.required]),
-      'Currency': new FormControl(this.metaData.Currency || 'USD', [Validators.required])
+      'Currency': new FormControl(this.metaData.Currency || 'USD', [Validators.required]),
+      'AdjustMidpointSetting': new FormGroup({
+        'Type': new FormControl(AdjustMidpointTypes.NoChange),
+        'Percentage': new FormControl({ value: '', disabled: true })
+      })
     });
 
     this.store.dispatch(new fromModelSettingsModalActions.SetActiveTab('modelTab'));
@@ -267,6 +273,25 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
 
   handleModalDismissed() {
     this.modelSettingsModalContentComponent.handleModalDismiss();
+  }
+
+  handleAdjustMidpointRadioButtonChanged(event: any) {
+    this.clearValidators('AdjustMidpointSetting.Percentage');
+    if (event.target.id === 'AdjustMidpointMoveBy') {
+      this.setValidators('AdjustMidpointSetting.Percentage', 0.01, 300);
+    }
+  }
+
+  private setValidators(controlName: string, min: number, max: number) {
+    this.modelSettingsForm.get(controlName).enable();
+    this.modelSettingsForm.get(controlName).setValidators([Validators.required, Validators.min(min), Validators.max(max)]);
+    this.modelSettingsForm.get(controlName).updateValueAndValidity();
+  }
+
+  private clearValidators(controlName: string) {
+    this.modelSettingsForm.get(controlName).disable();
+    this.modelSettingsForm.get(controlName).clearValidators();
+    this.modelSettingsForm.get(controlName).updateValueAndValidity();
   }
 
   // Lifecycle
@@ -312,9 +337,8 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     this.dataSubscription = this.data$.subscribe(data => {
       if (data) {
         this.isNewModel = data.total < 1 ? true : false;
-
-        // Open Model Settings modal only if it's a new model flow
-        if (this.isNewRangeOrCreateModelFlow && this.isNewModel) {
+        // Open Model Settings modal only if it's a new model flow or create model flow
+        if (this.isNewRangeFlow && this.isNewModel || this.isCreateModelFlow) {
           this.store.dispatch(new fromModelSettingsModalActions.OpenModal());
         }
       }
