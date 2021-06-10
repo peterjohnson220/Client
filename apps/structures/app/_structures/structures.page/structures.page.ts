@@ -2,7 +2,7 @@ import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } fr
 
 import { SortDescriptor } from '@progress/kendo-data-query';
 import { select, Store } from '@ngrx/store';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 import {
   ActionBarConfig,
@@ -12,6 +12,7 @@ import {
   GridRowActionsConfig,
   PfDataGridFilter
 } from 'libs/features/grids/pf-data-grid/models';
+import { PfDataGridColType } from 'libs/features/grids/pf-data-grid/enums';
 import * as fromPfDataGridActions from 'libs/features/grids/pf-data-grid/actions';
 import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import { Permissions } from 'libs/constants';
@@ -27,8 +28,9 @@ import * as fromStructuresPageActions from '../actions/structures-page.actions';
   styleUrls: ['./structures.page.scss']
 })
 export class StructuresPageComponent implements AfterViewInit, OnInit, OnDestroy {
-
   @ViewChild('gridRowActionsTemplate') gridRowActionsTemplate: ElementRef;
+  @ViewChild('currencyColumn') currencyColumn: ElementRef;
+  @ViewChild('numericColumn') numericColumn: ElementRef;
 
   pageViewId = StructuresPageConfig.StructuresPageViewId;
   inboundFilters: PfDataGridFilter[] = StructuresPageConfig.CurrentModelsInboundFilters;
@@ -51,6 +53,7 @@ export class StructuresPageComponent implements AfterViewInit, OnInit, OnDestroy
   deleteStructureModalOpen$: Observable<boolean>;
   deleting$: Observable<boolean>;
   deletingError$: Observable<boolean>;
+  colTemplates = {};
 
   constructor(
     private pfDataGridStore: Store<fromPfDataGridReducer.State>,
@@ -81,6 +84,10 @@ export class StructuresPageComponent implements AfterViewInit, OnInit, OnDestroy
     this.gridRowActionsConfig = {
       ...this.gridRowActionsConfig,
       ActionsTemplate: this.gridRowActionsTemplate
+    };
+    this.colTemplates = {
+      [PfDataGridColType.currency]: { Template: this.currencyColumn },
+      ['numeric']: { Template: this.numericColumn }
     };
   }
 
