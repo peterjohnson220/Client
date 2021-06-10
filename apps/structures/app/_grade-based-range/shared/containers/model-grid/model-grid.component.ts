@@ -38,6 +38,7 @@ import * as fromPublishModelModalActions from '../../../../shared/actions/publis
 import * as fromDuplicateModelModalActions from '../../../../shared/actions/duplicate-model-modal.actions';
 import { ModelSettingsModalContentComponent } from '../model-settings-modal-content';
 import * as fromGradeBasedSharedReducer from '../../reducers';
+import { ChartSvg } from '../../models';
 
 @Component({
   selector: 'pf-grade-based-model-grid',
@@ -109,6 +110,11 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   modalOpen$: Observable<boolean>;
   controlPoint: string;
   gradesDetailsSub: Subscription;
+  summaryChartSvgSub: Subscription;
+  verticalChartSvgSub: Subscription;
+  summaryChartSvg$: Observable<string>;
+  verticalChartSvg$: Observable<string>;
+  chartSvgs: ChartSvg[] = [];
 
   hasAddEditDeleteStructurePermission: boolean;
   hasCreateEditStructureModelPermission: boolean;
@@ -126,6 +132,8 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     this.selectedRecordId$ = this.store.select(fromPfDataGridReducer.getSelectedRecordId, this.modelGridPageViewId);
     this.data$ = this.store.select(fromPfGridReducer.getData, this.pageViewId);
     this.modalOpen$ = this.store.pipe(select(fromSharedStructuresReducer.getModelSettingsModalOpen), delay(0));
+    this.summaryChartSvg$ = this.store.pipe(select(fromGradeBasedSharedReducer.getSummaryChartSvg));
+    this.verticalChartSvg$ = this.store.pipe(select(fromGradeBasedSharedReducer.getVerticalChartSvg));
     this.singleRecordActionBarConfig = {
       ...getDefaultActionBarConfig(),
       ShowActionBar: false
@@ -136,8 +144,8 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
       ShowColumnChooser: true,
       ShowFilterChooser: true,
       AllowExport: true,
-      ExportSourceName: 'Grade Based Structures',
-      CustomExportType: 'GradeBasedStructures',
+      ExportSourceName: 'Grade Range Structures',
+      CustomExportType: 'GradeRangeStructures',
       ColumnChooserType: ColumnChooserType.Hybrid,
       EnableGroupSelectAll: true
     };
@@ -348,6 +356,28 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
         this.buildForm();
       }
     });
+    this.summaryChartSvgSub = this.summaryChartSvg$.subscribe(scs => {
+      if (scs) {
+        // look for existing value
+        const svg = this.chartSvgs.find(s => s.ChartName === 'Summary');
+        if (!!svg) {
+          this.chartSvgs[this.chartSvgs.indexOf(svg)].Svg = scs;
+        } else {
+          this.chartSvgs.push({ ChartName: 'Summary', Svg: scs });
+        }
+      }
+    });
+    this.verticalChartSvgSub = this.verticalChartSvg$.subscribe(vcs => {
+      if (vcs) {
+        // look for existing value
+        const svg = this.chartSvgs.find(s => s.ChartName === 'Vertical');
+        if (!!svg) {
+          this.chartSvgs[this.chartSvgs.indexOf(svg)].Svg = vcs;
+        } else {
+          this.chartSvgs.push({ ChartName: 'Vertical', Svg: vcs });
+        }
+      }
+    });
     this.initPermissions();
     this.buildForm();
     window.addEventListener('scroll', this.scroll, true);
@@ -361,5 +391,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     this.pageViewIdSub.unsubscribe();
     this.modalOpenSub.unsubscribe();
     this.gradesDetailsSub.unsubscribe();
+    this.verticalChartSvgSub.unsubscribe();
+    this.summaryChartSvgSub.unsubscribe();
   }
 }

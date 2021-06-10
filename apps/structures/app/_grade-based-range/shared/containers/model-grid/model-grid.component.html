@@ -24,7 +24,9 @@
   [gridConfig]="gridConfig"
   [pageable]="!gridConfig.EnableInfiniteScroll"
   [flexColumnContainerHeightAuto]="false"
-  [filterPanelTemplates]="filterTemplates">
+  [filterPanelTemplates]="filterTemplates"
+  [additionalDataForExport]="this.chartSvgs"
+>
 </pf-data-grid>
 
 <ng-template #subHeaderTemplate>
