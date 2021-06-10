@@ -27,3 +27,11 @@
 .nav-tabs {
   margin-bottom: 2rem;
 }
+
+.gray-text {
+  color: #B6B6B6;
+}
+
+.dropdown-toggle::after, .dropdown-toggle::after {
+  display: none !important;
+}
