@@ -1,24 +1,28 @@
 import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { ProjectTemplate } from 'libs/models/projects/project-templates';
 import { ReportType, ProjectExportDataSource, ReportTypeModel, ProjectExportModalData } from 'libs/models/projects/project-export-manager';
 import { PfValidators } from 'libs/forms/validators';
 import { AsyncStateObj } from 'libs/models/state';
+import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
+import * as fromPfGridActions from 'libs/features/grids/pf-data-grid/actions';
+import { CustomExportType } from 'libs/models/data-views';
 
 import * as fromProjectExportManagerActions from '../actions';
 import * as fromPricingProjectActions from 'apps/project/app/_pricing-project/actions';
 import * as fromProjectExportManagerReducer from '../reducers';
+import { PageViewIds } from '../../shared/constants';
 
 @Component({
   selector: 'pf-project-export-manager',
   templateUrl: './project-export-manager.component.html',
   styleUrls: []
 })
-export class ProjectExportManagerComponent implements OnInit, OnChanges {
+export class ProjectExportManagerComponent implements OnInit, OnChanges, OnDestroy {
   @Input() display: 'component' | 'modal' = 'modal';
   @Input() modalTitle: string;
   @Input() openModal = false;
@@ -55,8 +59,14 @@ export class ProjectExportManagerComponent implements OnInit, OnChanges {
   dataSourceForm: FormGroup;
   get f() { return this.dataSourceForm.controls; }
 
-  constructor(private store: Store<fromProjectExportManagerReducer.State>, private formBuilder: FormBuilder) {
+  pricingProjectExportFeatureFlag: RealTimeFlag = { key: FeatureFlags.PricingProjectExport, value: false };
+  featureFlagUnsubscribe$ = new Subject<void>();
+
+  constructor(private store: Store<fromProjectExportManagerReducer.State>, private formBuilder: FormBuilder,
+              private featureFlagService: AbstractFeatureFlagService) {
+
     this.projectTemplates$ = this.store.select(fromProjectExportManagerReducer.getProjectTemplatesAsync);
+    this.featureFlagService.bindEnabled(this.pricingProjectExportFeatureFlag, this.featureFlagUnsubscribe$);
   }
 
   ngOnInit(): void {
@@ -66,6 +76,10 @@ export class ProjectExportManagerComponent implements OnInit, OnChanges {
     });
 
     this.dataSources.forEach(dataSource => this.updateFormControl(dataSource));
+  }
+
+  ngOnDestroy() {
+    this.featureFlagUnsubscribe$.next();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -111,7 +125,11 @@ export class ProjectExportManagerComponent implements OnInit, OnChanges {
       DataSources: includedDataSources
     };
 
-    this.store.dispatch(new fromPricingProjectActions.QueuePricingProjectExport(modalData));
+    if (this.pricingProjectExportFeatureFlag.value) {
+      this.store.dispatch(new fromPfGridActions.ExportGrid(PageViewIds.ProjectJobs, 'Pricing_Project_Export', CustomExportType.PricingProject));
+    } else {
+      this.store.dispatch(new fromPricingProjectActions.QueuePricingProjectExport(modalData));
+    }
 
     this.resetModal();
     this.showExportManager.next(false);
