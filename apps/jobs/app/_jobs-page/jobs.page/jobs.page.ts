@@ -478,7 +478,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   handlePricingReviewedStatusChanged(opt: any) {
     const field = cloneDeep(this.pricingReviewedField);
-    field.FilterValues = [opt.Value];
+    field.FilterValues = opt.Value === null ? [] : [opt.Value];
     field.FilterOperator = '=';
     this.updateField(field);
   }
