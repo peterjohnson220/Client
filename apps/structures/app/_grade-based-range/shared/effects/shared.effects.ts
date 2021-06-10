@@ -91,7 +91,7 @@ export class SharedEffects {
         }
 
         let adjustMidpointSetting = null;
-        if (data.action.payload.formValue.AdjustMidpointSetting != null) {
+        if (data.action.payload.formValue.AdjustMidpointSetting != null && data.metadata.IsCurrent) {
           adjustMidpointSetting = {
             Type: data.action.payload.formValue.AdjustMidpointSetting.Type,
             Percentage: data.action.payload.formValue.AdjustMidpointSetting.Percentage
