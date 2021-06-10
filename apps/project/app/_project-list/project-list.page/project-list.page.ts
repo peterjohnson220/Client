@@ -56,14 +56,14 @@ export class ProjectListPageComponent implements AfterViewInit, OnInit, OnDestro
   gridRowActionsConfig: GridRowActionsConfig = getDefaultGridRowActionsConfig();
 
   pinnedFilterOptions = [{
-    display: '',
-    value: null
+    Display: '',
+    Value: null
   }, {
-    display: 'Yes',
-    value: 'true'
+    Display: 'Yes',
+    Value: 'true'
   }, {
-    display: 'No',
-    value: 'false'
+    Display: 'No',
+    Value: 'false'
   }];
 
   statusFilterDisplayOptions: PfDataGridCustomFilterDisplayOptions[] = [{
@@ -145,7 +145,7 @@ export class ProjectListPageComponent implements AfterViewInit, OnInit, OnDestro
         this.status = this.isCompletedField?.FilterValues?.length > 0 ?
           this.statusFilterDisplayOptions.find(x => x.Value === this.isCompletedField.FilterValues[0]) : null;
         this.isPinned = this.isPinnedField?.FilterValues?.length > 0 ?
-          this.pinnedFilterOptions.find(x => x.value === this.isPinnedField.FilterValues[0]) : null;
+          this.pinnedFilterOptions.find(x => x.Value === this.isPinnedField.FilterValues[0]) : null;
       }
     });
     window.addEventListener('scroll', this.scroll, true);
@@ -166,7 +166,7 @@ export class ProjectListPageComponent implements AfterViewInit, OnInit, OnDestro
     };
 
     this.filterTemplates = {
-      'Completed': {Template: this.projectStatusFilter},
+      'Completed': {Template: this.projectStatusFilter, isFullSize: true},
       'PinOnDashboard': {Template: this.projectPinnedFilter, isFullSize: true}
     };
 
@@ -190,7 +190,7 @@ export class ProjectListPageComponent implements AfterViewInit, OnInit, OnDestro
 
   handleStatusFilterChanged() {
     const field: ViewField = cloneDeep(this.isCompletedField);
-    field.FilterValues = [this.status.Value];
+    field.FilterValues = this.status.Value === null ? [] : [this.status.Value];
     field.FilterOperator = '=';
 
     this.updateField(field);
@@ -198,7 +198,7 @@ export class ProjectListPageComponent implements AfterViewInit, OnInit, OnDestro
 
   handlePinnedFilterChanged() {
     const field: ViewField = cloneDeep(this.isPinnedField);
-    field.FilterValues = [this.isPinned.value];
+    field.FilterValues = this.isPinned.Value === null ? [] : [this.isPinned.Value];
     field.FilterOperator = '=';
 
     this.updateField(field);
