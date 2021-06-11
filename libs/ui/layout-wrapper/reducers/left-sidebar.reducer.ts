@@ -33,9 +33,6 @@ export function reducer(state = initialState, action: leftSidebarActions.Actions
     case leftSidebarActions.GET_LEFT_SIDEBAR_NAVIGATION_LINKS_SUCCESS: {
       return saveNavigationLinks(state, action.payload);
     }
-    case leftSidebarActions.URL_REDIRECT_APPLICATION_SUCCESS: {
-      return saveNavigationLinks(state, action.payload);
-    }
     case leftSidebarActions.GET_LEFT_SIDEBAR_NAVIGATION_LINKS_ERROR: {
       return {
         ...state,
