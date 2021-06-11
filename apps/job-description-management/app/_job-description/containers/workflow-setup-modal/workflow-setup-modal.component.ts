@@ -8,6 +8,7 @@ import cloneDeep from 'lodash/cloneDeep';
 
 import { AsyncStateObj } from 'libs/models/state';
 import { Permissions } from 'libs/constants';
+import { NewLinePipe } from 'libs/core/pipes';
 
 import * as fromJDMSharedReduder from 'libs/features/jobs/job-description-management/reducers';
 import * as fromWorkflowConfigActions from 'libs/features/jobs/job-description-management/actions/workflow-config.actions';
@@ -48,6 +49,7 @@ export class WorkflowSetupModalComponent implements OnInit, OnDestroy {
   workflowInitiationComment: string;
   workflowSteps: WorkflowStep[];
   workflowUrl: string;
+  convertNewLinePipe;
 
   get jobIds(): number[] {
     return this.workflowSetupModalInput.map(x => x.JobId);
@@ -63,6 +65,7 @@ export class WorkflowSetupModalComponent implements OnInit, OnDestroy {
     this.workflowTemplatesAsync$ = this.store.pipe(select(fromJDMSharedReduder.getWorkflowTemplateList));
     this.hasForbiddenUsers$ = this.sharedJdmStore.pipe(select(fromJDMSharedReduder.getHasUsersWithoutPermission));
     this.stepsDirty$ = this.sharedJdmStore.pipe(select(fromJDMSharedReduder.getWorkflowConfigDirty));
+    this.convertNewLinePipe = new NewLinePipe();
   }
 
   ngOnInit(): void {
@@ -120,6 +123,7 @@ export class WorkflowSetupModalComponent implements OnInit, OnDestroy {
 
   createWorkflow(): void {
     const workflows = [];
+    this.workflowInitiationComment = this.convertNewLinePipe.transform(this.workflowInitiationComment);
     this.workflowSetupModalInput?.forEach(x => {
       workflows.push(this.buildWorkflow(x));
     });
