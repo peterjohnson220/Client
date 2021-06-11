@@ -155,7 +155,7 @@ export class SharedEffects {
               return actions;
             }
           ),
-          catchError(() => of(new fromModelSettingsModalActions.SaveGradeBasedModelSettingsError()))
+          catchError((error) => of(new fromModelSettingsModalActions.SaveGradeBasedModelSettingsError(error)))
         );
       })
     );
