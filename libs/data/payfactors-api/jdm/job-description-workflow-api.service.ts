@@ -40,9 +40,6 @@ export class JobDescriptionWorkflowApiService {
   }
 
   create(workflow: any) {
-    var comment = this.convertNewLinePipe.transform(workflow.InitiationComment);
-    workflow = {...workflow, InitiationComment: comment}
-    workflow.InitiationComment = this.convertNewLinePipe.transform(workflow.InitiationComment);
     return this.payfactorsApiService.post(`${this.apiUrl}/Default.Create`, { workflow: workflow });
   }
 
