@@ -140,6 +140,8 @@ export class SaveGradeBasedModelSettingsSuccess implements Action {
 
 export class SaveGradeBasedModelSettingsError implements Action {
   readonly type = SAVE_GRADE_BASED_MODEL_SETTINGS_ERROR;
+
+  constructor(public error: any) {}
 }
 
 export type ModelSettingsModalActions
