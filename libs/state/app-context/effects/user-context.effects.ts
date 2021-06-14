@@ -142,6 +142,7 @@ export class UserContextEffects {
 
     requestArr.push(UrlRedirectHelper.getPricingProjectUrlRedirectRequest());
     requestArr.push(UrlRedirectHelper.getProjectListUrlRedirectRequest());
+    requestArr.push(UrlRedirectHelper.getSurveysUrlRedirectRequest());
 
     return requestArr;
   }

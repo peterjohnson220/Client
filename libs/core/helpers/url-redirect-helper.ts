@@ -40,6 +40,16 @@ export class UrlRedirectHelper {
     };
   }
 
+  static getSurveysUrlRedirectRequest(): UrlRedirectRequest {
+    return {
+      FeatureFlag: FeatureFlags.SurveysPage,
+      UrlParams: null,
+      TargetPage: UrlPage.Surveys,
+      SlugFilters: null,
+      SlugOnly: true
+    };
+  }
+
   static getIdParamUrl(urlSlug: string, id: string): string {
     const isClient = urlSlug.includes('client');
 
