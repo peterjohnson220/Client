@@ -176,7 +176,8 @@ export class TileGridEffects {
 
   private generateUrlRedirectMapper(): GenericUrlPageMap[] {
     const mapper: GenericUrlPageMap[] = [
-      { SourceKey: 'Type', SourceKeyValue: TileTypes.PricingProjects, SourceUrlAttributeName: 'Url', TargetPage: UrlPage.ProjectList }
+      { SourceKey: 'Type', SourceKeyValue: TileTypes.PricingProjects, SourceUrlAttributeName: 'Url', TargetPage: UrlPage.ProjectList },
+      { SourceKey: 'Type', SourceKeyValue: TileTypes.Surveys, SourceUrlAttributeName: 'Url', TargetPage: UrlPage.Surveys }
     ];
 
     return mapper;
