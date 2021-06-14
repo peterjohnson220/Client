@@ -126,7 +126,7 @@ export class ProjectExportManagerComponent implements OnInit, OnChanges, OnDestr
     };
 
     if (this.pricingProjectExportFeatureFlag.value) {
-      this.store.dispatch(new fromPfGridActions.ExportGrid(PageViewIds.ProjectJobs, 'Pricing_Project_Export', CustomExportType.PricingProject));
+      this.store.dispatch(new fromPfGridActions.ExportGrid(PageViewIds.ProjectJobs, 'ProjectSummaryReport', CustomExportType.PricingProject));
     } else {
       this.store.dispatch(new fromPricingProjectActions.QueuePricingProjectExport(modalData));
     }
