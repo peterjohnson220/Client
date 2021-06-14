@@ -84,6 +84,9 @@ export class EmployeeRangeChartService {
       credits: {
         enabled: false
       },
+      exporting: {
+        enabled: false
+      },
       title: {
         text: undefined
       },

@@ -52,6 +52,9 @@ export class SingleJobViewDataCutsChartService {
         },
         spacing: [10, 10, 0, 10]
       },
+      exporting: {
+        enabled: false
+      },
       credits: {
         enabled: false
       },

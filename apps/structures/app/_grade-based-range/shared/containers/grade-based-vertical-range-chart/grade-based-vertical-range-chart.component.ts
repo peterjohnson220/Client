@@ -15,6 +15,7 @@ import { RangeDistributionTypeIds } from 'libs/constants/structures/range-distri
 import * as fromSharedStructuresReducer from '../../../../shared/reducers';
 import * as fromGradeBasedSharedReducer from '../../../shared/reducers';
 import * as fromSharedStructuresActions from '../../../../shared/actions/shared.actions';
+import * as fromGradeBasedSharedActions from '../../../shared/actions/shared.actions';
 import * as fromSwitchRegressionFlagsActions from '../../../shared/actions/switch-regression-flags-modal.actions';
 import { StructuresHighchartsService, StructuresPagesService } from '../../../../shared/services';
 import { GradeRangeModelChartService, GradeRangeVerticalModelChartSeries } from '../../data';
@@ -427,8 +428,8 @@ export class GradeBasedVerticalRangeChartComponent implements OnInit, OnDestroy,
     // we need this hidden salary range => will prevent from messing up when we hide salary range from the legend
     this.chartInstance.series[GradeRangeVerticalModelChartSeries.SalaryRangeMinMidMaxHidden].setData(this.salaryRangeSeriesDataModel.MinMidMax, false);
 
-    this.chartInstance.series[GradeRangeVerticalModelChartSeries.RangeMid].setData(this.dataPointSeriesDataModel.Mid, true);
-    this.chartInstance.series[GradeRangeVerticalModelChartSeries.EmployeeOutliers].setData(this.outlierSeriesData, true);
+    this.chartInstance.series[GradeRangeVerticalModelChartSeries.RangeMid].setData(this.dataPointSeriesDataModel.Mid, false);
+    this.chartInstance.series[GradeRangeVerticalModelChartSeries.EmployeeOutliers].setData(this.outlierSeriesData, false);
     this.chartInstance.series[GradeRangeVerticalModelChartSeries.Jobs].setData(this.dataPointSeriesDataModel.Job, false);
     this.chartInstance.series[GradeRangeVerticalModelChartSeries.Regression].setData(this.regressionSeriesData, false);
     this.chartInstance.series[GradeRangeVerticalModelChartSeries.JobsExcludedFromRegression].setData(this.excludedJobsSeriesData, false);
@@ -438,23 +439,23 @@ export class GradeBasedVerticalRangeChartComponent implements OnInit, OnDestroy,
     if (this.rangeDistributionTypeId === RangeDistributionTypeIds.Tertile) {
       this.chartInstance.series[GradeRangeVerticalModelChartSeries.SalaryRangeTertile].setData(this.salaryRangeSeriesDataModel.Tertile, false);
       this.chartInstance.series[GradeRangeVerticalModelChartSeries.RangeTertileFirst].setData(this.dataPointSeriesDataModel.TertileFirst, false);
-      this.chartInstance.series[GradeRangeVerticalModelChartSeries.RangeTertileSecond].setData(this.dataPointSeriesDataModel.TertileSecond, true);
+      this.chartInstance.series[GradeRangeVerticalModelChartSeries.RangeTertileSecond].setData(this.dataPointSeriesDataModel.TertileSecond, false);
     } else if (this.rangeDistributionTypeId === RangeDistributionTypeIds.Quartile) {
       this.chartInstance.series[GradeRangeVerticalModelChartSeries.SalaryRangeQuartileFirst].setData(this.salaryRangeSeriesDataModel.Quartile.First, false);
       this.chartInstance.series[GradeRangeVerticalModelChartSeries.SalaryRangeQuartileSecond].setData(this.salaryRangeSeriesDataModel.Quartile.Second, false);
       this.chartInstance.series[GradeRangeVerticalModelChartSeries.SalaryRangeQuartileThird].setData(this.salaryRangeSeriesDataModel.Quartile.Third, false);
       this.chartInstance.series[GradeRangeVerticalModelChartSeries.SalaryRangeQuartileFourth].setData(this.salaryRangeSeriesDataModel.Quartile.Fourth, false);
       this.chartInstance.series[GradeRangeVerticalModelChartSeries.RangeQuartileFirst].setData(this.dataPointSeriesDataModel.QuartileFirst, false);
-      this.chartInstance.series[GradeRangeVerticalModelChartSeries.RangeQuartileSecond].setData(this.dataPointSeriesDataModel.QuartileSecond, true);
+      this.chartInstance.series[GradeRangeVerticalModelChartSeries.RangeQuartileSecond].setData(this.dataPointSeriesDataModel.QuartileSecond, false);
     } else if (this.rangeDistributionTypeId === RangeDistributionTypeIds.Quintile) {
       this.chartInstance.series[GradeRangeVerticalModelChartSeries.SalaryRangeQuintile].setData(this.salaryRangeSeriesDataModel.Quintile, false);
       this.chartInstance.series[GradeRangeVerticalModelChartSeries.RangeQuintileFirst].setData(this.dataPointSeriesDataModel.QuintileFirst, false);
       this.chartInstance.series[GradeRangeVerticalModelChartSeries.RangeQuintileSecond].setData(this.dataPointSeriesDataModel.QuintileSecond, false);
       this.chartInstance.series[GradeRangeVerticalModelChartSeries.RangeQuintileThird].setData(this.dataPointSeriesDataModel.QuintileThird, false);
-      this.chartInstance.series[GradeRangeVerticalModelChartSeries.RangeQuintileFourth].setData(this.dataPointSeriesDataModel.QuintileFourth, true);
+      this.chartInstance.series[GradeRangeVerticalModelChartSeries.RangeQuintileFourth].setData(this.dataPointSeriesDataModel.QuintileFourth, false);
     }
 
-    this.chartInstance.xAxis[0].setCategories(this.gradeCategories, true);
+    this.chartInstance.xAxis[0].setCategories(this.gradeCategories, false);
 
     // set click events for jobs
     const jobsOptions = this.chartInstance.series[GradeRangeVerticalModelChartSeries.Jobs].options;
@@ -475,6 +476,18 @@ export class GradeBasedVerticalRangeChartComponent implements OnInit, OnDestroy,
     this.chartInstance.series[GradeRangeVerticalModelChartSeries.JobsExcludedFromRegression].update(excludedJobsOptions);
 
     this.chartInstance.setSize(null, 500);
+
+    // last but not least, save the latest SVG in state
+    // set the svg string
+    const chartObject = this.chartInstance as any;
+    const svgString = chartObject.getSVG({
+      chart: {
+        width: 1775,
+        height: 525
+      }
+    });
+    self.store.dispatch(new fromGradeBasedSharedActions.SetVerticalChartSvg(svgString));
+
   }
 
   private handleJobPointClicked(point) {

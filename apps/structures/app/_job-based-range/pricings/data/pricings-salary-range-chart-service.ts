@@ -79,6 +79,9 @@ export class PricingsSalaryRangeChartService {
       credits: {
         enabled: false
       },
+      exporting: {
+        enabled: false
+      },
       title: {
         text: undefined
       },
