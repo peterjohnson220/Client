@@ -13,3 +13,4 @@ export * from './sentry.service';
 export * from './feature-flags';
 export * from './unauthorized-http-interceptor.service';
 export * from './entity-key-validation.service';
+export * from './pricing-project-helper.service';

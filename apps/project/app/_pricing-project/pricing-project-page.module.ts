@@ -12,16 +12,20 @@ import { PfDataGridModule } from 'libs/features/grids/pf-data-grid';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
-import {ProjectExportModule} from 'apps/project/app/_project-export-manager';
+import { MultiMatchModule } from 'libs/features/pricings/multi-match';
+
 import { HighchartsChartModule } from 'highcharts-angular';
 
-import { PricingProjectPageRoutingModule } from './pricing-project-page-routing.module';
-import * as fromFaIcons from './fa-icons';
-import {PricingProjectPageComponent} from './pricing-project.page/pricing-project.page';
-import {reducers} from './reducers';
-import {PricingProjectPageEffects} from './effects';
-import {HasAccessToProjectGuard} from '../shared/guards';
+import { ProjectExportModule } from '../_project-export-manager';
+
 import { JobSummaryComponent } from './components/analyze/job-summary/job-summary.component';
+import { PricingProjectPageRoutingModule } from './pricing-project-page-routing.module';
+import { PricingProjectPageComponent } from './pricing-project.page/pricing-project.page';
+import { PricingProjectPageEffects } from './effects';
+import { HasAccessToProjectGuard } from '../shared/guards';
+import { reducers } from './reducers';
+
+import * as fromFaIcons from './fa-icons';
 
 @NgModule({
     imports: [
@@ -51,6 +55,7 @@ import { JobSummaryComponent } from './components/analyze/job-summary/job-summar
         PfCommonUIModule,
         PfFormsModule,
         ProjectExportModule,
+        MultiMatchModule,
     ],
   declarations: [
     // Pages
