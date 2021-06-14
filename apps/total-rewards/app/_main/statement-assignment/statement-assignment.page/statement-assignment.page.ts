@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import cloneDeep from 'lodash/cloneDeep';
 
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
 import { FilterDescriptor, State } from '@progress/kendo-data-query';
@@ -15,7 +15,7 @@ import { GridTypeEnum, ListAreaColumn, FileDownloadSecurityWarningType } from 'l
 import * as fromGridActions from 'libs/core/actions/grid.actions';
 import { Statement } from 'libs/features/total-rewards/total-rewards-statement/models';
 import { TotalRewardsAssignmentService } from 'libs/features/total-rewards/total-rewards-statement/services/total-rewards-assignment.service';
-import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services';
+import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services';
 import { SettingsService } from 'libs/state/app-context/services';
 import { CompanySettingsEnum } from 'libs/models/company';
 import { FileDownloadSecurityWarningModalComponent } from 'libs/ui/common';
@@ -25,7 +25,7 @@ import * as fromPageActions from '../actions/statement-assignment.page.actions';
 import * as fromAssignedEmployeesGridActions from '../actions/assigned-employees-grid.actions';
 import * as fromAssignmentsModalActions from '../actions/statement-assignment-modal.actions';
 import * as fromGenerateStatementModalActions from '../actions/generate-statement-modal.actions';
-import { StatementAssignmentModalComponent } from '../containers/statement-assignment-modal';
+import { StatementAssignmentModalComponent } from '../containers';
 import { DeliveryOption, StatementAssignmentConfig } from '../models';
 
 @Component({
@@ -71,6 +71,9 @@ export class StatementAssignmentPageComponent implements OnDestroy, OnInit {
   employeeSearchTerm$: Observable<string>;
   electronicDeliveryFeatureFlagEnabled: boolean;
 
+  totalRewardsHistoryFeatureFlag: RealTimeFlag = { key: FeatureFlags.TotalRewardsHistory, value: false };
+  unsubscribe$ = new Subject<void>();
+
   statement: Statement;
   assignedEmployeesGridState = TotalRewardsAssignmentService.defaultAssignedEmployeesGridState;
 
@@ -101,6 +104,7 @@ export class StatementAssignmentPageComponent implements OnDestroy, OnInit {
   ) {
     this.filters$ = this.filterChangeSubject.asObservable();
     this.electronicDeliveryFeatureFlagEnabled = this.featureFlagService.enabled(FeatureFlags.TotalRewardsElectronicDelivery, false);
+    this.featureFlagService.bindEnabled(this.totalRewardsHistoryFeatureFlag, this.unsubscribe$);
     this.enableFileDownloadSecurityWarning$ = this.settingsService.selectCompanySetting<boolean>(CompanySettingsEnum.FileDownloadSecurityWarning);
   }
 
@@ -222,6 +226,7 @@ export class StatementAssignmentPageComponent implements OnDestroy, OnInit {
     this.unassignEmployeesSuccessSubscription.unsubscribe();
     this.filterChangeSubscription.unsubscribe();
     this.enableFileDownloadSecurityWarningSubscription.unsubscribe();
+    this.unsubscribe$.next();
     this.store.dispatch(new fromPageActions.ResetState());
   }
 
@@ -252,6 +257,10 @@ export class StatementAssignmentPageComponent implements OnDestroy, OnInit {
 
   handleAssignEmployeesClick() {
     this.store.dispatch(new fromAssignmentsModalActions.OpenModal());
+  }
+
+  handleStatementHistoryClick() {
+    this.router.navigate(['/statement/history/', this.statement.StatementId]).then();
   }
 
   handleAssignedEmployeesGridStateChange($event: State) {

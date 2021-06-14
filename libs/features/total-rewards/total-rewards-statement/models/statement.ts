@@ -28,6 +28,8 @@ export interface Statement {
   EffectiveDate: any;
   AssignedCompanyEmployeeIds?: number[];
   IsStatementGenerating: boolean;
+  LastGeneratedDate: Date;
+  LastGeneratedBy: string;
 }
 
 export function generateMockStatement(): Statement {
@@ -42,6 +44,8 @@ export function generateMockStatement(): Statement {
     Settings: generateMockSettings(),
     EffectiveDate: new Date('December 17, 2019 03:24:00'),
     IsStatementGenerating: false,
+    LastGeneratedDate: new Date(),
+    LastGeneratedBy: 'Joe Shmoe',
     Pages: [{
       Sections: [{
         Columns: [{
