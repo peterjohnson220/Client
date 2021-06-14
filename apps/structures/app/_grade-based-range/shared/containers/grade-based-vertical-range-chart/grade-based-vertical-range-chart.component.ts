@@ -74,6 +74,10 @@ export class GradeBasedVerticalRangeChartComponent implements OnInit, OnDestroy,
     private structuresPagesService: StructuresPagesService,
     private route: ActivatedRoute
   ) {
+    this.route.params.subscribe(p => {
+      this.rangeGroupId = this.route.snapshot.params.id;
+    });
+
     this.rangeGroupId = this.route.snapshot.params.id;
     this.metadataSubscription = this.store.select(fromSharedStructuresReducer.getMetadata).subscribe(md => {
       if (md) {
