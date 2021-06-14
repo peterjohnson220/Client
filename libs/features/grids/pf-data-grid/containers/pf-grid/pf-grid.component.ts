@@ -86,6 +86,9 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   @Input() enableRowFade = false;
   @Input() hideVerticalScrolling = false;
   @Input() collapseFilterPanelOnCellClick = false;
+  @Input() hideKendoGrid = false;
+  @Input() hidePageSizes = false;
+  @Input() gridReplacementTemplate: TemplateRef<any>;
   @Output() scrolled = new EventEmitter<ContentScrollEvent>();
 
 
@@ -331,7 +334,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
           buttonCount: 5,
           info: true,
           type: 'numeric',
-          pageSizes: [20, 50, 100, 250],
+          pageSizes: this.hidePageSizes ? false : [20, 50, 100, 250],
           previousNext: true
         };
     }

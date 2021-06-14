@@ -8,7 +8,7 @@ import { DebounceClickDirective, DisableFormControlDirective, DragDropDirective 
 import {
   CompPipe, DataTypeFilterPipe, FilterArrayByName, GetFileExtensionCssClassPipe, HighlightTextPipe, HumanizeNumberPipe,
   JobDescriptionParserPipe, NewLinePipe, OrderByPipe, StringReplacePipe, StripHtmlPipe, TruncateAfterPipe, WrapSubtextWithTag,
-  EmptyPlaceholderPipe, ValidationErrorsPipe, TimeElapsedPipe, EditableJobDescriptionPipe, RateCurrencyConversionPipe,
+  EmptyPlaceholderPipe, ValidationErrorsPipe, TimeElapsedPipe, EditableJobDescriptionPipe, RateCurrencyConversionPipe, OrdinalNumberPipe,
   EmployeeDetailsPipe, StructureDetailsPipe, FormatNamePipe, PfParseDatePipe, PfParseDateFromUnixTimePipe, WeightingTypePipe, CompanyNameShortPipe
 } from './pipes';
 import { DragulaHelperService } from './services';
@@ -44,7 +44,8 @@ const declarations = [
   PfParseDatePipe,
   PfParseDateFromUnixTimePipe,
   WeightingTypePipe,
-  CompanyNameShortPipe
+  CompanyNameShortPipe,
+  OrdinalNumberPipe
 ];
 
 const providers = [
