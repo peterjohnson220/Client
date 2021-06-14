@@ -12,7 +12,8 @@
   [applyDefaultFilters]="false"
   [inboundFilters]="inboundFilters"
   [aboveGridTemplate]="aboveGridTemplate"
-  [gridRowActionsConfig]="gridRowActionsConfig">
+  [gridRowActionsConfig]="gridRowActionsConfig"
+  [columnTemplates]="colTemplates">
 </pf-data-grid>
 
 <ng-template #aboveGridTemplate>
@@ -73,3 +74,14 @@
   </ng-container>
 
 </pf-modal-form>
+<ng-template #currencyColumn let-dataRow="dataRow" let-fieldName="fieldName">
+  <div pfEllipsisActive class="ellipsis-overflowing-text">
+    <span [innerHTML]="dataRow[fieldName] | comp: dataRow['CompanyStructures_RangeGroup_Rate'] : 'rounded' | emptyPlaceholder"></span>
+  </div>
+</ng-template>
+
+<ng-template #numericColumn let-dataRow="dataRow" let-fieldName="fieldName">
+  <div pfEllipsisActive class="ellipsis-overflowing-text">
+    <span [innerHTML]="dataRow[fieldName] | emptyPlaceholder"></span>
+  </div>
+</ng-template>
