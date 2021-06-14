@@ -1,34 +1,32 @@
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { Router } from '@angular/router';
-
-import {combineReducers, Store, StoreModule} from '@ngrx/store';
-import {NgbTabsetModule, NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
+import { ActivatedRoute, Router } from '@angular/router';
+import { combineReducers, Store, StoreModule } from '@ngrx/store';
+import { of } from 'rxjs';
 
 import { AbstractFeatureFlagService } from 'libs/core';
-
 import * as fromRootState from 'libs/state/state';
-import * as fromTotalRewardsReducer from '../../reducers/statement-grid.reducer';
-import { StatementsGridComponent } from './statements-grid.component';
 
+import * as fromTotalRewardsReducer from '../reducers/statement-history.page.reducers';
+import { StatementHistoryPageComponent } from './statement-history.page';
 
-describe('TotalRewardsStatementsGridComponent', () => {
-  let component: StatementsGridComponent;
-  let fixture: ComponentFixture<StatementsGridComponent>;
+describe('StatementHistoryPageComponent', () => {
+  let component: StatementHistoryPageComponent;
+  let fixture: ComponentFixture<StatementHistoryPageComponent>;
   let store: Store<fromRootState.State>;
   let router: Router;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
           ...fromRootState.reducers,
           totalRewards: combineReducers(fromTotalRewardsReducer.reducer)
-        }),
-        ReactiveFormsModule, NgbTabsetModule, NgbDropdownModule],
-      declarations: [ StatementsGridComponent ],
+        })
+      ],
+      declarations: [ StatementHistoryPageComponent ],
       providers: [
+        { provide: ActivatedRoute, useValue: { queryParams: of({ }), params: of({ id: 'abc-123' }) } },
         { provide: Router, useValue: { navigate: jest.fn() }},
         { provide: AbstractFeatureFlagService, useValue: { enabled: jest.fn(), bindEnabled: jest.fn() }}
       ],
@@ -37,10 +35,10 @@ describe('TotalRewardsStatementsGridComponent', () => {
 
     store = TestBed.inject(Store);
     router = TestBed.inject(Router);
-  }));
+  });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(StatementsGridComponent);
+    fixture = TestBed.createComponent(StatementHistoryPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
