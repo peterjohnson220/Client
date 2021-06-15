@@ -17,6 +17,7 @@ import { SettingsService } from 'libs/state/app-context/services';
 import { AppNotification } from 'libs/features/infrastructure/app-notifications';
 import * as fromAppNotificationsMainReducer from 'libs/features/infrastructure/app-notifications/reducers';
 import { FileDownloadSecurityWarningModalComponent } from 'libs/ui/common';
+import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
 
 import * as fromTotalRewardsStatementEditReducer from '../reducers';
 import * as fromEditStatementPageActions from '../actions';
@@ -84,6 +85,9 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
   enableFileDownloadSecurityWarning: boolean;
   generateStatementPreviewEventId = null;
 
+  totalRewardsAdditionalPageFeatureFlag: RealTimeFlag = { key: FeatureFlags.TotalRewardsAdditionalPage, value: false };
+  unsubscribe$ = new Subject<void>();
+
   scrollEventHandler = () => { this.scrollSubject.next(); };
 
   constructor(
@@ -91,9 +95,11 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
     private router: Router,
     private store: Store<fromTotalRewardsStatementEditReducer.State>,
     private settingsService: SettingsService,
-    private appNotificationStore: Store<fromAppNotificationsMainReducer.State>
+    private appNotificationStore: Store<fromAppNotificationsMainReducer.State>,
+    private featureFlagService: AbstractFeatureFlagService
   ) {
     this.enableFileDownloadSecurityWarning$ = this.settingsService.selectCompanySetting<boolean>(CompanySettingsEnum.FileDownloadSecurityWarning);
+    this.featureFlagService.bindEnabled(this.totalRewardsAdditionalPageFeatureFlag, this.unsubscribe$);
   }
 
   ngOnInit() {

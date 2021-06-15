@@ -167,12 +167,8 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
   }
 
   ngOnDestroy() {
-    if (this.onContentChangedSubscription) {
-      this.onContentChangedSubscription.unsubscribe();
-    }
-
+    this.onContentChangedSubscription?.unsubscribe();
     this.closeQuillMention();
-
     this.unsubscribe$.next();
   }
 

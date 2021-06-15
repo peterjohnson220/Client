@@ -25,7 +25,7 @@ exports[`TotalRewardsStatementComponent should render a mock statement\`s pages,
   statementModeEnum={[Function Object]}
 >
   <div
-    class="container statement position-relative medium-font-size default-font-family"
+    class="container statement position-relative medium-font-size default-font-family additional-page-disabled"
   >
     <pf-async-container />
     
