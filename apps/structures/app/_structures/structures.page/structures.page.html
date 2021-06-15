@@ -47,9 +47,16 @@
         [pfSecuredResource]="permissions.STRUCTURES_ADD_EDIT_DELETE"
         (click)="handleDeleteSingleRangeGroupClicked(dataRow['CompanyStructures_RangeGroup_CompanyStructuresRangeGroup_ID'], dataRow['CompanyStructures_RangeGroup_RangeGroup_Name'])"
       >Delete</button>
+      <button
+        ngbDropdownItem
+        [pfSecuredResource]="permissions.STRUCTURES_CREATE_EDIT_MODEL"
+        (click)="handleDuplicateRangeGroupClicked(dataRow['CompanyStructures_RangeGroup_CompanyStructuresRangeGroup_ID'])"
+      >Duplicate</button>
     </div>
   </div>
 </ng-template>
+
+<pf-duplicate-model-modal [pfSecuredResource]="permissions.STRUCTURES_CREATE_EDIT_MODEL" [rangeGroupId]="selectedRangeGroupId"></pf-duplicate-model-modal>
 
 <ng-template #payMarketFilter>
   <div>

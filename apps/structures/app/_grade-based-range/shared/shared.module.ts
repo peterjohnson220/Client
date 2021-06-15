@@ -28,9 +28,8 @@ import { reducers } from './reducers';
 
 import {
   PublishModelModalEffects,
-  SharedEffects, 
-  SwitchRegressionFlagsModalEffects,
-  DuplicateModelModalEffects
+  SharedEffects,
+  SwitchRegressionFlagsModalEffects
 } from './effects';
 import { ModelSettingsModalContentComponent } from './containers/model-settings-modal-content/model-settings-modal-content.component';
 import { SwitchRegressionFlagsModalComponent } from './containers';
@@ -46,8 +45,7 @@ import { SwitchRegressionFlagsModalComponent } from './containers';
     EffectsModule.forFeature([
       SharedEffects,
       SwitchRegressionFlagsModalEffects,
-      PublishModelModalEffects,
-      DuplicateModelModalEffects
+      PublishModelModalEffects
     ]),
     NgbCollapseModule,
     FontAwesomeModule,
