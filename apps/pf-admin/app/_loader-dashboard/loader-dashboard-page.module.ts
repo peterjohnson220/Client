@@ -11,6 +11,7 @@ import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfCompanySelectorModule } from 'libs/features/company/company-selector/company-selector.module';
+import { PfFieldMapperModule } from 'libs/features/loaders/org-data-loader';
 import {
   LoaderDashboardFileArchiveRedropComponent,
   LoaderDashboardFileGridComponent,
@@ -27,7 +28,7 @@ import { GetErrorMessagePipe } from './pipes';
 import { CompositeSummaryDownloadEffects } from '../../../dashboard/app/_main/effects';
 import { RedropConfirmationModalComponent } from './components/redrop-confirmation-modal';
 import { LoaderDashboardSidebarComponent } from './components/loader-dashboard-sidebar';
-import { PfFieldMapperModule } from '../../../../libs/features/loaders/org-data-loader';
+import { ProcessConfirmationModalComponent } from './components/process-confirmation-modal';
 
 @NgModule({
   imports: [
@@ -73,7 +74,8 @@ import { PfFieldMapperModule } from '../../../../libs/features/loaders/org-data-
     LoaderDashboardFileArchiveRedropComponent,
     LoaderDashboardSidebarComponent,
     RedropConfirmationModalComponent,
-    LoaderDashboardGridSummaryDetailComponent
+    LoaderDashboardGridSummaryDetailComponent,
+    ProcessConfirmationModalComponent
   ]
 })
 export class LoaderDashboardPageModule {

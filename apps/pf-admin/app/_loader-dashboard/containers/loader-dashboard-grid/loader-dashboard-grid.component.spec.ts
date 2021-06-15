@@ -68,6 +68,8 @@ describe('LoaderDashboardGridComponent', () => {
     processingStartTime: null,
     processingEndTime: null,
     hasErrorCondition: null,
+    isProcessed: null,
+    hasExpired: null
   }];
 
   beforeEach((() => {
@@ -131,7 +133,7 @@ describe('LoaderDashboardGridComponent', () => {
     // arrange
     const expectedAction = new fromLoaderDashboardPageActions.OpenRedropConfirmationModal();
     // act
-    component.openRedropConfirmationModal(1, 'test', 2);
+    component.openRedropConfirmationModal(1, 'test', 2, 'Organizational Data');
 
     // assert
     expect(store.dispatch).toHaveBeenCalledWith( expectedAction);

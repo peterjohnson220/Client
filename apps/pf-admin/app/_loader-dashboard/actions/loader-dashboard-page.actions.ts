@@ -27,6 +27,12 @@ export const REDROP_ARCHIVE_ERROR = '[Loaders Dashboard] Redrop Archive Error';
 export const PUBLISH_DOWNLOAD_ORGANIZATIONAL_DATA = '[Loaders Dashboard] Publish Download Org Data Message';
 export const PUBLISH_DOWNLOAD_ORGANIZATIONAL_DATA_SUCCESS = '[Loaders Dashboard] Publish Download Org Data Message Success';
 export const PUBLISH_DOWNLOAD_ORGANIZATIONAL_DATA_ERROR = '[Loaders Dashboard] Publish Download Org Data Message Error';
+export const REDROP_EXPORTED_SOURCE_FILE_TO_NEW_DATA_LOAD = '[Loaders Dashboard] Redrop Exported Source File To New Data Load';
+export const REDROP_EXPORTED_SOURCE_FILE_TO_NEW_DATA_LOAD_SUCCESS = '[Loaders Dashboard] Redrop Exported Source File To New Data Load Success';
+export const REDROP_EXPORTED_SOURCE_FILE_TO_NEW_DATA_LOAD_ERROR = '[Loaders Dashboard] Redrop Exported Source File To New Data Load Error';
+export const OPEN_REDROP_TO_NEW_DATA_LOAD_CONFIRMATION_MODAL = '[Loaders Dashboard] Open Redrop To New Data Load Confirmation Modal';
+export const DISMISS_REDROP_TO_NEW_DATA_LOAD_CONFIRMATION_MODAL = '[Loaders Dashboard] Dismiss Redrop To New Data Load Confirmation Modal';
+
 
 export class Init implements Action {
   readonly type = INIT;
@@ -154,6 +160,29 @@ export class PublishDownloadOrgDataMessageError implements Action {
   readonly type = PUBLISH_DOWNLOAD_ORGANIZATIONAL_DATA_ERROR;
 }
 
+export class RedropExportedSourceFileToNewDataLoad implements Action {
+  readonly type = REDROP_EXPORTED_SOURCE_FILE_TO_NEW_DATA_LOAD;
+
+  constructor(public payload: number) {}
+}
+
+export class RedropExportedSourceFileToNewDataLoadSuccess implements Action {
+  readonly type = REDROP_EXPORTED_SOURCE_FILE_TO_NEW_DATA_LOAD_SUCCESS;
+  constructor(public payload: boolean) {}
+}
+
+export class RedropExportedSourceFileToNewDataLoadError implements Action {
+  readonly type = REDROP_EXPORTED_SOURCE_FILE_TO_NEW_DATA_LOAD_ERROR;
+}
+
+export class OpenRedropToNewDataLoadConfirmationModal implements Action {
+  readonly type = OPEN_REDROP_TO_NEW_DATA_LOAD_CONFIRMATION_MODAL;
+}
+
+export class DismissRedropToNewDataLoadConfirmationModal implements Action {
+  readonly type = DISMISS_REDROP_TO_NEW_DATA_LOAD_CONFIRMATION_MODAL;
+}
+
 export type Actions
   = Init
   | GetAllGridData
@@ -179,4 +208,9 @@ export type Actions
   | RedropArchiveError
   | PublishDownloadOrgDataMessage
   | PublishDownloadOrgDataMessageError
-  | PublishDownloadOrgDataMessageSuccess;
+  | PublishDownloadOrgDataMessageSuccess
+  | RedropExportedSourceFileToNewDataLoad
+  | RedropExportedSourceFileToNewDataLoadSuccess
+  | RedropExportedSourceFileToNewDataLoadError
+  | OpenRedropToNewDataLoadConfirmationModal
+  | DismissRedropToNewDataLoadConfirmationModal;

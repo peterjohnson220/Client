@@ -27,6 +27,8 @@ import { DetailKeysModel, getDetailKeysByLoadType } from '../../models/detail-ke
 export class LoaderDashboardGridComponent implements OnInit, OnDestroy {
   gridDataObj$: Observable<AsyncStateObj<CompositeDataLoadViewResponse[]>>;
   isRedropInProgress$: Observable<AsyncStateObj<boolean>>;
+  isRedropNewDataLoadInProgress$: Observable<AsyncStateObj<boolean>>;
+  redropNewDataLoadSuccess$: Observable<boolean>;
   private unsubscribe$ = new Subject<boolean>();
   private unsubscribeRedropsFlag$ = new Subject<void>();
 
@@ -82,6 +84,13 @@ export class LoaderDashboardGridComponent implements OnInit, OnDestroy {
         }
     });
     this.isRedropInProgress$ = this.store.select(fromLoaderDashboardPageReducer.getRedropExportedSourceFile);
+    this.isRedropNewDataLoadInProgress$ = this.store.select(fromLoaderDashboardPageReducer.getRedropExportedSourceFileToNewDataLoad);
+    this.isRedropNewDataLoadInProgress$.pipe(takeUntil(this.unsubscribe$)).subscribe( r => {
+      if (r.obj) {
+        this.store.dispatch(new fromLoaderDashboardPageActions.DismissRedropToNewDataLoadConfirmationModal());
+        this.store.dispatch(new fromLoaderDashboardPageActions.UpdateGridSearchPayload([]));
+      }
+    });
   }
 
   ngOnDestroy() {
@@ -112,16 +121,31 @@ export class LoaderDashboardGridComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromCompositeSummaryDownloadActions.CompositeSummaryDownload({ Id: externalId, FileType: FileType.ExportedSourceFile }));
   }
 
-  openRedropConfirmationModal(compositeDataLoadId: number, clientName: string, clientId: number): void {
+  openRedropConfirmationModal(compositeDataLoadId: number, clientName: string, clientId: number, compositeLoaderType: string): void {
     this.selectedCompositeDataLoadId = compositeDataLoadId;
     this.selectedClientName = clientName;
     this.selectedClientId = clientId;
-    this.store.dispatch(new fromLoaderDashboardPageActions.OpenRedropConfirmationModal());
+    switch (compositeLoaderType) {
+      case 'Organizational Data':
+        this.store.dispatch(new fromLoaderDashboardPageActions.OpenRedropConfirmationModal());
+        break;
+      case 'Surveys':
+        this.store.dispatch(new fromLoaderDashboardPageActions.OpenRedropToNewDataLoadConfirmationModal());
+        break;
+      default:
+        break;
+    }
   }
 
   handleRedropConfirmationResponse(confirmed: boolean): void {
     if (confirmed) {
       this.store.dispatch(new fromLoaderDashboardPageActions.RedropExportedSourceFile(this.selectedCompositeDataLoadId));
+    }
+  }
+
+  handleRedropToNewDataLoadConfirmationResponse(confirmed: boolean): void {
+    if (confirmed) {
+      this.store.dispatch(new fromLoaderDashboardPageActions.RedropExportedSourceFileToNewDataLoad(this.selectedCompositeDataLoadId));
     }
   }
 

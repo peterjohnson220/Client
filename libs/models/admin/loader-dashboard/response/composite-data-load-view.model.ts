@@ -19,4 +19,6 @@ export interface CompositeDataLoadViewResponse {
   processingStartTime?: Date;
   processingEndTime?: Date;
   hasErrorCondition?: boolean;
+  isProcessed: boolean;
+  hasExpired: boolean;
 }
