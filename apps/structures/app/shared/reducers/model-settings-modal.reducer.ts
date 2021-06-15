@@ -35,6 +35,7 @@ export function reducer(state = initialState, action: fromModelSettingsModalActi
         modalOpen: true
       };
     case fromModelSettingsModalActions.CLOSE_MODAL:
+      state = AsyncStateObjHelper.resetErrors(state, 'savingModelingSettingsAsyncObj');
       return {
         ...state,
         modalOpen: false
