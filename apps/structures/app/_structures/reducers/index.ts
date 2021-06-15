@@ -33,4 +33,6 @@ export const selectStructuresPageState = createSelector(selectFeatureAreaState,
 export const getDeleteStructureModalOpen = createSelector(selectStructuresPageState, fromStructuresPageReducer.getDeleteStructuresModalOpen);
 export const getDeletingStructureStatus = createSelector(selectStructuresPageState, fromStructuresPageReducer.getDeletingStructureStatus);
 export const getDeletingStructureErrorStatus = createSelector(selectStructuresPageState, fromStructuresPageReducer.getDeletingStructureErrorStatus);
+export const getCurrencies = createSelector(selectStructuresPageState, fromStructuresPageReducer.getCurrencies);
+export const getCompanyPayMarkets = createSelector(selectStructuresPageState, fromStructuresPageReducer.getCompanyPayMarkets);
 

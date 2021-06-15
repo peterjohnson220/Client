@@ -13,7 +13,8 @@
   [inboundFilters]="inboundFilters"
   [aboveGridTemplate]="aboveGridTemplate"
   [gridRowActionsConfig]="gridRowActionsConfig"
-  [columnTemplates]="colTemplates">
+  [columnTemplates]="colTemplates"
+  [filterPanelTemplates]="filterTemplates">
 </pf-data-grid>
 
 <ng-template #aboveGridTemplate>
@@ -47,6 +48,52 @@
         (click)="handleDeleteSingleRangeGroupClicked(dataRow['CompanyStructures_RangeGroup_CompanyStructuresRangeGroup_ID'], dataRow['CompanyStructures_RangeGroup_RangeGroup_Name'])"
       >Delete</button>
     </div>
+  </div>
+</ng-template>
+
+<ng-template #payMarketFilter>
+  <div>
+    <label>Pay Market:</label>
+    <pf-treeview
+      [attr.data-qa-id]="'ddm-operator-structures-page-paymarket'"
+      [data]="payMarketOptions"
+      [placeholder]="'All Pay Markets'"
+      [filterable]="true"
+      [checkedKeys]="selectedPayMarkets"
+      [anchorWidth]="406"
+      (applyClicked)="handlePayMarketFilterChanged($event)">
+    </pf-treeview>
+  </div>
+</ng-template>
+
+<ng-template #structureTypeFilter>
+  <div>
+    <label>Structure Type:</label>
+    <kendo-dropdownlist  class="k-dropdown-white form-control"
+                         [(ngModel)]="selectedStructureType"
+                         [attr.data-qa-id]="'ddm-operator-structures-types'"
+                         [data]="structureTypes"
+                         [textField]="'Name'"
+                         [valueField]="'Value'"
+                         (valueChange)="handleSingleValueChanged($event, structuresTypeField)">
+    </kendo-dropdownlist>
+  </div>
+</ng-template>
+
+<ng-template #currencyFilter>
+  <div>
+    <label>Currency:</label>
+    <kendo-dropdownlist  class="k-dropdown-white form-control"
+                         [attr.data-qa-id]="'ddm-operator-structures-currency'"
+                         [(ngModel)]="selectedCurrency"
+                         [data]="currencies"
+                         [defaultItem]="{Name: '', Value: null}"
+                         [textField]="'Name'"
+                         [valueField]="'Value'"
+                         [filterable]="true"
+                         [kendoDropDownFilter]="filterSettings"
+                         (valueChange)="handleSingleValueChanged($event, currencyField)">
+    </kendo-dropdownlist>
   </div>
 </ng-template>
 
