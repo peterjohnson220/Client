@@ -11,13 +11,12 @@ import { StructureModelingApiService } from 'libs/data/payfactors-api/structures
 import { NotificationLevel, NotificationSource, NotificationType } from 'libs/features/infrastructure/app-notifications/models';
 import * as fromNotificationActions from 'libs/features/infrastructure/app-notifications/actions/app-notifications.actions';
 import { DuplicateModelRequest } from 'libs/models/payfactors-api/structures/request/duplicate-model-request.model';
+import { RangeType } from 'libs/constants/structures/range-type';
 
-import * as fromDuplicateModelModalActions from '../../../shared/actions/duplicate-model-modal.actions';
-import * as fromSharedStructuresReducer from '../../../shared/reducers';
-import * as fromSharedActions from '../actions/shared.actions';
-import { PagesHelper } from '../../../shared/helpers/pages.helper';
-import * as fromSharedStructuresActions from '../../../shared/actions/shared.actions';
-
+import * as fromDuplicateModelModalActions from '../actions/duplicate-model-modal.actions';
+import * as fromSharedStructuresReducer from '../reducers';
+import { PagesHelper } from '../helpers/pages.helper';
+import * as fromSharedStructuresActions from '../actions/shared.actions';
 
 @Injectable()
 export class DuplicateModelModalEffects {
@@ -45,7 +44,9 @@ export class DuplicateModelModalEffects {
               } else {
                 actions.push(new fromDuplicateModelModalActions.ClearModelNameExistsFailure());
 
-                this.router.navigate(['job/' + response.RangeGroup.CompanyStructuresRangeGroupId]);
+                const nav = (response.RangeGroup.RangeTypeId === RangeType.Grade ? 'grade/' : 'job/' );
+
+                this.router.navigate([nav + response.RangeGroup.CompanyStructuresRangeGroupId]);
                 actions.push(new fromDuplicateModelModalActions.CloseModal());
                 actions.push(new fromNotificationActions.AddNotification({
                   EnableHtml: true,
@@ -60,7 +61,7 @@ export class DuplicateModelModalEffects {
 
                 // Get all overridden ranges
                 const modelPageViewId =
-                  PagesHelper.getModelPageViewIdByRangeTypeAndRangeDistributionType(data.metadata.RangeTypeId, data.metadata.RangeDistributionTypeId);
+                PagesHelper.getModelPageViewIdByRangeTypeAndRangeDistributionType(response.RangeGroup.RangeTypeId, response.RangeGroup.RangeDistributionTypeId);
                 actions.push(new fromSharedStructuresActions.GetOverriddenRanges({
                   pageViewId: modelPageViewId,
                   rangeGroupId: response.RangeGroup.CompanyStructuresRangeGroupId

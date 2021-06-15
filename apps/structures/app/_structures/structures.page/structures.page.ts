@@ -25,6 +25,8 @@ import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import { StructuresPageConfig } from '../models';
 import * as fromStructuresPageReducer from '../reducers';
 import * as fromStructuresPageActions from '../actions/structures-page.actions';
+import * as fromDuplicateModelModalActions from '../../shared/actions/duplicate-model-modal.actions';
+import * as fromSharedStructuresReducer from '../../shared/reducers';
 
 @Component({
   selector: 'pf-structures-page',
@@ -86,7 +88,8 @@ export class StructuresPageComponent implements AfterViewInit, OnInit, OnDestroy
 
   constructor(
     private pfDataGridStore: Store<fromPfDataGridReducer.State>,
-    private structuresStore: Store<fromStructuresPageReducer.State>
+    private structuresStore: Store<fromStructuresPageReducer.State>,
+    private sharedStructuresStore: Store<fromSharedStructuresReducer.State>
   ) {
     this.actionBarConfig = {
       ...getDefaultActionBarConfig(),
@@ -186,6 +189,11 @@ export class StructuresPageComponent implements AfterViewInit, OnInit, OnDestroy
         rangeGroupIds: this.selectedRangeGroupIds
       }));
     }
+  }
+
+  handleDuplicateRangeGroupClicked (selectedRangeGroupId: number) {
+    this.selectedRangeGroupId = selectedRangeGroupId;
+    this.sharedStructuresStore.dispatch(new fromDuplicateModelModalActions.OpenModal());
   }
 
   handleModalDismissed(): void {

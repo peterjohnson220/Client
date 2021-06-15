@@ -18,6 +18,7 @@ import * as fromFaIcons from './fa-icons';
 
 import { StructuresPageComponent } from './structures.page';
 import { StructuresRoutingModule } from './structures-routing.module';
+import { SharedModule } from '../shared/shared.module';
 import { StructuresPageEffects } from './effects';
 import { reducers } from './reducers';
 
@@ -38,13 +39,16 @@ import { reducers } from './reducers';
     // Routing
     StructuresRoutingModule,
 
-    // Payfactors
-    PfCommonModule,
-    PfCommonUIModule,
-    PfDataGridModule,
-    PfFormsModule,
-    FormsModule
-  ],
+        // Payfactors
+        PfCommonModule,
+        PfCommonUIModule,
+        PfDataGridModule,
+        PfFormsModule,
+        FormsModule,
+
+        // Shared
+        SharedModule
+    ],
   declarations: [
     StructuresPageComponent
   ],

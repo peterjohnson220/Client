@@ -27,7 +27,7 @@ import { RangeValuePipe } from 'libs/features/structures/add-jobs-to-range/pipes
 import { RangeGroupExistsGuard } from './guards';
 import { reducers } from './reducers';
 import {
-  AddJobsModalEffects, FormulaFieldEffects,
+  AddJobsModalEffects, DuplicateModelModalEffects, FormulaFieldEffects,
   ModelSettingsModalEffects,
   SearchPageEffects,
   SearchResultsEffects,
@@ -60,7 +60,8 @@ import { DuplicateModelModalComponent } from './containers/duplicate-model-modal
         SearchResultsEffects,
         SingledFilterEffects,
         ModelSettingsModalEffects,
-        FormulaFieldEffects
+        FormulaFieldEffects,
+        DuplicateModelModalEffects
       ]),
       FontAwesomeModule,
       NgbTabsetModule,
