@@ -15,7 +15,6 @@ export class HeaderComponent {
   @Input() userContext: UserContext;
   @Input() homePageLink: HomePageLink;
   @Input() requireSSOLogin: boolean;
-  @Input() enableUserNotifications: boolean;
 
   constructor() {}
 }
