@@ -30,4 +30,5 @@ export class FeatureFlags {
   static readonly TotalRewardsAdditionalPage = 'total-rewards-additional-page';
   static readonly ProjectsPage = 'projects-page';
   static readonly SurveysPage = 'new-surveys-tile';
+  static readonly StructuresPage = 'new-structures-tile';
 }

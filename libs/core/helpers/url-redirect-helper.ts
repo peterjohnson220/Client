@@ -50,6 +50,16 @@ export class UrlRedirectHelper {
     };
   }
 
+  static getStructuresUrlRedirectRequest(): UrlRedirectRequest {
+    return {
+      FeatureFlag: FeatureFlags.StructuresPage,
+      UrlParams: null,
+      TargetPage: UrlPage.Structures,
+      SlugFilters: null,
+      SlugOnly: true
+    };
+  }
+
   static getIdParamUrl(urlSlug: string, id: string): string {
     const isClient = urlSlug.includes('client');
 
