@@ -23,3 +23,4 @@ export * from './parse-date.pipe';
 export * from './parse-date-from-unix-time.pipe';
 export * from './weighting-type.pipe';
 export * from './company-name-short.pipe';
+export * from './ordinal-number.pipe';

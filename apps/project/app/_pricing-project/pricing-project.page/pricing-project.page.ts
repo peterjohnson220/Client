@@ -29,7 +29,9 @@ export class PricingProjectPageComponent implements OnInit, AfterViewInit, OnDes
   @ViewChild('compColumn', { static: false }) compColumn: ElementRef;
   @ViewChild('percentageColumn', { static: false }) percentageColumn: ElementRef;
   @ViewChild('companyColumn', { static: false }) companyColumn: ElementRef;
-
+  selectedProjectJobIds: number[] = [];
+  selectedProjectJobsSubscription: Subscription;
+  viewingJobSummary: boolean;
   project$: Observable<any>;
   projectId: number;
   pageViewId = PageViewIds.ProjectJobs;
@@ -104,10 +106,17 @@ export class PricingProjectPageComponent implements OnInit, AfterViewInit, OnDes
     });
 
     this.userContext$ = this.store.select(fromRootState.getUserContext);
+
+    this.selectedProjectJobsSubscription = this.store.select(fromPfDataGridReducer.getSelectedKeys, this.pageViewId).subscribe(data => {
+      if (data) {
+        this.selectedProjectJobIds = data;
+      }
+    });
   }
 
   ngOnDestroy() {
     this.companySettingsSubscription.unsubscribe();
+    this.selectedProjectJobsSubscription.unsubscribe();
   }
 
   ngAfterViewInit() {
@@ -143,5 +152,9 @@ export class PricingProjectPageComponent implements OnInit, AfterViewInit, OnDes
 
   private initRouterParams(): void {
     this.projectId = this.route.snapshot.params.projectId;
+  }
+
+  jobSummaryClickHandler(): void {
+    this.viewingJobSummary = !this.viewingJobSummary;
   }
 }

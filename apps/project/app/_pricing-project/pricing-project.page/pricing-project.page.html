@@ -13,6 +13,8 @@
   [aboveGridTemplate]="aboveGridTemplate"
   [pageable]="!gridConfig.EnableInfiniteScroll"
   [actionBarConfig]="actionBarConfig"
+  [hideKendoGrid] = "viewingJobSummary"
+  [gridReplacementTemplate] = "jobSummary"
   [noRecordsFound]="'No jobs available in this project.'">
 </pf-data-grid>
 
@@ -33,6 +35,12 @@
     <div class="card pf-card flex-fill m-2">
       <div class="card-body">
       Analyze
+        <div>
+          <button class="btn btn-secondary"
+                  [disabled]="viewingJobSummary"
+                  [attr.data-qa-id]="'btn-job-summary'"
+                  (click)="jobSummaryClickHandler()">Job Summary</button>
+      </div>
       </div>
     </div>
     </div>
@@ -92,4 +100,14 @@
 
 <ng-template #companyColumn let-column="column">
   <div pfEllipsisActive class="ellipsis-text">{{column.title | companyNameShort : (userContext$ | async)}}</div>
+</ng-template>
+
+<ng-template #jobSummary>
+  <pf-job-summary [projectRate]="(project$ | async)?.Rate"
+                  [baseMrp] = "(project$ | async)?.BaseReferencePoint"
+                  [tccMrp] = "(project$ | async)?.TCCReferencePoint"
+                  [(showJobSummary)]="viewingJobSummary"
+                  [projectId]="projectId"
+                  [projectJobIds]="selectedProjectJobIds">
+  </pf-job-summary>
 </ng-template>

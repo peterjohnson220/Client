@@ -13,6 +13,7 @@ import { PfCommonUIModule } from 'libs/ui/common';
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import {ProjectExportModule} from 'apps/project/app/_project-export-manager';
+import { HighchartsChartModule } from 'highcharts-angular';
 
 import { PricingProjectPageRoutingModule } from './pricing-project-page-routing.module';
 import * as fromFaIcons from './fa-icons';
@@ -20,6 +21,7 @@ import {PricingProjectPageComponent} from './pricing-project.page/pricing-projec
 import {reducers} from './reducers';
 import {PricingProjectPageEffects} from './effects';
 import {HasAccessToProjectGuard} from '../shared/guards';
+import { JobSummaryComponent } from './components/analyze/job-summary/job-summary.component';
 
 @NgModule({
     imports: [
@@ -38,6 +40,7 @@ import {HasAccessToProjectGuard} from '../shared/guards';
         NgbModule,
         NgbDropdownModule,
         DropDownListModule,
+        HighchartsChartModule,
 
         // Routing
         PricingProjectPageRoutingModule,
@@ -51,7 +54,8 @@ import {HasAccessToProjectGuard} from '../shared/guards';
     ],
   declarations: [
     // Pages
-    PricingProjectPageComponent
+    PricingProjectPageComponent,
+    JobSummaryComponent
   ],
   providers: [
     HasAccessToProjectGuard
