@@ -4,7 +4,7 @@ import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 import { GenericNameValue } from 'libs/models/common';
 import { AsyncStateObjHelper } from 'libs/core/helpers';
 import { EmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards/response';
-import { CompensationField, ImageControl, Statement, StatementAdditionalPagePlacementEnum, StatementModeEnum } from 'libs/features/total-rewards/total-rewards-statement/models';
+import { CompensationField, ImageControl, Statement, StatementAdditionalPagePlacementEnum, StatementModeEnum, BaseControl, TotalRewardsControlEnum } from 'libs/features/total-rewards/total-rewards-statement/models';
 import { TotalRewardsStatementService } from 'libs/features/total-rewards/total-rewards-statement/services/total-rewards-statement.service';
 
 import * as fromEditStatementActions from '../actions';
@@ -91,13 +91,13 @@ export function reducer(state = initialState, action: fromEditStatementActions.S
       return localState;
     }
     case fromEditStatementActions.UPDATE_STATEMENT_CONTROL_TITLE: {
-      const {Page, Section, Column, Control} = TotalRewardsStatementService.getCurrentControlIndex(state.statement.obj, action.payload.ControlId);
+      const {Page, Section, Column, Control} = TotalRewardsStatementService.getControlIndex(state.statement.obj.Pages, action.payload.ControlId);
       const localState = cloneDeep(state);
       localState.statement.obj.Pages[Page].Sections[Section].Columns[Column].Controls[Control].Title.Override = action.payload.Title;
       return localState;
     }
     case fromEditStatementActions.UPDATE_CALCULATION_CONTROL_FIELD_TITLE: {
-      const {Page, Section, Column, Control} = TotalRewardsStatementService.getCurrentControlIndex(state.statement.obj, action.payload.ControlId);
+      const {Page, Section, Column, Control} = TotalRewardsStatementService.getControlIndex(state.statement.obj.Pages, action.payload.ControlId);
       const localState = cloneDeep(state);
       const compFields = localState.statement.obj.Pages[Page].Sections[Section].Columns[Column].Controls[Control].DataFields;
       for (let i = 0; i < compFields.length; i++) {
@@ -108,13 +108,13 @@ export function reducer(state = initialState, action: fromEditStatementActions.S
       return localState;
     }
     case fromEditStatementActions.UPDATE_CALCULATION_CONTROL_SUMMARY_TITLE: {
-      const {Page, Section, Column, Control} = TotalRewardsStatementService.getCurrentControlIndex(state.statement.obj, action.payload.ControlId);
+      const {Page, Section, Column, Control} = TotalRewardsStatementService.getControlIndex(state.statement.obj.Pages, action.payload.ControlId);
       const localState = cloneDeep(state);
       localState.statement.obj.Pages[Page].Sections[Section].Columns[Column].Controls[Control].Summary.Override = action.payload.Title;
       return localState;
     }
     case fromEditStatementActions.ADD_CALCULATION_CONTROL_COMPENSATION_FIELD: {
-      const {Page, Section, Column, Control} = TotalRewardsStatementService.getCurrentControlIndex(state.statement.obj, action.payload.ControlId);
+      const {Page, Section, Column, Control} = TotalRewardsStatementService.getControlIndex(state.statement.obj.Pages, action.payload.ControlId);
       const localState = cloneDeep(state);
       const compFields = localState.statement.obj.Pages[Page].Sections[Section].Columns[Column].Controls[Control].DataFields;
       if (!action.payload.Type) {
@@ -136,7 +136,7 @@ export function reducer(state = initialState, action: fromEditStatementActions.S
       return localState;
     }
     case fromEditStatementActions.REMOVE_CALCULATION_CONTROL_COMPENSATION_FIELD: {
-      const {Page, Section, Column, Control} = TotalRewardsStatementService.getCurrentControlIndex(state.statement.obj, action.payload.ControlId);
+      const {Page, Section, Column, Control} = TotalRewardsStatementService.getControlIndex(state.statement.obj.Pages, action.payload.ControlId);
       const localState = cloneDeep(state);
       const compFields = localState.statement.obj.Pages[Page].Sections[Section].Columns[Column].Controls[Control].DataFields;
 
@@ -170,7 +170,7 @@ export function reducer(state = initialState, action: fromEditStatementActions.S
       return localState;
     }
     case fromEditStatementActions.REORDER_CALCULATION_CONTROL_COMPENSATION_FIELD: {
-      const {Page, Section, Column, Control} = TotalRewardsStatementService.getCurrentControlIndex(state.statement.obj, action.payload.ControlId);
+      const {Page, Section, Column, Control} = TotalRewardsStatementService.getControlIndex(state.statement.obj.Pages, action.payload.ControlId);
       const localState = cloneDeep(state);
       const compFields = localState.statement.obj.Pages[Page].Sections[Section].Columns[Column].Controls[Control].DataFields;
       const orderedVisibleFields = cloneDeep(action.payload.CompensationFields);
@@ -186,14 +186,22 @@ export function reducer(state = initialState, action: fromEditStatementActions.S
       return localState;
     }
     case fromEditStatementActions.UPDATE_RICH_TEXT_CONTROL_CONTENT: {
-      const {Page, Section, Column, Control} = TotalRewardsStatementService.getCurrentControlIndex(state.statement.obj, action.payload.ControlId);
+      const {Page, Section, Column, Control} = TotalRewardsStatementService.getControlIndex(state.statement.obj.Pages, action.payload.ControlId);
       const localState = cloneDeep(state);
       const control = localState.statement.obj.Pages[Page].Sections[Section].Columns[Column].Controls[Control];
       control.Content = action.payload.value;
       return localState;
     }
+    case fromEditStatementActions.UPDATE_ADDITIONAL_PAGE_RICH_TEXT_CONTROL_HEIGHT: {
+      const localState = cloneDeep(state);
+      const additionalPage = localState.statement.obj.Pages.filter(p => p.IsAdditionalPage);
+      const {Section, Column, Control} = TotalRewardsStatementService.getControlIndex(additionalPage, null, TotalRewardsControlEnum.RichTextEditor);
+      const Page = localState.statement.obj.Settings.AdditionalPageSettings.PagePlacement === StatementAdditionalPagePlacementEnum.BeforeStatement ? 0 : 1;
+      localState.statement.obj.Pages[Page].Sections[Section].Columns[Column].Controls[Control].Height = action.payload.rteHeightInPixels + 'px';
+      return localState;
+   }
     case fromEditStatementActions.UPDATE_RICH_TEXT_CONTROL_UDFS_IN_CONTENT: {
-      const {Page, Section, Column, Control} = TotalRewardsStatementService.getCurrentControlIndex(state.statement.obj, action.payload.ControlId);
+      const {Page, Section, Column, Control} = TotalRewardsStatementService.getControlIndex(state.statement.obj.Pages, action.payload.ControlId);
       const localState = cloneDeep(state);
       const control = localState.statement.obj.Pages[Page].Sections[Section].Columns[Column].Controls[Control];
       control.UdfDataFieldsInContent = action.payload.UdfDataFieldsInContent;
@@ -286,7 +294,7 @@ export function reducer(state = initialState, action: fromEditStatementActions.S
     }
     case fromEditStatementActions.SAVE_IMAGE_CONTROL_IMAGE: {
       const localState: State = cloneDeep(state);
-      const {Page, Section, Column, Control} = TotalRewardsStatementService.getCurrentControlIndex(state.statement.obj, action.payload.ControlId);
+      const {Page, Section, Column, Control} = TotalRewardsStatementService.getControlIndex(state.statement.obj.Pages, action.payload.ControlId);
       const control: ImageControl = localState.statement.obj.Pages[Page].Sections[Section].Columns[Column].Controls[Control] as ImageControl;
       control.FileName = action.payload.FileName;
       control.FileUrl = action.payload.FileUrl;
@@ -294,7 +302,7 @@ export function reducer(state = initialState, action: fromEditStatementActions.S
     }
     case fromEditStatementActions.REMOVE_IMAGE_CONTROL_IMAGE: {
       const localState: State = cloneDeep(state);
-      const {Page, Section, Column, Control} = TotalRewardsStatementService.getCurrentControlIndex(state.statement.obj, action.payload.Id);
+      const {Page, Section, Column, Control} = TotalRewardsStatementService.getControlIndex(state.statement.obj.Pages, action.payload.Id);
       const control: ImageControl = localState.statement.obj.Pages[Page].Sections[Section].Columns[Column].Controls[Control] as ImageControl;
       control.FileName = '';
       control.FileUrl = '';

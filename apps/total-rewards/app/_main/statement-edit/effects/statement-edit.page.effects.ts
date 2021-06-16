@@ -82,6 +82,7 @@ export class StatementEditPageEffects {
         fromStatementEditActions.REORDER_CALCULATION_CONTROL_COMPENSATION_FIELD,
         fromStatementEditActions.ADD_CALCULATION_CONTROL_COMPENSATION_FIELD,
         fromStatementEditActions.UPDATE_RICH_TEXT_CONTROL_CONTENT,
+        fromStatementEditActions.UPDATE_ADDITIONAL_PAGE_RICH_TEXT_CONTROL_HEIGHT,
         fromStatementEditActions.SAVE_IMAGE_CONTROL_IMAGE,
         fromStatementEditActions.UPDATE_EFFECTIVE_DATE
       ),

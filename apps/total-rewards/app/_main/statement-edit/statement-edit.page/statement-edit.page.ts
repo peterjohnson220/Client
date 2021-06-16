@@ -18,6 +18,7 @@ import { AppNotification } from 'libs/features/infrastructure/app-notifications'
 import * as fromAppNotificationsMainReducer from 'libs/features/infrastructure/app-notifications/reducers';
 import { FileDownloadSecurityWarningModalComponent } from 'libs/ui/common';
 import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
+import { TrsConstants } from 'libs/features/total-rewards/total-rewards-statement/constants/trs-constants';
 
 import * as fromTotalRewardsStatementEditReducer from '../reducers';
 import * as fromEditStatementPageActions from '../actions';
@@ -240,6 +241,14 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
   // COMMON //
   handleOnControlTitleChange(request: models.UpdateTitleRequest) {
     this.store.dispatch(new fromEditStatementPageActions.UpdateStatementControlTitle(request));
+
+    // the title content has changed but the string editor is still in edit mode, so wait a turn to recalc when the editor goes back to view mode
+    if (this.statement.Settings.AdditionalPageSettings.PagePlacement !== models.StatementAdditionalPagePlacementEnum.None) {
+      setTimeout(() => {
+        const rteHeightInPixels = TrsConstants.AVAILABLE_PAGE_HEIGHT_IN_PIXELS - this.calculateRepeatableHeaderHeightInPixels(true);
+        this.store.dispatch(new fromEditStatementPageActions.UpdateAdditionalPageRichTextControlHeight({ rteHeightInPixels }));
+      }, 0);
+    }
   }
 
   // CALCULATION //
@@ -281,7 +290,7 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
     const funcToCallWithControl = (control: models.BaseControl): void => {
       if (control.ControlType === models.TotalRewardsControlEnum.RichTextEditor) { ids.push(control.Id); }
     };
-    TotalRewardsStatementService.applyFuncToEachControl(this.statement, funcToCallWithControl);
+    TotalRewardsStatementService.applyFuncToEachControl(this.statement?.Pages, funcToCallWithControl);
     return ids;
   }
 
@@ -393,9 +402,12 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
     this.scrollTimer = setTimeout(() => this.store.dispatch(new fromEditStatementPageActions.PageScroll({ isScrolling: false })), 1000);
   }
 
-  calculateRepeatableHeaderHeightInPixels() {
-    // get the first page classed as main, then all section elements classed as repeatable-header-content within
-    const headerSections = document.querySelector('.statement .trs-page.main').querySelectorAll('section.repeatable-header-content');
+  calculateRepeatableHeaderHeightInPixels(useAdditionalPageHeader = false) {
+    // get the first page classed as main/additional, then all section elements classed as repeatable-header-content within
+    const pageSelector = (useAdditionalPageHeader) ? '.statement .trs-page.additional' : '.statement .trs-page.main';
+    const sectionSelector = 'section.repeatable-header-content';
+    const headerSections = document.querySelector(pageSelector).querySelectorAll(sectionSelector);
+
     let totalContentHeightInPixels = 0;
     for (let i = 0; i < headerSections.length; i ++) {
       totalContentHeightInPixels += (headerSections[i] as any).offsetHeight;
