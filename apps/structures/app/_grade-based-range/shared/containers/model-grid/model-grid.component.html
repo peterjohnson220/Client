@@ -218,6 +218,7 @@
       [updateMetaInfo]="{ pageViewId: modelGridPageViewId }"
       [readonlyValueTemplate]="rangeValue"
       [minValue]="-999999999999999"
+      [maxValue]="200"
       [reloadGridData]="true">
     </pf-range-field-editor>
   </ng-container>
@@ -241,7 +242,8 @@
       [noRounding]="true"
       [refreshRowDataViewFilter]="getRefreshFilter(dataRow)"
       [updateMetaInfo]="{ pageViewId: modelGridPageViewId }"
-      [readonlyValueTemplate]="rangeValue">
+      [readonlyValueTemplate]="rangeValue"
+      [maxValue]="200">
     </pf-range-field-editor>
   </ng-container>
 </ng-template>
