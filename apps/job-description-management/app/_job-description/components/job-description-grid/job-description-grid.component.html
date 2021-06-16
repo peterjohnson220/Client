@@ -62,7 +62,9 @@
         <input kendoGridSelectAllCheckbox [state]="getSelectAllState()">
       </ng-template>
       <ng-template kendoGridCellTemplate let-dataItem let-idx="rowIndex">
-       <input [kendoGridSelectionCheckbox]="idx" [disabled]="!canSelectRow(dataItem)"/>
+        <div #toolTipWrapper [ngbTooltip]="tooltipForCheckbox(dataItem)" placement="right">
+          <input [kendoGridSelectionCheckbox]="idx" [disabled]="!canSelectRow(dataItem)"/>
+        </div>
       </ng-template>
     </kendo-grid-checkbox-column>
 
