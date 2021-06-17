@@ -9,7 +9,7 @@ import { SortDescriptor } from '@progress/kendo-data-query';
 
 import { Permissions } from 'libs/constants';
 import { CompanyJobApiService } from 'libs/data/payfactors-api/company';
-import { MODIFY_PRICINGS } from 'libs/features/pricings/multi-match/constants';
+import { MultiMatchFeatureImplementations } from 'libs/features/pricings/multi-match/constants';
 import {
   ActionBarConfig,
   getDefaultActionBarConfig,
@@ -156,7 +156,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   loadViewConfigSuccessSubscription = new Subscription;
 
-  multiMatchImplementation = MODIFY_PRICINGS;
+  multiMatchImplementation = MultiMatchFeatureImplementations.MODIFY_PRICINGS;
 
   gridConfig: GridConfig;
 

@@ -11,6 +11,7 @@
   [defaultSort]="defaultSort"
   [navigationURL] = "'/client/dashboard'"
   [aboveGridTemplate]="aboveGridTemplate"
+  [gridActionsTemplate]="gridActions"
   [pageable]="!gridConfig.EnableInfiniteScroll"
   [actionBarConfig]="actionBarConfig"
   [hideKendoGrid] = "viewingJobSummary"
@@ -75,6 +76,34 @@
   </button>
 </ng-template>
 
+<ng-template #gridActions>
+  <button
+    [disabled]="!selectedRowIds.length"
+    [attr.data-qa-id]="'btn-project-page-clear-selections'"
+    type="button"
+    (click)="clearSelections()"
+    [title]="!selectedRowIds.length ? 'No Jobs Selected' : ''"
+    class="btn btn-secondary pf-btn-borderless"
+  >
+    <fa-icon [icon]="['far', 'times']" ></fa-icon>
+    Clear Selections
+  </button>
+  <!-- TODO: Permissions on this separator bar should clear selections be the only button here -->
+  <div class="vertical-separator my-2"></div>
+  <button
+    [pfSecuredResource]="permissions.PRICING_PROJECTS_DATA_CUTS"
+    [disabled]="!selectedRowIds.length"
+    [attr.data-qa-id]="'btn-project-page-multi-match'"
+    type="button"
+    (click)="openMultiMatch()"
+    [title]="!selectedRowIds.length ? 'No Jobs Selected' : ''"
+    class="btn btn-secondary pf-btn-borderless"
+  >
+    <fa-icon [icon]="['far', 'equals']" ></fa-icon>
+    Match
+  </button>
+</ng-template>
+
 <pf-project-export-manager
   [modalTitle]="'Download Data Export'"
   [openModal]="exportModalIsOpen"
@@ -89,6 +118,13 @@
   (securityWarningConfirmed)="exportModalIsOpen = true;"
 >
 </pf-file-download-security-warning-modal>
+
+<pf-multi-match-component
+  [display]="'modal'"
+  [featureImplementation]="'Pricing Projects'"
+  [customSaveLogic]="false"
+  [modalTitle]="'Match Jobs'"
+></pf-multi-match-component>
 
 <ng-template #compColumn let-dataRow="dataRow" let-fieldName="fieldName">
   <span [innerHTML]="dataRow[fieldName] | comp: (project$ | async)?.Rate | emptyPlaceholder"></span>
@@ -108,6 +144,6 @@
                   [tccMrp] = "(project$ | async)?.TCCReferencePoint"
                   [(showJobSummary)]="viewingJobSummary"
                   [projectId]="projectId"
-                  [projectJobIds]="selectedProjectJobIds">
+                  [projectJobIds]="selectedRowIds">
   </pf-job-summary>
 </ng-template>
