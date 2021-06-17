@@ -35,4 +35,6 @@ export const getDeletingStructureStatus = createSelector(selectStructuresPageSta
 export const getDeletingStructureErrorStatus = createSelector(selectStructuresPageState, fromStructuresPageReducer.getDeletingStructureErrorStatus);
 export const getCurrencies = createSelector(selectStructuresPageState, fromStructuresPageReducer.getCurrencies);
 export const getCompanyPayMarkets = createSelector(selectStructuresPageState, fromStructuresPageReducer.getCompanyPayMarkets);
+export const getCustomFilterOptions = createSelector(selectStructuresPageState, fromStructuresPageReducer.getCustomFilterOptions);
+
 

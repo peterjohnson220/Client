@@ -1,8 +1,11 @@
+import cloneDeep from 'lodash/cloneDeep';
+
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 import { KendoTypedDropDownItem } from 'libs/models/kendo';
 import { AsyncStateObjHelper } from 'libs/core/helpers';
 import { GroupedListItem } from 'libs/models/list';
 import { arraySortByString, SortDirection } from 'libs/core/functions';
+import { PfDataGridCustomFilterOptions } from 'libs/features/grids/pf-data-grid/models';
 
 // Import all exports from our feature's actions
 import * as fromStructuresPageActions from '../actions/structures-page.actions';
@@ -14,6 +17,7 @@ export interface State {
   deletingStructure: boolean;
   currencies: AsyncStateObj<KendoTypedDropDownItem[]>;
   companyPayMarkets: AsyncStateObj<GroupedListItem[]>;
+  customFilterOptions: PfDataGridCustomFilterOptions[];
 }
 
 // Define our initial state
@@ -22,7 +26,14 @@ const initialState: State = {
   deletingStructureError: false,
   deletingStructure: false,
   currencies: generateDefaultAsyncStateObj<KendoTypedDropDownItem[]>([]),
-  companyPayMarkets: generateDefaultAsyncStateObj<GroupedListItem[]>([])
+  companyPayMarkets: generateDefaultAsyncStateObj<GroupedListItem[]>([]),
+  customFilterOptions: [
+    {
+      EntitySourceName: 'CompanyStructures_RangeGroup',
+      SourceName: 'Currency',
+      FilterDisplayOptions: []
+    }
+  ]
 };
 
 
@@ -64,8 +75,18 @@ export function reducer(state = initialState, action: fromStructuresPageActions.
     }
     case fromStructuresPageActions.LOAD_CURRENCIES:
       return AsyncStateObjHelper.loading(state, 'currencies');
-    case fromStructuresPageActions.LOAD_CURRENCIES_SUCCESS:
-      return AsyncStateObjHelper.loadingSuccess(state, 'currencies', action.payload);
+    case fromStructuresPageActions.LOAD_CURRENCIES_SUCCESS: {
+      const customFilterOptionsClone: PfDataGridCustomFilterOptions[] = cloneDeep(state.customFilterOptions);
+
+      customFilterOptionsClone.find(x => x.SourceName === 'Currency').FilterDisplayOptions = action.payload.map(function (x) {
+        return {Display: x.Name, Value: x.Value};
+      });
+      return {
+        ...state,
+        customFilterOptions: customFilterOptionsClone,
+        currencies: { ...state['currencies'], loading: false, obj: action.payload }
+      };
+    }
     case fromStructuresPageActions.LOAD_CURRENCIES_ERROR:
       return AsyncStateObjHelper.loadingError(state, 'currencies');
     case fromStructuresPageActions.LOAD_COMPANY_PAYMARKETS:
@@ -88,3 +109,4 @@ export const getDeletingStructureStatus = (state: State) => state.deletingStruct
 export const getDeletingStructureErrorStatus = (state: State) => state.deletingStructureError;
 export const getCurrencies = (state: State) => state.currencies;
 export const getCompanyPayMarkets = (state: State) => state.companyPayMarkets;
+export const getCustomFilterOptions = (state: State) => state.customFilterOptions;

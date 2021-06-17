@@ -12,9 +12,11 @@
   [applyDefaultFilters]="false"
   [inboundFilters]="inboundFilters"
   [aboveGridTemplate]="aboveGridTemplate"
-  [gridRowActionsConfig]="gridRowActionsConfig"
+  [gridRowActionsConfig]="hasDropdownOptions ? gridRowActionsConfig : null"
   [columnTemplates]="colTemplates"
-  [filterPanelTemplates]="filterTemplates">
+  [filterPanelTemplates]="filterTemplates"
+  [customSortOptions]="customSortOptions"
+  [customFilterOptions] = "(customFilterOptions$ | async)">
 </pf-data-grid>
 
 <ng-template #aboveGridTemplate>
@@ -35,7 +37,7 @@
 </ng-template>
 
 <ng-template #gridRowActionsTemplate let-dataRow="dataRow">
-  <div ngbDropdown container="body" #p="ngbDropdown">
+  <div [pfSecuredResource]="[permissions.STRUCTURES_ADD_EDIT_DELETE, permissions.STRUCTURES_CREATE_EDIT_MODEL]" ngbDropdown container="body" #p="ngbDropdown">
     <fa-icon ngbDropdownToggle
              icon="ellipsis-h"
              id="structures-actions-{{dataRow['CompanyStructures_RangeGroup_CompanyStructuresRangeGroup_ID']}}"
@@ -128,7 +130,7 @@
   </ng-container>
 
 </pf-modal-form>
-<ng-template #currencyColumn let-dataRow="dataRow" let-fieldName="fieldName">
+<ng-template #currencyTypeColumn let-dataRow="dataRow" let-fieldName="fieldName">
   <div pfEllipsisActive class="ellipsis-overflowing-text">
     <span [innerHTML]="dataRow[fieldName] | comp: dataRow['CompanyStructures_RangeGroup_Rate'] : 'rounded' | emptyPlaceholder"></span>
   </div>
@@ -137,5 +139,11 @@
 <ng-template #numericColumn let-dataRow="dataRow" let-fieldName="fieldName">
   <div pfEllipsisActive class="ellipsis-overflowing-text">
     <span [innerHTML]="dataRow[fieldName] | emptyPlaceholder"></span>
+  </div>
+</ng-template>
+
+<ng-template #currencyColumn let-dataRow="dataRow">
+  <div *ngIf="dataRow['CompanyStructures_RangeGroup_Currency']" pfEllipsisActive class="w-100 ellipsis-overflowing-text-wrap">
+    {{dataRow['Currency_Currency_Name']}} ({{dataRow['CompanyStructures_RangeGroup_Currency']}})
   </div>
 </ng-template>
