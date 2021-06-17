@@ -332,7 +332,7 @@ export class JobDescriptionGridComponent implements OnInit, OnDestroy {
     const selectedIds = Array.from(this.selectedJobDescriptions?.keys());
     const eligiblePageIds =  this.gridDataResult?.data?.filter(x => this.canSelectRow(x)).map(jd => jd.JobDescriptionId);
 
-    if (eligiblePageIds.every(r => selectedIds.includes(r))) {
+    if (selectedIds?.length > 0 && eligiblePageIds?.length > 0 && eligiblePageIds.every(r => selectedIds.includes(r))) {
       return 'checked';
     } else if (eligiblePageIds.filter(r => selectedIds.includes(r))?.length === 0) {
       return 'unchecked';
