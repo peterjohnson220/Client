@@ -94,7 +94,8 @@ export class StructuresPageComponent implements AfterViewInit, OnInit, OnDestroy
     this.actionBarConfig = {
       ...getDefaultActionBarConfig(),
       ShowColumnChooser: true,
-      ShowFilterChooser: true
+      ShowFilterChooser: true,
+      AllowSaveFilter: true
     };
     this.gridConfig = {
       PersistColumnWidth: false,
