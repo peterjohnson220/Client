@@ -261,5 +261,8 @@ export class ModelSettingsModalContentComponent implements OnInit, OnDestroy {
 
   private reset() {
     this.attemptedSubmit = false;
+    const tab = 'modelTab';
+    this.store.dispatch(new fromModelSettingsModalActions.SetActiveTab(''));
+    this.store.dispatch(new fromModelSettingsModalActions.SetActiveTab(tab));
   }
 }
