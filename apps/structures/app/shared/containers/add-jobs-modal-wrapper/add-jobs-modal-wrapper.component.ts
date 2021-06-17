@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 
 import { SearchBaseDirective } from 'libs/features/search/search/containers/search-base';
 import { SearchFeatureIds } from 'libs/features/search/search/enums/search-feature-ids';
@@ -14,7 +14,12 @@ import * as fromSearchPageActions from 'libs/features/search/search/actions/sear
 import { GradeRangeGroupDetails } from 'libs/features/structures/add-jobs-to-range/models';
 import { RangeType } from 'libs/constants/structures/range-type';
 
-import { StructuresSearchFilterMappingDataObj, StructuresJobSearchUserFilterType, staticFilters } from '../../data';
+import {
+  StructuresJobSearchUserFilterType,
+  staticFilters,
+  JobBasedSearchFilterMappingDataObj,
+  GradeBasedSearchFilterMappingDataObj
+} from '../../data';
 
 @Component({
   selector: 'pf-add-jobs-modal-wrapper',
@@ -36,7 +41,7 @@ export class AddJobsModalWrapperComponent extends SearchBaseDirective implements
   constructor(
     store: Store<fromSearchReducer.State>
   ) {
-    super(store, StructuresSearchFilterMappingDataObj, SearchFeatureIds.AddJobs, StructuresJobSearchUserFilterType);
+    super(store, JobBasedSearchFilterMappingDataObj, SearchFeatureIds.AddJobs, StructuresJobSearchUserFilterType);
     this.pageShown$ = this.store.select(fromSearchReducer.getPageShown);
   }
 
@@ -63,5 +68,6 @@ export class AddJobsModalWrapperComponent extends SearchBaseDirective implements
 
   ngOnInit(): void {
     this.isJobRange = this.rangeTypeId === RangeType.Job;
+    super.searchFilterMappingDataObj = !this.isJobRange ? GradeBasedSearchFilterMappingDataObj : JobBasedSearchFilterMappingDataObj;
   }
 }
