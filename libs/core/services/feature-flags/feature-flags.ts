@@ -4,7 +4,6 @@
 export class FeatureFlags {
   static readonly UserNotifications = 'user-notifications';
   static readonly TotalRewardsElectronicDelivery = 'total-rewards-electronic-delivery';
-  static readonly TotalRewardsStyledTemplate = 'total-rewards-styled-template';
   static readonly TotalRewardsEmployeeContribution = 'total-rewards-employee-contribution';
   static readonly TotalRewardsRadialTextCounters = 'total-rewards-radial-text-counters';
   static readonly TotalRewardsHistory = 'total-rewards-history';
