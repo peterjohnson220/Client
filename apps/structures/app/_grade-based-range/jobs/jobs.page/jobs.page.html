@@ -138,7 +138,8 @@
       [updateMetaInfo]="{ pageViewId: modelGridPageViewId, jobsPageViewId: this.pageViewId, jobsData: jobsData, jobsGridConfig: gridConfig, jobsPagingOptions: jobsPagingOptions }"
       [readonlyValueTemplate]="rangeValue"
       [updateSuccessCallbackFn]="updateSuccessCallbackFn"
-      [minValue]="-999999999999999">
+      [minValue]="-999999999999999"
+      [maxValue]="200">
     </pf-range-field-editor>
   </ng-container>
 </ng-template>
@@ -162,7 +163,8 @@
       [refreshRowDataViewFilter]="getRefreshFilter(dataRow)"
       [updateMetaInfo]="{ pageViewId: modelGridPageViewId, jobsPageViewId: this.pageViewId, jobsData: jobsData, jobsGridConfig: gridConfig, jobsPagingOptions: jobsPagingOptions }"
       [updateSuccessCallbackFn]="updateSuccessCallbackFn"
-      [readonlyValueTemplate]="rangeValue">
+      [readonlyValueTemplate]="rangeValue"
+      [maxValue]="200">
     </pf-range-field-editor>
   </ng-container>
 </ng-template>
