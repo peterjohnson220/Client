@@ -1,0 +1,102 @@
+<ng-container [ngSwitch]="display">
+  <ng-container *ngSwitchCase="'component'" [ngTemplateOutlet]="projectExportManagerContent"></ng-container>
+  <ng-container *ngSwitchCase="'modal'">
+    <pf-modal-form
+      [modalId]="'au-modal-project-export-manager'"
+      [title]="modalTitle"
+      [isOpen$]="showExportManager$"
+      [size]="modalSize"
+      [centered]="false"
+      [showSpinner]="true"
+      [showFooter]="true"
+      [submitEnabled]="!this.f.DataSources.errors?.required"
+      [showSubmit]="true"
+      [submitting]="false"
+      [primaryButtonText]="'Export'"
+      [primaryButtonTextSubmitting]="'Exporting'"
+      [allowDismiss]="true"
+      [secondaryButtonText]="'Cancel'"
+      (onSubmit)="exportProject()"
+      (onDismiss)="cancelExport()"
+    >
+      <ng-container basic-content>
+        <ng-container [ngTemplateOutlet]="projectExportManagerContent"></ng-container>
+      </ng-container>
+    </pf-modal-form>
+  </ng-container>
+</ng-container>
+
+<ng-template #projectExportManagerContent>
+  <pf-async-container [loading]="(projectTemplates$ | async)?.loading" [smartLoadingMask]="false">
+    <div>
+      <div class="w-100 d-flex">
+        <div class="w-50 d-flex">
+          <span>Select File Type</span> &nbsp;
+          <span class="text-danger">*</span>
+        </div>
+        <div class="w-50">
+          <kendo-dropdownlist
+            [data]="reportTypeOptions"
+            [textField]="'ReportTypeName'"
+            [valueField]="'ReportTypeValue'"
+            [valuePrimitive]="true"
+            [(ngModel)]="selectedReportType"
+            [attr.data-qa-id]="'project-export-manager-templates'"
+            class="k-dropdown-white form-control">
+          </kendo-dropdownlist>
+        </div>
+      </div>
+
+      <br/>
+
+      <div class="w-100 d-flex">
+        <div class="w-50 d-flex flex-column">
+          <div class="d-flex">
+            <span>Select Data to Export</span> &nbsp;
+            <span class="text-danger">*</span>
+          </div>
+          <span *ngIf="f.DataSources.errors?.required" class="text-danger">Please select a data source to export.</span>
+        </div>
+        <form id="project-export-manager-data-source-form" [formGroup]="dataSourceForm">
+          <div class="form-check d-flex flex-column">
+            <div *ngFor="let dataSource of dataSources; let i = index">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                [checked]="dataSource.Value"
+                [value]="dataSource.Value"
+                [attr.data-qa-id]="'project-export-manager-data-source-' + i.toString()"
+                id="dataSource{{i}}"
+                (click)="updateDataSource(dataSource)"
+              >
+              <label class="form-check-label" for="dataSource{{i}}">
+                {{dataSource.Key}}
+              </label>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <br/>
+
+      <div *ngIf="(projectTemplates$ | async).obj?.length > 0" class="w-100 d-flex">
+        <div class="w-50">
+          <span>Template</span>
+        </div>
+        <div class="w-50">
+          <kendo-dropdownlist
+            [data]="(projectTemplates$ | async).obj"
+            [textField]="'TemplateName'"
+            [valueField]="'ProjectTemplateId'"
+            [valuePrimitive]="true"
+            [(ngModel)]="selectedTemplateId"
+            [defaultItem]="templatePlaceHolder"
+            [attr.data-qa-id]="'project-export-manager-templates'"
+            class="k-dropdown-white form-control">
+          </kendo-dropdownlist>
+        </div>
+      </div>
+
+    </div>
+  </pf-async-container>
+</ng-template>

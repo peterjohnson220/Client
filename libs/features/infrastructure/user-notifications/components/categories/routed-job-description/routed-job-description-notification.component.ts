@@ -27,7 +27,9 @@ export class RoutedJobDescriptionNotificationComponent extends UserNotificationB
       BaseUrl: parsedMetaData.Url,
       IconPrefix: this.IconPrefix,
       IconName: this.IconName,
-      OpenLinkInNewTab: true
+      OpenLinkInNewTab: true,
+      ButtonIsDisabled: parsedMetaData.ButtonDisabled,
+      DisabledButtonTooltip: 'This workflow process step is no longer valid'
     };
   }
 
@@ -36,10 +38,12 @@ export class RoutedJobDescriptionNotificationComponent extends UserNotificationB
       const json = JSON.parse(this.UserNotification.MetaData);
       const jobTitle = json['JobTitle'];
       const url = json['Url'];
+      const buttonDisabled = json.hasOwnProperty('disabled') ? json['disabled'] : false;
 
       return {
         Message: `A job description for ${jobTitle} is available for review`,
-        Url: url
+        Url: url,
+        ButtonDisabled: buttonDisabled
       };
     }
   }

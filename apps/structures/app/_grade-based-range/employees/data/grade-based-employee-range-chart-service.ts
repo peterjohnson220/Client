@@ -87,7 +87,7 @@ export class GradeBasedEmployeeRangeChartService {
         title: {
           text: undefined
         },
-        offset: 25
+        offset: 18
       },
       xAxis: {
         visible: false,
@@ -121,8 +121,6 @@ export class GradeBasedEmployeeRangeChartService {
             }
           },
           stickyTracking: false,
-          groupPadding: 0,
-          pointPadding: 0.1,
           borderWidth: 0,
           marker: {
             states: {

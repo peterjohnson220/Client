@@ -79,6 +79,9 @@ pf-statement-edit.page {
   .page-content {
     overflow-x: hidden; // let settings panel hide out to the right
   }
+  .statement .trs-page {
+    margin-bottom: $web-view-page-margin; // show a gap in between pages in the editor so users can see where a page begins and ends
+  }
   .preview-mode {
     .page-header button {
       background-color: rgba(255, 255, 255, 0.5);
@@ -111,6 +114,11 @@ pf-statement-edit.page {
   }
   .statement, .header-row-wrapper, .canvas {
     transition: opacity .2s ease-in-out, background-color .2s ease-in-out, transform .5s ease-in-out;
+  }
+
+  //Targets the dragging element for dragula
+  .gu-mirror pf-string-editor .radial-text-counter {
+    visibility: hidden;
   }
   a.settings {
     color: inherit;
@@ -194,4 +202,8 @@ pf-statement-assignment-page {
   .k-grid-header th .k-link>.k-icon {
     display: none;
   }
+}
+
+.radial-tooltip {
+  pointer-events: none;
 }

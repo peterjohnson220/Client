@@ -85,9 +85,9 @@ export class StatementGridEffects {
         (action, statement: StatementListViewModel) => statement.Id
     ),
     concatMap((statementId: string) => this.totalRewardsApiService.copyStatement(statementId).pipe(
-      mergeMap((statementId: string) => [
+      mergeMap((newStatementId: string) => [
         new fromStatementGridActions.CloseCopyStatement(),
-        new fromStatementGridActions.CopyStatementSuccess({ statementId })
+        new fromStatementGridActions.CopyStatementSuccess({ statementId: newStatementId })
       ]),
       catchError(() => of(new fromStatementGridActions.CopyStatementError()))
     ))

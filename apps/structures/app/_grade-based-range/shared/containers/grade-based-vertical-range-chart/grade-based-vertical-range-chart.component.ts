@@ -14,7 +14,7 @@ import { RangeDistributionTypeIds } from 'libs/constants/structures/range-distri
 
 import * as fromSharedStructuresReducer from '../../../../shared/reducers';
 import * as fromGradeBasedSharedReducer from '../../../shared/reducers';
-import * as fromGradeBasedSharedActions from '../../../shared/actions/shared.actions';
+import * as fromSharedStructuresActions from '../../../../shared/actions/shared.actions';
 import * as fromSwitchRegressionFlagsActions from '../../../shared/actions/switch-regression-flags-modal.actions';
 import { StructuresHighchartsService, StructuresPagesService } from '../../../../shared/services';
 import { GradeRangeModelChartService, GradeRangeVerticalModelChartSeries } from '../../data';
@@ -65,6 +65,7 @@ export class GradeBasedVerticalRangeChartComponent implements OnInit, OnDestroy,
   filterPanelSub: Subscription;
   gradeRangeDetails: any;
   rangeGroupId: number;
+  openAddJobsSubscription: Subscription;
 
   constructor(
     public store: Store<any>,
@@ -92,8 +93,11 @@ export class GradeBasedVerticalRangeChartComponent implements OnInit, OnDestroy,
       }
     });
 
-    this.gradeRangeDetailsSubscription = this.store.select(fromGradeBasedSharedReducer.getGradeRangeDetails).subscribe(details => {
+    this.gradeRangeDetailsSubscription = this.store.select(fromSharedStructuresReducer.getGradeRangeDetails).subscribe(details => {
       this.gradeRangeDetails = details;
+      if (this.gradeRangeData && this.rate && this.currency && this.gradeRangeDetails.obj) {
+        this.processChartData();
+      }
     });
 
     this.pageViewIdSubscription = this.structuresPagesService.modelPageViewId.subscribe(pv => this.pageViewId = pv);
@@ -101,6 +105,14 @@ export class GradeBasedVerticalRangeChartComponent implements OnInit, OnDestroy,
       if (data && this.rate && this.currency && this.gradeRangeDetails.obj) {
         this.gradeRangeData = data;
         this.processChartData();
+      }
+    });
+
+    this.openAddJobsSubscription = this.store.select(fromGradeBasedSharedReducer.getOpenAddJobs).subscribe(open => {
+      // if we're about to open the add jobs modal for the first time, clear out the data so that the charts fully fill in
+      if (open) {
+        this.gradeRangeData = null;
+        this.gradeRangeDetails = null;
       }
     });
   }
@@ -527,7 +539,7 @@ export class GradeBasedVerticalRangeChartComponent implements OnInit, OnDestroy,
 
   ngOnInit(): void {
     StructuresHighchartsService.initializeHighcharts();
-    this.store.dispatch(new fromGradeBasedSharedActions.GetGradeRangeDetails(this.rangeGroupId));
+    this.store.dispatch(new fromSharedStructuresActions.GetGradeRangeDetails(this.rangeGroupId));
     this.filterPanelSub = this.store.select(fromPfGridReducer.getFilterPanelOpen, this.pageViewId).subscribe(filterPanelOpen => {
       setTimeout(() => {
         this.chartInstance.reflow();
@@ -549,5 +561,6 @@ export class GradeBasedVerticalRangeChartComponent implements OnInit, OnDestroy,
     this.pageViewIdSubscription.unsubscribe();
     this.filterPanelSub.unsubscribe();
     this.gradeRangeDetailsSubscription.unsubscribe();
+    this.openAddJobsSubscription.unsubscribe();
   }
 }

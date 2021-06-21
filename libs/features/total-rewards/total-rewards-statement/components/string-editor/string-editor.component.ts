@@ -113,9 +113,8 @@ export class StringEditorComponent implements OnInit, OnChanges, OnDestroy {
     this.valueChange.emit(this.value);
   }
 
-  onKeyDown(event: KeyboardEvent): void {
-    if (!(event.key === 'Backspace' || event.key === 'Delete')
-      && this.totalRewardsRadialTextCountersFeatureFlag.value && this.contentWidth >= this.availableWidth) {
+  onKeyPress(event: KeyboardEvent): void {
+    if (this.totalRewardsRadialTextCountersFeatureFlag.value && !this.isMultiline && this.contentWidth >= this.availableWidth) {
       event.preventDefault();
     }
   }

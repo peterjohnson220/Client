@@ -114,8 +114,14 @@ export class RangeFieldEditorComponent implements OnInit, OnDestroy, OnChanges {
     private permissionService: PermissionService,
     private featureFlagService: AbstractFeatureFlagService
   ) {
+
     this.settingsService.selectCompanySetting<boolean>(CompanySettingsEnum.CanEditCurrentStructureRanges)
-      .subscribe(s => this.canEditCurrentStructureRanges = s);
+    .subscribe(s => {
+      if(!!s) {
+        this.canEditCurrentStructureRanges = s; 
+      } 
+    });
+
     this.hasCanCreateEditModelStructurePermission = this.permissionService.CheckPermission([Permissions.STRUCTURES_CREATE_EDIT_MODEL],
       PermissionCheckEnum.Single);
     this.hasCanEditPublishedStructureRanges = this.permissionService.CheckPermission([Permissions.STRUCTURES_PUBLISH],

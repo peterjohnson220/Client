@@ -2,7 +2,7 @@ export interface AddUserToWorkflowObj {
   FirstName: string;
   LastName: string;
   EmailAddress: string;
-  JobId: number;
+  JobIds: number[];
   IsNonPfUser: boolean;
   StepIndex?: number;
   Permissions: any;

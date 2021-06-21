@@ -94,12 +94,12 @@ export class JobDescriptionManagementApiService {
     });
   }
 
-  userEmailHasJobPermission(emailAddr: string, jobId: number = -1): Observable<boolean> {
-    return this.payfactorsApiService.get<boolean>(`${this.endpoint}.UserEmailHasJobPermission`, {
-      params: {
-        UserEmail: emailAddr, JobId: jobId
-      }},
-      (response) => response.value);
+  userEmailHasJobPermission(emailAddr: string, jobIds: number[]): Observable<boolean> {
+    return this.payfactorsApiService.post<boolean>(`${this.endpoint}.UserEmailHasJobPermission`, {
+      UserEmail: emailAddr,
+      JobIds: jobIds
+    },
+    (response) => response.value);
   }
 
   inactivateControl(controlType: string) {

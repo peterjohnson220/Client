@@ -80,7 +80,7 @@
 					</div>
 					<div *ngIf="stepWithMultipleUsersBeingAdded === i">
 						<div class="picker-container">
-							<pf-user-or-email-picker class="multiple-picker" [jobId]="jobId" [workflow]="true"
+							<pf-user-or-email-picker class="multiple-picker" [jobIds]="jobIds" [workflow]="true"
 							(selected)="handleMultipleUserPerLevelSelection($event, i)">
 							</pf-user-or-email-picker>
 							<div>

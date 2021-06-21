@@ -4,6 +4,8 @@
   [title]="'Surveys'"
   [defaultSort]="defaultSort"
   [actionBarConfig]="actionBarConfig"
+  [enableSelection]="true"
+  [selectionFieldExistsOnBase]="false"
   [gridConfig]="gridConfig"
   [useReportingDB]="true"
   [pageable]="!gridConfig.EnableInfiniteScroll"
@@ -11,9 +13,31 @@
   [customFilterOptions]="customFilterOptions"
   [inboundFilters]="inboundFilters"
   [expandedRowTemplate]="expandRow"
-  [selectionField]="'Survey_Job_ID'"
-  [enableRowFade]="true">
+  [selectionField]="'SurveyJob_Survey_Job_ID'"
+  [enableRowFade]="true"
+  [fieldsExcludedFromExport]="fieldsExcludedFromExport"
+  [collapseFilterPanelOnCellClick]="true">
 </pf-data-grid>
+
+<ng-template #historyFilter>
+  <div style="width: 170px;">
+    <kendo-dropdownlist
+      [(ngModel)]="historyFilterSelectedItem"
+      [textField]="'Display'"
+      [valueField]="'Value'"
+      [data]="(surveyYears$ | async)?.obj"
+      (valueChange)="handleHistoryValueChanged($event)"
+      [filterable]="false"
+      [attr.data-qa-id]="'ddm-operator-surveys-page-Effective-Date'"
+      class="k-dropdown-white form-control">
+      <ng-template kendoDropDownListValueTemplate let-dataItem>
+        <span>
+          History: <span class="font-weight-bold pl-2">{{ dataItem?.Display }}</span>
+        </span>
+      </ng-template>
+    </kendo-dropdownlist>
+  </div>
+</ng-template>
 
 <ng-template #matchedFilter>
   <div [style.width.px]="188">
@@ -30,33 +54,68 @@
   </div>
 </ng-template>
 
-<ng-template #expandRow let-dataRow="dataRow">
-  <div *ngIf="!(loading$ | async)" class="survey-data-cuts-container pt-3 pb-4 px-4">
-    <div class="d-flex px-3 pb-3 justify-content-between">
-      <pf-survey-job-details [surveyJobDetails]="dataRow | surveyJobDetails"></pf-survey-job-details>
+<ng-template #countriesFilter>
+  <label>Country:</label>
+  <kendo-dropdownlist
+    [ngModel]="countriesFilterSelectedOption"
+    [textField]="'Name'"
+    [valueField]="'Value'"
+    [defaultItem]="{Name:'All', Value: null}"
+    [data]="countries"
+    [kendoDropDownFilter]="filterSettings"
+    (valueChange)="handleCountriesFilterChanged($event)"
+    [filterable]="true"
+    [valuePrimitive]="true"
+    [attr.data-qa-id]="'ddm-filter-surveys-page-' + countriesFilterField.SourceName"
+    class="k-dropdown-white form-control">
+  </kendo-dropdownlist>
+</ng-template>
 
-      <div class="d-flex space-out-children">
-        <button *ngIf="dataRow['Surveys_ParticipantsCount'] > 0"
-                class="btn btn-secondary"
-                (click)="viewParticipantsList(dataRow['CompanySurveys_Survey_ID'], dataRow['Surveys_Survey_Name'])">View Participant List
-        </button>
-        <button type="button"
-                class="btn btn-secondary action-btn"
-                title="Edit Survey Fields"
-                (click)="openSurveyFieldsModal(dataRow['SurveyJob_Survey_Job_ID'])">
-          <fa-icon icon="edit"></fa-icon>
-        </button>
-        <button type="button"
-                class="btn btn-secondary action-btn btn-close"
-                (click)="closeExpandedRow('SurveyJob_Survey_Job_ID', dataRow['SurveyJob_Survey_Job_ID'])">
-          <fa-icon [icon]="['far', 'times']"></fa-icon>
-        </button>
+<ng-template #expandRow let-dataRow="dataRow">
+  <div class="survey-data-cuts-container pt-3 pb-4 px-4">
+    <pf-async-container [loading]="surveyDataGridReloading(dataRow['SurveyJob_Survey_Job_ID'])">
+      <div class="d-flex px-3 pb-3 justify-content-between">
+        <pf-survey-job-details [surveyJobId]="dataRow['SurveyJob_Survey_Job_ID']"></pf-survey-job-details>
+
+        <div class="d-flex align-self-center flex-shrink-0 space-out-children">
+          <button *ngIf="dataRow['Surveys_ParticipantsCount'] > 0"
+                  class="btn btn-secondary"
+                  (click)="viewParticipantsList(dataRow['CompanySurveys_Survey_ID'], dataRow['Surveys_Survey_Name'])">View Participant List
+          </button>
+          <button *ngIf="surveyDataGridRefreshed(dataRow['SurveyJob_Survey_Job_ID']) === false"
+                  type="button"
+                  class="btn btn-secondary action-btn"
+                  title="Refresh the table to view updates"
+                  (click)="refreshSurveyDataGrid(dataRow['SurveyJob_Survey_Job_ID'])">
+            <fa-icon icon="redo"></fa-icon>
+          </button>
+          <button type="button"
+                  class="btn btn-secondary action-btn"
+                  title="Edit Survey Fields"
+                  [disabled]="surveyDataGridRefreshed(dataRow['SurveyJob_Survey_Job_ID']) === false"
+                  (click)="openSurveyFieldsModal(dataRow['SurveyJob_Survey_Job_ID'])">
+            <fa-icon icon="edit"></fa-icon>
+          </button>
+          <button type="button"
+                  class="btn btn-secondary action-btn btn-close"
+                  (click)="closeExpandedRow('SurveyJob_Survey_Job_ID', dataRow['SurveyJob_Survey_Job_ID'])">
+            <fa-icon [icon]="['far', 'times']"></fa-icon>
+          </button>
+        </div>
       </div>
-    </div>
-    <pf-survey-data-cuts
-      [surveyJobId]="dataRow['SurveyJob_Survey_Job_ID']">
-    </pf-survey-data-cuts>
+      <pf-survey-data-cuts [surveyJobId]="dataRow['SurveyJob_Survey_Job_ID']"></pf-survey-data-cuts>
+    </pf-async-container>
   </div>
+</ng-template>
+
+<ng-template #gridGlobalActions>
+  <button
+    [attr.data-qa-id]="'btn-viewSurveyParticipants'"
+    type="button"
+    (click)="viewSurveyParticipantsModal()"
+    class="btn btn-primary">
+    Participation
+  </button>
 </ng-template>
 
 <pf-survey-data-fields
@@ -70,3 +129,5 @@
 <pf-view-participants-list
   [surveyTitle]="surveyTitle">
 </pf-view-participants-list>
+
+<pf-survey-participation></pf-survey-participation>

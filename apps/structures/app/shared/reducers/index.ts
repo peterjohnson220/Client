@@ -59,6 +59,11 @@ export const selectPublishModelModalState = createSelector(
 );
 
 // Shared
+export const getGradeRangeDetails = createSelector(
+  selectSharedState,
+  fromSharedReducer.getGradeRangeDetails
+);
+
 export const getMetadata = createSelector(
   selectSharedState, fromSharedReducer.getMetadata
 );

@@ -403,9 +403,9 @@ describe('Job Description Management - Job Description - Job Description List Pa
   it('should open deleteJobDescriptionModalComponent, when calling openDeleteJobDescModal', () => {
     spyOn(instance.deleteJobDescriptionModalComponent, 'open');
 
-    const jobDescrtiptionId = 123;
+    const jobDescrtiptionIds = [123];
 
-    instance.openDeleteJobDescModal(jobDescrtiptionId);
+    instance.openDeleteJobDescModal(jobDescrtiptionIds);
     expect(instance.deleteJobDescriptionModalComponent.open).toHaveBeenCalled();
   });
 
