@@ -1,12 +1,13 @@
 export class GraphHelper {
-  static getJobsChartHeight(data: any, multiLineHeader: boolean = false): number {
+  static getJobsChartHeight(data: any, multiLineHeader: boolean = false, useScrollOffset: boolean = false): number {
     const defaultOffset = 56;
     const multiLineHeaderOffset = 46;
     const defaultSingleRecordHeight = 112;
     const rowHeight = 50;
     const singleDataPointOffset = 10;
+    const scrollOffset = useScrollOffset ? 55 : 0;
     if (data.length > 1) {
-      return (rowHeight * data.length) + (multiLineHeader ? (multiLineHeaderOffset + defaultOffset) : defaultOffset);
+      return (rowHeight * data.length) + (multiLineHeader ? (multiLineHeaderOffset + defaultOffset) : defaultOffset + scrollOffset);
     } else if (data.length === 1) {
       return (multiLineHeader ? (multiLineHeaderOffset + defaultSingleRecordHeight + singleDataPointOffset)
         : defaultSingleRecordHeight + singleDataPointOffset);
