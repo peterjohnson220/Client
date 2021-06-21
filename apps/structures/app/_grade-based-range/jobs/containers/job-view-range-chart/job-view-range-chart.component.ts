@@ -417,6 +417,12 @@ export class JobViewRangeChartComponent implements OnInit, OnDestroy {
     }
   }
 
+  scroll = (): void => {
+    if (this.chartInstance) {
+      this.chartInstance.setSize(null, GraphHelper.getJobsChartHeight(this.jobsViewData.data, false, true));
+    }
+  }
+
   private clearData(): void {
     if (this.jobRangeGroupData) {
       this.jobRangeGroupData = { ...this.jobRangeGroupData, data: [] };
@@ -443,6 +449,7 @@ export class JobViewRangeChartComponent implements OnInit, OnDestroy {
         }, 0);
       }
     });
+    window.addEventListener('scroll', this.scroll, true);
   }
 
   ngOnDestroy(): void {
