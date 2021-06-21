@@ -20,14 +20,15 @@ export class GraphHelper {
     return dataLength === 1 ? 30 : 26;
   }
 
-  static getEmployeeChartHeight(data: any, multiLineHeader: boolean = false): number {
+  static getEmployeeChartHeight(data: any, multiLineHeader: boolean = false, useScrollOffset: boolean = false): number {
     const defaultOffset = 54;
     const multiLineHeaderOffset = 46;
     const defaultSingleRecordHeight = 98;
     const rowHeight = 50;
     const singleDataPointOffset = 10;
+    const scrollOffset = useScrollOffset ? 30 : 0;
     if (data.length > 1) {
-      return (rowHeight * data.length) + (multiLineHeader ? (multiLineHeaderOffset + defaultOffset) : defaultOffset);
+      return (rowHeight * data.length) + (multiLineHeader ? (multiLineHeaderOffset + defaultOffset) : defaultOffset + scrollOffset);
     } else if (data.length === 1) {
       return (multiLineHeader ? (multiLineHeaderOffset + defaultSingleRecordHeight + singleDataPointOffset)
         : defaultSingleRecordHeight + singleDataPointOffset);

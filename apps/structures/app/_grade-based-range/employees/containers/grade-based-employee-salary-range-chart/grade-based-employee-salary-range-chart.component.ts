@@ -342,6 +342,12 @@ export class GradeBasedEmployeeSalaryRangeChartComponent implements OnInit, OnDe
     }
   }
 
+  scroll = (): void => {
+    if (this.chartInstance) {
+      this.chartInstance.setSize(null, GraphHelper.getEmployeeChartHeight(this.employeeData.data, false, true));
+    }
+  }
+
   private renameSeries() {
     // 3 ==  'Employee ' + controlPointDisplay
     this.chartInstance.series[GradeBasedEmployeeSalaryRangeChartSeries.EmployeePay].name =
@@ -368,6 +374,7 @@ export class GradeBasedEmployeeSalaryRangeChartComponent implements OnInit, OnDe
         }, 0);
       }
     });
+    window.addEventListener('scroll', this.scroll, true);
   }
 
   ngOnDestroy(): void {
