@@ -39,6 +39,7 @@ export class JobDescriptionGridComponent implements OnInit, OnDestroy {
   @Output() publicViewChanged = new EventEmitter();
   @Output() openDeleteJobDescriptionModal = new EventEmitter();
   @Output() bulkRouteJobDescriptions = new EventEmitter();
+  @Output() bulkExportJobDescriptions = new EventEmitter();
 
   jdmCheckboxesFeatureFlag: RealTimeFlag = { key: FeatureFlags.JdmCheckboxes, value: false };
 
@@ -300,6 +301,10 @@ export class JobDescriptionGridComponent implements OnInit, OnDestroy {
     this.openDeleteJobDescriptionModal.emit(selectedIds);
   }
 
+  handleBulkExportClicked(): void {
+    this.bulkExportJobDescriptions.emit();
+  }
+
   canBulkDeleteJobDescriptions(): boolean {
     let canDelete = true;
     this.selectedJobDescriptions?.forEach(jobDescription => {
@@ -322,6 +327,19 @@ export class JobDescriptionGridComponent implements OnInit, OnDestroy {
       }
     });
     return canRoute;
+  }
+
+  canBulkExportJobDescriptions(): boolean {
+    let canExport = true;
+    this.selectedJobDescriptions?.forEach(jobDescription => {
+      if (jobDescription.JobDescriptionStatus !== 'Draft'
+      && jobDescription.JobDescriptionStatus !== 'Published'
+      && jobDescription.JobDescriptionStatus !== 'In Review') {
+        canExport = false;
+        return;
+      }
+    });
+    return canExport;
   }
 
   getSelectAllState(): SelectAllCheckboxState {

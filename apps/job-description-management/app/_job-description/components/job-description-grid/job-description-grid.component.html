@@ -19,10 +19,12 @@
           Route for Approval
         </button>
       </div>
-      <!--<button type="button" class="btn btn-secondary pf-btn-borderless mr-3" [disabled]="selectedJobDescriptions?.size === 0">
+      <button type="button" class="btn btn-secondary pf-btn-borderless mr-3" 
+        [disabled]="selectedJobDescriptions?.size === 0 || !canBulkExportJobDescriptions()"
+        (click)="handleBulkExportClicked()">
         <fa-icon [icon]="['fas', 'download']"></fa-icon>
         Export
-      </button>-->
+      </button>
       <!--<div *ngIf="hasDeleteJobDescriptionPermission" 
         [ngbTooltip]="bulkDeleteTooltip"  placement="bottom">
         <button type="button" class="btn btn-secondary pf-btn-borderless mr-3" 
