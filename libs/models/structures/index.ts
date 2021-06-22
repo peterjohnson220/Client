@@ -12,3 +12,4 @@ export * from './calculation-type-display.model';
 export * from './missing-market-data-type-setting-form.model';
 export * from './page-view-ids';
 export * from './adjust-midpoint-setting-form.model';
+export * from './structure-form.model';

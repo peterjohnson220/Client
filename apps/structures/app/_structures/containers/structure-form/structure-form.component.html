@@ -1,0 +1,125 @@
+<pf-modal-form
+  [modalId]="'au-modal-structure-management'"
+  [isOpen$]="showStructureForm$"
+  [size]="'lg'"
+  [submitting]="(saving$ | async)"
+  [centered]="false"
+  [allowDismiss]="true"
+  [primaryButtonText]="'Next'"
+  [primaryButtonTextSubmitting]="'Saving'"
+  [title]="'New Structure or Model'"
+  [formGroup]="structureForm"
+  (onDismiss)="onDismiss()"
+  (onSubmit)="onSubmit()">
+
+  <ng-container form-content>
+    <div class="d-flex flex-column px-3">
+      <div>Select a structure type</div>
+      <div class="range-type p-4">
+        <div class="custom-radio mb-2">
+          <input type="radio" name="RangeTypeId" class="custom-control-input"
+                 id="jobRangeType"
+                 [value]="rangeTypes.Job"
+                 formControlName="RangeTypeId" />
+          <label class="custom-control-label" for="jobRangeType">Job Ranges</label>
+        </div>
+        <div class="mb-3">
+          Using a job range structure allows you to have a range on each job based on that job's market data. Model a job's ranges using any compensation element, or build ranges based on other linked jobs.
+        </div>
+        <div class="custom-radio mb-2">
+          <input type="radio" name="RangeTypeId" class="custom-control-input"
+                 id="gradeRangeType"
+                 [value]="rangeTypes.Grade"
+                 formControlName="RangeTypeId" />
+          <label class="custom-control-label" for="gradeRangeType">Grade Ranges</label>
+        </div>
+        <div class="mb-3">
+          Using a grade range structure allows you to group your jobs in grades that share the same range. Model your ranges based on a regression calculation or adjust them manually.
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-3 col-form-label">Structure Name</label>
+        <div class="col-9">
+          <kendo-combobox class="form-control"
+                          data-qa-id="txt-structure-form-structure-name"
+                          placeholder="Enter a new or existing structure"
+                          formControlName="StructureName"
+                          [data]="(structures$ | async)?.obj"
+                          [loading]="(structures$ | async)?.loading"
+                          [textField]="'StructureName'"
+                          [valueField]="'StructureName'"
+                          [filterable]="true"
+                          [kendoDropDownFilter]="filterSettings"
+                          [valuePrimitive]="true"
+                          [allowCustom]="true"
+                          [ngClass]="{ 'is-invalid': !f.StructureName.valid && f.StructureName.touched }">
+            <ng-template kendoComboBoxItemTemplate let-dataItem>
+              <div pfEllipsisActive class="flex-fill ellipsis-overflowing-text">
+                <span>{{ dataItem.StructureName }}</span>
+              </div>
+            </ng-template>
+          </kendo-combobox>
+          <span *ngIf="f.StructureName.errors?.required" class="invalid-feedback">Structure Name is required</span>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-3 col-form-label">Model Name</label>
+        <div class="col-9">
+          <input class="form-control"
+                 data-qa-id="txt-structure-form-model-name"
+                 type="text"
+                 placeholder="Enter a model name"
+                 formControlName="ModelName"
+                 [ngClass]="{ 'is-invalid': (!f.ModelName.valid && f.ModelName.touched) }">
+          <span *ngIf="f.ModelName.errors?.required" class="invalid-feedback">Model Name is required</span>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-3 col-form-label">Pay Market</label>
+        <div class="col-9">
+          <kendo-combobox class="form-control"
+                          data-qa-id="txt-structure-form-paymarket"
+                          placeholder="Select a Pay Market"
+                          formControlName="PaymarketId"
+                          [data]="(payMarkets$ | async)?.obj"
+                          [loading]="(payMarkets$ | async)?.loading"
+                          [textField]="'PayMarket'"
+                          [valueField]="'CompanyPayMarketId'"
+                          [filterable]="true"
+                          [kendoDropDownFilter]="filterSettings"
+                          [valuePrimitive]="true"
+                          [ngClass]="{ 'is-invalid': !f.PaymarketId.valid && f.PaymarketId.touched }">
+            <ng-template kendoComboBoxItemTemplate let-dataItem>
+              <div pfEllipsisActive class="flex-fill ellipsis-overflowing-text">
+                <span>{{ dataItem.PayMarket }}</span>
+              </div>
+            </ng-template>
+          </kendo-combobox>
+          <span *ngIf="f.PaymarketId.errors?.required" class="invalid-feedback">Pay Market is required</span>
+        </div>
+      </div>
+      <div *ngIf="isGradeBasedRangeDistributionTypesEnabled" class="form-group row">
+        <label class="col-3 col-form-label">Range Type</label>
+        <div class="col-9">
+          <kendo-dropdownlist class="form-control k-dropdown-white"
+                              attr.data-qa-id="ddm-structure-form-range-distribution-type"
+                              [data]="(rangeDistributionTypes$ | async)?.obj"
+                              [textField]="'Type'"
+                              [valueField]="'Id'"
+                              [(ngModel)]="selectedRangeDistributionType"
+                              [ngModelOptions]="{standalone: true}">
+          </kendo-dropdownlist>
+        </div>
+      </div>
+
+    </div>
+
+  </ng-container>
+
+  <ng-container footer-left>
+    <div *ngIf="(savingErrorMessage$ | async)?.length">
+      <span class="text-danger">{{savingErrorMessage$ | async}}</span>
+    </div>
+  </ng-container>
+
+</pf-modal-form>

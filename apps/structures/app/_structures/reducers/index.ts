@@ -36,5 +36,9 @@ export const getDeletingStructureErrorStatus = createSelector(selectStructuresPa
 export const getCurrencies = createSelector(selectStructuresPageState, fromStructuresPageReducer.getCurrencies);
 export const getCompanyPayMarkets = createSelector(selectStructuresPageState, fromStructuresPageReducer.getCompanyPayMarkets);
 export const getCustomFilterOptions = createSelector(selectStructuresPageState, fromStructuresPageReducer.getCustomFilterOptions);
-
+export const getShowStructureForm = createSelector(selectStructuresPageState, fromStructuresPageReducer.getShowStructureForm);
+export const getSavingStructure = createSelector(selectStructuresPageState, fromStructuresPageReducer.getSavingStructure);
+export const getSavingStructureErrorMessage = createSelector(selectStructuresPageState, fromStructuresPageReducer.getSavingStructureErrorMessage);
+export const getCompanyStructures = createSelector(selectStructuresPageState, fromStructuresPageReducer.getCompanyStructures);
+export const getRangeDistributionTypes = createSelector(selectStructuresPageState, fromStructuresPageReducer.getRangeDistributionTypes);
 

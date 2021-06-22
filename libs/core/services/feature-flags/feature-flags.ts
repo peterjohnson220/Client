@@ -31,4 +31,5 @@ export class FeatureFlags {
   static readonly SurveysPage = 'new-surveys-tile';
   static readonly StructuresPage = 'new-structures-tile';
   static readonly QuickPriceCrowdSourcedDataPage = 'quick-price-crowd-sourced-data-page';
+  static readonly StructuresGradeBasedRangeDistributionTypes = 'structures-client-grade-based-range-distribution-types';
 }
