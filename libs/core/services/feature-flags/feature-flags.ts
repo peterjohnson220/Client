@@ -33,4 +33,5 @@ export class FeatureFlags {
   static readonly QuickPriceCrowdSourcedDataPage = 'quick-price-crowd-sourced-data-page';
   static readonly StructuresGradeBasedRangeDistributionTypes = 'structures-client-grade-based-range-distribution-types';
   static readonly JobInsightsTab = 'job-insights-tab';
+  static readonly RestyledLogin = 'restyled-login';
 }
