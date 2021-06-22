@@ -165,14 +165,6 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     };
   }
 
-  hideRowActionsGradeGrid(): boolean {
-    if ((this.metaData?.IsCurrent && !this.hasAddEditDeleteStructurePermission) || (!this.metaData?.IsCurrent && !this.hasCreateEditStructureModelPermission)) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
   initPermissions() {
     this.hasAddEditDeleteStructurePermission = this.permissionService.CheckPermission([Permissions.STRUCTURES_ADD_EDIT_DELETE],
       PermissionCheckEnum.Single);
@@ -192,7 +184,11 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   updateMidSuccessCallbackFn(store: Store<any>, metaInfo: any) {
-    // We should dispatch this action only for Employees/Pricings pages
+    // Update metadata for GBR range group and if index equals 0
+    // Because we need to update Starting Midpoint for Model Settings
+    if (metaInfo.rangeType === RangeType.Grade && metaInfo.rowIndex === 0) {
+      store.dispatch(new fromSharedStructuresActions.SetMetadata(metaInfo.metaData));
+    }
   }
 
   showRevertChanges(rangeId: number): boolean {
@@ -268,6 +264,11 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
       })
     });
 
+    if (!this.metaData.IsCurrent) {
+      this.setRequiredValidator('RangeSpread');
+      this.setRequiredValidator('MidpointProgression');
+    }
+
     this.store.dispatch(new fromModelSettingsModalActions.SetActiveTab('modelTab'));
   }
 
@@ -288,6 +289,12 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     if (event.target.id === 'AdjustMidpointMoveBy') {
       this.setValidators('AdjustMidpointSetting.Percentage', 0.01, 300);
     }
+  }
+
+  private setRequiredValidator(controlName: string) {
+    this.modelSettingsForm.get(controlName).enable();
+    this.modelSettingsForm.get(controlName).setValidators([Validators.required]);
+    this.modelSettingsForm.get(controlName).updateValueAndValidity();
   }
 
   private setValidators(controlName: string, min: number, max: number) {

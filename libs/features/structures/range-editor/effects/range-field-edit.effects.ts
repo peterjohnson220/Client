@@ -12,6 +12,7 @@ import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducer
 import * as fromPfDataGridActions from 'libs/features/grids/pf-data-grid/actions';
 import * as fromNotificationActions from 'libs/features/infrastructure/app-notifications/actions/app-notifications.actions';
 import { JobBasedPageViewIds } from 'libs/models/structures';
+import { RangeType } from 'libs/constants/structures/range-type';
 
 import { PayfactorsApiModelMapper } from '../helpers';
 import * as fromRangeFieldActions from '../actions/range-field-edit.actions';
@@ -47,7 +48,22 @@ export class RangeFieldEditEffects {
                 }));
 
                 if (action.payload.successCallBackFn) {
-                  action.payload.successCallBackFn(this.store, action.payload.metaInfo);
+                  let metaInfo = action.payload.metaInfo;
+
+                  // We need to update Starting Midpoint for Model settings
+                  if (action.payload.rangeType === RangeType.Grade && action.payload.rowIndex === 0) {
+                    const updatedMetaData = {
+                      ...action.payload.metaInfo.metaData,
+                      StartingMidpoint: action.payload.fieldValue
+                    };
+
+                    metaInfo = {
+                      ...action.payload.metaInfo,
+                      metaData: updatedMetaData
+                    };
+                  }
+
+                  action.payload.successCallBackFn(this.store, metaInfo);
                 }
 
                 // We should dispatch this action only for Model/Employees/Pricings pages
