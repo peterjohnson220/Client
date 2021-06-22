@@ -1,0 +1,27 @@
+@import 'comphub-page';
+@import 'comphub-variables';
+
+.accordion {
+  background-color: #ffffff;
+  height: calc(100vh - 106px);
+  width: 100%;
+  overflow: hidden;
+}
+
+.accordion .card-container {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+.card-separator {
+  &:not(.no-transition) {
+    transition: all 0.35s ease 0.35s;
+  }
+}
+
+.hidden {
+  display: none;
+}
