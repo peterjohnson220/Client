@@ -174,7 +174,7 @@
       [textAlign]="'center'"
       [roundingSettings]="roundingSettings"
       [refreshRowDataViewFilter]="getRefreshFilter(dataRow)"
-      [updateMetaInfo]="{ pageViewId: modelGridPageViewId }"
+      [updateMetaInfo]="{ pageViewId: modelGridPageViewId, metaData: metaData, rowIndex: rowIndex, rangeType: rangeType }"
       [updateSuccessCallbackFn]="updateMidSuccessCallbackFn"
       [readonlyValueTemplate]="rangeValue"
       [reloadGridData]="true">
