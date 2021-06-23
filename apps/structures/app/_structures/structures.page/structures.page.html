@@ -147,3 +147,12 @@
     {{dataRow['Currency_Currency_Name']}} ({{dataRow['CompanyStructures_RangeGroup_Currency']}})
   </div>
 </ng-template>
+
+<ng-template #modelColumn let-dataRow="dataRow" let-fieldName="fieldName">
+  <div pfEllipsisActive class="ellipsis-overflowing-text">
+    <a class="pf-link-hover"
+       href="/client/structures/{{dataRow['CompanyStructures_RangeType_RangeType'] | lowercase}}/{{dataRow['CompanyStructures_RangeGroup_CompanyStructuresRangeGroup_ID']}}">
+      {{dataRow[fieldName]}}
+    </a>
+  </div>
+</ng-template>

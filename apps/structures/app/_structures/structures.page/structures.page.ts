@@ -38,6 +38,7 @@ export class StructuresPageComponent implements AfterViewInit, OnInit, OnDestroy
   @ViewChild('gridRowActionsTemplate') gridRowActionsTemplate: ElementRef;
   @ViewChild('currencyTypeColumn') currencyTypeColumn: ElementRef;
   @ViewChild('numericColumn') numericColumn: ElementRef;
+  @ViewChild('modelColumn') modelColumn: ElementRef;
   @ViewChild('payMarketFilter') payMarketFilter: ElementRef;
   @ViewChild('structureTypeFilter') structureTypeFilter: ElementRef;
   @ViewChild('currencyFilter') currencyFilter: ElementRef;
@@ -153,7 +154,8 @@ export class StructuresPageComponent implements AfterViewInit, OnInit, OnDestroy
     this.colTemplates = {
       [PfDataGridColType.currency]: {Template: this.currencyTypeColumn},
       ['numeric']: {Template: this.numericColumn},
-      'Currency': {Template: this.currencyColumn}
+      'Currency': {Template: this.currencyColumn},
+      'RangeGroup_Name': {Template: this.modelColumn}
     };
     this.filterTemplates = {
       'PayMarket': {Template: this.payMarketFilter},
