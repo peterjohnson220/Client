@@ -35,6 +35,7 @@ import * as fromSharedStructuresReducer from '../../shared/reducers';
   styleUrls: ['./structures.page.scss']
 })
 export class StructuresPageComponent implements AfterViewInit, OnInit, OnDestroy {
+  @ViewChild('gridGlobalActions', { static: true }) public gridGlobalActionsTemplate: ElementRef;
   @ViewChild('gridRowActionsTemplate') gridRowActionsTemplate: ElementRef;
   @ViewChild('currencyTypeColumn') currencyTypeColumn: ElementRef;
   @ViewChild('numericColumn') numericColumn: ElementRef;
@@ -133,7 +134,7 @@ export class StructuresPageComponent implements AfterViewInit, OnInit, OnDestroy
     });
     this.companyPayMarketsSubscription = this.structuresStore.select(fromStructuresPageReducer.getCompanyPayMarkets).subscribe(pm => {
       if (!!pm.obj.length) {
-        this.payMarketOptions = pm.obj;
+        this.payMarketOptions = pm.obj.map(o => ({ Name: o.PayMarket, Value: o.PayMarket }));
       }
     });
     this.currencySubscription = this.structuresStore.select(fromStructuresPageReducer.getCurrencies).subscribe(currency => {
@@ -147,6 +148,11 @@ export class StructuresPageComponent implements AfterViewInit, OnInit, OnDestroy
   }
 
   ngAfterViewInit(): void {
+    this.actionBarConfig = {
+      ...this.actionBarConfig,
+      GlobalActionsTemplate: this.gridGlobalActionsTemplate
+    };
+
     this.gridRowActionsConfig = {
       ...this.gridRowActionsConfig,
       ActionsTemplate: this.gridRowActionsTemplate
@@ -239,6 +245,10 @@ export class StructuresPageComponent implements AfterViewInit, OnInit, OnDestroy
     field.FilterValues = !!item?.Value ? [item.Value] : null;
     field.FilterOperator = 'in';
     this.updateField(field);
+  }
+
+  addNewStructure(): void {
+    this.structuresStore.dispatch(new fromStructuresPageActions.ShowStructureForm(true));
   }
 
   updateField(field: ViewField) {

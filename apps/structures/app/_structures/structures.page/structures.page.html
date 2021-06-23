@@ -19,6 +19,17 @@
   [customFilterOptions] = "(customFilterOptions$ | async)">
 </pf-data-grid>
 
+<ng-template #gridGlobalActions>
+  <button
+    [pfSecuredResource]="permissions.STRUCTURES_ADD_EDIT_DELETE"
+    [attr.data-qa-id]="'btn-newStructure'"
+    type="button"
+    (click)="addNewStructure()"
+    class="btn btn-primary">
+    Add New
+  </button>
+</ng-template>
+
 <ng-template #aboveGridTemplate>
   <ul ngbNav #nav="ngbNav" class="nav-tabs"
       [destroyOnHide]="false"
@@ -156,3 +167,5 @@
     </a>
   </div>
 </ng-template>
+
+<pf-structure-form></pf-structure-form>
