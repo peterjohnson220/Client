@@ -433,6 +433,7 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
   handleBulkExport(exportType: string): void {
     const jobDescriptionIds = Array.from( this.selectedJobDescriptions.values()).map(x => x.JobDescriptionId);
     const payload = {JobDescriptionIds: jobDescriptionIds, FileExtension: exportType};
+    this.store.dispatch(new fromJobDescriptionGridActions.SelectJobDescriptions(new Map<number, any>()));
     this.store.dispatch(new fromJobDescriptionListActions.ExportSelectedJobDescriptions(payload));
   }
 
