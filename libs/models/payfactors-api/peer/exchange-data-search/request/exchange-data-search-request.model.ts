@@ -30,6 +30,7 @@ export interface HistoricalExchangeDataSearchRequest extends ExchangeDataSearchR
   From: Date;
   To: Date;
   CalendarInterval: CalendarInterval;
+  PeerTrendId: number;
 }
 
 export enum CalendarInterval {

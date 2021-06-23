@@ -21,7 +21,7 @@
       <!-- summary content -->
       <div class="summary">
           <pf-async-container [loading]="(peerTrends$ | async).loading"></pf-async-container>
-          <div *ngIf = "!!jobSalaryTrend && jobSalaryTrend.length > 0 else noResults">
+
             <div class="d-flex row justify-content-around">
               <pf-historical-trend-chart
                 [isHourly]="false"
@@ -36,8 +36,6 @@
                 </pf-historical-org-inc-count-chart>
               </div>
             </div>
-          </div>
-          <ng-template #noResults>No history found</ng-template>
       </div>
     </div>
 

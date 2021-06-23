@@ -1,6 +1,12 @@
-<div *ngIf="localSalaryTrendData?.length" data-qa-id="cht-salary-trend">
+<div *ngIf="localSalaryTrendData?.length else noResults" data-qa-id="cht-salary-trend">
   <highcharts-chart [ngClass]="'salary-chart'"
                     [Highcharts]="Highcharts"
-                    [options]="chartOptions">
+                    [options]="chartOptions"
+                    (chartInstance)="chartCallback($event)"
+  >
   </highcharts-chart>
+
+
 </div>
+
+<ng-template #noResults>No history found</ng-template>
