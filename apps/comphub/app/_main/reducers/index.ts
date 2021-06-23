@@ -485,6 +485,10 @@ export const getOrgIncCountHistory = createSelector(
   fromTrendsLandingCardReducer.getOrgIncCountHistory
 );
 
+export const getSelectedTrendId = createSelector(
+  selectTrendsLandingCardState,
+  fromTrendsLandingCardReducer.getSelectedTrendId
+);
 // Trends Summary Card
 export const getPeerTrends = createSelector(
   selectTrendsSummaryCardState,
@@ -496,10 +500,24 @@ export const getPeerTrendsSummaryDetails = createSelector(
   fromTrendsSummaryCardReducer.getPeerTrendsSummaryDetails
 );
 
-export const getPeerTrendsDomain = createSelector(
+
+export const getPeerTrendsDomainMin = createSelector(
   selectTrendsSummaryCardState,
-  fromTrendsSummaryCardReducer.getPeerTrendsDomain
+  fromTrendsSummaryCardReducer.getPeerTrendsDomainMin
 );
+
+export const getPeerTrendsDomainMax = createSelector(
+  selectTrendsSummaryCardState,
+  fromTrendsSummaryCardReducer.getPeerTrendsDomainMax
+);
+
+export const getPeerTrendsDomain = createSelector(
+  getPeerTrendsDomainMin,
+  getPeerTrendsDomainMax,
+  (min, max) => ({ minDate: min, maxDate: max})
+);
+
+
 
 export const getDisplaySavePeerTrendModal = createSelector (
   selectTrendsSummaryCardState,
@@ -510,3 +528,5 @@ export const getSavingPeerTrend = createSelector (
   selectTrendsSummaryCardState,
   fromTrendsSummaryCardReducer.getSavingPeerTrend
 );
+
+

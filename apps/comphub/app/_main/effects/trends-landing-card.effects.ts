@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 
-import { catchError, map, switchMap } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { catchError, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Store } from '@ngrx/store';
+import { Action, Store } from '@ngrx/store';
 
 import { ExchangeCompanyApiService } from 'libs/data/payfactors-api/peer';
 import * as fromPfDataGridActions from 'libs/features/grids/pf-data-grid/actions';
 import { ExchangeExplorerContextService } from 'libs/features/peer/exchange-explorer/services';
 import { ExchangeDataSearchApiService } from 'libs/data/payfactors-api/search/peer';
-import { PeerTrendsApiService} from 'libs/data/payfactors-api/peer/peer-trends-api.service';
+import { PeerTrendsApiService } from 'libs/data/payfactors-api/peer/peer-trends-api.service';
 import { CalendarInterval, HistoricalExchangeDataSearchRequest } from 'libs/models/payfactors-api/peer/exchange-data-search/request';
 import { ExchangeDataSearchFilterContext } from 'libs/models/peer';
 
@@ -17,6 +17,12 @@ import { TrendsLandingCardConstants } from '../constants/trends-landing-card-con
 import { PageViewIds } from '../constants/page-view-id-constants';
 import * as fromComphubMainReducer from '../reducers/comphub-page.reducer';
 import * as fromTrendsLandingCardActions from '../actions/trends-landing-card.actions';
+import * as fromComphubPageActions from '../actions/comphub-page.actions';
+import { PeerTrendResponse } from '../../../../../libs/models/payfactors-api/peer/exchange-data-filter/response';
+import { PayfactorsSearchApiHelper, PayfactorsSearchApiModelMapper } from '../../../../../libs/features/search/search/helpers';
+import * as fromSearchFiltersActions from '../../../../../libs/features/search/search/actions/search-filters.actions';
+import * as fromTrendsSummaryActions from '../actions/trends-summary-card.actions';
+import { ComphubPages } from '../data';
 
 @Injectable()
 export class TrendsLandingCardEffects {
@@ -83,12 +89,80 @@ export class TrendsLandingCardEffects {
     })
   );
 
+  @Effect()
+  loadPeerTrendDetails: Observable<Action> = this.actions$.pipe(
+    ofType(fromTrendsLandingCardActions.LOAD_SAVED_TREND)).pipe(
+    withLatestFrom(
+      this.exchangeExplorerContextService.selectFilterContext(),
+      (action: fromTrendsLandingCardActions.LoadSavedTrend, filterContext) => ({action, filterContext})),
+    switchMap( data =>
+      this.peerTrendsApiService.getPeerTrendContext(
+        data.action.payload
+      ).pipe(
+        mergeMap((peerTrendDetails: PeerTrendResponse) => {
+          return [
+            new fromTrendsLandingCardActions.LoadSavedTrendSuccess(peerTrendDetails)
+
+          ];
+        }),
+        catchError(() => of(new fromTrendsLandingCardActions.LoadSavedTrendError()))
+      )
+    ));
+
+  @Effect()
+  setSelectedTrendId: Observable<Action> = this.actions$.pipe(
+    ofType(fromTrendsLandingCardActions.SET_SELECTED_TREND_ID)).pipe(
+    mergeMap(
+      (action: fromTrendsLandingCardActions.SetSelectedTrendId) => {
+
+        const actions = [];
+        if (!!action.payload) {
+          actions.push(new fromComphubPageActions.ResetAccessibleTrendsPages());
+          actions.push(new fromComphubPageActions.RemoveAccessiblePages([ComphubPages.TrendsJobs, ComphubPages.TrendsScopes]));
+        } else {
+          actions.push(new fromComphubPageActions.AddAccessiblePages([ComphubPages.TrendsJobs, ComphubPages.TrendsScopes]));
+          actions.push(new fromComphubPageActions.ResetTrendsPagesAccessed());
+          actions.push(new fromTrendsSummaryActions.SetTrendsDomain({minDate: new Date(), maxDate: new Date()}));
+
+        }
+
+        actions.push(new fromTrendsSummaryActions.Reset());
+
+          actions.push(new fromComphubPageActions.UpdateFooterContext());
+        return actions;
+      }
+    )
+  );
+
+  @Effect()
+  loadPeerTrendDetailsSuccess: Observable<Action> = this.actions$.pipe(
+    ofType(fromTrendsLandingCardActions.LOAD_SAVED_TREND_SUCCESS)).pipe(
+    mergeMap((action: fromTrendsLandingCardActions.LoadSavedTrendSuccess) => {
+        const actions = [];
+
+        const savedFilters = this.payfactorsSearchApiModelMapper.mapSearchSavedFilterResponseToSavedFilter(
+          [action.payload.ExchangeExplorerScopeContext.SelectedFilterOptions],
+          action.payload.SearchFilterMappingData
+        );
+
+        const selections = savedFilters[0].Filters;
+
+        actions.push(new fromSearchFiltersActions.ApplySavedFilters(selections));
+
+        actions.push(new fromTrendsSummaryActions.SetTrendsDomain({minDate: action.payload.MinDate, maxDate: action.payload.MaxDate}));
+
+        return actions;
+      }
+    ));
+
   constructor(
     private actions$: Actions,
     private store: Store<fromComphubMainReducer.State>,
     private exchangeCompanyApiService: ExchangeCompanyApiService,
     private exchangeExplorerContextService: ExchangeExplorerContextService,
     private exchangeDataSearchApiService: ExchangeDataSearchApiService,
-    private peerTrendsApiService: PeerTrendsApiService
+    private peerTrendsApiService: PeerTrendsApiService,
+    private payfactorsSearchApiModelMapper: PayfactorsSearchApiModelMapper,
+    private payfactorsSearchApiHelper: PayfactorsSearchApiHelper
   ) {}
 }

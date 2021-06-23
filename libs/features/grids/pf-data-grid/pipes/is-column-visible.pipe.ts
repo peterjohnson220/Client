@@ -8,7 +8,7 @@ import { ViewField } from 'libs/models/payfactors-api';
 
 export class IsColumnVisiblePipe implements PipeTransform {
   transform(col: ViewField, splitViewDisplayFields: string[], selectedRecordId: number) {
-    if (selectedRecordId) {
+    if (selectedRecordId && splitViewDisplayFields.length > 0) {
       return col.IsLocked || (splitViewDisplayFields.includes(`${col.EntitySourceName}_${col.SourceName}`) && col.IsSelectable && col.IsSelected);
     } else {
       return col.IsSelectable && col.IsSelected;
