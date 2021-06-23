@@ -13,6 +13,7 @@ export const SAVE_PEER_TREND = '[Comphub/Trends Summary Card] Save Peer Trend';
 export const SAVE_PEER_TREND_SUCCESS = '[Comphub/Trends Summary Card] Save Peer Trend Success';
 export const SAVE_PEER_TREND_ERROR = '[Comphub/Trends Summary Card] Save Peer Trend Error';
 export const TOGGLE_SAVE_TREND_MODAL = '[Comphub/Trends Summary Card] Toggle Save Trend Modal';
+export const RESET = '[Comphub/Trends Summary Card] Reset';
 
 export class
 GetPeerTrends implements Action {
@@ -61,6 +62,12 @@ export class ToggleSaveTrendModal implements Action {
   constructor(public payload: {displayModal: boolean}) {}
 }
 
+export class Reset implements Action {
+  readonly type = RESET;
+
+  constructor() {}
+}
+
 export type Actions =
   GetPeerTrends |
   GetPeerTrendsSuccess |
@@ -70,4 +77,5 @@ export type Actions =
   ToggleSaveTrendModal |
   SavePeerTrend |
   SavePeerTrendSuccess |
-  SavePeerTrendError;
+  SavePeerTrendError |
+  Reset;

@@ -46,12 +46,17 @@ export class TrendsSummaryCardComponent implements OnInit, OnDestroy {
   jobSalaryTrend: PayRateDate[];
   comphubPages = ComphubPages;
 
+  selectedPeerTrendId$: Observable<number>;
+  selectedPeerTrendIdSubscription: Subscription;
+  selectedPeerTrendId: number;
+
   constructor(
     private store: Store<fromComphubMainReducer.State>, private exchangeExplorerContextService: ExchangeExplorerContextService,
     private percentPipe: PercentPipe, private numberHumanizer: HumanizeNumberPipe) {
     this.workflowContext$ = this.store.select(fromComphubMainReducer.getWorkflowContext);
     this.peerTrends$ = this.store.select(fromComphubMainReducer.getPeerTrends);
     this.trendsSummaryDetails$ = this.store.select(fromComphubMainReducer.getPeerTrendsSummaryDetails);
+    this.selectedPeerTrendId$ = this.store.select(fromComphubMainReducer.getSelectedTrendId);
   }
 
   ngOnInit(): void {
@@ -82,14 +87,16 @@ export class TrendsSummaryCardComponent implements OnInit, OnDestroy {
               OrgCount: x.Orgs,
               IncCount: x.Incs,
               EffectiveDate: new Date(Date.parse(x.EffectiveDate + 'Z'))
-            }))
+            }));
         } else {
           this.peerTrends = pt.obj;
           this.jobSalaryTrend =  [];
-
+          this.trendOrgIncCountHistory = [];
         }
       }
     });
+
+    this.selectedPeerTrendIdSubscription = this.selectedPeerTrendId$.subscribe( x => this.selectedPeerTrendId = x);
 
     this.filterContext$ = this.exchangeExplorerContextService.selectFilterContext();
     this.filterContextSubscription = this.filterContext$.subscribe(fc => {
@@ -105,16 +112,18 @@ export class TrendsSummaryCardComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.workflowContextSubscription.unsubscribe();
     this.trendsSummaryDetailsSubscription.unsubscribe();
+    this.selectedPeerTrendIdSubscription.unsubscribe();
   }
 
   private getPeerTrends() {
     this.store.dispatch(new fromTrendsSummaryCardActions.GetPeerTrends());
+
   }
 
   getFilterString(options: SearchFilterOption[]): string {
     let optionsStr = '';
     for (const option of options) {
-      optionsStr += option.Name + ', ';
+      optionsStr += option.Value + ', ';
     }
     return optionsStr.replace(/,\s*$/, '');
   }

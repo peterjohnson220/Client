@@ -12,6 +12,7 @@ export interface State {
   deletingSavedTrend: boolean;
   deletingSavedTrendSuccess: boolean;
   deletingSavedTrendError: boolean;
+  selectedTrendId: number;
 }
 
 const initialState: State = {
@@ -21,7 +22,8 @@ const initialState: State = {
   deleteSavedTrendTitle: '',
   deletingSavedTrend: false,
   deletingSavedTrendSuccess: false,
-  deletingSavedTrendError: false
+  deletingSavedTrendError: false,
+  selectedTrendId: null
 };
 
 export function reducer(state: State = initialState, action: fromTrendsLandingCardActions.Actions): State {
@@ -67,6 +69,12 @@ export function reducer(state: State = initialState, action: fromTrendsLandingCa
             deletingSavedTrendError: true,
             ...state
           };
+
+    case fromTrendsLandingCardActions.SET_SELECTED_TREND_ID:
+      return {
+        ...state,
+        selectedTrendId: action.payload
+      };
     default: {
       return state;
     }
@@ -77,3 +85,4 @@ export const getNewExchangeParticipants = (state: State) => state.newExchangePar
 export const getOrgIncCountHistory = (state: State) => state.orgIncCountHistory;
 export const getDeleteTrendModalOpen = (state: State) => state.deleteSavedTrendModalOpen;
 export const getDeleteTrendTitle = (state: State) => state.deleteSavedTrendTitle;
+export const getSelectedTrendId = (state: State) => state.selectedTrendId;

@@ -131,10 +131,25 @@ export function reducer(state: State = initialState, action: fromComphubPageActi
         accessiblePages: initialState.accessiblePages
       };
     }
+    case fromComphubPageActions.RESET_ACCESSIBLE_TRENDS_PAGES: {
+      return {
+        ...state,
+        accessiblePages: initialTrendsState.accessiblePages
+      };
+    }
+
+
     case fromComphubPageActions.RESET_PAGES_ACCESSED: {
       return {
         ...state,
         pagesAccessed: initialState.pagesAccessed
+      };
+    }
+
+    case fromComphubPageActions.RESET_TRENDS_PAGES_ACCESSED: {
+      return {
+        ...state,
+        pagesAccessed: initialTrendsState.pagesAccessed
       };
     }
     case fromComphubPageActions.UPDATE_CARD_SUBTITLE: {

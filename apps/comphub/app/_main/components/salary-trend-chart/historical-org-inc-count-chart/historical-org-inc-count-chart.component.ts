@@ -37,7 +37,7 @@ export class HistoricalOrgIncCountChartComponent implements OnInit, OnDestroy, O
 
   ngOnInit(): void {
     this.trendsDomainSubscription = this.trendsDomain$.subscribe(d => {
-      this.updateTrendsDomain(d.minDate, d.maxDate);
+      this.updateTrendsDomain(new Date(Date.parse(d.minDate)), new Date(Date.parse(d.maxDate)));
     });
   }
 
