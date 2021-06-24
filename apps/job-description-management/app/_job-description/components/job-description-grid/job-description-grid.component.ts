@@ -91,8 +91,8 @@ export class JobDescriptionGridComponent implements OnInit, OnDestroy {
   }
 
   get bulkDeleteTooltip(): string {
-return this.selectedJobDescriptions?.size > 0 && !this.canBulkDeleteJobDescriptions()
-    ? 'Only Job Descriptions that have at least one sibling can be deleted' : '';
+    return this.selectedJobDescriptions?.size > 0 && !this.canBulkDeleteJobDescriptions()
+      ? 'Only Job Descriptions that have at least one sibling can be deleted' : '';
   }
 
   ngOnInit() {
@@ -135,9 +135,13 @@ return this.selectedJobDescriptions?.size > 0 && !this.canBulkDeleteJobDescripti
   }
 
   canSelectRow(jd): boolean {
-    return jd.JobDescriptionId
-      && jd.JobDescriptionStatus !== 'Routing'
-      && jd.JobDescriptionStatus !== 'Deleting';
+    return jd.JobDescriptionStatus !== 'Routing'
+      && jd.JobDescriptionStatus !== 'Deleting'
+      && this.isTemplateAssigned(jd);
+  }
+
+  isTemplateAssigned(jd): boolean {
+    return jd.JobDescriptionId !== null && jd.JobDescriptionStatus !== 'Not Started' && jd.TemplateName !== null;
   }
 
   handleJobDescriptionHistoryClick(jobDescriptionId: number, jobTitle: string) {
@@ -266,6 +270,12 @@ return this.selectedJobDescriptions?.size > 0 && !this.canBulkDeleteJobDescripti
     }
   }
 
+  tooltipForCheckbox(jobDescription): string {
+    if (!this.isTemplateAssigned(jobDescription)) {
+      return 'Only job descriptions with assigned templates can be selected';
+    }
+  }
+
   onCellClick(event: any) {
     if (event?.dataItem.JobDescriptionStatus === 'Routing' || event?.dataItem.JobDescriptionStatus === 'Deleting' ) {
       return;
@@ -304,7 +314,9 @@ return this.selectedJobDescriptions?.size > 0 && !this.canBulkDeleteJobDescripti
   canBulkRouteJobDescriptions(): boolean {
     let canRoute = true;
     this.selectedJobDescriptions?.forEach(jobDescription => {
-      if (jobDescription.JobDescriptionStatus !== 'Draft') {
+      if (jobDescription.JobDescriptionStatus !== 'Draft'
+        || !this.isTemplateAssigned(jobDescription)
+      ) {
         canRoute = false;
         return;
       }

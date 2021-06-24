@@ -26,6 +26,7 @@ import { GridDataHelper } from '../../helpers';
 export class ActionBarComponent implements OnChanges, OnInit, OnDestroy {
   @ViewChild('fileDownloadSecurityWarningModal', { static: true }) fileDownloadSecurityWarningModal: FileDownloadSecurityWarningModalComponent;
   @Input() actionBarConfig: ActionBarConfig;
+  @Input() additionalDataForExport: any;
   @Input() pageViewId: string;
   @Input() globalFilters: ViewField[];
   @Input() reorderable: boolean;
@@ -111,7 +112,8 @@ export class ActionBarComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   exportGrid(): void {
-    this.store.dispatch(new fromActions.ExportGrid(this.pageViewId, this.actionBarConfig.ExportSourceName, this.actionBarConfig.CustomExportType));
+    this.store.dispatch(new fromActions.ExportGrid(this.pageViewId, this.actionBarConfig.ExportSourceName,
+      this.actionBarConfig.CustomExportType, this.additionalDataForExport));
   }
 
   getExportTitleTooltip(exporting: boolean, loadingExportingStatus: boolean, data: GridDataResult, selectedKeys: number[]): string {

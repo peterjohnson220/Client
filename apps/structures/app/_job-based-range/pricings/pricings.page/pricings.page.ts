@@ -22,7 +22,7 @@ import * as fromModifyPricingsActions from 'libs/features/pricings/multi-match/a
 import * as fromSharedStructuresReducer from '../../../shared/reducers';
 import * as fromModelSettingsModalActions from '../../../shared/actions/model-settings-modal.actions';
 import * as fromSharedStructuresActions from '../../../shared/actions/shared.actions';
-import * as fromDuplicateModelModalActions from '../../shared/actions/duplicate-model-modal.actions';
+import * as fromDuplicateModelModalActions from '../../../shared/actions/duplicate-model-modal.actions';
 import { StructuresPagesService } from '../../../shared/services';
 
 

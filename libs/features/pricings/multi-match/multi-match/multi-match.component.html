@@ -33,7 +33,7 @@
 
 <ng-template #multiMatchContent>
   <div *ngIf="hasError && display=='modal'" class="alert alert-danger">
-    Something went wrong. Please try again later.
+    Something went wrong. Please refresh the page or try again later.
   </div>
   <div *ngIf="!hasError && featureImplementation === _multiMatchImplementations.MODIFY_PRICINGS" class="alert alert-info">
     <ng-container *ngIf="!(tempDataCutService.upserting$ | async); else infoAlertTempDataCut">

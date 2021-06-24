@@ -97,7 +97,7 @@ export class JobDescriptionManagementApiService {
   userEmailHasJobPermission(emailAddr: string, jobIds: number[]): Observable<boolean> {
     return this.payfactorsApiService.post<boolean>(`${this.endpoint}.UserEmailHasJobPermission`, {
       UserEmail: emailAddr,
-      JobIds: jobIds
+      JobIds: jobIds ?? []
     },
     (response) => response.value);
   }

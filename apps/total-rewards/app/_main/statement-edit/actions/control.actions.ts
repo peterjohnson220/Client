@@ -20,6 +20,7 @@ export const REMOVE_CALCULATION_CONTROL_COMPENSATION_FIELD = '[Total Rewards/Edi
 export const REORDER_CALCULATION_CONTROL_COMPENSATION_FIELD = '[Total Rewards/Edit Statement] Reorder Calculation Control Compensation Field';
 
 export const UPDATE_RICH_TEXT_CONTROL_CONTENT = '[Total Rewards/Edit Statement] Update Rich Text Control Content';
+export const UPDATE_ADDITIONAL_PAGE_RICH_TEXT_CONTROL_HEIGHT = '[Total Rewards/Edit Statement] Update Additional Page Rich Text Control Height';
 export const UPDATE_RICH_TEXT_CONTROL_UDFS_IN_CONTENT = '[Total Rewards/Edit Statement] Update Rich Text Control Udfs In Content';
 export const UPDATE_ACTIVE_RICH_TEXT_EDITOR_ID = '[Total Rewards/Edit Statement] Update Active Rich Text Editor ID';
 
@@ -69,6 +70,11 @@ export class AddCalculationControlCompensationField implements Action {
 export class UpdateRichTextControlContent implements Action {
   readonly type = UPDATE_RICH_TEXT_CONTROL_CONTENT;
   constructor(public payload: UpdateStringPropertyRequest) {}
+}
+
+export class UpdateAdditionalPageRichTextControlHeight implements Action {
+  readonly type = UPDATE_ADDITIONAL_PAGE_RICH_TEXT_CONTROL_HEIGHT;
+  constructor(public payload: { rteHeightInPixels: number }) {}
 }
 
 export class UpdateActiveRichTextEditorId implements Action {

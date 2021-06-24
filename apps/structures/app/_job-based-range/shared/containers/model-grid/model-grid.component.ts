@@ -39,7 +39,7 @@ import { RangeRecalculationType } from 'libs/constants/structures/range-recalcul
 import { RangeDistributionTypeIds } from 'libs/constants/structures/range-distribution-type-ids';
 
 import * as fromPublishModelModalActions from '../../../../shared/actions/publish-model-modal.actions';
-import * as fromDuplicateModelModalActions from '../../actions/duplicate-model-modal.actions';
+import * as fromDuplicateModelModalActions from '../../../../shared/actions/duplicate-model-modal.actions';
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
 import * as fromSharedJobBasedRangeActions from '../../../shared/actions/shared.actions';
 import * as fromSharedStructuresReducer from '../../../../shared/reducers';

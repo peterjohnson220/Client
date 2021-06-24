@@ -1,11 +1,17 @@
-import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 import { Observable, Subscription } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 
-import { AdvancedModelSettingForm, generateMockRangeAdvancedSetting, RangeGroupMetadata, RoundingSettingsDataObj } from 'libs/models/structures';
+import {
+  AdvancedModelSettingForm,
+  generateMockRangeAdvancedSetting,
+  RangeGroupMetadata,
+  RoundingSettingsDataObj
+} from 'libs/models/structures';
 import { AsyncStateObj } from 'libs/models/state';
+import { AdjustMidpointTypes } from 'libs/constants/structures/adjust-midpoint-type';
 
 import { ControlPoint, Currency } from '../../../../shared/models';
 import * as fromSharedStructuresActions from '../../../../shared/actions/shared.actions';
@@ -25,6 +31,7 @@ export class ModelSettingsModalContentComponent implements OnInit, OnDestroy {
   @Input() modalOpen: boolean;
   @Input() isNewModel: boolean;
   @Input() numGrades: number;
+  @Output() adjustMidpointRadioButtonChanged = new EventEmitter();
   @ViewChild(RangeRoundingComponent, {static: false}) public rangeRoundingComponent: RangeRoundingComponent;
   metaData$: Observable<RangeGroupMetadata>;
   modelNameExistsFailure$: Observable<boolean>;
@@ -108,6 +115,10 @@ export class ModelSettingsModalContentComponent implements OnInit, OnDestroy {
   handleRateSelectionChange(value: string) {
     const roundingPoint = value.toLowerCase() === 'hourly' ? 2 : 0;
     this.store.dispatch(new fromSharedStructuresActions.UpdateRoundingPoints({ RoundingPoint: roundingPoint }));
+    // if this is not a new model, and they change the value for rate, clear out starting midpoint
+    if (!this.isNewModel) {
+      this.formControls.StartingMidpoint.reset('');
+    }
   }
 
   handleCurrencyFilterChange(value: string) {
@@ -124,16 +135,28 @@ export class ModelSettingsModalContentComponent implements OnInit, OnDestroy {
   handleModalSubmit() {
     if (this.modelSettingsForm.valid) {
       const action = new fromModelSettingsModalActions.SaveGradeBasedModelSettings(
-          {
-            rangeGroupId: this.rangeGroupId,
-            formValue: this.modelSetting,
-            fromPageViewId: this.pageViewId,
-            rounding: this.roundingSettings,
-            isNewModel: this.isNewModel
-          });
+        {
+          rangeGroupId: this.rangeGroupId,
+          formValue: this.modelSetting,
+          fromPageViewId: this.pageViewId,
+          rounding: this.roundingSettings,
+          isNewModel: this.isNewModel
+        });
       this.store.dispatch(action);
       this.reset();
     }
+  }
+
+  get adjustMidpointSettingType() {
+    return this.modelSettingsForm.get('AdjustMidpointSetting.Type');
+  }
+
+  get adjustMidpointSettingPercentage() {
+    return this.modelSettingsForm.get('AdjustMidpointSetting.Percentage');
+  }
+
+  get adjustMidpointMoveByType() {
+    return AdjustMidpointTypes.MoveBy;
   }
 
   handleModalSubmitAttempt() {
@@ -155,6 +178,10 @@ export class ModelSettingsModalContentComponent implements OnInit, OnDestroy {
     this.reset();
   }
 
+  handleRadioButtonChanged(value: any) {
+    this.adjustMidpointRadioButtonChanged.emit(value);
+  }
+
   generateAdvancedSettingsForm() {
     if (this.metadata.RangeAdvancedSetting != null) {
       this.modelSetting.RangeAdvancedSetting = this.metadata.RangeAdvancedSetting;
@@ -173,6 +200,10 @@ export class ModelSettingsModalContentComponent implements OnInit, OnDestroy {
 
   get disableNumGradesField() {
     return this.numGrades > 0;
+  }
+
+  get adjustMidpointTypes() {
+    return AdjustMidpointTypes;
   }
 
   // LifeCycle
@@ -230,5 +261,8 @@ export class ModelSettingsModalContentComponent implements OnInit, OnDestroy {
 
   private reset() {
     this.attemptedSubmit = false;
+    const tab = 'modelTab';
+    this.store.dispatch(new fromModelSettingsModalActions.SetActiveTab(''));
+    this.store.dispatch(new fromModelSettingsModalActions.SetActiveTab(tab));
   }
 }

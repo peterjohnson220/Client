@@ -19,7 +19,7 @@ import { DeliveryMethod } from 'libs/features/total-rewards/total-rewards-statem
 
 import * as fromTotalRewardsReducer from '../reducers';
 import * as fromStatementEditActions from '../actions';
-import { SaveStatement, SaveSettings } from '../actions';
+import { SaveStatement, SaveSettings, PrepareSaveSettings } from '../actions';
 
 @Injectable()
 export class StatementEditPageEffects {
@@ -82,6 +82,7 @@ export class StatementEditPageEffects {
         fromStatementEditActions.REORDER_CALCULATION_CONTROL_COMPENSATION_FIELD,
         fromStatementEditActions.ADD_CALCULATION_CONTROL_COMPENSATION_FIELD,
         fromStatementEditActions.UPDATE_RICH_TEXT_CONTROL_CONTENT,
+        fromStatementEditActions.UPDATE_ADDITIONAL_PAGE_RICH_TEXT_CONTROL_HEIGHT,
         fromStatementEditActions.SAVE_IMAGE_CONTROL_IMAGE,
         fromStatementEditActions.UPDATE_EFFECTIVE_DATE
       ),
@@ -111,6 +112,13 @@ export class StatementEditPageEffects {
         fromStatementEditActions.TOGGLE_DISPLAY_SETTING,
         fromStatementEditActions.UPDATE_ADDITIONAL_PAGE_SETTINGS
       ),
+      mapTo(new PrepareSaveSettings())
+    );
+
+  @Effect()
+  prepareSettingsSave$: Observable<Action> =
+    this.actions$.pipe(
+      ofType(fromStatementEditActions.PREPARE_SAVE_SETTINGS),
       mapTo(new SaveSettings())
     );
 
@@ -120,8 +128,9 @@ export class StatementEditPageEffects {
       ofType(fromStatementEditActions.SAVE_SETTINGS),
       withLatestFrom(
         this.store.pipe(select(fromTotalRewardsReducer.selectStatement)),
-        (action, statement: Statement) => statement),
-      map(statement => ({ StatementId: statement.StatementId, ...statement.Settings } as SaveSettingsRequest)),
+        this.store.pipe(select(fromTotalRewardsReducer.getRepeatableHeaderHeightInPixels)),
+        (action, statement: Statement, headerHeightInPixels: number) => ({ ...statement, headerHeightInPixels })),
+      map(combined => ({ StatementId: combined.StatementId, HeaderHeightInPixels: combined.headerHeightInPixels, ...combined.Settings })),
       concatMap((saveSettingsRequest: SaveSettingsRequest) =>
         this.totalRewardsApiService.saveStatementSettings(saveSettingsRequest).pipe(
           map((updatedStatement: Statement) => {

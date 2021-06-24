@@ -68,6 +68,22 @@ describe('TotalRewardsStatementComponent', () => {
     expect(pages.length).toBe(2);
   });
 
+  it('should render main and additional class names based on the page type', () => {
+    // arrange
+    component.statement = generateMockStatement();
+    component.statement.Pages = [{ Sections: [] }, { Sections: [], IsAdditionalPage: true }];
+    component.employeeRewardsData = generateMockEmployeeRewardsData();
+
+    // act
+    fixture.detectChanges();
+
+    // assert
+    const pages = fixture.nativeElement.querySelectorAll('.trs-page');
+    expect(pages.length).toBe(2);
+    expect(pages[0].classList).toContain('main');
+    expect(pages[1].classList).toContain('additional');
+  });
+
   it('should render the expected number of sections', () => {
     // arrange
     component.statement = generateMockStatement();
