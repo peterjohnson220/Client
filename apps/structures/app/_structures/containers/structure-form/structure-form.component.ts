@@ -40,6 +40,7 @@ export class StructureFormComponent implements OnInit, OnDestroy {
   isGradeBasedRangeDistributionTypesEnabled: boolean;
   defaultRangeDistributionType: RangeDistributionType;
   selectedRangeDistributionType: RangeDistributionType;
+  nameMaxLength = 500;
 
   constructor(
     private structuresStore: Store<fromStructuresPageReducer.State>,
@@ -92,10 +93,8 @@ export class StructureFormComponent implements OnInit, OnDestroy {
   private createForm(): void {
     this.structureForm = this.formBuilder.group({
       RangeTypeId: [null, [Validators.required]],
-      StructureName: ['', [
-        PfValidators.required,
-        PfValidators.maxLengthTrimWhitespace(500)]],
-      ModelName: ['', [Validators.required]],
+      StructureName: ['', [PfValidators.required, PfValidators.maxLengthTrimWhitespace(this.nameMaxLength)]],
+      ModelName: ['', [PfValidators.required, PfValidators.maxLengthTrimWhitespace(this.nameMaxLength)]],
       PaymarketId: [null, [Validators.required]]
     });
   }

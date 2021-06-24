@@ -52,6 +52,7 @@
                           [kendoDropDownFilter]="filterSettings"
                           [valuePrimitive]="true"
                           [allowCustom]="true"
+                          [pfValidatable]="true"
                           [ngClass]="{ 'is-invalid': !f.StructureName.valid && f.StructureName.touched }">
             <ng-template kendoComboBoxItemTemplate let-dataItem>
               <div pfEllipsisActive class="flex-fill ellipsis-overflowing-text">
@@ -60,6 +61,9 @@
             </ng-template>
           </kendo-combobox>
           <span *ngIf="f.StructureName.errors?.required" class="invalid-feedback">Structure Name is required</span>
+          <span *ngIf="f.StructureName.errors?.maxLengthTrimmed" class="invalid-feedback">
+            Structure Name cannot be longer than {{nameMaxLength}} characters
+          </span>
         </div>
       </div>
       <div class="form-group row">
@@ -70,8 +74,12 @@
                  type="text"
                  placeholder="Enter a model name"
                  formControlName="ModelName"
+                 [pfValidatable]="true"
                  [ngClass]="{ 'is-invalid': (!f.ModelName.valid && f.ModelName.touched) }">
           <span *ngIf="f.ModelName.errors?.required" class="invalid-feedback">Model Name is required</span>
+          <span *ngIf="f.ModelName.errors?.maxLengthTrimmed" class="invalid-feedback">
+            Model Name cannot be longer than {{nameMaxLength}} characters
+          </span>
         </div>
       </div>
       <div class="form-group row">
