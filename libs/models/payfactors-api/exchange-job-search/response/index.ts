@@ -1,1 +1,1 @@
-export * from './md-job-exchange-job-search-response.model';
+export * from './relational-exchange-job-search-response.model';
