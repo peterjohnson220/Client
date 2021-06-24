@@ -6,6 +6,8 @@ import { Router } from '@angular/router';
 import {combineReducers, Store, StoreModule} from '@ngrx/store';
 import {NgbTabsetModule, NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
 
+import { AbstractFeatureFlagService } from 'libs/core';
+
 import * as fromRootState from 'libs/state/state';
 import * as fromTotalRewardsReducer from '../../reducers/statement-grid.reducer';
 import { StatementsGridComponent } from './statements-grid.component';
@@ -26,7 +28,10 @@ describe('TotalRewardsStatementsGridComponent', () => {
         }),
         ReactiveFormsModule, NgbTabsetModule, NgbDropdownModule],
       declarations: [ StatementsGridComponent ],
-      providers: [{provide: Router, useValue: { navigate: jest.fn() }}],
+      providers: [
+        { provide: Router, useValue: { navigate: jest.fn() }},
+        { provide: AbstractFeatureFlagService, useValue: { enabled: jest.fn(), bindEnabled: jest.fn() }}
+      ],
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 

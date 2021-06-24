@@ -7,14 +7,12 @@ import * as fromRoot from 'libs/state/state';
 // Import feature reducers
 import * as fromSharedReducer from './shared.reducer';
 import * as fromModelSettingsModalReducer from '../../../shared/reducers/model-settings-modal.reducer';
-import * as fromDuplicateModelModalReducer from './duplicate-model-modal.reducer';
 import * as fromFieldsReducer from './fields.reducer';
 import * as fromFormulaFieldReducer from '../../../shared/reducers/formula-field.reducer';
 
 // Feature area state
 export interface JobBasedRangeSharedState {
   shared: fromSharedReducer.State;
-  duplicateModelModal: fromDuplicateModelModalReducer.State;
   fields: fromFieldsReducer.State;
 }
 
@@ -26,7 +24,6 @@ export interface State extends fromRoot.State {
 // Feature area reducers
 export const reducers = {
   shared: fromSharedReducer.reducer,
-  duplicateModelModal: fromDuplicateModelModalReducer.reducer,
   fields: fromFieldsReducer.reducer,
 };
 
@@ -41,11 +38,6 @@ export const selectSharedState = createSelector(
   (state: JobBasedRangeSharedState) => state.shared
 );
 
-export const selectDuplicateModelModalState = createSelector(
-  selectFeatureAreaState,
-  (state: JobBasedRangeSharedState) => state.duplicateModelModal
-);
-
 export const selectFieldsState = createSelector(
   selectFeatureAreaState,
   (state: JobBasedRangeSharedState) => state.fields
@@ -58,19 +50,6 @@ export const getRemovingRange = createSelector(selectSharedState, fromSharedRedu
 export const getStructureHasSettings = createSelector(
   selectSharedState,
   fromSharedReducer.getStructureHasSettings
-);
-
-// Duplicate Model Modal
-export const getDuplicateModelModalOpen = createSelector(
-  selectDuplicateModelModalState, fromDuplicateModelModalReducer.getModalOpen
-);
-
-export const getDuplicatingModelAsyncObj = createSelector(
-  selectDuplicateModelModalState, fromDuplicateModelModalReducer.getDuplicatingModelAsyncObj
-);
-
-export const getDuplicateModelNameExistsFailure = createSelector(
-  selectDuplicateModelModalState, fromDuplicateModelModalReducer.getDuplicateModelNameExistsFailure
 );
 
 // Formula Fields

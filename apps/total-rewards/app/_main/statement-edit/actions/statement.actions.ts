@@ -13,6 +13,7 @@ export const SAVE_STATEMENT_ERROR = '[Total Rewards/Edit Statement] Save Stateme
 export const TOGGLE_STATEMENT_EDIT_MODE = '[Total Rewards/Edit Statement] Toggle Statement Edit Mode';
 export const UPDATE_EFFECTIVE_DATE = '[Total Rewards/Edit Statement] Update Effective Date';
 export const PAGE_SCROLL = '[Total Rewards/Edit Statement] Page Scroll';
+export const CALCULATE_REPEATABLE_HEADER_CONTENT_HEIGHT_IN_PIXELS = '[Total Rewards/Edit Statement] Calculate Repeatable Header Content Height In Pixels';
 export const GENERATE_STATEMENT_PREVIEW = '[Total Rewards/Edit Statement] Generate Statement Preview';
 export const GENERATE_STATEMENT_PREVIEW_ERROR = '[Total Rewards/Edit Statement] Generate Statement Preview Error';
 export const GENERATE_STATEMENT_PREVIEW_SUCCESS = '[Total Rewards/Edit Statement] Generate Statement Preview Success';
@@ -84,6 +85,11 @@ export class GenerateStatementPreviewComplete implements Action {
   readonly type = GENERATE_STATEMENT_PREVIEW_COMPLETE;
 }
 
+export class CalculateRepeatableHeaderContentHeightInPixels implements Action {
+  readonly type = CALCULATE_REPEATABLE_HEADER_CONTENT_HEIGHT_IN_PIXELS;
+  constructor(public payload: { headerHeight: number }) {}
+}
+
 export type StatementActions =
   ToggleStatementEditMode |
   LoadStatement |
@@ -94,4 +100,5 @@ export type StatementActions =
   SaveStatementSuccess |
   SaveStatementError |
   UpdateEffectiveDate |
-  PageScroll;
+  PageScroll |
+  CalculateRepeatableHeaderContentHeightInPixels;

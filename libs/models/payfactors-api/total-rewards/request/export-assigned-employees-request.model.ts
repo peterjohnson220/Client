@@ -3,4 +3,5 @@ export interface ExportAssignedEmployeesRequest {
   EmployeeIds?: number[];
   EmployeeSearchTerm?: string;
   GridListState: any;
+  UserUtcOffsetMinutes: number;
 }

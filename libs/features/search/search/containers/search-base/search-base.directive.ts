@@ -24,7 +24,7 @@ export abstract class SearchBaseDirective {
 
   protected constructor(
     protected store: Store<fromSearchReducer.State>,
-    private searchFilterMappingDataObj: SearchFilterMappingDataObj,
+    public searchFilterMappingDataObj: SearchFilterMappingDataObj,
     private searchFeatureId: SearchFeatureIds,
     private userFilterTypeData: UserFilterTypeData
   ) {

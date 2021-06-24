@@ -37,10 +37,10 @@ export class GraphHelper {
 
   static getDataCutChartHeight(data: any, multiLineHeader: boolean = false): number {
     const defaultOffset = 56;
-    const multiLineHeaderOffset = 85;
+    const multiLineHeaderOffset = 50;
     const defaultSingleRecordHeight = 60;
     const rowHeight = 50;
-    const multiLineHeaderRowHeight = 42;
+    const multiLineHeaderRowHeight = 48;
     const singleDataPointOffset = 45;
     if (data.length > 1) {
       return ((multiLineHeader ? multiLineHeaderRowHeight : rowHeight) * data.length)
