@@ -13,6 +13,7 @@ import { PfCommonUIModule } from 'libs/ui/common';
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { MultiMatchModule } from 'libs/features/pricings/multi-match';
+import {OrdinalNumberPipe} from 'libs/core/pipes';
 
 import { HighchartsChartModule } from 'highcharts-angular';
 
@@ -63,7 +64,8 @@ import * as fromFaIcons from './fa-icons';
     JobSummaryComponent
   ],
   providers: [
-    HasAccessToProjectGuard
+    HasAccessToProjectGuard,
+    OrdinalNumberPipe
   ]
 })
 export class PricingProjectPageModule {
