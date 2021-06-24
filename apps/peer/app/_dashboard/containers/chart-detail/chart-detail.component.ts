@@ -6,7 +6,6 @@ import { Observable, Subscription } from 'rxjs';
 import { ChartItem, ExchangeChartTypeEnum } from 'libs/models';
 import { EntityDescriptionTypeEnum } from 'libs/models/entity-description/entity-description-type.enum';
 
-
 import * as fromPeerDashboardReducer from '../../reducers';
 import * as fromExchangeDashboardActions from '../../actions/exchange-dashboard.actions';
 
@@ -45,11 +44,11 @@ export class ChartDetailComponent implements OnInit, OnDestroy {
   get cardHeaderText(): string {
     switch (this.detailChartType) {
       case  ExchangeChartTypeEnum.ExchangeJobOrgs :
-        return 'Exchange Job Orgs';
+        return 'Exchange Job Orgs by Contribution';
       case  ExchangeChartTypeEnum.Company :
-        return this.detailChartCategory === ExchangeChartTypeEnum.Subsidiary ? 'Participating Properties' : 'Participating Companies';
+        return this.detailChartCategory === ExchangeChartTypeEnum.Subsidiary ? 'Participating Properties by Contribution' : 'Participating Companies by Contribution';
       default:
-        return 'Participating Companies';
+        return 'Participating Companies by Contribution';
     }
   }
 
