@@ -18,6 +18,7 @@ export type StatementEditPageActions =
   statementActions.GenerateStatementPreviewSuccess |
   statementActions.GenerateStatementPreviewError |
   statementActions.GenerateStatementPreviewComplete |
+  statementActions.CalculateRepeatableHeaderContentHeightInPixels |
 
   controlActions.UpdateStatementName |
   controlActions.UpdateStatementControlTitle |
@@ -27,6 +28,7 @@ export type StatementEditPageActions =
   controlActions.RemoveCalculationControlCompensationField |
   controlActions.ReorderCalculationControlCompensationField |
   controlActions.UpdateRichTextControlContent |
+  controlActions.UpdateAdditionalPageRichTextControlHeight |
   controlActions.UpdateRichTextControlUdfsInContent |
   controlActions.SaveImageControlImage |
   controlActions.SelectImageControlImage |
@@ -38,6 +40,7 @@ export type StatementEditPageActions =
 
   settingsActions.OpenSettingsPanel |
   settingsActions.CloseSettingsPanel |
+  settingsActions.PrepareSaveSettings |
   settingsActions.SaveSettings |
   settingsActions.SaveSettingsSuccess |
   settingsActions.SaveSettingsError |

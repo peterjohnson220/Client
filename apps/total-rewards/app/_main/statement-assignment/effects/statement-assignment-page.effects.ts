@@ -139,7 +139,9 @@ export class StatementAssignmentPageEffects {
         StatementId: data.statementId,
         EmployeeIds: data.selectedEmployees,
         EmployeeSearchTerm: data.searchTerm,
-        GridListState: data.gridState
+        GridListState: data.gridState,
+        // getTimezoneOffset() gives +ve when behind UTC and -ve when ahead, so swap around
+        UserUtcOffsetMinutes: - new Date().getTimezoneOffset()
       };
       return this.totalRewardsAssignmentApi.exportAssignedEmployees(request).pipe(
         map((response: string) => new fromStatementAssignmentPageActions.ExportAssignedEmployeesSuccess(response)),

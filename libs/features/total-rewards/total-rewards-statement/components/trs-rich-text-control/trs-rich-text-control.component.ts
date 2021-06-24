@@ -147,13 +147,14 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
     }
   }
 
-  ngOnChanges({ mode, isPageScrolling }: SimpleChanges) {
+  ngOnChanges({ mode, isPageScrolling, controlData }: SimpleChanges) {
     // Get the F outta here if in print mode
     if (this.mode === StatementModeEnum.Print) { return; }
 
     const changedFromPreviewToEdit = mode?.currentValue === StatementModeEnum.Edit && mode?.previousValue === StatementModeEnum.Preview;
     const changedFromEditToPreview = mode?.currentValue === StatementModeEnum.Preview && mode?.previousValue === StatementModeEnum.Edit;
     const pageScrolling = isPageScrolling?.currentValue && !isPageScrolling?.previousValue;
+    const changedHeight = controlData?.currentValue?.Height !== controlData?.previousValue?.Height;
 
     if (changedFromPreviewToEdit) {
       // the dom node quill attaches to isn't there until the next turn, so wait until then to re-init
@@ -161,18 +162,16 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
     } else if (changedFromEditToPreview || pageScrolling) {
       // we get this for free in most cases, but some edge cases like scrolling require manual closing
       this.closeQuillMention();
+    } else if (changedHeight) {
+      this.createStyleSheet();
     }
 
     this.isValid = !this.isContentHeightGreaterThanContainerHeight();
   }
 
   ngOnDestroy() {
-    if (this.onContentChangedSubscription) {
-      this.onContentChangedSubscription.unsubscribe();
-    }
-
+    this.onContentChangedSubscription?.unsubscribe();
     this.closeQuillMention();
-
     this.unsubscribe$.next();
   }
 
@@ -182,6 +181,9 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
 
   createQuillEditor() {
     this.quillEditor = new Quill('#quill-editor-' + this.controlData.Id, {
+      // Prevents a bug whereby the editor jumps to the top when pasting text, aligning, coloring or resizing.
+      // See https://stackoverflow.com/questions/51706247/quill-how-to-prevent-toolbar-from-scrolling-and-set-the-height
+      scrollingContainer: '.page-content',
       theme: 'snow',
       modules: {
         toolbar: {

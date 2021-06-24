@@ -197,6 +197,17 @@ export class PfTreeViewComponent implements OnInit, OnDestroy, OnChanges {
     return !!this.checkedKeys && !!this.checkedKeys.length && this.checkedKeys.indexOf(dataItem.Value) > -1;
   }
 
+  public getExpandedKeys(items: GroupedListItem[]): string[] {
+    return items.reduce((acc: string[], item) => {
+      acc.push(item.Value);
+      if (item.Children && item.Children.length) {
+        const childrenExpandedKeys = this.getExpandedKeys(item.Children);
+        childrenExpandedKeys.forEach(key => acc.push(key));
+      }
+      return acc;
+    }, []);
+  }
+
   private handleCheckedKeysChanged(): void {
     this.appliedKeys = cloneDeep(this.checkedKeys);
     this.show = false;
@@ -282,17 +293,6 @@ export class PfTreeViewComponent implements OnInit, OnDestroy, OnChanges {
 
   private resetSelections() {
     this.checkedKeys = cloneDeep(this.appliedKeys);
-  }
-
-  private getExpandedKeys(items: GroupedListItem[]): string[] {
-    return items.reduce((acc: string[], item) => {
-      acc.push(item.Value);
-      if (item.Children && item.Children.length) {
-        const childrenExpandedKeys = this.getExpandedKeys(item.Children);
-        childrenExpandedKeys.forEach(key => acc.push(key));
-      }
-      return acc;
-    }, []);
   }
 
 }

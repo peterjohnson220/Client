@@ -52,6 +52,17 @@ export const getOpenAddJobs = createSelector(
   fromSharedReducer.getOpenAddJobs
 );
 
+export const getSummaryChartSvg = createSelector(
+  selectSharedState,
+  fromSharedReducer.getSummaryChartSvg
+);
+
+export const getVerticalChartSvg = createSelector(
+  selectSharedState,
+  fromSharedReducer.getVerticalChartSvg
+);
+
+
 // Switch Regression Flags
 export const getSwitchRegressionFlagsModalOpen = createSelector(
   selectSwitchRegressionFlagsState, fromSwitchRegressionFlagsReducer.getModalOpen

@@ -4,11 +4,10 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { generateMockRangeAdvancedSetting, generateMockRangeDistributionSettingForm } from 'libs/models/structures';
+import { generateMockAdjustMidpointSetting, generateMockRangeAdvancedSetting, generateMockRangeDistributionSettingForm } from 'libs/models/structures';
 import * as fromRootState from 'libs/state/state';
 import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import { PfCommonModule } from 'libs/core';
-import { RoundingTypes } from 'libs/constants/structures/rounding-type';
 import { generateMockRoundingSettingsDataObj } from 'libs/models/structures/ranges';
 import { generateMockStructureRangeDistributionTypes } from 'libs/models/payfactors-api';
 
@@ -71,7 +70,8 @@ describe('Job Based Ranges - Rounding Settings', () => {
       RangeDistributionSetting: generateMockRangeDistributionSettingForm(),
       RangeAdvancedSetting: generateMockRangeAdvancedSetting(),
       MidpointProgression: 5,
-      StartingMidpoint: 55555
+      StartingMidpoint: 55555,
+      AdjustMidpointSetting: generateMockAdjustMidpointSetting()
     };
 
     instance.roundingSettings = generateMockRoundingSettingsDataObj();

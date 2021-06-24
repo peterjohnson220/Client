@@ -20,8 +20,7 @@ import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 
 import {
-  StringEditorComponent, TotalRewardsStatementComponent, StatementDownloadComponent,
-  FieldGroupComponent, TrsCompensationFieldsChooserComponent, StatementViewComponent,
+  StringEditorComponent, TotalRewardsStatementComponent, FieldGroupComponent, TrsCompensationFieldsChooserComponent, StatementViewComponent,
   TrsEmployeeControlComponent
 } from './components';
 import { TrsTitleControlComponent } from './components/trs-title-control/trs-title-control.component';
@@ -75,7 +74,6 @@ import { CompensationValuePlaceholderComponent } from './components/compensation
     FooterBarComponent,
     ModeClassifierDirective,
     StatementGraphicsDirective,
-    StatementDownloadComponent,
     FieldGroupComponent,
     TrsCompensationFieldsChooserComponent,
     StatementViewComponent,
@@ -89,7 +87,6 @@ import { CompensationValuePlaceholderComponent } from './components/compensation
     FooterBarComponent,
     ModeClassifierDirective,
     StatementGraphicsDirective,
-    StatementDownloadComponent,
     StatementViewComponent
   ],
   providers: [

@@ -25,6 +25,7 @@
       [globalFilters]="globalFilterableFields"
       [actionBarConfig]="actionBarConfig"
       [reorderable]="reorderable"
+      [additionalDataForExport]="additionalDataForExport"
       (onFilterSidebarToggle)="toggleFilterPanel()">
     </pf-action-bar>
   </ng-container>
@@ -145,7 +146,7 @@
           [allowSaveFilter]="actionBarConfig.AllowSaveFilter"
           [fields]="filterableFields$ | async"
           [filterTemplates]="filterPanelTemplates"
-          [displayGroupNameInFilter]="displayGroupNameInFilter"          
+          [displayGroupNameInFilter]="displayGroupNameInFilter"
           (close)="closeFilterPanel()"
           (filterChanged)="handleFilterChanged($event)"
           (filterCleared)="clearFilter({ field: $event, value: null} )"

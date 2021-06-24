@@ -1,5 +1,7 @@
 .grey-border {
   border: 2rem solid #e8e8e8;
+  // this element's bg pokes through when there are multiple pages, so maintain the same color between pages that we see on the edges
+  background-color: #e8e8e8;
 }
 
 .logo {

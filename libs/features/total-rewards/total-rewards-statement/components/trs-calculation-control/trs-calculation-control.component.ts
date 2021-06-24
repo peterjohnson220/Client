@@ -29,6 +29,7 @@ export class TrsCalculationControlComponent implements OnChanges, OnDestroy, OnI
   @Input() showDecimals: boolean;
   @Input() showEmployeeContributions: boolean;
   @Input() showSecondaryHeader: boolean;
+  @Input() allowDragDrop: true;
 
   @Output() onTitleChange: EventEmitter<models.UpdateTitleRequest> = new EventEmitter();
   @Output() onCompFieldTitleChange: EventEmitter<models.UpdateFieldOverrideNameRequest> = new EventEmitter();
@@ -36,6 +37,8 @@ export class TrsCalculationControlComponent implements OnChanges, OnDestroy, OnI
   @Output() onCompFieldRemoved: EventEmitter<models.UpdateFieldVisibilityRequest> = new EventEmitter();
   @Output() onCompFieldAdded: EventEmitter<models.UpdateFieldVisibilityRequest> = new EventEmitter();
   @Output() onCompFieldReordered: EventEmitter<models.ReorderCalcControlFieldsRequest> = new EventEmitter();
+  @Output() onCalcControlFieldFocus: EventEmitter<void> = new EventEmitter();
+  @Output() onCalcControlFieldBlur: EventEmitter<void> = new EventEmitter();
 
   visibleFields: CompensationField[];
   selectableFields: CompensationField[];
@@ -205,6 +208,14 @@ export class TrsCalculationControlComponent implements OnChanges, OnDestroy, OnI
     }
   }
 
+  handleStringEditorFocus() {
+    this.onCalcControlFieldFocus.emit();
+  }
+
+  handleStringEditorBlur() {
+    this.onCalcControlFieldBlur.emit();
+  }
+
   private buildSelectableFieldsList(): models.CompensationField[] {
     let filteredBenefitsFields: CompensationField[];
     let filteredEmployeeUdfs: CompensationField[];
@@ -274,7 +285,7 @@ export class TrsCalculationControlComponent implements OnChanges, OnDestroy, OnI
       direction: 'vertical',
       mirrorContainer: document.getElementsByClassName('trs-calculation').item(0),
       moves: () => {
-        return this.inEditMode;
+        return this.inEditMode && this.allowDragDrop;
       }
     });
 

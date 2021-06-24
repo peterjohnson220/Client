@@ -12,6 +12,7 @@ export class StructuresHighchartsService {
   static initializeHighcharts(includeHeatmaps?: boolean) {
     require('highcharts/highcharts-more')(Highcharts);
     require('../../../assets/js/highcharts-border-radius')(Highcharts);
+    require('highcharts/modules/exporting')(Highcharts);
 
     if (includeHeatmaps) {
       require('highcharts/modules/heatmap')(Highcharts);
