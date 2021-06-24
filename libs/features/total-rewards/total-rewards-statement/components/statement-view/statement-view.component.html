@@ -19,8 +19,7 @@
     </ng-container>
     <ng-container page-content>
       <div class="canvas mx-auto pb-1 mt-2" >
-        <pf-async-container [loading]="loading"
-                            [loadingError]="loadingError">
+        <pf-async-container [loading]="loading" [loadingError]="loadingError">
           <ng-container basic-content>
             <div class="text-center">
               <div class="grey-border text-left d-inline-block">
@@ -29,7 +28,8 @@
                   [mode]="mode"
                   [loadingData]="loading"
                   [employeeRewardsData]="employeeRewardsData"
-                ></pf-total-rewards-statement>
+                  [isAdditionalPageEnabled]="isAdditionalPageEnabled">
+                </pf-total-rewards-statement>
               </div>
             </div>
           </ng-container>

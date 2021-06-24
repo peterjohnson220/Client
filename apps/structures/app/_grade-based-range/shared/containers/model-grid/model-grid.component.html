@@ -24,7 +24,9 @@
   [gridConfig]="gridConfig"
   [pageable]="!gridConfig.EnableInfiniteScroll"
   [flexColumnContainerHeightAuto]="false"
-  [filterPanelTemplates]="filterTemplates">
+  [filterPanelTemplates]="filterTemplates"
+  [additionalDataForExport]="this.chartSvgs"
+>
 </pf-data-grid>
 
 <ng-template #subHeaderTemplate>
@@ -106,7 +108,8 @@
     [isNewModel]="isNewModel"
     (manageModelClicked)="handleManageModelClicked()"
     (modelSettingsClicked)="handleModelSettingsClicked()"
-    (publishModelClicked)="handlePublishModelClicked()">
+    (publishModelClicked)="handlePublishModelClicked()"
+    (duplicateModelClicked)="handleDuplicateModelBtnClicked()">
   </pf-global-actions>
 </ng-template>
 
@@ -125,7 +128,8 @@
       [modelSettingsForm]="modelSettingsForm"
       [modalOpen]="modalOpen$ | async"
       [isNewModel]="isNewModel"
-      [numGrades]="numGrades">
+      [numGrades]="numGrades"
+      (adjustMidpointRadioButtonChanged)="handleAdjustMidpointRadioButtonChanged($event)">
     </pf-grade-based-model-settings-modal-content>
   </ng-container>
 </pf-model-settings-modal>
@@ -214,6 +218,7 @@
       [updateMetaInfo]="{ pageViewId: modelGridPageViewId }"
       [readonlyValueTemplate]="rangeValue"
       [minValue]="-999999999999999"
+      [maxValue]="200"
       [reloadGridData]="true">
     </pf-range-field-editor>
   </ng-container>
@@ -237,7 +242,8 @@
       [noRounding]="true"
       [refreshRowDataViewFilter]="getRefreshFilter(dataRow)"
       [updateMetaInfo]="{ pageViewId: modelGridPageViewId }"
-      [readonlyValueTemplate]="rangeValue">
+      [readonlyValueTemplate]="rangeValue"
+      [maxValue]="200">
     </pf-range-field-editor>
   </ng-container>
 </ng-template>

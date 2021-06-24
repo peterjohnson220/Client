@@ -7,7 +7,7 @@ import { RangeGroupMetadata } from 'libs/models/structures';
   templateUrl: 'grid-context.component.html',
   styleUrls: ['grid-context.component.scss']
 })
-export class GridContextComponent implements OnInit{
+export class GridContextComponent implements OnInit {
   @Input() title: string;
   @Input() metadata: RangeGroupMetadata;
   @Input() enableReturnBtn = false;

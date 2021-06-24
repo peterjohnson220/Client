@@ -3,20 +3,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { select, Store } from '@ngrx/store';
 import { Observable, Subject, Subscription } from 'rxjs';
-import { throttleTime } from 'rxjs/operators';
+import { throttleTime, filter, map, tap } from 'rxjs/operators';
 import cloneDeep from 'lodash/cloneDeep';
 
 import { AsyncStateObj } from 'libs/models/state';
 import { EmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards';
 import { GenericNameValue } from 'libs/models/common';
 import * as models from 'libs/features/total-rewards/total-rewards-statement/models';
-import {
-  CompensationField,
-  StatementDisplaySettingsEnum,
-  StatementModeEnum,
-  TotalRewardsControlEnum,
-  StatementAdditionalPageSettings
-} from 'libs/features/total-rewards/total-rewards-statement/models';
 import { FontFamily, FontSize } from 'libs/features/total-rewards/total-rewards-statement/types';
 import { TotalRewardsStatementService } from 'libs/features/total-rewards/total-rewards-statement/services/total-rewards-statement.service';
 import { CompanySettingsEnum } from 'libs/models';
@@ -24,6 +17,8 @@ import { SettingsService } from 'libs/state/app-context/services';
 import { AppNotification } from 'libs/features/infrastructure/app-notifications';
 import * as fromAppNotificationsMainReducer from 'libs/features/infrastructure/app-notifications/reducers';
 import { FileDownloadSecurityWarningModalComponent } from 'libs/ui/common';
+import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
+import { TrsConstants } from 'libs/features/total-rewards/total-rewards-statement/constants/trs-constants';
 
 import * as fromTotalRewardsStatementEditReducer from '../reducers';
 import * as fromEditStatementPageActions from '../actions';
@@ -45,7 +40,7 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
   mode$: Observable<models.StatementModeEnum>;
   assignedEmployeesAsync$: Observable<AsyncStateObj<GenericNameValue<number>[]>>;
   employeeRewardsDataAsync$: Observable<AsyncStateObj<EmployeeRewardsData>>;
-  companyUdfAsync$: Observable<AsyncStateObj<CompensationField[]>>;
+  companyUdfAsync$: Observable<AsyncStateObj<models.CompensationField[]>>;
   visibleFieldsCount$: Observable<number>;
   activeRichTextEditorId$: Observable<string>;
   isPageScrolling$: Observable<boolean>;
@@ -62,14 +57,7 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
   statementPreviewGenerating$: Observable<boolean>;
   statementPreviewGeneratingError$: Observable<boolean>;
 
-  urlParamSubscription = new Subscription();
-  statementSubscription = new Subscription();
-  modeSubscription = new Subscription();
-  scrollSubscription = new Subscription();
-  settingsPanelOpenSubscription = new Subscription();
-  enableFileDownloadSecurityWarningSubscription = new Subscription();
-  appNotificationSubscription = new Subscription();
-  generateStatementPreviewEventIdSubscription = new Subscription();
+  allSubscriptions = new Subscription();
 
   statement: models.Statement;
   statementId: string;
@@ -98,6 +86,9 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
   enableFileDownloadSecurityWarning: boolean;
   generateStatementPreviewEventId = null;
 
+  totalRewardsAdditionalPageFeatureFlag: RealTimeFlag = { key: FeatureFlags.TotalRewardsAdditionalPage, value: false };
+  unsubscribe$ = new Subject<void>();
+
   scrollEventHandler = () => { this.scrollSubject.next(); };
 
   constructor(
@@ -105,9 +96,11 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
     private router: Router,
     private store: Store<fromTotalRewardsStatementEditReducer.State>,
     private settingsService: SettingsService,
-    private appNotificationStore: Store<fromAppNotificationsMainReducer.State>
+    private appNotificationStore: Store<fromAppNotificationsMainReducer.State>,
+    private featureFlagService: AbstractFeatureFlagService
   ) {
     this.enableFileDownloadSecurityWarning$ = this.settingsService.selectCompanySetting<boolean>(CompanySettingsEnum.FileDownloadSecurityWarning);
+    this.featureFlagService.bindEnabled(this.totalRewardsAdditionalPageFeatureFlag, this.unsubscribe$);
   }
 
   ngOnInit() {
@@ -145,70 +138,68 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
     this.statementPreviewGeneratingError$ = this.store.pipe(select(fromTotalRewardsStatementEditReducer.statementPreviewGeneratingError));
 
     // SUBSCRIPTIONS
-    this.urlParamSubscription = this.route.params.subscribe(params => {
+    this.allSubscriptions.add(this.route.params.subscribe(params => {
       this.statementId = params['id'];
       this.store.dispatch(new fromEditStatementPageActions.LoadStatement(this.statementId));
-    });
-    this.statementSubscription = this.statement$.subscribe(s => {
+    }));
+
+    this.allSubscriptions.add(this.statement$.subscribe(s => {
       if (s) {
         this.statement = cloneDeep(s);
       }
-    });
+    }));
 
-    this.modeSubscription = this.mode$.subscribe(e => {
+    this.allSubscriptions.add(this.mode$.subscribe(e => {
       this.mode = e;
       if (this.mode === models.StatementModeEnum.Preview) {
         this.store.dispatch(new fromEditStatementPageActions.ResetEmployeeRewardsData());
         this.store.dispatch(new fromEditStatementPageActions.SearchAssignedEmployees({ statementId: this.statementId, searchTerm: ''}));
       }
-    });
+    }));
 
-    this.settingsPanelOpenSubscription = this.isSettingsPanelOpen$.subscribe(isOpen => {
-
+    this.allSubscriptions.add(this.isSettingsPanelOpen$.subscribe(isOpen => {
       this.isSettingsPanelOpen = isOpen;
-
       if (!isOpen) { return; }
-
       this.allowClosingSettingsByClickingElsewhere = false;
-    });
+    }));
 
-    this.enableFileDownloadSecurityWarningSubscription = this.enableFileDownloadSecurityWarning$.subscribe(isEnabled => {
+    this.allSubscriptions.add(this.enableFileDownloadSecurityWarning$.subscribe(isEnabled => {
       this.enableFileDownloadSecurityWarning = isEnabled;
-    });
+    }));
 
-    this.generateStatementPreviewEventIdSubscription = this.generateStatementPreviewEventId$.subscribe(eventId => {
+    this.allSubscriptions.add(this.generateStatementPreviewEventId$.subscribe(eventId => {
       if (eventId?.obj !== this.generateStatementPreviewEventId) {
         this.generateStatementPreviewEventId = eventId.obj;
       }
-    });
+    }));
 
-    this.appNotificationSubscription = this.getNotification$.subscribe(notifications => {
+    this.allSubscriptions.add(this.getNotification$.subscribe(notifications => {
       notifications.forEach(notification => {
         if (notification.Level === 'Success' && notification.NotificationId === this.generateStatementPreviewEventId) {
           this.store.dispatch(new fromEditStatementPageActions.GenerateStatementPreviewComplete());
         }
       });
-    });
+    }));
+
+    const isPreparingSettingsSave$ = this.store.pipe(
+      select(fromTotalRewardsStatementEditReducer.getIsPreparingSettingsSave),
+      filter(isPreparing => isPreparing),
+      map(() => this.calculateRepeatableHeaderHeightInPixels()),
+      map((headerHeight: number) => this.store.dispatch(new fromEditStatementPageActions.CalculateRepeatableHeaderContentHeightInPixels({ headerHeight })))
+    );
+    this.allSubscriptions.add(isPreparingSettingsSave$.subscribe());
 
     // MISC
     setTimeout(() => {
       this.mainScrollableNode = document.querySelector('.page-content');
       this.mainScrollableNode?.addEventListener('scroll', this.scrollEventHandler, true);
-      this.scrollSubscription = this.scrollSubject.pipe(throttleTime(100)).subscribe(() => { this.handlePageScroll(); });
+      this.allSubscriptions.add(this.scrollSubject.pipe(throttleTime(100)).subscribe(() => { this.handlePageScroll(); }));
     }, 0);
   }
 
   ngOnDestroy(): void {
-    this.urlParamSubscription.unsubscribe();
-    this.statementSubscription.unsubscribe();
-    this.modeSubscription.unsubscribe();
-    this.scrollSubscription.unsubscribe();
+    this.allSubscriptions.unsubscribe();
     this.mainScrollableNode?.removeEventListener('scroll', this.scrollEventHandler, true);
-    this.settingsPanelOpenSubscription.unsubscribe();
-    this.enableFileDownloadSecurityWarningSubscription.unsubscribe();
-    this.appNotificationSubscription.unsubscribe();
-    this.generateStatementPreviewEventIdSubscription.unsubscribe();
-
     this.store.dispatch(new fromEditStatementPageActions.ResetStatement());
   }
 
@@ -250,6 +241,14 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
   // COMMON //
   handleOnControlTitleChange(request: models.UpdateTitleRequest) {
     this.store.dispatch(new fromEditStatementPageActions.UpdateStatementControlTitle(request));
+
+    // the title content has changed but the string editor is still in edit mode, so wait a turn to recalc when the editor goes back to view mode
+    if (this.statement.Settings.AdditionalPageSettings.PagePlacement !== models.StatementAdditionalPagePlacementEnum.None) {
+      setTimeout(() => {
+        const rteHeightInPixels = TrsConstants.AVAILABLE_PAGE_HEIGHT_IN_PIXELS - this.calculateRepeatableHeaderHeightInPixels(true);
+        this.store.dispatch(new fromEditStatementPageActions.UpdateAdditionalPageRichTextControlHeight({ rteHeightInPixels }));
+      }, 0);
+    }
   }
 
   // CALCULATION //
@@ -289,9 +288,9 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
   getRichTextIds() {
     const ids = [];
     const funcToCallWithControl = (control: models.BaseControl): void => {
-      if (control.ControlType === TotalRewardsControlEnum.RichTextEditor) { ids.push(control.Id); }
+      if (control.ControlType === models.TotalRewardsControlEnum.RichTextEditor) { ids.push(control.Id); }
     };
-    TotalRewardsStatementService.applyFuncToEachControl(this.statement, funcToCallWithControl);
+    TotalRewardsStatementService.applyFuncToEachControl(this.statement?.Pages, funcToCallWithControl);
     return ids;
   }
 
@@ -335,14 +334,14 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
     this.store.dispatch(new fromEditStatementPageActions.UpdateSettingsColor(request));
   }
 
-  handleDisplaySettingChange(displaySettingKey: StatementDisplaySettingsEnum) {
+  handleDisplaySettingChange(displaySettingKey: models.StatementDisplaySettingsEnum) {
     this.store.dispatch(new fromEditStatementPageActions.ToggleDisplaySetting({ displaySettingKey }));
-    if (displaySettingKey === StatementDisplaySettingsEnum.ShowInformationEffectiveDate) {
+    if (displaySettingKey === models.StatementDisplaySettingsEnum.ShowInformationEffectiveDate) {
       this.store.dispatch(new fromEditStatementPageActions.UpdateEffectiveDate({ effectiveDate: new Date() }));
     }
   }
 
-  handleAdditionalPageSettingsChange(additionalPageSettings: StatementAdditionalPageSettings) {
+  handleAdditionalPageSettingsChange(additionalPageSettings: models.StatementAdditionalPageSettings) {
     this.store.dispatch(new fromEditStatementPageActions.UpdateAdditionalPageSettings({ additionalPageSettings: additionalPageSettings }));
   }
 
@@ -382,7 +381,6 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
   }
 
   // GENERATE STATEMENT
-
   handleGenerateStatementClicked(): void {
     if (this.enableFileDownloadSecurityWarning) {
       this.fileDownloadSecurityWarningModal.open();
@@ -397,11 +395,31 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
     this.store.dispatch(new fromEditStatementPageActions.GenerateStatementPreview());
   }
 
+  handlePageScroll() {
+    // user has scrolled, so cancel a potential delayed call to set isScrolling back to false, then set current (true) and future (false) actions
+    clearTimeout(this.scrollTimer);
+    this.store.dispatch(new fromEditStatementPageActions.PageScroll({ isScrolling: true }));
+    this.scrollTimer = setTimeout(() => this.store.dispatch(new fromEditStatementPageActions.PageScroll({ isScrolling: false })), 1000);
+  }
+
+  calculateRepeatableHeaderHeightInPixels(useAdditionalPageHeader = false) {
+    // get the first page classed as main/additional, then all section elements classed as repeatable-header-content within
+    const pageSelector = (useAdditionalPageHeader) ? '.statement .trs-page.additional' : '.statement .trs-page.main';
+    const sectionSelector = 'section.repeatable-header-content';
+    const headerSections = document.querySelector(pageSelector).querySelectorAll(sectionSelector);
+
+    let totalContentHeightInPixels = 0;
+    for (let i = 0; i < headerSections.length; i ++) {
+      totalContentHeightInPixels += (headerSections[i] as any).offsetHeight;
+    }
+    return totalContentHeightInPixels;
+  }
+
   // SCROLL/MOUSE
   @HostListener('document:mousedown', ['$event'])
   public onMouseDownEvent(event: MouseEvent) {
     // Get the F outta here if in print mode
-    if (this.mode !== StatementModeEnum.Edit) { return; }
+    if (this.mode !== models.StatementModeEnum.Edit) { return; }
 
     const targetElement = event.target as HTMLElement;
 
@@ -419,7 +437,7 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
   @HostListener('document:mouseup', ['$event'])
   public onMouseUpEvent(event: MouseEvent) {
     // Get the F outta here if in print mode
-    if (this.mode !== StatementModeEnum.Edit) { return; }
+    if (this.mode !== models.StatementModeEnum.Edit) { return; }
 
     const targetElement = event.target as HTMLElement;
 
@@ -433,12 +451,5 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
 
     this.lastClickEventElement = null;
     this.store.dispatch(new fromEditStatementPageActions.UpdateActiveRichTextEditorId(null));
-  }
-
-  handlePageScroll() {
-    // user has scrolled, so cancel a potential delayed call to set isScrolling back to false, then set current (true) and future (false) actions
-    clearTimeout(this.scrollTimer);
-    this.store.dispatch(new fromEditStatementPageActions.PageScroll({ isScrolling: true }));
-    this.scrollTimer = setTimeout(() => this.store.dispatch(new fromEditStatementPageActions.PageScroll({ isScrolling: false })), 1000);
   }
 }

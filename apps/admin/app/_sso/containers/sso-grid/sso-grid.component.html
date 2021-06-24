@@ -9,12 +9,28 @@
   (edit)="displaySsoUrl($event)"
   >
   <kendo-grid-checkbox-column [width]="8"></kendo-grid-checkbox-column>
-  <kendo-grid-column field="CompanyId" [width]="50"></kendo-grid-column>
-  <kendo-grid-column field="CompanyName" [width]="50"></kendo-grid-column>
-  <kendo-grid-column field="IdpId" [width]="100"></kendo-grid-column>
-  <kendo-grid-column field="EmailDomain" [width]="100"></kendo-grid-column>
-  <kendo-grid-column field="SsoLogOutUrl" [width]="140"></kendo-grid-column>
-  <kendo-grid-command-column title="Commands" width="20">
+  <kendo-grid-column field="CompanyId" title="Company ID" [width]="50"></kendo-grid-column>
+  <kendo-grid-column field="CompanyName" title="Company Name" [width]="50"></kendo-grid-column>
+  <kendo-grid-column field="WebLogin" title="Web Login" [width]="40">
+    <ng-template kendoGridFilterCellTemplate let-filter let-column="column">
+        <kendo-grid-messages
+          filterIsTrue="Enabled"
+          filterIsFalse="Disabled">
+        </kendo-grid-messages>
+        <kendo-grid-boolean-filter-cell
+          [column]="column"
+          [filter]="filter">
+          <ng-template kendoGridCellTemplate
+                       let-dataItem>
+            {{ dataItem.WebLogin == true? "Enabled" : "Disabled"}}
+          </ng-template>
+        </kendo-grid-boolean-filter-cell>
+    </ng-template>
+  </kendo-grid-column>
+  <kendo-grid-column field="IdpId" title="Idp Id" [width]="100"></kendo-grid-column>
+  <kendo-grid-column field="EmailDomain" title="Email Domain" [width]="50"></kendo-grid-column>
+  <kendo-grid-column field="SsoLogOutUrl" title="Logout URL" [width]="140"></kendo-grid-column>
+  <kendo-grid-command-column title="Commands" [width]="30">
     <ng-template kendoGridCellTemplate>
       <button kendoGridEditCommand [primary]="true">Sso Url</button>
     </ng-template>

@@ -143,6 +143,9 @@ export class CompareJobRangeModelChartService {
       credits: {
         enabled: false
       },
+      exporting: {
+        enabled: false
+      },
       title: {
         text: undefined
       },
@@ -425,6 +428,9 @@ export class CompareJobRangeModelChartService {
         spacing: [ 10, 10, 0, 10 ]
       },
       credits: {
+        enabled: false
+      },
+      exporting: {
         enabled: false
       },
       title: {
@@ -854,6 +860,9 @@ export class CompareJobRangeModelChartService {
         spacing: [ 10, 10, 0, 10 ]
       },
       credits: {
+        enabled: false
+      },
+      exporting: {
         enabled: false
       },
       title: {
@@ -1389,6 +1398,9 @@ export class CompareJobRangeModelChartService {
         spacing: [ 10, 10, 0, 10 ]
       },
       credits: {
+        enabled: false
+      },
+      exporting: {
         enabled: false
       },
       title: {

@@ -2,3 +2,15 @@
 @import '~codemirror/lib/codemirror';
 @import '~codemirror/addon/hint/show-hint';
 @import '~dragula/dist/dragula.min.css';
+
+.tooltip-container {
+  width: 400px;
+  max-width: none;
+  max-height: 300px;
+  margin-left: 0;
+  padding: 5px;
+  border: 1px dotted black;
+  position: fixed;
+  background: white;
+  z-index: 999;
+}

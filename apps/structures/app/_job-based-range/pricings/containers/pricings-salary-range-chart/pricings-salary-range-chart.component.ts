@@ -72,12 +72,8 @@ export class PricingsSalaryRangeChartComponent implements OnInit, OnDestroy {
         this.chartLocale = getUserLocale();
         this.rangeDistributionTypeId = md.RangeDistributionTypeId;
         this.clearData();
-        if (!!this.groupFieldSelected) {
-          this.chartOptions =
-            PricingsSalaryRangeChartService.getPricingsRangeOptions
-            (this.chartLocale, this.currency, this.controlPointDisplay, this.rangeDistributionTypeId, this.groupFieldSelected);
-        }
-
+        this.chartOptions = PricingsSalaryRangeChartService.getPricingsRangeOptions(this.chartLocale, this.currency,
+          this.controlPointDisplay, this.rangeDistributionTypeId, this.groupFieldSelected);
       }
     });
 
@@ -101,7 +97,7 @@ export class PricingsSalaryRangeChartComponent implements OnInit, OnDestroy {
         this.selectedFields = fields;
         const anyGroupField = this.selectedFields.find(f => f.Group && f.IsSelected);
         this.groupFieldSelected = !!anyGroupField;
-        if (!!this.chartLocale &&  !!this.currency && !!this.controlPointDisplay && !!this.rangeDistributionTypeId) {
+        if (!!this.chartLocale && !!this.currency && !!this.controlPointDisplay && !!this.rangeDistributionTypeId) {
           this.chartOptions =
             PricingsSalaryRangeChartService.getPricingsRangeOptions(
               this.chartLocale, this.currency, this.controlPointDisplay, this.rangeDistributionTypeId, this.groupFieldSelected);

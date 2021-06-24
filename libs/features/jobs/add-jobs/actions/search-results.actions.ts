@@ -53,7 +53,7 @@ export class ToggleJobDetail implements Action {
 export class GetJobPricingData implements Action {
   readonly type = LOAD_JOB_PRICING_DATA;
 
-  constructor(public payload: { job: JobResult, loadSingleMrp: boolean }) {}
+  constructor(public payload: { job: JobResult, loadSingleMrp: boolean, isAnnualRate?: boolean }) {}
 }
 
 export class GetJobPricingDataSuccess implements Action {

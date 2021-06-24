@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { NewLinePipe } from 'libs/core/pipes';
 import { PayfactorsApiService } from '../payfactors-api.service';
 import { WorkflowUser } from 'libs/features/jobs/job-description-management/models';
 
@@ -8,8 +9,10 @@ import { WorkflowUser } from 'libs/features/jobs/job-description-management/mode
 })
 export class JobDescriptionWorkflowApiService {
   private apiUrl = 'Workflow';
-
-  constructor(private payfactorsApiService: PayfactorsApiService) {}
+  private convertNewLinePipe;
+  constructor(private payfactorsApiService: PayfactorsApiService) {
+    this.convertNewLinePipe = new NewLinePipe();
+  }
 
   getWorkflowStepInfoFromToken(token: string) {
     return this.payfactorsApiService.get(`${this.apiUrl}/Default.GetWorkflowStepInfoFromToken`,
@@ -31,6 +34,7 @@ export class JobDescriptionWorkflowApiService {
   }
 
   cancel(workflowId: number, comment: string) {
+    comment = this.convertNewLinePipe.transform(comment);
     return this.payfactorsApiService.post(`${this.apiUrl}(${workflowId})/Default.Cancel`, {comment: comment},
       (response) => JSON.parse(response.value));
   }
@@ -40,10 +44,12 @@ export class JobDescriptionWorkflowApiService {
   }
 
   completeStep(workflowId: number, willProceed: boolean, comment: string) {
+    comment = this.convertNewLinePipe.transform(comment);
     return this.payfactorsApiService.post(`${this.apiUrl}(${workflowId})/Default.CompleteStep`, { willProceed: willProceed, comment: comment });
   }
 
   routeStepToNewUser(workflowId: number, newUser: WorkflowUser, comment: string) {
+    comment = this.convertNewLinePipe.transform(comment);
     return this.payfactorsApiService.post(`${this.apiUrl}(${workflowId})/Default.RerouteStep`, { newUser: newUser, comment: comment });
   }
 

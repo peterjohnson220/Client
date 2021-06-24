@@ -28,7 +28,8 @@ import { reducers } from './reducers';
 
 import {
   PublishModelModalEffects,
-  SharedEffects, SwitchRegressionFlagsModalEffects
+  SharedEffects,
+  SwitchRegressionFlagsModalEffects
 } from './effects';
 import { ModelSettingsModalContentComponent } from './containers/model-settings-modal-content/model-settings-modal-content.component';
 import { SwitchRegressionFlagsModalComponent } from './containers';

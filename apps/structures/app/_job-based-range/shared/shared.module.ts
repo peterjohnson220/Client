@@ -19,10 +19,9 @@ import { FormulaEditorModule } from 'libs/ui/formula-editor';
 import {
   ModelGridComponent,
   RangeDistributionSettingComponent,
-  DuplicateModelModalComponent,
   ModelSettingsModalContentComponent
 } from './containers';
-import { PublishModelModalEffects, SharedEffects, DuplicateModelModalEffects, FieldsEffects } from './effects';
+import { PublishModelModalEffects, SharedEffects, FieldsEffects } from './effects';
 import { reducers } from './reducers';
 import * as fromFaIcons from './fa-icons';
 import { AdvancedModelSettingComponent } from './containers/advanced-model-setting';
@@ -40,7 +39,6 @@ import { SharedModule } from '../../shared/shared.module';
         EffectsModule.forFeature([
             PublishModelModalEffects,
             SharedEffects,
-            DuplicateModelModalEffects,
             FieldsEffects,
         ]),
         FontAwesomeModule,
@@ -69,14 +67,12 @@ import { SharedModule } from '../../shared/shared.module';
     ModelGridComponent,
     AdvancedModelSettingComponent,
     RangeDistributionSettingComponent,
-    DuplicateModelModalComponent,
     StructuresFormulaEditorComponent,
     ModelSettingsModalContentComponent
   ],
   exports: [
     ModelGridComponent,
     FontAwesomeModule,
-    DuplicateModelModalComponent,
     ModelSettingsModalContentComponent
   ],
   providers: [

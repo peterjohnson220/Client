@@ -5,7 +5,8 @@
     [employeeRewardsData]="employeeData$ | async"
     [generatingPdf]="downloadingPdf$ | async"
     [disableExport]="(downloadingPdf$ | async) || !notificationConnected"
-    [statement]="statement$ | async">
+    [statement]="statement$ | async"
+    [isAdditionalPageEnabled]="totalRewardsAdditionalPageFeatureFlag?.value">
 </pf-total-rewards-statement-view>
 
 <ng-template #verification>

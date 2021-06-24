@@ -10,3 +10,8 @@
 .invalid-feedback {
   padding-left: 0;
 }
+
+input[type="radio"] {
+  vertical-align: middle;
+  margin-top: -2px;
+}

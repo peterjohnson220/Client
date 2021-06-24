@@ -101,7 +101,6 @@ export class MarketDataScopeComponent implements OnInit, OnDestroy {
           Group: parsedIndustry[1],
           Value: parsedIndustry[2]
         };
-        this.selectedSize = GeneralFormHelper.buildAllScope('Size');
         this.updateSizeControl(this.selectedIndustry.Group, this.selectedSize);
       }
     }
@@ -218,10 +217,16 @@ export class MarketDataScopeComponent implements OnInit, OnDestroy {
       Label: this.payMarket.SizeLabel ? this.payMarket.SizeLabel : 'Size',
       Value: this.payMarket.SizeValue ? this.payMarket.SizeValue : 'All'
     };
+
     this.selectedSize = size ? size : defaultSize;
     this.filteredSizes = this.sizes.filter(s => s.Level === null || (!!industryGroup && s.Level.indexOf(industryGroup) > -1));
     this.sizeCheckedKeys = !!this.selectedSize.Label && !!this.selectedSize.Value && this.selectedSize.Value !== 'All'
       ? [`${this.selectedSize.Label}:${this.selectedSize.Value}`]
       : [sizeAllItem.Value];
+
+    if (this.selectedSize.Value !== 'All' && !this.sizeComponent.getExpandedKeys(this.filteredSizes).includes(`${this.selectedSize.Label}:${this.selectedSize.Value}`)) {
+      this.sizeCheckedKeys = [sizeAllItem.Value];
+      this.selectedSize = { Label: 'Size', Value: 'All' };
+    }
   }
 }

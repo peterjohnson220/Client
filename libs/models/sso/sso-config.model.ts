@@ -5,4 +5,5 @@ export class SsoConfigModel {
   SsoUrl: string;
   EmailDomain: string;
   SsoType: string;
+  WebLogin: boolean;
 }
