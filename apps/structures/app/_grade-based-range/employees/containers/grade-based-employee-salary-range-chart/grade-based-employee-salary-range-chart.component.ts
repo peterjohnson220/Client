@@ -43,6 +43,7 @@ export class GradeBasedEmployeeSalaryRangeChartComponent implements OnInit, OnDe
   dataSubscription: Subscription;
   jobDataSubscription: Subscription;
   metadataSubscription: Subscription;
+  defaultPagingOptionsSub: Subscription;
   pageViewId: string;
   jobRangeViewId: string;
   jobRangeViewIdSubscription: Subscription;
@@ -60,6 +61,8 @@ export class GradeBasedEmployeeSalaryRangeChartComponent implements OnInit, OnDe
   filterPanelSub: Subscription;
   initialY: number;
   gridScrolledSub: Subscription;
+  scrollTop: number;
+  defaultPagingCount: number;
 
   constructor(
     public store: Store<any>,
@@ -108,10 +111,17 @@ export class GradeBasedEmployeeSalaryRangeChartComponent implements OnInit, OnDe
 
     this.gridScrolledSub = this.pfGridStore.select(fromPfGridReducer.getGridScrolledContent, this.pageViewId).subscribe( scrolledContent => {
       if (scrolledContent && this.chartInstance) {
+        this.scrollTop = scrolledContent.scrollTop;
         this.initialY = this.chartInstance.legend.options.y;
         this.chartInstance.legend.group.attr({
           translateY: this.initialY + scrolledContent.scrollTop
         });
+      }
+    });
+
+    this.defaultPagingOptionsSub = this.pfGridStore.select(fromPfGridReducer.getPagingOptions, this.pageViewId).subscribe(pagingOptions => {
+      if (pagingOptions) {
+        this.defaultPagingCount = pagingOptions.Count;
       }
     });
   }
@@ -338,13 +348,7 @@ export class GradeBasedEmployeeSalaryRangeChartComponent implements OnInit, OnDe
         this.chartInstance.series[GradeBasedEmployeeSalaryRangeChartSeries.SalaryRangeQuintile].setData(this.salaryRangeSeriesDataModel.Quintile, false);
       }
 
-      this.chartInstance.setSize(null, GraphHelper.getEmployeeChartHeight(this.employeeData.data));
-    }
-  }
-
-  scroll = (): void => {
-    if (this.chartInstance) {
-      this.chartInstance.setSize(null, GraphHelper.getEmployeeChartHeight(this.employeeData.data, false, true));
+      this.chartInstance.setSize(null, GraphHelper.getChartHeight(this.employeeData.data, this.defaultPagingCount));
     }
   }
 
@@ -374,7 +378,6 @@ export class GradeBasedEmployeeSalaryRangeChartComponent implements OnInit, OnDe
         }, 0);
       }
     });
-    window.addEventListener('scroll', this.scroll, true);
   }
 
   ngOnDestroy(): void {
@@ -384,6 +387,7 @@ export class GradeBasedEmployeeSalaryRangeChartComponent implements OnInit, OnDe
     this.jobRangeViewIdSubscription.unsubscribe();
     this.filterPanelSub.unsubscribe();
     this.gridScrolledSub.unsubscribe();
+    this.defaultPagingOptionsSub.unsubscribe();
   }
 }
 
