@@ -9,7 +9,8 @@
   [modifiedKey]="'CompanyStructures_Ranges_CompanyStructuresRanges_ID'"
   [allowMultipleSort]="true"
   (manageModelClicked)="openManageModelModal()"
-  [isNewRangeOrCreateModelFlow]="isNewRangeOrCreateModelFlow">
+  [isNewRangeFlow]="isNewRangeFlow"
+  [isCreateModelFlow]="isCreateModelFlow">
 </pf-grade-based-model-grid>
 
 <pf-add-jobs-modal-wrapper
@@ -28,3 +29,5 @@
 </pf-add-jobs-modal-wrapper>
 
 <pf-publish-model-modal [pfSecuredResource]="_Permissions.STRUCTURES_PUBLISH" [rangeGroupId]="rangeGroupId"></pf-publish-model-modal>
+
+<pf-duplicate-model-modal [pfSecuredResource]="_Permissions.STRUCTURES_CREATE_EDIT_MODEL" [rangeGroupId]="rangeGroupId"></pf-duplicate-model-modal>

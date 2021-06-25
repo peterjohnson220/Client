@@ -80,6 +80,9 @@ export class TicketListDateRangeFilterComponent extends BaseFilterCellComponent 
           this.modifyFilter(this.innerValue);
           this.valueChange.emit(this.filter);
         }
+        else{
+          alert("From Date and To Date are required to apply the filter.")
+        }
       }
     }
 

@@ -37,6 +37,8 @@ export class StringEditorComponent implements OnInit, OnChanges, OnDestroy {
   @Input() showTextCounterTooltip = false;
 
   @Output() valueChange = new EventEmitter<string>();
+  @Output() focus = new EventEmitter<void>();
+  @Output() blur = new EventEmitter<void>();
 
   isEditable: boolean;
   isInEditState: boolean;
@@ -103,10 +105,12 @@ export class StringEditorComponent implements OnInit, OnChanges, OnDestroy {
 
   disableEditState(): void {
     this.isInEditState = false;
+    this.blur.emit();
   }
 
   onFocus(): void {
     this.contentWidth = this.value?.length > 0 ? this.editText?.nativeElement.clientWidth : 0;
+    this.focus.emit();
   }
 
   onChange(): void {

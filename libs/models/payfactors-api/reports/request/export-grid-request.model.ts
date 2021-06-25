@@ -4,6 +4,7 @@ export interface ExportGridRequest {
   DataView: DataView;
   Source: string;
   CustomExportType: string;
+  AdditionalData: any;
 }
 
 export interface ExportDataViewRequest {
