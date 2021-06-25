@@ -38,10 +38,10 @@
       Analyze
         <div>
           <button class="btn btn-secondary"
-                  [disabled]="viewingJobSummary"
+                  [disabled]="!(projectJobGrid$ | async).totalCount || (projectJobGrid$ | async)?.totalCount === 0 || viewingJobSummary"
                   [attr.data-qa-id]="'btn-job-summary'"
                   (click)="jobSummaryClickHandler()">Job Summary</button>
-      </div>
+        </div>
       </div>
     </div>
     </div>
@@ -65,7 +65,7 @@
   <button #exportDownloadBtn
           (click)="openExportModal(exportDownloadBtn)"
           class="btn btn-secondary"
-          [disabled]="(projectJobGrid$ | async)?.data?.data.length === 0"
+          [disabled]="viewingJobSummary || (projectJobGrid$ | async)?.data?.data.length === 0"
   >
     <fa-icon
       icon="download" title="Export"
@@ -144,6 +144,7 @@
                   [tccMrp] = "(project$ | async)?.TCCReferencePoint"
                   [(showJobSummary)]="viewingJobSummary"
                   [projectId]="projectId"
-                  [projectJobIds]="selectedRowIds">
+                  [projectJobIds]="selectedRowIds"
+                  [defaultPaymarket] = "(project$ | async)?.PayMarketProjectMap?.PayMarket?.Name">
   </pf-job-summary>
 </ng-template>

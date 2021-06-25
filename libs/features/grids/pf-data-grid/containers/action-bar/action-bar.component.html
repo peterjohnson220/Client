@@ -31,7 +31,7 @@
               class="btn btn-secondary"
               placement="bottom-right"
               popoverTitle="Choose Content to Export"
-              [disabled]="(exporting$ | async) || (loadingExportingStatus$ | async) || !(data$ | async) || (data$ | async).total === 0 || (actionBarConfig.ExportSelectionRequired && !(selectedKeys$ | async)?.length)"
+              [disabled]="disableActions || (exporting$ | async) || (loadingExportingStatus$ | async) || !(data$ | async) || (data$ | async).total === 0 || (actionBarConfig.ExportSelectionRequired && !(selectedKeys$ | async)?.length)"
               [attr.title]="getExportTitleTooltip(exporting$ | async, loadingExportingStatus$ | async, data$ | async, selectedKeys$ | async)"
               (click)="handleExportClicked()">
         <fa-icon icon="download"></fa-icon>
@@ -43,6 +43,7 @@
                          (saveColumns)="updateFields($event)"
                          [selectAllEnabled]="actionBarConfig.EnableGroupSelectAll"
                          [showSelectAllColumns]="actionBarConfig.ShowSelectAllColumns"
+                         [disabled] = "disableActions"
                          [submitButtonText]="actionBarConfig.ColumnChooserSubmitText">
       </pf-column-chooser>
     </div>
