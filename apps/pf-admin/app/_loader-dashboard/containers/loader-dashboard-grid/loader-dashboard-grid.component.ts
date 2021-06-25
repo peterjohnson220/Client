@@ -193,4 +193,9 @@ export class LoaderDashboardGridComponent implements OnInit, OnDestroy {
   getDetailKeys(loadType: string): DetailKeysModel {
     return this.detailKeyByLoaderTypes.find( dk => dk.Key === loadType).Value;
   }
+
+  canProcess(dataItem: CompositeDataLoadViewResponse) {
+    return dataItem.compositeLoaderType === 'Surveys' && dataItem.validationOnly && !dataItem.isProcessed && !dataItem.hasExpired
+      && dataItem.fixableDataConditionException === null && dataItem.terminalException === null;
+  }
 }
