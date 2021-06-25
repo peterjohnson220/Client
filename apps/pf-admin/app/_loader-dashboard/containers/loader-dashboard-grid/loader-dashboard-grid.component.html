@@ -34,7 +34,7 @@
         </div>
       </ng-template>
     </kendo-grid-column>
-    <kendo-grid-column field="compositeDataLoadId" title="Load ID" filter="numeric">
+    <kendo-grid-column field="compositeDataLoadId" title="Load ID" filter="numeric" [width]="135">
       <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
         <kendo-grid-string-filter-menu [column]="column" [filter]="filter" [filterService]="filterService" [extra]="false">
           <kendo-filter-contains-operator></kendo-filter-contains-operator>
@@ -50,11 +50,19 @@
           <span class="kendo-column-text-with-button">
             {{ dataItem.compositeDataLoadId }}
           </span>
-          <div *ngIf="dataItem.exportedSourceUri" class="ml-4">
+          <div *ngIf="dataItem.exportedSourceUri" class="ml-3">
             <button class="btn btn-secondary"
                     (click)="downloadExportedSourceFile(dataItem.externalId)"
                     title="Download Source Files">
               <fa-icon icon="file-download"></fa-icon>
+            </button>
+          </div>
+          <div *ngIf="canProcess(dataItem)" class="ml-1">
+            <button class="btn btn-secondary"
+                    [disabled]="(isRedropNewDataLoadInProgress$ | async).loading"
+                    (click)="openRedropConfirmationModal(dataItem.compositeDataLoadId, dataItem.company_Name, dataItem.company_ID, dataItem.compositeLoaderType)"
+                    title="Process Files">
+              <fa-icon icon="rocket-launch"></fa-icon>
             </button>
           </div>
         </div>
@@ -86,7 +94,7 @@
         </kendo-grid-string-filter-menu>
       </ng-template>
     </kendo-grid-column>
-    <kendo-grid-column field="hasErrorCondition" title="Error(s)" filter="boolean" [width]="135">
+    <kendo-grid-column field="hasErrorCondition" title="Error(s)" filter="boolean">
       <kendo-grid-messages
         filterIsTrue="Yes"
         filterIsFalse="No">
@@ -109,14 +117,6 @@
                     (click)="openRedropConfirmationModal(dataItem.compositeDataLoadId, dataItem.company_Name, dataItem.company_ID, dataItem.compositeLoaderType)"
                     title="Re-Drop Files">
               <fa-icon icon="repeat"></fa-icon>
-            </button>
-          </div>
-          <div *ngIf="canProcess(dataItem)" class="ml-2">
-            <button class="btn btn-secondary"
-                    [disabled]="(isRedropNewDataLoadInProgress$ | async).loading"
-                    (click)="openRedropConfirmationModal(dataItem.compositeDataLoadId, dataItem.company_Name, dataItem.company_ID, dataItem.compositeLoaderType)"
-                    title="Process Files">
-              <fa-icon icon="rocket-launch"></fa-icon>
             </button>
           </div>
         </div>
