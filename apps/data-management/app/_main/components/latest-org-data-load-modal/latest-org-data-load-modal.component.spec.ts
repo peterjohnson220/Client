@@ -55,7 +55,9 @@ describe('Data Management - Main - Default Paymarket Modal Component', () => {
         fixableDataConditionException: null,
         terminalException: null,
         entityLoadSummaries: [],
-        entityLoadSummaryDetails: []
+        entityLoadSummaryDetails: [],
+        isProcessed: null,
+        hasExpired: null
       };
       component.latestOrgDataLoad = latestOrgDataLoad;
       const expectedAction = new fromLoadersDataActions.DownloadIVRF({

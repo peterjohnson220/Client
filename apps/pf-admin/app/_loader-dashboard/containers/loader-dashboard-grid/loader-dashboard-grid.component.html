@@ -86,7 +86,7 @@
         </kendo-grid-string-filter-menu>
       </ng-template>
     </kendo-grid-column>
-    <kendo-grid-column field="hasErrorCondition" title="Error(s)" filter="boolean">
+    <kendo-grid-column field="hasErrorCondition" title="Error(s)" filter="boolean" [width]="135">
       <kendo-grid-messages
         filterIsTrue="Yes"
         filterIsFalse="No">
@@ -106,9 +106,17 @@
           <div *ngIf="dataItem.compositeLoaderType == 'Organizational Data' && loaderDashboardRedropsFeatureFlag.value" class="ml-2">
             <button class="btn btn-secondary"
                     [disabled]="(isRedropInProgress$ | async).loading"
-                    (click)="openRedropConfirmationModal(dataItem.compositeDataLoadId, dataItem.company_Name, dataItem.company_ID)"
+                    (click)="openRedropConfirmationModal(dataItem.compositeDataLoadId, dataItem.company_Name, dataItem.company_ID, dataItem.compositeLoaderType)"
                     title="Re-Drop Files">
               <fa-icon icon="repeat"></fa-icon>
+            </button>
+          </div>
+          <div *ngIf="dataItem.compositeLoaderType == 'Surveys' && dataItem.validationOnly && !dataItem.isProcessed && !dataItem.hasExpired" class="ml-2">
+            <button class="btn btn-secondary"
+                    [disabled]="(isRedropNewDataLoadInProgress$ | async).loading"
+                    (click)="openRedropConfirmationModal(dataItem.compositeDataLoadId, dataItem.company_Name, dataItem.company_ID, dataItem.compositeLoaderType)"
+                    title="Process Files">
+              <fa-icon icon="rocket-launch"></fa-icon>
             </button>
           </div>
         </div>
@@ -166,4 +174,10 @@
     [isRedropModified]="false"
     (redropConfirmationEvent)="handleRedropConfirmationResponse($event)"
   ></pf-redrop-confirmation-modal>
+  <pf-process-confirmation-modal
+    [selectedCompositeDataLoadId]="selectedCompositeDataLoadId"
+    [selectedClientName]="selectedClientName"
+    [selectedClientId]="selectedClientId"
+    (redropConfirmationEvent)="handleRedropToNewDataLoadConfirmationResponse($event)"
+  ></pf-process-confirmation-modal>
 </div>
