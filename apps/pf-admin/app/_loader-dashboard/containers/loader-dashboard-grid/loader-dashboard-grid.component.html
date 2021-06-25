@@ -111,7 +111,7 @@
               <fa-icon icon="repeat"></fa-icon>
             </button>
           </div>
-          <div *ngIf="dataItem.compositeLoaderType == 'Surveys' && dataItem.validationOnly && !dataItem.isProcessed && !dataItem.hasExpired" class="ml-2">
+          <div *ngIf="canProcess(dataItem)" class="ml-2">
             <button class="btn btn-secondary"
                     [disabled]="(isRedropNewDataLoadInProgress$ | async).loading"
                     (click)="openRedropConfirmationModal(dataItem.compositeDataLoadId, dataItem.company_Name, dataItem.company_ID, dataItem.compositeLoaderType)"
