@@ -139,12 +139,13 @@
 </ng-template>
 
 <ng-template #jobSummary>
-  <pf-job-summary [projectRate]="(project$ | async)?.Rate"
-                  [baseMrp] = "(project$ | async)?.BaseReferencePoint"
-                  [tccMrp] = "(project$ | async)?.TCCReferencePoint"
-                  [(showJobSummary)]="viewingJobSummary"
-                  [projectId]="projectId"
-                  [projectJobIds]="selectedRowIds"
-                  [defaultPaymarket] = "(project$ | async)?.PayMarketProjectMap?.PayMarket?.Name">
-  </pf-job-summary>
+    <pf-job-summary
+      [projectRate]="(project$ | async)?.Rate"
+      [baseMrp] = "(project$ | async)?.BaseReferencePoint"
+      [tccMrp] = "(project$ | async)?.TCCReferencePoint"
+      [(showJobSummary)]="viewingJobSummary"
+      [projectId]="projectId"
+      [projectJobIds]="selectedRowIds"
+      [defaultPaymarket] = "(project$ | async)?.PayMarketProjectMap?.PayMarket?.Name">
+    </pf-job-summary>
 </ng-template>

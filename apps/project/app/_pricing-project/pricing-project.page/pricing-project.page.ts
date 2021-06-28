@@ -122,7 +122,9 @@ export class PricingProjectPageComponent implements OnInit, AfterViewInit, OnDes
     this.userContext$ = this.store.select(fromRootState.getUserContext);
 
     this.selectedRecordSubscription = this.store.select(fromPfDataGridReducer.getSelectedKeys, PageViewIds.ProjectJobs).subscribe(k => {
-      this.selectedRowIds = k;
+      if (k) {
+        this.selectedRowIds = k;
+      }
     });
   }
 
