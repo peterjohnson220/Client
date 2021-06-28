@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, Subject } from 'rxjs';
+
+import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services';
 
 import * as fromForgotPasswordReducer from '../../../reducers';
 import * as fromForgotPasswordActions from '../../../actions/forgot-password.actions';
@@ -40,8 +42,10 @@ export class ForgotPasswordPageComponent implements OnInit {
   reCaptchaV3SiteKey: string;
   settingsSuccess = false;
 
+  payscaleAuthRebrandFlag: RealTimeFlag = { key: FeatureFlags.RestyledLogin, value: false };
+  unsubscribe$ = new Subject<void>();
 
-  constructor(public store: Store<fromForgotPasswordReducer.State>) {
+  constructor(public store: Store<fromForgotPasswordReducer.State>, private featureFlagService: AbstractFeatureFlagService) {
 
     this.submitting$ = this.store.select(fromForgotPasswordReducer.getForgotPasswordSending);
     this.submitError$ = this.store.select(fromForgotPasswordReducer.getForgotPasswordError);
@@ -86,6 +90,14 @@ export class ForgotPasswordPageComponent implements OnInit {
         }
 
         this.settingsSuccess = true;
+
+        const { FeatureFlagBootstrapJson: featureFlagBootstrapJson, LaunchDarklyClientSdkKey: launchDarklyClientSdkKey } = settings;
+        this.featureFlagService.initialize(launchDarklyClientSdkKey, { anonymous: true }, featureFlagBootstrapJson);
+
+        this.featureFlagService.bindEnabled(this.payscaleAuthRebrandFlag, this.unsubscribe$);
+        if (this.payscaleAuthRebrandFlag.value === true) {
+          document.body.classList.add('payscale-rebrand');
+        }
       }
     });
   }

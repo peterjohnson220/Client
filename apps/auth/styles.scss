@@ -29,7 +29,7 @@ body.payscale-rebrand {
   #ps-privacy, a.privacy, a.privacy &:hover {
     color: #676468;
   }
-  button#Login, button#Login > span {
+  button#Login, button#Login > span, button#Reset, a#ReturnToLogin {
     background-color: #3D0FC8; 
   }
 }
