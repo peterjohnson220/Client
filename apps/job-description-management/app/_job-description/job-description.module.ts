@@ -67,7 +67,8 @@ import {
   WorkflowStepCompletionModalComponent,
   FlsaQuestionnaireModalComponent,
   JobMatchResultComponent,
-  ExportJobDescriptionModalComponent
+  ExportJobDescriptionModalComponent,
+  BulkExportJobDescriptionModalComponent,
 } from './components';
 import { reducers } from './reducers';
 import {
@@ -95,7 +96,6 @@ import { ListAreaColumnSearchPipe, UserFilterSearchPipe } from './pipes';
 import { JobDescriptionDnDService, JobDescriptionVersionCompareService } from './services';
 import { ResolveHistoryListGuard, JobDescriptionJobCompareListResolver } from './guards';
 import { SharedModule } from '../shared/shared.module';
-
 @NgModule({
   imports: [
     // Angular
@@ -178,6 +178,7 @@ import { SharedModule } from '../shared/shared.module';
     JobMatchResultComponent,
     ExportJobDescriptionModalComponent,
     WorkflowProgressBarComponent,
+    BulkExportJobDescriptionModalComponent,
 
     // Pages
     JobDescriptionJobComparePageComponent,
@@ -200,7 +201,8 @@ import { SharedModule } from '../shared/shared.module';
 
     // Pipes
     ListAreaColumnSearchPipe,
-    UserFilterSearchPipe
+    UserFilterSearchPipe,
+    BulkExportJobDescriptionModalComponent
   ],
   providers: [
     ListAreaService, ColumnResizingService, JobDescriptionVersionCompareService,

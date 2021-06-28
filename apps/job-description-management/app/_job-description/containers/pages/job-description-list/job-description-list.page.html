@@ -96,7 +96,8 @@
               (pageChanged)="handlePageChanged($event)"
               (sortChanged)="handleSortChanged($event)"
               (publicViewChanged)="handlePublicViewChanged($event)"
-              (bulkRouteJobDescriptions)="openBulkRouteJobDescriptions($event)">
+              (bulkRouteJobDescriptions)="openBulkRouteJobDescriptions($event)"
+              (bulkExportJobDescriptions)="openBulkExportJobDescriptions()">
               <ng-container filter-controls>
                 <div *ngIf="gridState?.filter?.filters.length" class="filter-pills-container"
                      [class.background-light-grey]="showFilterSidebar">
@@ -156,5 +157,10 @@
     <pf-workflow-setup-modal
       [workflowSetupModalInput]="workflowSetupModalInput">
     </pf-workflow-setup-modal>
+
+    <pf-bulk-export-job-description-modal
+      [enableFileDownloadSecurityWarning]="enableFileDownloadSecurityWarning"
+      (export)="handleBulkExport($event)">  
+    </pf-bulk-export-job-description-modal>
   </ng-container>
 </pf-page-with-title-bar>
