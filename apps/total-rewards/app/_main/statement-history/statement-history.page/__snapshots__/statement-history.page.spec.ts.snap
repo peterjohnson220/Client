@@ -1,0 +1,78 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`StatementHistoryPageComponent should show the statement name 1`] = `
+<pf-statement-history
+  featureFlagService={[Function Object]}
+  gridFields={[Function Array]}
+  onScroll={[Function Function]}
+  route={[Function Object]}
+  routeParamSubscription={[Function Subscription]}
+  router={[Function Object]}
+  statement$={[Function Observable]}
+  store={[Function Store]}
+  tooltipDir="undefined"
+  totalRewardsHistoryFeatureFlag={[Function Object]}
+  unsubscribe$={[Function Subject]}
+>
+  <pf-page-with-title-bar>
+    
+    History: statement1
+    
+    <div
+      class="h-100 k-tooltip-container"
+      filter=".k-grid td"
+      kendotooltip=""
+      showon="none"
+    >
+      <pf-async-container
+        class="h-100"
+      >
+        <kendo-grid
+          class="total-rewards-statements-grid"
+        >
+          <kendo-grid-column
+            title="Actions"
+            width="70"
+          >
+            
+            
+          </kendo-grid-column>
+          
+          <kendo-grid-column
+            class="ellipsize"
+          >
+            
+            
+          </kendo-grid-column>
+          <kendo-grid-column
+            class="ellipsize"
+          >
+            
+            
+          </kendo-grid-column>
+          <kendo-grid-column
+            class="ellipsize"
+          >
+            
+            
+          </kendo-grid-column>
+          <kendo-grid-column
+            class="ellipsize"
+          >
+            
+            
+          </kendo-grid-column>
+          <kendo-grid-column
+            class="ellipsize"
+          >
+            
+            
+          </kendo-grid-column>
+          
+        </kendo-grid>
+      </pf-async-container>
+    </div>
+    
+  </pf-page-with-title-bar>
+</pf-statement-history>
+`;
