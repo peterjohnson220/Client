@@ -1,0 +1,25 @@
+<ng-template #bulkExportJobDescriptionModal>
+    <div class="modal-header">
+      <h4 class="modal-title">Export Job Description(s)</h4>
+      <button type="button" class="close" aria-label="Close" (click)="close()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group row">
+        <label class="col-3 col-form-label">Choose Export Format:</label>
+        <div class="col-9">
+          <kendo-dropdownlist [style.width]="'100%'"
+                              [data]="exportTypes"
+                              [(ngModel)]="exportType"
+                              (valueChange)="handleExportTypeChanged($event)">
+          </kendo-dropdownlist>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="close()">Cancel</button>
+      <button type="button" class="btn btn-primary" (click)="exportClicked()">Export</button>
+    </div>
+  </ng-template>
+  

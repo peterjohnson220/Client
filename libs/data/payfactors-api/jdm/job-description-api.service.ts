@@ -39,6 +39,7 @@ import {
   JobDescriptionBulkExportPayload
 } from 'libs/features/jobs/job-description-management/models/job-description-bulk-export-payload.model';
 import { ControlDataHelper } from 'libs/features/jobs/job-description-management/helpers';
+import { SelectedJobDescriptionsExportPayload } from 'libs/features/jobs/job-description-management/models/selected-job-descriptions-export-payload.mode';
 
 @Injectable({
   providedIn: 'root',
@@ -269,5 +270,9 @@ export class JobDescriptionApiService {
 
   exportJobDescriptions(ignoreMappingFile: boolean) {
     return this.payfactorsApiService.get(`${this.endpoint}/ExportAllJobDescriptions`, {ignoreMappingFile});
+  }
+
+  exportSelectedJobDescriptions(jdmExportPayload: SelectedJobDescriptionsExportPayload) {
+    return this.payfactorsApiService.post(`${this.endpoint}/Default.ExportSelectedJobDescriptions`, { jdmExportPayload: JSON.stringify(jdmExportPayload) });
   }
 }

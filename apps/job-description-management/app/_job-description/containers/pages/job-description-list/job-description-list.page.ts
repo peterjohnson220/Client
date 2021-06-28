@@ -32,7 +32,7 @@ import * as fromJobInformationFieldsActions from '../../../actions/job-informati
 import * as fromWorkflowTemplateListActions from 'libs/features/jobs/job-description-management/actions/shared-workflow.actions';
 import * as fromUserFilterActions from '../../../actions/user-filter.actions';
 import * as fromJobDescriptionReducers from '../../../reducers';
-import { AssignJobsToTemplateModalComponent, JobDescriptionHistoryModalComponent } from '../../../components';
+import { AssignJobsToTemplateModalComponent, BulkExportJobDescriptionModalComponent, JobDescriptionHistoryModalComponent } from '../../../components';
 import { CompanyJobViewListItem, WorkflowSetupModalInput } from '../../../models';
 import { SaveFilterModalComponent } from '../../../components/modals/save-filter';
 import { AddJobModalComponent } from '../../../components/modals/add-job';
@@ -57,6 +57,7 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
   @ViewChild(SaveFilterModalComponent, { static: true }) public saveFilterModalComponent: SaveFilterModalComponent;
   @ViewChild(DeleteJobDescriptionModalComponent, { static: true }) public deleteJobDescriptionModalComponent: DeleteJobDescriptionModalComponent;
   @ViewChild(WorkflowSetupModalComponent, { static: true }) public workflowSetupModalComponent: WorkflowSetupModalComponent;
+  @ViewChild(BulkExportJobDescriptionModalComponent, { static: true }) public bulkExportJobDescriptionModal: BulkExportJobDescriptionModalComponent;
 
   jdmInboxFeatureFlag: RealTimeFlag = { key: FeatureFlags.JdmInbox, value: false };
 
@@ -387,6 +388,7 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
   openDeleteJobDescModal(jobDescriptionIds: number[]) {
     this.deleteJobDescriptionModalComponent.open(jobDescriptionIds);
   }
+
   saveFilterClicked() {
     this.saveFilterModalComponent.open();
   }
@@ -422,6 +424,17 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
     }
 
     this.workflowSetupModalComponent.open();
+  }
+
+  openBulkExportJobDescriptions() {
+    this.bulkExportJobDescriptionModal.open();
+  }
+
+  handleBulkExport(exportType: string): void {
+    const jobDescriptionIds = Array.from( this.selectedJobDescriptions.values()).map(x => x.JobDescriptionId);
+    const payload = {JobDescriptionIds: jobDescriptionIds, FileExtension: exportType};
+    this.store.dispatch(new fromJobDescriptionGridActions.SelectJobDescriptions(new Map<number, any>()));
+    this.store.dispatch(new fromJobDescriptionListActions.ExportSelectedJobDescriptions(payload));
   }
 
   private initFilterThrottle() {

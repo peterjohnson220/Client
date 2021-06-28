@@ -2,6 +2,7 @@ import { Action } from '@ngrx/store';
 
 import { SaveJobDescriptionTemplateIdSucessModel, CompanyJobViewListItem, JobDescriptionDraftDetails } from '../models';
 import { JobDescriptionAppliesTo } from 'libs/features/jobs/job-description-management/models';
+import { SelectedJobDescriptionsExportPayload } from 'libs/features/jobs/job-description-management/models/selected-job-descriptions-export-payload.mode';
 
 export const CREATE_JOB_DESCRIPTION = '[job-description-management / Job Description List] Create Job Description';
 export const CREATE_JOB_DESCRIPTION_ERROR = '[job-description-management / Job Description List] Create Job Description Error';
@@ -16,6 +17,10 @@ export const SAVE_COMPANY_JOBS_JOB_DESCRIPTION_TEMPLATE_ID_ERROR =
 export const SAVE_COMPANY_JOBS_JOB_DESCRIPTION_TEMPLATE_ID_SUCCESS =
   '[job-description-management / Job Description List] Save Company Jobs Job Description Template Id Success';
 export const CLEAR_JOB_DESCRIPTION_STATE = '[job-description-management / Job Description List] Clear Job Description State';
+
+export const EXPORT_SELECTED_JOB_DESCRIPTIONS = '[job-description-management / Job Description List] Export Selected Job Descriptions';
+export const EXPORT_SELECTED_JOB_DESCRIPTIONS_SUCCESS = '[job-description-management / Job Description List] Export Selected Job Descriptions Success';
+export const EXPORT_SELECTED_JOB_DESCRIPTIONS_ERROR = '[job-description-management / Job Description List] Export Selected Job Descriptions Error';
 
 export class CreateJobDescription implements Action {
   readonly type = CREATE_JOB_DESCRIPTION;
@@ -71,6 +76,20 @@ export class ClearCompanyJobsJobDescriptionTemplateState implements Action {
   readonly type = CLEAR_JOB_DESCRIPTION_STATE;
 }
 
+export class ExportSelectedJobDescriptions implements Action {
+  readonly type = EXPORT_SELECTED_JOB_DESCRIPTIONS;
+
+  constructor(public payload: SelectedJobDescriptionsExportPayload) {}
+}
+
+export class ExportSelectedJobDescriptionsSuccess implements Action {
+  readonly type = EXPORT_SELECTED_JOB_DESCRIPTIONS_SUCCESS;
+}
+
+export class ExportSelectedJobDescriptionsError implements Action {
+  readonly type = EXPORT_SELECTED_JOB_DESCRIPTIONS_ERROR;
+}
+
   export type Actions
   = CreateJobDescription
   | CreateJobDescriptionError
@@ -81,4 +100,7 @@ export class ClearCompanyJobsJobDescriptionTemplateState implements Action {
   | SaveCompanyJobsJobDescriptionTemplateId
   | SaveCompanyJobsJobDescriptionTemplateIdError
   | SaveCompanyJobsJobDescriptionTemplateIdSuccess
-  | ClearCompanyJobsJobDescriptionTemplateState;
+  | ClearCompanyJobsJobDescriptionTemplateState
+  | ExportSelectedJobDescriptions
+  | ExportSelectedJobDescriptionsSuccess
+  | ExportSelectedJobDescriptionsError;
