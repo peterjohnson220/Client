@@ -35,8 +35,10 @@ export class JobSummaryComponent implements OnInit, OnChanges, AfterViewInit, On
   @ViewChild('tccMrpColumn', { static: false }) tccMrpColumn: ElementRef;
   @ViewChild('companyColumn', { static: false }) companyColumn: ElementRef;
   @ViewChild('paymarketColumn', { static: false }) paymarketColumn: ElementRef;
+  @ViewChild('compColumn', { static: false }) compColumn: ElementRef;
+  @ViewChild('chart', { static: false }) chartTemplate: ElementRef;
   pagingOptions: PagingOptions = { From: 0, Count: 10 };
-  columnHeaderTemplates: {};
+  columnHeaderTemplates = {};
   actionBarConfig: ActionBarConfig;
   defaultSort: SortDescriptor[] = [{
     dir: 'asc',
@@ -50,7 +52,10 @@ export class JobSummaryComponent implements OnInit, OnChanges, AfterViewInit, On
   chartConstructor = 'chart'; // optional string, defaults to 'chart'
   chartInstance: Highcharts.Chart;
   chartOptions = {
-    plotOptions: { bar: { grouping: true, groupPadding: 0.1, dataLabels: {}, stacking: 'normal'} },
+    plotOptions: {
+      bar: { grouping: true, groupPadding: 0.1, dataLabels: {}, stacking: 'normal'},
+      series: { states: { inactive: { opacity: 1 } } }
+      },
     chart: {
       type: 'bar',
       height: 350
@@ -59,7 +64,11 @@ export class JobSummaryComponent implements OnInit, OnChanges, AfterViewInit, On
       layout: 'vertical',
       align: 'right',
       verticalAlign: 'top',
-      reversed: true
+      reversed: true,
+      borderRadius: 5,
+      shadow: true,
+      symbolRadius: 0,
+      backgroundColor: '#FFFFFF'
     },
     credits: {
       enabled: false
@@ -85,15 +94,12 @@ export class JobSummaryComponent implements OnInit, OnChanges, AfterViewInit, On
   colTemplates = {};
   pageViewId = PageViewIds.ProjectJobSummary;
   dataRowsSubscription: Subscription;
-  @ViewChild('compColumn', { static: false }) compColumn: ElementRef;
-  @ViewChild('chart', { static: false }) chartTemplate: ElementRef;
+
   constructor(private store: Store<fromPfDataGridReducer.State>, private ordinalPipe: OrdinalNumberPipe) {
     this.actionBarConfig = {
       ...getDefaultActionBarConfig(),
     };
-    this.gridConfig = {
-      PersistColumnWidth: false
-    };
+
   }
   ngOnInit(): void {
     this.userContext$ = this.store.select(fromRootState.getUserContext);
@@ -173,12 +179,12 @@ export class JobSummaryComponent implements OnInit, OnChanges, AfterViewInit, On
         ]
       }
     }];
-    this.chartOptions.yAxis.tickInterval = this.projectRate === 'Annual' ? 10 : 5
+    this.chartOptions.yAxis.tickInterval = this.projectRate === 'Annual' ? 10 : 5;
     this.chartOptions.xAxis.categories = cat;
     this.chartOptions.series = series;
     if (this.chartInstance) {
       this.updateFlag = true;
-    }
+  }
   }
 
   rangeChartCallback(chart: Highcharts.Chart = null) {
@@ -189,6 +195,8 @@ export class JobSummaryComponent implements OnInit, OnChanges, AfterViewInit, On
   }
   returnToProjectDetails() {
     this.showJobSummaryChange.emit(false);
+    this.chartOptions.series = [];
+    this.updateFlag = true;
   }
 
 }
