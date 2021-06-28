@@ -1,3 +1,35 @@
 @import 'colors';
 
 $auth-header-text-color: $pf-brand-primary-color;
+
+// TODO: remove this rule when `restyle-login` feature flag is deprecated
+#ps-privacy, .payscale-logo { 
+  display: none;
+}
+
+body.payscale-rebrand {
+  background: url("^assets/images/waves.png");
+  background-position-x: center;
+  background-size: cover;
+  // TODO: remove this rule when `restyle-login` feature flag is deprecated
+  .payscale-logo {
+    display: block;
+  }
+  .main-panel.box-shadow {
+    box-shadow: 5px 15px 15px rgba(0, 0, 0, .2);
+  }
+  // TODO: remove this rule when `restyle-login` feature flag is deprecated 
+  #pf-privacy, .payfactors-logo {
+    display: none;
+  }
+  // TODO: remove this rule when `restyle-login` feature flag is deprecated
+  #ps-privacy { 
+    display: initial;
+  }
+  #ps-privacy, a.privacy, a.privacy &:hover {
+    color: #676468;
+  }
+  button#Login, button#Login > span {
+    background-color: #3D0FC8; 
+  }
+}
