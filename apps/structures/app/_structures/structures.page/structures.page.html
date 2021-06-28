@@ -161,10 +161,13 @@
 
 <ng-template #modelColumn let-dataRow="dataRow" let-fieldName="fieldName">
   <div pfEllipsisActive class="ellipsis-overflowing-text">
-    <a class="pf-link-hover"
+    <a *ngIf="structuresGradeBasedRangeLandingPageEnabled; else noLink" class="pf-link-hover"
        href="/client/structures/{{dataRow['CompanyStructures_RangeType_RangeType'] | lowercase}}/{{dataRow['CompanyStructures_RangeGroup_CompanyStructuresRangeGroup_ID']}}">
       {{dataRow[fieldName]}}
     </a>
+    <ng-template #noLink>
+      {{dataRow[fieldName]}}
+    </ng-template>
   </div>
 </ng-template>
 

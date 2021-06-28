@@ -22,6 +22,7 @@ import * as fromPfDataGridActions from 'libs/features/grids/pf-data-grid/actions
 import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import { PfSecuredResourceDirective } from 'libs/forms/directives';
+import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
 
 import { StructuresPageConfig } from '../models';
 import * as fromStructuresPageReducer from '../reducers';
@@ -92,11 +93,13 @@ export class StructuresPageComponent implements AfterViewInit, OnInit, OnDestroy
   deleting$: Observable<boolean>;
   deletingError$: Observable<boolean>;
   colTemplates = {};
+  structuresGradeBasedRangeLandingPageEnabled: boolean;
 
   constructor(
     private pfDataGridStore: Store<fromPfDataGridReducer.State>,
     private structuresStore: Store<fromStructuresPageReducer.State>,
-    private sharedStructuresStore: Store<fromSharedStructuresReducer.State>
+    private sharedStructuresStore: Store<fromSharedStructuresReducer.State>,
+    private featureFlagService: AbstractFeatureFlagService
   ) {
     this.actionBarConfig = {
       ...getDefaultActionBarConfig(),
@@ -114,6 +117,7 @@ export class StructuresPageComponent implements AfterViewInit, OnInit, OnDestroy
     this.deleting$ = this.structuresStore.pipe(select(fromStructuresPageReducer.getDeletingStructureStatus));
     this.deletingError$ = this.structuresStore.pipe(select(fromStructuresPageReducer.getDeletingStructureErrorStatus));
     this.customFilterOptions$ = this.structuresStore.select(fromStructuresPageReducer.getCustomFilterOptions);
+    this.structuresGradeBasedRangeLandingPageEnabled = this.featureFlagService.enabled(FeatureFlags.StructuresGradeBasedRangeLandingPage, false);
   }
 
   ngOnInit(): void {
