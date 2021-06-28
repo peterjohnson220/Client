@@ -121,6 +121,19 @@ export class JobDescriptionListEffects {
       })
     );
 
+    @Effect()
+    exportSelectedJobDescription$ = this.actions$
+      .pipe(
+        ofType(fromJobDescriptionListActions.EXPORT_SELECTED_JOB_DESCRIPTIONS),
+        switchMap((action: fromJobDescriptionListActions.ExportSelectedJobDescriptions) => {
+          return this.jobDescriptionApiService.exportSelectedJobDescriptions(action.payload)
+            .pipe(
+              map(() => new fromJobDescriptionListActions.ExportSelectedJobDescriptionsSuccess()),
+              catchError(() => of(new fromJobDescriptionListActions.ExportSelectedJobDescriptionsError()))
+            );
+        })
+      );
+
   constructor(
     private actions$: Actions,
     private jobDescriptionApiService: JobDescriptionApiService,
