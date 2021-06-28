@@ -3,7 +3,7 @@
   <ul ngbNav #nav="ngbNav" class="nav-tabs"
     [destroyOnHide]="false"
     (activeIdChange)="onActiveIdChange($event)">
-    <li [ngbNavItem]="'JobInsightsTab'" [id]="'JobInsightsTab'">
+    <li *ngIf="jobInsightsTabEnabled" [ngbNavItem]="'JobInsightsTab'" [id]="'JobInsightsTab'">
       <a ngbNavLink>Job Insights</a>
       <ng-template ngbNavContent>
         <div *ngIf="tabStatusOpened['JobInsightsTab'] === true" class="position-absolute full-size tab-top-offset">
