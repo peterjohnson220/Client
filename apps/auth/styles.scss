@@ -3,7 +3,7 @@
 $auth-header-text-color: $pf-brand-primary-color;
 
 // TODO: remove this rule when `restyle-login` feature flag is deprecated
-#ps-privacy, .payscale-logo { 
+#ps-privacy, .payscale-logo, pf-first-login-page h1 span.ps { 
   display: none;
 }
 
@@ -19,17 +19,17 @@ body.payscale-rebrand {
     box-shadow: 5px 15px 15px rgba(0, 0, 0, .2);
   }
   // TODO: remove this rule when `restyle-login` feature flag is deprecated 
-  #pf-privacy, .payfactors-logo {
+  #pf-privacy, .payfactors-logo, pf-first-login-page h1 span.pf {
     display: none;
   }
   // TODO: remove this rule when `restyle-login` feature flag is deprecated
-  #ps-privacy { 
+  #ps-privacy, pf-first-login-page h1 span.ps { 
     display: initial;
   }
   #ps-privacy, a.privacy, a.privacy &:hover {
     color: #676468;
   }
-  button#Login, button#Login > span, button#Reset, a#ReturnToLogin {
+  button#Login, button#Login > span, button#Reset, a#ReturnToLogin, pf-first-login-page .submit-button {
     background-color: #3D0FC8; 
   }
 }
