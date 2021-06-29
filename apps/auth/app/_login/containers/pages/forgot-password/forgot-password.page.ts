@@ -96,7 +96,7 @@ export class ForgotPasswordPageComponent implements OnInit {
 
         this.featureFlagService.bindEnabled(this.payscaleAuthRebrandFlag, this.unsubscribe$);
         if (this.payscaleAuthRebrandFlag.value === true) {
-          document.body.classList.add('payscale-rebrand');
+          document.querySelector('html').classList.add('payscale-rebrand');
         }
       }
     });
