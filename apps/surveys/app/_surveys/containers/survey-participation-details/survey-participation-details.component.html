@@ -3,8 +3,17 @@
     <div pfEllipsisActive class="mr-auto w-75 ellipsis-overflowing-text align-self-center">
       {{survey.SurveyName}}
     </div>
+    <ng-container *ngIf="!!survey.ParticipationFileName?.length">
+      <button type="button"
+              class="btn btn-link"
+              title="Download File"
+              (click)="downloadSurveyParticipationFile(survey.ParticipationFileName)">
+        Download
+      </button>
+    </ng-container>
+    <span *ngIf="impersonatorId !== 0 && !!survey.ParticipationFileName?.length" class="vertical-separator mx-3"></span>
     <div *ngIf="impersonatorId !== 0" class="d-flex flex-column">
-      <div>
+      <div class="btn-link">
         <kendo-upload [multiple]="false"
                       [saveUrl]="uploadSurveyParticipationFileUrl"
                       [showFileList]="false"
@@ -17,15 +26,6 @@
         </kendo-upload>
       </div>
     </div>
-    <span *ngIf="impersonatorId !== 0 && !!survey.ParticipationFileName?.length" class="vertical-separator mx-3"></span>
-    <ng-container *ngIf="!!survey.ParticipationFileName?.length">
-      <button type="button"
-              class="btn btn-link"
-              title="Download File"
-              (click)="downloadSurveyParticipationFile(survey.ParticipationFileName)">
-        Download
-      </button>
-    </ng-container>
   </div>
   <span *ngIf="!!invalidFileTypeMessage" class="text-danger">{{invalidFileTypeMessage}}</span>
   <span *ngIf="survey?.UploadingFileError?.length" class="text-danger">{{survey.UploadingFileError}}</span>

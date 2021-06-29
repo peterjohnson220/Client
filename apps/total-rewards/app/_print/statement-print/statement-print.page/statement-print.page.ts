@@ -2,10 +2,11 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { select, Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, Subject } from 'rxjs';
 
 import { StatementModeEnum, StatementForPrint, TotalRewardsControlEnum, ImageControl } from 'libs/features/total-rewards/total-rewards-statement/models';
 import { TrsConstants } from 'libs/features/total-rewards/total-rewards-statement/constants/trs-constants';
+import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
 
 import * as fromReducers from '../reducers';
 import * as fromPageActions from '../actions/statement-print.page.actions';
@@ -32,7 +33,16 @@ export class StatementPrintPageComponent implements OnDestroy, OnInit {
 
   readyForPdfGenerationSelector = TrsConstants.READY_FOR_PDF_GENERATION_SELECTOR;
 
-  constructor(private store: Store<fromReducers.State>, private route: ActivatedRoute) { }
+  totalRewardsAdditionalPageFeatureFlag: RealTimeFlag = { key: FeatureFlags.TotalRewardsAdditionalPage, value: false };
+  unsubscribe$ = new Subject<void>();
+
+  constructor(
+    private store: Store<fromReducers.State>,
+    private route: ActivatedRoute,
+    private featureFlagService: AbstractFeatureFlagService
+  ) {
+    this.featureFlagService.bindEnabled(this.totalRewardsAdditionalPageFeatureFlag, this.unsubscribe$);
+  }
 
   ngOnInit(): void {
     this.urlParamSubscription = this.route.params.subscribe(params => {

@@ -42,6 +42,9 @@
               <button ngbDropdownItem (click)="navigateToStatementAssign(dataItem?.Id)">
                 <span>Assign</span>
               </button>
+              <button *ngIf="totalRewardsHistoryFeatureFlag.value && dataItem?.LastGeneratedDate" ngbDropdownItem (click)="navigateToStatementHistory(dataItem?.Id)">
+                <span>History</span>
+              </button>
               <button ngbDropdownItem (click)="onActionMenuDeleteClick(dataItem)">
                 <span>Delete</span>
               </button>

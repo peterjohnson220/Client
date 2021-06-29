@@ -15,6 +15,10 @@
             (click)="openAssignModal()">
             Assign Employees
     </button>
+    <button *ngIf="totalRewardsHistoryFeatureFlag.value && statement.LastGeneratedDate" type="button"
+            class="btn btn-secondary statement-history" [attr.title]="'Statement History'" (click)="handleStatementHistoryClick()">
+      <fa-icon icon="history"></fa-icon>
+    </button>
     <button type="button"
             id="export-btn"
             class="btn btn-secondary"
@@ -108,7 +112,7 @@
         (unassignEmployeesClick)="handleUnassignEmployeesClick()"
         (cancelClick)="handleCancelUnassignEmployeesModal()"
       ></pf-unassign-employees-modal>
-      <pf-file-download-security-warning-modal 
+      <pf-file-download-security-warning-modal
         #fileDownloadSecurityWarningModal
         (securityWarningConfirmed)="handleSecurityWarningConfirmed($event)"
       ></pf-file-download-security-warning-modal>

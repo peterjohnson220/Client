@@ -375,7 +375,8 @@ export class PfDataGridEffects {
         const request: ExportGridRequest = {
           DataView: dataView,
           Source: data.action.source,
-          CustomExportType: data.action.customExportType
+          CustomExportType: data.action.customExportType,
+          AdditionalData: data.action.additionalData
         };
         return this.dataViewApiService.exportGrid(request)
           .pipe(

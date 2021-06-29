@@ -5,4 +5,5 @@ export interface SaveSettingsRequest {
   FontSize: FontSize;
   FontFamily: FontFamily;
   Colors: string[];
+  HeaderHeightInPixels: number;
 }

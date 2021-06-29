@@ -2,6 +2,7 @@
 
 exports[`TotalRewardsStatementComponent should render a mock statement\`s pages, sections, columns and controls 1`] = `
 <pf-total-rewards-statement
+  allowCalculationFieldDragDrop={[Function Boolean]}
   controlType={[Function Object]}
   employeeRewardsData={[Function Object]}
   onCalculationControlCompFieldAdded={[Function EventEmitter_]}
@@ -24,12 +25,12 @@ exports[`TotalRewardsStatementComponent should render a mock statement\`s pages,
   statementModeEnum={[Function Object]}
 >
   <div
-    class="container statement position-relative medium-font-size default-font-family"
+    class="container statement position-relative medium-font-size default-font-family additional-page-disabled"
   >
     <pf-async-container />
     
     <div
-      class="pb-4 trs-page position-relative"
+      class="pb-4 trs-page position-relative main"
     >
       
       <section

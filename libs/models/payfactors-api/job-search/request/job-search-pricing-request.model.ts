@@ -4,6 +4,7 @@ export interface JobSearchPricingDataRequest {
   PayfactorsJobCode?: string;
   CompanyJobId?: number;
   Type: JobSearchContext;
+  Rate?: string;
 }
 
 export interface StructuresJobSearchPricingDataRequest extends JobSearchPricingDataRequest {

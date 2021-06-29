@@ -6,7 +6,9 @@ const routes: Routes = [
   { path: 'statement/edit', loadChildren: () => import('./statement-edit/statement-edit.module').then(m => m.StatementEditModule) },
   { path: 'statement/edit/:id/assignments',
     loadChildren: () => import('./statement-assignment/statement-assignment.module').then(m => m.StatementAssignmentModule)
-  }];
+  },
+  { path: 'statement/history/:id', loadChildren: () => import('./statement-history/statement-history.module').then(m => m.StatementHistoryModule) }
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

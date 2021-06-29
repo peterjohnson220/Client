@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
 
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
 import * as signalR from '@microsoft/signalr';
 import { LogLevel } from '@microsoft/signalr';
@@ -11,6 +11,7 @@ import { EmployeeRewardsData, TokenStatus } from 'libs/models/payfactors-api/tot
 import { Statement } from 'libs/features/total-rewards/total-rewards-statement/models';
 import * as fromRootState from 'libs/state/state';
 import { AppNotification, HubMethodName, NotificationLevel, SuccessStatusPayLoad } from 'libs/features/infrastructure/app-notifications/models';
+import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
 
 import * as fromPageReducer from '../../verification/reducers';
 import * as fromPageActions from '../actions/verification.page.actions';
@@ -46,7 +47,10 @@ export class VerificationPageComponent implements OnInit, OnDestroy {
   verificationCode: string;
   notificationConnected = false;
 
-  constructor(private store: Store<fromPageReducer.State>) {
+  totalRewardsAdditionalPageFeatureFlag: RealTimeFlag = { key: FeatureFlags.TotalRewardsAdditionalPage, value: false };
+  unsubscribe$ = new Subject<void>();
+
+  constructor(private store: Store<fromPageReducer.State>, private featureFlagService: AbstractFeatureFlagService) {
     this.userContext$ = this.store.select(fromRootState.getUserContext);
     this.employeeData$ = this.store.select(fromPageReducer.getEmployeeData);
     this.statement$ = this.store.select(fromPageReducer.getStatement);
@@ -56,6 +60,8 @@ export class VerificationPageComponent implements OnInit, OnDestroy {
     this.lockedUntil$ = this.store.select(fromPageReducer.getLockedUntil);
     this.notificationsToken$ = this.store.select(fromPageReducer.getNotificationsToken);
     this.downloadingPdf$ = this.store.select(fromPageReducer.getDownloadingPdf);
+
+    this.totalRewardsAdditionalPageFeatureFlag.value = this.featureFlagService.enabled(this.totalRewardsAdditionalPageFeatureFlag.key);
   }
 
   ngOnInit(): void {

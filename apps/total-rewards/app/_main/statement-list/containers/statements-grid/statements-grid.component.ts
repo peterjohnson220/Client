@@ -1,8 +1,8 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { GridDataResult, DataStateChangeEvent, RowClassArgs } from '@progress/kendo-angular-grid';
 import { State } from '@progress/kendo-data-query';
 import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
@@ -11,6 +11,7 @@ import { TooltipDirective } from '@progress/kendo-angular-tooltip';
 import { GridTypeEnum } from 'libs/models/common';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
 import { StatementListViewModel } from 'libs/features/total-rewards/total-rewards-statement/models';
+import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core';
 
 import * as fromTotalRewardsReducer from './../../reducers';
 import * as fromTotalRewardsStatementGridActions from '../../actions/statement-grid.actions';
@@ -22,7 +23,7 @@ import { statementsGridFields } from '../../models';
   templateUrl: './statements-grid.component.html',
   styleUrls: ['./statements-grid.component.scss']
 })
-export class StatementsGridComponent implements OnInit {
+export class StatementsGridComponent implements OnInit, OnDestroy {
   @Input() autoLoad = false;
   @Input() displayNoStatementsCreatedImage: boolean;
 
@@ -36,7 +37,12 @@ export class StatementsGridComponent implements OnInit {
   selectedDropdown: NgbDropdown;
   gridFields = statementsGridFields;
 
-  constructor(private store: Store<fromTotalRewardsReducer.State>, private router: Router) { }
+  totalRewardsHistoryFeatureFlag: RealTimeFlag = { key: FeatureFlags.TotalRewardsHistory, value: false };
+  unsubscribe$ = new Subject<void>();
+
+  constructor(private store: Store<fromTotalRewardsReducer.State>, private router: Router, private featureFlagService: AbstractFeatureFlagService) {
+    this.featureFlagService.bindEnabled(this.totalRewardsHistoryFeatureFlag, this.unsubscribe$);
+  }
 
   ngOnInit() {
     this.statementsGridState$ = this.store.pipe(select(fromTotalRewardsReducer.getStatementsGridState));
@@ -48,6 +54,10 @@ export class StatementsGridComponent implements OnInit {
       this.store.dispatch(new fromTotalRewardsStatementGridActions.LoadStatements());
     }
     window.addEventListener('scroll', this.onScroll, true);
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe$.next();
   }
 
   onDataStateChange(state: DataStateChangeEvent): void {
@@ -77,6 +87,10 @@ export class StatementsGridComponent implements OnInit {
 
   navigateToStatementAssign(statementId: string): void {
     this.router.navigate(['/statement/edit/', statementId, 'assignments']).then();
+  }
+
+  navigateToStatementHistory(statementId: string): void {
+    this.router.navigate(['/statement/history/', statementId]).then();
   }
 
   handleSelectedRowAction(dropdown: NgbDropdown): void {

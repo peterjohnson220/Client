@@ -10,7 +10,8 @@ import {
   JobBasedRangeJobSearchResponse,
   JobSearchRequestStructuresRangeGroup,
   JobSearchPricingDataResponse,
-  JobSearchContext
+  JobSearchContext,
+  StructuresJobSearchPricingDataRequest
 } from 'libs/models/payfactors-api/job-search';
 import { StructureMappingApiService } from 'libs/data/payfactors-api';
 import { PayfactorsSearchApiHelper, PayfactorsSearchApiModelMapper } from 'libs/features/search/search/helpers';
@@ -42,8 +43,9 @@ export class SearchResultsEffects {
       ofType(fromAddJobsSearchResultsActions.LOAD_JOB_PRICING_DATA),
       withLatestFrom(
         this.store.select(fromAddJobsReducer.getContextStructureRangeGroupId),
-        (action: fromAddJobsSearchResultsActions.GetJobPricingData, contextStructureRangeGroupId) => (
-          { action, contextStructureRangeGroupId }
+        this.store.select(fromSharedStructuresReducer.getMetadata),
+        (action: fromAddJobsSearchResultsActions.GetJobPricingData, contextStructureRangeGroupId, metadata) => (
+          { action, contextStructureRangeGroupId, metadata }
         )),
       mergeMap((data) => {
         let jobCode = null;
@@ -56,12 +58,19 @@ export class SearchResultsEffects {
           companyJobId = jobResult.Id;
         }
         if (!data.action.payload.loadSingleMrp) {
-          return this.jobSearchApiService.getStructureJobPricingData({
-            CompanyJobId: companyJobId,
-            PayfactorsJobCode: jobCode,
-            StructureRangeGroupId: data.contextStructureRangeGroupId,
-            Type: JobSearchContext.StructuresJobSearch
-          })
+          const jobPriceRequest: StructuresJobSearchPricingDataRequest = {
+              CompanyJobId: companyJobId,
+              PayfactorsJobCode: jobCode,
+              StructureRangeGroupId: data.contextStructureRangeGroupId,
+              Type: JobSearchContext.StructuresJobSearch
+            };
+
+          // We want to display Annual Rate when model doesn't exist
+          if (data.metadata.Rate == null) {
+            jobPriceRequest.Rate = 'Annual';
+          }
+
+          return this.jobSearchApiService.getStructureJobPricingData(jobPriceRequest)
             .pipe(
               map((pricingDataResponse: JobSearchPricingDataResponse) =>
                 new fromAddJobsSearchResultsActions.GetJobPricingDataSuccess(

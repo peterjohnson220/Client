@@ -9,15 +9,17 @@ import * as fromRootState from 'libs/state/state';
 import { TimeElapsedPipe } from 'libs/core/pipes/time-elapsed.pipe';
 import { StatementModeEnum, Statement, generateMockStatement } from 'libs/features/total-rewards/total-rewards-statement/models';
 import * as fromAppNotificationsMainReducer from 'libs/features/infrastructure/app-notifications/reducers';
+import { AbstractFeatureFlagService } from 'libs/core/services/feature-flags';
+import { SettingsService } from 'libs/state/app-context/services';
 
 import * as fromStatementEditReducer from '../reducers';
 import * as fromEditStatementPageActions from '../actions';
 import { StatementEditPageComponent } from './statement-edit.page';
-import { SettingsService } from 'libs/state/app-context/services';
 
 const each = require('jest-each').default;
 
 describe('StatementEditPageComponent', () => {
+  let abstractFeatureFlagService: AbstractFeatureFlagService;
   let component: StatementEditPageComponent;
   let fixture: ComponentFixture<StatementEditPageComponent>;
   let store: Store<fromStatementEditReducer.State>;
@@ -50,6 +52,10 @@ describe('StatementEditPageComponent', () => {
         {
           provide: SettingsService,
           useValue: { selectCompanySetting: () => of(false)},
+        },
+        {
+          provide: AbstractFeatureFlagService,
+          useValue: { enabled: jest.fn(), bindEnabled: jest.fn() }
         }
       ],
         schemas: [NO_ERRORS_SCHEMA]
@@ -59,6 +65,8 @@ describe('StatementEditPageComponent', () => {
     router = TestBed.inject(Router);
 
     spyOn(store, 'dispatch');
+
+    abstractFeatureFlagService = TestBed.inject(AbstractFeatureFlagService);
   }));
 
   beforeEach(() => {

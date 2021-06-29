@@ -154,13 +154,10 @@ export function reducer(state = initialState, action: fromJobDescriptionGridActi
           const jobDescriptionId = jd['JobDescriptionId'];
           if (action.payload.includes(jobDescriptionId)) {
             jd['JobDescriptionStatus'] = 'Routing';
-
-            // Remove this job from grid selections
-            if (state.selectedJobDescriptions.has(jobDescriptionId)) {
-              state.selectedJobDescriptions.delete(jobDescriptionId);
-            }
           }
         });
+        // Remove this job from grid selections
+        state.selectedJobDescriptions?.clear();
         return {
           ...state,
           gridDataResult: gridDataResultCopy
