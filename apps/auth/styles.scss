@@ -23,8 +23,8 @@ body.payscale-rebrand {
     display: none;
   }
   // TODO: remove this rule when `restyle-login` feature flag is deprecated
-  #ps-privacy, pf-first-login-page h1 span.ps { 
-    display: initial;
+  #ps-privacy, pf-first-login-page h1 span.ps {
+    display: inline;
   }
   #ps-privacy, a.privacy, a.privacy &:hover {
     color: #676468;
