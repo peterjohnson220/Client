@@ -28,14 +28,17 @@ import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducer
 import { RangeType } from 'libs/constants/structures/range-type';
 import { RangeRecalculationType } from 'libs/constants/structures/range-recalculation-type';
 import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
+import { AdjustMidpointTypes } from 'libs/constants/structures/adjust-midpoint-type';
 
 import * as fromSharedStructuresReducer from '../../../../shared/reducers';
 import * as fromSharedStructuresActions from '../../../../shared/actions/shared.actions';
 import { StructuresPagesService } from '../../../../shared/services';
 import * as fromModelSettingsModalActions from '../../../../shared/actions/model-settings-modal.actions';
 import * as fromPublishModelModalActions from '../../../../shared/actions/publish-model-modal.actions';
+import * as fromDuplicateModelModalActions from '../../../../shared/actions/duplicate-model-modal.actions';
 import { ModelSettingsModalContentComponent } from '../model-settings-modal-content';
 import * as fromGradeBasedSharedReducer from '../../reducers';
+import { ChartSvg } from '../../models';
 
 @Component({
   selector: 'pf-grade-based-model-grid',
@@ -65,7 +68,8 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   @Input() saveSort = false;
   @Input() modifiedKey: string = null;
   @Input() allowMultipleSort: boolean;
-  @Input() isNewRangeOrCreateModelFlow = false;
+  @Input() isNewRangeFlow = false;
+  @Input() isCreateModelFlow = false;
   @Output() manageModelClicked = new EventEmitter();
 
   pfThemeType = PfThemeType;
@@ -106,6 +110,11 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   modalOpen$: Observable<boolean>;
   controlPoint: string;
   gradesDetailsSub: Subscription;
+  summaryChartSvgSub: Subscription;
+  verticalChartSvgSub: Subscription;
+  summaryChartSvg$: Observable<string>;
+  verticalChartSvg$: Observable<string>;
+  chartSvgs: ChartSvg[] = [];
 
   hasAddEditDeleteStructurePermission: boolean;
   hasCreateEditStructureModelPermission: boolean;
@@ -123,6 +132,8 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     this.selectedRecordId$ = this.store.select(fromPfDataGridReducer.getSelectedRecordId, this.modelGridPageViewId);
     this.data$ = this.store.select(fromPfGridReducer.getData, this.pageViewId);
     this.modalOpen$ = this.store.pipe(select(fromSharedStructuresReducer.getModelSettingsModalOpen), delay(0));
+    this.summaryChartSvg$ = this.store.pipe(select(fromGradeBasedSharedReducer.getSummaryChartSvg));
+    this.verticalChartSvg$ = this.store.pipe(select(fromGradeBasedSharedReducer.getVerticalChartSvg));
     this.singleRecordActionBarConfig = {
       ...getDefaultActionBarConfig(),
       ShowActionBar: false
@@ -133,8 +144,8 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
       ShowColumnChooser: true,
       ShowFilterChooser: true,
       AllowExport: true,
-      ExportSourceName: 'Grade Based Structures',
-      CustomExportType: 'GradeBasedStructures',
+      ExportSourceName: 'Grade Range Structures',
+      CustomExportType: 'GradeRangeStructures',
       ColumnChooserType: ColumnChooserType.Hybrid,
       EnableGroupSelectAll: true
     };
@@ -236,30 +247,26 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     this.store.dispatch(new fromPublishModelModalActions.OpenModal());
   }
 
+  handleDuplicateModelBtnClicked() {
+    this.store.dispatch(new fromDuplicateModelModalActions.OpenModal());
+  }
+
   buildForm() {
     this.modelSettingsForm = new FormGroup({
       'ModelName': new FormControl(!this.metaData.IsCurrent || this.isNewModel ? this.metaData.ModelName : '', [Validators.required, Validators.maxLength(50)]),
       'Grades': new FormControl(this.numGrades || ''),
       'RangeDistributionTypeId': new FormControl({ value: this.metaData.RangeDistributionTypeId, disabled: true }, [Validators.required]),
       'MarketDataBased': new FormControl(this.controlPoint || 'BaseMRP', [Validators.required]),
-      'StartingMidpoint': new FormControl(this.metaData.StartingMidpoint || '', [Validators.required]),
-      'RangeSpread': new FormControl(this.metaData.SpreadMin || '', [Validators.required]),
-      'MidpointProgression': new FormControl(this.metaData.MidpointProgression || '', [Validators.required]),
+      'StartingMidpoint': new FormControl(this.metaData.StartingMidpoint || ''),
+      'RangeSpread': new FormControl(this.metaData.SpreadMin || ''),
+      'MidpointProgression': new FormControl(this.metaData.MidpointProgression || ''),
       'Rate': new FormControl(this.metaData.Rate || 'Annual', [Validators.required]),
-      'Currency': new FormControl(this.metaData.Currency || 'USD', [Validators.required])
+      'Currency': new FormControl(this.metaData.Currency || 'USD', [Validators.required]),
+      'AdjustMidpointSetting': new FormGroup({
+        'Type': new FormControl(AdjustMidpointTypes.NoChange),
+        'Percentage': new FormControl({ value: '', disabled: true })
+      })
     });
-
-    if (this.isNewModel) {
-      this.setValidators('Grades');
-      this.setValidators('StartingMidpoint');
-      this.setValidators('RangeSpread');
-      this.setValidators('MidpointProgression');
-    } else {
-      this.clearValidators('Grades');
-      this.clearValidators('StartingMidpoint');
-      this.clearValidators('RangeSpread');
-      this.clearValidators('MidpointProgression');
-    }
 
     this.store.dispatch(new fromModelSettingsModalActions.SetActiveTab('modelTab'));
   }
@@ -276,12 +283,21 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     this.modelSettingsModalContentComponent.handleModalDismiss();
   }
 
-  private setValidators(controlName: string) {
-    this.modelSettingsForm.get(controlName).setValidators([Validators.required]);
+  handleAdjustMidpointRadioButtonChanged(event: any) {
+    this.clearValidators('AdjustMidpointSetting.Percentage');
+    if (event.target.id === 'AdjustMidpointMoveBy') {
+      this.setValidators('AdjustMidpointSetting.Percentage', 0.01, 300);
+    }
+  }
+
+  private setValidators(controlName: string, min: number, max: number) {
+    this.modelSettingsForm.get(controlName).enable();
+    this.modelSettingsForm.get(controlName).setValidators([Validators.required, Validators.min(min), Validators.max(max)]);
     this.modelSettingsForm.get(controlName).updateValueAndValidity();
   }
 
   private clearValidators(controlName: string) {
+    this.modelSettingsForm.get(controlName).disable();
     this.modelSettingsForm.get(controlName).clearValidators();
     this.modelSettingsForm.get(controlName).updateValueAndValidity();
   }
@@ -329,9 +345,8 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     this.dataSubscription = this.data$.subscribe(data => {
       if (data) {
         this.isNewModel = data.total < 1 ? true : false;
-
-        // Open Model Settings modal only if it's a new model flow
-        if (this.isNewRangeOrCreateModelFlow && this.isNewModel) {
+        // Open Model Settings modal only if it's a new model flow or create model flow
+        if (this.isNewRangeFlow && this.isNewModel || this.isCreateModelFlow) {
           this.store.dispatch(new fromModelSettingsModalActions.OpenModal());
         }
       }
@@ -339,6 +354,28 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     this.modalOpenSub = this.modalOpen$.subscribe(mo => {
       if (mo) {
         this.buildForm();
+      }
+    });
+    this.summaryChartSvgSub = this.summaryChartSvg$.subscribe(scs => {
+      if (scs) {
+        // look for existing value
+        const svg = this.chartSvgs.find(s => s.ChartName === 'Summary');
+        if (!!svg) {
+          this.chartSvgs[this.chartSvgs.indexOf(svg)].Svg = scs;
+        } else {
+          this.chartSvgs.push({ ChartName: 'Summary', Svg: scs });
+        }
+      }
+    });
+    this.verticalChartSvgSub = this.verticalChartSvg$.subscribe(vcs => {
+      if (vcs) {
+        // look for existing value
+        const svg = this.chartSvgs.find(s => s.ChartName === 'Vertical');
+        if (!!svg) {
+          this.chartSvgs[this.chartSvgs.indexOf(svg)].Svg = vcs;
+        } else {
+          this.chartSvgs.push({ ChartName: 'Vertical', Svg: vcs });
+        }
       }
     });
     this.initPermissions();
@@ -354,5 +391,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     this.pageViewIdSub.unsubscribe();
     this.modalOpenSub.unsubscribe();
     this.gradesDetailsSub.unsubscribe();
+    this.verticalChartSvgSub.unsubscribe();
+    this.summaryChartSvgSub.unsubscribe();
   }
 }

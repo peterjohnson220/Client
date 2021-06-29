@@ -1,0 +1,3 @@
+<pf-page-with-title-bar [returnUrl]="'/'">
+  <ng-container page-title>History: {{ (statement$ | async)?.StatementName }}</ng-container>
+</pf-page-with-title-bar>

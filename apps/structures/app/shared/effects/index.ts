@@ -5,3 +5,4 @@ export * from './singled-filter.effects';
 export * from './shared.effects';
 export * from './model-settings-modal.effects';
 export * from './formula-field-effects';
+export * from './duplicate-model-modal.effects';

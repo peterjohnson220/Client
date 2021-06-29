@@ -66,7 +66,6 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
 
   employeeForm: FormGroup;
   initialized = false;
-  genders = ['', 'Male', 'Female'];
   rates = ['Annual', 'Hourly'];
   yesNo: KendoTypedDropDownItem[] = [{Name: '', Value: null}, {Name: 'Y', Value: true}, {Name: 'N', Value: false}];
   filteredJobs: Job[];
@@ -80,6 +79,7 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
   hasTotalRewardsPermission: boolean;
 
   readonly MAX_EMAIL_LENGTH = 100;
+  readonly GENDER_MAX_LENGTH = 25;
   readonly DEFAULT_MAX_LENGTH = 255;
   readonly HOURLY_CONVERSION_RATE = 2080;
   readonly PAGE_SIZE = 20;

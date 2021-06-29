@@ -56,6 +56,7 @@ export class RangeFieldEditorComponent implements OnInit, OnDestroy, OnChanges {
   @Input() noRounding: true | false = false;
   @Input() reloadGridData = false;
   @Input() minValue = 1;
+  @Input() maxValue = 999999999999999;
 
   // Row information
   @Input() rangeGroupId: number;
@@ -118,8 +119,8 @@ export class RangeFieldEditorComponent implements OnInit, OnDestroy, OnChanges {
     this.settingsService.selectCompanySetting<boolean>(CompanySettingsEnum.CanEditCurrentStructureRanges)
     .subscribe(s => {
       if(!!s) {
-        this.canEditCurrentStructureRanges = s; 
-      } 
+        this.canEditCurrentStructureRanges = s;
+      }
     });
 
     this.hasCanCreateEditModelStructurePermission = this.permissionService.CheckPermission([Permissions.STRUCTURES_CREATE_EDIT_MODEL],

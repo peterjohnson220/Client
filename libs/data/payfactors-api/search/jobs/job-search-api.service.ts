@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 
 import {
   JobSearchAggregationRequest,
-  JobSearchPricingDataRequest,
   JobSearchPricingDataResponse,
   JobSearchRequest,
   JobSearchRequestStructuresRangeGroup,

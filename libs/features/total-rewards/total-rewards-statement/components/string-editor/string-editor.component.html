@@ -22,7 +22,7 @@
      [class.offScreen]="isInEditState"
      href="javascript:void(0)"
      (click)="enableEditState()"
-     class="editable d-flex"
+     class="editable d-flex cursor-pointer"
      [title]="getHoverText()"
      [ngClass]="showIcon === 'onHover' ? 'show-icon-on-hover' : '' ">
     <span #editText class="edit-text overflow-hidden d-inline-block mw-100">{{ getValueForDisplay() }}</span>

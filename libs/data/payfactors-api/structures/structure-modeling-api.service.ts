@@ -19,7 +19,6 @@ import {
   CurrentRangeGroupRequestModel,
   ConvertCurrencyAndRateRequestModel,
   GetStructureHasSettingsRequestModel,
-  CreateGradeBasedModelSettingsRequest,
   SaveGradeBasedModelSettingsRequest
 } from 'libs/models/payfactors-api';
 import { CompanyStructureRange, CompanyStructureRangeOverride } from 'libs/models/structures';
@@ -42,10 +41,6 @@ export class StructureModelingApiService {
 
   saveJobBasedModelSettings(request: SaveJobBasedModelSettingsRequest): Observable<SaveModelSettingsResponse> {
     return this.payfactorsApiService.post<SaveModelSettingsResponse>(`${this.endpoint}/SaveJobBasedModelSettings`, request);
-  }
-
-  createGradeBasedModelSettings(request: CreateGradeBasedModelSettingsRequest): Observable<SaveModelSettingsResponse> {
-    return this.payfactorsApiService.post<SaveModelSettingsResponse>(`${this.endpoint}/CreateGradeBasedModelSettings`, request);
   }
 
   saveGradeBasedModelSettings(request: SaveGradeBasedModelSettingsRequest): Observable<SaveModelSettingsResponse> {

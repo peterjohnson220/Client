@@ -103,6 +103,7 @@
           [visibleFieldsCount]="visibleFieldsCount$ | async"
           [activeEditorId]="activeRichTextEditorId$ | async"
           [isPageScrolling]="isPageScrolling$ | async"
+          [isAdditionalPageEnabled]="totalRewardsAdditionalPageFeatureFlag?.value"
           (onControlTitleChange)="handleOnControlTitleChange($event)"
           (onCalculationControlCompFieldTitleChange)="handleOnCalculationControlCompFieldTitleChange($event)"
           (onCalculationControlSummaryTitleChange)="handleOnCalculationControlSummaryTitleChange($event)"

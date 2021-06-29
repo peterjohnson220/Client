@@ -33,6 +33,10 @@ export class StructureRangeGroupApiService {
     return this.payfactorsApiService.post<number>(`${this.endpoint}(${companyStructureRangeGroupId})/Default.Publish`);
   }
 
+  deleteStructureModel(companyStructureRangeGroupId): Observable<any> {
+    return this.payfactorsApiService.delete<any>(`${this.endpoint}(${companyStructureRangeGroupId})`);
+  }
+
   getDetails(companyStructureRangeGroupId: number): Observable<any> {
     return this.payfactorsApiService.get<any>(`${this.endpoint}(${companyStructureRangeGroupId})/Default.GetDetail`);
   }
