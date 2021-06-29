@@ -115,7 +115,7 @@ export class PaymarketsGridComponent implements OnInit, AfterViewInit, OnDestroy
       this.selectedJobRow = row;
     });
 
-    this.companyPayMarketsSubscription = this.store.select(fromModifyPricingsReducer.getCompanyPayMarkets)
+    this.companyPayMarketsSubscription = this.store.select(fromModifyPricingsReducer.getPayMarketGroupedListItems)
       .subscribe(o => {
         if (!!o) {
           this.payMarketOptions = cloneDeep(o);
