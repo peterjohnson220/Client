@@ -12,6 +12,9 @@ import * as fromDataCardReducer from './data-card.reducer';
 import * as fromSummaryCardReducer from './summary-card.reducer';
 import * as fromJobGridReducer from './job-grid.reducer';
 import * as fromQuickPriceHistoryReducer from './quick-price-history.reducer';
+import * as fromTrendsLandingCardReducer from './trends-landing-card.reducer';
+import * as fromTrendsJobsCardReducer from './trends-jobs-card.reducer';
+import * as fromTrendsSummaryCardReducer from './trends-summary-card.reducer';
 
 // Feature area state
 export interface ComphubMainState {
@@ -23,6 +26,9 @@ export interface ComphubMainState {
   summaryCard: fromSummaryCardReducer.State;
   jobGrid: fromJobGridReducer.State;
   quickPriceHistory: fromQuickPriceHistoryReducer.State;
+  trendsLandingCard: fromTrendsLandingCardReducer.State;
+  trendsJobsCard: fromTrendsJobsCardReducer.State;
+  trendsSummaryCard: fromTrendsSummaryCardReducer.State;
 }
 
 // Extend root state with feature area state
@@ -39,7 +45,10 @@ export const reducers = {
   addPayMarketForm: fromAddPayMarketFormReducer.reducer,
   summaryCard: fromSummaryCardReducer.reducer,
   jobGrid: fromJobGridReducer.reducer,
-  quickPriceHistory: fromQuickPriceHistoryReducer.reducer
+  quickPriceHistory: fromQuickPriceHistoryReducer.reducer,
+  trendsLandingCard: fromTrendsLandingCardReducer.reducer,
+  trendsJobsCard: fromTrendsJobsCardReducer.reducer,
+  trendsSummaryCard: fromTrendsSummaryCardReducer.reducer
 };
 
 // Select Feature Area
@@ -86,6 +95,21 @@ export const selectQuickPriceHistoryState = createSelector(
   (state: ComphubMainState) => state.quickPriceHistory
 );
 
+export const selectTrendsLandingCardState = createSelector(
+  selectFeatureAreaState,
+  (state: ComphubMainState) => state.trendsLandingCard
+);
+
+export const selectTrendsJobsCardState = createSelector(
+  selectFeatureAreaState,
+  (state: ComphubMainState) => state.trendsJobsCard
+);
+
+export const selectTrendsSummaryCardState = createSelector(
+  selectFeatureAreaState,
+  (state: ComphubMainState) => state.trendsSummaryCard
+);
+
 // Jobs Card
 export const getTrendingJobGroups = createSelector(
   selectJobsCardState,
@@ -125,6 +149,11 @@ export const getLoadingJobSearchOptionsError = createSelector(
 export const getSelectedJob = createSelector(
   selectJobsCardState,
   fromJobsCardReducer.getSelectedJob
+);
+
+export const getSelectedExchangeJobs = createSelector(
+  selectTrendsJobsCardState,
+  fromTrendsJobsCardReducer.getSelectedExchangeJobs
 );
 
 export const getSelectedExchangeJobId = createSelector(
@@ -198,14 +227,19 @@ export const getActiveExchangeDataSet = createSelector(
   fromComphubPageReducer.getActiveExchangeDataSet
 );
 
+export const getActiveExchangeId = createSelector(
+  getActiveExchangeDataSet,
+  (exchangeDataSet) => exchangeDataSet?.ExchangeId ?? null
+);
+
 export const getWorkflowContext = createSelector(
   selectComphubPageState,
   fromComphubPageReducer.getWorkflowContext
 );
 
-export const getQuickPriceType = createSelector(
+export const getComphubType = createSelector(
   getWorkflowContext,
-  (context) => context.quickPriceType
+  (context) => context.comphubType
 );
 
 export const getIsQuickPriceHistoryOpen = createSelector(
@@ -438,4 +472,41 @@ export const getLoadingJobDataHistory = createSelector(
 export const getLoadingJobDataHistoryErrorMessage = createSelector(
   selectQuickPriceHistoryState,
   fromQuickPriceHistoryReducer.getLoadingJobDataHistoryErrorMessage
+);
+
+// Trends Landing Card
+export const getNewExchangeParticipants = createSelector(
+  selectTrendsLandingCardState,
+  fromTrendsLandingCardReducer.getNewExchangeParticipants
+);
+
+export const getOrgIncCountHistory = createSelector(
+  selectTrendsLandingCardState,
+  fromTrendsLandingCardReducer.getOrgIncCountHistory
+);
+
+// Trends Summary Card
+export const getPeerTrends = createSelector(
+  selectTrendsSummaryCardState,
+  fromTrendsSummaryCardReducer.getPeerTrends
+);
+
+export const getPeerTrendsSummaryDetails = createSelector(
+  selectTrendsSummaryCardState,
+  fromTrendsSummaryCardReducer.getPeerTrendsSummaryDetails
+);
+
+export const getPeerTrendsDomain = createSelector(
+  selectTrendsSummaryCardState,
+  fromTrendsSummaryCardReducer.getPeerTrendsDomain
+);
+
+export const getDisplaySavePeerTrendModal = createSelector (
+  selectTrendsSummaryCardState,
+  fromTrendsSummaryCardReducer.getDisplaySavePeerTrendModal
+);
+
+export const getSavingPeerTrend = createSelector (
+  selectTrendsSummaryCardState,
+  fromTrendsSummaryCardReducer.getSavingPeerTrend
 );

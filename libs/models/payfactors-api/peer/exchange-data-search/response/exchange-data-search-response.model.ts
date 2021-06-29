@@ -18,3 +18,26 @@ export function generateMockExchangeDataSearchResponse(): ExchangeDataSearchResp
     KeepFilteredOutOptions: true
   };
 }
+
+export interface HistoricalExchangeDataSearchResponse {
+  PricingHistoryCollection: PayRateDate[];
+}
+
+export interface PayRateDate {
+  EffectiveDate: Date;
+  BasePay: number;
+  Incs: number;
+  Orgs: number;
+  ExchangeJobCount: number;
+  CompanyJobCount: number;
+}
+
+export interface HistoricalExchangeOrgIncCountResponse {
+  OrgIncCountCollection: OrgIncCount[];
+}
+
+export interface OrgIncCount {
+  EffectiveDate: Date;
+  OrgCount: number;
+  IncCount: number;
+}

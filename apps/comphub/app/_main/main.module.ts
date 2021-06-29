@@ -1,80 +1,105 @@
 import { NgModule } from '@angular/core';
-import { CommonModule, CurrencyPipe } from '@angular/common';
+import { CommonModule, CurrencyPipe, DatePipe, PercentPipe } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
-import { ChartModule } from '@progress/kendo-angular-charts';
 import { PDFExportModule } from '@progress/kendo-angular-pdf-export';
+import { HighchartsChartModule } from 'highcharts-angular';
 import 'hammerjs';
 import {
   NgbModalModule,
-  NgbPaginationModule,
+  NgbPaginationModule, NgbPopoverModule,
   NgbProgressbarModule,
   NgbTooltipModule
 } from '@ng-bootstrap/ng-bootstrap';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 
-import { PfCommonModule, WindowCommunicationService } from 'libs/core';
+import { HumanizeNumberPipe, PfCommonModule, WindowCommunicationService } from 'libs/core';
 import { WindowRef } from 'libs/core/services';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { GuidelinesBadgeModule } from 'libs/features/peer/guidelines-badge/guidelines-badge.module';
 import { PfExchangeExplorerModule } from 'libs/features/peer/exchange-explorer';
 import { DojGuidelinesService } from 'libs/features/peer/guidelines-badge/services/doj-guidelines.service';
-
+import { BasicDataGridModule } from 'libs/features/grids/basic-data-grid';
+import { PfSideBarInfoModule } from 'libs/features/side-bar-info/side-bar-info.module';
+import { PfPeerExchangeJobSearchModule } from 'libs/features/peer/exchange-job-search/exchange-job-search.module';
+import { PfDataGridModule } from 'libs/features/grids/pf-data-grid';
 
 import {
-  ComphubPageComponent, JobsCardComponent, MarketsCardComponent, CardLayoutComponent,
-  SummaryCardComponent, PeerDataCardComponent, ParentDataCardComponent, QuickPriceHistoryComponent,
-  ComphubFooterComponent, JobGridComponent, MarketDataJobGridComponent, PeerJobGridComponent
+  ComphubPageComponent,
+  JobsCardComponent,
+  MarketsCardComponent,
+  CardLayoutComponent,
+  SummaryCardComponent,
+  PeerDataCardComponent,
+  ParentDataCardComponent,
+  QuickPriceHistoryComponent,
+  ComphubFooterComponent,
+  JobGridComponent,
+  MarketDataJobGridComponent,
+  PeerJobGridComponent,
+  TrendsPageComponent,
+  TrendsLandingCardComponent,
+  TrendsSummaryCardComponent,
+  TrendsScopesCardComponent,
+  TrendsJobsCardComponent,
+  QuickPricePageComponent,
+  SavePeerTrendModalComponent,
+  PeerTrendGridComponent,
 } from './containers';
-import { JobsCardEffects, MarketsCardEffects, AddPayMarketFormEffects, DataCardEffects, ComphubPageEffects,
-  SummaryCardEffects, JobGridEffects, QuickPriceHistoryEffects } from './effects';
+import {
+  JobsCardEffects, MarketsCardEffects, AddPayMarketFormEffects, DataCardEffects, ComphubPageEffects,
+  SummaryCardEffects, JobGridEffects, QuickPriceHistoryEffects, TrendsLandingCardEffects, TrendsSummaryCardEffects
+} from './effects';
 import { reducers } from './reducers';
 import { TrendingJobGroupComponent, CardComponent, PaymarketCardsComponent, AddPayMarketFormComponent, SalaryBarChartComponent,
-  SalaryTrendChartComponent, SharePricingSummaryModalComponent, GlossaryOfTermsComponent } from './components';
+  SalaryTrendChartComponent, SharePricingSummaryModalComponent, GlossaryOfTermsComponent, NewExchangeParticipantsComponent } from './components';
 import { MainRoutingModule } from './main-routing.module';
 import * as fromFaIcons from './fa-icons';
-import { BasicDataGridModule } from 'libs/features/grids/basic-data-grid';
+import { HistoricalTrendChartComponent } from './components/salary-trend-chart/historical-trend-chart/historical-trend-chart.component';
+import { HistoricalOrgIncCountChartComponent } from './components/salary-trend-chart/historical-org-inc-count-chart/historical-org-inc-count-chart.component';
 
 @NgModule({
-    imports: [
-        // Angular
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
+  imports: [
+    // Angular
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
 
-        // 3rd Party
-        StoreModule.forFeature('comphub_main', reducers),
-        EffectsModule.forFeature([
-            JobsCardEffects,
-            DataCardEffects,
-            MarketsCardEffects,
-            AddPayMarketFormEffects,
-            ComphubPageEffects,
-            SummaryCardEffects,
-            JobGridEffects,
-            QuickPriceHistoryEffects
-        ]),
-        PerfectScrollbarModule,
-        PDFExportModule,
-        FontAwesomeModule,
+    // 3rd Party
+    StoreModule.forFeature('comphub_main', reducers),
+    EffectsModule.forFeature([
+      JobsCardEffects,
+      DataCardEffects,
+      MarketsCardEffects,
+      AddPayMarketFormEffects,
+      ComphubPageEffects,
+      SummaryCardEffects,
+      JobGridEffects,
+      QuickPriceHistoryEffects,
+      TrendsLandingCardEffects,
+      TrendsSummaryCardEffects
+    ]),
+    PerfectScrollbarModule,
+    PDFExportModule,
+    FontAwesomeModule,
 
-        // Routing
-        MainRoutingModule,
+    // Routing
+    MainRoutingModule,
 
-        // 3rd Party
-        DropDownsModule,
-        GridModule,
-        ChartModule,
-        NgbPaginationModule,
-        NgbModalModule,
-        NgbProgressbarModule,
-        NgbTooltipModule,
+    // 3rd Party
+    DropDownsModule,
+    GridModule,
+    NgbPaginationModule,
+    NgbModalModule,
+    NgbProgressbarModule,
+    NgbTooltipModule,
+    HighchartsChartModule,
 
         // Payfactors
         PfCommonModule,
@@ -82,7 +107,10 @@ import { BasicDataGridModule } from 'libs/features/grids/basic-data-grid';
         PfFormsModule,
         PfExchangeExplorerModule,
         GuidelinesBadgeModule,
-        BasicDataGridModule
+        BasicDataGridModule,
+        PfSideBarInfoModule,
+        PfPeerExchangeJobSearchModule,
+        PfDataGridModule
     ],
   declarations: [
     // Components
@@ -91,11 +119,15 @@ import { BasicDataGridModule } from 'libs/features/grids/basic-data-grid';
     AddPayMarketFormComponent,
     SalaryBarChartComponent,
     SalaryTrendChartComponent,
+    HistoricalTrendChartComponent,
+    HistoricalOrgIncCountChartComponent,
     SharePricingSummaryModalComponent,
     GlossaryOfTermsComponent,
+    SavePeerTrendModalComponent,
 
     // Pages
     ComphubPageComponent,
+    TrendsPageComponent,
     JobsCardComponent,
     MarketsCardComponent,
     CardLayoutComponent,
@@ -107,13 +139,23 @@ import { BasicDataGridModule } from 'libs/features/grids/basic-data-grid';
     ComphubFooterComponent,
     JobGridComponent,
     MarketDataJobGridComponent,
-    PeerJobGridComponent
+    PeerJobGridComponent,
+    TrendsLandingCardComponent,
+    TrendsJobsCardComponent,
+    TrendsScopesCardComponent,
+    TrendsSummaryCardComponent,
+    QuickPricePageComponent,
+    NewExchangeParticipantsComponent,
+    PeerTrendGridComponent
   ],
   providers: [
     WindowRef,
     CurrencyPipe,
+    DatePipe,
     WindowCommunicationService,
-    DojGuidelinesService
+    DojGuidelinesService,
+    PercentPipe,
+    HumanizeNumberPipe
   ]
 })
 export class MainModule {

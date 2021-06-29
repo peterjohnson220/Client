@@ -20,7 +20,7 @@ exports[`User Menu should show homepage link, when provided 1`] = `
       />
     </a>
     
-    
+    <pf-notification-badge />
     <pf-layout-wrapper-user-menu />
   </nav>
 </pf-layout-wrapper-header>
@@ -45,7 +45,7 @@ exports[`User Menu should show the header 1`] = `
       />
     </a>
     
-    
+    <pf-notification-badge />
     <pf-layout-wrapper-user-menu />
   </nav>
 </pf-layout-wrapper-header>

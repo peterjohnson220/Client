@@ -7,12 +7,12 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import {Action, Store} from '@ngrx/store';
 
 import { JobsApiService, PricingApiService } from 'libs/data/payfactors-api';
-import { getSearchFilters } from '../../../surveys/survey-search/data';
-import { PayfactorsApiModelMapper } from '../helpers';
 import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
+import * as fromTempDataCutReducer from 'libs/features/temp-data-cut/reducers';
 
 import { SurveySearchFiltersHelper } from '../../../surveys/survey-search/helpers';
-
+import { getSearchFilters } from '../../../surveys/survey-search/data';
+import { PayfactorsApiModelMapper } from '../helpers';
 import * as fromModifyPricingsActions from '../actions/modify-pricings.actions';
 import * as fromContextActions from '../../../surveys/survey-search/actions/context.actions';
 import * as fromSearchFiltersActions from '../../../search/search/actions/search-filters.actions';
@@ -68,7 +68,7 @@ export class ModifyPricingsEffects {
     ofType(fromModifyPricingsActions.MODIFY_PRICINGS),
     withLatestFrom(
       this.store.select(fromMultiMatchReducer.getJobsToPrice),
-      this.store.select(fromMultiMatchReducer.getTempDataCutFilterContextDictionary),
+      this.store.select(fromTempDataCutReducer.getTempDataCutFilterContextDictionary),
       (action, jobsToPrice, tempPeerDataCutFilterContextDictionary) =>
         ({ jobsToPrice, tempPeerDataCutFilterContextDictionary })
     ),

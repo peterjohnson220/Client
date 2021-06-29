@@ -1,0 +1,39 @@
+<pf-async-container [loading]="(resultsLoading$ | async)"
+                    [loadingError]="(resultsLoadingError$ | async)">
+  <pf-search-layout [countLabel]="'Exchange Jobs'" [resultsCount]="numberOfResults$ | async" class="h-100">
+
+    <ng-container sidebar>
+      <pf-search-filters
+        [defaultFocusedFilterId]="'peerHistoryTrendsOmniSearch'"
+        [visible]="!(searchingFilter$ | async)">
+      </pf-search-filters>
+
+      <pf-single-filter
+        *ngIf="!!(searchingFilter$ | async)">
+      </pf-single-filter>
+    </ng-container>
+
+    <ng-container content>
+      <pf-results-header class="position-relative" [savedFiltersEnabled]="true"></pf-results-header>
+      <pf-exchange-job-search-results class="position-relative h-100"></pf-exchange-job-search-results>
+    </ng-container>
+
+    <ng-container action-buttons>
+      <button class="btn btn-sm btn-secondary m-2 clear-selections position-absolute"
+              [disabled]="selectedExchangeJobCount === 0"
+              (click)="handleClearSelectedExchangeJobs()">
+        Clear Selections
+      </button>
+
+      <button class="btn btn-sm btn-secondary m-2 select-all" (click)="handleAddAllEmployees()">
+        <ng-container>
+          Add All
+          <span *ngIf="(searchResultsCount$ | async) > 0">
+                {{ getAssignmentMaximum() }}
+              </span>
+        </ng-container>
+      </button>
+    </ng-container>
+
+  </pf-search-layout>
+</pf-async-container>

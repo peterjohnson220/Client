@@ -1,0 +1,35 @@
+<pf-card-layout
+  pageTitle="Jobs"
+  pageIconClass="file-alt"
+  [page]="comphubPages.TrendsJobs">
+
+  <ng-container page-content>
+    <div class="row">
+      <div class="col-md-12">
+        <kendo-autocomplete
+          #exchangeJobSearch
+          valueField="JobTitle"
+          class="w-100 mt-4"
+          placeholder="Search for a Job Title..."
+          [data]="(exchangeJobSearchOptions$ | async)"
+          [value]="(selectedJob$ | async)"
+          [filterable]="true"
+          [loading]="loadingJobSearchOptions$ | async"
+          [popupSettings]="popupSettings"
+          [attr.data-qa-id]="'txt-job-search'"
+          (close)="handleSearchClosed()"
+          (valueChange)="handleJobSearchValueChanged($event)"
+          (filterChange)="handleJobSearchFilterChange($event)">
+          <ng-template kendoAutoCompleteNoDataTemplate>
+            No matching job titles
+          </ng-template>
+        </kendo-autocomplete>
+
+
+      </div>
+    </div>
+    <div class="h-100">
+      <pf-exchange-job-search [exchangeId$]="activeExchangeId$"></pf-exchange-job-search>
+    </div>
+  </ng-container>
+</pf-card-layout>

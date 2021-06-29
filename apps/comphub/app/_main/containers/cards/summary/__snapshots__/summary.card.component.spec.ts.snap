@@ -18,7 +18,7 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
   filterContextHasFilters="false"
   firstDayOfMonth={[Function Date]}
   glossaryOpen$={[Function Store]}
-  isPeerQuickPriceType="false"
+  isPeerComphubType="false"
   jobData="null"
   mapSummary$={[Function Store]}
   maxPaymarketMinimumWage$={[Function Observable]}
@@ -1083,7 +1083,7 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
   filterContextHasFilters="false"
   firstDayOfMonth={[Function Date]}
   glossaryOpen$={[Function Store]}
-  isPeerQuickPriceType="false"
+  isPeerComphubType="false"
   jobData="null"
   mapSummary$={[Function Store]}
   maxPaymarketMinimumWage$={[Function Store]}
@@ -2148,7 +2148,7 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
   filterContextHasFilters="false"
   firstDayOfMonth={[Function Date]}
   glossaryOpen$={[Function Store]}
-  isPeerQuickPriceType="false"
+  isPeerComphubType="false"
   jobData="null"
   mapSummary$={[Function Store]}
   maxPaymarketMinimumWage$={[Function Store]}
@@ -3213,7 +3213,7 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
   filterContextHasFilters="false"
   firstDayOfMonth={[Function Date]}
   glossaryOpen$={[Function Store]}
-  isPeerQuickPriceType="false"
+  isPeerComphubType="false"
   jobData="null"
   mapSummary$={[Function Store]}
   maxPaymarketMinimumWage$={[Function Observable]}
@@ -4278,7 +4278,7 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
   filterContextHasFilters="false"
   firstDayOfMonth={[Function Date]}
   glossaryOpen$={[Function Store]}
-  isPeerQuickPriceType="false"
+  isPeerComphubType="false"
   jobData="null"
   mapSummary$={[Function Store]}
   maxPaymarketMinimumWage$={[Function Observable]}
@@ -5343,7 +5343,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
   filterContextHasFilters="false"
   firstDayOfMonth={[Function Date]}
   glossaryOpen$={[Function Store]}
-  isPeerQuickPriceType="false"
+  isPeerComphubType="false"
   jobData="null"
   mapSummary$={[Function Store]}
   maxPaymarketMinimumWage$={[Function Store]}
@@ -6408,7 +6408,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
   filterContextHasFilters="false"
   firstDayOfMonth={[Function Date]}
   glossaryOpen$={[Function Store]}
-  isPeerQuickPriceType="false"
+  isPeerComphubType="false"
   jobData="null"
   mapSummary$={[Function Store]}
   maxPaymarketMinimumWage$={[Function Store]}
@@ -7473,7 +7473,7 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
   filterContextHasFilters="false"
   firstDayOfMonth={[Function Date]}
   glossaryOpen$={[Function Store]}
-  isPeerQuickPriceType="false"
+  isPeerComphubType="false"
   jobData="null"
   mapSummary$={[Function Store]}
   maxPaymarketMinimumWage$={[Function Store]}

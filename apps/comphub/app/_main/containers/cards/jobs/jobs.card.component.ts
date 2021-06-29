@@ -6,7 +6,7 @@ import { AutoCompleteComponent, PopupSettings } from '@progress/kendo-angular-dr
 import * as fromRootReducer from 'libs/state/state';
 import * as fromBasicDataGridReducer from 'libs/features/grids/basic-data-grid/reducers';
 import { UserContext } from 'libs/models/security';
-import { QuickPriceType, SystemUserGroupNames } from 'libs/constants';
+import { ComphubType, SystemUserGroupNames } from 'libs/constants';
 import { ExchangeJobSearchOption } from 'libs/models/peer/ExchangeJobSearchOption';
 import { AsyncStateObj } from 'libs/models/state';
 
@@ -55,7 +55,7 @@ export class JobsCardComponent implements OnInit, OnDestroy {
   popupSettings: PopupSettings;
   comphubPages = ComphubPages;
   workflowContext: WorkflowContext;
-  isPeerQuickPriceType: boolean;
+  isPeerComphubType: boolean;
 
   constructor(
     private store: Store<fromComphubMainReducer.State>,
@@ -89,7 +89,7 @@ export class JobsCardComponent implements OnInit, OnDestroy {
     this.workflowContextSub = this.workflowContext$.subscribe(wfc => {
       if (!!wfc) {
         this.workflowContext = wfc;
-        this.isPeerQuickPriceType = this.workflowContext.quickPriceType === QuickPriceType.PEER;
+        this.isPeerComphubType = this.workflowContext.comphubType === ComphubType.PEER;
       }
     });
     this.pricedJobsCount$ = this.basicGridStore.select(fromBasicDataGridReducer.getTotalCount, QuickPriceHistoryContext.gridId);
@@ -97,7 +97,7 @@ export class JobsCardComponent implements OnInit, OnDestroy {
 
   handleJobSearchFilterChange(searchTerm: string): void {
     if (searchTerm?.length > 0) {
-      this.workflowContext.quickPriceType === QuickPriceType.PEER ?
+      this.workflowContext.comphubType === ComphubType.PEER ?
       this.store.dispatch(new fromJobsCardActions.GetExchangeJobSearchOptions(searchTerm)) :
       this.store.dispatch(new fromJobsCardActions.GetJobSearchOptions(searchTerm));
     } else if (this.selectedJob) {
@@ -116,7 +116,7 @@ export class JobsCardComponent implements OnInit, OnDestroy {
   handleSearchClosed(): void {
     // after the search is closed, make sure we trigger the job change if there is a mismatch
     setTimeout(() => {
-      const searchField = this.isPeerQuickPriceType ? this.exchangeJobSearch : this.jobSearch;
+      const searchField = this.isPeerComphubType ? this.exchangeJobSearch : this.jobSearch;
       if (searchField?.value && searchField.value !== this.selectedJob) {
         this.handleJobSearchValueChanged(searchField.value);
       }
@@ -125,7 +125,7 @@ export class JobsCardComponent implements OnInit, OnDestroy {
 
   handleTrendingJobClicked(trendingJob: any) {
     const jobTitle = !!trendingJob.Value ? trendingJob.Value : trendingJob;
-    if (this.isPeerQuickPriceType) {
+    if (this.isPeerComphubType) {
       this.store.dispatch(new fromJobsCardActions.SetSelectedJob({jobTitle: jobTitle, exchangeJobId: trendingJob.Key }));
     } else {
       this.store.dispatch(new fromJobsCardActions.SetSelectedJob({ jobTitle }));

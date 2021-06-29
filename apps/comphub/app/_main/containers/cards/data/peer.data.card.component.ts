@@ -148,7 +148,7 @@ export class PeerDataCardComponent implements OnInit, OnDestroy {
               type: 'Set Context',
               payload: {
                 exchangeId: this.selectedExchangeId,
-                exchangeJobId: this.selectedExchangeJobId,
+                exchangeJobIds: [ this.selectedExchangeJobId ],
                 isExchangeSpecific: true,
                 companyPayMarketId: this.selectedPayMarketId
               }

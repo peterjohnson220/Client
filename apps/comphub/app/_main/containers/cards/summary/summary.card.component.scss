@@ -312,6 +312,13 @@
         }
       }
     }
+
+    .salary-chart {
+      display: none;
+    }
+    .export-chart {
+      display: block;
+    }
   }
 
   @media (max-width: 1250px) {

@@ -19,14 +19,14 @@ import * as fromSearchFiltersActions from 'libs/features/search/search/actions/s
 import * as fromSurveySearchResultsActions from 'libs/features/surveys/survey-search/actions/survey-search-results.actions';
 import * as fromDataCutValidationActions from 'libs/features/peer/actions/data-cut-validation.actions';
 import * as fromSearchReducer from 'libs/features/search/search/reducers';
+import * as fromTempDataCutActions from 'libs/features/temp-data-cut/actions/temp-data-cut.actions';
 
 import { JobToPrice } from '../models';
-import { TempDataCutService } from '../services';
+import { TempDataCutService } from '../../../temp-data-cut/services';
 import { LEGACY_PROJECTS, MODIFY_PRICINGS } from '../constants';
 import * as fromMultiMatchPageActions from '../actions/multi-match-page.actions';
 import * as fromJobsToPriceActions from '../actions/jobs-to-price.actions';
 import * as fromModifyPricingsActions from '../actions/modify-pricings.actions';
-import * as fromTempDataCutActions from '../actions/temp-data-cut.actions';
 import * as fromMultiMatchReducer from '../reducers';
 
 @Component({
