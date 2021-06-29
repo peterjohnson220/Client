@@ -7,10 +7,14 @@ $auth-header-text-color: $pf-brand-primary-color;
   display: none;
 }
 
-body.payscale-rebrand {
-  background: url("^assets/images/waves.png");
-  background-position-x: center;
-  background-size: cover;
+html.payscale-rebrand {
+  background-color: transparent;
+  body {
+    background: url("^assets/images/waves.png");
+    background-position-x: center;
+    background-size: cover;
+    background-color: transparent;
+  }
   // TODO: remove this rule when `restyle-login` feature flag is deprecated
   .payscale-logo {
     display: block;
