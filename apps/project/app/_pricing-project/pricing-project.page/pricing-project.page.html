@@ -16,6 +16,7 @@
   [actionBarConfig]="actionBarConfig"
   [hideKendoGrid] = "viewingJobSummary"
   [gridReplacementTemplate] = "jobSummary"
+  [displaySelectAllWarning] = "!viewingJobSummary"
   [noRecordsFound]="'No jobs available in this project.'">
 </pf-data-grid>
 
@@ -139,6 +140,7 @@
 </ng-template>
 
 <ng-template #jobSummary>
+  <ng-container *ngIf="viewingJobSummary">
     <pf-job-summary
       [projectRate]="(project$ | async)?.Rate"
       [baseMrp] = "(project$ | async)?.BaseReferencePoint"
@@ -148,4 +150,5 @@
       [projectJobIds]="selectedRowIds"
       [defaultPaymarket] = "(project$ | async)?.PayMarketProjectMap?.PayMarket?.Name">
     </pf-job-summary>
+  </ng-container>
 </ng-template>

@@ -107,6 +107,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() hideKendoGrid = false;
   @Input() gridReplacementTemplate: TemplateRef<any>;
   @Input() hidePageSizes = false;
+  @Input() displaySelectAllWarning = true;
   @ViewChild('splitViewContainer', { static: false }) splitViewContainer: ElementRef;
 
   splitViewEmitter = new EventEmitter<string>();
