@@ -1,20 +1,19 @@
-import {AfterViewInit, Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild, EventEmitter} from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild, EventEmitter } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { SortDescriptor } from '@progress/kendo-data-query';
+
 import * as Highcharts from 'highcharts';
-import {Observable, Subscription} from 'rxjs';
-import {Store} from '@ngrx/store';
-import {SortDescriptor} from '@progress/kendo-data-query';
 
-import {ActionBarConfig, getDefaultActionBarConfig, GridConfig} from 'libs/features/grids/pf-data-grid/models';
+import { ActionBarConfig, getDefaultActionBarConfig, GridConfig } from 'libs/features/grids/pf-data-grid/models';
+import { PagingOptions } from 'libs/models/payfactors-api/search/request';
+import { UserContext } from 'libs/models/security';
+import { OrdinalNumberPipe } from 'libs/core/pipes';
 import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
-import {PagingOptions} from 'libs/models/payfactors-api/search/request';
-import {UserContext} from 'libs/models/security';
+import * as fromPfDataGridActions from 'libs/features/grids/pf-data-grid/actions';
 import * as fromRootState from 'libs/state/state';
-import {OrdinalNumberPipe} from 'libs/core/pipes';
 
-import {PageViewIds} from '../../../../shared/constants';
-
-
-
+import { PageViewIds } from '../../../../shared/constants';
 
 @Component({
   selector: 'pf-job-summary',
@@ -37,9 +36,11 @@ export class JobSummaryComponent implements OnInit, OnChanges, AfterViewInit, On
   @ViewChild('paymarketColumn', { static: false }) paymarketColumn: ElementRef;
   @ViewChild('compColumn', { static: false }) compColumn: ElementRef;
   @ViewChild('chart', { static: false }) chartTemplate: ElementRef;
+
   pagingOptions: PagingOptions = { From: 0, Count: 10 };
   columnHeaderTemplates = {};
   actionBarConfig: ActionBarConfig;
+
   defaultSort: SortDescriptor[] = [{
     dir: 'asc',
     field: 'vw_ProjectJobPayMarketMetadata_Job_Title'
@@ -47,15 +48,28 @@ export class JobSummaryComponent implements OnInit, OnChanges, AfterViewInit, On
     dir: 'asc',
     field: 'vw_ProjectJobPayMarketMetadata_Paymarket'
   }];
+
   userContext$: Observable<UserContext>;
   Highcharts: typeof Highcharts = Highcharts;
   chartConstructor = 'chart'; // optional string, defaults to 'chart'
   chartInstance: Highcharts.Chart;
+
   chartOptions = {
     plotOptions: {
-      bar: { grouping: true, groupPadding: 0.1, dataLabels: {}, stacking: 'normal'},
-      series: { states: { inactive: { opacity: 1 } } }
+      bar: {
+        grouping: true,
+        groupPadding: 0.1,
+        dataLabels: {},
+        stacking: 'normal'
       },
+      series: {
+        states: {
+          inactive: {
+            opacity: 1
+          }
+        }
+      }
+    },
     chart: {
       type: 'bar',
       height: 350
@@ -88,6 +102,7 @@ export class JobSummaryComponent implements OnInit, OnChanges, AfterViewInit, On
     series: null,
     title: null
   };
+
   updateFlag: boolean;
   gridConfig: GridConfig;
   filters = [];
@@ -105,7 +120,7 @@ export class JobSummaryComponent implements OnInit, OnChanges, AfterViewInit, On
     this.userContext$ = this.store.select(fromRootState.getUserContext);
     this.dataRowsSubscription = this.store.select(fromPfDataGridReducer.getData, this.pageViewId).subscribe( data => {
       if (data) {
-       this.setChartData(data);
+        this.setChartData(data);
       }
     });
   }
@@ -116,10 +131,10 @@ export class JobSummaryComponent implements OnInit, OnChanges, AfterViewInit, On
     };
 
     this.columnHeaderTemplates = {
-      'vw_ProjectJobPayMarketMetadata_BaseMRP': {Template: this.baseMrpColumn},
-      'vw_ProjectJobPayMarketMetadata_TCCMRP': {Template: this.tccMrpColumn},
-      'vw_ProjectJobPayMarketMetadata_EmpAvgBase': {Template: this.companyColumn},
-      'vw_ProjectJobPayMarketMetadata_EmpAvgTCC': {Template: this.companyColumn},
+      'vw_ProjectJobPayMarketMetadata_BaseMRP': { Template: this.baseMrpColumn },
+      'vw_ProjectJobPayMarketMetadata_TCCMRP': { Template: this.tccMrpColumn },
+      'vw_ProjectJobPayMarketMetadata_EmpAvgBase': { Template: this.companyColumn },
+      'vw_ProjectJobPayMarketMetadata_EmpAvgTCC': { Template: this.companyColumn },
     };
   }
   ngOnChanges(changes: SimpleChanges) {
@@ -145,6 +160,7 @@ export class JobSummaryComponent implements OnInit, OnChanges, AfterViewInit, On
 
   ngOnDestroy(): void {
     this.dataRowsSubscription.unsubscribe();
+    this.store.dispatch(new fromPfDataGridActions.ResetData(this.pageViewId));
   }
 
   setChartData(dataRows) {
