@@ -14,6 +14,11 @@
   [pageTheme]="pfThemeType.NextGen"
   [contentClassNamesOverrides]="'py-3 px-4'"
   [borders]="false"
+  [gridContainerSplitViewWidth]="'60%'"
+  [showSplitViewToggle]="showVerticalChart ? false : true"
+  [splitViewTemplate]="showVerticalChart ? null : horizontalGraph"
+  [syncScrollWithSplit]="showVerticalChart ? false : true"
+  [splitOnSelection]="false"
   [reorderable]="reorderable"
   [gridRowActionsConfig]="null"
   [gridActionsTemplate]="gridActions"
@@ -26,6 +31,7 @@
   [flexColumnContainerHeightAuto]="false"
   [filterPanelTemplates]="filterTemplates"
   [additionalDataForExport]="this.chartSvgs"
+  [hideOverflow]="false"
 >
 </pf-data-grid>
 
@@ -62,7 +68,7 @@
       </div>
     </div>
   </div>
-  <div class="card grade-vertical-chart-container">
+  <div class="card grade-vertical-chart-container" *ngIf="showVerticalChart">
     <div class="card-header" (click)="isRangeChartCollapsed = !isRangeChartCollapsed" [style.cursor]="'pointer'">
       <span class="title">Ranges</span>
       <fa-icon
@@ -84,6 +90,10 @@
   </div>
 </ng-template>
 
+<ng-template #horizontalGraph>
+  <pf-grade-based-horizontal-range-chart></pf-grade-based-horizontal-range-chart>
+</ng-template>
+
 <ng-template #noValue>
   - -
 </ng-template>
@@ -99,7 +109,15 @@
 </ng-template>
 
 <ng-template #gridActionsRightTemplate>
-  <pf-grid-context [metadata]="metaData$ | async"></pf-grid-context>
+  <pf-grid-context [metadata]="metaData$ | async">
+      <button right-of-metadata-text-content [attr.data-qa-id]="'btn-structures-toggle-vertical-chart'"
+              (click)="handleChartViewToggle()"
+              class="btn btn-secondary pf-btn btn-chart-view">
+        <fa-icon icon="chart-bar"></fa-icon>
+        <span *ngIf="showVerticalChart">View Horizontal</span>
+        <span *ngIf="!showVerticalChart">View Vertical</span>
+      </button>
+  </pf-grid-context>
 </ng-template>
 
 <ng-template #gridGlobalActions>

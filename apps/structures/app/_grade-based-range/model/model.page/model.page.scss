@@ -37,3 +37,7 @@
 :host::ng-deep .content-wrapper {
   overflow: auto;
 }
+
+:host ::ng-deep .split-view-container {
+  overflow: unset !important;
+}

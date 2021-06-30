@@ -66,6 +66,7 @@ export interface DataGridState {
   fadeInKeys: any[];
   fieldsWithCustomFilterTemplates: string[];
   customFilterOptions: PfDataGridCustomFilterOptions[];
+  splitViewHidden: boolean;
 }
 
 export interface DataGridStoreState {
@@ -186,6 +187,7 @@ export const getLastUpdateFieldsDate = (state: DataGridStoreState, pageViewId: s
 export const getVisibleKeys = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].visibleKeys;
 export const getUnexpectedError = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].unexpectedError;
 export const getFadeInKeys = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].fadeInKeys : null;
+export const getSplitViewHidden = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].splitViewHidden;
 
 export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGridActions): DataGridStoreState {
   switch (action.type) {
@@ -1234,6 +1236,17 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
             ...state.grids[action.pageViewId],
             customFilterOptions: action.payload,
             savedViews: updateSavedViewsDescription(state.grids[action.pageViewId].savedViews, action.payload)
+          }
+        }
+      };
+    case fromPfGridActions.SET_SPLIT_VIEW_HIDDEN:
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            splitViewHidden: action.payload
           }
         }
       };
