@@ -5,7 +5,15 @@ import { map, switchMap, catchError, withLatestFrom, mergeMap, groupBy, debounce
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, Store, select } from '@ngrx/store';
 
-import { DataViewConfig, DataViewEntityResponseWithCount, PagingOptions, DataViewType, ExportGridRequest, DataView } from 'libs/models/payfactors-api';
+import {
+  DataViewConfig,
+  DataViewEntityResponseWithCount,
+  PagingOptions,
+  DataViewType,
+  ExportGridRequest,
+  DataView,
+  ViewField
+} from 'libs/models/payfactors-api';
 import { DataViewApiService } from 'libs/data/payfactors-api';
 
 import * as fromPfDataGridActions from '../actions';
@@ -362,11 +370,16 @@ export class PfDataGridEffects {
         )
       ),
       switchMap((data) => {
-        let fields = data.fields.filter(f => !data.fieldsExcludedFromExport || data.fieldsExcludedFromExport.indexOf(f.SourceName) === -1);
+        const fields: ViewField[]  = data.fields.filter(f =>
+          (!data.fieldsExcludedFromExport || data.fieldsExcludedFromExport.indexOf(f.SourceName) === -1) && f.IsSelected);
 
-        if (!data.action.exportAllFields) {
-          fields = fields.filter(x => x.IsSelected);
-        }
+        data.action.exportHiddenFields.forEach(sourceName => {
+          const isMissingField = fields.find(x => x.SourceName === sourceName) === undefined;
+
+          if (isMissingField) {
+            fields.push(data.fields.find(x => x.SourceName === sourceName));
+          }
+        });
 
         const dataViewFields = DataGridToDataViewsHelper.mapFieldsToDataViewFields(fields, data.sortDescriptor, null, false, true);
         const filters = DataGridToDataViewsHelper.getFiltersForExportView(data.fields, data.selectionField, data.selectedKeys, data.primaryKey);
