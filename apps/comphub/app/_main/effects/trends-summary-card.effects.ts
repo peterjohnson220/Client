@@ -46,7 +46,7 @@ export class TrendsSummaryCardEffects {
 
       return this.exchangeDataSearchApiService.getHistoricalTrends(request).pipe(
         map((response) => {
-          return new fromTrendsSummaryCardActions.GetPeerTrendsSuccess(response.PricingHistoryCollection);
+          return new fromTrendsSummaryCardActions.GetPeerTrendsSuccess({PricingHistory: response.PricingHistoryCollection, ExchangeJobIds: response.ExchangeJobIds, CompanyJobIds: response.CompanyJobIds});
         }),
         catchError(() => of(new fromTrendsSummaryCardActions.GetPeerTrendsError()))
       );
@@ -76,4 +76,40 @@ export class TrendsSummaryCardEffects {
       );
     })
   );
+
+  @Effect({dispatch: true})
+  exportExchangeJobs$ = this.actions$
+    .pipe(
+      ofType(fromTrendsSummaryCardActions.EXPORT_EXCHANGE_JOBS),
+      withLatestFrom(
+        this.store.select(fromComphubMainReducer.getExchangeJobIds),
+        (action, exchangeJobIds) => ({action, exchangeJobIds})
+      ),
+      switchMap((data) => {
+        return this.exchangeDataSearchApiService.exportExchangeJobs(data.exchangeJobIds).pipe(
+          map(() => {
+            return new fromTrendsSummaryCardActions.ExportExchangeJobsSuccess();
+          }),
+          catchError( () => of(new fromTrendsSummaryCardActions.ExportExchangeJobsError()))
+        );
+      })
+    );
+
+  @Effect({dispatch: true})
+  exportCompanyJobs$ = this.actions$
+    .pipe(
+      ofType(fromTrendsSummaryCardActions.EXPORT_COMPANY_JOBS),
+      withLatestFrom(
+        this.store.select(fromComphubMainReducer.getCompanyJobIds),
+        (action, companyJobIds) => ({action, companyJobIds})
+      ),
+      switchMap((data) => {
+        return this.exchangeDataSearchApiService.exportCompanyJobs(data.companyJobIds).pipe(
+          map(() => {
+            return new fromTrendsSummaryCardActions.ExportCompanyJobsSuccess();
+          }),
+          catchError( () => of(new fromTrendsSummaryCardActions.ExportCompanyJobsError()))
+        );
+      })
+    );
 }

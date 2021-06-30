@@ -77,4 +77,12 @@ export class ExchangeDataSearchApiService {
   getOrgIncCountHistory(request: HistoricalExchangeDataSearchRequest): Observable<HistoricalExchangeOrgIncCountResponse> {
     return this.payfactorsApiService.post(`${this.endpoint}/GetHistoricalOrgIncCount`, request);
   }
+
+  exportExchangeJobs(request: number[]): Observable<any> {
+    return this.payfactorsApiService.downloadFile(`${this.endpoint}/GetTrendExchangeJobExport`, request);
+  }
+
+  exportCompanyJobs(request: number[]): Observable<any> {
+    return this.payfactorsApiService.downloadFile(`${this.endpoint}/GetTrendCompanyJobExport`, request);
+  }
 }
