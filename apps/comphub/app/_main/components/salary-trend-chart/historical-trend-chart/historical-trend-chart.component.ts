@@ -190,15 +190,15 @@ export class HistoricalTrendChartComponent implements OnChanges {
     const lowerPayRateDate = trendData[0];
     const basePayPctChange = (upperPayRateDate.BasePay - lowerPayRateDate.BasePay) / lowerPayRateDate.BasePay;
     const incsPctChange = (upperPayRateDate.Incs - lowerPayRateDate.Incs) / lowerPayRateDate.Incs;
-    const orgsPctChange = (upperPayRateDate.Orgs - lowerPayRateDate.Orgs) / lowerPayRateDate.Orgs;
 
+    const contributingCompanyCount = upperPayRateDate.Orgs;
     const contributingCompanyJobCount = upperPayRateDate.CompanyJobCount;
     const contributingExchangeJobCount = upperPayRateDate.ExchangeJobCount;
 
     this.store.dispatch(new fromTrendsSummaryCardActions.SetTrendsPercentChange({
       BasePayPctChange: basePayPctChange,
       IncsPctChange: incsPctChange,
-      OrgsPctChange: orgsPctChange,
+      ContributingCompanyCount: contributingCompanyCount,
       ContributingCompanyJobCount: contributingCompanyJobCount,
       ContributingExchangeJobCount: contributingExchangeJobCount
     }));

@@ -28,6 +28,7 @@ import * as fromComphubPageActions from '../../../actions/comphub-page.actions';
 import { JobData, PricingPaymarket, JobSalaryTrend, WorkflowContext } from '../../../models';
 import { ComphubPages } from '../../../data';
 import { DataCardHelper } from '../../../helpers';
+import { MapHelper } from '../../../helpers';
 @Component({
   selector: 'pf-summary-card',
   templateUrl: './summary.card.component.html',
@@ -275,39 +276,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
   }
 
   getPeerMapSrcString() {
-    const style = 'https://api.mapbox.com/styles/v1/mapbox/streets-v10/static/';
-    const htmlEncodedHashTag = '%23';
-    const geoJson = {
-      type: 'Feature',
-      geometry: {
-        type: 'Polygon',
-        coordinates: this.calculatePolygonCoordinates()
-      },
-      properties: {
-        stroke: htmlEncodedHashTag + '3f8845',
-        fill: htmlEncodedHashTag + '3f8845',
-        'fill-opacity': 0.1
-      }
-    };
-    return style + 'geojson(' + JSON.stringify(geoJson) + ')/auto/600x600?access_token=' + this.mbAccessToken;
-  }
-
-  calculatePolygonCoordinates() {
-    // Default to the largest coordinates the map can expand to.
-    let polygonCoordinates = [[[-180, 90], [-180, -90], [180, -90], [180, 90], [-180, 90]]];
-    if (!!this.filterContext && !!this.filterContext.FilterContext
-      && !!this.filterContext.FilterContext.TopLeft && !!this.filterContext.FilterContext.BottomRight) {
-      const topLeft = this.filterContext.FilterContext.TopLeft;
-      const bottomRight = this.filterContext.FilterContext.BottomRight;
-
-      polygonCoordinates = [[[topLeft.Lon, topLeft.Lat],
-        [topLeft.Lon, bottomRight.Lat],
-        [bottomRight.Lon, bottomRight.Lat],
-        [bottomRight.Lon, topLeft.Lat],
-        [topLeft.Lon, topLeft.Lat]]];
-    }
-
-    return polygonCoordinates;
+    return MapHelper.getMapUrl(this.mbAccessToken, this.filterContext);
   }
 
   getFilterString(options: SearchFilterOption[]): string {
