@@ -5,13 +5,18 @@
   [enableSelection]="true"
   [inboundFilters]="filter"
   [columnTemplates]="colTemplates"
+  [groupedColumnHeaderTemplates]="groupedColumnHeaderTemplates"
   [selectionField]="'UserJobListTemp_ID'"
   [gridConfig]="gridConfig"
   [defaultSort]="defaultSort"
   [navigationURL] = "'/client/dashboard'"
   [aboveGridTemplate]="aboveGridTemplate"
+  [gridActionsTemplate]="gridActions"
   [pageable]="!gridConfig.EnableInfiniteScroll"
   [actionBarConfig]="actionBarConfig"
+  [hideKendoGrid] = "viewingJobSummary"
+  [gridReplacementTemplate] = "jobSummary"
+  [displaySelectAllWarning] = "!viewingJobSummary"
   [noRecordsFound]="'No jobs available in this project.'">
 </pf-data-grid>
 
@@ -32,6 +37,12 @@
     <div class="card pf-card flex-fill m-2">
       <div class="card-body">
       Analyze
+        <div>
+          <button class="btn btn-secondary"
+                  [disabled]="!(projectJobGrid$ | async).totalCount || (projectJobGrid$ | async)?.totalCount === 0 || viewingJobSummary"
+                  [attr.data-qa-id]="'btn-job-summary'"
+                  (click)="jobSummaryClickHandler()">Job Summary</button>
+        </div>
       </div>
     </div>
     </div>
@@ -55,7 +66,7 @@
   <button #exportDownloadBtn
           (click)="openExportModal(exportDownloadBtn)"
           class="btn btn-secondary"
-          [disabled]="(projectJobGrid$ | async)?.data?.data.length === 0"
+          [disabled]="viewingJobSummary || (projectJobGrid$ | async)?.data?.data.length === 0"
   >
     <fa-icon
       icon="download" title="Export"
@@ -63,6 +74,34 @@
       [fixedWidth]="true"
     >
     </fa-icon>
+  </button>
+</ng-template>
+
+<ng-template #gridActions>
+  <button
+    [disabled]="!selectedRowIds.length"
+    [attr.data-qa-id]="'btn-project-page-clear-selections'"
+    type="button"
+    (click)="clearSelections()"
+    [title]="!selectedRowIds.length ? 'No Jobs Selected' : ''"
+    class="btn btn-secondary pf-btn-borderless"
+  >
+    <fa-icon [icon]="['far', 'times']" ></fa-icon>
+    Clear Selections
+  </button>
+  <!-- TODO: Permissions on this separator bar should clear selections be the only button here -->
+  <div class="vertical-separator my-2"></div>
+  <button
+    [pfSecuredResource]="permissions.PRICING_PROJECTS_DATA_CUTS"
+    [disabled]="!selectedRowIds.length"
+    [attr.data-qa-id]="'btn-project-page-multi-match'"
+    type="button"
+    (click)="openMultiMatch()"
+    [title]="!selectedRowIds.length ? 'No Jobs Selected' : ''"
+    class="btn btn-secondary pf-btn-borderless"
+  >
+    <fa-icon [icon]="['far', 'equals']" ></fa-icon>
+    Match
   </button>
 </ng-template>
 
@@ -81,10 +120,35 @@
 >
 </pf-file-download-security-warning-modal>
 
+<pf-multi-match-component
+  [display]="'modal'"
+  [featureImplementation]="'Pricing Projects'"
+  [customSaveLogic]="false"
+  [modalTitle]="'Match Jobs'"
+></pf-multi-match-component>
+
 <ng-template #compColumn let-dataRow="dataRow" let-fieldName="fieldName">
   <span [innerHTML]="dataRow[fieldName] | comp: (project$ | async)?.Rate | emptyPlaceholder"></span>
 </ng-template>
 
 <ng-template #percentageColumn let-dataRow="dataRow" let-fieldName="fieldName">
   <span [innerHTML]="dataRow[fieldName] | comp: (project$ | async)?.Rate : 'full' | emptyPlaceholder"></span>
+</ng-template>
+
+<ng-template #companyColumn let-column="column">
+  <div pfEllipsisActive class="ellipsis-text">{{column.title | companyNameShort : (userContext$ | async)}}</div>
+</ng-template>
+
+<ng-template #jobSummary>
+  <ng-container *ngIf="viewingJobSummary">
+    <pf-job-summary
+      [projectRate]="(project$ | async)?.Rate"
+      [baseMrp] = "(project$ | async)?.BaseReferencePoint"
+      [tccMrp] = "(project$ | async)?.TCCReferencePoint"
+      [(showJobSummary)]="viewingJobSummary"
+      [projectId]="projectId"
+      [projectJobIds]="selectedRowIds"
+      [defaultPaymarket] = "(project$ | async)?.PayMarketProjectMap?.PayMarket?.Name">
+    </pf-job-summary>
+  </ng-container>
 </ng-template>

@@ -22,6 +22,7 @@ describe('UI/Common/Content - Multi Select', () => {
     AccessLevel: string;
     CompanyId: number;
     CompanyName: string;
+    CompanyNameShort: string;
     CompanySystemUserGroupsGroupName: string;
     CompanySystemUserGroupsId: number;
     ConfigSettings: ConfigSetting[];
