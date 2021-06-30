@@ -21,6 +21,8 @@ export function generateMockExchangeDataSearchResponse(): ExchangeDataSearchResp
 
 export interface HistoricalExchangeDataSearchResponse {
   PricingHistoryCollection: PayRateDate[];
+  ExchangeJobIds: number[];
+  CompanyJobIds: number[];
 }
 
 export interface PayRateDate {

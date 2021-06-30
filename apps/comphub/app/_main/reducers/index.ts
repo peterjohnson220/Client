@@ -510,3 +510,14 @@ export const getSavingPeerTrend = createSelector (
   selectTrendsSummaryCardState,
   fromTrendsSummaryCardReducer.getSavingPeerTrend
 );
+
+export const getExchangeJobIds = createSelector (
+  selectTrendsSummaryCardState,
+  fromTrendsSummaryCardReducer.getExchangeJobIds
+);
+
+export const getCompanyJobIds = createSelector (
+  selectTrendsSummaryCardState,
+  fromTrendsSummaryCardReducer.getCompanyJobIds
+);
+

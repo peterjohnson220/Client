@@ -8,6 +8,8 @@ import { PayRateDate } from '../models';
 
 export interface State {
   peerTrends: AsyncStateObj<PayRateDate[]>;
+  exchangeJobIds: number[];
+  companyJobIds: number[];
   minDate: Date;
   maxDate: Date;
   trendsSummaryDetails: TrendsSummaryDetails;
@@ -17,6 +19,8 @@ export interface State {
 
 export const initialState: State = {
   peerTrends: generateDefaultAsyncStateObj<PayRateDate[]>([]),
+  exchangeJobIds: [],
+  companyJobIds: [],
   minDate: new Date(),
   maxDate: new Date(),
   trendsSummaryDetails: null,
@@ -31,7 +35,11 @@ export function reducer(state: State = initialState, action: fromTrendsSummaryCa
       return AsyncStateObjHelper.loading(state, 'peerTrends');
 
     case fromTrendsSummaryCardActions.GET_PEER_TRENDS_SUCCESS:
-      return AsyncStateObjHelper.loadingSuccess(state, 'peerTrends', action.payload);
+      return {
+        ...AsyncStateObjHelper.loadingSuccess(state, 'peerTrends', action.payload.PricingHistory),
+        exchangeJobIds: action.payload.ExchangeJobIds,
+        companyJobIds: action.payload.CompanyJobIds
+      };
 
     case fromTrendsSummaryCardActions.GET_PEER_TRENDS_ERROR:
       return AsyncStateObjHelper.loadingError(state, 'peerTrends');
@@ -74,3 +82,5 @@ export const getPeerTrendsSummaryDetails = (state: State) => state.trendsSummary
 export const getPeerTrendsDomain = (state: State) => ({ minDate: state.minDate, maxDate: state.maxDate });
 export const getDisplaySavePeerTrendModal = (state: State) => state.displaySaveTrendModal;
 export const getSavingPeerTrend = (state: State) => state.savingPeerTrend;
+export const getExchangeJobIds = (state: State) => state.exchangeJobIds;
+export const getCompanyJobIds = (state: State) => state.companyJobIds;

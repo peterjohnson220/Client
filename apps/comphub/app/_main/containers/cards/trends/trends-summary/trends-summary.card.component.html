@@ -36,6 +36,10 @@
                 </pf-historical-org-inc-count-chart>
               </div>
             </div>
+            <div class="row float-right">
+              <div class="pf-link-hover mr-3" (click)="handleExportExchangeJobs()">Export Exchange Jobs</div>
+              <div class="pf-link-hover mr-3" (click)="handleExportCompanyJobs()">Export Company Jobs</div>
+            </div>
           </div>
           <ng-template #noResults>No history found</ng-template>
       </div>

@@ -124,6 +124,14 @@ export class TrendsSummaryCardComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromTrendsSummaryCardActions.GetPeerTrends());
   }
 
+  handleExportExchangeJobs(): void {
+    this.store.dispatch(new fromTrendsSummaryCardActions.ExportExchangeJobs());
+  }
+
+  handleExportCompanyJobs(): void {
+    this.store.dispatch(new fromTrendsSummaryCardActions.ExportCompanyJobs());
+  }
+
   getFilterString(options: SearchFilterOption[]): string {
     let optionsStr = '';
     for (const option of options) {
