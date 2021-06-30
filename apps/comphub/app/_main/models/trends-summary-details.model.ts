@@ -1,7 +1,7 @@
 export interface TrendsSummaryDetails {
   BasePayPctChange: number;
   IncsPctChange: number;
-  OrgsPctChange: number;
+  ContributingCompanyCount: number;
   ContributingCompanyJobCount: number;
   ContributingExchangeJobCount: number;
 }

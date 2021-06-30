@@ -1,6 +1,7 @@
 export interface SidebarItem {
   Name: string;
   Value: string;
+  IsImage?: boolean;
 }
 
 export interface SidebarGroup {

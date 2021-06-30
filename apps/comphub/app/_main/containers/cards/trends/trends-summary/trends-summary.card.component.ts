@@ -11,12 +11,15 @@ import { SearchFilterOption } from 'libs/models/payfactors-api/search/response';
 import { SidebarGroup } from 'libs/features/side-bar-info/models/side-bar-info-models';
 import { HumanizeNumberPipe } from 'libs/core/pipes';
 import { ExchangeExplorerContextService } from 'libs/features/peer/exchange-explorer/services';
+import { UserContext } from 'libs/models/security';
+import * as fromRootReducer from 'libs/state/state';
 
 import { ComphubPages } from '../../../../data';
 import { WorkflowContext } from '../../../../models';
 import { TrendsSummaryDetails } from '../../../../models/trends-summary-details.model';
 import * as fromComphubMainReducer from '../../../../reducers';
 import * as fromTrendsSummaryCardActions from '../../../../actions/trends-summary-card.actions';
+import { MapHelper } from '../../../../helpers';
 
 @Component ({
   selector: 'pf-trends-summary-card',
@@ -43,6 +46,11 @@ export class TrendsSummaryCardComponent implements OnInit, OnDestroy {
   trendsSummaryDetailsSubscription: Subscription;
   trendsSummaryDetails: TrendsSummaryDetails;
 
+  userContext$: Observable<UserContext>;
+
+  private mbAccessToken: string;
+  private userContextSubscription: Subscription;
+
   jobSalaryTrend: PayRateDate[];
   comphubPages = ComphubPages;
 
@@ -52,6 +60,7 @@ export class TrendsSummaryCardComponent implements OnInit, OnDestroy {
     this.workflowContext$ = this.store.select(fromComphubMainReducer.getWorkflowContext);
     this.peerTrends$ = this.store.select(fromComphubMainReducer.getPeerTrends);
     this.trendsSummaryDetails$ = this.store.select(fromComphubMainReducer.getPeerTrendsSummaryDetails);
+    this.userContext$ = this.store.select(fromRootReducer.getUserContext);
   }
 
   ngOnInit(): void {
@@ -100,6 +109,10 @@ export class TrendsSummaryCardComponent implements OnInit, OnDestroy {
     this.trendsSummaryDetailsSubscription = this.trendsSummaryDetails$.subscribe(x =>
       this.trendsSummaryDetails = x
     );
+
+    this.userContextSubscription = this.userContext$.subscribe(uc => {
+      this.mbAccessToken = uc.MapboxAccessToken;
+    });
   }
 
   ngOnDestroy(): void {
@@ -151,12 +164,12 @@ export class TrendsSummaryCardComponent implements OnInit, OnDestroy {
             Value: this.percentPipe.transform(this.trendsSummaryDetails?.BasePayPctChange, '1.0-2')
           },
           {
-            Name: 'Company Count Change',
-            Value: this.percentPipe.transform(this.trendsSummaryDetails?.OrgsPctChange, '1.0-2')
-          },
-          {
             Name: 'Incumbent Count Change',
             Value: this.percentPipe.transform(this.trendsSummaryDetails?.IncsPctChange, '1.0-2')
+          },
+          {
+            Name: 'Companies',
+            Value: this.numberHumanizer.transform(this.trendsSummaryDetails?.ContributingCompanyCount)
           },
           {
             Name: 'Exchange Jobs',
@@ -181,6 +194,20 @@ export class TrendsSummaryCardComponent implements OnInit, OnDestroy {
         }),
         DisplayEmptySetMessage: !this.filterContextHasFilters,
         EmptySetMessage: 'No Filters Selected'
+      },
+
+      // map thumbnail
+      {
+        Name: 'Map',
+        Items: [
+            {
+              Name: '',
+              Value: MapHelper.getMapUrl(this.mbAccessToken, this.filterContext),
+              IsImage: true
+            }
+          ],
+        DisplayEmptySetMessage: false,
+        EmptySetMessage: ''
       }
     ];
   }

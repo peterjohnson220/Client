@@ -10,11 +10,18 @@
     </div>
     <div *ngIf="!group.DisplayEmptySetMessage">
       <div *ngFor="let item of group.Items" class="m-4" >
-        <div class="item-header small text-uppercase">{{item.Name}}</div>
-        <div class="item-value h5" [attr.data-qa-id]="'cnt-peer-network'">
-          <ng-container>
-            {{item.Value}}
-          </ng-container>
+        <div [ngSwitch]="item.IsImage">
+          <div *ngSwitchCase="true">
+            <img height='200px' width='200px' alt="Peer Data Cut Map"[src]="item.Value"/>
+          </div>
+          <div *ngSwitchDefault>
+            <div class="item-header small text-uppercase">{{item.Name}}</div>
+            <div class="item-value h5" [attr.data-qa-id]="'cnt-peer-network'">
+              <ng-container>
+                {{item.Value}}
+              </ng-container>
+            </div>
+          </div>
         </div>
       </div>
     </div>
