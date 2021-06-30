@@ -3,18 +3,19 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { switchMap, map, catchError, withLatestFrom, concatMap } from 'rxjs/operators';
+import { switchMap, map, catchError, withLatestFrom } from 'rxjs/operators';
 
 import { SurveySearchApiService, JobsApiService } from 'libs/data/payfactors-api';
 
 import { PayfactorsApiModelMapper } from '../helpers';
 import { ProjectSearchContext } from '../../../surveys/survey-search/models';
+import { TempDataCutIdentity } from '../models';
 
 import * as fromJobsToPriceActions from '../actions/jobs-to-price.actions';
 import * as fromTempDataCutActions from '../actions/temp-data-cut.actions';
 import * as fromMultiMatchReducer from '../reducers';
 import * as fromSurveySearchReducer from '../../../surveys/survey-search/reducers';
-import { TempDataCutIdentity } from '../models';
+import * as fromMultiMatchPageActions from '../actions/multi-match-page.actions';
 
 @Injectable()
 export class JobsToPriceEffects {
@@ -36,6 +37,15 @@ export class JobsToPriceEffects {
           );
         }
       )
+    );
+
+  @Effect()
+  getJobsToPriceSuccess$ = this.actions$
+    .pipe(
+      ofType(fromJobsToPriceActions.GET_JOBS_TO_PRICE_SUCCESS),
+      map((action: fromJobsToPriceActions.GetJobsToPriceSuccess) => {
+        return new fromMultiMatchPageActions.SetMultiMatchModalStatus(true);
+      })
     );
 
   @Effect()

@@ -34,4 +34,5 @@ export class FeatureFlags {
   static readonly StructuresGradeBasedRangeDistributionTypes = 'structures-client-grade-based-range-distribution-types';
   static readonly JobInsightsTab = 'job-insights-tab';
   static readonly RestyledLogin = 'restyled-login';
+  static readonly PricingProjectExport = 'pricing-project-export';
 }

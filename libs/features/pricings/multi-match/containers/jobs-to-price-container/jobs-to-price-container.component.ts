@@ -16,7 +16,7 @@ import * as fromMultiMatchReducer from '../../reducers';
 import * as fromJobsToPriceActions from '../../actions/jobs-to-price.actions';
 
 import { JobToPrice } from '../../models';
-import { LEGACY_PROJECTS, MODIFY_PRICINGS } from '../../constants';
+import { MultiMatchFeatureImplementations } from '../../constants';
 import { TempDataCutService } from '../../services';
 
 @Component({
@@ -26,7 +26,7 @@ import { TempDataCutService } from '../../services';
 })
 export class JobsToPriceContainerComponent implements OnDestroy {
   @ViewChildren(JobToPriceComponent) jobsToPriceComponents !: QueryList<JobToPriceComponent>;
-  @Input() featureImplementation = LEGACY_PROJECTS;
+  @Input() featureImplementation = MultiMatchFeatureImplementations.LEGACY_PROJECTS;
 
   // Observables
   jobsToPrice$: Observable<JobToPrice[]>;
@@ -82,10 +82,8 @@ export class JobsToPriceContainerComponent implements OnDestroy {
       return;
     }
 
-    // TODO: Set feature implementation in the state, refactor this to the effect and let the effect make the right API calls
-    // Will handle as part of ENG-319
     switch (this.featureImplementation) {
-      case MODIFY_PRICINGS:
+      case MultiMatchFeatureImplementations.MODIFY_PRICINGS:
         let rate;
         this.pricingMatchDataSearchContext$.subscribe(x => {
           rate = x.Rate;

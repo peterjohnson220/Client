@@ -38,6 +38,8 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() selectionField: string;
   @Input() selectionFieldExistsOnBase: true;
   @Input() columnTemplates: any;
+  @Input() columnHeaderTemplates: any;
+  @Input() groupedColumnHeaderTemplates: any;
   @Input() aboveGridTemplate: TemplateRef<any>;
   @Input() rightGridTemplate: TemplateRef<any>;
   @Input() splitViewTemplate: TemplateRef<any>;
@@ -102,6 +104,10 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() hideVerticalScrolling = false;
   @Input() displayGroupNameInFilter: boolean;
   @Input() collapseFilterPanelOnCellClick = false;
+  @Input() hideKendoGrid = false;
+  @Input() gridReplacementTemplate: TemplateRef<any>;
+  @Input() hidePageSizes = false;
+  @Input() displaySelectAllWarning = true;
   @ViewChild('splitViewContainer', { static: false }) splitViewContainer: ElementRef;
 
   splitViewEmitter = new EventEmitter<string>();

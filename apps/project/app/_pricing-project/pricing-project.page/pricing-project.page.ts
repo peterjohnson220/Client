@@ -1,17 +1,27 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
-import {SortDescriptor} from '@progress/kendo-data-query';
+import { SortDescriptor } from '@progress/kendo-data-query';
 
 import { ActionBarConfig, getDefaultActionBarConfig, GridConfig } from 'libs/features/grids/pf-data-grid/models';
 import { FileDownloadSecurityWarningModalComponent } from 'libs/ui/common/file-download-security-warning';
+import { DataGridState } from 'libs/features/grids/pf-data-grid/reducers/pf-data-grid.reducer';
+import { Permissions } from 'libs/constants';
+import { ProjectContext } from 'libs/features/surveys/survey-search/models';
+import { SurveySearchFilterMappingDataObj, SurveySearchUserFilterType } from 'libs/features/surveys/survey-search/data';
+import { SearchFeatureIds } from 'libs/features/search/search/enums/search-feature-ids';
+import { UserContext } from 'libs/models';
+import { PricingProjectHelperService } from 'libs/core';
 import * as fromCompanySettingsReducer from 'libs/state/state';
 import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
-import { DataGridState } from 'libs/features/grids/pf-data-grid/reducers/pf-data-grid.reducer';
+import * as fromRootState from 'libs/state/state';
+import * as fromPfDataGridActions from 'libs/features/grids/pf-data-grid/actions';
+import * as fromSearchPageActions from 'libs/features/search/search/actions/search-page.actions';
+import * as fromSearchFeatureActions from 'libs/features/search/search/actions/search-feature.actions';
 
-import {PageViewIds} from '../../shared/constants';
+import { PageViewIds } from '../../shared/constants';
 import * as fromPricingProjectReducer from '../reducers';
 
 
@@ -21,13 +31,15 @@ import * as fromPricingProjectReducer from '../reducers';
   styleUrls: ['./pricing-project.page.scss']
 })
 export class PricingProjectPageComponent implements OnInit, AfterViewInit, OnDestroy {
-
   @ViewChild('jobTitle') jobTitle: ElementRef;
   @ViewChild('gridGlobalActions', { static: true }) gridGlobalActionsTemplate: ElementRef;
   @ViewChild('fileDownloadSecurityWarningModal', { static: true }) fileDownloadSecurityWarningModal: FileDownloadSecurityWarningModalComponent;
   @ViewChild('compColumn', { static: false }) compColumn: ElementRef;
   @ViewChild('percentageColumn', { static: false }) percentageColumn: ElementRef;
+  @ViewChild('companyColumn', { static: false }) companyColumn: ElementRef;
 
+  permissions = Permissions;
+  viewingJobSummary: boolean;
   project$: Observable<any>;
   projectId: number;
   pageViewId = PageViewIds.ProjectJobs;
@@ -44,14 +56,40 @@ export class PricingProjectPageComponent implements OnInit, AfterViewInit, OnDes
   }];
 
   companySettingsSubscription: Subscription;
+  restrictSearchToPayMarketCountry: boolean;
+
+  selectedRecordSubscription: Subscription;
+  selectedRowIds: number[];
 
   exportModalIsOpen = false;
   displaySecurityWarning = false;
 
   projectJobGrid$: Observable<DataGridState>;
+  userContext$: Observable<UserContext>;
+
+  groupedColumnHeaderTemplates = {};
+
+  companyFieldGroups = [
+    'Company Allow',
+    'Company Base',
+    'Company Bonus',
+    'Company Bonus Pct',
+    'Company Bonus Target',
+    'Company Bonus Target Pct',
+    'Company Fixed',
+    'Company LTIP',
+    'Company Remun',
+    'Company Target LTIP',
+    'Company Target TDC',
+    'Company TCC',
+    'Company TCC Target',
+    'Company TDC',
+    'Company TGP',
+  ];
 
   constructor(private route: ActivatedRoute,
-              private store: Store<fromPricingProjectReducer.State>) {
+              private store: Store<fromPricingProjectReducer.State>,
+              private pricingProjectHelperService: PricingProjectHelperService) {
     this.gridConfig = {
       PersistColumnWidth: true,
       EnableInfiniteScroll: true,
@@ -77,12 +115,22 @@ export class PricingProjectPageComponent implements OnInit, AfterViewInit, OnDes
     this.companySettingsSubscription = this.store.select(fromCompanySettingsReducer.getCompanySettings).subscribe(cs => {
       if (cs !== null && cs !== undefined) {
         this.displaySecurityWarning = cs.find(x => x.Key === 'FileDownloadSecurityWarning').Value === 'true';
+        this.restrictSearchToPayMarketCountry = cs.find(x => x.Key === 'FileDownloadSecurityWarning').Value === 'true' || false;
+      }
+    });
+
+    this.userContext$ = this.store.select(fromRootState.getUserContext);
+
+    this.selectedRecordSubscription = this.store.select(fromPfDataGridReducer.getSelectedKeys, PageViewIds.ProjectJobs).subscribe(k => {
+      if (k) {
+        this.selectedRowIds = k;
       }
     });
   }
 
   ngOnDestroy() {
     this.companySettingsSubscription.unsubscribe();
+    this.selectedRecordSubscription.unsubscribe();
   }
 
   ngAfterViewInit() {
@@ -96,6 +144,10 @@ export class PricingProjectPageComponent implements OnInit, AfterViewInit, OnDes
       ...this.actionBarConfig,
       GlobalActionsTemplate: this.gridGlobalActionsTemplate
     };
+
+    this.companyFieldGroups.forEach(group => {
+      this.groupedColumnHeaderTemplates[group] = { Template: this.companyColumn };
+    });
   }
 
   openExportModal(buttonElement): void {
@@ -112,7 +164,32 @@ export class PricingProjectPageComponent implements OnInit, AfterViewInit, OnDes
     this.exportModalIsOpen = false;
   }
 
+  clearSelections() {
+    this.store.dispatch(new fromPfDataGridActions.ClearSelections(PageViewIds.ProjectJobs));
+  }
+
+  openMultiMatch() {
+    this.store.dispatch(new fromSearchPageActions.SetSearchFilterMappingData(SurveySearchFilterMappingDataObj));
+    this.store.dispatch(new fromSearchFeatureActions.SetSearchFeatureId(SearchFeatureIds.MultiMatch));
+    this.store.dispatch(new fromSearchPageActions.SetUserFilterTypeData(SurveySearchUserFilterType));
+
+    const contextPayload: ProjectContext = {
+      JobValues: this.selectedRowIds.map(x => x.toString()),
+      ProjectId: this.projectId,
+      RestrictToCountryCode: this.restrictSearchToPayMarketCountry,
+      SearchContext: {
+        PayMarketId: 0 // This comes over as empty string from classic ASP, which is treated as 0
+      }
+    };
+
+    this.pricingProjectHelperService.SetProjectContext(contextPayload);
+  }
+
   private initRouterParams(): void {
     this.projectId = this.route.snapshot.params.projectId;
+  }
+
+  jobSummaryClickHandler(): void {
+    this.viewingJobSummary = !this.viewingJobSummary;
   }
 }

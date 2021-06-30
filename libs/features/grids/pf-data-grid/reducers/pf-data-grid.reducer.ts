@@ -1237,6 +1237,17 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           }
         }
       };
+    case fromPfGridActions.RESET_DATA:
+      return{
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            data: null
+          }
+        }
+      };
     default:
       return state;
   }
