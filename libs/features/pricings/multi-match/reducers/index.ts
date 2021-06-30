@@ -71,6 +71,11 @@ export const getSavingJobMatchError = createSelector(
   fromMultiMatchPageReducer.getSavingChangesError
 );
 
+export const getShowModal = createSelector(
+  selectMultiMatchPageState,
+  fromMultiMatchPageReducer.getShowModal
+);
+
 export const getLoadingJobsToPrice = createSelector(
   selectJobsToPriceState,
   fromJobsToPriceReducer.getLoadingJobs

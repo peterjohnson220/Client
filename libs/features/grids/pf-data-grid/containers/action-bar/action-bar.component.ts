@@ -30,6 +30,7 @@ export class ActionBarComponent implements OnChanges, OnInit, OnDestroy {
   @Input() pageViewId: string;
   @Input() globalFilters: ViewField[];
   @Input() reorderable: boolean;
+  @Input() disableActions = false;
 
   dataFields$: Observable<ViewField[]>;
   selectedRecordId$: Observable<number>;

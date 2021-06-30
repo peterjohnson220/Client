@@ -4,7 +4,7 @@ import { JobMatchCut } from 'libs/models/payfactors-api';
 
 import { JobToPrice } from '../../models';
 
-import { LEGACY_PROJECTS, MODIFY_PRICINGS } from '../../constants';
+import { MultiMatchFeatureImplementations } from '../../constants';
 import { DataCutSummaryTypes } from '../../../data-cut-summary/constants';
 
 @Component({
@@ -16,7 +16,7 @@ export class JobToPriceComponent implements OnInit {
   @Input() job: JobToPrice;
   @Input() rate: string;
   @Input() dragging: boolean;
-  @Input() featureImplementation = LEGACY_PROJECTS;
+  @Input() featureImplementation = MultiMatchFeatureImplementations.LEGACY_PROJECTS;
   @Output() loadDataCuts: EventEmitter<JobToPrice> = new EventEmitter<JobToPrice>();
   @Output() cutDeleted: EventEmitter<{ jobCut: JobMatchCut, job: JobToPrice }>
     = new EventEmitter<{ jobCut: JobMatchCut, job: JobToPrice }>();
@@ -26,7 +26,7 @@ export class JobToPriceComponent implements OnInit {
   toggleDataCutsLabel: string;
   showDataCuts: boolean;
   showJobDetail: boolean;
-  modifyPricingsImplementation = MODIFY_PRICINGS;
+  multiMatchImplementations = MultiMatchFeatureImplementations;
 
   private readonly showCutsLabel: string = 'Show Cuts';
   private readonly hideCutsLabel: string = 'Hide Cuts';

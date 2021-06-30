@@ -22,7 +22,7 @@ import { SearchFeatureIds } from 'libs/features/search/search/enums/search-featu
 import * as fromModifyPricingsActions from 'libs/features/pricings/multi-match/actions';
 import * as fromRootState from 'libs/state/state';
 import { Permissions } from 'libs/constants';
-import { MODIFY_PRICINGS } from 'libs/features/pricings/multi-match/constants';
+import { MultiMatchFeatureImplementations } from 'libs/features/pricings/multi-match/constants';
 
 import * as fromSharedStructuresReducer from '../../../shared/reducers';
 import { PagesHelper } from '../../../shared/helpers/pages.helper';
@@ -79,7 +79,7 @@ export class SingleJobViewPageComponent implements OnInit, AfterViewInit, OnDest
   metadata: RangeGroupMetadata;
   restrictSurveySearchToPaymarketCountry: boolean;
   _Permissions = null;
-  multiMatchImplementation = MODIFY_PRICINGS;
+  multiMatchImplementation = MultiMatchFeatureImplementations.MODIFY_PRICINGS;
 
   constructor(
     public store: Store<fromSharedStructuresReducer.State>,
