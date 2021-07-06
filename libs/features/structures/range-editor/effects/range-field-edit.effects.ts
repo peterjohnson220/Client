@@ -4,6 +4,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
 import { Action, select, Store } from '@ngrx/store';
+import uniqBy from 'lodash/uniqBy';
 
 import { DataViewApiService, StructureModelingApiService } from 'libs/data/payfactors-api';
 import { NotificationLevel, NotificationSource, NotificationType } from 'libs/features/infrastructure/app-notifications/models';
@@ -126,10 +127,15 @@ export class RangeFieldEditEffects {
               GridDataHelper.getLoadDataAction(data.a.payload.pageViewId, data.gridData, data.gridConfig, data.pagingOptions)
             ];
           } else {
+            let filters = [...DataGridToDataViewsHelper.mapFieldsToFilters(data.fields), data.a.payload.refreshRowDataViewFilter];
+            // there are certain scenarios where we end up with essentially duplicate filters out of this line, so filter any dups out.
+            filters = uniqBy(filters, function (f) {
+              return f.EntitySourceName && f.Operator && f.SourceName;
+            });
             return this.dataViewApiService.getData(DataGridToDataViewsHelper.buildDataViewDataRequest(
               data.baseEntity.Id,
               data.fields,
-              [...DataGridToDataViewsHelper.mapFieldsToFilters(data.fields), data.a.payload.refreshRowDataViewFilter],
+              filters,
               { From: 0, Count: 1 },
               data.sortDescriptor,
               false,
