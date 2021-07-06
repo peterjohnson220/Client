@@ -38,6 +38,7 @@ import * as fromPublishModelModalActions from '../../../../shared/actions/publis
 import * as fromDuplicateModelModalActions from '../../../../shared/actions/duplicate-model-modal.actions';
 import { ModelSettingsModalContentComponent } from '../model-settings-modal-content';
 import * as fromGradeBasedSharedReducer from '../../reducers';
+import * as fromGradeBasedSharedActions from '../../actions/shared.actions';
 import { ChartSvg } from '../../models';
 
 @Component({
@@ -115,6 +116,9 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   summaryChartSvg$: Observable<string>;
   verticalChartSvg$: Observable<string>;
   chartSvgs: ChartSvg[] = [];
+  showVerticalChartSub: Subscription;
+  showVerticalChart$: Observable<boolean>;
+  showVerticalChart = true;
 
   hasAddEditDeleteStructurePermission: boolean;
   hasCreateEditStructureModelPermission: boolean;
@@ -137,6 +141,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     this.modalOpen$ = this.store.pipe(select(fromSharedStructuresReducer.getModelSettingsModalOpen), delay(0));
     this.summaryChartSvg$ = this.store.pipe(select(fromGradeBasedSharedReducer.getSummaryChartSvg));
     this.verticalChartSvg$ = this.store.pipe(select(fromGradeBasedSharedReducer.getVerticalChartSvg));
+    this.showVerticalChart$ = this.store.pipe(select(fromGradeBasedSharedReducer.getShowVerticalChart));
     this.singleRecordActionBarConfig = {
       ...getDefaultActionBarConfig(),
       ShowActionBar: false
@@ -218,6 +223,10 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
       rowIndex: rowIndex,
       refreshRowDataViewFilter: this.getRefreshFilter(dataRow)
     }));
+  }
+
+  handleChartViewToggle() {
+    this.store.dispatch(new fromGradeBasedSharedActions.SetShowVerticalChart(!this.showVerticalChart));
   }
 
   scroll = (): void => {
@@ -345,6 +354,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
         this.controlPoint = this.metaData?.PayType ? this.metaData.PayType + 'MRP' : 'BaseMRP';
       }
     });
+
     this.roundingSettingsSub = this.roundingSettings$.subscribe(rs => this.roundingSettings = rs);
     this.rangeOverridesSub = this.rangeOverrides$.subscribe(ro => this.rangeOverrides = ro);
     this.gradesDetailsSub = this.store.select(fromGradeBasedSharedReducer.getGradesDetails).subscribe(details => {
@@ -388,6 +398,9 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
         }
       }
     });
+    this.showVerticalChartSub = this.showVerticalChart$.subscribe(svc => {
+        this.showVerticalChart = svc;
+    });
     this.initPermissions();
     this.buildForm();
     window.addEventListener('scroll', this.scroll, true);
@@ -403,5 +416,6 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     this.gradesDetailsSub.unsubscribe();
     this.verticalChartSvgSub.unsubscribe();
     this.summaryChartSvgSub.unsubscribe();
+    this.showVerticalChartSub.unsubscribe();
   }
 }

@@ -80,7 +80,7 @@
           <ng-container [ngTemplateOutlet]="subHeaderTemplate"></ng-container>
 
           <div class="d-flex h-100 full-wrap" [ngClass]="borders ? 'border' : ''">
-            <div [ngClass]="isSplitView() ? 'main-grid-split overflow-hidden' : 'main-grid-full'"
+            <div [ngClass]="{ 'main-grid-split-hide-overflow': isSplitView() && hideOverflow, 'main-grid-split': isSplitView() && !hideOverflow, 'main-grid-full': !isSplitView() }"
                  [style.flex-basis]="isSplitView() ? gridContainerSplitViewWidth : null">
               <div [ngClass]="this.flexColumnContainerHeightAuto === true ? 'flex-column-container-auto' : 'flex-column-container'">
                 <div class="d-flex h-100">
