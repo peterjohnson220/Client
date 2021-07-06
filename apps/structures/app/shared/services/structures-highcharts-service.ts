@@ -145,7 +145,7 @@ export class StructuresHighchartsService {
 
     if (dataPointTypeId === RangeDistributionDataPointTypeIds.Mid) {
       dataPointValue = jobRangeData.CompanyStructures_Ranges_Mid;
-      dataPointCurrentValue = jobRangeData.CompanyStructures_RangeGroup_CurrentStructureMidPoint;
+      dataPointCurrentValue = metaData.RangeTypeId === RangeType.Grade ? jobRangeData.CompanyStructures_Ranges_GradeBased_Range_CurrentMid : jobRangeData.CompanyStructures_RangeGroup_CurrentStructureMidPoint;
       dataPointTitle = 'Midpoint';
       currentDataPointTitle = 'Current Mid';
       newDataPointTitle = 'Model Mid';
