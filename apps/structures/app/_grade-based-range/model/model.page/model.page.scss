@@ -34,6 +34,10 @@
   overflow-y: hidden;
 }
 
+:host ::ng-deep .p-0 {
+  overflow: unset !important;
+}
+
 :host::ng-deep .content-wrapper {
   overflow: auto;
 }
