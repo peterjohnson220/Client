@@ -95,7 +95,7 @@ export function reducer(state = initialState, action: fromJobsPageActions.JobsPa
       return AsyncStateObjHelper.savingError(state, 'deletingJob', action.error);
     }
     case fromJobsPageActions.LOAD_COMPANY_PAYMARKETS_SUCCESS: {
-      const payMarkets = orderBy(action.payload, ['PayMarket'], 'asc');
+      const payMarkets = orderBy(action.payload, [pm => pm.PayMarket.toLowerCase()], 'asc');
       return {
         ...state,
         companyPayMarkets: payMarkets,
