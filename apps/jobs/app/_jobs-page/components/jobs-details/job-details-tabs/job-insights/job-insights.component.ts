@@ -1,7 +1,8 @@
 import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { forkJoin, Observable, Subscription } from 'rxjs';
+import { filter, take } from 'rxjs/operators';
 import { DropDownFilterSettings } from '@progress/kendo-angular-dropdowns';
 
 import { AsyncStateObj, JobDescriptionSummary, PayMarket, UserContext } from 'libs/models';
@@ -23,10 +24,10 @@ export class JobInsightsComponent implements OnChanges, OnInit, OnDestroy {
 
   jobDescriptionSummaryAsync$: Observable<AsyncStateObj<JobDescriptionSummary>>;
   userContext$: Observable<UserContext>;
+  payMarkets$: Observable<PayMarket[]>;
 
-  payMarketsSubscription: Subscription;
+  forkJoinSubscription: Subscription;
   gridFieldSubscription: Subscription;
-  userContextSubscription: Subscription;
 
   multipleJobDescriptions = MULTIPLE_JOB_DESCRIPTIONS;
   payMarkets: PayMarket[];
@@ -42,20 +43,17 @@ export class JobInsightsComponent implements OnChanges, OnInit, OnDestroy {
   ) {
     this.jobDescriptionSummaryAsync$ = this.store.select(fromJobsPageReducer.getJobDescriptionSummary);
     this.userContext$ = this.rootStore.select(fromRootState.getUserContext);
+    this.payMarkets$ = this.store.select(fromJobsPageReducer.getCompanyPayMarkets);
   }
 
   ngOnInit(): void {
-    this.payMarketsSubscription = this.store.select(fromJobsPageReducer.getCompanyPayMarkets).subscribe(payMarkets => {
-      if (!!payMarkets?.length) {
+    this.forkJoinSubscription = forkJoin([this.getPayMarketsLoaded(), this.getUserContextLoaded()])
+      .subscribe(([payMarkets, userContext]) => {
+        this.selectedPayMarketId = userContext?.DefaultPayMarketId
+          ? userContext.DefaultPayMarketId
+          : payMarkets?.length ? payMarkets[0].CompanyPayMarketId : null;
         this.payMarkets = cloneDeep(payMarkets);
-        this.selectedPayMarketId = this.selectedPayMarketId ?? this.payMarkets[0].CompanyPayMarketId;
-      }
-    });
-    this.userContextSubscription = this.userContext$.subscribe(uc => {
-      if (uc) {
-        this.selectedPayMarketId = uc.DefaultPayMarketId;
-      }
-    });
+      });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -68,11 +66,24 @@ export class JobInsightsComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.payMarketsSubscription.unsubscribe();
-    this.userContextSubscription.unsubscribe();
+    this.forkJoinSubscription.unsubscribe();
   }
 
   handlePayMarketValueChanged(value: number): void {
     this.selectedPayMarketId = value;
+  }
+
+  private getPayMarketsLoaded(): Observable<PayMarket[]> {
+    return this.payMarkets$.pipe(
+      filter(f => !!f && f.length > 0),
+      take(1)
+    );
+  }
+
+  private getUserContextLoaded(): Observable<UserContext> {
+    return this.userContext$.pipe(
+      filter(f => !!f),
+      take(1)
+    );
   }
 }

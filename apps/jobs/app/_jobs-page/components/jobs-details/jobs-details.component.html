@@ -6,7 +6,7 @@
     <li *ngIf="jobInsightsTabEnabled" [ngbNavItem]="'JobInsightsTab'" [id]="'JobInsightsTab'">
       <a ngbNavLink>Job Insights</a>
       <ng-template ngbNavContent>
-        <div *ngIf="tabStatusOpened['JobInsightsTab'] === true" class="position-absolute full-size tab-top-offset">
+        <div class="position-absolute full-size tab-top-offset">
           <pf-job-insights [filters]="jobDetailsFilters"></pf-job-insights>
         </div>
       </ng-template>
