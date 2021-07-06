@@ -64,7 +64,7 @@ export class StructureGridComponent implements AfterViewInit, OnDestroy {
     private featureFlagService: AbstractFeatureFlagService
   ) {
     this.hasStructureDetailsFlagEnabled = this.featureFlagService.enabled(FeatureFlags.StructureDetails, false);
-    this.companyPayMarketSubscription = this.store.select(fromJobsPageReducer.getCompanyPayMarkets)
+    this.companyPayMarketSubscription = this.store.select(fromJobsPageReducer.getPayMarketGroupedListItems)
       .subscribe(o => {
         if (!!o) {
           this.payMarketOptions = cloneDeep(o);
