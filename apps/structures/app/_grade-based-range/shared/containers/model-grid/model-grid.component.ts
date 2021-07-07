@@ -20,7 +20,7 @@ import {
 import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums/pf-theme-type.enum';
 import { PfDataGridColType } from 'libs/features/grids/pf-data-grid/enums';
 import { PagingOptions } from 'libs/models/payfactors-api/search/request';
-import { CompanyStructureRangeOverride, RangeGroupMetadata, RoundingSettingsDataObj } from 'libs/models/structures';
+import { CompanyStructureRangeOverride, GradeBasedPageViewIds, RangeGroupMetadata, RoundingSettingsDataObj } from 'libs/models/structures';
 import { DataViewFilter } from 'libs/models/payfactors-api/reports/request';
 import { PermissionCheckEnum, Permissions } from 'libs/constants';
 import { AbstractFeatureFlagService, FeatureFlags, PermissionService } from 'libs/core/services';
@@ -192,9 +192,12 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   updateMidSuccessCallbackFn(store: Store<any>, metaInfo: any) {
-    // Update metadata for GBR range group and if index equals 0
+    // Update metadata for GBR Model page only when Grade equals 1
     // Because we need to update Starting Midpoint for Model Settings
-    if (metaInfo.rangeType === RangeType.Grade && metaInfo.rowIndex === 0) {
+    if ((metaInfo.pageViewId === GradeBasedPageViewIds.ModelMinMidMax
+      || metaInfo.pageViewId === GradeBasedPageViewIds.ModelQuartile
+      || metaInfo.pageViewId === GradeBasedPageViewIds.ModelTertile
+      || metaInfo.pageViewId === GradeBasedPageViewIds.ModelQuintile) && metaInfo.dispSeq === 1) {
       store.dispatch(new fromSharedStructuresActions.SetMetadata(metaInfo.metaData));
     }
   }
@@ -399,7 +402,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
       }
     });
     this.showVerticalChartSub = this.showVerticalChart$.subscribe(svc => {
-        this.showVerticalChart = svc;
+      this.showVerticalChart = svc;
     });
     this.initPermissions();
     this.buildForm();

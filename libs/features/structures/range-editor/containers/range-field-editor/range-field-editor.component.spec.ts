@@ -178,7 +178,8 @@ describe('Features - Structures - Midpoint Editor', () => {
       metaInfo: instance.updateMetaInfo,
       successCallBackFn: instance.updateSuccessCallbackFn,
       rangeType: RangeType.Job,
-      reloadGridData: false
+      reloadGridData: false,
+      dataRow: instance.dataRow
     };
     const expectedAction = new fromRangeFieldEditorActions.UpdateRangeField(expectedActionPayload);
 

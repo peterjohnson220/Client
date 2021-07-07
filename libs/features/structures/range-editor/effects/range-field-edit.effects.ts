@@ -12,7 +12,7 @@ import { DataGridToDataViewsHelper, GridDataHelper } from 'libs/features/grids/p
 import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import * as fromPfDataGridActions from 'libs/features/grids/pf-data-grid/actions';
 import * as fromNotificationActions from 'libs/features/infrastructure/app-notifications/actions/app-notifications.actions';
-import { JobBasedPageViewIds } from 'libs/models/structures';
+import { GradeBasedPageViewIds, JobBasedPageViewIds } from 'libs/models/structures';
 import { RangeType } from 'libs/constants/structures/range-type';
 
 import { PayfactorsApiModelMapper } from '../helpers';
@@ -52,7 +52,10 @@ export class RangeFieldEditEffects {
                   let metaInfo = action.payload.metaInfo;
 
                   // We need to update Starting Midpoint for Model settings
-                  if (action.payload.rangeType === RangeType.Grade && action.payload.rowIndex === 0) {
+                  if ((action.payload.pageViewId === GradeBasedPageViewIds.ModelMinMidMax
+                    || action.payload.pageViewId === GradeBasedPageViewIds.ModelQuartile
+                    || action.payload.pageViewId === GradeBasedPageViewIds.ModelTertile
+                    || action.payload.pageViewId === GradeBasedPageViewIds.ModelQuintile) && action.payload.dataRow.CompanyStructures_Ranges_DispSeq === 1) {
                     const updatedMetaData = {
                       ...action.payload.metaInfo.metaData,
                       StartingMidpoint: action.payload.fieldValue
