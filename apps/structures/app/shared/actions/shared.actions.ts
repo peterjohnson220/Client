@@ -7,6 +7,7 @@ import { CurrentRangeGroupRequestModel, DataViewFilter } from 'libs/models/payfa
 import { SelectedPeerExchangeModel } from '../models';
 
 export const SET_METADATA = '[Structures - Shared] Set Metadata';
+export const SET_METADATA_FROM_RANGE_GROUP_ID = '[Structures - Shared] Set Metadata From RangeGroupId';
 export const UPDATE_ROUNDING_TYPE = '[Structures - Shared] Update Rounding Type';
 export const UPDATE_ROUNDING_POINT = '[Structures - Shared] Update Rounding Point';
 export const UPDATE_ROUNDING_SETTINGS = '[Structures - Shared] Update Rounding Settings';
@@ -43,6 +44,13 @@ export class SetMetadata implements Action {
 
   constructor(public payload: RangeGroupMetadata) {}
 }
+
+export class SetMetadataFromRangeGroupId implements Action {
+  readonly type = SET_METADATA_FROM_RANGE_GROUP_ID;
+
+  constructor(public rangeGroupId: any, public companyId: any ) {}
+}
+
 
 export class UpdateRoundingType implements Action {
   readonly type = UPDATE_ROUNDING_TYPE;

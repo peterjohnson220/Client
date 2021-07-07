@@ -42,11 +42,6 @@ export const selectSwitchRegressionFlagsState = createSelector(
 
 
 // Shared
-export const getGradesDetails = createSelector(
-  selectSharedState,
-  fromSharedReducer.getGradesDetails
-);
-
 export const getOpenAddJobs = createSelector(
   selectSharedState,
   fromSharedReducer.getOpenAddJobs

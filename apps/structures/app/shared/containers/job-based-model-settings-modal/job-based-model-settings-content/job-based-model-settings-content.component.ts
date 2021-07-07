@@ -20,11 +20,11 @@ import { AdvancedModelSettingComponent } from '../advanced-model-setting';
 import { RangeRoundingComponent } from '../../../../shared/containers/range-rounding';
 
 @Component({
-  selector: 'pf-job-based-model-settings-modal-content',
-  templateUrl: './model-settings-modal-content.component.html',
-  styleUrls: ['./model-settings-modal-content.component.scss']
+  selector: 'pf-job-based-model-settings-content',
+  templateUrl: './job-based-model-settings-content.component.html',
+  styleUrls: ['./job-based-model-settings-content.component.scss']
 })
-export class ModelSettingsModalContentComponent implements OnInit, OnDestroy, AfterViewChecked  {
+export class JobBasedModelSettingsContentComponent implements OnInit, OnDestroy, AfterViewChecked  {
   @Input() rangeGroupId: number;
   @Input() pageViewId: string;
   @Input() modalOpen: boolean;

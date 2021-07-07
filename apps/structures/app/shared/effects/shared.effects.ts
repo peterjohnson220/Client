@@ -16,10 +16,12 @@ import { NotificationLevel, NotificationSource, NotificationType } from 'libs/fe
 import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import { DataGridToDataViewsHelper, GridDataHelper } from 'libs/features/grids/pf-data-grid/helpers';
 import { RangeType } from 'libs/constants/structures/range-type';
+import { StructureRangeGroupApiService } from 'libs/data/payfactors-api/structures';
 
 import * as fromSharedStructuresActions from '../actions/shared.actions';
 import * as fromSharedStructuresReducer from '../../shared/reducers';
 import { PayfactorsApiModelMapper } from '../helpers/payfactors-api-model-mapper';
+import * as fromModelSettingsModalActions from '../actions/model-settings-modal.actions';
 
 @Injectable()
 export class SharedEffects {
@@ -61,6 +63,25 @@ export class SharedEffects {
             }),
             catchError((err) => of(new fromSharedStructuresActions.GetCompanyExchangesError(err)))
           );
+      })
+    );
+
+  @Effect()
+  setMetaDataFromRangeGroupId$ = this.actions$
+    .pipe(
+      ofType(fromSharedStructuresActions.SET_METADATA_FROM_RANGE_GROUP_ID),
+      switchMap((data: any) => {
+        return this.structureRangeGroupApiService.getCompanyStructureRangeGroup(data.rangeGroupId).pipe(
+          mergeMap((response) => {
+            if (response) {
+              const metadata = PayfactorsApiModelMapper.mapStructuresRangeGroupResponseToRangeGroupMetadata(response);
+              return [
+                new fromSharedStructuresActions.SetMetadata(metadata),
+                new fromSharedStructuresActions.GetCompanyExchanges(data.companyId)
+            ];
+            }
+          })
+        );
       })
     );
 
@@ -252,12 +273,28 @@ export class SharedEffects {
       })
     );
 
+  @Effect()
+  getGradesDetails: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromModelSettingsModalActions.GET_GRADES_DETAILS),
+      switchMap((action: fromModelSettingsModalActions.GetGradesDetails) => {
+        return this.structureModelingApiService.getGradesForStructureByRangeGroupId(action.payload)
+          .pipe(
+            map((res) => {
+              return new fromModelSettingsModalActions.GetGradesDetailsSuccess(res);
+            }),
+            catchError((err) => of(new fromModelSettingsModalActions.GetGradesDetailsError(err)))
+          );
+      })
+    );
+
   constructor(
     private actions$: Actions,
     private store: Store<fromSharedStructuresReducer.State>,
     private structureModelingApiService: StructureModelingApiService,
     private dataViewApiService: DataViewApiService,
-    private exchangeApiService: ExchangeApiService
+    private exchangeApiService: ExchangeApiService,
+    private structureRangeGroupApiService: StructureRangeGroupApiService
   ) {
   }
 }

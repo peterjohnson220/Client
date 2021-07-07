@@ -32,7 +32,6 @@ import {
   SharedEffects,
   SwitchRegressionFlagsModalEffects
 } from './effects';
-import { ModelSettingsModalContentComponent } from './containers/model-settings-modal-content/model-settings-modal-content.component';
 import { SwitchRegressionFlagsModalComponent } from './containers';
 
 
@@ -81,7 +80,6 @@ import { SwitchRegressionFlagsModalComponent } from './containers';
     GradeBasedSummaryChartComponent,
     GradeBasedVerticalRangeChartComponent,
     GradeBasedHorizontalRangeChartComponent,
-    ModelSettingsModalContentComponent,
     SwitchRegressionFlagsModalComponent
   ],
   exports: [
