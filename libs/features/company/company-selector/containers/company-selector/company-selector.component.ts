@@ -51,7 +51,16 @@ export class CompanySelectorComponent implements OnInit, OnDestroy {
   }
 
   public filterData(filterValue: string) {
-    this.filteredData = this.companies.filter((s) => s.CompanyName.toLowerCase().indexOf(filterValue.toLowerCase()) !== -1).slice(0, 20);
+    const totResults = 20;
+    const numIdResults = 5;
+    const resultsById =  this.companies.filter((s) => s.CompanyId.toString().indexOf(filterValue) !== -1).sort((a, b) => (a.CompanyId > b.CompanyId) ? 1 : -1).slice(0, numIdResults);
+    if (resultsById.length > 0) {
+      const resultsbyName =  this.companies.filter((s) =>
+        s.CompanyName.toLowerCase().indexOf(filterValue.toLowerCase()) !== -1).slice(0, totResults - resultsById.length);
+      this.filteredData = resultsById.concat(resultsbyName);
+    } else {
+      this.filteredData =  this.companies.filter((s) => s.CompanyName.toLowerCase().indexOf(filterValue.toLowerCase()) !== -1).slice(0, totResults);
+    }
   }
 
   public setSelectedCompany(selectedCompany: CompanySelectorItem) {
