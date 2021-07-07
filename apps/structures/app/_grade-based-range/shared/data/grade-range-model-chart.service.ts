@@ -427,9 +427,10 @@ export class GradeRangeModelChartService {
             padding: 0,
             headerFormat: '<div style="display: inline-block; background-color: black; color: white">',
             pointFormat: '<div><b>{point.gradeName}</b></div><div>' +
-              '<div>{point.currentMid}</div>' +
-              '<div>{point.modeledMid}</div>' +
-              '<div>{point.midPointDiff}</div>',
+              '<div>{point.dataPoint}</div>' +
+              '<div>{point.currentDataPoint}</div>' +
+              '<div>{point.newDataPoint}</div>' +
+              '<div><span style="font-size: 25px; color: {point.iconColor};">{point.icon}</span>{point.delta}</div>',
             footerFormat: '</div>'
           }
         },
@@ -912,9 +913,10 @@ export class GradeRangeModelChartService {
             padding: 0,
             headerFormat: '<div style="display: inline-block; background-color: black; color: white">',
             pointFormat: '<div><b>{point.gradeName}</b></div><div>' +
-              '<div>{point.currentMid}</div>' +
-              '<div>{point.modeledMid}</div>' +
-              '<div>{point.midPointDiff}</div>',
+              '<div>{point.dataPoint}</div>' +
+              '<div>{point.currentDataPoint}</div>' +
+              '<div>{point.newDataPoint}</div>' +
+              '<div><span style="font-size: 25px; color: {point.iconColor};">{point.icon}</span>{point.delta}</div>',
             footerFormat: '</div>'
           }
         },
