@@ -57,8 +57,16 @@ export class GraphHelper {
   static getGbrHorizontalChartHeight(data: any): number {
     const defaultOffset = 56;
     const rowHeight = 60;
+    const defaultSingleRecordHeight = 110;
+    const singleDataPointOffset = 35;
 
-    return (rowHeight * data.length) + defaultOffset;
+    if (data.length > 1) {
+      return (rowHeight * data.length) + defaultOffset;
+    } else if (data.length === 1) {
+      return defaultSingleRecordHeight + singleDataPointOffset;
+    } else {
+      return defaultSingleRecordHeight;
+    }
   }
 
   static getCompareChartHeight(dataLength: number, useAlignmentOffset: boolean): number {
