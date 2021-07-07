@@ -192,7 +192,7 @@
       [textAlign]="'center'"
       [roundingSettings]="roundingSettings"
       [refreshRowDataViewFilter]="getRefreshFilter(dataRow)"
-      [updateMetaInfo]="{ pageViewId: modelGridPageViewId, metaData: metaData, rowIndex: rowIndex, rangeType: rangeType }"
+      [updateMetaInfo]="{ pageViewId: modelGridPageViewId, metaData: metaData, dispSeq: dataRow.CompanyStructures_Ranges_DispSeq }"
       [updateSuccessCallbackFn]="updateMidSuccessCallbackFn"
       [readonlyValueTemplate]="rangeValue"
       [reloadGridData]="true">
