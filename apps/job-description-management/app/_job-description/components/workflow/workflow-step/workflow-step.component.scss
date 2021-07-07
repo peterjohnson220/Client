@@ -1,0 +1,27 @@
+$imageSize: 25px;
+
+.chip-container {
+  position: relative;
+  display: inline-block;
+  height: $imageSize;
+  font-size: 11px;
+  line-height: 11px;
+  border-radius: $imageSize;
+  background-color: #f1f1f1;
+  width: 125px;
+}
+
+.chip-container p {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.chip-container img {
+  position: absolute;
+  left: 0;
+  height: $imageSize;
+  width: $imageSize;
+  border-radius: 50%;
+}

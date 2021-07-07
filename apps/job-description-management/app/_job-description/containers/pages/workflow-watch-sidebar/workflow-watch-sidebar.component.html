@@ -9,10 +9,11 @@
     </div>
 
     <div *ngIf="showSubway" class="workflow-subway-container">
-      <pf-workflow-progress-bar [workflowStepSummary]="(workflowStepSummary$ | async)?.obj"
+      <pf-workflow-progress-bar [workflowStepSummary]="workflowStepSummary"
                                 [loading]="(workflowStepSummaryLoading$ | async)?.loading"
                                 [isSiteAdmin]="isSiteAdmin"
                                 [isCompanyAdmin]="isCompanyAdmin"
+                                [avatarUrl]="avatarUrl"
                                 (changeApproverClicked)="changeApproverClicked.emit($event)"
                                 (copyWorkflowLinkClicked)="copyWorkflowLink()"
                                 (emailResendClicked)="resendEmail()">
