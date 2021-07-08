@@ -107,7 +107,7 @@ export class SingleJobViewPageComponent implements OnInit, AfterViewInit, OnDest
         this.gradeRangeGroupData = data.data.find(x =>
           x.CompanyJobs_Structures_CompanyJobId === Number(this.activatedRoute.snapshot.params.id));
         this.jobTitle = this.gradeRangeGroupData?.CompanyJobs_Structures_JobTitle;
-        this.pricingId = this.gradeRangeGroupData.CompanyJobs_Pricings_CompanyJobPricing_ID;
+        this.pricingId = this.gradeRangeGroupData?.CompanyJobs_Pricings_CompanyJobPricing_ID;
       }
     });
 
