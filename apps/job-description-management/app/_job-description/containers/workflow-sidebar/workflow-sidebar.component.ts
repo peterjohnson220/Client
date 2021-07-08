@@ -1,5 +1,5 @@
 import cloneDeep from 'lodash/cloneDeep';
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
@@ -10,6 +10,7 @@ import { JobDescription } from 'libs/models/jdm/index';
 import { WorkflowStepInfo } from 'libs/models/security/index';
 import { AsyncStateObj } from 'libs/models/state/index';
 import { AttachmentFileType } from 'libs/models';
+import { FileDownloadSecurityWarningModalComponent } from 'libs/ui/common';
 
 import { JobDescriptionManagementJobDescriptionState } from '../../reducers';
 import * as fromWorkflowReducer from '../../reducers/index';
@@ -23,9 +24,11 @@ import { WorkflowLogEntry } from '../../models';
   styleUrls: ['./workflow-sidebar.component.scss']
 })
 export class WorkflowSidebarComponent implements OnInit, OnDestroy {
+  @ViewChild('fileDownloadSecurityWarningModal', { static: true }) fileDownloadSecurityWarningModal: FileDownloadSecurityWarningModalComponent;
   @Input() workflowStepInfo: WorkflowStepInfo;
   @Input() workflowStepCompleted: boolean;
   @Input() isInSystemWorkflow: boolean;
+  @Input() enableFileDownloadSecurityWarning: boolean;
 
   readonly ATTACHMENT_DOWNLOAD_URL_PREFIX = '/odata/CloudFiles.DownloadJDMWorkflowAttachment?FileName=';
 
@@ -42,6 +45,7 @@ export class WorkflowSidebarComponent implements OnInit, OnDestroy {
   attachments: any;
   iconFile: any;
   iconClass: any;
+  clickedAttachment: any;
 
   constructor(
     private store: Store<JobDescriptionManagementJobDescriptionState>,
@@ -78,7 +82,7 @@ export class WorkflowSidebarComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.jobDescriptionSubscription.unsubscribe();
+    this.jobDescriptionSubscription?.unsubscribe();
   }
 
   approveWorkflowStep() {
@@ -138,7 +142,20 @@ export class WorkflowSidebarComponent implements OnInit, OnDestroy {
     }
   }
 
+  onAttachmentClicked(attachment) {
+    this.clickedAttachment = attachment;
+    if (this.enableFileDownloadSecurityWarning) {
+      this.fileDownloadSecurityWarningModal.open();
+    }
+  }
+
   getAttachmentDownloadUrl(attachment) {
     return this.ATTACHMENT_DOWNLOAD_URL_PREFIX + attachment.CloudFileName;
   }
+
+  handleSecurityWarningConfirmed() {
+    window.location.href = this.ATTACHMENT_DOWNLOAD_URL_PREFIX + this.clickedAttachment.CloudFileName;
+  }
+
+  handleSecurityWarningCancelled() {}
 }

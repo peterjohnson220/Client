@@ -9,14 +9,14 @@ export interface JobDescriptionWorkflowAttachment {
   Status: KendoUploadStatus;
 }
 
-export function generateMockJobDescriptionWorkflowAttachment(): JobDescriptionWorkflowAttachment {
+export function generateMockJobDescriptionWorkflowAttachment(status: KendoUploadStatus): JobDescriptionWorkflowAttachment {
   return {
     Id: '12345',
     Name: '1234',
     FileType: 'Pdf',
     Size: 123456,
     CloudFileName: 'MockName.pdf',
-    Status: KendoUploadStatus.NotStarted
+    Status: status
   };
 }
 

@@ -11,7 +11,7 @@ import { Permissions } from 'libs/constants';
 import { NewLinePipe } from 'libs/core/pipes';
 import { KendoUploadStatus } from 'libs/models';
 
-import * as fromJDMSharedReduder from 'libs/features/jobs/job-description-management/reducers';
+import * as fromJDMSharedReducer from 'libs/features/jobs/job-description-management/reducers';
 import * as fromWorkflowConfigActions from 'libs/features/jobs/job-description-management/actions/workflow-config.actions';
 
 import * as fromJobDescriptionManagementReducer from '../../reducers';
@@ -62,15 +62,15 @@ export class WorkflowSetupModalComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store<fromJobDescriptionManagementReducer.State>,
-    private sharedJdmStore: Store<fromJDMSharedReduder.State>,
+    private sharedJdmStore: Store<fromJDMSharedReducer.State>,
     private modalService: NgbModal,
     private router: Router
   ) {
-    this.workflowSteps$ = this.store.pipe(select(fromJDMSharedReduder.getWorkflowStepsFromWorkflowConfig));
-    this.workflowTemplatesAsync$ = this.store.pipe(select(fromJDMSharedReduder.getWorkflowTemplateList));
-    this.hasForbiddenUsers$ = this.sharedJdmStore.pipe(select(fromJDMSharedReduder.getHasUsersWithoutPermission));
-    this.stepsDirty$ = this.sharedJdmStore.pipe(select(fromJDMSharedReduder.getWorkflowConfigDirty));
-    this.workflowAttachments$ = this.sharedJdmStore.pipe(select(fromJDMSharedReduder.getWorkflowAttachments));
+    this.workflowSteps$ = this.store.pipe(select(fromJDMSharedReducer.getWorkflowStepsFromWorkflowConfig));
+    this.workflowTemplatesAsync$ = this.store.pipe(select(fromJDMSharedReducer.getWorkflowTemplateList));
+    this.hasForbiddenUsers$ = this.sharedJdmStore.pipe(select(fromJDMSharedReducer.getHasUsersWithoutPermission));
+    this.stepsDirty$ = this.sharedJdmStore.pipe(select(fromJDMSharedReducer.getWorkflowConfigDirty));
+    this.workflowAttachments$ = this.sharedJdmStore.pipe(select(fromJDMSharedReducer.getWorkflowAttachments));
     this.convertNewLinePipe = new NewLinePipe();
   }
 
@@ -90,10 +90,10 @@ export class WorkflowSetupModalComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.workflowTemplatesAsyncSubscription.unsubscribe();
-    this.hasForbiddenUsersSubscription.unsubscribe();
-    this.workflowStepsSubscription.unsubscribe();
-    this.workflowAttachmentSubscription.unsubscribe();
+    this.workflowTemplatesAsyncSubscription?.unsubscribe();
+    this.hasForbiddenUsersSubscription?.unsubscribe();
+    this.workflowStepsSubscription?.unsubscribe();
+    this.workflowAttachmentSubscription?.unsubscribe();
   }
 
   open(): void {
@@ -182,7 +182,7 @@ export class WorkflowSetupModalComponent implements OnInit, OnDestroy {
     };
   }
 
-  get isUploadingOrScanningAttachments() {
-    return !!this.workflowAttachments.find((x) => x.Status !== KendoUploadStatus.UploadSucceed);
+  get shouldDisableRouteButton() {
+    return !!this.workflowAttachments.find((x) => x.Status !== KendoUploadStatus.ScanSucceeded);
   }
 }

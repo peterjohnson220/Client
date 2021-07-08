@@ -42,7 +42,7 @@
     <p class="m-0">Attachments</p>
     <ul class="p-1">
       <li class="p-2" *ngFor="let attachmentItem of attachments">
-        <a class="attachment-anchor" [attr.href]="getAttachmentDownloadUrl(attachmentItem)">
+        <a class="attachment-anchor" (click)="onAttachmentClicked(attachmentItem)" [attr.href]="!enableFileDownloadSecurityWarning ? getAttachmentDownloadUrl(attachmentItem) : null">
           <fa-icon [icon]="['fas', attachmentItem.iconType]" size="lg" class="icon {{attachmentItem.iconClass}} mr-2"></fa-icon>
           {{attachmentItem.Name}}</a>
       </li>
@@ -53,3 +53,8 @@
     <pf-workflow-log [workflowLogEntries]="(workflowLogEntriesAsync$ | async)?.obj" [loading]="workflowLogLoading$ | async"></pf-workflow-log>
   </div>
 </div>
+<pf-file-download-security-warning-modal
+  #fileDownloadSecurityWarningModal
+  (securityWarningConfirmed)="handleSecurityWarningConfirmed()"
+  (securityWarningCancelled)="handleSecurityWarningCancelled()">
+</pf-file-download-security-warning-modal>
