@@ -53,7 +53,13 @@ import {
   JobInsightsComponent
 } from './components';
 import { reducers } from './reducers';
-import { JobsPageEffects, JobDescriptionEffects, JobPeerMatchesEffects, ModifyPricingsEffects } from './effects';
+import {
+  JobsPageEffects,
+  JobDescriptionEffects,
+  JobPeerMatchesEffects,
+  ModifyPricingsEffects,
+  JobInsightsEffects
+} from './effects';
 import {
   ShowingActiveJobs,
   PricingMatchTypePipe,
@@ -82,7 +88,8 @@ import {
             JobsPageEffects,
             ModifyPricingsEffects,
             JobDescriptionEffects,
-            JobPeerMatchesEffects
+            JobPeerMatchesEffects,
+            JobInsightsEffects
         ]),
         FontAwesomeModule,
         TooltipModule,
