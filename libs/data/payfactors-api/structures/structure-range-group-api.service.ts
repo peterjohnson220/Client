@@ -38,6 +38,12 @@ export class StructureRangeGroupApiService {
     return this.payfactorsApiService.delete<any>(`${this.endpoint}(${companyStructureRangeGroupId})`);
   }
 
+  bulkDeleteStructureModels(companyStructureRangeGroupIds: number[]): Observable<any> {
+    return this.payfactorsApiService.post<number[]>(`${this.endpoint}/Default.BulkDeleteStructureModels`, {
+      CompanyStructureRangeGroupIds: companyStructureRangeGroupIds
+    });
+  }
+
   getDetails(companyStructureRangeGroupId: number): Observable<any> {
     return this.payfactorsApiService.get<any>(`${this.endpoint}(${companyStructureRangeGroupId})/Default.GetDetail`);
   }

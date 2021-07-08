@@ -13,6 +13,7 @@
   [inboundFilters]="inboundFilters"
   [aboveGridTemplate]="aboveGridTemplate"
   [gridRowActionsConfig]="hasDropdownOptions ? gridRowActionsConfig : null"
+  [gridActionsTemplate]="gridActions"
   [columnTemplates]="colTemplates"
   [filterPanelTemplates]="filterTemplates"
   [customSortOptions]="customSortOptions"
@@ -67,6 +68,32 @@
       >Duplicate</button>
     </div>
   </div>
+</ng-template>
+
+<ng-template #gridActions>
+  <button
+    type="button"
+    class="btn btn-secondary pf-btn-borderless"
+    [attr.data-qa-id]="'btn-clearSelection'"
+    [disabled]="!selectedRangeGroupIds || selectedRangeGroupIds.length==0"
+    (click)="handleClearSelectionClicked()">
+    <fa-icon [icon]="['far', 'times']"></fa-icon>
+    Clear Selections  <span *ngIf="selectedRangeGroupIds?.length>0">({{selectedRangeGroupIds.length}})</span>
+  </button>
+  <div
+    class="vertical-separator my-2"
+    [pfSecuredResource]="[permissions.STRUCTURES_ADD_EDIT_DELETE]">
+  </div>
+  <button
+    [attr.data-qa-id]="'btn-deleteModel'"
+    type="button"
+    [pfSecuredResource]="permissions.STRUCTURES_ADD_EDIT_DELETE"
+    [disabled]="!selectedRangeGroupIds || selectedRangeGroupIds.length==0"
+    (click)="handleDeleteModelClicked()"
+    class="btn btn-secondary pf-btn-borderless">
+    <fa-icon [icon]="['far', 'trash-alt']"></fa-icon>
+    Delete
+  </button>
 </ng-template>
 
 <pf-duplicate-model-modal [pfSecuredResource]="permissions.STRUCTURES_CREATE_EDIT_MODEL" [rangeGroupId]="selectedRangeGroupId"></pf-duplicate-model-modal>

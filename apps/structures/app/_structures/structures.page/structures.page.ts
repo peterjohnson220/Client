@@ -212,6 +212,11 @@ export class StructuresPageComponent implements AfterViewInit, OnInit, OnDestroy
     this.structuresStore.dispatch(new fromStructuresPageActions.OpenDeletePayMarketModal());
   }
 
+  handleDeleteModelClicked(): void {
+    this.deleteSingleRangeGroup = false;
+    this.structuresStore.dispatch(new fromStructuresPageActions.OpenDeletePayMarketModal());
+  }
+
   handleStructureModelDelete(): void {
     if (this.deleteSingleRangeGroup) {
       this.structuresStore.dispatch(new fromStructuresPageActions.DeleteStructureModel({
@@ -242,6 +247,10 @@ export class StructuresPageComponent implements AfterViewInit, OnInit, OnDestroy
     field.FilterValues = payMarkets?.length > 0 ? payMarkets.map(x => x.Value) : null;
     field.FilterOperator = 'in';
     this.updateField(field);
+  }
+
+  handleClearSelectionClicked(): void {
+    this.pfDataGridStore.dispatch(new fromPfDataGridActions.ClearSelections(this.pageViewId));
   }
 
   handleSingleValueChanged(item: GroupedListItem, filterField: ViewField): void {

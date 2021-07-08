@@ -24,7 +24,7 @@ export class StructuresPageEffects {
     .pipe(
       ofType(fromStructuresPageActions.DELETE_STRUCTURE_MODEL),
       switchMap((data: any) => {
-        return this.structureRangeGroupApiService.deleteStructureModel(data.payload.rangeGroupIds).pipe(
+        return this.structureRangeGroupApiService.bulkDeleteStructureModels(data.payload.rangeGroupIds).pipe(
           mergeMap(() => [
             new fromStructuresPageActions.DeleteStructureModelSuccess(),
             new fromPfDataGridActions.ClearSelections(data.payload.pageViewId),
