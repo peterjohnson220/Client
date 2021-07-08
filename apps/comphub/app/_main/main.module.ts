@@ -121,7 +121,9 @@ import { JobsCardWrapperComponent } from './containers/wrappers/jobs-card-wrappe
     JobsCardWrapperComponent,
     ComphubFooterComponent,
     MarketsCardComponent,
-    QuickPriceLandingPageComponent
+    QuickPriceLandingPageComponent,
+    JobGridComponent,
+    MarketDataJobGridComponent
   ]
 })
 export class MainModule {
