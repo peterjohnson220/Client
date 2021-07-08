@@ -21,14 +21,16 @@ const initialState: State = {
 export function reducer(state: State = initialState, action: fromJobGridActions.Actions) {
   switch (action.type) {
     case fromJobGridActions.GET_QUICK_PRICE_MARKET_DATA:
-    case fromJobGridActions.GET_PEER_JOB_DATA: {
+    case fromJobGridActions.GET_PEER_JOB_DATA:
+    case fromJobGridActions.SEARCH_CROWD_SOURCED_JOBS_BY_TITLE: {
       return {
         ...state,
         loading: true,
         loadingError: false
       };
     }
-    case fromJobGridActions.GET_QUICK_PRICE_DATA_SUCCESS: {
+    case fromJobGridActions.GET_QUICK_PRICE_DATA_SUCCESS:
+    case fromJobGridActions.SEARCH_CROWD_SOURCED_JOBS_BY_TITLE_SUCCESS: {
       return {
         ...state,
         jobResults: action.payload,
@@ -61,6 +63,17 @@ export function reducer(state: State = initialState, action: fromJobGridActions.
       return {
         ...state,
         jobResults: newJobResults
+      };
+    }
+    case fromJobGridActions.GET_CROWD_SOURCED_JOB_PRICING_SUCCESS: {
+      const jobResults = cloneDeep(state.jobResults);
+      const jobToUpdate = jobResults.Data.find(jr => jr.JobTitle === action.payload.JobTitle);
+      jobToUpdate.Base50 = action.payload.Base50;
+      jobToUpdate.Tcc50 = action.payload.Tcc50;
+
+      return {
+        ...state,
+        jobResults: jobResults
       };
     }
     default: {

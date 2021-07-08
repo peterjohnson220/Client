@@ -11,6 +11,7 @@ import * as fromComphubPageActions from '../../../../_main/actions/comphub-page.
 import * as fromJobsCardActions from '../../../../_main/actions/jobs-card.actions';
 import { CountryDataSet, WorkflowContext } from '../../../../_main/models';
 import * as fromComphubMainReducer from '../../../../_main/reducers';
+import * as fromJobGridActions from '../../../../_main/actions/job-grid.actions';
 
 @Component({
   selector: 'pf-crowd-sourced-jobs-card',
@@ -67,7 +68,7 @@ export class CrowdSourcedJobsCardComponent implements OnInit, OnDestroy {
 
   handleJobSearchValueChanged(selectedTerm: string): void {
     if (this.potentialOptions.some(x => x.toLowerCase() === selectedTerm.toLowerCase())) {
-      this.store.dispatch(new fromJobsCardActions.SetSelectedJob({jobTitle: selectedTerm }));
+      this.store.dispatch(new fromJobsCardActions.SetSelectedJob({ jobTitle: selectedTerm }));
     } else if (this.selectedJob) {
       this.store.dispatch(new fromJobsCardActions.ClearSelectedJob());
     }
@@ -92,6 +93,11 @@ export class CrowdSourcedJobsCardComponent implements OnInit, OnDestroy {
         this.workflowContext = wfc;
       }
     });
+
+    // TODO hardcoded just to check functionality
+    // Should be rewritten
+    this.store.dispatch(new fromJobsCardActions.SetSelectedJob({ jobTitle: 'Software' }));
+    this.store.dispatch(new fromJobGridActions.SearchCrowdSourcedJobsByTitle('software'));
   }
 
   ngOnDestroy(): void {
@@ -99,5 +105,4 @@ export class CrowdSourcedJobsCardComponent implements OnInit, OnDestroy {
     this.selectedJobSub.unsubscribe();
     this.jobSearchOptionsSub.unsubscribe();
   }
-
 }
