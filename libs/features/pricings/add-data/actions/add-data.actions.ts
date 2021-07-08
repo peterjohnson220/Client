@@ -4,7 +4,7 @@ export const ADD_DATA = '[Project Add Data/Add Survey Data Page] Add Data Cuts t
 export const ADD_DATA_SUCCESS = '[Project Add Data/Add Survey Data Page] Add Data Cuts to Project Success';
 export const ADD_DATA_ERROR = '[Project Add Data/Add Survey Data Page] Add Data Cuts to Project Error';
 export const RESET_ADD_DATA = '[Project Add Data/Add Survey Data Page] Reset Add Button';
-
+export const SET_ADD_DATA_MODAL_STATUS = '[Project Add Data/Add Survey Data Page] Set Add Data Modal Status';
 export class AddData implements Action {
   readonly type = ADD_DATA;
 
@@ -29,8 +29,15 @@ export class ResetAddData implements Action {
   constructor() {}
 }
 
+export class SetAddDataModalStatus implements Action {
+  readonly type = SET_ADD_DATA_MODAL_STATUS;
+
+  constructor(public payload: boolean) {}
+}
+
 export type Actions
   = AddData
   | AddDataSuccess
   | AddDataError
-  | ResetAddData;
+  | ResetAddData
+  | SetAddDataModalStatus;

@@ -2,7 +2,7 @@ import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } fr
 import { ActivatedRoute } from '@angular/router';
 
 import { select, Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription} from 'rxjs';
 import { SortDescriptor } from '@progress/kendo-data-query';
 
 import { ActionBarConfig, getDefaultActionBarConfig, GridConfig } from 'libs/features/grids/pf-data-grid/models';
@@ -10,7 +10,7 @@ import { FileDownloadSecurityWarningModalComponent } from 'libs/ui/common/file-d
 import { DataGridState } from 'libs/features/grids/pf-data-grid/reducers/pf-data-grid.reducer';
 import { Permissions } from 'libs/constants';
 import { ProjectContext } from 'libs/features/surveys/survey-search/models';
-import { SurveySearchFilterMappingDataObj, SurveySearchUserFilterType } from 'libs/features/surveys/survey-search/data';
+import { SurveySearchFilterMappingDataObj, SurveySearchUserFilterType} from 'libs/features/surveys/survey-search/data';
 import { SearchFeatureIds } from 'libs/features/search/search/enums/search-feature-ids';
 import { UserContext } from 'libs/models';
 import { PricingProjectHelperService } from 'libs/core';
@@ -24,7 +24,6 @@ import * as fromSearchFeatureActions from 'libs/features/search/search/actions/s
 import { PageViewIds } from '../../shared/constants';
 import * as fromPricingProjectReducer from '../reducers';
 
-
 @Component({
   selector: 'pf-pricing-project',
   templateUrl: './pricing-project.page.html',
@@ -32,15 +31,16 @@ import * as fromPricingProjectReducer from '../reducers';
 })
 export class PricingProjectPageComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('jobTitle') jobTitle: ElementRef;
-  @ViewChild('gridGlobalActions', { static: true }) gridGlobalActionsTemplate: ElementRef;
-  @ViewChild('fileDownloadSecurityWarningModal', { static: true }) fileDownloadSecurityWarningModal: FileDownloadSecurityWarningModalComponent;
-  @ViewChild('compColumn', { static: false }) compColumn: ElementRef;
-  @ViewChild('percentageColumn', { static: false }) percentageColumn: ElementRef;
-  @ViewChild('companyColumn', { static: false }) companyColumn: ElementRef;
-
+  @ViewChild('gridGlobalActions', {static: true}) gridGlobalActionsTemplate: ElementRef;
+  @ViewChild('fileDownloadSecurityWarningModal', {static: true}) fileDownloadSecurityWarningModal: FileDownloadSecurityWarningModalComponent;
+  @ViewChild('compColumn', {static: false}) compColumn: ElementRef;
+  @ViewChild('percentageColumn', {static: false}) percentageColumn: ElementRef;
+  @ViewChild('companyColumn', {static: false}) companyColumn: ElementRef;
   permissions = Permissions;
   viewingJobSummary: boolean;
   project$: Observable<any>;
+  projectSubscription: Subscription;
+  projectRate: 'Annual';
   projectId: number;
   pageViewId = PageViewIds.ProjectJobs;
   filter = [];
@@ -106,6 +106,9 @@ export class PricingProjectPageComponent implements OnInit, AfterViewInit, OnDes
   ngOnInit(): void {
     this.initRouterParams();
     this.project$ = this.store.select(fromPricingProjectReducer.getPricingProject);
+    this.projectSubscription = this.project$.subscribe(p => {
+      this.projectRate = p.Rate;
+    });
     this.filter = [{
       SourceName: 'UserSession_ID',
       Operator: '=',
@@ -115,7 +118,8 @@ export class PricingProjectPageComponent implements OnInit, AfterViewInit, OnDes
     this.companySettingsSubscription = this.store.select(fromCompanySettingsReducer.getCompanySettings).subscribe(cs => {
       if (cs !== null && cs !== undefined) {
         this.displaySecurityWarning = cs.find(x => x.Key === 'FileDownloadSecurityWarning').Value === 'true';
-        this.restrictSearchToPayMarketCountry = cs.find(x => x.Key === 'FileDownloadSecurityWarning').Value === 'true' || false;
+        this.restrictSearchToPayMarketCountry = cs.find(x => x.Key === 'RestrictSurveySearchCountryFilterToPayMarket').Value === 'true' || false;
+
       }
     });
 
@@ -131,13 +135,14 @@ export class PricingProjectPageComponent implements OnInit, AfterViewInit, OnDes
   ngOnDestroy() {
     this.companySettingsSubscription.unsubscribe();
     this.selectedRecordSubscription.unsubscribe();
+    this.projectSubscription.unsubscribe();
   }
 
   ngAfterViewInit() {
     this.colTemplates = {
-      'Job_Title': { Template: this.jobTitle },
-      'comp': { Template: this.compColumn },
-      'percentage': { Template: this.percentageColumn }
+      'Job_Title': {Template: this.jobTitle},
+      'comp': {Template: this.compColumn},
+      'percentage': {Template: this.percentageColumn}
     };
 
     this.actionBarConfig = {
