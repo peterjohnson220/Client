@@ -1401,7 +1401,7 @@ export function buildFiltersView(views: DataViewConfig[], state: DataGridStoreSt
     Fields: view.Fields
       .filter(field => field.FilterOperator && field.FilterValues !== null && !field.IsGlobalFilter),
     Description: view.Fields
-      .filter(field => field.FilterOperator && field.FilterValues !== null && !field.IsGlobalFilter)
+      .filter(field => field.FilterOperator && field.FilterValues !== null && !field.IsGlobalFilter && field.IsFilterable)
       .map(field => {
         return ({
           ...field,
