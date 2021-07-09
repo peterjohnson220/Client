@@ -1,6 +1,8 @@
 import { Action } from '@ngrx/store';
 
-import { JobData, JobGridData, QuickPriceGridContext } from '../models';
+import { JobData, JobGridData } from 'libs/models/comphub';
+
+import { QuickPriceGridContext } from '../models';
 
 export const GET_QUICK_PRICE_MARKET_DATA  = '[Comphub/Jobs Card] Get quick Price Data';
 export const GET_QUICK_PRICE_DATA_SUCCESS  = '[Comphub/Jobs Card] Get quick Price Data Success';

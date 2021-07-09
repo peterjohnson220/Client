@@ -1,7 +1,8 @@
+import { QuickPriceType } from 'libs/constants';
+import { ExchangeDataSet, generateMockExchangeDataSet } from 'libs/models/comphub/exchange-data.set';
+
 import { ComphubPages } from '../data';
 import { CountryDataSet, generateMockCountryDataSet } from './country-data.set';
-import { ExchangeDataSet, generateMockExchangeDataSet } from './exchange-data.set';
-import { QuickPriceType } from 'libs/constants';
 
 export interface WorkflowContext {
   selectedPageId: ComphubPages;

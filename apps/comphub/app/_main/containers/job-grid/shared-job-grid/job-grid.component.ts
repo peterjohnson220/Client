@@ -2,7 +2,9 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { SortDescriptor } from '@progress/kendo-data-query';
 
-import { JobData, JobGridData, QuickPriceGridColumn } from '../../../models';
+import { JobData, JobGridData } from 'libs/models/comphub';
+
+import { QuickPriceGridColumn } from '../../../models';
 import { DataCardHelper } from '../../../helpers';
 
 @Component({

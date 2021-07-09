@@ -18,14 +18,12 @@ import {
   JobPricedHistorySummaryResponse,
   QuickPriceJobDataRequest,
   QuickPriceJobDataResponse,
-  SearchCrowdSourcedJobsResponse, GetCrowdSourcedJobPricingResponse
+  SearchCrowdSourcedJobsResponse,
+  GetCrowdSourcedJobPricingResponse
 } from 'libs/models/payfactors-api/comphub';
 import { QuickPriceExchangeDataSearchRequest } from 'libs/models/payfactors-api/peer/exchange-data-search/request';
-
-import { PayfactorsApiService } from '../payfactors-api.service';
-
-import { ExchangeDataSet, PeerQuickPriceData } from '../../../../apps/comphub/app/_main/models';
-
+import { PayfactorsApiService } from 'libs/data/payfactors-api/payfactors-api.service';
+import { ExchangeDataSet, PeerQuickPriceData } from 'libs/models/comphub';
 
 @Injectable({
   providedIn: 'root',

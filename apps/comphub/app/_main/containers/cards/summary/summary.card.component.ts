@@ -20,14 +20,16 @@ import * as fromLibsPeerExchangeExplorerReducers from 'libs/features/peer/exchan
 import { SettingsService } from 'libs/state/app-context/services';
 import { CompanySettingsEnum } from 'libs/models/company';
 import { FileDownloadSecurityWarningModalComponent } from 'libs/ui/common';
+import { JobData, PricingPaymarket } from 'libs/models/comphub';
 
 import * as fromSummaryCardActions from '../../../actions/summary-card.actions';
 import * as fromDataCardActions from '../../../actions/data-card.actions';
 import * as fromComphubMainReducer from '../../../reducers';
 import * as fromComphubPageActions from '../../../actions/comphub-page.actions';
-import { JobData, PricingPaymarket, JobSalaryTrend, WorkflowContext } from '../../../models';
+import { JobSalaryTrend, WorkflowContext } from '../../../models';
 import { ComphubPages } from '../../../data';
 import { DataCardHelper } from '../../../helpers';
+
 @Component({
   selector: 'pf-summary-card',
   templateUrl: './summary.card.component.html',

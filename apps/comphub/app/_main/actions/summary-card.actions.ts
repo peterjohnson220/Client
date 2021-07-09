@@ -1,8 +1,9 @@
 import { Action } from '@ngrx/store';
 
 import { SharePricingSummaryRequest } from 'libs/models/payfactors-api';
+import { JobData } from 'libs/models/comphub';
 
-import { JobData, JobSalaryTrend } from '../models';
+import { JobSalaryTrend } from '../models';
 
 export const PRICE_NEW_JOB = '[Comphub/Summary Card] Price New Job';
 export const GET_JOB_NATIONAL_TREND = '[Comphub/Summary Card] Get National Job Trend';

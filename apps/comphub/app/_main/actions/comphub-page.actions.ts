@@ -2,8 +2,10 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 import { Action } from '@ngrx/store';
 
+import { ExchangeDataSet, JobData } from 'libs/models/comphub';
+
 import { ComphubPages } from '../data';
-import { CountryDataSet, JobPricingLimitInfo, ExchangeDataSet, FooterContext, JobData } from '../models';
+import { CountryDataSet, JobPricingLimitInfo, FooterContext } from '../models';
 
 export const INIT = '[Comphub/Comphub Page] Init Comphub Page';
 export const NAVIGATE_TO_CARD = '[Comphub/Comphub Page] Navigate to Card';

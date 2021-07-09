@@ -6,6 +6,7 @@ import { of } from 'rxjs';
 
 import * as fromRootState from 'libs/state/state';
 import { QuickPriceType } from 'libs/constants';
+import { generateMockPricingPaymarket } from 'libs/models/comphub';
 
 import { MarketsCardComponent } from './markets.card.component';
 import * as fromComphubMainReducer from '../../../reducers';
@@ -15,11 +16,9 @@ import * as fromAddPayMarketFormActions from '../../../actions/add-paymarket-for
 import {
   AddPayMarketFormData,
   generateMockAddPayMarketFormData,
-  generateMockPricingPaymarket,
   generateMockWorkflowContext
 } from '../../../models';
 import { ComphubPages } from '../../../data';
-
 
 describe('Comphub - Main - Markets Card Component', () => {
   let instance: MarketsCardComponent;

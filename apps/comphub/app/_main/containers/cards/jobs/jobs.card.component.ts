@@ -9,11 +9,12 @@ import { UserContext } from 'libs/models/security';
 import { QuickPriceType, SystemUserGroupNames } from 'libs/constants';
 import { ExchangeJobSearchOption } from 'libs/models/peer/ExchangeJobSearchOption';
 import { AsyncStateObj } from 'libs/models/state';
+import { ExchangeDataSet, JobData } from 'libs/models/comphub';
 
 import * as fromJobsCardActions from '../../../actions/jobs-card.actions';
 import * as fromComphubPageActions from '../../../actions/comphub-page.actions';
 import * as fromComphubMainReducer from '../../../reducers';
-import { CountryDataSet, ExchangeDataSet, JobData, JobPricingLimitInfo, QuickPriceHistoryContext, TrendingJobGroup, WorkflowContext } from '../../../models';
+import { CountryDataSet, JobPricingLimitInfo, QuickPriceHistoryContext, TrendingJobGroup, WorkflowContext } from '../../../models';
 import { ComphubPages } from '../../../data';
 
 @Component({

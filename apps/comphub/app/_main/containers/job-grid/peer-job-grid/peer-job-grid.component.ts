@@ -6,9 +6,9 @@ import { Observable, Subscription } from 'rxjs';
 import * as fromLibsPeerExchangeExplorerReducers from 'libs/features/peer/exchange-explorer/reducers';
 import * as fromExchangeExplorerContextInfoActions from 'libs/features/peer/exchange-explorer/actions/exchange-explorer-context-info.actions';
 import { ComphubExchangeExplorerContextRequest } from 'libs/models/peer/requests/comphub-exchange-explorer-context-request.model';
+import { ExchangeDataSet } from 'libs/models/comphub';
 
 import * as fromComphubMainReducer from '../../../reducers';
-import { ExchangeDataSet } from '../../../models';
 import { AbstractJobGrid, JobGridComponent } from '../shared-job-grid';
 
 @Component({

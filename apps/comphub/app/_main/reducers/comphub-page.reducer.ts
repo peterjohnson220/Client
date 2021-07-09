@@ -2,10 +2,11 @@ import { createSelector } from '@ngrx/store';
 import cloneDeep from 'lodash/cloneDeep';
 
 import { QuickPriceType } from 'libs/constants';
+import { ExchangeDataSet, JobData } from 'libs/models/comphub';
 
 import * as fromComphubPageActions from '../actions/comphub-page.actions';
 import { AccordionCard, AccordionCards, ComphubPages } from '../data';
-import { CountryDataSet, JobPricingLimitInfo, ExchangeDataSet, WorkflowContext, FooterContext, JobData } from '../models';
+import { CountryDataSet, JobPricingLimitInfo, WorkflowContext, FooterContext } from '../models';
 
 export interface State {
   cards: AccordionCard[];

@@ -1,8 +1,9 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { generateMockPricingPaymarket } from 'libs/models/comphub';
+
 import { PaymarketCardsComponent } from './paymarket-cards.component';
-import { generateMockPricingPaymarket } from '../../models';
 
 describe('Comphub - Main - Paymarket Cards', () => {
   let instance: PaymarketCardsComponent;
