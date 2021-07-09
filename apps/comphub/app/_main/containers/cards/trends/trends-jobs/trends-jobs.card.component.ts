@@ -7,7 +7,7 @@ import { Store } from '@ngrx/store';
 import { ExchangeJobSearchOption } from 'libs/models/peer/ExchangeJobSearchOption';
 import { SearchFeatureIds } from 'libs/features/search/search/enums/search-feature-ids';
 import * as fromSearchFeatureActions from 'libs/features/search/search/actions/search-feature.actions';
-import * as fromLibsPeerExchangeJobSearchReducer from 'libs/features/peer/exchange-job-search/reducers';
+import * as fromLibsPeerRelationalExchangeJobSearchReducer from 'libs/features/peer/relational-exchange-job-search/reducers';
 
 import { ComphubPages } from '../../../../data';
 import * as fromComphubMainReducer from '../../../../reducers/';
@@ -25,8 +25,6 @@ import * as fromTrendsJobsCardActions from '../../../../actions/trends-jobs.acti
 export class TrendsJobsCardComponent implements OnInit, OnDestroy {
   @ViewChild('exchangeJobSearch') exchangeJobSearch: AutoCompleteComponent;
   exchangeJobSearchOptions$: Observable<ExchangeJobSearchOption[]>;
-  selectedJob$: Observable<string>;
-  loadingJobSearchOptions$: Observable<boolean>;
   activeExchangeId$: Observable<number>;
   selectedPageId$: Observable<string>;
 
@@ -50,7 +48,7 @@ export class TrendsJobsCardComponent implements OnInit, OnDestroy {
     };
     this.exchangeJobSearchOptions$ = this.store.select(fromComphubMainReducer.getExchangeJobSearchOptions);
     this.activeExchangeId$ = this.store.select(fromComphubMainReducer.getActiveExchangeId);
-    this.selectedExchangeJobResults$ = this.store.select(fromLibsPeerExchangeJobSearchReducer.getSelectedExchangeJobs);
+    this.selectedExchangeJobResults$ = this.store.select(fromLibsPeerRelationalExchangeJobSearchReducer.getSelectedExchangeJobs);
     this.selectedPageId$ = this.store.select(fromComphubMainReducer.getSelectedPageId);
   }
 

@@ -3,9 +3,9 @@ import { Observable } from 'rxjs';
 
 import {
   ExchangeJobSearchAutocompleteRequest,
-  MdJobExchangeJobSearchAggregationRequest,
-  MdJobExchangeJobSearchRequest,
-  MDJobExchangeJobSearchResponse
+  RelationalExchangeJobSearchAggregationRequest,
+  RelationalExchangeJobSearchRequest,
+  RelationalExchangeJobSearchResponse
 } from 'libs/models/payfactors-api/exchange-job-search';
 import { SearchFilter } from 'libs/models/payfactors-api';
 import { ExchangeJobSearchOption } from 'libs/models/peer/ExchangeJobSearchOption';
@@ -26,11 +26,12 @@ export class ExchangeJobSearchApiService {
     return this.payfactorsApiService.post(`${this.endpoint}/GetAutocompleteSuggestions`, autocompleteRequest);
   }
 
-  getMDJobExchangeJobSearchResults(request: MdJobExchangeJobSearchRequest): Observable<MDJobExchangeJobSearchResponse> {
-    return this.payfactorsApiService.post(`${this.endpoint}/GetMDJobExchangeJobSearchResults`, request);
+  getRelationalExchangeJobSearchResults(request: RelationalExchangeJobSearchRequest): Observable<RelationalExchangeJobSearchResponse> {
+    return this.payfactorsApiService.post(`${this.endpoint}/GetRelationalExchangeJobSearchResults`, request);
   }
-  getMDJobExchangeJobSearchAggregationResults(request: MdJobExchangeJobSearchAggregationRequest): Observable<SearchFilter> {
-    return this.payfactorsApiService.post(`${this.endpoint}/GetMDJobExchangeJobSearchAggregationResults`, request);
+
+  getRelationalExchangeJobSearchAggregationResults(request: RelationalExchangeJobSearchAggregationRequest): Observable<SearchFilter> {
+    return this.payfactorsApiService.post(`${this.endpoint}/GetRelationalExchangeJobSearchAggregationResults`, request);
   }
 
 }

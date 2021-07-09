@@ -27,7 +27,7 @@ import { PfExchangeExplorerModule } from 'libs/features/peer/exchange-explorer';
 import { DojGuidelinesService } from 'libs/features/peer/guidelines-badge/services/doj-guidelines.service';
 import { BasicDataGridModule } from 'libs/features/grids/basic-data-grid';
 import { PfSideBarInfoModule } from 'libs/features/side-bar-info/side-bar-info.module';
-import { PfPeerExchangeJobSearchModule } from 'libs/features/peer/exchange-job-search/exchange-job-search.module';
+import { PfPeerRelationalExchangeJobSearchModule } from 'libs/features/peer/relational-exchange-job-search/relational-exchange-job-search.module';
 import { PfDataGridModule } from 'libs/features/grids/pf-data-grid';
 
 import {
@@ -109,7 +109,7 @@ import { HistoricalOrgIncCountChartComponent } from './components/salary-trend-c
         GuidelinesBadgeModule,
         BasicDataGridModule,
         PfSideBarInfoModule,
-        PfPeerExchangeJobSearchModule,
+        PfPeerRelationalExchangeJobSearchModule,
         PfDataGridModule
     ],
   declarations: [
