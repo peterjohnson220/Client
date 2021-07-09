@@ -6,6 +6,7 @@ import { Observable, Subscription} from 'rxjs';
 import { SortDescriptor } from '@progress/kendo-data-query';
 
 import { ActionBarConfig, getDefaultActionBarConfig, GridConfig } from 'libs/features/grids/pf-data-grid/models';
+import * as fromAddDataActions from 'libs/features/pricings/add-data/actions/add-data.actions';
 import { FileDownloadSecurityWarningModalComponent } from 'libs/ui/common/file-download-security-warning';
 import { DataGridState } from 'libs/features/grids/pf-data-grid/reducers/pf-data-grid.reducer';
 import { Permissions } from 'libs/constants';
@@ -196,5 +197,30 @@ export class PricingProjectPageComponent implements OnInit, AfterViewInit, OnDes
 
   jobSummaryClickHandler(): void {
     this.viewingJobSummary = !this.viewingJobSummary;
+  }
+
+  openAddDataModal(event, dataRows): void {
+
+    const jobContext = {
+      JobTitle: dataRows['vw_ProjectJobPayMarketMetadata_Job_Title'],
+      JobPayMarketId: dataRows['vw_ProjectJobPayMarketMetadata_Paymarket'],
+      CompanyJobId: dataRows['CompanyJobs_CompanyJob_ID'],
+      JobCode: dataRows['vw_ProjectJobPayMarketMetadata_Job_Code'],
+    };
+    const searchContext = {
+      PaymarketId: dataRows['CompanyPayMarkets_CompanyPayMarket_ID'],
+      CurrencyCode: dataRows['vw_ProjectJobPayMarketMetadata_Currency'],
+      ProjectId: dataRows['vw_ProjectJobPayMarketMetadata_UserSession_ID'],
+      CountryCode: dataRows['vw_ProjectJobPayMarketMetadata_Country_Code'],
+      RestrictToCountryCode: this.restrictSearchToPayMarketCountry,
+      Rate: this.projectRate
+    };
+
+    this.store.dispatch(new fromSearchFeatureActions.SetSearchFeatureId(SearchFeatureIds.AddSurveyData));
+    this.store.dispatch(new fromSearchPageActions.SetSearchFilterMappingData(SurveySearchFilterMappingDataObj));
+    this.store.dispatch(new fromSearchPageActions.SetUserFilterTypeData(SurveySearchUserFilterType));
+    this.pricingProjectHelperService.SetAddDataModalContext(jobContext, searchContext);
+
+    event.stopPropagation();
   }
 }

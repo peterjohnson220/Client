@@ -60,6 +60,10 @@
       <div>
         <label><i> {{dataRow['vw_ProjectJobPayMarketMetadata_Paymarket']}}</i></label>
       </div>
+      <div [pfSecuredResource]="permissions.PRICING_PROJECTS_DATA_CUTS"
+           *ngIf="!dataRow['vw_ProjectJobPayMarketMetadata_IsPayfactorsJob']">
+        <span (click)="openAddDataModal($event, dataRow)" class="pf-link"><b>Add Data</b></span>
+      </div>
     </div>
   </div>
 </ng-template>
@@ -155,3 +159,5 @@
   </ng-container>
 </ng-template>
 
+<pf-add-data [display]="'modal'">
+</pf-add-data>
