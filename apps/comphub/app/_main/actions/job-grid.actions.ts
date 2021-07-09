@@ -4,9 +4,9 @@ import { JobData, JobGridData } from 'libs/models/comphub';
 
 import { QuickPriceGridContext } from '../models';
 
-export const GET_QUICK_PRICE_MARKET_DATA  = '[Comphub/Jobs Card] Get quick Price Data';
-export const GET_QUICK_PRICE_DATA_SUCCESS  = '[Comphub/Jobs Card] Get quick Price Data Success';
-export const GET_QUICK_PRICE_MARKET_DATA_ERROR  = '[Comphub/Jobs Card] Get quick Price Data Error';
+export const GET_QUICK_PRICE_MARKET_DATA  = '[Comphub/Jobs Card] Get Quick Price Data';
+export const GET_QUICK_PRICE_DATA_SUCCESS  = '[Comphub/Jobs Card] Get Quick Price Data Success';
+export const GET_QUICK_PRICE_MARKET_DATA_ERROR  = '[Comphub/Jobs Card] Get Quick Price Data Error';
 export const LOAD_MORE_DATA_SUCCESS = '[Comphub/Jobs Card] Load More Data Success';
 export const TOGGLE_JOB_DESCRIPTION = '[Comphub/Jobs Card] Toggle Job Description';
 export const GET_PEER_JOB_DATA = '[Comphub/Jobs Card] Get Peer Job Data';
