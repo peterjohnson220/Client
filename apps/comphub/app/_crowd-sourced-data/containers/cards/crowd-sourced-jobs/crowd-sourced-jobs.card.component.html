@@ -23,25 +23,15 @@
 
           </kendo-dropdownlist>
         </div>
-        <kendo-autocomplete
-          #jobSearch
-          class="w-100 mt-4"
-          placeholder="Search for a Job Title..."
-          [data]="(jobSearchOptions$ | async)"
-          [value]="!(jobPricingBlocked$ | async) ? (selectedJob$ | async) : ''"
-          [filterable]="true"
-          [loading]="loadingJobSearchOptions$ | async"
-          [disabled]="jobPricingBlocked$ | async"
-          [popupSettings]="popupSettings"
-          [attr.data-qa-id]="'txt-job-search'"
-          (close)="handleSearchClosed()"
-          (valueChange)="handleJobSearchValueChanged($event)"
-          (filterChange)="handleJobSearchFilterChange($event)">
-          <ng-template kendoAutoCompleteNoDataTemplate>
-            No matching job titles
-          </ng-template>
-        </kendo-autocomplete>
-        </div>
+
+        <pf-input-debounce (valueChanged)="handleJobSearchValueChanged($event)"
+                           [delay]="2000"
+                           [placeholderText]="'Search for a Job Title...'"
+                           [focus]="false"
+                           [resetValue$]="clearSearch$">
+        </pf-input-debounce>
+
+      </div>
     </div>
 
     <!-- TODO hardcoded just to check functionality. Should be rewritten -->

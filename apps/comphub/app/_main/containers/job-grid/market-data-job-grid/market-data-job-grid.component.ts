@@ -26,7 +26,8 @@ export class MarketDataJobGridComponent extends AbstractJobGrid implements OnIni
       this.jobTitle = jobTitle;
       this.jobGrid.resetGridContext();
       if (jobTitle?.length) {
-        this.loadJobResults(this.defaultGridContext);
+        // TODO Uncomment this when Jake's UI story will be completed
+        // this.loadJobResults(this.defaultGridContext);
       }
     });
   }
