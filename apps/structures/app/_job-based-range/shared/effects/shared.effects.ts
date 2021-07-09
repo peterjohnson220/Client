@@ -113,93 +113,6 @@ export class SharedEffects {
       })
     );
 
-  @Effect()
-  saveJobBasedModelSettings$: Observable<Action> = this.actions$
-    .pipe(
-      ofType<fromModelSettingsModalActions.SaveJobBasedModelSettings>(fromModelSettingsModalActions.SAVE_JOB_BASED_MODEL_SETTINGS),
-      withLatestFrom(
-        this.store.pipe(select(fromSharedStructuresReducer.getMetadata)),
-        this.store.pipe(select(fromPfDataGridReducer.getGridConfig)),
-        this.store.pipe(select(fromPfDataGridReducer.getData)),
-        this.store.pipe(select(fromPfDataGridReducer.getPagingOptions)),
-        (action, metadata: RangeGroupMetadata, gridConfig: GridConfig, gridData: GridDataResult, pagingOptions: PagingOptions) => {
-          return { action, metadata, gridConfig, gridData, pagingOptions };
-        }
-      ),
-      switchMap((data) => {
-        let advancedSetting;
-        if (data.action.payload.formValue.RangeAdvancedSetting != null) {
-          advancedSetting = PayfactorsApiModelMapper.mapAdvancedSettingModalFormToAdvancedSettingRequest(
-            data.action.payload.formValue.RangeAdvancedSetting, data.action.payload.rounding);
-        } else {
-          advancedSetting = generateMockRangeAdvancedSetting();
-        }
-
-        return this.structureModelingApiService.saveJobBasedModelSettings(
-          PayfactorsApiModelMapper.mapJobBasedModelSettingsModalFormToSaveSettingsRequest(data.action.payload.rangeGroupId, data.action.payload.formValue,
-            data.action.payload.rounding, advancedSetting, data.action.payload.formValue.RangeDistributionSetting)
-        ).pipe(
-          mergeMap((r) => {
-              const actions = [];
-              const modelPageViewId =
-                PagesHelper.getModelPageViewIdByRangeTypeAndRangeDistributionType(data.metadata.RangeTypeId, data.metadata.RangeDistributionTypeId);
-
-              // TODO: Move this out into a helper class, too much complexity for here [BC]
-              if (!r.ValidationResult.Pass && r.ValidationResult.FailureReason === 'Model Name Exists') {
-                actions.push(new fromModelSettingsModalActions.ModelNameExistsFailure());
-              } else {
-                actions.push(new fromModelSettingsModalActions.ClearModelNameExistsFailure());
-                actions.push(new fromModelSettingsModalActions.CloseModal());
-
-                if (data.metadata.IsCurrent) {
-                  this.router.navigate(['job/' + r.RangeGroup.CompanyStructuresRangeGroupId]);
-
-                  actions.push(new fromNotificationActions.AddNotification({
-                    EnableHtml: true,
-                    From: NotificationSource.GenericNotificationMessage,
-                    Level: NotificationLevel.Success,
-                    NotificationId: '',
-                    Payload: { Title: 'Model Created', Message: `Created, ${r.RangeGroup.RangeGroupName}` },
-                    Type: NotificationType.Event
-                  }));
-
-                } else {
-                  actions.push(new fromSharedStructuresActions.SetMetadata(
-                    PayfactorsApiModelMapper.mapStructuresRangeGroupResponseToRangeGroupMetadata(r.RangeGroup)
-                  ));
-
-                  // Load data
-                  actions.push(GridDataHelper.getLoadDataAction(modelPageViewId, data.gridData, data.gridConfig, data.pagingOptions));
-                  if (this.isLoadDataRequired(data.action.payload.fromPageViewId)) {
-                    actions.push(new fromDataGridActions.LoadData(data.action.payload.fromPageViewId));
-                  }
-                }
-
-                actions.push(new fromSharedStructuresActions.GetOverriddenRanges(
-                  {
-                    pageViewId: modelPageViewId,
-                    rangeGroupId: r.RangeGroup.CompanyStructuresRangeGroupId
-                  }));
-
-                actions.push(new fromSharedStructuresActions.GetCurrentRangeGroup({
-                  RangeGroupId: r.RangeGroup.CompanyStructuresRangeGroupId,
-                  PaymarketId: r.RangeGroup.CompanyPayMarketId,
-                  PayType: r.RangeGroup.PayType
-                }));
-
-                actions.push(new fromModelSettingsModalActions.SaveJobBasedModelSettingsSuccess());
-              }
-
-              this.urlService.removeAllWorkflows();
-
-              return actions;
-            }
-          ),
-          catchError(() => of(new fromModelSettingsModalActions.SaveJobBasedModelSettingsError()))
-        );
-      })
-    );
-
   // We want to remove filterQuery param otherwise Saved filter won't be applied
   @Effect({ dispatch: false })
   handleSavedViewClicked$: Observable<Action> = this.actions$
@@ -215,14 +128,6 @@ export class SharedEffects {
           });
       })
     );
-
-  private isLoadDataRequired(fromPageViewId: string) {
-    return fromPageViewId === JobBasedPageViewIds.EmployeesMinMidMax
-      || fromPageViewId === JobBasedPageViewIds.EmployeesTertile
-      || fromPageViewId === JobBasedPageViewIds.EmployeesQuartile
-      || fromPageViewId === JobBasedPageViewIds.EmployeesQuintile
-      || fromPageViewId === JobBasedPageViewIds.Pricings;
-  }
 
   constructor(
     private actions$: Actions,

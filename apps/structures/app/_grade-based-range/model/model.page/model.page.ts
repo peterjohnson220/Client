@@ -19,6 +19,8 @@ import { AddJobsModalWrapperComponent } from '../../../shared/containers/add-job
 import { Workflow } from '../../../shared/constants/workflow';
 import { UrlService } from '../../../shared/services';
 import * as fromGradeBasedSharedActions from '../../shared/actions/shared.actions';
+import * as fromModelSettingsModalActions from '../../../shared/actions/model-settings-modal.actions';
+
 
 @Component({
   selector: 'pf-model.page',
@@ -143,7 +145,7 @@ export class ModelPageComponent implements OnInit, OnDestroy {
     });
 
     // Get grades
-    this.store.dispatch(new fromGradeBasedSharedActions.GetGradesDetails(this.rangeGroupId));
+    this.store.dispatch(new fromModelSettingsModalActions.GetGradesDetails(this.rangeGroupId));
   }
 
   ngOnDestroy(): void {

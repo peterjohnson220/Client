@@ -4,7 +4,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { NgbModal, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
-import { ModelSettingsModalContentComponent } from './model-settings-modal-content.component';
+import { GradeBasedModelSettingsContentComponent } from './grade-based-model-settings-content.component';
 
 import * as fromRootState from 'libs/state/state';
 import { AbstractFeatureFlagService, PfCommonModule } from 'libs/core';
@@ -13,20 +13,20 @@ import { generateMockStructureRangeDistributionTypes } from 'libs/models/payfact
 import { generateMockAdjustMidpointSetting, generateMockRangeAdvancedSetting, generateMockRangeDistributionSettingForm } from 'libs/models/structures';
 
 import * as fromSharedReducer from '../../../../shared/reducers';
-import * as fromGradeBasedSharedReducer from '../../reducers';
+import * as fromGradeBasedSharedReducer from '../../../../_grade-based-range/shared/reducers';
 import * as fromModelSettingsModalActions from '../../../../shared/actions/model-settings-modal.actions';
 import { RangeRoundingComponent } from '../../../../shared/containers/range-rounding';
 
-describe('ModelSettingsModalContentComponent', () => {
-  let instance: ModelSettingsModalContentComponent;
-  let fixture: ComponentFixture<ModelSettingsModalContentComponent>;
+describe('GradeBasedModelSettingsContentComponent', () => {
+  let instance: GradeBasedModelSettingsContentComponent;
+  let fixture: ComponentFixture<GradeBasedModelSettingsContentComponent>;
   let store: Store<any>;
   let ngbModal: NgbModal;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
-        ModelSettingsModalContentComponent,
+        GradeBasedModelSettingsContentComponent,
         RangeRoundingComponent
       ],
       imports: [
@@ -51,7 +51,7 @@ describe('ModelSettingsModalContentComponent', () => {
         SettingsService
       ]
     });
-    fixture = TestBed.createComponent(ModelSettingsModalContentComponent);
+    fixture = TestBed.createComponent(GradeBasedModelSettingsContentComponent);
     instance = fixture.componentInstance;
     store = TestBed.inject(Store);
     ngbModal = TestBed.inject(NgbModal);

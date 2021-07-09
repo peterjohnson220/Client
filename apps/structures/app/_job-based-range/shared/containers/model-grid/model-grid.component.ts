@@ -47,8 +47,6 @@ import * as fromSharedStructuresActions from '../../../../shared/actions/shared.
 import * as fromModelSettingsModalActions from '../../../../shared/actions/model-settings-modal.actions';
 import * as fromJobBasedRangeReducer from '../../reducers';
 import { StructuresPagesService, UrlService } from '../../../../shared/services';
-import { ModelSettingsModalContentComponent } from '../model-settings-modal-content';
-import { Workflow } from '../../../../shared/constants/workflow';
 import { SelectedPeerExchangeModel } from '../../../../shared/models';
 
 @Component({
@@ -69,7 +67,6 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   @ViewChild('gridGlobalActions', { static: true }) gridGlobalActionsTemplate: ElementRef;
   @ViewChild('gridRowActionsTemplate') gridRowActionsTemplate: ElementRef;
   @ViewChild('overrideFilter') overrideFilter: ElementRef;
-  @ViewChild(ModelSettingsModalContentComponent, { static: false }) public modelSettingsModalContentComponent: ModelSettingsModalContentComponent;
   @Input() singleRecordView: boolean;
   @Input() splitViewTemplate: TemplateRef<any>;
   @Input() inboundFilters: PfDataGridFilter[];
@@ -137,13 +134,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   distinctOverrideMessages$: Observable<string[]>;
   distinctOverrideMessagesSub: Subscription;
   distinctOverrideMessages: string[];
-  modelSettingsForm: FormGroup;
   isNewModel: boolean;
-  modalOpen$: Observable<boolean>;
-  modalOpenSub: Subscription;
-  selectedPeerExchangeSub: Subscription;
-  selectedPeerExchange$: Observable<SelectedPeerExchangeModel>;
-  selectedExchange: SelectedPeerExchangeModel;
   eeCountQueryFilters = {
     CompanyStructures_RangeGroup_CountEEMinOutlier: 'minOutlier',
     CompanyStructures_RangeGroup_CountEEQ1: 'q1',
@@ -171,11 +162,9 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   ) {
     this.hasStructuresPageFlagEnabled = this.featureFlagService.enabled(FeatureFlags.StructuresPage, false);
     this.metaData$ = this.store.pipe(select(fromSharedStructuresReducer.getMetadata));
-    this.modalOpen$ = this.store.pipe(select(fromSharedStructuresReducer.getModelSettingsModalOpen), delay(0));
     this.roundingSettings$ = this.store.pipe(select(fromSharedStructuresReducer.getRoundingSettings));
     this.rangeOverrides$ = this.store.pipe(select(fromSharedStructuresReducer.getRangeOverrides));
     this.distinctOverrideMessages$ = this.store.pipe(select(fromSharedStructuresReducer.getDistinctOverrideMessages));
-    this.selectedPeerExchange$ = this.store.pipe(select(fromSharedStructuresReducer.getSelectedPeerExchange));
     this.singleRecordActionBarConfig = {
       ...getDefaultActionBarConfig(),
       ShowActionBar: false
@@ -258,7 +247,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   handleModelSettingsClicked() {
-    this.store.dispatch(new fromModelSettingsModalActions.OpenModal());
+    this.store.dispatch(new fromModelSettingsModalActions.OpenJobModal());
   }
 
   openRemoveRangeModal(rangeId: number) {
@@ -335,35 +324,6 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
 
   public get rangeRecalculationType(): typeof RangeRecalculationType {
     return RangeRecalculationType;
-  }
-
-  handleModalSubmit() {
-    this.modelSettingsModalContentComponent.handleModalSubmit();
-  }
-
-  handleModelAttemptedSubmit() {
-    this.modelSettingsModalContentComponent.handleModalSubmitAttempt();
-  }
-
-  handleModalDismissed() {
-    this.modelSettingsModalContentComponent.handleModalDismiss();
-  }
-
-  buildForm() {
-    this.isNewModel = this.urlService.isInWorkflow(Workflow.NewRange);
-
-    this.modelSettingsForm = new FormGroup({
-      'StructureName': new FormControl(this.metaData.StructureName, [Validators.required, Validators.maxLength(50)]),
-      'ModelName': new FormControl(!this.metaData.IsCurrent || this.isNewModel ? this.metaData.ModelName : '', [Validators.required, Validators.maxLength(50)]),
-      'PayMarket': new FormControl(this.metaData.Paymarket, [Validators.required]),
-      'Rate': new FormControl(this.metaData.Rate || 'Annual', [Validators.required]),
-      'Currency': new FormControl(this.metaData.Currency || 'USD', [Validators.required]),
-      'PeerExchange': new FormControl(this.selectedExchange?.ExchangeName || 'Global Network', [Validators.required]),
-      'RangeDistributionSetting': new FormControl(this.metaData.RangeDistributionSetting),
-      'RangeAdvancedSetting': new FormControl(this.metaData.RangeAdvancedSetting)
-    });
-
-    this.store.dispatch(new fromModelSettingsModalActions.SetActiveTab('modelTab'));
   }
 
   getFilterQueryParam(fieldName: string, dataRow: any) {
@@ -562,30 +522,17 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
       }
     });
 
-    this.selectedPeerExchangeSub = this.selectedPeerExchange$.subscribe(peerExchange => this.selectedExchange = peerExchange);
-
-    this.modalOpenSub = this.modalOpen$.subscribe(mo => {
-      if (mo) {
-        this.buildForm();
-      }
-    });
-
-    this.buildForm();
-
     window.addEventListener('scroll', this.scroll, true);
   }
 
   ngOnDestroy(): void {
     this.modelPageViewIdSubscription.unsubscribe();
     this.roundingSettingsSub.unsubscribe();
-    this.metaDataSub.unsubscribe();
     this.roundingSettingsSub.unsubscribe();
     this.rangeOverridesSub.unsubscribe();
     this.modifiedKeysSubscription.unsubscribe();
     this.currentRangeGroupSub.unsubscribe();
     this.gridFieldSubscription.unsubscribe();
     this.distinctOverrideMessagesSub.unsubscribe();
-    this.modalOpenSub.unsubscribe();
-    this.selectedPeerExchangeSub.unsubscribe();
   }
 }

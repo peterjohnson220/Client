@@ -144,7 +144,7 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     if (this.urlService.isInWorkflow(Workflow.CreateModel)) {
-      this.store.dispatch(new fromModelSettingsModalActions.OpenModal());
+      this.store.dispatch(new fromModelSettingsModalActions.OpenJobModal());
     }
 
     // Get all overridden ranges

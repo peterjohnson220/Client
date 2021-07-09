@@ -180,7 +180,7 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
 
   // Events
   handleModelSettingsBtnClicked() {
-    this.store.dispatch(new fromModelSettingsModalActions.OpenModal());
+    this.store.dispatch(new fromModelSettingsModalActions.OpenJobModal());
   }
 
   handleDuplicateModelBtnClicked() {

@@ -11,7 +11,7 @@ import { SettingsService } from 'libs/state/app-context/services';
 import * as fromFormulaFieldActions from 'libs/ui/formula-editor/actions/formula-field.actions';
 import { CalculationType } from 'libs/constants/structures/calculation-type';
 
-import * as fromJobBasedRangeReducer from '../../reducers';
+import * as fromJobBasedRangeReducer from '../../../../_job-based-range/shared/reducers';
 import { ControlPoint } from '../../../../shared/models';
 import { ModelSettingsModalConstants } from '../../../../shared/constants/model-settings-modal-constants';
 

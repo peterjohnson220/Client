@@ -9,21 +9,21 @@ import * as fromRootState from 'libs/state/state';
 import { MissingMarketDataTypes } from 'libs/constants/structures/missing-market-data-type';
 import { AbstractFeatureFlagService, PfCommonModule } from 'libs/core';
 import { SettingsService } from 'libs/state/app-context/services';
-import { generateMockStructureRangeDistributionTypes } from 'libs/models/payfactors-api/structures/response';
 import { generateMockRangeAdvancedSetting, generateMockRangeDistributionSettingForm, JobBasedPageViewIds } from 'libs/models/structures';
+import { generateMockStructureRangeDistributionTypes } from 'libs/models/payfactors-api/structures/response';
 
-import { ModelSettingsModalContentComponent } from './model-settings-modal-content.component';
+import { JobBasedModelSettingsContentComponent } from './job-based-model-settings-content.component';
 import { UrlService } from '../../../../shared/services';
 import * as fromSharedReducer from '../../../../shared/reducers';
 import { AdvancedModelSettingComponent } from '../advanced-model-setting';
 import { RangeDistributionSettingComponent } from '../range-distribution-setting';
 import * as fromModelSettingsModalActions from '../../../../shared/actions/model-settings-modal.actions';
-import * as fromJobBasedSharedReducer from '../../reducers';
+import * as fromJobBasedSharedReducer from '../../../reducers';
 import { RangeRoundingComponent } from '../../../../shared/containers/range-rounding';
 
-describe('ModelSettingsModalContentComponent', () => {
-  let instance: ModelSettingsModalContentComponent;
-  let fixture: ComponentFixture<ModelSettingsModalContentComponent>;
+describe('JobBasedModelSettingsContentComponent', () => {
+  let instance: JobBasedModelSettingsContentComponent;
+  let fixture: ComponentFixture<JobBasedModelSettingsContentComponent>;
   let store: Store<any>;
   let ngbModal: NgbModal;
   let urlService: UrlService;
@@ -31,7 +31,7 @@ describe('ModelSettingsModalContentComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
-        ModelSettingsModalContentComponent,
+        JobBasedModelSettingsContentComponent,
         RangeDistributionSettingComponent,
         AdvancedModelSettingComponent,
         RangeRoundingComponent
@@ -63,7 +63,7 @@ describe('ModelSettingsModalContentComponent', () => {
       ]
 
     });
-    fixture = TestBed.createComponent(ModelSettingsModalContentComponent);
+    fixture = TestBed.createComponent(JobBasedModelSettingsContentComponent);
     instance = fixture.componentInstance;
     instance.rangeDistributionSettingComponent = TestBed.createComponent(RangeDistributionSettingComponent).componentInstance;
     instance.advancedModelSettingComponent = TestBed.createComponent(AdvancedModelSettingComponent).componentInstance;

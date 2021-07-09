@@ -131,26 +131,11 @@
   </pf-global-actions>
 </ng-template>
 
-<pf-model-settings-modal
+<pf-grade-based-model-settings-modal
   [rangeGroupId]="rangeGroupId"
   [pageViewId]="pageViewId"
-  [modalOpen$]="modalOpen$"
-  [modelSettingsForm]="modelSettingsForm"
-  (modalSubmit)="handleModalSubmit()"
-  (modalAttemptedSubmit)="handleModelAttemptedSubmit()"
-  (modalDismissed)="handleModalDismissed()">
-  <ng-container structures-settings-modal-content>
-    <pf-grade-based-model-settings-modal-content
-      [rangeGroupId]="rangeGroupId"
-      [pageViewId]="pageViewId"
-      [modelSettingsForm]="modelSettingsForm"
-      [modalOpen]="modalOpen$ | async"
-      [isNewModel]="isNewModel"
-      [numGrades]="numGrades"
-      (adjustMidpointRadioButtonChanged)="handleAdjustMidpointRadioButtonChanged($event)">
-    </pf-grade-based-model-settings-modal-content>
-  </ng-container>
-</pf-model-settings-modal>
+  [isNewModel]="isNewModel">
+</pf-grade-based-model-settings-modal>
 
 <ng-template #rangeField let-dataRow="dataRow" let-fieldName="fieldName" let-rowIndex="rowIndex">
   <ng-container>

@@ -7,10 +7,10 @@ import { Subject, Subscription } from 'rxjs';
 import { AdvancedModelSettingForm, RangeGroupMetadata } from 'libs/models/structures';
 import { MissingMarketDataTypes } from 'libs/constants/structures/missing-market-data-type';
 
-import * as fromJobBasedRangeReducer from '../../reducers';
-import { AdvancedModelingHelper } from '../../helpers/advanced-modeling.helper';
-import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
-import * as fromSharedActions from '../../actions/shared.actions';
+import * as fromJobBasedRangeReducer from '../../../../_job-based-range/shared/reducers';
+import { AdvancedModelingHelper } from '../../../../_job-based-range/shared/helpers/advanced-modeling.helper';
+import * as fromSharedJobBasedRangeReducer from '../../../../_job-based-range/shared/reducers';
+import * as fromSharedActions from '../../../../_job-based-range/shared/actions/shared.actions';
 
 
 @Component({
@@ -50,8 +50,7 @@ export class AdvancedModelSettingComponent implements OnInit, OnChanges, OnDestr
   private formMissingMarketDataTypeIncreasePercentFromPreviousLevelPercentage = 'MissingMarketDataType.IncreasePercentFromPreviousLevelPercentage';
 
 
-  constructor(public store: Store<fromJobBasedRangeReducer.State>)
-  {
+  constructor(public store: Store<fromJobBasedRangeReducer.State>) {
     this.structureHasSettings = this.store.select(fromSharedJobBasedRangeReducer.getStructureHasSettings).subscribe(hs => {
       if (hs.obj != null) {
         this.disableSettingBasedOnPublishedStructure = hs.obj.HasPublishedForType < 1;

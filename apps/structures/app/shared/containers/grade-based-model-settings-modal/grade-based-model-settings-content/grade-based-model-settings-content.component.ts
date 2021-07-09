@@ -20,11 +20,11 @@ import * as fromModelSettingsModalActions from '../../../../shared/actions/model
 import { RangeRoundingComponent } from '../../../../shared/containers/range-rounding';
 
 @Component({
-  selector: 'pf-grade-based-model-settings-modal-content',
-  templateUrl: './model-settings-modal-content.component.html',
-  styleUrls: ['./model-settings-modal-content.component.scss']
+  selector: 'pf-grade-based-model-settings-content',
+  templateUrl: './grade-based-model-settings-content.component.html',
+  styleUrls: ['./grade-based-model-settings-content.component.scss']
 })
-export class ModelSettingsModalContentComponent implements OnInit, OnDestroy {
+export class GradeBasedModelSettingsContentComponent implements OnInit, OnDestroy {
   @Input() rangeGroupId: number;
   @Input() pageViewId: string;
   @Input() modelSettingsForm: FormGroup;

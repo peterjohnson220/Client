@@ -113,8 +113,12 @@ export const getCurrentRangeGroup = createSelector(
 );
 
 // Model Settings Modal
-export const getModelSettingsModalOpen = createSelector(
-  selectModelSettingsModalState, fromModelSettingsModalReducer.getModalOpen
+export const getGradeModelSettingsModalOpen = createSelector(
+  selectModelSettingsModalState, fromModelSettingsModalReducer.getGradeModelSettingsModalOpen
+);
+
+export const getJobModelSettingsModalOpen = createSelector(
+  selectModelSettingsModalState, fromModelSettingsModalReducer.getJobModelSettingsModalOpen
 );
 
 export const getCurrenciesAsyncObj = createSelector(
@@ -143,6 +147,10 @@ export const getModelNameExistsFailure = createSelector(
 
 export const getActiveTab = createSelector(
   selectModelSettingsModalState, fromModelSettingsModalReducer.getActiveTab
+);
+
+export const getGradesDetails = createSelector(
+  selectModelSettingsModalState, fromModelSettingsModalReducer.getGradesDetails
 );
 
 // Formula Field Modal
