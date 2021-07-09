@@ -3,38 +3,30 @@
   height: 100%;
   position: relative;
 }
-
-@supports(-moz-appearance: none){
-  .workflow-sidebar > .workflow-content {
-    top: 180px !important ;
-  }
-  .workflow-sidebar > .workflow-header {
-    height: 180px !important;
-  }
+.workflow-sidebar > .workflow-header {
+overflow: hidden;
 }
 
-.workflow-sidebar > .workflow-header{
-  position: absolute;
-  height: 185px;
-  bottom: 0;
-  top: 0;
-  left: 0;
-  right: 0;
-  border-bottom: 1px solid #d7d7d7;
-}
+
 
 .workflow-sidebar > .workflow-header .btn{
-  float:right;
   margin-left: 5px;
+  margin-top: 5px;
+  float:right;
+  display: inline-block;
 }
 
 .workflow-sidebar > .workflow-content{
-  position: absolute;
-  top: 185px;
-  bottom: 0;
-  left: 0;
-  right: 0;
   overflow: auto;
+}
+
+.workflow-sidebar > .workflow-attachments{
+  clear:both;
+  border-top: 1px solid #d7d7d7;
+}
+
+.workflow-attachments > ul {
+  list-style-type: none;
 }
 
 .form-control-feedback{
@@ -47,3 +39,29 @@ textarea {
   height: 10em;
 }
 
+.icon {
+  float: left;
+  margin-right: 0.5rem;
+
+  &.word {
+    color: #4D82B8FF;
+  }
+  &.pdf {
+    color: #D86344FF;
+  }
+  &.excel {
+    color: #76A797FF;
+  }
+  &.powerpoint {
+    color: #D24826FF;
+  }
+  &.image {
+    color: #D65532FF;
+  }
+  &.file {
+    color: #99A0A4FF;
+  }
+}
+.attachment-anchor {
+  cursor: pointer;
+}

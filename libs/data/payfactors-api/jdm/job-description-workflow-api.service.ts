@@ -57,4 +57,7 @@ export class JobDescriptionWorkflowApiService {
     return this.payfactorsApiService.post(`${this.apiUrl}(${workflowId})/Default.ResendEmail`);
   }
 
+  deleteWorkflowAttachments(fileNames: string[]) {
+    return this.payfactorsApiService.post(`${this.apiUrl}/Default.DeleteWorkflowAttachments`, {fileNames: fileNames});
+  }
 }

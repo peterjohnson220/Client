@@ -16,6 +16,7 @@ import { LayoutModule } from '@progress/kendo-angular-layout';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { DragulaModule } from 'ng2-dragula';
 import { TooltipModule } from '@progress/kendo-angular-tooltip';
+import { UploadModule } from '@progress/kendo-angular-upload';
 
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
@@ -152,7 +153,8 @@ import { SharedModule } from '../shared/shared.module';
     FormatPurePipeModule,
     GetUnixTimePipeModule,
     FormatDistanceToNowPurePipeModule,
-    TooltipModule
+    TooltipModule,
+    UploadModule
   ],
   declarations: [
     // Components

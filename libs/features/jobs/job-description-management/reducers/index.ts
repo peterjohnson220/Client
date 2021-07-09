@@ -349,3 +349,8 @@ export const getWorkflowUserOrEmail = createSelector(
   selectWorkflowConfigState,
   fromWorkflowConfigReducer.getWorkflowUserOrEmail
 );
+
+export const getWorkflowAttachments = createSelector(
+  selectWorkflowConfigState,
+  fromWorkflowConfigReducer.getWorkflowAttachments
+);
