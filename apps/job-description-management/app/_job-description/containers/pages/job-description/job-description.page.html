@@ -131,7 +131,8 @@
               <pf-workflow-sidebar
                   [workflowStepInfo]="!isInSystemWorkflow ? (identity$ | async)?.WorkflowStepInfo : (workflowStepInfo$ | async)"
                   [workflowStepCompleted]="completedStep"
-                  [isInSystemWorkflow]="isInSystemWorkflow">
+                  [isInSystemWorkflow]="isInSystemWorkflow"
+                  [enableFileDownloadSecurityWarning]="enableFileDownloadSecurityWarning">
               </pf-workflow-sidebar>
             </div>
           </div>

@@ -140,7 +140,7 @@ export class WorkflowConfigComponent implements OnInit, OnDestroy {
         uploadedFile.Status = KendoUploadStatus.ScanInProgress; // scan in progress now...
       }
 
-      this.sharedJdmStore.dispatch(new fromWorkflowConfigActions.SaveWorkflowAttachmentsState(cloneDeep(this.uploadedFiles)));
+      this.saveWorkflowAttachmentState();
 
       if (this.uploadedFiles.length >= this.maxFileCount) {
         this.showFileCountWarning = true;
@@ -156,7 +156,7 @@ export class WorkflowConfigComponent implements OnInit, OnDestroy {
         fileToUpload.Status = file.validationErrors.includes('invalidFileExtension') ?
           KendoUploadStatus.InvalidExtension : KendoUploadStatus.InvalidMaxFileSize;
         this.uploadedFiles.push(fileToUpload);
-        this.sharedJdmStore.dispatch(new fromWorkflowConfigActions.SaveWorkflowAttachmentsState(cloneDeep(this.uploadedFiles)));
+        this.saveWorkflowAttachmentState();
       }
     });
   }
@@ -178,7 +178,7 @@ export class WorkflowConfigComponent implements OnInit, OnDestroy {
       this.showFileCountWarning = false;
 
       if (!!file.validationErrors) {
-        this.sharedJdmStore.dispatch(new fromWorkflowConfigActions.SaveWorkflowAttachmentsState(cloneDeep(this.uploadedFiles)));
+        this.saveWorkflowAttachmentState();
       }
     }
 
@@ -225,39 +225,48 @@ export class WorkflowConfigComponent implements OnInit, OnDestroy {
     this.sharedJdmStore.dispatch(new fromWorkflowConfigActions.ResetWorkflow());
 
     this.getNotificationSubscription = this.getNotification$.subscribe(notifications => {
-      notifications.forEach(notification => {
-        if (!notification) {
-          return;
-        }
-
-        const attachment = this.uploadedFiles.find((x) => x.Id === notification.NotificationId);
-
-        if (!attachment) {
-          return;
-        }
-
-        this.uploadedFiles = cloneDeep(this.uploadedFiles);
-        const uploadedFile = this.uploadedFiles.find(f => f.Id === notification.NotificationId);
-
-        if (notification.Level === 'Success' && attachment.Status !== KendoUploadStatus.ScanSucceeded) {
-          uploadedFile.Status = KendoUploadStatus.ScanSucceeded;
-          this.appNotificationStore.dispatch(new fromAppNotificationsActions.DeleteNotification({notificationId: notification.NotificationId}));
-          this.sharedJdmStore.dispatch(new fromWorkflowConfigActions.SaveWorkflowAttachmentsState(cloneDeep(this.uploadedFiles)));
-        } else if (notification.Level === 'Error' && attachment.Status !== KendoUploadStatus.ScanFailed) {
-          uploadedFile.Status = KendoUploadStatus.ScanFailed;
-          this.appNotificationStore.dispatch(new fromAppNotificationsActions.DeleteNotification({notificationId: notification.NotificationId}));
-        }
-      });
+     this.processNotifications(notifications);
     });
+  }
+
+  processNotifications(notifications: AppNotification<any>[]): void {
+    notifications.forEach(notification => {
+      if (!notification) {
+        return;
+      }
+
+      const attachment = this.uploadedFiles.find((x) => x.Id === notification.NotificationId);
+
+      if (!attachment) {
+        return;
+      }
+
+      this.uploadedFiles = cloneDeep(this.uploadedFiles);
+      const uploadedFile = this.uploadedFiles.find(f => f.Id === notification.NotificationId);
+
+      if (notification.Level === 'Success' && attachment.Status !== KendoUploadStatus.ScanSucceeded) {
+        uploadedFile.Status = KendoUploadStatus.ScanSucceeded;
+        this.appNotificationStore.dispatch(new fromAppNotificationsActions.DeleteNotification({notificationId: notification.NotificationId}));
+      } else {
+        uploadedFile.Status = KendoUploadStatus.ScanFailed;
+        this.appNotificationStore.dispatch(new fromAppNotificationsActions.DeleteNotification({notificationId: notification.NotificationId}));
+      }
+
+      this.saveWorkflowAttachmentState();
+    });
+  }
+
+  saveWorkflowAttachmentState() {
+    this.sharedJdmStore.dispatch(new fromWorkflowConfigActions.SaveWorkflowAttachmentsState(cloneDeep(this.uploadedFiles)));
   }
 
   ngOnDestroy(): void {
     this.destroyDragula();
-    this.hasForbiddenUsersSubscription.unsubscribe();
-    this.workflowStepsSubscription.unsubscribe();
-    this.identitySubscription.unsubscribe();
-    this.workflowUserOrEmailSubscription.unsubscribe();
-    this.getNotificationSubscription.unsubscribe();
+    this.hasForbiddenUsersSubscription?.unsubscribe();
+    this.workflowStepsSubscription?.unsubscribe();
+    this.identitySubscription?.unsubscribe();
+    this.workflowUserOrEmailSubscription?.unsubscribe();
+    this.getNotificationSubscription?.unsubscribe();
   }
 
   nonPfUserFormSubmit(): void {
