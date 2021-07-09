@@ -1,7 +1,8 @@
 import { AddPayMarketRequest } from 'libs/models/payfactors-api';
 import { UiPersistenceFeatureSettingsModel, FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models/common';
+import { PricingPaymarket } from 'libs/models/comphub';
 
-import { MarketDataScope, AddPayMarketFormData, PricingPaymarket } from '../models';
+import { MarketDataScope, AddPayMarketFormData } from '../models';
 
 export class MarketsCardHelper {
   static buildAddPayMarketRequest(companyId: number, data: AddPayMarketFormData): AddPayMarketRequest {

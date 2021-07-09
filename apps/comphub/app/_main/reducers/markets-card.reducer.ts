@@ -1,9 +1,10 @@
 import cloneDeep from 'lodash/cloneDeep';
 
 import { QuickPriceType } from 'libs/constants';
+import { PricingPaymarket } from 'libs/models/comphub';
 
 import * as fromMarketsCardActions from '../actions/markets-card.actions';
-import { PricingPaymarket, MarketDataScope, MarketDataLocation } from '../models';
+import { MarketDataScope, MarketDataLocation } from '../models';
 import { PayfactorsApiModelMapper, MarketsCardHelper } from '../helpers';
 
 export interface State {

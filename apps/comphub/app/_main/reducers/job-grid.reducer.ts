@@ -1,7 +1,8 @@
 import cloneDeep from 'lodash/cloneDeep';
 
+import { JobGridData } from 'libs/models/comphub';
+
 import * as fromJobGridActions from '../actions/job-grid.actions';
-import { JobGridData } from '../models';
 
 export interface State {
   loading: boolean;

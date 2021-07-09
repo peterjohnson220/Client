@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, In
 
 import { PerfectScrollbarConfigInterface, PerfectScrollbarDirective } from 'ngx-perfect-scrollbar';
 
-import { PricingPaymarket } from '../../models';
+import { PricingPaymarket } from 'libs/models/comphub';
 
 @Component({
   selector: 'pf-paymarket-cards',

@@ -7,12 +7,13 @@ import { Store } from '@ngrx/store';
 import * as fromRootReducer from 'libs/state/state';
 import { QuickPriceType } from 'libs/constants';
 import { UserContext } from 'libs/models/security';
+import { PricingPaymarket } from 'libs/models/comphub';
 
 import * as fromComphubMainReducer from '../../../reducers';
 import * as fromMarketsCardActions from '../../../actions/markets-card.actions';
 import * as fromComphubPageActions from '../../../actions/comphub-page.actions';
 import * as fromAddPayMarketFormActions from '../../../actions/add-paymarket-form.actions';
-import { PricingPaymarket, AddPayMarketFormData, MarketDataScope, MarketDataLocation, WorkflowContext } from '../../../models';
+import { AddPayMarketFormData, MarketDataScope, MarketDataLocation, WorkflowContext } from '../../../models';
 import { ComphubPages } from '../../../data';
 
 @Component({

@@ -13,10 +13,14 @@ import { MDLocationResponse, MDScopeResponse } from 'libs/models/payfactors-api'
 import { Filter } from 'libs/features/search/search/models';
 import { MDScopeSizeCategory } from 'libs/constants';
 import { SearchCrowdSourcedJobsResponse } from 'libs/models/payfactors-api/comphub/response/search-crowd-sourced-jobs-response.model';
+import { JobData, JobGridData, PricingPaymarket } from 'libs/models/comphub';
 
 import {
-  TrendingJobGroup, PricingPaymarket, MarketDataScope,
-  JobData, JobGridData, CountryDataSet, JobSalaryTrend, MarketDataLocation
+  TrendingJobGroup,
+  MarketDataScope,
+  CountryDataSet,
+  JobSalaryTrend,
+  MarketDataLocation
 } from '../models';
 
 export class PayfactorsApiModelMapper {

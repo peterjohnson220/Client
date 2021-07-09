@@ -9,6 +9,7 @@ import { ComphubApiService } from 'libs/data/payfactors-api';
 import { ExchangeExplorerContextService } from 'libs/features/peer/exchange-explorer/services';
 import { QuickPriceExchangeDataSearchRequest } from 'libs/models/payfactors-api/peer/exchange-data-search';
 import * as fromExchangeExplorerActions from 'libs/features/peer/exchange-explorer/actions/exchange-filter-context.actions';
+import { JobGridData } from 'libs/models/comphub';
 
 import * as fromComphubMainReducer from '../reducers';
 import * as fromComphubPageActions from '../actions/comphub-page.actions';
@@ -16,7 +17,6 @@ import * as fromJobGridActions from '../actions/job-grid.actions';
 import * as fromSummaryCardActions from '../actions/summary-card.actions';
 import { DataCardHelper, PayfactorsApiModelMapper } from '../helpers';
 import { ComphubPages } from '../data';
-import { JobGridData } from '../models';
 
 @Injectable()
 export class JobGridEffects {

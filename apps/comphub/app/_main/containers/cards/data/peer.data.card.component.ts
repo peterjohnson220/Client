@@ -10,8 +10,9 @@ import { Weights, WeightType, WeightTypeDisplayLabeled } from 'libs/data/data-se
 import * as fromLibsPeerExchangeExplorerReducers from 'libs/features/peer/exchange-explorer/reducers';
 import * as fromLibsExchangeExplorerFilterContextActions from 'libs/features/peer/exchange-explorer/actions/exchange-filter-context.actions';
 import * as fromExchangeExplorerMapActions from 'libs/features/peer/exchange-explorer/actions/map.actions';
+import { ExchangeDataSet, PricingPaymarket } from 'libs/models/comphub';
 
-import { ExchangeDataSet, PricingPaymarket, WorkflowContext } from '../../../models';
+import { WorkflowContext } from '../../../models';
 import * as fromDataCardActions from '../../../actions/data-card.actions';
 import * as fromComphubMainReducer from '../../../reducers';
 import { ComphubPages } from '../../../data';

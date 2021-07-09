@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
 
 import { AddPayMarketRequest } from 'libs/models/payfactors-api';
-import { PricingPaymarket } from '../models';
+import { PricingPaymarket } from 'libs/models/comphub';
 
 export const OPEN_FORM = '[Comphub/Add PayMarket Form] Open Add Pay Market Form';
 export const CLOSE_FORM = '[Comphub/Add PayMarket Form] Close Add Pay Market Form';

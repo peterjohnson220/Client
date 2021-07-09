@@ -2,8 +2,6 @@ import { Action } from '@ngrx/store';
 
 import { RateType } from 'libs/data/data-sets';
 
-import { JobData } from '../models';
-
 export const CARD_OPENED  = '[Comphub/Data Card] Card Opened';
 export const SET_SELECTED_RATE = '[Comphub/Data Card] Set Selected Rate';
 export const SET_MARKET_DATA_CHANGE = '[Comphub/Data Card] Set Market Data Change';

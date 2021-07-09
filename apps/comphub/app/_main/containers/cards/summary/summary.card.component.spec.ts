@@ -11,15 +11,15 @@ import * as fromRootState from 'libs/state/state';
 import { RateType } from 'libs/data/data-sets';
 import { ExchangeExplorerContextService } from 'libs/features/peer/exchange-explorer/services';
 import { SettingsService } from 'libs/state/app-context/services';
+import { generateFakeJobData, generateMockPricingPaymarket } from 'libs/models/comphub';
+
 
 import { SummaryCardComponent } from './summary.card.component';
 import * as fromComphubMainReducer from '../../../reducers';
 import * as fromSummaryCardActions from '../../../actions/summary-card.actions';
 import { ComphubPages } from '../../../data';
 import {
-  generateFakeJobData,
   generateMockCountryDataSet,
-  generateMockPricingPaymarket,
   generateMockWorkflowContext
 } from '../../../models';
 

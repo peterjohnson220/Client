@@ -4,11 +4,12 @@ import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
 import { QuickPriceType } from 'libs/constants';
+import { JobData, JobGridData } from 'libs/models/comphub';
 
 import * as fromComphubMainReducer from '../../../reducers';
 import * as fromJobGridActions from '../../../actions/job-grid.actions';
 import * as fromComphubPageActions from '../../../actions/comphub-page.actions';
-import { JobData, JobGridData, QuickPriceGridColumn, QuickPriceGridColumnConfiguration, WorkflowContext } from '../../../models';
+import { QuickPriceGridColumn, QuickPriceGridColumnConfiguration, WorkflowContext } from '../../../models';
 
 @Injectable()
 export abstract class AbstractJobGrid implements OnInit, OnDestroy {
