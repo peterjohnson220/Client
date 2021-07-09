@@ -1,18 +1,22 @@
 import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 
-import { Store } from '@ngrx/store';
+import { ActionsSubject, Store } from '@ngrx/store';
 import { forkJoin, Observable, Subscription } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 import { DropDownFilterSettings } from '@progress/kendo-angular-dropdowns';
+import { ofType } from '@ngrx/effects';
 
-import { AsyncStateObj, JobDescriptionSummary, PayMarket, UserContext } from 'libs/models';
+import { AsyncStateObj, GenericKeyValue, PayMarket, UserContext } from 'libs/models';
 import { PfDataGridFilter } from 'libs/features/grids/pf-data-grid/models';
-import * as fromRootState from 'libs/state/state';
 import cloneDeep from 'lodash/cloneDeep';
 import { MULTIPLE_JOB_DESCRIPTIONS } from 'libs/core';
+import { JobInsights } from 'libs/models/payfactors-api';
+import * as fromRootState from 'libs/state/state';
+import * as fromJobManagementActions from 'libs/features/jobs/job-management/actions';
 
 import * as fromJobsPageReducer from '../../../../reducers';
-import * as fromJobDescriptionActions from '../../../../actions';
+import * as fromJobInsightsActions from '../../../../actions/job-insights.actions';
+import { JobInsightsHelper } from '../../../../models';
 
 @Component({
   selector: 'pf-job-insights',
@@ -22,12 +26,15 @@ import * as fromJobDescriptionActions from '../../../../actions';
 export class JobInsightsComponent implements OnChanges, OnInit, OnDestroy {
   @Input() filters: PfDataGridFilter[];
 
-  jobDescriptionSummaryAsync$: Observable<AsyncStateObj<JobDescriptionSummary>>;
+  jobInsightsAsync$: Observable<AsyncStateObj<JobInsights>>;
   userContext$: Observable<UserContext>;
   payMarkets$: Observable<PayMarket[]>;
+  jobCustomFieldsAsync$: Observable<AsyncStateObj<GenericKeyValue<string, string>[]>>;
 
   forkJoinSubscription: Subscription;
-  gridFieldSubscription: Subscription;
+  jobInsightsAndCustomFieldsSubscription: Subscription;
+  jobInsightsAsyncSubscription: Subscription;
+  saveJobSuccessSubscription: Subscription;
 
   multipleJobDescriptions = MULTIPLE_JOB_DESCRIPTIONS;
   payMarkets: PayMarket[];
@@ -36,14 +43,23 @@ export class JobInsightsComponent implements OnChanges, OnInit, OnDestroy {
     caseSensitive: false,
     operator: 'contains',
   };
+  companyJobId: number;
+  jobInsights: JobInsights;
+  isJobInsightsInitialized: boolean;
+  isViewMore: boolean;
+  standardFields: GenericKeyValue<string, string>[];
+  customFields: GenericKeyValue<string, string>[];
+  allCustomFields: GenericKeyValue<string, string>[];
 
   constructor(
     private store: Store<fromJobsPageReducer.State>,
-    private rootStore: Store<fromRootState.State>
+    private rootStore: Store<fromRootState.State>,
+    private actionsSubject: ActionsSubject
   ) {
-    this.jobDescriptionSummaryAsync$ = this.store.select(fromJobsPageReducer.getJobDescriptionSummary);
+    this.jobInsightsAsync$ = this.store.select(fromJobsPageReducer.getJobInsights);
     this.userContext$ = this.rootStore.select(fromRootState.getUserContext);
     this.payMarkets$ = this.store.select(fromJobsPageReducer.getCompanyPayMarkets);
+    this.jobCustomFieldsAsync$ = this.store.select(fromJobsPageReducer.getJobCustomFields);
   }
 
   ngOnInit(): void {
@@ -53,6 +69,24 @@ export class JobInsightsComponent implements OnChanges, OnInit, OnDestroy {
           ? userContext.DefaultPayMarketId
           : payMarkets?.length ? payMarkets[0].CompanyPayMarketId : null;
         this.payMarkets = cloneDeep(payMarkets);
+        this.loadJobCustomFields(userContext.CompanyId);
+        this.loadJobInsights();
+      });
+    this.jobInsightsAndCustomFieldsSubscription = forkJoin([this.getJobInsightsLoaded(), this.getCustomFieldsLoaded()])
+      .subscribe(([jobInsightsAsync, customFieldsAsync]) => {
+        this.allCustomFields = customFieldsAsync.obj;
+        this.updateJobDetails(jobInsightsAsync.obj, customFieldsAsync.obj);
+        this.isJobInsightsInitialized = true;
+      });
+    this.jobInsightsAsyncSubscription = this.jobInsightsAsync$.subscribe(asyncObj => {
+      if (!asyncObj?.loading && asyncObj.obj && this.isJobInsightsInitialized) {
+        this.updateJobDetails(asyncObj.obj, this.allCustomFields);
+      }
+    });
+    this.saveJobSuccessSubscription = this.actionsSubject
+      .pipe(ofType(fromJobManagementActions.SAVE_COMPANY_JOB_SUCCESS))
+      .subscribe(() => {
+        this.loadJobInsights();
       });
   }
 
@@ -60,17 +94,27 @@ export class JobInsightsComponent implements OnChanges, OnInit, OnDestroy {
     if (changes['filters']?.currentValue) {
       const companyJobIdFilter: PfDataGridFilter = this.filters.find(i => i.SourceName === 'CompanyJob_ID');
       if (companyJobIdFilter?.Values?.length > 0) {
-        this.store.dispatch(new fromJobDescriptionActions.LoadJobDescription((<any>companyJobIdFilter.Values[0]) as number));
+        this.companyJobId = <any>companyJobIdFilter.Values[0] as number;
+        if (this.isJobInsightsInitialized) {
+          this.loadJobInsights();
+        }
       }
     }
   }
 
   ngOnDestroy(): void {
     this.forkJoinSubscription.unsubscribe();
+    this.jobInsightsAndCustomFieldsSubscription.unsubscribe();
+    this.jobInsightsAsyncSubscription.unsubscribe();
+    this.saveJobSuccessSubscription.unsubscribe();
   }
 
   handlePayMarketValueChanged(value: number): void {
     this.selectedPayMarketId = value;
+  }
+
+  toggleViewMore(): void {
+    this.isViewMore = !this.isViewMore;
   }
 
   private getPayMarketsLoaded(): Observable<PayMarket[]> {
@@ -85,5 +129,39 @@ export class JobInsightsComponent implements OnChanges, OnInit, OnDestroy {
       filter(f => !!f),
       take(1)
     );
+  }
+
+  private getJobInsightsLoaded(): Observable<AsyncStateObj<JobInsights>> {
+    return this.jobInsightsAsync$.pipe(
+      filter(f => !!f?.obj),
+      take(1)
+    );
+  }
+
+  private getCustomFieldsLoaded(): Observable<AsyncStateObj<GenericKeyValue<string, string>[]>> {
+    return this.jobCustomFieldsAsync$.pipe(
+      filter(f => !!f?.obj),
+      take(1)
+    );
+  }
+
+  private loadJobInsights(): void {
+    if (this.companyJobId && this.selectedPayMarketId) {
+      this.store.dispatch(new fromJobInsightsActions.LoadJobInsights({
+        CompanyJobId: this.companyJobId,
+        CompanyPayMarketId: this.selectedPayMarketId
+      }));
+    }
+  }
+
+  private loadJobCustomFields(companyId: number): void {
+    this.store.dispatch(new fromJobInsightsActions.LoadCustomJobFields({ companyId }));
+  }
+
+  private updateJobDetails(jobInsights: JobInsights, customFields: GenericKeyValue<string, string>[]): void {
+    this.jobInsights = jobInsights;
+    this.standardFields = JobInsightsHelper.mapJobDataToGenericKeyValues(this.jobInsights.Job);
+    this.customFields = JobInsightsHelper.getCustomFieldsWithValues(this.jobInsights.Job, customFields);
+    this.isViewMore = false;
   }
 }
