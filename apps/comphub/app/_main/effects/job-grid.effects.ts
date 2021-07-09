@@ -17,6 +17,7 @@ import * as fromJobGridActions from '../actions/job-grid.actions';
 import * as fromSummaryCardActions from '../actions/summary-card.actions';
 import { DataCardHelper, PayfactorsApiModelMapper } from '../helpers';
 import { ComphubPages } from '../data';
+import { WorkflowContext } from '../models';
 
 @Injectable()
 export class JobGridEffects {
@@ -125,11 +126,6 @@ export class JobGridEffects {
               mergeMap(response => {
                 const actions = [];
                 const jobGridData = PayfactorsApiModelMapper.mapSearchCrowdSourcedJobsResponseToJobGridData(response);
-
-                jobGridData.Data.forEach((job) => {
-                  actions.push(new fromJobGridActions.GetCrowdSourcedJobPricing({jobTitle: job.JobTitle, country: 'United States'}));
-                });
-
                 actions.push(new fromJobGridActions.SearchCrowdSourcedJobsByTitleSuccess(jobGridData));
 
                 return actions;
@@ -140,6 +136,27 @@ export class JobGridEffects {
             );
         }
       ));
+
+  @Effect()
+  searchCrowdSourcedJobsByTitleSuccess$ = this.actions$
+    .pipe(
+      ofType<fromJobGridActions.SearchCrowdSourcedJobsByTitleSuccess>(fromJobGridActions.SEARCH_CROWD_SOURCED_JOBS_BY_TITLE_SUCCESS),
+      withLatestFrom(
+        this.store.select(fromComphubMainReducer.getWorkflowContext),
+        (action, workflowContext: WorkflowContext) => ({ action, workflowContext })
+      ),
+      mergeMap((data) => {
+        const actions = [];
+        data.action.payload.Data.forEach((job) => {
+          actions.push(new fromJobGridActions.GetCrowdSourcedJobPricing({
+            jobTitle: job.JobTitle,
+            country: data.workflowContext.activeCountryDataSet.CountryName
+          }));
+        });
+
+        return actions;
+      })
+    );
 
   @Effect()
   getCrowdSourcedJobPricing$ = this.actions$
