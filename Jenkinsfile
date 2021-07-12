@@ -87,36 +87,22 @@ pipeline {
               int subStrLen = branchShortName.length() < 13 ? branchShortName.length() : 13
               verDetails = "-" + branchShortName.substring(0,subStrLen) + "." + env.BUILD_NUMBER
 
-            } else if (env.BRANCH_NAME == 'Normandy/develop') {
+            // Generalized branch condition for team envs. Take this if there is a conflict.
+            } else if (env.BRANCH_NAME ==~ /.*\/develop/) {
               isAutoDeployBranch = true
-              suffix = '-Normandy'
-              octoChannel = 'Normandy'
-              env.octoEnv = 'Normandy'
-              octoVerSuffix = '-NM'
+              teamName = env.BRANCH_NAME.split('/')[0]
+              suffix = "-${teamName}"
+              octoChannel = "${teamName}"
+              env.octoEnv = "${teamName}"
+              octoVerSuffix = "-${teamName.substring(0,3).toUpperCase()}"
               env.buildConfig = '--configuration=staging'
 
-			      } else if (env.BRANCH_NAME == 'Enterprise/develop') {
+            } else if (env.BRANCH_NAME == 'ARCH/ARCH-440') {
               isAutoDeployBranch = true
-              suffix = '-Enterprise'
-              octoChannel = 'Enterprise'
-              env.octoEnv = 'Enterprise'
-              octoVerSuffix = '-EP'
-              env.buildConfig = '--configuration=staging'
-              
-            } else if (env.BRANCH_NAME == 'Defiant/develop') {
-              isAutoDeployBranch = true
-              suffix = '-Defiant'
-              octoChannel = 'Defiant'
-              env.octoEnv = 'Defiant'
-              octoVerSuffix = '-DF'
-              env.buildConfig = '--configuration=staging'
-
-            } else if (env.BRANCH_NAME == 'Tardis/develop') {
-              isAutoDeployBranch = true
-              suffix = '-Tardis'
-              octoChannel = 'Tardis'
-              env.octoEnv = 'Tardis'
-              octoVerSuffix = '-TD'
+              suffix = '-NetCore'
+              octoChannel = 'Elysium'
+              env.octoEnv = 'Elysium'
+              octoVerSuffix = '-EL'
               env.buildConfig = '--configuration=staging'
 
             } else {

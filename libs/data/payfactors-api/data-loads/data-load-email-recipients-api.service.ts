@@ -18,7 +18,7 @@ export class DataLoadEmailRecipientsApiService {
       {
         params: {
           loaderType: payload.loaderType,
-          loaderConfigurationGroupId: payload.loaderConfigurationGroupId
+          loaderConfigurationGroupId: payload.loaderConfigurationGroupId ?? ''
         }
       });
   }
