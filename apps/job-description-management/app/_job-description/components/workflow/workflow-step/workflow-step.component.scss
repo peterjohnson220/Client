@@ -1,14 +1,14 @@
-$imageSize: 25px;
+$imageSize: 2rem;
 
 .chip-container {
   position: relative;
   display: inline-block;
   height: $imageSize;
-  font-size: 11px;
-  line-height: 11px;
+  font-size: 0.85rem;
+  line-height: 0.85rem;
   border-radius: $imageSize;
   background-color: #f1f1f1;
-  width: 125px;
+  width: 10rem;
 }
 
 .chip-container p {
@@ -16,6 +16,8 @@ $imageSize: 25px;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  white-space: nowrap;
+  margin-left: 1rem;
 }
 
 .chip-container img {
