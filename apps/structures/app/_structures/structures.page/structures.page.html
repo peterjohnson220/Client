@@ -17,7 +17,9 @@
   [columnTemplates]="colTemplates"
   [filterPanelTemplates]="filterTemplates"
   [customSortOptions]="customSortOptions"
-  [customFilterOptions] = "(customFilterOptions$ | async)">
+  [customFilterOptions] = "(customFilterOptions$ | async)"
+  [displaySelectAllWarning]="false"
+  [displaySelectAllCheckbox]="false">
 </pf-data-grid>
 
 <ng-template #gridGlobalActions>
