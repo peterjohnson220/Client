@@ -111,6 +111,7 @@
   [modalTitle]="'Download Data Export'"
   [openModal]="exportModalIsOpen"
   [modalSize]="'md'"
+  [numRowsToExport]="(totalDataRows$ | async)"
   (saveSuccess)="closeExportModal()"
   (cancelChanges)="closeExportModal()"
 >

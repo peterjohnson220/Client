@@ -5,7 +5,13 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { ProjectTemplate } from 'libs/models/projects/project-templates';
-import { ReportType, ProjectExportDataSource, ReportTypeModel, ProjectExportModalData } from 'libs/models/projects/project-export-manager';
+import {
+  ReportType,
+  ProjectExportDataSource,
+  ReportTypeModel,
+  ProjectExportModalData,
+  AdditionalProjectExportData
+} from 'libs/models/projects/project-export-manager';
 import { PfValidators } from 'libs/forms/validators';
 import { AsyncStateObj } from 'libs/models/state';
 import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
@@ -27,6 +33,7 @@ export class ProjectExportManagerComponent implements OnInit, OnChanges, OnDestr
   @Input() modalTitle: string;
   @Input() openModal = false;
   @Input() modalSize: 'lg' | 'md' | 'sm' = 'md';
+  @Input() numRowsToExport: number;
 
   @Output() cancelChanges = new EventEmitter();
   @Output() saveSuccess = new EventEmitter();
@@ -126,7 +133,12 @@ export class ProjectExportManagerComponent implements OnInit, OnChanges, OnDestr
     };
 
     if (this.pricingProjectExportFeatureFlag.value) {
-      this.store.dispatch(new fromPfGridActions.ExportGrid(PageViewIds.ProjectJobs, 'ProjectSummaryReport', CustomExportType.PricingProject, null, true));
+      const additionalData: AdditionalProjectExportData = {
+        NumRowsToExport: this.numRowsToExport
+      };
+
+      this.store.dispatch(new fromPfGridActions.ExportGrid(PageViewIds.ProjectJobs, 'ProjectSummaryReport', CustomExportType.PricingProject,
+        additionalData, true));
     } else {
       this.store.dispatch(new fromPricingProjectActions.QueuePricingProjectExport(modalData));
     }

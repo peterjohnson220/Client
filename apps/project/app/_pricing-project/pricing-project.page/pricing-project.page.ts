@@ -65,6 +65,7 @@ export class PricingProjectPageComponent implements OnInit, AfterViewInit, OnDes
   displaySecurityWarning = false;
 
   projectJobGrid$: Observable<DataGridState>;
+  totalDataRows$: Observable<number>;
   userContext$: Observable<UserContext>;
 
   groupedColumnHeaderTemplates = {};
@@ -101,6 +102,9 @@ export class PricingProjectPageComponent implements OnInit, AfterViewInit, OnDes
     };
 
     this.projectJobGrid$ = this.store.pipe(select(fromPfDataGridReducer.getGrid, PageViewIds.ProjectJobs));
+
+    // TODO: When inputs are programmed in for projectExports, this should be only SELECTED rows.
+    this.totalDataRows$ = this.store.pipe(select(fromPfDataGridReducer.getTotalCount, PageViewIds.ProjectJobs));
   }
 
   ngOnInit(): void {
