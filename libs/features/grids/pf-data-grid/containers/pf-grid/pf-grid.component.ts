@@ -89,6 +89,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   @Input() hideKendoGrid = false;
   @Input() hidePageSizes = false;
   @Input() gridReplacementTemplate: TemplateRef<any>;
+  @Input() displaySelectAllCheckbox = true;
   @Output() scrolled = new EventEmitter<ContentScrollEvent>();
 
 
