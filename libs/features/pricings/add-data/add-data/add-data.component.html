@@ -46,11 +46,15 @@
       <ng-container content>
 
         <pf-results-header *ngIf="pageShown$ | async" [userFilterDefaultLabel]="'PayMarket Default'" [legacyImplementation]="true"></pf-results-header>
-        <pf-survey-search-results
-          [cutsDraggable]="false"
-          [implementation]="featureImplementation"
-          [customizeInPeerEnabled]="true"></pf-survey-search-results>
-
+        <ng-container *ngIf="display === 'modal'; else searchResults">
+          <pf-async-container
+            [loading]="loadingResults$ | async"
+            [loadingError]="searchError$ | async"
+            [hideReloadButton]="true"
+          >
+            <ng-container [ngTemplateOutlet]="searchResults"></ng-container>
+          </pf-async-container>
+        </ng-container>
       </ng-container>
 
       <ng-container action-buttons>
@@ -79,4 +83,11 @@
 </ng-template>
 <ng-template #addingData>
   Adding...
+</ng-template>
+
+<ng-template #searchResults>
+  <pf-survey-search-results
+    [cutsDraggable]="false"
+    [implementation]="display"
+    [customizeInPeerEnabled]="true"></pf-survey-search-results>
 </ng-template>

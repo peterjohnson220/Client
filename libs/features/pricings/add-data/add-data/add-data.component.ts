@@ -34,6 +34,8 @@ export class AddDataComponent extends SearchBaseDirective {
   featureImplementation = 'component';
   matchMode: boolean;
   showAddModal$: Observable<boolean>;
+  loadingResults$: Observable<boolean>;
+  searchError$: Observable<boolean>;
   constructor(
     store: Store<fromSearchReducer.State>,
     private dragulaService: DragulaService,
@@ -45,6 +47,8 @@ export class AddDataComponent extends SearchBaseDirective {
     this.addingData$ = this.store.select(fromAddDataReducer.getAddingData);
     this.pageShown$ = this.store.select(fromSearchReducer.getPageShown);
     this.excludeFromParticipation = false;
+    this.loadingResults$ = this.store.select(fromSearchReducer.getLoadingResults);
+    this.searchError$ = this.store.select(fromSearchReducer.getSearchResultsError);
     this.showAddModal$ = this.store.select(fromAddDataReducer.getShowModal);
 
   }
