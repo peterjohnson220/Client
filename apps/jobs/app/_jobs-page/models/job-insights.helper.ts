@@ -17,7 +17,7 @@ export class JobInsightsHelper {
     },
     {
       Name: 'FLSA Status',
-      SourceName: 'FLSAStatus'
+      SourceName: 'FlsaStatus'
     },
     {
       Name: 'Level',
