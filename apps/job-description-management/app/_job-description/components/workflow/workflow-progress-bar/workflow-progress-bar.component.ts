@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { WorkflowStepSummaryItem } from '../../../models';
 import { PermissionService } from 'libs/core';
 import { Permissions, PermissionCheckEnum } from 'libs/constants';
 
@@ -10,9 +9,10 @@ import { Permissions, PermissionCheckEnum } from 'libs/constants';
 })
 export class WorkflowProgressBarComponent {
   @Input() loading: boolean;
-  @Input() workflowStepSummary: WorkflowStepSummaryItem[];
+  @Input() workflowStepSummary: any[];
   @Input() isSiteAdmin: boolean;
   @Input() isCompanyAdmin: boolean;
+  @Input() avatarUrl: string;
   @Output() changeApproverClicked = new EventEmitter();
   @Output() copyWorkflowLinkClicked = new EventEmitter();
   @Output() emailResendClicked = new EventEmitter();

@@ -1,0 +1,5 @@
+<div *ngFor="let workflowStepSummaryItem of workflowStepSummary" 
+    class="chip-container mb-2">
+    <img [src]="workflowStepSummaryItem.UserPicture ? avatarUrl + workflowStepSummaryItem.UserPicture :  avatarUrl + 'default_user.png'" />
+    <p class="ml-2">{{workflowStepSummaryItem.Owner | TruncateAfter: 25}}</p>
+</div>
