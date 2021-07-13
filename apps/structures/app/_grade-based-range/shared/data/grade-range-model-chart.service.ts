@@ -61,7 +61,7 @@ export class GradeRangeModelChartService {
         verticalAlign: 'bottom',
         align: 'right'
       },
-
+      colors: [ '#FFFFFF', '#FFD470',  '#FFB300', '#B37D00', '#6B4B00', '#7CB5EC'],
       colorAxis: {
         showInLegend: false,
         dataClasses: [{
@@ -90,6 +90,7 @@ export class GradeRangeModelChartService {
       series: [{
         type: 'heatmap',
         showInLegend: false,
+        borderColor: '#7CB5EC',
         borderWidth: 0.5
       },
       {
