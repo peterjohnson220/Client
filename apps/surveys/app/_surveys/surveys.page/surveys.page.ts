@@ -6,6 +6,8 @@ import { Observable, Subscription } from 'rxjs';
 import { ActionsSubject, Store } from '@ngrx/store';
 import { ofType } from '@ngrx/effects';
 import cloneDeep from 'lodash/cloneDeep';
+import uniq from 'lodash/uniq';
+import orderBy from 'lodash/orderBy';
 
 import * as fromPfDataGridActions from 'libs/features/grids/pf-data-grid/actions';
 import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
@@ -22,6 +24,7 @@ import { SurveyDataField } from 'libs/features/surveys/survey-data-fields-manage
 import { AsyncStateObj } from 'libs/models/state';
 import { SurveyDataCountryAccessDto } from 'libs/models/survey/survey-data-country-access-dto.model';
 import { GroupedListItem } from 'libs/models/list';
+import { SurveyInfoByCompanyDto } from 'libs/models/survey';
 
 import * as fromSurveysPageReducer from '../reducers';
 import * as fromSurveysPageActions from '../actions/surveys-page.actions';
@@ -37,6 +40,8 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('matchedFilter') matchedFilter: ElementRef;
   @ViewChild('countriesFilter') countriesFilter: ElementRef;
   @ViewChild('historyFilter') historyFilter: ElementRef;
+  @ViewChild('surveyTitleFilter') surveyTitleFilter: ElementRef;
+  @ViewChild('vendorFilter') vendorFilter: ElementRef;
   @ViewChild('gridGlobalActions', { static: true }) public gridGlobalActionsTemplate: ElementRef;
 
   loading$: Observable<boolean>;
@@ -46,6 +51,7 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
   surveyYears$: Observable<AsyncStateObj<PfDataGridCustomFilterDisplayOptions[]>>;
   openedSurveyDataGrids$: Observable<SurveyDataGrid[]>;
   expandedRows$: Observable<number[]>;
+  surveyInfo$: Observable<AsyncStateObj<SurveyInfoByCompanyDto[]>>;
 
   gridFieldSubscription: Subscription;
   surveyDataGridSubscription: Subscription;
@@ -54,6 +60,7 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
   openedSurveyDataGridsSubscription: Subscription;
   expandedRowsSubscription: Subscription;
   loadViewConfigSuccessSubscription: Subscription;
+  surveyInfoSubscription: Subscription;
 
   inboundFilters: PfDataGridFilter[];
   pageViewId = SurveysPageConfig.SurveysPageViewId;
@@ -107,6 +114,12 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
   openedSurveyDataGrids: SurveyDataGrid[];
   fieldsExcludedFromExport = ['Survey_Job_ID', 'Survey_ID', 'SurveyJobMatchesCount'];
   defaultHistoryFilterSelectedItem: PfDataGridCustomFilterDisplayOptions = {Value: 'Most Recent', Display: 'Most Recent'};
+  surveyTitleField: ViewField;
+  vendorField: ViewField;
+  surveyTitleOptions: GroupedListItem[];
+  vendorOptions: GroupedListItem[];
+  selectedSurveyTitles: string[];
+  selectedVendors: string[];
 
   constructor(
     private store: Store<fromSurveysPageReducer.State>,
@@ -146,6 +159,7 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.surveyYears$ = this.store.select(fromSurveysPageReducer.getSurveyYears);
     this.openedSurveyDataGrids$ = this.store.select(fromSurveysPageReducer.getOpenedSurveyDataGrids);
     this.expandedRows$ = this.store.select(fromPfDataGridReducer.getExpandedRows, this.pageViewId);
+    this.surveyInfo$ = this.store.select(fromSurveysPageReducer.getSurveyInfo);
   }
 
   ngOnInit(): void {
@@ -154,6 +168,10 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
         this.updateMatchedFilter(fields);
         this.updateCountriesFilter(fields);
         this.updateHistoryFilter(fields);
+        this.surveyTitleField = fields.find(f => f.SourceName === 'Survey_Name');
+        this.vendorField = fields.find(f => f.SourceName === 'Survey_Publisher');
+        this.selectedSurveyTitles = this.surveyTitleField.FilterValues === null ? [] : this.surveyTitleField.FilterValues;
+        this.selectedVendors = this.vendorField.FilterValues === null ? [] : this.vendorField.FilterValues;
       }
     });
     this.countriesSubscription = this.countries$.subscribe(results => {
@@ -177,6 +195,12 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
           }
         }
       });
+    this.surveyInfoSubscription = this.surveyInfo$.subscribe(si => {
+      if (si?.obj?.length) {
+        this.surveyTitleOptions = this.buildGroupedListItems(si.obj.map(o => o.SurveyNameShort));
+        this.vendorOptions = this.buildGroupedListItems(si.obj.map(o => o.SurveyPublisher));
+      }
+    });
     this.openedSurveyDataGridsSubscription = this.openedSurveyDataGrids$.subscribe(grids => this.openedSurveyDataGrids = grids);
     this.store.dispatch(new fromSurveysPageActions.GetSurveyCountries());
     this.store.dispatch(new fromSurveysPageActions.GetSurveyYears());
@@ -186,7 +210,9 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
   ngAfterViewInit(): void {
     this.filterTemplates = {
       'SurveyJobMatchesCount': { Template: this.matchedFilter },
-      'SurveyCountryFilter': {Template: this.countriesFilter}
+      'SurveyCountryFilter': {Template: this.countriesFilter},
+      'Survey_Name': {Template: this.surveyTitleFilter},
+      'Survey_Publisher': {Template: this.vendorFilter}
     };
     this.actionBarConfig = {
       ...this.actionBarConfig,
@@ -202,6 +228,14 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.countriesSubscription.unsubscribe();
     this.openedSurveyDataGridsSubscription.unsubscribe();
     this.expandedRowsSubscription.unsubscribe();
+    this.surveyInfoSubscription.unsubscribe();
+  }
+
+  handleTreeViewFilterChanged(item: GroupedListItem[], filterField: ViewField): void {
+    const field: ViewField = cloneDeep(filterField);
+    field.FilterValues = item?.length > 0 ? item.map(x => x.Value) : null;
+    field.FilterOperator = 'in';
+    this.updateField(field);
   }
 
   viewSurveyParticipantsModal() {
@@ -392,6 +426,11 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.historyFilterSelectedItem = this.surveyYearFilterField.FilterValues === null
       ? null
       : { Value: this.surveyYearFilterField.FilterValues[0], Display: this.surveyYearFilterField.FilterValues[0] };
+  }
+
+  private buildGroupedListItems(list: string[]): GroupedListItem[] {
+    const distinctList = uniq(orderBy(list, [l => l.toLowerCase()], 'asc'));
+    return distinctList.map(dl => ({Name: dl, Value: dl}));
   }
 }
 
