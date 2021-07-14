@@ -3,11 +3,11 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 
-import * as fromComphubPageActions from '../../../../_main/actions/comphub-page.actions';
-import * as fromJobsCardActions from '../../../../_main/actions/jobs-card.actions';
-import { CountryDataSet, WorkflowContext } from '../../../../_main/models';
-import * as fromComphubMainReducer from '../../../../_main/reducers';
-import * as fromJobGridActions from '../../../../_main/actions/job-grid.actions';
+import * as fromComphubPageActions from '../../../../_shared/actions/comphub-page.actions';
+import * as fromJobsCardActions from '../../../../_shared/actions/jobs-card.actions';
+import * as fromComphubSharedReducer from '../../../../_shared/reducers';
+import * as fromJobGridActions from '../../../../_shared/actions/job-grid.actions';
+import { CountryDataSet, WorkflowContext } from '../../../../_shared/models';
 
 @Component({
   selector: 'pf-crowd-sourced-jobs-card',
@@ -29,11 +29,11 @@ export class CrowdSourcedJobsCardComponent implements OnInit, OnDestroy {
   clearSearch$ = this.clearSearch.asObservable();
 
   constructor(
-    private store: Store<fromComphubMainReducer.State>
+    private store: Store<fromComphubSharedReducer.State>
   ) {
-    this.countryDataSets$ = this.store.select(fromComphubMainReducer.getCountryDataSets);
-    this.workflowContext$ = this.store.select(fromComphubMainReducer.getWorkflowContext);
-    this.selectedJob$ = this.store.select(fromComphubMainReducer.getSelectedJob);
+    this.countryDataSets$ = this.store.select(fromComphubSharedReducer.getCountryDataSets);
+    this.workflowContext$ = this.store.select(fromComphubSharedReducer.getWorkflowContext);
+    this.selectedJob$ = this.store.select(fromComphubSharedReducer.getSelectedJob);
   }
 
   handleCountryDataSetChanged(countryCode: string) {

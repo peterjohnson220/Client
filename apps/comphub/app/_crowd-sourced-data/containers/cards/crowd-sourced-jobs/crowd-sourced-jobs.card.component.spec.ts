@@ -7,22 +7,22 @@ import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import * as fromRootState from 'libs/state/state';
 
 import { CrowdSourcedJobsCardComponent } from './crowd-sourced-jobs.card.component';
-import * as fromComphubMainReducer from '../../../../_main/reducers';
-import { generateMockWorkflowContext } from '../../../../_main/models';
-import * as fromComphubPageActions from '../../../../_main/actions/comphub-page.actions';
-import * as fromJobGridActions from '../../../../_main/actions/job-grid.actions';
+import * as fromComphubSharedReducer from '../../../../_shared/reducers';
+import * as fromComphubPageActions from '../../../../_shared/actions/comphub-page.actions';
+import * as fromJobGridActions from '../../../../_shared/actions/job-grid.actions';
+import { generateMockWorkflowContext } from '../../../../_shared/models';
 
 describe('Comphub - Crowd Sourced Data - Jobs Card Component', () => {
   let instance: CrowdSourcedJobsCardComponent;
   let fixture: ComponentFixture<CrowdSourcedJobsCardComponent>;
-  let store: Store<fromComphubMainReducer.State>;
+  let store: Store<fromComphubSharedReducer.State>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
           ...fromRootState.reducers,
-          comphub_main: combineReducers(fromComphubMainReducer.reducers),
+          comphub_shared: combineReducers(fromComphubSharedReducer.reducers),
         }),
         DropDownsModule,
       ],

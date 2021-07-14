@@ -30,16 +30,16 @@ import { BasicDataGridModule } from 'libs/features/grids/basic-data-grid';
 import {
   ComphubPageComponent, JobsCardComponent, MarketsCardComponent, CardLayoutComponent,
   SummaryCardComponent, PeerDataCardComponent, ParentDataCardComponent, QuickPriceHistoryComponent,
-  ComphubFooterComponent, JobGridComponent, MarketDataJobGridComponent, PeerJobGridComponent, QuickPriceLandingPageComponent
+  ComphubFooterComponent, MarketDataJobResultsComponent, PeerJobResultsComponent, QuickPriceLandingPageComponent
 } from './containers';
-import { JobsCardEffects, MarketsCardEffects, AddPayMarketFormEffects, DataCardEffects, ComphubPageEffects,
-  SummaryCardEffects, JobGridEffects, QuickPriceHistoryEffects } from './effects';
+import { QuickPriceHistoryEffects } from './effects';
 import { reducers } from './reducers';
 import { TrendingJobGroupComponent, CardComponent, PaymarketCardsComponent, AddPayMarketFormComponent, SalaryBarChartComponent,
-  SalaryTrendChartComponent, SharePricingSummaryModalComponent, GlossaryOfTermsComponent } from './components';
+  SalaryTrendChartComponent, SharePricingSummaryModalComponent, GlossaryOfTermsComponent, JobsGridContentComponent } from './components';
 import { MainRoutingModule } from './main-routing.module';
 import * as fromFaIcons from './fa-icons';
 import { JobsCardWrapperComponent } from './containers/wrappers/jobs-card-wrapper/jobs-card-wrapper.component';
+import { SharedModule } from '../_shared/shared.module';
 
 @NgModule({
     imports: [
@@ -51,13 +51,6 @@ import { JobsCardWrapperComponent } from './containers/wrappers/jobs-card-wrappe
         // 3rd Party
         StoreModule.forFeature('comphub_main', reducers),
         EffectsModule.forFeature([
-            JobsCardEffects,
-            DataCardEffects,
-            MarketsCardEffects,
-            AddPayMarketFormEffects,
-            ComphubPageEffects,
-            SummaryCardEffects,
-            JobGridEffects,
             QuickPriceHistoryEffects
         ]),
         PerfectScrollbarModule,
@@ -82,7 +75,8 @@ import { JobsCardWrapperComponent } from './containers/wrappers/jobs-card-wrappe
         PfFormsModule,
         PfExchangeExplorerModule,
         GuidelinesBadgeModule,
-        BasicDataGridModule
+        BasicDataGridModule,
+        SharedModule
     ],
   declarations: [
     // Components
@@ -105,11 +99,11 @@ import { JobsCardWrapperComponent } from './containers/wrappers/jobs-card-wrappe
     ParentDataCardComponent,
     QuickPriceHistoryComponent,
     ComphubFooterComponent,
-    JobGridComponent,
-    MarketDataJobGridComponent,
-    PeerJobGridComponent,
+    MarketDataJobResultsComponent,
+    PeerJobResultsComponent,
     JobsCardWrapperComponent,
-    QuickPriceLandingPageComponent
+    QuickPriceLandingPageComponent,
+    JobsGridContentComponent
   ],
   providers: [
     WindowRef,
@@ -122,8 +116,6 @@ import { JobsCardWrapperComponent } from './containers/wrappers/jobs-card-wrappe
     ComphubFooterComponent,
     MarketsCardComponent,
     QuickPriceLandingPageComponent,
-    JobGridComponent,
-    MarketDataJobGridComponent
   ]
 })
 export class MainModule {

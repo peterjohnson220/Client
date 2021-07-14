@@ -12,14 +12,14 @@ import * as fromSearchFiltersActions from 'libs/features/search/search/actions/s
 import * as fromExchangeFilterContextActions from 'libs/features/peer/exchange-explorer/actions/exchange-filter-context.actions';
 import { PayfactorsSearchApiModelMapper } from 'libs/features/search/search/helpers';
 
-import * as fromComphubMainReducer from '../reducers';
+import * as fromComphubSharedReducer from '../../_shared/reducers';
 import * as fromQuickPriceHistoryActions from '../actions/quick-price-history.actions';
-import * as fromSummaryCardActions from '../actions/summary-card.actions';
-import * as fromComphubPageActions from '../actions/comphub-page.actions';
-import { MarketsCardHelper, PayfactorsApiModelMapper } from '../helpers';
+import * as fromSummaryCardActions from '../../_shared/actions/summary-card.actions';
+import * as fromComphubPageActions from '../../_shared/actions/comphub-page.actions';
 import { QuickPriceType } from 'libs/constants';
-import { ComphubPages } from '../data';
 import { ComphubApiService } from 'libs/data/payfactors-api/comphub';
+import { ComphubPages } from '../../_shared/data';
+import { MarketsCardHelper, PayfactorsApiModelMapper } from '../../_shared/helpers';
 
 @Injectable()
 export class QuickPriceHistoryEffects {
@@ -28,7 +28,7 @@ export class QuickPriceHistoryEffects {
     .pipe(
       ofType(fromQuickPriceHistoryActions.GET_JOB_PRICED_HISTORY_SUMMARY),
       withLatestFrom(
-        this.store.select(fromComphubMainReducer.getQuickPriceType),
+        this.store.select(fromComphubSharedReducer.getQuickPriceType),
         (action: fromQuickPriceHistoryActions.GetJobPricedHistorySummary, quickPriceType) =>
           ({action, quickPriceType})
       ),
@@ -80,7 +80,7 @@ export class QuickPriceHistoryEffects {
     );
   constructor(
     private actions$: Actions,
-    private store: Store<fromComphubMainReducer.State>,
+    private store: Store<fromComphubSharedReducer.State>,
     private comphubApiService: ComphubApiService,
     private payfactorsSearchApiModelMapper: PayfactorsSearchApiModelMapper
   ) {}

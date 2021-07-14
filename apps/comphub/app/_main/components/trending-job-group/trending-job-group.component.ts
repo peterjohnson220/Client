@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
 
 import { WindowRef } from 'libs/core/services';
 
-import { TrendingJobGroup } from '../../models';
+import { TrendingJobGroup } from '../../../_shared/models';
 
 @Component({
   selector: 'pf-trending-job-group',

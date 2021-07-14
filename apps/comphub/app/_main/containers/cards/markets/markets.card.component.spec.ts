@@ -9,28 +9,24 @@ import { QuickPriceType } from 'libs/constants';
 import { generateMockPricingPaymarket } from 'libs/models/comphub';
 
 import { MarketsCardComponent } from './markets.card.component';
-import * as fromComphubMainReducer from '../../../reducers';
-import * as fromMarketsCardActions from '../../../actions/markets-card.actions';
-import * as fromComphubPageActions from '../../../actions/comphub-page.actions';
-import * as fromAddPayMarketFormActions from '../../../actions/add-paymarket-form.actions';
-import {
-  AddPayMarketFormData,
-  generateMockAddPayMarketFormData,
-  generateMockWorkflowContext
-} from '../../../models';
-import { ComphubPages } from '../../../data';
+import * as fromComphubSharedReducer from '../../../../_shared/reducers';
+import * as fromMarketsCardActions from '../../../../_shared/actions/markets-card.actions';
+import * as fromComphubPageActions from '../../../../_shared/actions/comphub-page.actions';
+import * as fromAddPayMarketFormActions from '../../../../_shared/actions/add-paymarket-form.actions';
+import { AddPayMarketFormData, generateMockAddPayMarketFormData, generateMockWorkflowContext } from '../../../../_shared/models';
+import { ComphubPages } from '../../../../_shared/data';
 
 describe('Comphub - Main - Markets Card Component', () => {
   let instance: MarketsCardComponent;
   let fixture: ComponentFixture<MarketsCardComponent>;
-  let store: Store<fromComphubMainReducer.State>;
+  let store: Store<fromComphubSharedReducer.State>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
           ...fromRootState.reducers,
-          comphub_main: combineReducers(fromComphubMainReducer.reducers),
+          comphub_shared: combineReducers(fromComphubSharedReducer.reducers),
         })
       ],
       declarations: [ MarketsCardComponent ],

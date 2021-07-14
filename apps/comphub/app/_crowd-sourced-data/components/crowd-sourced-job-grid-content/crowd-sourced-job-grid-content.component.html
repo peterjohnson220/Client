@@ -1,0 +1,86 @@
+<table class="table table-hover" [attr.data-qa-id]="'tbl-job-data-grid'" [class.grid-loading]="loading">
+  <thead>
+  <tr class="main-column-header">
+    <th></th>
+    <ng-container *ngFor="let column of gridColumnsConfiguration">
+      <th scope="col"
+          class="{{column.CssClasses}}">
+        {{column.HeaderText}}
+        <ng-container *ngIf="column.IsSortable">
+          <ng-container *ngIf="gridContext.sortBy?.field === column.SortField; else notSorted">
+                <span *ngIf="gridContext.sortBy?.dir === 'asc'">
+                  <span aria-label="Sortable" class="k-icon k-i-sort-asc-sm"></span>
+                </span>
+            <span *ngIf="gridContext.sortBy?.dir === 'desc'">
+                  <span aria-label="Sortable" class="k-icon k-i-sort-desc-sm"></span>
+                </span>
+          </ng-container>
+        </ng-container>
+      </th>
+    </ng-container>
+  </tr>
+  </thead>
+  <tbody>
+  <ng-container *ngFor="let job of jobGridData?.Data; trackBy: trackByFn">
+    <tr (click)="handleSelectionChanged(job)"
+        class="job-row"
+        [class.selected]="job.JobTitle === selectedJobData?.JobTitle">
+
+      <td class="expand-caret" (click)="handleExpandJdClicked($event, job.JobId)">
+        <fa-icon *ngIf="!job.ShowJd" icon="caret-right"></fa-icon>
+        <fa-icon *ngIf="job.ShowJd" icon="caret-down"></fa-icon>
+      </td>
+
+      <td class="text-column job-title-column" title="{{job.JobTitle}}">
+        {{job.JobTitle}}
+      </td>
+
+      <td class="education-column hide-when-small" title="{{job.Education}}">
+        {{job.Education}}
+      </td>
+
+      <td class="hide-when-small">
+        {{job.ManagesEmployees ? 'Yes': 'No'}}
+      </td>
+
+      <td *ngIf="gridHasData" class="number-column">
+        <span *ngIf="job.Loading" class="icon">
+          <fa-icon [spin]="true" icon="spinner"></fa-icon>
+        </span>
+        <div *ngIf="!job.Loading">
+          <span *ngIf="!!job.Base10 && !!job.Base90; else noDataTemplate">
+            {{
+            job.Base10 |
+              currency:currencyCode : 'symbol-narrow' : '1.0-0'
+            }} - {{
+            job.Base90 |
+              currency:currencyCode : 'symbol-narrow' : '1.0-0'
+            }}
+        </span>
+        </div>
+      </td>
+
+      <td class="text-center">
+        <div class="custom-control custom-radio">
+          <input type="radio" id="customRadio-{{job.JobTitle}}"
+                 [attr.data-qa-id]="'chk-select-job-'+job.JobTitle"
+                 name="select-job-data"
+                 [checked]="job.JobTitle === selectedJobData?.JobTitle"
+                 (change)="handleSelectionChanged(job)"
+                 class="custom-control-input">
+          <label class="custom-control-label" for="customRadio-{{job.JobTitle}}">&nbsp;</label>
+        </div>
+      </td>
+    </tr>
+    <tr *ngIf="job.ShowJd" class="jd-row">
+      <td [attr.colspan]="gridColumnsConfiguration.length + 1"
+          [innerHTML]="job.JobDescription | jobDescriptionParser">
+      </td>
+    </tr>
+  </ng-container>
+  </tbody>
+</table>
+
+<ng-template #noDataTemplate>
+  <span class="icon">-</span>
+</ng-template>

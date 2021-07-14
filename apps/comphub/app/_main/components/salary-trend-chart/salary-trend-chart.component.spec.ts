@@ -2,7 +2,7 @@ import { NO_ERRORS_SCHEMA, SimpleChange, SimpleChanges } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SalaryTrendChartComponent } from './salary-trend-chart.component';
-import { generateMockJobSalaryTrend } from '../../models';
+import { generateMockJobSalaryTrend } from '../../../_shared/models';
 
 describe('Comphub - Salary Bar Trend Component', () => {
   let instance: SalaryTrendChartComponent;

@@ -4,9 +4,9 @@ import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
-import * as fromComphubMainReducer from '../../../reducers';
-import { WorkflowContext } from '../../../models';
-import { ComphubPages } from '../../../data';
+import * as fromComphubSharedReducer from '../../../../_shared/reducers';
+import { ComphubPages } from '../../../../_shared/data';
+import { WorkflowContext } from '../../../../_shared/models';
 
 @Component({
   selector: 'pf-card-layout',
@@ -28,10 +28,10 @@ export class CardLayoutComponent implements OnInit, OnDestroy {
   comphubPages = ComphubPages;
 
   constructor(
-    private store: Store<fromComphubMainReducer.State>
+    private store: Store<fromComphubSharedReducer.State>
   ) {
-    this.workflowContext$ = this.store.select(fromComphubMainReducer.getWorkflowContext);
-    this.selectedPageIdDelayed$ = this.store.select(fromComphubMainReducer.getSelectedPageId).pipe(debounceTime(750));
+    this.workflowContext$ = this.store.select(fromComphubSharedReducer.getWorkflowContext);
+    this.selectedPageIdDelayed$ = this.store.select(fromComphubSharedReducer.getSelectedPageId).pipe(debounceTime(750));
   }
 
   ngOnInit(): void {
