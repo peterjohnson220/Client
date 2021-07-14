@@ -1,0 +1,27 @@
+<pf-comphub-job-grid #marketDataJobGrid
+  [jobTitle]="jobTitle"
+  [jobGridData]="(jobResults$ | async)"
+  [loading]="(jobResultsLoading$ | async)"
+  [loadingError]="(jobResultsLoadingError$ | async)"
+  [gridHasData]="gridHasData"
+  [gridColumnsConfiguration]="gridColumnsConfiguration"
+  [countryCode]="workflowContext?.activeCountryDataSet?.CountryCode"
+  [gridContext]="gridContext"
+  (loadMoreClicked)="loadJobResults($event)">
+
+  <ng-container table>
+    <pf-jobs-grid-content
+      [jobGridData]="(jobResults$ | async)"
+      [gridHasData]="gridHasData"
+      [gridColumnsConfiguration]="gridColumnsConfiguration"
+      [selectedJobData]="(selectedJobData$ | async)"
+      [currencyCode]="workflowContext?.activeCountryDataSet?.CurrencyCode"
+      [loading]="(jobResultsLoading$ | async)"
+      [gridContext]="gridContext"
+      (selectionChanged)="handleSelectionChanged($event)"
+      (sortChanged)="loadJobResults($event)"
+      (jobDescriptionToggled)="handleExpandJdClicked($event)">
+    </pf-jobs-grid-content>
+  </ng-container>
+
+</pf-comphub-job-grid>

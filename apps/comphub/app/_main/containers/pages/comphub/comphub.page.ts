@@ -11,10 +11,10 @@ import * as fromBasicDataGridReducer from 'libs/features/grids/basic-data-grid/r
 import * as fromBasicDataGridActions from 'libs/features/grids/basic-data-grid/actions/basic-data-grid.actions';
 import * as fromLayoutWrapperReducer from 'libs/ui/layout-wrapper/reducers';
 
-import * as fromComphubPageActions from '../../../actions/comphub-page.actions';
-import * as fromComphubMainReducer from '../../../reducers';
-import { AccordionCard, ComphubPages } from '../../../data';
-import { QuickPriceHistoryContext, WorkflowContext } from '../../../models';
+import * as fromComphubPageActions from '../../../../_shared/actions/comphub-page.actions';
+import * as fromComphubSharedReducer from '../../../../_shared/reducers';
+import { AccordionCard, ComphubPages } from '../../../../_shared/data';
+import { QuickPriceHistoryContext, WorkflowContext } from '../../../../_shared/models';
 
 @Component({
   selector: 'pf-comphub-page',
@@ -61,17 +61,17 @@ export class ComphubPageComponent implements OnInit, OnDestroy {
   private readonly sideBarOpenedWidth = 200;
 
   constructor(
-    private store: Store<fromComphubMainReducer.State>,
+    private store: Store<fromComphubSharedReducer.State>,
     private basicGridStore: Store<fromBasicDataGridReducer.State>,
     private layoutWrapperStore: Store<fromLayoutWrapperReducer.State>,
     private changeDetectorRef: ChangeDetectorRef
   ) {
-    this.cards$ = this.store.select(fromComphubMainReducer.getCards);
-    this.enabledPages$ = this.store.select(fromComphubMainReducer.getEnabledPages);
-    this.accessedPages$ = this.store.select(fromComphubMainReducer.getPagesAccessed);
-    this.workflowContext$ = this.store.select(fromComphubMainReducer.getWorkflowContext);
+    this.cards$ = this.store.select(fromComphubSharedReducer.getCards);
+    this.enabledPages$ = this.store.select(fromComphubSharedReducer.getEnabledPages);
+    this.accessedPages$ = this.store.select(fromComphubSharedReducer.getPagesAccessed);
+    this.workflowContext$ = this.store.select(fromComphubSharedReducer.getWorkflowContext);
     this.userContext$ = this.store.select(fromRootReducer.getUserContext);
-    this.showJobsHistorySummary$ = this.store.select(fromComphubMainReducer.getShowJobPricedHistorySummary);
+    this.showJobsHistorySummary$ = this.store.select(fromComphubSharedReducer.getShowJobPricedHistorySummary);
     this.historyGridInitialized$ = this.store.select(fromBasicDataGridReducer.getIsInitialized, QuickPriceHistoryContext.gridId);
     this.leftSidebarOpen$ = this.layoutWrapperStore.select(fromLayoutWrapperReducer.getLeftSidebarOpen);
   }

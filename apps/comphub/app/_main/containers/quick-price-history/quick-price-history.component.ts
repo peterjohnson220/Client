@@ -13,11 +13,11 @@ import { QuickPriceType } from 'libs/constants';
 import * as fromBasicDataGridReducer from 'libs/features/grids/basic-data-grid/reducers';
 import * as fromBasicDataGridActions from 'libs/features/grids/basic-data-grid/actions/basic-data-grid.actions';
 
-import * as fromComphubPageActions from '../../actions/comphub-page.actions';
+import * as fromComphubPageActions from '../../../_shared/actions/comphub-page.actions';
 import * as fromQuickPriceHistoryActions from '../../actions/quick-price-history.actions';
 import * as fromComphubMainReducer from '../../reducers';
-import { QuickPriceHistoryContext, WorkflowContext } from '../../models';
-
+import * as fromComphubSharedReducer from '../../../_shared/reducers';
+import { QuickPriceHistoryContext, WorkflowContext } from '../../../_shared/models';
 
 @Component({
   selector: 'pf-quick-price-history',
@@ -49,15 +49,16 @@ export class QuickPriceHistoryComponent implements OnInit, OnDestroy, AfterViewI
 
   constructor(
     private store: Store<fromComphubMainReducer.State>,
+    private sharedStore: Store<fromComphubSharedReducer.State>,
     private basicGridStore: Store<fromBasicDataGridReducer.State>,
     private settingsService: SettingsService
   ) {
     this.data$ = this.basicGridStore.select(fromBasicDataGridReducer.getData, QuickPriceHistoryContext.gridId);
-    this.workflowContext$ = this.store.select(fromComphubMainReducer.getWorkflowContext);
+    this.workflowContext$ = this.sharedStore.select(fromComphubSharedReducer.getWorkflowContext);
     this.fields$ = this.basicGridStore.select(fromBasicDataGridReducer.getVisibleFields, QuickPriceHistoryContext.gridId);
     this.loadingMoreData$ = this.basicGridStore.select(fromBasicDataGridReducer.getLoadingMoreData, QuickPriceHistoryContext.gridId);
     this.hasMoreDataOnServer$ = this.basicGridStore.select(fromBasicDataGridReducer.getHasMoreDataOnServer, QuickPriceHistoryContext.gridId);
-    this.isQuickPriceHistoryOpen$ = this.store.select(fromComphubMainReducer.getIsQuickPriceHistoryOpen);
+    this.isQuickPriceHistoryOpen$ = this.sharedStore.select(fromComphubSharedReducer.getIsQuickPriceHistoryOpen);
     this.isQuickPriceHistoryNoteDismissed$ = this.settingsService.selectUiPersistenceSetting<boolean>(
       FeatureAreaConstants.CompHub, UiPersistenceSettingConstants.QuickPriceHistoryNoteDismissed
     );

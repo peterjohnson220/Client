@@ -9,12 +9,12 @@ import { QuickPriceType } from 'libs/constants';
 import { UserContext } from 'libs/models/security';
 import { PricingPaymarket } from 'libs/models/comphub';
 
-import * as fromComphubMainReducer from '../../../reducers';
-import * as fromMarketsCardActions from '../../../actions/markets-card.actions';
-import * as fromComphubPageActions from '../../../actions/comphub-page.actions';
-import * as fromAddPayMarketFormActions from '../../../actions/add-paymarket-form.actions';
-import { AddPayMarketFormData, MarketDataScope, MarketDataLocation, WorkflowContext } from '../../../models';
-import { ComphubPages } from '../../../data';
+import * as fromComphubSharedReducer from '../../../../_shared/reducers';
+import * as fromMarketsCardActions from '../../../../_shared/actions/markets-card.actions';
+import * as fromComphubPageActions from '../../../../_shared/actions/comphub-page.actions';
+import * as fromAddPayMarketFormActions from '../../../../_shared/actions/add-paymarket-form.actions';
+import { ComphubPages } from '../../../../_shared/data';
+import { AddPayMarketFormData, MarketDataLocation, MarketDataScope, WorkflowContext } from '../../../../_shared/models';
 
 @Component({
   selector: 'pf-markets-card',
@@ -48,30 +48,30 @@ export class MarketsCardComponent implements OnInit {
   comphubPages = ComphubPages;
 
   constructor(
-    private store: Store<fromComphubMainReducer.State>
+    private store: Store<fromComphubSharedReducer.State>
   ) {
-    this.payMarketsFilter$ = this.store.select(fromComphubMainReducer.getPaymarketsFilter);
-    this.visiblePaymarkets$ = this.store.select(fromComphubMainReducer.getVisiblePaymarkets);
-    this.paymarkets$ = this.store.select(fromComphubMainReducer.getPaymarkets);
-    this.loadingPaymarkets$ = this.store.select(fromComphubMainReducer.getLoadingPaymarkets);
-    this.loadingPaymarketsError$ = this.store.select(fromComphubMainReducer.getLoadingPaymarketsError);
-    this.selectedPaymarket$ = this.store.select(fromComphubMainReducer.getSelectedPaymarket);
-    this.hideNewPaymarketButton$ = this.store.select(fromComphubMainReducer.getHideNewPaymarketsButton);
-    this.loadingMarketDataScopes$ = this.store.select(fromComphubMainReducer.getMarketDataScopesLoading);
-    this.loadingLocations$ = this.store.select(fromComphubMainReducer.getLoadingMarketDataLocations);
-    this.marketDataLocations$ = this.store.select(fromComphubMainReducer.getMarketDataLocations);
+    this.payMarketsFilter$ = this.store.select(fromComphubSharedReducer.getPaymarketsFilter);
+    this.visiblePaymarkets$ = this.store.select(fromComphubSharedReducer.getVisiblePaymarkets);
+    this.paymarkets$ = this.store.select(fromComphubSharedReducer.getPaymarkets);
+    this.loadingPaymarkets$ = this.store.select(fromComphubSharedReducer.getLoadingPaymarkets);
+    this.loadingPaymarketsError$ = this.store.select(fromComphubSharedReducer.getLoadingPaymarketsError);
+    this.selectedPaymarket$ = this.store.select(fromComphubSharedReducer.getSelectedPaymarket);
+    this.hideNewPaymarketButton$ = this.store.select(fromComphubSharedReducer.getHideNewPaymarketsButton);
+    this.loadingMarketDataScopes$ = this.store.select(fromComphubSharedReducer.getMarketDataScopesLoading);
+    this.loadingLocations$ = this.store.select(fromComphubSharedReducer.getLoadingMarketDataLocations);
+    this.marketDataLocations$ = this.store.select(fromComphubSharedReducer.getMarketDataLocations);
     this.userContext$ = this.store.select(fromRootReducer.getUserContext);
-    this.workflowContext$ = this.store.select(fromComphubMainReducer.getWorkflowContext);
+    this.workflowContext$ = this.store.select(fromComphubSharedReducer.getWorkflowContext);
   }
 
   ngOnInit() {
-    this.addPayMarketFormOpen$ = this.store.select(fromComphubMainReducer.getAddPayMarketFormOpen);
-    this.savingPayMarket$ = this.store.select(fromComphubMainReducer.getSavingPayMarket);
-    this.savingPayMarketConflict$ = this.store.select(fromComphubMainReducer.getSavingPayMarketConflict);
-    this.savingPayMarketError$ = this.store.select(fromComphubMainReducer.getSavingPayMarketError);
-    this.marketDataScope$ = this.store.select(fromComphubMainReducer.getMarketDataScope);
-    this.infoBannerOpen$ = this.store.select(fromComphubMainReducer.getInfoBannerOpen);
-    this.showSkipButton$ = this.store.select(fromComphubMainReducer.getShowSkipButton);
+    this.addPayMarketFormOpen$ = this.store.select(fromComphubSharedReducer.getAddPayMarketFormOpen);
+    this.savingPayMarket$ = this.store.select(fromComphubSharedReducer.getSavingPayMarket);
+    this.savingPayMarketConflict$ = this.store.select(fromComphubSharedReducer.getSavingPayMarketConflict);
+    this.savingPayMarketError$ = this.store.select(fromComphubSharedReducer.getSavingPayMarketError);
+    this.marketDataScope$ = this.store.select(fromComphubSharedReducer.getMarketDataScope);
+    this.infoBannerOpen$ = this.store.select(fromComphubSharedReducer.getInfoBannerOpen);
+    this.showSkipButton$ = this.store.select(fromComphubSharedReducer.getShowSkipButton);
 
     this.workflowContextSub = this.workflowContext$.subscribe(wfc => this.workflowContext = wfc);
 

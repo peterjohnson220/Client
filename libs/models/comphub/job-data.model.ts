@@ -10,15 +10,18 @@ export interface JobData {
   ManagesEmployees: boolean;
   Skills: string[];
   FLSAStatus: string;
+  Base10?: number;
   Base25?: number;
   Base50?: number;
   Base75?: number;
+  Base90?: number;
   Tcc25?: number;
   Tcc50?: number;
   Tcc75?: number;
   Incs?: number;
   Orgs?: number;
   ShowJd: boolean;
+  Loading?: boolean;
   ExchangeName?: string;
   EffectiveDate?: Date;
   PayMarket?: PricingPaymarket;

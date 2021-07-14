@@ -86,9 +86,9 @@
       </div>
     </div>
 
-    <pf-market-data-job-grid *ngIf="!isPeerQuickPriceType"></pf-market-data-job-grid>
+    <pf-market-data-job-results *ngIf="!isPeerQuickPriceType"></pf-market-data-job-results>
 
-    <pf-peer-job-grid *ngIf="isPeerQuickPriceType"></pf-peer-job-grid>
+    <pf-peer-job-results *ngIf="isPeerQuickPriceType"></pf-peer-job-results>
 
     <div *ngIf="!selectedJob?.length" class="row">
       <div class="col-lg-12 col-xl-9">

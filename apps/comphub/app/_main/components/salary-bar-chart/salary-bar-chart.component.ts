@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { DataCardHelper } from '../../helpers';
+import { DataCardHelper } from '../../../_shared/helpers';
 
 @Component({
   selector: 'pf-salary-bar-chart',

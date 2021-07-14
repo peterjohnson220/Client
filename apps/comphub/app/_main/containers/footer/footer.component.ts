@@ -14,11 +14,12 @@ import * as fromLibsPeerExchangeExplorerReducers from 'libs/features/peer/exchan
 import * as fromBasicDataGridReducer from 'libs/features/grids/basic-data-grid/reducers';
 import { AppConstants } from 'libs/constants';
 
-import * as fromComphubMainReducer from '../../reducers';
-import * as fromSummaryCardActions from '../../actions/summary-card.actions';
-import * as fromComphubPageActions from '../../actions/comphub-page.actions';
-import { FooterContext, JobPricingLimitInfo, QuickPriceHistoryContext, WorkflowContext } from '../../models';
-import { ComphubPages } from '../../data';
+import * as fromComphubSharedReducer from '../../../_shared/reducers';
+import * as fromSummaryCardActions from '../../../_shared/actions/summary-card.actions';
+import * as fromComphubPageActions from '../../../_shared/actions/comphub-page.actions';
+import { ComphubPages } from '../../../_shared/data';
+import { FooterContext, QuickPriceHistoryContext, WorkflowContext } from '../../../_shared/models';
+import { JobPricingLimitInfo } from '../../../_shared/models/job-pricing-limit-info.model';
 
 @Component({
   selector: 'pf-comphub-footer',
@@ -55,22 +56,22 @@ export class ComphubFooterComponent implements OnInit, OnDestroy {
   footerContext: FooterContext;
 
   constructor(
-    private store: Store<fromComphubMainReducer.State>,
+    private store: Store<fromComphubSharedReducer.State>,
     private basicGridStore: Store<fromBasicDataGridReducer.State>,
     private exchangeExplorerStore: Store<fromLibsPeerExchangeExplorerReducers.State>,
     public guidelinesService: DojGuidelinesService,
     private window: WindowRef
   ) {
-    this.workflowContext$ = this.store.select(fromComphubMainReducer.getWorkflowContext);
-    this.jobPricingBlocked$ = this.store.select(fromComphubMainReducer.getJobPricingBlocked);
-    this.footerContext$ = this.store.select(fromComphubMainReducer.getFooterContext);
+    this.workflowContext$ = this.store.select(fromComphubSharedReducer.getWorkflowContext);
+    this.jobPricingBlocked$ = this.store.select(fromComphubSharedReducer.getJobPricingBlocked);
+    this.footerContext$ = this.store.select(fromComphubSharedReducer.getFooterContext);
     this.userContext$ = this.store.select(fromRootReducer.getUserContext);
-    this.countryDataSetsLoaded$ = this.store.select(fromComphubMainReducer.getCountryDataSetsLoaded);
-    this.jobPricingLimitInfo$ = this.store.select(fromComphubMainReducer.getJobPricingLimitInfo);
-    this.selectedPageIdDelayed$ = this.store.select(fromComphubMainReducer.getSelectedPageId).pipe(debounceTime(750));
+    this.countryDataSetsLoaded$ = this.store.select(fromComphubSharedReducer.getCountryDataSetsLoaded);
+    this.jobPricingLimitInfo$ = this.store.select(fromComphubSharedReducer.getJobPricingLimitInfo);
+    this.selectedPageIdDelayed$ = this.store.select(fromComphubSharedReducer.getSelectedPageId).pipe(debounceTime(750));
     this.loadingMap$ = this.exchangeExplorerStore.select(fromLibsPeerExchangeExplorerReducers.getPeerMapLoading);
     this.pricedJobsCount$ = this.basicGridStore.select(fromBasicDataGridReducer.getTotalCount, QuickPriceHistoryContext.gridId);
-    this.smbLimitReached$ = this.store.select(fromComphubMainReducer.getSmbLimitReached);
+    this.smbLimitReached$ = this.store.select(fromComphubSharedReducer.getSmbLimitReached);
   }
 
   ngOnInit(): void {
