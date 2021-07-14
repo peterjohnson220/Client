@@ -90,7 +90,7 @@ export class ProjectExportManagerComponent implements OnInit, OnChanges, OnDestr
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.openModal.currentValue) {
+    if (changes.openModal?.currentValue) {
       this.showExportManager.next(true);
     }
   }
