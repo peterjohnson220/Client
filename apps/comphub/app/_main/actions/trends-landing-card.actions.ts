@@ -1,5 +1,7 @@
 import { Action } from '@ngrx/store';
 
+import { PeerTrendResponse } from 'libs/models/payfactors-api/peer/exchange-data-filter/response';
+
 export const GET_NEW_EXCHANGE_PARTICIPANTS = '[Comphub/Trends Landing Card] Get New Exchange Participants';
 export const GET_NEW_EXCHANGE_PARTICIPANTS_SUCCESS = '[Comphub/Trends Landing Card] Get New Exchange Participants Success';
 export const GET_NEW_EXCHANGE_PARTICIPANTS_ERROR = '[Comphub/Trends Landing Card] Get New Exchange Participants Error';
@@ -9,6 +11,10 @@ export const GET_ORG_INC_COUNT_HISTORY_ERROR = '[Comphub/Trends Landing Card] Ge
 export const DELETE_SAVED_TREND = '[Comphub/Trends Landing Card] Delete Saved Trend';
 export const DELETE_SAVED_TREND_SUCCESS = '[Comphub/Trends Landing Card] Delete Saved Trend Success';
 export const DELETE_SAVED_TREND_ERROR = '[Comphub/Trends Landing Card] Delete Saved Trend Error';
+export const SET_SELECTED_TREND_ID = '[Comphub/Trends Landing Card] Set Selected Trend Id';
+export const LOAD_SAVED_TREND = '[Comphub/Trends Landing Card] Load Saved Trend';
+export const LOAD_SAVED_TREND_SUCCESS = '[Comphub/Trends Landing Card] Load Saved Trend Success';
+export const LOAD_SAVED_TREND_ERROR = '[Comphub/Trends Landing Card] Load Saved Trend Error';
 
 export class GetNewExchangeParticipants implements Action {
   readonly type = GET_NEW_EXCHANGE_PARTICIPANTS;
@@ -55,6 +61,26 @@ export class DeleteSavedTrendError implements Action {
   constructor() {}
 }
 
+export class SetSelectedTrendId implements Action {
+  readonly type = SET_SELECTED_TREND_ID;
+  constructor(public payload: number) {}
+}
+
+export class LoadSavedTrend implements Action {
+  readonly type = LOAD_SAVED_TREND;
+  constructor(public payload: number) {}
+}
+
+export class LoadSavedTrendSuccess implements Action {
+  readonly type = LOAD_SAVED_TREND_SUCCESS;
+  constructor(public payload: PeerTrendResponse) {}
+}
+
+export class LoadSavedTrendError implements Action {
+  readonly type = LOAD_SAVED_TREND_ERROR;
+  constructor() {}
+}
+
 export type Actions
   = GetNewExchangeParticipants
 | GetNewExchangeParticipantsSuccess
@@ -64,4 +90,8 @@ export type Actions
 | GetOrgIncCountHistoryError
 | DeleteSavedTrend
 | DeleteSavedTrendSuccess
-| DeleteSavedTrendError;
+| DeleteSavedTrendError
+| SetSelectedTrendId
+| LoadSavedTrend
+| LoadSavedTrendSuccess
+| LoadSavedTrendError;

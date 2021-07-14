@@ -1,14 +1,16 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { CurrencyPipe, DatePipe } from '@angular/common';
 
 import { Store } from '@ngrx/store';
 import * as Highcharts from 'highcharts/highstock';
+import { Observable, Subscription } from 'rxjs';
 import cloneDeep from 'lodash/cloneDeep';
 
 import { PayRateDate } from 'libs/models/payfactors-api/peer/exchange-data-search/response';
 
 import * as fromComphubMainReducer from '../../../reducers';
 import * as fromTrendsSummaryCardActions from '../../../actions/trends-summary-card.actions';
+import * as fromTrendsLandingCardActions from '../../../actions/trends-landing-card.actions';
 
 @Component({
   selector: 'pf-historical-trend-chart',
@@ -16,7 +18,7 @@ import * as fromTrendsSummaryCardActions from '../../../actions/trends-summary-c
   styleUrls: ['historical-trend-chart.component.scss']
 })
 
-export class HistoricalTrendChartComponent implements OnChanges {
+export class HistoricalTrendChartComponent implements OnInit, OnDestroy, OnChanges {
   @Input() salaryTrendData: PayRateDate[];
   @Input() isHourly: boolean;
   @Input() currencyCode: string;
@@ -28,9 +30,20 @@ export class HistoricalTrendChartComponent implements OnChanges {
   localSalaryTrendData: PayRateDate[];
   data: any[];
 
+  selectedPeerTrendId$: Observable<number>;
+  selectedPeerTrendIdSubscription: Subscription;
+  selectedTrendId: number;
+
+  trendChartDomain$: Observable<any>;
+  trendChartDomainSubscription: Subscription;
+  trendChartDomain: any;
+
   constructor(private store: Store<fromComphubMainReducer.State>,
               private datePipe: DatePipe,
-              private currencyPipe: CurrencyPipe) {}
+              private currencyPipe: CurrencyPipe) {
+    this.selectedPeerTrendId$ = this.store.select(fromComphubMainReducer.getSelectedTrendId);
+    this.trendChartDomain$ = this.store.select(fromComphubMainReducer.getPeerTrendsDomain);
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes?.salaryTrendData?.currentValue) {
@@ -40,19 +53,23 @@ export class HistoricalTrendChartComponent implements OnChanges {
   }
 
   refreshChart(): void {
-    this.data = [];
-    this.localSalaryTrendData.forEach(item => {
-      const seconds = Math.floor(new Date(item.EffectiveDate).getTime());
-      this.data.push([seconds, item.BasePay]);
-    });
+    if (this.localSalaryTrendData?.length > 0) {
+      this.data = [];
+      this.localSalaryTrendData.forEach(item => {
+        const seconds = Math.floor(new Date(item.EffectiveDate).getTime());
+        this.data.push([seconds, item.BasePay]);
+      });
 
-    const minDate = new Date(Math.min(...this.localSalaryTrendData.map(d => d.EffectiveDate.getTime())));
-    const maxDate = new Date(Math.max(...this.localSalaryTrendData.map(d => d.EffectiveDate.getTime())));
-    this.store.dispatch(new fromTrendsSummaryCardActions.SetTrendsDomain({ minDate, maxDate }));
+      if (!this.selectedTrendId) {
+        const minDate = new Date(Math.min(...this.localSalaryTrendData.map(d => d.EffectiveDate.getTime())));
+        const maxDate = new Date(Math.max(...this.localSalaryTrendData.map(d => d.EffectiveDate.getTime())));
+        this.store.dispatch(new fromTrendsSummaryCardActions.SetTrendsDomain({ minDate, maxDate }));
+      }
 
-    this.updateSidePanelInfo(this.localSalaryTrendData);
+      this.updateSidePanelInfo(this.localSalaryTrendData);
 
-    this.chartOptions = this.getChartOptions();
+      this.chartOptions = this.getChartOptions();
+    }
   }
 
   getChartOptions(): any {
@@ -117,7 +134,8 @@ export class HistoricalTrendChartComponent implements OnChanges {
       },
       xAxis: {
         type: 'datetime',
-        showLastLabel: 'false',
+        showLastLabel: 'true',
+        showFirstLabel: 'true',
         events: {
           afterSetExtremes : (event) => { this.onSetExtremes(event); },
         }
@@ -178,11 +196,6 @@ export class HistoricalTrendChartComponent implements OnChanges {
     this.store.dispatch(new fromTrendsSummaryCardActions.SetTrendsDomain({minDate: new Date(event.min), maxDate: new Date(event.max)}));
 
     this.updateSidePanelInfo(zoomedTrendData);
-
-    this.store.dispatch(new fromTrendsSummaryCardActions.SetTrendsDomain({
-      minDate: new Date(event.min),
-      maxDate: new Date(event.max)
-    }));
   }
 
   updateSidePanelInfo(trendData: PayRateDate[]) {
@@ -202,6 +215,37 @@ export class HistoricalTrendChartComponent implements OnChanges {
       ContributingCompanyJobCount: contributingCompanyJobCount,
       ContributingExchangeJobCount: contributingExchangeJobCount
     }));
+  }
+
+  ngOnInit(): void {
+    this.selectedPeerTrendIdSubscription = this.selectedPeerTrendId$.subscribe( x => {
+      this.selectedTrendId = x;
+      if (!!x) {
+        this.store.dispatch(new fromTrendsLandingCardActions.LoadSavedTrend(x));
+      }
+  });
+
+    this.trendChartDomainSubscription = this.trendChartDomain$.subscribe( x => {
+        this.trendChartDomain = {
+          minDate: new Date(x.minDate).getTime(),
+          maxDate: new Date(x.maxDate).getTime()
+        };
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.selectedPeerTrendIdSubscription.unsubscribe();
+    this.trendChartDomainSubscription.unsubscribe();
+  }
+
+  chartCallback(chart: Highcharts.Chart = null) {
+    // set the instance
+    if (chart) {
+      this.chart = chart;
+      if (!!this.selectedTrendId) {
+        this.chart.xAxis[0].setExtremes(new Date(this.trendChartDomain.minDate).getTime(), new Date(this.trendChartDomain.maxDate).getTime());
+      }
+    }
   }
 }
 

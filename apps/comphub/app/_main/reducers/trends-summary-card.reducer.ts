@@ -72,6 +72,11 @@ export function reducer(state: State = initialState, action: fromTrendsSummaryCa
     case fromTrendsSummaryCardActions.SAVE_PEER_TREND_ERROR:
       return AsyncStateObjHelper.savingError(state, 'savingPeerTrend');
 
+    case fromTrendsSummaryCardActions.RESET:
+      return {
+        ...initialState
+      };
+
     default:
       return state;
   }
@@ -82,5 +87,8 @@ export const getPeerTrendsSummaryDetails = (state: State) => state.trendsSummary
 export const getPeerTrendsDomain = (state: State) => ({ minDate: state.minDate, maxDate: state.maxDate });
 export const getDisplaySavePeerTrendModal = (state: State) => state.displaySaveTrendModal;
 export const getSavingPeerTrend = (state: State) => state.savingPeerTrend;
+export const getPeerTrendsDomainMin = (state: State) => state.minDate;
+export const getPeerTrendsDomainMax = (state: State) => state.maxDate;
 export const getExchangeJobIds = (state: State) => state.exchangeJobIds;
 export const getCompanyJobIds = (state: State) => state.companyJobIds;
+

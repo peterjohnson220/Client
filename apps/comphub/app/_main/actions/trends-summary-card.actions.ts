@@ -13,6 +13,7 @@ export const SAVE_PEER_TREND = '[Comphub/Trends Summary Card] Save Peer Trend';
 export const SAVE_PEER_TREND_SUCCESS = '[Comphub/Trends Summary Card] Save Peer Trend Success';
 export const SAVE_PEER_TREND_ERROR = '[Comphub/Trends Summary Card] Save Peer Trend Error';
 export const TOGGLE_SAVE_TREND_MODAL = '[Comphub/Trends Summary Card] Toggle Save Trend Modal';
+export const RESET = '[Comphub/Trends Summary Card] Reset';
 export const EXPORT_EXCHANGE_JOBS = '[Comphub/Trends Summary Card] Export Exchange Jobs';
 export const EXPORT_EXCHANGE_JOBS_SUCCESS = '[Comphub/Trends Summary Card] Export Exchange Jobs Success';
 export const EXPORT_EXCHANGE_JOBS_ERROR = '[Comphub/Trends Summary Card] Export Exchange Jobs Error';
@@ -67,6 +68,12 @@ export class ToggleSaveTrendModal implements Action {
   constructor(public payload: {displayModal: boolean}) {}
 }
 
+export class Reset implements Action {
+  readonly type = RESET;
+
+  constructor() {}
+}
+
 export class ExportExchangeJobs implements Action {
   readonly type = EXPORT_EXCHANGE_JOBS;
 }
@@ -100,6 +107,7 @@ export type Actions =
   ToggleSaveTrendModal |
   SavePeerTrend |
   SavePeerTrendSuccess |
+  Reset |
   SavePeerTrendError |
   ExportExchangeJobs |
   ExportExchangeJobsSuccess |

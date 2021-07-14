@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { catchError, map, switchMap, withLatestFrom } from 'rxjs/operators';
+import { catchError, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import * as fromComphubMainReducer from '../reducers';
@@ -31,7 +31,8 @@ export class TrendsSummaryCardEffects {
     withLatestFrom(
       this.exchangeExplorerContextService.selectFilterContext(),
       this.store.select(fromComphubMainReducer.getSelectedExchangeJobs),
-      (action, exchangeExplorerFilterContext, exchangeJobs) => ({action, exchangeExplorerFilterContext, exchangeJobs})
+      this.store.select(fromComphubMainReducer.getSelectedTrendId),
+      (action, exchangeExplorerFilterContext, exchangeJobs, trendId) => ({action, exchangeExplorerFilterContext, exchangeJobs, trendId})
     ),
     switchMap( (data) => {
       const lowerDate = new Date();
@@ -41,12 +42,46 @@ export class TrendsSummaryCardEffects {
         ...data.exchangeExplorerFilterContext,
         From: lowerDate,
         To: new Date(),
-        CalendarInterval: CalendarInterval.Month
+        CalendarInterval: CalendarInterval.Month,
+        PeerTrendId: data.trendId
       };
 
       return this.exchangeDataSearchApiService.getHistoricalTrends(request).pipe(
-        map((response) => {
-          return new fromTrendsSummaryCardActions.GetPeerTrendsSuccess({PricingHistory: response.PricingHistoryCollection, ExchangeJobIds: response.ExchangeJobIds, CompanyJobIds: response.CompanyJobIds});
+        mergeMap((response) => {
+
+          if (response.PricingHistoryCollection.length > 0) {
+            const upperPayRateDate = response.PricingHistoryCollection[response.PricingHistoryCollection.length - 1];
+            const lowerPayRateDate = response.PricingHistoryCollection[0];
+            const basePayPctChange = (upperPayRateDate.BasePay - lowerPayRateDate.BasePay) / lowerPayRateDate.BasePay;
+            const incsPctChange = (upperPayRateDate.Incs - lowerPayRateDate.Incs) / lowerPayRateDate.Incs;
+            const contributingCompanyCount = upperPayRateDate.Orgs;
+
+            const contributingCompanyJobCount = upperPayRateDate.CompanyJobCount;
+            const contributingExchangeJobCount = upperPayRateDate.ExchangeJobCount;
+
+            return [
+              new fromTrendsSummaryCardActions.SetTrendsPercentChange({
+                BasePayPctChange: basePayPctChange,
+                IncsPctChange: incsPctChange,
+                ContributingCompanyJobCount: contributingCompanyJobCount,
+                ContributingExchangeJobCount: contributingExchangeJobCount,
+                ContributingCompanyCount: contributingCompanyCount
+              }),
+              new fromTrendsSummaryCardActions.GetPeerTrendsSuccess({PricingHistory: response.PricingHistoryCollection, ExchangeJobIds: response.ExchangeJobIds, CompanyJobIds: response.CompanyJobIds}),
+            ];
+          } else {
+            return [
+              new fromTrendsSummaryCardActions.SetTrendsPercentChange({
+                BasePayPctChange: null,
+                IncsPctChange: null,
+                ContributingCompanyJobCount: null,
+                ContributingExchangeJobCount: null,
+                ContributingCompanyCount: null
+              }),
+              new fromTrendsSummaryCardActions.GetPeerTrendsSuccess({PricingHistory: response.PricingHistoryCollection, ExchangeJobIds: response.ExchangeJobIds, CompanyJobIds: response.CompanyJobIds})
+            ];
+          }
+
         }),
         catchError(() => of(new fromTrendsSummaryCardActions.GetPeerTrendsError()))
       );

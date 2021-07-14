@@ -22,4 +22,8 @@ export class PeerTrendsApiService {
   deletePeerTrend(peerTrendName: string) {
     return this.payfactorsApiService.post(`${this.endpoint}/DeletePeerTrend`, {peerTrendName: peerTrendName});
   }
+
+  getPeerTrendContext(peerTrendId: number) {
+    return this.payfactorsApiService.get(`${this.endpoint}/GetPeerTrendContext`, {params: { peerTrendId: peerTrendId}});
+  }
 }
