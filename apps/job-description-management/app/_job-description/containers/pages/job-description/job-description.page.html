@@ -131,7 +131,11 @@
               <pf-workflow-sidebar
                   [workflowStepInfo]="!isInSystemWorkflow ? (identity$ | async)?.WorkflowStepInfo : (workflowStepInfo$ | async)"
                   [workflowStepCompleted]="completedStep"
-                  [isInSystemWorkflow]="isInSystemWorkflow">
+                  [isInSystemWorkflow]="isInSystemWorkflow"
+                  [workflowId]="(jobDescriptionExtendedInfo$ | async)?.WorkflowId"
+                  [isSiteAdmin]="isSiteAdmin"
+                  [isCompanyAdmin]="isCompanyAdmin"
+                  [avatarUrl]="avatarUrl">
               </pf-workflow-sidebar>
             </div>
           </div>
