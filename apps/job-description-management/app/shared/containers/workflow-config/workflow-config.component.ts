@@ -129,6 +129,7 @@ export class WorkflowConfigComponent implements OnInit, OnDestroy {
     const fileToUpload = mapFileInfoToWorkflowAddAttachment(file, cloudFileName);
     fileToUpload.Status = KendoUploadStatus.UploadInProgress;
     this.uploadedFiles.push(fileToUpload);
+    this.updateUploadButtonState();
   }
 
   successEventHandler(e: SuccessEvent) {
@@ -184,6 +185,17 @@ export class WorkflowConfigComponent implements OnInit, OnDestroy {
 
     file.name = `${file.uid}_${file.name}`;
     this.uploadWidget.removeFilesByUid(file.uid);
+    this.updateUploadButtonState();
+  }
+
+  updateUploadButtonState() {
+    if (this.uploadedFiles.length >= this.maxFileCount) {
+      const buttonElement = this.uploadWidget.wrapper.getElementsByClassName('k-upload-button');
+      buttonElement[0].classList.add('k-state-disabled');
+    } else {
+      const buttonElement = this.uploadWidget.wrapper.getElementsByClassName('k-upload-button');
+      buttonElement[0].classList.remove('k-state-disabled');
+    }
   }
 
   constructor(
