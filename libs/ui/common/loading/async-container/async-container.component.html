@@ -16,7 +16,7 @@
 
         <ng-container *ngIf="!hideReloadButton">
           <button class="btn btn-danger mt-3"
-                  (click)="reload.emit()">{{ reloadText }}</button>
+                  (click)="handleReload()">{{ reloadText }}</button>
         </ng-container>
       </div>
 

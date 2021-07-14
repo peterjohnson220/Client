@@ -1,3 +1,89 @@
 <pf-page-with-title-bar [returnUrl]="'/'">
   <ng-container page-title>History: {{ (statement$ | async)?.StatementName }}</ng-container>
+  <ng-container page-content>
+    <div class="h-100 k-tooltip-container"
+      kendoTooltip
+      [tooltipTemplate]="tooltipTemplate"
+      filter=".k-grid td"
+      showOn="none"
+      (mouseover)="showGridTooltip($event)">
+      <pf-async-container class="h-100"
+        [loading]="statementHistoryLoading$ | async" [loadingError]="(statementHistoryLoadingError$ | async) || (statementLoadingError$ | async)">
+        <kendo-grid
+          class="total-rewards-statements-grid"
+          [data]="statementHistoryGridData$ | async"
+          [pageSize]="(statementHistoryGridState$ | async)?.take"
+          [skip]="(statementHistoryGridState$ | async)?.skip"
+          [sort]="(statementHistoryGridState$ | async)?.sort"
+          [resizable]="true"
+          [sortable]="true"
+          [pageable]="{ buttonCount: 5, info: true }"
+          (dataStateChange)="onDataStateChange($event)">
+
+          <kendo-grid-column width="70" [title]="'Actions'">
+            <ng-template kendoGridHeaderTemplate>
+              <span>Actions</span>
+            </ng-template>
+            <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+              <div ngbDropdown container="body" #dropdown="ngbDropdown"
+                  (openChange)="handleSelectedRowAction(dropdown)">
+                <fa-icon ngbDropdownToggle
+                        icon="ellipsis-h"
+                        id="total-rewards-actions-{{dataItem?.Id}}"
+                        class="action-button">
+                </fa-icon>
+                <div ngbDropdownMenu aria-labelledby="total-rewards-actions-{{dataItem?.Id}}">
+                  <button ngbDropdownItem (click)="onActionMenuCopyClick(dataItem)">
+                    <span>Download</span>
+                  </button>
+                </div>
+              </div>
+            </ng-template>
+          </kendo-grid-column>
+
+          <kendo-grid-column
+            *ngFor="let field of gridFields"
+            [field]="field.FieldName"
+            [width]="field.Width"
+            class="ellipsize">
+
+            <ng-template kendoGridHeaderTemplate let-column>
+              <div class="ellipsis-overflowing-text-wrap show-tooltip">
+                <fa-icon *ngIf="(statementHistoryGridState$ | async)?.sort[0]?.field === column.field && (statementHistoryGridState$ | async)?.sort[0]?.dir ==='desc'"
+                        class="sort-icon" [icon]="['far', 'long-arrow-down']">
+                </fa-icon>
+                <fa-icon *ngIf="(statementHistoryGridState$ | async)?.sort[0]?.field === column.field && (statementHistoryGridState$ | async)?.sort[0]?.dir ==='asc'"
+                        class="sort-icon" [icon]="['far', 'long-arrow-up']">
+                </fa-icon>
+                {{field.DisplayName}}
+              </div>
+            </ng-template>
+
+            <ng-template kendoGridCellTemplate let-dataItem>
+              <div [ngSwitch]="true" class="ellipsis-overflowing-text show-tooltip">
+                <ng-container *ngSwitchCase="field.DataType === 'date'">
+                  {{dataItem[field.FieldName] | date: 'MM/dd/yyyy'}}
+                </ng-container>
+
+                <ng-template ngSwitchDefault>
+                  {{dataItem[field.FieldName]}}
+                </ng-template>
+              </div>
+            </ng-template>
+
+          </kendo-grid-column>
+
+          <ng-template kendoGridNoRecordsTemplate>
+            No records available.
+          </ng-template>
+        </kendo-grid>
+      </pf-async-container>
+    </div>
+
+    <ng-template #tooltipTemplate let-hoverElement>
+      <span>{{ hoverElement.nativeElement.innerText }}</span>
+    </ng-template>
+
+  </ng-container>
+
 </pf-page-with-title-bar>
