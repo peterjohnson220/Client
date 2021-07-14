@@ -2,13 +2,18 @@
 
 exports[`Peer Dashboard - Chart Detail should NOT show card body header when detailChartType$ is Company 1`] = `
 <pf-chart-detail-component
+  clearSearch={[Function BehaviorSubject]}
+  clearSearch$={[Function Observable]}
   detailChartCategory="null"
   detailChartCategory$={[Function Store]}
   detailChartCategorySubscription={[Function Subscriber]}
+  detailChartItems="null"
   detailChartItems$={[Function Store]}
+  detailChartItemsSubscription={[Function Subscriber]}
   detailChartType={[Function String]}
   detailChartType$={[Function Observable]}
   detailChartTypeSubscription={[Function Subscriber]}
+  filteredChartItems="null"
   loadingDetailChartItems$={[Function Store]}
   loadingDetailChartItemsError$={[Function Store]}
   store={[Function Store]}
@@ -31,9 +36,14 @@ exports[`Peer Dashboard - Chart Detail should NOT show card body header when det
       </div>
     </div>
     <div
-      class="card-body"
+      class="p-2"
     >
       
+      <pf-input-debounce />
+    </div>
+    <div
+      class="card-body"
+    >
       
       
       
@@ -51,13 +61,18 @@ exports[`Peer Dashboard - Chart Detail should NOT show card body header when det
 
 exports[`Peer Dashboard - Chart Detail should show a card header of 'Exchange Job Orgs' when the detailCharType$ is ExchangeJobOrgs 1`] = `
 <pf-chart-detail-component
+  clearSearch={[Function BehaviorSubject]}
+  clearSearch$={[Function Observable]}
   detailChartCategory="null"
   detailChartCategory$={[Function Store]}
   detailChartCategorySubscription={[Function Subscriber]}
+  detailChartItems="null"
   detailChartItems$={[Function Store]}
+  detailChartItemsSubscription={[Function Subscriber]}
   detailChartType={[Function String]}
   detailChartType$={[Function Observable]}
   detailChartTypeSubscription={[Function Subscriber]}
+  filteredChartItems="null"
   loadingDetailChartItems$={[Function Store]}
   loadingDetailChartItemsError$={[Function Store]}
   store={[Function Store]}
@@ -80,14 +95,19 @@ exports[`Peer Dashboard - Chart Detail should show a card header of 'Exchange Jo
       </div>
     </div>
     <div
-      class="card-body"
+      class="p-2"
     >
       
       <h4
-        class="mb-2"
+        class="mb-2 p-2"
       >
           
       </h4>
+      <pf-input-debounce />
+    </div>
+    <div
+      class="card-body"
+    >
       
       
       <div
@@ -105,13 +125,18 @@ exports[`Peer Dashboard - Chart Detail should show a card header of 'Exchange Jo
 
 exports[`Peer Dashboard - Chart Detail should show the chart detail component 1`] = `
 <pf-chart-detail-component
+  clearSearch={[Function BehaviorSubject]}
+  clearSearch$={[Function Observable]}
   detailChartCategory="null"
   detailChartCategory$={[Function Store]}
   detailChartCategorySubscription={[Function Subscriber]}
+  detailChartItems="null"
   detailChartItems$={[Function Store]}
+  detailChartItemsSubscription={[Function Subscriber]}
   detailChartType="null"
   detailChartType$={[Function Store]}
   detailChartTypeSubscription={[Function Subscriber]}
+  filteredChartItems="null"
   loadingDetailChartItems$={[Function Store]}
   loadingDetailChartItemsError$={[Function Store]}
   store={[Function Store]}
@@ -134,14 +159,19 @@ exports[`Peer Dashboard - Chart Detail should show the chart detail component 1`
       </div>
     </div>
     <div
-      class="card-body"
+      class="p-2"
     >
       
       <h4
-        class="mb-2"
+        class="mb-2 p-2"
       >
           
       </h4>
+      <pf-input-debounce />
+    </div>
+    <div
+      class="card-body"
+    >
       
       
       <div
