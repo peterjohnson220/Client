@@ -38,7 +38,7 @@
       </ng-container>
   
       <ng-container *ngIf="jobInsights">
-        <div class="card mb-3">
+        <div class="card mb-3 job-details-container">
           <div class="card-body">
             <div class="title">Job Details</div>
             <ng-container [ngTemplateOutlet]="jobDetailsFields"
@@ -49,7 +49,7 @@
                             [ngTemplateOutletContext]="{fields: customFields, subTitle: 'CUSTOM FIELDS'}">
               </ng-container>
             </ng-container>
-            <div *ngIf="!!customFields?.length" class="d-flex justify-content-end">
+            <div *ngIf="!!customFields?.length" class="d-flex justify-content-end pb-3">
               <div class="link" (click)="toggleViewMore()">
                 <span *ngIf="!isViewMore">view more</span>
                 <span *ngIf="isViewMore">view less</span>
@@ -72,16 +72,16 @@
     <div class="col-6 px-3">
       <div *ngFor="let field of fields; let isOdd=odd;" class="pl-1">
         <div *ngIf="!isOdd" class="row">
-          <label class="col-4">{{field.Key}}</label>
-          <div class="col-8 font-weight-bold">{{field.Value | emptyPlaceholder}}</div>
+          <label pfEllipsisActive class="col-4 ellipsis-overflowing-text">{{field.Key}}</label>
+          <div pfEllipsisActive class="col-8 font-weight-bold ellipsis-overflowing-text">{{field.Value | emptyPlaceholder}}</div>
         </div>
       </div>
     </div>
     <div class="col-6 px-3">
       <div *ngFor="let field of fields; let isOdd=odd;">
         <div *ngIf="isOdd" class="row">
-          <label class="col-4">{{field.Key}}</label>
-          <div class="col-8 font-weight-bold">{{field.Value | emptyPlaceholder}}</div>
+          <label pfEllipsisActive class="col-4 ellipsis-overflowing-text">{{field.Key}}</label>
+          <div pfEllipsisActive class="col-8 font-weight-bold ellipsis-overflowing-text">{{field.Value | emptyPlaceholder}}</div>
         </div>
       </div>
     </div>

@@ -20,3 +20,9 @@
   color: #027BC5;
   cursor: pointer;
 }
+
+.job-details-container {
+  max-height: 280px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
