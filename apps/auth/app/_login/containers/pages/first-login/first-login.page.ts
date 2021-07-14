@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
@@ -19,7 +19,7 @@ import * as fromFirstLoginActions from '../../../actions/first-login.action';
   templateUrl: './first-login.page.html',
   styleUrls: [ './first-login.page.scss' ]
 })
-export class FirstLoginPageComponent implements OnInit {
+export class FirstLoginPageComponent implements OnInit, OnDestroy {
   userContext$: Observable<UserContext>;
   userContextLoading$: Observable<boolean>;
   userContextAttempted$: Observable<boolean>;
@@ -105,7 +105,7 @@ export class FirstLoginPageComponent implements OnInit {
     });
 
     this.userContext$.pipe(filter(uc => !!uc)).subscribe(uc => {
-      this.featureFlagService.initialize(uc.ConfigSettings.find(cs => cs.Name === 'LaunchDarklyClientSdkKey')?.Value, 
+      this.featureFlagService.initialize(uc.ConfigSettings.find(cs => cs.Name === 'LaunchDarklyClientSdkKey')?.Value,
         FeatureFlagHelper.buildContext(uc), uc.FeatureFlagBootstrapJson);
 
       this.featureFlagService.bindEnabled(this.payscaleAuthRebrandFlag, this.unsubscribe$);
@@ -133,5 +133,9 @@ export class FirstLoginPageComponent implements OnInit {
       this.submitEnabled = false;
       this.store.dispatch(new fromFirstLoginActions.UpdatePassword(this.password));
     }
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
   }
 }

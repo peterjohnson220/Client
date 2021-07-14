@@ -1,12 +1,12 @@
 import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
 
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, Subject } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
 import * as fromRootState from '../../../state/state';
 import * as fromCompanySettingsActions from '../../../state/app-context/actions/company-settings.actions';
-import { NewRelicService, RouteTrackingService, AbstractFeatureFlagService, FeatureFlagHelper } from '../../../core/services';
+import { NewRelicService, RouteTrackingService, AbstractFeatureFlagService, FeatureFlagHelper, RealTimeFlag, FeatureFlags } from '../../../core/services';
 import { UserContext } from '../../../models/security';
 
 @Component({
@@ -40,6 +40,9 @@ export class AppComponent implements OnInit, OnDestroy {
     { regex: /\?(.*)/, replace: '?*'}
   ];
 
+  payscaleBrandingEnabled: RealTimeFlag = { key: FeatureFlags.PayscaleBranding, value: false };
+  unsubscribe$ = new Subject<void>();
+
   constructor(
     private store: Store<fromRootState.State>,
     // Initializing the route tracking service to start tracking on app startup by requesting it here
@@ -64,6 +67,11 @@ export class AppComponent implements OnInit, OnDestroy {
       NewRelicService.setCustomAttributes(uc.CompanyId, uc.UserId, uc.IpAddress, uc.SessionId, this.getTargetUrl());
       this.featureFlagService.initialize(uc.ConfigSettings.find(cs => cs.Name === 'LaunchDarklyClientSdkKey')?.Value,
         FeatureFlagHelper.buildContext(uc), uc.FeatureFlagBootstrapJson);
+
+      this.featureFlagService.bindEnabled(this.payscaleBrandingEnabled, this.unsubscribe$);
+      if (this.payscaleBrandingEnabled.value === true) {
+        document.querySelector('html').classList.add('payscale-rebrand');
+      }
     });
   }
 
@@ -79,5 +87,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this.hasUserContextSub.unsubscribe();
     this.userContextSub.unsubscribe();
     this.forbiddenSub.unsubscribe();
+    this.unsubscribe$.next();
   }
 }
