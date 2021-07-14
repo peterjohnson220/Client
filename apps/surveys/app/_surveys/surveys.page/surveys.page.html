@@ -71,6 +71,36 @@
   </kendo-dropdownlist>
 </ng-template>
 
+<ng-template #surveyTitleFilter>
+  <div>
+    <label>Survey Title:</label>
+    <pf-treeview
+      [attr.data-qa-id]="'ddm-operator-surveys-page-surveyTitle-filter'"
+      [data]="surveyTitleOptions"
+      [placeholder]="'All'"
+      [filterable]="true"
+      [checkedKeys]="selectedSurveyTitles"
+      [anchorWidth]="406"
+      (applyClicked)="handleTreeViewFilterChanged($event, surveyTitleField)">
+    </pf-treeview>
+  </div>
+</ng-template>
+
+<ng-template #vendorFilter>
+  <div>
+    <label>Vendor:</label>
+    <pf-treeview
+      [attr.data-qa-id]="'ddm-operator-surveys-page-vendor-filter'"
+      [data]="vendorOptions"
+      [placeholder]="'All'"
+      [filterable]="true"
+      [checkedKeys]="selectedVendors"
+      [anchorWidth]="406"
+      (applyClicked)="handleTreeViewFilterChanged($event, vendorField)">
+    </pf-treeview>
+  </div>
+</ng-template>
+
 <ng-template #expandRow let-dataRow="dataRow">
   <div class="survey-data-cuts-container pt-3 pb-4 px-4">
     <pf-async-container [loading]="surveyDataGridReloading(dataRow['SurveyJob_Survey_Job_ID'])">
