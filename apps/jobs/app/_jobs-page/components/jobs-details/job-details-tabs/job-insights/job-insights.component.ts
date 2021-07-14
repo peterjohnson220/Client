@@ -16,7 +16,7 @@ import * as fromJobManagementActions from 'libs/features/jobs/job-management/act
 
 import * as fromJobsPageReducer from '../../../../reducers';
 import * as fromJobInsightsActions from '../../../../actions/job-insights.actions';
-import { JobInsightsHelper } from '../../../../models';
+import { JobInsightsHelper, MarketDataJobPricing } from '../../../../models';
 
 @Component({
   selector: 'pf-job-insights',
@@ -50,6 +50,7 @@ export class JobInsightsComponent implements OnChanges, OnInit, OnDestroy {
   standardFields: GenericKeyValue<string, string>[];
   customFields: GenericKeyValue<string, string>[];
   allCustomFields: GenericKeyValue<string, string>[];
+  jobPricing: MarketDataJobPricing;
 
   constructor(
     private store: Store<fromJobsPageReducer.State>,
@@ -111,6 +112,7 @@ export class JobInsightsComponent implements OnChanges, OnInit, OnDestroy {
 
   handlePayMarketValueChanged(value: number): void {
     this.selectedPayMarketId = value;
+    this.loadJobInsights();
   }
 
   toggleViewMore(): void {
@@ -163,5 +165,6 @@ export class JobInsightsComponent implements OnChanges, OnInit, OnDestroy {
     this.standardFields = JobInsightsHelper.mapJobDataToGenericKeyValues(this.jobInsights.Job);
     this.customFields = JobInsightsHelper.getCustomFieldsWithValues(this.jobInsights.Job, customFields);
     this.isViewMore = false;
+    this.jobPricing = { Id: this.jobInsights.JobPricingId, Rate: this.jobInsights.JobPricingRate };
   }
 }

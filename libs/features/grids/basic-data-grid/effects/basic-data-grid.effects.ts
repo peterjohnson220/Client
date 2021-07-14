@@ -99,6 +99,13 @@ export class BasicDataGridEffects {
       map((action: fromBasicDataGridActions.UpdateSort) => new fromBasicDataGridActions.GetData(action.gridId))
     );
 
+  @Effect()
+  updateFilters$ = this.actions$
+    .pipe(
+      ofType(fromBasicDataGridActions.UPDATE_FILTERS),
+      map((action: fromBasicDataGridActions.UpdateFilters) => new fromBasicDataGridActions.GetData(action.gridId))
+    );
+
   constructor(
     private actions$: Actions,
     private dataViewApiService: DataViewApiService,

@@ -1,0 +1,41 @@
+<ng-container *ngIf="jobPricing?.Id > 0; else noDataTemplate">
+  <pf-async-container [loading]="(pricingMatches$ | async)?.loading"></pf-async-container>
+  <ng-container *ngIf="(pricingMatches$ | async)?.obj">
+    <ng-container *ngFor="let job of (pricingMatches$ | async).obj; let isEven=even;">
+      <div class="d-flex flex-column p-3 market-data-container" [class.gray-background]="isEven">
+        <div pfEllipsisActive class="job-title ellipsis-overflowing-text">
+          {{job['vw_PricingMatchesJobTitlesMerged_Job_Title']}} ({{job['vw_PricingMatchesJobTitlesMerged_Job_Code']}})
+        </div>
+        <div pfEllipsisActive class="ellipsis-overflowing-text">
+          {{job['vw_PricingMatchesJobTitlesMerged_Source']}} ({{job['vw_PricingMatchesJobTitlesMerged_Effective_Date'] | date:'MM/dd/yyyy'}})
+        </div>
+        <div class="market-data-grid pt-3">
+          <kendo-grid [data]="[job]">
+            <kendo-grid-column-group *ngFor="let group of fieldGroups"
+                                     [title]="group"
+                                     [headerClass]="['text-center', 'font-weight-normal', group === 'TCC' ? 'border-left' : ''].join(' ')">
+              <ng-container *ngFor="let field of fields; trackBy:trackByField">
+                <kendo-grid-column *ngIf="field.Group === group"
+                                   [field]="field.KendoGridField"
+                                   [title]="field.DisplayName"
+                                   [headerClass]="['text-right', 'field-name', (field.Group === 'TCC' && field.DisplayName === '10th') ? 'border-left' : ''].join(' ')"
+                                   [class]="(field.Group === 'Base' && field.DisplayName === '90th') ? 'border-right' : ''"
+                                   width="60">
+                  <ng-template kendoGridCellTemplate let-dataItem>
+                    <div class="text-right">{{dataItem[field.KendoGridField] | comp : rate | emptyPlaceholder}}</div>
+                  </ng-template>
+                </kendo-grid-column>
+              </ng-container>
+            </kendo-grid-column-group>
+          </kendo-grid>
+        </div>
+      </div>
+    </ng-container>
+  </ng-container>
+</ng-container>
+
+<ng-template #noDataTemplate>
+  <div class="px-3 pb-3 no-market-data-container d-flex align-items-center justify-content-center">
+    <span>No market data to display. Click 'Add Data' to match this job.</span>
+  </div>
+</ng-template>
