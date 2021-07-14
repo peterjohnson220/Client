@@ -22,7 +22,7 @@ exports[`Peer Dashboard - Chart Detail should NOT show card body header when det
       <div
         class="align-self-center mr-auto flex-grow-1"
       >
-         Participating Companies 
+         Participating Companies by Contribution 
       </div>
       <div
         class="close-btn"
@@ -40,7 +40,7 @@ exports[`Peer Dashboard - Chart Detail should NOT show card body header when det
       <div
         class="no-detail-items"
       >
-        No companies associated to Participating Companies. 
+        No companies associated to Participating Companies by Contribution. 
       </div>
       
       
@@ -71,7 +71,7 @@ exports[`Peer Dashboard - Chart Detail should show a card header of 'Exchange Jo
       <div
         class="align-self-center mr-auto flex-grow-1"
       >
-         Exchange Job Orgs 
+         Exchange Job Orgs by Contribution 
       </div>
       <div
         class="close-btn"
@@ -125,7 +125,7 @@ exports[`Peer Dashboard - Chart Detail should show the chart detail component 1`
       <div
         class="align-self-center mr-auto flex-grow-1"
       >
-         Participating Companies 
+         Participating Companies by Contribution 
       </div>
       <div
         class="close-btn"
