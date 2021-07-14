@@ -135,6 +135,41 @@ export class MarketDataConfig {
       DataType: DataViewFieldDataType.Float,
       KendoGridField: 'CompanyJobs_PricingsMatches_TCC90',
       Group: 'TCC'
+    },
+    {
+      EntitySourceName: 'CompanyJobs_PricingsMatches',
+      SourceName: 'CompanyJobPricing_ID',
+      DisplayName: 'CompanyJobPricingId',
+      DataType: DataViewFieldDataType.Int,
+      KendoGridField: 'CompanyJobs_PricingsMatches_CompanyJobPricing_ID'
+    },
+    {
+      EntitySourceName: 'CompanyJobs_PricingsMatches',
+      SourceName: 'CompanyJobPricingMatch_ID',
+      DisplayName: 'CompanyJobPricingMatchId',
+      DataType: DataViewFieldDataType.Int,
+      KendoGridField: 'CompanyJobs_PricingsMatches_CompanyJobPricingMatch_ID'
+    },
+    {
+      EntitySourceName: 'CompanyJobs_PricingsMatches',
+      SourceName: 'MDJob_Code',
+      DisplayName: 'MDJobCode',
+      DataType: DataViewFieldDataType.String,
+      KendoGridField: 'CompanyJobs_PricingsMatches_MDJob_Code'
+    },
+    {
+      EntitySourceName: 'CompanyJobs_PricingsMatches',
+      SourceName: 'Slotted_CompanyJob_ID',
+      DisplayName: 'SlottedCompanyJobId',
+      DataType: DataViewFieldDataType.String,
+      KendoGridField: 'CompanyJobs_PricingsMatches_Slotted_CompanyJob_ID'
+    },
+    {
+      EntitySourceName: 'ExchangeDataCut',
+      SourceName: 'FilterGUID',
+      DisplayName: 'FilterGUID',
+      DataType: DataViewFieldDataType.String,
+      KendoGridField: 'ExchangeDataCut_FilterGUID'
     }
   ];
 
