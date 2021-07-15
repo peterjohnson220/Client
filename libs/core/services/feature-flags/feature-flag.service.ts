@@ -53,7 +53,7 @@ export interface FeatureFlagService {
  * Abstract feature flagging service. Primarily for use as a provider token
  */
 export abstract class AbstractFeatureFlagService implements FeatureFlagService {
-  abstract initialize(sdkKey: string, context: FeatureFlagContext, initialFlags?: any): void;
+  abstract initialize(sdkKey: string, context: FeatureFlagContext | { anonymous: boolean }, initialFlags?: any): void;
   abstract enabled(key: string, defaultValue?: boolean, context?: FeatureFlagContext): boolean;
   abstract bindEnabled(flag: RealTimeFlag, unSubscribe: Subject<void>): void;
 }

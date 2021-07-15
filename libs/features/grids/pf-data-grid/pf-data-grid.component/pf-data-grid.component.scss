@@ -24,6 +24,12 @@
   flex: 0 0;
 }
 
+.main-grid-split-hide-overflow {
+  position: relative;
+  flex: 0 0;
+  overflow: hidden !important;
+}
+
 .grid-container {
   position: absolute;
   top: 0;

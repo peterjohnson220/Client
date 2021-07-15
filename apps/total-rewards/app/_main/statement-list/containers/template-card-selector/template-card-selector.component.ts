@@ -33,16 +33,10 @@ export class TemplateCardSelectorComponent implements OnInit, OnDestroy {
   statementModeEnum = StatementModeEnum;
   mockStatement: Statement;
   mockData = generateMockEmployeeRewardsData();
-  totalRewardsStyledTemplateFeatureFlag: RealTimeFlag = { key: FeatureFlags.TotalRewardsStyledTemplate, value: false };
-  unsubscribe$ = new Subject<void>();
 
   templateSub: Subscription;
 
-  constructor(
-    private store: Store<fromTotalRewardsReducer.State>,
-    private featureFlagService: AbstractFeatureFlagService) {
-      this.featureFlagService.bindEnabled(this.totalRewardsStyledTemplateFeatureFlag, this.unsubscribe$);
-  }
+  constructor(private store: Store<fromTotalRewardsReducer.State>) { }
 
   ngOnInit(): void {
     this.templates$ = this.store.pipe(select(fromTotalRewardsReducer.getTemplates));
@@ -58,7 +52,6 @@ export class TemplateCardSelectorComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.templateSub.unsubscribe();
-    this.unsubscribe$.next();
   }
 
   reload(): void {
@@ -92,16 +85,5 @@ export class TemplateCardSelectorComponent implements OnInit, OnDestroy {
   closePreviewModal() {
     this.showPreviewModal.next(false);
     this.templatePreview = null;
-  }
-
-  isTemplateEnabled(template: Template): boolean {
-    switch (template.name) {
-      case TrsConstants.TEMPLATE_NAMES.SIMPLE :
-        return true;
-      case TrsConstants.TEMPLATE_NAMES.STYLED:
-        return this.totalRewardsStyledTemplateFeatureFlag.value;
-      default:
-        return false;
-    }
   }
 }

@@ -112,6 +112,56 @@ export class JobGridEffects {
       })
     );
 
+  @Effect()
+  searchCrowdSourcedJobsByTitle$ = this.actions$
+    .pipe(
+      ofType(fromJobGridActions.SEARCH_CROWD_SOURCED_JOBS_BY_TITLE),
+      withLatestFrom(
+        (action: fromJobGridActions.SearchCrowdSourcedJobsByTitle) => ({action})
+      ),
+      switchMap((data) => {
+          return this.comphubApiService.searchCrowdSourcedJobs(data.action.payload)
+            .pipe(
+              mergeMap(response => {
+                const actions = [];
+                const jobGridData = PayfactorsApiModelMapper.mapSearchCrowdSourcedJobsResponseToJobGridData(response);
+
+                jobGridData.Data.forEach((job) => {
+                  actions.push(new fromJobGridActions.GetCrowdSourcedJobPricing({jobTitle: job.JobTitle, country: 'United States'}));
+                });
+
+                actions.push(new fromJobGridActions.SearchCrowdSourcedJobsByTitleSuccess(jobGridData));
+
+                return actions;
+              }),
+              catchError((error) => of(
+                new fromJobGridActions.SearchCrowdSourcedJobsByTitleError(),
+                new fromComphubPageActions.HandleApiError(error)))
+            );
+        }
+      ));
+
+  @Effect()
+  getCrowdSourcedJobPricing$ = this.actions$
+    .pipe(
+      ofType(fromJobGridActions.GET_CROWD_SOURCED_JOB_PRICING),
+      withLatestFrom(
+        (action: fromJobGridActions.GetCrowdSourcedJobPricing) => ({action})
+      ),
+      mergeMap((data) => {
+          return this.comphubApiService.getCrowdSourcedJobPricing(data.action.payload.jobTitle, data.action.payload.country)
+            .pipe(
+              map(response => {
+                const jobData = PayfactorsApiModelMapper.mapGetCrowdSourcedJobPricingResponseToJobData(response);
+                return new fromJobGridActions.GetCrowdSourcedJobPricingSuccess(jobData);
+              }),
+              catchError((error) => of(
+                new fromJobGridActions.GetCrowdSourcedJobPricingError(),
+                new fromComphubPageActions.HandleApiError(error)))
+            );
+        }
+      ));
+
   constructor(
     private actions$: Actions,
     private store: Store<fromComphubMainReducer.State>,

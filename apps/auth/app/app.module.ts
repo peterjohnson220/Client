@@ -5,7 +5,7 @@ import { PfApiModule } from 'libs/data/payfactors-api';
 import { PfStateModule } from 'libs/state/state.module';
 import { PfCommonUIModule } from 'libs/ui/common/common-ui-module';
 import { PfSecurityModule } from 'libs/security/security.module';
-import { SentryErrorHandler, SentryService } from 'libs/core/services';
+import { SentryErrorHandler, SentryService, AbstractFeatureFlagService, LaunchDarklyFeatureFlagService } from 'libs/core/services';
 
 import { AppComponent } from './app.component';
 import { AppWrapperComponent } from './app-wrapper.component';
@@ -33,7 +33,8 @@ import { AuthLayoutWrapperComponent } from './auth-layout-wrapper.component';
   ],
   providers: [
     { provide: ErrorHandler, useClass: SentryErrorHandler },
-    SentryService
+    SentryService,
+    { provide: AbstractFeatureFlagService, useClass: LaunchDarklyFeatureFlagService }
   ],
   bootstrap: [AppComponent]
 })

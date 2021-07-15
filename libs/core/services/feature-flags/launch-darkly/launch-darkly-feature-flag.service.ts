@@ -53,11 +53,11 @@ export class LaunchDarklyFeatureFlagService extends AbstractFeatureFlagService {
     this.client.on('change', () => self.featureFlagChanged.next(self.client.allFlags()));
   }
 
-  private mapLDUser(context: FeatureFlagContext): LDUser {
-  return {
-    key: context.key.toString(),
-    email: context.email,
-    custom: context.attributes
-  };
+  private mapLDUser(context: FeatureFlagContext | { anonymous: boolean }): LDUser {
+    return ('anonymous' in context) ? { anonymous: true } : {
+      key: context.key.toString(),
+      email: context.email,
+      custom: context.attributes
+    };
   }
 }

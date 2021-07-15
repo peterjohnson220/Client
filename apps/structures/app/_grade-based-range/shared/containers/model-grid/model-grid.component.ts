@@ -20,10 +20,10 @@ import {
 import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums/pf-theme-type.enum';
 import { PfDataGridColType } from 'libs/features/grids/pf-data-grid/enums';
 import { PagingOptions } from 'libs/models/payfactors-api/search/request';
-import { CompanyStructureRangeOverride, RangeGroupMetadata, RoundingSettingsDataObj } from 'libs/models/structures';
+import { CompanyStructureRangeOverride, GradeBasedPageViewIds, RangeGroupMetadata, RoundingSettingsDataObj } from 'libs/models/structures';
 import { DataViewFilter } from 'libs/models/payfactors-api/reports/request';
 import { PermissionCheckEnum, Permissions } from 'libs/constants';
-import { PermissionService } from 'libs/core/services';
+import { AbstractFeatureFlagService, FeatureFlags, PermissionService } from 'libs/core/services';
 import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import { RangeType } from 'libs/constants/structures/range-type';
 import { RangeRecalculationType } from 'libs/constants/structures/range-recalculation-type';
@@ -38,6 +38,7 @@ import * as fromPublishModelModalActions from '../../../../shared/actions/publis
 import * as fromDuplicateModelModalActions from '../../../../shared/actions/duplicate-model-modal.actions';
 import { ModelSettingsModalContentComponent } from '../model-settings-modal-content';
 import * as fromGradeBasedSharedReducer from '../../reducers';
+import * as fromGradeBasedSharedActions from '../../actions/shared.actions';
 import { ChartSvg } from '../../models';
 
 @Component({
@@ -115,16 +116,22 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   summaryChartSvg$: Observable<string>;
   verticalChartSvg$: Observable<string>;
   chartSvgs: ChartSvg[] = [];
+  showVerticalChartSub: Subscription;
+  showVerticalChart$: Observable<boolean>;
+  showVerticalChart = true;
 
   hasAddEditDeleteStructurePermission: boolean;
   hasCreateEditStructureModelPermission: boolean;
   hasCanEditPublishedStructureRanges: boolean;
+  hasStructuresPageFlagEnabled: boolean;
 
   constructor(
     public store: Store<any>,
     private permissionService: PermissionService,
-    private structuresPagesService: StructuresPagesService
+    private structuresPagesService: StructuresPagesService,
+    private featureFlagService: AbstractFeatureFlagService
   ) {
+    this.hasStructuresPageFlagEnabled = this.featureFlagService.enabled(FeatureFlags.StructuresPage, false);
     this.metaData$ = this.store.pipe(select(fromSharedStructuresReducer.getMetadata));
     this.roundingSettings$ = this.store.pipe(select(fromSharedStructuresReducer.getRoundingSettings));
     this.rangeOverrides$ = this.store.pipe(select(fromSharedStructuresReducer.getRangeOverrides));
@@ -134,6 +141,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     this.modalOpen$ = this.store.pipe(select(fromSharedStructuresReducer.getModelSettingsModalOpen), delay(0));
     this.summaryChartSvg$ = this.store.pipe(select(fromGradeBasedSharedReducer.getSummaryChartSvg));
     this.verticalChartSvg$ = this.store.pipe(select(fromGradeBasedSharedReducer.getVerticalChartSvg));
+    this.showVerticalChart$ = this.store.pipe(select(fromGradeBasedSharedReducer.getShowVerticalChart));
     this.singleRecordActionBarConfig = {
       ...getDefaultActionBarConfig(),
       ShowActionBar: false
@@ -165,14 +173,6 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     };
   }
 
-  hideRowActionsGradeGrid(): boolean {
-    if ((this.metaData?.IsCurrent && !this.hasAddEditDeleteStructurePermission) || (!this.metaData?.IsCurrent && !this.hasCreateEditStructureModelPermission)) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
   initPermissions() {
     this.hasAddEditDeleteStructurePermission = this.permissionService.CheckPermission([Permissions.STRUCTURES_ADD_EDIT_DELETE],
       PermissionCheckEnum.Single);
@@ -192,7 +192,14 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   updateMidSuccessCallbackFn(store: Store<any>, metaInfo: any) {
-    // We should dispatch this action only for Employees/Pricings pages
+    // Update metadata for GBR Model page only when Grade equals 1
+    // Because we need to update Starting Midpoint for Model Settings
+    if ((metaInfo.pageViewId === GradeBasedPageViewIds.ModelMinMidMax
+      || metaInfo.pageViewId === GradeBasedPageViewIds.ModelQuartile
+      || metaInfo.pageViewId === GradeBasedPageViewIds.ModelTertile
+      || metaInfo.pageViewId === GradeBasedPageViewIds.ModelQuintile) && metaInfo.dispSeq === 1) {
+      store.dispatch(new fromSharedStructuresActions.SetMetadata(metaInfo.metaData));
+    }
   }
 
   showRevertChanges(rangeId: number): boolean {
@@ -219,6 +226,10 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
       rowIndex: rowIndex,
       refreshRowDataViewFilter: this.getRefreshFilter(dataRow)
     }));
+  }
+
+  handleChartViewToggle() {
+    this.store.dispatch(new fromGradeBasedSharedActions.SetShowVerticalChart(!this.showVerticalChart));
   }
 
   scroll = (): void => {
@@ -268,6 +279,11 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
       })
     });
 
+    if (!this.metaData.IsCurrent) {
+      this.setRequiredValidator('RangeSpread');
+      this.setRequiredValidator('MidpointProgression');
+    }
+
     this.store.dispatch(new fromModelSettingsModalActions.SetActiveTab('modelTab'));
   }
 
@@ -288,6 +304,12 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     if (event.target.id === 'AdjustMidpointMoveBy') {
       this.setValidators('AdjustMidpointSetting.Percentage', 0.01, 300);
     }
+  }
+
+  private setRequiredValidator(controlName: string) {
+    this.modelSettingsForm.get(controlName).enable();
+    this.modelSettingsForm.get(controlName).setValidators([Validators.required]);
+    this.modelSettingsForm.get(controlName).updateValueAndValidity();
   }
 
   private setValidators(controlName: string, min: number, max: number) {
@@ -335,6 +357,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
         this.controlPoint = this.metaData?.PayType ? this.metaData.PayType + 'MRP' : 'BaseMRP';
       }
     });
+
     this.roundingSettingsSub = this.roundingSettings$.subscribe(rs => this.roundingSettings = rs);
     this.rangeOverridesSub = this.rangeOverrides$.subscribe(ro => this.rangeOverrides = ro);
     this.gradesDetailsSub = this.store.select(fromGradeBasedSharedReducer.getGradesDetails).subscribe(details => {
@@ -378,6 +401,9 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
         }
       }
     });
+    this.showVerticalChartSub = this.showVerticalChart$.subscribe(svc => {
+      this.showVerticalChart = svc;
+    });
     this.initPermissions();
     this.buildForm();
     window.addEventListener('scroll', this.scroll, true);
@@ -393,5 +419,6 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     this.gradesDetailsSub.unsubscribe();
     this.verticalChartSvgSub.unsubscribe();
     this.summaryChartSvgSub.unsubscribe();
+    this.showVerticalChartSub.unsubscribe();
   }
 }

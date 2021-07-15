@@ -1,0 +1,37 @@
+<pf-card-layout
+  pageTitle="Jobs"
+  pageSubTitle="First, let's find a job to price"
+  pageIconClass="user-circle"
+  [page]="comphubPages.Jobs">
+
+  <ng-container page-content>
+    <ng-content select="[jobsCardContent]"></ng-content>
+  </ng-container>
+
+  <ng-container custom-actions>
+    <ng-container *ngIf="(pricedJobsCount$ | async) as pricedJobsCountAsync">
+      <span *ngIf="!pricedJobsCountAsync.loading && pricedJobsCountAsync.obj > 0"
+            class="priced-jobs-btn"
+            (click)="openQuickPriceHistoryModal()">
+        {{pricedJobsCountAsync.obj}} Job<span *ngIf="pricedJobsCountAsync.obj > 1">s</span> Priced
+      </span>
+    </ng-container>
+
+    <div class="smb-limit-disabling-message" *ngIf="(jobPricingBlocked$ | async)
+    && (countryDataSetsLoaded$ | async)
+    && (userContext$ | async)?.CompanySystemUserGroupsGroupName === systemUserGroupNames.SmallBusiness">
+      <div class="icon">
+        <fa-icon class="exclamation-triangle"></fa-icon>
+      </div>
+      <div class="message">
+        <div class="mb-2">Congratulations</div>
+
+        <div>it looks like you've already priced {{(jobPricingLimitInfo$ | async)?.Available}} jobs!</div>
+        <div>Contact <a href="mailto:smb@payfactors.com">smb@payfactors.com</a> to keep this momentum going.</div>
+      </div>
+    </div>
+  </ng-container>
+
+</pf-card-layout>
+
+<pf-quick-price-history></pf-quick-price-history>

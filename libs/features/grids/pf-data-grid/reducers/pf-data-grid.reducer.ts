@@ -66,6 +66,7 @@ export interface DataGridState {
   fadeInKeys: any[];
   fieldsWithCustomFilterTemplates: string[];
   customFilterOptions: PfDataGridCustomFilterOptions[];
+  splitViewHidden: boolean;
 }
 
 export interface DataGridStoreState {
@@ -186,6 +187,7 @@ export const getLastUpdateFieldsDate = (state: DataGridStoreState, pageViewId: s
 export const getVisibleKeys = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].visibleKeys;
 export const getUnexpectedError = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].unexpectedError;
 export const getFadeInKeys = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].fadeInKeys : null;
+export const getSplitViewHidden = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].splitViewHidden;
 
 export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGridActions): DataGridStoreState {
   switch (action.type) {
@@ -1237,6 +1239,17 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           }
         }
       };
+    case fromPfGridActions.SET_SPLIT_VIEW_HIDDEN:
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            splitViewHidden: action.payload
+          }
+        }
+      };
     case fromPfGridActions.RESET_DATA:
       return{
         ...state,
@@ -1388,7 +1401,7 @@ export function buildFiltersView(views: DataViewConfig[], state: DataGridStoreSt
     Fields: view.Fields
       .filter(field => field.FilterOperator && field.FilterValues !== null && !field.IsGlobalFilter),
     Description: view.Fields
-      .filter(field => field.FilterOperator && field.FilterValues !== null && !field.IsGlobalFilter)
+      .filter(field => field.FilterOperator && field.FilterValues !== null && !field.IsGlobalFilter && field.IsFilterable)
       .map(field => {
         return ({
           ...field,
