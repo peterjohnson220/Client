@@ -117,7 +117,7 @@
 		</ng-container>
 	</div>
 </div>
-<pf-async-container
+<pf-async-container [style.display]="showAttachmentsUpload ? 'block' : 'none'"
   [loadingErrorMessage]="'Error Loading Attachments'">
   <p class="m-3">Attachments - {{uploadedFiles.length}}/3 Files uploaded</p>
   <p *ngIf="showFileCountWarning" class="alert-warning pl-2">A maximum number of 3 attachments may be uploaded</p>
