@@ -3,6 +3,7 @@
 exports[`Project - Add Jobs - Paymarkets Component should be checked if paymarket is selected 1`] = `
 <pf-paymarkets
   defaultPaymarket$={[Function Store]}
+  implementation={[Function String]}
   loadingPaymarkets$={[Function Store]}
   loadingPaymarketsError$={[Function Store]}
   paymarkets$={[Function Observable]}
@@ -58,6 +59,7 @@ exports[`Project - Add Jobs - Paymarkets Component should be checked if paymarke
 exports[`Project - Add Jobs - Paymarkets Component should not show default badge when paymarket is not default 1`] = `
 <pf-paymarkets
   defaultPaymarket$={[Function Observable]}
+  implementation={[Function String]}
   loadingPaymarkets$={[Function Store]}
   loadingPaymarketsError$={[Function Store]}
   paymarkets$={[Function Observable]}
@@ -118,6 +120,7 @@ exports[`Project - Add Jobs - Paymarkets Component should not show default badge
 exports[`Project - Add Jobs - Paymarkets Component should show default badge on default paymarket 1`] = `
 <pf-paymarkets
   defaultPaymarket$={[Function Observable]}
+  implementation={[Function String]}
   loadingPaymarkets$={[Function Store]}
   loadingPaymarketsError$={[Function Store]}
   paymarkets$={[Function Observable]}
@@ -179,6 +182,7 @@ exports[`Project - Add Jobs - Paymarkets Component should show no data message w
 <pf-paymarkets
   defaultPaymarket$={[Function Store]}
   filterString={[Function String]}
+  implementation={[Function String]}
   loadingPaymarkets$={[Function Store]}
   loadingPaymarketsError$={[Function Store]}
   paymarkets$={[Function Observable]}

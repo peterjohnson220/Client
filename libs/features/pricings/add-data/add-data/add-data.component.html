@@ -46,13 +46,7 @@
 
         <pf-results-header *ngIf="pageShown$ | async" [userFilterDefaultLabel]="'PayMarket Default'" [legacyImplementation]="true"></pf-results-header>
         <ng-container *ngIf="display === 'modal'; else searchResults">
-          <pf-async-container
-            [loading]="loadingResults$ | async"
-            [loadingError]="searchError$ | async"
-            [hideReloadButton]="true"
-          >
             <ng-container [ngTemplateOutlet]="searchResults"></ng-container>
-          </pf-async-container>
         </ng-container>
       </ng-container>
 

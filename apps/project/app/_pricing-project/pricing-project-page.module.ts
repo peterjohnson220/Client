@@ -17,6 +17,7 @@ import { MultiMatchModule } from 'libs/features/pricings/multi-match';
 import { OrdinalNumberPipe } from 'libs/core/pipes';
 import { AddDataModule } from 'libs/features/pricings/add-data';
 import { ProjectTemplateManagementModule } from 'libs/features/projects/project-template-management';
+import {PfAddJobsModule} from 'libs/features/jobs/add-jobs';
 
 import { ProjectExportModule } from '../_project-export-manager';
 import { JobSummaryComponent } from './components/analyze/job-summary/job-summary.component';
@@ -58,7 +59,8 @@ import * as fromFaIcons from './fa-icons';
         ProjectExportModule,
         MultiMatchModule,
         AddDataModule,
-        ProjectTemplateManagementModule
+        ProjectTemplateManagementModule,
+        PfAddJobsModule
     ],
   declarations: [
     // Pages
