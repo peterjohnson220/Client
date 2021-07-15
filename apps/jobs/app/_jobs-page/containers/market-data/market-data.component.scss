@@ -25,3 +25,11 @@
   height: 180px;
   background-color: #F6F7F8;
 }
+
+.actions-button {
+  color: #212529;
+}
+
+.dropup .dropdown-toggle::after, .dropdown-toggle::after {
+  display: none !important;
+}

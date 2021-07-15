@@ -1,13 +1,14 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { AsyncStateObj } from 'libs/models';
+import { BehaviorSubject, Observable } from 'rxjs';
 
+import { AsyncStateObj } from 'libs/models';
 import * as fromBasicDataGridReducer from 'libs/features/grids/basic-data-grid/reducers';
 import * as fromBasicDataGridActions from 'libs/features/grids/basic-data-grid/actions/basic-data-grid.actions';
-import { MarketDataConfig, MarketDataJobPricing } from '../../models';
 import { BasicDataViewField, DataViewFilter } from 'libs/models/payfactors-api';
+
+import { MarketDataConfig, MarketDataJobPricing } from '../../models';
 
 @Component({
   selector: 'pf-market-data',
@@ -19,16 +20,23 @@ export class MarketDataComponent implements OnChanges {
 
   pricingMatches$: Observable<AsyncStateObj<any[]>>;
 
+  showMatchDetailsModal: BehaviorSubject<boolean>;
+  showMatchDetailsModal$: Observable<boolean>;
+
   marketDataId = MarketDataConfig.marketDataGridId;
   baseEntity = MarketDataConfig.baseEntity;
   fields = MarketDataConfig.fields;
   fieldGroups = ['Base', 'TCC'];
   rate: string;
+  selectedPricingMatch: any;
 
   constructor(
     private basicGridStore: Store<fromBasicDataGridReducer.State>
   ) {
     this.pricingMatches$ = this.basicGridStore.select(fromBasicDataGridReducer.getData, this.marketDataId);
+    this.showMatchDetailsModal = new BehaviorSubject<boolean>(false);
+    this.showMatchDetailsModal$ = this.showMatchDetailsModal.asObservable();
+
     this.initGrid();
   }
 
@@ -42,6 +50,16 @@ export class MarketDataComponent implements OnChanges {
 
   trackByField(index, field: BasicDataViewField) {
     return field.KendoGridField;
+  }
+
+  openMatchDetailsModal(pricingMatch: any): void {
+    this.selectedPricingMatch = pricingMatch;
+    this.showMatchDetailsModal.next(true);
+  }
+
+  closeMatchDetailsModal(): void {
+    this.selectedPricingMatch = null;
+    this.showMatchDetailsModal.next(false);
   }
 
   private initGrid(): void {
