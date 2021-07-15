@@ -24,12 +24,19 @@
   flex: 0 0;
 }
 
+.main-grid-split-hide-overflow {
+  position: relative;
+  flex: 0 0;
+  overflow: hidden !important;
+}
+
 .grid-container {
   position: absolute;
   top: 0;
   right: 0;
   left: 0;
   bottom: 0;
+  min-height: 250px;
 }
 
 .compact-grid-container {

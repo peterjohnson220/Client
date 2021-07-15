@@ -15,9 +15,18 @@ import { DataViewFilter } from 'libs/models/payfactors-api/reports/request';
 import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import * as fromPfDataGridActions from 'libs/features/grids/pf-data-grid/actions';
 import { GradeBasedPageViewIds, RangeGroupMetadata, RoundingSettingsDataObj } from 'libs/models/structures';
+import { GetPricingsToModifyRequest } from 'libs/features/pricings/multi-match/models';
+import * as fromSearchPageActions from 'libs/features/search/search/actions/search-page.actions';
+import { SurveySearchFilterMappingDataObj, SurveySearchUserFilterType } from 'libs/features/surveys/survey-search/data';
+import { SearchFeatureIds } from 'libs/features/search/search/enums/search-feature-ids';
+import * as fromModifyPricingsActions from 'libs/features/pricings/multi-match/actions';
+import * as fromRootState from 'libs/state/state';
+import { Permissions } from 'libs/constants';
+import { MultiMatchFeatureImplementations } from 'libs/features/pricings/multi-match/constants';
 
 import * as fromSharedStructuresReducer from '../../../shared/reducers';
 import { PagesHelper } from '../../../shared/helpers/pages.helper';
+
 
 @Component({
   selector: 'pf-single-job-view-page',
@@ -39,6 +48,7 @@ export class SingleJobViewPageComponent implements OnInit, AfterViewInit, OnDest
   roundingSettingsSub: Subscription;
   pagingOptionsSubscription: Subscription;
   dataSubscription: Subscription;
+  companySettingsSubscription;
 
   metaData$: Observable<RangeGroupMetadata>;
   roundingSettings$: Observable<RoundingSettingsDataObj>;
@@ -64,7 +74,12 @@ export class SingleJobViewPageComponent implements OnInit, AfterViewInit, OnDest
   rangeGroupId: string;
   fromJobsView: boolean;
   pricingId: string;
+  gradeRangeGroupData: any;
   companyJobId: string;
+  metadata: RangeGroupMetadata;
+  restrictSurveySearchToPaymarketCountry: boolean;
+  _Permissions = null;
+  multiMatchImplementation = MultiMatchFeatureImplementations.MODIFY_PRICINGS;
 
   constructor(
     public store: Store<fromSharedStructuresReducer.State>,
@@ -74,6 +89,7 @@ export class SingleJobViewPageComponent implements OnInit, AfterViewInit, OnDest
     this.metaData$ = this.store.pipe(select(fromSharedStructuresReducer.getMetadata));
     this.metadataSubscription = this.metaData$.subscribe(md => {
       if (md) {
+        this.metadata = md;
         this.employeesPageViewId = PagesHelper.getEmployeePageViewIdByRangeTypeAndRangeDistributionType(md.RangeTypeId, md.RangeDistributionTypeId);
         this.dataCutsPageViewId = GradeBasedPageViewIds.SingleJobDataCuts;
         this.jobPageViewId = PagesHelper.getJobsPageViewIdByRangeDistributionType(md.RangeDistributionTypeId);
@@ -88,10 +104,17 @@ export class SingleJobViewPageComponent implements OnInit, AfterViewInit, OnDest
 
     this.dataSubscription = this.store.select(fromPfGridReducer.getData, this.jobPageViewId).subscribe(data => {
       if (data && this.rangeId) {
-        this.jobTitle = data.data.find(x =>
-          x.CompanyJobs_Structures_CompanyJobId === Number(this.activatedRoute.snapshot.params.id)).CompanyJobs_Structures_JobTitle;
-        this.pricingId = data.data.find(x =>
-          x.CompanyJobs_Structures_CompanyJobId === Number(this.activatedRoute.snapshot.params.id)).CompanyJobs_Pricings_CompanyJobPricing_ID;
+        this.gradeRangeGroupData = data.data.find(x =>
+          x.CompanyJobs_Structures_CompanyJobId === Number(this.activatedRoute.snapshot.params.id));
+        this.jobTitle = this.gradeRangeGroupData?.CompanyJobs_Structures_JobTitle;
+        this.pricingId = this.gradeRangeGroupData?.CompanyJobs_Pricings_CompanyJobPricing_ID;
+      }
+    });
+
+    this.companySettingsSubscription = this.store.select(fromRootState.getCompanySettings).subscribe(cs => {
+      if (cs) {
+        this.restrictSurveySearchToPaymarketCountry = cs.find(x => x.Key
+          === 'RestrictSurveySearchCountryFilterToPayMarket').Value === 'true';
       }
     });
 
@@ -113,6 +136,8 @@ export class SingleJobViewPageComponent implements OnInit, AfterViewInit, OnDest
       ShowColumnChooser: true,
       ShowFilterChooser: true
     };
+
+    this._Permissions = Permissions;
 
     this.singleRecordActionBarConfig = {
       ...getDefaultActionBarConfig(),
@@ -169,6 +194,24 @@ export class SingleJobViewPageComponent implements OnInit, AfterViewInit, OnDest
     return false;
   }
 
+  modifyPricings() {
+    const pricingPayload = {
+      PricingId: this.gradeRangeGroupData.CompanyJobs_Pricings_CompanyJobPricing_ID,
+      JobId: this.gradeRangeGroupData.CompanyJobs_CompanyJob_ID,
+      PaymarketId: this.metadata.PaymarketId
+    };
+
+    const payload: GetPricingsToModifyRequest = {
+      Pricings: [pricingPayload],
+      RestrictSearchToPayMarketCountry: this.restrictSurveySearchToPaymarketCountry
+    };
+
+    this.store.dispatch(new fromSearchPageActions.SetSearchFilterMappingData(SurveySearchFilterMappingDataObj));
+    this.store.dispatch(new fromSearchPageActions.SetSearchFeatureId(SearchFeatureIds.MultiMatch));
+    this.store.dispatch(new fromSearchPageActions.SetUserFilterTypeData(SurveySearchUserFilterType));
+    this.store.dispatch(new fromModifyPricingsActions.GetPricingsToModify(payload));
+  }
+
   ngOnInit(): void {
     this.activeTab = 'Employees';
     this.roundingSettingsSub = this.roundingSettings$.subscribe(rs => this.roundingSettings = rs);
@@ -185,11 +228,17 @@ export class SingleJobViewPageComponent implements OnInit, AfterViewInit, OnDest
     };
   }
 
+  matchModalSaved() {
+    if (this.activeTab === 'DataCuts') {
+      this.store.dispatch(new fromPfDataGridActions.LoadData(this.dataCutsPageViewId));
+    }
+  }
 
   ngOnDestroy(): void {
     this.metadataSubscription.unsubscribe();
     this.pagingOptionsSubscription.unsubscribe();
     this.roundingSettingsSub.unsubscribe();
     this.dataSubscription.unsubscribe();
+    this.companySettingsSubscription.unsubscribe();
   }
 }

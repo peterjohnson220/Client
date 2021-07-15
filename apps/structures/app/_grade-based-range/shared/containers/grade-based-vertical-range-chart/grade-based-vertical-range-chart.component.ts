@@ -18,7 +18,7 @@ import * as fromSharedStructuresActions from '../../../../shared/actions/shared.
 import * as fromGradeBasedSharedActions from '../../../shared/actions/shared.actions';
 import * as fromSwitchRegressionFlagsActions from '../../../shared/actions/switch-regression-flags-modal.actions';
 import { StructuresHighchartsService, StructuresPagesService } from '../../../../shared/services';
-import { GradeRangeModelChartService, GradeRangeVerticalModelChartSeries } from '../../data';
+import { GradeRangeModelChartService, GradeRangeVerticalOrHorizontalModelChartSeries } from '../../data';
 import { SalaryRangeSeries, DataPointSeries } from '../../../../shared/models';
 import { RangeDistributionDataPointTypeIds } from '../../../../shared/constants/range-distribution-data-point-type-ids';
 import { GradePoint } from '../../models';
@@ -100,15 +100,15 @@ export class GradeBasedVerticalRangeChartComponent implements OnInit, OnDestroy,
 
     this.gradeRangeDetailsSubscription = this.store.select(fromSharedStructuresReducer.getGradeRangeDetails).subscribe(details => {
       this.gradeRangeDetails = details;
-      if (this.gradeRangeData && this.rate && this.currency && this.gradeRangeDetails.obj) {
+      if (this.gradeRangeData && this.rate && this.currency && this.gradeRangeDetails.obj && !!this.chartInstance) {
         this.processChartData();
       }
     });
 
     this.pageViewIdSubscription = this.structuresPagesService.modelPageViewId.subscribe(pv => this.pageViewId = pv);
     this.dataSubscription = this.store.select(fromPfGridReducer.getData, this.pageViewId).subscribe(data => {
-      if (data && this.rate && this.currency && this.gradeRangeDetails.obj) {
-        this.gradeRangeData = data;
+      this.gradeRangeData = data;
+      if (data && this.rate && this.currency && this.gradeRangeDetails.obj && !!this.chartInstance) {
         this.processChartData();
       }
     });
@@ -126,6 +126,9 @@ export class GradeBasedVerticalRangeChartComponent implements OnInit, OnDestroy,
     // set the instance
     if (chart) {
       this.chartInstance = chart;
+      if (this.gradeRangeData && this.rate && this.currency && this.gradeRangeDetails.obj) {
+        this.processChartData();
+      }
     }
   }
 
@@ -427,57 +430,57 @@ export class GradeBasedVerticalRangeChartComponent implements OnInit, OnDestroy,
 
     this.chartInstance.xAxis[0].setTitle({text: '<b>R<sup>2</sup>:</b> ' + rSquared, useHTML: true});
     // set the series data (0 - salaryRange, 1 - midPoint, 2 - avg salary, 3 - outliers)
-    this.chartInstance.series[GradeRangeVerticalModelChartSeries.SalaryRangeMinMidMax].setData(this.salaryRangeSeriesDataModel.MinMidMax, false);
+    this.chartInstance.series[GradeRangeVerticalOrHorizontalModelChartSeries.SalaryRangeMinMidMax].setData(this.salaryRangeSeriesDataModel.MinMidMax, false);
 
     // we need this hidden salary range => will prevent from messing up when we hide salary range from the legend
-    this.chartInstance.series[GradeRangeVerticalModelChartSeries.SalaryRangeMinMidMaxHidden].setData(this.salaryRangeSeriesDataModel.MinMidMax, false);
+    this.chartInstance.series[GradeRangeVerticalOrHorizontalModelChartSeries.SalaryRangeMinMidMaxHidden].setData(this.salaryRangeSeriesDataModel.MinMidMax, false);
 
-    this.chartInstance.series[GradeRangeVerticalModelChartSeries.RangeMid].setData(this.dataPointSeriesDataModel.Mid, false);
-    this.chartInstance.series[GradeRangeVerticalModelChartSeries.EmployeeOutliers].setData(this.outlierSeriesData, false);
-    this.chartInstance.series[GradeRangeVerticalModelChartSeries.Jobs].setData(this.dataPointSeriesDataModel.Job, false);
-    this.chartInstance.series[GradeRangeVerticalModelChartSeries.Regression].setData(this.regressionSeriesData, false);
-    this.chartInstance.series[GradeRangeVerticalModelChartSeries.JobsExcludedFromRegression].setData(this.excludedJobsSeriesData, false);
+    this.chartInstance.series[GradeRangeVerticalOrHorizontalModelChartSeries.RangeMid].setData(this.dataPointSeriesDataModel.Mid, false);
+    this.chartInstance.series[GradeRangeVerticalOrHorizontalModelChartSeries.EmployeeOutliers].setData(this.outlierSeriesData, false);
+    this.chartInstance.series[GradeRangeVerticalOrHorizontalModelChartSeries.Jobs].setData(this.dataPointSeriesDataModel.Job, false);
+    this.chartInstance.series[GradeRangeVerticalOrHorizontalModelChartSeries.Regression].setData(this.regressionSeriesData, false);
+    this.chartInstance.series[GradeRangeVerticalOrHorizontalModelChartSeries.JobsExcludedFromRegression].setData(this.excludedJobsSeriesData, false);
 
 
     // Tertile - Quartile - Quintile: salary range + data points
     if (this.rangeDistributionTypeId === RangeDistributionTypeIds.Tertile) {
-      this.chartInstance.series[GradeRangeVerticalModelChartSeries.SalaryRangeTertile].setData(this.salaryRangeSeriesDataModel.Tertile, false);
-      this.chartInstance.series[GradeRangeVerticalModelChartSeries.RangeTertileFirst].setData(this.dataPointSeriesDataModel.TertileFirst, false);
-      this.chartInstance.series[GradeRangeVerticalModelChartSeries.RangeTertileSecond].setData(this.dataPointSeriesDataModel.TertileSecond, false);
+      this.chartInstance.series[GradeRangeVerticalOrHorizontalModelChartSeries.SalaryRangeTertile].setData(this.salaryRangeSeriesDataModel.Tertile, false);
+      this.chartInstance.series[GradeRangeVerticalOrHorizontalModelChartSeries.RangeTertileFirst].setData(this.dataPointSeriesDataModel.TertileFirst, false);
+      this.chartInstance.series[GradeRangeVerticalOrHorizontalModelChartSeries.RangeTertileSecond].setData(this.dataPointSeriesDataModel.TertileSecond, false);
     } else if (this.rangeDistributionTypeId === RangeDistributionTypeIds.Quartile) {
-      this.chartInstance.series[GradeRangeVerticalModelChartSeries.SalaryRangeQuartileFirst].setData(this.salaryRangeSeriesDataModel.Quartile.First, false);
-      this.chartInstance.series[GradeRangeVerticalModelChartSeries.SalaryRangeQuartileSecond].setData(this.salaryRangeSeriesDataModel.Quartile.Second, false);
-      this.chartInstance.series[GradeRangeVerticalModelChartSeries.SalaryRangeQuartileThird].setData(this.salaryRangeSeriesDataModel.Quartile.Third, false);
-      this.chartInstance.series[GradeRangeVerticalModelChartSeries.SalaryRangeQuartileFourth].setData(this.salaryRangeSeriesDataModel.Quartile.Fourth, false);
-      this.chartInstance.series[GradeRangeVerticalModelChartSeries.RangeQuartileFirst].setData(this.dataPointSeriesDataModel.QuartileFirst, false);
-      this.chartInstance.series[GradeRangeVerticalModelChartSeries.RangeQuartileSecond].setData(this.dataPointSeriesDataModel.QuartileSecond, false);
+      this.chartInstance.series[GradeRangeVerticalOrHorizontalModelChartSeries.SalaryRangeQuartileFirst].setData(this.salaryRangeSeriesDataModel.Quartile.First, false);
+      this.chartInstance.series[GradeRangeVerticalOrHorizontalModelChartSeries.SalaryRangeQuartileSecond].setData(this.salaryRangeSeriesDataModel.Quartile.Second, false);
+      this.chartInstance.series[GradeRangeVerticalOrHorizontalModelChartSeries.SalaryRangeQuartileThird].setData(this.salaryRangeSeriesDataModel.Quartile.Third, false);
+      this.chartInstance.series[GradeRangeVerticalOrHorizontalModelChartSeries.SalaryRangeQuartileFourth].setData(this.salaryRangeSeriesDataModel.Quartile.Fourth, false);
+      this.chartInstance.series[GradeRangeVerticalOrHorizontalModelChartSeries.RangeQuartileFirst].setData(this.dataPointSeriesDataModel.QuartileFirst, false);
+      this.chartInstance.series[GradeRangeVerticalOrHorizontalModelChartSeries.RangeQuartileSecond].setData(this.dataPointSeriesDataModel.QuartileSecond, false);
     } else if (this.rangeDistributionTypeId === RangeDistributionTypeIds.Quintile) {
-      this.chartInstance.series[GradeRangeVerticalModelChartSeries.SalaryRangeQuintile].setData(this.salaryRangeSeriesDataModel.Quintile, false);
-      this.chartInstance.series[GradeRangeVerticalModelChartSeries.RangeQuintileFirst].setData(this.dataPointSeriesDataModel.QuintileFirst, false);
-      this.chartInstance.series[GradeRangeVerticalModelChartSeries.RangeQuintileSecond].setData(this.dataPointSeriesDataModel.QuintileSecond, false);
-      this.chartInstance.series[GradeRangeVerticalModelChartSeries.RangeQuintileThird].setData(this.dataPointSeriesDataModel.QuintileThird, false);
-      this.chartInstance.series[GradeRangeVerticalModelChartSeries.RangeQuintileFourth].setData(this.dataPointSeriesDataModel.QuintileFourth, false);
+      this.chartInstance.series[GradeRangeVerticalOrHorizontalModelChartSeries.SalaryRangeQuintile].setData(this.salaryRangeSeriesDataModel.Quintile, false);
+      this.chartInstance.series[GradeRangeVerticalOrHorizontalModelChartSeries.RangeQuintileFirst].setData(this.dataPointSeriesDataModel.QuintileFirst, false);
+      this.chartInstance.series[GradeRangeVerticalOrHorizontalModelChartSeries.RangeQuintileSecond].setData(this.dataPointSeriesDataModel.QuintileSecond, false);
+      this.chartInstance.series[GradeRangeVerticalOrHorizontalModelChartSeries.RangeQuintileThird].setData(this.dataPointSeriesDataModel.QuintileThird, false);
+      this.chartInstance.series[GradeRangeVerticalOrHorizontalModelChartSeries.RangeQuintileFourth].setData(this.dataPointSeriesDataModel.QuintileFourth, false);
     }
 
     this.chartInstance.xAxis[0].setCategories(this.gradeCategories, false);
 
     // set click events for jobs
-    const jobsOptions = this.chartInstance.series[GradeRangeVerticalModelChartSeries.Jobs].options;
+    const jobsOptions = this.chartInstance.series[GradeRangeVerticalOrHorizontalModelChartSeries.Jobs].options;
     const self = this;
     jobsOptions.point.events.click = function(event) {
       // Store the point object into a variable
       const point = this as any;
       self.handleJobPointClicked(point);
     };
-    this.chartInstance.series[GradeRangeVerticalModelChartSeries.Jobs].update(jobsOptions);
+    this.chartInstance.series[GradeRangeVerticalOrHorizontalModelChartSeries.Jobs].update(jobsOptions);
     // set click event for excluded jobs
-    const excludedJobsOptions = this.chartInstance.series[GradeRangeVerticalModelChartSeries.JobsExcludedFromRegression].options;
+    const excludedJobsOptions = this.chartInstance.series[GradeRangeVerticalOrHorizontalModelChartSeries.JobsExcludedFromRegression].options;
     excludedJobsOptions.point.events.click = function(event) {
       // Store the point object into a variable
       const point = this as any;
       self.handleJobPointClicked(point);
     };
-    this.chartInstance.series[GradeRangeVerticalModelChartSeries.JobsExcludedFromRegression].update(excludedJobsOptions);
+    this.chartInstance.series[GradeRangeVerticalOrHorizontalModelChartSeries.JobsExcludedFromRegression].update(excludedJobsOptions);
 
     this.chartInstance.setSize(null, 500);
 

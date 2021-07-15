@@ -38,6 +38,8 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() selectionField: string;
   @Input() selectionFieldExistsOnBase: true;
   @Input() columnTemplates: any;
+  @Input() columnHeaderTemplates: any;
+  @Input() groupedColumnHeaderTemplates: any;
   @Input() aboveGridTemplate: TemplateRef<any>;
   @Input() rightGridTemplate: TemplateRef<any>;
   @Input() splitViewTemplate: TemplateRef<any>;
@@ -87,6 +89,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() pageTheme = PfThemeType.Default;
   @Input() customSortOptions: (sortDescriptor: SortDescriptor[]) => SortDescriptor[] = null;
   @Input() syncScrollWithSplit = false;
+  @Input() hideOverflow = true;
   @Input() gridConfig: GridConfig;
   @Input() modifiedKey: string = null;
   @Input() resetWidthForSplitView = false;
@@ -102,6 +105,10 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() hideVerticalScrolling = false;
   @Input() displayGroupNameInFilter: boolean;
   @Input() collapseFilterPanelOnCellClick = false;
+  @Input() hideKendoGrid = false;
+  @Input() gridReplacementTemplate: TemplateRef<any>;
+  @Input() hidePageSizes = false;
+  @Input() displaySelectAllWarning = true;
   @ViewChild('splitViewContainer', { static: false }) splitViewContainer: ElementRef;
 
   splitViewEmitter = new EventEmitter<string>();
@@ -333,6 +340,8 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   toggleSplitView() {
-    this.gridContainerSplitViewWidth = this.gridContainerSplitViewWidth === this.normalSplitViewWidth ? '100%' : this.normalSplitViewWidth;
+    const splitViewHidden = this.gridContainerSplitViewWidth !== this.normalSplitViewWidth;
+    this.gridContainerSplitViewWidth = !splitViewHidden ? '100%' : this.normalSplitViewWidth;
+    this.store.dispatch(new fromActions.SetSplitViewHidden(this.pageViewId, !splitViewHidden));
   }
 }

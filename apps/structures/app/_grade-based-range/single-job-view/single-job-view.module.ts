@@ -8,6 +8,7 @@ import { PfFormsModule } from 'libs/forms';
 import { PfDataGridModule } from 'libs/features/grids/pf-data-grid';
 import { PfCommonModule } from 'libs/core';
 import { PfCommonUIModule } from 'libs/ui/common';
+import { MultiMatchModule } from 'libs/features/pricings/multi-match';
 
 import { SharedModule } from '../../shared/shared.module';
 import { GradeBasedSharedModule } from '../shared/shared.module';
@@ -16,6 +17,7 @@ import { SingleJobViewRoutingModule } from './single-job-view-routing.module';
 import { SingleJobViewEmployeesSalaryRangeChartComponent } from './containers/single-job-view-employees-salary-range-chart';
 import { SingleJobViewHighchartsService } from './data';
 import { SingleJobViewDataCutsRangeChartComponent } from './containers/single-job-view-data-cuts-range-chart';
+
 
 @NgModule({
   imports: [
@@ -37,7 +39,8 @@ import { SingleJobViewDataCutsRangeChartComponent } from './containers/single-jo
 
     // Shared
     SharedModule,
-    GradeBasedSharedModule
+    GradeBasedSharedModule,
+    MultiMatchModule
   ],
   declarations: [
     SingleJobViewPageComponent,

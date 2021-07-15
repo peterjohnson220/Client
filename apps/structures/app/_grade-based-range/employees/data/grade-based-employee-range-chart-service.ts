@@ -1,7 +1,7 @@
 import { RangeDistributionTypeIds } from 'libs/constants/structures/range-distribution-type-ids';
 
 import { GradeBasedEmployeeSalaryRangeChartSeries } from './grade-based-employee-salary-range-chart-series-constants';
-import { GradeRangeVerticalModelChartSeries } from '../../shared/data';
+import { GradeRangeVerticalOrHorizontalModelChartSeries } from '../../shared/data';
 
 export class GradeBasedEmployeeRangeChartService {
 

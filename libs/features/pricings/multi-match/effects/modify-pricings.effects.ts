@@ -20,6 +20,7 @@ import * as fromSearchReducer from '../../../search/search/reducers';
 import * as fromJobsToPriceActions from '../actions/jobs-to-price.actions';
 import * as fromSurveySearchFiltersActions from '../../../surveys/survey-search/actions/survey-search-filters.actions';
 import * as fromMultiMatchReducer from '../reducers';
+import * as fromMultiMatchActions from '../actions/multi-match-page.actions';
 
 import { SurveySearchResultDataSources } from '../../../../constants';
 
@@ -56,6 +57,7 @@ export class ModifyPricingsEffects {
           actions.push(new fromJobsToPriceActions.GetJobsToPriceSuccess(
             PayfactorsApiModelMapper.mapMatchedSurveyJobToJobsToPrice(response.PricingsToModify)));
           actions.push(new fromModifyPricingsActions.GetPricingsToModifySuccess());
+          actions.push(new fromMultiMatchActions.SetMultiMatchModalStatus(true));
           return actions;
         }),
         catchError(error => of(new fromModifyPricingsActions.GetPricingsToModifyError()))
