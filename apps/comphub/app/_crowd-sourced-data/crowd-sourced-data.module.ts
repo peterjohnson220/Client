@@ -20,7 +20,6 @@ import {
   CrowdSourcedJobsCardComponent,
   CrowdSourcedJobResultsComponent,
   CrowdSourcedDataPageComponent,
-  CrowdSourcedMarketsCardComponent,
   CrowdSourcedSummaryCardComponent } from './containers';
 import { MainModule } from '../_main/main.module';
 import { CrowdSourcedDataPageGuard } from './guards';
@@ -60,7 +59,6 @@ import { CrowdSourcedJobGridContentComponent } from './components/crowd-sourced-
     CrowdSourcedJobsCardComponent,
     CrowdSourcedJobResultsComponent,
     CrowdSourcedJobGridContentComponent,
-    CrowdSourcedMarketsCardComponent,
     CrowdSourcedSummaryCardComponent
   ],
   providers: [

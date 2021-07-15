@@ -9,12 +9,12 @@ import { QuickPriceType } from 'libs/constants';
 import { UserContext } from 'libs/models/security';
 import { PricingPaymarket } from 'libs/models/comphub';
 
-import * as fromComphubSharedReducer from '../../../../_shared/reducers';
-import * as fromMarketsCardActions from '../../../../_shared/actions/markets-card.actions';
-import * as fromComphubPageActions from '../../../../_shared/actions/comphub-page.actions';
-import * as fromAddPayMarketFormActions from '../../../../_shared/actions/add-paymarket-form.actions';
-import { ComphubPages } from '../../../../_shared/data';
-import { AddPayMarketFormData, MarketDataLocation, MarketDataScope, WorkflowContext } from '../../../../_shared/models';
+import * as fromComphubSharedReducer from '../../reducers';
+import * as fromMarketsCardActions from '../../actions/markets-card.actions';
+import * as fromComphubPageActions from '../../actions/comphub-page.actions';
+import * as fromAddPayMarketFormActions from '../../actions/add-paymarket-form.actions';
+import { ComphubPages } from '../../data';
+import { AddPayMarketFormData, MarketDataLocation, MarketDataScope, WorkflowContext } from '../../models';
 
 @Component({
   selector: 'pf-markets-card',

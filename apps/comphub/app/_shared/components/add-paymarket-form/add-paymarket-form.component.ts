@@ -4,7 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { PfValidators } from 'libs/forms/validators';
 import { KendoDropDownItem } from 'libs/models/kendo';
 
-import { AddPayMarketFormData, CountryDataSet, MarketDataLocation, MarketDataScope } from '../../../_shared/models';
+import { AddPayMarketFormData, CountryDataSet, MarketDataLocation, MarketDataScope } from '../../models';
 
 @Component({
   selector: 'pf-add-paymarket-form',

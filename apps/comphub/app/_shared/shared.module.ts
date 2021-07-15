@@ -9,6 +9,7 @@ import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontaweso
 import { NgbModalModule, NgbPaginationModule, NgbProgressbarModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 
 import { PfCommonModule } from 'libs/core';
 import { PfCommonUIModule } from 'libs/ui/common';
@@ -16,7 +17,8 @@ import { PfFormsModule } from 'libs/forms';
 import { GuidelinesBadgeModule } from 'libs/features/peer/guidelines-badge';
 import { BasicDataGridModule } from 'libs/features/grids/basic-data-grid';
 
-import { JobGridComponent, CardLayoutComponent } from './containers';
+import { JobGridComponent, CardLayoutComponent, MarketsCardComponent } from './containers';
+import { PaymarketCardsComponent, AddPayMarketFormComponent } from './components';
 import * as fromFaIcons from './fa-icons';
 import { reducers } from './reducers';
 import {
@@ -44,6 +46,7 @@ import {
     NgbProgressbarModule,
     NgbTooltipModule,
     FontAwesomeModule,
+    PerfectScrollbarModule,
 
     StoreModule.forFeature('comphub_shared', reducers),
     EffectsModule.forFeature([
@@ -66,11 +69,17 @@ import {
   ],
   declarations: [
     JobGridComponent,
-    CardLayoutComponent
+    CardLayoutComponent,
+    MarketsCardComponent,
+    PaymarketCardsComponent,
+    AddPayMarketFormComponent
   ],
   exports: [
     JobGridComponent,
-    CardLayoutComponent
+    CardLayoutComponent,
+    MarketsCardComponent,
+    PaymarketCardsComponent,
+    AddPayMarketFormComponent
   ]
 })
 export class SharedModule {

@@ -5,7 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DropDownListModule, AutoCompleteModule } from '@progress/kendo-angular-dropdowns';
 
 import { AddPayMarketFormComponent } from './add-paymarket-form.component';
-import { AddPayMarketFormData, generateMockCountryDataSet, generateMockMarketDataScope } from '../../../_shared/models';
+import { AddPayMarketFormData, generateMockCountryDataSet, generateMockMarketDataScope } from '../../models';
 
 describe('Comphub - Main - Add Pay Market Form Component', () => {
   let instance: AddPayMarketFormComponent;
