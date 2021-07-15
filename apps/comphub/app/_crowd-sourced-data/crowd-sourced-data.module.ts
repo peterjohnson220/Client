@@ -16,7 +16,12 @@ import { BasicDataGridModule } from 'libs/features/grids/basic-data-grid';
 
 import { CrowdSourcedDataRoutingModule } from './crowd-sourced-data-routing.module';
 import * as fromFaIcons from './fa-icons';
-import { CrowdSourcedJobsCardComponent, CrowdSourcedJobResultsComponent, CrowdSourcedDataPageComponent, CrowdSourcedMarketsCardComponent } from './containers';
+import {
+  CrowdSourcedJobsCardComponent,
+  CrowdSourcedJobResultsComponent,
+  CrowdSourcedDataPageComponent,
+  CrowdSourcedMarketsCardComponent,
+  CrowdSourcedSummaryCardComponent } from './containers';
 import { MainModule } from '../_main/main.module';
 import { CrowdSourcedDataPageGuard } from './guards';
 import { SharedModule } from '../_shared/shared.module';
@@ -55,7 +60,8 @@ import { CrowdSourcedJobGridContentComponent } from './components/crowd-sourced-
     CrowdSourcedJobsCardComponent,
     CrowdSourcedJobResultsComponent,
     CrowdSourcedJobGridContentComponent,
-    CrowdSourcedMarketsCardComponent
+    CrowdSourcedMarketsCardComponent,
+    CrowdSourcedSummaryCardComponent
   ],
   providers: [
     CrowdSourcedDataPageGuard
