@@ -69,7 +69,7 @@ export class EmployeesGridComponent implements AfterViewInit, OnDestroy, OnChang
   allowMultipleSort = true;
 
   constructor(private store: Store<fromPfGridReducer.State>) {
-    this.companyPayMarketsSubscription = this.store.select(fromJobsPageReducer.getCompanyPayMarkets)
+    this.companyPayMarketsSubscription = this.store.select(fromJobsPageReducer.getPayMarketGroupedListItems)
       .subscribe(o => {
         if (!!o) {
           this.payMarketOptions = cloneDeep(o);

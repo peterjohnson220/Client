@@ -11,7 +11,7 @@ import {
   getDefaultActionBarConfig,
   getDefaultGridRowActionsConfig,
   GridConfig,
-  GridRowActionsConfig,
+  GridRowActionsConfig, PfDataGridCustomFilterOptions,
   PfDataGridFilter
 } from 'libs/features/grids/pf-data-grid/models';
 import { GroupedListItem } from 'libs/models/list';
@@ -21,6 +21,8 @@ import { Permissions } from 'libs/constants';
 import * as fromPfDataGridActions from 'libs/features/grids/pf-data-grid/actions';
 import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
+import { PfSecuredResourceDirective } from 'libs/forms/directives';
+import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
 
 import { StructuresPageConfig } from '../models';
 import * as fromStructuresPageReducer from '../reducers';
@@ -34,12 +36,16 @@ import * as fromSharedStructuresReducer from '../../shared/reducers';
   styleUrls: ['./structures.page.scss']
 })
 export class StructuresPageComponent implements AfterViewInit, OnInit, OnDestroy {
+  @ViewChild('gridGlobalActions', { static: true }) public gridGlobalActionsTemplate: ElementRef;
   @ViewChild('gridRowActionsTemplate') gridRowActionsTemplate: ElementRef;
-  @ViewChild('currencyColumn') currencyColumn: ElementRef;
+  @ViewChild('currencyTypeColumn') currencyTypeColumn: ElementRef;
   @ViewChild('numericColumn') numericColumn: ElementRef;
+  @ViewChild('modelColumn') modelColumn: ElementRef;
   @ViewChild('payMarketFilter') payMarketFilter: ElementRef;
   @ViewChild('structureTypeFilter') structureTypeFilter: ElementRef;
   @ViewChild('currencyFilter') currencyFilter: ElementRef;
+  @ViewChild('currencyColumn') currencyColumn: ElementRef;
+  @ViewChild(PfSecuredResourceDirective) pfSecuredResourceDirective: PfSecuredResourceDirective;
 
   pageViewId = StructuresPageConfig.StructuresPageViewId;
   inboundFilters: PfDataGridFilter[] = StructuresPageConfig.CurrentModelsInboundFilters;
@@ -71,10 +77,12 @@ export class StructuresPageComponent implements AfterViewInit, OnInit, OnDestroy
   ];
   payMarketOptions: GroupedListItem[];
   currencies: any;
+  hasDropdownOptions: boolean;
 
   selectedPayMarkets: string[];
   selectedStructureType: any;
   selectedCurrency: any;
+  customFilterOptions$: Observable<PfDataGridCustomFilterOptions[]>;
 
   selectedRangeGroupIdsSubscription: Subscription;
   gridFieldSubscription: Subscription;
@@ -85,11 +93,13 @@ export class StructuresPageComponent implements AfterViewInit, OnInit, OnDestroy
   deleting$: Observable<boolean>;
   deletingError$: Observable<boolean>;
   colTemplates = {};
+  structuresGradeBasedRangeLandingPageEnabled: boolean;
 
   constructor(
     private pfDataGridStore: Store<fromPfDataGridReducer.State>,
     private structuresStore: Store<fromStructuresPageReducer.State>,
-    private sharedStructuresStore: Store<fromSharedStructuresReducer.State>
+    private sharedStructuresStore: Store<fromSharedStructuresReducer.State>,
+    private featureFlagService: AbstractFeatureFlagService
   ) {
     this.actionBarConfig = {
       ...getDefaultActionBarConfig(),
@@ -106,6 +116,8 @@ export class StructuresPageComponent implements AfterViewInit, OnInit, OnDestroy
     this.deleteStructureModalOpen$ = this.structuresStore.select(fromStructuresPageReducer.getDeleteStructureModalOpen);
     this.deleting$ = this.structuresStore.pipe(select(fromStructuresPageReducer.getDeletingStructureStatus));
     this.deletingError$ = this.structuresStore.pipe(select(fromStructuresPageReducer.getDeletingStructureErrorStatus));
+    this.customFilterOptions$ = this.structuresStore.select(fromStructuresPageReducer.getCustomFilterOptions);
+    this.structuresGradeBasedRangeLandingPageEnabled = this.featureFlagService.enabled(FeatureFlags.StructuresGradeBasedRangeLandingPage, false);
   }
 
   ngOnInit(): void {
@@ -126,7 +138,7 @@ export class StructuresPageComponent implements AfterViewInit, OnInit, OnDestroy
     });
     this.companyPayMarketsSubscription = this.structuresStore.select(fromStructuresPageReducer.getCompanyPayMarkets).subscribe(pm => {
       if (!!pm.obj.length) {
-        this.payMarketOptions = pm.obj;
+        this.payMarketOptions = pm.obj.map(o => ({ Name: o.PayMarket, Value: o.PayMarket }));
       }
     });
     this.currencySubscription = this.structuresStore.select(fromStructuresPageReducer.getCurrencies).subscribe(currency => {
@@ -134,24 +146,35 @@ export class StructuresPageComponent implements AfterViewInit, OnInit, OnDestroy
         this.currencies = currency.obj;
       }
     });
+
     this.structuresStore.dispatch(new fromStructuresPageActions.LoadCurrencies());
     this.structuresStore.dispatch(new fromStructuresPageActions.LoadCompanyPayMarkets());
   }
 
   ngAfterViewInit(): void {
+    this.actionBarConfig = {
+      ...this.actionBarConfig,
+      GlobalActionsTemplate: this.gridGlobalActionsTemplate
+    };
+
     this.gridRowActionsConfig = {
       ...this.gridRowActionsConfig,
       ActionsTemplate: this.gridRowActionsTemplate
     };
     this.colTemplates = {
-      [PfDataGridColType.currency]: {Template: this.currencyColumn},
-      ['numeric']: {Template: this.numericColumn}
+      [PfDataGridColType.currency]: {Template: this.currencyTypeColumn},
+      ['numeric']: {Template: this.numericColumn},
+      'Currency': {Template: this.currencyColumn},
+      'RangeGroup_Name': {Template: this.modelColumn}
     };
     this.filterTemplates = {
       'PayMarket': {Template: this.payMarketFilter},
       'RangeType': {Template: this.structureTypeFilter},
       'Currency': {Template: this.currencyFilter}
     };
+    setTimeout(() => {
+      this.hasDropdownOptions = this.checkHasDropdownOptions([this.permissions.STRUCTURES_ADD_EDIT_DELETE, this.permissions.STRUCTURES_CREATE_EDIT_MODEL]);
+    }, 0);
   }
 
   ngOnDestroy(): void {
@@ -159,6 +182,17 @@ export class StructuresPageComponent implements AfterViewInit, OnInit, OnDestroy
     this.gridFieldSubscription.unsubscribe();
     this.companyPayMarketsSubscription.unsubscribe();
     this.currencySubscription.unsubscribe();
+  }
+
+  customSortOptions = (previousSortDescriptor: SortDescriptor[], currentSortDescriptor: SortDescriptor[]): SortDescriptor[] => {
+    const currencySortInfo = currentSortDescriptor.find(s => s.field === 'CompanyStructures_RangeGroup_Currency');
+    if (currencySortInfo) {
+      currentSortDescriptor.unshift({
+        dir: currencySortInfo.dir,
+        field: 'Currency_Currency_Name'
+      });
+    }
+    return currentSortDescriptor;
   }
 
   handleTabChange(activeTabId: any): void {
@@ -175,6 +209,11 @@ export class StructuresPageComponent implements AfterViewInit, OnInit, OnDestroy
     this.selectedRangeGroupId = selectedRangeGroupId;
     this.selectedStructureName = selectedStructureName;
     this.deleteSingleRangeGroup = true;
+    this.structuresStore.dispatch(new fromStructuresPageActions.OpenDeletePayMarketModal());
+  }
+
+  handleDeleteModelClicked(): void {
+    this.deleteSingleRangeGroup = false;
     this.structuresStore.dispatch(new fromStructuresPageActions.OpenDeletePayMarketModal());
   }
 
@@ -210,11 +249,19 @@ export class StructuresPageComponent implements AfterViewInit, OnInit, OnDestroy
     this.updateField(field);
   }
 
+  handleClearSelectionClicked(): void {
+    this.pfDataGridStore.dispatch(new fromPfDataGridActions.ClearSelections(this.pageViewId));
+  }
+
   handleSingleValueChanged(item: GroupedListItem, filterField: ViewField): void {
     const field: ViewField = cloneDeep(filterField);
     field.FilterValues = !!item?.Value ? [item.Value] : null;
     field.FilterOperator = 'in';
     this.updateField(field);
+  }
+
+  addNewStructure(): void {
+    this.structuresStore.dispatch(new fromStructuresPageActions.ShowStructureForm(true));
   }
 
   updateField(field: ViewField) {
@@ -224,4 +271,11 @@ export class StructuresPageComponent implements AfterViewInit, OnInit, OnDestroy
       this.pfDataGridStore.dispatch(new fromPfDataGridActions.ClearFilter(this.pageViewId, field));
     }
   }
+
+  checkHasDropdownOptions(permissions: string[]): boolean {
+    if (this.pfSecuredResourceDirective) {
+      return this.pfSecuredResourceDirective.doAuthorizeAny(permissions);
+    }
+  }
+
 }

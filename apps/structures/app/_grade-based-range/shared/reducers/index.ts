@@ -62,6 +62,11 @@ export const getVerticalChartSvg = createSelector(
   fromSharedReducer.getVerticalChartSvg
 );
 
+export const getShowVerticalChart = createSelector(
+  selectSharedState,
+  fromSharedReducer.getShowVerticalChart
+);
+
 
 // Switch Regression Flags
 export const getSwitchRegressionFlagsModalOpen = createSelector(

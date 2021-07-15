@@ -1,7 +1,8 @@
 import cloneDeep from 'lodash/cloneDeep';
+import orderBy from 'lodash/orderBy';
 
 import { arraySortByString, SortDirection } from 'libs/core/functions';
-import { AsyncStateObj, generateDefaultAsyncStateObj, GroupedListItem } from 'libs/models';
+import { AsyncStateObj, generateDefaultAsyncStateObj, GroupedListItem, PayMarket } from 'libs/models';
 import { AsyncStateObjHelper } from 'libs/core';
 
 import * as fromJobsPageActions from '../actions';
@@ -11,7 +12,8 @@ export interface State {
   creatingProject: AsyncStateObj<boolean>;
   changingJobStatus: AsyncStateObj<boolean>;
   deletingJob: AsyncStateObj<boolean>;
-  companyPayMarkets: GroupedListItem[];
+  companyPayMarkets: PayMarket[];
+  payMarketGroupedListItems: GroupedListItem[];
   structureGradeNames: any;
   exportOptions: any;
   navigatingToOldPage: AsyncStateObj<boolean>;
@@ -25,6 +27,7 @@ export const initialState: State = {
   changingJobStatus: generateDefaultAsyncStateObj<boolean>(false),
   deletingJob: generateDefaultAsyncStateObj<boolean>(false),
   companyPayMarkets: [],
+  payMarketGroupedListItems: [],
   structureGradeNames: [],
   exportOptions: [{
     Display: 'Download Pricings',
@@ -92,10 +95,11 @@ export function reducer(state = initialState, action: fromJobsPageActions.JobsPa
       return AsyncStateObjHelper.savingError(state, 'deletingJob', action.error);
     }
     case fromJobsPageActions.LOAD_COMPANY_PAYMARKETS_SUCCESS: {
+      const payMarkets = orderBy(action.payload, [pm => pm.PayMarket.toLowerCase()], 'asc');
       return {
         ...state,
-        companyPayMarkets: action.payload.map(o => ({ Name: o.PayMarket, Value: o.PayMarket }))
-          .sort((a, b) => arraySortByString(a.Name, b.Name, SortDirection.Ascending))
+        companyPayMarkets: payMarkets,
+        payMarketGroupedListItems: payMarkets.map(o => ({ Name: o.PayMarket, Value: o.PayMarket }))
       };
     }
     case fromJobsPageActions.LOAD_STRUCTURE_GRADES_SUCCESS: {
@@ -179,6 +183,7 @@ export const getCreatingProject = (state: State) => state.creatingProject;
 export const getChangingJobStatus = (state: State) => state.changingJobStatus;
 export const getDeletingJob = (state: State) => state.deletingJob;
 export const getCompanyPayMarkets = (state: State) => state.companyPayMarkets;
+export const getPayMarketGroupedListItems = (state: State) => state.payMarketGroupedListItems;
 export const getStructureGradeNames = (state: State) => state.structureGradeNames;
 export const getExportOptions = (state: State) => state.exportOptions;
 export const getNavigatingToOldPage = (state: State) => state.navigatingToOldPage;

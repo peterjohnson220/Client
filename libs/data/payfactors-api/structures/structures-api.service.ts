@@ -53,4 +53,8 @@ export class StructuresApiService {
   getGradeNames() {
     return this.payfactorsApiService.get<string[]>(`${this.endpoint}/Default.GetGradeNames`);
   }
+
+  getAllCompanyStructures(): Observable<CompanyStructure[]> {
+    return this.payfactorsApiService.get<CompanyStructure[]>(`${this.endpoint}/`);
+  }
 }

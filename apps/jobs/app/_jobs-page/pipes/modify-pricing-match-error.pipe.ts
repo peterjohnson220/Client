@@ -17,7 +17,7 @@ export class ModifyPricingMatchError implements PipeTransform {
       return `You don't have permissions to modify pricings`;
     } else if (!isActiveJob) {
       return 'You cannot modify matches for inactive jobs';
-    } else if (pricingInfo.CompanyPayMarkets_Linked_PayMarket_Name) {
+    } else if (pricingInfo.CompanyJobs_Pricings_Linked_PayMarket_Name) {
       return 'You cannot modify matches for linked Pay Markets';
     } else if (pricingMatchCount <= 1) {
       return 'A pricing must have at least one match. You cannot delete the last match from a pricing.';

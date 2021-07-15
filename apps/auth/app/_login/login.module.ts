@@ -24,6 +24,7 @@ import { FirstLoginPageComponent, LoginPageComponent, ForgotPasswordPageComponen
 // Libs / Controls
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
+import { AbstractFeatureFlagService, LaunchDarklyFeatureFlagService } from 'libs/core/services/feature-flags';
 
 // Routing
 import { LoginRoutingModule } from './login-routing.module';
@@ -66,7 +67,10 @@ import { MarketingApiService } from 'libs/data/payfactors-api/marketing/marketin
     LoginPageComponent,
     ResetPasswordPageComponent
   ],
-  providers: [ MarketingApiService ]
+  providers: [
+    MarketingApiService,
+    { provide: AbstractFeatureFlagService, useClass: LaunchDarklyFeatureFlagService }
+  ]
 })
 export class LoginModule {
   constructor(library: FaIconLibrary) {

@@ -85,3 +85,4 @@ export const getLastUpdateFieldsDate = createSelector(selectPfDataGridState, fro
 export const getVisibleKeys = createSelector(selectPfDataGridState, fromPfDataGridReducer.getVisibleKeys);
 export const getUnexpectedError = createSelector(selectPfDataGridState, fromPfDataGridReducer.getUnexpectedError);
 export const getFadeInKeys = createSelector(selectPfDataGridState, fromPfDataGridReducer.getFadeInKeys);
+export const getSplitViewHidden = createSelector(selectPfDataGridState, fromPfDataGridReducer.getSplitViewHidden);

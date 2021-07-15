@@ -2,7 +2,7 @@ export enum GradeRangeModelChartSeries {
   SummaryData
 }
 
-export enum GradeRangeVerticalModelChartSeries {
+export enum GradeRangeVerticalOrHorizontalModelChartSeries {
   SalaryRangeMinMidMax = 0,
   SalaryRangeMinMidMaxHidden = 1,
   SalaryRangeTertile = 2,

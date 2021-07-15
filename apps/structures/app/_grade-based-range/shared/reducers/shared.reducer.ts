@@ -9,13 +9,15 @@ export interface State {
   openAddJobs: boolean;
   summaryChartSvg: string;
   verticalChartSvg: string;
+  showVerticalChart: boolean;
 }
 
 const initialState: State = {
   gradesDetails: generateDefaultAsyncStateObj<any>(null),
   openAddJobs: false,
   summaryChartSvg: '',
-  verticalChartSvg: ''
+  verticalChartSvg: '',
+  showVerticalChart: true
 };
 
 export function reducer(state = initialState, action: fromSharedActions.SharedActions): State {
@@ -72,6 +74,12 @@ export function reducer(state = initialState, action: fromSharedActions.SharedAc
         verticalChartSvg: action.payload
       };
     }
+    case fromSharedActions.SET_SHOW_VERTICAL_CHART: {
+      return {
+        ...state,
+        showVerticalChart: action.payload
+      };
+    }
     default:
       return state;
   }
@@ -81,3 +89,4 @@ export const getGradesDetails = (state: State) => state.gradesDetails;
 export const getOpenAddJobs = (state: State) => state.openAddJobs;
 export const getSummaryChartSvg = (state: State) => state.summaryChartSvg;
 export const getVerticalChartSvg = (state: State) => state.verticalChartSvg;
+export const getShowVerticalChart = (state: State) => state.showVerticalChart;

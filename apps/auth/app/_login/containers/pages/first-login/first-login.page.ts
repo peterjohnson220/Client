@@ -1,13 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+import { filter } from 'rxjs/operators';
 
 import { UserContext } from 'libs/models/security';
 import { LegacyCompanySettingDto } from 'libs/models/company';
 import * as fromRootState from 'libs/state/state';
 import * as fromUserContextActions from 'libs/state/app-context/actions/user-context.actions';
 import * as fromLegacyCompanySettingsActions from 'libs/state/app-context/actions/legacy-company-settings.actions';
+import { AbstractFeatureFlagService, FeatureFlagHelper, FeatureFlags, RealTimeFlag } from 'libs/core/services';
 
 import * as fromFirstLoginReducer from '../../../reducers';
 import * as fromFirstLoginActions from '../../../actions/first-login.action';
@@ -36,8 +38,10 @@ export class FirstLoginPageComponent implements OnInit {
   updateError: boolean;
   password: string;
   passwordLengthReq: string;
+  payscaleAuthRebrandFlag: RealTimeFlag = { key: FeatureFlags.RestyledLogin, value: false };
+  unsubscribe$ = new Subject<void>();
 
-  constructor(public store: Store<fromFirstLoginReducer.State>) {
+  constructor(public store: Store<fromFirstLoginReducer.State>, private featureFlagService: AbstractFeatureFlagService) {
     this.userContext$ = store.select(fromRootState.getUserContext);
     this.userContextLoading$ = this.store.select(fromRootState.getGettingUserContext);
     this.userContextAttempted$ = store.select(fromRootState.getGettingUserContextAttempted);
@@ -98,6 +102,16 @@ export class FirstLoginPageComponent implements OnInit {
     // Update Password subscriptions
     this.updatingPasswordError$.subscribe(isError => {
       this.updateError = isError;
+    });
+
+    this.userContext$.pipe(filter(uc => !!uc)).subscribe(uc => {
+      this.featureFlagService.initialize(uc.ConfigSettings.find(cs => cs.Name === 'LaunchDarklyClientSdkKey')?.Value, 
+        FeatureFlagHelper.buildContext(uc), uc.FeatureFlagBootstrapJson);
+
+      this.featureFlagService.bindEnabled(this.payscaleAuthRebrandFlag, this.unsubscribe$);
+      if (this.payscaleAuthRebrandFlag.value === true) {
+        document.querySelector('html').classList.add('payscale-rebrand');
+      }
     });
   }
 
