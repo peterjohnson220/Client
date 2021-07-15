@@ -2,7 +2,7 @@
   <p class="info p-0 m-0">Select a template to create a new statement.</p>
   <ul class="m-0 p-0 list-unstyled d-flex" >
     <ng-container *ngFor="let template of (templates$ | async)">
-      <li class="card m-3 d-inline" *ngIf="isTemplateEnabled(template)">
+      <li class="card m-3 d-inline">
         <a href="javascript:void(0);" (click)="onSelect(template.id)">
           <div class="p-3">
             <img *ngIf="template.thumbnailUrl; else displayPlaceHolder"

@@ -16,7 +16,7 @@ import { PfSearchModule } from 'libs/features/search/search';
 import { SurveySearchModule } from 'libs/features/surveys/survey-search';
 import { UpsertPeerDataCutModule } from 'libs/features/pricings/upsert-peer-data-cut';
 import { DataCutSummaryModule } from 'libs/features/pricings/data-cut-summary';
-import { WindowCommunicationService } from 'libs/core/services';
+import { PricingProjectHelperService, WindowCommunicationService } from 'libs/core/services';
 
 import * as fromFaIcons from './fa-icons';
 import { JobToPriceComponent, DataCutTitleComponent } from './components';
@@ -57,7 +57,7 @@ import { TempDataCutService } from './services';
     MultiMatchComponent,
   ],
   exports: [MultiMatchComponent],
-  providers: [WindowCommunicationService, TempDataCutService]
+  providers: [WindowCommunicationService, TempDataCutService, PricingProjectHelperService]
 })
 export class MultiMatchModule {
   constructor(library: FaIconLibrary) {

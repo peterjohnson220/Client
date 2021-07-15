@@ -11,6 +11,7 @@ import * as fromMultiMatchActions from 'libs/features/pricings/multi-match/actio
 import * as fromNotificationActions from 'libs/features/infrastructure/app-notifications/actions';
 import * as fromRootReducer from 'libs/state/state';
 import { Permissions } from 'libs/constants';
+import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
 
 import * as fromJobsPageActions from '../../actions';
 
@@ -49,6 +50,7 @@ export class JobsDetailsComponent implements OnDestroy, OnInit, OnChanges {
   userId: number;
   pageViewIds = PageViewIds;
   permissions = Permissions;
+  jobInsightsTabEnabled: boolean;
 
   jobId: number;
 
@@ -56,8 +58,11 @@ export class JobsDetailsComponent implements OnDestroy, OnInit, OnChanges {
 
   constructor(
     private store: Store<fromPfGridReducer.State>,
-    private actionsSubject: ActionsSubject
-  ) { }
+    private actionsSubject: ActionsSubject,
+    private featureFlagService: AbstractFeatureFlagService
+  ) {
+    this.jobInsightsTabEnabled = this.featureFlagService.enabled(FeatureFlags.JobInsightsTab, false);
+  }
 
   ngOnInit() {
 

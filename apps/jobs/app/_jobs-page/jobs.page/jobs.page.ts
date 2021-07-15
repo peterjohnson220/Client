@@ -9,7 +9,7 @@ import { SortDescriptor } from '@progress/kendo-data-query';
 
 import { Permissions } from 'libs/constants';
 import { CompanyJobApiService } from 'libs/data/payfactors-api/company';
-import { MODIFY_PRICINGS } from 'libs/features/pricings/multi-match/constants';
+import { MultiMatchFeatureImplementations } from 'libs/features/pricings/multi-match/constants';
 import {
   ActionBarConfig,
   getDefaultActionBarConfig,
@@ -156,7 +156,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   loadViewConfigSuccessSubscription = new Subscription;
 
-  multiMatchImplementation = MODIFY_PRICINGS;
+  multiMatchImplementation = MultiMatchFeatureImplementations.MODIFY_PRICINGS;
 
   gridConfig: GridConfig;
 
@@ -228,7 +228,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.getExportEventId$ = this.store.select(fromJobsPageReducer.getExportEventId);
     this.exporting$ = this.store.select(fromJobsPageReducer.getExporting);
 
-    this.companyPayMarketsSubscription = this.store.select(fromJobsPageReducer.getCompanyPayMarkets)
+    this.companyPayMarketsSubscription = this.store.select(fromJobsPageReducer.getPayMarketGroupedListItems)
       .subscribe(o => this.payMarketOptions = o);
 
     this.structureGradeNameSubscription = this.store.select(fromJobsPageReducer.getStructureGradeNames).subscribe(sgn => {

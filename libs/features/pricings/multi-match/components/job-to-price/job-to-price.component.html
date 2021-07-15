@@ -12,7 +12,8 @@
   <div class="dropzone" dragula="data-cuts-bag" [attr.data-paymarket-id]="job.PaymarketId" [attr.data-company-job-id]="job.CompanyJobId" [attr.data-job-id]="job.Id">
   </div>
   <div class="paymarket">
-    {{job.Paymarket}}  <span *ngIf="job.LinkedPaymarketId">
+    <!-- [GL] job.LinkedPaymarketId is actually the LinkedCompanyJobPricingId -->
+    {{job.Paymarket}}  <span *ngIf="job.LinkedPaymarketId && featureImplementation == multiMatchImplementations.MODIFY_PRICINGS">
     <fa-icon *ngIf="(!job.DataCutsToAdd || job.DataCutsToAdd.length===0)  && (!job.DeletedJobMatchCutIds || job.DeletedJobMatchCutIds.length ===0)"  class="pl-2" icon="link"></fa-icon>
     <fa-icon title="Clicking Save will break link" *ngIf="(job.DataCutsToAdd &&  job.DataCutsToAdd.length!=0) || (job.DeletedJobMatchCutIds && job.DeletedJobMatchCutIds.length !=0)"  class="pl-2" icon="unlink"></fa-icon>
   </span>
@@ -57,10 +58,10 @@
       <table class="data-cuts-table">
         <thead>
         <tr>
-          <th *ngIf="featureImplementation == modifyPricingsImplementation" class="text-nowrap">Weight</th>
-          <th *ngIf="featureImplementation == modifyPricingsImplementation" class="text-nowrap">Adj.(%)</th>
+          <th *ngIf="featureImplementation == multiMatchImplementations.MODIFY_PRICINGS" class="text-nowrap">Weight</th>
+          <th *ngIf="featureImplementation == multiMatchImplementations.MODIFY_PRICINGS" class="text-nowrap">Adj.(%)</th>
           <th>Title</th>
-          <th *ngIf="featureImplementation == modifyPricingsImplementation">Weighting</th>
+          <th *ngIf="featureImplementation == multiMatchImplementations.MODIFY_PRICINGS">Weighting</th>
           <th class="text-center">Base 50th</th>
           <th class="text-center">TCC 50th</th>
           <th></th>
@@ -68,8 +69,8 @@
         </thead>
         <tbody>
           <tr *ngFor="let dataCut of job.JobMatchCuts" [class.highlight]="dataCut.MatchType != 'UserJobMatchId' && dataCut.MatchType != 'CompanyJobPricingMatchId'">
-            <td *ngIf="featureImplementation == modifyPricingsImplementation">{{dataCut.MatchWeight}}</td>
-            <td *ngIf="featureImplementation == modifyPricingsImplementation">{{dataCut.MatchAdjustment}}</td>
+            <td *ngIf="featureImplementation == multiMatchImplementations.MODIFY_PRICINGS">{{dataCut.MatchWeight}}</td>
+            <td *ngIf="featureImplementation == multiMatchImplementations.MODIFY_PRICINGS">{{dataCut.MatchAdjustment}}</td>
             <td class="scope-cell">
               <pf-data-cut-title
                 [job]="job"
@@ -77,7 +78,7 @@
                 (editCut)="handleDataCutClick(job, dataCut)">
             </pf-data-cut-title>
             </td>
-            <td *ngIf="featureImplementation == modifyPricingsImplementation" class="text-nowrap">
+            <td *ngIf="featureImplementation == multiMatchImplementations.MODIFY_PRICINGS" class="text-nowrap">
               <span *ngIf="dataCut.WeightingType=='I'">Incs ({{dataCut?.Incs || '-'}})</span>
               <span *ngIf="dataCut.WeightingType=='O'">Orgs ({{dataCut?.Orgs || '-'}})</span>
               <span *ngIf="dataCut.WeightingType!='O' && dataCut.WeightingType!='I'">{{dataCut?.WeightingType || '-'}}</span>
@@ -85,8 +86,8 @@
             <td class="text-center">{{dataCut.Base50 ? formatCurrency(dataCut.Base50) : "-"}}</td>
             <td class="text-center">{{dataCut.TCC50 ? formatCurrency(dataCut.TCC50) : "-"}}</td>
             <td class="text-center">
-              <button [disabled] = "job.JobMatchCuts.length==1"
-                       [title]="job.JobMatchCuts.length==1?'You cannot delete the last match from a pricing':''"
+              <button [disabled] = "featureImplementation === multiMatchImplementations.MODIFY_PRICINGS && job.JobMatchCuts.length == 1"
+                       [title]="featureImplementation === multiMatchImplementations.MODIFY_PRICINGS && job.JobMatchCuts.length == 1? 'You cannot delete the last match from a pricing' : ''"
                        class="btn bg-transparent"
                       (click)="removeMatchCut(dataCut)">
              <fa-icon

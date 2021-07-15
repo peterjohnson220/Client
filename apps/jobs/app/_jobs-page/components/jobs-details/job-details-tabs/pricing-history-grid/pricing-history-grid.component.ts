@@ -85,7 +85,7 @@ export class PricingHistoryGridComponent implements AfterViewInit, OnInit, OnDes
   }
 
   ngOnInit(): void {
-    this.companyPayMarketsSubscription = this.store.select(fromModifyPricingsReducer.getCompanyPayMarkets)
+    this.companyPayMarketsSubscription = this.store.select(fromModifyPricingsReducer.getPayMarketGroupedListItems)
       .subscribe(o => {
         if (!!o) {
           this.payMarketOptions = cloneDeep(o);

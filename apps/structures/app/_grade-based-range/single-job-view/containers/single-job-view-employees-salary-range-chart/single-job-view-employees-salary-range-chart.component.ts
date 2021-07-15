@@ -43,6 +43,7 @@ export class SingleJobViewEmployeesSalaryRangeChartComponent implements OnInit, 
   dataSubscription: Subscription;
   jobDataSubscription: Subscription;
   metadataSubscription: Subscription;
+  defaultPagingOptionsSub: Subscription;
   pageViewId: string;
   jobRangeViewId: string;
   currency: string;
@@ -59,6 +60,7 @@ export class SingleJobViewEmployeesSalaryRangeChartComponent implements OnInit, 
   filterPanelSub: Subscription;
   initialY: number;
   gridScrolledSub: Subscription;
+  defaultPagingCount: number;
 
   constructor(
     public store: Store<any>,
@@ -110,6 +112,12 @@ export class SingleJobViewEmployeesSalaryRangeChartComponent implements OnInit, 
         this.chartInstance.legend.group.attr({
           translateY: this.initialY + scrolledContent.scrollTop
         });
+      }
+    });
+
+    this.defaultPagingOptionsSub = this.store.select(fromPfGridReducer.getPagingOptions, this.pageViewId).subscribe( pagingOptions => {
+      if (pagingOptions) {
+        this.defaultPagingCount = pagingOptions.Count;
       }
     });
   }
@@ -336,7 +344,7 @@ export class SingleJobViewEmployeesSalaryRangeChartComponent implements OnInit, 
         this.chartInstance.series[GradeBasedEmployeeSalaryRangeChartSeries.SalaryRangeQuintile].setData(this.salaryRangeSeriesDataModel.Quintile, false);
       }
 
-      this.chartInstance.setSize(null, GraphHelper.getEmployeeChartHeight(this.employeeData.data));
+      this.chartInstance.setSize(null, GraphHelper.getChartHeight(this.employeeData.data, this.defaultPagingCount));
     }
   }
 
@@ -375,6 +383,7 @@ export class SingleJobViewEmployeesSalaryRangeChartComponent implements OnInit, 
     this.jobDataSubscription.unsubscribe();
     this.filterPanelSub.unsubscribe();
     this.gridScrolledSub.unsubscribe();
+    this.defaultPagingOptionsSub.unsubscribe();
   }
 
 }

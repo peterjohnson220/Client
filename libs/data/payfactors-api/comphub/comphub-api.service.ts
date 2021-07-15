@@ -3,14 +3,29 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import {
-  QuickPriceListResponse, QuickPriceRequest, TrendingJobGroupResponse,
-  JobPricingLimitInfoResponse, JobSalaryTrendRequest, JobSalaryTrendResponse,
-  PayMarketDataResponse, SharePricingSummaryRequest, CreateQuickPriceProjectRequest, CountryDataSetResponse,
-  AddCompletedPricingHistoryRequest, JobPricedHistorySummaryRequest, JobPricedHistorySummaryResponse, QuickPriceJobDataRequest, QuickPriceJobDataResponse
-} from '../../../models/payfactors-api/comphub';
-import { QuickPriceExchangeDataSearchRequest } from '../../../models/payfactors-api/peer/exchange-data-search/request';
+  QuickPriceListResponse,
+  QuickPriceRequest,
+  TrendingJobGroupResponse,
+  JobPricingLimitInfoResponse,
+  JobSalaryTrendRequest,
+  JobSalaryTrendResponse,
+  PayMarketDataResponse,
+  SharePricingSummaryRequest,
+  CreateQuickPriceProjectRequest,
+  CountryDataSetResponse,
+  AddCompletedPricingHistoryRequest,
+  JobPricedHistorySummaryRequest,
+  JobPricedHistorySummaryResponse,
+  QuickPriceJobDataRequest,
+  QuickPriceJobDataResponse,
+  SearchCrowdSourcedJobsResponse, GetCrowdSourcedJobPricingResponse
+} from 'libs/models/payfactors-api/comphub';
+import { QuickPriceExchangeDataSearchRequest } from 'libs/models/payfactors-api/peer/exchange-data-search/request';
+
 import { PayfactorsApiService } from '../payfactors-api.service';
+
 import { ExchangeDataSet, PeerQuickPriceData } from '../../../../apps/comphub/app/_main/models';
+
 
 @Injectable({
   providedIn: 'root',
@@ -58,6 +73,7 @@ export class ComphubApiService {
   getCountryDataSets(): Observable<CountryDataSetResponse[]> {
     return this.payfactorsApiService.get<CountryDataSetResponse[]>(`${this.endpoint}/GetCountryDataSets`);
   }
+
   getExchangeDataSets(): Observable<ExchangeDataSet[]> {
     return this.payfactorsApiService.get<ExchangeDataSet[]>(`${this.endpoint}/GetExchangeDataSets`);
   }
@@ -80,5 +96,15 @@ export class ComphubApiService {
 
   getJobPricedHistorySummary(request: JobPricedHistorySummaryRequest): Observable<JobPricedHistorySummaryResponse> {
     return this.payfactorsApiService.post(`${this.endpoint}/GetJobPricedHistorySummary`, request);
+  }
+
+  searchCrowdSourcedJobs(jobTitle: string): Observable<SearchCrowdSourcedJobsResponse>  {
+    return this.payfactorsApiService.get<SearchCrowdSourcedJobsResponse>(`${this.endpoint}/SearchCrowdSourcedJobs`,
+      { params: { jobTitle: jobTitle } });
+  }
+
+  getCrowdSourcedJobPricing(jobTitle: string, country: string): Observable<GetCrowdSourcedJobPricingResponse>  {
+    return this.payfactorsApiService.get<GetCrowdSourcedJobPricingResponse>(`${this.endpoint}/GetCrowdSourcedJobPricing`,
+      { params: { jobTitle: jobTitle, country: country } });
   }
 }
