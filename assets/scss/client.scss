@@ -20,4 +20,14 @@ html.payscale-rebrand {
   nav.navbar {
     background: linear-gradient(90deg, #3880EE 0%, #2E0B96 100%);
   }
+  .left-sidebar {
+    background-color: #17064B;
+    .highlight-icon {
+      background-color: transparent;
+    }
+    .left-sidebar-footer {
+      background-color: transparent;
+      border-top: 0;
+    }
+  }
 }
