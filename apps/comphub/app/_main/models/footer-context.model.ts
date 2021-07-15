@@ -22,6 +22,7 @@ export interface FooterContextRequest {
   IsPeerComphubType: boolean;
   ShowJobPricedHistorySummary: boolean;
   SmbLimitReached: boolean;
+  SelectedTrendId: number;
 }
 
 export class FooterHelper {
@@ -83,11 +84,11 @@ export class FooterHelper {
     };
   }
 
-  static trendsLandingFooterContext() {
+  static trendsLandingFooterContext(trendIdIsSelected: boolean) {
     return {
       HideBackButton: true,
       BackButtonEnabled: false,
-      HideNextButton: false,
+      HideNextButton: trendIdIsSelected,
       NextButtonEnabled: true,
       PageTitle: 'Landing',
       PreviousPageTitle: null,
@@ -131,9 +132,9 @@ export class FooterHelper {
     };
   }
 
-  static trendsSummaryFooterContext() {
+  static trendsSummaryFooterContext(trendIdIsSelected: boolean) {
     return {
-      HideBackButton: false,
+      HideBackButton: trendIdIsSelected,
       BackButtonEnabled: true,
       HideNextButton: true,
       NextButtonEnabled: false,
@@ -142,7 +143,7 @@ export class FooterHelper {
       NextPageTitle: null,
       DisplayCancelButton: false,
       CancelButtonTitle: null,
-      DisplaySaveButton: true,
+      DisplaySaveButton: !trendIdIsSelected,
       SaveButtonEnabled: true
     };
   }
@@ -158,13 +159,13 @@ export class FooterHelper {
       case ComphubPages.Summary:
         return this.summaryFooterContext(request.IsPeerComphubType, request.ShowJobPricedHistorySummary, request.SmbLimitReached);
       case ComphubPages.TrendsLanding:
-        return this.trendsLandingFooterContext();
+        return this.trendsLandingFooterContext(!!request.SelectedTrendId);
       case ComphubPages.TrendsJobs:
         return this.trendsJobsFooterContext();
       case ComphubPages.TrendsScopes:
         return this.trendsScopesFooterContext();
       case ComphubPages.TrendsSummary:
-        return this.trendsSummaryFooterContext();
+        return this.trendsSummaryFooterContext(!!request.SelectedTrendId);
       default:
         return null;
     }
