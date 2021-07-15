@@ -4,9 +4,9 @@ import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
-import * as fromComphubSharedReducer from '../../../../_shared/reducers';
-import { ComphubPages } from '../../../../_shared/data';
-import { WorkflowContext } from '../../../../_shared/models';
+import * as fromComphubSharedReducer from '../../../reducers';
+import { ComphubPages } from '../../../data';
+import { WorkflowContext } from '../../../models';
 
 @Component({
   selector: 'pf-card-layout',
