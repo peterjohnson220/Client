@@ -12,16 +12,19 @@ import * as fromActions from '../actions/statement-history.page.actions';
 export interface State {
   statement: AsyncStateObj<Statement>;
   statementHistory: AsyncStateObj<StatementHistoryViewModel>;
+  downloadingHistoricalPdf: boolean;
+  downloadingHistoricalPdfError: boolean;
   gridState: fromKendo.State;
+  pdfIdToExport: string;
 }
 
-export const getStatementHistoryLoading = (state: State) => state.statementHistory.loading;
-export const getStatementHistoryLoadingError = (state: State) => state.statementHistory.loadingError;
 export const getStatementLoadingError = (state: State) => state.statement.loadingError;
-
 export const initialState: State = {
   statement: generateDefaultAsyncStateObj<Statement>(null),
   statementHistory: generateDefaultAsyncStateObj<StatementHistoryViewModel>(null),
+  downloadingHistoricalPdf: false,
+  downloadingHistoricalPdfError: false,
+  pdfIdToExport: null,
   gridState: {
     skip: 0,
     take: 20,
@@ -70,8 +73,40 @@ export function reducer(state = initialState, action: fromActions.StatementHisto
     case fromActions.UPDATE_GRID_STATE: {
       return { ...state, gridState: action.payload };
     }
+    case fromActions.DOWNLOAD_HISTORICAL_STATEMENT: {
+      return {
+        ...state,
+        downloadingHistoricalPdf: true,
+        downloadingHistoricalPdfError: false
+      };
+    }
+    case fromActions.DOWNLOAD_HISTORICAL_STATEMENT_SUCCESS: {
+      return {
+        ...state,
+        downloadingHistoricalPdf: false,
+        downloadingHistoricalPdfError: false
+      };
+    }
+    case fromActions.DOWNLOAD_HISTORICAL_STATEMENT_ERROR: {
+      return {
+        ...state,
+        downloadingHistoricalPdf: false,
+        downloadingHistoricalPdfError: true
+      };
+    }
+    case fromActions.UPDATE_PDF_ID_TO_EXPORT: {
+      return {
+        ...state,
+        pdfIdToExport: action.payload.pdfId
+      };
+    }
     default: {
       return state;
     }
   }
 }
+
+export const getStatementHistoryLoading = (state: State) => state.statementHistory.loading;
+export const getStatementHistoryLoadingError = (state: State) => state.statementHistory.loadingError;
+export const getDownloadingHistoricalPdf = (state: State) => state.downloadingHistoricalPdf;
+export const getPdfIdToExport = (state: State) => state.pdfIdToExport;

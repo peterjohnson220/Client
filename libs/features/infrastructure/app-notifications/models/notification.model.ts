@@ -54,5 +54,6 @@ export enum NotificationSource {
   GenericNotificationMessage = 'Generic Notification Message',
   JobDescriptionBulkExport = 'Job Description Bulk Exporter',
   JobDescriptionTemplatePublisher = 'Job Description Template Publisher',
-  JDMRouting  = 'JDM Routing'
+  JDMRouting  = 'JDM Routing',
+  TotalRewardsStatementHistory = 'Total Rewards Statement History'
 }

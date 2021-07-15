@@ -20,24 +20,18 @@
           [pageable]="{ buttonCount: 5, info: true }"
           (dataStateChange)="onDataStateChange($event)">
 
-          <kendo-grid-column width="70" [title]="'Actions'">
+          <kendo-grid-column width="70" [title]="'Actions'" [headerClass]="'text-center'" [class]="'text-center'">
             <ng-template kendoGridHeaderTemplate>
               <span>Actions</span>
             </ng-template>
             <ng-template kendoGridCellTemplate let-dataItem="dataItem">
-              <div ngbDropdown container="body" #dropdown="ngbDropdown"
-                  (openChange)="handleSelectedRowAction(dropdown)">
-                <fa-icon ngbDropdownToggle
-                        icon="ellipsis-h"
-                        id="total-rewards-actions-{{dataItem?.Id}}"
-                        class="action-button">
-                </fa-icon>
-                <div ngbDropdownMenu aria-labelledby="total-rewards-actions-{{dataItem?.Id}}">
-                  <button ngbDropdownItem (click)="onActionMenuCopyClick(dataItem)">
-                    <span>Download</span>
-                  </button>
-                </div>
-              </div>
+              <a *ngIf="!((downloadingHistoricalPdf$ | async) && (pdfIdToExport$ | async) === dataItem.Id)" (click)="onDownloadClick(dataItem)" title="Download" href="javascript:void(0)">
+                <fa-icon icon="download"></fa-icon>
+              </a>
+              <span *ngIf="(downloadingHistoricalPdf$ | async) && (pdfIdToExport$ | async) === dataItem.Id">
+                <fa-icon icon="circle-notch" spin="true"></fa-icon>
+              </span>
+
             </ng-template>
           </kendo-grid-column>
 
@@ -79,6 +73,12 @@
         </kendo-grid>
       </pf-async-container>
     </div>
+
+    <pf-file-download-security-warning-modal
+      #fileDownloadSecurityWarningModal
+      (securityWarningConfirmed)="handleSecurityWarningConfirmed($event)"
+      (securityWarningCancelled)="handleSecurityWarningCancelled()"
+    ></pf-file-download-security-warning-modal>
 
     <ng-template #tooltipTemplate let-hoverElement>
       <span>{{ hoverElement.nativeElement.innerText }}</span>

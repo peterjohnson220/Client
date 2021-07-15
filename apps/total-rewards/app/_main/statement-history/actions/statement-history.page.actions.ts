@@ -14,6 +14,11 @@ export const LOAD_STATEMENT_HISTORY_ERROR = '[Total Rewards/Statement History] L
 
 export const UPDATE_GRID_STATE = '[Total Rewards/Statement History] Update Grid State';
 
+export const DOWNLOAD_HISTORICAL_STATEMENT = '[Total Rewards/Statement History] Download Historical Statement';
+export const DOWNLOAD_HISTORICAL_STATEMENT_SUCCESS = '[Total Rewards/Statement History] Download Historical Statement Success';
+export const DOWNLOAD_HISTORICAL_STATEMENT_ERROR = '[Total Rewards/Statement History] Download Historical Statement Error';
+export const UPDATE_PDF_ID_TO_EXPORT = '[Total Rewards/Statement History] Update Pdf Id To Export';
+
 export class LoadStatement implements Action {
   readonly type = LOAD_STATEMENT;
   constructor(public payload: { statementId: string }) {}
@@ -48,6 +53,24 @@ export class LoadStatementHistoryError implements Action {
   constructor(public payload: any) {}
 }
 
+export class DownloadHistoricalStatement implements Action {
+  readonly type = DOWNLOAD_HISTORICAL_STATEMENT;
+}
+
+export class DownloadHistoricalStatementSuccess implements Action {
+  readonly type = DOWNLOAD_HISTORICAL_STATEMENT_SUCCESS;
+  constructor(public payload: { downloadUrl: string }) {}
+}
+
+export class DownloadHistoricalStatementError implements Action {
+  readonly type = DOWNLOAD_HISTORICAL_STATEMENT_ERROR;
+}
+
+export class UpdatePdfIdToExport implements Action {
+  readonly type = UPDATE_PDF_ID_TO_EXPORT;
+  constructor(public payload: { pdfId: string }) {}
+}
+
 export type StatementHistoryPageActions =
   LoadStatement |
   LoadStatementSuccess |
@@ -55,4 +78,8 @@ export type StatementHistoryPageActions =
   LoadStatementHistory |
   LoadStatementHistorySuccess |
   LoadStatementHistoryError |
-  UpdateGridState;
+  UpdateGridState |
+  DownloadHistoricalStatement |
+  DownloadHistoricalStatementSuccess |
+  DownloadHistoricalStatementError |
+  UpdatePdfIdToExport;

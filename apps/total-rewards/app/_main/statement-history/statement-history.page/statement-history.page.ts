@@ -11,6 +11,9 @@ import { TooltipDirective } from '@progress/kendo-angular-tooltip';
 import { Statement } from 'libs/features/total-rewards/total-rewards-statement/models';
 import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core';
 import { StatementHistoryListViewModel } from 'libs/features/total-rewards/total-rewards-statement/models/statement-history-list-view-model';
+import { FileDownloadSecurityWarningModalComponent } from 'libs/ui/common';
+import { CompanySettingsEnum } from 'libs/models';
+import { SettingsService } from 'libs/state/app-context/services';
 
 import * as fromPageReducer from '../reducers';
 import * as fromPageActions from '../actions/statement-history.page.actions';
@@ -23,6 +26,7 @@ import { statementsGridFields } from '../models';
   styleUrls: ['./statement-history.page.scss']
 })
 export class StatementHistoryPageComponent implements OnInit, OnDestroy {
+  @ViewChild('fileDownloadSecurityWarningModal', { static: true }) public fileDownloadSecurityWarningModal: FileDownloadSecurityWarningModalComponent;
 
   routeParamSubscription = new Subscription();
 
@@ -39,14 +43,24 @@ export class StatementHistoryPageComponent implements OnInit, OnDestroy {
   statementHistoryLoadingError$: Observable<boolean>;
   statementHistoryGridData$: Observable<GridDataResult>;
   statementHistoryGridState$: Observable<State>;
+
+  downloadingHistoricalPdf$: Observable<boolean>;
+  pdfIdToExport$: Observable<string>;
+  enableFileDownloadSecurityWarning$: Observable<boolean>;
   unsubscribe$ = new Subject<void>();
+
+  enableFileDownloadSecurityWarningSubscription: Subscription;
+
+  enableFileDownloadSecurityWarning: boolean;
 
   constructor(
     private store: Store<fromPageReducer.State>,
     private route: ActivatedRoute, private router: Router,
-    private featureFlagService: AbstractFeatureFlagService
+    private featureFlagService: AbstractFeatureFlagService,
+    private settingsService: SettingsService
   ) {
     this.featureFlagService.bindEnabled(this.totalRewardsHistoryFeatureFlag, this.unsubscribe$);
+    this.enableFileDownloadSecurityWarning$ = this.settingsService.selectCompanySetting<boolean>(CompanySettingsEnum.FileDownloadSecurityWarning);
   }
 
   ngOnInit(): void {
@@ -69,11 +83,19 @@ export class StatementHistoryPageComponent implements OnInit, OnDestroy {
     this.statementHistoryGridState$ = this.store.pipe(select(fromPageReducer.getStatementHistoryGridState));
     this.statementHistoryGridData$ = this.store.pipe(select(fromPageReducer.getStatementHistoryGridData));
 
+    this.downloadingHistoricalPdf$ = this.store.pipe(select(fromPageReducer.getDownloadingHistoricalPdf));
+    this.pdfIdToExport$ = this.store.pipe(select(fromPageReducer.getPdfIdToExport));
+
+    this.enableFileDownloadSecurityWarningSubscription = this.enableFileDownloadSecurityWarning$.subscribe(isEnabled => {
+      this.enableFileDownloadSecurityWarning = isEnabled;
+    });
+
     window.addEventListener('scroll', this.onScroll, true);
   }
 
   ngOnDestroy() {
     this.routeParamSubscription.unsubscribe();
+    this.enableFileDownloadSecurityWarningSubscription.unsubscribe();
     this.unsubscribe$.next();
   }
 
@@ -100,7 +122,22 @@ export class StatementHistoryPageComponent implements OnInit, OnDestroy {
     }
   }
 
-  onActionMenuCopyClick(statement: StatementHistoryListViewModel): void {
-    // todo: implement me
+  onDownloadClick(statement: StatementHistoryListViewModel): void {
+    this.store.dispatch( new fromPageActions.UpdatePdfIdToExport({ pdfId: statement.Id }) );
+    if (this.enableFileDownloadSecurityWarning) {
+      this.fileDownloadSecurityWarningModal.open();
+    } else {
+      this.store.dispatch( new fromPageActions.DownloadHistoricalStatement() );
+    }
+  }
+
+  handleSecurityWarningConfirmed(isConfirmed): void {
+    if (isConfirmed) {
+      this.store.dispatch( new fromPageActions.DownloadHistoricalStatement() );
+    }
+  }
+
+  handleSecurityWarningCancelled(): void {
+    this.store.dispatch( new fromPageActions.UpdatePdfIdToExport({ pdfId: null }) );
   }
 }
