@@ -5,8 +5,9 @@ import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import { of } from 'rxjs';
 import spyOn = jest.spyOn;
 
-import { environment } from 'environments/environment';
+import { AbstractFeatureFlagService } from 'libs/core/services/feature-flags';
 import * as fromRootState from 'libs/state/state';
+
 import * as fromForgotPasswordActions from '../../../actions/forgot-password.actions';
 import { ForgotPasswordPageComponent } from '../forgot-password/forgot-password.page';
 import * as fromReducers from '../../../reducers';
@@ -34,6 +35,12 @@ describe('Auth - Forgot Password', () => {
       ],
       declarations: [
         ForgotPasswordPageComponent
+      ],
+      providers: [
+        {
+          provide: AbstractFeatureFlagService,
+          useValue: { enabled: jest.fn(), bindEnabled: jest.fn() }
+        }
       ],
       // Shallow Testing
       schemas: [ NO_ERRORS_SCHEMA ]

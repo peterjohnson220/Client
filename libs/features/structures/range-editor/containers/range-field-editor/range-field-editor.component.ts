@@ -165,7 +165,8 @@ export class RangeFieldEditorComponent implements OnInit, OnDestroy, OnChanges {
       metaInfo: this.updateMetaInfo,
       successCallBackFn: this.updateSuccessCallbackFn,
       rangeType: this.rangeType,
-      reloadGridData: this.reloadGridData
+      reloadGridData: this.reloadGridData,
+      dataRow: this.dataRow
     };
 
     // TODO - we really should be just persisting rounding settings rather than passing every time, but that is coming later.

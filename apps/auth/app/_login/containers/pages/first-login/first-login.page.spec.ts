@@ -7,6 +7,7 @@ import { of } from 'rxjs';
 import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
+import { AbstractFeatureFlagService } from 'libs/core/services/feature-flags';
 
 import { FirstLoginPageComponent } from '../first-login/first-login.page';
 import * as fromReducers from '../../../reducers';
@@ -29,6 +30,12 @@ describe('Auth - First Time Login', () => {
       ],
       declarations: [
         FirstLoginPageComponent
+      ],
+      providers: [
+        {
+          provide: AbstractFeatureFlagService,
+          useValue: { enabled: jest.fn(), bindEnabled: jest.fn() }
+        }
       ],
       // Shallow Testing
       schemas: [ NO_ERRORS_SCHEMA ]

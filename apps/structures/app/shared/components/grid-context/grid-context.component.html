@@ -20,4 +20,6 @@
   <div *ngIf="metadata" class="metadata-wrapper">
     <span class="text-muted mt-2">{{ metadata.Paymarket }}, {{ metadata.Rate }}, {{ metadata.Currency }}</span>
   </div>
+
+  <ng-content select="[right-of-metadata-text-content]"></ng-content>
 </div>

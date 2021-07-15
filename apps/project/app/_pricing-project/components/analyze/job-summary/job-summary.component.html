@@ -1,0 +1,52 @@
+<pf-data-grid
+  [pageViewId]="pageViewId"
+  [title]="'Job Summary Analysis'"
+  [reorderable]="false"
+  [inboundFilters]="filters"
+  [columnTemplates]="colTemplates"
+  [gridConfig]="gridConfig"
+  [titleActionsTemplate]="titleActionsTemplate"
+  [pagingOptions] = "pagingOptions"
+  [actionBarConfig]="actionBarConfig"
+  [enableSelection]="false"
+  [columnHeaderTemplates]="columnHeaderTemplates"
+  [defaultSort]="defaultSort"
+  [hidePageSizes] = true
+  [aboveGridTemplate] = "chart">
+</pf-data-grid>
+
+<ng-template #chart >
+    <highcharts-chart *ngIf="chartOptions.series" [ngClass]="'chart'"
+                      [Highcharts]="Highcharts"
+                      [options]="chartOptions"
+                      [constructorType]="chartConstructor"
+                      [(update)]="updateFlag"
+                      (chartInstance)="rangeChartCallback($event)"
+    >
+    </highcharts-chart>
+</ng-template>
+
+
+<ng-template #compColumn let-dataRow="dataRow" let-fieldName="fieldName">
+  <span [innerHTML]="dataRow[fieldName] | comp: projectRate | emptyPlaceholder"></span>
+</ng-template>
+
+<ng-template #titleActionsTemplate>
+  <button class="btn btn-secondary ml-2"   [attr.data-qa-id]="'btn-return-to-project'" (click)="returnToProjectDetails()">Return to Project Details</button>
+</ng-template>
+
+<ng-template #baseMrpColumn let-column="column">
+  <div pfEllipsisActive class="ellipsis-text">{{column.title | stringReplace: 'MRP' : (baseMrp | ordinalNumber)}}</div>
+</ng-template>
+
+<ng-template #tccMrpColumn let-column="column">
+  <div pfEllipsisActive class="ellipsis-text">{{column.title | stringReplace: 'MRP' : (tccMrp | ordinalNumber)}}</div>
+</ng-template>
+
+<ng-template #companyColumn let-column="column">
+  <div pfEllipsisActive class="ellipsis-text">{{column.title | companyNameShort : (userContext$ | async)}}</div>
+</ng-template>
+
+<ng-template #paymarketColumn let-dataRow="dataRow" let-fieldName="fieldName">
+  <span [innerHTML]="dataRow[fieldName] ? dataRow[fieldName] : defaultPaymarket"></span>
+</ng-template>

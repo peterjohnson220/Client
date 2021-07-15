@@ -5,9 +5,10 @@ import { Observable } from 'rxjs';
 import {
   StructureRangeGroupGradesResponse,
   StructureRangeGroupResponse,
-  StructureRangeGroupGradeJobsResponse
+  StructureRangeGroupGradeJobsResponse,
+  RangeDistributionType
 } from 'libs/models/payfactors-api/structures';
-import { CompanyStructureInfo } from 'libs/models';
+import { CompanyStructureInfo, StructureForm } from 'libs/models';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 
@@ -37,6 +38,12 @@ export class StructureRangeGroupApiService {
     return this.payfactorsApiService.delete<any>(`${this.endpoint}(${companyStructureRangeGroupId})`);
   }
 
+  bulkDeleteStructureModels(companyStructureRangeGroupIds: number[]): Observable<any> {
+    return this.payfactorsApiService.post<number[]>(`${this.endpoint}/Default.BulkDeleteStructureModels`, {
+      CompanyStructureRangeGroupIds: companyStructureRangeGroupIds
+    });
+  }
+
   getDetails(companyStructureRangeGroupId: number): Observable<any> {
     return this.payfactorsApiService.get<any>(`${this.endpoint}(${companyStructureRangeGroupId})/Default.GetDetail`);
   }
@@ -62,5 +69,12 @@ export class StructureRangeGroupApiService {
     return this.payfactorsApiService.post<number>(`${this.endpoint}(${companyStructureRangeGroupId})/Default.AddJobs`, addJobsParams);
   }
 
+  getRangeDistributionTypes(): Observable<RangeDistributionType[]> {
+    return this.payfactorsApiService.get<RangeDistributionType[]>(`${this.endpoint}/Default.GetRangeDistributionTypes`);
+  }
+
+  createRangeGroup(structureForm: StructureForm): Observable<number> {
+    return this.payfactorsApiService.post<number>(`${this.endpoint}/Default.InsertRangeGroup`, structureForm);
+  }
 
 }

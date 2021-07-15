@@ -7,6 +7,8 @@ import { of } from 'rxjs';
 import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
+import { AbstractFeatureFlagService } from 'libs/core/services/feature-flags';
+
 import { LoginPageComponent } from './login.page';
 import * as fromReducers from '../../../reducers';
 
@@ -41,6 +43,10 @@ describe('Auth - Login', () => {
           useValue: {
             snapshot: { queryParamMap: { keys: queryStringParams, get: (key) => queryStringParams[key]  } },
           }
+        },
+        {
+          provide: AbstractFeatureFlagService,
+          useValue: { enabled: jest.fn(), bindEnabled: jest.fn() }
         }
       ],
       declarations: [

@@ -49,7 +49,8 @@ import {
   PricingDetailsMrpColumnComponent,
   PeerExchangeMatchesComponent,
   PricingMatchesJobTitleComponent,
-  PricingDetailsAdjPctColumnComponent
+  PricingDetailsAdjPctColumnComponent,
+  JobInsightsComponent
 } from './components';
 import { reducers } from './reducers';
 import { JobsPageEffects, JobDescriptionEffects, JobPeerMatchesEffects, ModifyPricingsEffects } from './effects';
@@ -123,6 +124,7 @@ import {
     StructureGridComponent,
     ProjectDetailsGridComponent,
     PricingHistoryGridComponent,
+    JobInsightsComponent,
 
     // Column Templates
     PricingMatchesJobTitleComponent,

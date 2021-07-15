@@ -35,3 +35,7 @@
 .dropdown-toggle::after, .dropdown-toggle::after {
   display: none !important;
 }
+
+:host ::ng-deep .k-sort-order{
+  display: none;
+}

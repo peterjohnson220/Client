@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
@@ -21,36 +21,39 @@ import { StructuresRoutingModule } from './structures-routing.module';
 import { SharedModule } from '../shared/shared.module';
 import { StructuresPageEffects } from './effects';
 import { reducers } from './reducers';
+import { StructureFormComponent } from './containers';
 
 @NgModule({
   imports: [
-    // Angular
-    CommonModule,
+      // Angular
+      CommonModule,
+      FormsModule,
+      ReactiveFormsModule,
 
-    // 3rd Party
-    FontAwesomeModule,
-    NgbModule,
-    DropDownsModule,
-    StoreModule.forFeature('structures_main', reducers),
-    EffectsModule.forFeature([
-      StructuresPageEffects
-    ]),
+      // 3rd Party
+      FontAwesomeModule,
+      NgbModule,
+      DropDownsModule,
+      StoreModule.forFeature('structures_main', reducers),
+      EffectsModule.forFeature([
+        StructuresPageEffects
+      ]),
 
-    // Routing
-    StructuresRoutingModule,
+      // Routing
+      StructuresRoutingModule,
 
-        // Payfactors
-        PfCommonModule,
-        PfCommonUIModule,
-        PfDataGridModule,
-        PfFormsModule,
-        FormsModule,
+      // Payfactors
+      PfCommonModule,
+      PfCommonUIModule,
+      PfDataGridModule,
+      PfFormsModule,
 
-        // Shared
-        SharedModule
+      // Shared
+      SharedModule
     ],
   declarations: [
-    StructuresPageComponent
+    StructuresPageComponent,
+    StructureFormComponent
   ],
   providers: [
     { provide: 'DataViewService', useClass: DataViewApiService }

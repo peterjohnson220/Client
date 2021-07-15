@@ -4,8 +4,12 @@
   [loadingErrorMessage]="'We encountered an error while processing your request. Please try reloading your page.'"
   (reload)="reload()">
   <ng-container *ngIf="customHeaderTemplate" [ngTemplateOutlet]="customHeaderTemplate"></ng-container>
-  <div [ngClass]="{ 'infinite-scroll-container' : enableInfiniteScroll, 'h-100' : !enableInfiniteScroll, 'hide-vertical-scrolling' : hideVerticalScrolling }">
-    <kendo-grid
+  <ng-container *ngIf="!hideKendoGrid || !gridReplacementTemplate" [ngTemplateOutlet]="kendoGrid"></ng-container>
+  <ng-container *ngIf="hideKendoGrid && gridReplacementTemplate"
+                [ngTemplateOutlet]="gridReplacementTemplate"></ng-container>
+  <ng-template #kendoGrid>
+    <div [ngClass]="{ 'infinite-scroll-container' : enableInfiniteScroll, 'h-100' : !enableInfiniteScroll, 'hide-vertical-scrolling' : hideVerticalScrolling }">
+   <kendo-grid
       [reorderable]="reorderable"
       [data]="data"
       [pageSize]="(pagingOptions$ | async)?.Count"
@@ -52,7 +56,7 @@
             [headerClass]="[customHeaderClass, 'text-center', getColumnHeaderClass(), getColTextAlignClass(col), hasHeaderDividers ? 'border-left' : ''].join(' ')"
             [locked]="false">
             <ng-template kendoGridHeaderTemplate let-column="column">
-              <div pfEllipsisActive class="ellipsis-text">{{column.title}}</div>
+              <ng-container [ngTemplateOutlet]="groupedColumnHeaderTemplate"  [ngTemplateOutletContext]="{column: column}"></ng-container>
             </ng-template>
             <ng-container *ngFor="let col of col.Fields; trackBy:trackByField">
               <ng-container *ngIf="col | isColumnVisible : splitViewDisplayFields : selectedRecordId">
@@ -144,11 +148,29 @@
       </div>
     </div>
   </div>
+  </ng-template>
 </pf-async-container>
 
+<ng-template #groupedColumnHeaderTemplate let-column="column">
+  <ng-container *ngIf="groupedColumnHeaderTemplates && groupedColumnHeaderTemplates[column.title]; else defaultGroupedColumnHeader"
+                [ngTemplateOutlet]="groupedColumnHeaderTemplates[column.title].Template"
+                [ngTemplateOutletContext]="{column: column}">
+
+  </ng-container>
+  <ng-template #defaultGroupedColumnHeader>
+    <div pfEllipsisActive class="ellipsis-text">{{column.title}}</div>
+  </ng-template>
+</ng-template>
 
 <ng-template #columnHeaderTemplate let-column="column">
-  <div *ngIf="column" pfEllipsisActive [class.default-cursor]="!column.sortable" class="ellipsis-text k-column-title">
-    {{column.title}}
-  </div>
+  <ng-container *ngIf="columnHeaderTemplates && columnHeaderTemplates[column.field]; else defaultColumnHeader"
+                [ngTemplateOutlet]="columnHeaderTemplates[column.field].Template"
+                [ngTemplateOutletContext]="{column: column}">
+
+  </ng-container>
+  <ng-template #defaultColumnHeader>
+    <div *ngIf="column" pfEllipsisActive [class.default-cursor]="!column.sortable" class="ellipsis-text k-column-title">
+      {{column.title}}
+    </div>
+  </ng-template>
 </ng-template>

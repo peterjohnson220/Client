@@ -3,7 +3,8 @@ import {
   JobSalaryTrendResponse,
   QuickPriceMarketData,
   QuickPriceListResponse,
-  TrendingJobGroupResponse
+  TrendingJobGroupResponse,
+  GetCrowdSourcedJobPricingResponse
 } from 'libs/models/payfactors-api/comphub';
 
 import { PayMarket } from 'libs/models/paymarket';
@@ -11,6 +12,7 @@ import { KendoDropDownItem } from 'libs/models/kendo';
 import { MDLocationResponse, MDScopeResponse } from 'libs/models/payfactors-api';
 import { Filter } from 'libs/features/search/search/models';
 import { MDScopeSizeCategory } from 'libs/constants';
+import { SearchCrowdSourcedJobsResponse } from 'libs/models/payfactors-api/comphub/response/search-crowd-sourced-jobs-response.model';
 
 import {
   TrendingJobGroup, PricingPaymarket, MarketDataScope,
@@ -124,15 +126,15 @@ export class PayfactorsApiModelMapper {
 
   static mapCountryDataSetResponseToCountryDataSets(countryDataSetResponse: CountryDataSetResponse[]): CountryDataSet[] {
     return countryDataSetResponse.map(cdr => {
-        return {
-          CountryCode: cdr.CountryCode,
-          CountryName: cdr.CountryName,
-          CurrencyCode: cdr.CurrencyCode,
-          GeoLabel: cdr.GeoLabel,
-          Active: cdr.Active,
-          FlagCode: cdr.CountryCode
-        };
-      });
+      return {
+        CountryCode: cdr.CountryCode,
+        CountryName: cdr.CountryName,
+        CurrencyCode: cdr.CurrencyCode,
+        GeoLabel: cdr.GeoLabel,
+        Active: cdr.Active,
+        FlagCode: cdr.CountryCode
+      };
+    });
   }
 
   static mapMdLocationsResponseToMarketDataLocations(response: MDLocationResponse[]): MarketDataLocation[] {
@@ -153,5 +155,44 @@ export class PayfactorsApiModelMapper {
       });
     });
     return mappedFilters;
+  }
+
+  static mapSearchCrowdSourcedJobsResponseToJobGridData(response: SearchCrowdSourcedJobsResponse): JobGridData {
+    const data = response.Jobs.map(csjd => {
+      return {
+        JobTitle: csjd.JobTitle,
+        JobId: null,
+        JobCode: null,
+        JobDescription: null,
+        Education: null,
+        YearsOfExperience: null,
+        ManagesEmployees: null,
+        Skills: null,
+        FLSAStatus: null,
+        ShowJd: null
+      };
+    });
+
+    return {
+      Total: response.Total,
+      Data: data
+    };
+  }
+
+  static mapGetCrowdSourcedJobPricingResponseToJobData(response: GetCrowdSourcedJobPricingResponse): JobData {
+    return {
+      JobTitle: response.JobTitle,
+      Base50: response.Base50th,
+      Tcc50: response.Tcc50th,
+      JobId: null,
+      JobCode: null,
+      JobDescription: null,
+      Education: null,
+      YearsOfExperience: null,
+      ManagesEmployees: null,
+      Skills: null,
+      FLSAStatus: null,
+      ShowJd: null
+    };
   }
 }

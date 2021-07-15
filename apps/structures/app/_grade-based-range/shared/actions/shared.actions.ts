@@ -10,6 +10,7 @@ export const SET_CURRENT_REGRESSION_GRADE_INFO = '[Structures - Grade Based Rang
 export const SET_OPEN_ADD_JOBS = '[Structures - Grade Based Range - Shared] Set Open Add Jobs';
 export const SET_SUMMARY_CHART_SVG = '[Structures - Grade Based Range - Shared] Set Summary Chart SVG';
 export const SET_VERTICAL_CHART_SVG = '[Structures - Grade Based Range - Shared] Set Vertical Chart SVG';
+export const SET_SHOW_VERTICAL_CHART = '[Structures - Grade Based Range - Shared] Set Show Vertical Chart';
 
 export class SetCurrentRegressionGradeInfo implements Action {
   readonly type = SET_CURRENT_REGRESSION_GRADE_INFO;
@@ -53,6 +54,12 @@ export class SetVerticalChartSvg implements Action {
   constructor(public payload: string) {}
 }
 
+export class SetShowVerticalChart implements Action {
+  readonly type = SET_SHOW_VERTICAL_CHART;
+
+  constructor(public payload: boolean) {}
+}
+
 export type SharedActions
   = GetGradesDetails
   | GetGradesDetailsSuccess
@@ -60,6 +67,7 @@ export type SharedActions
   | SetCurrentRegressionGradeInfo
   | SetOpenAddJobs
   | SetSummaryChartSvg
-  | SetVerticalChartSvg;
+  | SetVerticalChartSvg
+  | SetShowVerticalChart;
 
 

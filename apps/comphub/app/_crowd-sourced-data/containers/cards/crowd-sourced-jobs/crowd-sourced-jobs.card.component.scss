@@ -1,0 +1,73 @@
+@import 'comphub-page';
+@import 'comphub-styles';
+@import 'colors';
+
+.no-trending-jobs {
+  background: lighten($comphub-header-background-grey, 5%);
+  padding: 1rem;
+  min-height: 280px;
+  font-style: italic;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.smb-limit-disabling-message {
+  position: absolute;
+  color: white;
+  display: flex;
+  bottom: 65px;
+  margin: 0 auto;
+  width: 500px;
+  padding: 1rem;
+  border-radius: .25rem;
+  background-color: $pf-additional-colors-green;
+  left: 0px;
+  right: 0px;
+
+  .icon {
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1.5rem;
+  }
+
+  a {
+    color: white;
+  }
+}
+
+.data-set-selector {
+  display: flex;
+  justify-content: flex-end;
+
+  kendo-dropdownlist {
+    position: absolute;
+    top: -25px;
+    right: 15px;
+    width: 105px;
+  }
+}
+
+.exchange-selector {
+  kendo-dropdownlist {
+    width: 200px;
+  }
+
+  .exchange-dropdown-label{
+    position:absolute;
+    top: -20px;
+    right:215px;
+    width:100px;
+  }
+}
+
+.priced-jobs-btn {
+  color: #0275D8;
+  cursor: pointer;
+}
+
+.hidden {
+  display: none;
+}
