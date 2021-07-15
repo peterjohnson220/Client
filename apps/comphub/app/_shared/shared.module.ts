@@ -16,7 +16,7 @@ import { PfFormsModule } from 'libs/forms';
 import { GuidelinesBadgeModule } from 'libs/features/peer/guidelines-badge';
 import { BasicDataGridModule } from 'libs/features/grids/basic-data-grid';
 
-import { JobGridComponent } from './containers';
+import { JobGridComponent, CardLayoutComponent } from './containers';
 import * as fromFaIcons from './fa-icons';
 import { reducers } from './reducers';
 import {
@@ -65,10 +65,12 @@ import {
 
   ],
   declarations: [
-    JobGridComponent
+    JobGridComponent,
+    CardLayoutComponent
   ],
   exports: [
-    JobGridComponent
+    JobGridComponent,
+    CardLayoutComponent
   ]
 })
 export class SharedModule {

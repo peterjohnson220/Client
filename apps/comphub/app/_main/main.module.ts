@@ -28,7 +28,7 @@ import { DojGuidelinesService } from 'libs/features/peer/guidelines-badge/servic
 import { BasicDataGridModule } from 'libs/features/grids/basic-data-grid';
 
 import {
-  ComphubPageComponent, JobsCardComponent, MarketsCardComponent, CardLayoutComponent,
+  ComphubPageComponent, JobsCardComponent, MarketsCardComponent,
   SummaryCardComponent, PeerDataCardComponent, ParentDataCardComponent, QuickPriceHistoryComponent,
   ComphubFooterComponent, MarketDataJobResultsComponent, PeerJobResultsComponent, QuickPriceLandingPageComponent
 } from './containers';
@@ -92,7 +92,6 @@ import { SharedModule } from '../_shared/shared.module';
     ComphubPageComponent,
     JobsCardComponent,
     MarketsCardComponent,
-    CardLayoutComponent,
     SummaryCardComponent,
     PaymarketCardsComponent,
     PeerDataCardComponent,

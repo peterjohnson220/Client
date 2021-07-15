@@ -37,7 +37,6 @@ export class CrowdSourcedJobsCardComponent implements OnInit, OnDestroy {
   }
 
   handleCountryDataSetChanged(countryCode: string) {
-    this.clearSearch.next(true);
     this.store.dispatch(new fromComphubPageActions.UpdateActiveCountryDataSet(countryCode));
   }
 
@@ -51,7 +50,10 @@ export class CrowdSourcedJobsCardComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.selectedJobSub = this.selectedJob$.subscribe(sj => this.selectedJob = sj);
+    this.selectedJobSub = this.selectedJob$.subscribe(sj => {
+      this.selectedJob = sj;
+      this.clearSearch.next(this.selectedJob == null);
+    });
     this.workflowContextSub = this.workflowContext$.subscribe(wfc => {
       if (!!wfc) {
         this.workflowContext = wfc;
