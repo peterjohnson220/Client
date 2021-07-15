@@ -188,7 +188,9 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
       AllowExport: true,
       ExportSourceName: 'Job Range Structures',
       CustomExportType: 'JobRangeStructures',
-      ColumnChooserType: ColumnChooserType.Hybrid,
+      ColumnChooserConfig: {
+        ColumnChooserType: ColumnChooserType.Hybrid
+      },
       EnableGroupSelectAll: true
     };
 

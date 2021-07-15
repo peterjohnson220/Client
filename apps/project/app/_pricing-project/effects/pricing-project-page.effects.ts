@@ -3,16 +3,20 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { Action, select, Store } from '@ngrx/store';
-import { catchError, map, switchMap, withLatestFrom } from 'rxjs/operators';
+import { catchError, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
 
 import { PricingProjectApiService } from 'libs/data/payfactors-api/project';
 import { ProjectExportRequest } from 'libs/models/projects/project-export-manager';
-import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import { DataGridState } from 'libs/features/grids/pf-data-grid/reducers/pf-data-grid.reducer';
+import { BaseProjectFields } from 'libs/models';
+import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
+import * as fromProjectTemplateActions from 'libs/features/projects/project-template-management/actions';
 
+import { PageViewIds } from '../../shared/constants';
 import * as fromPricingProjectActions from '../actions';
 import * as fromPricingProjectReducer from '../reducers';
-import { PageViewIds } from 'apps/project/app/shared/constants';
+
+
 
 @Injectable()
 export class PricingProjectPageEffects {
@@ -49,5 +53,54 @@ export class PricingProjectPageEffects {
       );
     }),
     catchError((error) => of(new fromPricingProjectActions.QueuePricingProjectExportError(error)))
+  );
+
+  @Effect()
+  getProjectFieldsForColumnChooser$: Observable<Action> = this.actions$.pipe(
+    ofType(fromPricingProjectActions.GET_PROJECT_FIELDS_FOR_COLUMN_CHOOSER),
+    withLatestFrom(
+      this.store.pipe(select(fromPricingProjectReducer.getPricingProject)),
+      (action: fromPricingProjectActions.GetProjectFieldsForColumnChooser, project) =>
+        ({ action, project })
+    ),
+    switchMap((data) => {
+      return this.pricingProjectApiService.getProjectFieldsForColumnChooser(data.action.payload).pipe(
+        mergeMap(response => {
+          const projectFieldMetaData: BaseProjectFields = {
+            TemplateFields: response,
+            ReferencePoints: [
+              data.project.BaseReferencePoint,
+              data.project.TCCReferencePoint,
+              data.project.BonusReferencePoint,
+              data.project.TCCTargetReferencePoint,
+              data.project.LTIPReferencePoint,
+              data.project.TDCReferencePoint,
+              data.project.AllowReferencePoint,
+              data.project.FixedReferencePoint,
+              data.project.RemunReferencePoint,
+              data.project.TGPReferencePoint,
+              data.project.BonusTargetReferencePoint,
+              data.project.TargetLTIPReferencePoint,
+              data.project.TargetTDCReferencePoint,
+              data.project.SalesIncentiveActualPctReferencePoint,
+              data.project.SalesIncentiveTargetPctReferencePoint,
+              data.project.TCCPlusAllowReferencePoint,
+              data.project.TCCPlusAllowNoCarReferencePoint,
+              data.project.TCCTargetPlusAllowReferencePoint,
+              data.project.TCCTargetPlusAllowNoCarReferencePoint,
+              data.project.LTIPPctReferencePoint,
+              data.project.BonusPctReferencePoint,
+              data.project.BonusTargetPctReferencePoint,
+              data.project.SalesIncentiveActualReferencePoint,
+              data.project.SalesIncentiveTargetReferencePoint
+            ]
+          };
+          return [
+            new fromProjectTemplateActions.SetBaseProjectFields(projectFieldMetaData),
+            new fromProjectTemplateActions.ShowProjectTemplateForm(true)
+          ];
+        })
+      );
+    })
   );
 }

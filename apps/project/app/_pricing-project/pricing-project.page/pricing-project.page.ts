@@ -5,8 +5,7 @@ import { select, Store } from '@ngrx/store';
 import { Observable, Subscription} from 'rxjs';
 import { SortDescriptor } from '@progress/kendo-data-query';
 
-import { ActionBarConfig, getDefaultActionBarConfig, GridConfig } from 'libs/features/grids/pf-data-grid/models';
-import * as fromAddDataActions from 'libs/features/pricings/add-data/actions/add-data.actions';
+import { ActionBarConfig, ColumnChooserType, getDefaultActionBarConfig, GridConfig } from 'libs/features/grids/pf-data-grid/models';
 import { FileDownloadSecurityWarningModalComponent } from 'libs/ui/common/file-download-security-warning';
 import { DataGridState } from 'libs/features/grids/pf-data-grid/reducers/pf-data-grid.reducer';
 import { Permissions } from 'libs/constants';
@@ -15,15 +14,17 @@ import { SurveySearchFilterMappingDataObj, SurveySearchUserFilterType} from 'lib
 import { SearchFeatureIds } from 'libs/features/search/search/enums/search-feature-ids';
 import { UserContext } from 'libs/models';
 import { PricingProjectHelperService } from 'libs/core';
+import { ProjectFieldManagementFeatureImplementations } from 'libs/features/projects/project-template-management/constants';
 import * as fromCompanySettingsReducer from 'libs/state/state';
-import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import * as fromRootState from 'libs/state/state';
+import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import * as fromPfDataGridActions from 'libs/features/grids/pf-data-grid/actions';
 import * as fromSearchPageActions from 'libs/features/search/search/actions/search-page.actions';
 import * as fromSearchFeatureActions from 'libs/features/search/search/actions/search-feature.actions';
 
 import { PageViewIds } from '../../shared/constants';
 import * as fromPricingProjectReducer from '../reducers';
+import * as fromPricingProjectActions from '../actions';
 
 @Component({
   selector: 'pf-pricing-project',
@@ -32,11 +33,13 @@ import * as fromPricingProjectReducer from '../reducers';
 })
 export class PricingProjectPageComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('jobTitle') jobTitle: ElementRef;
-  @ViewChild('gridGlobalActions', {static: true}) gridGlobalActionsTemplate: ElementRef;
-  @ViewChild('fileDownloadSecurityWarningModal', {static: true}) fileDownloadSecurityWarningModal: FileDownloadSecurityWarningModalComponent;
-  @ViewChild('compColumn', {static: false}) compColumn: ElementRef;
-  @ViewChild('percentageColumn', {static: false}) percentageColumn: ElementRef;
-  @ViewChild('companyColumn', {static: false}) companyColumn: ElementRef;
+  @ViewChild('gridGlobalActions', { static: true }) gridGlobalActionsTemplate: ElementRef;
+  @ViewChild('fileDownloadSecurityWarningModal', { static: true }) fileDownloadSecurityWarningModal: FileDownloadSecurityWarningModalComponent;
+  @ViewChild('compColumn', { static: false }) compColumn: ElementRef;
+  @ViewChild('percentageColumn', { static: false }) percentageColumn: ElementRef;
+  @ViewChild('companyColumn', { static: false }) companyColumn: ElementRef;
+  @ViewChild('customColumnChooser', {static: false}) customColumnChooser: ElementRef;
+
   permissions = Permissions;
   viewingJobSummary: boolean;
   project$: Observable<any>;
@@ -88,6 +91,8 @@ export class PricingProjectPageComponent implements OnInit, AfterViewInit, OnDes
     'Company TDC',
     'Company TGP',
   ];
+
+  projectFieldFeatureImplementations = ProjectFieldManagementFeatureImplementations;
 
   constructor(private route: ActivatedRoute,
               private store: Store<fromPricingProjectReducer.State>,
@@ -152,7 +157,11 @@ export class PricingProjectPageComponent implements OnInit, AfterViewInit, OnDes
 
     this.actionBarConfig = {
       ...this.actionBarConfig,
-      GlobalActionsTemplate: this.gridGlobalActionsTemplate
+      GlobalActionsTemplate: this.gridGlobalActionsTemplate,
+      ColumnChooserConfig: {
+        ColumnChooserType: ColumnChooserType.Custom,
+        ColumnChooserTemplate: this.customColumnChooser
+      }
     };
 
     this.companyFieldGroups.forEach(group => {
@@ -226,5 +235,12 @@ export class PricingProjectPageComponent implements OnInit, AfterViewInit, OnDes
     this.pricingProjectHelperService.SetAddDataModalContext(jobContext, searchContext);
 
     event.stopPropagation();
+  }
+
+  handleColumnChooserClicked() {
+    this.store.dispatch(new fromPricingProjectActions.GetProjectFieldsForColumnChooser({
+      ProjectId: this.projectId,
+      PageViewId: this.pageViewId
+    }));
   }
 }

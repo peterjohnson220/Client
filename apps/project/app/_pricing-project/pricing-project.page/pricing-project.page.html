@@ -162,3 +162,18 @@
 
 <pf-add-data [display]="'modal'">
 </pf-add-data>
+
+<ng-template #customColumnChooser>
+  <button
+    title="Choose Columns"
+    type="button"
+    id="column-popover-btn"
+    class="btn btn-secondary"
+    (click)="handleColumnChooserClicked()">
+    <fa-icon icon="table"></fa-icon>
+  </button>
+</ng-template>
+
+<pf-project-template-management
+  [featureImplementation]="projectFieldFeatureImplementations.PRICING_PROJECTS"
+></pf-project-template-management>

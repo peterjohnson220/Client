@@ -1,7 +1,7 @@
 import cloneDeep from 'lodash/cloneDeep';
 
 import {
-  AsyncStateObj,
+  AsyncStateObj, BaseProjectFields,
   CompositeField,
   CompositeFieldHierarchy,
   generateDefaultAsyncStateObj,
@@ -14,16 +14,18 @@ export interface State {
   errorMessage: string;
   showTemplateForm: boolean;
   saving: boolean;
-  templateFields: AsyncStateObj<ProjectTemplateFields>;
   projectTemplateId?: number;
+  templateName: string;
+  projectFields: AsyncStateObj<BaseProjectFields>;
 }
 
 export const initialState: State = {
   errorMessage: '',
   showTemplateForm: false,
   saving: false,
-  templateFields: generateDefaultAsyncStateObj<ProjectTemplateFields>(null),
-  projectTemplateId: null
+  projectTemplateId: null,
+  templateName: '',
+  projectFields: generateDefaultAsyncStateObj<BaseProjectFields>(null)
 };
 
 
@@ -37,31 +39,32 @@ export function reducer(state = initialState, action: fromProjectTemplateManagem
       };
     }
     case fromProjectTemplateManagementActions.GET_PROJECT_TEMPLATE_FIELDS: {
-      const templateFieldsClone = cloneDeep(state.templateFields);
-      templateFieldsClone.loading = true;
-      templateFieldsClone.loadingError = false;
+      const fieldsClone = cloneDeep(state.projectFields);
+      fieldsClone.loading = true;
+      fieldsClone.loadingError = false;
       return {
         ...state,
-        templateFields: templateFieldsClone,
+        projectFields: fieldsClone,
         projectTemplateId: action.payload
       };
     }
     case fromProjectTemplateManagementActions.GET_PROJECT_TEMPLATE_FIELDS_SUCCESS: {
-      const templateFieldsClone = cloneDeep(state.templateFields);
-      templateFieldsClone.loading = false;
-      templateFieldsClone.obj = action.payload;
+      const fieldsClone = cloneDeep(state.projectFields);
+      fieldsClone.loading = false;
+      fieldsClone.obj = action.payload.Fields;
       return {
         ...state,
-        templateFields: templateFieldsClone
+        projectFields: fieldsClone,
+        templateName: action.payload.TemplateName
       };
     }
     case fromProjectTemplateManagementActions.GET_PROJECT_TEMPLATE_FIELDS_ERROR: {
-      const templateFieldsClone = cloneDeep(state.templateFields);
-      templateFieldsClone.loading = false;
-      templateFieldsClone.loadingError = true;
+      const fieldsClone = cloneDeep(state.projectFields);
+      fieldsClone.loading = false;
+      fieldsClone.loadingError = true;
       return {
         ...state,
-        templateFields: templateFieldsClone
+        projectFields: fieldsClone
       };
     }
     case fromProjectTemplateManagementActions.SAVE_PROJECT_TEMPLATE_FIELDS: {
@@ -85,22 +88,39 @@ export function reducer(state = initialState, action: fromProjectTemplateManagem
       };
     }
     case fromProjectTemplateManagementActions.TOGGLE_FIELD_SELECTED: {
-      const templateFieldsClone: AsyncStateObj<ProjectTemplateFields> = cloneDeep(state.templateFields);
-      const fieldToUpdate = findField(action.payload, templateFieldsClone.obj.TemplateFields);
+      const fieldsClone: AsyncStateObj<BaseProjectFields> = cloneDeep(state.projectFields);
+      const fieldToUpdate = findField(action.payload, fieldsClone.obj.TemplateFields);
       if (fieldToUpdate) {
         fieldToUpdate.Checked = !fieldToUpdate.Checked;
       }
       return {
         ...state,
-        templateFields: templateFieldsClone
+        projectFields: fieldsClone
       };
     }
     case fromProjectTemplateManagementActions.UPDATE_REFERENCE_POINTS: {
-      const templateFieldsClone: AsyncStateObj<ProjectTemplateFields> = cloneDeep(state.templateFields);
-      templateFieldsClone.obj.ReferencePoints = action.payload;
+      const fieldsClone: AsyncStateObj<BaseProjectFields> = cloneDeep(state.projectFields);
+      fieldsClone.obj.ReferencePoints = action.payload;
       return {
         ...state,
-        templateFields: templateFieldsClone
+        projectFields: fieldsClone
+      };
+    }
+    case fromProjectTemplateManagementActions.TOGGLE_SELECT_ALL: {
+      const fieldsClone: AsyncStateObj<BaseProjectFields> = cloneDeep(state.projectFields);
+      fieldsClone.obj.TemplateFields.find(x => x.Category === action.payload.Category).Fields.forEach(x => {
+        x.Checked = action.payload.SelectAllValue;
+      });
+
+      return {
+        ...state,
+        projectFields: fieldsClone
+      };
+    }
+    case fromProjectTemplateManagementActions.SET_BASE_PROJECT_FIELDS: {
+      return {
+        ...state,
+        projectFields: generateDefaultAsyncStateObj<BaseProjectFields>(action.payload)
       };
     }
     default:
@@ -122,5 +142,16 @@ function findField(fieldToFind: CompositeField, templateFields: CompositeFieldHi
 export const getShowProjectTemplateForm = (state: State) => state.showTemplateForm;
 export const getSavingProjectTemplate = (state: State) => state.saving;
 export const getErrorMessage = (state: State) => state.errorMessage;
-export const getTemplateFieldsAsync = (state: State) => state.templateFields;
+export const getTemplateFieldsAsync = (state: State) => generateDefaultAsyncStateObj<ProjectTemplateFields>(buildTemplateObjectFromState(state));
 export const getProjectTemplateId = (state: State) => state.projectTemplateId;
+
+function buildTemplateObjectFromState(state: State): ProjectTemplateFields {
+  return {
+    ProjectTemplateId: state.projectTemplateId,
+    TemplateName: state.templateName,
+    Fields: {
+      TemplateFields: state.projectFields?.obj?.TemplateFields,
+      ReferencePoints: state.projectFields?.obj?.ReferencePoints
+    }
+  };
+}

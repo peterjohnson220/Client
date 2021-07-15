@@ -16,6 +16,7 @@ import { ProjectTemplateManagementEffects } from './effects/project-template-man
 import { reducers } from './reducers';
 import { ProjectTemplateManagementComponent, ProjectTemplateFieldsComponent } from './containers';
 import * as fromFaIcons from './fa-icons';
+import { SelectAllStatusPipe } from './pipes';
 
 @NgModule({
   imports: [
@@ -37,7 +38,9 @@ import * as fromFaIcons from './fa-icons';
   declarations: [
     // Feature
     ProjectTemplateManagementComponent,
-    ProjectTemplateFieldsComponent
+    ProjectTemplateFieldsComponent,
+    SelectAllStatusPipe,
+    SelectAllStatusPipe
   ],
   exports: [
     ProjectTemplateManagementComponent,

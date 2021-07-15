@@ -7,6 +7,8 @@ export const GET_PRICING_PROJECT_SUCCESS = '[Pricing Project Page] Get Pricing P
 export const QUEUE_PRICING_PROJECT_EXPORT = '[Pricing Project Page] Queue Pricing Project Export';
 export const QUEUE_PRICING_PROJECT_EXPORT_SUCCESS = '[Pricing Project Page] Queue Pricing Project Export Success';
 export const QUEUE_PRICING_PROJECT_EXPORT_ERROR = '[Pricing Project Page] Queue Pricing Project Export Error';
+export const GET_PROJECT_FIELDS_FOR_COLUMN_CHOOSER = '[Pricing Project Page] Get Project Fields for Column Chooser';
+export const GET_PROJECT_FIELDS_SUCCESS = '[Pricing Project Page] Get Project Fields Success';
 
 
 export class GetPricingProject implements Action {
@@ -37,9 +39,18 @@ export class QueuePricingProjectExportError implements Action {
   }
 }
 
+export class GetProjectFieldsForColumnChooser implements Action {
+  readonly type = GET_PROJECT_FIELDS_FOR_COLUMN_CHOOSER;
+  constructor(public payload: {
+    ProjectId: number,
+    PageViewId: string
+  }) {}
+}
+
 export type PricingProjectPageActions
   = GetPricingProject
   | GetPricingProjectSuccess
   | QueuePricingProjectExport
   | QueuePricingProjectExportSuccess
-  | QueuePricingProjectExportError;
+  | QueuePricingProjectExportError
+  | GetProjectFieldsForColumnChooser;

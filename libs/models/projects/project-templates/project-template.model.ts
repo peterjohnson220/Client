@@ -4,16 +4,28 @@ export interface ProjectTemplate {
 }
 
 export interface ProjectTemplateFields extends ProjectTemplate {
+  Fields: BaseProjectFields;
+}
+
+export interface BaseProjectFields {
+  ReferencePoints: number[];
+  TemplateFields: CompositeFieldHierarchy[];
+}
+
+export interface GetProjectTemplateFieldsResponse {
+  TemplateName: string;
   ReferencePoints: number[];
   TemplateFields: CompositeFieldHierarchy[];
 }
 
 export function generateMockProjectTemplateFields(): ProjectTemplateFields {
   return {
-    ReferencePoints: [],
-    TemplateFields: [generateMockCompositeFieldHierarchy()],
     ProjectTemplateId: 1,
-    TemplateName: 'Something'
+    TemplateName: 'Something',
+    Fields: {
+      ReferencePoints: [],
+      TemplateFields: [generateMockCompositeFieldHierarchy()]
+    }
   };
 }
 export interface CompositeFieldHierarchy {

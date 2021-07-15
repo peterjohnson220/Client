@@ -10,6 +10,7 @@ import { ProjectListTooltipRequest, ProjectListTooltipResponse } from 'libs/mode
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 import { ProjectExportRequest } from '../../../models/projects/project-export-manager/project-export-request.model';
+import { BaseProjectFields, CompositeFieldHierarchy } from '../../../models';
 
 
 @Injectable({
@@ -48,6 +49,10 @@ export class PricingProjectApiService {
 
   getTooltipContent(request: ProjectListTooltipRequest): Observable<ProjectListTooltipResponse> {
     return this.payfactorsApiService.post(`${this.endpoint}/GetTooltipContent`, request);
+  }
+
+  getProjectFieldsForColumnChooser(payload: {ProjectId: number, PageViewId: string}): Observable<CompositeFieldHierarchy[]> {
+    return this.payfactorsApiService.get(`${this.endpoint}/GetProjectFieldsForColumnChooser?projectId=${payload.ProjectId}&pageViewId=${payload.PageViewId}`);
   }
 }
 
