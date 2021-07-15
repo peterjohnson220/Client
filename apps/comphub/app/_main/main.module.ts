@@ -15,7 +15,6 @@ import {
   NgbProgressbarModule,
   NgbTooltipModule
 } from '@ng-bootstrap/ng-bootstrap';
-import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 
 import { PfCommonModule, WindowCommunicationService } from 'libs/core';
@@ -28,17 +27,17 @@ import { DojGuidelinesService } from 'libs/features/peer/guidelines-badge/servic
 import { BasicDataGridModule } from 'libs/features/grids/basic-data-grid';
 
 import {
-  ComphubPageComponent, JobsCardComponent, MarketsCardComponent,
+  ComphubPageComponent, JobsCardComponent,
   SummaryCardComponent, PeerDataCardComponent, ParentDataCardComponent, QuickPriceHistoryComponent,
-  ComphubFooterComponent, MarketDataJobResultsComponent, PeerJobResultsComponent, QuickPriceLandingPageComponent
+  ComphubFooterComponent, MarketDataJobResultsComponent, PeerJobResultsComponent, QuickPriceLandingPageComponent,
+  JobsCardWrapperComponent
 } from './containers';
 import { QuickPriceHistoryEffects } from './effects';
 import { reducers } from './reducers';
-import { TrendingJobGroupComponent, CardComponent, PaymarketCardsComponent, AddPayMarketFormComponent, SalaryBarChartComponent,
+import { TrendingJobGroupComponent, CardComponent, SalaryBarChartComponent,
   SalaryTrendChartComponent, SharePricingSummaryModalComponent, GlossaryOfTermsComponent, JobsGridContentComponent } from './components';
 import { MainRoutingModule } from './main-routing.module';
 import * as fromFaIcons from './fa-icons';
-import { JobsCardWrapperComponent } from './containers/wrappers/jobs-card-wrapper/jobs-card-wrapper.component';
 import { SharedModule } from '../_shared/shared.module';
 
 @NgModule({
@@ -53,7 +52,6 @@ import { SharedModule } from '../_shared/shared.module';
         EffectsModule.forFeature([
             QuickPriceHistoryEffects
         ]),
-        PerfectScrollbarModule,
         PDFExportModule,
         FontAwesomeModule,
 
@@ -82,7 +80,6 @@ import { SharedModule } from '../_shared/shared.module';
     // Components
     TrendingJobGroupComponent,
     CardComponent,
-    AddPayMarketFormComponent,
     SalaryBarChartComponent,
     SalaryTrendChartComponent,
     SharePricingSummaryModalComponent,
@@ -91,9 +88,7 @@ import { SharedModule } from '../_shared/shared.module';
     // Pages
     ComphubPageComponent,
     JobsCardComponent,
-    MarketsCardComponent,
     SummaryCardComponent,
-    PaymarketCardsComponent,
     PeerDataCardComponent,
     ParentDataCardComponent,
     QuickPriceHistoryComponent,
@@ -113,7 +108,6 @@ import { SharedModule } from '../_shared/shared.module';
   exports: [
     JobsCardWrapperComponent,
     ComphubFooterComponent,
-    MarketsCardComponent,
     QuickPriceLandingPageComponent,
   ]
 })
