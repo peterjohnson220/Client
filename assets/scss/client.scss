@@ -14,3 +14,10 @@
 @import 'kendo-overrides';
 @import 'toastr-overrides';
 @import 'buttons';
+
+// TODO: remove these rules when `payscale-branding` feature flag is deprecated
+html.payscale-rebrand {
+  nav.navbar {
+    background: linear-gradient(90deg, #3880EE 0%, #2E0B96 100%);
+  }
+}
