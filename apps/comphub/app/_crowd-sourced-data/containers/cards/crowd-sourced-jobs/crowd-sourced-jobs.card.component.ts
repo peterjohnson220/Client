@@ -42,8 +42,11 @@ export class CrowdSourcedJobsCardComponent implements OnInit, OnDestroy {
 
   handleJobSearchValueChanged(searchTerm: string): void {
     if (searchTerm?.length > 0) {
-      this.store.dispatch(new fromJobsCardActions.SetSelectedJob({ jobTitle: searchTerm }));
-      this.store.dispatch(new fromJobGridActions.SearchCrowdSourcedJobsByTitle(searchTerm));
+      // We want to search crowd sourced jobs only when user has entered at least 2 characters
+      if (searchTerm.length > 1) {
+        this.store.dispatch(new fromJobsCardActions.SetSelectedJob({jobTitle: searchTerm}));
+        this.store.dispatch(new fromJobGridActions.SearchCrowdSourcedJobsByTitle(searchTerm));
+      }
     } else if (this.selectedJob) {
       this.store.dispatch(new fromJobsCardActions.ClearSelectedJob());
     }
