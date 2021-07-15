@@ -293,6 +293,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       } else {
         this.AddAndSetSelectedConfig(this.configGroupSeed);
         this.SetDefaultValuesForNullConfig();
+        this.configGroupId = undefined; 
       }
 
       this.mainStore.dispatch(new fromEmailRecipientsActions.LoadEmailRecipients({
