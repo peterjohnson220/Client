@@ -10,19 +10,29 @@
     </div>
 
   </div>
-  <div class="card-body">
 
-    <h4 *ngIf="!isCompanyChartType" class="mb-2">
+  <div class="p-2">
+    <h4 *ngIf="!isCompanyChartType" class="mb-2 p-2">
       {{ (detailChartCategory$ | async)}}
     </h4>
 
+    <pf-input-debounce
+      [delay]="200"
+      [disabled]="false"
+      [placeholderText]="'Search for a Company...'"
+      (valueChanged)="handleSearchValueChanged($event)"
+      [resetValue$]="clearSearch$"    >
+    </pf-input-debounce>
+  </div>
+
+  <div class="card-body">
     <ng-container
       *ngIf="(loadingDetailChartItems$ | async) || (detailChartItems$ | async)?.length > 0; else noDetailChartItems">
       <pf-async-container
         [loading]="loadingDetailChartItems$ | async"
         [loadingError]="loadingDetailChartItemsError$ | async"
         [loadingErrorMessage]="'Error loading participating companies.'">
-        <div class="detail-item pt-2 pb-2" *ngFor="let chartItem of (detailChartItems$ | async)">
+        <div class="detail-item pt-2 pb-2" *ngFor="let chartItem of filteredChartItems">
           <pf-entity-description-popover
             [entityType]="getEntityType()"
             [entityName]="chartItem.Category"

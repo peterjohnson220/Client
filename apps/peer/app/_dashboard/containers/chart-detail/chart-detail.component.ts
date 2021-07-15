@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 
 import { ChartItem, ExchangeChartTypeEnum } from 'libs/models';
 import { EntityDescriptionTypeEnum } from 'libs/models/entity-description/entity-description-type.enum';
@@ -23,9 +23,16 @@ export class ChartDetailComponent implements OnInit, OnDestroy {
 
   detailChartTypeSubscription: Subscription;
   detailChartCategorySubscription: Subscription;
+  detailChartItemsSubscription: Subscription;
 
   detailChartType: ExchangeChartTypeEnum;
   detailChartCategory: ExchangeChartTypeEnum;
+
+  detailChartItems: ChartItem[];
+  filteredChartItems: ChartItem[];
+
+  clearSearch = new BehaviorSubject<boolean>(false);
+  clearSearch$ = this.clearSearch.asObservable();
 
   constructor(
     private store: Store<fromPeerDashboardReducer.State>
@@ -67,11 +74,17 @@ export class ChartDetailComponent implements OnInit, OnDestroy {
     this.detailChartCategorySubscription = this.detailChartCategory$.subscribe(cc => {
       this.detailChartCategory = cc as ExchangeChartTypeEnum;
     });
+    this.detailChartItemsSubscription = this.detailChartItems$.subscribe( i => {
+      this.detailChartItems = i;
+      this.filteredChartItems = i;
+      this.clearSearch.next(true);
+    });
   }
 
   ngOnDestroy(): void {
     this.detailChartTypeSubscription.unsubscribe();
     this.detailChartCategorySubscription.unsubscribe();
+    this.detailChartItemsSubscription.unsubscribe();
   }
 
   getEntityType() {
@@ -80,5 +93,9 @@ export class ChartDetailComponent implements OnInit, OnDestroy {
     } else {
       return EntityDescriptionTypeEnum.Company;
     }
+  }
+
+  handleSearchValueChanged($event: string) {
+    this.filteredChartItems = this.detailChartItems.filter(x => x.Category.toLowerCase().indexOf($event.toLowerCase()) > -1);
   }
 }
