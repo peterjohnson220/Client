@@ -13,6 +13,7 @@ import * as fromJobDescriptionLibraryReducer from './job-description-library.red
 import * as fromSharedWorkflowReducer from './shared-workflow.reducer';
 import * as fromWorkflowConfigReducer from './workflow-config.reducer';
 import * as fromCompanyLogoReducer from './company-logo.reducer';
+import * as fromJobDescriptionNavigationReducer from './job-description-navigation.reducer';
 
 // Feature area state
 export interface JobDescriptionManagementSharedState {
@@ -25,6 +26,7 @@ export interface JobDescriptionManagementSharedState {
   sharedWorkflow: fromSharedWorkflowReducer.State;
   workflowConfig: fromWorkflowConfigReducer.State;
   companyLogo: fromCompanyLogoReducer.State;
+  jobDescriptionNavigation: fromJobDescriptionNavigationReducer.State;
 }
 
 // Extend root state with feature area state
@@ -42,7 +44,8 @@ export const reducers = {
   jobDescriptionLibrary: fromJobDescriptionLibraryReducer.reducer,
   sharedWorkflow: fromSharedWorkflowReducer.reducer,
   workflowConfig: fromWorkflowConfigReducer.reducer,
-  companyLogo: fromCompanyLogoReducer.reducer
+  companyLogo: fromCompanyLogoReducer.reducer,
+  jobDescriptionNavigation: fromJobDescriptionNavigationReducer.reducer
 };
 
 // Select Feature Area
@@ -93,6 +96,17 @@ export const selectWorkflowConfigState = createSelector(
 export const selectCompanyLogoState = createSelector(
   selectFeatureAreaState,
   (state: JobDescriptionManagementSharedState) => state.companyLogo
+);
+
+export const selectJobDescriptionNavigationState = createSelector(
+  selectFeatureAreaState,
+  (state: JobDescriptionManagementSharedState) => state.jobDescriptionNavigation
+);
+
+// Job Description Navigation
+export const getNavigatedToSettings = createSelector(
+  selectJobDescriptionNavigationState,
+  fromJobDescriptionNavigationReducer.getNavigatedToSettings
 );
 
 // Company Logo

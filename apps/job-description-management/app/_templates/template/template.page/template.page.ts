@@ -284,6 +284,7 @@ export class TemplatePageComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   handleExportSettingsClick() {
+    this.store.dispatch(new fromJdmSharedActions.NavigateToSettingsFromTemplate(this.template.TemplateId));
     this.router.navigate(['settings/job-description-views'], { queryParams: { templateId: this.template.TemplateId } });
   }
 
