@@ -20,13 +20,20 @@ export class MarketDataConfig {
       SortDirection: 'desc'
     },
     {
+      EntitySourceName: 'CompanyJobs_PricingsMatches',
+      SourceName: 'Create_Date',
+      DisplayName: 'Create Date',
+      DataType: DataViewFieldDataType.DateTime,
+      KendoGridField: 'CompanyJobs_PricingsMatches_Create_Date',
+      SortOrder: 1,
+      SortDirection: 'desc'
+    },
+    {
       EntitySourceName: 'vw_PricingMatchesJobTitlesMerged',
       SourceName: 'Job_Title',
       DisplayName: 'Job Title',
       DataType: DataViewFieldDataType.String,
-      KendoGridField: 'vw_PricingMatchesJobTitlesMerged_Job_Title',
-      SortOrder: 1,
-      SortDirection: 'asc'
+      KendoGridField: 'vw_PricingMatchesJobTitlesMerged_Job_Title'
     },
     {
       EntitySourceName: 'vw_PricingMatchesJobTitlesMerged',
