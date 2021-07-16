@@ -23,6 +23,7 @@ export interface JobData {
   ShowJd: boolean;
   Loading?: boolean;
   ExchangeName?: string;
+  Tasks?: string[];
   EffectiveDate?: Date;
   PayMarket?: PricingPaymarket;
 }

@@ -26,21 +26,13 @@
         class="job-row"
         [class.selected]="job.JobTitle === selectedJobData?.JobTitle">
 
-      <td class="expand-caret" (click)="handleExpandJdClicked($event, job.JobId)">
+      <td class="expand-caret" (click)="handleExpandJobTasks($event, job.JobTitle)">
         <fa-icon *ngIf="!job.ShowJd" icon="caret-right"></fa-icon>
         <fa-icon *ngIf="job.ShowJd" icon="caret-down"></fa-icon>
       </td>
 
       <td class="text-column job-title-column" title="{{job.JobTitle}}">
         {{job.JobTitle}}
-      </td>
-
-      <td class="education-column hide-when-small" title="{{job.Education}}">
-        {{job.Education}}
-      </td>
-
-      <td class="hide-when-small">
-        {{job.ManagesEmployees ? 'Yes': 'No'}}
       </td>
 
       <td *ngIf="gridHasData" class="number-column">
@@ -73,8 +65,13 @@
       </td>
     </tr>
     <tr *ngIf="job.ShowJd" class="jd-row">
-      <td [attr.colspan]="gridColumnsConfiguration.length + 1"
-          [innerHTML]="job.JobDescription | jobDescriptionParser">
+      <td [attr.colspan]="gridColumnsConfiguration.length + 1">
+        <h6><b>Common Tasks</b></h6>
+        <ul>
+          <li *ngFor="let task of job.Tasks">
+            <span>{{task}}</span>
+          </li>
+        </ul>
       </td>
     </tr>
   </ng-container>

@@ -18,7 +18,7 @@
       [loading]="(jobResultsLoading$ | async)"
       [gridContext]="gridContext"
       (selectionChanged)="handleSelectionChanged($event)"
-      (jobDescriptionToggled)="handleExpandJdClicked($event)">
+      (jobTasksToggled)="handleExpandJobTasks($event)">
     </pf-crowd-sourced-job-grid-content>
   </ng-container>
 </pf-comphub-job-grid>

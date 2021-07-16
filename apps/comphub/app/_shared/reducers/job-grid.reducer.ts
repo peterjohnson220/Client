@@ -88,6 +88,16 @@ export function reducer(state: State = initialState, action: fromJobGridActions.
         jobResults: jobResults
       };
     }
+    case fromJobGridActions.TOGGLE_CROWD_SOURCED_TASKS: {
+      const newJobResults = cloneDeep(state.jobResults);
+      const jobToShowJd = newJobResults.Data.find(jr => jr.JobTitle === action.payload.jobTitle);
+      jobToShowJd.ShowJd = !jobToShowJd.ShowJd;
+
+      return {
+        ...state,
+        jobResults: newJobResults
+      };
+    }
     default: {
       return state;
     }

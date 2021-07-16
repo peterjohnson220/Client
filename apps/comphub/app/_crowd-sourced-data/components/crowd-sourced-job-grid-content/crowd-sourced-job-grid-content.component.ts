@@ -20,7 +20,7 @@ export class CrowdSourcedJobGridContentComponent {
   @Input() gridContext: any;
 
   @Output() selectionChanged: EventEmitter<JobData> = new EventEmitter();
-  @Output() jobDescriptionToggled: EventEmitter<number> = new EventEmitter();
+  @Output() jobTasksToggled: EventEmitter<string> = new EventEmitter();
 
   constructor() { }
 
@@ -28,9 +28,9 @@ export class CrowdSourcedJobGridContentComponent {
     this.selectionChanged.emit(job);
   }
 
-  handleExpandJdClicked(clickEvent: MouseEvent, jobId: number) {
+  handleExpandJobTasks(clickEvent: MouseEvent, jobTitle: string) {
     clickEvent.stopPropagation();
-    this.jobDescriptionToggled.emit(jobId);
+    this.jobTasksToggled.emit(jobTitle);
   }
 
   trackByFn(index: number, job: JobData) {
