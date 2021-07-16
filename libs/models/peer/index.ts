@@ -37,3 +37,4 @@ export * from './tag-information.model';
 export * from './tag-category-data-type.enum';
 export * from './exchange-data-search-filter-context.model';
 export * from './paymarket-context.model';
+export * from './relational-exchange-job-result.model';

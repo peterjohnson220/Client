@@ -146,11 +146,10 @@ export class ExchangeExplorerComponent extends SearchBaseDirective {
     this.companyPayMarketId = payload.companyPayMarketId;
     if (payload.isExchangeSpecific) {
       this.exchangeId = payload.exchangeId;
-      if (!!payload.exchangeJobId) {
-        this.exchangeJobId = payload.exchangeJobId;
+      if (!!payload.exchangeJobIds) {
         const request: ComphubExchangeExplorerContextRequest = {
           ExchangeId : payload.exchangeId,
-          ExchangeJobId : payload.exchangeJobId,
+          ExchangeJobIds : payload.exchangeJobIds,
           CompanyPayMarketId : payload.companyPayMarketId
         };
         this.store.dispatch(new fromExchangeExplorerContextInfoActions.LoadContextInfo(request));

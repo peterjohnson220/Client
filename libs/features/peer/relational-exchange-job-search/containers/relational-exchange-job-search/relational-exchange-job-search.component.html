@@ -1,0 +1,56 @@
+<div class="d-flex h-100">
+  <div class="flex-grow-1">
+    <pf-async-container [loading]="(resultsLoading$ | async)"
+                        [loadingError]="(resultsLoadingError$ | async)">
+      <pf-search-layout [countLabel]="'Exchange Jobs'" [resultsCount]="numberOfResults$ | async" class="h-100">
+
+        <ng-container sidebar>
+          <pf-search-filters
+            [defaultFocusedFilterId]="'peerHistoryTrendsOmniSearch'"
+            [visible]="!(searchingFilter$ | async)">
+          </pf-search-filters>
+
+          <pf-single-filter
+            *ngIf="!!(searchingFilter$ | async)">
+          </pf-single-filter>
+        </ng-container>
+
+        <ng-container content>
+          <pf-results-header class="position-relative" [savedFiltersEnabled]="true"></pf-results-header>
+          <pf-relational-exchange-job-search-results class="position-relative h-100"></pf-relational-exchange-job-search-results>
+        </ng-container>
+
+      </pf-search-layout>
+    </pf-async-container>
+
+  </div>
+
+  <div class="card ml-2">
+    <div class="card-header">
+      Exchange Job Selections
+      <button class="btn btn-sm btn-secondary m-2 clear-selections position-absolute"
+              [disabled]="selectedExchangeJobCount === 0"
+              (click)="handleClearSelectedExchangeJobs()">
+        Clear Selections
+      </button>
+    </div>
+    <div class="card-body">
+      <p class="card-text">At least one exchange job selection is required. Click the jobs below to unselect them.</p>
+      <ul class="list-group">
+        <li *ngFor="let selectedExchangeJob of selectedExchangeJobs$ | async; trackBy: trackSelectedExchangeJobsBy;"
+            class="list-group-item">
+          <div class="d-flex justify-content-between"
+               title="Click to remove selection"
+               (click)="handleRemoveSelectedExchangeJob(selectedExchangeJob)">
+            {{selectedExchangeJob.ExchangeJobTitle}}
+            <fa-icon icon="times" size="lg" class="pf-secondary-color"></fa-icon>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="card-footer text-muted text-align-right">
+      {{selectedExchangeJobCount + '/100'}}
+    </div>
+  </div>
+
+</div>

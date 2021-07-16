@@ -6,6 +6,7 @@ import { Observable, Subscription } from 'rxjs';
 import { UpsertExchangeJobMapRequest } from 'libs/models/peer/requests/upsert-exchange-job-map.request.model';
 import { CompanyJob } from 'libs/features/peer/job-association/models/company-job.model';
 import { ExchangeJob } from 'libs/features/peer/job-association/models/exchange-job.model';
+import * as fromNationalAverageActions from 'libs/features/peer/national-average/actions/national-average.actions';
 
 import * as companyJobsActions from '../../actions/company-jobs.actions';
 import * as companyJobsReducer from '../../reducers';
@@ -52,6 +53,10 @@ export class ExchangeJobSearchComponent implements OnInit, OnDestroy {
 
     this.allSubscriptions.add(this.store.pipe(select(companyJobsReducer.getCompanyJobsExchangeJobsDescriptionSearchTerm)).subscribe(
       descriptionSearchTerm => this.descriptionSearchTerm = descriptionSearchTerm));
+
+    this.allSubscriptions.add(this.exchangeJobs$.subscribe(jobs => {
+      this.store.dispatch(new fromNationalAverageActions.GetNationalAveragesForExchangeJobs(jobs.map(j => j.ExchangeJobId)));
+    }));
   }
 
   ngOnDestroy() {

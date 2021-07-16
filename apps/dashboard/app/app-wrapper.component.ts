@@ -8,7 +8,6 @@ import { UserContext } from 'libs/models/security';
 import { LegacyCompanySettingDto } from 'libs/models/company';
 import { FeatureAreaConstants, GenericNameValueDto, SaveUiPersistenceSettingRequest, UiPersistenceSettingConstants } from 'libs/models/common';
 import { SettingsService } from 'libs/state/app-context/services';
-import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
 
 import { FeatureTypes, Feature } from './_main/models';
 import * as fromFeatureReducer from './_main/reducers';
@@ -27,7 +26,6 @@ export class AppWrapperComponent implements OnInit, OnDestroy {
   displayRightSideBar: boolean;
   isRightSidebarOpen: boolean;
   rightSideBarOpenIcon = 'comments';
-  userNotificationsFeatureFlag: RealTimeFlag = { key: FeatureFlags.UserNotifications, value: false };
   unsubscribe$ = new Subject<void>();
 
   featureSubscription: any;
@@ -35,13 +33,11 @@ export class AppWrapperComponent implements OnInit, OnDestroy {
   uiPersistenceSubscription: any;
 
   constructor(private store: Store<fromFeatureReducer.State>,
-              private settingsService: SettingsService,
-              private featureFlagService: AbstractFeatureFlagService) {
+              private settingsService: SettingsService) {
     this.userContext$ = store.pipe(select(fromRootState.getUserContext));
     this.legacyCompanySettings$ = store.pipe(select(fromRootState.getLegacyCompanySettings));
     this.uiPersistenceSettings$ = settingsService.selectUiPersistenceFeatureSettings(FeatureAreaConstants.Dashboard);
     this.features$ = this.store.pipe(select(fromFeatureReducer.getFeatures));
-    this.featureFlagService.bindEnabled(this.userNotificationsFeatureFlag, this.unsubscribe$);
   }
 
   static ShouldDisplayDrift(companySettings: LegacyCompanySettingDto[]): boolean {
