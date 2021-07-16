@@ -16,6 +16,7 @@ export const SEARCH_CROWD_SOURCED_JOBS_BY_TITLE_ERROR = '[Comphub/Crowd Sourced 
 export const GET_CROWD_SOURCED_JOB_PRICING = '[Comphub/Crowd Sourced Page] Get Crowd Sourced Job Pricing';
 export const GET_CROWD_SOURCED_JOB_PRICING_SUCCESS = '[Comphub/Crowd Sourced Page] Get Crowd Sourced Job Pricing Success';
 export const GET_CROWD_SOURCED_JOB_PRICING_ERROR = '[Comphub/Crowd Sourced Page] Get Crowd Sourced Job Pricing Error';
+export const TOGGLE_CROWD_SOURCED_TASKS = '[Comphub/ Crowd Sourced Page] Toggle Crowd Sourced Tasks';
 
 export class GetQuickPriceMarketData implements Action {
   readonly type = GET_QUICK_PRICE_MARKET_DATA;
@@ -84,6 +85,12 @@ export class GetCrowdSourcedJobPricingError implements Action {
   constructor() {}
 }
 
+export class ToggleCrowdSourcedTasks implements Action {
+  readonly type = TOGGLE_CROWD_SOURCED_TASKS;
+
+  constructor(public payload: {jobTitle: string}) {}
+}
+
 export type Actions
   = GetQuickPriceMarketData
   | GetQuickPriceDataSuccess
@@ -96,4 +103,5 @@ export type Actions
   | SearchCrowdSourcedJobsByTitleError
   | GetCrowdSourcedJobPricing
   | GetCrowdSourcedJobPricingSuccess
-  | GetCrowdSourcedJobPricingError;
+  | GetCrowdSourcedJobPricingError
+  | ToggleCrowdSourcedTasks;

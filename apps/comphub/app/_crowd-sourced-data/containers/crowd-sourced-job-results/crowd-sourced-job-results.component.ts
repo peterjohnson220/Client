@@ -7,6 +7,7 @@ import { QuickPriceType } from 'libs/constants';
 import { AbstractJobGrid } from '../../../_shared/containers/job-grid/shared-job-grid';
 import { QuickPriceGridColumn, QuickPriceGridColumnConfiguration } from '../../../_shared/models';
 import * as fromComphubSharedReducer from '../../../_shared/reducers';
+import * as fromJobGridActions from '../../../_shared/actions/job-grid.actions';
 
 @Component({
   selector: 'pf-crowd-sourced-job-results',
@@ -28,6 +29,10 @@ export class CrowdSourcedJobResultsComponent extends AbstractJobGrid implements 
       take: this.pageSize,
       sortBy: null
     };
+  }
+
+  handleExpandJobTasks(jobTitle: string) {
+    this.store.dispatch(new fromJobGridActions.ToggleCrowdSourcedTasks({ jobTitle }));
   }
 
   ngOnInit(): void {

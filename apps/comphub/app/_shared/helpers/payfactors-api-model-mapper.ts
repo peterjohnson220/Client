@@ -159,6 +159,7 @@ export class PayfactorsApiModelMapper {
     const data = response.Jobs.map(csjd => {
       return {
         JobTitle: csjd.JobTitle,
+        Tasks: csjd.Tasks,
         JobId: null,
         JobCode: null,
         JobDescription: null,

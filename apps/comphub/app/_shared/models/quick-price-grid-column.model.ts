@@ -78,8 +78,6 @@ export class QuickPriceGridColumnConfiguration {
       case QuickPriceType.CROWD_SOURCED_DATA: {
         return [
           {...this.jobTitle, IsSortable: false},
-          {...this.education, IsSortable: false},
-          {...this.manages, IsSortable: false},
           this.marketRange,
           this.action
         ];
