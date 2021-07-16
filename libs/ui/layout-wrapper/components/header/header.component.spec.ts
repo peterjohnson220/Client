@@ -2,6 +2,7 @@ import { Component, NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 
 import { generateMockUserContext, generateMockNavigationLink, generateMocKHomePageLink} from 'libs/models';
+import { AbstractFeatureFlagService } from 'libs/core';
 
 import { HeaderComponent } from './header.component';
 
@@ -14,6 +15,12 @@ describe('User Menu', () => {
     TestBed.configureTestingModule({
       declarations: [
         HeaderComponent
+      ],
+      providers: [
+        {
+          provide: AbstractFeatureFlagService,
+          useValue: { bindEnabled: jest.fn() },
+        }
       ],
       // Shallow Testing
       schemas: [ NO_ERRORS_SCHEMA ]

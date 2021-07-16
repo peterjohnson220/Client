@@ -1,0 +1,25 @@
+@import 'common/common';
+
+.custom-radio .custom-control-input:checked ~ .custom-control-label::after {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3E%3Ccircle r='2' fill='%230883BE'/%3E%3C/svg%3E");
+  background-size: 100%;
+  margin-top: 0.1rem;
+}
+
+.custom-radio .custom-control-input ~ .custom-control-label::before {
+  transform: scale(1.1);
+  cursor: pointer;
+  border: #ccc solid 1px;
+  background-color: white;
+  margin-top: 0.1rem;
+}
+
+.custom-control-input:focus ~ .custom-control-label::before {
+  box-shadow: none;
+}
+
+.custom-control-label {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 21px;
+}

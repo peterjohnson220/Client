@@ -7,7 +7,8 @@ import { DragulaService } from 'ng2-dragula';
 import * as autoScroll from 'dom-autoscroller';
 
 import { JobMatchCut } from 'libs/models/payfactors-api';
-import {DataCutDetails, PricingMatchDataSearchContext} from 'libs/features/surveys/survey-search/models';
+import { DataCutDetails, PricingMatchDataSearchContext } from 'libs/features/surveys/survey-search/models';
+import { TempDataCutService } from 'libs/features/temp-data-cut/services';
 import * as fromSurveySearchReducer from 'libs/features/surveys/survey-search/reducers';
 import * as fromSurveySearchResultsActions from 'libs/features/surveys/survey-search/actions/survey-search-results.actions';
 
@@ -16,8 +17,7 @@ import * as fromMultiMatchReducer from '../../reducers';
 import * as fromJobsToPriceActions from '../../actions/jobs-to-price.actions';
 
 import { JobToPrice } from '../../models';
-import { LEGACY_PROJECTS, MODIFY_PRICINGS } from '../../constants';
-import { TempDataCutService } from '../../../../temp-data-cut/services';
+import { MultiMatchFeatureImplementations } from '../../constants';
 
 @Component({
   selector: 'pf-jobs-to-price-container',
@@ -26,7 +26,7 @@ import { TempDataCutService } from '../../../../temp-data-cut/services';
 })
 export class JobsToPriceContainerComponent implements OnDestroy {
   @ViewChildren(JobToPriceComponent) jobsToPriceComponents !: QueryList<JobToPriceComponent>;
-  @Input() featureImplementation = LEGACY_PROJECTS;
+  @Input() featureImplementation = MultiMatchFeatureImplementations.LEGACY_PROJECTS;
 
   // Observables
   jobsToPrice$: Observable<JobToPrice[]>;
@@ -82,10 +82,8 @@ export class JobsToPriceContainerComponent implements OnDestroy {
       return;
     }
 
-    // TODO: Set feature implementation in the state, refactor this to the effect and let the effect make the right API calls
-    // Will handle as part of ENG-319
     switch (this.featureImplementation) {
-      case MODIFY_PRICINGS:
+      case MultiMatchFeatureImplementations.MODIFY_PRICINGS:
         let rate;
         this.pricingMatchDataSearchContext$.subscribe(x => {
           rate = x.Rate;

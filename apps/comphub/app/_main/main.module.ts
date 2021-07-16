@@ -43,6 +43,7 @@ import {
   JobGridComponent,
   MarketDataJobGridComponent,
   PeerJobGridComponent,
+  QuickPriceLandingPageComponent,
   TrendsPageComponent,
   TrendsLandingCardComponent,
   TrendsSummaryCardComponent,
@@ -50,7 +51,7 @@ import {
   TrendsJobsCardComponent,
   QuickPricePageComponent,
   SavePeerTrendModalComponent,
-  PeerTrendGridComponent,
+  PeerTrendGridComponent
 } from './containers';
 import {
   JobsCardEffects, MarketsCardEffects, AddPayMarketFormEffects, DataCardEffects, ComphubPageEffects,
@@ -61,6 +62,7 @@ import { TrendingJobGroupComponent, CardComponent, PaymarketCardsComponent, AddP
   SalaryTrendChartComponent, SharePricingSummaryModalComponent, GlossaryOfTermsComponent, NewExchangeParticipantsComponent } from './components';
 import { MainRoutingModule } from './main-routing.module';
 import * as fromFaIcons from './fa-icons';
+import { JobsCardWrapperComponent } from './containers/wrappers/jobs-card-wrapper/jobs-card-wrapper.component';
 import { HistoricalTrendChartComponent } from './components/salary-trend-chart/historical-trend-chart/historical-trend-chart.component';
 import { HistoricalOrgIncCountChartComponent } from './components/salary-trend-chart/historical-org-inc-count-chart/historical-org-inc-count-chart.component';
 
@@ -140,6 +142,8 @@ import { HistoricalOrgIncCountChartComponent } from './components/salary-trend-c
     JobGridComponent,
     MarketDataJobGridComponent,
     PeerJobGridComponent,
+    JobsCardWrapperComponent,
+    QuickPriceLandingPageComponent,
     TrendsLandingCardComponent,
     TrendsJobsCardComponent,
     TrendsScopesCardComponent,
@@ -156,6 +160,14 @@ import { HistoricalOrgIncCountChartComponent } from './components/salary-trend-c
     DojGuidelinesService,
     PercentPipe,
     HumanizeNumberPipe
+  ],
+  exports: [
+    JobsCardWrapperComponent,
+    ComphubFooterComponent,
+    MarketsCardComponent,
+    QuickPriceLandingPageComponent,
+    JobGridComponent,
+    MarketDataJobGridComponent
   ]
 })
 export class MainModule {

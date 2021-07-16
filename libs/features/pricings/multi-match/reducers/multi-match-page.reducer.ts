@@ -5,12 +5,14 @@ export interface State {
   projectContext: ProjectContext;
   savingChanges: boolean;
   saveChangesError: boolean;
+  showModal: boolean;
 }
 
 const initialState: State = {
   projectContext: null,
   savingChanges: false,
   saveChangesError: false,
+  showModal: false
 };
 
 // Reducer function
@@ -43,6 +45,12 @@ export function reducer(state = initialState, action: fromMultiMatchPageActions.
         saveChangesError: false,
       };
     }
+    case fromMultiMatchPageActions.SET_MULTI_MATCH_MODAL_STATUS: {
+      return {
+        ...state,
+        showModal: action.payload
+      };
+    }
     default: {
       return state;
     }
@@ -53,3 +61,4 @@ export function reducer(state = initialState, action: fromMultiMatchPageActions.
 export const getProjectContext = (state: State) => state.projectContext;
 export const getSavingChanges = (state: State) => state.savingChanges;
 export const getSavingChangesError = (state: State) => state.saveChangesError;
+export const getShowModal = (state: State) => state.showModal;

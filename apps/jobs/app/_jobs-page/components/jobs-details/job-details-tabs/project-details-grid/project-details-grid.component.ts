@@ -71,7 +71,7 @@ export class ProjectDetailsGridComponent implements AfterViewInit, OnDestroy, On
   }
 
   ngOnInit() {
-    this.companyPayMarketsSubscription = this.store.select(fromJobsPageReducer.getCompanyPayMarkets)
+    this.companyPayMarketsSubscription = this.store.select(fromJobsPageReducer.getPayMarketGroupedListItems)
       .subscribe(o => {
         if (!!o) {
           this.payMarketOptions = cloneDeep(o);

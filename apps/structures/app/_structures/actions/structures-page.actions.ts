@@ -1,6 +1,8 @@
 import { Action } from '@ngrx/store';
 
+import { CompanyStructure, StructureForm } from 'libs/models';
 import { KendoTypedDropDownItem } from 'libs/models/kendo';
+import { RangeDistributionType } from 'libs/models/payfactors-api';
 import { PayMarket } from 'libs/models/paymarket';
 
 export const DELETE_STRUCTURE_MODEL = '[Structures / Structures Page] Delete Structure Model';
@@ -14,6 +16,16 @@ export const LOAD_CURRENCIES_ERROR  = '[Structures / Structures Page] Load Curre
 export const LOAD_COMPANY_PAYMARKETS = '[Structures / Structures Page] Load Company Pay Markets';
 export const LOAD_COMPANY_PAYMARKETS_SUCCESS = '[Structures / Structures Page] Load Company Pay Markets Success';
 export const LOAD_COMPANY_PAYMARKETS_ERROR = '[Structures / Structures Page] Load Company Pay Markets Error';
+export const SHOW_STRUCTURE_FORM = '[Structures / Structures Page] Show Structure Form';
+export const CREATE_STRUCTURE = '[Structures / Structures Page] Create Structure';
+export const CREATE_STRUCTURE_SUCCESS = '[Structures / Structures Page] Create Structure Success';
+export const CREATE_STRUCTURE_ERROR = '[Structures / Structures Page] Create Structure Error';
+export const LOAD_COMPANY_STRUCTURES = '[Structures / Structures Page] Load Company Structures';
+export const LOAD_COMPANY_STRUCTURES_SUCCESS = '[Structures / Structures Page] Load Company Structures Success';
+export const LOAD_COMPANY_STRUCTURES_ERROR = '[Structures / Structures Page] Load Company Structures Error';
+export const LOAD_RANGE_DISTRIBUTION_TYPES = '[Structures / Structures Page] Load Range Distribution Types';
+export const LOAD_RANGE_DISTRIBUTION_TYPES_SUCCESS = '[Structures / Structures Page] Load Range Distribution Types Success';
+export const LOAD_RANGE_DISTRIBUTION_TYPES_ERROR = '[Structures / Structures Page] Load Range Distribution Types Error';
 
 export class DeleteStructureModel implements Action {
   readonly type = DELETE_STRUCTURE_MODEL;
@@ -79,6 +91,56 @@ export class LoadCompanyPayMarketsError implements Action {
   constructor() {}
 }
 
+export class ShowStructureForm implements Action {
+  readonly type = SHOW_STRUCTURE_FORM;
+  constructor(public showStructureForm: boolean) {}
+}
+
+export class CreateStructure implements Action {
+  readonly type = CREATE_STRUCTURE;
+  constructor(public payload: StructureForm) {}
+}
+
+export class CreateStructureSuccess implements Action {
+  readonly type = CREATE_STRUCTURE_SUCCESS;
+  constructor(public payload: { rangeType: string, rangeGroupId: number }) {}
+}
+
+export class CreateStructureError implements Action {
+  readonly type = CREATE_STRUCTURE_ERROR;
+  constructor(public payload: { errorMessage: string }) {}
+}
+
+export class LoadCompanyStructures implements Action {
+  readonly type = LOAD_COMPANY_STRUCTURES;
+  constructor() {}
+}
+
+export class LoadCompanyStructuresSuccess implements Action {
+  readonly type = LOAD_COMPANY_STRUCTURES_SUCCESS;
+  constructor(public payload: CompanyStructure[]) {}
+}
+
+export class LoadCompanyStructuresError implements Action {
+  readonly type = LOAD_COMPANY_STRUCTURES_ERROR;
+  constructor() {}
+}
+
+export class LoadRangeDistributionTypes implements Action {
+  readonly type = LOAD_RANGE_DISTRIBUTION_TYPES;
+  constructor() {}
+}
+
+export class LoadRangeDistributionTypesSuccess implements Action {
+  readonly type = LOAD_RANGE_DISTRIBUTION_TYPES_SUCCESS;
+  constructor(public payload: RangeDistributionType[]) {}
+}
+
+export class LoadRangeDistributionTypesError implements Action {
+  readonly type = LOAD_RANGE_DISTRIBUTION_TYPES_ERROR;
+  constructor() {}
+}
+
 export type Actions
   = DeleteStructureModel
   | DeleteStructureModelSuccess
@@ -90,4 +152,14 @@ export type Actions
   | LoadCurrenciesError
   | LoadCompanyPayMarkets
   | LoadCompanyPayMarketsSuccess
-  | LoadCompanyPayMarketsError;
+  | LoadCompanyPayMarketsError
+  | ShowStructureForm
+  | CreateStructure
+  | CreateStructureSuccess
+  | CreateStructureError
+  | LoadCompanyStructures
+  | LoadCompanyStructuresSuccess
+  | LoadCompanyStructuresError
+  | LoadRangeDistributionTypes
+  | LoadRangeDistributionTypesSuccess
+  | LoadRangeDistributionTypesError;
