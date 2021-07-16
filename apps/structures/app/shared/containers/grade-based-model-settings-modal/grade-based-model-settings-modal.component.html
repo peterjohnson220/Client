@@ -1,21 +1,24 @@
 <pf-model-settings-modal
-  *ngIf="modelSettingsForm"
-  [rangeGroupId]="rangeGroupId"
-  [pageViewId]="pageViewId"
+  [modalId]="'grade-based-model-settings-modal'"
+  [metaData]="metaData"
   [modalOpen$]="modalOpen$"
   [modelSettingsForm]="modelSettingsForm"
+  [savingModelSettingsAsyncObj$]="savingModelSettingsAsyncObj$"
   (modalSubmit)="handleModalSubmit()"
-  (modalAttemptedSubmit)="handleModelAttemptedSubmit()"
-  (modalDismissed)="handleModalDismissed()">
+  (modalAttemptedSubmit)="handleModalSubmitAttempt()"
+  (modalDismissed)="handleModalDismiss()">
+
   <ng-container structures-settings-modal-content>
-    <pf-grade-based-model-settings-content
-      [rangeGroupId]="rangeGroupId"
-      [pageViewId]="pageViewId"
-      [modelSettingsForm]="modelSettingsForm"
-      [modalOpen]="modalOpen$ | async"
-      [isNewModel]="isNewModel"
-      [numGrades]="numGrades"
-      (adjustMidpointRadioButtonChanged)="handleAdjustMidpointRadioButtonChanged($event)">
-    </pf-grade-based-model-settings-content>
+    <div>
+      <pf-async-container [loading]="loadingMetaData$ | async"></pf-async-container>
+      <pf-grade-based-model-settings-content
+        [rangeGroupId]="rangeGroupId"
+        [pageViewId]="pageViewId"
+        [isNewModel]="isNewModel"
+        [modelSettingsForm]="modelSettingsForm"
+        [numGrades]="numGrades"
+        (adjustMidpointRadioButtonChanged)="handleAdjustMidpointRadioButtonChanged($event)">
+      </pf-grade-based-model-settings-content>
+    </div>
   </ng-container>
 </pf-model-settings-modal>

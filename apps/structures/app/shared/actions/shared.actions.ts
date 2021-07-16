@@ -261,5 +261,6 @@ export type SharedActions
   | GetCurrentRangeGroupError
   | GetGradeRangeDetails
   | GetGradeRangeDetailsSuccess
-  | GetGradeRangeDetailsError;
+  | GetGradeRangeDetailsError
+  | SetMetadataFromRangeGroupId;
 

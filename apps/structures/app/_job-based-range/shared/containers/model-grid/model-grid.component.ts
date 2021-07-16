@@ -1,5 +1,4 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import cloneDeep from 'lodash/cloneDeep';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
@@ -7,7 +6,6 @@ import { ActionsSubject, select, Store } from '@ngrx/store';
 import { SortDescriptor } from '@progress/kendo-data-query';
 import { ofType } from '@ngrx/effects';
 import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
-import { delay } from 'rxjs/operators';
 
 import {
   ActionBarConfig,
@@ -47,7 +45,6 @@ import * as fromSharedStructuresActions from '../../../../shared/actions/shared.
 import * as fromModelSettingsModalActions from '../../../../shared/actions/model-settings-modal.actions';
 import * as fromJobBasedRangeReducer from '../../reducers';
 import { StructuresPagesService, UrlService } from '../../../../shared/services';
-import { SelectedPeerExchangeModel } from '../../../../shared/models';
 
 @Component({
   selector: 'pf-model-grid',

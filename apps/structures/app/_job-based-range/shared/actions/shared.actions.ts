@@ -12,9 +12,6 @@ export const REMOVING_RANGE_ERROR = '[Structures - Job Based Range - Shared] Rem
 export const CONVERT_CURRENCY_AND_RATE = '[Structures - Job Based Range - Shared] Convert Currency And Rate';
 export const CONVERT_CURRENCY_AND_RATE_SUCCESS = '[Structures - Job Based Range - Shared] Convert Currency And Rate Success';
 export const CONVERT_CURRENCY_AND_RATE_ERROR = '[Structures - Job Based Range - Shared] Convert Currency And Rate Error';
-export const GET_STRUCTURE_HAS_SETTINGS = '[Structures - Job Based Range - Shared] Get Structure Has Settings';
-export const GET_STRUCTURE_HAS_SETTINGS_SUCCESS = '[Structures - Job Based Range - Shared] Get Structure Has Settings Success';
-export const GET_STRUCTURE_HAS_SETTINGS_ERROR = '[Structures - Job Based Range - Shared] Get Structure Has Settings Error';
 
 export class ShowRemoveRangeModal implements Action {
   readonly type = SHOW_REMOVE_RANGE_MODAL;
@@ -58,25 +55,6 @@ export class ConvertCurrencyAndRateError implements Action {
   constructor(public payload: any) {}
 }
 
-export class GetStructureHasSettings implements Action {
-  readonly type = GET_STRUCTURE_HAS_SETTINGS;
-
-  constructor(public payload: GetStructureHasSettingsRequestModel) {}
-}
-
-export class GetStructureHasSettingsSuccess implements Action {
-  readonly type = GET_STRUCTURE_HAS_SETTINGS_SUCCESS;
-
-  constructor(public payload: any) {}
-}
-
-export class GetStructureHasSettingsError implements Action {
-  readonly type = GET_STRUCTURE_HAS_SETTINGS_ERROR;
-
-  constructor(public payload: any) {}
-}
-
-
 export type SharedActions
   = RemovingRange
   | RemovingRangeSuccess
@@ -84,9 +62,6 @@ export type SharedActions
   | ShowRemoveRangeModal
   | ConvertCurrencyAndRate
   | ConvertCurrencyAndRateSuccess
-  | ConvertCurrencyAndRateError
-  | GetStructureHasSettings
-  | GetStructureHasSettingsSuccess
-  | GetStructureHasSettingsError;
+  | ConvertCurrencyAndRateError;
 
 
