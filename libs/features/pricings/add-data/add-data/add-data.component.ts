@@ -70,8 +70,8 @@ export class AddDataComponent extends SearchBaseDirective {
     this.store.dispatch(new fromAddSurveyDataActions.AddData(this.excludeFromParticipation));
   }
   handleCancelClicked() {
-    this.store.dispatch(new fromSearchPageActions.CloseSearchPage());
-    this.store.dispatch(new fromSearchPageActions.Cancel());
+    super.handleCancelClicked();
+    super.resetApp();
     if (this.display === 'modal') {
       this.store.dispatch( new fromAddSurveyDataActions.SetAddDataModalStatus(false));
     }
