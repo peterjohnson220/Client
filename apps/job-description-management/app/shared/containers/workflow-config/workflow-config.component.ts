@@ -30,6 +30,7 @@ import { mapFileInfoToWorkflowAddAttachment } from '../../../_job-description/he
 })
 export class WorkflowConfigComponent implements OnInit, OnDestroy {
   @Input() jobIds: number[];
+  @Input() showAttachmentsUpload = false;
   @Output() onShowNameFormClicked = new EventEmitter<boolean>();
 
   hasForbiddenUsers$: Observable<boolean>;

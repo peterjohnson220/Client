@@ -16,6 +16,7 @@ exports[`WorkflowConfigComponent should show workflow setup modal 1`] = `
   removeAttachmentUrl={[Function String]}
   saveAttachmentUrl={[Function String]}
   sharedJdmStore={[Function Store]}
+  showAttachmentsUpload="false"
   showFileCountWarning="false"
   uploadRestrictions={[Function Object]}
   uploadWidget={[Function ElementRef]}
