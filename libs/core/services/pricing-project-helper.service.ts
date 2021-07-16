@@ -31,9 +31,6 @@ export class PricingProjectHelperService {
   }
 
   SetAddDataModalContext(jobContext: any, searchContext: any) {
-    this.store.dispatch(new fromSearchFiltersActions.RemoveFilters());
-    this.store.dispatch(new fromUserFilterActions.Reset());
-
     this.store.dispatch(new fromSearchFiltersActions.AddFilters(getSearchFilters(this.matchMode)));
     this.store.dispatch(new fromContextActions.SetProjectSearchContext(searchContext));
     this.store.dispatch(new fromContextActions.SetJobContext(jobContext));
