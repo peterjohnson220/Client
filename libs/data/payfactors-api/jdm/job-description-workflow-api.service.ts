@@ -60,4 +60,9 @@ export class JobDescriptionWorkflowApiService {
   deleteWorkflowAttachments(fileNames: string[]) {
     return this.payfactorsApiService.post(`${this.apiUrl}/Default.DeleteWorkflowAttachments`, {fileNames: fileNames});
   }
+
+  GetWorkflowAttachmentFileUrl(fileName: string) {
+    return this.payfactorsApiService.get(`${this.apiUrl}/Default.GetWorkflowAttachmentFileUrl`,
+      { params: { fileName }});
+  }
 }

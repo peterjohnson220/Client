@@ -12,7 +12,6 @@ import { JobDescriptionDataResponse } from 'libs/models/payfactors-api/job-descr
 import * as fromWorkflowActions from '../actions/workflow.actions';
 import * as fromJobDescriptionActions from '../actions/job-description.actions';
 import { PayfactorsApiModelMapper } from 'libs/features/jobs/job-description-management/helpers';
-import { GET_WORKFLOW_STEP_INFO_FROM_TOKEN } from '../actions/workflow.actions';
 
 @Injectable()
 export class WorkflowEffects {
@@ -55,18 +54,41 @@ export class WorkflowEffects {
         )
       ));
 
-      @Effect()
-      resendEmail$: Observable<Action> = this.actions$
-        .pipe(
-          ofType(fromWorkflowActions.RESEND_EMAIL),
-          switchMap((action: fromWorkflowActions.ResendEmail) =>
-            this.jobDescriptionWorkflowApiService.resendEmail(action.payload.workflowId).pipe(
-              map(() => {
-                return new fromWorkflowActions.ResendEmailSuccess();
-              }),
-              catchError(response => of(new fromWorkflowActions.ResendEmailError()))
-            )
-          ));
+  @Effect()
+  resendEmail$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromWorkflowActions.RESEND_EMAIL),
+      switchMap((action: fromWorkflowActions.ResendEmail) =>
+        this.jobDescriptionWorkflowApiService.resendEmail(action.payload.workflowId).pipe(
+          map(() => {
+            return new fromWorkflowActions.ResendEmailSuccess();
+          }),
+          catchError(response => of(new fromWorkflowActions.ResendEmailError()))
+        )
+      ));
+
+  @Effect()
+  downloadWorkflowAttachment$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromWorkflowActions.DOWNLOAD_WORKFLOW_ATTACHMENT),
+      switchMap((action: fromWorkflowActions.DownloadWorkflowAttachment) =>
+        this.jobDescriptionWorkflowApiService.GetWorkflowAttachmentFileUrl(action.payload).pipe(
+          map((response: string) => {
+            return new fromWorkflowActions.DownloadWorkflowAttachmentSuccess(response);
+          }),
+          catchError(response => of(new fromWorkflowActions.DownloadWorkflowAttachmentError()))
+        )
+      ));
+
+  @Effect({dispatch: false})
+  downloadWorkflowAttachmentSuccess$ = this.actions$
+    .pipe(
+      ofType(fromWorkflowActions.DOWNLOAD_WORKFLOW_ATTACHMENT_SUCCESS),
+      map((action: fromWorkflowActions.DownloadWorkflowAttachmentSuccess) => {
+          window.location.href = action.payload;
+        }
+      )
+    );
 
   @Effect()
   loadWorkflowLogEntries$: Observable<Action> = this.actions$
@@ -78,8 +100,8 @@ export class WorkflowEffects {
             map((response: string) => {
               return new fromWorkflowActions.LoadWorkflowLogEntriesSuccess(response);
             }),
-          catchError(response => of(new fromWorkflowActions.LoadWorkflowLogEntriesError(response)))
-        )
+            catchError(response => of(new fromWorkflowActions.LoadWorkflowLogEntriesError(response)))
+          )
       ));
 
   @Effect()
@@ -106,11 +128,12 @@ export class WorkflowEffects {
           .pipe(
             map(() => {
               const isRejectWorkflowStepCancelApproval = action.payload.workflowStepInfo.IsFirstStep && !action.payload.willProceed;
-                return new fromWorkflowActions.CompleteWorkflowStepSuccess({
-                  workflowStepInfo: action.payload.workflowStepInfo,
-                  willProceed: action.payload.willProceed,
-                  isInSystemWorkflow: action.payload.isInSystemWorkflow,
-                  showInSystemWorkflowStepCompletionModal: action.payload.isInSystemWorkflow && !isRejectWorkflowStepCancelApproval});
+              return new fromWorkflowActions.CompleteWorkflowStepSuccess({
+                workflowStepInfo: action.payload.workflowStepInfo,
+                willProceed: action.payload.willProceed,
+                isInSystemWorkflow: action.payload.isInSystemWorkflow,
+                showInSystemWorkflowStepCompletionModal: action.payload.isInSystemWorkflow && !isRejectWorkflowStepCancelApproval
+              });
             }),
             catchError(() => of(new fromWorkflowActions.CompleteWorkflowStepError()))
           )
@@ -125,11 +148,12 @@ export class WorkflowEffects {
           .pipe(
             map(() => {
               const isRejectWorkflowStepCancelApproval = action.payload.workflowStepInfo.IsFirstStep && !action.payload.willProceed;
-                return new fromWorkflowActions.CompleteWorkflowStepSuccess({
-                  workflowStepInfo: action.payload.workflowStepInfo,
-                  willProceed: action.payload.willProceed,
-                  isInSystemWorkflow: action.payload.isInSystemWorkflow,
-                  showInSystemWorkflowStepCompletionModal: action.payload.isInSystemWorkflow && !isRejectWorkflowStepCancelApproval});
+              return new fromWorkflowActions.CompleteWorkflowStepSuccess({
+                workflowStepInfo: action.payload.workflowStepInfo,
+                willProceed: action.payload.willProceed,
+                isInSystemWorkflow: action.payload.isInSystemWorkflow,
+                showInSystemWorkflowStepCompletionModal: action.payload.isInSystemWorkflow && !isRejectWorkflowStepCancelApproval
+              });
             }),
             catchError(() => of(new fromWorkflowActions.CompleteWorkflowStepError()))
           )
@@ -188,9 +212,9 @@ export class WorkflowEffects {
     .pipe(
       ofType(fromWorkflowActions.SET_MESSAGE),
       tap((action: fromWorkflowActions.SetMessage) => {
-         if (!action.payload.isInSystemWorkflow) {
-           this.router.navigate(['/workflow-complete']);
-         }
+        if (!action.payload.isInSystemWorkflow) {
+          this.router.navigate(['/workflow-complete']);
+        }
       })
     );
 
@@ -199,7 +223,7 @@ export class WorkflowEffects {
     .pipe(
       ofType(fromWorkflowActions.REJECT_WORKFLOW_STEP_CANCEL_APPROVAL),
       tap((action: fromWorkflowActions.RejectWorkflowStepCancelApproval) => {
-          this.router.navigate(['/']);
+        this.router.navigate(['/']);
       })
     );
 
@@ -207,5 +231,6 @@ export class WorkflowEffects {
     private actions$: Actions,
     private jobDescriptionWorkflowApiService: JobDescriptionWorkflowApiService,
     private router: Router,
-  ) {}
+  ) {
+  }
 }
