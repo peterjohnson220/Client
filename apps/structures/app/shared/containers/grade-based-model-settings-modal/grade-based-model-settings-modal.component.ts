@@ -1,11 +1,11 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { forkJoin, Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { select, Store } from '@ngrx/store';
-import { delay, filter, take } from 'rxjs/operators';
+import { delay } from 'rxjs/operators';
 
-import { AsyncStateObj, RangeGroupMetadata } from 'libs/models';
+import { RangeGroupMetadata } from 'libs/models';
 import { AdjustMidpointTypes } from 'libs/constants/structures/adjust-midpoint-type';
 
 import * as fromSharedStructuresReducer from '../../reducers';
@@ -16,7 +16,7 @@ import { GradeBasedModelSettingsContentComponent } from './grade-based-model-set
   selector: 'pf-grade-based-model-settings-modal',
   templateUrl: './grade-based-model-settings-modal.component.html'
 })
-export class GradeBasedModelSettingsModalComponent implements OnInit {
+export class GradeBasedModelSettingsModalComponent implements OnInit, OnDestroy {
   @Input() rangeGroupId: number;
   @Input() pageViewId: string;
   @Input() isNewModel = true;
@@ -33,6 +33,9 @@ export class GradeBasedModelSettingsModalComponent implements OnInit {
 
   modelSettingsForm: FormGroup;
 
+  metaDataSub: Subscription;
+  gradesDetailsSub: Subscription;
+
   constructor(
     public sharedStore: Store<fromSharedStructuresReducer.State>
   ) {
@@ -42,12 +45,18 @@ export class GradeBasedModelSettingsModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    forkJoin([this.getMetaDataLoaded(), this.getGradeDetailsLoaded()]).subscribe(([metaData, gradeDetails]) => {
-      this.metaData = metaData;
-      this.controlPoint = this.metaData.PayType ? this.metaData.PayType + 'MRP' : 'BaseMRP';
-      this.numGrades = gradeDetails.obj.length;
-      this.buildForm();
+    this.metaDataSub = this.metaData$.subscribe(md => {
+      if (md) {
+        this.metaData = md;
+        this.controlPoint = this.metaData?.PayType ? this.metaData.PayType + 'MRP' : 'BaseMRP';
+      }
     });
+    this.gradesDetailsSub = this.gradeDetails$.subscribe(details => {
+      if (details?.obj?.length > 0) {
+        this.numGrades = details.obj.length;
+      }
+    });
+    this.buildForm();
   }
 
   handleModalSubmit() {
@@ -67,20 +76,6 @@ export class GradeBasedModelSettingsModalComponent implements OnInit {
     if (event.target.id === 'AdjustMidpointMoveBy') {
       this.setValidators('AdjustMidpointSetting.Percentage', 0.01, 300);
     }
-  }
-
-  private getMetaDataLoaded(): Observable<RangeGroupMetadata> {
-    return this.metaData$.pipe(
-      filter(md => !!md),
-      take(1)
-    );
-  }
-
-  private getGradeDetailsLoaded(): Observable<AsyncStateObj<any>> {
-    return this.gradeDetails$.pipe(
-      filter(details => details?.obj?.length),
-      take(1)
-    );
   }
 
   private buildForm(): void  {
@@ -124,5 +119,10 @@ export class GradeBasedModelSettingsModalComponent implements OnInit {
     this.modelSettingsForm.get(controlName).disable();
     this.modelSettingsForm.get(controlName).clearValidators();
     this.modelSettingsForm.get(controlName).updateValueAndValidity();
+  }
+
+  ngOnDestroy(): void {
+    this.metaDataSub.unsubscribe();
+    this.gradesDetailsSub.unsubscribe();
   }
 }
