@@ -55,8 +55,9 @@ export class GradeBasedModelSettingsModalComponent implements OnInit, OnDestroy 
       if (details?.obj?.length > 0) {
         this.numGrades = details.obj.length;
       }
+
+      this.buildForm();
     });
-    this.buildForm();
   }
 
   handleModalSubmit() {
