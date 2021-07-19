@@ -2,12 +2,15 @@
 
 exports[`StatementHistoryPageComponent should show the statement name 1`] = `
 <pf-statement-history
+  enableFileDownloadSecurityWarning$={[Function Observable]}
   featureFlagService={[Function Object]}
+  fileDownloadSecurityWarningModal={[Function ElementRef]}
   gridFields={[Function Array]}
   onScroll={[Function Function]}
   route={[Function Object]}
   routeParamSubscription={[Function Subscription]}
   router={[Function Object]}
+  settingsService={[Function SettingsService]}
   statement$={[Function Observable]}
   store={[Function Store]}
   tooltipDir="undefined"
@@ -31,6 +34,7 @@ exports[`StatementHistoryPageComponent should show the statement name 1`] = `
           class="total-rewards-statements-grid"
         >
           <kendo-grid-column
+            class="text-center"
             title="Actions"
             width="70"
           >
@@ -72,6 +76,7 @@ exports[`StatementHistoryPageComponent should show the statement name 1`] = `
         </kendo-grid>
       </pf-async-container>
     </div>
+    <pf-file-download-security-warning-modal />
     
   </pf-page-with-title-bar>
 </pf-statement-history>

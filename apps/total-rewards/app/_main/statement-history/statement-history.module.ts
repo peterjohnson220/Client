@@ -5,7 +5,6 @@ import { EffectsModule } from '@ngrx/effects';
 import {FaIconLibrary, FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { TooltipModule } from '@progress/kendo-angular-tooltip';
-import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { PfCommonUIModule } from 'libs/ui/common';
 import * as fromFaIcons from 'libs/features/total-rewards/total-rewards-statement/fa-icons';
 
@@ -23,7 +22,6 @@ import { StatementHistoryPageComponent } from './statement-history.page';
     PfCommonUIModule,
 
     // 3rd Party
-    NgbDropdownModule,
     FontAwesomeModule,
     StoreModule.forFeature('totalRewards_statementHistory', reducers),
     EffectsModule.forFeature([

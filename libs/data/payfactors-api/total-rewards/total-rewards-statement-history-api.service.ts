@@ -18,4 +18,8 @@ export class TotalRewardsStatementHistoryApiService {
   getStatementHistory(searchRequest: StatementHistorySearchRequest): Observable<StatementHistoryListResponse> {
     return this.payfactorsApiService.post<StatementHistoryListResponse>(`${this.endpoint}/GetStatementHistory`, searchRequest);
   }
+
+  getStatementUrl(pdfId: string): Observable<string> {
+    return this.payfactorsApiService.get<string>(`${this.endpoint}/GetStatementUrl?pdfId=${pdfId}`);
+  }
 }

@@ -8,6 +8,7 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { AbstractFeatureFlagService } from 'libs/core';
 import * as fromRootState from 'libs/state/state';
 import { Statement } from 'libs/features/total-rewards/total-rewards-statement/models';
+import { SettingsService } from 'libs/state/app-context/services';
 
 import * as fromTotalRewardsReducer from '../reducers/statement-history.page.reducers';
 import { StatementHistoryPageComponent } from './statement-history.page';
@@ -31,7 +32,8 @@ describe('StatementHistoryPageComponent', () => {
       providers: [
         { provide: ActivatedRoute, useValue: { queryParams: of({ }), params: of({ id: 'abc-123' }) } },
         { provide: Router, useValue: { navigate: jest.fn() }},
-        { provide: AbstractFeatureFlagService, useValue: { enabled: jest.fn(), bindEnabled: jest.fn() }}
+        { provide: AbstractFeatureFlagService, useValue: { enabled: jest.fn(), bindEnabled: jest.fn() }},
+        { provide: SettingsService, useClass: SettingsService }
       ],
       schemas: [ NO_ERRORS_SCHEMA ]
     });
