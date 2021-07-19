@@ -42,7 +42,7 @@
     <p class="m-0">Attachments</p>
     <ul class="p-1">
       <li class="p-2" *ngFor="let attachmentItem of attachments">
-        <a class="attachment-anchor" (click)="onAttachmentClicked(attachmentItem)" [attr.href]="!enableFileDownloadSecurityWarning ? getAttachmentDownloadUrl(attachmentItem) : null">
+        <a class="attachment-anchor" (click)="onAttachmentClicked(attachmentItem)">
           <fa-icon [icon]="['fas', attachmentItem.iconType]" size="lg" class="icon {{attachmentItem.iconClass}} mr-2"></fa-icon>
           {{attachmentItem.Name}}</a>
       </li>

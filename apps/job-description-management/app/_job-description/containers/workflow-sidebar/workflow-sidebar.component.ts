@@ -146,15 +146,17 @@ export class WorkflowSidebarComponent implements OnInit, OnDestroy {
     this.clickedAttachment = attachment;
     if (this.enableFileDownloadSecurityWarning) {
       this.fileDownloadSecurityWarningModal.open();
+    } else {
+      this.downloadAttachmentFile();
     }
   }
 
-  getAttachmentDownloadUrl(attachment) {
-    return this.ATTACHMENT_DOWNLOAD_URL_PREFIX + attachment.CloudFileName;
+  downloadAttachmentFile() {
+    this.store.dispatch(new fromWorkflowActions.DownloadWorkflowAttachment(this.clickedAttachment.CloudFileName));
   }
 
   handleSecurityWarningConfirmed() {
-    window.location.href = this.ATTACHMENT_DOWNLOAD_URL_PREFIX + this.clickedAttachment.CloudFileName;
+    this.downloadAttachmentFile();
   }
 
   handleSecurityWarningCancelled() {}
