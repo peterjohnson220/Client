@@ -16,7 +16,7 @@ export class SurveyParticipationEffects {
     .pipe(
       ofType(fromSurveyParticipationActions.GET_SURVEY_INFO),
       switchMap((action: fromSurveyParticipationActions.GetSurveyInfo) => {
-        return this.surveyApiService.getSurveyInfo()
+        return this.surveyApiService.getSurveyInfo(action.payload.withSurveyCountryAssociation)
           .pipe(
             map((response) => {
               return new fromSurveyParticipationActions.GetSurveyInfoSuccess(response);

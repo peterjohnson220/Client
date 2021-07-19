@@ -65,8 +65,8 @@ export class SurveyApiService {
     return this.payfactorsApiService.get<number[]>(`${this.endpoint}/Default.GetSurveyYears`);
   }
 
-  getSurveyInfo(): Observable<SurveyInfoByCompanyDto[]> {
-    return this.payfactorsApiService.get<SurveyInfoByCompanyDto[]>(`${this.endpoint}/Default.GetSurveyInfo`);
+  getSurveyInfo(withSurveyCountryAssociation: boolean): Observable<SurveyInfoByCompanyDto[]> {
+    return this.payfactorsApiService.get<SurveyInfoByCompanyDto[]>(`${this.endpoint}/Default.GetSurveyInfo`, {params: { withSurveyCountryAssociation }});
   }
 
   getSurveyJobDetails(surveyJobId: number): Observable<SurveyJobDetails> {

@@ -16,7 +16,7 @@ export const RESET_SURVEY_PARTICIPATION_UPLOAD_STATUS = '[Surveys / Survey Parti
 
 export class GetSurveyInfo implements Action {
   readonly type = GET_SURVEY_INFO;
-  constructor() {}
+  constructor(public payload: { withSurveyCountryAssociation: boolean }) {}
 }
 
 export class GetSurveyInfoSuccess implements Action {

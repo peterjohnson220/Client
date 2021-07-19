@@ -204,7 +204,7 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.openedSurveyDataGridsSubscription = this.openedSurveyDataGrids$.subscribe(grids => this.openedSurveyDataGrids = grids);
     this.store.dispatch(new fromSurveysPageActions.GetSurveyCountries());
     this.store.dispatch(new fromSurveysPageActions.GetSurveyYears());
-    this.store.dispatch(new fromSurveyParticipationActions.GetSurveyInfo());
+    this.store.dispatch(new fromSurveyParticipationActions.GetSurveyInfo({withSurveyCountryAssociation: true}));
   }
 
   ngAfterViewInit(): void {
