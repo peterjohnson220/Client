@@ -63,6 +63,7 @@ export const getUpdatingPricing = createSelector(selectModifyPricingsPageState, 
 export const getDeletingPricingMatch = createSelector(selectModifyPricingsPageState, fromModifyPricingsReducer.getDeletingPricingMatch);
 export const getUpdatingPricingMatch = createSelector(selectModifyPricingsPageState, fromModifyPricingsReducer.getUpdatingPricingMatch);
 export const getRecalculatingPricingInfo = createSelector(selectModifyPricingsPageState, fromModifyPricingsReducer.getRecalculatingPricingInfo);
+export const getDeleteMatchModalData = createSelector(selectModifyPricingsPageState, fromModifyPricingsReducer.getDeleteMatchModalData);
 
 // Job Description Selectors
 export const selectJobDescriptionState =

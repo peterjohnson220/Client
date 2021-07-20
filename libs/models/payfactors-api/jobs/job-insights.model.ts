@@ -5,6 +5,7 @@ export interface JobInsights {
   Job: CompanyJob;
   JobPricingId: number;
   JobPricingRate: string;
+  JobPricingEffectiveDate: Date;
 }
 
 export interface GetJobInsightsRequest {

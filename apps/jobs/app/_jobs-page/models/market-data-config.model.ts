@@ -3,6 +3,12 @@ import { BasicDataViewField, DataViewFieldDataType, DataViewFilter } from 'libs/
 export class MarketDataJobPricing {
   Id: number;
   Rate: string;
+  JobTitle: string;
+  JobCode: string;
+  JobId: number;
+  PayMarket: string;
+  PayMarketId: number;
+  JobPricingEffectiveDate: Date;
 }
 
 export class MarketDataConfig {

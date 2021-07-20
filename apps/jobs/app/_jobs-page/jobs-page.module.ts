@@ -55,7 +55,8 @@ import {
   JobInsightsComponent
 } from './components';
 import {
-  MarketDataComponent
+  MarketDataComponent,
+  DeleteMatchModalComponent
 } from './containers';
 import { reducers } from './reducers';
 import {
@@ -140,6 +141,7 @@ import {
     PricingHistoryGridComponent,
     JobInsightsComponent,
     MarketDataComponent,
+    DeleteMatchModalComponent,
 
     // Column Templates
     PricingMatchesJobTitleComponent,

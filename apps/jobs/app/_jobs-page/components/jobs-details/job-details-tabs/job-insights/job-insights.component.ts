@@ -165,6 +165,16 @@ export class JobInsightsComponent implements OnChanges, OnInit, OnDestroy {
     this.standardFields = JobInsightsHelper.mapJobDataToGenericKeyValues(this.jobInsights.Job);
     this.customFields = JobInsightsHelper.getCustomFieldsWithValues(this.jobInsights.Job, customFields);
     this.isViewMore = false;
-    this.jobPricing = { Id: this.jobInsights.JobPricingId, Rate: this.jobInsights.JobPricingRate };
+    const selectedPayMarket = this.payMarkets.find(pm => pm.CompanyPayMarketId === this.selectedPayMarketId);
+    this.jobPricing = {
+      Id: this.jobInsights.JobPricingId,
+      Rate: this.jobInsights.JobPricingRate,
+      JobTitle: this.jobInsights.Job.JobTitle,
+      JobCode: this.jobInsights.Job.JobCode,
+      JobId: this.jobInsights.Job.CompanyJobId,
+      PayMarket: selectedPayMarket.PayMarket,
+      PayMarketId: selectedPayMarket.CompanyPayMarketId,
+      JobPricingEffectiveDate: this.jobInsights.JobPricingEffectiveDate
+    };
   }
 }
