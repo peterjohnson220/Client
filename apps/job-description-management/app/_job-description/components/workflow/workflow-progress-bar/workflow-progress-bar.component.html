@@ -48,25 +48,26 @@
         </ng-template>
       </div>
       <span class="dot"></span>
-      <div *ngIf="workflowStepSummaryItem[0].Status === 'In Progress' && (isSiteAdmin || isCompanyAdmin || hasWorkflowUserManagementPermission) && workflowStepSummaryItem.length === 1">   
+      <div *ngIf="workflowStepSummaryItem[0].Status === 'In Progress' && (isSiteAdmin || isCompanyAdmin || hasWorkflowUserManagementPermission) && workflowStepSummaryItem.length === 1">
         <a id="change-approver-btn" (click)="changeApproverClicked.emit({isLastStep:(i == (workflowStepSummary.length -1)), currentStepUserName: workflowStepSummaryItem[0].Owner})">
           <pf-workflow-step
             [workflowStepSummary]= "workflowStepSummaryItem"
             [avatarUrl]="avatarUrl">
-          </pf-workflow-step>  
+          </pf-workflow-step>
         </a>
-        <br />
-        <a *ngIf="!linkCopied" class="link-btn" (click)="copyWorkflowLink()">Copy Link</a>
-        <span *ngIf="linkCopied" class="text-muted">Link Copied</span>
-        <br />
-        <a *ngIf="!emailSent" class="link-btn" (click)="resendEmail()">Resend email</a>
-        <span *ngIf="emailSent" class="text-muted">Email sent</span>
+        <div *ngIf="!identityInWorkflow">
+          <a *ngIf="!linkCopied" class="link-btn" (click)="copyWorkflowLink()">Copy Link</a>
+          <span *ngIf="linkCopied" class="text-muted">Link Copied</span>
+          <br/>
+          <a *ngIf="!emailSent" class="link-btn" (click)="resendEmail()">Resend email</a>
+          <span *ngIf="emailSent" class="text-muted">Email sent</span>
+        </div>
       </div>
       <div *ngIf="workflowStepSummaryItem[0].Status !== 'In Progress' || !(isSiteAdmin || isCompanyAdmin || hasWorkflowUserManagementPermission) || workflowStepSummaryItem.length != 1">
-        <pf-workflow-step 
+        <pf-workflow-step
           [workflowStepSummary]= "workflowStepSummaryItem"
           [avatarUrl]="avatarUrl">
-        </pf-workflow-step>     
+        </pf-workflow-step>
       </div>
     </div>
   </div>
