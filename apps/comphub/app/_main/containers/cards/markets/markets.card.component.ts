@@ -78,9 +78,9 @@ export class MarketsCardComponent implements OnInit {
   }
 
   setupDefaultPayMarket() {
-    forkJoin([this.getPayMarketsLoaded(), this.getUserContextLoaded(), this.getWorkflowContextLoaded()])
-      .subscribe(([payMarkets, userContext, workflowContext]) => {
-        this.setDefaultPayMarketSelection(payMarkets, userContext, workflowContext);
+    forkJoin([this.getPayMarketsLoaded(), this.getUserContextLoaded()])
+      .subscribe(([payMarkets, userContext]) => {
+        this.setDefaultPayMarketSelection(payMarkets, userContext, this.workflowContext);
       });
   }
 
@@ -93,13 +93,6 @@ export class MarketsCardComponent implements OnInit {
 
   getUserContextLoaded(): Observable<UserContext> {
     return this.userContext$.pipe(
-      filter(f => !!f),
-      take(1)
-    );
-  }
-
-  getWorkflowContextLoaded(): Observable<WorkflowContext> {
-    return this.workflowContext$.pipe(
       filter(f => !!f),
       take(1)
     );
