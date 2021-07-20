@@ -13,6 +13,7 @@ export class WorkflowProgressBarComponent {
   @Input() isSiteAdmin: boolean;
   @Input() isCompanyAdmin: boolean;
   @Input() avatarUrl: string;
+  @Input() identityInWorkflow: boolean;
   @Output() changeApproverClicked = new EventEmitter();
   @Output() copyWorkflowLinkClicked = new EventEmitter();
   @Output() emailResendClicked = new EventEmitter();
