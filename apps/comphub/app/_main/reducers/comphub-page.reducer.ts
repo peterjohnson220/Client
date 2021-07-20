@@ -1,10 +1,10 @@
 import { createSelector } from '@ngrx/store';
 import cloneDeep from 'lodash/cloneDeep';
 
-import { QuickPriceType } from 'libs/constants';
+import { ComphubType } from 'libs/constants';
 
 import * as fromComphubPageActions from '../actions/comphub-page.actions';
-import { AccordionCard, AccordionCards, ComphubPages } from '../data';
+import { AccordionCard, QuickPriceAccordionCards, ComphubPages, TrendsAccordionCards } from '../data';
 import { CountryDataSet, JobPricingLimitInfo, ExchangeDataSet, WorkflowContext, FooterContext, JobData } from '../models';
 
 export interface State {
@@ -24,7 +24,7 @@ export interface State {
 }
 
 const initialState: State = {
-  cards: AccordionCards.defaultAccordionCards,
+  cards: QuickPriceAccordionCards.defaultAccordionCards,
   selectedPageId: ComphubPages.Jobs,
   pagesAccessed: [ComphubPages.Jobs],
   accessiblePages: [ComphubPages.Jobs],
@@ -38,12 +38,36 @@ const initialState: State = {
     selectedPageIndex: 0,
     activeCountryDataSet: null,
     activeExchangeDataSet: null,
-    quickPriceType: QuickPriceType.ENTERPRISE
+    comphubType: ComphubType.ENTERPRISE
   },
   isQuickPriceHistoryModalOpen: false,
   footerContext: null,
   selectedJobData: null,
 };
+
+const initialTrendsState: State = {
+  cards: TrendsAccordionCards.trendAccordionCards,
+  selectedPageId: ComphubPages.TrendsLanding,
+  pagesAccessed: [ComphubPages.TrendsLanding],
+  accessiblePages: [ComphubPages.TrendsLanding, ComphubPages.TrendsJobs, ComphubPages.TrendsScopes, ComphubPages.TrendsSummary],
+  jobPricingLimitInfo: null,
+  countryDataSetLoaded: false,
+  countryDataSets: [],
+  exchangeDataSets: [],
+  exchangeDataSetLoaded: false,
+  workflowContext: {
+    selectedPageId: ComphubPages.TrendsLanding,
+    selectedPageIndex: 0,
+    activeCountryDataSet: null,
+    activeExchangeDataSet: null,
+    comphubType: ComphubType.TRENDS
+  },
+  isQuickPriceHistoryModalOpen: false,
+  footerContext: null,
+  selectedJobData: null,
+};
+
+
 
 export function reducer(state: State = initialState, action: fromComphubPageActions.Actions) {
   switch (action.type) {
@@ -107,10 +131,25 @@ export function reducer(state: State = initialState, action: fromComphubPageActi
         accessiblePages: initialState.accessiblePages
       };
     }
+    case fromComphubPageActions.RESET_ACCESSIBLE_TRENDS_PAGES: {
+      return {
+        ...state,
+        accessiblePages: initialTrendsState.accessiblePages
+      };
+    }
+
+
     case fromComphubPageActions.RESET_PAGES_ACCESSED: {
       return {
         ...state,
         pagesAccessed: initialState.pagesAccessed
+      };
+    }
+
+    case fromComphubPageActions.RESET_TRENDS_PAGES_ACCESSED: {
+      return {
+        ...state,
+        pagesAccessed: initialTrendsState.pagesAccessed
       };
     }
     case fromComphubPageActions.UPDATE_CARD_SUBTITLE: {
@@ -181,16 +220,26 @@ export function reducer(state: State = initialState, action: fromComphubPageActi
         }
       };
     }
-    case fromComphubPageActions.SET_QUICK_PRICE_TYPE_IN_WORKFLOW_CONTEXT: {
-      const cards: AccordionCard[] = action.payload === QuickPriceType.PEER
-        ? AccordionCards.peerAccordionCards
-        : AccordionCards.defaultAccordionCards;
+    case fromComphubPageActions.SET_COMPHUB_TYPE_IN_WORKFLOW_CONTEXT: {
+
+      let cards: AccordionCard[];
+
+      switch (action.payload) {
+        case ComphubType.PEER:
+          cards = QuickPriceAccordionCards.peerAccordionCards;
+          break;
+        case ComphubType.TRENDS:
+          return initialTrendsState;
+        default:
+          cards = QuickPriceAccordionCards.defaultAccordionCards;
+      }
+
       return {
         ...state,
         cards: cards,
         workflowContext: {
           ...state.workflowContext,
-          quickPriceType: action.payload
+          comphubType: action.payload
         }
       };
     }
@@ -244,7 +293,7 @@ export const getJobPricingBlocked = createSelector(
   getWorkflowContext,
   (jobPricingLimitInfo: JobPricingLimitInfo, activeCountryDataSet: CountryDataSet, workflowContext: WorkflowContext) => {
     return ((!!jobPricingLimitInfo && jobPricingLimitInfo.Used >= jobPricingLimitInfo.Available)
-      || (!activeCountryDataSet && workflowContext.quickPriceType === QuickPriceType.ENTERPRISE));
+      || (!activeCountryDataSet && workflowContext.comphubType === ComphubType.ENTERPRISE));
   }
 );
 export const getIsQuickPriceHistoryModalOpen = (state: State) => state.isQuickPriceHistoryModalOpen;
@@ -255,6 +304,6 @@ export const getSmbLimitReached = createSelector(
   getCountryDataSetsLoaded,
   getWorkflowContext,
   (jobPricingBlocked: boolean, countryDataSetsLoaded: boolean, workflowContext: WorkflowContext) => {
-    return jobPricingBlocked && countryDataSetsLoaded && workflowContext.quickPriceType === QuickPriceType.SMALL_BUSINESS;
+    return jobPricingBlocked && countryDataSetsLoaded && workflowContext.comphubType === ComphubType.SMALL_BUSINESS;
   }
 );

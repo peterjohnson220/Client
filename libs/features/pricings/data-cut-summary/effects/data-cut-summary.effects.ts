@@ -7,7 +7,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, switchMap, withLatestFrom, filter } from 'rxjs/operators';
 
 import { DataCutSummaryEntityTypes } from 'libs/constants';
-import * as fromMultiMatchReducer from 'libs/features/pricings/multi-match/reducers';
+import * as fromTempDataCutReducer from 'libs/features/temp-data-cut/reducers';
 import { DataCutSummaryApiService } from 'libs/data/payfactors-api/pricing';
 
 import * as fromDataCutSummaryActions from '../actions';
@@ -59,7 +59,7 @@ export class DataCutSummaryEffects {
     ofType<fromDataCutSummaryActions.LoadDataCutSummary>(fromDataCutSummaryActions.LOAD_DATA_CUT_SUMMARY),
     filter(action => action.payload.entityType === DataCutSummaryEntityTypes.CustomPeerCutId),
     withLatestFrom(
-      this.store.pipe(select(fromMultiMatchReducer.getTempDataCutFilterContextDictionary)),
+      this.store.pipe(select(fromTempDataCutReducer.getTempDataCutFilterContextDictionary)),
       this.store.pipe(select(fromDataCutSummaryReducer.getDataCutSummaryDictionary)),
       (action: fromDataCutSummaryActions.LoadDataCutSummary, filterContextDictionary, dataCutSummaryDictionary) =>
         ({action, filterContextDictionary, dataCutSummaryDictionary})

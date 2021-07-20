@@ -2,7 +2,7 @@ import { Action } from '@ngrx/store';
 
 import { ExchangeExplorerScopeResponse } from 'libs/models/payfactors-api/peer/exchange-data-filter/response';
 import { BaseExchangeDataSearchRequest } from 'libs/models/payfactors-api';
-import { TempDataCutIdentity } from 'libs/features/pricings/multi-match/models';
+import { TempDataCutIdentity } from 'libs/features/temp-data-cut/models';
 
 export const LOAD_EXCHANGE_DATA_CUT = '[Features/Peer/ExchangeExplorer/Exchange Data Cut] Load Exchange Data Cut';
 export const LOAD_TEMP_EXCHANGE_DATA_CUT = '[Features/Peer/ExchangeExplorer/Exchange Data Cut] Load Temp Exchange Data Cut';

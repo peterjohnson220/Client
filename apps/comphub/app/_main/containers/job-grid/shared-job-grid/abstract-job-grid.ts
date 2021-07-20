@@ -3,7 +3,7 @@ import { Injectable, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
-import { QuickPriceType } from 'libs/constants';
+import { ComphubType } from 'libs/constants';
 
 import * as fromComphubMainReducer from '../../../reducers';
 import * as fromJobGridActions from '../../../actions/job-grid.actions';
@@ -54,8 +54,8 @@ export abstract class AbstractJobGrid implements OnInit, OnDestroy {
     this.workflowContextSubscription = this.workflowContext$.subscribe(wfc => {
       if (!!wfc) {
         this.workflowContext = wfc;
-        this.gridHasData = this.workflowContext.quickPriceType !== QuickPriceType.SMALL_BUSINESS;
-        this.gridColumnsConfiguration = QuickPriceGridColumnConfiguration.getGridColumnConfigByType(this.workflowContext.quickPriceType);
+        this.gridHasData = this.workflowContext.comphubType !== ComphubType.SMALL_BUSINESS;
+        this.gridColumnsConfiguration = QuickPriceGridColumnConfiguration.getGridColumnConfigByType(this.workflowContext.comphubType);
       }
     });
     this.jobGridDataSubscription = this.jobResults$.subscribe(value => this.jobGridData = value);

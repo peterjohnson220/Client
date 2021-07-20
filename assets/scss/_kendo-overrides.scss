@@ -126,3 +126,15 @@ kendo-tabstrip.bold-tabs .k-tabstrip-items {
 .k-pager-numbers-wrap select.k-dropdown {
   display: none;
 }
+
+tr {
+  .show-on-row-hover{
+    display: none;
+  }
+
+  &:hover{
+    .show-on-row-hover{
+      display:block;
+    }
+  }
+}

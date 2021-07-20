@@ -5,12 +5,12 @@ import { DataCut } from 'libs/features/surveys/survey-search/models';
 
 import { TempDataCutIdentity } from '../models';
 
-export const CREATE_TEMP_DATA_CUT = '[Libs/Features/Multi Match/Temp Data Cut] Create Temp Data Cut';
-export const CREATE_TEMP_DATA_CUT_COMPLETE = '[Libs/Features/Multi Match/Temp Data Cut] Create Temp Data Cut Complete';
-export const REPLACE_DATA_CUT_WITH_TEMP = '[Libs/Features/Multi Match/Temp Data Cut] Replace Data Cut With Temp';
-export const EDIT_TEMP_DATA_CUT = '[Libs/Features/Multi Match/Temp Data Cut] Edit Temp Data Cut';
-export const EDIT_TEMP_DATA_CUT_COMPLETE = '[Libs/Features/Multi Match/Temp Data Cut] Edit Temp Data Cut Complete';
-export const RESET_TEMP_DATA_CUT_SERVICE = '[Libs/Features/Multi Match/Temp Data Cut] Reset Temp Data Cut Service';
+export const CREATE_TEMP_DATA_CUT = '[Libs/Features/Temp Data Cut] Create Temp Data Cut';
+export const CREATE_TEMP_DATA_CUT_COMPLETE = '[Libs/Features/Temp Data Cut] Create Temp Data Cut Complete';
+export const REPLACE_DATA_CUT_WITH_TEMP = '[Libs/Features/Temp Data Cut] Replace Data Cut With Temp';
+export const EDIT_TEMP_DATA_CUT = '[Libs/Features/Temp Data Cut] Edit Temp Data Cut';
+export const EDIT_TEMP_DATA_CUT_COMPLETE = '[Libs/Features/Temp Data Cut] Edit Temp Data Cut Complete';
+export const RESET_TEMP_DATA_CUT_SERVICE = '[Libs/Features/Temp Data Cut] Reset Temp Data Cut Service';
 
 export class CreateTempDataCut implements Action {
   readonly type = CREATE_TEMP_DATA_CUT;
