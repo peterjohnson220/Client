@@ -133,4 +133,9 @@ export class JobDescriptionLibraryComponent implements OnChanges {
 
     return showViewMoreLink;
   }
+
+  // FORT-835 - Hide the skills tab
+  get filteredBuckets() {
+    return this.buckets.filter((bucket) => (bucket.Label.toLowerCase() !== 'skills'));
+  }
 }
