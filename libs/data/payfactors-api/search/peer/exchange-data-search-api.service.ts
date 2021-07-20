@@ -66,6 +66,10 @@ export class ExchangeDataSearchApiService {
     return this.payfactorsApiService.post(`${this.endpoint}/GetResults`, searchRequest);
   }
 
+  searchExchangeDataAsync(searchRequest: ExchangeDataSearchRequest): Observable<ExchangeDataSearchResponse> {
+    return this.payfactorsApiService.post(`${this.endpoint}/GetResultsNext`, searchRequest);
+  }
+
   searchExchangeAggregations(request: SearchExchangeAggregationsRequest): Observable<SearchFilter> {
     return this.payfactorsApiService.post(`${this.endpoint}/SearchAggregations`, request);
   }
