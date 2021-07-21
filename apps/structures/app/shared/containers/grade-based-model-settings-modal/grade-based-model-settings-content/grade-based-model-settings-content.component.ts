@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 
 import { Store } from '@ngrx/store';
+import { Subscription } from 'rxjs';
 
 import {
   AdvancedModelSettingForm,
@@ -20,6 +21,8 @@ import { AbstractModelSettingsContentComponent } from '../../model-settings-moda
 export class GradeBasedModelSettingsContentComponent extends AbstractModelSettingsContentComponent implements OnInit, OnDestroy {
   @Input() numGrades: number;
   @Output() adjustMidpointRadioButtonChanged = new EventEmitter();
+
+  metadataSub: Subscription;
 
   activeRangeTypeTab: string;
   modelSetting: RangeGroupMetadata;
@@ -48,6 +51,7 @@ export class GradeBasedModelSettingsContentComponent extends AbstractModelSettin
 
   ngOnDestroy(): void {
     super.ngOnDestroy();
+    this.metadataSub.unsubscribe();
   }
 
   handleRangeTypeChange(event) {
