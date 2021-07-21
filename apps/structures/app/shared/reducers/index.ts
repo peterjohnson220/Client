@@ -75,6 +75,8 @@ export const getMetadata = createSelector(
   selectSharedState, fromSharedReducer.getMetadata
 );
 
+export const getLoadingMetaData = createSelector(selectSharedState, fromSharedReducer.getLoadingMetaData);
+
 export const getRoundingSettings = createSelector(
   selectSharedState, fromSharedReducer.getRoundingSettings
 );
@@ -145,12 +147,12 @@ export const getModelNameExistsFailure = createSelector(
   selectModelSettingsModalState, fromModelSettingsModalReducer.getModelNameExistsFailure
 );
 
-export const getActiveTab = createSelector(
-  selectModelSettingsModalState, fromModelSettingsModalReducer.getActiveTab
-);
-
 export const getGradesDetails = createSelector(
   selectModelSettingsModalState, fromModelSettingsModalReducer.getGradesDetails
+);
+
+export const getStructureHasSettings = createSelector(
+  selectModelSettingsModalState, fromModelSettingsModalReducer.getStructureHasSettings
 );
 
 // Formula Field Modal

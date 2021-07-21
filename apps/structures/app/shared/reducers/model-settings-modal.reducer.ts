@@ -16,8 +16,8 @@ export interface State {
   structureNameSuggestionsAsyncObj: AsyncStateObj<string[]>;
   savingModelingSettingsAsyncObj: AsyncStateObj<any>;
   modelNameExistsFailure: boolean;
-  activeTab: string;
   gradesDetails: AsyncStateObj<any>;
+  structureHasSettings: AsyncStateObj<any>;
 }
 
 const initialState: State = {
@@ -29,8 +29,8 @@ const initialState: State = {
   structureNameSuggestionsAsyncObj: generateDefaultAsyncStateObj<string[]>([]),
   savingModelingSettingsAsyncObj: generateDefaultAsyncStateObj<any>(null),
   modelNameExistsFailure: false,
-  activeTab: null,
-  gradesDetails: generateDefaultAsyncStateObj<any>(null)
+  gradesDetails: generateDefaultAsyncStateObj<any>(null),
+  structureHasSettings: generateDefaultAsyncStateObj<any>(null)
 };
 
 export function reducer(state = initialState, action: fromModelSettingsModalActions.ModelSettingsModalActions): State {
@@ -99,12 +99,6 @@ export function reducer(state = initialState, action: fromModelSettingsModalActi
         modelNameExistsFailure: false
       };
     }
-    case fromModelSettingsModalActions.SET_ACTIVE_TAB: {
-      return {
-        ...state,
-        activeTab: action.payload
-      };
-    }
     case fromModelSettingsModalActions.GET_GRADES_DETAILS: {
       const gradesDetails = cloneDeep(state.gradesDetails);
 
@@ -139,6 +133,15 @@ export function reducer(state = initialState, action: fromModelSettingsModalActi
         gradesDetails: gradesDetails
       };
     }
+    case fromModelSettingsModalActions.GET_STRUCTURE_HAS_SETTINGS: {
+      return AsyncStateObjHelper.loading(state, 'structureHasSettings');
+    }
+    case fromModelSettingsModalActions.GET_STRUCTURE_HAS_SETTINGS_SUCCESS: {
+      return AsyncStateObjHelper.loadingSuccess(state, 'structureHasSettings', action.payload);
+    }
+    case fromModelSettingsModalActions.GET_STRUCTURE_HAS_SETTINGS_ERROR: {
+      return AsyncStateObjHelper.loadingError(state, 'structureHasSettings');
+    }
     default:
       return state;
   }
@@ -152,6 +155,5 @@ export const getControlPointsAsyncObj = (state: State) => state.controlPointsAsy
 export const getStructureNameSuggestionsAsyncObj = (state: State) => state.structureNameSuggestionsAsyncObj;
 export const getSavingModelSettingsAsyncObj = (state: State) => state.savingModelingSettingsAsyncObj;
 export const getModelNameExistsFailure = (state: State) => state.modelNameExistsFailure;
-export const getActiveTab = (state: State) => state.activeTab;
 export const getGradesDetails = (state: State) => state.gradesDetails;
-
+export const getStructureHasSettings = (state: State) => state.structureHasSettings;

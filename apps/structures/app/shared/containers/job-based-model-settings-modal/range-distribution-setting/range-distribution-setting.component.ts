@@ -1,8 +1,9 @@
-import { Component, EventEmitter, forwardRef, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, forwardRef, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { ControlValueAccessor, FormControl, FormGroup, NG_VALIDATORS, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
 
-import { Store } from '@ngrx/store';
-import { Observable, Subject, Subscription } from 'rxjs';
+import { select, Store } from '@ngrx/store';
+import { forkJoin, Observable, Subject, Subscription } from 'rxjs';
+import { filter, take } from 'rxjs/operators';
 
 import { AsyncStateObj } from 'libs/models/state';
 import { CompanySettingsEnum } from 'libs/models/company';
@@ -11,7 +12,7 @@ import { SettingsService } from 'libs/state/app-context/services';
 import * as fromFormulaFieldActions from 'libs/ui/formula-editor/actions/formula-field.actions';
 import { CalculationType } from 'libs/constants/structures/calculation-type';
 
-import * as fromJobBasedRangeReducer from '../../../../_job-based-range/shared/reducers';
+import * as fromSharedStructuresReducer from '../../../../shared/reducers';
 import { ControlPoint } from '../../../../shared/models';
 import { ModelSettingsModalConstants } from '../../../../shared/constants/model-settings-modal-constants';
 
@@ -32,13 +33,22 @@ import { ModelSettingsModalConstants } from '../../../../shared/constants/model-
     }
   ]
 })
-export class RangeDistributionSettingComponent implements ControlValueAccessor, OnChanges, OnInit, OnDestroy {
+export class RangeDistributionSettingComponent implements ControlValueAccessor, OnInit, OnDestroy {
   @Input() attemptedSubmit: boolean;
-  @Input() metadata: RangeGroupMetadata;
-  @Input() controlPointsAsyncObj: AsyncStateObj<ControlPoint[]>;
-  @Input() surveyUdfsAsyncObj: AsyncStateObj<ControlPoint[]>;
   @Input() rangeGroupId: number;
   @Output() payTypeSelectionChange = new EventEmitter();
+
+  metaData$: Observable<RangeGroupMetadata>;
+  metaDataSubscription: Subscription;
+  metadata: RangeGroupMetadata;
+
+  controlPointsAsyncObj$: Observable<AsyncStateObj<ControlPoint[]>>;
+  controlPointsAsyncObj: AsyncStateObj<ControlPoint[]>;
+
+  surveyUdfsAsyncObj$: Observable<AsyncStateObj<ControlPoint[]>>;
+  surveyUdfsAsyncObj: AsyncStateObj<ControlPoint[]>;
+
+  controlPointsSurveyUdfsSubscription: Subscription;
 
   enableJobRangeTypes$: Observable<boolean>;
   subscriptions: Subscription[] = [];
@@ -76,9 +86,12 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
   }
 
   constructor(
-    public store: Store<fromJobBasedRangeReducer.State>,
+    public store: Store<fromSharedStructuresReducer.State>,
     private settingService: SettingsService,
   ) {
+    this.metaData$ = this.store.pipe(select(fromSharedStructuresReducer.getMetadata));
+    this.controlPointsAsyncObj$ = this.store.pipe(select(fromSharedStructuresReducer.getControlPointsAsyncObj));
+    this.surveyUdfsAsyncObj$ = this.store.pipe(select(fromSharedStructuresReducer.getSurveyUdfsAsyncObj));
     this.enableJobRangeTypes$ = this.settingService.selectCompanySetting<boolean>(
       CompanySettingsEnum.EnableJobRangeStructureRangeTypes
     );
@@ -401,8 +414,13 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
 
   // Lifecycle
   ngOnInit(): void {
-    this.buildForm();
-    this.enablePercentilesAndRangeSpreads = (!!this.metadata.ControlPoint || !!this.metadata.RangeDistributionSetting?.Mid_Formula);
+    this.metaDataSubscription = this.metaData$.subscribe(data => {
+      if (data) {
+        this.metadata = data;
+        this.buildForm();
+        this.enablePercentilesAndRangeSpreads = (!!this.metadata.ControlPoint || !!this.metadata.RangeDistributionSetting?.Mid_Formula);
+      }
+    });
 
     this.subscriptions.push(
       // any time the inner form changes update the parent of any change
@@ -411,29 +429,15 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
         this.onTouched();
       })
     );
-  }
+    this.controlPointsSurveyUdfsSubscription = forkJoin([this.getControlPointsLoaded(), this.getSurveyUdfsLoaded()])
+      .subscribe(([controlPointsAsync, surveyUdfsAsync]) => {
+        this.controlPointsAsyncObj = controlPointsAsync;
+        this.surveyUdfsAsyncObj = surveyUdfsAsync;
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (!!changes) {
-      if (!!changes.controlPointsAsyncObj) {
-        const cp = changes.controlPointsAsyncObj.currentValue;
-        if (cp.obj.length > 0) {
-          this.controlPointsAsyncObj = cp;
-          this.parseControlPoints(cp.obj);
-
-          this.processControlPoints();
-        }
-      }
-      if (!!changes.surveyUdfsAsyncObj) {
-        const udfs = changes.surveyUdfsAsyncObj.currentValue;
-        if (this.controlPointsAsyncObj.obj.length > 0 && udfs.obj.length > 0) {
-          this.surveyUdfsAsyncObj = udfs;
-          this.parseControlPoints(this.controlPointsAsyncObj.obj.concat(udfs.obj));
-
-          this.processControlPoints();
-        }
-      }
-    }
+        const allControlPoints = this.controlPointsAsyncObj.obj.concat(this.surveyUdfsAsyncObj.obj);
+        this.parseControlPoints(allControlPoints);
+        this.processControlPoints();
+    });
   }
 
   private processControlPoints(): void {
@@ -488,6 +492,8 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
   ngOnDestroy(): void {
     this.subscriptions.forEach(s => s.unsubscribe());
     this.unsubscribe$.next();
+    this.controlPointsSurveyUdfsSubscription.unsubscribe();
+    this.metaDataSubscription.unsubscribe();
   }
 
   mapToRangeDistributionSettingForm(value: RangeDistributionSettingForm): RangeDistributionSettingForm {
@@ -548,5 +554,19 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
   }
 
   setDisabledState?(isDisabled: boolean): void {
+  }
+
+  private getControlPointsLoaded(): Observable<AsyncStateObj<ControlPoint[]>> {
+    return this.controlPointsAsyncObj$.pipe(
+      filter(asyncObj => !asyncObj?.loading && !!asyncObj?.obj),
+      take(1)
+    );
+  }
+
+  private getSurveyUdfsLoaded(): Observable<AsyncStateObj<ControlPoint[]>> {
+    return this.surveyUdfsAsyncObj$.pipe(
+      filter(asyncObj => !asyncObj?.loading && !!asyncObj?.obj),
+      take(1)
+    );
   }
 }

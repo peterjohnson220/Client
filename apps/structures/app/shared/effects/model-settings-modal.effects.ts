@@ -320,6 +320,21 @@ export class ModelSettingsModalEffects {
       })
     );
 
+  @Effect()
+  structureHasSettings: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromModelSettingsModalActions.GET_STRUCTURE_HAS_SETTINGS),
+      switchMap((action: fromModelSettingsModalActions.GetStructureHasSettings) => {
+        return this.structureModelingApiService.getStructureHasSettings(action.payload)
+          .pipe(
+            map((res) => {
+              return new fromModelSettingsModalActions.GetStructureHasSettingsSuccess(res);
+            }),
+            catchError((err) => of(new fromModelSettingsModalActions.GetStructureHasSettingsError(err)))
+          );
+      })
+    );
+
   private isLoadDataRequired(fromPageViewId: string) {
     return fromPageViewId === JobBasedPageViewIds.EmployeesMinMidMax
       || fromPageViewId === JobBasedPageViewIds.EmployeesTertile

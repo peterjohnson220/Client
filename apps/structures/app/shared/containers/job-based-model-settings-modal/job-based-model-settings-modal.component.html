@@ -1,20 +1,25 @@
 <pf-model-settings-modal
-  *ngIf="modelSettingsForm"
-  [rangeGroupId]="rangeGroupId"
-  [pageViewId]="pageViewId"
+  [modalId]="'job-based-model-settings-modal'"
+  [metaData]="metaData"
   [modalOpen$]="modalOpen$"
   [modelSettingsForm]="modelSettingsForm"
+  [savingModelSettingsAsyncObj$]="savingModelSettingsAsyncObj$"
   (modalSubmit)="handleModalSubmit()"
-  (modalAttemptedSubmit)="handleModelAttemptedSubmit()"
-  (modalDismissed)="handleModalDismissed()">
+  (modalAttemptedSubmit)="handleModalSubmitAttempt()"
+  (modalDismissed)="handleModalDismiss()">
+
   <ng-container structures-settings-modal-content>
-    <pf-job-based-model-settings-content
-      [rangeGroupId]="rangeGroupId"
-      [pageViewId]="pageViewId"
-      [modalOpen]="modalOpen$ | async"
-      [isNewModel]="isNewModel"
-      [modelSettingsForm]="modelSettingsForm"
-      [selectedExchange]="selectedExchange">
-    </pf-job-based-model-settings-content>
+    <div>
+      <pf-async-container [loading]="loadingMetaData$ | async"></pf-async-container>
+      <pf-job-based-model-settings-content *ngIf="modalOpen$ | async"
+        [rangeGroupId]="rangeGroupId"
+        [pageViewId]="pageViewId"
+        [isNewModel]="isNewModel"
+        [modelSettingsForm]="modelSettingsForm"
+        [selectedExchange]="selectedExchange">
+      </pf-job-based-model-settings-content>
+    </div>
   </ng-container>
+
 </pf-model-settings-modal>
+

@@ -1,89 +1,53 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 
-import { Observable, Subscription } from 'rxjs';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
 import {
   AdvancedModelSettingForm,
   generateMockRangeAdvancedSetting,
-  RangeGroupMetadata,
-  RoundingSettingsDataObj
+  RangeGroupMetadata
 } from 'libs/models/structures';
-import { AsyncStateObj } from 'libs/models/state';
 import { AdjustMidpointTypes } from 'libs/constants/structures/adjust-midpoint-type';
 
-import { ControlPoint, Currency } from '../../../../shared/models';
-import * as fromSharedStructuresActions from '../../../../shared/actions/shared.actions';
-import * as fromSharedStructuresReducer from '../../../../shared/reducers';
 import * as fromModelSettingsModalActions from '../../../../shared/actions/model-settings-modal.actions';
-import { RangeRoundingComponent } from '../../../../shared/containers/range-rounding';
+import { AbstractModelSettingsContentComponent } from '../../model-settings-modal';
 
 @Component({
   selector: 'pf-grade-based-model-settings-content',
   templateUrl: './grade-based-model-settings-content.component.html',
   styleUrls: ['./grade-based-model-settings-content.component.scss']
 })
-export class GradeBasedModelSettingsContentComponent implements OnInit, OnDestroy {
-  @Input() rangeGroupId: number;
-  @Input() pageViewId: string;
-  @Input() modelSettingsForm: FormGroup;
-  @Input() modalOpen: boolean;
-  @Input() isNewModel: boolean;
+export class GradeBasedModelSettingsContentComponent extends AbstractModelSettingsContentComponent implements OnInit, OnDestroy {
   @Input() numGrades: number;
   @Output() adjustMidpointRadioButtonChanged = new EventEmitter();
-  @ViewChild(RangeRoundingComponent, {static: false}) public rangeRoundingComponent: RangeRoundingComponent;
-  metaData$: Observable<RangeGroupMetadata>;
-  modelNameExistsFailure$: Observable<boolean>;
-  controlPointsAsyncObj$: Observable<AsyncStateObj<ControlPoint[]>>;
-  currenciesAsyncObj$: Observable<AsyncStateObj<Currency[]>>;
-  roundingSettings$: Observable<RoundingSettingsDataObj>;
-  activeTab$: Observable<string>;
 
-  metadataSub: Subscription;
-  modelNameExistsFailureSub: Subscription;
-  controlPointsAsyncObjSub: Subscription;
-  currenciesAsyncObjSub: Subscription;
-  roundingSettingsSub: Subscription;
-  activeTabSub: Subscription;
-
-  metadata: RangeGroupMetadata;
-  modelNameExistsFailure: boolean;
-  attemptedSubmit: boolean;
   activeRangeTypeTab: string;
-  controlPointsAsyncObj: AsyncStateObj<ControlPoint[]>;
-  currenciesAsyncObj: AsyncStateObj<Currency[]>;
-  controlPoints: ControlPoint[];
-  controlPointSelection: ControlPoint;
-  currencies: Currency[];
   modelSetting: RangeGroupMetadata;
-  activeTab: string;
-  roundingSettings: RoundingSettingsDataObj;
   defaultAdvancedSettings: AdvancedModelSettingForm;
+  adjustMidpointTypes = AdjustMidpointTypes;
+  adjustMidpointMoveByType = AdjustMidpointTypes.MoveBy;
 
   constructor(
-    public store: Store<any>,
+    public store: Store<any>
   ) {
-    this.metaData$ = this.store.pipe(select(fromSharedStructuresReducer.getMetadata));
-    this.modelNameExistsFailure$ = this.store.pipe(select(fromSharedStructuresReducer.getModelNameExistsFailure));
-    this.controlPointsAsyncObj$ = this.store.pipe(select(fromSharedStructuresReducer.getControlPointsAsyncObj));
-    this.currenciesAsyncObj$ = this.store.pipe(select(fromSharedStructuresReducer.getCurrenciesAsyncObj));
-    this.roundingSettings$ = this.store.pipe(select(fromSharedStructuresReducer.getRoundingSettings));
-    this.activeTab$ = this.store.pipe(select(fromSharedStructuresReducer.getActiveTab));
+    super(store);
   }
 
-  get formControls() {
-    return this.modelSettingsForm.controls;
+  // LifeCycle
+  ngOnInit(): void {
+    super.ngOnInit();
+    this.metadataSub = this.metaData$.subscribe(md => {
+      if (md) {
+        this.metadata = md;
+        this.activeRangeTypeTab = this.metadata.RangeDistributionTypes.find(t => t.Id === this.metadata.RangeDistributionTypeId).Type;
+      }
+    });
+    this.store.dispatch(new fromModelSettingsModalActions.GetCurrencies());
+    this.store.dispatch(new fromModelSettingsModalActions.GetControlPoints());
   }
 
-  get modelTabTitle() {
-    return this.metadata.IsCurrent || this.isNewModel ? 'Model Settings' : 'Current Model Settings';
-  }
-
-  clearModelNameExistsFailure() {
-    if (this.modelNameExistsFailure) {
-      this.store.dispatch(new fromModelSettingsModalActions.ClearModelNameExistsFailure());
-    }
+  ngOnDestroy(): void {
+    super.ngOnDestroy();
   }
 
   handleRangeTypeChange(event) {
@@ -113,23 +77,11 @@ export class GradeBasedModelSettingsContentComponent implements OnInit, OnDestro
   }
 
   handleRateSelectionChange(value: string) {
-    const roundingPoint = value.toLowerCase() === 'hourly' ? 2 : 0;
-    this.store.dispatch(new fromSharedStructuresActions.UpdateRoundingPoints({ RoundingPoint: roundingPoint }));
+    this.updateRoundingPoints(value);
     // if this is not a new model, and they change the value for rate, clear out starting midpoint
     if (!this.isNewModel) {
       this.formControls.StartingMidpoint.reset('');
     }
-  }
-
-  handleCurrencyFilterChange(value: string) {
-    this.currencies = this.currenciesAsyncObj.obj.filter(cp => {
-      return cp.CurrencyCode.toLowerCase().startsWith(value.toLowerCase()) ||
-        cp.CurrencyName.toLowerCase().startsWith(value.toLowerCase());
-    });
-  }
-
-  handleCurrencySelectionChange() {
-    this.currencies = this.currenciesAsyncObj.obj;
   }
 
   handleModalSubmit() {
@@ -155,12 +107,11 @@ export class GradeBasedModelSettingsContentComponent implements OnInit, OnDestro
     return this.modelSettingsForm.get('AdjustMidpointSetting.Percentage');
   }
 
-  get adjustMidpointMoveByType() {
-    return AdjustMidpointTypes.MoveBy;
+  get disableNumGradesField() {
+    return this.numGrades > 0;
   }
 
   handleModalSubmitAttempt() {
-    let tab = this.activeTab;
     this.attemptedSubmit = true;
 
     this.modelSetting = this.modelSettingsForm.getRawValue();
@@ -168,14 +119,8 @@ export class GradeBasedModelSettingsContentComponent implements OnInit, OnDestro
     this.updateRoundingSettings();
 
     if (!this.modelSettingsForm.valid) {
-      tab = 'modelTab';
+      this.activeTab = this.modelTabId;
     }
-
-    this.store.dispatch(new fromModelSettingsModalActions.SetActiveTab(tab));
-  }
-
-  handleModalDismiss() {
-    this.reset();
   }
 
   handleRadioButtonChanged(value: any) {
@@ -189,80 +134,5 @@ export class GradeBasedModelSettingsContentComponent implements OnInit, OnDestro
       this.defaultAdvancedSettings = generateMockRangeAdvancedSetting();
       this.modelSetting.RangeAdvancedSetting = this.defaultAdvancedSettings;
     }
-  }
-
-  updateRoundingSettings() {
-    const settings = this.rangeRoundingComponent.roundingSettingsForm.getRawValue();
-    if (!!settings) {
-      this.roundingSettings = settings;
-    }
-  }
-
-  get disableNumGradesField() {
-    return this.numGrades > 0;
-  }
-
-  get adjustMidpointTypes() {
-    return AdjustMidpointTypes;
-  }
-
-  // LifeCycle
-  ngOnInit(): void {
-    this.store.dispatch(new fromModelSettingsModalActions.GetCurrencies());
-    this.store.dispatch(new fromModelSettingsModalActions.GetControlPoints());
-
-    this.subscribe();
-  }
-
-  ngOnDestroy(): void {
-    this.unsubscribe();
-  }
-
-  private subscribe() {
-    this.activeTabSub = this.activeTab$.subscribe(tab => {
-      if (tab) {
-        this.activeTab = tab;
-      }
-    });
-
-    this.metadataSub = this.metaData$.subscribe(md => {
-      if (md) {
-        this.metadata = md;
-        this.activeRangeTypeTab = this.metadata.RangeDistributionTypes.find(t => t.Id === this.metadata.RangeDistributionTypeId).Type;
-      }
-    });
-
-    this.controlPointsAsyncObjSub = this.controlPointsAsyncObj$.subscribe(cp => {
-      this.controlPointsAsyncObj = cp;
-      this.controlPoints = cp.obj.filter((ctrlPt, i, arr) => {
-        return arr.indexOf(arr.find(t => t.Category === ctrlPt.Category && t.RangeDisplayName === 'MRP')) === i;
-      });
-      this.controlPointSelection = !!this.metadata.ControlPoint ? this.controlPoints.find(point => point.FieldName === this.metadata.ControlPoint) :
-        this.controlPoints.find(point => point.FieldName === 'BaseMRP');
-    });
-
-    this.currenciesAsyncObjSub = this.currenciesAsyncObj$.subscribe(c => {
-      this.currenciesAsyncObj = c;
-      this.currencies = c.obj;
-    });
-
-    this.modelNameExistsFailureSub = this.modelNameExistsFailure$.subscribe(mef => this.modelNameExistsFailure = mef);
-    this.roundingSettingsSub = this.roundingSettings$.subscribe(rs => this.roundingSettings = rs);
-  }
-
-  private unsubscribe() {
-    this.metadataSub.unsubscribe();
-    this.modelNameExistsFailureSub.unsubscribe();
-    this.controlPointsAsyncObjSub.unsubscribe();
-    this.currenciesAsyncObjSub.unsubscribe();
-    this.roundingSettingsSub.unsubscribe();
-    this.activeTabSub.unsubscribe();
-  }
-
-  private reset() {
-    this.attemptedSubmit = false;
-    const tab = 'modelTab';
-    this.store.dispatch(new fromModelSettingsModalActions.SetActiveTab(''));
-    this.store.dispatch(new fromModelSettingsModalActions.SetActiveTab(tab));
   }
 }

@@ -4,28 +4,23 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { switchMap, map, mergeMap, catchError, withLatestFrom, tap } from 'rxjs/operators';
+import { switchMap, mergeMap, catchError, withLatestFrom, tap } from 'rxjs/operators';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 
-import { generateMockRangeAdvancedSetting, JobBasedPageViewIds, RangeGroupMetadata } from 'libs/models/structures';
+import { RangeGroupMetadata } from 'libs/models/structures';
 import { StructureModelingApiService } from 'libs/data/payfactors-api/structures';
 import * as pfDataGridActions from 'libs/features/grids/pf-data-grid/actions';
 import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import { GridDataHelper } from 'libs/features/grids/pf-data-grid/helpers';
 import { GridConfig } from 'libs/features/grids/pf-data-grid/models';
 import { PagingOptions } from 'libs/models/payfactors-api/search/request';
-import * as fromNotificationActions from 'libs/features/infrastructure/app-notifications/actions/app-notifications.actions';
-import { NotificationLevel, NotificationSource, NotificationType } from 'libs/features/infrastructure/app-notifications/models';
-import * as fromDataGridActions from 'libs/features/grids/pf-data-grid/actions';
 import * as fromPfDataGridActions from 'libs/features/grids/pf-data-grid/actions';
 
 import * as fromSharedJobBasedRangeActions from '../actions/shared.actions';
 import * as fromSharedJobBasedReducer from '../reducers';
 import * as fromSharedStructuresActions from '../../../shared/actions/shared.actions';
-import { PayfactorsApiModelMapper } from '../../../shared/helpers/payfactors-api-model-mapper';
 import * as fromSharedStructuresReducer from '../../../shared/reducers';
 import { PagesHelper } from '../../../shared/helpers/pages.helper';
-import * as fromModelSettingsModalActions from '../../../shared/actions/model-settings-modal.actions';
 import { UrlService } from '../../../shared/services';
 
 @Injectable()
@@ -95,21 +90,6 @@ export class SharedEffects {
           }),
           catchError(error => of(new fromSharedJobBasedRangeActions.RemovingRangeError(error)))
         );
-      })
-    );
-
-  @Effect()
-  structureHasSettings: Observable<Action> = this.actions$
-    .pipe(
-      ofType(fromSharedJobBasedRangeActions.GET_STRUCTURE_HAS_SETTINGS),
-      switchMap((action: fromSharedJobBasedRangeActions.GetStructureHasSettings) => {
-        return this.structureModelingApiService.getStructureHasSettings(action.payload)
-          .pipe(
-            map((res) => {
-              return new fromSharedJobBasedRangeActions.GetStructureHasSettingsSuccess(res);
-            }),
-            catchError((err) => of(new fromSharedJobBasedRangeActions.GetStructureHasSettingsError(err)))
-          );
       })
     );
 

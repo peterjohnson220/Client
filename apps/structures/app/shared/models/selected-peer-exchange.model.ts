@@ -1,4 +1,4 @@
 export interface SelectedPeerExchangeModel {
-  ExchangeId: number,
-  ExchangeName: string
+  ExchangeId: number;
+  ExchangeName: string;
 }
