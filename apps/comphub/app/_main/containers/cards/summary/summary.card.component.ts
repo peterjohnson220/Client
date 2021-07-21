@@ -9,18 +9,18 @@ const { exportPDF } = pdf;
 import isEqual from 'lodash/isEqual';
 
 import { SearchFilterOption, SharePricingSummaryRequest } from 'libs/models/payfactors-api';
-import * as fromRootReducer from 'libs/state/state';
 import { UserContext } from 'libs/models/security';
-import { QuickPriceType, SystemUserGroupNames } from 'libs/constants';
+import { ComphubType, SystemUserGroupNames } from 'libs/constants';
 import { RateType, Rates, WeightType, WeightTypeDisplayLabeled } from 'libs/data/data-sets';
 import { KendoDropDownItem } from 'libs/models/kendo';
 import { ExchangeExplorerContextService } from 'libs/features/peer/exchange-explorer/services';
 import { ExchangeMapSummary } from 'libs/models/peer';
-import * as fromLibsPeerExchangeExplorerReducers from 'libs/features/peer/exchange-explorer/reducers';
 import { SettingsService } from 'libs/state/app-context/services';
 import { CompanySettingsEnum } from 'libs/models/company';
 import { FileDownloadSecurityWarningModalComponent } from 'libs/ui/common';
 import { JobData, PricingPaymarket } from 'libs/models/comphub';
+import * as fromRootReducer from 'libs/state/state';
+import * as fromLibsPeerExchangeExplorerReducers from 'libs/features/peer/exchange-explorer/reducers';
 
 import * as fromSummaryCardActions from '../../../../_shared/actions/summary-card.actions';
 import * as fromDataCardActions from '../../../../_shared/actions/data-card.actions';
@@ -29,6 +29,8 @@ import * as fromComphubPageActions from '../../../../_shared/actions/comphub-pag
 import { JobSalaryTrend, WorkflowContext } from '../../../../_shared/models';
 import { DataCardHelper } from '../../../../_shared/helpers';
 import { ComphubPages } from '../../../../_shared/data';
+
+import { MapHelper } from '../../../helpers';
 
 
 @Component({
@@ -86,7 +88,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
   currencySymbol: string;
   filterContext: any;
   workflowContext: WorkflowContext;
-  isPeerQuickPriceType = false;
+  isPeerComphubType = false;
   filterContextHasFilters = false;
   rates: KendoDropDownItem[] = Rates;
   showJobHistorySummary: boolean;
@@ -133,7 +135,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
     this.workflowContextSubscription = this.workflowContext$.subscribe(wfc => {
       if (!!wfc && wfc.selectedPageId === ComphubPages.Summary) {
         this.workflowContext = wfc;
-        this.isPeerQuickPriceType = wfc.quickPriceType === QuickPriceType.PEER;
+        this.isPeerComphubType = wfc.comphubType === ComphubType.PEER;
         if (this.showJobHistorySummary && this.pageId === ComphubPages.SummaryHistory) {
           this.updateSummaryHistoryData();
         } else if (!this.showJobHistorySummary && this.pageId === ComphubPages.Summary) {
@@ -156,7 +158,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
     this.selectedPaymarketSubscription.unsubscribe();
     this.selectedRateSubscription.unsubscribe();
     this.showJobHistorySummarySubscription.unsubscribe();
-    if (this.isPeerQuickPriceType && this.filterContextSubscription) {
+    if (this.isPeerComphubType && this.filterContextSubscription) {
       this.filterContextSubscription.unsubscribe();
     }
     this.workflowContextSubscription.unsubscribe();
@@ -176,7 +178,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
 
   handlePriceNewJobClicked() {
     this.lastJobData = null;
-    if (this.isPeerQuickPriceType) {
+    if (this.isPeerComphubType) {
       this.store.dispatch(new fromSummaryCardActions.PriceNewPeerJob());
     } else {
       this.store.dispatch(new fromSummaryCardActions.PriceNewJob());
@@ -278,39 +280,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
   }
 
   getPeerMapSrcString() {
-    const style = 'https://api.mapbox.com/styles/v1/mapbox/streets-v10/static/';
-    const htmlEncodedHashTag = '%23';
-    const geoJson = {
-      type: 'Feature',
-      geometry: {
-        type: 'Polygon',
-        coordinates: this.calculatePolygonCoordinates()
-      },
-      properties: {
-        stroke: htmlEncodedHashTag + '3f8845',
-        fill: htmlEncodedHashTag + '3f8845',
-        'fill-opacity': 0.1
-      }
-    };
-    return style + 'geojson(' + JSON.stringify(geoJson) + ')/auto/600x600?access_token=' + this.mbAccessToken;
-  }
-
-  calculatePolygonCoordinates() {
-    // Default to the largest coordinates the map can expand to.
-    let polygonCoordinates = [[[-180, 90], [-180, -90], [180, -90], [180, 90], [-180, 90]]];
-    if (!!this.filterContext && !!this.filterContext.FilterContext
-      && !!this.filterContext.FilterContext.TopLeft && !!this.filterContext.FilterContext.BottomRight) {
-      const topLeft = this.filterContext.FilterContext.TopLeft;
-      const bottomRight = this.filterContext.FilterContext.BottomRight;
-
-      polygonCoordinates = [[[topLeft.Lon, topLeft.Lat],
-        [topLeft.Lon, bottomRight.Lat],
-        [bottomRight.Lon, bottomRight.Lat],
-        [bottomRight.Lon, topLeft.Lat],
-        [topLeft.Lon, topLeft.Lat]]];
-    }
-
-    return polygonCoordinates;
+    return MapHelper.getMapUrl(this.mbAccessToken, this.filterContext);
   }
 
   getFilterString(options: SearchFilterOption[]): string {
@@ -322,7 +292,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
   }
 
   onWorkflowContextChanges(): void {
-    if (!this.isPeerQuickPriceType) {
+    if (!this.isPeerComphubType) {
       this.store.dispatch(new fromSummaryCardActions.RecalculateJobData());
       if (this.jobHasChanged()) {
         this.loadJobTrendChart();
@@ -332,7 +302,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
       this.currencyCode = this.workflowContext.activeCountryDataSet.CurrencyCode;
       this.countryCode = this.workflowContext.activeCountryDataSet.CountryCode;
       this.currencySymbol = getCurrencySymbol(this.workflowContext.activeCountryDataSet.CurrencyCode, 'narrow');
-    } else if (this.isPeerQuickPriceType) {
+    } else if (this.isPeerComphubType) {
       this.store.dispatch(new fromComphubPageActions.RemoveAccessiblePages([ComphubPages.Jobs, ComphubPages.Markets, ComphubPages.Data]));
       this.lastJobData = this.jobData;
       this.loadPeerQuickPriceData();
@@ -356,7 +326,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
     this.currencyCode = this.paymarket.CurrencyCode;
     this.countryCode = this.paymarket.CountryCode;
     this.currencySymbol = getCurrencySymbol(this.paymarket.CurrencyCode, 'narrow');
-    if (!this.isPeerQuickPriceType) {
+    if (!this.isPeerComphubType) {
       this.loadJobTrendChart();
     } else {
       this.filterContext$ = this.exchangeExplorerContextService.selectFilterContext();

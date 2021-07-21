@@ -5,8 +5,7 @@ import { Action } from '@ngrx/store';
 import { ExchangeDataSet, JobData } from 'libs/models/comphub';
 
 import { ComphubPages } from '../data';
-import { CountryDataSet, FooterContext } from '../models';
-import { JobPricingLimitInfo } from '../models/job-pricing-limit-info.model';
+import { CountryDataSet, FooterContext, JobPricingLimitInfo } from '../models';
 
 export const INIT = '[Comphub/Comphub Page] Init Comphub Page';
 export const NAVIGATE_TO_CARD = '[Comphub/Comphub Page] Navigate to Card';
@@ -15,7 +14,9 @@ export const NAVIGATE_TO_PREVIOUS_CARD = '[Comphub/Comphub Page] Navigate to Pre
 export const ADD_ACCESSIBLE_PAGES = '[Comphub/Comphub Page] Add Accessible Pages';
 export const REMOVE_ACCESSIBLE_PAGES = '[Comphub/Comphub Page] Remove Accessible Pages';
 export const RESET_ACCESSIBLE_PAGES = '[Comphub/Comphub Page] Reset Accessible Pages';
+export const RESET_ACCESSIBLE_TRENDS_PAGES = '[Comphub/Comphub Page] Reset Accessible Trends Pages';
 export const RESET_PAGES_ACCESSED = '[Comphub/Comphub Page] Reset Pages Accessed';
+export const RESET_TRENDS_PAGES_ACCESSED = '[Comphub/Comphub Page] Reset Trends Pages Accessed';
 export const UPDATE_CARD_SUBTITLE = '[Comphub/Comphub Page] Update Card Subtitle';
 export const GET_JOB_PRICING_LIMIT_INFO = '[Comphub/Comphub Page] Get Job Pricing Limit Info';
 export const SET_JOB_PRICING_LIMIT_INFO = '[Comphub/Comphub Page] Set Job Pricing Limit Info';
@@ -26,7 +27,7 @@ export const UPDATE_ACTIVE_COUNTRY_DATA_SET = '[Comphub/Comphub Page] Update Act
 export const GET_EXCHANGE_DATA_SETS = '[Comphub/Comphub Page] Get Exchange Data Sets';
 export const GET_EXCHANGE_DATA_SETS_SUCCESS = '[Comphub/Comphub Page] Get Exchange Data Sets Success';
 export const UPDATE_ACTIVE_EXCHANGE_DATA_SET = '[Comphub/Comphub Page] Update Active Exchange Data Set';
-export const SET_QUICK_PRICE_TYPE_IN_WORKFLOW_CONTEXT = '[Comphub/Comphub Page] Set Quick Price Type In Workflow Context';
+export const SET_COMPHUB_TYPE_IN_WORKFLOW_CONTEXT = '[Comphub/Comphub Page] Set Comphub Type In Workflow Context';
 export const SET_QUICK_PRICE_HISTORY_MODAL_OPEN = '[Comphub/Comphub Page] Set Quick Price History Modal Open';
 export const UPDATE_FOOTER_CONTEXT = '[Comphub/Comphub Page] Update Footer Context';
 export const SET_FOOTER_CONTEXT = '[Comphub/Comphub Page] Set Footer Context';
@@ -77,6 +78,12 @@ export class ResetAccessiblePages implements Action {
 
 export class ResetPagesAccessed implements Action {
   readonly type = RESET_PAGES_ACCESSED;
+
+  constructor() {}
+}
+
+export class ResetTrendsPagesAccessed implements Action {
+  readonly type = RESET_TRENDS_PAGES_ACCESSED;
 
   constructor() {}
 }
@@ -137,8 +144,8 @@ export class UpdateActiveExchangeDataSet implements Action {
   constructor(public payload: number) { }
 }
 
-export class SetQuickPriceTypeInWorkflowContext implements Action {
-  readonly type = SET_QUICK_PRICE_TYPE_IN_WORKFLOW_CONTEXT;
+export class SetComphubTypeInWorkflowContext implements Action {
+  readonly type = SET_COMPHUB_TYPE_IN_WORKFLOW_CONTEXT;
 
   constructor(public payload: string) {}
 }
@@ -168,6 +175,11 @@ export class ClearSelectedJobData implements Action {
   constructor() {}
 }
 
+export class ResetAccessibleTrendsPages implements Action {
+  readonly type = RESET_ACCESSIBLE_TRENDS_PAGES;
+  constructor() {}
+}
+
 export type Actions
   = Init
   | NavigateToCard
@@ -187,9 +199,11 @@ export type Actions
   | GetExchangeDataSets
   | GetExchangeDataSetsSuccess
   | UpdateActiveExchangeDataSet
-  | SetQuickPriceTypeInWorkflowContext
+  | SetComphubTypeInWorkflowContext
   | SetQuickPriceHistoryModalOpen
   | UpdateFooterContext
   | SetFooterContext
   | SetSelectedJobData
-  | ClearSelectedJobData;
+  | ClearSelectedJobData
+  | ResetAccessibleTrendsPages
+  | ResetTrendsPagesAccessed;

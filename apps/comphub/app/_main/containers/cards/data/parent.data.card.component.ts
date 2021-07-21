@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
-import { QuickPriceType } from 'libs/constants';
+import { ComphubType } from 'libs/constants';
 
 import * as fromComphubSharedReducer from '../../../../_shared/reducers';
 import { WorkflowContext } from '../../../../_shared/models';
@@ -15,7 +15,7 @@ import { WorkflowContext } from '../../../../_shared/models';
 })
 export class ParentDataCardComponent {
   workflowContext$: Observable<WorkflowContext>;
-  quickPriceTypes = QuickPriceType;
+  comphubTypes = ComphubType;
 
   constructor(private store: Store<fromComphubSharedReducer.State>) {
     this.workflowContext$ = this.store.select(fromComphubSharedReducer.getWorkflowContext);

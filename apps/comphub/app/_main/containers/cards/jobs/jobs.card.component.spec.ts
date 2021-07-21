@@ -108,7 +108,7 @@ describe('Comphub - Main - Jobs Card Component', () => {
 
     spyOn(store, 'dispatch');
     const expectedAction = new fromJobsCardActions.SetSelectedJob({ jobTitle: 'Accountant', exchangeJobId: 10 });
-    instance.isPeerQuickPriceType = true;
+    instance.isPeerComphubType = true;
 
     instance.handleTrendingJobClicked({ Value: 'Accountant', Key: 10 });
 

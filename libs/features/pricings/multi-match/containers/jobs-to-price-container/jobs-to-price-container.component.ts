@@ -7,7 +7,8 @@ import { DragulaService } from 'ng2-dragula';
 import * as autoScroll from 'dom-autoscroller';
 
 import { JobMatchCut } from 'libs/models/payfactors-api';
-import {DataCutDetails, PricingMatchDataSearchContext} from 'libs/features/surveys/survey-search/models';
+import { DataCutDetails, PricingMatchDataSearchContext } from 'libs/features/surveys/survey-search/models';
+import { TempDataCutService } from 'libs/features/temp-data-cut/services';
 import * as fromSurveySearchReducer from 'libs/features/surveys/survey-search/reducers';
 import * as fromSurveySearchResultsActions from 'libs/features/surveys/survey-search/actions/survey-search-results.actions';
 
@@ -17,7 +18,6 @@ import * as fromJobsToPriceActions from '../../actions/jobs-to-price.actions';
 
 import { JobToPrice } from '../../models';
 import { MultiMatchFeatureImplementations } from '../../constants';
-import { TempDataCutService } from '../../services';
 
 @Component({
   selector: 'pf-jobs-to-price-container',

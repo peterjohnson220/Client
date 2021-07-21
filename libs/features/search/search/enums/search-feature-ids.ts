@@ -3,5 +3,6 @@ export enum SearchFeatureIds {
   MultiMatch = 'MultiMatch',
   AddSurveyData = 'AddSurveyData',
   AddJobs = 'AddJobs',
-  StatementAssignment = 'StatementAssignment'
+  StatementAssignment = 'StatementAssignment',
+  PeerExchangeJob = 'PeerExchangeJob'
 }

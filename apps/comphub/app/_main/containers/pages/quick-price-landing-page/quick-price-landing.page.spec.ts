@@ -8,7 +8,7 @@ import * as fromRootState from 'libs/state/state';
 import * as fromComphubSharedReducer from '../../../../_shared/reducers';
 import * as fromComphubPageActions from '../../../../_shared/actions/comphub-page.actions';
 import { QuickPriceLandingPageComponent } from './quick-price-landing.page';
-import { AccordionCards, ComphubPages } from '../../../../_shared/data';
+import { QuickPriceAccordionCards, ComphubPages } from '../../../../_shared/data';
 
 describe('Quick Price - Main - Quick Price Page', () => {
   let instance: QuickPriceLandingPageComponent;
@@ -54,7 +54,7 @@ describe('Quick Price - Main - Quick Price Page', () => {
   });
 
   it('should track by the accordion Id', () => {
-    const card = AccordionCards.defaultAccordionCards[0];
-    expect(instance.trackById(1, AccordionCards.defaultAccordionCards[0])).toBe(card.Id);
+    const card = QuickPriceAccordionCards.defaultAccordionCards[0];
+    expect(instance.trackById(1, QuickPriceAccordionCards.defaultAccordionCards[0])).toBe(card.Id);
   });
 });

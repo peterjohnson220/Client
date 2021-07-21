@@ -189,14 +189,19 @@ export const getActiveExchangeDataSet = createSelector(
   fromComphubPageReducer.getActiveExchangeDataSet
 );
 
+export const getActiveExchangeId = createSelector(
+  getActiveExchangeDataSet,
+  (exchangeDataSet) => exchangeDataSet?.ExchangeId ?? null
+);
+
 export const getWorkflowContext = createSelector(
   selectComphubPageState,
   fromComphubPageReducer.getWorkflowContext
 );
 
-export const getQuickPriceType = createSelector(
+export const getComphubType = createSelector(
   getWorkflowContext,
-  (context) => context.quickPriceType
+  (context) => context.comphubType
 );
 
 export const getIsQuickPriceHistoryOpen = createSelector(

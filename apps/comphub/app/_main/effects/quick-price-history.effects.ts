@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-
 import { of } from 'rxjs';
 import { catchError, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
 
@@ -11,13 +10,13 @@ import * as fromExchangeExplorerMapActions from 'libs/features/peer/exchange-exp
 import * as fromSearchFiltersActions from 'libs/features/search/search/actions/search-filters.actions';
 import * as fromExchangeFilterContextActions from 'libs/features/peer/exchange-explorer/actions/exchange-filter-context.actions';
 import { PayfactorsSearchApiModelMapper } from 'libs/features/search/search/helpers';
+import { ComphubApiService } from 'libs/data/payfactors-api/comphub';
+import { ComphubType } from 'libs/constants';
 
 import * as fromComphubSharedReducer from '../../_shared/reducers';
 import * as fromQuickPriceHistoryActions from '../actions/quick-price-history.actions';
 import * as fromSummaryCardActions from '../../_shared/actions/summary-card.actions';
 import * as fromComphubPageActions from '../../_shared/actions/comphub-page.actions';
-import { QuickPriceType } from 'libs/constants';
-import { ComphubApiService } from 'libs/data/payfactors-api/comphub';
 import { ComphubPages } from '../../_shared/data';
 import { MarketsCardHelper, PayfactorsApiModelMapper } from '../../_shared/helpers';
 
@@ -28,9 +27,9 @@ export class QuickPriceHistoryEffects {
     .pipe(
       ofType(fromQuickPriceHistoryActions.GET_JOB_PRICED_HISTORY_SUMMARY),
       withLatestFrom(
-        this.store.select(fromComphubSharedReducer.getQuickPriceType),
-        (action: fromQuickPriceHistoryActions.GetJobPricedHistorySummary, quickPriceType) =>
-          ({action, quickPriceType})
+        this.store.select(fromComphubSharedReducer.getComphubType),
+        (action: fromQuickPriceHistoryActions.GetJobPricedHistorySummary, comphubType) =>
+          ({action, comphubType: comphubType})
       ),
       switchMap((data) => {
         return this.comphubApiService.getJobPricedHistorySummary(data.action.payload)
@@ -45,11 +44,11 @@ export class QuickPriceHistoryEffects {
               const jobData = PayfactorsApiModelMapper.mapQuickPriceMarketDataToJobData(response);
               const payMarket = !!response.PayMarketDto
                 ? PayfactorsApiModelMapper.mapPaymarketToPricingPayMarket(response.PayMarketDto)
-                : data.quickPriceType !== QuickPriceType.PEER
+                : data.comphubType !== ComphubType.PEER
                   ? MarketsCardHelper.buildDefaultPricingPayMarket()
                   : MarketsCardHelper.buildEmptyPeerPricingPayMarket();
               jobData.PayMarket = payMarket;
-              if (data.quickPriceType === QuickPriceType.PEER) {
+              if (data.comphubType === ComphubType.PEER) {
                 actions.push(new fromExchangeExplorerMapActions.SetPeerMapBounds({
                   TopLeft: response.ExchangeDataSearchFilterContext.TopLeft,
                   BottomRight: response.ExchangeDataSearchFilterContext.BottomRight,

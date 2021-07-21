@@ -8,7 +8,7 @@ import { ComphubApiService } from 'libs/data/payfactors-api/comphub';
 import { JobSearchApiService } from 'libs/data/payfactors-api/search/jobs';
 import { ExchangeJobSearchApiService} from 'libs/data/payfactors-api/search/peer/exchange-job-search-api.service';
 import { ExchangeJobSearchOption } from 'libs/models/peer/ExchangeJobSearchOption';
-import { QuickPriceType } from 'libs/constants';
+import { ComphubType } from 'libs/constants';
 
 import * as fromJobsCardActions from '../actions/jobs-card.actions';
 import * as fromComphubPageActions from '../actions/comphub-page.actions';
@@ -26,21 +26,21 @@ export class JobsCardEffects {
       withLatestFrom(
         this.store.select(fromComphubSharedReducer.getActiveCountryDataSet),
         this.store.select(fromComphubSharedReducer.getActiveExchangeDataSet),
-        this.store.select(fromComphubSharedReducer.getQuickPriceType),
-        (action: fromJobsCardActions.GetTrendingJobs, activeCountryDataSet, activeExchangeDataSet, qpType) => ({
+        this.store.select(fromComphubSharedReducer.getComphubType),
+        (action: fromJobsCardActions.GetTrendingJobs, activeCountryDataSet, activeExchangeDataSet, chType) => ({
           activeCountryDataSet,
           activeExchangeDataSet,
-          qpType
+          chType
         })
       ),
       switchMap((data) => {
         let trendingJobs$ = of(null);
-        if (data.qpType === QuickPriceType.ENTERPRISE || data.qpType === QuickPriceType.SMALL_BUSINESS) {
+        if (data.chType === ComphubType.ENTERPRISE || data.chType === ComphubType.SMALL_BUSINESS) {
           const countryCode = !!data.activeCountryDataSet ? data.activeCountryDataSet.CountryCode : CountryCode.USA;
           trendingJobs$ = this.comphubApiService.getTrendingJobs(countryCode);
         }
 
-        if (data.qpType === QuickPriceType.PEER && !!data.activeExchangeDataSet) {
+        if (data.chType === ComphubType.PEER && !!data.activeExchangeDataSet) {
           const exchangeId = data.activeExchangeDataSet.ExchangeId;
           trendingJobs$ = this.comphubApiService.getTrendingExchangeJobs(exchangeId);
         }
