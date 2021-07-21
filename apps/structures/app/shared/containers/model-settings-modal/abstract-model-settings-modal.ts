@@ -27,7 +27,6 @@ export abstract class AbstractModelSettingsModalComponent implements OnInit, OnD
 
   modelNameExistsFailureSub: Subscription;
   metaDataSubscription: Subscription;
-  modalOpenSubscription: Subscription;
 
   @ViewChild(AbstractModelSettingsContentComponent, { static: false }) protected modelContentComponent: AbstractModelSettingsContentComponent;
 
@@ -55,7 +54,6 @@ export abstract class AbstractModelSettingsModalComponent implements OnInit, OnD
   ngOnDestroy(): void {
     this.modelNameExistsFailureSub.unsubscribe();
     this.metaDataSubscription.unsubscribe();
-    this.modalOpenSubscription.unsubscribe();
   }
 
   handleModalSubmit() {

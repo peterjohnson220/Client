@@ -33,6 +33,7 @@ export class JobBasedModelSettingsContentComponent extends AbstractModelSettings
   savingModelSettingsAsyncObj$: Observable<AsyncStateObj<null>>;
 
   allFormulasSub: Subscription;
+  metadataSub: Subscription;
 
   modelSetting: RangeGroupMetadata;
   minSpreadTooltip: string;
@@ -202,5 +203,6 @@ export class JobBasedModelSettingsContentComponent extends AbstractModelSettings
     this.allFormulasSub.unsubscribe();
     this.exchangeSub.unsubscribe();
     this.hasAcceptedPeerTermsSub.unsubscribe();
+    this.metadataSub.unsubscribe();
   }
 }

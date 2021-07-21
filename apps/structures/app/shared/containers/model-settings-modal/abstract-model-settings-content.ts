@@ -29,7 +29,6 @@ export abstract class AbstractModelSettingsContentComponent implements OnInit, O
   currenciesAsyncObj$: Observable<AsyncStateObj<Currency[]>>;
   roundingSettings$: Observable<RoundingSettingsDataObj>;
 
-  metadataSub: Subscription;
   modelNameExistsFailureSub: Subscription;
   controlPointsAsyncObjSub: Subscription;
   currenciesAsyncObjSub: Subscription;
@@ -72,7 +71,6 @@ export abstract class AbstractModelSettingsContentComponent implements OnInit, O
   }
 
   ngOnDestroy(): void {
-    this.metadataSub.unsubscribe();
     this.modelNameExistsFailureSub.unsubscribe();
     this.currenciesAsyncObjSub.unsubscribe();
     this.roundingSettingsSub.unsubscribe();
