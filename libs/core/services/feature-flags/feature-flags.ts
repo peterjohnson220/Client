@@ -2,7 +2,6 @@
  * Our feature flag keys
  */
 export class FeatureFlags {
-  static readonly UserNotifications = 'user-notifications';
   static readonly TotalRewardsElectronicDelivery = 'total-rewards-electronic-delivery';
   static readonly TotalRewardsEmployeeContribution = 'total-rewards-employee-contribution';
   static readonly TotalRewardsRadialTextCounters = 'total-rewards-radial-text-counters';

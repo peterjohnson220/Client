@@ -1,0 +1,11 @@
+<pf-card-layout
+  pageTitle="Jobs"
+  pageIconClass="file-alt"
+  [page]="comphubPages.TrendsJobs">
+
+  <ng-container page-content>
+    <div class="h-100">
+      <pf-relational-exchange-job-search-selector [exchangeId$]="activeExchangeId$"></pf-relational-exchange-job-search-selector>
+    </div>
+  </ng-container>
+</pf-card-layout>
