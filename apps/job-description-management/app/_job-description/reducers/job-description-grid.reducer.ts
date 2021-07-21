@@ -5,7 +5,6 @@ import { GridDataResult } from '@progress/kendo-angular-grid';
 import { ListAreaColumn } from 'libs/models/common';
 
 import * as fromJobDescriptionGridActions from '../actions/job-description-grid.actions';
-import { CompanyJobViewListItem } from '../models';
 
 export interface State {
   gridDataResult: GridDataResult;
@@ -19,12 +18,12 @@ export interface State {
   savingListAreaColumnsError: boolean;
   savingListAreaColumnsSuccess: boolean;
   searchTerm: string;
-  selectedJobDescriptions: Map<number, number>;
+  selectedJobDescriptions: Map<number, any>;
 }
 
 export const initialState: State = {
-  gridDataResult: null,
-  gridState: { skip: 0, take: 20 },
+  gridDataResult: { data: [], total: null },
+  gridState: { skip: 0, take: 20, sort: [{ 'field': 'JobTitle', 'dir': 'asc' }] },
   listAreaColumns: [],
   loadingJobDescriptionGrid: false,
   loadingJobDescriptionGridError: false,
@@ -34,7 +33,7 @@ export const initialState: State = {
   savingListAreaColumnsError: false,
   savingListAreaColumnsSuccess: false,
   searchTerm: '',
-  selectedJobDescriptions: new Map<number, number>()
+  selectedJobDescriptions: new Map<number, any>()
 };
 
 export function reducer(state = initialState, action: fromJobDescriptionGridActions.Actions): State {
@@ -51,10 +50,21 @@ export function reducer(state = initialState, action: fromJobDescriptionGridActi
         loadingJobDescriptionGridError: true
       };
       case fromJobDescriptionGridActions.LOAD_JOB_DESCRIPTION_GRID_SUCCESS:
+        const gridData = cloneDeep(action.payload);
+
+        // update selected JDs with new grid data
+        if ( state.selectedJobDescriptions?.size > 0) {
+          gridData.data.forEach(jobDescription => {
+            if (state.selectedJobDescriptions.has(jobDescription['JobDescriptionId'])) {
+              state.selectedJobDescriptions.set(jobDescription['JobDescriptionId'], jobDescription);
+            }
+          });
+        }
+
         return {
           ...state,
           loadingJobDescriptionGrid: false,
-          gridDataResult: cloneDeep(action.payload)
+          gridDataResult: gridData
         };
     case fromJobDescriptionGridActions.LOAD_LIST_AREA_COLUMNS:
     case fromJobDescriptionGridActions.LOAD_PUBLIC_JDM_COLUMNS:
@@ -137,6 +147,53 @@ export function reducer(state = initialState, action: fromJobDescriptionGridActi
         };
       }
 
+      case fromJobDescriptionGridActions.ADD_ROUTING_JOBS: {
+        const gridDataResultCopy = cloneDeep(state.gridDataResult);
+
+        gridDataResultCopy.data.forEach( jd => {
+          const jobDescriptionId = jd['JobDescriptionId'];
+          if (action.payload.includes(jobDescriptionId)) {
+            jd['JobDescriptionStatus'] = 'Routing';
+          }
+        });
+        // Remove this job from grid selections
+        state.selectedJobDescriptions?.clear();
+        return {
+          ...state,
+          gridDataResult: gridDataResultCopy
+        };
+      }
+
+      case fromJobDescriptionGridActions.REMOVE_ROUTING_JOB: {
+        const gridDataResultCopy = cloneDeep(state.gridDataResult);
+        gridDataResultCopy.data.forEach( jd => {
+          if (action.payload === jd['JobDescriptionId']) {
+            jd['JobDescriptionStatus'] = 'In Review';
+          }
+        });
+        return {
+          ...state,
+          gridDataResult: gridDataResultCopy
+        };
+      }
+
+      case fromJobDescriptionGridActions.ADD_DELETING_JOBS: {
+        const gridDataResultCopy = cloneDeep(state.gridDataResult);
+        gridDataResultCopy.data.forEach( jd => {
+          const jobDescriptionId = jd['JobDescriptionId'];
+          if (action.payload.includes(jobDescriptionId)) {
+            jd['JobDescriptionStatus'] = 'Deleting';
+          }
+          // Remove this job from grid selections
+          if (state.selectedJobDescriptions.has(jobDescriptionId)) {
+            state.selectedJobDescriptions.delete(jobDescriptionId);
+          }
+        });
+        return {
+          ...state,
+          gridDataResult: gridDataResultCopy
+        };
+      }
     default:
       return state;
   }

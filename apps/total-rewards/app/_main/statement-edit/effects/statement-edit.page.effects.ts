@@ -19,7 +19,7 @@ import { DeliveryMethod } from 'libs/features/total-rewards/total-rewards-statem
 
 import * as fromTotalRewardsReducer from '../reducers';
 import * as fromStatementEditActions from '../actions';
-import { SaveStatement, SaveSettings } from '../actions';
+import { SaveStatement, SaveSettings, PrepareSaveSettings } from '../actions';
 
 @Injectable()
 export class StatementEditPageEffects {
@@ -82,6 +82,7 @@ export class StatementEditPageEffects {
         fromStatementEditActions.REORDER_CALCULATION_CONTROL_COMPENSATION_FIELD,
         fromStatementEditActions.ADD_CALCULATION_CONTROL_COMPENSATION_FIELD,
         fromStatementEditActions.UPDATE_RICH_TEXT_CONTROL_CONTENT,
+        fromStatementEditActions.UPDATE_ADDITIONAL_PAGE_RICH_TEXT_CONTROL_HEIGHT,
         fromStatementEditActions.SAVE_IMAGE_CONTROL_IMAGE,
         fromStatementEditActions.UPDATE_EFFECTIVE_DATE
       ),
@@ -111,6 +112,13 @@ export class StatementEditPageEffects {
         fromStatementEditActions.TOGGLE_DISPLAY_SETTING,
         fromStatementEditActions.UPDATE_ADDITIONAL_PAGE_SETTINGS
       ),
+      mapTo(new PrepareSaveSettings())
+    );
+
+  @Effect()
+  prepareSettingsSave$: Observable<Action> =
+    this.actions$.pipe(
+      ofType(fromStatementEditActions.PREPARE_SAVE_SETTINGS),
       mapTo(new SaveSettings())
     );
 
@@ -120,11 +128,18 @@ export class StatementEditPageEffects {
       ofType(fromStatementEditActions.SAVE_SETTINGS),
       withLatestFrom(
         this.store.pipe(select(fromTotalRewardsReducer.selectStatement)),
-        (action, statement: Statement) => statement),
-      map(statement => ({ StatementId: statement.StatementId, ...statement.Settings } as SaveSettingsRequest)),
+        this.store.pipe(select(fromTotalRewardsReducer.getRepeatableHeaderHeightInPixels)),
+        (action, statement: Statement, headerHeightInPixels: number) => ({ ...statement, headerHeightInPixels })),
+      map(combined => ({ StatementId: combined.StatementId, HeaderHeightInPixels: combined.headerHeightInPixels, ...combined.Settings })),
       concatMap((saveSettingsRequest: SaveSettingsRequest) =>
         this.totalRewardsApiService.saveStatementSettings(saveSettingsRequest).pipe(
-          map((settings: Settings) => new fromStatementEditActions.SaveSettingsSuccess(settings)),
+          map((updatedStatement: Statement) => {
+            return updatedStatement.EffectiveDate ? { ...updatedStatement, EffectiveDate: new Date(updatedStatement.EffectiveDate) } : updatedStatement;
+          }),
+          mergeMap((updatedStatement: Statement) => [
+            new fromStatementEditActions.SaveStatementSuccess(updatedStatement),
+            new fromStatementEditActions.SaveSettingsSuccess(updatedStatement.Settings),
+          ]),
           catchError(() => of(new fromStatementEditActions.SaveSettingsError()))
         ))
     );
@@ -138,7 +153,13 @@ export class StatementEditPageEffects {
         (action, statement: Statement) => statement),
       concatMap((statement: Statement) =>
         this.totalRewardsApiService.resetStatementSettings(statement.StatementId).pipe(
-          map((settings: Settings) => new fromStatementEditActions.SaveSettingsSuccess(settings)),
+          map((updatedStatement: Statement) => {
+            return updatedStatement.EffectiveDate ? { ...updatedStatement, EffectiveDate: new Date(updatedStatement.EffectiveDate) } : updatedStatement;
+          }),
+          mergeMap((updatedStatement: Statement) => [
+            new fromStatementEditActions.SaveStatementSuccess(updatedStatement),
+            new fromStatementEditActions.SaveSettingsSuccess(updatedStatement.Settings),
+          ]),
           catchError(() => of(new fromStatementEditActions.SaveSettingsError()))
         ))
     );
@@ -147,8 +168,11 @@ export class StatementEditPageEffects {
   removeImage$: Observable<Action> = this.actions$
     .pipe(
       ofType(fromStatementEditActions.REMOVE_IMAGE_CONTROL_IMAGE),
-      switchMap((action: fromStatementEditActions.RemoveImageControlImage) =>
-        this.totalRewardsApiService.deleteStatementImage(action.payload.FileName).pipe(
+      withLatestFrom(
+        this.store.pipe(select(fromTotalRewardsReducer.selectStatement)),
+        (action, statement: Statement) => ({ action, statement })),
+      switchMap((combined: { action: fromStatementEditActions.RemoveImageControlImage, statement: Statement }) =>
+        this.totalRewardsApiService.deleteStatementImage(combined.action.payload.FileName, combined.statement.StatementId).pipe(
           mapTo(new SaveStatement())
         )
       )

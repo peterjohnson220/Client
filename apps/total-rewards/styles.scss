@@ -89,12 +89,10 @@ pf-statement-edit.page {
         color: white;
         border-color: white;
       }
-
       .preview-download-button {
         color: white;
         border-color: white;
       }
-
       .start-100{
         left: 100%;
       }
@@ -112,6 +110,11 @@ pf-statement-edit.page {
   .statement, .header-row-wrapper, .canvas {
     transition: opacity .2s ease-in-out, background-color .2s ease-in-out, transform .5s ease-in-out;
   }
+
+  //Targets the dragging element for dragula
+  .gu-mirror pf-string-editor .radial-text-counter {
+    visibility: hidden;
+  }
   a.settings {
     color: inherit;
     svg {
@@ -125,6 +128,13 @@ pf-statement-edit.page {
     &.preview-mode svg {
       opacity: .5;
     }
+  }
+}
+
+pf-statement-edit, pf-total-rewards-statement-view {
+  .statement .trs-page {
+    // show a gap between pages in the editor and e-delivery view so users can see where a page begins and ends
+    margin-bottom: $web-view-page-margin;
   }
 }
 
@@ -194,4 +204,8 @@ pf-statement-assignment-page {
   .k-grid-header th .k-link>.k-icon {
     display: none;
   }
+}
+
+.radial-tooltip {
+  pointer-events: none;
 }

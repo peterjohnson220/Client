@@ -52,6 +52,8 @@ import { PfThemeType } from '../../enums/pf-theme-type.enum';
 export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   @Input() pageViewId: string;
   @Input() columnTemplates: any;
+  @Input() columnHeaderTemplates: any;
+  @Input() groupedColumnHeaderTemplates: any;
   @Input() expandedRowTemplate: TemplateRef<any>;
   @Input() gridRowActionsConfig: GridRowActionsConfig;
   @Input() customHeaderTemplate: TemplateRef<any>;
@@ -83,6 +85,10 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   @Input() hasColDividers = false;
   @Input() enableRowFade = false;
   @Input() hideVerticalScrolling = false;
+  @Input() collapseFilterPanelOnCellClick = false;
+  @Input() hideKendoGrid = false;
+  @Input() hidePageSizes = false;
+  @Input() gridReplacementTemplate: TemplateRef<any>;
   @Output() scrolled = new EventEmitter<ContentScrollEvent>();
 
 
@@ -200,6 +206,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
     this.dataSubscription = this.store.select(fromReducer.getData, this.pageViewId).subscribe(newData => {
       this.data = cloneDeep(newData);
       if (this.data && this.grid) {
+        this.groupTracker = [];
         this.grid.resetGroupsState();
         for (let index = 0; index < this.data.data.length; index++) {
           if (!this.expandedRows.includes(index)) {
@@ -327,7 +334,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
           buttonCount: 5,
           info: true,
           type: 'numeric',
-          pageSizes: [20, 50, 100, 250],
+          pageSizes: this.hidePageSizes ? false : [20, 50, 100, 250],
           previousNext: true
         };
     }
@@ -442,35 +449,39 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
 
     if (getSelection().toString()) {
       // User is highlighting text so we don't want to mark this as a click
-    } else if (this.allowSplitView) {
-      if (this.resetWidthForSplitView) {
-        this.resetKendoGridWidth();
+    } else {
+      if (this.collapseFilterPanelOnCellClick) {
+        this.store.dispatch(new fromActions.SetFilterPanelDisplay(this.pageViewId, false));
       }
-
-      // close split view when we click on the selected record. Otherwise select another record
-      if (dataItem[this.primaryKey] === this.selectedRecordId) {
-        this.store.dispatch(new fromActions.CloseSplitView(this.pageViewId));
-      } else {
-        this.store.dispatch(new fromActions.UpdateSelectedRecordId(this.pageViewId, dataItem[this.primaryKey], '='));
-      }
-    } else if (this.expandedRowTemplate) {
-      if (this.expandedRows.includes(rowIndex)) {
-        this.store.dispatch(new fromActions.CollapseRow(this.pageViewId, rowIndex));
-        this.grid.collapseRow(rowIndex);
-      } else {
-        this.store.dispatch(new fromActions.ExpandRow(this.pageViewId, rowIndex));
-        this.grid.expandRow(rowIndex);
-      }
-    } else if (this.enableSelection) {
-      this.store.dispatch(new fromActions.UpdateSelectedKey(this.pageViewId, dataItem[this.primaryKey]));
-    } else if (!this.allowSplitView) {
-      // User has clicked a row that we want to treat as selected, but not open any split view/expanded views
-      // This is how we manage grids that are limited to 1 selected row at a time opposed to our multi select checkboxes
-      // Click the same row to de select
-      if (dataItem[this.primaryKey] === this.selectedRecordId) {
-        this.store.dispatch(new fromActions.UpdateSelectedRecordId(this.pageViewId, null, null));
-      } else {
-        this.store.dispatch(new fromActions.UpdateSelectedRecordId(this.pageViewId, dataItem[this.primaryKey], '='));
+      if (this.allowSplitView) {
+        if (this.resetWidthForSplitView) {
+          this.resetKendoGridWidth();
+        }
+        // close split view when we click on the selected record. Otherwise select another record
+        if (dataItem[this.primaryKey] === this.selectedRecordId) {
+          this.store.dispatch(new fromActions.CloseSplitView(this.pageViewId));
+        } else {
+          this.store.dispatch(new fromActions.UpdateSelectedRecordId(this.pageViewId, dataItem[this.primaryKey], '='));
+        }
+      } else if (this.expandedRowTemplate) {
+        if (this.expandedRows.includes(rowIndex)) {
+          this.store.dispatch(new fromActions.CollapseRow(this.pageViewId, rowIndex));
+          this.grid.collapseRow(rowIndex);
+        } else {
+          this.store.dispatch(new fromActions.ExpandRow(this.pageViewId, rowIndex));
+          this.grid.expandRow(rowIndex);
+        }
+      } else if (this.enableSelection) {
+        this.store.dispatch(new fromActions.UpdateSelectedKey(this.pageViewId, dataItem[this.primaryKey]));
+      } else if (!this.allowSplitView) {
+        // User has clicked a row that we want to treat as selected, but not open any split view/expanded views
+        // This is how we manage grids that are limited to 1 selected row at a time opposed to our multi select checkboxes
+        // Click the same row to de select
+        if (dataItem[this.primaryKey] === this.selectedRecordId) {
+          this.store.dispatch(new fromActions.UpdateSelectedRecordId(this.pageViewId, null, null));
+        } else {
+          this.store.dispatch(new fromActions.UpdateSelectedRecordId(this.pageViewId, dataItem[this.primaryKey], '='));
+        }
       }
     }
   }

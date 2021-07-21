@@ -25,3 +25,21 @@ export interface QuickPriceExchangeDataSearchRequest extends BaseExchangeDataSea
   CompanyPayMarketId?: number;
   CountryCode?: string;
 }
+
+export interface HistoricalExchangeDataSearchRequest extends ExchangeDataSearchRequest {
+  From: Date;
+  To: Date;
+  CalendarInterval: CalendarInterval;
+  PeerTrendId: number;
+}
+
+export enum CalendarInterval {
+  Second,
+  Minute,
+  Hour,
+  Day,
+  Week,
+  Month,
+  Quarter,
+  Year
+}

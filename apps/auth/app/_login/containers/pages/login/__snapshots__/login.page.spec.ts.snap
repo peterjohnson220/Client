@@ -4,6 +4,7 @@ exports[`Auth - Login should disable and show correct login button text when log
 <pf-login-page
   allowSelfRegistration={[Function Boolean]}
   fb={[Function FormBuilder]}
+  featureFlagService={[Function Object]}
   gettingMarketingImage$={[Function Store]}
   gettingMarketingImageError$={[Function Store]}
   gettingMarketingImageSuccess$={[Function Store]}
@@ -24,9 +25,11 @@ exports[`Auth - Login should disable and show correct login button text when log
   marketingImage$={[Function Store]}
   nextPage={[Function String]}
   passwordExpired$={[Function Store]}
+  payscaleAuthRebrandFlag={[Function Object]}
   route={[Function Object]}
   router={[Function Object]}
   store={[Function Store]}
+  unsubscribe$={[Function Subject]}
   userVoiceNextPage="undefined"
 >
   <div
@@ -151,6 +154,7 @@ exports[`Auth - Login should show error notification on submitError 1`] = `
 <pf-login-page
   allowSelfRegistration={[Function Boolean]}
   fb={[Function FormBuilder]}
+  featureFlagService={[Function Object]}
   gettingMarketingImage$={[Function Store]}
   gettingMarketingImageError$={[Function Store]}
   gettingMarketingImageSuccess$={[Function Store]}
@@ -171,9 +175,11 @@ exports[`Auth - Login should show error notification on submitError 1`] = `
   marketingImage$={[Function Store]}
   nextPage={[Function String]}
   passwordExpired$={[Function Store]}
+  payscaleAuthRebrandFlag={[Function Object]}
   route={[Function Object]}
   router={[Function Object]}
   store={[Function Store]}
+  unsubscribe$={[Function Subject]}
   userVoiceNextPage="undefined"
 >
   <div
@@ -298,6 +304,7 @@ exports[`Auth - Login should show login when page is loaded 1`] = `
 <pf-login-page
   allowSelfRegistration={[Function Boolean]}
   fb={[Function FormBuilder]}
+  featureFlagService={[Function Object]}
   gettingMarketingImage$={[Function Store]}
   gettingMarketingImageError$={[Function Store]}
   gettingMarketingImageSuccess$={[Function Store]}
@@ -318,9 +325,11 @@ exports[`Auth - Login should show login when page is loaded 1`] = `
   marketingImage$={[Function Store]}
   nextPage={[Function String]}
   passwordExpired$={[Function Store]}
+  payscaleAuthRebrandFlag={[Function Object]}
   route={[Function Object]}
   router={[Function Object]}
   store={[Function Store]}
+  unsubscribe$={[Function Subject]}
   userVoiceNextPage="undefined"
 >
   <div
@@ -445,6 +454,7 @@ exports[`Auth - Login should show password expired notification on submitError 1
 <pf-login-page
   allowSelfRegistration={[Function Boolean]}
   fb={[Function FormBuilder]}
+  featureFlagService={[Function Object]}
   gettingMarketingImage$={[Function Store]}
   gettingMarketingImageError$={[Function Store]}
   gettingMarketingImageSuccess$={[Function Store]}
@@ -465,9 +475,11 @@ exports[`Auth - Login should show password expired notification on submitError 1
   marketingImage$={[Function Store]}
   nextPage={[Function String]}
   passwordExpired$={[Function Observable]}
+  payscaleAuthRebrandFlag={[Function Object]}
   route={[Function Object]}
   router={[Function Object]}
   store={[Function Store]}
+  unsubscribe$={[Function Subject]}
   userVoiceNextPage="undefined"
 >
   <div

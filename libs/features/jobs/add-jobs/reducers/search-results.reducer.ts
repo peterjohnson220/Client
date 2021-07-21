@@ -101,7 +101,7 @@ export function reducer(state = initialState, action: fromSearchResultsActions.A
     case fromSearchResultsActions.LOAD_JOB_PRICING_DATA: {
       const jobsCopy = cloneDeep(state.jobs);
       const allLoadedJobsCopy = cloneDeep(state.allLoadedJobs);
-      const jobToUpdate = jobsCopy.find(x => x.Id === action.payload.Id);
+      const jobToUpdate = jobsCopy.find(x => x.Id === action.payload.job.Id);
       if (jobToUpdate) {
         jobToUpdate.PricingDataLoading = true;
       }
@@ -116,11 +116,17 @@ export function reducer(state = initialState, action: fromSearchResultsActions.A
       const jobsCopy = cloneDeep(state.jobs);
       const allLoadedJobsCopy = cloneDeep(state.allLoadedJobs);
       const jobToUpdate = jobsCopy.find(x => x.Id === action.payload.jobId);
-      if (jobToUpdate) {
+      // payload can either come in as a single number, or an object, depending on the source. Only utilize singleMRP if payload.data comes in as a number
+      const payloadIsNotANumber = isNaN(action.payload.data);
+      if (jobToUpdate && payloadIsNotANumber) {
         jobToUpdate.PricingDataLoading = false;
         jobToUpdate.PricingDataLoaded = true;
         jobToUpdate.TCCMRP = action.payload.data.TccMrp;
         jobToUpdate.BaseMRP = action.payload.data.Base50Mrp;
+      } else if (jobToUpdate) {
+        jobToUpdate.PricingDataLoading = false;
+        jobToUpdate.PricingDataLoaded = true;
+        jobToUpdate.SingleMRP = action.payload.data;
       }
       return {
         ...state,

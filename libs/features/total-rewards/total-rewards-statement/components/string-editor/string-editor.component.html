@@ -1,4 +1,4 @@
-<span *ngIf="isEditable; else isNotEditable" class="wrapper w-100 d-inline-block" [ngClass]="{ 'multi-line': isMultiline }">
+<span *ngIf="isEditable; else isNotEditable" class="wrapper w-100 d-inline-block overflow-hidden" [ngClass]="{ 'multi-line': isMultiline }">
   <input #textBox
          class="input-text w-100"
          type="text"
@@ -9,12 +9,12 @@
          (focus)="onFocus()"
          (blur)="disableEditState()"
          (change)="onChange()"
-         (keydown)="onKeyDown($event)"
+         (keypress)="onKeyPress($event)"
          (keyup)="onKeyUp($event)"
          [ngClass]="isInEditState ? '' : 'offScreen'"
          [attr.tabindex]="isInEditState ? 0 : -1">
   <pf-radial-text-counter *ngIf="displayRadialTextCounter"
-                          class="radial-text-counter position-relative d-inline-block"
+                          class="radial-text-counter position-absolute d-inline-block"
                           [AvailableLength]="availableWidth" [ContentLength]="contentWidth"
                           [ShowTextRemainingTooltip]="showTextCounterTooltip">
   </pf-radial-text-counter>
@@ -22,7 +22,7 @@
      [class.offScreen]="isInEditState"
      href="javascript:void(0)"
      (click)="enableEditState()"
-     class="editable d-flex"
+     class="editable d-flex cursor-pointer"
      [title]="getHoverText()"
      [ngClass]="showIcon === 'onHover' ? 'show-icon-on-hover' : '' ">
     <span #editText class="edit-text overflow-hidden d-inline-block mw-100">{{ getValueForDisplay() }}</span>

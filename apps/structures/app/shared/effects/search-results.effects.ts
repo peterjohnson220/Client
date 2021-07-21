@@ -10,8 +10,10 @@ import {
   JobBasedRangeJobSearchResponse,
   JobSearchRequestStructuresRangeGroup,
   JobSearchPricingDataResponse,
-  JobSearchContext
+  JobSearchContext,
+  StructuresJobSearchPricingDataRequest
 } from 'libs/models/payfactors-api/job-search';
+import { StructureMappingApiService } from 'libs/data/payfactors-api';
 import { PayfactorsSearchApiHelper, PayfactorsSearchApiModelMapper } from 'libs/features/search/search/helpers';
 import { PayfactorsAddJobsApiModelMapper } from 'libs/features/jobs/add-jobs/helpers';
 import { ScrollIdConstants } from 'libs/features/search/infinite-scroll/models';
@@ -24,6 +26,7 @@ import * as fromInfiniteScrollActions from 'libs/features/search/infinite-scroll
 import { SearchFeatureIds } from 'libs/features/search/search/enums/search-feature-ids';
 
 import * as fromSharedStructuresReducer from '../reducers';
+
 
 @Injectable()
 export class SearchResultsEffects {
@@ -40,36 +43,62 @@ export class SearchResultsEffects {
       ofType(fromAddJobsSearchResultsActions.LOAD_JOB_PRICING_DATA),
       withLatestFrom(
         this.store.select(fromAddJobsReducer.getContextStructureRangeGroupId),
-        (action: fromAddJobsSearchResultsActions.GetJobPricingData, contextStructureRangeGroupId) => (
-          { action, contextStructureRangeGroupId }
+        this.store.select(fromSharedStructuresReducer.getMetadata),
+        (action: fromAddJobsSearchResultsActions.GetJobPricingData, contextStructureRangeGroupId, metadata) => (
+          { action, contextStructureRangeGroupId, metadata }
         )),
       mergeMap((data) => {
         let jobCode = null;
         let companyJobId = null;
-        const jobResult = data.action.payload;
+        const jobResult = data.action.payload.job;
 
         if (jobResult.IsPayfactorsJob) {
           jobCode = jobResult.Code;
         } else {
           companyJobId = jobResult.Id;
         }
-        return this.jobSearchApiService.getStructureJobPricingData({
-          CompanyJobId: companyJobId,
-          PayfactorsJobCode: jobCode,
-          StructureRangeGroupId: data.contextStructureRangeGroupId,
-          Type: JobSearchContext.StructuresJobSearch
-        })
-          .pipe(
-            map((pricingDataResponse: JobSearchPricingDataResponse) =>
-              new fromAddJobsSearchResultsActions.GetJobPricingDataSuccess(
-                {
-                  jobId: jobResult.Id,
-                  data: pricingDataResponse
-                }
-              )
-            ),
-            catchError(() => of(new fromAddJobsSearchResultsActions.GetJobPricingDataError(jobResult.Id)))
-          );
+        if (!data.action.payload.loadSingleMrp) {
+          const jobPriceRequest: StructuresJobSearchPricingDataRequest = {
+              CompanyJobId: companyJobId,
+              PayfactorsJobCode: jobCode,
+              StructureRangeGroupId: data.contextStructureRangeGroupId,
+              Type: JobSearchContext.StructuresJobSearch
+            };
+
+          // We want to display Annual Rate when model doesn't exist
+          if (data.metadata.Rate == null) {
+            jobPriceRequest.Rate = 'Annual';
+          }
+
+          return this.jobSearchApiService.getStructureJobPricingData(jobPriceRequest)
+            .pipe(
+              map((pricingDataResponse: JobSearchPricingDataResponse) =>
+                new fromAddJobsSearchResultsActions.GetJobPricingDataSuccess(
+                  {
+                    jobId: jobResult.Id,
+                    data: pricingDataResponse
+                  }
+                )
+              ),
+              catchError(() => of(new fromAddJobsSearchResultsActions.GetJobPricingDataError(jobResult.Id)))
+            );
+        } else {
+          return this.structureMappingApiService.getFormattedJobMrpByPayType({
+            CompanyJobId: companyJobId,
+            CompanyStructuresRangeGroupId: data.contextStructureRangeGroupId
+          })
+            .pipe(
+              map((pricingDataResponse: string) =>
+                new fromAddJobsSearchResultsActions.GetJobPricingDataSuccess(
+                  {
+                    jobId: jobResult.Id,
+                    data: pricingDataResponse
+                  }
+                )
+              ),
+              catchError(() => of(new fromAddJobsSearchResultsActions.GetJobPricingDataError(jobResult.Id)))
+            );
+        }
       }
       ));
 
@@ -138,6 +167,7 @@ export class SearchResultsEffects {
   constructor(
     private store: Store<fromAddJobsReducer.State>,
     private jobSearchApiService: JobSearchApiService,
+    private structureMappingApiService: StructureMappingApiService,
     private payfactorsSearchApiHelper: PayfactorsSearchApiHelper,
     private payfactorsSearchApiModelMapper: PayfactorsSearchApiModelMapper,
     private actions$: Actions

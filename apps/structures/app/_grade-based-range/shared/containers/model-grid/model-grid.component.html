@@ -1,7 +1,7 @@
 <pf-data-grid
   [title]="(metaData$ | async)?.IsCurrent ? (metaData$ | async)?.StructureName : (metaData$ | async)?.ModelName"
   [subtitle]="(metaData$ | async)?.IsCurrent ? '' : 'Structure: ' + (metaData$ | async)?.StructureName"
-  [navigationURL]="'/marketdata/structures.asp'"
+  [navigationURL]="hasStructuresPageFlagEnabled ? '/client/structures' : '/marketdata/structures.asp'"
   [inboundFilters]="inboundFilters"
   [defaultSort]="defaultSort"
   [pageViewId]="modelGridPageViewId"
@@ -14,6 +14,11 @@
   [pageTheme]="pfThemeType.NextGen"
   [contentClassNamesOverrides]="'py-3 px-4'"
   [borders]="false"
+  [gridContainerSplitViewWidth]="'60%'"
+  [showSplitViewToggle]="showVerticalChart ? false : true"
+  [splitViewTemplate]="showVerticalChart ? null : horizontalGraph"
+  [syncScrollWithSplit]="showVerticalChart ? false : true"
+  [splitOnSelection]="false"
   [reorderable]="reorderable"
   [gridRowActionsConfig]="null"
   [gridActionsTemplate]="gridActions"
@@ -24,7 +29,10 @@
   [gridConfig]="gridConfig"
   [pageable]="!gridConfig.EnableInfiniteScroll"
   [flexColumnContainerHeightAuto]="false"
-  [filterPanelTemplates]="filterTemplates">
+  [filterPanelTemplates]="filterTemplates"
+  [additionalDataForExport]="this.chartSvgs"
+  [hideOverflow]="false"
+>
 </pf-data-grid>
 
 <ng-template #subHeaderTemplate>
@@ -60,7 +68,7 @@
       </div>
     </div>
   </div>
-  <div class="card grade-vertical-chart-container">
+  <div class="card grade-vertical-chart-container" *ngIf="showVerticalChart">
     <div class="card-header" (click)="isRangeChartCollapsed = !isRangeChartCollapsed" [style.cursor]="'pointer'">
       <span class="title">Ranges</span>
       <fa-icon
@@ -82,6 +90,10 @@
   </div>
 </ng-template>
 
+<ng-template #horizontalGraph>
+  <pf-grade-based-horizontal-range-chart></pf-grade-based-horizontal-range-chart>
+</ng-template>
+
 <ng-template #noValue>
   - -
 </ng-template>
@@ -97,7 +109,15 @@
 </ng-template>
 
 <ng-template #gridActionsRightTemplate>
-  <pf-grid-context [metadata]="metaData$ | async"></pf-grid-context>
+  <pf-grid-context [metadata]="metaData$ | async">
+      <button right-of-metadata-text-content [attr.data-qa-id]="'btn-structures-toggle-vertical-chart'"
+              (click)="handleChartViewToggle()"
+              class="btn btn-secondary pf-btn btn-chart-view">
+        <fa-icon icon="chart-bar"></fa-icon>
+        <span *ngIf="showVerticalChart">View Horizontal</span>
+        <span *ngIf="!showVerticalChart">View Vertical</span>
+      </button>
+  </pf-grid-context>
 </ng-template>
 
 <ng-template #gridGlobalActions>
@@ -106,7 +126,8 @@
     [isNewModel]="isNewModel"
     (manageModelClicked)="handleManageModelClicked()"
     (modelSettingsClicked)="handleModelSettingsClicked()"
-    (publishModelClicked)="handlePublishModelClicked()">
+    (publishModelClicked)="handlePublishModelClicked()"
+    (duplicateModelClicked)="handleDuplicateModelBtnClicked()">
   </pf-global-actions>
 </ng-template>
 
@@ -125,7 +146,8 @@
       [modelSettingsForm]="modelSettingsForm"
       [modalOpen]="modalOpen$ | async"
       [isNewModel]="isNewModel"
-      [numGrades]="numGrades">
+      [numGrades]="numGrades"
+      (adjustMidpointRadioButtonChanged)="handleAdjustMidpointRadioButtonChanged($event)">
     </pf-grade-based-model-settings-modal-content>
   </ng-container>
 </pf-model-settings-modal>
@@ -170,7 +192,7 @@
       [textAlign]="'center'"
       [roundingSettings]="roundingSettings"
       [refreshRowDataViewFilter]="getRefreshFilter(dataRow)"
-      [updateMetaInfo]="{ pageViewId: modelGridPageViewId }"
+      [updateMetaInfo]="{ pageViewId: modelGridPageViewId, metaData: metaData, dispSeq: dataRow.CompanyStructures_Ranges_DispSeq }"
       [updateSuccessCallbackFn]="updateMidSuccessCallbackFn"
       [readonlyValueTemplate]="rangeValue"
       [reloadGridData]="true">
@@ -214,6 +236,7 @@
       [updateMetaInfo]="{ pageViewId: modelGridPageViewId }"
       [readonlyValueTemplate]="rangeValue"
       [minValue]="-999999999999999"
+      [maxValue]="200"
       [reloadGridData]="true">
     </pf-range-field-editor>
   </ng-container>
@@ -237,7 +260,8 @@
       [noRounding]="true"
       [refreshRowDataViewFilter]="getRefreshFilter(dataRow)"
       [updateMetaInfo]="{ pageViewId: modelGridPageViewId }"
-      [readonlyValueTemplate]="rangeValue">
+      [readonlyValueTemplate]="rangeValue"
+      [maxValue]="200">
     </pf-range-field-editor>
   </ng-container>
 </ng-template>

@@ -31,7 +31,7 @@ import { PermissionCheckEnum, Permissions } from 'libs/constants';
 import { AsyncStateObj } from 'libs/models/state';
 import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import * as fromReducer from 'libs/features/grids/pf-data-grid/reducers';
-import { PermissionService } from 'libs/core/services';
+import { AbstractFeatureFlagService, FeatureFlags, PermissionService } from 'libs/core/services';
 import { PfDataGridColType } from 'libs/features/grids/pf-data-grid/enums';
 import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums/pf-theme-type.enum';
 import { RangeType } from 'libs/constants/structures/range-type';
@@ -39,7 +39,7 @@ import { RangeRecalculationType } from 'libs/constants/structures/range-recalcul
 import { RangeDistributionTypeIds } from 'libs/constants/structures/range-distribution-type-ids';
 
 import * as fromPublishModelModalActions from '../../../../shared/actions/publish-model-modal.actions';
-import * as fromDuplicateModelModalActions from '../../actions/duplicate-model-modal.actions';
+import * as fromDuplicateModelModalActions from '../../../../shared/actions/duplicate-model-modal.actions';
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
 import * as fromSharedJobBasedRangeActions from '../../../shared/actions/shared.actions';
 import * as fromSharedStructuresReducer from '../../../../shared/reducers';
@@ -117,6 +117,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   hasAddEditDeleteStructurePermission: boolean;
   hasCreateEditStructureModelPermission: boolean;
   hasCanEditPublishedStructureRanges: boolean;
+  hasStructuresPageFlagEnabled: boolean;
   filterTemplates = {};
   modifiedKeys: any[];
   modifiedKeysSubscription: Subscription;
@@ -165,8 +166,10 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     private actionsSubject: ActionsSubject,
     private permissionService: PermissionService,
     private structuresPagesService: StructuresPagesService,
-    public urlService: UrlService
+    public urlService: UrlService,
+    private featureFlagService: AbstractFeatureFlagService
   ) {
+    this.hasStructuresPageFlagEnabled = this.featureFlagService.enabled(FeatureFlags.StructuresPage, false);
     this.metaData$ = this.store.pipe(select(fromSharedStructuresReducer.getMetadata));
     this.modalOpen$ = this.store.pipe(select(fromSharedStructuresReducer.getModelSettingsModalOpen), delay(0));
     this.roundingSettings$ = this.store.pipe(select(fromSharedStructuresReducer.getRoundingSettings));

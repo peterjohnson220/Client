@@ -10,7 +10,7 @@ import * as fromRootState from 'libs/state/state';
 import { AbstractFeatureFlagService, PfCommonModule } from 'libs/core';
 import { SettingsService } from 'libs/state/app-context/services';
 import { generateMockStructureRangeDistributionTypes } from 'libs/models/payfactors-api/structures/response';
-import { generateMockRangeAdvancedSetting, generateMockRangeDistributionSettingForm } from 'libs/models/structures';
+import { generateMockAdjustMidpointSetting, generateMockRangeAdvancedSetting, generateMockRangeDistributionSettingForm } from 'libs/models/structures';
 
 import * as fromSharedReducer from '../../../../shared/reducers';
 import * as fromGradeBasedSharedReducer from '../../reducers';
@@ -76,7 +76,10 @@ describe('ModelSettingsModalContentComponent', () => {
       ExchangeId: null,
       RangeDistributionTypes: generateMockStructureRangeDistributionTypes(),
       RangeDistributionSetting: generateMockRangeDistributionSettingForm(),
-      RangeAdvancedSetting: generateMockRangeAdvancedSetting()
+      RangeAdvancedSetting: generateMockRangeAdvancedSetting(),
+      MidpointProgression: 5,
+      StartingMidpoint: 55555,
+      AdjustMidpointSetting: generateMockAdjustMidpointSetting()
     };
 
     instance.modelSettingsForm = new FormGroup({

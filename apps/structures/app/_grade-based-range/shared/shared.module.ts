@@ -24,14 +24,17 @@ import { ModelGridComponent } from './containers/model-grid/model-grid.component
 import { GradeBasedSummaryChartComponent } from './containers/grade-based-summary-chart';
 import { SharedModule } from '../../shared/shared.module';
 import { GradeBasedVerticalRangeChartComponent } from './containers/grade-based-vertical-range-chart';
+import { GradeBasedHorizontalRangeChartComponent } from './containers/grade-based-horizontal-range-chart';
 import { reducers } from './reducers';
 
 import {
   PublishModelModalEffects,
-  SharedEffects, SwitchRegressionFlagsModalEffects
+  SharedEffects,
+  SwitchRegressionFlagsModalEffects
 } from './effects';
 import { ModelSettingsModalContentComponent } from './containers/model-settings-modal-content/model-settings-modal-content.component';
 import { SwitchRegressionFlagsModalComponent } from './containers';
+
 
 @NgModule({
   imports: [
@@ -77,13 +80,15 @@ import { SwitchRegressionFlagsModalComponent } from './containers';
     ModelGridComponent,
     GradeBasedSummaryChartComponent,
     GradeBasedVerticalRangeChartComponent,
+    GradeBasedHorizontalRangeChartComponent,
     ModelSettingsModalContentComponent,
     SwitchRegressionFlagsModalComponent
   ],
   exports: [
     ModelGridComponent,
     GradeBasedSummaryChartComponent,
-    GradeBasedVerticalRangeChartComponent
+    GradeBasedVerticalRangeChartComponent,
+    GradeBasedHorizontalRangeChartComponent
   ],
   providers: [
   ]

@@ -8,6 +8,7 @@ import { NgbModal, NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
 import * as fromRootState from 'libs/state/state';
 import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import { PfCommonModule } from 'libs/core';
+import { AbstractFeatureFlagService } from 'libs/core/services/feature-flags';
 
 import * as fromEmployeesReducer from '../reducers';
 import * as fromEmployeesPageActions from '../actions/employees-page.actions';
@@ -16,6 +17,7 @@ import { of } from 'rxjs';
 
 
 describe('Employees - Employees Page', () => {
+  let abstractFeatureFlagService: AbstractFeatureFlagService;
   let instance: EmployeesPageComponent;
   let fixture: ComponentFixture<EmployeesPageComponent>;
   let store: Store<fromEmployeesReducer.State>;
@@ -42,6 +44,10 @@ describe('Employees - Employees Page', () => {
         {
           provide: Router,
           useValue: { navigate: jest.fn() },
+        },
+        {
+          provide: AbstractFeatureFlagService,
+          useValue: { enabled: jest.fn(), bindEnabled: jest.fn() }
         }
       ]
     });
@@ -51,6 +57,7 @@ describe('Employees - Employees Page', () => {
     store = TestBed.inject(Store);
     ngbModal = TestBed.inject(NgbModal);
     router = TestBed.inject(Router);
+    abstractFeatureFlagService = TestBed.inject(AbstractFeatureFlagService);
     instance.selectedCompanyEmployeeIdsSubscription = of([]).subscribe();
     instance.pricingJobsSubscription = of(false).subscribe();
   });

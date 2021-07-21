@@ -10,6 +10,7 @@ import * as fromEmployeeManagementReducer from 'libs/features/employees/employee
 import { AbstractFeatureFlagService } from 'libs/core/services';
 import { SettingsService } from 'libs/state/app-context/services';
 import { DeliveryMethod } from 'libs/features/total-rewards/total-rewards-statement/models/delivery-method';
+import { generateMockStatement } from 'libs/features/total-rewards/total-rewards-statement/models';
 
 import { StatementAssignmentPageComponent } from './statement-assignment.page';
 import { DeliveryOption } from '../models';
@@ -45,7 +46,7 @@ describe('AssignedEmployeesGridComponent', () => {
         },
         {
           provide: AbstractFeatureFlagService,
-          useValue: { enabled: jest.fn() }
+          useValue: { enabled: jest.fn(), bindEnabled: jest.fn() }
         },
         {
           provide: SettingsService,
@@ -266,5 +267,59 @@ describe('AssignedEmployeesGridComponent', () => {
 
     // assert
     expect(store.dispatch).toHaveBeenCalledWith(generateStatementsAction);
+  });
+
+  it('should not show the Statement History button when statement does not have a last generated date and the history feature flag is disabled', () => {
+    // arrange
+    component.statement = generateMockStatement();
+    component.statement.LastGeneratedDate = null;
+    component.totalRewardsHistoryFeatureFlag.value = false;
+
+    // act
+    fixture.detectChanges();
+
+    // assert
+    const historyButton = fixture.nativeElement.querySelector('.statement-history');
+    expect(historyButton).toBeFalsy();
+  });
+
+  it('should not show the Statement History button when statement has a last generated date but the history feature flag is disabled', () => {
+    // arrange
+    component.statement = generateMockStatement();
+    component.totalRewardsHistoryFeatureFlag.value = false;
+
+    // act
+    fixture.detectChanges();
+
+    // assert
+    const historyButton = fixture.nativeElement.querySelector('.statement-history');
+    expect(historyButton).toBeFalsy();
+  });
+
+  it('should not show the Statement History button when statement does not have a last generated date and the history feature flag is enabled', () => {
+    // arrange
+    component.statement = generateMockStatement();
+    component.statement.LastGeneratedDate = null;
+    component.totalRewardsHistoryFeatureFlag.value = true;
+
+    // act
+    fixture.detectChanges();
+
+    // assert
+    const historyButton = fixture.nativeElement.querySelector('.statement-history');
+    expect(historyButton).toBeFalsy();
+  });
+
+  it('should show the Statement History button when statement has a last generated date and the history feature flag is enabled', () => {
+    // arrange
+    component.statement = generateMockStatement();
+    component.totalRewardsHistoryFeatureFlag.value = true;
+
+    // act
+    fixture.detectChanges();
+
+    // assert
+    const historyButton = fixture.nativeElement.querySelector('.statement-history');
+    expect(historyButton).toBeTruthy();
   });
 });

@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
@@ -92,7 +92,10 @@ describe('ModelSettingsModalContentComponent', () => {
       ExchangeId: null,
       RangeDistributionTypes: generateMockStructureRangeDistributionTypes(),
       RangeDistributionSetting: generateMockRangeDistributionSettingForm(),
-      RangeAdvancedSetting: generateMockRangeAdvancedSetting()
+      RangeAdvancedSetting: generateMockRangeAdvancedSetting(),
+      MidpointProgression: null,
+      StartingMidpoint: null,
+      AdjustMidpointSetting: null
     };
 
     instance.modelSetting = {
@@ -113,7 +116,10 @@ describe('ModelSettingsModalContentComponent', () => {
       ExchangeId: null,
       RangeDistributionTypes: generateMockStructureRangeDistributionTypes(),
       RangeDistributionSetting: generateMockRangeDistributionSettingForm(),
-      RangeAdvancedSetting: generateMockRangeAdvancedSetting()
+      RangeAdvancedSetting: generateMockRangeAdvancedSetting(),
+      MidpointProgression: null,
+      StartingMidpoint: null,
+      AdjustMidpointSetting: null
     };
 
     instance.modelSettingsForm = new FormGroup({
@@ -122,7 +128,7 @@ describe('ModelSettingsModalContentComponent', () => {
       'PayMarket': new FormControl(instance.metadata.Paymarket, [Validators.required]),
       'Rate': new FormControl(instance.metadata.Rate, [Validators.required]),
       'Currency': new FormControl(instance.metadata.Currency, [Validators.required]),
-      'PeerExchange': new FormControl( 'Global Network', [Validators.required]),
+      'PeerExchange': new FormControl('Global Network', [Validators.required]),
       'RangeDistributionSetting': new FormControl(instance.metadata.RangeDistributionSetting),
       'RangeAdvancedSetting': new FormControl(instance.metadata.RangeAdvancedSetting)
     });
@@ -302,15 +308,19 @@ describe('ModelSettingsModalContentComponent', () => {
       ExchangeId: null,
       RangeDistributionTypes: generateMockStructureRangeDistributionTypes(),
       RangeDistributionSetting: generateMockRangeDistributionSettingForm(),
-      RangeAdvancedSetting: generateMockRangeAdvancedSetting()
+      RangeAdvancedSetting: generateMockRangeAdvancedSetting(),
+      MidpointProgression: null,
+      StartingMidpoint: null,
+      AdjustMidpointSetting: null
     };
+
     instance.modelSettingsForm = new FormGroup({
       'StructureName': new FormControl(instance.metadata.StructureName, [Validators.required, Validators.maxLength(50)]),
       'ModelName': new FormControl(instance.metadata.ModelName, [Validators.required, Validators.maxLength(50)]),
       'PayMarket': new FormControl(instance.metadata.Paymarket, [Validators.required]),
       'Rate': new FormControl(instance.metadata.Rate, [Validators.required]),
       'Currency': new FormControl(instance.metadata.Currency, [Validators.required]),
-      'PeerExchange': new FormControl( 'Global Network', [Validators.required]),
+      'PeerExchange': new FormControl('Global Network', [Validators.required]),
       'RangeDistributionSetting': new FormControl(instance.metadata.RangeDistributionSetting),
       'RangeAdvancedSetting': new FormControl(instance.metadata.RangeAdvancedSetting)
     });

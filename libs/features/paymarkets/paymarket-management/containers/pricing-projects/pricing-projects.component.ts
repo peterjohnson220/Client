@@ -27,7 +27,7 @@ export class PricingProjectsComponent implements OnInit, OnChanges, OnDestroy {
   pricingProjectsSubscription: Subscription;
   currentRecordCount: number;
 
-  baseEntity = 'UserJobListTemp';
+  baseEntity = 'UserSessions';
   pricingProjectsFields: BasicDataViewField[] = [
     {
       EntitySourceName: 'UserSessions',

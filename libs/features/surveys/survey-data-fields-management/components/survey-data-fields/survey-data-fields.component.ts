@@ -81,7 +81,7 @@ export class SurveyDataFieldsComponent implements OnChanges {
         const tab = this.modalConfig.groupTabConfig[field.Group];
         if (tab) {
           this.tabsConfiguration[tab] = this.tabsConfiguration[tab] || {};
-          this.tabsConfiguration[tab][field.Group]= this.tabsConfiguration[tab][field.Group] || { Fields : [] };
+          this.tabsConfiguration[tab][field.Group] = this.tabsConfiguration[tab][field.Group] || { Fields : [] };
           this.tabsConfiguration[tab][field.Group].Fields.push(field);
           allAccordionIds.push(`${tab}_${field.Group}`);
           this.configureCurrentFields(field);

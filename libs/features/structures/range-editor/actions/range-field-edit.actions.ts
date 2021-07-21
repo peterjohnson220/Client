@@ -24,7 +24,8 @@ export class UpdateRangeField implements Action {
     metaInfo: any,
     successCallBackFn: any,
     rangeType: RangeType,
-    reloadGridData: boolean
+    reloadGridData: boolean,
+    dataRow: any
   }) {}
 }
 

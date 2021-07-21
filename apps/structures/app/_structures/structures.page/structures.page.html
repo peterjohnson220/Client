@@ -1,0 +1,201 @@
+<pf-data-grid
+  [enableSelection]="true"
+  [selectionFieldExistsOnBase]="false"
+  [selectionField]="'CompanyStructures_RangeGroup_CompanyStructuresRangeGroup_ID'"
+  [reorderable]="true"
+  [pageViewId]="pageViewId"
+  [title]="'Structures'"
+  [defaultSort]="defaultSort"
+  [actionBarConfig]="actionBarConfig"
+  [gridConfig]="gridConfig"
+  [pageable]="!gridConfig.EnableInfiniteScroll"
+  [applyDefaultFilters]="false"
+  [inboundFilters]="inboundFilters"
+  [aboveGridTemplate]="aboveGridTemplate"
+  [gridRowActionsConfig]="hasDropdownOptions ? gridRowActionsConfig : null"
+  [gridActionsTemplate]="gridActions"
+  [columnTemplates]="colTemplates"
+  [filterPanelTemplates]="filterTemplates"
+  [customSortOptions]="customSortOptions"
+  [customFilterOptions] = "(customFilterOptions$ | async)">
+</pf-data-grid>
+
+<ng-template #gridGlobalActions>
+  <button
+    [pfSecuredResource]="permissions.STRUCTURES_ADD_EDIT_DELETE"
+    [attr.data-qa-id]="'btn-newStructure'"
+    type="button"
+    (click)="addNewStructure()"
+    class="btn btn-primary">
+    Add New
+  </button>
+</ng-template>
+
+<ng-template #aboveGridTemplate>
+  <ul ngbNav #nav="ngbNav" class="nav-tabs"
+      [destroyOnHide]="false"
+      [(activeId)]="activeTab"
+      (activeIdChange)="handleTabChange($event)">
+    <li [ngbNavItem]="'current-models'">
+      <a ngbNavLink class="tab-title">Current Models</a>
+    </li>
+    <li [ngbNavItem]="'proposed-models'">
+      <a ngbNavLink class="tab-title">Proposed Models</a>
+    </li>
+    <li [ngbNavItem]="'historical-models'">
+      <a ngbNavLink class="tab-title">Historical Models</a>
+    </li>
+  </ul>
+</ng-template>
+
+<ng-template #gridRowActionsTemplate let-dataRow="dataRow">
+  <div [pfSecuredResource]="[permissions.STRUCTURES_ADD_EDIT_DELETE, permissions.STRUCTURES_CREATE_EDIT_MODEL]" ngbDropdown container="body" #p="ngbDropdown">
+    <fa-icon ngbDropdownToggle
+             icon="ellipsis-h"
+             id="structures-actions-{{dataRow['CompanyStructures_RangeGroup_CompanyStructuresRangeGroup_ID']}}"
+             class="gray-text paymarket-actions">
+    </fa-icon>
+    <div ngbDropdownMenu aria-labelledby="structures-actions-{{dataRow['CompanyStructures_RangeGroup_CompanyStructuresRangeGroup_ID']}}">
+      <button
+        ngbDropdownItem
+        [pfSecuredResource]="permissions.STRUCTURES_ADD_EDIT_DELETE"
+        (click)="handleDeleteSingleRangeGroupClicked(dataRow['CompanyStructures_RangeGroup_CompanyStructuresRangeGroup_ID'], dataRow['CompanyStructures_RangeGroup_RangeGroup_Name'])"
+      >Delete</button>
+      <button
+        ngbDropdownItem
+        [pfSecuredResource]="permissions.STRUCTURES_CREATE_EDIT_MODEL"
+        (click)="handleDuplicateRangeGroupClicked(dataRow['CompanyStructures_RangeGroup_CompanyStructuresRangeGroup_ID'])"
+      >Duplicate</button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #gridActions>
+  <button
+    type="button"
+    class="btn btn-secondary pf-btn-borderless"
+    [attr.data-qa-id]="'btn-clearSelection'"
+    [disabled]="!selectedRangeGroupIds || selectedRangeGroupIds.length==0"
+    (click)="handleClearSelectionClicked()">
+    <fa-icon [icon]="['far', 'times']"></fa-icon>
+    Clear Selections  <span *ngIf="selectedRangeGroupIds?.length>0">({{selectedRangeGroupIds.length}})</span>
+  </button>
+  <div
+    class="vertical-separator my-2"
+    [pfSecuredResource]="[permissions.STRUCTURES_ADD_EDIT_DELETE]">
+  </div>
+  <button
+    [attr.data-qa-id]="'btn-deleteModel'"
+    type="button"
+    [pfSecuredResource]="permissions.STRUCTURES_ADD_EDIT_DELETE"
+    [disabled]="!selectedRangeGroupIds || selectedRangeGroupIds.length==0"
+    (click)="handleDeleteModelClicked()"
+    class="btn btn-secondary pf-btn-borderless">
+    <fa-icon [icon]="['far', 'trash-alt']"></fa-icon>
+    Delete
+  </button>
+</ng-template>
+
+<pf-duplicate-model-modal [pfSecuredResource]="permissions.STRUCTURES_CREATE_EDIT_MODEL" [rangeGroupId]="selectedRangeGroupId"></pf-duplicate-model-modal>
+
+<ng-template #payMarketFilter>
+  <div>
+    <label>Pay Market:</label>
+    <pf-treeview
+      [attr.data-qa-id]="'ddm-operator-structures-page-paymarket'"
+      [data]="payMarketOptions"
+      [placeholder]="'All Pay Markets'"
+      [filterable]="true"
+      [checkedKeys]="selectedPayMarkets"
+      [anchorWidth]="406"
+      (applyClicked)="handlePayMarketFilterChanged($event)">
+    </pf-treeview>
+  </div>
+</ng-template>
+
+<ng-template #structureTypeFilter>
+  <div>
+    <label>Structure Type:</label>
+    <kendo-dropdownlist  class="k-dropdown-white form-control"
+                         [(ngModel)]="selectedStructureType"
+                         [attr.data-qa-id]="'ddm-operator-structures-types'"
+                         [data]="structureTypes"
+                         [textField]="'Name'"
+                         [valueField]="'Value'"
+                         (valueChange)="handleSingleValueChanged($event, structuresTypeField)">
+    </kendo-dropdownlist>
+  </div>
+</ng-template>
+
+<ng-template #currencyFilter>
+  <div>
+    <label>Currency:</label>
+    <kendo-dropdownlist  class="k-dropdown-white form-control"
+                         [attr.data-qa-id]="'ddm-operator-structures-currency'"
+                         [(ngModel)]="selectedCurrency"
+                         [data]="currencies"
+                         [defaultItem]="{Name: '', Value: null}"
+                         [textField]="'Name'"
+                         [valueField]="'Value'"
+                         [filterable]="true"
+                         [kendoDropDownFilter]="filterSettings"
+                         (valueChange)="handleSingleValueChanged($event, currencyField)">
+    </kendo-dropdownlist>
+  </div>
+</ng-template>
+
+<ng-template #deleteSingleRangeGroupMessage>Are you sure you want to delete <b>{{selectedStructureName}}</b>? This action is permanent and cannot be recovered.</ng-template>
+
+<pf-modal-form
+  [size]="'md'"
+  [title]="deleteSingleRangeGroup ? 'Delete Model' : 'Delete Models'"
+  [primaryButtonText]="'Delete'"
+  [primaryButtonClass]="'btn-danger'"
+  [primaryButtonTextSubmitting]="'Deleting...'"
+  [modalId]="'au-modal-structures-page-delete-structure-model'"
+  [isOpen$]="deleteStructureModalOpen$"
+  (onSubmit)="handleStructureModelDelete()"
+  (onDismiss)="handleModalDismissed()"
+  [submitting]="deleting$ | async">
+  <ng-container basic-content>
+    <p *ngIf="!deleteSingleRangeGroup; else deleteSingleRangeGroupMessage">Are you sure you want to delete the <b>{{selectedRangeGroupIds?.length}}</b> selected model<span *ngIf="selectedRangeGroupIds?.length > 1">s</span>? This action is permanent and cannot be recovered.</p>
+  </ng-container>
+
+  <ng-container footer-left>
+    <div *ngIf="deletingError$ | async">
+      <span class="font-italic text-danger">There was an error deleting this model</span>
+    </div>
+  </ng-container>
+
+</pf-modal-form>
+<ng-template #currencyTypeColumn let-dataRow="dataRow" let-fieldName="fieldName">
+  <div pfEllipsisActive class="ellipsis-overflowing-text">
+    <span [innerHTML]="dataRow[fieldName] | comp: dataRow['CompanyStructures_RangeGroup_Rate'] : 'rounded' | emptyPlaceholder"></span>
+  </div>
+</ng-template>
+
+<ng-template #numericColumn let-dataRow="dataRow" let-fieldName="fieldName">
+  <div pfEllipsisActive class="ellipsis-overflowing-text">
+    <span [innerHTML]="dataRow[fieldName] | emptyPlaceholder"></span>
+  </div>
+</ng-template>
+
+<ng-template #currencyColumn let-dataRow="dataRow">
+  <div *ngIf="dataRow['CompanyStructures_RangeGroup_Currency']" pfEllipsisActive class="w-100 ellipsis-overflowing-text-wrap">
+    {{dataRow['Currency_Currency_Name']}} ({{dataRow['CompanyStructures_RangeGroup_Currency']}})
+  </div>
+</ng-template>
+
+<ng-template #modelColumn let-dataRow="dataRow" let-fieldName="fieldName">
+  <div pfEllipsisActive class="ellipsis-overflowing-text">
+    <a *ngIf="structuresGradeBasedRangeLandingPageEnabled || dataRow['CompanyStructures_RangeType_RangeType'] === 'Job'; else noLink" class="pf-link-hover"
+       href="/client/structures/{{dataRow['CompanyStructures_RangeType_RangeType'] | lowercase}}/{{dataRow['CompanyStructures_RangeGroup_CompanyStructuresRangeGroup_ID']}}">
+      {{dataRow[fieldName]}}
+    </a>
+    <ng-template #noLink>
+      {{dataRow[fieldName]}}
+    </ng-template>
+  </div>
+</ng-template>
+
+<pf-structure-form></pf-structure-form>

@@ -22,5 +22,10 @@
     <div *ngIf="(savingModelSettingsAsyncObj$ | async)?.savingError" class="invalid-feedback d-block">
       Error saving settings
     </div>
+    <div *ngIf="(savingModelSettingsAsyncObj$ | async)?.savingErrorResponse?.error?.Message
+                  && (savingModelSettingsAsyncObj$ | async)?.savingErrorResponse?.error?.Message.includes('too large')"
+         class="invalid-feedback d-block">
+      {{(savingModelSettingsAsyncObj$ | async)?.savingErrorResponse?.error?.Message}}
+    </div>
   </ng-container>
 </pf-modal-form>

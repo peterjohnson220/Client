@@ -14,6 +14,14 @@ export const routes: Routes = [
       { path: '', loadChildren: () => import('apps/comphub/app/_main/main.module').then(m => m.MainModule) }
     ]
   },
+  {
+    path: '',
+    component: AppWrapperComponent,
+    canActivate: [UserContextGuard],
+    children: [
+      { path: 'csd', loadChildren: () => import('apps/comphub/app/_crowd-sourced-data/crowd-sourced-data.module').then(m => m.CrowdSourcedDataModule) }
+    ]
+  },
   ...DEFAULT_ROUTES
 ];
 

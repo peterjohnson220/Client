@@ -83,6 +83,8 @@ export const LOAD_DATA_AND_ADD_FADE_IN_KEYS = '[PfDataGrid] Load Data and Add At
 export const UPDATE_SELECTED_ROW = '[PfDataGrid] Update Selected Row';
 export const UPDATE_FIELDS_WITH_CUSTOM_FILTER_TEMPLATES = '[PfDataGrid] Update Fields With Custom Filter Templates';
 export const UPDATE_CUSTOM_FILTER_OPTIONS = '[PfDataGrid] Update Custom Filter Options';
+export const SET_SPLIT_VIEW_HIDDEN = '[PfDataGrid] Set Split View Hidden';
+export const RESET_DATA = '[PfDataGrid] Reset Data';
 
 export class LoadViewConfig implements Action {
   readonly type = LOAD_VIEW_CONFIG;
@@ -348,7 +350,7 @@ export class DeleteSavedViewSuccess implements Action {
 
 export class ExportGrid implements Action {
   readonly type = EXPORT_GRID;
-  constructor(public pageViewId: string, public source: string, public customExportType: string) {}
+  constructor(public pageViewId: string, public source: string, public customExportType: string, public additionalData: any) {}
 }
 
 export class ExportGridSuccess implements Action {
@@ -485,6 +487,17 @@ export class UpdateCustomFilterOptions implements Action {
   constructor(public pageViewId: string, public payload: PfDataGridCustomFilterOptions[]) {}
 }
 
+export class SetSplitViewHidden implements Action {
+  readonly type = SET_SPLIT_VIEW_HIDDEN;
+
+  constructor(public pageViewId: string, public payload: boolean) {}
+}
+
+export class ResetData implements Action {
+  readonly type = RESET_DATA;
+  constructor(public pageViewId: string) {}
+}
+
 export type DataGridActions =
   | LoadViewConfig
   | LoadViewConfigSuccess
@@ -562,4 +575,6 @@ export type DataGridActions =
   | LoadDataAndAddFadeInKeys
   | UpdateSelectedRow
   | UpdateFieldsWithCustomFilterTemplates
-  | UpdateCustomFilterOptions;
+  | UpdateCustomFilterOptions
+  | SetSplitViewHidden
+  | ResetData;

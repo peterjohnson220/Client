@@ -108,7 +108,10 @@ export class RangeRoundingComponent implements OnInit, OnDestroy {
       md => {
         if (md) {
           this.metadata = md;
-          this.store.dispatch(new fromSharedStructuresActions.UpdateRoundingSettings(this.metadata?.RangeAdvancedSetting?.Rounding));
+          // don't send this update unless it has real values
+          if (!!this.metadata && !!this.metadata.RangeAdvancedSetting && !!this.metadata.RangeAdvancedSetting.Rounding) {
+            this.store.dispatch(new fromSharedStructuresActions.UpdateRoundingSettings(this.metadata?.RangeAdvancedSetting?.Rounding));
+          }
         }
       }
     );

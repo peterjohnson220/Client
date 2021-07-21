@@ -5,9 +5,10 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 
-import { ProjectTemplatesApiService } from 'libs/data/payfactors-api/index';
+import { ProjectTemplateApiService } from 'libs/data/payfactors-api/index';
 import { ProjectTemplate } from 'libs/models';
 import * as fromProjectTemplateManagementActions from 'libs/features/projects/project-template-management/actions/project-template-management.actions';
+import { ProjectTemplatesApiService } from 'libs/data/payfactors-api/project/project-templates-api.service';
 
 import * as fromProjectTemplateActions from '../actions/project-template.actions';
 import * as fromUserSettingsReducer from '../reducers';
@@ -33,7 +34,7 @@ export class ProjectTemplateEffects {
     .pipe(
       ofType(fromProjectTemplateActions.DELETE_PROJECT_TEMPLATE),
       switchMap((action: fromProjectTemplateActions.DeleteProjectTemplate) => {
-        return this.projectTemplatesApiService.delete(action.payload)
+        return this.projectTemplateApiService.delete(action.payload)
           .pipe(
             map(() =>  new fromProjectTemplateActions.DeleteProjectTemplateSuccess(action.payload)),
             catchError(() => of(new fromProjectTemplateActions.DeleteProjectTemplateError()))
@@ -53,6 +54,7 @@ export class ProjectTemplateEffects {
   constructor(
     private actions$: Actions,
     private store: Store<fromUserSettingsReducer.State>,
+    private projectTemplateApiService: ProjectTemplateApiService,
     private projectTemplatesApiService: ProjectTemplatesApiService
   ) {}
 }

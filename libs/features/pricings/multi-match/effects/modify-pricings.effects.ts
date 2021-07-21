@@ -7,12 +7,12 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import {Action, Store} from '@ngrx/store';
 
 import { JobsApiService, PricingApiService } from 'libs/data/payfactors-api';
-import { getSearchFilters } from '../../../surveys/survey-search/data';
-import { PayfactorsApiModelMapper } from '../helpers';
 import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
+import * as fromTempDataCutReducer from 'libs/features/temp-data-cut/reducers';
 
 import { SurveySearchFiltersHelper } from '../../../surveys/survey-search/helpers';
-
+import { getSearchFilters } from '../../../surveys/survey-search/data';
+import { PayfactorsApiModelMapper } from '../helpers';
 import * as fromModifyPricingsActions from '../actions/modify-pricings.actions';
 import * as fromContextActions from '../../../surveys/survey-search/actions/context.actions';
 import * as fromSearchFiltersActions from '../../../search/search/actions/search-filters.actions';
@@ -20,6 +20,7 @@ import * as fromSearchReducer from '../../../search/search/reducers';
 import * as fromJobsToPriceActions from '../actions/jobs-to-price.actions';
 import * as fromSurveySearchFiltersActions from '../../../surveys/survey-search/actions/survey-search-filters.actions';
 import * as fromMultiMatchReducer from '../reducers';
+import * as fromMultiMatchActions from '../actions/multi-match-page.actions';
 
 import { SurveySearchResultDataSources } from '../../../../constants';
 
@@ -56,6 +57,7 @@ export class ModifyPricingsEffects {
           actions.push(new fromJobsToPriceActions.GetJobsToPriceSuccess(
             PayfactorsApiModelMapper.mapMatchedSurveyJobToJobsToPrice(response.PricingsToModify)));
           actions.push(new fromModifyPricingsActions.GetPricingsToModifySuccess());
+          actions.push(new fromMultiMatchActions.SetMultiMatchModalStatus(true));
           return actions;
         }),
         catchError(error => of(new fromModifyPricingsActions.GetPricingsToModifyError()))
@@ -68,7 +70,7 @@ export class ModifyPricingsEffects {
     ofType(fromModifyPricingsActions.MODIFY_PRICINGS),
     withLatestFrom(
       this.store.select(fromMultiMatchReducer.getJobsToPrice),
-      this.store.select(fromMultiMatchReducer.getTempDataCutFilterContextDictionary),
+      this.store.select(fromTempDataCutReducer.getTempDataCutFilterContextDictionary),
       (action, jobsToPrice, tempPeerDataCutFilterContextDictionary) =>
         ({ jobsToPrice, tempPeerDataCutFilterContextDictionary })
     ),

@@ -5,53 +5,23 @@ import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models';
 import * as fromSharedActions from '../actions/shared.actions';
 
 export interface State {
-  gradeRangeDetails: AsyncStateObj<any>;
   gradesDetails: AsyncStateObj<any>;
   openAddJobs: boolean;
+  summaryChartSvg: string;
+  verticalChartSvg: string;
+  showVerticalChart: boolean;
 }
 
 const initialState: State = {
-  gradeRangeDetails: generateDefaultAsyncStateObj<any>(null),
   gradesDetails: generateDefaultAsyncStateObj<any>(null),
-  openAddJobs: false
+  openAddJobs: false,
+  summaryChartSvg: '',
+  verticalChartSvg: '',
+  showVerticalChart: true
 };
 
 export function reducer(state = initialState, action: fromSharedActions.SharedActions): State {
   switch (action.type) {
-    case fromSharedActions.GET_GRADE_RANGE_DETAILS: {
-      const gradeRangeDetails = cloneDeep(state.gradeRangeDetails);
-
-      gradeRangeDetails.loading = true;
-      gradeRangeDetails.obj = null;
-      gradeRangeDetails.loadingError = false;
-
-      return {
-        ...state,
-        gradeRangeDetails: gradeRangeDetails
-      };
-    }
-    case fromSharedActions.GET_GRADE_RANGE_DETAILS_SUCCESS: {
-      const gradeRangeDetails = cloneDeep(state.gradeRangeDetails);
-
-      gradeRangeDetails.loading = false;
-      gradeRangeDetails.obj = action.payload;
-
-      return {
-        ...state,
-        gradeRangeDetails: gradeRangeDetails
-      };
-    }
-    case fromSharedActions.GET_GRADE_RANGE_DETAILS_ERROR: {
-      const gradeRangeDetails = cloneDeep(state.gradeRangeDetails);
-
-      gradeRangeDetails.loading = false;
-      gradeRangeDetails.loadingError = true;
-
-      return {
-        ...state,
-        gradeRangeDetails: gradeRangeDetails
-      };
-    }
     case fromSharedActions.GET_GRADES_DETAILS: {
       const gradesDetails = cloneDeep(state.gradesDetails);
 
@@ -92,11 +62,31 @@ export function reducer(state = initialState, action: fromSharedActions.SharedAc
         openAddJobs: action.payload
       };
     }
+    case fromSharedActions.SET_SUMMARY_CHART_SVG: {
+      return {
+        ...state,
+        summaryChartSvg: action.payload
+      };
+    }
+    case fromSharedActions.SET_VERTICAL_CHART_SVG: {
+      return {
+        ...state,
+        verticalChartSvg: action.payload
+      };
+    }
+    case fromSharedActions.SET_SHOW_VERTICAL_CHART: {
+      return {
+        ...state,
+        showVerticalChart: action.payload
+      };
+    }
     default:
       return state;
   }
 }
 
-export const getGradeRangeDetails = (state: State) => state.gradeRangeDetails;
 export const getGradesDetails = (state: State) => state.gradesDetails;
 export const getOpenAddJobs = (state: State) => state.openAddJobs;
+export const getSummaryChartSvg = (state: State) => state.summaryChartSvg;
+export const getVerticalChartSvg = (state: State) => state.verticalChartSvg;
+export const getShowVerticalChart = (state: State) => state.showVerticalChart;

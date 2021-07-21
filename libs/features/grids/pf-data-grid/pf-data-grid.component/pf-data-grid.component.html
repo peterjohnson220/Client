@@ -25,6 +25,8 @@
       [globalFilters]="globalFilterableFields"
       [actionBarConfig]="actionBarConfig"
       [reorderable]="reorderable"
+      [additionalDataForExport]="additionalDataForExport"
+      [disableActions] ="hideKendoGrid"
       (onFilterSidebarToggle)="toggleFilterPanel()">
     </pf-action-bar>
   </ng-container>
@@ -35,7 +37,7 @@
              [ngClass]="contentClassNamesOverrides ? contentClassNamesOverrides :
                     (displayFilterPanel$ | async) ? 'pl-3 pr-0 pt-2 pb-0' : 'px-3 pt-2 pb-0'">
           <ng-container [ngTemplateOutlet]="aboveGridTemplate"></ng-container>
-          <div *ngIf="gridActionsTemplate" class="d-flex mb-2 sub-header">
+          <div *ngIf="gridActionsTemplate && !hideKendoGrid" class="d-flex mb-2 sub-header">
             <div *ngIf="gridActionsTemplate" class="d-flex grid-actions-container">
               <ng-container [ngTemplateOutlet]="gridActionsTemplate"></ng-container>
             </div>
@@ -47,7 +49,7 @@
             </div>
           </div>
 
-          <div *ngIf="gridConfig?.EnableInfiniteScroll && (selectAllState$ | async) === selectAllStatus.checked && (uniqueVisibleKeys$ | async)?.length" class="d-flex mb-3">
+          <div *ngIf="displaySelectAllWarning && gridConfig?.EnableInfiniteScroll && (selectAllState$ | async) === selectAllStatus.checked && (uniqueVisibleKeys$ | async)?.length" class="d-flex mb-3">
             <pf-select-all-panel
               class="w-100"
               [itemName]="gridConfig?.SelectAllPanelItemName || 'items'"
@@ -78,7 +80,7 @@
           <ng-container [ngTemplateOutlet]="subHeaderTemplate"></ng-container>
 
           <div class="d-flex h-100 full-wrap" [ngClass]="borders ? 'border' : ''">
-            <div [ngClass]="isSplitView() ? 'main-grid-split overflow-hidden' : 'main-grid-full'"
+            <div [ngClass]="{ 'main-grid-split-hide-overflow': isSplitView() && hideOverflow, 'main-grid-split': isSplitView() && !hideOverflow, 'main-grid-full': !isSplitView() }"
                  [style.flex-basis]="isSplitView() ? gridContainerSplitViewWidth : null">
               <div [ngClass]="this.flexColumnContainerHeightAuto === true ? 'flex-column-container-auto' : 'flex-column-container'">
                 <div class="d-flex h-100">
@@ -95,6 +97,8 @@
                         [allowSplitView]="!!splitViewTemplate"
                         [splitViewDisplayFields]="splitViewDisplayFields"
                         [columnTemplates]="columnTemplates"
+                        [columnHeaderTemplates]="columnHeaderTemplates"
+                        [groupedColumnHeaderTemplates]="groupedColumnHeaderTemplates"
                         [expandedRowTemplate]="expandedRowTemplate"
                         [gridRowActionsConfig]="gridRowActionsConfig"
                         [customHeaderTemplate]="customHeaderTemplate"
@@ -121,7 +125,11 @@
                         [hasHeaderDividers]="hasHeaderDividers"
                         [hasColDividers]="hasColDividers"
                         [enableRowFade]="enableRowFade"
-                        [hideVerticalScrolling]="hideVerticalScrolling">
+                        [hideVerticalScrolling]="hideVerticalScrolling"
+                        [collapseFilterPanelOnCellClick]="collapseFilterPanelOnCellClick"
+                        [hideKendoGrid]="hideKendoGrid"
+                        [gridReplacementTemplate] = gridReplacementTemplate
+                        [hidePageSizes]="hidePageSizes">
                       </pf-grid>
                     </div>
                   </div>
@@ -144,6 +152,7 @@
           [allowSaveFilter]="actionBarConfig.AllowSaveFilter"
           [fields]="filterableFields$ | async"
           [filterTemplates]="filterPanelTemplates"
+          [displayGroupNameInFilter]="displayGroupNameInFilter"
           (close)="closeFilterPanel()"
           (filterChanged)="handleFilterChanged($event)"
           (filterCleared)="clearFilter({ field: $event, value: null} )"

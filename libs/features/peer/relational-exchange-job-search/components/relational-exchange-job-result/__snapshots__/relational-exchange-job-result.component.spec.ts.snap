@@ -1,0 +1,52 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Libs - Peer - RelationalExchangeJobSearch - RelationalExchangeJobResultComponent should display exchange job info when available 1`] = `
+<pf-relational-exchange-job-result
+  exchangeJob={[Function Object]}
+  exchangeJobClicked={[Function EventEmitter_]}
+>
+  <a
+    class="exchange-job-result-row"
+    href="javascript:void(0)"
+  >
+    <div
+      class="result position-relative"
+    >
+      <div
+        class="d-flex justify-content-between"
+      >
+        <h4
+          class="d-flex"
+        >
+          
+          <span
+            class="exchange-job-title font-weight-bold pr-2"
+          >
+             MOCK_EXCHANGE_JOB_TITLE MOCK_EXCHANGE_JOB_CODE 
+          </span>
+          <span
+            class="exchange-job-id"
+          >
+             (1) 
+          </span>
+          <span
+            class="relational-job-code"
+          >
+             MOCK_RELATIONAL_JOB_CODE 
+          </span>
+        </h4>
+      </div>
+      <h5
+        class="flex-column exchange-job-title-short my-1"
+      >
+         MOCK_EXCHANGE_JOB_TITLE_SHORT 
+        <span
+          class="exchange-job-family text-right"
+        >
+           MOCK_EXCHANGE_JOB_FAMILY 
+        </span>
+      </h5>
+    </div>
+  </a>
+</pf-relational-exchange-job-result>
+`;

@@ -4,20 +4,20 @@ import cloneDeep from 'lodash/cloneDeep';
 
 import { EmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards';
 
-import { Statement, CalculationControl, CompensationField, TotalRewardsControlEnum } from '../models';
+import { Statement, CalculationControl, CompensationField, TotalRewardsControlEnum, Page } from '../models';
 import { CurrentControlIndexResponse } from '../models/current-control-index-response';
 
 @Injectable()
 export class TotalRewardsStatementService {
-  static getCurrentControlIndex(statement: Statement, controlId: string): CurrentControlIndexResponse {
-    for (let p = 0; p < statement.Pages.length; p++) {
-      const page = statement.Pages[p];
+  static getControlIndex(statementPages: Page[], controlId?: string, controlType?: TotalRewardsControlEnum): CurrentControlIndexResponse {
+    for (let p = 0; p < statementPages.length; p++) {
+      const page = statementPages[p];
       for (let s = 0; s < page.Sections.length; s++) {
         const section = page.Sections[s];
         for (let c = 0; c < section.Columns.length; c++) {
           const column = section.Columns[c];
           for (let cc = 0; cc < column.Controls.length; cc++) {
-            if (column.Controls[cc].Id === controlId) {
+            if (column.Controls[cc].Id === controlId || column.Controls[cc].ControlType === controlType) {
               return {
                 Page : p,
                 Section : s,
@@ -144,8 +144,8 @@ export class TotalRewardsStatementService {
     return sum;
   }
 
-  static applyFuncToEachControl(statement: Statement, functionToCallWithControl: Function): void {
-    statement?.Pages?.forEach(
+  static applyFuncToEachControl(statementPages: Page[], functionToCallWithControl: Function): void {
+    statementPages?.forEach(
       p => p.Sections?.forEach(
         s => s.Columns?.forEach(
           c => c.Controls?.forEach(

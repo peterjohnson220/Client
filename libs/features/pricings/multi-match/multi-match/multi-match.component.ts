@@ -1,9 +1,8 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 
 import { ActionsSubject, Store } from '@ngrx/store';
-import { ofType } from '@ngrx/effects';
 import { skip, takeUntil } from 'rxjs/operators';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { DragulaService } from 'ng2-dragula';
 
 import { SearchBaseDirective } from 'libs/features/search/search/containers/search-base';
@@ -11,22 +10,22 @@ import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/fea
 import { SearchFeatureIds } from 'libs/features/search/search/enums/search-feature-ids';
 import { UpsertPeerDataCutComponent } from 'libs/features/pricings/upsert-peer-data-cut/upsert-peer-data-cut';
 import { cleanupDatacutsDragging, enableDatacutsDragging, PayfactorsSurveySearchApiModelMapper } from 'libs/features/surveys/survey-search/helpers';
-import { getSearchFilters, SurveySearchFilterMappingDataObj, SurveySearchUserFilterType } from 'libs/features/surveys/survey-search/data';
+import { SurveySearchFilterMappingDataObj, SurveySearchUserFilterType } from 'libs/features/surveys/survey-search/data';
 import { TempExchangeDataCutDetails } from 'libs/models/payfactors-api/peer/exchange-data-search/request';
 import { DataCutSummaryEntityTypes } from 'libs/constants';
+import { PricingProjectHelperService } from 'libs/core';
+import { TempDataCutService } from 'libs/features/temp-data-cut/services';
 import * as fromSearchFeatureActions from 'libs/features/search/search/actions/search-feature.actions';
-import * as fromSearchFiltersActions from 'libs/features/search/search/actions/search-filters.actions';
 import * as fromSurveySearchResultsActions from 'libs/features/surveys/survey-search/actions/survey-search-results.actions';
 import * as fromDataCutValidationActions from 'libs/features/peer/actions/data-cut-validation.actions';
 import * as fromSearchReducer from 'libs/features/search/search/reducers';
+import * as fromTempDataCutActions from 'libs/features/temp-data-cut/actions/temp-data-cut.actions';
 
 import { JobToPrice } from '../models';
-import { TempDataCutService } from '../services';
-import { LEGACY_PROJECTS, MODIFY_PRICINGS } from '../constants';
+import { MultiMatchFeatureImplementations } from '../constants';
 import * as fromMultiMatchPageActions from '../actions/multi-match-page.actions';
 import * as fromJobsToPriceActions from '../actions/jobs-to-price.actions';
 import * as fromModifyPricingsActions from '../actions/modify-pricings.actions';
-import * as fromTempDataCutActions from '../actions/temp-data-cut.actions';
 import * as fromMultiMatchReducer from '../reducers';
 
 @Component({
@@ -41,7 +40,8 @@ export class MultiMatchComponent extends SearchBaseDirective implements OnInit, 
     private dragulaService: DragulaService,
     private actionsSubject: ActionsSubject,
     private featureFlagService: AbstractFeatureFlagService,
-    public tempDataCutService: TempDataCutService
+    public tempDataCutService: TempDataCutService,
+    private pricingProjectHelperService: PricingProjectHelperService
   ) {
     super(store, SurveySearchFilterMappingDataObj, SearchFeatureIds.MultiMatch, SurveySearchUserFilterType);
     this.matchMode = this.featureFlagService.enabled(FeatureFlags.SurveySearchLightningMode, false);
@@ -52,7 +52,7 @@ export class MultiMatchComponent extends SearchBaseDirective implements OnInit, 
         this.saveChangesStarted = v;
         if (!this.hasError) {
           this.afterSaveChanges.emit(true);
-          this.showMultiMatchModal.next(false);
+          this.store.dispatch(new fromMultiMatchPageActions.SetMultiMatchModalStatus(false));
           super.resetActions();
         }
       }
@@ -65,7 +65,7 @@ export class MultiMatchComponent extends SearchBaseDirective implements OnInit, 
     this.pageShown$ = this.store.select(fromSearchReducer.getPageShown);
     this.jobsToPrice$ = this.store.select(fromMultiMatchReducer.getJobsToPrice);
     switch (this.featureImplementation) {
-      case MODIFY_PRICINGS:
+      case MultiMatchFeatureImplementations.MODIFY_PRICINGS:
         this.savingChanges$ = this.store.select(fromMultiMatchReducer.getIsSaving);
         break;
       default:
@@ -75,17 +75,16 @@ export class MultiMatchComponent extends SearchBaseDirective implements OnInit, 
     this.loadingResults$ = this.store.select(fromSearchReducer.getLoadingResults);
     this.loadingMoreResults$ = this.store.select(fromSearchReducer.getLoadingMoreResults);
     this.searchError$ = this.store.select(fromSearchReducer.getSearchResultsError);
-    this.actionsSubject
-      .pipe(ofType(fromModifyPricingsActions.GET_PRICINGS_TO_MODIFY_SUCCESS), takeUntil(this.unsubscribe$))
-      .subscribe(p => {
-        this.showMultiMatchModal.next(true);
-      });
+
+    this.showMultiMatchModal$ = this.store.select(fromMultiMatchReducer.getShowModal);
   }
   @ViewChild(UpsertPeerDataCutComponent) upsertPeerDataCutComponent: UpsertPeerDataCutComponent;
 
   @Input() display: 'component' | 'modal' = 'component';
-  @Input() featureImplementation = LEGACY_PROJECTS;
+  @Input() featureImplementation = MultiMatchFeatureImplementations.LEGACY_PROJECTS;
+  @Input() customSaveLogic = true;
   @Output() afterSaveChanges = new EventEmitter<boolean>();
+  @Input() modalTitle = 'Price Jobs';
 
   changesToSave: boolean;
   saveChangesStarted = false;
@@ -94,8 +93,7 @@ export class MultiMatchComponent extends SearchBaseDirective implements OnInit, 
   refiningExchangeJobId: number;
 
   // Observables
-  showMultiMatchModal = new BehaviorSubject<boolean>(false);
-  showMultiMatchModal$ = this.showMultiMatchModal.asObservable();
+  showMultiMatchModal$: Observable<boolean>;
   unsubscribe$ = new Subject<void>();
   jobsToPrice$: Observable<JobToPrice[]>;
   savingChanges$: Observable<boolean>;
@@ -103,6 +101,7 @@ export class MultiMatchComponent extends SearchBaseDirective implements OnInit, 
   loadingResults$: Observable<boolean>;
   loadingMoreResults$: Observable<boolean>;
   searchError$: Observable<boolean>;
+  _multiMatchImplementations = MultiMatchFeatureImplementations;
 
   private static jobHasChangesToSave(job: JobToPrice): boolean {
     return (!!job.DataCutsToAdd && job.DataCutsToAdd.length > 0) || (!!job.DeletedJobMatchCutIds && job.DeletedJobMatchCutIds.length > 0);
@@ -147,10 +146,8 @@ export class MultiMatchComponent extends SearchBaseDirective implements OnInit, 
     if (!!this.upsertPeerDataCutComponent) {
       this.upsertPeerDataCutComponent.resetExchangeExplorer();
     }
-    this.store.dispatch(new fromSearchFiltersActions.AddFilters(getSearchFilters(this.matchMode)));
-    this.store.dispatch(new fromMultiMatchPageActions.SetProjectContext(payload));
-    this.store.dispatch(new fromMultiMatchPageActions.GetProjectSearchContext(payload));
-    this.store.dispatch(new fromJobsToPriceActions.GetJobsToPrice(payload));
+
+    this.pricingProjectHelperService.SetProjectContext(payload);
   }
 
   onResetApp() {
@@ -162,7 +159,7 @@ export class MultiMatchComponent extends SearchBaseDirective implements OnInit, 
 
   handleSaveClicked() {
     switch (this.featureImplementation) {
-      case MODIFY_PRICINGS:
+      case MultiMatchFeatureImplementations.MODIFY_PRICINGS:
         this.store.dispatch(new fromModifyPricingsActions.ModifyPricings());
         break;
       default:
@@ -173,9 +170,12 @@ export class MultiMatchComponent extends SearchBaseDirective implements OnInit, 
   }
 
   handleCancelClicked() {
+    if (this.display === 'modal') {
+      this.store.dispatch(new fromMultiMatchPageActions.SetMultiMatchModalStatus(false));
+    }
+
     switch (this.featureImplementation) {
-      case MODIFY_PRICINGS:
-        this.showMultiMatchModal.next(false);
+      case MultiMatchFeatureImplementations.MODIFY_PRICINGS:
         this.hasError = false;
         super.resetApp();
         break;
@@ -206,7 +206,12 @@ export class MultiMatchComponent extends SearchBaseDirective implements OnInit, 
   }
 
   handleLoadRefiningValidationDetails(): void {
-    this.store.dispatch(new fromDataCutValidationActions.LoadTempDataCutValidation({hasProjectContext: this.featureImplementation !== MODIFY_PRICINGS}));
+    this.store.dispatch(new fromDataCutValidationActions.LoadTempDataCutValidation(
+      {
+          hasProjectContext: this.featureImplementation !== MultiMatchFeatureImplementations.MODIFY_PRICINGS
+        }
+      )
+    );
   }
 
   handleRefineCancelled(): void {

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, Output, EventEmitter } from '@angular/core';
 
 import * as Highcharts from 'highcharts';
 import { Store } from '@ngrx/store';
@@ -13,6 +13,8 @@ import { GradeRangeModelChartService } from '../../data/grade-range-model-chart.
 import { PagesHelper } from '../../../../shared/helpers/pages.helper';
 import { GradeRangeModelChartSeries } from '../../data/grade-range-model-chart-series-constants';
 import * as fromSharedStructuresReducer from '../../../../shared/reducers';
+import * as fromGradeBasedSharedActions from '../../actions/shared.actions';
+
 
 @Component({
   selector: 'pf-grade-based-summary-chart',
@@ -60,6 +62,17 @@ export class GradeBasedSummaryChartComponent implements OnInit, OnDestroy {
 
     // set the series data
     this.chartInstance.series[GradeRangeModelChartSeries.SummaryData].setData(this.summaryDataModel, true);
+
+    // last but not least, save the latest SVG in state
+    // set the svg string
+    const chartObject = this.chartInstance as any;
+    const svgString = chartObject.getSVG({
+      chart: {
+        width: 1775,
+        height: 160
+      }
+    });
+    this.store.dispatch(new fromGradeBasedSharedActions.SetSummaryChartSvg(svgString));
   }
 
   private handleZeroTotalEmployees() {

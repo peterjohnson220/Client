@@ -293,6 +293,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       } else {
         this.AddAndSetSelectedConfig(this.configGroupSeed);
         this.SetDefaultValuesForNullConfig();
+        this.configGroupId = undefined; 
       }
 
       this.mainStore.dispatch(new fromEmailRecipientsActions.LoadEmailRecipients({
@@ -503,7 +504,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
         From: NotificationSource.GenericNotificationMessage,
         Payload: {
           Title: 'Organizational Data Loader',
-          Message: 'Your file upload has failed. Please contact free@payfactors.com'
+          Message: 'Something happened with your file, please start over. If you continue to have this issue, please log a ticket via the Service tile for further assistance.'
         },
         EnableHtml: true,
         Type: NotificationType.Event

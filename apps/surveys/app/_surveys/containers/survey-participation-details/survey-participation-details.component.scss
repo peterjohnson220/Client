@@ -1,0 +1,21 @@
+::ng-deep .k-button.k-upload-button {
+  border: none !important;
+  margin: 0 !important;
+  background-color: #fff;
+  color: #006699;
+  font-weight: 400;
+}
+
+::ng-deep .k-upload {
+  border: none;
+  background-color: transparent;
+
+  .k-dropzone {
+    display: flex;
+    justify-content: flex-end !important;
+  }
+}
+
+::ng-deep .k-upload .k-upload-files {
+  display: none;
+}

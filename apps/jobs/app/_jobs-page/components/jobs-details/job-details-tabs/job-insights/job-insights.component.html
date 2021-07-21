@@ -1,0 +1,35 @@
+<div class="d-flex px-3 flex-column">
+  <div class="action-bar-container d-flex align-items-center justify-content-between">
+    <kendo-dropdownlist
+      [attr.data-qa-id]="'ddm-job-insights-paymarket'"
+      [data]="payMarkets"
+      [textField]="'PayMarket'"
+      [valueField]="'CompanyPayMarketId'"
+      [kendoDropDownFilter]="filterSettings"
+      [valuePrimitive]="true"
+      [ngModel]="selectedPayMarketId"
+      [style.width.px]="250"
+      class="k-dropdown-white"
+      (valueChange)="handlePayMarketValueChanged($event)">
+
+      <ng-template kendoDropDownListItemTemplate let-dataItem>
+        <div pfEllipsisActive class="ellipsis-overflowing-text">
+          <span>{{ dataItem.PayMarket }}</span>
+        </div>
+      </ng-template>
+
+    </kendo-dropdownlist>
+  </div>
+  <ng-container *ngIf="(jobDescriptionSummaryAsync$ | async)?.obj?.JobSummary?.length">
+    <div class="section">
+      <span class="title">Job Summary</span>
+        <ng-container *ngIf="(jobDescriptionSummaryAsync$ | async).obj.JobSummary !== multipleJobDescriptions; else multipleJobDescriptionsTemplate">
+          <pf-ellipsis-view-more [copy]="true" [content]="(jobDescriptionSummaryAsync$ | async).obj.JobSummary" [maxLength]="600"></pf-ellipsis-view-more>
+        </ng-container>
+    </div>
+  </ng-container>
+</div>
+
+<ng-template #multipleJobDescriptionsTemplate>
+  <span>{{(jobDescriptionSummaryAsync$ | async).obj.JobSummary}}</span>
+</ng-template>

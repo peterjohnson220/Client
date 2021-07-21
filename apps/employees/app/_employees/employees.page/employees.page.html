@@ -172,7 +172,8 @@
             [statement]="totalRewardsStatement"
             [employeeRewardsData]="employeeRewardsData"
             [loadingData]="(employeeRewardsData$ | async)?.loading"
-            [mode]="totalRewardsStatementMode">
+            [mode]="totalRewardsStatementMode"
+            [isAdditionalPageEnabled]="totalRewardsAdditionalPageFeatureFlag?.value">
           </pf-total-rewards-statement>
         </div>
       </pf-async-container>

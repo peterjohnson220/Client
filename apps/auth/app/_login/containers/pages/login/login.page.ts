@@ -1,16 +1,16 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { MarketingImageDto } from 'libs/models/marketing/marketing-image-dto.model';
 import * as fromMarketingActions from 'libs/features/infrastructure/marketing-settings/marketing-settings/actions/marketing-settings.actions';
 import { AppConstants } from 'libs/constants';
+import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services';
 
 import * as fromLoginReducer from '../../../reducers';
 import * as fromLoginActions from '../../../actions/login.actions';
-
 
 import { environment } from 'environments/environment';
 
@@ -47,12 +47,15 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   allowSelfRegistration = environment.allowSelfRegistration;
   reCaptchaV3SiteKey: string;
   loginSettingsSuccess = false;
+  payscaleAuthRebrandFlag: RealTimeFlag = { key: FeatureFlags.RestyledLogin, value: false };
+  unsubscribe$ = new Subject<void>();
 
   constructor(private fb: FormBuilder,
               public loginStore: Store<fromLoginReducer.State>,
               public store: Store<fromLoginReducer.State>,
               private route: ActivatedRoute,
-              private router: Router) {
+              private router: Router,
+              private featureFlagService: AbstractFeatureFlagService) {
     this.login$ = this.loginStore.select(fromLoginReducer.getLogin);
     this.loginError$ = this.loginStore.select(fromLoginReducer.getLoginError);
     this.passwordExpired$ = this.loginStore.select(fromLoginReducer.getPasswordExpired);
@@ -92,6 +95,14 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         }
 
         this.loginSettingsSuccess = true;
+
+        const { FeatureFlagBootstrapJson: featureFlagBootstrapJson, LaunchDarklyClientSdkKey: launchDarklyClientSdkKey } = settings;
+        this.featureFlagService.initialize(launchDarklyClientSdkKey, { anonymous: true }, featureFlagBootstrapJson);
+
+        this.featureFlagService.bindEnabled(this.payscaleAuthRebrandFlag, this.unsubscribe$);
+        if (this.payscaleAuthRebrandFlag.value === true) {
+          document.querySelector('html').classList.add('payscale-rebrand');
+        }
       }
     });
 

@@ -309,7 +309,7 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
 
   reScopeSurveyData() {
     if (this.dataRow['CompanyJobs_PricingsMatches_Survey_Data_ID'] &&
-      !this.pricingInfo['CompanyPayMarkets_Linked_PayMarket_Name'] &&
+      !this.pricingInfo['CompanyJobs_Pricings_Linked_PayMarket_Name'] &&
       this.canModifyPricings
     ) {
       const data = {
@@ -345,7 +345,7 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
 
   upsertPeerDataCut() {
     if (this.dataRow['ExchangeDataCut_FilterGUID'] &&
-      !this.pricingInfo['CompanyPayMarkets_Linked_PayMarket_Name'] &&
+      !this.pricingInfo['CompanyJobs_Pricings_Linked_PayMarket_Name'] &&
       this.canModifyPricings && this.hasPeerPermission) {
       this.upsertPeerDataCutEntityConfiguration = {
         ...this.upsertPeerDataCutEntityConfiguration,

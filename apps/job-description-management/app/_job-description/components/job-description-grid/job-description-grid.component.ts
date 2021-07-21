@@ -3,7 +3,7 @@ import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angu
 import { Store } from '@ngrx/store';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
-import { GridDataResult, RowArgs } from '@progress/kendo-angular-grid';
+import { GridDataResult, RowArgs, SelectAllCheckboxState } from '@progress/kendo-angular-grid';
 import { State } from '@progress/kendo-data-query';
 
 import { AbstractFeatureFlagService, FeatureFlags, PermissionService, RealTimeFlag } from 'libs/core';
@@ -38,10 +38,11 @@ export class JobDescriptionGridComponent implements OnInit, OnDestroy {
   @Output() sortChanged = new EventEmitter();
   @Output() publicViewChanged = new EventEmitter();
   @Output() openDeleteJobDescriptionModal = new EventEmitter();
+  @Output() bulkRouteJobDescriptions = new EventEmitter();
+  @Output() bulkExportJobDescriptions = new EventEmitter();
 
   jdmCheckboxesFeatureFlag: RealTimeFlag = { key: FeatureFlags.JdmCheckboxes, value: false };
 
-  public info: any;
   public filterChanged: any;
   public permissions = Permissions;
   public pageableSettings = {
@@ -52,26 +53,29 @@ export class JobDescriptionGridComponent implements OnInit, OnDestroy {
     previousNext: true
   };
   public hasDeleteJobDescriptionPermission: boolean;
+  public hasCanRouteJobDescriptionPermission: boolean;
   public currentReviewerThreshold = 40;
 
   private creatingJobDescription: boolean;
   private creatingJobDescription$: Observable<boolean>;
   private creatingJobDescriptionSubscription: Subscription;
 
-  private getSelectedJobDescriptions$: Observable<Map<number, number>>;
+  private getSelectedJobDescriptions$: Observable<Map<number, any>>;
   private getSelectedJobDescriptionsSubscription: Subscription;
 
-  selectedJobDescriptions: Map<number, number>;
+  private selectedJobDescriptions: Map<number, any>;
   private unsubscribe$ = new Subject<void>();
 
   constructor(
     private store: Store<JobDescriptionManagementJobDescriptionState>,
     private permissionService: PermissionService,
-    private featureFlagService: AbstractFeatureFlagService
+    private featureFlagService: AbstractFeatureFlagService,
   ) {
     this.creatingJobDescription$ = this.store.select(getJobDescriptionCreating);
     this.getSelectedJobDescriptions$ = this.store.select(getSelectedJobDescriptions);
     this.hasDeleteJobDescriptionPermission = this.permissionService.CheckPermission([Permissions.CAN_DELETE_JOB_DESCRIPTION],
+      PermissionCheckEnum.Single);
+    this.hasCanRouteJobDescriptionPermission = this.permissionService.CheckPermission([Permissions.CAN_ROUTE_JOB_DESCRIPTION_FOR_APPROVAL],
       PermissionCheckEnum.Single);
     this.featureFlagService.bindEnabled(this.jdmCheckboxesFeatureFlag, this.unsubscribe$);
   }
@@ -79,7 +83,17 @@ export class JobDescriptionGridComponent implements OnInit, OnDestroy {
   isRowSelected = (e: RowArgs) => this.isSelectedJobDescription(e.dataItem.JobDescriptionId);
 
   isSelectedJobDescription(jobDescriptionId: number): boolean {
-    return this.selectedJobDescriptions.has(jobDescriptionId);
+    return this.selectedJobDescriptions?.has(jobDescriptionId);
+  }
+
+  get bulkRouteTooltip(): string {
+    return this.selectedJobDescriptions?.size > 0 && !this.canBulkRouteJobDescriptions()
+      ? 'Only Draft Job Descriptions can be routed for approval' : '';
+  }
+
+  get bulkDeleteTooltip(): string {
+    return this.selectedJobDescriptions?.size > 0 && !this.canBulkDeleteJobDescriptions()
+      ? 'Only Job Descriptions that have at least one sibling can be deleted' : '';
   }
 
   ngOnInit() {
@@ -102,25 +116,33 @@ export class JobDescriptionGridComponent implements OnInit, OnDestroy {
     let selectionChanged = false;
     if (selection.selectedRows.length > 0) {
       selection.selectedRows.forEach((row) => {
-        if (row.dataItem.JobDescriptionId) {
+        if (this.canSelectRow(row.dataItem)) {
           selectionChanged = true;
-          this.selectedJobDescriptions.set(row.dataItem.JobDescriptionId, row.dataItem.JobDescriptionCount);
-        }
-      });
+          this.selectedJobDescriptions?.set(row.dataItem.JobDescriptionId, row.dataItem);
+      }});
     }
 
     if (selection.deselectedRows.length > 0) {
       selection.deselectedRows.forEach((row) => {
-        if (row.dataItem.JobDescriptionId) {
+        if (this.canSelectRow(row.dataItem)) {
           selectionChanged = true;
-          this.selectedJobDescriptions.delete(row.dataItem.JobDescriptionId);
-        }
-      });
+          this.selectedJobDescriptions?.delete(row.dataItem.JobDescriptionId);
+      }});
     }
 
     if (selectionChanged) {
       this.store.dispatch(new jobDescriptionGridActions.SelectJobDescriptions(this.selectedJobDescriptions));
     }
+  }
+
+  canSelectRow(jd): boolean {
+    return jd.JobDescriptionStatus !== 'Routing'
+      && jd.JobDescriptionStatus !== 'Deleting'
+      && this.isTemplateAssigned(jd);
+  }
+
+  isTemplateAssigned(jd): boolean {
+    return jd.JobDescriptionId !== null && jd.JobDescriptionStatus !== 'Not Started' && jd.TemplateName !== null;
   }
 
   handleJobDescriptionHistoryClick(jobDescriptionId: number, jobTitle: string) {
@@ -132,7 +154,7 @@ export class JobDescriptionGridComponent implements OnInit, OnDestroy {
   }
 
   handleDeleteJobDescriptionClick(jobDescriptionId) {
-    this.openDeleteJobDescriptionModal.emit(jobDescriptionId);
+    this.openDeleteJobDescriptionModal.emit([jobDescriptionId]);
   }
 
   hideCurrentReviewerTooltip(ngbTooltip: NgbTooltip) {
@@ -249,25 +271,100 @@ export class JobDescriptionGridComponent implements OnInit, OnDestroy {
     }
   }
 
+  tooltipForCheckbox(jobDescription): string {
+    if (!this.isTemplateAssigned(jobDescription)) {
+      return 'Only job descriptions with assigned templates can be selected';
+    }
+  }
+
   onCellClick(event: any) {
+    if (event?.dataItem.JobDescriptionStatus === 'Routing' || event?.dataItem.JobDescriptionStatus === 'Deleting' ) {
+      return;
+    }
     const companyJobViewListItem: CompanyJobViewListItem = event?.dataItem;
     if (!this.creatingJobDescription) {
       this.navigateToJobDescription.emit(companyJobViewListItem);
     }
   }
 
-  handleClearSelectionsClick() {
+  handleClearSelectionsClicked() {
     this.selectedJobDescriptions.clear();
     this.store.dispatch(new jobDescriptionGridActions.SelectJobDescriptions(this.selectedJobDescriptions));
   }
 
-  canDeleteJobDescriptions(): boolean {
-    let canDelete = false;
-    this.selectedJobDescriptions?.forEach(jobDescriptionCount => {
-      if (jobDescriptionCount > 1) {
-        canDelete = true;
+  handleBulkRouteForApprovalClicked(): void {
+    this.bulkRouteJobDescriptions.emit();
+  }
+
+  handleBulkDeleteClicked(): void {
+    const selectedIds = Array.from(this.selectedJobDescriptions?.keys());
+    this.openDeleteJobDescriptionModal.emit(selectedIds);
+  }
+
+  handleBulkExportClicked(): void {
+    this.bulkExportJobDescriptions.emit();
+  }
+
+  canBulkDeleteJobDescriptions(): boolean {
+    let canDelete = true;
+    this.selectedJobDescriptions?.forEach(jobDescription => {
+      if (jobDescription.JobDescriptionCount <= 1) {
+        canDelete = false;
+        return;
       }
     });
     return canDelete;
+  }
+
+  canBulkRouteJobDescriptions(): boolean {
+    let canRoute = true;
+    this.selectedJobDescriptions?.forEach(jobDescription => {
+      if (jobDescription.JobDescriptionStatus !== 'Draft'
+        || !this.isTemplateAssigned(jobDescription)
+      ) {
+        canRoute = false;
+        return;
+      }
+    });
+    return canRoute;
+  }
+
+  canBulkExportJobDescriptions(): boolean {
+    let canExport = true;
+    this.selectedJobDescriptions?.forEach(jobDescription => {
+      if (jobDescription.JobDescriptionStatus !== 'Draft'
+      && jobDescription.JobDescriptionStatus !== 'Published'
+      && jobDescription.JobDescriptionStatus !== 'In Review') {
+        canExport = false;
+        return;
+      }
+    });
+    return canExport;
+  }
+
+  getSelectAllState(): SelectAllCheckboxState {
+    if (!this.selectedJobDescriptions || !this.gridDataResult ) {
+      return 'unchecked';
+    }
+
+    const selectedIds = Array.from(this.selectedJobDescriptions?.keys());
+    const eligiblePageIds =  this.gridDataResult?.data?.filter(x => this.canSelectRow(x)).map(jd => jd.JobDescriptionId);
+
+    if (selectedIds?.length > 0 && eligiblePageIds?.length > 0 && eligiblePageIds.every(r => selectedIds.includes(r))) {
+      return 'checked';
+    } else if (eligiblePageIds.filter(r => selectedIds.includes(r))?.length === 0) {
+      return 'unchecked';
+    } else {
+      return 'indeterminate';
+    }
+  }
+
+  public rowClass(args) {
+    const disabled = args.dataItem.JobDescriptionStatus === 'Routing' || args.dataItem.JobDescriptionStatus === 'Deleting';
+    if (disabled) {
+      return {
+        'k-disabled': true
+      };
+    }
   }
 }

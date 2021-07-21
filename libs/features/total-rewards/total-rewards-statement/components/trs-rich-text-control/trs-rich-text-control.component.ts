@@ -21,6 +21,7 @@ import QuillType from 'quill';
 
 import { EmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards';
 import { AppConstants } from 'libs/constants';
+import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
 
 import { RichTextControl, StatementModeEnum } from '../../models';
 import { UpdateStringPropertyRequest, UpdateTitleRequest, UpdateUdfsInRteContentRequest } from '../../models/request-models';
@@ -92,6 +93,15 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
     },
   };
 
+  availableHeight: number;
+
+  totalRewardsRadialTextCountersFeatureFlag: RealTimeFlag = { key: FeatureFlags.TotalRewardsRadialTextCounters, value: false };
+  unsubscribe$ = new Subject<void>();
+
+  get quillEditorId(): string {
+    return 'quill-editor-' + this.controlData.Id;
+  }
+
   get richTextNode(): HTMLElement {
     return this.quillEditor?.container;
   }
@@ -102,20 +112,6 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
       return this.controlData.AvailableDataFields.map(df => ({ id: df.Key, value: df.Value }));
     }
     return [];
-  }
-
-  get quillToolbarContainer(): any[] {
-    const allOptions = [
-      [{ 'font': supportedFonts }],
-      [{ 'size': ['small', false, 'large'] }],
-      ['bold', 'italic', 'underline'],
-      [{ 'color': [] }],
-      [{ 'align': [] }],
-      [{ 'list': 'bullet' }],
-    ];
-
-    // remove the custom font family menu if disabled in environment
-    return (this.showFontFamilyMenu) ? allOptions : allOptions.slice(1);
   }
 
   get cssClasses(): any[] {
@@ -133,7 +129,9 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
     return this.controlData.Id === this.activeEditorId;
   }
 
-  constructor(private sanitizer: DomSanitizer) { }
+  constructor(private sanitizer: DomSanitizer, private featureFlagService: AbstractFeatureFlagService) {
+    this.featureFlagService.bindEnabled(this.totalRewardsRadialTextCountersFeatureFlag, this.unsubscribe$);
+  }
 
   ngOnInit() {
     this.title = this.controlData.Title.Default;
@@ -149,13 +147,14 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
     }
   }
 
-  ngOnChanges({ mode, isPageScrolling }: SimpleChanges) {
+  ngOnChanges({ mode, isPageScrolling, controlData }: SimpleChanges) {
     // Get the F outta here if in print mode
     if (this.mode === StatementModeEnum.Print) { return; }
 
     const changedFromPreviewToEdit = mode?.currentValue === StatementModeEnum.Edit && mode?.previousValue === StatementModeEnum.Preview;
     const changedFromEditToPreview = mode?.currentValue === StatementModeEnum.Preview && mode?.previousValue === StatementModeEnum.Edit;
     const pageScrolling = isPageScrolling?.currentValue && !isPageScrolling?.previousValue;
+    const changedHeight = controlData?.currentValue?.Height !== controlData?.previousValue?.Height;
 
     if (changedFromPreviewToEdit) {
       // the dom node quill attaches to isn't there until the next turn, so wait until then to re-init
@@ -163,17 +162,17 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
     } else if (changedFromEditToPreview || pageScrolling) {
       // we get this for free in most cases, but some edge cases like scrolling require manual closing
       this.closeQuillMention();
+    } else if (changedHeight) {
+      this.createStyleSheet();
     }
 
     this.isValid = !this.isContentHeightGreaterThanContainerHeight();
   }
 
   ngOnDestroy() {
-    if (this.onContentChangedSubscription) {
-      this.onContentChangedSubscription.unsubscribe();
-    }
-
+    this.onContentChangedSubscription?.unsubscribe();
     this.closeQuillMention();
+    this.unsubscribe$.next();
   }
 
   onTitleChanged(newTitle: string) {
@@ -182,6 +181,9 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
 
   createQuillEditor() {
     this.quillEditor = new Quill('#quill-editor-' + this.controlData.Id, {
+      // Prevents a bug whereby the editor jumps to the top when pasting text, aligning, coloring or resizing.
+      // See https://stackoverflow.com/questions/51706247/quill-how-to-prevent-toolbar-from-scrolling-and-set-the-height
+      scrollingContainer: '.page-content',
       theme: 'snow',
       modules: {
         toolbar: {
@@ -255,15 +257,35 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
 
     // get dom node references to the container around the quill content and the content nodes (p tags)
     const container = this.richTextNode.querySelector('.ql-editor') as HTMLElement;
+
+    return this.contentHeight > container.offsetHeight;
+  }
+
+  get displayRadialTextCounter(): boolean {
+     return this.quillEditor?.hasFocus() && this.totalRewardsRadialTextCountersFeatureFlag.value;
+  }
+
+  get contentHeight(): number {
     const contentNodes = this.richTextNode.querySelectorAll('.ql-editor p, .ql-editor li') as NodeListOf<HTMLElement>;
+
+    // Even with user entering nothing, there's still some empty content resulting in a height, so account for this.
+    const isEmpty = this.quillEditor.getText() === '\n';
+
+    if (isEmpty) { return 0; }
 
     // calculate how many pixels tall the content is with a for loop, as IE 11 does not support NodeListOf.forEach()
     let totalContentHeightInPixels = 0;
+
     for (let i = 0; i < contentNodes.length; i ++) {
       totalContentHeightInPixels += contentNodes[i].offsetHeight;
     }
 
-    return totalContentHeightInPixels > container.offsetHeight;
+    return totalContentHeightInPixels;
+  }
+
+  get containerHeight(): number {
+    const container = this.richTextNode.querySelector('.ql-editor') as HTMLElement;
+    return container.offsetHeight;
   }
 
   onClickEditor() {

@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand navbar-dark fixed-top">
+<nav class="navbar navbar-expand navbar-dark fixed-top" [ngClass]="{ 'payscale-rebrand': payscaleBrandingFeatureFlag.value }" >
   <a href="{{ homePageLink?.Url }}" class="navbar-brand mr-auto" *ngIf="userContext && !userContext.IsPublic && !userContext.WorkflowStepInfo else publicHeaderImage">
     <img class="logo-style" [src]="homePageLink?.LogoImgSrc" />
   </a>
@@ -7,7 +7,7 @@
       <img class="logo-style" [src]="homePageLink?.LogoImgSrc" />
     </span>
   </ng-template>
-  <pf-notification-badge *ngIf="enableUserNotifications"></pf-notification-badge>
+  <pf-notification-badge></pf-notification-badge>
   <pf-layout-wrapper-user-menu
     [dropdownNavigationLinks]="dropdownNavigationLinks"
     [userContext]="userContext"

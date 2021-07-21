@@ -39,6 +39,7 @@ import {
   JobDescriptionBulkExportPayload
 } from 'libs/features/jobs/job-description-management/models/job-description-bulk-export-payload.model';
 import { ControlDataHelper } from 'libs/features/jobs/job-description-management/helpers';
+import { SelectedJobDescriptionsExportPayload } from 'libs/features/jobs/job-description-management/models/selected-job-descriptions-export-payload.mode';
 
 @Injectable({
   providedIn: 'root',
@@ -263,12 +264,15 @@ export class JobDescriptionApiService {
     return this.payfactorsApiService.post(`${this.endpoint}/Default.UpdatePublicView`, {companyId, jobDescriptionId, publicView});
   }
 
-  deleteJobDescription(jobDescriptionId: number): Observable<any> {
-    return this.payfactorsApiService.post(`${this.endpoint}(${jobDescriptionId})/Default.Delete`,
-      (response => JSON.parse(response.value)));
+  deleteJobDescription(jobDescriptionIds: number[]): Observable<any> {
+    return this.payfactorsApiService.post(`${this.endpoint}/Default.Delete`, { jobDescriptionIds: jobDescriptionIds });
   }
 
   exportJobDescriptions(ignoreMappingFile: boolean) {
     return this.payfactorsApiService.get(`${this.endpoint}/ExportAllJobDescriptions`, {ignoreMappingFile});
+  }
+
+  exportSelectedJobDescriptions(jdmExportPayload: SelectedJobDescriptionsExportPayload) {
+    return this.payfactorsApiService.post(`${this.endpoint}/Default.ExportSelectedJobDescriptions`, { jdmExportPayload: JSON.stringify(jdmExportPayload) });
   }
 }

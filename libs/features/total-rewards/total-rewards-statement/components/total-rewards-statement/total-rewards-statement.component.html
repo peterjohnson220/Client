@@ -1,7 +1,7 @@
 <div *ngIf="statement" class="container statement position-relative" [ngClass]="cssClasses">
   <pf-async-container [loading]="loadingData"></pf-async-container>
-  <div *ngFor="let page of statement.Pages; trackBy: trackByFn" class="pb-4 trs-page">
-    <section *ngFor="let section of page.Sections; trackBy: trackByFn" class="row vertical-divider trs-section">
+  <div *ngFor="let page of statement.Pages; trackBy: trackByFn" class="pb-4 trs-page position-relative {{ page.IsAdditionalPage ? 'additional' : 'main' }}">
+    <section *ngFor="let section of page.Sections; trackBy: trackByFn" class="row vertical-divider trs-section" [class.repeatable-header-content]="section.ContainsRepeatableHeaderContent">
       <div
         *ngFor="let column of section.Columns; trackBy: trackByFn"
         [ngClass]="'col-' + column?.Layout?.Width"
@@ -51,12 +51,15 @@
               [showDecimals]="statement.Settings.DisplaySettings.ShowDecimals"
               [showEmployeeContributions]="statement.Settings.DisplaySettings.ShowEmployeeContributions"
               [showSecondaryHeader]="visibleCalculationControls[0]?.Id === control.Id"
+              [allowDragDrop]="allowCalculationFieldDragDrop"
               (onTitleChange)="handleOnControlTitleChange($event)"
               (onCompFieldTitleChange)="handleOnCalculationControlCompFieldTitleChange($event)"
               (onUpdateSummaryTitleChange)="handleOnCalculationControlSummaryTitleChange($event)"
               (onCompFieldRemoved)="handleOnCalculationControlCompFieldRemoved($event)"
               (onCompFieldAdded)="handleOnCalculationControlCompFieldAdded($event)"
-              (onCompFieldReordered)="handleOnCalculationControlCompFieldReordered($event)">
+              (onCompFieldReordered)="handleOnCalculationControlCompFieldReordered($event)"
+              (onCalcControlFieldFocus)="handleCalculationControlFocus()"
+              (onCalcControlFieldBlur)="handleCalculationControlBlur()">
             </pf-trs-calculation-control>
 
             <pf-trs-chart-control

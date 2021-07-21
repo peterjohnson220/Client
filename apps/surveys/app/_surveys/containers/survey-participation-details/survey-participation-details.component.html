@@ -1,0 +1,35 @@
+<div *ngIf="!!survey" class="d-flex flex-column">
+  <div class="d-flex">
+    <div pfEllipsisActive class="mr-auto w-75 ellipsis-overflowing-text align-self-center">
+      {{survey.SurveyName}}
+    </div>
+    <ng-container *ngIf="!!survey.ParticipationFileName?.length">
+      <button type="button"
+              class="btn btn-link"
+              title="Download File"
+              (click)="downloadSurveyParticipationFile(survey.ParticipationFileName)">
+        Download
+      </button>
+    </ng-container>
+    <span *ngIf="impersonatorId !== 0 && !!survey.ParticipationFileName?.length" class="vertical-separator mx-3"></span>
+    <div *ngIf="impersonatorId !== 0" class="d-flex flex-column">
+      <div class="btn-link">
+        <kendo-upload [multiple]="false"
+                      [saveUrl]="uploadSurveyParticipationFileUrl"
+                      [showFileList]="false"
+                      [restrictions]="fileRestrictions"
+                      (select)="handleFileSelect($event)"
+                      (upload)="handleUpload($event)"
+                      (success)="handleUploadSuccess($event)"
+                      (error)="handleUploadError($event)">
+          <kendo-upload-messages select="Upload"></kendo-upload-messages>
+        </kendo-upload>
+      </div>
+    </div>
+  </div>
+  <span *ngIf="!!invalidFileTypeMessage" class="text-danger">{{invalidFileTypeMessage}}</span>
+  <span *ngIf="survey?.UploadingFileError?.length" class="text-danger">{{survey.UploadingFileError}}</span>
+  <span *ngIf="survey?.Saving"><pf-loading-indicator></pf-loading-indicator>Saving...</span>
+  <span *ngIf="survey?.SavingError?.length" class="text-danger">{{survey.SavingError}}</span>
+  <span *ngIf="survey?.SavingSuccess && survey?.ParticipationFileName" class="text-success">{{survey.ParticipationFileName}}</span>
+</div>

@@ -231,7 +231,7 @@ export class GeneralFormComponent implements OnInit, OnDestroy, OnChanges {
       CurrencyCode: this.f.CurrencyCode.value,
       LinkedPayMarket: null,
       LinkedPayMarketId: this.f.LinkedPayMarketId.value ? this.f.LinkedPayMarketId.value : null,
-      LinkedPayMarketAdj: this.f.LinkedPayMarketAdj.value ? this.f.LinkedPayMarketAdj.value : null,
+      LinkedPayMarketAdj: this.f.LinkedPayMarketAdj.value || this.f.LinkedPayMarketAdj.value === 0 ? this.f.LinkedPayMarketAdj.value : null,
       ShowInLinkedStructure: this.f.ShowInLinkedStructure.value
     };
   }

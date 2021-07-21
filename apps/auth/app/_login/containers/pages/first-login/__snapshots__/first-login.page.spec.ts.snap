@@ -2,6 +2,7 @@
 
 exports[`Auth - First Time Login should disable Submit password button when password is not valid 1`] = `
 <pf-first-login-page
+  featureFlagService={[Function Object]}
   formIsValid="false"
   isFirstLogin={[Function Boolean]}
   isValidating="false"
@@ -10,8 +11,10 @@ exports[`Auth - First Time Login should disable Submit password button when pass
   legacyCompanySettingsLoading$={[Function Observable]}
   loadingLegacyCompanySettings="false"
   loadingUserContext="false"
+  payscaleAuthRebrandFlag={[Function Object]}
   store={[Function Store]}
   submitEnabled="false"
+  unsubscribe$={[Function Subject]}
   updateError="false"
   updatingPasswordError$={[Function Store]}
   userContext$={[Function Store]}
@@ -26,7 +29,18 @@ exports[`Auth - First Time Login should disable Submit password button when pass
     <h1
       class="p-3"
     >
-      This is your first time logging into Payfactors. Please set a new password before continuing.
+      This is your first time logging into 
+      <span
+        class="pf"
+      >
+        Payfactors
+      </span>
+      <span
+        class="ps"
+      >
+        Payscale
+      </span>
+      . Please set a new password before continuing.
     </h1>
     
     <pf-confirm-password />
@@ -46,6 +60,7 @@ exports[`Auth - First Time Login should disable Submit password button when pass
 
 exports[`Auth - First Time Login should show error notification on updatingPasswordError 1`] = `
 <pf-first-login-page
+  featureFlagService={[Function Object]}
   formIsValid="false"
   isFirstLogin={[Function Boolean]}
   isValidating="false"
@@ -54,8 +69,10 @@ exports[`Auth - First Time Login should show error notification on updatingPassw
   legacyCompanySettingsLoading$={[Function Observable]}
   loadingLegacyCompanySettings="false"
   loadingUserContext="false"
+  payscaleAuthRebrandFlag={[Function Object]}
   store={[Function Store]}
   submitEnabled="false"
+  unsubscribe$={[Function Subject]}
   updateError={[Function Boolean]}
   updatingPasswordError$={[Function Observable]}
   userContext$={[Function Store]}
@@ -70,7 +87,18 @@ exports[`Auth - First Time Login should show error notification on updatingPassw
     <h1
       class="p-3"
     >
-      This is your first time logging into Payfactors. Please set a new password before continuing.
+      This is your first time logging into 
+      <span
+        class="pf"
+      >
+        Payfactors
+      </span>
+      <span
+        class="ps"
+      >
+        Payscale
+      </span>
+      . Please set a new password before continuing.
     </h1>
     
     <p
@@ -95,6 +123,7 @@ exports[`Auth - First Time Login should show error notification on updatingPassw
 
 exports[`Auth - First Time Login should show reset password section when page is loaded 1`] = `
 <pf-first-login-page
+  featureFlagService={[Function Object]}
   formIsValid="false"
   isFirstLogin={[Function Boolean]}
   isValidating="false"
@@ -103,8 +132,10 @@ exports[`Auth - First Time Login should show reset password section when page is
   legacyCompanySettingsLoading$={[Function Observable]}
   loadingLegacyCompanySettings="false"
   loadingUserContext="false"
+  payscaleAuthRebrandFlag={[Function Object]}
   store={[Function Store]}
   submitEnabled="false"
+  unsubscribe$={[Function Subject]}
   updatingPasswordError$={[Function Store]}
   userContext$={[Function Store]}
   userContextAttempted$={[Function Store]}
@@ -118,7 +149,18 @@ exports[`Auth - First Time Login should show reset password section when page is
     <h1
       class="p-3"
     >
-      This is your first time logging into Payfactors. Please set a new password before continuing.
+      This is your first time logging into 
+      <span
+        class="pf"
+      >
+        Payfactors
+      </span>
+      <span
+        class="ps"
+      >
+        Payscale
+      </span>
+      . Please set a new password before continuing.
     </h1>
     
     <pf-confirm-password />
@@ -138,6 +180,7 @@ exports[`Auth - First Time Login should show reset password section when page is
 
 exports[`Auth - First Time Login should show the loading message when the page is loading 1`] = `
 <pf-first-login-page
+  featureFlagService={[Function Object]}
   formIsValid="false"
   isFirstLogin="false"
   isValidating={[Function Boolean]}
@@ -146,8 +189,10 @@ exports[`Auth - First Time Login should show the loading message when the page i
   legacyCompanySettingsLoading$={[Function Observable]}
   loadingLegacyCompanySettings={[Function Boolean]}
   loadingUserContext={[Function Boolean]}
+  payscaleAuthRebrandFlag={[Function Object]}
   store={[Function Store]}
   submitEnabled="false"
+  unsubscribe$={[Function Subject]}
   updatingPasswordError$={[Function Store]}
   userContext$={[Function Store]}
   userContextAttempted$={[Function Store]}

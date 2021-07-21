@@ -55,6 +55,9 @@ export class PricingsSalaryRangeChartComponent implements OnInit, OnDestroy {
   hasCurrentStructure: boolean;
   metaData: RangeGroupMetadata;
   rangeDistributionTypeId: number;
+  selectedFields: any[];
+  groupFieldSelected: boolean;
+  selectedFieldsSubscription: Subscription;
 
   constructor(
     public store: Store<any>,
@@ -69,8 +72,8 @@ export class PricingsSalaryRangeChartComponent implements OnInit, OnDestroy {
         this.chartLocale = getUserLocale();
         this.rangeDistributionTypeId = md.RangeDistributionTypeId;
         this.clearData();
-        this.chartOptions =
-          PricingsSalaryRangeChartService.getPricingsRangeOptions(this.chartLocale, this.currency, this.controlPointDisplay, this.rangeDistributionTypeId);
+        this.chartOptions = PricingsSalaryRangeChartService.getPricingsRangeOptions(this.chartLocale, this.currency,
+          this.controlPointDisplay, this.rangeDistributionTypeId, this.groupFieldSelected);
       }
     });
 
@@ -88,6 +91,20 @@ export class PricingsSalaryRangeChartComponent implements OnInit, OnDestroy {
         this.processChartData();
       }
     });
+
+    this.selectedFieldsSubscription = this.store.select(fromPfGridReducer.getFields, this.pageViewId).subscribe(fields => {
+      if (fields) {
+        this.selectedFields = fields;
+        const anyGroupField = this.selectedFields.find(f => f.Group && f.IsSelected);
+        this.groupFieldSelected = !!anyGroupField;
+        if (!!this.chartLocale && !!this.currency && !!this.controlPointDisplay && !!this.rangeDistributionTypeId) {
+          this.chartOptions =
+            PricingsSalaryRangeChartService.getPricingsRangeOptions(
+              this.chartLocale, this.currency, this.controlPointDisplay, this.rangeDistributionTypeId, this.groupFieldSelected);
+        }
+      }
+    });
+
   }
 
   rangeChartCallback(chart: Highcharts.Chart = null) {
@@ -342,7 +359,7 @@ export class PricingsSalaryRangeChartComponent implements OnInit, OnDestroy {
         this.chartInstance.series[PricingsSalaryRangeChartSeries.RangeQuintileFourth].setData(this.dataPointSeriesDataModel.QuintileFourth, false);
       }
 
-      this.chartInstance.setSize(null, GraphHelper.getChartHeight(this.pricingsData.data, true));
+      this.chartInstance.setSize(null, GraphHelper.getChartHeight(this.pricingsData.data, this.groupFieldSelected));
     }
   }
 
@@ -375,5 +392,6 @@ export class PricingsSalaryRangeChartComponent implements OnInit, OnDestroy {
     this.metadataSubscription.unsubscribe();
     this.jobDataSubscription.unsubscribe();
     this.jobRangeViewIdSubscription.unsubscribe();
+    this.selectedFieldsSubscription.unsubscribe();
   }
 }

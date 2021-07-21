@@ -1,0 +1,67 @@
+<pf-modal-form
+  [size]="'lg'"
+  [title]="'Survey Participation'"
+  [secondaryButtonText]="'Close'"
+  [modalId]="'au-modal-survey-participation'"
+  [isOpen$]=" modalOpen$"
+  [showSubmit]="false"
+  (onDismiss)="handleSurveyParticipationDismissed()">
+  <ng-container basic-content>
+    
+    <div class="d-flex flex-row-reverse mb-3">
+      <pf-input-debounce style="width: 45%;"
+                         [value]="searchValue"
+                         [attr.data-qa-id]="'txt-searchParticipant'"
+                         [delay]="400"
+                         [placeholderText]="'Search Survey Vendors or Titles'"
+                         (valueChanged)="handleSearchValueChanged($event)">
+      </pf-input-debounce>
+    </div>
+    <ng-container *ngIf="filteredGroupedSurveys?.length; else noSurveys">
+      <div class="d-flex flex-column survey-participation-container">
+        <ngb-accordion #surveysAccordion #surveysAcc="ngbAccordion">
+          <ngb-panel *ngFor="let survey of filteredGroupedSurveys; trackBy: trackByPublisher" [id]="'Publisher_' + survey.value">
+            <ng-template ngbPanelHeader>
+              <div class="group-header w-100 d-flex align-items-center">
+              <span (click)="surveysAcc.toggle('Publisher_' + survey.value)" class="cursor-pointer">
+                <fa-icon icon="caret-down" *ngIf="surveysAcc.isExpanded('Publisher_' + survey.value)"></fa-icon>
+                <fa-icon icon="caret-right" *ngIf="!surveysAcc.isExpanded('Publisher_' + survey.value)"></fa-icon>
+                <span pfEllipsisActive class="col ml-3 font-weight-bold flex-fill ellipsis-overflowing-text report-name">
+                  {{survey.value}}
+                </span>
+              </span>
+              </div>
+            </ng-template>
+    
+            <ng-template ngbPanelContent>
+              <div class=" d-flex flex-row-reverse">
+                  <fa-icon
+                    [icon]="['far', 'times']"
+                    class="close-btn cursor-pointer mb-1"
+                    (click)="surveysAcc.collapse('Publisher_' + survey.value)">
+                  </fa-icon>
+              </div>
+              <div class="d-flex flex-column gray-border">
+                <div *ngFor="let item of survey.items; let lastItem = last; trackBy: trackBySurveyTitle"
+                      [ngClass]="{'gray-bottom-border' : !lastItem}"
+                      class="d-flex p-3">
+                  <pf-survey-participation-details [survey]="item"
+                                                   [impersonatorId]="impersonatorId"
+                                                   class="w-100">
+                  </pf-survey-participation-details>
+                </div>
+              </div>
+            </ng-template>
+          </ngb-panel>
+        </ngb-accordion>
+      </div>
+    </ng-container>
+
+  </ng-container>
+
+</pf-modal-form>
+
+<ng-template #noSurveys>
+  <p>No Surveys.</p>
+</ng-template>
+

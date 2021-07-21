@@ -1,6 +1,7 @@
 import { RangeDistributionType } from '../payfactors-api';
 import { AdvancedModelSettingForm } from './advanced-model-setting-form.model';
 import { RangeDistributionSettingForm } from './range-distribution-setting-form.model';
+import { AdjustMidpointSettingForm } from './adjust-midpoint-setting-form.model';
 
 export interface RangeGroupMetadata {
   Paymarket: string;
@@ -21,4 +22,7 @@ export interface RangeGroupMetadata {
   RangeDistributionTypes: RangeDistributionType[];
   RangeDistributionSetting: RangeDistributionSettingForm;
   RangeAdvancedSetting: AdvancedModelSettingForm;
+  StartingMidpoint: number;
+  MidpointProgression: number;
+  AdjustMidpointSetting: AdjustMidpointSettingForm;
 }

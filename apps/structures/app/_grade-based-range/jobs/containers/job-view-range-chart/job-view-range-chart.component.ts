@@ -31,6 +31,7 @@ export class JobViewRangeChartComponent implements OnInit, OnDestroy {
   jobRangeGroupDataSubscription: Subscription;
   modelGridPageViewIdSubscription: Subscription;
   filterPanelSub: Subscription;
+  defaultPagingOptionsSub: Subscription;
 
   Highcharts: typeof Highcharts = Highcharts;
   chartOptions: any;
@@ -61,6 +62,7 @@ export class JobViewRangeChartComponent implements OnInit, OnDestroy {
   averageSeriesData: any;
   initialY: number;
   gridScrolledSub: Subscription;
+  defaultPagingCount: number;
 
   constructor(
     public store: Store<any>,
@@ -108,6 +110,12 @@ export class JobViewRangeChartComponent implements OnInit, OnDestroy {
         });
       }
     });
+
+    this.defaultPagingOptionsSub = this.pfGridStore.select(fromPfGridReducer.getPagingOptions, this.pageViewId).subscribe( pagingOptions => {
+      if (pagingOptions) {
+        this.defaultPagingCount = pagingOptions.Count;
+      }
+    });
   }
 
   private reassessMinMax(currentRow) {
@@ -132,6 +140,10 @@ export class JobViewRangeChartComponent implements OnInit, OnDestroy {
         this.chartMin = this.jobRangeData.CompanyStructures_RangeGroup_MarketReferencePointValue;
       }
     }
+  }
+
+  private getScatterXCoordinate(index): number {
+    return index - (0.02 * index);
   }
 
   private addSalaryRangeMinMidMax(xCoordinate) {
@@ -223,7 +235,7 @@ export class JobViewRangeChartComponent implements OnInit, OnDestroy {
     const isMidFormula = !!this.metaData.RangeDistributionSetting?.Mid_Formula?.FormulaId;
 
     this.mrpSeriesData.push({
-      x: xCoordinate,
+      x: this.getScatterXCoordinate(xCoordinate),
       y: currentRow.CompanyJobs_Structures_GradeBased_Job_MarketReferencePointValue,
       jobTitle: currentRow.CompanyJobs_Structures_JobTitle,
       mrp: StructuresHighchartsService.formatMrpTooltip(currentRow.CompanyJobs_Structures_GradeBased_Job_MarketReferencePointValue,
@@ -249,7 +261,7 @@ export class JobViewRangeChartComponent implements OnInit, OnDestroy {
     // Min Outlier
     this.outlierSeriesData.push(
       {
-        x: xCoordinate,
+        x: this.getScatterXCoordinate(xCoordinate),
         y: currentRow.CompanyJobs_Structures_GradeBased_Job_AverageEEMinOutlier,
         countString: this.formatOutlierCount(true, currentRow.CompanyJobs_Structures_GradeBased_Job_CountEEMinOutlier),
         avgSalary: this.formatSalary(currentRow.CompanyJobs_Structures_GradeBased_Job_AverageEEMinOutlier),
@@ -259,7 +271,7 @@ export class JobViewRangeChartComponent implements OnInit, OnDestroy {
     // Max Outlier
     this.outlierSeriesData.push(
       {
-        x: xCoordinate,
+        x: this.getScatterXCoordinate(xCoordinate),
         y: currentRow.CompanyJobs_Structures_GradeBased_Job_AverageEEMaxOutlier,
         countString: this.formatOutlierCount(false, currentRow.CompanyJobs_Structures_GradeBased_Job_CountEEMaxOutlier),
         avgSalary: this.formatSalary(currentRow.CompanyJobs_Structures_GradeBased_Job_AverageEEMaxOutlier),
@@ -271,7 +283,7 @@ export class JobViewRangeChartComponent implements OnInit, OnDestroy {
     const value = currentRow.CompanyJobs_Structures_GradeBased_Job_AverageEEPay !== 0 ? currentRow.CompanyJobs_Structures_GradeBased_Job_AverageEEPay : null;
 
     this.averageSeriesData.push({
-      x: xCoordinate,
+      x: this.getScatterXCoordinate(xCoordinate),
       y: value,
       jobTitle: currentRow.CompanyJobs_Structures_JobTitle,
       avgComparatio: currentRow.CompanyJobs_Structures_GradeBased_Job_AvgComparatio,
@@ -401,7 +413,7 @@ export class JobViewRangeChartComponent implements OnInit, OnDestroy {
         this.chartInstance.series[JobViewRangeChartSeries.RangeQuintileFourth].setData(this.dataPointSeriesDataModel.QuintileFourth, false);
       }
 
-      this.chartInstance.setSize(null, GraphHelper.getJobsChartHeight(this.jobsViewData.data));
+      this.chartInstance.setSize(null, GraphHelper.getChartHeight(this.jobsViewData.data, this.defaultPagingCount));
 
       // adjust the radius of the range mid when there is only one record
       // only do this if there is indeed one record only
@@ -448,5 +460,6 @@ export class JobViewRangeChartComponent implements OnInit, OnDestroy {
     this.modelGridPageViewIdSubscription.unsubscribe();
     this.filterPanelSub.unsubscribe();
     this.gridScrolledSub.unsubscribe();
+    this.defaultPagingOptionsSub.unsubscribe();
   }
 }

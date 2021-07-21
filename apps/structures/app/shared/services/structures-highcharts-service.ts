@@ -12,6 +12,7 @@ export class StructuresHighchartsService {
   static initializeHighcharts(includeHeatmaps?: boolean) {
     require('highcharts/highcharts-more')(Highcharts);
     require('../../../assets/js/highcharts-border-radius')(Highcharts);
+    require('highcharts/modules/exporting')(Highcharts);
 
     if (includeHeatmaps) {
       require('highcharts/modules/heatmap')(Highcharts);
@@ -144,7 +145,7 @@ export class StructuresHighchartsService {
 
     if (dataPointTypeId === RangeDistributionDataPointTypeIds.Mid) {
       dataPointValue = jobRangeData.CompanyStructures_Ranges_Mid;
-      dataPointCurrentValue = jobRangeData.CompanyStructures_RangeGroup_CurrentStructureMidPoint;
+      dataPointCurrentValue = metaData.RangeTypeId === RangeType.Grade ? jobRangeData.CompanyStructures_Ranges_GradeBased_Range_CurrentMid : jobRangeData.CompanyStructures_RangeGroup_CurrentStructureMidPoint;
       dataPointTitle = 'Midpoint';
       currentDataPointTitle = 'Current Mid';
       newDataPointTitle = 'Model Mid';
@@ -199,7 +200,7 @@ export class StructuresHighchartsService {
     }
 
     gradeName = metaData.RangeTypeId === RangeType.Grade ? jobRangeData.CompanyStructures_Ranges_Grade_Name : null;
-    currentMid = metaData.RangeTypeId === RangeType.Grade ? jobRangeData.CompanyStructures_RangeGroup_GradeBased_Range_CurrentMid : null;
+    currentMid = metaData.RangeTypeId === RangeType.Grade ? jobRangeData.CompanyStructures_Ranges_GradeBased_Range_CurrentMid : null;
     const delta = StructuresHighchartsService.formatDataPointDelta(hasCurrentStructure, chartLocale, metaData, dataPointValue, dataPointCurrentValue);
 
     return {
@@ -274,7 +275,7 @@ export class StructuresHighchartsService {
 
     if (dataPointTypeId === RangeDistributionDataPointTypeIds.Mid) {
       dataPointValue = jobRangeData.CompanyStructures_Ranges_Mid;
-      dataPointCurrentValue = jobRangeData.CompanyStructures_RangeGroup_GradeBased_Range_CurrentMid;
+      dataPointCurrentValue = jobRangeData.CompanyStructures_Ranges_GradeBased_Range_CurrentMid;
       dataPointTitle = 'Midpoint';
       currentDataPointTitle = 'Current Mid';
       newDataPointTitle = 'Model Mid';
@@ -282,7 +283,7 @@ export class StructuresHighchartsService {
     // will need to add else ifs for dataPointTypeIds 2-9 like getDataPoint when instructed to do so
 
     gradeName = metaData.RangeTypeId === RangeType.Grade ? jobRangeData.CompanyStructures_Ranges_Grade_Name : null;
-    currentMid = metaData.RangeTypeId === RangeType.Grade ? jobRangeData.CompanyStructures_RangeGroup_GradeBased_Range_CurrentMid : null;
+    currentMid = metaData.RangeTypeId === RangeType.Grade ? jobRangeData.CompanyStructures_Ranges_GradeBased_Range_CurrentMid : null;
     const delta = StructuresHighchartsService.formatDataPointDelta(hasCurrentStructure, chartLocale, metaData, dataPointValue, dataPointCurrentValue);
 
     return {

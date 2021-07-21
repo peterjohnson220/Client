@@ -1,26 +1,16 @@
-<div class="d-flex">
-  <div class="d-flex job-details-bottom-border hide-sm py-1">
-    <div class="my-auto px-3 d-flex">
-      <ng-container *ngIf="canEditJobCompanySetting">
-        <fa-icon
-          [icon]="['far', 'edit']" title="Edit Job" size="lg" class="pr-3 cursor-pointer"
-          [attr.data-qa-id]="'btn-jobs-page-edit-job-' + (selectedRow$ | async).CompanyJobs_CompanyJob_ID"
-          [pfSecuredResource]="permissions.JOBS_ADD_EDIT_DELETE"
-          (click)="toggleJobManagmentModal()"></fa-icon>
-      </ng-container>
-      <div pfEllipsisActive class="ellipsis-overflowing-text-wrap job-title-code">
-        <pf-job-title-code
-          [jobTitle]="(selectedRow$ | async).CompanyJobs_Job_Title"
-          [jobCode]="(selectedRow$ | async).CompanyJobs_Job_Code"
-          [jobTitleClass]="'font-weight-bold pf-brand-secondary-color'">
-        </pf-job-title-code>
-      </div>
-    </div>
-    <div class="vertical-separator my-2 ml-auto"></div>
-  </div>
+<div class="d-flex flex-column" >
+  <div class="d-flex">
   <ul ngbNav #nav="ngbNav" class="nav-tabs"
     [destroyOnHide]="false"
     (activeIdChange)="onActiveIdChange($event)">
+    <li *ngIf="jobInsightsTabEnabled" [ngbNavItem]="'JobInsightsTab'" [id]="'JobInsightsTab'">
+      <a ngbNavLink>Job Insights</a>
+      <ng-template ngbNavContent>
+        <div class="position-absolute full-size tab-top-offset">
+          <pf-job-insights [filters]="jobDetailsFilters"></pf-job-insights>
+        </div>
+      </ng-template>
+    </li>
     <li [ngbNavItem]="pageViewIds.PayMarkets" [id]="pageViewIds.PayMarkets">
       <a ngbNavLink>Pricing Details</a>
       <ng-template ngbNavContent>
@@ -79,11 +69,32 @@
       </ng-template>
     </li>
   </ul>
-  <div [ngbNavOutlet]="nav"></div>
   <div class="job-details-bottom-border d-flex flex-fill">
     <div class="my-auto ml-auto pr-3">
       <div (click)="close()" class="close-btn">
         <fa-icon [icon]="['far', 'times']" size="lg"></fa-icon>
+      </div>
+    </div>
+  </div>
+  </div>
+  <div [ngbNavOutlet]="nav"></div>
+  <div class="d-flex job-details-bottom-border hide-sm py-1">
+    <div class="my-auto px-3 d-flex">
+      <div pfEllipsisActive class="ellipsis-overflowing-text-wrap job-title-code">
+        <pf-job-title-code
+          [jobTitle]="(selectedRow$ | async).CompanyJobs_Job_Title"
+          [jobCode]="(selectedRow$ | async).CompanyJobs_Job_Code"
+          [jobTitleClass]="'font-weight-bold pf-brand-secondary-color'">
+        </pf-job-title-code>
+      </div>
+      <div class="job-title-code">
+        <ng-container *ngIf="canEditJobCompanySetting">
+          <a
+            title="Edit Job" class="edit-job"
+            [attr.data-qa-id]="'btn-jobs-page-edit-job-' + (selectedRow$ | async).CompanyJobs_CompanyJob_ID"
+            [pfSecuredResource]="permissions.JOBS_ADD_EDIT_DELETE"
+            (click)="toggleJobManagmentModal()"><u>edit</u></a>
+        </ng-container>
       </div>
     </div>
   </div>

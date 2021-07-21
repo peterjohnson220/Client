@@ -1,0 +1,42 @@
+<div class="d-flex flex-column">
+  <div class="accordion">
+    <div class="card-container">
+      <ng-container>
+        <span class="hidden" data-qa-id="lbl-current-page">{{workflowContext?.selectedPageId}}</span>
+        <span class="hidden" data-qa-id="lbl-accessible-pages">{{enabledPages?.join(',')}}</span>
+        <ng-container *ngFor="let card of cards; let i = index; trackBy: trackById">
+          <pf-comphub-card
+            [showJobPricedHistorySummary]=false
+            [hasCardHeader]="i !== 0"
+            [card]="card"
+            [prevCard]="i !== 0 ? cards[i - 1] : card"
+            [containerWidth]="i !== cards.length - 1 ? cardContentContainerWidth : cardContentContainerWidth - cardHeaderMargin"
+            [accessed]="(accessedPages$ | async).indexOf(card.Id) !== -1"
+            [prevCardAccessed]="i > 0 && (accessedPages$ | async).indexOf(cards[i - 1].Id) !== -1"
+            [selected]="workflowContext?.selectedPageId === card.Id"
+            [disabled]="(enabledPages$ | async).indexOf(card.Id) === -1"
+            [prevCardDisabled]="i > 0 && (enabledPages$ | async).indexOf(cards[i - 1].Id) === -1"
+            [cardIndex]="i"
+            [selectedCardIndex]="workflowContext?.selectedPageIndex"
+            (cardHeaderClick)="handleCardChange($event)">
+
+            <ng-container card-content [ngSwitch]="card.Id">
+              <pf-trends-landing-card *ngSwitchCase="trendsPages.TrendsLanding"></pf-trends-landing-card>
+              <pf-trends-jobs-card *ngSwitchCase="trendsPages.TrendsJobs"></pf-trends-jobs-card>
+              <pf-trends-scopes-card *ngSwitchCase="trendsPages.TrendsScopes"></pf-trends-scopes-card>
+              <pf-trends-summary-card *ngSwitchCase="trendsPages.TrendsSummary"></pf-trends-summary-card>
+            </ng-container>
+
+          </pf-comphub-card>
+
+          <div class="card-separator"
+               [class.no-transition]="resizeEvent"
+               [ngStyle]="{ 'margin-right.px' : (workflowContext?.selectedPageId === card.Id) ? 0 : -cardContentContainerWidth }">
+          </div>
+
+        </ng-container>
+      </ng-container>
+    </div>
+  </div>
+  <pf-comphub-footer [showJobHistorySummary]=false></pf-comphub-footer>
+</div>

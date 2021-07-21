@@ -4,6 +4,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
 import { Action, select, Store } from '@ngrx/store';
+import uniqBy from 'lodash/uniqBy';
 
 import { DataViewApiService, StructureModelingApiService } from 'libs/data/payfactors-api';
 import { NotificationLevel, NotificationSource, NotificationType } from 'libs/features/infrastructure/app-notifications/models';
@@ -11,7 +12,8 @@ import { DataGridToDataViewsHelper, GridDataHelper } from 'libs/features/grids/p
 import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import * as fromPfDataGridActions from 'libs/features/grids/pf-data-grid/actions';
 import * as fromNotificationActions from 'libs/features/infrastructure/app-notifications/actions/app-notifications.actions';
-import { JobBasedPageViewIds } from 'libs/models/structures';
+import { GradeBasedPageViewIds, JobBasedPageViewIds } from 'libs/models/structures';
+import { RangeType } from 'libs/constants/structures/range-type';
 
 import { PayfactorsApiModelMapper } from '../helpers';
 import * as fromRangeFieldActions from '../actions/range-field-edit.actions';
@@ -47,7 +49,25 @@ export class RangeFieldEditEffects {
                 }));
 
                 if (action.payload.successCallBackFn) {
-                  action.payload.successCallBackFn(this.store, action.payload.metaInfo);
+                  let metaInfo = action.payload.metaInfo;
+
+                  // We need to update Starting Midpoint for Model settings
+                  if ((action.payload.pageViewId === GradeBasedPageViewIds.ModelMinMidMax
+                    || action.payload.pageViewId === GradeBasedPageViewIds.ModelQuartile
+                    || action.payload.pageViewId === GradeBasedPageViewIds.ModelTertile
+                    || action.payload.pageViewId === GradeBasedPageViewIds.ModelQuintile) && action.payload.dataRow.CompanyStructures_Ranges_DispSeq === 1) {
+                    const updatedMetaData = {
+                      ...action.payload.metaInfo.metaData,
+                      StartingMidpoint: action.payload.fieldValue
+                    };
+
+                    metaInfo = {
+                      ...action.payload.metaInfo,
+                      metaData: updatedMetaData
+                    };
+                  }
+
+                  action.payload.successCallBackFn(this.store, metaInfo);
                 }
 
                 // We should dispatch this action only for Model/Employees/Pricings pages
@@ -110,10 +130,15 @@ export class RangeFieldEditEffects {
               GridDataHelper.getLoadDataAction(data.a.payload.pageViewId, data.gridData, data.gridConfig, data.pagingOptions)
             ];
           } else {
+            let filters = [...DataGridToDataViewsHelper.mapFieldsToFilters(data.fields), data.a.payload.refreshRowDataViewFilter];
+            // there are certain scenarios where we end up with essentially duplicate filters out of this line, so filter any dups out.
+            filters = uniqBy(filters, function (f) {
+              return f.EntitySourceName && f.Operator && f.SourceName;
+            });
             return this.dataViewApiService.getData(DataGridToDataViewsHelper.buildDataViewDataRequest(
               data.baseEntity.Id,
               data.fields,
-              [...DataGridToDataViewsHelper.mapFieldsToFilters(data.fields), data.a.payload.refreshRowDataViewFilter],
+              filters,
               { From: 0, Count: 1 },
               data.sortDescriptor,
               false,

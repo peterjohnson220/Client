@@ -2,11 +2,10 @@
  * Our feature flag keys
  */
 export class FeatureFlags {
-  static readonly UserNotifications = 'user-notifications';
   static readonly TotalRewardsElectronicDelivery = 'total-rewards-electronic-delivery';
-  static readonly TotalRewardsStyledTemplate = 'total-rewards-styled-template';
   static readonly TotalRewardsEmployeeContribution = 'total-rewards-employee-contribution';
   static readonly TotalRewardsRadialTextCounters = 'total-rewards-radial-text-counters';
+  static readonly TotalRewardsHistory = 'total-rewards-history';
   static readonly PeerManageJobsGridToggle = 'peer-manage-jobs-grid-toggle';
   static readonly PeerDashboard_PeerTrendsReport = 'peer-dashboard_peer-trends-report';
   static readonly BenefitsLoaderConfiguration = 'benefits-loader-configuration';
@@ -28,4 +27,12 @@ export class FeatureFlags {
   static readonly DataAccessSurveyTitleFilter = 'data-access-survey-title-filter';
   static readonly TotalRewardsAdditionalPage = 'total-rewards-additional-page';
   static readonly ProjectsPage = 'projects-page';
+  static readonly SurveysPage = 'new-surveys-tile';
+  static readonly StructuresPage = 'new-structures-tile';
+  static readonly QuickPriceCrowdSourcedDataPage = 'quick-price-crowd-sourced-data-page';
+  static readonly StructuresGradeBasedRangeDistributionTypes = 'structures-client-grade-based-range-distribution-types';
+  static readonly JobInsightsTab = 'job-insights-tab';
+  static readonly RestyledLogin = 'restyled-login';
+  static readonly PricingProjectExport = 'pricing-project-export';
+  static readonly PayscaleBranding = 'payscale-branding';
 }

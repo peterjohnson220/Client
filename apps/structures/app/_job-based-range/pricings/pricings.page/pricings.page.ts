@@ -10,7 +10,7 @@ import * as fromPfDataGridActions from 'libs/features/grids/pf-data-grid/actions
 import { Permissions } from 'libs/constants';
 import { PfDataGridColType } from 'libs/features/grids/pf-data-grid/enums';
 import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums/pf-theme-type.enum';
-import { MODIFY_PRICINGS } from 'libs/features/pricings/multi-match/constants';
+import { MultiMatchFeatureImplementations } from 'libs/features/pricings/multi-match/constants';
 import * as fromRootState from 'libs/state/state';
 import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import { GetPricingsToModifyRequest } from 'libs/features/pricings/multi-match/models';
@@ -22,7 +22,7 @@ import * as fromModifyPricingsActions from 'libs/features/pricings/multi-match/a
 import * as fromSharedStructuresReducer from '../../../shared/reducers';
 import * as fromModelSettingsModalActions from '../../../shared/actions/model-settings-modal.actions';
 import * as fromSharedStructuresActions from '../../../shared/actions/shared.actions';
-import * as fromDuplicateModelModalActions from '../../shared/actions/duplicate-model-modal.actions';
+import * as fromDuplicateModelModalActions from '../../../shared/actions/duplicate-model-modal.actions';
 import { StructuresPagesService } from '../../../shared/services';
 
 
@@ -59,7 +59,7 @@ export class PricingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   selectedFieldsSubscription: Subscription;
 
   gridConfig: GridConfig;
-  multiMatchImplementation = MODIFY_PRICINGS;
+  multiMatchImplementation = MultiMatchFeatureImplementations.MODIFY_PRICINGS;
 
   constructor(
     private store: Store<fromSharedStructuresReducer.State>,

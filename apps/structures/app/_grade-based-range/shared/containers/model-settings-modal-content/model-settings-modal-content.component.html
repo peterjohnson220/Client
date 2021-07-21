@@ -28,7 +28,8 @@
                                   [format]="'n'"
                                   [spinners]="false"
                                   [min]="1"
-                                  [max]="100"
+                                  [max]="10000"
+                                  [decimals]="0"
                                   [autoCorrect]="true"
                                   [disabled]="disableNumGradesField">
             </kendo-numerictextbox>
@@ -68,12 +69,12 @@
                             (selectionChange)="handlePayTypeSelectionChange()">
             </kendo-combobox>
           </div>
-          <div class="form-group row" *ngIf="isNewModel">
+          <div class="form-group row" *ngIf="!metadata.IsCurrent">
             <label class="col-3 mt-2" for="starting-mid">Starting Midpoint</label>
             <kendo-numerictextbox class="form-control col-4 ie-fix"
                                   formControlName="StartingMidpoint"
                                   id="starting-mid"
-                                  [ngClass]="{ 'is-invalid': (attemptedSubmit && !formControls.StartingMidpoint.valid)}"
+                                  [ngClass]="{ 'is-invalid': (attemptedSubmit && !formControls.StartingMidpoint.valid) }"
                                   [format]="'n'"
                                   [spinners]="false"
                                   [decimals]="2"
@@ -85,12 +86,64 @@
               <div *ngIf="!formControls.StartingMidpoint.valid">Please provide a starting midpoint.</div>
             </div>
           </div>
-          <div class="form-group row" *ngIf="isNewModel">
+          <div class="form-group row" *ngIf="metadata.IsCurrent">
+            <label class="col-3 mt-2" for="starting-mid">Adjust Midpoint</label>
+            <div formGroupName="AdjustMidpointSetting" class="mt-2">
+              <div>
+                <label for="AdjustMidpointNoChange">
+                  <input type="radio"
+                         id="AdjustMidpointNoChange"
+                         class="control-margin"
+                         [value]="adjustMidpointTypes.NoChange"
+                         [formControlName]="'Type'"
+                         (change)="handleRadioButtonChanged($event)">
+                  No change
+                </label>
+              </div>
+              <div>
+                <label for="AdjustMidpointMoveBy" class="mr-3">
+                  <input type="radio"
+                         id="AdjustMidpointMoveBy"
+                         class="control-margin"
+                         [value]="adjustMidpointTypes.MoveBy"
+                         [formControlName]="'Type'"
+                         (change)="handleRadioButtonChanged($event)">
+                  Move by
+                </label>
+                <kendo-numerictextbox class="form-control col-4 ie-fix input-percentage-field"
+                                      formControlName="Percentage"
+                                      id="percentage"
+                                      [ngClass]="{ 'is-invalid': attemptedSubmit
+                                        && !adjustMidpointSettingPercentage.valid
+                                        && adjustMidpointSettingType.value === adjustMidpointMoveByType }"
+                                      [format]="'n'"
+                                      [spinners]="false"
+                                      [decimals]="2"
+                                      [min]="0.01"
+                                      [max]="300.00"
+                                      [autoCorrect]="true">
+                </kendo-numerictextbox>
+                %
+              </div>
+              <div>
+                <label for="AdjustMidpointAlignToRegressionLine">
+                  <input type="radio"
+                         id="AdjustMidpointAlignToRegressionLine"
+                         class="control-margin"
+                         [value]="adjustMidpointTypes.AlignToRegressionLine"
+                         [formControlName]="'Type'"
+                         (change)="handleRadioButtonChanged($event)">
+                  Align to regression line
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row" *ngIf="!metadata.IsCurrent">
             <label class="col-3 mt-2" for="range-spread">Range Spread %</label>
             <kendo-numerictextbox class="form-control col-4 ie-fix input-percentage-field"
                                   formControlName="RangeSpread"
                                   id="range-spread"
-                                  [ngClass]="{ 'is-invalid': (attemptedSubmit && !formControls.RangeSpread.valid)}"
+                                  [ngClass]="{ 'is-invalid': (attemptedSubmit && !formControls.RangeSpread.valid) }"
                                   [format]="'n'"
                                   [spinners]="false"
                                   [decimals]="2"
@@ -103,7 +156,7 @@
               <div *ngIf="!formControls.RangeSpread.valid">Please provide a range spread %.</div>
             </div>
           </div>
-          <div class="form-group row" *ngIf="isNewModel">
+          <div class="form-group row" *ngIf="!metadata.IsCurrent">
             <label class="col-3 mt-2 no-wrap" for="midpoint-progression">Midpoint Progression %</label>
             <kendo-numerictextbox class="form-control col-4 ie-fix input-percentage-field"
                                   formControlName="MidpointProgression"

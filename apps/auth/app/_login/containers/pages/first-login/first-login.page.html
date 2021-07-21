@@ -8,7 +8,7 @@
 
 <div *ngIf="!loadingUserContext && !loadingLegacyCompanySettings && !isValidating && isFirstLogin" class="p-3">
 
-  <h1 class="p-3">This is your first time logging into Payfactors. Please set a new password before continuing.</h1>
+  <h1 class="p-3">This is your first time logging into <span class="pf">Payfactors</span><span class="ps">Payscale</span>. Please set a new password before continuing.</h1>
 
   <p *ngIf="updateError" class="alert-danger p-4">
     There was an error creating your new password, please try again.

@@ -1,0 +1,53 @@
+<pf-card-layout
+  pageTitle="Peer Trends"
+  pageIconClass="file-alt"
+  [page]="comphubPages.TrendsLanding">
+
+  <ng-container page-content>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="data-set-selector exchange-selector">
+          <kendo-dropdownlist
+            (valueChange)="handleExchangeDataSetChanged($event)"
+            class="form-control"
+            textField="ExchangeName"
+            valueField="ExchangeId"
+            [data]="exchangeDataSets$ | async"
+            [disabled]="(exchangeDataSets$ | async)?.length <= 1"
+            [valuePrimitive]="true"
+            [ngModel]="(workflowContext$ | async)?.activeExchangeDataSet?.ExchangeId">
+          </kendo-dropdownlist>
+        </div>
+      </div>
+    </div>
+    <br>
+    <div class="row flex-nowrap">
+      <div class="fixed pr-3">
+        <pf-new-exchange-participants [companyNames]="(newCompanies$ | async)"></pf-new-exchange-participants>
+      </div>
+      <div class="fixed pr-3">
+        <div class="card">
+          <pf-historical-org-inc-count-chart
+            [orgIncCountData]="(orgIncCountHistory$ | async).obj"
+            [countType]="'Org'">
+          </pf-historical-org-inc-count-chart>
+        </div>
+      </div>
+      <div class="fixed">
+        <div class="card">
+          <pf-historical-org-inc-count-chart
+            [orgIncCountData]="(orgIncCountHistory$ | async).obj"
+            [countType]="'Inc'">
+          </pf-historical-org-inc-count-chart>
+        </div>
+      </div>
+    </div>
+
+    <div class="row h-100">
+      <div class="col-md-12">
+        <pf-peer-trend-grid></pf-peer-trend-grid>
+      </div>
+    </div>
+
+  </ng-container>
+</pf-card-layout>

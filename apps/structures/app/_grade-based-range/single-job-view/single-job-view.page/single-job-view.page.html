@@ -53,7 +53,8 @@
     [filterPanelTemplates]="filterTemplates"
     [splitViewTemplate]="dataCutGraph"
     [splitOnSelection]="false"
-    [columnTemplates]="colTemplates">
+    [columnTemplates]="colTemplates"
+    [displayGroupNameInFilter]="true">
   </pf-data-grid>
 </ng-template>
 
@@ -90,11 +91,21 @@
     [rangeId]="rangeId"
     [rangeGroupId]="rangeGroupId"
     [fromJobsView]="fromJobsView">
+    <button right-of-return-button-content
+            [pfSecuredResource]="_Permissions.MODIFY_PRICINGS"
+            [attr.data-qa-id]="'btn-structures-single-job-page-modify-pricings'"
+            (click)="modifyPricings()"
+            type="button"
+            class="btn btn-secondary price-job-btn">
+      <fa-icon [icon]="['fal', 'file-invoice-dollar']"></fa-icon>
+      Price Job
+    </button>
   </pf-grid-context>
 </ng-template>
 
 <ng-template #gridActionsRightTemplate>
-  <pf-grid-context [metadata]="metaData$ | async"></pf-grid-context>
+  <pf-grid-context [metadata]="metaData$ | async">
+  </pf-grid-context>
 </ng-template>
 
 <ng-template #noFormatting let-dataRow="dataRow" let-fieldName="fieldName">
@@ -195,3 +206,9 @@
   <pf-single-job-view-data-cuts-range-chart>
   </pf-single-job-view-data-cuts-range-chart>
 </ng-template>
+
+<pf-multi-match-component
+  (afterSaveChanges) = "matchModalSaved()"
+  [display]="'modal'"
+  [featureImplementation]="multiMatchImplementation"
+></pf-multi-match-component>

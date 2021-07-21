@@ -80,6 +80,9 @@ export class JobViewRangeChartService {
         },
         spacing: [10, 10, 0, 10]
       },
+      exporting: {
+        enabled: false
+      },
       credits: {
         enabled: false
       },
@@ -117,8 +120,6 @@ export class JobViewRangeChartService {
       xAxis: {
         visible: false,
         // add categories to make the x-axis line up properly. Highcharts will extend the categories dynamically, so it doesn't matter that its hardcoded here
-        type: 'category',
-        categories: ['0', '1'],
         minPadding: 0,
         maxPadding: 0
       },
@@ -145,8 +146,6 @@ export class JobViewRangeChartService {
             }
           },
           stickyTracking: false,
-          groupPadding: 0,
-          pointPadding: 0.1,
           borderWidth: 0,
           marker: {
             states: {
@@ -242,7 +241,7 @@ export class JobViewRangeChartService {
             symbol: 'vline',
             lineWidth: 2,
             lineColor: '#CD8C01',
-            radius: 24,
+            radius: 26,
           },
           enableMouseTracking: true,
           tooltip: {

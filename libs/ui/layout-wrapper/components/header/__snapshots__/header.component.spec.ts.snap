@@ -3,7 +3,10 @@
 exports[`User Menu should show homepage link, when provided 1`] = `
 <pf-layout-wrapper-header
   dropdownNavigationLinks={[Function Array]}
+  featureFlagService={[Function Object]}
   homePageLink={[Function Object]}
+  payscaleBrandingFeatureFlag={[Function Object]}
+  unsubscribe$={[Function Subject]}
   userContext={[Function Object]}
 >
   <nav
@@ -20,7 +23,7 @@ exports[`User Menu should show homepage link, when provided 1`] = `
       />
     </a>
     
-    
+    <pf-notification-badge />
     <pf-layout-wrapper-user-menu />
   </nav>
 </pf-layout-wrapper-header>
@@ -29,6 +32,9 @@ exports[`User Menu should show homepage link, when provided 1`] = `
 exports[`User Menu should show the header 1`] = `
 <pf-layout-wrapper-header
   dropdownNavigationLinks={[Function Array]}
+  featureFlagService={[Function Object]}
+  payscaleBrandingFeatureFlag={[Function Object]}
+  unsubscribe$={[Function Subject]}
   userContext={[Function Object]}
 >
   <nav
@@ -45,7 +51,7 @@ exports[`User Menu should show the header 1`] = `
       />
     </a>
     
-    
+    <pf-notification-badge />
     <pf-layout-wrapper-user-menu />
   </nav>
 </pf-layout-wrapper-header>

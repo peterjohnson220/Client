@@ -79,7 +79,7 @@ export class EmployeesPageEffects {
         CompanyEmployeeIds: data.payload.companyEmployeeIds,
         EmployeeSearchTerm: null,
         ExpectedEmployeeCount: 1,
-        GenerateByQuery: data.payload.companyEmployeeIds,
+        GenerateByQuery: null,
         WaitForPdfGenerationSelector: TrsConstants.READY_FOR_PDF_GENERATION_SELECTOR,
         Method: DeliveryMethod.PDFExport,
         EmailTemplate: null,

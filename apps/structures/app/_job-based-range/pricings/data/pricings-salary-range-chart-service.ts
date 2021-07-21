@@ -62,7 +62,7 @@ export class PricingsSalaryRangeChartService {
     }
   }
 
-  static getPricingsRangeOptions(locale, currencyCode, controlPointDisplay, rangeDistributionTypeId) {
+  static getPricingsRangeOptions(locale, currencyCode, controlPointDisplay, rangeDistributionTypeId, multiRowHeader) {
     return {
       chart: {
         inverted: true,
@@ -74,9 +74,12 @@ export class PricingsSalaryRangeChartService {
           fontFamily: `-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif,
           "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"`
         },
-        spacing: [45, 10, 0, 10]
+        spacing: [multiRowHeader ? 45 : 20, 10, 0, 10]
       },
       credits: {
+        enabled: false
+      },
+      exporting: {
         enabled: false
       },
       title: {
@@ -108,7 +111,7 @@ export class PricingsSalaryRangeChartService {
         title: {
           text: undefined
         },
-        offset: 32
+        offset: multiRowHeader ? 32 : 15
       },
       xAxis: {
         visible: false,

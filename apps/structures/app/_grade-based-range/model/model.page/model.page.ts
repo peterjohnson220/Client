@@ -44,7 +44,8 @@ export class ModelPageComponent implements OnInit, OnDestroy {
   metadata: RangeGroupMetadata;
   hasCanCreateEditModelStructurePermission: boolean;
   gradeRangeDetails: GradeRangeGroupDetails;
-  isNewRangeOrCreateModelFlow = false;
+  isNewRangeFlow = false;
+  isCreateModelFlow = false;
   _Permissions = null;
 
   constructor(
@@ -54,8 +55,6 @@ export class ModelPageComponent implements OnInit, OnDestroy {
     private urlService: UrlService,
     private permissionService: PermissionService
   ) {
-
-
     this.route.params.subscribe(p => {
       if (p && p.id) {
         this.idParamPresent = true;
@@ -69,21 +68,22 @@ export class ModelPageComponent implements OnInit, OnDestroy {
       if (!!this.gradeRangeDetails) {
         this.gradeRangeDetails.RangeGroupId = this.rangeGroupId;
       }
+
+      this.filters = [
+        {
+          SourceName: 'CompanyStructuresRangeGroup_ID',
+          Operator: '=',
+          Values: [this.rangeGroupId]
+        },
+        {
+          SourceName: 'CompanyStructuresGrades_ID',
+          Operator: 'notnull'
+        }];
     });
 
-    this.filters = [
-      {
-        SourceName: 'CompanyStructuresRangeGroup_ID',
-        Operator: '=',
-        Values: [this.rangeGroupId]
-      },
-      {
-        SourceName: 'CompanyStructuresGrades_ID',
-        Operator: 'notnull'
-      }];
     this.metaData$ = this.store.pipe(select(fromSharedStructuresReducer.getMetadata));
     this.pageViewIdSubscription = this.structuresPagesService.modelPageViewId.subscribe(pv => this.modelGridPageViewId = pv);
-    this.gradeRangeDetailsSubscription = this.store.select(fromGradeBasedSharedReducer.getGradeRangeDetails).subscribe(details => {
+    this.gradeRangeDetailsSubscription = this.store.select(fromSharedStructuresReducer.getGradeRangeDetails).subscribe(details => {
       if (details?.obj && details.obj.length > 0) {
         const detailsObj = details.obj[0];
         this.gradeRangeDetails = {
@@ -98,7 +98,8 @@ export class ModelPageComponent implements OnInit, OnDestroy {
     this.pageSummaryViewIdSubscription = this.structuresPagesService.modelSummaryViewId.subscribe(pv => this.modelSummaryPageViewId = pv);
     this.hasCanCreateEditModelStructurePermission = this.permissionService.CheckPermission([Permissions.STRUCTURES_CREATE_EDIT_MODEL],
       PermissionCheckEnum.Single);
-    this.isNewRangeOrCreateModelFlow = this.urlService.isInWorkflow(Workflow.NewRange) || this.urlService.isInWorkflow(Workflow.CreateModel);
+    this.isNewRangeFlow = this.urlService.isInWorkflow(Workflow.NewRange);
+    this.isCreateModelFlow = this.urlService.isInWorkflow(Workflow.CreateModel);
 
     this.openAddJobsSubscription = this.store.select(fromGradeBasedSharedReducer.getOpenAddJobs).subscribe(open => {
       if (open && this.idParamPresent) {

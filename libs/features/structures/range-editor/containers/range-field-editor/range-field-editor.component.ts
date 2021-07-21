@@ -56,6 +56,7 @@ export class RangeFieldEditorComponent implements OnInit, OnDestroy, OnChanges {
   @Input() noRounding: true | false = false;
   @Input() reloadGridData = false;
   @Input() minValue = 1;
+  @Input() maxValue = 999999999999999;
 
   // Row information
   @Input() rangeGroupId: number;
@@ -114,8 +115,14 @@ export class RangeFieldEditorComponent implements OnInit, OnDestroy, OnChanges {
     private permissionService: PermissionService,
     private featureFlagService: AbstractFeatureFlagService
   ) {
+
     this.settingsService.selectCompanySetting<boolean>(CompanySettingsEnum.CanEditCurrentStructureRanges)
-      .subscribe(s => this.canEditCurrentStructureRanges = s);
+    .subscribe(s => {
+      if(!!s) {
+        this.canEditCurrentStructureRanges = s;
+      }
+    });
+
     this.hasCanCreateEditModelStructurePermission = this.permissionService.CheckPermission([Permissions.STRUCTURES_CREATE_EDIT_MODEL],
       PermissionCheckEnum.Single);
     this.hasCanEditPublishedStructureRanges = this.permissionService.CheckPermission([Permissions.STRUCTURES_PUBLISH],
@@ -158,7 +165,8 @@ export class RangeFieldEditorComponent implements OnInit, OnDestroy, OnChanges {
       metaInfo: this.updateMetaInfo,
       successCallBackFn: this.updateSuccessCallbackFn,
       rangeType: this.rangeType,
-      reloadGridData: this.reloadGridData
+      reloadGridData: this.reloadGridData,
+      dataRow: this.dataRow
     };
 
     // TODO - we really should be just persisting rounding settings rather than passing every time, but that is coming later.

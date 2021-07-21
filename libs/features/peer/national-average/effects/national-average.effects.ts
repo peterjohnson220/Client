@@ -1,31 +1,42 @@
 import { Injectable } from '@angular/core';
 
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { catchError, map,  switchMap } from 'rxjs/operators';
+import { Store, select } from '@ngrx/store';
+
+import { withLatestFrom, map, switchMap, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 
-import * as fromNationalAverageActions from 'libs/features/peer/national-average/actions/national-average.actions';
 import { DataCutSummaryApiService } from 'libs/data/payfactors-api/pricing';
+
+import * as fromNationalAverageReducer from '../reducers';
+import * as fromNationalAverageActions from '../actions';
 
 @Injectable()
 export class NationalAverageEffects {
-
   @Effect()
   getNationalAveragesForExchangeJobs$ = this.actions$
     .pipe(
       ofType(fromNationalAverageActions.GET_NATIONAL_AVERAGES_FOR_EXCHANGE_JOBS),
-      map((action: fromNationalAverageActions.GetNationalAveragesForExchangeJobs) => action.exchangeJobIds),
-      switchMap((exchangeJobIds) => {
-          return this.dataCutSummaryApiService.getNationalAveragesForExchangeJobs(exchangeJobIds)
-            .pipe(
-              map(response => new fromNationalAverageActions.GetNationalAveragesForExchangeJobsSuccess(response)),
-              catchError(() => of(new fromNationalAverageActions.GetNationalAveragesForExchangeJobsError()))
-            );
+      withLatestFrom(
+        this.store.pipe(select(fromNationalAverageReducer.getExchangeJobNationalAverages)),
+        (action: fromNationalAverageActions.GetNationalAveragesForExchangeJobs, exchangeJobNationalAverages) =>
+        ({action, exchangeJobNationalAverages})
+      ),
+      switchMap((data: any) => {
+          const exchangeJobIds = data.action.exchangeJobIds.filter(jobId => !data.exchangeJobNationalAverages.some(avg => avg.ExchangeJobId == jobId));
+          if (exchangeJobIds.length > 0) {
+            return this.dataCutSummaryApiService.getNationalAveragesForExchangeJobs(exchangeJobIds)
+              .pipe(
+                map(response => new fromNationalAverageActions.GetNationalAveragesForExchangeJobsSuccess(response)),
+                catchError(() => of(new fromNationalAverageActions.GetNationalAveragesForExchangeJobsError()))
+              );
+          }
         }
       ));
 
   constructor (
     private actions$: Actions,
-    private dataCutSummaryApiService: DataCutSummaryApiService
+    private dataCutSummaryApiService: DataCutSummaryApiService,
+    private store: Store<fromNationalAverageReducer.State>
   ) {}
 }

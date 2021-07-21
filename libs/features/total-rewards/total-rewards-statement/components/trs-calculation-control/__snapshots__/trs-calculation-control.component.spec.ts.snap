@@ -10,8 +10,11 @@ exports[`TrsCalculationControlComponent calculation control should sum properly 
   dragulaService={[Function Object]}
   dragulaSubscription$={[Function Subscriber]}
   employeeRewardsData={[Function Object]}
+  featureFlagService={[Function Object]}
   maxVisibleFieldsReached="false"
   mode={[Function Number]}
+  onCalcControlFieldBlur={[Function EventEmitter_]}
+  onCalcControlFieldFocus={[Function EventEmitter_]}
   onCompFieldAdded={[Function EventEmitter_]}
   onCompFieldRemoved={[Function EventEmitter_]}
   onCompFieldReordered={[Function EventEmitter_]}
@@ -21,6 +24,8 @@ exports[`TrsCalculationControlComponent calculation control should sum properly 
   showDecimals={[Function Boolean]}
   showEmployeeContributions={[Function Boolean]}
   showSecondaryHeader={[Function Boolean]}
+  totalRewardsRadialTextCountersFeatureFlag={[Function Object]}
+  unsubscribe$={[Function Subject]}
   visibleFields={[Function Array]}
 >
   <div
@@ -47,7 +52,7 @@ exports[`TrsCalculationControlComponent calculation control should sum properly 
           class="trs-calculation-row w-100"
         >
           <th
-            class="font-weight-normal"
+            class="font-weight-normal pr-0"
             scope="col"
           >
             
@@ -69,7 +74,7 @@ exports[`TrsCalculationControlComponent calculation control should sum properly 
           </th>
           
           <th
-            class="secondary-header align-middle text-right font-weight-normal"
+            class="secondary-header align-middle text-right font-weight-normal mb-1"
             scope="col"
           >
             <span>
@@ -78,7 +83,7 @@ exports[`TrsCalculationControlComponent calculation control should sum properly 
           </th>
           
           <th
-            class="secondary-header align-middle text-right font-weight-normal"
+            class="secondary-header align-middle text-right font-weight-normal mb-1"
             scope="col"
           >
             
@@ -92,7 +97,7 @@ exports[`TrsCalculationControlComponent calculation control should sum properly 
       <tbody>
         
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -130,7 +135,7 @@ exports[`TrsCalculationControlComponent calculation control should sum properly 
           </td>
         </tr>
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -173,7 +178,7 @@ exports[`TrsCalculationControlComponent calculation control should sum properly 
           class="trs-calculation-row w-100"
         >
           <td
-            class="summary"
+            class="summary pr-0"
             pfstatementgraphicsdirective=""
           >
             <pf-string-editor>
@@ -224,14 +229,19 @@ exports[`TrsCalculationControlComponent should display contribution values and t
   dragulaService={[Function Object]}
   dragulaSubscription$={[Function Subscriber]}
   employeeRewardsData={[Function Object]}
+  featureFlagService={[Function Object]}
   maxVisibleFieldsReached="false"
   mode={[Function Number]}
+  onCalcControlFieldBlur={[Function EventEmitter_]}
+  onCalcControlFieldFocus={[Function EventEmitter_]}
   onCompFieldAdded={[Function EventEmitter_]}
   onCompFieldRemoved={[Function EventEmitter_]}
   onCompFieldReordered={[Function EventEmitter_]}
   onCompFieldTitleChange={[Function EventEmitter_]}
   onTitleChange={[Function EventEmitter_]}
   onUpdateSummaryTitleChange={[Function EventEmitter_]}
+  totalRewardsRadialTextCountersFeatureFlag={[Function Object]}
+  unsubscribe$={[Function Subject]}
   visibleFields={[Function Array]}
 >
   <div
@@ -254,7 +264,7 @@ exports[`TrsCalculationControlComponent should display contribution values and t
           class="trs-calculation-row w-100"
         >
           <th
-            class="font-weight-normal"
+            class="font-weight-normal pr-0"
             scope="col"
           >
             
@@ -281,7 +291,7 @@ exports[`TrsCalculationControlComponent should display contribution values and t
       <tbody>
         
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -311,7 +321,7 @@ exports[`TrsCalculationControlComponent should display contribution values and t
           </td>
         </tr>
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -341,7 +351,7 @@ exports[`TrsCalculationControlComponent should display contribution values and t
           </td>
         </tr>
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -376,7 +386,7 @@ exports[`TrsCalculationControlComponent should display contribution values and t
           class="trs-calculation-row w-100"
         >
           <td
-            class="summary"
+            class="summary pr-0"
             pfstatementgraphicsdirective=""
           >
             <pf-string-editor>
@@ -419,8 +429,11 @@ exports[`TrsCalculationControlComponent should display field if employer does no
   dragulaService={[Function Object]}
   dragulaSubscription$={[Function Subscriber]}
   employeeRewardsData={[Function Object]}
+  featureFlagService={[Function Object]}
   maxVisibleFieldsReached="false"
   mode={[Function Number]}
+  onCalcControlFieldBlur={[Function EventEmitter_]}
+  onCalcControlFieldFocus={[Function EventEmitter_]}
   onCompFieldAdded={[Function EventEmitter_]}
   onCompFieldRemoved={[Function EventEmitter_]}
   onCompFieldReordered={[Function EventEmitter_]}
@@ -429,6 +442,8 @@ exports[`TrsCalculationControlComponent should display field if employer does no
   onUpdateSummaryTitleChange={[Function EventEmitter_]}
   showDecimals={[Function Boolean]}
   showEmployeeContributions={[Function Boolean]}
+  totalRewardsRadialTextCountersFeatureFlag={[Function Object]}
+  unsubscribe$={[Function Subject]}
   visibleFields={[Function Array]}
 >
   <div
@@ -455,7 +470,7 @@ exports[`TrsCalculationControlComponent should display field if employer does no
           class="trs-calculation-row w-100"
         >
           <th
-            class="font-weight-normal"
+            class="font-weight-normal pr-0"
             scope="col"
           >
             
@@ -482,7 +497,7 @@ exports[`TrsCalculationControlComponent should display field if employer does no
       <tbody>
         
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -520,7 +535,7 @@ exports[`TrsCalculationControlComponent should display field if employer does no
           </td>
         </tr>
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -558,7 +573,7 @@ exports[`TrsCalculationControlComponent should display field if employer does no
           </td>
         </tr>
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -601,7 +616,7 @@ exports[`TrsCalculationControlComponent should display field if employer does no
           class="trs-calculation-row w-100"
         >
           <td
-            class="summary"
+            class="summary pr-0"
             pfstatementgraphicsdirective=""
           >
             <pf-string-editor>
@@ -652,8 +667,11 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
   dragulaService={[Function Object]}
   dragulaSubscription$={[Function Subscriber]}
   employeeRewardsData={[Function Object]}
+  featureFlagService={[Function Object]}
   maxVisibleFieldsReached="false"
   mode={[Function Number]}
+  onCalcControlFieldBlur={[Function EventEmitter_]}
+  onCalcControlFieldFocus={[Function EventEmitter_]}
   onCompFieldAdded={[Function EventEmitter_]}
   onCompFieldRemoved={[Function EventEmitter_]}
   onCompFieldReordered={[Function EventEmitter_]}
@@ -662,6 +680,8 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
   onUpdateSummaryTitleChange={[Function EventEmitter_]}
   showDecimals={[Function Boolean]}
   showEmployeeContributions="false"
+  totalRewardsRadialTextCountersFeatureFlag={[Function Object]}
+  unsubscribe$={[Function Subject]}
   visibleFields={[Function Array]}
 >
   <div
@@ -685,7 +705,7 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
           class="trs-calculation-row w-100"
         >
           <th
-            class="font-weight-normal"
+            class="font-weight-normal pr-0"
             scope="col"
           >
             
@@ -712,7 +732,7 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
       <tbody>
         
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -742,7 +762,7 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
           </td>
         </tr>
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -772,7 +792,7 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
           </td>
         </tr>
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -807,7 +827,7 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
           class="trs-calculation-row w-100"
         >
           <td
-            class="summary"
+            class="summary pr-0"
             pfstatementgraphicsdirective=""
           >
             <pf-string-editor>
@@ -850,8 +870,11 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
   dragulaService={[Function Object]}
   dragulaSubscription$={[Function Subscriber]}
   employeeRewardsData={[Function Object]}
+  featureFlagService={[Function Object]}
   maxVisibleFieldsReached="false"
   mode={[Function Number]}
+  onCalcControlFieldBlur={[Function EventEmitter_]}
+  onCalcControlFieldFocus={[Function EventEmitter_]}
   onCompFieldAdded={[Function EventEmitter_]}
   onCompFieldRemoved={[Function EventEmitter_]}
   onCompFieldReordered={[Function EventEmitter_]}
@@ -860,6 +883,8 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
   onUpdateSummaryTitleChange={[Function EventEmitter_]}
   showDecimals={[Function Boolean]}
   showEmployeeContributions={[Function Boolean]}
+  totalRewardsRadialTextCountersFeatureFlag={[Function Object]}
+  unsubscribe$={[Function Subject]}
   visibleFields={[Function Array]}
 >
   <div
@@ -886,7 +911,7 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
           class="trs-calculation-row w-100"
         >
           <th
-            class="font-weight-normal"
+            class="font-weight-normal pr-0"
             scope="col"
           >
             
@@ -913,7 +938,7 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
       <tbody>
         
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -951,7 +976,7 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
           </td>
         </tr>
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -989,7 +1014,7 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
           </td>
         </tr>
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -1032,7 +1057,7 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
           class="trs-calculation-row w-100"
         >
           <td
-            class="summary"
+            class="summary pr-0"
             pfstatementgraphicsdirective=""
           >
             <pf-string-editor>
@@ -1083,8 +1108,11 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
   dragulaService={[Function Object]}
   dragulaSubscription$={[Function Subscriber]}
   employeeRewardsData={[Function Object]}
+  featureFlagService={[Function Object]}
   maxVisibleFieldsReached="false"
   mode={[Function Number]}
+  onCalcControlFieldBlur={[Function EventEmitter_]}
+  onCalcControlFieldFocus={[Function EventEmitter_]}
   onCompFieldAdded={[Function EventEmitter_]}
   onCompFieldRemoved={[Function EventEmitter_]}
   onCompFieldReordered={[Function EventEmitter_]}
@@ -1093,6 +1121,8 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
   onUpdateSummaryTitleChange={[Function EventEmitter_]}
   showDecimals={[Function Boolean]}
   showEmployeeContributions={[Function Boolean]}
+  totalRewardsRadialTextCountersFeatureFlag={[Function Object]}
+  unsubscribe$={[Function Subject]}
   visibleFields={[Function Array]}
 >
   <div
@@ -1119,7 +1149,7 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
           class="trs-calculation-row w-100"
         >
           <th
-            class="font-weight-normal"
+            class="font-weight-normal pr-0"
             scope="col"
           >
             
@@ -1146,7 +1176,7 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
       <tbody>
         
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -1184,7 +1214,7 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
           </td>
         </tr>
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -1222,7 +1252,7 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
           </td>
         </tr>
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -1265,7 +1295,7 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
           class="trs-calculation-row w-100"
         >
           <td
-            class="summary"
+            class="summary pr-0"
             pfstatementgraphicsdirective=""
           >
             <pf-string-editor>
@@ -1316,8 +1346,11 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
   dragulaService={[Function Object]}
   dragulaSubscription$={[Function Subscriber]}
   employeeRewardsData={[Function Object]}
+  featureFlagService={[Function Object]}
   maxVisibleFieldsReached="false"
   mode={[Function Number]}
+  onCalcControlFieldBlur={[Function EventEmitter_]}
+  onCalcControlFieldFocus={[Function EventEmitter_]}
   onCompFieldAdded={[Function EventEmitter_]}
   onCompFieldRemoved={[Function EventEmitter_]}
   onCompFieldReordered={[Function EventEmitter_]}
@@ -1326,6 +1359,8 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
   onUpdateSummaryTitleChange={[Function EventEmitter_]}
   showDecimals={[Function Boolean]}
   showEmployeeContributions="false"
+  totalRewardsRadialTextCountersFeatureFlag={[Function Object]}
+  unsubscribe$={[Function Subject]}
   visibleFields={[Function Array]}
 >
   <div
@@ -1349,7 +1384,7 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
           class="trs-calculation-row w-100"
         >
           <th
-            class="font-weight-normal"
+            class="font-weight-normal pr-0"
             scope="col"
           >
             
@@ -1376,7 +1411,7 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
       <tbody>
         
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -1406,7 +1441,7 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
           </td>
         </tr>
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -1436,7 +1471,7 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
           </td>
         </tr>
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -1471,7 +1506,7 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
           class="trs-calculation-row w-100"
         >
           <td
-            class="summary"
+            class="summary pr-0"
             pfstatementgraphicsdirective=""
           >
             <pf-string-editor>
@@ -1514,8 +1549,11 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
   dragulaService={[Function Object]}
   dragulaSubscription$={[Function Subscriber]}
   employeeRewardsData={[Function Object]}
+  featureFlagService={[Function Object]}
   maxVisibleFieldsReached="false"
   mode={[Function Number]}
+  onCalcControlFieldBlur={[Function EventEmitter_]}
+  onCalcControlFieldFocus={[Function EventEmitter_]}
   onCompFieldAdded={[Function EventEmitter_]}
   onCompFieldRemoved={[Function EventEmitter_]}
   onCompFieldReordered={[Function EventEmitter_]}
@@ -1524,6 +1562,8 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
   onUpdateSummaryTitleChange={[Function EventEmitter_]}
   showDecimals={[Function Boolean]}
   showEmployeeContributions={[Function Boolean]}
+  totalRewardsRadialTextCountersFeatureFlag={[Function Object]}
+  unsubscribe$={[Function Subject]}
   visibleFields={[Function Array]}
 >
   <div
@@ -1550,7 +1590,7 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
           class="trs-calculation-row w-100"
         >
           <th
-            class="font-weight-normal"
+            class="font-weight-normal pr-0"
             scope="col"
           >
             
@@ -1577,7 +1617,7 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
       <tbody>
         
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -1615,7 +1655,7 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
           </td>
         </tr>
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -1653,7 +1693,7 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
           </td>
         </tr>
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -1696,7 +1736,7 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
           class="trs-calculation-row w-100"
         >
           <td
-            class="summary"
+            class="summary pr-0"
             pfstatementgraphicsdirective=""
           >
             <pf-string-editor>
@@ -1747,14 +1787,19 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
   dragulaService={[Function Object]}
   dragulaSubscription$={[Function Subscriber]}
   employeeRewardsData={[Function Object]}
+  featureFlagService={[Function Object]}
   maxVisibleFieldsReached="false"
   mode={[Function Number]}
+  onCalcControlFieldBlur={[Function EventEmitter_]}
+  onCalcControlFieldFocus={[Function EventEmitter_]}
   onCompFieldAdded={[Function EventEmitter_]}
   onCompFieldRemoved={[Function EventEmitter_]}
   onCompFieldReordered={[Function EventEmitter_]}
   onCompFieldTitleChange={[Function EventEmitter_]}
   onTitleChange={[Function EventEmitter_]}
   onUpdateSummaryTitleChange={[Function EventEmitter_]}
+  totalRewardsRadialTextCountersFeatureFlag={[Function Object]}
+  unsubscribe$={[Function Subject]}
   visibleFields={[Function Array]}
 >
   <div
@@ -1777,7 +1822,7 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
           class="trs-calculation-row w-100"
         >
           <th
-            class="font-weight-normal"
+            class="font-weight-normal pr-0"
             scope="col"
           >
             
@@ -1804,7 +1849,7 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
       <tbody>
         
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -1834,7 +1879,7 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
           </td>
         </tr>
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -1869,7 +1914,7 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
           class="trs-calculation-row w-100"
         >
           <td
-            class="summary"
+            class="summary pr-0"
             pfstatementgraphicsdirective=""
           >
             <pf-string-editor>
@@ -1912,14 +1957,19 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
   dragulaService={[Function Object]}
   dragulaSubscription$={[Function Subscriber]}
   employeeRewardsData={[Function Object]}
+  featureFlagService={[Function Object]}
   maxVisibleFieldsReached="false"
   mode={[Function Number]}
+  onCalcControlFieldBlur={[Function EventEmitter_]}
+  onCalcControlFieldFocus={[Function EventEmitter_]}
   onCompFieldAdded={[Function EventEmitter_]}
   onCompFieldRemoved={[Function EventEmitter_]}
   onCompFieldReordered={[Function EventEmitter_]}
   onCompFieldTitleChange={[Function EventEmitter_]}
   onTitleChange={[Function EventEmitter_]}
   onUpdateSummaryTitleChange={[Function EventEmitter_]}
+  totalRewardsRadialTextCountersFeatureFlag={[Function Object]}
+  unsubscribe$={[Function Subject]}
   visibleFields={[Function Array]}
 >
   <div
@@ -1942,7 +1992,7 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
           class="trs-calculation-row w-100"
         >
           <th
-            class="font-weight-normal"
+            class="font-weight-normal pr-0"
             scope="col"
           >
             
@@ -1969,7 +2019,7 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
       <tbody>
         
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -1999,7 +2049,7 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
           </td>
         </tr>
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -2034,7 +2084,7 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
           class="trs-calculation-row w-100"
         >
           <td
-            class="summary"
+            class="summary pr-0"
             pfstatementgraphicsdirective=""
           >
             <pf-string-editor>
@@ -2077,14 +2127,19 @@ exports[`TrsCalculationControlComponent should hide all content in the table hea
   dragulaService={[Function Object]}
   dragulaSubscription$={[Function Subscriber]}
   employeeRewardsData={[Function Object]}
+  featureFlagService={[Function Object]}
   maxVisibleFieldsReached="false"
   mode={[Function Number]}
+  onCalcControlFieldBlur={[Function EventEmitter_]}
+  onCalcControlFieldFocus={[Function EventEmitter_]}
   onCompFieldAdded={[Function EventEmitter_]}
   onCompFieldRemoved={[Function EventEmitter_]}
   onCompFieldReordered={[Function EventEmitter_]}
   onCompFieldTitleChange={[Function EventEmitter_]}
   onTitleChange={[Function EventEmitter_]}
   onUpdateSummaryTitleChange={[Function EventEmitter_]}
+  totalRewardsRadialTextCountersFeatureFlag={[Function Object]}
+  unsubscribe$={[Function Subject]}
   visibleFields={[Function Array]}
 >
   <div
@@ -2107,7 +2162,7 @@ exports[`TrsCalculationControlComponent should hide all content in the table hea
           class="trs-calculation-row w-100"
         >
           <th
-            class="font-weight-normal"
+            class="font-weight-normal pr-0"
             scope="col"
           >
             
@@ -2124,7 +2179,7 @@ exports[`TrsCalculationControlComponent should hide all content in the table hea
           class="trs-calculation-row w-100 faux-title"
         >
           <td
-            class="summary"
+            class="summary pr-0"
             pfstatementgraphicsdirective=""
           >
             <pf-string-editor>
@@ -2167,8 +2222,11 @@ exports[`TrsCalculationControlComponent should not display field if BenefitsData
   dragulaService={[Function Object]}
   dragulaSubscription$={[Function Subscriber]}
   employeeRewardsData={[Function Object]}
+  featureFlagService={[Function Object]}
   maxVisibleFieldsReached="false"
   mode={[Function Number]}
+  onCalcControlFieldBlur={[Function EventEmitter_]}
+  onCalcControlFieldFocus={[Function EventEmitter_]}
   onCompFieldAdded={[Function EventEmitter_]}
   onCompFieldRemoved={[Function EventEmitter_]}
   onCompFieldReordered={[Function EventEmitter_]}
@@ -2177,6 +2235,8 @@ exports[`TrsCalculationControlComponent should not display field if BenefitsData
   onUpdateSummaryTitleChange={[Function EventEmitter_]}
   showDecimals={[Function Boolean]}
   showEmployeeContributions="false"
+  totalRewardsRadialTextCountersFeatureFlag={[Function Object]}
+  unsubscribe$={[Function Subject]}
   visibleFields={[Function Array]}
 >
   <div
@@ -2200,7 +2260,7 @@ exports[`TrsCalculationControlComponent should not display field if BenefitsData
           class="trs-calculation-row w-100"
         >
           <th
-            class="font-weight-normal"
+            class="font-weight-normal pr-0"
             scope="col"
           >
             
@@ -2227,7 +2287,7 @@ exports[`TrsCalculationControlComponent should not display field if BenefitsData
       <tbody>
         
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -2257,7 +2317,7 @@ exports[`TrsCalculationControlComponent should not display field if BenefitsData
           </td>
         </tr>
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -2287,7 +2347,7 @@ exports[`TrsCalculationControlComponent should not display field if BenefitsData
           </td>
         </tr>
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -2322,7 +2382,7 @@ exports[`TrsCalculationControlComponent should not display field if BenefitsData
           class="trs-calculation-row w-100"
         >
           <td
-            class="summary"
+            class="summary pr-0"
             pfstatementgraphicsdirective=""
           >
             <pf-string-editor>
@@ -2365,8 +2425,11 @@ exports[`TrsCalculationControlComponent should not display field if BenefitsData
   dragulaService={[Function Object]}
   dragulaSubscription$={[Function Subscriber]}
   employeeRewardsData={[Function Object]}
+  featureFlagService={[Function Object]}
   maxVisibleFieldsReached="false"
   mode={[Function Number]}
+  onCalcControlFieldBlur={[Function EventEmitter_]}
+  onCalcControlFieldFocus={[Function EventEmitter_]}
   onCompFieldAdded={[Function EventEmitter_]}
   onCompFieldRemoved={[Function EventEmitter_]}
   onCompFieldReordered={[Function EventEmitter_]}
@@ -2375,6 +2438,8 @@ exports[`TrsCalculationControlComponent should not display field if BenefitsData
   onUpdateSummaryTitleChange={[Function EventEmitter_]}
   showDecimals={[Function Boolean]}
   showEmployeeContributions="false"
+  totalRewardsRadialTextCountersFeatureFlag={[Function Object]}
+  unsubscribe$={[Function Subject]}
   visibleFields={[Function Array]}
 >
   <div
@@ -2398,7 +2463,7 @@ exports[`TrsCalculationControlComponent should not display field if BenefitsData
           class="trs-calculation-row w-100"
         >
           <th
-            class="font-weight-normal"
+            class="font-weight-normal pr-0"
             scope="col"
           >
             
@@ -2425,7 +2490,7 @@ exports[`TrsCalculationControlComponent should not display field if BenefitsData
       <tbody>
         
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -2455,7 +2520,7 @@ exports[`TrsCalculationControlComponent should not display field if BenefitsData
           </td>
         </tr>
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -2485,7 +2550,7 @@ exports[`TrsCalculationControlComponent should not display field if BenefitsData
           </td>
         </tr>
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -2520,7 +2585,7 @@ exports[`TrsCalculationControlComponent should not display field if BenefitsData
           class="trs-calculation-row w-100"
         >
           <td
-            class="summary"
+            class="summary pr-0"
             pfstatementgraphicsdirective=""
           >
             <pf-string-editor>
@@ -2563,8 +2628,11 @@ exports[`TrsCalculationControlComponent should not display field if employer and
   dragulaService={[Function Object]}
   dragulaSubscription$={[Function Subscriber]}
   employeeRewardsData={[Function Object]}
+  featureFlagService={[Function Object]}
   maxVisibleFieldsReached="false"
   mode={[Function Number]}
+  onCalcControlFieldBlur={[Function EventEmitter_]}
+  onCalcControlFieldFocus={[Function EventEmitter_]}
   onCompFieldAdded={[Function EventEmitter_]}
   onCompFieldRemoved={[Function EventEmitter_]}
   onCompFieldReordered={[Function EventEmitter_]}
@@ -2573,6 +2641,8 @@ exports[`TrsCalculationControlComponent should not display field if employer and
   onUpdateSummaryTitleChange={[Function EventEmitter_]}
   showDecimals={[Function Boolean]}
   showEmployeeContributions="false"
+  totalRewardsRadialTextCountersFeatureFlag={[Function Object]}
+  unsubscribe$={[Function Subject]}
   visibleFields={[Function Array]}
 >
   <div
@@ -2596,7 +2666,7 @@ exports[`TrsCalculationControlComponent should not display field if employer and
           class="trs-calculation-row w-100"
         >
           <th
-            class="font-weight-normal"
+            class="font-weight-normal pr-0"
             scope="col"
           >
             
@@ -2623,7 +2693,7 @@ exports[`TrsCalculationControlComponent should not display field if employer and
       <tbody>
         
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -2653,7 +2723,7 @@ exports[`TrsCalculationControlComponent should not display field if employer and
           </td>
         </tr>
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -2683,7 +2753,7 @@ exports[`TrsCalculationControlComponent should not display field if employer and
           </td>
         </tr>
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -2718,7 +2788,7 @@ exports[`TrsCalculationControlComponent should not display field if employer and
           class="trs-calculation-row w-100"
         >
           <td
-            class="summary"
+            class="summary pr-0"
             pfstatementgraphicsdirective=""
           >
             <pf-string-editor>
@@ -2761,8 +2831,11 @@ exports[`TrsCalculationControlComponent should not display field if employer and
   dragulaService={[Function Object]}
   dragulaSubscription$={[Function Subscriber]}
   employeeRewardsData={[Function Object]}
+  featureFlagService={[Function Object]}
   maxVisibleFieldsReached="false"
   mode={[Function Number]}
+  onCalcControlFieldBlur={[Function EventEmitter_]}
+  onCalcControlFieldFocus={[Function EventEmitter_]}
   onCompFieldAdded={[Function EventEmitter_]}
   onCompFieldRemoved={[Function EventEmitter_]}
   onCompFieldReordered={[Function EventEmitter_]}
@@ -2771,6 +2844,8 @@ exports[`TrsCalculationControlComponent should not display field if employer and
   onUpdateSummaryTitleChange={[Function EventEmitter_]}
   showDecimals={[Function Boolean]}
   showEmployeeContributions={[Function Boolean]}
+  totalRewardsRadialTextCountersFeatureFlag={[Function Object]}
+  unsubscribe$={[Function Subject]}
   visibleFields={[Function Array]}
 >
   <div
@@ -2797,7 +2872,7 @@ exports[`TrsCalculationControlComponent should not display field if employer and
           class="trs-calculation-row w-100"
         >
           <th
-            class="font-weight-normal"
+            class="font-weight-normal pr-0"
             scope="col"
           >
             
@@ -2824,7 +2899,7 @@ exports[`TrsCalculationControlComponent should not display field if employer and
       <tbody>
         
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -2862,7 +2937,7 @@ exports[`TrsCalculationControlComponent should not display field if employer and
           </td>
         </tr>
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -2900,7 +2975,7 @@ exports[`TrsCalculationControlComponent should not display field if employer and
           </td>
         </tr>
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -2943,7 +3018,7 @@ exports[`TrsCalculationControlComponent should not display field if employer and
           class="trs-calculation-row w-100"
         >
           <td
-            class="summary"
+            class="summary pr-0"
             pfstatementgraphicsdirective=""
           >
             <pf-string-editor>
@@ -2994,8 +3069,11 @@ exports[`TrsCalculationControlComponent should not display field if employer doe
   dragulaService={[Function Object]}
   dragulaSubscription$={[Function Subscriber]}
   employeeRewardsData={[Function Object]}
+  featureFlagService={[Function Object]}
   maxVisibleFieldsReached="false"
   mode={[Function Number]}
+  onCalcControlFieldBlur={[Function EventEmitter_]}
+  onCalcControlFieldFocus={[Function EventEmitter_]}
   onCompFieldAdded={[Function EventEmitter_]}
   onCompFieldRemoved={[Function EventEmitter_]}
   onCompFieldReordered={[Function EventEmitter_]}
@@ -3004,6 +3082,8 @@ exports[`TrsCalculationControlComponent should not display field if employer doe
   onUpdateSummaryTitleChange={[Function EventEmitter_]}
   showDecimals={[Function Boolean]}
   showEmployeeContributions={[Function Boolean]}
+  totalRewardsRadialTextCountersFeatureFlag={[Function Object]}
+  unsubscribe$={[Function Subject]}
   visibleFields={[Function Array]}
 >
   <div
@@ -3030,7 +3110,7 @@ exports[`TrsCalculationControlComponent should not display field if employer doe
           class="trs-calculation-row w-100"
         >
           <th
-            class="font-weight-normal"
+            class="font-weight-normal pr-0"
             scope="col"
           >
             
@@ -3057,7 +3137,7 @@ exports[`TrsCalculationControlComponent should not display field if employer doe
       <tbody>
         
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -3095,7 +3175,7 @@ exports[`TrsCalculationControlComponent should not display field if employer doe
           </td>
         </tr>
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -3133,7 +3213,7 @@ exports[`TrsCalculationControlComponent should not display field if employer doe
           </td>
         </tr>
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -3176,7 +3256,7 @@ exports[`TrsCalculationControlComponent should not display field if employer doe
           class="trs-calculation-row w-100"
         >
           <td
-            class="summary"
+            class="summary pr-0"
             pfstatementgraphicsdirective=""
           >
             <pf-string-editor>
@@ -3227,8 +3307,11 @@ exports[`TrsCalculationControlComponent should not display field if employer doe
   dragulaService={[Function Object]}
   dragulaSubscription$={[Function Subscriber]}
   employeeRewardsData={[Function Object]}
+  featureFlagService={[Function Object]}
   maxVisibleFieldsReached="false"
   mode={[Function Number]}
+  onCalcControlFieldBlur={[Function EventEmitter_]}
+  onCalcControlFieldFocus={[Function EventEmitter_]}
   onCompFieldAdded={[Function EventEmitter_]}
   onCompFieldRemoved={[Function EventEmitter_]}
   onCompFieldReordered={[Function EventEmitter_]}
@@ -3237,6 +3320,8 @@ exports[`TrsCalculationControlComponent should not display field if employer doe
   onUpdateSummaryTitleChange={[Function EventEmitter_]}
   showDecimals={[Function Boolean]}
   showEmployeeContributions="false"
+  totalRewardsRadialTextCountersFeatureFlag={[Function Object]}
+  unsubscribe$={[Function Subject]}
   visibleFields={[Function Array]}
 >
   <div
@@ -3260,7 +3345,7 @@ exports[`TrsCalculationControlComponent should not display field if employer doe
           class="trs-calculation-row w-100"
         >
           <th
-            class="font-weight-normal"
+            class="font-weight-normal pr-0"
             scope="col"
           >
             
@@ -3287,7 +3372,7 @@ exports[`TrsCalculationControlComponent should not display field if employer doe
       <tbody>
         
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -3317,7 +3402,7 @@ exports[`TrsCalculationControlComponent should not display field if employer doe
           </td>
         </tr>
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -3347,7 +3432,7 @@ exports[`TrsCalculationControlComponent should not display field if employer doe
           </td>
         </tr>
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -3382,7 +3467,7 @@ exports[`TrsCalculationControlComponent should not display field if employer doe
           class="trs-calculation-row w-100"
         >
           <td
-            class="summary"
+            class="summary pr-0"
             pfstatementgraphicsdirective=""
           >
             <pf-string-editor>
@@ -3425,14 +3510,19 @@ exports[`TrsCalculationControlComponent should render additional content in the 
   dragulaService={[Function Object]}
   dragulaSubscription$={[Function Subscriber]}
   employeeRewardsData={[Function Object]}
+  featureFlagService={[Function Object]}
   maxVisibleFieldsReached="false"
   mode={[Function Number]}
+  onCalcControlFieldBlur={[Function EventEmitter_]}
+  onCalcControlFieldFocus={[Function EventEmitter_]}
   onCompFieldAdded={[Function EventEmitter_]}
   onCompFieldRemoved={[Function EventEmitter_]}
   onCompFieldReordered={[Function EventEmitter_]}
   onCompFieldTitleChange={[Function EventEmitter_]}
   onTitleChange={[Function EventEmitter_]}
   onUpdateSummaryTitleChange={[Function EventEmitter_]}
+  totalRewardsRadialTextCountersFeatureFlag={[Function Object]}
+  unsubscribe$={[Function Subject]}
   visibleFields={[Function Array]}
 >
   <div
@@ -3455,7 +3545,7 @@ exports[`TrsCalculationControlComponent should render additional content in the 
           class="trs-calculation-row w-100"
         >
           <th
-            class="font-weight-normal"
+            class="font-weight-normal pr-0"
             scope="col"
           >
             
@@ -3487,7 +3577,7 @@ exports[`TrsCalculationControlComponent should render additional content in the 
           class="trs-calculation-row w-100"
         >
           <td
-            class="summary"
+            class="summary pr-0"
             pfstatementgraphicsdirective=""
           >
             <pf-string-editor>
@@ -3529,14 +3619,19 @@ exports[`TrsCalculationControlComponent should render the supplied Summary 1`] =
   dragulaGroupName={[Function String]}
   dragulaService={[Function Object]}
   dragulaSubscription$={[Function Subscriber]}
+  featureFlagService={[Function Object]}
   maxVisibleFieldsReached="false"
   mode="0"
+  onCalcControlFieldBlur={[Function EventEmitter_]}
+  onCalcControlFieldFocus={[Function EventEmitter_]}
   onCompFieldAdded={[Function EventEmitter_]}
   onCompFieldRemoved={[Function EventEmitter_]}
   onCompFieldReordered={[Function EventEmitter_]}
   onCompFieldTitleChange={[Function EventEmitter_]}
   onTitleChange={[Function EventEmitter_]}
   onUpdateSummaryTitleChange={[Function EventEmitter_]}
+  totalRewardsRadialTextCountersFeatureFlag={[Function Object]}
+  unsubscribe$={[Function Subject]}
   visibleFields={[Function Array]}
 >
   <div
@@ -3559,7 +3654,7 @@ exports[`TrsCalculationControlComponent should render the supplied Summary 1`] =
           class="trs-calculation-row w-100"
         >
           <th
-            class="font-weight-normal"
+            class="font-weight-normal pr-0"
             scope="col"
           >
             
@@ -3576,17 +3671,17 @@ exports[`TrsCalculationControlComponent should render the supplied Summary 1`] =
           class="trs-calculation-row w-100 faux-title"
         >
           <td
-            class="summary"
+            class="summary pr-0"
             pfstatementgraphicsdirective=""
           >
             <pf-string-editor>
               
               <span
-                class="wrapper w-100 d-inline-block"
+                class="wrapper w-100 d-inline-block overflow-hidden"
               >
                 <input
                   class="input-text w-100 offScreen"
-                  maxlength="60"
+                  maxlength="30"
                   minlength="1"
                   placeholder="test summary"
                   tabindex="-1"
@@ -3594,7 +3689,7 @@ exports[`TrsCalculationControlComponent should render the supplied Summary 1`] =
                 />
                 
                 <a
-                  class="editable d-flex show-icon-on-hover"
+                  class="editable d-flex cursor-pointer show-icon-on-hover"
                   href="javascript:void(0)"
                   title=""
                 >
@@ -3642,14 +3737,19 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
   dragulaService={[Function Object]}
   dragulaSubscription$={[Function Subscriber]}
   employeeRewardsData={[Function Object]}
+  featureFlagService={[Function Object]}
   maxVisibleFieldsReached="false"
   mode="0"
+  onCalcControlFieldBlur={[Function EventEmitter_]}
+  onCalcControlFieldFocus={[Function EventEmitter_]}
   onCompFieldAdded={[Function EventEmitter_]}
   onCompFieldRemoved={[Function EventEmitter_]}
   onCompFieldReordered={[Function EventEmitter_]}
   onCompFieldTitleChange={[Function EventEmitter_]}
   onTitleChange={[Function EventEmitter_]}
   onUpdateSummaryTitleChange={[Function EventEmitter_]}
+  totalRewardsRadialTextCountersFeatureFlag={[Function Object]}
+  unsubscribe$={[Function Subject]}
   visibleFields={[Function Array]}
 >
   <div
@@ -3672,7 +3772,7 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
           class="trs-calculation-row w-100"
         >
           <th
-            class="font-weight-normal"
+            class="font-weight-normal pr-0"
             scope="col"
           >
             
@@ -3684,7 +3784,7 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
       <tbody>
         
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -3692,16 +3792,16 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
             
             <fa-icon
               aria-hidden="true"
-              class="calculation-control-drag-icon position-absolute text-muted"
+              class="calculation-control-drag-icon position-absolute text-muted invisible"
             />
             <pf-string-editor>
               
               <span
-                class="wrapper w-100 d-inline-block"
+                class="wrapper w-100 d-inline-block overflow-hidden"
               >
                 <input
                   class="input-text w-100 offScreen"
-                  maxlength="60"
+                  maxlength="30"
                   minlength="1"
                   placeholder="First"
                   tabindex="-1"
@@ -3709,7 +3809,7 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
                 />
                 
                 <a
-                  class="editable d-flex show-icon-on-hover"
+                  class="editable d-flex cursor-pointer show-icon-on-hover"
                   href="javascript:void(0)"
                   title=""
                 >
@@ -3749,7 +3849,7 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
           </td>
         </tr>
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -3757,16 +3857,16 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
             
             <fa-icon
               aria-hidden="true"
-              class="calculation-control-drag-icon position-absolute text-muted"
+              class="calculation-control-drag-icon position-absolute text-muted invisible"
             />
             <pf-string-editor>
               
               <span
-                class="wrapper w-100 d-inline-block"
+                class="wrapper w-100 d-inline-block overflow-hidden"
               >
                 <input
                   class="input-text w-100 offScreen"
-                  maxlength="60"
+                  maxlength="30"
                   minlength="1"
                   placeholder="Second"
                   tabindex="-1"
@@ -3774,7 +3874,7 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
                 />
                 
                 <a
-                  class="editable d-flex show-icon-on-hover"
+                  class="editable d-flex cursor-pointer show-icon-on-hover"
                   href="javascript:void(0)"
                   title=""
                 >
@@ -3814,7 +3914,7 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
           </td>
         </tr>
         <tr
-          class="trs-calculation-row draggable w-100"
+          class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
@@ -3822,16 +3922,16 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
             
             <fa-icon
               aria-hidden="true"
-              class="calculation-control-drag-icon position-absolute text-muted"
+              class="calculation-control-drag-icon position-absolute text-muted invisible"
             />
             <pf-string-editor>
               
               <span
-                class="wrapper w-100 d-inline-block"
+                class="wrapper w-100 d-inline-block overflow-hidden"
               >
                 <input
                   class="input-text w-100 offScreen"
-                  maxlength="60"
+                  maxlength="30"
                   minlength="1"
                   placeholder="Third"
                   tabindex="-1"
@@ -3839,7 +3939,7 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
                 />
                 
                 <a
-                  class="editable d-flex show-icon-on-hover"
+                  class="editable d-flex cursor-pointer show-icon-on-hover"
                   href="javascript:void(0)"
                   title=""
                 >
@@ -3884,17 +3984,17 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
           class="trs-calculation-row w-100 faux-title"
         >
           <td
-            class="summary"
+            class="summary pr-0"
             pfstatementgraphicsdirective=""
           >
             <pf-string-editor>
               
               <span
-                class="wrapper w-100 d-inline-block"
+                class="wrapper w-100 d-inline-block overflow-hidden"
               >
                 <input
                   class="input-text w-100 offScreen"
-                  maxlength="60"
+                  maxlength="30"
                   minlength="1"
                   placeholder=""
                   tabindex="-1"
@@ -3902,7 +4002,7 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
                 />
                 
                 <a
-                  class="editable d-flex show-icon-on-hover"
+                  class="editable d-flex cursor-pointer show-icon-on-hover"
                   href="javascript:void(0)"
                   title=""
                 >

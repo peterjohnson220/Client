@@ -43,6 +43,7 @@ export class GradeBasedEmployeeSalaryRangeChartComponent implements OnInit, OnDe
   dataSubscription: Subscription;
   jobDataSubscription: Subscription;
   metadataSubscription: Subscription;
+  defaultPagingOptionsSub: Subscription;
   pageViewId: string;
   jobRangeViewId: string;
   jobRangeViewIdSubscription: Subscription;
@@ -60,6 +61,8 @@ export class GradeBasedEmployeeSalaryRangeChartComponent implements OnInit, OnDe
   filterPanelSub: Subscription;
   initialY: number;
   gridScrolledSub: Subscription;
+  scrollTop: number;
+  defaultPagingCount: number;
 
   constructor(
     public store: Store<any>,
@@ -108,10 +111,17 @@ export class GradeBasedEmployeeSalaryRangeChartComponent implements OnInit, OnDe
 
     this.gridScrolledSub = this.pfGridStore.select(fromPfGridReducer.getGridScrolledContent, this.pageViewId).subscribe( scrolledContent => {
       if (scrolledContent && this.chartInstance) {
+        this.scrollTop = scrolledContent.scrollTop;
         this.initialY = this.chartInstance.legend.options.y;
         this.chartInstance.legend.group.attr({
           translateY: this.initialY + scrolledContent.scrollTop
         });
+      }
+    });
+
+    this.defaultPagingOptionsSub = this.pfGridStore.select(fromPfGridReducer.getPagingOptions, this.pageViewId).subscribe(pagingOptions => {
+      if (pagingOptions) {
+        this.defaultPagingCount = pagingOptions.Count;
       }
     });
   }
@@ -147,6 +157,11 @@ export class GradeBasedEmployeeSalaryRangeChartComponent implements OnInit, OnDe
     }
   }
 
+  private getScatterXCoordinate(index): number {
+
+    return index - (.018 * index);
+  }
+
   private addEmployee(xCoordinate, currentRow) {
     // if this employee falls within the salary range, add to employee series. else, add to outlier employee series
     const min = this.jobRangeData.CompanyStructures_Ranges_Min;
@@ -158,7 +173,7 @@ export class GradeBasedEmployeeSalaryRangeChartComponent implements OnInit, OnDe
       currentRow.vw_EmployeesGradeBasedStructureInfo_First_Name + ' ' + currentRow.vw_EmployeesGradeBasedStructureInfo_Last_Name
       + ' (' + currentRow.vw_EmployeesGradeBasedStructureInfo_Employee_ID + ')' : currentRow.vw_EmployeesGradeBasedStructureInfo_Employee_ID;
     const salaryTooltipInfo = {
-      x: xCoordinate,
+      x: this.getScatterXCoordinate(xCoordinate),
       y: currentRow.vw_EmployeesGradeBasedStructureInfo_GradeBased_EmployeePay,
       empDisplay: name,
       salaryDisplay: `${this.controlPointDisplay}: ${StructuresHighchartsService.formatCurrency(salary, this.chartLocale, this.currency, this.rate, true)}`
@@ -214,7 +229,7 @@ export class GradeBasedEmployeeSalaryRangeChartComponent implements OnInit, OnDe
     const isMidFormula = !!this.metaData.RangeDistributionSetting?.Mid_Formula?.FormulaId;
 
     this.mrpSeriesData.push({
-      x: xCoordinate,
+      x: this.getScatterXCoordinate(xCoordinate),
       y: currentRow.CompanyJobs_Structures_GradeBased_Job_MarketReferencePointValue,
       jobTitle: currentRow.CompanyJobs_Structures_JobTitle,
       mrp: StructuresHighchartsService.formatMrpTooltip(currentRow.CompanyJobs_Structures_GradeBased_Job_MarketReferencePointValue,
@@ -333,7 +348,7 @@ export class GradeBasedEmployeeSalaryRangeChartComponent implements OnInit, OnDe
         this.chartInstance.series[GradeBasedEmployeeSalaryRangeChartSeries.SalaryRangeQuintile].setData(this.salaryRangeSeriesDataModel.Quintile, false);
       }
 
-      this.chartInstance.setSize(null, GraphHelper.getEmployeeChartHeight(this.employeeData.data));
+      this.chartInstance.setSize(null, GraphHelper.getChartHeight(this.employeeData.data, this.defaultPagingCount));
     }
   }
 
@@ -372,6 +387,7 @@ export class GradeBasedEmployeeSalaryRangeChartComponent implements OnInit, OnDe
     this.jobRangeViewIdSubscription.unsubscribe();
     this.filterPanelSub.unsubscribe();
     this.gridScrolledSub.unsubscribe();
+    this.defaultPagingOptionsSub.unsubscribe();
   }
 }
 

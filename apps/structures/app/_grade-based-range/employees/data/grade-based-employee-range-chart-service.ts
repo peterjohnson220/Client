@@ -1,7 +1,7 @@
 import { RangeDistributionTypeIds } from 'libs/constants/structures/range-distribution-type-ids';
 
 import { GradeBasedEmployeeSalaryRangeChartSeries } from './grade-based-employee-salary-range-chart-series-constants';
-import { GradeRangeVerticalModelChartSeries } from '../../shared/data';
+import { GradeRangeVerticalOrHorizontalModelChartSeries } from '../../shared/data';
 
 export class GradeBasedEmployeeRangeChartService {
 
@@ -55,6 +55,9 @@ export class GradeBasedEmployeeRangeChartService {
         },
         spacing: [10, 10, 0, 10]
       },
+      exporting: {
+        enabled: false
+      },
       credits: {
         enabled: false
       },
@@ -87,7 +90,7 @@ export class GradeBasedEmployeeRangeChartService {
         title: {
           text: undefined
         },
-        offset: 25
+        offset: 18
       },
       xAxis: {
         visible: false,
@@ -121,8 +124,6 @@ export class GradeBasedEmployeeRangeChartService {
             }
           },
           stickyTracking: false,
-          groupPadding: 0,
-          pointPadding: 0.1,
           borderWidth: 0,
           marker: {
             states: {
