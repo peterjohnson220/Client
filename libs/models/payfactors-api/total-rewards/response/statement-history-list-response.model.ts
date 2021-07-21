@@ -10,4 +10,5 @@ export interface StatementHistoryList {
   GeneratedDate: Date;
   EmployeeCount: number;
   DeliveryMethod: string;
+  HasAccess: boolean;
 }
