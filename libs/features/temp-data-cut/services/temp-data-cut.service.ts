@@ -9,10 +9,7 @@ import * as fromDataCutValidationActions from 'libs/features/peer/actions/data-c
 
 import { TempDataCutIdentity } from '../models';
 import * as fromTempDataCutActions from '../actions/temp-data-cut.actions';
-import * as fromMultiMatchReducer from '../reducers';
-
-
-
+import * as fromTempDataCutReducer from '../reducers';
 
 @Injectable()
 export class TempDataCutService {
@@ -80,10 +77,10 @@ export class TempDataCutService {
     this.store.dispatch(new fromDataCutValidationActions.ClearTempDataCutValidation());
   }
 
-  constructor(private store: Store<fromMultiMatchReducer.State>) {
-    this.editing$ = this.store.select(fromMultiMatchReducer.getTempDataCutEditing);
-    this.creating$ = this.store.select(fromMultiMatchReducer.getTempDataCutCreating);
-    this.tempDataCutIdentity$ = this.store.select(fromMultiMatchReducer.getTempDataCutCurrentIdentity);
+  constructor(private store: Store<fromTempDataCutReducer.State>) {
+    this.editing$ = this.store.select(fromTempDataCutReducer.getTempDataCutEditing);
+    this.creating$ = this.store.select(fromTempDataCutReducer.getTempDataCutCreating);
+    this.tempDataCutIdentity$ = this.store.select(fromTempDataCutReducer.getTempDataCutCurrentIdentity);
     this.state$ = combineLatest([this.creating$, this.editing$, this.tempDataCutIdentity$]).pipe(map((combined) => {
       return {
         creating: !!combined[0],
@@ -91,6 +88,6 @@ export class TempDataCutService {
         identity: combined[2]
       };
     }));
-    this.upserting$ = this.store.select(fromMultiMatchReducer.getTempDataCutUpsert);
+    this.upserting$ = this.store.select(fromTempDataCutReducer.getTempDataCutUpsert);
   }
 }

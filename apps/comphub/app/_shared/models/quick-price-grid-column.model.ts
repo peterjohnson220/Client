@@ -1,4 +1,4 @@
-import { QuickPriceType } from 'libs/constants';
+import { ComphubType } from 'libs/constants';
 
 export interface QuickPriceGridColumn {
   IsSortable: boolean;
@@ -53,9 +53,9 @@ export class QuickPriceGridColumnConfiguration {
     IsSortable: false
   };
 
-  static getGridColumnConfigByType(type: QuickPriceType): QuickPriceGridColumn[] {
+  static getGridColumnConfigByType(type: ComphubType): QuickPriceGridColumn[] {
     switch (type) {
-      case QuickPriceType.PEER: {
+      case ComphubType.PEER: {
         return [
           {...this.jobTitle, IsSortable: false},
           {...this.education, IsSortable: false},
@@ -66,7 +66,7 @@ export class QuickPriceGridColumnConfiguration {
           this.action
         ];
       }
-      case QuickPriceType.SMALL_BUSINESS: {
+      case ComphubType.SMALL_BUSINESS: {
         return [
           this.jobTitle,
           this.education,
@@ -75,7 +75,7 @@ export class QuickPriceGridColumnConfiguration {
           this.action
         ];
       }
-      case QuickPriceType.CROWD_SOURCED_DATA: {
+      case ComphubType.CROWD_SOURCED_DATA: {
         return [
           {...this.jobTitle, IsSortable: false},
           this.marketRange,

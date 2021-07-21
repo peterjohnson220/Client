@@ -7,7 +7,10 @@ import { SearchFilter } from 'libs/models/payfactors-api/search/response';
 import {
   ExchangeDataSearchRequest,
   SearchExchangeAggregationsRequest,
-  ExchangeDataSearchResponse, BaseExchangeDataSearchRequest
+  ExchangeDataSearchResponse,
+  HistoricalExchangeDataSearchRequest,
+  HistoricalExchangeDataSearchResponse,
+  HistoricalExchangeOrgIncCountResponse
 } from 'libs/models/payfactors-api/peer/exchange-data-search';
 import { ComphubExchangeExplorerContextRequest } from 'libs/models/peer/requests/comphub-exchange-explorer-context-request.model';
 
@@ -28,7 +31,7 @@ export class ExchangeDataSearchApiService {
     ):
     Observable<ExchangeExplorerContextInfo> {
     const request: ComphubExchangeExplorerContextRequest = payload as ComphubExchangeExplorerContextRequest;
-    if (request && request.ExchangeJobId) {
+    if (request && request.ExchangeJobIds) {
       return this.payfactorsApiService.post(`${this.endpoint}/GetExchangeExplorerContextInfo`, request);
     }
     const exchangeRequest = payload as { exchangeId: number };
@@ -70,4 +73,19 @@ export class ExchangeDataSearchApiService {
     return this.payfactorsApiService.post(`${this.endpoint}/SearchAggregations`, request);
   }
 
+  getHistoricalTrends(request: HistoricalExchangeDataSearchRequest): Observable<HistoricalExchangeDataSearchResponse> {
+    return this.payfactorsApiService.post(`${this.endpoint}/GetHistoricalTrend`, request);
+  }
+
+  getOrgIncCountHistory(request: HistoricalExchangeDataSearchRequest): Observable<HistoricalExchangeOrgIncCountResponse> {
+    return this.payfactorsApiService.post(`${this.endpoint}/GetHistoricalOrgIncCount`, request);
+  }
+
+  exportExchangeJobs(request: number[]): Observable<any> {
+    return this.payfactorsApiService.downloadFile(`${this.endpoint}/GetTrendExchangeJobExport`, request);
+  }
+
+  exportCompanyJobs(request: number[]): Observable<any> {
+    return this.payfactorsApiService.downloadFile(`${this.endpoint}/GetTrendCompanyJobExport`, request);
+  }
 }

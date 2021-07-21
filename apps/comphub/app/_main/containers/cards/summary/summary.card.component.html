@@ -61,7 +61,7 @@
 <ng-template #summary>
   <div class="h-100 summary-container">
     <div class="d-flex">
-      <div class="info-sidebar h-100" *ngIf="!isPeerQuickPriceType">
+      <div class="info-sidebar h-100" *ngIf="!isPeerComphubType">
         <div class="item">
           <ng-containter [ngTemplateOutlet]="rateTemplate"></ng-containter>
         </div>
@@ -115,7 +115,7 @@
       </div>
 
       <!--Peer Sidebar -->
-      <div class="info-sidebar h-100" *ngIf="isPeerQuickPriceType">
+      <div class="info-sidebar h-100" *ngIf="isPeerComphubType">
           <div class="item">
             <div class="h">Peer Network</div>
             <div class="v" [attr.data-qa-id]="'cnt-peer-network'">
@@ -191,7 +191,7 @@
                    paymarket?.CompanyPayMarketId &&
                    !(creatingProject$ | async) &&
                    !(creatingProjectError$ | async) &&
-                   !isPeerQuickPriceType &&
+                   !isPeerComphubType &&
                    !showJobHistorySummary"
                     [attr.data-qa-id]="'btn-create-project'"
                     (click)="handleCreateProjectClicked()"
@@ -217,7 +217,7 @@
           </div>
         </div>
 
-        <div class="info-horizontal" *ngIf="!isPeerQuickPriceType">
+        <div class="info-horizontal" *ngIf="!isPeerComphubType">
           <div class="container">
             <div class="row">
               <div class="col">
@@ -295,7 +295,7 @@
           </div>
         </div>
 
-        <div class="info-horizontal" *ngIf="isPeerQuickPriceType">
+        <div class="info-horizontal" *ngIf="isPeerComphubType">
           <div class="container">
             <div class="row">
               <div class="col">
@@ -381,7 +381,7 @@
           </div>
         </div>
 
-        <div class="d-flex justify-content-between incs-and-orgs" *ngIf="isPeerQuickPriceType">
+        <div class="d-flex justify-content-between incs-and-orgs" *ngIf="isPeerComphubType">
           <div class="item flex-column flex-grow-1">
             <div class="h">Orgs</div>
             <div class="v" [attr.data-qa-id]="'cnt-orgs'">
@@ -445,11 +445,11 @@
           </div>
 
           <!-- If PEER user show the Map, if not then show the trend graph. -->
-          <div class="g" *ngIf="isPeerQuickPriceType">
+          <div class="g" *ngIf="isPeerComphubType">
             <img height='225px' width='225px' alt='Peer Data Map' [src]="getPeerMapSrcString()">
           </div>
 
-          <div class="g" *ngIf="!isPeerQuickPriceType">
+          <div class="g" *ngIf="!isPeerComphubType">
             <div class="h">
               Salary Trend
               <small *ngIf="jobSalaryTrendData?.Data">
@@ -508,7 +508,7 @@
   {{jobData?.ExchangeName}}
 </ng-template>
 
-<pf-file-download-security-warning-modal 
+<pf-file-download-security-warning-modal
   #fileDownloadSecurityWarningModal
   (securityWarningConfirmed)="handleSecurityWarningConfirmed($event)">
 </pf-file-download-security-warning-modal>

@@ -12,7 +12,7 @@ import { JobsToPriceContainerComponent } from './jobs-to-price-container.compone
 import { generateMockJobToPrice } from '../../models';
 import * as fromMultiMatchReducer from '../../reducers';
 import * as fromJobsToPriceActions from '../../actions/jobs-to-price.actions';
-import { TempDataCutService } from '../../services';
+import { TempDataCutService } from '../../../../temp-data-cut/services';
 
 describe('Project - MultiMatch - JobToPrice Container Component', () => {
   let instance: JobsToPriceContainerComponent;

@@ -61,7 +61,7 @@ export class PeerJobResultsComponent extends AbstractJobGrid implements OnInit, 
   private loadContext(): void {
     const request: ComphubExchangeExplorerContextRequest = {
       ExchangeId : this.selectedExchangeId,
-      ExchangeJobId : this.selectedExchangeJobId
+      ExchangeJobIds : [ this.selectedExchangeJobId  ]
     };
     this.exchangeExplorerStore.dispatch(new fromExchangeExplorerContextInfoActions.LoadContextInfo(request));
   }

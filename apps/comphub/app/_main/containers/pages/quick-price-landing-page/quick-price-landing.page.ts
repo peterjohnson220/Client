@@ -4,7 +4,7 @@ import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { UserContext } from 'libs/models/security';
-import { CompanyClientTypeConstants, QuickPriceType, SystemUserGroupNames } from 'libs/constants';
+import { CompanyClientTypeConstants, ComphubType, SystemUserGroupNames } from 'libs/constants';
 import * as fromBasicDataGridReducer from 'libs/features/grids/basic-data-grid/reducers';
 import * as fromLayoutWrapperReducer from 'libs/ui/layout-wrapper/reducers';
 import * as fromRootReducer from 'libs/state/state';
@@ -100,14 +100,14 @@ export class QuickPriceLandingPageComponent implements OnInit, OnDestroy {
     });
     this.workflowContextSub = this.workflowContext$.subscribe(wfc => this.workflowContext = wfc);
     this.userContextSub = this.userContext$.subscribe(uc => {
-      if (uc.ClientType === CompanyClientTypeConstants.PEER_AND_ANALYSIS || uc.ClientType === CompanyClientTypeConstants.PEER) {
-        this.store.dispatch(new fromComphubPageActions.SetQuickPriceTypeInWorkflowContext(QuickPriceType.PEER));
+      if (uc.ClientType === CompanyClientTypeConstants.PEER_AND_ANALYSIS || uc.ClientType === ComphubType.PEER) {
+        this.store.dispatch(new fromComphubPageActions.SetComphubTypeInWorkflowContext(ComphubType.PEER));
         this.store.dispatch(new fromComphubPageActions.GetExchangeDataSets());
       } else if (uc.CompanySystemUserGroupsGroupName === this.systemUserGroupNames.SmallBusiness) {
-        this.store.dispatch(new fromComphubPageActions.SetQuickPriceTypeInWorkflowContext(QuickPriceType.SMALL_BUSINESS));
+        this.store.dispatch(new fromComphubPageActions.SetComphubTypeInWorkflowContext(ComphubType.SMALL_BUSINESS));
         this.store.dispatch(new fromComphubPageActions.GetCountryDataSets());
       } else {
-        this.store.dispatch(new fromComphubPageActions.SetQuickPriceTypeInWorkflowContext(QuickPriceType.ENTERPRISE));
+        this.store.dispatch(new fromComphubPageActions.SetComphubTypeInWorkflowContext(ComphubType.ENTERPRISE));
         this.store.dispatch(new fromComphubPageActions.GetCountryDataSets());
       }
       if (uc?.UserId) {

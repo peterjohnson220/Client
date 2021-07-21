@@ -1,4 +1,4 @@
-import { QuickPriceType } from 'libs/constants';
+import { ComphubType } from 'libs/constants';
 import { ExchangeDataSet, generateMockExchangeDataSet } from 'libs/models/comphub/exchange-data.set';
 
 import { CountryDataSet, generateMockCountryDataSet } from './country-data.set';
@@ -9,7 +9,7 @@ export interface WorkflowContext {
   selectedPageIndex: number;
   activeCountryDataSet: CountryDataSet;
   activeExchangeDataSet: ExchangeDataSet;
-  quickPriceType: string;
+  comphubType: string;
 }
 
 export function generateMockWorkflowContext(): WorkflowContext {
@@ -18,7 +18,7 @@ export function generateMockWorkflowContext(): WorkflowContext {
     selectedPageIndex: 0,
     activeCountryDataSet: generateMockCountryDataSet(),
     activeExchangeDataSet: generateMockExchangeDataSet(),
-    quickPriceType: QuickPriceType.ENTERPRISE
+    comphubType: ComphubType.ENTERPRISE
   };
 }
 
@@ -28,7 +28,7 @@ export function generateMockPeerWorkflowContext(): WorkflowContext {
     selectedPageIndex: 0,
     activeCountryDataSet: generateMockCountryDataSet(),
     activeExchangeDataSet: generateMockExchangeDataSet(),
-    quickPriceType: QuickPriceType.PEER
+    comphubType: ComphubType.PEER
   };
 }
 
@@ -38,6 +38,6 @@ export function generateMockCrowdSourcedWorkflowContext(): WorkflowContext {
     selectedPageIndex: 0,
     activeCountryDataSet: generateMockCountryDataSet(),
     activeExchangeDataSet: generateMockExchangeDataSet(),
-    quickPriceType: QuickPriceType.CROWD_SOURCED_DATA
+    comphubType: ComphubType.CROWD_SOURCED_DATA
   };
 }

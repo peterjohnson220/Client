@@ -2,9 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 
-import { QuickPriceType } from 'libs/constants';
+import { ComphubType } from 'libs/constants';
 
-import { AbstractJobGrid } from '../../../_shared/containers/job-grid/shared-job-grid';
+import { AbstractJobGrid } from '../../../_shared/containers';
 import { QuickPriceGridColumn, QuickPriceGridColumnConfiguration } from '../../../_shared/models';
 import * as fromComphubSharedReducer from '../../../_shared/reducers';
 import * as fromJobGridActions from '../../../_shared/actions/job-grid.actions';
@@ -43,7 +43,7 @@ export class CrowdSourcedJobResultsComponent extends AbstractJobGrid implements 
     });
 
     // this is hardcoded and will need to be removed once crowd sourced is added to settings
-    this.gridConfig = QuickPriceGridColumnConfiguration.getGridColumnConfigByType(QuickPriceType.CROWD_SOURCED_DATA);
+    this.gridConfig = QuickPriceGridColumnConfiguration.getGridColumnConfigByType(ComphubType.CROWD_SOURCED_DATA);
 
   }
 

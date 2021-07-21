@@ -9,7 +9,7 @@ import { SettingsService } from 'libs/state/app-context/services';
 import { FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models/common';
 import { BasicGridSettings } from 'libs/features/grids/basic-data-grid/models';
 import { JobPricedHistorySummaryRequest } from 'libs/models/payfactors-api/comphub/request';
-import { QuickPriceType } from 'libs/constants';
+import { ComphubType } from 'libs/constants';
 import * as fromBasicDataGridReducer from 'libs/features/grids/basic-data-grid/reducers';
 import * as fromBasicDataGridActions from 'libs/features/grids/basic-data-grid/actions/basic-data-grid.actions';
 
@@ -41,7 +41,7 @@ export class QuickPriceHistoryComponent implements OnInit, OnDestroy, AfterViewI
 
   @ViewChild('base50Column') base50Column: ElementRef;
   hasMoreDataOnServer: boolean;
-  isPeerQuickPriceType: boolean;
+  isPeerComphubType: boolean;
   gridId = QuickPriceHistoryContext.gridId;
   gridSettings: BasicGridSettings = {
     Sortable: true
@@ -74,7 +74,7 @@ export class QuickPriceHistoryComponent implements OnInit, OnDestroy, AfterViewI
       }
     });
     this.workflowContextSub = this.workflowContext$.subscribe(x => {
-      this.isPeerQuickPriceType = x.quickPriceType === QuickPriceType.PEER;
+      this.isPeerComphubType = x.comphubType === ComphubType.PEER;
     });
   }
 
@@ -119,7 +119,7 @@ export class QuickPriceHistoryComponent implements OnInit, OnDestroy, AfterViewI
   private buildJobPricedHistorySummaryRequest(data: any): JobPricedHistorySummaryRequest {
     return {
       CompletedPricingHistoryId: data.QuickPrice_CompletedPricingHistory_QuickPrice_CompletedPricingHistory_ID,
-      IsPeerQuickPriceType: this.isPeerQuickPriceType
+      IsPeerComphubType: this.isPeerComphubType
     };
   }
 

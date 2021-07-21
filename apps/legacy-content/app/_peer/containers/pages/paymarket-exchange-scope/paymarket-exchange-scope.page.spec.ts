@@ -6,7 +6,6 @@ import { StoreModule, Store } from '@ngrx/store';
 import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
-import { ActivatedRouteStub } from 'libs/test/activated-route-stub';
 import { generateMockExchangeScopeItem } from 'libs/models/peer/exchange-scope';
 
 import * as fromPaymarketExchangeScopeActions from '../../../actions/paymarket-exchange-scope.actions';

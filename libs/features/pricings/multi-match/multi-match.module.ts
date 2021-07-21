@@ -17,6 +17,7 @@ import { SurveySearchModule } from 'libs/features/surveys/survey-search';
 import { UpsertPeerDataCutModule } from 'libs/features/pricings/upsert-peer-data-cut';
 import { DataCutSummaryModule } from 'libs/features/pricings/data-cut-summary';
 import { PricingProjectHelperService, WindowCommunicationService } from 'libs/core/services';
+import { TempDataCutModule } from 'libs/features/temp-data-cut/temp-data-cut.module';
 
 import * as fromFaIcons from './fa-icons';
 import { JobToPriceComponent, DataCutTitleComponent } from './components';
@@ -24,7 +25,7 @@ import { JobsToPriceContainerComponent } from './containers';
 import { MultiMatchEffects, JobsToPriceEffects, ModifyPricingsEffects } from './effects';
 import { MultiMatchComponent } from './multi-match';
 import { reducers } from './reducers';
-import { TempDataCutService } from './services';
+import { TempDataCutService } from '../../temp-data-cut/services';
 
 @NgModule({
   imports: [
@@ -45,7 +46,8 @@ import { TempDataCutService } from './services';
     DataCutSummaryModule,
     PfCommonUIModule,
     PfFormsModule,
-    PfSearchModule
+    PfSearchModule,
+    TempDataCutModule
   ],
   declarations: [
     // Components

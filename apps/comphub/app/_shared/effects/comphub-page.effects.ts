@@ -8,7 +8,7 @@ import { map, mergeMap, switchMap, withLatestFrom, tap } from 'rxjs/operators';
 import * as fromRootState from 'libs/state/state';
 import { CompanySettingsEnum } from 'libs/models/company';
 import { ComphubApiService } from 'libs/data/payfactors-api/comphub';
-import { QuickPriceType } from 'libs/constants';
+import { ComphubType } from 'libs/constants';
 
 import * as fromMarketsCardActions from '../actions/markets-card.actions';
 import * as fromDataCardActions from '../actions/data-card.actions';
@@ -131,9 +131,10 @@ export class ComphubPageEffects {
           JobPricingBlocked: data.jobPricingBlocked,
           JobSelected: !!data.selectedJob,
           JobDataSelected: !!data.selectedJobData,
-          IsPeerQuickPriceType: data.workflowContext.quickPriceType === QuickPriceType.PEER,
+          IsPeerComphubType: data.workflowContext.comphubType === ComphubType.PEER,
           ShowJobPricedHistorySummary: data.showJobPricedHistorySummary,
-          SmbLimitReached: data.smbLimitReached
+          SmbLimitReached: data.smbLimitReached,
+          SelectedTrendId: -1 // TODO: [JP] We need to get this somehow.
         };
         const footerContext = FooterHelper.getFooterContext(footerContextRequest);
         return new fromComphubPageActions.SetFooterContext(footerContext);
@@ -220,7 +221,7 @@ export class ComphubPageEffects {
       ),
       mergeMap((data) => {
         const actions = [];
-        if (data.workflowContext.quickPriceType === QuickPriceType.PEER) {
+        if (data.workflowContext.comphubType === ComphubType.PEER) {
           actions.push(new fromComphubPageActions.UpdateCardSubtitle({ cardId: ComphubPages.Data, subTitle: `Payfactors ${data.action.payload.JobTitle}`}));
           actions.push(new fromComphubPageActions.AddAccessiblePages([ComphubPages.Summary]));
         } else {

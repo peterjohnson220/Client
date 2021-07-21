@@ -70,12 +70,6 @@
   }
 }
 
-pf-salary-trend-chart {
-  .k-chart {
-    height: 110px !important;
-  }
-}
-
 .k-list {
   .geo-list-item{
     width: 100%;
@@ -93,8 +87,4 @@ pf-salary-trend-chart {
       letter-spacing: 1px;
     }
   }
-}
-
-.k-chart-tooltip-wrapper.k-animation-container-shown {
-  transition: none !important;
 }

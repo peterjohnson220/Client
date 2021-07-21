@@ -5,7 +5,7 @@ import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 
 import * as fromRootState from 'libs/state/state';
-import { QuickPriceType } from 'libs/constants';
+import { ComphubType } from 'libs/constants';
 import { generateMockPricingPaymarket } from 'libs/models/comphub';
 
 import { MarketsCardComponent } from './markets.card.component';
@@ -114,7 +114,7 @@ describe('Comphub - Main - Markets Card Component', () => {
     spyOn(store, 'dispatch');
     const selectedPayMarket = generateMockPricingPaymarket();
     const expectedAction = new fromMarketsCardActions.SetSelectedPaymarket(
-      {paymarket: selectedPayMarket, initialLoad: false, quickPriceType: QuickPriceType.ENTERPRISE});
+      {paymarket: selectedPayMarket, initialLoad: false, comphubType: ComphubType.ENTERPRISE});
 
     instance.handlePaymarketChecked(selectedPayMarket);
 
