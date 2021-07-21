@@ -383,6 +383,7 @@ export class TemplatePageComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   manageControlsClick() {
+    this.store.dispatch(new fromJdmSharedActions.NavigateToSettingsFromTemplate(this.templateId));
     this.router.navigate([`settings/company-controls`]);
   }
   //#endregion Events
