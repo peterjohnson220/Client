@@ -6,7 +6,6 @@ import {
   TrendingJobGroupResponse,
   GetCrowdSourcedJobPricingResponse
 } from 'libs/models/payfactors-api/comphub';
-
 import { PayMarket } from 'libs/models/paymarket';
 import { KendoDropDownItem } from 'libs/models/kendo';
 import { MDLocationResponse, MDScopeResponse } from 'libs/models/payfactors-api';
@@ -14,6 +13,7 @@ import { Filter } from 'libs/features/search/search/models';
 import { MDScopeSizeCategory } from 'libs/constants';
 import { SearchCrowdSourcedJobsResponse } from 'libs/models/payfactors-api/comphub/response/search-crowd-sourced-jobs-response.model';
 import { JobData, JobGridData, PricingPaymarket } from 'libs/models/comphub';
+import { GenericKeyValue } from 'libs/models/common';
 
 import { CountryDataSet, JobSalaryTrend, MarketDataLocation, MarketDataScope, TrendingJobGroup } from '../models';
 
@@ -68,7 +68,8 @@ export class PayfactorsApiModelMapper {
   static mapMDScopeResponseToMarketDataScope(response: MDScopeResponse): MarketDataScope {
     return {
       Sizes: this.mapScopeValuesToKendoDropDownItems(response.Sizes[MDScopeSizeCategory.Employees]),
-      Industries: this.mapScopeValuesToKendoDropDownItems(response.Industries)
+      Industries: this.mapScopeValuesToKendoDropDownItems(response.Industries),
+      OrganizationTypes: this.mapOrganizationTypesResponseToKendoDropDownItems(response.OrganizationTypes)
     };
   }
 
@@ -80,6 +81,15 @@ export class PayfactorsApiModelMapper {
       return {
         Name: s,
         Value: s
+      };
+    });
+  }
+
+  static mapOrganizationTypesResponseToKendoDropDownItems(response: GenericKeyValue<number, string>[]): KendoDropDownItem[] {
+    return response.map(ot => {
+      return {
+        Name: ot['Name'],
+        Value: ot['OrganizationTypeId']
       };
     });
   }

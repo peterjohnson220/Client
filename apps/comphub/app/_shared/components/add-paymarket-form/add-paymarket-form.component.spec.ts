@@ -4,8 +4,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { DropDownListModule, AutoCompleteModule } from '@progress/kendo-angular-dropdowns';
 
+import { AbstractFeatureFlagService } from 'libs/core';
+
 import { AddPayMarketFormComponent } from './add-paymarket-form.component';
 import { AddPayMarketFormData, generateMockCountryDataSet, generateMockMarketDataScope } from '../../models';
+import { Router } from '@angular/router';
 
 describe('Comphub - Main - Add Pay Market Form Component', () => {
   let instance: AddPayMarketFormComponent;
@@ -13,9 +16,28 @@ describe('Comphub - Main - Add Pay Market Form Component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ AddPayMarketFormComponent ],
-      imports: [ FormsModule, ReactiveFormsModule, DropDownListModule, AutoCompleteModule ],
-      schemas: [ NO_ERRORS_SCHEMA ]
+      declarations: [
+        AddPayMarketFormComponent
+      ],
+      imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        DropDownListModule,
+        AutoCompleteModule
+      ],
+      schemas: [
+        NO_ERRORS_SCHEMA
+      ],
+      providers: [
+        {
+          provide: AbstractFeatureFlagService,
+          useValue: { enabled: jest.fn(), bindEnabled: jest.fn() }
+        },
+        {
+          provide: Router,
+          useValue: { navigate: jest.fn() }
+        }
+      ]
     });
 
     fixture = TestBed.createComponent(AddPayMarketFormComponent);
@@ -38,7 +60,9 @@ describe('Comphub - Main - Add Pay Market Form Component', () => {
       name: 'Pay Market Name',
       location: 'Boston, MA',
       industry: { Name: 'Software', Value: 'Software' },
-      size: { Name: '100 - 500', Value: '100 - 500' }
+      size: { Name: '100 - 500', Value: '100 - 500' },
+      organizationTypeId: { Name: 'Company', Value: 1 },
+      isGovernmentContractor: { Name: 'Y', Value: true }
     });
 
     const expectedData: AddPayMarketFormData = {
@@ -48,7 +72,9 @@ describe('Comphub - Main - Add Pay Market Form Component', () => {
       Size: '100 - 500',
       Country: 'USA',
       Currency: 'USD',
-      GeoLabel: 'CityState'
+      GeoLabel: 'CityState',
+      OrganizationTypeId: 1,
+      IsGovernmentContractor: true
     };
 
     instance.handleSaveClicked();
@@ -80,11 +106,11 @@ describe('Comphub - Main - Add Pay Market Form Component', () => {
       { Name: 'Commercial Banks', Value: 'Commercial Banks' },
       { Name: 'Commercial Services & Supplies', Value: 'Commercial Services & Supplies' },
       { Name: 'Credit Unions', Value: 'Credit Unions' },
-      { Name: 'Internet Software & Services', Value: 'Internet Software & Services'}
+      { Name: 'Internet Software & Services', Value: 'Internet Software & Services' }
     ];
     const expectedResults = [
       { Name: 'Commercial Services & Supplies', Value: 'Commercial Services & Supplies' },
-      { Name: 'Internet Software & Services', Value: 'Internet Software & Services'}
+      { Name: 'Internet Software & Services', Value: 'Internet Software & Services' }
     ];
 
     instance.handleIndustryFilter('Service');
@@ -117,7 +143,9 @@ describe('Comphub - Main - Add Pay Market Form Component', () => {
       name: 'Pay Market Name',
       location: 'The moon',
       industry: { Name: 'Software', Value: 'Software' },
-      size: { Name: '100 - 500', Value: '100 - 500' }
+      size: { Name: '100 - 500', Value: '100 - 500' },
+      organizationTypeId: { Name: 'Company', Value: 1 },
+      isGovernmentContractor: { Name: 'Y', Value: true }
     });
 
     const expectedData: AddPayMarketFormData = {
@@ -127,7 +155,9 @@ describe('Comphub - Main - Add Pay Market Form Component', () => {
       Size: '100 - 500',
       Country: 'USA',
       Currency: 'USD',
-      GeoLabel: 'Location'
+      GeoLabel: 'Location',
+      OrganizationTypeId: 1,
+      IsGovernmentContractor: true
     };
 
     instance.handleSaveClicked();
@@ -144,7 +174,9 @@ describe('Comphub - Main - Add Pay Market Form Component', () => {
       name: 'Pay Market Name',
       location: 'The moon',
       industry: {},
-      size: {}
+      size: {},
+      organizationTypeId: { Name: 'Company', Value: 1 },
+      isGovernmentContractor: { Name: 'Y', Value: true }
     });
 
     const expectedData: AddPayMarketFormData = {
@@ -154,7 +186,9 @@ describe('Comphub - Main - Add Pay Market Form Component', () => {
       Size: 'All',
       Country: 'USA',
       Currency: 'USD',
-      GeoLabel: 'Location'
+      GeoLabel: 'Location',
+      OrganizationTypeId: 1,
+      IsGovernmentContractor: true
     };
 
     instance.handleSaveClicked();

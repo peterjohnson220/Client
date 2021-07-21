@@ -35,4 +35,5 @@ export class FeatureFlags {
   static readonly RestyledLogin = 'restyled-login';
   static readonly PricingProjectExport = 'pricing-project-export';
   static readonly PayscaleBranding = 'payscale-branding';
+  static readonly QuickPriceShowOrganizationTypeGovernmentContractorFields = 'quick-price-show-organization-type-government-contractor-fields';
 }

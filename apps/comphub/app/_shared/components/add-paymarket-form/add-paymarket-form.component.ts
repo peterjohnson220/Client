@@ -1,8 +1,12 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+
+import { Subject } from 'rxjs';
 
 import { PfValidators } from 'libs/forms/validators';
-import { KendoDropDownItem } from 'libs/models/kendo';
+import { KendoDropDownItem, KendoTypedDropDownItem } from 'libs/models/kendo';
+import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core';
 
 import { AddPayMarketFormData, CountryDataSet, MarketDataLocation, MarketDataScope } from '../../models';
 
@@ -11,7 +15,7 @@ import { AddPayMarketFormData, CountryDataSet, MarketDataLocation, MarketDataSco
   templateUrl: './add-paymarket-form.component.html',
   styleUrls: ['./add-paymarket-form.component.scss']
 })
-export class AddPayMarketFormComponent implements OnInit, OnChanges {
+export class AddPayMarketFormComponent implements OnInit, OnChanges, OnDestroy {
   @Input() isOpen: boolean;
   @Input() saving: boolean;
   @Input() savingConflict: boolean;
@@ -38,17 +42,33 @@ export class AddPayMarketFormComponent implements OnInit, OnChanges {
     LocationName: 'All',
     GeoLabelDisplayName: 'Location'
   };
+  defaultOrganizationType = { Name: 'All', Value: null };
+  defaultGovernmentContractor = { Name: 'All', Value: null };
+  yesNo: KendoTypedDropDownItem[] = [{ Name: 'Y', Value: true }, { Name: 'N', Value: false }];
 
   addPayMarketForm: FormGroup;
   scopeIndustryData: KendoDropDownItem[];
   industries: KendoDropDownItem[];
   sizes: KendoDropDownItem[];
+  organizationTypes: KendoDropDownItem[];
 
   selectedLocation: MarketDataLocation;
 
+  quickPriceShowOrganizationTypeGovernmentContractorFields: RealTimeFlag = {
+    key: FeatureFlags.QuickPriceShowOrganizationTypeGovernmentContractorFields,
+    value: false
+  };
+  unsubscribe$ = new Subject<void>();
+  isCsdPage: boolean;
+
   constructor(
-    private fb: FormBuilder
-  ) {}
+    private fb: FormBuilder,
+    private featureFlagService: AbstractFeatureFlagService,
+    private router: Router
+  ) {
+    this.featureFlagService.bindEnabled(this.quickPriceShowOrganizationTypeGovernmentContractorFields, this.unsubscribe$);
+    this.isCsdPage = this.router.url === '/csd';
+  }
 
   ngOnInit() {
     this.createForm();
@@ -59,6 +79,7 @@ export class AddPayMarketFormComponent implements OnInit, OnChanges {
       this.industries = this.marketDataScope.Industries;
       this.scopeIndustryData = this.industries.slice();
       this.sizes = this.marketDataScope.Sizes;
+      this.organizationTypes = this.marketDataScope.OrganizationTypes;
     }
   }
 
@@ -75,7 +96,9 @@ export class AddPayMarketFormComponent implements OnInit, OnChanges {
       'name': ['', [PfValidators.required, Validators.maxLength(255)]],
       'location': [''],
       'industry': [{}],
-      'size': [{}]
+      'size': [{}],
+      'organizationTypeId': [{}],
+      'isGovernmentContractor': [{}]
     });
   }
 
@@ -118,7 +141,9 @@ export class AddPayMarketFormComponent implements OnInit, OnChanges {
       Location: location.LocationName,
       Industry: this.addPayMarketForm.value.industry.Value || this.defaultIndustry.Value,
       Size: this.addPayMarketForm.value.size.Value || this.defaultSize.Value,
-      GeoLabel: location.GeoLabel
+      GeoLabel: location.GeoLabel,
+      OrganizationTypeId: this.addPayMarketForm.value.organizationTypeId.Value,
+      IsGovernmentContractor: this.addPayMarketForm.value.isGovernmentContractor.Value
     };
   }
 
@@ -132,6 +157,10 @@ export class AddPayMarketFormComponent implements OnInit, OnChanges {
       .find(s => s.LocationName !== null && s.LocationName.toLowerCase() === this.addPayMarketForm.value.location.toLowerCase());
     // fall back to default location if none of those match
     return !!firstMatchingLocation ? firstMatchingLocation : this.defaultLocation;
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
   }
 
 }

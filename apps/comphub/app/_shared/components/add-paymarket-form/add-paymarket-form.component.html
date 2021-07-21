@@ -40,7 +40,7 @@
       </div>
 
     </div>
-    
+
     <div class="form-content row">
       <div class="col-12 col-lg-5">
         <label>Location</label>
@@ -89,6 +89,38 @@
           [valueField]="'Value'"
           [loading]="loadingScopes"
           [defaultItem]="defaultSize">
+        </kendo-dropdownlist>
+      </div>
+    </div>
+
+    <div class="form-content row"
+         *ngIf="isCsdPage || (!isCsdPage && quickPriceShowOrganizationTypeGovernmentContractorFields.value)">
+      <div class="col-12 col-lg-5">
+        <label>Organization Type</label>
+        <kendo-dropdownlist class="form-control"
+                            [attr.data-qa-id]="'ddm-organization-type'"
+                            formControlName="organizationTypeId"
+                            [listHeight]="100"
+                            [filterable]="false"
+                            [data]="organizationTypes"
+                            [textField]="'Name'"
+                            [valueField]="'Value'"
+                            [defaultItem]="defaultOrganizationType"
+                            [loading]="loadingScopes">
+        </kendo-dropdownlist>
+      </div>
+
+      <div class="col-12 col-lg-4">
+        <label>Government Contractor</label>
+        <kendo-dropdownlist class="form-control"
+                            [attr.data-qa-id]="'ddm-industry'"
+                            formControlName="isGovernmentContractor"
+                            [listHeight]="100"
+                            [data]="yesNo"
+                            [textField]="'Name'"
+                            [valueField]="'Value'"
+                            [defaultItem]="defaultGovernmentContractor"
+                            [loading]="loadingScopes">
         </kendo-dropdownlist>
       </div>
 
