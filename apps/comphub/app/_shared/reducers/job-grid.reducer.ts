@@ -80,7 +80,17 @@ export function reducer(state: State = initialState, action: fromJobGridActions.
       const jobResults = cloneDeep(state.jobResults);
       const jobToUpdate = jobResults.Data.find(jr => jr.JobTitle === action.payload.JobTitle);
       jobToUpdate.Base10 = action.payload.Base10;
+      jobToUpdate.Base25 = action.payload.Base25;
+      jobToUpdate.Base50 = action.payload.Base50;
+      jobToUpdate.Base75 = action.payload.Base75;
       jobToUpdate.Base90 = action.payload.Base90;
+      jobToUpdate.BaseAvg = action.payload.BaseAvg;
+      jobToUpdate.Tcc10 = action.payload.Tcc10;
+      jobToUpdate.Tcc25 = action.payload.Tcc25;
+      jobToUpdate.Tcc50 = action.payload.Tcc50;
+      jobToUpdate.Tcc75 = action.payload.Tcc75;
+      jobToUpdate.Tcc90 = action.payload.Tcc90;
+      jobToUpdate.TccAvg = action.payload.TccAvg;
       jobToUpdate.Loading = false;
 
       return {

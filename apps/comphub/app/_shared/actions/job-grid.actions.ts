@@ -70,7 +70,7 @@ export class SearchCrowdSourcedJobsByTitleError implements Action {
 export class GetCrowdSourcedJobPricing implements Action {
   readonly type = GET_CROWD_SOURCED_JOB_PRICING;
 
-  constructor(public payload: { jobTitle: string, country: string }) {}
+  constructor(public payload: { jobTitle: string, country: string, paymarketId: number }) {}
 }
 
 export class GetCrowdSourcedJobPricingSuccess implements Action {
