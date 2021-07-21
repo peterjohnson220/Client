@@ -3,7 +3,7 @@
   <ng-container *ngSwitchCase="'modal'">
     <pf-modal-form
       [size]="'xl'"
-      [title]="'Add Data'"
+      [title]="'Add Data' + ((jobContext$ | async) ? ' - ' + (jobContext$ | async).JobTitle : '')"
       [isOpen$]="showAddModal$"
       [showSubmit]="false"
       [centered]="true"

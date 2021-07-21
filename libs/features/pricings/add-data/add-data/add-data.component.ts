@@ -1,21 +1,21 @@
-import {Component, Input} from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { DragulaService } from 'ng2-dragula';
 
-import * as fromSearchReducer from 'libs/features/search/search/reducers';
 import { SearchBaseDirective } from 'libs/features/search/search/containers/search-base';
-import * as fromSearchResultsActions from 'libs/features/search/search/actions/search-results.actions';
-import * as fromSearchFiltersActions from 'libs/features/search/search/actions/search-filters.actions';
 import { SearchFeatureIds } from 'libs/features/search/search/enums/search-feature-ids';
 import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
-import { DataCutDetails } from 'libs/features/surveys/survey-search/models';
+import { DataCutDetails, JobContext } from 'libs/features/surveys/survey-search/models';
+import { getSearchFilters, SurveySearchFilterMappingDataObj, SurveySearchUserFilterType } from 'libs/features/surveys/survey-search/data';
+import * as fromSearchReducer from 'libs/features/search/search/reducers';
+import * as fromSearchResultsActions from 'libs/features/search/search/actions/search-results.actions';
+import * as fromSearchFiltersActions from 'libs/features/search/search/actions/search-filters.actions';
 import * as fromSurveySearchReducer from 'libs/features/surveys/survey-search/reducers';
 import * as fromContextActions from 'libs/features/surveys/survey-search/actions/context.actions';
 import * as fromSurveySearchResultsActions from 'libs/features/surveys/survey-search/actions/survey-search-results.actions';
-import { getSearchFilters, SurveySearchFilterMappingDataObj, SurveySearchUserFilterType } from 'libs/features/surveys/survey-search/data';
-import * as fromSearchPageActions from 'libs/features/search/search/actions/search-page.actions';
+import * as fromContextReducer from 'libs/features/surveys/survey-search/reducers';
 
 import * as fromAddSurveyDataActions from '../actions/add-data.actions';
 import * as fromAddDataReducer from '../reducers';
@@ -36,6 +36,8 @@ export class AddDataComponent extends SearchBaseDirective {
   showAddModal$: Observable<boolean>;
   loadingResults$: Observable<boolean>;
   searchError$: Observable<boolean>;
+  jobContext$: Observable<JobContext>;
+
   constructor(
     store: Store<fromSearchReducer.State>,
     private dragulaService: DragulaService,
@@ -50,7 +52,7 @@ export class AddDataComponent extends SearchBaseDirective {
     this.loadingResults$ = this.store.select(fromSearchReducer.getLoadingResults);
     this.searchError$ = this.store.select(fromSearchReducer.getSearchResultsError);
     this.showAddModal$ = this.store.select(fromAddDataReducer.getShowModal);
-
+    this.jobContext$ = this.store.select(fromContextReducer.getJobContext);
   }
 
   onResetApp() {
