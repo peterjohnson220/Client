@@ -26,6 +26,7 @@
         [exchangeJobLoading]="mappedExchangeJobsLoading$ | async"
         [exchangeJobLoadingSuccess]="mappedExchangeJobsLoadingSuccess$ | async"
         [exchangeJobLoadingError]="mappedExchangeJobsLoadingError$ | async"
+        [createProjectButtonEnabled]="(exchangeStatus$| async) === StatusEnum.Active || (isAdminOrImpersonating$ | async) "
         (approveClick)="handleApprovePendingMatchClick($event)"
         (rejectClick)="handleRejectPendingMatchClick($event)"
         (unmatchClick)="handleUnmatchClick()"

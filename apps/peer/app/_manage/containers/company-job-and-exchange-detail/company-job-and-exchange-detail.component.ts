@@ -7,9 +7,12 @@ import { UpsertExchangeJobMapRequest } from 'libs/models/peer/requests/upsert-ex
 import { CompanyJob } from 'libs/features/peer/job-association/models/company-job.model';
 import { ExchangeJob } from 'libs/features/peer/job-association/models/exchange-job.model';
 import * as fromNationalAverageActions from 'libs/features/peer/national-average/actions/national-average.actions';
+import * as fromRootState from 'libs/state/state';
+import { StatusEnum } from 'libs/models/common';
 
 import * as companyJobsActions from '../../actions/company-jobs.actions';
 import * as peerManagementReducer from '../../reducers';
+import * as fromPeerSharedReducer from '../../../shared/reducers';
 
 @Component({
   selector: 'pf-company-job-and-exchange-detail',
@@ -30,12 +33,17 @@ export class CompanyJobAndExchangeDetailComponent implements OnInit, OnDestroy {
   jdmDescriptionLoading$: Observable<boolean>;
   jdmDescriptionLoadingError$: Observable<boolean>;
 
+  exchangeStatus$: Observable<StatusEnum>;
+  isAdminOrImpersonating$:  Observable<boolean>;
+
   exchangeId: number;
   selectedCompanyJob: CompanyJob;
 
   allSubscriptions = new Subscription();
 
-  constructor(private store: Store<peerManagementReducer.State>) { }
+  StatusEnum = StatusEnum;
+
+  constructor(private store: Store<peerManagementReducer.State>, private peerSharedStore: Store<fromPeerSharedReducer.State>) {}
 
   ngOnInit() {
     this.selectedCompanyJob$ = this.store.pipe(select(peerManagementReducer.getCompanyJobsSelectedCompanyJob));
@@ -51,6 +59,9 @@ export class CompanyJobAndExchangeDetailComponent implements OnInit, OnDestroy {
     this.jdmDescriptionIds$ = this.store.pipe(select(peerManagementReducer.getCompanyJobsJdmDescriptionIds));
     this.jdmDescriptionLoading$ = this.store.pipe(select(peerManagementReducer.getCompanyJobsDownloadingJdmDescription));
     this.jdmDescriptionLoadingError$ = this.store.pipe(select(peerManagementReducer.getCompanyJobsDownloadingJdmDescriptionError));
+
+    this.exchangeStatus$ = this.peerSharedStore.select(fromPeerSharedReducer.getExchangeStatus);
+    this.isAdminOrImpersonating$ = this.peerSharedStore.pipe(select(fromRootState.getIsAdminOrImpersonating));
 
     this.allSubscriptions.add(this.selectedCompanyJob$.subscribe(selectedCompanyJob => this.selectedCompanyJob = selectedCompanyJob));
     this.allSubscriptions.add(this.store.pipe(select(peerManagementReducer.getCompanyJobsExchangeId)).subscribe((exchangeId: number) => {

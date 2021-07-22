@@ -53,3 +53,4 @@ export function reducer(
 export const getExchange = (state: State) => state.exchange;
 export const getLoading = (state: State) => state.loading;
 export const getLoadingError = (state: State) => state.loadingError;
+export const getExchangeStatus = (state: State) => state.exchange.Status;
