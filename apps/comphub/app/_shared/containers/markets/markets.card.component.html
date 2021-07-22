@@ -38,7 +38,8 @@
               <pf-input-debounce
                 [ngModel]="payMarketsFilter$ | async"
                 [placeholderText]="'Search Pay Markets...'"
-                [delay]="200" [hideClearBtn]="true"
+                [delay]="200"
+                [hideClearBtn]="true"
                 id="search-paymarkets"
                 (valueChanged)="handleSearchChanged($event)">
               </pf-input-debounce>

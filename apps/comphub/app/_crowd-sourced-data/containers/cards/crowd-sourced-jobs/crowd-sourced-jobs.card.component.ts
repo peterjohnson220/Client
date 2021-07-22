@@ -52,6 +52,10 @@ export class CrowdSourcedJobsCardComponent implements OnInit, OnDestroy {
     }
   }
 
+  clearSearchValue() {
+    this.handleJobSearchValueChanged('');
+  }
+
   ngOnInit(): void {
     this.selectedJobSub = this.selectedJob$.subscribe(sj => {
       this.selectedJob = sj;
