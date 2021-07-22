@@ -73,7 +73,7 @@ export class UpdateRoundingSettings implements Action {
 export class GetDistinctOverrideMessages implements Action {
   readonly type = GET_DISTINCT_OVERRIDE_MESSAGES;
 
-  constructor(public rangeGroupId: any) {}
+  constructor(public payload: { pageViewId: string, rangeGroupId: number }) {}
 }
 
 export class GetDistinctOverrideMessagesSuccess implements Action {
