@@ -104,7 +104,7 @@
   (modalDismissedEvent)="closeUploadOrgDataModal()">
 </pf-upload-org-data-modal>
 <pf-peer-trend-report-modal [selectedWorkbook]="(peerTrendsReportWorkbookAsync$ | async)?.obj"></pf-peer-trend-report-modal>
-<pf-file-download-security-warning-modal 
+<pf-file-download-security-warning-modal
   #fileDownloadSecurityWarningModal
   (securityWarningConfirmed)="handleSecurityWarningConfirmed($event)">
 </pf-file-download-security-warning-modal>

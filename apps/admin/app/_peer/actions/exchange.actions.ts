@@ -31,6 +31,7 @@ export class LoadExchangeManagementDetailsError implements Action {
 
 export class OpenToggleExchangeStatusModal implements Action {
   readonly type = OPEN_TOGGLE_EXCHANGE_STATUS_MODAL;
+  constructor(public payload: StatusEnum) {}
 }
 
 export class CloseToggleExchangeStatusModal implements Action {
