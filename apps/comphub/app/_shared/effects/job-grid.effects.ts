@@ -150,7 +150,8 @@ export class JobGridEffects {
         data.action.payload.Data.forEach((job) => {
           actions.push(new fromJobGridActions.GetCrowdSourcedJobPricing({
             jobTitle: job.JobTitle,
-            country: data.workflowContext.activeCountryDataSet.CountryName
+            country: data.workflowContext.activeCountryDataSet.CountryName,
+            paymarketId: null
           }));
         });
 
@@ -166,7 +167,7 @@ export class JobGridEffects {
         (action: fromJobGridActions.GetCrowdSourcedJobPricing) => ({action})
       ),
       mergeMap((data) => {
-          return this.comphubApiService.getCrowdSourcedJobPricing(data.action.payload.jobTitle, data.action.payload.country)
+          return this.comphubApiService.getCrowdSourcedJobPricing(data.action.payload.jobTitle, data.action.payload.country, data.action.payload.paymarketId)
             .pipe(
               map(response => {
                 const jobData = PayfactorsApiModelMapper.mapGetCrowdSourcedJobPricingResponseToJobData(response);
