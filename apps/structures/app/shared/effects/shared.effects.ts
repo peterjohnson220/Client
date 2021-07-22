@@ -22,6 +22,7 @@ import * as fromSharedStructuresActions from '../actions/shared.actions';
 import * as fromSharedStructuresReducer from '../../shared/reducers';
 import { PayfactorsApiModelMapper } from '../helpers/payfactors-api-model-mapper';
 import * as fromModelSettingsModalActions from '../actions/model-settings-modal.actions';
+import * as fromSharedActions from '../actions/shared.actions';
 
 @Injectable()
 export class SharedEffects {
@@ -97,7 +98,10 @@ export class SharedEffects {
                 [
                   new fromSharedStructuresActions.GetOverriddenRangesSuccess(response),
                   new fromPfDataGridActions.UpdateModifiedKeys(action.payload.pageViewId, response.map(o => o.CompanyStructuresRangesId)),
-                  new fromSharedStructuresActions.GetDistinctOverrideMessages(action.payload.rangeGroupId)
+                  new fromSharedStructuresActions.GetDistinctOverrideMessages({
+                    rangeGroupId: action.payload.rangeGroupId,
+                    pageViewId: action.payload.pageViewId
+                  })
                 ]),
               catchError(error => of(new fromSharedStructuresActions.GetOverriddenRangesError(error)))
             )
@@ -127,14 +131,30 @@ export class SharedEffects {
   getDistinctOverrideMessages$: Observable<Action> = this.actions$
     .pipe(
       ofType(fromSharedStructuresActions.GET_DISTINCT_OVERRIDE_MESSAGES),
-      switchMap((action: fromSharedStructuresActions.GetDistinctOverrideMessages) => {
+      mergeMap((action: fromSharedStructuresActions.GetDistinctOverrideMessages) =>
+        of(action).pipe(
+          withLatestFrom(
+            this.store.pipe(select(fromPfDataGridReducer.getBaseEntity, action.payload.pageViewId)),
+            (getAction, baseEntity) =>
+              ({ getAction, baseEntity })
+          )
+        ),
+      ),
+      switchMap((data) => {
         return this.dataViewApiService.getFilterOptions({
-          EntitySourceName: 'CompanyStructures_Ranges_Overrides', SourceName: 'OverrideMessage',
-          BaseEntityId: null, Query: null, BaseEntitySourceName: 'CompanyStructures_RangeGroup',
-          DisablePagingAndSorting: true, ApplyDefaultFilters: false,
+          EntitySourceName: 'CompanyStructures_Ranges_Overrides',
+          SourceName: 'OverrideMessage',
+          BaseEntityId: data.baseEntity.Id,
+          Query: null,
+          BaseEntitySourceName: 'CompanyStructures_RangeGroup',
+          DisablePagingAndSorting: true,
+          ApplyDefaultFilters: false,
           OptionalFilters: [{
-            SourceName: 'CompanyStructuresRangeGroup_ID', EntitySourceName: 'CompanyStructures_RangeGroup',
-            DataType: DataViewFieldDataType.Int, Operator: '=', Values: [action.rangeGroupId]
+            SourceName: 'CompanyStructuresRangeGroup_ID',
+            EntitySourceName: 'CompanyStructures_RangeGroup',
+            DataType: DataViewFieldDataType.Int,
+            Operator: '=',
+            Values: [String(data.getAction.payload.rangeGroupId)]
           }]
         })
           .pipe(
