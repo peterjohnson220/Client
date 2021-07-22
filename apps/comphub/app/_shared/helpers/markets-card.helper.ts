@@ -21,15 +21,18 @@ export class MarketsCardHelper {
         PayMarket: data.Name,
         SizeLabel: 'Employees',
         SizeValue: data.Size,
-        LinkedPayMarket: ''
+        LinkedPayMarket: '',
+        OrganizationTypeId: data.OrganizationTypeId,
+        IsGovernmentContractor: data.IsGovernmentContractor
       }
     };
   }
 
   static buildDefaultMarketDataScope(): MarketDataScope {
     return {
-      Sizes: [{Name: 'All', Value: 'All'}],
-      Industries: [{Name: 'All', Value: 'All'}]
+      Sizes: [{ Name: 'All', Value: 'All' }],
+      Industries: [{ Name: 'All', Value: 'All' }],
+      OrganizationTypes: [{ Name: 'All', Value: 'All' }]
     };
   }
 

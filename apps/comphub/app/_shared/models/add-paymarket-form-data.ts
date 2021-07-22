@@ -6,6 +6,8 @@ export interface AddPayMarketFormData {
   Industry: string;
   Size: string;
   GeoLabel: string;
+  OrganizationTypeId: number;
+  IsGovernmentContractor: boolean;
 }
 
 export function generateMockAddPayMarketFormData(): AddPayMarketFormData {
@@ -16,6 +18,8 @@ export function generateMockAddPayMarketFormData(): AddPayMarketFormData {
     Location: 'Burlington, MA',
     Industry: 'Software',
     Size: '100 - 500',
-    GeoLabel: 'CityState'
+    GeoLabel: 'CityState',
+    OrganizationTypeId: 1,
+    IsGovernmentContractor: false
   };
 }
