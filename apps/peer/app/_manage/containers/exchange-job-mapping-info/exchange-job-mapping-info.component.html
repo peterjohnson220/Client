@@ -36,7 +36,7 @@
                 <button class="unmatch float-right mr-3" (click)="handleDeleteClick()">
                   <pf-unmatch-icon></pf-unmatch-icon><span>Unmatch</span>
                 </button>
-                <button
+                <button *ngIf="(isAdminOrImpersonating$ | async) || (exchangeStatus$ | async) !== status.Preliminary"
                   class="create-project float-right mr-3"
                   [pfSecuredResource]="permissions.NEW_PROJECT"
                   (click)="handleCreateProjectClick()">

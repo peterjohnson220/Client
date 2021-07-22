@@ -11,7 +11,7 @@
         </button>
       </div>
       <div class="button-container" *ngIf="!selectedCompanyJob.IsPendingPeerUserReview && selectedCompanyJob.IsAssociated">
-        <button
+        <button *ngIf="createProjectButtonEnabled"
           class="create-project"
           [pfSecuredResource]="permissions.NEW_PROJECT"
           (click)="handleCreateProjectClick()"

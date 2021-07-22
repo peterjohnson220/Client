@@ -1,4 +1,4 @@
-import { Exchange } from 'libs/models';
+import { Exchange, StatusEnum } from 'libs/models';
 
 import * as fromExchangeActions from '../actions/exchange.actions';
 import { ExchangeManagementDetails } from '../models';
@@ -10,6 +10,7 @@ export interface State {
   isSystemExchange: boolean;
   companyCount: number;
   exchangeStatusConfirmationModalOpen: boolean;
+  selectedExchangeStatus: StatusEnum;
   updating: boolean;
   updatingError: boolean;
 }
@@ -23,7 +24,8 @@ export const initialState: State = {
   companyCount: 0,
   exchangeStatusConfirmationModalOpen: false,
   updating: false,
-  updatingError: false
+  updatingError: false,
+  selectedExchangeStatus: null
 };
 
 // Reducer
@@ -59,7 +61,8 @@ export function reducer(
     case fromExchangeActions.OPEN_TOGGLE_EXCHANGE_STATUS_MODAL: {
       return {
         ...state,
-        exchangeStatusConfirmationModalOpen: true
+        exchangeStatusConfirmationModalOpen: true,
+        selectedExchangeStatus: action.payload
       };
     }
     case fromExchangeActions.CLOSE_TOGGLE_EXCHANGE_STATUS_MODAL: {
@@ -106,3 +109,4 @@ export const getExchangeUpdating = (state: State) => state.updating;
 export const getExchangeUpdatingError = (state: State) => state.updatingError;
 export const getIsValidExchange = (state: State) => state.companyCount >= 6 || state.isSystemExchange;
 export const getCanToggleExchangeStatus = (state: State) => state.companyCount >= 6 && !state.isSystemExchange;
+export const getSelectedExchangeStatus = (state: State) => state.selectedExchangeStatus;
