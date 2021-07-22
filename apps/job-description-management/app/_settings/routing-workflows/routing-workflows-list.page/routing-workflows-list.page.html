@@ -1,5 +1,5 @@
 <div class="flex-column-container">
-  <h4> Routing Workflows </h4>
+  <h4> Workflows </h4>
   <p> Build and manage custom "Routing" workflows to better streamline the routing and approval process. </p>
 
   <div class="card flex-grow-1 d-flex">
@@ -8,7 +8,15 @@
         <pf-input-debounce [id]="'filter'" [placeholderText]="'Search Workflows'" [hideClearBtn]="true" (valueChanged)="handleSearchValueChanged($event)">
         </pf-input-debounce>
 
-        <button (click)="createWorkflow()" class="btn btn-primary align-self-center">Create Workflow</button>
+        <div ngbDropdown class="d-inline-block">
+          <button class="btn btn-primary align-self-center" ngbDropdownToggle>Create Group</button>
+          <div class="dropdown-menu" ngbDropdownMenu>
+            <button class="dropdown-item" (click)="createCollaborationWorkflow()">Collaboration
+            </button>
+            <button class="dropdown-item" (click)="createApprovalWorkflow()">Approval
+            </button>
+          </div>
+        </div>
       </div>
     </div>
     <div class="card-body">
@@ -20,13 +28,15 @@
                     <thead>
                         <tr>
                             <th>Name</th>
+                            <th>Type</th>
                             <th>Users in Workflow</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let workflowTemplate of filteredWorkflowTemplates; trackBy: trackByFunction">
-                          <td>{{workflowTemplate.Name}}</td>
+                          <td width="10%">{{workflowTemplate.Name}}</td>
+                          <td width="10%">{{workflowTemplate.Type}}</td>
                           <td width="60%"><span [innerHTML]="sanitizer.bypassSecurityTrustHtml(getUserList(workflowTemplate.Steps))"></span></td>
                           <td width="4%">
                               <div class="d-flex">

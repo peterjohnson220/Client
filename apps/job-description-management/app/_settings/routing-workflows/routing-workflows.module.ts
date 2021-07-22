@@ -14,6 +14,7 @@ import { reducers } from './reducers';
 import { RoutingWorkflowsListEffects, RoutingWorkflowsDeleteEffects, RoutingWorkflowsUpsertEffects } from './effects';
 import { RoutingWorkflowsPageComponent } from './routing-workflows-list.page';
 import { RoutingWorkflowsDeleteModalComponent, RoutingWorkflowsUpsertModalComponent } from './containers';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [RoutingWorkflowsPageComponent, RoutingWorkflowsDeleteModalComponent, RoutingWorkflowsUpsertModalComponent],
@@ -26,6 +27,7 @@ import { RoutingWorkflowsDeleteModalComponent, RoutingWorkflowsUpsertModalCompon
     FontAwesomeModule,
     StoreModule.forFeature('jobDescriptionManagement_settings_routingWorkflowsList', reducers),
     EffectsModule.forFeature([RoutingWorkflowsListEffects, RoutingWorkflowsDeleteEffects, RoutingWorkflowsUpsertEffects]),
+    NgbModule,
 
     // Payfactors
     PfCommonUIModule,
