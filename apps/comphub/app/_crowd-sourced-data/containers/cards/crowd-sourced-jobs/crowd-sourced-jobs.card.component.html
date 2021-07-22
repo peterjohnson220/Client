@@ -24,14 +24,21 @@
           </kendo-dropdownlist>
         </div>
 
-        <pf-input-debounce (valueChanged)="handleJobSearchValueChanged($event)"
-                           [delay]="1000"
-                           [placeholderText]="'Search for a Job Title...'"
-                           [focus]="false"
-                           [resetValue$]="clearSearch$"
-                           [clearButtonNoBackground]="true">
-        </pf-input-debounce>
+        <div class="search-filter">
+          <pf-input-debounce
+            [ngModel]="selectedJob$ | async"
+            [placeholderText]="'Search for a Job Title...'"
+            [delay]="1000"
+            [hideClearBtn]="true"
+            id="search-paymarkets"
+            (valueChanged)="handleJobSearchValueChanged($event)">
+          </pf-input-debounce>
 
+          <span *ngIf="selectedJob$ | async"
+            (click)="clearSearchValue()"
+            class="k-icon k-clear-value k-i-close">
+          </span>
+        </div>
       </div>
     </div>
 
