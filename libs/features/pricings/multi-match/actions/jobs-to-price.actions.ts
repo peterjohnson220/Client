@@ -2,8 +2,10 @@ import { Action } from '@ngrx/store';
 
 import { JobMatchCut } from 'libs/models/payfactors-api';
 
-import { JobToPrice, TempDataCutIdentity } from '../models';
+import { JobToPrice } from '../models';
+
 import { ProjectContext, DataCutDetails, DataCut } from '../../../surveys/survey-search/models';
+import {TempDataCutIdentity} from '../../../temp-data-cut/models';
 
 export const GET_JOBS_TO_PRICE = '[Project Add Data/Jobs to Price] Get Jobs To Price';
 export const GET_JOBS_TO_PRICE_SUCCESS = '[Project Add Data/Jobs to Price] Get Jobs To Price Success';

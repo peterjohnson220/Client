@@ -1,6 +1,6 @@
 import cloneDeep from 'lodash/cloneDeep';
 
-import { QuickPriceType } from 'libs/constants';
+import { ComphubType } from 'libs/constants';
 
 import * as fromMarketsCardActions from '../actions/markets-card.actions';
 import { PricingPaymarket, MarketDataScope, MarketDataLocation } from '../models';
@@ -74,14 +74,14 @@ export function reducer(state = initialState, action: fromMarketsCardActions.Act
 
       // Replace with 'National' paymarket (system default) if deselecting, or empty peer paymarket if client is peer and analysis.
       if (!action.payload.initialLoad && action.payload.paymarket.CompanyPayMarketId === state.selectedPaymarket.CompanyPayMarketId) {
-        if (!!action.payload.quickPriceType && action.payload.quickPriceType === QuickPriceType.PEER) {
+        if (!!action.payload.comphubType && action.payload.comphubType === ComphubType.PEER) {
           selectedPaymarket = MarketsCardHelper.buildEmptyPeerPricingPayMarket();
         } else {
           selectedPaymarket = MarketsCardHelper.buildDefaultPricingPayMarket();
         }
       }
 
-      if (action.payload.initialLoad && !!action.payload.quickPriceType && action.payload.quickPriceType === QuickPriceType.PEER) {
+      if (action.payload.initialLoad && !!action.payload.comphubType && action.payload.comphubType === ComphubType.PEER) {
         if (action.payload.paymarket == null) {
           selectedPaymarket = MarketsCardHelper.buildEmptyPeerPricingPayMarket();
         }

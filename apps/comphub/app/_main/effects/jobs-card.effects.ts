@@ -8,7 +8,7 @@ import { ComphubApiService } from 'libs/data/payfactors-api/comphub';
 import { JobSearchApiService } from 'libs/data/payfactors-api/search/jobs';
 import { ExchangeJobSearchApiService} from 'libs/data/payfactors-api/search/peer/exchange-job-search-api.service';
 import { ExchangeJobSearchOption } from 'libs/models/peer/ExchangeJobSearchOption';
-import { QuickPriceType } from 'libs/constants';
+import { ComphubType } from 'libs/constants';
 
 import * as fromJobsCardActions from '../actions/jobs-card.actions';
 import * as fromComphubPageActions from '../actions/comphub-page.actions';
@@ -27,7 +27,7 @@ export class JobsCardEffects {
       withLatestFrom(
         this.store.select(fromComphubMainReducer.getActiveCountryDataSet),
         this.store.select(fromComphubMainReducer.getActiveExchangeDataSet),
-        this.store.select(fromComphubMainReducer.getQuickPriceType),
+        this.store.select(fromComphubMainReducer.getComphubType),
         (action: fromJobsCardActions.GetTrendingJobs, activeCountryDataSet, activeExchangeDataSet, qpType) => ({
           activeCountryDataSet,
           activeExchangeDataSet,
@@ -36,12 +36,12 @@ export class JobsCardEffects {
       ),
       switchMap((data) => {
         let trendingJobs$ = of(null);
-        if (data.qpType === QuickPriceType.ENTERPRISE || data.qpType === QuickPriceType.SMALL_BUSINESS) {
+        if (data.qpType === ComphubType.ENTERPRISE || data.qpType === ComphubType.SMALL_BUSINESS) {
           const countryCode = !!data.activeCountryDataSet ? data.activeCountryDataSet.CountryCode : CountryCode.USA;
           trendingJobs$ = this.comphubApiService.getTrendingJobs(countryCode);
         }
 
-        if (data.qpType === QuickPriceType.PEER && !!data.activeExchangeDataSet) {
+        if (data.qpType === ComphubType.PEER && !!data.activeExchangeDataSet) {
           const exchangeId = data.activeExchangeDataSet.ExchangeId;
           trendingJobs$ = this.comphubApiService.getTrendingExchangeJobs(exchangeId);
         }

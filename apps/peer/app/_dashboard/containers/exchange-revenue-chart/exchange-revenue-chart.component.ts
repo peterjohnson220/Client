@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 
+import { LegendItemClickEvent } from '@progress/kendo-angular-charts';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
@@ -36,6 +37,16 @@ export class ExchangeRevenueChartComponent {
       ExchangeId: this.exchangeId,
       ChartType: ExchangeChartTypeEnum.Revenue,
       Category: e.category
+    };
+    this.store.dispatch(new fromExchangeDashboardActions.LoadDetailChart(getDetailChartRequest));
+  }
+
+  legendItemClick($event: LegendItemClickEvent) {
+    $event.preventDefault();
+    const getDetailChartRequest: GetDetailChartRequest = {
+      ExchangeId: this.exchangeId,
+      ChartType: ExchangeChartTypeEnum.Revenue,
+      Category: $event.text
     };
     this.store.dispatch(new fromExchangeDashboardActions.LoadDetailChart(getDetailChartRequest));
   }

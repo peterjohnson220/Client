@@ -1,0 +1,10 @@
+.summary-container {
+  flex-grow: 1;
+  margin-top: 2rem;
+
+  .summary {
+    margin-left: 2.5rem;
+    min-width: 550px;
+    max-width: 1500px;
+  }
+}

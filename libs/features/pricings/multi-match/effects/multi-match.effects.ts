@@ -20,9 +20,10 @@ import * as fromSurveySearchReducer from 'libs/features/surveys/survey-search/re
 import * as fromDataCutValidationActions from 'libs/features/peer/actions/data-cut-validation.actions';
 import * as fromSurveySearchFiltersActions from 'libs/features/surveys/survey-search/actions/survey-search-filters.actions';
 import * as fromSurveySearchResultsActions from 'libs/features/surveys/survey-search/actions/survey-search-results.actions';
+import * as fromTempDataCutReducer from 'libs/features/temp-data-cut/reducers';
+import * as fromTempDataCutActions from 'libs/features/temp-data-cut/actions/temp-data-cut.actions';
 
 import * as fromMultiMatchPageActions from '../actions/multi-match-page.actions';
-import * as fromTempDataCutActions from '../actions/temp-data-cut.actions';
 import { JobToPrice } from '../models';
 import * as fromMultiMatchReducer from '../reducers';
 
@@ -76,7 +77,7 @@ export class MultiMatchEffects {
         this.store.select(fromMultiMatchReducer.getJobsToPrice),
         this.store.select(fromMultiMatchReducer.getMultimatchProjectContext),
         this.store.select(fromSurveySearchReducer.getProjectSearchContext),
-        this.store.select(fromMultiMatchReducer.getTempDataCutFilterContextDictionary),
+        this.store.select(fromTempDataCutReducer.getTempDataCutFilterContextDictionary),
         (action, jobsToPrice, projectContext, projectSearchContext, tempPeerDataCutFilterContextDictionary ) =>
           ({ jobsToPrice, projectContext, projectSearchContext, tempPeerDataCutFilterContextDictionary })
       ),

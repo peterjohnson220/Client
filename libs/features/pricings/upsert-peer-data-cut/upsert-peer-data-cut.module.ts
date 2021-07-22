@@ -19,6 +19,7 @@ import { UpsertPeerDataCutEffects, RequestPeerAccessEffects } from './effects';
 import { UpsertPeerDataModalComponent } from './containers/modals/upsert-peer-data-modal';
 import {PfFormsModule} from '../../../forms';
 import {DojGuidelinesService} from '../../peer/guidelines-badge/services/doj-guidelines.service';
+import { TempDataCutModule } from '../../temp-data-cut/temp-data-cut.module';
 
 @NgModule({
   imports: [
@@ -37,7 +38,8 @@ import {DojGuidelinesService} from '../../peer/guidelines-badge/services/doj-gui
     PfCommonUIModule,
     PfExchangeExplorerModule,
     PfFormsModule,
-    GuidelinesBadgeModule
+    GuidelinesBadgeModule,
+    TempDataCutModule
   ],
   declarations: [
     UpsertPeerDataCutComponent, UpsertPeerDataModalComponent

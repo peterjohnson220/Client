@@ -2,10 +2,17 @@
 
 exports[`Comphub - Salary Bar Trend Component should display minus sign when percentage change is negative 1`] = `
 <pf-salary-trend-chart
+  Highcharts={[Function Object]}
   absoluteValueOfPercentageChange={[Function Number]}
+  categories={[Function Array]}
+  chartOptions={[Function Object]}
+  currencyPipe={[Function Object]}
+  data={[Function Array]}
+  datePipe={[Function Object]}
   isHourly="false"
   localSalaryTrendData={[Function Object]}
   salaryTrendData={[Function Object]}
+  sanitizer={[Function DomSanitizerImpl]}
 >
   <div
     data-qa-id="cht-salary-trend"
@@ -22,37 +29,30 @@ exports[`Comphub - Salary Bar Trend Component should display minus sign when per
       </span>
        1.77% 
     </div>
-    <kendo-chart>
-      <kendo-chart-legend
-        orientation="horizontal"
-        position="bottom"
-      />
-      <kendo-chart-value-axis>
-        <kendo-chart-value-axis-item />
-      </kendo-chart-value-axis>
-      <kendo-chart-category-axis>
-        <kendo-chart-category-axis-item />
-      </kendo-chart-category-axis>
-      <kendo-chart-series>
-        <kendo-chart-series-item
-          categoryfield="EffectiveDate"
-          type="area"
-        />
-      </kendo-chart-series>
-      <kendo-chart-tooltip>
-        
-      </kendo-chart-tooltip>
-    </kendo-chart>
+    <highcharts-chart
+      class="salary-chart"
+    />
+    <img
+      class="export-chart"
+      src="null"
+    />
   </div>
 </pf-salary-trend-chart>
 `;
 
 exports[`Comphub - Salary Bar Trend Component should display plus sign when percentage change is positive 1`] = `
 <pf-salary-trend-chart
+  Highcharts={[Function Object]}
   absoluteValueOfPercentageChange={[Function Number]}
+  categories={[Function Array]}
+  chartOptions={[Function Object]}
+  currencyPipe={[Function Object]}
+  data={[Function Array]}
+  datePipe={[Function Object]}
   isHourly="false"
   localSalaryTrendData={[Function Object]}
   salaryTrendData={[Function Object]}
+  sanitizer={[Function DomSanitizerImpl]}
 >
   <div
     data-qa-id="cht-salary-trend"
@@ -69,37 +69,30 @@ exports[`Comphub - Salary Bar Trend Component should display plus sign when perc
       </span>
        1.80% 
     </div>
-    <kendo-chart>
-      <kendo-chart-legend
-        orientation="horizontal"
-        position="bottom"
-      />
-      <kendo-chart-value-axis>
-        <kendo-chart-value-axis-item />
-      </kendo-chart-value-axis>
-      <kendo-chart-category-axis>
-        <kendo-chart-category-axis-item />
-      </kendo-chart-category-axis>
-      <kendo-chart-series>
-        <kendo-chart-series-item
-          categoryfield="EffectiveDate"
-          type="area"
-        />
-      </kendo-chart-series>
-      <kendo-chart-tooltip>
-        
-      </kendo-chart-tooltip>
-    </kendo-chart>
+    <highcharts-chart
+      class="salary-chart"
+    />
+    <img
+      class="export-chart"
+      src="null"
+    />
   </div>
 </pf-salary-trend-chart>
 `;
 
 exports[`Comphub - Salary Bar Trend Component should not display plus or minus sign when percentage change is 0 1`] = `
 <pf-salary-trend-chart
+  Highcharts={[Function Object]}
   absoluteValueOfPercentageChange="0"
+  categories={[Function Array]}
+  chartOptions={[Function Object]}
+  currencyPipe={[Function Object]}
+  data={[Function Array]}
+  datePipe={[Function Object]}
   isHourly="false"
   localSalaryTrendData={[Function Object]}
   salaryTrendData={[Function Object]}
+  sanitizer={[Function DomSanitizerImpl]}
 >
   <div
     data-qa-id="cht-salary-trend"
@@ -111,27 +104,13 @@ exports[`Comphub - Salary Bar Trend Component should not display plus or minus s
       
        0.00% 
     </div>
-    <kendo-chart>
-      <kendo-chart-legend
-        orientation="horizontal"
-        position="bottom"
-      />
-      <kendo-chart-value-axis>
-        <kendo-chart-value-axis-item />
-      </kendo-chart-value-axis>
-      <kendo-chart-category-axis>
-        <kendo-chart-category-axis-item />
-      </kendo-chart-category-axis>
-      <kendo-chart-series>
-        <kendo-chart-series-item
-          categoryfield="EffectiveDate"
-          type="area"
-        />
-      </kendo-chart-series>
-      <kendo-chart-tooltip>
-        
-      </kendo-chart-tooltip>
-    </kendo-chart>
+    <highcharts-chart
+      class="salary-chart"
+    />
+    <img
+      class="export-chart"
+      src="null"
+    />
   </div>
 </pf-salary-trend-chart>
 `;

@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 import { BaseExchangeDataSearchRequest } from 'libs/models/payfactors-api/peer/exchange-data-search/request';
 import { ExchangeExplorerDataCutResponse, ExchangeExplorerScopeResponse } from 'libs/models/payfactors-api/peer/exchange-data-filter';
-import { TempDataCutIdentity } from 'libs/features/pricings/multi-match/models';
+import { TempDataCutIdentity } from 'libs/features/temp-data-cut/models';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 
