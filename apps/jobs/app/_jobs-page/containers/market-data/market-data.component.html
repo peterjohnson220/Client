@@ -1,6 +1,6 @@
 <ng-container *ngIf="jobPricing?.Id > 0; else noDataTemplate">
   <pf-async-container [loading]="(pricingMatches$ | async)?.loading"></pf-async-container>
-  <ng-container *ngIf="(pricingMatches$ | async)?.obj">
+  <ng-container *ngIf="(pricingMatches$ | async)?.obj?.length; else noDataTemplate">
     <ng-container *ngFor="let job of (pricingMatches$ | async).obj; let isEven=even;">
       <div class="d-flex flex-column p-3 market-data-container" [class.gray-background]="isEven">
         <div class="d-flex align-items-center">
@@ -22,6 +22,11 @@
               </button>
               <div ngbDropdownMenu aria-labelledby="match-actions-{{job['CompanyJobs_PricingsMatches_CompanyJobPricingMatch_ID']}}">
                 <button ngbDropdownItem (click)="openMatchDetailsModal(job)">View Match Details</button>
+                <button *ngIf="isActiveJob" [pfSecuredResource]="permissions.MODIFY_PRICINGS"
+                        ngbDropdownItem
+                        (click)="openDeleteMatchModal(job)">
+                        Delete Match
+                </button>
               </div>
             </div>
           </div>
@@ -30,15 +35,15 @@
         <div class="market-data-grid pt-3">
           <kendo-grid [data]="[job]">
             <kendo-grid-column-group *ngFor="let group of fieldGroups"
-                                     [title]="group"
-                                     [headerClass]="['text-center', 'font-weight-normal', group === 'TCC' ? 'border-left' : ''].join(' ')">
+                                      [title]="group"
+                                      [headerClass]="['text-center', 'font-weight-normal', group === 'TCC' ? 'border-left' : ''].join(' ')">
               <ng-container *ngFor="let field of fields; trackBy:trackByField">
                 <kendo-grid-column *ngIf="field.Group === group"
-                                   [field]="field.KendoGridField"
-                                   [title]="field.DisplayName"
-                                   [headerClass]="['text-right', 'field-name', (field.Group === 'TCC' && field.DisplayName === '10th') ? 'border-left' : ''].join(' ')"
-                                   [class]="(field.Group === 'TCC' && field.DisplayName === '10th') ? 'border-left' : ''"
-                                   width="60">
+                                    [field]="field.KendoGridField"
+                                    [title]="field.DisplayName"
+                                    [headerClass]="['text-right', 'field-name', (field.Group === 'TCC' && field.DisplayName === '10th') ? 'border-left' : ''].join(' ')"
+                                    [class]="(field.Group === 'TCC' && field.DisplayName === '10th') ? 'border-left' : ''"
+                                    width="60">
                   <ng-template kendoGridCellTemplate let-dataItem>
                     <div class="text-right">{{dataItem[field.KendoGridField] | comp : rate | emptyPlaceholder}}</div>
                   </ng-template>

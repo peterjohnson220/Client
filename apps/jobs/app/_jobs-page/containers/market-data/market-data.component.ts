@@ -3,15 +3,21 @@ import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@
 import { ActionsSubject, Store } from '@ngrx/store';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { ofType } from '@ngrx/effects';
+import { filter } from 'rxjs/operators';
+import isEmpty from 'lodash/isEmpty';
 
 import { AsyncStateObj } from 'libs/models';
 import * as fromBasicDataGridReducer from 'libs/features/grids/basic-data-grid/reducers';
 import * as fromBasicDataGridActions from 'libs/features/grids/basic-data-grid/actions/basic-data-grid.actions';
 import * as fromMultiMatchActions from 'libs/features/pricings/multi-match/actions';
-import { BasicDataViewField, DataViewFilter } from 'libs/models/payfactors-api';
+import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
+import { BasicDataViewField, DataViewFilter, ViewField } from 'libs/models/payfactors-api';
+import { Permissions } from 'libs/constants/permissions';
 
+import * as fromJobsPageReducer from '../../reducers';
 import * as fromModifyPricingsActions from '../../actions/modify-pricings.actions';
-import { MarketDataConfig, MarketDataJobPricing } from '../../models';
+import { DeleteMatchModalData, MarketDataConfig, MarketDataJobPricing } from '../../models';
+import { PageViewIds } from '../../constants';
 
 @Component({
   selector: 'pf-market-data',
@@ -27,16 +33,22 @@ export class MarketDataComponent implements OnChanges, OnInit, OnDestroy {
   showMatchDetailsModal$: Observable<boolean>;
 
   modifyPricingsSubscription: Subscription;
+  pricingMatchesSubscription: Subscription;
+  isActiveJobSubscription: Subscription;
 
   marketDataId = MarketDataConfig.marketDataGridId;
   baseEntity = MarketDataConfig.baseEntity;
   fields = MarketDataConfig.fields;
   fieldGroups = ['Base', 'TCC'];
+  permissions = Permissions;
   rate: string;
   selectedPricingMatch: any;
+  pricingMatchesCount: number;
+  isActiveJob = true;
 
   constructor(
     private basicGridStore: Store<fromBasicDataGridReducer.State>,
+    private jobsPageStore: Store<fromJobsPageReducer.State>,
     private actionsSubject: ActionsSubject
   ) {
     this.pricingMatches$ = this.basicGridStore.select(fromBasicDataGridReducer.getData, this.marketDataId);
@@ -63,10 +75,26 @@ export class MarketDataComponent implements OnChanges, OnInit, OnDestroy {
     ).subscribe(data => {
       this.getData();
     });
+    this.pricingMatchesSubscription = this.pricingMatches$.subscribe(data => {
+      if (!data?.loading && data?.obj) {
+        this.pricingMatchesCount = data.obj.length;
+      }
+    });
+    this.isActiveJobSubscription = this.jobsPageStore
+      .select(fromPfDataGridReducer.getFields, PageViewIds.Jobs)
+      .pipe(filter(f => !isEmpty(f)))
+      .subscribe(fields => {
+        const statusFieldFilter: ViewField = fields.find(f => f.SourceName === 'JobStatus');
+        this.isActiveJob = statusFieldFilter?.FilterValues?.length > 0
+          ? statusFieldFilter.FilterValues[0] === 'true'
+          : true;
+      });
   }
 
   ngOnDestroy(): void {
     this.modifyPricingsSubscription.unsubscribe();
+    this.pricingMatchesSubscription.unsubscribe();
+    this.isActiveJobSubscription.unsubscribe();
   }
 
   trackByField(index, field: BasicDataViewField) {
@@ -81,6 +109,22 @@ export class MarketDataComponent implements OnChanges, OnInit, OnDestroy {
   closeMatchDetailsModal(): void {
     this.selectedPricingMatch = null;
     this.showMatchDetailsModal.next(false);
+  }
+
+  openDeleteMatchModal(pricingMatch: any): void {
+    const deleteModalData: DeleteMatchModalData = {
+      PricingMatchId: pricingMatch['CompanyJobs_PricingsMatches_CompanyJobPricingMatch_ID'],
+      JobTitle: this.jobPricing.JobTitle,
+      JobCode: this.jobPricing.JobCode,
+      JobId: this.jobPricing.JobId,
+      MatchJobTitle: pricingMatch['vw_PricingMatchesJobTitlesMerged_Job_Title'],
+      MatchJobCode: pricingMatch['vw_PricingMatchesJobTitlesMerged_Job_Code'],
+      PayMarket: this.jobPricing.PayMarket,
+      PayMarketId: this.jobPricing.PayMarketId,
+      EffectiveDate: this.jobPricing.JobPricingEffectiveDate,
+      PricingMatchesCount: this.pricingMatchesCount
+    };
+    this.jobsPageStore.dispatch(new fromModifyPricingsActions.SetDeleteMatchModalData(deleteModalData));
   }
 
   private initGrid(): void {

@@ -1,0 +1,72 @@
+<pf-modal-form
+  [modalId]="'job-details-delete-match-modal'"
+  [isOpen$]="showModal$"
+  [size]="'lg'"
+  [title]="'Delete Match'"
+  [primaryButtonClass]="'btn-danger'"
+  [primaryButtonText]="'Delete'"
+  [primaryButtonTextSubmitting]="'Deleting'"
+  [submitting]="(deletingPricingMatch$ | async).saving"
+  [allowDismiss]="!(deletingPricingMatch$ | async).saving"
+  (onSubmit)="handleSubmit()"
+  (onDismiss)="handleDismiss()">
+  <ng-container basic-content>
+
+    <ng-container *ngIf="modalData">
+      <div class="d-flex">
+        <div class="my-auto d-flex">
+          <div class="pr-5">
+            <span class="pr-3"><b>Job:</b></span>
+            <pf-job-title-code
+              [jobTitle]="modalData.JobTitle"
+              [jobCode]="modalData.JobCode">
+            </pf-job-title-code>
+          </div>
+          <div class="pr-5">
+            <span class="pr-3"><b>Pay Market:</b></span>
+            <span>{{modalData.PayMarket}}</span>
+          </div>
+          <div class="pr-5">
+            <span class="pr-3"><b>Effective Date:</b></span>
+            <span>{{modalData.EffectiveDate | date: 'MM/dd/yyyy'}}</span>
+          </div>
+        </div>
+      </div>
+      <br>
+      <div>
+        <div *ngIf="modalData.PricingMatchesCount !== 1">
+          <span > You are about to permanently delete the match </span>
+        <b>
+          <pf-job-title-code
+            [jobTitle]="modalData.MatchJobTitle"
+            [jobCode]="modalData.MatchJobCode">
+          </pf-job-title-code>
+        </b>.
+        This will recalculate the current pricing for
+        <b>
+          <pf-job-title-code
+            [jobTitle]="modalData.JobTitle"
+            [jobCode]="modalData.JobCode">
+          </pf-job-title-code>
+        </b>
+        in the <b>{{modalData.PayMarket}}</b> Pay Market.
+        </div>
+        <div *ngIf="modalData.PricingMatchesCount == 1">
+            <div *ngIf="previousPricingEffectiveDate">
+              You are about to delete pricing effective <b>{{modalData.EffectiveDate | date: 'MM/dd/yyyy'}}</b>.
+              The pricing from effective date <b>{{previousPricingEffectiveDate | date: 'MM/dd/yyyy'}}</b> will now become the most recent pricing. Do you want to continue?
+            </div>
+          <div *ngIf="!previousPricingEffectiveDate">
+            You are about to delete pricing effective <b>{{modalData.EffectiveDate | date: 'MM/dd/yyyy'}}</b>. There will no longer be a pricing associated with this job and pay market. Do you want to continue?
+          </div>
+        </div>
+        <br><br>
+        This action cannot be undone. Would you like to continue?
+      </div>
+      <div class="text-danger" *ngIf="(deletingPricingMatch$ | async).savingError">
+        <br>
+        We encountered an error deleting your pricing match. Please try again.
+      </div>
+    </ng-container>
+  </ng-container>
+</pf-modal-form>
