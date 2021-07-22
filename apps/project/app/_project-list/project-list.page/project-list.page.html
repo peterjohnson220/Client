@@ -37,7 +37,7 @@
     [disabled]="!(selectedRecordIds$ | async)?.length"
     [attr.data-qa-id]="'btn-projects-page-delete-projects'"
     [title]="!(selectedRecordIds$ | async)?.length ? 'No Projects Selected' : ''"
-    (click)="showDeleteProjectModal.next(true)"
+    (click)="setDeleteSource(deleteSourceOptions.GridActions)"
     [pfSecuredResource]="permissions.PRICING_PROJECTS_DELETE"
     class="btn btn-secondary pf-btn-borderless">
     <fa-icon [icon]="['far', 'trash-alt']"></fa-icon>Delete
@@ -78,7 +78,7 @@
         </button>
         <button [pfSecuredResource]="permissions.PRICING_PROJECTS_DELETE"
                 ngbDropdownItem
-                (click)="showDeleteProjectModal.next(true)">
+                (click)="setDeleteSource(deleteSourceOptions.GridRowActions)">
           <fa-icon [icon]="['far', 'trash-alt']"></fa-icon> Delete
         </button>
         <button
