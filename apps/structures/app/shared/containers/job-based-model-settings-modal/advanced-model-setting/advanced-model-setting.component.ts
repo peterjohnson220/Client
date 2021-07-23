@@ -7,9 +7,9 @@ import { Subject, Subscription } from 'rxjs';
 import { AdvancedModelSettingForm, RangeGroupMetadata } from 'libs/models/structures';
 import { MissingMarketDataTypes } from 'libs/constants/structures/missing-market-data-type';
 
-import * as fromSharedStructuresReducer from '../../../../shared/reducers';
-import * as fromModelSettingsModalActions from '../../../../shared/actions/model-settings-modal.actions';
-import { AdvancedModelingHelper } from '../../../../_job-based-range/shared/helpers/advanced-modeling.helper';
+import * as fromSharedStructuresReducer from '../../../reducers';
+import * as fromModelSettingsModalActions from '../../../actions/model-settings-modal.actions';
+import { AdvancedModelingHelper } from '../../../helpers';
 
 @Component({
   selector: 'pf-advanced-model-setting',

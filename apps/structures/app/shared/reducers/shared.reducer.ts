@@ -44,7 +44,8 @@ export function reducer(state = initialState, action: fromSharedActions.SharedAc
     case fromSharedActions.SET_METADATA_FROM_RANGE_GROUP_ID: {
       return {
         ...state,
-        loadingMetaData: true
+        loadingMetaData: true,
+        metadata: null
       };
     }
     case fromSharedActions.SET_METADATA:

@@ -12,9 +12,9 @@ import { SettingsService } from 'libs/state/app-context/services';
 import * as fromFormulaFieldActions from 'libs/ui/formula-editor/actions/formula-field.actions';
 import { CalculationType } from 'libs/constants/structures/calculation-type';
 
-import * as fromSharedStructuresReducer from '../../../../shared/reducers';
-import { ControlPoint } from '../../../../shared/models';
-import { ModelSettingsModalConstants } from '../../../../shared/constants/model-settings-modal-constants';
+import * as fromSharedStructuresReducer from '../../../reducers';
+import { ControlPoint } from '../../../models';
+import { ModelSettingsModalConstants } from '../../../constants/model-settings-modal-constants';
 
 @Component({
   selector: 'pf-range-distribution-setting',
