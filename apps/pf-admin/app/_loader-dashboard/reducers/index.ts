@@ -68,4 +68,12 @@ export const getRedropFileObj = createSelector(
 export const getIsModifiedRedropInProgress = createSelector(
   selectLoaderDashboardPageState,
   fromLoaderDashboardPageReducer.getIsModifiedRedropInProgress
-)
+);
+export const getRedropExportedSourceFileToNewDataLoad = createSelector(
+  selectLoaderDashboardPageState,
+  fromLoaderDashboardPageReducer.getRedropExportedSourceFileToNewDataLoad
+);
+export const getRedropNewDataLoadConfirmationModalOpen = createSelector(
+  selectLoaderDashboardPageState,
+  fromLoaderDashboardPageReducer.getRedropNewDataLoadConfirmationModalOpen
+);
