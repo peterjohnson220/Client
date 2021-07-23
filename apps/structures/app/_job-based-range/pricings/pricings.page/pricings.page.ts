@@ -141,7 +141,8 @@ export class PricingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     // Get all overridden ranges
     this.store.dispatch(new fromSharedStructuresActions.GetOverriddenRanges({
       pageViewId: this.modelPageViewId,
-      rangeGroupId: this.rangeGroupId
+      rangeGroupId: this.rangeGroupId,
+      ignoreGetDistinctOverrideMessages: true
     }));
   }
 

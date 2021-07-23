@@ -97,7 +97,7 @@ export class UpdateRoundingPoint implements Action {
 export class GetOverriddenRanges implements Action {
   readonly type = GET_OVERRIDDEN_RANGES;
 
-  constructor(public payload: { pageViewId: string, rangeGroupId: number }) {}
+  constructor(public payload: { pageViewId: string, rangeGroupId: number, ignoreGetDistinctOverrideMessages?: boolean }) {}
 }
 
 export class GetOverriddenRangesSuccess implements Action {
