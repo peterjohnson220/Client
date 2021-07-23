@@ -97,14 +97,6 @@ pipeline {
               octoVerSuffix = "-${teamName.substring(0,3).toUpperCase()}"
               env.buildConfig = '--configuration=staging'
 
-            } else if (env.BRANCH_NAME == 'ARCH/ARCH-440') {
-              isAutoDeployBranch = true
-              suffix = '-NetCore'
-              octoChannel = 'Elysium'
-              env.octoEnv = 'Elysium'
-              octoVerSuffix = '-EL'
-              env.buildConfig = '--configuration=staging'
-
             } else {
               isPublishable = false
               env.buildConfig = '--configuration=staging'
