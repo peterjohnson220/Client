@@ -118,6 +118,10 @@ export abstract class AbstractModelSettingsContentComponent implements OnInit, O
     }
   }
 
+  markFormDirty(): void {
+    this.modelSettingsForm.markAsDirty();
+  }
+
   protected updateRoundingPoints(value: string): void {
     const roundingPoint = value.toLowerCase() === 'hourly' ? 2 : 0;
     this.store.dispatch(new fromSharedStructuresActions.UpdateRoundingPoints({ RoundingPoint: roundingPoint }));

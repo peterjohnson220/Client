@@ -43,9 +43,15 @@ import { ModelSettingsModalComponent } from './containers/model-settings-modal/m
 import { RangeRoundingComponent } from './containers/range-rounding';
 import { PublishModelModalComponent } from './containers/publish-model-modal';
 import { DuplicateModelModalComponent } from './containers/duplicate-model-modal';
-import { GradeBasedModelSettingsContentComponent, GradeBasedModelSettingsModalComponent } from './containers';
-import { JobBasedModelSettingsContentComponent, JobBasedModelSettingsModalComponent } from './containers';
-import { AdvancedModelSettingComponent, RangeDistributionSettingComponent } from './containers';
+import {
+  GradeBasedModelSettingsContentComponent,
+  GradeBasedModelSettingsModalComponent,
+  JobBasedModelSettingsContentComponent,
+  JobBasedModelSettingsModalComponent,
+  AdvancedModelSettingComponent,
+  RangeDistributionSettingComponent,
+  StructuresFormulaEditorComponent
+} from './containers';
 
 @NgModule({
     imports: [
@@ -103,7 +109,8 @@ import { AdvancedModelSettingComponent, RangeDistributionSettingComponent } from
     JobBasedModelSettingsContentComponent,
     JobBasedModelSettingsModalComponent,
     AdvancedModelSettingComponent,
-    RangeDistributionSettingComponent
+    RangeDistributionSettingComponent,
+    StructuresFormulaEditorComponent
   ],
   exports: [
     FontAwesomeModule,
@@ -122,7 +129,8 @@ import { AdvancedModelSettingComponent, RangeDistributionSettingComponent } from
     JobBasedModelSettingsContentComponent,
     JobBasedModelSettingsModalComponent,
     AdvancedModelSettingComponent,
-    RangeDistributionSettingComponent
+    RangeDistributionSettingComponent,
+    StructuresFormulaEditorComponent
   ],
   providers: [
     RangeGroupExistsGuard,

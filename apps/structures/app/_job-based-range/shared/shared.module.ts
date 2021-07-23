@@ -20,7 +20,6 @@ import { ModelGridComponent } from './containers';
 import { PublishModelModalEffects, SharedEffects, FieldsEffects } from './effects';
 import { reducers } from './reducers';
 import * as fromFaIcons from './fa-icons';
-import { StructuresFormulaEditorComponent } from './containers/structures-formula-editor/structures-formula-editor.component';
 import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
@@ -59,8 +58,7 @@ import { SharedModule } from '../../shared/shared.module';
         NgbNavModule
     ],
   declarations: [
-    ModelGridComponent,
-    StructuresFormulaEditorComponent
+    ModelGridComponent
   ],
   exports: [
     ModelGridComponent,

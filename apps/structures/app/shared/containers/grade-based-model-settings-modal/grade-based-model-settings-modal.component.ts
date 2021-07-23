@@ -111,6 +111,8 @@ export class GradeBasedModelSettingsModalComponent extends AbstractModelSettings
       Currency: this.metaData.Currency || 'USD',
       AdjustMidpointSetting: { Type: AdjustMidpointTypes.NoChange }
     });
+    this.modelSettingsForm.markAsUntouched();
+    this.modelSettingsForm.markAsPristine();
   }
 
   private updateGrades(): void {

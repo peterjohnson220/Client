@@ -5,7 +5,7 @@
       <ng-template ngbNavContent>
         <div class="p-3 pr-5">
           <div class="form-group">
-            <label for="model-name">Model Name</label>
+            <label for="model-name">Model Name <span class="text-danger">*</span></label>
             <input type="text"
                    class="form-control"
                    id="model-name"
@@ -84,7 +84,7 @@
     <li [ngbNavItem]="'roundingTab'" id="roundingTab">
       <a ngbNavLink>Rounding</a>
       <ng-template ngbNavContent>
-        <pf-range-rounding></pf-range-rounding>
+        <pf-range-rounding (roundingChanged)="markFormDirty()"></pf-range-rounding>
       </ng-template>
     </li>
     <li [ngbNavItem]="'advancedModelingTab'" id="advancedModelingTab">

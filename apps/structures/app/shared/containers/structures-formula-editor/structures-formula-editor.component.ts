@@ -15,10 +15,9 @@ import * as fromFormulaFieldActions from 'libs/ui/formula-editor/actions/formula
 import * as fromFieldActions from 'libs/ui/formula-editor/actions/fields.actions';
 import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 
-import * as fromJobBasedRangeReducer from '../../reducers';
-import * as fromSharedReducer from '../../../../shared/reducers';
-import { PagesHelper } from '../../../../shared/helpers/pages.helper';
-import { ModelSettingsModalConstants } from '../../../../shared/constants/model-settings-modal-constants';
+import * as fromStructuresSharedReducer from '../../reducers';
+import { PagesHelper } from '../../helpers/pages.helper';
+import { ModelSettingsModalConstants } from '../../constants/model-settings-modal-constants';
 
 @Component({
   selector: 'pf-structures-formula-editor',
@@ -83,7 +82,7 @@ export class StructuresFormulaEditorComponent implements ControlValueAccessor, O
     return (this.structuresFormulaForm.get('FieldName'));
   }
 
-  constructor(public store: Store<fromJobBasedRangeReducer.State>) {
+  constructor(public store: Store<fromStructuresSharedReducer.State>) {
     this.formulaTooltip = ModelSettingsModalConstants.FORMULA_TOOL_TIP;
   }
 
@@ -99,14 +98,14 @@ export class StructuresFormulaEditorComponent implements ControlValueAccessor, O
   }
 
   ngOnInit(): void {
-    this.formulaFieldSuggestions$ = this.store.select(fromJobBasedRangeReducer.getFormulaFieldSuggestions, this.formulaFieldId);
-    this.validating$ = this.store.select(fromSharedReducer.getFormulaValidating, this.formulaFieldId);
-    this.formulaValid$ = this.store.select(fromSharedReducer.getFormulaValid, this.formulaFieldId);
-    this.savedFormulaField$ = this.store.select(fromSharedReducer.getFormulaField, this.formulaFieldId);
-    this.savingErrorMessage$ = this.store.select(fromSharedReducer.getFormulaSavingErrorMessage, this.formulaFieldId);
-    this.saveFormulaFieldError$ = this.store.select(fromSharedReducer.getFormulaSavingError, this.formulaFieldId);
-    this.saveFormulaFieldSuccess$ = this.store.select(fromSharedReducer.getFormulaSavingSuccess, this.formulaFieldId);
-    this.resetFormula$ = this.store.select(fromSharedReducer.getResetFormula, this.formulaFieldId);
+    this.formulaFieldSuggestions$ = this.store.select(fromStructuresSharedReducer.getFormulaFieldSuggestions, this.formulaFieldId);
+    this.validating$ = this.store.select(fromStructuresSharedReducer.getFormulaValidating, this.formulaFieldId);
+    this.formulaValid$ = this.store.select(fromStructuresSharedReducer.getFormulaValid, this.formulaFieldId);
+    this.savedFormulaField$ = this.store.select(fromStructuresSharedReducer.getFormulaField, this.formulaFieldId);
+    this.savingErrorMessage$ = this.store.select(fromStructuresSharedReducer.getFormulaSavingErrorMessage, this.formulaFieldId);
+    this.saveFormulaFieldError$ = this.store.select(fromStructuresSharedReducer.getFormulaSavingError, this.formulaFieldId);
+    this.saveFormulaFieldSuccess$ = this.store.select(fromStructuresSharedReducer.getFormulaSavingSuccess, this.formulaFieldId);
+    this.resetFormula$ = this.store.select(fromStructuresSharedReducer.getResetFormula, this.formulaFieldId);
 
     this.buildForm();
 

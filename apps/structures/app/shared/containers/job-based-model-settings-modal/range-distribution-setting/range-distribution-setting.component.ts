@@ -105,6 +105,40 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
       { Type: CalculationType.Spread, TypeDisplay: 'Enter Range Spread' },
       { Type: CalculationType.Percentile, TypeDisplay: 'Enter Percentile Amount' }
     ];
+    this.buildForm();
+  }
+
+  // Lifecycle
+  ngOnInit(): void {
+    this.metaDataSubscription = this.metaData$.subscribe(data => {
+      if (data) {
+        this.metadata = data;
+        this.updateForm();
+      }
+    });
+    this.subscriptions.push(
+      // any time the inner form changes update the parent of any change
+      this.rangeDistributionSettingForm.valueChanges.subscribe(value => {
+        this.onChange(value);
+        this.onTouched();
+      })
+    );
+    this.controlPointsSurveyUdfsSubscription = forkJoin([this.getControlPointsLoaded(), this.getSurveyUdfsLoaded()])
+      .subscribe(([controlPointsAsync, surveyUdfsAsync]) => {
+        this.controlPointsAsyncObj = controlPointsAsync;
+        this.surveyUdfsAsyncObj = surveyUdfsAsync;
+
+        const allControlPoints = this.controlPointsAsyncObj.obj.concat(this.surveyUdfsAsyncObj.obj);
+        this.parseControlPoints(allControlPoints);
+        this.processControlPoints();
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(s => s.unsubscribe());
+    this.unsubscribe$.next();
+    this.controlPointsSurveyUdfsSubscription.unsubscribe();
+    this.metaDataSubscription.unsubscribe();
   }
 
   get value(): RangeDistributionSettingForm {
@@ -122,36 +156,34 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
   }
 
   buildForm() {
-    this.activeRangeTypeTab = this.metadata.RangeDistributionTypes.find(t => t.Id === this.metadata.RangeDistributionTypeId).Type;
-
     this.rangeDistributionSettingForm = new FormGroup({
-      'CompanyStructuresRangeGroupId': new FormControl(this.rangeGroupId),
-      'RangeDistributionTypeId': new FormControl({ value: this.metadata.RangeDistributionTypeId, disabled: true }, [Validators.required]),
-      'PayType': new FormControl(this.metadata.PayType, [Validators.required]),
-      'Mid_Percentile': new FormControl({ value: this.metadata.ControlPoint, disabled: true }),
-      'Min_Spread': new FormControl({ value: this.metadata.SpreadMin, disabled: !this.enablePercentilesAndRangeSpreads }, [Validators.required]),
-      'Max_Spread': new FormControl({ value: this.metadata.SpreadMax, disabled: !this.enablePercentilesAndRangeSpreads }, [Validators.required]),
-      'FirstTertile_Percentile': new FormControl({ value: null, disabled: !this.enablePercentilesAndRangeSpreads }),
-      'SecondTertile_Percentile': new FormControl({ value: null, disabled: !this.enablePercentilesAndRangeSpreads }),
-      'FirstQuartile_Percentile': new FormControl({ value: null, disabled: !this.enablePercentilesAndRangeSpreads }),
-      'SecondQuartile_Percentile': new FormControl({ value: null, disabled: !this.enablePercentilesAndRangeSpreads }),
-      'FirstQuintile_Percentile': new FormControl({ value: null, disabled: !this.enablePercentilesAndRangeSpreads }),
-      'SecondQuintile_Percentile': new FormControl({ value: null, disabled: !this.enablePercentilesAndRangeSpreads }),
-      'ThirdQuintile_Percentile': new FormControl({ value: null, disabled: !this.enablePercentilesAndRangeSpreads }),
-      'FourthQuintile_Percentile': new FormControl({ value: null, disabled: !this.enablePercentilesAndRangeSpreads }),
-      'Min_Percentile': new FormControl({ value: null, disabled: !this.enablePercentilesAndRangeSpreads }),
-      'Max_Percentile': new FormControl({ value: null, disabled: !this.enablePercentilesAndRangeSpreads }),
+      'CompanyStructuresRangeGroupId': new FormControl(null),
+      'RangeDistributionTypeId': new FormControl(null, [Validators.required]),
+      'PayType': new FormControl(null, [Validators.required]),
+      'Mid_Percentile': new FormControl(null),
+      'Min_Spread': new FormControl(null, [Validators.required]),
+      'Max_Spread': new FormControl(null, [Validators.required]),
+      'FirstTertile_Percentile': new FormControl(null),
+      'SecondTertile_Percentile': new FormControl(null),
+      'FirstQuartile_Percentile': new FormControl(null),
+      'SecondQuartile_Percentile': new FormControl(null),
+      'FirstQuintile_Percentile': new FormControl(null),
+      'SecondQuintile_Percentile': new FormControl(null),
+      'ThirdQuintile_Percentile': new FormControl(null),
+      'FourthQuintile_Percentile': new FormControl(null),
+      'Min_Percentile': new FormControl(null),
+      'Max_Percentile': new FormControl(null),
       'Mid_Formula': new FormControl({ value: null }),
       'MinCalculationType': new FormControl({
         value: this.calculationTypes.find(ct => ct.Type === CalculationType.Spread),
-        disabled: !this.enablePercentilesAndRangeSpreads
+        disabled: false
       }, [Validators.required]),
       'MaxCalculationType': new FormControl({
         value: this.calculationTypes.find(ct => ct.Type === CalculationType.Spread),
-        disabled: !this.enablePercentilesAndRangeSpreads
+        disabled: false
       }, [Validators.required]),
-      'Min_Formula': new FormControl({ value: null, disabled: !this.enablePercentilesAndRangeSpreads }),
-      'Max_Formula': new FormControl({ value: null, disabled: !this.enablePercentilesAndRangeSpreads })
+      'Min_Formula': new FormControl(null),
+      'Max_Formula': new FormControl(null)
     });
 
     this.currentCalcTypes = {
@@ -166,14 +198,6 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
       'ThirdQuintile': this.quintileThirdCalculationType,
       'FourthQuintile': this.quintileFourthCalculationType
     };
-
-    if (!!this.metadata.RangeDistributionTypeId) {
-      this.setFormValidators(this.metadata.RangeDistributionTypeId, true);
-    }
-
-    if (!!this.metadata.ControlPoint || !!this.metadata.RangeDistributionSetting?.Mid_Formula) {
-      this.enablePercentilesAndRangeSpreadFields();
-    }
   }
 
   enablePercentilesAndRangeSpreadFields() {
@@ -194,7 +218,6 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
     this.rangeDistributionSettingForm.controls['MaxCalculationType'].enable();
     this.rangeDistributionSettingForm.controls['Min_Formula'].enable();
     this.rangeDistributionSettingForm.controls['Max_Formula'].enable();
-    this.enablePercentilesAndRangeSpreads = true;
   }
 
   handlePayTypeFilterChange(value: string) {
@@ -412,34 +435,6 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
     this.rangeDistributionSettingForm.get(controlName).updateValueAndValidity();
   }
 
-  // Lifecycle
-  ngOnInit(): void {
-    this.metaDataSubscription = this.metaData$.subscribe(data => {
-      if (data) {
-        this.metadata = data;
-        this.buildForm();
-        this.enablePercentilesAndRangeSpreads = (!!this.metadata.ControlPoint || !!this.metadata.RangeDistributionSetting?.Mid_Formula);
-      }
-    });
-
-    this.subscriptions.push(
-      // any time the inner form changes update the parent of any change
-      this.rangeDistributionSettingForm.valueChanges.subscribe(value => {
-        this.onChange(value);
-        this.onTouched();
-      })
-    );
-    this.controlPointsSurveyUdfsSubscription = forkJoin([this.getControlPointsLoaded(), this.getSurveyUdfsLoaded()])
-      .subscribe(([controlPointsAsync, surveyUdfsAsync]) => {
-        this.controlPointsAsyncObj = controlPointsAsync;
-        this.surveyUdfsAsyncObj = surveyUdfsAsync;
-
-        const allControlPoints = this.controlPointsAsyncObj.obj.concat(this.surveyUdfsAsyncObj.obj);
-        this.parseControlPoints(allControlPoints);
-        this.processControlPoints();
-    });
-  }
-
   private processControlPoints(): void {
     let currentControlPoint: string = null;
     let selectedCategory: string = null;
@@ -487,13 +482,6 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
       });
     });
     this.controlPoints = arr;
-  }
-
-  ngOnDestroy(): void {
-    this.subscriptions.forEach(s => s.unsubscribe());
-    this.unsubscribe$.next();
-    this.controlPointsSurveyUdfsSubscription.unsubscribe();
-    this.metaDataSubscription.unsubscribe();
   }
 
   mapToRangeDistributionSettingForm(value: RangeDistributionSettingForm): RangeDistributionSettingForm {
@@ -568,5 +556,48 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
       filter(asyncObj => !asyncObj?.loading && !!asyncObj?.obj),
       take(1)
     );
+  }
+
+  private updateForm(): void {
+    this.activeRangeTypeTab = this.metadata.RangeDistributionTypes.find(t => t.Id === this.metadata.RangeDistributionTypeId).Type;
+    this.enablePercentilesAndRangeSpreads = (!!this.metadata.ControlPoint || !!this.metadata.RangeDistributionSetting?.Mid_Formula);
+    this.rangeDistributionSettingForm.patchValue({
+      CompanyStructuresRangeGroupId: this.rangeGroupId,
+      RangeDistributionTypeId: this.metadata.RangeDistributionTypeId,
+      PayType: this.metadata.PayType,
+      Mid_Percentile: this.metadata.ControlPoint,
+      Min_Spread: this.metadata.SpreadMin,
+      Max_Spread: this.metadata.SpreadMax
+    });
+
+    if (!!this.metadata.RangeDistributionTypeId) {
+      this.setFormValidators(this.metadata.RangeDistributionTypeId, true);
+    }
+
+    if (this.enablePercentilesAndRangeSpreads) {
+      this.enablePercentilesAndRangeSpreadFields();
+    } else {
+      this.disablePercentilesAndRangeSpreadFields();
+    }
+  }
+
+  private disablePercentilesAndRangeSpreadFields(): void {
+    this.rangeDistributionSettingForm.controls['Min_Spread'].disable();
+    this.rangeDistributionSettingForm.controls['Max_Spread'].disable();
+    this.rangeDistributionSettingForm.controls['Min_Percentile'].disable();
+    this.rangeDistributionSettingForm.controls['Max_Percentile'].disable();
+    this.rangeDistributionSettingForm.controls['FirstTertile_Percentile'].disable();
+    this.rangeDistributionSettingForm.controls['SecondTertile_Percentile'].disable();
+    this.rangeDistributionSettingForm.controls['FirstQuartile_Percentile'].disable();
+    this.rangeDistributionSettingForm.controls['SecondQuartile_Percentile'].disable();
+    this.rangeDistributionSettingForm.controls['FirstQuintile_Percentile'].disable();
+    this.rangeDistributionSettingForm.controls['SecondQuintile_Percentile'].disable();
+    this.rangeDistributionSettingForm.controls['ThirdQuintile_Percentile'].disable();
+    this.rangeDistributionSettingForm.controls['FourthQuintile_Percentile'].disable();
+    this.rangeDistributionSettingForm.controls['Mid_Percentile'].disable();
+    this.rangeDistributionSettingForm.controls['MinCalculationType'].disable();
+    this.rangeDistributionSettingForm.controls['MaxCalculationType'].disable();
+    this.rangeDistributionSettingForm.controls['Min_Formula'].disable();
+    this.rangeDistributionSettingForm.controls['Max_Formula'].disable();
   }
 }
