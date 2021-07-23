@@ -9,7 +9,7 @@ import * as fromModelSettingsModalReducer from './model-settings-modal.reducer';
 import * as fromFormulaFieldReducer from './formula-field.reducer';
 import * as fromPublishModelModalReducer from './publish-model-modal.reducer';
 import * as fromDuplicateModelModalReducer from './duplicate-model-modal.reducer';
-
+import * as fromFieldsReducer from './fields.reducer';
 
 // Feature area state
 export interface StructuresSharedState {
@@ -18,6 +18,7 @@ export interface StructuresSharedState {
   formulaFields: fromFormulaFieldReducer.State;
   publishModelModal: fromPublishModelModalReducer.State;
   duplicateModelModal: fromDuplicateModelModalReducer.State;
+  fields: fromFieldsReducer.State;
 }
 
 // Extend root state with feature area state
@@ -31,7 +32,8 @@ export const reducers = {
   modelSettingsModal: fromModelSettingsModalReducer.reducer,
   formulaFields: fromFormulaFieldReducer.reducer,
   publishModelModal: fromPublishModelModalReducer.reducer,
-  duplicateModelModal: fromDuplicateModelModalReducer.reducer
+  duplicateModelModal: fromDuplicateModelModalReducer.reducer,
+  fields: fromFieldsReducer.reducer
 };
 
 // Select Feature Area
@@ -63,6 +65,11 @@ export const selectPublishModelModalState = createSelector(
 export const selectDuplicateModelModalState = createSelector(
   selectFeatureAreaState,
   (state: StructuresSharedState) => state.duplicateModelModal
+);
+
+export const selectFieldsState = createSelector(
+  selectFeatureAreaState,
+  (state: StructuresSharedState) => state.fields
 );
 
 // Shared
@@ -227,4 +234,14 @@ export const getDuplicatingModelAsyncObj = createSelector(
 
 export const getDuplicateModelNameExistsFailure = createSelector(
   selectDuplicateModelModalState, fromDuplicateModelModalReducer.getDuplicateModelNameExistsFailure
+);
+
+// Formula Fields
+export const getAvailablePricingFields = createSelector(
+  selectFieldsState, fromFieldsReducer.getReportFieldsAsync
+);
+
+export const getFormulaFieldSuggestions = createSelector(
+  selectFieldsState,
+  fromFieldsReducer.getFormulaFieldSuggestions
 );

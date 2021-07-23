@@ -11,7 +11,7 @@
   <ng-container structures-settings-modal-content>
     <div>
       <pf-async-container [loading]="loadingMetaData$ | async"></pf-async-container>
-      <pf-grade-based-model-settings-content
+      <pf-grade-based-model-settings-content *ngIf="modalOpen$ | async"
         [rangeGroupId]="rangeGroupId"
         [pageViewId]="pageViewId"
         [isNewModel]="isNewModel"

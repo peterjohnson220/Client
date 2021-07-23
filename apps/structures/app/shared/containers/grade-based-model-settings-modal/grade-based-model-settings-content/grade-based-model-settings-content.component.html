@@ -5,7 +5,7 @@
       <ng-template ngbNavContent>
         <div class="p-3 pr-5">
           <div class="form-group row">
-            <label for="model-name" class="col-3 mt-2">Model Name</label>
+            <label for="model-name" class="col-3 mt-2">Model Name <span class="text-danger">*</span></label>
             <input type="text"
                    class="form-control col-4"
                    id="model-name"
@@ -71,7 +71,7 @@
             </kendo-combobox>
           </div>
           <div class="form-group row" *ngIf="!metadata.IsCurrent">
-            <label class="col-3 mt-2" for="starting-mid">Starting Midpoint</label>
+            <label class="col-3 mt-2" for="starting-mid">Starting Midpoint <span class="text-danger">*</span></label>
             <kendo-numerictextbox class="form-control col-4 ie-fix"
                                   formControlName="StartingMidpoint"
                                   id="starting-mid"
@@ -141,7 +141,7 @@
             </div>
           </div>
           <div class="form-group row" *ngIf="!metadata.IsCurrent">
-            <label class="col-3 mt-2" for="range-spread">Range Spread %</label>
+            <label class="col-3 mt-2" for="range-spread">Range Spread % <span class="text-danger">*</span></label>
             <kendo-numerictextbox class="form-control col-4 ie-fix input-percentage-field"
                                   formControlName="RangeSpread"
                                   id="range-spread"
@@ -159,7 +159,7 @@
             </div>
           </div>
           <div class="form-group row" *ngIf="!metadata.IsCurrent">
-            <label class="col-3 mt-2 no-wrap" for="midpoint-progression">Midpoint Progression %</label>
+            <label class="col-3 mt-2 no-wrap" for="midpoint-progression">Midpoint Progression % <span class="text-danger">*</span></label>
             <kendo-numerictextbox class="form-control col-4 ie-fix input-percentage-field"
                                   formControlName="MidpointProgression"
                                   id="midpoint-progression"
@@ -216,7 +216,7 @@
     <li [ngbNavItem]="'roundingTab'" id="roundingTab">
       <a ngbNavLink>Rounding</a>
       <ng-template ngbNavContent>
-        <pf-range-rounding></pf-range-rounding>
+        <pf-range-rounding (roundingChanged)="markFormDirty()"></pf-range-rounding>
       </ng-template>
     </li>
   </ul>

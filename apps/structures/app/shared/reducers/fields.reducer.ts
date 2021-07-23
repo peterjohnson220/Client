@@ -26,8 +26,6 @@ const DEFAULT_FIELD_STATE: FieldState = {
   savingReportFieldsError: false
 };
 
-
-
 export function reducer(state = initialState, action: fromDataViewFieldsActions.Actions): State {
   switch (action.type) {
     case fromDataViewFieldsActions.GET_AVAILABLE_FIELDS_BY_TABLE: {

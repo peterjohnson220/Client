@@ -6,12 +6,10 @@ import * as fromRoot from 'libs/state/state';
 
 // Import feature reducers
 import * as fromSharedReducer from './shared.reducer';
-import * as fromFieldsReducer from './fields.reducer';
 
 // Feature area state
 export interface JobBasedRangeSharedState {
   shared: fromSharedReducer.State;
-  fields: fromFieldsReducer.State;
 }
 
 // Extend root state with feature area state
@@ -21,8 +19,7 @@ export interface State extends fromRoot.State {
 
 // Feature area reducers
 export const reducers = {
-  shared: fromSharedReducer.reducer,
-  fields: fromFieldsReducer.reducer,
+  shared: fromSharedReducer.reducer
 };
 
 // Select Feature Area
@@ -36,21 +33,5 @@ export const selectSharedState = createSelector(
   (state: JobBasedRangeSharedState) => state.shared
 );
 
-export const selectFieldsState = createSelector(
-  selectFeatureAreaState,
-  (state: JobBasedRangeSharedState) => state.fields
-);
-
-
 export const getRemovingRange = createSelector(selectSharedState, fromSharedReducer.getRemovingRange);
-
-// Formula Fields
-export const getAvailablePricingFields = createSelector(
-  selectFieldsState, fromFieldsReducer.getReportFieldsAsync
-);
-
-export const getFormulaFieldSuggestions = createSelector(
-  selectFieldsState,
-  fromFieldsReducer.getFormulaFieldSuggestions
-);
 

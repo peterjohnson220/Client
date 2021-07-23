@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
 import { Observable, Subscription } from 'rxjs';
 import { select, Store } from '@ngrx/store';
@@ -24,16 +24,18 @@ import { AbstractModelSettingsContentComponent } from '../../model-settings-moda
   styleUrls: ['./job-based-model-settings-content.component.scss']
 })
 export class JobBasedModelSettingsContentComponent extends AbstractModelSettingsContentComponent implements OnInit, OnDestroy  {
-  @Input() selectedExchange: SelectedPeerExchangeModel;
-
   @ViewChild(RangeDistributionSettingComponent, { static: false }) public rangeDistributionSettingComponent: RangeDistributionSettingComponent;
   @ViewChild(AdvancedModelSettingComponent, { static: false }) public advancedModelSettingComponent: AdvancedModelSettingComponent;
 
+  selectedPeerExchange$: Observable<SelectedPeerExchangeModel>;
+
+  selectedExchange: SelectedPeerExchangeModel;
   structureNameSuggestionsAsyncObj$: Observable<AsyncStateObj<string[]>>;
   savingModelSettingsAsyncObj$: Observable<AsyncStateObj<null>>;
 
   allFormulasSub: Subscription;
   metadataSub: Subscription;
+  selectedPeerExchangeSubscription: Subscription;
 
   modelSetting: RangeGroupMetadata;
   minSpreadTooltip: string;
@@ -62,6 +64,7 @@ export class JobBasedModelSettingsContentComponent extends AbstractModelSettings
     this.hasAcceptedPeerTermsSub = this.settingsService.selectCompanySetting<boolean>(
       CompanySettingsEnum.PeerTermsAndConditionsAccepted
     ).subscribe(x => this.hasAcceptedPeerTerms = x);
+    this.selectedPeerExchange$ = this.store.pipe(select(fromSharedStructuresReducer.getSelectedPeerExchange));
   }
 
   // Lifecycle
@@ -191,12 +194,12 @@ export class JobBasedModelSettingsContentComponent extends AbstractModelSettings
 
   private subscribe() {
     this.metadataSub = this.metaData$.subscribe(md => this.metadata = md);
-
     this.exchangeSub = this.exchanges$.subscribe(exs => {
       if (exs?.obj) {
         this.exchanges = exs.obj.map(x => ({ ExchangeId: x.Key, ExchangeName: x.Value }));
       }
     });
+    this.selectedPeerExchangeSubscription = this.selectedPeerExchange$.subscribe(exchange => this.selectedExchange = exchange);
   }
 
   private unsubscribe() {
@@ -204,5 +207,6 @@ export class JobBasedModelSettingsContentComponent extends AbstractModelSettings
     this.exchangeSub.unsubscribe();
     this.hasAcceptedPeerTermsSub.unsubscribe();
     this.metadataSub.unsubscribe();
+    this.selectedPeerExchangeSubscription.unsubscribe();
   }
 }
