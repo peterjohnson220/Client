@@ -10,7 +10,7 @@ import {
 } from 'libs/models/structures';
 import { AdjustMidpointTypes } from 'libs/constants/structures/adjust-midpoint-type';
 
-import * as fromModelSettingsModalActions from '../../../../shared/actions/model-settings-modal.actions';
+import * as fromModelSettingsModalActions from '../../../actions/model-settings-modal.actions';
 import { AbstractModelSettingsContentComponent } from '../../model-settings-modal';
 
 @Component({

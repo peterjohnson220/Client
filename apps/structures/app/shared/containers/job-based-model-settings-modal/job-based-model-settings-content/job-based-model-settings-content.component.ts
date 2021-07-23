@@ -9,11 +9,11 @@ import { GenericKeyValue } from 'libs/models/common';
 import { SettingsService } from 'libs/state/app-context/services';
 import { CompanySettingsEnum } from 'libs/models/company';
 
-import { ControlPoint, SelectedPeerExchangeModel } from '../../../../shared/models';
-import * as fromSharedStructuresReducer from '../../../../shared/reducers';
-import { ModelSettingsModalConstants } from '../../../../shared/constants/model-settings-modal-constants';
-import * as fromModelSettingsModalActions from '../../../../shared/actions/model-settings-modal.actions';
-import * as fromSharedStructuresActions from '../../../../shared/actions/shared.actions';
+import { ControlPoint, SelectedPeerExchangeModel } from '../../../models';
+import * as fromSharedStructuresReducer from '../../../reducers';
+import { ModelSettingsModalConstants } from '../../../constants/model-settings-modal-constants';
+import * as fromModelSettingsModalActions from '../../../actions/model-settings-modal.actions';
+import * as fromSharedStructuresActions from '../../../actions/shared.actions';
 import { RangeDistributionSettingComponent } from '../range-distribution-setting';
 import { AdvancedModelSettingComponent } from '../advanced-model-setting';
 import { AbstractModelSettingsContentComponent } from '../../model-settings-modal';
