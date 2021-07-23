@@ -1,0 +1,35 @@
+@import 'colors';
+
+.exchange-job-result-row {
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.exchange-job-title {
+  color: $link-color;
+  font-size: 12px;
+}
+
+.exchange-job-id{
+  color: #848484;
+  font-size: 12px;
+}
+
+.exchange-job-title-short {
+  color: #848484;
+  font-size: 12px;
+}
+
+.result{
+  padding: .75rem 1.5rem .75rem .5rem;
+  border-bottom: 1px solid $grey;
+  border-left: 3px solid transparent;
+}
+
+.result:hover{
+  border-left: 3px solid #b9d3e0;
+}
+
+.result.selected {
+  background: $selected-item-background-color;
+}

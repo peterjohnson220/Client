@@ -29,6 +29,11 @@
             <h6>{{ exchangeJob.ExchangeJobTitle }}</h6>
             <label class="text-muted mb-1">{{ exchangeJob.ExchangeJobFamily }}</label>
           </div>
+          <pf-org-weighted-nat-avg-card
+            [exchangeJobId]="exchangeJob.ExchangeJobId"
+            [showLargeCard]="true"
+            class="pr-2"
+          ></pf-org-weighted-nat-avg-card>
           <button class="associate" (click)="handleAssociationClick(exchangeJob)">
             <fa-icon icon="exchange"></fa-icon><span>Match</span>
           </button>

@@ -5,8 +5,6 @@ import { Observable, Subject, Subscription } from 'rxjs';
 
 import { SettingsService } from 'libs/state/app-context/services';
 import { CompanySettingsEnum } from 'libs/models/company';
-import { AbstractFeatureFlagService, RealTimeFlag, FeatureFlags } from 'libs/core/services/feature-flags';
-
 import * as fromRootState from '../../../../state/state';
 import * as fromHeaderActions from '../../actions/header.actions';
 import { UserContext, NavigationLink, HomePageLink } from '../../../../models';
@@ -30,7 +28,6 @@ export class LayoutWrapperComponent implements OnInit, OnDestroy {
   homePageLink$: Observable<HomePageLink>;
   requireSSOLogin$: Observable<boolean>;
   userContextSubscription: Subscription;
-  userNotificationsFeatureFlag: RealTimeFlag = { key: FeatureFlags.UserNotifications, value: false };
   unsubscribe$ = new Subject<void>();
 
   @Input() displayRightSideBar: boolean;
@@ -44,8 +41,7 @@ export class LayoutWrapperComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store<fromRootState.State>,
     private layoutStore: Store<fromLayoutReducer.LayoutWrapperState>,
-    private settingsService: SettingsService,
-    private featureFlagService: AbstractFeatureFlagService
+    private settingsService: SettingsService
   ) {
     this.userContext$ = store.select(fromRootState.getUserContext);
     this.currentYear = new Date().getFullYear();
@@ -67,8 +63,6 @@ export class LayoutWrapperComponent implements OnInit, OnDestroy {
     this.requireSSOLogin$ = this.settingsService.selectCompanySetting<boolean>(
       CompanySettingsEnum.JDMExternalWorkflowsRequireSSOLogin
     );
-
-    this.featureFlagService.bindEnabled(this.userNotificationsFeatureFlag, this.unsubscribe$);
   }
 
   ngOnInit() {

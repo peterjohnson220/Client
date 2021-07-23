@@ -77,11 +77,11 @@ export const getSurveyDataSheetName = (state: State) => {
   const setting = state.fileUploadSettings.find(x => x.KeyName === LoaderSettingKeyName.SurveyDataSheetName);
   return setting.KeyValue;
 };
-export const getSurveyParticipationSheetName = (state: State) => {
+export const getSurveyParticipantsSheetName = (state: State) => {
   if (!state.fileUploadSettings) {
     return null;
   }
-  const setting = state.fileUploadSettings.find(x => x.KeyName === LoaderSettingKeyName.SurveyParticipationSheetName);
+  const setting = state.fileUploadSettings.find(x => x.KeyName === LoaderSettingKeyName.SurveyParticipantsSheetName);
   return setting.KeyValue;
 };
 export const getValidationOnly = (state: State) => {

@@ -5,7 +5,6 @@ import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { ScrollIdConstants } from 'libs/features/search/infinite-scroll/models';
-import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
 
 import { UserNotification } from '../../models';
 import * as fromUserNotificationListReducers from '../../reducers';
@@ -24,18 +23,15 @@ export class UserNotificationListComponent implements OnInit, OnDestroy {
 
   modalNotification: UserNotification;
   userNotifications: UserNotification[];
-  userNotificationsFeatureFlag: RealTimeFlag = { key: FeatureFlags.UserNotifications, value: false };
   scrollId: string;
 
   trackByUserNotificationId: TrackByFunction<UserNotification> = (index: number, userNotification: UserNotification) => userNotification.Id;
 
   constructor(
-    private store: Store<fromUserNotificationListReducers.State>,
-    private featureFlagService: AbstractFeatureFlagService
+    private store: Store<fromUserNotificationListReducers.State>
   ) {
     this.scrollId = ScrollIdConstants.USER_NOTIFICATIONS;
     this.userNotifications$ = this.store.pipe(select(fromUserNotificationListReducers.getUserNotifications));
-    this.featureFlagService.bindEnabled(this.userNotificationsFeatureFlag, this.unsubscribe$);
   }
 
   get numberOfCurrentResults(): number {

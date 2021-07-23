@@ -55,6 +55,9 @@ exports[`ExchangeJobSearchComponent should search results when matches are found
                 ExchangeJobFamily
               </label>
             </div>
+            <pf-org-weighted-nat-avg-card
+              class="pr-2"
+            />
             <button
               class="associate"
             >

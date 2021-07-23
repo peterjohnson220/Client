@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
 import * as fromRootReducer from 'libs/state/state';
 import { UserContext } from 'libs/models/security';
 
@@ -13,12 +12,9 @@ import { UserContext } from 'libs/models/security';
   styleUrls: ['./communication-preferences.component.scss']
 })
 export class CommunicationPreferencesComponent implements OnInit {
-
-  notificationsFeatureFlagEnabled: boolean;
   userContext$: Observable<UserContext>;
 
-  constructor(private featureFlagService: AbstractFeatureFlagService, private store: Store<fromRootReducer.State>) {
-    this.notificationsFeatureFlagEnabled = this.featureFlagService.enabled(FeatureFlags.UserNotifications, false);
+  constructor(private store: Store<fromRootReducer.State>) {
     this.userContext$ = this.store.select(fromRootReducer.getUserContext);
   }
 

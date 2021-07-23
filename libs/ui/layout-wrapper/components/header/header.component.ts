@@ -17,7 +17,6 @@ export class HeaderComponent implements OnDestroy {
   @Input() userContext: UserContext;
   @Input() homePageLink: HomePageLink;
   @Input() requireSSOLogin: boolean;
-  @Input() enableUserNotifications: boolean;
 
   payscaleBrandingFeatureFlag: RealTimeFlag = { key: FeatureFlags.PayscaleBranding, value: false };
   unsubscribe$ = new Subject<void>();

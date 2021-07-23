@@ -5,7 +5,7 @@
       <div class="col-12 col-lg-6 mb-3">
         <div class="upload-survey">
           <b>Note:</b> File must be in .xlsx format and file name must begin with <b>surveys</b>. Once file is
-          uploaded, map the tabs in your file to either Survey Job, Survey Data or Survey Participation.
+          uploaded, map the tabs in your file to either Survey Job, Survey Data or Survey Participants.
         </div>
       </div>
       <div class="col-12 col-lg-6 d-flex flex-column">
@@ -62,14 +62,14 @@
           </div>
         </div>
         <div class="form-group row mb-2">
-          <label class="col-md-5 col-form-label">Survey Participation</label>
+          <label class="col-md-5 col-form-label">Survey Participants</label>
           <div class="col-md-7">
-            <div class="form-group row mb-2" *ngFor="let surveyParticipation of surveyParticipationSheetName">
+            <div class="form-group row mb-2" *ngFor="let surveyParticipants of surveyParticipantsSheetName">
               <pf-survey-loader-tab
                 [worksheetNames$]="worksheetNames$"
-                [surveySheet]="surveyParticipation"
-                (updateSurveySheetNameEvent)="updateSurveyParticipationSheetName($event, surveyParticipation.Id)"
-                (removeAdditionalDropdownEvent)="removeAdditionalDropdown(loaderSettings.SurveyParticipationSheetName, surveyParticipation.Id)">
+                [surveySheet]="surveyParticipants"
+                (updateSurveySheetNameEvent)="updateSurveyParticipantsSheetName($event, surveyParticipants.Id)"
+                (removeAdditionalDropdownEvent)="removeAdditionalDropdown(loaderSettings.SurveyParticipantsSheetName, surveyParticipants.Id)">
               </pf-survey-loader-tab>
             </div>
           </div>
@@ -77,9 +77,9 @@
         <div class="form-group row justify-content-md-end">
           <div class="col-md-5">
             <span class="map-additional-Tab"
-                  (click)="addAdditionalDropdown(loaderSettings.SurveyParticipationSheetName, surveyParticipationSheetName)"
+                  (click)="addAdditionalDropdown(loaderSettings.SurveyParticipantsSheetName, surveyParticipantsSheetName)"
                   id="map-participation-additional-tab"
-                  [ngbTooltip]="surveyParticipationSheetName.length === maxTap ? NextBtnToolTips[0] : ''">
+                  [ngbTooltip]="surveyParticipantsSheetName.length === maxTap ? NextBtnToolTips[0] : ''">
                   Map Additional Tab</span>
           </div>
         </div>

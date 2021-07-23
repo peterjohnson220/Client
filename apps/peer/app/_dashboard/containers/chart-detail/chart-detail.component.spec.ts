@@ -8,6 +8,7 @@ import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
 import { ExchangeChartTypeEnum } from 'libs/models/peer';
+import { HumanizeNumberPipe } from 'libs/core/pipes';
 
 import { ChartDetailComponent } from './chart-detail.component';
 import * as fromExchangeDashboardActions from '../../actions/exchange-dashboard.actions';
@@ -29,7 +30,8 @@ describe('Peer Dashboard - Chart Detail', () => {
         }),
       ],
       declarations: [
-        ChartDetailComponent
+        ChartDetailComponent,
+        HumanizeNumberPipe
       ],
       providers: [
         {
