@@ -22,7 +22,6 @@ import * as fromSharedStructuresActions from '../actions/shared.actions';
 import * as fromSharedStructuresReducer from '../../shared/reducers';
 import { PayfactorsApiModelMapper } from '../helpers/payfactors-api-model-mapper';
 import * as fromModelSettingsModalActions from '../actions/model-settings-modal.actions';
-import * as fromSharedActions from '../actions/shared.actions';
 
 @Injectable()
 export class SharedEffects {
@@ -94,15 +93,20 @@ export class SharedEffects {
         (action: fromSharedStructuresActions.GetOverriddenRanges) =>
           this.structureModelingApiService.getOverriddenRanges(action.payload.rangeGroupId)
             .pipe(
-              mergeMap((response) =>
-                [
-                  new fromSharedStructuresActions.GetOverriddenRangesSuccess(response),
-                  new fromPfDataGridActions.UpdateModifiedKeys(action.payload.pageViewId, response.map(o => o.CompanyStructuresRangesId)),
-                  new fromSharedStructuresActions.GetDistinctOverrideMessages({
+              mergeMap((response) => {
+                const actions = [];
+                actions.push(new fromSharedStructuresActions.GetOverriddenRangesSuccess(response));
+                actions.push(new fromPfDataGridActions.UpdateModifiedKeys(action.payload.pageViewId, response.map(o => o.CompanyStructuresRangesId)));
+
+                if (!action.payload.ignoreGetDistinctOverrideMessages) {
+                  actions.push(new fromSharedStructuresActions.GetDistinctOverrideMessages({
                     rangeGroupId: action.payload.rangeGroupId,
                     pageViewId: action.payload.pageViewId
-                  })
-                ]),
+                  }));
+                }
+
+                return actions;
+              }),
               catchError(error => of(new fromSharedStructuresActions.GetOverriddenRangesError(error)))
             )
       )
