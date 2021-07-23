@@ -495,9 +495,7 @@ export class GradeBasedHorizontalRangeChartComponent implements OnInit, OnDestro
 
     this.chartInstance.setSize(null, GraphHelper.getGbrHorizontalChartHeight(this.gradeRangeData.data), false);
 
-    // DO NOT REMOVE THIS - I know it looks stupid, but this is the only way that everything draws correctly. Trust me.
-    const overallOptions = this.chartInstance.options;
-    this.chartInstance.update(overallOptions, true);
+    GraphHelper.forceRedraw(this.chartInstance);
 
   }
 

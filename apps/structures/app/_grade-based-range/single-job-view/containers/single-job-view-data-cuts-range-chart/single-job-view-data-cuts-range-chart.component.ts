@@ -331,6 +331,8 @@ export class SingleJobViewDataCutsRangeChartComponent implements OnInit, OnDestr
       }
 
       this.chartInstance.setSize(null, GraphHelper.getDataCutChartHeight(this.dataCutData.data, this.groupFieldSelected));
+
+      GraphHelper.forceRedraw(this.chartInstance);
     }
   }
 
