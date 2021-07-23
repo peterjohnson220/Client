@@ -22,6 +22,7 @@ import { GradeRangeModelChartService, GradeRangeVerticalOrHorizontalModelChartSe
 import { SalaryRangeSeries, DataPointSeries } from '../../../../shared/models';
 import { RangeDistributionDataPointTypeIds } from '../../../../shared/constants/range-distribution-data-point-type-ids';
 import { GradePoint } from '../../models';
+import { GraphHelper } from '../../helpers/graph.helper';
 
 @Component({
   selector: 'pf-grade-based-vertical-range-chart',
@@ -495,6 +496,7 @@ export class GradeBasedVerticalRangeChartComponent implements OnInit, OnDestroy,
     });
     self.store.dispatch(new fromGradeBasedSharedActions.SetVerticalChartSvg(svgString));
 
+    GraphHelper.forceRedraw(this.chartInstance);
   }
 
   private handleJobPointClicked(point) {

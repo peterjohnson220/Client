@@ -78,4 +78,10 @@ export class GraphHelper {
     }
     return (rowHeight * dataLength) + (defaultOffset + scrollOffset);
   }
+
+  static forceRedraw(chartInstance) {
+    // DO NOT REMOVE THIS - I know it looks stupid, but this is the only way that everything draws correctly. Trust me.
+    const overallOptions = chartInstance.options;
+    chartInstance.update(overallOptions, true);
+  }
 }
