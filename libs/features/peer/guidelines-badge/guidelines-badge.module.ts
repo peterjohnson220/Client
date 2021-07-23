@@ -13,6 +13,7 @@ import {SearchFilterMappingDataObj} from '../../search/search/models';
 import {PayfactorsSearchApiHelper, PayfactorsSearchApiModelMapper} from '../../search/search/helpers';
 import * as fromFaIcons from './fa-icons';
 import {DataCutValidationEffects} from './effects/data-cut-validation.effects';
+import { TempDataCutModule } from '../../temp-data-cut/temp-data-cut.module';
 
 @NgModule({
 
@@ -20,6 +21,7 @@ import {DataCutValidationEffects} from './effects/data-cut-validation.effects';
     FontAwesomeModule,
     NgbPopoverModule,
     CommonModule,
+    TempDataCutModule,
     StoreModule.forFeature('dataCutValidation', reducers),
     EffectsModule.forFeature([
       DataCutValidationEffects

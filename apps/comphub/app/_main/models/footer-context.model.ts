@@ -10,6 +10,8 @@ export interface FooterContext {
   NextPageTitle: string;
   DisplayCancelButton: boolean;
   CancelButtonTitle?: string;
+  DisplaySaveButton: boolean;
+  SaveButtonEnabled: boolean;
 }
 
 export interface FooterContextRequest {
@@ -17,9 +19,10 @@ export interface FooterContextRequest {
   JobPricingBlocked: boolean;
   JobSelected: boolean;
   JobDataSelected: boolean;
-  IsPeerQuickPriceType: boolean;
+  IsPeerComphubType: boolean;
   ShowJobPricedHistorySummary: boolean;
   SmbLimitReached: boolean;
+  SelectedTrendId: number;
 }
 
 export class FooterHelper {
@@ -32,10 +35,12 @@ export class FooterHelper {
       PageTitle: 'Jobs',
       PreviousPageTitle: null,
       NextPageTitle: 'Markets',
-      DisplayCancelButton: cancelButtonDisplay
+      DisplayCancelButton: cancelButtonDisplay,
+      DisplaySaveButton: false,
+      SaveButtonEnabled: false
     };
   }
-  static marketsFooterContext(isPeerQuickPriceType: boolean): FooterContext {
+  static marketsFooterContext(isPeerComphubType: boolean): FooterContext {
     return {
       HideBackButton: false,
       BackButtonEnabled: true,
@@ -43,8 +48,10 @@ export class FooterHelper {
       NextButtonEnabled: true,
       PageTitle: 'Markets',
       PreviousPageTitle: 'Jobs',
-      NextPageTitle: isPeerQuickPriceType ? 'Data' : 'Summary',
-      DisplayCancelButton: true
+      NextPageTitle: isPeerComphubType ? 'Data' : 'Summary',
+      DisplayCancelButton: true,
+      DisplaySaveButton: false,
+      SaveButtonEnabled: false
     };
   }
   static dataFooterContext(jobDataSelected: boolean): FooterContext {
@@ -56,20 +63,88 @@ export class FooterHelper {
       PageTitle: 'Data',
       PreviousPageTitle: 'Markets',
       NextPageTitle: 'Summary',
-      DisplayCancelButton: true
+      DisplayCancelButton: true,
+      DisplaySaveButton: false,
+      SaveButtonEnabled: false
     };
   }
-  static summaryFooterContext(isPeerQuickPriceType: boolean, showJobPricedHistorySummary: boolean, smbLimitReached: boolean): FooterContext {
+  static summaryFooterContext(isPeerComphubType: boolean, showJobPricedHistorySummary: boolean, smbLimitReached: boolean): FooterContext {
     return {
-      HideBackButton: isPeerQuickPriceType || showJobPricedHistorySummary,
+      HideBackButton: isPeerComphubType || showJobPricedHistorySummary,
       BackButtonEnabled: !showJobPricedHistorySummary,
       HideNextButton: true,
       NextButtonEnabled: false,
       PageTitle: 'Summary',
-      PreviousPageTitle: isPeerQuickPriceType ? 'Data' : 'Markets',
+      PreviousPageTitle: isPeerComphubType ? 'Data' : 'Markets',
       NextPageTitle: null,
       DisplayCancelButton: smbLimitReached,
-      CancelButtonTitle: smbLimitReached ? 'Close' : 'Cancel'
+      CancelButtonTitle: smbLimitReached ? 'Close' : 'Cancel',
+      DisplaySaveButton: false,
+      SaveButtonEnabled: false
+    };
+  }
+
+  static trendsLandingFooterContext(trendIdIsSelected: boolean) {
+    return {
+      HideBackButton: true,
+      BackButtonEnabled: false,
+      HideNextButton: trendIdIsSelected,
+      NextButtonEnabled: true,
+      PageTitle: 'Landing',
+      PreviousPageTitle: null,
+      NextPageTitle: 'Jobs',
+      DisplayCancelButton: false,
+      CancelButtonTitle: null,
+      DisplaySaveButton: false,
+      SaveButtonEnabled: false
+    };
+  }
+
+  static trendsJobsFooterContext() {
+    return {
+      HideBackButton: false,
+      BackButtonEnabled: true,
+      HideNextButton: false,
+      NextButtonEnabled: true,
+      PageTitle: 'Jobs',
+      PreviousPageTitle: 'Landing',
+      NextPageTitle: 'Scopes',
+      DisplayCancelButton: false,
+      CancelButtonTitle: null,
+      DisplaySaveButton: false,
+      SaveButtonEnabled: false
+    };
+  }
+
+  static trendsScopesFooterContext() {
+    return {
+      HideBackButton: false,
+      BackButtonEnabled: true,
+      HideNextButton: false,
+      NextButtonEnabled: true,
+      PageTitle: 'Scopes',
+      PreviousPageTitle: 'Jobs',
+      NextPageTitle: 'Summary',
+      DisplayCancelButton: false,
+      CancelButtonTitle: null,
+      DisplaySaveButton: false,
+      SaveButtonEnabled: false
+    };
+  }
+
+  static trendsSummaryFooterContext(trendIdIsSelected: boolean) {
+    return {
+      HideBackButton: trendIdIsSelected,
+      BackButtonEnabled: true,
+      HideNextButton: true,
+      NextButtonEnabled: false,
+      PageTitle: 'Summary',
+      PreviousPageTitle: 'Scopes',
+      NextPageTitle: null,
+      DisplayCancelButton: false,
+      CancelButtonTitle: null,
+      DisplaySaveButton: !trendIdIsSelected,
+      SaveButtonEnabled: true
     };
   }
 
@@ -78,11 +153,19 @@ export class FooterHelper {
       case ComphubPages.Jobs:
         return this.jobsFooterContext(this.jobsPageNextButtonEnable(request), request.JobSelected);
       case ComphubPages.Markets:
-        return this.marketsFooterContext(request.IsPeerQuickPriceType);
+        return this.marketsFooterContext(request.IsPeerComphubType);
       case ComphubPages.Data:
         return this.dataFooterContext(request.JobDataSelected);
       case ComphubPages.Summary:
-        return this.summaryFooterContext(request.IsPeerQuickPriceType, request.ShowJobPricedHistorySummary, request.SmbLimitReached);
+        return this.summaryFooterContext(request.IsPeerComphubType, request.ShowJobPricedHistorySummary, request.SmbLimitReached);
+      case ComphubPages.TrendsLanding:
+        return this.trendsLandingFooterContext(!!request.SelectedTrendId);
+      case ComphubPages.TrendsJobs:
+        return this.trendsJobsFooterContext();
+      case ComphubPages.TrendsScopes:
+        return this.trendsScopesFooterContext();
+      case ComphubPages.TrendsSummary:
+        return this.trendsSummaryFooterContext(!!request.SelectedTrendId);
       default:
         return null;
     }
@@ -90,8 +173,8 @@ export class FooterHelper {
 
   private static jobsPageNextButtonEnable(request: FooterContextRequest): boolean {
     return !request.JobPricingBlocked &&
-           ((request.IsPeerQuickPriceType && !!request.JobSelected) ||
-            (!request.IsPeerQuickPriceType && request.JobDataSelected));
+           ((request.IsPeerComphubType && !!request.JobSelected) ||
+            (!request.IsPeerComphubType && request.JobDataSelected));
   }
 }
 
@@ -104,6 +187,8 @@ export function generateMockFooterContext(): FooterContext {
     PageTitle: 'Jobs',
     PreviousPageTitle: '',
     NextPageTitle: 'Markets',
-    DisplayCancelButton: true
+    DisplayCancelButton: true,
+    DisplaySaveButton: false,
+    SaveButtonEnabled: false
   };
 }

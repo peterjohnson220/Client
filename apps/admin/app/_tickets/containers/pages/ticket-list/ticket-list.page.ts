@@ -5,7 +5,6 @@ import { Store } from '@ngrx/store';
 import { takeUntil } from 'rxjs/operators';
 
 import { environment } from 'environments/environment';
-
 import { WindowRef } from 'libs/core/services';
 import { AppConstants } from 'libs/constants';
 

@@ -38,5 +38,5 @@ export enum LoaderSettingKeyName {
   // Survey
   SurveyJobsSheetName = 'SurveyJobsSheetName',
   SurveyDataSheetName = 'SurveyDataSheetName',
-  SurveyParticipationSheetName = 'SurveyParticipationSheetName'
+  SurveyParticipantsSheetName = 'SurveyParticipantsSheetName'
 }

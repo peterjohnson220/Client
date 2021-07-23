@@ -1,0 +1,7 @@
+<div class="card new-client-container p-3">
+  <pf-async-container [loading]="companyNames?.loading"></pf-async-container>
+  <span class="header">New Participants</span>
+  <div *ngFor="let company of companyNames?.obj" class="pb-1">
+    {{company}}
+  </div>
+</div>

@@ -1,24 +1,27 @@
 import { Component, Input, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { debounceTime, map } from 'rxjs/operators';
 
-import { QuickPriceType, SystemUserGroupNames } from 'libs/constants';
+import { ComphubType, SystemUserGroupNames } from 'libs/constants';
 import { WindowRef } from 'libs/core';
 import { UserContext } from 'libs/models/security';
 import { AsyncStateObj } from 'libs/models/state';
 import { DojGuidelinesService } from 'libs/features/peer/guidelines-badge/services/doj-guidelines.service';
+import { AppConstants } from 'libs/constants';
+import { ComphubApiService } from 'libs/data/payfactors-api/comphub';
 import * as fromRootReducer from 'libs/state/state';
 import * as fromLibsPeerExchangeExplorerReducers from 'libs/features/peer/exchange-explorer/reducers';
 import * as fromBasicDataGridReducer from 'libs/features/grids/basic-data-grid/reducers';
-import { AppConstants } from 'libs/constants';
 
+import { FooterContext, JobPricingLimitInfo, QuickPriceHistoryContext, WorkflowContext } from '../../models';
+import { ComphubPages } from '../../data';
 import * as fromComphubMainReducer from '../../reducers';
 import * as fromSummaryCardActions from '../../actions/summary-card.actions';
 import * as fromComphubPageActions from '../../actions/comphub-page.actions';
-import { FooterContext, JobPricingLimitInfo, QuickPriceHistoryContext, WorkflowContext } from '../../models';
-import { ComphubPages } from '../../data';
+import * as fromTrendsSummaryCardActions from '../../actions/trends-summary-card.actions';
 
 @Component({
   selector: 'pf-comphub-footer',
@@ -26,7 +29,7 @@ import { ComphubPages } from '../../data';
   styleUrls: ['./footer.component.scss']
 })
 export class ComphubFooterComponent implements OnInit, OnDestroy {
-  @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
+  @ViewChild('modalContent', {static: true}) modalContent: TemplateRef<any>;
   @Input() showJobHistorySummary: boolean;
 
   workflowContext$: Observable<WorkflowContext>;
@@ -39,7 +42,7 @@ export class ComphubFooterComponent implements OnInit, OnDestroy {
   countryDataSetsLoaded$: Observable<boolean>;
   jobPricingLimitInfo$: Observable<JobPricingLimitInfo>;
   userContext$: Observable<UserContext>;
-  selectedPageIdDelayed$: Observable<ComphubPages>;
+  selectedPageIdDelayed$: Observable<string>;
 
   workflowContextSub: Subscription;
   jobPricingLimitInfoSub: Subscription;
@@ -48,7 +51,7 @@ export class ComphubFooterComponent implements OnInit, OnDestroy {
 
   comphubPages = ComphubPages;
   workflowContext: WorkflowContext;
-  isPeerQuickPriceType = false;
+  isPeerComphubType = false;
   systemUserGroupNames = SystemUserGroupNames;
   jobPricingLimitInfo: JobPricingLimitInfo;
   loadingPeerMap: boolean;
@@ -74,10 +77,13 @@ export class ComphubFooterComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.store.dispatch(new fromComphubPageActions.UpdateFooterContext());
+
     this.workflowContextSub = this.workflowContext$.subscribe(wfc => {
       this.workflowContext = wfc;
-      this.isPeerQuickPriceType = wfc.quickPriceType === QuickPriceType.PEER;
+      this.isPeerComphubType = wfc.comphubType === ComphubType.PEER;
     });
+
     combineLatest([this.jobPricingBlocked$, this.workflowContext$]).pipe(
       map(([jobPricedBlocked, workflowContext]) => {
         return {
@@ -110,7 +116,7 @@ export class ComphubFooterComponent implements OnInit, OnDestroy {
   }
 
   handlePriceNewJobClicked() {
-    if (this.isPeerQuickPriceType) {
+    if (this.isPeerComphubType) {
       this.store.dispatch(new fromSummaryCardActions.PriceNewPeerJob());
     } else {
       this.store.dispatch(new fromSummaryCardActions.PriceNewJob());
@@ -124,7 +130,7 @@ export class ComphubFooterComponent implements OnInit, OnDestroy {
   handleConfirmedCloseApp() {
     let returnLocation = `/${AppConstants.HostPath}/dashboard`;
 
-    if (this.workflowContext.quickPriceType === QuickPriceType.PEER) {
+    if (this.workflowContext.comphubType === ComphubType.PEER) {
       returnLocation = `/${AppConstants.HostPath}/peer/exchanges/redirect`;
     }
 
@@ -140,10 +146,14 @@ export class ComphubFooterComponent implements OnInit, OnDestroy {
   }
 
   get nextButtonDisabled() {
-    if (this.isPeerQuickPriceType && this.workflowContext.selectedPageId === ComphubPages.Data) {
+    if (this.isPeerComphubType && this.workflowContext.selectedPageId === ComphubPages.Data) {
       return this.failsGuidelines || this.loadingPeerMap;
     } else {
       return !this.footerContext?.NextButtonEnabled;
     }
+  }
+
+  handleSaveButtonClicked() {
+    this.store.dispatch(new fromTrendsSummaryCardActions.ToggleSaveTrendModal({displayModal: true}));
   }
 }
