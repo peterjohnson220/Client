@@ -174,7 +174,8 @@ export class JobInsightsComponent implements OnChanges, OnInit, OnDestroy {
       JobId: this.jobInsights.Job.CompanyJobId,
       PayMarket: selectedPayMarket.PayMarket,
       PayMarketId: selectedPayMarket.CompanyPayMarketId,
-      JobPricingEffectiveDate: this.jobInsights.JobPricingEffectiveDate
+      JobPricingEffectiveDate: this.jobInsights.JobPricingEffectiveDate,
+      LinkedPayMarketId: selectedPayMarket.LinkedPayMarketId
     };
   }
 }

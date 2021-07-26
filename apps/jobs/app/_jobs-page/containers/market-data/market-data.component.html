@@ -21,12 +21,16 @@
                 <fa-icon icon="ellipsis-h" class="actions-button"></fa-icon>
               </button>
               <div ngbDropdownMenu aria-labelledby="match-actions-{{job['CompanyJobs_PricingsMatches_CompanyJobPricingMatch_ID']}}">
-                <button ngbDropdownItem (click)="openMatchDetailsModal(job)">View Match Details</button>
-                <button *ngIf="isActiveJob" [pfSecuredResource]="permissions.MODIFY_PRICINGS"
-                        ngbDropdownItem
-                        (click)="openDeleteMatchModal(job)">
-                        Delete Match
-                </button>
+                <button ngbDropdownItem type="button" (click)="openMatchDetailsModal(job)">View Match Details</button>
+                <span [title]="modifyMatchPermissionMessage(true)">
+                  <button [disabled]="!isActiveJob || !!jobPricing.LinkedPayMarketId"
+                          [pfSecuredResource]="permissions.MODIFY_PRICINGS"
+                          ngbDropdownItem
+                          type="button"
+                          (click)="openDeleteMatchModal(job)">
+                          Delete Match
+                  </button>
+                </span>
               </div>
             </div>
           </div>
