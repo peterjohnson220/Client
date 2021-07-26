@@ -32,7 +32,8 @@ export class PayfactorsApiModelMapper {
         TotalJobs: g.NumJobs,
         CompanyStructuresRangeGroupId: rangeGroupId,
         JobIdsToRemove: [],
-        JobIdsToAdd: []
+        JobIdsToAdd: [],
+        AssignedJobIds: g.AssignedJobIds
       };
     });
   }

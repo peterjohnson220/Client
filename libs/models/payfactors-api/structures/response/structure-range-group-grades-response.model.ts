@@ -14,4 +14,5 @@ export interface StructureRangeGroupGradesResponse {
   QuintileFourth?: number;
   CompanyStructuresGradesId: number;
   NumJobs: number;
+  AssignedJobIds: number[];
 }
