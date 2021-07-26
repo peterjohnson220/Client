@@ -13,7 +13,8 @@
     [inboundFilters]="[surveyJobFilter, matchedFilter, countriesFilter]"
     [pageable]="!gridConfig.EnableInfiniteScroll"
     [borders]="false"
-    [columnTemplates]="colTemplates">
+    [columnTemplates]="colTemplates"
+    [fieldsExcludedFromCellClick]="fieldsExcludedFromCellClick">
   </pf-data-grid>
 </ng-container>
 
@@ -30,5 +31,26 @@
 <ng-template #numericColumn let-dataRow="dataRow" let-fieldName="fieldName">
   <div pfEllipsisActive class="ellipsis-overflowing-text">
     <span [innerHTML]="dataRow[fieldName] | comp: 'Annual' : 'full' | emptyPlaceholder"></span>
+  </div>
+</ng-template>
+
+<ng-template #matchesColumn let-dataRow="dataRow" let-fieldName="fieldName">
+  <div pfEllipsisActive class="ellipsis-overflowing-text">
+    <div class="d-inline-block" ngbDropdown #p="ngbDropdown" placement="left" container="body" >
+      <p *ngIf="dataRow['SurveyData_SurveyDataMatchesCount'] > 1; else noLink" class="pf-link-hover" [id]="'surveyData' + dataRow['CompanySurveys_Survey_ID']" ngbDropdownAnchor
+         (click)="handleMatchesClicked(jobType.SurveyCut, dataRow['SurveyData_Survey_Data_ID'], '', p)">
+        {{dataRow[fieldName]}}
+      </p>
+      <div ngbDropdownMenu aria-labelledby="surveyDataMatches">
+        <ul class="list-unstyled">
+          <li *ngFor="let match of (surveyDataMatches$ | async)?.obj" ngbDropdownItem>
+            {{match}}
+          </li>
+        </ul>
+      </div>
+    </div>
+    <ng-template #noLink>
+      {{dataRow[fieldName]}}
+    </ng-template>
   </div>
 </ng-template>

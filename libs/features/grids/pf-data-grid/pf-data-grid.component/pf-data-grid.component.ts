@@ -61,6 +61,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() pagingOptions: PagingOptions;
   @Input() noRecordsFound: string;
   @Input() fieldsExcludedFromExport: [];
+  @Input() fieldsExcludedFromCellClick: [];
   @Input() compactGrid = false;
   @Input() compactGridMinHeight: string = null;
   @Input() backgroundColor: string;

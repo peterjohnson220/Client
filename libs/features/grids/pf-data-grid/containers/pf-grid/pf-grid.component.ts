@@ -90,6 +90,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   @Input() hidePageSizes = false;
   @Input() gridReplacementTemplate: TemplateRef<any>;
   @Input() displaySelectAllCheckbox = true;
+  @Input() fieldsExcludedFromCellClick = [];
   @Output() scrolled = new EventEmitter<ContentScrollEvent>();
 
 
@@ -444,7 +445,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
 
 
   onCellClick({ dataItem, rowIndex, originalEvent, column }) {
-    if (originalEvent.button !== 0 || column?.title === this.gridRowActionsConfig?.Title) {
+    if (originalEvent.button !== 0 || column?.title === this.gridRowActionsConfig?.Title || this.fieldsExcludedFromCellClick.indexOf(column.field) > -1) {
       return;
     }
 

@@ -2,6 +2,7 @@ import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } fr
 
 import { SortDescriptor } from '@progress/kendo-data-query';
 import { DropDownFilterSettings } from '@progress/kendo-angular-dropdowns';
+import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subscription } from 'rxjs';
 import { ActionsSubject, Store } from '@ngrx/store';
 import { ofType } from '@ngrx/effects';
@@ -19,12 +20,13 @@ import {
   PfDataGridCustomFilterOptions,
   PfDataGridFilter
 } from 'libs/features/grids/pf-data-grid/models';
-import { DataViewFieldDataType, ViewField } from 'libs/models/payfactors-api';
+import { DataViewFieldDataType, GetJobMatchesRequest, ViewField } from 'libs/models/payfactors-api';
 import { SurveyDataField } from 'libs/features/surveys/survey-data-fields-management/models';
 import { AsyncStateObj } from 'libs/models/state';
 import { SurveyDataCountryAccessDto } from 'libs/models/survey/survey-data-country-access-dto.model';
 import { GroupedListItem } from 'libs/models/list';
 import { SurveyInfoByCompanyDto } from 'libs/models/survey';
+import { JobTypeEnum } from 'libs/models/survey/job-type.enum';
 
 import * as fromSurveysPageReducer from '../reducers';
 import * as fromSurveysPageActions from '../actions/surveys-page.actions';
@@ -42,6 +44,8 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('historyFilter') historyFilter: ElementRef;
   @ViewChild('surveyTitleFilter') surveyTitleFilter: ElementRef;
   @ViewChild('vendorFilter') vendorFilter: ElementRef;
+  @ViewChild('matchesColumn') matchesColumn: ElementRef;
+  @ViewChild('p') dropdown: NgbDropdown;
   @ViewChild('gridGlobalActions', { static: true }) public gridGlobalActionsTemplate: ElementRef;
 
   loading$: Observable<boolean>;
@@ -52,6 +56,7 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
   openedSurveyDataGrids$: Observable<SurveyDataGrid[]>;
   expandedRows$: Observable<number[]>;
   surveyInfo$: Observable<AsyncStateObj<SurveyInfoByCompanyDto[]>>;
+  surveyJobMatches$: Observable<AsyncStateObj<string[]>>;
 
   gridFieldSubscription: Subscription;
   surveyDataGridSubscription: Subscription;
@@ -61,6 +66,7 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
   expandedRowsSubscription: Subscription;
   loadViewConfigSuccessSubscription: Subscription;
   surveyInfoSubscription: Subscription;
+  surveyJobMatchesSubscription: Subscription;
 
   inboundFilters: PfDataGridFilter[];
   pageViewId = SurveysPageConfig.SurveysPageViewId;
@@ -96,6 +102,7 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
     caseSensitive: false,
     operator: 'contains'
   };
+  colTemplates = {};
   filterTemplates = {};
   matchedFilterSelectedOption: PfDataGridCustomFilterDisplayOptions;
   countriesFilterSelectedOption: string;
@@ -113,6 +120,7 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
   surveyYearFilterField: ViewField;
   openedSurveyDataGrids: SurveyDataGrid[];
   fieldsExcludedFromExport = ['Survey_Job_ID', 'Survey_ID', 'SurveyJobMatchesCount'];
+  fieldsExcludedFromCellClick = ['CompanySurveys_SurveyJobMatchesCount'];
   defaultHistoryFilterSelectedItem: PfDataGridCustomFilterDisplayOptions = {Value: 'Most Recent', Display: 'Most Recent'};
   surveyTitleField: ViewField;
   vendorField: ViewField;
@@ -120,6 +128,8 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
   vendorOptions: GroupedListItem[];
   selectedSurveyTitles: string[];
   selectedVendors: string[];
+  jobType = JobTypeEnum;
+  selectedDropdown: NgbDropdown;
 
   constructor(
     private store: Store<fromSurveysPageReducer.State>,
@@ -160,6 +170,7 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.openedSurveyDataGrids$ = this.store.select(fromSurveysPageReducer.getOpenedSurveyDataGrids);
     this.expandedRows$ = this.store.select(fromPfDataGridReducer.getExpandedRows, this.pageViewId);
     this.surveyInfo$ = this.store.select(fromSurveysPageReducer.getSurveyInfo);
+    this.surveyJobMatches$ = this.store.select(fromSurveysPageReducer.getSurveyJobMatches);
   }
 
   ngOnInit(): void {
@@ -201,6 +212,12 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
         this.vendorOptions = this.buildGroupedListItems(si.obj.map(o => o.SurveyPublisher));
       }
     });
+    this.surveyJobMatchesSubscription = this.surveyJobMatches$.subscribe(sjm => {
+      if (sjm?.obj?.length && !!this.selectedDropdown) {
+        this.selectedDropdown.open();
+      }
+    });
+    window.addEventListener('scroll', this.scroll, true);
     this.openedSurveyDataGridsSubscription = this.openedSurveyDataGrids$.subscribe(grids => this.openedSurveyDataGrids = grids);
     this.store.dispatch(new fromSurveysPageActions.GetSurveyCountries());
     this.store.dispatch(new fromSurveysPageActions.GetSurveyYears());
@@ -221,6 +238,9 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
         'SurveyYearFilter': this.historyFilter
       }
     };
+    this.colTemplates = {
+      'SurveyJobMatchesCount': {Template: this.matchesColumn}
+    };
   }
 
   ngOnDestroy(): void {
@@ -229,6 +249,13 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.openedSurveyDataGridsSubscription.unsubscribe();
     this.expandedRowsSubscription.unsubscribe();
     this.surveyInfoSubscription.unsubscribe();
+    this.surveyJobMatchesSubscription.unsubscribe();
+  }
+
+  scroll = (): void => {
+    if (!!this.selectedDropdown) {
+      this.selectedDropdown.close();
+    }
   }
 
   handleTreeViewFilterChanged(item: GroupedListItem[], filterField: ViewField): void {
@@ -240,6 +267,19 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   viewSurveyParticipantsModal() {
     this.store.dispatch(new fromSurveyParticipationActions.OpenSurveyParticipationModal());
+  }
+
+  handleMatchesClicked(jobType: number, surveyId: number, jobCode: string, popover: any): void {
+    if (!!this.selectedDropdown) {
+      this.selectedDropdown.close();
+    }
+    this.selectedDropdown = popover;
+    const request: GetJobMatchesRequest = {
+      JobType: jobType,
+      SurveyId: surveyId,
+      JobCode: jobCode
+    };
+    this.store.dispatch(new fromSurveysPageActions.GetSurveyJobMatches(request));
   }
 
   handleMatchedFilterChanged(option: PfDataGridCustomFilterDisplayOptions): void {
