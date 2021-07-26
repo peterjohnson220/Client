@@ -21,6 +21,7 @@ export class DataViewEffects {
           BaseEntityId: action.payload.Entity.Id,
           Name: action.payload.Name,
           Summary: action.payload.Summary,
+          Scope: action.payload.Scope,
           RequiredInfo: action.payload.RequiredInfo
         })
           .pipe(

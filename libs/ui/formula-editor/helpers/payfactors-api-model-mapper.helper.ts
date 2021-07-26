@@ -11,7 +11,8 @@ import {
   PagingOptions,
   SaveUserViewFiltersRequest,
   ShareUserResponse,
-  UserDataViewResponse
+  UserDataViewResponse,
+  DataViewScope
 } from 'libs/models/payfactors-api';
 
 import { Entity, Field, FieldCreator, FieldDataType, FieldType, Filter, GetFilterOptionsData, SharedDataViewUser, UserDataView } from '../models';
@@ -26,10 +27,21 @@ export class PayfactorsApiModelMapper {
       Name: response.DataView.Name,
       Summary: response.DataView.Summary,
       UserDataViewId: response.DataView.UserDataViewId,
-      AccessLevel: response.DataView.AccessLevel
+      AccessLevel: response.DataView.AccessLevel,
+      Scope: this.mapScope(response.DataView.Type)
     };
   }
-
+  static mapScope(reportType: string): DataViewScope {
+    switch(reportType)
+    {
+      case "SiteReport":
+        return DataViewScope.Company;
+      case "PublicReport":
+        return DataViewScope.Standard;
+      default:
+          return DataViewScope.Personal;
+    }
+  }
   static createBaseEntity(id: number, name: string): Entity {
     return {
       Id: id,
@@ -246,7 +258,8 @@ export class PayfactorsApiModelMapper {
     return {
       UserDataViewId: data.UserDataViewId,
       Name: data.Name,
-      Summary: data.Summary
+      Summary: data.Summary,
+      Scope: data.Scope
     };
   }
 
