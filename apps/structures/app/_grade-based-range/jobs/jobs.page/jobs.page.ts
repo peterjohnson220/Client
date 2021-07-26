@@ -13,6 +13,7 @@ import { RangeRecalculationType } from 'libs/constants/structures/range-recalcul
 import { DataViewFilter } from 'libs/models/payfactors-api/reports/request';
 import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import { GridDataHelper } from 'libs/features/grids/pf-data-grid/helpers';
+import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
 
 import { PagesHelper } from '../../../shared/helpers/pages.helper';
 import * as fromSharedStructuresReducer from '../../../shared/reducers';
@@ -57,6 +58,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   roundingSettings: RoundingSettingsDataObj;
   gradeName = '';
   singleJobViewUrl: string;
+  hasStructuresPageFlagEnabled: boolean;
 
   filter: PfDataGridFilter;
 
@@ -69,7 +71,9 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(public store: Store<fromSharedStructuresReducer.State>,
               public route: ActivatedRoute,
+              private featureFlagService: AbstractFeatureFlagService,
               private structuresPagesService: StructuresPagesService) {
+    this.hasStructuresPageFlagEnabled = this.featureFlagService.enabled(FeatureFlags.StructuresPage, false);
     this.metaData$ = this.store.pipe(select(fromSharedStructuresReducer.getMetadata));
     this.metadataSubscription = this.metaData$.subscribe(md => {
       if (md) {

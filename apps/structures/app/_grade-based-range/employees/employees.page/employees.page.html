@@ -1,7 +1,7 @@
 <pf-data-grid
   [title]="(metaData$ | async)?.IsCurrent ? (metaData$ | async)?.StructureName : (metaData$ | async)?.ModelName"
   [subtitle]="(metaData$ | async)?.IsCurrent ? '' : 'Structure: ' + (metaData$ | async)?.StructureName"
-  [navigationURL]="'/marketdata/structures.asp'"
+  [navigationURL]="hasStructuresPageFlagEnabled ? '/client/structures' : '/marketdata/structures.asp'"
   [inboundFilters]="[filter]"
   [pageViewId]="pageViewId"
   [gridContainerSplitViewWidth]="'60%'"
