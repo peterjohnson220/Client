@@ -2,10 +2,10 @@
     <div class="form-group row">
         <div class="input-group">
           <input type="text" class="form-control" [placeholder]="'Formula Name'" [value]="formulaFieldObj.FieldName" [maxlength]="maxFieldNameLength"
-            (change)="handleFormulaNameChange()" [ngClass]="{ 'is-invalid': attemptedSubmit && formControls.FieldName.invalid }"
+            (change)="handleFormulaNameChange()" [ngClass]="{ 'is-invalid': (attemptedSubmit || formControls.FieldName?.touched) && formControls.FieldName.invalid }"
             [pfValidatable]="true" ngbAutoFocus formControlName="FieldName" name="FormulaName"/>
         </div>
-        <span *ngIf="attemptedSubmit && (formControls.FieldName.hasError('required') || formControls.FieldName.hasError('minLength'))" class="text-danger">Formula name required.</span>
+        <span *ngIf="(attemptedSubmit || formControls.FieldName?.touched) && (formControls.FieldName.hasError('required') || formControls.FieldName.hasError('minLength'))" class="text-danger">Formula name required.</span>
     </div>
     <div class="form-group no-margin-bottom row">
       <div class="input-group">

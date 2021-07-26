@@ -10,7 +10,7 @@
                    class="form-control"
                    id="model-name"
                    formControlName="ModelName"
-                   [ngClass]="{ 'is-invalid': (attemptedSubmit && !formControls.ModelName.valid) || modelNameExistsFailure }"
+                   [ngClass]="{ 'is-invalid': ((attemptedSubmit || formControls.ModelName.touched) && !formControls.ModelName.valid) || modelNameExistsFailure }"
                    [maxlength]="50"
                    (input)="clearModelNameExistsFailure()"/>
             <div class="invalid-feedback">
@@ -42,7 +42,7 @@
             <label for="currency">Currency</label>
             <kendo-combobox id="currency" class="form-control"
                             formControlName="Currency"
-                            [ngClass]="{ 'is-invalid': attemptedSubmit && !formControls.Currency.valid }"
+                            [ngClass]="{ 'is-invalid': (attemptedSubmit || formControls.Currency.touched) && !formControls.Currency.valid }"
                             [loading]="currenciesAsyncObj.loading"
                             [data]="currencies"
                             [textField]="'CurrencyDisplay'"
