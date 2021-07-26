@@ -96,6 +96,7 @@ import { ListAreaColumnSearchPipe, UserFilterSearchPipe } from './pipes';
 import { JobDescriptionDnDService, JobDescriptionVersionCompareService } from './services';
 import { ResolveHistoryListGuard, JobDescriptionJobCompareListResolver } from './guards';
 import { SharedModule } from '../shared/shared.module';
+import { WorkflowStepComponent } from './components/workflow/workflow-step/workflow-step.component';
 @NgModule({
   imports: [
     // Angular
@@ -202,7 +203,8 @@ import { SharedModule } from '../shared/shared.module';
     // Pipes
     ListAreaColumnSearchPipe,
     UserFilterSearchPipe,
-    BulkExportJobDescriptionModalComponent
+    BulkExportJobDescriptionModalComponent,
+    WorkflowStepComponent
   ],
   providers: [
     ListAreaService, ColumnResizingService, JobDescriptionVersionCompareService,

@@ -4,7 +4,9 @@
   </ng-container>
 
   <ng-container page-actions>
-    <label [pfSecuredResource]="[permissions.CAN_MANAGE_JOB_DESCRIPTION_SETTINGS]" routerLink="/settings" class="btn btn-secondary">Settings</label>
+    <label [pfSecuredResource]="[permissions.CAN_MANAGE_JOB_DESCRIPTION_SETTINGS]"
+      (click)="navigateToJdmSettings()"
+      class="btn btn-secondary">Settings</label>
     <label (click)="showAddTemplateModal()" class="btn btn-primary management-action-btn" type="submit">New Template</label>
   </ng-container>
 
