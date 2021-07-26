@@ -2,11 +2,12 @@ import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChange
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 
 import { PfValidators } from 'libs/forms/validators';
 import { KendoDropDownItem, KendoTypedDropDownItem } from 'libs/models/kendo';
-import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core';
+import { SettingsService } from 'libs/state/app-context/services';
+import { CompanySettingsEnum } from 'libs/models';
 
 import { AddPayMarketFormData, CountryDataSet, MarketDataLocation, MarketDataScope } from '../../models';
 
@@ -54,20 +55,23 @@ export class AddPayMarketFormComponent implements OnInit, OnChanges, OnDestroy {
 
   selectedLocation: MarketDataLocation;
 
-  quickPriceShowOrganizationTypeGovernmentContractorFields: RealTimeFlag = {
-    key: FeatureFlags.QuickPriceShowOrganizationTypeGovernmentContractorFields,
-    value: false
-  };
-  unsubscribe$ = new Subject<void>();
-  isCsdPage: boolean;
+  hasCrowdSourcedDataSub: Subscription;
+  hasCrowdSourcedData: boolean;
 
   constructor(
     private fb: FormBuilder,
-    private featureFlagService: AbstractFeatureFlagService,
-    private router: Router
+    private router: Router,
+    private settingsService: SettingsService
   ) {
-    this.featureFlagService.bindEnabled(this.quickPriceShowOrganizationTypeGovernmentContractorFields, this.unsubscribe$);
-    this.isCsdPage = this.router.url === '/csd';
+    this.hasCrowdSourcedDataSub = this.settingsService.selectCompanySetting<boolean>(
+      CompanySettingsEnum.CrowdSourcedData
+    ).subscribe(x => {
+      if (x !== null) {
+        this.hasCrowdSourcedData = x;
+      } else {
+        this.hasCrowdSourcedData = false;
+      }
+    });
   }
 
   ngOnInit() {
@@ -160,7 +164,7 @@ export class AddPayMarketFormComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.unsubscribe$.next();
+    this.hasCrowdSourcedDataSub.unsubscribe();
   }
 
 }
