@@ -1,5 +1,6 @@
 .step-summary-item{
   padding: 0;
+  min-width: 135px;
 }
 
 .step-summary-container .step-summary-item .progress-container{
@@ -65,24 +66,6 @@
 
 .step-summary-container .step-summary-item.rejected .dot:after{
   background-color: #eeeeee;
-}
-
-.step-summary-container .step-summary-item .owner-name{
-  color:#818a91;
-  white-space: nowrap;
-  width: 80%;
-  overflow: hidden;
-  text-overflow:ellipsis;
-  position: absolute;
-}
-.step-summary-container .step-summary-item .owner-name:hover{
-  overflow: visible;
-  z-index: 100;
-  white-space: normal;
-}
-
-.step-summary-container .step-summary-item.active .owner-name{
-  color:#373a3c;
 }
 
 .step-summary-container .step-summary-item.rejected .dot{

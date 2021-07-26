@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output } from '@angular/core';
+import groupBy from 'lodash/groupBy';
 
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
@@ -24,6 +25,7 @@ export class WorkflowWatchSidebarComponent implements OnChanges, OnInit, OnDestr
   @Input() isSiteAdmin: boolean;
   @Input() isCompanyAdmin: boolean;
   @Input () gettingJobDescriptionExtendedInfoSuccess: boolean;
+  @Input() avatarUrl: string;
   @Output() changeApproverClicked = new EventEmitter();
   @Output() copyWorkflowLinkClicked = new EventEmitter();
   @Output() emailResendClicked = new EventEmitter();
@@ -38,6 +40,7 @@ export class WorkflowWatchSidebarComponent implements OnChanges, OnInit, OnDestr
   workflowLinkSub: Subscription;
 
   workflowLink: string;
+  workflowStepSummary: any;
 
   constructor(
     private store: Store<JobDescriptionManagementJobDescriptionState>,
@@ -63,6 +66,13 @@ export class WorkflowWatchSidebarComponent implements OnChanges, OnInit, OnDestr
 
   ngOnInit() {
     this.workflowLinkSub = this.workflowLink$.subscribe(w => this.workflowLink = w);
+
+    this.workflowStepSummary$.subscribe(summary => {
+      if (summary && summary.obj) {
+        const group = groupBy(summary.obj, 'StepNumber');
+        this.workflowStepSummary = Object.values(group);
+      }
+    });
   }
 
   ngOnChanges(changes: any) {
