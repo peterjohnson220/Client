@@ -19,7 +19,7 @@
       <label class="col-3 mt-2">Select Pay Type <span class="text-danger">*</span></label>
       <kendo-combobox id="payType" class="form-control col-4"
           formControlName="PayType"
-          [ngClass]="{ 'is-invalid': attemptedSubmit && formControls.PayType.invalid }"
+          [ngClass]="{ 'is-invalid': (attemptedSubmit || formControls.PayType.touched) && formControls.PayType.invalid }"
           [loading]="controlPointsAsyncObj?.loading"
           [data]="controlPointCategory"
           [textField]="'PayTypeDisplay'"
@@ -46,7 +46,7 @@
                             id="range-spread-min"
                             placeholder="Minimum"
                             formControlName="Min_Spread"
-                            [ngClass]="{ 'is-invalid': attemptedSubmit && formControls.Min_Spread.invalid }"
+                            [ngClass]="{ 'is-invalid': (attemptedSubmit || formControls.Min_Spread.touched) && formControls.Min_Spread.invalid }"
                             [format]="'n'"
                             [spinners]="false"
                             [decimals]="2"
@@ -56,7 +56,7 @@
       </kendo-numerictextbox>
       <kendo-combobox id="min-percentile" class="form-control col-4" *ngIf="currentCalcTypes['Min'] === calculationType.Percentile"
                       formControlName="Min_Percentile"
-                      [ngClass]="{ 'is-invalid': attemptedSubmit && formControls.Min_Percentile.invalid }"
+                      [ngClass]="{ 'is-invalid': (attemptedSubmit || formControls.Min_Percentile.touched) && formControls.Min_Percentile.invalid }"
                       [loading]="controlPointsAsyncObj?.loading"
                       [data]="controlPointRanges"
                       [textField]="'RangeDisplayName'"
@@ -101,7 +101,7 @@
       <label class="col-3 mt-2">Top 1st 3rd <span class="text-danger">*</span></label>
       <kendo-combobox id="firstTertile_Percentile" class="form-control col-4"
           formControlName="FirstTertile_Percentile"
-          [ngClass]="{ 'is-invalid': attemptedSubmit && formControls.FirstTertile_Percentile.invalid, 'no-inline-links': enablePercentilesAndRangeSpreads }"
+          [ngClass]="{ 'is-invalid': (attemptedSubmit || formControls.FirstTertile_Percentile.touched) && formControls.FirstTertile_Percentile.invalid, 'no-inline-links': enablePercentilesAndRangeSpreads }"
           [loading]="controlPointsAsyncObj?.loading"
           [data]="controlPointRanges"
           [textField]="'RangeDisplayName'"
@@ -124,7 +124,7 @@
       <label class="col-3 mt-2">Top 1st 4th <span class="text-danger">*</span></label>
       <kendo-combobox id="firstQuartile_Percentile" class="form-control col-4"
           formControlName="FirstQuartile_Percentile"
-          [ngClass]="{ 'is-invalid': attemptedSubmit && formControls.FirstQuartile_Percentile.invalid, 'no-inline-links': enablePercentilesAndRangeSpreads }"
+          [ngClass]="{ 'is-invalid': (attemptedSubmit || formControls.FirstQuartile_Percentile.touched) && formControls.FirstQuartile_Percentile.invalid, 'no-inline-links': enablePercentilesAndRangeSpreads }"
           [loading]="controlPointsAsyncObj?.loading"
           [data]="controlPointRanges"
           [textField]="'RangeDisplayName'"
@@ -147,7 +147,7 @@
       <label class="col-3 mt-2">Top 1st 5th <span class="text-danger">*</span></label>
       <kendo-combobox id="firstQuintile_Percentile" class="form-control col-4"
           formControlName="FirstQuintile_Percentile"
-          [ngClass]="{ 'is-invalid': attemptedSubmit && formControls.FirstQuintile_Percentile.invalid, 'no-inline-links': enablePercentilesAndRangeSpreads }"
+          [ngClass]="{ 'is-invalid': (attemptedSubmit || formControls.FirstQuintile_Percentile.touched) && formControls.FirstQuintile_Percentile.invalid, 'no-inline-links': enablePercentilesAndRangeSpreads }"
           [loading]="controlPointsAsyncObj?.loading"
           [data]="controlPointRanges"
           [textField]="'RangeDisplayName'"
@@ -170,7 +170,7 @@
       <label class="col-3 mt-2">Top 2nd 5th <span class="text-danger">*</span></label>
       <kendo-combobox id="secondQuintile_Percentile" class="form-control col-4"
           formControlName="SecondQuintile_Percentile"
-          [ngClass]="{ 'is-invalid': attemptedSubmit && formControls.SecondQuintile_Percentile.invalid, 'no-inline-links': enablePercentilesAndRangeSpreads }"
+          [ngClass]="{ 'is-invalid': (attemptedSubmit || formControls.SecondQuintile_Percentile.touched) && formControls.SecondQuintile_Percentile.invalid, 'no-inline-links': enablePercentilesAndRangeSpreads }"
           [loading]="controlPointsAsyncObj?.loading"
           [data]="controlPointRanges"
           [textField]="'RangeDisplayName'"
@@ -193,7 +193,7 @@
       <label class="col-3 mt-2">Midpoint <span class="text-danger">*</span></label>
       <kendo-combobox id="midpoint" class="form-control col-4" *ngIf="!showMidFormula"
           formControlName="Mid_Percentile"
-          [ngClass]="{ 'is-invalid': attemptedSubmit && formControls.Mid_Percentile.invalid, 'no-inline-links': enablePercentilesAndRangeSpreads }"
+          [ngClass]="{ 'is-invalid': (attemptedSubmit || formControls.Mid_Percentile.touched) && formControls.Mid_Percentile.invalid, 'no-inline-links': enablePercentilesAndRangeSpreads }"
           [loading]="controlPointsAsyncObj?.loading"
           [data]="controlPointMidpoint"
           [textField]="'Display'"
@@ -233,7 +233,7 @@
       <label class="col-3 mt-2">Top 2nd 3rd <span class="text-danger">*</span></label>
       <kendo-combobox id="secondTertile_Percentile" class="form-control col-4"
           formControlName="SecondTertile_Percentile"
-          [ngClass]="{ 'is-invalid': attemptedSubmit && formControls.SecondTertile_Percentile.invalid, 'no-inline-links': enablePercentilesAndRangeSpreads }"
+          [ngClass]="{ 'is-invalid': (attemptedSubmit || formControls.SecondTertile_Percentile.touched) && formControls.SecondTertile_Percentile.invalid, 'no-inline-links': enablePercentilesAndRangeSpreads }"
           [loading]="controlPointsAsyncObj?.loading"
           [data]="controlPointRanges"
           [textField]="'RangeDisplayName'"
@@ -256,7 +256,7 @@
       <label class="col-3 mt-2">Top 3rd 4th <span class="text-danger">*</span></label>
       <kendo-combobox id="secondQuartile_Percentile" class="form-control col-4"
           formControlName="SecondQuartile_Percentile"
-          [ngClass]="{ 'is-invalid': attemptedSubmit && formControls.SecondQuartile_Percentile.invalid, 'no-inline-links': enablePercentilesAndRangeSpreads }"
+          [ngClass]="{ 'is-invalid': (attemptedSubmit || formControls.SecondQuartile_Percentile.touched) && formControls.SecondQuartile_Percentile.invalid, 'no-inline-links': enablePercentilesAndRangeSpreads }"
           [loading]="controlPointsAsyncObj?.loading"
           [data]="controlPointRanges"
           [textField]="'RangeDisplayName'"
@@ -279,7 +279,7 @@
       <label class="col-3 mt-2">Top 3rd 5th <span class="text-danger">*</span></label>
       <kendo-combobox id="thirdQuintile_Percentile" class="form-control col-4"
           formControlName="ThirdQuintile_Percentile"
-          [ngClass]="{ 'is-invalid': attemptedSubmit && formControls.ThirdQuintile_Percentile.invalid, 'no-inline-links': enablePercentilesAndRangeSpreads }"
+          [ngClass]="{ 'is-invalid': (attemptedSubmit || formControls.ThirdQuintile_Percentile.touched) && formControls.ThirdQuintile_Percentile.invalid, 'no-inline-links': enablePercentilesAndRangeSpreads }"
           [loading]="controlPointsAsyncObj?.loading"
           [data]="controlPointRanges"
           [textField]="'RangeDisplayName'"
@@ -302,7 +302,7 @@
       <label class="col-3 mt-2">Top 4th 5th <span class="text-danger">*</span></label>
       <kendo-combobox id="fourthQuintile_Percentile" class="form-control col-4"
           formControlName="FourthQuintile_Percentile"
-          [ngClass]="{ 'is-invalid': attemptedSubmit && formControls.FourthQuintile_Percentile.invalid, 'no-inline-links': enablePercentilesAndRangeSpreads }"
+          [ngClass]="{ 'is-invalid': (attemptedSubmit || formControls.FourthQuintile_Percentile.touched) && formControls.FourthQuintile_Percentile.invalid, 'no-inline-links': enablePercentilesAndRangeSpreads }"
           [loading]="controlPointsAsyncObj?.loading"
           [data]="controlPointRanges"
           [textField]="'RangeDisplayName'"
@@ -326,7 +326,7 @@
       <kendo-numerictextbox  class="form-control col-4"  *ngIf="currentCalcTypes['Max'] === calculationType.Spread"
                       placeholder="Maximum"
                       formControlName="Max_Spread"
-                      [ngClass]="{ 'is-invalid': attemptedSubmit && formControls.Max_Spread.invalid }"
+                      [ngClass]="{ 'is-invalid': (attemptedSubmit || formControls.Max_Spread.touched) && formControls.Max_Spread.invalid }"
                       [format]="'n'"
                       [spinners]="false"
                       [decimals]="2"
@@ -336,7 +336,7 @@
       </kendo-numerictextbox>
       <kendo-combobox id="max-percentile" class="form-control col-4" *ngIf="currentCalcTypes['Max'] === calculationType.Percentile"
                       formControlName="Max_Percentile"
-                      [ngClass]="{ 'is-invalid': attemptedSubmit && formControls.Max_Percentile.invalid }"
+                      [ngClass]="{ 'is-invalid': (attemptedSubmit || formControls.Max_Percentile.touched) && formControls.Max_Percentile.invalid }"
                       [loading]="controlPointsAsyncObj?.loading"
                       [data]="controlPointRanges"
                       [textField]="'RangeDisplayName'"

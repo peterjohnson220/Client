@@ -10,7 +10,7 @@
                    class="form-control col-4"
                    id="model-name"
                    formControlName="ModelName"
-                   [ngClass]="{ 'is-invalid': (attemptedSubmit && !formControls.ModelName.valid) || modelNameExistsFailure }"
+                   [ngClass]="{ 'is-invalid': ((attemptedSubmit || formControls.ModelName.touched) && !formControls.ModelName.valid) || modelNameExistsFailure }"
                    [maxlength]="50"
                    [pfValidatable]="true"
                    (input)="clearModelNameExistsFailure()"/>
@@ -21,11 +21,11 @@
             </div>
           </div>
           <div class="form-group row">
-            <label class="col-3 mt-2" for="num-grades"># Grades</label>
+            <label class="col-3 mt-2" for="num-grades"># Grades <span class="text-danger">*</span></label>
             <kendo-numerictextbox class="form-control col-4 ie-fix"
                                   formControlName="Grades"
                                   id="num-grades"
-                                  [ngClass]="{ 'is-invalid': (attemptedSubmit && !formControls.Grades.valid)}"
+                                  [ngClass]="{ 'is-invalid': ((attemptedSubmit || formControls.Grades.touched) && !formControls.Grades.valid)}"
                                   [format]="'n'"
                                   [spinners]="false"
                                   [min]="1"
@@ -57,7 +57,7 @@
             <label class="col-3 mt-2" for="market-based">Market Data Based On</label>
             <kendo-combobox id="market-based" class="form-control col-4"
                             formControlName="MarketDataBased"
-                            [ngClass]="{ 'is-invalid': attemptedSubmit && formControls.MarketDataBased.invalid }"
+                            [ngClass]="{ 'is-invalid': (attemptedSubmit || formControls.MarketDataBased.touched) && formControls.MarketDataBased.invalid }"
                             [loading]="controlPointsAsyncObj?.loading"
                             [data]="controlPoints"
                             [textField]="'PayTypeDisplay'"
@@ -75,7 +75,7 @@
             <kendo-numerictextbox class="form-control col-4 ie-fix"
                                   formControlName="StartingMidpoint"
                                   id="starting-mid"
-                                  [ngClass]="{ 'is-invalid': (attemptedSubmit && !formControls.StartingMidpoint.valid) }"
+                                  [ngClass]="{ 'is-invalid': ((attemptedSubmit || formControls.StartingMidpoint.touched) && !formControls.StartingMidpoint.valid) }"
                                   [format]="'n'"
                                   [spinners]="false"
                                   [decimals]="2"
@@ -114,7 +114,7 @@
                 <kendo-numerictextbox class="form-control col-4 ie-fix input-percentage-field"
                                       formControlName="Percentage"
                                       id="percentage"
-                                      [ngClass]="{ 'is-invalid': attemptedSubmit
+                                      [ngClass]="{ 'is-invalid': (attemptedSubmit || formControls.AdjustMidpointSetting?.controls?.Percentage?.touched)
                                         && !adjustMidpointSettingPercentage.valid
                                         && adjustMidpointSettingType.value === adjustMidpointMoveByType }"
                                       [format]="'n'"
@@ -145,7 +145,7 @@
             <kendo-numerictextbox class="form-control col-4 ie-fix input-percentage-field"
                                   formControlName="RangeSpread"
                                   id="range-spread"
-                                  [ngClass]="{ 'is-invalid': (attemptedSubmit && !formControls.RangeSpread.valid) }"
+                                  [ngClass]="{ 'is-invalid': ((attemptedSubmit || formControls.RangeSpread.touched) && !formControls.RangeSpread.valid) }"
                                   [format]="'n'"
                                   [spinners]="false"
                                   [decimals]="2"
@@ -163,7 +163,7 @@
             <kendo-numerictextbox class="form-control col-4 ie-fix input-percentage-field"
                                   formControlName="MidpointProgression"
                                   id="midpoint-progression"
-                                  [ngClass]="{ 'is-invalid': (attemptedSubmit && !formControls.MidpointProgression.valid)}"
+                                  [ngClass]="{ 'is-invalid': ((attemptedSubmit || formControls.MidpointProgression.touched) && !formControls.MidpointProgression.valid)}"
                                   [format]="'n'"
                                   [spinners]="false"
                                   [decimals]="2"
@@ -193,7 +193,7 @@
             <label class="col-3 mt-2" for="currency">Currency</label>
             <kendo-combobox id="currency" class="form-control col-4"
                             formControlName="Currency"
-                            [ngClass]="{ 'is-invalid': attemptedSubmit && !formControls.Currency.valid }"
+                            [ngClass]="{ 'is-invalid': (attemptedSubmit || formControls.Currency.touched) && !formControls.Currency.valid }"
                             [loading]="currenciesAsyncObj.loading"
                             [data]="currencies"
                             [textField]="'CurrencyDisplay'"
