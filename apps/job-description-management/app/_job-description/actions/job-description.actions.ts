@@ -63,6 +63,10 @@ export const GET_SSO_LOGIN_URL_SUCCESS = '[job-description-management / Job Desc
 export const LOADING_PAGE = '[job-description-management / Job Description Page] Loading Page';
 export const LOADING_PAGE_ERROR = '[job-description-management / Job Description Page] Loading Page Error';
 
+export const NAVIGATE_TO_SETTINGS_FROM_JDM_LIST = '[job-description-management / Job Description Page] Navigate to Settings From JDM List';
+export const NAVIGATE_TO_SETTINGS_FROM_TEMPLATE_LIST = '[job-description-management / Job Description Page] Navigate to Settings From Template List';
+export const NAVIGATE_TO_SETTINGS_FROM_TEMPLATE = '[job-description-management / Job Description Page] Navigate to Settings From Template';
+
 export class GetJobDescription implements Action {
   readonly type = GET_JOB_DESCRIPTION;
 
@@ -331,6 +335,19 @@ export class LoadingPageError implements Action {
   constructor(public payload: boolean) {}
 }
 
+export class NavigateToSettingsFromJdmList implements Action {
+  readonly type = NAVIGATE_TO_SETTINGS_FROM_JDM_LIST;
+}
+
+export class NavigateToSettingsFromTemplateList implements Action {
+  readonly type = NAVIGATE_TO_SETTINGS_FROM_TEMPLATE_LIST;
+}
+
+export class NavigateToSettingsFromTemplate implements Action {
+  readonly type = NAVIGATE_TO_SETTINGS_FROM_TEMPLATE;
+  constructor(public templateId: number) {}
+}
+
 export type Actions
   = GetJobDescription
   | GetJobDescriptionSuccess
@@ -378,4 +395,7 @@ export type Actions
   | GetSSOLoginUrl
   | GetSSOLoginUrlSuccess
   | LoadingPage
-  | LoadingPageError;
+  | LoadingPageError
+  | NavigateToSettingsFromJdmList
+  | NavigateToSettingsFromTemplateList
+  | NavigateToSettingsFromTemplate;

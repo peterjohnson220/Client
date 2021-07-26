@@ -10,11 +10,14 @@ import { Template, TemplateListItem } from 'libs/models';
 
 import { NewTemplateModalComponent} from '../components';
 import * as fromTemplateActions from '../../template/actions';
+import * as fromJdmSharedActions from 'libs/features/jobs/job-description-management/actions';
+
 import * as fromTemplateReducers from '../../template/reducers';
 import * as fromTemplateListActions from '../actions';
 import * as fromTemplateListReducers from '../reducers';
 import { CopyTemplateModalComponent } from '../../../shared';
 import { SaveError } from 'libs/features/jobs/job-description-management';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'pf-job-description-template-list',
@@ -36,7 +39,8 @@ export class TemplateListPageComponent implements OnInit {
   public templateDeleteModalOptions: SimpleYesNoModalOptions;
   public permissions = Permissions;
 
-  constructor(private store: Store<fromTemplateListReducers.State>) {
+  constructor(private store: Store<fromTemplateListReducers.State>,
+    private router: Router) {
     this.templateListItems$ = this.store.select(fromTemplateListReducers.getTemplatesList);
     this.templateListLoading$ = this.store.select(fromTemplateListReducers.getTemplateListLoading);
     this.templateListError$ = this.store.select(fromTemplateListReducers.getTemplateListError);
@@ -86,5 +90,10 @@ export class TemplateListPageComponent implements OnInit {
       CancelText: 'No',
       IsDelete: true
     };
+  }
+
+  navigateToJdmSettings() {
+    this.store.dispatch(new fromJdmSharedActions.NavigateToSettingsFromTemplateList());
+    this.router.navigateByUrl('/settings/job-description-views');
   }
 }

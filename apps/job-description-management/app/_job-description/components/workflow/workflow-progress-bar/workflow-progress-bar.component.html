@@ -1,29 +1,28 @@
 <div class="step-summary-container">
-  <div class="row">
+  <div class="row flex-nowrap">
     <div *ngFor="let workflowStepSummaryItem of workflowStepSummary; let i = index"
          class="col text-center step-summary-item"
-         [class.disabled]="workflowStepSummaryItem.Status == 'Pending'"
-         [class.active]="workflowStepSummaryItem.Status == 'In Progress'"
-         [class.complete]="workflowStepSummaryItem.Status == 'Complete'"
-         [class.rejected]="workflowStepSummaryItem.Status == 'Rejected'"
-         [style.width]="100/workflowStepSummary.length + '%'">
+         [class.disabled]="workflowStepSummaryItem[0].Status == 'Pending'"
+         [class.active]="workflowStepSummaryItem[0].Status == 'In Progress'"
+         [class.complete]="workflowStepSummaryItem[0].Status == 'Complete'"
+         [class.rejected]="workflowStepSummaryItem[0].Status == 'Rejected'"> 
       <div class="progress-container">
         <!--Pending-->
-        <ng-template [ngIf]="workflowStepSummaryItem.Status == 'Pending'">
+        <ng-template [ngIf]="workflowStepSummaryItem[0].Status == 'Pending'">
           <div class="progress">
             <div class="progress-bar" role="progressbar"></div>
           </div>
         </ng-template>
 
         <!--Rejected-->
-        <ng-template [ngIf]="workflowStepSummaryItem.Status == 'Rejected'">
+        <ng-template [ngIf]="workflowStepSummaryItem[0].Status == 'Rejected'">
           <div class="progress">
             <div class="progress-bar progress-rejected" role="progressbar" [style.width]="((i + 1) == workflowStepSummary.length || workflowStepSummary[i + 1]?.Status == 'Rejected') ? '100%' : '50%'"></div>
           </div>
         </ng-template>
 
         <!--In Progress -->
-        <ng-template [ngIf]="workflowStepSummaryItem.Status == 'In Progress'">
+        <ng-template [ngIf]="workflowStepSummaryItem[0].Status == 'In Progress'">
 
           <!--Next Step was rejected-->
           <ng-template [ngIf]="workflowStepSummary[i + 1]?.Status == 'Rejected'">
@@ -42,26 +41,33 @@
         </ng-template>
 
         <!--Complete-->
-        <ng-template [ngIf]="workflowStepSummaryItem.Status == 'Complete'">
+        <ng-template [ngIf]="workflowStepSummaryItem[0].Status == 'Complete'">
           <div class="progress">
             <div class="progress-bar" role="progressbar" [style.width]="'100%'"></div>
           </div>
         </ng-template>
       </div>
       <span class="dot"></span>
-      <div *ngIf="workflowStepSummaryItem.Status === 'In Progress' && (isSiteAdmin || isCompanyAdmin || hasWorkflowUserManagementPermission) && workflowStepSummaryItem.OwnersCount === 1" class="owner-name">
-        <a id="change-approver-btn" (click)="changeApproverClicked.emit({isLastStep:(i == (workflowStepSummary.length -1)), currentStepUserName: workflowStepSummaryItem.Owner})">
-          {{ workflowStepSummaryItem.Owner }}
+      <div *ngIf="workflowStepSummaryItem[0].Status === 'In Progress' && (isSiteAdmin || isCompanyAdmin || hasWorkflowUserManagementPermission) && workflowStepSummaryItem.length === 1">
+        <a id="change-approver-btn" (click)="changeApproverClicked.emit({isLastStep:(i == (workflowStepSummary.length -1)), currentStepUserName: workflowStepSummaryItem[0].Owner})">
+          <pf-workflow-step
+            [workflowStepSummary]= "workflowStepSummaryItem"
+            [avatarUrl]="avatarUrl">
+          </pf-workflow-step>
         </a>
-        <br />
-        <a *ngIf="!linkCopied" class="link-btn" (click)="copyWorkflowLink()">Copy Link</a>
-        <span *ngIf="linkCopied" class="text-muted">Link Copied</span>
-        <br />
-        <a *ngIf="!emailSent" class="link-btn" (click)="resendEmail()">Resend email</a>
-        <span *ngIf="emailSent" class="text-muted">Email sent</span>
+        <div *ngIf="!identityInWorkflow">
+          <a *ngIf="!linkCopied" class="link-btn" (click)="copyWorkflowLink()">Copy Link</a>
+          <span *ngIf="linkCopied" class="text-muted">Link Copied</span>
+          <br/>
+          <a *ngIf="!emailSent" class="link-btn" (click)="resendEmail()">Resend email</a>
+          <span *ngIf="emailSent" class="text-muted">Email sent</span>
+        </div>
       </div>
-      <div *ngIf="workflowStepSummaryItem.Status !== 'In Progress' || !(isSiteAdmin || isCompanyAdmin || hasWorkflowUserManagementPermission) || workflowStepSummaryItem.OwnersCount != 1" class="owner-name">
-        {{ workflowStepSummaryItem.Owner }}
+      <div *ngIf="workflowStepSummaryItem[0].Status !== 'In Progress' || !(isSiteAdmin || isCompanyAdmin || hasWorkflowUserManagementPermission) || workflowStepSummaryItem.length != 1">
+        <pf-workflow-step
+          [workflowStepSummary]= "workflowStepSummaryItem"
+          [avatarUrl]="avatarUrl">
+        </pf-workflow-step>
       </div>
     </div>
   </div>

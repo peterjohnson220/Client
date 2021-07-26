@@ -1,3 +1,13 @@
+
+<div class="workflow-subway-container mb-3">
+  <pf-workflow-progress-bar [workflowStepSummary]="workflowStepSummary"
+                            [loading]="(workflowStepSummaryLoading$ | async)?.loading"
+                            [isSiteAdmin]="isSiteAdmin"
+                            [isCompanyAdmin]="isCompanyAdmin"
+                            [avatarUrl]="avatarUrl"
+                            [identityInWorkflow]="true">
+  </pf-workflow-progress-bar>
+</div>
 <div class="workflow-sidebar">
   <div class="workflow-header">
     <form [formGroup]="workflowStepCommentForm" (ngSubmit)="rejectWorkflowStep()">
