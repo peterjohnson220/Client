@@ -1,0 +1,18 @@
+<pf-modal-form
+  modalId="process-confirmation-modal"
+  size="md"
+  title="Confirm Process"
+  primaryButtonText="Process"
+  secondaryButtonText="Cancel"
+  primaryButtonTextSubmitting="Processing..."
+  [isOpen$]="modalOpen$"
+  [submitting]="(isRedropInProgress$ | async).loading"
+  (onSubmit)="handleRedropConfirmation()"
+  (onDismiss)="handleDismissRedropConfirmationModal()"
+>
+  <ng-container basic-content>
+    <div class="alert alert-warning" role="alert">
+      <span>This will load all valid rows into production for the Load ID {{selectedCompositeDataLoadId}}. Are you sure?</span>
+    </div>
+  </ng-container>
+</pf-modal-form>

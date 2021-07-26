@@ -284,6 +284,7 @@ export class TemplatePageComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   handleExportSettingsClick() {
+    this.store.dispatch(new fromJdmSharedActions.NavigateToSettingsFromTemplate(this.template.TemplateId));
     this.router.navigate(['settings/job-description-views'], { queryParams: { templateId: this.template.TemplateId } });
   }
 
@@ -382,6 +383,7 @@ export class TemplatePageComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   manageControlsClick() {
+    this.store.dispatch(new fromJdmSharedActions.NavigateToSettingsFromTemplate(this.templateId));
     this.router.navigate([`settings/company-controls`]);
   }
   //#endregion Events

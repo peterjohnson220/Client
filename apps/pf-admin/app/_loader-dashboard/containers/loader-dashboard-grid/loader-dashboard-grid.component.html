@@ -17,7 +17,24 @@
     (dataStateChange)="dataStateChange($event)"
     [rowClass]="rowCallback"
   >
-    <kendo-grid-column field="compositeDataLoadId" title="Load ID" filter="numeric">
+    <kendo-grid-column field="compositeLoaderType" title="Load Type" filter="string">
+      <ng-template kendoGridFilterMenuTemplate let-filterService="filterService">
+        <kendo-combobox [(ngModel)]="compositeLoaderType"
+                        [data]="compositeLoaderTypes"
+                        [value]="compositeLoaderType"
+                        [valuePrimitive]="true"
+                        class="form-control"
+                        id="compositeLoaderType"
+                        (valueChange)="setFilter('compositeLoaderType', $event, filterService)">
+        </kendo-combobox>
+      </ng-template>
+      <ng-template kendoGridCellTemplate let-dataItem>
+        <div class="d-flex">
+            {{ dataItem.compositeLoaderType }}
+        </div>
+      </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="compositeDataLoadId" title="Load ID" filter="numeric" [width]="135">
       <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
         <kendo-grid-string-filter-menu [column]="column" [filter]="filter" [filterService]="filterService" [extra]="false">
           <kendo-filter-contains-operator></kendo-filter-contains-operator>
@@ -33,11 +50,19 @@
           <span class="kendo-column-text-with-button">
             {{ dataItem.compositeDataLoadId }}
           </span>
-          <div *ngIf="dataItem.exportedSourceUri" class="ml-4">
+          <div *ngIf="dataItem.exportedSourceUri" class="ml-3">
             <button class="btn btn-secondary"
                     (click)="downloadExportedSourceFile(dataItem.externalId)"
                     title="Download Source Files">
               <fa-icon icon="file-download"></fa-icon>
+            </button>
+          </div>
+          <div *ngIf="canProcess(dataItem)" class="ml-1">
+            <button class="btn btn-secondary"
+                    [disabled]="(isRedropNewDataLoadInProgress$ | async).loading"
+                    (click)="openRedropConfirmationModal(dataItem.compositeDataLoadId, dataItem.company_Name, dataItem.company_ID, dataItem.compositeLoaderType)"
+                    title="Process Files">
+              <fa-icon icon="rocket-launch"></fa-icon>
             </button>
           </div>
         </div>
@@ -89,7 +114,7 @@
           <div *ngIf="dataItem.compositeLoaderType == 'Organizational Data' && loaderDashboardRedropsFeatureFlag.value" class="ml-2">
             <button class="btn btn-secondary"
                     [disabled]="(isRedropInProgress$ | async).loading"
-                    (click)="openRedropConfirmationModal(dataItem.compositeDataLoadId, dataItem.company_Name, dataItem.company_ID)"
+                    (click)="openRedropConfirmationModal(dataItem.compositeDataLoadId, dataItem.company_Name, dataItem.company_ID, dataItem.compositeLoaderType)"
                     title="Re-Drop Files">
               <fa-icon icon="repeat"></fa-icon>
             </button>
@@ -112,16 +137,16 @@
         <div>{{ dataItem.processingEndTime | date: 'MM/dd/yyyy hh:mm a' : 'UTC' }}</div>
       </ng-template>
     </kendo-grid-column>
-    <kendo-grid-column field="loadType" [width]="125" title="Load Type">
-      <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
-        <kendo-grid-string-filter-menu [column]="column" [filter]="filter" [filterService]="filterService" [extra]="false">
-          <kendo-filter-contains-operator></kendo-filter-contains-operator>
-          <kendo-filter-not-contains-operator></kendo-filter-not-contains-operator>
-          <kendo-filter-eq-operator></kendo-filter-eq-operator>
-          <kendo-filter-neq-operator></kendo-filter-neq-operator>
-          <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
-          <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
-        </kendo-grid-string-filter-menu>
+    <kendo-grid-column field="loadType" [width]="125" title="Data Origin">
+      <ng-template kendoGridFilterMenuTemplate let-filterService="filterService">
+        <kendo-combobox [(ngModel)]="dataOrigin"
+                        [data]="dataOrigins"
+                        [value]="dataOrigin"
+                        [valuePrimitive]="true"
+                        class="form-control"
+                        id="loadType"
+                        (valueChange)="setFilter('loadType', $event, filterService)">
+        </kendo-combobox>
       </ng-template>
       <ng-template kendoGridCellTemplate let-dataItem>
         <div>
@@ -134,7 +159,12 @@
       </ng-template>
     </kendo-grid-column>
     <ng-template kendoGridDetailTemplate let-dataItem [kendoGridDetailTemplateShowIf]="showIfLoadHasSummaries">
-      <pf-loader-dashboard-grid-detail [dataItem]="dataItem.entityLoadSummaries"></pf-loader-dashboard-grid-detail>
+      <pf-loader-dashboard-grid-detail *ngIf="showIfLoadHasOnlySummary(dataItem)" [dataItem]="dataItem.entityLoadSummaries"></pf-loader-dashboard-grid-detail>
+      <pf-loader-dashboard-grid-summary-detail *ngIf="showIfLoadHasSummaryDetails(dataItem)"
+                                               [dataItem]="dataItem.entityLoadSummaryDetails"
+                                               [detailKeys]="getDetailKeys(dataItem.compositeLoaderType)">
+
+      </pf-loader-dashboard-grid-summary-detail>
     </ng-template>
   </kendo-grid>
   <pf-redrop-confirmation-modal
@@ -144,4 +174,10 @@
     [isRedropModified]="false"
     (redropConfirmationEvent)="handleRedropConfirmationResponse($event)"
   ></pf-redrop-confirmation-modal>
+  <pf-process-confirmation-modal
+    [selectedCompositeDataLoadId]="selectedCompositeDataLoadId"
+    [selectedClientName]="selectedClientName"
+    [selectedClientId]="selectedClientId"
+    (redropConfirmationEvent)="handleRedropToNewDataLoadConfirmationResponse($event)"
+  ></pf-process-confirmation-modal>
 </div>

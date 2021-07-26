@@ -60,6 +60,7 @@ import { ChangeApproverModalComponent } from '../../change-approver-modal';
 import { CopyJobDescriptionModalComponent } from '../../copy-job-description-modal';
 import { WorkflowSetupModalComponent } from '../../workflow-setup-modal';
 import { JobDescriptionAppliesToModalComponent } from 'apps/job-description-management/app/shared';
+import { CloudFileLocations } from 'libs/constants';
 
 
 @Component({
@@ -131,6 +132,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
 
   companyName: string;
   emailAddress: string;
+  avatarUrl: string;
   companyLogoPath: string;
   jobDescription: JobDescription;
   visibleSections: JobDescriptionSection[];
@@ -567,6 +569,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
         this.identity = userContext;
         this.companyName = userContext.CompanyName;
         this.emailAddress = userContext.EmailAddress;
+        this.avatarUrl = userContext.ConfigSettings.find(c => c.Name === 'CloudFiles_PublicBaseUrl')?.Value + CloudFileLocations.UserAvatars;
         this.identityInEmployeeAcknowledgement = userContext.EmployeeAcknowledgementInfo
           ? !!userContext.EmployeeAcknowledgementInfo.EmployeeAcknowledgementId
           : false;

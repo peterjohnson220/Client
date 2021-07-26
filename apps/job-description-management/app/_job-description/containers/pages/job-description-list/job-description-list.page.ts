@@ -31,6 +31,8 @@ import * as fromJobDescriptionInboxActions from '../../../actions/job-descriptio
 import * as fromJobInformationFieldsActions from '../../../actions/job-information-fields.actions';
 import * as fromWorkflowTemplateListActions from 'libs/features/jobs/job-description-management/actions/shared-workflow.actions';
 import * as fromUserFilterActions from '../../../actions/user-filter.actions';
+import * as fromJdmSharedActions from 'libs/features/jobs/job-description-management/actions';
+
 import * as fromJobDescriptionReducers from '../../../reducers';
 import { AssignJobsToTemplateModalComponent, BulkExportJobDescriptionModalComponent, JobDescriptionHistoryModalComponent } from '../../../components';
 import { CompanyJobViewListItem, WorkflowSetupModalInput } from '../../../models';
@@ -358,6 +360,10 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
     if (companyJobViewListItem.JobDescriptionId) {
       this.routeToJobDescription(companyJobViewListItem.JobDescriptionId);
     }
+  }
+  navigateToJdmSettings() {
+    this.store.dispatch(new fromJdmSharedActions.NavigateToSettingsFromJdmList());
+    this.router.navigateByUrl('/settings/job-description-views');
   }
 
   openAssignJobModal(selectedCompanyJob: CompanyJobViewListItem) {
