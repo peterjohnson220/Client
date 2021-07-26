@@ -7,17 +7,9 @@ import { Observable, of } from 'rxjs';
 
 import { Statement } from 'libs/features/total-rewards/total-rewards-statement/models';
 import { StatementHistoryListViewModel } from 'libs/features/total-rewards/total-rewards-statement/models/statement-history-list-view-model';
-import {
-  TotalRewardsApiService,
-  TotalRewardsEDeliveryApiService,
-  TotalRewardsStatementHistoryApiService
-} from 'libs/data/payfactors-api';
+import { TotalRewardsApiService, TotalRewardsStatementHistoryApiService } from 'libs/data/payfactors-api';
 import { StatementHistoryListResponse } from 'libs/models/payfactors-api/total-rewards/response/statement-history-list-response.model';
-import {
-  NotificationLevel, NotificationPayloadFileType,
-  NotificationSource,
-  NotificationType
-} from 'libs/features/infrastructure/app-notifications';
+import { NotificationLevel, NotificationPayloadFileType, NotificationSource, NotificationType } from 'libs/features/infrastructure/app-notifications';
 import * as fromAppNotificationsActions from 'libs/features/infrastructure/app-notifications/actions/app-notifications.actions';
 
 import * as fromStatementHistoryPageActions from '../../statement-history/actions/statement-history.page.actions';
@@ -93,7 +85,7 @@ export class StatementHistoryPageEffects {
             } else {
               actions.push(new fromStatementHistoryPageActions.DownloadHistoricalStatementError());
             }
-            actions.push(new fromStatementHistoryPageActions.UpdatePdfIdToExport({ pdfId: null }));
+            actions.push(new fromStatementHistoryPageActions.UpdatePdfIdToExport({ pdfId: null, exportMode: 'None' }));
             return actions;
           }),
           catchError(error => of(new fromStatementHistoryPageActions.DownloadHistoricalStatementError()))
@@ -119,11 +111,56 @@ export class StatementHistoryPageEffects {
       )
     );
 
+  @Effect()
+  exportEmployees$: Observable<Action> =
+    this.actions$.pipe(
+      ofType(fromStatementHistoryPageActions.EXPORT_EMPLOYEES),
+      mergeMap((action: fromStatementHistoryPageActions.ExportEmployees) => [
+        new fromAppNotificationsActions.AddNotification({
+          NotificationId: '',
+          Level: NotificationLevel.Info,
+          From: NotificationSource.TotalRewardsStatementHistory,
+          Payload: {
+            Title: 'Generating Report',
+            Message: 'Assigned Employees Report',
+            FileType: NotificationPayloadFileType.Excel
+          },
+          EnableHtml: true,
+          Type: NotificationType.Event
+        }),
+        new fromStatementHistoryPageActions.CreateEmployeesExport()
+      ])
+    );
+
+  @Effect()
+  createEmployeesExport$: Observable<Action> =
+    this.actions$.pipe(
+      ofType(fromStatementHistoryPageActions.CREATE_EMPLOYEES_EXPORT),
+      withLatestFrom(
+        this.store.pipe(select(fromTotalRewardsReducer.getPdfIdToExport)),
+        (action: fromStatementHistoryPageActions.DownloadHistoricalStatement, pdfId: string) => pdfId),
+      switchMap((pdfId: string) =>
+        this.totalRewardsStatementHistoryApi.createEmployeesExport(pdfId).pipe(
+          map(response => new fromStatementHistoryPageActions.UpdatePdfIdToExport({ pdfId: null, exportMode: 'None' })),
+          catchError(error => of(new fromAppNotificationsActions.AddNotification({
+            NotificationId: '',
+            Level: NotificationLevel.Error,
+            From: NotificationSource.TotalRewardsStatementHistory,
+            Payload: {
+              Title: 'Error',
+              Message: 'There was an error processing this request. Please try again later.'
+            },
+            EnableHtml: true,
+            Type: NotificationType.Event
+          })))
+        )
+      )
+    );
+
   constructor(
     private actions$: Actions,
     private totalRewardsApi: TotalRewardsApiService,
     private totalRewardsStatementHistoryApi: TotalRewardsStatementHistoryApiService,
-    private totalRewardsDeliveryApi: TotalRewardsEDeliveryApiService,
-    private store: Store<fromTotalRewardsReducer.State>
+    private store: Store<fromTotalRewardsReducer.State>,
   ) {}
 }

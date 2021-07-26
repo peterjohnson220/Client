@@ -63,7 +63,19 @@
                 <ng-container *ngSwitchCase="field.DataType === 'date'">
                   {{dataItem[field.FieldName] | date: 'MM/dd/yyyy'}}
                 </ng-container>
-
+                <ng-container *ngSwitchCase="field.FieldName === 'EmployeeCount'">
+                  <a *ngIf="dataItem.HasAccess" 
+                    kendoTooltip
+                    href="javascript:void(0)"
+                    class="employee-count"
+                    title="Export Assigned Employees"
+                    (click)="onEmployeeCountClick(dataItem)">
+                    {{dataItem[field.FieldName]}}
+                  </a>
+                  <span *ngIf="!dataItem.HasAccess" kendoTooltip title="You don't have access to all employees included in this statement.">
+                    {{dataItem[field.FieldName]}}
+                  </span>
+                </ng-container>
                 <ng-template ngSwitchDefault>
                   {{dataItem[field.FieldName]}}
                 </ng-template>
