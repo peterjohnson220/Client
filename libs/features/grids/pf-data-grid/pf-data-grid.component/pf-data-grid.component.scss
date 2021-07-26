@@ -65,7 +65,6 @@ input[type=text]::-ms-clear {
 }
 
 .sub-header {
-  min-height: 42px;
   border: none !important;
 }
 
@@ -77,4 +76,8 @@ input[type=text]::-ms-clear {
 
 :host ::ng-deep .k-grid tbody td.overflow-visible {
   overflow: visible;
+}
+
+.flex-h-auto {
+  min-height: auto;
 }
