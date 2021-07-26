@@ -132,6 +132,12 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
             formulaFieldId: 'Mid'
           }));
         }
+
+        // Get all overridden ranges
+        this.store.dispatch(new fromSharedActions.GetOverriddenRanges({
+          pageViewId: this.pageViewId,
+          rangeGroupId: this.rangeGroupId
+        }));
       }
     });
   }
@@ -144,12 +150,6 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.urlService.isInWorkflow(Workflow.CreateModel)) {
       this.store.dispatch(new fromModelSettingsModalActions.OpenJobModal());
     }
-
-    // Get all overridden ranges
-    this.store.dispatch(new fromSharedActions.GetOverriddenRanges({
-      pageViewId: this.pageViewId,
-      rangeGroupId: this.rangeGroupId
-    }));
 
     // Get current range group
     this.store.dispatch(new fromSharedActions.GetCurrentRangeGroup({
