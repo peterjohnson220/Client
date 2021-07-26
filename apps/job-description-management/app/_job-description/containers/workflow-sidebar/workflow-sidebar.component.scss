@@ -12,7 +12,7 @@ overflow: hidden;
 .workflow-sidebar > .workflow-header .btn{
   margin-left: 5px;
   margin-top: 5px;
-  float:right;
+  float: right;
   display: inline-block;
 }
 
@@ -65,3 +65,9 @@ textarea {
 .attachment-anchor {
   cursor: pointer;
 }
+.workflow-subway-container{
+  position: relative;
+  padding-top: 25px;
+  overflow-x: auto
+}
+

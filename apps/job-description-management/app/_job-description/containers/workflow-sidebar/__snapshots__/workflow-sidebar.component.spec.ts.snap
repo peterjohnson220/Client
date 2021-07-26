@@ -13,8 +13,14 @@ exports[`WorkflowSidebarComponent should show workflow sidebar 1`] = `
   workflowLogLoading$={[Function Store]}
   workflowStepApproving$={[Function Store]}
   workflowStepRejecting$={[Function Store]}
+  workflowStepSummary$={[Function Store]}
+  workflowStepSummaryLoading$={[Function Store]}
 >
   <div
+    class="workflow-subway-container mb-3"
+  >
+    <pf-workflow-progress-bar />
+  </div><div
     class="workflow-sidebar"
   >
     <div

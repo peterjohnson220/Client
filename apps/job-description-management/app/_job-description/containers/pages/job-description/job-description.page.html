@@ -132,7 +132,11 @@
                   [workflowStepInfo]="!isInSystemWorkflow ? (identity$ | async)?.WorkflowStepInfo : (workflowStepInfo$ | async)"
                   [workflowStepCompleted]="completedStep"
                   [isInSystemWorkflow]="isInSystemWorkflow"
-                  [enableFileDownloadSecurityWarning]="enableFileDownloadSecurityWarning">
+                  [enableFileDownloadSecurityWarning]="enableFileDownloadSecurityWarning"
+                  [workflowId]="(jobDescriptionExtendedInfo$ | async)?.WorkflowId"
+                  [isSiteAdmin]="isSiteAdmin"
+                  [isCompanyAdmin]="isCompanyAdmin"
+                  [avatarUrl]="avatarUrl">
               </pf-workflow-sidebar>
             </div>
           </div>
@@ -148,6 +152,7 @@
                                             [workflowId]="(jobDescriptionExtendedInfo$ | async)?.WorkflowId"
                                             [jobDescription]="jobDescription"
                                             [gettingJobDescriptionExtendedInfoSuccess]="(gettingJobDescriptionExtendedInfoSuccess$ | async)?.success"
+                                            [avatarUrl]="avatarUrl"
                                             (closed)="showRoutingHistory = false"
                                           (changeApproverClicked)="handleChangeApproverClicked($event)">
                 </pf-workflow-watch-sidebar>

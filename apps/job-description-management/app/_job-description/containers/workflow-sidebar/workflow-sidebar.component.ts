@@ -1,5 +1,8 @@
+
 import cloneDeep from 'lodash/cloneDeep';
-import { Component, Input, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import groupBy from 'lodash/groupBy';
+
+import { Component, Input, OnInit, OnDestroy, OnChanges, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
@@ -16,19 +19,24 @@ import { JobDescriptionManagementJobDescriptionState } from '../../reducers';
 import * as fromWorkflowReducer from '../../reducers/index';
 import * as fromWorkflowActions from '../../actions/workflow.actions';
 
-import { WorkflowLogEntry } from '../../models';
+import { WorkflowLogEntry, WorkflowStepSummaryItem } from '../../models';
 
 @Component({
   selector: 'pf-workflow-sidebar',
   templateUrl: './workflow-sidebar.component.html',
   styleUrls: ['./workflow-sidebar.component.scss']
 })
-export class WorkflowSidebarComponent implements OnInit, OnDestroy {
+
+export class WorkflowSidebarComponent implements OnInit, OnDestroy, OnChanges {
   @ViewChild('fileDownloadSecurityWarningModal', { static: true }) fileDownloadSecurityWarningModal: FileDownloadSecurityWarningModalComponent;
   @Input() workflowStepInfo: WorkflowStepInfo;
   @Input() workflowStepCompleted: boolean;
   @Input() isInSystemWorkflow: boolean;
   @Input() enableFileDownloadSecurityWarning: boolean;
+  @Input() workflowId: number;
+  @Input() isSiteAdmin: boolean;
+  @Input() isCompanyAdmin: boolean;
+  @Input() avatarUrl: string;
 
   readonly ATTACHMENT_DOWNLOAD_URL_PREFIX = '/odata/CloudFiles.DownloadJDMWorkflowAttachment?FileName=';
 
@@ -47,6 +55,11 @@ export class WorkflowSidebarComponent implements OnInit, OnDestroy {
   iconClass: any;
   clickedAttachment: any;
 
+  workflowStepSummary$: Observable<AsyncStateObj<WorkflowStepSummaryItem[]>>;
+  workflowStepSummaryLoading$: Observable<boolean>;
+  workflowStepSummary: any;
+
+
   constructor(
     private store: Store<JobDescriptionManagementJobDescriptionState>,
     private formBuilder: FormBuilder
@@ -58,6 +71,8 @@ export class WorkflowSidebarComponent implements OnInit, OnDestroy {
     this.workflowStepRejecting$ = this.store.select(fromWorkflowReducer.getWorkflowStepRejecting);
     this.jobDescriptionAsync$ = this.store.select(fromWorkflowReducer.getJobDescriptionAsync);
     this.inSystemWorkflowComplete$ = this.store.select(fromWorkflowReducer.getInSystemWorkflowStepCompletionModalOpen);
+    this.workflowStepSummary$ = this.store.select(fromWorkflowReducer.getWorkflowStepSummaryAsync);
+    this.workflowStepSummaryLoading$ = this.store.select(fromWorkflowReducer.getWorkflowStepSummaryAsyncLoading);
   }
 
   ngOnInit() {
@@ -79,10 +94,25 @@ export class WorkflowSidebarComponent implements OnInit, OnDestroy {
     this.workflowStepCommentForm = this.formBuilder.group({
       comment: ['', Validators.required]
     });
+
+    this.workflowStepSummary$.subscribe(summary => {
+      if (summary && summary.obj) {
+        const group = groupBy(summary.obj, 'StepNumber');
+        this.workflowStepSummary = Object.values(group);
+      }
+    });
+
+    this.store.dispatch(new fromWorkflowActions.LoadWorkflowStepSummary({workflowId: this.workflowId}));
   }
 
   ngOnDestroy(): void {
     this.jobDescriptionSubscription?.unsubscribe();
+  }
+
+  ngOnChanges(changes: any) {
+    if (changes.workflowId && changes.workflowId.currentValue !== changes.workflowId.previousValue) {
+      this.store.dispatch(new fromWorkflowActions.LoadWorkflowStepSummary({workflowId: this.workflowId}));
+    }
   }
 
   approveWorkflowStep() {
