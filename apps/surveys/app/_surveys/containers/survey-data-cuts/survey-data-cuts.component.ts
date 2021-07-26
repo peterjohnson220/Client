@@ -3,10 +3,14 @@ import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnDestroy, OnIn
 import { SortDescriptor } from '@progress/kendo-data-query';
 import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
+import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
 
 import { PfDataGridColType } from 'libs/features/grids/pf-data-grid/enums';
 import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums/pf-theme-type.enum';
 import { ActionBarConfig, getDefaultActionBarConfig, GridConfig, PfDataGridFilter } from 'libs/features/grids/pf-data-grid/models';
+import { AsyncStateObj } from 'libs/models/state';
+import { JobTypeEnum } from 'libs/models/survey';
+import { GetJobMatchesRequest } from 'libs/models/payfactors-api/survey/request';
 import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 
 import * as fromSurveysPageActions from '../../actions/surveys-page.actions';
@@ -15,7 +19,8 @@ import { SurveysPageConfig } from '../../models';
 
 @Component({
   selector: 'pf-survey-data-cuts',
-  templateUrl: './survey-data-cuts.component.html'
+  templateUrl: './survey-data-cuts.component.html',
+  styleUrls: ['./survey-data-cuts.component.scss']
 })
 export class SurveyDataCutsComponent implements OnChanges, OnInit, AfterViewInit, OnDestroy {
   @Input() surveyJobId: number;
@@ -23,10 +28,13 @@ export class SurveyDataCutsComponent implements OnChanges, OnInit, AfterViewInit
   @ViewChild('currencyColumn') currencyColumn: ElementRef;
   @ViewChild('weightingTypeColumn') weightingTypeColumn: ElementRef;
   @ViewChild('numericColumn') numericColumn: ElementRef;
+  @ViewChild('matchesColumn') matchesColumn: ElementRef;
 
   splitViewFilters$: Observable<PfDataGridFilter[]>;
+  surveyDataMatches$: Observable<AsyncStateObj<string[]>>;
 
   splitViewFiltersSubscription: Subscription;
+  surveyDataMatchesSubscription: Subscription;
 
   pageViewId = SurveysPageConfig.SurveyDataCutsPageViewId;
   pfThemeType = PfThemeType;
@@ -42,6 +50,9 @@ export class SurveyDataCutsComponent implements OnChanges, OnInit, AfterViewInit
   actionBarConfig: ActionBarConfig;
   gridConfig: GridConfig;
   colTemplates = {};
+  fieldsExcludedFromCellClick = ['SurveyData_SurveyDataMatchesCount'];
+  jobType = JobTypeEnum;
+  selectedDropdown: NgbDropdown;
 
   constructor(
     private store: Store<fromSurveysPageReducer.State>
@@ -75,6 +86,7 @@ export class SurveyDataCutsComponent implements OnChanges, OnInit, AfterViewInit
       IsExpandedRowGrid: true
     };
     this.splitViewFilters$ = this.store.select(fromPfDataGridReducer.getSplitViewFilters, SurveysPageConfig.SurveysPageViewId);
+    this.surveyDataMatches$ = this.store.select(fromSurveysPageReducer.getSurveyDataMatches);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -90,6 +102,12 @@ export class SurveyDataCutsComponent implements OnChanges, OnInit, AfterViewInit
         this.updateCountriesFilter(filters);
       }
     });
+    this.surveyDataMatchesSubscription = this.surveyDataMatches$.subscribe(sdm => {
+      if (sdm?.obj?.length) {
+        this.selectedDropdown.open();
+      }
+    });
+    window.addEventListener('scroll', this.scroll, true);
     this.store.dispatch(new fromSurveysPageActions.OpenSurveyDataGrid(this.surveyJobId));
   }
 
@@ -97,12 +115,32 @@ export class SurveyDataCutsComponent implements OnChanges, OnInit, AfterViewInit
     this.colTemplates = {
       'WeightingType': { Template: this.weightingTypeColumn },
       [PfDataGridColType.currency]: { Template: this.currencyColumn },
-      ['numeric']: { Template: this.numericColumn}
+      ['numeric']: { Template: this.numericColumn},
+      'SurveyDataMatchesCount': { Template: this.matchesColumn }
     };
   }
 
   ngOnDestroy(): void {
     this.splitViewFiltersSubscription.unsubscribe();
+    this.surveyDataMatchesSubscription.unsubscribe();
+  }
+  scroll = (): void => {
+    if (!!this.selectedDropdown) {
+      this.selectedDropdown.close();
+    }
+  }
+
+  handleMatchesClicked(jobType: number, surveyId: number, jobCode: string, popover: any): void {
+    if (!!this.selectedDropdown) {
+      this.selectedDropdown.close();
+    }
+    this.selectedDropdown = popover;
+    const request: GetJobMatchesRequest = {
+      JobType: jobType,
+      SurveyId: surveyId,
+      JobCode: jobCode
+    };
+    this.store.dispatch(new fromSurveysPageActions.GetSurveyDataMatches(request));
   }
 
   private updateMatchedFilter(filters: PfDataGridFilter[]): void {
