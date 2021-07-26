@@ -4,11 +4,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { DropDownListModule, AutoCompleteModule } from '@progress/kendo-angular-dropdowns';
 
-import { AbstractFeatureFlagService } from 'libs/core';
+import { SettingsService } from 'libs/state/app-context/services';
 
 import { AddPayMarketFormComponent } from './add-paymarket-form.component';
 import { AddPayMarketFormData, generateMockCountryDataSet, generateMockMarketDataScope } from '../../models';
 import { Router } from '@angular/router';
+import { of } from 'rxjs';
 
 describe('Comphub - Main - Add Pay Market Form Component', () => {
   let instance: AddPayMarketFormComponent;
@@ -30,12 +31,12 @@ describe('Comphub - Main - Add Pay Market Form Component', () => {
       ],
       providers: [
         {
-          provide: AbstractFeatureFlagService,
-          useValue: { enabled: jest.fn(), bindEnabled: jest.fn() }
-        },
-        {
           provide: Router,
           useValue: { navigate: jest.fn() }
+        },
+        {
+          provide: SettingsService,
+          useValue: { selectCompanySetting: () => of(true) }
         }
       ]
     });
