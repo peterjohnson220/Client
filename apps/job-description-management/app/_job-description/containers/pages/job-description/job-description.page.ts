@@ -164,6 +164,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   completedStep: boolean;
   controlTypes: ControlType[];
   isInSystemWorkflow: boolean;
+  showWorkflow = false;
 
   get isJobDescriptionEditable() {
     return this.identityInWorkflow ? this.hasCanEditJobDescriptionPermission :
@@ -328,6 +329,10 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.handleShowLibrary(!this.showLibrary);
   }
 
+  toggleWorkflowPanel() {
+    this.handleShowWorkflowPanel(!this.showWorkflow);
+  }
+
   handleControlDataRowDeleted(dataRowDeletedObj: any) {
     this.store.dispatch(new fromJobDescriptionActions.RemoveControlDataRow({
       jobDescriptionControl: dataRowDeletedObj.jobDescriptionControl,
@@ -365,6 +370,18 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.showLibrary = shouldShow;
     if (shouldShow) {
       this.initializeLibrary();
+    }
+
+    if (this.showLibrary) {
+      this.showWorkflow = !this.showLibrary;
+    }
+  }
+
+  handleShowWorkflowPanel(shouldShow: boolean) {
+    this.showWorkflow = shouldShow;
+
+    if (this.showWorkflow) {
+      this.showLibrary = !this.showWorkflow;
     }
   }
 
