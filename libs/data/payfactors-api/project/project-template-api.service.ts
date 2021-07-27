@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
-import { ProjectTemplate, ProjectTemplateFields } from 'libs/models';
+import { GetProjectTemplateFieldsResponse, ProjectTemplate } from 'libs/models';
 import { SaveProjectTemplateRequest } from 'libs/models/payfactors-api';
 
 @Injectable({
@@ -22,7 +22,7 @@ export class ProjectTemplateApiService {
     return this.payfactorsApiService.delete(`${this.endpoint}(${templateId})`);
   }
 
-  getProjectTemplateFields(templateId: number = 0): Observable<ProjectTemplateFields> {
+  getProjectTemplateFields(templateId: number = 0): Observable<GetProjectTemplateFieldsResponse> {
     return this.payfactorsApiService.get(`${this.endpoint}(${templateId})/Default.GetProjectTemplateFields`);
   }
 

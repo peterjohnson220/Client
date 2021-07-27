@@ -18,6 +18,7 @@ import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 
 import { ProjectTemplateManagementComponent } from './project-template-management.component';
+import { SelectAllStatusPipe } from '../../pipes';
 import * as fromProjectTemplateManagementReducer from '../../reducers';
 
 describe('ProjectTemplateManagementComponent', () => {
@@ -40,7 +41,7 @@ describe('ProjectTemplateManagementComponent', () => {
         PfCommonUIModule,
         ReactiveFormsModule
       ],
-      declarations: [ ProjectTemplateManagementComponent ],
+      declarations: [ ProjectTemplateManagementComponent, SelectAllStatusPipe ],
       schemas: [NO_ERRORS_SCHEMA]
     });
   }));
@@ -86,16 +87,19 @@ describe('ProjectTemplateManagementComponent', () => {
     spyOn(instance.store, 'dispatch');
     const templateFields: ProjectTemplateFields = {
       ...generateMockProjectTemplateFields(),
-      TemplateFields: [
-        {
-          ...generateMockCompositeFieldHierarchy(),
-          ModalTab: 'Basic Data'
-        },
-        {
-          ...generateMockCompositeFieldHierarchy(),
-          ModalTab: 'Company Target Pay'
-        }
-      ]
+      Fields: {
+        TemplateFields: [
+          {
+            ...generateMockCompositeFieldHierarchy(),
+            ModalTab: 'Basic Data'
+          },
+          {
+            ...generateMockCompositeFieldHierarchy(),
+            ModalTab: 'Company Target Pay'
+          }
+        ],
+        ReferencePoints: []
+      }
     };
 
     instance.configureTabs(templateFields);
@@ -107,16 +111,19 @@ describe('ProjectTemplateManagementComponent', () => {
     spyOn(instance.store, 'dispatch');
     const templateFields: ProjectTemplateFields = {
       ...generateMockProjectTemplateFields(),
-      TemplateFields: [
-        {
-          ...generateMockCompositeFieldHierarchy(),
-          ModalTab: 'Basic Data'
-        },
-        {
-          ...generateMockCompositeFieldHierarchy(),
-          ModalTab: 'Company Target Pay'
-        }
-      ]
+      Fields: {
+        TemplateFields: [
+          {
+            ...generateMockCompositeFieldHierarchy(),
+            ModalTab: 'Basic Data'
+          },
+          {
+            ...generateMockCompositeFieldHierarchy(),
+            ModalTab: 'Company Target Pay'
+          }
+        ],
+        ReferencePoints: []
+      }
     };
 
     instance.configureTabs(templateFields);
@@ -128,16 +135,19 @@ describe('ProjectTemplateManagementComponent', () => {
     spyOn(instance.store, 'dispatch');
     const templateFields: ProjectTemplateFields = {
       ...generateMockProjectTemplateFields(),
-      TemplateFields: [
-        {
-          ...generateMockCompositeFieldHierarchy(),
-          ModalTab: 'Basic Data'
-        },
-        {
-          ...generateMockCompositeFieldHierarchy(),
-          ModalTab: 'Company Target Pay'
-        }
-      ]
+      Fields: {
+        TemplateFields: [
+          {
+            ...generateMockCompositeFieldHierarchy(),
+            ModalTab: 'Basic Data'
+          },
+          {
+            ...generateMockCompositeFieldHierarchy(),
+            ModalTab: 'Company Target Pay'
+          }
+        ],
+        ReferencePoints: []
+      }
     };
 
     instance.configureTabs(templateFields);

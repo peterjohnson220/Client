@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, OnDestroy, ViewChild, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { Observable, Subscription } from 'rxjs';
@@ -13,6 +13,7 @@ import { SaveProjectTemplateRequest } from 'libs/models/payfactors-api/project/r
 import * as fromProjectTemplateManagementReducer from '../../reducers';
 import * as fromProjectTemplateManagementActions from '../../actions/project-template-management.actions';
 import { ProjectTemplateConfiguration } from '../../models';
+import { ProjectFieldManagementFeatureImplementations } from '../../constants';
 
 
 @Component({
@@ -21,6 +22,7 @@ import { ProjectTemplateConfiguration } from '../../models';
   styleUrls: ['./project-template-management.component.scss']
 })
 export class ProjectTemplateManagementComponent implements OnInit, OnDestroy {
+  @Input() featureImplementation: string = ProjectFieldManagementFeatureImplementations.PROJECT_TEMPLATES;
   @Output() saveSuccess = new EventEmitter();
   @ViewChild('accordion') accordion: NgbAccordion;
 
@@ -40,6 +42,8 @@ export class ProjectTemplateManagementComponent implements OnInit, OnDestroy {
   activeAccordionIds: string[] = [];
   errorMessage: string;
 
+  featureImplementations = ProjectFieldManagementFeatureImplementations;
+
   get f() { return this.projectTemplateForm.controls; }
 
   constructor(
@@ -56,7 +60,7 @@ export class ProjectTemplateManagementComponent implements OnInit, OnDestroy {
     this.createForm();
     this.templateFieldsSubscription = this.templateFieldsAsync$.subscribe(fields => {
       if (!!fields && fields.obj) {
-        if (fields.obj.TemplateFields?.length) {
+        if (fields.obj?.Fields?.TemplateFields?.length) {
           this.configureTabs(fields.obj);
         }
         this.updateFormFields(fields.obj);
@@ -96,9 +100,28 @@ export class ProjectTemplateManagementComponent implements OnInit, OnDestroy {
     return item.ListCompositeFieldId;
   }
 
+  // [GL] Since we pass a formGroup to the pf-modal-form, that form controls the save button
+  // The button is supposed to be enabled if the form is valid AND changes have been detected as to not save the same data
+  // Project forms are always valid due to not requiring a template name
+  // As of now with ENG-681, we want the save button to be permanently disabled on the projects page
+  // This single checkbox change as well as the select all below will not flag the form as changed when being hit from the projects page
+  // This will allow the save button to be permanently disabled until we are ready to move forward with the refactored save/get logic
   handleSelectionChanged(field: CompositeField): void {
     this.store.dispatch(new fromProjectTemplateManagementActions.ToggleFieldSelected(field));
-    this.projectTemplateForm.markAsTouched();
+    if (this.featureImplementation !== this.featureImplementations.PRICING_PROJECTS) {
+      this.projectTemplateForm.markAsTouched();
+    }
+  }
+
+  handleSelectAllClicked(event: any, category: string) {
+    this.store.dispatch(new fromProjectTemplateManagementActions.ToggleSelectAll({
+      Category: category,
+      SelectAllValue: event.target.checked
+    }));
+
+    if (this.featureImplementation !== this.featureImplementations.PRICING_PROJECTS) {
+      this.projectTemplateForm.markAsTouched();
+    }
   }
 
   clearErrorMessage(): void {
@@ -150,7 +173,7 @@ export class ProjectTemplateManagementComponent implements OnInit, OnDestroy {
   configureTabs(template: ProjectTemplateFields) {
     const allAccordionIds = [];
     this.templateConfiguration = this.templateConfiguration || {};
-    template.TemplateFields.forEach(t => {
+    template.Fields.TemplateFields.forEach(t => {
       this.templateConfiguration[t.ModalTab] = this.templateConfiguration[t.ModalTab] || {};
       this.templateConfiguration[t.ModalTab][t.Category] = t;
       allAccordionIds.push(`${t.ModalTab}_${t.Category}`);
@@ -204,7 +227,8 @@ export class ProjectTemplateManagementComponent implements OnInit, OnDestroy {
       SalesIncentiveActualRefPt: this.getReferencePoint(template, ReferencePoints.SalesIncentiveActualReferencePoint),
       SalesIncentiveTargetRefPt: this.getReferencePoint(template, ReferencePoints.SalesIncentiveTargetReferencePoint)
     });
-    if (!this.projectTemplateForm.controls.TemplateName.dirty) {
+    if (!this.projectTemplateForm.controls.TemplateName.dirty &&
+      this.featureImplementation === ProjectFieldManagementFeatureImplementations.PROJECT_TEMPLATES) {
       // don't overwrite template name if it's been updated
       this.projectTemplateForm.controls.TemplateName.setValue(template?.TemplateName);
     }
@@ -213,17 +237,19 @@ export class ProjectTemplateManagementComponent implements OnInit, OnDestroy {
   }
 
   private getReferencePoint(template: ProjectTemplateFields, referencePointIndex: number) {
-    if (template.ReferencePoints?.length > referencePointIndex) {
-      return template.ReferencePoints[referencePointIndex];
+    if (template.Fields.ReferencePoints?.length > referencePointIndex) {
+      return template.Fields.ReferencePoints[referencePointIndex];
     }
     return 50;
   }
 
   private createForm(): void {
+    const templateNameValidator = this.featureImplementation === ProjectFieldManagementFeatureImplementations.PROJECT_TEMPLATES ?
+      [PfValidators.required,
+        PfValidators.maxLengthTrimWhitespace(50)] : [];
+
     this.projectTemplateForm = this.formBuilder.group({
-      TemplateName: ['', [
-        PfValidators.required,
-        PfValidators.maxLengthTrimWhitespace(50)]],
+      TemplateName: ['', templateNameValidator],
       CompositeFieldIds: ['', PfValidators.required],
       BaseRefPt: [50, [PfValidators.required, Validators.pattern('[0-9]*')]],
       TCCRefPt: [50, [PfValidators.required, Validators.pattern('[0-9]*')]],

@@ -13,14 +13,14 @@
   (onDismiss)="onCancelChanges()"
   (onSubmit)="onSubmit()">
   <ng-container form-content>
-    <div class="container" [style.max-height]="'600px'" [style.overflow]="'auto'">
+    <div class="container" [style.max-height]="'800px'" [style.overflow]="'auto'" [style.min-height]="'800px'">
       <pf-async-container
         [loading]="(templateFieldsAsync$ | async)?.loading || (saving$ | async)"
         [loadingError]="(templateFieldsAsync$ | async)?.loadingError"
         [loadingErrorMessage]="'Error Loading Template'">
         <form id="template-form" [formGroup]="projectTemplateForm" autocomplete="nope">
           <input type="hidden" formControlName="CompositeFieldIds" />
-          <div class="form-group">
+          <div class="form-group" *ngIf="featureImplementation === featureImplementations.PROJECT_TEMPLATES">
             <label class="col-form-label">Template Name <span class="text-danger">*</span></label>
             <div class="d-flex">
               <input data-qa-id="txt-template-form-template-name" type="text" class="form-control col-6"
@@ -47,7 +47,18 @@
                     <ngb-panel *ngFor="let category of getKeys(templateConfiguration[tab]);trackBy: trackByCategory" [id]="tab + '_' + category">
                       <ng-template ngbPanelHeader>
                         <div class="group-header w-100 d-flex align-items-center justify-content-between" (click)="acc.toggle(tab + '_' + category)">
-                          <h5>{{category}}</h5>
+                          <div class="row align-items-center category-header pl-2">
+                            <input
+                              type="checkbox"
+                              class="select-all-checkbox mr-2"
+                              [attr.data-qa-id]="'au-chk-select-all-' + category"
+                              (click)="$event.stopPropagation()"
+                              (change)="handleSelectAllClicked($event, category)"
+                              [checked]="templateConfiguration[tab][category]?.Fields | selectAllStatus : 'All'"
+                              [indeterminate]="templateConfiguration[tab][category]?.Fields | selectAllStatus : 'Indeterminate'"
+                            >
+                            <h5>{{category}}</h5>
+                          </div>
                           <fa-icon icon="caret-down" *ngIf="acc.isExpanded(tab + '_' + category)"></fa-icon>
                           <fa-icon icon="caret-right" *ngIf="!acc.isExpanded(tab + '_' + category)"></fa-icon>
                         </div>

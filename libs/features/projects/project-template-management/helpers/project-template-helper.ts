@@ -1,4 +1,4 @@
-import { CompositeField, ProjectTemplateFields, ReferencePoints } from 'libs/models/projects/project-templates';
+import { CompositeField, GetProjectTemplateFieldsResponse, ProjectTemplateFields, ReferencePoints } from 'libs/models/projects/project-templates';
 
 export class ProjectTemplateHelper {
 
@@ -7,10 +7,10 @@ export class ProjectTemplateHelper {
     return this.getReferencePointValue(referencePoints, index);
   }
 
-  static setTemplateFieldsCompanyName(template: ProjectTemplateFields, companyNameShort: string): ProjectTemplateFields  {
+  static setTemplateFieldsCompanyName(response: GetProjectTemplateFieldsResponse, companyNameShort: string): ProjectTemplateFields  {
     // todo this should probably happen server side. Doing client side here to avoid issues in ASP
-    if (!!template && template.TemplateFields) {
-      template.TemplateFields.forEach(t => {
+    if (!!response && response.TemplateFields) {
+      response.TemplateFields.forEach(t => {
         t.ModalTab = t.ModalTab?.replace('Company', companyNameShort);
         t.Category = t.Category?.replace('Company', companyNameShort);
         t.Fields.forEach(f => {
@@ -18,7 +18,14 @@ export class ProjectTemplateHelper {
         });
       });
     }
-    return template;
+    return {
+      ProjectTemplateId: 0, // API doesn't return this property
+      TemplateName: response.TemplateName,
+      Fields: {
+        TemplateFields: response.TemplateFields,
+        ReferencePoints: response.ReferencePoints
+      }
+    };
   }
 
   private static getReferencePointValue(referencePoints: number[], referencePointIndex: number) {

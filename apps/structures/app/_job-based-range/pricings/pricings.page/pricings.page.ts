@@ -79,7 +79,9 @@ export class PricingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.actionBarConfig = {
       ...getDefaultActionBarConfig(),
       ShowColumnChooser: true,
-      ColumnChooserType: ColumnChooserType.Hybrid
+      ColumnChooserConfig: {
+        ColumnChooserType: ColumnChooserType.Hybrid
+      }
     };
 
     this._Permissions = Permissions;

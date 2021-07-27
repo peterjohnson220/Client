@@ -154,7 +154,9 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
       AllowExport: true,
       ExportSourceName: 'Grade Range Structures',
       CustomExportType: 'GradeRangeStructures',
-      ColumnChooserType: ColumnChooserType.Hybrid,
+      ColumnChooserConfig: {
+        ColumnChooserType: ColumnChooserType.Hybrid
+      },
       EnableGroupSelectAll: true
     };
     this.gridConfig = {

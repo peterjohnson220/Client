@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { CompositeField, ProjectTemplateFields } from 'libs/models';
+import { BaseProjectFields, CompositeField, ProjectTemplateFields } from 'libs/models';
 import { SaveProjectTemplateRequest } from 'libs/models/payfactors-api/project/request';
 
 export const HANDLE_API_ERROR = '[ProjectTemplateManagement] Handle API Error';
@@ -15,6 +15,8 @@ export const CREATE_NEW_TEMPLATE = '[ProjectTemplateManagement] Create New Templ
 export const TOGGLE_FIELD_SELECTED = '[ProjectTemplateManagement] Toggle Field Selected';
 export const UPDATE_REFERENCE_POINTS = '[ProjectTemplateManagement] Update Reference Points';
 export const EDIT_TEMPLATE = '[ProjectTemplateManagement] Edit Template';
+export const TOGGLE_SELECT_ALL = '[ProjectTemplateManagement] Toggle Select All';
+export const SET_BASE_PROJECT_FIELDS = '[ProjectTemplateManagement] Set Base Project Fields';
 
 export class ShowProjectTemplateForm implements Action {
   readonly type = SHOW_PROJECT_TEMPLATE_FORM;
@@ -71,6 +73,19 @@ export class EditTemplate implements Action {
   constructor(public payload: number) { }
 }
 
+export class ToggleSelectAll implements Action {
+  readonly type = TOGGLE_SELECT_ALL;
+  constructor(public payload: {
+    Category: string;
+    SelectAllValue: boolean
+  }) {}
+}
+
+export class SetBaseProjectFields implements Action {
+  readonly type = SET_BASE_PROJECT_FIELDS;
+  constructor(public payload: BaseProjectFields) {}
+}
+
 export type Actions
   = ShowProjectTemplateForm
   | GetProjectTemplateFields
@@ -81,4 +96,6 @@ export type Actions
   | SaveProjectTemplateFieldsSuccess
   | SaveProjectTemplateFieldsError
   | UpdateReferencePoints
-  | EditTemplate;
+  | EditTemplate
+  | ToggleSelectAll
+  | SetBaseProjectFields;
