@@ -16,15 +16,17 @@ exports[`Project - Add Jobs - Job Result should not show the job category or eeo
       class="d-flex justify-content-between"
     >
       <div
-        class="d-flex "
+        class="d-flex w-100"
       >
         <div
-          class="job-title"
+          class="job-title ellipsis-overflowing-text"
+          pfellipsisactive=""
         >
            Accountant 
         </div>
         <div
-          class="job-code"
+          class="w-25 job-code ellipsis-overflowing-text flex-fill"
+          pfellipsisactive=""
         >
            (2345) 
         </div>
@@ -150,15 +152,17 @@ exports[`Project - Add Jobs - Job Result should show a peer icon, when the jobs 
       class="d-flex justify-content-between"
     >
       <div
-        class="d-flex "
+        class="d-flex w-100"
       >
         <div
-          class="job-title"
+          class="job-title ellipsis-overflowing-text"
+          pfellipsisactive=""
         >
            Accountant 
         </div>
         <div
-          class="job-code"
+          class="w-25 job-code ellipsis-overflowing-text flex-fill"
+          pfellipsisactive=""
         >
            (2345) 
         </div>
@@ -213,15 +217,17 @@ exports[`Project - Add Jobs - Job Result should show the job detail 1`] = `
       class="d-flex justify-content-between"
     >
       <div
-        class="d-flex "
+        class="d-flex w-100"
       >
         <div
-          class="job-title"
+          class="job-title ellipsis-overflowing-text"
+          pfellipsisactive=""
         >
            Accountant 
         </div>
         <div
-          class="job-code"
+          class="w-25 job-code ellipsis-overflowing-text flex-fill"
+          pfellipsisactive=""
         >
            (2345) 
         </div>
