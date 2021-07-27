@@ -11,7 +11,7 @@ import { AddSurveyDataCutMatchResponse } from 'libs/models/payfactors-api';
 import * as fromSearchFiltersActionsShared from 'libs/features/search/search/actions/search-filters.actions';
 import * as fromSearchPageActionsShared from 'libs/features/search/search/actions/search-page.actions';
 
-import * as fromAddSurveyDataPageActions from '../actions/add-survey-data-page.actions';
+import * as fromAddSurveyDataActions from '../actions/add-data.actions';
 import * as fromContextActions from 'libs/features/surveys/survey-search/actions/context.actions';
 import * as fromSurveySearchFiltersActions from 'libs/features/surveys/survey-search/actions/survey-search-filters.actions';
 import * as fromSurveySearchResultsActions from 'libs/features/surveys/survey-search/actions/survey-search-results.actions';
@@ -21,7 +21,7 @@ import { PayfactorsSurveySearchApiModelMapper, SurveySearchFiltersHelper } from 
 import * as fromSearchReducer from 'libs/features/search/search/reducers';
 
 @Injectable()
-export class AddSurveyDataPageEffects {
+export class AddDataEffects {
 
   @Effect()
   setJobContext$ = this.actions$
@@ -33,49 +33,49 @@ export class AddSurveyDataPageEffects {
         (action: fromContextActions.SetJobContext,
          projectSearchContext: ProjectSearchContext, searchFilterMappingDataObj) => ({action, projectSearchContext, searchFilterMappingDataObj})),
       mergeMap(context => {
-        const actions = [];
-        actions.push(new fromSearchFiltersActionsShared.SetDefaultValue(
-          {filterId: 'jobTitleCode', value: context.action.payload.JobTitle}));
-        actions.push(new fromSurveySearchFiltersActions.GetDefaultScopesFilter());
+          const actions = [];
+          actions.push(new fromSearchFiltersActionsShared.SetDefaultValue(
+            {filterId: 'jobTitleCode', value: context.action.payload.JobTitle}));
+          actions.push(new fromSurveySearchFiltersActions.GetDefaultScopesFilter());
 
-        if (context.projectSearchContext.RestrictToCountryCode) {
-          actions.push(new fromSearchFiltersActionsShared.AddFilters([
-            SurveySearchFiltersHelper.buildLockedCountryCodeFilter(context.projectSearchContext.CountryCode,
-              context.searchFilterMappingDataObj)
-          ]));
+          if (context.projectSearchContext.RestrictToCountryCode) {
+            actions.push(new fromSearchFiltersActionsShared.AddFilters([
+              SurveySearchFiltersHelper.buildLockedCountryCodeFilter(context.projectSearchContext.CountryCode,
+                context.searchFilterMappingDataObj)
+            ]));
+          }
+          return actions;
         }
-        return actions;
-       }
       )
     );
 
   @Effect()
   addSurveyData$ = this.actions$
     .pipe(
-      ofType(fromAddSurveyDataPageActions.ADD_DATA),
+      ofType(fromAddSurveyDataActions.ADD_DATA),
       // Get the current filters and paging options from the store
       withLatestFrom(
         this.store.select(fromSurveySearchReducer.getJobContext),
         this.store.select(fromSurveySearchReducer.getProjectSearchContext),
         this.store.select(fromSurveySearchReducer.getSelectedDataCuts),
-        (action: fromAddSurveyDataPageActions.AddData, jobContext: JobContext,
+        (action: fromAddSurveyDataActions.AddData, jobContext: JobContext,
          projectSearchContext: ProjectSearchContext, selectedDataCuts: DataCutDetails[]) =>
           ({ action, jobContext, selectedDataCuts, projectSearchContext })),
       switchMap(jobContextAndCuts => {
         return this.surveySearchApiService.addSurveyDataCuts(
           PayfactorsSurveySearchApiModelMapper.buildAddSurveyDataCutRequest(
-          jobContextAndCuts.action.payload,
-          jobContextAndCuts.jobContext,
-          jobContextAndCuts.projectSearchContext,
-          jobContextAndCuts.selectedDataCuts)
+            jobContextAndCuts.action.payload,
+            jobContextAndCuts.jobContext,
+            jobContextAndCuts.projectSearchContext,
+            jobContextAndCuts.selectedDataCuts)
         )
           .pipe(
             mergeMap((addResponse: AddSurveyDataCutMatchResponse) => [
-                new fromAddSurveyDataPageActions.AddDataSuccess(addResponse.JobMatchIds),
+                new fromAddSurveyDataActions.AddDataSuccess(addResponse.JobMatchIds),
                 new fromSearchPageActionsShared.CloseSearchPage()
               ]
             ),
-            catchError(() => of(new fromAddSurveyDataPageActions.AddDataError()))
+            catchError(() => of(new fromAddSurveyDataActions.AddDataError()))
           );
       })
     );
@@ -83,9 +83,9 @@ export class AddSurveyDataPageEffects {
   @Effect({dispatch: false})
   addDataSuccess$ = this.actions$
     .pipe(
-      ofType(fromAddSurveyDataPageActions.ADD_DATA_SUCCESS),
+      ofType(fromAddSurveyDataActions.ADD_DATA_SUCCESS),
       withLatestFrom(this.store.select(fromSurveySearchReducer.getJobContext),
-        (action: fromAddSurveyDataPageActions.AddDataSuccess, jobContext: JobContext) => ({action, jobContext})),
+        (action: fromAddSurveyDataActions.AddDataSuccess, jobContext: JobContext) => ({action, jobContext})),
       tap(jobContextAndMatches => {
         this.windowCommunicationService.postMessage(jobContextAndMatches.action.type,
           {
@@ -103,10 +103,10 @@ export class AddSurveyDataPageEffects {
       })
     );
 
-    constructor(
-      private actions$: Actions,
-      private surveySearchApiService: SurveySearchApiService,
-      private store: Store<fromSurveySearchReducer.State>,
-      private windowCommunicationService: WindowCommunicationService
+  constructor(
+    private actions$: Actions,
+    private surveySearchApiService: SurveySearchApiService,
+    private store: Store<fromSurveySearchReducer.State>,
+    private windowCommunicationService: WindowCommunicationService
   ) {}
 }

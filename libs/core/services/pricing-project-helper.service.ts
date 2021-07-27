@@ -7,8 +7,11 @@ import * as fromSearchFiltersActions from 'libs/features/search/search/actions/s
 import { getSearchFilters } from 'libs/features/surveys/survey-search/data';
 import * as fromMultiMatchPageActions from 'libs/features/pricings/multi-match/actions/multi-match-page.actions';
 import * as fromJobsToPriceActions from 'libs/features/pricings/multi-match/actions/jobs-to-price.actions';
-
+import * as fromAddSurveyDataActions from 'libs/features/pricings/add-data/actions/add-data.actions';
 import { AbstractFeatureFlagService, FeatureFlags } from './feature-flags';
+import * as fromContextActions from 'libs/features/surveys/survey-search/actions/context.actions';
+import * as fromUserFilterActions from 'libs/features/users/user-filter/actions/user-filter.actions';
+
 
 @Injectable()
 export class PricingProjectHelperService {
@@ -25,5 +28,13 @@ export class PricingProjectHelperService {
     this.store.dispatch(new fromMultiMatchPageActions.SetProjectContext(context));
     this.store.dispatch(new fromMultiMatchPageActions.GetProjectSearchContext(context));
     this.store.dispatch(new fromJobsToPriceActions.GetJobsToPrice(context));
+  }
+
+  SetAddDataModalContext(jobContext: any, searchContext: any) {
+    this.store.dispatch(new fromSearchFiltersActions.AddFilters(getSearchFilters(this.matchMode)));
+    this.store.dispatch(new fromContextActions.SetProjectSearchContext(searchContext));
+    this.store.dispatch(new fromContextActions.SetJobContext(jobContext));
+    this.store.dispatch(new fromAddSurveyDataActions.ResetAddData());
+    this.store.dispatch(new fromAddSurveyDataActions.SetAddDataModalStatus(true));
   }
 }

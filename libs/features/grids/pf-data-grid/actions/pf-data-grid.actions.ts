@@ -350,7 +350,7 @@ export class DeleteSavedViewSuccess implements Action {
 
 export class ExportGrid implements Action {
   readonly type = EXPORT_GRID;
-  constructor(public pageViewId: string, public source: string, public customExportType: string, public additionalData: any) {}
+  constructor(public pageViewId: string, public source: string, public customExportType: string, public additionalData: any, public exportAllFields = false) {}
 }
 
 export class ExportGridSuccess implements Action {
