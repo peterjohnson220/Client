@@ -63,6 +63,13 @@ export class ChartDetailComponent implements OnInit, OnDestroy {
     return this.detailChartCategory === ExchangeChartTypeEnum.Subsidiary ? 'properties' : 'companies';
   }
 
+  get searchChartDetailsPlaceholderMessage(): string {
+    if (this.isCompanyChartType && this.detailChartCategory === ExchangeChartTypeEnum.Subsidiary) {
+      return 'Search for a Property...';
+    }
+    return 'Search for a Company...';
+  }
+
   closeSidebar(): void {
     this.store.dispatch(new fromExchangeDashboardActions.CloseSidebar());
   }
