@@ -25,7 +25,11 @@
               <span>Actions</span>
             </ng-template>
             <ng-template kendoGridCellTemplate let-dataItem="dataItem">
-              <a *ngIf="!((downloadingHistoricalPdf$ | async) && (pdfIdToExport$ | async) === dataItem.Id)" (click)="onDownloadClick(dataItem)" title="Download" href="javascript:void(0)">
+              <a *ngIf="!((downloadingHistoricalPdf$ | async) && (pdfIdToExport$ | async) === dataItem.Id)"
+                 [ngClass]="{'disabled': !dataItem.HasAccess}"
+                 [title]="getDownloadTitle(dataItem)"
+                 (click)="onDownloadClick(dataItem)"
+                 href="javascript:void(0)">
                 <fa-icon icon="download"></fa-icon>
               </a>
               <span *ngIf="(downloadingHistoricalPdf$ | async) && (pdfIdToExport$ | async) === dataItem.Id">

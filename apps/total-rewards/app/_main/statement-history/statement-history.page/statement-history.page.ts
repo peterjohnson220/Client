@@ -122,7 +122,13 @@ export class StatementHistoryPageComponent implements OnInit, OnDestroy {
     }
   }
 
+  getDownloadTitle(statement: StatementHistoryListViewModel): string {
+    return statement.HasAccess ? 'Download' : 'You don’t have access to all employees included in this statement';
+  }
+
   onDownloadClick(statement: StatementHistoryListViewModel): void {
+    if (!statement.HasAccess) { return; }
+
     this.store.dispatch( new fromPageActions.UpdatePdfIdToExport({ pdfId: statement.Id }) );
     if (this.enableFileDownloadSecurityWarning) {
       this.fileDownloadSecurityWarningModal.open();

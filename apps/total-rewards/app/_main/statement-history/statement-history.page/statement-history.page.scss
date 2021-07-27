@@ -6,6 +6,11 @@
   color: $data-grid-action-button-color;
 }
 
+.disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
 .dropup .dropdown-toggle::after, .dropdown-toggle::after {
   display: none;
 }
