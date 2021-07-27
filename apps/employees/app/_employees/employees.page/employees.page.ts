@@ -82,6 +82,7 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
   gridConfig: GridConfig;
   gridRowActionsConfig: GridRowActionsConfig = getDefaultGridRowActionsConfig();
   hasDropdownOptions: boolean;
+  employeeDetailsPanelEnabled: boolean;
 
   // total rewards
   totalRewardsStatementMode = StatementModeEnum.Print;
@@ -105,6 +106,7 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
     this.totalRewardsStatement$ = this.store.pipe(select(fromEmployeeManagementReducers.getTotalRewardsStatement));
     this.employeeRewardsData$ = this.store.pipe(select(fromEmployeeManagementReducers.getEmployeeTotalRewardsData));
     this.totalRewardsStatementId$ = this.store.pipe(select(fromEmployeeManagementReducers.getTotalRewardsStatementId));
+    this.employeeDetailsPanelEnabled = this.featureFlagService.enabled(FeatureFlags.EmployeeDetailsPanel, false);
 
     this.actionBarConfig = {
       ...getDefaultActionBarConfig(),
@@ -119,7 +121,8 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
       PersistColumnWidth: true,
       EnableInfiniteScroll: true,
       ScrollToTop: true,
-      SelectAllPanelItemName: 'employees'
+      SelectAllPanelItemName: 'employees',
+      SplitViewDefaultColumnWidth: 388
     };
 
     this.featureFlagService.bindEnabled(this.totalRewardsAdditionalPageFeatureFlag, this.unsubscribe$);

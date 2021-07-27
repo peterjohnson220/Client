@@ -395,7 +395,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
     let colWidth = col.Width;
 
     if (this.selectedRecordId && this.allowSplitView) {
-      colWidth = this.MIN_SPLIT_VIEW_COL_WIDTH;
+      colWidth = this.gridConfig?.SplitViewDefaultColumnWidth ?? this.MIN_SPLIT_VIEW_COL_WIDTH;
     } else if (!!this.defaultColumnWidth && !this.autoFitColumnsToHeader && !col.Width) {
       colWidth = this.defaultColumnWidth;
     }
