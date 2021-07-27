@@ -1,4 +1,4 @@
-import { CompositeField, GetProjectTemplateFieldsResponse, ProjectTemplateFields, ReferencePoints } from 'libs/models/projects/project-templates';
+import { CompositeField, ProjectTemplateFieldsResponse, ProjectTemplateFields, ReferencePoints } from 'libs/models/projects/project-templates';
 
 export class ProjectTemplateHelper {
 
@@ -7,7 +7,7 @@ export class ProjectTemplateHelper {
     return this.getReferencePointValue(referencePoints, index);
   }
 
-  static setTemplateFieldsCompanyName(response: GetProjectTemplateFieldsResponse, companyNameShort: string): ProjectTemplateFields  {
+  static setTemplateFieldsCompanyName(response: ProjectTemplateFieldsResponse, companyNameShort: string): ProjectTemplateFields  {
     // todo this should probably happen server side. Doing client side here to avoid issues in ASP
     if (!!response && response.TemplateFields) {
       response.TemplateFields.forEach(t => {

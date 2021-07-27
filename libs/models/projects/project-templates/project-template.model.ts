@@ -12,7 +12,7 @@ export interface BaseProjectFields {
   TemplateFields: CompositeFieldHierarchy[];
 }
 
-export interface GetProjectTemplateFieldsResponse {
+export interface ProjectTemplateFieldsResponse {
   TemplateName: string;
   ReferencePoints: number[];
   TemplateFields: CompositeFieldHierarchy[];

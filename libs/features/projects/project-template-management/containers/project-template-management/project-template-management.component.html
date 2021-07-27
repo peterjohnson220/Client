@@ -13,7 +13,7 @@
   (onDismiss)="onCancelChanges()"
   (onSubmit)="onSubmit()">
   <ng-container form-content>
-    <div class="container" [style.max-height]="'800px'" [style.overflow]="'auto'" [style.min-height]="'800px'">
+    <div class="container project-field-form-container">
       <pf-async-container
         [loading]="(templateFieldsAsync$ | async)?.loading || (saving$ | async)"
         [loadingError]="(templateFieldsAsync$ | async)?.loadingError"

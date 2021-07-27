@@ -44,3 +44,9 @@
   width: 65px;
 }
 
+.project-field-form-container {
+  min-height: calc(100vh - 200px);
+  max-height: calc(100vh - 200px);
+  overflow: auto;
+}
+
