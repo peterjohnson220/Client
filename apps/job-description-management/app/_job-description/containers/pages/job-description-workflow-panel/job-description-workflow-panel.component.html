@@ -1,0 +1,41 @@
+<div class="pb-3">
+  <strong>Collaboration & Approval</strong>
+  <div class="jd-workflow-head-controls">
+    <span (click)="close()">
+      <fa-icon icon="times" class="fa-lg"></fa-icon>
+    </span>
+  </div>
+</div>
+
+<div class="px-2">
+  <ngb-accordion #acc="ngbAccordion" activeIds="collaborators-panel, approvers-panel">
+    <ngb-panel id="collaborators-panel">
+      <ng-template ngbPanelHeader let-opened="opened">
+        <div class="d-flex align-items-center justify-content-between">
+          <h6>Collaborators</h6>
+          <button ngbPanelToggle type="button" class="caret-btn">
+            <fa-icon *ngIf="opened" [icon]="['fas','caret-down']"></fa-icon>
+            <fa-icon *ngIf="!opened" [icon]="['fas','caret-up']"></fa-icon>
+          </button>
+        </div>
+      </ng-template>
+      <ng-template ngbPanelContent>
+        TODO: Collaborators details...
+      </ng-template>
+    </ngb-panel>
+    <ngb-panel id="approvers-panel">
+      <ng-template ngbPanelHeader let-opened="opened">
+        <div class="d-flex align-items-center justify-content-between">
+          <h6>Approvers</h6>
+          <button ngbPanelToggle type="button" class="caret-btn">
+            <fa-icon *ngIf="opened" [icon]="['fas','caret-down']"></fa-icon>
+            <fa-icon *ngIf="!opened" [icon]="['fas','caret-up']"></fa-icon>
+          </button>
+        </div>
+      </ng-template>
+      <ng-template ngbPanelContent>
+        TODO: Approvers details...
+      </ng-template>
+    </ngb-panel>
+  </ngb-accordion>   
+</div> 

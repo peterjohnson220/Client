@@ -35,4 +35,5 @@ export class FeatureFlags {
   static readonly RestyledLogin = 'restyled-login';
   static readonly PricingProjectExport = 'pricing-project-export';
   static readonly PayscaleBranding = 'payscale-branding';
+  static readonly JdmCollaboration = 'jdm-collaboration';
 }
