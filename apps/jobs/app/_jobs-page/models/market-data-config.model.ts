@@ -1,6 +1,6 @@
 import { BasicDataViewField, DataViewFieldDataType, DataViewFilter } from 'libs/models/payfactors-api';
 
-export class MarketDataJobPricing {
+export interface MarketDataJobPricing {
   Id: number;
   Rate: string;
   JobTitle: string;
@@ -9,6 +9,7 @@ export class MarketDataJobPricing {
   PayMarket: string;
   PayMarketId: number;
   JobPricingEffectiveDate: Date;
+  LinkedPayMarketId: number;
 }
 
 export class MarketDataConfig {

@@ -127,6 +127,16 @@ export class MarketDataComponent implements OnChanges, OnInit, OnDestroy {
     this.jobsPageStore.dispatch(new fromModifyPricingsActions.SetDeleteMatchModalData(deleteModalData));
   }
 
+  public modifyMatchPermissionMessage(isDelete: boolean = false): string {
+    if (!this.isActiveJob) {
+      return isDelete ? 'You cannot delete matches for inactive jobs.' : 'You cannot modify matches for inactive jobs.';
+    } else if (!!this.jobPricing?.LinkedPayMarketId) {
+      return isDelete ? 'You cannot delete matches for linked Pay Markets.' : 'You cannot modify matches for linked Pay Markets.';
+    } else {
+      return '';
+    }
+  }
+
   private initGrid(): void {
     this.basicGridStore.dispatch(new fromBasicDataGridActions.InitGrid(
       this.marketDataId,
