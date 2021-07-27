@@ -103,7 +103,7 @@ export class SurveyDataCutsComponent implements OnChanges, OnInit, AfterViewInit
       }
     });
     this.surveyDataMatchesSubscription = this.surveyDataMatches$.subscribe(sdm => {
-      if (sdm?.obj?.length) {
+      if (sdm?.obj?.length && !!this.selectedDropdown) {
         this.selectedDropdown.open();
       }
     });
