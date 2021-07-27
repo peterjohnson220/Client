@@ -252,7 +252,10 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.surveyJobMatchesSubscription.unsubscribe();
   }
 
-  scroll = (): void => {
+  scroll = (event): void => {
+    if (!event || !event.target || event.target.classList.contains('matches-container')) {
+      return;
+    }
     if (!!this.selectedDropdown) {
       this.selectedDropdown.close();
     }
