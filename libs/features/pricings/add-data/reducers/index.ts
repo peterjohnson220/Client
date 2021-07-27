@@ -4,12 +4,12 @@ import { createSelector, createFeatureSelector } from '@ngrx/store';
 import * as fromRoot from 'libs/state/state';
 
 // Import feature reducers
-import * as fromAddSurveyDataPageReducer from './add-survey-data-page.reducer';
+import * as fromAddSurveyDataReducer from './add-data.reducer';
 import { SharedState } from 'libs/features/surveys/survey-search/reducers';
 
 // Feature area state
 export interface AddDataState extends SharedState {
-  addSurveyDataPage: fromAddSurveyDataPageReducer.State;
+  addSurveyDataPage: fromAddSurveyDataReducer.State;
 }
 
 // Extend root state with feature area state
@@ -19,19 +19,25 @@ export interface State extends fromRoot.State {
 
 // Feature area reducers
 export const reducers = {
-  addSurveyDataPage: fromAddSurveyDataPageReducer.reducer,
+  addSurveyDataPage: fromAddSurveyDataReducer.reducer,
 };
 
 // Select Feature Area
 export const selectFeatureAreaState = createFeatureSelector<AddDataState>('project_addData');
 
 // Feature Selectors
-export const selectAddSurveyDataPageState = createSelector(
+export const selectAddSurveyDataState = createSelector(
   selectFeatureAreaState,
   (state: AddDataState) => state.addSurveyDataPage
 );
 
 export const getAddingData = createSelector(
-  selectAddSurveyDataPageState,
-  fromAddSurveyDataPageReducer.getAddingData
+  selectAddSurveyDataState,
+    fromAddSurveyDataReducer.getAddingData
 );
+
+export const getShowModal = createSelector(
+  selectAddSurveyDataState,
+  fromAddSurveyDataReducer.getShowModal
+);
+
