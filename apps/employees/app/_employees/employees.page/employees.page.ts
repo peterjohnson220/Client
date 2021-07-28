@@ -18,6 +18,7 @@ import {
   getDefaultActionBarConfig,
   getDefaultGridRowActionsConfig,
   GridConfig,
+  GridConfigHelper,
   GridRowActionsConfig
 } from 'libs/features/grids/pf-data-grid/models';
 import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
@@ -122,7 +123,7 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
       EnableInfiniteScroll: true,
       ScrollToTop: true,
       SelectAllPanelItemName: 'employees',
-      SplitViewDefaultColumnWidth: 388
+      SplitViewColumnsWidth: GridConfigHelper.getSplitViewColumnsWidth(500, 70, true)
     };
 
     this.featureFlagService.bindEnabled(this.totalRewardsAdditionalPageFeatureFlag, this.unsubscribe$);

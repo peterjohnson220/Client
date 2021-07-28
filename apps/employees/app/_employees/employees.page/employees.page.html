@@ -16,7 +16,8 @@
   [gridConfig]="gridConfig"
   [pageable]="!gridConfig?.EnableInfiniteScroll"
   [gridRowActionsConfig]="hasDropdownOptions ? gridRowActionsConfig : null"
-  [splitViewTemplate]="employeeDetailsPanelEnabled ? employeeDetails : null">
+  [splitViewTemplate]="employeeDetailsPanelEnabled ? employeeDetails : null"
+  [resetWidthForSplitView]="true">
 </pf-data-grid>
 
 <ng-template #gridRowActionsTemplate let-dataRow="dataRow">

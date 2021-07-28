@@ -5,5 +5,13 @@ export interface GridConfig {
   SelectAllPanelItemName?: string;
   CaptureGridScroll?: boolean;
   IsExpandedRowGrid?: boolean;
-  SplitViewDefaultColumnWidth?: number;
+  SplitViewColumnsWidth?: number;
+}
+
+export class GridConfigHelper {
+  static getSplitViewColumnsWidth(gridContainerWidth: number, actionsColumnWidth: number, enableSelection: boolean): number {
+    const scrollbarWidth = 17;
+    const checkboxColWidth = enableSelection ? 35 : 0;
+    return gridContainerWidth - (scrollbarWidth + checkboxColWidth + actionsColumnWidth);
+  }
 }
