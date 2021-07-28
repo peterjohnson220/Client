@@ -346,7 +346,7 @@ export class SingleJobViewEmployeesSalaryRangeChartComponent implements OnInit, 
 
       this.chartInstance.setSize(null, GraphHelper.getChartHeight(this.employeeData.data, this.defaultPagingCount));
 
-      GraphHelper.forceRedraw(this.chartInstance);
+      GraphHelper.forceRedraw(this.chartInstance, this.chartOptions);
     }
   }
 

@@ -101,13 +101,13 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   pageViewId: string;
   pageViewIdSub: Subscription;
   summaryChartSvgSub: Subscription;
-  verticalChartSvgSub: Subscription;
+  horizontalChartSvgSub: Subscription;
   summaryChartSvg$: Observable<string>;
-  verticalChartSvg$: Observable<string>;
+  horizontalChartSvg$: Observable<string>;
   chartSvgs: ChartSvg[] = [];
-  showVerticalChartSub: Subscription;
-  showVerticalChart$: Observable<boolean>;
-  showVerticalChart = true;
+  showHorizontalChartSub: Subscription;
+  showHorizontalChart$: Observable<boolean>;
+  showHorizontalChart = true;
 
   hasAddEditDeleteStructurePermission: boolean;
   hasCreateEditStructureModelPermission: boolean;
@@ -128,8 +128,8 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     this.selectedRecordId$ = this.store.select(fromPfDataGridReducer.getSelectedRecordId, this.modelGridPageViewId);
     this.data$ = this.store.select(fromPfGridReducer.getData, this.pageViewId);
     this.summaryChartSvg$ = this.store.pipe(select(fromGradeBasedSharedReducer.getSummaryChartSvg));
-    this.verticalChartSvg$ = this.store.pipe(select(fromGradeBasedSharedReducer.getVerticalChartSvg));
-    this.showVerticalChart$ = this.store.pipe(select(fromGradeBasedSharedReducer.getShowVerticalChart));
+    this.horizontalChartSvg$ = this.store.pipe(select(fromGradeBasedSharedReducer.getHorizontalChartSvg));
+    this.showHorizontalChart$ = this.store.pipe(select(fromGradeBasedSharedReducer.getShowHorizontalChart));
     this.singleRecordActionBarConfig = {
       ...getDefaultActionBarConfig(),
       ShowActionBar: false
@@ -217,7 +217,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   handleChartViewToggle() {
-    this.store.dispatch(new fromGradeBasedSharedActions.SetShowVerticalChart(!this.showVerticalChart));
+    this.store.dispatch(new fromGradeBasedSharedActions.SetShowHorizontalChart(!this.showHorizontalChart));
   }
 
   scroll = (): void => {
@@ -305,7 +305,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
         }
       }
     });
-    this.verticalChartSvgSub = this.verticalChartSvg$.subscribe(vcs => {
+    this.horizontalChartSvgSub = this.horizontalChartSvg$.subscribe(vcs => {
       if (vcs) {
         // look for existing value
         const svg = this.chartSvgs.find(s => s.ChartName === 'Vertical');
@@ -316,8 +316,8 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
         }
       }
     });
-    this.showVerticalChartSub = this.showVerticalChart$.subscribe(svc => {
-      this.showVerticalChart = svc;
+    this.showHorizontalChartSub = this.showHorizontalChart$.subscribe(svc => {
+      this.showHorizontalChart = svc;
     });
     this.initPermissions();
     window.addEventListener('scroll', this.scroll, true);
@@ -329,8 +329,8 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     this.rangeOverridesSub.unsubscribe();
     this.dataSubscription.unsubscribe();
     this.pageViewIdSub.unsubscribe();
-    this.verticalChartSvgSub.unsubscribe();
+    this.horizontalChartSvgSub.unsubscribe();
     this.summaryChartSvgSub.unsubscribe();
-    this.showVerticalChartSub.unsubscribe();
+    this.showHorizontalChartSub.unsubscribe();
   }
 }

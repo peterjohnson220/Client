@@ -20,19 +20,20 @@ import { FormulaEditorModule } from 'libs/ui/formula-editor';
 import { PfCommonModule } from 'libs/core';
 
 import * as fromFaIcons from './fa-icons';
-import { ModelGridComponent } from './containers/model-grid/model-grid.component';
-import { GradeBasedSummaryChartComponent } from './containers/grade-based-summary-chart';
 import { SharedModule } from '../../shared/shared.module';
-import { GradeBasedVerticalRangeChartComponent } from './containers/grade-based-vertical-range-chart';
-import { GradeBasedHorizontalRangeChartComponent } from './containers/grade-based-horizontal-range-chart';
+import {
+  GradeBasedHorizontalRangeChartComponent,
+  GradeBasedVerticalRangeChartComponent,
+  ModelGridComponent,
+  GradeBasedSummaryChartComponent,
+  SwitchRegressionFlagsModalComponent
+} from './containers';
 import { reducers } from './reducers';
-
 import {
   PublishModelModalEffects,
   SharedEffects,
   SwitchRegressionFlagsModalEffects
 } from './effects';
-import { SwitchRegressionFlagsModalComponent } from './containers';
 
 
 @NgModule({
@@ -78,15 +79,15 @@ import { SwitchRegressionFlagsModalComponent } from './containers';
   declarations: [
     ModelGridComponent,
     GradeBasedSummaryChartComponent,
-    GradeBasedVerticalRangeChartComponent,
     GradeBasedHorizontalRangeChartComponent,
+    GradeBasedVerticalRangeChartComponent,
     SwitchRegressionFlagsModalComponent
   ],
   exports: [
     ModelGridComponent,
     GradeBasedSummaryChartComponent,
-    GradeBasedVerticalRangeChartComponent,
-    GradeBasedHorizontalRangeChartComponent
+    GradeBasedHorizontalRangeChartComponent,
+    GradeBasedVerticalRangeChartComponent
   ],
   providers: [
   ]

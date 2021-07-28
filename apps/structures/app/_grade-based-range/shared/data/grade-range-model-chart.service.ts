@@ -228,7 +228,7 @@ export class GradeRangeModelChartService {
     }
   }
 
-  static getVerticalRangeOptions(locale, currencyCode, controlPointDisplay, rate, rangeDistributionTypeId) {
+  static getHorizontalRangeOptions(locale, currencyCode, controlPointDisplay, rate, rangeDistributionTypeId) {
     return {
       chart: {
         inverted: false,
@@ -708,7 +708,7 @@ export class GradeRangeModelChartService {
     };
   }
 
-  static getHorizontalRangeOptions(locale, currencyCode, controlPointDisplay, rate, rangeDistributionTypeId) {
+  static getVerticalRangeOptions(locale, currencyCode, controlPointDisplay, rate, rangeDistributionTypeId) {
     return {
       chart: {
         inverted: true,
@@ -762,7 +762,7 @@ export class GradeRangeModelChartService {
         title: {
           text: undefined
         },
-        offset: 14
+        offset: 34
       },
       xAxis: {
         visible: false,
