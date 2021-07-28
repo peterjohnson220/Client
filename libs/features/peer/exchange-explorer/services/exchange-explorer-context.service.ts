@@ -20,9 +20,10 @@ export class ExchangeExplorerContextService {
     const filterContext$ = this.store.pipe(select(fromExchangeExplorerReducer.getFilterContext));
     const mapFilter$ = this.store.pipe(select(fromExchangeExplorerReducer.getPeerMapFilter));
     const mapZoom$ = this.store.pipe(select(fromExchangeExplorerReducer.getPeerMapZoom));
+    const includeDisabledFilters$ = this.store.pipe(select(fromExchangeExplorerReducer.getIncludeDisabledFilters));
     const searchFilters$ = this.searchStore.pipe(select(fromSearchReducer.getParentFilters));
     const childFilters$ = this.searchStore.pipe(select(fromSearchReducer.getChildFilters));
-    const combinedFilterContext$ = combineLatest([filterContext$, mapFilter$, mapZoom$, searchFilters$, childFilters$]);
+    const combinedFilterContext$ = combineLatest([filterContext$, mapFilter$, mapZoom$, includeDisabledFilters$, searchFilters$, childFilters$]);
 
     return combinedFilterContext$.pipe(
       map((combined) => {
@@ -31,13 +32,14 @@ export class ExchangeExplorerContextService {
           ...combined[1],
           ZoomLevel: combined[2]
         };
-        const searchFields = this.payfactorsSearchApiHelper.getTextFiltersWithValuesAsSearchFields(combined[3]);
-        const filters = this.payfactorsSearchApiHelper.getSelectedFiltersAsSearchFilters(combined[3]);
-        const childFilters = this.payfactorsSearchApiHelper.getSelectedFiltersAsSearchFilters(combined[4]);
+        const searchFields = this.payfactorsSearchApiHelper.getTextFiltersWithValuesAsSearchFields(combined[4]);
+        const filters = this.payfactorsSearchApiHelper.getSelectedFiltersAsSearchFilters(combined[4]);
+        const childFilters = this.payfactorsSearchApiHelper.getSelectedFiltersAsSearchFilters(combined[5]);
         const exchangeDataSearchRequest: BaseExchangeDataSearchRequest = {
           FilterContext: filterContext,
           Filters: filters.concat(childFilters),
-          SearchFields: !!searchFields ? searchFields : []
+          SearchFields: !!searchFields ? searchFields : [],
+          IncludeDisabledFilters: combined[3]
         };
         return exchangeDataSearchRequest;
       })

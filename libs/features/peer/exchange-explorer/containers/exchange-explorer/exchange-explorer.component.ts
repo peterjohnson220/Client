@@ -55,6 +55,7 @@ export class ExchangeExplorerComponent extends SearchBaseDirective {
   companyJobId: number;
   cutGuid: string;
   exchangeJobId: number;
+  includeDisabledFilters: boolean = false;
 
   constructor(
     private exchangeExplorerStore: Store<fromExchangeExplorerReducer.State>,
@@ -142,6 +143,7 @@ export class ExchangeExplorerComponent extends SearchBaseDirective {
       this.store.dispatch(new fromExchangeExplorerDataCutsActions.LoadExchangeDataCut(systemFilterRequest));
       return;
     }
+
     this.companyJobId = payload.companyJobId;
     this.companyPayMarketId = payload.companyPayMarketId;
     if (payload.isExchangeSpecific) {
@@ -161,7 +163,11 @@ export class ExchangeExplorerComponent extends SearchBaseDirective {
           if (!!s) {
             this.store.dispatch(new fromExchangeFilterContextActions.SetExchangeScopeSelection(<any>{Id: s, ExchangeId: payload.exchangeId, IsDefault: true}));
           }
-          this.store.dispatch(new fromExchangeExplorerContextInfoActions.LoadContextInfo({exchangeId: this.exchangeId, defaultScopeId: s}));
+          this.store.dispatch(new fromExchangeExplorerContextInfoActions.LoadContextInfo({
+            exchangeId: this.exchangeId,
+            defaultScopeId: s,
+            includeDisabledFilters: !!payload.includeDisabledFilters
+          }));
         });
       }
     } else {

@@ -114,7 +114,8 @@ export class ExchangeExplorerEffects {
         payMarket: !!response.PayMarketContext ? response.PayMarketContext?.PayMarket : null,
         payMarketGeoData: !!response.PayMarketContext ? response.PayMarketContext?.PayMarketGeoData : null,
         exchangeJobFilterOptions: response.AssociatedExchangeJobFilterOptions,
-        searchFilterMappingDataObj: response.SearchFilterMappingData
+        searchFilterMappingDataObj: response.SearchFilterMappingData,
+        includeDisabledFilters: !!payload.includeDisabledFilters
       }),
       new fromExchangeExplorerMapActions.SetPeerMapBounds(response.InitialMapGeoData),
       new fromExchangeFilterContextActions.SetFilterContext(response.FilterContext, payload.defaultScopeId)

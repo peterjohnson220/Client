@@ -23,3 +23,4 @@ export * from './add-tag-categories-modal';
 export * from './add-companies-modal';
 export * from './add-jobs-modal';
 export * from './delete-company-modal';
+export * from './standard-scopes';

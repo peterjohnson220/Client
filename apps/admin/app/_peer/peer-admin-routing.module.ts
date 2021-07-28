@@ -1,14 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { NotFoundErrorPageComponent } from 'libs/ui/common/error/pages';
 import { PfAdminGuard } from 'libs/security/guards';
 
 import {
   ExchangeListPageComponent, ManageExchangePageComponent, ExchangeCompaniesComponent, ExchangeJobsComponent,
   ExchangeAccessRequestsComponent, PayfactorsCompanyExchangeInvitationsComponent,
   NewCompanyExchangeInvitationsComponent, ExchangeJobRequestsComponent, ExchangeJobAssociationUtilityPageComponent,
-  ManageExchangeFiltersComponent, TagCategoriesPageComponent
+  ManageExchangeFiltersComponent, TagCategoriesPageComponent, StandardScopesComponent
 } from './containers';
 import { ExchangeExistsGuard } from './guards';
 
@@ -24,7 +23,8 @@ const routes: Routes = [
       { path: 'companyinvitations', component: PayfactorsCompanyExchangeInvitationsComponent },
       { path: 'companyreferrals', component: NewCompanyExchangeInvitationsComponent },
       { path: 'jobrequests', component: ExchangeJobRequestsComponent },
-      { path: 'exchangefilters', component: ManageExchangeFiltersComponent }
+      { path: 'exchangefilters', component: ManageExchangeFiltersComponent },
+      { path: 'standardscopes', component: StandardScopesComponent, canActivate: [PfAdminGuard]},
     ]
   },
   { path: 'exchangejobassociationutility', component: ExchangeJobAssociationUtilityPageComponent, canActivate: [PfAdminGuard] },

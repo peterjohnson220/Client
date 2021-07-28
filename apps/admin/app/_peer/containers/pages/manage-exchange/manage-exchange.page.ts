@@ -87,7 +87,9 @@ export class ManageExchangePageComponent implements OnInit, OnDestroy {
       { name: 'Company Invitations', route: 'companyinvitations', icon: 'envelope', count$: this.totalPayfactorsCompanyExchangeInvitations$ },
       { name: 'Company Referrals', route: 'companyreferrals', icon: 'address-card', count$: this.totalNewCompanyExchangeInvitations$ },
       { name: 'Job Requests', route: 'jobrequests', icon: 'tasks', count$: this.totalExchangeJobRequests$ },
-      { name: 'Exchange Filters', route: 'exchangefilters', icon: 'filter', count$: this.totalExchangeFilters$ }
+      { name: 'Exchange Filters', route: 'exchangefilters', icon: 'filter', count$: this.totalExchangeFilters$ },
+      //TODO: get standard scope count when they are implemented in exchange scope selector
+      { name: 'Standard Scopes', route: 'standardscopes', icon: 'telescope'}
     ];
   }
 

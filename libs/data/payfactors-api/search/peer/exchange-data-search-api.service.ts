@@ -27,7 +27,7 @@ export class ExchangeDataSearchApiService {
   getExchangeExplorerContextInfo(
     payload: ComphubExchangeExplorerContextRequest |
     { companyJobId?: number, companyPayMarketId?: number } |
-    { exchangeId: number }
+    { exchangeId: number, includeDisabledFilters?: boolean }
     ):
     Observable<ExchangeExplorerContextInfo> {
     const request: ComphubExchangeExplorerContextRequest = payload as ComphubExchangeExplorerContextRequest;
