@@ -35,7 +35,11 @@ export class RoutingWorkflowsPageComponent implements OnInit {
     this.store.dispatch(new fromWorkflowAction.LoadWorkflowTemplates());
   }
 
-  createWorkflow() {
+  createCollaborationWorkflow() {
+    this.saveWorkflowModalComponent.open();
+  }
+
+  createApprovalWorkflow() {
     this.saveWorkflowModalComponent.open();
   }
 

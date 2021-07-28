@@ -8,6 +8,7 @@ import * as fromWorkflowUpsertActions from '../actions';
 const initialWorkflowTemplate: WorkflowTemplate = {
   Id: null,
   Name: null,
+  Type: null,
   Steps: [],
   AllAvailablePermissions: [ Permissions.JOB_DESCRIPTIONS, Permissions.CAN_EDIT_JOB_DESCRIPTION ]
 };
