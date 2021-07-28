@@ -423,7 +423,7 @@ export class JobViewRangeChartComponent implements OnInit, OnDestroy {
         this.chartInstance.series[JobViewRangeChartSeries.RangeMid].update(rangeMidOptions);
       }
 
-      GraphHelper.forceRedraw(this.chartInstance);
+      GraphHelper.forceRedraw(this.chartInstance, this.chartOptions);
     }
   }
 

@@ -6,8 +6,8 @@ import { Grade, GradeJob } from 'libs/features/structures/add-jobs-to-range/mode
 export const SET_CURRENT_REGRESSION_GRADE_INFO = '[Structures - Grade Based Range - Shared] Set Current Regression Grade Info';
 export const SET_OPEN_ADD_JOBS = '[Structures - Grade Based Range - Shared] Set Open Add Jobs';
 export const SET_SUMMARY_CHART_SVG = '[Structures - Grade Based Range - Shared] Set Summary Chart SVG';
-export const SET_VERTICAL_CHART_SVG = '[Structures - Grade Based Range - Shared] Set Vertical Chart SVG';
-export const SET_SHOW_VERTICAL_CHART = '[Structures - Grade Based Range - Shared] Set Show Vertical Chart';
+export const SET_HORIZONTAL_CHART_SVG = '[Structures - Grade Based Range - Shared] Set Vertical Chart SVG';
+export const SET_SHOW_HORIZONTAL_CHART = '[Structures - Grade Based Range - Shared] Set Show Vertical Chart';
 
 export class SetCurrentRegressionGradeInfo implements Action {
   readonly type = SET_CURRENT_REGRESSION_GRADE_INFO;
@@ -27,14 +27,14 @@ export class SetSummaryChartSvg implements Action {
   constructor(public payload: string) {}
 }
 
-export class SetVerticalChartSvg implements Action {
-  readonly type = SET_VERTICAL_CHART_SVG;
+export class SetHorizontalChartSvg implements Action {
+  readonly type = SET_HORIZONTAL_CHART_SVG;
 
   constructor(public payload: string) {}
 }
 
-export class SetShowVerticalChart implements Action {
-  readonly type = SET_SHOW_VERTICAL_CHART;
+export class SetShowHorizontalChart implements Action {
+  readonly type = SET_SHOW_HORIZONTAL_CHART;
 
   constructor(public payload: boolean) {}
 }
@@ -43,7 +43,7 @@ export type SharedActions
   = SetCurrentRegressionGradeInfo
   | SetOpenAddJobs
   | SetSummaryChartSvg
-  | SetVerticalChartSvg
-  | SetShowVerticalChart;
+  | SetHorizontalChartSvg
+  | SetShowHorizontalChart;
 
 

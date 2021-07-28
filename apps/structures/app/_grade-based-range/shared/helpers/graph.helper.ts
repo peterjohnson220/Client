@@ -54,7 +54,7 @@ export class GraphHelper {
     }
   }
 
-  static getGbrHorizontalChartHeight(data: any): number {
+  static getGbrVerticalChartHeight(data: any): number {
     const defaultOffset = 56;
     const rowHeight = 60;
     const defaultSingleRecordHeight = 110;
@@ -79,9 +79,9 @@ export class GraphHelper {
     return (rowHeight * dataLength) + (defaultOffset + scrollOffset);
   }
 
-  static forceRedraw(chartInstance) {
+  static forceRedraw(chartInstance, chartOptions) {
     // DO NOT REMOVE THIS - I know it looks stupid, but this is the only way that everything draws correctly. Trust me.
-    const overallOptions = chartInstance.options;
-    chartInstance.update(overallOptions, true);
+    chartInstance.update(chartOptions, true);
   }
+
 }

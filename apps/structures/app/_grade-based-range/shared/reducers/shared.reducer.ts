@@ -3,15 +3,15 @@ import * as fromSharedActions from '../actions/shared.actions';
 export interface State {
   openAddJobs: boolean;
   summaryChartSvg: string;
-  verticalChartSvg: string;
-  showVerticalChart: boolean;
+  horizontalChartSvg: string;
+  showHorizontalChart: boolean;
 }
 
 const initialState: State = {
   openAddJobs: false,
   summaryChartSvg: '',
-  verticalChartSvg: '',
-  showVerticalChart: true
+  horizontalChartSvg: '',
+  showHorizontalChart: true
 };
 
 export function reducer(state = initialState, action: fromSharedActions.SharedActions): State {
@@ -28,16 +28,16 @@ export function reducer(state = initialState, action: fromSharedActions.SharedAc
         summaryChartSvg: action.payload
       };
     }
-    case fromSharedActions.SET_VERTICAL_CHART_SVG: {
+    case fromSharedActions.SET_HORIZONTAL_CHART_SVG: {
       return {
         ...state,
-        verticalChartSvg: action.payload
+        horizontalChartSvg: action.payload
       };
     }
-    case fromSharedActions.SET_SHOW_VERTICAL_CHART: {
+    case fromSharedActions.SET_SHOW_HORIZONTAL_CHART: {
       return {
         ...state,
-        showVerticalChart: action.payload
+        showHorizontalChart: action.payload
       };
     }
     default:
@@ -47,5 +47,5 @@ export function reducer(state = initialState, action: fromSharedActions.SharedAc
 
 export const getOpenAddJobs = (state: State) => state.openAddJobs;
 export const getSummaryChartSvg = (state: State) => state.summaryChartSvg;
-export const getVerticalChartSvg = (state: State) => state.verticalChartSvg;
-export const getShowVerticalChart = (state: State) => state.showVerticalChart;
+export const getHorizontalChartSvg = (state: State) => state.horizontalChartSvg;
+export const getShowHorizontalChart = (state: State) => state.showHorizontalChart;
