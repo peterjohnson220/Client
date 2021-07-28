@@ -5,4 +5,5 @@ export interface GridConfig {
   SelectAllPanelItemName?: string;
   CaptureGridScroll?: boolean;
   IsExpandedRowGrid?: boolean;
+  SplitViewDefaultColumnWidth?: number;
 }
