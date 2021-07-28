@@ -37,12 +37,12 @@
 <ng-template #matchesColumn let-dataRow="dataRow" let-fieldName="fieldName">
   <div pfEllipsisActive class="ellipsis-overflowing-text">
     <div class="d-inline-block" ngbDropdown #p="ngbDropdown" placement="left" container="body" >
-      <p *ngIf="dataRow['SurveyData_SurveyDataMatchesCount'] > 1; else noLink" class="pf-link-hover" [id]="'surveyData' + dataRow['CompanySurveys_Survey_ID']" ngbDropdownAnchor
+      <p *ngIf="dataRow['SurveyData_SurveyDataMatchesCount'] > 0; else noLink" class="pf-link-hover" [id]="'surveyData' + dataRow['CompanySurveys_Survey_ID']" ngbDropdownAnchor
          (click)="handleMatchesClicked(jobType.SurveyCut, dataRow['SurveyData_Survey_Data_ID'], '', p)">
         {{dataRow[fieldName]}}
       </p>
       <div ngbDropdownMenu aria-labelledby="surveyDataMatches">
-        <ul class="list-unstyled">
+        <ul (scroll)="scroll($event)" class="list-unstyled overflow-auto matches-container">
           <li *ngFor="let match of (surveyDataMatches$ | async)?.obj" ngbDropdownItem>
             {{match}}
           </li>

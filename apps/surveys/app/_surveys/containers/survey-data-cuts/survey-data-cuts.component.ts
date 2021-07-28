@@ -124,7 +124,10 @@ export class SurveyDataCutsComponent implements OnChanges, OnInit, AfterViewInit
     this.splitViewFiltersSubscription.unsubscribe();
     this.surveyDataMatchesSubscription.unsubscribe();
   }
-  scroll = (): void => {
+  scroll = (event): void => {
+    if (!event || !event.target || event.target.classList.contains('matches-container')) {
+      return;
+    }
     if (!!this.selectedDropdown) {
       this.selectedDropdown.close();
     }
