@@ -19,8 +19,9 @@
           <button [pfSecuredResource]="permissions.CAN_MANAGE_JOB_DESCRIPTION_TEMPLATES" routerLink="/templates"
                   class="dropdown-item">Template Management
           </button>
-          <button [pfSecuredResource]="permissions.CAN_MANAGE_JOB_DESCRIPTION_SETTINGS" routerLink="/settings"
-                  class="dropdown-item">Settings
+          <button [pfSecuredResource]="permissions.CAN_MANAGE_JOB_DESCRIPTION_SETTINGS" 
+            (click)="navigateToJdmSettings()"
+            class="dropdown-item">Settings
           </button>
         </div>
       </div>

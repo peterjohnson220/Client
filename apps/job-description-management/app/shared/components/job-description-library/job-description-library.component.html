@@ -34,7 +34,7 @@
           (activeIdChange)="handleTabChange(activeId)"
           >
 
-        <li *ngFor="let bucket of buckets" [ngbNavItem]="bucket.Key">
+        <li *ngFor="let bucket of filteredBuckets" [ngbNavItem]="bucket.Key">
           <a ngbNavLink>{{bucket.Label}} <span [ngClass]="bucket.Key === 'jobmatches' ? 'badge badge-pill badge-primary' : 'badge badge-pill badge-default'">{{bucket.DocumentCount}}</span></a>
           <ng-template ngbNavContent>
             <div class="jd-library-results-table">

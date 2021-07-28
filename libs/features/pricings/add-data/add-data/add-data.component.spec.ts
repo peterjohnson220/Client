@@ -9,12 +9,12 @@ import * as fromRootState from 'libs/state/state';
 import * as fromSearchPageActions from 'libs/features/search/search/actions/search-page.actions';
 import { AbstractFeatureFlagService } from 'libs/core/services/feature-flags';
 
-import * as fromAddDataReducer from '../../../reducers';
-import { AddSurveyDataPageComponent } from './add-survey-data.page';
+import * as fromAddDataReducer from '../reducers';
+import {AddDataComponent} from './add-data.component';
 
 describe('Project - Add Data - Surveys Page', () => {
-  let fixture: ComponentFixture<AddSurveyDataPageComponent>;
-  let instance: AddSurveyDataPageComponent;
+  let fixture: ComponentFixture<AddDataComponent>;
+  let instance: AddDataComponent;
   let store: Store<fromAddDataReducer.State>;
   let abstractFeatureFlagService: AbstractFeatureFlagService;
 
@@ -35,7 +35,7 @@ describe('Project - Add Data - Surveys Page', () => {
         }
       ],
       declarations: [
-        AddSurveyDataPageComponent
+        AddDataComponent
       ],
       // Shallow Testing
       schemas: [ NO_ERRORS_SCHEMA ]
@@ -43,7 +43,7 @@ describe('Project - Add Data - Surveys Page', () => {
 
     store = TestBed.inject(Store);
 
-    fixture = TestBed.createComponent(AddSurveyDataPageComponent);
+    fixture = TestBed.createComponent(AddDataComponent);
     instance = fixture.componentInstance;
     abstractFeatureFlagService = TestBed.inject(AbstractFeatureFlagService);
   });

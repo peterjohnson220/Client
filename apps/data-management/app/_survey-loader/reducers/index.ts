@@ -49,5 +49,5 @@ export const getWorksheetNames = createSelector(selectUploadSurveyFileState, fro
 export const getFileUploadSettings = createSelector(selectUploadSurveyFileState, fromUploadSurveyFileReducer.getFileUploadSettings);
 export const getSurveyJobSheetName = createSelector(selectUploadSurveyFileState, fromUploadSurveyFileReducer.getSurveyJobSheetName);
 export const getSurveyDataSheetName = createSelector(selectUploadSurveyFileState, fromUploadSurveyFileReducer.getSurveyDataSheetName);
-export const getSurveyParticipationSheetName = createSelector(selectUploadSurveyFileState, fromUploadSurveyFileReducer.getSurveyParticipationSheetName);
+export const getSurveyParticipantsSheetName = createSelector(selectUploadSurveyFileState, fromUploadSurveyFileReducer.getSurveyParticipantsSheetName);
 export const getValidationOnly = createSelector(selectUploadSurveyFileState, fromUploadSurveyFileReducer.getValidationOnly);

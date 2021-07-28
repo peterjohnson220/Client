@@ -6,7 +6,7 @@ export class SurveyLoaderSettingsHelper {
     return [
       { KeyName: LoaderSettingKeyName.SurveyJobsSheetName, LoaderSettingsId: 0, KeyValue: null },
       { KeyName: LoaderSettingKeyName.SurveyDataSheetName, LoaderSettingsId: 0, KeyValue: null },
-      { KeyName: LoaderSettingKeyName.SurveyParticipationSheetName, LoaderSettingsId: 0, KeyValue: null },
+      { KeyName: LoaderSettingKeyName.SurveyParticipantsSheetName, LoaderSettingsId: 0, KeyValue: null },
       { KeyName: LoaderSettingKeyName.ValidateOnly, LoaderSettingsId: 0, KeyValue: 'true' },
       { KeyName: LoaderSettingKeyName.FileFormat, LoaderSettingsId: 0, KeyValue: LoaderFileFormat.XLSX }
     ];
