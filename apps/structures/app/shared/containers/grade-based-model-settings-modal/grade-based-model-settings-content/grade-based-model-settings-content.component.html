@@ -12,7 +12,6 @@
                    formControlName="ModelName"
                    [ngClass]="{ 'is-invalid': ((attemptedSubmit || formControls.ModelName.touched) && !formControls.ModelName.valid) || modelNameExistsFailure }"
                    [maxlength]="50"
-                   [pfValidatable]="true"
                    (input)="clearModelNameExistsFailure()"/>
             <div class="col-3"></div>
             <div class="col-7 offset-3 invalid-feedback">
