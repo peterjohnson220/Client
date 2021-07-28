@@ -5,6 +5,7 @@ import { Observable, Subscription } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 
 import { AsyncStateObj, Currency, RangeGroupMetadata, RoundingSettingsDataObj } from 'libs/models';
+import { RoundingTypes } from 'libs/constants/structures/rounding-type';
 
 import * as fromSharedStructuresReducer from '../../reducers';
 import * as fromModelSettingsModalActions from '../../actions/model-settings-modal.actions';
@@ -124,7 +125,7 @@ export abstract class AbstractModelSettingsContentComponent implements OnInit, O
 
   protected updateRoundingPoints(value: string): void {
     const roundingPoint = value.toLowerCase() === 'hourly' ? 2 : 0;
-    this.store.dispatch(new fromSharedStructuresActions.UpdateRoundingPoints({ RoundingPoint: roundingPoint }));
+    this.store.dispatch(new fromSharedStructuresActions.UpdateRoundingPoints({RoundingType: RoundingTypes.Round, RoundingPoint: roundingPoint }));
   }
 
   protected setControlPoints(asyncObj: AsyncStateObj<ControlPoint[]>): void {

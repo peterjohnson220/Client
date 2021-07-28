@@ -12,6 +12,7 @@ import { AdjustMidpointTypes } from 'libs/constants/structures/adjust-midpoint-t
 
 import * as fromModelSettingsModalActions from '../../../actions/model-settings-modal.actions';
 import { AbstractModelSettingsContentComponent } from '../../model-settings-modal';
+import * as fromSharedStructuresActions from '../../../actions/shared.actions';
 
 @Component({
   selector: 'pf-grade-based-model-settings-content',

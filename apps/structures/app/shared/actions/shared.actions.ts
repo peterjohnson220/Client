@@ -121,7 +121,7 @@ export class ResetRoundingSetting implements Action {
 export class UpdateRoundingPoints implements Action {
   readonly type = UPDATE_ROUNDING_POINTS;
 
-  constructor(public payload: { RoundingPoint: number }) {}
+  constructor(public payload: {RoundingType: number, RoundingPoint: number }) {}
 }
 
 export class GetCompanyExchanges implements Action {

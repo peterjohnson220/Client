@@ -116,7 +116,7 @@ export function reducer(state = initialState, action: fromSharedActions.SharedAc
       };
     }
     case fromSharedActions.UPDATE_ROUNDING_POINTS: {
-      const newSetting = updateRoundingPoints(action.payload.RoundingPoint, cloneDeep(state.roundingSettings));
+      const newSetting = updateRoundingPoints(action.payload.RoundingType, action.payload.RoundingPoint, cloneDeep(state.roundingSettings));
       return {
         ...state,
         roundingSettings: newSetting
@@ -256,10 +256,11 @@ export function reducer(state = initialState, action: fromSharedActions.SharedAc
   }
 }
 
-function updateRoundingPoints(roundingPoint: number, settings: RoundingSettingsDataObj) {
+function updateRoundingPoints(roundingType: number, roundingPoint: number, settings: RoundingSettingsDataObj) {
   for (const key in settings) {
     if (!!settings[key]) {
       settings[key].RoundingPoint = roundingPoint;
+      settings[key].RoundingType = roundingType;
     }
   }
   return settings;
