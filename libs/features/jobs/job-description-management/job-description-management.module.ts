@@ -23,7 +23,8 @@ import {
   JobFamilyEffects,
   SharedWorkflowEffects,
   TemplateListEffects,
-  WorkflowConfigEffects
+  WorkflowConfigEffects,
+  CollaborationWorkflowConfigEffects
 } from 'libs/features/jobs/job-description-management/effects';
 import {
   JobDescriptionSectionComponent,
@@ -51,7 +52,8 @@ import {
       JobFamilyEffects,
       SharedWorkflowEffects,
       TemplateListEffects,
-      WorkflowConfigEffects
+      WorkflowConfigEffects,
+      CollaborationWorkflowConfigEffects
     ]),
     FontAwesomeModule,
     DragulaModule.forRoot(),
