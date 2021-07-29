@@ -6,7 +6,7 @@ import { Store } from '@ngrx/store';
 import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
 
 import { PfDataGridColType } from 'libs/features/grids/pf-data-grid/enums';
-import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums/pf-theme-type.enum';
+import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums';
 import { ActionBarConfig, getDefaultActionBarConfig, GridConfig, PfDataGridFilter } from 'libs/features/grids/pf-data-grid/models';
 import { AsyncStateObj } from 'libs/models/state';
 import { JobTypeEnum } from 'libs/models/survey';

@@ -9,7 +9,7 @@ import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig, GridConfi
 import * as fromPfDataGridActions from 'libs/features/grids/pf-data-grid/actions';
 import { Permissions } from 'libs/constants';
 import { PfDataGridColType } from 'libs/features/grids/pf-data-grid/enums';
-import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums/pf-theme-type.enum';
+import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums';
 import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import { Between } from 'libs/ui/formula-editor/models';
 import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';

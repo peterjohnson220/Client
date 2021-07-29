@@ -20,6 +20,7 @@ import { PfCommonUIModule } from 'libs/ui/common';
 import { ProjectTemplateManagementComponent } from './project-template-management.component';
 import { SelectAllStatusPipe } from '../../pipes';
 import * as fromProjectTemplateManagementReducer from '../../reducers';
+import { ProjectFieldManagementFeatureImplementations } from '../../constants';
 
 describe('ProjectTemplateManagementComponent', () => {
   let instance: ProjectTemplateManagementComponent;
@@ -205,6 +206,21 @@ describe('ProjectTemplateManagementComponent', () => {
     instance.updateMrpValues();
 
     expect(instance.store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
+
+  it('should dispatch the appropriate save action based on feature implementation', () => {
+    spyOn(instance.store, 'dispatch');
+    const request = instance.getProjectTemplateFromForm();
+
+    const defaultAction = new fromProjectTemplateManagementActions.SaveProjectTemplateFields(request);
+    const pricingProjectAction = new fromProjectTemplateManagementActions.SaveBaseProjectFieldSelections(request);
+
+    instance.onSubmit();
+    expect(instance.store.dispatch).toHaveBeenCalledWith(defaultAction);
+
+    instance.featureImplementation = ProjectFieldManagementFeatureImplementations.PRICING_PROJECTS;
+    instance.onSubmit();
+    expect(instance.store.dispatch).toHaveBeenCalledWith(pricingProjectAction);
   });
 
 });

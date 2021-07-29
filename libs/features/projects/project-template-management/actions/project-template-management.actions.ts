@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
 
 import { BaseProjectFields, CompositeField, ProjectTemplateFields } from 'libs/models';
-import { SaveProjectTemplateRequest } from 'libs/models/payfactors-api/project/request';
+import { SaveCompositeFieldsRequest, SaveProjectTemplateRequest } from 'libs/models/payfactors-api/project/request';
 
 export const HANDLE_API_ERROR = '[ProjectTemplateManagement] Handle API Error';
 export const SHOW_PROJECT_TEMPLATE_FORM = '[ProjectTemplateManagement] Show Template Form';
@@ -17,6 +17,8 @@ export const UPDATE_REFERENCE_POINTS = '[ProjectTemplateManagement] Update Refer
 export const EDIT_TEMPLATE = '[ProjectTemplateManagement] Edit Template';
 export const TOGGLE_SELECT_ALL = '[ProjectTemplateManagement] Toggle Select All';
 export const SET_BASE_PROJECT_FIELDS = '[ProjectTemplateManagement] Set Base Project Fields';
+export const SAVE_BASE_PROJECT_FIELD_SELECTIONS = '[ProjectTemplateManagement] Save Base Project Field Selections';
+export const SAVE_BASE_PROJECT_FIELD_SELECTIONS_SUCCESS = '[ProjectTemplateManagement] Save Base Project Field Selections Success';
 
 export class ShowProjectTemplateForm implements Action {
   readonly type = SHOW_PROJECT_TEMPLATE_FORM;
@@ -86,6 +88,16 @@ export class SetBaseProjectFields implements Action {
   constructor(public payload: BaseProjectFields) {}
 }
 
+export class SaveBaseProjectFieldSelections implements Action {
+  readonly type = SAVE_BASE_PROJECT_FIELD_SELECTIONS;
+  constructor(public payload: SaveCompositeFieldsRequest) {}
+}
+
+export class SaveBaseProjectFieldSelectionsSuccess implements Action {
+  readonly type = SAVE_BASE_PROJECT_FIELD_SELECTIONS_SUCCESS;
+  constructor() {}
+}
+
 export type Actions
   = ShowProjectTemplateForm
   | GetProjectTemplateFields
@@ -98,4 +110,6 @@ export type Actions
   | UpdateReferencePoints
   | EditTemplate
   | ToggleSelectAll
-  | SetBaseProjectFields;
+  | SetBaseProjectFields
+  | SaveBaseProjectFieldSelections
+  | SaveBaseProjectFieldSelectionsSuccess;

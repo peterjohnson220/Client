@@ -35,7 +35,8 @@ import {
   ColumnChooserComponent,
   ColumnGroupComponent,
   ColumnGroupListComponent,
-  SelectAllPanelComponent
+  SelectAllPanelComponent,
+  PfGridColumnHeaderComponent
 } from './components';
 import {
   SortDirectionPipe,
@@ -83,6 +84,7 @@ import {
     ColumnGroupComponent,
     ColumnGroupListComponent,
     SelectAllPanelComponent,
+    PfGridColumnHeaderComponent,
 
     // Pipes
     SortDirectionPipe,

@@ -31,7 +31,7 @@ export class HasAccessToProjectGuard implements CanActivate {
     return this.pricingProjectApiService.getPricingProject(projectId).pipe(
       map((response) => {
         if (response) {
-          this.store.dispatch(new fromPricingProjectPageActions.GetPricingProjectSuccess(response));
+          this.store.dispatch(new fromPricingProjectPageActions.GetPricingProjectContextSuccess(response));
           return true;
         } else {
           this.router.navigate(['/not-found'], { relativeTo: this.route });

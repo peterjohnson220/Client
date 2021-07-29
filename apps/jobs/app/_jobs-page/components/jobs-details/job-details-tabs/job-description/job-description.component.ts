@@ -11,7 +11,7 @@ import { PfDataGridFilter } from 'libs/features/grids/pf-data-grid/models';
 import { JobDescriptionSummary, AsyncStateObj, JobDescriptionSection, ControlType, JobDescription, CompanySettingsEnum, showSection } from 'libs/models';
 import { PermissionCheckEnum, Permissions } from 'libs/constants';
 import { PermissionService } from 'libs/core/services';
-import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums/pf-theme-type.enum';
+import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums';
 import { ControlDataHelper } from 'libs/features/jobs/job-description-management/helpers';
 import * as fromJobManagementActions from 'libs/features/jobs/job-management/actions';
 import * as fromJDMSharedReducer from 'libs/features/jobs/job-description-management/reducers';

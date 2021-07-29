@@ -85,8 +85,16 @@ export class ProjectTemplateManagementComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    const template = this.getProjectTemplateFromForm();
-    this.store.dispatch(new fromProjectTemplateManagementActions.SaveProjectTemplateFields(template));
+    const request = this.getProjectTemplateFromForm();
+    switch (this.featureImplementation) {
+      case this.featureImplementations.PRICING_PROJECTS:
+        this.store.dispatch(new fromProjectTemplateManagementActions.SaveBaseProjectFieldSelections(request));
+        break;
+      case this.featureImplementations.PROJECT_TEMPLATES:
+      default:
+        this.store.dispatch(new fromProjectTemplateManagementActions.SaveProjectTemplateFields(request));
+        break;
+    }
   }
 
   getKeys(object: any): string[] {
@@ -101,17 +109,9 @@ export class ProjectTemplateManagementComponent implements OnInit, OnDestroy {
     return item.ListCompositeFieldId;
   }
 
-  // [GL] Since we pass a formGroup to the pf-modal-form, that form controls the save button
-  // The button is supposed to be enabled if the form is valid AND changes have been detected as to not save the same data
-  // Project forms are always valid due to not requiring a template name
-  // As of now with ENG-681, we want the save button to be permanently disabled on the projects page
-  // This single checkbox change as well as the select all below will not flag the form as changed when being hit from the projects page
-  // This will allow the save button to be permanently disabled until we are ready to move forward with the refactored save/get logic
   handleSelectionChanged(field: CompositeField): void {
     this.store.dispatch(new fromProjectTemplateManagementActions.ToggleFieldSelected(field));
-    if (this.featureImplementation !== this.featureImplementations.PRICING_PROJECTS) {
-      this.projectTemplateForm.markAsTouched();
-    }
+    this.projectTemplateForm.markAsTouched();
   }
 
   handleSelectAllClicked(event: any, category: string) {
@@ -120,9 +120,7 @@ export class ProjectTemplateManagementComponent implements OnInit, OnDestroy {
       SelectAllValue: event.target.checked
     }));
 
-    if (this.featureImplementation !== this.featureImplementations.PRICING_PROJECTS) {
-      this.projectTemplateForm.markAsTouched();
-    }
+    this.projectTemplateForm.markAsTouched();
   }
 
   clearErrorMessage(): void {
@@ -198,6 +196,7 @@ export class ProjectTemplateManagementComponent implements OnInit, OnDestroy {
         selectedCompositeFieldIds = selectedCompositeFieldIds.concat(selectedFields);
       });
     });
+
     return selectedCompositeFieldIds;
   }
 
@@ -279,7 +278,7 @@ export class ProjectTemplateManagementComponent implements OnInit, OnDestroy {
     });
   }
 
-  private getProjectTemplateFromForm(): SaveProjectTemplateRequest {
+  getProjectTemplateFromForm(): SaveProjectTemplateRequest {
     const projectTemplate: SaveProjectTemplateRequest = this.projectTemplateForm.getRawValue();
     projectTemplate.CompositeFieldIds = this.getCheckedCompositeFieldIds();
     return projectTemplate;

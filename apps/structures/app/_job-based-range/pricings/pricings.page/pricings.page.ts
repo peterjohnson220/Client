@@ -9,7 +9,7 @@ import { ActionBarConfig, ColumnChooserType, getDefaultActionBarConfig, GridConf
 import * as fromPfDataGridActions from 'libs/features/grids/pf-data-grid/actions';
 import { Permissions } from 'libs/constants';
 import { PfDataGridColType } from 'libs/features/grids/pf-data-grid/enums';
-import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums/pf-theme-type.enum';
+import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums';
 import { MultiMatchFeatureImplementations } from 'libs/features/pricings/multi-match/constants';
 import * as fromRootState from 'libs/state/state';
 import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';

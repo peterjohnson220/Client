@@ -4,7 +4,8 @@
   [title]="projectContext?.Project?.Name || (projectContext?.Project?.CreateDate | date : 'MM/dd/yy')"
   [enableSelection]="true"
   [inboundFilters]="filter"
-  [columnTemplates]="colTemplates"
+  [columnTemplates]="columnDataTemplates"
+  [columnHeaderTemplates]="columnHeaderTemplates"
   [groupedColumnHeaderTemplates]="groupedColumnHeaderTemplates"
   [selectionField]="'UserJobListTemp_ID'"
   [gridConfig]="gridConfig"
@@ -17,7 +18,8 @@
   [hideKendoGrid] = "viewingJobSummary"
   [gridReplacementTemplate] = "jobSummary"
   [displaySelectAllWarning] = "!viewingJobSummary"
-  [noRecordsFound]="'No jobs available in this project.'">
+  [noRecordsFound]="'No jobs available in this project.'"
+  [viewConfigurationStrategy]="projectViewConfigurationStrategy">
 </pf-data-grid>
 
 <ng-template #aboveGridTemplate>
@@ -166,15 +168,28 @@
 <pf-add-data [display]="'modal'">
 </pf-add-data>
 
+<!--TODO: update viewingJobSummary/disabled logic when more reports/pages get added -->
 <ng-template #customColumnChooser>
   <button
+    #columnChooserButton
     title="Choose Columns"
     type="button"
-    id="column-popover-btn"
     class="btn btn-secondary"
-    (click)="handleColumnChooserClicked()">
+    (click)="handleColumnChooserClicked(columnChooserButton)"
+    [disabled]="viewingJobSummary">
     <fa-icon icon="table"></fa-icon>
   </button>
+</ng-template>
+
+<ng-template #mrpColumnHeader let-column="column">
+  <div pfEllipsisActive class="ellipsis-text k-column-title">
+    <!--
+      This string split logic is to get the category off of the field source name
+      column.Field = vw_ProjectJobMetaData_BaseMRP (...TCCMRP, BonusMRP, etc.)
+      From that we need the 'Base' part of that string to get the projectContext.Project[stringSplit + 'ReferencePoint']
+    -->
+    ({{projectContext?.Project[column.field.split('_')[2].split('MRP')[0] + 'ReferencePoint'] || 50 | ordinalNumber}}) MRP
+  </div>
 </ng-template>
 
 <pf-project-template-management

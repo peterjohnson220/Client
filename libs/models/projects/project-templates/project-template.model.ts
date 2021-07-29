@@ -1,3 +1,5 @@
+import { DataView } from '../../payfactors-api';
+
 export interface ProjectTemplate {
   ProjectTemplateId: number;
   TemplateName: string;
@@ -16,6 +18,68 @@ export interface ProjectTemplateFieldsResponse {
   TemplateName: string;
   ReferencePoints: number[];
   TemplateFields: CompositeFieldHierarchy[];
+}
+
+export interface SaveProjectFieldRequest {
+  ProjectId: number;
+  ProjectDataView: DataView;
+  ReferencePoints: PricingProjectReferencePoints;
+}
+
+export interface PricingProjectReferencePoints {
+  BaseReferencePoint: number;
+  TCCReferencePoint: number;
+  BonusReferencePoint: number;
+  TCCTargetReferencePoint: number;
+  LTIPReferencePoint: number;
+  TDCReferencePoint: number;
+  AllowReferencePoint: number;
+  FixedReferencePoint: number;
+  RemunReferencePoint: number;
+  TGPReferencePoint: number;
+  BonusTargetReferencePoint: number;
+  TargetLTIPReferencePoint: number;
+  TargetTDCReferencePoint: number;
+  SalesIncentiveActualPctReferencePoint: number;
+  SalesIncentiveTargetPctReferencePoint: number;
+  TCCPlusAllowReferencePoint: number;
+  TCCPlusAllowNoCarReferencePoint: number;
+  TCCTargetPlusAllowReferencePoint: number;
+  TCCTargetPlusAllowNoCarReferencePoint: number;
+  LTIPPctReferencePoint: number;
+  BonusPctReferencePoint: number;
+  BonusTargetPctReferencePoint: number;
+  SalesIncentiveActualReferencePoint: number;
+  SalesIncentiveTargetReferencePoint: number;
+}
+
+export function getDefaultReferencePoints(): PricingProjectReferencePoints {
+  return {
+    BaseReferencePoint: 50,
+    TCCReferencePoint: 50,
+    BonusReferencePoint: 50,
+    TCCTargetReferencePoint: 50,
+    LTIPReferencePoint: 50,
+    TDCReferencePoint: 50,
+    AllowReferencePoint: 50,
+    FixedReferencePoint: 50,
+    RemunReferencePoint: 50,
+    TGPReferencePoint: 50,
+    BonusTargetReferencePoint: 50,
+    TargetLTIPReferencePoint: 50,
+    TargetTDCReferencePoint: 50,
+    SalesIncentiveActualPctReferencePoint: 50,
+    SalesIncentiveTargetPctReferencePoint: 50,
+    TCCPlusAllowReferencePoint: 50,
+    TCCPlusAllowNoCarReferencePoint: 50,
+    TCCTargetPlusAllowReferencePoint: 50,
+    TCCTargetPlusAllowNoCarReferencePoint: 50,
+    LTIPPctReferencePoint: 50,
+    BonusPctReferencePoint: 50,
+    BonusTargetPctReferencePoint: 50,
+    SalesIncentiveActualReferencePoint: 50,
+    SalesIncentiveTargetReferencePoint: 50,
+  };
 }
 
 export function generateMockProjectTemplateFields(): ProjectTemplateFields {
