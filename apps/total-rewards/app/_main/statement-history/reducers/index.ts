@@ -31,24 +31,24 @@ export const selectPageState = createSelector(
 export const getStatement = createSelector(
   selectPageState,
   (state: fromPageReducer.State) => state.statement?.obj
-  );
+);
 
-  export const getStatementHistoryGridState = createSelector(
-    selectPageState, (state: fromPageReducer.State) => state.gridState
-    );
+export const getStatementHistoryGridState = createSelector(
+  selectPageState, (state: fromPageReducer.State) => state.gridState
+);
 
-  export const getStatementHistoryViewModel = createSelector(
-    selectPageState, (state: fromPageReducer.State) => state?.statementHistory?.obj
-  );
+export const getStatementHistoryViewModel = createSelector(
+  selectPageState, (state: fromPageReducer.State) => state?.statementHistory?.obj
+);
 
-  // Statement history selectors
-  export const getStatementHistoryGridData = createSelector(
-    getStatementHistoryViewModel,
-    (state: StatementHistoryViewModel) => ({
-      data: state?.StatementHistory,
-      total: state?.TotalCount
-    })
-  );
+// Statement history selectors
+export const getStatementHistoryGridData = createSelector(
+  getStatementHistoryViewModel,
+  (state: StatementHistoryViewModel) => ({
+    data: state?.StatementHistory,
+    total: state?.TotalCount
+  })
+);
 
 export const getStatementHistoryLoading = createSelector(selectPageState, fromPageReducer.getStatementHistoryLoading);
 export const getStatementHistoryLoadingError = createSelector(selectPageState, fromPageReducer.getStatementHistoryLoadingError);

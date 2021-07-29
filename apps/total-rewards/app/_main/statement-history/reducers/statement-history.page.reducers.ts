@@ -71,6 +71,13 @@ export function reducer(state = initialState, action: fromActions.StatementHisto
       return AsyncStateObjHelper.loadingError(state, 'statementHistory', action.payload);
     }
     case fromActions.UPDATE_GRID_STATE: {
+      const newSort = action.payload.sort[0], initialSort = initialState.gridState.sort[0];
+      if (newSort.field === initialSort.field && !newSort.dir) {
+        return { ...state, gridState: { ...action.payload, sort: [{ field: newSort.field, dir: 'asc' }] }};
+      } else if (!newSort.dir) {
+        return { ...state, gridState: { ...action.payload, sort: [initialSort] }};
+      }
+
       return { ...state, gridState: action.payload };
     }
     case fromActions.DOWNLOAD_HISTORICAL_STATEMENT: {
