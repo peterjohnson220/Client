@@ -7,8 +7,8 @@
       <div class="d-flex justify-content-between">
         <pf-input-debounce [id]="'filter'" [placeholderText]="'Search Workflows'" [hideClearBtn]="true" (valueChanged)="handleSearchValueChanged($event)">
         </pf-input-debounce>
-
-        <div ngbDropdown class="d-inline-block">
+        <button *ngIf="!jdmCollaborationFeatureFlag.value" (click)="createApprovalWorkflow()" class="btn btn-primary align-self-center">Create Workflow</button>
+        <div *ngIf="jdmCollaborationFeatureFlag.value === true" ngbDropdown class="d-inline-block">
           <button class="btn btn-primary align-self-center" ngbDropdownToggle>Create Group</button>
           <div class="dropdown-menu" ngbDropdownMenu>
             <button class="dropdown-item" (click)="createCollaborationWorkflow()">Collaboration
@@ -28,7 +28,7 @@
                     <thead>
                         <tr>
                             <th>Name</th>
-                            <th>Type</th>
+                            <th *ngIf="jdmCollaborationFeatureFlag.value === true">Type</th>
                             <th>Users in Workflow</th>
                             <th></th>
                         </tr>
@@ -36,7 +36,7 @@
                     <tbody>
                         <tr *ngFor="let workflowTemplate of filteredWorkflowTemplates; trackBy: trackByFunction">
                           <td width="10%">{{workflowTemplate.Name}}</td>
-                          <td width="10%">{{workflowTemplate.Type}}</td>
+                          <td *ngIf="jdmCollaborationFeatureFlag.value === true" width="10%">{{workflowTemplate.Type}}</td>
                           <td width="60%"><span [innerHTML]="sanitizer.bypassSecurityTrustHtml(getUserList(workflowTemplate.Steps))"></span></td>
                           <td width="4%">
                               <div class="d-flex">
@@ -63,7 +63,8 @@
 
 <pf-routing-workflows-delete-modal></pf-routing-workflows-delete-modal>
 <pf-routing-workflows-upsert-modal
-  [workflowTemplateNames]="workflowTemplateNames$ | async">
+  [workflowTemplateNames]="workflowTemplateNames$ | async"
+  [modalTitle]="jdmCollaborationFeatureFlag.value === true ? 'Approval Group' : 'Workflow'">
 </pf-routing-workflows-upsert-modal>
 
 <pf-collaboration-workflows-upsert-modal>
