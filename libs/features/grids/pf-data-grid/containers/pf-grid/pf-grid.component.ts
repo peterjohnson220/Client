@@ -147,12 +147,15 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   resetGridScrolledSubscription: Subscription;
   closeExpandedRowSubscription: Subscription;
   groupTracker: { group: string, dataElementId: number } [] = [];
+  visibleSplitViewFields: ViewField[];
+  splitViewColWidth: number;
 
   fadeInKeys: any[] = [];
   fadeOutKeys: any[] = [];
   fadeInKeySubscription: Subscription;
 
   readonly MIN_SPLIT_VIEW_COL_WIDTH = 100;
+  readonly CHECKBOX_COL_WIDTH = 35;
 
   @ViewChild(GridComponent) grid: GridComponent;
 
@@ -240,6 +243,9 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
       if (this.autoFitColumnsToHeader) {
         this.autoFitColumns(df.filter(d => d.IsSelected && d.IsSelectable && !d.Width).map(f => this.mappedFieldName.transform(f)));
       }
+      this.visibleSplitViewFields = df.filter((f: ViewField) => f.IsLocked ||
+        (this.splitViewDisplayFields.includes(`${f.EntitySourceName}_${f.SourceName}`) && f.IsSelectable && f.IsSelected)
+      );
     });
 
     this.gridConfigSubscription = this.store.select(fromReducer.getGridConfig, this.pageViewId).subscribe(gridConfig => this.gridConfig = gridConfig);
@@ -395,7 +401,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
     let colWidth = col.Width;
 
     if (this.selectedRecordId && this.allowSplitView) {
-      colWidth = this.gridConfig?.SplitViewDefaultColumnWidth ?? this.MIN_SPLIT_VIEW_COL_WIDTH;
+      colWidth = this.splitViewColWidth ?? this.MIN_SPLIT_VIEW_COL_WIDTH;
     } else if (!!this.defaultColumnWidth && !this.autoFitColumnsToHeader && !col.Width) {
       colWidth = this.defaultColumnWidth;
     }
@@ -459,6 +465,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
       if (this.allowSplitView) {
         if (this.resetWidthForSplitView) {
           this.resetKendoGridWidth();
+          this.splitViewColWidth = this.calculateSplitViewColWidth();
         }
         // close split view when we click on the selected record. Otherwise select another record
         if (dataItem[this.primaryKey] === this.selectedRecordId) {
@@ -620,10 +627,26 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
     Array.from(grids).forEach((g: HTMLElement) => {
       const tables = g.getElementsByTagName('table') || [];
       Array.from(tables).forEach((t: HTMLElement) => {
+        const cols = t.getElementsByTagName('col');
+        Array.from(cols).forEach((c: HTMLElement, colIndex) => {
+          if (this.enableSelection && colIndex === 0) {
+            c.setAttribute('style', `width: ${this.CHECKBOX_COL_WIDTH}px;`);
+          } else if (this.gridRowActionsConfig && this.gridRowActionsConfig.Position === this.positionType.Left && colIndex === 1) {
+            c.setAttribute('style', `width: ${this.gridRowActionsConfig.Width}px;`);
+          }
+        });
         t.setAttribute('style', null);
       });
     });
   }
 
-
+  private calculateSplitViewColWidth(): number {
+    if (!this.gridConfig?.SplitViewColumnsWidth) {
+      return this.MIN_SPLIT_VIEW_COL_WIDTH;
+    }
+    const colWidth = this.visibleSplitViewFields.length > 0
+        ? Math.round(this.gridConfig.SplitViewColumnsWidth / this.visibleSplitViewFields.length)
+        : this.MIN_SPLIT_VIEW_COL_WIDTH;
+    return colWidth;
+  }
 }
