@@ -8,7 +8,7 @@ import { AsyncStateObj } from 'libs/models';
 
 import * as fromWorkflowReducer from '../reducers';
 import * as fromWorkflowAction from '../actions';
-import { RoutingWorkflowsUpsertModalComponent } from '../containers';
+import { RoutingWorkflowsUpsertModalComponent, CollaborationWorkflowsUpsertModalComponent } from '../containers';
 import { WorkflowTemplate, WorkflowStep } from 'libs/features/jobs/job-description-management/models';
 
 @Component({
@@ -18,6 +18,7 @@ import { WorkflowTemplate, WorkflowStep } from 'libs/features/jobs/job-descripti
 })
 export class RoutingWorkflowsPageComponent implements OnInit {
   @ViewChild(RoutingWorkflowsUpsertModalComponent, {static: true}) saveWorkflowModalComponent: RoutingWorkflowsUpsertModalComponent;
+  @ViewChild(CollaborationWorkflowsUpsertModalComponent, {static: true}) collaborationModalComponent: CollaborationWorkflowsUpsertModalComponent;
 
   filter: string;
 
@@ -36,7 +37,7 @@ export class RoutingWorkflowsPageComponent implements OnInit {
   }
 
   createCollaborationWorkflow() {
-    this.saveWorkflowModalComponent.open();
+    this.collaborationModalComponent.open();
   }
 
   createApprovalWorkflow() {

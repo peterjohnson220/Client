@@ -15,11 +15,11 @@ import { AddUserToWorkflowObj, WorkflowStep, WorkflowUser } from 'libs/features/
 import { WorkflowConfigHelper } from 'libs/features/jobs/job-description-management';
 
 @Component({
-  selector: 'pf-workflow-config',
-  templateUrl: './workflow-config.component.html',
-  styleUrls: ['././workflow-config.component.scss']
+  selector: 'pf-approval-workflow-config',
+  templateUrl: './approval-workflow-config.component.html',
+  styleUrls: ['./approval-workflow-config.component.scss']
 })
-export class WorkflowConfigComponent implements OnInit, OnDestroy {
+export class ApprovalWorkflowConfigComponent implements OnInit, OnDestroy {
   @Input() jobIds: number[];
   @Output() onShowNameFormClicked = new EventEmitter<boolean>();
 
