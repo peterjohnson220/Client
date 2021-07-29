@@ -54,7 +54,7 @@ export class ProjectTemplateManagementEffects {
             map((response) =>
               new fromProjectTemplateActions
                 .GetProjectTemplateFieldsSuccess(
-                  ProjectTemplateHelper.setTemplateFieldsCompanyName(response, data.userContext.CompanyName)
+                  ProjectTemplateHelper.setTemplateFieldsCompanyName(response, data.userContext.CompanyNameShort)
                 )),
             catchError(() => of(new fromProjectTemplateActions.GetProjectTemplateFieldsError()))
           );
