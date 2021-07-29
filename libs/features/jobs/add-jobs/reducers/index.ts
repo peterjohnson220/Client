@@ -72,6 +72,11 @@ export const getAddingDataErrorMessage = createSelector(
   fromAddJobsPageReducer.getAddingDataErrorMessage
 );
 
+export const getIsAddJobsModalOpen = createSelector(
+  selectAddJobsPageState,
+  fromAddJobsPageReducer.getIsAddJobsModalOpen
+);
+
 // Paymarkets Selectors
 export const getPaymarkets = createSelector(
   selectPaymarketsState,
@@ -144,3 +149,4 @@ export const getSelectedAllLoadedJobs = createSelector(
   selectSearchResultsState,
   fromSearchResultsReducer.getSelectedAllLoadedJobs
 );
+

@@ -1,7 +1,7 @@
 <pf-data-grid
   [pageViewId]="pageViewId"
   [reorderable]="false"
-  [title]="(project$ | async)?.Name || ((project$ | async)?.CreateDate | date : 'MM/dd/yy')"
+  [title]="projectContext?.Project?.Name || (projectContext?.Project?.CreateDate | date : 'MM/dd/yy')"
   [enableSelection]="true"
   [inboundFilters]="filter"
   [columnTemplates]="colTemplates"
@@ -21,20 +21,23 @@
 </pf-data-grid>
 
 <ng-template #aboveGridTemplate>
-  <div><label [innerText]="(project$ | async)?.Rate"></label> data effective <label [innerText]="(project$ | async)?.EffectiveDate | date : 'longDate'"></label> </div>
+  <div><label [innerText]="projectContext?.Project?.Rate"></label> data effective <label [innerText]="projectContext?.Project?.EffectiveDate | date : 'longDate'"></label> </div>
   <div class="d-flex flex-column content-wrapper pb-2">
     <div class=" d-flex align-items-center">
-    <div class="card pf-card flex-fill m-2">
-      <div class="card-body">
-      Add Jobs
+    <div class="card pf-card flex-fill m-5 btn text-left">
+      <div class="card-body" (click)="addJobClickHandler()">
+        <b>Add Jobs</b>
+        <ul class="nav nav-pills flex-column">
+          <li *ngFor="let job of projectContext?.Jobs">{{job.JobTitle}}</li>
+        </ul>
       </div>
     </div>
-    <div class="card pf-card flex-fill m-2">
+    <div class="card pf-card flex-fill m-5">
       <div class="card-body">
       Select Market
       </div>
     </div>
-    <div class="card pf-card flex-fill m-2">
+    <div class="card pf-card flex-fill m-5">
       <div class="card-body">
       Analyze
         <div>
@@ -135,11 +138,11 @@
 ></pf-multi-match-component>
 
 <ng-template #compColumn let-dataRow="dataRow" let-fieldName="fieldName">
-  <span [innerHTML]="dataRow[fieldName] | comp: (project$ | async)?.Rate | emptyPlaceholder"></span>
+  <span [innerHTML]="dataRow[fieldName] | comp: projectContext?.Project?.Rate | emptyPlaceholder"></span>
 </ng-template>
 
 <ng-template #percentageColumn let-dataRow="dataRow" let-fieldName="fieldName">
-  <span [innerHTML]="dataRow[fieldName] | comp: (project$ | async)?.Rate : 'full' | emptyPlaceholder"></span>
+  <span [innerHTML]="dataRow[fieldName] | comp: projectContext?.Project?.Rate : 'full' | emptyPlaceholder"></span>
 </ng-template>
 
 <ng-template #companyColumn let-column="column">
@@ -149,13 +152,13 @@
 <ng-template #jobSummary>
   <ng-container *ngIf="viewingJobSummary">
     <pf-job-summary
-      [projectRate]="(project$ | async)?.Rate"
-      [baseMrp] = "(project$ | async)?.BaseReferencePoint"
-      [tccMrp] = "(project$ | async)?.TCCReferencePoint"
+      [projectRate]="projectContext?.Project?.Rate"
+      [baseMrp] = "projectContext?.Project?.BaseReferencePoint"
+      [tccMrp] = "projectContext?.Project?.TCCReferencePoint"
       [(showJobSummary)]="viewingJobSummary"
       [projectId]="projectId"
       [projectJobIds]="selectedRowIds"
-      [defaultPaymarket] = "(project$ | async)?.PayMarketProjectMap?.PayMarket?.Name">
+      [defaultPaymarket] = "projectContext?.ProjectPayMarket?.Name">
     </pf-job-summary>
   </ng-container>
 </ng-template>
@@ -177,3 +180,7 @@
 <pf-project-template-management
   [featureImplementation]="projectFieldFeatureImplementations.PRICING_PROJECTS"
 ></pf-project-template-management>
+
+<pf-add-jobs-page [display]="'modal'" [legacyImplementation]="false" >
+
+</pf-add-jobs-page>

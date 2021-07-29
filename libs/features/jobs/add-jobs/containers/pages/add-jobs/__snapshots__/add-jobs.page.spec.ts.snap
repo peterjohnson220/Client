@@ -8,14 +8,19 @@ exports[`Project - Add Jobs - Jobs Page should not display GUI features related 
   addingDataError$={[Function Store]}
   addingDataErrorMessage$={[Function Store]}
   currentJobCountSetting="0"
+  display={[Function String]}
   injectedAddJobsConfig="null"
+  isAddJobsModalOpen$={[Function Store]}
   isSmallBiz="false"
+  legacyImplementation={[Function Boolean]}
+  loadingResults$={[Function Store]}
   maxAllowedJobsSetting="0"
   numberOfResults$={[Function Observable]}
   numberOfSearchResults$={[Function Store]}
   pageShown$={[Function Observable]}
   route={[Function Object]}
   router={[Function Object]}
+  searchError$={[Function Store]}
   searchFeatureId={[Function String]}
   searchFilterMappingDataObj={[Function Object]}
   searchingChildFilters$={[Function Store]}
@@ -46,6 +51,7 @@ exports[`Project - Add Jobs - Jobs Page should not display GUI features related 
     
     
     <pf-results-header />
+    
     <pf-job-search-results />
     
     <pf-paymarkets />
@@ -59,6 +65,7 @@ exports[`Project - Add Jobs - Jobs Page should not display GUI features related 
       >
          Clear Selections 
       </button>
+      
       <button
         class="btn btn-sm legacy-primary-btn mr-3 au-btn-add"
         data-qa-id="btn-addJobs"
@@ -70,6 +77,7 @@ exports[`Project - Add Jobs - Jobs Page should not display GUI features related 
         
         
       </button>
+      
       <button
         class="btn btn-sm btn-secondary mr-3 au-btn-cancel"
         data-qa-id="btn-cancelAddJobs"

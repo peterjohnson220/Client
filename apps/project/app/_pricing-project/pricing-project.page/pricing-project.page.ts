@@ -42,9 +42,8 @@ export class PricingProjectPageComponent implements OnInit, AfterViewInit, OnDes
 
   permissions = Permissions;
   viewingJobSummary: boolean;
-  project$: Observable<any>;
   projectSubscription: Subscription;
-  projectRate: 'Annual';
+  projectContext: any;
   projectId: number;
   pageViewId = PageViewIds.ProjectJobs;
   filter = [];
@@ -115,9 +114,8 @@ export class PricingProjectPageComponent implements OnInit, AfterViewInit, OnDes
 
   ngOnInit(): void {
     this.initRouterParams();
-    this.project$ = this.store.select(fromPricingProjectReducer.getPricingProject);
-    this.projectSubscription = this.project$.subscribe(p => {
-      this.projectRate = p.Rate;
+    this.projectSubscription = this.store.select(fromPricingProjectReducer.getPricingProject).subscribe(p => {
+      this.projectContext = p;
     });
     this.filter = [{
       SourceName: 'UserSession_ID',
@@ -226,7 +224,7 @@ export class PricingProjectPageComponent implements OnInit, AfterViewInit, OnDes
       ProjectId: dataRows['vw_ProjectJobPayMarketMetadata_UserSession_ID'],
       CountryCode: dataRows['vw_ProjectJobPayMarketMetadata_Country_Code'],
       RestrictToCountryCode: this.restrictSearchToPayMarketCountry,
-      Rate: this.projectRate
+      Rate: this.projectContext.Project.Rate
     };
 
     this.store.dispatch(new fromSearchFeatureActions.SetSearchFeatureId(SearchFeatureIds.AddSurveyData));
@@ -242,5 +240,14 @@ export class PricingProjectPageComponent implements OnInit, AfterViewInit, OnDes
       ProjectId: this.projectId,
       PageViewId: this.pageViewId
     }));
+  }
+
+  addJobClickHandler() {
+    const payload = {
+      PayMarketId: this.projectContext.ProjectPayMarket.Id,
+      ProjectId: this.projectId
+    };
+
+    this.pricingProjectHelperService.SetAddJobsModalContext(payload);
   }
 }
