@@ -43,7 +43,7 @@
       </p>
       <div ngbDropdownMenu aria-labelledby="surveyDataMatches">
         <ul (scroll)="scroll($event)" class="list-unstyled overflow-auto matches-container">
-          <li *ngFor="let match of (surveyDataMatches$ | async)?.obj" ngbDropdownItem>
+          <li pfEllipsisActive *ngFor="let match of (surveyDataMatches$ | async)?.obj" class="ellipsis-overflowing-text" title="{{match}}" ngbDropdownItem>
             {{match}}
           </li>
         </ul>
