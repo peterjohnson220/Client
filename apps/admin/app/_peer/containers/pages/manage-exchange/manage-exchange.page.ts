@@ -8,6 +8,7 @@ import { map, take } from 'rxjs/operators';
 import { Exchange } from 'libs/models/peer';
 import { GridTypeEnum, StatusEnum } from 'libs/models';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
+import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
 
 import * as fromPeerAdminReducer from '../../../reducers';
 import * as fromExchangeActions from '../../../actions/exchange.actions';
@@ -39,7 +40,8 @@ export class ManageExchangePageComponent implements OnInit, OnDestroy {
 
   constructor(private store: Store<fromPeerAdminReducer.State>,
               private activeRoute: ActivatedRoute,
-              private gridHelperService: GridHelperService) {
+              private gridHelperService: GridHelperService,
+              private featureFlagService: AbstractFeatureFlagService) {
     this.exchange$ = this.store.pipe(select(fromPeerAdminReducer.getManageExchange));
     this.exchangeId = activeRoute.snapshot.params.id;
     this.totalExchangeCompanies$ = this.store.pipe(select(fromPeerAdminReducer.getTotalExchangeCompanies));
@@ -80,6 +82,8 @@ export class ManageExchangePageComponent implements OnInit, OnDestroy {
     this.gridHelperService.loadExchangeJobRequests(this.exchangeId);
     this.gridHelperService.loadExchangeFilters(this.exchangeId, '');
 
+    const standardScopesFlag = this.featureFlagService.enabled(FeatureFlags.ExchangeManagementSystemScopes, false);
+
     this.navLinks = [
       { name: 'Companies', route: 'companies', icon: 'building', count$: this.totalExchangeCompanies$ },
       { name: 'Jobs', route: 'jobs', icon: 'briefcase', count$: this.totalExchangeJobs$ },
@@ -88,9 +92,12 @@ export class ManageExchangePageComponent implements OnInit, OnDestroy {
       { name: 'Company Referrals', route: 'companyreferrals', icon: 'address-card', count$: this.totalNewCompanyExchangeInvitations$ },
       { name: 'Job Requests', route: 'jobrequests', icon: 'tasks', count$: this.totalExchangeJobRequests$ },
       { name: 'Exchange Filters', route: 'exchangefilters', icon: 'filter', count$: this.totalExchangeFilters$ },
-      //TODO: get standard scope count when they are implemented in exchange scope selector
-      { name: 'Standard Scopes', route: 'standardscopes', icon: 'telescope'}
     ];
+
+    if(standardScopesFlag) {
+      //TODO: get standard scope count when they are implemented in exchange scope selector
+      this.navLinks.push({ name: 'Standard Scopes', route: 'standardscopes', icon: 'telescope'});
+    }
   }
 
   ngOnDestroy() {
