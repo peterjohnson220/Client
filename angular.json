@@ -275,7 +275,9 @@
             ],
             "styles": [
               "assets/scss/client.scss",
-              "apps/admin/styles.scss"
+              "apps/admin/styles.scss",
+              "node_modules/mapbox-gl/dist/mapbox-gl.css",
+              "node_modules/@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css"
             ],
             "scripts": [
               "assets/js/pendo.js",
@@ -284,7 +286,8 @@
             "allowedCommonJsDependencies": [
               "lodash",
               "jwt-decode",
-              "dragula"
+              "dragula",
+              "@mapbox/mapbox-gl-geocoder"
             ]
           },
           "configurations": {

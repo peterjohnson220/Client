@@ -15,7 +15,9 @@ import { PfKendoExtensions } from 'libs/extensions';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonModule } from 'libs/core';
+import { WindowCommunicationService } from 'libs/core/services';
 import { ExchangeJobMappingService } from 'libs/features/peer/exchange-job-mapping/services';
+import { PfExchangeExplorerModule } from 'libs/features/peer/exchange-explorer';
 
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 
@@ -28,7 +30,8 @@ import { ExchangeListPageComponent, ManageExchangePageComponent, ExchangeCompani
          ExchangeJobRequestInfoComponent, ExchangeJobAssociationUtilityPageComponent,
          DenyRequestModalComponent, ApproveRequestModalComponent, ManageExchangeFiltersComponent,
          TagCategoriesPageComponent, CreateTagCategoryModalComponent, TagCategoriesListComponent,
-         AddTagCategoriesModalComponent, ToggleExchangeStatusConfirmationModalComponent } from './containers';
+         AddTagCategoriesModalComponent, ToggleExchangeStatusConfirmationModalComponent,
+         StandardScopesComponent} from './containers';
 
 import {
   ExchangeListEffects, ExchangeCompaniesEffects, AvailableCompaniesEffects,
@@ -90,6 +93,7 @@ import { AssociateBulkImportEffects } from './effects/exchange-job-association-u
     SharedModule,
     UploadModule,
     FileSelectModule,
+    PfExchangeExplorerModule
   ],
   declarations: [
     // Containers
@@ -123,7 +127,8 @@ import { AssociateBulkImportEffects } from './effects/exchange-job-association-u
     // Pages
     ExchangeListPageComponent,
     ManageExchangePageComponent,
-    ExchangeJobAssociationUtilityPageComponent
+    ExchangeJobAssociationUtilityPageComponent,
+    StandardScopesComponent
   ],
   providers: [
     // Guards
@@ -131,7 +136,8 @@ import { AssociateBulkImportEffects } from './effects/exchange-job-association-u
 
     // Services
     GridHelperService,
-    ExchangeJobMappingService
+    ExchangeJobMappingService,
+    WindowCommunicationService
   ]
 })
 export class PeerAdminModule {

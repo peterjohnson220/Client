@@ -22,7 +22,7 @@ export class LoadContextInfo implements Action {
   constructor(public payload:
     ComphubExchangeExplorerContextRequest
     | {companyJobId?: number, companyPayMarketId?: number}
-    | {exchangeId: number, defaultScopeId?: string}
+    | {exchangeId: number, defaultScopeId?: string, includeDisabledFilters?: boolean}
     | {lockedExchangeJobId: number, companyPayMarketId: number}
     | {lockedExchangeJobId: number, exchangeDataSearchRequest: BaseExchangeDataSearchRequest}
     ) {}
@@ -35,7 +35,8 @@ export class LoadContextInfoSuccess implements Action {
     payMarket: PayMarket,
     payMarketGeoData: MapGeoData,
     exchangeJobFilterOptions: ExchangeJobExchangeDetail[],
-    searchFilterMappingDataObj: SearchFilterMappingDataObj
+    searchFilterMappingDataObj: SearchFilterMappingDataObj,
+    includeDisabledFilters?: boolean
   }) {}
 }
 
