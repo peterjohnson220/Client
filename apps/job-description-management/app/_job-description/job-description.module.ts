@@ -98,6 +98,7 @@ import { ResolveHistoryListGuard, JobDescriptionJobCompareListResolver } from '.
 import { SharedModule } from '../shared/shared.module';
 import { WorkflowStepComponent } from './components/workflow/workflow-step/workflow-step.component';
 import { JobDescriptionWorkflowPanelComponent } from './containers/pages/job-description-workflow-panel/job-description-workflow-panel.component';
+import { ApprovalsWorkflowSetupComponent } from './containers/approvals-workflow-setup/approvals-workflow-setup.component';
 @NgModule({
   imports: [
     // Angular
@@ -206,7 +207,8 @@ import { JobDescriptionWorkflowPanelComponent } from './containers/pages/job-des
     UserFilterSearchPipe,
     BulkExportJobDescriptionModalComponent,
     WorkflowStepComponent,
-    JobDescriptionWorkflowPanelComponent
+    JobDescriptionWorkflowPanelComponent,
+    ApprovalsWorkflowSetupComponent
   ],
   providers: [
     ListAreaService, ColumnResizingService, JobDescriptionVersionCompareService,

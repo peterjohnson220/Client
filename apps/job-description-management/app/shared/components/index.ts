@@ -5,3 +5,4 @@ export * from './job-description-library';
 export * from './user-routing-selector';
 export * from './workflow-step-completion';
 export * from './workflow-step-message';
+export * from './user-pill';

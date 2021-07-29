@@ -24,7 +24,7 @@ import {
 } from 'libs/models';
 import * as fromRootState from 'libs/state/state';
 import { SettingsService } from 'libs/state/app-context/services';
-import { PermissionService } from 'libs/core/services';
+import { AbstractFeatureFlagService, FeatureFlags, PermissionService, RealTimeFlag } from 'libs/core/services';
 import { PermissionCheckEnum, Permissions } from 'libs/constants/permissions';
 import { SimpleYesNoModalComponent, FileDownloadSecurityWarningModalComponent } from 'libs/ui/common';
 import { JobDescriptionManagementDnDService, JobDescriptionManagementService, SortDirection } from 'libs/features/jobs/job-description-management';
@@ -102,6 +102,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   gettingJobDescriptionExtendedInfoSuccess$: Observable<AsyncStateObj<boolean>>;
   discardingDraftJobDescriptionSuccess$: Observable<boolean>;
   enableFileDownloadSecurityWarning$: Observable<boolean>;
+  private unsubscribe$ = new Subject<void>();
 
   loadingPage$: Observable<boolean>;
   loadingPageError$: Observable<boolean>;
@@ -166,6 +167,8 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   isInSystemWorkflow: boolean;
   showWorkflow = false;
 
+  jdmCollaborationFeatureFlag: RealTimeFlag = { key: FeatureFlags.JdmCollaboration, value: false };
+
   get isJobDescriptionEditable() {
     return this.identityInWorkflow ? this.hasCanEditJobDescriptionPermission :
     this.hasCanEditJobDescriptionPermission && this.jobDescription?.JobDescriptionStatus === 'Draft';
@@ -188,7 +191,8 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     private permissionService: PermissionService,
     private jobDescriptionManagementService: JobDescriptionManagementService,
     private jobDescriptionManagementDndService: JobDescriptionManagementDnDService,
-    private jobDescriptionDnDService: JobDescriptionDnDService
+    private jobDescriptionDnDService: JobDescriptionDnDService,
+    private featureFlagService: AbstractFeatureFlagService
 ) {
     this.company$ = this.sharedStore.select(fromJobDescriptionManagementSharedReducer.getCompany);
     this.jobDescriptionAsync$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionAsync);
@@ -224,6 +228,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.replaceContents$ = this.store.select(fromJobDescriptionReducers.getReplaceJobDescriptionComplete);
     this.workflowStepInfo$ = this.store.select(fromJobDescriptionReducers.getWorkflowStepInfo);
     this.inSystemWorkflowStepCompletionModalOpen$ = this.store.select(fromJobDescriptionReducers.getInSystemWorkflowStepCompletionModalOpen);
+    this.featureFlagService.bindEnabled(this.jdmCollaborationFeatureFlag, this.unsubscribe$);
   }
 
   ngOnInit(): void {
@@ -394,7 +399,12 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     if ( !this.identity.IsPublic && this.jobDescription) {
       this.store.dispatch(new fromWorkflowTemplateListActions.Load([this.jobDescription.CompanyJobId]));
     }
-    this.workflowSetupModal.open();
+
+    if (this.jdmCollaborationFeatureFlag.value === true) {
+      this.toggleWorkflowPanel();
+    } else {
+      this.workflowSetupModal.open();
+    }
   }
 
   handleDiscardDraftClicked(): void {

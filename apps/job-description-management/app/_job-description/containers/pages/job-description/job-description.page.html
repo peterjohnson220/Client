@@ -24,7 +24,6 @@
         (libraryClicked)="toggleLibrary()"
         (routingHistoryClicked)="handleRoutingHistoryClicked()"
         (updateJobInfoClicked)="handleUpdateJobInfoClicked()"
-        (workflowClicked)="toggleWorkflowPanel()"
         (exportClicked)="handleExportClickedFromActions($event)"
         (acknowledgedClicked)="openEmployeeAcknowledgementModal()"
         (viewSelected)="handleViewSelected($event)"
@@ -106,9 +105,12 @@
         </div>
 
         <div *ngIf="showWorkflow" class="column-scroll-container col-5 p-2">
-          <pf-job-description-workflow-panel
-            (closed)="handleShowWorkflowPanel(false)">
-          </pf-job-description-workflow-panel>
+          <div class="scroll-y column-scroll-inner">
+            <pf-job-description-workflow-panel
+              [jobDescription]="jobDescription"
+              (closed)="handleShowWorkflowPanel(false)">
+            </pf-job-description-workflow-panel>
+          </div>
         </div>
 
         <div *ngIf="showLibrary" class="column-scroll-container col-5">

@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 
 import * as fromRootState from 'libs/state/state';
-import { AsyncStateObj, CompanyDto, CompanySettingsEnum, JobDescription, UserContext } from 'libs/models';
+import { AsyncStateObj, CompanyDto, JobDescription, UserContext } from 'libs/models';
 import { AbstractFeatureFlagService, FeatureFlags, PermissionService, RealTimeFlag } from 'libs/core/services';
 import { PermissionCheckEnum, Permissions } from 'libs/constants/permissions';
 
@@ -36,7 +36,6 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
   @Output() libraryClicked = new EventEmitter();
   @Output() routingHistoryClicked = new EventEmitter();
   @Output() updateJobInfoClicked = new EventEmitter();
-  @Output() workflowClicked = new EventEmitter();
   @Output() exportClicked: EventEmitter<{ exportType: string, viewName: string }> = new EventEmitter<{ exportType: string, viewName: string }>();
   @Output() acknowledgedClicked = new EventEmitter();
   @Output() viewSelected = new EventEmitter();
@@ -93,6 +92,9 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
 
   get isDraft() { return this.jobDescription?.JobDescriptionStatus === 'Draft'; }
   get isInReview() { return this.jobDescription?.JobDescriptionStatus === 'In Review'; }
+  get workflowButtonText() {
+    return this.jdmCollaborationFeatureFlag.value === true ? 'Collaboration & Approval' : 'Route for Approval';
+  }
 
   constructor(
     private sharedStore: Store<fromJobDescriptionManagementSharedReducer.State>,
@@ -223,10 +225,6 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
 
   handleRouteForApprovalClicked(): void {
     this.routeForApprovalClicked.emit();
-  }
-
-  hanldeCollaborationAndApprovalClicked(): void {
-    this.workflowClicked.emit();
   }
 
   handleDiscardDraftClicked(): void {

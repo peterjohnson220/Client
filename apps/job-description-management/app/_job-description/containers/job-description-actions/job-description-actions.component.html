@@ -41,18 +41,11 @@
       <fa-icon [icon]="['far','check-circle']" aria-hidden="true"></fa-icon> Publish
     </button>
 
-    <button *ngIf="jdmCollaborationFeatureFlag.value === true && isDraft && hasCanRouteJobDescriptionPermission" type="button" class="btn"
-      [class.btn-primary]="!hasCanPublishJobDescriptionPermission"
-      [class.btn-secondary]="hasCanPublishJobDescriptionPermission"
-      (click)="hanldeCollaborationAndApprovalClicked()">
-      <fa-icon icon="random" aria-hidden="true"></fa-icon> Collaboration & Approval
-    </button>
-    
-    <button *ngIf="!jdmCollaborationFeatureFlag.value && isDraft && hasCanRouteJobDescriptionPermission" type="button" class="btn"
+    <button *ngIf="isDraft && hasCanRouteJobDescriptionPermission" type="button" class="btn"
       [class.btn-primary]="!hasCanPublishJobDescriptionPermission"
       [class.btn-secondary]="hasCanPublishJobDescriptionPermission"
       (click)="handleRouteForApprovalClicked()">
-      <fa-icon icon="random" aria-hidden="true"></fa-icon> Route for Approval
+      <fa-icon icon="random" aria-hidden="true"></fa-icon> {{workflowButtonText}}
     </button>
 
     <button *ngIf="isDraft && hasCanEditJobDescriptionPermission" type="button" class="btn btn-secondary"

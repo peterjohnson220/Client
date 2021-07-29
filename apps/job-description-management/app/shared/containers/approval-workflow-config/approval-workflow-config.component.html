@@ -22,7 +22,7 @@
 				placeholder="Last Name"
 				[class.form-control-danger]="addNonPfUserForm.controls.lastname.errors && nonPfUserFormSubmitted">
 		</div>
-		<div class="form-group text-right">
+		<div class="form-group d-flex justify-content-end">
 			<button class="btn btn-secondary" (click)="cancelNonPfUserAdd()">Cancel</button>
 			<button class="btn btn-secondary ml-2" type="submit">Add</button>
 		</div>
@@ -32,8 +32,8 @@
 <div *ngIf="workflowSteps.length > 0" class="config-container p-1">
 	<div id="workflow-user-list-section" [dragula]="'workflow-user-reorder-bag'" [(dragulaModel)]="workflowSteps">
 		<ng-container *ngFor="let workflowStep of workflowSteps; index as i">
-			<div class="card card-block m-3">
-				<div class="workflow-step dnd-workflow-user-reorder"  [attr.data-index]="i">
+			<div class="card card-block py-1 px-2">
+				<div [attr.data-index]="i">
 					<div class="row-container" *ngFor="let stepUser of workflowStep.WorkflowStepUsers; let idx = index" 
 						[ngClass]="{'dnd-workflow-user-reorder-handle grabbable' : workflowSteps.length > 1 && (!stepWithMultipleUsersBeingAdded && !stepAddingNonPfUsers)}">
 						<div class="user-container">
@@ -41,31 +41,21 @@
 								<div class="font-weight-bold text-muted mr-4">
 									{{i+1}}.
 								</div>
-								<button class="btn btn-accent-color mr-3" (click)="addMultipleUsersToLevel(i)">
+								<button class="btn btn-accent-color btn-plus mr-3" (click)="addMultipleUsersToLevel(i)">
 									<fa-icon icon="plus" aria-hidden="true"></fa-icon>
 								</button>
 							</div>
-							<label class="badge badge-pill avatar-chip mx-1 mt-2" [ngClass]="{'workflow-user-forbidden' : stepUser.Permissions?.length === 0}">
-								<ng-container *ngIf="isUserImg(stepUser); then userImg; else userDefault"></ng-container>
-								<ng-template #userImg>
-									<img class="avatar ml-n2" [src]="avatarUrl + stepUser.UserPicture" src-fallback="{{ avatarUrl + 'default_user.png' }}">
-								</ng-template>
-								<ng-template #userDefault>
-									<span *ngIf="stepUser.UserId" class="user-initials ml-n2">{{getUserInitials(stepUser)}}</span>
-									<span *ngIf="!stepUser.UserId" class="at-sign ml-n2">@</span>
-								</ng-template>	
-
-								<span class="user-name text-muted mx-2" [autoClose]="false" triggers="manual" #displayNameTooltip="ngbTooltip" 
-									ngbTooltip="{{getDisplayName(stepUser)}}" (mouseover)="showDisplayNameTooltip(stepUser, displayNameTooltip)" 
-									(mouseleave)="hideDisplayNameTooltip(displayNameTooltip)">{{getDisplayName(stepUser) | TruncateAfter: displayNameThreshold}}</span>
-
-								<span class="remove-icon text-muted mx-1" aria-hidden="true" (click)="handleRemoveClicked(stepUser)">&times;</span>
-							</label>
+							<pf-user-pill
+								[user]="stepUser"
+								[avatarUrl]="avatarUrl"
+								[removeIcon]="true"
+								(onRemoveClicked)="handleRemoveClicked(stepUser)">
+							</pf-user-pill>												
 						</div>
 						
 						<div class="action-container">
 							<ng-container *ngFor="let permission of stepUser.Permissions; index as pi">
-								<div class="mr-4 mt-2" (click)="updateWorkflowStepPermission(stepUser, permission.permission)">
+								<div class="mr-4" (click)="updateWorkflowStepPermission(stepUser, permission.permission)">
 									<input class="k-checkbox mr-2" type="checkbox" id="customCheckbox-{{stepUser.EmailAddress}}"  
 										[ngModel]="permission.selected" [disabled]="permission.disabled">
 									<label class="k-checkbox-label permission-label" id="customCheckbox-{{stepUser.EmailAddress}}">{{permission.display}}</label>
@@ -106,7 +96,7 @@
 								<input type="text" class="form-control" formControlName="lastname" placeholder="Last Name"
 								[class.form-control-danger]="addNonPfUserSameStepForm.controls.lastname.errors && nonPfUserSameStepFormSubmitted">
 							</div>
-							<div class="form-group text-right">
+							<div class="form-group d-flex justify-content-end">
 								<button class="btn btn-secondary" (click)="cancelNonPfUserSameLevelAdd(i)">Cancel</button>
 								<button class="btn btn-secondary ml-2" type="submit">Add</button>
 							</div>
