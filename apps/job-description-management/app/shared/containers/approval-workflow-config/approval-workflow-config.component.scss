@@ -1,6 +1,8 @@
 @import 'libs/styles/dragula-drag-drop';
 @import 'colors';
 
+$action-btn-size: 20px;
+
 .config-container {
     background-color: $grey;
     width: 100%;
@@ -35,82 +37,28 @@
   align-content: center;
 }
 
-.avatar-chip {
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  align-content: space-around;
-}
-
-.avatar {
-  border-radius: 50%;
-  width: 30px;
-  height: 30px; 
-}
-
-.user-name {
-  font-size: small;
-}
-
-.user-initials {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  width: 30px;
-  height: 30px; 
-  color: #fff;
-  background-color: $inactive-button-color;
-  font-size: large;
-  font-weight: 400;
-}
-
-.at-sign {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  width: 30px;
-  height: 30px; 
-  color: #fff;
-  background-color: $pf-secondary-border;
-  font-size: large;
-  font-weight: 400;
-}
-
-.remove-icon {
-  font-size: medium;
-}
-
-.remove-icon:hover {
-  cursor: pointer;
-}
-
-.badge {
-  color: #000;
-  background-color: $grey;
-}
-
-.badge-pill {
-  padding: 1em .6em;
-  border-radius: 10rem;
-  height: 3.25em;
-  max-width: 23rem;
-}
-
 .btn-accent-color {
   color: #fff;
   background-color: $pf-brand-secondary-accent-color;
   border-color: $pf-brand-secondary-accent-color;
 }
 
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-plus {
+  width: $action-btn-size;
+  height: $action-btn-size;
+}
+
 .btn-action {
   background-color: $grey;
   border-color: $grey;
-  width: 32px;
-  height: 32px;
+  width: $action-btn-size;
+  height: $action-btn-size;
 }
 
 .action-container {
@@ -142,10 +90,6 @@
   margin-right: 6px;
 }
 
-.workflow-user-forbidden {
-  color: red;
-}
-
 .grabbable {
   cursor: move;
   cursor: grab;
@@ -162,3 +106,9 @@
   background-color:$pf-brand-secondary-accent-color;
   border-color: $pf-brand-secondary-accent-color;
 }
+
+.k-checkbox-label {
+  font-size: 0.9rem;
+}
+
+

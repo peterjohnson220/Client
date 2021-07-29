@@ -1,14 +1,14 @@
 <div class="pb-3">
   <strong>Collaboration & Approval</strong>
   <div class="jd-workflow-head-controls">
-    <span (click)="close()">
+    <span (click)="closeAll()">
       <fa-icon icon="times" class="fa-lg"></fa-icon>
     </span>
   </div>
 </div>
 
 <div class="px-2">
-  <ngb-accordion #acc="ngbAccordion" activeIds="collaborators-panel, approvers-panel">
+  <ngb-accordion  #accordion #acc="ngbAccordion" activeIds="collaborators-panel, approvers-panel">
     <ngb-panel id="collaborators-panel">
       <ng-template ngbPanelHeader let-opened="opened">
         <div class="d-flex align-items-center justify-content-between">
@@ -34,7 +34,10 @@
         </div>
       </ng-template>
       <ng-template ngbPanelContent>
-        TODO: Approvers details...
+        <pf-approvals-workflow-setup
+          [workflowSetupModalInput]="workflowSetupModalInput"
+          (closeClicked)="togglePanel('approvers-panel')">
+        </pf-approvals-workflow-setup>
       </ng-template>
     </ngb-panel>
   </ngb-accordion>   

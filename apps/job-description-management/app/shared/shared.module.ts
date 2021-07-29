@@ -37,6 +37,7 @@ import {
 
 import { JobDescriptionAppliesToDisplayNamePipe } from './pipes';
 import { PeditorAutoFocusFixDirective } from './directives';
+import { UserPillComponent } from './components/user-pill/user-pill.component';
 
 @NgModule({
     imports: [
@@ -103,7 +104,8 @@ import { PeditorAutoFocusFixDirective } from './directives';
     JobDescriptionAppliesToDisplayNamePipe,
 
     // Directives
-    PeditorAutoFocusFixDirective
+    PeditorAutoFocusFixDirective,
+    UserPillComponent
   ]
 })
 export class SharedModule {
