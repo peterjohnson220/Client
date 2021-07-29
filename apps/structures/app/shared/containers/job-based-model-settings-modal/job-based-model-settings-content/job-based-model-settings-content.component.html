@@ -71,7 +71,8 @@
                                 [valueField]="'ExchangeId'"
                                 [disabled]="peerDropDownDisabled"
                                 [(ngModel)]="selectedExchange"
-                                [ngModelOptions]="{standalone: true}">
+                                [ngModelOptions]="{standalone: true}"
+                                (selectionChange)="markFormDirty()">
             </kendo-dropdownlist>
             <div class="invalid-feedback">
               Please provide a Peer Exchange.
