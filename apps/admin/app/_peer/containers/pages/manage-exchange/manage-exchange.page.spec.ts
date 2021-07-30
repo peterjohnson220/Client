@@ -7,6 +7,7 @@ import { of } from 'rxjs';
 
 import * as fromRootState from 'libs/state/state';
 import {  generateMockExchange } from 'libs/models/peer';
+import { AbstractFeatureFlagService } from 'libs/core/services/feature-flags';
 
 import * as fromPeerAdminReducer from '../../../reducers';
 import { ManageExchangePageComponent } from './manage-exchange.page';
@@ -17,8 +18,10 @@ describe('Manage Exchange Page', () => {
   let instance: ManageExchangePageComponent;
   let store: Store<fromRootState.State>;
   let gridHelperService: GridHelperService;
+  let abstractFeatureFlagService: AbstractFeatureFlagService;
   let activatedRoute: ActivatedRoute;
   let routeIdParam: number;
+
 
   // Configure Testing Module for before each test
   beforeEach(() => {
@@ -46,6 +49,10 @@ describe('Manage Exchange Page', () => {
                       loadNewCompanyExchangeInvitations: jest.fn(),
                       loadExchangeJobRequests: jest.fn(),
                       loadExchangeFilters: jest.fn()}
+        },
+        {
+          provide: AbstractFeatureFlagService,
+          useValue: { enabled: jest.fn(), bindEnabled: jest.fn() }
         }
       ],
       // Shallow Testing
@@ -54,6 +61,7 @@ describe('Manage Exchange Page', () => {
 
     store = TestBed.inject(Store);
     gridHelperService = TestBed.inject(GridHelperService);
+    abstractFeatureFlagService = TestBed.inject(AbstractFeatureFlagService);
     activatedRoute = TestBed.inject(ActivatedRoute);
     routeIdParam = activatedRoute.snapshot.params.id;
 

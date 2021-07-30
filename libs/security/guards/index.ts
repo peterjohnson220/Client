@@ -9,3 +9,4 @@ export * from './load-company.guard';
 export * from './permission.guard';
 export * from './pf-services-admin-by-repository.guard';
 export * from './url-parameter-validation.guard';
+export * from './feature-flag.guard';

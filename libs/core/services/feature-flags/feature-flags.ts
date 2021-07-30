@@ -36,4 +36,5 @@ export class FeatureFlags {
   static readonly PricingProjectExport = 'pricing-project-export';
   static readonly PayscaleBranding = 'payscale-branding';
   static readonly PeerGetResultsAsyncStrategy = 'peer-get-results-async-strategy';
+  static readonly ExchangeManagementSystemScopes = 'exchange-management-system-scopes'
 }

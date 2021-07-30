@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { PfAdminGuard } from 'libs/security/guards';
+import { PfAdminGuard, FeatureFlagGuard } from 'libs/security/guards';
+import { FeatureFlags } from 'libs/core/services/feature-flags';
 
 import {
   ExchangeListPageComponent, ManageExchangePageComponent, ExchangeCompaniesComponent, ExchangeJobsComponent,
@@ -24,7 +25,17 @@ const routes: Routes = [
       { path: 'companyreferrals', component: NewCompanyExchangeInvitationsComponent },
       { path: 'jobrequests', component: ExchangeJobRequestsComponent },
       { path: 'exchangefilters', component: ManageExchangeFiltersComponent },
-      { path: 'standardscopes', component: StandardScopesComponent, canActivate: [PfAdminGuard]},
+      {
+        path: 'standardscopes',
+        component: StandardScopesComponent,
+        canActivate: [FeatureFlagGuard],
+        data: {
+          featureFlag: {
+            name: FeatureFlags.ExchangeManagementSystemScopes,
+            defaultValue: false
+          }
+        }
+      },
     ]
   },
   { path: 'exchangejobassociationutility', component: ExchangeJobAssociationUtilityPageComponent, canActivate: [PfAdminGuard] },
