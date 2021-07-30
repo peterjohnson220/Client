@@ -10,7 +10,7 @@
       [modalId]="'au-modal-add-jobs'"
       [allowDismiss]="true"
       [showFooter]="true"
-      [primaryButtonText]="'Add'"
+      [primaryButtonText]="'Add' + (numberOfJobsSelected!=0 ? '(' + numberOfJobsSelected + ')': '')"
       (onDismiss)="handleCancelClicked()"
       (onSubmit)="handleAddClicked()"
       [submitEnabled]="false">
