@@ -18,6 +18,7 @@ export interface IGridState {
   grid: State;
   selections: any [];
   selectAllState: SelectAllCheckboxState;
+  resetSort: boolean;
 }
 
 export const initialGridState: IGridState = {
@@ -31,7 +32,8 @@ export const initialGridState: IGridState = {
     sort: []
   },
   selections: [],
-  selectAllState: 'unchecked'
+  selectAllState: 'unchecked',
+  resetSort: false
 };
 
 const getGridReducer = (gridType: GridTypeEnum, initialState: IGridState = initialGridState) => {
@@ -44,6 +46,14 @@ const getGridReducer = (gridType: GridTypeEnum, initialState: IGridState = initi
         // We do not currently support multiple filter operations in a given filter, but kendo assumes we do.
         // Take the first FilterDescriptor from each CompositeFilter so that it is parsed correctly by the server.
         gridState.filter.filters = gridState.filter.filters.map((f: any) => f.filters ? f.filters[0] : f);
+
+        const newSort = action.payload.sort[0], initialSort = initialState.grid.sort[0];
+        if (state.resetSort && newSort.field === initialSort.field && !newSort.dir) {
+          return { ...state, grid: { ...action.payload, sort: [{ field: newSort.field, dir: 'asc' }] }};
+        } else if (state.resetSort && !newSort.dir) {
+          return { ...state, grid: { ...action.payload, sort: [initialSort] }};
+        }
+
         const newState = {
           ...state,
           grid: gridState
@@ -161,13 +171,14 @@ const getGridReducer = (gridType: GridTypeEnum, initialState: IGridState = initi
   };
 };
 
-export const createGridReducer = (gridType: GridTypeEnum, featureReducer: any, gridStateOverride?: any) => {
+export const createGridReducer = (gridType: GridTypeEnum, featureReducer: any, gridStateOverride?: any, resetSort = false) => {
   const initState = {
     ...initialGridState,
     grid: {
       ...initialGridState.grid,
-      ...gridStateOverride
-    }
+      ...gridStateOverride,
+    },
+    resetSort
   };
   return combineReducers({
     feature: featureReducer,
