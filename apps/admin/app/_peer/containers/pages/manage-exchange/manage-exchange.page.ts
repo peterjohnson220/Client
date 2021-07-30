@@ -33,9 +33,13 @@ export class ManageExchangePageComponent implements OnInit, OnDestroy {
   loadingExchange$: Observable<boolean>;
 
   isValidExchangeSubcription: Subscription;
+  exchangeSubscription: Subscription;
+
+  StatusEnum = StatusEnum;
 
   exchangeId: number;
   navLinks: any[];
+  exchange: Exchange;
 
   constructor(private store: Store<fromPeerAdminReducer.State>,
               private activeRoute: ActivatedRoute,
@@ -56,10 +60,6 @@ export class ManageExchangePageComponent implements OnInit, OnDestroy {
     this.loadingExchange$ = this.store.pipe(select(fromPeerAdminReducer.getManageExchangeLoading));
   }
 
-  handleSwitchToggled() {
-    this.store.dispatch(new fromExchangeActions.OpenToggleExchangeStatusModal());
-  }
-
   ngOnInit() {
     this.isValidExchangeSubcription = this.isValidExchange$.subscribe(isValidExchange => {
       let isExchangeActive = false;
@@ -70,6 +70,9 @@ export class ManageExchangePageComponent implements OnInit, OnDestroy {
       if (!isValidExchange && isExchangeActive) {
         this.store.dispatch(new fromExchangeActions.UpdateExchangeStatus(this.exchangeId, StatusEnum.Inactive));
       }
+      this.exchangeSubscription = this.exchange$.subscribe(x => {
+        this.exchange = x;
+      });
     });
 
     this.gridHelperService.loadExchangeJobs(this.exchangeId);
@@ -95,8 +98,14 @@ export class ManageExchangePageComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.isValidExchangeSubcription.unsubscribe();
-
+    this.exchangeSubscription.unsubscribe();
     this.store.dispatch(new fromGridActions.ResetGrid(GridTypeEnum.ExchangeCompanies));
     this.store.dispatch(new fromGridActions.ResetGrid(GridTypeEnum.ExchangeJobs));
+  }
+
+  updateStatus(status: StatusEnum) {
+    if (this.exchange.Status !== status) {
+      this.store.dispatch(new fromExchangeActions.OpenToggleExchangeStatusModal(status));
+    }
   }
 }

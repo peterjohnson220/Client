@@ -59,10 +59,10 @@ export class ExchangeApiService {
     return this.payfactorsApiService.get<GenericKeyValue<number, string>[]>(`${this.endpoint}/GetPeerParticipantsDictionary`);
   }
 
-  getExchangeDictionaryForCompany(companyId: number): Observable<GenericKeyValue<number, string>[]> {
+  getExchangeDictionaryForCompany(companyId: number, includePreliminaryExchanges: boolean): Observable<GenericKeyValue<number, string>[]> {
     return this.payfactorsApiService.get<GenericKeyValue<number, string>[]>(`${this.endpoint}/GetExchangeDictionaryForCompany`,
       {
-        params: { companyId: companyId }
+        params: { companyId: companyId, includePreliminaryExchanges: includePreliminaryExchanges }
       });
   }
 
