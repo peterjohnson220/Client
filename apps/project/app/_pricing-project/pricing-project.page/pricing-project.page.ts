@@ -211,7 +211,6 @@ export class PricingProjectPageComponent implements OnInit, AfterViewInit, OnDes
   }
 
   openAddDataModal(event, dataRows): void {
-
     const jobContext = {
       JobTitle: dataRows['vw_ProjectJobPayMarketMetadata_Job_Title'],
       JobPayMarketId: dataRows['vw_ProjectJobPayMarketMetadata_Paymarket'],
@@ -243,6 +242,10 @@ export class PricingProjectPageComponent implements OnInit, AfterViewInit, OnDes
   }
 
   addJobClickHandler() {
+    if (this.viewingJobSummary) {
+      this.viewingJobSummary = false;
+      return;
+    }
     const payload = {
       PayMarketId: this.projectContext.ProjectPayMarket.Id,
       ProjectId: this.projectId
