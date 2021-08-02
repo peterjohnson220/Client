@@ -69,7 +69,8 @@ import {
   FlsaQuestionnaireModalComponent,
   JobMatchResultComponent,
   ExportJobDescriptionModalComponent,
-  BulkExportJobDescriptionModalComponent,
+  ShareJobDescriptionModalComponent,
+  BulkExportJobDescriptionModalComponent
 } from './components';
 import { reducers } from './reducers';
 import {
@@ -181,6 +182,7 @@ import { WorkflowStepComponent } from './components/workflow/workflow-step/workf
     JobMatchResultComponent,
     ExportJobDescriptionModalComponent,
     WorkflowProgressBarComponent,
+    ShareJobDescriptionModalComponent,
     BulkExportJobDescriptionModalComponent,
 
     // Pages
