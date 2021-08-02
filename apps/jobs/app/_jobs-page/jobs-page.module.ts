@@ -56,7 +56,8 @@ import {
 } from './components';
 import {
   MarketDataComponent,
-  DeleteMatchModalComponent
+  DeleteMatchModalComponent,
+  WeightAdjustModalComponent
 } from './containers';
 import { reducers } from './reducers';
 import {
@@ -142,6 +143,7 @@ import {
     JobInsightsComponent,
     MarketDataComponent,
     DeleteMatchModalComponent,
+    WeightAdjustModalComponent,
 
     // Column Templates
     PricingMatchesJobTitleComponent,

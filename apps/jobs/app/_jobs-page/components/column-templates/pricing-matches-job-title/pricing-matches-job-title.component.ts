@@ -29,7 +29,7 @@ import * as fromReScopeActions from 'libs/features/surveys/re-scope-survey-data/
 import { PageViewIds } from '../../../constants';
 import * as fromModifyPricingsActions from '../../../actions';
 import * as fromModifyPricingsReducer from '../../../reducers';
-import { DeleteMatchModalData } from '../../../models';
+import { DeleteMatchModalData, MarketDataJobPricing, MarketDataJobPricingMatch } from '../../../models';
 
 @Component({
   selector: 'pf-pricing-matches-job-title',
@@ -240,16 +240,23 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
   }
 
   openDeletePricingMatchModal(): void {
-    const deleteModalData: DeleteMatchModalData = {
-      PricingMatchId: this.dataRow['CompanyJobs_PricingsMatches_CompanyJobPricingMatch_ID'],
+    const jobPricing: MarketDataJobPricing = {
+      PricingId: this.pricingInfo['CompanyJobs_Pricings_CompanyJobPricing_ID'],
       JobTitle: this.jobsSelectedRow['CompanyJobs_Job_Title'],
       JobCode: this.jobsSelectedRow['CompanyJobs_Job_Code'],
       JobId: this.pricingInfo['CompanyJobs_CompanyJob_ID'],
-      MatchJobTitle: this.dataRow['vw_PricingMatchesJobTitlesMerged_Job_Title'],
-      MatchJobCode: this.dataRow['vw_PricingMatchesJobTitlesMerged_Job_Code'],
       PayMarket: this.pricingInfo['CompanyPayMarkets_PayMarket'],
       PayMarketId: this.pricingInfo['CompanyPayMarkets_CompanyPayMarket_ID'],
       EffectiveDate: this.pricingInfo['CompanyJobs_Pricings_Effective_Date'],
+    };
+    const pricingMatch: MarketDataJobPricingMatch = {
+      PricingMatchId: this.dataRow['CompanyJobs_PricingsMatches_CompanyJobPricingMatch_ID'],
+      JobTitle: this.dataRow['vw_PricingMatchesJobTitlesMerged_Job_Title'],
+      JobCode: this.dataRow['vw_PricingMatchesJobTitlesMerged_Job_Code']
+    };
+    const deleteModalData: DeleteMatchModalData = {
+      JobPricing: jobPricing,
+      JobPricingMatch: pricingMatch,
       PricingMatchesCount: this.pricingMatchesCount
     };
     this.store.dispatch(new fromModifyPricingsActions.SetDeleteMatchModalData(deleteModalData));

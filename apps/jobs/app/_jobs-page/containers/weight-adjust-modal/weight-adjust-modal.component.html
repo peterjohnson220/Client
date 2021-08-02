@@ -1,0 +1,70 @@
+<pf-modal-form
+  [size]="'lg'"
+  [title]="'Weight & Adjust Match'"
+  [primaryButtonText]="'Save'"
+  [secondaryButtonText]="'Cancel'"
+  [primaryButtonTextSubmitting]="'Saving'"
+  [showSubmit]="canModifyMatch"
+  [modalId]="'au-modal-jobs-market-data-weight-adjust'"
+  [isOpen$]="showWeightAdjustModal$"
+  [submitEnabled]="(weight !== null) && (adjustment !== null)"
+  [submitting]="(updatingPricingMatch$ | async).saving"
+  (onDismiss)="handleDismiss()"
+  (onSubmit)="handleSubmit()">
+
+  <ng-container basic-content>
+    <div *ngIf="selectedMatch" class="d-flex flex-column">
+      <div pfEllipsisActive class="title ellipsis-overflowing-text">
+        {{selectedMatch.JobTitle}} ({{selectedMatch.JobCode}})
+      </div>
+      <div pfEllipsisActive class="ellipsis-overflowing-text">
+        {{selectedMatch.Source}} ({{selectedMatch.EffectiveDate | date:'MM/dd/yyyy'}})
+      </div>
+      <div class="d-flex mt-3">
+        <div class="d-flex flex-column flex-fill">
+          <span class="title">Weighting</span>
+          <span class="font-italic">Assigning a weight to a match will cause the match to have more or less impact on the overall pricing composite.</span>
+        </div>
+        <div>
+          <kendo-numerictextbox
+            class="wtg-adj-input right mr-2"
+            [(ngModel)]="weight"
+            [disabled]="!canModifyMatch"
+            [spinners]="false"
+            [format]="'n2'"
+            [decimals]="'2'"
+            [min]="-999999999999"
+            [max]="999999999999"
+            [title]="(weight > 999 || weight < -999 ? weight : '')"
+            [autoCorrect]="true">
+          </kendo-numerictextbox>
+        </div>
+      </div>
+      <div class="d-flex my-3">
+        <div class="d-flex flex-column flex-fill">
+          <span class="title">Adjustment</span>
+          <span class="font-italic">Adjusting a match will increase or decrease this match by a set percentage.</span>
+        </div>
+        <div>
+          <kendo-numerictextbox
+            class="wtg-adj-input right mr-2"
+            [(ngModel)]="adjustment"
+            [disabled]="!canModifyMatch"
+            [spinners]="false"
+            [format]="'n2'"
+            [decimals]="'2'"
+            [min]="-999999999999"
+            [max]="999999999999"
+            [title]="(adjustment > 999 || adjustment < -999 ? adjustment : '')"
+            [autoCorrect]="true">
+          </kendo-numerictextbox>
+        </div>
+      </div>
+      <span *ngIf="!canModifyMatch" class="text-danger">{{permissionMessage}}</span>
+      <div *ngIf="(updatingPricingMatch$ | async).savingError" class="text-danger mt-3">
+        We encountered an error updating your pricing match. Please try again.
+      </div>
+    </div>
+  </ng-container>
+
+</pf-modal-form>

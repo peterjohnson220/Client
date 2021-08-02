@@ -1,17 +1,5 @@
 import { BasicDataViewField, DataViewFieldDataType, DataViewFilter } from 'libs/models/payfactors-api';
 
-export interface MarketDataJobPricing {
-  Id: number;
-  Rate: string;
-  JobTitle: string;
-  JobCode: string;
-  JobId: number;
-  PayMarket: string;
-  PayMarketId: number;
-  JobPricingEffectiveDate: Date;
-  LinkedPayMarketId: number;
-}
-
 export class MarketDataConfig {
   static marketDataGridId = 'jobs-job-insights-market-data';
   static baseEntity = 'CompanyJobs_PricingsMatches';
@@ -163,6 +151,13 @@ export class MarketDataConfig {
       DisplayName: 'SlottedCompanyJobId',
       DataType: DataViewFieldDataType.String,
       KendoGridField: 'CompanyJobs_PricingsMatches_Slotted_CompanyJob_ID'
+    },
+    {
+      EntitySourceName: 'CompanyJobs_PricingsMatches',
+      SourceName: 'Match_Adjustment',
+      DisplayName: 'Adj',
+      DataType: DataViewFieldDataType.Float,
+      KendoGridField: 'CompanyJobs_PricingsMatches_Match_Adjustment'
     },
     {
       EntitySourceName: 'ExchangeDataCut',

@@ -6,6 +6,7 @@ export interface JobInsights {
   JobPricingId: number;
   JobPricingRate: string;
   JobPricingEffectiveDate: Date;
+  LinkedPayMarketName: string;
 }
 
 export interface GetJobInsightsRequest {
