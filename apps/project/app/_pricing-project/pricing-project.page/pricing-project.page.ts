@@ -55,7 +55,7 @@ export class PricingProjectPageComponent implements OnInit, AfterViewInit, OnDes
     field: 'vw_ProjectJobPayMarketMetadata_Job_Title'
   }, {
     dir: 'asc',
-    field: 'vw_ProjectJobPayMarketMetadata_Paymarket'
+    field: 'vw_ProjectJobPayMarketMetadata_PayMarket'
   }];
 
   companySettingsSubscription: Subscription;
