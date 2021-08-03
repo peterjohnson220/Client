@@ -14,10 +14,17 @@ export interface DataViewResponse {
   Name: string;
   Summary: string;
   AccessLevel: DataViewAccessLevel;
+  Type: string;
 }
 
 export enum DataViewAccessLevel {
   ReadOnly = 'ReadOnly',
   Edit = 'Edit',
   Owner = 'Owner'
+}
+
+export enum DataViewScope {
+  Company = 'Company',
+  Standard = 'Standard',
+  Personal = 'Personal'
 }

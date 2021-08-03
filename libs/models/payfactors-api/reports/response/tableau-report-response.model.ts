@@ -1,5 +1,5 @@
 import { TableauReportViewsResponse } from './tableau-report-views-response.model';
-import { DataViewAccessLevel } from './user-data-view-response.model';
+import { DataViewAccessLevel, DataViewScope } from './user-data-view-response.model';
 
 export interface TableauReportResponse {
   ReportType: string;
@@ -11,11 +11,11 @@ export interface TableauReportResponse {
   CreateDate: Date;
   EditDate: Date;
   ShowTabs: boolean;
-  IconClass?: string[];
   Tag: string;
   IsFavorite: boolean;
   DashboardsOrder?: number;
   FavoritesOrder?: number;
   Views?: TableauReportViewsResponse[];
   AccessLevel?: DataViewAccessLevel;
+  Scope: DataViewScope;
 }

@@ -47,7 +47,8 @@
                                (exportClicked)=handleExportClicked($event)>
             </pf-export-popover>
             <button class="btn btn-secondary data-view-grid-btn"
-                    [disabled]="!isOwner"
+                    *ngIf="canShare"
+                    [disabled]="!canShare"
                     [attr.data-qa-id]="'btn-share'"
                     (click)="handleShareClicked()"
                     ngbTooltip="Share"
@@ -115,7 +116,7 @@
   </div>
 </ng-template>
 
-<pf-file-download-security-warning-modal 
+<pf-file-download-security-warning-modal
   #fileDownloadSecurityWarningModal
   (securityWarningConfirmed)="handleSecurityWarningConfirmed($event)">
 </pf-file-download-security-warning-modal>

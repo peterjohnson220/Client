@@ -10,7 +10,7 @@ import { AppNotification } from 'libs/features/infrastructure/app-notifications/
 import { CompanySettingsEnum } from 'libs/models/company';
 import { SettingsService } from 'libs/state/app-context/services';
 import { UserDataView, DataViewAccessLevel, SharedDataViewUser, Filter } from 'libs/ui/formula-editor';
-import { CsvFileDelimiter, ExportFileExtension } from 'libs/models/payfactors-api';
+import { CsvFileDelimiter, DataViewScope, ExportFileExtension } from 'libs/models/payfactors-api';
 import { AbstractFeatureFlagService, FeatureFlags, PermissionService } from 'libs/core/services';
 import * as fromAppNotificationsMainReducer from 'libs/features/infrastructure/app-notifications/reducers';
 import { FileDownloadSecurityWarningModalComponent } from 'libs/ui/common';
@@ -208,7 +208,7 @@ export class DataViewPageComponent implements OnInit, OnDestroy {
   }
 
   handleShareClicked(): void {
-    if (!this.isOwner) {
+    if (!this.canShare) {
       return;
     }
     if (!this.shareableUsersLoaded) {
@@ -237,15 +237,19 @@ export class DataViewPageComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromDataViewActions.ExportUserReport(this.exportData));
   }
 
-  public get isReadOnly(): boolean {
+  get isReadOnly(): boolean {
     return this.dataViewAccessLevel === DataViewAccessLevel.ReadOnly;
   }
 
-  public get isOwner(): boolean {
+  get isOwner(): boolean {
     return this.dataViewAccessLevel === DataViewAccessLevel.Owner;
   }
 
-  public get configureSidebarOpen(): boolean {
+  get canShare(): boolean {
+    return this.dataViewAccessLevel === DataViewAccessLevel.Owner && this.userDataView?.Scope === DataViewScope.Personal;
+  }
+
+  get configureSidebarOpen(): boolean {
     if (this.isReadOnly) {
       return false;
     }

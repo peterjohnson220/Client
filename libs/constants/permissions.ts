@@ -76,6 +76,7 @@ export class Permissions {
   public static TABULAR_REPORT_BUILDER = 'Tabular_Report_Builder';
   public static PRICING_LOADER = 'Pricing Loader';
   public static TOTAL_REWARDS = 'Total Rewards';
+  public static MANAGE_SITE_REPORTS = 'Manage Site Reports';
 }
 
 export enum PermissionCheckEnum {

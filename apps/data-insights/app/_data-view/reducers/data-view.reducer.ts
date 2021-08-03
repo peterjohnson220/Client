@@ -236,6 +236,7 @@ export function reducer(state = initialState, action: fromDataViewActions.Action
       const asyncStateObjClone: AsyncStateObj<UserDataView> = cloneDeep(state.userDataViewAsync);
       asyncStateObjClone.obj.Name = action.payload.Name;
       asyncStateObjClone.obj.Summary = action.payload.Summary;
+      asyncStateObjClone.obj.Scope = action.payload.Scope;
       return {
         ...state,
         userDataViewAsync: asyncStateObjClone,
