@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 
 import { ActionsSubject, Store } from '@ngrx/store';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
@@ -16,8 +16,9 @@ import { Permissions } from 'libs/constants/permissions';
 
 import * as fromJobsPageReducer from '../../reducers';
 import * as fromModifyPricingsActions from '../../actions/modify-pricings.actions';
-import { DeleteMatchModalData, MarketDataConfig, MarketDataJobPricing } from '../../models';
+import { DeleteMatchModalData, JobInsightsHelper, MarketDataConfig, MarketDataJobPricing, MarketDataJobPricingMatch } from '../../models';
 import { PageViewIds } from '../../constants';
+import { WeightAdjustModalComponent } from '../weight-adjust-modal';
 
 @Component({
   selector: 'pf-market-data',
@@ -26,6 +27,8 @@ import { PageViewIds } from '../../constants';
 })
 export class MarketDataComponent implements OnChanges, OnInit, OnDestroy {
   @Input() jobPricing: MarketDataJobPricing;
+
+  @ViewChild(WeightAdjustModalComponent, { static: true }) weightAdjustModalComponent: WeightAdjustModalComponent;
 
   pricingMatches$: Observable<AsyncStateObj<any[]>>;
 
@@ -59,8 +62,8 @@ export class MarketDataComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes?.jobPricing?.currentValue && changes.jobPricing.currentValue.Id !== 0
-        && changes.jobPricing.currentValue.Id !== changes.jobPricing.previousValue?.Id) {
+    if (changes?.jobPricing?.currentValue && changes.jobPricing.currentValue.PricingId !== 0
+        && changes.jobPricing.currentValue.PricingId !== changes.jobPricing.previousValue?.PricingId) {
       this.updateFilters();
       this.rate = this.jobPricing.Rate;
     }
@@ -113,24 +116,24 @@ export class MarketDataComponent implements OnChanges, OnInit, OnDestroy {
 
   openDeleteMatchModal(pricingMatch: any): void {
     const deleteModalData: DeleteMatchModalData = {
-      PricingMatchId: pricingMatch['CompanyJobs_PricingsMatches_CompanyJobPricingMatch_ID'],
-      JobTitle: this.jobPricing.JobTitle,
-      JobCode: this.jobPricing.JobCode,
-      JobId: this.jobPricing.JobId,
-      MatchJobTitle: pricingMatch['vw_PricingMatchesJobTitlesMerged_Job_Title'],
-      MatchJobCode: pricingMatch['vw_PricingMatchesJobTitlesMerged_Job_Code'],
-      PayMarket: this.jobPricing.PayMarket,
-      PayMarketId: this.jobPricing.PayMarketId,
-      EffectiveDate: this.jobPricing.JobPricingEffectiveDate,
+      JobPricing: this.jobPricing,
+      JobPricingMatch: JobInsightsHelper.buildMarketDataJobPricingMatch(pricingMatch),
       PricingMatchesCount: this.pricingMatchesCount
     };
     this.jobsPageStore.dispatch(new fromModifyPricingsActions.SetDeleteMatchModalData(deleteModalData));
   }
 
+  openWeightAdjustModal(pricingMatch: any): void {
+    const modalData: MarketDataJobPricingMatch = JobInsightsHelper.buildMarketDataJobPricingMatch(pricingMatch);
+    const canModifyMatch = this.isActiveJob && (!this.jobPricing.LinkedPayMarketName?.length);
+    const permissionMessage = this.modifyMatchPermissionMessage();
+    this.weightAdjustModalComponent.open(modalData, canModifyMatch, permissionMessage);
+  }
+
   public modifyMatchPermissionMessage(isDelete: boolean = false): string {
     if (!this.isActiveJob) {
       return isDelete ? 'You cannot delete matches for inactive jobs.' : 'You cannot modify matches for inactive jobs.';
-    } else if (!!this.jobPricing?.LinkedPayMarketId) {
+    } else if (!!this.jobPricing?.LinkedPayMarketName) {
       return isDelete ? 'You cannot delete matches for linked Pay Markets.' : 'You cannot modify matches for linked Pay Markets.';
     } else {
       return '';
@@ -151,7 +154,7 @@ export class MarketDataComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   private updateFilters(): void {
-    const filters: DataViewFilter[] = MarketDataConfig.getFilters(this.jobPricing.Id);
+    const filters: DataViewFilter[] = MarketDataConfig.getFilters(this.jobPricing.PricingId);
     this.basicGridStore.dispatch(new fromBasicDataGridActions.UpdateFilters(this.marketDataId, filters));
   }
 
