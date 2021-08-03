@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 
-import { GetPricingHistoryRequest, UpdatePricingMatchRequest, UpdatePricingRequest, PricingForBasePayGraph } from 'libs/models/payfactors-api/';
+import { GetPricingHistoryRequest, ModifyPricingMatchesRequest, UpdatePricingMatchRequest, UpdatePricingRequest, PricingForBasePayGraph } from 'libs/models/payfactors-api/';
 
 
 @Injectable({
@@ -34,7 +34,7 @@ export class PricingApiService {
     return this.payfactorsApiService.post(`${this.endpoint}/UpdatePricingMatch`, updatePricingMatchRequest);
   }
 
-  savePricingMatches(savePricingMatchesRequest: any): Observable<any> {
+  savePricingMatches(savePricingMatchesRequest: ModifyPricingMatchesRequest[]): Observable<any> {
     return this.payfactorsApiService.post(`${this.endpoint}/ModifyPricingMatches`, savePricingMatchesRequest );
   }
 

@@ -1,4 +1,4 @@
-<ng-container *ngIf="jobPricing?.PricingId > 0; else noDataTemplate">
+<ng-container *ngIf="!!jobPricing?.PricingId; else noDataTemplate">
   <pf-async-container [loading]="(pricingMatches$ | async)?.loading"></pf-async-container>
   <ng-container *ngIf="(pricingMatches$ | async)?.obj?.length; else noDataTemplate">
     <ng-container *ngFor="let job of (pricingMatches$ | async).obj; let isEven=even;">
@@ -69,7 +69,7 @@
 
 <ng-template #noDataTemplate>
   <div class="px-3 pb-3 no-market-data-container d-flex align-items-center justify-content-center">
-    <span>No market data to display. Click 'Add Data' to match this job.</span>
+    <span>No market data to display.<span *ngIf="canModifyPricings"> Click 'Add Data' to match this job.</span></span>
   </div>
 </ng-template>
 
