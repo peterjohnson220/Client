@@ -11,3 +11,21 @@ export interface GetEmployeeInsightsRequest {
   CompanyEmployeeId: number;
   EmployeeId: string;
 }
+
+export interface EmployeeTotalRewardsLite {
+  CompanyEmployeeId: number;
+  FullName: string;
+  JobTitle: string;
+  JobCode: string;
+  CurrencyCode: string;
+  Rate: string;
+  EmployeeId: string;
+  BaseSalary: number;
+  Bonus: number;
+  BonusTarget: number;
+  ShortTermIncentive: number;
+  LongTermIncentive: number;
+  Benefits: EmployeeBenefit[];
+  TotalCashCompensation: number;
+  TotalBenefits: number;
+}

@@ -4,8 +4,9 @@ import { CommonModule } from '@angular/common';
 import { StoreModule } from '@ngrx/store';
 import { FontAwesomeModule , FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { EffectsModule } from '@ngrx/effects';
-import { NgbTooltipModule, NgbDropdownModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltipModule, NgbDropdownModule, NgbModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { CalendarModule } from '@progress/kendo-angular-dateinputs';
+import { HighchartsChartModule } from 'highcharts-angular';
 
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
@@ -20,8 +21,9 @@ import { EmployeeInsightsEffects, EmployeesPageEffects } from './effects';
 import { EmployeesPageRoutingModule } from './employees-page-routing.module';
 import { EmployeesPageComponent } from './employees.page';
 import { SharedModule } from '../shared/shared.module';
-import { EmployeeDetailsComponent } from './containers';
-import { EmployeeInsightsComponent } from './components';
+import { EmployeeDetailsComponent, TotalRewardsTabContentComponent } from './containers';
+import { EmployeeInsightsComponent, TotalRewardsStatementLiteComponent } from './components';
+import { ContributionCurrencyPipe } from './pipes';
 
 @NgModule({
   imports: [
@@ -39,6 +41,8 @@ import { EmployeeInsightsComponent } from './components';
     NgbDropdownModule,
     NgbModule,
     CalendarModule,
+    NgbNavModule,
+    HighchartsChartModule,
 
     // Routing
     EmployeesPageRoutingModule,
@@ -58,7 +62,12 @@ import { EmployeeInsightsComponent } from './components';
     EmployeeDetailsComponent,
 
     // Components
-    EmployeeInsightsComponent
+    EmployeeInsightsComponent,
+    TotalRewardsTabContentComponent,
+    TotalRewardsStatementLiteComponent,
+
+    // Pipes
+    ContributionCurrencyPipe
   ]
 })
 export class EmployeesPageModule {

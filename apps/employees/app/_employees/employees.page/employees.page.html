@@ -17,7 +17,8 @@
   [pageable]="!gridConfig?.EnableInfiniteScroll"
   [gridRowActionsConfig]="hasDropdownOptions ? gridRowActionsConfig : null"
   [splitViewTemplate]="employeeDetailsPanelEnabled ? employeeDetails : null"
-  [resetWidthForSplitView]="true">
+  [resetWidthForSplitView]="true"
+  [gridContainerSplitViewWidth]="'400px'">
 </pf-data-grid>
 
 <ng-template #gridRowActionsTemplate let-dataRow="dataRow">
@@ -186,6 +187,5 @@
 </pf-modal-form>
 
 <ng-template #employeeDetails let-splitViewEmitter="splitViewEmitter">
-  <pf-employee-details (closeClicked)="splitViewEmitter.emit('close')">
-  </pf-employee-details>
+  <pf-employee-details (closeClicked)="splitViewEmitter.emit('close')"></pf-employee-details>
 </ng-template>
