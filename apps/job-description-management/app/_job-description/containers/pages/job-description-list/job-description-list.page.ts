@@ -37,6 +37,7 @@ import * as fromJobDescriptionReducers from '../../../reducers';
 import { AssignJobsToTemplateModalComponent, BulkExportJobDescriptionModalComponent, JobDescriptionHistoryModalComponent } from '../../../components';
 import { CompanyJobViewListItem, WorkflowSetupModalInput } from '../../../models';
 import { SaveFilterModalComponent } from '../../../components/modals/save-filter';
+import { ShareJobDescriptionModalComponent } from '../../../components/modals/share-job-description';
 import { AddJobModalComponent } from '../../../components/modals/add-job';
 import { JobDescriptionAppliesToModalComponent } from '../../../../shared/components/modals/job-description-applies-to';
 import { DeleteJobDescriptionModalComponent } from '../../../../shared/components/modals/delete-job-description-modal';
@@ -57,6 +58,7 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
   @ViewChild(JobDescriptionAppliesToModalComponent, { static: true }) public jobDescriptionAppliesToModalComponent: JobDescriptionAppliesToModalComponent;
   @ViewChild(JobDescriptionHistoryModalComponent, { static: true }) public jobDescriptionHistoryModalComponent: JobDescriptionHistoryModalComponent;
   @ViewChild(SaveFilterModalComponent, { static: true }) public saveFilterModalComponent: SaveFilterModalComponent;
+  @ViewChild(ShareJobDescriptionModalComponent, { static: true }) public shareJobDescriptionModalComponent: ShareJobDescriptionModalComponent;
   @ViewChild(DeleteJobDescriptionModalComponent, { static: true }) public deleteJobDescriptionModalComponent: DeleteJobDescriptionModalComponent;
   @ViewChild(WorkflowSetupModalComponent, { static: true }) public workflowSetupModalComponent: WorkflowSetupModalComponent;
   @ViewChild(BulkExportJobDescriptionModalComponent, { static: true }) public bulkExportJobDescriptionModal: BulkExportJobDescriptionModalComponent;
@@ -395,6 +397,10 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
     this.deleteJobDescriptionModalComponent.open(jobDescriptionIds);
   }
 
+  openShareJobDescriptionModal() {
+    this.shareJobDescriptionModalComponent.open();
+  }
+
   saveFilterClicked() {
     this.saveFilterModalComponent.open();
   }
@@ -422,7 +428,7 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
   saveListAreaColumns(columns: ListAreaColumn[]): void {
     this.store.dispatch(new fromJobDescriptionGridActions.SaveListAreaColumns(columns));
   }
-
+  
   openBulkRouteJobDescriptions() {
     if ( !this.isPublic) {
       const selectedJobIds = Array.from( this.selectedJobDescriptions.values()).map(x => x.CompanyJobId);

@@ -38,6 +38,7 @@ export class JobDescriptionGridComponent implements OnInit, OnDestroy {
   @Output() sortChanged = new EventEmitter();
   @Output() publicViewChanged = new EventEmitter();
   @Output() openDeleteJobDescriptionModal = new EventEmitter();
+  @Output() openShareJobDescriptionModal = new EventEmitter();
   @Output() bulkRouteJobDescriptions = new EventEmitter();
   @Output() bulkExportJobDescriptions = new EventEmitter();
 
@@ -155,6 +156,11 @@ export class JobDescriptionGridComponent implements OnInit, OnDestroy {
 
   handleDeleteJobDescriptionClick(jobDescriptionId) {
     this.openDeleteJobDescriptionModal.emit([jobDescriptionId]);
+  }
+
+  // Needs a check somewhere to see if only published jobs were selected
+  handleShareJobDescriptionClick() {
+    this.openShareJobDescriptionModal.emit();
   }
 
   hideCurrentReviewerTooltip(ngbTooltip: NgbTooltip) {
@@ -340,6 +346,17 @@ export class JobDescriptionGridComponent implements OnInit, OnDestroy {
       }
     });
     return canExport;
+  }
+
+  canShareJobDescriptions(): boolean {
+    let canShare = true;
+    this.selectedJobDescriptions?.forEach(jobDescription => {
+      if (jobDescription.JobDescriptionStatus !== 'Published') {
+        canShare = false;
+        return;
+      }
+    });
+    return canShare;
   }
 
   getSelectAllState(): SelectAllCheckboxState {
