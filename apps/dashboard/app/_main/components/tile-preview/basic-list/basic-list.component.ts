@@ -10,5 +10,6 @@ import { TilePreviewBasicListTile } from '../../../models';
 })
 export class BasicListComponent {
   @Input() model: TilePreviewBasicListTile;
+  @Input() payscaleBrandingFeatureFlag = false;
 }
 

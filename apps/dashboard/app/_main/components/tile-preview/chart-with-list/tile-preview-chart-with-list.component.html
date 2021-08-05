@@ -2,7 +2,8 @@
   <div class="col-5 p-0">
     <div class="row">
      <div class="col-12 ml-1">
-      <img *ngIf="!!model.HeadingIconImage" class="heading-icon-image"
+       <fa-icon *ngIf="payscaleBrandingFeatureFlag" [icon]="['far','chart-line']" class="heading-icon-image"></fa-icon>
+       <img *ngIf="!!model.HeadingIconImage && !payscaleBrandingFeatureFlag" class="heading-icon-image"
         src="assets/images/{{model.HeadingIconImage}}">
        <strong>{{ model.TileListTitle }}</strong>
      </div>
@@ -18,27 +19,27 @@
   </div>
 
   <div class="col-7 p-0 pb-2">
-    <span *ngIf="hasChartItems">     
-      <span class="tile-text title-header">{{model.TileChartData.DateTitle}}: {{model.TileChartData.Date | date:'MM-dd-yy'}}</span>        
-        <div class="details-body-containter pl-2 pb-1 pr-1">
-          <span class="tile-text title-body title-header"><strong>{{model.TileChartData.Company}}</strong></span>    
-          <span class="details-body-containter"  ngbTooltip="{{detailsToolTip}}">
-            <a class='col-12 tile-text title-body m-0 p-0' href="{{model.PostUrl}}">{{details}}</a>   
+    <span *ngIf="hasChartItems">
+      <span class="tile-text title-header">{{model.TileChartData.DateTitle}}: {{model.TileChartData.Date | date:'MM-dd-yy'}}</span>
+        <div class="details-body-container pl-2 pb-1 pr-1">
+          <span class="tile-text title-body title-header"><strong>{{model.TileChartData.Company}}</strong></span>
+          <span class="details-body-container"  ngbTooltip="{{detailsToolTip}}">
+            <a class='col-12 tile-text title-body m-0 p-0' href="{{model.PostUrl}}">{{details}}</a>
           </span>
         <button *ngIf="model.TileChartData && !hasData()" (click)="navigate()" class="col-12 btn btn-primary btn-respond px-2 py-0 mt-2">{{model.ActionItemTitle}}</button>
       </div>
     </span>
 
     <div *ngIf="!hasChartItems">
-      <div class="details-body-containter pl-2 pb-3 pr-1">
-        <strong class='tile-text title-body-no-link text-center py-2'>{{details}}</strong>   
+      <div class="details-body-container pl-2 pb-3 pr-1">
+        <strong class='tile-text title-body-no-link text-center py-2'>{{details}}</strong>
         <button (click)="action()" class="col-12 btn btn-primary btn-respond">{{model.ActionItemTitle}}</button>
       </div>
-    </div>   
+    </div>
 
     <div *ngIf="hasData()" class="chart-container pb-1">
-      <span  class="tile-text title-header">{{model.TileChartData.Title}}</span> 
-      <kendo-chart (seriesClick)="navigate()">    
+      <span  class="tile-text title-header">{{model.TileChartData.Title}}</span>
+      <kendo-chart (seriesClick)="navigate()">
 
     <kendo-chart-area background="none"  [margin]="0" ></kendo-chart-area>
     <kendo-chart-plot-area [margin]="0" [padding]="0"></kendo-chart-plot-area>
@@ -65,7 +66,7 @@
     </kendo-chart-series>
     </kendo-chart>
   </div>
-     
+
   </div>
 </div>
 
