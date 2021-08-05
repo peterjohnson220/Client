@@ -9,6 +9,9 @@ import { ComphubPages } from '../../../../_shared/data';
 import { WorkflowContext } from '../../../../_shared/models';
 import * as fromComphubSharedReducer from '../../../../_shared/reducers';
 import * as fromJobGridActions from '../../../../_shared/actions/job-grid.actions';
+import * as fromComphubCsdReducer from '../../../reducers';
+import * as fromCompensableFactorsActions from '../../../actions/compensable-factors.actions';
+import { SummaryPageSalaryData } from '../../../models';
 
 @Component({
   selector: 'pf-crowd-sourced-summary-card',
@@ -20,6 +23,7 @@ export class CrowdSourcedSummaryCardComponent implements OnInit, OnDestroy {
   selectedJob$: Observable<JobData>;
   selectedJobSub: Subscription;
   selectedJob: JobData;
+  selectedJobData: SummaryPageSalaryData;
   selectedPaymarket: PricingPaymarket;
   selectedPaymarket$: Observable<PricingPaymarket>;
   selectedPaymarketSub: Subscription;
@@ -29,9 +33,11 @@ export class CrowdSourcedSummaryCardComponent implements OnInit, OnDestroy {
   jobResults: JobGridData;
   jobResults$: Observable<JobGridData>;
   jobResultsSub: Subscription;
+  summaryPage: boolean;
 
   constructor(
-    private store: Store<fromComphubSharedReducer.State>
+    private store: Store<fromComphubSharedReducer.State>,
+    private csdStore: Store<fromComphubCsdReducer.State>
   ) {
     this.selectedJob$ = this.store.select(fromComphubSharedReducer.getSelectedJobData);
     this.selectedPaymarket$ = this.store.select(fromComphubSharedReducer.getSelectedPaymarket);
@@ -40,6 +46,7 @@ export class CrowdSourcedSummaryCardComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.summaryPage = false;
     this.selectedJobSub = this.selectedJob$.subscribe(sj => {
       this.selectedJob = sj;
     });
@@ -50,6 +57,7 @@ export class CrowdSourcedSummaryCardComponent implements OnInit, OnDestroy {
 
     this.workflowContextSub = this.workflowContext$.subscribe(wc => {
       if (!!wc && wc.selectedPageId === ComphubPages.Summary) {
+        this.summaryPage = true;
         this.workflowContext = wc;
         this.getInitialPricing();
       }
@@ -68,6 +76,11 @@ export class CrowdSourcedSummaryCardComponent implements OnInit, OnDestroy {
       { jobTitle: this.selectedJob.JobTitle, country: this.workflowContext.activeCountryDataSet.CountryName,
         paymarketId: this.selectedPaymarket.CompanyPayMarketId }
     ));
+
+    this.csdStore.dispatch(new fromCompensableFactorsActions.GetAllCompensableFactors(
+      {jobTitle: this.selectedJob?.JobTitle, country: this.workflowContext.activeCountryDataSet.CountryName,
+      paymarketId: this.selectedPaymarket.CompanyPayMarketId }
+      ));
   }
 
   ngOnDestroy(): void {

@@ -1,0 +1,21 @@
+<h3>Compensable Factors</h3>
+<div class="row">
+  <div class="column">
+    <ng-container *ngIf="!!skills" #SkillsFactor>
+      <pf-compensable-factor-type
+        [compensableFactorName]="compensableFactorsConstants.SKILLS"
+        [selectedJobTitle]="selectedJobTitle"
+        [factorType]="factorTypes.Search"
+        [title]="'Impactful Skills'"
+        [description]="'Different skills can affect salary. Choose the most important skills for this job.'"
+        [searchPlaceHolder]="'Search for more skills'"
+        [compensableFactors]="skills"
+        [topFactorsHeading]="'Top Skills'">
+      </pf-compensable-factor-type>
+    </ng-container>
+  </div>
+
+  <div class="column">
+
+  </div>
+</div>

@@ -112,6 +112,10 @@
       </tbody>
     </table>
 
+
+    <ng-container *ngIf="summaryPage" #CompensableFactors>
+      <pf-compensable-factors [selectJobTitle]="selectedJob?.JobTitle"></pf-compensable-factors>
+    </ng-container>
   </ng-container>
 
 </pf-card-layout>

@@ -5,7 +5,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { catchError, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
 import { of } from 'rxjs';
 
-import { ComphubApiService } from 'libs/data/payfactors-api';
+import { ComphubApiService, ComphubCrowdSourcedApiService } from 'libs/data/payfactors-api';
 import { ExchangeExplorerContextService } from 'libs/features/peer/exchange-explorer/services';
 import { QuickPriceExchangeDataSearchRequest } from 'libs/models/payfactors-api/peer/exchange-data-search';
 import * as fromExchangeExplorerActions from 'libs/features/peer/exchange-explorer/actions/exchange-filter-context.actions';
@@ -121,7 +121,7 @@ export class JobGridEffects {
         (action: fromJobGridActions.SearchCrowdSourcedJobsByTitle) => ({action})
       ),
       switchMap((data) => {
-          return this.comphubApiService.searchCrowdSourcedJobs(data.action.payload)
+          return this.csdApiService.searchCrowdSourcedJobs(data.action.payload)
             .pipe(
               mergeMap(response => {
                 const actions = [];
@@ -167,7 +167,7 @@ export class JobGridEffects {
         (action: fromJobGridActions.GetCrowdSourcedJobPricing) => ({action})
       ),
       mergeMap((data) => {
-          return this.comphubApiService.getCrowdSourcedJobPricing(data.action.payload.jobTitle, data.action.payload.country, data.action.payload.paymarketId)
+          return this.csdApiService.getCrowdSourcedJobPricing(data.action.payload.jobTitle, data.action.payload.country, data.action.payload.paymarketId)
             .pipe(
               map(response => {
                 const jobData = PayfactorsApiModelMapper.mapGetCrowdSourcedJobPricingResponseToJobData(response);
@@ -184,6 +184,7 @@ export class JobGridEffects {
     private actions$: Actions,
     private store: Store<fromComphubMainReducer.State>,
     private comphubApiService: ComphubApiService,
+    private csdApiService: ComphubCrowdSourcedApiService,
     private exchangeExplorerContextService: ExchangeExplorerContextService
   ) {}
 }
