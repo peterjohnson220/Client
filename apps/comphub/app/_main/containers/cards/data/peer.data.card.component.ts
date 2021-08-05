@@ -10,11 +10,12 @@ import { Weights, WeightType, WeightTypeDisplayLabeled } from 'libs/data/data-se
 import * as fromLibsPeerExchangeExplorerReducers from 'libs/features/peer/exchange-explorer/reducers';
 import * as fromLibsExchangeExplorerFilterContextActions from 'libs/features/peer/exchange-explorer/actions/exchange-filter-context.actions';
 import * as fromExchangeExplorerMapActions from 'libs/features/peer/exchange-explorer/actions/map.actions';
+import { ExchangeDataSet, PricingPaymarket } from 'libs/models/comphub';
 
-import { ExchangeDataSet, PricingPaymarket, WorkflowContext } from '../../../models';
-import * as fromDataCardActions from '../../../actions/data-card.actions';
-import * as fromComphubMainReducer from '../../../reducers';
-import { ComphubPages } from '../../../data';
+import * as fromDataCardActions from '../../../../_shared/actions/data-card.actions';
+import * as fromComphubSharedReducer from '../../../../_shared/reducers';
+import { ComphubPages } from '../../../../_shared/data';
+import { WorkflowContext } from '../../../../_shared/models';
 
 @Component({
   selector: 'pf-peer-data-card',
@@ -73,19 +74,19 @@ export class PeerDataCardComponent implements OnInit, OnDestroy {
   mapFilter: any;
   pageLoading: boolean;
 
-  constructor(private store: Store<fromComphubMainReducer.State>,
+  constructor(private store: Store<fromComphubSharedReducer.State>,
               private changeDetectorRef: ChangeDetectorRef,
               private exchangeExplorerStore: Store<fromLibsPeerExchangeExplorerReducers.State>) {
-    this.selectedJobTitle$ = this.store.select(fromComphubMainReducer.getSelectedJob);
-    this.selectedPayMarket$ = this.store.select(fromComphubMainReducer.getSelectedPaymarket);
-    this.selectedExchange$ = this.store.select(fromComphubMainReducer.getActiveExchangeDataSet);
-    this.selectedExchangeJobId$ = this.store.select(fromComphubMainReducer.getSelectedExchangeJobId);
-    this.selectedPageId$ = this.store.select(fromComphubMainReducer.getSelectedPageId);
+    this.selectedJobTitle$ = this.store.select(fromComphubSharedReducer.getSelectedJob);
+    this.selectedPayMarket$ = this.store.select(fromComphubSharedReducer.getSelectedPaymarket);
+    this.selectedExchange$ = this.store.select(fromComphubSharedReducer.getActiveExchangeDataSet);
+    this.selectedExchangeJobId$ = this.store.select(fromComphubSharedReducer.getSelectedExchangeJobId);
+    this.selectedPageId$ = this.store.select(fromComphubSharedReducer.getSelectedPageId);
     this.includeUntaggedIncumbents$ = this.store.pipe(select(fromLibsPeerExchangeExplorerReducers.getFilterContextIncludeUntaggedIncumbents));
     this.untaggedIncumbentCount$ = this.store.pipe(select(fromLibsPeerExchangeExplorerReducers.getPeerMapUntaggedIncumbentCount));
-    this.workflowContext$ = this.store.select(fromComphubMainReducer.getWorkflowContext);
-    this.forceRefresh$ = this.store.select(fromComphubMainReducer.getForcePeerMapRefresh);
-    this.selectedPageIdDelayed$ = this.store.select(fromComphubMainReducer.getSelectedPageId).pipe(debounceTime(750));
+    this.workflowContext$ = this.store.select(fromComphubSharedReducer.getWorkflowContext);
+    this.forceRefresh$ = this.store.select(fromComphubSharedReducer.getForcePeerMapRefresh);
+    this.selectedPageIdDelayed$ = this.store.select(fromComphubSharedReducer.getSelectedPageId).pipe(debounceTime(750));
     this.mapFilter$ = this.exchangeExplorerStore.select(fromLibsPeerExchangeExplorerReducers.getPeerMapFilter);
     this.filterContextWeightType$ = this.exchangeExplorerStore.select(fromLibsPeerExchangeExplorerReducers.getWeightingType);
   }

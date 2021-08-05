@@ -441,6 +441,8 @@ export class CompareJobBasedRangeChartComponent implements OnInit, OnDestroy {
 
     // we need this hidden salary range => will prevent from messing up when we hide salary range from the legend
     this.chartInstance.setSize(null, GraphHelper.getCompareChartHeight(dataCount, alignmentOffset));
+
+    GraphHelper.forceRedraw(this.chartInstance);
   }
 
   private determineChartMin(currentRow) {

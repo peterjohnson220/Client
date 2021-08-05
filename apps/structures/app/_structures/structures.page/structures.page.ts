@@ -23,12 +23,15 @@ import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducer
 import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import { PfSecuredResourceDirective } from 'libs/forms/directives';
 import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
+import * as fromRootState from 'libs/state/state';
 
 import { StructuresPageConfig } from '../models';
 import * as fromStructuresPageReducer from '../reducers';
 import * as fromStructuresPageActions from '../actions/structures-page.actions';
 import * as fromDuplicateModelModalActions from '../../shared/actions/duplicate-model-modal.actions';
 import * as fromSharedStructuresReducer from '../../shared/reducers';
+import * as fromModelSettingsModalActions from '../../shared/actions/model-settings-modal.actions';
+import * as fromSharedStructuresActions from '../../shared/actions/shared.actions';
 
 @Component({
   selector: 'pf-structures-page',
@@ -78,6 +81,8 @@ export class StructuresPageComponent implements AfterViewInit, OnInit, OnDestroy
   payMarketOptions: GroupedListItem[];
   currencies: any;
   hasDropdownOptions: boolean;
+  currentTab = StructuresPageConfig.CurrentModelsTabId;
+  companyId: number;
 
   selectedPayMarkets: string[];
   selectedStructureType: any;
@@ -88,6 +93,7 @@ export class StructuresPageComponent implements AfterViewInit, OnInit, OnDestroy
   gridFieldSubscription: Subscription;
   companyPayMarketsSubscription: Subscription;
   currencySubscription: Subscription;
+  userContextSubscription: Subscription;
 
   deleteStructureModalOpen$: Observable<boolean>;
   deleting$: Observable<boolean>;
@@ -118,6 +124,7 @@ export class StructuresPageComponent implements AfterViewInit, OnInit, OnDestroy
     this.deletingError$ = this.structuresStore.pipe(select(fromStructuresPageReducer.getDeletingStructureErrorStatus));
     this.customFilterOptions$ = this.structuresStore.select(fromStructuresPageReducer.getCustomFilterOptions);
     this.structuresGradeBasedRangeLandingPageEnabled = this.featureFlagService.enabled(FeatureFlags.StructuresGradeBasedRangeLandingPage, false);
+    this.userContextSubscription = this.structuresStore.pipe(select(fromRootState.getUserContext)).subscribe(context => this.companyId = context.CompanyId);
   }
 
   ngOnInit(): void {
@@ -196,6 +203,7 @@ export class StructuresPageComponent implements AfterViewInit, OnInit, OnDestroy
   }
 
   handleTabChange(activeTabId: any): void {
+    this.currentTab = activeTabId;
     let inboundFilters = StructuresPageConfig.CurrentModelsInboundFilters;
     if (activeTabId === StructuresPageConfig.ProposedModelsTabId) {
       inboundFilters = StructuresPageConfig.ProposedModelsInboundFilters;
@@ -228,6 +236,18 @@ export class StructuresPageComponent implements AfterViewInit, OnInit, OnDestroy
         pageViewId: this.pageViewId,
         rangeGroupIds: this.selectedRangeGroupIds
       }));
+    }
+  }
+
+  handleNewModelClicked(selectedRangeGroupId: number, rangeType: string) {
+    this.selectedRangeGroupId = selectedRangeGroupId;
+    this.sharedStructuresStore.dispatch(new fromSharedStructuresActions.SetMetadataFromRangeGroupId(selectedRangeGroupId, this.companyId));
+
+    if (rangeType === 'Grade') {
+      this.sharedStructuresStore.dispatch(new fromModelSettingsModalActions.GetGradesDetails(selectedRangeGroupId));
+      this.sharedStructuresStore.dispatch(new fromModelSettingsModalActions.OpenGradeModal());
+    } else {
+      this.sharedStructuresStore.dispatch(new fromModelSettingsModalActions.OpenJobModal());
     }
   }
 

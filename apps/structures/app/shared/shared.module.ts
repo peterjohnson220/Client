@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
-import { NgbDropdownModule, NgbPopoverModule, NgbTabsetModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownModule, NgbPopoverModule, NgbNavModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { AutoCompleteModule, ComboBoxModule, DropDownListModule } from '@progress/kendo-angular-dropdowns';
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 import { NumericTextBoxModule, SwitchModule } from '@progress/kendo-angular-inputs';
@@ -43,7 +43,15 @@ import { ModelSettingsModalComponent } from './containers/model-settings-modal/m
 import { RangeRoundingComponent } from './containers/range-rounding';
 import { PublishModelModalComponent } from './containers/publish-model-modal';
 import { DuplicateModelModalComponent } from './containers/duplicate-model-modal';
-
+import {
+  GradeBasedModelSettingsContentComponent,
+  GradeBasedModelSettingsModalComponent,
+  JobBasedModelSettingsContentComponent,
+  JobBasedModelSettingsModalComponent,
+  AdvancedModelSettingComponent,
+  RangeDistributionSettingComponent,
+  StructuresFormulaEditorComponent
+} from './containers';
 
 @NgModule({
     imports: [
@@ -64,7 +72,7 @@ import { DuplicateModelModalComponent } from './containers/duplicate-model-modal
         DuplicateModelModalEffects
       ]),
       FontAwesomeModule,
-      NgbTabsetModule,
+      NgbNavModule,
       AutoCompleteModule,
       ComboBoxModule,
       NgbTooltipModule,
@@ -96,6 +104,13 @@ import { DuplicateModelModalComponent } from './containers/duplicate-model-modal
     RangeRoundingComponent,
     PublishModelModalComponent,
     DuplicateModelModalComponent,
+    GradeBasedModelSettingsModalComponent,
+    GradeBasedModelSettingsContentComponent,
+    JobBasedModelSettingsContentComponent,
+    JobBasedModelSettingsModalComponent,
+    AdvancedModelSettingComponent,
+    RangeDistributionSettingComponent,
+    StructuresFormulaEditorComponent
   ],
   exports: [
     FontAwesomeModule,
@@ -109,6 +124,13 @@ import { DuplicateModelModalComponent } from './containers/duplicate-model-modal
     RangeRoundingComponent,
     PublishModelModalComponent,
     DuplicateModelModalComponent,
+    GradeBasedModelSettingsModalComponent,
+    GradeBasedModelSettingsContentComponent,
+    JobBasedModelSettingsContentComponent,
+    JobBasedModelSettingsModalComponent,
+    AdvancedModelSettingComponent,
+    RangeDistributionSettingComponent,
+    StructuresFormulaEditorComponent
   ],
   providers: [
     RangeGroupExistsGuard,

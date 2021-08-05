@@ -382,6 +382,8 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
       }
 
       this.chartInstance.setSize(null, GraphHelper.getChartHeight(this.employeeData.data));
+
+      GraphHelper.forceRedraw(this.chartInstance);
     }
   }
 

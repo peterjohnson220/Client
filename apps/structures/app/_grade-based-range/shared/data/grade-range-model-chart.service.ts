@@ -61,7 +61,7 @@ export class GradeRangeModelChartService {
         verticalAlign: 'bottom',
         align: 'right'
       },
-
+      colors: [ '#FFFFFF', '#FFD470',  '#FFB300', '#B37D00', '#6B4B00', '#7CB5EC'],
       colorAxis: {
         showInLegend: false,
         dataClasses: [{
@@ -90,6 +90,7 @@ export class GradeRangeModelChartService {
       series: [{
         type: 'heatmap',
         showInLegend: false,
+        borderColor: '#7CB5EC',
         borderWidth: 0.5
       },
       {
@@ -227,7 +228,7 @@ export class GradeRangeModelChartService {
     }
   }
 
-  static getVerticalRangeOptions(locale, currencyCode, controlPointDisplay, rate, rangeDistributionTypeId) {
+  static getHorizontalRangeOptions(locale, currencyCode, controlPointDisplay, rate, rangeDistributionTypeId) {
     return {
       chart: {
         inverted: false,
@@ -707,7 +708,7 @@ export class GradeRangeModelChartService {
     };
   }
 
-  static getHorizontalRangeOptions(locale, currencyCode, controlPointDisplay, rate, rangeDistributionTypeId) {
+  static getVerticalRangeOptions(locale, currencyCode, controlPointDisplay, rate, rangeDistributionTypeId) {
     return {
       chart: {
         inverted: true,
@@ -761,7 +762,7 @@ export class GradeRangeModelChartService {
         title: {
           text: undefined
         },
-        offset: 14
+        offset: 34
       },
       xAxis: {
         visible: false,

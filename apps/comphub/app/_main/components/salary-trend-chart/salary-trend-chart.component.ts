@@ -9,7 +9,7 @@ OfflineExporting(Highcharts);
 
 import cloneDeep from 'lodash/cloneDeep';
 
-import { JobSalaryTrend } from '../../models';
+import { JobSalaryTrend } from '../../../_shared/models';
 
 @Component({
   selector: 'pf-salary-trend-chart',

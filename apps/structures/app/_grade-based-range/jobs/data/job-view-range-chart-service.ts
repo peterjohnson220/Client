@@ -49,10 +49,10 @@ export class JobViewRangeChartService {
         return 'Top 4th 5th';
       }
       case JobViewRangeChartSeries.AverageEEPay: {
-        return 'Average Employee Base Salary';
+        return 'Average Employee ' + controlPointDisplay;
       }
       case JobViewRangeChartSeries.EmployeeOutliers: {
-        return 'Outlier Base Salary';
+        return 'Outlier ' + controlPointDisplay;
       }
       case JobViewRangeChartSeries.MRP: {
         return 'MRP';
@@ -450,7 +450,7 @@ export class JobViewRangeChartService {
           showInLegend: false
         },
         {
-          name: JobViewRangeChartService.getFormattedSeriesName(JobViewRangeChartSeries.AverageEEPay),
+          name: JobViewRangeChartService.getFormattedSeriesName(JobViewRangeChartSeries.AverageEEPay, controlPointDisplay),
           type: 'scatter',
           marker: {
             symbol: 'vline',

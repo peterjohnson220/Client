@@ -1,19 +1,28 @@
-.section {
-  border: 1px solid #D9D9DD;
-  box-sizing: border-box;
-  border-radius: 4px;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  padding: 1rem;
+.job-insights-container {
+  height: calc(100% - 49px);
+  overflow-y: auto;
 }
 
 .title {
   font-weight: 600;
   font-size: 16px;
-  padding-bottom: 1rem;
 }
 
 .action-bar-container {
   height: 65px;
+}
+
+.font-weight-bold {
+  font-weight: 600;
+}
+
+.link {
+  color: #027BC5;
+  cursor: pointer;
+}
+
+.job-details-container {
+  max-height: 280px;
+  overflow-y: auto;
+  overflow-x: hidden;
 }

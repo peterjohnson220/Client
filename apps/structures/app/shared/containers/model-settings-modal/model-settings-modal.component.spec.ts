@@ -1,23 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
-import { combineReducers, Store, StoreModule } from '@ngrx/store';
+import { combineReducers, StoreModule } from '@ngrx/store';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import * as fromRootState from 'libs/state/state';
 import { SettingsService } from 'libs/state/app-context/services';
 import { PfCommonModule } from 'libs/core';
-import { generateMockAdjustMidpointSetting, generateMockRangeAdvancedSetting, generateMockRangeDistributionSettingForm } from 'libs/models/structures';
-import { generateMockStructureRangeDistributionTypes } from 'libs/models/payfactors-api/structures/response';
 
 import { ModelSettingsModalComponent } from './model-settings-modal.component';
 import * as fromSharedReducer from '../../reducers';
-import * as fromModelSettingsModalActions from '../../actions/model-settings-modal.actions';
 
 describe('ModelSettingsModalComponent', () => {
   let instance: ModelSettingsModalComponent;
   let fixture: ComponentFixture<ModelSettingsModalComponent>;
-  let store: Store<any>;
   let ngbModal: NgbModal;
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -44,35 +40,7 @@ describe('ModelSettingsModalComponent', () => {
     fixture = TestBed.createComponent(ModelSettingsModalComponent);
     instance = fixture.componentInstance;
 
-    store = TestBed.inject(Store);
     ngbModal = TestBed.inject(NgbModal);
-
-    // mock the metadata
-    instance.metadata = {
-      Paymarket: 'Boston',
-      PaymarketId: 1,
-      StructureName: 'testStruc',
-      ModelName: 'testModel',
-      Currency: 'USD',
-      Rate: 'Annual',
-      PayType: 'Base',
-      ControlPoint: 'Base',
-      ControlPointDisplay: 'Base',
-      SpreadMin: 10,
-      SpreadMax: 10,
-      IsCurrent: false,
-      RangeDistributionTypeId: 1,
-      RangeTypeId: 2,
-      ExchangeId: null,
-      RangeDistributionTypes: generateMockStructureRangeDistributionTypes(),
-      RangeDistributionSetting: generateMockRangeDistributionSettingForm(),
-      RangeAdvancedSetting: generateMockRangeAdvancedSetting(),
-      MidpointProgression: 5,
-      StartingMidpoint: 55555,
-      AdjustMidpointSetting: generateMockAdjustMidpointSetting()
-    };
-
-    instance.ngOnInit();
   });
 
   it('should emit handleSubmit on submit', () => {
@@ -94,17 +62,6 @@ describe('ModelSettingsModalComponent', () => {
 
     instance.handleModalDismiss();
     expect(instance.modalDismissed.emit).toHaveBeenCalledTimes(1);
-  });
-
-  it('should dispatch cancel and close modal, as well as call reset on dismiss', () => {
-    spyOn(instance.store, 'dispatch');
-    const expectedAction1 = new fromModelSettingsModalActions.CloseModal();
-    const expectedAction2 = new fromModelSettingsModalActions.Cancel();
-
-    instance.handleModalDismiss();
-
-    expect(instance.store.dispatch).toHaveBeenCalledWith(expectedAction1);
-    expect(instance.store.dispatch).toHaveBeenCalledWith(expectedAction2);
   });
 
 });

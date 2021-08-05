@@ -38,6 +38,7 @@ export class InputDebounceComponent implements OnInit, ControlValueAccessor, OnD
   @Input() minWidth = 100;
   @Input() value = '';
   @Input() resetValue$: Observable<boolean> = of(false);
+  @Input() clearButtonNoBackground = false;
   @Output() valueChanged: EventEmitter<string> = new EventEmitter();
   @Output() clearClicked = new EventEmitter();
 

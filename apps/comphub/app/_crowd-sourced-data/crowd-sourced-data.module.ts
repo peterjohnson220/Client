@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
+import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { GridModule } from '@progress/kendo-angular-grid';
@@ -14,12 +14,17 @@ import { PfFormsModule } from 'libs/forms';
 import { GuidelinesBadgeModule } from 'libs/features/peer/guidelines-badge';
 import { BasicDataGridModule } from 'libs/features/grids/basic-data-grid';
 
-import { CrowdSourcedDataPageComponent } from './containers/pages/crowd-sourced-data';
 import { CrowdSourcedDataRoutingModule } from './crowd-sourced-data-routing.module';
 import * as fromFaIcons from './fa-icons';
-import { CrowdSourcedJobsCardComponent } from './containers/cards/crowd-sourced-jobs/crowd-sourced-jobs.card.component';
+import {
+  CrowdSourcedJobsCardComponent,
+  CrowdSourcedJobResultsComponent,
+  CrowdSourcedDataPageComponent,
+  CrowdSourcedSummaryCardComponent } from './containers';
 import { MainModule } from '../_main/main.module';
 import { CrowdSourcedDataPageGuard } from './guards';
+import { SharedModule } from '../_shared/shared.module';
+import { CrowdSourcedJobGridContentComponent } from './components/crowd-sourced-job-grid-content';
 
 @NgModule({
   imports: [
@@ -38,18 +43,23 @@ import { CrowdSourcedDataPageGuard } from './guards';
     NgbModalModule,
     NgbProgressbarModule,
     NgbTooltipModule,
+    FontAwesomeModule,
 
     // Payfactors
     PfCommonModule,
     PfCommonUIModule,
     PfFormsModule,
     GuidelinesBadgeModule,
-    BasicDataGridModule
+    BasicDataGridModule,
+    SharedModule
 
   ],
   declarations: [
     CrowdSourcedDataPageComponent,
-    CrowdSourcedJobsCardComponent
+    CrowdSourcedJobsCardComponent,
+    CrowdSourcedJobResultsComponent,
+    CrowdSourcedJobGridContentComponent,
+    CrowdSourcedSummaryCardComponent
   ],
   providers: [
     CrowdSourcedDataPageGuard

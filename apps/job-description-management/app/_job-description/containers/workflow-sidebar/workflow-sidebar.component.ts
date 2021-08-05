@@ -1,6 +1,9 @@
-import { Component, Input, OnInit, OnDestroy, OnChanges } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+import cloneDeep from 'lodash/cloneDeep';
 import groupBy from 'lodash/groupBy';
+
+import { Component, Input, OnInit, OnDestroy, OnChanges, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
@@ -9,6 +12,8 @@ import { filter, distinctUntilChanged } from 'rxjs/operators';
 import { JobDescription } from 'libs/models/jdm/index';
 import { WorkflowStepInfo } from 'libs/models/security/index';
 import { AsyncStateObj } from 'libs/models/state/index';
+import { AttachmentFileType } from 'libs/models';
+import { FileDownloadSecurityWarningModalComponent } from 'libs/ui/common';
 
 import { JobDescriptionManagementJobDescriptionState } from '../../reducers';
 import * as fromWorkflowReducer from '../../reducers/index';
@@ -21,14 +26,19 @@ import { WorkflowLogEntry, WorkflowStepSummaryItem } from '../../models';
   templateUrl: './workflow-sidebar.component.html',
   styleUrls: ['./workflow-sidebar.component.scss']
 })
+
 export class WorkflowSidebarComponent implements OnInit, OnDestroy, OnChanges {
+  @ViewChild('fileDownloadSecurityWarningModal', { static: true }) fileDownloadSecurityWarningModal: FileDownloadSecurityWarningModalComponent;
   @Input() workflowStepInfo: WorkflowStepInfo;
   @Input() workflowStepCompleted: boolean;
   @Input() isInSystemWorkflow: boolean;
+  @Input() enableFileDownloadSecurityWarning: boolean;
   @Input() workflowId: number;
   @Input() isSiteAdmin: boolean;
   @Input() isCompanyAdmin: boolean;
   @Input() avatarUrl: string;
+
+  readonly ATTACHMENT_DOWNLOAD_URL_PREFIX = '/odata/CloudFiles.DownloadJDMWorkflowAttachment?FileName=';
 
   workflowLogEntriesAsync$: Observable<AsyncStateObj<WorkflowLogEntry[]>>;
   workflowLogLoading$: Observable<boolean>;
@@ -40,9 +50,15 @@ export class WorkflowSidebarComponent implements OnInit, OnDestroy, OnChanges {
   workflowStepCommentForm: FormGroup;
   commentFormSubmitted: boolean;
   jobDescriptionSubscription: Subscription;
+  attachments: any;
+  iconFile: any;
+  iconClass: any;
+  clickedAttachment: any;
+
   workflowStepSummary$: Observable<AsyncStateObj<WorkflowStepSummaryItem[]>>;
   workflowStepSummaryLoading$: Observable<boolean>;
   workflowStepSummary: any;
+
 
   constructor(
     private store: Store<JobDescriptionManagementJobDescriptionState>,
@@ -65,6 +81,10 @@ export class WorkflowSidebarComponent implements OnInit, OnDestroy, OnChanges {
         distinctUntilChanged((previous, current) => previous.obj.JobDescriptionId === current.obj.JobDescriptionId))
       .subscribe( jd => {
         if (jd.obj.JobDescriptionId !== null && !this.workflowStepCompleted) {
+          if (!!jd.obj.Attachments) {
+            this.attachments = cloneDeep(jd.obj.Attachments);
+            this.attachments.forEach(attachment => { this.setAttachmentIcons(attachment); });
+          }
           this.store.dispatch(new fromWorkflowActions.LoadWorkflowLogEntries({
             jobDescriptionId: jd.obj.JobDescriptionId, jobDescriptionRevision: jd.obj.JobDescriptionRevision
           }));
@@ -86,7 +106,7 @@ export class WorkflowSidebarComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnDestroy(): void {
-    this.jobDescriptionSubscription.unsubscribe();
+    this.jobDescriptionSubscription?.unsubscribe();
   }
 
   ngOnChanges(changes: any) {
@@ -122,4 +142,52 @@ export class WorkflowSidebarComponent implements OnInit, OnDestroy, OnChanges {
       }
     }
   }
+
+  setAttachmentIcons(attachment) {
+    switch (attachment.FileType && attachment.FileType.toLocaleLowerCase()) {
+      case AttachmentFileType.Word.toLocaleLowerCase():
+        attachment.iconType = 'file-word';
+        attachment.iconClass = 'word';
+        break;
+      case AttachmentFileType.Pdf.toLocaleLowerCase():
+        attachment.iconType = 'file-pdf';
+        attachment.iconClass = 'pdf';
+        break;
+      case AttachmentFileType.Excel.toLocaleLowerCase():
+        attachment.iconType = 'file-excel';
+        attachment.iconClass = 'excel';
+        break;
+      case AttachmentFileType.Powerpoint.toLocaleLowerCase():
+        attachment.iconType = 'file-powerpoint';
+        attachment.iconClass = 'powerpoint';
+        break;
+      case AttachmentFileType.Image.toLocaleLowerCase():
+        attachment.iconType = 'file-image';
+        attachment.iconClass = 'image';
+        break;
+      default:
+        attachment.iconType = 'file';
+        attachment.iconClass = 'file';
+        break;
+    }
+  }
+
+  onAttachmentClicked(attachment) {
+    this.clickedAttachment = attachment;
+    if (this.enableFileDownloadSecurityWarning) {
+      this.fileDownloadSecurityWarningModal.open();
+    } else {
+      this.downloadAttachmentFile();
+    }
+  }
+
+  downloadAttachmentFile() {
+    this.store.dispatch(new fromWorkflowActions.DownloadWorkflowAttachment(this.clickedAttachment.CloudFileName));
+  }
+
+  handleSecurityWarningConfirmed() {
+    this.downloadAttachmentFile();
+  }
+
+  handleSecurityWarningCancelled() {}
 }

@@ -235,11 +235,23 @@ exports[`Project - Structures - JobToGrade Component should display jobs when jo
             <tbody>
               
               <tr>
-                <td>
-                  AAA
+                <td
+                  class="ellipsis-text"
+                >
+                  <div
+                    pfellipsisactive=""
+                  >
+                    Fake Job
+                  </div>
                 </td>
-                <td>
-                  Fake Job
+                <td
+                  class="ellipsis-text"
+                >
+                  <div
+                    pfellipsisactive=""
+                  >
+                    AAA
+                  </div>
                 </td>
                 <td>
                   <button
@@ -437,11 +449,23 @@ exports[`Project - Structures - JobToGrade Component should display with 2 decim
             <tbody>
               
               <tr>
-                <td>
-                  AAA
+                <td
+                  class="ellipsis-text"
+                >
+                  <div
+                    pfellipsisactive=""
+                  >
+                    Fake Job
+                  </div>
                 </td>
-                <td>
-                  Fake Job
+                <td
+                  class="ellipsis-text"
+                >
+                  <div
+                    pfellipsisactive=""
+                  >
+                    AAA
+                  </div>
                 </td>
                 <td>
                   <button

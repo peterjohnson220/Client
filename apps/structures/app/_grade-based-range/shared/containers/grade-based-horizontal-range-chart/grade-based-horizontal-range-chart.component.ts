@@ -15,6 +15,7 @@ import { RangeDistributionTypeIds } from 'libs/constants/structures/range-distri
 import * as fromSharedStructuresReducer from '../../../../shared/reducers';
 import * as fromGradeBasedSharedReducer from '../../../shared/reducers';
 import * as fromSharedStructuresActions from '../../../../shared/actions/shared.actions';
+import * as fromGradeBasedSharedActions from '../../../shared/actions/shared.actions';
 import * as fromSwitchRegressionFlagsActions from '../../../shared/actions/switch-regression-flags-modal.actions';
 import { StructuresHighchartsService, StructuresPagesService } from '../../../../shared/services';
 import { GradeRangeModelChartService, GradeRangeVerticalOrHorizontalModelChartSeries } from '../../data';
@@ -67,8 +68,6 @@ export class GradeBasedHorizontalRangeChartComponent implements OnInit, OnDestro
   gradeRangeDetails: any;
   rangeGroupId: number;
   openAddJobsSubscription: Subscription;
-  splitViewHidden = false;
-  splitViewHiddenSubscription: Subscription;
 
   constructor(
     public store: Store<any>,
@@ -76,7 +75,6 @@ export class GradeBasedHorizontalRangeChartComponent implements OnInit, OnDestro
     private structuresPagesService: StructuresPagesService,
     private route: ActivatedRoute
   ) {
-
     this.route.params.subscribe(p => {
       this.rangeGroupId = this.route.snapshot.params.id;
     });
@@ -113,12 +111,6 @@ export class GradeBasedHorizontalRangeChartComponent implements OnInit, OnDestro
       this.gradeRangeData = data;
       if (data && this.rate && this.currency && this.gradeRangeDetails.obj && !!this.chartInstance) {
         this.processChartData();
-      }
-    });
-
-    this.splitViewHiddenSubscription = this.store.select(fromPfGridReducer.getSplitViewHidden, this.pageViewId).subscribe(splitViewHidden => {
-      if (splitViewHidden !== undefined) {
-        this.splitViewHidden = splitViewHidden;
       }
     });
 
@@ -344,24 +336,6 @@ export class GradeBasedHorizontalRangeChartComponent implements OnInit, OnDestro
 
   private processChartData() {
 
-    // set click events for jobs
-    const jobsOptions = this.chartInstance.series[GradeRangeVerticalOrHorizontalModelChartSeries.Jobs].options;
-    const self = this;
-    jobsOptions.point.events.click = function(event) {
-      // Store the point object into a variable
-      const point = this as any;
-      self.handleJobPointClicked(point);
-    };
-    this.chartInstance.series[GradeRangeVerticalOrHorizontalModelChartSeries.Jobs].update(jobsOptions, false);
-    // set click event for excluded jobs
-    const excludedJobsOptions = this.chartInstance.series[GradeRangeVerticalOrHorizontalModelChartSeries.JobsExcludedFromRegression].options;
-    excludedJobsOptions.point.events.click = function(event) {
-      // Store the point object into a variable
-      const point = this as any;
-      self.handleJobPointClicked(point);
-    };
-    this.chartInstance.series[GradeRangeVerticalOrHorizontalModelChartSeries.JobsExcludedFromRegression].update(excludedJobsOptions, false);
-
     this.salaryRangeSeriesDataModel = {
       MinMidMax: [],
       Quartile: {
@@ -455,14 +429,14 @@ export class GradeBasedHorizontalRangeChartComponent implements OnInit, OnDestro
     // set the min/max
     this.chartInstance.yAxis[0].setExtremes(this.chartMin, this.chartMax, false);
 
-    this.chartInstance.yAxis[0].setTitle({text: '<b>R<sup>2</sup>:</b> ' + rSquared, useHTML: true});
+    this.chartInstance.xAxis[0].setTitle({text: '<b>R<sup>2</sup>:</b> ' + rSquared, useHTML: true});
     // set the series data (0 - salaryRange, 1 - midPoint, 2 - avg salary, 3 - outliers)
     this.chartInstance.series[GradeRangeVerticalOrHorizontalModelChartSeries.SalaryRangeMinMidMax].setData(this.salaryRangeSeriesDataModel.MinMidMax, false);
-    this.chartInstance.series[GradeRangeVerticalOrHorizontalModelChartSeries.RangeMid].setData(this.dataPointSeriesDataModel.Mid, false);
+
     // we need this hidden salary range => will prevent from messing up when we hide salary range from the legend
     this.chartInstance.series[GradeRangeVerticalOrHorizontalModelChartSeries.SalaryRangeMinMidMaxHidden].setData(this.salaryRangeSeriesDataModel.MinMidMax, false);
 
-
+    this.chartInstance.series[GradeRangeVerticalOrHorizontalModelChartSeries.RangeMid].setData(this.dataPointSeriesDataModel.Mid, false);
     this.chartInstance.series[GradeRangeVerticalOrHorizontalModelChartSeries.EmployeeOutliers].setData(this.outlierSeriesData, false);
     this.chartInstance.series[GradeRangeVerticalOrHorizontalModelChartSeries.Jobs].setData(this.dataPointSeriesDataModel.Job, false);
     this.chartInstance.series[GradeRangeVerticalOrHorizontalModelChartSeries.Regression].setData(this.regressionSeriesData, false);
@@ -491,14 +465,39 @@ export class GradeBasedHorizontalRangeChartComponent implements OnInit, OnDestro
 
     this.chartInstance.xAxis[0].setCategories(this.gradeCategories, false);
 
+    // set click events for jobs
+    const jobsOptions = this.chartInstance.series[GradeRangeVerticalOrHorizontalModelChartSeries.Jobs].options;
+    const self = this;
+    jobsOptions.point.events.click = function(event) {
+      // Store the point object into a variable
+      const point = this as any;
+      self.handleJobPointClicked(point);
+    };
+    this.chartInstance.series[GradeRangeVerticalOrHorizontalModelChartSeries.Jobs].update(jobsOptions);
+    // set click event for excluded jobs
+    const excludedJobsOptions = this.chartInstance.series[GradeRangeVerticalOrHorizontalModelChartSeries.JobsExcludedFromRegression].options;
+    excludedJobsOptions.point.events.click = function(event) {
+      // Store the point object into a variable
+      const point = this as any;
+      self.handleJobPointClicked(point);
+    };
+    this.chartInstance.series[GradeRangeVerticalOrHorizontalModelChartSeries.JobsExcludedFromRegression].update(excludedJobsOptions);
 
+    this.chartInstance.setSize(null, 500);
 
-    this.chartInstance.setSize(null, GraphHelper.getGbrHorizontalChartHeight(this.gradeRangeData.data), false);
+    // last but not least, save the latest SVG in state
+    // set the svg string
+    const chartObject = this.chartInstance as any;
+    const svgString = chartObject.getSVG({
+      chart: {
+        width: 1775,
+        height: 525
+      }
+    });
 
-    // DO NOT REMOVE THIS - I know it looks stupid, but this is the only way that everything draws correctly. Trust me.
-    const overallOptions = this.chartInstance.options;
-    this.chartInstance.update(overallOptions, true);
+    self.store.dispatch(new fromGradeBasedSharedActions.SetHorizontalChartSvg(svgString));
 
+    GraphHelper.forceRedraw(this.chartInstance, this.chartOptions);
   }
 
   private handleJobPointClicked(point) {

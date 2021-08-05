@@ -486,7 +486,7 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
       this.chartInstance.series[JobRangeModelChartSeries.RangeQuintileFourth].setData(this.dataPointSeriesDataModel.QuintileFourth, false);
     }
 
-    
+
     // set click event for employee outlier points
     const employeeOutlierOptions = this.chartInstance.series[JobRangeModelChartSeries.EmployeeOutliers].options;
     const self = this;
@@ -496,12 +496,14 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
       self.handleEmployeeOutlierPointClicked(point);
     };
     this.chartInstance.series[JobRangeModelChartSeries.EmployeeOutliers].update(employeeOutlierOptions);
-    
+
     this.chartInstance.setSize(null, GraphHelper.getChartHeight(this.jobRangeData.data));
+
+    GraphHelper.forceRedraw(this.chartInstance);
   }
 
   private handleEmployeeOutlierPointClicked(point) {
-    var url = `/job/${this.metaData.RangeDistributionSetting.CompanyStructuresRangeGroupId}/employees/${point.companyStructuresRangesId}`;       
+    const url = `/job/${this.metaData.RangeDistributionSetting.CompanyStructuresRangeGroupId}/employees/${point.companyStructuresRangesId}`;
     this.router.navigate([url], { queryParams: { filterQuery: point.filterType, value: point.filterValue } });
   }
 

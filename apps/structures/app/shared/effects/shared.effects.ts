@@ -16,10 +16,12 @@ import { NotificationLevel, NotificationSource, NotificationType } from 'libs/fe
 import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import { DataGridToDataViewsHelper, GridDataHelper } from 'libs/features/grids/pf-data-grid/helpers';
 import { RangeType } from 'libs/constants/structures/range-type';
+import { StructureRangeGroupApiService } from 'libs/data/payfactors-api/structures';
 
 import * as fromSharedStructuresActions from '../actions/shared.actions';
 import * as fromSharedStructuresReducer from '../../shared/reducers';
 import { PayfactorsApiModelMapper } from '../helpers/payfactors-api-model-mapper';
+import * as fromModelSettingsModalActions from '../actions/model-settings-modal.actions';
 
 @Injectable()
 export class SharedEffects {
@@ -65,6 +67,25 @@ export class SharedEffects {
     );
 
   @Effect()
+  setMetaDataFromRangeGroupId$ = this.actions$
+    .pipe(
+      ofType(fromSharedStructuresActions.SET_METADATA_FROM_RANGE_GROUP_ID),
+      switchMap((data: any) => {
+        return this.structureRangeGroupApiService.getCompanyStructureRangeGroup(data.rangeGroupId).pipe(
+          mergeMap((response) => {
+            if (response) {
+              const metadata = PayfactorsApiModelMapper.mapStructuresRangeGroupResponseToRangeGroupMetadata(response);
+              return [
+                new fromSharedStructuresActions.SetMetadata(metadata),
+                new fromSharedStructuresActions.GetCompanyExchanges(data.companyId)
+            ];
+            }
+          })
+        );
+      })
+    );
+
+  @Effect()
   getOverriddenRanges: Observable<Action> = this.actions$
     .pipe(
       ofType(fromSharedStructuresActions.GET_OVERRIDDEN_RANGES),
@@ -72,12 +93,20 @@ export class SharedEffects {
         (action: fromSharedStructuresActions.GetOverriddenRanges) =>
           this.structureModelingApiService.getOverriddenRanges(action.payload.rangeGroupId)
             .pipe(
-              mergeMap((response) =>
-                [
-                  new fromSharedStructuresActions.GetOverriddenRangesSuccess(response),
-                  new fromPfDataGridActions.UpdateModifiedKeys(action.payload.pageViewId, response.map(o => o.CompanyStructuresRangesId)),
-                  new fromSharedStructuresActions.GetDistinctOverrideMessages(action.payload.rangeGroupId)
-                ]),
+              mergeMap((response) => {
+                const actions = [];
+                actions.push(new fromSharedStructuresActions.GetOverriddenRangesSuccess(response));
+                actions.push(new fromPfDataGridActions.UpdateModifiedKeys(action.payload.pageViewId, response.map(o => o.CompanyStructuresRangesId)));
+
+                if (!action.payload.ignoreGetDistinctOverrideMessages) {
+                  actions.push(new fromSharedStructuresActions.GetDistinctOverrideMessages({
+                    rangeGroupId: action.payload.rangeGroupId,
+                    pageViewId: action.payload.pageViewId
+                  }));
+                }
+
+                return actions;
+              }),
               catchError(error => of(new fromSharedStructuresActions.GetOverriddenRangesError(error)))
             )
       )
@@ -106,14 +135,30 @@ export class SharedEffects {
   getDistinctOverrideMessages$: Observable<Action> = this.actions$
     .pipe(
       ofType(fromSharedStructuresActions.GET_DISTINCT_OVERRIDE_MESSAGES),
-      switchMap((action: fromSharedStructuresActions.GetDistinctOverrideMessages) => {
+      mergeMap((action: fromSharedStructuresActions.GetDistinctOverrideMessages) =>
+        of(action).pipe(
+          withLatestFrom(
+            this.store.pipe(select(fromPfDataGridReducer.getBaseEntity, action.payload.pageViewId)),
+            (getAction, baseEntity) =>
+              ({ getAction, baseEntity })
+          )
+        ),
+      ),
+      switchMap((data) => {
         return this.dataViewApiService.getFilterOptions({
-          EntitySourceName: 'CompanyStructures_Ranges_Overrides', SourceName: 'OverrideMessage',
-          BaseEntityId: null, Query: null, BaseEntitySourceName: 'CompanyStructures_RangeGroup',
-          DisablePagingAndSorting: true, ApplyDefaultFilters: false,
+          EntitySourceName: 'CompanyStructures_Ranges_Overrides',
+          SourceName: 'OverrideMessage',
+          BaseEntityId: data.baseEntity.Id,
+          Query: null,
+          BaseEntitySourceName: 'CompanyStructures_RangeGroup',
+          DisablePagingAndSorting: true,
+          ApplyDefaultFilters: false,
           OptionalFilters: [{
-            SourceName: 'CompanyStructuresRangeGroup_ID', EntitySourceName: 'CompanyStructures_RangeGroup',
-            DataType: DataViewFieldDataType.Int, Operator: '=', Values: [action.rangeGroupId]
+            SourceName: 'CompanyStructuresRangeGroup_ID',
+            EntitySourceName: 'CompanyStructures_RangeGroup',
+            DataType: DataViewFieldDataType.Int,
+            Operator: '=',
+            Values: [String(data.getAction.payload.rangeGroupId)]
           }]
         })
           .pipe(
@@ -252,12 +297,28 @@ export class SharedEffects {
       })
     );
 
+  @Effect()
+  getGradesDetails: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromModelSettingsModalActions.GET_GRADES_DETAILS),
+      switchMap((action: fromModelSettingsModalActions.GetGradesDetails) => {
+        return this.structureModelingApiService.getGradesForStructureByRangeGroupId(action.payload)
+          .pipe(
+            map((res) => {
+              return new fromModelSettingsModalActions.GetGradesDetailsSuccess(res);
+            }),
+            catchError((err) => of(new fromModelSettingsModalActions.GetGradesDetailsError(err)))
+          );
+      })
+    );
+
   constructor(
     private actions$: Actions,
     private store: Store<fromSharedStructuresReducer.State>,
     private structureModelingApiService: StructureModelingApiService,
     private dataViewApiService: DataViewApiService,
-    private exchangeApiService: ExchangeApiService
+    private exchangeApiService: ExchangeApiService,
+    private structureRangeGroupApiService: StructureRangeGroupApiService
   ) {
   }
 }

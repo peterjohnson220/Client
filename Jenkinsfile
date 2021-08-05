@@ -90,28 +90,11 @@ pipeline {
             // Generalized branch condition for team envs. Take this if there is a conflict.
             } else if (env.BRANCH_NAME ==~ /.*\/develop/) {
               isAutoDeployBranch = true
-
               teamName = env.BRANCH_NAME.split('/')[0]
               suffix = "-${teamName}"
               octoChannel = "${teamName}"
               env.octoEnv = "${teamName}"
               octoVerSuffix = "-${teamName.substring(0,3).toUpperCase()}"
-              env.buildConfig = '--configuration=staging'
-              
-            } else if (env.BRANCH_NAME == 'Defiant/develop') {
-              isAutoDeployBranch = true
-              suffix = '-Defiant'
-              octoChannel = 'Defiant'
-              env.octoEnv = 'Defiant'
-              octoVerSuffix = '-DF'
-              env.buildConfig = '--configuration=staging'
-
-            } else if (env.BRANCH_NAME == 'Tardis/develop') {
-              isAutoDeployBranch = true
-              suffix = '-Tardis'
-              octoChannel = 'Tardis'
-              env.octoEnv = 'Tardis'
-              octoVerSuffix = '-TD'
               env.buildConfig = '--configuration=staging'
 
             } else {

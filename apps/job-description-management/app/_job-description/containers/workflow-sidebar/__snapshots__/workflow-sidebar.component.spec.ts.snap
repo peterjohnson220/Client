@@ -1,0 +1,63 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`WorkflowSidebarComponent should show workflow sidebar 1`] = `
+<pf-workflow-sidebar
+  ATTACHMENT_DOWNLOAD_URL_PREFIX={[Function String]}
+  fileDownloadSecurityWarningModal={[Function ElementRef]}
+  formBuilder={[Function FormBuilder]}
+  inSystemWorkflowComplete$={[Function Store]}
+  jobDescriptionAsync$={[Function Store]}
+  store={[Function Store]}
+  workflowCompleteStepError$={[Function Store]}
+  workflowLogEntriesAsync$={[Function Store]}
+  workflowLogLoading$={[Function Store]}
+  workflowStepApproving$={[Function Store]}
+  workflowStepRejecting$={[Function Store]}
+  workflowStepSummary$={[Function Store]}
+  workflowStepSummaryLoading$={[Function Store]}
+>
+  <div
+    class="workflow-subway-container mb-3"
+  >
+    <pf-workflow-progress-bar />
+  </div><div
+    class="workflow-sidebar"
+  >
+    <div
+      class="workflow-header"
+    >
+      <form
+        novalidate=""
+      >
+        <div
+          class="form-group"
+        >
+          <textarea
+            class="form-control"
+            formcontrolname="comment"
+            placeholder="Comment"
+            rows="6"
+          />
+        </div>
+        
+        
+        <div
+          class="workflow-button-container"
+        >
+          
+          
+          
+          
+          
+        </div>
+      </form>
+    </div>
+    
+    <div
+      class="workflow-content"
+    >
+      <pf-workflow-log />
+    </div>
+  </div><pf-file-download-security-warning-modal />
+</pf-workflow-sidebar>
+`;

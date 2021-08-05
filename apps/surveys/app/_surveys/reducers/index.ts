@@ -42,6 +42,8 @@ export const getSurveyCountries = createSelector(selectSurveysPageState, fromSur
 export const getSurveyYears = createSelector(selectSurveysPageState, fromSurveysPageReducer.getSurveyYears);
 export const getOpenedSurveyDataGrids = createSelector(selectSurveysPageState, fromSurveysPageReducer.getOpenedSurveyDataGrids);
 export const getSurveyJobDetails = createSelector(selectSurveysPageState, fromSurveysPageReducer.getSurveyJobDetails);
+export const getSurveyJobMatches = createSelector(selectSurveysPageState, fromSurveysPageReducer.getSurveyJobMatches);
+export const getSurveyDataMatches = createSelector(selectSurveysPageState, fromSurveysPageReducer.getSurveyDataMatches);
 
 
 // Survey Participation Modal

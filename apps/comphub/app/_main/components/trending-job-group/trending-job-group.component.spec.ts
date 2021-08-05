@@ -4,7 +4,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { WindowRef } from 'libs/core/services';
 
 import { TrendingJobGroupComponent } from './trending-job-group.component';
-import { generateMockTrendingJobGroup } from '../../models';
+import { generateMockTrendingJobGroup } from '../../../_shared/models';
+
 
 describe('Comphub - Main - Trending Job Group', () => {
   let instance: TrendingJobGroupComponent;
