@@ -3,8 +3,9 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
-import { YoyDsSurveysResponse, YoyDsToMapResponse, YoySurveyScopesResponse, YoyDsMapRequest,
-  GetCompanySurveysRequest, GetCompanySurveysResponse
+import {
+  YoyDsSurveysResponse, YoyDsToMapResponse, YoySurveyScopesResponse, YoyDsMapRequest,
+  GetCompanySurveysRequest, GetCompanySurveysResponse, GetJobMatchesRequest
 } from '../../../models/payfactors-api';
 import { UdfDataResponse } from '../../../models/payfactors-api/survey/response/udf-data-response.model';
 import { CombinedScopeViewModel, SurveyDataCountryAccessDto, SurveyInfoByCompanyDto, SurveyJobDetails, SurveyParticipation } from 'libs/models';
@@ -65,8 +66,8 @@ export class SurveyApiService {
     return this.payfactorsApiService.get<number[]>(`${this.endpoint}/Default.GetSurveyYears`);
   }
 
-  getSurveyInfo(): Observable<SurveyInfoByCompanyDto[]> {
-    return this.payfactorsApiService.get<SurveyInfoByCompanyDto[]>(`${this.endpoint}/Default.GetSurveyInfo`);
+  getSurveyInfo(withSurveyCountryAssociation: boolean): Observable<SurveyInfoByCompanyDto[]> {
+    return this.payfactorsApiService.get<SurveyInfoByCompanyDto[]>(`${this.endpoint}/Default.GetSurveyInfo`, {params: { withSurveyCountryAssociation }});
   }
 
   getSurveyJobDetails(surveyJobId: number): Observable<SurveyJobDetails> {
@@ -76,5 +77,10 @@ export class SurveyApiService {
   saveSurveyParticipation(surveyInfo: SurveyInfoByCompanyDto): Observable<SurveyParticipation> {
     return this.payfactorsApiService.post<SurveyParticipation>(`${this.endpoint}/Default.SaveSurveyParticipation`,
       { SurveyInfo: surveyInfo });
+  }
+
+  getJobMatches(request: GetJobMatchesRequest): Observable<string[]> {
+    return this.payfactorsApiService.post<string[]>(`${this.endpoint}/Default.GetJobMatches`,
+      {JobMatchesRequest: request});
   }
 }

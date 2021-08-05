@@ -15,9 +15,9 @@
   [contentClassNamesOverrides]="'py-3 px-4'"
   [borders]="false"
   [gridContainerSplitViewWidth]="'60%'"
-  [showSplitViewToggle]="showVerticalChart ? false : true"
-  [splitViewTemplate]="showVerticalChart ? null : horizontalGraph"
-  [syncScrollWithSplit]="showVerticalChart ? false : true"
+  [showSplitViewToggle]="showHorizontalChart ? false : true"
+  [splitViewTemplate]="showHorizontalChart ? null : verticalGraph"
+  [syncScrollWithSplit]="showHorizontalChart ? false : true"
   [splitOnSelection]="false"
   [reorderable]="reorderable"
   [gridRowActionsConfig]="null"
@@ -68,7 +68,7 @@
       </div>
     </div>
   </div>
-  <div class="card grade-vertical-chart-container" *ngIf="showVerticalChart">
+  <div class="card grade-vertical-chart-container" *ngIf="showHorizontalChart">
     <div class="card-header" (click)="isRangeChartCollapsed = !isRangeChartCollapsed" [style.cursor]="'pointer'">
       <span class="title">Ranges</span>
       <fa-icon
@@ -78,7 +78,7 @@
     </div>
     <div class="card-body collapse" [ngbCollapse]="isRangeChartCollapsed">
       <div class="position-relative">
-        <pf-grade-based-vertical-range-chart [isRangeChartCollapsed]="isRangeChartCollapsed"></pf-grade-based-vertical-range-chart>
+        <pf-grade-based-horizontal-range-chart [isRangeChartCollapsed]="isRangeChartCollapsed"></pf-grade-based-horizontal-range-chart>
       </div>
     </div>
   </div>
@@ -90,8 +90,8 @@
   </div>
 </ng-template>
 
-<ng-template #horizontalGraph>
-  <pf-grade-based-horizontal-range-chart></pf-grade-based-horizontal-range-chart>
+<ng-template #verticalGraph>
+  <pf-grade-based-vertical-range-chart></pf-grade-based-vertical-range-chart>
 </ng-template>
 
 <ng-template #noValue>
@@ -114,8 +114,8 @@
               (click)="handleChartViewToggle()"
               class="btn btn-secondary pf-btn btn-chart-view">
         <fa-icon icon="chart-bar"></fa-icon>
-        <span *ngIf="showVerticalChart">View Horizontal</span>
-        <span *ngIf="!showVerticalChart">View Vertical</span>
+        <span *ngIf="showHorizontalChart">View Vertical</span>
+        <span *ngIf="!showHorizontalChart">View Horizontal</span>
       </button>
   </pf-grid-context>
 </ng-template>
@@ -131,26 +131,11 @@
   </pf-global-actions>
 </ng-template>
 
-<pf-model-settings-modal
+<pf-grade-based-model-settings-modal
   [rangeGroupId]="rangeGroupId"
   [pageViewId]="pageViewId"
-  [modalOpen$]="modalOpen$"
-  [modelSettingsForm]="modelSettingsForm"
-  (modalSubmit)="handleModalSubmit()"
-  (modalAttemptedSubmit)="handleModelAttemptedSubmit()"
-  (modalDismissed)="handleModalDismissed()">
-  <ng-container structures-settings-modal-content>
-    <pf-grade-based-model-settings-modal-content
-      [rangeGroupId]="rangeGroupId"
-      [pageViewId]="pageViewId"
-      [modelSettingsForm]="modelSettingsForm"
-      [modalOpen]="modalOpen$ | async"
-      [isNewModel]="isNewModel"
-      [numGrades]="numGrades"
-      (adjustMidpointRadioButtonChanged)="handleAdjustMidpointRadioButtonChanged($event)">
-    </pf-grade-based-model-settings-modal-content>
-  </ng-container>
-</pf-model-settings-modal>
+  [isNewModel]="isNewModel">
+</pf-grade-based-model-settings-modal>
 
 <ng-template #rangeField let-dataRow="dataRow" let-fieldName="fieldName" let-rowIndex="rowIndex">
   <ng-container>

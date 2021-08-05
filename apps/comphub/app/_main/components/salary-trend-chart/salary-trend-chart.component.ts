@@ -9,7 +9,7 @@ OfflineExporting(Highcharts);
 
 import cloneDeep from 'lodash/cloneDeep';
 
-import { JobSalaryTrend } from '../../models';
+import { JobSalaryTrend } from '../../../_shared/models';
 
 @Component({
   selector: 'pf-salary-trend-chart',
@@ -118,6 +118,9 @@ export class SalaryTrendChartComponent implements OnChanges {
           let tick = Math.floor(this.dataMin - (increment * 2));
 
           if (this.dataMax !== null && this.dataMin !== null) {
+            if (this.dataMin === this.dataMax) {
+              return [ 0, this.dataMax * 1.5 ];
+            }
             for (tick; tick - increment <= this.dataMax; tick += increment) {
               positions.push(tick);
             }

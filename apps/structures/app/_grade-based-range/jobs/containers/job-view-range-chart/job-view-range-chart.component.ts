@@ -422,6 +422,8 @@ export class JobViewRangeChartComponent implements OnInit, OnDestroy {
         rangeMidOptions.marker.radius = GraphHelper.getJobsRangeMidRadius(this.jobsViewData.data.length);
         this.chartInstance.series[JobViewRangeChartSeries.RangeMid].update(rangeMidOptions);
       }
+
+      GraphHelper.forceRedraw(this.chartInstance, this.chartOptions);
     }
   }
 

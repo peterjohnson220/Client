@@ -87,4 +87,12 @@ export class AsyncContainerComponent implements OnChanges {
       this.showLoadingMask = false;
     }
   }
+
+  handleReload() {
+    this.reload.emit();
+
+    if (this.reload.observers.length === 0) {
+      this.winRef.nativeWindow.location.reload();
+    }
+  }
 }

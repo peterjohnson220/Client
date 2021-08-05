@@ -9,11 +9,11 @@ import * as fromRootState from 'libs/state/state';
 import { DojGuidelinesService } from 'libs/features/peer/guidelines-badge/services/doj-guidelines.service';
 import { AppConstants } from 'libs/constants';
 
-import * as fromComphubPageActions from '../../actions/comphub-page.actions';
-import * as fromComphubMainReducer from '../../reducers';
+import * as fromComphubPageActions from '../../../_shared/actions/comphub-page.actions';
+import * as fromComphubSharedReducer from '../../../_shared/reducers';
 import { ComphubFooterComponent } from './footer.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { generateMockFooterContext, generateMockPeerWorkflowContext, generateMockWorkflowContext } from '../../models';
+import { generateMockFooterContext, generateMockPeerWorkflowContext, generateMockWorkflowContext } from '../../../_shared/models';
 
 class DojGuidelinesStub {
   passing = true;
@@ -30,7 +30,7 @@ class DojGuidelinesStub {
 describe('Comphub - Main - Footer', () => {
   let instance: ComphubFooterComponent;
   let fixture: ComponentFixture<ComphubFooterComponent>;
-  let store: Store<fromComphubMainReducer.State>;
+  let store: Store<fromComphubSharedReducer.State>;
   let windowRef: WindowRef;
   let modalService: NgbModal;
 
@@ -39,7 +39,7 @@ describe('Comphub - Main - Footer', () => {
       imports: [
         StoreModule.forRoot({
           ...fromRootState.reducers,
-          comphub_main: combineReducers(fromComphubMainReducer.reducers),
+          comphub_shared: combineReducers(fromComphubSharedReducer.reducers),
         })
       ],
       providers: [

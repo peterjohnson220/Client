@@ -1,0 +1,22 @@
+<pf-comphub-job-grid #peerJobGrid
+  [jobTitle]="(selectedJobTitle$ | async)"
+  [jobGridData]="(jobResults$ | async)"
+  [loading]="(jobResultsLoading$ | async)"
+  [loadingError]="(jobResultsLoadingError$ | async)"
+  [gridHasData]="gridHasData"
+  [gridColumnsConfiguration]="gridColumnsConfiguration"
+  [gridContext]="gridContext">
+
+  <ng-container table>
+    <pf-jobs-grid-content
+      [jobGridData]="(jobResults$ | async)"
+      [gridHasData]="gridHasData"
+      [gridColumnsConfiguration]="gridColumnsConfiguration"
+      [selectedJobData]="(selectedJobData$ | async)"
+      [currencyCode]="workflowContext?.activeCountryDataSet?.CurrencyCode"
+      (selectionChanged)="handleSelectionChanged($event)"
+      (jobDescriptionToggled)="handleExpandJdClicked($event)">
+    </pf-jobs-grid-content>
+  </ng-container>
+
+</pf-comphub-job-grid>

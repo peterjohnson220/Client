@@ -1,0 +1,381 @@
+<div class="form-group" [formGroup]="rangeDistributionSettingForm">
+  <div *ngIf="(enableJobRangeTypes$ | async)">
+    <label for="rangeType">Range Type</label>
+    <div>
+      <ng-container *ngFor="let type of metadata.RangeDistributionTypes">
+        <label  for="rangeType_{{type.Type}}" class="radio-inline mr-3 d-none">
+          <input type="radio" id="rangeType_{{type.Type}}"
+                 [value]='type.Id'
+                 formControlName="RangeDistributionTypeId"
+                 (change)="handleRangeTypeChange(type)">
+          {{type.Type}}
+        </label>
+      </ng-container>
+      <label id="rangeType" class="font-weight-bold mr-3">{{activeRangeTypeTab}}</label>
+    </div>
+  </div>
+  <div class="rounding-group">
+    <div class="form-group row mb-5">
+      <label class="col-3 mt-2">Select Pay Type <span class="text-danger">*</span></label>
+      <kendo-combobox id="payType" class="form-control col-4"
+          formControlName="PayType"
+          [ngClass]="{ 'is-invalid': (attemptedSubmit || formControls.PayType.touched) && formControls.PayType.invalid }"
+          [loading]="controlPointsAsyncObj?.loading"
+          [data]="controlPointCategory"
+          [textField]="'PayTypeDisplay'"
+          [valueField]="'Category'"
+          [clearButton]="false"
+          [valuePrimitive]="true"
+          [allowCustom]="false"
+          [placeholder]="'Select Range'"
+          [filterable]="true"
+          (filterChange)="handlePayTypeFilterChange($event)"
+          (selectionChange)="handlePayTypeSelectionChange($event)">
+      </kendo-combobox>
+      <div class="fa-icon-wrapper">
+        <fa-icon placement="top" [hidden]="enablePercentilesAndRangeSpreads" [ngbTooltip]="payTypeTooltip" icon="info-circle" aria-hidden="true"></fa-icon>
+      </div>
+      <div class="col-3"></div>
+      <div class="col-7 offset-3 invalid-feedback">
+        Please select a range.
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-3 mt-2">Minimum <span class="text-danger">*</span></label>
+      <kendo-numerictextbox class="form-control col-4" *ngIf="currentCalcTypes['Min'] === calculationType.Spread"
+                            id="range-spread-min"
+                            placeholder="Minimum"
+                            formControlName="Min_Spread"
+                            [ngClass]="{ 'is-invalid': (attemptedSubmit || formControls.Min_Spread.touched) && formControls.Min_Spread.invalid }"
+                            [format]="'n'"
+                            [spinners]="false"
+                            [decimals]="2"
+                            [max]="200"
+                            [min]="1"
+                            [autoCorrect]="true">
+      </kendo-numerictextbox>
+      <kendo-combobox id="min-percentile" class="form-control col-4" *ngIf="currentCalcTypes['Min'] === calculationType.Percentile"
+                      formControlName="Min_Percentile"
+                      [ngClass]="{ 'is-invalid': (attemptedSubmit || formControls.Min_Percentile.touched) && formControls.Min_Percentile.invalid }"
+                      [loading]="controlPointsAsyncObj?.loading"
+                      [data]="controlPointRanges"
+                      [textField]="'RangeDisplayName'"
+                      [valueField]="'FieldName'"
+                      [clearButton]="false"
+                      [valuePrimitive]="true"
+                      [allowCustom]="false"
+                      [placeholder]="'Select Min'"
+                      [filterable]="false">
+      </kendo-combobox>
+      <pf-structures-formula-editor class="col-4" *ngIf="currentCalcTypes['Min'] === calculationType.Formula"
+        formControlName="Min_Formula"
+        [metadata]="metadata"
+        [attemptedSubmit]="attemptedSubmit"
+        [includeRangeFields]="true"
+        [formulaFieldId]="'Min'">
+      </pf-structures-formula-editor>
+      <div class="fa-icon-wrapper">
+        <fa-icon placement="top" [ngbTooltip]="minSpreadTooltip" icon="info-circle" aria-hidden="true"></fa-icon>
+      </div>
+      <div class="col-4">
+        <kendo-combobox id="min-calculation-type" class="form-control"
+                        formControlName="MinCalculationType"
+                        [data]="calculationTypes"
+                        [textField]="'TypeDisplay'"
+                        [valueField]="'Type'"
+                        [clearButton]="false"
+                        [valuePrimitive]="false"
+                        [allowCustom]="false"
+                        [filterable]="false"
+                        (valueChange)="handleRangeFieldToggle($event,'Min')">
+        </kendo-combobox>
+      </div>
+      <div class="col-3"></div>
+      <div class="col-7 invalid-feedback">
+        <ng-container *ngIf="currentCalcTypes['Min'] === calculationType.Percentile">Please select a range for minimum.</ng-container>
+        <ng-container *ngIf="currentCalcTypes['Min'] === calculationType.Spread">Please provide a range spread minimum.</ng-container>
+      </div>
+
+    </div>
+    <div class="form-group row" *ngIf="activeRangeTypeTab==='Tertile'">
+      <label class="col-3 mt-2">Top 1st 3rd <span class="text-danger">*</span></label>
+      <kendo-combobox id="firstTertile_Percentile" class="form-control col-4"
+          formControlName="FirstTertile_Percentile"
+          [ngClass]="{ 'is-invalid': (attemptedSubmit || formControls.FirstTertile_Percentile.touched) && formControls.FirstTertile_Percentile.invalid, 'no-inline-links': enablePercentilesAndRangeSpreads }"
+          [loading]="controlPointsAsyncObj?.loading"
+          [data]="controlPointRanges"
+          [textField]="'RangeDisplayName'"
+          [valueField]="'FieldName'"
+          [clearButton]="false"
+          [valuePrimitive]="true"
+          [allowCustom]="false"
+          [placeholder]="'Select First Tertile'"
+          [filterable]="false">
+      </kendo-combobox>
+      <div class="fa-icon-wrapper">
+        <fa-icon placement="top" [hidden]="enablePercentilesAndRangeSpreads" [ngbTooltip]="fieldsDisabledTooltip" icon="info-circle" aria-hidden="true"></fa-icon>
+      </div>
+      <div class="col-3"></div>
+      <div class="col-7 offset-3 invalid-feedback">
+        Please select a range for first tertile.
+      </div>
+    </div>
+    <div class="form-group row" *ngIf="activeRangeTypeTab==='Quartile'">
+      <label class="col-3 mt-2">Top 1st 4th <span class="text-danger">*</span></label>
+      <kendo-combobox id="firstQuartile_Percentile" class="form-control col-4"
+          formControlName="FirstQuartile_Percentile"
+          [ngClass]="{ 'is-invalid': (attemptedSubmit || formControls.FirstQuartile_Percentile.touched) && formControls.FirstQuartile_Percentile.invalid, 'no-inline-links': enablePercentilesAndRangeSpreads }"
+          [loading]="controlPointsAsyncObj?.loading"
+          [data]="controlPointRanges"
+          [textField]="'RangeDisplayName'"
+          [valueField]="'FieldName'"
+          [clearButton]="false"
+          [valuePrimitive]="true"
+          [allowCustom]="false"
+          [placeholder]="'Select First Quartile'"
+          [filterable]="false">
+      </kendo-combobox>
+      <div class="fa-icon-wrapper">
+        <fa-icon placement="top" [hidden]="enablePercentilesAndRangeSpreads" [ngbTooltip]="fieldsDisabledTooltip" icon="info-circle" aria-hidden="true"></fa-icon>
+      </div>
+      <div class="col-3"></div>
+      <div class="col-7 offset-3 invalid-feedback">
+        Please select a range for first quartile.
+      </div>
+    </div>
+    <div class="form-group row" *ngIf="activeRangeTypeTab==='Quintile'">
+      <label class="col-3 mt-2">Top 1st 5th <span class="text-danger">*</span></label>
+      <kendo-combobox id="firstQuintile_Percentile" class="form-control col-4"
+          formControlName="FirstQuintile_Percentile"
+          [ngClass]="{ 'is-invalid': (attemptedSubmit || formControls.FirstQuintile_Percentile.touched) && formControls.FirstQuintile_Percentile.invalid, 'no-inline-links': enablePercentilesAndRangeSpreads }"
+          [loading]="controlPointsAsyncObj?.loading"
+          [data]="controlPointRanges"
+          [textField]="'RangeDisplayName'"
+          [valueField]="'FieldName'"
+          [clearButton]="false"
+          [valuePrimitive]="true"
+          [allowCustom]="false"
+          [placeholder]="'Select First Quintile'"
+          [filterable]="false">
+      </kendo-combobox>
+      <div class="fa-icon-wrapper">
+        <fa-icon placement="top" [hidden]="enablePercentilesAndRangeSpreads" [ngbTooltip]="fieldsDisabledTooltip" icon="info-circle" aria-hidden="true"></fa-icon>
+      </div>
+      <div class="col-3"></div>
+      <div class="col-7 offset-3 invalid-feedback">
+        Please select a range for first quintile.
+      </div>
+    </div>
+    <div class="form-group row" *ngIf="activeRangeTypeTab==='Quintile'">
+      <label class="col-3 mt-2">Top 2nd 5th <span class="text-danger">*</span></label>
+      <kendo-combobox id="secondQuintile_Percentile" class="form-control col-4"
+          formControlName="SecondQuintile_Percentile"
+          [ngClass]="{ 'is-invalid': (attemptedSubmit || formControls.SecondQuintile_Percentile.touched) && formControls.SecondQuintile_Percentile.invalid, 'no-inline-links': enablePercentilesAndRangeSpreads }"
+          [loading]="controlPointsAsyncObj?.loading"
+          [data]="controlPointRanges"
+          [textField]="'RangeDisplayName'"
+          [valueField]="'FieldName'"
+          [clearButton]="false"
+          [valuePrimitive]="true"
+          [allowCustom]="false"
+          [placeholder]="'Select Second Quintile'"
+          [filterable]="false">
+      </kendo-combobox>
+      <div class="fa-icon-wrapper">
+        <fa-icon placement="top" [hidden]="enablePercentilesAndRangeSpreads" [ngbTooltip]="fieldsDisabledTooltip" icon="info-circle" aria-hidden="true"></fa-icon>
+      </div>
+      <div class="col-3"></div>
+      <div class="col-7 offset-3 invalid-feedback">
+        Please select a range for second quintile.
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-3 mt-2">Midpoint <span class="text-danger">*</span></label>
+      <kendo-combobox id="midpoint" class="form-control col-4" *ngIf="!showMidFormula"
+          formControlName="Mid_Percentile"
+          [ngClass]="{ 'is-invalid': (attemptedSubmit || formControls.Mid_Percentile.touched) && formControls.Mid_Percentile.invalid, 'no-inline-links': enablePercentilesAndRangeSpreads }"
+          [loading]="controlPointsAsyncObj?.loading"
+          [data]="controlPointMidpoint"
+          [textField]="'Display'"
+          [valueField]="'FieldName'"
+          [clearButton]="false"
+          [valuePrimitive]="true"
+          [allowCustom]="false"
+          [placeholder]="'Select Midpoint'"
+          [filterable]="true"
+          (filterChange)="handleControlPointFilterChange($event)"
+          (selectionChange)="handleControlPointSelectionChange()">
+      </kendo-combobox>
+      <div class="col-4" *ngIf="showMidFormula">
+        <pf-structures-formula-editor
+          formControlName="Mid_Formula"
+          [metadata]="metadata"
+          [attemptedSubmit]="attemptedSubmit"
+          [includeRangeFields]="false"
+          [formulaFieldId]="'Mid'">
+        </pf-structures-formula-editor>
+      </div>
+      <div class="fa-icon-wrapper">
+        <fa-icon placement="top" [hidden]="enablePercentilesAndRangeSpreads" [ngbTooltip]="fieldsDisabledTooltip" icon="info-circle" aria-hidden="true"></fa-icon>
+      </div>
+      <div class="inline-link-wrapper">
+        <a href="javascript:void(0)" tabindex="-1" (click)="this.handleMidToggle()">
+          <ng-container *ngIf="showMidFormula">Enter Percentile</ng-container>
+          <ng-container *ngIf="!showMidFormula">Calculate</ng-container>
+        </a>
+      </div>
+      <div class="col-3"></div>
+      <div class="col-7 offset-3 invalid-feedback">
+        Please select a midpoint.
+      </div>
+    </div>
+    <div class="form-group row" *ngIf="activeRangeTypeTab==='Tertile'">
+      <label class="col-3 mt-2">Top 2nd 3rd <span class="text-danger">*</span></label>
+      <kendo-combobox id="secondTertile_Percentile" class="form-control col-4"
+          formControlName="SecondTertile_Percentile"
+          [ngClass]="{ 'is-invalid': (attemptedSubmit || formControls.SecondTertile_Percentile.touched) && formControls.SecondTertile_Percentile.invalid, 'no-inline-links': enablePercentilesAndRangeSpreads }"
+          [loading]="controlPointsAsyncObj?.loading"
+          [data]="controlPointRanges"
+          [textField]="'RangeDisplayName'"
+          [valueField]="'FieldName'"
+          [clearButton]="false"
+          [valuePrimitive]="true"
+          [allowCustom]="false"
+          [placeholder]="'Select Second Tertile'"
+          [filterable]="false">
+      </kendo-combobox>
+      <div class="fa-icon-wrapper">
+        <fa-icon placement="top" [hidden]="enablePercentilesAndRangeSpreads" [ngbTooltip]="fieldsDisabledTooltip" icon="info-circle" aria-hidden="true"></fa-icon>
+      </div>
+      <div class="col-3"></div>
+      <div class="col-7 offset-3 invalid-feedback">
+        Please select a range for second tertile.
+      </div>
+    </div>
+    <div class="form-group row" *ngIf="activeRangeTypeTab==='Quartile'">
+      <label class="col-3 mt-2">Top 3rd 4th <span class="text-danger">*</span></label>
+      <kendo-combobox id="secondQuartile_Percentile" class="form-control col-4"
+          formControlName="SecondQuartile_Percentile"
+          [ngClass]="{ 'is-invalid': (attemptedSubmit || formControls.SecondQuartile_Percentile.touched) && formControls.SecondQuartile_Percentile.invalid, 'no-inline-links': enablePercentilesAndRangeSpreads }"
+          [loading]="controlPointsAsyncObj?.loading"
+          [data]="controlPointRanges"
+          [textField]="'RangeDisplayName'"
+          [valueField]="'FieldName'"
+          [clearButton]="false"
+          [valuePrimitive]="true"
+          [allowCustom]="false"
+          [placeholder]="'Select Second Quartile'"
+          [filterable]="false">
+      </kendo-combobox>
+      <div class="fa-icon-wrapper">
+        <fa-icon placement="top" [hidden]="enablePercentilesAndRangeSpreads" [ngbTooltip]="fieldsDisabledTooltip" icon="info-circle" aria-hidden="true"></fa-icon>
+      </div>
+      <div class="col-3"></div>
+      <div class="col-7 offset-3 invalid-feedback">
+        Please select a range for second quartile.
+      </div>
+    </div>
+    <div class="form-group row" *ngIf="activeRangeTypeTab==='Quintile'">
+      <label class="col-3 mt-2">Top 3rd 5th <span class="text-danger">*</span></label>
+      <kendo-combobox id="thirdQuintile_Percentile" class="form-control col-4"
+          formControlName="ThirdQuintile_Percentile"
+          [ngClass]="{ 'is-invalid': (attemptedSubmit || formControls.ThirdQuintile_Percentile.touched) && formControls.ThirdQuintile_Percentile.invalid, 'no-inline-links': enablePercentilesAndRangeSpreads }"
+          [loading]="controlPointsAsyncObj?.loading"
+          [data]="controlPointRanges"
+          [textField]="'RangeDisplayName'"
+          [valueField]="'FieldName'"
+          [clearButton]="false"
+          [valuePrimitive]="true"
+          [allowCustom]="false"
+          [placeholder]="'Select Third Quintile'"
+          [filterable]="false">
+      </kendo-combobox>
+      <div class="fa-icon-wrapper">
+        <fa-icon placement="top" [hidden]="enablePercentilesAndRangeSpreads" [ngbTooltip]="fieldsDisabledTooltip" icon="info-circle" aria-hidden="true"></fa-icon>
+      </div>
+      <div class="col-3"></div>
+      <div class="col-7 offset-3 invalid-feedback">
+        Please select a range for third quintile.
+      </div>
+    </div>
+    <div class="form-group row" *ngIf="activeRangeTypeTab==='Quintile'">
+      <label class="col-3 mt-2">Top 4th 5th <span class="text-danger">*</span></label>
+      <kendo-combobox id="fourthQuintile_Percentile" class="form-control col-4"
+          formControlName="FourthQuintile_Percentile"
+          [ngClass]="{ 'is-invalid': (attemptedSubmit || formControls.FourthQuintile_Percentile.touched) && formControls.FourthQuintile_Percentile.invalid, 'no-inline-links': enablePercentilesAndRangeSpreads }"
+          [loading]="controlPointsAsyncObj?.loading"
+          [data]="controlPointRanges"
+          [textField]="'RangeDisplayName'"
+          [valueField]="'FieldName'"
+          [clearButton]="false"
+          [valuePrimitive]="true"
+          [allowCustom]="false"
+          [placeholder]="'Select Fourth Quintile'"
+          [filterable]="false">
+      </kendo-combobox>
+      <div class="fa-icon-wrapper">
+        <fa-icon placement="top" [hidden]="enablePercentilesAndRangeSpreads" [ngbTooltip]="fieldsDisabledTooltip" icon="info-circle" aria-hidden="true"></fa-icon>
+      </div>
+      <div class="col-3"></div>
+      <div class="col-7 offset-3 invalid-feedback">
+        Please select a range for fourth quintile.
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-3 mt-2">Maximum <span class="text-danger">*</span></label>
+      <kendo-numerictextbox  class="form-control col-4"  *ngIf="currentCalcTypes['Max'] === calculationType.Spread"
+                      placeholder="Maximum"
+                      formControlName="Max_Spread"
+                      [ngClass]="{ 'is-invalid': (attemptedSubmit || formControls.Max_Spread.touched) && formControls.Max_Spread.invalid }"
+                      [format]="'n'"
+                      [spinners]="false"
+                      [decimals]="2"
+                      [max]="200"
+                      [min]="1"
+                      [autoCorrect]="true">
+      </kendo-numerictextbox>
+      <kendo-combobox id="max-percentile" class="form-control col-4" *ngIf="currentCalcTypes['Max'] === calculationType.Percentile"
+                      formControlName="Max_Percentile"
+                      [ngClass]="{ 'is-invalid': (attemptedSubmit || formControls.Max_Percentile.touched) && formControls.Max_Percentile.invalid }"
+                      [loading]="controlPointsAsyncObj?.loading"
+                      [data]="controlPointRanges"
+                      [textField]="'RangeDisplayName'"
+                      [valueField]="'FieldName'"
+                      [clearButton]="false"
+                      [valuePrimitive]="true"
+                      [allowCustom]="false"
+                      [placeholder]="'Select Max'"
+                      [filterable]="false">
+      </kendo-combobox>
+      <pf-structures-formula-editor class="col-4" *ngIf="currentCalcTypes['Max'] === calculationType.Formula"
+        formControlName="Max_Formula"
+        [metadata]="metadata"
+        [attemptedSubmit]="attemptedSubmit"
+        [includeRangeFields]="true"
+        [formulaFieldId]="'Max'">
+      </pf-structures-formula-editor>
+
+      <div class="fa-icon-wrapper">
+        <fa-icon placement="top" [ngbTooltip]="maxSpreadTooltip" icon="info-circle" aria-hidden="true"></fa-icon>
+      </div>
+      <div class="col-4">
+        <kendo-combobox id="max-calculation-type" class="form-control"
+                        formControlName="MaxCalculationType"
+                        [data]="calculationTypes"
+                        [textField]="'TypeDisplay'"
+                        [valueField]="'Type'"
+                        [clearButton]="false"
+                        [valuePrimitive]="false"
+                        [allowCustom]="false"
+                        [filterable]="false"
+                        (valueChange)="handleRangeFieldToggle($event,'Max')">
+        </kendo-combobox>
+      </div>
+      <div class="col-3"></div>
+      <div class="col-7 invalid-feedback">
+        <ng-container *ngIf="currentCalcTypes['Max'] === calculationType.Percentile">Please select a range for maximum.</ng-container>
+        <ng-container *ngIf="currentCalcTypes['Max'] === calculationType.Spread">Please provide a range spread maximum.</ng-container>
+      </div>
+    </div>
+  </div>
+</div>

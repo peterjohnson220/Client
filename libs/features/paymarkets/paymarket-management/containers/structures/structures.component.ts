@@ -62,7 +62,6 @@ export class StructuresComponent implements OnInit, OnChanges, OnDestroy {
         this.currentRecordCount = asyncObj.obj.length;
       }
     });
-    this.basicGridStore.dispatch(new fromBasicDataGridActions.GetData(PayMarketAssociationType.Structures));
   }
 
   ngOnChanges(changes: SimpleChanges): void {

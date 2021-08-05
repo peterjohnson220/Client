@@ -382,3 +382,8 @@ export const getCollaborationWorkflowUsers = createSelector(
   selectCollaborationWorkflowConfigState,
   fromCollaborationWorkflowConfigReducer.getCollaborationWorkflowUsers
 );
+
+export const getWorkflowAttachments = createSelector(
+  selectWorkflowConfigState,
+  fromWorkflowConfigReducer.getWorkflowAttachments
+);

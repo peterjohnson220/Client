@@ -193,6 +193,23 @@ export class LoaderDashboardPageEffects {
     )
   );
 
+  @Effect()
+  redropExportedSourceFileToNewDataLoad$: Observable<Action> = this.actions$
+    .pipe(
+      ofType<fromLoaderDashboardPageActions.RedropExportedSourceFile>(fromLoaderDashboardPageActions.REDROP_EXPORTED_SOURCE_FILE_TO_NEW_DATA_LOAD),
+      withLatestFrom(
+        this.store.pipe(select(fromRootState.getUserContext)),
+        (action, userContext) => {
+          return { action, userContext };
+        }),
+      switchMap(obj => {
+        return this.integrationApiService.RedropExportedSourceFileToNewDataLoad(obj.action.payload, obj.userContext).pipe(
+          map(() => new fromLoaderDashboardPageActions.RedropExportedSourceFileToNewDataLoadSuccess(true)),
+          catchError((e) => of(new fromLoaderDashboardPageActions.RedropExportedSourceFileToNewDataLoadError()))
+        );
+      })
+    );
+
   constructor(
     private actions$: Actions,
     private integrationApiService: IntegrationApiService,

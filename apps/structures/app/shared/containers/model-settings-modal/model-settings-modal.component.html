@@ -1,20 +1,19 @@
 <pf-modal-form
+  [modalId]="modalId"
   [size]="'lg'"
-  [title]="modalTitle"
-  [subTitle]="modalSubTitle"
-  [modalId]="'company-structures-model-setting-modal'"
-  [primaryButtonText]="buttonPrimaryText"
-  [primaryButtonTextSubmitting]="buttonPrimaryTextSubmitting"
+  [title]="metaData?.StructureName"
+  [subTitle]="metaData?.Paymarket"
+  [primaryButtonText]="metaData?.IsCurrent ? 'Create Model' : 'Save'"
+  [primaryButtonTextSubmitting]="metaData?.IsCurrent ? 'Creating Model...' : 'Saving...'"
   [submitting]="(savingModelSettingsAsyncObj$ | async)?.saving"
   [formGroup]="modelSettingsForm"
   [isOpen$]="modalOpen$"
-  [alwaysEnabledSubmit]="true"
   [flipPrimarySecondaryBtns]="true"
   (onSubmit)="handleModalSubmit()"
   (onSubmitAttempt)="handleModalSubmitAttempt()"
   (onDismiss)="handleModalDismiss()">
 
-  <ng-container *ngIf="modalOpen$ | async" [formGroup]="modelSettingsForm" form-content>
+  <ng-container [formGroup]="modelSettingsForm" form-content>
     <ng-content select="[structures-settings-modal-content]"></ng-content>
   </ng-container>
 
@@ -24,7 +23,7 @@
     </div>
     <div *ngIf="(savingModelSettingsAsyncObj$ | async)?.savingErrorResponse?.error?.Message
                   && (savingModelSettingsAsyncObj$ | async)?.savingErrorResponse?.error?.Message.includes('too large')"
-         class="invalid-feedback d-block">
+        class="invalid-feedback d-block">
       {{(savingModelSettingsAsyncObj$ | async)?.savingErrorResponse?.error?.Message}}
     </div>
   </ng-container>

@@ -27,7 +27,7 @@ import * as fromFeatureFlagRedirectReducer from 'libs/state/state';
 import { UrlPage } from 'libs/models/url-redirect/url-page';
 import { TooltipTypes } from 'libs/constants/projects/tooltip-constants';
 
-import {PageViewIds} from '../../shared/constants';
+import { PageViewIds, ProjectListDeleteSource } from '../../shared/constants';
 
 import * as fromProjectListPageActions from '../actions';
 
@@ -102,6 +102,9 @@ export class ProjectListPageComponent implements AfterViewInit, OnInit, OnDestro
   redirectSlugLoadingError$: Observable<boolean>;
 
   tooltipDataTypes = TooltipTypes;
+
+  deleteSourceOptions = ProjectListDeleteSource;
+  deleteSource: string = ProjectListDeleteSource.EmptySource;
 
   @ViewChild('projectStatusColumn') projectStatusColumn: ElementRef;
   @ViewChild('projectStatusFilter') projectStatusFilter: ElementRef;
@@ -224,19 +227,25 @@ export class ProjectListPageComponent implements AfterViewInit, OnInit, OnDestro
     this.acknowledgeDelete = false;
     this.selectedProjectId = null;
     this.showDeleteProjectModal.next(false);
+    this.deleteSource = this.deleteSourceOptions.EmptySource;
   }
 
   handleModalSubmit(): void {
     this.acknowledgeDelete = false;
-    if (this.selectedProjectId) {
+
+    if (this.deleteSource === this.deleteSourceOptions.GridRowActions) {
       this.store.dispatch(new fromProjectListPageActions.DeleteProjects([this.selectedProjectId]));
+
       if (this.selectedRecordIds.indexOf(this.selectedProjectId) > -1) {
         this.store.dispatch(new fromPfDataGridActions.UpdateSelectedKey(this.pageViewId, this.selectedProjectId));
       }
-    } else if (this.selectedRecordIds) {
+    }
+
+    if (this.deleteSource === this.deleteSourceOptions.GridActions) {
       this.store.dispatch(new fromProjectListPageActions.DeleteProjects(this.selectedRecordIds));
       this.store.dispatch(new fromPfDataGridActions.ClearSelections(this.pageViewId));
     }
+
     this.showDeleteProjectModal.next(false);
   }
 
@@ -253,5 +262,10 @@ export class ProjectListPageComponent implements AfterViewInit, OnInit, OnDestro
   openShareModal() {
     this.shareBtn.nativeElement.blur();
     this.store.dispatch(new fromAutoShareModalActions.OpenAutoShareModal());
+  }
+
+  setDeleteSource(deleteSource: string): void {
+    this.deleteSource = deleteSource;
+    this.showDeleteProjectModal.next(true);
   }
 }

@@ -7,6 +7,7 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { FaIconLibrary, FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {DropDownListModule} from '@progress/kendo-angular-dropdowns';
+import { HighchartsChartModule } from 'highcharts-angular';
 
 import { PfDataGridModule } from 'libs/features/grids/pf-data-grid';
 import { PfCommonUIModule } from 'libs/ui/common';
@@ -14,11 +15,9 @@ import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { MultiMatchModule } from 'libs/features/pricings/multi-match';
 import {OrdinalNumberPipe} from 'libs/core/pipes';
-
-import { HighchartsChartModule } from 'highcharts-angular';
+import {AddDataModule} from 'libs/features/pricings/add-data';
 
 import { ProjectExportModule } from '../_project-export-manager';
-
 import { JobSummaryComponent } from './components/analyze/job-summary/job-summary.component';
 import { PricingProjectPageRoutingModule } from './pricing-project-page-routing.module';
 import { PricingProjectPageComponent } from './pricing-project.page/pricing-project.page';
@@ -57,6 +56,7 @@ import * as fromFaIcons from './fa-icons';
         PfFormsModule,
         ProjectExportModule,
         MultiMatchModule,
+        AddDataModule,
     ],
   declarations: [
     // Pages

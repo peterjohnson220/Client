@@ -9,26 +9,30 @@ const { exportPDF } = pdf;
 import isEqual from 'lodash/isEqual';
 
 import { SearchFilterOption, SharePricingSummaryRequest } from 'libs/models/payfactors-api';
-import * as fromRootReducer from 'libs/state/state';
 import { UserContext } from 'libs/models/security';
 import { ComphubType, SystemUserGroupNames } from 'libs/constants';
 import { RateType, Rates, WeightType, WeightTypeDisplayLabeled } from 'libs/data/data-sets';
 import { KendoDropDownItem } from 'libs/models/kendo';
 import { ExchangeExplorerContextService } from 'libs/features/peer/exchange-explorer/services';
 import { ExchangeMapSummary } from 'libs/models/peer';
-import * as fromLibsPeerExchangeExplorerReducers from 'libs/features/peer/exchange-explorer/reducers';
 import { SettingsService } from 'libs/state/app-context/services';
 import { CompanySettingsEnum } from 'libs/models/company';
 import { FileDownloadSecurityWarningModalComponent } from 'libs/ui/common';
+import { JobData, PricingPaymarket } from 'libs/models/comphub';
+import * as fromRootReducer from 'libs/state/state';
+import * as fromLibsPeerExchangeExplorerReducers from 'libs/features/peer/exchange-explorer/reducers';
 
-import * as fromSummaryCardActions from '../../../actions/summary-card.actions';
-import * as fromDataCardActions from '../../../actions/data-card.actions';
-import * as fromComphubMainReducer from '../../../reducers';
-import * as fromComphubPageActions from '../../../actions/comphub-page.actions';
-import { JobData, PricingPaymarket, JobSalaryTrend, WorkflowContext } from '../../../models';
-import { ComphubPages } from '../../../data';
-import { DataCardHelper } from '../../../helpers';
+import * as fromSummaryCardActions from '../../../../_shared/actions/summary-card.actions';
+import * as fromDataCardActions from '../../../../_shared/actions/data-card.actions';
+import * as fromComphubSharedReducer from '../../../../_shared/reducers';
+import * as fromComphubPageActions from '../../../../_shared/actions/comphub-page.actions';
+import { JobSalaryTrend, WorkflowContext } from '../../../../_shared/models';
+import { DataCardHelper } from '../../../../_shared/helpers';
+import { ComphubPages } from '../../../../_shared/data';
+
 import { MapHelper } from '../../../helpers';
+
+
 @Component({
   selector: 'pf-summary-card',
   templateUrl: './summary.card.component.html',
@@ -95,31 +99,31 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
   private mbAccessToken: string;
 
   constructor(
-    private store: Store<fromComphubMainReducer.State>,
+    private store: Store<fromComphubSharedReducer.State>,
     private exchangeExplorerContextService: ExchangeExplorerContextService,
     private exchangeExplorerStore: Store<fromLibsPeerExchangeExplorerReducers.State>,
     private settingsService: SettingsService,
     public cp: CurrencyPipe
   ) {
-    this.selectedJobData$ = this.store.select(fromComphubMainReducer.getSelectedJobData);
-    this.selectedPaymarket$ = this.store.select(fromComphubMainReducer.getSelectedPaymarket);
-    this.selectedRate$ = this.store.select(fromComphubMainReducer.getSelectedRate);
-    this.salaryTrendData$ = this.store.select(fromComphubMainReducer.getSalaryTrendData);
-    this.sharePricingSummaryModalOpen$ = this.store.select(fromComphubMainReducer.getSharePricingSummaryModalOpen);
-    this.sendingQuickPriceShareEmail$ = this.store.select(fromComphubMainReducer.getSendingQuickPriceShareEmail);
-    this.sharePricingSummaryError$ = this.store.select(fromComphubMainReducer.getSharePricingSummaryError);
-    this.sharePricingSummaryConflict$ = this.store.select(fromComphubMainReducer.getSharePricingSummaryConflict);
-    this.creatingProject$ = this.store.select(fromComphubMainReducer.getCreatingProject);
-    this.creatingProjectError$ = this.store.select(fromComphubMainReducer.getCreatingProjectError);
-    this.canAccessProjectsTile$ = this.store.select(fromComphubMainReducer.getCanAccessProjectsTile);
-    this.glossaryOpen$ = this.store.select(fromComphubMainReducer.getGlossaryOpen);
+    this.selectedJobData$ = this.store.select(fromComphubSharedReducer.getSelectedJobData);
+    this.selectedPaymarket$ = this.store.select(fromComphubSharedReducer.getSelectedPaymarket);
+    this.selectedRate$ = this.store.select(fromComphubSharedReducer.getSelectedRate);
+    this.salaryTrendData$ = this.store.select(fromComphubSharedReducer.getSalaryTrendData);
+    this.sharePricingSummaryModalOpen$ = this.store.select(fromComphubSharedReducer.getSharePricingSummaryModalOpen);
+    this.sendingQuickPriceShareEmail$ = this.store.select(fromComphubSharedReducer.getSendingQuickPriceShareEmail);
+    this.sharePricingSummaryError$ = this.store.select(fromComphubSharedReducer.getSharePricingSummaryError);
+    this.sharePricingSummaryConflict$ = this.store.select(fromComphubSharedReducer.getSharePricingSummaryConflict);
+    this.creatingProject$ = this.store.select(fromComphubSharedReducer.getCreatingProject);
+    this.creatingProjectError$ = this.store.select(fromComphubSharedReducer.getCreatingProjectError);
+    this.canAccessProjectsTile$ = this.store.select(fromComphubSharedReducer.getCanAccessProjectsTile);
+    this.glossaryOpen$ = this.store.select(fromComphubSharedReducer.getGlossaryOpen);
     this.userContext$ = this.store.select(fromRootReducer.getUserContext);
-    this.minPaymarketMinimumWage$ = this.store.select(fromComphubMainReducer.getMinPaymarketMinimumWage);
-    this.maxPaymarketMinimumWage$ = this.store.select(fromComphubMainReducer.getMaxPaymarketMinimumWage);
-    this.workflowContext$ = this.store.select(fromComphubMainReducer.getWorkflowContext);
+    this.minPaymarketMinimumWage$ = this.store.select(fromComphubSharedReducer.getMinPaymarketMinimumWage);
+    this.maxPaymarketMinimumWage$ = this.store.select(fromComphubSharedReducer.getMaxPaymarketMinimumWage);
+    this.workflowContext$ = this.store.select(fromComphubSharedReducer.getWorkflowContext);
     this.mapSummary$ = this.exchangeExplorerStore.select(fromLibsPeerExchangeExplorerReducers.getPeerMapSummary);
-    this.calculatingJobData$ = this.store.select(fromComphubMainReducer.getRecalculatingJobData);
-    this.showJobsHistorySummary$ = this.store.select(fromComphubMainReducer.getShowJobPricedHistorySummary);
+    this.calculatingJobData$ = this.store.select(fromComphubSharedReducer.getRecalculatingJobData);
+    this.showJobsHistorySummary$ = this.store.select(fromComphubSharedReducer.getShowJobPricedHistorySummary);
     this.enableFileDownloadSecurityWarning$ = this.settingsService.selectCompanySetting<boolean>(CompanySettingsEnum.FileDownloadSecurityWarning);
   }
 

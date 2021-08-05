@@ -18,6 +18,7 @@ import * as fromSearchPageActions from 'libs/features/search/search/actions/sear
 import { SurveySearchFilterMappingDataObj, SurveySearchUserFilterType } from 'libs/features/surveys/survey-search/data';
 import { SearchFeatureIds } from 'libs/features/search/search/enums/search-feature-ids';
 import * as fromModifyPricingsActions from 'libs/features/pricings/multi-match/actions';
+import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
 
 import * as fromSharedStructuresReducer from '../../../shared/reducers';
 import * as fromModelSettingsModalActions from '../../../shared/actions/model-settings-modal.actions';
@@ -48,6 +49,8 @@ export class PricingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   _Permissions = null;
   modelPageViewId: string;
   restrictSurveySearchToPaymarketCountry: boolean;
+  hasStructuresPageFlagEnabled: boolean;
+
   modelPageViewIdSubscription: Subscription;
   companySettingsSubscription: Subscription;
   metadataSub: Subscription;
@@ -65,7 +68,9 @@ export class PricingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     private store: Store<fromSharedStructuresReducer.State>,
     private route: ActivatedRoute,
     private structuresPagesService: StructuresPagesService,
+    private featureFlagService: AbstractFeatureFlagService
   ) {
+    this.hasStructuresPageFlagEnabled = this.featureFlagService.enabled(FeatureFlags.StructuresPage, false);
     this.metaData$ = this.store.pipe(select(fromSharedStructuresReducer.getMetadata));
     this.rangeGroupId = this.route.parent.snapshot.params.id;
     this.rangeId = parseInt(this.route.snapshot.params.id, 10);
@@ -113,7 +118,7 @@ export class PricingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // Events
   handleModelSettingsBtnClicked() {
-    this.store.dispatch(new fromModelSettingsModalActions.OpenModal());
+    this.store.dispatch(new fromModelSettingsModalActions.OpenJobModal());
   }
 
   handleDuplicateModelBtnClicked() {
@@ -141,7 +146,8 @@ export class PricingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     // Get all overridden ranges
     this.store.dispatch(new fromSharedStructuresActions.GetOverriddenRanges({
       pageViewId: this.modelPageViewId,
-      rangeGroupId: this.rangeGroupId
+      rangeGroupId: this.rangeGroupId,
+      ignoreGetDistinctOverrideMessages: true
     }));
   }
 

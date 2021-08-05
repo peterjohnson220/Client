@@ -8,21 +8,21 @@ import { of } from 'rxjs';
 import * as fromRootState from 'libs/state/state';
 import { generateMockUserContext } from 'libs/models/security';
 
-import * as fromComphubMainReducer from '../../../reducers';
-import * as fromCompHubPageActions from '../../../actions/comphub-page.actions';
+import * as fromComphubSharedReducer from '../../../../_shared/reducers';
+import * as fromCompHubPageActions from '../../../../_shared/actions/comphub-page.actions';
 import { JobsCardWrapperComponent } from './jobs-card-wrapper.component';
 
 describe('Comphub - Main - Jobs Card Wrapper Component', () => {
   let instance: JobsCardWrapperComponent;
   let fixture: ComponentFixture<JobsCardWrapperComponent>;
-  let store: Store<fromComphubMainReducer.State>;
+  let store: Store<fromComphubSharedReducer.State>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
           ...fromRootState.reducers,
-          comphub_main: combineReducers(fromComphubMainReducer.reducers),
+          comphub_shared: combineReducers(fromComphubSharedReducer.reducers),
         }),
         DropDownsModule,
       ],

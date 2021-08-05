@@ -1,17 +1,13 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
-import { Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { AutoCompleteComponent, PopupSettings } from '@progress/kendo-angular-dropdowns';
 
-import { UserContext } from 'libs/models/security';
-import * as fromRootReducer from 'libs/state/state';
-
-import * as fromComphubPageActions from '../../../../_main/actions/comphub-page.actions';
-import * as fromJobsCardActions from '../../../../_main/actions/jobs-card.actions';
-import { CountryDataSet, WorkflowContext } from '../../../../_main/models';
-import * as fromComphubMainReducer from '../../../../_main/reducers';
-import * as fromJobGridActions from '../../../../_main/actions/job-grid.actions';
+import * as fromComphubPageActions from '../../../../_shared/actions/comphub-page.actions';
+import * as fromJobsCardActions from '../../../../_shared/actions/jobs-card.actions';
+import * as fromComphubSharedReducer from '../../../../_shared/reducers';
+import * as fromJobGridActions from '../../../../_shared/actions/job-grid.actions';
+import { CountryDataSet, WorkflowContext } from '../../../../_shared/models';
 
 @Component({
   selector: 'pf-crowd-sourced-jobs-card',
@@ -19,90 +15,61 @@ import * as fromJobGridActions from '../../../../_main/actions/job-grid.actions'
   styleUrls: ['./crowd-sourced-jobs.card.component.scss']
 })
 export class CrowdSourcedJobsCardComponent implements OnInit, OnDestroy {
-  @ViewChild('jobSearch') jobSearch: AutoCompleteComponent;
-
   countryDataSets$: Observable<CountryDataSet[]>;
   workflowContext$: Observable<WorkflowContext>;
-  jobSearchOptions$: Observable<string[]>;
-  jobPricingBlocked$: Observable<boolean>;
   selectedJob$: Observable<string>;
-  loadingJobSearchOptions$: Observable<boolean>;
-  userContext$: Observable<UserContext>;
 
-  jobSearchOptionsSub: Subscription;
   workflowContextSub: Subscription;
   selectedJobSub: Subscription;
 
-  potentialOptions: string[];
   workflowContext: WorkflowContext;
   selectedJob: string;
-  popupSettings: PopupSettings;
+
+  clearSearch = new BehaviorSubject<boolean>(false);
+  clearSearch$ = this.clearSearch.asObservable();
 
   constructor(
-    private store: Store<fromComphubMainReducer.State>
+    private store: Store<fromComphubSharedReducer.State>
   ) {
-    this.countryDataSets$ = this.store.select(fromComphubMainReducer.getCountryDataSets);
-    this.workflowContext$ = this.store.select(fromComphubMainReducer.getWorkflowContext);
-    this.loadingJobSearchOptions$ = this.store.select(fromComphubMainReducer.getLoadingJobSearchOptions);
-    this.jobSearchOptions$ = this.store.select(fromComphubMainReducer.getJobSearchOptions);
-    this.jobPricingBlocked$ = this.store.select(fromComphubMainReducer.getJobPricingBlocked);
-    this.selectedJob$ = this.store.select(fromComphubMainReducer.getSelectedJob);
-    this.userContext$ = this.store.select(fromRootReducer.getUserContext);
-    this.popupSettings = {
-      appendTo: 'component'
-    };
+    this.countryDataSets$ = this.store.select(fromComphubSharedReducer.getCountryDataSets);
+    this.workflowContext$ = this.store.select(fromComphubSharedReducer.getWorkflowContext);
+    this.selectedJob$ = this.store.select(fromComphubSharedReducer.getSelectedJob);
   }
 
   handleCountryDataSetChanged(countryCode: string) {
-    this.jobSearch.reset();
     this.store.dispatch(new fromComphubPageActions.UpdateActiveCountryDataSet(countryCode));
   }
 
-  handleJobSearchFilterChange(searchTerm: string): void {
+  handleJobSearchValueChanged(searchTerm: string): void {
     if (searchTerm?.length > 0) {
-      this.store.dispatch(new fromJobsCardActions.GetJobSearchOptions(searchTerm));
-    } else if (this.selectedJob) {
-      this.store.dispatch(new fromJobsCardActions.ClearSelectedJob());
-    }
-  }
-
-  handleJobSearchValueChanged(selectedTerm: string): void {
-    if (this.potentialOptions.some(x => x.toLowerCase() === selectedTerm.toLowerCase())) {
-      this.store.dispatch(new fromJobsCardActions.SetSelectedJob({ jobTitle: selectedTerm }));
-    } else if (this.selectedJob) {
-      this.store.dispatch(new fromJobsCardActions.ClearSelectedJob());
-    }
-  }
-
-  handleSearchClosed(): void {
-    // after the search is closed, make sure we trigger the job change if there is a mismatch
-    setTimeout(() => {
-      const searchField = this.jobSearch;
-      if (searchField?.value && searchField.value !== this.selectedJob) {
-        this.handleJobSearchValueChanged(searchField.value);
+      // We want to search crowd sourced jobs only when user has entered at least 2 characters
+      if (searchTerm.length > 1) {
+        this.store.dispatch(new fromJobsCardActions.SetSelectedJob({jobTitle: searchTerm}));
+        this.store.dispatch(new fromJobGridActions.SearchCrowdSourcedJobsByTitle(searchTerm));
       }
-    }, 0);
+    } else if (this.selectedJob) {
+      this.store.dispatch(new fromJobsCardActions.ClearSelectedJob());
+    }
   }
 
+  clearSearchValue() {
+    this.handleJobSearchValueChanged('');
+  }
 
   ngOnInit(): void {
-    this.jobSearchOptionsSub = this.jobSearchOptions$.subscribe(o => this.potentialOptions = o);
-    this.selectedJobSub = this.selectedJob$.subscribe(sj => this.selectedJob = sj);
+    this.selectedJobSub = this.selectedJob$.subscribe(sj => {
+      this.selectedJob = sj;
+      this.clearSearch.next(this.selectedJob == null);
+    });
     this.workflowContextSub = this.workflowContext$.subscribe(wfc => {
       if (!!wfc) {
         this.workflowContext = wfc;
       }
     });
-
-    // TODO hardcoded just to check functionality
-    // Should be rewritten
-    this.store.dispatch(new fromJobsCardActions.SetSelectedJob({ jobTitle: 'Software' }));
-    this.store.dispatch(new fromJobGridActions.SearchCrowdSourcedJobsByTitle('software'));
   }
 
   ngOnDestroy(): void {
     this.workflowContextSub.unsubscribe();
     this.selectedJobSub.unsubscribe();
-    this.jobSearchOptionsSub.unsubscribe();
   }
 }

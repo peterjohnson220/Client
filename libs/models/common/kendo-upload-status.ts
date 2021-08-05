@@ -6,5 +6,6 @@ export enum KendoUploadStatus {
   ScanSucceeded,
   UploadFailed,
   ScanFailed,
-  InvalidExtension
+  InvalidExtension,
+  InvalidMaxFileSize
 }

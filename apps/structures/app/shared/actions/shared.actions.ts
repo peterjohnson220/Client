@@ -7,6 +7,7 @@ import { CurrentRangeGroupRequestModel, DataViewFilter } from 'libs/models/payfa
 import { SelectedPeerExchangeModel } from '../models';
 
 export const SET_METADATA = '[Structures - Shared] Set Metadata';
+export const SET_METADATA_FROM_RANGE_GROUP_ID = '[Structures - Shared] Set Metadata From RangeGroupId';
 export const UPDATE_ROUNDING_TYPE = '[Structures - Shared] Update Rounding Type';
 export const UPDATE_ROUNDING_POINT = '[Structures - Shared] Update Rounding Point';
 export const UPDATE_ROUNDING_SETTINGS = '[Structures - Shared] Update Rounding Settings';
@@ -44,6 +45,13 @@ export class SetMetadata implements Action {
   constructor(public payload: RangeGroupMetadata) {}
 }
 
+export class SetMetadataFromRangeGroupId implements Action {
+  readonly type = SET_METADATA_FROM_RANGE_GROUP_ID;
+
+  constructor(public rangeGroupId: any, public companyId: any ) {}
+}
+
+
 export class UpdateRoundingType implements Action {
   readonly type = UPDATE_ROUNDING_TYPE;
 
@@ -65,7 +73,7 @@ export class UpdateRoundingSettings implements Action {
 export class GetDistinctOverrideMessages implements Action {
   readonly type = GET_DISTINCT_OVERRIDE_MESSAGES;
 
-  constructor(public rangeGroupId: any) {}
+  constructor(public payload: { pageViewId: string, rangeGroupId: number }) {}
 }
 
 export class GetDistinctOverrideMessagesSuccess implements Action {
@@ -89,7 +97,7 @@ export class UpdateRoundingPoint implements Action {
 export class GetOverriddenRanges implements Action {
   readonly type = GET_OVERRIDDEN_RANGES;
 
-  constructor(public payload: { pageViewId: string, rangeGroupId: number }) {}
+  constructor(public payload: { pageViewId: string, rangeGroupId: number, ignoreGetDistinctOverrideMessages?: boolean }) {}
 }
 
 export class GetOverriddenRangesSuccess implements Action {
@@ -113,7 +121,7 @@ export class ResetRoundingSetting implements Action {
 export class UpdateRoundingPoints implements Action {
   readonly type = UPDATE_ROUNDING_POINTS;
 
-  constructor(public payload: { RoundingPoint: number }) {}
+  constructor(public payload: {RoundingType: number, RoundingPoint: number }) {}
 }
 
 export class GetCompanyExchanges implements Action {
@@ -253,5 +261,6 @@ export type SharedActions
   | GetCurrentRangeGroupError
   | GetGradeRangeDetails
   | GetGradeRangeDetailsSuccess
-  | GetGradeRangeDetailsError;
+  | GetGradeRangeDetailsError
+  | SetMetadataFromRangeGroupId;
 

@@ -157,7 +157,8 @@ export class ApprovalsWorkflowSetupComponent implements OnInit, OnDestroy {
       Revision: worflowInput?.Revision,
       WorkflowSteps: workflowSteps,
       InitiationComment: this.workflowInitiationComment,
-      AllAvailablePermissions: [ Permissions.JOB_DESCRIPTIONS, Permissions.CAN_EDIT_JOB_DESCRIPTION ]
+      AllAvailablePermissions: [ Permissions.JOB_DESCRIPTIONS, Permissions.CAN_EDIT_JOB_DESCRIPTION ],
+      Attachments: null
     };
   }
 }

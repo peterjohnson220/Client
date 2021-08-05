@@ -15,7 +15,9 @@
   [expandedRowTemplate]="expandRow"
   [selectionField]="'SurveyJob_Survey_Job_ID'"
   [enableRowFade]="true"
+  [columnTemplates]="colTemplates"
   [fieldsExcludedFromExport]="fieldsExcludedFromExport"
+  [fieldsExcludedFromCellClick]="fieldsExcludedFromCellClick"
   [collapseFilterPanelOnCellClick]="true">
 </pf-data-grid>
 
@@ -71,6 +73,36 @@
   </kendo-dropdownlist>
 </ng-template>
 
+<ng-template #surveyTitleFilter>
+  <div>
+    <label>Survey Title:</label>
+    <pf-treeview
+      [attr.data-qa-id]="'ddm-operator-surveys-page-surveyTitle-filter'"
+      [data]="surveyTitleOptions"
+      [placeholder]="'All'"
+      [filterable]="true"
+      [checkedKeys]="selectedSurveyTitles"
+      [anchorWidth]="406"
+      (applyClicked)="handleTreeViewFilterChanged($event, surveyTitleField)">
+    </pf-treeview>
+  </div>
+</ng-template>
+
+<ng-template #vendorFilter>
+  <div>
+    <label>Vendor:</label>
+    <pf-treeview
+      [attr.data-qa-id]="'ddm-operator-surveys-page-vendor-filter'"
+      [data]="vendorOptions"
+      [placeholder]="'All'"
+      [filterable]="true"
+      [checkedKeys]="selectedVendors"
+      [anchorWidth]="406"
+      (applyClicked)="handleTreeViewFilterChanged($event, vendorField)">
+    </pf-treeview>
+  </div>
+</ng-template>
+
 <ng-template #expandRow let-dataRow="dataRow">
   <div class="survey-data-cuts-container pt-3 pb-4 px-4">
     <pf-async-container [loading]="surveyDataGridReloading(dataRow['SurveyJob_Survey_Job_ID'])">
@@ -105,6 +137,27 @@
       </div>
       <pf-survey-data-cuts [surveyJobId]="dataRow['SurveyJob_Survey_Job_ID']"></pf-survey-data-cuts>
     </pf-async-container>
+  </div>
+</ng-template>
+
+<ng-template #matchesColumn let-dataRow="dataRow" let-fieldName="fieldName">
+  <div pfEllipsisActive class="ellipsis-overflowing-text">
+    <div class="d-inline-block" ngbDropdown #p="ngbDropdown" placement="left" container="body" >
+      <p *ngIf="dataRow['CompanySurveys_SurveyJobMatchesCount'] > 0; else noLink" class="pf-link-hover" [id]="'surveyJob' + dataRow['CompanySurveys_Survey_ID']" ngbDropdownAnchor
+         (click)="handleMatchesClicked(jobType.SurveyJob, dataRow['CompanySurveys_Survey_ID'], dataRow['SurveyJob_Job_Code'], p)">
+        {{dataRow[fieldName]}}
+      </p>
+      <div ngbDropdownMenu aria-labelledby="surveyJobMatches">
+        <ul (scroll)="scroll($event)" class="list-unstyled overflow-auto matches-container">
+          <li pfEllipsisActive *ngFor="let match of (surveyJobMatches$ | async)?.obj" class="ellipsis-overflowing-text" title="{{match}}" ngbDropdownItem>
+            {{match}}
+          </li>
+        </ul>
+      </div>
+    </div>
+    <ng-template #noLink>
+      {{dataRow[fieldName]}}
+    </ng-template>
   </div>
 </ng-template>
 

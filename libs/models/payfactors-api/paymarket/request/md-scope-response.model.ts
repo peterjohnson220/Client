@@ -4,4 +4,5 @@ export interface MDScopeResponse {
   Locations: GenericKeyValue<string, string[]>[];
   Industries: string[];
   Sizes: GenericKeyValue<string, string[]>[];
+  OrganizationTypes: GenericKeyValue<number, string>[];
 }

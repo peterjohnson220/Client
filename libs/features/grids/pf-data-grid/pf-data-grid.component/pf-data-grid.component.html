@@ -58,7 +58,7 @@
             </pf-select-all-panel>
           </div>
 
-          <div *ngIf="userFilteredFields.length > 0 || lockedPillText || (actionBarConfig.ShowFilterChooser && !gridActionsTemplate)" class="d-flex mb-2 sub-header">
+          <div *ngIf="userFilteredFields.length > 0 || lockedPillText || (actionBarConfig.ShowFilterChooser && !gridActionsTemplate)" class="d-flex flex-h-auto mb-2 sub-header">
             <div *ngIf="userFilteredFields.length > 0 || lockedPillText" class="pt-2">
               <pf-data-grid-filter-pills
                 [widthOffset]="
@@ -129,7 +129,9 @@
                         [collapseFilterPanelOnCellClick]="collapseFilterPanelOnCellClick"
                         [hideKendoGrid]="hideKendoGrid"
                         [gridReplacementTemplate] = gridReplacementTemplate
-                        [hidePageSizes]="hidePageSizes">
+                        [hidePageSizes]="hidePageSizes"
+                        [displaySelectAllCheckbox]="displaySelectAllCheckbox"
+                        [fieldsExcludedFromCellClick]="fieldsExcludedFromCellClick">
                       </pf-grid>
                     </div>
                   </div>

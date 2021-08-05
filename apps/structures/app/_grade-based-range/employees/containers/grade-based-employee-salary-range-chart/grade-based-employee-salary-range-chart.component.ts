@@ -349,6 +349,8 @@ export class GradeBasedEmployeeSalaryRangeChartComponent implements OnInit, OnDe
       }
 
       this.chartInstance.setSize(null, GraphHelper.getChartHeight(this.employeeData.data, this.defaultPagingCount));
+
+      GraphHelper.forceRedraw(this.chartInstance, this.chartOptions);
     }
   }
 

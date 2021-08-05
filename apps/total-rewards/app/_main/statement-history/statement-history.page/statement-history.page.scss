@@ -1,0 +1,24 @@
+@import 'colors';
+@import 'kendo-grid';
+@import 'common/common-variables';
+
+.action-button {
+  color: $data-grid-action-button-color;
+}
+
+.disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.dropup .dropdown-toggle::after, .dropdown-toggle::after {
+  display: none;
+}
+
+.total-rewards-statements-grid ::ng-deep.dropdown-toggle:hover {
+  cursor: pointer;
+}
+
+:host ::ng-deep .k-grid-norecords {
+  background-color: white !important;
+}

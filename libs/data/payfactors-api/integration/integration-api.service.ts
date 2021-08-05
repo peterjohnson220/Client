@@ -168,6 +168,27 @@ export class IntegrationApiService {
     );
   }
 
+  RedropExportedSourceFileToNewDataLoad(compositeDataLoadId: number, userContext: UserContext) {
+    const host = this.getAPIBase(userContext);
+    const apiURL = `${host}/ExportedSourceFile/Redrop`;
+
+    // use fetchAuthToken as a stop-gap until we have a better auth system
+    return this.fetchAuthToken().pipe(
+      switchMap(token => {
+        const headers = new HttpHeaders({
+          Authorization: `Bearer ${token}`,
+        });
+
+        const options: any = {
+          headers,
+        };
+
+        return this.http.post(apiURL, compositeDataLoadId, options).pipe(
+          map((response: any) => response));
+      }),
+    );
+  }
+
   GetArchiveData(file: File, userContext: UserContext) {
     const apiURL = `/company/${userContext.CompanyId}/DataImport/File/Zip/Archive`;
 

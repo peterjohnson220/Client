@@ -1,15 +1,15 @@
 <div class="result job-result-row" [class.selected]="job.IsSelected" (click)="handleJobClicked()">
   <div class="d-flex justify-content-between">
-    <div class="d-flex ">
-      <div class="job-title">
+    <div class="d-flex w-100">
+      <div pfEllipsisActive class="job-title ellipsis-overflowing-text">
         {{job.Title}}
       </div>
-      <div class="job-code">
+      <div pfEllipsisActive class="w-25 job-code ellipsis-overflowing-text flex-fill">
         ({{job.Code}})
       </div>
-    </div>
-    <div *ngIf="job.IsMappedToPeerExchange">
-      <fa-icon icon="exchange-alt" class="fa-w-16 peer-icon" title="Job is matched to at least one exchange job"></fa-icon>
+      <div *ngIf="job.IsMappedToPeerExchange">
+        <fa-icon icon="exchange-alt" class="fa-w-16 peer-icon" title="Job is matched to at least one exchange job"></fa-icon>
+      </div>
     </div>
   </div>
 

@@ -61,10 +61,11 @@ export class PricingMatchesGridComponent implements OnInit, AfterViewInit, OnCha
     Count: 500
   };
   actionBarConfig: ActionBarConfig;
-
-
   hasModifyPricingPemission: boolean;
-  constructor(private permissionService: PermissionService, private mrpFormatterService: MrpFormatterService) {
+
+  constructor(
+    private permissionService: PermissionService, private mrpFormatterService: MrpFormatterService
+  ) {
     this.hasModifyPricingPemission = this.permissionService.CheckPermission([Permissions.MODIFY_PRICINGS],
       PermissionCheckEnum.Single);
   }

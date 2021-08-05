@@ -19,4 +19,5 @@ export class JobDescription {
   PublicView: boolean;
   Sections: JobDescriptionSection[];
   TemplateId: number;
+  Attachments: any;
 }

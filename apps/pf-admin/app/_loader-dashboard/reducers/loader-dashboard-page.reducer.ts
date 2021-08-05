@@ -14,6 +14,8 @@ export interface State {
   UpdatedArchiveSummaryObj: AsyncStateObj<UpdatedArchiveSummaryModel>;
   RedropFileObj: File;
   IsModifiedRedropInProgress: boolean;
+  RedropExportedSourceFileToNewDataLoad: AsyncStateObj<boolean>;
+  RedropNewDataLoadConfirmationModalOpen: boolean;
 }
 
 export const initialState: State = {
@@ -24,7 +26,9 @@ export const initialState: State = {
   RedropConfirmationModalOpen: false,
   UpdatedArchiveSummaryObj: generateDefaultAsyncStateObj<UpdatedArchiveSummaryModel>({ }),
   RedropFileObj: null,
-  IsModifiedRedropInProgress: false
+  IsModifiedRedropInProgress: false,
+  RedropExportedSourceFileToNewDataLoad: generateDefaultAsyncStateObj<boolean>(false),
+  RedropNewDataLoadConfirmationModalOpen: false
 };
 
 export function reducer(state = initialState, action: fromLoaderDashboardPageActions.Actions): State {
@@ -126,6 +130,27 @@ export function reducer(state = initialState, action: fromLoaderDashboardPageAct
         IsModifiedRedropInProgress: false
       };
     }
+    case fromLoaderDashboardPageActions.REDROP_EXPORTED_SOURCE_FILE_TO_NEW_DATA_LOAD: {
+      return AsyncStateObjHelper.loading(state, 'RedropExportedSourceFileToNewDataLoad');
+    }
+    case fromLoaderDashboardPageActions.REDROP_EXPORTED_SOURCE_FILE_TO_NEW_DATA_LOAD_SUCCESS: {
+      return AsyncStateObjHelper.loadingSuccess(state, 'RedropExportedSourceFileToNewDataLoad', action.payload);
+    }
+    case fromLoaderDashboardPageActions.REDROP_EXPORTED_SOURCE_FILE_TO_NEW_DATA_LOAD_ERROR: {
+      return AsyncStateObjHelper.loadingError(state, 'RedropExportedSourceFileToNewDataLoad');
+    }
+    case fromLoaderDashboardPageActions.OPEN_REDROP_TO_NEW_DATA_LOAD_CONFIRMATION_MODAL: {
+      return {
+        ...state,
+        RedropNewDataLoadConfirmationModalOpen: true
+      };
+    }
+    case fromLoaderDashboardPageActions.DISMISS_REDROP_TO_NEW_DATA_LOAD_CONFIRMATION_MODAL: {
+      return {
+        ...state,
+        RedropNewDataLoadConfirmationModalOpen: false
+      };
+    }
     default: {
       return state;
     }
@@ -142,3 +167,5 @@ export const getRedropConfirmationModalOpen = (state: State) => state.RedropConf
 export const getUpdatedArchiveSummaryObj = (state: State) => state.UpdatedArchiveSummaryObj;
 export const getRedropFileObj = (state: State) => state.RedropFileObj;
 export const getIsModifiedRedropInProgress = (state: State) => state.IsModifiedRedropInProgress;
+export const getRedropExportedSourceFileToNewDataLoad = (state: State) => state.RedropExportedSourceFileToNewDataLoad;
+export const getRedropNewDataLoadConfirmationModalOpen = (state: State) => state.RedropNewDataLoadConfirmationModalOpen;

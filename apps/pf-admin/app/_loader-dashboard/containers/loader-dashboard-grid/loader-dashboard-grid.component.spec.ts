@@ -7,7 +7,7 @@ import { GridModule, RowClassArgs } from '@progress/kendo-angular-grid';
 import * as fromRootState from 'libs/state/state';
 import { FileType } from 'libs/models/dashboard';
 import { AbstractFeatureFlagService, FeatureFlagContext } from 'libs/core/services/feature-flags';
-import { CompositeDataLoadViewResponse, EntityLoadSummaryView } from 'libs/models';
+import { CompositeDataLoadViewResponse, EntityLoadSummaryDetailView, EntityLoadSummaryView } from 'libs/models';
 
 import * as fromCompositeSummaryDownloadActions from '../../../../../dashboard/app/_main/actions/composite-summary-download.actions';
 
@@ -28,7 +28,7 @@ describe('LoaderDashboardGridComponent', () => {
   let component: LoaderDashboardGridComponent;
   let fixture: ComponentFixture<LoaderDashboardGridComponent>;
   let store: Store<fromLoaderDashboardPageReducer.State>;
-  const summaryDetail: EntityLoadSummaryView[]  = [{
+  const summary: EntityLoadSummaryView[]  = [{
       compositeDataLoadId: 1,
       entity: 'testentity',
       totalRecordCount: 1,
@@ -37,6 +37,18 @@ describe('LoaderDashboardGridComponent', () => {
       deleteCount: 0,
       validUnchangedCount: 0,
       invalidCount: 1
+  }];
+  const summaryDetail: EntityLoadSummaryDetailView[]  = [{
+    compositeDataLoadId: 1,
+    entity: 'testentity',
+    detailKey1: 'tes1',
+    detailKey2: 'test2',
+    totalRecordCount: 1,
+    insertCount: 1,
+    updateCount: 0,
+    deleteCount: 0,
+    validUnchangedCount: 0,
+    invalidCount: 1
   }];
   const dataLoad: CompositeDataLoadViewResponse[] = [{
     compositeDataLoadId: 1,
@@ -50,11 +62,14 @@ describe('LoaderDashboardGridComponent', () => {
     terminalException: 'testexception1',
     loadType: 'Manual',
     validationOnly: false,
-    entityLoadSummaries: summaryDetail,
+    entityLoadSummaries: summary,
+    entityLoadSummaryDetails: null,
     requestTime: null,
     processingStartTime: null,
     processingEndTime: null,
     hasErrorCondition: null,
+    isProcessed: null,
+    hasExpired: null
   }];
 
   beforeEach((() => {
@@ -118,15 +133,31 @@ describe('LoaderDashboardGridComponent', () => {
     // arrange
     const expectedAction = new fromLoaderDashboardPageActions.OpenRedropConfirmationModal();
     // act
-    component.openRedropConfirmationModal(1, 'test', 2);
+    component.openRedropConfirmationModal(1, 'test', 2, 'Organizational Data');
 
     // assert
     expect(store.dispatch).toHaveBeenCalledWith( expectedAction);
   });
 
-  it('should show loader summary detail grid', () => {
+  it('should show loader summaries', () => {
     // arrange
     const shouldShow = component.showIfLoadHasSummaries(dataLoad[0], 0);
+    // assert
+    expect(shouldShow).toBe( true);
+  });
+
+  it('should show loader summary grid', () => {
+    // arrange
+    const shouldShow = component.showIfLoadHasOnlySummary(dataLoad[0]);
+
+    // assert
+    expect(shouldShow).toBe( true);
+  });
+
+  it('should show loader summary details grid', () => {
+    // arrange
+    dataLoad[0].entityLoadSummaryDetails = summaryDetail;
+    const shouldShow = component.showIfLoadHasSummaryDetails(dataLoad[0]);
 
     // assert
     expect(shouldShow).toBe( true);
@@ -139,4 +170,23 @@ describe('LoaderDashboardGridComponent', () => {
     // assert
     expect(hasErrorCondition).toBe( true);
   });
+
+  it('should has a detail key', () => {
+    // arrange
+    component.detailKeyByLoaderTypes = [
+        {
+          Key: 'Test',
+          Value: {
+            detailKey1: 'keyTest1',
+            detailKey2: 'keyTest2'
+          }
+        }
+      ];
+    const hasDetailKeys = component.getDetailKeys('Test');
+
+    // assert
+    expect(hasDetailKeys.detailKey1).toBe( 'keyTest1');
+  });
+
+
 });
