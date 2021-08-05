@@ -1,0 +1,92 @@
+<ng-container [ngSwitch]="display">
+  <ng-container *ngSwitchCase="'component'" [ngTemplateOutlet]="addDataContent"></ng-container>
+  <ng-container *ngSwitchCase="'modal'">
+    <pf-modal-form
+      [size]="'xl'"
+      [title]="'Add Data' + ((jobContext$ | async) ? ' - ' + (jobContext$ | async).JobTitle : '')"
+      [isOpen$]="showAddModal$"
+      [showSubmit]="false"
+      [centered]="true"
+      [showSpinner]="true"
+      [modalId]="'au-modal-add-data'"
+      [allowDismiss]="true"
+      [showFooter]="true"
+      [primaryButtonText]="'Add'"
+      (onDismiss)="handleCancelClicked()"
+      (onSubmit)="handleAddClicked()"
+      [submitEnabled]="false"
+      [primaryButtonTextSubmitting]="'Saving'"
+    >
+      <ng-container basic-content>
+        <div class="add-data-modal-container">
+          <ng-container [ngTemplateOutlet]="addDataContent"></ng-container>
+        </div>
+      </ng-container>
+    </pf-modal-form>
+  </ng-container>
+</ng-container>
+
+<ng-template #addDataContent>
+  <pf-async-container>
+    <pf-search-layout [resultsCount]="numberOfResults$ | async">
+
+      <ng-container sidebar>
+
+        <pf-search-filters
+          [visible]="!(searchingFilter$ | async)">
+        </pf-search-filters>
+
+        <pf-single-filter
+          *ngIf="searchingFilter$ | async">
+        </pf-single-filter>
+
+      </ng-container>
+
+      <ng-container content>
+
+        <pf-results-header *ngIf="pageShown$ | async" [userFilterDefaultLabel]="'PayMarket Default'" [legacyImplementation]="true"></pf-results-header>
+        <ng-container *ngIf="display === 'modal'; else searchResults">
+          <pf-async-container
+            [loading]="loadingResults$ | async"
+            [loadingError]="searchError$ | async"
+            [hideReloadButton]="true"
+          >
+            <ng-container [ngTemplateOutlet]="searchResults"></ng-container>
+          </pf-async-container>
+        </ng-container>
+      </ng-container>
+
+      <ng-container action-buttons>
+
+        <button *ngIf="display !== 'modal'" class="btn btn-sm legacy-primary-btn mr-3 au-btn-add"
+                (click)="handleAddClicked()"
+                [disabled]="(addingData$ | async) || !(selectedCuts$ | async).length">
+          <ng-container *ngIf="!(addingData$ | async); else addingData">
+            Add <span *ngIf="(selectedCuts$ | async)?.length">({{(selectedCuts$ | async).length}})</span>
+          </ng-container>
+        </button>
+
+        <button *ngIf="display !== 'modal'" (click)="handleCancelClicked()" class="btn btn-sm btn-secondary mr-3 au-btn-cancel">
+          Cancel
+        </button>
+
+        <div class="exclude-from-participation">
+          <input type="checkbox" id="excludeFromParticipation" [(ngModel)]="excludeFromParticipation" class="mr-2 au-chk-exclude-from-participation"/>
+          <label class="mb-0" for="excludeFromParticipation">Exclude from Participation</label>
+        </div>
+
+      </ng-container>
+
+    </pf-search-layout>
+  </pf-async-container>
+</ng-template>
+<ng-template #addingData>
+  Adding...
+</ng-template>
+
+<ng-template #searchResults>
+  <pf-survey-search-results
+    [cutsDraggable]="false"
+    [implementation]="display"
+    [customizeInPeerEnabled]="true"></pf-survey-search-results>
+</ng-template>

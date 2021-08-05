@@ -104,3 +104,45 @@ div.matches-list-container>div:nth-of-type(odd) {
 pf-filter-pills > .pills-container {
   width: 1130px;
 }
+
+.market-data-grid {
+  .k-grid {
+    background-color: transparent !important;
+    border: solid 1px #eceeef;
+    .k-grid-container {
+      margin-right: 1px !important;
+    }
+  }
+  .k-grid-header {
+    border-bottom-width: 0 !important;
+    background-color: #FFFFFF;
+    padding: 0 !important;
+  }
+  .k-grid-content {
+    overflow: hidden !important;
+    .k-grid-table-wrap {
+      background-color: #FFFFFF;
+    }
+  }
+  .k-grid tbody tr:hover, .k-grid tbody tr.k-state-hover {
+    background-color: #FFFFFF !important;
+  }
+
+  .k-grid .k-grid-header tr th.k-header {
+    border: none;
+  }
+
+  .field-name {
+    font-weight: 500 !important;
+  }
+
+}
+
+pf-market-data {
+  .data-cut-summary, .peer-data-cut-summary {
+    max-width: none !important;
+  }
+  .dataCutSummaryPropertiesContainer {
+    width: 265px !important;
+  }
+}

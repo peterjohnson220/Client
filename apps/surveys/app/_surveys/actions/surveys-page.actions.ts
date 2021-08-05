@@ -2,6 +2,7 @@ import { Action } from '@ngrx/store';
 
 import { SurveyDataCountryAccessDto } from 'libs/models/survey/survey-data-country-access-dto.model';
 import { SurveyJobDetails } from 'libs/models/survey';
+import { GetJobMatchesRequest } from 'libs/models/payfactors-api/survey/request';
 
 export const OPEN_SURVEY_FIELDS_MODAL = '[Surveys / Surveys Page] Open Survey Fields Modal';
 export const CLOSE_SURVEY_FIELDS_MODAL = '[Surveys / Surveys Page] Close Survey Fields Modal';
@@ -24,6 +25,12 @@ export const RELOAD_SURVEY_DATA_GRID_SUCCESS = '[Surveys / Surveys Page] Reload 
 export const GET_SURVEY_JOB_DETAILS = '[Surveys / Surveys Page] Get Survey Job Details';
 export const GET_SURVEY_JOB_DETAILS_SUCCESS = '[Surveys / Surveys Page] Get Survey Job Details Success';
 export const GET_SURVEY_JOB_DETAILS_ERROR = '[Surveys / Surveys Page] Get Survey Job Details Error';
+export const GET_SURVEY_JOB_MATCHES = '[Surveys / Surveys Page] Get Survey Job Matches';
+export const GET_SURVEY_JOB_MATCHES_SUCCESS = '[Surveys / Surveys Page] Get Survey Job Matches Success';
+export const GET_SURVEY_JOB_MATCHES_ERROR = '[Surveys / Surveys Page] Get Survey Job Matches Error';
+export const GET_SURVEY_DATA_MATCHES = '[Surveys / Surveys Page] Get Survey Data Matches';
+export const GET_SURVEY_DATA_MATCHES_SUCCESS = '[Surveys / Surveys Page] Get Survey Data Matches Success';
+export const GET_SURVEY_DATA_MATCHES_ERROR = '[Surveys / Surveys Page] Get Survey Data Matches Error';
 
 
 export class OpenSurveyFieldsModal implements Action {
@@ -137,6 +144,42 @@ export class GetSurveyJobDetailsError implements Action {
   constructor() {}
 }
 
+export class GetSurveyJobMatches implements Action {
+  readonly type = GET_SURVEY_JOB_MATCHES;
+
+  constructor(public payload: GetJobMatchesRequest) {}
+}
+
+export class GetSurveyJobMatchesSuccess implements Action {
+  readonly type = GET_SURVEY_JOB_MATCHES_SUCCESS;
+
+  constructor(public payload: string[]) {}
+}
+
+export class GetSurveyJobMatchesError implements Action {
+  readonly type = GET_SURVEY_JOB_MATCHES_ERROR;
+
+  constructor() {}
+}
+
+export class GetSurveyDataMatches implements Action {
+  readonly type = GET_SURVEY_DATA_MATCHES;
+
+  constructor(public payload: GetJobMatchesRequest) {}
+}
+
+export class GetSurveyDataMatchesSuccess implements Action {
+  readonly type = GET_SURVEY_DATA_MATCHES_SUCCESS;
+
+  constructor(public payload: string[]) {}
+}
+
+export class GetSurveyDataMatchesError implements Action {
+  readonly type = GET_SURVEY_DATA_MATCHES_ERROR;
+
+  constructor() {}
+}
+
 export type Actions
   = OpenSurveyFieldsModal
   | CloseSurveyFieldsModal
@@ -158,4 +201,10 @@ export type Actions
   | ReloadSurveyDataGridSuccess
   | GetSurveyJobDetails
   | GetSurveyJobDetailsSuccess
-  | GetSurveyJobDetailsError;
+  | GetSurveyJobDetailsError
+  | GetSurveyJobMatches
+  | GetSurveyJobMatchesSuccess
+  | GetSurveyJobMatchesError
+  | GetSurveyDataMatches
+  | GetSurveyDataMatchesSuccess
+  | GetSurveyDataMatchesError;

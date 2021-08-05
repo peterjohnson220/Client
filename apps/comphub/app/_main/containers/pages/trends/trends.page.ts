@@ -6,10 +6,12 @@ import * as fromBasicDataGridReducer from 'libs/features/grids/basic-data-grid/r
 import * as fromLayoutWrapperReducer from 'libs/ui/layout-wrapper/reducers';
 import { ComphubType } from 'libs/constants';
 
-import { ComphubPageComponent } from '../comphub';
-import { ComphubPages } from '../../../data';
-import * as fromComphubPageActions from '../../../actions/comphub-page.actions';
+import * as fromComphubSharedReducer from '../../../../_shared/reducers';
+import * as fromComphubPageActions from '../../../../_shared/actions/comphub-page.actions';
+import { ComphubPages } from '../../../../_shared/data';
+
 import * as fromComphubMainReducer from '../../../reducers';
+import { ComphubPageComponent } from '../comphub';
 
 @Component({
   selector: 'pf-trends-page',
@@ -21,7 +23,7 @@ export class TrendsPageComponent extends ComphubPageComponent implements OnInit,
   trendsPages = ComphubPages;
 
   constructor(
-    private trendsStore: Store<fromComphubMainReducer.State>,
+    private trendsStore: Store<fromComphubSharedReducer.State>,
     private trendsBasicGridStore: Store<fromBasicDataGridReducer.State>,
     private trendsLayoutWrapperStore: Store<fromLayoutWrapperReducer.State>,
     private quickPriceBasicGridStore: Store<fromBasicDataGridReducer.State>,

@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { StatementListSearchRequest } from 'libs/models/payfactors-api/total-rewards/request';
 import { StatementEmailTemplate, StatementListResponse } from 'libs/models/payfactors-api/total-rewards/response';
 import { SaveSettingsRequest } from 'libs/features/total-rewards/total-rewards-statement/models/request-models';
-import { CompensationField, Settings, Statement, StatementForPrint } from 'libs/features/total-rewards/total-rewards-statement/models/';
+import { CompensationField, Statement, StatementForPrint } from 'libs/features/total-rewards/total-rewards-statement/models/';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 

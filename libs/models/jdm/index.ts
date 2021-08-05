@@ -10,3 +10,4 @@ export * from './job-information-field.model';
 export * from './template';
 export * from './job-description-view-list-grid-item';
 export * from './bulk-export-history.model';
+export * from './job-description-workflow-attachment';

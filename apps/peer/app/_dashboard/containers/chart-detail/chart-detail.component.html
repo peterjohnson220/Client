@@ -19,9 +19,9 @@
     <pf-input-debounce
       [delay]="200"
       [disabled]="false"
-      [placeholderText]="'Search for a Company...'"
+      [placeholderText]="searchChartDetailsPlaceholderMessage"
       (valueChanged)="handleSearchValueChanged($event)"
-      [resetValue$]="clearSearch$"    >
+      [resetValue$]="clearSearch$">
     </pf-input-debounce>
   </div>
 

@@ -58,9 +58,9 @@ export class DataGridToDataViewsHelper {
   }
 
   static mapFieldsToDataViewFields(fields: ViewField[], sortDescriptor: SortDescriptor[],
-                                   gridConfig?: GridConfig, includeIsAlwaysInResponse = false): DataViewField[] {
+                                   gridConfig?: GridConfig, includeIsAlwaysInResponse = false, mapAllFields = false): DataViewField[] {
     return fields ? fields
-        .filter(f => includeIsAlwaysInResponse
+        .filter(f => mapAllFields ? true : includeIsAlwaysInResponse
           ? f.IsSelected || f.IsAlwaysInResponse
           : f.IsSelected)
         .map(f => {

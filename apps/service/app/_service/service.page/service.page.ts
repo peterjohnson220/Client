@@ -6,7 +6,7 @@ import { select, Store } from '@ngrx/store';
 import { SortDescriptor } from '@progress/kendo-data-query';
 import cloneDeep from 'lodash/cloneDeep';
 
-import { ActionBarConfig, getDefaultActionBarConfig, GridConfig, PfDataGridFilter } from 'libs/features/grids/pf-data-grid/models';
+import { ActionBarConfig, getDefaultActionBarConfig, GridConfig, GridConfigHelper, PfDataGridFilter } from 'libs/features/grids/pf-data-grid/models';
 import { ViewField } from 'libs/models/payfactors-api/reports/request';
 import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import * as fromPfDataGridActions from 'libs/features/grids/pf-data-grid/actions';
@@ -74,7 +74,8 @@ export class ServicePageComponent implements AfterViewInit, OnInit, OnDestroy {
     this.gridConfig = {
       PersistColumnWidth: false,
       EnableInfiniteScroll: true,
-      ScrollToTop: true
+      ScrollToTop: true,
+      SplitViewColumnsWidth: GridConfigHelper.getSplitViewColumnsWidth(347, 0, false)
     };
     this.ticketTypes$ = this.store.pipe(select(fromServicePageReducer.getTicketTypeNames));
     this.supportTeam$ = this.store.pipe(select(fromServicePageReducer.getSupportTeam));

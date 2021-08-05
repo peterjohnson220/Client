@@ -14,12 +14,14 @@ import { ExchangeExplorerContextService } from 'libs/features/peer/exchange-expl
 import { UserContext } from 'libs/models/security';
 import * as fromRootReducer from 'libs/state/state';
 
-import { ComphubPages } from '../../../../data';
-import { WorkflowContext } from '../../../../models';
-import { TrendsSummaryDetails } from '../../../../models/trends-summary-details.model';
+import { ComphubPages } from '../../../../../_shared/data';
+import { WorkflowContext } from '../../../../../_shared/models';
+import * as fromComphubSharedReducers from '../../../../../_shared/reducers';
+
+import { TrendsSummaryDetails } from '../../../../models';
+import { MapHelper } from '../../../../helpers';
 import * as fromComphubMainReducer from '../../../../reducers';
 import * as fromTrendsSummaryCardActions from '../../../../actions/trends-summary-card.actions';
-import { MapHelper } from '../../../../helpers';
 
 @Component ({
   selector: 'pf-trends-summary-card',
@@ -61,7 +63,7 @@ export class TrendsSummaryCardComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store<fromComphubMainReducer.State>, private exchangeExplorerContextService: ExchangeExplorerContextService,
     private percentPipe: PercentPipe, private numberHumanizer: HumanizeNumberPipe) {
-    this.workflowContext$ = this.store.select(fromComphubMainReducer.getWorkflowContext);
+    this.workflowContext$ = this.store.select(fromComphubSharedReducers.getWorkflowContext);
     this.peerTrends$ = this.store.select(fromComphubMainReducer.getPeerTrends);
     this.trendsSummaryDetails$ = this.store.select(fromComphubMainReducer.getPeerTrendsSummaryDetails);
     this.selectedPeerTrendId$ = this.store.select(fromComphubMainReducer.getSelectedTrendId);

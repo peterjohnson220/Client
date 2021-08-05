@@ -33,6 +33,6 @@
          [attr.data-qa-id]="'txt-'+id"
          [style.min-width]="minWidth + 'px'">
     <div (click)="clearValue()" class="input-group-append action-item" [ngClass]="getClearButtonCss()">
-      <span class="input-group-text"><fa-icon icon="times" aria-hidden="true"></fa-icon></span>
+      <span class="input-group-text" [ngClass]="{'no-background': clearButtonNoBackground}"><fa-icon icon="times" aria-hidden="true"></fa-icon></span>
     </div>
 </div>

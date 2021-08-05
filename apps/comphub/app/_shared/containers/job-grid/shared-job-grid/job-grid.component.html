@@ -1,0 +1,30 @@
+<div *ngIf="!!jobTitle?.length" class="mt-3">
+  <div class="mb-3 d-flex">
+    <div class="results-title flex-fill ellipsis-text">
+      <span>Results for <span class="text-bold">{{jobTitle}}:</span></span>
+    </div>
+    <div *ngIf="gridHasData" class="d-flex flex-row ml-auto">
+      <div class="mr-3">Effective Date: <span class="effective-date">{{firstDayOfMonth | date:'MM/dd/yyyy'}}</span></div>
+      <div class="mr-3">Rate: <span class="rate">Annual</span></div>
+      <div>
+        Pay Market: <span class="paymarket">National</span>
+        <span *ngIf="countryCode?.length > 0"> ({{countryCode}})</span>
+      </div>
+    </div>
+  </div>
+  <pf-async-container [loading]="loading"
+                      [loadingError]="loadingError"
+                      [loadingErrorMessage]="'Error loading job data'"
+                      [hideReloadButton]="true"
+                      class="flex-grow-1">
+
+    <ng-container GridContent>
+      <ng-content select="[table]"></ng-content>
+    </ng-container>
+
+  </pf-async-container>
+
+  <div *ngIf="jobGridData?.Data?.length < jobGridData?.Total" class="d-flex justify-content-center">
+    <span class="borderless-blue-btn" (click)="handleLoadMore()">Load More</span>
+  </div>
+</div>

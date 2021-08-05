@@ -63,12 +63,6 @@ export class PublishModelModalEffects {
                 Type: NotificationType.Event
               }));
 
-
-              actions.push(new fromSharedStructuresActions.GetOverriddenRanges({
-                pageViewId: modelPageViewId,
-                rangeGroupId: data.action.payload.rangeGroupId
-              }));
-
               return actions;
             }
           ),

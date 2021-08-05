@@ -11,22 +11,19 @@ import * as fromRootState from 'libs/state/state';
 import { RateType } from 'libs/data/data-sets';
 import { ExchangeExplorerContextService } from 'libs/features/peer/exchange-explorer/services';
 import { SettingsService } from 'libs/state/app-context/services';
+import { generateFakeJobData, generateMockPricingPaymarket } from 'libs/models/comphub';
+
 
 import { SummaryCardComponent } from './summary.card.component';
-import * as fromComphubMainReducer from '../../../reducers';
-import * as fromSummaryCardActions from '../../../actions/summary-card.actions';
-import { ComphubPages } from '../../../data';
-import {
-  generateFakeJobData,
-  generateMockCountryDataSet,
-  generateMockPricingPaymarket,
-  generateMockWorkflowContext
-} from '../../../models';
+import * as fromComphubSharedReducer from '../../../../_shared/reducers';
+import * as fromSummaryCardActions from '../../../../_shared/actions/summary-card.actions';
+import { generateMockCountryDataSet, generateMockWorkflowContext } from '../../../../_shared/models';
+import { ComphubPages } from '../../../../_shared/data';
 
 describe('Comphub - Main - Summary Card Component', () => {
   let instance: SummaryCardComponent;
   let fixture: ComponentFixture<SummaryCardComponent>;
-  let store: Store<fromComphubMainReducer.State>;
+  let store: Store<fromComphubSharedReducer.State>;
   let currencyPipe: CurrencyPipe;
   let exchangeExplorerContextService: ExchangeExplorerContextService;
 
@@ -35,7 +32,7 @@ describe('Comphub - Main - Summary Card Component', () => {
       imports: [
         StoreModule.forRoot({
           ...fromRootState.reducers,
-          comphub_main: combineReducers(fromComphubMainReducer.reducers),
+          comphub_shared: combineReducers(fromComphubSharedReducer.reducers),
         }),
         // Bad. Using actual implementation to verify calls.
         PDFExportModule,

@@ -25,6 +25,7 @@ import { StructureMappingApiService } from 'libs/data/payfactors-api/structures/
 import * as fromAddJobsSearchResultsActions from 'libs/features/jobs/add-jobs/actions/search-results.actions';
 import * as fromNotificationActions from 'libs/features/infrastructure/app-notifications/actions/app-notifications.actions';
 import { NotificationLevel, NotificationSource, NotificationType } from 'libs/features/infrastructure/app-notifications/models';
+import { RangeType } from 'libs/constants/structures/range-type';
 
 import * as fromSharedStructuresReducer from '../reducers';
 import * as fromSharedActions from '../actions/shared.actions';
@@ -237,8 +238,10 @@ export class AddJobsModalEffects {
     actions.push(new fromAddJobsPageActions.AddJobsSuccess());
     actions.push(new fromSearchPageActions.CloseSearchPage());
 
-    if (this.urlService.isInWorkflow(Workflow.NewRange)) {
-      actions.push(new fromSharedModelSettingsActions.OpenModal());
+    if (this.urlService.isInWorkflow(Workflow.NewRange) && data.metadata.RangeTypeId === RangeType.Job) {
+      actions.push(new fromSharedModelSettingsActions.OpenJobModal());
+    } else if (this.urlService.isInWorkflow(Workflow.NewRange) && data.metadata.RangeTypeId === RangeType.Grade) {
+      actions.push(new fromSharedModelSettingsActions.OpenGradeModal());
     } else if (this.hasRequiredSettingsForRecalculation(data.metadata, data.formulaValid)) {
       actions.push(new fromSharedActions.RecalculateRangesWithoutMid(data.contextStructureRangeGroupId));
     } else {

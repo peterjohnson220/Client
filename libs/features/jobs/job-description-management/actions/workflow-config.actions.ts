@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-
+import { JobDescriptionWorkflowAttachment } from 'libs/models/jdm/job-description-workflow-attachment';
 import { WorkflowUser, AddUserToWorkflowObj, WorkflowStep } from '../models';
 
 export const POPULATE_WORKFLOW = '[JobDescriptionManagement/Shared/Workflow Config] Populate Workflow';
@@ -13,6 +13,10 @@ export const DELETE_WORKFLOW_STEP = '[JobDescriptionManagement/Shared/Workflow C
 export const ADD_USER_TO_WORKFLOW_STEP = '[JobDescriptionManagement/Shared/Workflow Config] Add User To Workflow Step';
 export const REORDER_WORKFLOW_STEPS = '[JobDescriptionManagement/Shared/Workflow Config] Reorder Workflow Steps';
 export const RESET_WORKFLOW = '[JobDescriptionManagement/Shared/Workflow Config] Reset Workflow';
+export const SAVE_WORKFLOW_ATTACHMENTS_STATE = '[JobDescriptionManagement/Shared/Workflow Config] Save Workflow Attachments State';
+export const DELETE_WORKFLOW_ATTACHMENT_FILES = '[JobDescriptionManagement/Shared/Workflow Config] Delete Workflow Attachment Files';
+export const DELETE_WORKFLOW_ATTACHMENT_FILES_SUCCESS = '[JobDescriptionManagement/Shared/Workflow Config] Delete Workflow Attachment Files Success';
+export const DELETE_WORKFLOW_ATTACHMENT_FILES_ERROR = '[JobDescriptionManagement/Shared/Workflow Config] Delete Workflow Attachment Files Error';
 
 export class PopulateWorkflow implements Action {
   readonly type = POPULATE_WORKFLOW;
@@ -76,6 +80,25 @@ export class ResetWorkflow implements Action {
   readonly type = RESET_WORKFLOW;
 }
 
+export class SaveWorkflowAttachmentsState implements Action {
+  readonly type = SAVE_WORKFLOW_ATTACHMENTS_STATE;
+  constructor(public payload: JobDescriptionWorkflowAttachment[]) {}
+}
+
+export class DeleteWorkflowAttachmentFiles implements Action {
+  readonly type = DELETE_WORKFLOW_ATTACHMENT_FILES;
+  constructor(public payload: string[]) {
+  }
+}
+
+export class DeleteWorkflowAttachmentFilesSuccess implements Action {
+  readonly type = DELETE_WORKFLOW_ATTACHMENT_FILES_SUCCESS;
+}
+
+export class DeleteWorkflowAttachmentFilesError implements Action {
+  readonly type = DELETE_WORKFLOW_ATTACHMENT_FILES_ERROR;
+}
+
 export type WorkflowConfigActions
   = PopulateWorkflow
   | AddNonPfUserToWorkflow
@@ -87,4 +110,8 @@ export type WorkflowConfigActions
   | DeleteWorkflowStep
   | AddUserToWorkflowStep
   | ReorderWorkflowSteps
-  | ResetWorkflow;
+  | ResetWorkflow
+  | SaveWorkflowAttachmentsState
+  | DeleteWorkflowAttachmentFiles
+  | DeleteWorkflowAttachmentFilesSuccess
+  | DeleteWorkflowAttachmentFilesError;

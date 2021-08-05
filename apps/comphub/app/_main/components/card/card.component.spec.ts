@@ -2,7 +2,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CardComponent } from './card.component';
-import { AccordionCard, QuickPriceAccordionCards } from '../../data';
+import { AccordionCard, QuickPriceAccordionCards } from '../../../_shared/data';
 
 describe('Comphub - Accordion Card Layout', () => {
   let instance: CardComponent;

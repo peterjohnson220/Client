@@ -45,6 +45,7 @@ export enum CompanySettingsEnum {
   FileDownloadSecurityWarning = 'FileDownloadSecurityWarning',
   CanEditJob = 'CanEditJob',
   DataManagementShowHRISInbound = 'DataManagementShowHRISInbound',
+  CrowdSourcedData = 'CrowdSourcedData'
 }
 
 export enum CustomCompanySettingsDisplayEnum {

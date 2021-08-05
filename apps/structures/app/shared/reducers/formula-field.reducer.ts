@@ -180,3 +180,4 @@ export const getFormulaDataType = (state: State, formulaFieldId: string) => stat
 export const getFormulaField = (state: State, formulaFieldId: string) => state.fields[formulaFieldId] ? state.fields[formulaFieldId].formulaField : null;
 export const getResetFormula = (state: State, formulaFieldId: string) => state.fields[formulaFieldId] ? state.fields[formulaFieldId].resetFormula : null;
 export const getAllFields = (state: State) => state.fields;
+

@@ -1,25 +1,35 @@
 import { ActivatedRouteSnapshot, CanActivate, Router } from '@angular/router';
 import { Injectable, OnDestroy } from '@angular/core';
 
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 
-import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
+import { CompanySettingsEnum } from 'libs/models/company';
+import { SettingsService } from 'libs/state/app-context/services';
 
 
 @Injectable()
 export class CrowdSourcedDataPageGuard implements CanActivate, OnDestroy {
-  quickPriceCrowdSourcedDataPageFlag: RealTimeFlag = { key: FeatureFlags.QuickPriceCrowdSourcedDataPage, value: false };
+  hasCrowdSourcedDataSub: Subscription;
+  hasCrowdSourcedData: boolean;
   unsubscribe$ = new Subject<void>();
 
   constructor(
-    private featureFlagService: AbstractFeatureFlagService,
-    private router: Router,
+    private settingsService: SettingsService,
+    private router: Router
   ) {
-    this.featureFlagService.bindEnabled(this.quickPriceCrowdSourcedDataPageFlag, this.unsubscribe$);
+    this.hasCrowdSourcedDataSub = this.settingsService.selectCompanySetting<boolean>(
+      CompanySettingsEnum.CrowdSourcedData
+    ).subscribe(x => {
+      if (x !== null) {
+        this.hasCrowdSourcedData = x;
+      } else {
+        this.hasCrowdSourcedData = false;
+      }
+    });
   }
 
   canActivate(route: ActivatedRouteSnapshot) {
-    if (!this.quickPriceCrowdSourcedDataPageFlag.value) {
+    if (!this.hasCrowdSourcedData) {
       this.router.navigate(['/access-denied']);
       return false;
     }
@@ -27,6 +37,6 @@ export class CrowdSourcedDataPageGuard implements CanActivate, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.unsubscribe$.next();
+    this.hasCrowdSourcedDataSub.unsubscribe();
   }
 }

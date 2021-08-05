@@ -26,6 +26,10 @@ export const CANCEL_APPROVAL_ERROR = '[job-description-management / Workflow] Ca
 export const RESEND_EMAIL = '[job-description-management / Workflow] Resend Email';
 export const RESEND_EMAIL_SUCCESS = '[job-description-management / Workflow] Resend Email Success';
 export const RESEND_EMAIL_ERROR = '[job-description-management / Workflow] Resend Email Error';
+export const DOWNLOAD_WORKFLOW_ATTACHMENT = '[job-description-management / Workflow] Download Workflow Attachment';
+export const DOWNLOAD_WORKFLOW_ATTACHMENT_SUCCESS = '[job-description-management / Workflow] Download Workflow Attachment Success';
+export const DOWNLOAD_WORKFLOW_ATTACHMENT_ERROR = '[job-description-management / Workflow] Download Workflow Attachment Error';
+
 // Workflow Setup
 export const BUILD_WORKFLOW_SAVE_OBJ = '[job-description-management / Workflow] Build Workflow Save Obj';
 export const SAVING_WORKFLOW = '[job-description-management / Workflow] Saving Workflow';
@@ -36,7 +40,6 @@ export const UPDATE_WORKFLOW_INITIATION_COMMENT = '[job-description-management /
 export const UPDATE_WORKFLOW_STEPS = '[job-description-management / Workflow] Update Workflow Steps';
 // Workflow Step Messages
 export const SET_MESSAGE = '[job-description-management / Workflow] Set Message';
-
 export class GetWorkflowStepInfoFromToken implements Action {
   readonly type = GET_WORKFLOW_STEP_INFO_FROM_TOKEN;
 
@@ -209,6 +212,19 @@ export class ResendEmailError {
   readonly type = RESEND_EMAIL_ERROR;
 }
 
+export class DownloadWorkflowAttachment {
+  readonly type = DOWNLOAD_WORKFLOW_ATTACHMENT;
+  constructor(public payload: string) {
+  }
+}
+export class DownloadWorkflowAttachmentSuccess {
+  readonly type = DOWNLOAD_WORKFLOW_ATTACHMENT_SUCCESS;
+  constructor(public payload: string) {}
+}
+export class DownloadWorkflowAttachmentError {
+  readonly type = DOWNLOAD_WORKFLOW_ATTACHMENT_ERROR;
+}
+
 export type Actions
   = GetWorkflowStepInfoFromToken
   | GetWorkflowStepInfoFromTokenSuccess
@@ -239,4 +255,7 @@ export type Actions
   | SetMessage
   | ResendEmail
   | ResendEmailSuccess
-  | ResendEmailError;
+  | ResendEmailError
+  | DownloadWorkflowAttachment
+  | DownloadWorkflowAttachmentSuccess
+  | DownloadWorkflowAttachmentError;
