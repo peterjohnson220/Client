@@ -45,7 +45,7 @@
               }
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/appName/styles.scss"
             ],
             "scripts": [
@@ -150,7 +150,7 @@
               "assets/js/fontawesome-all.min.js"
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/appName/styles.scss"
             ],
             "assets": [
