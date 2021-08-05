@@ -13,18 +13,18 @@ import { PeerTrendsApiService } from 'libs/data/payfactors-api/peer/peer-trends-
 import { CalendarInterval, HistoricalExchangeDataSearchRequest } from 'libs/models/payfactors-api/peer/exchange-data-search/request';
 import { ExchangeDataSearchFilterContext } from 'libs/models/peer';
 import { PeerTrendResponse } from 'libs/models/payfactors-api/peer/exchange-data-filter/response';
-import * as fromSearchFiltersActions from 'libs/features/search/search/actions/search-filters.actions';
 import { PayfactorsSearchApiModelMapper } from 'libs/features/search/search/helpers';
+import * as fromSearchFiltersActions from 'libs/features/search/search/actions/search-filters.actions';
+import * as fromExchangeExplorerMapActions from 'libs/features/peer/exchange-explorer/actions/map.actions';
 
+import * as fromComphubSharedReducer from '../../_shared/reducers/comphub-page.reducer';
+import * as fromComphubSharedPageActions from '../../_shared/actions/comphub-page.actions';
+import { ComphubPages } from '../../_shared/data';
+
+import * as fromTrendsLandingCardActions from '../actions/trends-landing-card.actions';
+import * as fromTrendsSummaryActions from '../actions/trends-summary-card.actions';
 import { TrendsLandingCardConstants } from '../constants/trends-landing-card-constants';
 import { PageViewIds } from '../constants/page-view-id-constants';
-import * as fromComphubMainReducer from '../reducers/comphub-page.reducer';
-import * as fromTrendsLandingCardActions from '../actions/trends-landing-card.actions';
-import * as fromComphubPageActions from '../actions/comphub-page.actions';
-import * as fromTrendsSummaryActions from '../actions/trends-summary-card.actions';
-import { ComphubPages } from '../data';
-import * as fromExchangeFilterContextActions from '../../../../../libs/features/peer/exchange-explorer/actions/exchange-filter-context.actions';
-import * as fromExchangeExplorerMapActions from '../../../../../libs/features/peer/exchange-explorer/actions/map.actions';
 
 @Injectable()
 export class TrendsLandingCardEffects {
@@ -119,18 +119,18 @@ export class TrendsLandingCardEffects {
 
         const actions = [];
         if (!!action.payload) {
-          actions.push(new fromComphubPageActions.ResetAccessibleTrendsPages());
-          actions.push(new fromComphubPageActions.RemoveAccessiblePages([ComphubPages.TrendsJobs, ComphubPages.TrendsScopes]));
+          actions.push(new fromComphubSharedPageActions.ResetAccessibleTrendsPages());
+          actions.push(new fromComphubSharedPageActions.RemoveAccessiblePages([ComphubPages.TrendsJobs, ComphubPages.TrendsScopes]));
         } else {
-          actions.push(new fromComphubPageActions.AddAccessiblePages([ComphubPages.TrendsJobs, ComphubPages.TrendsScopes]));
-          actions.push(new fromComphubPageActions.ResetTrendsPagesAccessed());
+          actions.push(new fromComphubSharedPageActions.AddAccessiblePages([ComphubPages.TrendsJobs, ComphubPages.TrendsScopes]));
+          actions.push(new fromComphubSharedPageActions.ResetTrendsPagesAccessed());
           actions.push(new fromTrendsSummaryActions.SetTrendsDomain({minDate: new Date(), maxDate: new Date()}));
 
         }
 
         actions.push(new fromTrendsSummaryActions.Reset());
 
-          actions.push(new fromComphubPageActions.UpdateFooterContext());
+          actions.push(new fromComphubSharedPageActions.UpdateFooterContext());
         return actions;
       }
     )
@@ -165,7 +165,7 @@ export class TrendsLandingCardEffects {
 
   constructor(
     private actions$: Actions,
-    private store: Store<fromComphubMainReducer.State>,
+    private store: Store<fromComphubSharedReducer.State>,
     private exchangeCompanyApiService: ExchangeCompanyApiService,
     private exchangeExplorerContextService: ExchangeExplorerContextService,
     private exchangeDataSearchApiService: ExchangeDataSearchApiService,

@@ -1,4 +1,4 @@
-<highcharts-chart class='rangeChart'
+<highcharts-chart [ngClass]="splitViewHidden ? 'rangeChart' : 'rangeChartOverflowUnset'"
   [Highcharts]="Highcharts"
   [constructorType]="chartConstructor"
   [options]="chartOptions"

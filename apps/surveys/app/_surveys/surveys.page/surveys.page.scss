@@ -28,3 +28,16 @@
     font-size: 1.25rem;
   }
 }
+
+.dropup .dropdown-toggle::after, .dropdown-toggle::after {
+  display: none !important;
+}
+
+.dropdown-item {
+  max-width: 350px !important;
+}
+
+.matches-container {
+  max-height: 150px;
+  margin-bottom: 0;
+}

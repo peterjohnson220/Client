@@ -47,7 +47,7 @@
 .avatar {
   border-radius: 50%;
   width: 30px;
-  height: 30px; 
+  height: 30px;
 }
 
 .user-name {
@@ -60,7 +60,7 @@
   justify-content: center;
   border-radius: 50%;
   width: 30px;
-  height: 30px; 
+  height: 30px;
   color: #fff;
   background-color: $inactive-button-color;
   font-size: large;
@@ -73,7 +73,7 @@
   justify-content: center;
   border-radius: 50%;
   width: 30px;
-  height: 30px; 
+  height: 30px;
   color: #fff;
   background-color: $pf-secondary-border;
   font-size: large;
@@ -161,4 +161,46 @@
 .k-checkbox:checked + .k-checkbox-label::before{
   background-color:$pf-brand-secondary-accent-color;
   border-color: $pf-brand-secondary-accent-color;
+}
+
+::ng-deep kendo-upload .k-dropzone-hint {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+::ng-deep kendo-upload .k-upload-button
+{
+  background-color: #1872ae !important;
+  float: right !important;
+  color: #ffffff !important;
+}
+
+::ng-deep kendo-upload .k-upload-pct
+{
+  visibility:hidden;
+  display:none;
+}
+
+::ng-deep kendo-upload .k-upload-status
+{
+  visibility:hidden;
+  display:none !important;
+}
+
+.upload-in-progress {
+  color: #99A0A4;
+}
+
+.upload-success {
+  color: green;
+}
+
+.upload-failed {
+  color: #dc3545;
+}
+
+.attachments-container{
+  font-size: 90%;
+  width: 90%
 }

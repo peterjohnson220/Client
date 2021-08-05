@@ -1,12 +1,10 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { SortDescriptor } from '@progress/kendo-data-query';
 import { Observable, Subscription } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
 import { GridDataResult } from '@progress/kendo-angular-grid';
-import { delay } from 'rxjs/operators';
 
 import {
   ActionBarConfig,
@@ -28,7 +26,6 @@ import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducer
 import { RangeType } from 'libs/constants/structures/range-type';
 import { RangeRecalculationType } from 'libs/constants/structures/range-recalculation-type';
 import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
-import { AdjustMidpointTypes } from 'libs/constants/structures/adjust-midpoint-type';
 
 import * as fromSharedStructuresReducer from '../../../../shared/reducers';
 import * as fromSharedStructuresActions from '../../../../shared/actions/shared.actions';
@@ -36,7 +33,6 @@ import { StructuresPagesService } from '../../../../shared/services';
 import * as fromModelSettingsModalActions from '../../../../shared/actions/model-settings-modal.actions';
 import * as fromPublishModelModalActions from '../../../../shared/actions/publish-model-modal.actions';
 import * as fromDuplicateModelModalActions from '../../../../shared/actions/duplicate-model-modal.actions';
-import { ModelSettingsModalContentComponent } from '../model-settings-modal-content';
 import * as fromGradeBasedSharedReducer from '../../reducers';
 import * as fromGradeBasedSharedActions from '../../actions/shared.actions';
 import { ChartSvg } from '../../models';
@@ -58,7 +54,6 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   @ViewChild('rangeValue', { static: true }) rangeValueColumn: ElementRef;
   @ViewChild('rangeSpreadField') rangeSpreadFieldColumn: ElementRef;
   @ViewChild('jobsCount') jobsCountColumn: ElementRef;
-  @ViewChild(ModelSettingsModalContentComponent, { static: false }) public modelSettingsModalContentComponent: ModelSettingsModalContentComponent;
 
   @Input() singleRecordView: boolean;
   @Input() inboundFilters: PfDataGridFilter[];
@@ -101,24 +96,18 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   selectedDropdown: NgbDropdown;
   filterTemplates = {};
   isNewModel: boolean;
-  modelSettingsForm: FormGroup;
-  numGrades: number;
   dataSubscription: Subscription;
   data$: Observable<GridDataResult>;
   pageViewId: string;
   pageViewIdSub: Subscription;
-  modalOpenSub: Subscription;
-  modalOpen$: Observable<boolean>;
-  controlPoint: string;
-  gradesDetailsSub: Subscription;
   summaryChartSvgSub: Subscription;
-  verticalChartSvgSub: Subscription;
+  horizontalChartSvgSub: Subscription;
   summaryChartSvg$: Observable<string>;
-  verticalChartSvg$: Observable<string>;
+  horizontalChartSvg$: Observable<string>;
   chartSvgs: ChartSvg[] = [];
-  showVerticalChartSub: Subscription;
-  showVerticalChart$: Observable<boolean>;
-  showVerticalChart = true;
+  showHorizontalChartSub: Subscription;
+  showHorizontalChart$: Observable<boolean>;
+  showHorizontalChart = true;
 
   hasAddEditDeleteStructurePermission: boolean;
   hasCreateEditStructureModelPermission: boolean;
@@ -138,10 +127,9 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     this.pageViewIdSub = this.structuresPagesService.modelPageViewId.subscribe(pv => this.pageViewId = pv);
     this.selectedRecordId$ = this.store.select(fromPfDataGridReducer.getSelectedRecordId, this.modelGridPageViewId);
     this.data$ = this.store.select(fromPfGridReducer.getData, this.pageViewId);
-    this.modalOpen$ = this.store.pipe(select(fromSharedStructuresReducer.getModelSettingsModalOpen), delay(0));
     this.summaryChartSvg$ = this.store.pipe(select(fromGradeBasedSharedReducer.getSummaryChartSvg));
-    this.verticalChartSvg$ = this.store.pipe(select(fromGradeBasedSharedReducer.getVerticalChartSvg));
-    this.showVerticalChart$ = this.store.pipe(select(fromGradeBasedSharedReducer.getShowVerticalChart));
+    this.horizontalChartSvg$ = this.store.pipe(select(fromGradeBasedSharedReducer.getHorizontalChartSvg));
+    this.showHorizontalChart$ = this.store.pipe(select(fromGradeBasedSharedReducer.getShowHorizontalChart));
     this.singleRecordActionBarConfig = {
       ...getDefaultActionBarConfig(),
       ShowActionBar: false
@@ -231,7 +219,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   handleChartViewToggle() {
-    this.store.dispatch(new fromGradeBasedSharedActions.SetShowVerticalChart(!this.showVerticalChart));
+    this.store.dispatch(new fromGradeBasedSharedActions.SetShowHorizontalChart(!this.showHorizontalChart));
   }
 
   scroll = (): void => {
@@ -253,7 +241,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   handleModelSettingsClicked() {
-    this.store.dispatch(new fromModelSettingsModalActions.OpenModal());
+    this.store.dispatch(new fromModelSettingsModalActions.OpenGradeModal());
   }
 
   handlePublishModelClicked() {
@@ -262,68 +250,6 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
 
   handleDuplicateModelBtnClicked() {
     this.store.dispatch(new fromDuplicateModelModalActions.OpenModal());
-  }
-
-  buildForm() {
-    this.modelSettingsForm = new FormGroup({
-      'ModelName': new FormControl(!this.metaData.IsCurrent || this.isNewModel ? this.metaData.ModelName : '', [Validators.required, Validators.maxLength(50)]),
-      'Grades': new FormControl(this.numGrades || ''),
-      'RangeDistributionTypeId': new FormControl({ value: this.metaData.RangeDistributionTypeId, disabled: true }, [Validators.required]),
-      'MarketDataBased': new FormControl(this.controlPoint || 'BaseMRP', [Validators.required]),
-      'StartingMidpoint': new FormControl(this.metaData.StartingMidpoint || ''),
-      'RangeSpread': new FormControl(this.metaData.SpreadMin || ''),
-      'MidpointProgression': new FormControl(this.metaData.MidpointProgression || ''),
-      'Rate': new FormControl(this.metaData.Rate || 'Annual', [Validators.required]),
-      'Currency': new FormControl(this.metaData.Currency || 'USD', [Validators.required]),
-      'AdjustMidpointSetting': new FormGroup({
-        'Type': new FormControl(AdjustMidpointTypes.NoChange),
-        'Percentage': new FormControl({ value: '', disabled: true })
-      })
-    });
-
-    if (!this.metaData.IsCurrent) {
-      this.setRequiredValidator('RangeSpread');
-      this.setRequiredValidator('MidpointProgression');
-    }
-
-    this.store.dispatch(new fromModelSettingsModalActions.SetActiveTab('modelTab'));
-  }
-
-  handleModalSubmit() {
-    this.modelSettingsModalContentComponent.handleModalSubmit();
-  }
-
-  handleModelAttemptedSubmit() {
-    this.modelSettingsModalContentComponent.handleModalSubmitAttempt();
-  }
-
-  handleModalDismissed() {
-    this.modelSettingsModalContentComponent.handleModalDismiss();
-  }
-
-  handleAdjustMidpointRadioButtonChanged(event: any) {
-    this.clearValidators('AdjustMidpointSetting.Percentage');
-    if (event.target.id === 'AdjustMidpointMoveBy') {
-      this.setValidators('AdjustMidpointSetting.Percentage', 0.01, 300);
-    }
-  }
-
-  private setRequiredValidator(controlName: string) {
-    this.modelSettingsForm.get(controlName).enable();
-    this.modelSettingsForm.get(controlName).setValidators([Validators.required]);
-    this.modelSettingsForm.get(controlName).updateValueAndValidity();
-  }
-
-  private setValidators(controlName: string, min: number, max: number) {
-    this.modelSettingsForm.get(controlName).enable();
-    this.modelSettingsForm.get(controlName).setValidators([Validators.required, Validators.min(min), Validators.max(max)]);
-    this.modelSettingsForm.get(controlName).updateValueAndValidity();
-  }
-
-  private clearValidators(controlName: string) {
-    this.modelSettingsForm.get(controlName).disable();
-    this.modelSettingsForm.get(controlName).clearValidators();
-    this.modelSettingsForm.get(controlName).updateValueAndValidity();
   }
 
   // Lifecycle
@@ -356,29 +282,18 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     this.metaDataSub = this.metaData$.subscribe(md => {
       if (md) {
         this.metaData = md;
-        this.controlPoint = this.metaData?.PayType ? this.metaData.PayType + 'MRP' : 'BaseMRP';
       }
     });
 
     this.roundingSettingsSub = this.roundingSettings$.subscribe(rs => this.roundingSettings = rs);
     this.rangeOverridesSub = this.rangeOverrides$.subscribe(ro => this.rangeOverrides = ro);
-    this.gradesDetailsSub = this.store.select(fromGradeBasedSharedReducer.getGradesDetails).subscribe(details => {
-      if (details?.obj?.length > 0) {
-        this.numGrades = details.obj.length;
-      }
-    });
     this.dataSubscription = this.data$.subscribe(data => {
       if (data) {
         this.isNewModel = data.total < 1 ? true : false;
         // Open Model Settings modal only if it's a new model flow or create model flow
         if (this.isNewRangeFlow && this.isNewModel || this.isCreateModelFlow) {
-          this.store.dispatch(new fromModelSettingsModalActions.OpenModal());
+          this.store.dispatch(new fromModelSettingsModalActions.OpenGradeModal());
         }
-      }
-    });
-    this.modalOpenSub = this.modalOpen$.subscribe(mo => {
-      if (mo) {
-        this.buildForm();
       }
     });
     this.summaryChartSvgSub = this.summaryChartSvg$.subscribe(scs => {
@@ -392,7 +307,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
         }
       }
     });
-    this.verticalChartSvgSub = this.verticalChartSvg$.subscribe(vcs => {
+    this.horizontalChartSvgSub = this.horizontalChartSvg$.subscribe(vcs => {
       if (vcs) {
         // look for existing value
         const svg = this.chartSvgs.find(s => s.ChartName === 'Vertical');
@@ -403,11 +318,10 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
         }
       }
     });
-    this.showVerticalChartSub = this.showVerticalChart$.subscribe(svc => {
-      this.showVerticalChart = svc;
+    this.showHorizontalChartSub = this.showHorizontalChart$.subscribe(svc => {
+      this.showHorizontalChart = svc;
     });
     this.initPermissions();
-    this.buildForm();
     window.addEventListener('scroll', this.scroll, true);
   }
 
@@ -417,10 +331,8 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     this.rangeOverridesSub.unsubscribe();
     this.dataSubscription.unsubscribe();
     this.pageViewIdSub.unsubscribe();
-    this.modalOpenSub.unsubscribe();
-    this.gradesDetailsSub.unsubscribe();
-    this.verticalChartSvgSub.unsubscribe();
+    this.horizontalChartSvgSub.unsubscribe();
     this.summaryChartSvgSub.unsubscribe();
-    this.showVerticalChartSub.unsubscribe();
+    this.showHorizontalChartSub.unsubscribe();
   }
 }

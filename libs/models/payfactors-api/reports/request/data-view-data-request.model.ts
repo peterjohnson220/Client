@@ -22,6 +22,7 @@ export interface BasicDataViewField {
   SortOrder?: number;
   SortDirection?: 'asc' | 'desc';
   Width?: number;
+  Group?: string;
 }
 
 export interface DataViewField extends BasicDataViewField {

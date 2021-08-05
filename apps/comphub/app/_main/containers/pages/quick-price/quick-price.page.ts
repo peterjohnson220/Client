@@ -9,10 +9,11 @@ import * as fromLayoutWrapperReducer from 'libs/ui/layout-wrapper/reducers';
 import * as fromBasicDataGridActions from 'libs/features/grids/basic-data-grid/actions/basic-data-grid.actions';
 import { CompanyClientTypeConstants, ComphubType } from 'libs/constants';
 
+import * as fromComphubSharedReducer from '../../../../_shared/reducers';
+import * as fromComphubPageActions from '../../../../_shared/actions/comphub-page.actions';
+import { QuickPriceHistoryContext } from '../../../../_shared/models';
+
 import { ComphubPageComponent } from '../comphub';
-import { QuickPriceHistoryContext } from '../../../models';
-import * as fromComphubPageActions from '../../../actions/comphub-page.actions';
-import * as fromComphubMainReducer from '../../../reducers';
 
 @Component({
   selector: 'pf-quick-price-page',
@@ -30,13 +31,13 @@ export class QuickPricePageComponent extends ComphubPageComponent implements OnI
   showJobHistorySummary: boolean;
 
   constructor(
-    private quickPriceStore: Store<fromComphubMainReducer.State>,
+    private quickPriceStore: Store<fromComphubSharedReducer.State>,
     private quickPriceBasicGridStore: Store<fromBasicDataGridReducer.State>,
     private quickPriceLayoutWrapperStore: Store<fromLayoutWrapperReducer.State>,
     private quickPriceChangeDetectorRef: ChangeDetectorRef
   ) {
     super(quickPriceStore, quickPriceBasicGridStore, quickPriceLayoutWrapperStore, quickPriceChangeDetectorRef);
-    this.showJobsHistorySummary$ = this.quickPriceStore.select(fromComphubMainReducer.getShowJobPricedHistorySummary);
+    this.showJobsHistorySummary$ = this.quickPriceStore.select(fromComphubSharedReducer.getShowJobPricedHistorySummary);
   }
 
   ngOnInit() {

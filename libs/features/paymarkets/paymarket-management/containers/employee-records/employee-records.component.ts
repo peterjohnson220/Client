@@ -84,7 +84,6 @@ export class EmployeeRecordsComponent implements OnInit, OnChanges, OnDestroy {
         this.currentRecordCount = asyncObj.obj.length;
       }
     });
-    this.basicGridStore.dispatch(new fromBasicDataGridActions.GetData(PayMarketAssociationType.EmployeeRecords));
   }
 
   ngOnChanges(changes: SimpleChanges): void {

@@ -4,12 +4,9 @@ import {
   CompanyStructureRangeOverride,
   generateMockRoundingSettingsDataObj,
   RangeGroupMetadata,
-  RoundingSetting,
   RoundingSettingsDataObj
 } from 'libs/models/structures';
-import { RoundingTypes } from 'libs/constants/structures/rounding-type';
 import { AsyncStateObj, generateDefaultAsyncStateObj, GenericKeyValue } from 'libs/models';
-import { RangeDistributionTypeIds } from 'libs/constants/structures/range-distribution-type-ids';
 
 import * as fromSharedActions from '../actions/shared.actions';
 import { SelectedPeerExchangeModel } from '../models';
@@ -25,6 +22,7 @@ export interface State {
   compareEnabled: boolean;
   currentRangeGroup: AsyncStateObj<any>;
   gradeRangeDetails: AsyncStateObj<any>;
+  loadingMetaData: boolean;
 }
 
 const initialState: State = {
@@ -37,18 +35,26 @@ const initialState: State = {
   comparingModels: false,
   compareEnabled: false,
   currentRangeGroup: generateDefaultAsyncStateObj<any>(null),
-  gradeRangeDetails: generateDefaultAsyncStateObj<any>(null)
+  gradeRangeDetails: generateDefaultAsyncStateObj<any>(null),
+  loadingMetaData: false
 };
 
 export function reducer(state = initialState, action: fromSharedActions.SharedActions): State {
   switch (action.type) {
+    case fromSharedActions.SET_METADATA_FROM_RANGE_GROUP_ID: {
+      return {
+        ...state,
+        loadingMetaData: true,
+        metadata: null
+      };
+    }
     case fromSharedActions.SET_METADATA:
-      const newState = cloneDeep(state);
       const roundingSettings = generateMockRoundingSettingsDataObj();
       return {
         ...state,
         roundingSettings: roundingSettings,
-        metadata: action.payload
+        metadata: action.payload,
+        loadingMetaData: false
       };
     case fromSharedActions.GET_OVERRIDDEN_RANGES_SUCCESS: {
       return {
@@ -110,7 +116,7 @@ export function reducer(state = initialState, action: fromSharedActions.SharedAc
       };
     }
     case fromSharedActions.UPDATE_ROUNDING_POINTS: {
-      const newSetting = updateRoundingPoints(action.payload.RoundingPoint, cloneDeep(state.roundingSettings));
+      const newSetting = updateRoundingPoints(action.payload.RoundingType, action.payload.RoundingPoint, cloneDeep(state.roundingSettings));
       return {
         ...state,
         roundingSettings: newSetting
@@ -250,10 +256,11 @@ export function reducer(state = initialState, action: fromSharedActions.SharedAc
   }
 }
 
-function updateRoundingPoints(roundingPoint: number, settings: RoundingSettingsDataObj) {
+function updateRoundingPoints(roundingType: number, roundingPoint: number, settings: RoundingSettingsDataObj) {
   for (const key in settings) {
     if (!!settings[key]) {
       settings[key].RoundingPoint = roundingPoint;
+      settings[key].RoundingType = roundingType;
     }
   }
   return settings;
@@ -291,3 +298,4 @@ export const getComparingModels = (state: State) => state.comparingModels;
 export const getCompareEnabled = (state: State) => state.compareEnabled;
 export const getCurrentRangeGroup = (state: State) => state.currentRangeGroup;
 export const getGradeRangeDetails = (state: State) => state.gradeRangeDetails;
+export const getLoadingMetaData = (state: State) => state.loadingMetaData;

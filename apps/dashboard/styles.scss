@@ -6,6 +6,11 @@
   background: url("^assets/images/DarkWood.png") repeat;
 }
 
+// TODO: remove this rule when `payscale-branding` feature flag is deprecated
+html.payscale-rebrand .main-body-scroll {
+  background: #DBDAE0;
+}
+
 .reset-button {
   background: none;
   color: inherit;

@@ -9,12 +9,14 @@ import { UserContext } from 'libs/models/security';
 import { ComphubType, SystemUserGroupNames } from 'libs/constants';
 import { ExchangeJobSearchOption } from 'libs/models/peer/ExchangeJobSearchOption';
 import { AsyncStateObj } from 'libs/models/state';
+import { ExchangeDataSet, JobData } from 'libs/models/comphub';
 
-import * as fromJobsCardActions from '../../../actions/jobs-card.actions';
-import * as fromComphubPageActions from '../../../actions/comphub-page.actions';
-import * as fromComphubMainReducer from '../../../reducers';
-import { CountryDataSet, ExchangeDataSet, JobData, JobPricingLimitInfo, QuickPriceHistoryContext, TrendingJobGroup, WorkflowContext } from '../../../models';
-import { ComphubPages } from '../../../data';
+import * as fromJobsCardActions from '../../../../_shared/actions/jobs-card.actions';
+import * as fromComphubPageActions from '../../../../_shared/actions/comphub-page.actions';
+import * as fromComphubSharedReducer from '../../../../_shared/reducers';
+import { CountryDataSet, QuickPriceHistoryContext, TrendingJobGroup, WorkflowContext } from '../../../../_shared/models';
+import { ComphubPages } from '../../../../_shared/data';
+import { JobPricingLimitInfo } from '../../../../_shared/models/job-pricing-limit-info.model';
 
 @Component({
   selector: 'pf-jobs-card',
@@ -58,25 +60,25 @@ export class JobsCardComponent implements OnInit, OnDestroy {
   isPeerComphubType: boolean;
 
   constructor(
-    private store: Store<fromComphubMainReducer.State>,
+    private store: Store<fromComphubSharedReducer.State>,
     private basicGridStore: Store<fromBasicDataGridReducer.State>
   ) {
     this.potentialOptions = [];
-    this.trendingJobGroups$ = this.store.select(fromComphubMainReducer.getTrendingJobGroups);
-    this.jobSearchOptions$ = this.store.select(fromComphubMainReducer.getJobSearchOptions);
-    this.loadingJobSearchOptions$ = this.store.select(fromComphubMainReducer.getLoadingJobSearchOptions);
-    this.selectedJob$ = this.store.select(fromComphubMainReducer.getSelectedJob);
-    this.jobPricingBlocked$ = this.store.select(fromComphubMainReducer.getJobPricingBlocked);
-    this.jobPricingLimitInfo$ = this.store.select(fromComphubMainReducer.getJobPricingLimitInfo);
-    this.countryDataSetsLoaded$ = this.store.select(fromComphubMainReducer.getCountryDataSetsLoaded);
-    this.countryDataSets$ = this.store.select(fromComphubMainReducer.getCountryDataSets);
-    this.loadingTrendingJobs$ = this.store.select(fromComphubMainReducer.getLoadingTrendingJobs);
+    this.trendingJobGroups$ = this.store.select(fromComphubSharedReducer.getTrendingJobGroups);
+    this.jobSearchOptions$ = this.store.select(fromComphubSharedReducer.getJobSearchOptions);
+    this.loadingJobSearchOptions$ = this.store.select(fromComphubSharedReducer.getLoadingJobSearchOptions);
+    this.selectedJob$ = this.store.select(fromComphubSharedReducer.getSelectedJob);
+    this.jobPricingBlocked$ = this.store.select(fromComphubSharedReducer.getJobPricingBlocked);
+    this.jobPricingLimitInfo$ = this.store.select(fromComphubSharedReducer.getJobPricingLimitInfo);
+    this.countryDataSetsLoaded$ = this.store.select(fromComphubSharedReducer.getCountryDataSetsLoaded);
+    this.countryDataSets$ = this.store.select(fromComphubSharedReducer.getCountryDataSets);
+    this.loadingTrendingJobs$ = this.store.select(fromComphubSharedReducer.getLoadingTrendingJobs);
     this.userContext$ = this.store.select(fromRootReducer.getUserContext);
-    this.exchangeDataSets$ = this.store.select(fromComphubMainReducer.getExchangeDataSets);
-    this.exchangeJobSearchOptions$ = this.store.select(fromComphubMainReducer.getExchangeJobSearchOptions);
-    this.workflowContext$ = this.store.select(fromComphubMainReducer.getWorkflowContext);
-    this.selectedJobData$ = this.store.select(fromComphubMainReducer.getSelectedJobData);
-    this.exchangeDataSetsLoaded$ = this.store.select(fromComphubMainReducer.getExchangeDataSetLoaded);
+    this.exchangeDataSets$ = this.store.select(fromComphubSharedReducer.getExchangeDataSets);
+    this.exchangeJobSearchOptions$ = this.store.select(fromComphubSharedReducer.getExchangeJobSearchOptions);
+    this.workflowContext$ = this.store.select(fromComphubSharedReducer.getWorkflowContext);
+    this.selectedJobData$ = this.store.select(fromComphubSharedReducer.getSelectedJobData);
+    this.exchangeDataSetsLoaded$ = this.store.select(fromComphubSharedReducer.getExchangeDataSetLoaded);
     this.popupSettings = {
       appendTo: 'component'
     };

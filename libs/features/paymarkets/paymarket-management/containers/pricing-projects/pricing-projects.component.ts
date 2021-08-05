@@ -79,7 +79,6 @@ export class PricingProjectsComponent implements OnInit, OnChanges, OnDestroy {
         this.currentRecordCount = asyncObj.obj.length;
       }
     });
-    this.basicGridStore.dispatch(new fromBasicDataGridActions.GetData(PayMarketAssociationType.PricingProjects));
   }
 
   ngOnChanges(changes: SimpleChanges): void {

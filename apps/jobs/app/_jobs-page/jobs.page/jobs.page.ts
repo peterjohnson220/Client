@@ -18,7 +18,8 @@ import {
   GridConfig,
   PfDataGridCustomFilterDisplayOptions,
   PfDataGridCustomFilterOptions,
-  PfDataGridFilter
+  PfDataGridFilter,
+  GridConfigHelper
 } from 'libs/features/grids/pf-data-grid/models';
 import { AsyncStateObj, CompanySettingsEnum, GroupedListItem } from 'libs/models';
 import { GetPricingsToModifyRequest } from 'libs/features/pricings/multi-match/models';
@@ -209,7 +210,8 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
       PersistColumnWidth: true,
       EnableInfiniteScroll: true,
       ScrollToTop: true,
-      SelectAllPanelItemName: 'jobs'
+      SelectAllPanelItemName: 'jobs',
+      SplitViewColumnsWidth: GridConfigHelper.getSplitViewColumnsWidth(500, 0, true)
     };
     this.leftSidebarOpen$ = this.layoutWrapperStore.select(fromLayoutWrapperReducer.getLeftSidebarOpen);
   }

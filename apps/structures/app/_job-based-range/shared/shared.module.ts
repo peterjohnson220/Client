@@ -16,16 +16,10 @@ import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { FormulaEditorModule } from 'libs/ui/formula-editor';
 
-import {
-  ModelGridComponent,
-  RangeDistributionSettingComponent,
-  ModelSettingsModalContentComponent
-} from './containers';
+import { ModelGridComponent } from './containers';
 import { PublishModelModalEffects, SharedEffects, FieldsEffects } from './effects';
 import { reducers } from './reducers';
 import * as fromFaIcons from './fa-icons';
-import { AdvancedModelSettingComponent } from './containers/advanced-model-setting';
-import { StructuresFormulaEditorComponent } from './containers/structures-formula-editor/structures-formula-editor.component';
 import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
@@ -64,16 +58,11 @@ import { SharedModule } from '../../shared/shared.module';
         NgbNavModule
     ],
   declarations: [
-    ModelGridComponent,
-    AdvancedModelSettingComponent,
-    RangeDistributionSettingComponent,
-    StructuresFormulaEditorComponent,
-    ModelSettingsModalContentComponent
+    ModelGridComponent
   ],
   exports: [
     ModelGridComponent,
-    FontAwesomeModule,
-    ModelSettingsModalContentComponent
+    FontAwesomeModule
   ],
   providers: [
   ]

@@ -14,6 +14,7 @@ import * as fromFaIcons from './fa-icons';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { GridModule } from '@progress/kendo-angular-grid';
 
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
@@ -21,6 +22,7 @@ import { PfCommonUIModule } from 'libs/ui/common';
 import {EmployeeDetailsModule} from 'libs/ui/employee-details';
 import { StructureDetailsModule } from 'libs/ui/structure-details';
 import { PfDataGridModule } from 'libs/features/grids/pf-data-grid';
+import { BasicDataGridModule } from 'libs/features/grids/basic-data-grid';
 import { MultiMatchModule } from 'libs/features/pricings/multi-match';
 import { UpsertPeerDataCutModule } from 'libs/features/pricings/upsert-peer-data-cut';
 import { ReScopeSurveyDataModule } from 'libs/features/surveys/re-scope-survey-data';
@@ -52,8 +54,18 @@ import {
   PricingDetailsAdjPctColumnComponent,
   JobInsightsComponent
 } from './components';
+import {
+  MarketDataComponent,
+  DeleteMatchModalComponent
+} from './containers';
 import { reducers } from './reducers';
-import { JobsPageEffects, JobDescriptionEffects, JobPeerMatchesEffects, ModifyPricingsEffects } from './effects';
+import {
+  JobsPageEffects,
+  JobDescriptionEffects,
+  JobPeerMatchesEffects,
+  ModifyPricingsEffects,
+  JobInsightsEffects
+} from './effects';
 import {
   ShowingActiveJobs,
   PricingMatchTypePipe,
@@ -82,12 +94,14 @@ import {
             JobsPageEffects,
             ModifyPricingsEffects,
             JobDescriptionEffects,
-            JobPeerMatchesEffects
+            JobPeerMatchesEffects,
+            JobInsightsEffects
         ]),
         FontAwesomeModule,
         TooltipModule,
         NumericTextBoxModule,
         DropDownListModule,
+        GridModule,
 
         // Routing
         JobsPageRoutingModule,
@@ -97,6 +111,7 @@ import {
         PfCommonUIModule,
         PfFormsModule,
         PfDataGridModule,
+        BasicDataGridModule,
         JobManagementModule,
         MatchesModalModule,
         PricingDetailsModule,
@@ -125,6 +140,8 @@ import {
     ProjectDetailsGridComponent,
     PricingHistoryGridComponent,
     JobInsightsComponent,
+    MarketDataComponent,
+    DeleteMatchModalComponent,
 
     // Column Templates
     PricingMatchesJobTitleComponent,

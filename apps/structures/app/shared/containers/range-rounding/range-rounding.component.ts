@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 
 import { select, Store } from '@ngrx/store';
@@ -17,10 +17,13 @@ import { StructuresRoundingPoints, StructuresRoundingTypes } from '../../data';
   styleUrls: ['./range-rounding.component.scss']
 })
 export class RangeRoundingComponent implements OnInit, OnDestroy {
+  @Output() roundingChanged: EventEmitter<any> = new EventEmitter();
+
   metaData$: Observable<RangeGroupMetadata>;
   metadataSub: Subscription;
   roundingSettings$: Observable<RoundingSettingsDataObj>;
   roundingSettingsSub: Subscription;
+  roundingSettingsFormChangedSubscription: Subscription;
 
   roundingSettings: RoundingSettingsDataObj;
   metadata: RangeGroupMetadata;
@@ -29,6 +32,7 @@ export class RangeRoundingComponent implements OnInit, OnDestroy {
   toNearest: string;
   defaultSet: boolean;
   roundingSettingsForm: FormGroup;
+  isFirstChange = true;
 
   constructor(
     public store: Store<any>
@@ -87,6 +91,12 @@ export class RangeRoundingComponent implements OnInit, OnDestroy {
         'RoundingPoint': new FormControl(this.roundingSettings?.fourthQuintile.RoundingPoint),
       })
     });
+    this.roundingSettingsFormChangedSubscription = this.roundingSettingsForm.valueChanges.subscribe(values => {
+      if (this.isFirstChange) {
+        this.isFirstChange = false;
+        this.roundingChanged.emit();
+      }
+    });
   }
 
   // Lifecycle
@@ -128,6 +138,7 @@ export class RangeRoundingComponent implements OnInit, OnDestroy {
   private unsubscribe() {
     this.metadataSub.unsubscribe();
     this.roundingSettingsSub.unsubscribe();
+    this.roundingSettingsFormChangedSubscription.unsubscribe();
   }
 
 }

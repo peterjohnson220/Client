@@ -26,8 +26,8 @@ export class SurveyLibraryApiService {
   }
 
   getSurveyList(surveyYearId: number, searchText: string): Observable<any> {
-    return this.payfactorsApiService.postWithHeader(`${this.endpoint}/GetSurveyList/${surveyYearId}`,
-      JSON.stringify(searchText), this.headers);
+    return this.payfactorsApiService.get<any>(`${this.endpoint}/GetSurveyList/${surveyYearId}`,
+    { params: { filter: searchText || '' } });
   }
 
   getAddSurveyPopup(surveyYearId: number): any {
@@ -35,7 +35,7 @@ export class SurveyLibraryApiService {
   }
 
   saveSurvey(surveyYearId: number, agingFactor: number, companyId: number, surveyCost: number) {
-    return this.payfactorsApiService.post(`${this.endpoint}/SaveNewSurvey/${surveyYearId}`,
+    return this.payfactorsApiService.post(`${this.endpoint}/SaveNewSurvey`,
       {
         SurveyYearId: surveyYearId,
         AgingFactor: agingFactor,

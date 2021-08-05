@@ -152,7 +152,8 @@ export class AddJobsToRangePageComponent extends SearchBaseDirective implements 
     let disable = true;
     if (this.grades) {
       // see if there is at least one grade with jobs to remove or add, if yes, enable save button
-      const found = this.grades.find(g => g.JobIdsToAdd.length > 0 || g.JobIdsToRemove.length > 0);
+      const found = this.grades.find(g => g.JobIdsToAdd.length > 0
+        || (g.JobIdsToRemove.length > 0 && g.JobIdsToRemove.some(j => g.AssignedJobIds.includes(j))));
       disable = found == null;
     }
     return disable;

@@ -9,14 +9,16 @@ import cloneDeep from 'lodash/cloneDeep';
 import { AsyncStateObj } from 'libs/models/state';
 import { Permissions } from 'libs/constants';
 import { NewLinePipe } from 'libs/core/pipes';
+import { KendoUploadStatus } from 'libs/models';
 
-import * as fromJDMSharedReduder from 'libs/features/jobs/job-description-management/reducers';
+import * as fromJDMSharedReducer from 'libs/features/jobs/job-description-management/reducers';
 import * as fromWorkflowConfigActions from 'libs/features/jobs/job-description-management/actions/workflow-config.actions';
 
 import * as fromJobDescriptionManagementReducer from '../../reducers';
 import * as fromWorkflowSetupModalActions from '../../actions/workflow-setup-modal.actions';
 import * as fromJobDescriptionGridActions from '../../actions/job-description-grid.actions';
 import { WorkflowTemplate, WorkflowStep } from 'libs/features/jobs/job-description-management/models';
+import { JobDescriptionWorkflowAttachment } from 'libs/models/jdm/job-description-workflow-attachment';
 import { Workflow, WorkflowSetupModalInput } from '../../models';
 
 @Component({
@@ -30,6 +32,7 @@ export class WorkflowSetupModalComponent implements OnInit, OnDestroy {
   @ViewChild('routeForApprovalModal', { static : true }) public routeForApprovalModal: any;
   workflowTemplatesAsync$: Observable<AsyncStateObj<WorkflowTemplate[]>>;
   workflowSteps$: Observable<WorkflowStep[]>;
+  workflowAttachments$: Observable<JobDescriptionWorkflowAttachment[]>;
   hasForbiddenUsers$: Observable<boolean>;
   stepsDirty$: Observable<boolean>;
 
@@ -37,6 +40,7 @@ export class WorkflowSetupModalComponent implements OnInit, OnDestroy {
   hasForbiddenUsersSubscription: Subscription;
   workflowStepsSubscription: Subscription;
   stepsDirtySubscription: Subscription;
+  workflowAttachmentSubscription: Subscription;
 
   accessibleTemplates: WorkflowTemplate[];
   addingNonSystemUser = false;
@@ -50,6 +54,7 @@ export class WorkflowSetupModalComponent implements OnInit, OnDestroy {
   workflowSteps: WorkflowStep[];
   workflowUrl: string;
   convertNewLinePipe;
+  workflowAttachments: JobDescriptionWorkflowAttachment[];
 
   get jobIds(): number[] {
     return this.workflowSetupModalInput.map(x => x.JobId);
@@ -57,14 +62,15 @@ export class WorkflowSetupModalComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store<fromJobDescriptionManagementReducer.State>,
-    private sharedJdmStore: Store<fromJDMSharedReduder.State>,
+    private sharedJdmStore: Store<fromJDMSharedReducer.State>,
     private modalService: NgbModal,
     private router: Router
   ) {
-    this.workflowSteps$ = this.store.pipe(select(fromJDMSharedReduder.getWorkflowStepsFromWorkflowConfig));
-    this.workflowTemplatesAsync$ = this.store.pipe(select(fromJDMSharedReduder.getWorkflowTemplateList));
-    this.hasForbiddenUsers$ = this.sharedJdmStore.pipe(select(fromJDMSharedReduder.getHasUsersWithoutPermission));
-    this.stepsDirty$ = this.sharedJdmStore.pipe(select(fromJDMSharedReduder.getWorkflowConfigDirty));
+    this.workflowSteps$ = this.store.pipe(select(fromJDMSharedReducer.getWorkflowStepsFromWorkflowConfig));
+    this.workflowTemplatesAsync$ = this.store.pipe(select(fromJDMSharedReducer.getWorkflowTemplateList));
+    this.hasForbiddenUsers$ = this.sharedJdmStore.pipe(select(fromJDMSharedReducer.getHasUsersWithoutPermission));
+    this.stepsDirty$ = this.sharedJdmStore.pipe(select(fromJDMSharedReducer.getWorkflowConfigDirty));
+    this.workflowAttachments$ = this.sharedJdmStore.pipe(select(fromJDMSharedReducer.getWorkflowAttachments));
     this.convertNewLinePipe = new NewLinePipe();
   }
 
@@ -78,12 +84,16 @@ export class WorkflowSetupModalComponent implements OnInit, OnDestroy {
         this.selectedTemplateName = undefined;
       }
     });
+    this.workflowAttachmentSubscription = this.workflowAttachments$.subscribe( value => {
+      this.workflowAttachments = value;
+    });
   }
 
   ngOnDestroy(): void {
-    this.workflowTemplatesAsyncSubscription.unsubscribe();
-    this.hasForbiddenUsersSubscription.unsubscribe();
-    this.workflowStepsSubscription.unsubscribe();
+    this.workflowTemplatesAsyncSubscription?.unsubscribe();
+    this.hasForbiddenUsersSubscription?.unsubscribe();
+    this.workflowStepsSubscription?.unsubscribe();
+    this.workflowAttachmentSubscription?.unsubscribe();
   }
 
   open(): void {
@@ -94,6 +104,9 @@ export class WorkflowSetupModalComponent implements OnInit, OnDestroy {
 
   close(): void {
     this.modalService.dismissAll();
+    if (this.workflowAttachments.length > 0) {
+      this.sharedJdmStore.dispatch(new fromWorkflowConfigActions.DeleteWorkflowAttachmentFiles(this.workflowAttachments.map(p => p.CloudFileName)));
+    }
   }
 
   handleFilter(searchTerm: string): void {
@@ -131,7 +144,7 @@ export class WorkflowSetupModalComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromJobDescriptionGridActions.AddRoutingJobs(jobDescriptionIds));
     this.store.dispatch(new fromWorkflowSetupModalActions.CreateWorkflow(workflows));
     this.router.navigate(['/job-descriptions']);
-    this.close();
+    this.modalService.dismissAll();
   }
 
   private handleWorkflowTemplatesChanged(results: WorkflowTemplate[]): void {
@@ -164,7 +177,12 @@ export class WorkflowSetupModalComponent implements OnInit, OnDestroy {
       Revision: worflowInput?.Revision,
       WorkflowSteps: workflowSteps,
       InitiationComment: this.workflowInitiationComment,
-      AllAvailablePermissions: [ Permissions.JOB_DESCRIPTIONS, Permissions.CAN_EDIT_JOB_DESCRIPTION ]
+      AllAvailablePermissions: [ Permissions.JOB_DESCRIPTIONS, Permissions.CAN_EDIT_JOB_DESCRIPTION ],
+      Attachments: this.workflowAttachments
     };
+  }
+
+  get shouldDisableRouteButton() {
+    return !!this.workflowAttachments.find((x) => x.Status !== KendoUploadStatus.ScanSucceeded);
   }
 }
