@@ -23,29 +23,26 @@
 
           </kendo-dropdownlist>
         </div>
-        <kendo-autocomplete
-          #jobSearch
-          class="w-100 mt-4"
-          placeholder="Search for a Job Title..."
-          [data]="(jobSearchOptions$ | async)"
-          [value]="!(jobPricingBlocked$ | async) ? (selectedJob$ | async) : ''"
-          [filterable]="true"
-          [loading]="loadingJobSearchOptions$ | async"
-          [disabled]="jobPricingBlocked$ | async"
-          [popupSettings]="popupSettings"
-          [attr.data-qa-id]="'txt-job-search'"
-          (close)="handleSearchClosed()"
-          (valueChange)="handleJobSearchValueChanged($event)"
-          (filterChange)="handleJobSearchFilterChange($event)">
-          <ng-template kendoAutoCompleteNoDataTemplate>
-            No matching job titles
-          </ng-template>
-        </kendo-autocomplete>
+
+        <div class="search-filter">
+          <pf-input-debounce
+            [ngModel]="selectedJob$ | async"
+            [placeholderText]="'Search for a Job Title...'"
+            [delay]="1000"
+            [hideClearBtn]="true"
+            id="search-paymarkets"
+            (valueChanged)="handleJobSearchValueChanged($event)">
+          </pf-input-debounce>
+
+          <span *ngIf="selectedJob$ | async"
+            (click)="clearSearchValue()"
+            class="k-icon k-clear-value k-i-close">
+          </span>
         </div>
+      </div>
     </div>
 
-    <!-- TODO hardcoded just to check functionality. Should be rewritten -->
-    <pf-market-data-job-grid></pf-market-data-job-grid>
+   <pf-crowd-sourced-job-results></pf-crowd-sourced-job-results>
 
     <!--trending jobs will be added here look at jobs.card.component.html-->
   </ng-container>

@@ -1,20 +1,25 @@
-import * as fromModifyPricingsActions from '../actions';
+import cloneDeep from 'lodash/cloneDeep';
+
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models';
 import { AsyncStateObjHelper } from 'libs/core';
 
+import * as fromModifyPricingsActions from '../actions';
+import { DeleteMatchModalData } from '../models';
 
 export interface State {
   deletingPricing: AsyncStateObj<boolean>;
   updatingPricing: AsyncStateObj<boolean>;
   deletingPricingMatch: AsyncStateObj<boolean>;
   updatingPricingMatch: AsyncStateObj<boolean>;
+  deleteMatchModalData: DeleteMatchModalData;
 }
 
 export const initialState: State = {
   deletingPricing: generateDefaultAsyncStateObj<boolean>(false),
   updatingPricing: generateDefaultAsyncStateObj<boolean>(false),
   deletingPricingMatch: generateDefaultAsyncStateObj<boolean>(false),
-  updatingPricingMatch: generateDefaultAsyncStateObj<boolean>(false)
+  updatingPricingMatch: generateDefaultAsyncStateObj<boolean>(false),
+  deleteMatchModalData: null
 };
 
 export function reducer(state = initialState, action: fromModifyPricingsActions.ModifyPricingsActions): State {
@@ -63,6 +68,12 @@ export function reducer(state = initialState, action: fromModifyPricingsActions.
     case fromModifyPricingsActions.UPDATING_PRICING_MATCH_ERROR: {
       return AsyncStateObjHelper.savingError(state, 'updatingPricingMatch', action.error);
     }
+    case fromModifyPricingsActions.SET_DELETE_MATCH_MODAL_DATA: {
+      return {
+        ...state,
+        deleteMatchModalData: action.payload
+      };
+    }
     default: {
       return state;
     }
@@ -74,4 +85,5 @@ export const getUpdatingPricing = (state: State) => state.updatingPricing;
 export const getDeletingPricingMatch = (state: State) => state.deletingPricingMatch;
 export const getUpdatingPricingMatch = (state: State) => state.updatingPricingMatch;
 export const getRecalculatingPricingInfo = (state: State) => (state.updatingPricingMatch.saving || state.updatingPricing.saving);
+export const getDeleteMatchModalData = (state: State) => state.deleteMatchModalData;
 

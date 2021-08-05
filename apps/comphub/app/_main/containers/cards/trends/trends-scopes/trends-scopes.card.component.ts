@@ -8,14 +8,17 @@ import { ExchangeExplorerComponent } from 'libs/features/peer/exchange-explorer/
 import { ExchangeJobSearchOption } from 'libs/models/peer/ExchangeJobSearchOption';
 import { KendoDropDownItem } from 'libs/models/kendo';
 import { WeightType, WeightTypeDisplayLabeled } from 'libs/data/data-sets';
+import { ExchangeDataSet } from 'libs/models/comphub';
 import * as fromLibsExchangeExplorerFilterContextActions from 'libs/features/peer/exchange-explorer/actions/exchange-filter-context.actions';
 import * as fromExchangeExplorerMapActions from 'libs/features/peer/exchange-explorer/actions/map.actions';
 import * as fromLibsPeerExchangeExplorerReducers from 'libs/features/peer/exchange-explorer/reducers';
 
-import { ComphubPages } from '../../../../data';
-import { ExchangeDataSet, WorkflowContext } from '../../../../models';
-import * as fromComphubMainReducer from '../../../../reducers';
-import * as fromDataCardActions from '../../../../actions/data-card.actions';
+import * as fromDataCardActions from '../../../../../_shared/actions/data-card.actions';
+import * as fromComphubSharedReducers from '../../../../../_shared/reducers';
+import { WorkflowContext } from '../../../../../_shared/models';
+import { ComphubPages } from '../../../../../_shared/data';
+
+import * as fromComphubMainReducers from '../../../../reducers';
 
 @Component({
   selector: 'pf-trends-scopes-card',
@@ -59,19 +62,19 @@ export class TrendsScopesCardComponent implements OnInit, OnDestroy {
   displayMap = false;
   comphubPages = ComphubPages;
 
-  constructor(private store: Store<fromComphubMainReducer.State>,
+  constructor(private store: Store<fromComphubSharedReducers.State>,
               private changeDetectorRef: ChangeDetectorRef,
               private exchangeExplorerStore: Store<fromLibsPeerExchangeExplorerReducers.State>) {
 
     this.untaggedIncumbentCount$ = this.store.pipe(select(fromLibsPeerExchangeExplorerReducers.getPeerMapUntaggedIncumbentCount));
     this.includeUntaggedIncumbents$ = this.store.pipe(select(fromLibsPeerExchangeExplorerReducers.getFilterContextIncludeUntaggedIncumbents));
-    this.selectedPageIdDelayed$ = this.store.select(fromComphubMainReducer.getSelectedPageId).pipe(debounceTime(750));
-    this.workflowContext$ = this.store.select(fromComphubMainReducer.getWorkflowContext);
-    this.forceRefresh$ = this.store.select(fromComphubMainReducer.getForcePeerMapRefresh);
-    this.selectedExchange$ = this.store.select(fromComphubMainReducer.getActiveExchangeDataSet);
+    this.selectedPageIdDelayed$ = this.store.select(fromComphubSharedReducers.getSelectedPageId).pipe(debounceTime(750));
+    this.workflowContext$ = this.store.select(fromComphubSharedReducers.getWorkflowContext);
+    this.forceRefresh$ = this.store.select(fromComphubSharedReducers.getForcePeerMapRefresh);
+    this.selectedExchange$ = this.store.select(fromComphubSharedReducers.getActiveExchangeDataSet);
     this.mapFilter$ = this.exchangeExplorerStore.select(fromLibsPeerExchangeExplorerReducers.getPeerMapFilter);
-    this.selectedJobTitle$ = this.store.select(fromComphubMainReducer.getSelectedJob);
-    this.selectedExchangeJobs$ = this.store.select(fromComphubMainReducer.getSelectedExchangeJobs);
+    this.selectedJobTitle$ = this.store.select(fromComphubSharedReducers.getSelectedJob);
+    this.selectedExchangeJobs$ = this.store.select(fromComphubMainReducers.getSelectedExchangeJobs);
   }
 
   ngOnInit() {

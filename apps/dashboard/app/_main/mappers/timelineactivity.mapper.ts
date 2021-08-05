@@ -16,6 +16,9 @@ export class TimelineActivityMapper {
 
   static mapFromDto(dtos: TimelineActivityDto[], baseAvatarUrl: string): TimelineActivity[] {
     const timelineActivities = [];
+    if (!dtos?.length) {
+      return timelineActivities;
+    }
     for (const dto of dtos) {
       timelineActivities.push({
         Id: dto.Id,

@@ -20,6 +20,7 @@
 
       <div class="form-control-feedback" *ngIf="(workflowCompleteStepError$ | async)">An error has occurred, please refresh and try again</div>
 
+      <div class="workflow-button-container">
       <button *ngIf="workflowStepInfo?.IsFirstStep" type="submit" class="btn btn-secondary" [disabled]="(workflowStepApproving$ | async) || (workflowStepRejecting$ | async) || (inSystemWorkflowComplete$ | async)">
         <span *ngIf="workflowStepRejecting$ | async"><pf-loading-indicator></pf-loading-indicator> Cancelling Approval...</span>
         <span *ngIf="!(workflowStepRejecting$ | async)"><fa-icon icon="times" aria-hidden="true"></fa-icon> Cancel Approval</span>
@@ -44,10 +45,26 @@
         <span *ngIf="workflowStepApproving$ | async"><pf-loading-indicator></pf-loading-indicator> Approving...</span>
         <span *ngIf="!(workflowStepApproving$ | async)"><fa-icon icon="check" aria-hidden="true"></fa-icon> Approve</span>
       </button>
-
+      </div>
     </form>
+  </div>
+  <div class="workflow-attachments mt-2" *ngIf="attachments?.length > 0">
+    <p class="m-0">Attachments</p>
+    <ul class="p-1">
+      <li class="p-2" *ngFor="let attachmentItem of attachments">
+        <a class="attachment-anchor" (click)="onAttachmentClicked(attachmentItem)">
+          <fa-icon [icon]="['fas', attachmentItem.iconType]" size="lg" class="icon {{attachmentItem.iconClass}} mr-2"></fa-icon>
+          {{attachmentItem.Name}}</a>
+      </li>
+    </ul>
+    <hr>
   </div>
   <div class="workflow-content">
     <pf-workflow-log [workflowLogEntries]="(workflowLogEntriesAsync$ | async)?.obj" [loading]="workflowLogLoading$ | async"></pf-workflow-log>
   </div>
 </div>
+<pf-file-download-security-warning-modal
+  #fileDownloadSecurityWarningModal
+  (securityWarningConfirmed)="handleSecurityWarningConfirmed()"
+  (securityWarningCancelled)="handleSecurityWarningCancelled()">
+</pf-file-download-security-warning-modal>

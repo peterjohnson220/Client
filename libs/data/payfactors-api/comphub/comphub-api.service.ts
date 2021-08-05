@@ -18,14 +18,12 @@ import {
   JobPricedHistorySummaryResponse,
   QuickPriceJobDataRequest,
   QuickPriceJobDataResponse,
-  SearchCrowdSourcedJobsResponse, GetCrowdSourcedJobPricingResponse
+  SearchCrowdSourcedJobsResponse,
+  GetCrowdSourcedJobPricingResponse
 } from 'libs/models/payfactors-api/comphub';
 import { QuickPriceExchangeDataSearchRequest } from 'libs/models/payfactors-api/peer/exchange-data-search/request';
-
-import { PayfactorsApiService } from '../payfactors-api.service';
-
-import { ExchangeDataSet, PeerQuickPriceData } from '../../../../apps/comphub/app/_main/models';
-
+import { PayfactorsApiService } from 'libs/data/payfactors-api/payfactors-api.service';
+import { ExchangeDataSet, PeerQuickPriceData } from 'libs/models/comphub';
 
 @Injectable({
   providedIn: 'root',
@@ -103,8 +101,9 @@ export class ComphubApiService {
       { params: { jobTitle: jobTitle } });
   }
 
-  getCrowdSourcedJobPricing(jobTitle: string, country: string): Observable<GetCrowdSourcedJobPricingResponse>  {
+  getCrowdSourcedJobPricing(jobTitle: string, country: string, paymarketId): Observable<GetCrowdSourcedJobPricingResponse>  {
+    const params = !!paymarketId ? { jobTitle: jobTitle, country: country, paymarketId: paymarketId } : { jobTitle: jobTitle, country: country };
     return this.payfactorsApiService.get<GetCrowdSourcedJobPricingResponse>(`${this.endpoint}/GetCrowdSourcedJobPricing`,
-      { params: { jobTitle: jobTitle, country: country } });
+      { params: params });
   }
 }

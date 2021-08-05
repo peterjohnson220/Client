@@ -132,6 +132,7 @@
                   [workflowStepInfo]="!isInSystemWorkflow ? (identity$ | async)?.WorkflowStepInfo : (workflowStepInfo$ | async)"
                   [workflowStepCompleted]="completedStep"
                   [isInSystemWorkflow]="isInSystemWorkflow"
+                  [enableFileDownloadSecurityWarning]="enableFileDownloadSecurityWarning"
                   [workflowId]="(jobDescriptionExtendedInfo$ | async)?.WorkflowId"
                   [isSiteAdmin]="isSiteAdmin"
                   [isCompanyAdmin]="isCompanyAdmin"

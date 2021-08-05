@@ -35,6 +35,7 @@ export class FeatureFlags {
   static readonly RestyledLogin = 'restyled-login';
   static readonly PricingProjectExport = 'pricing-project-export';
   static readonly PayscaleBranding = 'payscale-branding';
+  static readonly EmployeeDetailsPanel = 'employee-details-panel';
   static readonly PeerGetResultsAsyncStrategy = 'peer-get-results-async-strategy';
   static readonly ExchangeManagementSystemScopes = 'exchange-management-system-scopes'
 }

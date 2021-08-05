@@ -23,7 +23,7 @@ export class RolesApiService {
   }
 
   getRolesByCompanyId(companyId: number): Observable<UserAssignedRole[]> {
-    return this.payfactorsApiService.get<UserAssignedRole[]>(`${this.endpoint}/GetRoles?companyId=${companyId}`);
+    return this.payfactorsApiService.get<UserAssignedRole[]>(`${this.endpoint}/GetRoles/${companyId}`);
   }
 
   getRoleforUser(userId: number): Observable<UserRole> {

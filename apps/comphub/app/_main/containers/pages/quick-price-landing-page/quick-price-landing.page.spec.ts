@@ -5,22 +5,22 @@ import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
 
-import * as fromComphubMainReducer from '../../../reducers';
-import * as fromComphubPageActions from '../../../actions/comphub-page.actions';
-import { QuickPriceAccordionCards, ComphubPages } from '../../../data';
+import * as fromComphubSharedReducer from '../../../../_shared/reducers';
+import * as fromComphubPageActions from '../../../../_shared/actions/comphub-page.actions';
 import { QuickPriceLandingPageComponent } from './quick-price-landing.page';
+import { QuickPriceAccordionCards, ComphubPages } from '../../../../_shared/data';
 
 describe('Quick Price - Main - Quick Price Page', () => {
   let instance: QuickPriceLandingPageComponent;
   let fixture: ComponentFixture<QuickPriceLandingPageComponent>;
-  let store: Store<fromComphubMainReducer.State>;
+  let store: Store<fromComphubSharedReducer.State>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
           ...fromRootState.reducers,
-          comphub_main: combineReducers(fromComphubMainReducer.reducers),
+          comphub_shared: combineReducers(fromComphubSharedReducer.reducers),
         })
       ],
       declarations: [ QuickPriceLandingPageComponent ],

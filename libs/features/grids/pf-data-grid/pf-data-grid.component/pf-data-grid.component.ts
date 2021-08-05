@@ -61,6 +61,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() pagingOptions: PagingOptions;
   @Input() noRecordsFound: string;
   @Input() fieldsExcludedFromExport: [];
+  @Input() fieldsExcludedFromCellClick: [];
   @Input() compactGrid = false;
   @Input() compactGridMinHeight: string = null;
   @Input() backgroundColor: string;
@@ -109,6 +110,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() gridReplacementTemplate: TemplateRef<any>;
   @Input() hidePageSizes = false;
   @Input() displaySelectAllWarning = true;
+  @Input() displaySelectAllCheckbox = true;
   @ViewChild('splitViewContainer', { static: false }) splitViewContainer: ElementRef;
 
   splitViewEmitter = new EventEmitter<string>();

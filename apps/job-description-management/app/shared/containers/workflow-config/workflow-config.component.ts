@@ -1,18 +1,27 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { DragulaService } from 'ng2-dragula';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import cloneDeep from 'lodash/cloneDeep';
 
 import * as fromRootState from 'libs/state/state';
 import { UserContext } from 'libs/models/security';
 import { Permissions } from 'libs/constants/permissions';
-import * as fromJDMSharedReduder from 'libs/features/jobs/job-description-management/reducers';
+import * as fromJDMSharedReducer from 'libs/features/jobs/job-description-management/reducers';
 import * as fromWorkflowConfigActions from 'libs/features/jobs/job-description-management/actions/workflow-config.actions';
 import { AddUserToWorkflowObj, WorkflowStep, WorkflowUser } from 'libs/features/jobs/job-description-management/models';
 import { WorkflowConfigHelper } from 'libs/features/jobs/job-description-management';
+import { formatBytes } from 'libs/core/functions';
+import * as fromAppNotificationsActions from 'libs/features/infrastructure/app-notifications/actions/app-notifications.actions';
+import * as fromAppNotificationsMainReducer from 'libs/features/infrastructure/app-notifications/reducers';
+import { AppNotification } from 'libs/features/infrastructure/app-notifications/models';
+import { JobDescriptionWorkflowAttachment, KendoUploadStatus } from 'libs/models';
+import { FileInfo, FileRestrictions, RemoveEvent, SelectEvent, SuccessEvent, UploadEvent } from '@progress/kendo-angular-upload';
+import { WorkflowAttachmentFiles } from '../../../_job-description/constants/workflow-attachment-files';
+import { mapFileInfoToWorkflowAddAttachment } from '../../../_job-description/helpers/workflow-model-mapping.helper';
 
 @Component({
   selector: 'pf-workflow-config',
@@ -21,18 +30,22 @@ import { WorkflowConfigHelper } from 'libs/features/jobs/job-description-managem
 })
 export class WorkflowConfigComponent implements OnInit, OnDestroy {
   @Input() jobIds: number[];
+  @Input() showAttachmentsUpload = false;
   @Output() onShowNameFormClicked = new EventEmitter<boolean>();
 
   hasForbiddenUsers$: Observable<boolean>;
   workflowSteps$: Observable<WorkflowStep[]>;
   workflowUserOrEmail$: Observable<any>;
+  attachments$: Observable<JobDescriptionWorkflowAttachment[]>;
   identity$: Observable<UserContext>;
+  getNotification$: Observable<AppNotification<any>[]>;
 
   hasForbiddenUsersSubscription: Subscription;
   workflowStepsSubscription: Subscription;
   workflowUserOrEmailSubscription: Subscription;
   dragulaSub: Subscription;
   identitySubscription: Subscription;
+  getNotificationSubscription: Subscription;
 
   addNonPfUserForm: FormGroup;
   addNonPfUserSameStepForm: FormGroup;
@@ -49,18 +62,157 @@ export class WorkflowConfigComponent implements OnInit, OnDestroy {
   stepAddingNonPfUsers: number;
   stepWithMultipleUsersBeingAdded: number;
   workflowSteps: WorkflowStep[];
+  uploadedFilesKendo: Array<FileInfo>;
+  uploadedFiles: JobDescriptionWorkflowAttachment[] = [];
+  saveAttachmentUrl = '/odata/CloudFiles.UploadJDMWorkflowAttachment';
+  removeAttachmentUrl = '/odata/CloudFiles.DeleteJDMWorkflowAttachment';
+  maxFileCount = 3;
+  showFileCountWarning = false;
+  workflowAttachmentUploadStatus = KendoUploadStatus;
+  @ViewChild('uploadWidget', {static: true}) uploadWidget: any;
+
+  public uploadRestrictions: FileRestrictions = {
+    allowedExtensions: WorkflowAttachmentFiles.VALID_FILE_EXTENSIONS,
+    maxFileSize: WorkflowAttachmentFiles.MAX_SIZE_LIMIT
+  };
+
+
+  get fileRestrictionsMessage() {
+    const formattedSize = formatBytes(WorkflowAttachmentFiles.MAX_SIZE_LIMIT);
+    let message = `Individual files cannot exceed ${formattedSize}. Accepted file types: `;
+    WorkflowAttachmentFiles.VALID_FILE_EXTENSIONS.forEach(extension => {
+      message = `${message} ${extension}`;
+    });
+    return message;
+  }
+
+  getUploadStatus(file: FileInfo) {
+    const attachment = this.uploadedFiles.find(f => f.Id === file.uid);
+    if (attachment) {
+      return attachment.Status;
+    }
+    return KendoUploadStatus.NotStarted;
+  }
+
+  getStatusClass(file: FileInfo) {
+    const attachment = this.uploadedFiles.find(f => f.Id === file.uid);
+    if (!attachment) {
+      return 'upload-in-progress';
+    }
+
+    switch (attachment.Status) {
+      case KendoUploadStatus.ScanSucceeded:
+        return 'upload-success';
+      case KendoUploadStatus.UploadFailed:
+      case KendoUploadStatus.ScanFailed:
+      case KendoUploadStatus.InvalidExtension:
+        return 'upload-failed';
+      default:
+        return 'upload-in-progress';
+    }
+  }
+
+  formattedBytes(bytes) {
+    return formatBytes(bytes);
+  }
+
+  uploadAttachmentEventHandler(e: UploadEvent) {
+    if (this.uploadedFiles.length >= this.maxFileCount) {
+      e.preventDefault();
+      this.showFileCountWarning = true;
+      return;
+    }
+
+    const file = e.files[0];
+    const cloudFileName = `${file.uid}_${file.name}`;
+    e.data = {CloudFileName: cloudFileName, Id: file.uid};
+
+    const fileToUpload = mapFileInfoToWorkflowAddAttachment(file, cloudFileName);
+    fileToUpload.Status = KendoUploadStatus.UploadInProgress;
+    this.uploadedFiles.push(fileToUpload);
+    this.updateUploadButtonState();
+  }
+
+  successEventHandler(e: SuccessEvent) {
+    // successEventHandler gets fired multiple times for the remove operation with the latest call having a response.type of 4
+    if (e.operation === 'upload' || (e.operation === 'remove' && e.response.type === 4)) {
+      const uploadedFile = this.uploadedFiles.find(f => f.Id === e.files[0].uid);
+
+      if (uploadedFile) {
+        uploadedFile.Status = KendoUploadStatus.ScanInProgress; // scan in progress now...
+      }
+
+      this.saveWorkflowAttachmentState();
+
+      if (this.uploadedFiles.length >= this.maxFileCount) {
+        this.showFileCountWarning = true;
+      }
+    }
+  }
+
+  selectEventHandler(e: SelectEvent): void {
+    e.files.forEach((file) => {
+      if (file.validationErrors && (file.validationErrors.includes('invalidFileExtension') || file.validationErrors.includes('invalidMaxFileSize'))) {
+        const cloudFileName = `${file.uid}_${file.name}`;
+        const fileToUpload = mapFileInfoToWorkflowAddAttachment(file, cloudFileName);
+        fileToUpload.Status = file.validationErrors.includes('invalidFileExtension') ?
+          KendoUploadStatus.InvalidExtension : KendoUploadStatus.InvalidMaxFileSize;
+        this.uploadedFiles.push(fileToUpload);
+        this.saveWorkflowAttachmentState();
+      }
+    });
+  }
+
+  errorEventHandler(e: any) {
+    if (this.uploadedFiles.length >= this.maxFileCount) {
+      e.preventDefault();
+    }
+  }
+
+  removeEventHandler(e: RemoveEvent) {
+    e.data = {uid: e.files[0].uid};
+  }
+
+  removeAttachmentEventHandler(file: FileInfo) {
+    const index = this.uploadedFiles.findIndex(f => f.Id === file.uid);
+    if (index >= 0) {
+      this.uploadedFiles.splice(index, 1);
+      this.showFileCountWarning = false;
+
+      if (!!file.validationErrors) {
+        this.saveWorkflowAttachmentState();
+      }
+    }
+
+    file.name = `${file.uid}_${file.name}`;
+    this.uploadWidget.removeFilesByUid(file.uid);
+    this.updateUploadButtonState();
+  }
+
+  updateUploadButtonState() {
+    if (this.uploadedFiles.length >= this.maxFileCount) {
+      const buttonElement = this.uploadWidget.wrapper.getElementsByClassName('k-upload-button');
+      buttonElement[0].classList.add('k-state-disabled');
+    } else {
+      const buttonElement = this.uploadWidget.wrapper.getElementsByClassName('k-upload-button');
+      buttonElement[0].classList.remove('k-state-disabled');
+    }
+  }
 
   constructor(
-    private sharedJdmStore: Store<fromJDMSharedReduder.State>,
+    private sharedJdmStore: Store<fromJDMSharedReducer.State>,
     private userContextStore: Store<fromRootState.State>,
     private formBuilder: FormBuilder,
-    private dragulaService: DragulaService
+    private dragulaService: DragulaService,
+    private appNotificationStore: Store<fromAppNotificationsMainReducer.State>
   ) {
     this.initDragulaSub();
-    this.hasForbiddenUsers$ = this.sharedJdmStore.select(fromJDMSharedReduder.getHasUsersWithoutPermission);
-    this.workflowSteps$ = this.sharedJdmStore.select(fromJDMSharedReduder.getWorkflowStepsFromWorkflowConfig);
-    this.workflowUserOrEmail$ = this.sharedJdmStore.select(fromJDMSharedReduder.getWorkflowUserOrEmail);
+    this.hasForbiddenUsers$ = this.sharedJdmStore.select(fromJDMSharedReducer.getHasUsersWithoutPermission);
+    this.workflowSteps$ = this.sharedJdmStore.select(fromJDMSharedReducer.getWorkflowStepsFromWorkflowConfig);
+    this.workflowUserOrEmail$ = this.sharedJdmStore.select(fromJDMSharedReducer.getWorkflowUserOrEmail);
+    this.attachments$ = this.sharedJdmStore.select(fromJDMSharedReducer.getWorkflowAttachments);
     this.identity$ = this.userContextStore.select(fromRootState.getUserContext);
+    this.getNotification$ = this.appNotificationStore.select(fromAppNotificationsMainReducer.getNotifications);
   }
 
   ngOnInit(): void {
@@ -82,15 +234,52 @@ export class WorkflowConfigComponent implements OnInit, OnDestroy {
         this.avatarUrl = i.ConfigSettings.find(c => c.Name === 'CloudFiles_PublicBaseUrl').Value + '/avatars/';
       }
     });
+
     this.sharedJdmStore.dispatch(new fromWorkflowConfigActions.ResetWorkflow());
+
+    this.getNotificationSubscription = this.getNotification$.subscribe(notifications => {
+     this.processNotifications(notifications);
+    });
+  }
+
+  processNotifications(notifications: AppNotification<any>[]): void {
+    notifications.forEach(notification => {
+      if (!notification) {
+        return;
+      }
+
+      const attachment = this.uploadedFiles.find((x) => x.Id === notification.NotificationId);
+
+      if (!attachment) {
+        return;
+      }
+
+      this.uploadedFiles = cloneDeep(this.uploadedFiles);
+      const uploadedFile = this.uploadedFiles.find(f => f.Id === notification.NotificationId);
+
+      if (notification.Level === 'Success' && attachment.Status !== KendoUploadStatus.ScanSucceeded) {
+        uploadedFile.Status = KendoUploadStatus.ScanSucceeded;
+        this.appNotificationStore.dispatch(new fromAppNotificationsActions.DeleteNotification({notificationId: notification.NotificationId}));
+      } else {
+        uploadedFile.Status = KendoUploadStatus.ScanFailed;
+        this.appNotificationStore.dispatch(new fromAppNotificationsActions.DeleteNotification({notificationId: notification.NotificationId}));
+      }
+
+      this.saveWorkflowAttachmentState();
+    });
+  }
+
+  saveWorkflowAttachmentState() {
+    this.sharedJdmStore.dispatch(new fromWorkflowConfigActions.SaveWorkflowAttachmentsState(cloneDeep(this.uploadedFiles)));
   }
 
   ngOnDestroy(): void {
     this.destroyDragula();
-    this.hasForbiddenUsersSubscription.unsubscribe();
-    this.workflowStepsSubscription.unsubscribe();
-    this.identitySubscription.unsubscribe();
-    this.workflowUserOrEmailSubscription.unsubscribe();
+    this.hasForbiddenUsersSubscription?.unsubscribe();
+    this.workflowStepsSubscription?.unsubscribe();
+    this.identitySubscription?.unsubscribe();
+    this.workflowUserOrEmailSubscription?.unsubscribe();
+    this.getNotificationSubscription?.unsubscribe();
   }
 
   nonPfUserFormSubmit(): void {
@@ -156,12 +345,12 @@ export class WorkflowConfigComponent implements OnInit, OnDestroy {
 
   deleteWorkflowStep(stepIndex: number): void {
     this.resetMultiUserStepTracking();
-    this.sharedJdmStore.dispatch(new fromWorkflowConfigActions.DeleteWorkflowStep({ stepIndex }));
+    this.sharedJdmStore.dispatch(new fromWorkflowConfigActions.DeleteWorkflowStep({stepIndex}));
   }
 
   handleMultipleUserPerLevelSelection(selectedUser: any, stepIndex: number): void {
     this.nonPfUserSameStepDuplicateEmail = false;
-    if (this.workflowSteps[stepIndex].WorkflowStepUsers.some(stepUser => stepUser.EmailAddress.toLowerCase() === selectedUser.EmailAddress.toLowerCase() )) {
+    if (this.workflowSteps[stepIndex].WorkflowStepUsers.some(stepUser => stepUser.EmailAddress.toLowerCase() === selectedUser.EmailAddress.toLowerCase())) {
       this.nonPfUserSameStepDuplicateEmail = true;
       return;
     }
@@ -176,7 +365,7 @@ export class WorkflowConfigComponent implements OnInit, OnDestroy {
         ...selectedUser,
         Permissions: WorkflowConfigHelper.getDefaultPermissions()
       };
-      this.sharedJdmStore.dispatch(new fromWorkflowConfigActions.AddUserToWorkflowStep({ stepIndex, workflowUser: workflowUser }));
+      this.sharedJdmStore.dispatch(new fromWorkflowConfigActions.AddUserToWorkflowStep({stepIndex, workflowUser: workflowUser}));
       this.resetMultiUserStepTracking();
     }
   }
@@ -225,20 +414,19 @@ export class WorkflowConfigComponent implements OnInit, OnDestroy {
 
   private initDragulaSub(): void {
     this.dragulaSub = new Subscription();
-    this.dragulaSub.add(this.dragulaService.dropModel('workflow-user-reorder-bag').subscribe(({ sourceModel }) => {
+    this.dragulaSub.add(this.dragulaService.dropModel('workflow-user-reorder-bag').subscribe(({sourceModel}) => {
       this.reorderWorkflowSteps(sourceModel);
     }));
     this.dragulaService.createGroup('workflow-user-reorder-bag', {
       revertOnSpill: true,
       moves: function (el, container, handle) {
         return handle.classList.contains('dnd-workflow-user-reorder-handle') &&
-        handle.classList.contains('grabbable');
+          handle.classList.contains('grabbable');
       },
       accepts: function (el, target, source) {
         return source.id === target.id;
       }
     });
-
   }
 
   private destroyDragula() {
