@@ -101,7 +101,6 @@
   padding-right: calc(2px + 0.75rem + 1.5em + 0.5rem);
 }
 
-
 kendo-tabstrip.tabstrip-no-borders > .k-content {
   border-width: 0;
 }
@@ -120,8 +119,7 @@ kendo-tabstrip.bold-tabs .k-tabstrip-items {
 }
 
 // TODO: Remove this override
-// Temporary override until we can upgrade kendo-theme-bootstrap to 4.x+
-// This is currently blocked by the removal of node-sass. Upgraded kendo grid has a select dropdown that is not
+// Temporary override until kendo-theme-bootstrap resolves this. Upgraded kendo grid has a select dropdown that is not
 // hidden as part of the pager.
 .k-pager-numbers-wrap select.k-dropdown {
   display: none;

@@ -226,6 +226,8 @@ pipeline {
                 sh "KENDO_UI_LICENSE=${env.KENDO_UI_LICENSE}"
                 sh "npx kendo-ui-license activate"
 
+                sh "npx gulp sass"
+
                 echo "Getting list of apps..."
                 sh 'ls apps > dirs'
                 sh """
