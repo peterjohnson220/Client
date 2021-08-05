@@ -111,8 +111,8 @@ pipeline {
             env.pkgFullName = pkgName + ".${env.pkgVersion}${suffix}${verDetails}"
             echo "Package Name: ${env.pkgFullName}.zip"
 
-            currentBuild.description = "Built on: ${env.NODE_NAME}"
-            currentBuild.displayName = "#" + env.BUILD_NUMBER + " - " + env.pkgVersion
+            // currentBuild.description = "Built on: ${env.NODE_NAME}"
+            currentBuild.displayName = "#" + env.BUILD_NUMBER + " - " + env.pkgVersion + ": ${env.NODE_NAME}"
 
             changeLogOrig = getGitChangeLog()
 
