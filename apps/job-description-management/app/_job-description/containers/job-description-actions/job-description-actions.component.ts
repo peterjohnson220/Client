@@ -40,6 +40,7 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
   @Output() exportClicked: EventEmitter<{ exportType: string, viewName: string }> = new EventEmitter<{ exportType: string, viewName: string }>();
   @Output() acknowledgedClicked = new EventEmitter();
   @Output() viewSelected = new EventEmitter();
+  @Output() sharePermissionsClicked = new EventEmitter();
   @Input() isInSystemWorkflow = false;
   @Input() isSystemWorkflowComplete = false;
 
@@ -87,6 +88,8 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
   viewName = 'Default';
   jobMatchesAsync: AsyncStateObj<JobMatchResult[]>;
   enableLibraryForRoutedJobDescriptions: boolean;
+  enableJobDescriptionSharing: boolean;
+  hasCanEditSharePermissionsPermission: boolean;
 
   get isDraft() { return this.jobDescription?.JobDescriptionStatus === 'Draft'; }
   get isInReview() { return this.jobDescription?.JobDescriptionStatus === 'In Review'; }
@@ -166,6 +169,9 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
         this.enableLibraryForRoutedJobDescriptions = company.EnableLibraryForRoutedJobDescriptions;
       }
     });
+
+    this.enableJobDescriptionSharing = false; // TODO: get this from feature flag service.
+    this.hasCanEditSharePermissionsPermission = false; // TODO: get this from permissions service.
   }
 
   ngOnDestroy(): void {
@@ -283,6 +289,10 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
     this.libraryClicked.emit();
   }
 
+  handleSharePermissionsClicked(): void {
+    this.sharePermissionsClicked.emit();
+  }
+
   handleRoutingHistoryClicked(): void {
     this.routingHistoryClicked.emit();
   }
@@ -297,6 +307,12 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
 
   handleExportAsPDFClicked(): void {
     this.exportClicked.emit({ exportType: 'pdf', viewName: this.viewName });
+  }
+
+  showSharePermissionsLink(): boolean {
+    return this.enableJobDescriptionSharing &&
+      this.hasCanEditSharePermissionsPermission &&
+      this.jobDescription.JobDescriptionStatus === 'Published';
   }
 
   public get isUserDefinedViewsAvailable(): boolean {
