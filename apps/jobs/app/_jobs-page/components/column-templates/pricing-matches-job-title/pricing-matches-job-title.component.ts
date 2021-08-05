@@ -1,21 +1,18 @@
 import {
   Component, OnInit, Input, ViewChild, ElementRef, AfterViewChecked,
-  HostListener, ChangeDetectorRef, OnDestroy, SimpleChanges, OnChanges,
+  HostListener, ChangeDetectorRef, OnDestroy, SimpleChanges, OnChanges
 } from '@angular/core';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-import { filter } from 'rxjs/operators';
 
+import { Observable, Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import { ActionsSubject, Store } from '@ngrx/store';
 import { ofType } from '@ngrx/effects';
-
 import isEmpty from 'lodash/isEmpty';
 
 import { UpdatePricingMatchRequest, ViewField } from 'libs/models/payfactors-api';
 import { PermissionService } from 'libs/core';
-import { AsyncStateObj } from 'libs/models';
 import { Permissions, PermissionCheckEnum } from 'libs/constants';
 import { ApiServiceType } from 'libs/features/notes/notes-manager/constants/api-service-type-constants';
-import { PricingApiService} from 'libs/data/payfactors-api';
 
 import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import * as fromPfDataGridActions from 'libs/features/grids/pf-data-grid/actions';
@@ -32,6 +29,7 @@ import * as fromReScopeActions from 'libs/features/surveys/re-scope-survey-data/
 import { PageViewIds } from '../../../constants';
 import * as fromModifyPricingsActions from '../../../actions';
 import * as fromModifyPricingsReducer from '../../../reducers';
+import { DeleteMatchModalData } from '../../../models';
 
 @Component({
   selector: 'pf-pricing-matches-job-title',
@@ -54,19 +52,14 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
   pricingMatchIdForGridRefresh: number;
 
   jobsSelectedRow$: Observable<any>;
+  jobsSelectedRowSubscription: Subscription;
+  jobsSelectedRow: any;
 
   isActiveJob = true;
   isActiveJobSubscription: Subscription;
 
   pricingMatchesDataSuscription: Subscription;
   pricingMatchesCount = 0;
-
-  showDeletePricingMatchModal = new BehaviorSubject<boolean>(false);
-  showDeletePricingMatchModal$ = this.showDeletePricingMatchModal.asObservable();
-
-  deletingPricingMatch$: Observable<AsyncStateObj<boolean>>;
-  getDeletingPricingMatchSuccessSubscription: Subscription;
-
   updateGridDataRowSubscription: Subscription;
 
   weight: number;
@@ -93,8 +86,6 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
   selectedPricingId: number;
   matchIdForUpdates: number;
 
-  previousPricingEffectiveDate: any = null;
-
   rescopeSubmissionSubscription: Subscription;
   rescopeCancellationSubscription: Subscription;
 
@@ -108,8 +99,10 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
     public permissionService: PermissionService,
     private store: Store<fromModifyPricingsReducer.State>,
     private actionsSubject: ActionsSubject,
-    private cdRef: ChangeDetectorRef,
-    private pricingApiService: PricingApiService) { }
+    private cdRef: ChangeDetectorRef
+    ) {
+      this.jobsSelectedRow$ = this.store.select(fromPfDataGridReducer.getSelectedRow, PageViewIds.Jobs);
+    }
 
   ngOnInit() {
     // this subscription is required for closing the modal of the currently clicked row. Otherwise, isSelectedForResocpe will be true for multiple rows.
@@ -141,8 +134,6 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
         }
       });
 
-    this.jobsSelectedRow$ = this.store.select(fromPfDataGridReducer.getSelectedRow, PageViewIds.Jobs);
-
     this.canModifyPricings = this.permissionService.CheckPermission([Permissions.MODIFY_PRICINGS], PermissionCheckEnum.Single);
     this.hasPeerPermission = this.permissionService.CheckPermission([Permissions.PEER], PermissionCheckEnum.Single);
 
@@ -150,13 +141,6 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
     this.pricingMatchesDataSuscription = this.store.select(fromPfDataGridReducer.getData, pricingMatchPageViewId).subscribe(data => {
       this.pricingMatchesCount = data?.total;
     });
-
-    this.deletingPricingMatch$ = this.store.select(fromModifyPricingsReducer.getDeletingPricingMatch);
-    this.getDeletingPricingMatchSuccessSubscription = this.actionsSubject
-      .pipe(ofType(fromModifyPricingsActions.DELETING_PRICING_MATCH_SUCCESS))
-      .subscribe(data => {
-        this.showDeletePricingMatchModal.next(false);
-      });
 
     // We need to update the pricingInfo manually because the state is not updated when the grid is updated using the UpdateGridDataRow action
     this.updateGridDataRowSubscription = this.actionsSubject
@@ -167,6 +151,8 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
           this.pricingInfo = action.data;
         }
       });
+
+    this.jobsSelectedRowSubscription = this.jobsSelectedRow$.subscribe(data => this.jobsSelectedRow = data);
 
     this.isActiveJobSubscription = this.store
       .select(fromPfDataGridReducer.getFields, PageViewIds.Jobs)
@@ -193,7 +179,7 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
           const matchesGridPageViewId = `${PageViewIds.PricingMatches}_${pricingId}`;
 
           this.store.dispatch(new fromModifyPricingsActions.UpdatingPricingMatch(request, pricingId, matchesGridPageViewId));
-          this.store.dispatch(new fromDataCutSummaryActions.RemoveDataCutSummary({dataCutKey: data['payload']['BaseEntityId'] + "CompanyJobPricingMatchId"}));
+          this.store.dispatch(new fromDataCutSummaryActions.RemoveDataCutSummary({dataCutKey: data['payload']['BaseEntityId'] + 'CompanyJobPricingMatchId'}));
         }
       });
 
@@ -221,11 +207,11 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
 
   ngOnDestroy() {
     this.rescopeSubmissionSubscription.unsubscribe();
-    this.getDeletingPricingMatchSuccessSubscription.unsubscribe();
     this.updateGridDataRowSubscription.unsubscribe();
     this.pricingMatchesDataSuscription.unsubscribe();
     this.isActiveJobSubscription.unsubscribe();
     this.upsertPeerDataSubscription.unsubscribe();
+    this.jobsSelectedRowSubscription.unsubscribe();
   }
 
   openReScopeSurveyDataModal(data: any) {
@@ -253,36 +239,20 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
     return element.getBoundingClientRect().width + IEOffsetModifier < element.scrollWidth;
   }
 
-  openDeletePricingMatchModal() {
-
-    if (this.pricingMatchesCount !== 1 || this.previousPricingEffectiveDate !==  null) {
-      this.showDeletePricingMatchModal.next(true);
-      this.store.dispatch(new fromModifyPricingsActions.ResetModifyPricingsModals());
-    } else {
-      this.getPreviousPricingEffectiveDate();
-    }
-  }
-
-  deletePricingMatch(pricingMatch: any) {
-    const jobPayMarketMetaData = `${this.pricingInfo['CompanyJobs_CompanyJob_ID']}_${this.pricingInfo['CompanyPayMarkets_CompanyPayMarket_ID']}`;
-    const request = {
-      MatchId: pricingMatch['CompanyJobs_PricingsMatches_CompanyJobPricingMatch_ID'],
-      JobPayMarketMetaData: jobPayMarketMetaData
+  openDeletePricingMatchModal(): void {
+    const deleteModalData: DeleteMatchModalData = {
+      PricingMatchId: this.dataRow['CompanyJobs_PricingsMatches_CompanyJobPricingMatch_ID'],
+      JobTitle: this.jobsSelectedRow['CompanyJobs_Job_Title'],
+      JobCode: this.jobsSelectedRow['CompanyJobs_Job_Code'],
+      JobId: this.pricingInfo['CompanyJobs_CompanyJob_ID'],
+      MatchJobTitle: this.dataRow['vw_PricingMatchesJobTitlesMerged_Job_Title'],
+      MatchJobCode: this.dataRow['vw_PricingMatchesJobTitlesMerged_Job_Code'],
+      PayMarket: this.pricingInfo['CompanyPayMarkets_PayMarket'],
+      PayMarketId: this.pricingInfo['CompanyPayMarkets_CompanyPayMarket_ID'],
+      EffectiveDate: this.pricingInfo['CompanyJobs_Pricings_Effective_Date'],
+      PricingMatchesCount: this.pricingMatchesCount
     };
-    if (this.pricingMatchesCount !== 1) {
-      this.store.dispatch(new fromModifyPricingsActions.DeletingPricingMatch(request));
-    } else {
-      this.store.dispatch(new fromModifyPricingsActions.DeletePricingAndMatch(request));
-  }
-
-  }
-  getPreviousPricingEffectiveDate() {
-    const matchId = this.dataRow.CompanyJobs_PricingsMatches_CompanyJobPricingMatch_ID;
-    this.pricingApiService.getPreviousPricingEffectiveDate(matchId).subscribe(response => {
-        this.previousPricingEffectiveDate = response;
-        this.showDeletePricingMatchModal.next(true);
-        this.store.dispatch(new fromModifyPricingsActions.ResetModifyPricingsModals());
-      });
+    this.store.dispatch(new fromModifyPricingsActions.SetDeleteMatchModalData(deleteModalData));
   }
 
   handleMatchClick() {

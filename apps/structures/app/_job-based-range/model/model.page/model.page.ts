@@ -35,7 +35,7 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
   metaData$: Observable<RangeGroupMetadata>;
   filters: PfDataGridFilter[];
-  rangeGroupId: any;
+  rangeGroupId: number;
 
   colTemplates = {};
   filter: PfDataGridFilter;
@@ -67,7 +67,7 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
       {
         SourceName: 'CompanyStructuresRangeGroup_ID',
         Operator: '=',
-        Values: [this.rangeGroupId]
+        Values: [String(this.rangeGroupId)]
       },
       {
         SourceName: 'JobStatus',
@@ -115,7 +115,7 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
       this.rangeGroupId = params['id'];
       // This object must be being attached to the state at a later time since its being marked readonly and needs to be copied
       this.filters = cloneDeep(this.filters);
-      this.filters.find(f => f.SourceName === 'CompanyStructuresRangeGroup_ID').Values = [this.rangeGroupId];
+      this.filters.find(f => f.SourceName === 'CompanyStructuresRangeGroup_ID').Values = [String(this.rangeGroupId)];
     });
     this.metadataSub = this.metaData$.subscribe(md => {
       if (md) {
@@ -132,10 +132,14 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
             formulaFieldId: 'Mid'
           }));
         }
+
+        // Get all overridden ranges
+        this.store.dispatch(new fromSharedActions.GetOverriddenRanges({
+          pageViewId: this.pageViewId,
+          rangeGroupId: this.rangeGroupId
+        }));
       }
     });
-
-    this.store.dispatch(new fromSharedActions.GetDistinctOverrideMessages(this.rangeGroupId));
   }
 
   ngAfterViewInit(): void {
@@ -144,14 +148,8 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     if (this.urlService.isInWorkflow(Workflow.CreateModel)) {
-      this.store.dispatch(new fromModelSettingsModalActions.OpenModal());
+      this.store.dispatch(new fromModelSettingsModalActions.OpenJobModal());
     }
-
-    // Get all overridden ranges
-    this.store.dispatch(new fromSharedActions.GetOverriddenRanges({
-      pageViewId: this.pageViewId,
-      rangeGroupId: this.rangeGroupId
-    }));
 
     // Get current range group
     this.store.dispatch(new fromSharedActions.GetCurrentRangeGroup({

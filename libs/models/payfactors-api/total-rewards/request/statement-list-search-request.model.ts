@@ -1,7 +1,4 @@
-export interface StatementListSearchRequest {
+import { GenericSearchRequest } from './generic-search-request.model';
+export interface StatementListSearchRequest extends GenericSearchRequest {
   SearchTerm?: string;
-  SortBy?: string;
-  SortDirection?: string;
-  From: number;
-  Count: number;
 }

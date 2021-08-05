@@ -20,6 +20,7 @@ import { EmployeesPageEffects } from './effects';
 import { EmployeesPageRoutingModule } from './employees-page-routing.module';
 import { EmployeesPageComponent } from './employees.page';
 import { SharedModule } from '../shared/shared.module';
+import { EmployeeDetailsComponent } from './containers';
 
 @NgModule({
   imports: [
@@ -51,6 +52,7 @@ import { SharedModule } from '../shared/shared.module';
   declarations: [
     EmployeesPageComponent,
     // Containers
+    EmployeeDetailsComponent
   ]
 })
 export class EmployeesPageModule {

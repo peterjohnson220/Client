@@ -9,10 +9,11 @@ import * as fromRootReducer from 'libs/state/state';
 import { SystemUserGroupNames } from 'libs/constants';
 import { AsyncStateObj } from 'libs/models/state';
 
-import { JobPricingLimitInfo, QuickPriceHistoryContext } from '../../../models';
-import * as fromComphubPageActions from '../../../actions/comphub-page.actions';
-import * as fromComphubMainReducer from '../../../reducers';
-import { ComphubPages } from '../../../data';
+import * as fromComphubPageActions from '../../../../_shared/actions/comphub-page.actions';
+import * as fromComphubSharedReducer from '../../../../_shared/reducers';
+import { ComphubPages } from '../../../../_shared/data';
+import { JobPricingLimitInfo } from '../../../../_shared/models/job-pricing-limit-info.model';
+import { QuickPriceHistoryContext } from '../../../../_shared/models';
 
 @Component({
   selector: 'pf-jobs-card-wrapper',
@@ -30,12 +31,12 @@ export class JobsCardWrapperComponent implements OnInit {
   systemUserGroupNames = SystemUserGroupNames;
 
   constructor(
-    private store: Store<fromComphubMainReducer.State>,
+    private store: Store<fromComphubSharedReducer.State>,
     private basicGridStore: Store<fromBasicDataGridReducer.State>
   ) {
-    this.jobPricingBlocked$ = this.store.select(fromComphubMainReducer.getJobPricingBlocked);
-    this.jobPricingLimitInfo$ = this.store.select(fromComphubMainReducer.getJobPricingLimitInfo);
-    this.countryDataSetsLoaded$ = this.store.select(fromComphubMainReducer.getCountryDataSetsLoaded);
+    this.jobPricingBlocked$ = this.store.select(fromComphubSharedReducer.getJobPricingBlocked);
+    this.jobPricingLimitInfo$ = this.store.select(fromComphubSharedReducer.getJobPricingLimitInfo);
+    this.countryDataSetsLoaded$ = this.store.select(fromComphubSharedReducer.getCountryDataSetsLoaded);
     this.userContext$ = this.store.select(fromRootReducer.getUserContext);
   }
 

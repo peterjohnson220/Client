@@ -12,6 +12,7 @@ import { PfDataGridColType } from 'libs/features/grids/pf-data-grid/enums';
 import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums/pf-theme-type.enum';
 import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import { Between } from 'libs/ui/formula-editor/models';
+import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
 
 import * as fromSharedStructuresReducer from '../../../shared/reducers';
 import * as fromModelSettingsModalActions from '../../../shared/actions/model-settings-modal.actions';
@@ -52,6 +53,7 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
   filterValue: string;
   filterMinValue: string;
   filterMaxValue: string;
+  hasStructuresPageFlagEnabled: boolean;
   routerParamsSubscription: Subscription;
 
   gridConfig: GridConfig;
@@ -77,8 +79,10 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
   constructor(
     public store: Store<fromSharedStructuresReducer.State>,
     public route: ActivatedRoute,
+    private featureFlagService: AbstractFeatureFlagService,
     private structuresPagesService: StructuresPagesService,
   ) {
+    this.hasStructuresPageFlagEnabled = this.featureFlagService.enabled(FeatureFlags.StructuresPage, false);
     this.metaData$ = this.store.pipe(select(fromSharedStructuresReducer.getMetadata));
     this.metadataSubscription = this.metaData$.subscribe(md => {
       if (md) {
@@ -180,7 +184,7 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
 
   // Events
   handleModelSettingsBtnClicked() {
-    this.store.dispatch(new fromModelSettingsModalActions.OpenModal());
+    this.store.dispatch(new fromModelSettingsModalActions.OpenJobModal());
   }
 
   handleDuplicateModelBtnClicked() {
@@ -208,7 +212,8 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
     // Get all overridden ranges
     this.store.dispatch(new fromSharedStructuresActions.GetOverriddenRanges({
       pageViewId: this.modelPageViewId,
-      rangeGroupId: this.rangeGroupId
+      rangeGroupId: this.rangeGroupId,
+      ignoreGetDistinctOverrideMessages: true
     }));
   }
 

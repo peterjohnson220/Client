@@ -57,7 +57,13 @@
       </b>
     </div>
     <div>
-      <i> {{dataRow['vw_ProjectJobPayMarketMetadata_Paymarket']}}</i>
+      <div>
+        <label><i> {{dataRow['vw_ProjectJobPayMarketMetadata_Paymarket']}}</i></label>
+      </div>
+      <div [pfSecuredResource]="permissions.PRICING_PROJECTS_DATA_CUTS"
+           *ngIf="!dataRow['vw_ProjectJobPayMarketMetadata_IsPayfactorsJob']">
+        <span (click)="openAddDataModal($event, dataRow)" class="pf-link float-right"><b>Add Data</b></span>
+      </div>
     </div>
   </div>
 </ng-template>
@@ -109,6 +115,7 @@
   [modalTitle]="'Download Data Export'"
   [openModal]="exportModalIsOpen"
   [modalSize]="'md'"
+  [numRowsToExport]="(totalDataRows$ | async)"
   (saveSuccess)="closeExportModal()"
   (cancelChanges)="closeExportModal()"
 >
@@ -152,3 +159,6 @@
     </pf-job-summary>
   </ng-container>
 </ng-template>
+
+<pf-add-data [display]="'modal'">
+</pf-add-data>

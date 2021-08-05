@@ -1,0 +1,24 @@
+<pf-model-settings-modal
+  [modalId]="'grade-based-model-settings-modal'"
+  [metaData]="metaData"
+  [modalOpen$]="modalOpen$"
+  [modelSettingsForm]="modelSettingsForm"
+  [savingModelSettingsAsyncObj$]="savingModelSettingsAsyncObj$"
+  (modalSubmit)="handleModalSubmit()"
+  (modalAttemptedSubmit)="handleModalSubmitAttempt()"
+  (modalDismissed)="handleModalDismiss()">
+
+  <ng-container structures-settings-modal-content>
+    <div>
+      <pf-async-container [loading]="loadingMetaData$ | async"></pf-async-container>
+      <pf-grade-based-model-settings-content *ngIf="modalOpen$ | async"
+        [rangeGroupId]="rangeGroupId"
+        [pageViewId]="pageViewId"
+        [isNewModel]="isNewModel"
+        [modelSettingsForm]="modelSettingsForm"
+        [numGrades]="numGrades"
+        (adjustMidpointRadioButtonChanged)="handleAdjustMidpointRadioButtonChanged($event)">
+      </pf-grade-based-model-settings-content>
+    </div>
+  </ng-container>
+</pf-model-settings-modal>

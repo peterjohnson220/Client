@@ -32,7 +32,7 @@ export class UserApiService {
 
   getUserHomePageAuthenticated() {
     return this.payfactorsApiService
-      .get<string>(`${this.endpoint}(0)/Default.GetUserHomePageAuthenticated`);
+      .get<string>(`${this.endpoint}/GetUserHomePageAuthenticated`);
   }
 
   getUserHomePage(userId: number) {

@@ -6,7 +6,7 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { DropDownListModule } from '@progress/kendo-angular-dropdowns';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { UploadsModule } from '@progress/kendo-angular-upload';
 
 import { PfCommonModule } from 'libs/core';
@@ -45,6 +45,7 @@ import { SurveyPageEffects, SurveyParticipationEffects } from './effects';
     FontAwesomeModule,
     DropDownListModule,
     NgbModule,
+    NgbDropdownModule,
     UploadsModule,
 
     // Payfactors

@@ -125,6 +125,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     this.loginErrorSubscription.unsubscribe();
     this.loginSubscription.unsubscribe();
     this.loginSuccessSubscription.unsubscribe();
+    this.unsubscribe$.next();
   }
 
   initForm(): void {

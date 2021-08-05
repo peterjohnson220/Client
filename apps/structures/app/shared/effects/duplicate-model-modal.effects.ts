@@ -59,13 +59,16 @@ export class DuplicateModelModalEffects {
 
                 actions.push(new fromDuplicateModelModalActions.DuplicateModelSuccess());
 
-                // Get all overridden ranges
-                const modelPageViewId =
-                PagesHelper.getModelPageViewIdByRangeTypeAndRangeDistributionType(response.RangeGroup.RangeTypeId, response.RangeGroup.RangeDistributionTypeId);
-                actions.push(new fromSharedStructuresActions.GetOverriddenRanges({
-                  pageViewId: modelPageViewId,
-                  rangeGroupId: response.RangeGroup.CompanyStructuresRangeGroupId
-                }));
+                // Get all overridden ranges only for JBR
+                if (response.RangeGroup.RangeTypeId === RangeType.Job) {
+                  const modelPageViewId =
+                    PagesHelper.getModelPageViewIdByRangeTypeAndRangeDistributionType(response.RangeGroup.RangeTypeId,
+                      response.RangeGroup.RangeDistributionTypeId);
+                  actions.push(new fromSharedStructuresActions.GetOverriddenRanges({
+                    pageViewId: modelPageViewId,
+                    rangeGroupId: response.RangeGroup.CompanyStructuresRangeGroupId
+                  }));
+                }
               }
 
               return actions;

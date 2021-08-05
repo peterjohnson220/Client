@@ -7,18 +7,18 @@
 	<form  [formGroup]="addNonPfUserForm" (ngSubmit)="nonPfUserFormSubmit()">
 		<label>{{currentEmail}}</label>
 		<div class="form-group" [class.has-danger]="addNonPfUserForm.controls.firstname.errors && nonPfUserFormSubmitted">
-			<input 
-				type="text" 
-				class="form-control" 
-				formControlName="firstname" 
+			<input
+				type="text"
+				class="form-control"
+				formControlName="firstname"
 				placeholder="First Name"
 				[class.form-control-danger]="addNonPfUserForm.controls.firstname.errors && nonPfUserFormSubmitted">
 		</div>
 		<div class="form-group" [class.has-danger]="addNonPfUserForm.controls.lastname.errors && nonPfUserFormSubmitted">
-			<input 
-				type="text" 
-				class="form-control"				
-				formControlName="lastname" 
+			<input
+				type="text"
+				class="form-control"
+				formControlName="lastname"
 				placeholder="Last Name"
 				[class.form-control-danger]="addNonPfUserForm.controls.lastname.errors && nonPfUserFormSubmitted">
 		</div>
@@ -107,3 +107,58 @@
 		</ng-container>
 	</div>
 </div>
+<pf-async-container [style.display]="showAttachmentsUpload ? 'block' : 'none'"
+  [loadingErrorMessage]="'Error Loading Attachments'">
+  <p class="m-3">Attachments - {{uploadedFiles.length}}/3 Files uploaded</p>
+  <p *ngIf="showFileCountWarning" class="alert-warning pl-2">A maximum number of 3 attachments may be uploaded</p>
+<kendo-upload #uploadWidget
+              [multiple]="true"
+              [saveUrl]="saveAttachmentUrl"
+              [removeUrl]="removeAttachmentUrl"
+              [concurrent]="false"
+              [restrictions]="uploadRestrictions"
+              [accept]="uploadRestrictions.allowedExtensions"
+              (upload)="uploadAttachmentEventHandler($event)"
+              (error)="errorEventHandler($event)"
+              (success)="successEventHandler($event)"
+              (select)="selectEventHandler($event)"
+              (remove)="removeEventHandler($event)"
+              [ngModel]="uploadedFilesKendo">
+  <kendo-upload-messages
+    select="Browse"
+    dropFilesHere={{fileRestrictionsMessage}}>
+  </kendo-upload-messages>
+  <ng-template kendoUploadFileTemplate let-files let-state="state">
+    <div class="attachments-container">
+            <span class="{{getStatusClass(files[0])}}">
+              {{files[0].name}} ({{formattedBytes(files[0].size)}})
+            </span>
+      <span class="float-right pr-3" *ngIf="getUploadStatus(files[0]) == workflowAttachmentUploadStatus.UploadInProgress">
+              <i>Uploading file</i>
+              <pf-loading-indicator class="pl-2"></pf-loading-indicator>
+            </span>
+      <span class="float-right pr-3" *ngIf="getUploadStatus(files[0]) == workflowAttachmentUploadStatus.ScanInProgress">
+              <i>Scanning for viruses</i>
+              <pf-loading-indicator class="pl-2"></pf-loading-indicator>
+            </span>
+      <span class="float-right pr-3 upload-failed" *ngIf="getUploadStatus(files[0]) == workflowAttachmentUploadStatus.UploadFailed">
+              <i><fa-icon icon="exclamation-circle" aria-hidden="true"></fa-icon> Sorry, there was an error uploading your file. Please choose a different file.</i>
+            </span>
+      <span class="float-right pr-3 upload-failed" *ngIf="getUploadStatus(files[0]) == workflowAttachmentUploadStatus.ScanFailed">
+              <i><fa-icon icon="exclamation-circle" aria-hidden="true"></fa-icon> Sorry, there is an error with our upload service. Please try again later.</i>
+            </span>
+      <span class="float-right pr-3 upload-failed" *ngIf="getUploadStatus(files[0]) == workflowAttachmentUploadStatus.InvalidExtension">
+              <i><fa-icon icon="exclamation-circle" aria-hidden="true"></fa-icon> Invalid file type.</i>
+            </span>
+      <span class="float-right pr-3 upload-failed" *ngIf="getUploadStatus(files[0]) == workflowAttachmentUploadStatus.InvalidMaxFileSize">
+              <i><fa-icon icon="exclamation-circle" aria-hidden="true"></fa-icon> Invalid file size.</i>
+            </span>
+    </div>
+    <button
+      (click)="removeAttachmentEventHandler(files[0])"
+      class="btn btn-secondary float-right">
+      Remove
+    </button>
+  </ng-template>
+</kendo-upload>
+</pf-async-container>

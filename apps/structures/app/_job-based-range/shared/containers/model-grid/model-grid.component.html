@@ -211,25 +211,11 @@
   </div>
 </ng-template>
 
-<pf-model-settings-modal
+<pf-job-based-model-settings-modal
   [rangeGroupId]="rangeGroupId"
   [pageViewId]="pageViewId"
-  [modalOpen$]="modalOpen$"
-  [modelSettingsForm]="modelSettingsForm"
-  (modalSubmit)="handleModalSubmit()"
-  (modalAttemptedSubmit)="handleModelAttemptedSubmit()"
-  (modalDismissed)="handleModalDismissed()">
-  <ng-container structures-settings-modal-content>
-    <pf-job-based-model-settings-modal-content
-      [rangeGroupId]="rangeGroupId"
-      [pageViewId]="pageViewId"
-      [modalOpen]="modalOpen$ | async"
-      [isNewModel]="isNewModel"
-      [modelSettingsForm]="modelSettingsForm"
-      [selectedExchange]="selectedExchange">
-    </pf-job-based-model-settings-modal-content>
-  </ng-container>
-</pf-model-settings-modal>
+  [isNewModel]="isNewModel">
+</pf-job-based-model-settings-modal>
 
 <pf-modal-form
   [size]="'md'"

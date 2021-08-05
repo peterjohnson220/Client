@@ -8,23 +8,23 @@ import * as fromRootState from 'libs/state/state';
 import { generateMockUserContext } from 'libs/models/security';
 
 import { JobsCardComponent } from './jobs.card.component';
-import * as fromComphubMainReducer from '../../../reducers';
-import * as fromJobsCardActions from '../../../actions/jobs-card.actions';
-import * as fromCompHubPageActions from '../../../actions/comphub-page.actions';
-import { generateMockWorkflowContext } from '../../../models';
+import * as fromComphubSharedReducer from '../../../../_shared/reducers';
+import * as fromJobsCardActions from '../../../../_shared/actions/jobs-card.actions';
+import * as fromCompHubPageActions from '../../../../_shared/actions/comphub-page.actions';
 import { of } from 'rxjs';
+import { generateMockWorkflowContext } from '../../../../_shared/models';
 
 describe('Comphub - Main - Jobs Card Component', () => {
   let instance: JobsCardComponent;
   let fixture: ComponentFixture<JobsCardComponent>;
-  let store: Store<fromComphubMainReducer.State>;
+  let store: Store<fromComphubSharedReducer.State>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
           ...fromRootState.reducers,
-          comphub_main: combineReducers(fromComphubMainReducer.reducers),
+          comphub_shared: combineReducers(fromComphubSharedReducer.reducers),
         }),
         DropDownsModule,
       ],

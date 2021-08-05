@@ -6,6 +6,8 @@ import {
   UpdatePricingRequest
 } from 'libs/models/payfactors-api';
 
+import { DeleteMatchModalData } from '../models';
+
 export const RESET_MODIFY_PRICINGS_MODALS = '[Modify Pricings] Reset Modify Pricings Modals';
 export const DELETING_PRICING = '[Modify Pricings] Deleting Pricing';
 export const DELETING_PRICING_SUCCESS = '[Modify Pricings] Deleting Pricing Success';
@@ -21,6 +23,7 @@ export const UPDATING_PRICING_MATCH_SUCCESS = '[Modify Pricings] Updating Pricin
 export const UPDATING_PRICING_MATCH_ERROR = '[Modify Pricings] Updating Pricing Match Error';
 export const REFRESH_LINKED_PRICINGS = '[Modify Pricings] Refresh Linked Pricings';
 export const DELETE_PRICING_AND_MATCH = '[Modify Pricings] Deleting Pricing And Match';
+export const SET_DELETE_MATCH_MODAL_DATA = '[Modify Pricings] Set Delete Match Modal Data';
 
 export class ResetModifyPricingsModals implements Action {
   readonly type = RESET_MODIFY_PRICINGS_MODALS;
@@ -97,6 +100,11 @@ export class DeletePricingAndMatch implements  Action {
   constructor(public payload: any) { }
 }
 
+export class SetDeleteMatchModalData implements Action {
+  readonly type = SET_DELETE_MATCH_MODAL_DATA;
+  constructor(public payload: DeleteMatchModalData) {}
+}
+
 export type ModifyPricingsActions
   = ResetModifyPricingsModals
   | DeletingPricing
@@ -112,4 +120,5 @@ export type ModifyPricingsActions
   | UpdatingPricingMatchSuccess
   | UpdatingPricingMatchError
   | RefreshLinkedPricings
-  | DeletePricingAndMatch;
+  | DeletePricingAndMatch
+  | SetDeleteMatchModalData;

@@ -26,24 +26,24 @@ export class UploadSurveyFileComponent implements OnInit, OnDestroy {
   worksheetNames$: Observable<AsyncStateObj<string[]>>;
   surveyJobSheetName$: Observable<string>;
   surveyDataSheetName$: Observable<string>;
-  surveyParticipationSheetName$: Observable<string>;
+  surveyParticipantsSheetName$: Observable<string>;
   validationOnly$: Observable<boolean>;
 
   worksheetNamesSubscription: Subscription;
   surveyJobSheetNameSubscription: Subscription;
   surveyDataSheetNameSubscription: Subscription;
-  surveyParticipationSheetNameSubscription: Subscription;
+  surveyParticipantsSheetNameSubscription: Subscription;
   validationOnlySubscription: Subscription;
 
   readonly validFileExtensions = ['.xlsx'];
   selectedFile: File;
   surveyJobSheetName: SurveySheetModel[];
   surveyDataSheetName: SurveySheetModel[];
-  surveyParticipationSheetName: SurveySheetModel[];
+  surveyParticipantsSheetName: SurveySheetModel[];
   isDuplicateSheetName: boolean;
   duplicateSheetNamesErrors: string[];
   validationOnly: boolean;
-  surveyAdditionalTab = { SurveyJobTab: false, SurveyDataTab: false, SurveyParticipationTab: false};
+  surveyAdditionalTab = { SurveyJobTab: false, SurveyDataTab: false, SurveyParticipantsTab: false};
   isDisabledSurveyAdditionalTab = false;
   loaderSettings = LoaderSettingKeyName;
   unsubscribe$ = new Subject<void>();
@@ -57,7 +57,7 @@ export class UploadSurveyFileComponent implements OnInit, OnDestroy {
     this.worksheetNames$ = this.store.select(fromSurveyLoaderMainReducer.getWorksheetNames);
     this.surveyJobSheetName$ = this.store.select(fromSurveyLoaderMainReducer.getSurveyJobSheetName);
     this.surveyDataSheetName$ = this.store.select(fromSurveyLoaderMainReducer.getSurveyDataSheetName);
-    this.surveyParticipationSheetName$ = this.store.select(fromSurveyLoaderMainReducer.getSurveyParticipationSheetName);
+    this.surveyParticipantsSheetName$ = this.store.select(fromSurveyLoaderMainReducer.getSurveyParticipantsSheetName);
     this.validationOnly$ = this.store.select(fromSurveyLoaderMainReducer.getValidationOnly);
   }
 
@@ -73,8 +73,8 @@ export class UploadSurveyFileComponent implements OnInit, OnDestroy {
       this.surveyDataSheetName = value === null ? getSurveySheetInit() : JSON.parse(value);
       this.duplicateSurveySheetError();
     });
-    this.surveyParticipationSheetNameSubscription = this.surveyParticipationSheetName$.subscribe(value => {
-      this.surveyParticipationSheetName = value === null ? getSurveySheetInit() : JSON.parse(value);
+    this.surveyParticipantsSheetNameSubscription = this.surveyParticipantsSheetName$.subscribe(value => {
+      this.surveyParticipantsSheetName = value === null ? getSurveySheetInit() : JSON.parse(value);
       this.duplicateSurveySheetError();
     });
     this.validationOnlySubscription = this.validationOnly$.subscribe(value => this.validationOnly = value);
@@ -84,7 +84,7 @@ export class UploadSurveyFileComponent implements OnInit, OnDestroy {
     this.worksheetNamesSubscription.unsubscribe();
     this.surveyJobSheetNameSubscription.unsubscribe();
     this.surveyDataSheetNameSubscription.unsubscribe();
-    this.surveyParticipationSheetNameSubscription.unsubscribe();
+    this.surveyParticipantsSheetNameSubscription.unsubscribe();
     this.validationOnlySubscription.unsubscribe();
     this.unsubscribe$.next();
   }
@@ -116,11 +116,11 @@ export class UploadSurveyFileComponent implements OnInit, OnDestroy {
     this.updateSurveySheetName(LoaderSettingKeyName.SurveyDataSheetName, this.surveyDataSheetName);
   }
 
-  updateSurveyParticipationSheetName(value: string, surveySheetId: number): void {
-    this.surveyParticipationSheetName.map(sps => {
+  updateSurveyParticipantsSheetName(value: string, surveySheetId: number): void {
+    this.surveyParticipantsSheetName.map(sps => {
       sps.Value = sps.Id === surveySheetId ? (value === undefined ? null : value) : sps.Value;
     });
-    this.updateSurveySheetName(LoaderSettingKeyName.SurveyParticipationSheetName, this.surveyParticipationSheetName);
+    this.updateSurveySheetName(LoaderSettingKeyName.SurveyParticipantsSheetName, this.surveyParticipantsSheetName);
   }
 
   updateSurveySheetName(loaderSetting: LoaderSettingKeyName, surveySheet: SurveySheetModel[]): void {
@@ -150,9 +150,9 @@ export class UploadSurveyFileComponent implements OnInit, OnDestroy {
         this.updateSurveySheetName(loaderSetting, this.surveyDataSheetName);
         break;
       }
-      case LoaderSettingKeyName.SurveyParticipationSheetName: {
-        this.surveyParticipationSheetName = this.surveyParticipationSheetName.filter(sps => sps.Id !== surveySheetId);
-        this.updateSurveySheetName(loaderSetting, this.surveyParticipationSheetName);
+      case LoaderSettingKeyName.SurveyParticipantsSheetName: {
+        this.surveyParticipantsSheetName = this.surveyParticipantsSheetName.filter(sps => sps.Id !== surveySheetId);
+        this.updateSurveySheetName(loaderSetting, this.surveyParticipantsSheetName);
         break;
       }
     }
@@ -169,8 +169,8 @@ export class UploadSurveyFileComponent implements OnInit, OnDestroy {
           this.surveyDataSheetName.push({Id: this.getNewId(this.surveyDataSheetName), Value: null});
           break;
         }
-        case LoaderSettingKeyName.SurveyParticipationSheetName: {
-          this.surveyParticipationSheetName.push({Id: this.getNewId(this.surveyParticipationSheetName), Value: null});
+        case LoaderSettingKeyName.SurveyParticipantsSheetName: {
+          this.surveyParticipantsSheetName.push({Id: this.getNewId(this.surveyParticipantsSheetName), Value: null});
           break;
         }
       }
@@ -193,12 +193,12 @@ export class UploadSurveyFileComponent implements OnInit, OnDestroy {
   public get isSurveySheetEmpty(): boolean {
     const isSurveyJobEmpty = this.surveyJobSheetName.some(sjs => sjs.Value !== null);
     const isSurveyDataEmpty = this.surveyDataSheetName.some(sds => sds.Value !== null);
-    const isSurveyParticipationEmpty = this.surveyParticipationSheetName.some(sps => sps.Value !== null);
-    return !isSurveyJobEmpty && !isSurveyDataEmpty && !isSurveyParticipationEmpty;
+    const isSurveyParticipantsEmpty = this.surveyParticipantsSheetName.some(sps => sps.Value !== null);
+    return !isSurveyJobEmpty && !isSurveyDataEmpty && !isSurveyParticipantsEmpty;
   }
 
   public duplicateSurveySheetError(): void {
-    if (this.surveyJobSheetName && this.surveyDataSheetName && this.surveyParticipationSheetName) {
+    if (this.surveyJobSheetName && this.surveyDataSheetName && this.surveyParticipantsSheetName) {
       this.duplicateSheetNamesErrors = [];
       this.duplicateNames.forEach(duplicated => {
         this.duplicateSheetNamesErrors.push('Tab ' + duplicated + ' is duplicated');
@@ -209,7 +209,7 @@ export class UploadSurveyFileComponent implements OnInit, OnDestroy {
 
   public get duplicateNames(): string[] {
     const duplicated = [];
-    const surveySheetNames = this.surveyJobSheetName.concat(this.surveyDataSheetName).concat(this.surveyParticipationSheetName);
+    const surveySheetNames = this.surveyJobSheetName.concat(this.surveyDataSheetName).concat(this.surveyParticipantsSheetName);
     surveySheetNames.forEach(ssn => {
       if (duplicated.indexOf(ssn.Value) === - 1 && surveySheetNames.filter(sn => sn.Value !== null && sn.Value === ssn.Value).length > 1) {
         duplicated.push(ssn.Value);

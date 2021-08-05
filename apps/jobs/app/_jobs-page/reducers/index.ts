@@ -8,6 +8,7 @@ import * as fromJobsPageReducer from './jobs-page.reducer';
 import * as fromModifyPricingsReducer from './modify-pricings.reducer';
 import * as fromJobDescriptionReducer from './job-description.reducer';
 import * as fromJobPeerMatchesReducer from './peer-matches-exchange.reducer';
+import * as fromJobInsightsReducer from './job-insights.reducer';
 
 // Feature area state
 export interface JobsPageStateMain {
@@ -15,6 +16,7 @@ export interface JobsPageStateMain {
   modifyPricings: fromModifyPricingsReducer.State;
   jobDescription: fromJobDescriptionReducer.State;
   peerMatches: fromJobPeerMatchesReducer.State;
+  jobInsights: fromJobInsightsReducer.State;
 }
 
 // Extend root state with feature area state
@@ -27,7 +29,8 @@ export const reducers = {
   jobsPage: fromJobsPageReducer.reducer,
   modifyPricings: fromModifyPricingsReducer.reducer,
   jobDescription: fromJobDescriptionReducer.reducer,
-  peerMatches: fromJobPeerMatchesReducer.reducer
+  peerMatches: fromJobPeerMatchesReducer.reducer,
+  jobInsights: fromJobInsightsReducer.reducer
 };
 
 // Select Feature Area
@@ -60,6 +63,7 @@ export const getUpdatingPricing = createSelector(selectModifyPricingsPageState, 
 export const getDeletingPricingMatch = createSelector(selectModifyPricingsPageState, fromModifyPricingsReducer.getDeletingPricingMatch);
 export const getUpdatingPricingMatch = createSelector(selectModifyPricingsPageState, fromModifyPricingsReducer.getUpdatingPricingMatch);
 export const getRecalculatingPricingInfo = createSelector(selectModifyPricingsPageState, fromModifyPricingsReducer.getRecalculatingPricingInfo);
+export const getDeleteMatchModalData = createSelector(selectModifyPricingsPageState, fromModifyPricingsReducer.getDeleteMatchModalData);
 
 // Job Description Selectors
 export const selectJobDescriptionState =
@@ -76,3 +80,10 @@ export const selectJobPeerMatchesState =
 
 export const getPeerMatchesLoaded = createSelector(selectJobPeerMatchesState, fromJobPeerMatchesReducer.getPeerMatchesLoaded);
 export const getPeerMatches = createSelector(selectJobPeerMatchesState, fromJobPeerMatchesReducer.getPeerMatches);
+
+// Job Insights
+export const selectJobInsightsState =
+  createSelector(selectJobsPageMainState, (state: JobsPageStateMain) => state.jobInsights);
+
+export const getJobInsights = createSelector(selectJobInsightsState, fromJobInsightsReducer.getJobInsights);
+export const getJobCustomFields = createSelector(selectJobInsightsState, fromJobInsightsReducer.getJobCustomFields);

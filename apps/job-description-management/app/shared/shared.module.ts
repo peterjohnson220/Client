@@ -38,6 +38,7 @@ import {
 import { JobDescriptionAppliesToDisplayNamePipe } from './pipes';
 import { PeditorAutoFocusFixDirective } from './directives';
 import { UserPillComponent } from './components/user-pill/user-pill.component';
+import { UploadModule } from '@progress/kendo-angular-upload';
 
 @NgModule({
     imports: [
@@ -63,7 +64,8 @@ import { UserPillComponent } from './components/user-pill/user-pill.component';
         DatePickerModule,
         FilterMenuModule,
         GridModule,
-        NgbNavModule
+        NgbNavModule,
+        UploadModule
     ],
   exports: [
     StatusPillComponent,

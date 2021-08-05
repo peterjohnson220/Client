@@ -1,10 +1,14 @@
 .input-group {
-  width:100%
+  width: 100%
 }
 .form-control::-ms-clear {
   display: none;
 }
 
 .action-item:hover {
-  cursor: pointer;  
+  cursor: pointer;
+}
+
+.input-group-text.no-background {
+  background: none;
 }

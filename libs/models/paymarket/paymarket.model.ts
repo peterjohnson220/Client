@@ -17,6 +17,8 @@ export interface PayMarket {
  LinkedPayMarketId?: number;
  LinkedPayMarketAdj?: number;
  ShowInLinkedStructure?: boolean;
+ OrganizationTypeId?: number;
+ IsGovernmentContractor?: boolean;
 }
 
 export interface PayMarketWithMdScope extends PayMarket {
@@ -56,6 +58,8 @@ export function generateMockPayMarket(): PayMarket {
     LinkedPayMarket: null,
     LinkedPayMarketId: null,
     LinkedPayMarketAdj: 60,
-    ShowInLinkedStructure: true
+    ShowInLinkedStructure: true,
+    OrganizationTypeId: 1,
+    IsGovernmentContractor: true
   };
 }

@@ -1,3 +1,5 @@
+import cloneDeep from 'lodash/cloneDeep';
+
 import * as fromModelSettingsModalActions from '../actions/model-settings-modal.actions';
 
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
@@ -6,39 +8,49 @@ import { AsyncStateObjHelper } from 'libs/core/helpers';
 import { Currency, ControlPoint } from '../models';
 
 export interface State {
-  modalOpen: boolean;
+  gradeModalOpen: boolean;
+  jobModalOpen: boolean;
   currenciesAsyncObj: AsyncStateObj<Currency[]>;
   controlPointsAsyncObj: AsyncStateObj<ControlPoint[]>;
   surveyUdfsAsyncObj: AsyncStateObj<ControlPoint[]>;
   structureNameSuggestionsAsyncObj: AsyncStateObj<string[]>;
   savingModelingSettingsAsyncObj: AsyncStateObj<any>;
   modelNameExistsFailure: boolean;
-  activeTab: string;
+  gradesDetails: AsyncStateObj<any>;
+  structureHasSettings: AsyncStateObj<any>;
 }
 
 const initialState: State = {
-  modalOpen: false,
+  gradeModalOpen: false,
+  jobModalOpen: false,
   currenciesAsyncObj: generateDefaultAsyncStateObj<Currency[]>([]),
   controlPointsAsyncObj: generateDefaultAsyncStateObj<ControlPoint[]>([]),
   surveyUdfsAsyncObj: generateDefaultAsyncStateObj<ControlPoint[]>([]),
   structureNameSuggestionsAsyncObj: generateDefaultAsyncStateObj<string[]>([]),
   savingModelingSettingsAsyncObj: generateDefaultAsyncStateObj<any>(null),
   modelNameExistsFailure: false,
-  activeTab: null
+  gradesDetails: generateDefaultAsyncStateObj<any>(null),
+  structureHasSettings: generateDefaultAsyncStateObj<any>(null)
 };
 
 export function reducer(state = initialState, action: fromModelSettingsModalActions.ModelSettingsModalActions): State {
   switch (action.type) {
-    case fromModelSettingsModalActions.OPEN_MODAL:
+    case fromModelSettingsModalActions.OPEN_GRADE_MODAL:
       return {
         ...state,
-        modalOpen: true
+        gradeModalOpen: true
+      };
+    case fromModelSettingsModalActions.OPEN_JOB_MODAL:
+      return {
+        ...state,
+        jobModalOpen: true
       };
     case fromModelSettingsModalActions.CLOSE_MODAL:
       state = AsyncStateObjHelper.resetErrors(state, 'savingModelingSettingsAsyncObj');
       return {
         ...state,
-        modalOpen: false
+        gradeModalOpen: false,
+        jobModalOpen: false
       };
     case fromModelSettingsModalActions.GET_CURRENCIES:
       return AsyncStateObjHelper.loading(state, 'currenciesAsyncObj');
@@ -87,22 +99,61 @@ export function reducer(state = initialState, action: fromModelSettingsModalActi
         modelNameExistsFailure: false
       };
     }
-    case fromModelSettingsModalActions.SET_ACTIVE_TAB: {
+    case fromModelSettingsModalActions.GET_GRADES_DETAILS: {
+      const gradesDetails = cloneDeep(state.gradesDetails);
+
+      gradesDetails.loading = true;
+      gradesDetails.obj = null;
+      gradesDetails.loadingError = false;
+
       return {
         ...state,
-        activeTab: action.payload
+        gradesDetails: gradesDetails
       };
+    }
+    case fromModelSettingsModalActions.GET_GRADES_DETAILS_SUCCESS: {
+      const gradesDetails = cloneDeep(state.gradesDetails);
+
+      gradesDetails.loading = false;
+      gradesDetails.obj = action.payload;
+
+      return {
+        ...state,
+        gradesDetails: gradesDetails
+      };
+    }
+    case fromModelSettingsModalActions.GET_GRADES_DETAILS_ERROR: {
+      const gradesDetails = cloneDeep(state.gradesDetails);
+
+      gradesDetails.loading = false;
+      gradesDetails.loadingError = true;
+
+      return {
+        ...state,
+        gradesDetails: gradesDetails
+      };
+    }
+    case fromModelSettingsModalActions.GET_STRUCTURE_HAS_SETTINGS: {
+      return AsyncStateObjHelper.loading(state, 'structureHasSettings');
+    }
+    case fromModelSettingsModalActions.GET_STRUCTURE_HAS_SETTINGS_SUCCESS: {
+      return AsyncStateObjHelper.loadingSuccess(state, 'structureHasSettings', action.payload);
+    }
+    case fromModelSettingsModalActions.GET_STRUCTURE_HAS_SETTINGS_ERROR: {
+      return AsyncStateObjHelper.loadingError(state, 'structureHasSettings');
     }
     default:
       return state;
   }
 }
 
-export const getModalOpen = (state: State) => state.modalOpen;
+export const getGradeModelSettingsModalOpen = (state: State) => state.gradeModalOpen;
+export const getJobModelSettingsModalOpen = (state: State) => state.jobModalOpen;
 export const getCurrenciesAsyncObj = (state: State) => state.currenciesAsyncObj;
 export const getSurveyUdfsAsyncObj = (state: State) => state.surveyUdfsAsyncObj;
 export const getControlPointsAsyncObj = (state: State) => state.controlPointsAsyncObj;
 export const getStructureNameSuggestionsAsyncObj = (state: State) => state.structureNameSuggestionsAsyncObj;
 export const getSavingModelSettingsAsyncObj = (state: State) => state.savingModelingSettingsAsyncObj;
 export const getModelNameExistsFailure = (state: State) => state.modelNameExistsFailure;
-export const getActiveTab = (state: State) => state.activeTab;
+export const getGradesDetails = (state: State) => state.gradesDetails;
+export const getStructureHasSettings = (state: State) => state.structureHasSettings;

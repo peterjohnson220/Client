@@ -17,6 +17,7 @@ import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import { GridDataHelper } from 'libs/features/grids/pf-data-grid/helpers';
 import { PagingOptions } from 'libs/models/payfactors-api/search/request';
 import * as fromReducer from 'libs/features/grids/pf-data-grid/reducers';
+import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
 
 import { PagesHelper } from '../../../shared/helpers/pages.helper';
 import * as fromSharedStructuresReducer from '../../../shared/reducers';
@@ -60,6 +61,7 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
   pagingOptions: PagingOptions;
   filterTemplates = {};
   singleJobViewUrl: string;
+  hasStructuresPageFlagEnabled: boolean;
 
   modelGridPageViewIdSubscription: Subscription;
   dataSubscription: Subscription;
@@ -69,6 +71,7 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
 
   constructor(public store: Store<fromSharedStructuresReducer.State>,
               public route: ActivatedRoute,
+              private featureFlagService: AbstractFeatureFlagService,
               private structuresPagesService: StructuresPagesService) {
     this.metaData$ = this.store.pipe(select(fromSharedStructuresReducer.getMetadata));
     this.metadataSubscription = this.metaData$.subscribe(md => {
@@ -76,6 +79,7 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
         this.pageViewId = PagesHelper.getEmployeePageViewIdByRangeTypeAndRangeDistributionType(md.RangeTypeId, md.RangeDistributionTypeId);
       }
     });
+    this.hasStructuresPageFlagEnabled = this.featureFlagService.enabled(FeatureFlags.StructuresPage, false);
 
     this.modelGridPageViewIdSubscription = this.structuresPagesService.modelPageViewId.subscribe(pv => this.modelGridPageViewId = pv);
 

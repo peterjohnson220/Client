@@ -23,6 +23,7 @@ import * as fromModifyPricingsActions from 'libs/features/pricings/multi-match/a
 import * as fromRootState from 'libs/state/state';
 import { Permissions } from 'libs/constants';
 import { MultiMatchFeatureImplementations } from 'libs/features/pricings/multi-match/constants';
+import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
 
 import * as fromSharedStructuresReducer from '../../../shared/reducers';
 import { PagesHelper } from '../../../shared/helpers/pages.helper';
@@ -80,12 +81,15 @@ export class SingleJobViewPageComponent implements OnInit, AfterViewInit, OnDest
   restrictSurveySearchToPaymarketCountry: boolean;
   _Permissions = null;
   multiMatchImplementation = MultiMatchFeatureImplementations.MODIFY_PRICINGS;
+  hasStructuresPageFlagEnabled: boolean;
 
   constructor(
     public store: Store<fromSharedStructuresReducer.State>,
     public router: Router,
     private activatedRoute: ActivatedRoute,
+    private featureFlagService: AbstractFeatureFlagService
   ) {
+    this.hasStructuresPageFlagEnabled = this.featureFlagService.enabled(FeatureFlags.StructuresPage, false);
     this.metaData$ = this.store.pipe(select(fromSharedStructuresReducer.getMetadata));
     this.metadataSubscription = this.metaData$.subscribe(md => {
       if (md) {

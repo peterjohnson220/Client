@@ -28,8 +28,12 @@
             </thead>
             <tbody>
               <tr *ngFor="let job of grade.Jobs" [class.highlight]="!job.AlreadyExists">
-                <td>{{job.JobCode}}</td>
-                <td>{{job.JobTitle}}</td>
+                <td class="ellipsis-text">
+                  <div pfEllipsisActive>{{job.JobTitle}}</div>
+                </td>
+                <td class="ellipsis-text">
+                  <div pfEllipsisActive>{{job.JobCode}}</div>
+                </td>
                 <td>
                   <button class="btn bg-transparent"
                           (click)="removeJob(job)">

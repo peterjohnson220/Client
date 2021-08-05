@@ -3,8 +3,7 @@ import { AsyncStateObjHelper } from 'libs/core/helpers';
 
 
 import * as fromTrendsSummaryCardActions from '../actions/trends-summary-card.actions';
-import { TrendsSummaryDetails } from '../models/trends-summary-details.model';
-import { PayRateDate } from '../models';
+import { TrendsSummaryDetails, PayRateDate } from '../models';
 
 export interface State {
   peerTrends: AsyncStateObj<PayRateDate[]>;
