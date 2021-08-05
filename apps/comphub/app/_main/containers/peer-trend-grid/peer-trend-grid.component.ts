@@ -19,7 +19,7 @@ import * as fromDataGridReducer from 'libs/features/grids/pf-data-grid/reducers'
 import { PageViewIds } from '../../constants/page-view-id-constants';
 import * as fromPeerTrendsLandingCardReducer from '../../reducers/trends-landing-card.reducer';
 import * as fromTrendsLandingActions from '../../actions/trends-landing-card.actions';
-import * as fromComphubPageActions from '../../actions/comphub-page.actions';
+import * as fromComphubPageActions from '../../../_shared/actions/comphub-page.actions';
 
 @Component({
   selector: 'pf-peer-trend-grid',

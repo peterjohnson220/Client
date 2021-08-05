@@ -5,8 +5,8 @@ import { Store } from '@ngrx/store';
 
 import { ComphubType } from 'libs/constants';
 
-import * as fromComphubMainReducer from '../../../reducers';
-import { WorkflowContext } from '../../../models';
+import * as fromComphubSharedReducer from '../../../../_shared/reducers';
+import { WorkflowContext } from '../../../../_shared/models';
 
 @Component({
   selector: 'pf-parent-data-card',
@@ -17,7 +17,7 @@ export class ParentDataCardComponent {
   workflowContext$: Observable<WorkflowContext>;
   comphubTypes = ComphubType;
 
-  constructor(private store: Store<fromComphubMainReducer.State>) {
-    this.workflowContext$ = this.store.select(fromComphubMainReducer.getWorkflowContext);
+  constructor(private store: Store<fromComphubSharedReducer.State>) {
+    this.workflowContext$ = this.store.select(fromComphubSharedReducer.getWorkflowContext);
   }
 }

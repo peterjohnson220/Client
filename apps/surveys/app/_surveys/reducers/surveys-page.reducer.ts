@@ -18,6 +18,8 @@ export interface State {
   surveyJobDetails: SurveyJobDetails[];
   surveyYears: AsyncStateObj<PfDataGridCustomFilterDisplayOptions[]>;
   openedSurveyDataGrids: SurveyDataGrid[];
+  surveyJobMatches: AsyncStateObj<string[]>;
+  surveyDataMatches: AsyncStateObj<string[]>;
 }
 
 // Define our initial state
@@ -28,7 +30,9 @@ const initialState: State = {
   countries: generateDefaultAsyncStateObj([]),
   surveyJobDetails: [],
   surveyYears: generateDefaultAsyncStateObj<PfDataGridCustomFilterDisplayOptions[]>([]),
-  openedSurveyDataGrids: []
+  openedSurveyDataGrids: [],
+  surveyJobMatches: generateDefaultAsyncStateObj<string[]>([]),
+  surveyDataMatches: generateDefaultAsyncStateObj<string[]>([])
 };
 
 // Reducer function
@@ -83,6 +87,38 @@ export function reducer(state = initialState, action: fromSurveysPageActions.Act
         ...state,
         surveyParticipants: surveyParticipantsClone
       };
+    }
+    case fromSurveysPageActions.GET_SURVEY_JOB_MATCHES: {
+      const surveyJobMatchesClone = cloneDeep(state.surveyJobMatches);
+      surveyJobMatchesClone.obj = [];
+      surveyJobMatchesClone.loading = true;
+      surveyJobMatchesClone.loadingError = false;
+      return {
+        ...state,
+        surveyJobMatches: surveyJobMatchesClone
+      };
+    }
+    case fromSurveysPageActions.GET_SURVEY_JOB_MATCHES_SUCCESS: {
+      return AsyncStateObjHelper.loadingSuccess(state, 'surveyJobMatches', action.payload);
+    }
+    case fromSurveysPageActions.GET_SURVEY_JOB_MATCHES_ERROR: {
+      return AsyncStateObjHelper.loadingError(state, 'surveyJobMatches');
+    }
+    case fromSurveysPageActions.GET_SURVEY_DATA_MATCHES: {
+      const surveyDataMatchesClone = cloneDeep(state.surveyDataMatches);
+      surveyDataMatchesClone.obj = [];
+      surveyDataMatchesClone.loading = true;
+      surveyDataMatchesClone.loadingError = false;
+      return {
+        ...state,
+        surveyDataMatches: surveyDataMatchesClone
+      };
+    }
+    case fromSurveysPageActions.GET_SURVEY_DATA_MATCHES_SUCCESS: {
+      return AsyncStateObjHelper.loadingSuccess(state, 'surveyDataMatches', action.payload);
+    }
+    case fromSurveysPageActions.GET_SURVEY_DATA_MATCHES_ERROR: {
+      return AsyncStateObjHelper.loadingError(state, 'surveyDataMatches');
     }
     case fromSurveysPageActions.GET_SURVEY_COUNTRIES: {
       return AsyncStateObjHelper.loading(state, 'countries');
@@ -182,3 +218,5 @@ export const getSurveyCountries = (state: State) => state.countries;
 export const getSurveyYears = (state: State) => state.surveyYears;
 export const getOpenedSurveyDataGrids = (state: State) => state.openedSurveyDataGrids;
 export const getSurveyJobDetails = (state: State) => state.surveyJobDetails;
+export const getSurveyJobMatches = (state: State) => state.surveyJobMatches;
+export const getSurveyDataMatches = (state: State) => state.surveyDataMatches;

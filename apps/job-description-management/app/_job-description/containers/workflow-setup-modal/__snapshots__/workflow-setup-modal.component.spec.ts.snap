@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`WorkflowSetupModalComponent should show workflow setup modal 1`] = `
+<pf-workflow-setup-modal
+  addingNonSystemUser="false"
+  convertNewLinePipe={[Function NewLinePipe]}
+  hasForbiddenUsers$={[Function Store]}
+  modalService={[Function Object]}
+  routeForApprovalModal={[Function TemplateRef_]}
+  router={[Function Object]}
+  sharedJdmStore={[Function Store]}
+  stepsDirty$={[Function Store]}
+  store={[Function Store]}
+  workflowAttachments$={[Function Store]}
+  workflowSteps$={[Function Store]}
+  workflowTemplatesAsync$={[Function Store]}
+>
+  
+</pf-workflow-setup-modal>
+`;

@@ -2,12 +2,12 @@
 @import 'assets/scss/_colors';
 @import 'assets/scss/common/common';
 
-.link{
+.link {
   color: $link-color;
   cursor: pointer;
 }
 
-.copy-jd{
+.copy-jd {
   cursor: pointer;
   display: flex;
   justify-content: flex-end;
@@ -15,63 +15,62 @@
   padding-right: .25rem;
 }
 
-.grade-name{
+.grade-name {
   color: #006699;
   font-weight: bold;
   font-size: 12px;
 }
 
-.job-description{
+.job-description {
   margin: .25rem 0;
   cursor: auto;
 }
 
-.no-job-description{
+.no-job-description {
   font-style: italic;
 }
 
-.result{
+.result {
   padding: .75rem 1.5rem .75rem .5rem;
   border-bottom: 1px solid $grey;
   border-left: 3px solid transparent;
 }
 
-.highlight{
+.highlight {
   background: rgba(255, 250, 203, 0.65);
 }
 
-.result:hover{
+.result:hover {
   border-left: 3px solid #b9d3e0;
 }
 
-.paymarket{
+.paymarket {
   margin: .25rem 0;
   color: #848484;
   font-style: italic;
 }
 
-
-.job-detail{
+.job-detail {
   background: #f7f7f7;
   padding: .5rem;
   margin: .75rem -.5rem;
 }
 
-.job-detail th,td{
+.job-detail th, td {
   padding: .25rem;
 }
 
-.job-detail th{
+.job-detail th {
   white-space: nowrap;
   vertical-align: top;
 }
 
-.jobs-container{
+.jobs-container {
   margin: .5rem 0 0 0;
   width: 90%;
 }
 
-.jobs-table{
+.jobs-table {
   width: 100%;
   border: 1px solid $grey;
   font-size: 11px;
@@ -80,20 +79,20 @@
     padding: .35rem;
   }
 }
-.jobs-table thead tr{
+.jobs-table thead tr {
   background: $legacy-dark-header-grey;
 }
 
-.scope-cell{
+.scope-cell {
   width: 75%;
 }
 
-.fa-times{
+.fa-times {
   cursor: pointer;
 }
 
-.dragging{
-  .dropzone{
+.dragging {
+  .dropzone {
     min-height: 40px;
     border: 2px dashed #b9d3e0;
     width: 90%;
@@ -108,7 +107,22 @@
   font-style: italic;
   color: #848484;
 }
-.loading-jobs-error{
+
+.loading-jobs-error {
   width: 100%;
   padding: 1rem 0;
 }
+
+.jobs-table .ellipsis-text {
+  position: relative;
+}
+
+.jobs-table .ellipsis-text div {
+  position: absolute;
+  top: 12px;
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+

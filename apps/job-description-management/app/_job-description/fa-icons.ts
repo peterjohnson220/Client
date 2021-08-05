@@ -45,7 +45,12 @@ import { faTrashAlt as farTrashAlt } from '@fortawesome/pro-regular-svg-icons/fa
 
 // Light
 import { faEnvelope as falEnvelope, faEnvelopeOpen as falEnvelopeOpen } from '@fortawesome/pro-light-svg-icons';
-
+import { faFileExcel as fasFileExcel } from '@fortawesome/pro-solid-svg-icons/faFileExcel';
+import { faFileWord as fasFileWord } from '@fortawesome/pro-solid-svg-icons/faFileWord';
+import { faFilePdf as fasFilePdf } from '@fortawesome/pro-solid-svg-icons/faFilePdf';
+import { faFilePowerpoint as fasFilePowerpoint } from '@fortawesome/pro-solid-svg-icons/faFilePowerpoint';
+import { faFileImage as fasFileImage } from '@fortawesome/pro-solid-svg-icons/faFileImage';
+import { faFile as fasFile } from '@fortawesome/pro-solid-svg-icons/faFile';
 
 export const faIcons = [
   faArrowRight,
@@ -94,5 +99,11 @@ export const faIcons = [
   faEnvelopeOpen,
   falEnvelopeOpen,
   faCheckSquare,
-  faMinusSquare
+  faMinusSquare,
+  fasFileExcel,
+  fasFileWord,
+  fasFile,
+  fasFileImage,
+  fasFilePowerpoint,
+  fasFilePdf
 ];

@@ -73,7 +73,7 @@ describe('Job Based Range Employees - Employees Page', () => {
 
   it('should dispatch the openModal action when handleModelSettingsClicked is called', () => {
     spyOn(instance.store, 'dispatch');
-    const expectedAction = new fromModelSettingsModalActions.OpenModal();
+    const expectedAction = new fromModelSettingsModalActions.OpenJobModal();
 
     instance.handleModelSettingsBtnClicked();
 

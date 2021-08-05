@@ -81,6 +81,36 @@ export class SurveyPageEffects {
       })
     );
 
+  @Effect()
+  getSurveyJobMatches$ = this.actions$
+    .pipe(
+      ofType(fromSurveyPageActions.GET_SURVEY_JOB_MATCHES),
+      switchMap((action: fromSurveyPageActions.GetSurveyJobMatches) => {
+        return this.surveyApiService.getJobMatches(action.payload)
+          .pipe(
+            map((response) => {
+              return new fromSurveyPageActions.GetSurveyJobMatchesSuccess(response);
+            }),
+            catchError(() => of(new fromSurveyPageActions.GetSurveyJobMatchesError()))
+          );
+      })
+    );
+
+  @Effect()
+  getSurveyDataMatches$ = this.actions$
+    .pipe(
+      ofType(fromSurveyPageActions.GET_SURVEY_DATA_MATCHES),
+      switchMap((action: fromSurveyPageActions.GetSurveyDataMatches) => {
+        return this.surveyApiService.getJobMatches(action.payload)
+          .pipe(
+            map((response) => {
+              return new fromSurveyPageActions.GetSurveyDataMatchesSuccess(response);
+            }),
+            catchError(() => of(new fromSurveyPageActions.GetSurveyDataMatchesError()))
+          );
+      })
+    );
+
   constructor(
     private actions$: Actions,
     private surveyApiService: SurveyApiService

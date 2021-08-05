@@ -13,7 +13,7 @@ export class DataCutSummaryApiService {
   constructor(private payfactorsApiService: PayfactorsApiService) { }
 
   getDataCutSummary(entityId: any, entityType: DataCutSummaryEntityTypes): Observable<any> {
-    return this.payfactorsApiService.get(`${this.endpoint}/GetDataCutSummary?entityId=${entityId}&entityType=${entityType}`);
+    return this.payfactorsApiService.get(`${this.endpoint}/GetDataCutSummary/${entityType}/${entityId}`);
   }
 
   getDataCutSummaryForCustomScope(customScope: BaseExchangeDataSearchRequest): Observable<any> {

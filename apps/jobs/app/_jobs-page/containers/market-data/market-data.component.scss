@@ -1,0 +1,35 @@
+.gray-background {
+  background-color: #F6F7F8;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.border-left {
+  border-style: none none none solid;
+  border-color: rgba(0, 0, 0, 0.03);
+  border-left-width: 1px;
+}
+
+.job-title {
+  font-weight: 500;
+}
+
+.market-data-container {
+  border: 1px solid #D9D9DD;
+  border-style: solid none none none;
+}
+
+.no-market-data-container {
+  height: 180px;
+  background-color: #F6F7F8;
+}
+
+.actions-button {
+  color: #212529;
+}
+
+.dropup .dropdown-toggle::after, .dropdown-toggle::after {
+  display: none !important;
+}

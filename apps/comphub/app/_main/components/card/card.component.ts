@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { AccordionCard } from '../../data';
+import { AccordionCard } from '../../../_shared/data';
 
 @Component({
   selector: 'pf-comphub-card',

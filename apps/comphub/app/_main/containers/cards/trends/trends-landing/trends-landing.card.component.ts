@@ -4,12 +4,15 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { AsyncStateObj } from 'libs/models/state';
+import { ExchangeDataSet } from 'libs/models/comphub';
 import { OrgIncCount } from 'libs/models/payfactors-api/peer/exchange-data-search/response';
 
-import { ComphubPages } from '../../../../data';
-import { ExchangeDataSet, WorkflowContext } from '../../../../models';
-import * as fromComphubPageActions from '../../../../actions/comphub-page.actions';
-import * as fromComphubMainReducer from '../../../../reducers';
+import { ComphubPages } from '../../../../../_shared/data';
+import { WorkflowContext } from '../../../../../_shared/models';
+import * as fromComphubPageActions from '../../../../../_shared/actions/comphub-page.actions';
+import * as fromComphubSharedReducers from '../../../../../_shared/reducers';
+
+import * as fromComphubMainReducers from '../../../../reducers';
 
 @Component({
   selector: 'pf-trends-landing-card',
@@ -22,13 +25,13 @@ export class TrendsLandingCardComponent {
   exchangeDataSets$: Observable<ExchangeDataSet[]>;
   newCompanies$: Observable<AsyncStateObj<string[]>>;
   comphubPages = ComphubPages;
-  orgIncCountHistory$: Observable<AsyncStateObj<OrgIncCount[]>>
+  orgIncCountHistory$: Observable<AsyncStateObj<OrgIncCount[]>>;
 
-  constructor (private store: Store<fromComphubMainReducer.State>) {
-    this.workflowContext$ = this.store.select(fromComphubMainReducer.getWorkflowContext);
-    this.exchangeDataSets$ = this.store.select(fromComphubMainReducer.getExchangeDataSets);
-    this.newCompanies$ = this.store.select(fromComphubMainReducer.getNewExchangeParticipants);
-    this.orgIncCountHistory$ = this.store.select(fromComphubMainReducer.getOrgIncCountHistory);
+  constructor (private store: Store<fromComphubSharedReducers.State>) {
+    this.workflowContext$ = this.store.select(fromComphubSharedReducers.getWorkflowContext);
+    this.exchangeDataSets$ = this.store.select(fromComphubSharedReducers.getExchangeDataSets);
+    this.newCompanies$ = this.store.select(fromComphubMainReducers.getNewExchangeParticipants);
+    this.orgIncCountHistory$ = this.store.select(fromComphubMainReducers.getOrgIncCountHistory);
   }
 
   handleExchangeDataSetChanged(exchangeId: number) {

@@ -13,12 +13,12 @@ import { PayfactorsSearchApiModelMapper } from 'libs/features/search/search/help
 import { ComphubApiService } from 'libs/data/payfactors-api/comphub';
 import { ComphubType } from 'libs/constants';
 
-import * as fromComphubMainReducer from '../reducers';
+import * as fromComphubSharedReducer from '../../_shared/reducers';
 import * as fromQuickPriceHistoryActions from '../actions/quick-price-history.actions';
-import * as fromSummaryCardActions from '../actions/summary-card.actions';
-import * as fromComphubPageActions from '../actions/comphub-page.actions';
-import { MarketsCardHelper, PayfactorsApiModelMapper } from '../helpers';
-import { ComphubPages } from '../data';
+import * as fromSummaryCardActions from '../../_shared/actions/summary-card.actions';
+import * as fromComphubPageActions from '../../_shared/actions/comphub-page.actions';
+import { ComphubPages } from '../../_shared/data';
+import { MarketsCardHelper, PayfactorsApiModelMapper } from '../../_shared/helpers';
 
 @Injectable()
 export class QuickPriceHistoryEffects {
@@ -27,7 +27,7 @@ export class QuickPriceHistoryEffects {
     .pipe(
       ofType(fromQuickPriceHistoryActions.GET_JOB_PRICED_HISTORY_SUMMARY),
       withLatestFrom(
-        this.store.select(fromComphubMainReducer.getComphubType),
+        this.store.select(fromComphubSharedReducer.getComphubType),
         (action: fromQuickPriceHistoryActions.GetJobPricedHistorySummary, comphubType) =>
           ({action, comphubType: comphubType})
       ),
@@ -79,7 +79,7 @@ export class QuickPriceHistoryEffects {
     );
   constructor(
     private actions$: Actions,
-    private store: Store<fromComphubMainReducer.State>,
+    private store: Store<fromComphubSharedReducer.State>,
     private comphubApiService: ComphubApiService,
     private payfactorsSearchApiModelMapper: PayfactorsSearchApiModelMapper
   ) {}

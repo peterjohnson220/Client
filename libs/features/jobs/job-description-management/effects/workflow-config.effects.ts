@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { map, catchError, switchMap } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { Action } from '@ngrx/store';
 
-import { JobDescriptionManagementApiService } from 'libs/data/payfactors-api';
+import { JobDescriptionManagementApiService, JobDescriptionWorkflowApiService } from 'libs/data/payfactors-api';
 
 import * as fromWorkflowConfigActions from 'libs/features/jobs/job-description-management/actions/workflow-config.actions';
 import { WorkflowUser } from 'libs/features/jobs/job-description-management/models';
@@ -36,8 +37,22 @@ export class WorkflowConfigEffects {
       })
     );
 
+  @Effect()
+  deleteWorkflowAttachmentFiles$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromWorkflowConfigActions.DELETE_WORKFLOW_ATTACHMENT_FILES),
+      switchMap((action: fromWorkflowConfigActions.DeleteWorkflowAttachmentFiles) =>
+        this.jdmWorkflowApiService.deleteWorkflowAttachments(action.payload).pipe(
+          map((response: string[]) => {
+            return new fromWorkflowConfigActions.DeleteWorkflowAttachmentFilesSuccess();
+          }),
+          catchError(response => of(new fromWorkflowConfigActions.DeleteWorkflowAttachmentFilesError()))
+        )
+      ));
+
   constructor(
     private actions$: Actions,
-    private jdmApiService: JobDescriptionManagementApiService
+    private jdmApiService: JobDescriptionManagementApiService,
+    private jdmWorkflowApiService: JobDescriptionWorkflowApiService
   ) {}
 }

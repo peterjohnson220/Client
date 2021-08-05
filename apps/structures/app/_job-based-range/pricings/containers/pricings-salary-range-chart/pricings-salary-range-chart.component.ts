@@ -360,6 +360,8 @@ export class PricingsSalaryRangeChartComponent implements OnInit, OnDestroy {
       }
 
       this.chartInstance.setSize(null, GraphHelper.getChartHeight(this.pricingsData.data, this.groupFieldSelected));
+
+      GraphHelper.forceRedraw(this.chartInstance);
     }
   }
 

@@ -5,6 +5,8 @@ import { Permissions } from 'libs/constants/permissions';
 import * as fromWorkflowConfigActions from '../actions';
 import { WorkflowStep, WorkflowUser } from '../models';
 import { WorkflowConfigHelper } from '../helpers';
+import { createEntityAdapter, EntityAdapter } from '@ngrx/entity';
+import { JobDescriptionWorkflowAttachment } from 'libs/models/jdm/job-description-workflow-attachment';
 
 export interface State {
   workflowSteps: WorkflowStep[];
@@ -14,6 +16,7 @@ export interface State {
   hasUsersWithoutPermission: boolean;
   selectedUserOrEmail: any;
   stepId: number;
+  attachments: JobDescriptionWorkflowAttachment[];
 }
 
 export const initialState: State = {
@@ -23,7 +26,8 @@ export const initialState: State = {
   prepopulating: false,
   hasUsersWithoutPermission: false,
   selectedUserOrEmail: null,
-  stepId: 0
+  stepId: 0,
+  attachments: []
 };
 
 export function reducer(state = initialState, action: fromWorkflowConfigActions.WorkflowConfigActions): State {
@@ -172,6 +176,18 @@ export function reducer(state = initialState, action: fromWorkflowConfigActions.
         workflowSteps: workflowSteps
       };
     }
+    case fromWorkflowConfigActions.SAVE_WORKFLOW_ATTACHMENTS_STATE: {
+      return {
+        ...state,
+        attachments: action.payload
+      };
+    }
+    case fromWorkflowConfigActions.DELETE_WORKFLOW_ATTACHMENT_FILES: {
+      return {
+        ...state,
+        attachments: []
+      };
+    }
     default: {
       return state;
     }
@@ -182,3 +198,4 @@ export const getHasUsersWithoutPermission = (state: State) => state.hasUsersWith
 export const getWorkflowStepsFromWorkflowConfig = (state: State) => state.workflowSteps;
 export const getWorkflowConfigDirty = (state: State) => state.dirty;
 export const getWorkflowUserOrEmail = (state: State) => state.selectedUserOrEmail;
+export const getWorkflowAttachments = (state: State) => state.attachments;

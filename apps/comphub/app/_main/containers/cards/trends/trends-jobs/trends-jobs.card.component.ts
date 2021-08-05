@@ -9,9 +9,11 @@ import { SearchFeatureIds } from 'libs/features/search/search/enums/search-featu
 import * as fromSearchFeatureActions from 'libs/features/search/search/actions/search-feature.actions';
 import * as fromLibsPeerRelationalExchangeJobSearchReducer from 'libs/features/peer/relational-exchange-job-search/reducers';
 
-import { ComphubPages } from '../../../../data';
+import { ComphubPages } from '../../../../../_shared/data';
+import * as fromComphubSharedReducers from '../../../../../_shared/reducers';
+import * as fromJobsCardActions from '../../../../../_shared/actions/jobs-card.actions';
+
 import * as fromComphubMainReducer from '../../../../reducers/';
-import * as fromJobsCardActions from '../../../../actions/jobs-card.actions';
 import * as fromTrendsJobsCardActions from '../../../../actions/trends-jobs.actions';
 
 @Component({
@@ -46,10 +48,10 @@ export class TrendsJobsCardComponent implements OnInit, OnDestroy {
     this.popupSettings = {
       appendTo: 'component'
     };
-    this.exchangeJobSearchOptions$ = this.store.select(fromComphubMainReducer.getExchangeJobSearchOptions);
-    this.activeExchangeId$ = this.store.select(fromComphubMainReducer.getActiveExchangeId);
+    this.exchangeJobSearchOptions$ = this.store.select(fromComphubSharedReducers.getExchangeJobSearchOptions);
+    this.activeExchangeId$ = this.store.select(fromComphubSharedReducers.getActiveExchangeId);
     this.selectedExchangeJobResults$ = this.store.select(fromLibsPeerRelationalExchangeJobSearchReducer.getSelectedExchangeJobs);
-    this.selectedPageId$ = this.store.select(fromComphubMainReducer.getSelectedPageId);
+    this.selectedPageId$ = this.store.select(fromComphubSharedReducers.getSelectedPageId);
   }
 
   ngOnInit(): void {
