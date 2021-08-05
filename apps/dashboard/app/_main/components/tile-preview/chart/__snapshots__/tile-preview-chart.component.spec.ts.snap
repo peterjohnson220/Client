@@ -3,9 +3,8 @@
 exports[`Tile Preview Chart should not show kendo chart when model.ChartComponentData.length = 0 1`] = `
 <pf-tile-preview-chart
   chartData={[Function Array]}
-  legendLabelStyle={[Function Object]}
-  limitLabelText={[Function Object]}
   model={[Function Object]}
+  payscaleBrandingFeatureFlag="false"
   seriesItemHighlightStyle={[Function Object]}
   showChartDetail="false"
 >
@@ -20,9 +19,8 @@ exports[`Tile Preview Chart should not show kendo chart when model.ChartComponen
 exports[`Tile Preview Chart should show chart label 1`] = `
 <pf-tile-preview-chart
   chartData={[Function Array]}
-  legendLabelStyle={[Function Object]}
-  limitLabelText={[Function Object]}
   model={[Function Object]}
+  payscaleBrandingFeatureFlag="false"
   seriesItemHighlightStyle={[Function Object]}
   showChartDetail="false"
 >
@@ -37,9 +35,8 @@ exports[`Tile Preview Chart should show chart label 1`] = `
 exports[`Tile Preview Chart should show kendo chart when model.ChartComponentData.length > 0 1`] = `
 <pf-tile-preview-chart
   chartData={[Function Array]}
-  legendLabelStyle={[Function Object]}
-  limitLabelText={[Function Object]}
   model={[Function Object]}
+  payscaleBrandingFeatureFlag="false"
   seriesItemHighlightStyle={[Function Object]}
   showChartDetail="false"
 >

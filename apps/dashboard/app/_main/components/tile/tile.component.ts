@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 import { userVoiceUrl } from 'libs/core/functions';
@@ -8,6 +8,7 @@ import { SettingsService } from 'libs/state/app-context/services';
 import { TileTypes } from 'libs/models';
 import * as fromMarketingActions from 'libs/features/infrastructure/marketing-settings/marketing-settings/actions/marketing-settings.actions';
 import { AppConstants } from 'libs/constants';
+import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core';
 
 import {
   generateTilePreviewBasicListFromTile, generateTilePreviewChartFromTile, generateTilePreviewChartWithCalendarFromTile,
@@ -35,10 +36,15 @@ export class TileComponent implements OnInit, OnDestroy {
   marketingVideoUrl$: Observable<string>;
   marketingVideoUrlSubscription: Subscription;
 
+  payscaleBrandingFeatureFlag: RealTimeFlag = { key: FeatureFlags.PayscaleBranding, value: false };
+  unsubscribe$ = new Subject<void>();
+
   constructor(private settingsService: SettingsService,
               public store: Store<fromMarketingReducer.State>,
-              private sanitizer: DomSanitizer) {
+              private sanitizer: DomSanitizer,
+              private featureFlagService: AbstractFeatureFlagService) {
     this.marketingVideoUrl$ = this.store.select(fromMarketingReducer.getMarketingVideoUrl);
+    this.featureFlagService.bindEnabled(this.payscaleBrandingFeatureFlag, this.unsubscribe$);
   }
 
   generatePreviewModel(tile: Tile): TilePreviewBase {
@@ -98,6 +104,7 @@ export class TileComponent implements OnInit, OnDestroy {
     if (this.marketingVideoUrlSubscription) {
       this.marketingVideoUrlSubscription.unsubscribe();
     }
+    this.unsubscribe$.next();
   }
 
   getTileHref(tile: Tile) {

@@ -10,6 +10,7 @@ import {
 import { StringReplacePipe } from 'libs/core/pipes';
 import { SettingsService } from 'libs/state/app-context/services';
 import * as fromRootState from 'libs/state/state';
+import { AbstractFeatureFlagService } from 'libs/core';
 
 import { TileComponent } from './tile.component';
 
@@ -29,7 +30,13 @@ describe('Tile', () => {
         TileComponent,
         StringReplacePipe
       ],
-      providers: [SettingsService],
+      providers: [
+        SettingsService,
+        {
+          provide: AbstractFeatureFlagService,
+          useValue: { enabled: jest.fn(), bindEnabled: jest.fn() }
+        },
+      ],
       // Shallow Testing
       schemas: [ NO_ERRORS_SCHEMA ]
     });
