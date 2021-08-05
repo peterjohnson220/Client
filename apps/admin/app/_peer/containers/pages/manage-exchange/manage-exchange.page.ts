@@ -41,6 +41,7 @@ export class ManageExchangePageComponent implements OnInit, OnDestroy {
   exchangeId: number;
   navLinks: any[];
   exchange: Exchange;
+  isValidExchange: boolean;
 
   constructor(private store: Store<fromPeerAdminReducer.State>,
               private activeRoute: ActivatedRoute,
@@ -64,6 +65,7 @@ export class ManageExchangePageComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.isValidExchangeSubcription = this.isValidExchange$.subscribe(isValidExchange => {
+      this.isValidExchange = isValidExchange;
       let isExchangeActive = false;
       this.isExchangeActive$.pipe(take(1)).subscribe(x => {
         isExchangeActive = x;
@@ -97,8 +99,8 @@ export class ManageExchangePageComponent implements OnInit, OnDestroy {
       { name: 'Exchange Filters', route: 'exchangefilters', icon: 'filter', count$: this.totalExchangeFilters$ },
     ];
 
-    if(standardScopesFlag) {
-      //TODO: get standard scope count when they are implemented in exchange scope selector
+    if (standardScopesFlag) {
+      // TODO: get standard scope count when they are implemented in exchange scope selector
       this.navLinks.push({ name: 'Standard Scopes', route: 'standardscopes', icon: 'telescope'});
     }
   }
@@ -111,8 +113,10 @@ export class ManageExchangePageComponent implements OnInit, OnDestroy {
   }
 
   updateStatus(status: StatusEnum) {
-    if (this.exchange.Status !== status) {
-      this.store.dispatch(new fromExchangeActions.OpenToggleExchangeStatusModal(status));
-    }
+    if (this.exchange.Status === status) { return; }
+
+    if (status === StatusEnum.Active && !this.isValidExchange) { return; }
+
+    this.store.dispatch(new fromExchangeActions.OpenToggleExchangeStatusModal(status));
   }
 }
