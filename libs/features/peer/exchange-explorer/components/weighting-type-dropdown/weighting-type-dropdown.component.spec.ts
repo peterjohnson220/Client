@@ -46,7 +46,7 @@ describe('Weighting Type Toggle', () => {
   });
 
   it('should emit a weightingTypeChanged event with incWeighted value true when handleSwitchValueChanged is called', () => {
-    spyOn(instance.weightingTypeChanged, 'emit');
+    jest.spyOn(instance.weightingTypeChanged, 'emit');
 
     instance.handleDropdownValueChanged({ Name: WeightTypeDisplayLabeled.Inc, Value: WeightType.Inc });
 
@@ -54,7 +54,7 @@ describe('Weighting Type Toggle', () => {
   });
 
   it('should emit a weightingTypeChanged event with incWeighted value false when handleSwitchValueChanged is called', () => {
-    spyOn(instance.weightingTypeChanged, 'emit');
+    jest.spyOn(instance.weightingTypeChanged, 'emit');
 
     instance.handleDropdownValueChanged({ Name: WeightTypeDisplayLabeled.Org, Value: WeightType.Org });
 

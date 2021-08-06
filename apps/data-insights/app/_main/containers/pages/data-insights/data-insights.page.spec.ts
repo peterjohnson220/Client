@@ -45,7 +45,7 @@ describe('Data Insights - Data Insights Page Component', () => {
   });
 
   it('should dispatch an SaveStandardReportsDisplaySetting action when clicking on carret down icon', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     instance.showStandardReportsSection = true;
     const expectedAction = new fromDataInsightsPageActions.SaveStandardReportsDisplaySetting({ settingValue: false });
 

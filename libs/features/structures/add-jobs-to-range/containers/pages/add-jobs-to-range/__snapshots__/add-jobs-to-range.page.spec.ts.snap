@@ -3,6 +3,7 @@
 exports[`Project - Add Jobs - Structures Page should not display GUI features related to job count in non small biz companies, and should display the "normal" result count  1`] = `
 <pf-add-jobs-to-range-page
   _Permissions={[Function Function]}
+  __ngContext__={[Function LRootView]}
   addJobsConfig={[Function Object]}
   addingData$={[Function Store]}
   addingDataError$={[Function Store]}
@@ -32,8 +33,6 @@ exports[`Project - Add Jobs - Structures Page should not display GUI features re
   userFilterTypeData={[Function Object]}
 >
   <pf-search-layout>
-    
-    
     <div
       class="create-new-job"
       data-qa-id="btn-createNewJobNav"
@@ -46,19 +45,11 @@ exports[`Project - Add Jobs - Structures Page should not display GUI features re
       </div>
     </div>
     <pf-search-filters />
-    
-    
     <pf-results-header />
     <pf-structures-jobs-search-results />
-    
     <pf-paymarkets />
-    
-    
     <pf-jobs-to-grade-container />
-    
-    
     <span>
-      
       <button
         class="btn btn-link mr-3 auto-grade"
         data-qa-id="btn-autoGradeSelectedJobs"
@@ -72,8 +63,6 @@ exports[`Project - Add Jobs - Structures Page should not display GUI features re
       >
          Clear Selections 
       </button>
-      
-      
       <button
         class="btn btn-sm legacy-primary-btn mr-3 au-btn-add"
         data-qa-id="btn-saveJobs"
@@ -87,20 +76,15 @@ exports[`Project - Add Jobs - Structures Page should not display GUI features re
       >
          Cancel 
       </button>
-      
       <button
         class="btn btn-link mr-3 au-btn-addall"
         data-qa-id="btn-selectAllJobs"
       >
-        
          Select All 
         <span>
-            
         </span>
       </button>
-      
     </span>
-    
   </pf-search-layout>
 </pf-add-jobs-to-range-page>
 `;

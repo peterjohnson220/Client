@@ -53,7 +53,7 @@ describe('ResourceModalComponent', () => {
   });
 
   it('should not allow file upload until virus scan completed', () => {
-    spyOn(component.store, 'dispatch');
+    jest.spyOn(component.store, 'dispatch');
     component.ngOnInit();
 
     const mockFile = generateMockKendoUpload();

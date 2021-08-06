@@ -50,7 +50,7 @@ describe('EmailRecipientsComponent', () => {
   });
 
   it('should dispatch a SavingEmailRecipientAction when a recipient has been selected', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     component.loaderConfigurationGroupId = 1;
     component.recipients[0].LoaderConfigurationGroupId = 1;
     const expectedAction = new fromEmailRecipientsActions.SavingEmailRecipient(component.recipients[0], undefined);
@@ -65,7 +65,7 @@ describe('EmailRecipientsComponent', () => {
   });
 
   it('should dispatch a RemovingEmailRecipientAction when the user clicks on the remove button', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const expectedAction = new fromEmailRecipientsActions.RemovingEmailRecipient(component.recipients[0]);
     component.errorText = 'failed to remove recipient';
 

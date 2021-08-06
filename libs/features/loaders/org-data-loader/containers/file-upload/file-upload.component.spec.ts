@@ -27,7 +27,7 @@ describe('FileUploadComponent', () => {
     fixture = TestBed.createComponent(FileUploadComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
   });
 
   it('should create', () => {

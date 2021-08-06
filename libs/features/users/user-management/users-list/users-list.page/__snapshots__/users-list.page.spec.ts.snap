@@ -3,6 +3,7 @@
 exports[`Admin - Company-Admin - Users List Page Should show the page with search bar 1`] = `
 <pf-users-list-page
   _Permissions={[Function Function]}
+  __ngContext__={[Function LRootView]}
   companyId="undefined"
   companyName$={[Function Store]}
   returnUrl="undefined"
@@ -16,9 +17,7 @@ exports[`Admin - Company-Admin - Users List Page Should show the page with searc
   usersLoadingError$={[Function Store]}
 >
   <pf-page-with-title-bar>
-    
      User Management -  
-    
     <pf-input-debounce
       id="search-box"
     />
@@ -28,7 +27,6 @@ exports[`Admin - Company-Admin - Users List Page Should show the page with searc
     >
       Add User
     </button>
-    
     <div
       class="col-12 column-scroll-container"
     >

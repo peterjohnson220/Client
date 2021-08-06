@@ -1,7 +1,6 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import spyOn = jest.spyOn;
 
 import { LocationSearchComponent } from './location-search.component';
 import { MapboxApiService } from '../../../data/mapbox-api/mapbox-api.service';
@@ -37,7 +36,7 @@ describe('LocationSearchComponent', () => {
   });
 
   it('should call suggestedLocationsSelectionMoveUp when onKeyDown with ArrowUp key', () => {
-    spyOn(instance, 'suggestedLocationsSelectionMoveUp');
+    jest.spyOn(instance, 'suggestedLocationsSelectionMoveUp');
 
     let placeholderFunction: any;
 
@@ -60,7 +59,7 @@ describe('LocationSearchComponent', () => {
   });
 
   it('should call suggestedLocationsSelectionMoveDown when onKeyDown with ArrowDown key', () => {
-    spyOn(instance, 'suggestedLocationsSelectionMoveDown');
+    jest.spyOn(instance, 'suggestedLocationsSelectionMoveDown');
 
     let placeholderFunction: any;
 

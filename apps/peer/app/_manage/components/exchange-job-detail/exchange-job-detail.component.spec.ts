@@ -59,7 +59,7 @@ describe('ExchangeDetailComponent', () => {
   });
 
   it('should emit when approve is clicked', () => {
-    spyOn(component.approveClick, 'emit');
+    jest.spyOn(component.approveClick, 'emit');
     component.selectedCompanyJob = { ...generateMockCompanyJob(), IsPendingPeerUserReview: true };
 
     fixture.detectChanges();
@@ -70,7 +70,7 @@ describe('ExchangeDetailComponent', () => {
   });
 
   it('should emit when reject is clicked', () => {
-    spyOn(component.rejectClick, 'emit');
+    jest.spyOn(component.rejectClick, 'emit');
     component.selectedCompanyJob = { ...generateMockCompanyJob(), IsPendingPeerUserReview: true };
 
     fixture.detectChanges();
@@ -81,7 +81,7 @@ describe('ExchangeDetailComponent', () => {
   });
 
   it('should emit when unmatch is clicked', () => {
-    spyOn(component.unmatchClick, 'emit');
+    jest.spyOn(component.unmatchClick, 'emit');
     component.selectedCompanyJob = { ...generateMockCompanyJob(), IsPendingPeerUserReview: false, IsAssociated: true };
 
     fixture.detectChanges();

@@ -44,7 +44,7 @@ describe('Admin - Company-Admin - Users List Page', () => {
     fixture = TestBed.createComponent(UsersListPageComponent);
     instance = fixture.componentInstance;
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
   });
 
@@ -65,7 +65,7 @@ describe('Admin - Company-Admin - Users List Page', () => {
 
   // TODO: Need a better activated route stub that can get also get us the snapshot data
   // it('Should navigate to the add user page when the add user button is clicked', () => {
-  //   spyOn(router, 'navigate');
+  //   jest.spyOn(router, 'navigate');
   //
   //   instance.companyId = 1;
   //   instance.handleAddButton();

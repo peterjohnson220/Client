@@ -72,7 +72,7 @@ describe('Job Based Range Employees - Employees Page', () => {
   });
 
   it('should dispatch the openModal action when handleModelSettingsClicked is called', () => {
-    spyOn(instance.store, 'dispatch');
+    jest.spyOn(instance.store, 'dispatch');
     const expectedAction = new fromModelSettingsModalActions.OpenJobModal();
 
     instance.handleModelSettingsBtnClicked();
@@ -81,7 +81,7 @@ describe('Job Based Range Employees - Employees Page', () => {
   });
 
   it('should dispatch a Reset action to pfdatagrid upon destroy', () => {
-    spyOn(instance.store, 'dispatch');
+    jest.spyOn(instance.store, 'dispatch');
     const expectedAction = new fromPfGridActions.Reset();
 
     instance.ngOnDestroy();

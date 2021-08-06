@@ -82,7 +82,7 @@ describe('Company Admin - Tabular Report Export Schedule', () => {
   ])
   ('should dispatch save schedule with correct data',
   (format, separatorType, frequency, daysOfWeek, monthlyOccurrence, cronExpression) => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.selectedReport = { ...generateMockWorkbook(), WorkbookId: '12345' };
     instance.exportFormat.selectedFormat = format;

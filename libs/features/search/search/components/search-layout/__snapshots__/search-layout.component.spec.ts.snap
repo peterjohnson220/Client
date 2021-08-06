@@ -2,6 +2,7 @@
 
 exports[`Search Feature - Search Layout should not show results count div when results count input = null 1`] = `
 <pf-search-layout
+  __ngContext__={[Function LRootView]}
   countLabel={[Function String]}
   resultsCount="null"
 >
@@ -20,7 +21,6 @@ exports[`Search Feature - Search Layout should not show results count div when r
         <div
           class="buttons"
         />
-        
       </div>
     </div>
   </div>
@@ -29,6 +29,7 @@ exports[`Search Feature - Search Layout should not show results count div when r
 
 exports[`Search Feature - Search Layout should show an english formatted results count 1`] = `
 <pf-search-layout
+  __ngContext__={[Function LRootView]}
   countLabel={[Function String]}
   resultsCount={[Function Number]}
 >
@@ -47,7 +48,6 @@ exports[`Search Feature - Search Layout should show an english formatted results
         <div
           class="buttons"
         />
-        
         <div
           class="results-count"
         >

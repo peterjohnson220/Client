@@ -2,6 +2,7 @@
 
 exports[`CommunityPostsComponent should show community posts 1`] = `
 <pf-community-posts
+  __ngContext__={[Function LRootView]}
   addReplyViewStore={[Function Store]}
   communityPostEdited$={[Function Store]}
   communityPosts$={[Function Store]}
@@ -40,10 +41,8 @@ exports[`CommunityPostsComponent should show community posts 1`] = `
       <div
         id="community-posts"
       >
-        
       </div>
     </div>
-    
   </pf-async-container>
 </pf-community-posts>
 `;

@@ -40,7 +40,7 @@ describe('Comphub - Crowd Sourced Data - Jobs Card Component', () => {
   });
 
   it('should dispatch an action to get the job search options with the search term, when there is a non empty search term', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     const expectedAction = new fromJobGridActions.SearchCrowdSourcedJobsByTitle('Accountant');
     instance.handleJobSearchValueChanged('Accountant');
@@ -49,7 +49,7 @@ describe('Comphub - Crowd Sourced Data - Jobs Card Component', () => {
   });
 
   it('should NOT dispatch an action to get the job search options, when there is an empty search term', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.handleJobSearchValueChanged('');
 
@@ -57,7 +57,7 @@ describe('Comphub - Crowd Sourced Data - Jobs Card Component', () => {
   });
 
   it('should dispatch a UpdateActiveCountryDataSet action with the country code when handling the country data set changes', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const expectedAction = new fromComphubPageActions.UpdateActiveCountryDataSet('CAN');
 
     instance.handleCountryDataSetChanged('CAN');

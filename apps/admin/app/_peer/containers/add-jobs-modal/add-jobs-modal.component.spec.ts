@@ -64,7 +64,7 @@ describe('Add Jobs Modal', () => {
     activatedRoute = TestBed.inject(ActivatedRoute);
     routeIdParam = activatedRoute.parent.snapshot.params.id;
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture = TestBed.createComponent(AddJobsModalComponent);
     instance = fixture.componentInstance;
@@ -95,7 +95,7 @@ describe('Add Jobs Modal', () => {
   });
 
   it('should call loadingAvailableJobs onInit when the modal is opened', () => {
-    spyOn(instance, 'loadAvailableJobs');
+    jest.spyOn(instance, 'loadAvailableJobs');
 
     fixture.detectChanges();
 
@@ -104,7 +104,7 @@ describe('Add Jobs Modal', () => {
 
   it('should call selectionsControl.setErrors when addingJobsError$ is true', () => {
     const error = {'error': 'There was an error adding the selected jobs.'};
-    spyOn(instance.selectionsControl, 'setErrors');
+    jest.spyOn(instance.selectionsControl, 'setErrors');
     instance.addingJobsError$ = of(true);
 
     fixture.detectChanges();
@@ -193,7 +193,7 @@ describe('Add Jobs Modal', () => {
       GridTypeEnum.AvailableJobs,
       {columnName: 'JobTitle', value: newSearchTerm}
       );
-    spyOn(instance, 'loadAvailableJobs');
+    jest.spyOn(instance, 'loadAvailableJobs');
 
     fixture.detectChanges();
 
@@ -208,7 +208,7 @@ describe('Add Jobs Modal', () => {
   it('should dispatch a fromGridActions.PageChange action and call loadAvailableJobs when the pageChange event is triggered', () => {
     const pageChangeEvent = {skip: 20, take: 10};
     const expectedAction = new fromGridActions.PageChange(GridTypeEnum.AvailableJobs, pageChangeEvent);
-    spyOn(instance, 'loadAvailableJobs');
+    jest.spyOn(instance, 'loadAvailableJobs');
 
     fixture.detectChanges();
 
@@ -224,7 +224,7 @@ describe('Add Jobs Modal', () => {
     handleSortChange event is triggered`, () => {
     const expectedSort: SortDescriptor[] = [{field: 'CompanyName', dir: 'asc'}];
     const expectedAction = new fromGridActions.SortChange(GridTypeEnum.AvailableJobs, expectedSort);
-    spyOn(instance, 'loadAvailableJobs');
+    jest.spyOn(instance, 'loadAvailableJobs');
 
     fixture.detectChanges();
 
@@ -280,7 +280,7 @@ describe('Add Jobs Modal', () => {
   });
   // TODO: Was unable to get the subscription to fire the second time, preventing the text from appearing (JP)
   /*  it('should show error message when addingJobsError$ is true and a submit has been attempted', () => {
-      spyOn(instance, 'addingJobsError$').and.returnValue(of(true));
+      jest.spyOn(instance, 'addingJobsError$').and.returnValue(of(true));
       instance.selectionsControl.setValue([1]);
       instance.selectionsControl.markAsDirty();
       instance.selectionsControl.markAsTouched();

@@ -2,6 +2,7 @@
 
 exports[`CommunityPostAddReplyViewComponent should show community add reply view 1`] = `
 <pf-community-post-add-reply-view
+  __ngContext__={[Function LRootView]}
   addReplyViewStore={[Function Store]}
   addedRepliesSubscription={[Function Subscriber]}
   addedReplyView$={[Function Store]}
@@ -11,6 +12,5 @@ exports[`CommunityPostAddReplyViewComponent should show community add reply view
   replyHashTagClicked={[Function EventEmitter_]}
   store={[Function Store]}
 >
-  
 </pf-community-post-add-reply-view>
 `;

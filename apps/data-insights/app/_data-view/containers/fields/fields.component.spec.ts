@@ -40,7 +40,7 @@ describe('Data Insights - Fields Comopnent', () => {
     const field = generateMockField();
     const expectedAction = new fromFieldsActions.RemoveSelectedField(field);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     instance.handleFieldRemoved(field);
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
@@ -50,7 +50,7 @@ describe('Data Insights - Fields Comopnent', () => {
     const fields = [ generateMockField() ];
     const expectedAction = new fromFieldsActions.ReorderFields(fields);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     instance.handleFieldsReordered(fields, 1);
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
@@ -60,7 +60,7 @@ describe('Data Insights - Fields Comopnent', () => {
     const field = generateMockField();
     const expectedAction = new fromFieldsActions.AddSelectedField(field);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     instance.handleFieldAdded(field);
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
@@ -71,7 +71,7 @@ describe('Data Insights - Fields Comopnent', () => {
     const displayName = 'Job Title Update';
     const expectedAction = new fromFieldsActions.UpdateDisplayName({ field, displayName });
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     instance.handleDisplayNameUpdated(field, displayName);
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);

@@ -49,7 +49,7 @@ describe('Import Exchange Jobs Modal', () => {
   });
 
   it('should dispatch a FileCleared action when handleModalDismissed is called', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const action = new fromImportExchangeJobActions.FileCleared();
 
     instance.handleModalDismissed();
@@ -58,7 +58,7 @@ describe('Import Exchange Jobs Modal', () => {
   });
 
   it('should dispatch a FileCleared action when the file is changed to nothing', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const action = new fromImportExchangeJobActions.FileCleared();
 
     instance.fileChanged({ target: { files: [] }});
@@ -67,7 +67,7 @@ describe('Import Exchange Jobs Modal', () => {
   });
 
   it('should dispatch a UploadingFile action when the file is changed to a new file', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const mockFileChangeEvent = { target: { files: [ { File: {} }] }};
     const expectedValidateExchangeJobsRequest: ValidateExchangeJobsRequest = {
       ExchangeId: undefined,
@@ -81,7 +81,7 @@ describe('Import Exchange Jobs Modal', () => {
   });
 
   it('should dispatch a ImportExchangeJobs action when submitted', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     instance.exchangeId = 1;
     instance.storedDataFile = '';
     const mockImportExchangeJobsRequest: ImportExchangeJobsRequest = {

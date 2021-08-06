@@ -56,13 +56,13 @@ describe('SecuritySettingsComponent', () => {
   });
 
   it('PasswordManagementComponent - save() should call trySubmit on child', () => {
-    const spy = spyOn(component.settingsComponent, 'trySubmit');
+    const spy = jest.spyOn(component.settingsComponent, 'trySubmit');
     component.save();
     expect(spy).toHaveBeenCalled();
   });
 
   it('PasswordManagementComponent - cancel() should call resetForm on child', () => {
-    const spy = spyOn(component.settingsComponent, 'resetForm');
+    const spy = jest.spyOn(component.settingsComponent, 'resetForm');
     component.cancel();
     expect(spy).toHaveBeenCalled();
   });

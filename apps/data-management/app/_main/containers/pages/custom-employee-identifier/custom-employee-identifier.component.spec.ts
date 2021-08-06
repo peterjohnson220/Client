@@ -27,7 +27,7 @@ describe('CustomEmployeeIdentifierComponent', () => {
     store = TestBed.inject(MockStore);
     fixture = TestBed.createComponent(CustomEmployeeIdentifierComponent);
     instance = fixture.componentInstance;
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
   });
 
   it('should create', () => {

@@ -70,7 +70,7 @@ describe('Sso Config Modal', () => {
   });
 
   it('should dispatch a SsoConfigure action on add modal submits', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     instance.modalType = 'Add';
     const addSsoFormData = {email: mockSsoCustomerConnection.Email, file: mockSsoCustomerConnection.FileData, logOutUrl: mockSsoCustomerConnection.LogOutUrl};
     const expectedAction = new fromSsoConfigActions.SsoConfigure(mockSsoCustomerConnection);
@@ -82,7 +82,7 @@ describe('Sso Config Modal', () => {
   });
 
   it('should dispatch a UpdatingSsoConfiguration action on edit modal submits', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     instance.modalType = 'Edit';
     const expectedAction = new fromSsoConfigActions.UpdatingSsoConfiguration(mockSelectedCustomerConnection);
 
@@ -92,7 +92,7 @@ describe('Sso Config Modal', () => {
   });
 
   it('should dispatch a CloseSsoConfigModal action on handleModalDismissed', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const expectedAction1 = new fromSsoConfigActions.CloseSsoConfigModal();
 
     instance.handleModalDismissed();
@@ -101,7 +101,7 @@ describe('Sso Config Modal', () => {
   });
 
   it('should dispatch a DisplayNewSso action on DisplaySsoInGrid', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     const expectedAction = new fromSsoConfigActions.GetSsoConfiguration();
 

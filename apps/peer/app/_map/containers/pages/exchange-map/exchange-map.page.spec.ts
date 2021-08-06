@@ -4,7 +4,6 @@ import { ActivatedRoute} from '@angular/router';
 
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import { of } from 'rxjs';
-import spyOn = jest.spyOn;
 
 import {  generateMockExchange } from 'libs/models/peer';
 import {
@@ -104,7 +103,7 @@ describe('Peer - Map - Exchange Map Page', () => {
       }
     } as MessageEvent;
 
-    spyOn(exchangeExplorer, 'onMessage');
+    jest.spyOn(exchangeExplorer, 'onMessage');
 
     fixture.detectChanges();
 
@@ -115,7 +114,7 @@ describe('Peer - Map - Exchange Map Page', () => {
   it('should dispatch a ResetExchangeExplorerState action upon destroy', () => {
     const expectedAction = new fromLibsPeerExchangeExplorerActions.ResetExchangeExplorerState();
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.ngOnDestroy();
 
@@ -132,7 +131,7 @@ describe('Peer - Map - Exchange Map Page', () => {
       CompanyPayMarketIdsToDefaultFor: mockUpsertExchangeScopeRequest.ExchangeScopeDetails.CompanyPayMarketIdsToDefaultFor
     });
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture.detectChanges();
 
@@ -149,7 +148,7 @@ describe('Peer - Map - Exchange Map Page', () => {
   it(`should dispatch an OpenSaveExchangeScopeModal action when handleSaveScopeClick is triggered`, () => {
     const expectedAction = new fromExchangeScopeActions.OpenSaveExchangeScopeModal();
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture.detectChanges();
 
@@ -161,7 +160,7 @@ describe('Peer - Map - Exchange Map Page', () => {
   it(`should dispatch an OpenExportDataCutsModal action when handleExportDataCutsClick is triggered`, () => {
     const expectedAction = new fromExportDataCutsActions.OpenExportDataCutsModal();
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture.detectChanges();
 
@@ -173,7 +172,7 @@ describe('Peer - Map - Exchange Map Page', () => {
   it('should display a disabled Create Scope button when numberOfCompanySelections$ is > 0 and < 5', () => {
     instance.numberOfCompanySelections$ = of(1);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture.detectChanges();
 
@@ -183,7 +182,7 @@ describe('Peer - Map - Exchange Map Page', () => {
   it('should display a disabled Create Scope button when numberOfSelections$ is  0', () => {
     instance.numberOfSelections$ = of(0);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture.detectChanges();
 
@@ -194,7 +193,7 @@ describe('Peer - Map - Exchange Map Page', () => {
     instance.peerMapCompaniesCount$ = of(1);
     instance.exchangeJobIdsInScope$ = of([1]);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture.detectChanges();
 
@@ -205,7 +204,7 @@ describe('Peer - Map - Exchange Map Page', () => {
     instance.peerMapCompaniesCount$ = of(6);
     instance.exchangeJobIdsInScope$ = of(null);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture.detectChanges();
 

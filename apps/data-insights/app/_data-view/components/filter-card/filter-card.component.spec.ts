@@ -43,7 +43,7 @@ describe('Data Insights - Filter Card Component', () => {
       IsValid: false,
       IsLocked: false
     };
-    spyOn(instance.filterChanged, 'emit');
+    jest.spyOn(instance.filterChanged, 'emit');
 
     instance.handleFieldChanged(field);
 
@@ -55,7 +55,7 @@ describe('Data Insights - Filter Card Component', () => {
     instance.filter = generateMockFilter();
     const query = 'Accountant';
 
-    spyOn(instance.searchOptionChanged, 'emit');
+    jest.spyOn(instance.searchOptionChanged, 'emit');
     const expectedOptionsData: GetFilterOptionsData = {
       FilterIndex: 1,
       EntitySourceName: 'CompanyJobs',
@@ -78,7 +78,7 @@ describe('Data Insights - Filter Card Component', () => {
     const expectedFilter = generateMockFilter();
     expectedFilter.SelectedOptions = selectedValues;
     expectedFilter.IsValid = validateFilter(expectedFilter);
-    spyOn(instance.filterChanged, 'emit');
+    jest.spyOn(instance.filterChanged, 'emit');
 
     instance.handleSelectedOptionsChange(selectedValues);
 
@@ -87,7 +87,7 @@ describe('Data Insights - Filter Card Component', () => {
 
   it('should emit deleteFilter with filter index when handling delete filter', () => {
     instance.filterIndex = 2;
-    spyOn(instance.deleteFilter, 'emit');
+    jest.spyOn(instance.deleteFilter, 'emit');
 
     instance.handleDeleteFilter();
 

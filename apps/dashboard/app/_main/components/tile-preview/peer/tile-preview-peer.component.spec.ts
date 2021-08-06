@@ -3,7 +3,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
-import spyOn = jest.spyOn;
 
 import { HumanizeNumberPipe } from 'libs/core/pipes';
 import * as fromRootState from 'libs/state/state';
@@ -36,7 +35,7 @@ describe('Tile Preview Peer', () => {
     });
 
     store = TestBed.inject(Store);
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture = TestBed.createComponent(TilePreviewPeerComponent);
     instance = fixture.componentInstance;

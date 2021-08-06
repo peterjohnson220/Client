@@ -35,7 +35,7 @@ describe('Job Description Library Component', () => {
   });
 
   it('should sort on source upon handleSourceSortChange', () => {
-    spyOn(instance.searchChanged, 'emit');
+    jest.spyOn(instance.searchChanged, 'emit');
     instance.handleSourceSortChange();
 
     const searchRequest: LibrarySearchRequest = {
@@ -54,7 +54,7 @@ describe('Job Description Library Component', () => {
 
 
   it('should filter on source upon handleSourceChange', () => {
-    spyOn(instance.searchChanged, 'emit');
+    jest.spyOn(instance.searchChanged, 'emit');
     instance.handleSourceChange('Altman Weil Publications, Inc.');
 
     const searchRequest: LibrarySearchRequest = {

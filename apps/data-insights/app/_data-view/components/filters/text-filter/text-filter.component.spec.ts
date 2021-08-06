@@ -23,7 +23,7 @@ describe('Data Insights - Text Filter Card Component', () => {
   });
 
   it('should not emit any value when the text is blank', () => {
-    spyOn(instance.valueChanged, 'emit');
+    jest.spyOn(instance.valueChanged, 'emit');
 
     instance.value = '';
     instance.handleTextChanged();
@@ -33,7 +33,7 @@ describe('Data Insights - Text Filter Card Component', () => {
   });
 
   it('should emit the textbox value when it is populated', () => {
-    spyOn(instance.valueChanged, 'emit');
+    jest.spyOn(instance.valueChanged, 'emit');
 
     instance.value = 'text here';
     instance.handleTextChanged();

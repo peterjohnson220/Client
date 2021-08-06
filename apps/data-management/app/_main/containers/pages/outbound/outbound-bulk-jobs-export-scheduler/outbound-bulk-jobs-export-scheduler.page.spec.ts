@@ -49,7 +49,7 @@ describe('Data Management - Main - Outbound Bulk Jobs Export Scheduler Page', ()
   });
 
   it('should dispatch a get connection summary action on init', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
 
     const expectedLoadFiltersAction = new bulkExportJobsSchedulerActions.LoadingFilters();
@@ -65,7 +65,7 @@ describe('Data Management - Main - Outbound Bulk Jobs Export Scheduler Page', ()
   });
 
   it('should dispatch an open reset modal action when button clicked', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     const expectedAction = new serviceAccountsActions.OpenResetAccountModal();
     instance.canResetCredentials = true;

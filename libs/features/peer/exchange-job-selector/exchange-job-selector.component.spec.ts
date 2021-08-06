@@ -55,7 +55,7 @@ describe('Features - Peer - Exchange Job Selector Component', () => {
       similarExchangeJobIds: mockExchangeJobExchangeDetail.SimilarExchangeJobIds
     };
 
-    spyOn(instance.exchangeJobSelected, 'emit');
+    jest.spyOn(instance.exchangeJobSelected, 'emit');
 
     instance.handleExchangeJobClicked(event, mockExchangeJobExchangeDetail);
 

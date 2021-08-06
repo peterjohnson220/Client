@@ -42,7 +42,7 @@ describe('Sso Config Page', () => {
   });
 
   it('should dispatch GetSsoConfigurations on Init', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const expectedAction = new fromSsoConfigActions.GetSsoConfiguration();
 
     fixture.detectChanges();
@@ -51,7 +51,7 @@ describe('Sso Config Page', () => {
   });
 
   it('should dispatch OpenAddSsoConfigModal action when addSsoConfig is triggered', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const expectedAction = new fromSsoConfigActions.OpenSsoConfigModal();
 
     instance.OpenSsoModal();

@@ -2,6 +2,7 @@
 
 exports[`Peer - Dashboard - Invite Company - Existing Company Selection Form should provide correct values to the pf-modal-form component 1`] = `
 <pf-existing-company-selection-form
+  __ngContext__={[Function LRootView]}
   cardSelector={[Function Object]}
   companyCardDisabled={[Function Function]}
   companyIdentifier={[Function Function]}
@@ -22,7 +23,6 @@ exports[`Peer - Dashboard - Invite Company - Existing Company Selection Form sho
     class="ng-untouched ng-pristine ng-invalid"
   >
     <pf-card-selector>
-      
       <div
         class="filter flex-grow-1"
       >
@@ -44,7 +44,6 @@ exports[`Peer - Dashboard - Invite Company - Existing Company Selection Form sho
         value="[object Object]"
       />
     </div>
-    
   </div>
 </pf-existing-company-selection-form>
 `;

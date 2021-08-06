@@ -21,7 +21,7 @@ describe('User Filter Feature - Save Filter Modal', () => {
   });
 
   it('should emit a dismissed event when handling the modal dismissal', () => {
-    spyOn(instance.dismissed, 'emit');
+    jest.spyOn(instance.dismissed, 'emit');
 
     instance.handleModalDismiss();
 
@@ -29,7 +29,7 @@ describe('User Filter Feature - Save Filter Modal', () => {
   });
 
   it('should emit a save filter event with the form data when handling the modal submit', () => {
-    spyOn(instance.saveFilter, 'emit');
+    jest.spyOn(instance.saveFilter, 'emit');
     instance.nameFilterForm.patchValue({
       name: 'Mercer 2018 Surveys',
       setAsDefault: false

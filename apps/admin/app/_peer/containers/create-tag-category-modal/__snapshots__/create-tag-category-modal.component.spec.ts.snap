@@ -2,6 +2,7 @@
 
 exports[`Admin - Create Tag Category Modal (the modal) should match the snapshot 1`] = `
 <pf-create-tag-category-modal
+  __ngContext__={[Function LRootView]}
   createTagCategoryForm={[Function FormGroup]}
   createTagCategoryModalOpen$={[Function Store]}
   creatingTagCategory$={[Function Store]}
@@ -12,7 +13,6 @@ exports[`Admin - Create Tag Category Modal (the modal) should match the snapshot
   tagApiService={[Function Object]}
 >
   <pf-modal-form>
-    
     <div
       class="form-group"
     >
@@ -31,8 +31,6 @@ exports[`Admin - Create Tag Category Modal (the modal) should match the snapshot
           placeholder="Name"
           type="text"
         />
-        
-        
       </div>
       <div>
         <label
@@ -111,7 +109,6 @@ exports[`Admin - Create Tag Category Modal (the modal) should match the snapshot
                 <label
                   class="radio-label"
                 >
-                  
                 </label>
               </div>
               <div>
@@ -122,7 +119,6 @@ exports[`Admin - Create Tag Category Modal (the modal) should match the snapshot
                 <label
                   class="radio-label"
                 >
-                  
                 </label>
               </div>
             </div>
@@ -137,7 +133,6 @@ exports[`Admin - Create Tag Category Modal (the modal) should match the snapshot
               <kendo-switch
                 formcontrolname="displayOperatorToggle"
               >
-                
                 <span
                   class="k-switch-container"
                   role="switch"
@@ -145,12 +140,10 @@ exports[`Admin - Create Tag Category Modal (the modal) should match the snapshot
                   <span
                     class="k-switch-label-on"
                   >
-                    
                   </span>
                   <span
                     class="k-switch-label-off"
                   >
-                    
                   </span>
                   <span
                     class="k-switch-handle"
@@ -177,7 +170,6 @@ exports[`Admin - Create Tag Category Modal (the modal) should match the snapshot
                 class="form-control border drop-down-width"
                 formcontrolname="dataType"
               >
-                
                 <span
                   aria-haspopup="listbox"
                   role="listbox"
@@ -187,8 +179,6 @@ exports[`Admin - Create Tag Category Modal (the modal) should match the snapshot
                     class="k-input"
                     unselectable="on"
                   >
-                    
-                    
                   </span>
                   <span
                     class="k-select"
@@ -199,10 +189,7 @@ exports[`Admin - Create Tag Category Modal (the modal) should match the snapshot
                       unselectable="on"
                     />
                   </span>
-                  
                 </span>
-                
-                
               </kendo-dropdownlist>
             </div>
           </div>
@@ -216,7 +203,6 @@ exports[`Admin - Create Tag Category Modal (the modal) should match the snapshot
               <kendo-switch
                 formcontrolname="useSlider"
               >
-                
                 <span
                   class="k-switch-container"
                   role="switch"
@@ -224,12 +210,10 @@ exports[`Admin - Create Tag Category Modal (the modal) should match the snapshot
                   <span
                     class="k-switch-label-on"
                   >
-                    
                   </span>
                   <span
                     class="k-switch-label-off"
                   >
-                    
                   </span>
                   <span
                     class="k-switch-handle"

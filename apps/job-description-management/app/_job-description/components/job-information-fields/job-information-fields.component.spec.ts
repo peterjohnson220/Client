@@ -36,8 +36,8 @@ describe('Job Description Management - Job Description - Job Description Grid', 
 
   it('should check all fields, when calling toggleAllJobInformationFields & allJobInformationFieldsSelected is false',
     () => {
-    spyOn(instance.selectedJobInformationIds, 'emit');
-    spyOn(instance.selectedJobInformationFieldsString, 'emit');
+    jest.spyOn(instance.selectedJobInformationIds, 'emit');
+    jest.spyOn(instance.selectedJobInformationFieldsString, 'emit');
 
     instance.allJobInformationFieldsSelected = false;
     instance.jobInformationFields = [generateMockAvailableJobInformationField(1), generateMockAvailableJobInformationField(2)];
@@ -57,8 +57,8 @@ describe('Job Description Management - Job Description - Job Description Grid', 
 
   it('should uncheck all non-required fields, when calling toggleAllJobInformationFields & allJobInformationFieldsSelected is true',
     () => {
-      spyOn(instance.selectedJobInformationIds, 'emit');
-      spyOn(instance.selectedJobInformationFieldsString, 'emit');
+      jest.spyOn(instance.selectedJobInformationIds, 'emit');
+      jest.spyOn(instance.selectedJobInformationFieldsString, 'emit');
 
       instance.allJobInformationFieldsSelected = true;
 

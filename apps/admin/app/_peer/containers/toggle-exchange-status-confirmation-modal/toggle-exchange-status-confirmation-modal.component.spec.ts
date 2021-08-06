@@ -40,7 +40,7 @@ describe('Exchange Management - Toggle Exchange Status Confirmation Modal', () =
     fixture = TestBed.createComponent(ToggleExchangeStatusConfirmationModalComponent);
     instance = fixture.componentInstance;
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
   });
 
   it(`should display 'Deactivate' verbiage when exchange is active`, () => {

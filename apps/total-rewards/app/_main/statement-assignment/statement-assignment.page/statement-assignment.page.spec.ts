@@ -117,7 +117,7 @@ describe('AssignedEmployeesGridComponent', () => {
 
   it('should dispatch the expected action when Assign Employees is clicked', () => {
     // arrange
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const openModalAction = new fromAssignmentsModalActions.OpenModal();
 
     // act
@@ -131,7 +131,7 @@ describe('AssignedEmployeesGridComponent', () => {
 
   it('handleAssignedEmployeesGridStateChange should preserve current filters and dispatch updated paging in the dispatched action', () => {
     // arrange
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const currentGridState = {
       filter: {
         filters: [{ field: 'LastName', operator: 'contains', value: 'a' }]
@@ -154,7 +154,7 @@ describe('AssignedEmployeesGridComponent', () => {
 
   it('handleClearFilter should remove the expected filter', () => {
     // arrange, set the current gridState up to have one filter
-    spyOn(component.filterChangeSubject, 'next');
+    jest.spyOn(component.filterChangeSubject, 'next');
     const currentGridState = {
       filter: {
         filters: [{ field: 'LastName', operator: 'contains', value: 'a' }]
@@ -175,7 +175,7 @@ describe('AssignedEmployeesGridComponent', () => {
 
   it('handleClearAllFilters should remove all filters', () => {
     // arrange, set the current gridState up to have one filter
-    spyOn(component.filterChangeSubject, 'next');
+    jest.spyOn(component.filterChangeSubject, 'next');
     const currentGridState = {
       filter: {
         filters: [
@@ -198,7 +198,7 @@ describe('AssignedEmployeesGridComponent', () => {
 
   it('should dispatch the ExportAssignedEmployees action when Export Employee Benefits Report is clicked', () => {
     // arrange
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const exportEmployeesAction = new fromPageActions.ExportAssignedEmployees();
 
     // act
@@ -211,7 +211,7 @@ describe('AssignedEmployeesGridComponent', () => {
   it(`should not dispatch the ExportAssignedEmployees action when Export Employee Benefits Report is clicked
       and File Download Security Warning is canceled`, () => {
     // arrange
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const exportEmployeesAction = new fromPageActions.ExportAssignedEmployees();
     component.fileDownloadSecurityWarningModal = { open: () => ({})} as any;
     component.enableFileDownloadSecurityWarning = true;
@@ -226,7 +226,7 @@ describe('AssignedEmployeesGridComponent', () => {
 
   it('should dispatch the GenerateStatements action when Generate is clicked and Download Bulk PDF chosen', () => {
     // arrange
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const deliveryOption: DeliveryOption = {
       EmailTemplate: null,
       Method: DeliveryMethod.PDFExport,
@@ -246,7 +246,7 @@ describe('AssignedEmployeesGridComponent', () => {
 
   it('should dispatch the GenerateStatements action when Generate is clicked and Secure Email Delivery chosen', () => {
     // arrange
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const deliveryOption: DeliveryOption = {
       EmailTemplate: {
         EmailBody: 'Your Statement Name is ready for review.',

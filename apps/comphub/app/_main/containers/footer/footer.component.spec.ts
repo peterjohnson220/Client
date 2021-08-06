@@ -71,7 +71,7 @@ describe('Comphub - Main - Footer', () => {
 
   it('should dispatch a NavigateToNextCard action, when handling the next button click', () => {
     // arrange
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const expectedAction = new fromComphubPageActions.NavigateToNextCard();
 
     instance.handleNextButtonClicked();
@@ -80,7 +80,7 @@ describe('Comphub - Main - Footer', () => {
   });
 
   it('should dispatch a NavigateToPreviousCard action, when handling the back button click', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const expectedAction = new fromComphubPageActions.NavigateToPreviousCard();
 
     instance.handleBackButtonClicked();

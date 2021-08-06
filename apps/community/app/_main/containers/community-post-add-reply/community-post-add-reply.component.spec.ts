@@ -44,7 +44,7 @@ describe('CommunityPostAddReplyComponent', () => {
 
     store = TestBed.inject(Store);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     pfLinkifyService = TestBed.inject(PfLinkifyService);
     fixture = TestBed.createComponent(CommunityPostAddReplyComponent);

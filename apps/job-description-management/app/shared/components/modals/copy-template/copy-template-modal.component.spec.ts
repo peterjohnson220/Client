@@ -69,7 +69,7 @@ describe('Job Description Management - Templates - Template List - Copy Template
   });
 
   it('should emit copyTemplateComplete if template name valid', () => {
-    spyOn(instance.copyTemplateComplete, 'emit');
+    jest.spyOn(instance.copyTemplateComplete, 'emit');
     fixture.detectChanges();
     instance.templateNameForm.controls.templateName.setValue('Test2');
     instance.templateName = 'Test2';

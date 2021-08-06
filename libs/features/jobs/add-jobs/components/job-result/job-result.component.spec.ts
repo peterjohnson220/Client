@@ -20,7 +20,7 @@ describe('Project - Add Jobs - Job Result', () => {
 
   it('should emit job selection toggle when clicking on job result', () => {
     instance.job = generateMockPayFactorsJobResult();
-    spyOn(instance.jobClicked, 'emit');
+    jest.spyOn(instance.jobClicked, 'emit');
 
     instance.handleJobClicked();
 
@@ -29,7 +29,7 @@ describe('Project - Add Jobs - Job Result', () => {
 
   it('should show the job detail when toggling the detail display', () => {
     instance.job = generateMockPayFactorsJobResult();
-    spyOn(instance.jobDetailClicked, 'emit');
+    jest.spyOn(instance.jobDetailClicked, 'emit');
 
     instance.toggleJobDetailDisplay(new MouseEvent('Click'));
 

@@ -2,6 +2,7 @@
 
 exports[`CommunityStartDiscussionComponent should show community start discussion 1`] = `
 <pf-community-start-discussion
+  __ngContext__={[Function LRootView]}
   addingCommunityDiscussionPollSuccess$={[Function Store]}
   appNotificationStore={[Function Store]}
   communityAttachments={[Function Array]}
@@ -40,26 +41,19 @@ exports[`CommunityStartDiscussionComponent should show community start discussio
     <div
       class="col-8 pl-4 w-100"
     >
-      
-      
-      
       <div
         class="footer-container"
       >
         <div
           class="float-left"
         >
-          
-          
         </div>
-        
         <button
           class="btn btn-primary float-right"
           data-qa-id="btn-startDiscussionPost"
           id="start-discussion-post-button"
         >
           Post 
-          
         </button>
       </div>
     </div>
@@ -69,6 +63,7 @@ exports[`CommunityStartDiscussionComponent should show community start discussio
 
 exports[`CommunityStartDiscussionComponent should show community start poll 1`] = `
 <pf-community-start-discussion
+  __ngContext__={[Function LRootView]}
   addingCommunityDiscussionPollSuccess$={[Function Store]}
   appNotificationStore={[Function Store]}
   communityAttachments={[Function Array]}
@@ -107,26 +102,19 @@ exports[`CommunityStartDiscussionComponent should show community start poll 1`] 
     <div
       class="col-8 pl-4 w-100"
     >
-      
-      
-      
       <div
         class="footer-container"
       >
         <div
           class="float-left"
         >
-          
-          
         </div>
-        
         <button
           class="btn btn-primary float-right"
           data-qa-id="btn-startDiscussionPost"
           id="start-discussion-post-button"
         >
           Post 
-          
         </button>
       </div>
     </div>

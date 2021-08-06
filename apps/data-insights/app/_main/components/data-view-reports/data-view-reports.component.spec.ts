@@ -26,7 +26,7 @@ describe('Data Insights - Dataviews View Card Component', () => {
 
   it('should emit favoriteClicked when clicking on star icon', () => {
     const workbook = {...generateMockWorkbook(), IsFavorite: true};
-    spyOn(instance.favoriteClicked, 'emit');
+    jest.spyOn(instance.favoriteClicked, 'emit');
 
     instance.handleFavoriteClicked(workbook);
 

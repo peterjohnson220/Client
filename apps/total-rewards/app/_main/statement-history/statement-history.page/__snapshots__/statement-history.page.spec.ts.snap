@@ -2,6 +2,7 @@
 
 exports[`StatementHistoryPageComponent should show the statement name 1`] = `
 <pf-statement-history
+  __ngContext__={[Function LRootView]}
   enableFileDownloadSecurityWarning$={[Function Observable]}
   featureFlagService={[Function Object]}
   fileDownloadSecurityWarningModal={[Function ElementRef]}
@@ -18,9 +19,7 @@ exports[`StatementHistoryPageComponent should show the statement name 1`] = `
   unsubscribe$={[Function Subject]}
 >
   <pf-page-with-title-bar>
-    
     History: statement1
-    
     <div
       class="h-100 k-tooltip-container"
       filter=".k-grid td"
@@ -38,46 +37,31 @@ exports[`StatementHistoryPageComponent should show the statement name 1`] = `
             title="Actions"
             width="70"
           >
-            
-            
-          </kendo-grid-column>
-          
-          <kendo-grid-column
-            class="ellipsize"
-          >
-            
-            
           </kendo-grid-column>
           <kendo-grid-column
             class="ellipsize"
           >
-            
-            
           </kendo-grid-column>
           <kendo-grid-column
             class="ellipsize"
           >
-            
-            
           </kendo-grid-column>
           <kendo-grid-column
             class="ellipsize"
           >
-            
-            
           </kendo-grid-column>
           <kendo-grid-column
             class="ellipsize"
           >
-            
-            
           </kendo-grid-column>
-          
+          <kendo-grid-column
+            class="ellipsize"
+          >
+          </kendo-grid-column>
         </kendo-grid>
       </pf-async-container>
     </div>
     <pf-file-download-security-warning-modal />
-    
   </pf-page-with-title-bar>
 </pf-statement-history>
 `;

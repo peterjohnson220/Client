@@ -2,6 +2,7 @@
 
 exports[`Payfactors Company Exchange Invitations should match snapshot 1`] = `
 <pf-company-exchange-invitations
+  __ngContext__={[Function LRootView]}
   approveInvitationModalOpen$={[Function Store]}
   approveInvitationModalTitle={[Function String]}
   approvingCompanyInvitation$={[Function Store]}
@@ -42,13 +43,11 @@ exports[`Payfactors Company Exchange Invitations should match snapshot 1`] = `
             field="CompanyName"
             title="Company Name"
           >
-            
           </kendo-grid-column>
           <kendo-grid-column
             field="CompanyIndustry"
             title="Industry"
           >
-            
           </kendo-grid-column>
           <kendo-grid-column
             field="CompanyRevenue"
@@ -66,18 +65,15 @@ exports[`Payfactors Company Exchange Invitations should match snapshot 1`] = `
             field="RequestCompany"
             title="Request Company"
           >
-            
           </kendo-grid-column>
           <kendo-grid-column
             field="RequestDate"
             title="Request Date"
           >
-            
           </kendo-grid-column>
         </kendo-grid>
       </pf-async-container>
     </div>
-    
     <pf-approve-request-modal />
     <pf-deny-request-modal />
   </div>
