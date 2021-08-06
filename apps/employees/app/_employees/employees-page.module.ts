@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { StoreModule } from '@ngrx/store';
 import { FontAwesomeModule , FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { EffectsModule } from '@ngrx/effects';
-import { NgbTooltipModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltipModule, NgbDropdownModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CalendarModule } from '@progress/kendo-angular-dateinputs';
 
 import { PfCommonModule } from 'libs/core';
@@ -16,11 +16,12 @@ import { TotalRewardsStatementModule } from 'libs/features/total-rewards/total-r
 
 import * as fromFaIcons from './fa-icons';
 import { reducers } from './reducers';
-import { EmployeesPageEffects } from './effects';
+import { EmployeeInsightsEffects, EmployeesPageEffects } from './effects';
 import { EmployeesPageRoutingModule } from './employees-page-routing.module';
 import { EmployeesPageComponent } from './employees.page';
 import { SharedModule } from '../shared/shared.module';
 import { EmployeeDetailsComponent } from './containers';
+import { EmployeeInsightsComponent } from './components';
 
 @NgModule({
   imports: [
@@ -31,10 +32,12 @@ import { EmployeeDetailsComponent } from './containers';
     StoreModule.forFeature('employees_main', reducers),
     FontAwesomeModule,
     EffectsModule.forFeature([
-      EmployeesPageEffects
+      EmployeesPageEffects,
+      EmployeeInsightsEffects
     ]),
     NgbTooltipModule,
     NgbDropdownModule,
+    NgbModule,
     CalendarModule,
 
     // Routing
@@ -52,7 +55,10 @@ import { EmployeeDetailsComponent } from './containers';
   declarations: [
     EmployeesPageComponent,
     // Containers
-    EmployeeDetailsComponent
+    EmployeeDetailsComponent,
+
+    // Components
+    EmployeeInsightsComponent
   ]
 })
 export class EmployeesPageModule {

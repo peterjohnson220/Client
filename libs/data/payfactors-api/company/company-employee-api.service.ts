@@ -10,6 +10,7 @@ import {
 } from 'libs/models/payfactors-api';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
+import { EmployeeInsights, GetEmployeeInsightsRequest } from '../../../models/payfactors-api/employees/employee-insights.model';
 
 @Injectable({
   providedIn: 'root',
@@ -77,5 +78,10 @@ export class CompanyEmployeeApiService {
 
   saveEmployeeBenefits(request: SaveEmployeeBenefitsRequest): Observable<any> {
     return this.payfactorsApiService.post(`${this.endpoint}/Default.SaveEmployeeBenefits`, request);
+  }
+
+  getEmployeeInsights(request: GetEmployeeInsightsRequest): Observable<EmployeeInsights> {
+    return this.payfactorsApiService.post<EmployeeInsights>(`${this.endpoint}/Default.GetEmployeeInsights`,
+      { EmployeeInsightsRequest: request });
   }
 }
