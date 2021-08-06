@@ -1,5 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { StatementHistoryViewModel } from 'libs/features/total-rewards/total-rewards-statement/models/statement-history-list-view-model';
+import { StatementHistoryViewModel, StatementHistoryListViewModel } from 'libs/features/total-rewards/total-rewards-statement/models/statement-history-list-view-model';
 
 import * as fromRoot from 'libs/state/state';
 
@@ -55,3 +55,9 @@ export const getStatementHistoryLoadingError = createSelector(selectPageState, f
 export const getStatementLoadingError = createSelector(selectPageState, fromPageReducer.getStatementLoadingError);
 export const getDownloadingHistoricalPdf = createSelector(selectPageState, fromPageReducer.getDownloadingHistoricalPdf);
 export const getPdfIdToExport = createSelector(selectPageState, fromPageReducer.getPdfIdToExport);
+
+export const getStatementHistoryToExport = createSelector(
+  getPdfIdToExport,
+  getStatementHistoryGridData,
+  (pdfId: string, gridData) => gridData.data?.find((h: StatementHistoryListViewModel) => h.Id === pdfId)
+);
