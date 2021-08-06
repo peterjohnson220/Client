@@ -19,6 +19,7 @@ export class CompensableFactorsComponent implements OnInit, OnDestroy {
   compensableFactorsDataSub: Subscription;
 
   skills: CompensableFactorModel[];
+  certs: CompensableFactorModel[];
   factorTypes = CompensableFactorTypes;
   compensableFactorsConstants = CompensableFactorsConstants;
 
@@ -28,6 +29,7 @@ export class CompensableFactorsComponent implements OnInit, OnDestroy {
     this.compensableFactorsDataSub = this.store.select(fromComphubCsdReducer.getCompensableFactors).subscribe(f => {
       if (f) {
         this.skills = f[CompensableFactorsConstants.SKILLS];
+        this.certs = f[CompensableFactorsConstants.CERTS];
       }
     });
   }
