@@ -13,6 +13,19 @@
         [topFactorsHeading]="'Top Skills'">
       </pf-compensable-factor-type>
     </ng-container>
+
+    <ng-container *ngIf="!!certs" #CertiificateFactor>
+      <pf-compensable-factor-type
+        [compensableFactorName]="compensableFactorsConstants.CERTS"
+        [selectedJobTitle]="selectedJobTitle"
+        [factorType]="factorTypes.Search"
+        [title]="'Certifications & Licenses'"
+        [description]="'Different certifications can also affect salary. Below are the most impactful certifications/licenses.'"
+        [searchPlaceHolder]="'Search for more certifications'"
+        [compensableFactors]="certs"
+        [topFactorsHeading]="'Top Certifications/Licenses'">
+      </pf-compensable-factor-type>
+    </ng-container>
   </div>
 
   <div class="column">

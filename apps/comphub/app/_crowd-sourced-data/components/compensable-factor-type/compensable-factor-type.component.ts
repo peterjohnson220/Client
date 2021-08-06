@@ -112,7 +112,7 @@ export class CompensableFactorTypeComponent implements OnInit, AfterViewChecked 
   }
 
   handleSearchValueSelected(factorName: string) {
-    if (this.selectedFactors.indexOf(factorName) === -1) {
+    if (this.selectedFactors.indexOf(factorName) === -1 && factorName !== '') {
       this.selectedFactors.push(factorName);
       this.store.dispatch(new fromCompensableFactorsActions.AddSelectedCompensableFactors(
         {compensableFactor: this.compensableFactorName, selectedFactors: cloneDeep(this.selectedFactors)}));
