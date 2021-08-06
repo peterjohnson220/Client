@@ -1,14 +1,26 @@
 
 export interface CompensableFactorModel {
-  Answer: string;
-  Count: number;
-  PercentageChange?: number;
+  Name: string;
+  Data: CompensableFactorData;
+}
+
+export interface CompensableFactorData {
+  ProfileCount: number;
+  PercentReporting: number;
+  MedianBasePay: number;
+  PayDifferential: number;
+  PayDifferentialPercentage: number;
 }
 
 export function generateMockCompensableFactorModel(): CompensableFactorModel {
   return {
-    Answer: 'C#',
-    Count: 500,
-    PercentageChange: 1.00
+    Name: 'C#',
+    Data: {
+      ProfileCount: 500,
+      PercentReporting: 1.2,
+      MedianBasePay: 2.5,
+      PayDifferential: 2.5,
+      PayDifferentialPercentage: 2.5
+    }
   };
 }

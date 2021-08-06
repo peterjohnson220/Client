@@ -3,7 +3,6 @@ import { ChangeDetectorRef, NO_ERRORS_SCHEMA } from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
-import cloneDeep from 'lodash/cloneDeep';
 
 import * as fromRootState from 'libs/state/state';
 import { generateMockCompensableFactorModel } from 'libs/models/comphub';
@@ -85,7 +84,7 @@ describe('CompensableFactorTypeComponent', () => {
     const expectedAction = new fromCompensableFactorActions.AddSelectedCompensableFactors(
       {compensableFactor: 'Skills', selectedFactors: ['C#']});
 
-    instance.handleSearchValueSelected(factor.Answer);
+    instance.handleSearchValueSelected(factor.Name);
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 });

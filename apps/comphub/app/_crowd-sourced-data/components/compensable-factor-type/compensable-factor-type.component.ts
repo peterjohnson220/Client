@@ -73,12 +73,12 @@ export class CompensableFactorTypeComponent implements OnInit, AfterViewChecked 
   }
 
   topFactorChecked(factor: CompensableFactorModel) {
-    if (this.selectedFactors.indexOf(factor.Answer) === -1) {
-      this.selectedFactors.push(factor.Answer.toString());
+    if (this.selectedFactors.indexOf(factor.Name) === -1) {
+      this.selectedFactors.push(factor.Name.toString());
       this.store.dispatch(new fromCompensableFactorsActions.AddSelectedCompensableFactors(
         {compensableFactor: this.compensableFactorName, selectedFactors: cloneDeep(this.selectedFactors)}));
     } else {
-      this.selectedFactors = this.selectedFactors.filter(x => x !== factor.Answer);
+      this.selectedFactors = this.selectedFactors.filter(x => x !== factor.Name);
     }
 
     this.maxSelectionValidation();
@@ -100,7 +100,7 @@ export class CompensableFactorTypeComponent implements OnInit, AfterViewChecked 
   }
 
   pillClicked(factorName: string) {
-    const selectedTopFactor = this.topFactors.find(x => x.Answer === factorName);
+    const selectedTopFactor = this.topFactors.find(x => x.Name === factorName);
     if (!!selectedTopFactor) {
       const index = this.topFactors.indexOf(selectedTopFactor);
       this.topFactorsFormArray.controls[index].setValue(false);

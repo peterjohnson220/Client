@@ -7,7 +7,7 @@
         <h6 class="card-subtitle">{{topFactorsHeading}}</h6>
         <label formArrayName="checkList" *ngFor="let checkBox of topFactorsFormArray.controls; let i = index">
           <input type="checkbox" [formControlName]="i" (change)="topFactorChecked(topFactors[i])">
-          {{topFactors[i].Answer}}
+          {{topFactors[i].Name}}
         </label>
       </form>
       <div>
