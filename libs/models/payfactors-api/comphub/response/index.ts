@@ -8,3 +8,4 @@ export * from './job-priced-history-summary-response.model';
 export * from './search-crowd-sourced-jobs-response.model';
 export * from './get-crowd-sourced-job-pricing-response.model';
 export * from './compensable-factors-response.model';
+export * from './get-crowd-sourced-education-types-response.model';

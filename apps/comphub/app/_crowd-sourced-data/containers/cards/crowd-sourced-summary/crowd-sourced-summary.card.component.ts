@@ -64,12 +64,13 @@ export class CrowdSourcedSummaryCardComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.jobResultsSub = this.jobResults$.subscribe( jr => {
+    this.jobResultsSub = this.jobResults$.subscribe(jr => {
       this.jobResults = jr;
       // update selected job data
-      const jobToUpdate = jr.Data.find(r => r?.JobTitle === this.selectedJob?.JobTitle);
-      this.selectedJob = jobToUpdate;
+      this.selectedJob = jr.Data.find(r => r?.JobTitle === this.selectedJob?.JobTitle);
     });
+
+    this.store.dispatch(new fromCompensableFactorsActions.GetEducationTypes());
   }
 
   getInitialPricing() {
@@ -82,9 +83,12 @@ export class CrowdSourcedSummaryCardComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromJobGridActions.GetCrowdSourcedJobPricing(request));
 
     this.csdStore.dispatch(new fromCompensableFactorsActions.GetAllCompensableFactors(
-      {jobTitle: this.selectedJob?.JobTitle, country: this.workflowContext.activeCountryDataSet.CountryName,
-      paymarketId: this.selectedPaymarket.CompanyPayMarketId }
-      ));
+      {
+        jobTitle: this.selectedJob?.JobTitle,
+        country: this.workflowContext.activeCountryDataSet.CountryName,
+        paymarketId: this.selectedPaymarket.CompanyPayMarketId
+      }
+    ));
   }
 
   ngOnDestroy(): void {
@@ -93,6 +97,4 @@ export class CrowdSourcedSummaryCardComponent implements OnInit, OnDestroy {
     this.selectedPaymarketSub.unsubscribe();
     this.selectedJobSub.unsubscribe();
   }
-
-
 }

@@ -73,6 +73,10 @@ export class PayfactorsApiModelMapper {
     };
   }
 
+  static mapEducationTypeValuesToArray(response: GenericKeyValue<number, string>[]): string[] {
+    return response.map(et => et['Name']);
+  }
+
   static mapScopeValuesToKendoDropDownItems(scopeValues: string[]): KendoDropDownItem[] {
     if (!scopeValues) {
       return [];

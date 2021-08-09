@@ -17,9 +17,7 @@ import {
   JobPricedHistorySummaryRequest,
   JobPricedHistorySummaryResponse,
   QuickPriceJobDataRequest,
-  QuickPriceJobDataResponse,
-  SearchCrowdSourcedJobsResponse,
-  GetCrowdSourcedJobPricingResponse
+  QuickPriceJobDataResponse
 } from 'libs/models/payfactors-api/comphub';
 import { QuickPriceExchangeDataSearchRequest } from 'libs/models/payfactors-api/peer/exchange-data-search/request';
 import { PayfactorsApiService } from 'libs/data/payfactors-api/payfactors-api.service';
