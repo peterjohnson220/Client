@@ -99,6 +99,8 @@ import { JobDescriptionDnDService, JobDescriptionVersionCompareService } from '.
 import { ResolveHistoryListGuard, JobDescriptionJobCompareListResolver } from './guards';
 import { SharedModule } from '../shared/shared.module';
 import { WorkflowStepComponent } from './components/workflow/workflow-step/workflow-step.component';
+import { SharePermissionsPanelComponent } from './components/share-permissions-panel';
+
 @NgModule({
   imports: [
     // Angular
@@ -184,6 +186,7 @@ import { WorkflowStepComponent } from './components/workflow/workflow-step/workf
     WorkflowProgressBarComponent,
     ShareJobDescriptionModalComponent,
     BulkExportJobDescriptionModalComponent,
+    SharePermissionsPanelComponent,
 
     // Pages
     JobDescriptionJobComparePageComponent,

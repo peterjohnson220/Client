@@ -1,0 +1,29 @@
+<div class="pf-share-permissions-panel">
+    <div class="pf-share-permissions-panel__header">
+        <div class="pf-share-permissions-panel__title">Share Permissions</div>
+        <button class="pf-share-permissions-panel__close" (click)="onClose.emit(true)">
+            <fa-icon icon="times"></fa-icon>
+        </button>
+        <button class="btn btn-primary pf-share-permissions-panel__share-button" (click)="onShare.emit(true)">Share</button>
+    </div>
+    <div class="col-12 column-scroll-container pf-share-permissions-panel__content">
+        <div class="scroll-y column-scroll-inner">
+            <div *ngIf="this.isError" class="alert alert-danger">
+                Error Loading Share Permissions
+            </div>
+            <div class="pf-share-permissions-panel__detail" *ngFor="let share of shares">
+                <button class="btn btn-secondary pf-share-permissions-panel__actions">
+                    <fa-icon icon="ellipsis-h"></fa-icon>
+                </button>
+                <div class="pf-share-permissions-panel__email">{{ share.SharedTo.EmailAddress }}</div>
+                <div>Shared by {{ share.SharedBy }} {{ share.SharedDate | date: 'MM/dd/yyyy' }}</div>
+            </div>
+            <div *ngIf="this.isLoading" class="pf-share-permissions-panel__detail pf-share-permissions-panel__detail--message">
+                Loading...
+            </div>
+            <div *ngIf="this.isEmpty && !this.isError && !this.isLoading" class="pf-share-permissions-panel__detail pf-share-permissions-panel__detail--message">
+                Job description has not yet been shared.
+            </div>
+        </div>
+    </div>
+</div>
