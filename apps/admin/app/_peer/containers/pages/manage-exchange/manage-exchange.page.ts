@@ -31,9 +31,11 @@ export class ManageExchangePageComponent implements OnInit, OnDestroy {
   canToggleExchangeStatus$: Observable<boolean>;
   isValidExchange$: Observable<boolean>;
   loadingExchange$: Observable<boolean>;
+  isSystemExchange$: Observable<boolean>;
 
-  isValidExchangeSubcription: Subscription;
+  isValidExchangeSubscription: Subscription;
   exchangeSubscription: Subscription;
+  isSystemExchangeSubscription: Subscription;
 
   StatusEnum = StatusEnum;
 
@@ -41,6 +43,7 @@ export class ManageExchangePageComponent implements OnInit, OnDestroy {
   navLinks: any[];
   exchange: Exchange;
   isValidExchange: boolean;
+  isSystemExchange: boolean;
 
   constructor(private store: Store<fromPeerAdminReducer.State>,
               private activeRoute: ActivatedRoute,
@@ -59,10 +62,11 @@ export class ManageExchangePageComponent implements OnInit, OnDestroy {
     this.canToggleExchangeStatus$ = this.store.pipe(select(fromPeerAdminReducer.getManageExchangeCanToggleExchangeStatus));
     this.isValidExchange$ = this.store.pipe(select(fromPeerAdminReducer.getManageExchangeIsValidExchange));
     this.loadingExchange$ = this.store.pipe(select(fromPeerAdminReducer.getManageExchangeLoading));
+    this.isSystemExchange$ = this.store.pipe(select(fromPeerAdminReducer.getManageExchangeIsSystemExchange));
   }
 
   ngOnInit() {
-    this.isValidExchangeSubcription = this.isValidExchange$.subscribe(isValidExchange => {
+    this.isValidExchangeSubscription = this.isValidExchange$.subscribe(isValidExchange => {
       this.isValidExchange = isValidExchange;
       let isExchangeActive = false;
       this.isExchangeActive$.pipe(take(1)).subscribe(x => {
@@ -76,6 +80,9 @@ export class ManageExchangePageComponent implements OnInit, OnDestroy {
         this.exchange = x;
       });
     });
+
+    this.isSystemExchangeSubscription = this.isSystemExchange$.subscribe(x =>
+    this.isSystemExchange = x);
 
     this.gridHelperService.loadExchangeJobs(this.exchangeId);
     this.gridHelperService.loadExchangeCompanies(this.exchangeId);
@@ -97,13 +104,16 @@ export class ManageExchangePageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.isValidExchangeSubcription.unsubscribe();
+    this.isValidExchangeSubscription.unsubscribe();
+    this.isSystemExchangeSubscription.unsubscribe();
     this.exchangeSubscription.unsubscribe();
     this.store.dispatch(new fromGridActions.ResetGrid(GridTypeEnum.ExchangeCompanies));
     this.store.dispatch(new fromGridActions.ResetGrid(GridTypeEnum.ExchangeJobs));
   }
 
   updateStatus(status: StatusEnum) {
+    if (this.isSystemExchange) { return; }
+
     if (this.exchange.Status === status) { return; }
 
     if (status === StatusEnum.Active && !this.isValidExchange) { return; }
