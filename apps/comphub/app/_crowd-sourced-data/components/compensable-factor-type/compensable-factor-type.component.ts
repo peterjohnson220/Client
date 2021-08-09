@@ -27,6 +27,7 @@ export class CompensableFactorTypeComponent implements OnInit, AfterViewChecked 
   @Input() searchPlaceHolder: string;
   @Input() compensableFactors: CompensableFactorModel[];
   @Input() topFactorsHeading: string;
+  @Input() smallDropDown: boolean;
 
   topFactorsForm: FormGroup;
   factorTypes = CompensableFactorTypes;
@@ -119,6 +120,16 @@ export class CompensableFactorTypeComponent implements OnInit, AfterViewChecked 
     }
 
     this.maxSelectionValidation();
+  }
+
+  handleDropDownValueSelected(factorName: string) {
+    if (!!factorName) {
+      // pop the old one, if found
+      this.selectedFactors.pop();
+      this.selectedFactors.push(factorName);
+      this.store.dispatch(new fromCompensableFactorsActions.AddSelectedCompensableFactors(
+        {compensableFactor: this.compensableFactorName, selectedFactors: cloneDeep(this.selectedFactors)}));
+    }
   }
 
   ngOnInit(): void {

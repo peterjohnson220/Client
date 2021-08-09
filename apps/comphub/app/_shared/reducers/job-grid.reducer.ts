@@ -68,7 +68,7 @@ export function reducer(state: State = initialState, action: fromJobGridActions.
     }
     case fromJobGridActions.GET_CROWD_SOURCED_JOB_PRICING: {
       const jobResults = cloneDeep(state.jobResults);
-      const jobToUpdate = jobResults.Data.find(jr => jr.JobTitle === action.payload.jobTitle);
+      const jobToUpdate = jobResults.Data.find(jr => jr.JobTitle === action.payload.JobTitle);
       jobToUpdate.Loading = true;
 
       return {

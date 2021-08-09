@@ -6,9 +6,11 @@ import { PayfactorsApiService } from '../payfactors-api.service';
 import { CompensableFactorsRequestModel } from '../../../models/payfactors-api/comphub/request/compensable-factors-request.model';
 import {
   CompensableFactorsResponseModel,
-  GetCrowdSourcedJobPricingResponse,
+  GetCrowdSourcedJobPricingResponse, QuickPriceListResponse,
   SearchCrowdSourcedJobsResponse
 } from '../../../models/payfactors-api/comphub/response';
+import { QuickPriceRequest } from '../../../models/payfactors-api';
+import { GetCrowdSourcedJobPricingRequest } from '../../../models/comphub/get-crowd-sourced-job-pricing';
 
 @Injectable({
   providedIn: 'root',
@@ -27,9 +29,8 @@ export class ComphubCrowdSourcedApiService {
       { params: { jobTitle: jobTitle } });
   }
 
-  getCrowdSourcedJobPricing(jobTitle: string, country: string, paymarketId): Observable<GetCrowdSourcedJobPricingResponse>  {
-    const params = !!paymarketId ? { jobTitle: jobTitle, country: country, paymarketId: paymarketId } : { jobTitle: jobTitle, country: country };
-    return this.payfactorsApiService.get<GetCrowdSourcedJobPricingResponse>(`${this.endpoint}/GetCrowdSourcedJobPricing`,
-      { params: params });
+  getCrowdSourcedJobPricing(request: GetCrowdSourcedJobPricingRequest): Observable<GetCrowdSourcedJobPricingResponse>  {
+    return this.payfactorsApiService.post<GetCrowdSourcedJobPricingResponse>(`${this.endpoint}/GetCrowdSourcedJobPricing`, request);
   }
+
 }

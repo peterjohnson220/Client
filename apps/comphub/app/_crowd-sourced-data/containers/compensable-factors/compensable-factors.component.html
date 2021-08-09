@@ -1,4 +1,7 @@
-<h3>Compensable Factors</h3>
+<div class="row">
+  <div class="col-md-10"><h3>Compensable Factors</h3></div>
+  <div class="col-md-2"><button class="btn btn-secondary submit-btn" (click)="handleSubmitClicked()">Submit</button></div>
+</div>
 <div class="row">
   <div class="column">
     <ng-container *ngIf="!!skills" #SkillsFactor>
@@ -14,7 +17,7 @@
       </pf-compensable-factor-type>
     </ng-container>
 
-    <ng-container *ngIf="!!certs" #CertiificateFactor>
+    <ng-container *ngIf="!!certs" #CertificateFactor>
       <pf-compensable-factor-type
         [compensableFactorName]="compensableFactorsConstants.CERTS"
         [selectedJobTitle]="selectedJobTitle"
@@ -29,6 +32,15 @@
   </div>
 
   <div class="column">
-
+    <ng-container #YearsFactor>
+      <pf-compensable-factor-type
+        [compensableFactorName]="compensableFactorsConstants.YEARS_EXPERIENCE"
+        [selectedJobTitle]="selectedJobTitle"
+        [factorType]="factorTypes.DropDown"
+        [smallDropDown]="true"
+        [title]="'Years of Experience'"
+        [compensableFactors]="yearsOfExperience">
+      </pf-compensable-factor-type>
+    </ng-container>
   </div>
 </div>
