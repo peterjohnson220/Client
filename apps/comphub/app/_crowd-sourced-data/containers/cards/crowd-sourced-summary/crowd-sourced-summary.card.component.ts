@@ -4,6 +4,7 @@ import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { JobData, JobGridData, PricingPaymarket } from 'libs/models/comphub';
+import { GetCrowdSourcedJobPricingRequest } from 'libs/models/comphub/get-crowd-sourced-job-pricing';
 
 import { ComphubPages } from '../../../../_shared/data';
 import { WorkflowContext } from '../../../../_shared/models';
@@ -72,10 +73,13 @@ export class CrowdSourcedSummaryCardComponent implements OnInit, OnDestroy {
   }
 
   getInitialPricing() {
-    this.store.dispatch(new fromJobGridActions.GetCrowdSourcedJobPricing(
-      { jobTitle: this.selectedJob.JobTitle, country: this.workflowContext.activeCountryDataSet.CountryName,
-        paymarketId: this.selectedPaymarket.CompanyPayMarketId }
-    ));
+    const request: GetCrowdSourcedJobPricingRequest = {
+      JobTitle: this.selectedJob.JobTitle,
+      Country: this.workflowContext.activeCountryDataSet.CountryName,
+      PaymarketId: this.selectedPaymarket.CompanyPayMarketId,
+      SelectedFactors: null
+    };
+    this.store.dispatch(new fromJobGridActions.GetCrowdSourcedJobPricing(request));
 
     this.csdStore.dispatch(new fromCompensableFactorsActions.GetAllCompensableFactors(
       {jobTitle: this.selectedJob?.JobTitle, country: this.workflowContext.activeCountryDataSet.CountryName,

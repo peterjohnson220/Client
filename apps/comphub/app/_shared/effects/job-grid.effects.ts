@@ -10,6 +10,7 @@ import { ExchangeExplorerContextService } from 'libs/features/peer/exchange-expl
 import { QuickPriceExchangeDataSearchRequest } from 'libs/models/payfactors-api/peer/exchange-data-search';
 import * as fromExchangeExplorerActions from 'libs/features/peer/exchange-explorer/actions/exchange-filter-context.actions';
 import { JobGridData } from 'libs/models/comphub';
+import { GetCrowdSourcedJobPricingRequest } from 'libs/models/comphub/get-crowd-sourced-job-pricing';
 
 import * as fromComphubMainReducer from '../reducers';
 import * as fromComphubPageActions from '../actions/comphub-page.actions';
@@ -18,6 +19,7 @@ import * as fromSummaryCardActions from '../actions/summary-card.actions';
 import { DataCardHelper, PayfactorsApiModelMapper } from '../helpers';
 import { ComphubPages } from '../data';
 import { WorkflowContext } from '../models';
+
 
 @Injectable()
 export class JobGridEffects {
@@ -147,12 +149,15 @@ export class JobGridEffects {
       ),
       mergeMap((data) => {
         const actions = [];
+
         data.action.payload.Data.forEach((job) => {
-          actions.push(new fromJobGridActions.GetCrowdSourcedJobPricing({
-            jobTitle: job.JobTitle,
-            country: data.workflowContext.activeCountryDataSet.CountryName,
-            paymarketId: null
-          }));
+          const request: GetCrowdSourcedJobPricingRequest = {
+            JobTitle: job.JobTitle,
+            Country: data.workflowContext.activeCountryDataSet.CountryName,
+            PaymarketId: null,
+            SelectedFactors: null
+          };
+          actions.push(new fromJobGridActions.GetCrowdSourcedJobPricing(request));
         });
 
         return actions;
@@ -167,7 +172,7 @@ export class JobGridEffects {
         (action: fromJobGridActions.GetCrowdSourcedJobPricing) => ({action})
       ),
       mergeMap((data) => {
-          return this.csdApiService.getCrowdSourcedJobPricing(data.action.payload.jobTitle, data.action.payload.country, data.action.payload.paymarketId)
+          return this.csdApiService.getCrowdSourcedJobPricing(data.action.payload)
             .pipe(
               map(response => {
                 const jobData = PayfactorsApiModelMapper.mapGetCrowdSourcedJobPricingResponseToJobData(response);
