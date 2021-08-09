@@ -115,7 +115,7 @@ export abstract class AbstractBaseDataViewModal implements OnInit, OnChanges, On
 
   private getAvailableScopes(userContext: UserContext): string[] {
     const scopesList: string[] = [DataViewScope.Personal];
-    if (userContext.Permissions?.some(s => s === Permissions.MANAGE_SITE_REPORTS)) {
+    if (userContext.Permissions?.some(s => s === Permissions.MANAGE_COMPANY_REPORTS)) {
       scopesList.push(DataViewScope.Company);
     }
     if (userContext.AccessLevel === 'Admin') {
