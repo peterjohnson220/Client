@@ -6,6 +6,7 @@ import { catchError, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/opera
 import { Observable, of } from 'rxjs';
 
 import { Statement } from 'libs/features/total-rewards/total-rewards-statement/models';
+import { StatementHistoryListViewModel } from 'libs/features/total-rewards/total-rewards-statement/models/statement-history-list-view-model';
 import {
   TotalRewardsApiService,
   TotalRewardsEDeliveryApiService,
@@ -64,8 +65,9 @@ export class StatementHistoryPageEffects {
       ofType(fromStatementHistoryPageActions.DOWNLOAD_HISTORICAL_STATEMENT),
       withLatestFrom(
         this.store.pipe(select(fromTotalRewardsReducer.getPdfIdToExport)),
-        this.store.pipe(select(fromTotalRewardsReducer.getStatement)),
-        (action: fromStatementHistoryPageActions.DownloadHistoricalStatement, pdfId: string, statement: Statement) => ({ pdfId, statement })),
+        this.store.pipe(select(fromTotalRewardsReducer.getStatementHistoryToExport)),
+        (action: fromStatementHistoryPageActions.DownloadHistoricalStatement, pdfId: string, statementHistory: StatementHistoryListViewModel) =>
+          ({ pdfId, statement: statementHistory })),
       switchMap(data =>
         this.totalRewardsStatementHistoryApi.getStatementUrl(data.pdfId).pipe(
           mergeMap((pdfUrl: string) => {
