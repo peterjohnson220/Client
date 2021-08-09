@@ -26,6 +26,7 @@
             </ng-template>
             <ng-template kendoGridCellTemplate let-dataItem="dataItem">
               <a *ngIf="!((downloadingHistoricalPdf$ | async) && (pdfIdToExport$ | async) === dataItem.Id)"
+                 kendoTooltip
                  [ngClass]="{'disabled': !dataItem.HasAccess}"
                  [title]="getDownloadTitle(dataItem)"
                  (click)="onDownloadClick(dataItem)"
