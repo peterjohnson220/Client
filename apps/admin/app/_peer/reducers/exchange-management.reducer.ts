@@ -110,3 +110,4 @@ export const getExchangeUpdatingError = (state: State) => state.updatingError;
 export const getIsValidExchange = (state: State) => state.companyCount >= 6 || state.isSystemExchange;
 export const getCanToggleExchangeStatus = (state: State) => state.companyCount >= 6 && !state.isSystemExchange;
 export const getSelectedExchangeStatus = (state: State) => state.selectedExchangeStatus;
+export const getIsSystemExchange = (state: State) => state.isSystemExchange;

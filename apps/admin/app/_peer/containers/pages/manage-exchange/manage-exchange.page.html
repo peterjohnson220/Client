@@ -6,13 +6,13 @@
 
   <ng-container page-actions>
     <div class="btn-group btn-group-toggle">
-      <label class="btn btn-secondary" [ngClass]="{'active': (exchange$ | async).Status == StatusEnum.Active, 'disabled': !(isValidExchange$ | async)}">
+      <label class="btn btn-secondary" [ngClass]="{'active': (exchange$ | async).Status == StatusEnum.Active, 'disabled': !(canToggleExchangeStatus$ | async)}">
         <input type="radio" name="active" id="active" autocomplete="off" (click)="updateStatus(StatusEnum.Active)"> Active
       </label>
-      <label class="btn btn-secondary" [ngClass]="{'active': (exchange$ | async).Status == StatusEnum.Inactive}">
+      <label class="btn btn-secondary" [ngClass]="{'active': (exchange$ | async).Status == StatusEnum.Inactive, 'disabled': (isSystemExchange$ | async)}">
         <input type="radio" name="inactive" id="inactive" autocomplete="off" (click)="updateStatus(StatusEnum.Inactive)"> Inactive
       </label>
-      <label class="btn btn-secondary" [ngClass]="{'active': (exchange$ | async).Status == StatusEnum.Preliminary}">
+      <label class="btn btn-secondary" [ngClass]="{'active': (exchange$ | async).Status == StatusEnum.Preliminary, 'disabled': (isSystemExchange$ | async)}">
         <input type="radio" name="preliminary" id="preliminary" autocomplete="off" (click)="updateStatus(StatusEnum.Preliminary)"> Preliminary
       </label>
     </div>
