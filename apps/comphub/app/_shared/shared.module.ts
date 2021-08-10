@@ -17,8 +17,8 @@ import { PfFormsModule } from 'libs/forms';
 import { GuidelinesBadgeModule } from 'libs/features/peer/guidelines-badge';
 import { BasicDataGridModule } from 'libs/features/grids/basic-data-grid';
 
-import { JobGridComponent, CardLayoutComponent, MarketsCardComponent } from './containers';
-import { PaymarketCardsComponent, AddPayMarketFormComponent } from './components';
+import { JobGridComponent, CardLayoutComponent, MarketsCardComponent, ComphubFooterComponent } from './containers';
+import { PaymarketCardsComponent, AddPayMarketFormComponent, CardComponent } from './components';
 import * as fromFaIcons from './fa-icons';
 import { reducers } from './reducers';
 import {
@@ -30,6 +30,16 @@ import {
   MarketsCardEffects,
   SummaryCardEffects
 } from './effects';
+
+const declarations = [
+  JobGridComponent,
+  CardLayoutComponent,
+  MarketsCardComponent,
+  PaymarketCardsComponent,
+  AddPayMarketFormComponent,
+  CardComponent,
+  ComphubFooterComponent
+];
 
 @NgModule({
   imports: [
@@ -67,20 +77,8 @@ import {
     BasicDataGridModule
 
   ],
-  declarations: [
-    JobGridComponent,
-    CardLayoutComponent,
-    MarketsCardComponent,
-    PaymarketCardsComponent,
-    AddPayMarketFormComponent
-  ],
-  exports: [
-    JobGridComponent,
-    CardLayoutComponent,
-    MarketsCardComponent,
-    PaymarketCardsComponent,
-    AddPayMarketFormComponent
-  ]
+  declarations: declarations,
+  exports: declarations
 })
 export class SharedModule {
   constructor(library: FaIconLibrary) {

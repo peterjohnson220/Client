@@ -1,4 +1,4 @@
-import { PagingResponse, SearchFilter, generateMockSearchFilter } from '../../../search/response';
+import { PagingResponse, SearchFilter, generateMockSearchFilter } from '../../../search';
 import { ExchangeMapResponse, generateMockExchangeMapResponse } from '../../../../peer';
 
 export interface ExchangeDataSearchResponse extends ExchangeMapResponse {

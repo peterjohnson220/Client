@@ -30,7 +30,7 @@ import { JobSalaryTrend, WorkflowContext } from '../../../../_shared/models';
 import { DataCardHelper } from '../../../../_shared/helpers';
 import { ComphubPages } from '../../../../_shared/data';
 
-import { MapHelper } from '../../../helpers';
+import { MapHelper } from '../../../../_shared/helpers';
 
 
 @Component({

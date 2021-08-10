@@ -1,6 +1,8 @@
+@import 'common/common-variables';
+
+@import 'libs/styles/perfect-scrollbar-overrides';
+
 @import 'comphub-variables';
-@import '../../../../../../assets/scss/common/common-variables';
-@import '../../../../../../libs/styles/perfect-scrollbar-overrides';
 
 $unselected-grey: #75929F;
 $light-unselected-grey: #DCE3E6;
