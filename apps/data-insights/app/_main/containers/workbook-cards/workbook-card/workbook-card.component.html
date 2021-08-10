@@ -9,10 +9,14 @@
     </ng-container>
 
     <div class="vertical-separator"></div>
-
     <div class="d-flex flex-column ml-3 content">
       <span class="tag" data-toggle="tooltip" title="{{workbook.Tag || workbook.DefaultTag}}">{{workbook.Tag || workbook.DefaultTag}}</span>
       <span class="workbook-name" data-toggle="tooltip" title="{{workbook.WorkbookName}}">{{workbook.WorkbookName}}</span>
+      <span class="workbook-date font-italic">Created: {{workbook.CreatedBy}} on {{workbook.CreateDate | date:'MM/dd/yyyy'}}</span>
+      <span class="workbook-date font-italic">Last Modified: {{workbook.LastModifiedBy}} on {{workbook.EditDate | date:'MM/dd/yyyy'}}</span>
+    </div>
+    <div class="d-flex workbook-scope ml-auto mr-2" *ngIf="reportingScopesEnabled.value">
+      <fa-icon [icon]="workbook.ScopeIconClass"></fa-icon>
     </div>
   </div>
 
@@ -23,7 +27,7 @@
       <fa-icon *ngIf="workbook.IsFavorite" [icon]="['fas', 'star']" class="action-icon d-inline-flex solid-star"></fa-icon>
       <fa-icon *ngIf="!workbook.IsFavorite" [icon]="['far', 'star']" class="action-icon d-inline-flex"></fa-icon>
     </button>
-    <button class="btn btn-secondary" [attr.data-qa-id]="'btn-addTag'" (click)="handleTagClicked(workbook)">
+    <button class="btn btn-secondary" [attr.data-qa-id]="'btn-addTag'" (click)="handleTagClicked()">
       <fa-icon *ngIf="workbook.Tag" [icon]="['fas', 'tag']" class="action-icon solid-tag"></fa-icon>
       <fa-icon *ngIf="!workbook.Tag" [icon]="['far', 'tag']" class="action-icon"></fa-icon>
     </button>

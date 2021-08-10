@@ -18,4 +18,6 @@ export interface TableauReportResponse {
   Views?: TableauReportViewsResponse[];
   AccessLevel?: DataViewAccessLevel;
   Scope: DataViewScope;
+  CreatedBy: string;
+  LastModifiedBy: string;
 }

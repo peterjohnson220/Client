@@ -119,7 +119,11 @@ export abstract class AbstractBaseDataViewModal implements OnInit, OnChanges, On
       scopesList.push(DataViewScope.Company);
     }
     if (userContext.AccessLevel === 'Admin') {
-      scopesList.push(DataViewScope.Standard);
+      if (userContext.SystemUserGroupsId === 1) {
+        scopesList.push(DataViewScope.Standard);
+      } else {
+        scopesList.push(DataViewScope.Partner);
+      }
     }
     return scopesList;
   }

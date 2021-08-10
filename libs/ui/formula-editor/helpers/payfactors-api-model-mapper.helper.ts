@@ -32,12 +32,13 @@ export class PayfactorsApiModelMapper {
     };
   }
   static mapScope(reportType: string): DataViewScope {
-    switch(reportType)
-    {
-      case "SiteReport":
+    switch (reportType) {
+      case 'SiteReport':
         return DataViewScope.Company;
-      case "PublicReport":
+      case 'PublicReport':
         return DataViewScope.Standard;
+      case 'PartnerReport':
+        return DataViewScope.Partner;
       default:
           return DataViewScope.Personal;
     }
