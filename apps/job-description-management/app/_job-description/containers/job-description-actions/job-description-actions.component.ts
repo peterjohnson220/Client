@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 
 import * as fromRootState from 'libs/state/state';
 import { AsyncStateObj, CompanyDto, CompanySettingsEnum, JobDescription, UserContext } from 'libs/models';
-import { PermissionService } from 'libs/core/services';
+import { AbstractFeatureFlagService, FeatureFlags, PermissionService } from 'libs/core/services';
 import { PermissionCheckEnum, Permissions } from 'libs/constants/permissions';
 import { SettingsService } from 'libs/state/app-context/services';
 
@@ -89,7 +89,7 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
   jobMatchesAsync: AsyncStateObj<JobMatchResult[]>;
   enableLibraryForRoutedJobDescriptions: boolean;
   enableJobDescriptionSharing: boolean;
-  hasCanEditSharePermissionsPermission: boolean;
+  canViewSharingPermissionsPanel: boolean;
 
   get isDraft() { return this.jobDescription?.JobDescriptionStatus === 'Draft'; }
   get isInReview() { return this.jobDescription?.JobDescriptionStatus === 'In Review'; }
@@ -100,7 +100,8 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
     private userContextStore: Store<fromRootState.State>,
     private permissionService: PermissionService,
     private router: Router,
-    private settingsService: SettingsService
+    private settingsService: SettingsService,
+    private featureFlagService: AbstractFeatureFlagService
   ) {
     this.jobDescriptionAsync$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionAsync);
     this.identity$ = this.userContextStore.select(fromRootState.getUserContext);
@@ -170,8 +171,12 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.enableJobDescriptionSharing = false; // TODO: get this from feature flag service.
-    this.hasCanEditSharePermissionsPermission = false; // TODO: get this from permissions service.
+    this.enableJobDescriptionSharing = this.featureFlagService.enabled(FeatureFlags.JobDescriptionSharing, false);
+
+    // TODO: check the specific permission, separate story to add that in database:
+    // this.permissionService.CheckPermission([Permissions.CAN_SHARE_JOB_DESCRIPTION], PermissionCheckEnum.Single) || true;
+    const { AccessLevel, RoleName } = this.identity;
+    this.canViewSharingPermissionsPanel = AccessLevel === 'Admin' || RoleName === 'Company Admin';   
   }
 
   ngOnDestroy(): void {
@@ -311,7 +316,7 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
 
   showSharePermissionsLink(): boolean {
     return this.enableJobDescriptionSharing &&
-      this.hasCanEditSharePermissionsPermission &&
+      this.canViewSharingPermissionsPanel &&
       this.jobDescription.JobDescriptionStatus === 'Published';
   }
 
