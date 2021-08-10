@@ -31,7 +31,7 @@
     <div class="my-auto px-3 d-flex">
       <div pfEllipsisActive class="ellipsis-overflowing-text-wrap py-2">
         <span>
-          <span class="font-weight-bold pr-2">{{(selectedRow$ | async)?.CompanyEmployees_First_Name}} {{(selectedRow$ | async)?.CompanyEmployees_Last_Name}}</span>
+          <span class="font-weight-bold pr-2">{{employeeName}} ({{employeeId}})</span>
         </span>
         <ng-container [pfSecuredResource]="[permissions.EMPLOYEES_ADD_EDIT_DELETE]">
           <a title="Edit Job" class="text-info cursor-pointer"
