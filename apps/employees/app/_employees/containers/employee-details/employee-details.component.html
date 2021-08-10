@@ -29,12 +29,13 @@
   <div [ngbNavOutlet]="nav"></div>
   <div class="d-flex employee-details-bottom-border hide-sm py-1">
     <div class="my-auto px-3 d-flex">
-      <div pfEllipsisActive class="ellipsis-overflowing-text-wrap py-2">
+      <div pfEllipsisActive class="ellipsis-overflowing-text-wrap py-2 employee-title">
         <span>
-          <span class="font-weight-bold pr-2">{{employeeName}} ({{employeeId}})</span>
+          <span class="font-weight-bold pr-2">{{employeeTitleName}}</span>
         </span>
-        <ng-container [pfSecuredResource]="[permissions.EMPLOYEES_ADD_EDIT_DELETE]">
+        <ng-container>
           <a title="Edit Job" class="text-info cursor-pointer"
+             [pfSecuredResource]="[permissions.EMPLOYEES_ADD_EDIT_DELETE]"
              [attr.data-qa-id]="'btn-employees-page-edit-employee-' + (selectedRow$ | async).CompanyEmployees_CompanyEmployee_ID"
              (click)="handleEditClicked()"><u>edit</u></a>
         </ng-container>

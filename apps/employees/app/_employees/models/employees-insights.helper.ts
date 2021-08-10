@@ -36,7 +36,7 @@ export class EmployeesInsightsHelper {
   static employeeInformation: EmployeeDetailsField[] = [
     {
       Name: 'Employee ID',
-      SourceName: 'CompanyEmployeeId'
+      SourceName: 'EmployeeId'
     },
     {
       Name: 'Email Address',
@@ -65,7 +65,7 @@ export class EmployeesInsightsHelper {
     },
     {
       Name: 'Work Zip',
-      SourceName: 'Zip'
+      SourceName: 'WorkZip'
     },
     {
       Name: 'Gender',
@@ -343,8 +343,12 @@ export class EmployeesInsightsHelper {
       case EmployeeFieldDataType.Float:
         return this.decimalPipe.transform(employee[field.SourceName], '1.2-2');
       case EmployeeFieldDataType.DateTime:
-        const sourceDate = new Date(employee[field.SourceName]);
+        let sourceDate = new Date(employee[field.SourceName]);
         const validDate = this.isValidDate(sourceDate);
+        if (validDate) {
+          // need to set to local date since Date object makes it a day behind
+          sourceDate = new Date(sourceDate.getTime() + sourceDate.getTimezoneOffset() * 60000);
+        }
         return validDate ? this.datePipe.transform(sourceDate, 'MM-dd-YYYY') : null;
       case EmployeeFieldDataType.Bit:
         return employee[field.SourceName] === 'true' ? 'Y' : 'N';
