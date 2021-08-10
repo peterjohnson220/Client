@@ -37,4 +37,5 @@ export class FeatureFlags {
   static readonly PayscaleBranding = 'payscale-branding';
   static readonly EmployeeDetailsPanel = 'employee-details-panel';
   static readonly TabularReportingScopes = 'tabular-reporting-report-scopes';
+  static readonly JobDescriptionSharing = 'jdm-sharing';
 }
