@@ -1,0 +1,75 @@
+<div *ngIf="!!employeeTotalRewardsLite" class="container statement">
+  <div class="d-flex flex-column content-container mx-auto">
+    <div class="d-flex mt-3">
+      <div class="header-title flex-fill">Total Rewards Statement</div>
+    </div>
+    <div class="d-flex flex-wrap">
+      <div class="d-flex flex-column w-50">
+        <div class="d-flex flex-column pl-3">
+          <h6>{{employeeTotalRewardsLite.FullName}}</h6>
+          <span>Employee ID {{employeeTotalRewardsLite.EmployeeId}}</span>
+          <span>{{employeeTotalRewardsLite.JobTitle}} ({{employeeTotalRewardsLite.JobCode}})</span>
+        </div>
+        <div class="graph-container">
+          <div class="pl-3">
+            <h6>Your Total Rewards Value</h6>
+          </div>
+          <div>
+            <highcharts-chart
+              [Highcharts]="Highcharts"
+              [options]="chartOptions"
+              (chartInstance)="setChartInstance($event)">
+            </highcharts-chart>
+          </div>
+        </div>
+      </div>
+      <div class="d-flex flex-column w-50 pr-3">
+        <div class="d-flex">
+          <div class="flex-fill"><h6>Cash Compensation</h6></div>
+          <div>Contribution</div>
+        </div>
+        <div class="d-flex">
+          <div class="flex-fill">Base Salary</div>
+          <div>{{employeeTotalRewardsLite.BaseSalary | contributionCurrency : employeeTotalRewardsLite.CurrencyCode}}</div>
+        </div>
+        <div class="d-flex">
+          <div class="flex-fill">Bonus</div>
+          <div>{{employeeTotalRewardsLite.Bonus | contributionCurrency : employeeTotalRewardsLite.CurrencyCode}}</div>
+        </div>
+        <div class="d-flex">
+          <div class="flex-fill">Bonus Target</div>
+          <div>{{employeeTotalRewardsLite.BonusTarget | contributionCurrency : employeeTotalRewardsLite.CurrencyCode}}</div>
+        </div>
+        <div class="d-flex">
+          <div class="flex-fill">Short Term Incentive</div>
+          <div>{{employeeTotalRewardsLite.ShortTermIncentive | contributionCurrency : employeeTotalRewardsLite.CurrencyCode}}</div>
+        </div>
+        <div class="d-flex">
+          <div class="flex-fill">Long Term Incentive</div>
+          <div>{{employeeTotalRewardsLite.LongTermIncentive | contributionCurrency : employeeTotalRewardsLite.CurrencyCode}}</div>
+        </div>
+        <div class="d-flex mt-2">
+          <div class="flex-fill">TOTAL</div>
+          <div class="font-weight-bold">{{employeeTotalRewardsLite.TotalCashCompensation | contributionCurrency : employeeTotalRewardsLite.CurrencyCode}}</div>
+        </div>
+        <div class="d-flex mt-3">
+          <div class="flex-fill"><h6>Other</h6></div>
+        </div>
+        <div *ngFor="let benefit of employeeTotalRewardsLite.Benefits" class="d-flex">
+          <div class="flex-fill">{{benefit.DisplayName}}</div>
+          <div>{{benefit.EmployerValue | contributionCurrency : employeeTotalRewardsLite.CurrencyCode}}</div>
+        </div>
+        <div class="d-flex mt-2">
+          <div class="flex-fill">TOTAL</div>
+          <div class="font-weight-bold">{{employeeTotalRewardsLite.TotalBenefits | contributionCurrency : employeeTotalRewardsLite.CurrencyCode}}</div>
+        </div>
+        <div class="d-flex mt-3">
+          <div class="flex-fill"><h6>Your Total Rewards Value</h6></div>
+          <div>
+            <h6 class="font-weight-bold">{{(employeeTotalRewardsLite.TotalCashCompensation + employeeTotalRewardsLite.TotalBenefits) | contributionCurrency : employeeTotalRewardsLite.CurrencyCode}}</h6>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

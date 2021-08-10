@@ -134,7 +134,7 @@ export class EmployeesInsightsHelper {
     },
     {
       Name: 'Base Salary',
-      SourceName: 'Base',
+      SourceName: 'BaseSalary',
       Type: EmployeeFieldDataType.Float
     },
     {
