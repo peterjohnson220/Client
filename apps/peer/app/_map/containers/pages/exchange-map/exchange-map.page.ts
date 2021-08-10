@@ -15,13 +15,11 @@ import * as fromLibsExchangeExplorerReducer from 'libs/features/peer/exchange-ex
 import * as fromLibsSearchReducer from 'libs/features/search/search/reducers';
 import * as fromLibsExchangeExplorerReducers from 'libs/features/peer/exchange-explorer/reducers';
 import * as fromRootState from 'libs/state/state';
+import * as fromExchangeScopeActions from 'libs/features/peer/save-exchange-scope/actions/save-exchange-scope.actions';
 
-import * as fromExchangeScopeActions from '../../../actions/save-exchange-scope.actions';
 import * as fromExportDataCutsActions from '../../../actions/export-data-cuts.actions';
 import * as fromSharedPeerReducer from '../../../../shared/reducers';
 import * as fromPeerMapReducer from '../../../reducers';
-
-
 
 @Component({
   selector: 'pf-exchange-map-page',
@@ -76,7 +74,8 @@ export class ExchangeMapPageComponent implements OnInit, OnDestroy {
       ExchangeScopeName: scopeItem.Name,
       ExchangeScopeDescription: scopeItem.Description ? scopeItem.Description : "",
       IsDefault: scopeItem.IsDefault,
-      CompanyPayMarketIdsToDefaultFor: scopeItem.CompanyPayMarketIdsToDefaultFor
+      CompanyPayMarketIdsToDefaultFor: scopeItem.CompanyPayMarketIdsToDefaultFor,
+      IsStandardScope: false
     }));
   }
 

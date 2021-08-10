@@ -10,9 +10,9 @@ import { ExchangeScopeApiService } from 'libs/data/payfactors-api';
 import { Exchange } from 'libs/models/peer';
 import { GenericKeyValue, GenericMenuItem } from 'libs/models/common';
 import * as fromExchangeExplorerReducer from 'libs/features/peer/exchange-explorer/reducers';
+import * as fromSaveExchangeScopeActions from 'libs/features/peer/save-exchange-scope/actions/save-exchange-scope.actions';
+import * as fromSaveExchangeScopeReducer from 'libs/features/peer/save-exchange-scope/reducers';
 
-import * as fromSaveExchangeScopeActions from '../../actions/save-exchange-scope.actions';
-import * as fromPeerMapReducer from '../../reducers';
 
 @Component({
   selector: 'pf-save-exchange-scope-modal',
@@ -21,6 +21,7 @@ import * as fromPeerMapReducer from '../../reducers';
 })
 export class SaveExchangeScopeModalComponent implements OnInit, OnDestroy {
   @Input() exchange: Exchange;
+  @Input() isStandardScope = false;
   @Output() upsertExchangeScopeEvent = new EventEmitter();
 
   upsertingExchangeScope$: Observable<boolean>;
@@ -38,14 +39,14 @@ export class SaveExchangeScopeModalComponent implements OnInit, OnDestroy {
   validatingScopeName = false;
 
   constructor(
-    private store: Store<fromPeerMapReducer.State>,
+    private store: Store<fromSaveExchangeScopeReducer.State>,
     private fb: FormBuilder,
     private exchangeScopeApiService: ExchangeScopeApiService) {
     this.upsertingExchangeScope$ = this.store.pipe(select(fromExchangeExplorerReducer.getExchangeScopeUpserting));
     this.upsertingExchangeScopeError$ = this.store.pipe(select(fromExchangeExplorerReducer.getExchangeScopeUpsertingError));
-    this.saveExchangeScopeModalOpen$ = this.store.pipe(select(fromPeerMapReducer.getSaveExchangeScopeModalOpen));
-    this.parentPayMarketOptions$ = this.store.pipe(select(fromPeerMapReducer.getSaveExchangeScopeParentPayMarketOptions));
-    this.parentPayMarketOptionsLoading$ = this.store.pipe(select(fromPeerMapReducer.getSaveExchangeScopeParentPayMarketOptionsLoading));
+    this.saveExchangeScopeModalOpen$ = this.store.pipe(select(fromSaveExchangeScopeReducer.getSaveExchangeScopeModalOpen));
+    this.parentPayMarketOptions$ = this.store.pipe(select(fromSaveExchangeScopeReducer.getSaveExchangeScopeParentPayMarketOptions));
+    this.parentPayMarketOptionsLoading$ = this.store.pipe(select(fromSaveExchangeScopeReducer.getSaveExchangeScopeParentPayMarketOptionsLoading));
     this.createForm();
   }
 
@@ -90,7 +91,7 @@ export class SaveExchangeScopeModalComponent implements OnInit, OnDestroy {
       return timer(500).pipe(
         switchMap(() => {
         return this.exchangeScopeApiService
-          .validateExchangeScopeName(exchangeId, exchangeScopeName).pipe(
+          .validateExchangeScopeName(exchangeId, exchangeScopeName, this.isStandardScope).pipe(
             map(isValid => {
               this.validatingScopeName = false;
               return isValid !== true ? {
@@ -117,5 +118,9 @@ export class SaveExchangeScopeModalComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.saveExchangeScopeModalOpenSub.unsubscribe();
     this.parentPayMarketOptionsSub.unsubscribe();
+  }
+
+  getModalTitle() {
+    return this.isStandardScope ? 'Create Standard Scope' : 'Create Exchange Scope';
   }
 }

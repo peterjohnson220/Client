@@ -10,16 +10,17 @@ import { DropDownListModule } from '@progress/kendo-angular-dropdowns';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
 import { PfExchangeExplorerModule } from 'libs/features/peer/exchange-explorer';
+import { SaveExchangeScopeModule } from 'libs/features/peer/save-exchange-scope/save-exchange-scope.module';
 
 import { MapRoutingModule } from './map-routing.module';
 
 import {
   ExportDataCutsModalComponent,
-  ExchangeMapPageComponent,
-  SaveExchangeScopeModalComponent
+  ExchangeMapPageComponent
 } from './containers';
-import { SaveExchangeScopeEffects, ExchangeCompanyJobsGridEffects, ExportDataCutsEffects } from './effects';
+import { ExchangeCompanyJobsGridEffects, ExportDataCutsEffects } from './effects';
 import { reducers } from './reducers';
+
 
 @NgModule({
   imports: [
@@ -35,20 +36,21 @@ import { reducers } from './reducers';
     DropDownListModule,
     StoreModule.forFeature('peer_map', reducers),
     EffectsModule.forFeature([
-      SaveExchangeScopeEffects, ExchangeCompanyJobsGridEffects, ExportDataCutsEffects
+      ExchangeCompanyJobsGridEffects, ExportDataCutsEffects
     ]),
 
     // Payfactors
     PfCommonUIModule,
     PfFormsModule,
-    PfExchangeExplorerModule
+    PfExchangeExplorerModule,
+    SaveExchangeScopeModule
   ],
   declarations: [
     // Pages
     ExchangeMapPageComponent, ExchangeMapPageComponent,
 
     // Containers
-    SaveExchangeScopeModalComponent, SaveExchangeScopeModalComponent, ExportDataCutsModalComponent
+     ExportDataCutsModalComponent
   ]
 })
 export class MapModule { }
