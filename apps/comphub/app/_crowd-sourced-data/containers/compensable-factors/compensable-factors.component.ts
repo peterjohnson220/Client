@@ -52,11 +52,13 @@ export class CompensableFactorsComponent implements OnInit, OnDestroy {
     { Name: '22', Data: null },
     { Name: '23', Data: null },
     { Name: '24', Data: null },
-    { Name: '25', Data: null}
+    { Name: '25', Data: null }
   ];
   factorTypes = CompensableFactorTypes;
   compensableFactorsConstants = CompensableFactorsConstants;
   selectedFactors;
+  educationTypes: CompensableFactorModel[];
+  educationTypesSub: Subscription;
 
   constructor(
     private store: Store<fromComphubCsdReducer.State>,
@@ -73,6 +75,15 @@ export class CompensableFactorsComponent implements OnInit, OnDestroy {
         this.selectedFactors = f;
       }
     });
+
+    this.educationTypesSub = this.store.select(fromComphubCsdReducer.getEducationTypes).subscribe(et => {
+      if (et) {
+        const arr = [];
+        arr.push({ Name: 'Any', Data: null });
+        et.map(x => arr.push({ Name: x, Data: null }));
+        this.educationTypes = arr;
+      }
+    });
   }
 
   ngOnInit(): void {
@@ -86,19 +97,23 @@ export class CompensableFactorsComponent implements OnInit, OnDestroy {
       PaymarketId: this.selectedPaymarketId,
       SelectedFactors: this.mapSelectedFactorsToCompensableFactorsRequest(this.selectedFactors)
     };
+
     this.store.dispatch(new fromJobGridActions.GetCrowdSourcedJobPricing(request));
   }
 
-   mapSelectedFactorsToCompensableFactorsRequest(sf): CompensableFactorRequest[] {
+  mapSelectedFactorsToCompensableFactorsRequest(sf): CompensableFactorRequest[] {
     const factorsToSend: CompensableFactorRequest[] = [];
     if (!!sf.Years_Experience) {
-       factorsToSend.push({ Name: 'Years_Experience', SelectedFactors: sf.Years_Experience });
+      factorsToSend.push({ Name: 'Years_Experience', SelectedFactors: sf.Years_Experience });
     }
     if (!!sf.Skills) {
-       factorsToSend.push({ Name: 'Skills', SelectedFactors: sf.Skills });
+      factorsToSend.push({ Name: 'Skills', SelectedFactors: sf.Skills });
     }
     if (!!sf.Certs) {
-       factorsToSend.push({ Name: 'Certs', SelectedFactors: sf.Certs });
+      factorsToSend.push({ Name: 'Certs', SelectedFactors: sf.Certs });
+    }
+    if (!!sf.Education) {
+      factorsToSend.push({ Name: 'Education', SelectedFactors: sf.Education });
     }
 
     return factorsToSend;
@@ -106,5 +121,6 @@ export class CompensableFactorsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.compensableFactorsDataSub.unsubscribe();
+    this.educationTypesSub.unsubscribe();
   }
 }

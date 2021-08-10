@@ -3,13 +3,13 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
-import { CompensableFactorsRequestModel } from '../../../models/payfactors-api/comphub/request/compensable-factors-request.model';
 import {
+  CompensableFactorsRequestModel,
   CompensableFactorsResponseModel,
-  GetCrowdSourcedJobPricingResponse, QuickPriceListResponse,
+  GetCrowdSourcedEducationTypesResponse,
+  GetCrowdSourcedJobPricingResponse,
   SearchCrowdSourcedJobsResponse
-} from '../../../models/payfactors-api/comphub/response';
-import { QuickPriceRequest } from '../../../models/payfactors-api';
+} from '../../../models/payfactors-api';
 import { GetCrowdSourcedJobPricingRequest } from '../../../models/comphub/get-crowd-sourced-job-pricing';
 
 @Injectable({
@@ -24,13 +24,16 @@ export class ComphubCrowdSourcedApiService {
     return this.payfactorsApiService.post<CompensableFactorsResponseModel[]>(`${this.endpoint}/GetCompensableFactors`, request);
   }
 
-  searchCrowdSourcedJobs(jobTitle: string): Observable<SearchCrowdSourcedJobsResponse>  {
+  searchCrowdSourcedJobs(jobTitle: string): Observable<SearchCrowdSourcedJobsResponse> {
     return this.payfactorsApiService.get<SearchCrowdSourcedJobsResponse>(`${this.endpoint}/SearchCrowdSourcedJobs`,
       { params: { jobTitle: jobTitle } });
   }
 
-  getCrowdSourcedJobPricing(request: GetCrowdSourcedJobPricingRequest): Observable<GetCrowdSourcedJobPricingResponse>  {
+  getCrowdSourcedJobPricing(request: GetCrowdSourcedJobPricingRequest): Observable<GetCrowdSourcedJobPricingResponse> {
     return this.payfactorsApiService.post<GetCrowdSourcedJobPricingResponse>(`${this.endpoint}/GetCrowdSourcedJobPricing`, request);
   }
 
+  getCrowdSourcedEducationTypes(): Observable<GetCrowdSourcedEducationTypesResponse[]> {
+    return this.payfactorsApiService.get<GetCrowdSourcedEducationTypesResponse[]>(`${this.endpoint}/GetCrowdSourcedEducationTypes`);
+  }
 }

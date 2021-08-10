@@ -1,8 +1,9 @@
 // Import root app reducer
+import { createFeatureSelector, createSelector } from '@ngrx/store';
+
 import * as fromRoot from 'libs/state/state';
 
 import * as fromCompensableFactorsReducer from './compensable-factors.reducer';
-import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 export interface ComphubCrowdSourcedState {
   compensableFactors: fromCompensableFactorsReducer.State;
@@ -38,4 +39,9 @@ export const getCompensableFactorsLoading = createSelector(
 export const getSelectedFactors = createSelector(
   selectCompensableFactorsState,
   fromCompensableFactorsReducer.getSelectedFactors
+);
+
+export const getEducationTypes = createSelector(
+  selectCompensableFactorsState,
+  fromCompensableFactorsReducer.getEducationTypes
 );
