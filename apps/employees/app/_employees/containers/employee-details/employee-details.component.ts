@@ -27,6 +27,7 @@ export class EmployeeDetailsComponent implements OnInit, OnDestroy {
   permissions = Permissions;
   companyEmployeeId: number;
   employeeId: string;
+  employeeName: string;
 
   constructor(
     private store: Store<fromPfGridReducer.State>,
@@ -41,6 +42,7 @@ export class EmployeeDetailsComponent implements OnInit, OnDestroy {
       if (sr) {
         this.companyEmployeeId = sr.CompanyEmployees_CompanyEmployee_ID;
         this.employeeId = sr.CompanyEmployees_Employee_ID;
+        this.employeeName = sr.CompanyEmployees_First_Name + ' ' + sr.CompanyEmployees_Last_Name;
         this.loadEmployeeInsights();
       }
     });

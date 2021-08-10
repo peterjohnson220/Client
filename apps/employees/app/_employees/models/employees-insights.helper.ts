@@ -344,11 +344,16 @@ export class EmployeesInsightsHelper {
         return this.decimalPipe.transform(employee[field.SourceName], '1.2-2');
       case EmployeeFieldDataType.DateTime:
         const sourceDate = new Date(employee[field.SourceName]);
-        return this.datePipe.transform(sourceDate, 'MM-dd-YYYY');
+        const validDate = this.isValidDate(sourceDate);
+        return validDate ? this.datePipe.transform(sourceDate, 'MM-dd-YYYY') : null;
       case EmployeeFieldDataType.Bit:
         return employee[field.SourceName] === 'true' ? 'Y' : 'N';
       default:
         return employee[field.SourceName];
     }
+  }
+
+  static isValidDate(date: Date): boolean {
+    return date instanceof Date && !isNaN(date.valueOf());
   }
 }
