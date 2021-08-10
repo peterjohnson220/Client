@@ -55,6 +55,7 @@ export const getStatementHistoryLoadingError = createSelector(selectPageState, f
 export const getStatementLoadingError = createSelector(selectPageState, fromPageReducer.getStatementLoadingError);
 export const getDownloadingHistoricalPdf = createSelector(selectPageState, fromPageReducer.getDownloadingHistoricalPdf);
 export const getPdfIdToExport = createSelector(selectPageState, fromPageReducer.getPdfIdToExport);
+export const getExportMode = createSelector(selectPageState, fromPageReducer.getExportMode);
 
 export const getStatementHistoryToExport = createSelector(
   getPdfIdToExport,
