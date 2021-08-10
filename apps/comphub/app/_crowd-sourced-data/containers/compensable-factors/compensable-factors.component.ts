@@ -54,6 +54,12 @@ export class CompensableFactorsComponent implements OnInit, OnDestroy {
     { Name: '24', Data: null },
     { Name: '25', Data: null }
   ];
+
+  supervisoryRole: CompensableFactorModel[] = [
+    { Name: 'Yes', Data: null },
+    { Name: 'No', Data: null }
+  ];
+
   factorTypes = CompensableFactorTypes;
   compensableFactorsConstants = CompensableFactorsConstants;
   selectedFactors;
@@ -115,6 +121,8 @@ export class CompensableFactorsComponent implements OnInit, OnDestroy {
     if (!!sf.Education) {
       factorsToSend.push({ Name: 'Education', SelectedFactors: sf.Education });
     }
+    // always have this, defaults to 'No'
+    factorsToSend.push({ Name: 'Supervisory_Role', SelectedFactors: sf.Supervisory_Role });
 
     return factorsToSend;
   }

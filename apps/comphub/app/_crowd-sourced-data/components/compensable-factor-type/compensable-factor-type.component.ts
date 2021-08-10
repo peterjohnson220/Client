@@ -11,8 +11,6 @@ import { CompensableFactorTypes } from '../../constants';
 import * as fromComphubCsdReducer from '../../reducers';
 import * as fromCompensableFactorsActions from '../../actions/compensable-factors.actions';
 
-
-
 @Component({
   selector: 'pf-compensable-factor-type',
   templateUrl: './compensable-factor-type.component.html',
@@ -28,6 +26,7 @@ export class CompensableFactorTypeComponent implements OnInit, AfterViewChecked 
   @Input() compensableFactors: CompensableFactorModel[];
   @Input() topFactorsHeading: string;
   @Input() smallDropDown: boolean;
+  @Input() defaultDropDownValue: string;
 
   topFactorsForm: FormGroup;
   factorTypes = CompensableFactorTypes;
