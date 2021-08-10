@@ -17,16 +17,11 @@ $tile-border-radius: 9px;
 html.payscale-rebrand {
   .main-body-scroll {
     background: #DBDAE0;
+  }
 
+  body {
     th, .chart-label, .name, .tile-text-color, .tile-text, .tile-text-large {
       color: $payscale-primary-text-color;
-    }
-
-    td > a, div > a {
-      color: $payscale-primary-text-color;
-      &:hover {
-        color: $payscale-secondary-text-color;
-      }
     }
 
     .tile {
@@ -35,6 +30,14 @@ html.payscale-rebrand {
       border: 2px solid transparent;
       transition: border .3s ease-in-out;
       border-radius: $tile-border-radius;
+
+      td > a, div > a {
+        color: $payscale-primary-text-color;
+        &:hover {
+          color: $payscale-secondary-text-color;
+        }
+      }
+
       .marketing-overlay {
         border-radius: $tile-border-radius;
         &:hover {
@@ -60,8 +63,8 @@ html.payscale-rebrand {
       }
     }
 
-    .exchange-carousel .exchange-metrics-container .exchange-metrics > .card,
-    .exchange-carousel .exchange-metrics-container .latest-companies {
+    .exchange-carousel .carousel-item .exchange-metrics-container .exchange-metrics > .card,
+    .exchange-carousel .carousel-item .exchange-metrics-container .latest-companies {
       background: $payscale-light-highlight;
     }
   }
