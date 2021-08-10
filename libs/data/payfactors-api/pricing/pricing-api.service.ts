@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 
-import { GetPricingHistoryRequest, UpdatePricingMatchRequest, UpdatePricingRequest } from 'libs/models/payfactors-api/';
+import { GetPricingHistoryRequest, UpdatePricingMatchRequest, UpdatePricingRequest, PricingForBasePayGraph } from 'libs/models/payfactors-api/';
 
 
 @Injectable({
@@ -16,6 +16,10 @@ export class PricingApiService {
 
   getPricedPaymarkets(jobId: number): Observable<any> {
     return this.payfactorsApiService.get(`${this.endpoint}/GetPricedPayMarkets?jobId=${jobId}`);
+  }
+
+  getRecentCompanyJobPricingByPayMarket(companyJobId: number, companyPayMarketId: number, convertToAnnual: boolean): Observable<PricingForBasePayGraph> {
+    return this.payfactorsApiService.get(`${this.endpoint}/GetRecentCompanyJobPricingByPayMarket?companyJobId=${companyJobId}&companyPayMarketId=${companyPayMarketId}&convertToAnnual=${convertToAnnual}`);
   }
 
   updatePricing(updatePricingRequest: UpdatePricingRequest): Observable<any> {
