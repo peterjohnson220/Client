@@ -13,14 +13,14 @@ import * as fromComphubSharedReducer from '../../../../_shared/reducers';
 import * as fromComphubPageActions from '../../../../_shared/actions/comphub-page.actions';
 import { QuickPriceHistoryContext } from '../../../../_shared/models';
 
-import { ComphubPageComponent } from '../comphub';
+import { ComphubBasePageDirective } from '../../../../_shared/containers/pages/comphub-base';
 
 @Component({
   selector: 'pf-quick-price-page',
   templateUrl: './quick-price.page.html',
-  styleUrls: ['../comphub/comphub.page.scss', './quick-price.page.scss']
+  styleUrls: ['./quick-price.page.scss']
 })
-export class QuickPricePageComponent extends ComphubPageComponent implements OnInit, OnDestroy {
+export class QuickPricePageComponent extends ComphubBasePageDirective implements OnInit, OnDestroy {
   showJobsHistorySummary$: Observable<boolean>;
   historyGridInitialized$: Observable<boolean>;
 

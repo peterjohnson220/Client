@@ -130,10 +130,22 @@ export function reducer(state: State = initialState, action: fromComphubPageActi
         accessiblePages: initialState.accessiblePages
       };
     }
+    case fromComphubPageActions.RESET_ACCESSIBLE_TRENDS_PAGES: {
+      return {
+        ...state,
+        accessiblePages: initialTrendsState.accessiblePages
+      };
+    }
     case fromComphubPageActions.RESET_PAGES_ACCESSED: {
       return {
         ...state,
         pagesAccessed: initialState.pagesAccessed
+      };
+    }
+    case fromComphubPageActions.RESET_TRENDS_PAGES_ACCESSED: {
+      return {
+        ...state,
+        pagesAccessed: initialTrendsState.pagesAccessed
       };
     }
     case fromComphubPageActions.UPDATE_CARD_SUBTITLE: {
@@ -205,9 +217,17 @@ export function reducer(state: State = initialState, action: fromComphubPageActi
       };
     }
     case fromComphubPageActions.SET_COMPHUB_TYPE_IN_WORKFLOW_CONTEXT: {
-      const cards: AccordionCard[] = action.payload === ComphubType.PEER
-        ? QuickPriceAccordionCards.peerAccordionCards
-        : QuickPriceAccordionCards.defaultAccordionCards;
+      let cards: AccordionCard[];
+
+      switch (action.payload) {
+        case ComphubType.PEER:
+          cards = QuickPriceAccordionCards.peerAccordionCards;
+          break;
+        case ComphubType.TRENDS:
+          return initialTrendsState;
+        default:
+          cards = QuickPriceAccordionCards.defaultAccordionCards;
+      }
       return {
         ...state,
         cards: cards,
