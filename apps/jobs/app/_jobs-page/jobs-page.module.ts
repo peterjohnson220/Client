@@ -33,6 +33,7 @@ import { PricingDetailsModule } from 'libs/features/pricings/pricing-details';
 import { JobManagementModule } from 'libs/features/jobs/job-management';
 import { PricingsHistoryChartModule } from 'libs/features/pricings/pricings-history-chart';
 import { PfJobDescriptionManagementModule } from 'libs/features/jobs/job-description-management';
+import { JobPricingGraphModule } from 'libs/features/pricings/job-pricing-graph';
 
 import { JobsPageComponent } from './jobs.page/jobs.page';
 import { JobsPageRoutingModule } from './jobs-page-routing.module';
@@ -125,7 +126,8 @@ import {
         UpsertPeerDataCutModule,
         EmployeeDetailsModule,
         StructureDetailsModule,
-        PfJobDescriptionManagementModule
+        PfJobDescriptionManagementModule,
+        JobPricingGraphModule
     ],
   declarations: [
     // Pages

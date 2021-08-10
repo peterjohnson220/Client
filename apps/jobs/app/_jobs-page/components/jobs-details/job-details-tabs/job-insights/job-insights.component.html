@@ -15,7 +15,6 @@
               [style.width.px]="250"
               class="k-dropdown-white"
               (valueChange)="handlePayMarketValueChanged($event)">
-      
               <ng-template kendoDropDownListItemTemplate let-dataItem>
                 <div pfEllipsisActive class="ellipsis-overflowing-text">
                   <span>{{ dataItem.PayMarket }}</span>
@@ -36,7 +35,6 @@
           </div>
         </div>
       </ng-container>
-  
       <ng-container *ngIf="jobInsights">
         <div class="card mb-3 job-details-container">
           <div class="card-body">
@@ -58,13 +56,22 @@
           </div>
         </div>
       </ng-container>
-
-      <div class="card mb-3">
-        <div class="">
-          <div class="title p-3">Market Data</div>
-          <pf-market-data [jobPricing]="jobPricing"></pf-market-data>
+      <ng-container>
+        <div class="card mb-3">
+          <div class="card-body">
+            <span class="title">Pricing Details</span>
+            <div class="graph-container">
+              <pf-job-pricing-graph [paymarketId]="selectedPayMarketId" [companyJobId]="companyJobId"></pf-job-pricing-graph>
+            </div>
+            <div class="card mb-3">
+              <div class="title p-3">Market Data</div>
+              <div class="card-body">
+                <pf-market-data [jobPricing]="jobPricing"></pf-market-data>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
+      </ng-container>
     </div>
   </div>
 </pf-async-container>

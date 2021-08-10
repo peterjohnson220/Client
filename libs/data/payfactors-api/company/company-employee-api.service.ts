@@ -6,7 +6,7 @@ import { GenericTextValueDto } from 'libs/models/common';
 import { CompanyEmployee } from 'libs/models/company';
 import {
   EmployeeBenefit, EmployeeModalStructuresResponse, EmployeeRewardsData, EmployeeRewardsDataRequest,
-  SaveEmployeeBenefitsRequest
+  SaveEmployeeBenefitsRequest, EmployeesBasePayModel
 } from 'libs/models/payfactors-api';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
@@ -44,6 +44,14 @@ export class CompanyEmployeeApiService {
     employeeId = employeeId ?? 0;
     return this.payfactorsApiService.get<EmployeeModalStructuresResponse[]>(`${this.endpoint}/Default.GetEmployeeModalStructures`,
       { params: { jobId, paymarketId, employeeId } });
+  }
+
+  getEmployeesBasePay(jobId: number, paymarketId: number, currency: string, rate: string): Observable<EmployeesBasePayModel[]> {
+    if (jobId === 0 || paymarketId === 0 || currency === '' || rate === '') {
+      return of([]);
+    }
+    return this.payfactorsApiService.get<EmployeesBasePayModel[]>(`${this.endpoint}/GetEmployeesBasePay`,
+      { params: { jobId, paymarketId, currency, rate } });
   }
 
   createEmployee(employee: CompanyEmployee): Observable<CompanyEmployee> {

@@ -10,6 +10,7 @@ import { JobBasedPageViewIds, RangeGroupMetadata } from 'libs/models/structures'
 import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import { appendOrdinalSuffix } from 'libs/core/functions';
 import { RangeDistributionTypeIds } from 'libs/constants/structures/range-distribution-type-ids';
+import { FormattersService } from 'libs/core/services/formatters.service';
 
 import * as fromSharedStructuresReducer from '../../../../shared/reducers';
 import { StructuresHighchartsService } from '../../../../shared/services/structures-highcharts-service';
@@ -142,7 +143,7 @@ export class PricingsSalaryRangeChartComponent implements OnInit, OnDestroy {
     this.pricingsSeriesData.push({
       x: xCoordinate,
       y: currentRow.CompanyJobs_PricingsMatches_CompanyJobPricingsMatchMRPStructureRangeGroup,
-      salary: StructuresHighchartsService.formatCurrency(currentRow.CompanyJobs_PricingsMatches_CompanyJobPricingsMatchMRPStructureRangeGroup,
+      salary: FormattersService.formatCurrency(currentRow.CompanyJobs_PricingsMatches_CompanyJobPricingsMatchMRPStructureRangeGroup,
         this.chartLocale, this.currency, this.rate, true),
       vendor: vendor,
       titleAndEffectiveDate: (title ? title + ' - ' : '') + formattedDate,
