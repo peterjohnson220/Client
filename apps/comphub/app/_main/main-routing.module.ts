@@ -1,13 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { PfAdminGuard } from 'libs/security/guards';
-
-import { QuickPricePageComponent, TrendsPageComponent } from './containers/pages';
+import { QuickPricePageComponent } from './containers';
 
 const routes: Routes = [
-  { path: '', component: QuickPricePageComponent },
-  { path: 'trends', component: TrendsPageComponent, canActivate: [PfAdminGuard] }
+  { path: '', component: QuickPricePageComponent }
 ];
 
 @NgModule({

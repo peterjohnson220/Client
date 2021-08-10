@@ -26,43 +26,31 @@ import { GuidelinesBadgeModule } from 'libs/features/peer/guidelines-badge/guide
 import { PfExchangeExplorerModule } from 'libs/features/peer/exchange-explorer';
 import { DojGuidelinesService } from 'libs/features/peer/guidelines-badge/services/doj-guidelines.service';
 import { BasicDataGridModule } from 'libs/features/grids/basic-data-grid';
-import { PfSideBarInfoModule } from 'libs/features/side-bar-info/side-bar-info.module';
-import { PfPeerRelationalExchangeJobSearchModule } from 'libs/features/peer/relational-exchange-job-search/relational-exchange-job-search.module';
-import { PfDataGridModule } from 'libs/features/grids/pf-data-grid';
+
+import { SharedModule } from '../_shared/shared.module';
 
 import {
   JobsCardWrapperComponent,
-  ComphubPageComponent,
   JobsCardComponent,
   SummaryCardComponent,
   PeerDataCardComponent,
   ParentDataCardComponent,
   QuickPriceHistoryComponent,
-  ComphubFooterComponent,
   MarketDataJobResultsComponent,
   PeerJobResultsComponent,
   QuickPriceLandingPageComponent,
-  TrendsPageComponent,
-  TrendsLandingCardComponent,
-  TrendsSummaryCardComponent,
-  TrendsScopesCardComponent,
-  TrendsJobsCardComponent,
-  QuickPricePageComponent,
-  SavePeerTrendModalComponent,
-  PeerTrendGridComponent
+  QuickPricePageComponent
 } from './containers';
 import {
-  QuickPriceHistoryEffects, TrendsLandingCardEffects, TrendsSummaryCardEffects
+  QuickPriceHistoryEffects
 } from './effects';
 import { reducers } from './reducers';
-import {  TrendingJobGroupComponent, CardComponent, SalaryBarChartComponent,
+import {  TrendingJobGroupComponent, SalaryBarChartComponent,
           SalaryTrendChartComponent, SharePricingSummaryModalComponent, GlossaryOfTermsComponent,
-          NewExchangeParticipantsComponent, JobsGridContentComponent, HistoricalTrendChartComponent,
-          HistoricalOrgIncCountChartComponent
+          JobsGridContentComponent
 } from './components';
 import { MainRoutingModule } from './main-routing.module';
 import * as fromFaIcons from './fa-icons';
-import { SharedModule } from '../_shared/shared.module';
 
 @NgModule({
   imports: [
@@ -74,9 +62,7 @@ import { SharedModule } from '../_shared/shared.module';
     // 3rd Party
     StoreModule.forFeature('comphub_main', reducers),
     EffectsModule.forFeature([
-      QuickPriceHistoryEffects,
-      TrendsLandingCardEffects,
-      TrendsSummaryCardEffects
+      QuickPriceHistoryEffects
     ]),
     PerfectScrollbarModule,
     PDFExportModule,
@@ -103,57 +89,41 @@ import { SharedModule } from '../_shared/shared.module';
     BasicDataGridModule,
     SharedModule,
     BasicDataGridModule,
-    PfSideBarInfoModule,
-    PfPeerRelationalExchangeJobSearchModule,
-    PfDataGridModule
+    // PfDataGridModule // TODO: [JP] Do we still need this here?
   ],
   declarations: [
     // Components
     TrendingJobGroupComponent,
-    CardComponent,
     SalaryBarChartComponent,
     SalaryTrendChartComponent,
-    HistoricalTrendChartComponent,
-    HistoricalOrgIncCountChartComponent,
     SharePricingSummaryModalComponent,
     GlossaryOfTermsComponent,
-    SavePeerTrendModalComponent,
 
     // Pages
-    ComphubPageComponent,
-    TrendsPageComponent,
     JobsCardComponent,
     SummaryCardComponent,
     PeerDataCardComponent,
     ParentDataCardComponent,
     QuickPriceHistoryComponent,
-    ComphubFooterComponent,
     MarketDataJobResultsComponent,
     PeerJobResultsComponent,
     JobsCardWrapperComponent,
     QuickPriceLandingPageComponent,
     JobsGridContentComponent,
     QuickPriceLandingPageComponent,
-    TrendsLandingCardComponent,
-    TrendsJobsCardComponent,
-    TrendsScopesCardComponent,
-    TrendsSummaryCardComponent,
-    QuickPricePageComponent,
-    NewExchangeParticipantsComponent,
-    PeerTrendGridComponent
+    QuickPricePageComponent
   ],
   providers: [
     WindowRef,
-    CurrencyPipe,
-    DatePipe,
+    CurrencyPipe, // TODO: [JP] Do we still need this here?
+    DatePipe, // TODO: [JP] Do we still need this here?
     WindowCommunicationService,
     DojGuidelinesService,
-    PercentPipe,
-    HumanizeNumberPipe
+    PercentPipe, // TODO: [JP] Do we still need this here?
+    HumanizeNumberPipe // TODO: [JP] Do we still need this here?
   ],
   exports: [
     JobsCardWrapperComponent,
-    ComphubFooterComponent,
     QuickPriceLandingPageComponent,
   ]
 })
