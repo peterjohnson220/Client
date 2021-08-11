@@ -17,6 +17,7 @@
           [disabled]="maxSelections"
           [placeholder]="searchPlaceHolder"
           [data]="searchFactors"
+          [kendoDropDownFilter]="filterSettings"
           (valueChange)="handleSearchValueSelected($event)">
           <ng-template kendoAutoCompleteNoDataTemplate>
             No matching results
@@ -35,12 +36,12 @@
 
 
 <ng-template #dropDown>
-      <kendo-dropdownlist id="rate" [ngClass]="{'small-drop-down': smallDropDown }" class="form-control k-dropdown-white"
-                          [data]="compensableFactors"
-                          [valuePrimitive]="true"
-                          [(value)]="defaultDropDownValue"
-                          [valueField]="'Name'"
-                          [textField]="'Name'"
-                          (valueChange)="handleDropDownValueSelected($event)">
-      </kendo-dropdownlist>
+  <kendo-dropdownlist id="rate" [ngClass]="{'small-drop-down': smallDropDown }" class="form-control k-dropdown-white"
+                      [data]="compensableFactors"
+                      [valuePrimitive]="true"
+                      [(value)]="defaultDropDownValue"
+                      [valueField]="'Name'"
+                      [textField]="'Name'"
+                      (valueChange)="handleDropDownValueSelected($event)">
+  </kendo-dropdownlist>
 </ng-template>
