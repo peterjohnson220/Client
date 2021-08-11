@@ -18,6 +18,7 @@ import { EmployeeAcknowledgement } from '../../models';
 import { JobDescriptionExtendedInfo, JobMatchResult } from 'libs/features/jobs/job-description-management/models';
 import { JobDescriptionHelper } from '../../helpers';
 import * as fromJobDescriptionManagementSharedReducer from 'libs/features/jobs/job-description-management/reducers';
+import { JobDescriptionSharingService } from '../../services';
 
 @Component({
   selector: 'pf-job-description-actions',
@@ -88,9 +89,7 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
   viewName = 'Default';
   jobMatchesAsync: AsyncStateObj<JobMatchResult[]>;
   enableLibraryForRoutedJobDescriptions: boolean;
-  enableJobDescriptionSharing: boolean;
-  canViewSharingPermissionsPanel: boolean;
-
+  
   get isDraft() { return this.jobDescription?.JobDescriptionStatus === 'Draft'; }
   get isInReview() { return this.jobDescription?.JobDescriptionStatus === 'In Review'; }
 
@@ -101,7 +100,7 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
     private permissionService: PermissionService,
     private router: Router,
     private settingsService: SettingsService,
-    private featureFlagService: AbstractFeatureFlagService
+    private jobDescriptionSharingService: JobDescriptionSharingService
   ) {
     this.jobDescriptionAsync$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionAsync);
     this.identity$ = this.userContextStore.select(fromRootState.getUserContext);
@@ -121,7 +120,7 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-
+    this.jobDescriptionSharingService.init();
     this.identitySubscription = this.identity$.subscribe(userContext => {
       this.identity = userContext;
 
@@ -170,16 +169,10 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
         this.enableLibraryForRoutedJobDescriptions = company.EnableLibraryForRoutedJobDescriptions;
       }
     });
-
-    this.enableJobDescriptionSharing = this.featureFlagService.enabled(FeatureFlags.JobDescriptionSharing, false);
-
-    // TODO: check the specific permission, separate story to add that in database:
-    // this.permissionService.CheckPermission([Permissions.CAN_SHARE_JOB_DESCRIPTION], PermissionCheckEnum.Single) || true;
-    const { AccessLevel, RoleName } = this.identity;
-    this.canViewSharingPermissionsPanel = AccessLevel === 'Admin' || RoleName === 'Company Admin';   
   }
 
   ngOnDestroy(): void {
+    this.jobDescriptionSharingService.destroy();
     this.identitySubscription.unsubscribe();
     this.jobDescriptionSubscription.unsubscribe();
     this.jobDescriptionChangeHistorySubscription.unsubscribe();
@@ -315,8 +308,7 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
   }
 
   showSharePermissionsLink(): boolean {
-    return this.enableJobDescriptionSharing &&
-      this.canViewSharingPermissionsPanel &&
+    return this.jobDescriptionSharingService.allowSharing() &&
       this.jobDescription.JobDescriptionStatus === 'Published';
   }
 

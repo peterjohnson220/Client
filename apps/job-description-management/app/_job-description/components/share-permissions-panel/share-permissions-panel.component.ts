@@ -1,5 +1,6 @@
-import { Observable } from 'rxjs';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { JobDescriptionSharingService } from './../../services';
+import { Subscription } from 'rxjs';
+import { Component, EventEmitter, Input, OnInit, Output, OnDestroy } from '@angular/core';
 import { SharedJobDescription } from '../../models';
 
 @Component({
@@ -7,24 +8,28 @@ import { SharedJobDescription } from '../../models';
   templateUrl: './share-permissions-panel.component.html',
   styleUrls: ['./share-permissions-panel.component.scss']
 })
-export class SharePermissionsPanelComponent implements OnInit {
+export class SharePermissionsPanelComponent implements OnInit, OnDestroy {
 
-  @Input() getShares: Observable<SharedJobDescription>;
+  @Input() companyId: number;
+  @Input() jobDescriptionId: number;
   @Output() onClose = new EventEmitter();
   @Output() onShare = new EventEmitter();
+
   shares: SharedJobDescription[];
   isLoading: boolean;
   isError: boolean;
   isEmpty: boolean;
+  sharesSubscription: Subscription;
 
-  constructor() {
+  constructor(private jobDescriptionSharingService: JobDescriptionSharingService ) {
     this.shares = [];
   }
 
   ngOnInit(): void {
+    this.jobDescriptionSharingService.init();
     this.isLoading = true;
     this.isEmpty = true;
-    this.getShares.subscribe({
+    this.sharesSubscription = this.jobDescriptionSharingService.getShares(this.companyId, this.jobDescriptionId).subscribe({
       next: share => {
         this.shares.push(share);
         this.isEmpty = false;
@@ -37,5 +42,10 @@ export class SharePermissionsPanelComponent implements OnInit {
         this.isLoading = false;
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    this.sharesSubscription.unsubscribe();
+    this.jobDescriptionSharingService.destroy();
   }
 }

@@ -44,7 +44,7 @@ import * as fromControlTypesActions from 'libs/features/jobs/job-description-man
 import { JobDescriptionConstants } from 'libs/features/jobs/job-description-management/constants/job-description-constants';
 import { JobDescriptionManagementDndSource, JobDescriptionViewConstants } from 'libs/features/jobs/job-description-management/constants';
 
-import { EmployeeAcknowledgement, ExportData, JobDescriptionLibraryDropModel, WorkflowSetupModalInput } from '../../../models';
+import { EmployeeAcknowledgement, ExportData, JobDescriptionLibraryDropModel, SharedJobDescription, WorkflowSetupModalInput } from '../../../models';
 import * as fromJobDescriptionReducers from '../../../reducers';
 import * as fromJobDescriptionActions from '../../../actions/job-description.actions';
 import * as fromEmployeeAcknowledgementActions from '../../../actions/employee-acknowledgement.actions';
@@ -61,7 +61,7 @@ import { CopyJobDescriptionModalComponent } from '../../copy-job-description-mod
 import { WorkflowSetupModalComponent } from '../../workflow-setup-modal';
 import { JobDescriptionAppliesToModalComponent } from 'apps/job-description-management/app/shared';
 import { CloudFileLocations } from 'libs/constants';
-
+import { SharePermissionsPanelComponent } from '../../../components/share-permissions-panel';
 
 @Component({
   selector: 'pf-job-description-page',
@@ -81,6 +81,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   @ViewChild(WorkflowSetupModalComponent) public workflowSetupModal: WorkflowSetupModalComponent;
   @ViewChild('fileDownloadSecurityWarningModal', { static: true }) public fileDownloadSecurityWarningModal: FileDownloadSecurityWarningModalComponent;
   @ViewChild(WorkflowStepCompletionModalComponent) public workflowStepCompletionModal: WorkflowStepCompletionModalComponent;
+  @ViewChild(SharePermissionsPanelComponent) public sharePermissionsPanel: SharePermissionsPanelComponent;
 
   jobDescriptionAsync$: Observable<AsyncStateObj<JobDescription>>;
   jobDescriptionPublishingSuccess$: Observable<boolean>;
@@ -131,6 +132,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   workflowStepCompletionModalSubscription: Subscription;
 
   companyName: string;
+  companyId: number;
   emailAddress: string;
   avatarUrl: string;
   companyLogoPath: string;
@@ -164,6 +166,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   completedStep: boolean;
   controlTypes: ControlType[];
   isInSystemWorkflow: boolean;
+  showSharePermissionsPanel: boolean = false;
 
   get isJobDescriptionEditable() {
     return this.identityInWorkflow ? this.hasCanEditJobDescriptionPermission :
@@ -603,6 +606,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
             : '';
           if (company) {
             this.companyName = company.CompanyName;
+            this.companyId = company.CompanyId;
           }
         });
         this.isSiteAdmin = userContext.AccessLevel === 'Admin';

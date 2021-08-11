@@ -1,3 +1,4 @@
+import { JobDescriptionSharingService } from './services';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -215,7 +216,8 @@ import { SharePermissionsPanelComponent } from './components/share-permissions-p
   ],
   providers: [
     ListAreaService, ColumnResizingService, JobDescriptionVersionCompareService,
-    ResolveHistoryListGuard, JobDescriptionJobCompareListResolver, JobDescriptionDnDService
+    ResolveHistoryListGuard, JobDescriptionJobCompareListResolver, JobDescriptionDnDService,
+    JobDescriptionSharingService
   ]
 })
 export class JobDescriptionModule {
