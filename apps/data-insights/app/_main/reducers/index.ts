@@ -115,6 +115,21 @@ export const getAllViewsLoadedAsync = createSelector(
   fromDashboardsReducer.getAllViewsLoadedAsync
 );
 
+export const getDistinctScopes = createSelector(
+  selectDashboardsState,
+  fromDashboardsReducer.getDistinctScopes
+);
+
+export const getDistinctScopesByView = createSelector(
+  selectDashboardsState,
+  fromDashboardsReducer.getDistinctScopesByView
+);
+
+export const getScopeFilter = createSelector(
+  selectDashboardsState,
+  fromDashboardsReducer.getScopeFilter
+);
+
 // All Views
 export const getCompanyWorkbooksAsyncFromViews = createSelector(
   selectViewsState,
