@@ -4,6 +4,7 @@ import { ChangeDetectorRef } from '@angular/core';
 
 import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
+import { DropDownFilterSettings } from '@progress/kendo-angular-dropdowns';
 
 import { CompensableFactorModel } from 'libs/models/comphub';
 
@@ -52,6 +53,11 @@ export class CompensableFactorTypeComponent implements OnInit, OnDestroy, AfterV
     this.selectedFactors$ = this.store.select(fromComphubCsdReducer.getSelectedFactors);
   }
 
+  public filterSettings: DropDownFilterSettings = {
+    caseSensitive: false,
+    operator: 'startsWith',
+  };
+
   get topFactorsFormArray() {
     return this.topFactorsForm.controls.checkList as FormArray;
   }
@@ -79,9 +85,9 @@ export class CompensableFactorTypeComponent implements OnInit, OnDestroy, AfterV
   }
 
   removeOldCheckBoxes() {
-   while (this.topFactorsFormArray.length !== 0) {
-     this.topFactorsFormArray.removeAt(0);
-   }
+    while (this.topFactorsFormArray.length !== 0) {
+      this.topFactorsFormArray.removeAt(0);
+    }
   }
 
   topFactorChecked(factor: CompensableFactorModel) {
@@ -111,25 +117,33 @@ export class CompensableFactorTypeComponent implements OnInit, OnDestroy, AfterV
       const index = this.topFactors.indexOf(selectedTopFactor);
       this.topFactorsFormArray.controls[index].setValue(false);
     }
-    this.store.dispatch(new fromCompensableFactorsActions.ToggleSelectedCompensableFactor(
-      {compensableFactor: this.compensableFactorName, Name: factorName}));
+    this.store.dispatch(new fromCompensableFactorsActions.ToggleSelectedCompensableFactor({
+      compensableFactor: this.compensableFactorName,
+      Name: factorName
+    }));
     this.maxSelectionValidation();
   }
 
   handleSearchValueSelected(factorName: string) {
     if (factorName !== '') {
-      this.store.dispatch(new fromCompensableFactorsActions.ToggleSelectedCompensableFactor(
-        {compensableFactor: this.compensableFactorName, Name: factorName}));
+      this.store.dispatch(new fromCompensableFactorsActions.ToggleSelectedCompensableFactor({
+        compensableFactor: this.compensableFactorName,
+        Name: factorName
+      }));
     }
     this.maxSelectionValidation();
   }
 
   handleDropDownValueSelected(factorName: string) {
     if (!!factorName) {
-      this.store.dispatch(new fromCompensableFactorsActions.ToggleSelectedCompensableFactor(
-        {compensableFactor: this.compensableFactorName, Name: this.selectedFactors[0].Name}));
-      this.store.dispatch(new fromCompensableFactorsActions.ToggleSelectedCompensableFactor(
-        {compensableFactor: this.compensableFactorName, Name: factorName}));
+      this.store.dispatch(new fromCompensableFactorsActions.ToggleSelectedCompensableFactor({
+        compensableFactor: this.compensableFactorName,
+        Name: this.selectedFactors[0].Name
+      }));
+      this.store.dispatch(new fromCompensableFactorsActions.ToggleSelectedCompensableFactor({
+        compensableFactor: this.compensableFactorName,
+        Name: factorName
+      }));
     }
   }
 
@@ -165,7 +179,7 @@ export class CompensableFactorTypeComponent implements OnInit, OnDestroy, AfterV
     this.selectedFactorsSub.unsubscribe();
   }
 
-  private initializeData () {
+  private initializeData() {
     this.maxSelections = false;
     this.disabledCheckBox = [];
     this.topFactors = this.compensableFactors.slice(0, 5);

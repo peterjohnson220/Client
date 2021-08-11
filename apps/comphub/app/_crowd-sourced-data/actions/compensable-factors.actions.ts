@@ -13,7 +13,7 @@ export const TOGGLE_SELECTED_COMPENSABLE_FACTOR = '[Comphub/Compensable Factors]
 export class GetAllCompensableFactors implements Action {
   readonly type = GET_ALL_COMPENSABLE_FACTORS;
 
-  constructor(public payload: {country: string, paymarketId: number}) {}
+  constructor(public payload: { country: string, paymarketId: number }) {}
 }
 
 export class GetAllCompensableFactorsSuccess implements Action {
@@ -22,7 +22,7 @@ export class GetAllCompensableFactorsSuccess implements Action {
   constructor(public payload: CompensableFactorsResponseModel[]) {}
 }
 
-export class GetAllCompensableFactorsError implements  Action {
+export class GetAllCompensableFactorsError implements Action {
   readonly type = GET_ALL_COMPENSABLE_FACTORS_ERROR;
 
   constructor() {}
@@ -34,18 +34,20 @@ export class GetEducationTypes implements Action {
 
 export class GetEducationTypesSuccess implements Action {
   readonly type = GET_EDUCATION_TYPES_SUCCESS;
+
   constructor(public payload: any) {}
 }
 
 export class GetEducationTypesError implements Action {
   readonly type = GET_EDUCATION_TYPES_ERROR;
+
   constructor() {}
 }
 
 export class ToggleSelectedCompensableFactor implements Action {
   readonly type = TOGGLE_SELECTED_COMPENSABLE_FACTOR;
 
-  constructor(public payload: { compensableFactor: string, Name: string}) {}
+  constructor(public payload: { compensableFactor: string, Name: string }) {}
 }
 
 export type Actions
