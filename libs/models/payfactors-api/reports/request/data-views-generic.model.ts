@@ -65,6 +65,7 @@ export interface ViewField {
   IsSortable: boolean;
   IsAlwaysInResponse: boolean;
   ExcludeFieldInFilterSave?: boolean;
+  HeaderTemplate: string;
 }
 
 export interface DataView {
@@ -81,7 +82,8 @@ export enum DataViewType {
   pfDataGrid = 'PfDataGrid',
   userDefault = 'UserDefault',
   savedFilter = 'SavedFilter',
-  export = 'Export'
+  export = 'Export',
+  project = 'PricingProject'
 }
 
 export function generateMockViewConfig() {
@@ -117,7 +119,8 @@ export function generateMockViewField(mockNumber: number = 1): ViewField {
     FilterOperator: null,
     FilterValues: null,
     IsSortable: true,
-    IsAlwaysInResponse: null
+    IsAlwaysInResponse: null,
+    HeaderTemplate: null
   };
 }
 

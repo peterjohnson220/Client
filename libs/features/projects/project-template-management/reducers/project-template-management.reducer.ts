@@ -67,6 +67,7 @@ export function reducer(state = initialState, action: fromProjectTemplateManagem
         projectFields: fieldsClone
       };
     }
+    case fromProjectTemplateManagementActions.SAVE_BASE_PROJECT_FIELD_SELECTIONS:
     case fromProjectTemplateManagementActions.SAVE_PROJECT_TEMPLATE_FIELDS: {
       return {
         ...state,
@@ -74,6 +75,7 @@ export function reducer(state = initialState, action: fromProjectTemplateManagem
         errorMessage: null
       };
     }
+    case fromProjectTemplateManagementActions.SAVE_BASE_PROJECT_FIELD_SELECTIONS_SUCCESS:
     case fromProjectTemplateManagementActions.SAVE_PROJECT_TEMPLATE_FIELDS_SUCCESS: {
       return {
         ...state,

@@ -5,7 +5,13 @@ import { select, Store } from '@ngrx/store';
 import { Observable, Subscription} from 'rxjs';
 import { SortDescriptor } from '@progress/kendo-data-query';
 
-import { ActionBarConfig, ColumnChooserType, getDefaultActionBarConfig, GridConfig } from 'libs/features/grids/pf-data-grid/models';
+import {
+  ActionBarConfig,
+  ColumnChooserType,
+  getDefaultActionBarConfig,
+  GridConfig,
+  ViewConfigurationStrategy
+} from 'libs/features/grids/pf-data-grid/models';
 import { FileDownloadSecurityWarningModalComponent } from 'libs/ui/common/file-download-security-warning';
 import { DataGridState } from 'libs/features/grids/pf-data-grid/reducers/pf-data-grid.reducer';
 import { Permissions } from 'libs/constants';
@@ -15,6 +21,7 @@ import { SearchFeatureIds } from 'libs/features/search/search/enums/search-featu
 import { UserContext } from 'libs/models';
 import { PricingProjectHelperService } from 'libs/core';
 import { ProjectFieldManagementFeatureImplementations } from 'libs/features/projects/project-template-management/constants';
+import { ViewConfigurationStrategyType } from 'libs/features/grids/pf-data-grid/enums';
 import * as fromCompanySettingsReducer from 'libs/state/state';
 import * as fromRootState from 'libs/state/state';
 import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
@@ -39,6 +46,7 @@ export class PricingProjectPageComponent implements OnInit, AfterViewInit, OnDes
   @ViewChild('percentageColumn', { static: false }) percentageColumn: ElementRef;
   @ViewChild('companyColumn', { static: false }) companyColumn: ElementRef;
   @ViewChild('customColumnChooser', {static: false}) customColumnChooser: ElementRef;
+  @ViewChild('mrpColumnHeader', { static: false }) mrpColumnHeader: ElementRef;
 
   permissions = Permissions;
   viewingJobSummary: boolean;
@@ -47,7 +55,8 @@ export class PricingProjectPageComponent implements OnInit, AfterViewInit, OnDes
   projectId: number;
   pageViewId = PageViewIds.ProjectJobs;
   filter = [];
-  colTemplates = {};
+  columnDataTemplates = {};
+  columnHeaderTemplates = {};
   gridConfig: GridConfig;
   actionBarConfig: ActionBarConfig;
   defaultSort: SortDescriptor[] = [{
@@ -92,6 +101,13 @@ export class PricingProjectPageComponent implements OnInit, AfterViewInit, OnDes
   ];
 
   projectFieldFeatureImplementations = ProjectFieldManagementFeatureImplementations;
+
+  // Projects page does not allow users to create/save filters. View name for the config will always be null.
+  projectViewConfigurationStrategy: ViewConfigurationStrategy = {
+    Type: ViewConfigurationStrategyType.PricingProject,
+    ViewName: null,
+    ReferenceId: 0
+  };
 
   constructor(private route: ActivatedRoute,
               private store: Store<fromPricingProjectReducer.State>,
@@ -147,10 +163,14 @@ export class PricingProjectPageComponent implements OnInit, AfterViewInit, OnDes
   }
 
   ngAfterViewInit() {
-    this.colTemplates = {
+    this.columnDataTemplates = {
       'Job_Title': {Template: this.jobTitle},
       'comp': {Template: this.compColumn},
       'percentage': {Template: this.percentageColumn}
+    };
+
+    this.columnHeaderTemplates = {
+      'MRP': {Template: this.mrpColumnHeader}
     };
 
     this.actionBarConfig = {
@@ -203,7 +223,11 @@ export class PricingProjectPageComponent implements OnInit, AfterViewInit, OnDes
   }
 
   private initRouterParams(): void {
-    this.projectId = this.route.snapshot.params.projectId;
+    this.projectId = parseFloat(this.route.snapshot.params.projectId);
+    this.projectViewConfigurationStrategy = {
+      ...this.projectViewConfigurationStrategy,
+      ReferenceId: this.projectId
+    };
   }
 
   jobSummaryClickHandler(): void {
@@ -234,7 +258,8 @@ export class PricingProjectPageComponent implements OnInit, AfterViewInit, OnDes
     event.stopPropagation();
   }
 
-  handleColumnChooserClicked() {
+  handleColumnChooserClicked(columnChooserElement) {
+    columnChooserElement.blur();
     this.store.dispatch(new fromPricingProjectActions.GetProjectFieldsForColumnChooser({
       ProjectId: this.projectId,
       PageViewId: this.pageViewId

@@ -31,7 +31,7 @@ import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducer
 import * as fromReducer from 'libs/features/grids/pf-data-grid/reducers';
 import { AbstractFeatureFlagService, FeatureFlags, PermissionService } from 'libs/core/services';
 import { PfDataGridColType } from 'libs/features/grids/pf-data-grid/enums';
-import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums/pf-theme-type.enum';
+import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums';
 import { RangeType } from 'libs/constants/structures/range-type';
 import { RangeRecalculationType } from 'libs/constants/structures/range-recalculation-type';
 import { RangeDistributionTypeIds } from 'libs/constants/structures/range-distribution-type-ids';
