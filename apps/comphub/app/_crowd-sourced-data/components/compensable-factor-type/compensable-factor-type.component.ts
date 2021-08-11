@@ -1,9 +1,9 @@
-import { AfterViewChecked, Component, Input, OnInit, } from '@angular/core';
+import { AfterViewChecked, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ChangeDetectorRef } from '@angular/core';
 
+import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
-import cloneDeep from 'lodash/cloneDeep';
 
 import { CompensableFactorModel } from 'libs/models/comphub';
 
@@ -11,12 +11,13 @@ import { CompensableFactorTypes } from '../../constants';
 import * as fromComphubCsdReducer from '../../reducers';
 import * as fromCompensableFactorsActions from '../../actions/compensable-factors.actions';
 
+
 @Component({
   selector: 'pf-compensable-factor-type',
   templateUrl: './compensable-factor-type.component.html',
   styleUrls: ['./compensable-factor-type.component.scss']
 })
-export class CompensableFactorTypeComponent implements OnInit, AfterViewChecked {
+export class CompensableFactorTypeComponent implements OnInit, OnDestroy, AfterViewChecked, OnChanges {
   @Input() compensableFactorName: string;
   @Input() selectedJobTitle: string;
   @Input() factorType: number;
@@ -27,14 +28,17 @@ export class CompensableFactorTypeComponent implements OnInit, AfterViewChecked 
   @Input() topFactorsHeading: string;
   @Input() smallDropDown: boolean;
   @Input() defaultDropDownValue: string;
+  @Input() selectedPaymarketId: number;
 
   topFactorsForm: FormGroup;
   factorTypes = CompensableFactorTypes;
   searchFactors: CompensableFactorModel[];
   topFactors: CompensableFactorModel[];
-  selectedFactors: string[];
+  selectedFactors: CompensableFactorModel[];
   _maxSelections: boolean;
   disabledCheckBox: number[];
+  selectedFactors$: Observable<any>;
+  selectedFactorsSub: Subscription;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -44,6 +48,8 @@ export class CompensableFactorTypeComponent implements OnInit, AfterViewChecked 
     this.topFactorsForm = this.formBuilder.group({
       checkList: new FormArray([])
     });
+
+    this.selectedFactors$ = this.store.select(fromComphubCsdReducer.getSelectedFactors);
   }
 
   get topFactorsFormArray() {
@@ -72,15 +78,15 @@ export class CompensableFactorTypeComponent implements OnInit, AfterViewChecked 
     this.topFactors.forEach(() => this.topFactorsFormArray.push(new FormControl(false)));
   }
 
-  topFactorChecked(factor: CompensableFactorModel) {
-    if (this.selectedFactors.indexOf(factor.Name) === -1) {
-      this.selectedFactors.push(factor.Name.toString());
-      this.store.dispatch(new fromCompensableFactorsActions.AddSelectedCompensableFactors(
-        {compensableFactor: this.compensableFactorName, selectedFactors: cloneDeep(this.selectedFactors)}));
-    } else {
-      this.selectedFactors = this.selectedFactors.filter(x => x !== factor.Name);
-    }
+  removeOldCheckBoxes() {
+   while (this.topFactorsFormArray.length !== 0) {
+     this.topFactorsFormArray.removeAt(0);
+   }
+  }
 
+  topFactorChecked(factor: CompensableFactorModel) {
+    this.store.dispatch(new fromCompensableFactorsActions.ToggleSelectedCompensableFactor(
+      {compensableFactor: this.compensableFactorName, Name: factor.Name}));
     this.maxSelectionValidation();
   }
 
@@ -105,44 +111,66 @@ export class CompensableFactorTypeComponent implements OnInit, AfterViewChecked 
       const index = this.topFactors.indexOf(selectedTopFactor);
       this.topFactorsFormArray.controls[index].setValue(false);
     }
-    this.selectedFactors = this.selectedFactors.filter(x => x !== factorName);
-    this.store.dispatch(new fromCompensableFactorsActions.AddSelectedCompensableFactors(
-      {compensableFactor: this.compensableFactorName, selectedFactors: cloneDeep(this.selectedFactors)}));
+    this.store.dispatch(new fromCompensableFactorsActions.ToggleSelectedCompensableFactor(
+      {compensableFactor: this.compensableFactorName, Name: factorName}));
     this.maxSelectionValidation();
   }
 
   handleSearchValueSelected(factorName: string) {
-    if (this.selectedFactors.indexOf(factorName) === -1 && factorName !== '') {
-      this.selectedFactors.push(factorName);
-      this.store.dispatch(new fromCompensableFactorsActions.AddSelectedCompensableFactors(
-        {compensableFactor: this.compensableFactorName, selectedFactors: cloneDeep(this.selectedFactors)}));
+    if (factorName !== '') {
+      this.store.dispatch(new fromCompensableFactorsActions.ToggleSelectedCompensableFactor(
+        {compensableFactor: this.compensableFactorName, Name: factorName}));
     }
-
     this.maxSelectionValidation();
   }
 
   handleDropDownValueSelected(factorName: string) {
     if (!!factorName) {
-      // pop the old one, if found
-      this.selectedFactors.pop();
-      this.selectedFactors.push(factorName);
-      this.store.dispatch(new fromCompensableFactorsActions.AddSelectedCompensableFactors(
-        {compensableFactor: this.compensableFactorName, selectedFactors: cloneDeep(this.selectedFactors)}));
+      this.store.dispatch(new fromCompensableFactorsActions.ToggleSelectedCompensableFactor(
+        {compensableFactor: this.compensableFactorName, Name: this.selectedFactors[0].Name}));
+      this.store.dispatch(new fromCompensableFactorsActions.ToggleSelectedCompensableFactor(
+        {compensableFactor: this.compensableFactorName, Name: factorName}));
     }
   }
 
   ngOnInit(): void {
-    this.maxSelections = false;
     this.selectedFactors = [];
-    this.disabledCheckBox = [];
-    this.topFactors = this.compensableFactors.slice(0, 5);
-    this.searchFactors = this.compensableFactors.slice(5);
-    this.addCheckBoxes();
+    this.selectedFactorsSub = this.selectedFactors$.subscribe(factors => {
+      if (!!factors[this.compensableFactorName]) {
+        this.selectedFactors = factors[this.compensableFactorName];
+      }
+    });
+    this.initializeData();
+  }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (!!changes.selectedJobTitle) {
+      if (!changes.selectedJobTitle.firstChange) {
+        this.removeOldCheckBoxes();
+        this.initializeData();
+      }
+    } else if (!!changes.selectedPaymarketId) {
+      if (!changes.selectedPaymarketId.firstChange) {
+        this.removeOldCheckBoxes();
+        this.initializeData();
+      }
+    }
   }
 
   ngAfterViewChecked(): void {
     this.changeDetector.detectChanges();
+  }
+
+  ngOnDestroy(): void {
+    this.selectedFactorsSub.unsubscribe();
+  }
+
+  private initializeData () {
+    this.maxSelections = false;
+    this.disabledCheckBox = [];
+    this.topFactors = this.compensableFactors.slice(0, 5);
+    this.searchFactors = this.compensableFactors.slice(5);
+    this.addCheckBoxes();
   }
 
 }

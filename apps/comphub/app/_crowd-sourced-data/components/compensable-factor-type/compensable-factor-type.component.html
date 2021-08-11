@@ -24,8 +24,8 @@
         </kendo-autocomplete>
       </div>
       <div class="pills-container pb-2" *ngFor="let factor of selectedFactors">
-        <div class="badge badge-pill" (click)="pillClicked(factor)">
-          {{factor}}
+        <div class="badge badge-pill" (click)="pillClicked(factor.Name)">
+          {{factor.Name}}
           <fa-icon icon="times" aria-hidden="true"></fa-icon>
         </div>
       </div>

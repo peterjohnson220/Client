@@ -1,3 +1,5 @@
+import cloneDeep from 'lodash/cloneDeep';
+
 import { CompensableFactorsResponseModel } from 'libs/models/payfactors-api/comphub/response';
 
 import * as fromCompensableFactorsActions from '../actions/compensable-factors.actions';
@@ -7,7 +9,6 @@ export interface State {
   compensableFactors: CompensableFactorsResponseModel[];
   loadingCompensableFactors: boolean;
   loadingCompensableFactorsError: boolean;
-  selectedFactors: { [Name: string]: string[] };
   educationTypes: string[];
   loadingEducationTypes: boolean;
   loadingEducationTypesError: boolean;
@@ -17,7 +18,6 @@ const initialState: State = {
   compensableFactors: null,
   loadingCompensableFactors: false,
   loadingCompensableFactorsError: false,
-  selectedFactors: null,
   educationTypes: [],
   loadingEducationTypes: false,
   loadingEducationTypesError: false
@@ -28,6 +28,7 @@ export function reducer(state = initialState, action: fromCompensableFactorsActi
     case fromCompensableFactorsActions.GET_ALL_COMPENSABLE_FACTORS: {
       return {
         ...state,
+        compensableFactors: null,
         loadingCompensableFactors: true
       };
     }
@@ -45,12 +46,16 @@ export function reducer(state = initialState, action: fromCompensableFactorsActi
         loadingCompensableFactorsError: true
       };
     }
-    case fromCompensableFactorsActions.ADD_SELECTED_COMPENSABLE_FACTOR: {
+    case fromCompensableFactorsActions.TOGGLE_SELECTED_COMPENSABLE_FACTOR: {
+      const factorResults =  cloneDeep(state.compensableFactors[action.payload.compensableFactor]);
+      const factorToUpdate = factorResults.find(x => x.Name === action.payload.Name);
+      factorToUpdate.Selected = !factorToUpdate.Selected;
+
       return {
         ...state,
-        selectedFactors: {
-          ...state.selectedFactors,
-          [action.payload.compensableFactor]: action.payload.selectedFactors
+        compensableFactors: {
+          ...state.compensableFactors,
+          [action.payload.compensableFactor]: factorResults
         }
       };
     }
@@ -79,5 +84,15 @@ export function reducer(state = initialState, action: fromCompensableFactorsActi
 
 export const getCompensableFactorsLoading = (state: State) => state.loadingCompensableFactors;
 export const getCompensableFactors = (state: State) => state.compensableFactors;
-export const getSelectedFactors = (state: State) => state.selectedFactors;
 export const getEducationTypes = (state: State) => state.educationTypes;
+export const getSelectedFactors = (state: State) => {
+  const selectedFactors = {};
+  if (!!state.compensableFactors) {
+    Object.keys(state.compensableFactors).forEach(key => {
+      const selections = state.compensableFactors[key].filter(x => x.Selected === true);
+      !!selections ? selectedFactors[key] = selections : selectedFactors[key] = [];
+    });
+  }
+  return selectedFactors;
+};
+
