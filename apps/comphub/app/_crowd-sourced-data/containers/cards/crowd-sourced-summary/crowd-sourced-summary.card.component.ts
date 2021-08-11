@@ -81,14 +81,6 @@ export class CrowdSourcedSummaryCardComponent implements OnInit, OnDestroy {
       SelectedFactors: null
     };
     this.store.dispatch(new fromJobGridActions.GetCrowdSourcedJobPricing(request));
-
-    this.csdStore.dispatch(new fromCompensableFactorsActions.GetAllCompensableFactors(
-      {
-        jobTitle: this.selectedJob?.JobTitle,
-        country: this.workflowContext.activeCountryDataSet.CountryName,
-        paymarketId: this.selectedPaymarket.CompanyPayMarketId
-      }
-    ));
   }
 
   ngOnDestroy(): void {

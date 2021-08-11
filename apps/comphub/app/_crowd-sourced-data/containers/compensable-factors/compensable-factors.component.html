@@ -11,7 +11,8 @@
         [factorType]="factorTypes.DropDown"
         [smallDropDown]="true"
         [title]="'Years of Experience'"
-        [compensableFactors]="yearsOfExperience">
+        [compensableFactors]="yearsOfExperience"
+        [selectedPaymarketId]="selectedPaymarketId">
       </pf-compensable-factor-type>
     </ng-container>
   </div>
@@ -24,7 +25,8 @@
         [smallDropDown]="true"
         [defaultDropDownValue]="'No'"
         [title]="'Supervisory Role'"
-        [compensableFactors]="supervisoryRole">
+        [compensableFactors]="supervisoryRole"
+        [selectedPaymarketId]="selectedPaymarketId">
       </pf-compensable-factor-type>
     </ng-container>
   </div>
@@ -40,7 +42,8 @@
         [description]="'Different skills can affect salary. Choose the most important skills for this job.'"
         [searchPlaceHolder]="'Search for more skills'"
         [compensableFactors]="skills"
-        [topFactorsHeading]="'Top Skills'">
+        [topFactorsHeading]="'Top Skills'"
+        [selectedPaymarketId]="selectedPaymarketId">
       </pf-compensable-factor-type>
     </ng-container>
   </div>
@@ -54,7 +57,8 @@
         [description]="'Different certifications can also affect salary. Below are the most impactful certifications/licenses.'"
         [searchPlaceHolder]="'Search for more certifications'"
         [compensableFactors]="certs"
-        [topFactorsHeading]="'Top Certifications/Licenses'">
+        [topFactorsHeading]="'Top Certifications/Licenses'"
+        [selectedPaymarketId]="selectedPaymarketId">
       </pf-compensable-factor-type>
     </ng-container>
   </div>
@@ -68,7 +72,8 @@
         [factorType]="factorTypes.DropDown"
         [smallDropDown]="false"
         [title]="'Minimum Degree Required'"
-         [compensableFactors]="educationTypes">
+        [compensableFactors]="educationTypes"
+        [selectedPaymarketId]="selectedPaymarketId">
       </pf-compensable-factor-type>
     </ng-container>
   </div>

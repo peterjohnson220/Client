@@ -53,8 +53,9 @@ describe('CompensableFactorTypeComponent', () => {
     instance.selectedFactors = [];
     instance.disabledCheckBox = [];
     const factor = generateMockCompensableFactorModel();
-    const expectedAction = new fromCompensableFactorActions.AddSelectedCompensableFactors(
-      {compensableFactor: 'Skills', selectedFactors: ['C#']});
+    const expectedAction = new fromCompensableFactorActions.ToggleSelectedCompensableFactor({
+      compensableFactor: 'Skills', Name: factor.Name
+    });
 
     instance.topFactorChecked(factor);
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
@@ -67,8 +68,9 @@ describe('CompensableFactorTypeComponent', () => {
     instance.topFactors = [generateMockCompensableFactorModel()];
     instance.disabledCheckBox = [];
     const factor = generateMockCompensableFactorModel();
-    const expectedAction = new fromCompensableFactorActions.AddSelectedCompensableFactors(
-      {compensableFactor: 'Skills', selectedFactors: []});
+    const expectedAction = new fromCompensableFactorActions.ToggleSelectedCompensableFactor({
+      compensableFactor: 'Skills', Name: 'Angular'
+    });
 
     instance.pillClicked('Angular');
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
@@ -81,8 +83,9 @@ describe('CompensableFactorTypeComponent', () => {
     instance.selectedFactors = [];
     instance.disabledCheckBox = [];
     const factor = generateMockCompensableFactorModel();
-    const expectedAction = new fromCompensableFactorActions.AddSelectedCompensableFactors(
-      {compensableFactor: 'Skills', selectedFactors: ['C#']});
+    const expectedAction = new fromCompensableFactorActions.ToggleSelectedCompensableFactor({
+      compensableFactor: 'Skills', Name: factor.Name
+    });
 
     instance.handleSearchValueSelected(factor.Name);
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);

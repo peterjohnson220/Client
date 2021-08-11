@@ -5,15 +5,15 @@ import { CompensableFactorsResponseModel } from 'libs/models/payfactors-api/comp
 export const GET_ALL_COMPENSABLE_FACTORS = '[Comphub/Compensable Factors] Get All Compensable Factors';
 export const GET_ALL_COMPENSABLE_FACTORS_SUCCESS = '[Comphub/Compensable Factors] Get All Compensable Factors Success';
 export const GET_ALL_COMPENSABLE_FACTORS_ERROR = '[Comphub/Compensable Factors] Get All Compensable Factors Error';
-export const ADD_SELECTED_COMPENSABLE_FACTOR = '[Comphub/Compensable Factors] Add Selected Compensable Factors';
 export const GET_EDUCATION_TYPES = '[Comphub/Compensable Factors] Get Education Types';
 export const GET_EDUCATION_TYPES_SUCCESS = '[Comphub/Compensable Factors] Get Education Types Success';
 export const GET_EDUCATION_TYPES_ERROR = '[Comphub/Compensable Factors] Get Education Types Error';
+export const TOGGLE_SELECTED_COMPENSABLE_FACTOR = '[Comphub/Compensable Factors] Toggle Selected Compensable Factors';
 
 export class GetAllCompensableFactors implements Action {
   readonly type = GET_ALL_COMPENSABLE_FACTORS;
 
-  constructor(public payload: {jobTitle: string, country: string, paymarketId: number}) {}
+  constructor(public payload: {country: string, paymarketId: number}) {}
 }
 
 export class GetAllCompensableFactorsSuccess implements Action {
@@ -27,13 +27,6 @@ export class GetAllCompensableFactorsError implements  Action {
 
   constructor() {}
 }
-
-export class AddSelectedCompensableFactors implements Action {
-  readonly type = ADD_SELECTED_COMPENSABLE_FACTOR;
-
-  constructor(public payload: {compensableFactor: string, selectedFactors: string[]}) {}
-}
-
 
 export class GetEducationTypes implements Action {
   readonly type = GET_EDUCATION_TYPES;
@@ -49,11 +42,17 @@ export class GetEducationTypesError implements Action {
   constructor() {}
 }
 
+export class ToggleSelectedCompensableFactor implements Action {
+  readonly type = TOGGLE_SELECTED_COMPENSABLE_FACTOR;
+
+  constructor(public payload: { compensableFactor: string, Name: string}) {}
+}
+
 export type Actions
   = GetAllCompensableFactors
   | GetAllCompensableFactorsSuccess
   | GetAllCompensableFactorsError
-  | AddSelectedCompensableFactors
   | GetEducationTypes
   | GetEducationTypesSuccess
-  | GetEducationTypesError;
+  | GetEducationTypesError
+  | ToggleSelectedCompensableFactor;

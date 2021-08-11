@@ -27,37 +27,37 @@ export class CompensableFactorsComponent implements OnInit, OnDestroy {
   skills: CompensableFactorModel[];
   certs: CompensableFactorModel[];
   yearsOfExperience: CompensableFactorModel[] = [
-    { Name: '0', Data: null },
-    { Name: '1', Data: null },
-    { Name: '2', Data: null },
-    { Name: '3', Data: null },
-    { Name: '4', Data: null },
-    { Name: '5', Data: null },
-    { Name: '6', Data: null },
-    { Name: '7', Data: null },
-    { Name: '8', Data: null },
-    { Name: '9', Data: null },
-    { Name: '10', Data: null },
-    { Name: '11', Data: null },
-    { Name: '12', Data: null },
-    { Name: '13', Data: null },
-    { Name: '14', Data: null },
-    { Name: '15', Data: null },
-    { Name: '16', Data: null },
-    { Name: '17', Data: null },
-    { Name: '18', Data: null },
-    { Name: '19', Data: null },
-    { Name: '20', Data: null },
-    { Name: '21', Data: null },
-    { Name: '22', Data: null },
-    { Name: '23', Data: null },
-    { Name: '24', Data: null },
-    { Name: '25', Data: null }
+    { Name: '0', Data: null, Selected: false },
+    { Name: '1', Data: null, Selected: false },
+    { Name: '2', Data: null, Selected: false },
+    { Name: '3', Data: null, Selected: false },
+    { Name: '4', Data: null, Selected: false },
+    { Name: '5', Data: null, Selected: false },
+    { Name: '6', Data: null, Selected: false },
+    { Name: '7', Data: null, Selected: false },
+    { Name: '8', Data: null, Selected: false },
+    { Name: '9', Data: null, Selected: false },
+    { Name: '10', Data: null, Selected: false },
+    { Name: '11', Data: null, Selected: false },
+    { Name: '12', Data: null, Selected: false },
+    { Name: '13', Data: null, Selected: false },
+    { Name: '14', Data: null, Selected: false },
+    { Name: '15', Data: null, Selected: false },
+    { Name: '16', Data: null, Selected: false },
+    { Name: '17', Data: null, Selected: false },
+    { Name: '18', Data: null, Selected: false },
+    { Name: '19', Data: null, Selected: false },
+    { Name: '20', Data: null, Selected: false },
+    { Name: '21', Data: null, Selected: false },
+    { Name: '22', Data: null, Selected: false },
+    { Name: '23', Data: null, Selected: false },
+    { Name: '24', Data: null, Selected: false },
+    { Name: '25', Data: null, Selected: false}
   ];
 
   supervisoryRole: CompensableFactorModel[] = [
-    { Name: 'Yes', Data: null },
-    { Name: 'No', Data: null }
+    { Name: 'Yes', Data: null, Selected: false },
+    { Name: 'No', Data: null, Selected: false }
   ];
 
   factorTypes = CompensableFactorTypes;
@@ -110,13 +110,13 @@ export class CompensableFactorsComponent implements OnInit, OnDestroy {
   mapSelectedFactorsToCompensableFactorsRequest(sf): CompensableFactorRequest[] {
     const factorsToSend: CompensableFactorRequest[] = [];
     if (!!sf.Years_Experience) {
-      factorsToSend.push({ Name: 'Years_Experience', SelectedFactors: sf.Years_Experience });
+       factorsToSend.push({ Name: 'Years_Experience', SelectedFactors: sf.Years_Experience.map(x => x.Name) });
     }
     if (!!sf.Skills) {
-      factorsToSend.push({ Name: 'Skills', SelectedFactors: sf.Skills });
+       factorsToSend.push({ Name: 'Skills', SelectedFactors: sf.Skills.map(x => x.Name) });
     }
     if (!!sf.Certs) {
-      factorsToSend.push({ Name: 'Certs', SelectedFactors: sf.Certs });
+       factorsToSend.push({ Name: 'Certs', SelectedFactors: sf.Certs.map( x => x.Name) });
     }
     if (!!sf.Education) {
       factorsToSend.push({ Name: 'Education', SelectedFactors: sf.Education });
