@@ -44,14 +44,14 @@ describe('Data Insights - Search Workbook Modal Component', () => {
   });
 
   it('should use the modal service to open the modal when open is called', () => {
-    spyOn(ngbModal, 'open');
+    jest.spyOn(ngbModal, 'open');
     instance.open();
 
     expect(ngbModal.open).toHaveBeenCalled();
   });
 
   it('should use the modal service to dismiss the modal, when close is called', () => {
-    spyOn(ngbModal, 'dismissAll');
+    jest.spyOn(ngbModal, 'dismissAll');
 
     instance.close();
 

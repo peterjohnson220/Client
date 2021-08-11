@@ -2,6 +2,7 @@
 
 exports[`Exchange Job Request Info should match snapshot 1`] = `
 <pf-exchange-job-request-info
+  __ngContext__={[Function LRootView]}
   approvingError$={[Function Store]}
   closeClicked={[Function EventEmitter_]}
   denyingError$={[Function Store]}
@@ -19,8 +20,6 @@ exports[`Exchange Job Request Info should match snapshot 1`] = `
       >
          Job Request Information 
       </div>
-      
-      
       <button
         class="btn btn-sm btn-success action-buttons"
         type="button"
@@ -95,13 +94,11 @@ exports[`Exchange Job Request Info should match snapshot 1`] = `
           >
             Job Description:
           </div>
-          
           <div
             class="jd-container"
           >
              Mock Job Description 
           </div>
-          
         </div>
       </div>
       <div
@@ -116,17 +113,14 @@ exports[`Exchange Job Request Info should match snapshot 1`] = `
           <kendo-tabstrip-tab
             title="Reason"
           >
-            
           </kendo-tabstrip-tab>
           <kendo-tabstrip-tab
             title="Exchange Associations"
           >
-            
           </kendo-tabstrip-tab>
           <kendo-tabstrip-tab
             title="History"
           >
-            
           </kendo-tabstrip-tab>
         </kendo-tabstrip>
       </div>

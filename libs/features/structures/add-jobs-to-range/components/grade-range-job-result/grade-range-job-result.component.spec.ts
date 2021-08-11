@@ -33,7 +33,7 @@ describe('Project - Add Jobs - Job Result', () => {
   });
 
   it('should emit job selection toggle when clicking on job result', () => {
-    spyOn(instance.jobClicked, 'emit');
+    jest.spyOn(instance.jobClicked, 'emit');
 
     const mockJobResult = generateMockPayFactorsJobResult();
 

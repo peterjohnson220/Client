@@ -32,7 +32,7 @@ export const adapter: EntityAdapter<CompanyJob> = createEntityAdapter<CompanyJob
 });
 
 // Define initial state
-const initialState: State = adapter.getInitialState({
+export const initialState: State = adapter.getInitialState({
   loading: false,
   loadingError: false,
   companyJobsToAssociate: [],

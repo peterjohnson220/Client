@@ -2,6 +2,7 @@
 
 exports[`TotalRewardsStatementComponent should render a mock statement\`s pages, sections, columns and controls 1`] = `
 <pf-total-rewards-statement
+  __ngContext__={[Function LRootView]}
   allowCalculationFieldDragDrop={[Function Boolean]}
   controlType={[Function Object]}
   employeeRewardsData={[Function Object]}
@@ -28,36 +29,23 @@ exports[`TotalRewardsStatementComponent should render a mock statement\`s pages,
     class="container statement position-relative medium-font-size default-font-family additional-page-disabled"
   >
     <pf-async-container />
-    
     <div
-      class="pb-4 trs-page position-relative main"
+      class="main pb-4 position-relative trs-page"
     >
-      
       <section
         class="row vertical-divider trs-section"
       >
-        
         <div
           class="trs-column col-3"
           pfstatementgraphicsdirective=""
         >
-          
           <div
             class="row"
           >
-            
             <div
               class="col-12 control-type-2"
             >
-              
-              
               <pf-trs-image-control />
-              
-              
-              
-              
-              
-              
             </div>
           </div>
         </div>
@@ -65,23 +53,13 @@ exports[`TotalRewardsStatementComponent should render a mock statement\`s pages,
           class="trs-column col-9"
           pfstatementgraphicsdirective=""
         >
-          
           <div
             class="row"
           >
-            
             <div
               class="col-12 control-type-5"
             >
-              
-              
-              
-              
-              
               <pf-trs-title-control />
-              
-              
-              
             </div>
           </div>
         </div>
@@ -89,58 +67,31 @@ exports[`TotalRewardsStatementComponent should render a mock statement\`s pages,
       <section
         class="row vertical-divider trs-section"
       >
-        
         <div
           class="trs-column col-6"
           pfstatementgraphicsdirective=""
         >
-          
           <div
             class="row"
           >
-            
             <div
               class="col-12 control-type-1"
             >
-              
               <pf-trs-rich-text-control
                 class="p-1"
               />
-              
-              
-              
-              
-              
-              
-              
             </div>
             <div
               class="col-12 control-type-4"
             >
-              
-              
-              
-              
               <pf-trs-chart-control />
-              
-              
-              
-              
             </div>
             <div
               class="col-12 control-type-1"
             >
-              
               <pf-trs-rich-text-control
                 class="p-1"
               />
-              
-              
-              
-              
-              
-              
-              
             </div>
           </div>
         </div>
@@ -148,75 +99,33 @@ exports[`TotalRewardsStatementComponent should render a mock statement\`s pages,
           class="trs-column col-6"
           pfstatementgraphicsdirective=""
         >
-          
           <div
             class="row"
           >
-            
             <div
               class="col-12 control-type-3"
             >
-              
-              
-              
               <pf-trs-calculation-control />
-              
-              
-              
-              
-              
             </div>
             <div
               class="col-12 control-type-3"
             >
-              
-              
-              
               <pf-trs-calculation-control />
-              
-              
-              
-              
-              
             </div>
             <div
               class="col-12 control-type-3"
             >
-              
-              
-              
               <pf-trs-calculation-control />
-              
-              
-              
-              
-              
             </div>
             <div
               class="col-12 control-type-3"
             >
-              
-              
-              
               <pf-trs-calculation-control />
-              
-              
-              
-              
-              
             </div>
             <div
               class="col-12 control-type-6"
             >
-              
-              
-              
-              
-              
-              
               <pf-trs-summary-control />
-              
-              
             </div>
           </div>
         </div>

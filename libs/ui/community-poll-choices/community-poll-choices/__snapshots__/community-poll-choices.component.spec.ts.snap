@@ -2,6 +2,7 @@
 
 exports[`CommunityPollChoicesComponent should not allow to update poll choices if !enableEditingResponseOptions 1`] = `
 <pf-community-poll-choices
+  __ngContext__={[Function LRootView]}
   added={[Function EventEmitter_]}
   maxChoices={[Function Number]}
   removed={[Function EventEmitter_]}
@@ -9,23 +10,20 @@ exports[`CommunityPollChoicesComponent should not allow to update poll choices i
   <div
     class="form-group row pl-5 mb-1"
   >
-    
     <div>
       <input
         class="form-control input-body community-border-radius"
         formcontrolname="response"
         type="text"
       />
-      
     </div>
-    
-    
   </div>
 </pf-community-poll-choices>
 `;
 
 exports[`CommunityPollChoicesComponent should not allow to update poll choices if enableEditingResponseOptions === true 1`] = `
 <pf-community-poll-choices
+  __ngContext__={[Function LRootView]}
   added={[Function EventEmitter_]}
   maxChoices={[Function Number]}
   removed={[Function EventEmitter_]}
@@ -33,23 +31,20 @@ exports[`CommunityPollChoicesComponent should not allow to update poll choices i
   <div
     class="form-group row pl-5 mb-1"
   >
-    
     <div>
       <input
         class="form-control input-body community-border-radius"
         formcontrolname="response"
         type="text"
       />
-      
     </div>
-    
-    
   </div>
 </pf-community-poll-choices>
 `;
 
 exports[`CommunityPollChoicesComponent should show community start poll 1`] = `
 <pf-community-poll-choices
+  __ngContext__={[Function LRootView]}
   added={[Function EventEmitter_]}
   maxChoices={[Function Number]}
   removed={[Function EventEmitter_]}
@@ -57,17 +52,13 @@ exports[`CommunityPollChoicesComponent should show community start poll 1`] = `
   <div
     class="form-group row pl-5 mb-1"
   >
-    
     <div>
       <input
         class="form-control input-body community-border-radius"
         formcontrolname="response"
         type="text"
       />
-      
     </div>
-    
-    
   </div>
 </pf-community-poll-choices>
 `;

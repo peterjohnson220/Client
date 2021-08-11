@@ -31,7 +31,7 @@ describe('CommunityPostEditComponent', () => {
 
     store = TestBed.inject(Store);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture = TestBed.createComponent(CommunityPostEditComponent);
     instance = fixture.componentInstance;

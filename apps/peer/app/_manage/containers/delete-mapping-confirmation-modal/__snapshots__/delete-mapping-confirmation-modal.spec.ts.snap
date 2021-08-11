@@ -2,6 +2,7 @@
 
 exports[`Peer - Manage - Delete Confirmation Modal should match snapshot on init 1`] = `
 <pf-delete-mapping-confirmation-modal
+  __ngContext__={[Function LRootView]}
   deleteMappingConfirmationModalOpen$={[Function Store]}
   deletingMapping$={[Function Store]}
   deletingMappingError$={[Function Store]}
@@ -16,14 +17,12 @@ exports[`Peer - Manage - Delete Confirmation Modal should match snapshot on init
     size=""
     title="Delete Association"
   >
-    
      You are about to delete the association between 
     <strong>
       Exchange Test Job
     </strong>
      and 
     <strong>
-      
     </strong>
     . This cannot be undone. 
     <br />

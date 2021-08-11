@@ -22,7 +22,7 @@ describe('Data Management - Main - Public Api Authentication Form', () => {
   }));
 
   it('Should emit event when submit button is clicked', () => {
-    spyOn(component.submitClick, 'emit');
+    jest.spyOn(component.submitClick, 'emit');
 
     component.publicKeyForm.controls.apikey.setValue('f1a899bc-88e5-4091-ba74-9f7d6e44be83');
 
@@ -34,7 +34,7 @@ describe('Data Management - Main - Public Api Authentication Form', () => {
   });
 
   it('Should emit event when cancel button is clicked', () => {
-    spyOn(component.cancelClick, 'emit');
+    jest.spyOn(component.cancelClick, 'emit');
 
     component.cancelAuthenticationClick();
 

@@ -60,7 +60,7 @@ describe('InboundEntitySelectionPageComponent', () => {
 
   it('should dispatch an init event when page is initialized', () => {
     // arrange
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const expectedAction = new fromEntitySelectionActions.Init();
 
     // act
@@ -73,7 +73,7 @@ describe('InboundEntitySelectionPageComponent', () => {
 
   it('should set edit mode and set selected provider on an existing connection summary', () => {
     // arrange
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const summary = generateMockExistingConnectionSummary();
     const expectedAction = new fromProviderListActions.SetSelectedProvider(summary.provider);
 
@@ -89,7 +89,7 @@ describe('InboundEntitySelectionPageComponent', () => {
 
   it('should not set edit mode and should not set selected provider on a new connection summary', () => {
     // arrange
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const summary = generateMockNewConnectionSummary();
     const expectedAction = new fromProviderListActions.SetSelectedProvider(summary.provider);
 
@@ -105,7 +105,7 @@ describe('InboundEntitySelectionPageComponent', () => {
 
   it('should redirect to the landing page if redirect condition is detected', () => {
     // arrange
-    spyOn(router, 'navigate');
+    jest.spyOn(router, 'navigate');
     const redirect = of(true);
     // act
     component.ngOnInit();
@@ -117,7 +117,7 @@ describe('InboundEntitySelectionPageComponent', () => {
 
   it('should dispatch an action to load entity selections on provider change', () => {
     // arrange
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const p = generateMockProvider();
     const provider = of(p);
     const expectedAction = new fromEntitySelectionActions.LoadEntitySelection(p);
@@ -133,7 +133,7 @@ describe('InboundEntitySelectionPageComponent', () => {
 
   it('should check selected entities when navigating to page in new workflow state', () => {
     // arrange
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const selectedEntities = [generateMockEntityTypeModel()];
     const providerSupportedEntities = getEntityChoicesForOrgLoader();
 
@@ -148,7 +148,7 @@ describe('InboundEntitySelectionPageComponent', () => {
 
   it('should dispatch an action to open a remove entity modal when a previously selected entitiy is unchecked', () => {
     // arrange
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const summary = generateMockExistingConnectionSummary();
     const selectedEntities = [generateMockEntityTypeModel()];
     const providerSupportedEntities = getMockEntityChoiceList();
@@ -168,7 +168,7 @@ describe('InboundEntitySelectionPageComponent', () => {
 
   it('should dispatch an action to update entity selection when new entity is selected', () => {
     // arrange
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const summary = generateMockExistingConnectionSummary();
     const selectedEntities = [generateMockEntityTypeModel()];
     const providerSupportedEntities = getMockEntityChoiceList();
@@ -201,7 +201,7 @@ describe('InboundEntitySelectionPageComponent', () => {
 
   it('should dispatch an action to remove an entity selection when entity is selected and old one unselected', () => {
     // arrange
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const summary = generateMockExistingConnectionSummary();
     const selectedEntities = [generateMockEntityTypeModel()];
     const providerSupportedEntities = getMockEntityChoiceList();

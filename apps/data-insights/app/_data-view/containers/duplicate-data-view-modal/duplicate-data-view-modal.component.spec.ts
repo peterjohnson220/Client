@@ -56,7 +56,7 @@ describe('Data Insights - Duplicate Data View Modal Component', () => {
   });
 
   it('should open dupicateDataViewModal using modalService when open is called', () => {
-    spyOn(ngbModal, 'open');
+    jest.spyOn(ngbModal, 'open');
 
     instance.open();
 
@@ -72,7 +72,7 @@ describe('Data Insights - Duplicate Data View Modal Component', () => {
     });
     const expectedAction = new fromDataViewActions.DuplicateUserReport(instance.userDataView);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     instance.save();
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);

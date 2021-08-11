@@ -21,7 +21,7 @@ describe('Launch Darkly Feature Flag Service', () => {
 
   it('#initialize should do nothing when we have no SDK key', () => {
     // Arrange
-    spyOn(LDClientSdk, 'initialize');
+    jest.spyOn(LDClientSdk, 'initialize');
 
     // Act
     service.initialize('', { key: 123 });
@@ -33,7 +33,7 @@ describe('Launch Darkly Feature Flag Service', () => {
   // TODO [BC]: Figure out how to properly mock the LDClientSdk in Jest to add more tests
   // it('#initialize should parse the initial flags json object when provided', () => {
   //   // Arrange
-  //   spyOn(LDClientSdk, 'initialize');
+  //   jest.spyOn(LDClientSdk, 'initialize');
   //
   //   // Act
   //   service.initialize('SDK-123', { key: 123 }, JSON.stringify({ testFlag1: true}));

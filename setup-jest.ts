@@ -1,3 +1,3 @@
 import 'jest-preset-angular/setup-jest';
-import './jestGlobalMocks';
+import './jest-global-mocks';
 import '@angular/localize/init';

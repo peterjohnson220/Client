@@ -24,7 +24,7 @@ describe('CommunityFiltersComponent', () => {
     });
 
     store = TestBed.inject(Store);
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture = TestBed.createComponent(CommunityFiltersComponent);
     instance = fixture.componentInstance;

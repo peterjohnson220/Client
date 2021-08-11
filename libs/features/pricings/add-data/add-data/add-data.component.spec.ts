@@ -2,7 +2,6 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
-import spyOn = jest.spyOn;
 import { DragulaModule } from 'ng2-dragula';
 
 import * as fromRootState from 'libs/state/state';
@@ -50,7 +49,7 @@ describe('Project - Add Data - Surveys Page', () => {
 
   it('should dispatch a close survey search action, when handling cancel clicked', () => {
     const expectedAction = new fromSearchPageActions.CloseSearchPage();
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.handleCancelClicked();
 

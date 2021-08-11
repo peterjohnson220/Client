@@ -41,7 +41,7 @@ describe('Project - Add Jobs - Search Results', () => {
 
     instance.canSelectJobs = true;
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.handleJobSelectionToggle(selectedJob);
 
@@ -53,7 +53,7 @@ describe('Project - Add Jobs - Search Results', () => {
 
     instance.canSelectJobs = false;
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.handleJobSelectionToggle(selectedJob);
 
@@ -66,7 +66,7 @@ describe('Project - Add Jobs - Search Results', () => {
 
     instance.canSelectJobs = true;
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     // select the job
     instance.handleJobSelectionToggle(selectedJob);

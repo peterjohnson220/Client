@@ -36,7 +36,7 @@ describe('Left Sidebar', () => {
     providers: [SettingsService],
     });
     store = TestBed.inject(Store);
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     fixture = TestBed.createComponent(LeftSidebarComponent);
     instance = fixture.componentInstance;
     instance.userContext$ = of(generateMockUserContext());

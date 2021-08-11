@@ -2,6 +2,7 @@
 
 exports[`Project - AddJobs - JobToGrade Container Component should display grades instead of the no valid jobs message when grades are found 1`] = `
 <pf-jobs-to-grade-container
+  __ngContext__={[Function LRootView]}
   controlPoint={[Function String]}
   dragEnd$={[Function AnonymousSubject]}
   dragStart$={[Function AnonymousSubject]}
@@ -35,7 +36,6 @@ exports[`Project - AddJobs - JobToGrade Container Component should display grade
       </thead>
     </table>
     <pf-async-container>
-      
     </pf-async-container>
   </div>
 </pf-jobs-to-grade-container>
@@ -43,6 +43,7 @@ exports[`Project - AddJobs - JobToGrade Container Component should display grade
 
 exports[`Project - AddJobs - JobToGrade Container Component should get jobs when load jobs clicked 1`] = `
 <pf-jobs-to-grade-container
+  __ngContext__={[Function LRootView]}
   controlPoint={[Function String]}
   dragEnd$={[Function AnonymousSubject]}
   dragStart$={[Function AnonymousSubject]}
@@ -77,14 +78,11 @@ exports[`Project - AddJobs - JobToGrade Container Component should get jobs when
       </thead>
     </table>
     <pf-async-container>
-      
-      
       <div
         class="no-results-message-container"
       >
          No valid jobs selected. Please try again. 
       </div>
-      
     </pf-async-container>
   </div>
 </pf-jobs-to-grade-container>
@@ -92,6 +90,7 @@ exports[`Project - AddJobs - JobToGrade Container Component should get jobs when
 
 exports[`Project - AddJobs - JobToGrade Container Component should not get jobs when load jobs clicked but jobs are already loaded 1`] = `
 <pf-jobs-to-grade-container
+  __ngContext__={[Function LRootView]}
   controlPoint={[Function String]}
   dragEnd$={[Function AnonymousSubject]}
   dragStart$={[Function AnonymousSubject]}
@@ -126,14 +125,11 @@ exports[`Project - AddJobs - JobToGrade Container Component should not get jobs 
       </thead>
     </table>
     <pf-async-container>
-      
-      
       <div
         class="no-results-message-container"
       >
          No valid jobs selected. Please try again. 
       </div>
-      
     </pf-async-container>
   </div>
 </pf-jobs-to-grade-container>

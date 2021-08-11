@@ -33,7 +33,7 @@ describe('User Voice Indicator', () => {
       schemas: [ NO_ERRORS_SCHEMA ]
     });
     store = TestBed.inject(Store);
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     fixture = TestBed.createComponent(UserVoiceIndicatorComponent);
     instance = fixture.componentInstance;
     instance.userContext$ = of(generateMockUserContext());

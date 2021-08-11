@@ -2,7 +2,6 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import spyOn = jest.spyOn;
 import { NgbProgressbarModule } from '@ng-bootstrap/ng-bootstrap';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
@@ -70,7 +69,7 @@ describe('Project - Add Jobs - Jobs Page', () => {
     };
     const expectedAction = new fromAddJobsPageActions.SetContext(payload);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.onSetContext(payload);
 
@@ -84,7 +83,7 @@ describe('Project - Add Jobs - Jobs Page', () => {
     };
     const expectedAction = new fromPaymarketActions.LoadPaymarkets();
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.onSetContext(payload);
 
@@ -98,7 +97,7 @@ describe('Project - Add Jobs - Jobs Page', () => {
     };
     const expectedAction = new fromPaymarketActions.SetDefaultPaymarket(123);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.onSetContext(payload);
 
@@ -108,7 +107,7 @@ describe('Project - Add Jobs - Jobs Page', () => {
   it('should dispatch a clear paymarkets action onResetApp', () => {
     const expectedAction = new fromPaymarketActions.ClearPayMarkets();
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.onResetApp();
 
@@ -118,7 +117,7 @@ describe('Project - Add Jobs - Jobs Page', () => {
   it('should dispatch a clear job search results action onResetApp', () => {
     const expectedAction = new fromAddJobsSearchResultsActions.ClearSelectedJobs();
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.onResetApp();
 
@@ -128,7 +127,7 @@ describe('Project - Add Jobs - Jobs Page', () => {
   it('should dispatch a clear job search results action when handling clear selections clicked', () => {
     const expectedAction = new fromAddJobsSearchResultsActions.ClearSelectedJobs();
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.handleClearSelectionsClicked();
 
@@ -136,7 +135,7 @@ describe('Project - Add Jobs - Jobs Page', () => {
   });
 
   it('should navigate to the create-new-job route relative to this one, when handling create new job clicked', () => {
-    spyOn(router, 'navigate');
+    jest.spyOn(router, 'navigate');
 
     instance.handleCreateNewJobClicked();
 

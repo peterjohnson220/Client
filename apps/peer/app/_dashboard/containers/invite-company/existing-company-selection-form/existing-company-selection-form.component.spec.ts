@@ -4,7 +4,6 @@ import {FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import { Store, combineReducers, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
-import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
 import { ExchangeRequestTypeEnum } from 'libs/models/index';
@@ -59,7 +58,7 @@ describe('Peer - Dashboard - Invite Company - Existing Company Selection Form', 
   it('should dispatch a LoadCandidates action of type ReferPayfactorsCompany when handleReloadCardsEvent is triggered', () => {
     const expectedAction = new fromExchangeRequestActions.LoadCandidates(ExchangeRequestTypeEnum.ReferPayfactorsCompany);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture.detectChanges();
 
@@ -73,7 +72,7 @@ describe('Peer - Dashboard - Invite Company - Existing Company Selection Form', 
 
     fixture.detectChanges();
 
-    spyOn(instance.reasonControl, 'reset');
+    jest.spyOn(instance.reasonControl, 'reset');
 
     instance.handleCardSelectionEvent();
 
@@ -87,7 +86,7 @@ describe('Peer - Dashboard - Invite Company - Existing Company Selection Form', 
 
     instance.cardSelector = {selectedCard: expectedSelection};
 
-    spyOn(instance.companySelectionControl, 'setValue');
+    jest.spyOn(instance.companySelectionControl, 'setValue');
 
     instance.handleCardSelectionEvent();
 
@@ -100,7 +99,7 @@ describe('Peer - Dashboard - Invite Company - Existing Company Selection Form', 
       ExchangeRequestTypeEnum.ReferPayfactorsCompany,
       mockSearchTerm);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture.detectChanges();
 

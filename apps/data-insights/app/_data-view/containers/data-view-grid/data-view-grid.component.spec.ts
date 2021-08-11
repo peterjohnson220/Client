@@ -55,7 +55,7 @@ describe('Data Insights - Data View Grid', () => {
     store.dispatch(new fromDataViewGridActions.GetMoreDataSuccess(results));
     fixture.detectChanges();
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     instance.handleScrollBottom();
 
     expect(store.dispatch).toHaveBeenCalledWith(getMoreDataAction);
@@ -66,7 +66,7 @@ describe('Data Insights - Data View Grid', () => {
     store.dispatch(new fromDataViewGridActions.GetMoreData());
     fixture.detectChanges();
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     instance.handleScrollBottom();
 
     expect(store.dispatch).not.toHaveBeenCalledWith(getMoreDataAction);
@@ -82,7 +82,7 @@ describe('Data Insights - Data View Grid', () => {
     store.dispatch(new fromDataViewGridActions.GetMoreDataSuccess(results));
     fixture.detectChanges();
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     instance.handleScrollBottom();
 
     expect(store.dispatch).not.toHaveBeenCalledWith(getMoreDataAction);
@@ -95,7 +95,7 @@ describe('Data Insights - Data View Grid', () => {
     }];
     instance.fields = [generateMockField()];
     const sortFieldAction = new fromDataViewGridActions.SortField({ field: instance.fields[0], sortDesc: sortDesc[0] });
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.handleSortChange(sortDesc);
 
@@ -105,7 +105,7 @@ describe('Data Insights - Data View Grid', () => {
   it('should open number format modal when handleFieldFormatModalClicked with number data type', () => {
     const field = generateMockField();
     field.Is.Numeric = true;
-    spyOn(instance.numericFieldFormattingModalComponent, 'open');
+    jest.spyOn(instance.numericFieldFormattingModalComponent, 'open');
 
     instance.handleFieldFormatModalClicked(field);
 
@@ -115,7 +115,7 @@ describe('Data Insights - Data View Grid', () => {
   it('should open date format modal when handleFieldFormatModalClicked with date data type', () => {
     const field = generateMockField();
     field.Is.Date = true;
-    spyOn(instance.dateFieldFormattingModalComponent, 'open');
+    jest.spyOn(instance.dateFieldFormattingModalComponent, 'open');
 
     instance.handleFieldFormatModalClicked(field);
 
@@ -125,7 +125,7 @@ describe('Data Insights - Data View Grid', () => {
   it('should dispatch SetFormatOnSelectedField for number format modal or date format modal when handleSaveClicked', () => {
     const field = generateMockField();
     const expectedAction = new fromFieldsActions.SetFormatOnSelectedField(field);
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.handleSaveClicked(field);
 
@@ -144,7 +144,7 @@ describe('Data Insights - Data View Grid', () => {
       }
     };
     const expectedAction = new fromFieldsActions.ClearFormating(formatClearedField);
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.handleClearFormatClicked(field);
 

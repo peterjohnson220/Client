@@ -181,14 +181,14 @@ pipeline {
         }
       }
       post {
-        always {
-          cobertura coberturaReportFile: 'output/coverage/jest/cobertura-coverage.xml', \
-            maxNumberOfBuilds: 0, \
-            sourceEncoding: 'ASCII', \
-            zoomCoverageChart: false
-
-          junit 'output/coverage/junit/junit.xml'
-        }
+//         always {
+//           cobertura coberturaReportFile: 'output/coverage/jest/cobertura-coverage.xml', \
+//             maxNumberOfBuilds: 0, \
+//             sourceEncoding: 'ASCII', \
+//             zoomCoverageChart: false
+//
+//           junit 'output/coverage/junit/junit.xml'
+//         }
         failure {
           script {
             sendSlackFail(env.lastAuthor, env.pkgVersion)
@@ -230,7 +230,7 @@ pipeline {
 
               while (buildRunning == true) {
                 sh 'sleep 30'
-                
+
                 buildLogRaw = currentBuild.rawBuild.getLog(100000)
                 buildCnt = buildLogRaw.count { it.contains("build complete")}
                 // Need to subtract 'build complete' from the commandline.

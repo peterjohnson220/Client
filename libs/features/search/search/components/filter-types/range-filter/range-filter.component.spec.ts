@@ -25,7 +25,7 @@ describe('Search Feature - Range Select Filter', () => {
       'maxValue': changeContextValue.highValue,
       'minValue': changeContextValue.value
     };
-    spyOn(instance.rangeChange, 'emit');
+    jest.spyOn(instance.rangeChange, 'emit');
 
     instance.handleRangeSliderChange(filterId, changeContextValue);
 

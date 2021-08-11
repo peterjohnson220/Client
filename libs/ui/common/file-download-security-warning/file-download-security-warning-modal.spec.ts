@@ -5,7 +5,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { FileDownloadSecurityWarningModalComponent } from './file-download-security-warning-modal.component';
-import spyOn = jest.spyOn;
 
 describe('FileDownloadSecurityWarningModalComponent', () => {
   let fixture: ComponentFixture<FileDownloadSecurityWarningModalComponent>;
@@ -27,7 +26,7 @@ describe('FileDownloadSecurityWarningModalComponent', () => {
   });
 
   it('should emit an securityWarningConfirmed event, when handleSecurityWarningConfirmed is triggered', () => {
-    spyOn(instance.securityWarningConfirmed, 'emit');
+    jest.spyOn(instance.securityWarningConfirmed, 'emit');
 
     fixture.detectChanges();
 

@@ -62,7 +62,7 @@ describe('EntityFieldSelectionComponent', () => {
     const entityToRemove = instance.payfactorsFields[0];
     const expectedAction = new fromFieldMappingActions.RemoveAssociatedEntity({entity: entityToRemove, entityType: 'Employees', payfactorsEntityIndex: 0});
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.removeAssociatedItem(0, entityToRemove);
 
@@ -73,7 +73,7 @@ describe('EntityFieldSelectionComponent', () => {
     const entityToAdd = instance.payfactorsFields[0];
     const expectedAction = new fromFieldMappingActions.AddAssociatedEntity({entity: entityToAdd, entityType: 'Employees', payfactorsEntityId: 0});
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.addAssociatedItem(0, entityToAdd);
 

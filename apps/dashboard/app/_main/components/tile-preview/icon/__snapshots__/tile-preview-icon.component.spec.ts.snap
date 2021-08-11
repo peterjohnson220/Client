@@ -2,40 +2,38 @@
 
 exports[`TilePreviewIcon should show just icon and when no payload is given 1`] = `
 <pf-tile-preview-icon
+  __ngContext__={[Function LRootView]}
   model={[Function Object]}
 >
   <fa-icon
     aria-hidden="true"
-    class="preview-tile-icon text-center m-0 p-0 d-inline-block "
+    class="d-inline-block m-0 p-0 preview-tile-icon text-center"
   />
 </pf-tile-preview-icon>
 `;
 
 exports[`TilePreviewIcon should show more than just an icon and when a payload is given 1`] = `
 <pf-tile-preview-icon
+  __ngContext__={[Function LRootView]}
   model={[Function Object]}
 >
   <fa-icon
     aria-hidden="true"
-    class="preview-tile-icon-small text-center m-0 p-0 d-inline-block "
+    class="d-inline-block m-0 p-0 preview-tile-icon-small text-center"
   /><div>
-    
     <h2
       class="text-center m-0 p-0"
     >
       Boston
     </h2>
-    
     <h3
       class="text-center m-0 pb-2"
     >
       Default Market
     </h3>
-    
     <div
       class="p-0 px-3"
     >
-      
       <div>
         <strong>
           Industry: 

@@ -27,7 +27,7 @@ describe('CommunitySecurityWarningModalComponent', () => {
 
     store = TestBed.inject(Store);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture = TestBed.createComponent(CommunitySecurityWarningModalComponent);
     instance = fixture.componentInstance;

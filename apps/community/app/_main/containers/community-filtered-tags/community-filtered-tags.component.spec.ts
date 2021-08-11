@@ -45,7 +45,7 @@ describe('CommunityFilteredTagsComponent', () => {
     store = TestBed.inject(Store);
     router = TestBed.inject(Router);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance = fixture.componentInstance;
     instance.filteredTags = [];

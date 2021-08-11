@@ -29,7 +29,7 @@ describe('Data Management - Main - Workday Mock Authentication Form', () => {
   });
 
   it('Should emit event when submit button is clicked', () => {
-    spyOn(instance.submitClick, 'emit');
+    jest.spyOn(instance.submitClick, 'emit');
 
     instance.workdayMockForm.controls.domain.setValue('MockValue');
     instance.workdayMockForm.controls.username.setValue('Mock@Username');
@@ -43,7 +43,7 @@ describe('Data Management - Main - Workday Mock Authentication Form', () => {
   });
 
   it('Should emit event when cancel button is clicked', () => {
-    spyOn(instance.cancelClick, 'emit');
+    jest.spyOn(instance.cancelClick, 'emit');
 
     instance.cancelAuthenticationClick();
 

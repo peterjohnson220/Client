@@ -4,6 +4,7 @@ exports[`Tile Preview Chart With List should show component 1`] = `
 <pf-tile-preview-chart-with-list
   MAX_TEXT_LENGTH={[Function Number]}
   MIN_CHART_DISPLAY_VALUE={[Function Number]}
+  __ngContext__={[Function LRootView]}
   chartData="undefined"
   model={[Function Object]}
 >
@@ -19,19 +20,14 @@ exports[`Tile Preview Chart With List should show component 1`] = `
         <div
           class="col-12 ml-1"
         >
-          
           <strong>
-            
           </strong>
         </div>
       </div>
-      
     </div>
     <div
       class="col-7 p-0 pb-2"
     >
-      
-      
       <div>
         <div
           class="details-body-containter pl-2 pb-3 pr-1"
@@ -39,16 +35,13 @@ exports[`Tile Preview Chart With List should show component 1`] = `
           <strong
             class="tile-text title-body-no-link text-center py-2"
           >
-            
           </strong>
           <button
             class="col-12 btn btn-primary btn-respond"
           >
-            
           </button>
         </div>
       </div>
-      
     </div>
   </div>
 </pf-tile-preview-chart-with-list>

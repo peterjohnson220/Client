@@ -2,6 +2,7 @@
 
 exports[`Exchange Management - Toggle Exchange Status Confirmation Modal should display 'Activate' verbiage when exchange is inactive 1`] = `
 <pf-toggle-exchange-status-confirmation-modal
+  __ngContext__={[Function LRootView]}
   exchange={[Function Object]}
   exchange$={[Function Observable]}
   exchangeStatusConfirmationModalOpen$={[Function Store]}
@@ -14,7 +15,6 @@ exports[`Exchange Management - Toggle Exchange Status Confirmation Modal should 
     size="md"
     title="Activate Exchange"
   >
-    
     <div>
       You are about to activate the 
       <strong>
@@ -31,6 +31,7 @@ exports[`Exchange Management - Toggle Exchange Status Confirmation Modal should 
 
 exports[`Exchange Management - Toggle Exchange Status Confirmation Modal should display 'Deactivate' verbiage when exchange is active 1`] = `
 <pf-toggle-exchange-status-confirmation-modal
+  __ngContext__={[Function LRootView]}
   exchange={[Function Object]}
   exchange$={[Function Observable]}
   exchangeStatusConfirmationModalOpen$={[Function Store]}
@@ -43,7 +44,6 @@ exports[`Exchange Management - Toggle Exchange Status Confirmation Modal should 
     size="md"
     title="Deactivate Exchange"
   >
-    
     <div>
       You are about to deactivate the 
       <strong>

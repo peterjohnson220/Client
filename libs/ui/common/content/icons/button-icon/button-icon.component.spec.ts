@@ -2,7 +2,6 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 
 import { ButtonIconComponent } from './button-icon.component';
-import spyOn = jest.spyOn;
 
 describe('UI/Common/Content - Card', () => {
   let fixture: ComponentFixture<ButtonIconComponent>;
@@ -21,7 +20,7 @@ describe('UI/Common/Content - Card', () => {
   });
 
   it('should emit selected event when onIconSelected is clicked', () => {
-    spyOn(instance.selected, 'emit');
+    jest.spyOn(instance.selected, 'emit');
 
     instance.onIconSelected();
 

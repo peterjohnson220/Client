@@ -26,7 +26,7 @@ describe('WorkflowSidebarComponent', () => {
     });
 
     // route = TestBed.inject(ActivatedRoute);
-    // spyOn(store, 'dispatch');
+    // jest.spyOn(store, 'dispatch');
 
     fixture = TestBed.createComponent(WorkflowSidebarComponent);
     instance = fixture.componentInstance;

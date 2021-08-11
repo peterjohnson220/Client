@@ -37,7 +37,7 @@ describe('NotesManagerComponent', () => {
     store = TestBed.inject(Store);
     actionSubject = TestBed.inject(ActionsSubject);
 
-    spyOn(store, 'dispatch'); // place a spy on the dispatch method
+    jest.spyOn(store, 'dispatch'); // place a spy on the dispatch method
 
     // get instance from TestFixture
     fixture = TestBed.createComponent(NotesManagerComponent);

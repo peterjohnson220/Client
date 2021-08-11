@@ -20,7 +20,7 @@ describe('TemplatesModalComponent', () => {
       providers: [
         {
           provide: NgbModal,
-          useValue: {open: generateMockJobDescriptionViewListGridItem()},
+          useValue: {open: generateMockJobDescriptionViewListGridItem},
         }
       ],
       schemas: [ NO_ERRORS_SCHEMA ]
@@ -36,7 +36,7 @@ describe('TemplatesModalComponent', () => {
   });
 
   it('should use the modal service to open the modal when open is called', () => {
-    spyOn(ngbModal, 'open');
+    jest.spyOn(ngbModal, 'open');
     component.open(generateMockJobDescriptionViewListGridItem());
     expect(ngbModal.open).toHaveBeenCalled();
   });

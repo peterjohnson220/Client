@@ -2,6 +2,7 @@
 
 exports[`Tile should show tile preview chart when that type is given 1`] = `
 <pf-tile
+  __ngContext__={[Function LRootView]}
   clientAppRoot={[Function String]}
   highlightMarketingContent="false"
   marketingVideoMouseOver="false"
@@ -17,39 +18,26 @@ exports[`Tile should show tile preview chart when that type is given 1`] = `
     class="tile m-0 p-1 test cssClass"
     id="test-tile-tile"
   >
-    
     <div>
       <h4>
         test tile
       </h4>
     </div>
-    
     <a
       class="anchor-overlay"
       href="test tile url"
       id="test-tile-tile-link"
     />
-    
     <div>
-      
       <pf-tile-preview-chart />
-      
-      
-      
-      
-      
-      
-      
-      
-      
     </div>
-    
   </div>
 </pf-tile>
 `;
 
 exports[`Tile should show tile preview icon when that type is given 1`] = `
 <pf-tile
+  __ngContext__={[Function LRootView]}
   clientAppRoot={[Function String]}
   highlightMarketingContent="false"
   marketingVideoMouseOver="false"
@@ -65,39 +53,26 @@ exports[`Tile should show tile preview icon when that type is given 1`] = `
     class="tile m-0 p-1 test cssClass"
     id="test-tile-tile"
   >
-    
     <div>
       <h4>
         test tile
       </h4>
     </div>
-    
     <a
       class="anchor-overlay"
       href="test tile url"
       id="test-tile-tile-link"
     />
-    
     <div>
-      
-      
       <pf-tile-preview-icon />
-      
-      
-      
-      
-      
-      
-      
-      
     </div>
-    
   </div>
 </pf-tile>
 `;
 
 exports[`Tile should show tile preview list when that type is given 1`] = `
 <pf-tile
+  __ngContext__={[Function LRootView]}
   clientAppRoot={[Function String]}
   highlightMarketingContent="false"
   marketingVideoMouseOver="false"
@@ -113,33 +88,19 @@ exports[`Tile should show tile preview list when that type is given 1`] = `
     class="tile m-0 p-1 test cssClass"
     id="test-tile-tile"
   >
-    
     <div>
       <h4>
         test tile
       </h4>
     </div>
-    
     <a
       class="anchor-overlay"
       href="test tile url"
       id="test-tile-tile-link"
     />
-    
     <div>
-      
-      
-      
       <pf-tile-preview-list />
-      
-      
-      
-      
-      
-      
-      
     </div>
-    
   </div>
 </pf-tile>
 `;

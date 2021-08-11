@@ -4,7 +4,6 @@ import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
 
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import { of } from 'rxjs';
-import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
 import { AbstractFeatureFlagService } from 'libs/core/services/feature-flags';
@@ -45,7 +44,7 @@ describe('Auth - First Time Login', () => {
     instance = fixture.componentInstance;
 
     store = TestBed.inject(Store);
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
   });
 
   it('should show reset password section when page is loaded', () => {

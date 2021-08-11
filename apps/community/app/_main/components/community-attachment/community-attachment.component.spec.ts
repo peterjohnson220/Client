@@ -29,7 +29,7 @@ describe('CommunityAttachmentComponent', () => {
 
     store = TestBed.inject(Store);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture = TestBed.createComponent(CommunityAttachmentComponent);
     instance = fixture.componentInstance;
@@ -45,7 +45,7 @@ describe('CommunityAttachmentComponent', () => {
     instance.disableCommunityAttachments = false;
     instance.hideAttachmentWarning = false;
 
-    spyOn(instance.onAttachmentClickedEvent, 'emit');
+    jest.spyOn(instance.onAttachmentClickedEvent, 'emit');
     instance.onAttachmentClicked();
     fixture.detectChanges();
 

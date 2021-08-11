@@ -2,6 +2,7 @@
 
 exports[`Project - MultiMatch - JobToPrice Component should display Title, code and paymarket 1`] = `
 <pf-job-to-price
+  __ngContext__={[Function LRootView]}
   cutDeleted={[Function EventEmitter_]}
   editCut={[Function EventEmitter_]}
   featureImplementation={[Function String]}
@@ -43,13 +44,10 @@ exports[`Project - MultiMatch - JobToPrice Component should display Title, code 
     <div
       class="paymarket"
     >
-        
-      
     </div>
     <div
       class="d-flex mt-2"
     >
-      
       <div
         class="link"
       >
@@ -66,15 +64,13 @@ exports[`Project - MultiMatch - JobToPrice Component should display Title, code 
          Show Job Detail 
       </div>
     </div>
-    
-    
-    
   </div>
 </pf-job-to-price>
 `;
 
 exports[`Project - MultiMatch - JobToPrice Component should display data cuts when data cuts loaded 1`] = `
 <pf-job-to-price
+  __ngContext__={[Function LRootView]}
   cutDeleted={[Function EventEmitter_]}
   editCut={[Function EventEmitter_]}
   featureImplementation={[Function String]}
@@ -117,13 +113,10 @@ exports[`Project - MultiMatch - JobToPrice Component should display data cuts wh
     <div
       class="paymarket"
     >
-        
-      
     </div>
     <div
       class="d-flex mt-2"
     >
-      
       <div
         class="link"
       >
@@ -140,24 +133,17 @@ exports[`Project - MultiMatch - JobToPrice Component should display data cuts wh
          Show Job Detail 
       </div>
     </div>
-    
-    
     <div
       class="data-cuts-container"
     >
-      
-      
       <table
         class="data-cuts-table"
       >
         <thead>
           <tr>
-            
-            
             <th>
               Title
             </th>
-            
             <th
               class="text-center"
             >
@@ -172,16 +158,12 @@ exports[`Project - MultiMatch - JobToPrice Component should display data cuts wh
           </tr>
         </thead>
         <tbody>
-          
           <tr>
-            
-            
             <td
               class="scope-cell"
             >
               <pf-data-cut-title />
             </td>
-            
             <td
               class="text-center"
             >
@@ -206,13 +188,13 @@ exports[`Project - MultiMatch - JobToPrice Component should display data cuts wh
         </tbody>
       </table>
     </div>
-    
   </div>
 </pf-job-to-price>
 `;
 
 exports[`Project - MultiMatch - JobToPrice Component should display error message when error found loading data cuts 1`] = `
 <pf-job-to-price
+  __ngContext__={[Function LRootView]}
   cutDeleted={[Function EventEmitter_]}
   editCut={[Function EventEmitter_]}
   featureImplementation={[Function String]}
@@ -255,13 +237,10 @@ exports[`Project - MultiMatch - JobToPrice Component should display error messag
     <div
       class="paymarket"
     >
-        
-      
     </div>
     <div
       class="d-flex mt-2"
     >
-      
       <div
         class="link"
       >
@@ -278,12 +257,9 @@ exports[`Project - MultiMatch - JobToPrice Component should display error messag
          Show Job Detail 
       </div>
     </div>
-    
-    
     <div
       class="data-cuts-container"
     >
-      
       <div
         class="loading-datacuts-error"
       >
@@ -294,13 +270,13 @@ exports[`Project - MultiMatch - JobToPrice Component should display error messag
          Error loading data cuts. Please try again later. 
       </div>
     </div>
-    
   </div>
 </pf-job-to-price>
 `;
 
 exports[`Project - MultiMatch - JobToPrice Component should display loading message when loading data cuts 1`] = `
 <pf-job-to-price
+  __ngContext__={[Function LRootView]}
   cutDeleted={[Function EventEmitter_]}
   editCut={[Function EventEmitter_]}
   featureImplementation={[Function String]}
@@ -343,13 +319,10 @@ exports[`Project - MultiMatch - JobToPrice Component should display loading mess
     <div
       class="paymarket"
     >
-        
-      
     </div>
     <div
       class="d-flex mt-2"
     >
-      
       <div
         class="link"
       >
@@ -366,9 +339,6 @@ exports[`Project - MultiMatch - JobToPrice Component should display loading mess
          Show Job Detail 
       </div>
     </div>
-    
-    
-    
     <div
       class="my-2"
     >
@@ -381,6 +351,7 @@ exports[`Project - MultiMatch - JobToPrice Component should display loading mess
 
 exports[`Project - MultiMatch - JobToPrice Component should display with 2 decimal precision if hourly 1`] = `
 <pf-job-to-price
+  __ngContext__={[Function LRootView]}
   cutDeleted={[Function EventEmitter_]}
   editCut={[Function EventEmitter_]}
   featureImplementation={[Function String]}
@@ -424,13 +395,10 @@ exports[`Project - MultiMatch - JobToPrice Component should display with 2 decim
     <div
       class="paymarket"
     >
-        
-      
     </div>
     <div
       class="d-flex mt-2"
     >
-      
       <div
         class="link"
       >
@@ -447,24 +415,17 @@ exports[`Project - MultiMatch - JobToPrice Component should display with 2 decim
          Show Job Detail 
       </div>
     </div>
-    
-    
     <div
       class="data-cuts-container"
     >
-      
-      
       <table
         class="data-cuts-table"
       >
         <thead>
           <tr>
-            
-            
             <th>
               Title
             </th>
-            
             <th
               class="text-center"
             >
@@ -479,16 +440,12 @@ exports[`Project - MultiMatch - JobToPrice Component should display with 2 decim
           </tr>
         </thead>
         <tbody>
-          
           <tr>
-            
-            
             <td
               class="scope-cell"
             >
               <pf-data-cut-title />
             </td>
-            
             <td
               class="text-center"
             >
@@ -513,13 +470,13 @@ exports[`Project - MultiMatch - JobToPrice Component should display with 2 decim
         </tbody>
       </table>
     </div>
-    
   </div>
 </pf-job-to-price>
 `;
 
 exports[`Project - MultiMatch - JobToPrice Component should hide data cuts when last data cut removed 1`] = `
 <pf-job-to-price
+  __ngContext__={[Function LRootView]}
   cutDeleted={[Function EventEmitter_]}
   editCut={[Function EventEmitter_]}
   featureImplementation={[Function String]}
@@ -562,13 +519,10 @@ exports[`Project - MultiMatch - JobToPrice Component should hide data cuts when 
     <div
       class="paymarket"
     >
-        
-      
     </div>
     <div
       class="d-flex mt-2"
     >
-      
       <div
         class="link"
       >
@@ -585,15 +539,13 @@ exports[`Project - MultiMatch - JobToPrice Component should hide data cuts when 
          Show Job Detail 
       </div>
     </div>
-    
-    
-    
   </div>
 </pf-job-to-price>
 `;
 
 exports[`Project - MultiMatch - JobToPrice Component should show data cuts when toggle clicked 1`] = `
 <pf-job-to-price
+  __ngContext__={[Function LRootView]}
   cutDeleted={[Function EventEmitter_]}
   editCut={[Function EventEmitter_]}
   featureImplementation={[Function String]}
@@ -636,13 +588,10 @@ exports[`Project - MultiMatch - JobToPrice Component should show data cuts when 
     <div
       class="paymarket"
     >
-        
-      
     </div>
     <div
       class="d-flex mt-2"
     >
-      
       <div
         class="link"
       >
@@ -659,24 +608,17 @@ exports[`Project - MultiMatch - JobToPrice Component should show data cuts when 
          Show Job Detail 
       </div>
     </div>
-    
-    
     <div
       class="data-cuts-container"
     >
-      
-      
       <table
         class="data-cuts-table"
       >
         <thead>
           <tr>
-            
-            
             <th>
               Title
             </th>
-            
             <th
               class="text-center"
             >
@@ -691,17 +633,16 @@ exports[`Project - MultiMatch - JobToPrice Component should show data cuts when 
           </tr>
         </thead>
         <tbody>
-          
         </tbody>
       </table>
     </div>
-    
   </div>
 </pf-job-to-price>
 `;
 
 exports[`Project - MultiMatch - JobToPrice Component should show job detail when toggle clicked 1`] = `
 <pf-job-to-price
+  __ngContext__={[Function LRootView]}
   cutDeleted={[Function EventEmitter_]}
   editCut={[Function EventEmitter_]}
   featureImplementation={[Function String]}
@@ -744,13 +685,10 @@ exports[`Project - MultiMatch - JobToPrice Component should show job detail when
     <div
       class="paymarket"
     >
-        
-      
     </div>
     <div
       class="d-flex mt-2"
     >
-      
       <div
         class="link"
       >
@@ -767,7 +705,6 @@ exports[`Project - MultiMatch - JobToPrice Component should show job detail when
          Hide Job Detail 
       </div>
     </div>
-    
     <div
       class="job-detail"
     >
@@ -794,22 +731,19 @@ exports[`Project - MultiMatch - JobToPrice Component should show job detail when
               Job Description:
             </th>
             <td>
-              
-              
               <pf-ellipsis-view-more />
             </td>
           </tr>
         </tbody>
       </table>
     </div>
-    
-    
   </div>
 </pf-job-to-price>
 `;
 
 exports[`Project - MultiMatch - JobToPrice Component should show new job match cuts as highlighted 1`] = `
 <pf-job-to-price
+  __ngContext__={[Function LRootView]}
   cutDeleted={[Function EventEmitter_]}
   editCut={[Function EventEmitter_]}
   featureImplementation={[Function String]}
@@ -852,13 +786,10 @@ exports[`Project - MultiMatch - JobToPrice Component should show new job match c
     <div
       class="paymarket"
     >
-        
-      
     </div>
     <div
       class="d-flex mt-2"
     >
-      
       <div
         class="link"
       >
@@ -875,24 +806,17 @@ exports[`Project - MultiMatch - JobToPrice Component should show new job match c
          Show Job Detail 
       </div>
     </div>
-    
-    
     <div
       class="data-cuts-container"
     >
-      
-      
       <table
         class="data-cuts-table"
       >
         <thead>
           <tr>
-            
-            
             <th>
               Title
             </th>
-            
             <th
               class="text-center"
             >
@@ -907,16 +831,12 @@ exports[`Project - MultiMatch - JobToPrice Component should show new job match c
           </tr>
         </thead>
         <tbody>
-          
           <tr>
-            
-            
             <td
               class="scope-cell"
             >
               <pf-data-cut-title />
             </td>
-            
             <td
               class="text-center"
             >
@@ -941,7 +861,6 @@ exports[`Project - MultiMatch - JobToPrice Component should show new job match c
         </tbody>
       </table>
     </div>
-    
   </div>
 </pf-job-to-price>
 `;

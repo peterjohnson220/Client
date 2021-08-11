@@ -75,8 +75,8 @@ describe('Job Description Management - Job Description - Filter Selector Popover
       return;
     }
 
-    spyOn(instance.onFilterSelected, 'emit');
-    spyOn(instance.p, 'close');
+    jest.spyOn(instance.onFilterSelected, 'emit');
+    jest.spyOn(instance.p, 'close');
 
     instance.p = {close: jest.fn()};
     instance.attemptedDelete = true;
@@ -95,8 +95,8 @@ describe('Job Description Management - Job Description - Filter Selector Popover
       return;
     }
 
-    spyOn(instance.onFilterSelected, 'emit');
-    spyOn(instance.p, 'close');
+    jest.spyOn(instance.onFilterSelected, 'emit');
+    jest.spyOn(instance.p, 'close');
 
     instance.p = { close: jest.fn() };
     instance.attemptedDelete = false;
@@ -120,7 +120,7 @@ describe('Job Description Management - Job Description - Filter Selector Popover
   });
 
   it('should set attemptedDelete to false and then do nothing, when calling confirmDelete and idDeleting is null', () => {
-    spyOn(instance.onDeleteConfirmed, 'emit');
+    jest.spyOn(instance.onDeleteConfirmed, 'emit');
 
     instance.attemptedDelete = true;
     instance.idDeleting = null;
@@ -132,7 +132,7 @@ describe('Job Description Management - Job Description - Filter Selector Popover
   });
 
   it('should set attemptedDelete to false and then emit the id to delete, when calling confirmDelete and idDeleting is not null', () => {
-    spyOn(instance.onDeleteConfirmed, 'emit');
+    jest.spyOn(instance.onDeleteConfirmed, 'emit');
 
     instance.attemptedDelete = true;
     instance.idDeleting = '1';

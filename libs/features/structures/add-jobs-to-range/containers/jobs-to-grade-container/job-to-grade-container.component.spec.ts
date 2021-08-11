@@ -44,7 +44,7 @@ describe('Project - AddJobs - JobToGrade Container Component', () => {
   it('should get jobs when load jobs clicked', () => {
     const model = generateMockGetGradeJobsModel();
     const expectedAction = new fromJobsToGradeActions.GetGradeJobs(model);
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.handleLoadJobs(generateMockGrade());
     fixture.detectChanges();
@@ -65,7 +65,7 @@ describe('Project - AddJobs - JobToGrade Container Component', () => {
   it('should not get jobs when load jobs clicked but jobs are already loaded', () => {
     const model = generateMockGetGradeJobsModel();
     const expectedAction = new fromJobsToGradeActions.GetGradeJobs(model);
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     const grade = generateMockGrade();
     grade.Jobs = [generateMockGradeJob()];
@@ -81,7 +81,7 @@ describe('Project - AddJobs - JobToGrade Container Component', () => {
     const grade = generateMockGrade();
     grade.Jobs = [generateMockGradeJob()];
     const expectedAction = new fromJobsToGradeActions.RemoveJob({GradeId: grade.CompanyStructuresGradesId, Job: grade.Jobs[0]});
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.handleJobDeleted({ job: grade.Jobs[0], grade: grade});
     fixture.detectChanges();

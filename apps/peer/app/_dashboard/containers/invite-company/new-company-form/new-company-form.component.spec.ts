@@ -4,7 +4,6 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 
 import { Store, combineReducers, StoreModule } from '@ngrx/store';
 import { Subject, of } from 'rxjs';
-import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
 import { ExchangeCompanyApiService } from 'libs/data/payfactors-api/peer';
@@ -75,7 +74,7 @@ describe('Peer - Dashboard - Invite Company - New Company Form', () => {
   it('should dispatch a LoadCompanyIndustries action on init', () => {
     const expectedAction = new fromCompanyIndustriesActions.LoadCompanyIndustries;
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture.detectChanges();
 

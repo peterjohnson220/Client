@@ -43,7 +43,7 @@ describe('CommunityStartDiscussionComponent', () => {
 
     store = TestBed.inject(Store);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture = TestBed.createComponent(CommunityStartDiscussionComponent);
     instance = fixture.componentInstance;

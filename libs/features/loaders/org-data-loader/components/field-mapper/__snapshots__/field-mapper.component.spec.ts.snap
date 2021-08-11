@@ -2,6 +2,7 @@
 
 exports[`FieldMapperComponent Filename Pattern should display the filename pattern 1`] = `
 <pf-field-mapper
+  __ngContext__={[Function LRootView]}
   clientFields={[Function Array]}
   fieldMappings$={[Function Observable]}
   fileRestrictions={[Function Object]}
@@ -25,10 +26,7 @@ exports[`FieldMapperComponent Filename Pattern should display the filename patte
     class="container-fluid"
   >
     <div>
-      
     </div>
-    
-    
     <div
       class="row mt-3"
     >
@@ -42,20 +40,16 @@ exports[`FieldMapperComponent Filename Pattern should display the filename patte
         </kendo-upload>
       </div>
     </div>
-    
     <div
       class="row mt-3"
     >
-      
       <div
         class="col"
       >
          Client file name for this entity must 
-        
         <span>
           begin with 
         </span>
-        
         <span
           class="font-weight-bold text-monospace d-inline-block px-2 bg-light rounded text-pre"
         >
@@ -96,18 +90,16 @@ exports[`FieldMapperComponent Filename Pattern should display the filename patte
           name="payfactors_fields"
           size="20"
         >
-          
         </select>
       </div>
       <div
         class="col px-0 ml-3"
       >
         <select
-          class="list-box  d-block mx-auto form-control px-2"
+          class="list-box d-block mx-auto form-control px-2"
           name="client_fields"
           size="20"
         >
-          
         </select>
       </div>
       <div
@@ -137,7 +129,6 @@ exports[`FieldMapperComponent Filename Pattern should display the filename patte
           name="mapped_fields"
           size="20"
         >
-          
         </select>
       </div>
     </div>
@@ -147,6 +138,7 @@ exports[`FieldMapperComponent Filename Pattern should display the filename patte
 
 exports[`FieldMapperComponent Filename Pattern should read "begin with" if the pattern is start restricted 1`] = `
 <pf-field-mapper
+  __ngContext__={[Function LRootView]}
   clientFields={[Function Array]}
   fieldMappings$={[Function Observable]}
   fileRestrictions={[Function Object]}
@@ -170,10 +162,7 @@ exports[`FieldMapperComponent Filename Pattern should read "begin with" if the p
     class="container-fluid"
   >
     <div>
-      
     </div>
-    
-    
     <div
       class="row mt-3"
     >
@@ -187,20 +176,16 @@ exports[`FieldMapperComponent Filename Pattern should read "begin with" if the p
         </kendo-upload>
       </div>
     </div>
-    
     <div
       class="row mt-3"
     >
-      
       <div
         class="col"
       >
          Client file name for this entity must 
-        
         <span>
           begin with 
         </span>
-        
         <span
           class="font-weight-bold text-monospace d-inline-block px-2 bg-light rounded text-pre"
         >
@@ -241,18 +226,16 @@ exports[`FieldMapperComponent Filename Pattern should read "begin with" if the p
           name="payfactors_fields"
           size="20"
         >
-          
         </select>
       </div>
       <div
         class="col px-0 ml-3"
       >
         <select
-          class="list-box  d-block mx-auto form-control px-2"
+          class="list-box d-block mx-auto form-control px-2"
           name="client_fields"
           size="20"
         >
-          
         </select>
       </div>
       <div
@@ -282,7 +265,6 @@ exports[`FieldMapperComponent Filename Pattern should read "begin with" if the p
           name="mapped_fields"
           size="20"
         >
-          
         </select>
       </div>
     </div>
@@ -292,6 +274,7 @@ exports[`FieldMapperComponent Filename Pattern should read "begin with" if the p
 
 exports[`FieldMapperComponent Filename Pattern should read "contain" if the pattern is not start restricted 1`] = `
 <pf-field-mapper
+  __ngContext__={[Function LRootView]}
   clientFields={[Function Array]}
   fieldMappings$={[Function Observable]}
   fileRestrictions={[Function Object]}
@@ -315,10 +298,7 @@ exports[`FieldMapperComponent Filename Pattern should read "contain" if the patt
     class="container-fluid"
   >
     <div>
-      
     </div>
-    
-    
     <div
       class="row mt-3"
     >
@@ -332,18 +312,14 @@ exports[`FieldMapperComponent Filename Pattern should read "contain" if the patt
         </kendo-upload>
       </div>
     </div>
-    
     <div
       class="row mt-3"
     >
-      
       <div
         class="col"
       >
          Client file name for this entity must 
-        
         contain 
-        
         <span
           class="font-weight-bold text-monospace d-inline-block px-2 bg-light rounded text-pre"
         >
@@ -384,18 +360,16 @@ exports[`FieldMapperComponent Filename Pattern should read "contain" if the patt
           name="payfactors_fields"
           size="20"
         >
-          
         </select>
       </div>
       <div
         class="col px-0 ml-3"
       >
         <select
-          class="list-box  d-block mx-auto form-control px-2"
+          class="list-box d-block mx-auto form-control px-2"
           name="client_fields"
           size="20"
         >
-          
         </select>
       </div>
       <div
@@ -425,7 +399,6 @@ exports[`FieldMapperComponent Filename Pattern should read "contain" if the patt
           name="mapped_fields"
           size="20"
         >
-          
         </select>
       </div>
     </div>
@@ -435,6 +408,7 @@ exports[`FieldMapperComponent Filename Pattern should read "contain" if the patt
 
 exports[`FieldMapperComponent should disable the Map button when a payfactors field OR client field have not been selected 1`] = `
 <pf-field-mapper
+  __ngContext__={[Function LRootView]}
   clientFields={[Function Array]}
   fieldMappings$={[Function Observable]}
   fileRestrictions={[Function Object]}
@@ -459,10 +433,7 @@ exports[`FieldMapperComponent should disable the Map button when a payfactors fi
     class="container-fluid"
   >
     <div>
-      
     </div>
-    
-    
     <div
       class="row mt-3"
     >
@@ -476,7 +447,6 @@ exports[`FieldMapperComponent should disable the Map button when a payfactors fi
         </kendo-upload>
       </div>
     </div>
-    
     <div
       class="row mt-3 h5 font-weight-bold text-center"
     >
@@ -510,18 +480,16 @@ exports[`FieldMapperComponent should disable the Map button when a payfactors fi
           name="payfactors_fields"
           size="20"
         >
-          
         </select>
       </div>
       <div
         class="col px-0 ml-3"
       >
         <select
-          class="list-box  d-block mx-auto form-control px-2"
+          class="list-box d-block mx-auto form-control px-2"
           name="client_fields"
           size="20"
         >
-          
         </select>
       </div>
       <div
@@ -551,7 +519,6 @@ exports[`FieldMapperComponent should disable the Map button when a payfactors fi
           name="mapped_fields"
           size="20"
         >
-          
         </select>
       </div>
     </div>
@@ -561,6 +528,7 @@ exports[`FieldMapperComponent should disable the Map button when a payfactors fi
 
 exports[`FieldMapperComponent should disable the Remove Mapping button when a mapping has NOT been selected 1`] = `
 <pf-field-mapper
+  __ngContext__={[Function LRootView]}
   clientFields={[Function Array]}
   fieldMappings$={[Function Observable]}
   fileRestrictions={[Function Object]}
@@ -584,10 +552,7 @@ exports[`FieldMapperComponent should disable the Remove Mapping button when a ma
     class="container-fluid"
   >
     <div>
-      
     </div>
-    
-    
     <div
       class="row mt-3"
     >
@@ -601,7 +566,6 @@ exports[`FieldMapperComponent should disable the Remove Mapping button when a ma
         </kendo-upload>
       </div>
     </div>
-    
     <div
       class="row mt-3 h5 font-weight-bold text-center"
     >
@@ -635,18 +599,16 @@ exports[`FieldMapperComponent should disable the Remove Mapping button when a ma
           name="payfactors_fields"
           size="20"
         >
-          
         </select>
       </div>
       <div
         class="col px-0 ml-3"
       >
         <select
-          class="list-box  d-block mx-auto form-control px-2"
+          class="list-box d-block mx-auto form-control px-2"
           name="client_fields"
           size="20"
         >
-          
         </select>
       </div>
       <div
@@ -676,7 +638,6 @@ exports[`FieldMapperComponent should disable the Remove Mapping button when a ma
           name="mapped_fields"
           size="20"
         >
-          
         </select>
       </div>
     </div>
@@ -686,6 +647,7 @@ exports[`FieldMapperComponent should disable the Remove Mapping button when a ma
 
 exports[`FieldMapperComponent should enable the Map button when a payfactors field AND client field have been selected 1`] = `
 <pf-field-mapper
+  __ngContext__={[Function LRootView]}
   clientFields={[Function Array]}
   fieldMappings$={[Function Observable]}
   fileRestrictions={[Function Object]}
@@ -710,10 +672,7 @@ exports[`FieldMapperComponent should enable the Map button when a payfactors fie
     class="container-fluid"
   >
     <div>
-      
     </div>
-    
-    
     <div
       class="row mt-3"
     >
@@ -727,7 +686,6 @@ exports[`FieldMapperComponent should enable the Map button when a payfactors fie
         </kendo-upload>
       </div>
     </div>
-    
     <div
       class="row mt-3 h5 font-weight-bold text-center"
     >
@@ -761,18 +719,16 @@ exports[`FieldMapperComponent should enable the Map button when a payfactors fie
           name="payfactors_fields"
           size="20"
         >
-          
         </select>
       </div>
       <div
         class="col px-0 ml-3"
       >
         <select
-          class="list-box  d-block mx-auto form-control px-2"
+          class="list-box d-block mx-auto form-control px-2"
           name="client_fields"
           size="20"
         >
-          
         </select>
       </div>
       <div
@@ -801,7 +757,6 @@ exports[`FieldMapperComponent should enable the Map button when a payfactors fie
           name="mapped_fields"
           size="20"
         >
-          
         </select>
       </div>
     </div>
@@ -811,6 +766,7 @@ exports[`FieldMapperComponent should enable the Map button when a payfactors fie
 
 exports[`FieldMapperComponent should enable the Remove Mapping button when a mapping has been selected 1`] = `
 <pf-field-mapper
+  __ngContext__={[Function LRootView]}
   clientFields={[Function Array]}
   fieldMappings$={[Function Observable]}
   fileRestrictions={[Function Object]}
@@ -834,10 +790,7 @@ exports[`FieldMapperComponent should enable the Remove Mapping button when a map
     class="container-fluid"
   >
     <div>
-      
     </div>
-    
-    
     <div
       class="row mt-3"
     >
@@ -851,7 +804,6 @@ exports[`FieldMapperComponent should enable the Remove Mapping button when a map
         </kendo-upload>
       </div>
     </div>
-    
     <div
       class="row mt-3 h5 font-weight-bold text-center"
     >
@@ -885,18 +837,16 @@ exports[`FieldMapperComponent should enable the Remove Mapping button when a map
           name="payfactors_fields"
           size="20"
         >
-          
         </select>
       </div>
       <div
         class="col px-0 ml-3"
       >
         <select
-          class="list-box  d-block mx-auto form-control px-2"
+          class="list-box d-block mx-auto form-control px-2"
           name="client_fields"
           size="20"
         >
-          
         </select>
       </div>
       <div
@@ -925,7 +875,6 @@ exports[`FieldMapperComponent should enable the Remove Mapping button when a map
           name="mapped_fields"
           size="20"
         >
-          
         </select>
       </div>
     </div>
@@ -935,6 +884,7 @@ exports[`FieldMapperComponent should enable the Remove Mapping button when a map
 
 exports[`FieldMapperComponent should show a add/full replace toggle when the loader type is Employees 1`] = `
 <pf-field-mapper
+  __ngContext__={[Function LRootView]}
   clientFields={[Function Array]}
   fieldMappings$={[Function Observable]}
   fileRestrictions={[Function Object]}
@@ -957,9 +907,7 @@ exports[`FieldMapperComponent should show a add/full replace toggle when the loa
     class="container-fluid"
   >
     <div>
-      
     </div>
-    
     <div
       class="row mt-3"
     >
@@ -1000,7 +948,6 @@ exports[`FieldMapperComponent should show a add/full replace toggle when the loa
         </div>
       </div>
     </div>
-    
     <div
       class="row mt-3"
     >
@@ -1014,7 +961,6 @@ exports[`FieldMapperComponent should show a add/full replace toggle when the loa
         </kendo-upload>
       </div>
     </div>
-    
     <div
       class="row mt-3 h5 font-weight-bold text-center"
     >
@@ -1048,18 +994,16 @@ exports[`FieldMapperComponent should show a add/full replace toggle when the loa
           name="payfactors_fields"
           size="20"
         >
-          
         </select>
       </div>
       <div
         class="col px-0 ml-3"
       >
         <select
-          class="list-box  d-block mx-auto form-control px-2"
+          class="list-box d-block mx-auto form-control px-2"
           name="client_fields"
           size="20"
         >
-          
         </select>
       </div>
       <div
@@ -1089,7 +1033,6 @@ exports[`FieldMapperComponent should show a add/full replace toggle when the loa
           name="mapped_fields"
           size="20"
         >
-          
         </select>
       </div>
     </div>
@@ -1099,6 +1042,7 @@ exports[`FieldMapperComponent should show a add/full replace toggle when the loa
 
 exports[`FieldMapperComponent should show a add/full replace toggle when the loader type is Structure Mappings 1`] = `
 <pf-field-mapper
+  __ngContext__={[Function LRootView]}
   clientFields={[Function Array]}
   fieldMappings$={[Function Observable]}
   fileRestrictions={[Function Object]}
@@ -1121,9 +1065,7 @@ exports[`FieldMapperComponent should show a add/full replace toggle when the loa
     class="container-fluid"
   >
     <div>
-      
     </div>
-    
     <div
       class="row mt-3"
     >
@@ -1164,7 +1106,6 @@ exports[`FieldMapperComponent should show a add/full replace toggle when the loa
         </div>
       </div>
     </div>
-    
     <div
       class="row mt-3"
     >
@@ -1178,7 +1119,6 @@ exports[`FieldMapperComponent should show a add/full replace toggle when the loa
         </kendo-upload>
       </div>
     </div>
-    
     <div
       class="row mt-3 h5 font-weight-bold text-center"
     >
@@ -1212,18 +1152,16 @@ exports[`FieldMapperComponent should show a add/full replace toggle when the loa
           name="payfactors_fields"
           size="20"
         >
-          
         </select>
       </div>
       <div
         class="col px-0 ml-3"
       >
         <select
-          class="list-box  d-block mx-auto form-control px-2"
+          class="list-box d-block mx-auto form-control px-2"
           name="client_fields"
           size="20"
         >
-          
         </select>
       </div>
       <div
@@ -1253,7 +1191,6 @@ exports[`FieldMapperComponent should show a add/full replace toggle when the loa
           name="mapped_fields"
           size="20"
         >
-          
         </select>
       </div>
     </div>
@@ -1263,6 +1200,7 @@ exports[`FieldMapperComponent should show a add/full replace toggle when the loa
 
 exports[`FieldMapperComponent should show a date format selector when the loader type is Employees 1`] = `
 <pf-field-mapper
+  __ngContext__={[Function LRootView]}
   clientFields={[Function Array]}
   fieldMappings$={[Function Observable]}
   fileRestrictions={[Function Object]}
@@ -1285,9 +1223,7 @@ exports[`FieldMapperComponent should show a date format selector when the loader
     class="container-fluid"
   >
     <div>
-      
     </div>
-    
     <div
       class="row mt-3"
     >
@@ -1328,7 +1264,6 @@ exports[`FieldMapperComponent should show a date format selector when the loader
         </div>
       </div>
     </div>
-    
     <div
       class="row mt-3"
     >
@@ -1342,7 +1277,6 @@ exports[`FieldMapperComponent should show a date format selector when the loader
         </kendo-upload>
       </div>
     </div>
-    
     <div
       class="row mt-3 h5 font-weight-bold text-center"
     >
@@ -1376,18 +1310,16 @@ exports[`FieldMapperComponent should show a date format selector when the loader
           name="payfactors_fields"
           size="20"
         >
-          
         </select>
       </div>
       <div
         class="col px-0 ml-3"
       >
         <select
-          class="list-box  d-block mx-auto form-control px-2"
+          class="list-box d-block mx-auto form-control px-2"
           name="client_fields"
           size="20"
         >
-          
         </select>
       </div>
       <div
@@ -1417,7 +1349,6 @@ exports[`FieldMapperComponent should show a date format selector when the loader
           name="mapped_fields"
           size="20"
         >
-          
         </select>
       </div>
     </div>
@@ -1427,6 +1358,7 @@ exports[`FieldMapperComponent should show a date format selector when the loader
 
 exports[`FieldMapperComponent should show a spinner when the company's mappings are being retrieved 1`] = `
 <pf-field-mapper
+  __ngContext__={[Function LRootView]}
   clientFields={[Function Array]}
   fieldMappings$={[Function Observable]}
   fieldMappingsLoading={[Function Boolean]}
@@ -1449,7 +1381,6 @@ exports[`FieldMapperComponent should show a spinner when the company's mappings 
   <span>
     <pf-loading-indicator />
      Loading...
-  
   </span>
 </pf-field-mapper>
 `;

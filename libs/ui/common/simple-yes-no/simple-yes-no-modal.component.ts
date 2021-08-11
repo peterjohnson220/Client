@@ -22,7 +22,7 @@ export class SimpleYesNoModalComponent {
   ) { }
 
   open(context: any) {
-    this.confirmButtonClass = this.opts.IsDelete ? 'btn-danger' : 'btn-primary';
+    this.confirmButtonClass = this.opts?.IsDelete ? 'btn-danger' : 'btn-primary';
     this.modalRef = this.modalService.open(this.simpleModal, { backdrop: 'static' });
     this.modalContext = context;
   }

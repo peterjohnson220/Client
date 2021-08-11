@@ -36,7 +36,7 @@ describe('DashboardPreferencesComponent', () => {
   it('should emit user tile selection when toggling user tile', () => {
     const userTile = generateMockUserTile();
     const expectedAction = new fromDashboardPreferencesActions.ToggleUserTile(userTile);
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.toggleUserTile(userTile);
 

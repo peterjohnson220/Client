@@ -2,6 +2,7 @@
 
 exports[`Delete Exchange Modal should match snapshot on init 1`] = `
 <pf-delete-exchange-modal
+  __ngContext__={[Function LRootView]}
   deleteExchangeModalOpen$={[Function Store]}
   deletingExchange$={[Function Store]}
   selectedExchange={[Function Object]}
@@ -15,7 +16,6 @@ exports[`Delete Exchange Modal should match snapshot on init 1`] = `
     size=""
     title="Delete Exchange"
   >
-    
      You are about to delete the 
     <strong>
       Airlines

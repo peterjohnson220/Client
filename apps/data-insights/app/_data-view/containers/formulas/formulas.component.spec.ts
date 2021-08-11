@@ -53,7 +53,7 @@ describe('FormulasComponent', () => {
 
   it('should open edit formula modal when handling edit clicked', () => {
     const field = generateMockField();
-    spyOn(instance.formulaFieldModal, 'open');
+    jest.spyOn(instance.formulaFieldModal, 'open');
 
     instance.handleEditFormulaClicked(field);
 
@@ -61,7 +61,7 @@ describe('FormulasComponent', () => {
   });
 
   it('should open formula modal when handling create formula', () => {
-    spyOn(instance.formulaFieldModal, 'open');
+    jest.spyOn(instance.formulaFieldModal, 'open');
 
     instance.handleCreateFormulaFieldClicked();
 

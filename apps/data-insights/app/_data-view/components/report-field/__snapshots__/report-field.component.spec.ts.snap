@@ -2,6 +2,7 @@
 
 exports[`Data-Insights Report Field Component should show edit form when toggleEdit is triggered 1`] = `
 <pf-report-field
+  __ngContext__={[Function LRootView]}
   displayNameUpdated={[Function EventEmitter_]}
   fieldIsActive={[Function EventEmitter_]}
   fieldRemoved={[Function EventEmitter_]}
@@ -13,12 +14,9 @@ exports[`Data-Insights Report Field Component should show edit form when toggleE
   >
      selected 
     <strong>
-      
     </strong>
      field
-    
      for reordering
-  
   </div>
 </pf-report-field>
 `;
