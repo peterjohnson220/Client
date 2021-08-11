@@ -6,6 +6,7 @@ import { ofType } from '@ngrx/effects';
 
 import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import { Permissions } from 'libs/constants';
+import { FormattersService } from 'libs/core';
 import * as fromEmployeeManagementActions from 'libs/features/employees/employee-management/actions/employee-management.actions';
 
 import * as fromEmployeeInsightsActions from '../../actions/employee-insights.actions';
@@ -27,7 +28,7 @@ export class EmployeeDetailsComponent implements OnInit, OnDestroy {
   permissions = Permissions;
   companyEmployeeId: number;
   employeeId: string;
-  employeeTitleName: string;
+  employeeName: string;
 
   constructor(
     private store: Store<fromPfGridReducer.State>,
@@ -42,7 +43,7 @@ export class EmployeeDetailsComponent implements OnInit, OnDestroy {
       if (sr) {
         this.companyEmployeeId = sr.CompanyEmployees_CompanyEmployee_ID;
         this.employeeId = sr.CompanyEmployees_Employee_ID;
-        this.employeeTitleName =  this.buildEmployeeTitleName(sr.CompanyEmployees_First_Name, sr.CompanyEmployees_Last_Name, this.employeeId);
+        this.employeeName =  FormattersService.buildEmployeeName(sr.CompanyEmployees_First_Name, sr.CompanyEmployees_Last_Name, this.employeeId);
         this.loadEmployeeInsights();
       }
     });
@@ -75,11 +76,5 @@ export class EmployeeDetailsComponent implements OnInit, OnDestroy {
         EmployeeId: this.employeeId
       }));
     }
-  }
-
-  private buildEmployeeTitleName(firstName: string, lastName: string, employeeId: string): string {
-    const employeeFirstName = firstName === null ? '' : firstName;
-    const employeeLastName = lastName === null ? '' : lastName;
-    return employeeFirstName + ' ' + employeeLastName + ' ' + '(' + employeeId + ')';
   }
 }
