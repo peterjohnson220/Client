@@ -28,6 +28,7 @@
         <div class="company-job-mapping d-flex flex-column justify-content-between"
              *ngIf="selectedExchangeJobMapping.Mapped && !addingMapping ">
           <ngb-carousel [activeId]="getActiveCompanyJobId$ | async"
+                        [animation]="false"
                         [interval]="0"
                         (slide)="onCarouselSlideChange($event)">
             <ng-container *ngFor="let mapping of selectedJobs; trackBy: trackById">

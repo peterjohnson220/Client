@@ -1,6 +1,7 @@
 <div class="tile-container row m-1">
   <div class="exchange-carousel d-flex flex-column justify-content-between">
     <ngb-carousel [activeId]="model.SelectedExchangeId"
+                  [animation]="false"
                   (slide)="onCarouselSlideChange($event)">
       <ng-container *ngFor="let exchangePreviewModel of model.ExchangePreviewModels; trackBy: trackById">
         <ng-template ngbSlide [id]="exchangePreviewModel.ExchangeId">
