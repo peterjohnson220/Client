@@ -60,7 +60,7 @@ export class TrendsSummaryCardEffects {
             const contributingExchangeJobCount = upperPayRateDate.ExchangeJobCount;
 
             return [
-              new fromTrendsSummaryCardActions.SetTrendsPercentChange({
+              new fromTrendsSummaryCardActions.SetTrendsSummaryDetails({
                 BasePayPctChange: basePayPctChange,
                 IncsPctChange: incsPctChange,
                 ContributingCompanyJobCount: contributingCompanyJobCount,
@@ -70,12 +70,13 @@ export class TrendsSummaryCardEffects {
               new fromTrendsSummaryCardActions.GetPeerTrendsSuccess({
                 PricingHistory: response.PricingHistoryCollection,
                 ExchangeJobIds: response.ExchangeJobIds,
-                CompanyJobIds: response.CompanyJobIds
+                CompanyJobIds: response.CompanyJobIds,
+                SmartCodeMaps: response.SmartCodeMaps
               }),
             ];
           } else {
             return [
-              new fromTrendsSummaryCardActions.SetTrendsPercentChange({
+              new fromTrendsSummaryCardActions.SetTrendsSummaryDetails({
                 BasePayPctChange: null,
                 IncsPctChange: null,
                 ContributingCompanyJobCount: null,
@@ -85,7 +86,8 @@ export class TrendsSummaryCardEffects {
               new fromTrendsSummaryCardActions.GetPeerTrendsSuccess({
                 PricingHistory: response.PricingHistoryCollection,
                 ExchangeJobIds: response.ExchangeJobIds,
-                CompanyJobIds: response.CompanyJobIds
+                CompanyJobIds: response.CompanyJobIds,
+                SmartCodeMaps: response.SmartCodeMaps
               })
             ];
           }

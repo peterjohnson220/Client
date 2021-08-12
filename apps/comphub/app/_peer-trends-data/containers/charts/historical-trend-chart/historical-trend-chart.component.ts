@@ -208,7 +208,7 @@ export class HistoricalTrendChartComponent implements OnInit, OnDestroy, OnChang
     const contributingCompanyJobCount = upperPayRateDate.CompanyJobCount;
     const contributingExchangeJobCount = upperPayRateDate.ExchangeJobCount;
 
-    this.store.dispatch(new fromTrendsSummaryCardActions.SetTrendsPercentChange({
+    this.store.dispatch(new fromTrendsSummaryCardActions.SetTrendsSummaryDetails({
       BasePayPctChange: basePayPctChange,
       IncsPctChange: incsPctChange,
       ContributingCompanyCount: contributingCompanyCount,

@@ -80,6 +80,11 @@ export const getPeerTrendsSummaryDetails = createSelector(
   fromTrendsSummaryCardReducer.getPeerTrendsSummaryDetails
 );
 
+export const getSmartCodeMaps = createSelector(
+  selectTrendsSummaryCardState,
+  fromTrendsSummaryCardReducer.getSmartCodeMaps
+);
+
 export const getPeerTrendsDomainMin = createSelector(
   selectTrendsSummaryCardState,
   fromTrendsSummaryCardReducer.getPeerTrendsDomainMin

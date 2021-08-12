@@ -23,6 +23,7 @@ export interface HistoricalExchangeDataSearchResponse {
   PricingHistoryCollection: PayRateDate[];
   ExchangeJobIds: number[];
   CompanyJobIds: number[];
+  SmartCodeMaps: SmartCodeMap[];
 }
 
 export interface PayRateDate {
@@ -32,6 +33,22 @@ export interface PayRateDate {
   Orgs: number;
   ExchangeJobCount: number;
   CompanyJobCount: number;
+}
+
+export interface SmartCodeMap {
+  JobCode: string;
+  JobTitle: string;
+  RelationalJobCode: string;
+  RelationalJobCodeName: string;
+  FamilyGroupCode: string;
+  FamilyGroupName: string;
+  Category1Code: string;
+  Category1Name: string;
+  Category2Code: string;
+  Category2Name: string;
+  CategoryGroupName: string;
+  CategoryGroupDescription: string;
+  TypeLevel: string;
 }
 
 export interface HistoricalExchangeOrgIncCountResponse {
