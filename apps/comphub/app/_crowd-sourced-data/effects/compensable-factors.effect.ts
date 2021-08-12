@@ -13,6 +13,7 @@ import * as fromSharedComphubPageActions from '../../_shared/actions/comphub-pag
 import * as fromSharedMarketPageActions from '../../_shared/actions/markets-card.actions';
 import * as fromCompensableFactorsActions from '../actions/compensable-factors.actions';
 import { CompensableFactorDataMapper } from '../helpers';
+import * as fromComphubPageActions from '../../_shared/actions/comphub-page.actions';
 
 @Injectable()
 export class CompensableFactorsEffect {
@@ -50,6 +51,22 @@ export class CompensableFactorsEffect {
             );
         }
       ));
+
+  @Effect()
+  getEducationTypes = this.actions$
+    .pipe(
+      ofType(fromCompensableFactorsActions.GET_EDUCATION_TYPES),
+      switchMap(() => {
+        return this.comphubCSDApiService.getCrowdSourcedEducationTypes()
+          .pipe(
+            map((response) => new fromCompensableFactorsActions.GetEducationTypesSuccess(response)),
+            catchError((error) => of(
+              new fromCompensableFactorsActions.GetEducationTypesError(),
+              new fromComphubPageActions.HandleApiError(error))
+            )
+          );
+      })
+    );
 
   constructor(
     private actions$: Actions,
