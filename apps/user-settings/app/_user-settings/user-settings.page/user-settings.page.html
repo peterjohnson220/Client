@@ -2,7 +2,9 @@
   <ng-container page-title>User Settings</ng-container>
 
   <ng-container page-content>
-    <ul ngbNav class="nav-tabs" [activeId]="activeId">
+    <ul ngbNav class="nav-tabs"
+        [animation]="false"
+        [activeId]="activeId">
       <ng-container *ngFor="let tab of tabs">
         <li *ngIf="tab.IsVisible" [ngbNavItem]="tab.Path">
           <a ngbNavLink [routerLink]="[tab.Path]" routerLinkActive="active" class="tab-title">

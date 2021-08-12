@@ -29,6 +29,7 @@
     <div class="jd-library-results">
 
       <ul ngbNav #nav="ngbNav" class="nav-tabs"
+          [animation]="false"
           [destroyOnHide]="false"
           [(activeId)]="activeId"
           (activeIdChange)="handleTabChange(activeId)"
