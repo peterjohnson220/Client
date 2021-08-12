@@ -11,6 +11,7 @@ import { CompensableFactorModel } from 'libs/models/comphub';
 import { CompensableFactorTypes } from '../../constants';
 import * as fromComphubCsdReducer from '../../reducers';
 import * as fromCompensableFactorsActions from '../../actions/compensable-factors.actions';
+import { CompensableFactorsConstants } from '../../constants/compensable-factors-constants';
 
 
 @Component({
@@ -28,7 +29,6 @@ export class CompensableFactorTypeComponent implements OnInit, OnDestroy, AfterV
   @Input() compensableFactors: CompensableFactorModel[];
   @Input() topFactorsHeading: string;
   @Input() smallDropDown: boolean;
-  @Input() defaultDropDownValue: string;
   @Input() selectedPaymarketId: number;
 
   topFactorsForm: FormGroup;
@@ -40,6 +40,7 @@ export class CompensableFactorTypeComponent implements OnInit, OnDestroy, AfterV
   disabledCheckBox: number[];
   selectedFactors$: Observable<any>;
   selectedFactorsSub: Subscription;
+  defaultDropDownValue: string;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -136,10 +137,12 @@ export class CompensableFactorTypeComponent implements OnInit, OnDestroy, AfterV
 
   handleDropDownValueSelected(factorName: string) {
     if (!!factorName) {
-      this.store.dispatch(new fromCompensableFactorsActions.ToggleSelectedCompensableFactor({
-        compensableFactor: this.compensableFactorName,
-        Name: this.selectedFactors[0].Name
-      }));
+      if (this.selectedFactors.length) {
+        this.store.dispatch(new fromCompensableFactorsActions.ToggleSelectedCompensableFactor({
+          compensableFactor: this.compensableFactorName,
+          Name: this.selectedFactors[0].Name
+        }));
+      }
       this.store.dispatch(new fromCompensableFactorsActions.ToggleSelectedCompensableFactor({
         compensableFactor: this.compensableFactorName,
         Name: factorName
@@ -182,6 +185,7 @@ export class CompensableFactorTypeComponent implements OnInit, OnDestroy, AfterV
   private initializeData() {
     this.maxSelections = false;
     this.disabledCheckBox = [];
+    this.defaultDropDownValue = this.compensableFactors[0].Name;
     this.topFactors = this.compensableFactors.slice(0, 5);
     this.searchFactors = this.compensableFactors.slice(5);
     this.addCheckBoxes();
