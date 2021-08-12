@@ -85,7 +85,7 @@ exports[`TotalRewardsPageComponent should show the create new banner when no sta
           class="tab-content"
         >
           <div
-            class="tab-pane show active"
+            class="tab-pane fade show active"
             id="ngb-nav-4-panel"
             ngbnavpane=""
             role="tabpanel"
@@ -97,7 +97,7 @@ exports[`TotalRewardsPageComponent should show the create new banner when no sta
             </div>
           </div>
           <div
-            class="tab-pane"
+            class="tab-pane fade"
             id="ngb-nav-5-panel"
             ngbnavpane=""
             role="tabpanel"
@@ -216,7 +216,7 @@ exports[`TotalRewardsPageComponent should show the grid component when statement
           class="tab-content"
         >
           <div
-            class="tab-pane show active"
+            class="tab-pane fade show active"
             id="ngb-nav-2-panel"
             ngbnavpane=""
             role="tabpanel"
@@ -228,7 +228,7 @@ exports[`TotalRewardsPageComponent should show the grid component when statement
             </div>
           </div>
           <div
-            class="tab-pane"
+            class="tab-pane fade"
             id="ngb-nav-3-panel"
             ngbnavpane=""
             role="tabpanel"

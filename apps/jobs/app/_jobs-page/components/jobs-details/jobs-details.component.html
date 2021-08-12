@@ -1,7 +1,6 @@
 <div class="d-flex flex-column" >
   <div class="d-flex">
   <ul ngbNav #nav="ngbNav" class="nav-tabs"
-    [animation]="false"
     [destroyOnHide]="false"
     (activeIdChange)="onActiveIdChange($event)">
     <li *ngIf="jobInsightsTabEnabled" [ngbNavItem]="'JobInsightsTab'" [id]="'JobInsightsTab'">

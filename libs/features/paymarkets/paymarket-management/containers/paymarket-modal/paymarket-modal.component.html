@@ -17,10 +17,7 @@
       [loading]="(payMarket$ | async)?.loading"
       [loadingError]="(payMarket$ | async)?.loadingError">
       <div class="paymarket-modal-container px-3">
-        <ul ngbNav #nav="ngbNav" class="nav-tabs"
-            [destroyOnHide]="false"
-            [animation]="false"
-            [(activeId)]="activeId">
+        <ul ngbNav #nav="ngbNav" [destroyOnHide]="false" class="nav-tabs" [(activeId)]="activeId">
           <li [ngbNavItem]="payMarketModalTabs.General" [title]="'General'" [id]="payMarketModalTabs.General">
             <a ngbNavLink>General</a>
             <ng-template ngbNavContent>

@@ -8,10 +8,7 @@
   </div>
   <div class="position-relative">
     <pf-async-container [loadingError]="isSavingError" [hideReloadButton]="true">
-      <ul ngbNav #nav="ngbNav" class="nav-tabs"
-          [animation]="false"
-          [destroyOnHide]="true"
-          [activeId]="focusedTab">
+      <ul ngbNav #nav="ngbNav" class="nav-tabs" [destroyOnHide]="true" [activeId]="focusedTab">
         <li [ngbNavItem]="'Style'" id="Style" title="Style" class="ml-4">
           <a ngbNavLink (click)="onHandleTabClick('Style')" [attr.tabindex]="isOpen ? null : -1">Style</a>
           <ng-template ngbNavContent>
