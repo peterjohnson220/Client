@@ -74,6 +74,9 @@ export class HistoricalOrgIncCountChartComponent implements OnInit, OnDestroy, O
   }
 
   getChartOptions(): any {
+    const clientDataCutoffDate = new Date();
+    clientDataCutoffDate.setDate(clientDataCutoffDate.getDate() - 90);
+
     return {
       chart: {
         type: 'areaspline',
@@ -107,7 +110,13 @@ export class HistoricalOrgIncCountChartComponent implements OnInit, OnDestroy, O
       },
       xAxis: {
         type: 'datetime',
-        showLastLabel: 'false'
+        showLastLabel: 'false',
+        plotLines: [{
+          color: '#FF0000',
+          width: 2,
+          value: clientDataCutoffDate,
+          zIndex: 5
+        }]
       },
       yAxis: {
         labels: {
