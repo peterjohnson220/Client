@@ -12,6 +12,7 @@ import { SidebarGroup } from 'libs/features/side-bar-info/models/side-bar-info-m
 import { HumanizeNumberPipe } from 'libs/core/pipes';
 import { ExchangeExplorerContextService } from 'libs/features/peer/exchange-explorer/services';
 import { UserContext } from 'libs/models/security';
+import { SmartCodeMap } from 'libs/models/payfactors-api/peer/exchange-data-search/response';
 import * as fromRootReducer from 'libs/state/state';
 
 import { ComphubPages } from '../../../../_shared/data';
@@ -48,6 +49,10 @@ export class TrendsSummaryCardComponent implements OnInit, OnDestroy {
   trendsSummaryDetailsSubscription: Subscription;
   trendsSummaryDetails: TrendsSummaryDetails;
 
+  smartCodeMaps$: Observable<SmartCodeMap[]>;
+  smartCodeMapsSubscription: Subscription;
+  smartCodeMaps: SmartCodeMap[];
+
   userContext$: Observable<UserContext>;
 
   private mbAccessToken: string;
@@ -66,6 +71,7 @@ export class TrendsSummaryCardComponent implements OnInit, OnDestroy {
     this.workflowContext$ = this.store.select(fromComphubSharedReducers.getWorkflowContext);
     this.peerTrends$ = this.store.select(fromPeerTrendsDataReducers.getPeerTrends);
     this.trendsSummaryDetails$ = this.store.select(fromPeerTrendsDataReducers.getPeerTrendsSummaryDetails);
+    this.smartCodeMaps$ = this.store.select(fromPeerTrendsDataReducers.getSmartCodeMaps);
     this.selectedPeerTrendId$ = this.store.select(fromPeerTrendsDataReducers.getSelectedTrendId);
     this.userContext$ = this.store.select(fromRootReducer.getUserContext);
   }
@@ -119,6 +125,10 @@ export class TrendsSummaryCardComponent implements OnInit, OnDestroy {
       this.trendsSummaryDetails = x
     );
 
+    this.smartCodeMapsSubscription = this.smartCodeMaps$.subscribe(x =>
+      this.smartCodeMaps = x
+    );
+
     this.userContextSubscription = this.userContext$.subscribe(uc => {
       this.mbAccessToken = uc.MapboxAccessToken;
     });
@@ -128,6 +138,7 @@ export class TrendsSummaryCardComponent implements OnInit, OnDestroy {
     this.workflowContextSubscription.unsubscribe();
     this.trendsSummaryDetailsSubscription.unsubscribe();
     this.selectedPeerTrendIdSubscription.unsubscribe();
+    this.smartCodeMapsSubscription.unsubscribe();
   }
 
   private getPeerTrends() {
@@ -201,6 +212,40 @@ export class TrendsSummaryCardComponent implements OnInit, OnDestroy {
         ],
         DisplayEmptySetMessage: false,
         EmptySetMessage: ''
+      },
+
+      // smart job code group
+      {
+        Name: 'Smart Job Code Selections',
+        Items: [
+          {
+            Name: 'Category Groups',
+            Value: [...new Set(this.smartCodeMaps?.map(x => x.CategoryGroupName))]
+              .sort()
+              .join(', ')
+          },
+          {
+            Name: 'Family Groups',
+            Value: [...new Set(this.smartCodeMaps?.map(x => x.FamilyGroupCode))]
+              .sort()
+              .join(', ')
+          },
+          {
+            Name: 'Categories',
+            Value: [...new Set(this.smartCodeMaps?.map(x => x.Category1Code)
+                  .concat(this.smartCodeMaps?.map(x => x.Category2Code)))]
+                  .sort()
+                  .join(', ')
+          },
+          {
+            Name: 'Levels',
+            Value: [...new Set(this.smartCodeMaps?.map(x => x.TypeLevel))]
+              .sort()
+              .join(', ')
+          }
+        ],
+        DisplayEmptySetMessage: !this.smartCodeMaps,
+        EmptySetMessage: 'No Smart Job Code Data'
       },
 
       // filter group

@@ -1,7 +1,6 @@
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 import { AsyncStateObjHelper } from 'libs/core/helpers';
-import { PayRateDate } from 'libs/models/payfactors-api/peer/exchange-data-search/response';
-
+import { PayRateDate, SmartCodeMap } from 'libs/models/payfactors-api/peer/exchange-data-search/response';
 
 import * as fromTrendsSummaryCardActions from '../actions/trends-summary-card.actions';
 import { TrendsSummaryDetails } from '../models';
@@ -13,6 +12,7 @@ export interface State {
   minDate: Date;
   maxDate: Date;
   trendsSummaryDetails: TrendsSummaryDetails;
+  smartCodeMaps: SmartCodeMap[];
   displaySaveTrendModal: boolean;
   savingPeerTrend: AsyncStateObj<boolean>;
 }
@@ -24,6 +24,7 @@ export const initialState: State = {
   minDate: new Date(),
   maxDate: new Date(),
   trendsSummaryDetails: null,
+  smartCodeMaps: null,
   displaySaveTrendModal: false,
   savingPeerTrend: generateDefaultAsyncStateObj<boolean>(false)
 };
@@ -38,7 +39,8 @@ export function reducer(state: State = initialState, action: fromTrendsSummaryCa
       return {
         ...AsyncStateObjHelper.loadingSuccess(state, 'peerTrends', action.payload.PricingHistory),
         exchangeJobIds: action.payload.ExchangeJobIds,
-        companyJobIds: action.payload.CompanyJobIds
+        companyJobIds: action.payload.CompanyJobIds,
+        smartCodeMaps: action.payload.SmartCodeMaps
       };
 
     case fromTrendsSummaryCardActions.GET_PEER_TRENDS_ERROR:
@@ -51,7 +53,7 @@ export function reducer(state: State = initialState, action: fromTrendsSummaryCa
         maxDate: action.payload.maxDate
       };
 
-    case fromTrendsSummaryCardActions.SET_TRENDS_PERCENT_CHANGE:
+    case fromTrendsSummaryCardActions.SET_TRENDS_SUMMARY_DETAILS:
       return {
         ...state,
        trendsSummaryDetails: action.payload
@@ -91,4 +93,5 @@ export const getPeerTrendsDomainMin = (state: State) => state.minDate;
 export const getPeerTrendsDomainMax = (state: State) => state.maxDate;
 export const getExchangeJobIds = (state: State) => state.exchangeJobIds;
 export const getCompanyJobIds = (state: State) => state.companyJobIds;
+export const getSmartCodeMaps = (state: State) => state.smartCodeMaps;
 

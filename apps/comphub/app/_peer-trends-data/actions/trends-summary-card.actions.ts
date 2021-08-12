@@ -8,7 +8,7 @@ export const GET_PEER_TRENDS = '[Comphub/Peer Trends Data/Summary Card] Get Peer
 export const GET_PEER_TRENDS_SUCCESS = '[Comphub/Peer Trends Data/Summary Card] Get Peer Trends Success';
 export const GET_PEER_TRENDS_ERROR = '[Comphub/Peer Trends Data/Summary Card] Get Peer Trends Error';
 export const SET_TRENDS_DOMAIN = '[Comphub/Peer Trends Data/Summary Card] Set Trends Domain';
-export const SET_TRENDS_PERCENT_CHANGE = '[Comphub/Peer Trends Data/Summary Card] Set Trends Percent Change';
+export const SET_TRENDS_SUMMARY_DETAILS = '[Comphub/Peer Trends Data/Summary Card] Set Trends Summary Details';
 export const SAVE_PEER_TREND = '[Comphub/Peer Trends Data/Summary Card] Save Peer Trend';
 export const SAVE_PEER_TREND_SUCCESS = '[Comphub/Peer Trends Data/Summary Card] Save Peer Trend Success';
 export const SAVE_PEER_TREND_ERROR = '[Comphub/Peer Trends Data/Summary Card] Save Peer Trend Error';
@@ -56,8 +56,8 @@ export class SetTrendsDomain implements Action {
   constructor(public payload: {minDate: Date, maxDate: Date}) {}
 }
 
-export class SetTrendsPercentChange implements Action {
-  readonly type = SET_TRENDS_PERCENT_CHANGE;
+export class SetTrendsSummaryDetails implements Action {
+  readonly type = SET_TRENDS_SUMMARY_DETAILS;
 
   constructor(public payload: TrendsSummaryDetails) {}
 }
@@ -103,7 +103,7 @@ export type Actions =
   GetPeerTrendsSuccess |
   GetPeerTrendsError |
   SetTrendsDomain |
-  SetTrendsPercentChange |
+  SetTrendsSummaryDetails |
   ToggleSaveTrendModal |
   SavePeerTrend |
   SavePeerTrendSuccess |
