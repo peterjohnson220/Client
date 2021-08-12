@@ -1,9 +1,6 @@
 <pf-async-container [loading]="loading$ | async">
   <div class="px-3">
-    <ul ngbNav #nav="ngbNav" class="nav-tabs"
-        [animation]="false"
-        [destroyOnHide]="false"
-        [(activeId)]="activeId" >
+    <ul ngbNav #nav="ngbNav"  [destroyOnHide]="false" [(activeId)]="activeId" class="nav-tabs">
       <li [ngbNavItem]="jobManagementTabs.StandardFields" [title]="'Standard Fields'" [id]="jobManagementTabs.StandardFields">
         <a ngbNavLink>Standard Fields</a>
         <ng-template ngbNavContent>
