@@ -14,6 +14,8 @@ import * as fromSharedMarketPageActions from '../../_shared/actions/markets-card
 import * as fromCompensableFactorsActions from '../actions/compensable-factors.actions';
 import { CompensableFactorDataMapper } from '../helpers';
 import * as fromComphubPageActions from '../../_shared/actions/comphub-page.actions';
+import { CompensableFactorsConstants } from '../constants/compensable-factors-constants';
+import { generateDefaultEducationTypes, generateDefaultSupervisorRole, generateDefaultYearsExperience } from '../data';
 
 @Injectable()
 export class CompensableFactorsEffect {
@@ -44,7 +46,15 @@ export class CompensableFactorsEffect {
                 const actions = [];
                 actions.push(new fromCompensableFactorsActions.GetAllCompensableFactorsSuccess(
                   CompensableFactorDataMapper.getCompensableFactorDataMap(response)));
-
+                actions.push(new fromCompensableFactorsActions.AddDataToCompensableFactorsList(
+                  {compensableFactor: CompensableFactorsConstants.YEARS_EXPERIENCE, Data: generateDefaultYearsExperience()}
+                ));
+                actions.push(new fromCompensableFactorsActions.AddDataToCompensableFactorsList(
+                  {compensableFactor: CompensableFactorsConstants.EDUCATION, Data: generateDefaultEducationTypes()}
+                ));
+                actions.push(new fromCompensableFactorsActions.AddDataToCompensableFactorsList(
+                  {compensableFactor: CompensableFactorsConstants.SUPERVISORY_ROLE, Data: generateDefaultSupervisorRole()}
+                ));
                 return actions;
               }),
               catchError((error) => of(new fromCompensableFactorsActions.GetAllCompensableFactorsError()))

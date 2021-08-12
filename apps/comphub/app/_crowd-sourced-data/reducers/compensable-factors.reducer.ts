@@ -78,6 +78,15 @@ export function reducer(state = initialState, action: fromCompensableFactorsActi
         loadingEducationTypes: false,
         loadingEducationTypesError: true
       };
+    case fromCompensableFactorsActions.ADD_DATA_TO_COMPENSABLE_FACTORS_LIST: {
+      return {
+        ...state,
+        compensableFactors: {
+          ...state.compensableFactors,
+          [action.payload.compensableFactor]: action.payload.Data
+        }
+      };
+    }
     default: {
       return state;
     }

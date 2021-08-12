@@ -1,6 +1,7 @@
 import { Action } from '@ngrx/store';
 
 import { CompensableFactorsResponseModel } from 'libs/models/payfactors-api/comphub/response';
+import { CompensableFactorModel } from 'libs/models/comphub';
 
 export const GET_ALL_COMPENSABLE_FACTORS = '[Comphub/Compensable Factors] Get All Compensable Factors';
 export const GET_ALL_COMPENSABLE_FACTORS_SUCCESS = '[Comphub/Compensable Factors] Get All Compensable Factors Success';
@@ -9,6 +10,7 @@ export const GET_EDUCATION_TYPES = '[Comphub/Compensable Factors] Get Education 
 export const GET_EDUCATION_TYPES_SUCCESS = '[Comphub/Compensable Factors] Get Education Types Success';
 export const GET_EDUCATION_TYPES_ERROR = '[Comphub/Compensable Factors] Get Education Types Error';
 export const TOGGLE_SELECTED_COMPENSABLE_FACTOR = '[Comphub/Compensable Factors] Toggle Selected Compensable Factors';
+export const ADD_DATA_TO_COMPENSABLE_FACTORS_LIST = '[Comphub/Compensable Factors] Add data to Compensable Factors List';
 
 export class GetAllCompensableFactors implements Action {
   readonly type = GET_ALL_COMPENSABLE_FACTORS;
@@ -50,6 +52,12 @@ export class ToggleSelectedCompensableFactor implements Action {
   constructor(public payload: { compensableFactor: string, Name: string }) {}
 }
 
+export class AddDataToCompensableFactorsList implements Action {
+  readonly type = ADD_DATA_TO_COMPENSABLE_FACTORS_LIST;
+
+  constructor(public payload: { compensableFactor: string, Data: CompensableFactorModel[] }) {}
+}
+
 export type Actions
   = GetAllCompensableFactors
   | GetAllCompensableFactorsSuccess
@@ -57,4 +65,5 @@ export type Actions
   | GetEducationTypes
   | GetEducationTypesSuccess
   | GetEducationTypesError
-  | ToggleSelectedCompensableFactor;
+  | ToggleSelectedCompensableFactor
+  | AddDataToCompensableFactorsList;

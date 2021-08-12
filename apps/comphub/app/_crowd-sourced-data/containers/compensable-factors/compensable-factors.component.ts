@@ -26,44 +26,13 @@ export class CompensableFactorsComponent implements OnInit, OnDestroy {
 
   skills: CompensableFactorModel[];
   certs: CompensableFactorModel[];
-  yearsOfExperience: CompensableFactorModel[] = [
-    { Name: '0', Data: null, Selected: false },
-    { Name: '1', Data: null, Selected: false },
-    { Name: '2', Data: null, Selected: false },
-    { Name: '3', Data: null, Selected: false },
-    { Name: '4', Data: null, Selected: false },
-    { Name: '5', Data: null, Selected: false },
-    { Name: '6', Data: null, Selected: false },
-    { Name: '7', Data: null, Selected: false },
-    { Name: '8', Data: null, Selected: false },
-    { Name: '9', Data: null, Selected: false },
-    { Name: '10', Data: null, Selected: false },
-    { Name: '11', Data: null, Selected: false },
-    { Name: '12', Data: null, Selected: false },
-    { Name: '13', Data: null, Selected: false },
-    { Name: '14', Data: null, Selected: false },
-    { Name: '15', Data: null, Selected: false },
-    { Name: '16', Data: null, Selected: false },
-    { Name: '17', Data: null, Selected: false },
-    { Name: '18', Data: null, Selected: false },
-    { Name: '19', Data: null, Selected: false },
-    { Name: '20', Data: null, Selected: false },
-    { Name: '21', Data: null, Selected: false },
-    { Name: '22', Data: null, Selected: false },
-    { Name: '23', Data: null, Selected: false },
-    { Name: '24', Data: null, Selected: false },
-    { Name: '25', Data: null, Selected: false}
-  ];
-
-  supervisoryRole: CompensableFactorModel[] = [
-    { Name: 'Yes', Data: null, Selected: false },
-    { Name: 'No', Data: null, Selected: false }
-  ];
 
   factorTypes = CompensableFactorTypes;
   compensableFactorsConstants = CompensableFactorsConstants;
   selectedFactors;
   educationTypes: CompensableFactorModel[];
+  supervisoryRole: CompensableFactorModel[];
+  yearsOfExperience: CompensableFactorModel[];
   educationTypesSub: Subscription;
 
   constructor(
@@ -73,6 +42,9 @@ export class CompensableFactorsComponent implements OnInit, OnDestroy {
       if (f) {
         this.skills = f[CompensableFactorsConstants.SKILLS];
         this.certs = f[CompensableFactorsConstants.CERTS];
+        this.supervisoryRole = f[CompensableFactorsConstants.SUPERVISORY_ROLE];
+        this.educationTypes = f[CompensableFactorsConstants.EDUCATION];
+        this.yearsOfExperience = f[CompensableFactorsConstants.YEARS_EXPERIENCE];
       }
     });
 
@@ -84,16 +56,12 @@ export class CompensableFactorsComponent implements OnInit, OnDestroy {
 
     this.educationTypesSub = this.store.select(fromComphubCsdReducer.getEducationTypes).subscribe(et => {
       if (et) {
-        const arr = [];
-        arr.push({ Name: 'Any', Data: null });
-        et.map(x => arr.push({ Name: x, Data: null }));
-        this.educationTypes = arr;
+        et.map(x => this.educationTypes.push({ Name: x, Data: null, Selected: false }));
       }
     });
   }
 
   ngOnInit(): void {
-
   }
 
   handleSubmitClicked() {
