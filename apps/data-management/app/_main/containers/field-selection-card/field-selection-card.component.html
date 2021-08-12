@@ -1,4 +1,4 @@
-<ul ngbNav #nav="ngbNav" [destroyOnHide]="false" class="nav-tabs" [(activeId)]="activeId">
+<ul ngbNav #nav="ngbNav" [animation]="false" [destroyOnHide]="false" class="nav-tabs" [(activeId)]="activeId">
   <li [ngbNavItem]="entity.toLowerCase()" *ngFor="let entity of selectedEntities"
            [id]="'tab-'+ entity.toLowerCase()">
     <a ngbNavLink>

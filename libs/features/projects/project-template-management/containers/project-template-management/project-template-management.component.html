@@ -35,6 +35,7 @@
             </div>
           </div>
           <ul ngbNav #nav="ngbNav" class="nav-tabs"
+              [animation]="false"
               [destroyOnHide]="false"
               [activeId]="activeTab">
             <li [ngbNavItem]="tab" *ngFor="let tab of modalTabs">
