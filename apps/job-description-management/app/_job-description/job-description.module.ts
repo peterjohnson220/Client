@@ -45,6 +45,7 @@ import {
   WorkflowSetupModalComponent,
   JobDescriptionWorkflowComparePageComponent,
   JobDescriptionInboxPageComponent,
+  JobDescriptionCollaborationPageComponent,
   JobDescriptionInboxGridComponent
 } from './containers';
 import {
@@ -199,6 +200,7 @@ import { SharePermissionsPanelComponent } from './components/share-permissions-p
     WorkflowWatchSidebarComponent,
     JobDescriptionWorkflowComparePageComponent,
     JobDescriptionInboxPageComponent,
+    JobDescriptionCollaborationPageComponent,
 
     // Containers
     JobDescriptionActionsComponent,
