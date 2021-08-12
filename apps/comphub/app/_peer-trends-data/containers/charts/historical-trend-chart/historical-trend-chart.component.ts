@@ -73,6 +73,9 @@ export class HistoricalTrendChartComponent implements OnInit, OnDestroy, OnChang
   }
 
   getChartOptions(): any {
+    const clientDataCutoffDate = new Date();
+    clientDataCutoffDate.setDate(clientDataCutoffDate.getDate() - 90);
+
     return {
       chart: {
         type: 'areaspline',
@@ -138,7 +141,13 @@ export class HistoricalTrendChartComponent implements OnInit, OnDestroy, OnChang
         showFirstLabel: 'true',
         events: {
           afterSetExtremes : (event) => { this.onSetExtremes(event); },
-        }
+        },
+        plotLines: [{
+          color: '#FF0000',
+          width: 2,
+          value: clientDataCutoffDate,
+          zIndex: 5
+        }]
       },
       yAxis: {
         tickPositioner: function () {
