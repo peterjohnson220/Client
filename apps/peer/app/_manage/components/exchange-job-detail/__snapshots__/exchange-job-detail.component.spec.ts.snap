@@ -29,14 +29,7 @@ exports[`ExchangeDetailComponent should hide the approve/reject buttons when a c
         <div
           class="button-container"
         >
-          <button
-            class="create-project"
-          >
-            <fa-icon />
-            <span>
-              Create Project
-            </span>
-          </button>
+          
           <button
             class="unmatch"
           >
@@ -416,14 +409,7 @@ exports[`ExchangeDetailComponent should show the unmatch button when a matched c
         <div
           class="button-container"
         >
-          <button
-            class="create-project"
-          >
-            <fa-icon />
-            <span>
-              Create Project
-            </span>
-          </button>
+          
           <button
             class="unmatch"
           >
