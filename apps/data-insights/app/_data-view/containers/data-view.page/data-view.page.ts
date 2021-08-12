@@ -187,7 +187,7 @@ export class DataViewPageComponent implements OnInit, OnDestroy {
   }
 
   handleDeleteClicked(): void {
-    if (!this.isOwner) {
+    if (!this.canDelete) {
       return;
     }
     this.deleteUserWorkbookModalComponent.open();
@@ -243,6 +243,10 @@ export class DataViewPageComponent implements OnInit, OnDestroy {
 
   get isOwner(): boolean {
     return this.dataViewAccessLevel === DataViewAccessLevel.Owner;
+  }
+
+  get canDelete(): boolean {
+    return this.dataViewAccessLevel === DataViewAccessLevel.Owner || this.dataViewAccessLevel === DataViewAccessLevel.Manage;
   }
 
   get canShare(): boolean {
