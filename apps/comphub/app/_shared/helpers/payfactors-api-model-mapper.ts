@@ -40,7 +40,9 @@ export class PayfactorsApiModelMapper {
         Size: pm.SizeValue,
         SizeLabel: pm.SizeLabel,
         CurrencyCode: pm.CurrencyCode,
-        CountryCode: pm.CountryCode
+        CountryCode: pm.CountryCode,
+        IsGovernmentContractor: pm.IsGovernmentContractor,
+        OrganizationTypeId: pm.OrganizationTypeId
       };
     });
   }
