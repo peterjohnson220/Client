@@ -40,8 +40,3 @@ export const getSelectedFactors = createSelector(
   selectCompensableFactorsState,
   fromCompensableFactorsReducer.getSelectedFactors
 );
-
-export const getEducationTypes = createSelector(
-  selectCompensableFactorsState,
-  fromCompensableFactorsReducer.getEducationTypes
-);

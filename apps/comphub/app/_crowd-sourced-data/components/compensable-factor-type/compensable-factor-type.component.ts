@@ -11,7 +11,6 @@ import { CompensableFactorModel } from 'libs/models/comphub';
 import { CompensableFactorTypes } from '../../constants';
 import * as fromComphubCsdReducer from '../../reducers';
 import * as fromCompensableFactorsActions from '../../actions/compensable-factors.actions';
-import { CompensableFactorsConstants } from '../../constants/compensable-factors-constants';
 
 
 @Component({
