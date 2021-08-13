@@ -6,7 +6,7 @@ exports[`TilePreviewIcon should show just icon and when no payload is given 1`] 
 >
   <fa-icon
     aria-hidden="true"
-    class="preview-tile-icon text-center m-0 p-0 d-inline-block "
+    class="preview-tile-icon text-center m-0 d-inline-block p-0"
   />
 </pf-tile-preview-icon>
 `;
@@ -17,7 +17,7 @@ exports[`TilePreviewIcon should show more than just an icon and when a payload i
 >
   <fa-icon
     aria-hidden="true"
-    class="preview-tile-icon-small text-center m-0 p-0 d-inline-block "
+    class="preview-tile-icon-small text-center m-0 d-inline-block p-0"
   /><div>
     
     <h2

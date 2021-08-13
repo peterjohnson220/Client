@@ -5,7 +5,6 @@ exports[`Tile Preview Chart should not show kendo chart when model.ChartComponen
   chartData={[Function Array]}
   model={[Function Object]}
   payscaleBrandingFeatureFlag="false"
-  seriesItemHighlightStyle={[Function Object]}
   showChartDetail="false"
 >
   <h2
@@ -21,7 +20,6 @@ exports[`Tile Preview Chart should show chart label 1`] = `
   chartData={[Function Array]}
   model={[Function Object]}
   payscaleBrandingFeatureFlag="false"
-  seriesItemHighlightStyle={[Function Object]}
   showChartDetail="false"
 >
   <h2
@@ -37,7 +35,6 @@ exports[`Tile Preview Chart should show kendo chart when model.ChartComponentDat
   chartData={[Function Array]}
   model={[Function Object]}
   payscaleBrandingFeatureFlag="false"
-  seriesItemHighlightStyle={[Function Object]}
   showChartDetail="false"
 >
   <div

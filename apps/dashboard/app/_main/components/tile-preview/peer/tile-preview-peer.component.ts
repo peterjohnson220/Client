@@ -29,7 +29,7 @@ export class TilePreviewPeerComponent  implements OnInit, OnChanges {
     if (changes.payscaleBrandingFeatureFlag) {
       this.seriesItemHighlightStyle = {
         opacity: 1,
-        color: this.payscaleBrandingFeatureFlag ? '#312B36' : '#fff',
+        color: this.payscaleBrandingFeatureFlag ? '#261636' : '#fff',
         border: '#000'
       };
       this.legendLabelStyle = {
