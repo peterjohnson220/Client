@@ -20,7 +20,8 @@ export interface DataViewResponse {
 export enum DataViewAccessLevel {
   ReadOnly = 'ReadOnly',
   Edit = 'Edit',
-  Owner = 'Owner'
+  Owner = 'Owner',
+  Manage = 'Manage'
 }
 
 export enum DataViewScope {

@@ -5,7 +5,8 @@ import { DataViewScope } from '../../../models/payfactors-api';
 export enum DataViewAccessLevel {
   ReadOnly = 'ReadOnly',
   Edit = 'Edit',
-  Owner = 'Owner'
+  Owner = 'Owner',
+  Manage = 'Manage'
 }
 
 export interface UserDataView extends BaseDataView {
