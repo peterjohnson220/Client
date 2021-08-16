@@ -2,7 +2,7 @@ import { AfterViewChecked, Component, Input, OnChanges, OnDestroy, OnInit, Simpl
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ChangeDetectorRef } from '@angular/core';
 
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { DropDownFilterSettings } from '@progress/kendo-angular-dropdowns';
 
@@ -35,10 +35,9 @@ export class CompensableFactorTypeComponent implements OnInit, OnDestroy, AfterV
   searchFactors: CompensableFactorModel[];
   topFactors: CompensableFactorModel[];
   selectedFactors: CompensableFactorModel[];
+  selectedFactorsSub: Subscription;
   _maxSelections: boolean;
   disabledCheckBox: number[];
-  selectedFactors$: Observable<any>;
-  selectedFactorsSub: Subscription;
   defaultDropDownValue: string;
 
   constructor(
@@ -49,8 +48,6 @@ export class CompensableFactorTypeComponent implements OnInit, OnDestroy, AfterV
     this.topFactorsForm = this.formBuilder.group({
       checkList: new FormArray([])
     });
-
-    this.selectedFactors$ = this.store.select(fromComphubCsdReducer.getSelectedFactors);
   }
 
   public filterSettings: DropDownFilterSettings = {
@@ -91,8 +88,10 @@ export class CompensableFactorTypeComponent implements OnInit, OnDestroy, AfterV
   }
 
   topFactorChecked(factor: CompensableFactorModel) {
-    this.store.dispatch(new fromCompensableFactorsActions.ToggleSelectedCompensableFactor(
-      {compensableFactor: this.compensableFactorName, Name: factor.Name}));
+    this.store.dispatch(new fromCompensableFactorsActions.ToggleSelectedCompensableFactor({
+      compensableFactor: this.compensableFactorName,
+      Name: factor.Name
+    }));
     this.maxSelectionValidation();
   }
 
@@ -150,13 +149,15 @@ export class CompensableFactorTypeComponent implements OnInit, OnDestroy, AfterV
   }
 
   ngOnInit(): void {
-    this.selectedFactors = [];
-    this.selectedFactorsSub = this.selectedFactors$.subscribe(factors => {
+    this.selectedFactorsSub = this.store.select(fromComphubCsdReducer.getSelectedFactors).subscribe(factors => {
       if (!!factors[this.compensableFactorName]) {
         this.selectedFactors = factors[this.compensableFactorName];
       }
     });
-    this.initializeData();
+
+    if (this.compensableFactors != null && this.compensableFactors.length > 0) {
+      this.initializeData();
+    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -171,8 +172,10 @@ export class CompensableFactorTypeComponent implements OnInit, OnDestroy, AfterV
         this.initializeData();
       }
     } else if (!!changes.compensableFactors) {
-      this.removeOldCheckBoxes();
-      this.initializeData();
+      if (!changes.compensableFactors.firstChange) {
+        this.removeOldCheckBoxes();
+        this.initializeData();
+      }
     }
   }
 
@@ -185,12 +188,13 @@ export class CompensableFactorTypeComponent implements OnInit, OnDestroy, AfterV
   }
 
   private initializeData() {
-    this.maxSelections = false;
-    this.disabledCheckBox = [];
-    this.defaultDropDownValue = this.compensableFactors[0].Name;
-    this.topFactors = this.compensableFactors.slice(0, 5);
-    this.searchFactors = this.compensableFactors.slice(5);
-    this.addCheckBoxes();
+    if (this.compensableFactors != null) {
+      this.maxSelections = false;
+      this.disabledCheckBox = [];
+      this.defaultDropDownValue = this.compensableFactors[0].Name;
+      this.topFactors = this.compensableFactors.slice(0, 5);
+      this.searchFactors = this.compensableFactors.slice(5);
+      this.addCheckBoxes();
+    }
   }
-
 }

@@ -14,6 +14,7 @@ import * as fromJobGridActions from '../../../../_shared/actions/job-grid.action
 import { SummaryPageSalaryData } from '../../../models';
 import * as fromMarketsCardActions from '../../../../_shared/actions/markets-card.actions';
 import { DataCardHelper } from '../../../../_shared/helpers';
+import * as fromCompensableFactorsActions from '../../../actions/compensable-factors.actions';
 
 @Component({
   selector: 'pf-crowd-sourced-summary-card',
@@ -22,7 +23,6 @@ import { DataCardHelper } from '../../../../_shared/helpers';
 })
 export class CrowdSourcedSummaryCardComponent implements OnInit, OnDestroy {
   comphubPages = ComphubPages;
-  selectedJob$: Observable<JobData>;
   selectedJobSub: Subscription;
   selectedJob: JobData;
   selectedJobData: SummaryPageSalaryData;
@@ -45,7 +45,6 @@ export class CrowdSourcedSummaryCardComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store<fromComphubSharedReducer.State>
   ) {
-    this.selectedJob$ = this.store.select(fromComphubSharedReducer.getSelectedJobData);
     this.selectedPaymarket$ = this.store.select(fromComphubSharedReducer.getSelectedPaymarket);
     this.workflowContext$ = this.store.select(fromComphubSharedReducer.getWorkflowContext);
     this.jobResults$ = this.store.select(fromComphubSharedReducer.getJobGridResults);
@@ -54,7 +53,7 @@ export class CrowdSourcedSummaryCardComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.summaryPage = false;
-    this.selectedJobSub = this.selectedJob$.subscribe(sj => {
+    this.selectedJobSub = this.store.select(fromComphubSharedReducer.getSelectedJobData).subscribe(sj => {
       this.selectedJob = sj;
     });
 
@@ -66,6 +65,7 @@ export class CrowdSourcedSummaryCardComponent implements OnInit, OnDestroy {
       if (!!wc && wc.selectedPageId === ComphubPages.Summary) {
         this.summaryPage = true;
         this.workflowContext = wc;
+        this.store.dispatch(new fromCompensableFactorsActions.GetAllCompensableFactors());
         this.getInitialPricing();
       }
     });

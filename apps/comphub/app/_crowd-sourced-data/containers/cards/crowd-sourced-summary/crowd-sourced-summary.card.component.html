@@ -42,114 +42,116 @@
         </div>
       </div>
       <div class="col-9">
-        <div class="job-title">{{(selectedJob$ | async)?.JobTitle}}</div>
+        <div class="job-title">{{this.selectedJob?.JobTitle}}</div>
 
-        <table>
-          <thead>
-          <tr>
-            <th class="tempTypeHeader">Type</th>
-            <th>Amount</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr>
-            <td>
-              Base 10
-            </td>
-            <td>
-              {{ this.selectedJob?.Base10 }}
-            </td>
-          </tr>
-          <tr>
-            <td>
-              Base 25
-            </td>
-            <td>
-              {{ this.selectedJob?.Base25 }}
-            </td>
-          </tr>
-          <tr>
-            <td>
-              Base 50
-            </td>
-            <td>
-              {{ this.selectedJob?.Base50 }}
-            </td>
-          </tr>
-          <tr>
-            <td>
-              Base 75
-            </td>
-            <td>
-              {{ this.selectedJob?.Base75 }}
-            </td>
-          </tr>
-          <tr>
-            <td>
-              Base 90
-            </td>
-            <td>
-              {{ this.selectedJob?.Base90 }}
-            </td>
-          </tr>
-          <tr>
-            <td>
-              Base Avg
-            </td>
-            <td>
-              {{ this.selectedJob?.BaseAvg }}
-            </td>
-          </tr>
-          <tr>
-            <td>
-              Tcc 10
-            </td>
-            <td>
-              {{ this.selectedJob?.Tcc10 }}
-            </td>
-          </tr>
-          <tr>
-            <td>
-              Tcc 25
-            </td>
-            <td>
-              {{ this.selectedJob?.Tcc25 }}
-            </td>
-          </tr>
-          <tr>
-            <td>
-              Tcc 50
-            </td>
-            <td>
-              {{ this.selectedJob?.Tcc50 }}
-            </td>
-          </tr>
-          <tr>
-            <td>
-              Tcc 75
-            </td>
-            <td>
-              {{ this.selectedJob?.Tcc75 }}
-            </td>
-          </tr>
-          <tr>
-            <td>
-              Tcc 90
-            </td>
-            <td>
-              {{ this.selectedJob?.Tcc90 }}
-            </td>
-          </tr>
-          <tr>
-            <td>
-              Tcc Avg
-            </td>
-            <td>
-              {{ this.selectedJob?.TccAvg }}
-            </td>
-          </tr>
-          </tbody>
-        </table>
+        <pf-async-container [loading]="this.selectedJob?.Loading">
+          <table>
+            <thead>
+            <tr>
+              <th class="tempTypeHeader">Type</th>
+              <th>Amount</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td>
+                Base 10
+              </td>
+              <td>
+                {{ this.selectedJob?.Base10 }}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Base 25
+              </td>
+              <td>
+                {{ this.selectedJob?.Base25 }}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Base 50
+              </td>
+              <td>
+                {{ this.selectedJob?.Base50 }}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Base 75
+              </td>
+              <td>
+                {{ this.selectedJob?.Base75 }}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Base 90
+              </td>
+              <td>
+                {{ this.selectedJob?.Base90 }}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Base Avg
+              </td>
+              <td>
+                {{ this.selectedJob?.BaseAvg }}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Tcc 10
+              </td>
+              <td>
+                {{ this.selectedJob?.Tcc10 }}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Tcc 25
+              </td>
+              <td>
+                {{ this.selectedJob?.Tcc25 }}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Tcc 50
+              </td>
+              <td>
+                {{ this.selectedJob?.Tcc50 }}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Tcc 75
+              </td>
+              <td>
+                {{ this.selectedJob?.Tcc75 }}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Tcc 90
+              </td>
+              <td>
+                {{ this.selectedJob?.Tcc90 }}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Tcc Avg
+              </td>
+              <td>
+                {{ this.selectedJob?.TccAvg }}
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </pf-async-container>
 
         <ng-container *ngIf="summaryPage" #CompensableFactors>
           <pf-compensable-factors [selectedJobTitle]="selectedJob?.JobTitle"
