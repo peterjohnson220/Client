@@ -168,6 +168,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   showWorkflow = false;
 
   jdmCollaborationFeatureFlag: RealTimeFlag = { key: FeatureFlags.JdmCollaboration, value: false };
+  jdmLibrarySkillsFeatureFlag: RealTimeFlag = { key: FeatureFlags.JdmLibrarySkills, value: false };
 
   get isJobDescriptionEditable() {
     return this.identityInWorkflow ? this.hasCanEditJobDescriptionPermission :
@@ -229,6 +230,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.workflowStepInfo$ = this.store.select(fromJobDescriptionReducers.getWorkflowStepInfo);
     this.inSystemWorkflowStepCompletionModalOpen$ = this.store.select(fromJobDescriptionReducers.getInSystemWorkflowStepCompletionModalOpen);
     this.featureFlagService.bindEnabled(this.jdmCollaborationFeatureFlag, this.unsubscribe$);
+    this.featureFlagService.bindEnabled(this.jdmLibrarySkillsFeatureFlag, this.unsubscribe$);
   }
 
   ngOnInit(): void {

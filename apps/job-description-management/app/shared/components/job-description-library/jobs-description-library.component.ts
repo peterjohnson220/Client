@@ -21,6 +21,7 @@ export class JobDescriptionLibraryComponent implements OnChanges {
   @Input() buckets: JobDescriptionLibraryBucket[];
   @Input() results: JobDescriptionLibraryResult[];
   @Input() loadingBuckets: boolean;
+  @Input() showSkillsTab: boolean;
   @Output() searchChanged = new EventEmitter<LibrarySearchRequest>();
   @Output() tabChanged = new EventEmitter<LibrarySearchRequest>();
   @Output() pageChanged = new EventEmitter<LibrarySearchRequest>();
@@ -136,6 +137,10 @@ export class JobDescriptionLibraryComponent implements OnChanges {
 
   // FORT-835 - Hide the skills tab
   get filteredBuckets() {
-    return this.buckets.filter((bucket) => (bucket.Label.toLowerCase() !== 'skills'));
+    if (!this.showSkillsTab) {
+      return this.buckets.filter((bucket) => (bucket.Label.toLowerCase() !== 'skills'));
+    } else {
+      return this.buckets;
+    }
   }
 }

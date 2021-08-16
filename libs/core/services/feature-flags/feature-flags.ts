@@ -37,4 +37,5 @@ export class FeatureFlags {
   static readonly PayscaleBranding = 'payscale-branding';
   static readonly JdmCollaboration = 'jdm-collaboration';
   static readonly EmployeeDetailsPanel = 'employee-details-panel';
+  static readonly JdmLibrarySkills = 'jdm-library-skills';
 }
