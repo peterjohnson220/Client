@@ -24,7 +24,7 @@ import {
 } from 'libs/models';
 import * as fromRootState from 'libs/state/state';
 import { SettingsService } from 'libs/state/app-context/services';
-import { PermissionService } from 'libs/core/services';
+import { AbstractFeatureFlagService, FeatureFlags, PermissionService, RealTimeFlag } from 'libs/core/services';
 import { PermissionCheckEnum, Permissions } from 'libs/constants/permissions';
 import { SimpleYesNoModalComponent, FileDownloadSecurityWarningModalComponent } from 'libs/ui/common';
 import { JobDescriptionManagementDnDService, JobDescriptionManagementService, SortDirection } from 'libs/features/jobs/job-description-management';
@@ -84,7 +84,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   @ViewChild(WorkflowStepCompletionModalComponent) public workflowStepCompletionModal: WorkflowStepCompletionModalComponent;
   @ViewChild(SharePermissionsPanelComponent) public sharePermissionsPanel: SharePermissionsPanelComponent;
   @ViewChild(ShareJobDescriptionModalComponent, { static: true }) public shareJobDescriptionModalComponent: ShareJobDescriptionModalComponent;
-  
+
   jobDescriptionAsync$: Observable<AsyncStateObj<JobDescription>>;
   jobDescriptionPublishingSuccess$: Observable<boolean>;
   identity$: Observable<UserContext>;
@@ -105,6 +105,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   gettingJobDescriptionExtendedInfoSuccess$: Observable<AsyncStateObj<boolean>>;
   discardingDraftJobDescriptionSuccess$: Observable<boolean>;
   enableFileDownloadSecurityWarning$: Observable<boolean>;
+  private unsubscribe$ = new Subject<void>();
 
   loadingPage$: Observable<boolean>;
   loadingPageError$: Observable<boolean>;
@@ -170,6 +171,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   controlTypes: ControlType[];
   isInSystemWorkflow: boolean;
   showSharePermissionsPanel: boolean = false;
+  jdmLibrarySkillsFeatureFlag: RealTimeFlag = { key: FeatureFlags.JdmLibrarySkills, value: false };
 
   get isJobDescriptionEditable() {
     return this.identityInWorkflow ? this.hasCanEditJobDescriptionPermission :
@@ -193,7 +195,8 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     private permissionService: PermissionService,
     private jobDescriptionManagementService: JobDescriptionManagementService,
     private jobDescriptionManagementDndService: JobDescriptionManagementDnDService,
-    private jobDescriptionDnDService: JobDescriptionDnDService
+    private jobDescriptionDnDService: JobDescriptionDnDService,
+    private featureFlagService: AbstractFeatureFlagService
 ) {
     this.company$ = this.sharedStore.select(fromJobDescriptionManagementSharedReducer.getCompany);
     this.jobDescriptionAsync$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionAsync);
@@ -229,6 +232,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.replaceContents$ = this.store.select(fromJobDescriptionReducers.getReplaceJobDescriptionComplete);
     this.workflowStepInfo$ = this.store.select(fromJobDescriptionReducers.getWorkflowStepInfo);
     this.inSystemWorkflowStepCompletionModalOpen$ = this.store.select(fromJobDescriptionReducers.getInSystemWorkflowStepCompletionModalOpen);
+    this.featureFlagService.bindEnabled(this.jdmLibrarySkillsFeatureFlag, this.unsubscribe$);
   }
 
   ngOnInit(): void {
@@ -239,6 +243,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.unsubscribe$.next();
     this.store.dispatch(new fromJobDescriptionActions.ClearJobDescription());
     this.sharedStore.dispatch(new fromControlTypesActions.ResetControlTypes());
     this.routerParamsSubscription.unsubscribe();
