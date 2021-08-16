@@ -59,6 +59,10 @@
           <div class="flex-fill">{{benefit.DisplayName}}</div>
           <div>{{benefit.EmployerValue | contributionCurrency : employeeTotalRewardsLite.CurrencyCode}}</div>
         </div>
+        <div class="d-flex">
+          <div class="flex-fill">Other Allowances</div>
+          <div>{{employeeTotalRewardsLite.PeerOtherAllowance | contributionCurrency : employeeTotalRewardsLite.CurrencyCode}}</div>
+        </div>
         <div class="d-flex mt-2">
           <div class="flex-fill">TOTAL</div>
           <div class="font-weight-bold">{{employeeTotalRewardsLite.TotalBenefits | contributionCurrency : employeeTotalRewardsLite.CurrencyCode}}</div>

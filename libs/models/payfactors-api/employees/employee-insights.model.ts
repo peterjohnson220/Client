@@ -26,6 +26,7 @@ export interface EmployeeTotalRewardsLite {
   ShortTermIncentive: number;
   LongTermIncentive: number;
   Benefits: EmployeeBenefit[];
+  PeerOtherAllowance: number;
   TotalCashCompensation: number;
   TotalBenefits: number;
 }
