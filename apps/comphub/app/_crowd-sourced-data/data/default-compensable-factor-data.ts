@@ -2,7 +2,7 @@ import { CompensableFactorModel } from 'libs/models/comphub';
 
 export function generateDefaultYearsExperience(): CompensableFactorModel[] {
   return [
-    { Name: '0', Data: null, Selected: false },
+    { Name: '0', Data: null, Selected: true },
     { Name: '1', Data: null, Selected: false },
     { Name: '2', Data: null, Selected: false },
     { Name: '3', Data: null, Selected: false },
@@ -27,22 +27,19 @@ export function generateDefaultYearsExperience(): CompensableFactorModel[] {
     { Name: '22', Data: null, Selected: false },
     { Name: '23', Data: null, Selected: false },
     { Name: '24', Data: null, Selected: false },
-    { Name: '25', Data: null, Selected: false}
+    { Name: '25', Data: null, Selected: false }
   ];
 }
-
 
 export function generateDefaultEducationTypes(): CompensableFactorModel[] {
   return [
-    { Name: '', Data: null, Selected: false },
-    { Name: 'Any', Data: null, Selected: false }
+    { Name: 'Any', Data: null, Selected: true }
   ];
 }
 
-
 export function generateDefaultSupervisorRole(): CompensableFactorModel[] {
   return [
-    { Name: 'No', Data: null, Selected: false },
+    { Name: 'No', Data: null, Selected: true },
     { Name: 'Yes', Data: null, Selected: false }
   ];
 }

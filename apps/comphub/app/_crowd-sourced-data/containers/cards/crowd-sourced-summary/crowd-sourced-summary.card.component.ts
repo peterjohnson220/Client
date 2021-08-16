@@ -11,7 +11,6 @@ import { ComphubPages } from '../../../../_shared/data';
 import { MarketDataScope, WorkflowContext } from '../../../../_shared/models';
 import * as fromComphubSharedReducer from '../../../../_shared/reducers';
 import * as fromJobGridActions from '../../../../_shared/actions/job-grid.actions';
-import * as fromCompensableFactorsActions from '../../../actions/compensable-factors.actions';
 import { SummaryPageSalaryData } from '../../../models';
 import * as fromMarketsCardActions from '../../../../_shared/actions/markets-card.actions';
 import { DataCardHelper } from '../../../../_shared/helpers';
@@ -85,7 +84,6 @@ export class CrowdSourcedSummaryCardComponent implements OnInit, OnDestroy {
       }
     );
 
-    this.store.dispatch(new fromCompensableFactorsActions.GetEducationTypes());
     this.store.dispatch(new fromMarketsCardActions.GetMarketDataScope());
   }
 

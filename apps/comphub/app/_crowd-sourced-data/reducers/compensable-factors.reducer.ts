@@ -3,13 +3,11 @@ import cloneDeep from 'lodash/cloneDeep';
 import { CompensableFactorsResponseModel } from 'libs/models/payfactors-api/comphub/response';
 
 import * as fromCompensableFactorsActions from '../actions/compensable-factors.actions';
-import { PayfactorsApiModelMapper } from '../../_shared/helpers';
 
 export interface State {
   compensableFactors: CompensableFactorsResponseModel[];
   loadingCompensableFactors: boolean;
   loadingCompensableFactorsError: boolean;
-  educationTypes: string[];
   loadingEducationTypes: boolean;
   loadingEducationTypesError: boolean;
 }
@@ -18,7 +16,6 @@ const initialState: State = {
   compensableFactors: null,
   loadingCompensableFactors: false,
   loadingCompensableFactorsError: false,
-  educationTypes: [],
   loadingEducationTypes: false,
   loadingEducationTypesError: false
 };
@@ -69,8 +66,7 @@ export function reducer(state = initialState, action: fromCompensableFactorsActi
     case fromCompensableFactorsActions.GET_EDUCATION_TYPES_SUCCESS:
       return {
         ...state,
-        loadingEducationTypes: false,
-        educationTypes: PayfactorsApiModelMapper.mapEducationTypeValuesToArray(action.payload)
+        loadingEducationTypes: false
       };
     case fromCompensableFactorsActions.GET_EDUCATION_TYPES_ERROR:
       return {
@@ -95,7 +91,6 @@ export function reducer(state = initialState, action: fromCompensableFactorsActi
 
 export const getCompensableFactorsLoading = (state: State) => state.loadingCompensableFactors;
 export const getCompensableFactors = (state: State) => state.compensableFactors;
-export const getEducationTypes = (state: State) => state.educationTypes;
 export const getSelectedFactors = (state: State) => {
   const selectedFactors = {};
   if (!!state.compensableFactors) {
