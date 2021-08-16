@@ -35,27 +35,6 @@
           </div>
         </div>
       </ng-container>
-      <ng-container *ngIf="jobInsights">
-        <div class="card mb-3 job-details-container">
-          <div class="card-body">
-            <div class="title">Job Details</div>
-            <ng-container [ngTemplateOutlet]="jobDetailsFields"
-                          [ngTemplateOutletContext]="{fields: standardFields, subTitle: 'STANDARD FIELDS'}">
-            </ng-container>
-            <ng-container *ngIf="!!customFields?.length && isViewMore">
-              <ng-container [ngTemplateOutlet]="jobDetailsFields"
-                            [ngTemplateOutletContext]="{fields: customFields, subTitle: 'CUSTOM FIELDS'}">
-              </ng-container>
-            </ng-container>
-            <div *ngIf="!!customFields?.length" class="d-flex justify-content-end pb-3">
-              <div class="link" (click)="toggleViewMore()">
-                <span *ngIf="!isViewMore">view more</span>
-                <span *ngIf="isViewMore">view less</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </ng-container>
       <ng-container>
         <div class="card mb-3">
           <div class="card-body">
@@ -72,11 +51,32 @@
                             type="button"
                             class="btn btn-add-data"
                             (click)="openAddDataModal()">
-                            Add Data
+                      Add Data
                     </button>
                   </div>
                 </div>
                 <pf-market-data [jobPricing]="jobPricing" (reloadJobPricing)="loadJobInsights()"></pf-market-data>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="jobInsights">
+        <div class="card mb-3 job-details-container">
+          <div class="card-body">
+            <div class="title">Job Details</div>
+            <ng-container [ngTemplateOutlet]="jobDetailsFields"
+                          [ngTemplateOutletContext]="{fields: standardFields, subTitle: 'STANDARD FIELDS'}">
+            </ng-container>
+            <ng-container *ngIf="!!customFields?.length && isViewMore">
+              <ng-container [ngTemplateOutlet]="jobDetailsFields"
+                            [ngTemplateOutletContext]="{fields: customFields, subTitle: 'CUSTOM FIELDS'}">
+              </ng-container>
+            </ng-container>
+            <div *ngIf="!!customFields?.length" class="d-flex justify-content-end pb-3">
+              <div class="link" (click)="toggleViewMore()">
+                <span *ngIf="!isViewMore">view more</span>
+                <span *ngIf="isViewMore">view less</span>
               </div>
             </div>
           </div>
