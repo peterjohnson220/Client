@@ -1,4 +1,7 @@
 import { Action } from '@ngrx/store';
+
+import { ModifyPricingMatchesResponse } from 'libs/models/payfactors-api';
+
 import { GetPricingsToModifyRequest } from '../models';
 
 export const GET_PRICINGS_TO_MODIFY = '[Multi Match] Get Pricings to Modify';
@@ -30,7 +33,7 @@ export class GetPricingsToModifySuccess implements Action {
 
 export class ModifyPricingSuccess implements Action {
   readonly type = MODIFY_PRICINGS_SUCCESS;
-  constructor(public payload: any[]) { }
+  constructor(public payload: ModifyPricingMatchesResponse[]) { }
 }
 
 export class GetPricingsToModifyError implements Action {

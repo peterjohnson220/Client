@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 
 import { ActionsSubject, Store } from '@ngrx/store';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
@@ -9,10 +9,12 @@ import isEmpty from 'lodash/isEmpty';
 import { AsyncStateObj } from 'libs/models';
 import * as fromBasicDataGridReducer from 'libs/features/grids/basic-data-grid/reducers';
 import * as fromBasicDataGridActions from 'libs/features/grids/basic-data-grid/actions/basic-data-grid.actions';
-import * as fromMultiMatchActions from 'libs/features/pricings/multi-match/actions';
+import * as fromMultiMatchActions from 'libs/features/pricings/multi-match/actions/modify-pricings.actions';
 import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
+import * as fromAddDataActions from 'libs/features/pricings/add-data/actions/add-data.actions';
 import { BasicDataViewField, DataViewFilter, ViewField } from 'libs/models/payfactors-api';
-import { Permissions } from 'libs/constants/permissions';
+import { PermissionCheckEnum, Permissions } from 'libs/constants/permissions';
+import { PermissionService } from 'libs/core';
 
 import * as fromJobsPageReducer from '../../reducers';
 import * as fromModifyPricingsActions from '../../actions/modify-pricings.actions';
@@ -27,6 +29,7 @@ import { WeightAdjustModalComponent } from '../weight-adjust-modal';
 })
 export class MarketDataComponent implements OnChanges, OnInit, OnDestroy {
   @Input() jobPricing: MarketDataJobPricing;
+  @Output() reloadJobPricing: EventEmitter<any> = new EventEmitter();
 
   @ViewChild(WeightAdjustModalComponent, { static: true }) weightAdjustModalComponent: WeightAdjustModalComponent;
 
@@ -38,6 +41,7 @@ export class MarketDataComponent implements OnChanges, OnInit, OnDestroy {
   modifyPricingsSubscription: Subscription;
   pricingMatchesSubscription: Subscription;
   isActiveJobSubscription: Subscription;
+  deleteMatchSuccessSubscription: Subscription;
 
   marketDataId = MarketDataConfig.marketDataGridId;
   baseEntity = MarketDataConfig.baseEntity;
@@ -48,11 +52,13 @@ export class MarketDataComponent implements OnChanges, OnInit, OnDestroy {
   selectedPricingMatch: any;
   pricingMatchesCount: number;
   isActiveJob = true;
+  canModifyPricings: boolean;
 
   constructor(
     private basicGridStore: Store<fromBasicDataGridReducer.State>,
     private jobsPageStore: Store<fromJobsPageReducer.State>,
-    private actionsSubject: ActionsSubject
+    private actionsSubject: ActionsSubject,
+    public permissionService: PermissionService
   ) {
     this.pricingMatches$ = this.basicGridStore.select(fromBasicDataGridReducer.getData, this.marketDataId);
     this.showMatchDetailsModal = new BehaviorSubject<boolean>(false);
@@ -62,7 +68,7 @@ export class MarketDataComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes?.jobPricing?.currentValue && changes.jobPricing.currentValue.PricingId !== 0
+    if (changes?.jobPricing?.currentValue && changes.jobPricing.currentValue.PricingId
         && changes.jobPricing.currentValue.PricingId !== changes.jobPricing.previousValue?.PricingId) {
       this.updateFilters();
       this.rate = this.jobPricing.Rate;
@@ -72,11 +78,15 @@ export class MarketDataComponent implements OnChanges, OnInit, OnDestroy {
   ngOnInit(): void {
     this.modifyPricingsSubscription = this.actionsSubject.pipe(
       ofType(fromModifyPricingsActions.UPDATING_PRICING_MATCH_SUCCESS,
-        fromModifyPricingsActions.DELETING_PRICING_MATCH_SUCCESS,
         fromModifyPricingsActions.UPDATING_PRICING_SUCCESS,
-        fromMultiMatchActions.MODIFY_PRICINGS_SUCCESS)
+        fromMultiMatchActions.MODIFY_PRICINGS_SUCCESS,
+        fromAddDataActions.ADD_PRICING_MATCHES_SUCCESS)
     ).subscribe(data => {
-      this.getData();
+      if (this.jobPricing.PricingId) {
+        this.getData();
+      } else {
+        this.reloadJobPricing.emit();
+      }
     });
     this.pricingMatchesSubscription = this.pricingMatches$.subscribe(data => {
       if (!data?.loading && data?.obj) {
@@ -92,12 +102,25 @@ export class MarketDataComponent implements OnChanges, OnInit, OnDestroy {
           ? statusFieldFilter.FilterValues[0] === 'true'
           : true;
       });
+    this.deleteMatchSuccessSubscription = this.actionsSubject.pipe(
+      ofType(
+        fromModifyPricingsActions.DELETING_PRICING_MATCH_SUCCESS)
+      ).subscribe(data => {
+        const isLastPricingMatch = this.pricingMatchesCount === 1;
+        if (isLastPricingMatch) {
+          this.reloadJobPricing.emit();
+        } else {
+          this.getData();
+        }
+      });
+    this.canModifyPricings = this.permissionService.CheckPermission([Permissions.MODIFY_PRICINGS], PermissionCheckEnum.Single);
   }
 
   ngOnDestroy(): void {
     this.modifyPricingsSubscription.unsubscribe();
     this.pricingMatchesSubscription.unsubscribe();
     this.isActiveJobSubscription.unsubscribe();
+    this.deleteMatchSuccessSubscription.unsubscribe();
   }
 
   trackByField(index, field: BasicDataViewField) {

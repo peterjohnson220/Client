@@ -8,6 +8,7 @@ import {Action, Store} from '@ngrx/store';
 
 import { JobsApiService, PricingApiService } from 'libs/data/payfactors-api';
 import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
+import { ModifyPricingMatchesRequest, ModifyPricingMatchesResponse } from 'libs/models/payfactors-api';
 import * as fromTempDataCutReducer from 'libs/features/temp-data-cut/reducers';
 
 import { SurveySearchFiltersHelper } from '../../../surveys/survey-search/helpers';
@@ -23,6 +24,7 @@ import * as fromMultiMatchReducer from '../reducers';
 import * as fromMultiMatchActions from '../actions/multi-match-page.actions';
 
 import { SurveySearchResultDataSources } from '../../../../constants';
+import { JobToPrice } from '../models';
 
 @Injectable()
 export class ModifyPricingsEffects {
@@ -75,9 +77,9 @@ export class ModifyPricingsEffects {
         ({ jobsToPrice, tempPeerDataCutFilterContextDictionary })
     ),
     switchMap( (context: any) => {
-      const pricingsWithChanges = context.jobsToPrice.filter(f => (!!f.DataCutsToAdd && f.DataCutsToAdd.length)
+      const pricingsWithChanges: JobToPrice[] = context.jobsToPrice.filter((f: JobToPrice) => (!!f.DataCutsToAdd && f.DataCutsToAdd.length)
         || (!!f.DeletedJobMatchCutIds && f.DeletedJobMatchCutIds.length));
-      const modifyPricingMatchesRequest = pricingsWithChanges.map(s =>  {
+      const modifyPricingMatchesRequest: ModifyPricingMatchesRequest[] = pricingsWithChanges.map(s =>  {
           return {
             PricingId: s.Id,
             JobId: s.CompanyJobId,
@@ -104,8 +106,14 @@ export class ModifyPricingsEffects {
               }))
           };
         });
+      const responses: ModifyPricingMatchesResponse[] = pricingsWithChanges.map(p => {
+        return {
+          CompanyJobId: p.CompanyJobId,
+          PaymarketId: p.PaymarketId
+        };
+      });
       return this.pricingApiService.savePricingMatches(modifyPricingMatchesRequest).pipe(
-        map(() =>  new fromModifyPricingsActions.ModifyPricingSuccess(pricingsWithChanges)),
+        map(() =>  new fromModifyPricingsActions.ModifyPricingSuccess(responses)),
         catchError(error => of(new fromModifyPricingsActions.ModifyPricingsError()))
       );
     })
