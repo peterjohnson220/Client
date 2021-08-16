@@ -171,6 +171,9 @@ export class CompensableFactorTypeComponent implements OnInit, OnDestroy, AfterV
         this.removeOldCheckBoxes();
         this.initializeData();
       }
+    } else if (!!changes.compensableFactors) {
+      this.removeOldCheckBoxes();
+      this.initializeData();
     }
   }
 
