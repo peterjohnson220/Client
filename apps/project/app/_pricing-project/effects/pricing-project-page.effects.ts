@@ -179,7 +179,7 @@ export class PricingProjectPageEffects {
           DataType: x.DataType,
           IsSelected: x.IsSelected,
           IsSortable: false,
-          Order: x.Order,
+          Order: x.DefaultOrder,
           FieldType: DataViewFieldType.DataElement,
           SortOrder: null,
           SortDirection: null,

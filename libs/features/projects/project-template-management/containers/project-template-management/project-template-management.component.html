@@ -76,6 +76,10 @@
                                      (change)="handleSelectionChanged(field)"/>
                               {{field.DisplayName}}
                             </label>
+                            <!--
+                              The numeric textbox should only be formatted for decimal display if a decimal exists
+                              Display 50 instead of 50.00 all the time. Need to get the current value off of the form to check
+                            -->
                             <kendo-numerictextbox
                               [formControlName]="getMrpControl(field)"
                               (valueChange)="updateMrpValues()"
@@ -84,7 +88,9 @@
                               [autoCorrect]="true"
                               [min]="1"
                               [max]="99"
-                              [format]="'n0'">
+                              [format]="projectTemplateForm?.getRawValue()[getMrpControl(field)]?.toString().indexOf('.') > - 1
+                              ? 'n2'
+                              : 'n0'">
                             </kendo-numerictextbox>
                           </div>
                         </div>
