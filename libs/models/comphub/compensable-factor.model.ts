@@ -2,6 +2,7 @@
 export interface CompensableFactorModel {
   Name: string;
   Data: CompensableFactorData;
+  Selected: boolean;
 }
 
 export interface CompensableFactorData {
@@ -21,6 +22,7 @@ export function generateMockCompensableFactorModel(): CompensableFactorModel {
       MedianBasePay: 2.5,
       PayDifferential: 2.5,
       PayDifferentialPercentage: 2.5
-    }
+    },
+    Selected: false
   };
 }

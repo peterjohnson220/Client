@@ -29,7 +29,7 @@ describe('TilePreviewIcon', () => {
 
   it('should show just icon and when no payload is given', () => {
     const tile = generateMockIconTile();
-    instance.model = generateTilePreviewIconFromTile(tile);
+    instance.model = generateTilePreviewIconFromTile(tile, false);
 
     fixture.detectChanges();
 
@@ -38,7 +38,7 @@ describe('TilePreviewIcon', () => {
 
   it('should show more than just an icon and when a payload is given', () => {
     const tile = generateMockIconTileWithPayload();
-    instance.model = generateTilePreviewIconFromTile(tile);
+    instance.model = generateTilePreviewIconFromTile(tile, false);
 
     fixture.detectChanges();
 

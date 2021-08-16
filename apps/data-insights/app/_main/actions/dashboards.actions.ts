@@ -34,6 +34,7 @@ export const GET_ALL_COMPANY_WORKBOOK_VIEWS_SUCCESS = '[Data Insights / Dashboar
 export const GET_ALL_COMPANY_WORKBOOK_VIEWS_ERROR = '[Data Insights / Dashboards] Get All Company Workbook Views Error';
 export const SET_DASHBOARD_VIEW = '[Data Insights / Dashboards] Set Dashboard View';
 export const SET_ALL_VIEWS_LOADED = '[Data Insights / Dashboards] Set All Views Loaded';
+export const SET_SCOPE_FILTER = '[Data Insights / Dashboards] Set Scope Filter';
 
 export class GetCompanyWorkbooks implements Action {
   readonly type = GET_COMPANY_WORKBOOKS;
@@ -205,6 +206,11 @@ export class SetAllViewsLoaded implements Action {
   constructor(public payload: boolean) {}
 }
 
+export class SetScopeFilter implements Action {
+  readonly type = SET_SCOPE_FILTER;
+  constructor(public payload: string) {}
+}
+
 export type Actions
   = GetCompanyWorkbooks
   | GetCompanyWorkbooksSuccess
@@ -234,4 +240,5 @@ export type Actions
   | GetAllCompanyWorkbookViewsError
   | GetAllCompanyWorkbookViewsSuccess
   | SetDashboardView
-  | SetAllViewsLoaded;
+  | SetAllViewsLoaded
+  | SetScopeFilter;

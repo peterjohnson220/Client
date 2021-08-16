@@ -16,13 +16,26 @@ $tile-border-radius: 9px;
 // TODO: remove this rule when `payscale-branding` feature flag is deprecated
 html.payscale-rebrand {
   .main-body-scroll {
-    background: #DBDAE0;
+    background: url("assets/images/StackedWave.svg") bottom/cover no-repeat;
   }
 
   body {
     th, .chart-label, .name, .tile-text-color, .tile-text, .tile-text-large {
       color: $payscale-primary-text-color;
+      .preview-tile-icon, .heading-icon-image, .tile-preview-list-button fa-icon {
+        color: #C3C3CA;
+      }
     }
+
+    .gu-transit {
+      opacity: 1;
+      .tile {
+        background: #f8f9f9;
+      }
+      .tile > * {
+        opacity: 0.2;
+      }
+    } 
 
     .tile {
       background: $payscale-tile-background-color;

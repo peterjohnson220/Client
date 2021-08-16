@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
 
 import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -16,7 +16,7 @@ import * as fromJobGridActions from '../../../_shared/actions/job-grid.actions';
   templateUrl: './compensable-factors.component.html',
   styleUrls: ['./compensable-factors.component.scss']
 })
-export class CompensableFactorsComponent implements OnInit, OnDestroy {
+export class CompensableFactorsComponent implements OnDestroy {
   @Input() selectedJobTitle: string;
   @Input() selectedCountry: string;
   @Input() selectedPaymarketId: number;
@@ -26,53 +26,24 @@ export class CompensableFactorsComponent implements OnInit, OnDestroy {
 
   skills: CompensableFactorModel[];
   certs: CompensableFactorModel[];
-  yearsOfExperience: CompensableFactorModel[] = [
-    { Name: '0', Data: null },
-    { Name: '1', Data: null },
-    { Name: '2', Data: null },
-    { Name: '3', Data: null },
-    { Name: '4', Data: null },
-    { Name: '5', Data: null },
-    { Name: '6', Data: null },
-    { Name: '7', Data: null },
-    { Name: '8', Data: null },
-    { Name: '9', Data: null },
-    { Name: '10', Data: null },
-    { Name: '11', Data: null },
-    { Name: '12', Data: null },
-    { Name: '13', Data: null },
-    { Name: '14', Data: null },
-    { Name: '15', Data: null },
-    { Name: '16', Data: null },
-    { Name: '17', Data: null },
-    { Name: '18', Data: null },
-    { Name: '19', Data: null },
-    { Name: '20', Data: null },
-    { Name: '21', Data: null },
-    { Name: '22', Data: null },
-    { Name: '23', Data: null },
-    { Name: '24', Data: null },
-    { Name: '25', Data: null }
-  ];
-
-  supervisoryRole: CompensableFactorModel[] = [
-    { Name: 'Yes', Data: null },
-    { Name: 'No', Data: null }
-  ];
 
   factorTypes = CompensableFactorTypes;
   compensableFactorsConstants = CompensableFactorsConstants;
   selectedFactors;
   educationTypes: CompensableFactorModel[];
-  educationTypesSub: Subscription;
+  supervisoryRole: CompensableFactorModel[];
+  yearsOfExperience: CompensableFactorModel[];
 
   constructor(
-    private store: Store<fromComphubCsdReducer.State>,
+    private store: Store<fromComphubCsdReducer.State>
   ) {
     this.compensableFactorsDataSub = this.store.select(fromComphubCsdReducer.getCompensableFactors).subscribe(f => {
       if (f) {
         this.skills = f[CompensableFactorsConstants.SKILLS];
         this.certs = f[CompensableFactorsConstants.CERTS];
+        this.supervisoryRole = f[CompensableFactorsConstants.SUPERVISORY_ROLE];
+        this.educationTypes = f[CompensableFactorsConstants.EDUCATION];
+        this.yearsOfExperience = f[CompensableFactorsConstants.YEARS_EXPERIENCE];
       }
     });
 
@@ -81,19 +52,6 @@ export class CompensableFactorsComponent implements OnInit, OnDestroy {
         this.selectedFactors = f;
       }
     });
-
-    this.educationTypesSub = this.store.select(fromComphubCsdReducer.getEducationTypes).subscribe(et => {
-      if (et) {
-        const arr = [];
-        arr.push({ Name: 'Any', Data: null });
-        et.map(x => arr.push({ Name: x, Data: null }));
-        this.educationTypes = arr;
-      }
-    });
-  }
-
-  ngOnInit(): void {
-
   }
 
   handleSubmitClicked() {
@@ -110,25 +68,25 @@ export class CompensableFactorsComponent implements OnInit, OnDestroy {
   mapSelectedFactorsToCompensableFactorsRequest(sf): CompensableFactorRequest[] {
     const factorsToSend: CompensableFactorRequest[] = [];
     if (!!sf.Years_Experience) {
-      factorsToSend.push({ Name: 'Years_Experience', SelectedFactors: sf.Years_Experience });
+      factorsToSend.push({ Name: 'Years_Experience', SelectedFactors: sf.Years_Experience.map(x => x.Name) });
     }
     if (!!sf.Skills) {
-      factorsToSend.push({ Name: 'Skills', SelectedFactors: sf.Skills });
+      factorsToSend.push({ Name: 'Skills', SelectedFactors: sf.Skills.map(x => x.Name) });
     }
     if (!!sf.Certs) {
-      factorsToSend.push({ Name: 'Certs', SelectedFactors: sf.Certs });
+      factorsToSend.push({ Name: 'Certs', SelectedFactors: sf.Certs.map(x => x.Name) });
     }
-    if (!!sf.Education) {
-      factorsToSend.push({ Name: 'Education', SelectedFactors: sf.Education });
+    if (!!sf.Education && sf.Education[0].Name !== 'Any') {
+      factorsToSend.push({ Name: 'Education', SelectedFactors: sf.Education.map(x => x.Name) });
     }
-    // always have this, defaults to 'No'
-    factorsToSend.push({ Name: 'Supervisory_Role', SelectedFactors: sf.Supervisory_Role });
+    if (!!sf.Supervisory_Role) {
+      factorsToSend.push({ Name: 'Supervisory_Role', SelectedFactors: sf.Supervisory_Role.map(x => x.Name) });
+    }
 
     return factorsToSend;
   }
 
   ngOnDestroy(): void {
     this.compensableFactorsDataSub.unsubscribe();
-    this.educationTypesSub.unsubscribe();
   }
 }

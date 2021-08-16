@@ -40,7 +40,9 @@ export class PayfactorsApiModelMapper {
         Size: pm.SizeValue,
         SizeLabel: pm.SizeLabel,
         CurrencyCode: pm.CurrencyCode,
-        CountryCode: pm.CountryCode
+        CountryCode: pm.CountryCode,
+        IsGovernmentContractor: pm.IsGovernmentContractor,
+        OrganizationTypeId: pm.OrganizationTypeId
       };
     });
   }
@@ -71,10 +73,6 @@ export class PayfactorsApiModelMapper {
       Industries: this.mapScopeValuesToKendoDropDownItems(response.Industries),
       OrganizationTypes: this.mapOrganizationTypesResponseToKendoDropDownItems(response.OrganizationTypes)
     };
-  }
-
-  static mapEducationTypeValuesToArray(response: GenericKeyValue<number, string>[]): string[] {
-    return response.map(et => et['Name']);
   }
 
   static mapScopeValuesToKendoDropDownItems(scopeValues: string[]): KendoDropDownItem[] {

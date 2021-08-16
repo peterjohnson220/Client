@@ -6,9 +6,9 @@
     <div class="d-flex flex-wrap">
       <div class="d-flex flex-column w-50">
         <div class="d-flex flex-column pl-3">
-          <h6>{{employeeTotalRewardsLite.FullName}}</h6>
-          <span>Employee ID {{employeeTotalRewardsLite.EmployeeId}}</span>
-          <span>{{employeeTotalRewardsLite.JobTitle}} ({{employeeTotalRewardsLite.JobCode}})</span>
+          <h6 pfEllipsisActive class="ellipsis-overflowing-text-wrap w-90">{{employeeTotalRewardsLite.FullName}}</h6>
+          <span pfEllipsisActive class="ellipsis-overflowing-text-wrap w-90">Employee ID {{employeeTotalRewardsLite.EmployeeId}}</span>
+          <span pfEllipsisActive class="ellipsis-overflowing-text-wrap w-90">{{employeeTotalRewardsLite.JobTitle}} ({{employeeTotalRewardsLite.JobCode}})</span>
         </div>
         <div class="graph-container">
           <div class="pl-3">

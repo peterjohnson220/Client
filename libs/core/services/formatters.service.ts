@@ -13,4 +13,13 @@ export class FormattersService {
 
     return formatter.format(rawCurrency);
   }
+
+  static buildEmployeeName(firstName: string, lastName: string, employeeId?: string): string {
+    const employeeFirstName = firstName === null ? '' : firstName;
+    const employeeLastName = lastName === null ? '' : lastName;
+    if (employeeId) {
+      return employeeFirstName + ' ' + employeeLastName + ' ' + '(' + employeeId + ')';
+    }
+    return employeeFirstName + ' ' + employeeLastName;
+  }
 }

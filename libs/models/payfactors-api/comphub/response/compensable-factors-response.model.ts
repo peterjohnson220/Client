@@ -1,6 +1,6 @@
 import { CompensableFactorModel } from '../../../comphub';
 
 export interface CompensableFactorsResponseModel {
-  CompensableFactors: {Factor: string, CompensableFactorData: CompensableFactorModel[]};
+  CompensableFactors: { Factor: string, CompensableFactorData: CompensableFactorModel[] };
 }
 

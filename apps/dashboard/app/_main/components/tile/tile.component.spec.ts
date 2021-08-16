@@ -64,7 +64,7 @@ describe('Tile', () => {
   it('generatePreviewModelForIcon should generate properly with no payload', () => {
     instance.tile = generateMockIconTile();
     fixture.detectChanges();
-    const tilePreviewIcon = generateTilePreviewIconFromTile(instance.tile);
+    const tilePreviewIcon = generateTilePreviewIconFromTile(instance.tile, false);
     expect(tilePreviewIcon.ContainsDetailData).toEqual(false);
     expect(tilePreviewIcon.faIconClass.join(' ')).toEqual(instance.tile.IconClass);
     expect(tilePreviewIcon.IconSize).toEqual('10x');
@@ -74,7 +74,7 @@ describe('Tile', () => {
   it('generatePreviewModelForIcon should generate properly with payload', () => {
     instance.tile = generateMockIconTileWithPayload();
     fixture.detectChanges();
-    const tilePreviewIconWithPayload = generateTilePreviewIconFromTile(instance.tile);
+    const tilePreviewIconWithPayload = generateTilePreviewIconFromTile(instance.tile, false);
     expect(tilePreviewIconWithPayload.ContainsDetailData).toEqual(true);
     expect(tilePreviewIconWithPayload.faIconClass.join(' ')).toEqual(instance.tile.IconClass);
     expect(tilePreviewIconWithPayload.IconSize).toEqual('4x');

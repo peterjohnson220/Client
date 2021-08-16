@@ -17,6 +17,7 @@
           [disabled]="maxSelections"
           [placeholder]="searchPlaceHolder"
           [data]="searchFactors"
+          [kendoDropDownFilter]="filterSettings"
           (valueChange)="handleSearchValueSelected($event)">
           <ng-template kendoAutoCompleteNoDataTemplate>
             No matching results
@@ -24,8 +25,8 @@
         </kendo-autocomplete>
       </div>
       <div class="pills-container pb-2" *ngFor="let factor of selectedFactors">
-        <div class="badge badge-pill" (click)="pillClicked(factor)">
-          {{factor}}
+        <div class="badge badge-pill" (click)="pillClicked(factor.Name)">
+          {{factor.Name}}
           <fa-icon icon="times" aria-hidden="true"></fa-icon>
         </div>
       </div>
@@ -35,12 +36,12 @@
 
 
 <ng-template #dropDown>
-      <kendo-dropdownlist id="rate" [ngClass]="{'small-drop-down': smallDropDown }" class="form-control k-dropdown-white"
-                          [data]="compensableFactors"
-                          [valuePrimitive]="true"
-                          [(value)]="defaultDropDownValue"
-                          [valueField]="'Name'"
-                          [textField]="'Name'"
-                          (valueChange)="handleDropDownValueSelected($event)">
-      </kendo-dropdownlist>
+  <kendo-dropdownlist id="rate" [ngClass]="{ 'small-drop-down': smallDropDown }" class="form-control k-dropdown-white"
+                      [data]="compensableFactors"
+                      [valuePrimitive]="true"
+                      [(value)]="defaultDropDownValue"
+                      [valueField]="'Name'"
+                      [textField]="'Name'"
+                      (valueChange)="handleDropDownValueSelected($event)">
+  </kendo-dropdownlist>
 </ng-template>

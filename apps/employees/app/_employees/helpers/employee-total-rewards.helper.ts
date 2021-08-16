@@ -4,6 +4,7 @@ import { getUserLocale } from 'get-user-locale';
 
 import { CompanyEmployee } from 'libs/models';
 import { EmployeeBenefit, EmployeeInsights, EmployeeTotalRewardsLite } from 'libs/models/payfactors-api';
+import { FormattersService } from 'libs/core';
 
 export class EmployeeTotalRewardsHelper {
   private static currencyPipe: CurrencyPipe = new CurrencyPipe(getUserLocale(), 'USD');
@@ -11,7 +12,7 @@ export class EmployeeTotalRewardsHelper {
   static mapEmployeeInsightsToEmployeeTotalRewardsLite(data: EmployeeInsights): EmployeeTotalRewardsLite {
     return {
       CompanyEmployeeId: data.Employee.CompanyEmployeeId,
-      FullName: `${data.Employee.FirstName} ${data.Employee.LastName}`,
+      FullName: FormattersService.buildEmployeeName(data.Employee.FirstName, data.Employee.LastName),
       JobTitle: data.Employee['JobTitle'],
       JobCode: data.Employee.JobCode,
       CurrencyCode: data.Employee.CurrencyCode,

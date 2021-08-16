@@ -26,5 +26,6 @@ export enum DataViewAccessLevel {
 export enum DataViewScope {
   Company = 'Company',
   Standard = 'Standard',
-  Personal = 'Personal'
+  Personal = 'Personal',
+  Partner = 'Partner'
 }

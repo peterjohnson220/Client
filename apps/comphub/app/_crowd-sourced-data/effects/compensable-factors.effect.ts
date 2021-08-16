@@ -1,16 +1,23 @@
 import { Injectable } from '@angular/core';
+import cloneDeep from 'lodash/cloneDeep';
 
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { catchError, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import { ComphubCrowdSourcedApiService } from 'libs/data/payfactors-api/comphub';
 
 import * as fromComphubCrowdSourcedDataReducer from '../reducers';
+import * as fromComphubSharedReducer from '../../_shared/reducers';
+import * as fromSharedComphubPageActions from '../../_shared/actions/comphub-page.actions';
+import * as fromSharedMarketPageActions from '../../_shared/actions/markets-card.actions';
 import * as fromCompensableFactorsActions from '../actions/compensable-factors.actions';
+import { CompensableFactorDataMapper } from '../helpers';
 import * as fromComphubPageActions from '../../_shared/actions/comphub-page.actions';
-
+import { CompensableFactorsConstants } from '../constants/compensable-factors-constants';
+import { generateDefaultEducationTypes, generateDefaultSupervisorRole, generateDefaultYearsExperience } from '../data';
+import * as fromComphubCsdReducer from '../reducers';
 
 @Injectable()
 export class CompensableFactorsEffect {
@@ -18,18 +25,53 @@ export class CompensableFactorsEffect {
   @Effect()
   getCompensableFactors = this.actions$
     .pipe(
-      ofType(fromCompensableFactorsActions.GET_ALL_COMPENSABLE_FACTORS),
-      switchMap((action: fromCompensableFactorsActions.GetAllCompensableFactors) => {
+      ofType(
+        fromCompensableFactorsActions.GET_ALL_COMPENSABLE_FACTORS,
+        fromSharedComphubPageActions.SET_SELECTED_JOB_DATA,
+        fromSharedMarketPageActions.SET_SELECTED_PAYMARKET
+      ),
+      withLatestFrom(
+        this.sharedStore.select(fromComphubSharedReducer.getSelectedJobData),
+        this.sharedStore.select(fromComphubSharedReducer.getSelectedPaymarket),
+        this.sharedStore.select(fromComphubSharedReducer.getWorkflowContext),
+        (action: fromCompensableFactorsActions.GetAllCompensableFactors, selectedJob, selectedPaymarket, workflowContext) =>
+          ({ action, selectedJob, selectedPaymarket, workflowContext })
+      ),
+      switchMap((data) => {
           return this.comphubCSDApiService.getCompensableFactors({
-            JobTitle: action.payload.jobTitle,
-            Country: action.payload.country,
-            PaymarketId: action.payload.paymarketId
+            JobTitle: data.selectedJob.JobTitle,
+            Country: data.workflowContext.activeCountryDataSet.CountryName,
+            PaymarketId: data?.selectedPaymarket.CompanyPayMarketId
           })
             .pipe(
-              map(response => {
-                return new fromCompensableFactorsActions.GetAllCompensableFactorsSuccess(response);
+              mergeMap((response) => {
+                const actions = [];
+                actions.push(new fromCompensableFactorsActions.GetAllCompensableFactorsSuccess(
+                  CompensableFactorDataMapper.getCompensableFactorDataMap(response)));
+
+                actions.push(new fromCompensableFactorsActions.AddDataToCompensableFactorsList({
+                    compensableFactor: CompensableFactorsConstants.YEARS_EXPERIENCE,
+                    Data: generateDefaultYearsExperience()
+                  }
+                ));
+
+                actions.push(new fromCompensableFactorsActions.AddDataToCompensableFactorsList({
+                    compensableFactor: CompensableFactorsConstants.EDUCATION,
+                    Data: generateDefaultEducationTypes()
+                  }
+                ));
+                // Get education types
+                actions.push(new fromCompensableFactorsActions.GetEducationTypes());
+
+                actions.push(new fromCompensableFactorsActions.AddDataToCompensableFactorsList({
+                    compensableFactor: CompensableFactorsConstants.SUPERVISORY_ROLE,
+                    Data: generateDefaultSupervisorRole()
+                  }
+                ));
+
+                return actions;
               }),
-              catchError((err) => of(new fromCompensableFactorsActions.GetAllCompensableFactorsError()))
+              catchError((error) => of(new fromCompensableFactorsActions.GetAllCompensableFactorsError()))
             );
         }
       ));
@@ -38,14 +80,32 @@ export class CompensableFactorsEffect {
   getEducationTypes = this.actions$
     .pipe(
       ofType(fromCompensableFactorsActions.GET_EDUCATION_TYPES),
-      switchMap(() => {
+      withLatestFrom(
+        this.sharedStore.select(fromComphubCsdReducer.getCompensableFactors),
+        (action: fromCompensableFactorsActions.GetEducationTypes, compensableFactors) =>
+          ({ action, compensableFactors })
+      ),
+      switchMap((data) => {
         return this.comphubCSDApiService.getCrowdSourcedEducationTypes()
           .pipe(
-            map((response) => new fromCompensableFactorsActions.GetEducationTypesSuccess(response)),
-            catchError((error) => of(
+            mergeMap((response) => {
+              const actions = [];
+
+              const educationData = cloneDeep(data.compensableFactors['Education']);
+              response.map(x => educationData.push({ Name: x.Name, Data: null, Selected: false }));
+              actions.push(new fromCompensableFactorsActions.AddDataToCompensableFactorsList({
+                  compensableFactor: CompensableFactorsConstants.EDUCATION,
+                  Data: educationData
+                }
+              ));
+
+              actions.push(new fromCompensableFactorsActions.GetEducationTypesSuccess());
+
+              return actions;
+            }),
+            catchError(error => of(
               new fromCompensableFactorsActions.GetEducationTypesError(),
-              new fromComphubPageActions.HandleApiError(error))
-            )
+              new fromComphubPageActions.HandleApiError(error)))
           );
       })
     );
@@ -53,6 +113,7 @@ export class CompensableFactorsEffect {
   constructor(
     private actions$: Actions,
     private store: Store<fromComphubCrowdSourcedDataReducer.State>,
+    private sharedStore: Store<fromComphubSharedReducer.State>,
     private comphubCSDApiService: ComphubCrowdSourcedApiService,
   ) {}
 }

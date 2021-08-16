@@ -31,7 +31,13 @@ export class ReportsPayfactorsApiModelMapper {
       DashboardsOrder: response.DashboardsOrder,
       FavoritesOrder: response.FavoritesOrder,
       Views: views,
-      AccessLevel: response.AccessLevel
+      Scope: response.Scope,
+      AccessLevel: response.AccessLevel,
+      CreatedBy: response.CreatedBy,
+      CreateDate: response.CreateDate,
+      LastModifiedBy: response.LastModifiedBy,
+      EditDate: response.EditDate,
+      ScopeIconClass: this.mapScopeIconClasses(response)
     };
   }
 
@@ -39,14 +45,21 @@ export class ReportsPayfactorsApiModelMapper {
     if  (response.ReportType === ReportType.TableauReport) {
       return ['far', 'chart-line'];
     }
+    return ['fal', 'table'];
+  }
+
+  static mapScopeIconClasses(response: TableauReportResponse): string[] {
     switch (response.Scope) {
       case DataViewScope.Company:
         return ['fal', 'building'];
       case DataViewScope.Standard:
         return ['fal', 'globe'];
-      default:
-        return ['fal', 'table'];
+      case DataViewScope.Personal:
+        return ['fal', 'user'];
+      case DataViewScope.Partner:
+        return ['fas', 'handshake'];
     }
+    return [];
   }
 
   static mapTableauReportViewsResponsesToViews(response: TableauReportViewsResponse[]): View[] {
