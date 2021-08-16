@@ -10,8 +10,6 @@ import { ComphubCrowdSourcedApiService } from 'libs/data/payfactors-api/comphub'
 
 import * as fromComphubCrowdSourcedDataReducer from '../reducers';
 import * as fromComphubSharedReducer from '../../_shared/reducers';
-import * as fromSharedComphubPageActions from '../../_shared/actions/comphub-page.actions';
-import * as fromSharedMarketPageActions from '../../_shared/actions/markets-card.actions';
 import * as fromCompensableFactorsActions from '../actions/compensable-factors.actions';
 import { CompensableFactorDataMapper } from '../helpers';
 import * as fromComphubPageActions from '../../_shared/actions/comphub-page.actions';
@@ -26,9 +24,7 @@ export class CompensableFactorsEffect {
   getCompensableFactors = this.actions$
     .pipe(
       ofType(
-        fromCompensableFactorsActions.GET_ALL_COMPENSABLE_FACTORS,
-        fromSharedComphubPageActions.SET_SELECTED_JOB_DATA,
-        fromSharedMarketPageActions.SET_SELECTED_PAYMARKET
+        fromCompensableFactorsActions.GET_ALL_COMPENSABLE_FACTORS
       ),
       withLatestFrom(
         this.sharedStore.select(fromComphubSharedReducer.getSelectedJobData),

@@ -15,7 +15,7 @@ export const ADD_DATA_TO_COMPENSABLE_FACTORS_LIST = '[Comphub/Compensable Factor
 export class GetAllCompensableFactors implements Action {
   readonly type = GET_ALL_COMPENSABLE_FACTORS;
 
-  constructor(public payload: { country: string, paymarketId: number }) {}
+  constructor() {}
 }
 
 export class GetAllCompensableFactorsSuccess implements Action {
