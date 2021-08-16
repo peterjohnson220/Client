@@ -50,7 +50,7 @@ export class TileComponent implements OnInit, OnDestroy {
   generatePreviewModel(tile: Tile): TilePreviewBase {
     switch (tile.PreviewType) {
       case TilePreviewTypes.Icon:
-        return generateTilePreviewIconFromTile(tile);
+        return generateTilePreviewIconFromTile(tile, this.payscaleBrandingFeatureFlag.value);
       case TilePreviewTypes.Chart:
         return generateTilePreviewChartFromTile(tile);
       case TilePreviewTypes.ChartWithCalendar:
@@ -64,7 +64,7 @@ export class TileComponent implements OnInit, OnDestroy {
       case TilePreviewTypes.BasicList:
         return generateTilePreviewBasicListFromTile(tile);
       case TilePreviewTypes.Peer:
-        return <TilePreviewPeer>{...generateTilePreviewPeerFromTile(tile), TileUrl: this.getTileHref(tile)};
+        return <TilePreviewPeer>{...generateTilePreviewPeerFromTile(tile, this.payscaleBrandingFeatureFlag.value), TileUrl: this.getTileHref(tile)};
       case TilePreviewTypes.TotalRewards:
         return {...generateTilePreviewListFromTile(tile), PreviewType: TilePreviewTypes.TotalRewards};
       case TilePreviewTypes.WhatIsNew: {
@@ -74,7 +74,7 @@ export class TileComponent implements OnInit, OnDestroy {
             this.marketingVideoSafeIframeUrl = this.getMarketingVideoIframeUrl(result);
           }
         });
-        return generateTilePreviewIconFromTile(tile);
+        return generateTilePreviewIconFromTile(tile, this.payscaleBrandingFeatureFlag.value);
       }
       default:
         return {

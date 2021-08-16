@@ -8,7 +8,6 @@ exports[`Tile Preview Chart With Calendar should not show chart without model.co
   savingSettingName$={[Function Store]}
   savingSettingSuccess$={[Function Store]}
   savingSettingSuccessSubscription={[Function Subscriber]}
-  seriesItemHighlightStyle={[Function Object]}
   store={[Function Store]}
 >
   <span
@@ -32,7 +31,6 @@ exports[`Tile Preview Chart With Calendar should show kendo chart when model.Cha
   savingSettingSuccess$={[Function Store]}
   savingSettingSuccessSubscription={[Function Subscriber]}
   selectedDate={[Function Date]}
-  seriesItemHighlightStyle={[Function Object]}
   shouldGetPricingsBeforeEffectiveDate="false"
   store={[Function Store]}
 >

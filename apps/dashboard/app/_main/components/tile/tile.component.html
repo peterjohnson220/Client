@@ -19,7 +19,8 @@
     </pf-tile-preview-chart>
 
     <pf-tile-preview-icon *ngSwitchCase="tilePreviewType.Icon"
-                          [model]="previewModel">
+                          [model]="previewModel"
+                          [payscaleBrandingFeatureFlag]="payscaleBrandingFeatureFlag.value">
     </pf-tile-preview-icon>
 
     <pf-tile-preview-list *ngSwitchCase="tilePreviewType.List"

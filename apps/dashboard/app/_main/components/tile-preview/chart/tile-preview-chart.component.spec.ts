@@ -1,5 +1,7 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { TestBed, ComponentFixture } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { TileTypes } from 'libs/models';
 
 import { TilePreviewChartComponent } from './tile-preview-chart.component';
 import { generateMockTilePreviewChartData, TilePreviewTypes } from '../../../models';
@@ -24,6 +26,7 @@ describe('Tile Preview Chart', () => {
 
   it('should show chart label', () => {
     instance.model = {
+      TileType: TileTypes.Employees,
       PreviewType: TilePreviewTypes.Chart,
       ShouldLimitLegendText: false,
       ChartType: 'test',
@@ -40,6 +43,7 @@ describe('Tile Preview Chart', () => {
     const categoryValue = 55;
     const chartComponentData = [generateMockTilePreviewChartData(categoryName, categoryValue)];
     instance.model = {
+      TileType: TileTypes.Employees,
       PreviewType: TilePreviewTypes.Chart,
       ShouldLimitLegendText: false,
       ChartType: 'test',
@@ -60,6 +64,7 @@ describe('Tile Preview Chart', () => {
     const detailValue = 55;
     const chartComponentData = [generateMockTilePreviewChartData(categoryName, 0, detailKey, detailValue)];
     instance.model = {
+      TileType: TileTypes.Employees,
       PreviewType: TilePreviewTypes.Chart,
       ShouldLimitLegendText: false,
       ChartType: 'test',
@@ -75,6 +80,7 @@ describe('Tile Preview Chart', () => {
   it('should not show kendo chart when model.ChartComponentData.length = 0', () => {
 
     instance.model = {
+      TileType: TileTypes.Employees,
       PreviewType: TilePreviewTypes.Chart,
       ShouldLimitLegendText: false,
       ChartType: 'test',
@@ -94,6 +100,7 @@ describe('Tile Preview Chart', () => {
     const chartComponentData = [generateMockTilePreviewChartData(categoryName, 0, detailKey, detailValue)];
 
     instance.model = {
+      TileType: TileTypes.Employees,
       PreviewType: TilePreviewTypes.Chart,
       ShouldLimitLegendText: false,
       ChartType: 'test',

@@ -1,8 +1,10 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 
-import { TilePreviewChart } from '../../../models';
-
 import 'hammerjs';
+
+import { TileTypes } from 'libs/models';
+
+import { TilePreviewChart } from '../../../models';
 
 @Component({
   selector: 'pf-tile-preview-chart',
@@ -16,16 +18,11 @@ export class TilePreviewChartComponent implements OnChanges {
 
   public chartData: any[] = [];
 
-  public seriesItemHighlightStyle: any = {
-    opacity: 1,
-    color: '#fff',
-    border: '#000'
-  };
-
   showChartDetail = false;
 
   legendLabelStyle: any;
   limitLabelText: any;
+  seriesItemHighlightStyle: any;
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.payscaleBrandingFeatureFlag) {
@@ -44,6 +41,24 @@ export class TilePreviewChartComponent implements OnChanges {
           }
           return e.text;
         }
+      };
+
+      let chartHighlightColor = '#312B36';
+      switch (this.model.TileType) {
+        case TileTypes.Employees:
+          chartHighlightColor = '#001F1D';
+          break;
+        case TileTypes.Surveys:
+          chartHighlightColor = '#03394F';
+          break;
+        case TileTypes.JobDescriptions:
+          chartHighlightColor = '#2A390E';
+          break;
+      }
+      this.seriesItemHighlightStyle = {
+        opacity: 1,
+        color: this.payscaleBrandingFeatureFlag ? chartHighlightColor : '#fff',
+        border: '#000'
       };
     }
   }
