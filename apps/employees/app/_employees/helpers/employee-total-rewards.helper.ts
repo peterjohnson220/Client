@@ -24,8 +24,9 @@ export class EmployeeTotalRewardsHelper {
       ShortTermIncentive: data.Employee.STI,
       LongTermIncentive: data.Employee.LTI,
       Benefits: data.EmployeeBenefits,
+      PeerOtherAllowance: data.Employee.PeerOtherAllowance,
       TotalCashCompensation: this.calculateTotalCashCompensation(data.Employee),
-      TotalBenefits: this.calculateTotalBenefits(data.EmployeeBenefits)
+      TotalBenefits: this.calculateTotalBenefits(data.EmployeeBenefits, data.Employee.PeerOtherAllowance)
     };
   }
 
@@ -33,9 +34,9 @@ export class EmployeeTotalRewardsHelper {
     return employee['BaseSalary'] + employee.Bonus + employee.BonusTarget + employee.STI + employee.LTI;
   }
 
-  static calculateTotalBenefits(data: EmployeeBenefit[]): number {
+  static calculateTotalBenefits(data: EmployeeBenefit[], peerOtherAllowance: number): number {
     const employerValues = data.map(d => d.EmployerValue);
-    const total = employerValues.reduce((a, b) => a + b, 0);
+    const total = employerValues.reduce((a, b) => a + b, 0) + (peerOtherAllowance ?? 0);
     return total;
   }
 
