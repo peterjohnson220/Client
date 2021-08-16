@@ -13,3 +13,34 @@
 tr {
   border: 1px solid black;
 }
+
+.summary-page-content {
+  padding-top: 30px;
+}
+
+.summary-panel-wrapper {
+  background-color: #f7f7f7;
+  border-right: 5px solid #ecf1f4;
+  padding: .5rem 0;
+  font-size: 12px;
+
+  .summary-panel-item {
+    padding: 0 0 10px 0;
+
+    .summary-panel-item-header {
+      text-transform: uppercase;
+    }
+
+    .summary-panel-item-value {
+      color: #306589;
+    }
+  }
+}
+
+.job-title {
+  margin-top: -10px;
+  margin-bottom: 30px;
+  font-size: 2rem;
+  font-weight: 500;
+  color: #306589;
+}
