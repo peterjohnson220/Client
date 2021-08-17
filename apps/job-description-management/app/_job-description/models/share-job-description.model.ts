@@ -11,4 +11,5 @@ export interface SharedJobDescription {
   SharedTo: ShareJobEmail;
   SharedBy: string;
   SharedDate: Date;
+  ExpirationDate?: Date;
 }
