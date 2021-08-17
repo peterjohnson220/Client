@@ -34,9 +34,10 @@ export class ExchangeDataSearchApiService {
     if (request && request.ExchangeJobIds) {
       return this.payfactorsApiService.post(`${this.endpoint}/GetExchangeExplorerContextInfo`, request);
     }
-    const exchangeRequest = payload as { exchangeId: number };
+    const exchangeRequest = payload as { exchangeId: number, includeDisabledFilters?: boolean };
     if (exchangeRequest && exchangeRequest.exchangeId) {
-      return this.payfactorsApiService.get(`${this.endpoint}/GetExchangeExplorerContextInfo/exchange/${exchangeRequest.exchangeId}`);
+      return this.payfactorsApiService.get(`${this.endpoint}/GetExchangeExplorerContextInfo/exchange/
+      ${exchangeRequest.exchangeId}`, {params: {includeDisabledFilters : exchangeRequest.includeDisabledFilters}} );
     }
     return this.payfactorsApiService.get(`${this.endpoint}/GetExchangeExplorerContextInfo`, {
       params: payload
