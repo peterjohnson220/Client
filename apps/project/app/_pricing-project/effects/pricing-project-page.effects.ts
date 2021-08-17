@@ -37,7 +37,7 @@ export class PricingProjectPageEffects {
     ),
     switchMap((data: any) => {
       const request: ProjectExportRequest = {
-        ProjectId: data.project.Id,
+        ProjectId: data.project.Project.Id,
         ProjectTemplateId: data.action.payload.ProjectTemplateId,
         DataSources: data.action.payload.DataSources,
         ProjectJobIds: [],
