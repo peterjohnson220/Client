@@ -6,7 +6,8 @@ import { ofType } from '@ngrx/effects';
 
 import { JobData, JobGridData, PricingPaymarket } from 'libs/models/comphub';
 import { GetCrowdSourcedJobPricingRequest } from 'libs/models/comphub/get-crowd-sourced-job-pricing';
-import { RateType } from 'libs/data/data-sets';
+import { Rates, RateType } from 'libs/data/data-sets';
+import { KendoDropDownItem } from 'libs/models';
 
 import { ComphubPages } from '../../../../_shared/data';
 import { MarketDataScope, WorkflowContext } from '../../../../_shared/models';
@@ -18,6 +19,7 @@ import { DataCardHelper } from '../../../../_shared/helpers';
 import { CompensableFactorDataMapper } from '../../../helpers';
 import * as fromCompensableFactorsActions from '../../../actions/compensable-factors.actions';
 import * as fromComphubCsdReducer from '../../../reducers';
+import * as fromDataCardActions from '../../../../_shared/actions/data-card.actions';
 
 @Component({
   selector: 'pf-crowd-sourced-summary-card',
@@ -47,6 +49,7 @@ export class CrowdSourcedSummaryCardComponent implements OnInit, OnDestroy {
   selectedFactors: {};
   selectedFactorsSub: Subscription;
   getAllCompensableFactorsSuccessSub: Subscription;
+  rates: KendoDropDownItem[] = Rates;
 
   constructor(
     private store: Store<fromComphubSharedReducer.State>,
@@ -119,6 +122,21 @@ export class CrowdSourcedSummaryCardComponent implements OnInit, OnDestroy {
     if (this.marketDataScope != null && this.marketDataScope.OrganizationTypes != null && id != null) {
       return this.marketDataScope.OrganizationTypes.find(x => +x.Value === id).Name;
     }
+  }
+
+  get isHourly(): boolean {
+    return (this.selectedRate === RateType.Hourly);
+  }
+
+  calculateDataByRate(value: number): number {
+    return this.isHourly
+      ? DataCardHelper.calculateDataByHourlyRate(value)
+      : value;
+  }
+
+  handleRateSelectionChange(type: KendoDropDownItem) {
+    const selectedRateType = RateType[type.Value];
+    this.store.dispatch(new fromDataCardActions.SetSelectedRate(selectedRateType));
   }
 
   ngOnDestroy(): void {
