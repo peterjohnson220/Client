@@ -37,5 +37,5 @@ export class FeatureFlags {
   static readonly PayscaleBranding = 'payscale-branding';
   static readonly EmployeeDetailsPanel = 'employee-details-panel';
   static readonly PeerGetResultsAsyncStrategy = 'peer-get-results-async-strategy';
-  static readonly ExchangeManagementSystemScopes = 'exchange-management-system-scopes'
+  static readonly ExchangeManagementSystemScopes = 'exchange-management-system-scopes';
 }
