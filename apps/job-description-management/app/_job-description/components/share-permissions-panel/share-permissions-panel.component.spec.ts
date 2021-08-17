@@ -17,7 +17,11 @@ describe('SharePermissionsPanelComponent', () => {
       schemas: [ CUSTOM_ELEMENTS_SCHEMA /* needed so use of fa-icon doesn't cause errors */],
       providers: [{
         provide: JobDescriptionSharingService,
-        useValue: { getShares: _ => new Observable(s => { subscriber = s; }) }
+        useValue: { 
+          getShares: _ => new Observable(s => { subscriber = s; }),
+          init: () => {},
+          destroy: () => {}
+        }
       }]
     })
     .compileComponents();
