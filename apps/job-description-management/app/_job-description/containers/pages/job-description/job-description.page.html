@@ -109,7 +109,8 @@
           <pf-share-permissions-panel
             [jobDescriptionId]="jobDescriptionId"
             [companyId]="companyId"
-            (onClose)="showSharePermissionsPanel = false" >
+            (onClose)="showSharePermissionsPanel = false"
+            (onShare)="openShareJobDescriptionModal()" >
           </pf-share-permissions-panel>
         </div>
         
@@ -234,7 +235,9 @@
   (securityWarningConfirmed)="handleSecurityWarningConfirmed($event)">
 </pf-file-download-security-warning-modal>
 
-
+<pf-share-job-description-modal
+[selectedJobDescriptions]="this.jobDescriptionAsMap">
+</pf-share-job-description-modal>
 
 <!-- <pf-conflict-error-modal
     #conflictErrorModal
