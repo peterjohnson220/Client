@@ -16,12 +16,16 @@
           <pf-async-container [loading]="(peerTrends$ | async).loading"></pf-async-container>
             <div class="d-flex row justify-content-around">
               <pf-historical-trend-chart
+                [width]="800"
+                [height]="500"
                 [isHourly]="false"
                 [currencyCode]="'USD'"
                 [salaryTrendData]="jobSalaryTrend">
               </pf-historical-trend-chart>
               <div class="d-flex align-items-center">
                 <pf-historical-org-inc-count-chart
+                  [width]="800"
+                  [height]="500"
                   [orgIncCountData]="trendOrgIncCountHistory"
                   [countType]="'Inc'"
                   [useTrendsDomain]="true">
