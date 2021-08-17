@@ -34,7 +34,7 @@ export class ExchangeJobAssociationUtilityEffects {
     ofType(fromExchangeOptionsActions.LOAD_EXCHANGE_OPTIONS),
     map((action: fromExchangeOptionsActions.LoadExchangeOptions) => action.payload),
     switchMap((companyId: number) =>
-      this.exchangeApiService.getExchangeDictionaryForCompany(companyId).pipe(
+      this.exchangeApiService.getExchangeDictionaryForCompany(companyId, true).pipe(
         map((exchangeOptions: GenericKeyValue<number, string>[]) => new fromExchangeOptionsActions
           .LoadExchangeOptionsSuccess(exchangeOptions)),
         catchError(() => of(new fromExchangeOptionsActions.LoadExchangeOptionsError()))

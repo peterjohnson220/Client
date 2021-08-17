@@ -1,9 +1,12 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
+import { provideMockStore } from '@ngrx/store/testing';
+
 import { JobDescriptionParserPipe } from 'libs/core/pipes';
 import { generateMockExchangeJob } from 'libs/features/peer/job-association/models/exchange-job.model';
 import { generateMockCompanyJob } from 'libs/features/peer/job-association/models/company-job.model';
+import * as userContextReducer from 'libs/state/app-context/reducers/user-context.reducer';
 
 import { ExchangeDetailComponent } from './exchange-job-detail.component';
 
@@ -11,10 +14,13 @@ describe('ExchangeDetailComponent', () => {
   let component: ExchangeDetailComponent;
   let fixture: ComponentFixture<ExchangeDetailComponent>;
 
+  const initialState = userContextReducer.initialState;
+
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ExchangeDetailComponent, JobDescriptionParserPipe],
-      schemas: [NO_ERRORS_SCHEMA]
+      schemas: [NO_ERRORS_SCHEMA],
+      providers: [ provideMockStore({initialState})]
     });
   }));
 
@@ -24,6 +30,7 @@ describe('ExchangeDetailComponent', () => {
 
     component.selectedCompanyJob = {} as any;
     component.exchangeJob = {} as any;
+
     fixture.detectChanges();
   });
 
@@ -53,7 +60,10 @@ describe('ExchangeDetailComponent', () => {
   });
 
   it('should show the unmatch button when a matched company job is selected', () => {
+
     component.selectedCompanyJob = { ...generateMockCompanyJob(), IsPendingPeerUserReview: false, IsAssociated: true };
+
+
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });

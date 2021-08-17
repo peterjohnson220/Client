@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 
 import {select, Store} from '@ngrx/store';
 import {Observable, Subscription} from 'rxjs';
+import { take } from 'rxjs/operators';
 import {DataStateChangeEvent, GridDataResult, SelectionEvent} from '@progress/kendo-angular-grid';
 import {State} from '@progress/kendo-data-query';
 import cloneDeep from 'lodash/cloneDeep';
@@ -11,7 +12,7 @@ import {
   FeatureAreaConstants,
   GenericKeyValue,
   GridTypeEnum,
-  KendoDropDownItem,
+  KendoDropDownItem, StatusEnum,
   UiPersistenceSettingConstants
 } from 'libs/models';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
@@ -25,6 +26,7 @@ import * as fromExchangeJobComparisonGridActions from '../../actions/exchange-jo
 import * as fromExchangeDashboardActions from '../../actions/exchange-dashboard.actions';
 import * as fromUploadOrgDataActions from '../../actions/upload-org-data.actions';
 import * as fromDashboardReducer from '../../reducers';
+import * as fromPeerSharedReducer from '../../../shared/reducers';
 
 @Component({
   selector: 'pf-exchange-job-comparison-grid',
@@ -41,12 +43,15 @@ export class ExchangeJobComparisonGridComponent implements OnInit, OnDestroy {
   persistedComparisonGridRate$: Observable<string>;
   persistedComparisonGridWeightType$: Observable<string>;
   companyContext$: Observable<any>;
+  exchangeStatus$: Observable<StatusEnum>;
+  isSiteAdminOrImpersonating$: Observable<boolean>;
 
   exchangeJobOrgsDetailVisibleSubscription: Subscription;
   exchangeJobComparisonGridStateSubscription: Subscription;
   persistedComparisonGridMarketSubscription: Subscription;
   persistedComparisonGridRateSubscription: Subscription;
   persistedComparisonGridWeightTypeSubscription: Subscription;
+  exchangeStatusSubscription: Subscription;
 
   exchangeJobComparisonGridState: State;
   marketFilterOptions: GenericKeyValue<string, string>[] = [{Key: 'USA', Value: 'USA'}, {Key: 'ALL', Value: 'Global'}];
@@ -58,6 +63,7 @@ export class ExchangeJobComparisonGridComponent implements OnInit, OnDestroy {
   selectedWeight: KendoDropDownItem = { Name: WeightType.Inc, Value: WeightType.Inc };
   displayCompanyBaseAverage: boolean;
   permissions = Permissions;
+  exchangeStatus: StatusEnum;
 
   constructor(
     private store: Store<fromDashboardReducer.State>,
@@ -70,6 +76,8 @@ export class ExchangeJobComparisonGridComponent implements OnInit, OnDestroy {
     this.exchangeJobComparisonsGridState$ = this.store.pipe(select(fromDashboardReducer.getExchangeJobComparisonsGridState));
     this.exchangeJobOrgsDetailVisible$ = this.store.pipe(select(fromDashboardReducer.getExchangeDashboardExchangeJobOrgsDetailVisible));
     this.companyContext$ = this.store.pipe(select(fromRootState.getCompanyContext));
+    this.isSiteAdminOrImpersonating$ = this.store.pipe(select(fromRootState.getIsAdminOrImpersonating));
+    this.exchangeStatus$ = this.store.pipe(select(fromPeerSharedReducer.getExchangeStatus));
     this.persistedComparisonGridMarket$ = this.settingsService.selectUiPersistenceSetting(
       FeatureAreaConstants.PeerDashboard,
       UiPersistenceSettingConstants.ComparisonMarketSelection,
@@ -205,6 +213,8 @@ export class ExchangeJobComparisonGridComponent implements OnInit, OnDestroy {
         this.selectedKeys = [];
       }
     });
+    this.exchangeStatusSubscription = this.exchangeStatus$.subscribe( es => this.exchangeStatus = es);
+
   }
 
   ngOnDestroy() {
@@ -212,5 +222,17 @@ export class ExchangeJobComparisonGridComponent implements OnInit, OnDestroy {
     this.persistedComparisonGridRateSubscription.unsubscribe();
     this.exchangeJobComparisonGridStateSubscription.unsubscribe();
     this.exchangeJobOrgsDetailVisibleSubscription.unsubscribe();
+    this.exchangeStatusSubscription.unsubscribe();
+  }
+
+  displayExchangeBaseAverage(): boolean {
+
+    let isSiteAdminOrImpersonating: boolean;
+
+    this.isSiteAdminOrImpersonating$.pipe(take(1)).subscribe(x => {
+      isSiteAdminOrImpersonating = x;
+    });
+
+    return isSiteAdminOrImpersonating || this.exchangeStatus === StatusEnum.Active;
   }
 }

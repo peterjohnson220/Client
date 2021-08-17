@@ -60,6 +60,11 @@ export const getExchangeLoadingError = createSelector(
   fromExchangeReducer.getLoadingError
 );
 
+export const getExchangeStatus = createSelector(
+  selectExchangeState,
+  fromExchangeReducer.getExchangeStatus
+);
+
 export const {
   selectAll: getExchangeSelectorList
 } = fromExchangeSelectorReducer.adapter.getSelectors(selectExchangeSelectorState);

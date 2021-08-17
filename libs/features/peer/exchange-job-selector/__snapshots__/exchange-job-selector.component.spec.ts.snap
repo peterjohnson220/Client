@@ -78,7 +78,7 @@ exports[`Features - Peer - Exchange Job Selector Component should display exchan
         <i
           class="ellipsis-overflowing-text text-muted"
         >
-          MockExchangeName (INACTIVE)
+          MockExchangeName (Inactive)
         </i>
       </span>
     </button>
