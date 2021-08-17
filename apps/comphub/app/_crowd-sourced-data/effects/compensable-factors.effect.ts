@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import cloneDeep from 'lodash/cloneDeep';
 
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Store } from '@ngrx/store';
-import { catchError, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { Action, Store } from '@ngrx/store';
+import { catchError, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
 
 import { ComphubCrowdSourcedApiService } from 'libs/data/payfactors-api/comphub';
 
@@ -38,39 +38,50 @@ export class CompensableFactorsEffect {
             JobTitle: data.selectedJob.JobTitle,
             Country: data.workflowContext.activeCountryDataSet.CountryName,
             PaymarketId: data?.selectedPaymarket.CompanyPayMarketId
-          })
-            .pipe(
-              mergeMap((response) => {
-                const actions = [];
-                actions.push(new fromCompensableFactorsActions.GetAllCompensableFactorsSuccess(
-                  CompensableFactorDataMapper.getCompensableFactorDataMap(response)));
-
-                actions.push(new fromCompensableFactorsActions.AddDataToCompensableFactorsList({
-                    compensableFactor: CompensableFactorsConstants.YEARS_EXPERIENCE,
-                    Data: generateDefaultYearsExperience()
-                  }
-                ));
-
-                actions.push(new fromCompensableFactorsActions.AddDataToCompensableFactorsList({
-                    compensableFactor: CompensableFactorsConstants.EDUCATION,
-                    Data: generateDefaultEducationTypes()
-                  }
-                ));
-                // Get education types
-                actions.push(new fromCompensableFactorsActions.GetEducationTypes());
-
-                actions.push(new fromCompensableFactorsActions.AddDataToCompensableFactorsList({
-                    compensableFactor: CompensableFactorsConstants.SUPERVISORY_ROLE,
-                    Data: generateDefaultSupervisorRole()
-                  }
-                ));
-
-                return actions;
-              }),
-              catchError((error) => of(new fromCompensableFactorsActions.GetAllCompensableFactorsError()))
-            );
+          }).pipe(
+            map((response) => {
+              return new fromCompensableFactorsActions.GetAllCompensableFactorsSuccess(
+                CompensableFactorDataMapper.getCompensableFactorDataMap(response));
+            }),
+            catchError(() => of(new fromCompensableFactorsActions.GetAllCompensableFactorsError()))
+          );
         }
       ));
+
+  @Effect()
+  getCompensableFactorsSuccess: Observable<Action> = this.actions$.pipe(
+    ofType(
+      fromCompensableFactorsActions.GET_ALL_COMPENSABLE_FACTORS_SUCCESS
+    ),
+    switchMap(() => {
+      const actions = [];
+
+      // Default Years of experience
+      actions.push(new fromCompensableFactorsActions.AddDataToCompensableFactorsList({
+          compensableFactor: CompensableFactorsConstants.YEARS_EXPERIENCE,
+          Data: generateDefaultYearsExperience()
+        }
+      ));
+
+      // Default Education types
+      actions.push(new fromCompensableFactorsActions.AddDataToCompensableFactorsList({
+          compensableFactor: CompensableFactorsConstants.EDUCATION,
+          Data: generateDefaultEducationTypes()
+        }
+      ));
+      // Get Education types
+      actions.push(new fromCompensableFactorsActions.GetEducationTypes());
+
+      // Default Supervisory role
+      actions.push(new fromCompensableFactorsActions.AddDataToCompensableFactorsList({
+          compensableFactor: CompensableFactorsConstants.SUPERVISORY_ROLE,
+          Data: generateDefaultSupervisorRole()
+        }
+      ));
+
+      return actions;
+    })
+  );
 
   @Effect()
   getEducationTypes = this.actions$

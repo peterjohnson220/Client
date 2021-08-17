@@ -156,7 +156,8 @@
         <ng-container *ngIf="summaryPage" #CompensableFactors>
           <pf-compensable-factors [selectedJobTitle]="selectedJob?.JobTitle"
                                   [selectedCountry]="this.workflowContext.activeCountryDataSet.CountryName"
-                                  [selectedPaymarketId]="this.selectedPaymarket.CompanyPayMarketId">
+                                  [selectedPaymarketId]="this.selectedPaymarket.CompanyPayMarketId"
+                                  [selectedFactors]="this.selectedFactors">
           </pf-compensable-factors>
         </ng-container>
       </div>

@@ -1,7 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { Observable, Subscription } from 'rxjs';
-import { Store } from '@ngrx/store';
+import { ActionsSubject, Store } from '@ngrx/store';
+import { ofType } from '@ngrx/effects';
 
 import { JobData, JobGridData, PricingPaymarket } from 'libs/models/comphub';
 import { GetCrowdSourcedJobPricingRequest } from 'libs/models/comphub/get-crowd-sourced-job-pricing';
@@ -14,7 +15,9 @@ import * as fromJobGridActions from '../../../../_shared/actions/job-grid.action
 import { SummaryPageSalaryData } from '../../../models';
 import * as fromMarketsCardActions from '../../../../_shared/actions/markets-card.actions';
 import { DataCardHelper } from '../../../../_shared/helpers';
+import { CompensableFactorDataMapper } from '../../../helpers';
 import * as fromCompensableFactorsActions from '../../../actions/compensable-factors.actions';
+import * as fromComphubCsdReducer from '../../../reducers';
 
 @Component({
   selector: 'pf-crowd-sourced-summary-card',
@@ -41,13 +44,22 @@ export class CrowdSourcedSummaryCardComponent implements OnInit, OnDestroy {
   selectedRateSub: Subscription;
   marketDataScopeSub: Subscription;
   marketDataScope: MarketDataScope;
+  selectedFactors: {};
+  selectedFactorsSub: Subscription;
+  getAllCompensableFactorsSuccessSub: Subscription;
 
   constructor(
-    private store: Store<fromComphubSharedReducer.State>
+    private store: Store<fromComphubSharedReducer.State>,
+    private actionsSubject: ActionsSubject
   ) {
     this.selectedPaymarket$ = this.store.select(fromComphubSharedReducer.getSelectedPaymarket);
     this.workflowContext$ = this.store.select(fromComphubSharedReducer.getWorkflowContext);
     this.jobResults$ = this.store.select(fromComphubSharedReducer.getJobGridResults);
+    this.selectedFactorsSub = this.store.select(fromComphubCsdReducer.getSelectedFactors).subscribe(f => {
+      if (f) {
+        this.selectedFactors = f;
+      }
+    });
     this.firstDayOfMonth = DataCardHelper.firstDayOfMonth();
   }
 
@@ -66,7 +78,6 @@ export class CrowdSourcedSummaryCardComponent implements OnInit, OnDestroy {
         this.summaryPage = true;
         this.workflowContext = wc;
         this.store.dispatch(new fromCompensableFactorsActions.GetAllCompensableFactors());
-        this.getInitialPricing();
       }
     });
 
@@ -85,6 +96,13 @@ export class CrowdSourcedSummaryCardComponent implements OnInit, OnDestroy {
     );
 
     this.store.dispatch(new fromMarketsCardActions.GetMarketDataScope());
+
+    // We need to get initial pricing only when all compensable factors loaded because of some default values
+    this.getAllCompensableFactorsSuccessSub = this.actionsSubject
+      .pipe(ofType(fromCompensableFactorsActions.GET_ALL_COMPENSABLE_FACTORS_SUCCESS))
+      .subscribe(() => {
+        this.getInitialPricing();
+      });
   }
 
   getInitialPricing() {
@@ -92,7 +110,7 @@ export class CrowdSourcedSummaryCardComponent implements OnInit, OnDestroy {
       JobTitle: this.selectedJob.JobTitle,
       Country: this.workflowContext.activeCountryDataSet.CountryName,
       PaymarketId: this.selectedPaymarket.CompanyPayMarketId,
-      SelectedFactors: null
+      SelectedFactors: CompensableFactorDataMapper.mapSelectedFactorsToCompensableFactorsRequest(this.selectedFactors)
     };
     this.store.dispatch(new fromJobGridActions.GetCrowdSourcedJobPricing(request));
   }
@@ -110,5 +128,7 @@ export class CrowdSourcedSummaryCardComponent implements OnInit, OnDestroy {
     this.selectedJobSub.unsubscribe();
     this.selectedRateSub.unsubscribe();
     this.marketDataScopeSub.unsubscribe();
+    this.selectedFactorsSub.unsubscribe();
+    this.getAllCompensableFactorsSuccessSub.unsubscribe();
   }
 }
