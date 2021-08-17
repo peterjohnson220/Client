@@ -1,0 +1,43 @@
+<ng-container>
+  <pf-async-container [loading]="(chartData$ | async)?.loading || (structuresAsync$ | async)?.loading"></pf-async-container>
+  <div class="d-flex flex-column">
+    <div class="d-flex p-3">
+      <div class="title">Range Penetration</div>
+      <div class="d-flex flex-fill justify-content-end">
+        <div *ngIf="structures?.length > 0">
+          <kendo-dropdownlist
+            [attr.data-qa-id]="'ddm-employee-salary-range-chart-structures'"
+            [data]="structures"
+            [textField]="'StructureName'"
+            [valueField]="'CompanyStructuresRangeGroupId'"
+            [ngModel]="selectedStructure"
+            [style.width.px]="250"
+            class="k-dropdown-white"
+            (selectionChange)="handleSelectedStructureChanged($event)">
+            <ng-template kendoDropDownListItemTemplate let-dataItem>
+              <div pfEllipsisActive class="ellipsis-overflowing-text">
+                <span>{{ dataItem.StructureName }}</span>
+              </div>
+            </ng-template>
+          </kendo-dropdownlist>
+        </div>
+      </div>
+    </div>
+    <ng-container *ngIf="chartData && rangeDistributionTypeId; else noDataTemplate">
+      <div class="chart-container px-3">
+        <highcharts-chart
+          class="chart"
+          [Highcharts]="Highcharts"
+          [options]="chartOptions"
+          (chartInstance)="setChartInstance($event)">
+        </highcharts-chart>
+      </div>
+    </ng-container>
+  </div>
+</ng-container>
+
+<ng-template #noDataTemplate>
+  <div class="px-3 pb-3 no-data-container d-flex align-items-center justify-content-center">
+    <span>No data to display.</span>
+  </div>
+</ng-template>

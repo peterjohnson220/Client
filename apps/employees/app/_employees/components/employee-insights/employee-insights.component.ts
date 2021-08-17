@@ -5,6 +5,7 @@ import { filter, take } from 'rxjs/operators';
 
 import { AsyncStateObj, GenericKeyValue, UserContext } from 'libs/models';
 import { EmployeeInsights } from 'libs/models/payfactors-api/employees/employee-insights.model';
+import { EmployeeForSalaryRangeChart } from 'libs/features/employees/employee-salary-range-chart/models';
 import * as fromRootState from 'libs/state/state';
 
 import * as fromEmployeeInsightsActions from '../../actions/employee-insights.actions';
@@ -37,6 +38,7 @@ export class EmployeeInsightsComponent implements OnInit, OnDestroy {
   customEmployeeFields: GenericKeyValue<string, string>[];
   allCustomEmployeeFields: GenericKeyValue<string, string>[];
   isViewMore: boolean;
+  employeeForSalaryRangeChart: EmployeeForSalaryRangeChart;
 
   constructor(
     private store: Store<fromEmployeesPageReducer.State>,
@@ -85,6 +87,12 @@ export class EmployeeInsightsComponent implements OnInit, OnDestroy {
     this.incentives = EmployeesInsightsHelper.mapEmployeeDataToGenericKeyValues(employeeInsights, EmployeeDetailSections.Incentives);
     this.employeeBenefits = EmployeesInsightsHelper.mapEmployeeBenefitsDataToGenericKeyValues(employeeInsights.EmployeeBenefits);
     this.customEmployeeFields = EmployeesInsightsHelper.getCustomFieldsWithValues(employeeInsights, customFields);
+    this.employeeForSalaryRangeChart = {
+      CompanyEmployeeId: this.employeeInsights.Employee.CompanyEmployeeId,
+      CompanyJobId: this.employeeInsights.Employee.CompanyJobId,
+      CompanyPayMarketId: this.employeeInsights.Employee.CompanyPayMarketId,
+      StructureRangeGroupId: this.employeeInsights.StructureRangeGroupId
+    };
   }
 
   private loadCustomEmployeeFields(companyId: number): void {
