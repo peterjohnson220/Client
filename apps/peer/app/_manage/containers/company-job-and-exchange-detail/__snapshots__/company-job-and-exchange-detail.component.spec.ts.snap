@@ -2,9 +2,12 @@
 
 exports[`CompanyJobAndExchangeDetailComponent should render the exchange job detail panel when the selected company job is associated 1`] = `
 <pf-company-job-and-exchange-detail
+  StatusEnum={[Function Object]}
   __ngContext__={[Function LRootView]}
   allSubscriptions={[Function Subscription]}
   exchangeId="null"
+  exchangeStatus$={[Function Store]}
+  isAdminOrImpersonating$={[Function Store]}
   jdmDescriptionIds$={[Function Store]}
   jdmDescriptionLoading$={[Function Store]}
   jdmDescriptionLoadingError$={[Function Store]}
@@ -12,6 +15,7 @@ exports[`CompanyJobAndExchangeDetailComponent should render the exchange job det
   mappedExchangeJobsLoading$={[Function Store]}
   mappedExchangeJobsLoadingError$={[Function Store]}
   mappedExchangeJobsLoadingSuccess$={[Function Store]}
+  peerSharedStore={[Function Store]}
   savingAssociation$={[Function Store]}
   savingAssociationError$={[Function Store]}
   selectedCompanyJob="null"
@@ -62,9 +66,12 @@ exports[`CompanyJobAndExchangeDetailComponent should render the exchange job det
 
 exports[`CompanyJobAndExchangeDetailComponent should render the exchange job search panel when the selected company job is not associated 1`] = `
 <pf-company-job-and-exchange-detail
+  StatusEnum={[Function Object]}
   __ngContext__={[Function LRootView]}
   allSubscriptions={[Function Subscription]}
   exchangeId="null"
+  exchangeStatus$={[Function Store]}
+  isAdminOrImpersonating$={[Function Store]}
   jdmDescriptionIds$={[Function Store]}
   jdmDescriptionLoading$={[Function Store]}
   jdmDescriptionLoadingError$={[Function Store]}
@@ -72,6 +79,7 @@ exports[`CompanyJobAndExchangeDetailComponent should render the exchange job sea
   mappedExchangeJobsLoading$={[Function Store]}
   mappedExchangeJobsLoadingError$={[Function Store]}
   mappedExchangeJobsLoadingSuccess$={[Function Store]}
+  peerSharedStore={[Function Store]}
   savingAssociation$={[Function Store]}
   savingAssociationError$={[Function Store]}
   selectedCompanyJob="null"

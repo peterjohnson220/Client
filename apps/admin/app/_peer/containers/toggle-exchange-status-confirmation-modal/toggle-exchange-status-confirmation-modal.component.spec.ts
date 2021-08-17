@@ -45,6 +45,7 @@ describe('Exchange Management - Toggle Exchange Status Confirmation Modal', () =
 
   it(`should display 'Deactivate' verbiage when exchange is active`, () => {
     instance.exchange$ = of({...mockExchange, Status: StatusEnum.Active});
+    instance.selectedExchangeStatus$ = of(StatusEnum.Active);
 
     fixture.detectChanges();
 
@@ -53,6 +54,16 @@ describe('Exchange Management - Toggle Exchange Status Confirmation Modal', () =
 
   it(`should display 'Activate' verbiage when exchange is inactive`, () => {
     instance.exchange$ = of({...mockExchange, Status: StatusEnum.Inactive});
+    instance.selectedExchangeStatus$ = of(StatusEnum.Inactive);
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it(`should display 'Update' verbiage when exchange is preliminary`, () => {
+    instance.exchange$ = of({...mockExchange, Status: StatusEnum.Preliminary});
+    instance.selectedExchangeStatus$ = of(StatusEnum.Preliminary);
 
     fixture.detectChanges();
 
@@ -64,6 +75,7 @@ describe('Exchange Management - Toggle Exchange Status Confirmation Modal', () =
     const expectedAction = new fromExchangeActions.UpdateExchangeStatus(exchange.ExchangeId, StatusEnum.Inactive);
 
     instance.exchange$ = of(exchange);
+    instance.selectedExchangeStatus$ = of(StatusEnum.Inactive);
 
     fixture.detectChanges();
 
