@@ -71,7 +71,7 @@ export class SavePeerTrendModalComponent implements OnInit, OnDestroy {
 
   createForm() {
     this.savePeerTrendForm = this.fb.group({
-      'name': [ '', [PfValidators.required, Validators.minLength(3)], [this.peerTrendNameValidator()] ],
+      'name': [ '', [PfValidators.required, Validators.minLength(3), Validators.maxLength(100)], [this.peerTrendNameValidator()] ],
       'rollForward': [ false ]
     });
   }

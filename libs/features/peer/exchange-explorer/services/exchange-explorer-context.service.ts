@@ -23,7 +23,8 @@ export class ExchangeExplorerContextService {
     const includeDisabledFilters$ = this.store.pipe(select(fromExchangeExplorerReducer.getIncludeDisabledFilters));
     const searchFilters$ = this.searchStore.pipe(select(fromSearchReducer.getParentFilters));
     const childFilters$ = this.searchStore.pipe(select(fromSearchReducer.getChildFilters));
-    const combinedFilterContext$ = combineLatest([filterContext$, mapFilter$, mapZoom$, includeDisabledFilters$, searchFilters$, childFilters$]);
+    const includeCurrentCompany$ = this.store.pipe(select(fromExchangeExplorerReducer.getIncludeCurrentCompany));
+    const combinedFilterContext$ = combineLatest([filterContext$, mapFilter$, mapZoom$, includeDisabledFilters$, searchFilters$, childFilters$, includeCurrentCompany$]);
 
     return combinedFilterContext$.pipe(
       map((combined) => {
@@ -39,7 +40,8 @@ export class ExchangeExplorerContextService {
           FilterContext: filterContext,
           Filters: filters.concat(childFilters),
           SearchFields: !!searchFields ? searchFields : [],
-          IncludeDisabledFilters: combined[3]
+          IncludeDisabledFilters: combined[3],
+          IncludeCurrentCompany: combined[6]
         };
         return exchangeDataSearchRequest;
       })

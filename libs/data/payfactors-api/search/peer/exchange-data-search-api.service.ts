@@ -25,7 +25,7 @@ export class ExchangeDataSearchApiService {
   constructor(private payfactorsApiService: PayfactorsApiService) { }
 
   getExchangeExplorerContextInfo(
-    payload: ComphubExchangeExplorerContextRequest |
+    payload: { request: ComphubExchangeExplorerContextRequest, includeCurrentCompany?: boolean } |
     { companyJobId?: number, companyPayMarketId?: number } |
     { exchangeId: number, includeDisabledFilters?: boolean }
     ):

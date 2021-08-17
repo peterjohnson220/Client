@@ -15,6 +15,7 @@ export interface State {
   exchangeJobFilterOptions: ExchangeJobExchangeDetail[];
   searchFilterMappingDataObj: SearchFilterMappingDataObj;
   includeDisabledFilters: boolean;
+  includeCurrentCompany: boolean;
 
   // TODO: Currently not using these but may be a good place for them at some point.
   companyJobId: number;
@@ -31,7 +32,7 @@ export const initialState: State = {
   exchangeJobFilterOptions: [],
   searchFilterMappingDataObj: {},
   includeDisabledFilters: false,
-
+  includeCurrentCompany: false,
   companyJobId: 0,
   companyPayMarketId: 0
 };
@@ -56,7 +57,8 @@ export function reducer(state = initialState, action: fromExchangeExplorerContex
         payMarketGeoData: payload.payMarketGeoData,
         exchangeJobFilterOptions: payload.exchangeJobFilterOptions,
         searchFilterMappingDataObj: payload.searchFilterMappingDataObj,
-        includeDisabledFilters: payload.includeDisabledFilters
+        includeDisabledFilters: payload.includeDisabledFilters,
+        includeCurrentCompany: payload.includeCurrentCompany
       };
 
       if (!initialLoadCompleteState) {
@@ -112,3 +114,4 @@ export const getPayMarketGeoData = (state: State) => state.payMarketGeoData;
 export const getExchangeJobFilterOptions = (state: State) => state.exchangeJobFilterOptions;
 export const getSearchFilterMappingDataObj = (state: State) => state.searchFilterMappingDataObj;
 export const getIncludeDisabledFilters = (state: State) => state.includeDisabledFilters;
+export const getIncludeCurrentCompany = (state: State) => state.includeCurrentCompany;

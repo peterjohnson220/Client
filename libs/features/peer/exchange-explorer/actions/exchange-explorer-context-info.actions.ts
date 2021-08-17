@@ -20,11 +20,11 @@ export class LoadContextInfo implements Action {
   readonly type = LOAD_CONTEXT_INFO;
 
   constructor(public payload:
-    ComphubExchangeExplorerContextRequest
-    | {companyJobId?: number, companyPayMarketId?: number}
-    | {exchangeId: number, defaultScopeId?: string, includeDisabledFilters?: boolean}
-    | {lockedExchangeJobId: number, companyPayMarketId: number}
-    | {lockedExchangeJobId: number, exchangeDataSearchRequest: BaseExchangeDataSearchRequest}
+    { request: ComphubExchangeExplorerContextRequest, includeCurrentCompany?: boolean }
+    | { companyJobId?: number, companyPayMarketId?: number }
+    | { lockedExchangeJobId: number, exchangeDataSearchRequest: BaseExchangeDataSearchRequest }
+    | { exchangeId: number, defaultScopeId?: string, includeDisabledFilters?: boolean }
+    | { lockedExchangeJobId: number, companyPayMarketId: number }
     ) {}
 }
 
@@ -36,7 +36,8 @@ export class LoadContextInfoSuccess implements Action {
     payMarketGeoData: MapGeoData,
     exchangeJobFilterOptions: ExchangeJobExchangeDetail[],
     searchFilterMappingDataObj: SearchFilterMappingDataObj,
-    includeDisabledFilters?: boolean
+    includeDisabledFilters?: boolean,
+    includeCurrentCompany?: boolean
   }) {}
 }
 

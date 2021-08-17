@@ -20,6 +20,8 @@ export class HistoricalOrgIncCountChartComponent implements OnInit, OnDestroy, O
   @Input() orgIncCountData: OrgIncCountData[];
   @Input() countType: string;
   @Input() useTrendsDomain = false;
+  @Input() height = 300;
+  @Input() width = 400;
 
   Highcharts: typeof Highcharts = Highcharts;
   chart: Highcharts.Chart;
@@ -80,8 +82,8 @@ export class HistoricalOrgIncCountChartComponent implements OnInit, OnDestroy, O
     return {
       chart: {
         type: 'areaspline',
-        height: 300,
-        width: 400,
+        height: this.height,
+        width: this.width,
         plotBorderWidth: 1
       },
       title: {
@@ -116,7 +118,10 @@ export class HistoricalOrgIncCountChartComponent implements OnInit, OnDestroy, O
           width: 2,
           value: clientDataCutoffDate,
           zIndex: 5
-        }]
+        }],
+        minPadding: 0,
+        maxPadding: 0,
+
       },
       yAxis: {
         labels: {

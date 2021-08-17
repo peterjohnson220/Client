@@ -22,6 +22,8 @@ export class HistoricalTrendChartComponent implements OnInit, OnDestroy, OnChang
   @Input() salaryTrendData: PayRateDate[];
   @Input() isHourly: boolean;
   @Input() currencyCode: string;
+  @Input() height: number;
+  @Input() width: number;
 
   Highcharts: typeof Highcharts = Highcharts;
   chart: Highcharts.Chart;
@@ -37,6 +39,7 @@ export class HistoricalTrendChartComponent implements OnInit, OnDestroy, OnChang
   trendChartDomain$: Observable<any>;
   trendChartDomainSubscription: Subscription;
   trendChartDomain: any;
+
 
   constructor(private store: Store<fromComphubPeerTrendsDataReducers.State>,
               private datePipe: DatePipe,
@@ -79,14 +82,13 @@ export class HistoricalTrendChartComponent implements OnInit, OnDestroy, OnChang
     return {
       chart: {
         type: 'areaspline',
-        height: 500,
-        width: 800,
+        height: this.height,
+        width: this.width,
         plotBorderWidth: 1
       },
       rangeSelector: {
         enabled: true,
         allButtonsEnabled: true,
-        selected: 3,
         buttons: [{
           type: 'month',
           count: 6,
@@ -136,9 +138,10 @@ export class HistoricalTrendChartComponent implements OnInit, OnDestroy, OnChang
         }
       },
       xAxis: {
+        minPadding: 0,
+        maxPadding: 0,
         type: 'datetime',
-        showLastLabel: 'true',
-        showFirstLabel: 'true',
+
         events: {
           afterSetExtremes : (event) => { this.onSetExtremes(event); },
         },

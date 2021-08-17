@@ -308,9 +308,9 @@ describe('Libs - Features - Peer - Exchange Explorer', () => {
       CompanyPayMarketId : 1
     };
 
-    const expectedAction = new fromExchangeExplorerContextInfoActions.LoadContextInfo(request);
-
     spyOn(store, 'dispatch');
+
+    const expectedAction = new fromExchangeExplorerContextInfoActions.LoadContextInfo({request: request});
 
     instance.onSetContext(payload);
 

@@ -154,7 +154,9 @@ export class ExchangeExplorerComponent extends SearchBaseDirective {
           ExchangeJobIds : payload.exchangeJobIds,
           CompanyPayMarketId : payload.companyPayMarketId
         };
-        this.store.dispatch(new fromExchangeExplorerContextInfoActions.LoadContextInfo(request));
+        this.store.dispatch(new fromExchangeExplorerContextInfoActions.LoadContextInfo(
+          { request: request, includeCurrentCompany: payload.includeCurrentCompany }
+          ));
       } else {
         const defaultScopeId$ = this.settingsService.selectUiPersistenceSettingFromDictionary<string>(
           FeatureAreaConstants.PeerManageScopes, UiPersistenceSettingConstants.PeerDefaultExchangeScopes, payload.exchangeId
@@ -166,7 +168,8 @@ export class ExchangeExplorerComponent extends SearchBaseDirective {
           this.store.dispatch(new fromExchangeExplorerContextInfoActions.LoadContextInfo({
             exchangeId: this.exchangeId,
             defaultScopeId: s,
-            includeDisabledFilters: !!payload.includeDisabledFilters
+            includeDisabledFilters: !!payload.includeDisabledFilters,
+            includeCurrentCompany: !!payload.includeCurrentCompany
           }));
         });
       }

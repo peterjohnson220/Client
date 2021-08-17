@@ -142,6 +142,10 @@ export const getIncludeDisabledFilters = createSelector(
   selectExchangeExplorerContextInfo,
   fromExchangeExplorerContextInfoReducer.getIncludeDisabledFilters
 );
+export const getIncludeCurrentCompany = createSelector(
+  selectExchangeExplorerContextInfo,
+  fromExchangeExplorerContextInfoReducer.getIncludeCurrentCompany
+);
 
 // Exchange Filter Context Selectors
 export const getFilterContextLimitToPayMarket = createSelector(
