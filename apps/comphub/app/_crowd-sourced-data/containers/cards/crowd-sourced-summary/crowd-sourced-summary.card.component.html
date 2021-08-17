@@ -9,7 +9,17 @@
         <div class="summary-panel-wrapper p-3">
           <div class="summary-panel-item">
             <div class="summary-panel-item-header">Rate</div>
-            <div class="summary-panel-item-value">{{selectedRate}}</div>
+            <div class="summary-panel-item-value">
+              <kendo-dropdownlist class="rates-dropdown"
+                                  [attr.data-qa-id]="'ddm-rate'"
+                                  [data]="rates"
+                                  textField="Name"
+                                  valueField="Value"
+                                  [valuePrimitive]="true"
+                                  [(ngModel)]="selectedRate"
+                                  (selectionChange)="handleRateSelectionChange($event)">
+              </kendo-dropdownlist>
+            </div>
           </div>
           <div class="summary-panel-item">
             <div class="summary-panel-item-header">Effective Date</div>
@@ -58,7 +68,7 @@
                 Base 10
               </td>
               <td>
-                {{ this.selectedJob?.Base10 }}
+                {{ calculateDataByRate(this.selectedJob?.Base10) | number : (isHourly ? '1.2-2' : '1.0-0') }}
               </td>
             </tr>
             <tr>
@@ -66,7 +76,7 @@
                 Base 25
               </td>
               <td>
-                {{ this.selectedJob?.Base25 }}
+                {{ calculateDataByRate(this.selectedJob?.Base25) | number : (isHourly ? '1.2-2' : '1.0-0') }}
               </td>
             </tr>
             <tr>
@@ -74,7 +84,7 @@
                 Base 50
               </td>
               <td>
-                {{ this.selectedJob?.Base50 }}
+                {{ calculateDataByRate(this.selectedJob?.Base50) | number : (isHourly ? '1.2-2' : '1.0-0') }}
               </td>
             </tr>
             <tr>
@@ -82,7 +92,7 @@
                 Base 75
               </td>
               <td>
-                {{ this.selectedJob?.Base75 }}
+                {{ calculateDataByRate(this.selectedJob?.Base75) | number : (isHourly ? '1.2-2' : '1.0-0') }}
               </td>
             </tr>
             <tr>
@@ -90,7 +100,7 @@
                 Base 90
               </td>
               <td>
-                {{ this.selectedJob?.Base90 }}
+                {{ calculateDataByRate(this.selectedJob?.Base90) | number : (isHourly ? '1.2-2' : '1.0-0') }}
               </td>
             </tr>
             <tr>
@@ -98,7 +108,7 @@
                 Base Avg
               </td>
               <td>
-                {{ this.selectedJob?.BaseAvg }}
+                {{ calculateDataByRate(this.selectedJob?.BaseAvg) | number : (isHourly ? '1.2-2' : '1.0-0') }}
               </td>
             </tr>
             <tr>
@@ -106,7 +116,7 @@
                 Tcc 10
               </td>
               <td>
-                {{ this.selectedJob?.Tcc10 }}
+                {{ calculateDataByRate(this.selectedJob?.Tcc10) | number : (isHourly ? '1.2-2' : '1.0-0') }}
               </td>
             </tr>
             <tr>
@@ -114,7 +124,7 @@
                 Tcc 25
               </td>
               <td>
-                {{ this.selectedJob?.Tcc25 }}
+                {{ calculateDataByRate(this.selectedJob?.Tcc25) | number : (isHourly ? '1.2-2' : '1.0-0') }}
               </td>
             </tr>
             <tr>
@@ -122,7 +132,7 @@
                 Tcc 50
               </td>
               <td>
-                {{ this.selectedJob?.Tcc50 }}
+                {{ calculateDataByRate(this.selectedJob?.Tcc50) | number : (isHourly ? '1.2-2' : '1.0-0') }}
               </td>
             </tr>
             <tr>
@@ -130,7 +140,7 @@
                 Tcc 75
               </td>
               <td>
-                {{ this.selectedJob?.Tcc75 }}
+                {{ calculateDataByRate(this.selectedJob?.Tcc75) | number : (isHourly ? '1.2-2' : '1.0-0') }}
               </td>
             </tr>
             <tr>
@@ -138,7 +148,7 @@
                 Tcc 90
               </td>
               <td>
-                {{ this.selectedJob?.Tcc90 }}
+                {{ calculateDataByRate(this.selectedJob?.Tcc90) | number : (isHourly ? '1.2-2' : '1.0-0') }}
               </td>
             </tr>
             <tr>
@@ -146,7 +156,7 @@
                 Tcc Avg
               </td>
               <td>
-                {{ this.selectedJob?.TccAvg }}
+                {{ calculateDataByRate(this.selectedJob?.TccAvg) | number : (isHourly ? '1.2-2' : '1.0-0') }}
               </td>
             </tr>
             </tbody>
