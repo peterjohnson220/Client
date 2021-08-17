@@ -18,15 +18,20 @@ export class ToggleExchangeStatusConfirmationModalComponent implements OnInit, O
     exchange$: Observable<Exchange>;
     exchangeStatusConfirmationModalOpen$: Observable<boolean>;
     updatingExchangeStatus$: Observable<boolean>;
+    selectedExchangeStatus$: Observable<StatusEnum>;
 
     exchangeSubscription: Subscription;
+    selectedExchangeStatusSubscription: Subscription;
 
     exchange: Exchange;
+    selectedExchangeStatus: StatusEnum;
+
 
     constructor(private store: Store<fromPeerAdminReducer.State>) {
       this.exchange$ = this.store.pipe(select(fromPeerAdminReducer.getManageExchange));
       this.exchangeStatusConfirmationModalOpen$ = this.store.pipe(select(fromPeerAdminReducer.getExchangeStatusConfirmationModalOpen));
       this.updatingExchangeStatus$ = this.store.pipe(select(fromPeerAdminReducer.getManageExchangeUpdating));
+      this.selectedExchangeStatus$ = this.store.pipe(select(fromPeerAdminReducer.getSelectedExchangeStatus));
     }
 
     get isActiveExchange(): boolean {
@@ -34,7 +39,17 @@ export class ToggleExchangeStatusConfirmationModalComponent implements OnInit, O
     }
 
     get title(): string {
-      return this.isActiveExchange ? 'Deactivate Exchange' : 'Activate Exchange';
+
+      switch (this.selectedExchangeStatus) {
+        case StatusEnum.Active:
+          return 'Activate Exchange';
+        case StatusEnum.Inactive:
+          return 'Deactivate Exchange';
+        case StatusEnum.Preliminary:
+          return 'Update Status to Preliminary';
+        default:
+          return 'Change Exchange Status';
+      }
     }
 
     get primaryButtonClass(): string {
@@ -42,11 +57,26 @@ export class ToggleExchangeStatusConfirmationModalComponent implements OnInit, O
     }
 
     get primaryButtonText(): string {
-      return this.isActiveExchange ? 'Deactivate' : 'Activate';
+
+      switch (this.selectedExchangeStatus) {
+        case StatusEnum.Active:
+          return 'Activate';
+        case StatusEnum.Inactive:
+          return 'Deactivate';
+        case StatusEnum.Preliminary:
+          return 'Update';
+      }
     }
 
     get primaryButtonTextSubmitting(): string {
-      return this.isActiveExchange ? 'Deactivating...' : 'Activating...';
+      switch (this.selectedExchangeStatus) {
+        case StatusEnum.Active:
+          return 'Activating';
+        case StatusEnum.Inactive:
+          return 'Deactivating';
+        case StatusEnum.Preliminary:
+          return 'Updating';
+      }
     }
 
     get activateBodyText(): string {
@@ -59,13 +89,24 @@ export class ToggleExchangeStatusConfirmationModalComponent implements OnInit, O
         be visible and available for use by any companies that have been added to the exchange.`;
     }
 
+    get initiateBodyText(): string {
+      return `You are about to update the <strong>${this.exchange.ExchangeName}</strong> exchange to <strong> Preliminary Status </strong>.
+        By doing so, companies in this exchange will be limited to only matching jobs and creating scopes.`;
+    }
+
     get bodyText(): string {
-      return this.isActiveExchange ? this.deactivateBodyText : this.activateBodyText;
+      switch (this.selectedExchangeStatus) {
+        case StatusEnum.Active:
+          return this.activateBodyText;
+        case StatusEnum.Inactive:
+          return this.deactivateBodyText;
+        case StatusEnum.Preliminary:
+          return this.initiateBodyText;
+      }
     }
 
     handleToggleConfirmed() {
-      const newStatus = this.isActiveExchange ? StatusEnum.Inactive : StatusEnum.Active;
-      this.store.dispatch(new fromExchangeActions.UpdateExchangeStatus(this.exchange.ExchangeId, newStatus));
+      this.store.dispatch(new fromExchangeActions.UpdateExchangeStatus(this.exchange.ExchangeId, this.selectedExchangeStatus));
     }
 
     handleModalDismissed() {
@@ -76,9 +117,12 @@ export class ToggleExchangeStatusConfirmationModalComponent implements OnInit, O
       this.exchangeSubscription = this.exchange$.subscribe(e => {
         this.exchange = e;
       });
+
+      this.selectedExchangeStatusSubscription = this.selectedExchangeStatus$.subscribe( s => this.selectedExchangeStatus = s);
     }
 
     ngOnDestroy(): void {
       this.exchangeSubscription.unsubscribe();
+      this.selectedExchangeStatusSubscription.unsubscribe();
     }
 }

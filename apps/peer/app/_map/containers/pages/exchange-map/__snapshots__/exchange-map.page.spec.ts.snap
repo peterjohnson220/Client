@@ -2,12 +2,14 @@
 
 exports[`Peer - Map - Exchange Map Page should display a disabled Create Scope button when numberOfCompanySelections$ is > 0 and < 5 1`] = `
 <pf-exchange-map-page
+  StatusEnum={[Function Object]}
   exchange$={[Function Store]}
   exchangeExplorer={[Function Object]}
   exchangeExplorerContextService={[Function Object]}
   exchangeId={[Function Number]}
   exchangeJobIdsInScope$={[Function Store]}
   exchangeScopeItems$={[Function Store]}
+  isAdminOrImpersonating$={[Function Store]}
   libsExchangeExplorerStore={[Function Store]}
   map={[Function Object]}
   numberOfCompanySelections$={[Function Observable]}
@@ -18,6 +20,7 @@ exports[`Peer - Map - Exchange Map Page should display a disabled Create Scope b
   route={[Function Object]}
   selectedExchangeScope$={[Function Store]}
   sharedPeerStore={[Function Store]}
+  store={[Function Store]}
 >
   <pf-page-with-title-bar>
     
@@ -33,6 +36,7 @@ exports[`Peer - Map - Exchange Map Page should display a disabled Create Scope b
     </button>
     <button
       class="btn btn-primary"
+      disabled=""
       type="button"
     >
        Export Data Cuts 
@@ -45,12 +49,14 @@ exports[`Peer - Map - Exchange Map Page should display a disabled Create Scope b
 
 exports[`Peer - Map - Exchange Map Page should display a disabled Create Scope button when numberOfSelections$ is  0 1`] = `
 <pf-exchange-map-page
+  StatusEnum={[Function Object]}
   exchange$={[Function Store]}
   exchangeExplorer={[Function Object]}
   exchangeExplorerContextService={[Function Object]}
   exchangeId={[Function Number]}
   exchangeJobIdsInScope$={[Function Store]}
   exchangeScopeItems$={[Function Store]}
+  isAdminOrImpersonating$={[Function Store]}
   libsExchangeExplorerStore={[Function Store]}
   map={[Function Object]}
   numberOfCompanySelections$={[Function Observable]}
@@ -61,6 +67,7 @@ exports[`Peer - Map - Exchange Map Page should display a disabled Create Scope b
   route={[Function Object]}
   selectedExchangeScope$={[Function Store]}
   sharedPeerStore={[Function Store]}
+  store={[Function Store]}
 >
   <pf-page-with-title-bar>
     
@@ -76,6 +83,7 @@ exports[`Peer - Map - Exchange Map Page should display a disabled Create Scope b
     </button>
     <button
       class="btn btn-primary"
+      disabled=""
       type="button"
     >
        Export Data Cuts 
@@ -88,12 +96,14 @@ exports[`Peer - Map - Exchange Map Page should display a disabled Create Scope b
 
 exports[`Peer - Map - Exchange Map Page should display a disabled Export Data Cuts Button when exchangeJobIdsInScope$ is empty or null 1`] = `
 <pf-exchange-map-page
+  StatusEnum={[Function Object]}
   exchange$={[Function Store]}
   exchangeExplorer={[Function Object]}
   exchangeExplorerContextService={[Function Object]}
   exchangeId={[Function Number]}
   exchangeJobIdsInScope$={[Function Observable]}
   exchangeScopeItems$={[Function Store]}
+  isAdminOrImpersonating$={[Function Store]}
   libsExchangeExplorerStore={[Function Store]}
   map={[Function Object]}
   numberOfCompanySelections$={[Function Observable]}
@@ -104,6 +114,7 @@ exports[`Peer - Map - Exchange Map Page should display a disabled Export Data Cu
   route={[Function Object]}
   selectedExchangeScope$={[Function Store]}
   sharedPeerStore={[Function Store]}
+  store={[Function Store]}
 >
   <pf-page-with-title-bar>
     
@@ -118,6 +129,7 @@ exports[`Peer - Map - Exchange Map Page should display a disabled Export Data Cu
     </button>
     <button
       class="btn btn-primary"
+      disabled=""
       type="button"
     >
        Export Data Cuts 
@@ -130,12 +142,14 @@ exports[`Peer - Map - Exchange Map Page should display a disabled Export Data Cu
 
 exports[`Peer - Map - Exchange Map Page should display a disabled Export Data Cuts Button when peerMapCompaniesCount$ is < 5 1`] = `
 <pf-exchange-map-page
+  StatusEnum={[Function Object]}
   exchange$={[Function Store]}
   exchangeExplorer={[Function Object]}
   exchangeExplorerContextService={[Function Object]}
   exchangeId={[Function Number]}
   exchangeJobIdsInScope$={[Function Observable]}
   exchangeScopeItems$={[Function Store]}
+  isAdminOrImpersonating$={[Function Store]}
   libsExchangeExplorerStore={[Function Store]}
   map={[Function Object]}
   numberOfCompanySelections$={[Function Observable]}
@@ -146,6 +160,7 @@ exports[`Peer - Map - Exchange Map Page should display a disabled Export Data Cu
   route={[Function Object]}
   selectedExchangeScope$={[Function Store]}
   sharedPeerStore={[Function Store]}
+  store={[Function Store]}
 >
   <pf-page-with-title-bar>
     
@@ -173,12 +188,14 @@ exports[`Peer - Map - Exchange Map Page should display a disabled Export Data Cu
 
 exports[`Peer - Map - Exchange Map Page should show the exchange name as the page title 1`] = `
 <pf-exchange-map-page
+  StatusEnum={[Function Object]}
   exchange$={[Function Store]}
   exchangeExplorer={[Function Object]}
   exchangeExplorerContextService={[Function Object]}
   exchangeId={[Function Number]}
   exchangeJobIdsInScope$={[Function Store]}
   exchangeScopeItems$={[Function Store]}
+  isAdminOrImpersonating$={[Function Store]}
   libsExchangeExplorerStore={[Function Store]}
   map={[Function Object]}
   numberOfCompanySelections$={[Function Observable]}
@@ -189,6 +206,7 @@ exports[`Peer - Map - Exchange Map Page should show the exchange name as the pag
   route={[Function Object]}
   selectedExchangeScope$={[Function Store]}
   sharedPeerStore={[Function Store]}
+  store={[Function Store]}
 >
   <pf-page-with-title-bar>
     
@@ -203,6 +221,7 @@ exports[`Peer - Map - Exchange Map Page should show the exchange name as the pag
     </button>
     <button
       class="btn btn-primary"
+      disabled=""
       type="button"
     >
        Export Data Cuts 
