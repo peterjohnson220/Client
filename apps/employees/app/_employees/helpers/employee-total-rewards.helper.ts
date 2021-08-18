@@ -5,6 +5,7 @@ import { getUserLocale } from 'get-user-locale';
 import { CompanyEmployee } from 'libs/models';
 import { EmployeeBenefit, EmployeeInsights, EmployeeTotalRewardsLite } from 'libs/models/payfactors-api';
 import { FormattersService } from 'libs/core';
+import { RateType } from 'libs/data/data-sets';
 
 export class EmployeeTotalRewardsHelper {
   private static currencyPipe: CurrencyPipe = new CurrencyPipe(getUserLocale(), 'USD');
@@ -18,7 +19,7 @@ export class EmployeeTotalRewardsHelper {
       CurrencyCode: data.Employee.CurrencyCode,
       Rate: data.Employee.Rate,
       EmployeeId: data.Employee.EmployeeId,
-      BaseSalary: data.Employee['BaseSalary'],
+      BaseSalary: data.Employee.Rate === RateType.Hourly ?  this.calculateHourlyRateBaseSalary(data.Employee['BaseSalary'], data.Employee.FTE) : data.Employee['BaseSalary'],
       Bonus: data.Employee.Bonus,
       BonusTarget: data.Employee.BonusTarget,
       ShortTermIncentive: data.Employee.STI,
@@ -31,7 +32,11 @@ export class EmployeeTotalRewardsHelper {
   }
 
   static calculateTotalCashCompensation(employee: CompanyEmployee): number {
-    return employee['BaseSalary'] + employee.Bonus + employee.BonusTarget + employee.STI + employee.LTI;
+    let baseSalary = employee['BaseSalary'];
+    if (employee.Rate === RateType.Hourly) {
+      baseSalary = this.calculateHourlyRateBaseSalary(baseSalary, employee.FTE);
+    }
+    return baseSalary + employee.Bonus + employee.BonusTarget + employee.STI + employee.LTI;
   }
 
   static calculateTotalBenefits(data: EmployeeBenefit[], peerOtherAllowance: number): number {
@@ -45,5 +50,9 @@ export class EmployeeTotalRewardsHelper {
     const decimals = '1.0-0';
     const formattedValue = this.currencyPipe.transform(rawLabelValue || 0, currencyCode, 'symbol-narrow', decimals, getUserLocale());
     return formattedValue + (value < 1000 ? '' : 'k');
+  }
+
+  static calculateHourlyRateBaseSalary(hourlyRate: number, fte: number): number {
+    return hourlyRate * 2080 * fte;
   }
 }
