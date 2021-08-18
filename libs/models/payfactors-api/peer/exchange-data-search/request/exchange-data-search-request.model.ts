@@ -7,6 +7,7 @@ import { ExchangeDataSearchFilterContext } from 'libs/models/peer';
 export interface BaseExchangeDataSearchRequest extends BaseSearchRequest {
   FilterContext: ExchangeDataSearchFilterContext;
   IncludeDisabledFilters?: boolean;
+  IncludeCurrentCompany?: boolean;
 }
 
 export interface ExchangeDataSearchRequest extends BaseExchangeDataSearchRequest {
