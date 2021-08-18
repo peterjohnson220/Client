@@ -18,9 +18,9 @@ export class ExchangeScopeApiService {
     return this.payfactorsApiService.post<ExchangeScopeItem>(`${this.endpoint}/UpsertExchangeExplorerScope`, request);
   }
 
-  validateExchangeScopeName(exchangeId: number, exchangeScopeName: string): Observable<any> {
+  validateExchangeScopeName(exchangeId: number, exchangeScopeName: string, isStandardScope: boolean): Observable<any> {
     return this.payfactorsApiService.get<any>(`${this.endpoint}/IsValidExchangeScopeName`,
-      { params: { exchangeId: exchangeId, exchangeScopeName: exchangeScopeName } }
+      { params: { exchangeId: exchangeId, exchangeScopeName: exchangeScopeName, isStandardScope: isStandardScope } }
     );
   }
 

@@ -18,6 +18,7 @@ import { PfCommonModule } from 'libs/core';
 import { WindowCommunicationService } from 'libs/core/services';
 import { ExchangeJobMappingService } from 'libs/features/peer/exchange-job-mapping/services';
 import { PfExchangeExplorerModule } from 'libs/features/peer/exchange-explorer';
+import { SaveExchangeScopeModule } from 'libs/features/peer/save-exchange-scope/save-exchange-scope.module';
 
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 
@@ -48,6 +49,7 @@ import { AddCompaniesModalComponent, AddJobsModalComponent, DeleteCompanyModalCo
 import { EditableTagCategoryDisplayNameComponent } from './components';
 import * as fromFaIcons from './fa-icons';
 import { AssociateBulkImportEffects } from './effects/exchange-job-association-utility/associate-bulk-import.effects';
+
 
 @NgModule({
   imports: [
@@ -93,7 +95,8 @@ import { AssociateBulkImportEffects } from './effects/exchange-job-association-u
     SharedModule,
     UploadModule,
     FileSelectModule,
-    PfExchangeExplorerModule
+    PfExchangeExplorerModule,
+    SaveExchangeScopeModule
   ],
   declarations: [
     // Containers

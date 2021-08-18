@@ -5,13 +5,11 @@ import { IFeatureGridState } from 'libs/core/reducers/grid.reducer';
 import * as fromRoot from 'libs/state/state';
 import * as fromGridReducer from 'libs/core/reducers/grid.reducer';
 
-import * as fromSaveExchangeScopeReducer from './save-exchange-scope.reducer';
 import * as fromExchangeCompanyJobsReducer from '../reducers/exchange-company-job-grid.reducer';
 import * as fromExportDataCutsReducer from '../reducers/export-data-cuts.reducer';
 
 // Feature area state
 export interface PeerMapState {
-  saveExchangeScope: fromSaveExchangeScopeReducer.State;
   exportDataCuts: fromExportDataCutsReducer.State;
   exchangeCompanyJobsGrid: IFeatureGridState<fromExchangeCompanyJobsReducer.State>;
 }
@@ -23,7 +21,6 @@ export interface State extends fromRoot.State {
 
 // Feature area reducers
 export const reducers = {
-  saveExchangeScope: fromSaveExchangeScopeReducer.reducer,
   exportDataCuts: fromExportDataCutsReducer.reducer,
   exchangeCompanyJobsGrid: fromExchangeCompanyJobsReducer.reducer
 };
@@ -32,11 +29,6 @@ export const reducers = {
 export const selectFeatureAreaState = createFeatureSelector<PeerMapState>('peer_map');
 
 // Feature Selectors
-export const selectSaveExchangeScopeState = createSelector(
-  selectFeatureAreaState,
-  (state: PeerMapState) => state.saveExchangeScope
-);
-
 export const selectExchangeCompanyJobsState = createSelector(
   selectFeatureAreaState,
   (state: PeerMapState) => state.exchangeCompanyJobsGrid
@@ -45,24 +37,6 @@ export const selectExchangeCompanyJobsState = createSelector(
 export const selectExportDataCutsState = createSelector(
   selectFeatureAreaState,
   (state: PeerMapState) => state.exportDataCuts
-);
-
-
-// Save Exchange Scope Selectors
-
-export const getSaveExchangeScopeModalOpen = createSelector(
-  selectSaveExchangeScopeState,
-  fromSaveExchangeScopeReducer.getSaveModalOpen
-);
-
-export const getSaveExchangeScopeParentPayMarketOptions = createSelector(
-  selectSaveExchangeScopeState,
-  fromSaveExchangeScopeReducer.getParentPayMarketOptions
-);
-
-export const getSaveExchangeScopeParentPayMarketOptionsLoading = createSelector(
-  selectSaveExchangeScopeState,
-  fromSaveExchangeScopeReducer.getParentPayMarketOptionsLoading
 );
 
 // Export Data Cuts

@@ -10,7 +10,6 @@ import {
   generateMockUpsertExchangeExplorerScopeRequest, UpsertExchangeExplorerScopeRequest} from 'libs/models/peer/requests/upsert-exchange-scope-request.model';
 import { ExchangeScopeApiService } from 'libs/data/payfactors-api/peer';
 
-import * as fromPeerMapReducer from '../../reducers';
 import * as fromExchangeScopeActions from '../../actions/save-exchange-scope.actions';
 
 import { SaveExchangeScopeModalComponent } from './save-exchange-scope-modal.component';
@@ -27,7 +26,6 @@ describe('Peer - Map - Save Exchange Scope Modal', () => {
       imports: [
         StoreModule.forRoot({
           ...fromRootState.reducers,
-          peer_map: combineReducers(fromPeerMapReducer.reducers),
           feature_peer_exchangeExplorer: combineReducers(fromLibsPeerExchangeExplorerReducers.reducers)
         }),
         ReactiveFormsModule

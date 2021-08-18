@@ -9,6 +9,7 @@ export interface ExchangeScopeDetails {
   ExchangeScopeDescription: string;
   IsDefault?: boolean;
   CompanyPayMarketIdsToDefaultFor: number[];
+  IsStandardScope: boolean;
 }
 
 export interface UpsertExchangeExplorerScopeRequest {
@@ -22,7 +23,8 @@ export function generateMockExchangeScopeDetails(): ExchangeScopeDetails {
     ExchangeScopeId: 1,
     ExchangeScopeName: 'MockScope',
     ExchangeScopeDescription: 'Mock Exchange Scope Description',
-    CompanyPayMarketIdsToDefaultFor: []
+    CompanyPayMarketIdsToDefaultFor: [],
+    IsStandardScope: false
   };
 }
 

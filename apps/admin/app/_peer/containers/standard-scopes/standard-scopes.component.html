@@ -1,6 +1,11 @@
 <div class="d-flex flex-column h-100">
 
-  <pf-manage-exchange-section-header [sectionTitle]="'Create a Standard Scope'"></pf-manage-exchange-section-header>
+  <pf-manage-exchange-section-header [sectionTitle]="'Create a Standard Scope'">
+    <ng-container header-actions>
+      <button type="button" class="btn btn-md btn-primary" (click)="handleCreateScopeClicked()">Create Scope</button>
+    </ng-container>
+
+  </pf-manage-exchange-section-header>
 
   <div class="d-flex h-100">
     <div class="flex-grow-1">
@@ -9,3 +14,9 @@
   </div>
 
 </div>
+
+<pf-save-exchange-scope-modal
+  [exchange]="exchange$ | async"
+  [isStandardScope]="true"
+  (upsertExchangeScopeEvent)="handleUpsertExchangeScopeEvent($event)">
+</pf-save-exchange-scope-modal>
