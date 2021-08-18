@@ -30,13 +30,37 @@
         height: calc(100% - 92px);
     }
 
+    &__content-inner {
+        overflow-x: hidden;
+    }
+
     &__detail {
+        display: flex;
+        flex-direction: row wrap;
         background: #FFF;
         border: 1px solid rgba(204, 204, 204, 0.5);
         border-radius: 3.25px;
         box-sizing: border-box;
         margin-bottom: 10px;
-        padding: 13px 10px 17px 10px;
+        padding: 13px 10px 13px 10px;
+
+        &--email-section {
+            display: flex;
+            justify-content: left;
+            flex: 1;
+            flex-basis: 90%;
+            flex-direction: column;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+        &--ellipsis-section {
+            display: flex;
+            flex: 1;
+            flex-basis: 10%;
+            align-items: center;
+            justify-content: right;
+        }
     }
 
     &__detail--message {
@@ -44,7 +68,12 @@
     }
 
     &__email {
-        color: #1872AE;;
+        color: #1872AE;
+        font-weight: bold;
+    }
+
+    &__ellipsis::after {
+        display: none;
     }
 
     &__actions {

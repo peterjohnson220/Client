@@ -1,5 +1,5 @@
 import { JobDescriptionSharingService } from './../../services/job-description-sharing.service';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Observable, Subscriber } from 'rxjs';
 import { SharedJobDescription } from '../../models';
@@ -14,7 +14,7 @@ describe('SharePermissionsPanelComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ SharePermissionsPanelComponent ],
-      schemas: [ CUSTOM_ELEMENTS_SCHEMA /* needed so use of fa-icon doesn't cause errors */],
+      schemas: [ CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA /* needed so use of fa-icon doesn't cause errors */],
       providers: [{
         provide: JobDescriptionSharingService,
         useValue: { 
