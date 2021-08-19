@@ -22,7 +22,7 @@ html.payscale-rebrand {
   body {
     th, .chart-label, .name, .tile-text-color, .tile-text, .tile-text-large {
       color: $payscale-primary-text-color;
-      .preview-tile-icon, .heading-icon-image, .tile-preview-list-button fa-icon {
+      .preview-tile-icon, .preview-tile-icon-small, .heading-icon-image, .tile-preview-list-button fa-icon {
         color: #C3C3CA;
       }
     }
@@ -35,7 +35,7 @@ html.payscale-rebrand {
       .tile > * {
         opacity: 0.2;
       }
-    } 
+    }
 
     .tile {
       background: $payscale-tile-background-color;
