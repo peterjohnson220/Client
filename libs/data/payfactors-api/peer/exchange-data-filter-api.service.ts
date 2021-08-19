@@ -18,7 +18,7 @@ export class ExchangeDataFilterApiService {
 
   getExchangeScopeFilterContext(exchangeDataSearchRequest: BaseExchangeDataSearchRequest): Observable<ExchangeExplorerScopeResponse> {
     return this.payfactorsApiService.post<any>(`${this.endpoint}/GetExchangeScopeFilterContext`,
-      exchangeDataSearchRequest
+      {exchangeDataSearchRequest: exchangeDataSearchRequest, isStandardScope: true}
     );
   }
 

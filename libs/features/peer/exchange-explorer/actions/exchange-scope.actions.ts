@@ -61,7 +61,7 @@ export class LoadExchangeScopesByJobsError implements Action {
 export class LoadExchangeScopesByExchange implements Action {
   readonly type = LOAD_EXCHANGE_SCOPES_BY_EXCHANGE;
 
-  constructor(public payload: number) {}
+  constructor(public payload: {exchangeId: number, includeCompanyScopes: boolean, includeStandardScopes: boolean}) {}
 }
 
 export class LoadExchangeScopesByExchangeSuccess implements Action {

@@ -71,7 +71,7 @@ export class ExchangeScopeEffects {
     ofType(fromExchangeScopeActions.LOAD_EXCHANGE_SCOPES_BY_EXCHANGE)).pipe(
     map((action: fromExchangeScopeActions.LoadExchangeScopesByExchange) => action.payload),
     switchMap((payload) =>
-        this.exchangeScopeApiService.getExchangeScopesByExchange(payload).pipe(
+        this.exchangeScopeApiService.getExchangeScopesByExchange(payload.exchangeId, payload.includeCompanyScopes, payload.includeStandardScopes).pipe(
           map((exchangeScopeItems: ExchangeScopeItem[]) => new fromExchangeScopeActions
             .LoadExchangeScopesByExchangeSuccess(exchangeScopeItems)),
           catchError(() => of(new fromExchangeScopeActions.LoadExchangeScopesByExchangeError))
@@ -227,7 +227,7 @@ export class ExchangeScopeEffects {
         return [
           new fromExchangeScopeActions.UpsertExchangeScopeSuccess(),
           new fromExchangeScopeActions.LoadExchangeScopesByExchange(
-            request.ExchangeDataSearchRequest.FilterContext.ExchangeId
+            {exchangeId: request.ExchangeDataSearchRequest.FilterContext.ExchangeId, includeCompanyScopes: !request.ExchangeScopeDetails.IsStandardScope, includeStandardScopes: request.ExchangeScopeDetails.IsStandardScope}
           ),
           new fromExchangeFilterContextActions.SetExchangeScopeSelection(exchangeScopeItem)
         ];

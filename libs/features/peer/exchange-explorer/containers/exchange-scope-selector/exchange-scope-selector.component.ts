@@ -25,6 +25,8 @@ export class ExchangeScopeSelectorComponent implements OnInit, OnDestroy {
 
   @Input() isExchangeJobSpecific: boolean;
   @Input() exchangeId: number;
+  @Input() includeCompanyScopes = true;
+  @Input() includeStandardScopes = false;
 
   systemFilterLoaded$: Observable<boolean>;
   exchangeScopeItemsLoading$: Observable<boolean>;
@@ -186,7 +188,12 @@ export class ExchangeScopeSelectorComponent implements OnInit, OnDestroy {
         if (this.isExchangeJobSpecific) {
           this.store.dispatch(new fromLibsExchangeScopeActions.LoadExchangeScopesByJobs);
         } else {
-          this.store.dispatch(new fromLibsExchangeScopeActions.LoadExchangeScopesByExchange(this.exchangeId));
+          this.store.dispatch(new fromLibsExchangeScopeActions.LoadExchangeScopesByExchange(
+            {
+              exchangeId: this.exchangeId,
+              includeCompanyScopes: this.includeCompanyScopes,
+              includeStandardScopes: this.includeStandardScopes
+            }));
         }
       }
     });

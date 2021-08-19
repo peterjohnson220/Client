@@ -30,9 +30,9 @@ export class ExchangeScopeApiService {
     );
   }
 
-  getExchangeScopesByExchange(exchangeId: number): Observable<ExchangeScopeItem[]> {
+  getExchangeScopesByExchange(exchangeId: number, includeCompanyScopes: boolean, includeStandardScopes: boolean): Observable<ExchangeScopeItem[]> {
     return this.payfactorsApiService.get<ExchangeScopeItem[]>(`${this.endpoint}/GetExchangeScopeListByExchange`,
-      { params: { exchangeId: exchangeId } }
+      { params: { exchangeId: exchangeId, includeCompanyScopes: includeCompanyScopes, includeStandardScopes: includeStandardScopes } }
     );
   }
 

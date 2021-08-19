@@ -2,8 +2,16 @@
 
   <pf-manage-exchange-section-header [sectionTitle]="'Create a Standard Scope'">
     <ng-container header-actions>
+      <pf-exchange-scope-selector [isExchangeJobSpecific]="false"
+                                  [exchangeId]="exchangeId"
+                                  [includeCompanyScopes]="false"
+                                  [includeStandardScopes]="true"
+
+      ></pf-exchange-scope-selector>
       <button type="button" class="btn btn-md btn-primary" (click)="handleCreateScopeClicked()">Create Scope</button>
     </ng-container>
+
+
 
   </pf-manage-exchange-section-header>
 
