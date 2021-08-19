@@ -52,6 +52,7 @@ import * as fromWorkflowActions from '../../../actions/workflow.actions';
 import { JobDescriptionDnDService } from '../../../services';
 import {
   EmployeeAcknowledgementModalComponent, ExportJobDescriptionModalComponent,
+  ShareJobDescriptionModalComponent,
   WorkflowCancelModalComponent, WorkflowStepCompletionModalComponent
 } from '../../../components/modals';
 import { FlsaQuestionnaireModalComponent } from '../../../components/modals/flsa-questionnaire';
@@ -82,7 +83,8 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   @ViewChild('fileDownloadSecurityWarningModal', { static: true }) public fileDownloadSecurityWarningModal: FileDownloadSecurityWarningModalComponent;
   @ViewChild(WorkflowStepCompletionModalComponent) public workflowStepCompletionModal: WorkflowStepCompletionModalComponent;
   @ViewChild(SharePermissionsPanelComponent) public sharePermissionsPanel: SharePermissionsPanelComponent;
-
+  @ViewChild(ShareJobDescriptionModalComponent, { static: true }) public shareJobDescriptionModalComponent: ShareJobDescriptionModalComponent;
+  
   jobDescriptionAsync$: Observable<AsyncStateObj<JobDescription>>;
   jobDescriptionPublishingSuccess$: Observable<boolean>;
   identity$: Observable<UserContext>;
@@ -137,6 +139,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   avatarUrl: string;
   companyLogoPath: string;
   jobDescription: JobDescription;
+  jobDescriptionAsMap: Map<number,JobDescription>;
   visibleSections: JobDescriptionSection[];
   enableFileDownloadSecurityWarning: boolean;
   enableLibraryForRoutedJobDescriptions: boolean;
@@ -490,6 +493,10 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.jobDescriptionIsFullscreen = !this.jobDescriptionIsFullscreen;
   }
 
+  openShareJobDescriptionModal() {
+    this.shareJobDescriptionModalComponent.open();
+  }
+
   public get exportAction(): string {
     if (!!this.jobDescription && !!this.identity) {
       const queryStringParamName = this.isInSystemWorkflow ? '?jwt-workflow=' : '?jwt=';
@@ -779,6 +786,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
       return;
     }
     this.jobDescription = cloneDeep(jobDescription);
+    this.jobDescriptionAsMap = new Map().set(jobDescription.JobDescriptionId, jobDescription);
     this.visibleSections =  jobDescription.Sections.filter(x => showSection(x));
 
 
