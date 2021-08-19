@@ -38,4 +38,5 @@ export class FeatureFlags {
   static readonly EmployeeDetailsPanel = 'employee-details-panel';
   static readonly PeerGetResultsAsyncStrategy = 'peer-get-results-async-strategy';
   static readonly ExchangeManagementSystemScopes = 'exchange-management-system-scopes';
+  static readonly PeerTrendsAccess = 'peer-trends-access'
 }
